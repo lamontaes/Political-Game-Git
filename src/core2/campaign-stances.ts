@@ -20,14 +20,19 @@
  * neither a view nor a party.
  */
 import { townLean } from "./modules/campaigns";
-import { votesOf } from "./modules/record";
+import { votesOf, type VoteRecordRow } from "./modules/record";
 import { partyName, partySide } from "./appointments";
-import { leanedScore } from "./trait-decisions";
+import { leanedScore, weighingKept } from "./trait-decisions";
 import type { CoreAPI } from "./types";
 import { PARTIES_MODULE_ID, partiesHere, type TieRow } from "./modules/parties";
-import { officialLean, officialOf, officialStance } from "./modules/officials";
 import {
-  stancesOf,
+  officialLean,
+  officialOf,
+  officialStance,
+  type OfficialRow,
+} from "./modules/officials";
+import {
+  stanceRow,
   viewOf,
   VIEWS_DATA,
   VIEWS_MODULE_ID,
@@ -115,9 +120,12 @@ export function partyPosition(
   party: string | null | undefined,
   question: string,
 ): number | null {
-  const lean = partyLean(api, party);
-  return lean === null ? null : clamp(lean.lean * questionAxis(question));
+  return positionOf(partyLean(api, party), question);
 }
+
+/** A party lean's position on one question; null for no party. */
+const positionOf = (lean: PartyLean | null, question: string) =>
+  lean === null ? null : clamp(lean.lean * questionAxis(question));
 
 /**
  * A candidate's own lean in [-1, 1]: an official's recorded ideal point,
@@ -134,33 +142,6 @@ export function ownLean(api: CoreAPI, personId: string): number | null {
     if (view) return clamp(view.lean / VIEWS_DATA.parameters.leanMax!.value);
   }
   return personLean(api.state.people, person, townLean(api));
-}
-
-/** A candidate's own view of one question, in [-1, 1], or null for none. */
-function ownStance(
-  api: CoreAPI,
-  personId: string,
-  question: string,
-): number | null {
-  if (officialOf(api, personId)) {
-    const stance = officialStance(api, personId, question);
-    return stance === null ? null : clamp(stance);
-  }
-  const lean = ownLean(api, personId);
-  if (lean === null) return null;
-  // What they've come to want on the question itself (speeches, ads and
-  // news that reached them), on top of where their lean puts them.
-  let moved = 0;
-  if (api.state.modules.has(VIEWS_MODULE_ID))
-    for (const s of stancesOf(api, personId))
-      if (s.topic === question)
-        moved +=
-          s.desiredChange === "enact"
-            ? s.strength
-            : s.desiredChange === "repeal"
-              ? -s.strength
-              : 0;
-  return clamp(lean * questionAxis(question) + moved);
 }
 
 /**
@@ -201,10 +182,147 @@ export function partyFirmness(api: CoreAPI, personId: string): number {
   );
 }
 
+const NO_VOTES: readonly VoteRecordRow[] = [];
+
+/**
+ * Where one candidate stands on policy questions under one party label, for
+ * a caller that asks many (an interview scores every question for each
+ * candidate in the race). Each input a stance reads (their official row,
+ * their own lean, an official's stance on a question, their recorded votes
+ * by question, the party's lean, how firmly they hold the party) is read the
+ * first time a question needs it and kept, so it is read once however many
+ * questions are asked. A caller keeps a reader only while nothing it reads
+ * is written, and never past the call it was made for. Someone whose
+ * weighing leaves a trace (`weighingKept`: the player, the people in focus,
+ * any audit probe) weighs their party firmness again at every blend, twice,
+ * so each of their weighed records is still kept.
+ */
+export class StanceReader {
+  private officialRead = false;
+  private official: OfficialRow | undefined;
+  private leanRead = false;
+  private lean: number | null = null;
+  private officialStances: Map<string, number | null> | undefined;
+  private partyRead = false;
+  private partyLeanRow: PartyLean | null = null;
+  private firmness: number | undefined;
+  private votesByQuestion: Map<string, VoteRecordRow[]> | undefined;
+
+  constructor(
+    private readonly api: CoreAPI,
+    private readonly personId: string,
+    private readonly party: string | null | undefined,
+  ) {}
+
+  /**
+   * Where they stand on a question, in [-1, 1]: their own view blended with
+   * their party's position by how firmly they hold the party. Null only when
+   * they have neither a view nor a party.
+   */
+  stance(question: string): number | null {
+    const own = this.ownStance(question);
+    const theirs = positionOf(this.ofParty(), question);
+    let held: number | null;
+    if (own === null) held = theirs;
+    else if (theirs === null) held = own;
+    else {
+      const kept = weighingKept(this.api.state, this.personId);
+      const first = kept
+        ? partyFirmness(this.api, this.personId)
+        : (this.firmness ??= partyFirmness(this.api, this.personId));
+      const second = kept ? partyFirmness(this.api, this.personId) : first;
+      held = clamp((1 - first) * own + second * theirs);
+    }
+    // What they've done on it: an officeholder who has voted on the question
+    // answers toward how they voted, the more votes the more firmly.
+    const votes = this.votesOn(question);
+    if (!votes.length) return held;
+    const voted =
+      votes.reduce((sum, v) => sum + v.stance.position, 0) / votes.length;
+    if (held === null) return clamp(voted);
+    const weight =
+      votes.length /
+      (votes.length + campaignParameter("recordFamiliarityItems"));
+    return clamp((1 - weight) * held + weight * voted);
+  }
+
+  /** Their record's last vote on a question, or undefined for none. */
+  lastVote(question: string): VoteRecordRow | undefined {
+    return this.votesOn(question).at(-1);
+  }
+
+  /** Their own view of one question, in [-1, 1], or null for none. */
+  private ownStance(question: string): number | null {
+    if (!this.officialRead) {
+      this.official = officialOf(this.api, this.personId);
+      this.officialRead = true;
+    }
+    if (this.official) {
+      const stances = (this.officialStances ??= new Map());
+      let stance = stances.get(question);
+      if (stance === undefined) {
+        stance = officialStance(this.api, this.personId, question);
+        stances.set(question, stance);
+      }
+      return stance === null ? null : clamp(stance);
+    }
+    if (!this.leanRead) {
+      this.lean = ownLean(this.api, this.personId);
+      this.leanRead = true;
+    }
+    if (this.lean === null) return null;
+    // What they've come to want on the question itself (speeches, ads and
+    // news that reached them), on top of where their lean puts them.
+    let moved = 0;
+    if (this.api.state.modules.has(VIEWS_MODULE_ID)) {
+      const s = stanceRow(this.api, this.personId, question);
+      if (s)
+        moved +=
+          s.desiredChange === "enact"
+            ? s.strength
+            : s.desiredChange === "repeal"
+              ? -s.strength
+              : 0;
+    }
+    return clamp(this.lean * questionAxis(question) + moved);
+  }
+
+  /** Their party's lean (`partyLean`), or null for no party. */
+  private ofParty(): PartyLean | null {
+    if (!this.partyRead) {
+      this.partyLeanRow = partyLean(this.api, this.party);
+      this.partyRead = true;
+    }
+    return this.partyLeanRow;
+  }
+
+  /** Their recorded votes on a question, in the record's order. */
+  private votesOn(question: string): readonly VoteRecordRow[] {
+    if (!this.votesByQuestion) {
+      this.votesByQuestion = new Map();
+      for (const vote of votesOf(this.api, this.personId)) {
+        const on = this.votesByQuestion.get(vote.stance.question);
+        if (on) on.push(vote);
+        else this.votesByQuestion.set(vote.stance.question, [vote]);
+      }
+    }
+    return this.votesByQuestion.get(question) ?? NO_VOTES;
+  }
+}
+
+/** A reader of one candidate's stances under one party label (`StanceReader`). */
+export function stanceReader(
+  api: CoreAPI,
+  personId: string,
+  party: string | null | undefined,
+): StanceReader {
+  return new StanceReader(api, personId, party);
+}
+
 /**
  * Where a candidate stands on a question, in [-1, 1]: their own view blended
  * with their party's position by how firmly they hold the party. Null only
- * when they have neither a view nor a party.
+ * when they have neither a view nor a party. A reader asked once.
  */
 export function candidateStance(
   api: CoreAPI,
@@ -212,29 +330,7 @@ export function candidateStance(
   party: string | null | undefined,
   question: string,
 ): number | null {
-  const own = ownStance(api, personId, question);
-  const theirs = partyPosition(api, party, question);
-  const held =
-    own === null
-      ? theirs
-      : theirs === null
-        ? own
-        : clamp(
-            (1 - partyFirmness(api, personId)) * own +
-              partyFirmness(api, personId) * theirs,
-          );
-  // What they've done on it: an officeholder who has voted on the question
-  // answers toward how they voted, the more votes the more firmly.
-  const votes = votesOf(api, personId).filter(
-    (v) => v.stance.question === question,
-  );
-  if (!votes.length) return held;
-  const voted =
-    votes.reduce((sum, v) => sum + v.stance.position, 0) / votes.length;
-  if (held === null) return clamp(voted);
-  const weight =
-    votes.length / (votes.length + campaignParameter("recordFamiliarityItems"));
-  return clamp((1 - weight) * held + weight * voted);
+  return new StanceReader(api, personId, party).stance(question);
 }
 
 /** A candidate's overall lean, blended with their party's the same way. */
