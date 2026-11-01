@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: words/kin-took-office
-pr:
+pr: #6961
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-01T13:39:24.376Z
