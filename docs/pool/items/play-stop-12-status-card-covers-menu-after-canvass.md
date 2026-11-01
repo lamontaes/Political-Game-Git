@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
+status: in-pr
 claimed-by:
 pr: #6051
 blocked-on:
@@ -34,3 +34,5 @@ claimed-at:
 Sent back 2026-10-25 ~22:05 UTC from PR #6051 (branch claude/quirky-ride-vrwwz4-play-stop-12, head 1d51fa6ef9 with main merged in): the body screenshot is wrapped in backticks so it renders as code, not an image, and OWNER SCREENSHOT NEEDED still awaits the owner's yes; unwrap the image tag and it goes back in the queue once the owner says yes; finish on that branch, merge main into it first.
 
 Sent back 2026-10-26 from PR #6051 (branch claude/quirky-ride-vrwwz4-play-stop-12): Current-main integration conflicts in src/bench/card.browser.mjs and three card PNGs; reconcile the additional check/evidence with the dock layout already landed through #5971 and keep the separate #6083 wage port distinct, preserving installed-build acceptance as open.; finish on that branch, merge main into it first.
+
+- 2026-11-01 (lane): Already holds on main. `src/bench/card.browser.mjs` sets the door-knocking status line ("Knock on doors · 36 doors · 5 reached") on the card at 1440x1000, 1440x900 and 1024x768 and checks that no menu icon is covered (`blocked: []`), the card's text stays inside it, and each of the nine icons opens by one pointer click; it passes on the Nov 1 head with the bench restarted (seed printed by the run). The card now shows only the date and time (no name), so the squeezed "Bo / Snider" is gone. Closed by evidence.
