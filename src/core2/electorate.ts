@@ -499,8 +499,11 @@ export function countedAppeal(
       ? -(entry.scandal ?? 0) * (where.trust ?? 1)
       : 0;
     // Their own word at the door (owner, Oct 29: a "yes" is near-binding).
+    // Measurement only: a value knob can replace the pledge weight (undefined in play).
     const pledge =
-      campaignParameter("doorPledgeWeight") * (where.pledges?.[entry.id] ?? 0);
+      (incumbencyAblation().pledgeWeight ??
+        campaignParameter("doorPledgeWeight")) *
+      (where.pledges?.[entry.id] ?? 0);
     appeal[entry.id] = {
       total:
         party + standing + recognition + incumbent + ballot + scandal + pledge,

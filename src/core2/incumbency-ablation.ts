@@ -20,24 +20,42 @@
  * voter's `recordAppeal`, voting.ts) and the recognition every adult in an
  * office's public gets from its serving official (past-public.ts) stay in
  * every version, `neither` included.
+ *
+ * Three value knobs set a term's size instead of zeroing it. Each is
+ * undefined unless a measurement script sets it, and the code that reads it
+ * falls back to the parameter, so in play every expression is the old one:
+ *
+ * - `traitWeight`: in place of `traitWeightVotingBackIncumbent`, read in
+ *   `incumbentLeanOf` (voting.ts) for every place the voter's incumbent lean
+ *   is read (the appeal, the town's center, the kept ballots).
+ * - `recognition`: in place of `incumbentRecognition`, read in `contestView`
+ *   (voting.ts) for a local incumbent's bare standing; the `standing` knob
+ *   above, where set, still zeroes it.
+ * - `pledgeWeight`: in place of `doorPledgeWeight`, read where the appeal's
+ *   pledge term is built (`countedAppeal`, electorate.ts) and where the
+ *   turnout reads how far a door yes still holds (`heldPledge`, voting.ts).
  */
 export interface IncumbencyAblation {
   readonly trait: boolean;
   readonly standing: boolean;
+  readonly traitWeight?: number;
+  readonly recognition?: number;
+  readonly pledgeWeight?: number;
 }
 
 const OFF: IncumbencyAblation = { trait: false, standing: false };
 let knobs: IncumbencyAblation = OFF;
 
-/** The knobs as set; both off unless a measurement script set them. */
+/** The knobs as set; every one off (or undefined) unless a measurement script set it. */
 export function incumbencyAblation(): IncumbencyAblation {
   return knobs;
 }
 
 /**
- * Measurement only: zero the trait term, the standing term or both for the
- * rest of the process (set before the world is built). Returns the previous
- * setting. Never called in play.
+ * Measurement only: zero the trait term, the standing term or both, and set
+ * the three value knobs, for the rest of the process (set before the world is
+ * built). A knob not named goes back to off. Returns the previous setting.
+ * Never called in play.
  */
 export function setIncumbencyAblationForMeasurement(
   next: Partial<IncumbencyAblation>,

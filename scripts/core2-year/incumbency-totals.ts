@@ -13,6 +13,7 @@
  *
  *   node --import tsx scripts/core2-year/incumbency-totals.ts --seed <s> \
  *     [--places 1] [--years 2] [--ablation both|no-trait|no-standing|neither]
+ *     [--trait-weight <w>] [--recognition <x>] [--pledge-weight <x>]
  *     [--contests]
  *
  * Places are drawn from all 56 by the salts `<seed>:0` to `<seed>:<N-1>`.
@@ -23,6 +24,14 @@
  * holder's record term and the recognition every adult in an office's public
  * gets from its serving official stay in every version.
  *
+ * Three value knobs set a term's size instead of zeroing it (same file):
+ * `--trait-weight <w>` in place of `traitWeightVotingBackIncumbent`,
+ * `--recognition <x>` in place of `incumbentRecognition` (a local race's bare
+ * incumbency; `no-standing` still zeroes it) and `--pledge-weight <x>` in
+ * place of `doorPledgeWeight` (the appeal's pledge term and how far a door
+ * yes holds in turnout). Each left out reads the parameter, as play does;
+ * every place line and the totals line print the values set (null for none).
+ *
  * Prints one JSON line per place and a final totals line against the
  * research bands (docs/research/local-incumbency-2026-10-30.md), pooled and
  * per level group (counties; cities and townships), since the research gives
@@ -30,9 +39,23 @@
  * same in contested races, T4 running holders unopposed, T6 newly seated
  * members who beat a running holder, and the median holder share in
  * contested two-way general races, each with its count. T2 = u + (1 - u) x T3
- * holds by construction, with u = T4. `--contests` also prints one JSON line
- * per contest as it is read, keyed by contest id, so two ablation versions
- * can be compared race by race.
+ * holds by construction, with u = T4. The totals and each group also print
+ * the quartiles of the two-way holder share and how many fall in 0.40-0.70
+ * (P1), and the totals print T3 and the holder share median by office kind
+ * (P6: mayor, council with township boards, county board, other). Each place
+ * line prints the weighted mean and spread of the counted adults' incumbent
+ * lean, before and after the trait weight, and the town center the appeal
+ * nets out (P3). `--contests` also prints one JSON line per contest as it is
+ * read, keyed by contest id, so two ablation versions can be compared race by
+ * race; each adds the named and counted shares of its votes and the holder's
+ * share among each (P10).
+ *
+ * A place that crashes in another engine is skipped by name: its salt, name
+ * and key go to stderr before it runs (`PLACE <salt> <name> <key>`), its error
+ * goes to stdout as one JSON line, and the totals line lists it under
+ * "crashed" and leaves it out (its contest lines are held back until it
+ * finishes, so a crashed place prints none). Never drop one silently: send
+ * it to red main with the error and the salt.
  *
  * A place whose local offices are seated at the state level (D.C.'s council,
  * offices-local.ts) has no local contests and measures nothing; its line says
@@ -42,6 +65,7 @@ import { randomBytes } from "node:crypto";
 import { performance } from "node:perf_hooks";
 import { buildBenchWorld } from "../../src/bench/world";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
+import { campaignParameter } from "../../src/core2/campaign-views";
 import { gameStartDate } from "../../src/core2/game-start";
 import { setIncumbencyAblationForMeasurement } from "../../src/core2/incumbency-ablation";
 import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
@@ -51,20 +75,30 @@ import {
   type ContestRow,
   type FilingRow,
 } from "../../src/core2/modules/elections";
-import type { TermRow } from "../../src/core2/modules/offices";
 import {
+  OFFICES_MODULE_ID,
+  type TermRow,
+} from "../../src/core2/modules/offices";
+import {
+  electorateRoll,
+  incumbentLeanOf,
   officialCandidateId,
   seatHolder,
+  townIncumbentLean,
   VOTING_MODULE_ID,
   winningPersonId,
   type ResultRow,
 } from "../../src/core2/modules/voting";
 import { coreAPI } from "../../src/core2/state";
+import {
+  decisionLean,
+  decisionTraitWeight,
+} from "../../src/core2/trait-decisions";
 import type { CoreAPI, CoreState } from "../../src/core2/types";
-import { drawPlace } from "./place";
+import { drawPlace, type DrawnPlace } from "./place";
 
 const USAGE =
-  "usage: node --import tsx scripts/core2-year/incumbency-totals.ts --seed <s> [--places 1] [--years 2] [--ablation both|no-trait|no-standing|neither] [--contests]";
+  "usage: node --import tsx scripts/core2-year/incumbency-totals.ts --seed <s> [--places 1] [--years 2] [--ablation both|no-trait|no-standing|neither] [--trait-weight <w>] [--recognition <x>] [--pledge-weight <x>] [--contests]";
 const args = process.argv.slice(2);
 const option = (name: string, fallback: string) => {
   const at = args.indexOf(`--${name}`);
@@ -79,6 +113,27 @@ const placeCount = Number(option("places", "1"));
 const years = Number(option("years", "2"));
 const ablation = option("ablation", "both");
 const printContests = args.includes("--contests");
+/** A value knob: undefined when left out (play's parameter stands); a bad value ends the run. */
+const valueKnob = (name: string): number | undefined => {
+  const at = args.indexOf(`--${name}`);
+  if (at < 0) return undefined;
+  const raw = args[at + 1];
+  const value = raw === undefined || raw.trim() === "" ? NaN : Number(raw);
+  if (!Number.isFinite(value) || value < 0) {
+    console.error(`--${name} needs a number of zero or more\n${USAGE}`);
+    process.exit(2);
+  }
+  return value;
+};
+const traitWeight = valueKnob("trait-weight");
+const recognition = valueKnob("recognition");
+const pledgeWeight = valueKnob("pledge-weight");
+/** The value knobs as set, for every line: null where play's parameter stands. */
+const knobValues = {
+  traitWeight: traitWeight ?? null,
+  recognition: recognition ?? null,
+  pledgeWeight: pledgeWeight ?? null,
+};
 const KNOBS: Record<string, { trait: boolean; standing: boolean }> = {
   both: { trait: false, standing: false },
   "no-trait": { trait: true, standing: false },
@@ -94,8 +149,14 @@ if (
   console.error(USAGE);
   process.exit(2);
 }
-// Zeroes the chosen terms for the whole process, before any world is built.
-setIncumbencyAblationForMeasurement(KNOBS[ablation]!);
+// Zeroes the chosen terms and sets the chosen values for the whole process,
+// before any world is built.
+setIncumbencyAblationForMeasurement({
+  ...KNOBS[ablation]!,
+  traitWeight,
+  recognition,
+  pledgeWeight,
+});
 setBookkeeping(false);
 
 /** The levels above the town's own: everything else a contest carries is local. */
@@ -152,6 +213,21 @@ function addInto(into: LevelCounts, from: LevelCounts): void {
   into.holderShares.push(...from.holderShares);
 }
 
+/**
+ * The office kinds the totals split by (P6), grouped from the office's own
+ * kind (offices-local.ts): the mayor; the council, with a township's board,
+ * which is a town's governing body in the same level group; a county's board
+ * or commission; and every other elected office (a county executive, a
+ * sheriff, a clerk).
+ */
+function kindGroupOf(officeKind: string): string {
+  if (officeKind === "mayor") return "mayor";
+  if (officeKind === "council" || officeKind === "township-board")
+    return "council";
+  if (officeKind === "county-board") return "county-board";
+  return "other";
+}
+
 /** The seat's holder as the contest knew it the day before the vote. */
 interface Watched {
   readonly contest: ContestRow;
@@ -193,6 +269,16 @@ const median = (xs: readonly number[]) => {
   const m = Math.floor(s.length / 2);
   return s.length % 2 ? s[m]! : (s[m - 1]! + s[m]!) / 2;
 };
+/** The q-th quantile (0 to 1) by linear interpolation between the ordered values; null for none. */
+const quantile = (xs: readonly number[], q: number) => {
+  if (!xs.length) return null;
+  const s = [...xs].sort((a, b) => a - b);
+  const at = (s.length - 1) * q;
+  const lo = Math.floor(at);
+  const hi = Math.ceil(at);
+  return s[lo]! + (s[hi]! - s[lo]!) * (at - lo);
+};
+const round3 = (x: number | null) => (x === null ? null : Number(x.toFixed(3)));
 const share = (num: number, den: number) =>
   den ? Number((num / den).toFixed(3)) : null;
 const mib = (bytes: number) => Math.round(bytes / 1048576);
@@ -205,6 +291,9 @@ interface ContestLine {
   readonly placeKey: string;
   readonly id: string;
   readonly level: string;
+  /** The office's own kind and the group the totals split it into (P6). */
+  readonly officeKind: string;
+  readonly kind: string;
   readonly electionDate: string;
   readonly holderTermId: string | null;
   readonly holderPersonId: string | null;
@@ -221,6 +310,17 @@ interface ContestLine {
   /** The holder's share of the general vote where it was contested; null elsewhere. */
   readonly holderShare: number | null;
   readonly twoWay: boolean;
+  /**
+   * P10: the share of the on-ballot candidates' votes cast by named people,
+   * by counted residents and by the wider electorate (null with no votes),
+   * and the holder's share among the named and among the counted where the
+   * holder's general was contested (null elsewhere).
+   */
+  readonly namedVotesShare: number | null;
+  readonly countedVotesShare: number | null;
+  readonly placeVotesShare: number | null;
+  readonly holderShareNamed: number | null;
+  readonly holderShareCounted: number | null;
 }
 
 /** Reads one decided contest from its records into the level's counts. */
@@ -233,6 +333,11 @@ function readContest(
   counts: LevelCounts,
 ): ContestLine {
   const { contest, holder } = watched;
+  const office = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(contest.officeId) as unknown as { kind?: string } | undefined;
+  const officeKind = office?.kind ?? "unknown";
   counts.contests += 1;
   const filings = api
     .moduleState(ELECTIONS_MODULE_ID)
@@ -297,6 +402,16 @@ function readContest(
   // The holder's share is the general election's alone; the median the
   // totals report counts two-way races only.
   let holderShare: number | null = null;
+  const votesFor = (votes: Readonly<Record<string, number>> | undefined) =>
+    onBallot.reduce((n, f) => n + (votes?.[f.personId] ?? 0), 0);
+  const namedAll = votesFor(result.namedVotes);
+  const countedAll = votesFor(result.countedVotes);
+  const placeAll = votesFor(result.placeVotes);
+  const allVotes = namedAll + countedAll + placeAll;
+  const among = (votes: Readonly<Record<string, number>>, of: number) =>
+    holderOnBallot && contested && of > 0
+      ? round3((votes[holderFiling!.personId] ?? 0) / of)
+      : null;
   if (holderOnBallot && contested) {
     const all = onBallot.reduce(
       (n, f) => n + (result.totals[f.personId] ?? 0),
@@ -312,6 +427,8 @@ function readContest(
     placeKey,
     id: contest.id,
     level: contest.level,
+    officeKind,
+    kind: kindGroupOf(officeKind),
     electionDate: contest.electionDate,
     holderTermId: holder?.termId ?? null,
     holderPersonId: holder?.personId ?? null,
@@ -325,14 +442,82 @@ function readContest(
     holderWon,
     winnerId: winner ?? result.winnerCandidateId ?? null,
     newcomerBeatHolder: newcomer && holderRan,
-    holderShare: holderShare === null ? null : Number(holderShare.toFixed(3)),
+    holderShare: round3(holderShare),
     twoWay: onBallot.length === 2,
+    namedVotesShare: allVotes > 0 ? round3(namedAll / allVotes) : null,
+    countedVotesShare: allVotes > 0 ? round3(countedAll / allVotes) : null,
+    placeVotesShare: allVotes > 0 ? round3(placeAll / allVotes) : null,
+    holderShareNamed: among(result.namedVotes, namedAll),
+    holderShareCounted: among(result.countedVotes, countedAll),
   };
 }
 
-function runPlace(index: number) {
-  const salt = `${seed}:${index}`;
-  const drawn = drawPlace(salt, "incumbency-totals");
+/** One level's or office kind's counts as a place line prints them. */
+function countsLine(c: LevelCounts) {
+  const { holderShares, ...rest } = c;
+  return {
+    ...rest,
+    holderShareMedian:
+      holderShares.length > 0 ? round3(median(holderShares)) : null,
+    twoWay: holderShares.length,
+  };
+}
+
+/** What a place's measurement hands the totals. */
+interface PlaceRun {
+  readonly byLevel: Map<string, LevelCounts>;
+  readonly byKind: Map<string, LevelCounts>;
+  readonly runSeconds: number;
+  readonly peakHeap: number;
+  /** The three terms' values as play reads them (parameters), for the totals line. */
+  readonly playValues: {
+    readonly traitWeight: number;
+    readonly recognition: number;
+    readonly pledgeWeight: number;
+  };
+}
+
+/**
+ * P3: the counted adults' incumbent lean (what the trait term reads before the
+ * appeal nets out the town's center), weighted by the people each record
+ * stands for. `applied` is `incumbentLeanOf` (trait weight included, as the
+ * appeal reads it); `raw` is the same lean before the trait weight.
+ * `townCenter` is the town's mean the appeal subtracts (`townIncumbentLean`).
+ */
+function incumbentLeanReading(api: CoreAPI, core: CoreState) {
+  const adults = electorateRoll(api).filter((r) => r.target === "group");
+  let people = 0;
+  const sums = { applied: 0, appliedSq: 0, raw: 0, rawSq: 0 };
+  for (const voter of adults) {
+    const applied = incumbentLeanOf(api, voter);
+    const raw = decisionLean(
+      core,
+      voter,
+      "voting.back-incumbent",
+      "incumbent",
+      "challenger",
+    );
+    people += voter.count;
+    sums.applied += applied * voter.count;
+    sums.appliedSq += applied * applied * voter.count;
+    sums.raw += raw * voter.count;
+    sums.rawSq += raw * raw * voter.count;
+  }
+  const meanSd = (sum: number, sumSq: number) => {
+    const mean = people > 0 ? sum / people : 0;
+    const variance = people > 0 ? Math.max(0, sumSq / people - mean * mean) : 0;
+    return { mean: round3(mean), sd: round3(Math.sqrt(variance)) };
+  };
+  return {
+    countedAdults: adults.length,
+    people: Math.round(people),
+    applied: meanSd(sums.applied, sums.appliedSq),
+    raw: meanSd(sums.raw, sums.rawSq),
+    townCenter: round3(townIncumbentLean(api)),
+  };
+}
+
+function measurePlace(salt: string, drawn: DrawnPlace): PlaceRun {
   const builtAt = performance.now();
   const world = buildBenchWorld(drawn.seed, gameStartDate(), {
     twoLevel: true,
@@ -341,15 +526,23 @@ function runPlace(index: number) {
   const buildSeconds = secondsSince(builtAt);
   const core = world.core;
   const api = coreAPI(core);
+  const playValues = {
+    traitWeight: decisionTraitWeight(core, "voting.back-incumbent"),
+    recognition: campaignParameter("incumbentRecognition"),
+    pledgeWeight: campaignParameter("doorPledgeWeight"),
+  };
   const contests = api.moduleState(ELECTIONS_MODULE_ID).table("contests");
   const results = api.moduleState(VOTING_MODULE_ID).table("results");
   const watched = new Map<string, Watched>();
   const byLevel = new Map<string, LevelCounts>();
-  const levelOf = (level: string) => {
-    let row = byLevel.get(level);
-    if (!row) byLevel.set(level, (row = emptyCounts()));
+  const byKind = new Map<string, LevelCounts>();
+  const into = (by: Map<string, LevelCounts>, key: string) => {
+    let row = by.get(key);
+    if (!row) by.set(key, (row = emptyCounts()));
     return row;
   };
+  // Held until the place finishes, so a place that crashes prints none.
+  const contestLines: string[] = [];
   // The holder each upcoming local contest faces, read again each day until
   // the day before the vote (a holder can leave or be appointed meanwhile).
   const lookAhead = () => {
@@ -377,22 +570,18 @@ function runPlace(index: number) {
         .filter((r) => r.date >= entry.contest.electionDate)
         .sort((a, b) => b.date.localeCompare(a.date))[0];
       if (result) {
-        const line = readContest(
-          api,
-          core,
-          drawn.key,
-          entry,
-          result,
-          levelOf(entry.contest.level),
-        );
-        if (printContests) console.log(JSON.stringify(line));
+        const one = emptyCounts();
+        const line = readContest(api, core, drawn.key, entry, result, one);
+        addInto(into(byLevel, entry.contest.level), one);
+        addInto(into(byKind, line.kind), one);
+        if (printContests) contestLines.push(JSON.stringify(line));
         watched.delete(id);
       } else if (
         final ||
         addDays(makeIsoDate(entry.contest.electionDate), RESULT_WAIT_DAYS) <
           core.date
       ) {
-        if (!final) levelOf(entry.contest.level).noResult += 1;
+        if (!final) into(byLevel, entry.contest.level).noResult += 1;
         watched.delete(id);
       }
     }
@@ -409,22 +598,15 @@ function runPlace(index: number) {
   }
   readDecided(true);
   const runSeconds = secondsSince(ranAt);
-  const levels = Object.fromEntries(
-    [...byLevel].map(([level, c]) => {
-      const { holderShares, ...rest } = c;
-      return [
-        level,
-        {
-          ...rest,
-          holderShareMedian:
-            holderShares.length > 0
-              ? Number(median(holderShares)!.toFixed(3))
-              : null,
-          twoWay: holderShares.length,
-        },
-      ];
-    }),
-  );
+  // A failed diagnostic read shows in the line; it never costs the run.
+  let incumbentLean:
+    ReturnType<typeof incumbentLeanReading> | { error: string };
+  try {
+    incumbentLean = incumbentLeanReading(api, core);
+  } catch (error) {
+    incumbentLean = { error: (error as Error).message };
+  }
+  for (const line of contestLines) console.log(line);
   console.log(
     JSON.stringify({
       place: drawn.name,
@@ -434,11 +616,18 @@ function runPlace(index: number) {
       placeSeed: drawn.seed,
       years,
       ablation,
+      knobs: knobValues,
       through: core.date,
       buildSeconds,
       runSeconds,
       peakHeapMiB: mib(peakHeap),
-      levels,
+      incumbentLean,
+      levels: Object.fromEntries(
+        [...byLevel].map(([level, c]) => [level, countsLine(c)]),
+      ),
+      kinds: Object.fromEntries(
+        [...byKind].map(([kind, c]) => [kind, countsLine(c)]),
+      ),
       ...(byLevel.size
         ? {}
         : {
@@ -446,7 +635,38 @@ function runPlace(index: number) {
           }),
     }),
   );
-  return { byLevel, runSeconds, buildSeconds, peakHeap };
+  return { byLevel, byKind, runSeconds, peakHeap, playValues };
+}
+
+/**
+ * One place, named on stderr before it runs; a crash in any engine is caught
+ * here, printed as one JSON line and skipped by name (null), never dropped.
+ */
+function runPlace(index: number): { name: string; run: PlaceRun | null } {
+  const salt = `${seed}:${index}`;
+  let drawn: DrawnPlace | undefined;
+  try {
+    drawn = drawPlace(salt, "incumbency-totals");
+    console.error(`PLACE ${salt} ${drawn.name} ${drawn.key}`);
+    return { name: drawn.name, run: measurePlace(salt, drawn) };
+  } catch (error) {
+    const failure = error instanceof Error ? error : new Error(String(error));
+    const name = drawn?.name ?? `(undrawn ${salt})`;
+    console.log(
+      JSON.stringify({
+        place: name,
+        salt,
+        key: drawn?.key ?? null,
+        error: failure.message,
+        stack: (failure.stack ?? "")
+          .split("\n")
+          .map((l) => l.trim())
+          .filter((l) => l.startsWith("at "))
+          .slice(0, 3),
+      }),
+    );
+    return { name, run: null };
+  }
 }
 
 /** The research bands (docs/research/local-incumbency-2026-10-30.md, verified totals). */
@@ -525,6 +745,21 @@ function metrics(c: LevelCounts, bands: Bands) {
       n: c.holderShares.length,
       note: "descriptive: about 0.58 median in competitive local races; A2 advantage +5 to +12 points against a comparable challenger (fail above 12)",
     },
+    // P1: how the two-way holder shares spread, and how many sit in the
+    // competitive range 0.40 to 0.70 (inclusive).
+    holderShareTwoWayQuartiles: {
+      q1: round3(quantile(c.holderShares, 0.25)),
+      q2: round3(quantile(c.holderShares, 0.5)),
+      q3: round3(quantile(c.holderShares, 0.75)),
+      min: round3(quantile(c.holderShares, 0)),
+      max: round3(quantile(c.holderShares, 1)),
+      n: c.holderShares.length,
+      in040to070: c.holderShares.filter((x) => x >= 0.4 && x <= 0.7).length,
+      shareIn040to070: share(
+        c.holderShares.filter((x) => x >= 0.4 && x <= 0.7).length,
+        c.holderShares.length,
+      ),
+    },
     holderLostPrimary: c.holderLostPrimary,
     holderPrimaryRival: c.holderPrimaryRival,
     holderWithdrew: c.holderWithdrew,
@@ -533,14 +768,39 @@ function metrics(c: LevelCounts, bands: Bands) {
   };
 }
 
+/** P6: T3 and the two-way holder share median for one office kind, each with its count. */
+function kindMetrics(c: LevelCounts) {
+  return {
+    contests: c.contests,
+    holderRan: c.holderRan,
+    T3_contestedWinRate: {
+      value: share(c.holderWonContested, c.holderRanContested),
+      n: c.holderRanContested,
+    },
+    holderShareTwoWayMedian: {
+      value: c.holderShares.length > 0 ? round3(median(c.holderShares)) : null,
+      n: c.holderShares.length,
+    },
+  };
+}
+
 const started = performance.now();
 const all = emptyCounts();
 const allLevels = new Map<string, LevelCounts>();
 const groups = new Map<string, LevelCounts>();
+const allKinds = new Map<string, LevelCounts>();
+const crashed: string[] = [];
+let playValues: PlaceRun["playValues"] | null = null;
 let peakHeap = 0;
 let runSeconds = 0;
 for (let i = 0; i < placeCount; i += 1) {
-  const place = runPlace(i);
+  const { name, run: place } = runPlace(i);
+  (globalThis as { gc?: () => void }).gc?.();
+  if (!place) {
+    crashed.push(name);
+    continue;
+  }
+  playValues ??= place.playValues;
   for (const [level, counts] of place.byLevel) {
     addInto(all, counts);
     const into = allLevels.get(level) ?? emptyCounts();
@@ -550,17 +810,25 @@ for (let i = 0; i < placeCount; i += 1) {
     addInto(group, counts);
     groups.set(groupOf(level), group);
   }
+  for (const [kind, counts] of place.byKind) {
+    const into = allKinds.get(kind) ?? emptyCounts();
+    addInto(into, counts);
+    allKinds.set(kind, into);
+  }
   peakHeap = Math.max(peakHeap, place.peakHeap);
   runSeconds += place.runSeconds;
-  (globalThis as { gc?: () => void }).gc?.();
 }
 console.log(
   JSON.stringify({
     totals: true,
     seed,
     places: placeCount,
+    placesMeasured: placeCount - crashed.length,
+    crashed,
     years,
     ablation,
+    knobs: knobValues,
+    playValues,
     ...metrics(all, BANDS.all!),
     groups: Object.fromEntries(
       [...groups]
@@ -570,6 +838,13 @@ console.log(
     levels: Object.fromEntries(
       [...allLevels].map(([level, c]) => [level, c.contests]),
     ),
+    kinds: Object.fromEntries(
+      [...allKinds]
+        .sort(([a], [b]) => a.localeCompare(b))
+        .map(([kind, c]) => [kind, kindMetrics(c)]),
+    ),
+    kindNote:
+      "mayor; council (a township board too); county-board (a county's board or commission); other (a county executive, sheriff, clerk and the like)",
     ablationNote:
       "every version keeps the holder's record term and the recognition serving in office gives; neither zeroes only the trait term and bare standing",
     runSeconds: Number(runSeconds.toFixed(1)),
