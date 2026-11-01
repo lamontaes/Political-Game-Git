@@ -123,7 +123,9 @@ function inHousehold(
   input: CoreInput,
 ): (person: { householdId?: string }) => boolean {
   const rooms = new Set(
-    input.households.filter((home) => home.quarters).map((home) => home.id),
+    (input.households ?? [])
+      .filter((home) => home.quarters)
+      .map((home) => home.id),
   );
   return (person) =>
     !rooms.size || !person.householdId || !rooms.has(person.householdId);
