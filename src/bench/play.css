@@ -4679,3 +4679,18 @@ select.release-pick {
     padding-block: 8px;
   }
 }
+
+/* A short window: the lede sits tighter, and a side column of plates that does not fit is a
+   bounded box of its own that scrolls inside (never the menu as a page). */
+@media (max-height: 780px) {
+  #sheet-body .screen-lede {
+    font-size: 17px;
+    margin-bottom: 14px;
+  }
+}
+.split-side {
+  max-height: calc(100vh - 290px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(214, 189, 132, 0.55) transparent;
+}
