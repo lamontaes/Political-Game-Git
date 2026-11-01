@@ -517,12 +517,37 @@ function incumbentLeanReading(api: CoreAPI, core: CoreState) {
   };
 }
 
+/**
+ * A crash inside an engine while a place builds or runs (Superior, Colorado
+ * dies in finance's closeEmployer): the only failure skipped by name. An
+ * error in this script's own counting is not one, and fails the run.
+ */
+class PlaceCrash extends Error {
+  constructor(readonly inner: Error) {
+    super(inner.message);
+    this.stack = inner.stack;
+  }
+}
+
+/** Runs one engine call; an engine's throw becomes a PlaceCrash. */
+function engine<T>(call: () => T): T {
+  try {
+    return call();
+  } catch (error) {
+    throw new PlaceCrash(
+      error instanceof Error ? error : new Error(String(error)),
+    );
+  }
+}
+
 function measurePlace(salt: string, drawn: DrawnPlace): PlaceRun {
   const builtAt = performance.now();
-  const world = buildBenchWorld(drawn.seed, gameStartDate(), {
-    twoLevel: true,
-    placeKey: drawn.key,
-  });
+  const world = engine(() =>
+    buildBenchWorld(drawn.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: drawn.key,
+    }),
+  );
   const buildSeconds = secondsSince(builtAt);
   const core = world.core;
   const api = coreAPI(core);
@@ -591,7 +616,7 @@ function measurePlace(salt: string, drawn: DrawnPlace): PlaceRun {
   const end = addDays(makeIsoDate(core.date), Math.round(365 * years));
   lookAhead();
   while (core.date < end) {
-    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    engine(() => advanceCore(core, addDays(makeIsoDate(core.date), 1)));
     readDecided(false);
     lookAhead();
     peakHeap = Math.max(peakHeap, process.memoryUsage().heapUsed);
@@ -639,24 +664,26 @@ function measurePlace(salt: string, drawn: DrawnPlace): PlaceRun {
 }
 
 /**
- * One place, named on stderr before it runs; a crash in any engine is caught
- * here, printed as one JSON line and skipped by name (null), never dropped.
+ * One place, named on stderr before it runs; a crash in an engine while it
+ * builds or runs (a PlaceCrash) is printed as one JSON line and skipped by
+ * name (null), never dropped. Any other error, the script's own counting
+ * included, is rethrown and fails the run.
  */
 function runPlace(index: number): { name: string; run: PlaceRun | null } {
   const salt = `${seed}:${index}`;
-  let drawn: DrawnPlace | undefined;
+  const drawn = drawPlace(salt, "incumbency-totals");
+  console.error(`PLACE ${salt} ${drawn.name} ${drawn.key}`);
   try {
-    drawn = drawPlace(salt, "incumbency-totals");
-    console.error(`PLACE ${salt} ${drawn.name} ${drawn.key}`);
     return { name: drawn.name, run: measurePlace(salt, drawn) };
   } catch (error) {
-    const failure = error instanceof Error ? error : new Error(String(error));
-    const name = drawn?.name ?? `(undrawn ${salt})`;
+    if (!(error instanceof PlaceCrash)) throw error;
+    const failure = error.inner;
+    const name = drawn.name;
     console.log(
       JSON.stringify({
         place: name,
         salt,
-        key: drawn?.key ?? null,
+        key: drawn.key,
         error: failure.message,
         stack: (failure.stack ?? "")
           .split("\n")
@@ -852,3 +879,6 @@ console.log(
     peakHeapMiB: mib(peakHeap),
   }),
 );
+// A crashed place is in the totals line; the exit code says so too, for a
+// runner's brief that records exit codes (skill governing-measurement).
+if (crashed.length) process.exitCode = 3;
