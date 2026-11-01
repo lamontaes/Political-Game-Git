@@ -2235,11 +2235,11 @@ function remove(api: CoreAPI, caseId: string, owed: number): void {
   // is that record's; members with a person record are named by the event,
   // and members still only counted by its facts, as a status change names
   // them (`setStatus`).
-  const store = residentsRuntime(c)?.store;
-  const counted = store?.liveHousehold(row.householdId);
+  const countedStore = residentsRuntime(c)?.store;
+  const counted = countedStore?.liveHousehold(row.householdId);
   const household = counted ? undefined : c.households.get(row.householdId);
   const memberIds = counted
-    ? store!.memberIdsOf(counted)
+    ? countedStore!.memberIdsOf(counted)
     : (household?.memberIds ?? []);
   api.emit({
     id: `event:housing.eviction:${caseId}`,
