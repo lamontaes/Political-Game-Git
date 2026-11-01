@@ -1122,6 +1122,7 @@ $("talk-lie").addEventListener("click", () => {
 // Continue, bottom left, when there is nothing to answer: the beat is over, and
 // a stop that held the clock for it goes on.
 $("talk-next").addEventListener("click", async () => {
+  if (!onContinue) show("talk-skip", false);
   if (onContinue) {
     const then = onContinue;
     onContinue = undefined;
@@ -1137,6 +1138,15 @@ $("talk-next").addEventListener("click", async () => {
   show("talk", false);
   // A story's end hands the room back to the one scene renderer, so the people in it can be
   // clicked to talk again (a story draws them without a click).
+  await renderScene();
+  if (!$("continue").hidden) $("continue").click();
+});
+// Skip scene ends the address at once; the room is handed back as at its last Continue.
+$("talk-skip").addEventListener("click", async () => {
+  onContinue = undefined;
+  show("talk-skip", false);
+  renderTalk(undefined);
+  show("talk", false);
   await renderScene();
   if (!$("continue").hidden) $("continue").click();
 });
@@ -1635,6 +1645,7 @@ async function showStory(momentId) {
       ? story.speech.parts
       : [story.speech.text];
     const sayPart = (at) => {
+      show("talk-skip", true);
       setWho(story.speech.speakerId, story.names[story.speech.speakerId]);
       talkControls({ silent: false, leave: false });
       fillTalk({

@@ -622,6 +622,7 @@
   },
   "talkBox": {
     "continue": "Continue",
+    "skipScene": "Skip scene",
     "markGap": "Mark gap"
   },
   "guide": {

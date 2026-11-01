@@ -1387,6 +1387,7 @@ body.dev .dev-ring {
 #talk.narration #talk-leave,
 #talk.narration #talk-lie,
 #talk:not(.narration) #talk-next,
+#talk:not(.narration) #talk-skip,
 #talk.no-silent #talk-silent,
 #talk.no-leave #talk-leave {
   display: none;
