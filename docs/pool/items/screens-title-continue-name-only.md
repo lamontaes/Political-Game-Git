@@ -5,11 +5,12 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: play-first/screens-title-continue-name-only
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-01T13:16:57.482Z
 ---
 
 **What.** The owner ruled on Oct 27: remove the menu subtitles and do not replace them; Continue, Saved games and Patch notes show only their names. With a saved life, Continue still shows a line under its name, for example Pat Candidate, 44, Southeast Arcadia, Florida, written by play.mjs into front-continue-life. The subtitle PR removed only the lines under dimmed entries.
