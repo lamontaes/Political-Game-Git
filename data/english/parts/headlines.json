@@ -4947,12 +4947,12 @@
     },
     {
       "key": "headlines.life-death.name-age-of-place",
-      "move": "life.death",
+      "move": "life-death",
       "kind": "written",
       "text": "{name}, {age}, of {place}",
       "uses": [
         {
-          "move": "life.death",
+          "move": "life-death",
           "subject": "headline",
           "role": "life.death",
           "choice": "headline",
@@ -4969,12 +4969,12 @@
     },
     {
       "key": "headlines.life-death.name-of-place-dies-at-age",
-      "move": "life.death",
+      "move": "life-death",
       "kind": "written",
       "text": "{name} of {place} dies at {age}",
       "uses": [
         {
-          "move": "life.death",
+          "move": "life-death",
           "subject": "headline",
           "role": "life.death",
           "choice": "headline",

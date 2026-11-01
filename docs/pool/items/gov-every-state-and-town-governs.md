@@ -6,9 +6,9 @@ lead: laws
 kind: bug
 priority: 1
 size: L
-status: claimed
+status: in-pr
 claimed-by: claude/gov-every-state-and-town-governs
-pr:
+pr: #7020
 blocked-on:
 source: owner, Oct 29 voice note on the governing brief
 claimed-at: 2026-10-29T21:28:24.226Z
@@ -27,3 +27,7 @@ claimed-at: 2026-10-29T21:28:24.226Z
 Oct 29 (laws lead): mapped read-only; the plan is docs/reports/world-governing-plan-2026-10-29.md (units U1, U1b, U2, U3, U4, each one PR; about 22-34 builder hours). Speed is the hard limit: main is already about two minutes a year, so the CTO rules on the budget before U1 lands. U1 (seat every chamber, measured alone) starts Oct 29 on claude/gov-every-state-and-town-governs.
 
 Nov 1 (laws lead): taken back from Codex package B, which ended at 05:20 UTC without a commit on claude/gov-every-state-and-town-governs; CTO confirmed 13:17 UTC. U1 is finished at 5d32548390 (every other place seated as named officials, governors raced through the one seat loop, a year 79.8 s against main's 97.4 s); left: one skeptic, the PR.
+
+Nov 1, 20:00 UTC (laws lead), U2's seams agreed before building. Governing lead: U2 builds on main after `governing/phase-in-dated-steps` merges (its `sectionDates` reach the effective-date readers); no phase B unit edits `billJurisdiction`, the effective-date or power-check readers, or `lawTookEffect`, so U2 goes first on those; one exported helper `inTownChain(chain, jurisdiction)` in laws-in-force.ts serves `resolveLawInForce`, `lawTookEffect` and `billJurisdiction`; message the governing lead before touching world-legislating.ts near the co-sponsor work. Words: U2 makes the press's wireItem jurisdiction check itself, beside #7022's held-seat check, after #7022 merges, marked `Review: words`. Reads to keep: legislative-vote's personIds (the director's ledger takes a watched member's floor vote as a scene cause); office.voted for chain bodies and circle members (the Journal's own-votes row); law-took-effect only for chain laws (the Journal's law rows and the law street stop), so an outside law returns early. An outside body's vote off the wire is right for bring-it-up.ts.
+
+Nov 1, 22:00 UTC (laws lead): U2's build spec is `docs/work-orders/world-governing-u2-spec-2026-11-01.md` (16 steps in three commit groups, the proof, the stopgaps, speed and seams), mapped by four read-only readers on main c9b60ce1ed with a completeness critic (`docs/work-orders/world-governing-u2-critique-2026-11-01.json`). It builds after #7054 (phase-in) and #7020 (U1) merge. The critic's gap on outside oaths reaching the wire once U1 seats every place is already fixed in #7020 (wireItem drops an outside office's seat, reviewed by Words).

@@ -7,7 +7,12 @@
  * passed in as plain data; the filing itself is GOV's `fileCandidacy`. The
  * visit says which move each line makes and the facts it stands on; the
  * English engine words it from the filing-clerk scene's own pieces
- * (`wordSceneMove`), the one word maker every scene uses.
+ * (`wordSceneMove`), the one word maker every scene uses. Once the filing
+ * is taken, the clerk's talk about the petition is the director's `filing`
+ * scene, staged from the filing's record, so the clerk says it once.
+ *
+ * stopgapId: SG-WORDS-filing-counter-prompts (the talk before filing is
+ * still this visit's own sequence, until one scene ends in the counter).
  */
 import { P } from "../core2/parameters";
 import type { CoreState, PersonId } from "../core2/types";
@@ -263,51 +268,6 @@ function raceTold(
     );
     return line ? [line] : [];
   });
-}
-
-/** The petition the elections engine opened with a filing: its signatures and the day they are due. */
-export interface FilingPetition {
-  id: string;
-  needed: number;
-  due: string;
-}
-
-/**
- * Once the filing is taken, the clerk says what comes next from the
- * petition record the elections engine opened with it: the signatures the
- * place's law asks and the day they are due, or that this office takes no
- * petition (owner, Oct 28: filing is a petition, signatures, the clerk's
- * check, then the ballot).
- */
-export function filedAtCounter(
-  core: Readonly<CoreState>,
-  visit: FilingVisit,
-  petition: FilingPetition | null,
-): FilingVisit {
-  if (!petition) return visit;
-  const fact = (text: string) => ({ text, sourceRecordIds: [petition.id] });
-  const facts: Record<string, Fact> =
-    petition.needed > one
-      ? {
-          signatures: fact(petition.needed.toLocaleString("en-US")),
-          due: fact(spokenDate(petition.due, core.date)),
-        }
-      : petition.needed === one
-        ? {
-            "one-signature": fact("yes"),
-            due: fact(spokenDate(petition.due, core.date)),
-          }
-        : { "no-petition": fact("yes") };
-  const line = visitLine(
-    core,
-    visit,
-    "clerk",
-    petition.needed > zero ? "tell-signatures" : "tell-no-petition",
-    facts,
-    `${visit.playerId}:${petition.id}:filed`,
-  );
-  if (line) visit.lines.push({ speaker: "clerk", ...line });
-  return visit;
 }
 
 /**

@@ -16,7 +16,7 @@ import {
   governmentUnitsForPlace,
 } from "../core2/reference/government-units";
 import { municipiosForPlace } from "../core2/gov-rules/county-governing-body-rules";
-import { publishedPlaceReferencePopulation } from "../core2/gov-rules/place-population";
+import { placeReferencePopulation } from "../core2/gov-rules/place-population";
 import { parameter } from "../core2/parameters";
 import { realLocalities } from "../core2/places";
 import { hash, lookForGender, readRecipe, type LookRecipe } from "./appearance";
@@ -172,21 +172,22 @@ function stateTownFacts(stateKey: string) {
 
 /**
  * A state's cities and towns matching a search, all of them, each with the
- * population the world opens with: the town's Census count, the one source
- * the opening reads (`buildPopulation`). A town the records hold no count for
+ * population the world opens with: the count drawn around the town's Census
+ * count for this seed (`placeReferencePopulation`, the one source the opening
+ * reads), so the list and the opened town show the same number. A town the
+ * records hold no count for
  * opens at the model's own size, so it reads that, marked `estimated`; a name
  * the state repeats carries its county.
  * stopgapId: SG-PLAY-town-count-estimate
- * stopgapId: SG-WORLD-creator-town-count-published
  */
-export function creatorTowns(stateKey: string, query: string) {
+export function creatorTowns(stateKey: string, query: string, seed: string) {
   const apart = stateTownFacts(stateKey);
   return searchCorePlaces(query, Infinity, {
     stateJurisdictionKey: stateKey,
     scope: "locality",
   }).map((place) => {
     const population = place.sourceGeoid
-      ? publishedPlaceReferencePopulation(place.sourceGeoid)
+      ? placeReferencePopulation(place.sourceGeoid, seed)
       : null;
     const county = apart.get(place.key);
     return {
@@ -216,7 +217,9 @@ export function creatorRandomPlace(seed: string, draw: number) {
   );
   // A locality the draw returns always sits in a state (the draw groups by it).
   const stateKey = place.stateJurisdictionKey ?? "";
-  const town = creatorTowns(stateKey, "").find((row) => row.key === place.key);
+  const town = creatorTowns(stateKey, "", seed || "creator").find(
+    (row) => row.key === place.key,
+  );
   return {
     state: { key: stateKey, name: state?.name ?? stateKey },
     town: town ?? {

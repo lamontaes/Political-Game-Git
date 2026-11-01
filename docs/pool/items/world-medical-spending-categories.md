@@ -5,9 +5,9 @@ area: world
 kind: feature
 priority: 3
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/laws-medical-debt
-pr:
+pr: #7036
 blocked-on:
 after: people-coverage-record-monthly-pass
 source: added with npm run pool -- add

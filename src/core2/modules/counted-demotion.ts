@@ -17,6 +17,7 @@ import {
   COUNTED_PLACE_PREFIX,
   countedPlaceOf,
   isDemoted,
+  type Tenure,
 } from "../counted-groups";
 import { addCountedJob } from "../residents-economy";
 import { MORTGAGE_PREFIX, countedMortgageFlowId } from "../housing-mortgages";
@@ -220,7 +221,7 @@ export function demoteHousehold(
   }
   // Its bills become its parts of the merged flows again.
   const parts = new Map<string, number>();
-  let tenure: "rent" | "mortgage" | "other" = "other";
+  let tenure: Tenure = "other";
   let rent:
     { payeeId: string; amountMinor: number; source: Source } | undefined;
   for (const contract of core.finance.contracts.values()) {
@@ -279,6 +280,13 @@ export function demoteHousehold(
     workCommitments: commitments,
     contracts: [],
   };
+  // A household without a home returns to the counts without one: the
+  // housing engine's status row goes on reading it from its counted record.
+  if (
+    core.modules.has("housing") &&
+    api.moduleState("housing").table("statuses").get(householdId)
+  )
+    tenure = "none";
   const h = returnToCounts(core, record, {
     tenure,
     parts,

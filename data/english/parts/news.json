@@ -235,12 +235,12 @@
     },
     {
       "key": "news.life-death.name-age-of-place-died-on-date",
-      "move": "life.death",
+      "move": "life-death",
       "kind": "written",
       "text": "{name}, {age}, of {place}, died on {date}.",
       "uses": [
         {
-          "move": "life.death",
+          "move": "life-death",
           "subject": "news",
           "role": "life.death",
           "choice": "lede",
@@ -257,12 +257,12 @@
     },
     {
       "key": "news.life-death.name-died-on-date-at-the-age-of-age",
-      "move": "life.death",
+      "move": "life-death",
       "kind": "written",
       "text": "{name} died on {date} at the age of {age}.",
       "uses": [
         {
-          "move": "life.death",
+          "move": "life-death",
           "subject": "news",
           "role": "life.death",
           "choice": "lede",
