@@ -24,3 +24,4 @@ source: added with npm run pool -- add
 **Notes.** TODO
 
 Oct 29 (Words): the director's `celebration` (married) and `breakup` (separated) causes wait on this. `setPartnersV1` in src/core2/state.ts emits `family.partnered` and `family.separated`, but no engine calls it in play: a played year in Glasgow, Delaware (seed rel-c) recorded 0 of each, and the only partnership records are the pre-start history's. Once an engine partners and separates people in play, the two causes are a read (skill `scene-producers`).
+Nov 1 (lives lead, on the CTO's word): dropped as a twin of people-partnership-forms (and people-partnership-ends), which the lives lead holds on branch lives/partners-town; its evidence moved to people-partnership-forms' Notes. The partnership engine is src/core2/modules/partnerships.ts (PR #7082).
