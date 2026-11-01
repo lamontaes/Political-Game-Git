@@ -33,6 +33,7 @@ import {
   journalClosing,
   journalEntry,
   journalRows,
+  metRelation,
   possessivePronoun,
   relationPhrase,
   saysOffice,
@@ -45,7 +46,7 @@ import {
 import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
 import { comingOfAgeOn } from "./coming-of-age";
 import type { RACE_MARGINS } from "../english/mined/journal-bank";
-import { properName } from "./words";
+import { properName, stateInSentence } from "./words";
 import {
   PAST_WORK_OUT,
   PAST_WORK_SPELL,
@@ -238,7 +239,8 @@ function placeLabel(placeId: string | undefined): string | null {
   const place = corePlaceByJurisdictionId(placeId as never);
   if (place) return place.displayName;
   const state = coreStateKeyOfPlaceholderId(placeId);
-  return state ? coreStateName(state.slice("US-".length)) : null;
+  const name = state ? coreStateName(state.slice("US-".length)) : null;
+  return name ? stateInSentence(name) : null;
 }
 
 /**
@@ -364,20 +366,6 @@ function householdMoments(
       moments.push({
         ...base(parentsMet.id, parentsMet.date),
         causeKind: "household:parents-met:where-they-lived",
-        counterpartIds: [],
-        actFacts,
-        beat: "roots",
-      });
-  }
-  // Where the family came from: the place of their recorded birth, when the
-  // family lives somewhere else now.
-  const birth = history("person.birth", person.id)[zero];
-  if (birth?.placeId && birth.placeId !== person.placeId) {
-    const actFacts = placeOf(birth.placeId, birth.id);
-    if (actFacts.place)
-      moments.push({
-        ...base(birth.id, birth.date),
-        causeKind: "household:roots",
         counterpartIds: [],
         actFacts,
         beat: "roots",
@@ -991,11 +979,16 @@ export function composeJournal(
     moment: JournalMoment,
     facts: Facts,
   ): string | undefined => {
-    const stage = row.stageFact
-      ? core.durableLog.get(moment.causeId)?.facts?.[row.stageFact]
-      : undefined;
-    return stage !== undefined && row.stageMark && facts[row.stageMark.fact]
-      ? `${stage}:${row.stageMark.mark}`
+    const logged = core.durableLog.get(moment.causeId)?.facts;
+    const stage = row.stageFact ? logged?.[row.stageFact] : undefined;
+    if (stage !== undefined && row.stageMark && facts[row.stageMark.fact])
+      return `${stage}:${row.stageMark.mark}`;
+    // The one the record names in a fact (the executive who signed) tells
+    // it in their own words, apart from the others it names (the sponsor).
+    return stage !== undefined &&
+      row.stageSelf &&
+      logged?.[row.stageSelf.fact] === personId
+      ? `${stage}:${row.stageSelf.mark}`
       : stage;
   };
 
@@ -1328,11 +1321,23 @@ export function composeJournal(
       .sort((a, b) => b.hindsight - a.hindsight || a.id.localeCompare(b.id))[
       zero
     ];
+    // A look-back that names someone ("Susan mattered more than I knew",
+    // "Susan would come back into my life") is about a person met, never a
+    // relative one was born to or raised: "My mother took office. Susan
+    // mattered more than I knew." named a mother as a stranger.
+    const counterpart = moment.counterpartIds[zero];
+    const relation = counterpart ? kin.get(counterpart)?.relation : undefined;
+    const looked =
+      relation && !metRelation(relation, words)
+        ? Object.fromEntries(
+            Object.entries(facts).filter(([key]) => key !== "name"),
+          )
+        : facts;
     const revision =
-      changed && facts.name
+      changed && looked.name
         ? render(
             { part: "memoir", field: "revise" },
-            facts,
+            looked,
             `${moment.id}:revise`,
             [changed.causeId, moment.causeId],
           )
@@ -1354,7 +1359,7 @@ export function composeJournal(
             turned,
           },
         },
-        facts,
+        looked,
         `${moment.id}:hook`,
         sourceIds,
       );

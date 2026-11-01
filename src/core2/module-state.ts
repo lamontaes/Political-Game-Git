@@ -1,4 +1,9 @@
-import { moduleData, moduleKey, type ModuleRow } from "./module-data";
+import {
+  moduleData,
+  moduleDataOwned,
+  moduleKey,
+  type ModuleRow,
+} from "./module-data";
 import type { CoreModule, CoreState } from "./types";
 
 export type ModuleIndexValue = string | number | boolean | null;
@@ -23,6 +28,11 @@ export interface ModuleStateSnapshot {
 export interface ModuleTable {
   get(id: string): ModuleRow | undefined;
   put(row: ModuleRow): void;
+  /**
+   * `put` for a row the caller built fresh for this write and never touches
+   * again: in play it is frozen in place instead of copied (`moduleDataOwned`).
+   */
+  putOwned(row: ModuleRow): void;
   remove(id: string): boolean;
   query(
     index: string,
@@ -38,6 +48,8 @@ export interface ModuleStateStore {
   snapshot(): ModuleStateSnapshot;
   /** Explicit exact-version replacement; no implicit save migration. */
   restore(snapshot: ModuleStateSnapshot): void;
+  /** Puts, removes and restores so far: an answer read from these tables holds while it is unchanged. */
+  readonly writes: number;
 }
 interface Table {
   definition: ModuleTableDefinition;
@@ -49,6 +61,7 @@ interface Store {
   schemaVersion: number;
   tables: Map<string, Table>;
   busy: boolean;
+  writes: number;
 }
 const stores = new WeakMap<CoreState, Map<string, Store>>();
 const facades = new WeakMap<Store, ModuleStateStore>();
@@ -86,7 +99,13 @@ export function prepareModuleState(module: CoreModule): Store | undefined {
     tables.set(name, freshTable({ indexes, validate: raw.validate }));
   }
   if (!tables.size) throw new Error("Module state needs at least one table.");
-  return { module, schemaVersion: state.schemaVersion, tables, busy: false };
+  return {
+    module,
+    schemaVersion: state.schemaVersion,
+    tables,
+    busy: false,
+    writes: 0,
+  };
 }
 export function installModuleState(
   core: CoreState,
@@ -195,6 +214,10 @@ let tableTrace:
 export function setTableTrace(hook: typeof tableTrace): void {
   tableTrace = hook;
 }
+/** Whether the table trace is on: a kept answer then reads its tables again, so the trace sees every reader. */
+export function tableTraceOn(): boolean {
+  return tableTrace !== null;
+}
 
 /** Whether an installed engine keeps its own tables in this world. */
 export function hasModuleState(core: CoreState, moduleId: string): boolean {
@@ -246,7 +269,17 @@ export function moduleState(
         },
         put(row: ModuleRow) {
           tableTrace?.(moduleId, name, "put");
-          operation(() => insert(current(), moduleData(row)));
+          operation(() => {
+            insert(current(), moduleData(row));
+            store.writes++;
+          });
+        },
+        putOwned(row: ModuleRow) {
+          tableTrace?.(moduleId, name, "put");
+          operation(() => {
+            insert(current(), moduleDataOwned(row));
+            store.writes++;
+          });
         },
         remove(id: string) {
           tableTrace?.(moduleId, name, "remove");
@@ -254,6 +287,7 @@ export function moduleState(
             const row = current().rows.get(moduleKey(id));
             if (!row) return false;
             erase(current(), row);
+            store.writes++;
             return true;
           });
         },
@@ -320,7 +354,12 @@ export function moduleState(
           next.set(name, table);
         }
         store.tables = next;
+        store.writes++;
       });
+    },
+    get writes() {
+      check();
+      return store.writes;
     },
   });
   facades.set(store, facade);

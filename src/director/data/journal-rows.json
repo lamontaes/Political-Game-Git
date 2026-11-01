@@ -86,6 +86,7 @@
     "female": "her",
     "other": "their"
   },
+  "metRelations": ["partner", "former-partner"],
   "lines": [
     {
       "kindPrefix": "person.birth",
@@ -402,6 +403,32 @@
       }
     },
     {
+      "kindPrefix": "event:executive-action",
+      "turn": false,
+      "entry": "story",
+      "hasOtherLine": true,
+      "toldWithoutOther": true,
+      "stageFact": "action",
+      "stageSelf": {
+        "fact": "executiveId",
+        "mark": "desk"
+      },
+      "stageWords": {
+        "overridden:desk": "^I vetoed\\b.*\\boverridden\\b",
+        "vetoed:desk": "^I vetoed\\b",
+        "signed:desk": "^I signed\\b",
+        "overridden": "\\b(?:overridden|over the veto)\\b",
+        "vetoed": "\\bvetoed\\b",
+        "signed": "\\bsigned\\b"
+      },
+      "eventFacts": {
+        "law": {
+          "fact": "billId",
+          "format": "billNumberAndName"
+        }
+      }
+    },
+    {
       "kindPrefix": "event:took-office",
       "turn": true,
       "entry": "story",
@@ -416,7 +443,8 @@
           "key": "office",
           "text": "{{office}}"
         }
-      ]
+      ],
+      "hasOtherLine": true
     },
     {
       "kindPrefix": "act:vote-yes",
@@ -440,11 +468,6 @@
     },
     {
       "kindPrefix": "household:partners-met",
-      "turn": false,
-      "entry": "story"
-    },
-    {
-      "kindPrefix": "household:roots",
       "turn": false,
       "entry": "story"
     },
@@ -559,6 +582,18 @@
       "kindPrefix": "scene-ending:story-runs",
       "turn": false,
       "entry": "story"
+    },
+    {
+      "kindPrefix": "scene-ending:oath",
+      "turn": false,
+      "entry": "story",
+      "toldWithoutOther": true
+    },
+    {
+      "kindPrefix": "scene-ending:address",
+      "turn": false,
+      "entry": "story",
+      "toldWithoutOther": true
     }
   ],
   "firstTitle": [

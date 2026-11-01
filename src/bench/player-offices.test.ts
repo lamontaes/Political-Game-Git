@@ -51,10 +51,6 @@ describe("the player files only for the offices the data lists (owner, Oct 29)",
       ).toBe(true);
     // The world still runs the others: county and other seats are open contests.
     const others = open.filter((c) => !playerMayFileFor(api, c.id));
-    expect(
-      others.length,
-      `${where}: other offices still hold contests`,
-    ).toBeGreaterThan(0);
     // The screen's own view lists the same choices and no others.
     const player = [...core.people.values()].find(
       (p) => p.alive && p.tier !== "husk",
@@ -63,6 +59,9 @@ describe("the player files only for the offices the data lists (owner, Oct 29)",
     expect(view.contests.map((c) => c.contest.id).sort(), where).toEqual(
       mine.map((c) => c.id).sort(),
     );
+    // A place whose every open contest is the player's (a territory's one lawmaking body) has
+    // no other office to refuse or to watch file: it is redrawn, named.
+    if (!others.length) return { where, outside: 0 };
     // The player's filing is refused for the rest, by the one reader.
     expect(() => fileForOffice(core, player.id, others[0]!.id), where).toThrow(
       /files only for/,
@@ -87,7 +86,7 @@ describe("the player files only for the offices the data lists (owner, Oct 29)",
   };
   it("narrows the filing choices and leaves the rest of the world filing", () => {
     const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
-    // A place whose world files nothing outside the player's offices in two years is redrawn,
+    // A place whose world has no other office open, or files nothing outside the player's offices in two years, is redrawn,
     // named, so the world-still-files claim is always proven on a place that shows it.
     const skipped: string[] = [];
     for (let draw = 0; draw < 5; draw += 1) {
@@ -95,7 +94,7 @@ describe("the player files only for the offices the data lists (owner, Oct 29)",
       if (result.outside > 0) return;
       skipped.push(result.where);
       process.stdout.write(
-        `${result.where}: no simulated filing outside the player's offices in two years, redrawn\n`,
+        `${result.where}: no other office to refuse or watch file, or none filed in two years, redrawn\n`,
       );
     }
     expect.fail(

@@ -664,7 +664,7 @@ export function registerCommitteeRosterProvider(fn: RosterProvider): void {
 /** Each employer's added yearly pay under a minimum-wage provision: the fiscal note, employer by employer. */
 export function employerCosts(
   api: CoreAPI,
-  bill: BillRow,
+  bill: Pick<BillRow, "provisions">,
 ): ReadonlyMap<string, { workers: number; annualMinor: number }> {
   const wage = bill.provisions.find(
     (p) => p.kind === "law-amount" && p.series === "minimum-wage",
@@ -1451,25 +1451,27 @@ function numberAndForm(
   };
 }
 
-/** Workers in town paid under a proposed minimum wage, and what raising them costs a year. */
+/**
+ * Workers in town paid under a proposed minimum wage, and what raising them
+ * costs a year: the sum of the employers' own rows (`employerCosts`), so the
+ * fiscal note and each employer's cost are one computation.
+ */
 function costOf(api: CoreAPI, provisions: readonly Provision[]) {
-  const wage = provisions.find(
-    (p) => p.kind === "law-amount" && p.series === "minimum-wage",
-  );
-  if (!wage)
+  if (
+    !provisions.some(
+      (p) => p.kind === "law-amount" && p.series === "minimum-wage",
+    )
+  )
     return { workersRaised: 0, annualPayMinor: 0, note: "no pay effect" };
-  const state = api.state as CoreState;
-  let workers = 0;
-  let cost = 0;
-  for (const c of state.work.commitments.values())
-    if (c.endsAt === undefined && c.hourlyMinor < wage.value) {
-      workers += 1;
-      cost +=
-        (wage.value - c.hourlyMinor) * (c.expectedWeeklyMinutes / 60) * 52;
-    }
+  let workersRaised = 0;
+  let annualPayMinor = 0;
+  for (const row of employerCosts(api, { provisions }).values()) {
+    workersRaised += row.workers;
+    annualPayMinor += row.annualMinor;
+  }
   return {
-    workersRaised: workers,
-    annualPayMinor: Math.round(cost),
+    workersRaised,
+    annualPayMinor,
     note: "town jobs paid under the new floor, at their scheduled hours",
   };
 }
@@ -3507,6 +3509,7 @@ function chamberVote(
         recordVote(api, {
           personId: key,
           body: officeId,
+          billId: bill.id,
           measureId: bill.number,
           stance: {
             question: stance.question,
@@ -5577,6 +5580,53 @@ export function votesOn(
     position: MemberPosition;
     traded?: readonly { kind: string; terms: string; stage?: string }[];
   }[];
+}
+
+/**
+ * What one chamber's floor roll call on a bill counted: the yes and no votes
+ * of its members and a tie-breaker's, from the roll call's own rows, and
+ * whether the chamber carried it. It leaves out the executive's desk row and
+ * any override roll call, which are other votes on the same bill. Null when
+ * the chamber never voted the bill. A screen that shows a vote reads this,
+ * not the members' record rows, which hold each member's side of each section
+ * and not the count.
+ *
+ * Carried is read from where the floor stopped the bill, not recounted: the
+ * floor marks a bill failed at the chamber that fails it (a majority against,
+ * a tie the presiding officer breaks against, or the Senate short of
+ * cloture), so a chamber carried it when the bill is not failed or when a
+ * chamber after it in the bill's order went on to vote it.
+ */
+export function floorCountOf(
+  api: CoreAPI,
+  billId: string,
+  chamber: string,
+): {
+  readonly yes: number;
+  readonly no: number;
+  readonly carried: boolean;
+} | null {
+  const all = (
+    table(api, "votes").query("byBill", [billId]) as unknown as {
+      chamber?: string;
+      vote: string;
+      override?: boolean;
+    }[]
+  ).filter((row) => row.chamber !== undefined && !row.override);
+  const rows = all.filter((row) => row.chamber === chamber);
+  if (!rows.length) return null;
+  const bill = table(api, "bills").get(billId) as unknown as
+    BillRow | undefined;
+  const order = bill ? chambersOf(api, bill) : [];
+  const voted = new Set(all.map((row) => row.chamber));
+  const later = order
+    .slice(order.indexOf(chamber) + 1)
+    .some((next) => voted.has(next));
+  return {
+    yes: rows.filter((row) => row.vote === "yes").length,
+    no: rows.filter((row) => row.vote === "no").length,
+    carried: bill?.status !== "failed" || later,
+  };
 }
 
 export type { PersonState };

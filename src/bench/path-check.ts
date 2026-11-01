@@ -15,7 +15,12 @@ import { governmentView } from "./government";
 import { chooseAtCounter, openBenchFilingVisit } from "./filing";
 import { campaignDay } from "./campaign";
 import { campaignDayChoices } from "../core2/campaign-day";
-import { CAMPAIGNS_MODULE_ID } from "../core2/modules/campaigns";
+import {
+  CAMPAIGNS_MODULE_ID,
+  candidatePlatform,
+  contestPositions,
+  signaturesToGather,
+} from "../core2/modules/campaigns";
 import { electionResults } from "./results";
 import { seatAct, seatView } from "./legislature";
 import {
@@ -39,10 +44,13 @@ import { setBookkeeping } from "../core2/bookkeeping";
 import { benchScene } from "./scene";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import {
+  ballot,
+  incumbentOf,
   petitionCirculating,
   petitionOf,
   type ContestRow,
 } from "../core2/modules/elections";
+import { decisionOf } from "../core2/modules/candidacy";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? "path-check";
 
@@ -54,6 +62,77 @@ function isCouncil(officeId: string): boolean {
     .get(officeId) as { kind?: string } | undefined;
   return (office?.kind ?? "").startsWith("council");
 }
+
+/** A race the player may enter: governmentView's contests, which come through playerContests. */
+type Enterable = ReturnType<typeof governmentView>["contests"][number];
+
+/**
+ * Whether a race's seat is open, as the player could know it on the day they
+ * file: no holder, a holder who has not filed and whose stand-again decision
+ * on record says they will not run, or a holder with no filing in the race by
+ * its filing deadline. A holder who has filed, or has neither decided on
+ * record nor filed, holds it. The deadline branch is a guard only: the
+ * player's list (playerContests over openContests) holds no race whose
+ * filing deadline has passed.
+ */
+function seatOpen(contest: ContestRow): { open: boolean; why: string } {
+  const api = coreAPI(w.core);
+  const today = w.core.date;
+  const term = incumbentOf(api, contest.id);
+  if (!term) return { open: true, why: "holder none" };
+  const holderId = term.personId;
+  const holder = `holder ${holderId ?? `term ${term.id}`}`;
+  const recorded = holderId ? decisionOf(api, contest.id, holderId) : null;
+  // Only the holder's own stand-again choice, as the engine reads a
+  // stand-down (candidacy.ts: reasons.standAgain set); a decision the holder
+  // made before they held the seat is not one.
+  const decision =
+    recorded &&
+    recorded.date <= today &&
+    recorded.reasons.standAgain !== undefined
+      ? recorded
+      : null;
+  const decided = decision
+    ? `decision ${decision.id} run ${decision.run}`
+    : "no decision on record";
+  const filed = holderId
+    ? ballot(api, contest.id).find(
+        (row) => row.personId === holderId && row.filedOn <= today,
+      )
+    : undefined;
+  if (filed)
+    return { open: false, why: `${holder}, filing ${filed.id}, ${decided}` };
+  if (decision && !decision.run)
+    return { open: true, why: `${holder}, ${decided}, no filing` };
+  if (contest.filingDeadline < today)
+    return {
+      open: true,
+      why: `${holder}, ${decided}, no filing by ${contest.filingDeadline}`,
+    };
+  return { open: false, why: `${holder}, ${decided}, no filing yet` };
+}
+
+/**
+ * The race the player enters, of those whose checks they meet: a council
+ * race whose seat is open first (a first-time candidate who means to win runs
+ * where no incumbent stands), then the first council race, then the first.
+ */
+function chooseRace(open: readonly Enterable[]): {
+  race: Enterable | undefined;
+  why: string;
+} {
+  const council = open
+    .filter((c) => isCouncil(c.contest.officeId))
+    .map((c) => ({ c, seat: seatOpen(c.contest) }));
+  const openSeats = council.filter((row) => row.seat.open);
+  const chosen = openSeats[0] ?? council[0];
+  const race = chosen?.c ?? open[0];
+  const why = !race
+    ? ""
+    : `chose ${race.contest.title} (${race.contest.id}): ${chosen ? `${chosen.seat.open ? "open seat" : "no open seat, first council race"}, ${chosen.seat.why}` : "no council race, first race"}; ${openSeats.length} of ${council.length} council races open`;
+  return { race, why };
+}
+
 const placeKey = process.env.GOLDEN_PATH_PLACE_KEY;
 const started = performance.now();
 const w = buildBenchWorld(seed, gameStartDate(), {
@@ -132,15 +211,18 @@ const stillMe = () => lives.add(player.personId ?? me);
 /** Steps 3 to 5 once: file for a contest the player can enter, campaign, live to the election and read it. */
 function stand(): { held: boolean; takesOffice: string | null } {
   // Step 3: walk into the office that takes filings for a contest you can
-  // enter, a council seat first where the place has one (the golden path is
-  // a council race; owner, Oct 29: the player runs for six offices).
+  // enter, a council seat first where the place has one, an open seat first
+  // of those (the golden path is a council race; owner, Oct 29: the player
+  // runs for six offices).
   const gov = governmentView(w.core, me);
   const open = gov.contests.filter((c) => c.checks.every((k) => k.met));
-  const enterable = open.find((c) => isCouncil(c.contest.officeId)) ?? open[0];
+  const choice = chooseRace(open);
+  const enterable = choice.race;
   if (!enterable) {
     log.push("no contest the player can enter");
     return { held: false, takesOffice: null };
   }
+  log.push(choice.why);
   let visit = openBenchFilingVisit(
     w.core,
     me,
@@ -154,7 +236,18 @@ function stand(): { held: boolean; takesOffice: string | null } {
   );
   if (pick) visit = chooseAtCounter(w.core, visit, pick.key);
   const file = visit.visit.choices.find((row) => row.action.kind === "file");
-  if (file) visit = chooseAtCounter(w.core, visit, file.key);
+  // The player files on a platform, as the counter asks: their own views on
+  // the questions the office decides (the stances a world candidate of their
+  // views would run on), so their doors, events and forums have something to
+  // say.
+  const platform = candidatePlatform(
+    coreAPI(w.core),
+    me,
+    null,
+    contestPositions(coreAPI(w.core), enterable.contest),
+  ).map((stance) => `${stance.question}=${stance.position}`);
+  if (file) visit = chooseAtCounter(w.core, visit, file.key, { platform });
+  log.push(`platform ${platform.join(", ") || "none"}`);
   log.push(
     `filed ${enterable.contest.title} with ${enterable.filingOffice.filedWith}: ${(visit.result as { status?: string } | undefined)?.status ?? "no filing"}`,
   );
@@ -182,7 +275,7 @@ function stand(): { held: boolean; takesOffice: string | null } {
       if (
         !petition ||
         !petitionCirculating(api, filing.id) ||
-        petition.signers.length >= petition.needed
+        petition.signers.length >= signaturesToGather(petition.needed)
       )
         break;
       liveUntil(addDays(makeIsoDate(w.core.date), 1));
@@ -204,14 +297,25 @@ function stand(): { held: boolean; takesOffice: string | null } {
   // same clock the play screen spends them from.
   const day = enterable.contest.electionDate;
   if (filing) {
-    const week = { doors: 0, reached: 0, raised: 0, events: 0, weeks: 0 };
+    const week = {
+      doors: 0,
+      reached: 0,
+      raised: 0,
+      events: 0,
+      forums: 0,
+      donorMeetings: 0,
+      weeks: 0,
+    };
     while (addDays(makeIsoDate(w.core.date), 7) <= day) {
+      // A forum one week and a donor meeting the next, where the campaign
+      // can hold them.
       for (const kind of [
         "canvass",
         "canvass",
         "raise-money",
         "canvass",
         "event",
+        week.weeks % 2 ? "donor-meeting" : "forum",
       ]) {
         const choice = campaignDayChoices(coreAPI(w.core), filing.id).find(
           (c) => c.kind === kind,
@@ -222,6 +326,8 @@ function stand(): { held: boolean; takesOffice: string | null } {
         week.reached += out.reached;
         week.raised += out.raisedMinor;
         if (kind === "event") week.events += 1;
+        if (kind === "forum") week.forums += 1;
+        if (kind === "donor-meeting") week.donorMeetings += 1;
         player.spend(out.hours);
       }
       week.weeks += 1;
@@ -232,7 +338,7 @@ function stand(): { held: boolean; takesOffice: string | null } {
       .table("pledges")
       .query("byCandidate", [me]) as unknown as { contestId: string }[];
     log.push(
-      `campaign ${week.weeks} weeks: doors ${week.doors}, reached ${week.reached}, raised $${Math.round(week.raised / 100)}, events ${week.events}, door yes ${pledged.filter((p) => p.contestId === enterable.contest.id).length}`,
+      `campaign ${week.weeks} weeks: doors ${week.doors}, reached ${week.reached}, raised $${Math.round(week.raised / 100)}, events ${week.events}, forums ${week.forums}, donor meetings ${week.donorMeetings}, door yes ${pledged.filter((p) => p.contestId === enterable.contest.id).length}`,
     );
   }
   // Step 5: live to the election day, then read election night.
@@ -261,7 +367,7 @@ for (let race = 0; race < 3 && !won; race++) {
     const open = governmentView(w.core, me).contests.filter((c) =>
       c.checks.every((k) => k.met),
     );
-    const next = open.find((c) => isCouncil(c.contest.officeId)) ?? open[0];
+    const next = chooseRace(open).race;
     if (!next) break;
     log.push(`lost; trying ${next.contest.title}`);
   }

@@ -19,14 +19,14 @@ const errors = [];
 const base = `http://localhost:${process.env.BENCH_PORT ?? 3000}`;
 page.on("pageerror", (e) => errors.push(e.message));
 // The player's clock, in minutes: the moment the last packet reached, or,
-// for a life that has lived no moment yet, the end of the world's day, where
-// the player's next hours start.
+// for a life that has lived no moment yet, the morning after the world's day,
+// where the player's first hours start (the day is lived to its start).
 async function clock() {
   const { life } = await (await page.request.get(`${base}/api/title`)).json();
   const day = Date.parse(`${life.date}T00:00:00Z`) / 60000;
   const at = life.packet?.at ?? {
     date: new Date((day + 24 * 60) * 60000).toISOString().slice(0, 10),
-    minuteOfDay: 0,
+    minuteOfDay: parameters.playerDayStartMinute.value,
   };
   return {
     ...at,
@@ -220,6 +220,11 @@ try {
   assert.ok(
     spent > 0 && spent <= parameters.filingVisitHours.value * 60,
     `filing moved the clock ${spent} minutes`,
+  );
+  // The visit lands in the day: never at 3:00 AM after a midnight start.
+  assert.ok(
+    after.minuteOfDay >= parameters.playerDayStartMinute.value,
+    `filing landed at minute ${after.minuteOfDay}, before the day starts`,
   );
   console.log(
     "Filed:",

@@ -13,37 +13,55 @@ import {
   petitionOf,
 } from "../core2/modules/elections";
 import { coreAPI } from "../core2/state";
+import type { PersonId } from "../core2/types";
+import { purposeScene } from "../director/purpose-scene";
 import { spokenDate } from "../director/words";
 import { chooseAtCounter, openBenchFilingVisit } from "./filing";
 import { buildBenchWorld } from "./world";
 
-// At the counter in a drawn town, once the player files, the clerk says what
-// comes next from the petition the elections engine opened with the filing:
-// how many signatures and the day they are due, or that the office takes no
-// petition (owner, Oct 28: filing is a petition, signatures, the clerk's
-// check, then the ballot). The narrator's setup at the counter is the
-// director's, read from the filing-clerk scene.
+// At the counter in a drawn town the player picks the office and files;
+// then the clerk says what comes next from the petition the elections engine
+// opened with the filing: how many signatures and the day they are due, or
+// that the office takes no petition (owner, Oct 28: filing is a petition,
+// signatures, the clerk's check, then the ballot). The clerk says it once,
+// in the director's `filing` scene staged from the filing's record (the
+// CTO, Nov 1: the clerk speaks once, through the one scene engine), not at
+// the counter as well. The player lives alone, the case where the scene
+// once waited with nothing it could say.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const ATTEMPTS = 4;
 const WEEKS = 52;
 
-it(`the clerk tells the petition's signatures and due day once the player files (seed ${seed})`, () => {
+it(`the clerk tells the petition's signatures and due day once, in the scene after filing (seed ${seed})`, () => {
   setBookkeeping(false);
   const tried: string[] = [];
   for (let attempt = 0; attempt < ATTEMPTS; attempt += 1) {
     const place = drawPlace(seed, `filing-counter:${attempt}`);
     const where = `${place.name} (${place.key}), seed ${place.seed}`;
-    const { core, playerId } = buildBenchWorld(place.seed, gameStartDate(), {
+    const { core, director } = buildBenchWorld(place.seed, gameStartDate(), {
       twoLevel: true,
       placeKey: place.key,
     });
-    if (!playerId) {
-      tried.push(`${where}: no player`);
+    const api = coreAPI(core);
+    const town = core.people.get(core.playerId!)?.placeId;
+    // A grown resident who lives alone, so no household talk leads the scene.
+    const player = [...core.people.values()]
+      .filter(
+        (row) =>
+          row.alive &&
+          row.placeId === town &&
+          row.birthDate < "2000-01-01" &&
+          core.households.get(row.householdId)?.memberIds.length === 1,
+      )
+      .sort((a, b) => a.id.localeCompare(b.id))[0];
+    if (!player) {
+      tried.push(`${where}: nobody grown lives alone`);
       continue;
     }
+    const playerId = player.id as PersonId;
     core.playerId = playerId;
-    const api = coreAPI(core);
-    // A local race the new adult may file for, as the town's weeks go by.
+    director.watch(core, playerId);
+    // A local race the player may file for, as the town's weeks go by.
     const open = () =>
       openContests(api).find(
         (row) =>
@@ -73,21 +91,56 @@ it(`the clerk tells the petition's signatures and due day once the player files 
     expect(result.status, where).not.toBe("refused");
     const petition = petitionOf(api, result.filing!.id);
     expect(petition, `${where}: ${result.filing!.id}`).toBeTruthy();
-    const last = counter.visit.lines.at(-1)!;
-    expect(last.speaker, where).toBe("clerk");
-    expect(last.sourceRecordIds, where).toContain(petition!.id);
+    // The counter ends on the player's filing: the clerk's petition talk is
+    // the scene's, not said at the counter too.
+    expect(counter.visit.lines.at(-1)!.speaker, where).toBe("player");
+    expect(
+      counter.visit.lines.some((line) =>
+        line.sourceRecordIds.includes(petition!.id),
+      ),
+      where,
+    ).toBe(false);
+
+    // The director stages the clerk's scene from the filing's record.
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    const book = director.ledger.people.get(playerId)!;
+    const entry = book.schedule.find(
+      (row) =>
+        row.momentId.includes(`candidate-filed:${result.filing!.id}`) &&
+        row.bindings.some((binding) => binding.typeKey === "filing"),
+    );
+    expect(entry, `${where}: no filing scene staged`).toBeTruthy();
+    const scene = purposeScene(core, director, playerId, entry!, {
+      typeKey: "filing",
+    });
+    expect(scene?.kind, `${where}: ${JSON.stringify(scene)}`).toBe("composed");
+    if (scene?.kind !== "composed") return;
+    const { talk } = scene.scene;
+    expect(scene.scene.purpose, where).toBe("filing-petition");
+    expect(talk.narration.length, where).toBeGreaterThan(0);
+    // The statement is the petition, cited to its record.
+    expect(talk.state.slotRecordIds, where).toContain(petition!.id);
     if (petition!.needed > 1) {
-      expect(last.text, where).toContain(
+      expect(talk.state.text, where).toContain(
         petition!.needed.toLocaleString("en-US"),
       );
-      expect(last.text, where).toContain(spokenDate(petition!.due, core.date));
+      expect(talk.state.text, where).toContain(
+        spokenDate(petition!.due, core.date),
+      );
     } else if (petition!.needed === 1)
-      expect(last.text, where).toMatch(/one signature/);
+      expect(talk.state.text, where).toMatch(/one signature/);
+    else expect(talk.state.text, where).toMatch(/petition|signatures/);
+    expect(talk.rounds[0]!.replies.length, where).toBeGreaterThanOrEqual(3);
     process.stdout.write(
       [
-        `FILING COUNTER ${where}, run seed ${seed}: ${contest.title} at the ${filedWith}, petition ${petition!.id} (${petition!.needed} needed by ${petition!.due})`,
+        `FILING COUNTER ${where}, run seed ${seed}: ${contest.title} at the ${filedWith}, petition ${petition!.id} (${petition!.needed} needed by ${petition!.due}); scene ${entry!.momentId}`,
         ...counter.intro.map((line) => `Narrator: ${line.text}`),
         ...counter.visit.lines.map((line) => `${line.speaker}: ${line.text}`),
+        "-- the clerk's scene --",
+        ...talk.lines.map(
+          (line) =>
+            `${line.role === "narrator" ? "Narrator" : line.speaker}: ${line.text}`,
+        ),
       ].join("\n") + "\n",
     );
     return;
