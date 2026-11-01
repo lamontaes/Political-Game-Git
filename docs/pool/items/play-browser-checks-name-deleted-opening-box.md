@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: play-first/play-browser-checks-name-deleted-opening-box
+pr: #0
 blocked-on:
 source: added with npm run pool -- add
 ---
