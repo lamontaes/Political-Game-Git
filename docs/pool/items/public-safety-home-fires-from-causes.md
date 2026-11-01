@@ -2,6 +2,7 @@
 id: public-safety-home-fires-from-causes
 title: "Home fires happen from their causes and are recorded, so the fire department and the paper's fire log have something real to tell"
 area: core
+lead: laws
 kind: feature
 priority: 2
 size: M
