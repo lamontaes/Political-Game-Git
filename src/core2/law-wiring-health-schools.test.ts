@@ -116,17 +116,37 @@ const tomorrow = (api: CoreAPI) => addDays(makeIsoDate(api.state.date), 1);
 const advance = (core: CoreState, days: number) =>
   advanceCore(core, addDays(makeIsoDate(core.date), days));
 
+/**
+ * The latest row of a series at a level, read as the outcome web reads it
+ * (lawValue in modules/outcome-web.ts): rows in the laws engine's
+ * bySeriesOnly order, the last of the latest effective date winning, so a
+ * bill the played world passes for the same day as the test's own row is
+ * the one the test sees, as the web does.
+ */
+function latestAt(
+  api: CoreAPI,
+  key: string,
+  jurisdiction: string,
+  until?: string,
+): LawRowInput | undefined {
+  let latest: LawRowInput | undefined;
+  for (const row of api
+    .moduleState(LAWS_MODULE_ID)
+    .table("laws")
+    .query("bySeriesOnly", [key]) as unknown as LawRowInput[]) {
+    if (row.jurisdiction !== jurisdiction) continue;
+    if (until !== undefined && row.effectiveDate > until) continue;
+    if (!latest || row.effectiveDate >= latest.effectiveDate) latest = row;
+  }
+  return latest;
+}
+
 /** The latest row at each level of the town's chain says yes. */
 function levelsSayingYes(api: CoreAPI, key: string) {
-  const laws = api.moduleState(LAWS_MODULE_ID).table("laws");
-  return lawChain(api).levels.filter(({ jurisdiction }) => {
-    const latest = (
-      laws.query("bySeries", [jurisdiction, key]) as unknown as LawRowInput[]
-    )
-      .filter((r) => r.effectiveDate <= api.state.date)
-      .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate))[0];
-    return latest?.value === 1;
-  });
+  return lawChain(api).levels.filter(
+    ({ jurisdiction }) =>
+      latestAt(api, key, jurisdiction, api.state.date)?.value === 1,
+  );
 }
 
 /**
@@ -135,14 +155,8 @@ function levelsSayingYes(api: CoreAPI, key: string) {
  * already passed takes effect on its date, whatever the test did before it.
  */
 function levelsHoldingYes(api: CoreAPI, key: string) {
-  const laws = api.moduleState(LAWS_MODULE_ID).table("laws");
   return lawChain(api).levels.flatMap(({ level, jurisdiction }) => {
-    const latest = [
-      ...(laws.query("bySeries", [
-        jurisdiction,
-        key,
-      ]) as unknown as LawRowInput[]),
-    ].sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate))[0];
+    const latest = latestAt(api, key, jurisdiction);
     return latest?.value === 1
       ? [{ level, jurisdiction, effectiveDate: latest.effectiveDate }]
       : [];
