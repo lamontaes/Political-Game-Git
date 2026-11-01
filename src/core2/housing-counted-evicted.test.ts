@@ -87,10 +87,9 @@ function checkRemovals(played: ReturnType<typeof play>): {
     expect(eviction, at).toBeDefined();
     expect(eviction.personIds, at).toEqual([]);
     expect(eviction.facts?.["counted-household"], at).toBe(id);
-    const subjects = JSON.parse(
-      eviction.facts?.["counted-subjects"] ?? "[]",
-    ) as string[];
-    expect(subjects.length, at).toBeGreaterThan(0);
+    // Its counted members are named by the facts, as a counted death names
+    // its household: the subject and the household that perceives it.
+    expect(eviction.facts?.["counted-subject"], at).toBeDefined();
     // Placed by the same rule: a status announced the day of the removal.
     const placed = events.find(
       (event) =>

@@ -265,17 +265,26 @@ function setStatus(
   });
 }
 
-/** The facts that name a counted household and its members on an event about them. */
+/**
+ * The facts that name a counted household and its members on an event about
+ * them, as a counted death names its household (births-counted.ts): its first
+ * member as the subject and the others as the household that perceives it,
+ * so the drives engine's counted subjects answer it by the same rule.
+ */
 export function countedFacts(
   householdId: string,
   memberIds: readonly PersonId[],
 ): Record<string, string> {
-  return memberIds.length
-    ? {
+  const [subject, ...others] = memberIds;
+  return subject === undefined
+    ? {}
+    : {
+        "counted-subject": subject,
         "counted-household": householdId,
-        "counted-subjects": JSON.stringify(memberIds),
-      }
-    : {};
+        ...(others.length
+          ? { "counted-perceivers": JSON.stringify(others) }
+          : {}),
+      };
 }
 
 /** Full people by the counted people they name as family, kept for one day. */
