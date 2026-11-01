@@ -47,6 +47,7 @@ import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
 import { comingOfAgeOn } from "./coming-of-age";
 import type { RACE_MARGINS } from "../english/mined/journal-bank";
 import { properName, stateInSentence } from "./words";
+import { schoolResult } from "./school";
 import {
   PAST_WORK_OUT,
   PAST_WORK_SPELL,
@@ -66,6 +67,8 @@ import {
   type OfficeActRow,
 } from "../core2/modules/office-day";
 
+/** The school year's end, as the director keeps its moment. */
+const SCHOOL_FINISHED = "event:school.finished";
 const zero = P.zero;
 const one = P.one;
 
@@ -775,6 +778,26 @@ export function composeJournal(
         facts.school = {
           text: properName(school.name),
           sourceRecordIds: [school.recordId, school.schoolId],
+        };
+    }
+    // The school year's end, from the school engine's result: a diploma or
+    // none, and the school they finished at (one line for the record, though
+    // the last day and the day after are both moments of it).
+    if (moment.causeKind === SCHOOL_FINISHED) {
+      const result = schoolResult(core, moment.causeId);
+      if (!result) return null;
+      facts[result.passed ? "graduated" : "no-diploma"] = {
+        text: "yes",
+        sourceRecordIds: [moment.causeId],
+      };
+      facts.finished = { text: moment.causeId, sourceRecordIds: [] };
+      const school = schoolsAttended(core, personId).find(
+        (row) => row.schoolId === result.schoolId,
+      );
+      if (school?.name)
+        facts.school = {
+          text: properName(school.name),
+          sourceRecordIds: [moment.causeId, school.schoolId],
         };
     }
     if (moment.causeKind === "work:opening") {

@@ -7349,6 +7349,141 @@
       }
     },
     {
+      "key": "journal.self-line-school-finished.i-graduated-from-high-school",
+      "move": "self-line-school-finished",
+      "kind": "spoken",
+      "text": "I graduated from high school.",
+      "uses": [
+        {
+          "move": "self-line-school-finished",
+          "subject": "life",
+          "role": "school-finished",
+          "choice": "school-finished",
+          "requiresFacts": ["graduated"],
+          "journal": [
+            {
+              "kindPrefix": "event:school.finished",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.self-line-school-finished.i-finished-high-school-at-school",
+      "move": "self-line-school-finished",
+      "kind": "spoken",
+      "text": "I finished high school at {school}.",
+      "uses": [
+        {
+          "move": "self-line-school-finished",
+          "subject": "life",
+          "role": "school-finished",
+          "choice": "school-finished",
+          "requiresFacts": ["graduated"],
+          "journal": [
+            {
+              "kindPrefix": "event:school.finished",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.self-line-school-finished.i-got-my-diploma",
+      "move": "self-line-school-finished",
+      "kind": "spoken",
+      "text": "I got my diploma.",
+      "uses": [
+        {
+          "move": "self-line-school-finished",
+          "subject": "life",
+          "role": "school-finished",
+          "choice": "school-finished",
+          "requiresFacts": ["graduated"],
+          "journal": [
+            {
+              "kindPrefix": "event:school.finished",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.self-line-school-finished.my-senior-year-ended-without-a-diploma",
+      "move": "self-line-school-finished",
+      "kind": "spoken",
+      "text": "My senior year ended without a diploma.",
+      "uses": [
+        {
+          "move": "self-line-school-finished",
+          "subject": "life",
+          "role": "school-finished",
+          "choice": "school-finished",
+          "requiresFacts": ["no-diploma"],
+          "journal": [
+            {
+              "kindPrefix": "event:school.finished",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.self-line-school-finished.i-left-school-without-a-diploma",
+      "move": "self-line-school-finished",
+      "kind": "spoken",
+      "text": "I left {school} without a diploma.",
+      "uses": [
+        {
+          "move": "self-line-school-finished",
+          "subject": "life",
+          "role": "school-finished",
+          "choice": "school-finished",
+          "requiresFacts": ["no-diploma"],
+          "journal": [
+            {
+              "kindPrefix": "event:school.finished",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
       "key": "journal.self-line-came-of-age.i-am-eighteen-now",
       "move": "self-line-came-of-age",
       "kind": "spoken",
