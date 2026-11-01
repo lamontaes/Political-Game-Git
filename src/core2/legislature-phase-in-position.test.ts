@@ -166,9 +166,16 @@ it(`a member weighs a raise in two dated steps once, as the same raise in one se
             { vote: string } | undefined
         )?.vote;
         if (vote !== "yes" && vote !== "no") continue;
-        const rows = votesOf(api, member).filter((v) => v.billId === two.id);
-        expect(rows.length, `${where}: ${member} records on ${two.id}`).toBe(1);
-        expect(rows[0]!.stance.question).toBe(stance!.question);
+        // A deal may add a member's own section on another question before
+        // the vote (their own record for it); the raise's question is
+        // recorded once.
+        const rows = votesOf(api, member).filter(
+          (v) => v.billId === two.id && v.stance.question === stance!.question,
+        );
+        expect(
+          rows.length,
+          `${where}: ${member} records on ${two.id}'s ${stance!.question}`,
+        ).toBe(1);
         expect(rows[0]!.stance.position).toBe(
           vote === "yes" ? stance!.position : -stance!.position,
         );
