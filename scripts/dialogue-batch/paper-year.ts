@@ -28,10 +28,13 @@ const draws = Number(arg("draws", "3"));
 const days = Number(arg("days", "365"));
 const REPEATS = 3;
 
-/** The sentences of a text, as a reader meets them. */
+/**
+ * The sentences of a text, as a reader meets them: a period ends one only
+ * after a lowercase word or a number, never inside "U.S." or "H.R. 12".
+ */
 const sentences = (text: string) =>
   text
-    .split(/(?<=[.!?])\s+/)
+    .split(/(?<=[a-z0-9%)"'][.!?])\s+/)
     .map((row) => row.trim())
     .filter(Boolean);
 
