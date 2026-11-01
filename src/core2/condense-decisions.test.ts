@@ -174,6 +174,12 @@ describe(`old reasons condense in ${place.name}, ${place.state} (seed ${seed})`,
     gone(entries);
     for (const row of own)
       expect(core.durableLog.has(row.id), row.id).toBe(true);
+    // Past the player's detail window, whatever the two windows above are.
+    later((day) =>
+      day.setUTCDate(
+        day.getUTCDate() + parameter("playerDecisionDetailDays") + 1,
+      ),
+    );
     // After a year the player's weighed choices keep their summary and
     // reasons, not every option's score, and write no field as undefined.
     const shapes = new Set<string>();
