@@ -12,7 +12,7 @@ blocked-on:
 source: "Merger 7, Oct 27 12:00 UTC, while rechecking lane PRs"
 lead: play-first
 milestone: play-first
-claimed-at:
+claimed-at: 2026-11-01T13:28:35.518Z
 ---
 
 **What.** On clean main at 11:00 UTC Oct 27, `src/bench/filing.browser.mjs` times out waiting for the filing panel's Go button, so every lane PR that touches filing inherits a red check that is not its own. Merger 7 saw it while rechecking #6208 and #6248. The cause is unknown: either the Go button moved into a shared `src/bench/ui/` part and the check's selector is stale, or the filing panel no longer renders Go until a race is chosen in the new menu (#6187). Find which and fix the one that is wrong; the check must pass on main in three drawn places.
