@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/people-home-plated-room-first
 pr: #6856
 blocked-on:
