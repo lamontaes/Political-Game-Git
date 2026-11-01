@@ -3469,7 +3469,7 @@
         },
         "reaches": {
           "status": "fail",
-          "evidence": "outcome read by src/core2/housing-homeless.ts:404",
+          "evidence": "outcome read by src/core2/housing-homeless.ts:412",
           "why": "the web does not run it: it has no researched size; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
@@ -3509,7 +3509,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "web ledger housing.eviction, which src/core2/modules/health.ts:961, src/core2/modules/housing.ts:2186, src/core2/modules/moves.ts:78 reads into its own records"
+          "evidence": "web ledger housing.eviction, which src/core2/modules/health.ts:961, src/core2/modules/housing.ts:2219, src/core2/modules/moves.ts:78 reads into its own records"
         },
         "size": {
           "status": "fail",
@@ -3557,7 +3557,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "web ledger housing.eviction, which src/core2/modules/health.ts:961, src/core2/modules/housing.ts:2186, src/core2/modules/moves.ts:78 reads into its own records"
+          "evidence": "web ledger housing.eviction, which src/core2/modules/health.ts:961, src/core2/modules/housing.ts:2219, src/core2/modules/moves.ts:78 reads into its own records"
         },
         "size": {
           "status": "fail",
@@ -5774,7 +5774,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/health.ts:961, src/core2/modules/housing.ts:2186, src/core2/modules/moves.ts:78"
+          "evidence": "src/core2/modules/health.ts:961, src/core2/modules/housing.ts:2219, src/core2/modules/moves.ts:78"
         },
         "varied": {
           "status": "fail",
@@ -5821,7 +5821,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/housing-homeless.ts:404"
+          "evidence": "src/core2/housing-homeless.ts:412"
         },
         "varied": {
           "status": "fail",
@@ -6719,7 +6719,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/housing-homeless.ts:404"
+          "evidence": "src/core2/housing-homeless.ts:412"
         },
         "varied": {
           "status": "fail",
@@ -8605,7 +8605,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/housing-homeless.ts:404"
+          "evidence": "src/core2/housing-homeless.ts:412"
         },
         "varied": {
           "status": "fail",
@@ -8652,7 +8652,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/housing-homeless.ts:404"
+          "evidence": "src/core2/housing-homeless.ts:412"
         },
         "varied": {
           "status": "partial",
@@ -8699,7 +8699,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/housing-homeless.ts:404"
+          "evidence": "src/core2/housing-homeless.ts:412"
         },
         "varied": {
           "status": "fail",
@@ -12770,7 +12770,7 @@
     {
       "measure": "housing.eviction",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/health.ts:961, src/core2/modules/housing.ts:2186, src/core2/modules/moves.ts:78",
+      "evidence": "src/core2/modules/health.ts:961, src/core2/modules/housing.ts:2219, src/core2/modules/moves.ts:78",
       "countedTwice": false,
       "asCause": ["eviction-to-homelessness", "eviction-to-hospital-visits"],
       "asOutcome": [
@@ -12800,7 +12800,7 @@
     {
       "measure": "housing.homelessness",
       "status": "engine-reads-web",
-      "evidence": "src/core2/housing-homeless.ts:404",
+      "evidence": "src/core2/housing-homeless.ts:412",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
