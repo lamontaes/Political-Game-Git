@@ -124,7 +124,14 @@ function checkPlace(
     (r) => offices.get(r.officeId)?.kind.startsWith("legislature-"),
   );
   expect(rows.length, `${where}: no past legislature race`).toBeGreaterThan(0);
+  // Every jurisdiction with a legislature reports its electorate's ballots
+  // in the data (its presidential vote, or a territory's own races); a
+  // missing total would leave the town's people standing in.
   const reported = reportedBallots(place.state);
+  expect(
+    reported,
+    `${where}: no reported ballots for ${place.state}`,
+  ).toBeTruthy();
   const lines: string[] = [];
   for (const r of rows) {
     const office = offices.get(r.officeId)!;
@@ -147,6 +154,7 @@ function checkPlace(
     // the whole for an at-large seat, its district's for the rest, at an
     // off-year to a presidential turnout, moved once by the world's spread.
     if (r.source.tag === "ESTIMATED" && reported) {
+      // (reported is asserted above; the guard narrows its type)
       const atLarge = /large/i.test(seat?.district ?? "");
       const share = reported / (atLarge ? 1 : Math.max(1, office.seats));
       expect(
