@@ -27,6 +27,10 @@ import {
 import { viewOn } from "../core2/modules/views";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { P } from "../core2/parameters";
+import {
+  isExplicitlyControlledPersonV1,
+  playerClockFrontierV1,
+} from "../core2/life";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
@@ -709,6 +713,11 @@ function composeBinding(
       text: "yes",
       sourceRecordIds: [moment.causeId],
     };
+  // "Morning." is said before noon, "this afternoon" is still ahead only in
+  // the daytime, and "tonight" is true of the present only in the evening:
+  // the hour is the player's clock as the scene plays.
+  for (const mark of dayParts(sceneMinute(core, personId)))
+    facts[mark] = { text: "yes", sourceRecordIds: [moment.causeId] };
 
   const wording = options.includeHeld ? { includeHeld: true } : {};
   // A door on the player's own canvass: where the knock left the resident,
@@ -1021,6 +1030,29 @@ function deskFacts(
  * said), or null when the path is not a reply the scene offers.
  */
 /** Hours of quarrel an ending that strains a tie writes to closeness, by what it keeps. */
+const AFTERNOON_FROM = rulesFile.timeOfDay.afternoonFromMinute.value;
+const EVENING_FROM = rulesFile.timeOfDay.eveningFromMinute.value;
+
+/** The marks a scene's hour gives its lines: the daytime and its half, or the evening. */
+function dayParts(minute: number | undefined): readonly string[] {
+  if (minute === undefined) return [];
+  if (minute >= EVENING_FROM) return ["evening"];
+  return ["daytime", minute >= AFTERNOON_FROM ? "afternoon" : "morning"];
+}
+
+/**
+ * The minute of the day a scene plays at: the player's clock, where the
+ * person is the one the player controls and the clock stands on today.
+ */
+function sceneMinute(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+): number | undefined {
+  if (!isExplicitlyControlledPersonV1(core, personId)) return undefined;
+  const now = playerClockFrontierV1(core as CoreState, personId);
+  return now?.date === core.date ? now.minuteOfDay : undefined;
+}
+
 const ENDING_STRAIN = rulesFile.endingStrain as unknown as Readonly<
   Record<string, { value: number } | undefined>
 >;

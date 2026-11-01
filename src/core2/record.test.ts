@@ -36,7 +36,13 @@ import {
 import { openParties } from "./modules/parties";
 import { fileRunners, weighContest } from "./modules/candidacy";
 import { ballotOf, holdElection, openVoting } from "./modules/voting";
-import { openRecord, promisesOf, recordVote, votesOf } from "./modules/record";
+import {
+  openRecord,
+  promisesOf,
+  recordVote,
+  voteRecordId,
+  votesOf,
+} from "./modules/record";
 import { openPress } from "./modules/press";
 import { PLATFORM_QUESTIONS } from "./campaign-views";
 import axes from "../../data/research/campaigns/issue-axes-2026.json" with { type: "json" };
@@ -183,6 +189,7 @@ describe("M4-06 the record follows you", () => {
     recordVote(api, {
       personId: incumbent.id,
       body: contest!.officeId,
+      billId: "fixture-measure",
       measureId: "fixture-measure",
       stance: { question, position: -1 },
       passed: true,
@@ -417,6 +424,7 @@ describe("a vote by a member who isn't a full person", () => {
       recordVote(api, {
         personId,
         body: "office:test",
+        billId: "bill:test:2026-001",
         measureId: "2026-001",
         stance: { question: PLATFORM_QUESTIONS[0]!, position: 1 },
         passed: null,
@@ -424,6 +432,8 @@ describe("a vote by a member who isn't a full person", () => {
     const where = `seed ${seed}, ${state} place ${key}`;
     expect(votesOf(api, outsider).length, where).toBe(1);
     expect(votesOf(api, resident).length, where).toBe(1);
-    expect(heard, where).toEqual([`vote-recorded:vote:2026-001:${resident}`]);
+    expect(heard, where).toEqual([
+      `vote-recorded:${voteRecordId("bill:test:2026-001", PLATFORM_QUESTIONS[0]!, resident)}`,
+    ]);
   });
 });
