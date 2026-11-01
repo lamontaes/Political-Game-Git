@@ -2728,12 +2728,12 @@
     "id": "SG-WORLD-housing-counted-rent",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/housing.ts",
-    "line": 500,
-    "whatItFakes": "The wider population's renters pay rent from their place's pooled residents account, and the arrears they run up are held per group (households of one kind in one place), not per household; a case is opened and a household removed from the group's pool, but which household in the group is behind is not recorded.",
+    "line": 689,
+    "whatItFakes": "The wider population's renters pay rent from their group's money (the place's residents account, kept per group), and the arrears they run up are held per group (households of one kind in one place), not per household: which of the group's households are behind is read from the group's arrears, the ones with the least income first. A removed counted household stays counted without a home (tenure none, its record standing for the one household removed) and is placed, counted homeless and rents again from its record (CTO, Nov 1); its cash is its share of the group of households without a home it joins, shared with any other such household of that group. One that doubles up with a relative in another town leaves the counts through the counted moves engine at its coarse grain: to its state's rest-of-state count when the relative's town is in the same state, to the other state's count otherwise, not to the relative's own town as a full household is relocated; without the moves engine it stays in town (a relative there, a shelter bed or the street).",
     "why": "The two-level population pools counted households' cash by place (OPUS-CORE's stopgap), so the group falls behind together; a single counted household's own shortfall is not kept.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "Per-household cash for counted households (or fill-in when a household falls behind), with arrears and eviction through the same legal steps.",
+    "replacement": "Per-household cash for counted households, with arrears and eviction through the same legal steps; until then the group's arrears and money stand for its households'. Counted moves to a named town (the host's), once the counted moves engine keeps towns beyond the governing one.",
     "status": "open"
   },
   {
@@ -8000,6 +8000,30 @@
     "addedBy": "claude/people-home-plated-room-first",
     "addedAt": "2026-10-30",
     "replacement": "Plates for every house living room (people-home-plates); once each room the lists name has one, the preference picks from the whole list and is deleted.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-counted-evicted-push-rate",
+    "kind": "partial-model",
+    "file": "src/core2/modules/counted-moves.ts",
+    "line": 373,
+    "whatItFakes": "An eviction's push toward leaving town (movesEvictedPull, 0.35) lands on a counted household as a raised rate of leaving, times exp(0.35), for as long as the eviction leaves it without a home (tenure none, its housing status row naming an eviction case); a full person takes the same push once, on the day of the housing.eviction, added to a pull that keeps it until they decide (moves.ts EVENT_PULLS). A household a foreclosure removed takes no push on either tier, since a foreclosure records no eviction.",
+    "why": "The counted tier moves by expected rates accrued monthly by group, with no per-household pull carried from month to month; a household without a home is the record the eviction left, so its rate is the one place the push can land (CTO ruling, Nov 1: an evicted counted household stays counted).",
+    "addedBy": "speed lead builder (core-evicted-counted-stays-counted)",
+    "addedAt": "2026-11-01",
+    "replacement": "A counted household's own pull carried month to month (the push added once on the day, faded as a full person's), or the push calibrated against the share of evicted households that leave their county (Desmond and Shollenberger 2015).",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-counted-eviction-kin-notice",
+    "kind": "partial-model",
+    "file": "src/core2/modules/housing.ts",
+    "line": 2241,
+    "whatItFakes": "A counted household's eviction names its members with a record (person records, and husks: relatives a full person knows) and the rest by its facts, so a watched relative reads it through the director's place reach and the press prints it from its counted subjects; but the full people who list a counted member as family learn of it only as any reader in town does. On main the evicted household was filled in, and its members, as full people, passed the news on at each contact (news.ts) to the relatives fill-in tied them to; counted members pass nothing on, and the eviction names no full relative as a witness.",
+    "why": "CTO ruling, Nov 1: an evicted counted household stays counted until it comes to matter to the player. Naming the full relatives as witnesses (as births-counted notifyCountedDeaths does for a counted death, the precedent) would make each of them perceive the eviction on the day: the drives engine would answer them, the director would appraise them as named, and neither has been checked to read a relative's eviction as a relative's rather than as the subject's.",
+    "addedBy": "speed lead builder (core-evicted-counted-stays-counted)",
+    "addedAt": "2026-11-01",
+    "replacement": "The eviction names as witnesses the full people who know a counted member (the full people who list them as family, and their ties), as notifyCountedDeaths does for a counted death, once drives, trait change and the director read a witness to a relative's eviction by their relation; or counted members pass news on at contact by the news engine's rule.",
     "status": "open"
   }
 ]

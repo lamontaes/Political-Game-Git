@@ -540,6 +540,9 @@ const NEWS_KINDS: Readonly<Record<string, string>> = {
   "feeling:event:justice.imprisoned": "prison-news",
 };
 
+// A counted household evicted and filled in later holds its case and status
+// row but no such moment, so its people never tell it.
+// stopgapId: SG-WORDS-eviction-moment-at-fill-in
 const EVICTION_LABEL = "feeling:event:housing.eviction";
 const EVICTION_EVENT = "event:housing.eviction:";
 
