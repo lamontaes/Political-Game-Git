@@ -7833,5 +7833,17 @@
     "addedAt": "2026-10-30",
     "replacement": "Plates for every house living room (people-home-plates); once each room the lists name has one, the preference picks from the whole list and is deleted.",
     "status": "open"
+  },
+  {
+    "id": "SG-LIVES-elsewhere-not-into-town",
+    "kind": "partial-model",
+    "file": "src/core2/modules/moves.ts",
+    "line": 698,
+    "whatItFakes": "A relative or acquaintance living elsewhere (the inactive tier) never moves into the played town: their move skips a relative or county destination that is one of the town's full-detail places and goes to the next record instead.",
+    "why": "A husk in town would sit outside the town's residents, counts and voter rolls; arriving needs the counted arrival path or a fill-in, which the two-level population allows only when the player meets them.",
+    "addedBy": "lives lead (core-every-life-simulated)",
+    "addedAt": "2026-11-01",
+    "replacement": "A husk whose move lands in the played town arrives through the counted-moves arrival path as one counted household (one model, two tiers), filled in when the player meets them.",
+    "status": "open"
   }
 ]
