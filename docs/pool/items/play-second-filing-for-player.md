@@ -5,14 +5,14 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: play-first/play-second-filing-for-player
 pr:
 blocked-on:
 source: "found by the words-and-scenes lead, Oct 27, in the campaign-season test"
 lead: play-first
 milestone: play-first
-claimed-at:
+claimed-at: 2026-11-01T13:51:31.808Z
 ---
 
 **What.** In Tutu, U.S. Virgin Islands (territory:VI:tutu), run seed `1d8f65cb19633445477d:0` of `src/director/campaign-season.test.ts`, the player files once on January 20, 2025 for the Board of Education race of November 3, 2026. On March 9, 2026, when that race's filing period opens, the player's ledger shows a second `cause:event:candidate-filed` that stages the filing and family-filing scenes again. On election night the ledger shows both `race-won` and `race-lost`. Something filed for the player without the player's choice, against the owner's rule that the player's choices are the player's (no auto-file, no auto-vote).
