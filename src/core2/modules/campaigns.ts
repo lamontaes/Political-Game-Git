@@ -33,7 +33,7 @@ import {
   leanedYes,
   termOfLean,
 } from "../trait-decisions";
-import { campaignDayChoices, takeCampaignDayChoice } from "../campaign-day";
+import { campaignDayOpen, takeCampaignDayChoice } from "../campaign-day";
 import limits from "../../../data/research/campaign-reality/campaign-contribution-limits.json" with { type: "json" };
 import unitPrices from "../../../data/research/campaign-reality/campaign-unit-prices.json" with { type: "json" };
 import finance from "../../../data/research/campaigns/campaign-finance-2026.json" with { type: "json" };
@@ -1017,6 +1017,33 @@ function adultsAt(
       householdId: h.id,
       placeId: store.text(store.placeIx[m]!)!,
     }));
+}
+
+/** How many adults a counted address holds: `adultsAt`'s count, with no rows built. */
+function countedAdultsAt(api: CoreAPI, address: Address): number {
+  const adultAge = api.parameter("votingAge");
+  const date = api.state.date;
+  const store = residentsRuntime(api.state as CoreState)?.store;
+  const at = store?.householdOf.get(address.id);
+  const h = at === undefined ? undefined : store!.households[at];
+  if (!store || !h || h.gone) return 0;
+  let adults = 0;
+  for (const m of store.countedMembers(h))
+    if (ageOn({ birthDate: store.born[m]! }, date) >= adultAge) adults += 1;
+  return adults;
+}
+
+/** The ids of a full address's adults, in `adultsAt`'s order, with no rows built. */
+function adultIdsAt(api: CoreAPI, address: Address): string[] {
+  const adultAge = api.parameter("votingAge");
+  const core = api.state as CoreState;
+  const date = api.state.date;
+  const ids: string[] = [];
+  for (const id of core.households.get(address.id)?.memberIds ?? []) {
+    const p = core.people.get(id);
+    if (p && p.alive && ageOn(p, date) >= adultAge) ids.push(p.id);
+  }
+  return ids;
 }
 
 /**
@@ -4690,19 +4717,25 @@ export function foldQuietCauses(api: CoreAPI): void {
  * Fold candidates' causes into one summary row a voter. A voter and
  * candidate fold whole, so a summary's sum is the same sum, in the same
  * order, that `contestStanding` reads. The player's own causes stay as rows.
- * Someone the player deals with keeps their latest few causes a candidate as
- * rows in `foldedCauses` (`causesKeptPerCandidate`; Keep it simple: their why
- * is saved), and a folded cause that a voter's known fact names as its
- * source moves there too, where the trace still finds it.
+ * A folded cause that a voter's known fact names as its source, or that a
+ * pledge names as its visit, moves to `foldedCauses`, where the trace still
+ * finds it; no other folded cause is read, so none other is kept (CTO, Oct
+ * 30 08:15, amending 03:05).
  */
 function foldCauses(api: CoreAPI, candidateIds: Iterable<string>): void {
   const core = api.state as CoreState;
   const causes = table(api, "causes"),
     summaries = table(api, "causeSummaries"),
     folded = table(api, "foldedCauses");
-  const kept = campaignParameter("causesKeptPerCandidate");
   for (const candidateId of candidateIds) {
     if (candidateId === core.playerId) continue;
+    const pledged = new Set(
+      (
+        table(api, "pledges").query("byCandidate", [
+          candidateId,
+        ]) as unknown as PledgeRow[]
+      ).map((pledge) => pledge.causeId),
+    );
     const byVoter = new Map<string, CauseRow[]>();
     for (const row of causes.query("byCandidate", [
       candidateId,
@@ -4728,8 +4761,7 @@ function foldCauses(api: CoreAPI, candidateIds: Iterable<string>): void {
           (fact) => fact.sourceId,
         ),
       );
-      const latest = keepsWhy(core, voterId) ? rows.length - kept : rows.length;
-      rows.forEach((row, at) => {
+      for (const row of rows) {
         const entry = (acts[row.act] ??= { reached: 0, warmer: 0, cooler: 0 });
         entry.reached += 1;
         if (row.warmthAfter > row.warmthBefore) entry.warmer += 1;
@@ -4741,10 +4773,10 @@ function foldCauses(api: CoreAPI, candidateIds: Iterable<string>): void {
           (firstDoor === null || row.date < firstDoor)
         )
           firstDoor = row.date;
-        if (sources.has(row.id) || at >= latest)
+        if (sources.has(row.id) || pledged.has(row.id))
           folded.put(row as unknown as ModuleRow);
         causes.remove(row.id);
-      });
+      }
       summaries.put({
         id,
         voterId,
@@ -4800,16 +4832,15 @@ export function sendMail(
   for (let i = 0; i < pieces; i += 1) {
     const address = list[cursor % list.length]!;
     cursor += 1;
-    const adults = adultsAt(api, address);
     if (address.counted) {
-      counted += adults.length;
+      counted += countedAdultsAt(api, address);
       continue;
     }
-    for (const adult of adults) {
+    for (const adultId of adultIdsAt(api, address)) {
       const cause = reach(
         api,
         campaign,
-        adult.id,
+        adultId,
         "mail",
         campaign.candidateId,
         {
@@ -5125,9 +5156,10 @@ function wordReading(
 
 /**
  * How a world candidate spends their campaign day: a scored pass over the
- * player's own day choices (`campaignDayChoices`), by their money, standing,
- * traits and what they know of the race. Every available act gets a score on
- * one scale and nothing flips at a line:
+ * player's own day choices (which are open and their hours,
+ * `campaignDayOpen`), by their money, standing, traits and what they know of
+ * the race. Every available act gets a score on one scale and nothing flips
+ * at a line:
  * - call time for money rises as the bank empties and as they get better
  *   known (donors are easier to reach);
  * - doors rise as they are less known and as they are more sociable;
@@ -5152,7 +5184,7 @@ export function rivalDay(
   candidate: Readonly<PersonState>,
   town: string,
 ): RivalDay {
-  const day = campaignDayChoices(api, filingId, true);
+  const day = campaignDayOpen(api, filingId, true);
   const offered = (kind: string) =>
     day.find((c) => c.kind === kind)?.available ?? false;
   const calls = offered("raise-money");
@@ -5209,7 +5241,7 @@ export function rivalDay(
       0,
     );
   // A world candidate's day never weighs the donor meeting the player's
-  // offers (their day's choices read no host, `campaignDayChoices` with
+  // offers (their day's choices read no host, `campaignDayOpen` with
   // `world`); their money comes from call time and the turn's asks.
   // stopgapId: SG-GOV-rival-donor-meeting
   api.stopgap("SG-GOV-rival-donor-meeting");
