@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: governing/past-race-votes
-pr:
+pr: #7088
 blocked-on:
 source: owner playtest of v0.73.0, Nov 1, 22:25 UTC
 lead: governing
