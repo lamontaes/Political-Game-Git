@@ -35,6 +35,15 @@ export function journalPage({ chapters, labels, yearOf }) {
   );
   controls.hidden = chapters.length < 2;
   const draw = () => {
+    // A life with nothing written yet is the page's title and one plain line.
+    if (!chapters.length) {
+      paper.replaceChildren(
+        el("h2", { textContent: labels.title }),
+        el("hr"),
+        el("p", { textContent: labels.empty }),
+      );
+      return;
+    }
     const chapter = chapters[at];
     const number = labels.numbers[at] ?? String(at + 1);
     const span = yearOf(chapter.from);
