@@ -12,10 +12,12 @@ import {
   type ContestRow,
 } from "./modules/elections";
 import {
+  isOutsideOffice,
   OFFICES_MODULE_ID,
   unfilledTerm,
   type TermRow,
 } from "./modules/offices";
+import { officialOf } from "./modules/officials";
 import {
   fileStandingCandidates,
   holdElection,
@@ -72,6 +74,83 @@ describe("wide candidates and unfilled terms", () => {
         (c) => c.rule === "residency",
       )?.met,
     ).toBe(true);
+  });
+  it("a national pool holds every place's governor and statewide officers, filled in from their terms", () => {
+    const where = JSON.stringify({ seed, place });
+    const pool = new Map(
+      standingPool(api, raceScope(api, president)).map(
+        (p) => [p.personId, p] as const,
+      ),
+    );
+    const offices = api.moduleState(OFFICES_MODULE_ID);
+    const outside = (
+      offices
+        .table("terms")
+        .query("byStatus", ["serving"]) as unknown as TermRow[]
+    ).flatMap((term) => {
+      const office = offices.table("offices").get(term.officeId) as unknown as
+        | {
+            kind: string;
+            level: string;
+            jurisdiction: string;
+            elected: boolean;
+          }
+        | undefined;
+      if (!office?.elected || !isOutsideOffice(api, office)) return [];
+      const seat = offices.table("seats").get(term.seatId) as unknown as {
+        district: string | null;
+      };
+      return [{ term, office, statewide: seat.district === null }];
+    });
+    const statewide = outside.filter((o) => o.statewide);
+    // Every other place's chief executive, and the officers elected with it.
+    expect(
+      statewide.filter((o) => o.office.kind === "governor").length,
+      where,
+    ).toBeGreaterThanOrEqual(50);
+    for (const { term } of statewide) {
+      expect(term.personId, `${where}: ${term.id}`).toBe(`official:${term.id}`);
+      const member = pool.get(term.personId!);
+      expect(member?.roles, `${where}: ${term.id}`).toContain("officeholder");
+      expect(member?.reach, `${where}: ${term.id}`).toBeGreaterThan(0);
+      // The person matches their term: home in the office's place, its party.
+      const person = world.core.people.get(term.personId!)!;
+      expect(person.placeId, `${where}: ${term.id}`).toBe(
+        term.identity.homeState,
+      );
+      expect(person.givenName, `${where}: ${term.id}`).toBe(
+        term.identity.givenName,
+      );
+      expect(
+        officialOf(api, term.personId!)?.party,
+        `${where}: ${term.id}`,
+      ).toBe(term.party);
+    }
+    // A holder with no party on record (an office elected without party
+    // labels, a seat the research leaves unread) keeps none as a person.
+    expect(
+      statewide.filter((o) => o.term.party === null).length,
+      where,
+    ).toBeGreaterThan(0);
+    // Filled in, they have no standing in the town's own state's races.
+    const house = contests.find((c) => c.family === "usHouse")!;
+    const statePool = new Set(
+      standingPool(api, raceScope(api, house)).map((p) => p.personId),
+    );
+    expect(
+      statewide
+        .filter((o) => statePool.has(o.term.personId!))
+        .map((o) => o.term.id),
+      where,
+    ).toEqual([]);
+    // Another place's legislators stay named on their terms
+    // (SG-GOV-outside-legislators-national-pool).
+    const legislators = outside.filter((o) => !o.statewide);
+    expect(legislators.length, where).toBeGreaterThan(5_000);
+    expect(
+      legislators.filter((o) => o.term.personId).map((o) => o.term.id),
+      where,
+    ).toEqual([]);
   });
   it("the stand-in cannot add candidates to a wide race owned by candidacy", () => {
     const before = elections

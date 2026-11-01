@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/offices-state.ts, src/core2/offices-state.test.ts, src/core2/data/stopgaps.json
 
 **Notes.** Oct 20 (pool feeder): made from the open stopgap row SG-GOV-territory-legislature-districts.
+
+Nov 1 evidence (governing lead, elections-past-race-votes-from-electorate on governing/past-race-votes): American Samoa's Senate is not elected by ballot. state-offices.json's own note says its 18 senators are matai chosen by county councils under Samoan custom, yet offices-state.ts seats the chamber as elected, so the opening's paper prints a past "election" for each Senate seat (Malaeloa/Ituau, seed plv-1 draw 22: 18 Senate races). When the districts are read, mark that chamber as chosen, not elected, so no past race is written for it.

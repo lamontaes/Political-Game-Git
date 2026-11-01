@@ -1661,6 +1661,17 @@ export function closeEmployer(
         source: { ...row.source },
       };
   }
+  // A job paid at its calendar-average wage (`work-cash.ts`, legacy pay) is
+  // kept per person, not by job: its unfunded pay is the same actual evidence.
+  for (const row of core.work.latestLegacyCashResultByPerson.values())
+    if (
+      row.id === sourceReceiptId &&
+      row.date === core.date &&
+      row.organizationId === organizationId &&
+      row.shortfallMinor > api.parameter("zero") &&
+      row.requestedMinor - row.paidMinor === row.shortfallMinor
+    )
+      cause = { ...row, source: { ...row.source } };
   const counted = residentWageShortfall(core, sourceReceiptId);
   if (
     counted &&
