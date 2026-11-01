@@ -757,8 +757,11 @@ export function registerDoorChoice(choice: DoorChoice): void {
 /**
  * The answer to a campaign's ask for a vote at the door: a "yes" when the
  * candidate is the one the resident would vote for now, kept as their word
- * (and in place of any earlier word to a rival in the race); a no at a later
- * knock takes back an earlier yes.
+ * (and in place of any earlier word to a rival in the race). A no at a later
+ * knock leaves an earlier yes as it was: a word given is near-binding, and
+ * only something heavy changes it (owner, Oct 29: a scandal they learned of,
+ * a rival they are close to, a broken promise), which the ballot reads from
+ * records (`pledgeDoubt`), or a yes they give a rival who now outweighs it.
  */
 function answerAtDoor(
   api: CoreAPI,
@@ -778,10 +781,7 @@ function answerAtDoor(
   const choice = doorChoice?.(api, voterId, campaign.contestId, visit);
   const yes =
     choice === undefined ? warmth > 0 : choice === campaign.candidateId;
-  if (!yes) {
-    if (pledges.get(id)) pledges.remove(id);
-    return;
-  }
+  if (!yes) return;
   // A new word replaces an earlier one to a rival in the same contest.
   for (const earlier of pledgesOf(api, voterId))
     if (
