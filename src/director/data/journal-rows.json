@@ -86,6 +86,7 @@
     "female": "her",
     "other": "their"
   },
+  "metRelations": ["partner", "former-partner"],
   "lines": [
     {
       "kindPrefix": "person.birth",

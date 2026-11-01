@@ -13,7 +13,7 @@ import {
 } from "../core2/modules/elections";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
-import { relationPhrase } from "../english/journal-words";
+import { metRelation, relationPhrase } from "../english/journal-words";
 import { composeJournal } from "./journal";
 
 // Someone else's swearing-in is told as theirs (words-journal-kin-took-office-as-i).
@@ -146,6 +146,12 @@ it(`a housemate's swearing-in is told as theirs, seed ${seed}`, () => {
               `${inJournal}: "${line.text}" opens on none of ${names.join(", ")}`,
             ).toBe(true);
             expect(line.text, inJournal).toContain(record.office);
+            // A relative one was born to or raised is never looked back on
+            // by first name, as someone met ("My mother took office as
+            // Council member. Susan mattered more than I knew.",
+            // McEwensville, Pennsylvania, seed kin-a); a partner may be.
+            if (family && !metRelation(family.kind.slice("family:".length)))
+              expect(line.text, inJournal).not.toContain(winner.givenName);
             told.push(
               `${said}: ${id}: "${line.text}"; ${winner.id}: "${own?.text ?? "(no line)"}"`,
             );
