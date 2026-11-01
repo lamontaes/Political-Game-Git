@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: speed/causes-fold-circle
 pr: #6917
 blocked-on:

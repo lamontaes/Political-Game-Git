@@ -15,7 +15,12 @@ import { governmentView } from "./government";
 import { chooseAtCounter, openBenchFilingVisit } from "./filing";
 import { campaignDay } from "./campaign";
 import { campaignDayChoices } from "../core2/campaign-day";
-import { CAMPAIGNS_MODULE_ID } from "../core2/modules/campaigns";
+import {
+  CAMPAIGNS_MODULE_ID,
+  candidatePlatform,
+  contestPositions,
+  signaturesToGather,
+} from "../core2/modules/campaigns";
 import { electionResults } from "./results";
 import { seatAct, seatView } from "./legislature";
 import {
@@ -154,7 +159,18 @@ function stand(): { held: boolean; takesOffice: string | null } {
   );
   if (pick) visit = chooseAtCounter(w.core, visit, pick.key);
   const file = visit.visit.choices.find((row) => row.action.kind === "file");
-  if (file) visit = chooseAtCounter(w.core, visit, file.key);
+  // The player files on a platform, as the counter asks: their own views on
+  // the questions the office decides (the stances a world candidate of their
+  // views would run on), so their doors, events and forums have something to
+  // say.
+  const platform = candidatePlatform(
+    coreAPI(w.core),
+    me,
+    null,
+    contestPositions(coreAPI(w.core), enterable.contest),
+  ).map((stance) => `${stance.question}=${stance.position}`);
+  if (file) visit = chooseAtCounter(w.core, visit, file.key, { platform });
+  log.push(`platform ${platform.join(", ") || "none"}`);
   log.push(
     `filed ${enterable.contest.title} with ${enterable.filingOffice.filedWith}: ${(visit.result as { status?: string } | undefined)?.status ?? "no filing"}`,
   );
@@ -182,7 +198,7 @@ function stand(): { held: boolean; takesOffice: string | null } {
       if (
         !petition ||
         !petitionCirculating(api, filing.id) ||
-        petition.signers.length >= petition.needed
+        petition.signers.length >= signaturesToGather(petition.needed)
       )
         break;
       liveUntil(addDays(makeIsoDate(w.core.date), 1));
@@ -204,14 +220,25 @@ function stand(): { held: boolean; takesOffice: string | null } {
   // same clock the play screen spends them from.
   const day = enterable.contest.electionDate;
   if (filing) {
-    const week = { doors: 0, reached: 0, raised: 0, events: 0, weeks: 0 };
+    const week = {
+      doors: 0,
+      reached: 0,
+      raised: 0,
+      events: 0,
+      forums: 0,
+      donorMeetings: 0,
+      weeks: 0,
+    };
     while (addDays(makeIsoDate(w.core.date), 7) <= day) {
+      // A forum one week and a donor meeting the next, where the campaign
+      // can hold them.
       for (const kind of [
         "canvass",
         "canvass",
         "raise-money",
         "canvass",
         "event",
+        week.weeks % 2 ? "donor-meeting" : "forum",
       ]) {
         const choice = campaignDayChoices(coreAPI(w.core), filing.id).find(
           (c) => c.kind === kind,
@@ -222,6 +249,8 @@ function stand(): { held: boolean; takesOffice: string | null } {
         week.reached += out.reached;
         week.raised += out.raisedMinor;
         if (kind === "event") week.events += 1;
+        if (kind === "forum") week.forums += 1;
+        if (kind === "donor-meeting") week.donorMeetings += 1;
         player.spend(out.hours);
       }
       week.weeks += 1;
@@ -232,7 +261,7 @@ function stand(): { held: boolean; takesOffice: string | null } {
       .table("pledges")
       .query("byCandidate", [me]) as unknown as { contestId: string }[];
     log.push(
-      `campaign ${week.weeks} weeks: doors ${week.doors}, reached ${week.reached}, raised $${Math.round(week.raised / 100)}, events ${week.events}, door yes ${pledged.filter((p) => p.contestId === enterable.contest.id).length}`,
+      `campaign ${week.weeks} weeks: doors ${week.doors}, reached ${week.reached}, raised $${Math.round(week.raised / 100)}, events ${week.events}, forums ${week.forums}, donor meetings ${week.donorMeetings}, door yes ${pledged.filter((p) => p.contestId === enterable.contest.id).length}`,
     );
   }
   // Step 5: live to the election day, then read election night.

@@ -22,6 +22,7 @@ import calibration from "../../data/source/electoral-calibration-2024/corpus.jso
 import delegates from "../../data/research/elections/house-delegates-2024.json" with { type: "json" };
 import { nationalParty, partySide } from "./appointments";
 import partyCounts from "../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
+import { bookkeeping } from "./bookkeeping";
 import { campaignParameter } from "./campaign-views";
 import {
   LEGISLATIVE_RESULTS_CITATION,
@@ -138,6 +139,9 @@ export function cpsTurnout(
   };
 }
 
+/** Shares already worked out, per place, state and seed (play only). */
+const citizenShares = new Map<string, number>();
+
 /**
  * The town's citizen share of adults: its ACS 2020-2024 count, blended with
  * its state's CPS share so a small place's noisy sample leans on its state.
@@ -147,13 +151,23 @@ export function citizenShareOf(
   usps: string,
   seed: string,
 ): number {
+  // In play the tables and registry never change, so each share is worked
+  // out once; bookkeeping recomputes it, as `parameter` re-reads its registry.
+  const play = !bookkeeping();
+  const key = play ? JSON.stringify([placeKey ?? null, usps, seed]) : "";
+  if (play) {
+    const known = citizenShares.get(key);
+    if (known !== undefined) return known;
+  }
   // This world's share, drawn around the survey's (realistic, not real).
-  return worldRate(
+  const share = worldRate(
     publishedCitizenShareOf(placeKey, usps),
     seed,
     `citizenship:${placeKey ?? usps}`,
     "worldCitizenShareSpreadShare",
   );
+  if (play) citizenShares.set(key, share);
+  return share;
 }
 
 /** The survey's citizen share of the town's adults (calibration only). */

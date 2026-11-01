@@ -6,13 +6,17 @@
  * lean the chooser uses (`traitLean`), never a hand-picked trait sum.
  */
 import table from "../../data/content/trait-decisions.json" with { type: "json" };
-import { traitLean } from "./choice";
+import { bookkeeping } from "./bookkeeping";
+import { kindLean, traitLean } from "./choice";
 import { affectAt } from "./emotion";
 import { parameter, parameterValues } from "./parameters";
 import { retainLog } from "./state";
 import { stopgap } from "./stopgaps";
 import { probeCallerSite, traitProbe } from "./trait-probe";
 import type { Affect, CoreState, PersonState } from "./types";
+
+/** The audit's probe, for engines that report an outcome beside a lean. */
+export { traitProbe };
 
 interface OptionRow {
   id: string;
@@ -57,8 +61,7 @@ export function traitLeanBetween(
   toward: readonly string[],
   over: readonly string[],
 ): number {
-  const p = (key: string) => parameter(key, core.data.parameters);
-  const lean = leanBetween(core, person, toward, over, p);
+  const lean = leanBetween(core, person, toward, over, core.data.parameters);
   const probe = traitProbe();
   if (probe?.formula && !probingDecision)
     probe.formula({ decisionId: probeCallerSite(), lean });
@@ -73,17 +76,77 @@ function leanBetween(
   person: Pick<PersonState, "traits">,
   toward: readonly string[],
   over: readonly string[],
-  p: (key: string) => number,
+  parameters: CoreState["data"]["parameters"],
 ): number {
   // Clamped to -1..1: the raw difference over the scale can reach 3.3, and every caller weighs the lean as a -1..1 term.
+  // The parameters are read straight from the table, with no closure per call.
   return Math.max(
-    p("negativeOne"),
+    parameter("negativeOne", parameters),
     Math.min(
-      p("one"),
+      parameter("one", parameters),
       (traitLean(core, person, toward) - traitLean(core, person, over)) /
-        p("traitLeanScale"),
+        parameter("traitLeanScale", parameters),
     ),
   );
+}
+
+/**
+ * Each table decision's slot in a traits lean's kept values, by decision,
+ * toward option and over option, in the order first weighed.
+ */
+const LEAN_SLOTS = new Map<string, Map<string, Map<string, number>>>();
+let leanSlotCount = 0;
+/**
+ * The table leans already worked out, per parameter table and per traits lean
+ * (`kindLean`'s own object, so a person whose lean is forgotten misses), by
+ * slot. The value is a pure function of the two, so a kept one is the float
+ * the two `traitLean` reads would give again.
+ */
+const leanMemo = new WeakMap<object, WeakMap<object, number[]>>();
+
+/**
+ * `leanBetween` for two options the table names directly, kept in play: the
+ * same person weighs the same two options many times a day. With bookkeeping
+ * on (tests edit traits and parameters in place) or the probe reading every
+ * formula, it is worked out every call.
+ */
+function tableLean(
+  core: Pick<CoreState, "data">,
+  person: Pick<PersonState, "traits">,
+  decisionId: string,
+  towardOptionId: string,
+  overOptionId: string,
+): number {
+  const parameters = core.data.parameters;
+  if (bookkeeping() || traitProbe()?.formula)
+    return leanBetween(
+      core,
+      person,
+      decisionKinds(decisionId, towardOptionId),
+      decisionKinds(decisionId, overOptionId),
+      parameters,
+    );
+  const basis = kindLean(core, person);
+  let byToward = LEAN_SLOTS.get(decisionId);
+  if (!byToward) LEAN_SLOTS.set(decisionId, (byToward = new Map()));
+  let byOver = byToward.get(towardOptionId);
+  if (!byOver) byToward.set(towardOptionId, (byOver = new Map()));
+  let slot = byOver.get(overOptionId);
+  if (slot === undefined) byOver.set(overOptionId, (slot = leanSlotCount++));
+  let byBasis = leanMemo.get(parameters);
+  if (!byBasis) leanMemo.set(parameters, (byBasis = new WeakMap()));
+  let kept = byBasis.get(basis);
+  if (!kept) byBasis.set(basis, (kept = []));
+  let lean = kept[slot];
+  if (lean === undefined)
+    kept[slot] = lean = leanBetween(
+      core,
+      person,
+      decisionKinds(decisionId, towardOptionId),
+      decisionKinds(decisionId, overOptionId),
+      parameters,
+    );
+  return lean;
 }
 
 /** `traitLeanBetween` for two options the table names directly. */
@@ -96,12 +159,7 @@ export function decisionLean(
 ): number {
   const probe = traitProbe();
   if (!probe?.formula)
-    return traitLeanBetween(
-      core,
-      person,
-      decisionKinds(decisionId, towardOptionId),
-      decisionKinds(decisionId, overOptionId),
-    );
+    return tableLean(core, person, decisionId, towardOptionId, overOptionId);
   probingDecision = true;
   try {
     const lean = traitLeanBetween(
@@ -178,13 +236,7 @@ export function leanedScore(
     core,
     person,
     decisionId,
-    leanBetween(
-      core,
-      person,
-      decisionKinds(decisionId, yesOptionId),
-      decisionKinds(decisionId, noOptionId),
-      (key) => parameter(key, core.data.parameters),
-    ),
+    tableLean(core, person, decisionId, yesOptionId, noOptionId),
     bare,
   );
 }
@@ -271,6 +323,26 @@ export function reportOutcome(
 }
 
 /**
+ * Whether a leaned decision this person weighs can leave any trace: a kept
+ * `person.weighed` record (the player and the people in focus) or a report
+ * to the audit's probe (any probe at all). Wider than `keepWeighing`'s own
+ * test, on purpose: a caller that skips repeating a weighing it already read
+ * (`StanceReader`) may skip it only where this is false, so every record and
+ * every probe report is still made.
+ */
+export function weighingKept(
+  core: Pick<CoreState, "data">,
+  personId: string,
+): boolean {
+  return (
+    traitProbe() !== undefined ||
+    ("focusPersonIds" in core &&
+      ((core as CoreState).focusPersonIds.has(personId) ||
+        personId === (core as CoreState).playerId))
+  );
+}
+
+/**
  * The player and the people in focus keep a record of every two-way decision
  * they weigh, yes or no (why-kept: the player and the people they deal with),
  * as their acts do: the case without personality as the module reason and
@@ -301,15 +373,6 @@ function keepWeighing(
   if (!actor) return undefined;
   const keepAll = traitProbe()?.keepWeighed === true;
   const zero = parameter("zero", c.data.parameters);
-  const reasons = (trait: number, module: number) => ({
-    need: zero,
-    goal: zero,
-    drive: zero,
-    trait,
-    emotion: zero,
-    effort: zero,
-    module,
-  });
   const yes = bare + term > zero;
   const base = `weighed:${c.date}:${decisionId}:${id}`;
   // The first free of base, base:2, base:3...: start past the last one this
@@ -340,20 +403,20 @@ function keepWeighing(
         date: c.date,
         reasonKey: decisionId,
         selectedReasons: yes
-          ? reasons(term, bare)
-          : reasons(zero - term, zero - bare),
+          ? weighedReasons(zero, term, bare)
+          : weighedReasons(zero, zero - term, zero - bare),
         scores: [
           {
             actionId: `${decisionId}:yes`,
             targetId: id,
             score: bare + term,
-            reasons: reasons(term, bare),
+            reasons: weighedReasons(zero, term, bare),
           },
           {
             actionId: `${decisionId}:no`,
             targetId: id,
             score: zero - bare - term,
-            reasons: reasons(zero - term, zero - bare),
+            reasons: weighedReasons(zero, zero - term, zero - bare),
           },
         ],
       },
@@ -363,6 +426,19 @@ function keepWeighing(
   if (!c.durableLog.has(recordId)) return undefined;
   taken.set(base, n);
   return recordId;
+}
+
+/** One side's reasons on a kept weighing: the trait term and the module's case, every other reason none. */
+function weighedReasons(zero: number, trait: number, module: number) {
+  return {
+    need: zero,
+    goal: zero,
+    drive: zero,
+    trait,
+    emotion: zero,
+    effort: zero,
+    module,
+  };
 }
 
 const weighedId = (base: string, n: number) =>
@@ -417,15 +493,7 @@ export function leanedTerm(
     core,
     person,
     decisionId,
-    shape(
-      leanBetween(
-        core,
-        person,
-        decisionKinds(decisionId, yesOptionId),
-        decisionKinds(decisionId, noOptionId),
-        (key) => parameter(key, core.data.parameters),
-      ),
-    ),
+    shape(tableLean(core, person, decisionId, yesOptionId, noOptionId)),
     bare,
   );
 }
