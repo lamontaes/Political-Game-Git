@@ -21,6 +21,10 @@
  *   state, the states to the nation, and the nation's shares are the ones
  *   housing.json's mortgage section reads
  *   (data/research/world/acs-2024-owner-mortgage-moved-in-by-county.json).
+ * - eviction filings: housingEvictionFilingRate's value is the Eviction
+ *   Lab's 2018 national filing rate and its spread the lowest to the
+ *   highest state rate (data/research/housing/eviction-filings-2026.json),
+ *   and every state row's rate is its filings over its renting households.
  *
  * Run: node --import tsx scripts/research/housing-check.ts
  */
@@ -32,6 +36,8 @@ import prIndex from "../../data/research/world/fhfa-hpi-pr-2026q2.json" with { t
 import foreclosureReads from "../../data/research/world/foreclosure-reads-2026.json" with { type: "json" };
 import hic from "../../data/research/world/hud-hic-2025-beds-by-city.json" with { type: "json" };
 import acs from "../../data/research/world/acs-2024-owner-mortgage-moved-in-by-county.json" with { type: "json" };
+import evictionFilings from "../../data/research/housing/eviction-filings-2026.json" with { type: "json" };
+import housingParameters from "../../src/core2/data/housing/parameters.json" with { type: "json" };
 
 const problems: string[] = [];
 const fail = (message: string): void => {
@@ -269,7 +275,42 @@ function checkMortgages(): void {
   );
 }
 
+/** The filing-rate check range is the national rate within the states' range, as the research file computes them. */
+function checkEvictionFilings(): void {
+  const columns = evictionFilings.columns;
+  const at = (name: string) => columns.indexOf(name);
+  const [rate, filings, renters] = [
+    at("rate"),
+    at("filings"),
+    at("renterHouseholds"),
+  ];
+  const rates: number[] = [];
+  for (const row of evictionFilings.rows) {
+    const value = Number(row[rate]);
+    const computed =
+      Math.round((10_000 * Number(row[filings])) / Number(row[renters])) / 100;
+    if (computed !== value)
+      fail(`eviction filings: ${row[0]} rate ${value}, computed ${computed}`);
+    rates.push(value);
+  }
+  const parameter = housingParameters.housingEvictionFilingRate;
+  const low = Math.min(...rates),
+    high = Math.max(...rates);
+  if (parameter.value !== evictionFilings.national.rate)
+    fail(
+      `eviction filings: housingEvictionFilingRate ${parameter.value}, national ${evictionFilings.national.rate}`,
+    );
+  if (parameter.spread.low !== low || parameter.spread.high !== high)
+    fail(
+      `eviction filings: housingEvictionFilingRate spread ${parameter.spread.low} to ${parameter.spread.high}, states ${low} to ${high}`,
+    );
+  console.log(
+    `eviction filings: ${rates.length} state rates from ${low} to ${high}, national ${evictionFilings.national.rate}; housingEvictionFilingRate matches.`,
+  );
+}
+
 checkEviction();
+checkEvictionFilings();
 checkPuertoRicoIndex();
 checkForeclosure();
 checkShelterBeds();

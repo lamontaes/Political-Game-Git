@@ -8051,18 +8051,6 @@
     "status": "open"
   },
   {
-    "id": "SG-GQ-eviction-filing-band",
-    "kind": "estimated-parameter",
-    "file": "src/core2/data/housing/parameters.json",
-    "line": 229,
-    "whatItFakes": "The range a played year's eviction filings per 100 renter households are checked against (housingEvictionFilingRate) is half to twice the national 7.8, 3.9 to 15.6, TUNABLE, not the states' published range.",
-    "why": "The three notice parameters cite one national Eviction Lab figure, not a range, and the file they name, data/research/housing/eviction-filings-2026.json, is not committed.",
-    "addedBy": "claude/speed-group-quarters-population",
-    "addedAt": "2026-11-01",
-    "replacement": "Eviction Lab's state filing rates committed to data/research/housing/eviction-filings-2026.json; the spread becomes the lowest to the highest state rate (SOURCED).",
-    "status": "open"
-  },
-  {
     "id": "SG-GQ-place-earnings-blend",
     "kind": "estimated-parameter",
     "file": "src/core2/residents.ts",
