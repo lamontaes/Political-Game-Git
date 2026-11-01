@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: play-first/tests-filing-browser-go-times-out-on-main
 pr: #6962
 blocked-on:
