@@ -1490,7 +1490,11 @@ function decideTurnout(
       ? habitOf(record.voted, record.elections)
       : named
         ? 0
-        : countedHabit(api, voter, input.date),
+        : countedHabit(
+            api,
+            voter as { readonly birthDate?: string },
+            input.date,
+          ),
     cost,
     pledge: campaignParameter("doorPledgeTurnoutWeight") * (input.pledged ?? 0),
   };
