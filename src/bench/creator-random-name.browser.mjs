@@ -1,4 +1,4 @@
-/* global process, console, document */
+/* global process, console, URL */
 // The creator's random name waits for a gender (owner, Nov 1: "Randomized name
 // shouldn't work until you choose a gender"): disabled, its label saying what
 // it waits for, until one is picked; then it draws a name for that gender.
