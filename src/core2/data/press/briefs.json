@@ -9,7 +9,17 @@
     "organization.founded",
     "person-birth",
     "housing.completed",
-    "housing.purchase"
+    "housing.purchase",
+    "person.milestone-birthday",
+    "organization.anniversary"
   ],
-  "townWide": ["crime.month", "school.graduation", "school.tests"]
+  "townWide": ["crime.month", "school.graduation", "school.tests"],
+  "milestones": {
+    "description": "The round birthdays and business anniversaries a local paper prints as briefs (src/core2/modules/press.ts, milestones): a resident reaching one of birthdayAges in the week, and a business in town reaching one of businessYears since it was founded.",
+    "tag": "ESTIMATED",
+    "source": "Community papers' birthday and business-anniversary notices: families send in the round birthdays from 80 on, and a local business marks its 10th, 25th, 50th and later years. The ages and years are the conventional round numbers, not a measured rate; a paper that prints more or fewer is within the spread.",
+    "spread": "birthdayAges from [90, 100] to [75, 80, 85, 90, 95, 100]; businessYears from [25, 50, 100] to [5, 10, 15, 20, 25, 50, 75, 100]",
+    "birthdayAges": [80, 90, 100],
+    "businessYears": [10, 25, 50, 75, 100]
+  }
 }
