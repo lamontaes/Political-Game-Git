@@ -9,7 +9,8 @@ status: open
 claimed-by:
 pr:
 blocked-on:
-source: added with npm run pool -- add
+lead: governing
+source: Checker 2, Nov 1; filed by the governing lead
 ---
 
 **What.** src/director/ask-before-the-roll.test.ts fails on clean main with GOLDEN_PATH_SEED=chk2-b, in Springfield, Oregon, with no vote ask staged (Checker 2, Nov 1). The evening before a floor vote the sponsor of a failing bill asks the members it needs (askBeforeTheRoll in src/core2/modules/legislature.ts), and the director stages the ask to the player. In this place either no ask is written, so the engine missed a bill it should have asked about, or one is written and not staged, or the drawn place has no close floor vote and the test should redraw with a printed reason.
