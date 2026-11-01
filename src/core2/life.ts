@@ -13,6 +13,10 @@ import {
   snapshotExplicitControlV1,
 } from "./player-control-state-v1";
 export { chooseAct } from "./choice";
+// The player's control and clock, read by the director through this entry
+// (the families guard: one family reaches another through its entry files).
+export { isExplicitlyControlledPersonV1 } from "./player-control-state-v1";
+export { playerClockFrontierV1 } from "./player-stops-v1";
 import {
   WORK_MODULE,
   discretionaryHours,
