@@ -47,6 +47,7 @@ describe("printed stories in News", () => {
     setBookkeeping(false);
     const place = drawPlace(seed, "printed-words");
     const where = `${place.name} (${place.key}), seed ${seed}`;
+    process.stdout.write(`printed-words draw: ${where}\n`);
     console.log(`printed-words: ${where}`);
     const world = buildBenchWorld(place.seed, gameStartDate(), {
       twoLevel: true,
@@ -207,6 +208,7 @@ describe("printed stories in News", () => {
     setBookkeeping(false);
     const place = drawPlace(seed, "printed-words-briefs");
     const where = `${place.name} (${place.key}), seed ${seed}`;
+    process.stdout.write(`printed-words draw: ${where}\n`);
     console.log(`printed-words briefs: ${where}`);
     const world = buildBenchWorld(place.seed, gameStartDate(), {
       twoLevel: true,
@@ -464,6 +466,7 @@ describe("printed stories in News", () => {
     const town =
       localities[parseInt(hash.slice(8, 16), 16) % localities.length]!;
     const where = `${town.displayName} (${town.key}), seed ${seed}`;
+    process.stdout.write(`printed-words draw: ${where}\n`);
     console.log(`printed-words ohio: ${where}`);
     const world = buildBenchWorld(hash, gameStartDate(), {
       twoLevel: true,

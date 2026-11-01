@@ -250,10 +250,10 @@
       "spread": [0.2, 1]
     },
     "letterStrength": {
-      "value": 0.5,
+      "value": 0.02,
       "tag": "TUNABLE",
-      "source": "How strongly a reader must feel (the views engine's stance strength, 0 to 1) before writing to the paper is on the table; their temperament moves it from there (press.letter). Checked against a newspaper's letters page, which a paper fills at most once a week here: a played year prints fewer letters than weeks.",
-      "spread": [0.3, 0.8]
+      "source": "How strongly a reader must feel (the views engine's stance strength) before writing to the paper is on the table; their temperament moves it from there (press.letter). Set inside the range played years show for views a story moved: in Blunt, South Dakota, 0.0001 to 0.09 with median 0.0075 and the top tenth above 0.023 in a year without letters stirring readers, median 0.014 in one with them. So strength of feeling decides most of it. Checked against a newspaper's letters page, which a paper fills at most once a week here: a played year prints fewer letters than weeks.",
+      "spread": [0.01, 0.05]
     },
     "letterTopicDays": {
       "value": 365,
