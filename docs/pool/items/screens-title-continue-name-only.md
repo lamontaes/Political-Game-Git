@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: play-first/screens-title-continue-name-only
 pr: #6957
 blocked-on:

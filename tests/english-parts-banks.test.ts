@@ -215,6 +215,32 @@ describe("relative days in scene narration", () => {
   });
 });
 
+// A follow that ends the scene (the director's terminal follows: a thank or
+// an accept) never asks a question: nothing answers it, and the scene would
+// end on it ("Then we start tonight. Where do you keep your contacts?").
+describe("the line that ends a scene", () => {
+  const sceneTalk = banks.find((row) => row.name === "scene-talk.json")!.bank;
+  const terminal: readonly string[] = JSON.parse(
+    readFileSync(
+      path.join(__dirname, "../src/director/data/scene-talk-rules.json"),
+      "utf8",
+    ),
+  ).terminalFollow;
+  type Use = { step?: string; move?: string };
+  it("asks no question where it ends the talk", () => {
+    const asking = (sceneTalk.parts as (Part & { uses: Use[] })[])
+      .filter(
+        (part) =>
+          /\?\s*$/.test(part.text) &&
+          part.uses.some(
+            (use) => use.step === "follow" && terminal.includes(use.move ?? ""),
+          ),
+      )
+      .map((part) => `${part.key}: ${part.text}`);
+    expect(asking).toEqual([]);
+  });
+});
+
 // The household's filing talk (family-filing) is said to a candidate for any
 // office: a piece names a body (council, board, legislature) only where it
 // needs the fact that the race is for one, and claims no span of years.
