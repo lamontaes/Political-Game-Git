@@ -9,7 +9,8 @@ status: open
 claimed-by:
 pr:
 blocked-on:
-source: added with npm run pool -- add
+lead: governing
+source: governing lead, Nov 1 (incumbency ablation; CTO ruling)
 ---
 
 **What.** A counted voter record stands for many residents but votes as one: its unpledged weight goes to whoever is strictly first (countedChoice in src/core2/electorate.ts, used in src/core2/modules/voting.ts and the place tally). In nonpartisan local races voters' margins bunch within about 0.17 appeal units, so a small edge flips whole groups: 0.15 units of bare incumbency moved Lajas, Puerto Rico by 19.6 points, and either incumbency term alone holds 94 percent of contested races. The CTO ruled on Nov 1 that the unpledged weight divides by a logistic share of the appeal gaps at appealPerShare's slope, pledged households keeping their whole vote and named voters keeping first place.
