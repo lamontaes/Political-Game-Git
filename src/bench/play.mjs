@@ -531,6 +531,16 @@ async function refresh(scene = {}) {
   if (openTab) await openSheet(openTab);
 }
 
+/** Once a menu is on screen, apply each step in turn until the panel no longer scrolls. */
+function fitToPanel(steps) {
+  window.requestAnimationFrame(() => {
+    const body = $("sheet-body");
+    for (const step of steps) {
+      if (body.scrollHeight <= body.clientHeight + 1) return;
+      step();
+    }
+  });
+}
 async function act(path) {
   if (busy) return;
   busy = true;
@@ -2529,7 +2539,7 @@ const sheets = {
         },
       }),
     );
-    return recordScreen({
+    const drawn = recordScreen({
       heading: {
         name: c.name,
         meta: `${labels.age} ${c.age} · ${labels.born} ${born}`,
@@ -2593,6 +2603,12 @@ const sheets = {
         },
       ].filter(Boolean),
     });
+    // A short window: tighter plates, then a shorter lede, until the panel holds it without a scroll.
+    fitToPanel([
+      () => $("sheet-body").classList.add("compact"),
+      () => $("sheet-body").classList.add("tight"),
+    ]);
+    return drawn;
   },
   async money() {
     const [budget, bank] = await Promise.all([
@@ -4519,7 +4535,7 @@ async function openSheet(tab) {
       : {},
   );
   $("sheet-body").replaceChildren(...body);
-  $("sheet-body").classList.remove("place-view");
+  $("sheet-body").classList.remove("place-view", "compact", "tight");
   $("sheet-body").classList.toggle(
     "cols",
     tab !== "who" && tab !== "calendar" && body.length > 12,

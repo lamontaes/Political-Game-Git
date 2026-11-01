@@ -4694,3 +4694,19 @@ select.release-pick {
   scrollbar-width: thin;
   scrollbar-color: rgba(214, 189, 132, 0.55) transparent;
 }
+
+/* A menu that does not fit its panel tightens (fitToPanel in play.mjs). */
+#sheet-body.compact .record-section.plate {
+  padding-block: 4px;
+  margin-block: 6px;
+}
+#sheet-body.compact .screen-lede {
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+#sheet-body.tight .screen-lede {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
