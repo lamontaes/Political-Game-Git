@@ -460,6 +460,7 @@
     "budget": "Budget",
     "increase": "Increase",
     "decrease": "Decrease",
+    "noLocalGovernment": "This place has no local government of its own; {state} governs it.",
     "stateFilter": "State",
     "ownState": "Your state",
     "booksSince": "Actually taken in and paid out since",
@@ -652,6 +653,35 @@
     "issue": "What it is about",
     "today": "In force today",
     "newAmount": "The new amount"
+  },
+  "journal": {
+    "title": "My life",
+    "chapter": "Chapter {n}",
+    "numbers": [
+      "one",
+      "two",
+      "three",
+      "four",
+      "five",
+      "six",
+      "seven",
+      "eight",
+      "nine",
+      "ten",
+      "eleven",
+      "twelve",
+      "thirteen",
+      "fourteen",
+      "fifteen",
+      "sixteen",
+      "seventeen",
+      "eighteen",
+      "nineteen",
+      "twenty"
+    ],
+    "previous": "Earlier chapter",
+    "next": "Later chapter",
+    "page": "{page} of {pages}"
   },
   "titles": {
     "people": "People",
