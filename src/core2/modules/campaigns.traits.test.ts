@@ -32,6 +32,7 @@ import {
   CAMPAIGNS_MODULE_ID,
   type CampaignRow,
   type CauseRow,
+  type CauseSummaryRow,
   type EndorsementRow,
 } from "./campaigns";
 import { standAgainReason } from "./candidacy";
@@ -91,6 +92,63 @@ function volunteerRows(): Row[] {
   return rows;
 }
 
+/** An endorsement a voter heard, as the campaigns engine keeps it: a cause row names its endorser, a folded summary only counts it. */
+interface HeardEndorsement {
+  readonly id: string;
+  readonly voterId: string;
+  readonly candidateId: string;
+  readonly actorId: string | null;
+}
+
+/**
+ * Every endorsement a voter heard that the campaigns engine keeps a why for:
+ * a cause row while the race is open; once its count is in, the causes fold
+ * (`foldClosedRaceCauses`), into a folded cause where it was the voter's
+ * first word of the candidate and into the voter's summary for the
+ * candidate otherwise. A why is kept only for the player's circle
+ * (`keepsWhy`), so where no endorser's circle meets the player's, everyone
+ * who heard is moved (the endorsement's `reached`) but there is no why to
+ * read, and the draw moves on (Whitinsville, Massachusetts, seed
+ * a4eca5af1791dc3df7527d94791fb774b3fcdd52:1: 77 of 128 asks were yes, from
+ * 57 people, and reached listeners 1,822 times, none in the player's circle).
+ */
+function endorsementsHeard(world: CoreState): HeardEndorsement[] {
+  const state = coreAPI(world).moduleState(CAMPAIGNS_MODULE_ID);
+  const rows = (name: string) =>
+    (state.table(name).rows() as unknown as CauseRow[])
+      .filter((cause) => cause.act === "endorsement")
+      .map(({ id, voterId, candidateId, actorId }) => ({
+        id,
+        voterId,
+        candidateId,
+        actorId,
+      }));
+  const summaries = (
+    state.table("causeSummaries").rows() as unknown as CauseSummaryRow[]
+  )
+    .filter((summary) => (summary.acts.endorsement?.reached ?? 0) > 0)
+    .map(({ id, voterId, candidateId }) => ({
+      id,
+      voterId,
+      candidateId,
+      actorId: null,
+    }));
+  return [...rows("causes"), ...rows("foldedCauses"), ...summaries];
+}
+
+/** The people asked to endorse, how many said yes and how many those yeses reached, for a draw that has no endorsement heard to read. */
+function endorsementAsks(world: CoreState): string {
+  const asked = (
+    coreAPI(world)
+      .moduleState(CAMPAIGNS_MODULE_ID)
+      .table("endorsements")
+      .rows() as unknown as EndorsementRow[]
+  ).filter((row) => row.organizationId === null);
+  const yes = asked.filter((row) => row.answer === "yes");
+  const reached = yes.reduce((sum, row) => sum + row.reached, 0);
+  return `${asked.length} asked to endorse, ${yes.length} said yes and reached listeners ${reached} times, none whose why is kept (the player's circle)`;
+}
+
 /**
  * What the played window lacks for the tests to read: enough calls of each
  * played decision, and for giving and answering the door at least one call
@@ -99,6 +157,7 @@ function volunteerRows(): Row[] {
  * odds ratio of 1.21 between thirds) temperament tips about one newcomer a
  * year in a town (1, 1, 2 and 0 in the four election years its weight was
  * fitted on), so half a year often holds none; its slope is read below.
+ * And at least one endorsement heard whose why is kept (`endorsementsHeard`).
  */
 function windowGaps(world: CoreState): string[] {
   const gaps: string[] = [];
@@ -117,6 +176,7 @@ function windowGaps(world: CoreState): string[] {
     if (rows.length <= 50 || (turned === 0 && id !== "candidacy.run"))
       gaps.push(`${id}: ${rows.length} calls, ${turned} turned by temperament`);
   }
+  if (endorsementsHeard(world).length === 0) gaps.push(endorsementAsks(world));
   return gaps;
 }
 
@@ -473,27 +533,29 @@ describe("personality in campaigns and candidacy (a played slice of a drawn plac
     const endorsers = asked.filter((row) => row.answer === "yes");
     expect(endorsers.length, `${placeName}: endorsers`).toBeGreaterThan(0);
     // Each endorsement a voter heard names an endorser of that candidate who
-    // was asked, and the voter is in the endorser's circle.
-    const heard = (
-      api
-        .moduleState(CAMPAIGNS_MODULE_ID)
-        .table("causes")
-        .rows() as unknown as CauseRow[]
-    ).filter((cause) => cause.act === "endorsement");
+    // was asked, and the voter is in the endorser's circle; a folded summary
+    // names no endorser, so one of the candidate's endorsers has the voter in
+    // their circle.
+    const heard = endorsementsHeard(core);
     expect(heard.length, `${placeName}: endorsements heard`).toBeGreaterThan(0);
+    const circleOf = (id: string) => {
+      const endorser = core.people.get(id)!;
+      return [...endorser.knownIds, ...endorser.familyIds];
+    };
     for (const cause of heard) {
-      expect(
-        endorsers.some(
-          (row) =>
-            row.candidateId === cause.candidateId &&
-            row.speakerId === cause.actorId,
-        ),
-        cause.id,
-      ).toBe(true);
-      const endorser = core.people.get(cause.actorId)!;
-      expect([...endorser.knownIds, ...endorser.familyIds], cause.id).toContain(
-        cause.voterId,
+      const by = endorsers.filter(
+        (row) =>
+          row.candidateId === cause.candidateId &&
+          (cause.actorId === null || row.speakerId === cause.actorId),
       );
+      expect(by.length, cause.id).toBeGreaterThan(0);
+      if (cause.actorId !== null)
+        expect(circleOf(cause.actorId), cause.id).toContain(cause.voterId);
+      else
+        expect(
+          by.some((row) => circleOf(row.speakerId).includes(cause.voterId)),
+          cause.id,
+        ).toBe(true);
     }
   });
 });
