@@ -2804,16 +2804,18 @@ export function giftBudget(
   readonly monthlyLivingMinor: number;
   readonly discretionaryMinor: number;
   readonly savingsMinor: number;
+  readonly ownMonthLivingMinor: number;
   readonly cushionMinor: number;
 } {
   const core = api.state as CoreState;
-  const perMonth =
-    api.parameter("daysPerMeanYear") / api.parameter("monthsPerYear");
   const adultAge = api.parameter("votingAge");
   const members = core.households.get(person.householdId)?.memberIds ?? [
     person.id,
   ];
   const income = householdIncome(api, person.householdId);
+  // One month length for the pay, the taxes on it, the bills and the
+  // cushion: the one income reader's.
+  const perMonth = income.monthDays;
   let withheld = 0;
   for (const pay of income.wages)
     withheld += withholdingOnPay(api, {
@@ -2830,18 +2832,31 @@ export function giftBudget(
     living += member.livingCostDailyMinor * perMonth;
   }
   const share = Math.max(1, adults);
-  const cushion =
-    campaignParameter("caseCushionMonths") *
-    perMonth *
-    person.livingCostDailyMinor;
+  const ownMonth = perMonth * person.livingCostDailyMinor;
+  const cushion = campaignParameter("caseCushionMonths") * ownMonth;
   return {
     monthlyIncomeMinor: income.minor / share,
     monthlyWithheldMinor: withheld / share,
     monthlyLivingMinor: living / share,
     discretionaryMinor: Math.max(0, income.minor - withheld - living) / share,
     savingsMinor: Math.max(0, person.liquidMinor - cushion),
+    ownMonthLivingMinor: ownMonth,
     cushionMinor: cushion,
   };
+}
+
+/**
+ * Money weighed on a log scale of a span of the person's own living costs,
+ * the one shape both of a donor's sources slide on: about one for one while
+ * it is small against the span, a few spans for many spans, never in
+ * proportion (a dollar weighs less the more of them there are), and never a
+ * threshold. The month's spare is weighed against
+ * `donationMonthScaleMonths` of their living costs, savings against their
+ * cushion (`caseCushionMonths`). With no span (no living costs of their own
+ * on record) money counts one for one.
+ */
+function weighedAgainst(minor: number, spanMinor: number): number {
+  return spanMinor > 0 ? spanMinor * Math.log1p(minor / spanMinor) : minor;
 }
 
 /**
@@ -2896,18 +2911,19 @@ export function donationAnswer(
   const given = gift?.totalMinor ?? 0;
   // A small gift comes out of the month's income after the bills, a larger
   // one out of savings too; both slide with how much the donor wants this
-  // candidate to win. Savings count on a log scale of their cushion (a
-  // dollar weighs less the more they hold): a nest egg about one for one, a
-  // fortune a few times a nest egg, never a thousand times.
-  const fromSavings =
-    budget.cushionMinor > 0
-      ? budget.cushionMinor *
-        Math.log1p(budget.savingsMinor / budget.cushionMinor)
-      : budget.savingsMinor;
+  // candidate to win. Each counts on a log scale of the donor's own living
+  // costs (a dollar weighs less the more they have): the month's spare
+  // against a part of a month of them, so a better-paid donor gives more but
+  // not in proportion to the pay, and savings against their cushion, so a
+  // nest egg counts about one for one and a fortune a few nest eggs.
+  const fromMonth = weighedAgainst(
+    budget.discretionaryMinor,
+    campaignParameter("donationMonthScaleMonths") * budget.ownMonthLivingMinor,
+  );
+  const fromSavings = weighedAgainst(budget.savingsMinor, budget.cushionMinor);
   const wanted =
     Math.min(1, reason) *
-    (budget.discretionaryMinor *
-      campaignParameter("donationShareOfMonthPerWarmth") +
+    (fromMonth * campaignParameter("donationShareOfMonthPerWarmth") +
       fromSavings * campaignParameter("donationShareOfCashPerWarmth"));
   // Whole dollars: what they'd give in all, less what they've given, never
   // more than they hold. A candidate's own money has no limit (Buckley v.

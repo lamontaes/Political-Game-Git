@@ -14,8 +14,9 @@
  * - the median gift near $50 (localContributionMedianUsd, $35 to $100:
  *   https://www.opb.org/article/2021/08/09/portland-elections-oregon-politics-city-hall-small-donors-campaign-funding/),
  *   widened by a quarter at each end for the spread between drawn towns (at
- *   the fitted donationShareOfMonthPerWarmth, eleven drawn eight-place pools
- *   ran medians of $57 to $113).
+ *   the fitted donationShareOfMonthPerWarmth and donationMonthScaleMonths,
+ *   48 drawn eight-place pools held out from the fit ran medians of $47 to
+ *   $117).
  *
  * The world is the opening population (`buildPopulation`), as in
  * campaigns.test.ts: its retirees hold no recorded income award, so they
