@@ -296,6 +296,16 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.70.1
+
+_Released November 1, 2026._
+
+### Improved
+
+- **Counting votes runs faster** The game used to sort a town's whole electorate
+  again each time it was needed. Now it keeps the list in order, so election
+  years run faster, and every vote is counted the same.
+
 ## PRE-ALPHA 0.70.0
 
 _Released October 30, 2026._
