@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: governing/reached-law-by-bill-id
-pr:
+pr: #7018
 blocked-on:
 lead: governing
 source: review of gov-record-vote-per-question, Nov 1
