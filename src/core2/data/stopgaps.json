@@ -7826,7 +7826,7 @@
     "id": "SG-GOV-platform-support-true-share",
     "kind": "missing-record",
     "file": "src/core2/campaign-stances.ts",
-    "line": 283,
+    "line": 379,
     "whatItFakes": "A candidate choosing which questions to run on reads the true share of the town's electorate on their side of each question (electorateSides: every named adult at their own view, every counted record at its record's stance times the people it stands for, plus the policy's national popularity), as if they knew it exactly. For a ward, county, state or federal seat it is still the town's electorate.",
     "why": "The research rule scores a question by the support the candidate believes it has (Druckman, Jacobs and Ostermeier 2004 used Nixon's private polls), and no engine keeps a candidate's belief about how the town stands on a question.",
     "addedBy": "governing lead",
