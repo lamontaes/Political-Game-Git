@@ -8037,5 +8037,17 @@
     "addedAt": "2026-11-01",
     "replacement": "The eviction names as witnesses the full people who know a counted member (the full people who list them as family, and their ties), as notifyCountedDeaths does for a counted death, once drives, trait change and the director read a witness to a relative's eviction by their relation; or counted members pass news on at contact by the news engine's rule.",
     "status": "open"
+  },
+  {
+    "id": "SG-PLAY-campaign-acts-buttons",
+    "kind": "placeholder",
+    "file": "src/bench/play.mjs",
+    "line": 1463,
+    "whatItFakes": "Volunteers, Donations, Endorsements, Ad, Poll, Mail and Put in your own money are buttons on the campaign trail card in Travel, not scenes at places.",
+    "why": "The Campaigns tab shows standing only (owner, Oct 20: campaign acts are scenes you go to); the doors, event, forum, interview, calls, donor meeting, speech and debate already start their scenes, and these seven have no scene yet.",
+    "addedBy": "play-first-13-campaign-screen-to-mock-b (Claude Sonnet 5.5, play-first lane)",
+    "addedAt": "2026-11-01",
+    "replacement": "Each becomes a scene the director stages (play-campaign-acts-as-scenes): an evening of donor calls, a volunteer shift at the office, an endorsement meeting, an ad shoot, the pollster's briefing, the mail piece, putting in your own money; then the buttons and this entry are deleted.",
+    "status": "open"
   }
 ]

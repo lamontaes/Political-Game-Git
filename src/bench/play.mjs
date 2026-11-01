@@ -1459,6 +1459,7 @@ async function campaignParts() {
           return b;
         }),
       ),
+      // stopgapId: SG-PLAY-campaign-acts-buttons
       buttonRow(
         button(controls.campaignActs.volunteer, "volunteer"),
         button(controls.campaignActs.donation, "donation"),
