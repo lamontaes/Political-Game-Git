@@ -236,6 +236,18 @@
       "mutual"
     ]
   },
+  "familyNews": {
+    "about": "Owner, Nov 1, 2026: every life is simulated, at low intensity, and under Q7 what happened to a relative is the news. Asked after a relative, the answer's stage is their latest recorded happening, by the moment's label (by prefix): ill, moved, a new job, a new baby. Anything else is the default stage. Each news line cites the record it tells.",
+    "stages": {
+      "feeling:event:health.": "ill",
+      "health:": "ill",
+      "feeling:event:person.moved-away": "moved",
+      "home:moved": "moved",
+      "money:job-started": "job",
+      "money:job-changed": "job",
+      "feeling:event:person-birth": "baby"
+    }
+  },
   "happenings": {
     "about": "Owner, Oct 14, 2026, night (Q7): someone not in the room is talked about only when something recorded happened to them. These are the ledger labels (by prefix) that are something happening to a person: their money and work, their home, their health, a birth or death, the law catching them, a move, an election they ran in. Reading the news, hearing a speech or being told of a cause happened in front of them, not to them.",
     "prefixes": [
