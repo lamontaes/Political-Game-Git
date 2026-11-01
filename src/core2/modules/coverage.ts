@@ -38,6 +38,8 @@ import { outsideAccountOf } from "../budgets-treasury";
 import { ageOnDate, makeIsoDate } from "../kernel/dates";
 import { gameStartDate } from "../game-start";
 import { declareSnapshotCovered } from "../snapshot";
+import { registerJournalIdReader } from "../decision-detail";
+import { hasModuleState } from "../module-state";
 import { countedPayment } from "../counted-money";
 import { countedJob, residentsRuntime } from "./residents";
 import type { ModuleRow } from "../module-data";
@@ -617,6 +619,13 @@ export const COVERAGE_MODULE: CoreModule = {
   },
 };
 declareSnapshotCovered(COVERAGE_MODULE.id);
+// A row names the journal receipt of its last premium, an ended row too; the
+// journal's fold keeps every receipt a row names (decision-detail.ts).
+registerJournalIdReader((core) =>
+  hasModuleState(core, COVERAGE_MODULE_ID)
+    ? rows(coreAPI(core)).map((row) => row.lastJournalId)
+    : [],
+);
 
 export function openCoverage(core: CoreState): void {
   if (core.modules.has(COVERAGE_MODULE_ID)) return;
