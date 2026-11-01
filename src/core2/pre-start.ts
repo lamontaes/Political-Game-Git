@@ -161,7 +161,7 @@ function placeAfter(
   return low;
 }
 
-/** One row checked as the run's writer checks it, and the copy kept. */
+/** One row checked as every writer of the history checks it, and the copy kept. */
 function checkedRow(
   core: CoreState,
   window: PreStartWindow,
@@ -279,10 +279,12 @@ function sameAsOldWrite(
     throw new Error(
       "The pre-start history's rows differ from the old write's sort.",
     );
+  // The run's own writer does not see ids written for people filled in
+  // during it, so the history may name an id twice: compare the sets.
   const index = indexes.get(history);
   if (
     index &&
-    (index.ids.size !== history.length ||
+    (index.ids.size !== new Set(history.map((row) => row.id)).size ||
       history.some((row) => !index.ids.has(row.id)))
   )
     throw new Error("The pre-start history's ids differ from its rows.");
@@ -382,18 +384,8 @@ export function runPreStart(core: CoreState, window: PreStartWindow): string[] {
       if (module.preStart?.phase === phase) {
         const writer: HistoryWriter = {
           record(row) {
-            const date = makeIsoDate(row.date);
-            if (date < window.from || date > window.through)
-              throw new Error(
-                `History must be dated inside the pre-start run: ${row.id} on ${date}`,
-              );
-            if (!row.id.trim() || ids.has(row.id))
-              throw new Error(`History record id missing or reused: ${row.id}`);
-            for (const id of row.personIds ?? [])
-              if (!core.people.has(id))
-                throw new Error(`History names an absent person: ${id}`);
-            ids.add(row.id);
-            rows.push({ ...row, date, moduleId: module.id });
+            rows.push(checkedRow(core, window, ids, row, module.id));
+            // Unsorted again: a later write sorts it the old way first.
             indexes.delete(rows);
           },
           read: (filter) => preStartHistory(core, filter),

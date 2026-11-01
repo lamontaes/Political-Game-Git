@@ -234,4 +234,46 @@ describe("history before the start", () => {
       preStartHistory(loaded).filter((each) => each.personIds?.includes(actor)),
     );
   });
+
+  it("keeps writing after the run's writer reuses an id written for someone filled in during it, as before", () => {
+    const row = (
+      id: string,
+      date: string,
+    ): Omit<HistoryRecord, "moduleId"> => ({
+      id,
+      date: date as HistoryRecord["date"],
+      kind: "fixture.later",
+      facts: {},
+      publicRecord: false,
+      source: piecesSource,
+    });
+    const fixture: PreStartModule = {
+      id: "fixture-run",
+      preStart: {
+        phase: "people",
+        run(_api, _window, history) {
+          history.record(row("run-a", "2022-06-01"));
+          recordPreStartLater(core, "fixture-later", [
+            row("twice", "2023-03-01"),
+          ]);
+          // The run's writer never saw that id, so it takes it again.
+          history.record(row("twice", "2022-09-01"));
+        },
+      },
+    };
+    const core = createLifeCore(piecesInput(), { modules: [fixture] });
+    runPreStart(core, preStartWindow(core, "2022-01-01", "quarter"));
+    recordPreStartLater(core, "fixture-later", [row("later-a", "2024-01-01")]);
+    recordPreStartLater(core, "fixture-later", [row("later-b", "2022-03-01")]);
+    expect(preStartHistory(core).map((each) => each.id)).toEqual([
+      "later-b",
+      "run-a",
+      "twice",
+      "twice",
+      "later-a",
+    ]);
+    expect(() =>
+      recordPreStartLater(core, "fixture-later", [row("twice", "2024-01-01")]),
+    ).toThrow("History record id missing or reused: twice");
+  });
 });
