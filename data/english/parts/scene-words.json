@@ -3667,6 +3667,86 @@
       "tag": {
         "move": "narrate"
       }
+    },
+    {
+      "key": "scene-words.lead-swearing-in-other.other-is-waiting-to-swear-you-in",
+      "move": "lead-swearing-in-other",
+      "kind": "spoken",
+      "text": "{other} is waiting to swear you in.",
+      "uses": [
+        {
+          "move": "lead-swearing-in-other",
+          "subject": "lead",
+          "role": "swearing-in",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-swearing-in-other.other-has-come-to-give-you-the-oath",
+      "move": "lead-swearing-in-other",
+      "kind": "spoken",
+      "text": "{other} has come to give you the oath.",
+      "uses": [
+        {
+          "move": "lead-swearing-in-other",
+          "subject": "lead",
+          "role": "swearing-in",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-swearing-in-alone.it-is-time-to-take-the-oath",
+      "move": "lead-swearing-in-alone",
+      "kind": "spoken",
+      "text": "It is time to take the oath.",
+      "uses": [
+        {
+          "move": "lead-swearing-in-alone",
+          "subject": "lead",
+          "role": "swearing-in",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-swearing-in-alone.you-are-about-to-be-sworn-in",
+      "move": "lead-swearing-in-alone",
+      "kind": "spoken",
+      "text": "You are about to be sworn in.",
+      "uses": [
+        {
+          "move": "lead-swearing-in-alone",
+          "subject": "lead",
+          "role": "swearing-in",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words session (Claude Code)",
+      "date": "2026-10-29",
+      "tag": {
+        "move": "narrate"
+      }
     }
   ]
 }
