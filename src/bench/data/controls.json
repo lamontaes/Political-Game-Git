@@ -588,7 +588,8 @@
     "debtKinds": {
       "personal": "Personal loan",
       "startup": "Startup loan",
-      "mortgage": "Mortgage"
+      "mortgage": "Mortgage",
+      "small-dollar": "Cash advance"
     },
     "reasons": {
       "household.rent": "Rent",

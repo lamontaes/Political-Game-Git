@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: governing/reached-law-by-bill-id
 pr: #7018
 blocked-on:
