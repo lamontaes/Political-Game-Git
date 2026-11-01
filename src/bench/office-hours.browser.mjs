@@ -50,13 +50,12 @@ try {
     (await page.locator("#card-clock").innerText()).replace(/\s+/g, " ").trim();
   const toOffice = async () => {
     await page.locator('.ring[data-tab="travel"]').click();
-    await page.waitForTimeout(600);
-    await page
-      .getByText(
-        /Division of Elections|Clerk|Registrar|Board of Elections|Elections/,
-      )
-      .first()
-      .click();
+    // The first office that takes filings: its card says "You file here".
+    const card = page
+      .locator("#sheet-body .entry", { hasText: /You file here/ })
+      .first();
+    await card.waitFor();
+    await card.click();
     await page.getByTestId("place-go").waitFor();
   };
   const evening = await clock();

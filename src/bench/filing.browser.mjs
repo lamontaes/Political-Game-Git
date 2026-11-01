@@ -217,8 +217,14 @@ try {
   console.log(
     `Clock: ${before.date} minute ${before.minuteOfDay} -> ${after.date} minute ${after.minuteOfDay} (${spent} minutes)`,
   );
+  // The filing is recorded at the minute of the visit, and its own story may
+  // hold the clock there until the player lives through it (the office now
+  // opens at its clerk's hour, so the visit and the story share a minute).
+  const held =
+    (await (await page.request.get(`${base}/api/title`)).json()).life.packet
+      ?.kind === "stop";
   assert.ok(
-    spent > 0 && spent <= parameters.filingVisitHours.value * 60,
+    (spent > 0 || held) && spent <= parameters.filingVisitHours.value * 60,
     `filing moved the clock ${spent} minutes`,
   );
   // The visit lands in the day: never at 3:00 AM after a midnight start.

@@ -1,6 +1,6 @@
 import { coreAPI } from "../core2/state";
 import { filingClerkFor } from "../core2/modules/filing-clerk";
-import { workSpansOnDateV1 } from "../core2/work-spans-v1";
+import { workSpansOf } from "./places";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import {
   checkEligibility,
@@ -273,28 +273,20 @@ export function counterOpening(
   // Looks a fortnight ahead: no week is without a day the office is open.
   for (let ahead = 0; ahead < 14; ahead += 1) {
     const date = addDays(makeIsoDate(at.date), ahead);
-    let starts: number[];
-    try {
-      const spans = workSpansOnDateV1(api, {
-        controlledPersonId: clerk.personId,
-        date,
-      }).owners.flatMap((owner) => owner.spans);
-      if (
-        ahead === 0 &&
-        spans.some(
-          (span) =>
-            span.startMinute <= at.minuteOfDay &&
-            at.minuteOfDay < span.endMinute,
-        )
+    const spans = workSpansOf(core, clerk.personId, date);
+    // No hours on record for this clerk: the counter stands open.
+    if (!spans) return null;
+    if (
+      ahead === 0 &&
+      spans.some(
+        (span) =>
+          span.startMinute <= at.minuteOfDay && at.minuteOfDay < span.endMinute,
       )
-        return null;
-      starts = spans
-        .filter((span) => ahead > 0 || span.startMinute > at.minuteOfDay)
-        .map((span) => span.startMinute);
-    } catch {
-      // No hours on record for this clerk: the counter stands open.
+    )
       return null;
-    }
+    const starts = spans
+      .filter((span) => ahead > 0 || span.startMinute > at.minuteOfDay)
+      .map((span) => span.startMinute);
     if (starts.length) return { date, minuteOfDay: Math.min(...starts) };
   }
   return null;
