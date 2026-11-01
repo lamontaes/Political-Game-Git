@@ -97,8 +97,10 @@ describe("committee markup trades", () => {
     expect(played.api, played.where).not.toBeNull();
     let honored = 0;
     for (const { bill, deal } of played.trades) {
+      // The member's floor vote, which carries the trades it cites (a veto
+      // override and a tie-break write their own rows without them).
       const vote = votesOn(played.api!, bill.id).find(
-        (row) => row.memberId === deal.memberId,
+        (row) => row.memberId === deal.memberId && row.traded !== undefined,
       );
       if (!vote) continue;
       // The vote cites the trade, and the member votes for the bill that has
