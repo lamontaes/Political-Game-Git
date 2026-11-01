@@ -41,13 +41,16 @@ When the CTO moves a PR between two checkers, it tells both. A checker already m
 
 - The PR number and the head SHA it is about, the place and seed of any failure, and the exact ask.
 - What you did and what is left, in one or two sentences. Not the whole log: that goes in the PR comment.
+- A builder's hand-off to its checker names the branch and head, what changed in one sentence, the heavy test with the seed variables that replay its proof place (for example `LENDERS_PLACE` and `LENDERS_WORLD_SEED`) and how long one run takes, what the builder did not run, and that the checker is now the branch's one writer.
 - A ruling you relay names where it is recorded (`OWNER-DECISIONS.md`, with its date and time).
+- A reviewer whose environment refuses a GitHub write sends the review by message. The PR's author then posts it on the PR word for word, marked as relayed, with the sender and time, so the checker reads it in the record (Nov 1, the lane's review of #6981).
 
 ## A process is a skill
 
 - If you are about to explain in a message how to do something (a command, an order of steps, a trap to avoid), write it into the skill that covers it, or a new skill, and send the skill's name and line instead. Ship it as a `skills:` PR the CTO merges at once (AGENTS.md, "Skills").
 - If you receive a process in a message, check that a skill holds it. If none does, add it.
 - A message that settles something for the future (a route, a ruling, a recurring fix) is also a skill line or an `OWNER-DECISIONS.md` entry, never only a message.
+- A skills PR is merged within minutes of your message. Before you push more to its branch, check the PR is still open; once it has merged, anything you push is stranded on the branch, so open a new skills PR for it (Nov 1: three sessions' later lines were stranded this way).
 
 ## When messages cross
 

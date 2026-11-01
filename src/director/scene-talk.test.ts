@@ -248,7 +248,9 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
       if (warm !== compose(-2)) differing += 1;
     }
     expect(differing).toBeGreaterThan(0);
-  });
+    // Every purpose composed three times: past the 30-second default on a
+    // slow draw (Checker 0, Nov 1: fo-1, also on clean main).
+  }, 120_000);
 
   it("never says a fact the record lacks: with the bill missing, a bill scene is skipped, not invented", () => {
     const type = types.find((row) => row.purpose === "ask-vote")!;
