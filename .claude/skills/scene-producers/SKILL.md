@@ -57,6 +57,7 @@ A producer is a read of an event an engine already records, never a new mechanic
   3. It asserts the schedule binds the type, and that `composeScene` narrates from the record.
   4. Name the place, the seed and the record ids.
 - A unit fixture proves edge cases only (AGENTS.md, generated-world proof).
+- **Compose it, don't only bind it.** A cause that binds a type whose purpose cannot be worded stages an empty scene that still stops the player (the filing scene after the counter, #6990). Call `purposeScene` on the staged entry and check it is not skipped.
 
 ## 6. Count what was removed
 

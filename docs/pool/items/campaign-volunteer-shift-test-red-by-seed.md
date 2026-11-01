@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: governing/volunteer-shift-test-by-seed
-pr:
+pr: #6977
 blocked-on:
 lead: governing
 source: Checker 2, Nov 1 (regating #6912); filed by the governing lead
