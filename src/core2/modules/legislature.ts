@@ -5425,6 +5425,14 @@ export function registerSittingReader(
   sittingReader = reader;
 }
 
+/** When a body sits next, from the engine that keeps the bodies' calendars; null for an office that is not a body. */
+export function nextSittingOf(
+  api: CoreAPI,
+  bodyOfficeId: string,
+): Sitting | null {
+  return sittingReader?.(api, bodyOfficeId) ?? null;
+}
+
 let floorDateReader: ((api: CoreAPI, billId: string) => string | null) | null =
   null;
 /** The engine that keeps the floor leaders' calendars says which week a drafted bill is on. */

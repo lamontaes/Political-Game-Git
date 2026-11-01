@@ -4710,3 +4710,60 @@ select.release-pick {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+/* The calendar's kinds, each its own color, named and hidden by the key above the month
+   (owner, Nov 1: "color code those things ... and be able to hide them"). */
+.calendar-layout {
+  --kind-birthday: #e0a090;
+  --kind-deadline: #d6bd84;
+  --kind-election: #7fa3d6;
+  --kind-meeting: #8fc79a;
+  --kind-holiday: #c4a0d8;
+}
+.calendar-key {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin: 0 0 8px;
+}
+#sheet-body .calendar-key .key-kind {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 0;
+  padding: 4px 12px;
+  border-radius: 14px;
+  font-size: 13px;
+  opacity: 0.55;
+}
+#sheet-body .calendar-key .key-kind.on {
+  opacity: 1;
+}
+.calendar-key .key-kind::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--kind-color);
+}
+.kind-birthday {
+  --kind-color: var(--kind-birthday);
+}
+.kind-deadline {
+  --kind-color: var(--kind-deadline);
+}
+.kind-election {
+  --kind-color: var(--kind-election);
+}
+.kind-meeting {
+  --kind-color: var(--kind-meeting);
+}
+.kind-holiday {
+  --kind-color: var(--kind-holiday);
+}
+.calendar-layout .day-icon[class*="kind-"] {
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px var(--kind-color);
+}

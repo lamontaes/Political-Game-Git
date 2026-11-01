@@ -1,4 +1,4 @@
-/* global process, URL, console, document */
+/* global getComputedStyle, process, URL, console, document */
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
 const browser = await chromium.launch({
@@ -73,7 +73,7 @@ try {
   );
   for (const line of lines) {
     assert.ok(
-      line.what.split(/\s+/).length >= 2,
+      line.what.split(/\s+/).length >= 2 || /^[A-Z][a-z]+$/.test(line.what),
       `a worded line: ${line.what}`,
     );
     assert.ok(!/takes? effect|undefined/i.test(line.what), line.what);
@@ -95,6 +95,49 @@ try {
   await page.screenshot({
     path: `${process.env.SHOTS ?? "."}/calendar-today.png`,
   });
+  // More than birthdays (owner, Nov 1): the town's meetings and the holidays
+  // stand with the family's birthdays, each kind in its own color with a key,
+  // and a kind can be hidden and shown again.
+  const kinds = await page
+    .locator(".calendar-key .key-kind")
+    .evaluateAll((nodes) => nodes.map((n) => n.dataset.kind));
+  console.log("Kinds:", kinds.join(", "));
+  assert.ok(kinds.includes("holiday"), "no holidays on the calendar");
+  assert.ok(kinds.includes("birthday"), "no birthdays on the calendar");
+  assert.ok(kinds.length >= 3, `only ${kinds.join(", ")}`);
+  const colors = await page
+    .locator(".calendar-key .key-kind")
+    .evaluateAll((nodes) =>
+      nodes.map((n) => getComputedStyle(n, "::before").backgroundColor),
+    );
+  assert.equal(new Set(colors).size, colors.length, "two kinds share a color");
+  const rowsOf = (kind) =>
+    page.locator(`.calendar-pager .calendar-entry .day-icon.kind-${kind}`);
+  const marks = (kind) => page.locator(`.month .day-icon.kind-${kind}`);
+  const before =
+    (await rowsOf("holiday").count()) + (await marks("holiday").count());
+  assert.ok(before > 0, "no holiday is shown");
+  await page.locator('.calendar-key [data-kind="holiday"]').click();
+  assert.equal(
+    (await rowsOf("holiday").count()) + (await marks("holiday").count()),
+    0,
+    "a hidden kind still shows",
+  );
+  assert.equal(
+    await page
+      .locator('.calendar-key [data-kind="holiday"]')
+      .getAttribute("aria-pressed"),
+    "false",
+  );
+  await page.screenshot({
+    path: `${process.env.SHOTS ?? "."}/calendar-holidays-hidden.png`,
+  });
+  await page.locator('.calendar-key [data-kind="holiday"]').click();
+  assert.equal(
+    (await rowsOf("holiday").count()) + (await marks("holiday").count()),
+    before,
+    "a shown kind did not come back",
+  );
   // An empty future day: its date heads the side with the skip, and the clock
   // does not move until it is pressed.
   for (let i = 0; i < 9; i++)
