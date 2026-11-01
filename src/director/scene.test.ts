@@ -25,16 +25,56 @@ const base = enrichCivicInputs(
 );
 const age = (birth: string) =>
   ageOnDate(makeIsoDate(birth), makeIsoDate(base.startedAt));
+// A grown person in a household of three or more: a death at home is then a
+// family scene for someone, whatever the drawn place (a lone adult in a small
+// town has no household to lose anyone from, and nothing else is on record
+// in a six-week window).
+const householdSize = new Map<string, number>();
+for (const person of base.people)
+  householdSize.set(
+    person.householdId,
+    (householdSize.get(person.householdId) ?? 0) + 1,
+  );
 const player = base.people.find(
   (person) =>
     person.tier !== "husk" &&
     age(person.birthDate) >= 18 &&
-    age(person.birthDate) <= 30,
+    age(person.birthDate) <= 30 &&
+    (householdSize.get(person.householdId) ?? 0) >= 3,
 )!;
 const input = { ...base, playerId: player.id };
 const director = createDirector({ watch: [...initialFocusPeople(input)] });
 const core = createLifeCore(input, { modules: [director.module] });
 director.start(core);
+// A death in the household is a family scene for the others at home.
+const home = [...director.ledger.people.keys()]
+  .map((id) => core.people.get(id)!)
+  .find(
+    (row) =>
+      row.alive &&
+      (core.households.get(row.householdId)?.memberIds ?? []).filter(
+        (id) => id !== row.id && core.people.get(id)?.alive,
+      ).length > 1,
+  )!;
+const dead = core.households
+  .get(home.householdId)!
+  .memberIds.find((id) => id !== home.id && core.people.get(id)?.alive)!;
+applyCoreEvent(core, {
+  id: `life.death:${dead}:${core.date}`,
+  date: core.date,
+  kind: "life.death",
+  personIds: [dead],
+  witnessIds: [home.id],
+  placeId: home.placeId,
+  publicRecord: true,
+  moodImpulse: -1,
+  stressImpulse: 1,
+  source: {
+    tag: "SOURCED",
+    citation: "A death as the health writer records it.",
+    asOf: core.date,
+  },
+} as never);
 advanceCore(core, "2021-02-15");
 
 describe(`scenes in ${base.placeMetadata?.placeName} (seed ${seed})`, () => {
@@ -72,36 +112,6 @@ describe(`scenes in ${base.placeMetadata?.placeName} (seed ${seed})`, () => {
   });
 
   it("stages a family scene in the watched person's own household, with only the people the records put there", () => {
-    // A death in the household is a family scene for the others at home.
-    const home = [...director.ledger.people.keys()]
-      .map((id) => core.people.get(id)!)
-      .find(
-        (row) =>
-          row.alive &&
-          (core.households.get(row.householdId)?.memberIds ?? []).filter(
-            (id) => id !== row.id && core.people.get(id)?.alive,
-          ).length > 1,
-      )!;
-    const dead = core.households
-      .get(home.householdId)!
-      .memberIds.find((id) => id !== home.id && core.people.get(id)?.alive)!;
-    applyCoreEvent(core, {
-      id: `life.death:${dead}:${core.date}`,
-      date: core.date,
-      kind: "life.death",
-      personIds: [dead],
-      witnessIds: [home.id],
-      placeId: home.placeId,
-      publicRecord: true,
-      moodImpulse: -1,
-      stressImpulse: 1,
-      source: {
-        tag: "SOURCED",
-        citation: "A death as the health writer records it.",
-        asOf: core.date,
-      },
-    } as never);
-    advanceCore(core, "2021-02-20");
     let homes = 0;
     for (const book of director.ledger.people.values()) {
       const own = core.people.get(book.personId)!.householdId;
