@@ -6,9 +6,9 @@ lead: laws
 kind: bug
 priority: 1
 size: L
-status: claimed
+status: in-pr
 claimed-by: claude/gov-every-state-and-town-governs
-pr:
+pr: #7020
 blocked-on:
 source: owner, Oct 29 voice note on the governing brief
 claimed-at: 2026-10-29T21:28:24.226Z
