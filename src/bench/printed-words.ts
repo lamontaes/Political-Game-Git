@@ -47,7 +47,7 @@ import {
 } from "../english/bill-names";
 import type { StoryKind } from "../english/english-newscast";
 import { joinList } from "../english/bill-names";
-import { storyTopicName } from "../english/policy-names";
+import { storyTopicName, topicInSentence } from "../english/policy-names";
 import { lineName } from "./budget";
 import { policyNames } from "./words";
 import { placeLabel } from "../director/journal";
@@ -2526,6 +2526,34 @@ const retirement: Builder = (read, f) => {
   );
 };
 
+/**
+ * A reader's letter to the editor, from the press's weekly letters step: who
+ * wrote, from where, and for or against which policy, from the stance the
+ * story they read last moved (cited by that story).
+ */
+const letter: Builder = (read, f) => {
+  const subject = f.topic ? topicInSentence(f.topic) : null;
+  const side =
+    f.desiredChange === "enact"
+      ? "supports"
+      : f.desiredChange === "repeal"
+        ? "opposes"
+        : null;
+  const town = read.residence(f.personId);
+  if (!subject || !side) return null;
+  return story(
+    "letter",
+    {
+      ...read.who(f.personId, "name", false),
+      subject: read.fact(subject, f.storyId ?? ""),
+      [side]: read.yes(),
+      ...(town ? { place: read.fact(town, f.personId ?? "") } : {}),
+    },
+    ["name", "subject"],
+    f.personId,
+  );
+};
+
 /** A business's round year since its founding, from the press's week of milestones. */
 const anniversary: Builder = (read, f) => {
   const id = f.organizationId ?? "";
@@ -2892,6 +2920,7 @@ const BUILDERS: Readonly<Record<string, Builder>> = {
   birthday: milestoneBirthday,
   anniversary,
   retirement,
+  letter,
   profile,
   interview,
   claim: claimCheck,

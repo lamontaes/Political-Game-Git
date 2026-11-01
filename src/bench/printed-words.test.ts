@@ -127,6 +127,19 @@ describe("printed stories in News", () => {
     console.log(
       `printed-words meetings: ${sat.length} sittings with business, ${weekly.length} weekly briefs, ${oaths.length} oaths and vacancies; e.g. ${example ? `${example.headline} / ${example.lede}` : "none"}`,
     );
+    // A reader's letter to the editor, from the stance a story of the same
+    // outlet last moved: each worded (the check above) and cited by its writer.
+    const letters = printed.filter((story) =>
+      source(story).startsWith("letter:"),
+    );
+    for (const story of letters)
+      expect(source(story).split(":")[1], `${story.id} in ${where}`).toBe(
+        String(story.facts.personId),
+      );
+    const firstLetter = letters[0] && wordPrintedStory(core, letters[0]);
+    process.stdout.write(
+      `printed-words letters: ${letters.length} in the year; e.g. ${firstLetter ? `${firstLetter.headline} / ${firstLetter.lede}` : "none"}\n`,
+    );
     // News prints stories, not only briefs: some of the year's stories carry a body.
     console.log(
       `printed-words bodies: ${withBody.length} of ${printed.length}; e.g. ${withBody.slice(0, 3).join(" || ")}`,

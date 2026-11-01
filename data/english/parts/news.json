@@ -4697,6 +4697,94 @@
       }
     },
     {
+      "key": "news.letter.in-a-letter-to-the-editor-name-of-place-backs-subject",
+      "move": "letter",
+      "kind": "written",
+      "text": "In a letter to the editor, {name} of {place} backs {subject}.",
+      "uses": [
+        {
+          "move": "letter",
+          "subject": "news",
+          "role": "letter",
+          "choice": "lede",
+          "requiresFacts": ["supports", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.letter.name-wrote-to-the-paper-in-support-of-subject",
+      "move": "letter",
+      "kind": "written",
+      "text": "{name} wrote to the paper in support of {subject}.",
+      "uses": [
+        {
+          "move": "letter",
+          "subject": "news",
+          "role": "letter",
+          "choice": "lede",
+          "requiresFacts": ["supports"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.letter.in-a-letter-to-the-editor-name-of-place-opposes-subject",
+      "move": "letter",
+      "kind": "written",
+      "text": "In a letter to the editor, {name} of {place} opposes {subject}.",
+      "uses": [
+        {
+          "move": "letter",
+          "subject": "news",
+          "role": "letter",
+          "choice": "lede",
+          "requiresFacts": ["opposes", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.letter.name-wrote-to-the-paper-against-subject",
+      "move": "letter",
+      "kind": "written",
+      "text": "{name} wrote to the paper against {subject}.",
+      "uses": [
+        {
+          "move": "letter",
+          "subject": "news",
+          "role": "letter",
+          "choice": "lede",
+          "requiresFacts": ["opposes"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "news.retirement.after-years-years-at-employer-name-has-retired",
       "move": "retirement",
       "kind": "written",

@@ -249,6 +249,12 @@
       "source": "Weight of the reporter's own causes and grudges in what they pick.",
       "spread": [0.2, 1]
     },
+    "letterWriterDays": {
+      "value": 30,
+      "tag": "TUNABLE",
+      "source": "Days a reader whose letter ran waits before the paper prints another from them: local papers' letters policies commonly print one letter per writer a month.",
+      "spread": [14, 60]
+    },
     "storyFreshDays": {
       "value": 14,
       "tag": "TUNABLE",

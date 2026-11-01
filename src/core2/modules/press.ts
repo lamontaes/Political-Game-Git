@@ -129,7 +129,7 @@ import {
   type DeskContext,
   type PrintedStory,
 } from "../press-desk";
-import type { Story } from "./news";
+import { newsKey, type Story } from "./news";
 import { worldLevel } from "../world-draw";
 
 export const PRESS_MODULE_ID = "core2-press-v1";
@@ -3033,6 +3033,11 @@ export const RETIREMENT = "person.retired";
 /** The jobs engine's reason for a worker who leaves work for good. */
 const RETIRED = "retired";
 
+/** A reader's letter to the editor, as the press prints it. */
+export const LETTER = "press.letter";
+/** The trait engine's decision to write to the paper or keep quiet. */
+const LETTER_DECISION = "press.letter";
+
 /** The anniversary of a date in a year, as a date ("02-29" falls on the 28th outside leap years). */
 function anniversaryIn(year: number, date: string): string {
   const day = date.slice(5);
@@ -3162,6 +3167,109 @@ function milestones(api: CoreAPI): void {
       subjectIds: [],
       facts: { organizationId: row.id, years: String(years), since: row.date },
     });
+  }
+}
+
+/**
+ * The week's letters to the editor (words-paper-and-journal-everyday-life;
+ * the CTO's ruling, OWNER-DECISIONS Nov 1 20:00). For each local outlet, the
+ * readers whose stance was last moved by one of its recent stories weigh
+ * writing to it, by how strongly they feel and by their temperament together
+ * (the press.letter decision, Mondak and Halperin 2008), never by the stance
+ * alone. The paper prints the strongest case among them, one letter a week,
+ * and a writer whose letter ran waits the span the paper's letters policy
+ * sets before another.
+ */
+function letters(api: CoreAPI): void {
+  if (!api.state.modules.has(VIEWS_MODULE_ID)) return;
+  const c = api.state as CoreState;
+  const town = lawChain(api).townPlaceId;
+  const ctx = deskContext(api);
+  const fresh = addDays(
+    makeIsoDate(api.state.date),
+    -pressParameter("storyFreshDays"),
+  );
+  const spaced = addDays(
+    makeIsoDate(api.state.date),
+    -pressParameter("letterWriterDays"),
+  );
+  // Who wrote lately, from the letters still on the wire.
+  const wrote = new Set(
+    (table(api, "wire").rows() as unknown as WireItem[])
+      .filter((item) => item.kind === LETTER && item.date > spaced)
+      .flatMap((item) => item.subjectIds),
+  );
+  // A counted reader's view is not moved by what they read, so none of their
+  // stances cites a story; their letters wait on that.
+  // stopgapId: SG-WORDS-letters-counted-readers
+  for (const outlet of outletsHere(api)) {
+    if (outlet.tier === "national") continue;
+    const from = newsKey(`printed:${outlet.id}:`);
+    let best:
+      | {
+          personId: string;
+          stance: ReturnType<typeof stancesOf>[number];
+          storyId: string;
+          score: number;
+        }
+      | undefined;
+    for (const id of ctx.followers(outlet.id)) {
+      const person = c.people.get(id as PersonId);
+      if (!person?.alive || person.placeId !== town || wrote.has(id)) continue;
+      for (const stance of stancesOf(api, id as PersonId)) {
+        const cause = stance.causes.at(-1);
+        if (!cause?.learnedFrom?.startsWith(from) || cause.date < fresh)
+          continue;
+        // A letter is for or against a policy the reader holds a side on.
+        if (
+          !isPolicyTopic(stance.topic) ||
+          stance.topic.startsWith("budget-line:") ||
+          !["enact", "repeal"].includes(stance.desiredChange)
+        )
+          continue;
+        const score = leanedScore(
+          c,
+          person,
+          LETTER_DECISION,
+          "write",
+          "keep",
+          stance.strength,
+        );
+        if (
+          !best ||
+          score > best.score ||
+          (score === best.score && id.localeCompare(best.personId) < 0)
+        )
+          best = {
+            personId: id,
+            stance,
+            storyId: cause.learnedFrom.slice("news:".length),
+            score,
+          };
+      }
+    }
+    if (!best) continue;
+    const id = `letter:${best.personId}:${api.state.date}`;
+    if (table(api, "wire").get(id)) continue;
+    wrote.add(best.personId);
+    table(api, "wire").put({
+      id,
+      kind: LETTER,
+      date: api.state.date,
+      level: "town",
+      topic: best.stance.topic,
+      desiredChange: best.stance.desiredChange,
+      ending: false,
+      subjectIds: [best.personId],
+      facts: {
+        personId: best.personId,
+        outletId: outlet.id,
+        storyId: best.storyId,
+        topic: best.stance.topic,
+        desiredChange: best.stance.desiredChange,
+        strength: String(best.stance.strength),
+      },
+    } as unknown as ModuleRow);
   }
 }
 
@@ -3421,6 +3529,7 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   schoolResults(api);
   policeLog(api);
   milestones(api);
+  letters(api);
   // The week's stories: each reporter files from the fresh wire.
   const wire = freshWire(api);
   // A national outlet covers the nation and the town's own state; a town's

@@ -2734,6 +2734,28 @@
       "quote": "Results indicate that very low-asset households—those in the bottom decile of total assets—do not borrow in response to these shortfalls. However, other low-asset households do borrow, increasing unsecured debt by more than 11 cents per dollar of earnings lost. In contrast, wealthy households do not increase unsecured debt during unemployment.",
       "quoteVerified": true,
       "notes": "Abstract text of the published article, read 2026-10-24 (full text is behind a subscription and was not retrieved, so the 'more than 11 cents' is a floor and the sample sizes are unread). The study gives an amount borrowed, not the odds of borrowing, so it does not convert to a weight: it sets the sign (a job loss pulls toward borrowing where the household has some assets and the credit to borrow) and the pathway. hardshipWeightCreditBorrow is therefore the mean of the two converted sizes, (ln 1.33 + ln 1.6)/2/0.47 = 0.8, with the move weight (0.6) and claim weight (1.0) as its spread. The model's lender gates (the debt-to-income and residual-income slides in credit.ts) shut out a household with no income, as the study finds for the poorest."
+    },
+    {
+      "id": "press.letter",
+      "trait": "agreeableness",
+      "outcome": "likelihood of writing letters to the editor on local political issues (0 to 6)",
+      "effect": {
+        "kind": "logit-coef-full-range",
+        "value": 0.27,
+        "low": 0.035,
+        "high": 0.505,
+        "traitSd": 0.64
+      },
+      "source": {
+        "authors": "Mondak, J. J., & Halperin, K. D.",
+        "year": 2008,
+        "title": "A Framework for the Study of Personality and Political Behaviour",
+        "venue": "British Journal of Political Science 38(2), 335-362",
+        "url": "https://doi.org/10.1017/S0007123408000173"
+      },
+      "quote": "Table 3, \"Effects of Personality on Political Participation\", row \"Write letters to editor on local political issues (0 to 6; ordered logit; 2004 CS; 789)\": Openness 0.10 (0.12), Conscientiousness 0.17 (0.10), Extroversion 0.18 (0.10), Emotional stability -0.02 (0.11), Agreeableness 0.27 (0.12). Table note: \"Cell entries are coefficient estimates for models in which variables in Column 1 were regressed on variables in Columns 2-6, along with controls for age, education, race and sex; standard errors are in parentheses.\" 2004 CS trait standard deviations: Agreeableness 0.64, Extroversion 0.68.",
+      "quoteVerified": true,
+      "notes": "Fetched Nov 1, 2026 from the full text at https://is.muni.cz/el/1423/jaro2010/PSY222/um/11678300/A_Framework_for_the_Study_of_Personality_and_Political_Behaviour__Mondak__Halperin_.pdf. The 2004 Community Survey is a random-digit-dial telephone survey of adults in the Tallahassee, Florida metro area (822 respondents, 789 in this model), not a national sample. The outcome is a stated likelihood on 0 to 6 (the table's previous row reads \"likelihood of attending, 0 = low to 6 = high\"), modeled by ordered logit; its coefficient is read as a binary logit's for the calibration. Each trait is the mean of two logged 0-to-10 items, so the coefficient is per unit of that scale, and its SD (0.64) carries it to a standard deviation, as logit-coef-full-range does: about +0.17 logits per SD. low/high are the coefficient +/- 1.96 x its standard error. Agreeableness is the row's only trait significant at p < .05 (extroversion 0.18, p < .10); the decision's acts (speak-out, engage, commit) follow the trait act pulls."
     }
   ]
 }

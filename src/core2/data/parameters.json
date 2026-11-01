@@ -6359,6 +6359,15 @@
       "citation": "The weight scales with the log odds ratio: the study's 95% Bayesian credibility interval for the odds ratio is 0.47 to 0.60 (Section 3.1: \"HH resulted in a medium to large effect of OR = 0.53 with a 95% BCI of [0.47; 0.60]\"; Table 2: 0.53, 2.5% 0.47, 97.5% 0.60)."
     }
   },
+  "traitWeightPressLetter": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the press.letter decision (who writes a letter to the editor about a story they read). Starts at the general traitWeight (1); to be calibrated against its row in data/research/trait-effect-sizes.json (Mondak and Halperin 2008: agreeableness, ordered logit 0.27 per scale unit, SD 0.64) with scripts/traits/trait-calibrate.ts on a played run of the trait wiring audit.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
   "traitWeightPressTip": {
     "value": 1,
     "tag": "TUNABLE",

@@ -6793,6 +6793,71 @@
       }
     },
     {
+      "key": "headlines.letter.letter-name-on-subject",
+      "move": "letter",
+      "kind": "written",
+      "text": "Letter: {name} on {subject}",
+      "uses": [
+        {
+          "move": "letter",
+          "subject": "headline",
+          "role": "letter",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.letter.name-writes-in-support-of-subject",
+      "move": "letter",
+      "kind": "written",
+      "text": "{name} writes in support of {subject}",
+      "uses": [
+        {
+          "move": "letter",
+          "subject": "headline",
+          "role": "letter",
+          "choice": "headline",
+          "requiresFacts": ["supports"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.letter.name-writes-against-subject",
+      "move": "letter",
+      "kind": "written",
+      "text": "{name} writes against {subject}",
+      "uses": [
+        {
+          "move": "letter",
+          "subject": "headline",
+          "role": "letter",
+          "choice": "headline",
+          "requiresFacts": ["opposes"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "headlines.retirement.name-retires-from-public-service",
       "move": "retirement",
       "kind": "written",

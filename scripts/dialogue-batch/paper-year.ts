@@ -98,6 +98,8 @@ for (let draw = 0; draw < draws; draw += 1) {
     "death",
     "birthday",
     "anniversary",
+    "retirement",
+    "letter",
     "exposed",
     "meetings-week",
   ];
