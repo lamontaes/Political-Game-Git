@@ -3080,9 +3080,16 @@ details.entry[open] {
   padding-top: 10px;
   border-top: 1px solid var(--paper-rule);
 }
+/* A brief is a headline and a line, never opened (owner, Oct 29 and Nov 1:
+   "I click on it, nothing happens"): set small and plain, in the paper's sans,
+   so nothing on it looks like the headlines that open. */
 #sheet-body .side-headline {
   margin: 0 0 4px;
-  font: 700 16px/1.2 var(--speech);
+  color: var(--paper-ink);
+  font: 600 12px/1.35 var(--ui);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: default;
 }
 .paper-column {
   display: flex;
