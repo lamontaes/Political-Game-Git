@@ -676,6 +676,7 @@
     "talk-who": "narration",
     "campaign-standing": "narration",
     "person-sketch": "narration",
-    "person-history": "narration"
+    "person-history": "narration",
+    "bill-paper": "narration"
   }
 }

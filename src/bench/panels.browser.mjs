@@ -15,7 +15,7 @@ const errors = [];
 page.on("pageerror", (e) => errors.push(e.message));
 const shots = process.env.PANEL_SHOTS;
 // Every color stop of the panel's background must be opaque, nothing may blur
-// the scene through it, and its text must read against the lightest stop.
+// the scene through it, and its text must read against its worst stop.
 async function solid(screen, selector) {
   await page.locator(selector).waitFor({ state: "visible" });
   const found = await page.evaluate((s) => {
@@ -43,8 +43,12 @@ async function solid(screen, selector) {
     return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b);
   };
   const see = found.stops.filter((c) => c.length === 4 && c[3] < 1);
-  const lightest = Math.max(...found.stops.map(luminance));
-  const contrast = (luminance(found.text) + 0.05) / (lightest + 0.05);
+  // The WCAG ratio is the lighter over the darker, so it holds for light text on a dark panel and
+  // for dark text on a light one (the News paper); the worst of the panel's stops counts.
+  const ratio = (a, b) => (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
+  const contrast = Math.min(
+    ...found.stops.map((stop) => ratio(luminance(found.text), luminance(stop))),
+  );
   console.log(
     `${screen}: ${found.stops.length} stops, ${see.length} see-through, blur ${found.blur}, contrast ${contrast.toFixed(1)}`,
   );

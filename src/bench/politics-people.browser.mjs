@@ -29,17 +29,27 @@ try {
   await page.locator('.ring[data-tab="politics"]').click();
   await page.locator("#sheet:not([hidden])").waitFor();
   await page.locator("#sheet-body .member-card").first().waitFor();
-  const rows = await page.evaluate(() =>
-    [...document.querySelectorAll("#sheet-body .member-card")].map((row) => {
-      const face = row.querySelector(".member-face");
-      return {
-        name: row.querySelector(".member-name")?.textContent.trim(),
-        letters: (face?.textContent ?? "").trim(),
-        picture: Boolean(face?.style.backgroundImage),
-        initials: Boolean(row.querySelector(".people-initial")),
-      };
-    }),
-  );
+  const read = () =>
+    page.evaluate(() =>
+      [...document.querySelectorAll("#sheet-body .member-card")].map((row) => {
+        const face = row.querySelector(".member-face");
+        return {
+          name: row.querySelector(".member-name")?.textContent.trim(),
+          letters: (face?.textContent ?? "").trim(),
+          picture: Boolean(face?.style.backgroundImage),
+          initials: Boolean(row.querySelector(".people-initial")),
+        };
+      }),
+    );
+  const rows = await read();
+  // A three-seat town board shows three cards: the State level's are read too.
+  if (rows.length < 4) {
+    await page.locator('#sheet-body [data-level="state"]').click();
+    await page.waitForTimeout(1500);
+    rows.push(...(await read()));
+    await page.locator('#sheet-body [data-level="local"]').click();
+    await page.waitForTimeout(1000);
+  }
   console.log(
     `${rows.length} member cards; ${rows.filter((r) => r.picture).length} with a picture`,
   );

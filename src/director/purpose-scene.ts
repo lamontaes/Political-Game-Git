@@ -1015,6 +1015,7 @@ export function replyInScene(
       ...(stakeKind ? { stake: stakeKind } : {}),
       ...(enlists && filingId ? { enlisted: filingId } : {}),
       ...(ending ? { ending: ending.id, keeps: ending.keeps } : {}),
+      ...(ending?.firmness ? { firmness: ending.firmness } : {}),
     },
     source: {
       tag: "SOURCED",

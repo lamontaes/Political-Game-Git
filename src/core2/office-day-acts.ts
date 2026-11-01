@@ -30,7 +30,11 @@ import {
   handleCase,
   ownCaseDecision,
 } from "./modules/constituent-cases";
-import { holdTownHall } from "./modules/meetings";
+import {
+  holdTownHall,
+  MEETINGS_MODULE_ID,
+  townHallId,
+} from "./modules/meetings";
 import {
   answerInterview,
   candidateAnswers,
@@ -459,12 +463,28 @@ export function budgetProposalDue(
   return { governmentId: gov.id, fiscalYearStarts: starts };
 }
 
-/** A town hall is held on a cadence: not again until the interval has passed since the official's last. */
+/** Whether the person already hosted a town hall today (a candidate's forum among them): one a day, read by its id. */
+function heldTownHallToday(api: CoreAPI, personId: string): boolean {
+  return (
+    api.state.modules.has(MEETINGS_MODULE_ID) &&
+    !!api
+      .moduleState(MEETINGS_MODULE_ID)
+      .table("townHalls")
+      .get(townHallId(personId, api.state.date))
+  );
+}
+
+/**
+ * A town hall is held on a cadence: not again until the interval has passed
+ * since the official's last, and never on a day they already hosted one (an
+ * incumbent's forum for their race is the same day's town hall).
+ */
 export function townHallDue(
   api: CoreAPI,
   host: OfficeActHost,
   personId: string,
 ): boolean {
+  if (heldTownHallToday(api, personId)) return false;
   const last = host.lastGiven(api, personId, "town-hall");
   return (
     !last ||
@@ -521,6 +541,11 @@ export function officeActHandlers(host: OfficeActHost) {
     /** A town hall: the host answers as prepared, or from their own view. */
     "town-hall": (api: CoreAPI, actorId: string) => {
       const prepared = host.prepared(api, actorId, "town-hall");
+      // One a day: a forum they hosted for their race today was it.
+      if (heldTownHallToday(api, actorId)) {
+        host.clearPrepared(api, actorId, "town-hall");
+        return;
+      }
       const row = holdTownHall(api, {
         hostId: actorId,
         ...(prepared?.answers ? { answers: prepared.answers } : {}),

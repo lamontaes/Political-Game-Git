@@ -108,6 +108,14 @@ try {
       await page.locator("#sheet-close").click();
   };
   await scan("start");
+  // A new life opens on a scene in the talk box (the President's address), and the clock
+  // with its Day button stays hidden until the scene is played through.
+  for (let line = 0; line < 60; line += 1) {
+    const next = page.locator("#talk-next");
+    if (!(await next.isVisible())) break;
+    await next.click();
+    await page.waitForTimeout(250);
+  }
   await page.locator("#day").click();
   await page.waitForFunction(() => !document.getElementById("day").disabled);
   await scan("after a day");

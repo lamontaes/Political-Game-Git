@@ -680,13 +680,72 @@ export function openContests(api: CoreAPI): readonly ContestRow[] {
     .sort((a, b) => a.filingDeadline.localeCompare(b.filingDeadline));
 }
 
+/** One office the player may file for, by kind prefix (`data/offices/player-offices.json`). */
+interface PlayerOfficeRow {
+  readonly kindPrefix: string;
+  readonly words: string;
+  /** Kind prefixes of the home's own local offices that rule this one out. */
+  readonly onlyWhereNo?: readonly string[];
+}
+const PLAYER_OFFICES =
+  playerOffices.playerOffices as readonly PlayerOfficeRow[];
+
+/** The levels of a home's own local governments: its city, its town or township, its county. */
+const LOCAL_LEVELS: ReadonlySet<string> = new Set([
+  "city",
+  "township",
+  "county",
+]);
+
 /**
- * Whether the player may file for a contest's office (owner, Oct 29: the player runs
- * only for city council, state legislator, mayor, governor, Congress and president).
- * The offices come from one data row (`data/offices/player-offices.json`); every other
- * office keeps running in the world with simulated candidates through `fileCandidacy`.
+ * Whether the player may file for an office of this kind, given the kinds of
+ * the home's own local offices (owner, Oct 29: the player runs only for city
+ * council, state legislator, mayor, governor, Congress and president, and
+ * "city council is, you know, whatever the equivalent is"). A row with
+ * `onlyWhereNo` is the player's only where none of the home's local offices
+ * has one of those kind prefixes: the township board where the home has no
+ * council, the county board where it has neither, the county executive where
+ * it has no council, mayor or township board. Pure: the one rule over the data.
  */
-export function playerMayFileFor(api: CoreAPI, contestId: string): boolean {
+export function playerMayFileForKind(
+  kind: string,
+  localKinds: readonly string[],
+): boolean {
+  return PLAYER_OFFICES.some(
+    (row) =>
+      kind.startsWith(row.kindPrefix) &&
+      !(row.onlyWhereNo ?? []).some((ruledOut) =>
+        localKinds.some((local) => local.startsWith(ruledOut)),
+      ),
+  );
+}
+
+/**
+ * The kinds of the town's own local offices (its city, township and county),
+ * read from the offices table's town index; another place's offices never
+ * cover the town. A home the place listing gives no local government has
+ * none, so its first race is its state's or territory's own lawmaking body.
+ */
+// stopgapId: SG-GOV-first-race-no-local-office
+function townLocalKinds(api: CoreAPI): readonly string[] {
+  return (
+    api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("offices")
+      .query("byTown", [true]) as unknown as {
+      level: string;
+      kind: string;
+    }[]
+  )
+    .filter((office) => LOCAL_LEVELS.has(office.level))
+    .map((office) => office.kind);
+}
+
+function playerMayFileWith(
+  api: CoreAPI,
+  contestId: string,
+  localKinds: readonly string[],
+): boolean {
   const contest = table(api, "contests").get(contestId) as unknown as
     ContestRow | undefined;
   if (!contest) return false;
@@ -694,15 +753,23 @@ export function playerMayFileFor(api: CoreAPI, contestId: string): boolean {
     .moduleState(OFFICES_MODULE_ID)
     .table("offices")
     .get(contest.officeId) as { kind?: string } | undefined;
-  return playerOffices.playerOffices.some((row) =>
-    (office?.kind ?? "").startsWith(row.kindPrefix),
-  );
+  return playerMayFileForKind(office?.kind ?? "", localKinds);
+}
+
+/**
+ * Whether the player may file for a contest's office, by `playerMayFileForKind`
+ * over the town's own local offices. Every other office keeps running in the
+ * world with simulated candidates through `fileCandidacy`.
+ */
+export function playerMayFileFor(api: CoreAPI, contestId: string): boolean {
+  return playerMayFileWith(api, contestId, townLocalKinds(api));
 }
 
 /** The open contests the player may file for: the filing screen's choices. */
 export function playerContests(api: CoreAPI): readonly ContestRow[] {
+  const localKinds = townLocalKinds(api);
   return openContests(api).filter((contest) =>
-    playerMayFileFor(api, contest.id),
+    playerMayFileWith(api, contest.id, localKinds),
   );
 }
 

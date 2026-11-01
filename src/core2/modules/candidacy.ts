@@ -120,11 +120,18 @@ function c(api: CoreAPI, key: string): number {
   return row.value;
 }
 
-const causeKinds: ReadonlySet<string> = new Set(
-  DEFAULT_DRIVES_DATA.driveKinds
-    .filter((kind) => kind.shareable)
-    .map((kind) => kind.id),
-);
+// Read on first use, not at load: drives.ts and this module sit in one
+// import cycle (drives -> life -> counted-demotion -> candidacy), entered at
+// drives once campaigns.ts imports causeGroupsIn from it.
+let causeKindsRead: ReadonlySet<string> | undefined;
+function causeKinds(): ReadonlySet<string> {
+  causeKindsRead ??= new Set(
+    DEFAULT_DRIVES_DATA.driveKinds
+      .filter((kind) => kind.shareable)
+      .map((kind) => kind.id),
+  );
+  return causeKindsRead;
+}
 
 /** What a person's record says that bears on running. */
 interface RunFacts {
@@ -159,7 +166,7 @@ export function candidacyReasons(
   // drives data: a cause, a calling) are reasons to run. A grudge, family or
   // status drive is about a person or oneself and gives filing no push.
   for (const drive of person.drives.values())
-    if (drive.kind && causeKinds.has(drive.kind))
+    if (drive.kind && causeKinds().has(drive.kind))
       cause = Math.max(cause, Math.min(one, drive.strength));
   const job = person.jobId ? api.state.jobs.get(person.jobId) : undefined;
   // How they stand with the incumbent: someone close to the officeholder

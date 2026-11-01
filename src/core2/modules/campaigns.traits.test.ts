@@ -32,6 +32,7 @@ import {
   CAMPAIGNS_MODULE_ID,
   type CampaignRow,
   type CauseRow,
+  type EndorsementRow,
 } from "./campaigns";
 import { standAgainReason } from "./candidacy";
 import { ELECTIONS_MODULE_ID, type ContestRow } from "./elections";
@@ -450,17 +451,27 @@ describe("personality in campaigns and candidacy (a played slice of a drawn plac
       .table("campaigns")
       .rows() as unknown as CampaignRow[];
     expect(campaigns.length, placeName).toBeGreaterThan(0);
-    const asked = campaigns.flatMap((c) => c.endorsementAskedIds ?? []);
+    // The endorsement record is the one list of who was asked and who said
+    // yes: a person's answer names the candidate as the one who asked.
+    const asked = (
+      api
+        .moduleState(CAMPAIGNS_MODULE_ID)
+        .table("endorsements")
+        .rows() as unknown as EndorsementRow[]
+    ).filter((row) => row.organizationId === null);
     expect(
       asked.length,
       `${placeName}: people asked to endorse`,
     ).toBeGreaterThan(0);
-    const endorsers = campaigns.flatMap((c) =>
-      (c.endorserIds ?? []).map((id) => ({ c, id })),
-    );
+    for (const row of asked) {
+      expect(row.askerId, row.id).toBe(row.candidateId);
+      expect(
+        campaigns.some((c) => c.id === row.filingId),
+        row.id,
+      ).toBe(true);
+    }
+    const endorsers = asked.filter((row) => row.answer === "yes");
     expect(endorsers.length, `${placeName}: endorsers`).toBeGreaterThan(0);
-    for (const { c, id } of endorsers)
-      expect(c.endorsementAskedIds, `${id} was asked`).toContain(id);
     // Each endorsement a voter heard names an endorser of that candidate who
     // was asked, and the voter is in the endorser's circle.
     const heard = (
@@ -471,10 +482,14 @@ describe("personality in campaigns and candidacy (a played slice of a drawn plac
     ).filter((cause) => cause.act === "endorsement");
     expect(heard.length, `${placeName}: endorsements heard`).toBeGreaterThan(0);
     for (const cause of heard) {
-      const campaign = campaigns.find(
-        (c) => c.candidateId === cause.candidateId,
-      );
-      expect(campaign?.endorserIds, cause.id).toContain(cause.actorId);
+      expect(
+        endorsers.some(
+          (row) =>
+            row.candidateId === cause.candidateId &&
+            row.speakerId === cause.actorId,
+        ),
+        cause.id,
+      ).toBe(true);
       const endorser = core.people.get(cause.actorId)!;
       expect([...endorser.knownIds, ...endorser.familyIds], cause.id).toContain(
         cause.voterId,

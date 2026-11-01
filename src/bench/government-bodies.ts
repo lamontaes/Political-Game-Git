@@ -20,21 +20,24 @@ import {
   type TermRow,
 } from "../core2/modules/offices";
 import {
+  floorDateOf,
   LEGISLATURE_MODULE_ID,
   type BillRow,
 } from "../core2/modules/legislature";
-import { RECORD_MODULE_ID, type VoteRecordRow } from "../core2/modules/record";
+import {
+  keyPeopleOf,
+  RECORD_MODULE_ID,
+  type VoteRecordRow,
+} from "../core2/modules/people";
 import type { ContestRow } from "../core2/modules/elections";
-import { meetingRule } from "../core2/office-day-calendar";
-import { upcomingMeeting } from "../core2/modules/office-day";
-import { floorDateOf } from "../core2/modules/world-legislating";
+import { meetingRule, upcomingMeeting } from "../core2/modules/office-day";
 import { billTitleOf } from "../english/bill-names";
 import { backdropFile, faceOf } from "./scene";
 import { capitolPlaceFor } from "./backdrop-places";
 import { calendarItems } from "./calendar";
-import { facePlace, holderFace, homeStateOf, readable } from "./government";
+import { facePlace, holderFace, homeStateOf } from "./government";
+import { properName } from "../director/words";
 import { policyNames } from "./words";
-import { keyPeopleOf } from "../core2/opening-key-people";
 
 const LOCAL_LEVELS = new Set(["city", "township", "county"]);
 /** A town's own government before the county's. */
@@ -349,7 +352,7 @@ export function governmentBodies(
       // A local body by its own name ("Latimer Board of Aldermen"); a state
       // chamber or an office by its title, its government named apart.
       name: office.bodyName ?? office.title,
-      government: readable(office.governmentName),
+      government: properName(office.governmentName),
       level: office.level,
       seats: seats.length,
       vacant: seats.filter((row) => !row.holder).length,

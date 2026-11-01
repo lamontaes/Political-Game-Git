@@ -120,7 +120,9 @@ try {
   assert.equal(await page.locator(".people-node").count(), 1);
   await page.getByRole("button", { name: "List", exact: true }).click();
   assert.equal(await page.locator(".people-list").count(), 1);
-  await page.locator(".people-node").click();
+  // The list is face cards, paged; the one found is the only card.
+  assert.equal(await page.locator(".people-list .member-card").count(), 1);
+  await page.locator(".people-list .member-card").click();
   await page.getByRole("button", { name: "View person", exact: true }).click();
   await page.locator("#person:not([hidden])").waitFor();
   assert.equal(await page.locator("#person-name").innerText(), first);

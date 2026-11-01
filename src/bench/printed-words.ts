@@ -1242,6 +1242,38 @@ const debate: Builder = (read, f) => {
   );
 };
 
+/**
+ * An endorsement a campaign kept: the group that backed a candidate (or the
+ * person, where no group did), and the race. A group whose record keeps no
+ * name (a cause group, a group formed over one policy) is "a local group":
+ * its record does not say which way it stands once its founder's drive
+ * changes, so the paper claims no cause for it.
+ */
+const endorsement: Builder = (read, f) => {
+  const group = read.organization(f.organizationId);
+  // A group takes its article ("the Republican Party"), and a name that is
+  // no proper name is said in lower case ("the employers' association").
+  const said = group
+    ? `the ${/\b[a-z][\w']*$/.test(group) ? group.charAt(0).toLowerCase() + group.slice(1) : group}`
+    : undefined;
+  const backer = said
+    ? { subject: read.fact(said, f.organizationId ?? "") }
+    : f.organizationId
+      ? { "unnamed-group": read.fact("yes", f.organizationId) }
+      : read.who(f.speakerId, "subject", false);
+  const office = read.contestTitle(f.contestId);
+  return story(
+    "endorsement",
+    {
+      ...read.who(f.candidateId, "name", false),
+      ...backer,
+      ...(office ? { office: read.fact(office, f.contestId ?? "") } : {}),
+    },
+    ["name", f.organizationId && !said ? "unnamed-group" : "subject"],
+    f.candidateId,
+  );
+};
+
 /** A candidate filing for office. */
 const filing: Builder = (read, f) => {
   const filer = f.filingId?.match(/:(person[^:]*(?::[^:]+)*)$/)?.[1];
@@ -2240,6 +2272,75 @@ const crime: Builder = (read) => {
   );
 };
 
+/** What each school honor is, a flag the banks read. */
+const HONOR_FLAGS: Readonly<Record<string, string>> = {
+  "spelling-bee-local": "bee-local",
+  "spelling-bee-regional": "bee-regional",
+  "division-one-signing": "signing",
+};
+/** A school honor: the town's spelling bee, a regional bee, seniors signing to play Division I. */
+const honor: Builder = (read, f) => {
+  const flag = HONOR_FLAGS[f.honor ?? ""];
+  const place = read.place();
+  const honored = num(f.count);
+  if (!flag || !place || !honored) return null;
+  // A full student is named; counted students are only counted.
+  const named =
+    honored === 1 && read.first() ? read.who(read.first(), "name", false) : {};
+  return story(
+    "honor",
+    {
+      [flag]: read.yes(),
+      place: read.fact(place),
+      number: read.fact(count(honored), f.record ?? ""),
+      ...named,
+      ...(flag === "signing" ? {} : { won: read.yes() }),
+    },
+    ["place"],
+    read.first(),
+  );
+};
+
+/** What a month's police reports were called, by the crime engine's type. */
+const REPORT_NOUNS: Readonly<Record<string, string>> = {
+  burglary: "burglaries",
+  "other-property": "thefts",
+  vandalism: "vandalism cases",
+  robbery: "robberies",
+  assault: "assaults",
+};
+/** The month's police log: how many crimes residents reported, and what most were. */
+const policeLog: Builder = (read) => {
+  const month = /^police-log:(\d{4}-\d{2})$/.exec(read.sourceId)?.[1];
+  const place = read.place();
+  const row = month
+    ? read.row<{
+        id: string;
+        types: Record<string, { reported?: number }>;
+      }>(CRIME_MODULE_ID, "months", `${read.townPlaceId()}:${month}`)
+    : undefined;
+  if (!month || !place || !row) return null;
+  const reported = Object.entries(row.types)
+    .map(([type, tally]) => ({ type, n: Math.round(tally.reported ?? 0) }))
+    .filter((entry) => entry.n > 0 && REPORT_NOUNS[entry.type]);
+  const total = reported.reduce((sum, entry) => sum + entry.n, 0);
+  if (!total) return null;
+  const top = [...reported].sort(
+    (a, b) => b.n - a.n || a.type.localeCompare(b.type),
+  )[0]!;
+  return story(
+    "police-log",
+    {
+      place: read.fact(place),
+      month: read.fact(MONTHS[Number(month.slice(5, 7)) - 1]!, row.id),
+      number: read.fact(count(total), row.id),
+      crimes: read.fact(REPORT_NOUNS[top.type]!, row.id),
+      ...(reported.length === 1 ? { "one-kind": read.yes() } : {}),
+    },
+    ["place", "number"],
+  );
+};
+
 /** The year's graduation: how many seniors there were and how many graduated. */
 const graduation: Builder = (read) => {
   const year = /^graduation:(\d{4})$/.exec(read.sourceId)?.[1];
@@ -2533,7 +2634,10 @@ const BUILDERS: Readonly<Record<string, Builder>> = {
   "president.address": address,
   "estate.settled": estate,
   "carry-asked": carry,
+  "campaign-endorsed": endorsement,
   "crime.victimized": crime,
+  "police-log": policeLog,
+  "school.honor": honor,
   graduation,
   tests: schoolTests,
 };

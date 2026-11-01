@@ -22,13 +22,16 @@ export function properName(text: string): string {
         (_all, lead: string, letter: string) =>
           `${lead}${letter.toUpperCase()}`,
       );
-  if (text === text.toUpperCase()) return titled(text);
+  // "of", "the", "and" stay small inside a name ("County of Carbon").
+  const small = (run: string) =>
+    run.replace(/(?<=\s)(Of|The|And|For|In|On)(?=\s)/g, (word) =>
+      word.toLowerCase(),
+    );
+  if (text === text.toUpperCase()) return small(titled(text));
   // A record name shouted inside a longer one ("COUNTY OF WASHINGTON
   // treasury"): a run of two or more capitalized words reads as a name.
   return text.replace(/\b[A-Z][A-Z'&.]*(?:\s+[A-Z][A-Z'&.]*)+\b/g, (run) =>
-    titled(run).replace(/(?<=\s)(Of|The|And|For|In|On)(?=\s)/g, (word) =>
-      word.toLowerCase(),
-    ),
+    small(titled(run)),
   );
 }
 

@@ -664,7 +664,7 @@ export function registerCommitteeRosterProvider(fn: RosterProvider): void {
 /** Each employer's added yearly pay under a minimum-wage provision: the fiscal note, employer by employer. */
 export function employerCosts(
   api: CoreAPI,
-  bill: BillRow,
+  bill: Pick<BillRow, "provisions">,
 ): ReadonlyMap<string, { workers: number; annualMinor: number }> {
   const wage = bill.provisions.find(
     (p) => p.kind === "law-amount" && p.series === "minimum-wage",
@@ -1451,25 +1451,27 @@ function numberAndForm(
   };
 }
 
-/** Workers in town paid under a proposed minimum wage, and what raising them costs a year. */
+/**
+ * Workers in town paid under a proposed minimum wage, and what raising them
+ * costs a year: the sum of the employers' own rows (`employerCosts`), so the
+ * fiscal note and each employer's cost are one computation.
+ */
 function costOf(api: CoreAPI, provisions: readonly Provision[]) {
-  const wage = provisions.find(
-    (p) => p.kind === "law-amount" && p.series === "minimum-wage",
-  );
-  if (!wage)
+  if (
+    !provisions.some(
+      (p) => p.kind === "law-amount" && p.series === "minimum-wage",
+    )
+  )
     return { workersRaised: 0, annualPayMinor: 0, note: "no pay effect" };
-  const state = api.state as CoreState;
-  let workers = 0;
-  let cost = 0;
-  for (const c of state.work.commitments.values())
-    if (c.endsAt === undefined && c.hourlyMinor < wage.value) {
-      workers += 1;
-      cost +=
-        (wage.value - c.hourlyMinor) * (c.expectedWeeklyMinutes / 60) * 52;
-    }
+  let workersRaised = 0;
+  let annualPayMinor = 0;
+  for (const row of employerCosts(api, { provisions }).values()) {
+    workersRaised += row.workers;
+    annualPayMinor += row.annualMinor;
+  }
   return {
-    workersRaised: workers,
-    annualPayMinor: Math.round(cost),
+    workersRaised,
+    annualPayMinor,
     note: "town jobs paid under the new floor, at their scheduled hours",
   };
 }
@@ -1629,6 +1631,15 @@ export function shapedRate(
 }
 
 /**
+ * The row of the law in force on a series, as a bill's section cites it: the first level
+ * of the chain that holds one. The one reader of "today's amount" for a bill's paper and for
+ * the draft card that starts it.
+ */
+export function lawInForceRow(api: CoreAPI, series: string) {
+  return lawInForce(api, series).levels.find((l) => l.row)?.row ?? null;
+}
+
+/**
  * One section of a bill as the record holds it, for the paper to word: what
  * it changes (the series, question or budget line), the law in force before
  * (its value, shape and the measure that enacted it), what the section makes
@@ -1678,8 +1689,7 @@ export function billSections(
         : p.kind === "policy-question"
           ? p.question
           : undefined;
-    const answer = series ? lawInForce(api, series) : null;
-    const row = answer ? (answer.levels.find((l) => l.row)?.row ?? null) : null;
+    const row = series ? lawInForceRow(api, series) : null;
     const schedules = row?.terms?.schedules;
     const shapeBefore: BillSection["before"]["shape"] = row
       ? schedules
@@ -5332,6 +5342,19 @@ export function registerSittingReader(
   reader: (api: CoreAPI, bodyOfficeId: string) => Sitting | null,
 ): void {
   sittingReader = reader;
+}
+
+let floorDateReader: ((api: CoreAPI, billId: string) => string | null) | null =
+  null;
+/** The engine that keeps the floor leaders' calendars says which week a drafted bill is on. */
+export function registerFloorDateReader(
+  reader: (api: CoreAPI, billId: string) => string | null,
+): void {
+  floorDateReader = reader;
+}
+/** The floor week a drafted bill is on the floor leader's calendar for, or null. */
+export function floorDateOf(api: CoreAPI, billId: string): string | null {
+  return floorDateReader?.(api, billId) ?? null;
 }
 
 /**

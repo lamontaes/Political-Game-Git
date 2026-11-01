@@ -186,8 +186,9 @@ for (const [id, row] of core.cashJournal.externalFlowsByOwner) {
   outside[
     `${core.organizations.get(id)?.kind}:${core.organizations.get(id)?.name}`
   ] = {
-    paidIntoTown$: $(row.outgoingMinor),
-    paidOutOfTown$: $(row.incomingMinor),
+    // Lifetime totals turn bigint past 2^53 cents in a long save.
+    paidIntoTown$: $(Number(row.outgoingMinor)),
+    paidOutOfTown$: $(Number(row.incomingMinor)),
   };
   outsideNet += row.netMinor;
 }

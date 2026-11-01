@@ -3,6 +3,7 @@
   "owner": "@lamontaes",
   "shared": [
     "src/core2/kernel/**",
+    "src/core2/bookkeeping.ts",
     "src/core2/reference/**",
     "src/core2/data/**",
     "src/core2/tooling/**",
@@ -134,7 +135,6 @@
         "src/core2/budgets-*.ts",
         "src/core2/finance-*.ts",
         "src/core2/tax-*.ts",
-        "src/core2/bookkeeping.ts",
         "src/core2/accounts.ts",
         "src/core2/act-cash.ts",
         "src/core2/cash-host.ts",

@@ -112,7 +112,7 @@ function item(part) {
       ...part.views.map((view) =>
         el(
           "article",
-          {},
+          { className: "plate fact-plate view-plate" },
           ...(view.label ? [el("h4", { textContent: view.label })] : []),
           el("p", { className: "narrative", textContent: view.text }),
         ),

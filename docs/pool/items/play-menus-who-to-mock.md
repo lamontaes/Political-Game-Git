@@ -6,7 +6,7 @@ lead: cto
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: cto/menus-who
 pr: #6857
 blocked-on:

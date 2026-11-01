@@ -7,7 +7,7 @@ import type { PersonId } from "../core2/types";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import { gatherSignatures } from "../core2/campaign-petition-kit";
-import { openContests } from "../core2/modules/elections";
+import { playerContests } from "../core2/modules/elections";
 import { coreAPI } from "../core2/state";
 import { composeJournal } from "../director/journal";
 import { wordOwnResult } from "./archive-words";
@@ -41,7 +41,7 @@ it("the day after the player's race, Journal, News and Government cite its resul
     const eighteen = makeIsoDate(`${Number(born.slice(0, 4)) + 18}-${md}`);
     if (eighteen > core.date) advanceCore(core, eighteen);
     // The soonest race the records let the player enter.
-    const filed = [...openContests(api)]
+    const filed = [...playerContests(api)]
       .sort(
         (a, b) =>
           a.electionDate.localeCompare(b.electionDate) ||
