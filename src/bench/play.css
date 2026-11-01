@@ -267,8 +267,7 @@ ol {
   height: 44px;
 }
 #front-main #front-continue .continue-text,
-#front-main #front-continue .continue-text b,
-#front-main #front-continue .continue-text small {
+#front-main #front-continue .continue-text b {
   display: block;
 }
 /* A bust holds the person's round headshot (ui/headshot.mjs), filling it. */
@@ -981,22 +980,8 @@ input[type="range"]::-moz-range-thumb {
   color: var(--text-3);
   font: 400 11px var(--ui);
 }
-.item small:empty {
-  display: none;
-}
-/* On the title, Continue's saved life sits beside it, so every entry is one height. */
-#front-main .item b,
-#front-main .item small {
+#front-main .item b {
   display: inline;
-}
-#front-main .item small {
-  margin-left: 10px;
-}
-.item small {
-  display: block;
-  font: 400 12.5px var(--ui);
-  color: var(--text-2);
-  margin-top: 2px;
 }
 /* A town in the creator's list reads in the state buttons' own font. */
 .item.town span,

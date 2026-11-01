@@ -568,11 +568,24 @@ async function act(path) {
     const moment = storyStop(result.packet);
     if (moment) await showStory(moment.recordId);
   } catch (error) {
-    $("card-place").textContent = error.message;
+    // The server holds an open stop this page does not show (a skip raced a stop another call
+    // opened): take it back from the server so Continue shows; only a refusal with nothing held
+    // is told as it is.
+    if (!(await resyncOpenStop())) $("card-place").textContent = error.message;
   } finally {
     busy = false;
     renderPacket();
   }
+}
+/** Show the stop the server holds for the saved life, if one is open; true when it did. */
+async function resyncOpenStop() {
+  const held = (await api("/api/title").catch(() => undefined))?.life?.packet;
+  if (held?.kind !== "stop") return false;
+  renderPacket(held);
+  await refresh();
+  const moment = storyStop(held);
+  if (moment) await showStory(moment.recordId);
+  return true;
 }
 
 // ---- The officeholder's day (OFFICE-LOCAL): the meeting and the desk ----
@@ -4584,9 +4597,6 @@ api("/api/title").then((title) => {
   if (title.scenes?.length > 1) rotateTitle(title.scenes, title.rotateSeconds);
   titleLife = title.life;
   $("front-continue").disabled = !titleLife;
-  $("front-continue-life").textContent = titleLife
-    ? `${titleLife.name}, ${titleLife.age} · ${titleLife.placeName}`
-    : "";
   // The life's own face: the look the creator saved, as every other view of the player reads it.
   setFace("front-continue-bust", titleLife?.face);
 });

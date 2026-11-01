@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/people-seats-prefer-dressed
 pr: #6960
 blocked-on:
