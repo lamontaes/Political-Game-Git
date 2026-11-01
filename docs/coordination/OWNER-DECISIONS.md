@@ -7,6 +7,10 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 - None open. The relative-with-no-news question was ruled Nov 1, 16:50 (below).
 - The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
 
+## Nov 1, 18:10 UTC: a process is a skill, not a message; every session updates its skills (owner)
+
+- **The owner, Nov 1:** "remind every session about creating/updating skills. i saw one messaging about communicating a process. just make it a skill. and update all". A session about to explain in a message how to do something writes it into the skill that covers it (or a new one) and sends the skill's name instead. A process received by message that no skill holds becomes a skill line in the same pass. Carried by `AGENTS.md` ("Skills") and the new `crew-messages` skill (#6992), which holds the message routes the CTO had been sending by hand. Every session was messaged at 18:10 to look back over its work and messages and ship one `skills:` PR with every lesson and process not yet in a skill.
+
 ## Nov 1, 16:50 UTC: every life is simulated (owner)
 
 - **The owner, Nov 1, answering the relative-with-no-news question:** "EVERY. LIFE. IS. SIMULATED. WHAT DO YOU NOT UNDERSTAND. THIS IS LOW INTENSITY STUFF." A relative or acquaintance who lives elsewhere (a "husk", kept minimal until met) lives a simulated life at low intensity: they work, change jobs, move, marry, have children, fall ill, age and die. The same engines the town's people run through make it happen, at a coarse cadence, and each event leaves a dated record. "Nothing in their lives is simulated" was a gap, not a design. So a talk with a relative has real news under the Oct 14 Q7 and Oct 15 family-talk rulings, which stand: their happenings are the news. Built by a new lives lead (item `core-every-life-simulated`), with the speed lead on cost (low intensity holds the speed bar) and Words on the talk. The CTO's Oct 30 recommendation to keep the empty talk is withdrawn.
