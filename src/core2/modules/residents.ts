@@ -2020,8 +2020,25 @@ export function keepOneCountedHousehold(
   h: CountedHousehold,
 ): void {
   const rt = runtimes.get(core);
-  if (!rt || h.gone || rt.store.weightOf(h) === 1) return;
+  const weight = rt?.store.weightOf(h) ?? 1;
+  if (!rt || h.gone || weight === 1) return;
   releaseToOne(core, rt, h);
+  // Its bank savings were banked for every household the record stood for:
+  // the one removed keeps its own share, and the rest go back to its group,
+  // which still stands for the others (as at fill-in).
+  if (rt.api && rt.funded) {
+    const others = Math.floor(
+      (depositsHeld(core, h.id) * (weight - 1)) / weight,
+    );
+    if (others > 0)
+      withdrawSavings(core, rt.api, {
+        id: `kept-one:${h.id}:${core.date}:deposits`,
+        holderId: h.id,
+        customerAccountId: fundOf(rt.api, rt, h.group),
+        amountMinor: others,
+        source: rt.input.source,
+      });
+  }
   delete h.weight;
   const members = new Set(rt.store.memberIdsOf(h));
   for (const job of rt.jobs.values())
