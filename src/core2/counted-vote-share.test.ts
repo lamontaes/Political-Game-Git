@@ -203,6 +203,14 @@ describe("a counted record splits its unpledged votes by a share of the appeal g
     expect(party.leader!.total - party.other!.total).toBeCloseTo(0.1, 12);
     const rule = countedShareRule(labelled);
     expect(rule(party)).toEqual({ leader: 1 });
+    // A party's primary: every candidate carries the same side, so the lean
+    // order sorts no one between them and the record splits by share.
+    const primary = field.map((f) => ({ ...f, side: 1 }));
+    const inPrimary = countedAppeal(0, primary, away);
+    const split = countedShareRule(primary)(inPrimary);
+    expect(split.leader!).toBeGreaterThan(0.5);
+    expect(split.leader!).toBeLessThan(1);
+    expect(split.leader! + split.other!).toBeCloseTo(1, 12);
     expect(rule({ a: { total: 0.2 }, b: { total: 0.2 } })).toEqual({});
     const division = countedDivision(party, undefined, 10, () => party, rule);
     expect(division.votes).toEqual({ leader: 10 });

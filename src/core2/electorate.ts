@@ -614,18 +614,24 @@ export function countedShares(
   return sharesAt(appeal, countedShareCoefficient());
 }
 
-/** Whether a race's ballot prints a party label: some candidate on it carries a party's side. */
+/**
+ * Whether a race's ballot sorts its candidates by party: their party sides
+ * differ (a general election between parties). A ballot whose candidates all
+ * carry the same side, a party's primary or a race without labels, does not
+ * (CTO, Nov 1, 22:10 as amended for primaries).
+ */
 export function partyLabelled(
   field: readonly { readonly side: number }[],
 ): boolean {
-  return field.some((entry) => entry.side !== 0);
+  return field.some((entry) => entry.side !== field[0]?.side);
 }
 
 /**
  * How a counted record's people divide in one race, read once for a count
  * that applies it to every voter it holds (CTO, Nov 1, 18:20 as amended at
- * 22:10). On a ballot without party labels, by each candidate's share of
- * their appeal (`countedShares`). On a ballot with party labels, the whole
+ * 22:10, and for primaries). Where the candidates' party sides are equal (no
+ * labels, or one party's primary), by each candidate's share of their appeal
+ * (`countedShares`). Where their party sides differ, the whole
  * record to its first place (`countedChoice`), as before: each place's
  * people already stand along the lean order where they split as the place
  * voted in 2024 (`orderPlacement`), so a share on top would count that
