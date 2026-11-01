@@ -512,7 +512,16 @@ function pastWorkMoments(
     const moments: JournalMoment[] = [];
     const facts = row.facts;
     const where = employer(row);
-    const own: Facts = where ? { employer: where } : {};
+    // Where they lived when they held it, from the spell's own record: a job
+    // held before a move keeps no employer the town knows, and is told by
+    // its place (words-journal-work-line-without-employer).
+    const placeText = placeLabel(row.placeId);
+    const own: Facts = {
+      ...(where ? { employer: where } : {}),
+      ...(placeText
+        ? { place: { text: placeText, sourceRecordIds: [row.id] } }
+        : {}),
+    };
     if (facts.how === "first-job")
       moments.push(
         moment(row, String(facts.startedAt), "job-started:first", own),
