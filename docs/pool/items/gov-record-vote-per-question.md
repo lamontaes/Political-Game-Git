@@ -5,12 +5,13 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: governing/record-vote-per-question
 pr:
 blocked-on:
 lead: governing
 source: governing lead, Nov 1 (phase B map)
+claimed-at: 2026-11-01T14:39:10.340Z
 ---
 
 **What.** recordVote (src/core2/modules/record.ts:74) builds a vote record id from the measure and the person only, and the roll call (src/core2/modules/legislature.ts:3493-3506) calls it once per provision with the bill's number as the measure. So on a bill with two provisions the second record overwrites the first, and its vote-recorded event is dropped because an event with that id already happened (state.ts:2119). promisesOf, which judges a promise by its question, then sees only the last question, and a later bill that reuses a number (Congress numbers H.R. 25 again each Congress) overwrites an older member's record.
