@@ -88,6 +88,7 @@ import type { WorkPayrollCalendarInput } from "../work-pay-period";
 import { isExplicitlyControlledPersonV1 } from "../player-control-state-v1";
 import { DEFAULT_HEALTH_DATA, severityImpulse } from "./health";
 import { fillInPerson } from "../state";
+import { bookkeeping } from "../bookkeeping";
 import { worldOffsetShare, worldRate } from "../world-draw";
 
 export const JOBS_MODULE_ID = "jobs";
@@ -2203,6 +2204,50 @@ export function unemployedNeed(api: CoreAPI, personId: string): number {
   );
 }
 
+/**
+ * Indexes into `pool` from the highest weighed to the lowest, equal weights
+ * going to the lower id by `localeCompare`: the order in which runWeek's
+ * scan, which keeps the first applicant unless a later one weighs more or
+ * the same with a lower id, picks them as each leaves the pool. None where
+ * the scan's picks need not follow one ranking: a weight that is not a finite
+ * number, whose differences are not, or two applicants alike in weight and id.
+ */
+function rankedOrder(
+  pool: readonly SeekerRow[],
+  weigh: (row: SeekerRow) => number,
+): number[] | undefined {
+  const weights = pool.map((row) => weigh(row));
+  if (!weights.every((weight) => Number.isFinite(weight))) return undefined;
+  const order = pool
+    .map((_, i) => i)
+    .sort(
+      (a, b) =>
+        weights[b]! - weights[a]! || pool[a]!.id.localeCompare(pool[b]!.id),
+    );
+  for (let i = 1; i < order.length; i++) {
+    const a = order[i - 1]!,
+      b = order[i]!;
+    if (
+      weights[a] === weights[b] &&
+      pool[a]!.id.localeCompare(pool[b]!.id) === 0
+    )
+      return undefined;
+  }
+  return order;
+}
+
+/** The first index in a ranking not yet taken, each time it is asked. */
+function walkRanking(
+  order: readonly number[],
+  taken: Uint8Array,
+): () => number {
+  let at = 0;
+  return () => {
+    while (taken[order[at]!]) at++;
+    return order[at]!;
+  };
+}
+
 /** Seekers apply; employers offer their best-placed applicant; applicants accept or decline. */
 function runWeek(api: CoreAPI): void {
   const c = core(api),
@@ -2377,11 +2422,48 @@ function runWeek(api: CoreAPI): void {
     let pool = applicants.filter(
       (row) => !c.jobs.has(`job:${position.id}:${row.personId}`),
     );
-    while (pool.length) {
-      const best = pick(pool, !bias?.ban);
+    // Nothing the loop below does (an offer, a decline, a placement that
+    // fails) changes a remaining applicant's fit, kept in `fits`, or their
+    // birth date, so each is weighed once and the employer works down the
+    // ranking, picking whom the scan would. Where no ranking stands
+    // (`rankedOrder`), the scan picks; bookkeeping runs it beside the
+    // ranking and throws on any difference.
+    const order = rankedOrder(pool, (row) => weighed(row, !bias?.ban));
+    const penalizedOrder = bias?.ban
+      ? rankedOrder(pool, (row) => weighed(row, true))
+      : undefined;
+    const ranked = order && (!bias?.ban || penalizedOrder) ? pool : undefined;
+    const taken = new Uint8Array(ranked?.length ?? 0);
+    const top = order && ranked && walkRanking(order, taken);
+    const topPenalized = penalizedOrder && walkRanking(penalizedOrder, taken);
+    const scanning = !ranked || bookkeeping();
+    let left = ranked?.length ?? 0;
+    while (ranked ? left : pool.length) {
+      const at = top ? top() : -1;
+      const best = ranked ? ranked[at]! : pick(pool, !bias?.ban);
       // Under the ban: would the penalty have chosen someone else?
-      const overruled = !!bias?.ban && pick(pool, true).id !== best.id;
-      pool = pool.filter((row) => row !== best);
+      const overruled =
+        !!bias?.ban &&
+        (ranked ? ranked[topPenalized!()]! : pick(pool, true)).id !== best.id;
+      if (ranked) {
+        taken[at] = 1;
+        left--;
+      }
+      if (scanning) {
+        if (
+          ranked &&
+          (pick(pool, !bias?.ban) !== best ||
+            (!!bias?.ban && pick(pool, true).id !== best.id) !== overruled)
+        )
+          throw new Error(
+            `Hiring for ${position.id}: the ranking picked ${best.id}, the scan another.`,
+          );
+        pool = pool.filter((row) => row !== best);
+        if (ranked && pool.length !== left)
+          throw new Error(
+            `Hiring for ${position.id}: the ranking holds ${left} applicants, the scan ${pool.length}.`,
+          );
+      }
       let placed = false;
       if (isCounted(api, best.personId)) {
         // A counted seeker answers the offer by the same reasons a full person
