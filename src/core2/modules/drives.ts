@@ -245,8 +245,10 @@ interface DrivesRuntime {
   /**
    * The cause groups each person may know of, by topic, in id order: every
    * group whose known fact or membership was written for them (founding,
-   * joining, being told). Neither is ever undone, so nothing leaves it, and
-   * readers still check each group, so it only has to hold all they know.
+   * joining, being told). Neither is ever undone, so nothing leaves a living
+   * person's list, and readers still check each group, so it only has to
+   * hold all they know. The dead are let go on the first of each month: no
+   * reader asks about them.
    */
   mayKnow: Map<PersonId, Map<string, string[]>>;
   /**
@@ -1159,8 +1161,8 @@ const REACHABLE_GROUPS = "drives:reachable-groups";
 
 /**
  * Adds a cause group to those a person may know of, before its known fact or
- * membership is written. A group founded in no topic list of this world is
- * read by no one, so it is not kept.
+ * membership is written. A group this runtime did not see founded is in no
+ * groupsByTopic list, so the old walk never read it either; it is not kept.
  */
 function noteGroup(runtime: DrivesRuntime, personId: PersonId, id: string) {
   const group = runtime.causeGroups.get(id);
@@ -1811,6 +1813,10 @@ export function createDrivesModule(
               mine.delete(drive.id);
           if (!mine.size) runtime.countedByPerson.delete(personId);
         }
+        // The groups the dead may have known of: no reader asks about them.
+        for (const personId of runtime.mayKnow.keys())
+          if (!api.state.people.get(personId)?.alive)
+            runtime.mayKnow.delete(personId);
       }
       for (const [personId, mine] of runtime.byPerson) {
         if (!api.state.people.get(personId)?.alive) {
