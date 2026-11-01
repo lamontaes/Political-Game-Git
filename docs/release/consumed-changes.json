@@ -1,6 +1,18 @@
 {
   "entries": [
     {
+      "version": "0.70.1",
+      "releasedOn": "2026-11-01",
+      "revision": "33754cbc2a18e81048ae498dbeeeb94051c59dce",
+      "changeIds": [
+        "campaign-endorsed-names-the-stance",
+        "core-speed-electorate-id-order",
+        "crime-justice-2-chk2c",
+        "skills-cto-no-wake-timers",
+        "skills-laws-lead-lessons"
+      ]
+    },
+    {
       "version": "0.70.0",
       "releasedOn": "2026-10-30",
       "revision": "aafc44f3f82c5b31d061b5d5c1797cac163ae104",
