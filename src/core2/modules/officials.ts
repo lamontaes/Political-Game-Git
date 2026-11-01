@@ -112,7 +112,7 @@ export const OFFICIALS_MODULE: CoreModule = {
       candidates: { indexes: { byContest: { fields: ["contestId"] } } },
     },
   },
-  eventKinds: ["took-office", "life.death"],
+  eventKinds: ["took-office", "seat-vacated", "life.death"],
   onEvent: (api, event) => {
     // An official who dies leaves the seat that day; the pay and the seat's
     // next holder follow from the row's end. A seat the offices engine keeps
@@ -137,11 +137,36 @@ export const OFFICIALS_MODULE: CoreModule = {
       return;
     }
     const seatId = event.facts?.["seatId"];
-    const winner = event.personIds[0];
-    if (typeof seatId === "string" && winner) tookOffice(api, winner, seatId);
-    else if (typeof seatId === "string") seatUnheldFiller(api, seatId);
+    if (typeof seatId !== "string") return;
+    if (event.kind === "took-office") {
+      const winner = event.personIds[0];
+      if (winner) tookOffice(api, winner, seatId);
+      else seatUnheldFiller(api, seatId);
+    }
+    leaveEndedTerms(api, seatId);
   },
 };
+
+/**
+ * A seat changed hands or fell vacant: each official whose term on it has
+ * ended (a race lost, a resignation) is a former official from today, so
+ * their pay and every read of serving officials end with the term. A holder
+ * kept on, or seated again on a new term, keeps their row.
+ */
+function leaveEndedTerms(api: CoreAPI, seatId: string): void {
+  const terms = api.moduleState(OFFICES_MODULE_ID).table("terms");
+  for (const row of table(api, "officials").query("bySeat", [
+    seatId,
+  ]) as unknown as OfficialRow[]) {
+    if (row.ended !== null || row.termId === null) continue;
+    const term = terms.get(row.termId) as unknown as TermRow | undefined;
+    if (term?.status === "serving") continue;
+    table(api, "officials").put({
+      ...row,
+      ended: api.state.date,
+    } as unknown as ModuleRow);
+  }
+}
 
 const table = (api: CoreAPI, name: string) =>
   api.moduleState(OFFICIALS_MODULE_ID).table(name);
@@ -977,6 +1002,7 @@ export function holderOf(api: CoreAPI, term: TermRow): TermRow {
   const offices = api.moduleState(OFFICES_MODULE_ID);
   const office = offices.table("offices").get(term.officeId) as unknown as {
     kind: string;
+    level: string;
     jurisdiction: string;
     termYears: number | null;
     nextElectionYear?: number;
@@ -997,7 +1023,20 @@ export function holderOf(api: CoreAPI, term: TermRow): TermRow {
     officeKind: office.kind,
     stateKey,
     district: seat?.district ?? null,
-    ...unrecordedParty(api, term, office.kind, stateKey),
+    // Another place's holder sits in the party their term carries (the
+    // roster's or the research's from the opening, the race's after), none
+    // where neither read one (SG-GOV-outside-seat-party-unread), so the
+    // person matches their term row.
+    ...(isOutsideOffice(api, office)
+      ? {
+          party: term.party,
+          ...(term.partySource
+            ? { partySource: term.partySource }
+            : term.party
+              ? {}
+              : { partySource: "none on record" }),
+        }
+      : unrecordedParty(api, term, office.kind, stateKey)),
     termYears: office.termYears,
     // As the opening reads a seated holder (`specs`): their unbroken
     // service, and the seat's own recorded election (an office's cycle year

@@ -3760,7 +3760,7 @@ function nextRaceYear(api: CoreAPI, from: number): number {
  * counted places on record. A territory's has none (no presidential vote or
  * county places), so its races are not run.
  */
-function countedPlace(api: CoreAPI, stateKey: string): boolean {
+export function countedPlace(api: CoreAPI, stateKey: string): boolean {
   return statePlaces(stateKey.slice(3), api.state.seed).length > 0;
 }
 
@@ -4521,6 +4521,10 @@ function racesIn(api: CoreAPI, year: number): readonly Race[] {
       api.stopgap("SG-GOV-outside-ticket-raced-alone");
     }
     races.push(seatRace(api, seat, office, year));
+  }
+  if (races.length) {
+    // stopgapId: SG-GOV-outside-seat-records-unfolded (each raced state seat's ended terms, race rows and counts are kept forever; nothing folds the ones play no longer reads)
+    api.stopgap("SG-GOV-outside-seat-records-unfolded");
   }
   const congressStart = `${year + 1}-01-03`;
   // Congress outside the town's state, in even years.

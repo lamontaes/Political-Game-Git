@@ -13,7 +13,10 @@
  * lean gives, their party's backing and their means.
  *
  * Imports of the offices, officials, parties and elections modules are type
- * only, and their tables are read by module id to avoid import cycles.
+ * only, and their tables are read by module id to avoid import cycles; the
+ * exceptions are the one test for another place's office
+ * (`isOutsideOffice`) and the one fill-in (`holderOf`), called only while a
+ * pool is built.
  */
 import { seededBetween } from "./past-module";
 import { partySide } from "./appointments";
@@ -24,8 +27,8 @@ import type { Parameter } from "./parameters";
 import type { CoreAPI, PersonId, PersonState } from "./types";
 import type { OfficeInput } from "./offices-local";
 import type { ContestRow } from "./modules/elections";
-import type { TermRow } from "./modules/offices";
-import type { OfficialRow } from "./modules/officials";
+import { isOutsideOffice, type TermRow } from "./modules/offices";
+import { holderOf, type OfficialRow } from "./modules/officials";
 import type { PartyRow, TieRow } from "./modules/parties";
 
 export const CANDIDACY_MODULE_ID = "candidacy";
@@ -312,6 +315,36 @@ export function standingPool(
   return built;
 }
 
+/**
+ * A national race's pool holds every place's governor and statewide officers,
+ * as it holds the town's own state's through the officials engine: another
+ * place's, named on their terms (the two-level rule), are filled in through
+ * the one fill-in (`holderOf`) the first time a national pool is built, so
+ * each weighs running as any official does and is the same person after.
+ * Another place's legislators stay named on their terms and out of the pool.
+ */
+function fillStatewideHolders(api: CoreAPI): void {
+  const officeTable = offices(api).table("offices");
+  const seats = offices(api).table("seats");
+  let legislators = false;
+  for (const term of offices(api)
+    .table("terms")
+    .query("byStatus", ["serving"]) as unknown as TermRow[]) {
+    if (term.personId) continue;
+    const office = officeTable.get(term.officeId) as unknown as
+      OfficeInput | undefined;
+    if (office?.elected === false || !isOutsideOffice(api, office)) continue;
+    const seat = seats.get(term.seatId) as unknown as
+      { district: string | null } | undefined;
+    if (seat?.district === null) holderOf(api, term);
+    else legislators = true;
+  }
+  if (legislators) {
+    // stopgapId: SG-GOV-outside-legislators-national-pool (another place's legislators, named officials on their terms, are not in a national race's pool; the town's own state's are)
+    api.stopgap("SG-GOV-outside-legislators-national-pool");
+  }
+}
+
 function buildPool(api: CoreAPI, scope: RaceScope): readonly PoolMember[] {
   interface Draft {
     roles: Set<PoolRole>;
@@ -343,8 +376,8 @@ function buildPool(api: CoreAPI, scope: RaceScope): readonly PoolMember[] {
   const officeTable = offices(api).table("offices");
 
   // Officeholders at every level whom voters elect: the officials engine's
-  // people (the state's own, or every governor and senator for a national
-  // race) ...
+  // people (the state's own, or, for a national race, every member of
+  // Congress and every place's governor and statewide officers) ...
   const seen = new Set<PersonId>();
   const terms = offices(api).table("terms");
   const elected = (officeId: string | undefined) =>
@@ -352,6 +385,7 @@ function buildPool(api: CoreAPI, scope: RaceScope): readonly PoolMember[] {
       ? (officeTable.get(officeId) as unknown as OfficeInput | undefined)
       : undefined
     )?.elected !== false;
+  if (scope.national) fillStatewideHolders(api);
   for (const row of officialRows(api)) {
     if (row.ended !== null) continue;
     const nationalExec = row.seatId.startsWith("seat:US:");
@@ -381,6 +415,9 @@ function buildPool(api: CoreAPI, scope: RaceScope): readonly PoolMember[] {
     if (term.seatId.startsWith("seat:US:") && !scope.national) continue;
     const office = officeTable.get(term.officeId) as unknown as
       OfficeInput | undefined;
+    // Another place's holder (one filled in for a national pool, or opened
+    // by the player) has no standing in the town's state's races.
+    if (!scope.national && isOutsideOffice(api, office)) continue;
     add(
       term.personId,
       "officeholder",

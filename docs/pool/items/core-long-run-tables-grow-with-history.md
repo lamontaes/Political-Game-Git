@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/campaigns.ts, src/core2/state.ts, src/core2/modules/speeches.ts, src/core2/modules/budgets.ts, scripts/speed-years/run.ts
 
 **Notes.** TODO
+
+2026-11-01, laws lead (claude/gov-every-state-and-town-governs, U1): every other place's chambers, governor and statewide officers are now seated from the opening and raced on their own calendars, so each even year adds a race row, its count's results and places, a new term beside the ended one and a took-office record for every outside state seat raced (thousands; core2-offices-v1.terms held 21,136 rows after the 2025 off year in Long Hill, Connecticut, seed m7b). Nothing folds them: registered as SG-GOV-outside-seat-records-unfolded (src/core2/modules/voting.ts, racesIn). Readers to agree a window with: the person card's past offices and the officials engine (terms by seat and person), the press's took-office story (src/bench/printed-words.ts reads the seat's last ended term), the voting engine's race lookups and the dev trace's record search.

@@ -260,6 +260,25 @@ export function isOutsideOffice(
   return jurisdiction !== town;
 }
 
+/**
+ * Where a seat's record (a swearing-in, a vacancy) is placed: another place's
+ * office in that place, so no town paper's wire carries it as the town's own
+ * news (the press reads the record's place, `wireItem`); every other office
+ * in the town.
+ */
+function seatingPlace(
+  api: CoreAPI,
+  office:
+    | { readonly level?: unknown; readonly jurisdiction?: unknown }
+    | null
+    | undefined,
+): string {
+  if (isOutsideOffice(api, office)) return String(office!.jurisdiction);
+  return (
+    table(api, "loaded").get("town") as unknown as { townPlaceId: string }
+  ).townPlaceId;
+}
+
 /** A new mandate vacates only offices the law makes incompatible. */
 export function enforceIncompatibility(
   api: CoreAPI,
@@ -1188,9 +1207,7 @@ export function vacateSeat(
     date,
     kind: "seat-vacated",
     personIds: term.personId ? [term.personId] : [],
-    placeId: (
-      table(api, "loaded").get("town") as unknown as { townPlaceId: string }
-    ).townPlaceId,
+    placeId: seatingPlace(api, office),
     source: source(citation, date, office.vacancyRule.estimate),
     publicRecord: true,
     news: true,
@@ -1375,9 +1392,7 @@ export function unfilledTerm(
     date,
     kind: "seat-vacated",
     personIds: previous?.personId ? [previous.personId] : [],
-    placeId: (
-      table(api, "loaded").get("town") as unknown as { townPlaceId: string }
-    ).townPlaceId,
+    placeId: seatingPlace(api, office),
     source: source(
       office.vacancyRule.citation ?? office.vacancyRule.source ?? office.source,
       date,
@@ -1441,9 +1456,7 @@ function recordFill(
     date,
     kind: "took-office",
     personIds: term.personId ? [term.personId] : [],
-    placeId: (
-      table(api, "loaded").get("town") as unknown as { townPlaceId: string }
-    ).townPlaceId,
+    placeId: seatingPlace(api, office),
     source: source(
       rule.citation ?? rule.source ?? office.source,
       date,
@@ -1766,9 +1779,7 @@ export function seatWinner(
     date,
     kind: "took-office",
     personIds: winner.personId ? [winner.personId] : [],
-    placeId: (
-      table(api, "loaded").get("town") as unknown as { townPlaceId: string }
-    ).townPlaceId,
+    placeId: seatingPlace(api, table(api, "offices").get(winner.officeId)),
     source: {
       tag: "SOURCED",
       citation: `Result of ${winner.resultId}`,

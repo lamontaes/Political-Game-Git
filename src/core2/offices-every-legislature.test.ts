@@ -35,6 +35,8 @@ import {
 import { allOfficials, holderOf } from "./modules/officials";
 import { racesOf, VOTING_MODULE_ID } from "./modules/voting";
 import { targetsOf } from "./law-reach/group-a-records";
+import { wireItem } from "./press-topics";
+import { PRESS_MODULE_ID } from "./modules/press";
 import { statePlaces } from "./electorate-places";
 import { researchedHolderParty } from "./holder-parties";
 import { POLICY_QUESTIONS } from "./policy-answers";
@@ -394,41 +396,47 @@ it(`every other place's chambers, governor and statewide executives sit as named
   const holder = servingOn(target!.seat.id)[0]!;
   const loser = holder.party!;
   const winner = /republican/i.test(loser) ? "Democratic" : "Republican";
-  const raceDate = core.date;
-  const raceId = `race:${target!.seat.id}:${raceDate}:fixture`;
-  const seatDay = addDays(raceDate, 1);
-  api
-    .moduleState(VOTING_MODULE_ID)
-    .table("races")
-    .put({
-      id: raceId,
-      seatId: target!.seat.id,
-      office: target!.office.kind,
-      date: raceDate,
-      incumbentParty: loser,
-      lean: 0.5,
-      winnerParty: winner,
-      seatedOn: seatDay,
-      leanSource: "fixture",
-      resultId: raceId,
-      offices: {
+  // A race on the target seat the incumbent's party loses, seated the next
+  // day by the voting engine's own seat-winner work.
+  const fixtureRace = (incumbentParty: string, winnerParty: string) => {
+    const raceDate = core.date;
+    const raceId = `race:${target!.seat.id}:${raceDate}:fixture`;
+    const seatDay = addDays(raceDate, 1);
+    api
+      .moduleState(VOTING_MODULE_ID)
+      .table("races")
+      .put({
+        id: raceId,
         seatId: target!.seat.id,
-        officeId: target!.office.id,
-        termYears: target!.office.termYears,
+        office: target!.office.kind,
+        date: raceDate,
+        incumbentParty,
+        lean: 0.5,
+        winnerParty,
+        seatedOn: seatDay,
+        leanSource: "fixture",
+        resultId: raceId,
+        offices: {
+          seatId: target!.seat.id,
+          officeId: target!.office.id,
+          termYears: target!.office.termYears,
+        },
+      });
+    api.moduleCalendar(VOTING_MODULE_ID).schedule({
+      key: `seat:${raceId}`,
+      date: seatDay,
+      kind: "seat-winner",
+      source: {
+        tag: "SOURCED",
+        citation: `Result of ${raceId}`,
+        asOf: raceDate,
       },
+      sourceRecordIds: [raceId],
     });
-  api.moduleCalendar(VOTING_MODULE_ID).schedule({
-    key: `seat:${raceId}`,
-    date: seatDay,
-    kind: "seat-winner",
-    source: {
-      tag: "SOURCED",
-      citation: `Result of ${raceId}`,
-      asOf: raceDate,
-    },
-    sourceRecordIds: [raceId],
-  });
-  advanceCore(core, addDays(seatDay, 1));
+    advanceCore(core, addDays(seatDay, 1));
+    return { raceId, raceDate, seatDay };
+  };
+  const { raceId, raceDate } = fixtureRace(loser, winner);
   const [newcomer] = servingOn(target!.seat.id);
   expect(newcomer!.party, `${where}: ${raceId}`).toBe(winner);
   expect(newcomer!.reached, `${where}: ${newcomer!.id}`).toBe(
@@ -479,6 +487,52 @@ it(`every other place's chambers, governor and statewide executives sit as named
   expect(ownLegislators.length, `${where}: own legislators`).toBeGreaterThan(0);
   for (const term of ownLegislators)
     expect(reached.has(term.personId!), `${where}: ${term.id}`).toBe(true);
+
+  // The opened holder, a full person now, loses the seat in turn: the next
+  // holder is named on the term, and the opened one is a former official
+  // from that day (nothing else would end their row: another place's
+  // chamber does not sit).
+  const lost = fixtureRace(winner, loser);
+  const [after] = servingOn(target!.seat.id);
+  expect(after!.party, `${where}: ${lost.raceId}`).toBe(loser);
+  expect(after!.personId, `${where}: ${after!.id}`).toBeNull();
+  expect(
+    allOfficials(api).find((row) => row.id === openedHolder.personId)?.ended,
+    `${where}: ${openedHolder.personId} after ${lost.raceId}`,
+  ).toBe(lost.seatDay);
+
+  // Each outside seating (the two fixtures' just now among them) is recorded
+  // in the office's own place, so no town paper's wire carries another
+  // place's swearing-in as the town's news, and the town's log keeps none
+  // of them as its own public record.
+  const wired = (
+    api.moduleState(PRESS_MODULE_ID).table("wire").rows() as unknown as {
+      id: string;
+      facts?: { seatId?: string };
+    }[]
+  ).filter((item) => outsideSeats.has(String(item.facts?.seatId)));
+  expect(
+    wired.map((item) => item.id),
+    `${where}: outside seatings on the town's wire`,
+  ).toEqual([]);
+  const chain = lawChain(api);
+  const kept = [...core.durableLog.values()].filter(
+    (record) =>
+      (record.kind === "took-office" || record.kind === "seat-vacated") &&
+      outsideSeats.has(String(record.facts?.seatId)),
+  );
+  for (const record of kept) {
+    expect(record.placeId, `${where}: ${record.id}`).toBe(
+      outsideSeats.get(String(record.facts!.seatId))!.jurisdiction,
+    );
+    expect(
+      wireItem(api, record, {
+        placeId: chain.townPlaceId,
+        stateKey: chain.stateKey,
+      }),
+      `${where}: ${record.id} on the town's wire`,
+    ).toBeNull();
+  }
 
   process.stdout.write(
     `EVERY-LEGISLATURE ${where}: ${opened.length} outside terms on ${seatCount} seats named at the opening (${researched} in the research's party, ${partyless} with no party), ${capped} capped by their own state's term limit, none filled in by ${core.date}; ${seated.length} of ${up.length} seats up in ${opensIn} seated by their race, e.g. ${[
