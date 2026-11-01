@@ -188,6 +188,17 @@ export interface CampaignRow {
   readonly shiftCarries?: Readonly<Record<string, number>>;
   /** The day each volunteer's last evening of doors was kept as an event. */
   readonly shiftNotedOn?: Readonly<Record<string, string>>;
+  /**
+   * Each volunteer or staffer who left the campaign to stand in its race
+   * themselves (`leaveForOwnRun`): who, which list they left, the day, and
+   * their own filing, whose `candidate-filed` record is the cause.
+   */
+  readonly leftToRun?: readonly {
+    readonly personId: string;
+    readonly role: "volunteer" | "staff";
+    readonly on: string;
+    readonly filingId: string;
+  }[];
 }
 
 /** One donor's running total to one campaign (the legal limit reads it). */
@@ -465,12 +476,15 @@ export const CAMPAIGNS_MODULE: CoreModule = {
     if (api.state.date.endsWith("-01-01")) foldQuietCauses(api);
   },
   // The candidate's answer to an offer, said in the scene it stages; a
-  // count closes a race, and its causes fold.
-  eventKinds: ["scene.reply", "election-result"],
+  // count closes a race, and its causes fold; a filing's announcement takes
+  // its candidate off the rival campaigns they worked for.
+  eventKinds: ["scene.reply", "election-result", "candidate-filed"],
   onEvent: (api, event) =>
     event.kind === "election-result"
       ? foldClosedRaceCauses(api, String(event.facts?.contestId ?? ""))
-      : answerOffer(api, event),
+      : event.kind === "candidate-filed"
+        ? leaveForOwnRun(api, String(event.facts?.filingId ?? ""))
+        : answerOffer(api, event),
   journalSourceProviders: {
     [DONATION_KIND]: (api, reference) => moneySlot(api, reference.id),
     [AD_KIND]: (api, reference) => moneySlot(api, reference.id),
@@ -1694,6 +1708,45 @@ export function rivalFiling(
 }
 
 /**
+ * Someone who files campaigns for themselves from that day: the filing's
+ * announcement (`candidate-filed`, every filing's one record) takes them off
+ * the volunteers and staff of every other campaign in the same contest, and
+ * each departure is kept on the campaign they left (`leftToRun`) with the day
+ * and the filing that caused it. While the filing stands, every way back on
+ * reads `rivalFiling` and is shut.
+ */
+function leaveForOwnRun(api: CoreAPI, filingId: string): void {
+  const filing = elections(api, "filings").get(filingId) as unknown as
+    FilingRow | undefined;
+  if (!filing) return;
+  const personId = filing.personId;
+  for (const campaign of table(api, "campaigns").query("byContest", [
+    filing.contestId,
+  ]) as unknown as CampaignRow[]) {
+    const staffed = campaign.staffIds.includes(personId);
+    if (
+      (!staffed && !campaign.volunteerIds.includes(personId)) ||
+      rivalFiling(api, campaign, personId)?.id !== filing.id
+    )
+      continue;
+    save(api, {
+      ...campaign,
+      volunteerIds: campaign.volunteerIds.filter((id) => id !== personId),
+      staffIds: campaign.staffIds.filter((id) => id !== personId),
+      leftToRun: [
+        ...(campaign.leftToRun ?? []),
+        {
+          personId,
+          role: staffed ? "staff" : "volunteer",
+          on: api.state.date,
+          filingId,
+        },
+      ],
+    });
+  }
+}
+
+/**
  * An ask to volunteer that comes through an organization that endorsed the
  * candidate: who asked for it, and how far the person shares its cause.
  */
@@ -2383,8 +2436,7 @@ export const VOLUNTEER_SHIFT_EVENT = "volunteer-shift";
  * volunteers in one pass, and whoever opens meets the volunteer (a
  * `volunteer-door` cause naming them). A counted resident who opens is
  * reached as a count and not filled in, since the player never met them.
- * The player is never sent: their hours are their own choice, and nor is a
- * volunteer who has since filed in the same race (`rivalFiling`). `walked`
+ * The player is never sent: their hours are their own choice. `walked`
  * holds who already gave this evening to a campaign's doors, so someone on
  * two campaigns walks one evening, not two.
  */
@@ -2411,8 +2463,7 @@ export function volunteerShifts(
       !person?.alive ||
       id === core.playerId ||
       id === held.candidateId ||
-      walked.has(id) ||
-      rivalFiling(api, held, id)
+      walked.has(id)
     )
       continue;
     const hours = canvassHoursFree(api, person);
@@ -3229,7 +3280,8 @@ function circleOf(
  * live in town, each adult whose own reasons to back the candidate (warmth,
  * agreement, party, how they stand with the candidate) and every trait's
  * lean toward attending outweigh the hours their work already takes. The
- * campaign's volunteers come.
+ * campaign's volunteers come. A rival standing in the same race gives their
+ * evenings to their own run (`rivalFiling`) and does not come.
  */
 export function whoComes(
   api: CoreAPI,
@@ -3243,6 +3295,7 @@ export function whoComes(
     const person = core.people.get(id);
     if (!person?.alive || person.placeId !== town) return false;
     if (ageOn(person, api.state.date) < adultAge) return false;
+    if (rivalFiling(api, campaign, id)) return false;
     return volunteers.has(id) || comes(api, campaign, person, 0);
   });
 }
@@ -4140,7 +4193,7 @@ function raceCampaigns(api: CoreAPI, contestId: string): CampaignRow[] {
 }
 
 /** What weighing one candidate against the race came to (`weighEndorsement`). */
-interface EndorsementWeighing extends PlatformRead {
+export interface EndorsementWeighing extends PlatformRead {
   readonly yes: boolean;
   readonly reason: EndorsementReason;
   readonly tie: number;
@@ -4354,6 +4407,33 @@ function endorsementHeard(
 }
 
 /**
+ * How someone asked for themselves weighs endorsing a campaign's candidate
+ * today, by the one rule (`weighEndorsement`) against everyone standing in
+ * its race, reading their own views: what `askForEndorsement` settles, with
+ * no answer kept.
+ */
+export function endorsementWeighing(
+  api: CoreAPI,
+  campaign: CampaignRow,
+  endorser: Readonly<PersonState>,
+): EndorsementWeighing {
+  const lean = personLean(api.state.people, endorser, townRow(api).lean);
+  return weighEndorsement(
+    api,
+    endorser,
+    campaign,
+    raceCampaigns(api, campaign.contestId),
+    (platform) => ({
+      ...platformRead(platform, (question) =>
+        viewOn(api, endorser.id, question, lean),
+      ),
+      agreement: agreementWith(api, endorser.id, lean, platform),
+    }),
+    "self",
+  );
+}
+
+/**
  * Ask someone to endorse. They endorse only the candidate they back most
  * among those standing (`weighEndorsement`: their agreement with the
  * platform and their tie to the candidate), never for a price; everyone who
@@ -4372,20 +4452,7 @@ export function askForEndorsement(
   const held = table(api, "endorsements").get(id) as unknown as
     EndorsementRow | undefined;
   if (held?.answer === "yes") return true;
-  const lean = personLean(api.state.people, endorser, townRow(api).lean);
-  const weighing = weighEndorsement(
-    api,
-    endorser,
-    campaign,
-    raceCampaigns(api, campaign.contestId),
-    (platform) => ({
-      ...platformRead(platform, (question) =>
-        viewOn(api, endorserId, question, lean),
-      ),
-      agreement: agreementWith(api, endorserId, lean, platform),
-    }),
-    "self",
-  );
+  const weighing = endorsementWeighing(api, campaign, endorser);
   const reached = weighing.yes
     ? endorsementHeard(
         api,
