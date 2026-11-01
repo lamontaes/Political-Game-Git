@@ -1171,10 +1171,24 @@ export async function benchRequest(
         };
         const opens = counterOpening(current, filedWith, now);
         if (opens) {
-          const waited = player.waitUntil({
-            date: makeIsoDate(opens.date),
-            minuteOfDay: opens.minuteOfDay,
-          });
+          const reachedOpening = () => {
+            const at = player?.packet?.at;
+            return (
+              !!at &&
+              (at.date > opens.date ||
+                (at.date === opens.date && at.minuteOfDay >= opens.minuteOfDay))
+            );
+          };
+          // A fresh clock first lives to the morning's start; the wait goes on
+          // from there until it stands at the opening.
+          let waited: ReturnType<typeof player.waitUntil> | undefined;
+          for (let tries = 0; tries < 3 && !reachedOpening(); tries += 1) {
+            waited = player.waitUntil({
+              date: makeIsoDate(opens.date),
+              minuteOfDay: opens.minuteOfDay,
+            });
+            if (!waited || player.packet?.kind !== "complete") break;
+          }
           // Something came up on the way: it is lived first, the counter
           // waits for the next try.
           const reached = player.packet?.at;
@@ -1182,8 +1196,7 @@ export async function benchRequest(
             !waited ||
             player.packet?.kind !== "complete" ||
             !reached ||
-            reached.date !== opens.date ||
-            reached.minuteOfDay < opens.minuteOfDay
+            !reachedOpening()
           ) {
             send(200, { waiting: true, packet: player.packet });
             return;
