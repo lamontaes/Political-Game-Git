@@ -23,6 +23,7 @@
  * they reach the age of retiring (SG-LIVES-work-out-of-labor-force). Nothing
  * here moves money: a husk keeps no accounts (two-level population).
  */
+import jobRows from "./data/jobs/parameters.json" with { type: "json" };
 import epop from "../../data/research/labor/cps-2024-employment-by-age.json" with { type: "json" };
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { SeededRng } from "./kernel/rng";
@@ -83,6 +84,15 @@ interface StateRow {
   recent: Record<string, number[]>;
 }
 
+const JOB_PARAMETERS = jobRows as unknown as Readonly<
+  Record<string, { value: number }>
+>;
+
+/** The jobs engine's own parameter, read from its table (installed or not). */
+function jobsParameter(api: CoreAPI, key: string): number {
+  return JOB_PARAMETERS[key]?.value ?? api.parameter(key);
+}
+
 function table(api: CoreAPI) {
   return api.moduleState(JOBS_MODULE_ID).table(WORK_ELSEWHERE_TABLE);
 }
@@ -126,7 +136,7 @@ function opening(
   const rng = new SeededRng(api.state.seed).fork(`lives-work:${person.id}`);
   const line = rng.next();
   const band = bandOf(age);
-  const hundred = api.parameter("macroHundred");
+  const hundred = api.parameter("percent");
   const employed = band ? CPS.employedPctByAge[band]! / hundred : 0;
   const inForce = band ? CPS.laborForcePctByAge[band]! / hundred : 0;
   const status: Status =
@@ -134,7 +144,7 @@ function opening(
       ? "employed"
       : line < inForce
         ? "looking"
-        : age >= api.parameter("jobsEarliestRetirementAge")
+        : age >= jobsParameter(api, "jobsEarliestRetirementAge")
           ? "retired"
           : "out";
   // Where they stand along each pull on day one: years already worked or
@@ -264,11 +274,11 @@ export function reviewWorkElsewhere(api: CoreAPI): void {
   // A month as a share of the run's quarter.
   const month =
     p("daysPerMeanYear") / p("monthsPerYear") / p("pastWorkDaysPerQuarter");
-  const retireAge = p("jobsEarliestRetirementAge");
+  const retireAge = jobsParameter(api, "jobsEarliestRetirementAge");
   const retireYearly =
     Math.log(
       CPS.laborForcePctByAge["55-64"]! / CPS.laborForcePctByAge["65+"]!,
-    ) / p("livesRetirementBandSpanYears");
+    ) / jobsParameter(api, "livesRetirementBandSpanYears");
   for (const person of people) {
     const age = ageOnDate(
       makeIsoDate(person.birthDate),
