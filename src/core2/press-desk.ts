@@ -873,6 +873,9 @@ export function runDesk(
             facts: {
               officeIds: bodies.join(","),
               meetingIds: sat.map((item) => item.id).join(","),
+              // The day the week's first such sitting met, which the brief
+              // is dated by, so no two weeks print the same line.
+              sittingDate: sat[0]!.date,
             },
           },
           {

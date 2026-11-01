@@ -1662,6 +1662,27 @@
       }
     },
     {
+      "key": "news.jobs-report.in-month-unemployment-in-area-stood-at-percent-against-nation",
+      "move": "jobs-report",
+      "kind": "written",
+      "text": "In {month}, unemployment in {area} stood at {percent}, against {nation} for the nation.",
+      "uses": [
+        {
+          "move": "jobs-report",
+          "subject": "news",
+          "role": "jobs-report",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "news.jobs-report.the-jobless-rate-in-area-was-percent-in-month-the-national-rate-was-nation",
       "move": "jobs-report",
       "kind": "written",
@@ -2229,52 +2250,10 @@
       }
     },
     {
-      "key": "news.meetings-week.the-bodies-met-this-week-and-took-up-no-business",
+      "key": "news.meetings-week.the-bodies-met-on-date-and-took-up-no-business",
       "move": "meetings-week",
       "kind": "written",
-      "text": "The {bodies} met this week and took up no business.",
-      "uses": [
-        {
-          "move": "meetings-week",
-          "subject": "news",
-          "role": "meetings-week",
-          "choice": "lede"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
-      "date": "2026-11-01",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.meetings-week.no-business-came-before-the-bodies-this-week",
-      "move": "meetings-week",
-      "kind": "written",
-      "text": "No business came before the {bodies} this week.",
-      "uses": [
-        {
-          "move": "meetings-week",
-          "subject": "news",
-          "role": "meetings-week",
-          "choice": "lede"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
-      "date": "2026-11-01",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.meetings-week.the-bodies-held-its-regular-meeting-this-week-with-nothing-before-it",
-      "move": "meetings-week",
-      "kind": "written",
-      "text": "The {bodies} held its regular meeting this week, with nothing before it.",
+      "text": "The {bodies} met on {date} and took up no business.",
       "uses": [
         {
           "move": "meetings-week",
@@ -2293,10 +2272,98 @@
       }
     },
     {
-      "key": "news.meetings-week.the-bodies-held-their-regular-meetings-this-week-with-nothing-before-them",
+      "key": "news.meetings-week.no-business-came-before-the-bodies-on-date",
       "move": "meetings-week",
       "kind": "written",
-      "text": "The {bodies} held their regular meetings this week, with nothing before them.",
+      "text": "No business came before the {bodies} on {date}.",
+      "uses": [
+        {
+          "move": "meetings-week",
+          "subject": "news",
+          "role": "meetings-week",
+          "choice": "lede",
+          "requiresFacts": ["one"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.meetings-week.the-bodies-held-its-regular-meeting-on-date-with-nothing-before-it",
+      "move": "meetings-week",
+      "kind": "written",
+      "text": "The {bodies} held its regular meeting on {date}, with nothing before it.",
+      "uses": [
+        {
+          "move": "meetings-week",
+          "subject": "news",
+          "role": "meetings-week",
+          "choice": "lede",
+          "requiresFacts": ["one"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.meetings-week.the-bodies-met-the-week-of-date-and-took-up-no-business",
+      "move": "meetings-week",
+      "kind": "written",
+      "text": "The {bodies} met the week of {date} and took up no business.",
+      "uses": [
+        {
+          "move": "meetings-week",
+          "subject": "news",
+          "role": "meetings-week",
+          "choice": "lede",
+          "requiresFacts": ["several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.meetings-week.no-business-came-before-the-bodies-the-week-of-date",
+      "move": "meetings-week",
+      "kind": "written",
+      "text": "No business came before the {bodies} the week of {date}.",
+      "uses": [
+        {
+          "move": "meetings-week",
+          "subject": "news",
+          "role": "meetings-week",
+          "choice": "lede",
+          "requiresFacts": ["several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.meetings-week.the-bodies-held-their-regular-meetings-the-week-of-date-with-nothing-before-them",
+      "move": "meetings-week",
+      "kind": "written",
+      "text": "The {bodies} held their regular meetings the week of {date}, with nothing before them.",
       "uses": [
         {
           "move": "meetings-week",

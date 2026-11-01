@@ -85,6 +85,7 @@ for (let draw = 0; draw < draws; draw += 1) {
       kind: string;
       date: string;
       topic?: string;
+      outletId: string;
       facts: Record<string, unknown>;
     }[]
   ).filter((story) => story.kind === "press.printed");
@@ -92,6 +93,8 @@ for (let draw = 0; draw < draws; draw += 1) {
   // The paper: stories by kind, and each sentence by how often it prints.
   const kinds = new Map<string, number>();
   const said = new Map<string, number>();
+  // One paper's own year: what a reader of that outlet meets.
+  const perPaper = new Map<string, Map<string, number>>();
   let unworded = 0;
   for (const story of printed) {
     const read = printedFacts(core, story);
@@ -106,11 +109,26 @@ for (let draw = 0; draw < draws; draw += 1) {
       worded.headline,
       ...(worded.paragraphs ?? (worded.lede ? [worded.lede] : [])),
     ].filter((text): text is string => !!text);
+    const paper = perPaper.get(story.outletId) ?? new Map<string, number>();
+    perPaper.set(story.outletId, paper);
     for (const text of texts)
-      for (const sentence of sentences(text))
+      for (const sentence of sentences(text)) {
         said.set(sentence, (said.get(sentence) ?? 0) + 1);
+        paper.set(sentence, (paper.get(sentence) ?? 0) + 1);
+      }
   }
   const repeated = table(said).filter(([, count]) => count > REPEATS);
+  const paperRepeats = [...perPaper]
+    .flatMap(([outletId, paper]) =>
+      table(paper)
+        .filter(([, count]) => count > REPEATS)
+        .map(([sentence, count]) => ({
+          paper: core.organizations.get(outletId as never)?.name ?? outletId,
+          sentence,
+          count,
+        })),
+    )
+    .sort((a, b) => b.count - a.count || a.sentence.localeCompare(b.sentence));
 
   // The Journal: lines by the kind of record they tell.
   const book = director.ledger.people.get(me);
@@ -137,9 +155,16 @@ for (let draw = 0; draw < draws; draw += 1) {
   console.log("| Story kind | Printed |\n| --- | --- |");
   for (const [kind, count] of table(kinds))
     console.log(`| ${kind} | ${count} |`);
-  console.log(`\nSentences printed more than ${REPEATS} times:\n`);
-  for (const [sentence, count] of repeated.slice(0, 25))
+  console.log(
+    `\nSentences printed more than ${REPEATS} times across the town's ${perPaper.size} outlets:\n`,
+  );
+  for (const [sentence, count] of repeated.slice(0, 15))
     console.log(`- ${count}x "${sentence}"`);
+  console.log(
+    `\nWithin one paper's year: ${paperRepeats.length} sentences printed more than ${REPEATS} times in the same outlet.\n`,
+  );
+  for (const row of paperRepeats.slice(0, 15))
+    console.log(`- ${row.count}x in ${row.paper}: "${row.sentence}"`);
   console.log(
     `\nJournal: ${lines.length} lines for the player, ${lineKinds.size} kinds, ${lineRepeated.length} sentences said more than ${REPEATS} times.\n`,
   );

@@ -2696,6 +2696,27 @@
       }
     },
     {
+      "key": "headlines.jobs-report.area-unemployment-at-percent-in-month",
+      "move": "jobs-report",
+      "kind": "written",
+      "text": "{area} unemployment at {percent} in {month}",
+      "uses": [
+        {
+          "move": "jobs-report",
+          "subject": "headline",
+          "role": "jobs-report",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "headlines.jobs-report.unemployment-outside-states-largest-cities",
       "move": "jobs-report",
       "kind": "written",
@@ -2738,10 +2759,10 @@
       }
     },
     {
-      "key": "headlines.conditions.unemployment-up-in-place",
+      "key": "headlines.conditions.unemployment-up-in-place-to-percent",
       "move": "conditions",
       "kind": "written",
-      "text": "Unemployment up in {place}",
+      "text": "Unemployment up in {place}, to {percent}",
       "uses": [
         {
           "move": "conditions",
@@ -2752,18 +2773,40 @@
         }
       ],
       "origin": "authored",
-      "author": "Claude Opus (pool item words-live-news-worded)",
-      "date": "2026-10-27",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
       "tag": {
         "move": "headline",
         "key": "news-received"
       }
     },
     {
-      "key": "headlines.conditions.unemployment-down-in-place",
+      "key": "headlines.conditions.place-jobless-rate-rises-to-percent",
       "move": "conditions",
       "kind": "written",
-      "text": "Unemployment down in {place}",
+      "text": "{place} jobless rate rises to {percent}",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "headline",
+          "role": "conditions",
+          "choice": "headline",
+          "requiresFacts": ["unemployment", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.conditions.unemployment-down-in-place-to-percent",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Unemployment down in {place}, to {percent}",
       "uses": [
         {
           "move": "conditions",
@@ -2774,8 +2817,30 @@
         }
       ],
       "origin": "authored",
-      "author": "Claude Opus (pool item words-live-news-worded)",
-      "date": "2026-10-27",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.conditions.place-jobless-rate-falls-to-percent",
+      "move": "conditions",
+      "kind": "written",
+      "text": "{place} jobless rate falls to {percent}",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "headline",
+          "role": "conditions",
+          "choice": "headline",
+          "requiresFacts": ["unemployment", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
       "tag": {
         "move": "headline",
         "key": "news-received"
@@ -3265,10 +3330,10 @@
       }
     },
     {
-      "key": "headlines.meetings-week.meetings-this-week",
+      "key": "headlines.meetings-week.meetings-for-the-week-of-date",
       "move": "meetings-week",
       "kind": "written",
-      "text": "Meetings this week",
+      "text": "Meetings for the week of {date}",
       "uses": [
         {
           "move": "meetings-week",
@@ -3286,31 +3351,10 @@
       }
     },
     {
-      "key": "headlines.meetings-week.this-weeks-meetings",
+      "key": "headlines.meetings-week.local-meetings-week-of-date",
       "move": "meetings-week",
       "kind": "written",
-      "text": "This week's meetings",
-      "uses": [
-        {
-          "move": "meetings-week",
-          "subject": "headline",
-          "role": "meetings-week",
-          "choice": "headline"
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
-      "date": "2026-11-01",
-      "tag": {
-        "move": "headline",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "headlines.meetings-week.also-meeting-this-week",
-      "move": "meetings-week",
-      "kind": "written",
-      "text": "Also meeting this week",
+      "text": "Local meetings, week of {date}",
       "uses": [
         {
           "move": "meetings-week",

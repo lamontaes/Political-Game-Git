@@ -1189,8 +1189,9 @@ const meetingsWeek: Builder = (read, f) => {
         ...(f.meetingIds ?? "").split(","),
       ),
       number: read.fact(count(bodies.length)),
+      ...(f.sittingDate ? { date: read.fact(spokenDate(f.sittingDate)) } : {}),
     },
-    ["bodies"],
+    ["bodies", "date"],
   );
 };
 
