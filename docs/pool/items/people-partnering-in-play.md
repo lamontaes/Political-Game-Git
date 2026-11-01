@@ -6,7 +6,7 @@ kind: feature
 priority: 2
 size: L
 lead: m0-m2
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
