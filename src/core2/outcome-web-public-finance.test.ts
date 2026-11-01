@@ -361,16 +361,6 @@ const UNWIRED: ReadonlyArray<{
   readonly reason: string;
 }> = [
   {
-    outcome: "finance.high-cost-loans",
-    links: [
-      "loan-rate-cap-to-high-cost-borrowing",
-      "federal-loan-cap-to-high-cost-loans",
-    ],
-    stopgap: "SG-EFFECT-WEB-prices-high-cost-loans",
-    reason:
-      "credit lends one personal loan at prime plus a spread under the cap law's ceiling; no payday or title lender exists to count",
-  },
-  {
     outcome: "finance.medical-debt-in-collections",
     links: ["coverage-to-medical-debt", "medicaid-expansion-to-medical-debt"],
     stopgap: "SG-EW-HEALTH-medical-debt-reader",
@@ -386,7 +376,7 @@ const UNWIRED: ReadonlyArray<{
   {
     outcome: "household.child-poverty",
     links: ["child-benefit-to-child-poverty"],
-    stopgap: null,
+    stopgap: "SG-FAMILY-child-benefit-not-paid",
     reason:
       "no child benefit is paid and no engine counts child poverty apart from the poverty measure",
   },

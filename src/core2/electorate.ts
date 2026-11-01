@@ -18,8 +18,9 @@ import {
   type Stance,
 } from "./campaign-views";
 import { electorateParameter } from "./electorate-inputs";
-import { interestOf, turnoutShare } from "./turnout";
+import { interestOf, turnoutRule } from "./turnout";
 import type { ElectoratePlace } from "./electorate-places";
+import { bookkeeping } from "./bookkeeping";
 import { stateOfPlaceKey } from "./places";
 import { residentsRuntime } from "./modules/residents";
 import {
@@ -96,13 +97,75 @@ function eachCountedResident(
     }
 }
 
+/**
+ * Each counted store's members in id order (ties by household, then member,
+ * the order the walk visits them): sorted once, each later member placed by
+ * binary search, so a rebuild reads the order instead of sorting its rows.
+ * Kept beside the store, never on it, so it is never saved.
+ */
+const idOrder = new WeakMap<CountedStore, { order: number[]; count: number }>();
+
+function membersById(store: CountedStore): readonly number[] {
+  const ids = store.ids;
+  const household = store.household;
+  const cmp = (a: number, b: number) =>
+    ids[a]!.localeCompare(ids[b]!) || household[a]! - household[b]! || a - b;
+  let held = idOrder.get(store);
+  if (!held) {
+    const order = Array.from({ length: store.memberCount }, (_, m) => m);
+    held = { order: order.sort(cmp), count: store.memberCount };
+    idOrder.set(store, held);
+  }
+  // Members are only ever appended (`addMember`).
+  const order = held.order;
+  for (let m = held.count; m < store.memberCount; m++) {
+    let low = 0;
+    let high = order.length;
+    while (low < high) {
+      const mid = (low + high) >>> 1;
+      if (cmp(order[mid]!, m) > 0) high = mid;
+      else low = mid + 1;
+    }
+    order.splice(low, 0, m);
+  }
+  held.count = store.memberCount;
+  return order;
+}
+
+/**
+ * A walk's rows in the store's id order: the same rows a stable sort by id
+ * gives, since the walk visits by household, then member. With bookkeeping
+ * on, that sort is run too and must agree.
+ */
+function inIdOrder<Row extends { readonly id: string }>(
+  store: CountedStore | undefined,
+  walked: readonly Row[],
+  slot: Int32Array,
+): Row[] {
+  const rows: Row[] = [];
+  if (store)
+    for (const m of membersById(store)) {
+      const i = slot[m]!;
+      if (i >= 0) rows.push(walked[i]!);
+    }
+  if (bookkeeping()) {
+    const sorted = walked.slice().sort((a, b) => a.id.localeCompare(b.id));
+    if (sorted.length !== rows.length || sorted.some((r, i) => r !== rows[i]))
+      throw new Error("Counted residents left the store's id order.");
+  }
+  return rows;
+}
+
 /** Every counted resident still counted (not filled in), with their record's facts. */
 export function countedResidents(core: CoreState): readonly CountedVoter[] {
   const hit = cache.get(core);
   // Kept for the day, until someone is filled in or the people change.
   const key = `${core.date}|${core.people.size}|${residentsRuntime(core)?.store.membersVersion ?? 0}`;
   if (hit && hit.date === key) return hit.rows;
-  const rows: CountedVoter[] = [];
+  const counted = residentsRuntime(core)?.store;
+  const walked: CountedVoter[] = [];
+  // Each visited member's row in `walked`.
+  const slot = new Int32Array(counted?.memberCount ?? 0).fill(-1);
   // Each household's scheduled work and best pay, worked out once for its members.
   let at: CountedHousehold | undefined;
   const minutes = new Map<string, number>();
@@ -124,7 +187,7 @@ export function countedResidents(core: CoreState): readonly CountedVoter[] {
         );
       }
     }
-    rows.push({
+    walked.push({
       id,
       birthDate: store.born[m]!,
       placeId: store.text(store.placeIx[m]!)!,
@@ -134,8 +197,9 @@ export function countedResidents(core: CoreState): readonly CountedVoter[] {
       hourlyMinor: hourly.get(id) ?? 0,
       weight: store.weightOf(h),
     });
+    slot[m] = walked.length - 1;
   });
-  rows.sort((a, b) => a.id.localeCompare(b.id));
+  const rows = inIdOrder(counted, walked, slot);
   cache.set(core, { date: key, rows });
   return rows;
 }
@@ -149,13 +213,15 @@ export function countedResidentsOf(
   core: CoreState,
   placeId: string,
 ): readonly Pick<CountedVoter, "id" | "birthDate" | "weight">[] {
-  const rows: Pick<CountedVoter, "id" | "birthDate" | "weight">[] = [];
+  const counted = residentsRuntime(core)?.store;
+  const walked: Pick<CountedVoter, "id" | "birthDate" | "weight">[] = [];
+  const slot = new Int32Array(counted?.memberCount ?? 0).fill(-1);
   eachCountedResident(core, (store, h, m, id) => {
-    if (store.text(store.placeIx[m]!) === placeId)
-      rows.push({ id, birthDate: store.born[m]!, weight: store.weightOf(h) });
+    if (store.text(store.placeIx[m]!) !== placeId) return;
+    walked.push({ id, birthDate: store.born[m]!, weight: store.weightOf(h) });
+    slot[m] = walked.length - 1;
   });
-  rows.sort((a, b) => a.id.localeCompare(b.id));
-  return rows;
+  return inIdOrder(counted, walked, slot);
 }
 
 /**
@@ -241,6 +307,10 @@ const cells = new Map<
   string,
   { mean: number; sd: number; engagement?: number }
 >();
+/** Each place id's state key from the place lookup, which reads only static tables. */
+const placeStateKey = new Map<string, string | null | undefined>();
+/** Each age's survey band. */
+const bandByAge = new Map<number, string>();
 /**
  * A counted resident's survey cell: their state's CES 2024 spread at their
  * age (the state's whole spread where the age cell is thin, the nation's
@@ -254,19 +324,26 @@ function surveyCell(
 ): { mean: number; sd: number; engagement?: number } {
   // The town's own counted households keep their governing unit's place id,
   // which the place lookup may not know: they are the town's people, in its state.
-  const key =
-    corePlaceByJurisdictionId(placeId as never)?.stateJurisdictionKey ??
-    townState;
+  if (!placeStateKey.has(placeId))
+    placeStateKey.set(
+      placeId,
+      corePlaceByJurisdictionId(placeId as never)?.stateJurisdictionKey,
+    );
+  const key = placeStateKey.get(placeId) ?? townState;
   const state = key ? key.slice(key.lastIndexOf("-") + 1) : "";
   const age =
     Number(date.slice(0, 4)) -
     Number(birthDate.slice(0, 4)) -
     (date.slice(5) < birthDate.slice(5) ? 1 : 0);
-  const band =
-    VIEWS_KEYS.ageBands.find((b) => {
-      const [low, high] = b.split("-");
-      return age >= Number(low) && (high === "plus" || age <= Number(high));
-    }) ?? VIEWS_KEYS.ageBands[0]!;
+  let band = bandByAge.get(age);
+  if (band === undefined) {
+    band =
+      VIEWS_KEYS.ageBands.find((b) => {
+        const [low, high] = b.split("-");
+        return age >= Number(low) && (high === "plus" || age <= Number(high));
+      }) ?? VIEWS_KEYS.ageBands[0]!;
+    bandByAge.set(age, band);
+  }
   const id = `${state}:${band}`;
   let cell = cells.get(id);
   if (!cell) {
@@ -310,8 +387,24 @@ export function engagementOf(
   return cell.engagement ?? VIEWS_KEYS.national.engagement ?? null;
 }
 
-/** The nation's average engagement, the center turnout reads it against. */
+/** The nation's average engagement. */
 export const NATIONAL_ENGAGEMENT = VIEWS_KEYS.national.engagement ?? 0;
+
+/**
+ * The center turnout reads a voter's engagement against: their own state's
+ * average, so that following politics closely sets who in a place turns out
+ * more (the old against the young, the engaged against the rest) while a
+ * state's own turnout comes from its people's record (the habit seeded from
+ * the state's CPS turnout), not from its survey level of news interest, which
+ * does not line up with it (Mississippi follows the news least of any state
+ * and votes above the national figure). The nation's where the survey has no
+ * state.
+ */
+export function townEngagementCenter(core: CoreState): number {
+  const key = townStateKey(core);
+  const usps = key ? key.slice(key.lastIndexOf("-") + 1) : "";
+  return VIEWS_KEYS.states[usps]?.engagement ?? NATIONAL_ENGAGEMENT;
+}
 
 /**
  * What a counted voter can know of one candidate on a ballot: the party
@@ -399,6 +492,7 @@ export function countedAppeal(
   },
 ): Record<string, CountedAppeal> {
   const appeal: Record<string, CountedAppeal> = {};
+  const pledgeWeight = campaignParameter("doorPledgeWeight");
   for (const entry of field) {
     const party = lean * entry.side;
     const standing = entry.standing + (where.local ? entry.localStanding : 0);
@@ -419,8 +513,7 @@ export function countedAppeal(
       ? -(entry.scandal ?? 0) * (where.trust ?? 1)
       : 0;
     // Their own word at the door (owner, Oct 29: a "yes" is near-binding).
-    const pledge =
-      campaignParameter("doorPledgeWeight") * (where.pledges?.[entry.id] ?? 0);
+    const pledge = pledgeWeight * (where.pledges?.[entry.id] ?? 0);
     appeal[entry.id] = {
       total:
         party + standing + recognition + incumbent + ballot + scandal + pledge,
@@ -530,22 +623,32 @@ export interface PlaceResult {
 function orderPlacement(
   voters: readonly SampleVoter[],
 ): (target: number) => number {
+  // The one turnout rule (`turnout.ts`): with two typical candidates the gap
+  // between them in a voter's eyes is twice their lean, so a voter at either
+  // end of the lean scale always weighs a gap of two.
+  const rule = turnoutRule();
+  const atEnds = voters.map((voter) => rule(voter.readiness, 2));
   // Each voter's own readiness against their own place in the order: who
   // turns out at what strength of feeling, as the count itself decides it.
   const shareAt = (right: number) => {
     let r = 0,
       all = 0;
-    for (const voter of voters) {
+    for (let k = 0; k < voters.length; k += 1) {
+      const voter = voters[k]!;
       const lean = Math.max(-1, Math.min(1, 2 * (right - voter.rank)));
-      // The one turnout rule (`turnout.ts`): with two typical candidates the
-      // gap between them in this voter's eyes is twice their lean.
-      const share = turnoutShare(voter.readiness, 2 * Math.abs(lean));
+      const share =
+        lean === 1 || lean === -1
+          ? atEnds[k]!
+          : rule(voter.readiness, 2 * Math.abs(lean));
       all += share;
       if (lean > 0) r += share;
       else if (lean === 0) r += share / 2;
     }
     return all ? r / all : right;
   };
+  // Every place's bisection starts from the same midpoints, so the share at
+  // each one is worked out once.
+  const sums = new Map<number, number>();
   const cache = new Map<number, number>();
   return (target) => {
     if (!voters.length) return target;
@@ -555,13 +658,71 @@ function orderPlacement(
       hi = 1;
     for (let i = 0; i < 24; i += 1) {
       const mid = (lo + hi) / 2;
-      if (shareAt(mid) < target) lo = mid;
+      let sum = sums.get(mid);
+      if (sum === undefined) {
+        sum = shareAt(mid);
+        sums.set(mid, sum);
+      }
+      if (sum < target) lo = mid;
       else hi = mid;
     }
     const right = (lo + hi) / 2;
     cache.set(target, right);
     return right;
   };
+}
+
+/** A sample's coarse voters and where a place's 2024 share puts them in the order. */
+interface CoarseSample {
+  readonly size: number;
+  readonly stakesWeight: number;
+  readonly scale: number;
+  readonly voters: readonly SampleVoter[];
+  readonly placement: (target: number) => number;
+}
+
+/**
+ * Each day's sample is one array (`electorateSample`), counted for every
+ * race and state that day: its coarse voters and their placement are worked
+ * out once, while the parameters they rest on hold.
+ */
+const coarseBySample = new WeakMap<readonly SampleVoter[], CoarseSample>();
+
+function coarseSample(sample: readonly SampleVoter[]): CoarseSample {
+  const size = Math.max(1, electorateParameter("coarseSampleVoters"));
+  const stakesWeight = campaignParameter("turnoutStakesWeight");
+  const scale = campaignParameter("turnoutScale");
+  const hit = coarseBySample.get(sample);
+  if (
+    hit &&
+    hit.size === size &&
+    hit.stakesWeight === stakesWeight &&
+    hit.scale === scale
+  )
+    return hit;
+  // Evenly spaced through the town's voters, each record counting as many
+  // places in the line as the real voters it stands for.
+  const total = sample.reduce((n, v) => n + v.weight, 0);
+  const step = Math.max(1, total / size);
+  const voters: SampleVoter[] = [];
+  let upTo = 0,
+    at = 0;
+  for (let i = step / 2; i < total && at < sample.length; i += step) {
+    while (at < sample.length - 1 && upTo + sample[at]!.weight <= i) {
+      upTo += sample[at]!.weight;
+      at += 1;
+    }
+    voters.push(sample[at]!);
+  }
+  const entry = {
+    size,
+    stakesWeight,
+    scale,
+    voters,
+    placement: orderPlacement(voters),
+  };
+  coarseBySample.set(sample, entry);
+  return entry;
 }
 
 /**
@@ -588,24 +749,10 @@ export function countPlaces(
   readonly cast: number;
   readonly places: readonly PlaceResult[];
 } {
-  const size = Math.max(1, electorateParameter("coarseSampleVoters"));
-  // Evenly spaced through the town's voters, each record counting as many
-  // places in the line as the real voters it stands for.
-  const total = sample.reduce((n, v) => n + v.weight, 0);
-  const step = Math.max(1, total / size);
-  const voters: SampleVoter[] = [];
-  let upTo = 0,
-    at = 0;
-  for (let i = step / 2; i < total && at < sample.length; i += step) {
-    while (at < sample.length - 1 && upTo + sample[at]!.weight <= i) {
-      upTo += sample[at]!.weight;
-      at += 1;
-    }
-    voters.push(sample[at]!);
-  }
+  const { voters, placement } = coarseSample(sample);
+  const rule = turnoutRule();
   const totals: Record<string, number> = {};
   const results: PlaceResult[] = [];
-  const placement = orderPlacement(voters);
   let cast = 0;
   for (const place of places) {
     const votes: Record<string, number> = {};
@@ -619,7 +766,8 @@ export function countPlaces(
     // town's own people stand where the town's order puts them).
     const right = place.inTown ? place.rightShare : placement(place.rightShare);
     if (weight > 0)
-      for (const [form, voter] of voters.entries()) {
+      for (let form = 0; form < voters.length; form += 1) {
+        const voter = voters[form]!;
         const lean = Math.max(-1, Math.min(1, 2 * (right - voter.rank)));
         if (primary) {
           const identifies = Math.abs(lean) >= primary.cut && lean !== 0;
@@ -640,7 +788,7 @@ export function countPlaces(
         // the place's people like them, who turn out at their propensity.
         const share =
           weight *
-          turnoutShare(
+          rule(
             voter.readiness + (place.readinessShift ?? 0),
             interestOf(appeal),
           );
