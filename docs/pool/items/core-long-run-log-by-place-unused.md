@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: speed/cut-log-by-place
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-01T21:16:04.344Z
 ---
 
 **What.** The core keeps core.logByPlace, an index from each place to every event log row there, and writes it for every kept row. A reader map of main on Nov 1 found no reader of it in play, in dev mode or in tests beyond those that assert it is written. It costs one set entry per kept row, and the event log is the largest table in an election year: 360,967 rows in Chamblee, Georgia in 2026.
