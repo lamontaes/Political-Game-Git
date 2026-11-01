@@ -9,7 +9,8 @@ status: open
 claimed-by:
 pr:
 blocked-on:
-source: added with npm run pool -- add
+lead: governing
+source: governing lead, Nov 1 (review of campaign-candidates-never-help-a-rival)
 ---
 
 **What.** campaign-candidates-never-help-a-rival takes a new filer off their rivals' volunteers and staff on the day they file, and stops them giving, hosting or endorsing from then on. But a person-to-person yes given before they filed still stands, because askForEndorsement returns any held yes (src/core2/modules/campaigns.ts near 4454), and a group whose speaker later files keeps the endorsement it gave. So a candidate can be shown endorsing the opponent they are running against.
