@@ -18,6 +18,7 @@ import {
   type Stance,
 } from "./campaign-views";
 import { electorateParameter } from "./electorate-inputs";
+import { incumbencyAblation } from "./incumbency-ablation";
 import { interestOf, turnoutShare } from "./turnout";
 import type { ElectoratePlace } from "./electorate-places";
 import { stateOfPlaceKey } from "./places";
@@ -407,9 +408,11 @@ export function countedAppeal(
         (campaignParameter("countedRecognitionWeight") +
           groupAgreement(lean, entry.platform, where.profile))
       : 0;
-    const incumbent = entry.isIncumbent
-      ? where.incumbentLean - (entry.incumbentLeanCenter ?? 0)
-      : 0;
+    // Measurement only: the ablation can zero the trait term (off in play).
+    const incumbent =
+      entry.isIncumbent && !incumbencyAblation().trait
+        ? where.incumbentLean - (entry.incumbentLeanCenter ?? 0)
+        : 0;
     const cues = entry.ballotCues ?? [];
     const ballot = cues.length
       ? cues[(where.ballotForm ?? 0) % cues.length]!

@@ -74,6 +74,7 @@ import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
 import { campaignParameter, personLean, type Stance } from "../campaign-views";
+import { incumbencyAblation } from "../incumbency-ablation";
 import { basePlaces } from "../race-places";
 import { holdoverRule } from "../office-holdover";
 import electionParameters from "../data/elections/parameters.json" with { type: "json" };
@@ -1055,7 +1056,10 @@ function contestView(
       standing: standing
         ? appealOfShare(standing.total)
         : facts.isIncumbent
-          ? campaignParameter("incumbentRecognition") +
+          ? // Measurement only: the ablation can zero bare incumbency (off in play).
+            (incumbencyAblation().standing
+              ? 0
+              : campaignParameter("incumbentRecognition")) +
             publicRecord[f.personId]!
           : 0,
       localStanding: standing ? appealOfShare(standing.local) : 0,
