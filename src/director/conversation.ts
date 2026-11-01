@@ -436,9 +436,15 @@ function familyNews(
   const facts: Facts = {};
   const cited = [moment.causeId];
   if (stage === "moved") {
-    const to = core.durableLog.get(moment.causeId)?.topic;
-    const place = to ? corePlaceByJurisdictionId(to as never) : null;
-    if (place) facts.place = { text: spoken(place), sourceRecordIds: cited };
+    const move = core.durableLog.get(moment.causeId);
+    const place = move?.topic
+      ? corePlaceByJurisdictionId(move.topic as never)
+      : null;
+    const from = move ? corePlaceByJurisdictionId(move.placeId) : null;
+    // A move within the state they already lived in names no town: they
+    // "moved away", never "moved to" their own state.
+    if (place && place.key !== from?.stateJurisdictionKey)
+      facts.place = { text: spoken(place), sourceRecordIds: cited };
   }
   if (stage === "job") {
     const job = core.jobs.get(moment.causeId);
