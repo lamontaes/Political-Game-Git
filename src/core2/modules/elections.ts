@@ -48,7 +48,6 @@ import { addDays, makeIsoDate } from "../kernel/dates";
 import { FILING_LEAD_SOURCE } from "../gov-rules/town-election-calendar";
 import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./offices";
 import { stableHash } from "../kernel/ids";
-import { snapshotExplicitControlV1 } from "../player-control-state-v1";
 
 export const ELECTIONS_MODULE_ID = "core2-elections-v1";
 
@@ -789,9 +788,7 @@ function homeDistrict(
   officeId: string,
   office: PlayerSeatOffice,
 ): string | null {
-  const playerId =
-    snapshotExplicitControlV1(api.state).personId ??
-    (api.state as CoreState).playerId;
+  const playerId = (api.state as CoreState).playerId;
   const home = playerId ? api.state.people.get(playerId) : undefined;
   if (!home) return null;
   api.stopgap("SG-GOV-home-local-district");
@@ -836,9 +833,7 @@ function playerMayFileWith(
       contest.officeId,
     ]) as unknown as ContestRow[]
   ).filter((other) => other.electionDate === contest.electionDate);
-  const playerId =
-    snapshotExplicitControlV1(api.state).personId ??
-    (api.state as CoreState).playerId;
+  const playerId = (api.state as CoreState).playerId;
   if (playerId) {
     const others = new Set(
       sameDay.filter((other) => other.id !== contest.id).map((o) => o.id),
