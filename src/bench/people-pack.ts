@@ -209,6 +209,15 @@ export function figurePng(
 }
 
 const ahead: string[] = [];
+let drawingAhead = false;
+/**
+ * Drawing ahead is for a game being played: the request handler turns it on
+ * with the first request it serves, so a test that stages people directly
+ * draws nothing a screen will never ask for.
+ */
+export function drawAheadOn(): void {
+  drawingAhead = true;
+}
 /**
  * Draws the figure a link names (`/art/people/<id>.png?<colors>`) in the
  * background, one between requests, so a face the server has handed out is
@@ -216,6 +225,7 @@ const ahead: string[] = [];
  * be there instantly"). Drawn once per look; asking again is a cache hit.
  */
 export function drawAhead(link: string): void {
+  if (!drawingAhead) return;
   ahead.push(link);
   if (ahead.length === 1) setImmediate(drawWaiting);
 }
