@@ -2466,8 +2466,14 @@ const address: Builder = (read, f) => {
     "address",
     {
       ...read.who(id, "name", false),
+      // An inaugural is told as the taking of office, citing the offices
+      // engine's inauguration record the address was given at.
       ...(f["address:kind"] === "inaugural"
-        ? { inaugural: read.yes() }
+        ? {
+            inaugural: f["address:inauguration"]
+              ? read.fact("yes", f["address:inauguration"])
+              : read.yes(),
+          }
         : { "joint-session": read.yes() }),
       date: read.date(),
     },
