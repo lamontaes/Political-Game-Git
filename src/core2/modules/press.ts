@@ -362,6 +362,10 @@ export const PRESS_MODULE: CoreModule = {
         indexes: {
           byOutlet: { fields: ["outletId"] },
           byCandidate: { fields: ["candidateId"] },
+          /** An outlet's interviews by the day asked: its week read a day at a time. */
+          byOutletDate: { fields: ["outletId", "date"] },
+          /** A candidate's interviews for one race. */
+          byCandidateFiling: { fields: ["candidateId", "filingId"] },
         },
       },
       /** Who was told of a hidden act, by the telling's event: what a leaker knows. */
@@ -1848,16 +1852,24 @@ function reporterFor(
     .sort((a, b) => b.tie - a.tie || a.id.localeCompare(b.id))[0]!.id;
 }
 
-/** Interviews offered to or arranged by a person, newest first. */
+/**
+ * Interviews offered to or arranged by a person, newest first; with a filing,
+ * only that race's, read from its own index. The sort is by date, then id, so
+ * the order is the same whichever index the rows come from.
+ */
 export function interviewsFor(
   api: CoreAPI,
   personId: string,
+  filingId?: string,
 ): readonly InterviewRow[] {
   if (!api.state.modules.has(PRESS_MODULE_ID)) return [];
   return (
-    table(api, "interviews").query("byCandidate", [
-      personId,
-    ]) as unknown as InterviewRow[]
+    (filingId === undefined
+      ? table(api, "interviews").query("byCandidate", [personId])
+      : table(api, "interviews").query("byCandidateFiling", [
+          personId,
+          filingId,
+        ])) as unknown as InterviewRow[]
   )
     .slice()
     .sort((a, b) => b.date.localeCompare(a.date) || a.id.localeCompare(b.id));

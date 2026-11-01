@@ -12,7 +12,7 @@
  * already given). No choice is decided by a roll. Choices carry ids and
  * numbers only; the English engine words them.
  */
-import { daysBetweenText as daysBetween } from "./kernel/dates";
+import { addDays, daysBetweenText as daysBetween } from "./kernel/dates";
 import { residentsRuntime } from "./modules/residents";
 import { campaignParameter } from "./campaign-views";
 import {
@@ -284,18 +284,22 @@ function contextOf(api: CoreAPI, filingId: string, world = false) {
   return { filing, contest, open };
 }
 
+/**
+ * The room an outlet has left this week: its weekly interviews less those of
+ * the last seven days not declined, read a day at a time from its own index.
+ * An interview is dated the day it was asked and the date never moves back,
+ * so the seven days hold every one of the week's, and the outlet's older
+ * ones are not walked.
+ */
 function weekRoom(api: CoreAPI, outletId: string): number {
-  const since = (() => {
-    const d = new Date(`${api.state.date}T00:00:00Z`);
-    d.setUTCDate(d.getUTCDate() - 6);
-    return d.toISOString().slice(0, 10);
-  })();
-  const taken = (
-    api
-      .moduleState(PRESS_MODULE_ID)
-      .table("interviews")
-      .query("byOutlet", [outletId]) as unknown as InterviewRow[]
-  ).filter((i) => i.status !== "declined" && i.date >= since).length;
+  const interviews = api.moduleState(PRESS_MODULE_ID).table("interviews");
+  let taken = 0;
+  for (let back = 6; back >= 0; back -= 1)
+    for (const i of interviews.query("byOutletDate", [
+      outletId,
+      addDays(api.state.date, -back),
+    ]) as unknown as InterviewRow[])
+      if (i.status !== "declined") taken += 1;
   return Math.max(0, pressParameter("interviewsPerWeek") - taken);
 }
 
@@ -337,14 +341,14 @@ function anyoneToAsk(api: CoreAPI, campaign: CampaignRow, world: boolean) {
 
 /**
  * The interview choice's facts: the invitations waiting and the outlets with
- * room this week that would take the ask. The candidate's interviews are read
- * once, and television's bar (`newsworthiness`) once, at the first station.
+ * room this week that would take the ask. The candidate's interviews for this
+ * race are read once, from their own index, and television's bar
+ * (`newsworthiness`) once, at the first station.
  */
 function interviewFacts(api: CoreAPI, filing: FilingRow) {
-  const filingId = filing.id;
-  const theirs = interviewsFor(api, filing.personId);
+  const theirs = interviewsFor(api, filing.personId, filing.id);
   const invitedInterviewIds = theirs
-    .filter((i) => i.filingId === filingId && i.status === "invited")
+    .filter((i) => i.status === "invited")
     .map((i) => i.id);
   let worth: number | undefined;
   const newsworth = () => (worth ??= newsworthiness(api, filing));
@@ -354,10 +358,7 @@ function interviewFacts(api: CoreAPI, filing: FilingRow) {
   const outlets = here.flatMap((outlet) => {
     const roomLeft = weekRoom(api, outlet.id);
     const done = theirs.some(
-      (i) =>
-        i.outletId === outlet.id &&
-        i.filingId === filingId &&
-        i.status !== "declined",
+      (i) => i.outletId === outlet.id && i.status !== "declined",
     );
     if (done) outletsDone += 1;
     else if (roomLeft <= 0) outletsFull += 1;
@@ -384,20 +385,12 @@ function interviewFacts(api: CoreAPI, filing: FilingRow) {
  * that would otherwise take the ask.
  */
 function interviewOpen(api: CoreAPI, filing: FilingRow): boolean {
-  const theirs = interviewsFor(api, filing.personId);
-  if (theirs.some((i) => i.filingId === filing.id && i.status === "invited"))
-    return true;
+  const theirs = interviewsFor(api, filing.personId, filing.id);
+  if (theirs.some((i) => i.status === "invited")) return true;
   let worth: number | undefined;
   for (const outlet of outletsHere(api)) {
     if (weekRoom(api, outlet.id) <= 0) continue;
-    if (
-      theirs.some(
-        (i) =>
-          i.outletId === outlet.id &&
-          i.filingId === filing.id &&
-          i.status !== "declined",
-      )
-    )
+    if (theirs.some((i) => i.outletId === outlet.id && i.status !== "declined"))
       continue;
     if (outlet.kind !== "television") return true;
     if (
