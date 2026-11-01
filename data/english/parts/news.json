@@ -1978,6 +1978,50 @@
       }
     },
     {
+      "key": "news.conditions.unemployment-in-place-rose-to-percent-last-month-no-one-was-out-of-work",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Unemployment in {place} rose to {percent}; last month no one was out of work.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["unemployment", "up", "from-nobody"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.after-a-month-with-no-one-out-of-work-place-is-at-percent",
+      "move": "conditions",
+      "kind": "written",
+      "text": "After a month with no one out of work, unemployment in {place} is {percent}.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["unemployment", "up", "from-nobody"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "news.conditions.the-unemployment-rate-in-place-fell-to-percent-from-from",
       "move": "conditions",
       "kind": "written",
