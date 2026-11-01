@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: governing/ask-before-roll-by-seed
 pr: #6983
 blocked-on:
