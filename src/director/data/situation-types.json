@@ -884,6 +884,60 @@
       "asked": "graduate"
     },
     {
+      "key": "no-diploma-home",
+      "note": "The day after the player's senior year ended without a diploma (the school engine's graduation result, not passed), someone they live with sits them down at home, scored on tie and sociability (circumstance row no-graduation-home). They say it isn't the end and ask what happened and what comes next; the reply is a scene reply the core's relationship writer reads as time together. The counterpart of diploma-home: a senior's year ends in one of the two, never neither.",
+      "roles": [
+        {
+          "key": "worried",
+          "fill": "household",
+          "count": "one",
+          "moves": ["comfort", "ask", "press", "thank", "promise", "accept"],
+          "wants": ["help-others", "engage"],
+          "bearing": "tender"
+        },
+        {
+          "key": "senior",
+          "fill": "subject",
+          "count": "one",
+          "moves": [
+            "tell",
+            "promise",
+            "apologize",
+            "decline",
+            "answer",
+            "thank"
+          ],
+          "wants": ["engage"],
+          "bearing": "anxious"
+        }
+      ],
+      "setting": ["home"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "circumstance:no-graduation-home"
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "school.finished",
+          "bind": {
+            "senior": "subject",
+            "worried": "counterpart"
+          },
+          "opener": "worried",
+          "setting": ["home"]
+        }
+      ],
+      "tag": {
+        "key": "no-diploma",
+        "endpoint": "personal",
+        "registers": ["scene-talk", "scene-words"]
+      },
+      "purpose": "no-diploma-home",
+      "asker": "worried",
+      "asked": "senior"
+    },
+    {
       "key": "gathering-missing",
       "roles": [
         {
@@ -1419,6 +1473,7 @@
     },
     {
       "key": "visit",
+      "occasion": "visit",
       "roles": [
         {
           "key": "visitor",
@@ -2230,6 +2285,7 @@
     },
     {
       "key": "bill-signed",
+      "occasion": "signing",
       "roles": [
         {
           "key": "sponsor",
@@ -2302,6 +2358,7 @@
     },
     {
       "key": "veto",
+      "occasion": "signing",
       "roles": [
         {
           "key": "sponsor",
@@ -3020,6 +3077,7 @@
     },
     {
       "key": "address",
+      "occasion": "address",
       "roles": [
         {
           "key": "speaker",
@@ -4998,6 +5056,7 @@
     },
     {
       "key": "debate-sitting",
+      "occasion": "debate",
       "note": "The candidate said yes to a debate's invitation: the meetings engine's debate-accepted record names the candidate, the moderator who will ask and the outlet that hosts it. The sitting is played in the conversation engine, never answered for them: the moderator puts each of the debate's own questions as a line, the candidate picks how to answer each (plainly, with a further fact from their record, by turning it back on a rival, briefly, or the lie where their record allows one) or says nothing, and when the sitting ends the meetings engine holds the debate with exactly those moves while the other candidates answer from their own positions. A question the moderator cannot put in words is answered from the candidate's filed platform. A debate no one sits for is held on the eve of the election. Its stage is a public place until the lane maps the debate stage picture to this type.",
       "roles": [
         {
