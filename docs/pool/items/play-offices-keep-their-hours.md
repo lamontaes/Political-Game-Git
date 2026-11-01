@@ -6,8 +6,13 @@ kind: bug
 priority: 1
 size: S
 status: in-pr
+<<<<<<< HEAD
 claimed-by:
 pr:
+=======
+claimed-by: play-first/play-offices-keep-their-hours
+pr: #7083
+>>>>>>> play-first/play-offices-keep-their-hours
 blocked-on:
 source: owner playtest of v0.73.0, Nov 1, 23:05 UTC (third batch, a Massachusetts life)
 lead: play-first

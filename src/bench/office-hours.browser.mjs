@@ -1,4 +1,4 @@
-/* global process, console, document */
+/* global process, console, document, URL */
 // An office keeps its clerk's hours (owner, Nov 1: "obviously the office isn't
 // open at 8:30 p.m."): on the opening evening the filing office's Travel card
 // says when it opens, Go plays the visit at that opening with the clock moved
@@ -50,13 +50,12 @@ try {
     (await page.locator("#card-clock").innerText()).replace(/\s+/g, " ").trim();
   const toOffice = async () => {
     await page.locator('.ring[data-tab="travel"]').click();
-    await page.waitForTimeout(600);
-    await page
-      .getByText(
-        /Division of Elections|Clerk|Registrar|Board of Elections|Elections/,
-      )
-      .first()
-      .click();
+    // The first office that takes filings: its card says "You file here".
+    const card = page
+      .locator("#sheet-body .entry", { hasText: /You file here/ })
+      .first();
+    await card.waitFor();
+    await card.click();
     await page.getByTestId("place-go").waitFor();
   };
   const evening = await clock();
