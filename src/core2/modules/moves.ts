@@ -290,9 +290,16 @@ export function livesElsewhere(
   );
 }
 
-/** The played town: its own place and any full-detail place. */
+const townByCore = new WeakMap<CoreState, { town: string | undefined }>();
+
+/** The played town: its own place (looked up once per world) and any full-detail place. */
 function playedTown(core: CoreState, placeId: string): boolean {
-  return core.focusPlaceIds.has(placeId) || townPlaceOf(core) === placeId;
+  let held = townByCore.get(core);
+  if (!held) {
+    held = { town: townPlaceOf(core) };
+    townByCore.set(core, held);
+  }
+  return core.focusPlaceIds.has(placeId) || held.town === placeId;
 }
 
 /**
