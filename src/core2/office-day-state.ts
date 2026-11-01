@@ -52,7 +52,12 @@ import {
   servedShare,
 } from "./modules/justice";
 import { lawChain } from "./modules/laws";
-import { OFFICES_MODULE_ID, seatTerm, type TermRow } from "./modules/offices";
+import {
+  isOutsideOffice,
+  OFFICES_MODULE_ID,
+  seatTerm,
+  type TermRow,
+} from "./modules/offices";
 import { holderOf } from "./modules/officials";
 import {
   billOf,
@@ -1233,16 +1238,20 @@ function computerGovernorsDay(api: CoreAPI): void {
   for (const term of api
     .moduleState(OFFICES_MODULE_ID)
     .table("terms")
-    .rows() as unknown as TermRow[]) {
-    if (term.status !== "serving") continue;
+    .query("byStatus", ["serving"]) as unknown as TermRow[]) {
     // A governor seated after the opening (a successor in line, a race's
     // winner) is a person from the first day the office acts: their seat is
-    // read here, as every other engine reads a seat's holder.
-    const kind = (
-      offices.get(term.officeId) as unknown as { kind?: string } | undefined
-    )?.kind;
+    // read here, as every other engine reads a seat's holder. Another
+    // place's governor stays a named official on the term until the player
+    // meets or opens them.
+    const office = offices.get(term.officeId) as unknown as
+      { kind?: string; level?: string; jurisdiction?: string } | undefined;
     const held =
-      term.personId || kind !== "governor" ? term : holderOf(api, term);
+      term.personId ||
+      office?.kind !== "governor" ||
+      isOutsideOffice(api, office)
+        ? term
+        : holderOf(api, term);
     if (held.personId) governors.add(held.personId);
   }
   for (const personId of [...governors].sort()) {
