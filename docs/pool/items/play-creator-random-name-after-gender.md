@@ -6,12 +6,13 @@ kind: bug
 priority: 1
 size: S
 status: in-pr
-claimed-by:
-pr:
+claimed-by: play-first/play-creator-random-name-after-gender
+pr: #7089
 blocked-on:
 source: owner playtest of v0.73.0, Nov 1, 22:25 UTC
 lead: play-first
 milestone: play-first
+claimed-at: 2026-11-01T23:09:10.691Z
 ---
 
 **What.** Owner, Nov 1 playtest of v0.73.0: "Randomized name shouldn't work until you choose a gender." Today the creator's random-name control draws a name before a gender is chosen, so the name can belong to the other gender. A name is drawn from the place's name tables for the chosen gender, so the draw needs the gender first. The control stays disabled, with its label saying why, until a gender is picked.
