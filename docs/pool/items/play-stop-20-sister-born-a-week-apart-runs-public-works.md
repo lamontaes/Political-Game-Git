@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: play-first/play-stop-20-sister-born-a-week-apart-runs-public-works
 pr: #7059
 blocked-on:
