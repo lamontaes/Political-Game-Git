@@ -62,6 +62,7 @@ import { collegeOf, graduationOf } from "../school-outcomes";
 import { SCHOOL_MODULE_ID } from "../school-measures";
 import { claimRetirementNow } from "./retirement-claims";
 import { MOVED_AWAY_EVENT } from "./moves";
+import { reviewWorkElsewhere } from "../jobs-elsewhere";
 import { endClaim, fileClaim, payClaims } from "../jobs-benefits";
 import { meetAtWork } from "../encounters";
 import { lawApplied } from "../law-reach/applied";
@@ -3834,6 +3835,8 @@ export const JOBS_MODULE: CoreModule = {
       raises: { indexes: { byPerson: { fields: ["personId"] } } },
       referrals: { indexes: { byPerson: { fields: ["personId"] } } },
       countedSeekers: { indexes: { all: { fields: ["isSeeker"] } } },
+      // The working lives of people living elsewhere (src/core2/jobs-elsewhere.ts).
+      elsewhere: {},
       spells: { indexes: { open: { fields: ["personId", "open"] } } },
       claims: {
         indexes: {
@@ -3977,6 +3980,8 @@ export const JOBS_MODULE: CoreModule = {
       noteCountedLeavers(api);
       reviewEmployers(api);
       reviewWorkers(api);
+      // People living elsewhere work by the same pulls, reviewed the same day.
+      reviewWorkElsewhere(api);
       scheduleReview(api);
     } else if (work.kind === "jobs-offer-lapse") {
       const row = store(api)

@@ -7845,5 +7845,29 @@
     "addedAt": "2026-11-01",
     "replacement": "A husk whose move lands in the played town arrives through the counted-moves arrival path as one counted household (one model, two tiers), filled in when the player meets them.",
     "status": "open"
+  },
+  {
+    "id": "SG-LIVES-work-no-employer",
+    "kind": "missing-record",
+    "file": "src/core2/jobs-elsewhere.ts",
+    "line": 182,
+    "whatItFakes": "A relative or town leaver living elsewhere works, is let go, finds work and moves to another job with no employer named: the world keeps no firms outside the played town.",
+    "why": "Firms exist only for the played town's businesses; a second economy of named employers elsewhere would be a second engine.",
+    "addedBy": "lives lead (core-every-life-simulated)",
+    "addedAt": "2026-11-01",
+    "replacement": "The regional engine's employers by industry for each state (counted, never named until met) give a person living elsewhere an employer record their work spell names, filled in when the player meets it.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LIVES-work-out-of-labor-force",
+    "kind": "missing-mechanic",
+    "file": "src/core2/jobs-elsewhere.ts",
+    "line": 285,
+    "whatItFakes": "Someone living elsewhere who was out of the labor force on day one (a student, a parent at home, someone not looking) stays out until they reach the age of retiring.",
+    "why": "The pre-start run's pulls are for people in the labor force; entering it (school's end, a youngest child's age, a partner's lost job) needs its causes for people with no school or household records.",
+    "addedBy": "lives lead (core-every-life-simulated)",
+    "addedAt": "2026-11-01",
+    "replacement": "The jobs engine's enter choice (the one counted and full people make) read for people living elsewhere from their age, household and partner's work, checked against CPS flows into the labor force by age.",
+    "status": "open"
   }
 ]
