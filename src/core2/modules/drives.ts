@@ -136,6 +136,7 @@ type FactKey =
   | "role"
   | "originEvent"
   | "countedSubject"
+  | "countedSubjects"
   | "countedPerceivers"
   | "countedHousehold";
 
@@ -689,8 +690,9 @@ function countedActor(
 
 /**
  * The people still in the wider population an event happened to: the
- * counted workers a closure ended the jobs of, or the counted worker a
- * layoff named. The event itself names only full people.
+ * counted workers a closure ended the jobs of, the counted worker a layoff
+ * named, or the members of a counted household an eviction removed. The
+ * event itself names only full people.
  */
 function countedSubjects(
   api: CoreAPI,
@@ -701,6 +703,8 @@ function countedSubjects(
   const out = new Set<PersonId>();
   const named = event.facts?.[data.factKeys.countedSubject];
   if (named) out.add(named);
+  const listed = event.facts?.[data.factKeys.countedSubjects];
+  if (listed) for (const id of JSON.parse(listed) as PersonId[]) out.add(id);
   if (event.kind === data.closureEventKind) {
     // The closure event's id ends with the closed business.
     const closure = state.finance.closures.get(

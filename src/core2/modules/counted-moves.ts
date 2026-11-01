@@ -340,12 +340,27 @@ function holdsOf(
   adultAge: number,
 ): Record<string, number> {
   const holds: Record<string, number> = {};
-  if (h.tenure !== "rent") holds.owner = MOVES.movesOwnerHold!.value;
+  // A household without a home (removed by an eviction or a foreclosure) has
+  // no owned home to hold it, as a renter has none.
+  if (h.tenure === "mortgage" || h.tenure === "other")
+    holds.owner = MOVES.movesOwnerHold!.value;
   const children = residents.store
     .countedMembers(h)
     .some((m) => ageOn(residents.store.born[m]!, date) < adultAge);
   if (children) holds.children = MOVES.movesChildrenHold!.value;
   return holds;
+}
+
+/**
+ * What pushes a counted household toward leaving, by cause (log units): an
+ * eviction's or a foreclosure's push while it has no home, the same
+ * parameter a full person's pull takes once on the day (moves.ts
+ * EVENT_PULLS). Here it raises the household's rate of leaving for as long
+ * as it is without a home.
+ */
+function pushesOf(h: CountedHousehold): Record<string, number> {
+  // stopgapId: SG-WORLD-counted-evicted-push-rate
+  return h.tenure === "none" ? { evicted: MOVES.movesEvictedPull!.value } : {};
 }
 
 /**
@@ -493,16 +508,18 @@ function month(api: CoreAPI): void {
     const webKey = `${h.placeId}|${h.group}|${age}`;
     let web = webCache.get(webKey);
     if (web === undefined) {
+      // A household without a home weighs leaving as a renter does.
+      const renting = h.tenure === "rent" || h.tenure === "none";
       const subject: Subject = {
         age,
-        tenure: h.tenure === "rent" ? "rent" : "own",
+        tenure: renting ? "rent" : "own",
         householdKind: group.kind,
         incomeFifth: group.incomeBand,
         work: group.work,
       };
       web =
         webFactorFor(api, h.placeId, "population.out-migration", subject) *
-        (h.tenure === "rent"
+        (renting
           ? webFactorFor(api, h.placeId, "housing.renter-moves", subject)
           : 1);
       webCache.set(webKey, web);
@@ -535,11 +552,14 @@ function month(api: CoreAPI): void {
     const head = headOf(residents, h, date, adultAge);
     if (head.adults === 0) continue;
     const { rate, web } = leavingOf(h, home);
+    const pushes = pushesOf(h);
+    if (pushes.evicted !== undefined)
+      api.stopgap("SG-WORLD-counted-evicted-push-rate");
     const weight =
       people *
       rate *
       web *
-      Math.exp(-holdOf(residents, h, date, adultAge)) *
+      Math.exp(sum(pushes) - holdOf(residents, h, date, adultAge)) *
       rt.holdNorm.get(h.placeId)!;
     const wages = Math.round(head.wages / 1000) * 1000;
     const key = `${h.group}|${home}|${wages}`;
@@ -706,16 +726,19 @@ function month(api: CoreAPI): void {
       // alone was never weighed: its group's movers came due and the group's
       // order reached it, so what weighed is the group's yearly rate of
       // leaving across the households it did weigh.
-      const reasons = causesOf(
-        leaving.rate,
-        // The web's links land on a household by its adults; none, none.
-        head.adults ? leaving.web : 1,
-        holdsOf(residents, next, date, adultAge),
-        to === home ? {} : pullFor(home, to, head.wages),
-        !head.adults && pulled?.people
-          ? (pulled.total * 12) / pulled.people
-          : undefined,
-      );
+      const reasons = {
+        ...causesOf(
+          leaving.rate,
+          // The web's links land on a household by its adults; none, none.
+          head.adults ? leaving.web : 1,
+          holdsOf(residents, next, date, adultAge),
+          to === home ? {} : pullFor(home, to, head.wages),
+          !head.adults && pulled?.people
+            ? (pulled.total * 12) / pulled.people
+            : undefined,
+        ),
+        ...(head.adults ? pushesOf(next) : {}),
+      };
       departCountedHousehold(core, next.id);
       const dest = rt.states.get(to)!;
       for (const b of bands) dest.people[b] = dest.people[b]! + weight;
@@ -837,6 +860,57 @@ function month(api: CoreAPI): void {
     rt.totals.delete(key);
 }
 
+/**
+ * A counted household moves to another place now, for a cause another engine
+ * recorded (an evicted household doubling up with a relative there): it
+ * leaves the counts as a departure does, its people join that place's state
+ * at the coarse grain (the rest of the state, where it is the town's own),
+ * and the move is recorded with the causes given. False when there is no
+ * such counted household or the moves engine is not running.
+ */
+export function moveCountedHouseholdAway(
+  api: CoreAPI,
+  householdId: string,
+  toPlaceId: string,
+  reasons: Readonly<Record<string, number>>,
+): boolean {
+  const core = api.state as CoreState;
+  const residents = residentsRuntime(core);
+  const rt = core.modules.has(COUNTED_MOVES_MODULE_ID)
+    ? runtimeOf(api)
+    : undefined;
+  const h = residents?.store.liveHousehold(householdId);
+  if (!residents || !rt || !h) return false;
+  const store = residents.store;
+  const date = core.date;
+  const adultAge = api.parameter("votingAge");
+  const home = homeStateOf(rt, h.placeId);
+  const found = stateOfCountedPlace(toPlaceId);
+  const to = found && rt.states.has(found) ? found : home;
+  const group = store.groups[h.group]!;
+  const bands = store
+    .countedMembers(h)
+    .map((m) => coarseIndex(ageOn(store.born[m]!, date), adultAge));
+  const weight = store.weightOf(h);
+  const size = store.weightedCount(h);
+  const fromPlace = h.placeId;
+  departCountedHousehold(core, h.id);
+  const dest = rt.states.get(to);
+  if (dest) for (const b of bands) dest.people[b] = dest.people[b]! + weight;
+  record(api, {
+    id: `move:out:${householdId}:${date}`,
+    date,
+    direction: "out",
+    householdId,
+    groupId: group.id,
+    fromPlace,
+    toPlace: to === home ? `${to}:rest-of-state` : to,
+    people: size,
+    reasons,
+  });
+  return true;
+}
+
 function countedPeople(residents: ResidentsRuntime): number {
   let n = 0;
   for (const h of residents.store.liveHouseholds())
@@ -876,6 +950,8 @@ function arrivals(
   const adultAge = api.parameter("votingAge");
   const templates = new Map<PlaceId, Map<number, CountedHousehold[]>>();
   for (const h of store.liveHouseholds()) {
+    // A household without a home is no shape a newcomer arrives in.
+    if (h.tenure === "none") continue;
     const members = store.countedMembers(h);
     if (!members.length) continue;
     let head = 0;

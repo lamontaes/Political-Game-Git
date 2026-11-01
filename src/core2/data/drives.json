@@ -45,6 +45,7 @@
     "role": "role",
     "originEvent": "origin-event",
     "countedSubject": "counted-subject",
+    "countedSubjects": "counted-subjects",
     "countedPerceivers": "counted-perceivers",
     "countedHousehold": "counted-household"
   },

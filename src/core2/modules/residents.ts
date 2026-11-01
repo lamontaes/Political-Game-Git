@@ -1987,13 +1987,49 @@ export function takeResidentHousehold(
     weight: store.weightOf(h),
   });
   // One real household is filled in; the rest it stood for stay counted.
-  const held = heldJobHeads(rt, h);
-  store.releaseWeight(h);
-  keepJobHeads(core, rt, h, held);
+  releaseToOne(core, rt, h);
   store.retire(h, MemberState.Filled);
   rt.filledIn.add(h.id);
   rt.filledAt.set(h.id, makeIsoDate(core.date));
   return record;
+}
+
+/**
+ * The rest of the households a record stands for go to the other households
+ * of its group (or place), and the jobs they held stay with their employers:
+ * what fill-in does before it takes the one real household.
+ */
+function releaseToOne(
+  core: CoreState,
+  rt: ResidentsRuntime,
+  h: CountedHousehold,
+): void {
+  const held = heldJobHeads(rt, h);
+  rt.store.releaseWeight(h);
+  keepJobHeads(core, rt, h, held);
+}
+
+/**
+ * A counted record comes to stand for one real household and stays counted
+ * (an eviction or a foreclosure removed that one household, not every
+ * household the record stood for): the rest go to its group as at fill-in,
+ * and each of its jobs stands for one job.
+ */
+export function keepOneCountedHousehold(
+  core: CoreState,
+  h: CountedHousehold,
+): void {
+  const rt = runtimes.get(core);
+  if (!rt || h.gone || rt.store.weightOf(h) === 1) return;
+  releaseToOne(core, rt, h);
+  delete h.weight;
+  const members = new Set(rt.store.memberIdsOf(h));
+  for (const job of rt.jobs.values())
+    if (job.endsAt === undefined && members.has(job.personId))
+      rt.store.setJobHeads(job, 1);
+  h.wagesMinorYear = rt.store.wagesOf(h);
+  rt.store.version++;
+  rt.store.touch(h);
 }
 
 /** A household's open counted jobs and the heads each stands for beyond the one a full person fills. */
