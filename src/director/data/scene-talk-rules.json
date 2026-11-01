@@ -88,5 +88,20 @@
       "spread": [1, 4],
       "checkedAgainst": "Twice a strained ending: trust lost (a lie found out, a promise broken to their face) costs more than a talk left unfinished."
     }
+  },
+  "timeOfDay": {
+    "about": "When a scene's lines may say what hour it is (words-scene-time-of-day-words). The hour is the player's clock as the scene plays. Before noon the scene is in the morning, and a morning greeting (\"Morning. Here to file?\") may play; from noon it is the afternoon; both are the daytime, when a line that says the afternoon is still ahead (\"I'm vetoing it this afternoon.\") may play. From the evening minute on, a line that says the present is the evening (\"Thanks for your time tonight.\") may play. A scene whose hour no clock keeps sets no mark.",
+    "afternoonFromMinute": {
+      "value": 720,
+      "tag": "TUNABLE",
+      "spread": [720, 720],
+      "checkedAgainst": "Noon, when ordinary American usage stops saying good morning."
+    },
+    "eveningFromMinute": {
+      "value": 1020,
+      "tag": "TUNABLE",
+      "spread": [1020, 1080],
+      "checkedAgainst": "5:00 PM, when the director's offices close (director.json settingHours: an office holds scenes to minute 1020), so a scene in an office is never told as evening. Ordinary American usage starts the evening at about 5 to 6 PM, the end of the usual working day in the American Time Use Survey."
+    }
   }
 }

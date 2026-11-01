@@ -215,6 +215,107 @@ describe("relative days in scene narration", () => {
   });
 });
 
+// The time of day in scene talk is true only against the scene's own hour
+// (the director's `morning`, `afternoon`, `daytime` and `evening` marks, from
+// the player's clock). A line that says the present is the evening ("Thanks
+// for your time tonight.") is held back in the daytime, one that says the
+// afternoon is still ahead is held back in the evening, and a morning
+// greeting is held back after noon. A line whose "tonight" is still to come ("I'll
+// read it tonight.") is true at any hour of the day; it is listed here, so
+// every line that names the evening is decided one way or the other.
+const EVENING_AHEAD = new Set([
+  "scene-talk.reply-stall.let-me-read-it-tonight",
+  "scene-talk.follow-answer.i-m-still-finding-out-i-ll-have-names-tonight",
+  "scene-talk.reply-deflect.i-was-going-to-tell-you-tonight",
+  "scene-talk.reply-thank.good-i-ll-start-calling-tonight",
+  "scene-talk.reply-leave.i-ve-got-to-run-call-me-tonight",
+  "scene-talk.reply-stall.send-me-the-draft-i-ll-read-it-tonight",
+  "scene-talk.follow-thank.good-i-ll-get-you-the-file-tonight",
+  "scene-talk.reply-thank.you-call-her-i-can-t-tonight",
+  "scene-talk.reply-comfort.go-easy-tonight-saturday-s-a-long-day",
+  "scene-talk.reply-press.tonight-would-be-better",
+  "scene-talk.follow-accept.tonight-then",
+  "scene-talk.follow-promise.sign-at-the-bottom-and-i-ll-write-the-reference-myself-tonight",
+  "scene-talk.reply-agree.done-put-it-in-writing-tonight",
+  "scene-talk.follow-press.monday-s-fine-tonight-though-give-the-room-one-line-it-can-cheer",
+  "scene-talk.reply-agree.i-ll-call-relative-tonight",
+  "scene-talk.reply-agree.all-right-i-ll-call-tonight",
+  "scene-talk.follow-accept.done-i-ll-walk-it-over-to-the-chair-myself-tonight",
+  "scene-talk.reply-agree.then-get-it-out-next-session-and-i-ll-still-vote-yes-tonight",
+  "scene-talk.reply-agree.you-ve-got-it-send-it-over-tonight",
+  "scene-talk.follow-thank.tonight-you-re-a-good-partner",
+  "scene-talk.reply-leave.let-me-get-through-tonight-first",
+  "scene-talk.reply-agree.okay-i-ll-go-over-there-tonight",
+  "scene-talk.reply-agree.then-i-ll-do-it-tonight",
+  "scene-talk.follow-confront.not-after-tonight-you-re-not",
+  "scene-talk.follow-plea.then-do-it-on-yours-just-do-it-tonight",
+  "scene-talk.follow-warn.earn-it-again-tomorrow-tonight-be-gracious",
+  "scene-talk.reply-stall.leave-it-i-want-to-read-it-tonight-myself",
+  "scene-talk.close-thank.thank-you-it-goes-to-the-clerk-tonight",
+  "scene-talk.reply-offer.leave-your-number-with-my-office-tonight-i-ll-call-you-this-week",
+  "scene-talk.follow-press.then-send-another-one-tonight",
+  "scene-talk.reply-deflect.read-it-tonight-call-me-tomorrow-with-a-better-question",
+  "scene-talk.close-warn.it-s-running-tonight-with-or-without-you",
+  "scene-talk.follow-accept.sign-here-i-ll-get-it-to-the-clerk-tonight",
+  "scene-talk.reply-agree.then-i-ll-sign-it-tonight",
+  "scene-talk.reply-stall.give-me-tonight",
+  "scene-talk.follow-press.tonight-s-fine-don-t-let-it-slide-past-the-weekend",
+  "scene-talk.close-accept.all-right-i-ll-tell-the-leaders-tonight",
+  "scene-talk.close-promise.i-ll-send-the-details-to-your-office-tonight",
+  "scene-talk.follow-thank.i-ll-write-them-down-for-you-tonight",
+  "scene-talk.follow-thank.i-ll-write-it-tonight",
+  "scene-talk.reply-offer.my-office-will-give-you-the-name-and-the-number-tonight",
+  "scene-talk.follow-thank.tonight-thank-you",
+  "scene-talk.reply-comfort.there-s-a-line-i-won-t-cross-with-our-savings-i-ll-name-it-with-you-tonight",
+  "scene-talk.reply-deflect.give-me-tonight-sunday-we-sit-down-with-the-bills-and-count-it-all",
+  "scene-talk.follow-plea.pick-a-number-and-say-it-tonight",
+  "scene-talk.follow-plea.tell-me-one-thing-that-changes-tonight",
+  "scene-talk.follow-thank.thank-you-i-ll-tell-the-floor-tonight",
+  "scene-talk.follow-accept.all-right-i-ll-go-out-first-tonight-so-they-hear-it-from-me",
+  "scene-talk.follow-refuse.then-you-ll-be-speaking-alone-tonight-i-ll-speak-when-the-count-is-fin",
+  "scene-talk.close-press.think-about-it-tonight-we-re-out-of-time",
+  "scene-talk.follow-comfort.take-it-easy-tonight",
+  "scene-talk.follow-thank.then-we-start-tonight-bring-me-your-contact-list",
+]);
+describe("the time of day in scene talk", () => {
+  const sceneTalk = banks.find((row) => row.name === "scene-talk.json")!.bank;
+  type Use = { excludesFacts?: string[] };
+  const parts = sceneTalk.parts as (Part & { uses: Use[] })[];
+  const evening =
+    /\b(?:tonight|this evening|good evening|good night|your evening)\b|^evening\b/i;
+  // "Morning." as a greeting, not "Morning, then." (a time agreed for later).
+  const morning = /^(?:good )?morning\b(?!, then)/i;
+  const heldBack = (part: (typeof parts)[number], mark: string) =>
+    part.uses.every((use) => use.excludesFacts?.includes(mark));
+  it("says what hour it is only with the mark that makes it true", () => {
+    const wrong: string[] = [];
+    for (const part of parts) {
+      if (
+        evening.test(part.text) &&
+        !heldBack(part, "daytime") &&
+        !EVENING_AHEAD.has(part.key)
+      )
+        wrong.push(`${part.key}: names the evening without the daytime mark`);
+      if (/\bthis afternoon\b/i.test(part.text) && !heldBack(part, "evening"))
+        wrong.push(`${part.key}: names the afternoon without the evening mark`);
+      if (
+        morning.test(part.text) &&
+        !(heldBack(part, "afternoon") && heldBack(part, "evening"))
+      )
+        wrong.push(`${part.key}: greets the morning without the later marks`);
+    }
+    expect(wrong).toEqual([]);
+  });
+  it("lists as looking ahead only lines that name the evening and play all day", () => {
+    const byKey = new Map(parts.map((part) => [part.key, part]));
+    const stale = [...EVENING_AHEAD].filter((key) => {
+      const part = byKey.get(key);
+      return !part || !evening.test(part.text) || heldBack(part, "daytime");
+    });
+    expect(stale).toEqual([]);
+  });
+});
+
 // A follow that ends the scene (the director's terminal follows: a thank or
 // an accept) never asks a question: nothing answers it, and the scene would
 // end on it ("Then we start tonight. Where do you keep your contacts?").

@@ -3327,14 +3327,14 @@
         }
       ],
       "tag": {
-        "key": "routine",
+        "key": "filed",
         "endpoint": "political",
         "registers": ["scene-talk", "journal"]
       },
-      "purpose": "filing-clerk",
+      "purpose": "filing-petition",
       "asker": "clerk",
       "asked": "candidate",
-      "stakes": ["office", "opponent"]
+      "stakes": ["office", "petition"]
     },
     {
       "key": "layoff",

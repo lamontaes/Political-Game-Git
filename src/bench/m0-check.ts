@@ -11,7 +11,7 @@ import { selectBenchPlace } from "./place-selection.mjs";
 import { gameStartDate } from "../core2/game-start";
 import { buildBenchWorld, type BenchWorld } from "./world";
 import { BenchPlayer, ownPick } from "./player";
-import { judgeJumpEnd } from "./jump-end";
+import { judgeJumpEnd } from "./jump-end-check";
 import type { IsoDate } from "../core2/kernel/brands";
 import { benchProgress } from "./progress";
 
