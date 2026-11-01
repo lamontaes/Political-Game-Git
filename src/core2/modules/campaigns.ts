@@ -135,6 +135,12 @@ export const CAMPAIGNS_MODULE_ID = "core2-campaigns-v1";
 const DONATION_KIND = "campaigns:donation";
 const AD_KIND = "campaigns:ad-buy";
 const PURCHASE_KIND = "campaigns:purchase";
+/** The journal source kinds of campaign payments, whose source records are let go once posted. */
+export const CAMPAIGN_MONEY_KINDS: readonly string[] = [
+  DONATION_KIND,
+  AD_KIND,
+  PURCHASE_KIND,
+];
 
 export interface CampaignRow {
   readonly id: string;
@@ -381,33 +387,39 @@ interface MoneyRecord {
   }[];
 }
 
-const slots = new WeakMap<object, Map<string, CashJournalSourceSlot>>();
+/**
+ * A campaign payment's journal source, held only while `postMoney` posts it,
+ * as budgets' withholding does: no table keeps it, and the slot is let go
+ * once the entry is posted. Every later reader reads the campaign row's
+ * totals (raisedMinor, spentMinor, spentByKind), the gifts, the
+ * campaign-gift event or the journal's receipts.
+ */
+const heldSlots = new WeakMap<object, Map<string, CashJournalSourceSlot>>();
 function moneySlot(
   api: CoreAPI,
   id: string,
 ): CashJournalSourceSlot | undefined {
-  const map = slots.get(api.state) ?? new Map<string, CashJournalSourceSlot>();
-  slots.set(api.state, map);
-  if (map.has(id)) return map.get(id);
-  const row = table(api, "money").get(id) as unknown as MoneyRecord | undefined;
-  if (!row) return undefined;
+  return heldSlots.get(api.state)?.get(id);
+}
+function holdMoneySlot(api: CoreAPI, record: MoneyRecord): void {
+  const map =
+    heldSlots.get(api.state) ?? new Map<string, CashJournalSourceSlot>();
+  heldSlots.set(api.state, map);
   const resolved = {
-    kind: row.kind,
-    id: row.id,
-    date: row.date,
-    source: row.source,
-    expectedPostings: row.postings.map((p) => ({ ...p })),
+    kind: record.kind,
+    id: record.id,
+    date: record.date,
+    source: record.source,
+    expectedPostings: record.postings.map((p) => ({ ...p })),
     requiredRelatedRefs: [],
     relatedRecords: [],
   };
-  const slot = {
+  map.set(record.id, {
     resolved,
     marker: resolved,
     retainFull: false,
     metadata: [],
-  } as unknown as CashJournalSourceSlot;
-  map.set(id, slot);
-  return slot;
+  } as unknown as CashJournalSourceSlot);
 }
 
 export const CAMPAIGNS_MODULE: CoreModule = {
@@ -443,7 +455,6 @@ export const CAMPAIGNS_MODULE: CoreModule = {
         },
       },
       polls: { indexes: { byContest: { fields: ["contestId"] } } },
-      money: {},
       gifts: {
         indexes: {
           byCampaign: { fields: ["campaignId"] },
@@ -3086,8 +3097,8 @@ export function askOutsideDonors(api: CoreAPI, filingId: string): number {
 
 /**
  * A purchase from the campaign's account to a seller, on the journal; the
- * campaign's books (spent, and spent by kind) read it. Returns the money
- * record's id.
+ * campaign's books (spent, and spent by kind) read it. Returns the id the
+ * journal entry names as its source (`sourceRef.id`).
  */
 function spend(
   api: CoreAPI,
@@ -3243,15 +3254,25 @@ function postMoney(
       { id: `${id}:in`, accountId: `cash:${to}:residual`, deltaMinor: amount },
     ],
   };
-  table(api, "money").put(record as unknown as ModuleRow);
+  // The journal reads the record from its held slot while it posts; no table
+  // keeps it. An id is never posted twice: each carries the date and a
+  // running total that every post grows (the donor's gifts, the campaign's
+  // spentMinor; the journal refuses a zero posting), a cause group posts
+  // once a month, and the journal refuses a source not dated today.
+  holdMoneySlot(api, record);
   const state = api.state as CoreState;
-  api.postJournal({
-    id: `journal:${date}:${state.cashJournal.nextSequence}`,
-    date,
-    expectedSequence: state.cashJournal.nextSequence,
-    sourceRef: { kind, id },
-    postings: record.postings,
-  });
+  try {
+    api.postJournal({
+      id: `journal:${date}:${state.cashJournal.nextSequence}`,
+      date,
+      expectedSequence: state.cashJournal.nextSequence,
+      sourceRef: { kind, id },
+      postings: record.postings,
+    });
+  } finally {
+    // The entry is posted: the held slot (a second copy of every posting) is let go.
+    heldSlots.get(api.state)?.delete(id);
+  }
 }
 
 /**
@@ -5034,7 +5055,7 @@ export function sendMail(
  * The campaign rents an evening at a venue in town (a hall, lodge or
  * restaurant room, `seller`) at the event-venue unit price, paid from its
  * account on the journal: an event's evening and a forum's alike. Returns
- * the venue's seller and the money record's id.
+ * the venue's seller and the id the journal entry names as its source.
  */
 export function rentVenue(
   api: CoreAPI,

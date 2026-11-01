@@ -9,6 +9,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { buildPopulation } from "./population";
 import { createLifeCore } from "./life";
 import { coreAPI } from "./state";
+import { setJournalTrace } from "./journal-state";
 import type { CoreState } from "./types";
 import { lawChain, openLaws } from "./modules/laws";
 import { openOffices } from "./modules/offices";
@@ -21,6 +22,7 @@ import {
 } from "./modules/elections";
 import {
   CAMPAIGNS_MODULE_ID,
+  CAMPAIGN_MONEY_KINDS,
   campaignFor,
   contributeOwnMoney,
   doorsKnockedOf,
@@ -124,6 +126,29 @@ function setupAt(
   return { core: core as CoreState, api, filing, where, drew };
 }
 
+interface CampaignPayment {
+  readonly kind: string;
+  readonly id: string;
+  readonly postings: readonly {
+    readonly accountId: string;
+    readonly deltaMinor: number;
+  }[];
+}
+
+/** The campaign payments the journal posts while `act` runs: each one's source and postings. */
+function campaignPayments<T>(act: () => T): [T, CampaignPayment[]] {
+  const payments: CampaignPayment[] = [];
+  setJournalTrace((input) => {
+    if (CAMPAIGN_MONEY_KINDS.includes(input.sourceRef.kind))
+      payments.push({ ...input.sourceRef, postings: input.postings });
+  });
+  try {
+    return [act(), payments];
+  } finally {
+    setJournalTrace(null);
+  }
+}
+
 /** How many places setup draws (seed, seed:1, ...) before it gives up. */
 const DRAWS = 12;
 
@@ -209,18 +234,20 @@ describe("a campaign day", () => {
     // Raise money: gifts land on the journal through the engine.
     const raised: string[] = [];
     let total = 0;
-    for (let session = 0; session < 6; session += 1) {
-      const ask = campaignDayChoices(api, id).find(
-        (c) => c.kind === "raise-money",
-      )!;
-      if (!ask.available) break;
-      const got = takeCampaignDayChoice(api, id, "raise-money");
-      raised.push(...got.giftIds);
-      total += got.raisedMinor;
-      // More people meet the candidate; they become reachable.
-      if (total > 0) break;
-      if (canvassLeft(api, id)) takeCampaignDayChoice(api, id, "canvass");
-    }
+    const [, payments] = campaignPayments(() => {
+      for (let session = 0; session < 6; session += 1) {
+        const ask = campaignDayChoices(api, id).find(
+          (c) => c.kind === "raise-money",
+        )!;
+        if (!ask.available) break;
+        const got = takeCampaignDayChoice(api, id, "raise-money");
+        raised.push(...got.giftIds);
+        total += got.raisedMinor;
+        // More people meet the candidate; they become reachable.
+        if (total > 0) break;
+        if (canvassLeft(api, id)) takeCampaignDayChoice(api, id, "canvass");
+      }
+    });
     // A reachable adult who has money beyond their cushion of living costs
     // can give; where nobody does, the asks rightly raise nothing and the
     // rest of this day (which needs the committee's cash) has nothing to run.
@@ -254,15 +281,21 @@ describe("a campaign day", () => {
       const donor = giftId.split("|")[1]!;
       expect(giftOf(api, id, donor)?.totalMinor ?? 0, where).toBeGreaterThan(0);
     }
-    // Each gift is a journal source record, and the committee's cash holds it.
-    const donations = (
-      api.moduleState(CAMPAIGNS_MODULE_ID).table("money").rows() as unknown as {
-        kind: string;
-      }[]
-    ).filter((r) => r.kind === "campaigns:donation");
+    // Each gift is one entry on the cash journal, into the committee's
+    // cash, and the committee's cash holds them all.
+    const donations = payments.filter((r) => r.kind === "campaigns:donation");
     expect(donations.length, `donations on the journal: ${where}`).toBe(
       raised.length,
     );
+    expect(
+      donations
+        .flatMap((r) => r.postings)
+        .filter(
+          (p) => p.accountId === `cash:${campaign.organizationId}:residual`,
+        )
+        .reduce((sum, p) => sum + p.deltaMinor, 0),
+      `donations into the committee's cash: ${where}`,
+    ).toBe(total);
     expect(
       core.organizations.get(campaign.organizationId)?.liquidMinor,
       where,
@@ -482,7 +515,9 @@ describe("a campaign day", () => {
     const offered = forum();
     expect(offered.available, `the venue is paid for: ${where}`).toBe(true);
     const spentBefore = campaignFor(api, id).spentMinor;
-    const held = takeCampaignDayChoice(api, id, "forum");
+    const [held, payments] = campaignPayments(() =>
+      takeCampaignDayChoice(api, id, "forum"),
+    );
 
     // The candidate answers from the platform and declines what it does not
     // hold: the forum never rewrites the platform, and every promise it puts
@@ -527,11 +562,16 @@ describe("a campaign day", () => {
     expect(held.eventMoneyId, where).toBe(
       `event:${id}:${core.date}:${spentBefore}`,
     );
-    const money = api
-      .moduleState(CAMPAIGNS_MODULE_ID)
-      .table("money")
-      .get(held.eventMoneyId!) as unknown as { kind: string } | undefined;
-    expect(money?.kind, where).toBe("campaigns:purchase");
+    const venue = payments.find((p) => p.id === held.eventMoneyId);
+    expect(venue?.kind, where).toBe("campaigns:purchase");
+    expect(
+      venue?.postings.find(
+        (p) =>
+          p.accountId ===
+          `cash:${campaignFor(api, id).organizationId}:residual`,
+      )?.deltaMinor,
+      `the venue is paid from the campaign's cash: ${where}`,
+    ).toBe(-price);
     expect(campaignFor(api, id).spentMinor, where).toBe(spentBefore + price);
     expect(campaignFor(api, id).spentByKind?.event, where).toBe(price);
 
