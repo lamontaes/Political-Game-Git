@@ -5510,5 +5510,32 @@ export function votesOn(
   }[];
 }
 
+/**
+ * What one chamber's floor roll call on a bill counted: the yes and no votes
+ * of its members and a tie-breaker's, from the roll call's own rows. It leaves
+ * out the executive's desk row and any override roll call, which are other
+ * votes on the same bill. Null when the chamber never voted the bill. A
+ * screen that shows a vote reads this, not the members' record rows, which
+ * hold each member's side of each section and not the count.
+ */
+export function floorCountOf(
+  api: CoreAPI,
+  billId: string,
+  chamber: string,
+): { readonly yes: number; readonly no: number } | null {
+  const rows = (
+    table(api, "votes").query("byBill", [billId]) as unknown as {
+      chamber?: string;
+      vote: string;
+      override?: boolean;
+    }[]
+  ).filter((row) => row.chamber === chamber && !row.override);
+  if (!rows.length) return null;
+  return {
+    yes: rows.filter((row) => row.vote === "yes").length,
+    no: rows.filter((row) => row.vote === "no").length,
+  };
+}
+
 export type { PersonState };
 export { OFFICES_MODULE_ID };

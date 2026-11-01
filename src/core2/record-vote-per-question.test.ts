@@ -5,13 +5,14 @@
  * two record rows for each member who voted, one per question, each by its own
  * id and each with its own vote-recorded event. The campaign's promise on the
  * first question is judged by the first question's row, and a second bill
- * that carries the same number (two local bodies each number their first bill
- * of the year the same way) leaves the first bill's rows where they are.
+ * that carries the same number, put to the same members of the same body (a
+ * new session restarts its numbers), leaves the first bill's rows where they
+ * are. The Government screen shows each bill the way the floor counted it.
  *
  * The world is the bench world (every module installed) in a place drawn from
  * all 56 on a seed nobody chose; `GOLDEN_PATH_PLACE_KEY` fixes the place, and
- * `RECORD_VOTE_SEED` or `GOLDEN_PATH_SEED` the seed. The place, the seed and
- * the record ids are printed.
+ * `RECORD_VOTE_SEED` or `GOLDEN_PATH_SEED` the seed. The seed is in the suite's
+ * name; the place and the record ids are in every failure and in the report.
  */
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
@@ -25,6 +26,7 @@ import {
   billOf,
   draftBill,
   holdVote,
+  LEGISLATURE_MODULE_ID,
   memberKey,
   members,
   provisionStance,
@@ -50,9 +52,9 @@ const seed =
   randomBytes(8).toString("hex");
 const LOCAL_BODIES = ["council", "township-board", "county-board"];
 /** Two sections, two questions: spending on parks and spending on police. */
-const SECTIONS: readonly Provision[] = [
-  { kind: "budget-line", line: "parks", value: 5_000_000 },
-  { kind: "budget-line", line: "police", value: 5_000_000 },
+const sectionsOf = (value: number): readonly Provision[] => [
+  { kind: "budget-line", line: "parks", value },
+  { kind: "budget-line", line: "police", value },
 ];
 /** Worlds drawn before the test gives up on finding a town that fits. */
 const DRAWS = 6;
@@ -70,6 +72,10 @@ interface Held {
   /** Each question the bill speaks to and the way the bill points on it. */
   readonly sections: ReadonlyMap<string, number>;
   readonly voters: readonly Voter[];
+  /** The floor's count: the members' yes and no votes and a tie-breaker's. */
+  readonly count: { readonly yes: number; readonly no: number };
+  /** Each voter's record rows on this bill the moment its roll call ended. */
+  readonly rows: ReadonlyMap<string, readonly VoteRecordRow[]>;
 }
 interface Town {
   readonly name: string;
@@ -80,14 +86,22 @@ interface Town {
   readonly held: readonly Held[];
 }
 
-/** A body's member drafts the two-section bill and the body votes on it. */
-function holdOn(api: CoreAPI, officeId: string): Held | null {
+const recordTable = (api: CoreAPI) =>
+  api.moduleState(RECORD_MODULE_ID).table("votes");
+const rowsOnBill = (api: CoreAPI, memberId: string, billId: string) =>
+  votesOf(api, memberId).filter((row) => row.billId === billId);
+/** The rows a voter's roll call must have left: one per question of the bill, by id. */
+const idsFor = (held: Held, memberId: string) =>
+  [...held.sections.keys()].map((q) => voteRecordId(held.bill.id, q, memberId));
+
+/** A body's first member drafts a two-section bill and the body votes on it. */
+function hold(api: CoreAPI, officeId: string, value: number): Held | null {
   const [first] = members(api, officeId);
   if (!first) return null;
   const bill = draftBill(api, {
     bodyOfficeId: officeId,
     sponsorId: memberKey(first),
-    provisions: SECTIONS,
+    provisions: sectionsOf(value),
   });
   if (bill.status !== "drafted" || bill.provisions.length !== 2) return null;
   const drafted = bill.provisions.map(
@@ -96,7 +110,9 @@ function holdOn(api: CoreAPI, officeId: string): Held | null {
   if (!drafted[0] || !drafted[1] || drafted[0] === drafted[1]) return null;
   holdVote(api, bill.id);
   // Committee and floor may add sections before the roll call; the roll call
-  // records every section of the bill it votes.
+  // records every section of the bill it votes. A law-amount section has no
+  // question the roll call records, so it is left out here; the floor adds
+  // only policy-question sections.
   const voted = billOf(api, bill.id);
   const sections = new Map<string, number>();
   for (const provision of voted.provisions) {
@@ -104,32 +120,67 @@ function holdOn(api: CoreAPI, officeId: string): Held | null {
     if (stance && provision.kind !== "law-amount")
       sections.set(stance.question, stance.position);
   }
-  // The roll call's own rows are `vote:<bill>:<member>`; the executive's
-  // decision and an override's roll call sit beside them on the same bill.
+  if (!sections.has(drafted[0]) || !sections.has(drafted[1])) return null;
+  // The legislature's own rows on the bill: the floor roll call is
+  // `vote:<bill>:<member>` and a tie-breaker's `vote:<bill>:<member>:tie`.
+  // The executive's desk row has the same shape as the first, but its vote is
+  // "sign" or "veto", and an override's roll call has its own suffix.
   const voters: Voter[] = [];
-  for (const v of votesOn(api, bill.id))
-    if (
-      (v as unknown as { id: string }).id === `vote:${bill.id}:${v.memberId}` &&
-      (v.vote === "yes" || v.vote === "no")
-    )
-      voters.push({ memberId: v.memberId, vote: v.vote });
-  return voters.length >= 2
-    ? {
-        officeId,
-        bill: voted,
-        drafted: [drafted[0], drafted[1]],
-        sections,
-        voters,
-      }
-    : null;
+  let yes = 0;
+  let no = 0;
+  for (const v of votesOn(api, bill.id)) {
+    if (v.vote !== "yes" && v.vote !== "no") continue;
+    const id = (v as unknown as { id: string }).id;
+    const floor = id === `vote:${bill.id}:${v.memberId}`;
+    if (!floor && id !== `vote:${bill.id}:${v.memberId}:tie`) continue;
+    if (floor) voters.push({ memberId: v.memberId, vote: v.vote });
+    if (v.vote === "yes") yes += 1;
+    else no += 1;
+  }
+  if (voters.length < 2) return null;
+  return {
+    officeId,
+    bill: voted,
+    drafted: [drafted[0], drafted[1]],
+    sections,
+    voters,
+    count: { yes, no },
+    rows: new Map(
+      voters.map((v) => [
+        v.memberId,
+        rowsOnBill(api, v.memberId, bill.id).map((row) => ({ ...row })),
+      ]),
+    ),
+  };
 }
 
 /**
- * A place drawn from all 56 where the local bodies hold the bill. A town where
- * two bodies each number their first bill the same is preferred, so one
- * number stands on two bills; a town with one body serves when the draws run
- * out.
+ * The body's bill counter set back one, as a new session's would be: the next
+ * bill drafted in the body carries the number the last one did. A local body
+ * numbers its bills by year, so only a restart repeats a number for the same
+ * members. This is the one thing the test sets by hand.
  */
+function restartNumbers(api: CoreAPI, officeId: string): boolean {
+  const counters = api.moduleState(LEGISLATURE_MODULE_ID).table("counters");
+  const runs = (
+    counters.rows() as unknown as { id: string; n: number }[]
+  ).filter((run) => run.id.startsWith(`${officeId}:`));
+  for (const run of runs) counters.put({ id: run.id, n: run.n - 1 } as never);
+  return runs.length > 0;
+}
+
+/**
+ * A second bill put to the body of the first, under the same number, to the
+ * same members: the counter restarts, and the bill is the engine's own. Null
+ * when the body cannot hold one.
+ */
+function holdAgain(api: CoreAPI, first: Held): Held | null {
+  if (!restartNumbers(api, first.officeId)) return null;
+  const again = hold(api, first.officeId, 6_000_000);
+  return again && again.bill.number === first.bill.number ? again : null;
+}
+
+/** A place drawn from all 56 where a local body holds the two-section bill. */
 function drawTown(): Town {
   drawn ??= findTown();
   return drawn;
@@ -137,7 +188,6 @@ function drawTown(): Town {
 let drawn: Town | undefined;
 
 function findTown(): Town {
-  let fallback: Town | undefined;
   for (let attempt = 0; attempt < DRAWS; attempt += 1) {
     const draw = drawPlace(
       attempt ? `${seed}:${attempt}` : seed,
@@ -159,50 +209,32 @@ function findTown(): Town {
       .filter((o) => LOCAL_BODIES.includes(o.kind))
       .sort((a, b) => a.id.localeCompare(b.id));
     const held = offices.flatMap((o) => {
-      const one = holdOn(api, o.id);
+      const one = hold(api, o.id, 5_000_000);
       return one ? [one] : [];
     });
-    if (!held.length) continue;
-    const town: Town = {
-      name: forced ? key : draw.name,
-      key,
-      worldSeed: draw.seed,
-      core: world.core,
-      api,
-      held,
-    };
-    if (
-      held.some((h) => h !== held[0] && h.bill.number === held[0]!.bill.number)
-    )
-      return town;
-    fallback ??= town;
+    if (held.length)
+      return {
+        name: forced ? key : draw.name,
+        key,
+        worldSeed: draw.seed,
+        core: world.core,
+        api,
+        held,
+      };
   }
-  if (!fallback)
-    throw new Error(
-      `no drawn place held a two-section bill in ${DRAWS} draws (seed ${seed})`,
-    );
-  return fallback;
+  throw new Error(
+    `no drawn place held a two-section bill in ${DRAWS} draws (seed ${seed})`,
+  );
 }
 
-const recordTable = (api: CoreAPI) =>
-  api.moduleState(RECORD_MODULE_ID).table("votes");
-const rowsOnBill = (api: CoreAPI, memberId: string, billId: string) =>
-  votesOf(api, memberId).filter((row) => row.billId === billId);
-/** The rows a voter's roll call must have left: one per question of the bill, by id. */
-const idsFor = (held: Held, memberId: string) =>
-  [...held.sections.keys()].map((q) => voteRecordId(held.bill.id, q, memberId));
-
 describe(
-  "a member's record keeps their vote on every question of a bill",
+  `a member's record keeps their vote on every question of a bill (draw seed ${seed})`,
   { timeout: 900_000 },
   () => {
     it("a two-section bill leaves a record row per voting member per question, each with its own event, read by promises and the Government screen", () => {
       const town = drawTown();
       const { api, core } = town;
       const one = town.held[0]!;
-      const other = town.held.find(
-        (h) => h !== one && h.bill.number === one.bill.number,
-      );
       const where = `${town.name} (${town.key}), world seed ${town.worldSeed}, draw seed ${seed}`;
       const [q1, q2] = one.drafted;
       const ids: string[] = [];
@@ -254,7 +286,9 @@ describe(
       ).toBe(events);
 
       // A promise on the first question is judged by the first question's
-      // row, and one on the second by the second's, for the same member.
+      // row, and one on the second by the second's, for the same member. The
+      // promise rows are fixtures; the vote rows they are judged by are the
+      // roll call's.
       const maker = one.voters.find((v) => api.state.people.has(v.memberId))!;
       const promises = api.moduleState(CAMPAIGNS_MODULE_ID).table("promises");
       for (const [index, question] of [q1, q2].entries()) {
@@ -283,35 +317,78 @@ describe(
         );
       }
 
-      // The Government screen counts a voter once, not once per question.
-      const shown = recentVotesOf(api, one.officeId).find(
-        (v) => v.billId === one.bill.id,
-      );
+      // A new session restarts a body's numbers, and the same members vote a
+      // second bill under the first one's number, on the same questions. The
+      // first body that can hold one is the pair; the promises above were
+      // judged before it, while the first bill held the latest vote.
+      let pair: Held | null = null;
+      let again: Held | null = null;
+      for (const held of town.held) {
+        again = holdAgain(api, held);
+        if (again) {
+          pair = held;
+          break;
+        }
+      }
       expect(
-        shown,
-        `${where}: the bill is on the body's recent votes`,
+        again,
+        `${where}: no body held a second bill under the first's number`,
       ).toBeTruthy();
-      expect(shown!.yes + shown!.no, where).toBe(one.voters.length);
+      const second = again!;
+      const first = pair!;
 
-      // A second bill with the same number leaves the first bill's rows.
-      let sameNumber = "no second body numbered its first bill the same";
-      if (other) {
-        sameNumber = `${other.bill.id} (${other.officeId})`;
-        expect(other.bill.number, where).toBe(one.bill.number);
-        expect(other.bill.id, where).not.toBe(one.bill.id);
-        for (const held of [one, other])
-          for (const voter of held.voters)
-            expect(
-              rowsOnBill(api, voter.memberId, held.bill.id).map((r) => r.id),
-              `${where}: ${voter.memberId} on ${held.bill.id}`,
-            ).toEqual(expect.arrayContaining(idsFor(held, voter.memberId)));
-        // The number is shared; the rows are not.
-        const sharing = (
-          recordTable(api).rows() as unknown as VoteRecordRow[]
-        ).filter((r) => r.measureId === one.bill.number);
-        const billIds = new Set(sharing.map((r) => r.billId));
-        expect(billIds.has(one.bill.id), where).toBe(true);
-        expect(billIds.has(other.bill.id), where).toBe(true);
+      // The Government screen shows each of the town's bills the way the floor
+      // counted it: the floor's yes and no, passed when the body carried it.
+      // The members' record rows hold each member's side of each section, so
+      // a screen that tallied them would show the sections' direction, not the
+      // vote.
+      const roster = [...town.held, second];
+      for (const held of roster) {
+        const shown = recentVotesOf(api, held.officeId).find(
+          (v) => v.billId === held.bill.id,
+        );
+        const at = `${where}: ${held.bill.id} (${held.bill.status}, floor ${held.count.yes}-${held.count.no})`;
+        expect(shown, `${at}: on the body's recent votes`).toBeTruthy();
+        expect(shown!.number, at).toBe(held.bill.number);
+        expect(shown!.passed, at).toBe(held.bill.status !== "failed");
+        expect(shown!.yes, at).toBe(held.count.yes);
+        expect(shown!.no, at).toBe(held.count.no);
+      }
+
+      // A second bill with the same number, put to the same body, leaves the
+      // first bill's rows exactly as its roll call wrote them.
+      expect(second.officeId, where).toBe(first.officeId);
+      expect(second.bill.number, where).toBe(first.bill.number);
+      expect(second.bill.id, where).not.toBe(first.bill.id);
+      const shared = second.voters.filter((v) =>
+        first.voters.some((o) => o.memberId === v.memberId),
+      );
+      expect(shared.length, `${where}: members who voted both bills`).toBe(
+        second.voters.length,
+      );
+      expect(shared.length, where).toBeGreaterThanOrEqual(2);
+      for (const voter of first.voters)
+        expect(
+          rowsOnBill(api, voter.memberId, first.bill.id),
+          `${where}: ${voter.memberId} on ${first.bill.id} after ${second.bill.id}`,
+        ).toEqual(first.rows.get(voter.memberId));
+      for (const voter of second.voters) {
+        const rows = rowsOnBill(api, voter.memberId, second.bill.id);
+        expect(
+          rows.map((r) => r.id),
+          `${where}: ${voter.memberId} on ${second.bill.id}`,
+        ).toEqual(expect.arrayContaining(idsFor(second, voter.memberId)));
+        // The member now holds both bills' rows on the same question, under
+        // one number.
+        const question = first.drafted[0];
+        expect(
+          votesOf(api, voter.memberId).filter(
+            (r) =>
+              r.measureId === first.bill.number &&
+              r.stance.question === question,
+          ).length,
+          `${where}: ${voter.memberId} on ${question} under ${first.bill.number}`,
+        ).toBe(2);
       }
 
       govReport(
@@ -325,31 +402,46 @@ describe(
           number: one.bill.number,
           sections: [...one.sections.keys()],
           voters: one.voters.length,
+          floor: one.count,
           recordIds: ids,
           events,
-          secondBillSameNumber: sameNumber,
+          secondBillSameNumber: {
+            firstBill: first.bill.id,
+            bill: second.bill.id,
+            number: second.bill.number,
+            office: second.officeId,
+            voters: second.voters.length,
+            recordIds: second.voters.flatMap((v) => idsFor(second, v.memberId)),
+          },
         }),
       );
     });
 
     it("a later bill that reuses a number leaves the member's earlier rows in place", () => {
-      // The edge a town's bodies cannot reach in one year: the same member
-      // voting on a second bill that carries the first one's number (Congress
-      // numbers H.R. 25 again in each Congress). The writer is the record's own.
+      // The edge a town's bodies cannot reach without a restart of their
+      // numbers: the same member voting on a second bill that carries the
+      // first one's number (Congress numbers H.R. 25 again in each Congress).
+      // The writer is the record's own, called with a bill the engine never
+      // made, so this is the edge and not a played route.
       const town = drawTown();
       const { api, core } = town;
       const one = town.held[0]!;
-      const voter = one.voters[0]!;
-      const where = `${town.name} (${town.key}), world seed ${town.worldSeed}`;
+      const where = `${town.name} (${town.key}), world seed ${town.worldSeed}, draw seed ${seed}`;
+      // A voter whose votes the town hears of, so the event check runs.
+      const voter = one.voters.find(
+        (v) =>
+          api.state.people.has(v.memberId) && votesAreTownNews(api, v.memberId),
+      );
+      expect(voter, `${where}: a voter the town hears of`).toBeTruthy();
       const [q1] = one.drafted;
       const before = recordTable(api).get(
-        voteRecordId(one.bill.id, q1, voter.memberId),
+        voteRecordId(one.bill.id, q1, voter!.memberId),
       ) as unknown as VoteRecordRow;
       expect(before, where).toBeTruthy();
       const later = recordVote(api, {
-        personId: voter.memberId,
+        personId: voter!.memberId,
         body: one.officeId,
-        billId: `${one.bill.id}:next-session`,
+        billId: `bill:next-session:${one.bill.number}`,
         measureId: one.bill.number,
         stance: { question: q1, position: -before.stance.position },
         passed: null,
@@ -357,25 +449,20 @@ describe(
       expect(later.id, where).not.toBe(before.id);
       expect(recordTable(api).get(before.id), where).toEqual(before);
       expect(
-        votesOf(api, voter.memberId).filter(
+        votesOf(api, voter!.memberId).filter(
           (r) => r.measureId === one.bill.number && r.stance.question === q1,
         ).length,
         where,
-      ).toBe(2);
+      ).toBeGreaterThanOrEqual(2);
       // And that vote is told too, not dropped as already told.
-      if (
-        api.state.people.has(voter.memberId) &&
-        votesAreTownNews(api, voter.memberId)
-      )
-        expect(core.eventIds.has(`vote-recorded:${later.id}`), where).toBe(
-          true,
-        );
+      expect(core.eventIds.has(`vote-recorded:${later.id}`), where).toBe(true);
       govReport(
         "record-vote-per-question",
         JSON.stringify({
           place: town.name,
           placeKey: town.key,
           worldSeed: town.worldSeed,
+          drawSeed: seed,
           sameMemberSameNumber: [before.id, later.id],
         }),
       );
