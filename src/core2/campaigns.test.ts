@@ -417,6 +417,12 @@ describe("M2-05 and M2-06 campaigning and polls", () => {
     );
     const people = core.people.size;
     const walked = new Set<string>();
+    // What their working day owes the first volunteer, read before the walk as
+    // the engine reads it when it weighs them: the walk itself moves warmth
+    // (someone who opened a door retells it to their family, who may be this
+    // volunteer), and a share read afterwards is the next day's, not the one
+    // this evening was weighed on.
+    const owedFirst = OPENING_CARRY + shiftShare(api, campaign, first);
     const shifts = volunteerShifts(api, filing!.id, walked);
 
     // The two with the evening free went; the one at work stayed home.
@@ -437,10 +443,7 @@ describe("M2-05 and M2-06 campaigning and polls", () => {
     expect(discretionaryHours(api, second.id)).toBeCloseTo(0, 9);
     // What their working day owed them, less the evening it sent them on.
     const held = campaignFor(api, filing!.id);
-    expect(held.shiftCarries?.[first.id]).toBeCloseTo(
-      OPENING_CARRY + shiftShare(api, campaign, first) - 1,
-      9,
-    );
+    expect(held.shiftCarries?.[first.id]).toBeCloseTo(owedFirst - 1, 9);
     expect(held.shiftCarries?.[busy.id]).toBeUndefined();
     for (const shift of shifts) {
       expect(shift.doorsKnocked).toBeGreaterThan(0);

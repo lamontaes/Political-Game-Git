@@ -30,6 +30,7 @@ import { OPENING_EVENING_MINUTE } from "./opening";
 import { coreAPI } from "../core2/state";
 import { dwellingKind } from "../core2/modules/housing";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
+import figureRules from "./data/whole-figures.json" with { type: "json" };
 import {
   figureForSpot,
   fitOn,
@@ -486,6 +487,78 @@ describe("the people pack", () => {
       console.log(
         `${where}: ${checked} homes in a house; the player's ${room}, ${staged.people.length} drawn`,
       );
+    },
+  );
+
+  it(
+    "gives the seats a home lacks to housemates drawn in everyday clothes, then to faces not yet in the room",
+    { timeout: 600_000 },
+    () => {
+      const { world, where } = playedWorld();
+      const core = world.core;
+      const everyday = figureRules.dressOrder.everyday[0];
+      const figureOf = (person: { figureUrl: string }) =>
+        figureAtPath(new URL(person.figureUrl, "http://localhost").pathname)!;
+      let crowded = 0;
+      for (const [id, household] of core.households) {
+        const [me, ...rest] = household.memberIds.filter(
+          (member) => core.people.get(member)?.alive,
+        );
+        if (!me || !rest.length) continue;
+        const file = backdropFor(
+          core,
+          homeOf(core, me, OPENING_EVENING_MINUTE),
+          OPENING_EVENING_MINUTE,
+          me,
+        ).file;
+        if (!plateFor(file)) continue;
+        const staged = stagePeople(core, file, [
+          { id: me, name: me, reason: "you" },
+          ...rest.map((m) => ({
+            id: m,
+            name: m,
+            reason: "household" as const,
+          })),
+        ]);
+        // Each housemate left without a seat, as they would be drawn there.
+        const left = staged.unplaced
+          .filter((row) => row.reason === "no-spot")
+          .map(
+            (row) =>
+              stagePeople(core, file, [
+                { id: row.personId, name: row.personId, reason: "household" },
+              ]).people[0],
+          )
+          .filter((person) => person !== undefined)
+          .map(figureOf);
+        if (!left.length) continue;
+        crowded += 1;
+        const seated = staged.people.map(figureOf);
+        const housemates = staged.people
+          .filter((person) => person.personId !== me)
+          .map(figureOf);
+        // No housemate in work clothes while one who would sit in everyday
+        // clothes stands aside.
+        if (left.some((figure) => figure.dress === everyday))
+          expect(
+            housemates
+              .filter((figure) => figure.dress !== everyday)
+              .map((figure) => figure.id),
+            `${where}: ${id}`,
+          ).toEqual([]);
+        // No face twice while a housemate with a new face would sit in
+        // everyday clothes.
+        const faces = seated.map((figure) => figure.person);
+        if (
+          left.some(
+            (figure) =>
+              figure.dress === everyday && !faces.includes(figure.person),
+          )
+        )
+          expect(new Set(faces).size, `${where}: ${id}`).toBe(faces.length);
+      }
+      expect(crowded, where).toBeGreaterThan(0);
+      console.log(`${where}: ${crowded} homes with more people than seats`);
     },
   );
 
