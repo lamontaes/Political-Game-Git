@@ -8018,6 +8018,15 @@
           "role": "asker",
           "purpose": "talk",
           "after": "disagree"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "outcome": "refused"
         }
       ],
       "bearing": "guarded",
@@ -38105,6 +38114,15 @@
           "purpose": "filing-clerk",
           "key": "routine",
           "outcome": "resolved"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "outcome": "resolved"
         }
       ],
       "bearing": "glad",
@@ -49448,6 +49466,15 @@
           "role": "asker",
           "purpose": "filing-clerk",
           "key": "routine",
+          "outcome": "resolved"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "filing-petition",
+          "key": "filed",
           "outcome": "resolved"
         }
       ],
@@ -65064,6 +65091,15 @@
           "purpose": "filing-clerk",
           "key": "routine",
           "outcome": "resolved"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "outcome": "resolved"
         }
       ],
       "bearing": "calm",
@@ -65114,6 +65150,15 @@
           "purpose": "filing-clerk",
           "key": "routine",
           "outcome": "open"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "outcome": "open"
         }
       ],
       "bearing": "calm",
@@ -65138,6 +65183,15 @@
           "role": "asker",
           "purpose": "filing-clerk",
           "key": "routine",
+          "outcome": "open"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "filing-petition",
+          "key": "filed",
           "outcome": "open"
         }
       ],
@@ -72900,6 +72954,15 @@
           "role": "asker",
           "purpose": "filing-clerk",
           "key": "routine",
+          "outcome": "resolved"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "filing-petition",
+          "key": "filed",
           "outcome": "resolved"
         }
       ],
@@ -117771,10 +117834,10 @@
       "uses": [
         {
           "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
+          "purpose": "filing-petition",
+          "key": "filed",
           "step": "state",
-          "move": "tell-signatures",
+          "move": "tell",
           "role": "asker",
           "requiresFacts": ["signatures"]
         }
@@ -117785,7 +117848,7 @@
       "date": "2026-10-29",
       "tag": {
         "move": "tell",
-        "key": "routine"
+        "key": "filed"
       }
     },
     {
@@ -117796,10 +117859,10 @@
       "uses": [
         {
           "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
+          "purpose": "filing-petition",
+          "key": "filed",
           "step": "state",
-          "move": "tell-signatures",
+          "move": "tell",
           "role": "asker",
           "requiresFacts": ["signatures"]
         }
@@ -117810,7 +117873,7 @@
       "date": "2026-10-29",
       "tag": {
         "move": "tell",
-        "key": "routine"
+        "key": "filed"
       }
     },
     {
@@ -117821,10 +117884,10 @@
       "uses": [
         {
           "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
+          "purpose": "filing-petition",
+          "key": "filed",
           "step": "state",
-          "move": "tell-signatures",
+          "move": "tell",
           "role": "asker",
           "requiresFacts": ["signatures"]
         }
@@ -117835,7 +117898,7 @@
       "date": "2026-10-29",
       "tag": {
         "move": "tell",
-        "key": "routine"
+        "key": "filed"
       }
     },
     {
@@ -117846,10 +117909,10 @@
       "uses": [
         {
           "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
+          "purpose": "filing-petition",
+          "key": "filed",
           "step": "state",
-          "move": "tell-signatures",
+          "move": "tell",
           "role": "asker",
           "requiresFacts": ["signatures"]
         }
@@ -117860,7 +117923,7 @@
       "date": "2026-10-29",
       "tag": {
         "move": "tell",
-        "key": "routine"
+        "key": "filed"
       }
     },
     {
@@ -117871,10 +117934,10 @@
       "uses": [
         {
           "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
+          "purpose": "filing-petition",
+          "key": "filed",
           "step": "state",
-          "move": "tell-signatures",
+          "move": "tell",
           "role": "asker",
           "requiresFacts": ["one-signature"]
         }
@@ -117885,7 +117948,7 @@
       "date": "2026-10-29",
       "tag": {
         "move": "tell",
-        "key": "routine"
+        "key": "filed"
       }
     },
     {
@@ -117896,10 +117959,10 @@
       "uses": [
         {
           "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
+          "purpose": "filing-petition",
+          "key": "filed",
           "step": "state",
-          "move": "tell-no-petition",
+          "move": "tell",
           "role": "asker",
           "requiresFacts": ["no-petition"]
         }
@@ -117910,7 +117973,7 @@
       "date": "2026-10-29",
       "tag": {
         "move": "tell",
-        "key": "routine"
+        "key": "filed"
       }
     },
     {
@@ -117921,10 +117984,10 @@
       "uses": [
         {
           "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
+          "purpose": "filing-petition",
+          "key": "filed",
           "step": "state",
-          "move": "tell-no-petition",
+          "move": "tell",
           "role": "asker",
           "requiresFacts": ["no-petition"]
         }
@@ -117935,7 +117998,7 @@
       "date": "2026-10-29",
       "tag": {
         "move": "tell",
-        "key": "routine"
+        "key": "filed"
       }
     },
     {
@@ -119909,6 +119972,627 @@
       "tag": {
         "move": "tell",
         "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-stamps-your-forms-and-slides-one-sheet-back-across-the-counter",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} stamps your forms and slides one sheet back across the counter.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "filing-petition",
+          "key": "filed"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "narrate",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.your-papers-for-office-go-into-the-wire-tray-name-keeps-one-sheet-out",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "Your papers for {office} go into the wire tray. {name} keeps one sheet out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "filing-petition",
+          "key": "filed"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "narrate",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-reads-your-forms-through-once-more-and-initials-the-last-page",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} reads your forms through once more and initials the last page.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "filing-petition",
+          "key": "filed"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "narrate",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-ll-have-them-back-before-then",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll have them back before then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["due"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "agree",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.plenty-of-time-i-ll-start-this-week",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Plenty of time. I'll start this week.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["due"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "agree",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.good-then-i-m-on",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Good. Then I'm on.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["no-petition"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "agree",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.then-i-ll-wait-to-hear-from-you",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Then I'll wait to hear from you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["no-petition"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "agree",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-if-i-come-up-short",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What if I come up short?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["due"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "ask",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.can-anybody-sign-it",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Can anybody sign it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["due"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "ask",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.when-will-i-know-i-m-on",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "When will I know I'm on?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["no-petition"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "ask",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.that-many-for-one-seat",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "That many? For one seat?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["signatures"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "confront",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.who-decided-it-takes-that-many",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Who decided it takes that many?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["signatures"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "confront",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.then-i-d-better-get-started",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Then I'd better get started.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["due"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "leave",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.then-i-ll-get-out-of-your-way",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Then I'll get out of your way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["no-petition"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "leave",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.thanks-that-s-all-i-needed",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Thanks. That's all I needed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "filing-petition",
+          "key": "filed"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "leave",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-bring-them-to-this-counter-nobody-else-s",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. Bring them to this counter, nobody else's.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["due"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "thank",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-count-them-before-you-bring-them-in",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. Count them before you bring them in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["due"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "thank",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.then-you-re-as-good-as-on-congratulations",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Then you're as good as on. Congratulations.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["no-petition"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "thank",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.then-your-name-doesn-t-go-on-the-ballot",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Then your name doesn't go on the ballot.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "after": "scene-talk.reply-ask.what-if-i-come-up-short"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "answer",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.voters-who-live-here-i-check-every-name-against-the-rolls",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Voters who live here. I check every name against the rolls.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "after": "scene-talk.reply-ask.can-anybody-sign-it"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "answer",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.once-i-ve-checked-the-forms-it-won-t-take-long",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Once I've checked the forms. It won't take long.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "after": "scene-talk.reply-ask.when-will-i-know-i-m-on"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "answer",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-refuse.the-law-sets-the-number-i-just-count-them",
+      "move": "follow-refuse",
+      "kind": "spoken",
+      "text": "The law sets the number. I just count them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "refuse",
+          "role": "asker",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "after": "scene-talk.reply-confront.that-many-for-one-seat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "refuse",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-refuse.that-s-the-law-s-number-not-mine",
+      "move": "follow-refuse",
+      "kind": "spoken",
+      "text": "That's the law's number, not mine.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "refuse",
+          "role": "asker",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "after": "scene-talk.reply-confront.who-decided-it-takes-that-many"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "refuse",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-ll-go-start-knocking-on-doors",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'll go start knocking on doors.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["due"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "leave",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.then-i-ll-leave-you-to-it",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Then I'll leave you to it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "requiresFacts": ["no-petition"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "leave",
+        "key": "filed"
       }
     },
     {

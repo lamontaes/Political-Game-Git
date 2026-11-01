@@ -479,5 +479,17 @@
     "addedAt": "2026-10-29",
     "replacement": "An inaugural act in the office-day engine, run for any sworn-in executive, that calls deliverSpeech with an occasion fact; the swearing-in scene then reads that record, and the existing address type stages it for the people who hear it.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORDS-filing-counter-prompts",
+    "kind": "missing-hook",
+    "file": "src/director/filing-visit.ts",
+    "line": 1,
+    "whatItFakes": "The counter's talk before filing (which office, the rules that stop a filing, the dates, the term and the duty) is still the filing visit's own sequence of moves, worded from the filing-clerk lines, rather than one scene of the scene engine. The clerk's talk after filing (the petition) is already the scheduled filing scene (purpose filing-petition). The filing-clerk tree lines (key routine: replies, follows and closes about a rival who filed) wait for that scene and play nowhere until then.",
+    "why": "The plan approved Oct 28 (section 1) has the filing conversation fire through the one scheduler; the CTO (Nov 1, 16:05) kept the counter as the player's action screen for now and moved only the after-filing talk, so the golden path's filing step keeps working while the whole talk is built.",
+    "addedBy": "Words session",
+    "addedAt": "2026-11-01",
+    "replacement": "A filing-clerk scene, caused by the player arriving at the office that takes filings, that plays the whole counter talk through the scene engine and ends by opening the counter screen (the filing-clerk arc's endings already open it); filing-visit.ts's own sequence is then deleted.",
+    "status": "open"
   }
 ]
