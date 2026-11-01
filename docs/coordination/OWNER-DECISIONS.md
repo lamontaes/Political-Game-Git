@@ -7,6 +7,13 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 - None open. The relative-with-no-news question was ruled Nov 1, 16:50 (below).
 - The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
 
+## Nov 1, 22:10 UTC: CTO ruling: the counted split applies to races without party labels; partisan races keep first place until a within-record spread replaces both (amends 18:20 Q1; governing lead's question, with the reading line)
+
+- **Ruling (under "One model, two tiers" and #4861):** the 18:20 Q1 split holds for races with no party label on the ballot, at k = 1 (`appealPerShare`'s own slope, no new number). There it does what it was for: a council seat's counted record in Lexington, Texas now gives the leader 0.699 instead of 0.910. Races with party labels keep first place for counted records, because the lean order is already placed to each state's 2024 vote. A share on top counts that spread twice: in a draw of all 51, D.C. goes to 0.193 Republican against 0.072, and a town at 0.20 counts as 0.297. Reaching D.C. with the split alone needs k of about 2.7, which moves a 0.15 local gap about 10 points, against #4861's "a few points".
+- **What replaces both:** a registered stopgap names the single model, a spread of leans within each counted record on the lean order, so that partisan and nonpartisan races split by one rule. `appealPerShare`'s source text is rewritten in the same PR. The first-place `choice` column beside the split is deleted (replace, never layer). `recalls.ts`'s whole-weight-by-sign gets its own item.
+- Not chosen: widening `stateShareTolerance` (it loosens a test), and a second, steeper slope for partisan races (a second parameter fitted around a double count).
+- Read: OWNER-DECISIONS (Nov 1 18:20 Q1 and Q2; near-binding pledges, Oct 29), DECISION-REGISTER, prior-rulings/elections.md, LAW; the governing lead searched appealPerShare, stateShareTolerance, partisan, 2024 vote, counted share and first place.
+
 ## Nov 1, 22:20 UTC: CTO ruling: campaign money merges on its registered stopgap; the press-staff fix and the refit come next (governing lead's question)
 
 - **Ruling (under "Nothing waits": build against the smallest registered stopgap and say so):** #7062 (donors give from the month's pay after taxes and bills) may merge with its fitted money share leaning on `SG-GOV-gift-no-living-costs`. In the fit, 631 of 10,990 gifts but 44.6% of the money came from press staff seated with no living cost. Conditions:
