@@ -15,7 +15,9 @@
  * its governor and its other statewide officers) is held by its race's
  * winner, at home in the office's own state. A winner of
  * another party is a new holder drawn from that state, and the town's law
- * reaches its own officeholders, never another place's.
+ * reaches its own officeholders, never another place's. A holder the player
+ * opened who then loses the seat is a former official from that day, and no
+ * outside seating reaches the town paper's wire.
  */
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
