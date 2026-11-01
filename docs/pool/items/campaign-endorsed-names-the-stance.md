@@ -5,7 +5,7 @@ area: elections
 kind: wiring
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: governing/endorsed-names-stance
 pr: #6945
 blocked-on:

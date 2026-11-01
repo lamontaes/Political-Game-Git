@@ -86,6 +86,7 @@
     "female": "her",
     "other": "their"
   },
+  "metRelations": ["partner", "former-partner"],
   "lines": [
     {
       "kindPrefix": "person.birth",
@@ -442,7 +443,8 @@
           "key": "office",
           "text": "{{office}}"
         }
-      ]
+      ],
+      "hasOtherLine": true
     },
     {
       "kindPrefix": "act:vote-yes",
@@ -585,6 +587,18 @@
       "kindPrefix": "scene-ending:story-runs",
       "turn": false,
       "entry": "story"
+    },
+    {
+      "kindPrefix": "scene-ending:oath",
+      "turn": false,
+      "entry": "story",
+      "toldWithoutOther": true
+    },
+    {
+      "kindPrefix": "scene-ending:address",
+      "turn": false,
+      "entry": "story",
+      "toldWithoutOther": true
     }
   ],
   "firstTitle": [
