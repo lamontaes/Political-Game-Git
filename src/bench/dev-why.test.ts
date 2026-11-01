@@ -72,6 +72,12 @@ describe(`dev why panels: ${world.place.displayName} (seed ${seed})`, () => {
     );
     expect(empty!.rows).toEqual([]);
     expect(empty!.gap, where).toContain("No act of this person has been kept");
+    // Nor is any payment itemized yet, and the ledger says so in words; a
+    // person nobody follows is never itemized.
+    const [ledger] = why(first.id);
+    expect(core.cashJournal.detailedByOwner.has(first.id), where).toBe(false);
+    expect(ledger!.gap, where).toBe("No itemized payments in the last year.");
+    expect(why(unfollowed.id)[0]!.gap, where).toContain("not itemized");
 
     // Thirty-five days: the oldest acts have condensed to the chosen option's reasons.
     advanceCore(core, addDays(makeIsoDate(core.date), 35));

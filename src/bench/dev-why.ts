@@ -369,13 +369,21 @@ function ledgerPanels(core: CoreState, personId: string): WhyPanel[] {
   from.setUTCDate(from.getUTCDate() - 365);
   const since = from.toISOString().slice(0, 10);
   const journal = core.cashJournal;
-  const followed = journal.detailedByOwner.get(personId);
+  // The journal itemizes the payments of the player and everyone followed
+  // (all, in observer mode). A followed person whose receipts all folded past
+  // the year has no index left, yet is still followed.
+  const itemized = journal.detailedByOwner.get(personId);
+  const followed =
+    itemized !== undefined ||
+    core.observer ||
+    personId === core.playerId ||
+    core.focusPersonIds.has(personId);
   const totals = new Map<string, { in: number; out: number; count: number }>();
   const kinds = new Map<
     string,
     { group: string; net: number; count: number }
   >();
-  for (const receiptId of followed ?? []) {
+  for (const receiptId of itemized ?? []) {
     const receipt = journal.detailedReceipts.get(receiptId);
     const change = receipt?.owners.get(personId);
     if (!receipt || !change || receipt.date < since) continue;
@@ -433,6 +441,14 @@ function ledgerPanels(core: CoreState, personId: string): WhyPanel[] {
       value: `${money(earned)} / ${money(paid)}`,
     },
   );
+  // Earlier years: receipts folded past the window, one total per year and kind.
+  const folded = [...(journal.foldedByOwner.get(personId)?.values() ?? [])];
+  folded.sort((a, b) => b.year - a.year || b.count - a.count);
+  for (const row of folded)
+    rows.push({
+      label: `  ${row.year} total: ${groupOf(row.kind)}: ${row.kind}`,
+      value: `in ${money(row.inMinor)}, out ${money(row.outMinor)}, ${row.count} payments`,
+    });
   const all = journal.totalsByOwner.get(personId);
   if (all)
     rows.push({
@@ -446,11 +462,13 @@ function ledgerPanels(core: CoreState, personId: string): WhyPanel[] {
     {
       title: `${nameOf(core, personId)}: the year to ${core.date}`,
       rows,
-      ...(followed && !totals.has("rent") && !totals.has("spending")
-        ? {
-            gap: "This person's cash journal holds no rent or spending payments this year, so rent and spending are not in the ledger. Engine gap: whichever engine charges rent and consumption writes no journal receipt for it.",
-          }
-        : {}),
+      ...(followed && !totals.size
+        ? { gap: "No itemized payments in the last year." }
+        : followed && !totals.has("rent") && !totals.has("spending")
+          ? {
+              gap: "This person's cash journal holds no rent or spending payments this year, so rent and spending are not in the ledger. Engine gap: whichever engine charges rent and consumption writes no journal receipt for it.",
+            }
+          : {}),
       ...(followed
         ? {}
         : {
