@@ -25,8 +25,9 @@
  *     (the hearing, or later when a payment plan was missed), removal
  *     (judgment plus the stay days);
  * (5) every removal followed a judgment, ended the lease and left a
- *     dwelling marked removed for eviction, and every household marked
- *     removed for eviction has a removed case behind it.
+ *     dwelling marked removed for eviction (or rehoused since, for a
+ *     household that rents again), and every household marked removed for
+ *     eviction has a removed case behind it.
  * Exits nonzero naming each failed clause. A year with no case on record
  * passes clauses 3 to 5 and says so.
  */
@@ -242,21 +243,37 @@ for (const row of cases) {
       fail(row.id, `removed but lease ${row.leaseId} still runs`);
   }
 }
-const removedHouseholds = new Set(
-  cases.filter((row) => row.stage === "removed").map((row) => row.householdId),
-);
-const markedRemoved = (
-  housing.table("dwellings").rows() as unknown as {
-    householdId: string;
-    basis?: string;
-  }[]
-).filter((row) => row.basis === "eviction");
+// Each removed household's latest removal day.
+const removedHouseholds = new Map<string, string>();
+for (const row of cases)
+  if (row.stage === "removed" && row.removedAt)
+    removedHouseholds.set(
+      row.householdId,
+      [removedHouseholds.get(row.householdId) ?? "", row.removedAt].sort()[1]!,
+    );
+const dwellings = housing.table("dwellings").rows() as unknown as {
+  householdId: string;
+  basis?: string;
+  since?: string;
+}[];
+const markedRemoved = dwellings.filter((row) => row.basis === "eviction");
+// A household that rents again after its removal: its home is marked
+// rehoused (leaseHousehold, or a completed project's unit) since that day or later.
+const REHOUSED = new Set(["rehoused", "rehoused-completed-project"]);
 for (const row of markedRemoved)
   if (!removedHouseholds.has(row.householdId))
     fail(row.householdId, "marked removed for eviction with no removed case");
-for (const id of removedHouseholds)
-  if (!markedRemoved.some((row) => row.householdId === id))
-    fail(id, "has a removed case and no dwelling marked removed");
+for (const [id, removedAt] of removedHouseholds)
+  if (
+    !markedRemoved.some((row) => row.householdId === id) &&
+    !dwellings.some(
+      (row) =>
+        row.householdId === id &&
+        REHOUSED.has(row.basis ?? "") &&
+        (row.since ?? "") >= removedAt,
+    )
+  )
+    fail(id, "has a removed case and no dwelling marked removed or rehoused");
 
 console.log(
   JSON.stringify({

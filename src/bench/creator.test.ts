@@ -55,7 +55,7 @@ describe("the New game creator", () => {
     const states = creatorStates();
     expect(states.length).toBeGreaterThan(50);
     const state = states[Math.floor(states.length / 2)]!;
-    const towns = creatorTowns(state.key, "");
+    const towns = creatorTowns(state.key, "", "creator-test");
     expect(towns.length).toBeGreaterThan(0);
     expect(towns.some((town) => (town.population ?? 0) > 0)).toBe(true);
   });
@@ -299,7 +299,9 @@ describe("Random place in the creator", () => {
     expect(first.town.population).toBeGreaterThan(0);
     // The town is one the state's own list offers, by key.
     expect(
-      creatorTowns(first.state.key, "").some((t) => t.key === first.town.key),
+      creatorTowns(first.state.key, "", "creator-test").some(
+        (t) => t.key === first.town.key,
+      ),
     ).toBe(true);
     expect(creatorRandomPlace("seed-a", 1)).toEqual(first);
     // Another press or another seed can land elsewhere; across a few draws it does.

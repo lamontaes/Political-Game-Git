@@ -17,7 +17,9 @@
 import news from "../../../data/research/press/local-news-2026.json" with { type: "json" };
 import bases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
 import rows from "../data/press/parameters.json" with { type: "json" };
+import briefs from "../data/press/briefs.json" with { type: "json" };
 import nationalJson from "../data/press/national.json" with { type: "json" };
+import { bookkeeping } from "../bookkeeping";
 import { coreAPI, fillInPerson, registerModule } from "../state";
 import { addDays, daysBetweenText, makeIsoDate } from "../kernel/dates";
 import { spendLivingCost } from "../official-living";
@@ -366,6 +368,10 @@ export const PRESS_MODULE: CoreModule = {
         indexes: {
           byOutlet: { fields: ["outletId"] },
           byCandidate: { fields: ["candidateId"] },
+          /** An outlet's interviews by the day asked: its week read a day at a time. */
+          byOutletDate: { fields: ["outletId", "date"] },
+          /** A candidate's interviews for one race. */
+          byCandidateFiling: { fields: ["candidateId", "filingId"] },
         },
       },
       /** Who was told of a hidden act, by the telling's event: what a leaker knows. */
@@ -1627,13 +1633,23 @@ export function interviewQuestions(
     .map(([q]) => q);
 }
 
-function weekCount(api: CoreAPI, outletId: string): number {
-  const since = addDays(makeIsoDate(api.state.date), -6);
-  return (
-    table(api, "interviews").query("byOutlet", [
+/**
+ * An outlet's interviews of the last seven days not declined: the room its
+ * week has used, for the press desk and the campaign day alike. Read a day at
+ * a time from its own index; an interview is dated the day it was asked and
+ * never later (`record`), so the seven days hold every one of the week's, and
+ * the outlet's older ones are not walked.
+ */
+export function weekCount(api: CoreAPI, outletId: string): number {
+  const interviews = table(api, "interviews");
+  let taken = 0;
+  for (let back = 6; back >= 0; back -= 1)
+    for (const i of interviews.query("byOutletDate", [
       outletId,
-    ]) as unknown as InterviewRow[]
-  ).filter((i) => i.status !== "declined" && i.date >= since).length;
+      addDays(makeIsoDate(api.state.date), -back),
+    ]) as unknown as InterviewRow[])
+      if (i.status !== "declined") taken += 1;
+  return taken;
 }
 
 function already(api: CoreAPI, outletId: string, filingId: string) {
@@ -1661,6 +1677,9 @@ function talkedLately(api: CoreAPI, outletId: string, personId: string) {
 }
 
 function record(api: CoreAPI, row: InterviewRow): InterviewRow {
+  // A row dated after today would fall outside the week `weekCount` reads.
+  if (bookkeeping() && makeIsoDate(row.date) > api.state.date)
+    throw new Error(`Interview ${row.id} is dated after ${api.state.date}.`);
   table(api, "interviews").put(row as unknown as ModuleRow);
   return row;
 }
@@ -1881,16 +1900,24 @@ function reporterFor(
     .sort((a, b) => b.tie - a.tie || a.id.localeCompare(b.id))[0]!.id;
 }
 
-/** Interviews offered to or arranged by a person, newest first. */
+/**
+ * Interviews offered to or arranged by a person, newest first; with a filing,
+ * only that race's, read from its own index. The sort is by date, then id, so
+ * the order is the same whichever index the rows come from.
+ */
 export function interviewsFor(
   api: CoreAPI,
   personId: string,
+  filingId?: string,
 ): readonly InterviewRow[] {
   if (!api.state.modules.has(PRESS_MODULE_ID)) return [];
   return (
-    table(api, "interviews").query("byCandidate", [
-      personId,
-    ]) as unknown as InterviewRow[]
+    (filingId === undefined
+      ? table(api, "interviews").query("byCandidate", [personId])
+      : table(api, "interviews").query("byCandidateFiling", [
+          personId,
+          filingId,
+        ])) as unknown as InterviewRow[]
   )
     .slice()
     .sort((a, b) => b.date.localeCompare(a.date) || a.id.localeCompare(b.id));
@@ -3023,6 +3050,106 @@ function schoolResults(api: CoreAPI): void {
   }
 }
 
+/** A resident's round birthday, as the briefs column prints it. */
+export const MILESTONE_BIRTHDAY = "person.milestone-birthday";
+/** A business's round year since its founding, as the briefs column prints it. */
+export const BUSINESS_ANNIVERSARY = "organization.anniversary";
+
+/** The anniversary of a date in a year, as a date ("02-29" falls on the 28th outside leap years). */
+function anniversaryIn(year: number, date: string): string {
+  const day = date.slice(5);
+  const leap = (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+  return `${year}-${day === "02-29" && !leap ? "02-28" : day}`;
+}
+
+/**
+ * The week's milestones, for the briefs column (words-paper-and-journal-
+ * everyday-life; owner, Nov 1: "real ones with some good fluff"): a
+ * resident of the town who reached a round birthday this week, and a
+ * business in town that reached a round year since it was founded, each
+ * from its own record's date (the person's birth date; the business
+ * engine's founding row or its age at the opening). The round ages and
+ * years are data (data/press/briefs.json, milestones).
+ */
+function milestones(api: CoreAPI): void {
+  const c = api.state as CoreState;
+  const town = lawChain(api).townPlaceId;
+  const since = addDays(
+    makeIsoDate(api.state.date),
+    -api.parameter("daysPerWeek"),
+  );
+  const thisWeek = (date: string) => {
+    const year = Number(api.state.date.slice(0, 4));
+    // The week can span New Year's Day: the anniversary falls in this year
+    // or the last.
+    return [year, year - 1]
+      .map((y) => anniversaryIn(y, date))
+      .find((day) => day > since && day <= api.state.date);
+  };
+  const put = (item: WireItem) => {
+    if (!table(api, "wire").get(item.id))
+      table(api, "wire").put(item as unknown as ModuleRow);
+  };
+  // A full resident only: a counted resident's birthday is printed once
+  // they are filled in (the notice names them).
+  // stopgapId: SG-WORDS-milestone-birthday-full-people
+  for (const id of c.peopleByPlace.get(town) ?? []) {
+    const person = c.people.get(id);
+    if (!person?.alive) continue;
+    const day = thisWeek(person.birthDate);
+    if (!day) continue;
+    const age = Number(day.slice(0, 4)) - Number(person.birthDate.slice(0, 4));
+    if (!briefs.milestones.birthdayAges.includes(age)) continue;
+    put({
+      id: `birthday:${person.id}:${day}`,
+      kind: MILESTONE_BIRTHDAY,
+      date: day,
+      level: "town",
+      topic: `person:${person.id}`,
+      desiredChange: MILESTONE_BIRTHDAY,
+      ending: false,
+      subjectIds: [person.id],
+      facts: { personId: person.id, age: String(age) },
+    });
+  }
+  if (!c.modules.has(BUSINESS_MODULE_ID)) return;
+  const business = api.moduleState(BUSINESS_MODULE_ID);
+  const founded = [
+    ...(
+      business.table("ages").rows() as unknown as {
+        id: string;
+        foundedAt: string;
+      }[]
+    ).map((row) => ({ id: row.id, date: row.foundedAt })),
+    ...(
+      business.table("foundings").rows() as unknown as {
+        organizationId: string;
+        date: string;
+      }[]
+    ).map((row) => ({ id: row.organizationId, date: row.date })),
+  ];
+  for (const row of founded) {
+    const book = c.finance.businesses.get(row.id);
+    if (!book || book.closedAt) continue;
+    if (c.organizations.get(row.id)?.placeId !== town) continue;
+    const day = thisWeek(row.date);
+    if (!day) continue;
+    const years = Number(day.slice(0, 4)) - Number(row.date.slice(0, 4));
+    if (!briefs.milestones.businessYears.includes(years)) continue;
+    put({
+      id: `anniversary:${row.id}:${day}`,
+      kind: BUSINESS_ANNIVERSARY,
+      date: day,
+      level: "town",
+      topic: row.id,
+      desiredChange: BUSINESS_ANNIVERSARY,
+      ending: false,
+      subjectIds: [],
+      facts: { organizationId: row.id, years: String(years), since: row.date },
+    });
+  }
+}
+
 /**
  * The police log of the month that just closed reaches the desk in the next
  * month's first week (owner, Oct 29: side stories, "fourth car stolen"): the
@@ -3278,6 +3405,7 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   api.stopgap("SG-PEOPLE-press-endorsements");
   schoolResults(api);
   policeLog(api);
+  milestones(api);
   // The week's stories: each reporter files from the fresh wire.
   const wire = freshWire(api);
   // A national outlet covers the nation and the town's own state; a town's

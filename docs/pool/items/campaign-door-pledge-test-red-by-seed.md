@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: governing/door-pledge-test-by-seed
-pr:
+pr: #7073
 blocked-on:
 lead: governing
 source: governing lead, Nov 1 (rerun for campaign-incumbent-hears-the-race)

@@ -18,11 +18,12 @@ import { fundBalance, peopleInGroup } from "./counted-money";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { stableHash } from "./kernel/ids";
 import { nextDue } from "./housing-homeless";
-import { addResidentFlow, setResidentFlowAmount } from "./residents-economy";
+import { reopenResidentFlow, setResidentFlowAmount } from "./residents-economy";
 import { lawApplied } from "./law-reach/applied";
 import { CONSTRUCTION_LAW_KEYS } from "./housing-construction";
 import { webFactorFor } from "./outcome-web-reach";
-import type { CoreAPI, CoreState } from "./types";
+import type { CountedHousehold } from "./counted-groups";
+import type { CoreAPI, CoreState, Source } from "./types";
 
 export interface Tenant {
   id: string;
@@ -156,8 +157,10 @@ export function releaseVacatedRentals(api: CoreAPI): void {
     const project = table(api, "projects").get(row.projectId) as unknown as
       ProjectRow | undefined;
     if (!project) continue;
-    const full = c.households.get(row.householdId);
-    const counted = full ? undefined : rt?.store.liveHousehold(row.householdId);
+    // The live counted record where there is one (a household returned to the
+    // counts keeps its full record too), else the full household.
+    const counted = rt?.store.liveHousehold(row.householdId);
+    const full = counted ? undefined : c.households.get(row.householdId);
     const flow = rt?.flows.get(`rent:${row.householdId}`);
     const hasLease = full
       ? liveLeases.has(row.householdId) &&
@@ -717,7 +720,11 @@ export function occupyRehousedRental(
 ): void {
   const c = api.state as CoreState;
   const rt = residentsRuntime(c);
-  const full = c.households.get(householdId);
+  // A counted rent flow is signed by the counted record (a household returned
+  // to the counts keeps its full record too); a lease by the full household.
+  const full = leaseId.startsWith("rent:")
+    ? undefined
+    : c.households.get(householdId);
   const countedIndex = rt?.store.householdOf.get(householdId);
   const counted =
     countedIndex === undefined ? undefined : rt!.store.households[countedIndex];
@@ -814,6 +821,44 @@ export function occupyRehousedRental(
     vacancyDelta: -1,
     reasonKey: "income-and-cash-reach-a-vacant-home",
   });
+}
+
+/**
+ * A counted household's rent to a landlord begins, due next month, paid from
+ * its place's residents account (its group's money): `rent:<household>`,
+ * begun again where an eviction ended it. Returns the flow's id, or none where
+ * the place has no residents account.
+ */
+export function openCountedRent(
+  api: CoreAPI,
+  h: CountedHousehold,
+  landlordId: string,
+  rentMinor: number,
+  source: Source,
+): string | undefined {
+  const c = api.state as CoreState;
+  const rt = residentsRuntime(c);
+  const account = rt?.input.accounts.find(
+    (row) => row.placeId === h.placeId,
+  )?.accountId;
+  if (!rt || !account) return undefined;
+  const id = `rent:${h.id}`;
+  reopenResidentFlow(c, {
+    id,
+    kind: "purchase",
+    financeKind: "household.rent",
+    payerId: account,
+    payeeId: landlordId,
+    residentsId: account,
+    placeId: h.placeId,
+    amountMinor: rentMinor,
+    firstAt: makeIsoDate(nextDue(c.date)),
+    cadence: { kind: "months", every: 1, day: 1 },
+    salesReceipt: false,
+    marketAdjusted: false,
+    source,
+  });
+  return id;
 }
 
 /** New households take a real vacant home once their own income and cash qualify. */
@@ -950,25 +995,11 @@ export function houseUnassignedHouseholds(api: CoreAPI): void {
       ? `rent:${house.id}`
       : `lease:${house.id}:${c.date}`;
     if (house.counted) {
-      const account = rt!.input.accounts.find(
-        (row) => row.placeId === house.placeId,
-      )?.accountId;
-      if (!account) continue;
-      addResidentFlow(c, {
-        id: leaseId,
-        kind: "purchase",
-        financeKind: "household.rent",
-        payerId: account,
-        payeeId: offer.project.payerId,
-        residentsId: account,
-        placeId: house.placeId,
-        amountMinor: offer.rentMinor,
-        firstAt: dueAt,
-        cadence: { kind: "months", every: 1, day: 1 },
-        salesReceipt: false,
-        marketAdjusted: false,
-        source,
-      });
+      const h = rt!.store.liveHousehold(house.id)!;
+      if (
+        !openCountedRent(api, h, offer.project.payerId, offer.rentMinor, source)
+      )
+        continue;
     } else {
       api.addFinanceContract({
         id: leaseId,
