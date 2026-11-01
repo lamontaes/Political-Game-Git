@@ -102,6 +102,35 @@ describe("a section reads the record's numbers", () => {
       })!.sections[0],
     ).toMatch(/to \$11 an hour, amending § 25-7-41\.$/);
   });
+  it("edge fixture: two steps on one law state its purpose once", () => {
+    // A raise phased in by dated steps (governing phase B): "An ordinance to
+    // set the minimum wage and to set the minimum wage." read it twice.
+    const one = input(1100);
+    const made = composeBill({
+      ...one,
+      provisions: [one.provisions[0]!, { ...one.provisions[0]!, value: 1200 }],
+      before: [one.before[0]!, { ...one.before[0]!, value: 1100 }],
+    })!;
+    const purpose = BILL_SECTIONS.amounts["minimum-wage"]!.purpose;
+    expect(made.title.split(purpose).length - 1, made.title).toBe(1);
+    expect(made.sections).toHaveLength(2);
+  });
+  it("words a dated section and the sections the rule dates, in each form", () => {
+    for (const form of [
+      BILL_SECTIONS.forms.ordinance,
+      BILL_SECTIONS.forms.act,
+    ]) {
+      expect(form.effective["section-date"]).toMatch(/\{number\}.*\{date\}/);
+      for (const kind of [
+        "on-enactment",
+        "days-after-adoption",
+        "state-rule",
+      ] as const)
+        expect(form.effective.rest[kind], kind).toMatch(
+          /^Every other section /,
+        );
+    }
+  });
   it("edge fixture: editing the number changes the section, and a cut reads as a cut", () => {
     expect(composeBill(input(1100))!.sections[0]).not.toBe(
       composeBill(input(1250))!.sections[0],
