@@ -70,12 +70,13 @@ describe(`partnerships of people living elsewhere over a year in ${input.placeMe
     const fromSingles = unions.filter((row) =>
       row.personIds.some((id) => singleIds.has(id)),
     ).length;
-    // Traits move each pull both ways (their mean factor is above one), and
-    // the opening spread starts everyone part way: a wide allowance.
+    // Traits move who partners sooner, weighed against the month's typical,
+    // so the total holds the chain's pace: three standard deviations of a
+    // count with this mean, and a fifth either way for the year's aging.
     const spread = 3 * Math.sqrt(expected);
     expect(fromSingles).toBeGreaterThan(0);
-    expect(fromSingles).toBeGreaterThanOrEqual(0.5 * expected - spread);
-    expect(fromSingles).toBeLessThanOrEqual(2 * expected + spread);
+    expect(fromSingles).toBeGreaterThanOrEqual(0.8 * expected - spread);
+    expect(fromSingles).toBeLessThanOrEqual(1.2 * expected + spread);
   });
 
   it("writes each union through the one partnership writer: a link, a married union, a partner who lives with them", () => {

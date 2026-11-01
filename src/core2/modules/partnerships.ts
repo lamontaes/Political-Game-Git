@@ -254,6 +254,60 @@ function review(api: CoreAPI): void {
     .sort((a, b) => a.id.localeCompare(b.id));
   const geo = partnershipGeo(core.placeMetadata?.placeKey);
   const month = p("one") / p("monthsPerYear");
+  // Traits decide who partners or parts sooner, not how many: each trait
+  // factor is weighed against the typical among the people reviewed toward
+  // the same change this month (as the moves engine weighs ties against its
+  // typical), so the chain's paces hold over everyone. Without it the lean
+  // toward partnering, which averages below zero, ran every draw 9 to 19%
+  // under the chain (CTO, Nov 1).
+  const partnerFactor = (person: Readonly<PersonState>) =>
+    Math.exp(
+      decisionTraitWeight(core, PARTNER_DECISION) *
+        decisionLean(core, person, PARTNER_DECISION, "partner", "stay-single"),
+    );
+  const partFactor = (
+    person: Readonly<PersonState>,
+    partner: Readonly<PersonState>,
+  ) =>
+    Math.exp(
+      (decisionTraitWeight(core, PART_DECISION) *
+        (decisionLean(core, person, PART_DECISION, "part", "stay-together") +
+          decisionLean(
+            core,
+            partner,
+            PART_DECISION,
+            "part",
+            "stay-together",
+          ))) /
+        p("two"),
+    );
+  const typical = {
+    partner: [p("zero"), p("zero")],
+    part: [p("zero"), p("zero")],
+  };
+  for (const person of people) {
+    const link = partnerLinkOf(core, person.id);
+    if (!link) {
+      typical.partner[0]! += partnerFactor(person);
+      typical.partner[1]! += p("one");
+      continue;
+    }
+    const partner = core.people.get(
+      link.personIds.find((id) => id !== person.id)!,
+    );
+    if (
+      partner &&
+      livesElsewhere(core, partner) &&
+      person.id.localeCompare(partner.id) < 0
+    ) {
+      typical.part[0]! += partFactor(person, partner);
+      typical.part[1]! += p("one");
+    }
+  }
+  const meanOf = ([sum, count]: number[]) =>
+    count! > p("zero") ? sum! / count! : p("one");
+  const typicalPartner = meanOf(typical.partner);
+  const typicalPart = meanOf(typical.part);
   const done = new Set<PersonId>();
   for (const person of people) {
     if (done.has(person.id) || !person.alive) continue;
@@ -292,17 +346,10 @@ function review(api: CoreAPI): void {
       makeIsoDate(core.date),
     );
     if (toward === "partner") {
-      const lean = decisionLean(
-        core,
-        person,
-        PARTNER_DECISION,
-        "partner",
-        "stay-single",
-      );
       row.value +=
         partneringPerYear(geo, sex, age) *
         month *
-        Math.exp(decisionTraitWeight(core, PARTNER_DECISION) * lean);
+        (partnerFactor(person) / typicalPartner);
       if (row.value >= p("one")) {
         const met = meetPartner(api, person, sex);
         if (met) {
@@ -334,14 +381,10 @@ function review(api: CoreAPI): void {
           ageOnDate(unionStart(core, link!, api), makeIsoDate(core.date)),
         ),
       );
-      const lean =
-        (decisionLean(core, person, PART_DECISION, "part", "stay-together") +
-          decisionLean(core, partner, PART_DECISION, "part", "stay-together")) /
-        p("two");
       row.value +=
         separatingPerYear(years) *
         month *
-        Math.exp(decisionTraitWeight(core, PART_DECISION) * lean);
+        (partFactor(person, partner) / typicalPart);
       if (row.value >= p("one")) {
         part(api, person, partner);
         // Each starts at the beginning of their pull to partner again.
