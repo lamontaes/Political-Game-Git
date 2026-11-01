@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: speed/fold-doors
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-01T20:23:55.983Z
 ---
 
 **What.** Door rows, paid campaign messages, word of rivals and door pledges are kept forever, one row per knock, message, word or voter's yes, and they grow with every election. In a four-year Ringgold, Louisiana run doors reached 49,661 rows, messages 2,129 and rival word 752, nearly a tenth of all records kept. In Chamblee, Georgia's 2026 election year doors grew from 36,676 to 151,524 and pledges from 7,044 to 51,519, part of what runs the nightly out of memory. Nothing in play reads a decided race's doors or pledges, and nothing reads a message or word once it leaves rival word's one-week window, except each candidate's newest word in a race still under way.
