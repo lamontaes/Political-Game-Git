@@ -26,7 +26,11 @@ import {
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { HOUSING_MODULE_ID, leaseHousehold } from "./modules/housing";
-import { residentsRuntime } from "./modules/residents";
+import {
+  householdCash,
+  householdIncome,
+  residentsRuntime,
+} from "./modules/residents";
 import { coreAPI, registerModule } from "./state";
 import type { CoreEventInput } from "./types";
 
@@ -124,8 +128,13 @@ function checkRemovals(played: ReturnType<typeof play>): {
         .filter((row) => row.status === status)
         .reduce((n, row) => n + row.memberIds.length, 0),
     );
+  const example = homeless[0]
+    ? (housing
+        .table("statuses")
+        .get(homeless[0]) as unknown as HousingStatusRow)
+    : undefined;
   process.stdout.write(
-    `COUNTED EVICTED ${where}: ${cases.length} counted households removed, ${homeless.length} still without a home and counted; town ${JSON.stringify(counts)}; ${core.people.size} full people, ${rt.filledIn.size} filled in\n`,
+    `COUNTED EVICTED ${where}: ${cases.length} counted households removed, ${homeless.length} still without a home and counted${example ? ` (e.g. ${example.id}, ${example.status} since ${example.since} after ${example.caseId})` : ""}; town ${JSON.stringify(counts)}; ${core.people.size} full people, ${rt.filledIn.size} filled in\n`,
   );
   return { removed: cases.length, homeless };
 }
@@ -148,20 +157,21 @@ it("Storrs, Connecticut: an evicted counted household stays counted, is placed a
   expect(strain.factor, where).toBeGreaterThan(1);
 
   // Renting again by the counted rule: income from its record's work, cash
-  // from its share of its group's money. The edge fixture sets the rent to
-  // what that income and cash clear, so the same review signs the lease.
-  const multiple = api.parameter("housingRehouseIncomeMultiple");
+  // from its share of its group's money. The edge fixture asks the lowest
+  // rent there is, so the same review signs the lease for a household whose
+  // record shows any pay and any money.
   const target = homeless.find((id) => {
     const h = rt.store.liveHousehold(id)!;
-    return h.wagesMinorYear > 0;
-  });
-  if (!target) {
-    process.stdout.write(
-      `COUNTED EVICTED ${where}: no homeless counted household with pay to rent again\n`,
+    return (
+      householdIncome(rt, h) - h.retirementMinorYear > 0 &&
+      householdCash(rt, h) > 0
     );
-    return;
-  }
-  const h = rt.store.liveHousehold(target)!;
+  });
+  expect(
+    target,
+    `${where}: a homeless counted household with pay and money`,
+  ).toBeDefined();
+  const h = rt.store.liveHousehold(target!)!;
   const before = rt.store.groups[h.group]!.id;
   let read: { placeId: string; incomeMinor: number } | undefined;
   reviewHomeless(
@@ -169,20 +179,15 @@ it("Storrs, Connecticut: an evicted counted household stays counted, is placed a
     (householdId, placeId, incomeMinor) => {
       if (householdId !== target) return 0;
       read = { placeId, incomeMinor };
-      return Math.max(1, Math.floor(incomeMinor / (multiple * 4)));
+      return 1;
     },
     (householdId, rentMinor) => leaseHousehold(api, householdId, rentMinor),
   );
   expect(read?.placeId, where).toBe(h.placeId);
   expect(read!.incomeMinor, where).toBeGreaterThan(0);
   const flow = rt.flows.get(`rent:${target}`)!;
-  if (flow.endedAt) {
-    // Its share of its group's money did not cover even the low rent.
-    process.stdout.write(
-      `COUNTED EVICTED ${where}: ${target} could not cover the first month\n`,
-    );
-    return;
-  }
+  expect(flow.endedAt, where).toBeUndefined();
+  expect(flow.amountMinor, where).toBe(1);
   // The rent flow its removal ended begins again, due next month, and the
   // household rents again: still counted, back in a renters' group.
   expect(flow.payeeId, where).toBe(`organization:landlord:${h.placeId}`);
