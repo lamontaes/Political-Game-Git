@@ -656,6 +656,7 @@
   },
   "journal": {
     "title": "My life",
+    "empty": "Nothing is written here yet.",
     "chapter": "Chapter {n}",
     "numbers": [
       "one",

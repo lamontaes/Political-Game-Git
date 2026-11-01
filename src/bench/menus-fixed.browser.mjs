@@ -125,6 +125,7 @@ try {
       .locator("#rings [data-tab]")
       .evaluateAll((all) => all.map((ring) => ring.dataset.tab));
     for (const tab of tabs) {
+      console.log(`opening ${tab} at ${size.width}x${size.height}`);
       await page.locator(`#rings [data-tab="${tab}"]`).click();
       await page.locator("#sheet:not([hidden])").waitFor();
       await judge(size, tab);
