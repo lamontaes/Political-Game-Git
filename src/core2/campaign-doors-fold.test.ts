@@ -172,9 +172,12 @@ describe(`campaign doors and word fold (run seed ${runSeed})`, () => {
       // other contest's stay as they were (the day's other races still under
       // way among them, and the yes a voter of this contest gave in another),
       // and the causes its pledges name as their visit stay in
-      // `foldedCauses` (the player's own causes stay as rows, so theirs are
-      // not counted).
+      // `foldedCauses`. A cause row is kept only where the why is kept
+      // (`keepCause`), so a pledge whose visit kept no row names nothing to
+      // keep; and the player's own causes stay as rows, so theirs are not
+      // counted.
       const pledges = campaigns.table("pledges"),
+        causes = campaigns.table("causes"),
         foldedCauses = campaigns.table("foldedCauses");
       const allPledges = () =>
         (pledges.rows() as unknown as PledgeRow[])
@@ -193,14 +196,18 @@ describe(`campaign doors and word fold (run seed ${runSeed})`, () => {
       const shared = others.filter((row) => inOne.has(row.voterId)).length;
       const pledgedCauses = (rows: readonly PledgeRow[]) =>
         rows.flatMap((row) =>
-          row.causeId && row.candidateId !== core.playerId ? [row.causeId] : [],
+          row.causeId &&
+          row.candidateId !== core.playerId &&
+          (causes.get(row.causeId) || foldedCauses.get(row.causeId))
+            ? [row.causeId]
+            : [],
         );
       const causesOfOne = pledgedCauses(ofOne);
-      // Every closed contest's pledged causes, read again after play closes
-      // them all.
+      // Every closed contest's kept pledged causes, read again after play
+      // closes them all.
       const causesOfDay = pledgedCauses(allPledges().filter(closed));
       console.log(
-        `${where}: ${closing.length} door rows and ${wordOnDay} word rows in races on ${first}; by hand the fold took ${removed} rows, kept ${keptOld} old newest words and left ${read} races' word read; ${ofOne.length} pledges in ${one ?? "no contest"} naming ${causesOfOne.length} causes, ${others.length} pledges in other contests, ${shared} of them from its voters`,
+        `${where}: ${closing.length} door rows and ${wordOnDay} word rows in races on ${first}; by hand the fold took ${removed} rows, kept ${keptOld} old newest words and left ${read} races' word read; ${ofOne.length} pledges in ${one ?? "no contest"} naming ${causesOfOne.length} kept causes, ${others.length} pledges in other contests, ${shared} of them from its voters`,
       );
       if (
         !closing.length ||
@@ -211,7 +218,7 @@ describe(`campaign doors and word fold (run seed ${runSeed})`, () => {
         !causesOfOne.length
       ) {
         tried.push(
-          `${where}: ${closing.length} door rows in the races on ${first}, ${read} races' word read, ${keptOld} old newest words kept, ${ofOne.length} pledges in the contest closed by hand naming ${causesOfOne.length} causes, and ${shared} pledges its voters gave in another contest`,
+          `${where}: ${closing.length} door rows in the races on ${first}, ${read} races' word read, ${keptOld} old newest words kept, ${ofOne.length} pledges in the contest closed by hand naming ${causesOfOne.length} kept causes, and ${shared} pledges its voters gave in another contest`,
         );
         continue;
       }
