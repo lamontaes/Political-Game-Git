@@ -8,7 +8,7 @@ priority: 1
 size: L
 status: in-pr
 claimed-by:
-pr: #0
+pr: #6973
 blocked-on:
 milestone: play-first
 source: owner, Oct 29 ("The main menu shouldn't really be scrolling. It should be things inside.")
