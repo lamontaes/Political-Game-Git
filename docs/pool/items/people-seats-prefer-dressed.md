@@ -5,11 +5,12 @@ area: people
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/people-seats-prefer-dressed
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-01T13:26:00.803Z
 ---
 
 **What.** The opening home plate has two seats and every household in ten drawn places had more members (dress-0 to dress-9 on main 72682fb7c7). Seats go in cast order, so the second seat often goes to someone the pack cannot paint in everyday clothes there (the slim woman and the medium man have no seated everyday figure), who then sits at home in a work blazer; and two such people sharing one pack person come out as identical twins (Bellefonte, Delaware; Sa'ilele, American Samoa). 6 of 10 opening evenings showed someone at home in work clothes, 2 showed twins. The player's own clothes wait on the art (people-pack-v4-pose-gaps); the other seats can go to housemates the pack paints in their everyday clothes, and to faces not already in the room.
