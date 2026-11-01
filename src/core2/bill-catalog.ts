@@ -5,9 +5,10 @@
  *
  * `billCatalog` gives a body what it can draft: only policies its level can
  * pass, each with the amount in force today at its own level (amounts start
- * from the law in force, or the budget line in force) and, for a town, whether the state lets it act (the city attorney's
- * warning or block). `provisionFor` turns a pick and an operation into a bill
- * provision. Outcomes never appear in the drafting controls.
+ * from the law in force, or the budget line in force) and, for a town,
+ * whether the state lets it act (the city attorney's warning or block).
+ * `provisionFor` turns a pick and an operation into a bill provision.
+ * Outcomes never appear in the drafting controls.
  */
 import catalog from "./data/legislature/bill-catalog.json" with { type: "json" };
 import type { CoreAPI } from "./types";

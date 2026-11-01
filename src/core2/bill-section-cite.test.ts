@@ -63,8 +63,13 @@ it(`a section cites a law passed in play by its bill and a starting law by its r
     // At the opening: the wage floor in force is a starting law, calibrated
     // from research. A bill amending it says the old and new amounts and
     // cites nothing.
+    // A bill amends the floor at its own level: a state's bill the state's
+    // (the federal floor where it sets none), a town's the floor that governs there.
     const floor = lawInForce(api, "minimum-wage");
-    const start = floor.levels.find((l) => l.row)?.row;
+    const at = (level: string) =>
+      floor.levels.find((l) => l.level === level)?.row ?? null;
+    const start =
+      body.level === "state" ? (at("state") ?? at("federal")) : floor.governing;
     expect(start, `${where}: no wage floor in force`).toBeTruthy();
     expect(
       start!.terms?.enactedByBill,
