@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: speed/cut-degree-readers
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-01T19:59:37.987Z
 ---
 
 **What.** Every drive activation checked every cause group on its topic and sorted every acquaintance to choose a confidant. Contact choices built a pair key for each acquaintance. The cost grew with each person's circle and with the number of groups ever founded. This cost was not measured apart from the drives change this stacks on. Part of core-long-run-tables-grow-with-history.
