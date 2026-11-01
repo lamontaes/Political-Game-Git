@@ -5,9 +5,9 @@ area: elections
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: governing/past-race-district
-pr:
+pr: #7098
 blocked-on: elections-past-race-votes-from-electorate
 source: governing lead, Nov 1 (the district half of elections-past-race-votes-from-electorate, split off at Words' request)
 lead: governing
