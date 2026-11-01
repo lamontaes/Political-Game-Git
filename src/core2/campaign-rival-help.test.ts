@@ -8,16 +8,21 @@
  * (time spent together, an ask for a cause they share, a weighing that would
  * endorse the first were they not running, reasons and a temperament that
  * would bring them to the first's evenings, and the first's campaign chose
- * them to host its donor meeting before they filed), yet neither is enlisted
- * as the other's volunteer, seated at or invited to the other's donor
- * meeting, or gives the other an endorsement, and the second neither comes
- * to the first's events nor is chosen to host or holds its donor meeting,
- * because the elections engine's ballot shows them standing in the same race
- * (`rivalFiling`). A resident not running, asked by the same call with the
- * same reasons, is enlisted; when that volunteer then files in the same race
- * the filing takes them off the campaign that day, kept with the filing,
- * they no longer come to its events, and the work they shared with the
- * candidate stays on their shared history.
+ * them to host its donor meeting before they filed), and the first's own
+ * reasons would volunteer for the second in turn, yet neither is enlisted as
+ * the other's volunteer (asked, or saying yes at home), seated at or invited
+ * to the other's donor meeting, or gives the other an endorsement, and the
+ * second neither comes to the first's events nor is chosen to host or holds
+ * its donor meeting, because the elections engine's ballot shows them
+ * standing in the same race (`rivalFiling`). A resident not running, asked by
+ * the same call with the same reasons, is enlisted; when that volunteer then
+ * files in the same race the filing takes them off the campaign that day,
+ * kept with the filing, they no longer come to its events though their
+ * reasons would bring them, and the work they shared with the candidate stays
+ * on their shared history. A resident whose reasons would run the campaign
+ * runs it when asked; once they file, the filing takes them off its staff,
+ * and neither another ask, a yes at home nor word of the filing reaching them
+ * (the campaign engine's daily weighing of who has heard) puts them back.
  *
  * The group path, in twin worlds built from one draw that differ only in one
  * filing: a town organization backs a candidate on the campaign engine's own
@@ -56,12 +61,17 @@ import {
   donorMeetingInvitees,
   endorsementWeighing,
   endorsementsOf,
+  enlistVolunteer,
   eveningReason,
   holdDonorMeeting,
   hostCircle,
+  askToManage,
+  managerReason,
+  offerReason,
   openCampaigns,
   organizedGroupsIn,
   rivalFiling,
+  VOLUNTEER_OFFERED_EVENT,
   volunteerReason,
   whoComes,
   type CampaignRow,
@@ -88,6 +98,8 @@ const runSeed =
 const DRAWS = 8;
 /** Hours two residents spend together so each has a tie to the other. */
 const TIME_TOGETHER = 40;
+/** Hours a candidate spends telling someone they filed, so word of it has reached them (`offersToHelp` reads the tie's last contact). */
+const TOLD_HOURS = 1;
 /** A test that builds and runs twin worlds for each draw it tries. */
 const TWIN_TIMEOUT = 600_000;
 
@@ -167,20 +179,41 @@ function file(
     : null;
 }
 
+/** A reason plus the trait lean of giving a campaign one's time (`campaigns.volunteer`), the sum the engine settles it by, read without asking. */
+const withVolunteerLean = (
+  core: CoreState,
+  person: Readonly<PersonState>,
+  reason: number,
+) =>
+  reason +
+  decisionLean(core, person, "campaigns.volunteer", "volunteer", "decline") *
+    decisionTraitWeight(core, "campaigns.volunteer");
+
 /** The sum `askToVolunteer` settles (reasons plus the trait lean), read without asking. */
-function volunteerScore(
+const volunteerScore = (
   core: CoreState,
   api: CoreAPI,
   campaign: CampaignRow,
   person: Readonly<PersonState>,
   ask: VolunteerAsk,
-): number {
-  return (
-    volunteerReason(api, campaign, person, ask) +
-    decisionLean(core, person, "campaigns.volunteer", "volunteer", "decline") *
-      decisionTraitWeight(core, "campaigns.volunteer")
-  );
-}
+) =>
+  withVolunteerLean(core, person, volunteerReason(api, campaign, person, ask));
+
+/** The sum `askToManage` settles, and `offersToHelp` when it weighs someone to run the campaign, read without asking. */
+const managerScore = (
+  core: CoreState,
+  api: CoreAPI,
+  campaign: CampaignRow,
+  person: Readonly<PersonState>,
+) => withVolunteerLean(core, person, managerReason(api, campaign, person));
+
+/** The sum `offersToHelp` settles when it weighs someone giving the campaign their evenings unasked, read without asking. */
+const offerScore = (
+  core: CoreState,
+  api: CoreAPI,
+  campaign: CampaignRow,
+  person: Readonly<PersonState>,
+) => withVolunteerLean(core, person, offerReason(api, campaign, person));
 
 /** The trait decisions that settle an evening's reasons: coming to a candidate's event (`whoComes`), and lending one's home for their donor meeting (`holdDonorMeeting`). */
 const ATTEND = {
@@ -213,9 +246,12 @@ function eveningScore(
  * Two residents filed for one local contest on the same platform, neither
  * the player: the second with every reason to volunteer for the first and
  * come to the first's events, the host the first's campaign chose and a
- * weighing that endorsed the first before they filed; and a third resident
- * not running, able to file in the same contest, whose reasons say yes to
- * the same ask; or the reason none could be found.
+ * weighing that endorsed the first before they filed, and whose rival's own
+ * reasons say yes to volunteering for them in turn; a third resident not
+ * running, able to file in the same contest, whose reasons say yes to the
+ * same ask and to coming to the first's events; and a fourth, not running and
+ * able to file, whose reasons would run the first's campaign and offer it
+ * their evenings unasked; or the reason none could be found.
  */
 function rivalRace(salt: number) {
   const { core, api, residents, where } = world(salt);
@@ -281,7 +317,24 @@ function rivalRace(salt: number) {
       where,
       why: "no resident whose reasons say yes to volunteering, coming and endorsing, and whom the campaign would choose to host, could file in the same contest",
     };
-  // The helper: a resident not running, asked by the same call.
+  // Both ways: the first candidate's own reasons, asked by the rival for the
+  // rival's run, say yes too, so only the race keeps either off the other's
+  // campaign.
+  if (
+    volunteerScore(
+      core,
+      api,
+      campaignFor(api, second.filing.id),
+      first.person,
+      askFor(second.person.id),
+    ) <= zero
+  )
+    return {
+      where,
+      why: `${first.person.id}'s own reasons say no to volunteering for ${second.filing.id}`,
+    };
+  // The helper: a resident not running, asked by the same call, whose
+  // reasons and temperament would also bring them to the first's evenings.
   let helper: PersonState | null = null;
   for (const person of residents) {
     if (person.id === first.person.id || person.id === second.person.id)
@@ -290,6 +343,7 @@ function rivalRace(salt: number) {
     meet(api, person, second.person);
     if (
       volunteerScore(core, api, mine, person, ask) > zero &&
+      eveningScore(core, api, mine, person, ATTEND) > zero &&
       canFile(api, person.id, first.filing.contestId)
     ) {
       helper = person;
@@ -299,9 +353,31 @@ function rivalRace(salt: number) {
   if (!helper)
     return {
       where,
-      why: "no resident not running says yes and could file",
+      why: "no resident not running says yes to volunteering and coming and could file",
     };
-  return { core, api, where, first, second, helper, askFor, mine };
+  // The manager: a resident not running whose own reasons would run the
+  // first's campaign when asked (`askToManage`) and, once word of the filing
+  // reaches them, offer to run it or give it their evenings (`offersToHelp`).
+  let manager: PersonState | null = null;
+  for (const person of residents) {
+    if ([first.person.id, second.person.id, helper.id].includes(person.id))
+      continue;
+    meet(api, person, first.person);
+    if (
+      managerScore(core, api, mine, person) > zero &&
+      offerScore(core, api, mine, person) > zero &&
+      canFile(api, person.id, first.filing.contestId)
+    ) {
+      manager = person;
+      break;
+    }
+  }
+  if (!manager)
+    return {
+      where,
+      why: "no resident not running would run the campaign and could file",
+    };
+  return { core, api, where, first, second, helper, manager, askFor, mine };
 }
 
 type Race = Exclude<ReturnType<typeof rivalRace>, { why: string }>;
@@ -476,11 +552,16 @@ describe("a candidate never helps a rival in their own race", () => {
     expect(rivalFiling(api, mine, helper.id), where).toBeNull();
     expect(rivalFiling(api, mine, a.id), `${where}: own campaign`).toBeNull();
 
-    // Volunteering: the rival's reasons say yes, and only the race stops it.
+    // Volunteering: each rival's reasons say yes to the other's ask, and only
+    // the race stops it.
     const zero = api.parameter("zero");
     expect(
       volunteerScore(core, api, mine, b, askFor(a.id)),
       `${where}: ${b.id}'s reasons for ${fa.id}`,
+    ).toBeGreaterThan(zero);
+    expect(
+      volunteerScore(core, api, theirs, a, askFor(b.id)),
+      `${where}: ${a.id}'s reasons for ${fb.id}`,
     ).toBeGreaterThan(zero);
     expect(
       askToVolunteer(api, fa.id, b.id, askFor(a.id)),
@@ -489,6 +570,12 @@ describe("a candidate never helps a rival in their own race", () => {
     expect(
       askToVolunteer(api, fb.id, a.id, askFor(b.id)),
       `${where}: ${a.id} (${fa.id}) volunteers for ${fb.id}`,
+    ).toBe(false);
+    // Said yes to a's face at home (the director's talk after a filing), the
+    // rival is still not counted among a's volunteers.
+    expect(
+      enlistVolunteer(api, fa.id, b.id),
+      `${where}: ${b.id} (${fb.id}) enlisted for ${fa.id}`,
     ).toBe(false);
     expect(
       askToVolunteer(api, fa.id, helper.id, askFor(a.id)),
@@ -608,7 +695,6 @@ describe("a candidate never helps a rival in their own race", () => {
     );
     const after = campaignFor(api, fa.id);
     expect(after.volunteerIds, where).not.toContain(helper.id);
-    expect(after.staffIds, where).not.toContain(helper.id);
     // One record of why: the day, and the filing whose announcement is the
     // cause.
     expect(after.leftToRun, where).toEqual([
@@ -629,6 +715,12 @@ describe("a candidate never helps a rival in their own race", () => {
       sharedHistory(core, first.person.id, helper.id),
       `${where}: ${helper.id} worked on ${fa.id} before filing ${filed!.id}`,
     ).toContainEqual({ kind: "campaign", recordId: fa.id, endedOn: core.date });
+    // Off the volunteers, their own reasons and temperament would still bring
+    // them to the candidate's evenings; only their own run keeps them home.
+    expect(
+      eveningScore(core, api, after, helper, ATTEND),
+      `${where}: ${helper.id}'s reasons to come to ${fa.id}'s events`,
+    ).toBeGreaterThan(api.parameter("zero"));
     expect(
       whoComes(api, after),
       `${where}: ${helper.id} (${filed!.id}) comes to ${fa.id}'s events`,
@@ -637,6 +729,95 @@ describe("a candidate never helps a rival in their own race", () => {
       askToVolunteer(api, fa.id, helper.id, askFor(first.person.id)),
       `${where}: ${helper.id} (${filed!.id}) asked again for ${fa.id}`,
     ).toBe(false);
+  });
+
+  it("someone running the campaign who then files leaves its staff that day, and is not asked back, enlisted at home or brought back by word of the filing", () => {
+    const { core, api, where, first, manager } = findRace();
+    const fa = first.filing;
+    const a = first.person;
+    const zero = api.parameter("zero");
+    expect(
+      managerScore(core, api, campaignFor(api, fa.id), manager),
+      `${where}: ${manager.id}'s reasons to run ${fa.id}`,
+    ).toBeGreaterThan(zero);
+    expect(
+      askToManage(api, fa.id, manager.id),
+      `${where}: ${manager.id} asked to run ${fa.id}`,
+    ).toBe(true);
+    expect(campaignFor(api, fa.id).staffIds, where).toContain(manager.id);
+    const filed = file(api, manager.id, fa.contestId, -1);
+    expect(filed, `${where}: ${manager.id} files in ${fa.contestId}`).not.toBe(
+      null,
+    );
+    console.log(
+      `${where}: ${manager.id} ran ${fa.id}, then filed ${filed!.id}`,
+    );
+    const after = campaignFor(api, fa.id);
+    expect(
+      after.staffIds,
+      `${where}: ${manager.id} (${filed!.id}) on ${fa.id}'s staff`,
+    ).not.toContain(manager.id);
+    expect(after.leftToRun, where).toEqual([
+      {
+        personId: manager.id,
+        role: "staff",
+        on: core.date,
+        filingId: filed!.id,
+      },
+    ]);
+    // Their reasons to run it and to give it their evenings are what they
+    // were; only their own run says no.
+    expect(
+      managerScore(core, api, after, manager),
+      `${where}: ${manager.id}'s reasons to run ${fa.id} after filing`,
+    ).toBeGreaterThan(zero);
+    expect(
+      askToManage(api, fa.id, manager.id),
+      `${where}: ${manager.id} (${filed!.id}) asked again to run ${fa.id}`,
+    ).toBe(false);
+    expect(
+      enlistVolunteer(api, fa.id, manager.id),
+      `${where}: ${manager.id} (${filed!.id}) enlisted for ${fa.id}`,
+    ).toBe(false);
+    // Word of a's filing reaches them: a tells them in person the next day,
+    // and the day after, the campaign engine's own turn weighs who has heard
+    // (running the campaign first, while nobody runs it, then giving it
+    // evenings), as it does every day.
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    api.relationship(a.id, manager.id, "contact", TOLD_HOURS, undefined, {
+      cause: "neighbors",
+      sourceId: `test:campaign-rival-help:told:${fa.id}:${manager.id}`,
+    });
+    expect(
+      managerScore(core, api, campaignFor(api, fa.id), manager),
+      `${where}: ${manager.id}'s reasons to offer to run ${fa.id}`,
+    ).toBeGreaterThan(zero);
+    expect(
+      offerScore(core, api, campaignFor(api, fa.id), manager),
+      `${where}: ${manager.id}'s reasons to offer ${fa.id} their evenings`,
+    ).toBeGreaterThan(zero);
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    const weighed = campaignFor(api, fa.id);
+    const running = (ids: readonly string[]) =>
+      ids.filter((id) => rivalFiling(api, weighed, id));
+    expect(
+      running(weighed.staffIds),
+      `${where}: anyone standing in ${fa.contestId} offered to run ${fa.id}`,
+    ).toEqual([]);
+    expect(
+      running(weighed.volunteerIds),
+      `${where}: anyone standing in ${fa.contestId} offered ${fa.id} their evenings`,
+    ).toEqual([]);
+    // Nor is an offer from anyone standing in the race applied (the event the
+    // director stages as the candidate's scene; with no player here nobody's
+    // log keeps it, so the applied event ids are read).
+    expect(
+      ballot(api, fa.contestId)
+        .filter((f) => f.personId !== a.id)
+        .map((f) => `${VOLUNTEER_OFFERED_EVENT}:${fa.id}:${f.personId}`)
+        .filter((id) => core.eventIds.has(id)),
+      `${where}: offers to ${fa.id} from anyone standing in ${fa.contestId}`,
+    ).toEqual([]);
   });
 
   it(
