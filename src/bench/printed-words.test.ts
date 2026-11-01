@@ -30,6 +30,7 @@ import {
   SCHOOL_MODULE_ID,
   type SchoolMeasureRow,
 } from "../core2/school-measures";
+import { familyFactsOf } from "../core2/closeness";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { wordPrintedStory } from "./archive-words";
@@ -344,7 +345,31 @@ describe("printed stories in News", () => {
         )
         .join(" || ")}\n`,
     );
-    if (deaths.length) expect(lived.length, where).toBeGreaterThan(0);
+    // Anyone who leaves a living partner or child on record, theirs or the
+    // relative's own (a child's record names them a parent), is survived by
+    // them in print (Oakland, Nebraska, seed 132a864497c0d342507e: a man of
+    // 56 whose own records held no family facts, only his children's did).
+    for (const { row, read } of obituaries) {
+      const who = core.people.get(row.personIds[0] as PersonId)!;
+      const own = familyFactsOf(who);
+      const left = [...who.familyIds].filter((id) => {
+        const kin = core.people.get(id);
+        const relation =
+          own.get(id)?.relation ?? familyFactsOf(kin).get(who.id)?.relation;
+        return (
+          kin?.alive &&
+          kin.givenName &&
+          (own.has(id)
+            ? relation === "partner" || relation === "child"
+            : relation === "partner" || relation === "parent")
+        );
+      });
+      for (const id of left)
+        expect(
+          read?.facts.survivors?.text ?? "",
+          `${id} survives ${row.id} in ${where}`,
+        ).toContain(core.people.get(id)!.givenName);
+    }
     // A round birthday and a business's round year, each a brief from its
     // own record: a living resident, and a business the town keeps open.
     const resident = [...(core.peopleByPlace.get(town) ?? [])]
