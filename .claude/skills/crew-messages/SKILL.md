@@ -19,6 +19,7 @@ The owner's rules: sessions message the CTO and the CTO messages them, sessions 
 
 - Send with the claude-code-remote `send_message` tool and the session id from `docs/coordination/CREW.md`. `SendMessage` is a different transport and reaches no other session (Oct 30: a checker's hand-offs to the mergers went through it for hours and arrived nowhere).
 - Start with who is talking to whom: `Checker 2 → Merger 1.` Then the point in the first sentence.
+- `send_message` delivers the moment it is called, and nothing takes it back. Never call it with a draft, a placeholder or a body still to fill in: write the whole body first, then send (Nov 1: a governing message that said only "placeholder" reached the laws lead and needed a second message to withdraw it).
 - Arm no timers: no `send_later`, `create_trigger` or wake-up chain (owner, Nov 1: "Anthropic has removed 5-hour limits, so no need for any timers or anything"). After a long stop, the CTO restarts each session by message.
 
 ## Who gets what
