@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: lives/moves-state-destination
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-01T21:04:27.901Z
 ---
 
 **What.** The moves engine's town adults include people whose place is a state's or D.C.'s record (national cabinet members, state cabinet members, national press reporters and heads), because they are full people of an active tier. Each builds the stage-of-life pull, and on leaving, destinationFor finds no county and returns their own place (US-NJ to US-NJ, US-DC to US-DC). Then leave() ends their job, takes their cash out of town and sets them to the husk tier. In Hamburg, New Jersey (3429220, drawPlace seed lives-a), 20 such departures in one played year on main 1cdbf9da: official:cabinet:US:attorney-general:2 on 2025-03-17, person:cabinet:US-NJ:attorney-general on 2025-08-12 with its job hold read, person:press:outlet:national-paper:0:national:reporter:0 on 2025-03-04, and so on (scratchpad probe, moves departures watch).

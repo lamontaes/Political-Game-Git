@@ -224,6 +224,7 @@ export function birthCircumstances(
     // abortion) have moved its birth rate; a couple weighs the factor that
     // lands on the mother's own age and home, the one a counted woman of that
     // age and home is scaled by (one model, two tiers).
+    // stopgapId: SG-FAMILY-birth-bonus-not-paid (no bill pays a household a bonus on a birth, so no plan weighs one)
     web: api.state.modules.has(OUTCOME_WEB_MODULE_ID)
       ? p("renewalWebWeight") *
         (webFactorFor(api, mother.placeId, "births.rate", {

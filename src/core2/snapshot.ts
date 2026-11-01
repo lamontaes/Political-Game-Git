@@ -43,6 +43,8 @@ export interface SnapshotPart {
   save(core: CoreState): unknown;
   /** Puts it back into a freshly built world of the same recipe. */
   restore(core: CoreState, data: unknown): void;
+  /** Rebuilds it from the restored records when the save holds none (made before the part existed). */
+  missing?(core: CoreState): void;
 }
 
 const parts = new Map<string, SnapshotPart>();
@@ -386,12 +388,17 @@ export function restoreWorld(core: CoreState, snapshot: WorldSnapshot): void {
   >;
   for (const [id, part] of parts)
     if (id in savedParts) part.restore(core, savedParts[id]);
+    else part.missing?.(core);
 }
 
-/** A runtime kept in a WeakMap keyed by the world, saved as one part. */
+/**
+ * A runtime kept in a WeakMap keyed by the world, saved as one part. With
+ * `rebuild`, a save that holds no such part gets one built from its records.
+ */
 export function registerWorldMapPart<T>(
   id: string,
   map: WeakMap<CoreState, T>,
+  rebuild?: (core: CoreState) => T,
 ): void {
   registerSnapshotPart(id, {
     save: (core) => map.get(core),
@@ -399,5 +406,10 @@ export function registerWorldMapPart<T>(
       if (data === undefined || data === null) map.delete(core);
       else map.set(core, data as T);
     },
+    ...(rebuild && {
+      missing: (core) => {
+        map.set(core, rebuild(core));
+      },
+    }),
   });
 }

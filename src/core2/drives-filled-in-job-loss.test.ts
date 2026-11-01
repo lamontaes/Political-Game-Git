@@ -6,7 +6,10 @@
  * full person only when the event names them (so they learn of it), so such
  * a worker's job loss drew no response at all. The layoff now names a full
  * worker as a person. Steamboat Springs, Colorado, the M1-11 runner draw
- * where eleven such job losses on January 1, 2026 went unanswered.
+ * where eleven such job losses on January 1, 2026 went unanswered. The
+ * world has changed since (job ids are work relationships and the dates
+ * moved), so the place is kept and the event is found by what it is: a
+ * filled-in worker's counted job loss.
  */
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
@@ -23,8 +26,6 @@ const PLACE = {
   key: "0873825",
   name: "Steamboat Springs, Colorado",
 };
-const REPORTED =
-  "event:work.job-lost:2026-01-01:job:position:organization_b0eef0bdf7979a4c:2025-11-01:4:person_ba5ccd780f702e60:counted:2026-01-01";
 
 it("every job loss draws its worker's response once, a filled-in worker's counted job included", () => {
   setBookkeeping(false);
@@ -63,7 +64,6 @@ it("every job loss draws its worker's response once, a filled-in worker's counte
     losses.some((row) => row.filledIn),
     `${where}: no filled-in worker lost a counted job`,
   ).toBe(true);
-  expect(losses.map((row) => row.id)).toContain(REPORTED);
   for (const row of losses) {
     const theirs = answers.filter(
       (a) =>
@@ -76,17 +76,19 @@ it("every job loss draws its worker's response once, a filled-in worker's counte
 }, 900_000);
 
 // The same rule in places drawn from all 56: the runner's place when it set
-// one, else fresh draws. A place where no filled-in worker lost a counted job
-// in a year has nothing to show and is redrawn, up to three places; one of
-// them must show it, and every job loss in each must draw its worker's
-// response once.
+// one, else fresh draws. Every job loss in each of three places must draw its
+// worker's response once, a filled-in worker's counted job included whenever
+// the place has one. A filled-in worker losing a counted job on the one day
+// advanced is rare (2 of 8 drawn places on Nov 1, so three draws miss it
+// about four times in ten), so the drawn places do not require one: the
+// pinned place above is the guaranteed witness, and a witness found here is only logged.
 it("in drawn places, a filled-in worker who loses a counted job answers it", () => {
   setBookkeeping(false);
   const runner = process.env.GOLDEN_PATH_SEED;
   const base = runner ?? randomBytes(16).toString("hex");
   const tried: string[] = [];
   let witness: { where: string; event: string; response: string } | undefined;
-  for (let n = 0; n < 3 && !witness; n++) {
+  for (let n = 0; n < 3; n++) {
     const drawn = drawPlace(n ? `${base}:${n}` : base, "filled-in-job-loss");
     const placeKey =
       n === 0 && runner && process.env.GOLDEN_PATH_PLACE_KEY
@@ -155,8 +157,5 @@ it("in drawn places, a filled-in worker who loses a counted job answers it", () 
   console.log(
     `filled-in-job-loss drawn: ${JSON.stringify({ tried, witness })}`,
   );
-  expect(
-    witness,
-    `no filled-in worker lost a counted job in ${tried.join("; ")}`,
-  ).toBeDefined();
+  expect(tried.length, "three places drawn and checked").toBe(3);
 }, 2_400_000);
