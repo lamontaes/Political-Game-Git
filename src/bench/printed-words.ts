@@ -39,7 +39,7 @@ import {
 import { familyFactsOf } from "../core2/modules/people";
 import { preStartHistory } from "../core2/past";
 import { coreAPI } from "../core2/state";
-import type { CoreState } from "../core2/types";
+import type { CoreState, PersonId, PersonState } from "../core2/types";
 import {
   billNameFor,
   billNameOf,
@@ -2334,6 +2334,49 @@ function governmentEmployer(
  * children who survive them (their family records, by name). A fact the
  * records do not hold is left out, never guessed.
  */
+/** What a relative's own record calls someone, and what that makes the relative to them. */
+const SURVIVOR_BY_THEIR_RECORD: Readonly<Record<string, "partner" | "child">> =
+  { partner: "partner", parent: "child" };
+
+/**
+ * Someone's partner and children, partner first and then the children oldest
+ * first, from the family records: the person's own, else each relative's
+ * record of them (a relative who records them as a parent is their child).
+ * A person filled in from the wider population can carry the family ties
+ * with only the relatives holding the facts.
+ */
+export function survivorsOf(
+  core: Readonly<CoreState>,
+  person: Readonly<PersonState>,
+): readonly {
+  kinId: PersonId;
+  relation: "partner" | "child";
+  factId: string;
+}[] {
+  const own = familyFactsOf(person);
+  const rows: {
+    kinId: PersonId;
+    relation: "partner" | "child";
+    factId: string;
+  }[] = [];
+  for (const [kinId, row] of own)
+    if (row.relation === "partner" || row.relation === "child")
+      rows.push({ kinId, relation: row.relation, factId: row.factId });
+  for (const kinId of [...person.familyIds].sort()) {
+    if (own.has(kinId)) continue;
+    const theirs = familyFactsOf(core.people.get(kinId)).get(person.id);
+    const relation = theirs && SURVIVOR_BY_THEIR_RECORD[theirs.relation];
+    if (relation) rows.push({ kinId, relation, factId: theirs.factId });
+  }
+  const born = (id: PersonId) => core.people.get(id)?.birthDate ?? "";
+  return rows.sort(
+    (a, b) =>
+      (a.relation === b.relation ? 0 : a.relation === "partner" ? -1 : 1) ||
+      born(a.kinId).localeCompare(born(b.kinId)) ||
+      a.kinId.localeCompare(b.kinId),
+  );
+}
+
 const death: Builder = (read) => {
   const id = read.first();
   const person = id ? read.core.people.get(id as EntityId) : undefined;
@@ -2390,23 +2433,12 @@ const death: Builder = (read) => {
       ? yearsBetween(work.heldSince ?? work.startsAt, read.happened)
       : 0;
   // The partner first, then the children, oldest first: each living and
-  // named in the records.
-  const kin = person ? [...familyFactsOf(person)] : [];
-  const survivors = (["partner", "child"] as const).flatMap((relation) =>
-    kin
-      .filter(([kinId, row]) => {
-        const other = read.core.people.get(kinId);
-        return row.relation === relation && other?.alive && read.name(kinId);
-      })
-      .sort(
-        (a, b) =>
-          read.core.people
-            .get(a[0])!
-            .birthDate.localeCompare(read.core.people.get(b[0])!.birthDate) ||
-          a[0].localeCompare(b[0]),
+  // named in the records, theirs or the person's own.
+  const survivors = person
+    ? survivorsOf(read.core, person).filter(
+        (row) => read.core.people.get(row.kinId)?.alive && read.name(row.kinId),
       )
-      .map(([kinId, row]) => ({ kinId, factId: row.factId })),
-  );
+    : [];
   return story(
     "death",
     {
@@ -2607,8 +2639,10 @@ const CRIME_FLAGS: Readonly<Record<string, string>> = {
 };
 /** One victimization the town's records hold: what kind, where, which of the month's it was. */
 const crime: Builder = (read) => {
+  // The household's id can hold colons (a household that moved is
+  // `<household>:moved:<person>:<date>`), so it is read up to the date.
   const hit =
-    /^(?:event:)?crime\.victimized:([a-z-]+):[^:]+:\d{4}-\d{2}-\d{2}(?::\d+)?$/.exec(
+    /^(?:event:)?crime\.victimized:([a-z-]+):.+:\d{4}-\d{2}-\d{2}(?::\d+)?$/.exec(
       read.sourceId,
     );
   const flag = hit ? CRIME_FLAGS[hit[1]!] : undefined;
