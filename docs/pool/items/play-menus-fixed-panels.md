@@ -6,13 +6,12 @@ lead: play-first
 kind: bug
 priority: 1
 size: L
-status: claimed
+status: done
 claimed-by: play-first/play-menus-fixed-panels
-pr:
+pr: #6973
 blocked-on:
 milestone: play-first
 source: owner, Oct 29 ("The main menu shouldn't really be scrolling. It should be things inside.")
-claimed-at: 2026-11-01T14:41:00.952Z
 ---
 
 **What.** The owner, Oct 29: "I don't want you to have to, like, just scroll infinitely... it shouldn't be like a HTML thing. The main menu shouldn't really be scrolling. It should be things inside. But again, look at other games." Since #6768 every sheet body scrolls as a page under the gold scroller. Each menu becomes a fixed panel that fits the window, and what does not fit is a bounded box inside it that pages with arrows or tabs (`src/bench/ui/pager.mjs`, from #6832) or scrolls within its own box. Order: the Politics tabs (Campaigns, Parties, Issues), the person card, Calendar, People, the News reader, the Guide, then the meeting agenda.
