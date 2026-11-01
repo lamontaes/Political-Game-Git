@@ -55,21 +55,27 @@ function attempt(draw: number): { proven: string } | { tried: string } {
   const api = coreAPI(core);
   const slope = campaignParameter("platformSupportSlope");
   const count = campaignParameter("candidatePlatformQuestions");
-  // The town's local seats, each with the questions it takes up.
+  // Every seat the town's adults vote for, local seats first (a state or
+  // federal seat takes up many more questions, which a candidate there
+  // chooses among by the same rule, against the same electorate), each with
+  // the questions it takes up.
+  const levelOf = (c: ContestRow) =>
+    (
+      api
+        .moduleState(OFFICES_MODULE_ID)
+        .table("offices")
+        .get(c.officeId) as unknown as { level: string } | undefined
+    )?.level;
+  const local = (c: ContestRow) =>
+    levelOf(c) !== "state" && levelOf(c) !== "federal" ? 0 : 1;
   const contests = (
     api
       .moduleState(ELECTIONS_MODULE_ID)
       .table("contests")
       .rows() as unknown as ContestRow[]
   )
-    .filter((c) => {
-      const office = api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("offices")
-        .get(c.officeId) as unknown as { level: string } | undefined;
-      return office && office.level !== "state" && office.level !== "federal";
-    })
-    .sort((a, b) => a.id.localeCompare(b.id));
+    .filter((c) => levelOf(c) !== undefined)
+    .sort((a, b) => local(a) - local(b) || a.id.localeCompare(b.id));
   // The town's own adults, who could file for its seats (officials of other
   // places, whose ids sort first, are not).
   const town = lawChain(api).townPlaceId;
