@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: governing/door-pledge-test-by-seed
-pr:
+pr: #7073
 blocked-on:
 lead: governing
 source: governing lead, Nov 1 (rerun for campaign-incumbent-hears-the-race)
@@ -23,3 +23,7 @@ claimed-at: 2026-11-01T18:34:52.069Z
 **Files.** src/core2/door-pledge.test.ts
 
 **Notes.** Seen on governing/incumbent-hears-the-race (0076b7273c) and reproduced with main's campaigns.ts (dc11218c5a) swapped in on the same seed: 1 failed, 1 passed, 168 s. The test does not print its drawn place on this failure; the seed's first draw is place 3919008 (Ohio).
+
+Nov 1 (governing lead, branch governing/door-pledge-test-by-seed): the engine was right and the test was stale. Seed 856c9d9e90f14b97, Ohio (3919008), governor race contest:seat:US-OH:governor:2026-11-03: person_c926bb4c4c385e40 and person_878bdf365f8e87b2 each said yes to person_04e34713c16510ce on 2026-01-05 (pledge ids `<voter>|<contest>|person_04e34713c16510ce`, firmness 0). Their pledge rows were gone on 2026-08-03 (first voter) and 2026-10-11 (second), the day the candidate's own doors asked again (the candidate's and two volunteers' on 2026-08-03, causes `door` and `volunteer-door`; the same two volunteers' on 2026-10-11). By then the field held the two party nominees, each voter's own appeal chose official:nominee:Republican:contest:seat:US-OH:governor:2026-11-03, and answerAtDoor took the yes back. Both voted for the Republican nominee on a ballot row whose pledge parts are all 0. The test now reads the kept pledge and checks that row. Found while there, test-only: the weighted-household test took the first yes to the candidate in any contest (a world official in Lyndon, Illinois, 1745278, seed dp-fresh-2:0, was running for governor too) and now takes the yes in its own contest; the first test's group comparison of pledged against other turnout read a list of ids as rows and never ran (live it reads 0.17 of 18 against 0.19 of 36 in 1717939, seed dp-fresh-1), so it checks each voter's own turnout reasons instead.
+
+Separate engine defect, not this item's: the weighted-household test on seed dp-fresh-1 draw 0 (Oak Hills, Iowa, 1958048) throws "Payroll enrollment is duplicate or follows an already settled work mode" from work-attendance.ts admitWorkPayrollCalendar via jobs.ts hire in runWeek. It reproduces with no campaign at all: buildBenchWorld(drawPlace("dp-fresh-1:0", "door-pledge-weighted").seed, gameStartDate(), { twoLevel: true, placeKey: "1958048", countScale: 3 }) then advanceCore to 2026-06-03 throws on 2026-02-02. Needs a jobs-lead item.

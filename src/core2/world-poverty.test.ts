@@ -17,7 +17,12 @@ import { lawChain } from "./modules/laws";
 import { OUTCOME_WEB_MODULE_ID } from "./modules/outcome-web";
 import { incomeBandOf, residentsRuntime } from "./modules/residents";
 import { WORLD_METRICS_MODULE_ID } from "./modules/world-metrics";
-import { WEB_LINKS, WIRED_INTO, linkCoverage } from "./outcome-web-model";
+import {
+  WEB_LINKS,
+  WIRED_INTO,
+  engineReadWanted,
+  linkCoverage,
+} from "./outcome-web-model";
 import { fileClaim, type ClaimRow } from "./jobs-benefits";
 import { coreAPI } from "./state";
 import type { JobInput } from "./types";
@@ -95,15 +100,26 @@ function playTown(drawSeed: string) {
 
 describe(`poverty from incomes (${firstPlace.name}, seed ${seed})`, () => {
   it("is the engine's record, spreads by household and moves with pay", () => {
-    // Links into poverty are the engine's, not the web's: none runs.
+    // Links into poverty are the engine's, not the web's: none runs. Each is
+    // carried by the engine that moves incomes or, where no engine does yet,
+    // waits on one (licensing-reform-to-poverty, on its open stopgap).
     const into = WEB_LINKS.filter((l) => l.to === "household.poverty-pct");
     expect(into.length).toBeGreaterThanOrEqual(14);
     for (const link of into) {
       const c = linkCoverage(link);
       expect(c.wired, link.key).toBe(false);
-      expect("carriedBy" in c && c.carriedBy, link.key).toBe(link.carriedBy);
-      expect(link.carriedBy, link.key).toBeTruthy();
+      if (link.carriedBy)
+        expect("carriedBy" in c && c.carriedBy, link.key).toBe(link.carriedBy);
+      // It waits on an engine reading its cause, not on the poverty measure,
+      // which the engine already records.
+      else {
+        expect(c.waitingOn, link.key).toContain(engineReadWanted(link));
+        expect(c.waitingOn, link.key).not.toContain("household.poverty-pct");
+      }
     }
+    expect(into.filter((l) => !l.carriedBy).map((l) => l.key)).toEqual([
+      "licensing-reform-to-poverty",
+    ]);
     expect(WIRED_INTO.get("household.poverty-pct")).toBeUndefined();
 
     // A town needs both poor and non-poor households to show the spread; a

@@ -1310,13 +1310,13 @@
     "id": "SG-GOV-territory-governor-race",
     "kind": "missing-data",
     "file": "src/core2/modules/voting.ts",
-    "line": 3600,
+    "line": 3737,
     "whatItFakes": "A territory's governor race outside the town's own is not run, so its governor serves on past the election its law holds (Guam, the Northern Mariana Islands and the U.S. Virgin Islands elect one in November 2026).",
     "why": "The territories have no counted electorate places (no presidential vote or county places on record) and no major-party record for their governors; their own parties (Puerto Rico's New Progressive and Popular Democratic, for one) are not modeled.",
     "addedBy": "claude/world-governor-races",
     "addedAt": "2026-10-24",
-    "replacement": "Each territory's electorate places from its own 2024 governor or delegate results, and its own parties, so its governor race runs on the same counted engine.",
-    "status": "open"
+    "replacement": "Superseded Oct 30, 2026 by SG-GOV-territory-legislature-race (gov-every-state-and-town-governs U1): governorRaces is deleted and another place's governor is raced through racesIn's one seat loop in src/core2/modules/voting.ts, whose territory check skips a territory's governor with its legislative and statewide executive seats under that row; the replacement (each territory's electorate places from its own governor, legislative or delegate results, and its own parties, on the same counted engine) is that row's.",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-world-governor-executive",
@@ -1327,8 +1327,8 @@
     "why": "Other states' governments are not yet played at a coarser level; only Congress outside the town is read back (src/core2/modules/legislature.ts reads the world races' seats).",
     "addedBy": "claude/world-governor-races",
     "addedAt": "2026-10-24",
-    "replacement": "A coarse executive for each other state whose acts read the seat's elected governor, and the officials roster's governor replaced by the winner when the party changes (pool item gov-world-races-run-no-governors).",
-    "status": "open"
+    "replacement": "Resolved Oct 30, 2026 (gov-every-state-and-town-governs U1, the laws lead's decision B): every other state's governor is held on the offices engine's term from the opening (seatOutsideOffices in src/core2/modules/offices.ts), and racesIn's one seat loop in src/core2/modules/voting.ts races the governor's seat by the same rule as every other statewide office (governorRaces is deleted), so seatRaceWinner seats the winner on that term through seatWinner, the one term writer, at home in that state; the voting engine's own seats table is no longer written for a governor, and the race reads the incumbent's party from the serving term. The officials roster's separate governor is gone. A coarse executive acting for each other state (budget, signature, appointment) is the world-governing plan's U3 (SG-GOV-other-legislatures-not-sitting).",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-presidential-environment",
@@ -2728,12 +2728,12 @@
     "id": "SG-WORLD-housing-counted-rent",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/housing.ts",
-    "line": 500,
-    "whatItFakes": "The wider population's renters pay rent from their place's pooled residents account, and the arrears they run up are held per group (households of one kind in one place), not per household; a case is opened and a household removed from the group's pool, but which household in the group is behind is not recorded.",
+    "line": 689,
+    "whatItFakes": "The wider population's renters pay rent from their group's money (the place's residents account, kept per group), and the arrears they run up are held per group (households of one kind in one place), not per household: which of the group's households are behind is read from the group's arrears, the ones with the least income first. A removed counted household stays counted without a home (tenure none, its record standing for the one household removed) and is placed, counted homeless and rents again from its record (CTO, Nov 1); its cash is its share of the group of households without a home it joins, shared with any other such household of that group. One that doubles up with a relative in another town leaves the counts through the counted moves engine at its coarse grain: to its state's rest-of-state count when the relative's town is in the same state, to the other state's count otherwise, not to the relative's own town as a full household is relocated; without the moves engine it stays in town (a relative there, a shelter bed or the street).",
     "why": "The two-level population pools counted households' cash by place (OPUS-CORE's stopgap), so the group falls behind together; a single counted household's own shortfall is not kept.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "Per-household cash for counted households (or fill-in when a household falls behind), with arrears and eviction through the same legal steps.",
+    "replacement": "Per-household cash for counted households, with arrears and eviction through the same legal steps; until then the group's arrears and money stand for its households'. Counted moves to a named town (the host's), once the counted moves engine keeps towns beyond the governing one.",
     "status": "open"
   },
   {
@@ -3418,7 +3418,7 @@
     "id": "SG-OFFICIALS-unrecorded-party",
     "kind": "assumed-data",
     "file": "src/core2/modules/officials.ts",
-    "line": 389,
+    "line": 430,
     "whatItFakes": "A holder whose party the roster doesn't record (a statewide executive such as an attorney general or treasurer, or a legislative seat with no roster row) sits in the party that carried the state in 2024; a lieutenant governor on the governor's ticket takes the governor's party.",
     "why": "The offices research records each statewide office's term and vacancy rule but not its holder's party, and the legislative roster has no row for a few seats.",
     "addedBy": "OPUS-OFFICIALS",
@@ -4969,8 +4969,8 @@
     "id": "SG-GOV-wide-resident-pool",
     "kind": "missing-record",
     "file": "src/core2/modules/candidacy.ts",
-    "line": 655,
-    "whatItFakes": "Wider races reach named officials across their jurisdiction and the played town residents. Unnamed ordinary residents elsewhere have no candidate records. State legislative district residency is not individually known for officials stored at state scope.",
+    "line": 744,
+    "whatItFakes": "Wider races reach named officials across their jurisdiction and the played town residents: a state race, the state's officials and serving holders; a national race, every member of Congress, the town's own state's officials and every place's governor and statewide officers (another place's are filled in from their term rows the first time a national pool is built, fillStatewideHolders in src/core2/candidate-pool.ts), but not another place's legislators, who stay named on their terms (SG-GOV-outside-legislators-national-pool). Unnamed ordinary residents elsewhere have no candidate records. State legislative district residency is not individually known for officials stored at state scope.",
     "why": "The wider electorate has counts but no resident household records from which candidacy can read personal resources and ambitions.",
     "addedBy": "SESSION-C",
     "addedAt": "2026-10-15",
@@ -5192,11 +5192,11 @@
     "kind": "missing-engine",
     "file": "src/core2/school-outcomes.ts",
     "line": 1,
-    "whatItFakes": "Seven researched links into school outcomes do not run, each because its cause is not recorded: class-size-to-scores (no K-3 class size), police-killing-to-graduation (no police killing, and the effect is for students who live near one), daca-to-graduation (no deferred action and no student immigration status), homicide-nearby-to-scores (no homicide below the place, and the effect is for a child tested right after one on their block), lead-to-reading (no blood lead), heat-to-learning (no school-year temperature) and carbon-monoxide-to-absence (no carbon monoxide). school-move-to-scores is no longer one of them: the school engine reads a student's own move (stopgap SG-SCHOOL-switch-window). Family income reaches only math: family-income-to-scores is carried by poverty-to-math-proficiency, and nothing moves reading proficiency by family income.",
-    "why": "Each needs a cause or a per-student exposure record the core does not keep; the school engine reads only links that run or are carried. The engine that would read each once its cause is recorded: decideSchoolOutcome in src/core2/school-outcomes.ts for class-size-to-scores (the grade 8 math and reading tests, from a K-3 roster, which the school engine does not hold because a town has one district and no classrooms), homicide-nearby-to-scores (the testing day, from a homicide record with a block group), lead-to-reading (the reading test, from a child's blood lead record; the effect is on the share far below proficient, which the engine does not decide and the research does not convert to the proficient share), police-killing-to-graduation and daca-to-graduation (the senior's graduation, from a killing record near the student's home and from the student's immigration status, whose research sizes are not set); schoolDay in src/core2/modules/school.ts for carbon-monoxide-to-absence (a student's daily choice to attend, from a carbon monoxide reading; the study's effect is a threshold on daily readings with no size the game can apply); and no engine at all for heat-to-learning (school.learning: the engine decides proficiency and graduation, not a year's learning). The other links in the family are settled: school-spending-to-attainment runs on the schools budget line, prek-to-graduation, child-coverage-to-graduation and family-income-to-scores are carried by built links from the same studies, and home-internet-to-scores and tuition-freeze-to-college-completion are about zero in the research.",
+    "whatItFakes": "Seven researched links into school outcomes do not run, each because its cause is not recorded: class-size-to-scores (no K-3 class size), police-killing-to-graduation (no police killing, and the effect is for students who live near one), daca-to-graduation (no deferred action; a student's immigration status is seeded at both tiers, isUnauthorized in src/core2/citizenship.ts, but children take the adult citizen share), homicide-nearby-to-scores (no homicide below the place, and the effect is for a child tested right after one on their block), lead-to-reading (no blood lead), heat-to-learning (no school-year temperature) and carbon-monoxide-to-absence (no carbon monoxide). school-move-to-scores is no longer one of them: the school engine reads a student's own move (stopgap SG-SCHOOL-switch-window). Family income reaches only math: family-income-to-scores is carried by poverty-to-math-proficiency, and nothing moves reading proficiency by family income.",
+    "why": "Each needs a cause or a per-student exposure record the core does not keep; the school engine reads only links that run or are carried. The engine that would read each once its cause is recorded: decideSchoolOutcome in src/core2/school-outcomes.ts for class-size-to-scores (the grade 8 math and reading tests, from a K-3 roster, which the school engine does not hold because a town has one district and no classrooms), homicide-nearby-to-scores (the testing day, from a homicide record with a block group), lead-to-reading (the reading test, from a child's blood lead record; the effect is on the share far below proficient, which the engine does not decide and the research does not convert to the proficient share), police-killing-to-graduation and daca-to-graduation (the senior's graduation, from a killing record near the student's home and from a deferred-action record read with the student's own immigration status (isUnauthorized in src/core2/citizenship.ts), whose research sizes are not set); schoolDay in src/core2/modules/school.ts for carbon-monoxide-to-absence (a student's daily choice to attend, from a carbon monoxide reading; the study's effect is a threshold on daily readings with no size the game can apply); and no engine at all for heat-to-learning (school.learning: the engine decides proficiency and graduation, not a year's learning). The other links in the family are settled: school-spending-to-attainment runs on the schools budget line, prek-to-graduation, child-coverage-to-graduation and family-income-to-scores are carried by built links from the same studies, and home-internet-to-scores and tuition-freeze-to-college-completion are about zero in the research.",
     "addedBy": "EFFECT-WEB-SCHOOLS",
     "addedAt": "2026-10-20",
-    "replacement": "Record each cause (class size, blood lead, school-year heat, carbon monoxide, a police killing or homicide with a place below the town, deferred action with student status) or a per-student exposure record, size the link from its study in the engine's units (for a standard-deviation effect on a proficiency share, the normal-density conversion at the base share as school-move-to-scores does), and read it where the engine named above decides, as the school-move read in decideSchoolOutcome does. A reading link from family income needs the poverty-to-math-proficiency per-point size confirmed first.",
+    "replacement": "Record each cause (class size, blood lead, school-year heat, carbon monoxide, a police killing or homicide with a place below the town, deferred action, with a child's own noncitizen share for student status) or a per-student exposure record, size the link from its study in the engine's units (for a standard-deviation effect on a proficiency share, the normal-density conversion at the base share as school-move-to-scores does), and read it where the engine named above decides, as the school-move read in decideSchoolOutcome does. A reading link from family income needs the poverty-to-math-proficiency per-point size confirmed first.",
     "status": "open"
   },
   {
@@ -5301,7 +5301,7 @@
     "kind": "missing-record",
     "file": "src/core2/health-web.ts",
     "line": 1,
-    "whatItFakes": "The Medicaid expansion to medical debt link (medicaid-expansion-to-medical-debt) moves only the web's own finance.medical-debt-in-collections number; no household's books hold a medical debt, so no one's money moves with it. The marriage-equality-to-coverage link has no running cause (the law has been national since 2015, link status cause-not-recorded), so it moves nothing.",
+    "whatItFakes": "The Medicaid expansion to medical debt link (medicaid-expansion-to-medical-debt) moves only the web's own finance.medical-debt-in-collections number; no household's books hold a medical debt, so no one's money moves with it. The marriage-equality-to-coverage link has no running cause (the law has been national since 2015, link status cause-cannot-vary, the CTO's grade of Oct 29), so it moves nothing.",
     "why": "No household or counted group records medical bills or debts in collection, so there is nothing for a debt decision to multiply by the web's factor.",
     "addedBy": "claude/web-coverage-reads",
     "addedAt": "2026-10-24",
@@ -5349,11 +5349,11 @@
     "kind": "missing-data",
     "file": "src/core2/health-web.ts",
     "line": 77,
-    "whatItFakes": "Congestion to premature births (congestion-to-premature-births), heat to deaths (heat-to-deaths), education to mortality (education-to-mortality) and eviction to hospital visits (eviction-to-hospital-visits) have no researched size, and coverage to blood pressure (coverage-to-blood-pressure) and a recession to total mortality (recession-to-total-mortality) find about zero, so nothing moves.",
-    "why": "Four links are unsized in links.json and no producer exists for premature births, heat deaths or hospital visits; the two about-zero links run at size 0.",
+    "whatItFakes": "Congestion to premature births (congestion-to-premature-births), heat to deaths (heat-to-deaths) and eviction to hospital visits (eviction-to-hospital-visits) have no researched size, and coverage to blood pressure (coverage-to-blood-pressure) and a recession to total mortality (recession-to-total-mortality) find about zero, so nothing moves.",
+    "why": "Three links are unsized in links.json and no producer exists for premature births, heat deaths or hospital visits; the two about-zero links run at size 0.",
     "addedBy": "effect-web-health",
     "addedAt": "2026-10-20",
-    "replacement": "Sized links from fetched research, then the death and birth engines read them like the wired ones. education-to-mortality (contested: Lleras-Muney 2005 and the re-examinations) is left unread on purpose: no size the notes would accept was found. Its reader, the day a sourced size exists, is the monthly look in src/core2/modules/health.ts (refreshWebFactors, through src/core2/health-own.ts), reading the education category on the person's record (profile:education, src/core2/opening-profile.ts) as the cause.",
+    "replacement": "Sized links from fetched research, then the death and birth engines read them like the wired ones.",
     "status": "open"
   },
   {
@@ -5485,11 +5485,11 @@
     "kind": "missing-mechanic",
     "file": "src/core2/modules/outcome-web.ts",
     "line": 526,
-    "whatItFakes": "Two housing links move nothing: air-conditioning use does not rise or fall with the electricity price, and the share of income a place's renters pay in rent does not change how many people are homeless.",
-    "why": "The cited research gives no usable size: the electricity-price link has no published slope and no engine reads the air-conditioning share; the rent-burden link has thresholds at 22 and 32 percent but no slope (Zillow and UNH 2018; Colburn and Aldern 2022).",
+    "whatItFakes": "Two housing links move nothing through the web: air-conditioning use does not rise or fall with the electricity price, and the share of income a place's renters pay in rent adds no factor to how many people are homeless. The housing engine's own evictions do follow unpaid rent (a named household's lease by its own pay and cash; counted households by their group's pooled arrears, lowest income first), but no played year yet shows that path rising with burden past 22 and faster past 32 percent.",
+    "why": "The cited research gives no usable size: the electricity-price link has no published slope and no engine reads the air-conditioning share; the rent-burden link has thresholds at 22 and 32 percent but no slope (Zillow and UNH 2018; Colburn and Aldern 2022), and src/core2/housing-calibration.test.ts checks the curve only in a year with 10 or more court cases, which the drawn towns did not reach and the pinned Puerto Rico town fails.",
     "addedBy": "OPUS-WEB",
     "addedAt": "2026-10-20",
-    "replacement": "A sized link (a published slope per point of burden or per cent of price) read by an engine that decides air-conditioning use and by the homeless review.",
+    "replacement": "A sized link (a published slope per cent of price) read by an engine that decides air-conditioning use; for rent burden, a played year with 10 or more court cases that passes the burden checks in src/core2/housing-calibration.test.ts, after which the link is carried by the housing engine.",
     "status": "open"
   },
   {
@@ -5622,11 +5622,47 @@
     "kind": "missing-engine",
     "file": "src/core2/modules/outcome-web.ts",
     "line": 524,
-    "whatItFakes": "Reducing occupational licensing is meant to open licensed work and raise pay at the bottom, but no engine lets the law change who may take a licensed job, so the law reaches no household's income and the poverty measure does not move for it.",
-    "why": "The jobs engine has no licensing requirement per occupation to repeal.",
+    "whatItFakes": "Reducing occupational licensing (licensing-reform-to-poverty) is meant to open licensed work and raise pay at the bottom, but no engine lets the law change who may take a licensed job, so the law reaches no household's income and the poverty measure does not move for it.",
+    "why": "The jobs engine has no licensing requirement per occupation to repeal, and the poverty measure is the engine's own count, which the web holds as read, so the link moves nothing.",
     "addedBy": "effect-web-poverty",
     "addedAt": "2026-10-20",
     "replacement": "The jobs engine reads a licensing law row when seekers match to jobs, so a repeal opens licensed jobs to seekers (pool item world-licensing-reform-jobs).",
+    "status": "open"
+  },
+  {
+    "id": "SG-FAMILY-child-benefit-not-paid",
+    "kind": "missing-mechanic",
+    "file": "src/core2/law-reach/group-b-money.ts",
+    "line": 682,
+    "whatItFakes": "A child benefit's effect on child poverty (child-benefit-to-child-poverty) moves nothing: nothing in the game pays a household a benefit for a child (no law question, bill-catalog policy, budget line or tax credit does; the welfare line's cash assistance goes to household heads below a share of the poverty line, the same amount per household, not per child), so the cause has no value in any place.",
+    "why": "The research (the Census supplemental measure, 2021 against 2022) is one program's before and after at its own amounts, not a rate per dollar, and the game has no child benefit for it to scale.",
+    "addedBy": "effects-web family 1 (laws lead), from the family helper's commit e68fb4fa8b",
+    "addedAt": "2026-10-29",
+    "replacement": "A child benefit (a law question or bill-catalog policy) paid to each household by its children through the law reach's money group, as the welfare line pays (src/core2/law-reach/group-b-money.ts); the poverty count (householdPoverty in src/core2/world-poverty.ts) then reads it as income, so the link is carried by the payment, not run by the web.",
+    "status": "open"
+  },
+  {
+    "id": "SG-FAMILY-birth-bonus-not-paid",
+    "kind": "missing-mechanic",
+    "file": "src/core2/births-plan.ts",
+    "line": 227,
+    "whatItFakes": "A birth bonus's effect on births (baby-bonus-to-births) moves nothing: nothing in the game pays a household a bonus for a birth (no law question, bill-catalog policy or budget line does; the child-care assistance topic is unsupported and holds no policy), so the cause, program.birth-bonus-dollars, has no value in any place.",
+    "why": "Milligan's estimate holds around Quebec's own schedule, by parity and in Canadian dollars, so no per-dollar size carries over to a game bill of another amount.",
+    "addedBy": "effects-web family 1 (laws lead), from the family helper's commit e68fb4fa8b",
+    "addedAt": "2026-10-29",
+    "replacement": "A birth-bonus bill that pays each household on a birth; the link is then sized from that amount through Milligan's benefit elasticity (0.107) and read where births are decided (src/core2/births-plan.ts and src/core2/births-counted.ts already read the web's births.rate factor).",
+    "status": "open"
+  },
+  {
+    "id": "SG-FAMILY-marriage-not-recorded",
+    "kind": "missing-engine",
+    "file": "src/core2/modules/renewal.ts",
+    "line": 620,
+    "whatItFakes": "Marriage equality's effect on same-sex marriages (marriage-equality-to-marriages) moves nothing: marriage equality is not a law question the game holds and has been national law since 2015, so no place differs on it (graded cause cannot vary, the CTO's ruling of Oct 29 in OWNER-DECISIONS.md); the core keeps no marriage (couples exist as the opening drew them, stopgap SG-TRAITS-partnerships-no-engine); and nothing counts same-sex marriages by place.",
+    "why": "How marriage works in play is not yet decided (OWNER-DECISIONS.md, Marriage and children), and no engine decides who partners or marries.",
+    "addedBy": "effects-web family 1 (laws lead), from the family helper's commit e68fb4fa8b",
+    "addedAt": "2026-10-29",
+    "replacement": "A marriage engine that reads the marriage law in force when two people decide to marry, counting same-sex marriages by place from those records; the link then takes a size in that count's unit.",
     "status": "open"
   },
   {
@@ -5638,8 +5674,8 @@
     "why": "The jobs engine prices a hire from the occupation and market, not from the person's schooling.",
     "addedBy": "effect-web-poverty",
     "addedAt": "2026-10-20",
-    "replacement": "The jobs engine prices schooling into hires and wages from the person's own schooling record (pool item world-schooling-to-pay).",
-    "status": "open"
+    "replacement": "Resolved: the jobs engine prices schooling into every hire (hirePay, schoolingWeekly and schoolingOn in src/core2/modules/jobs.ts reading graduationOf in src/core2/school-outcomes.ts; pool item world-schooling-to-pay), and the poverty count (householdPoverty in src/core2/world-poverty.ts) reads that pay, so graduation-to-poverty is carried by those records (links.json carriedBy), proven by src/core2/jobs-graduation-income.test.ts.",
+    "status": "resolved"
   },
   {
     "id": "SG-WORLD-coarse-place-no-payroll",
@@ -5696,11 +5732,11 @@
     "kind": "faked-mechanic",
     "file": "src/core2/jobs-web.ts",
     "line": 1,
-    "whatItFakes": "Birth-year pollution (birth-year-pollution-to-adult-earnings), teacher quality (teacher-quality-to-earnings) and neighborhood years (neighborhood-years-to-adult-outcomes) acting on adult earnings: they need each person's own exposure-years record, which no engine keeps, and none has a size the game can apply.",
-    "why": "The links are person-level (exposure-years shape); a place rate would apply them to the wrong people.",
+    "whatItFakes": "Birth-year pollution (birth-year-pollution-to-adult-earnings), teacher quality (teacher-quality-to-earnings) and neighborhood years (neighborhood-years-to-adult-outcomes) acting on adult earnings move nothing, each for its own missing piece. Birth-year pollution: the exposure is on record for anyone born in play (a person:birth fact with place and date, src/core2/births-people.ts, and the web's month rows of env.particulates for that place), but no pay decision reads it and the link has no size. Teacher quality: nothing records a teacher's value-added or which teacher a student has, and no law or engine moves teacher value-added, so the cause has no producer and no policy to carry. Neighborhood years: where each person lived each year is on record (residenceOn in src/core2/past-moves.ts, and moves in play), but no data row holds a county's childhood exposure effect, no pay decision reads it and the link has no size.",
+    "why": "The links are person-level (exposure-years shape): a place rate would apply them to the wrong people, so each must be read from the person's own history when pay is set.",
     "addedBy": "effect-web-labor",
     "addedAt": "2026-10-20",
-    "replacement": "A per-person exposure record (air in the birth year, teachers' value-added, years in a better neighborhood) read when pay is set.",
+    "replacement": "Birth-year pollution: a read in src/core2/jobs-web.ts of the person's birth fact and the web's particulates over their birth year, sized from its study. Teacher quality: parked until a researched link moves teacher value-added (a teacher-pay or evaluation law); then the school engine keeps a value-added per teacher and a yearly classroom, and hirePay reads its mean. Neighborhood years: a county row of childhood exposure effects, read in hirePay from residenceOn and in-play moves.",
     "status": "open"
   },
   {
@@ -5708,11 +5744,11 @@
     "kind": "faked-mechanic",
     "file": "src/core2/jobs-web.ts",
     "line": 1,
-    "whatItFakes": "Graduation to earnings (graduation-to-earnings), transit loss to unemployment (transit-loss-to-unemployment), broadband to employment (broadband-to-employment), incentive deals to industry jobs (incentive-deal-to-industry-jobs) and more immigrants to the workforce (more-immigration-to-workforce) have no researched size the game can use, and a Medicaid work requirement's effect on employment (work-requirement-to-employment) is about zero, so an engine would multiply by one.",
+    "whatItFakes": "Transit loss to unemployment (transit-loss-to-unemployment), broadband to employment (broadband-to-employment), incentive deals to industry jobs (incentive-deal-to-industry-jobs) and more immigrants to the workforce (more-immigration-to-workforce) have no researched size the game can use, and a Medicaid work requirement's effect on employment (work-requirement-to-employment) is about zero, so an engine would multiply by one.",
     "why": "Their sources give a study-unit effect (one lost line, a county gaining broadband, one deal) that no conversion turns into the game's slopes; the sizes are to confirm.",
     "addedBy": "effect-web-labor",
     "addedAt": "2026-10-20",
-    "replacement": "Sizes confirmed from the sources and the cause measures (graduation share, transit access, deal records) recorded by their engines.",
+    "replacement": "Sizes confirmed from the sources and the cause measures (transit access, deal records) recorded by their engines.",
     "status": "open"
   },
   {
@@ -5915,11 +5951,11 @@
     "kind": "missing-mechanic",
     "file": "src/core2/modules/crime.ts",
     "line": 494,
-    "whatItFakes": "Six researched links into crime and justice outcomes move nothing, each because the engine that would decide its outcome has no cause, no size or no producer to read. summer-jobs-to-youth-violence: no engine runs a summer jobs program, so no one is a participant, and the 43 percent fall in violent-crime arrests is the participants' own (J-PAL's summary of Heller 2014); the public-safety engine's arrest share-out by age band (arrest in src/core2/public-safety.ts) would read a participant's record once arrests have offenders. housing-vouchers-to-crime: the Chicago lottery's arrest effects are mostly statistically insignificant, so there is no size; the web keeps no crime.rate-index and no engine issues vouchers under the federal question. graduation-to-incarceration: the research is a person's own drop in the chance of prison (0.76 points for white men, 3.4 for Black men, Lochner and Moretti) with no base chance to make a factor, and no engine decides a person's offense, so the schooling on a person's record (schoolingOn in src/core2/modules/jobs.ts) has nothing to lower (see SG-CORE-crime-offenders and SG-LAW-justice-named-offender-acts). mandatory-minimums-to-incarceration: the state panel study counts mandatory laws and gives no size for one, the question has no starting row and no engine reads it; the court's decision of each counted case (resolveDue in src/core2/public-safety.ts) and a named defendant's custody months (convict in src/core2/modules/justice.ts) would. mandatory-minimum-cut-to-federal-prisoners is sized (a 0.8 percent fall in the prison rate) but no engine sentences or holds federal prisoners, since every case is tried in the state's courts, so justice.federal-incarcerated-per-100k moves only in the web's ledger. release-lower-level-to-larceny is sized on crime.property (0.0731, the larceny share of the NCVS property total), which the crime engine reads in typeFactor, but no policy question reclassifies low-level offenses, so its cause is never in force. The counted court reads pretrial-detention-to-conviction (resolveDue in src/core2/public-safety.ts), but a named bribery defendant's verdict (hearing and convict in src/core2/modules/justice.ts) is a margin of evidence against the defense, with no rate this proportion can scale, so the named tier does not read it.",
+    "whatItFakes": "Five researched links into crime and justice outcomes move nothing, each because the engine that would decide its outcome has no cause, no size or no producer to read. summer-jobs-to-youth-violence: no engine runs a summer jobs program, so no one is a participant, and the 43 percent fall in violent-crime arrests is the participants' own (J-PAL's summary of Heller 2014); the public-safety engine's arrest share-out by age band (arrest in src/core2/public-safety.ts) would read a participant's record once arrests have offenders. graduation-to-incarceration: the research is a person's own drop in the chance of prison (0.76 points for white men, 3.4 for Black men, Lochner and Moretti) with no base chance to make a factor, and no engine decides a person's offense, so the schooling on a person's record (schoolingOn in src/core2/modules/jobs.ts) has nothing to lower (see SG-CORE-crime-offenders and SG-LAW-justice-named-offender-acts). mandatory-minimums-to-incarceration: the state panel study counts mandatory laws and gives no size for one, the question has no starting row and no engine reads it; the court's decision of each counted case (resolveDue in src/core2/public-safety.ts) and a named defendant's custody months (convict in src/core2/modules/justice.ts) would. mandatory-minimum-cut-to-federal-prisoners runs at -0.008, a 0.8 percent fall, which is the anchor's fall in all U.S. prisoners although the link now points at federal prisoners (by the anchor's own arithmetic, about 13,000 fewer of the federal count, the federal fall is about 6 percent, so the size sits on the old base until it is resized); it moves justice.federal-incarcerated-per-100k only in the web's ledger, since no engine sentences or holds federal prisoners and every case is tried in the state's courts. release-lower-level-to-larceny is sized on crime.property (0.0731, the larceny share of the NCVS property total), which the crime engine reads in typeFactor, but no policy question reclassifies low-level offenses, so its cause is never in force. The counted court reads pretrial-detention-to-conviction (resolveDue in src/core2/public-safety.ts), but a named bribery defendant's verdict (hearing and convict in src/core2/modules/justice.ts) is a margin of evidence against the defense, with no rate this proportion can scale, so the named tier does not read it.",
     "why": "A link moves an outcome only when the engine that decides it reads the link's cause, from a place's rate or a person's own record, at a size the research gives in that engine's units; for these the cause is unrecorded, the research gives no usable size, or no engine decides the outcome.",
     "addedBy": "wire-laws crime-and-justice helper",
     "addedAt": "2026-10-28",
-    "replacement": "Record each cause (a summer jobs program's participants, voucher holders under a voucher law, a mandatory-minimum floor in a starting law or bill, a low-level-offense reclassification question); give arrests offenders whose own records (schooling, program, voucher) an offending engine reads; size each link from its study in the deciding engine's units and have the engine named above read it; give federal defendants a court engine; give a named defendant's plea a term for custody before trial.",
+    "replacement": "Record each cause (a summer jobs program's participants, a mandatory-minimum floor in a starting law or bill, a low-level-offense reclassification question); give arrests offenders whose own records (schooling, program) an offending engine reads; size each link from its study in the deciding engine's units (the federal cut on the federal count, about -0.06, not the all-prisoner -0.008) and have the engine named above read it; give federal defendants a court engine; give a named defendant's plea a term for custody before trial.",
     "status": "open"
   },
   {
@@ -6232,8 +6268,8 @@
     "why": "no measure: the web does not keep household.child-poverty and no engine produces it; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "An engine that records household.child-poverty for each place from its own people or organizations, read by the web as an engine measure, and whose own rates read webReach for these links.",
-    "status": "open"
+    "replacement": "Superseded by SG-FAMILY-child-benefit-not-paid: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
+    "status": "resolved"
   },
   {
     "id": "SG-WEB-unread-household-food-insecurity",
@@ -6412,14 +6448,14 @@
     "why": "no measure: the web does not keep family.same-sex-marriages and no engine produces it; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "An engine that records family.same-sex-marriages for each place from its own people or organizations, read by the web as an engine measure, and whose own rates read webReach for these links.",
-    "status": "open"
+    "replacement": "Superseded by SG-FAMILY-marriage-not-recorded: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
+    "status": "resolved"
   },
   {
     "id": "SG-WEB-unread-finance-past-due-debt",
     "kind": "missing-record",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 218,
+    "line": 206,
     "whatItFakes": "abortion-denied-to-financial-distress is not run by the outcome web, so it moves nothing (no measure: the web does not keep finance.past-due-debt and no engine produces it; nothing in the core records its cause, person.abortion-denied); student-debt-relief-to-finances is not run by the outcome web, so it moves nothing (no measure: the web does not keep finance.past-due-debt and no engine produces it; its research gives no size the game can apply, so the web does not run it); no person, household or organization record changes.",
     "why": "no measure: the web does not keep finance.past-due-debt and no engine produces it; nothing in the core records its cause, person.abortion-denied",
     "addedBy": "EFFECT-WEB-WIRING",
@@ -6443,7 +6479,7 @@
     "id": "SG-WEB-unread-gov-borrowing-cost",
     "kind": "missing-mechanic",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 224,
+    "line": 212,
     "whatItFakes": "newspaper-closure-to-borrowing-cost is not run by the outcome web, so it moves nothing (it has no researched size; its research gives no size the game can apply, so the web does not run it); federal-deficit-to-borrowing-cost is not run by the outcome web, so it moves nothing (it waits on federal.deficit-change-pct-of-gdp); no person, household or organization record changes.",
     "why": "the web does not run it: it has no researched size; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
@@ -6455,7 +6491,7 @@
     "id": "SG-WEB-unread-press-media-trust",
     "kind": "missing-record",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 230,
+    "line": 218,
     "whatItFakes": "press-attacks-to-media-trust is not run by the outcome web, so it moves nothing (no measure: the web does not keep press.media-trust and no engine produces it; its research gives no size the game can apply, so the web does not run it); no person, household or organization record changes.",
     "why": "no measure: the web does not keep press.media-trust and no engine produces it; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
@@ -6479,7 +6515,7 @@
     "id": "SG-WEB-unread-disaster-damage",
     "kind": "missing-record",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 242,
+    "line": 230,
     "whatItFakes": "preparedness-to-disaster-damage is not run by the outcome web, so it moves nothing (no measure: the web does not keep disaster.damage and no engine produces it; its research gives no size the game can apply, so the web does not run it); no person, household or organization record changes.",
     "why": "no measure: the web does not keep disaster.damage and no engine produces it; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
@@ -6551,7 +6587,7 @@
     "id": "SG-WEB-unread-finance-high-cost-loans",
     "kind": "missing-mechanic",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 260,
+    "line": 248,
     "whatItFakes": "loan-rate-cap-to-high-cost-borrowing, federal-loan-cap-to-high-cost-loans move finance.high-cost-loans only in the outcome web's monthly ledger; no person, household or organization record changes.",
     "why": "engine doesn't read the factor: finance.high-cost-loans moves only in the web's monthly ledger; no engine multiplies its own rates by it",
     "addedBy": "EFFECT-WEB-WIRING",
@@ -6575,7 +6611,7 @@
     "id": "SG-WEB-unread-env-litter",
     "kind": "missing-mechanic",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 260,
+    "line": 248,
     "whatItFakes": "container-deposit-to-litter moves env.litter only in the outcome web's monthly ledger; no person, household or organization record changes.",
     "why": "engine doesn't read the factor: env.litter moves only in the web's monthly ledger; no engine multiplies its own rates by it",
     "addedBy": "EFFECT-WEB-WIRING",
@@ -6587,7 +6623,7 @@
     "id": "SG-WEB-unread-disaster-flood-damage",
     "kind": "missing-record",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 266,
+    "line": 254,
     "whatItFakes": "flood-zone-limits-to-damage is not run by the outcome web, so it moves nothing (no measure: the web does not keep disaster.flood-damage and no engine produces it); no person, household or organization record changes.",
     "why": "no measure: the web does not keep disaster.flood-damage and no engine produces it",
     "addedBy": "EFFECT-WEB-WIRING",
@@ -6691,8 +6727,8 @@
     "why": "no measure: the web does not keep government.member-market-returns and no engine produces it; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "An engine that records government.member-market-returns for each place from its own people or organizations, read by the web as an engine measure, and whose own rates read webReach for these links.",
-    "status": "open"
+    "replacement": "Resolved: the research finds every link this row named about zero, so there is no effect for an engine to read (scripts/outcome-web/effect-matrix.ts grades it not applicable), and it is off the unwired list.",
+    "status": "resolved"
   },
   {
     "id": "SG-WEB-unread-farmland-developed-acres",
@@ -6722,7 +6758,7 @@
     "id": "SG-WEB-unread-farmland-value-per-acre",
     "kind": "missing-mechanic",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 326,
+    "line": 296,
     "whatItFakes": "farm-payments-cut-to-land-values moves farmland.value-per-acre only in the outcome web's monthly ledger; no person, household or organization record changes.",
     "why": "engine doesn't read the factor: farmland.value-per-acre moves only in the web's monthly ledger; no engine multiplies its own rates by it",
     "addedBy": "EFFECT-WEB-WIRING",
@@ -6734,7 +6770,7 @@
     "id": "SG-WEB-unread-rail-intercity-ridership",
     "kind": "missing-mechanic",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 338,
+    "line": 308,
     "whatItFakes": "federal-rail-expansion-to-riders moves rail.intercity-ridership only in the outcome web's monthly ledger; no person, household or organization record changes.",
     "why": "engine doesn't read the factor: rail.intercity-ridership moves only in the web's monthly ledger; no engine multiplies its own rates by it",
     "addedBy": "EFFECT-WEB-WIRING",
@@ -7061,7 +7097,7 @@
     "id": "SG-WEB-unread-housing-homelessness",
     "kind": "missing-mechanic",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 170,
+    "line": 158,
     "whatItFakes": "rent-burden-to-homelessness is not run by the outcome web, so it moves nothing (it has no researched size; its research gives no size the game can apply, so the web does not run it); no person, household or organization record changes.",
     "why": "the web does not run it: it has no researched size; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
@@ -7078,8 +7114,8 @@
     "why": "the web does not run it: it waits on program.birth-bonus-dollars, and it has no researched size; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "The engine that owns births.rate multiplies its own person, household or organization rate by webReach(api, placeId, \"births.rate\", subject), as counted births do, so these links change its records.",
-    "status": "open"
+    "replacement": "Superseded by SG-FAMILY-birth-bonus-not-paid: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
+    "status": "resolved"
   },
   {
     "id": "SG-WEB-unread-school-graduation-pct",
@@ -7090,8 +7126,8 @@
     "why": "the web does not run it: it has no researched size; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "The engine that owns school.graduation-pct multiplies its own person, household or organization rate by webReach(api, placeId, \"school.graduation-pct\", subject), as counted births do, so these links change its records.",
-    "status": "open"
+    "replacement": "Resolved: every link this row named now reaches an engine's own records or is carried by one (scripts/outcome-web/effect-matrix.ts grades it as reaching), so it is off the unwired list.",
+    "status": "resolved"
   },
   {
     "id": "SG-WEB-unread-school-reading-proficient-pct",
@@ -7102,8 +7138,8 @@
     "why": "the web does not run it: it has no researched size; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "The engine that owns school.reading-proficient-pct multiplies its own person, household or organization rate by webReach(api, placeId, \"school.reading-proficient-pct\", subject), as counted births do, so these links change its records.",
-    "status": "open"
+    "replacement": "Resolved: every link this row named now reaches an engine's own records or is carried by one (scripts/outcome-web/effect-matrix.ts grades it as reaching), so it is off the unwired list.",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-recall-counted-exposure",
@@ -7430,18 +7466,6 @@
     "status": "resolved"
   },
   {
-    "id": "SG-WORLD-creator-town-count-published",
-    "kind": "estimated-data",
-    "file": "src/bench/creator.ts",
-    "line": 178,
-    "whatItFakes": "The creator's town list shows each town's published Census count; the world opens on its own count drawn around it (within worldPopulationSpreadShare), so the two can differ by a few people.",
-    "why": "The list is shown before Start and the world's seed is drawn when the world is built (handler.ts randomUUID), so no world count exists yet when the list is read.",
-    "addedBy": "realistic-money-and-population-per-world (Claude Opus, wire-office)",
-    "addedAt": "2026-10-28",
-    "replacement": "The bench draws the world's seed when the creator opens and creatorTowns reads placeReferencePopulation(geoid, seed), the count the world will open on.",
-    "status": "open"
-  },
-  {
     "id": "SG-WIRE-PEOPLE-SCHOOLMATES",
     "kind": "history-gap",
     "file": "src/core2/state.ts",
@@ -7564,12 +7588,12 @@
     "id": "SG-GOV-unheld-filler-party",
     "kind": "assumed-data",
     "file": "src/core2/modules/officials.ts",
-    "line": 177,
-    "whatItFakes": "Whoever fills a seat the offices engine keeps no term for (a sample member of another state's legislature, another state's governor) sits in the party of the one they replace: an appointee or a special election's winner is assumed to keep the seat's party, and a governor's successor (a lieutenant governor elected on their own ticket in some states) is assumed to share the governor's.",
-    "why": "The officials engine seats these holders without the offices engine's terms, so no record names the appointee, the special election's candidates or the successor's own party.",
+    "line": 172,
+    "whatItFakes": "Whoever fills a seat the offices engine keeps no term for (another state's member of Congress, whom the officials engine seats from the roster) sits in the party of the one they replace: an appointee or a special election's winner is assumed to keep the seat's party. Since gov-every-state-and-town-governs U1 (Oct 29) every other place's chambers, governor and statewide executives are held on office terms, so their vacancies go through the offices engine's own fill, not this one.",
+    "why": "The officials engine seats other states' members of Congress without the offices engine's terms, so no record names the appointee or the special election's candidates.",
     "addedBy": "gov-sampled-legislator-seats-never-refilled (Claude, wire-office)",
     "addedAt": "2026-10-28",
-    "replacement": "The successor's own party from the state's statewide-office roster for a governor, and the appointing authority's choice or the special election's result (the voting engine's world races) for a legislative seat.",
+    "replacement": "Other states' seats in Congress held on office terms like every other seat, so the appointing authority's choice or the special election's result (the voting engine's world races) names the holder and their party.",
     "status": "open"
   },
   {
@@ -7788,6 +7812,90 @@
     "status": "open"
   },
   {
+    "id": "SG-GOV-other-legislatures-not-sitting",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/world-legislating.ts",
+    "line": 195,
+    "whatItFakes": "Every other state's, D.C.'s and each territory's chambers, governor and statewide executives are seated at the opening as named officials on office terms, and each state's and D.C.'s legislators, governor and partisan statewide officers are raced on their own calendars (a territory's are not: SG-GOV-territory-legislature-race; nor is an office elected without party labels: SG-GOV-outside-nonpartisan-race), but only Congress and the town's own state legislature sit: no other legislature opens a session, files a bill or enacts a law.",
+    "why": "gov-every-state-and-town-governs is built in units (docs/reports/world-governing-plan-2026-10-29.md): U1 seats every chamber; each body's law must be its own (U2) before another state's act can be written without landing as the town's own state law.",
+    "addedBy": "laws lead (claude/gov-every-state-and-town-governs, U1)",
+    "addedAt": "2026-10-29",
+    "replacement": "U3 of the plan: openWorldLegislating opens a session for Congress and every place in the session calendar data, each body voting from its members' saved positions on the official rows, never filling them in. The reads that fill a named holder in today (each calls holderOf) and must not run for an outside body in U3: legislature.ts members() and everything that reads a body through it (floor votes, committees and leadership.ts organize, staff, meetings, interest-groups lobbied, office-day, world-legislating chamber()), legislature.ts tieBreaker (the lieutenant governor) and executiveOf (the governor's signature or veto), and election-ties.ts bodyVotes; office-day-state.ts computerGovernorsDay already skips another place's offices (isOutsideOffice in offices.ts, by jurisdiction).",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-territory-legislature-race",
+    "kind": "missing-data",
+    "file": "src/core2/modules/voting.ts",
+    "line": 4504,
+    "whatItFakes": "A territory's legislative seats, governor and statewide executive seats outside the town (Puerto Rico's, Guam's, the Virgin Islands', American Samoa's and the Northern Marianas') are not raced, in the world races or a legislative special election, so their opening holders serve on past the elections their law holds (Guam, the Northern Mariana Islands and the U.S. Virgin Islands elect a governor in November 2026); a legislative vacancy there is filled by the offices engine's stand-in.",
+    "why": "The territories have no counted electorate places (no presidential vote or county places on record), so no count could decide a seat; several of their seats carry no party or a party of their own (Puerto Rico's New Progressive and Popular Democratic, American Samoa's nonpartisan Fono), not the two major parties the count fields. Without the skip each such race named no winner and the seat was never refilled.",
+    "addedBy": "laws lead (claude/gov-every-state-and-town-governs, U1 review fixes)",
+    "addedAt": "2026-10-30",
+    "replacement": "Each territory's electorate places from its own legislative, executive or delegate results, and its own parties on the count, so its seats are raced on the same counted engine (the same replacement as SG-GOV-territory-governor-race).",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-outside-nonpartisan-race",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/voting.ts",
+    "line": 4515,
+    "whatItFakes": "Another place's statewide office elected without party labels (about ten: superintendents of public instruction in California, North Dakota, Washington and Wisconsin, Oregon's labor commissioner, Hawaii's Office of Hawaiian Affairs trustees, D.C.'s state board of education president, Guam's public auditor and utilities commission, the Northern Marianas board of education) is seated at the opening but never raced, so its holder serves past the end of the term on its row.",
+    "why": "The world races count two major parties' candidates; an office whose ballot carries no party labels (data/research/offices/unrecorded-holder-parties-2026.json, appliesTo office) has no partisan race to count, and the voting engine has no nonpartisan count for a race the town doesn't vote in.",
+    "addedBy": "laws lead (claude/gov-every-state-and-town-governs, U1 review fixes)",
+    "addedAt": "2026-10-30",
+    "replacement": "A nonpartisan count for a race the town doesn't vote in (the incumbent against a challenger drawn from the state, decided by the places' votes on the candidates' own standing), so the seat loop in racesIn races these offices like every other.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-outside-ticket-raced-alone",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/voting.ts",
+    "line": 4520,
+    "whatItFakes": "Another place's statewide officer whom the law elects on one ticket with the governor (a lieutenant governor in about thirty places, data/research/offices/state-offices.json electedWithGovernorOnTicket) is raced on its own seat, the same as every other statewide officer, so the count can seat a lieutenant governor of a different party from the governor elected the same night.",
+    "why": "The world races count one seat at a time; nothing joins a ticket office's race to its governor's. The town's own contests run each office separately too.",
+    "addedBy": "laws lead (claude/gov-every-state-and-town-governs, U1 review fixes)",
+    "addedAt": "2026-10-30",
+    "replacement": "A ticket office's race decided with its governor's: the governor race's winning party seats the running mate the same day, read from the office's research row.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-outside-seat-party-unread",
+    "kind": "missing-data",
+    "file": "src/core2/modules/offices.ts",
+    "line": 819,
+    "whatItFakes": "Another place's holder whose party neither the legislative roster nor the research (data/research/offices/unrecorded-holder-parties-2026.json) reads sits with no party on the term: six vacant legislative seats with no Ballotpedia vacancy row (Florida, Massachusetts, Missouri, New York), Guam's attorney general and the Virgin Islands board of elections (eight seats). Filled in as a person (holderOf in src/core2/modules/officials.ts), such a holder keeps the term's no party, so the person matches the term row, never the 2024 state-lean estimate. A race for such a seat fields both major parties as if it were open.",
+    "why": "The research file lists them as unread seats; nothing on record names the holder's party.",
+    "addedBy": "laws lead (claude/gov-every-state-and-town-governs, U1 review fixes)",
+    "addedAt": "2026-10-30",
+    "replacement": "Each seat's holder read into the research file (the chamber's own member page or the territory's election results), so seatOutsideOffices seats them in their party.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-outside-legislators-national-pool",
+    "kind": "missing-record",
+    "file": "src/core2/candidate-pool.ts",
+    "line": 343,
+    "whatItFakes": "A national race's pool (the presidency) holds every member of Congress, the town's own state's legislators and every place's governor and statewide officers, but not another place's legislators (about 7,400 seats): they are named officials on their term rows (personId null, the CTO's ruling of Oct 29, 22:40), and the pool weighs only full people, so none of them weighs running for president. Before U1 an 8-member sample of each other chamber, full people, stood in for them.",
+    "why": "The chooser (decideToRun) reads a person's traits, money and party, which a named official on a term row does not have, and filling about 7,400 legislators in as full people to weigh one race would make people the player never meets (the two-level rule).",
+    "addedBy": "laws lead (claude/gov-every-state-and-town-governs, U1 re-review fixes)",
+    "addedAt": "2026-11-01",
+    "replacement": "Another place's legislators weighed from their term rows by the same reasons as a full official (the seat's reach, the party's backing, an ambition read from the seat), the way candidacy's counted screen weighs counted residents, and filled in only when one runs.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-outside-seat-records-unfolded",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/voting.ts",
+    "line": 4526,
+    "whatItFakes": "Every state seat the world races outside the town (each other place's legislators, governor and statewide officers, and the town's own state's districts that do not cover it; thousands of seats in an even year) keeps, every cycle, its race row, its count's results and places, the ended term beside the new one and the took-office record, and nothing folds the old ones once play no longer reads them. In Long Hill, Connecticut (seed m7b, four played years to January 2029) the offices engine's terms grow from 21,136 rows to 33,973 (main at the branch's base: 644 to 1,044), and the voting engine's races, results and returns from 185 to 13,932 rows each and its places from 624 to 40,981; November 2026 alone races 6,923 seats (Leola, South Dakota, seed m2-nov1). The took-office records themselves are not kept in the town's log (they are placed in the office's own place).",
+    "why": "A fold needs each reader's window agreed with the session that owns that reader (the CTO's ruling of Oct 30, 04:14: the person card's past offices, the press's took-office story, the trace's record search), which this change cannot do; the Oct 30 01:55 records bar (years 97 to 100 at most 1.2 times years 1 to 4) is not yet measured for these tables.",
+    "addedBy": "laws lead (claude/gov-every-state-and-town-governs, U1 re-review fixes)",
+    "addedAt": "2026-11-01",
+    "replacement": "A fold of each outside seat's ended terms, race rows and results older than its last few cycles into one summary row per seat (who held it, in which party, from and to), its readers' windows named, proven by a long save's records kept (pool item core-long-run-tables-grow-with-history).",
+    "status": "open"
+  },
+  {
     "id": "SG-GOV-threat-from-circle",
     "kind": "partial-model",
     "file": "src/core2/modules/campaigns.ts",
@@ -7895,6 +8003,30 @@
     "status": "open"
   },
   {
+    "id": "SG-LEGISLATURE-phase-in-percent-a-year",
+    "kind": "missing-mechanic",
+    "file": "src/bench/legislature.ts",
+    "line": 264,
+    "whatItFakes": "A bill drafted from the seat phases in an amount only by dated steps the sponsor names (one section per step). The ruling's other form, an amount that rises by a percent a year, cannot be drafted: the seat takes no rate and no span.",
+    "why": "The owner ruled that bills phase in by dated steps or a percent a year (DECISION-REGISTER, Sept 12 travel clarification, item 1); pool item gov-m3-01-phase-in-by-dated-steps built the dated steps first, and how a yearly percent is written into law (a step per year, or one indexed row the laws engine raises each year) is not built.",
+    "addedBy": "governing lead",
+    "addedAt": "2026-10-30",
+    "replacement": "seatAct takes a percent a year and the years it runs; the steps are drafted as dated sections of the one bill a year apart, each the law in force raised by the percent, through the same enact path (or one indexed law row the laws engine raises each year on its calendar), with no number typed.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LEGISLATURE-dated-budget-line-amended-on-enactment",
+    "kind": "partial-model",
+    "file": "src/core2/modules/legislature.ts",
+    "line": 5181,
+    "whatItFakes": "A budget-line section that names its own effective date (provisionFor with an effectiveDate) is amended into the budget the day the bill becomes law: amendBudget takes no date, so every step of a budget phase-in would land at once; seatAct refuses phase-in steps on a budget line for that reason.",
+    "why": "enact reads each law section's date through enactLaw and the laws engine's calendar, but a budget line has no dated amendment in the budgets engine; found building pool item gov-m3-01-phase-in-by-dated-steps, whose test phases in a wage floor instead.",
+    "addedBy": "governing lead",
+    "addedAt": "2026-10-30",
+    "replacement": "The budgets engine amends a line on the section's date: enact schedules the dated budget section on the calendar (as enactLaw does a dated law row) and amendBudget applies it to the fiscal year that date falls in, so lawmakers and the budget screen read each step when it lands; seatAct then takes phase-in steps on a budget line, as it does on a law amount.",
+    "status": "open"
+  },
+  {
     "id": "SG-GOV-body-lawyer-unrecorded",
     "kind": "missing-record",
     "file": "src/bench/legislature.ts",
@@ -7916,6 +8048,78 @@
     "addedBy": "claude/people-home-plated-room-first",
     "addedAt": "2026-10-30",
     "replacement": "Plates for every house living room (people-home-plates); once each room the lists name has one, the preference picks from the whole list and is deleted.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LIVES-elsewhere-not-into-town",
+    "kind": "partial-model",
+    "file": "src/core2/modules/moves.ts",
+    "line": 753,
+    "whatItFakes": "A relative or acquaintance living elsewhere (the inactive tier) never moves into the played town: their move skips a relative or county destination that is one of the town's full-detail places and goes to the next record instead.",
+    "why": "A husk in town would sit outside the town's residents, counts and voter rolls; arriving needs the counted arrival path or a fill-in, which the two-level population allows only when the player meets them.",
+    "addedBy": "lives lead (core-every-life-simulated)",
+    "addedAt": "2026-11-01",
+    "replacement": "A husk whose move lands in the played town arrives through the counted-moves arrival path as one counted household (one model, two tiers), filled in when the player meets them.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LIVES-work-no-employer",
+    "kind": "missing-record",
+    "file": "src/core2/jobs-elsewhere.ts",
+    "line": 182,
+    "whatItFakes": "A relative or town leaver living elsewhere works, is let go, finds work and moves to another job with no employer named: the world keeps no firms outside the played town.",
+    "why": "Firms exist only for the played town's businesses; a second economy of named employers elsewhere would be a second engine.",
+    "addedBy": "lives lead (core-every-life-simulated)",
+    "addedAt": "2026-11-01",
+    "replacement": "The regional engine's employers by industry for each state (counted, never named until met) give a person living elsewhere an employer record their work spell names, filled in when the player meets it.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LIVES-work-out-of-labor-force",
+    "kind": "missing-mechanic",
+    "file": "src/core2/jobs-elsewhere.ts",
+    "line": 285,
+    "whatItFakes": "Someone living elsewhere who was out of the labor force on day one (a student, a parent at home, someone not looking) stays out until they reach the age of retiring.",
+    "why": "The pre-start run's pulls are for people in the labor force; entering it (school's end, a youngest child's age, a partner's lost job) needs its causes for people with no school or household records.",
+    "addedBy": "lives lead (core-every-life-simulated)",
+    "addedAt": "2026-11-01",
+    "replacement": "The jobs engine's enter choice (the one counted and full people make) read for people living elsewhere from their age, household and partner's work, checked against CPS flows into the labor force by age.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-milestone-birthday-full-people",
+    "kind": "rule-copy",
+    "file": "src/core2/modules/press.ts",
+    "line": 3069,
+    "whatItFakes": "The paper's round-birthday briefs read only the town's full residents; a counted resident who turns 80, 90 or 100 gets no notice.",
+    "why": "A birthday notice names the person, and a counted resident has no name until the player meets them. Filling one in for the paper would make the press decide who exists.",
+    "addedBy": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+    "addedAt": "2026-11-01",
+    "replacement": "A person a brief names is a named person, so the counted resident whose round birthday falls in the week is filled in, seeded from the world, when the notice prints (two-level population; the CTO, Nov 1, the same rule the lives lead uses), and the week's round birthdays are read from the counted population's ages by place by the same rule as a full resident.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-counted-evicted-push-rate",
+    "kind": "partial-model",
+    "file": "src/core2/modules/counted-moves.ts",
+    "line": 373,
+    "whatItFakes": "An eviction's push toward leaving town (movesEvictedPull, 0.35) lands on a counted household as a raised rate of leaving, times exp(0.35), for as long as the eviction leaves it without a home (tenure none, its housing status row naming an eviction case); a full person takes the same push once, on the day of the housing.eviction, added to a pull that keeps it until they decide (moves.ts EVENT_PULLS). A household a foreclosure removed takes no push on either tier, since a foreclosure records no eviction.",
+    "why": "The counted tier moves by expected rates accrued monthly by group, with no per-household pull carried from month to month; a household without a home is the record the eviction left, so its rate is the one place the push can land (CTO ruling, Nov 1: an evicted counted household stays counted).",
+    "addedBy": "speed lead builder (core-evicted-counted-stays-counted)",
+    "addedAt": "2026-11-01",
+    "replacement": "A counted household's own pull carried month to month (the push added once on the day, faded as a full person's), or the push calibrated against the share of evicted households that leave their county (Desmond and Shollenberger 2015).",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-counted-eviction-kin-notice",
+    "kind": "partial-model",
+    "file": "src/core2/modules/housing.ts",
+    "line": 2241,
+    "whatItFakes": "A counted household's eviction names its members with a record (person records, and husks: relatives a full person knows) and the rest by its facts, so a watched relative reads it through the director's place reach and the press prints it from its counted subjects; but the full people who list a counted member as family learn of it only as any reader in town does. On main the evicted household was filled in, and its members, as full people, passed the news on at each contact (news.ts) to the relatives fill-in tied them to; counted members pass nothing on, and the eviction names no full relative as a witness.",
+    "why": "CTO ruling, Nov 1: an evicted counted household stays counted until it comes to matter to the player. Naming the full relatives as witnesses (as births-counted notifyCountedDeaths does for a counted death, the precedent) would make each of them perceive the eviction on the day: the drives engine would answer them, the director would appraise them as named, and neither has been checked to read a relative's eviction as a relative's rather than as the subject's.",
+    "addedBy": "speed lead builder (core-evicted-counted-stays-counted)",
+    "addedAt": "2026-11-01",
+    "replacement": "The eviction names as witnesses the full people who know a counted member (the full people who list them as family, and their ties), as notifyCountedDeaths does for a counted death, once drives, trait change and the director read a witness to a relative's eviction by their relation; or counted members pass news on at contact by the news engine's rule.",
     "status": "open"
   }
 ]

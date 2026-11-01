@@ -19,6 +19,7 @@ The owner's rules: sessions message the CTO and the CTO messages them, sessions 
 
 - Send with the claude-code-remote `send_message` tool and the session id from `docs/coordination/CREW.md`. `SendMessage` is a different transport and reaches no other session (Oct 30: a checker's hand-offs to the mergers went through it for hours and arrived nowhere).
 - Start with who is talking to whom: `Checker 2 → Merger 1.` Then the point in the first sentence.
+- `send_message` delivers the moment it is called, and nothing takes it back. Never call it with a draft, a placeholder or a body still to fill in: write the whole body first, then send (Nov 1: a governing message that said only "placeholder" reached the laws lead and needed a second message to withdraw it).
 - Arm no timers: no `send_later`, `create_trigger` or wake-up chain (owner, Nov 1: "Anthropic has removed 5-hour limits, so no need for any timers or anything"). After a long stop, the CTO restarts each session by message.
 
 ## Who gets what
@@ -42,6 +43,7 @@ When the CTO moves a PR between two checkers, it tells both. A checker already m
 - The PR number and the head SHA it is about, the place and seed of any failure, and the exact ask.
 - What you did and what is left, in one or two sentences. Not the whole log: that goes in the PR comment.
 - A builder's hand-off to its checker names the branch and head, what changed in one sentence, the heavy test with the seed variables that replay its proof place (for example `LENDERS_PLACE` and `LENDERS_WORLD_SEED`) and how long one run takes, what the builder did not run, and that the checker is now the branch's one writer.
+- Quote a PR number only from the result of the call that created it, and send the message after that call. A number written before it is a guess (Nov 1: a message sent with the create call named #7076 for what became #7078).
 - A ruling you relay names where it is recorded (`OWNER-DECISIONS.md`, with its date and time).
 - A reviewer whose environment refuses a GitHub write sends the review by message. The PR's author then posts it on the PR word for word, marked as relayed, with the sender and time, so the checker reads it in the record (Nov 1, the lane's review of #6981).
 

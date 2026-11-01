@@ -21,16 +21,20 @@ import {
   LEGISLATURE_MODULE_ID,
   type BillRow,
 } from "../core2/modules/legislature";
+import { BUSINESS_MODULE_ID } from "../core2/modules/business";
 import { storiesHeard } from "../core2/modules/news";
+import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { schoolResultKind } from "../core2/modules/press";
 import { placeLocalities } from "../core2/places";
 import {
   SCHOOL_MODULE_ID,
   type SchoolMeasureRow,
 } from "../core2/school-measures";
+import { familyFactsOf } from "../core2/closeness";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { wordPrintedStory } from "./archive-words";
+import { printedFacts } from "./printed-words";
 import { heardItems } from "./calendar";
 import { buildBenchWorld } from "./world";
 
@@ -92,6 +96,38 @@ describe("printed stories in News", () => {
           expect(text, `${story.id} in ${where}`).not.toMatch(DEVELOPER);
       }
     }
+    // A sitting prints for what the body did, not that it sat (CTO, Nov 1):
+    // one that took up nothing is never a story of its own, only a name in
+    // the week's meetings brief; and an oath or a vacancy prints only on a
+    // seat the town's records hold, never another state's.
+    const source = (story: (typeof printed)[number]) =>
+      String(story.facts.sourceRecordId);
+    const sat = printed.filter((story) =>
+      source(story).startsWith("meeting-held:"),
+    );
+    for (const story of sat)
+      expect(
+        Number(story.facts.items),
+        `${story.id} in ${where}`,
+      ).toBeGreaterThan(0);
+    const weekly = printed.filter((story) =>
+      source(story).startsWith("meetings-week:"),
+    );
+    for (const story of weekly)
+      expect(wordPrintedStory(core, story)?.brief, story.id).toBe(true);
+    const seats = api.moduleState(OFFICES_MODULE_ID).table("seats");
+    const oaths = printed.filter((story) =>
+      /^(?:took-office|seat-vacated):/.test(source(story)),
+    );
+    for (const story of oaths)
+      expect(
+        seats.get(String(story.facts.seatId)),
+        `${story.id} in ${where}`,
+      ).toBeDefined();
+    const example = weekly[0] && wordPrintedStory(core, weekly[0]);
+    console.log(
+      `printed-words meetings: ${sat.length} sittings with business, ${weekly.length} weekly briefs, ${oaths.length} oaths and vacancies; e.g. ${example ? `${example.headline} / ${example.lede}` : "none"}`,
+    );
     // News prints stories, not only briefs: some of the year's stories carry a body.
     console.log(
       `printed-words bodies: ${withBody.length} of ${printed.length}; e.g. ${withBody.slice(0, 3).join(" || ")}`,
@@ -266,6 +302,117 @@ describe("printed stories in News", () => {
       ),
       where,
     ).toBeNull();
+    // An obituary tells the life's facts the records hold: each death the
+    // paper prints (the town's and its state's), worded, and every life fact
+    // its record holds (where they were born, the office they served in,
+    // where they worked, who survives them) said in it
+    // (words-paper-and-journal-everyday-life).
+    const LIFE = ["born", "office", "employer", "government", "survivors"];
+    const deaths = [...core.durableLog.values()].filter(
+      (row) =>
+        row.kind === "life.death" &&
+        row.date >= start &&
+        (row.placeId === town || row.placeId === lawChain(api).stateKey) &&
+        core.people.has(row.personIds[0] as PersonId),
+    );
+    const obituaries = deaths.map((row) => {
+      const story = printedAs(row.id, row.date);
+      return {
+        row,
+        read: printedFacts(core, story),
+        worded: wordPrintedStory(core, story),
+      };
+    });
+    for (const { row, read, worded } of obituaries) {
+      expect(worded, `${row.id} in ${where}`).not.toBeNull();
+      const text = (worded!.paragraphs ?? [worded!.lede ?? ""]).join(" ");
+      expect(text, `${row.id} in ${where}`).not.toMatch(DEVELOPER);
+      for (const key of LIFE)
+        if (read?.facts[key])
+          expect(text, `${key} in ${row.id} in ${where}`).toContain(
+            read.facts[key]!.text,
+          );
+    }
+    const lived = obituaries.filter(({ read }) =>
+      LIFE.some((key) => read?.facts[key]),
+    );
+    process.stdout.write(
+      `printed-words obituaries: ${lived.length} of ${deaths.length} tell a life fact; e.g. ${lived
+        .slice(0, 2)
+        .map(
+          ({ worded }) =>
+            `${worded!.headline} / ${(worded!.paragraphs ?? []).join(" ")}`,
+        )
+        .join(" || ")}\n`,
+    );
+    // Anyone who leaves a living partner or child on record, theirs or the
+    // relative's own (a child's record names them a parent), is survived by
+    // them in print (Oakland, Nebraska, seed 132a864497c0d342507e: a man of
+    // 56 whose own records held no family facts, only his children's did).
+    for (const { row, read } of obituaries) {
+      const who = core.people.get(row.personIds[0] as PersonId)!;
+      const own = familyFactsOf(who);
+      const left = [...who.familyIds].filter((id) => {
+        const kin = core.people.get(id);
+        const relation =
+          own.get(id)?.relation ?? familyFactsOf(kin).get(who.id)?.relation;
+        return (
+          kin?.alive &&
+          kin.givenName &&
+          (own.has(id)
+            ? relation === "partner" || relation === "child"
+            : relation === "partner" || relation === "parent")
+        );
+      });
+      for (const id of left)
+        expect(
+          read?.facts.survivors?.text ?? "",
+          `${id} survives ${row.id} in ${where}`,
+        ).toContain(core.people.get(id)!.givenName);
+    }
+    // A round birthday and a business's round year, each a brief from its
+    // own record: a living resident, and a business the town keeps open.
+    const resident = [...(core.peopleByPlace.get(town) ?? [])]
+      .map((id) => core.people.get(id)!)
+      .find((person) => person.alive);
+    const birthday = wordPrintedStory(
+      core,
+      printedAs(`birthday:${resident!.id}:${core.date}`, core.date, {
+        personId: resident!.id,
+        age: "90",
+      }),
+    );
+    expect(birthday?.brief, where).toBe(true);
+    expect(`${birthday!.headline} ${birthday!.lede}`, where).toContain(
+      resident!.givenName,
+    );
+    const firm = (
+      api.moduleState(BUSINESS_MODULE_ID).table("ages").rows() as unknown as {
+        id: string;
+        foundedAt: string;
+      }[]
+    ).find(
+      (row) =>
+        core.organizations.get(row.id)?.placeId === town &&
+        !core.finance.businesses.get(row.id)?.closedAt,
+    );
+    if (firm) {
+      const marked = wordPrintedStory(
+        core,
+        printedAs(`anniversary:${firm.id}:${core.date}`, core.date, {
+          organizationId: firm.id,
+          years: "25",
+          since: firm.foundedAt,
+        }),
+      );
+      expect(marked?.brief, where).toBe(true);
+      expect(`${marked!.headline} ${marked!.lede}`, where).toContain(
+        core.organizations.get(firm.id)!.name,
+      );
+      process.stdout.write(
+        `printed-words milestones: ${birthday!.headline} / ${birthday!.lede} || ${marked!.headline} / ${marked!.lede}\n`,
+      );
+    }
   }, 900_000);
 
   it("words Ohio's minimum wage change from the law in force before and after", () => {

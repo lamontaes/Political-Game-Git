@@ -47,6 +47,7 @@ import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
 import { comingOfAgeOn } from "./coming-of-age";
 import type { RACE_MARGINS } from "../english/mined/journal-bank";
 import { properName, stateInSentence } from "./words";
+import { schoolResult } from "./school";
 import {
   PAST_WORK_OUT,
   PAST_WORK_SPELL,
@@ -66,6 +67,8 @@ import {
   type OfficeActRow,
 } from "../core2/modules/office-day";
 
+/** The school year's end, as the director keeps its moment. */
+const SCHOOL_FINISHED = "event:school.finished";
 const zero = P.zero;
 const one = P.one;
 
@@ -234,7 +237,7 @@ function familyCategory(
  * for someone whose records put them elsewhere in it (the wider population's
  * state-level households).
  */
-function placeLabel(placeId: string | undefined): string | null {
+export function placeLabel(placeId: string | undefined): string | null {
   if (!placeId) return null;
   const place = corePlaceByJurisdictionId(placeId as never);
   if (place) return place.displayName;
@@ -512,7 +515,16 @@ function pastWorkMoments(
     const moments: JournalMoment[] = [];
     const facts = row.facts;
     const where = employer(row);
-    const own: Facts = where ? { employer: where } : {};
+    // Where they lived when they held it, from the spell's own record: a job
+    // held before a move keeps no employer the town knows, and is told by
+    // its place (words-journal-work-line-without-employer).
+    const placeText = placeLabel(row.placeId);
+    const own: Facts = {
+      ...(where ? { employer: where } : {}),
+      ...(placeText
+        ? { place: { text: placeText, sourceRecordIds: [row.id] } }
+        : {}),
+    };
     if (facts.how === "first-job")
       moments.push(
         moment(row, String(facts.startedAt), "job-started:first", own),
@@ -699,6 +711,18 @@ export function composeJournal(
   const kin = familyFactsOf(person);
   const named = new Set<PersonId>();
   const saidAs = new Map<string, PersonId>();
+  // Whose moment it is, when it is someone else's: a relative first, then
+  // someone the person knows, else the first on record. A moment's people
+  // are kept sorted by id, so a rival a relative lost to can come first
+  // (Wayne Heights, Pennsylvania, seed je-2: "a stranger won" for a
+  // daughter's lost race, which no line could tell).
+  const subjectOf = (moment: {
+    counterpartIds: readonly PersonId[];
+  }): PersonId | undefined =>
+    moment.counterpartIds.find((id) => kin.has(id)) ??
+    moment.counterpartIds.find((id) => person.knownIds.has(id)) ??
+    moment.counterpartIds[zero];
+
   const factsById = new Map((person.pastFacts ?? []).map((f) => [f.id, f]));
 
   // How the person refers to someone: a relative by relation, anyone else by
@@ -766,6 +790,30 @@ export function composeJournal(
         facts.school = {
           text: properName(school.name),
           sourceRecordIds: [school.recordId, school.schoolId],
+        };
+    }
+    // The school year's end, from the school engine's result: a diploma or
+    // none, and the school they finished at (one line for the record, though
+    // the last day and the day after are both moments of it).
+    if (moment.causeKind === SCHOOL_FINISHED) {
+      const result = schoolResult(core, moment.causeId);
+      if (!result) return null;
+      // Whether they graduated is the line's stage (the row's stageFact).
+      facts.passed = {
+        text: String(result.passed),
+        sourceRecordIds: [moment.causeId],
+      };
+      facts.finished = {
+        text: moment.causeId,
+        sourceRecordIds: [moment.causeId],
+      };
+      const school = schoolsAttended(core, personId).find(
+        (row) => row.schoolId === result.schoolId,
+      );
+      if (school?.name)
+        facts.school = {
+          text: properName(school.name),
+          sourceRecordIds: [moment.causeId, school.schoolId],
         };
     }
     if (moment.causeKind === "work:opening") {
@@ -864,7 +912,7 @@ export function composeJournal(
     const hasOwnLine = Boolean(row?.hasOwnLine);
     const toldWithoutOther = Boolean(row?.toldWithoutOther);
     const otherId =
-      moment.counterpartIds[zero] ??
+      subjectOf(moment) ??
       (moment.causeKind === "family:child"
         ? fact?.facts?.otherPersonId
         : undefined);
@@ -980,7 +1028,11 @@ export function composeJournal(
     facts: Facts,
   ): string | undefined => {
     const logged = core.durableLog.get(moment.causeId)?.facts;
-    const stage = row.stageFact ? logged?.[row.stageFact] : undefined;
+    // A record the log does not keep (a school's result) gives its stage
+    // through the moment's own facts.
+    const stage = row.stageFact
+      ? (logged?.[row.stageFact] ?? facts[row.stageFact]?.text)
+      : undefined;
     if (stage !== undefined && row.stageMark && facts[row.stageMark.fact])
       return `${stage}:${row.stageMark.mark}`;
     // The one the record names in a fact (the executive who signed) tells
@@ -1172,7 +1224,10 @@ export function composeJournal(
       !!selfCount ||
       !!moment.selfNamed ||
       !facts.other ||
-      moment.causeKind === "family:child";
+      moment.causeKind === "family:child" ||
+      // The school year's end is the person's own result, whoever the
+      // scene of it was with.
+      moment.causeKind === SCHOOL_FINISHED;
     // A move the household made together is "we".
     const together =
       (selfCount ??
@@ -1235,7 +1290,7 @@ export function composeJournal(
         // Someone else's race is told by the record's result for them; a
         // line worded by an event fact (a vote's yes or no) by that fact.
         !own && row.hasOwnLine
-          ? facts.winner?.text === moment.counterpartIds[zero]
+          ? facts.winner?.text === subjectOf(moment)
             ? "won"
             : "lost"
           : stageOf(row, moment, facts),
@@ -1262,7 +1317,7 @@ export function composeJournal(
     if (
       (moment.causeKind === "event:life.death" &&
         !!facts.other &&
-        kin.has(moment.counterpartIds[zero]!)) ||
+        kin.has(subjectOf(moment)!)) ||
       ((moment.causeKind === "job-ended" ||
         moment.causeKind === "job-ended:let-go") &&
         own)
@@ -1316,7 +1371,7 @@ export function composeJournal(
           earlier.hindsight >= interrupt &&
           daysBetween(makeIsoDate(earlier.date), makeIsoDate(moment.date)) >=
             monthSpan &&
-          earlier.counterpartIds.includes(moment.counterpartIds[zero]!),
+          earlier.counterpartIds.includes(subjectOf(moment)!),
       )
       .sort((a, b) => b.hindsight - a.hindsight || a.id.localeCompare(b.id))[
       zero
@@ -1325,7 +1380,7 @@ export function composeJournal(
     // "Susan would come back into my life") is about a person met, never a
     // relative one was born to or raised: "My mother took office. Susan
     // mattered more than I knew." named a mother as a stranger.
-    const counterpart = moment.counterpartIds[zero];
+    const counterpart = subjectOf(moment);
     const relation = counterpart ? kin.get(counterpart)?.relation : undefined;
     const looked =
       relation && !metRelation(relation, words)
