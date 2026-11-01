@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: speed/fold-campaign-money
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-01T21:24:03.715Z
 ---
 
 **What.** Every campaign cash movement (a gift, an ad buy, a mailer, a cause group's ad) writes a row to the campaigns engine's money table and keeps it forever, and the table's slot cache keeps a second copy. A long save of Ringgold, Louisiana held 81,917 rows at year 18, the fifth largest table. Only the posting call itself reads a row: every later reader reads the campaign row's raisedMinor, spentMinor and spentByKind or the cash journal.
