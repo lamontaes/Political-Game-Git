@@ -5,9 +5,9 @@ area: people
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: claude/people-seats-prefer-dressed
-pr:
+pr: #6960
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-01T13:26:00.803Z

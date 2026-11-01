@@ -54,6 +54,8 @@ import {
  * moment it decides (this family's entry, tests/guards/families.json).
  */
 export { webReach, webFactorFor } from "../outcome-web-reach";
+/** The researched starting answers by state, for an engine in another family that reads which states' law lets a product operate (the credit engine's small-dollar lenders). */
+export { POLICY_QUESTIONS } from "../policy-answers";
 /** The research links the web runs, for an engine that reads a person-level link from its own records. */
 export { WEB_LINKS } from "../outcome-web-model";
 /** Each resident's Medicaid coverage as the law reach keeps it, for the health engine and the medical bills. */
