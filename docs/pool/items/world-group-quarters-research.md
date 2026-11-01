@@ -5,11 +5,12 @@ area: world
 kind: research
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: speed/group-quarters-research
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-01T14:15:57.310Z
 ---
 
 **What.** The model has no group quarters: every resident is a household in the housing market. The Census counts group-quarters residents by place and by type (college or university student housing, correctional facilities, military quarters, nursing facilities and other institutional and noninstitutional quarters). In a college town like Storrs, Connecticut, students then seem to rent and are evicted in large numbers. This item gathers the sourced counts the build item reads, so group-quarters residents can be placed outside the rental market in every place.
