@@ -1645,7 +1645,7 @@ export function weekCount(api: CoreAPI, outletId: string): number {
   for (let back = 6; back >= 0; back -= 1)
     for (const i of interviews.query("byOutletDate", [
       outletId,
-      addDays(api.state.date, -back),
+      addDays(makeIsoDate(api.state.date), -back),
     ]) as unknown as InterviewRow[])
       if (i.status !== "declined") taken += 1;
   return taken;
