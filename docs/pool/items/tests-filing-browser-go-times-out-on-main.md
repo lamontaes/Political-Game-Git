@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: play-first/tests-filing-browser-go-times-out-on-main
+pr: #0
 blocked-on:
 source: "Merger 7, Oct 27 12:00 UTC, while rechecking lane PRs"
 lead: play-first
@@ -30,3 +30,5 @@ claimed-at:
 **Files.** src/bench/filing.browser.mjs, src/bench/filing.ts, src/bench/ui/
 
 **Notes.** Merger 7, Oct 27 12:00 UTC: "Main's filing.browser.mjs times out on the Go button on main itself." Lead: play-first.
+
+- 2026-11-01 (lane): `filing.browser.mjs` on main at the Nov 1 head, bench restarted: 10 runs in drawn places, 9 passed and 1 timed out once on a locator wait that was not captured and did not repeat in the next nine runs. Passing places and seeds: Hutchinson, Minnesota (46b36f69-4bcd-4b9b-85e4-bfbb51e44efb), Copper City, Michigan (17f1a92c-70ea-421a-a950-309adcc2ca36), Beulah, Michigan (c2643b2e-5440-45b7-b688-8fc852cbe5d7), San Roque, Northern Mariana Islands (e7e8d341-9f8d-4d21-9e44-88f6ea8c0d05) and five more. The Oct 27 stale-selector cause is gone with the check's rewrite; the one unreproduced timeout is noted here, not chased.
