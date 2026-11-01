@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: governing/candidates-never-help-rival
-pr:
+pr: #7069
 blocked-on:
 source: governing lead, Oct 30 (review of the played-year proof: Moundridge, Kansas)
 lead: governing

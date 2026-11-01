@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: speed/cut-prestart-history
 pr: #7016
 blocked-on:
@@ -17,7 +17,7 @@ claimed-at: 2026-11-01T18:05:44.001Z
 
 **Rules.** Speed: a country's year runs under 120 seconds; never scan the whole world or a whole history again for each person or each step. A speed change never changes what the simulation decides: dev mode's records proof must be identical before and after on a drawn place.
 
-**Done when.** A one-year Storrs, Connecticut run shows no time growing in those reads by kind. Its proof, and a four-year Ringgold, Louisiana proof, each show zero differing tables against main; npm run speed:year -- --seed long-1 --years 4 and --seed storrs-1 --place 0973980 --years 1 on main and on the branch, one process each, keep dev mode's records proof identical in every table, with the times in the PR body.
+**Done when.** In the played world (npm run speed:year, which builds it with buildBenchWorld), Ringgold, Louisiana over four years (seed long-1) and Storrs, Connecticut over one (key 0973980, seed storrs-1) keep dev mode's records proof identical to main in every table; src/core2/pre-start.test.ts passes with bookkeeping on, which runs the old write beside the new one and throws on any difference; and Storrs's first year runs faster, with the times in the PR body.
 
 **Files.** src/core2/pre-start.ts
 

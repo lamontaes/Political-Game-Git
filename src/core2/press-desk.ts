@@ -31,6 +31,15 @@ import {
   VIEWS_MODULE_ID,
   VIEWS_SPEAKER_KEY,
 } from "./modules/views";
+import { residentsRuntime } from "./modules/residents";
+
+/**
+ * The facts that name the counted household a record happened to and its
+ * members (the drives engine's countedHousehold and countedSubjects keys,
+ * written by housing-homeless `countedFacts`).
+ */
+const COUNTED_HOUSEHOLD = "counted-household";
+const COUNTED_SUBJECTS = "counted-subjects";
 
 /** The record kinds a local outlet prints in its briefs column. */
 const BRIEF_KINDS: ReadonlySet<string> = new Set(briefs.kinds);
@@ -651,6 +660,23 @@ export function runDesk(
   const core = api.state as CoreState;
   const inTown = (id: string) =>
     core.people.get(id)?.placeId === ctx.townPlaceId;
+  // The counted people a record happened to (a counted household's eviction
+  // names its members by its facts, not as people), in town by the same rule
+  // as a full subject: where their counted record lives, or where they live
+  // once filled in.
+  const counted = residentsRuntime(core)?.store;
+  const countedInTown = (item: WireItem): number => {
+    const listed = item.facts?.[COUNTED_SUBJECTS];
+    if (!listed) return api.parameter("zero");
+    const h = counted?.liveHousehold(item.facts?.[COUNTED_HOUSEHOLD] ?? "");
+    const here =
+      h?.placeId === ctx.townPlaceId
+        ? new Set(counted!.memberIdsOf(h))
+        : undefined;
+    return (JSON.parse(listed) as string[]).filter((id) =>
+      core.people.has(id) ? inTown(id) : here?.has(id) === true,
+    ).length;
+  };
   // A law taking effect names no one, but it involves the outlet's followers
   // it reaches: the named ones the law-reach records name (every named
   // follower where they hold no record for it, since a law in force binds the
@@ -726,7 +752,10 @@ export function runDesk(
       ),
       readerCare: Math.max(care.get(item.topic) ?? 0, amountMove(item)),
       people: Math.log1p(
-        Math.max(item.subjectIds.filter(inTown).length, involved(item)),
+        Math.max(
+          item.subjectIds.filter(inTown).length + countedInTown(item),
+          involved(item),
+        ),
       ),
       renown: Math.log1p(
         item.subjectIds.filter((id) => isPublicFigure(api, id)).length +

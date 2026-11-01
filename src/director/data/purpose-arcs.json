@@ -3004,6 +3004,39 @@
         }
       ]
     },
+    "filing-petition": {
+      "state": "tell",
+      "replies": ["agree", "ask", "confront", "leave"],
+      "follow": {
+        "agree": ["thank"],
+        "ask": ["answer"],
+        "confront": ["refuse"]
+      },
+      "again": {
+        "answer": ["agree", "leave"],
+        "refuse": ["agree", "leave"]
+      },
+      "endings": [
+        {
+          "id": "next-steps",
+          "label": "You know what comes next",
+          "keeps": "none",
+          "when": { "reply": ["agree"] }
+        },
+        {
+          "id": "asked-what-it-takes",
+          "label": "You asked what it takes",
+          "keeps": "none",
+          "when": { "anyReply": ["ask"] }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
     "care-visit": {
       "state": "request",
       "replies": ["agree", "ask", "comfort", "deflect"],
