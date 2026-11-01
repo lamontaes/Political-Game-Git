@@ -91,6 +91,7 @@ Write one section at the top of `OWNER-DECISIONS.md` headed "Acting CTO, <date>"
 - **Close an item on someone's word only after checking it on main** (Nov 1): run the test the item names, or confirm the PR that carried it merged into `main` (not into a stacked branch), then `npm run pool -- status <id> done --by=cto` and a Notes line saying what proved it. A PR whose line 1 named the item but never flipped it (#6521, #6523) is closed the same way.
 - **A ruling that a measurement then overturns is amended in place, not stacked** (Nov 1, the counted-voter habit): write "Amended HH:MM" under the same entry with the numbers that changed it, and tell the session the old line is withdrawn. A ruling the owner's own earlier words already answered is withdrawn the same hour, and the skill that should have found it gains the search (`look-first`, data files).
 - **Load the checkers evenly by message** (`crew-messages`): read the open PRs by number mod 5, move the oldest from a long queue to an idle checker, and tell both. A checker already mid-gate keeps the PR.
+- **Merging many skills PRs at once:** merge the ones that touch different files first, then each of the rest after merging main into its branch. Where two PRs added sections at the same spot, keep both. Where they rewrote the same line (a numbered step), keep-both duplicates it: rebuild that one line from both sides' facts (Nov 1, `session-start` steps 2 and 6).
 
 ## The prompt
 
