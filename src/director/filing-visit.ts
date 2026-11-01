@@ -33,6 +33,12 @@ export interface FilingContest {
   termYears?: number | null;
   /** The kind of office, for what the clerk says it does: family and body or single seat. */
   kind?: string;
+  /**
+   * The place's own council or board, as its office record names it ("City
+   * Council", "Board of Selectmen"): the body a seat sits on, or the one an
+   * executive's work answers to.
+   */
+  body?: { name: string; recordId: string } | null;
   sourceIds: readonly string[];
 }
 /** GOV's `FilingRequirements`. */
@@ -143,11 +149,21 @@ export function pickContest(
   // The clerk tells the candidate about the race before the paperwork
   // (owner, Oct 28 sitting, 32: "you're running for Trustee ... the primary
   // is this date and the general is this date ... here is what a trustee
-  // does, here is the term"), each line from the contest's records.
-  for (const line of raceTold(core, visit, contest, ids))
-    visit.lines.push({ speaker: "clerk", ...line });
-  const stated = visitLine(core, visit, "clerk", "tell-deadline", facts);
-  if (stated) visit.lines.push({ speaker: "clerk", ...stated });
+  // does, here is the term"), from the contest's records, as one answer in
+  // connected sentences, never a list of facts (owner, Nov 1: "it shouldn't
+  // read as a list. That's not how normal people talk.").
+  const told = [
+    ...raceTold(core, visit, contest, ids),
+    visitLine(core, visit, "clerk", "tell-deadline", facts),
+  ].filter((line) => line !== null);
+  if (told.length)
+    visit.lines.push({
+      speaker: "clerk",
+      text: told.map((line) => line.text).join(" "),
+      sourceRecordIds: [
+        ...new Set(told.flatMap((line) => line.sourceRecordIds)),
+      ],
+    });
 
   // Each rule that stops the filing, in the clerk's words, from its record.
   const unmet = checks.filter((row) => !row.met);
@@ -165,8 +181,16 @@ export function pickContest(
     if (line) visit.lines.push({ speaker: "clerk", ...line });
   }
   visit.choices = [];
+  // The player's answer is what they would say: taking the papers to file,
+  // or taking a refusal; the transcript shows only the line they chose.
   const offer = (key: "accept" | "file", action: FilingAction) => {
-    const line = visitLine(core, visit, "player", "accept-terms", facts);
+    const line = visitLine(
+      core,
+      visit,
+      "player",
+      action.kind === "file" ? "take-papers" : "accept-terms",
+      facts,
+    );
     if (line)
       visit.choices.push({
         key,
@@ -185,10 +209,10 @@ export function pickContest(
 }
 
 /**
- * What the clerk says about the race, in order: the office, the dates, the
- * term, the work.
+ * What the clerk says about the race, in order: the office, then the term and
+ * the dates in one breath, then the work.
  */
-const RACE_MOVES = ["tell-running", "tell-dates", "tell-term", "tell-duty"];
+const RACE_MOVES = ["tell-running", "tell-race", "tell-duty"];
 
 /**
  * A line of the filing-clerk scene in the speaker's own voice: the clerk's,
@@ -255,6 +279,11 @@ function raceTold(
   else if (contest.electionDate) facts["no-primary"] = fact("yes");
   if (contest.termYears) facts.term = fact(String(contest.termYears));
   if (contest.kind) facts[`office-${contest.kind}`] = fact("yes");
+  if (contest.body)
+    facts.body = {
+      text: contest.body.name,
+      sourceRecordIds: [contest.body.recordId],
+    };
   const said = new Set<string>();
   return RACE_MOVES.flatMap((move) => {
     const line = visitLine(
@@ -281,10 +310,25 @@ export function counterNarration(
   core: Readonly<CoreState>,
   visit: FilingVisit,
   clerk: { title: string; recordId: string },
+  /**
+   * The player's filing at this counter still gathering signatures, when
+   * there is one: they are back with the petition. Without one, this is
+   * their first visit, to ask for the papers (owner, Nov 1: "You filled out
+   * the forms there").
+   */
+  filing?: { id: string } | null,
 ): { text: string; sourceRecordIds: readonly string[] }[] {
   const person = visit.clerkId ? core.people.get(visit.clerkId) : undefined;
   if (!person) return [];
   const facts: Record<string, Fact> = {
+    ...(filing
+      ? { returning: { text: "yes", sourceRecordIds: [filing.id] } }
+      : {
+          "first-visit": {
+            text: "yes",
+            sourceRecordIds: visit.contests.map((row) => row.id),
+          },
+        }),
     name: {
       text: `${person.givenName} ${person.familyName}`,
       sourceRecordIds: [person.id],

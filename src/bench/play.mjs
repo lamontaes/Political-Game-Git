@@ -1034,18 +1034,13 @@ function narrateFirst(setting, then) {
   fillTalk({ lines: setting, replies: [] });
   setScales({ available: false });
 }
-/** Numbered replies; a key press of the number says it. */
+/**
+ * Numbered replies; a key press of the number says it. Each is shown as the
+ * player's own words, the line the transcript then records (owner, Nov 1:
+ * a choice "should be an actual reply").
+ */
 function replies(choices, onPick) {
-  return choices.map((choice) =>
-    talkReply(
-      choice,
-      // Filing is a control of its own, never worded like acknowledging a refusal.
-      choice.control === "file"
-        ? (controls.filing?.file ?? choice.text)
-        : choice.text,
-      onPick,
-    ),
-  );
+  return choices.map((choice) => talkReply(choice, choice.text, onPick));
 }
 mountTalkKeys(() => $("game").classList.contains("sheet-open"));
 function setScales({ available, on }) {

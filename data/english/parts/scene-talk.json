@@ -72,7 +72,8 @@
     "number": "A count from the record.",
     "reached": "How many people talked with the candidate, from the canvass record.",
     "required": "What a filing rule requires (an age, a residence), from the eligibility rule.",
-    "trail": "The runner-up's votes there, from the count."
+    "trail": "The runner-up's votes there, from the count.",
+    "body": "The place's own council or board, as its office record names it: City Council, Board of Selectmen."
   },
   "maxWords": 70,
   "parts": [
@@ -37786,7 +37787,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "filing-clerk",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["returning"]
         }
       ],
       "bearing": "calm",
@@ -49111,10 +49113,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.you-walk-into-the-where-with-your-forms-in-a-folder-name-is-behind-the",
+      "key": "scene-talk.narrate-narrate.you-walk-into-the-where-with-your-petition-in-a-folder-name-is-at-the-counter-ea",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You walk into the {where} with your forms in a folder. {name} is behind the counter, eating crackers out of a sleeve.",
+      "text": "You walk into the {where} with your petition in a folder. {name} is at the counter, eating crackers out of a sleeve.",
       "uses": [
         {
           "subject": "scene",
@@ -49122,13 +49124,14 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "filing-clerk",
-          "key": "routine"
+          "key": "routine",
+          "requiresFacts": ["returning"]
         }
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
+      "author": "Words, scenes and the director (words-clerk-visit-narration-real)",
+      "date": "2026-11-01",
       "tag": {
         "move": "narrate",
         "key": "routine"
@@ -64620,7 +64623,8 @@
           "role": "narrator",
           "purpose": "filing-clerk",
           "key": "routine",
-          "requiresFacts": ["incumbent"]
+          "requiresFacts": ["incumbent"],
+          "excludesFacts": ["returning"]
         }
       ],
       "bearing": "calm",
@@ -64645,7 +64649,8 @@
           "role": "narrator",
           "purpose": "filing-clerk",
           "key": "routine",
-          "requiresFacts": ["incumbent"]
+          "requiresFacts": ["incumbent"],
+          "excludesFacts": ["returning"]
         }
       ],
       "bearing": "calm",
@@ -72560,7 +72565,8 @@
           "role": "narrator",
           "purpose": "filing-clerk",
           "key": "routine",
-          "requiresFacts": ["incumbent"]
+          "requiresFacts": ["incumbent"],
+          "excludesFacts": ["returning"]
         }
       ],
       "bearing": "calm",
@@ -86718,7 +86724,8 @@
           "role": "narrator",
           "purpose": "filing-clerk",
           "key": "routine",
-          "requiresFacts": ["office", "post"]
+          "requiresFacts": ["office", "post"],
+          "excludesFacts": ["returning"]
         }
       ],
       "bearing": "calm",
@@ -86731,10 +86738,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.you-come-in-with-your-forms-name-the-post-is-the-one-behind-the-counter",
+      "key": "scene-talk.narrate-narrate.you-come-back-with-your-petition-in-a-folder-name-the-post-waves-you-over",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You come in with your forms in a folder. {name}, the {post}, is the one behind the counter.",
+      "text": "You come back with your petition in a folder. {name}, the {post}, waves you over.",
       "uses": [
         {
           "subject": "scene",
@@ -86743,13 +86750,13 @@
           "role": "narrator",
           "purpose": "filing-clerk",
           "key": "routine",
-          "requiresFacts": ["post"]
+          "requiresFacts": ["post", "returning"]
         }
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Play-first lane",
-      "date": "2026-10-27",
+      "author": "Words, scenes and the director (words-clerk-visit-narration-real)",
+      "date": "2026-11-01",
       "tag": {
         "move": "narrate",
         "key": "routine"
@@ -117455,10 +117462,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell-running.office-all-right-let-s-get-you-started",
+      "key": "scene-talk.state-tell-running.all-right-office-let-s-get-you-started",
       "move": "state-tell-running",
       "kind": "spoken",
-      "text": "{office}. All right, let's get you started.",
+      "text": "All right, {office}. Let's get you started.",
       "uses": [
         {
           "subject": "scene",
@@ -117471,8 +117478,8 @@
       ],
       "bearing": "calm",
       "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-10-28",
+      "author": "Words, scenes and the director (words-clerk-visit-narration-real)",
+      "date": "2026-11-01",
       "tag": {
         "move": "tell",
         "key": "routine"
@@ -117503,154 +117510,6 @@
       }
     },
     {
-      "key": "scene-talk.state-tell-dates.the-primary-is-primary-and-the-general-election-is-general",
-      "move": "state-tell-dates",
-      "kind": "spoken",
-      "text": "The primary is {primary}, and the general election is {general}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "state",
-          "move": "tell-dates",
-          "role": "asker",
-          "requiresFacts": ["primary"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-10-28",
-      "tag": {
-        "move": "tell",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell-dates.you-d-be-on-the-primary-ballot-primary-and-the-general-is-general",
-      "move": "state-tell-dates",
-      "kind": "spoken",
-      "text": "You'd be on the primary ballot {primary}, and the general is {general}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "state",
-          "move": "tell-dates",
-          "role": "asker",
-          "requiresFacts": ["primary"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-10-28",
-      "tag": {
-        "move": "tell",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell-dates.there-s-no-primary-for-this-one-the-election-is-general",
-      "move": "state-tell-dates",
-      "kind": "spoken",
-      "text": "There's no primary for this one. The election is {general}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "state",
-          "move": "tell-dates",
-          "role": "asker",
-          "requiresFacts": ["no-primary"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-10-28",
-      "tag": {
-        "move": "tell",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell-dates.it-goes-straight-to-the-ballot-the-election-is-general",
-      "move": "state-tell-dates",
-      "kind": "spoken",
-      "text": "It goes straight to the ballot. The election is {general}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "state",
-          "move": "tell-dates",
-          "role": "asker",
-          "requiresFacts": ["no-primary"]
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-10-28",
-      "tag": {
-        "move": "tell",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell-term.it-s-a-term-year-term",
-      "move": "state-tell-term",
-      "kind": "spoken",
-      "text": "It's a {term}-year term.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "state",
-          "move": "tell-term",
-          "role": "asker"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-10-28",
-      "tag": {
-        "move": "tell",
-        "key": "routine"
-      }
-    },
-    {
-      "key": "scene-talk.state-tell-term.if-you-win-you-serve-term-years",
-      "move": "state-tell-term",
-      "kind": "spoken",
-      "text": "If you win, you serve {term} years.",
-      "uses": [
-        {
-          "subject": "scene",
-          "purpose": "filing-clerk",
-          "key": "routine",
-          "step": "state",
-          "move": "tell-term",
-          "role": "asker"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-10-28",
-      "tag": {
-        "move": "tell",
-        "key": "routine"
-      }
-    },
-    {
       "key": "scene-talk.state-tell-duty.the-board-sets-the-town-s-budget-and-passes-its-local-laws-you-d-get-a-vote-on-a",
       "move": "state-tell-duty",
       "kind": "spoken",
@@ -117663,7 +117522,8 @@
           "step": "state",
           "move": "tell-duty",
           "role": "asker",
-          "requiresFacts": ["office-municipalOffice-body"]
+          "requiresFacts": ["office-municipalOffice-body"],
+          "excludesFacts": ["body"]
         }
       ],
       "bearing": "calm",
@@ -117688,7 +117548,8 @@
           "step": "state",
           "move": "tell-duty",
           "role": "asker",
-          "requiresFacts": ["office-municipalOffice-body"]
+          "requiresFacts": ["office-municipalOffice-body"],
+          "excludesFacts": ["body"]
         }
       ],
       "bearing": "calm",
@@ -117713,7 +117574,8 @@
           "step": "state",
           "move": "tell-duty",
           "role": "asker",
-          "requiresFacts": ["office-municipalOffice-single"]
+          "requiresFacts": ["office-municipalOffice-single"],
+          "excludesFacts": ["body"]
         }
       ],
       "bearing": "calm",
@@ -119433,10 +119295,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell-deadline.the-deadline-is-deadline",
+      "key": "scene-talk.state-tell-deadline.it-all-has-to-be-back-to-me-by-deadline",
       "move": "state-tell-deadline",
       "kind": "spoken",
-      "text": "The deadline is {deadline}.",
+      "text": "It all has to be back to me by {deadline}.",
       "uses": [
         {
           "subject": "scene",
@@ -119464,7 +119326,9 @@
       "tag": {
         "move": "tell",
         "key": "routine"
-      }
+      },
+      "author": "Words, scenes and the director (words-clerk-visit-narration-real)",
+      "date": "2026-11-01"
     },
     {
       "key": "scene-talk.state-rule-minimum-age.you-have-to-be-at-least-required",
@@ -125261,6 +125125,700 @@
       "tag": {
         "move": "thank",
         "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-ve-come-to-ask-about-running-for-office-name-the-post-comes-over-to-the-coun",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You've come to ask about running for office. {name}, the {post}, comes over to the counter.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["first-visit", "post"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-clerk-visit-narration-real)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-step-up-to-the-counter-to-ask-for-the-papers-to-run-name-the-post-sets-down-",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You step up to the counter to ask for the papers to run. {name}, the {post}, sets down a stack of mail.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["first-visit", "post"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-clerk-visit-narration-real)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.nobody-s-ahead-of-you-at-the-post-s-office-name-looks-up-and-asks-what-you-need",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "Nobody's ahead of you at the {post}'s office. {name} looks up and asks what you need.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["first-visit", "post"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-clerk-visit-narration-real)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-ve-come-to-ask-about-running-for-office-name-the-post-comes-over-to-the-coun-2",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You've come to ask about running for {office}. {name}, the {post}, comes over to the counter.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["first-visit", "post", "office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-clerk-visit-narration-real)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-re-here-to-pick-up-the-papers-to-run-for-office-name-the-post-pulls-them-fro",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You're here to pick up the papers to run for {office}. {name}, the {post}, pulls them from a drawer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["first-visit", "post", "office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-clerk-visit-narration-real)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-bring-your-petition-back-to-the-counter-name-the-post-takes-it-and-starts-to",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You bring your petition back to the counter. {name}, the {post}, takes it and starts to count the names.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["returning", "post"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-clerk-visit-narration-real)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-re-back-at-the-post-s-counter-with-your-petition-name-recognizes-you-and-hol",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You're back at the {post}'s counter with your petition. {name} recognizes you and holds out a hand for it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["returning", "post"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-clerk-visit-narration-real)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-race.it-s-a-term-year-term-and-there-s-no-primary-so-you-d-go-straight-onto-the-ballo",
+      "move": "state-tell-race",
+      "kind": "spoken",
+      "text": "It's a {term}-year term, and there's no primary, so you'd go straight onto the ballot {general}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-race",
+          "role": "asker",
+          "requiresFacts": ["term", "general", "no-primary"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-clerk-visit-narration-real)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-race.you-d-serve-term-years-there-s-no-primary-for-this-one-so-it-all-comes-down-to-g",
+      "move": "state-tell-race",
+      "kind": "spoken",
+      "text": "You'd serve {term} years. There's no primary for this one, so it all comes down to {general}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-race",
+          "role": "asker",
+          "requiresFacts": ["term", "general", "no-primary"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-clerk-visit-narration-real)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-race.it-s-term-years-if-you-win-no-primary-just-the-one-election-general",
+      "move": "state-tell-race",
+      "kind": "spoken",
+      "text": "It's {term} years if you win. No primary, just the one election, {general}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-race",
+          "role": "asker",
+          "requiresFacts": ["term", "general", "no-primary"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-clerk-visit-narration-real)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-race.it-s-a-term-year-term-the-primary-is-primary-and-if-you-get-through-that-the-gen",
+      "move": "state-tell-race",
+      "kind": "spoken",
+      "text": "It's a {term}-year term. The primary is {primary}, and if you get through that, the general is {general}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-race",
+          "role": "asker",
+          "requiresFacts": ["term", "general", "primary"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-clerk-visit-narration-real)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-race.you-d-serve-term-years-first-comes-the-primary-primary-and-then-the-general-gene",
+      "move": "state-tell-race",
+      "kind": "spoken",
+      "text": "You'd serve {term} years. First comes the primary, {primary}, and then the general, {general}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-race",
+          "role": "asker",
+          "requiresFacts": ["term", "general", "primary"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-clerk-visit-narration-real)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-race.it-s-a-term-year-term-the-primary-s-primary-the-general-s-general",
+      "move": "state-tell-race",
+      "kind": "spoken",
+      "text": "It's a {term}-year term. The primary's {primary}, the general's {general}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-race",
+          "role": "asker",
+          "requiresFacts": ["term", "general", "primary"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-clerk-visit-narration-real)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-race.there-s-no-primary-for-this-one-so-you-d-go-straight-onto-the-ballot-general",
+      "move": "state-tell-race",
+      "kind": "spoken",
+      "text": "There's no primary for this one, so you'd go straight onto the ballot {general}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-race",
+          "role": "asker",
+          "requiresFacts": ["general", "no-primary"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-clerk-visit-narration-real)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-race.no-primary-just-the-one-election-general",
+      "move": "state-tell-race",
+      "kind": "spoken",
+      "text": "No primary, just the one election, {general}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-race",
+          "role": "asker",
+          "requiresFacts": ["general", "no-primary"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-clerk-visit-narration-real)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-race.the-primary-is-primary-and-the-general-is-general",
+      "move": "state-tell-race",
+      "kind": "spoken",
+      "text": "The primary is {primary}, and the general is {general}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-race",
+          "role": "asker",
+          "requiresFacts": ["general", "primary"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-clerk-visit-narration-real)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-race.you-d-face-the-primary-primary-then-the-general-general",
+      "move": "state-tell-race",
+      "kind": "spoken",
+      "text": "You'd face the primary {primary}, then the general {general}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-race",
+          "role": "asker",
+          "requiresFacts": ["general", "primary"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-clerk-visit-narration-real)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-race.it-s-a-term-year-term",
+      "move": "state-tell-race",
+      "kind": "spoken",
+      "text": "It's a {term}-year term.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-race",
+          "role": "asker",
+          "requiresFacts": ["term"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-clerk-visit-narration-real)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-duty.you-d-run-things-day-to-day-the-departments-and-the-budget-and-you-d-sign-or-vet",
+      "move": "state-tell-duty",
+      "kind": "spoken",
+      "text": "You'd run things day to day, the departments and the budget, and you'd sign or veto whatever the {body} passes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-duty",
+          "role": "asker",
+          "requiresFacts": ["office-municipalOffice-single", "body"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-clerk-visit-narration-real)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-duty.it-s-the-day-to-day-job-the-departments-the-budget-and-every-ordinance-the-body-",
+      "move": "state-tell-duty",
+      "kind": "spoken",
+      "text": "It's the day-to-day job: the departments, the budget, and every ordinance the {body} sends over for your signature.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-duty",
+          "role": "asker",
+          "requiresFacts": ["office-municipalOffice-single", "body"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-clerk-visit-narration-real)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-duty.you-d-have-a-seat-on-the-body-voting-on-the-budget-and-every-ordinance-that-come",
+      "move": "state-tell-duty",
+      "kind": "spoken",
+      "text": "You'd have a seat on the {body}, voting on the budget and every ordinance that comes before it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-duty",
+          "role": "asker",
+          "requiresFacts": ["office-municipalOffice-body", "body"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-clerk-visit-narration-real)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-duty.the-body-sets-the-budget-and-passes-the-local-laws-and-you-d-get-a-vote-on-all-o",
+      "move": "state-tell-duty",
+      "kind": "spoken",
+      "text": "The {body} sets the budget and passes the local laws, and you'd get a vote on all of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-duty",
+          "role": "asker",
+          "requiresFacts": ["office-municipalOffice-body", "body"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-clerk-visit-narration-real)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-deadline.the-papers-are-due-back-deadline",
+      "move": "state-tell-deadline",
+      "kind": "spoken",
+      "text": "The papers are due back {deadline}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-deadline",
+          "role": "asker"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-clerk-visit-narration-real)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell-deadline.you-ve-got-until-deadline-to-get-it-all-back-to-me",
+      "move": "state-tell-deadline",
+      "kind": "spoken",
+      "text": "You've got until {deadline} to get it all back to me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "tell-deadline",
+          "role": "asker"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-clerk-visit-narration-real)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-take-papers.then-i-d-like-to-take-the-papers",
+      "move": "state-take-papers",
+      "kind": "spoken",
+      "text": "Then I'd like to take the papers.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "take-papers",
+          "role": "asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-clerk-visit-narration-real)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "agree",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-take-papers.let-s-do-it-where-do-i-sign",
+      "move": "state-take-papers",
+      "kind": "spoken",
+      "text": "Let's do it. Where do I sign?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "take-papers",
+          "role": "asked"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-clerk-visit-narration-real)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "agree",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-take-papers.i-m-in-give-me-the-papers",
+      "move": "state-take-papers",
+      "kind": "spoken",
+      "text": "I'm in. Give me the papers.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "take-papers",
+          "role": "asked"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-clerk-visit-narration-real)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "agree",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-take-papers.all-right-i-ll-take-the-papers-and-get-started",
+      "move": "state-take-papers",
+      "kind": "spoken",
+      "text": "All right. I'll take the papers and get started.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "state",
+          "move": "take-papers",
+          "role": "asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-clerk-visit-narration-real)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "agree",
+        "key": "routine"
       }
     }
   ]
