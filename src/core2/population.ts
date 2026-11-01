@@ -1696,10 +1696,17 @@ function openingFamilies(input: OpeningFamilyInput): {
       memberIds: row.memberIds,
       source: kinSource,
     })),
-    familyLinks: kin.parentChildLinks.map((row) => ({
-      id: row.id,
-      kind: "parent-child" as const,
-      personIds: [row.parentId, row.childId] as const,
-    })),
+    familyLinks: [
+      ...kin.parentChildLinks.map((row) => ({
+        id: row.id,
+        kind: "parent-child" as const,
+        personIds: [row.parentId, row.childId] as const,
+      })),
+      ...kin.partnerLinks.map((row) => ({
+        id: row.id,
+        kind: "partner" as const,
+        personIds: row.personIds,
+      })),
+    ],
   };
 }

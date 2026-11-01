@@ -7,11 +7,12 @@ priority: 1
 size: S
 status: in-pr
 claimed-by:
-pr:
+pr: #7081
 blocked-on:
 source: owner playtest of v0.73.0, Nov 1, 23:05 UTC (third batch, a Massachusetts life)
 lead: play-first
 milestone: play-first
+claimed-at: 2026-11-01T22:40:58.003Z
 ---
 
 **What.** Owner, Nov 1 playtest of v0.73.0, at the clerk's counter: "Okay, so it says, what can I do for you? So again, it shows a bunch of council members. And that little tooltip pops up and then held by this is a terribly designed menu." The talk box lists six "I want to run for Council member." lines, each with a gray line of seat, date and holder, and a hover card covers the lines below it. With campaign-player-files-for-one-council-race the counter offers one race; the choices read as plain lines a person would say, the race's date and seat sit in the line itself, and no hover card covers the list.
