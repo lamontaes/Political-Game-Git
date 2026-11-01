@@ -2333,15 +2333,16 @@ const death: Builder = (read) => {
     : undefined;
   // The office they held, from their latest term's own record, serving or
   // ended at their death (an official's obituary says what they served as).
+  // The table's own rows are read-only: sort a copy.
   const lastTerm = id
-    ? read
-        .query<{ officeId: string; startDate: string }>(
+    ? [
+        ...read.query<{ officeId: string; startDate: string }>(
           OFFICES_MODULE_ID,
           "terms",
           "byPerson",
           [id],
-        )
-        .sort((a, b) => b.startDate.localeCompare(a.startDate))[0]
+        ),
+      ].sort((a, b) => b.startDate.localeCompare(a.startDate))[0]
     : undefined;
   const office = id
     ? (read.officeOf(id) ??
