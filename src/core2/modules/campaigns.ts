@@ -395,6 +395,16 @@ interface MoneyRecord {
  * campaign-gift event or the journal's receipts.
  */
 const heldSlots = new WeakMap<object, Map<string, CashJournalSourceSlot>>();
+/**
+ * The ids of the campaign payments posted today, kept for the day only: a
+ * second post of an id on its day throws, as the journal's posted marker did
+ * while every slot was kept. The engine's own ids carry their date, so no
+ * later day repeats one (see postMoney).
+ */
+const postedToday = new WeakMap<
+  object,
+  { readonly date: string; readonly ids: Set<string> }
+>();
 function moneySlot(
   api: CoreAPI,
   id: string,
@@ -3255,10 +3265,19 @@ function postMoney(
     ],
   };
   // The journal reads the record from its held slot while it posts; no table
-  // keeps it. An id is never posted twice: each carries the date and a
-  // running total that every post grows (the donor's gifts, the campaign's
-  // spentMinor; the journal refuses a zero posting), a cause group posts
-  // once a month, and the journal refuses a source not dated today.
+  // keeps it. An id is posted once. The engine's ids carry the date, so no
+  // later day repeats one, and a running total that every post grows (the
+  // donor's gift `totalMinor`, the campaign's `spentMinor`; the journal
+  // refuses a zero posting), so no second post that day does; a cause group
+  // posts once a month. A later fold of the gifts table must keep a donor's
+  // row through the day of its count, or a donation id repeats. A repeat on
+  // its day throws here; buyAdTime's caller names its own id and keeps it
+  // unique.
+  const day = postedToday.get(api.state);
+  const posted = day?.date === date ? day.ids : new Set<string>();
+  if (day?.date !== date) postedToday.set(api.state, { date, ids: posted });
+  if (posted.has(id))
+    throw new Error("Campaign payment is already posted today.");
   holdMoneySlot(api, record);
   const state = api.state as CoreState;
   try {
@@ -3269,6 +3288,7 @@ function postMoney(
       sourceRef: { kind, id },
       postings: record.postings,
     });
+    posted.add(id);
   } finally {
     // The entry is posted: the held slot (a second copy of every posting) is let go.
     heldSlots.get(api.state)?.delete(id);
@@ -3907,7 +3927,9 @@ export function adTimeForSale(api: CoreAPI): boolean {
 /**
  * Buy ad time outside a campaign (a cause group's ad): the buyer pays the
  * seller on the journal and gets the people the ad reaches, the same
- * audience a campaign's ad buys.
+ * audience a campaign's ad buys. `recordId` is the payment's journal source
+ * id and must never repeat (carry the date): no record keeps it once posted,
+ * and only a repeat on the same day throws.
  */
 export function buyAdTime(
   api: CoreAPI,
