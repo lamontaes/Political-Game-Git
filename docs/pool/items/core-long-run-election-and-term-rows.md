@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: speed/fold-election-rows
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-01T22:53:56.640Z
 ---
 
 **What.** Since every state's whole legislature is seated as named officials (PR #7020, merged Nov 1), each election adds a term row per seat and a race, result and return row per race, plus a row per race and voting place, and none is ever dropped. In Kirkman, Iowa (key 1941520, seed 905132a2f8984748), four years on main just before and after that merge, records kept rose from 367,386 to 454,608 at year 4 (+24%): offices.terms 782 to 34,145, voting.places 12,492 to 40,971, and voting races, results and returns about 1,300 to about 14,000 each. The gap grows every election year (+397, +34,480, +52,280 and +87,222 records), so a century-long save keeps decades of every legislature's terms and precinct-level returns.
