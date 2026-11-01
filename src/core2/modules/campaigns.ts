@@ -2835,11 +2835,18 @@ export function spareAgainstGift(
  * and the household's monthly living costs (the month's discretionary budget,
  * where a small political gift of $25 to $100 comes from), and the savings
  * they hold beyond a cushion of months of their own living costs (where a
- * larger gift can come from). Income is the household's one reader
- * (`householdIncome`: its living members' open jobs and recorded income
- * awards); each job's month of pay loses what the law in force where its
- * worker lives withholds from it (`withholdingOnPay`: income tax, Social
+ * larger gift can come from). Income is read through moves' household
+ * reader (`householdIncome`: its living members' open jobs and recorded
+ * income awards); each job's month of pay loses what the law in force where
+ * its worker lives withholds from it (`withholdingOnPay`: income tax, Social
  * Security, Medicare). Shared evenly among the household's adults.
+ *
+ * A member built in a child role carries no living costs of their own (the
+ * opening population puts a household's costs on its heads), so a grown
+ * child at home lives on their share of the household's month: that share
+ * is their month of living costs for the cushion and for the span their
+ * money is weighed against (`weighedAgainst`). Only a household with no
+ * recorded living costs at all leaves the month at zero.
  */
 export function giftBudget(
   api: CoreAPI,
@@ -2865,7 +2872,7 @@ export function giftBudget(
   ];
   const income = householdIncome(api, person.householdId);
   // One month length for the pay, the taxes on it, the bills and the
-  // cushion: the one income reader's.
+  // cushion: the household income reader's.
   const perMonth = income.monthDays;
   let withheld = 0;
   for (const pay of income.wages)
@@ -2883,12 +2890,14 @@ export function giftBudget(
     living += member.livingCostDailyMinor * perMonth;
   }
   const share = Math.max(1, adults);
-  const ownMonth = perMonth * person.livingCostDailyMinor;
+  const householdShare = living / share;
+  const recordedOwn = perMonth * person.livingCostDailyMinor;
+  const ownMonth = recordedOwn > 0 ? recordedOwn : householdShare;
   const cushion = campaignParameter("caseCushionMonths") * ownMonth;
   return {
     monthlyIncomeMinor: income.minor / share,
     monthlyWithheldMinor: withheld / share,
-    monthlyLivingMinor: living / share,
+    monthlyLivingMinor: householdShare,
     discretionaryMinor: Math.max(0, income.minor - withheld - living) / share,
     savingsMinor: Math.max(0, person.liquidMinor - cushion),
     ownMonthLivingMinor: ownMonth,
@@ -2902,21 +2911,24 @@ export function giftBudget(
  * it is small against the span, a few spans for many spans, never in
  * proportion (a dollar weighs less the more of them there are), and never a
  * threshold. The month's spare is weighed against
- * `donationMonthScaleMonths` of their living costs, savings against their
- * cushion (`caseCushionMonths`). With no span (no living costs of their own
- * on record) money counts one for one.
+ * `donationMonthScaleMonths` of their month of living costs, savings against
+ * their cushion (`caseCushionMonths`); a donor with no living costs of their
+ * own takes both from their share of the household's month (`giftBudget`).
+ * Only a household with no recorded living costs at all has no span, and its
+ * money counts one for one (stopgap SG-GOV-gift-no-living-costs).
  */
 function weighedAgainst(minor: number, spanMinor: number): number {
+  // stopgapId: SG-GOV-gift-no-living-costs
   return spanMinor > 0 ? spanMinor * Math.log1p(minor / spanMinor) : minor;
 }
 
 /**
  * Ask someone for money. What they'd give in all slides with their own
  * reasons (`donorReason`) and with what they have to give from
- * (`giftBudget`): a share of the month's income left after their bills, and
- * a share of their savings beyond a cushion; they give what they'd give
- * beyond what they've already given, never past the legal limit or the cash
- * they hold. The money moves from their account to the campaign's through
+ * (`giftBudget`): a share of the month's income left after their bills (never
+ * more than that month's spare), and a share of their savings beyond a
+ * cushion; they give what they'd give beyond what they've already given,
+ * never past the legal limit or the cash they hold. The money moves from their account to the campaign's through
  * the journal, and their running total is kept in one row the next ask reads.
  */
 export function askForDonation(
@@ -2966,16 +2978,26 @@ export function donationAnswer(
   // costs (a dollar weighs less the more they have): the month's spare
   // against a part of a month of them, so a better-paid donor gives more but
   // not in proportion to the pay, and savings against their cushion, so a
-  // nest egg counts about one for one and a fortune a few nest eggs.
-  const fromMonth = weighedAgainst(
+  // nest egg counts about one for one and a fortune a few nest eggs. What
+  // comes out of the month never passes the month's spare itself: a warm
+  // donor with little left gives at most what is left, not more of the
+  // month than they have.
+  const reasonToGive = Math.min(1, reason);
+  const fromMonth = Math.min(
     budget.discretionaryMinor,
-    campaignParameter("donationMonthScaleMonths") * budget.ownMonthLivingMinor,
+    reasonToGive *
+      campaignParameter("donationShareOfMonthPerWarmth") *
+      weighedAgainst(
+        budget.discretionaryMinor,
+        campaignParameter("donationMonthScaleMonths") *
+          budget.ownMonthLivingMinor,
+      ),
   );
-  const fromSavings = weighedAgainst(budget.savingsMinor, budget.cushionMinor);
-  const wanted =
-    Math.min(1, reason) *
-    (fromMonth * campaignParameter("donationShareOfMonthPerWarmth") +
-      fromSavings * campaignParameter("donationShareOfCashPerWarmth"));
+  const fromSavings =
+    reasonToGive *
+    campaignParameter("donationShareOfCashPerWarmth") *
+    weighedAgainst(budget.savingsMinor, budget.cushionMinor);
+  const wanted = fromMonth + fromSavings;
   // Whole dollars: what they'd give in all, less what they've given, never
   // more than they hold. A candidate's own money has no limit (Buckley v.
   // Valeo, 424 U.S. 1, 1976; state limits on contributions likewise cover
