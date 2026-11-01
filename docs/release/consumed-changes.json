@@ -1,6 +1,76 @@
 {
   "entries": [
     {
+      "version": "0.71.0",
+      "releasedOn": "2026-11-01",
+      "revision": "04f4bd7f451c67ab267cb9ea6d5ca139fc8ae503",
+      "changeIds": [
+        "core-speed-stance-reader-once",
+        "gov-m3-01-fiscal-note-at-drafting",
+        "gov-m3-long-running",
+        "play-politics-local-first-page-blank",
+        "play-room-talkable-after-story",
+        "red-main-speech-retold",
+        "tests-printed-briefs-from-measures",
+        "words-endorsement-stance",
+        "words-law-stop-in-force",
+        "words-swearing-in-scene"
+      ]
+    },
+    {
+      "version": "0.70.1",
+      "releasedOn": "2026-11-01",
+      "revision": "33754cbc2a18e81048ae498dbeeeb94051c59dce",
+      "changeIds": [
+        "campaign-endorsed-names-the-stance",
+        "core-speed-electorate-id-order",
+        "crime-justice-2-chk2c",
+        "skills-cto-no-wake-timers",
+        "skills-laws-lead-lessons"
+      ]
+    },
+    {
+      "version": "0.70.0",
+      "releasedOn": "2026-10-30",
+      "revision": "aafc44f3f82c5b31d061b5d5c1797cac163ae104",
+      "changeIds": [
+        "campaign-door-yes-turnout",
+        "campaign-incumbent-comes-home",
+        "campaign-petition-cushion",
+        "core-long-run-circle-causes-fold",
+        "core-long-run-kept-causes-drop",
+        "core-long-run-speech-retellings-fold",
+        "core-speed-campaign-day-chosen-only",
+        "core-speed-chooser-actor-once",
+        "core-speed-emotion-dates-acts",
+        "core-speed-jobs-entry-order",
+        "core-speed-news-contact-telling",
+        "core-speed-work-day-law-attendance",
+        "gov-m3-01-city-attorney-warning-on-the-bill",
+        "people-home-plated-room-first",
+        "play-faces-show-the-moment-a-menu-opens",
+        "play-menus-journal-shared-look",
+        "play-menus-your-office-plates",
+        "play-player-offices-test-for-kind",
+        "play-player-offices-test-redraw-no-other",
+        "release-main-red-campaign-day-local-race",
+        "skills-explicit-push",
+        "skills-people-draw-ahead",
+        "skills-pool-add-then-check",
+        "skills-speed-work",
+        "skills-words-test-picks",
+        "speed-year-four-years",
+        "tests-campaign-forum-volunteers-redraw",
+        "words-bill-paper-lawyer-for",
+        "words-bill-sections-dated",
+        "words-failed-bill-colleague",
+        "words-journal-signing",
+        "words-press-endorsements",
+        "words-red-debate-sitting-read",
+        "words-red-director-literal"
+      ]
+    },
+    {
       "version": "0.69.0",
       "releasedOn": "2026-10-30",
       "revision": "f8b044762b7d4d7819b3efce7fd43461524f5509",

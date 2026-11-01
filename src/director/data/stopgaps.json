@@ -455,5 +455,29 @@
     "addedAt": "2026-10-29",
     "replacement": "purpose-scene sets promised-against for a recall petition when the member's filed platform takes the stand against the bill's question, or a scene reply recorded a promise against it, citing that record.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORDS-swearing-in-no-court",
+    "kind": "missing-record",
+    "file": "src/director/swearing-in.ts",
+    "line": 1,
+    "whatItFakes": "Who gives the oath at a swearing-in. Real oaths are given by a judge, a justice or a notary (a state's chief justice swears in a governor); the world keeps no courts or notaries, so the oath is given by the clerk who took the winner's filing or keeps the government's papers, else the holder who left the seat that day, else the body's presiding officer. A clerk at the state level, and every fallback, marks this stopgap.",
+    "why": "Courts come after early access (AGENTS.md). Ask why: the officiant is always a person a record names (the filing clerk, the town's or county's clerk, the seat's ended term, the leadership engine's presiding officer); with none on record the scene is not staged, and no one is invented.",
+    "addedBy": "Words session",
+    "addedAt": "2026-10-29",
+    "replacement": "The justice engine's judges and justices, cast by the court that swears in each office (a chief justice for a governor, a local judge for a council), read in oathGiver ahead of the clerk.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-swearing-in-address-in-scene",
+    "kind": "missing-hook",
+    "file": "src/director/inaugural-address.ts",
+    "line": 1,
+    "whatItFakes": "The inaugural address of a mayor, county executive or governor is recorded as heard (speech.heard) only when the player plays their own swearing-in and chooses to speak; the world's other executives give no inaugural, because the office-day engine has only the annual address. The speech's occasion is read from its record id (speech:inaugural:...), as SG-DIRECTOR-speech-occasion reads every speech's.",
+    "why": "The simulation should give the address for any sworn-in executive and the scene should read it (owner, Oct 29: the player's slice of a world event). The office-day engine's acts belong to the governing lead; the scene was built against the smallest stand-in.",
+    "addedBy": "Words session",
+    "addedAt": "2026-10-29",
+    "replacement": "An inaugural act in the office-day engine, run for any sworn-in executive, that calls deliverSpeech with an occasion fact; the swearing-in scene then reads that record, and the existing address type stages it for the people who hear it.",
+    "status": "open"
   }
 ]

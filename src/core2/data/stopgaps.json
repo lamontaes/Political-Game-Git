@@ -7821,5 +7821,17 @@
     "addedAt": "2026-10-30",
     "replacement": "The executive engine seats each other body's own lawyer as an appointment the way it seats the town's City Attorney (the county attorney from the county forms in executive-powers-2026.json, township counsel and legislative counsel from research on who advises each kind of body), and the paper names that appointment's title in bill-paper.authority.disputed.",
     "status": "open"
+  },
+  {
+    "id": "SG-PLAY-home-plated-room-first",
+    "kind": "placeholder-art",
+    "file": "src/bench/scene.ts",
+    "line": 422,
+    "whatItFakes": "A household's living room is picked from the rooms of its dwelling's list that have a mannequin plate, when any has one, so every house shows the same plated living room (house-suburban-living) and the other house rooms (suburban-house, large-house, the regional houses) are not shown.",
+    "why": "People are drawn only on a plate (owner, Oct 28 and 29), and only house-suburban-living of the house living rooms has one; without the preference about a third of opening evenings drew nobody and nobody could be talked to (people-home-plates).",
+    "addedBy": "claude/people-home-plated-room-first",
+    "addedAt": "2026-10-30",
+    "replacement": "Plates for every house living room (people-home-plates); once each room the lists name has one, the preference picks from the whole list and is deleted.",
+    "status": "open"
   }
 ]
