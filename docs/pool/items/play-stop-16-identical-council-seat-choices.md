@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: done
 claimed-by:
-pr:
+pr: #6791
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first

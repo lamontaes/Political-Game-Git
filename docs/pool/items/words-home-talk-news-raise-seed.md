@@ -5,12 +5,13 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: words/home-talk-news-headline
+pr: #6770
 blocked-on:
 lead: words
 source: added with npm run pool -- add
+claimed-at: 2026-10-29T17:06:46.807Z
 ---
 
 **What.** src/director/conversation-home-lines.test.ts fails in Wanamassa, New Jersey (GOLDEN_PATH_SEED=a1ed80950fac27866116967e1dcfc3d3600c3892) on clean main at 083ab41dad: the news-raise-heard pieces never play over 400 pairs' talks a month in, so 'expected 0 to be greater than 0'. Either nobody in that town heard a story to raise, or the raise is never reached; which one is not known yet. Only this one town was run on Oct 29, so whether other towns fail the same way is not known.

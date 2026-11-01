@@ -60,3 +60,7 @@ docs/dehardwire/census.json
 scripts/audit/scan-result.json
 .bench-local/
 __pycache__/
+
+# Helper agents work in their own git worktrees here; a nested worktree is
+# not part of this checkout and breaks the source digest every Vitest run takes.
+.claude/worktrees/

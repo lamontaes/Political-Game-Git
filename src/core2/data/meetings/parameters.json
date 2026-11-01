@@ -49,6 +49,12 @@
       "source": "Days before a general election a local station or paper hosts the race's debate or forum.",
       "spread": [7, 30]
     },
+    "debateLapseDaysBefore": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "Days before a general election when a debate the player has not sat for goes on without the sitting: the eve, the last day a station can air it.",
+      "spread": [0, 3]
+    },
     "questionsPerDebate": {
       "value": 4,
       "tag": "TUNABLE",

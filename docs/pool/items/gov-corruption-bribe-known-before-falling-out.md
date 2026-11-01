@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/bribe-known-before-falling-out
 pr: #6717
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-28T23:03:58.481Z
 **Files.** src/core2/corruption.test.ts,src/core2/modules/corruption.ts
 
 **Notes.** TODO
+
+Oct 29 (CTO): set done; PR #6717 merged (the done flip failed while branch protection refused the flip job's push).

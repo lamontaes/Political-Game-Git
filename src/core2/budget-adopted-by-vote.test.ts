@@ -16,7 +16,10 @@ import { advanceCore } from "./life";
 import { budgetsOf, governments } from "./modules/budgets";
 import { coreAPI } from "./state";
 
-const seed = process.env.BUDGET_VOTE_SEED ?? randomBytes(8).toString("hex");
+const seed =
+  process.env.BUDGET_VOTE_SEED ??
+  process.env.GOLDEN_PATH_SEED ??
+  randomBytes(8).toString("hex");
 
 it("every government's budget in a played year is adopted by a vote", () => {
   setBookkeeping(false);

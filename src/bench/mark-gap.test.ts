@@ -32,12 +32,21 @@ it("marking a line as a gap writes one record naming the scene and the line, and
   const world = benchWorld();
   const core = world.core!;
   const ids = [...core.people.values()].filter((p) => p.alive).map((p) => p.id);
-  const [me, other] = ids;
+  const [me] = ids;
   world.player!.select(me!);
-  const opened = await ask("POST", `/api/talk/open?otherId=${other}`);
-  expect(opened.status, where).toBe(200);
-  const lines = opened.json.lines as { text: string }[];
-  expect(lines.length, where).toBeGreaterThan(0);
+  // A talk with a line to mark: with nothing on record to say, a talk says
+  // nothing (owner, Oct 24), as two housemates did in Port Vincent,
+  // Louisiana (place seed e1af7e0c...), so the next person in order is
+  // asked, at most 20.
+  let opened = { status: 0, json: {} as Record<string, unknown> };
+  let lines: { text: string }[] = [];
+  for (const other of ids.slice(1, 21)) {
+    opened = await ask("POST", `/api/talk/open?otherId=${other}`);
+    expect(opened.status, where).toBe(200);
+    lines = opened.json.lines as { text: string }[];
+    if (lines.length) break;
+  }
+  expect(lines.length, `${where}: no talk had a line`).toBeGreaterThan(0);
   const date = core.date;
   const gaps = await ask("GET", "/api/gaps");
   expect((gaps.json as unknown as unknown[]).length, where).toBe(0);

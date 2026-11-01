@@ -2,6 +2,7 @@ import { readdirSync, readFileSync } from "fs";
 import path from "path";
 import { describe, expect, it } from "vitest";
 import { checkAmericanEnglish } from "../scripts/prose-eval/american-english";
+import { directorSlots } from "../src/english/bank-parts";
 
 /**
  * Part banks: pieces mined from public records (EM-1) and pieces authored to
@@ -144,10 +145,16 @@ describe("English part banks", () => {
 
       it("uses only declared slots and stays within the register's length", () => {
         for (const part of bank.parts) {
-          for (const [, slot] of part.text.matchAll(/\{(\w+)\}/g))
+          // A slot may carry a hyphen ({last-together}); every brace is a
+          // slot's, so the one converter (`directorSlots`) fills it.
+          for (const [, slot] of part.text.matchAll(/\{([\w-]+)\}/g))
             expect(Object.keys(bank.slots)).toContain(slot);
+          expect(
+            directorSlots(part.text).replace(/\{\{[a-z][a-z0-9-]*\}\}/g, ""),
+            part.key,
+          ).not.toMatch(/[{}]/);
           const words = part.text
-            .replace(/\{\w+\},?/g, "")
+            .replace(/\{[\w-]+\},?/g, "")
             .trim()
             .split(/\s+/);
           expect(words.length).toBeLessThanOrEqual(bank.maxWords);

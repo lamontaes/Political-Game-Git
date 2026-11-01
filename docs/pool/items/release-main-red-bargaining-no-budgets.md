@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/laws-bargaining-without-budgets
 pr: #6624
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-28T14:40:52.363Z
 **Files.** src/core2/law-reach/group-a-bargaining.ts,src/core2/world-legislating.test.ts
 
 **Notes.** TODO
+
+Oct 29 (CTO): set done; PR #6624 merged (the done flip failed while branch protection refused the flip job's push).

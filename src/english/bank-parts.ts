@@ -37,7 +37,9 @@ export function admittedParts<P extends { key: string }>(
 }
 
 /**
- * `{my_employer}` becomes the renderer's `{{my-employer}}`. `special` words a
+ * `{my_employer}` becomes the renderer's `{{my-employer}}`, and
+ * `{last-together}` its `{{last-together}}`. The one converter every bank's
+ * slots pass through. `special` words a
  * slot the director names another way ("host" is `{{host}}'s`); it returns
  * nothing for every other slot.
  */
@@ -46,7 +48,7 @@ export function directorSlots(
   special?: (slot: string) => string | undefined,
 ): string {
   return text.replace(
-    /\{(\w+)\}/g,
+    /\{([\w-]+)\}/g,
     (_all, slot: string) => special?.(slot) ?? `{{${slot.replace(/_/g, "-")}}}`,
   );
 }

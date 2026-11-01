@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: fixer/red-main-m1-11-prove-oneself
 pr: #6718
 blocked-on:
@@ -33,3 +33,5 @@ Again at 4fe93cfd9e: Washington, District of Columbia (GOLDEN_PATH_PLACE_KEY=115
 Oct 28 (traits lead): reproduces on clean main 1bc47a861e in Washington, District of Columbia (1150000), seed e3cf7fa8aab01dfe87c0f0b401926f10016022d0c1a7fa15fb68314f42b27e28: 32.5% of 212 displaced workers set out to prove themselves, outside 2.7-30.9%; it turned golden-path-year red on PR #6681 at M1-11 with the same numbers.
 
 Red-main owner, Oct 28 23:10 UTC: red on main 37d1b0bc92 in Woodside East, Delaware (1080895, seed e2b38f391875b77c3600226ccc6bb8eb3896cd3b25046b6ee2bb7d8dec8fc290): 39.1% of 64. Six places drawn from root m1-11-calibration-2026-10-28 at fit 3.4 split by size: Puerto de Luna, New Mexico 12.0% of 25; Armour, South Dakota 11.8% of 17; Murdo, South Dakota 18.7% of 75; Oslo, Minnesota 11.1% of 9; Austin, Minnesota 34.4% of 253; Abington, Massachusetts 37.2% of 293. Not repeat losses (Austin: 249 people for 253 losses) and not a tier (counted 80 of 242, full 7 of 11). The choice is a near tie with carry-on that the loss's pressure and the money need tip. At the calibration commit 1588fd5de0 the same D.C. seed (1150000, e3cf7fa8aab01dfe87c0f0b401926f10016022d0c1a7fa15fb68314f42b27e28) reads 21.1% of 71 displaced workers; at 1bc47a861e, 32.5% of 212. Bisecting 1588fd5de0..5e91d81dd1 for the commit that moved it.
+
+Oct 29 (CTO): set done; PR #6718 merged (the done flip failed while branch protection refused the flip job's push).

@@ -6,7 +6,7 @@ kind: bug
 priority: 2
 size: S
 lead: words
-status: in-pr
+status: done
 claimed-by:
 pr: #6736
 blocked-on:
@@ -22,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** scripts/dialogue-batch/coverage-table.test.ts, scripts/dialogue-batch/stage-world.test.ts, tests/english-exchanges.test.ts, src/director/conversation.test.ts
 
 **Notes.** TODO
+
+Oct 29 (CTO): set done; PR #6736 merged (the done flip failed while branch protection refused the flip job's push).

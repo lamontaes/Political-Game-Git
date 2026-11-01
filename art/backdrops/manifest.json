@@ -3879,7 +3879,7 @@
       "fireflyAssetId": "urn:aaid:sc:US:9cdf20dc-3768-4e69-811c-a7b36860a4aa",
       "referencePhoto": "https://commons.wikimedia.org/wiki/File:Ohio_Statehouse_exterior.jpg",
       "referenceLicense": "CC BY-SA 4.0",
-      "referenceArtist": "Ɱ",
+      "referenceArtist": "\u2c6e",
       "approval": "live-owner-reviews-in-play-2026-09-28",
       "tags": ["kind:state-capitol-oh", "uses:shared-location"]
     },
@@ -3895,7 +3895,7 @@
       "fireflyAssetId": "urn:aaid:sc:US:807df092-8177-4c03-9104-1f1109ad5192",
       "referencePhoto": "https://commons.wikimedia.org/wiki/File:Ohio_Statehouse_exterior.jpg",
       "referenceLicense": "CC BY-SA 4.0",
-      "referenceArtist": "Ɱ",
+      "referenceArtist": "\u2c6e",
       "approval": "live-owner-reviews-in-play-2026-09-28",
       "tags": ["kind:state-capitol-oh", "uses:shared-location"]
     },
@@ -6811,58 +6811,6 @@
       "sourceSha256": "003a3dc2e0a1cae64fc38e8f904617630d5f868970fe93fe03fa19dede7d454e",
       "approval": "live-owner-reviews-in-play-2026-10-12",
       "tags": ["kind:office", "uses:shared-location"]
-    },
-    {
-      "place": "oval-office-resolute",
-      "variant": "midday",
-      "file": "oval-office-resolute__midday.jpg",
-      "width": 1672,
-      "height": 941,
-      "sha256": "d3c179a5a63cd48547f7d4aba48153867112a31728f119d649c3444878da275d",
-      "sourceFile": "oval-office-resolute__midday~2e6b3578.png",
-      "sourceSha256": "d09edef0a3081a597bc0fed1cefbaa2fa7fc17e9250b9749b64002084de57b78",
-      "fireflyAssetId": "urn:aaid:sc:US:2e6b3578-3344-4324-8b50-d38f38493c04",
-      "approval": "owner-placeholder-2026-10-13",
-      "tags": ["kind:oval-office-resolute", "uses:shared-location"]
-    },
-    {
-      "place": "oval-office-resolute",
-      "variant": "morning",
-      "file": "oval-office-resolute__morning.jpg",
-      "width": 1672,
-      "height": 941,
-      "sha256": "cb98ec57a95356cdeccd81b306b52e679ccfb3250883b2ac85e7750b3c2c2df6",
-      "sourceFile": "oval-office-resolute__morning~08715f94.png",
-      "sourceSha256": "492504b8a4c022e542bcf6ddd27298e4cf00a1c9a6b7c5f4be17079acaa8c212",
-      "fireflyAssetId": "urn:aaid:sc:US:08715f94-b8d2-40a9-8cbc-575a3f141ced",
-      "approval": "owner-placeholder-2026-10-13",
-      "tags": ["kind:oval-office-resolute", "uses:shared-location"]
-    },
-    {
-      "place": "oval-office-resolute",
-      "variant": "night",
-      "file": "oval-office-resolute__night.jpg",
-      "width": 1672,
-      "height": 941,
-      "sha256": "90a57dc053bdf9120c7a32bb02c38a08f8bea1667c01d8a86b4245327037fd17",
-      "sourceFile": "oval-office-resolute__night~d608f88f.png",
-      "sourceSha256": "9891db58174534dd9eb4b7e659dbdcdce608d5ec878ff1f156d27bc71a59a4a6",
-      "fireflyAssetId": "urn:aaid:sc:US:d608f88f-437a-43ee-9817-fb4093746569",
-      "approval": "owner-placeholder-2026-10-13",
-      "tags": ["kind:oval-office-resolute", "uses:shared-location"]
-    },
-    {
-      "place": "oval-office-resolute",
-      "variant": "rain",
-      "file": "oval-office-resolute__rain.jpg",
-      "width": 1672,
-      "height": 941,
-      "sha256": "c16d40f7fd6bacb9014645f5cb7c35ccf951a73e4ad1ad216672d96247254c1e",
-      "sourceFile": "oval-office-resolute__rain~4a62e96f.png",
-      "sourceSha256": "9d29aaeffedb4fea2a40dfdf8ef3ad25623c3d4a25326baefd811397066dc3b0",
-      "fireflyAssetId": "urn:aaid:sc:US:4a62e96f-d9bf-4d91-9fa0-994692356e04",
-      "approval": "owner-placeholder-2026-10-13",
-      "tags": ["kind:oval-office-resolute", "uses:shared-location"]
     },
     {
       "place": "park",
@@ -13924,6 +13872,54 @@
       "generator": "Adobe Firefly, Gemini 3.1 (Nano Banana 2), image edit at 1K",
       "approval": "art session, Oct 28 (owner curates in play)",
       "tags": ["kind:university-lecture-hall", "light:night"]
+    },
+    {
+      "place": "white-house-colonnade",
+      "variant": "morning",
+      "file": "white-house-colonnade__morning.jpg",
+      "width": 1365,
+      "height": 768,
+      "sha256": "dc0a4f04183e3401bb235259082b924c818defff81f4750cf0762817bfc72bea",
+      "sourceFile": "white-house-colonnade__morning.jpg",
+      "sourceSha256": "dc0a4f04183e3401bb235259082b924c818defff81f4750cf0762817bfc72bea",
+      "approval": "cto-brief-2026-10-29 people-pack-v3 (owner checks by eye before merge)",
+      "tags": ["kind:white-house-colonnade", "uses:shared-location"]
+    },
+    {
+      "place": "train-depot-platform",
+      "variant": "midday",
+      "file": "train-depot-platform__midday.jpg",
+      "width": 1365,
+      "height": 768,
+      "sha256": "e5ba962ca6801a393653bee195b08d889e728a9a60ebf7b8b5ca8a875bb4d086",
+      "sourceFile": "train-depot-platform__midday.jpg",
+      "sourceSha256": "e5ba962ca6801a393653bee195b08d889e728a9a60ebf7b8b5ca8a875bb4d086",
+      "approval": "cto-brief-2026-10-29 people-pack-v3 (owner checks by eye before merge)",
+      "tags": ["kind:train-depot-platform", "uses:shared-location"]
+    },
+    {
+      "place": "oval-office-standard",
+      "variant": "midday",
+      "file": "oval-office-standard__midday.jpg",
+      "width": 1376,
+      "height": 768,
+      "sha256": "350dbcb1cf351e9eecd7fc29bfb5b72829d48a05f48d820a0cc255fa3028659f",
+      "sourceFile": "oval-office-standard__midday.png",
+      "sourceSha256": "692277349e37f650f763015a320a3f45d2c8ec9203af0eccb154414dfee60d0d",
+      "approval": "cto-brief-2026-10-29 people-pack-v4 (owner checks by eye before merge)",
+      "tags": ["kind:oval-office-standard", "uses:shared-location"]
+    },
+    {
+      "place": "oval-address-standard",
+      "variant": "night",
+      "file": "oval-address-standard__night.jpg",
+      "width": 1376,
+      "height": 768,
+      "sha256": "3ad3513c1fdf820cb71b15275cd3b0e18ab9a9197a17485e488b6d3e326e7e72",
+      "sourceFile": "oval-address-standard__night.png",
+      "sourceSha256": "d390b10d1a873c99b6ee63e09fcdf2aa2d553064d37a27f793024e377e7a543c",
+      "approval": "cto-brief-2026-10-29 people-pack-v4 (owner checks by eye before merge)",
+      "tags": ["kind:oval-address-standard", "uses:shared-location"]
     }
   ]
 }

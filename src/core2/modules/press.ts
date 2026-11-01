@@ -67,7 +67,6 @@ import { promisesOf, votesOf } from "./record";
 import { partySide } from "../appointments";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
 import { CORRUPTION_MODULE_ID, type CrimeRecord } from "./corruption";
-import { familyRelation } from "../closeness";
 import {
   awardsOn,
   CONTRACTS_MODULE_ID,
@@ -107,6 +106,13 @@ import {
 import { countedJobHeads, countedJobsOf } from "../residents-economy";
 import { pressStaffChanged } from "../press-conflict";
 import { isPolicyTopic, wireItem, type WireItem } from "../press-topics";
+import { CRIME_EVENT, CRIME_MODULE_ID } from "./crime";
+import {
+  familyRelation,
+  SCHOOL_MEASURE,
+  SCHOOL_MODULE_ID,
+  type SchoolMeasureRow,
+} from "./people";
 import {
   archiveItem,
   closeness,
@@ -388,8 +394,12 @@ export const PRESS_MODULE: CoreModule = {
       tipOff(api, event);
       return;
     }
-    // Every public record in the town's coverage goes on the wire.
-    if (!event.publicRecord) return;
+    // Every public record in the town's coverage goes on the wire, and the
+    // police log's entries in the town (owner, Oct 29: side stories), which
+    // the paper prints as briefs though the crime record itself is kept.
+    const policeLog =
+      event.kind === CRIME_EVENT && event.placeId === lawChain(api).townPlaceId;
+    if (!event.publicRecord && !policeLog) return;
     const chain = lawChain(api);
     const item = wireItem(api, event, {
       placeId: chain.townPlaceId,
@@ -906,6 +916,41 @@ export function townOutlet(api: CoreAPI): OutletRow | null {
   );
 }
 
+/**
+ * How many of a place's own local newspapers have closed: the outlets of kind
+ * newspaper recorded for it whose business book in the finance ledger carries
+ * a closing date (the owner's choice to close it, or a forced closure), and
+ * the outlet that closed first as the record the count stands on. Zero while
+ * they all publish. Null where the press keeps no local outlet for the place
+ * (no press installed, or a place whose outlets the world does not model), so
+ * a place with no record is not read as one with no closures. The outcome web
+ * reads this as `press.local-newspaper`.
+ */
+export function closedNewspapers(
+  api: CoreAPI,
+  placeId: string,
+): { count: number; recordId: string | null } | null {
+  const local = outletsHere(api).filter(
+    (o) => o.tier !== "national" && o.placeId === placeId,
+  );
+  if (!local.length) return null;
+  const closed = local
+    .filter(
+      (o) =>
+        o.kind === "newspaper" &&
+        api.state.finance.businesses.get(o.organizationId)?.closedAt,
+    )
+    .sort(
+      (a, b) =>
+        api.state.finance.businesses
+          .get(a.organizationId)!
+          .closedAt!.localeCompare(
+            api.state.finance.businesses.get(b.organizationId)!.closedAt!,
+          ) || a.id.localeCompare(b.id),
+    );
+  return { count: closed.length, recordId: closed[0]?.id ?? null };
+}
+
 function scheduleWeek(api: CoreAPI, from: string): void {
   const date = addDays(makeIsoDate(from), 7);
   api.moduleCalendar(PRESS_MODULE_ID).schedule({
@@ -1371,6 +1416,22 @@ export function standingOn(
 }
 
 /**
+ * The vote on a question that a person's record holds last: its id and the
+ * way it went (the position, above zero for the measure), or null for none.
+ * What a sitting's further fact stands on and its lie contradicts.
+ */
+export function lastVoteOn(
+  api: CoreAPI,
+  personId: string,
+  question: string,
+): { readonly id: string; readonly position: number } | null {
+  const vote = votesOf(api, personId)
+    .filter((entry) => entry.stance.question === question)
+    .at(-1);
+  return vote ? { id: vote.id, position: vote.stance.position } : null;
+}
+
+/**
  * How much the town cares about a question, 0 to 1: the summed strength of
  * the stances its people hold on it (PEOPLE's views engine) over the town's
  * adults, read once a day.
@@ -1818,8 +1879,6 @@ export function answerInterview(
     InterviewRow | undefined;
   if (!row || row.status !== "invited")
     throw new Error(`No interview waiting: ${interviewId}`);
-  // stopgapId: SG-PEOPLE-press-interview-conversation
-  api.stopgap("SG-PEOPLE-press-interview-conversation");
   const speaker = speakerOf(api, row);
   const given = row.questions.map((question): InterviewAnswer => {
     const answer = answers.find((a) => a.question === question);
@@ -1828,13 +1887,16 @@ export function answerInterview(
         ? null
         : Math.max(-1, Math.min(1, answer.position));
     const move: InterviewMove = answer?.move ?? "plain";
-    // The record the answer rests on, or that it contradicts.
+    // The record the answer rests on, or that it contradicts: the one the
+    // answer names (a vote the sitting's further fact or lie is about), else
+    // the vote their stand rests on.
     const truth = standingOn(api, speaker, question);
     return {
       question,
       position,
       move,
-      recordId: truth.from === "vote" ? truth.recordId : null,
+      recordId:
+        answer?.recordId ?? (truth.from === "vote" ? truth.recordId : null),
     };
   });
   return publish(api, row, given);
@@ -2027,6 +2089,11 @@ function publish(
       ...(row.contestId ? { contestId: row.contestId } : {}),
       answered: String(statements.length),
       declined: String(answers.length - statements.length),
+      // That the candidate sat for it: the sitting is the interview's scene,
+      // so the director stages no second one after it.
+      ...(api.state.durableLog.has(`${INTERVIEW_ACCEPTED_EVENT}:${row.id}`)
+        ? { sat: "yes" }
+        : {}),
       ...(storyId ? { storyId } : {}),
     },
   });
@@ -2868,6 +2935,92 @@ function rivalsOf(api: CoreAPI, personId: string): readonly string[] {
 }
 
 /** Fresh items on the wire, oldest first. */
+/**
+ * The school year's results reach the desk the week the school engine keeps
+ * them (owner, Oct 29: side stories): how many of the town's seniors
+ * graduated, and the spring tests' proficiency, one item each, worded from
+ * the measure rows themselves (`graduation:<year>`, `tests:<year>`).
+ */
+function schoolResults(api: CoreAPI): void {
+  if (!api.state.modules.has(SCHOOL_MODULE_ID)) return;
+  const town = lawChain(api).townPlaceId;
+  const since = addDays(
+    makeIsoDate(api.state.date),
+    -api.parameter("daysPerWeek"),
+  );
+  for (const row of api
+    .moduleState(SCHOOL_MODULE_ID)
+    .table("measures")
+    .query("byPlace", [town]) as unknown as readonly SchoolMeasureRow[]) {
+    if (row.date < since || row.date > api.state.date) continue;
+    // The tests are told once, by their math row (reading is said with it).
+    const kind =
+      row.measure === SCHOOL_MEASURE.graduation
+        ? "graduation"
+        : row.measure === SCHOOL_MEASURE.math
+          ? "tests"
+          : null;
+    if (!kind) continue;
+    const id = `${kind}:${row.startYear}`;
+    if (table(api, "wire").get(id)) continue;
+    const item: WireItem = {
+      id,
+      kind: `school.${kind}`,
+      date: row.date,
+      level: "town",
+      topic: `school:${town}`,
+      desiredChange: `school.${kind}`,
+      ending: false,
+      subjectIds: [],
+      facts: { measureId: row.id },
+    };
+    table(api, "wire").put(item as unknown as ModuleRow);
+  }
+}
+
+/**
+ * The police log of the month that just closed reaches the desk in the next
+ * month's first week (owner, Oct 29: side stories, "fourth car stolen"): the
+ * crimes the town's residents reported to police, worded from the crime
+ * engine's own month record (`police-log:<month>`). A month with none
+ * reported puts nothing on the wire.
+ */
+function policeLog(api: CoreAPI): void {
+  if (!api.state.modules.has(CRIME_MODULE_ID)) return;
+  if (Number(api.state.date.slice(8, 10)) > api.parameter("daysPerWeek"))
+    return;
+  const town = lawChain(api).townPlaceId;
+  const month = addDays(
+    makeIsoDate(`${api.state.date.slice(0, 8)}01`),
+    -1,
+  ).slice(0, 7);
+  const id = `police-log:${month}`;
+  if (table(api, "wire").get(id)) return;
+  const row = api
+    .moduleState(CRIME_MODULE_ID)
+    .table("months")
+    .get(`${town}:${month}`) as unknown as
+    | { readonly types?: Record<string, { readonly reported?: number }> }
+    | undefined;
+  const reported = Object.values(row?.types ?? {}).reduce(
+    (sum, type) => sum + (type.reported ?? 0),
+    0,
+  );
+  if (!(reported > 0)) return;
+  const item: WireItem = {
+    id,
+    kind: "crime.month",
+    date: api.state.date,
+    level: "town",
+    topic: `crime:${town}`,
+    desiredChange: "crime.month",
+    ending: false,
+    subjectIds: [],
+    facts: { monthId: `${town}:${month}` },
+  };
+  table(api, "wire").put(item as unknown as ModuleRow);
+}
+
 function freshWire(api: CoreAPI): WireItem[] {
   const out: WireItem[] = [];
   const days = pressParameter("storyFreshDays");
@@ -3078,6 +3231,8 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   conflictBeat(api);
   // stopgapId: SG-PEOPLE-press-endorsements
   api.stopgap("SG-PEOPLE-press-endorsements");
+  schoolResults(api);
+  policeLog(api);
   // The week's stories: each reporter files from the fresh wire.
   const wire = freshWire(api);
   // A national outlet covers the nation and the town's own state; a town's
@@ -3253,6 +3408,13 @@ function snubbed(
 
 /** The kind of an outlet's invitation to a candidate to sit for an interview. */
 export const INTERVIEW_INVITED_EVENT = "interview-invited";
+/**
+ * The kind of the record that a candidate said yes to an outlet's invitation:
+ * the sitting is waiting. It names the candidate and the reporter who will
+ * ask; the director stages the sitting from it (`interview-sitting`), and the
+ * candidate's answers, said there, publish the interview (`answerInterview`).
+ */
+export const INTERVIEW_ACCEPTED_EVENT = "interview-accepted";
 /** The replies in an invitation's scene that accept it. */
 export const ACCEPTING_MOVES: ReadonlySet<string> = new Set([
   "agree",
@@ -3329,10 +3491,12 @@ export function platformAnswers(
 }
 
 /**
- * The answer to an outlet's invitation, said in its scene: a yes sits for the
- * interview with the candidate's filed platform as their answers, a no is a
- * refusal on the record (the outlet's people may take it as a snub), and
- * anything else leaves it open until the race is over.
+ * The answer to an outlet's invitation, said in its scene: a yes puts the
+ * sitting on the record (`interview-accepted`, one for each outlet that
+ * asked) and the interview waits for the candidate to sit for it, answering
+ * each question as a line of their own; a no is a refusal on the record (the
+ * outlet's people may take it as a snub); and anything else leaves it open
+ * until the race is over.
  */
 function answerInvitation(api: CoreAPI, event: Readonly<CoreEventInput>): void {
   const facts = event.facts ?? {};
@@ -3344,14 +3508,45 @@ function answerInvitation(api: CoreAPI, event: Readonly<CoreEventInput>): void {
       InterviewRow | undefined;
     if (row?.status !== "invited" || !event.personIds.includes(row.candidateId))
       continue;
-    if (ACCEPTING_MOVES.has(move))
-      answerInterview(
-        api,
-        row.id,
-        platformAnswers(api, row.filingId, row.questions),
-      );
+    if (ACCEPTING_MOVES.has(move)) accepted(api, row, event.id);
     else if (REFUSING_MOVES.has(move)) refuse(api, row);
   }
+}
+
+/**
+ * A candidate said yes to an outlet's invitation: the sitting is on the
+ * record, with the reporter who will ask, for the director to stage. Said
+ * once for an invitation; the interview stays invited until it is sat.
+ */
+function accepted(api: CoreAPI, row: InterviewRow, replyId: string): void {
+  const id = `${INTERVIEW_ACCEPTED_EVENT}:${row.id}`;
+  if (api.state.durableLog.has(id)) return;
+  const ids = [row.candidateId, row.reporterId ?? ""].filter((who) =>
+    api.state.people.has(who),
+  );
+  if (ids.length < 2) return;
+  const outlet = outletsHere(api).find((o) => o.id === row.outletId);
+  const contest = row.contestId ? contestOf(api, row.contestId) : null;
+  api.emit({
+    id,
+    date: api.state.date,
+    kind: INTERVIEW_ACCEPTED_EVENT,
+    personIds: ids,
+    placeId: lawChain(api).townPlaceId,
+    source: {
+      tag: "SOURCED",
+      citation: `Interview ${row.id}, accepted in ${replyId}`,
+      asOf: api.state.date,
+    },
+    facts: {
+      interviewId: row.id,
+      invitedId: row.candidateId,
+      outletId: outlet?.organizationId ?? row.outletId,
+      reporterId: row.reporterId ?? "",
+      ...(row.contestId ? { contestId: row.contestId } : {}),
+      ...(contest ? { office: contest.title } : {}),
+    },
+  });
 }
 
 /** The player turns down an interview an outlet offered. */

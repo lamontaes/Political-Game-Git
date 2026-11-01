@@ -4,6 +4,7 @@ import {
   checkEligibility,
   filingOfficeFor,
   openContests,
+  playerContests,
   petitionOf,
   type RequirementCheck,
 } from "../core2/modules/elections";
@@ -113,7 +114,7 @@ export function openBenchFilingVisit(
   minuteOfDay: number,
 ): BenchFilingVisit {
   const api = coreAPI(core);
-  const open = openContests(api).filter(
+  const open = playerContests(api).filter(
     (row) => filingOfficeFor(api, row.id).filedWith === filedWith,
   );
   // A contest's title is its office, with its district where it has one. Races of the
@@ -185,13 +186,14 @@ export function openBenchFilingVisit(
       reason: "clerk",
     });
   }
+  const backdrop = backdropFor(core, place, minuteOfDay);
   return {
     visit,
     filedWith,
     place,
     intro: clerkRow ? counterNarration(core, visit, clerkRow) : [],
-    backdrop: backdropFor(core, place, minuteOfDay),
-    people: stagePeople(core, place, cast).people,
+    backdrop,
+    people: stagePeople(core, backdrop.file, cast).people,
     names: Object.fromEntries(cast.map((row) => [row.id, row.name])),
     seats,
   };

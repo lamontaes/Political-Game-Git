@@ -119,6 +119,7 @@ import type {
   JobInput,
   OrganizationInput,
   PersonInput,
+  HuskInput,
   Source,
 } from "./types";
 
@@ -1328,6 +1329,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     workCommitments: payroll.workCommitments,
     workPayrollCalendars: payroll.calendars,
     familyLinks: [...familyLinks, ...family.familyLinks],
+    ...(family.husks.length ? { husks: family.husks } : {}),
     focusPersonIds: [],
     focusPlaceIds: [],
     visiblePlaceIds: [
@@ -1405,6 +1407,7 @@ function openingFamilies(input: OpeningFamilyInput): {
   people: PersonInput[];
   households: HouseholdInput[];
   familyLinks: FamilyLink[];
+  husks: HuskInput[];
 } {
   const { world, startedAt, source } = input;
   const kin = buildOpeningKin(
@@ -1494,6 +1497,7 @@ function openingFamilies(input: OpeningFamilyInput): {
         summary: `${death.givenName} ${death.familyName}, this person's ${death.relation}, died.`,
         source: kinSource,
         facts: {
+          otherPersonId: death.personId,
           relation: death.relation,
           givenName: death.givenName,
           familyName: death.familyName,
@@ -1662,8 +1666,30 @@ function openingFamilies(input: OpeningFamilyInput): {
       pastFacts: facts.pastFacts,
     };
   });
+  // A parent who died before day one is a named record with a date of death:
+  // a husk (the tier people loops never count), never filled in.
+  const residentById = new Map(residents.map((row) => [row.id, row] as const));
+  const dead: HuskInput[] = kin.deaths.map((death) => {
+    const survivor = residentById.get(death.survivorId)!;
+    return {
+      id: death.personId,
+      givenName: death.givenName,
+      familyName: death.familyName,
+      placeId: survivor.placeId,
+      ...(survivor.countyId ? { countyId: survivor.countyId } : {}),
+      looks: {
+        gender: death.gender,
+        pronouns: defaultPronounsForGender(death.gender as GenderIdentityKey),
+      },
+      said: [],
+      birthDate: death.birthDate,
+      diedOn: death.date,
+      source: kinSource,
+    };
+  });
   return {
     people: [...residents, ...relatives],
+    husks: dead,
     households: kin.households.map((row) => ({
       id: row.id,
       placeId: row.placeId,

@@ -58,6 +58,12 @@ interface Ending {
    * `screens` in scene-talk-rules.json.
    */
   opens?: string;
+  /**
+   * How firm a kept promise is ("firm" for a vote traded or a yes given,
+   * "vague" for "I'll look at it"): written on the scene's reply record, where
+   * the promise record reads it.
+   */
+  firmness?: string;
   when: {
     reply?: string[];
     asker?: string[];
@@ -79,6 +85,8 @@ interface PurposeArc {
   auto?: { after: string; move: string }[];
   /** Named endings (the first that matches the end of a path wins). */
   endings?: Ending[];
+  /** Reply moves after which the answer ends the exchange: no goodbye follows it (everyday talk). */
+  closes?: string[];
   /** Reply moves that may be offered again after an asker move: { askerMove: [replyMoves] }. */
   repeatable?: Record<string, string[]>;
   /** When an exchange resolves the purpose may go on instead of closing: played once. */
@@ -183,7 +191,13 @@ export interface TreeNode {
     close?: SceneTalkLine;
     /** The named ending this path reaches, and the record the world would keep. */
     /** The named ending, and the game screen it opens, if any ("desk"). */
-    ending?: { id: string; label: string; keeps: string; opens?: string };
+    ending?: {
+      id: string;
+      label: string;
+      keeps: string;
+      opens?: string;
+      firmness?: string;
+    };
   };
 }
 
@@ -343,6 +357,67 @@ function candidatesFor(arc: PurposeArc, move: string): string[] {
   for (let hops = zero; typeof at === "string" && hops < four; hops += one)
     at = table(at);
   return Array.isArray(at) ? at : [];
+}
+
+/**
+ * How a person takes in what the player answered in an everyday talk, by this
+ * engine's own rule (owner, Oct 29: one engine for every line, and calibration
+ * reaches all of it): the `talk` purpose's answer moves for the move the
+ * answer made, each worded from the scene bank fitted to it (`after` names
+ * the move, `afterPiece` the talk's subject and choice), the one the
+ * speaker's traits lean to most, a tie by the stable hash. Null where no
+ * answer move has words. `closes` when the answer ends the talk.
+ */
+export function answerInTalk(
+  core: Readonly<CoreState>,
+  input: {
+    /** The move the player's answer made (conversation-rules.json `replyMoves`). */
+    replyMove: string;
+    /** The talk's subject kind and the choice: "quiet:talk". */
+    answered: string;
+    /** The subject kind, for pieces written for one subject. */
+    key: string;
+    speakerId: PersonId;
+    momentKey: string;
+  },
+): { move: string; text: string; pieceKey: string; closes: boolean } | null {
+  const arc = ARCS.purposes.talk;
+  if (!arc) return null;
+  const traits = core.people.get(input.speakerId)?.traits ?? {};
+  const worded = candidatesFor(arc, input.replyMove).flatMap((candidate) => {
+    const line = wordSceneMove({
+      move: {
+        step: "follow",
+        move: candidate,
+        role: "asker",
+        purpose: "talk",
+        key: input.key,
+        after: input.replyMove,
+        afterPiece: input.answered,
+      },
+      facts: {},
+      seed: core.seed,
+      speakerId: input.speakerId,
+      traits,
+      momentKey: `${input.momentKey}:${candidate}`,
+      said: new Set(),
+    });
+    return line && !("unused" in line) ? [{ candidate, line }] : [];
+  });
+  const [best] = worded.sort(
+    (a, b) =>
+      leanOf(core, b.candidate, traits) - leanOf(core, a.candidate, traits) ||
+      stableHash(`${input.momentKey}:${a.candidate}`).localeCompare(
+        stableHash(`${input.momentKey}:${b.candidate}`),
+      ),
+  );
+  if (!best) return null;
+  return {
+    move: best.candidate,
+    text: best.line.text,
+    pieceKey: best.line.pieceKey,
+    closes: !!arc.closes?.includes(input.replyMove),
+  };
 }
 
 /** Where the exchange stands as a branch grows. */
@@ -585,6 +660,7 @@ export function composeSceneTalk(
           label: found.label,
           keeps: found.keeps,
           ...(found.opens ? { opens: found.opens } : {}),
+          ...(found.firmness ? { firmness: found.firmness } : {}),
         };
         endingCounts[found.id] = (endingCounts[found.id] ?? zero) + one;
       } else

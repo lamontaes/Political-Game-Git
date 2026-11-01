@@ -22,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/corruption.ts, src/core2/modules/contracts.ts, src/core2/modules/interest-groups.ts, src/director/data/situation-types.json (remove awaitingProducer when the record exists)
 
 **Notes.** Filed by Helper E (scenes-from-life). lead: effects. The director half (type, arc, lines) is on words-scene-bribe-offer-envelope.
+
+Oct 29 (Words): the director's `bribe-offer` type still waits on a `bribe-offer` event (src/director/data/situation-types.json). The corruption module records a bribe as a table row and emits only `crime.told` and the scandal report, so nothing offers the player's seat a bribe to answer.

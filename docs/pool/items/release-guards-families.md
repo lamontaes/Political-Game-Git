@@ -5,7 +5,7 @@ area: release
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: claude/guards-families
 pr: #6512
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-28T03:31:36.550Z
 **Files.** tests/guards/families.test.ts, tests/guards/families.json, .github/CODEOWNERS, docs/design/guards.md
 
 **Notes.** TODO
+
+Oct 29 (CTO): set done; PR #6512 merged (the done flip failed while branch protection refused the flip job's push).

@@ -5,8 +5,8 @@ area: words
 kind: bug
 priority: 1
 size: S
-status: claimed
-claimed-by: golden/address-talk-fades
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: golden-path playthrough, Oct 28
@@ -27,3 +27,5 @@ milestone: play-first
 **Screenshot.** None needed: a talk's subject, proven by the test in a drawn place.
 
 **Files.** src/director/conversation.ts, src/director/data/director.json, src/director/household-talk.test.ts
+
+Oct 29 (CTO, second account): claim released; the session that held it ended with the Oct 19 to 29 crews. Branch `golden/address-talk-fades` is kept; claiming this item takes it over.

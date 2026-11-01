@@ -51,17 +51,14 @@ const core = createLifeCore(input, { modules: [director.module] });
 director.start(core);
 advanceCore(core, "2021-02-15");
 
+/** A bank sentence as a pattern, its slots filled by anything. */
+const sentence = (text: string) =>
+  text
+    .replace(/[.*+?^$()|[\]\\]/g, "\\$&")
+    .replace(/\{host\}/g, ".+'s")
+    .replace(/\{\w+\}/g, ".+");
 const mined = (bank: { parts: { text: string }[] }) =>
-  bank.parts.map(
-    (part) =>
-      new RegExp(
-        `^${part.text
-          .replace(/[.*+?^$()|[\]\\]/g, "\\$&")
-          .replace(/\{host\}/g, ".+'s")
-          .replace(/\{\w+\}/g, ".+")}$`,
-        "i",
-      ),
-  );
+  bank.parts.map((part) => new RegExp(`^${sentence(part.text)}$`, "i"));
 
 const WEEKS = 26;
 const DAYS_A_WEEK = 7;
@@ -86,7 +83,9 @@ describe(`mined scenes and bring-it-up in ${base.placeMetadata?.placeName} (seed
       if (world.core.people.get(id)?.alive)
         world.director.watch(world.core, id);
     const words = sceneWordsFromBank();
-    const patterns = mined(SCENE_BANK);
+    const banked = new Map(
+      SCENE_BANK.parts.map((part) => [part.key, part.text]),
+    );
     const read: string[] = [];
     let lines = 0;
     // The town's weeks go by until a staged scene narrates.
@@ -106,9 +105,19 @@ describe(`mined scenes and bring-it-up in ${base.placeMetadata?.placeName} (seed
             words,
           );
           for (const line of scene?.narration ?? []) {
+            // The narrator's paragraph is its sentences in order, each a
+            // bank sentence (a phone scene's setting and its lead: "The phone
+            // rings. Someone is calling about your application.", Hotevilla-
+            // Bacavi, Arizona, run seed chk2-b).
+            const texts = (line.parts ?? []).map((key) => banked.get(key));
+            expect(texts.length, `${where}: ${line.text}`).toBeGreaterThan(0);
             expect(
-              patterns.some((pattern) => pattern.test(line.text)),
-              `${where}: ${line.text}`,
+              texts.every((text) => text !== undefined) &&
+                new RegExp(
+                  `^${texts.map((text) => sentence(text!)).join(" ")}$`,
+                  "i",
+                ).test(line.text),
+              `${where}: ${line.text} (${(line.parts ?? []).join(", ")})`,
             ).toBe(true);
             expect(line.sourceRecordIds.length, line.text).toBeGreaterThan(0);
             read.push(

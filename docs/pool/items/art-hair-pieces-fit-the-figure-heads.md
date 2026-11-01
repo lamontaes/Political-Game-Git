@@ -5,7 +5,7 @@ area: art
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/people-hair
 pr: #6426
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-27T22:07:54.847Z
 **Files.** src/bench/figure-hair.ts (new), src/bench/data/hair-fits.json (new), src/bench/appearance.ts, src/bench/handler.ts, src/bench/scene.ts, src/bench/play.mjs, art/people-engine/v2/hair
 
 **Notes.** From play-stop-33, 2026-10-27 (lane agent 3). The first attempt (an automatic fit by neck, eye and cheek landmarks) is not kept; the hair-mask idea above is the part that worked. Hours: 4 per style group (feminine, masculine). Unblocks play-stop-33.
+
+Oct 29 (CTO): set done; PR #6426 merged (the done flip failed while branch protection refused the flip job's push).

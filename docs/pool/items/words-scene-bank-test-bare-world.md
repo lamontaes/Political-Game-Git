@@ -6,7 +6,7 @@ kind: bug
 priority: 2
 size: S
 lead: words
-status: in-pr
+status: done
 claimed-by: words/scene-bank-played-world
 pr: #6740
 blocked-on:
@@ -23,3 +23,5 @@ claimed-at: 2026-10-29T04:40:48.738Z
 **Files.** src/english/mined/scene-bank.test.ts
 
 **Notes.** TODO
+
+Oct 29 (CTO): set done; PR #6740 merged (the done flip failed while branch protection refused the flip job's push).

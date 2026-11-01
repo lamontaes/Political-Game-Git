@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/tests-housing-line-town-share
 pr: #6602
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-28T07:53:33.353Z
 **Files.** src/core2/law-wiring-housing.test.ts,src/core2/housing-assistance.ts,src/core2/modules/budgets.ts
 
 **Notes.** lead: laws-effects. Filed Oct 28 by the laws-and-effects lead.
+
+Oct 29 (CTO): set done; PR #6602 merged (the done flip failed while branch protection refused the flip job's push).

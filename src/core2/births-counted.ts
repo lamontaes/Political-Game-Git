@@ -40,7 +40,11 @@ import { bookkeeping } from "./bookkeeping";
 import { renewalParameter } from "./births-parameters";
 import { weighUnplanned } from "./births-unplanned";
 import { countedGroupIdOf, countedPayment } from "./counted-money";
-import { DEFAULT_HEALTH_DATA, severityImpulse } from "./modules/health";
+import {
+  DEFAULT_HEALTH_DATA,
+  severityImpulse,
+  youthCannabisShare,
+} from "./modules/health";
 import { inheritedTemperament } from "./opening-personality";
 import {
   addCountedPerson,
@@ -208,6 +212,20 @@ interface Carry {
   births: number;
   /** Each cohort's expected deaths not yet realized, by `deathCohort` key. */
   deaths: Record<string, number>;
+  /**
+   * The month's counted teens and their past-month cannabis users, in real
+   * people: the share a full teen is decided from (modules/health.ts) times
+   * each member's count, and the web month record its factor stands on.
+   */
+  youthCannabis?: YouthCannabisCount;
+}
+
+/** Counted teens' past-month cannabis use in a place for one month. */
+export interface YouthCannabisCount {
+  month: string;
+  teens: number;
+  users: number;
+  webRecordId: string | null;
 }
 
 /** The row of the death carry for debts that belong to no one living. */
@@ -436,6 +454,22 @@ export function applyCountedFlows(
       endPeople: 0,
       endHouseholds: 0,
     };
+    // Counted teens carry the share a full teen is decided from, times their count.
+    const youth: YouthCannabisCount = {
+      month,
+      teens: 0,
+      users: 0,
+      webRecordId: null,
+    };
+    for (const person of people) {
+      const found = youthCannabisShare(api, placeId, ageOf(person, date));
+      if (!found) continue;
+      const weight = weightOfPerson(person);
+      youth.teens += weight;
+      youth.users += weight * found.share;
+      youth.webRecordId ??= found.recordId;
+    }
+    carry.youthCannabis = youth;
 
     // Deaths follow a serious illness, as a full person's do. The ill whose
     // course has run die now. Each cohort's life-table chance, times its

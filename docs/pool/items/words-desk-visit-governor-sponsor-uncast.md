@@ -6,7 +6,7 @@ kind: bug
 priority: 2
 size: S
 lead: words
-status: in-pr
+status: done
 claimed-by:
 pr: #6735
 blocked-on:
@@ -22,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/director/desk-visit-scene.test.ts, src/director/purpose-scene.ts, src/director/scheduling.ts
 
 **Notes.** TODO
+
+Oct 29 (CTO): set done; PR #6735 merged (the done flip failed while branch protection refused the flip job's push).

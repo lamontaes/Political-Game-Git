@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/elections-night-for-voter
 pr: #6632
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-28T15:26:04.693Z
 **Files.** src/bench/results.ts,src/bench/election-night.ts,src/core2/modules/voting.ts
 
 **Notes.** Found by wire-elections-and-campaigns (PR 6614 body). Read: OWNER-DECISIONS (Oct 28), searched pool for election-day, election night, electionNight.
+
+Oct 29 (CTO): set done; PR #6632 merged (the done flip failed while branch protection refused the flip job's push).

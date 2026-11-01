@@ -5,12 +5,12 @@ area: people
 kind: wiring
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/traits-daily-act
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-26T05:19:40.765Z
+claimed-at:
 ---
 
 **What.** The daily chooser (life.daily-act) weighs every trait's pull on each act at the general weight of 1, and the audit found personality turned 14.8% of 29,520 picks with no study to compare.
@@ -24,3 +24,5 @@ Newton, Pladevall-Guyer, Gonzalez and Smith (2018, Health and Retirement Study 2
 **Files.** src/core2/data/parameters.json, data/research/trait-effect-sizes.json, data/content/trait-decision-gaps.json, src/core2/trait-test-kit.ts
 
 **Notes.** Filed Oct 26 by the traits lead; a helper fetched and quoted both studies (scratch research notes); the pick data pull is queued.
+
+Oct 29 (CTO, second account): claim released; the session that held it ended with the Oct 19 to 29 crews. Branch `claude/traits-daily-act` is kept; claiming this item takes it over.

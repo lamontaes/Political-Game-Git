@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by:
 pr: #5898
 blocked-on:
@@ -33,3 +33,5 @@ claimed-at:
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 15:52, 16:00, 16:05, 16:08; screenshots 08, 11, 20, 36, 43, 52, 58. Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md); was m0-m2.
 
 CTO, Oct 25 18:20 UTC: fixed on main by #5898 (merged); the owner's installed-build check closes it.
+
+Oct 29 (CTO): set done; PR #5898 merged (the done flip failed while branch protection refused the flip job's push).

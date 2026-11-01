@@ -5,8 +5,8 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: claimed
-claimed-by: golden/meeting-item-line
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: golden-path playthrough, Oct 28
@@ -27,3 +27,5 @@ milestone: play-first
 **Screenshot.** The before screenshot from Williamstown in the PR; the after is the same panel without the line.
 
 **Files.** src/bench/play.mjs, src/bench/office.ts, src/bench/office-bill-title.test.ts
+
+Oct 29 (CTO, second account): claim released; the session that held it ended with the Oct 19 to 29 crews. Branch `golden/meeting-item-line` is kept; claiming this item takes it over.

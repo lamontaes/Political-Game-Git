@@ -4,7 +4,10 @@ import { bookkeeping } from "./bookkeeping";
 /** Attendance and earned wages only. Cash settlement belongs to the recorded payday. */
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { FinanceReadGuard } from "./finance-plan";
-import { snapshotExplicitControlV1 } from "./player-control-state-v1";
+import {
+  isExplicitlyControlledPersonV1,
+  snapshotExplicitControlV1,
+} from "./player-control-state-v1";
 import { carryTraitScores } from "./choice";
 import { workWeekStart } from "./modules/work";
 import { validateDatedWorkResult } from "./work-state";
@@ -133,12 +136,16 @@ class AttendanceBatch {
     api: CoreAPI,
   ) {
     const r = this.reads;
-    if (r.field(api, "state") !== core)
-      throw new Error("Attendance writer has another actual host.");
-    const expected = owners.get(core),
-      actual = tables(r, core);
-    if (!expected || actual.some((table, index) => table !== expected[index]))
-      throw new Error("Actual attendance write table was replaced.");
+    // The host and table identity checks only throw on a broken invariant:
+    // bookkeeping runs them (tests, the bench), play does not.
+    if (this.viewing) {
+      if (r.field(api, "state") !== core)
+        throw new Error("Attendance writer has another actual host.");
+      const expected = owners.get(core),
+        actual = tables(r, core);
+      if (!expected || actual.some((table, index) => table !== expected[index]))
+        throw new Error("Actual attendance write table was replaced.");
+    }
     this.registry = r.field(r.field(core, "data"), "parameters");
     this.zero = this.parameter("zero");
     this.one = this.parameter("one");
@@ -170,8 +177,11 @@ class AttendanceBatch {
       throw new Error("Duplicate attendance mutation target.");
   }
   map<K, V>(target: Map<K, V>, key: K, next: V): void {
-    this.reads.mapGet(target, key);
-    if (this.viewing) this.noDuplicate(target, key);
+    // The read only feeds the guard's replay; play's would be thrown away.
+    if (this.viewing) {
+      this.reads.mapGet(target, key);
+      this.noDuplicate(target, key);
+    }
     this.operations.push({
       kind: "map",
       target: target as Map<unknown, unknown>,
@@ -180,8 +190,10 @@ class AttendanceBatch {
     });
   }
   delete<K, V>(target: Map<K, V>, key: K): void {
-    this.reads.mapGet(target, key);
-    if (this.viewing) this.noDuplicate(target, key);
+    if (this.viewing) {
+      this.reads.mapGet(target, key);
+      this.noDuplicate(target, key);
+    }
     this.operations.push({
       kind: "delete",
       target: target as Map<unknown, unknown>,
@@ -205,6 +217,14 @@ class AttendanceBatch {
   }
 }
 
+/** A record without its decision: an attendance's basis on its earned period. */
+function omitDecision<T extends { decision?: unknown }>(
+  row: T,
+): Omit<T, "decision"> {
+  const { decision: omitted, ...rest } = row;
+  void omitted;
+  return rest;
+}
 function finite(value: number): number {
   if (!Number.isFinite(value))
     throw new Error("Attendance time/reasons overflow.");
@@ -583,9 +603,10 @@ export function recordWorkAttendance(
 ): WorkAttendanceResult {
   // Play reads the live rows and writes the result; the detached views, the
   // descriptor and Source guards and the dated-result validator run with
-  // bookkeeping on (tests, the bench).
+  // bookkeeping on (tests, the bench), as does the control snapshot that
+  // commit checks; play reads control once, where it decides `detailed`.
   const play = !bookkeeping(),
-    controlSnapshot = snapshotExplicitControlV1(core),
+    controlSnapshot = play ? undefined : snapshotExplicitControlV1(core),
     batch = new AttendanceBatch(core, api),
     r = batch.reads,
     input = play ? raw : shallow(r, raw),
@@ -675,7 +696,9 @@ export function recordWorkAttendance(
     r.field(core, "observer") ||
     r.field(core, "playerId") === actorView.id ||
     r.member(r.field(core, "focusPersonIds"), actorView.id) ||
-    controlSnapshot.personId === actorView.id;
+    (play
+      ? isExplicitlyControlledPersonV1(core, actorView.id)
+      : controlSnapshot!.personId === actorView.id);
   if (!play) {
     if (!input.decision)
       throw new Error("Attendance needs its actual shared-score choice.");
@@ -1101,8 +1124,8 @@ export function recordWorkAttendance(
     source: priorActivity ? r.field(priorActivity, "source") : stored.source,
   });
   batch.map(ledger, commitment.id, detached(r, earned.ledger));
-  const { decision: omittedDecision, ...lastAttendanceBasis } = stored;
-  void omittedDecision;
+  // The basis is kept only on a detailed period, so only then is it copied.
+  const lastAttendanceBasis = detailed ? omitDecision(stored) : undefined;
   const { lastAttendanceBasis: omittedBasis, ...periodFields } = earned.period;
   void omittedBasis;
   batch.map(
@@ -1110,7 +1133,7 @@ export function recordWorkAttendance(
     periodId,
     detached(r, {
       ...periodFields,
-      ...(detailed ? { lastAttendanceBasis } : {}),
+      ...(detailed ? { lastAttendanceBasis: lastAttendanceBasis! } : {}),
     }),
   );
   const periodIndexes = r.field(work, "earnedPayPeriodByCommitmentIndex"),

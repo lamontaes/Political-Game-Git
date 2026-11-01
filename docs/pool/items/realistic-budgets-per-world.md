@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/realistic-budgets-treasury
 pr: #6565
 blocked-on:
@@ -25,3 +25,5 @@ claimed-at: 2026-10-28T06:01:03.275Z
 **Files.** src/core2/modules/budgets.ts, src/core2/budgets-treasury.ts, src/core2/budget-stakes.ts
 
 **Notes.** Filed by the realistic-not-real audit of Oct 27.
+
+Oct 29 (CTO): set done; PR #6565 merged (the done flip failed while branch protection refused the flip job's push).

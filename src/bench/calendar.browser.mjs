@@ -55,11 +55,11 @@ try {
   assert.equal(await page.locator(".calendar-heading h3").innerText(), month);
   // It opens on today, with Coming up beside the month.
   assert.ok(await page.locator(".month .day.today.selected").count());
-  assert.ok((await page.locator(".calendar-side-head h3").innerText()).trim());
+  assert.ok((await page.locator(".calendar-side-head").innerText()).trim());
   // Every line says who and what in words, once; no law rows naming nothing;
   // the player's own dates come first (owner, Oct 27).
   const lines = await page
-    .locator(".calendar-list .calendar-entry")
+    .locator(".calendar-pager .calendar-entry")
     .evaluateAll((rows) =>
       rows.map((r) => ({
         when: r.querySelector(".when")?.textContent ?? "",
@@ -85,13 +85,12 @@ try {
     firstOther === -1 || lines.slice(firstOther).every((l) => !l.own),
     "the player's own dates come first",
   );
-  // The month fills the panel: no empty half under it.
-  const layoutBox = await page.locator(".calendar-layout").boundingBox();
+  // Nothing scrolls as a page: the three parts sit inside the panel.
   const bodyBox = await page.locator("#sheet-body").boundingBox();
-  assert.ok(
-    layoutBox.height >= bodyBox.height * 0.9,
-    "the calendar fills its panel",
-  );
+  for (const part of [".calendar-month", ".calendar-day", ".calendar-side"]) {
+    const box = await page.locator(part).boundingBox();
+    assert.ok(box.y + box.height <= bodyBox.y + bodyBox.height + 1, part);
+  }
   await page.evaluate(() => document.fonts.ready);
   await page.screenshot({
     path: `${process.env.SHOTS ?? "."}/calendar-today.png`,
@@ -100,35 +99,34 @@ try {
   // does not move until it is pressed.
   for (let i = 0; i < 9; i++)
     await page.getByRole("button", { name: "Next month", exact: true }).click();
-  const far = page.locator(".month .day:not(:has(.entry))").nth(10);
+  const far = page.locator(".month .day:not(:has(.marks))").nth(10);
   await far.click();
   const farDate = await page
     .locator(".month .day.selected")
     .getAttribute("data-date");
   assert.ok(
-    (await page.locator(".calendar-side-head h3").innerText()).includes(
+    (await page.locator(".calendar-day h3").innerText()).includes(
       String(Number(farDate.slice(-2))),
     ),
-    "the day's date heads the side",
+    "the day's date heads its plate",
   );
-  const skip = page.locator(".calendar-side-head .skip-forward");
+  const skip = page.locator(".calendar-day .go-to-day");
   assert.equal(await skip.count(), 1);
-  assert.equal((await skip.innerText()).trim(), "");
-  assert.ok(await skip.getAttribute("aria-label"));
+  assert.equal((await skip.innerText()).trim(), "Go to this day");
   assert.equal(await page.locator("#card-clock").textContent(), clock);
   await page.getByRole("button", { name: "Today", exact: true }).click();
-  // A day with something on it shows its line on the tile and lists it beside.
+  // A day with something on it shows its icon on the tile and its line on the plate.
   for (let i = 0; i < 12; i++) {
     if (
       await page
-        .locator(".month .day:not(.today):not(.past):has(.entry)")
+        .locator(".month .day:not(.today):not(.past):has(.marks)")
         .count()
     )
       break;
     await page.getByRole("button", { name: "Next month", exact: true }).click();
   }
   const marked = page
-    .locator(".month .day:not(.today):not(.past):has(.entry)")
+    .locator(".month .day:not(.today):not(.past):has(.marks)")
     .first();
   assert.ok(
     await marked
@@ -136,15 +134,10 @@ try {
       .first()
       .evaluate((img) => img.complete && img.naturalWidth > 0),
   );
-  const tileLine = (
-    await marked.locator(".entry .what").first().textContent()
-  ).trim();
   await marked.click();
   assert.ok(
-    (await page.locator(".calendar-list .what").allTextContents()).includes(
-      tileLine,
-    ),
-    "the chosen day lists what its tile shows",
+    (await page.locator(".calendar-day .what").count()) > 0,
+    "the chosen day's plate lists what its tile marks",
   );
   await page.screenshot({
     path: `${process.env.SHOTS ?? "."}/calendar-day.png`,
@@ -160,7 +153,7 @@ try {
   const target = await page
     .locator(".month .day.selected")
     .getAttribute("data-date");
-  await page.locator(".calendar-side-head .skip-forward").click();
+  await page.locator(".calendar-day .go-to-day").click();
   // Living weeks ahead runs the world day by day, which takes longer than a click.
   await page.waitForFunction(
     (before) =>

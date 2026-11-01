@@ -1,8 +1,9 @@
+/* global document */
 // The newspaper: the menu type of News. The sheet is the paper itself (owner, Oct 28,
 // point 25: "the page, the type, the columns, every story on it"): a front page per
 // outlet (its masthead, the dateline, the lead story with its text and photo, the next
-// stories beside it, the briefs across the foot), a story opened to read under the same
-// masthead, and the outlet tabs. The screen hands it the outlets with their stories in
+// stories beside it, the briefs across the foot), a story opened in place on the same page
+// as its lead, and the outlet tabs. Nothing pages: every story's whole text is printed. The screen hands it the outlets with their stories in
 // words, the labels, the day, and how to name a story and find its photo.
 import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
@@ -82,6 +83,8 @@ export function newspaperScreen({
   photoOf,
 }) {
   let chosen = outlets.keys().next().value;
+  // A story the player opened: it takes the lead's place on the same page.
+  let opened = null;
   const paper = el("section", { className: "paper" });
   const outletPicker = el("nav", { className: "outlet-picker" });
   const imageFor = (story) => {
@@ -112,7 +115,10 @@ export function newspaperScreen({
       className: "paper-masthead-name",
       textContent: outlet.name ?? labels.title,
     });
-    name.onclick = draw;
+    name.onclick = () => {
+      opened = null;
+      draw();
+    };
     if (layout === "broadsheet" || layout === "weekly")
       engraveMasthead(name, outlet);
     return [
@@ -126,36 +132,6 @@ export function newspaperScreen({
   };
   const layoutOf = (outlet) =>
     LAYOUTS.includes(outlet.layout) ? outlet.layout : "broadsheet";
-  // A story opened to read: under the masthead, its headline, its deck when
-  // the lede is not the headline, and every paragraph it has, in columns.
-  const article = (story) => {
-    const outlet = outlets.get(chosen);
-    const text = told(story);
-    const deck =
-      story.paragraphs && story.lede && story.lede !== story.headline
-        ? story.lede
-        : null;
-    paper.replaceChildren(
-      ...masthead(outlet, layoutOf(outlet)),
-      el(
-        "article",
-        { className: "paper-article" },
-        el("h2", {
-          className: "article-title",
-          textContent: headlineOf(story),
-        }),
-        ...(deck
-          ? [el("p", { className: "article-deck", textContent: deck })]
-          : []),
-        ...imageFor(story),
-        el(
-          "div",
-          { className: "article-body" },
-          ...text.map((paragraph) => el("p", { textContent: paragraph })),
-        ),
-      ),
-    );
-  };
   const draw = () => {
     const outlet = outlets.get(chosen);
     const layout = layoutOf(outlet);
@@ -166,21 +142,31 @@ export function newspaperScreen({
     // record rows with kinds and series names are not printed.
     // The lead is the story with the most to print (the paper's written
     // story before a one-line notice); the rest keep their order, newest first.
-    const lead = outlet.stories.reduce(
-      (best, story) =>
-        best && told(best).length >= told(story).length ? best : story,
-      undefined,
-    );
-    const rest = outlet.stories.filter((story) => story !== lead);
+    // Side stories (the words engine's `brief`): a line or two, set in a side column,
+    // never opened as a story.
+    const side = outlet.stories.filter((story) => story.brief);
+    const front = outlet.stories.filter((story) => !story.brief);
+    const lead = front.includes(opened)
+      ? opened
+      : front.reduce(
+          (best, story) =>
+            best && told(best).length >= told(story).length ? best : story,
+          undefined,
+        );
+    const rest = front.filter((story) => story !== lead);
     const withText = rest.filter((story) => told(story).length);
     const briefs = rest.filter((story) => !told(story).length);
-    const storyBlock = (story, className, paragraphs) => {
+    const storyBlock = (story, className) => {
       const headline = makeButton({
         className: "story-headline",
         textContent: headlineOf(story),
       });
-      headline.onclick = () => article(story);
-      const text = told(story).slice(0, paragraphs);
+      headline.onclick = () => {
+        opened = story === lead ? null : story;
+        draw();
+        document.getElementById("sheet-body")?.scrollTo(0, 0);
+      };
+      const text = told(story);
       return el(
         "article",
         { className: `paper-story ${className}` },
@@ -216,13 +202,34 @@ export function newspaperScreen({
       el(
         "div",
         { className: "paper-stories" },
-        ...(lead ? [storyBlock(lead, "lead", 4)] : []),
+        ...(lead ? [storyBlock(lead, "lead")] : []),
         ...(withText.length
           ? [
               el(
                 "div",
                 { className: "paper-column" },
-                ...withText.map((story) => storyBlock(story, "second", 2)),
+                ...withText.map((story) => storyBlock(story, "second")),
+              ),
+            ]
+          : []),
+        ...(side.length
+          ? [
+              el(
+                "aside",
+                { className: "paper-side" },
+                ...side.map((story) =>
+                  el(
+                    "article",
+                    { className: "paper-story side" },
+                    el("h4", {
+                      className: "side-headline",
+                      textContent: headlineOf(story),
+                    }),
+                    ...told(story).map((line) =>
+                      el("p", { className: "story-text", textContent: line }),
+                    ),
+                  ),
+                ),
               ),
             ]
           : []),
@@ -231,7 +238,7 @@ export function newspaperScreen({
               el(
                 "div",
                 { className: "paper-briefs" },
-                ...briefs.map((story) => storyBlock(story, "brief", 0)),
+                ...briefs.map((story) => storyBlock(story, "brief")),
               ),
             ]
           : []),
@@ -248,6 +255,7 @@ export function newspaperScreen({
           label: outlet.name,
           onSelect: () => {
             chosen = key;
+            opened = null;
             draw();
           },
         }),

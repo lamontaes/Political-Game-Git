@@ -177,11 +177,12 @@ export function storyScene(
           why: { cause: purpose.scene.cause, facts: purpose.scene.facts },
         }
       : null;
+  const backdrop = backdropFor(core, pictured, minuteOfDay, personId);
   return {
     momentId,
     place: pictured,
-    backdrop: backdropFor(core, pictured, minuteOfDay, personId),
-    people: stagePeople(core, pictured, cast).people,
+    backdrop,
+    people: stagePeople(core, backdrop.file, cast).people,
     // One narrator: a scene with a purpose opens on its own narration, the
     // same voice that speaks between its lines; the situation's paragraph is
     // for a moment with no exchange (the plan of Oct 28, section 1: "Two

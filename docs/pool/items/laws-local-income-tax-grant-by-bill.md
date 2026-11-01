@@ -6,7 +6,7 @@ area: laws
 kind: wiring
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/local-income-tax-grant-bill
 pr: #6488
 blocked-on:
@@ -23,3 +23,5 @@ claimed-at: 2026-10-28T01:49:58.426Z
 **Files.** scripts/research/build-bill-catalog.py, src/core2/data/legislature/series-powers.json, src/core2/modules/legislature.ts, src/core2/data/stopgaps.json
 
 **Notes.** Relayed by the CTO pass-runner Oct 28 00:30 from the Words lead after #6432 merged; split from laws-nine-links-taxes, whose estate-tax half stays blocked.
+
+Oct 29 (CTO): set done; PR #6488 merged (the done flip failed while branch protection refused the flip job's push).

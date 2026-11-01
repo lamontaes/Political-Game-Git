@@ -2,9 +2,11 @@
 
 > Superseded on October 28, 2026: the count of research links is kept once, at the top of docs/reports/law-wiring-table.md beside the laws, from docs/reports/effect-web-matrix-2026-10-20.json. This report keeps its October 26 numbers as history.
 
-The static matrix refreshed from main on October 26 finds 140 of 237 researched links reaching engine records or carried by an engine, against 5 on October 20. Fifteen have a complete researched split by person; seven more have a partial one. Every other link names why it does not reach. Health, labor, civic and environment are on main; schools and places and services remain in review. These are static wiring counts, separate from the earlier played-year measurements below. People hear the town's conditions through the news. The owner ruled on October 22 that hearing them should move a stance for those the story reached; that change is built and waits on counted readers' stances.
+The static matrix refreshed from main on October 26 finds 140 of 237 researched links reaching engine records or carried by an engine, against 5 on October 20. Fifteen have a complete researched split by person; seven more have a partial one. Every other link names why it does not reach. Health, labor, civic and environment are on main; schools and places and services remain in review.
 
 ## Before and after
+
+These are static wiring counts, separate from the earlier played-year measurements below. People hear the town's conditions through the news. The owner ruled on October 22 that hearing them should move a stance for those the story reached; that change is built and waits on counted readers' stances.
 
 A link is one researched cause and its effect, such as "a point of unemployment raises burglary 3%". On October 20, 5 of the 221 links then researched changed anything a person lives with. On main on October 26, the refreshed matrix counts 140 of 237 reaching or carried, and every other link names why it does not. Six of the links added since the crime family came with the labor law wiring: unemployment insurance's two links into poverty reach, and four payroll taxes' links into unemployment, which the research finds about zero, do not.
 

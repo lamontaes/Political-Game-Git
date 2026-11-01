@@ -69,24 +69,6 @@
       "replacement": null
     },
     {
-      "file": "src/bench/scene.ts",
-      "kind": "fixed-share",
-      "build": "pool:core-zero-dice-shares-in-code",
-      "count": 1,
-      "code": "const HIDDEN_SHARE = 0.25;"
-    },
-    {
-      "file": "src/bench/whole-figures.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "const look = looks[hash(`${person.id}:look`) % looks.length]!;",
-      "class": "PRESENTATION",
-      "keyedBy": "person id",
-      "reason": "Which painted look shows a person: how they appear, not what they do.",
-      "replacement": null
-    },
-    {
       "file": "src/core2/central-bank-board.ts",
       "kind": "list-pick",
       "build": null,
@@ -488,17 +470,6 @@
       "build": "pool:core-zero-dice-shares-in-code",
       "count": 1,
       "code": "export const TOWN_PART_TIME_SHARE: Readonly<Record<string, number>> = {"
-    },
-    {
-      "file": "src/bench/whole-figures.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "return from[hash(`${front.file}:${spot.id ?? \"\"}`) % from.length]!;",
-      "class": "PRESENTATION",
-      "keyedBy": "the person's look and the spot",
-      "reason": "Which painted pose at a lectern, desk or counter shows a person: how they appear there, not what they do.",
-      "replacement": null
     }
   ]
 }

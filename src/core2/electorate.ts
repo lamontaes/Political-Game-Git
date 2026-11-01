@@ -366,6 +366,8 @@ export interface CountedAppeal {
   readonly ballot: number;
   /** A reported scandal, as far as the news reached the town and the voter trusts it. */
   readonly scandal: number;
+  /** Their own "yes" at the candidate's door, as far as it still holds. */
+  readonly pledge: number;
 }
 
 /**
@@ -388,6 +390,12 @@ export function countedAppeal(
     readonly ballotForm?: number;
     /** Their faith and degree, which move their stance on the questions the survey asked. */
     readonly profile?: StanceProfile | null;
+    /**
+     * The candidates they told at the door they would vote for, each with
+     * how far that word still holds (1 as given, toward 0 as something
+     * heavy they learned since undoes it).
+     */
+    readonly pledges?: Readonly<Record<string, number>>;
   },
 ): Record<string, CountedAppeal> {
   const appeal: Record<string, CountedAppeal> = {};
@@ -410,14 +418,19 @@ export function countedAppeal(
     const scandal = where.inTown
       ? -(entry.scandal ?? 0) * (where.trust ?? 1)
       : 0;
+    // Their own word at the door (owner, Oct 29: a "yes" is near-binding).
+    const pledge =
+      campaignParameter("doorPledgeWeight") * (where.pledges?.[entry.id] ?? 0);
     appeal[entry.id] = {
-      total: party + standing + recognition + incumbent + ballot + scandal,
+      total:
+        party + standing + recognition + incumbent + ballot + scandal + pledge,
       party,
       standing,
       recognition,
       incumbent,
       ballot,
       scandal,
+      pledge,
     };
   }
   // The audit's probe (off in play) sees whether the voter backs the incumbent with and without the trait term.

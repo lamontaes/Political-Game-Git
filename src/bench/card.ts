@@ -10,10 +10,9 @@ import { publicKnowledgeOf } from "../core2/past-public";
 import type { CoreState, PersonId } from "../core2/types";
 import { screenLine } from "../english/screen-words";
 import { pronounWords } from "../english/pronoun-words";
-import { circleChanges } from "./circle";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { relationWord, schoolsOf } from "./words";
-import { faceOf, scenePlace, stagePeople } from "./scene";
+import { faceOf, scenePlace } from "./scene";
 import {
   BALANCED_TRAIT,
   PEOPLE_TRAITS,
@@ -151,8 +150,6 @@ export function personCard(core: CoreState, personId: string) {
       ? (viewOf(coreAPI(core), personId)?.label ?? null)
       : null,
     ties,
-    // Who joined or left their five closest this year, from the tie records.
-    circle: circleChanges(core, personId),
     schools: schoolsOf(core, personId),
     // What the law in force puts on this person's record (step 9).
     lawEffects: reachOn(coreAPI(core), personId).map((row) => ({
@@ -191,46 +188,24 @@ function servingOffices(core: CoreState, personId: string): string[] {
   });
 }
 
-const monthWords = (date: string) =>
-  new Date(`${date}T12:00:00Z`).toLocaleDateString("en-US", {
-    month: "long",
-    year: "numeric",
-    timeZone: "UTC",
-  });
-
 /**
  * A person's history as their card tells it, oldest first: one worded line
  * per dated record of their life (birth, school, a move, meeting a partner,
- * a child, a job, a parent's death, an election won) and the tie to the
- * viewer growing closer or apart. Each line names the record it stands on; a
+ * a child, a job, a parent's death, an election won). Never how close the
+ * tie to the viewer is (owner, Oct 29). Each line names the record it stands on; a
  * record whose words the bank cannot fill is left out.
  */
-function personHistory(
+function historyLines(
   core: CoreState,
   viewerId: string,
   other: NonNullable<ReturnType<CoreState["people"]["get"]>>,
-  tie:
-    | {
-        id: string;
-        latestChange?: {
-          date: string;
-          before: { level: number };
-          after: { level: number };
-        };
-      }
-    | undefined,
 ) {
   const personName = (id: unknown) => {
     const row = typeof id === "string" ? core.people.get(id) : undefined;
     return row ? `${row.givenName} ${row.familyName}` : "";
   };
   const facts = other.pastFacts ?? [];
-  const lines: {
-    date: string;
-    key: string;
-    slots: Record<string, string>;
-    recordId: string;
-  }[] = [];
+  const lines: HistoryLine[] = [];
   for (const fact of facts) {
     const year = fact.date.slice(0, 4);
     const f = fact.facts ?? {};
@@ -263,28 +238,172 @@ function personHistory(
     else if (fact.kind === "campaign:elected" && f.office)
       add("office.elected", { office: String(f.office).replace(/-/g, " ") });
   }
-  const change = tie?.latestChange;
-  if (change && change.after.level !== change.before.level)
+  // The years before the start, from the one history every engine reads: the school
+  // they started at, the jobs they held, the seats they reached.
+  const sayPlace = (id: unknown) =>
+    typeof id === "string" && corePlaceByJurisdictionId(id as never)
+      ? corePlaceByJurisdictionId(id as never)!.displayName
+      : "";
+  for (const fact of facts)
+    if (fact.kind === "birthplace") {
+      const place = sayPlace(fact.facts?.placeId);
+      lines.push({
+        date: fact.date,
+        key: place ? "born.place" : "born.year",
+        slots: { year: fact.date.slice(0, 4), place },
+        recordId: fact.id,
+      });
+    }
+  // An official's earlier terms of the same seat, each on its own term record.
+  if (other.id.startsWith("official:")) {
+    const rows = coreAPI(core)
+      .moduleState(OFFICES)
+      .table("terms")
+      .rows() as unknown as TermLike[];
+    const own = rows.find(
+      (row) => row.id === other.id.slice("official:".length),
+    );
+    if (own)
+      lines.push(
+        ...officialLines(core, rows, own).filter(
+          (line) => line.key !== "born.year" && line.recordId !== own.id,
+        ),
+      );
+  }
+  // Everyone has a birth year on their own record, even with no birthplace kept.
+  if (!lines.some((line) => line.key.startsWith("born.")) && other.birthDate)
     lines.push({
-      date: change.date,
-      key:
-        change.after.level > change.before.level ? "tie.closer" : "tie.apart",
-      slots: { month: monthWords(change.date) },
-      recordId: tie.id,
+      date: other.birthDate,
+      key: "born.year",
+      slots: { year: other.birthDate.slice(0, 4) },
+      recordId: other.id,
     });
-  // One school is said once, from the year they started there.
+  for (const school of schoolsOf(core, other.id))
+    lines.push({
+      date: school.date,
+      key: "school.started",
+      slots: { year: school.date.slice(0, 4), school: school.name },
+      recordId: school.recordId,
+    });
+  for (const row of preStartHistory(core, { personId: other.id as PersonId })) {
+    if (row.kind === "person.work-spell") {
+      const employer =
+        core.organizations.get(String(row.facts.organizationId ?? ""))?.name ??
+        "";
+      if (employer)
+        lines.push({
+          date: String(row.facts.startedAt ?? row.date),
+          key: "work.spell",
+          slots: {
+            year: String(row.facts.startedAt ?? row.date).slice(0, 4),
+            employer,
+          },
+          recordId: row.id,
+        });
+    } else if (row.kind === "person.moved-in") {
+      lines.push({
+        date: row.date,
+        key: "moved.in",
+        slots: { year: row.date.slice(0, 4) },
+        recordId: row.id,
+      });
+    } else if (row.kind === "family.partnered") {
+      const partner = core.people.get(
+        String(row.personIds?.find((id) => id !== other.id) ?? ""),
+      );
+      if (partner)
+        lines.push({
+          date: row.date,
+          key: partner.id === viewerId ? "partner.home-you" : "partner.home",
+          slots: {
+            year: row.date.slice(0, 4),
+            name: `${partner.givenName} ${partner.familyName}`,
+          },
+          recordId: row.id,
+        });
+    } else if (row.kind === "school.started" && row.facts.stage) {
+      // Each stage of school after the first is its own line (the first is
+      // the line that names the school).
+      if (
+        row.date ===
+        preStartHistory(core, {
+          kind: "school.started",
+          personId: other.id as PersonId,
+        })[0]?.date
+      )
+        continue;
+      lines.push({
+        date: row.date,
+        key: "school.stage",
+        slots: {
+          year: row.date.slice(0, 4),
+          stage: String(row.facts.stage),
+        },
+        recordId: row.id,
+      });
+    } else if (row.kind === "office.seat-reached") {
+      const office = officeTitle(core, String(row.facts.officeId ?? ""));
+      if (office)
+        lines.push({
+          date: row.date,
+          key:
+            row.facts.reached === "appointed"
+              ? "office.appointed"
+              : "office.elected",
+          slots: { year: row.date.slice(0, 4), office: inSentence(office) },
+          recordId: row.id,
+        });
+    }
+  }
+  return lines;
+}
+
+interface HistoryLine {
+  date: string;
+  key: string;
+  slots: Record<string, string>;
+  recordId: string;
+}
+
+/** Office titles read in running text: "council member", but "U.S. senator". */
+const inSentence = (title: string) =>
+  /^[A-Z][a-z]/.test(title) ? title.toLowerCase() : title;
+
+/**
+ * The lines as the card says them, oldest first, each worded from the bank. One
+ * school is said once, from the year they started there.
+ */
+function tellHistory(lines: readonly HistoryLine[]) {
   const said = new Set<string>();
-  return lines
+  return [...lines]
     .sort((a, b) => a.date.localeCompare(b.date))
     .flatMap((line) => {
+      // The timeline shows the year, so its lines leave it out (Words, #6862).
       const text = screenLine(
         "person-history",
-        `person-history.${line.key}`,
+        `person-history.timeline.${line.key}`,
         line.slots,
       );
-      if (!text || said.has(text.replace(/ in \d{4}\.$/, ""))) return [];
-      said.add(text.replace(/ in \d{4}\.$/, ""));
-      return [{ date: line.date, text, recordId: line.recordId }];
+      if (!text) return [];
+      // The same event from two records (a move the person's own facts and the
+      // moves engine both keep) is said once: the same words in the same year.
+      // One school is said once, whatever year a record starts it.
+      const key =
+        line.key === "school.started"
+          ? text
+          : `${line.date.slice(0, 4)} ${text}`;
+      if (said.has(key)) return [];
+      said.add(key);
+      // The kind of record (born, school, work, office...) picks the
+      // timeline's icon: the bank's move, the key's first part.
+      return [
+        {
+          date: line.date,
+          text,
+          kind: line.key.split(".")[0],
+          recordId: line.recordId,
+        },
+      ];
     });
 }
 
@@ -362,9 +481,74 @@ interface TermLike {
   readonly id: string;
   readonly officeId: string;
   readonly personId?: string | null;
-  readonly identity?: { givenName: string; familyName: string };
+  readonly identity?: {
+    givenName: string;
+    familyName: string;
+    birthDate?: string;
+  };
   readonly startDate: string;
   readonly party: string | null;
+  readonly seatId?: string;
+  readonly reached?: string;
+}
+
+/** When a sitting officeholder's service began, from the public record. */
+function enteredOffice(
+  core: CoreState,
+  personId: string,
+  known: ReturnType<typeof publicKnowledgeOf> | null,
+): HistoryLine[] {
+  const start = known?.serviceStart;
+  const office = servingOffices(core, personId)[0];
+  return start && office
+    ? [
+        {
+          date: start,
+          key: "office.entered",
+          slots: { year: start.slice(0, 4), office: inSentence(office) },
+          recordId: personId,
+        },
+      ]
+    : [];
+}
+
+/** An official's own lines: born, and each term they won or were given. */
+function officialLines(
+  core: CoreState,
+  rows: readonly TermLike[],
+  term: TermLike,
+) {
+  const same = (row: TermLike) =>
+    row.identity?.givenName === term.identity?.givenName &&
+    row.identity?.familyName === term.identity?.familyName &&
+    row.identity?.birthDate === term.identity?.birthDate &&
+    row.seatId === term.seatId;
+  const lines: HistoryLine[] = [];
+  if (term.identity?.birthDate)
+    lines.push({
+      date: term.identity.birthDate,
+      key: "born.year",
+      slots: { year: term.identity.birthDate.slice(0, 4) },
+      recordId: term.id,
+    });
+  for (const row of rows.filter(same)) {
+    const office = officeTitle(core, row.officeId);
+    if (!office) continue;
+    lines.push({
+      date: row.startDate,
+      // By how they reached it; a term whose way in the records do not say is told
+      // as taking office.
+      key:
+        row.reached === "appointed"
+          ? "office.appointed"
+          : row.reached === "elected"
+            ? "office.elected"
+            : "office.entered",
+      slots: { year: row.startDate.slice(0, 4), office: inSentence(office) },
+      recordId: row.id,
+    });
+  }
+  return lines;
 }
 
 /**
@@ -420,7 +604,26 @@ function officialCard(core: CoreState, viewerId: string, id: string) {
         year: Number(term.startDate.slice(0, 4)),
       },
     ],
-    history: [],
+    // Their life from the terms they served (each with its record) and their birth.
+    history: tellHistory([
+      ...officialLines(core, terms.rows() as unknown as TermLike[], term),
+      // Their service began before the term the records hold: the public record's start.
+      ...(publicKnowledge?.serviceStart &&
+      publicKnowledge.serviceStart < term.startDate &&
+      office?.title
+        ? [
+            {
+              date: publicKnowledge.serviceStart,
+              key: "office.entered",
+              slots: {
+                year: publicKnowledge.serviceStart.slice(0, 4),
+                office: inSentence(office.title),
+              },
+              recordId: term.id,
+            },
+          ]
+        : []),
+    ]),
     colleagues: [],
     publicKnowledge: publicKnowledge ?? {
       party: term.party,
@@ -432,6 +635,18 @@ function officialCard(core: CoreState, viewerId: string, id: string) {
     },
     face: faceOf(core, term.id, scenePlace(core, viewerId).place),
   };
+}
+
+/** The tie between two people, either way round, when they have one. */
+function tieBetween(core: CoreState, viewerId: string, otherId: string) {
+  return [...(core.relationshipsByPerson.get(viewerId) ?? [])]
+    .map((id) => core.relationships.get(id))
+    .find(
+      (row) =>
+        row &&
+        ((row.actorId === viewerId && row.otherId === otherId) ||
+          (row.otherId === viewerId && row.actorId === otherId)),
+    );
 }
 
 export function knownCard(core: CoreState, viewerId: string, otherId: string) {
@@ -449,14 +664,10 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
   const housemate = shared.some((row) => row.kind === "household");
   const coworker = shared.some((row) => row.kind === "coworker");
   const job = other.jobId ? core.jobs.get(other.jobId) : undefined;
-  const tie = [...(core.relationshipsByPerson.get(viewerId) ?? [])]
-    .map((id) => core.relationships.get(id))
-    .find(
-      (row) =>
-        row &&
-        ((row.actorId === viewerId && row.otherId === otherId) ||
-          (row.otherId === viewerId && row.actorId === otherId)),
-    );
+  const tie = tieBetween(core, viewerId, otherId);
+  const publicKnowledge = core.modules.has(PAST_MODULE_ID)
+    ? publicKnowledgeOf(coreAPI(core), viewerId, otherId)
+    : null;
   const relation = relationWord(core, otherId, kin?.relation);
   const school =
     (family || housemate) &&
@@ -466,6 +677,7 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
           .filter((row) => row.date <= core.date)
           .at(-1) ?? null)
       : null;
+  const face = faceOf(core, otherId, scenePlace(core, viewerId).place);
   return {
     personId: otherId,
     name: `${other.givenName} ${other.familyName}`,
@@ -533,29 +745,31 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
       office: officeTitle(core, String(row.facts.officeId)),
       year: Number(row.date.slice(0, 4)),
     })),
-    // Their history from their own records, oldest first, to family, a
-    // housemate or anyone with a tie to them.
-    history:
-      family || housemate || tie
-        ? personHistory(core, viewerId, other, tie)
-        : [],
+    // Their history from the one history every engine reads, oldest first, for
+    // everyone the viewer opens.
+    history: tellHistory(
+      (() => {
+        const base = historyLines(core, viewerId, other);
+        const entered = enteredOffice(core, otherId, publicKnowledge);
+        // Service that began with a term already told is not told twice.
+        const told = entered.some((line) =>
+          base.some(
+            (row) =>
+              row.key.startsWith("office.") &&
+              row.date.slice(0, 4) <= line.date.slice(0, 4),
+          ),
+        );
+        return told ? base : [...base, ...entered];
+      })(),
+    ),
     // An officeholder's colleagues in office, by their tie records.
     colleagues: colleaguesOf(core, otherId),
     // What the public knows of a figure the viewer may never have met (the
     // past module's public tier); null for anyone else.
-    publicKnowledge: core.modules.has(PAST_MODULE_ID)
-      ? publicKnowledgeOf(coreAPI(core), viewerId, otherId)
-      : null,
-    // Their headshot for the talk box: the same face the People map draws.
-    face: faceOf(core, otherId, scenePlace(core, viewerId).place),
-    // A large standing figure: the person on the lead spot of the room you're in.
-    figureUrl:
-      stagePeople(core, scenePlace(core, viewerId).place, [
-        {
-          id: otherId,
-          name: `${other.givenName} ${other.familyName}`,
-          reason: "subject",
-        },
-      ]).people[0]?.figureUrl ?? null,
+    publicKnowledge,
+    // Their headshot for the talk box (the same face the People map draws),
+    // and the card's standing figure: the same picture, whole.
+    face,
+    figureUrl: face?.url ?? null,
   };
 }

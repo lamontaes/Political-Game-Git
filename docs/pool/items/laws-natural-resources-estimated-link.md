@@ -5,7 +5,7 @@ area: laws
 kind: wiring
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/laws-natural-resources-link
 pr: #6766
 lead: laws

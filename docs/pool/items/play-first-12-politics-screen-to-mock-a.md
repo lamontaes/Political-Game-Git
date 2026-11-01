@@ -5,14 +5,15 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: cto/government-screen
+pr: #6832
 blocked-on:
 after:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
+claimed-at: 2026-10-29T21:36:23.732Z
 ---
 
 **What.** The owner's read of the playtest screenshots: menus look like a real game, not a spreadsheet, per the mocks. The v0.22.10 Government tab is lists of names and codes. The Oct 14 mock (pass 2, approved "good") draws each body with a chamber picture, a party split bar, members with party, recent votes as bars, what is coming up and the executive. This item builds the Government tab to that mock.

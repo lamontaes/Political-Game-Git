@@ -12,7 +12,7 @@ import { describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
 import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
-import { coreAPI } from "./state";
+import { applyCoreEvent, coreAPI } from "./state";
 import { openLaws } from "./modules/laws";
 import { openOffices, townSeats } from "./modules/offices";
 import {
@@ -38,9 +38,11 @@ import {
   members,
   openLegislature,
 } from "./modules/legislature";
-import { openPress } from "./modules/press";
+import { openPress, platformAnswers } from "./modules/press";
 import {
   answerDebate,
+  DEBATE_ACCEPTED_EVENT,
+  DEBATE_INVITED_EVENT,
   debatesIn,
   holdTownHall,
   openMeetings,
@@ -121,6 +123,62 @@ function fileAndQualify(
     ? filing
     : null;
 }
+
+/**
+ * A town with a race two grown people run in against each other, both on the
+ * ballot, and the first of them the player.
+ */
+function debateWorld(
+  salt: string,
+  options: {
+    /** Both platforms take a stand on every platform question. */
+    wide?: boolean;
+    accept?: (core: Core, you: FilingRow) => boolean;
+  } = {},
+) {
+  let filed: { you: FilingRow; rival: FilingRow } | null = null;
+  const made = world(salt, (c) => {
+    filed = null;
+    const a = coreAPI(c);
+    const adults = [...c.people.values()]
+      .filter(
+        (p) =>
+          Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35,
+      )
+      .sort(
+        (x, y) => y.liquidMinor - x.liquidMinor || x.id.localeCompare(y.id),
+      );
+    const platformA = options.wide
+      ? PLATFORM_QUESTIONS.map((question) => `${question}=1`)
+      : [`${pick(PLATFORM_QUESTIONS, "q1")}=1`];
+    const platformB = platformA.map((entry) => entry.replace("=1", "=-1"));
+    for (const contest of openContests(a)) {
+      const you = fileAndQualify(a, adults[0]!.id, contest.id, platformA);
+      if (!you) continue;
+      const rival = fileAndQualify(a, adults[1]!.id, contest.id, platformB);
+      if (rival) {
+        filed = { you, rival };
+        c.playerId = you.personId;
+        return options.accept ? options.accept(c, you) : true;
+      }
+    }
+    return false;
+  });
+  const { you, rival } = filed!;
+  const contest = made.api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("contests")
+    .get(you.contestId) as unknown as ContestRow;
+  return { ...made, you, rival, contest };
+}
+
+type Core = ReturnType<typeof createLifeCore>;
+
+/** The day a number of days before a date. */
+const daysBefore = (date: string, days: number) =>
+  new Date(Date.parse(`${date}T00:00:00Z`) - days * 86_400_000)
+    .toISOString()
+    .slice(0, 10);
 
 describe("public meetings", () => {
   it("public comment on a council bill reaches every member, and a town hall moves those present", () => {
@@ -223,42 +281,8 @@ describe("public meetings", () => {
   }, 300_000);
 
   it("a race's debate waits for your answers and its audience hears every candidate", () => {
-    let filed: { you: FilingRow; rival: FilingRow } | null = null;
-    const { core, api, where } = world("debate", (c) => {
-      const a = coreAPI(c);
-      const adults = [...c.people.values()]
-        .filter(
-          (p) =>
-            Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 35,
-        )
-        .sort(
-          (x, y) => y.liquidMinor - x.liquidMinor || x.id.localeCompare(y.id),
-        );
-      const platformA = [`${pick(PLATFORM_QUESTIONS, "q1")}=1`];
-      const platformB = [platformA[0]!.replace("=1", "=-1")];
-      for (const contest of openContests(a)) {
-        const you = fileAndQualify(a, adults[0]!.id, contest.id, platformA);
-        if (!you) continue;
-        const rival = fileAndQualify(a, adults[1]!.id, contest.id, platformB);
-        if (rival) {
-          filed = { you, rival };
-          return true;
-        }
-      }
-      return false;
-    });
-    const { you, rival } = filed!;
-    core.playerId = you.personId;
-    const contest = api
-      .moduleState(ELECTIONS_MODULE_ID)
-      .table("contests")
-      .get(you.contestId) as unknown as ContestRow;
-    const day = new Date(
-      Date.parse(`${contest.electionDate}T00:00:00Z`) - 3 * 86_400_000,
-    )
-      .toISOString()
-      .slice(0, 10);
-    advanceCore(core, day);
+    const { core, api, where, you, rival, contest } = debateWorld("debate");
+    advanceCore(core, daysBefore(contest.electionDate, 3));
     const debate = debatesIn(api, contest.id)[0];
     expect(debate, `${where}: no debate for ${contest.title}`).toBeDefined();
     expect(debate!.status).toBe("invited");
@@ -305,4 +329,91 @@ describe("public meetings", () => {
       }),
     );
   }, 300_000);
+
+  it("a debate nobody sat for is held on the eve of the election: a yes answers from the filed platform, no answer leaves the player out", () => {
+    for (const accepted of [true, false]) {
+      // A town whose debate has a moderator to ask, two days out.
+      const { core, api, where, you, rival, contest } = debateWorld(
+        `debate-eve:${accepted}`,
+        {
+          wide: true,
+          accept: (c, filing) => {
+            const a = coreAPI(c);
+            const race = a
+              .moduleState(ELECTIONS_MODULE_ID)
+              .table("contests")
+              .get(filing.contestId) as unknown as ContestRow;
+            advanceCore(c, daysBefore(race.electionDate, 3));
+            const waiting = debatesIn(a, race.id)[0];
+            return (
+              waiting?.status === "invited" &&
+              !!c.durableLog.get(
+                `${DEBATE_INVITED_EVENT}:${waiting.id}` as never,
+              )?.facts?.reporterId
+            );
+          },
+        },
+      );
+      const label = `${where}, ${accepted ? "yes" : "no answer"}`;
+      const debate = debatesIn(api, contest.id)[0]!;
+      const invitation = core.durableLog.get(
+        `${DEBATE_INVITED_EVENT}:${debate.id}` as never,
+      )!;
+      const moderator = invitation.facts!.reporterId!;
+      const sitting = `${DEBATE_ACCEPTED_EVENT}:${debate.id}`;
+      if (accepted) {
+        // The yes the invitation's scene records (purpose-scene.ts replyInScene).
+        applyCoreEvent(core, {
+          id: `scene-reply:proof:${debate.id}`,
+          date: core.date,
+          kind: "scene.reply",
+          personIds: [you.personId, moderator],
+          placeId: core.people.get(you.personId)!.placeId,
+          facts: { causeId: invitation.id, move: "agree" },
+          source: {
+            tag: "SOURCED",
+            citation: "A reply in the invitation's scene.",
+            asOf: core.date,
+          },
+        });
+        // The sitting is on the record, with the moderator who invited them;
+        // nothing was answered for the player.
+        const record = core.durableLog.get(sitting as never);
+        expect(record?.kind, label).toBe(DEBATE_ACCEPTED_EVENT);
+        expect(record?.personIds, label).toEqual([you.personId, moderator]);
+        expect(record?.facts?.debateId, label).toBe(debate.id);
+        expect(debatesIn(api, contest.id)[0]!.status, label).toBe("invited");
+        expect(debatesIn(api, contest.id)[0]!.answers, label).toEqual({});
+      } else expect(core.durableLog.has(sitting as never), label).toBe(false);
+
+      // Nobody sits for it. It still waits the day before the eve.
+      advanceCore(core, daysBefore(contest.electionDate, 2));
+      expect(debatesIn(api, contest.id)[0]!.status, label).toBe("invited");
+      advanceCore(core, daysBefore(contest.electionDate, 1));
+      const held = debatesIn(api, contest.id)[0]!;
+      expect(held.status, label).toBe("held");
+      expect(Object.keys(held.answers).sort(), label).toEqual(
+        [you.personId, rival.personId].sort(),
+      );
+      const mine = held.answers[you.personId]!;
+      if (accepted) {
+        const filed = platformAnswers(api, you.id, held.questions);
+        expect(
+          mine.map((a) => a.position),
+          label,
+        ).toEqual(filed.map((a) => a.position));
+        expect(
+          mine.some((a) => a.position !== null),
+          `${label}: the filed platform answers at least one question`,
+        ).toBe(true);
+      } else
+        expect(
+          mine.every((a) => a.position === null),
+          label,
+        ).toBe(true);
+      expect(core.durableLog.get(`debate:${held.id}` as never)?.kind).toBe(
+        "debate",
+      );
+    }
+  }, 600_000);
 });

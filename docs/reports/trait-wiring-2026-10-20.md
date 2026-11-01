@@ -155,7 +155,15 @@ The traits lead rebuilt the matrix, `docs/reports/trait-wiring-2026-10-20.json`,
 
 Filing for unemployment now weighs how much of the lost pay the benefit replaces. In this year five laid-off workers weighed filing; two filed, and temperament turned two of the five. A larger drawn town's played year (Wayland, Michigan, 2684880, seed 0c4eea785dc2, January 20, 2025 to January 20, 2026) weighed 67: 45 filed (67%), inside the studies' 55 to 83%, and temperament turned 17. One who filed there, `claim:person_3d720ca4a5baffdb:2025-03-01`, keeps the reasons. The base was 0.02. The benefit replaced 53% of the pay, which counted −0.31. The worker leaned away from filing (−0.14), but the layoff's stress pulled toward it (+0.55). Two laid off the same day did not file (person_e1dfa533b9569d4b and person_2046b4d1138051ec). Both were counted workers, and a counted worker's decline leaves no record. The weights were fitted by crossing every business worker of three drawn towns with a layoff from their own job. Take-up came out at 73% in Wayland and 76% in Washington, District of Columbia, and raising every benefit by a tenth raised take-up at an elasticity of 0.42 to 0.52 (study: 0.467). Piltzville, Montana reads 46%, because Montana's law row pays a benefit of 26% of pay (`laws-unemployment-share-basis-mt-co`). Before this change nearly every laid-off worker filed. Temperament still sorts who skips far more than the study allows, because within a town the benefit replaces the same share for nearly everyone (`SG-TRAITS-file-claim-circumstances-tie`).
 
-Still silent in this year: the integrity chain (taking and telling on a bribe, the reporter's tip, the three recall decisions, reporting, prosecuting and pleading, clemency), accepting an appointment, falling out, a ballot measure (Virginia's are on the 2026 ballot; `elections-measures-from-the-world`), and the three reads in the player's own conversations (`words-player-trait-reads-fire`). Item: `traits-decisions-fire-in-play`.
+Still silent in this year:
+
+- the integrity chain (taking and telling on a bribe, the reporter's tip, the three recall decisions, reporting, prosecuting and pleading, clemency);
+- accepting an appointment;
+- falling out;
+- a ballot measure (Virginia's are on the 2026 ballot; `elections-measures-from-the-world`);
+- the three reads in the player's own conversations (`words-player-trait-reads-fire`).
+
+Item: `traits-decisions-fire-in-play`.
 
 ## Rebuilt on October 28, 2026 (the people family, with all three families on main)
 

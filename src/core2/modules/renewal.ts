@@ -154,12 +154,14 @@ function review(
       facts: { pregnancyId, planId, dueDate, conceivedAt: asOf },
     });
   } else if (!opening) {
-    conceiveUnplanned(api, row, parents[0]!.placeId);
-    scheduleReview(
-      api,
-      row,
-      dateAfter(api, renewalParameter(api, "renewalReviewDays")),
-    );
+    // One review chain per couple: a pregnancy to term pauses it, as a
+    // planned one does, and the birth restarts it (deliver).
+    if (!conceiveUnplanned(api, row, parents[0]!.placeId))
+      scheduleReview(
+        api,
+        row,
+        dateAfter(api, renewalParameter(api, "renewalReviewDays")),
+      );
   }
 }
 
@@ -195,7 +197,7 @@ function conceiveUnplanned(
   api: CoreAPI,
   row: BirthCouple,
   placeId: string,
-): void {
+): boolean {
   const playerHome = api.state.playerId
     ? api.state.people.get(api.state.playerId)?.householdId
     : undefined;
@@ -203,7 +205,7 @@ function conceiveUnplanned(
     playerHome &&
     api.state.people.get(row.motherId)?.householdId === playerHome
   )
-    return;
+    return false;
 
   const carryRow = table(api, "exposure").get(row.id);
   const exposure = unplannedExposure(api, row, api.state.date);
@@ -212,7 +214,7 @@ function conceiveUnplanned(
     exposure;
   if (carry < renewalParameter(api, "one")) {
     table(api, "exposure").put({ id: row.id, carry });
-    return;
+    return false;
   }
   table(api, "exposure").put({
     id: row.id,
@@ -316,7 +318,7 @@ function conceiveUnplanned(
       source: planSource,
       facts: { ...facts, paidMinor: String(paidMinor) },
     });
-    return;
+    return false;
   }
   const dueDate = addDays(
     makeIsoDate(api.state.date),
@@ -352,6 +354,8 @@ function conceiveUnplanned(
     source: planSource,
     facts: { ...facts, dueDate, conceivedAt: api.state.date },
   });
+  // A delivery is scheduled: the couple's reviews resume at the birth.
+  return true;
 }
 
 /**
@@ -387,8 +391,9 @@ function fillInCounted(api: CoreAPI, memberIds: readonly string[]): void {
     }
     const id = `fill-in:${mother!.id}:${partner.id}`;
     const children = childrenByParent(api);
-    const row: BirthCouple = (table(api, "couples").get(id) as
-      (BirthCouple & ModuleRow) | undefined) ?? {
+    const known = table(api, "couples").get(id) as
+      (BirthCouple & ModuleRow) | undefined;
+    const row: BirthCouple = known ?? {
       id,
       motherId: mother!.id,
       otherParentId: partner.id,
@@ -448,7 +453,8 @@ function fillInCounted(api: CoreAPI, memberIds: readonly string[]): void {
         status: "filled-in",
         pregnancyId,
       });
-    } else
+    } else if (!known)
+      // A couple already on the books has its review chain running.
       scheduleReview(
         api,
         row,

@@ -296,6 +296,634 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.70.0
+
+_Released October 30, 2026._
+
+### Added
+
+- **A rival who learns you are gaining on them now campaigns harder.** Other
+  candidates now react when the race turns against them. When their own poll
+  shows a challenger ahead, or someone who knows both of you tells them about
+  your campaign, including your evenings knocking on doors, they put in more
+  hours and knock more doors themselves. A sitting official who lives out of
+  town comes home to campaign, more of the time the further behind they think
+  they are. The more you gain, the harder they push back.
+
+- **A bill on a power the state has not settled carries the lawyer's warning**
+  When you draft a bill on something your council or board may not have the
+  power to do, its paper now says so: your town's city attorney warns that the
+  council may not have the power to do this (before a county or township board,
+  the board's lawyer warns instead). A bill on a power the state plainly gives
+  your town carries no warning.
+
+### Improved
+
+- **Campaign days run faster** When a candidate picks how to spend a campaign
+  day, the game used to lay out every option in full first. Now it works out
+  only what it needs, so election seasons run faster and every candidate spends
+  their days the same way.
+
+- **Big towns run a little faster** When the game decides something for a person
+  in a town's wider population, it used to build that person twice. Now it
+  builds them once, so big towns run a little faster, and everything that
+  happens stays the same.
+
+- **People's days run faster** The game used to re-read the same dates for every
+  feeling and re-check every act a person had already chosen. Now it reads each
+  date once and checks your own acts as before, so a year runs a little faster
+  and people do the same things.
+
+- **The monthly job review runs faster** Each month the game checks who in a
+  town is looking for work. It used to look up some answers again for every
+  person; now it looks each one up once, so big towns run a little faster, and
+  the same people find the same jobs.
+
+- **Word of mouth runs faster** When two people meet, the game checks whether
+  one has news to pass on. It used to look through every story either had heard
+  even when there was nothing to tell; now it stops early, so big towns run
+  faster, and the same news reaches the same people.
+
+- **Paydays run faster** Every paycheck used to look up the tax laws again, and
+  every workday did checks only the tests need. Now the game looks each law up
+  once a day and skips those checks in play, so a year runs faster, and everyone
+  is paid and taxed the same.
+
+- **The journal reads like a page** The journal is now one cream page titled "My
+  life", with the chapter's place and years under it and the story in
+  paragraphs. A longer life pages by chapter instead of scrolling.
+
+- **Your office sits on plates** Your office now shows your seat as plates
+  (office, pay, next meeting), your drafts with the draft card on a plate of its
+  own, and your budget lines and deals on plates, one tab at a time instead of a
+  long list of rows.
+
+### Fixed
+
+- **Campaigns gather extra petition signatures.** Candidates now gather half
+  again as many petition signatures as the clerk requires, so names the clerk
+  strikes no longer leave them off the ballot.
+
+- **Your family is in the living room on your first evening** On the first
+  evening at home, your family now sits in the living room with you in every
+  house. Before, about a third of new lives opened in an empty room. Until the
+  other house living rooms are painted with seats, every house shows the same
+  living room.
+
+- **Faces are there the moment a menu opens** The faces of your family and the
+  people closest to you are drawn while a new life loads, so People shows every
+  face as soon as it opens instead of filling them in over a second or two.
+  Loading a new life takes a little over a second longer.
+
+- **A bill with two steps on one law states its purpose once.** A bill that
+  changes one law in two steps reads "An ordinance to set the minimum wage."
+  instead of naming the purpose twice. The bill text also has the words for a
+  section with its own date and for the sections the usual rule dates, for the
+  governing work on raises phased in by dated steps.
+
+- **When your bill fails, someone who voted for it comes to you.** An
+  officeholder's aide used to bring the news of a lost vote, so a council
+  member, who keeps no aide, heard nothing when their own ordinance failed. Now
+  a fellow member who voted for it comes to find you ("We lost the vote on
+  Ordinance 2025-1."), and you can talk over what comes next.
+
+### Changed
+
+- **Residents who say yes at the door now turn out to vote.** A resident who
+  tells your campaign at the door that you have their vote now mostly shows up
+  on election day, the way people who say they will vote mostly do. Before, they
+  turned out no more often than anyone else, so a long season of doors brought
+  few votes.
+
+- **Your journal tells the bills you signed or vetoed, and the sponsor's tells
+  what you did to theirs.** When you sign or veto a bill as mayor, your journal
+  says so ("I signed Ordinance 2025-1, the Free Fares for Riders Ordinance."; "I
+  vetoed Ordinance 2025-2, the Transit First Funding Ordinance, but it was
+  overridden."). The member who sponsored it reads it in their own journal ("My
+  bill, Ordinance 2025-1, the Free Fares for Riders Ordinance, was signed into
+  law."). Three lines about a failed bill no longer drop the comma after the
+  bill's title.
+
+- **The paper prints who endorsed whom in a race.** When a party, a town group
+  or a person endorses a candidate, the paper now prints it: "The Republican
+  Party endorsed Kevin Stein for U.S. Representative." A group that keeps no
+  name of its own is "a local group". Before, these stories were printed with no
+  words at all.
+
+## PRE-ALPHA 0.69.0
+
+_Released October 30, 2026._
+
+### Added
+
+- **Meet donors at a supporter's home, and send campaign mail.** A campaign day
+  can now be a house party: the supporter closest to you who would host opens
+  their home, invites their own friends and family and the people your campaign
+  has reached, and you meet the room, speak, and ask each guest for money. Every
+  gift is named on the campaign's books within the legal limit. The Campaigns
+  screen also has a Mail button with an amount you set: mailers go to the town's
+  next households, as many as the money buys, never more than the campaign
+  holds.
+
+- **Campaign volunteers now go out and knock on doors.** People who volunteer
+  for a campaign, yours or a rival's, now walk its doors in the evening when
+  their job and the rest of their day leave them time. Someone who cares more
+  about the candidate goes out more often; someone whose job keeps them at work
+  that evening stays home. The neighbors they reach warm to the candidate and
+  give an answer about their vote that counts on election day, so a campaign
+  with willing friends and family can reach far more of the town than its
+  candidate could alone.
+
+### Improved
+
+- **A calendar that looks like a calendar** The calendar now shows the month as
+  compact day tiles with a small icon for each thing on the day, the day you
+  pick on its own plate with a Go to this day button, and Coming up beside it,
+  paged instead of scrolling.
+
+- **Travel shows big pictured places** Travel now shows places as large pictured
+  tiles, three across and two rows to a page, with a small people mark on the
+  places where someone is to be met. A town with more places pages with arrows
+  instead of scrolling.
+
+### Fixed
+
+- **A "yes" at a door counts for one household.** A door reaches one household.
+  Where the town's counted records each stand for several households, a "yes" at
+  the door now holds only for the household that gave it; the rest vote as they
+  would have.
+
+- **Knocking on doors no longer fills the town with full people.** An evening of
+  knocking on doors now fills in only the one or two residents a porch scene
+  could show. Everyone else who opens stays part of the counted town, still
+  hears you out and still gives you an answer the vote reads. A full campaign
+  season runs much lighter.
+
+- **Long saves keep going past their seventh year** A save played for years no
+  longer stops in its sixth or seventh year when the country's running money
+  totals grow past what the books could count. Every dollar still balances, and
+  the books on Budgets and in dev mode show the same figures as before.
+
+- **Territories name their own laws** In Puerto Rico, Guam, the Virgin Islands,
+  American Samoa, the Northern Marianas and the District of Columbia, the Issues
+  cards and law pages now call their laws "Commonwealth law", "Territory law" or
+  "District law" instead of "State law".
+
+- **History lines no longer repeat the year the timeline shows** A person's
+  history and Your life show each year above its line, and the line no longer
+  says the year again: "1963 · Born in Lewes, Delaware."
+
+### Changed
+
+- **Patch notes show one release at a time** Patch notes open on the newest
+  release, and its name is a list you can pick any older release from. Its
+  changes are cards by their headlines, and the change you click reads in full
+  beside them, marked Added, Improved or Fixed, instead of every release down
+  one long page. In the Guide, the term you picked is now marked on its card.
+
+- **People who read about your bill say it was yours and how the vote went.**
+  Someone who read the paper's story on the vote on your ordinance or bill now
+  tells you it was yours and how it came out ("I read in the Chronicle that your
+  ordinance on transportation failed.", "KWTP-TV says your ordinance passed.
+  Good for you."), from the vote's own record. Before, they said only that the
+  paper had a story on the topic.
+
+## PRE-ALPHA 0.68.0
+
+_Released October 30, 2026._
+
+### Added
+
+- **Candidates can host a forum.** On the Campaigns screen, a candidate can now
+  host a forum: the campaign rents the evening's hall, and the residents who
+  feel most strongly about a question come and ask it, whether or not the
+  campaign had met them before. The candidate answers, the room makes up its own
+  mind, and the people who came are now within the campaign's reach for its
+  calls and events.
+
+- **Groups in town now endorse candidates and send them volunteers.** The
+  organizations in your town now take sides in its races. A residents' group, a
+  cause group someone founded, or a party's local chapter weighs everyone
+  running, you included, whose platform takes up what the group stands for, by
+  how well it fits and how well its leader knows them, and backs the one it
+  favors most, or no one when nobody agrees with it or stands out: a group's
+  leader being your friend never wins you its backing on its own. When a group
+  endorses, its members hear about it, and the ones who care most about its
+  cause and have the free time join that campaign as volunteers. Your Campaigns
+  screen counts your endorsements, and everyone you ask to endorse you now gives
+  an answer that sticks, along with the reason behind it.
+
+- **Your life tells your own history as a timeline; Jobs and study puts your job
+  on a plate** Who you are has a new Your life tab that tells your own history
+  from birth down a gold timeline with a year and an icon for each event, the
+  same way a person's card tells theirs. Jobs and study shows your job on a
+  framed plate with its title in large type, your pay and hours, and your work
+  and schooling as a timeline beside it.
+
+- **The town paper carries a column of short local items.** The paper's side
+  column now fills from what your town actually recorded: the month's police log
+  ("One crime was reported to police in Maxeys in July"), the school year's
+  graduation and test results, new businesses opening, homes finished and sold,
+  and births. A quiet week prints fewer, never filler. Reporters' own stories
+  stay on government and politics.
+
+### Improved
+
+- **A big town's year runs a little faster** A town hall works out what each
+  resident cares about once, instead of over and over, so a big town's year
+  takes a few seconds less, and everything that happens in it stays the same.
+
+- **Election years run faster** In an election year the press keeps asking where
+  you stand, and each answer used to make the game look through everything you
+  had weighed that day. Now it doesn't, so a presidential year in a small town
+  runs about an eighth faster, and everything that happens in it stays the same.
+
+- **The bill screens show today's amount beside the new one.** Drafting a bill
+  is a card that shows what is in force today beside the amount you type, and
+  the bill paper's estimate shows today's amount beside the new one.
+
+- **People who read about your bill bring it up with you.** When the paper
+  prints the vote on a bill you sponsored, the people who read it bring it up
+  when they talk with you ("I read in the Windsor Leader about
+  transportation."), even after newer stories from the same paper. A bill that
+  failed is now remembered by what it would have changed.
+
+### Fixed
+
+- **Every Issues subject can be reached** Politics → Issues used to lay its
+  fourteen subjects of law cards in columns that ran off the right of the panel,
+  so most subjects could not be seen. The subjects now sit on a rail; pick one
+  and its laws appear as cards on a plate, with arrows when there are more, and
+  the search narrows both as you type. A law's own page now shows what is in
+  force at each level on plates, with what is coming, what changed and how
+  members voted beside it.
+
+- **Your family is home in the daytime too** The living room that showed your
+  family on the opening evening now shows them in the morning, at midday and on
+  rainy days as well, not only at night.
+
+- **Campaigns offers to file only for races you can run in.** The Campaigns
+  screen no longer offers "File for it" on races like sheriff or coroner that
+  your character can't run for; it offers it only on your town's council or its
+  equivalent, mayor, the state legislature, governor and Congress.
+
+- **When the body you sit on votes on your ordinance, the paper prints it.** A
+  local body's vote on a bill, the council's or the county board's, carried or
+  failed, is now weighed by the paper as news for the whole town, as a law
+  taking effect is. A paper covers a meeting whole: a reporter who writes up one
+  of the body's votes writes up the others it took that day, so your ordinance
+  isn't crowded out by the bigger votes beside it. When you sponsor an
+  ordinance, the local paper prints how the vote went within days, and hundreds
+  of people in town read it.
+
+### Changed
+
+- **Budgets shows where the money comes from and where it goes as rings**
+  Politics → Budgets now shows a government's year and total in large type,
+  where its money comes from and where it goes as rings with the amount of each
+  of its largest lines, and the treasury's books beside them, on framed plates.
+  A mayor or other executive still steps spending priorities up or down.
+  Government names read "County of Gila", not "County Of Gila".
+
+- **Campaigns shows the ballot as race cards; each race opens its own page**
+  Politics → Campaigns now shows the coming ballot as race cards on a framed
+  plate, paged with arrows, each naming the office, who is running, election day
+  and when filing closes. Click a card to open the race: who is running as face
+  cards with where each stands, the race's dates beside them, and File for it in
+  its tray.
+
+- **The Guide is an encyclopedia of civic terms** The Guide now shows its civic
+  terms as cards, paged two across, with the chosen term's full article beside
+  them, and the search narrows both as you type. On Government, a leader's post
+  such as Speaker is underlined again: hover for its meaning, click to open it
+  in the Guide.
+
+- **Money shows your cash in large type, each month as a column, and where last
+  month went as a ring** The Money screen was one line of cash on an empty panel
+  and lists of amounts. It now shows your cash in large type, your household's
+  cash at each monthly review as a column, the household's last month as a ring
+  with each reason's share, your home with its worth or rent, and what you own
+  and owe as small plates, all on framed plates, with nothing scrolling. Amounts
+  are rounded to whole dollars for reading, and figures that are the household's
+  say so.
+
+- **Parties shows each party's officeholders as faces, one party at a time**
+  Politics → Parties now shows the district map and its key on a plate, your
+  party (or the parties you can join, in a tray) beside it, and each party's
+  officeholders as face cards, one party at a time on a rail of party tabs,
+  paged with arrows. Joining a party keeps you on Parties so you see your new
+  membership.
+
+- **People no longer marks how close anyone is; its list is face cards** People
+  no longer marks anyone "Closer this year" or says whether your five closest
+  changed, and a person's history no longer says they grew closer or apart: how
+  someone feels about you shows in what they are to you and what happened
+  between you. The list view is now face cards, paged, with the one you chose
+  marked.
+
+- **Menus sit on framed plates, tabs on a rail, and a person's card tells their
+  life as a timeline** Every menu's sections now sit on framed brass plates
+  instead of the bare black panel, and every row of tabs sits in a recessed rail
+  with the chosen tab raised and lit. A person's card was redrawn: their figure
+  stands in a framed plate, their work, seat and home are small plates, and
+  their history runs down a gold timeline with a year and an icon for each
+  event, turning pages by years instead of scrolling. Their public record and
+  the officials they know sit under a Record tab. Government's member cards no
+  longer carry a colored mark for how someone feels about you.
+
+- **Who you are shows your figure, your life on plates and your family as
+  faces** Who you are now shows your own figure standing in its frame for every
+  life, including one started from Advanced, which showed an empty frame before.
+  Your home, work, school and cash sit on small plates, the people you live with
+  are face cards you can click to open, and your views sit on plates. Jobs and
+  study keeps the same frame.
+
+- **Your first local race is your place's own council, whatever it is called.**
+  The player's first local race is now the lawmaking body of the place they
+  live, under whatever name it has. A city or village runs for its council,
+  trustees or aldermen; where a town or township is the local government, the
+  player runs for the township board; where no town government exists and the
+  county governs the place directly, the player runs for the county board as
+  their council and for the county executive as their mayor where the county
+  elects one. A city that has its own council never offers the county board or a
+  township board instead. State and federal races stand as before.
+
+- **A debate you accept is one you take the stage for** When you say yes to a
+  debate on the town's biggest outlet, you now take the stage with its
+  moderator, who puts each question in turn. You pick how to answer each one
+  (plainly, with your record behind it, by turning it on a rival, or briefly),
+  or say nothing, and the voters who watch hear what you chose. If you never sit
+  for it, the debate still goes on the night before the election.
+
+- **A colleague who says they'll look at your bill has given you a vague
+  promise.** When you ask a colleague for their vote and they say they'll look
+  at it, the talk now ends as a vague promise instead of "Still undecided". The
+  scene's record marks whether a promise was firm (a vote traded, a yes given)
+  or vague, for the promises the legislature will read. When you are the one who
+  says it, your journal tells it as "I told Pat I'd look at it.", not as your
+  word given.
+
+## PRE-ALPHA 0.67.0
+
+_Released October 29, 2026._
+
+### Added
+
+- **Someone close can offer to run your campaign.** Soon after you file, your
+  partner, a relative or a close friend may sit down with you and offer to run
+  your campaign. Say yes and they join your campaign's staff: they are your team
+  in later scenes, and on election morning they are the one who comes by to
+  canvass with you.
+
+### Improved
+
+- **The meeting panel shows the members, the tally and the result.** At a
+  council or board meeting each item shows its members as faces ringed by how
+  they voted, the result with its counts and a tally bar, and the speeches and
+  votes sit in two tidy rows. The desk uses the same card.
+
+- **A job offer's call says who is calling and why.** When an employer calls
+  with an answer on your application, the scene now says so ("Dana Ruiz is
+  calling about the job you applied for.") instead of only "The phone rings."
+
+### Fixed
+
+- **Nobody writes on their own lap** People drawn writing or resting their hands
+  on a desk now appear only behind a desk, so nobody is shown writing on their
+  own trousers, and the new people are drawn with cleaner edges and whole
+  fingertips.
+
+- **No letters in place of a face** On the People map, someone without a picture
+  yet (a child) shows an empty ring instead of their initials.
+
+- **At a funeral, someone who shared the loss is there to talk to.** A funeral
+  used to narrate that people had gathered but put no one in the scene to
+  answer. Now the family of the one who died is there, your own household first,
+  and the closest of them opens the scene ("Your mother sits beside you to say
+  goodbye.").
+
+- **The journal tells each vote once, and says when your bill failed.** "My
+  life" no longer prints each of your votes twice ("I voted for Ordinance
+  2025-1, the Parks Funding Ordinance." and "I voted for Ordinance 2025-1."),
+  and when a bill you sponsored fails it says so ("Ordinance 2025-1 died in
+  committee." or "The vote on ... went against me.").
+
+- **A race nobody filed for makes a story.** When no one files for a seat, the
+  paper now says so (a headline that no one runs, and that no candidate filed,
+  so the seat has no winner) instead of printing a story with no words.
+
+### Changed
+
+- **A "yes" at the door now holds at the ballot.** When a resident tells a
+  campaign at the door that they will vote for its candidate, the vote now holds
+  them to it, unless something heavy they learned since changes their mind: a
+  scandal story about the candidate, a rival they are closer to, or promises of
+  the candidate's they heard and saw broken. Counted residents who answer a
+  volunteer's or a rival's door are held the same way.
+
+- **A town that loses its local newspaper turns out a little less for local
+  races** When a town's own newspaper closes, its voters are a little less
+  likely to turn out on a day whose ballot carries a city or county race, or a
+  recall of a town seat, by the size research measured. The relief-spending,
+  newspaper borrowing-cost and media-trust links stay unread, each naming the
+  engine that would read it and the record it lacks.
+
+- **Politics → Government looks like a real game menu** Government now draws
+  each body as its room, with the party split, members as cards with faces and
+  party badges, a seat chart for a big chamber, its recent roll calls as yes and
+  no bars, what is coming up and the executive beside it. Local, State and
+  Federal each split into Legislative and Executive, and the panel never
+  scrolls: a long roster pages with arrows. Click anyone to open their card.
+  Joining a party moved to the Parties tab.
+
+- **You can file only for council, state legislature, mayor, governor, Congress
+  and president.** County and township seats, trustee, clerk and the other
+  statewide offices no longer appear in your filing choices. They keep running
+  in the world with their own candidates.
+
+## PRE-ALPHA 0.66.0
+
+_Released October 29, 2026._
+
+### Fixed
+
+- **Politics Leaders reads in order.** Each leader on Politics now shows their
+  chamber and state in one line directly under their name, instead of a line
+  that floated between two rows.
+
+### Changed
+
+- **Graduating seniors now go on to college, and more state higher education
+  spending helps them finish** Each high school graduate in a town now enrolls
+  in college or does not, and an enrolled graduate completes a bachelor's degree
+  or does not, decided by their own record and household income against the
+  national college-going and six-year completion rates, which differ a little
+  from world to world. When the state spends more on higher education, enrolled
+  graduates in the town are a little more likely to finish, and a graduate who
+  finishes is hired and paid as a college graduate once their four years are up,
+  while one who enrolled and did not finish is hired as someone with some
+  college.
+
+- **A social media age check eases teenagers' stress a little** When a state or
+  city puts a social media age check in force, a little fewer of the town's 13-
+  to 17-year-olds are in a depressive episode a few months later, by an estimate
+  from the nearest research that could also turn out to be nothing, and each
+  teenager's resting stress eases by that much.
+
+- **New people, drawn only where a room has a place for them** Everyone in the
+  game is now one of the new painted people, each with their own face, hair and
+  body. Everyday clothes come in the colors each person can wear, and suits,
+  pantsuits and blazers are painted whole. People are drawn only in rooms
+  painted with a place for each of them (the living room at night, the Oval
+  Office, the White House colonnade and the train depot so far), seated or
+  standing in the room's own pose. Rooms without those places show the room
+  alone for now. Faces in the talk box, the person card, the People and
+  government lists, and on the title's Continue are the person's own painted
+  head. In the character creator you choose one of the six people, everyday
+  clothes or one of their suits, and the color of each piece of everyday
+  clothing.
+
+- **People in several looks, and a new Oval Office** People now come in several
+  looks each: suits with and without ties, shirtsleeves, blazers, a dress and
+  different hairstyles. The character creator chooses everyday clothes and work
+  clothes separately and shows both side by side; officials and people at their
+  own workplace wear their work clothes, everyone else their everyday clothes.
+  The Oval Office is a new wide room where the President sits at the Resolute
+  desk or stands behind it, staff stand around the room, and visitors sit on the
+  couches. The address is a new close shot with the President's forearms on the
+  desk. Everyone stands in the character creator and in their portrait. Phones,
+  papers and pens appear only where they belong (a rally, a hearing, a desk),
+  never at home. Picture frames in the Oval Office show plain glass for now.
+
+- **An interview you accept is one you sit for** When you say yes to a newspaper
+  or station that asks for an interview, you now sit down with the reporter, who
+  asks each question in turn. You pick how to answer each one (plainly, with
+  your record behind it, by turning it on a rival, or briefly), or say nothing,
+  and the story prints what you chose.
+
+- **More stories print a body, and the paper carries side briefs** Layoffs, the
+  town's month, board meetings, profiles, vacancies, new officeholders, party
+  leaders, sales of a business, closings, deaths, campaign gifts and the rules
+  that took effect now print more than a headline and one sentence: how many
+  people a business plans to keep, how many residents are out of work, who held
+  a seat before, how a vacant seat is filled, what a business does, and more,
+  each read from the town's own records. The stories from the year before the
+  game starts (elections, votes, budgets, closed businesses, a parent's death)
+  print the same way. A member who agrees to carry a bill a citizen asked for
+  makes a story. Births, homes finished, home sales, new businesses, school
+  graduation and test results, and crimes the town recorded print as short items
+  with a headline and one line. Dates in a story are now the day it happened,
+  not the day it ran.
+
+## PRE-ALPHA 0.65.0
+
+_Released October 29, 2026._
+
+### Improved
+
+- **A news story opens in place on the paper.** Clicking a story in News puts it
+  at the top of the same front page instead of turning to a page of its own, and
+  every story's full text is printed. Laws that took effect before the game
+  began now carry the law's amount or purpose.
+
+- **People you open tell more of their past.** A person's card now tells when
+  they set up home with their partner, when they moved to the county, and each
+  stage of school, and a family filled in when you open them has the couple
+  written from who lives together.
+
+- **Anyone you open has a history.** A person's card now tells their life for
+  everyone you open, not only family and people you know: where and when they
+  were born, the school they started at, the jobs they held, and the offices
+  they won or took.
+
+- **Call donors names who gave and how much.** After Call donors, Campaigns says
+  of the people you asked who gave and how much, or in a sentence why someone
+  did not, and the raised total moves by the sum. A grayed Call donors says why.
+
+- **Fundraising call lines read right for any number asked.** After Call donors,
+  the campaign sheet's total reads right for any number of people asked ("2 of 5
+  asked gave, $150 in all"; "Of 3 asked, nobody gave anything"), and someone
+  with almost nothing to give "had only pocket change to spare."
+
+- **Lines you liked come up more often** A line you graded good in a voice note
+  or in play now comes up more often itself, and a line you rejected less.
+  Before, your grade lifted the other lines of the same kind but not the line
+  you graded. "The party has a long memory." and the other threats you liked now
+  carry 13.6 percent of the weight among a scene's threats, up from 12.5.
+
+### Fixed
+
+- **No menu shows Continue or Back.** The calendar, People, Politics, the Guide,
+  a person's card, the paper and the ballot no longer page with Back and
+  Continue. A long screen scrolls inside its panel.
+
+- **News no longer shows tabs left over from another menu.** Opening a menu
+  right after another one no longer puts the first menu's tab bar over the
+  second.
+
+- **Call donors names each person asked and what they gave or why not** Call
+  donors now shows every person the candidate reached, with what each gave from
+  their own money or the reason they did not, and the campaign's raised total on
+  the Campaigns screen moves by exactly what was given. When nobody gives, the
+  screen says so in a sentence, and an act that is grayed out says why.
+
+- **A person's card has no empty heading.** The card no longer shows "Lives with
+  you" as a label with nothing beside it, and the People web's selection line no
+  longer shows a stray separator.
+
+- **People answer what you actually said** When you answer someone in town or at
+  home, what they say back now fits what you said. Ask a family member to sit
+  with you a minute and they say "Of course." Tell them you need some quiet and
+  they say "Okay. I'll leave you be." and let you go. Disagree with them and
+  they say "Suit yourself." instead of "That's what I thought too." Asked
+  whether you saw the President's speech, you answer first ("I saw it. What did
+  you make of it?") and never just ask back. Nobody asks you about a speech they
+  never saw. These answers come from the same scene engine and the same lines
+  your grades tune, so a grade on one reaches all of talk.
+
+- **People bring up the news by its headline** When someone at home or in town
+  brings up a story they read, they now say it as the paper or station had it
+  ("I saw it in the Courier: H.R. 1 dies in committee, 3 to 8.") instead of "I
+  saw the network ran a story on coverage and insurance."
+
+- **No line shows a blank in braces** A family member at home could say "Haven't
+  seen much of you since {last-together}." with the blank showing. Every blank
+  in a line is now filled from the records, and a line whose blank cannot be
+  filled is never said. The line itself now comes up only when you have been
+  apart a week or more, never "since yesterday".
+
+### Changed
+
+- **More natural resources spending gives residents a little more room to
+  exercise** When a state or city adds to its natural resources spending, a
+  little more of the town's residents live near land open for exercise, by an
+  estimate carried over from the parks research, and each rest they take
+  relieves a little more stress.
+
+- **Where cannabis sales are legal, slightly fewer teens use it** Each teenager
+  now has a monthly record of whether they used cannabis, starting from the
+  national share of 12- to 17-year-olds and shifted by how dependable they are.
+  Where the state allows legal sales, the share is a little lower, by the size
+  national surveys of teens measured. This runs in the background; nothing new
+  is asked of the player.
+
+- **More news stories print a full story** Stories about bills signed or vetoed,
+  floor and committee votes, veto overrides, bills introduced, hearings, the
+  state jobs report and the Federal Reserve's rate now print more than a
+  headline and one sentence: what the bill is about, who sponsors it, what
+  happens next, the national rate, and where the rate stood before. Headlines
+  are set in one style, large sums read "$228.7 million", and a law is named by
+  what it covers ("the maximum monthly food assistance benefit"), not by an
+  internal key.
+
+- **More kinds of public news reach News in words** Stories the press printed
+  about a ballot measure's result, a bill sent to the executive, a line-item
+  veto, an emergency declaration, a finished public works project, a succession,
+  an official's answer to a recall petition, a reported scandal, a budget's
+  public hearing, and the President's budget request, address to Congress and
+  trips now have a headline and a first sentence, said from what the record
+  holds.
+
 ## PRE-ALPHA 0.64.0
 
 _Released October 29, 2026._

@@ -5,12 +5,12 @@ area: words
 kind: wiring
 priority: 2
 size: S
-status: in-pr
-claimed-by: claude/dazzling-heisenberg-w2egp9
-pr: #5066
+status: open
+claimed-by:
+pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T17:57:17.611Z
+claimed-at:
 ---
 
 **What.** The filing clerk says why a candidate may not file for a ward seat they do not live in. Today the refusal gives no reason in words. The clerk's line comes from the English engine, reading the district residency refusal the filing rules already record.
@@ -24,3 +24,5 @@ claimed-at: 2026-10-19T17:57:17.611Z
 **Notes.** Body filled Oct 19 (claude) from the title and the repo's engine layout; the claimant should sharpen it.
 
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: say district only where the place's records do (OD:411).
+
+Oct 29 (CTO, second account): PR #5066 closed as stale under the owner's standing approval; back to open. Branch `claude/dazzling-heisenberg-w2egp9` is kept; claiming this item takes it over.

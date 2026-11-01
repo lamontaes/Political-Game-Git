@@ -5,7 +5,7 @@ area: gov
 kind: wiring
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/recall-reply-moves-drive
 pr: #6495
 blocked-on:
@@ -30,3 +30,5 @@ claimed-at: 2026-10-28T00:35:07.371Z
 **Files.** src/core2/modules/recalls.ts
 
 **Notes.** Related: `gov-recall-for-cause-start` (a for-cause recall from a reported scandal).
+
+Oct 29 (CTO): set done; PR #6495 merged (the done flip failed while branch protection refused the flip job's push).

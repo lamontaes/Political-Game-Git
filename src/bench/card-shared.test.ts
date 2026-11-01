@@ -91,55 +91,82 @@ it("a workgroup coworker's card and the director's tie moment cite the same reco
     placeKey: place.key,
   });
   const { core, director } = world;
-  // The player, or the first of their household (then the town) who works
-  // beside someone they know: a player who just turned 18 may have no job.
+  // The player, then their household, then the town, in that order: whoever
+  // works beside someone they know who is not family (a relative's tie is a
+  // family tie, never a coworker's). A player who just turned 18 may have no
+  // job.
   const knownCoworker = (id: PersonId) =>
     [...(core.people.get(id)?.knownIds ?? [])]
       .sort()
-      .find((other) =>
-        sharedHistory(core, id, other as PersonId).some(
-          (row) => row.kind === "coworker",
-        ),
+      .find(
+        (other) =>
+          !core.people.get(id)?.familyIds.has(other as PersonId) &&
+          sharedHistory(core, id, other as PersonId).some(
+            (row) => row.kind === "coworker",
+          ),
       ) as PersonId | undefined;
   const player = world.playerId! as PersonId;
-  const me = [
+  const candidates = [
     player,
     ...(core.households.get(core.people.get(player)!.householdId)?.memberIds ??
       []),
     ...[...core.people.keys()].sort(),
-  ].find((id) => knownCoworker(id as PersonId)) as PersonId;
-  expect(me, `${where}: nobody knows a coworker`).toBeDefined();
-  director.watch(core, me);
-  const mateId = knownCoworker(me);
-  const employerId = sharedHistory(core, me, mateId!).find(
+  ].filter((id) => knownCoworker(id as PersonId)) as PersonId[];
+  expect(
+    candidates.length,
+    `${where}: nobody knows a coworker`,
+  ).toBeGreaterThan(0);
+
+  // The scene: a contact between them moves the tie the director watches;
+  // the moment it writes cites the same relationship record and names the
+  // employer's history, so the scene is never a stranger's. The contact is
+  // put in by hand, large enough to turn the tie (a fixture for the trigger;
+  // every record read is the world's own). Whether a turn is a moment is
+  // the person's own: the tie channel is weighed by their traits, so one who
+  // weighs ties lightly lets it pass under the floor (Roscoe, Missouri, seed
+  // 11505131091574c74cdf), and the next in order is watched.
+  let me: PersonId | undefined;
+  let mateId: PersonId | undefined;
+  let moment: { id: string; causeKind?: string } | undefined;
+  const passed: string[] = [];
+  for (const id of candidates.slice(0, 12)) {
+    const mate = knownCoworker(id)!;
+    const tie = id < mate ? `${id}:${mate}` : `${mate}:${id}`;
+    director.watch(core, id);
+    coreAPI(core).relationship(id, mate, "contact", 200, undefined, {
+      cause: "fixture-contact",
+      sourceId: "fixture-contact",
+    });
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    moment = [...director.ledger.people.get(id)!.momentsById.values()].find(
+      (row) => row.causeId === tie,
+    );
+    if (moment) {
+      me = id;
+      mateId = mate;
+      break;
+    }
+    passed.push(`${id} (under the floor)`);
+  }
+  expect(
+    me,
+    `${where}: no turn was a moment: ${passed.join(", ")}`,
+  ).toBeDefined();
+  expect(moment?.causeKind, where).toBe("contact:coworker");
+  const employerId = sharedHistory(core, me!, mateId!).find(
     (row) => row.kind === "coworker",
   )!.recordId;
-  const tieId = me < mateId! ? `${me}:${mateId}` : `${mateId}:${me}`;
+  const tieId = me! < mateId! ? `${me}:${mateId}` : `${mateId}:${me}`;
 
   // The card: the tie by its relationship record, the work by the employer.
-  const card = knownCard(core, me, mateId!);
+  const card = knownCard(core, me!, mateId!);
   expect(card.tie?.recordId, where).toBe(tieId);
   expect(
     card.shared.find((row) => row.kind === "coworker" || row.kind === "worked")
       ?.recordId,
     where,
   ).toBe(employerId);
-  expect(card.tie?.level, where).toBe(closenessBetween(core, me, mateId!));
-
-  // The scene: a contact between them moves the tie the director watches;
-  // the moment it writes cites the same relationship record and names the
-  // employer's history, so the scene is never a stranger's. The contact is
-  // put in by hand, large enough to turn the tie (a fixture for the trigger;
-  // every record read is the world's own).
-  coreAPI(core).relationship(me, mateId!, "contact", 200, undefined, {
-    cause: "fixture-contact",
-    sourceId: "fixture-contact",
-  });
-  advanceCore(core, addDays(makeIsoDate(core.date), 1));
-  const moment = [...director.ledger.people.get(me)!.momentsById.values()].find(
-    (row) => row.causeId === tieId,
-  );
-  expect(moment?.causeKind, where).toBe("contact:coworker");
+  expect(card.tie?.level, where).toBe(closenessBetween(core, me!, mateId!));
   console.log(
     `${where}: tie ${tieId}, employer ${employerId}, moment ${moment?.id}`,
   );

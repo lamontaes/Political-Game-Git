@@ -46,12 +46,14 @@ import { schoolsLineAboveBase } from "../school-budget-line";
 import { lawInForce, LAWS_MODULE_ID } from "./laws";
 import {
   budgetLineAddedPct,
+  defenseBoostPct,
   GOV_MEASURES,
   govMeasure,
   govMeasureRecord,
   snapMaximumChangePct,
 } from "../gov-measures";
 import { monthEvent } from "../outcome-news";
+import { closedNewspapers } from "./press";
 import severityData from "../data/disasters/severity.json" with { type: "json" };
 
 /** The disasters engine's news event for a disaster, which carries its severity (src/core2/modules/disasters.ts). */
@@ -241,6 +243,16 @@ const ENGINE_READERS: Readonly<
     const rate = propertyTaxRateInForce(api, placeId);
     return rate ? { value: rate.share, recordId: rate.recordId } : null;
   },
+  // The press module's own outlets: how many of the place's local newspapers
+  // have closed (press.local-newspaper), counted from the finance ledger's
+  // closing dates; null where the press keeps no outlet for the place.
+  "newspapers-closed": (api, placeId) => {
+    // stopgapId: SG-WEB-voting-newspaper-closure (a paper closes only by its
+    // owner's choice, and no paper's books show the losses that choice weighs)
+    api.stopgap("SG-WEB-voting-newspaper-closure");
+    const closed = closedNewspapers(api, placeId);
+    return closed ? { value: closed.count, recordId: closed.recordId } : null;
+  },
   // A budget line above its Census base (gov-measures keeps the readings).
   "parks-added-pct": (api) => lineAddedPct(api, "budget.parks-added-pct"),
   "highways-added-pct": (api) => lineAddedPct(api, "budget.highways-added-pct"),
@@ -248,12 +260,15 @@ const ENGINE_READERS: Readonly<
   // laws set, as the town's treasuries and law rows record them.
   "snap-maximum-change": (api) => snapMaximumChangePct(api),
   ...Object.fromEntries(
-    ["healthAndHospitals", "welfareAndMedicaid", "higherEducation"].map(
-      (line) => [
-        `budget-line-added:${line}`,
-        (api: CoreAPI) => budgetLineAddedPct(api, line),
-      ],
-    ),
+    [
+      "healthAndHospitals",
+      "welfareAndMedicaid",
+      "higherEducation",
+      "naturalResources",
+    ].map((line) => [
+      `budget-line-added:${line}`,
+      (api: CoreAPI) => budgetLineAddedPct(api, line),
+    ]),
   ),
   // The severity of the town's most severe disaster in the last decade, from the disasters engine's news events.
   "disaster-severity": (api, placeId) => severeDisasterReading(api, placeId),
@@ -261,6 +276,12 @@ const ENGINE_READERS: Readonly<
     const line = schoolsLineAboveBase(api, placeId);
     return line ? { value: line.pct, recordId: line.recordId } : null;
   },
+  // The federal defense line above its base, as the extra contracts the town's
+  // state draws; the web keeps one state key, the town's.
+  "defense-boost-pct": (api, placeId) =>
+    api.state.placeMetadata?.housingTown === placeId
+      ? defenseBoostPct(api, stateKeyOf(api.state as CoreState))
+      : null,
   // The corporate rate in force is the town's state law; other places keep
   // their own. A state with no corporate income tax reads zero.
   "state-corporate-rate": (api, placeId) => {

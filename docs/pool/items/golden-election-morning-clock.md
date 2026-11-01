@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: golden/election-morning-clock
 pr: #6509
 blocked-on:
@@ -30,3 +30,5 @@ claimed-at: 2026-10-28T03:25:03.763Z
 **Files.** src/bench/handler.ts, src/bench/player.ts, src/bench/play.mjs, src/bench/election-day.browser.mjs
 
 **Notes.** TODO
+
+Oct 29 (CTO): set done; PR #6509 merged (the done flip failed while branch protection refused the flip job's push).

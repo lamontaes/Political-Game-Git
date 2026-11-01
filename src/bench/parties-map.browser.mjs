@@ -54,15 +54,15 @@ try {
             .backgroundColor,
         }),
       ),
-      rows: document.querySelectorAll("#sheet-body .person-row").length,
-      faces: [
-        ...document.querySelectorAll("#sheet-body .person-row-face"),
-      ].filter((f) => f.style.backgroundImage).length,
+      rows: document.querySelectorAll("#sheet-body .member-card").length,
+      faces: [...document.querySelectorAll("#sheet-body .member-face")].filter(
+        (f) => f.style.backgroundImage,
+      ).length,
       text: document.getElementById("sheet-body").innerText,
     };
   });
   console.log(
-    `map ${Math.round(seen.width)}×${Math.round(seen.height)}: state ${seen.state}, ${seen.counties} counties, districts ${seen.yours.map((y) => `${y.layer} [${y.classes.split(" ").find((c) => c.startsWith("party-"))}]`).join(", ")}; legend ${seen.legend.map((l) => l.text).join(" | ")}; ${seen.rows} seat rows, ${seen.faces} with a face`,
+    `map ${Math.round(seen.width)}×${Math.round(seen.height)}: state ${seen.state}, ${seen.counties} counties, districts ${seen.yours.map((y) => `${y.layer} [${y.classes.split(" ").find((c) => c.startsWith("party-"))}]`).join(", ")}; legend ${seen.legend.map((l) => l.text).join(" | ")}; ${seen.rows} officeholder cards, ${seen.faces} with a face`,
   );
   assert.ok(seen.state, "no state outline");
   assert.ok(seen.counties > 0, "no counties drawn");
@@ -82,14 +82,16 @@ try {
     seen.legend.length,
     "a legend swatch with no color",
   );
-  assert.ok(seen.rows >= 1, "no seat rows");
+  assert.ok(seen.rows >= 1, "no officeholder cards");
   assert.doesNotMatch(seen.text, /official:|term:|seat:|undefined/);
   if (process.env.SHOT_DIR)
     await page.screenshot({
       path: `${process.env.SHOT_DIR}/20-parties-map.png`,
     });
   assert.deepEqual(errors, [], "page errors");
-  console.log("ok: Parties is the districts map with a legend and seat rows");
+  console.log(
+    "ok: Parties is the districts map with a legend and officeholder cards",
+  );
 } finally {
   await browser.close();
 }

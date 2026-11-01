@@ -24,13 +24,14 @@ export function pollingScene(core: CoreState, visit: PollingVisit) {
     };
   };
   const cast = [visit.record.personId, ...visit.withIds].map(name);
+  const backdrop = backdropFor(core, visit.place, POLLING_MINUTE);
   return {
     id: visit.record.id,
     situationKey: visit.situationKey,
     electionDate: visit.record.electionDate,
     place: visit.place,
-    backdrop: backdropFor(core, visit.place, POLLING_MINUTE),
-    people: stagePeople(core, visit.place, cast).people,
+    backdrop,
+    people: stagePeople(core, backdrop.file, cast).people,
     contests: visit.contests.map((contest) => ({
       ...contest,
       marked:

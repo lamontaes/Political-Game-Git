@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** Speed: a town's game year must run in under two minutes and no change may make a year more than 20% slower; never scan the whole world or its history every day, use indexes or act on the day something changed. One rule, all 56 places: the fix holds for the largest towns the draw can pick, named with place and seed.
 
-**Done when.** npm run all-places -- --years 2 --seed 5a7c867eec0d34f1 --only US-MA --heap-mb 3072 finishes both years for Framingham, Massachusetts with its heap printed, and the PR body names by file and line the table or index that grew, with its row counts before and after from moduleTableSizes.
+**Done when.** npm run all-places -- --years 2 --seed 5a7c867eec0d34f1 --only US-MA --heap-mb 3072 finishes both years for Framingham, Massachusetts with its heap printed, and the PR body names by file and line the table or index that grew, with its row counts before and after from moduleTableSizes; a second large drawn place that crashed the same way (place 1727644 in Illinois, seed e5fb09d48217) finishes its two years too, named with its seed.
 
 **Files.** scripts/core2-year/all-places.mjs,scripts/core2-year/all-places-worker.ts,src/core2/module-state.ts
 

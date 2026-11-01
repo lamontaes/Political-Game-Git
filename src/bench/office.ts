@@ -30,7 +30,7 @@ import {
   takeUpItem,
   upcomingMeeting,
 } from "../core2/modules/office-day";
-import { bodyScene, personName } from "./legislature";
+import { bodyMembers, bodyScene, personName } from "./legislature";
 import { headCandidates, postsToFill } from "../core2/modules/executive";
 import { budgetProposalDue } from "../core2/office-day-acts";
 import { budgetsOf, governments } from "../core2/modules/budgets";
@@ -52,6 +52,7 @@ export function billItem(core: CoreState, bill: BillRow) {
       kind: r.kind,
     })),
     votes: votesOn(api, bill.id).map((v) => ({
+      memberKey: v.memberId,
       name: personName(core, v.memberId),
       vote: v.vote,
     })),
@@ -76,7 +77,15 @@ export function meetingSceneView(
       ...billItem(core, billOf(api, billId)),
       takenUp: meeting.takenUp.includes(billId),
     })),
-    ...bodyScene(core, personId, meeting.officeId, minute),
+    ...(() => {
+      const scene = bodyScene(core, personId, meeting.officeId, minute);
+      // The members, with their faces, for the panel's tally (the chamber's own
+      // figures are drawn where the room has a mannequin plate for them).
+      return {
+        ...scene,
+        members: bodyMembers(core, personId, meeting.officeId, scene.place),
+      };
+    })(),
   };
 }
 

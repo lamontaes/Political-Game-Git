@@ -7,9 +7,9 @@
  *
  * - the SNAP work-requirement link, carried by the SNAP benefit: played in a
  *   drawn place against a twin where the law is not in force;
- * - the parent-incarceration link, which waits on the unwired list: the
- *   justice engine's prison term ends the prisoner's jobs, but no ordinary
- *   played year reaches a parent's prison term yet;
+ * - the parent-incarceration link, carried by the justice engine: its prison
+ *   term ends the prisoner's jobs, so the household loses that pay (played in
+ *   outcome-web-crime-justice-2-played.test.ts);
  * - the links with no owning engine, each held to the one thing that keeps it
  *   unwired: no engine names its outcome, so none can multiply its own rate
  *   by the web's factor. When one does, the test fails and the link is wired.
@@ -77,25 +77,32 @@ describe("carried links: the engine decides the cause from the same law", () => 
     );
   });
 
-  it("keeps the parent-incarceration link unwired until a played year shows a parent's prison term", () => {
+  it("carries the parent-incarceration link by the justice engine's prison term, with the counted tier on its stopgap", () => {
     const row = link("parent-incarceration-to-household-income");
-    // The justice engine ends a prisoner's jobs, but it imprisons only those
-    // sentenced for bribery today, so no ordinary year shows a parent's prison
-    // term. The link waits on the unwired list with an open stopgap rather
-    // than claim the engine carries it.
-    expect(row.carriedBy).toBeUndefined();
-    expect(linkCoverage(row).wired).toBe(false);
+    // The justice engine ends a prisoner's jobs, so the household loses the
+    // pay in the jobs records; a web number on top would take it twice. A
+    // twin-world played year shows it for a named parent
+    // (outcome-web-crime-justice-2-played.test.ts).
+    expect(row.carriedBy).toContain("endCustodyJobs");
+    expect(row.carriedBy).toContain("src/core2/modules/justice.ts");
+    const coverage = linkCoverage(row);
+    expect(coverage.wired).toBe(false);
+    expect("carriedBy" in coverage && coverage.carriedBy).toBe(row.carriedBy);
     expect((WIRED_INTO.get(row.to) ?? []).map((r) => r.key)).not.toContain(
       row.key,
     );
-    const listed = (
-      unwired.links as { link: string; stopgapId: string }[]
-    ).find((r) => r.link === row.key);
-    expect(listed, row.key).toBeDefined();
+    expect(
+      (unwired.links as { link: string }[]).some((r) => r.link === row.key),
+      row.key,
+    ).toBe(false);
+    // A counted term is a head count with no member, so its pay stays: open.
     const stopgap = (
       stopgaps as unknown as { id: string; status: string }[]
-    ).find((r) => r.id === listed!.stopgapId);
-    expect(stopgap?.status, listed!.stopgapId).toBe("open");
+    ).find((r) => r.id === "SG-JUSTICE-counted-custody-pay");
+    expect(stopgap?.status).toBe("open");
+    expect(read("src/core2/modules/justice.ts")).toContain(
+      "stopgapId: SG-JUSTICE-counted-custody-pay",
+    );
   });
 });
 
@@ -195,15 +202,21 @@ function play(place: ReturnType<typeof drawPlace>, requirement: boolean) {
       .filter((r) => r.id.startsWith("draw|"))
       .map((r) => [r.id.slice("draw|".length), r.months ?? []]),
   );
+  const facts = townFacts(api, lawChain(api).townPlaceId);
   // Who the requirement reaches on the last day: a head who aged out of it,
   // took work, or gained a child is no longer under it and may draw again.
   const reachedNow = new Set(
     selectResidents(
-      townFacts(api, lawChain(api).townPlaceId),
+      facts,
       groupBPolicy(ASSIST_WORK)!.people!,
       lawChain(api).stateKey,
     ).map((r) => r.id),
   );
+  // The households the benefit pays: it pays a household on its oldest member.
+  const householdOf = new Map(
+    facts.residents.map((r) => [r.id, r.householdId]),
+  );
+  const paidHouseholds = new Set([...drawing].map((id) => householdOf.get(id)));
   const web = (
     api
       .moduleState(OUTCOME_WEB_MODULE_ID)
@@ -222,6 +235,8 @@ function play(place: ReturnType<typeof drawPlace>, requirement: boolean) {
     api,
     drawing,
     reachedNow,
+    householdOf,
+    paidHouseholds,
     stopped,
     draws,
     web,
@@ -267,18 +282,32 @@ describe(`the SNAP work requirement is the benefit's, not the web's (seed ${seed
         // while the requirement still reaches them. One it no longer reaches
         // (Washington, DC: a newspaper owner stopped at 64 who turned 65, past
         // the requirement's age) draws again, by the law's own terms.
-        if (shifted.reachedNow.has(stop.recipientId)) {
-          expect(
-            shifted.drawing.has(stop.recipientId),
-            `${where}: ${stop.recipientId} is stopped, still reached and still paid`,
-          ).toBe(false);
-          held += 1;
-        }
+        if (!shifted.reachedNow.has(stop.recipientId)) continue;
+        expect(
+          shifted.drawing.has(stop.recipientId),
+          `${where}: ${stop.recipientId} is stopped, still reached and still paid`,
+        ).toBe(false);
+        // The benefit pays a household on its oldest member, so the one paid
+        // can change to a member the requirement does not reach, and the
+        // household draws in both worlds (Caliente, Nevada, seed
+        // 97de418c56d113d5: person_1f33b443275fd027, 57 and out of work, was
+        // stopped; from the April 1 review household_0898e50f43a0ccf9 was paid
+        // through person_1f33b343275fce74, who had turned 57 too and works 40
+        // hours a week). The law kept nothing from that household.
+        const household = shifted.householdOf.get(stop.recipientId);
+        if (!shifted.paidHouseholds.has(household)) held += 1;
       }
-      expect(
-        held,
-        `${where}: a stopped head the law still reaches`,
-      ).toBeGreaterThan(0);
+      // Every stopped head may have left the requirement by the last day
+      // (Washington, DC, seed 38f268298f94fbde: the one head stopped took 22
+      // hours a week at an inn, past the requirement's 20), or share a
+      // household still paid through another member. Then this place shows no
+      // household the law still holds, and the next draw is taken.
+      if (held === 0) {
+        tried.push(
+          `${where}: none of ${shifted.stopped.length} stopped heads is still reached in a household the benefit no longer pays (work at its hours, age, a young child, or another member paid)`,
+        );
+        continue;
+      }
       // The same heads still draw in the twin: the law is what stopped them.
       const stillDrawingInTwin = shifted.stopped.filter((stop) =>
         twin.drawing.has(stop.recipientId),

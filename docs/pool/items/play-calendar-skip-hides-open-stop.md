@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** This is a game, not a spreadsheet: a held clock always shows what holds it and a way to answer (play-first Tier 1). Never dev mode to get past something.
 
-**Done when.** A drawn life skipped forward through two years with the calendar never reaches a day where the clock is held with no Continue or answer on screen, shown by the browser check's log with the place and seed named, or the item is closed with the drive's own click order named as the cause.
+**Done when.** A life in a drawn place, skipped forward through two years with the calendar, never reaches a day where the clock is held with no Continue or answer on screen, shown by the browser check's log with the place and seed named, or the item is closed with the drive's own click order named as the cause.
 
 **Files.** src/bench/play.mjs
 

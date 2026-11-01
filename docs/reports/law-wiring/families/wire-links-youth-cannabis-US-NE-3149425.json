@@ -1,0 +1,757 @@
+{
+  "seed": "5e27b0c4196fd3a8",
+  "place": {
+    "seed": "a4e2c7a01cbd38db5b12d694a8610e04cd0edfde084d015590666753e6fdc2b3",
+    "key": "3149425",
+    "name": "Uehling, Nebraska",
+    "state": "US-NE"
+  },
+  "window": 365,
+  "after": 31,
+  "results": [
+    {
+      "key": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "kind": "question",
+      "family": "business",
+      "inForceAtOpening": false,
+      "change": "enacted at city (law:place:3149425:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c) effective 2025-01-21; then repealed at state, city effective 2026-01-22",
+      "lawIds": [
+        "law:place:3149425:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c",
+        "law:US-NE:state:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-09-03:LB 26",
+        "law:US-NE:state:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2026-01-22:law-wiring-68b8ed3c-b",
+        "law:place:3149425:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2026-01-22:law-wiring-68b8ed3c-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 65,
+        "countedGroups": 33,
+        "countedPeople": 216,
+        "households": 16,
+        "organizations": 6,
+        "governments": 0,
+        "other": 0,
+        "open": 120,
+        "ended": 0,
+        "sample": [
+          "reach:law:place:3149425:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c:adults:person_8dde72f186b97e08:2025-01-21",
+          "reach:law:place:3149425:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c:adults:person_57205fbf262dbbec:2025-01-21",
+          "reach:law:place:3149425:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c:adults:person_572060bf262dbd9f:2025-01-21",
+          "reach:law:place:3149425:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c:adults:person_328f136709e7c650:2025-01-21"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 5,
+        "countedGroups": 32,
+        "countedPeople": 127,
+        "households": 17,
+        "organizations": 3,
+        "governments": 0,
+        "other": 0,
+        "open": 57,
+        "ended": 0,
+        "sample": [
+          "reach:law:place:3149425:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c:adults:person_e4a1b257665ee922:2025-01-21",
+          "reach:law:place:3149425:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c:adults:person_5e3976a5757ab267:2025-01-21",
+          "reach:law:place:3149425:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c:adults:person_441d8cfd1dfe786c:2025-01-21",
+          "reach:law:place:3149425:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c:adults:person_cab403cdff33f1fb:2025-01-21"
+        ]
+      },
+      "inPlay": [
+        {
+          "id": "law:US-NE:state:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-09-03:LB 26",
+          "level": "state",
+          "effectiveDate": "2025-09-03",
+          "value": 1
+        }
+      ],
+      "applied": {
+        "rows": 52,
+        "withAmount": 3,
+        "sample": [
+          "applied|us-policy-positions:business-commerce.legalize-cannabis-sales|household_018e4ce91545651b",
+          "applied|us-policy-positions:business-commerce.legalize-cannabis-sales|jurisdiction_45a3b3ebe97fe71d:counted-group-5",
+          "applied|us-policy-positions:business-commerce.legalize-cannabis-sales|jurisdiction_45a3b3ebe97fe71d:counted-group-8"
+        ]
+      },
+      "readers": {
+        "src/core2/modules/legislature.ts:2661": 2915,
+        "src/core2/modules/outcome-web.ts:212": 867,
+        "src/core2/modules/legislature.ts:3839": 421,
+        "src/core2/modules/world-legislating.ts:299": 168,
+        "src/core2/modules/world-legislating.ts:229": 90,
+        "src/core2/modules/place-prices.ts:953": 24,
+        "src/core2/life.ts:565": 15,
+        "src/core2/modules/world-legislating.ts:384": 4,
+        "src/core2/modules/legislature.ts:5122": 3,
+        "src/core2/modules/world-legislating.ts:674": 1
+      },
+      "openingRow": "law:US-NE:state:us-policy-positions:business-commerce.legalize-cannabis-sales:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 534095769,
+            "control": 532473040,
+            "ids": [
+              "journal:2025-01-21:1582",
+              "journal:2025-01-21:1583",
+              "journal:2025-01-21:1584"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:616",
+            "treatment": 2824222040,
+            "control": 2823397732,
+            "ids": [
+              "journal:2025-01-25:1635",
+              "journal:2025-01-25:1637",
+              "journal:2025-01-27:1657"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:863",
+            "treatment": 23722942,
+            "control": 22898749,
+            "ids": [
+              "journal:2025-02-01:8014",
+              "journal:2025-02-01:8015",
+              "journal:2025-02-01:8016"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+            "treatment": 2995781293,
+            "control": 2995717357,
+            "ids": [
+              "journal:2025-01-21:1541",
+              "journal:2025-01-21:1542",
+              "journal:2025-01-21:1543"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1290",
+            "treatment": 3394597515,
+            "control": 3394547020,
+            "ids": [
+              "journal:2025-01-21:1515",
+              "journal:2025-01-21:1516",
+              "journal:2025-01-21:1517"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/business.ts:2012",
+            "treatment": 62275900,
+            "control": 62242562,
+            "ids": [
+              "journal:2025-02-01:2079",
+              "journal:2025-02-01:2080",
+              "journal:2025-02-01:2081"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:341",
+            "treatment": 18549167,
+            "control": 18524772,
+            "ids": [
+              "journal:2025-02-01:2116",
+              "journal:2025-02-01:2117",
+              "journal:2025-02-01:2119"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1272",
+            "treatment": 1106423812,
+            "control": 1106445773,
+            "ids": [
+              "journal:2025-02-01:3473",
+              "journal:2025-02-01:3474",
+              "journal:2025-02-01:3475"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1030",
+            "treatment": 80673057580147,
+            "control": 80673057561944,
+            "ids": [
+              "journal:2025-02-01:1741",
+              "journal:2025-02-01:1742",
+              "journal:2025-02-01:1743"
+            ]
+          },
+          {
+            "kind": "employer-taxes:profit @ src/core2/modules/employer-taxes.ts:337",
+            "treatment": 28902112,
+            "control": 28920303,
+            "ids": [
+              "journal:2025-07-01:49496",
+              "journal:2025-07-01:49497",
+              "journal:2025-07-01:49498"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 539346973,
+            "control": 539340034,
+            "ids": [
+              "journal:2025-01-27:1654",
+              "journal:2025-01-28:1659",
+              "journal:2025-01-28:1662"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/press-money.ts:374",
+            "treatment": 48753423,
+            "control": 48758724,
+            "ids": [
+              "journal:2025-01-27:1639",
+              "journal:2025-01-27:1640",
+              "journal:2025-01-27:1641"
+            ]
+          }
+        ],
+        "diffKinds": 27,
+        "cited": [
+          {
+            "token": "law:place:3149425:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c",
+            "gross": 5519727,
+            "ids": [
+              "journal:2025-02-03:8061",
+              "journal:2025-02-03:8062",
+              "journal:2025-02-03:8063"
+            ]
+          },
+          {
+            "token": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+            "gross": 5519727,
+            "ids": [
+              "journal:2025-02-03:8061",
+              "journal:2025-02-03:8062",
+              "journal:2025-02-03:8063"
+            ],
+            "control": 2308627
+          },
+          {
+            "token": "law-wiring-68b8ed3c",
+            "gross": 5519727,
+            "ids": [
+              "journal:2025-02-03:8061",
+              "journal:2025-02-03:8062",
+              "journal:2025-02-03:8063"
+            ]
+          }
+        ],
+        "controlCited": [],
+        "own": {
+          "targets": 3,
+          "among": "paid",
+          "pairs": [
+            {
+              "kind": "accounts.transfer @ src/core2/counted-money.ts:863 under us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "way": "in",
+              "targets": 3,
+              "moved": 139774,
+              "earliest": "2025-02-03",
+              "sample": [
+                {
+                  "target": "organization_31edee1019232ef0",
+                  "row": "applied|us-policy-positions:business-commerce.legalize-cannabis-sales|organization_31edee1019232ef0",
+                  "date": "2025-02-03",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:863 under us-policy-positions:business-commerce.legalize-cannabis-sales",
+                  "way": "in",
+                  "treatment": 45416,
+                  "control": 0,
+                  "journal": "journal:2025-02-03:8195"
+                },
+                {
+                  "target": "organization_31edef10192330a3",
+                  "row": "applied|us-policy-positions:business-commerce.legalize-cannabis-sales|organization_31edef10192330a3",
+                  "date": "2025-02-03",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:863 under us-policy-positions:business-commerce.legalize-cannabis-sales",
+                  "way": "in",
+                  "treatment": 38797,
+                  "control": 0,
+                  "journal": "journal:2025-02-03:8198"
+                },
+                {
+                  "target": "organization_31edf11019233409",
+                  "row": "applied|us-policy-positions:business-commerce.legalize-cannabis-sales|organization_31edf11019233409",
+                  "date": "2025-02-03",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:863 under us-policy-positions:business-commerce.legalize-cannabis-sales",
+                  "way": "in",
+                  "treatment": 55561,
+                  "control": 0,
+                  "journal": "journal:2025-02-03:8192"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "way": "in",
+              "targets": 3,
+              "moved": 97106,
+              "earliest": "2025-02-03",
+              "sample": [
+                {
+                  "target": "organization_31edee1019232ef0",
+                  "row": "applied|us-policy-positions:business-commerce.legalize-cannabis-sales|organization_31edee1019232ef0",
+                  "date": "2025-02-03",
+                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-policy-positions:business-commerce.legalize-cannabis-sales",
+                  "way": "in",
+                  "treatment": 31556,
+                  "control": 0,
+                  "journal": "journal:2025-02-03:8065"
+                },
+                {
+                  "target": "organization_31edef10192330a3",
+                  "row": "applied|us-policy-positions:business-commerce.legalize-cannabis-sales|organization_31edef10192330a3",
+                  "date": "2025-02-03",
+                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-policy-positions:business-commerce.legalize-cannabis-sales",
+                  "way": "in",
+                  "treatment": 26958,
+                  "control": 0,
+                  "journal": "journal:2025-02-03:8068"
+                },
+                {
+                  "target": "organization_31edf11019233409",
+                  "row": "applied|us-policy-positions:business-commerce.legalize-cannabis-sales|organization_31edf11019233409",
+                  "date": "2025-02-03",
+                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-policy-positions:business-commerce.legalize-cannabis-sales",
+                  "way": "in",
+                  "treatment": 38592,
+                  "control": 0,
+                  "journal": "journal:2025-02-03:8062"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:341 under us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "way": "out",
+              "targets": 3,
+              "moved": 3619,
+              "earliest": "2025-02-03",
+              "sample": [
+                {
+                  "target": "organization_31edee1019232ef0",
+                  "row": "applied|us-policy-positions:business-commerce.legalize-cannabis-sales|organization_31edee1019232ef0",
+                  "date": "2025-02-03",
+                  "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:341 under us-policy-positions:business-commerce.legalize-cannabis-sales",
+                  "way": "out",
+                  "treatment": -1178,
+                  "control": 0,
+                  "journal": "journal:2025-02-03:8066"
+                },
+                {
+                  "target": "organization_31edef10192330a3",
+                  "row": "applied|us-policy-positions:business-commerce.legalize-cannabis-sales|organization_31edef10192330a3",
+                  "date": "2025-02-03",
+                  "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:341 under us-policy-positions:business-commerce.legalize-cannabis-sales",
+                  "way": "out",
+                  "treatment": -992,
+                  "control": 0,
+                  "journal": "journal:2025-02-03:8069"
+                },
+                {
+                  "target": "organization_31edf11019233409",
+                  "row": "applied|us-policy-positions:business-commerce.legalize-cannabis-sales|organization_31edf11019233409",
+                  "date": "2025-02-03",
+                  "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:341 under us-policy-positions:business-commerce.legalize-cannabis-sales",
+                  "way": "out",
+                  "treatment": -1449,
+                  "control": 0,
+                  "journal": "journal:2025-02-03:8063"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/counted-money.ts:738",
+              "way": "in",
+              "targets": 3,
+              "moved": 33,
+              "earliest": "2025-05-01",
+              "sample": [
+                {
+                  "target": "organization_31edee1019232ef0",
+                  "row": "applied|us-policy-positions:business-commerce.legalize-cannabis-sales|organization_31edee1019232ef0",
+                  "date": "2025-05-01",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:738",
+                  "way": "in",
+                  "treatment": 2067123,
+                  "control": 2067112,
+                  "journal": "journal:2025-05-01:28268"
+                },
+                {
+                  "target": "organization_31edef10192330a3",
+                  "row": "applied|us-policy-positions:business-commerce.legalize-cannabis-sales|organization_31edef10192330a3",
+                  "date": "2025-05-01",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:738",
+                  "way": "in",
+                  "treatment": 1766011,
+                  "control": 1766001,
+                  "journal": "journal:2025-05-01:28274"
+                },
+                {
+                  "target": "organization_31edf11019233409",
+                  "row": "applied|us-policy-positions:business-commerce.legalize-cannabis-sales|organization_31edf11019233409",
+                  "date": "2025-05-01",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:738",
+                  "way": "in",
+                  "treatment": 2525212,
+                  "control": 2525200,
+                  "journal": "journal:2025-05-01:28280"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/cost-of-living.ts:350",
+              "way": "in",
+              "targets": 1,
+              "moved": 1,
+              "earliest": "2025-05-01",
+              "sample": [
+                {
+                  "target": "organization_31edee1019232ef0",
+                  "row": "applied|us-policy-positions:business-commerce.legalize-cannabis-sales|organization_31edee1019232ef0",
+                  "date": "2025-05-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:350",
+                  "way": "in",
+                  "treatment": 1057909,
+                  "control": 1057908,
+                  "journal": "journal:2025-05-01:26508"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:341",
+              "way": "out",
+              "targets": 1,
+              "moved": 1,
+              "earliest": "2025-05-01",
+              "sample": [
+                {
+                  "target": "organization_31edef10192330a3",
+                  "row": "applied|us-policy-positions:business-commerce.legalize-cannabis-sales|organization_31edef10192330a3",
+                  "date": "2025-05-01",
+                  "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:341",
+                  "way": "out",
+                  "treatment": -42235,
+                  "control": -42234,
+                  "journal": "journal:2025-05-01:26512"
+                }
+              ]
+            }
+          ],
+          "paid": 3,
+          "pick": "accounts.transfer @ src/core2/counted-money.ts:863 under us-policy-positions:business-commerce.legalize-cannabis-sales|in",
+          "sample": [
+            {
+              "target": "organization_31edee1019232ef0",
+              "row": "applied|us-policy-positions:business-commerce.legalize-cannabis-sales|organization_31edee1019232ef0",
+              "date": "2025-02-03",
+              "kind": "accounts.transfer @ src/core2/counted-money.ts:863 under us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "way": "in",
+              "treatment": 45416,
+              "control": 0,
+              "journal": "journal:2025-02-03:8195"
+            },
+            {
+              "target": "organization_31edef10192330a3",
+              "row": "applied|us-policy-positions:business-commerce.legalize-cannabis-sales|organization_31edef10192330a3",
+              "date": "2025-02-03",
+              "kind": "accounts.transfer @ src/core2/counted-money.ts:863 under us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "way": "in",
+              "treatment": 38797,
+              "control": 0,
+              "journal": "journal:2025-02-03:8198"
+            },
+            {
+              "target": "organization_31edf11019233409",
+              "row": "applied|us-policy-positions:business-commerce.legalize-cannabis-sales|organization_31edf11019233409",
+              "date": "2025-02-03",
+              "kind": "accounts.transfer @ src/core2/counted-money.ts:863 under us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "way": "in",
+              "treatment": 55561,
+              "control": 0,
+              "journal": "journal:2025-02-03:8192"
+            }
+          ],
+          "near": [
+            {
+              "kind": "accounts.transfer @ src/core2/counted-money.ts:863 under us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "way": "in",
+              "targets": 3,
+              "first": {
+                "target": "organization_31edee1019232ef0",
+                "row": "applied|us-policy-positions:business-commerce.legalize-cannabis-sales|organization_31edee1019232ef0",
+                "date": "2025-02-03",
+                "kind": "accounts.transfer @ src/core2/counted-money.ts:863 under us-policy-positions:business-commerce.legalize-cannabis-sales",
+                "way": "in",
+                "treatment": 45416,
+                "control": 0,
+                "journal": "journal:2025-02-03:8195"
+              }
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "way": "in",
+              "targets": 3,
+              "first": {
+                "target": "organization_31edee1019232ef0",
+                "row": "applied|us-policy-positions:business-commerce.legalize-cannabis-sales|organization_31edee1019232ef0",
+                "date": "2025-02-03",
+                "kind": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-policy-positions:business-commerce.legalize-cannabis-sales",
+                "way": "in",
+                "treatment": 31556,
+                "control": 0,
+                "journal": "journal:2025-02-03:8065"
+              }
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:341 under us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "way": "out",
+              "targets": 3,
+              "first": {
+                "target": "organization_31edee1019232ef0",
+                "row": "applied|us-policy-positions:business-commerce.legalize-cannabis-sales|organization_31edee1019232ef0",
+                "date": "2025-02-03",
+                "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:341 under us-policy-positions:business-commerce.legalize-cannabis-sales",
+                "way": "out",
+                "treatment": -1178,
+                "control": 0,
+                "journal": "journal:2025-02-03:8066"
+              }
+            }
+          ]
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "cannabis-sales-to-youth-use",
+            "status": "built",
+            "to": "health.youth-cannabis-use"
+          },
+          {
+            "key": "cannabis-sales-to-violent-crime",
+            "status": "built",
+            "to": "crime.violent"
+          },
+          {
+            "key": "cannabis-sales-to-overdose-deaths",
+            "status": "built",
+            "to": "health.overdose-deaths"
+          }
+        ],
+        "fired": [
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+            "link": "cannabis-sales-to-youth-use",
+            "effect": -0.04
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+            "link": "cannabis-sales-to-youth-use",
+            "effect": -0.04
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-03",
+            "link": "cannabis-sales-to-youth-use",
+            "effect": -0.04
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-04",
+            "link": "cannabis-sales-to-youth-use",
+            "effect": -0.04
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-05",
+            "link": "cannabis-sales-to-youth-use",
+            "effect": -0.04
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-06",
+            "link": "cannabis-sales-to-youth-use",
+            "effect": -0.04
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-07",
+            "link": "cannabis-sales-to-youth-use",
+            "effect": -0.04
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-08",
+            "link": "cannabis-sales-to-youth-use",
+            "effect": -0.04
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2026-01",
+            "link": "cannabis-sales-to-overdose-deaths",
+            "effect": -0.05
+          }
+        ],
+        "firedCount": 9,
+        "windowDays": 365,
+        "cause": [
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+            "month": "2025-01",
+            "link": "cannabis-sales-to-youth-use",
+            "from": "law:us-policy-positions:business-commerce.legalize-cannabis-sales",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+            "month": "2025-01",
+            "link": "cannabis-sales-to-violent-crime",
+            "from": "law:us-policy-positions:business-commerce.legalize-cannabis-sales",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+            "month": "2025-01",
+            "link": "cannabis-sales-to-overdose-deaths",
+            "from": "law:us-policy-positions:business-commerce.legalize-cannabis-sales",
+            "lagMonths": 11,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+            "month": "2025-02",
+            "link": "cannabis-sales-to-youth-use",
+            "from": "law:us-policy-positions:business-commerce.legalize-cannabis-sales",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+            "month": "2025-02",
+            "link": "cannabis-sales-to-violent-crime",
+            "from": "law:us-policy-positions:business-commerce.legalize-cannabis-sales",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+            "month": "2025-02",
+            "link": "cannabis-sales-to-overdose-deaths",
+            "from": "law:us-policy-positions:business-commerce.legalize-cannabis-sales",
+            "lagMonths": 11,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-03",
+            "month": "2025-03",
+            "link": "cannabis-sales-to-youth-use",
+            "from": "law:us-policy-positions:business-commerce.legalize-cannabis-sales",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-03",
+            "month": "2025-03",
+            "link": "cannabis-sales-to-violent-crime",
+            "from": "law:us-policy-positions:business-commerce.legalize-cannabis-sales",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-03",
+            "month": "2025-03",
+            "link": "cannabis-sales-to-overdose-deaths",
+            "from": "law:us-policy-positions:business-commerce.legalize-cannabis-sales",
+            "lagMonths": 11,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-04",
+            "month": "2025-04",
+            "link": "cannabis-sales-to-youth-use",
+            "from": "law:us-policy-positions:business-commerce.legalize-cannabis-sales",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-04",
+            "month": "2025-04",
+            "link": "cannabis-sales-to-violent-crime",
+            "from": "law:us-policy-positions:business-commerce.legalize-cannabis-sales",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-04",
+            "month": "2025-04",
+            "link": "cannabis-sales-to-overdose-deaths",
+            "from": "law:us-policy-positions:business-commerce.legalize-cannabis-sales",
+            "lagMonths": 11,
+            "treated": 1,
+            "control": 0
+          }
+        ],
+        "reenacted": {
+          "id": "law:US-NE:state:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-09-03:LB 26",
+          "level": "state",
+          "effectiveDate": "2025-09-03",
+          "value": 1
+        }
+      },
+      "heard": {
+        "people": 70,
+        "sample": [
+          "person_e02fea68a64aaf0b:printed:outlet:newspaper:1:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c",
+          "person_014872ba8397579a:printed:outlet:newspaper:1:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c",
+          "person_e02fe968a64aad58:printed:outlet:newspaper:1:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 91,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 5,
+        "sample": []
+      },
+      "seconds": 90
+    }
+  ]
+}

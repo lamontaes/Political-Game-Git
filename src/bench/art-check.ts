@@ -17,6 +17,8 @@ import { governmentView } from "./government";
 import { openBenchFilingVisit } from "./filing";
 import { townPlaces, visitPlace } from "./places";
 import { backdropFile, backdropPath, benchScene } from "./scene";
+import { figureAtPath } from "./people-pack";
+import { plateFor } from "./mannequin-plates";
 import { hasBackdrop } from "./backdrop-places";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 
@@ -51,16 +53,18 @@ function check(
   reached.add(place);
   if (!existsSync(backdropPath(backdropFileName)))
     failures.push(`${label}: backdrop ${backdropFileName} missing`);
-  if (cast && !people.length)
-    failures.push(`${label}: ${place} has nobody on its stage`);
+  // People are drawn only on a mannequin plate (owner, Oct 28 and 29).
+  const plated = plateFor(backdropFileName) !== null;
+  if (plated && cast && !people.length)
+    failures.push(`${label}: ${place} has nobody on its plate`);
+  if (!plated && people.length)
+    failures.push(`${label}: ${place} has no plate but draws people`);
   for (const row of people) {
     figures++;
-    // Only the v2 standing figures are drawn.
+    // Only the people pack's figures are drawn.
     const url = new URL(row.figureUrl, "http://bench");
-    if (!url.pathname.startsWith("/art/people-engine/v2/figures/"))
-      failures.push(`${label}: ${row.personId} is not a v2 figure`);
-    else if (!existsSync(new URL(`../..${url.pathname}`, import.meta.url)))
-      failures.push(`${label}: figure ${url.pathname} missing`);
+    if (!figureAtPath(url.pathname))
+      failures.push(`${label}: ${row.personId} is not a pack figure`);
   }
 }
 

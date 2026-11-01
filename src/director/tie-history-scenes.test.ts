@@ -22,7 +22,7 @@ import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { campaignFor, enlistVolunteer } from "../core2/modules/campaigns";
-import { openContests } from "../core2/modules/elections";
+import { playerContests } from "../core2/modules/elections";
 import { sharedHistory } from "../core2/shared-history";
 import { coreAPI, registerModule } from "../core2/state";
 import { advanceCore } from "../core2/life";
@@ -54,7 +54,7 @@ it("a campaign volunteer is met as someone known, with distinct replies", () => 
     });
     director.watch(core, me);
     const api = coreAPI(core);
-    const filed = [...openContests(api)]
+    const filed = [...playerContests(api)]
       .filter((c) => c.electionDate >= addDays(makeIsoDate(core.date), 60))
       .sort(
         (a, b) =>

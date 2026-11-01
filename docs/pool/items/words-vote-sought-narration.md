@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: words/vote-sought-narration
 pr: #6754
 blocked-on:
@@ -23,3 +23,5 @@ claimed-at: 2026-10-29T06:39:08.071Z
 **Files.** data/english/parts/scene-talk.json, src/director/ask-talk.ts (narration step), src/director/player-asks-for-a-vote.test.ts
 
 **Notes.** TODO
+
+Oct 29 (CTO): set done; PR #6754 merged (the done flip failed while branch protection refused the flip job's push).

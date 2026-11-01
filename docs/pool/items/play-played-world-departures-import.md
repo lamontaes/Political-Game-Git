@@ -5,12 +5,12 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: in-pr
-claimed-by: claude/played-world-departures
-pr: #5603
+status: open
+claimed-by:
+pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T11:29:13.171Z
+claimed-at:
 ---
 
 **What.** tests/golden-path/played-world.node-test.ts imports departuresOf from the moves module, but the commit that deleted the unread departures table removed that export, so the played-world proof stops on import with 'does not provide an export named departuresOf' on current main. Every session that proves a feature with that command is blocked, and the nobody-serves-after-moving-away verdict cannot run. Start the departure watcher right after the world is built and read the departures it saw, as the other year proofs now do.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T11:29:13.171Z
 **Files.** tests/golden-path/played-world.node-test.ts
 
 **Notes.** Found Oct 20 running the played-world proof for PR 4146 against current main; the cause is the commit that deleted moves/departures (table-unread-moves-departures).
+
+Oct 29 (CTO, second account): PR #5603 closed as stale under the owner's standing approval; back to open. Branch `claude/played-world-departures` is kept; claiming this item takes it over.

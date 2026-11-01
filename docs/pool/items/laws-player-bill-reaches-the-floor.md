@@ -6,12 +6,12 @@ lead: laws-effects
 kind: wiring
 priority: 1
 size: M
-status: claimed
-claimed-by: claude/laws-player-bill-floor
+status: open
+claimed-by:
 pr:
 blocked-on: play-legislature-floor-date-and-whip
 source: CTO's relay of the owner's Oct 26 playtest (MERGE-FIRST.md, Oct 26, 23:05 UTC)
-claimed-at: 2026-10-27T04:54:02.288Z
+claimed-at:
 ---
 
 **What.** In the owner's Oct 26 playtest his H.R. 1 sat drafted for a year. src/bench/legislature.ts (around lines 215-219, since c53327dea, Oct 17) places a bill on an agenda only when its body has a regular meeting, so a bill in a chamber that votes on its floor calendar is kept drafted and never handed to scheduleVote (src/core2/modules/legislature.ts:4546). The weekly floor in src/core2/modules/world-legislating.ts takes up only the bills filed when the sitting opened, so a bill filed later is never on the floor leader's calendar, and its header still says Congress votes at year end. Every player bill gets a floor date through the same floor leader's calendar the members' bills use, members file through the whole sitting, and the floor vote and the whip count show on the legislature screen.
@@ -25,3 +25,5 @@ claimed-at: 2026-10-27T04:54:02.288Z
 **Files.** src/bench/legislature.ts, src/core2/modules/world-legislating.ts, src/core2/modules/legislature.ts, src/core2/office-day-state.ts, docs/reports/law-wiring-matrix.json
 
 **Notes.** Filed by the laws-and-effects lead, Oct 26, from the CTO's relay of the Oct 26 playtest. Taken after the family PRs (#5669, #6026, #6011) land. src/bench is the play-first lane's (AGENTS.md), so the lead builds the calendar in src/core2 and the lane changes src/bench/legislature.ts and the screen, with a `Needs from others:` line in the channel. Read Oct 27 by the laws-and-effects lead: `floorWeek` (src/core2/modules/world-legislating.ts:1022) takes up only `row.filings`, which `openSession` fixes when the session opens (members' filings spread over `sessionFilingShare` of it); a bill drafted later in one of the session's chambers is never on the floor leader's calendar. Plan: the floor week also takes up drafted bills of the session's chambers that are not in its filings, ordered by the same backing, and members re-weigh their filings on each floor week; the bench half then shows the floor date. Split Oct 27 by the laws-and-effects lead: the core half (the floor takes up every chamber bill, `floorDateOf`, the agenda the day before, `whipCount`) is `laws-floor-takes-every-chamber-bill`; the screen half is the lane's `play-legislature-floor-date-and-whip`; this item closes with the law matrix row naming the screen once both are on main.
+
+Oct 29 (CTO, second account): claim released; the session that held it ended with the Oct 19 to 29 crews. Branch `claude/laws-player-bill-floor` is kept; claiming this item takes it over.

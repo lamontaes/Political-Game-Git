@@ -5,12 +5,12 @@ area: laws
 kind: feature
 priority: 1
 size: L
-status: open
-claimed-by:
+status: claimed
+claimed-by: laws/wire-law-links
 pr: #6760
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-29T16:31:11.723Z
 ---
 
 **What.** The effect web (docs/reports/effect-web-matrix-2026-10-20.json, scripts/outcome-web/effect-matrix.ts) has 244 links: 139 reach the world, 118 are named in a stopgap, 0 unreached without a stopgap. The law matrix (docs/reports/law-wiring-matrix.json, scripts/law-wiring/matrix.ts) has 68 of 89 laws wired, 7 partly, 14 on a stopgap. One PR per link or law, the oldest stopgap first: the law in force changes, the engine that pays or decides reads it, a named person's money or view moves, proven by scripts/law-wiring/check.ts in two drawn places. Each PR regenerates the matrix. No new mechanic: a link whose reader does not exist is a stopgap naming the engine. Time box: 8 hours.

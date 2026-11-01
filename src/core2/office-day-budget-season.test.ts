@@ -56,7 +56,10 @@ const PROVIDERS = (
     };
   }
 ).providers.lines;
-const seed = process.env.BUDGET_SEASON_SEED ?? randomBytes(8).toString("hex");
+const seed =
+  process.env.BUDGET_SEASON_SEED ??
+  process.env.GOLDEN_PATH_SEED ??
+  randomBytes(8).toString("hex");
 // How many times the pre-vote pass reached each bill: a floor-stage hook of
 // the test's own, which the hearing must run once and nothing run again.
 const hookRuns = new Map<string, number>();

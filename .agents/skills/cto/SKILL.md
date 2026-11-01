@@ -20,7 +20,7 @@ The CTO keeps the work moving and the owner informed. Whoever the owner appoints
 
 ## The pass
 
-Run it when the role starts, every two hours while it runs, when the owner asks "where are we", and after every usage reset. Sessions never message each other (`how-we-talk`); the pass is reading three files and writing two.
+Run it when the role starts, every two hours while it runs, when the owner asks "where are we", and after every usage reset. Sessions message the CTO, the CTO messages them, and sessions whose work meets message each other (owner, Oct 29; `how-we-talk`, `docs/coordination/CREW.md`); the files stay the record, so the pass is still reading three files and writing two, plus keeping CREW.md current whenever a session starts or stops.
 
 ```
 - [ ] `docs/play-first/PROGRESS.md` first: newest handoff lines, `needs-from:` lines to turn into pool items with `lead:` set, items stuck past 3 hours
@@ -40,7 +40,7 @@ Run it when the role starts, every two hours while it runs, when the owner asks 
 - [ ] Act, then write the CTO block on the channel (commit to main: `leads: cto status <time>`), then report
 ```
 
-The CTO merges only its own docs, skill and pool PRs; mergers merge everything else, and the CTO audits them. Shared files (`OWNER-DECISIONS.md`, the channel, `MERGE-FIRST.md`, pool status) go to main directly; everything else goes on a branch.
+The CTO merges only its own docs, skill and pool PRs, and every session's `skills:` PR; mergers merge everything else, and the CTO audits them. A skills-only PR (skill files, their mirror, the AGENTS.md list line, an `impact: none` declaration, dev-only scripts) merges at once without waiting on CI (owner, Oct 29: "You shouldn't need to wait for checks to pass on new skills"): merge main into it, run `npx vitest run scripts/skill-ops/skill-ops.test.ts` for the mirror and the list, and merge. Shared files (`OWNER-DECISIONS.md`, the channel, `MERGE-FIRST.md`, pool status) go to main directly; everything else goes on a branch. A direct push that touches anything else (a work order, research notes, a skill) carries an `impact: none` declaration in `docs/release/changes/` in the same push; check the range first with `node --import tsx scripts/release/index.ts check --base <before> --head HEAD --mode push` (Oct 29: two CTO pushes of docs without one turned Release red).
 
 ## Who does what
 
@@ -86,12 +86,14 @@ Write one section at the top of `OWNER-DECISIONS.md` headed "Acting CTO, <date>"
 - **A tooling PR that unblocks everything (the pool flip, the CI queue) with every check green but main's own red is merged by the CTO under the owner's standing approval** when it has waited more than four hours on a merger; say so in the next report. Nobody merges their own feature PR.
 - **The owner's voice notes are saved word for word** under `docs/coordination/voice-notes/` before anyone acts on them; a plan or a brief about words and scenes reads them, not a summary.
 - **Dispatch the Mac build by hand at the end of a sitting** so what he saw fixed is in the next build he opens.
+- **No wake-up timers (owner, Nov 1: "Anthropic has removed 5-hour limits, so no need for any timers or anything").** The Oct 29 wake-up chain is withdrawn: nobody arms a `send_later` or `create_trigger` to survive a reset. After a long stop, the CTO restarts the crew by message (`send_message` to each session, a line on what changed while they were down), after reading any other CTO's channel block and work orders written meanwhile.
+- **Commit a coordination file to main without touching the checkout** (the channel, `MERGE-FIRST.md`, `OWNER-DECISIONS.md`, a pool item): fetch main, write the new text to the scratchpad with a quoted heredoc (`<<'EOF'`), then `GIT_INDEX_FILE=<scratch> git read-tree origin/main`, `git update-index --add --cacheinfo 100644,$(git hash-object -w <file>),<path>`, `git commit-tree $(git write-tree) -p origin/main` and push that commit to `refs/heads/main`; a rejected push means main moved, so start again from the fetch. An unquoted heredoc runs every backticked name in the text as a command and drops it without an error (Oct 30: two names vanished from a channel block); look at the pushed lines before moving on.
 
 ## The prompt
 
 > Read AGENTS.md and .agents/skills/cto/SKILL.md in lamontaes/Political-Game-Git. You are the acting CTO until the owner says otherwise.
 > Run the pass in that skill: docs/play-first/PROGRESS.md, then the channel docs/coordination/LEADS-2026-10-24.md, then rewrite docs/coordination/MERGE-FIRST.md, then merges, mergers, leads and the pool.
-> Sessions never message each other; the three files on main are how we talk (.agents/rules/how-we-talk.md). Write your CTO block on the channel at the end of every pass.
+> Sessions message the CTO, the CTO messages them, and sessions whose work meets message each other (owner, Oct 29; docs/coordination/CREW.md); the three files on main stay the record (.agents/rules/how-we-talk.md). Write your CTO block on the channel at the end of every pass.
 > Record every owner ruling in OWNER-DECISIONS.md the same hour; rule what a standing rule answers; simulate it, don't ask.
 > Report to the owner the way civic-reports says, the play-first lane first.
 > In a cloud environment, set OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" on every npm command and never ask the owner to confirm it.

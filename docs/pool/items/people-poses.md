@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/people-poses
 pr: #6589
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-28T06:59:38.193Z
 **Files.** src/bench/whole-figures.ts, src/bench/figure-hair.ts, src/bench/figure-colors.ts, art/people-rooms/poses, src/bench/data/figure-heads.json
 
 **Notes.** TODO
+
+Oct 29 (CTO): set done; PR #6589 merged (the done flip failed while branch protection refused the flip job's push).

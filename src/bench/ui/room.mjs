@@ -44,9 +44,8 @@ export function roomPeople(people, { selfId, backdropUrl, onClick }) {
     ...shadowsOf(people),
     ...people.flatMap((person) => {
       const f = person.figure;
+      // Never mirrored: the pack paints each way a person faces.
       const img = el("img", { src: person.figureUrl, alt: person.name });
-      // A whole figure turns to face the room.
-      if (f.mirrored) img.style.transform = "scaleX(-1)";
       const box = el("div", { className: "figure" }, img);
       box.dataset.person = person.personId ?? "";
       place(box, f);

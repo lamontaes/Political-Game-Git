@@ -65,7 +65,11 @@ import {
   type ProsecutorOffice,
 } from "../justice-law";
 import { holdInCustody, releaseFromCustody } from "../justice-custody";
-import { decidePretrial, endPretrial } from "../justice-pretrial";
+import {
+  decidePretrial,
+  endPretrial,
+  type PretrialRow,
+} from "../justice-pretrial";
 
 export const JUSTICE_MODULE_ID = "core2-justice-v1";
 const FINE_KIND = "justice-fine";
@@ -1523,6 +1527,25 @@ export function inCustody(api: CoreAPI, personId: PersonId): boolean {
   ).some((row) => row.status === "serving");
 }
 
+/**
+ * The day the person was first held in custody for want of bail while they
+ * waited for their hearing (the pretrial decision `held`), or undefined when
+ * they never were. What the jobs engine reads for the pull to formal work.
+ */
+export function firstHeldPretrial(
+  api: CoreAPI,
+  personId: PersonId,
+): string | undefined {
+  if (!api.state.modules.has(JUSTICE_MODULE_ID)) return undefined;
+  let first: string | undefined;
+  for (const row of table(api, "pretrial").query("byPerson", [
+    personId,
+  ]) as unknown as PretrialRow[])
+    if (row.decision === "held" && (first === undefined || row.from < first))
+      first = row.from;
+  return first;
+}
+
 /** The person's convictions on record by a date: what views, the press and candidacy read. */
 export function convictionsOf(
   api: CoreAPI,
@@ -1677,6 +1700,12 @@ export function decideCountedCase(
   const date = api.state.date;
   const sentenceId = `sentence:${c.id}`;
   const custody: Partial<Record<CountedFacility, number>> = {};
+  // A counted term is a head count by group: the counts keep no record of
+  // which member serves it, so no counted member's job ends for it, as a
+  // named prisoner's does (endCustodyJobs; parent-incarceration-to-household-income).
+  // stopgapId: SG-JUSTICE-counted-custody-pay
+  if (outcome.terms.some((term) => term.count > 0))
+    api.stopgap("SG-JUSTICE-counted-custody-pay");
   for (const term of outcome.terms) {
     if (term.count <= 0) continue;
     custody[term.facility] = term.count;

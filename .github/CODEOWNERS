@@ -4,6 +4,7 @@
 
 # The shared kernel
 /src/core2/kernel/** @lamontaes
+/src/core2/bookkeeping.ts @lamontaes
 /src/core2/reference/** @lamontaes
 /src/core2/data/** @lamontaes
 /src/core2/tooling/** @lamontaes
@@ -102,7 +103,6 @@
 /src/core2/budgets-*.ts @lamontaes
 /src/core2/finance-*.ts @lamontaes
 /src/core2/tax-*.ts @lamontaes
-/src/core2/bookkeeping.ts @lamontaes
 /src/core2/accounts.ts @lamontaes
 /src/core2/act-cash.ts @lamontaes
 /src/core2/cash-host.ts @lamontaes

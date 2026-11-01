@@ -103,12 +103,15 @@ export interface OpeningKin {
   /**
    * Parents who died in the year before day one, from the same life-table
    * line that decides whether a parent is alive: the relative who survives
-   * them, and who they were. They are not in the world; the past keeps them.
+   * them, and who they were. They are in the world as dead people: a record
+   * with a date of death, in no household, place count or tier.
    */
   deaths: KinDeath[];
 }
 
 export interface KinDeath {
+  /** The dead parent's own person record, a dead person from day one. */
+  personId: PersonId;
   /** The resident whose parent died. */
   survivorId: PersonId;
   relation: "father" | "mother";
@@ -521,6 +524,10 @@ export function buildOpeningKin(
               familyName: lineName,
             });
             out.deaths.push({
+              personId: createStableId(
+                "person",
+                `${options.worldId}:${stableKey}`,
+              ),
               survivorId: adult.id,
               relation: role,
               stableKey,

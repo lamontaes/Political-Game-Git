@@ -445,13 +445,15 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
       }
   });
 
-  it("each world's death, birth, moving, chronic-condition and time-use tables differ from the published ones and from the other world (audit rows 32 to 36)", () => {
+  it("each world's death, birth, moving, chronic-condition, time-use and college-going tables differ from the published ones and from the other world (audit rows 32 to 36)", () => {
     const tables: BaseRateTable[] = [
       "mortality",
       "natality",
       "movers",
       "conditions",
       "timeUse",
+      "collegeEnrollment",
+      "collegeCompletion",
     ];
     for (const table of tables) {
       const fa = worldRateFactor(coreAPI(a).state.seed, table);
@@ -491,6 +493,7 @@ describe(`no fixed statistic opens on its published value (${where})`, () => {
       "modules/health.ts",
       "modules/moves.ts",
       "free-block.ts",
+      "school-outcomes.ts",
     ])
       expect(
         readFileSync(new URL(`./${file}`, import.meta.url), "utf8"),

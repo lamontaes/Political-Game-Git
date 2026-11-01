@@ -5,8 +5,8 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: claimed
-claimed-by: golden/draft-list-names
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: golden-path playthrough, Oct 28
@@ -27,3 +27,5 @@ milestone: play-first
 **Screenshot.** None needed: the test reads the same menu rows the screen draws.
 
 **Files.** src/bench/legislature.ts, src/bench/seat-catalog.test.ts
+
+Oct 29 (CTO, second account): claim released; the session that held it ended with the Oct 19 to 29 crews. Branch `golden/draft-list-names` is kept; claiming this item takes it over.

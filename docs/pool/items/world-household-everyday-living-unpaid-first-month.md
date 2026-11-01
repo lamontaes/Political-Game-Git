@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/household-living-keep-back
 pr: #6660
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-28T17:53:24.378Z
 **Files.** src/core2/cost-of-living.ts,src/core2/modules/credit.ts,src/bench/bank.ts
 
 **Notes.** Found by the wire-opening-and-home proof run (Oct 28). Read: OWNER-DECISIONS through Oct 28 05:30 UTC; searched the pool for everyday living, living plan, lastPaidMinor (world-player-household-pays-no-living-cost-fraser is done and is a different case: no transfer at all).
+
+Oct 29 (CTO): set done; PR #6660 merged (the done flip failed while branch protection refused the flip job's push).

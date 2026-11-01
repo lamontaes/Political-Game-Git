@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/laws-grocery-exemption-buyers
 pr: #6665
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-28T17:07:49.027Z
 **Files.** src/core2/modules/purchase-tax.ts,src/core2/cost-of-living.ts,data/research/outcome-web/links.json
 
 **Notes.** TODO
+
+Oct 29 (CTO): set done; PR #6665 merged (the done flip failed while branch protection refused the flip job's push).

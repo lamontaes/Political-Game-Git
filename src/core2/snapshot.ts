@@ -15,7 +15,11 @@
  * ways) stay shared after loading, and the rebuilt world's own tables are
  * refilled in place, since engines check both.
  */
-import { moduleStateStores, type ModuleStateSnapshot } from "./module-state";
+import {
+  moduleStateStores,
+  type ModuleStateSnapshot,
+  type ModuleStateStore,
+} from "./module-state";
 import type { CoreState } from "./types";
 
 export const SNAPSHOT_FORMAT = "core2-snapshot-v1";
@@ -318,23 +322,35 @@ export function decoder(): (
   return (value, current, path = "$") => walk(value, current, path);
 }
 
-export function snapshotWorld(core: CoreState): WorldSnapshot {
+/**
+ * What a world keeps between days, in the three sections a snapshot saves:
+ * the core's records (less what the recipe rebuilds), every engine's tables
+ * and every engine's runtime part. Dev mode's records proof
+ * (`src/bench/dev-proof.ts`) reads the same list.
+ */
+export function worldRecords(core: CoreState): {
+  core: Record<string, unknown>;
+  modules: Map<string, ModuleStateStore>;
+  parts: Record<string, unknown>;
+} {
   const record: Record<string, unknown> = {};
   for (const [key, value] of Object.entries(core))
     if (!REBUILT.has(key)) record[key] = value;
   const saved: Record<string, unknown> = {};
   for (const [id, part] of parts) saved[id] = part.save(core);
+  return { core: record, modules: moduleStateStores(core), parts: saved };
+}
+
+export function snapshotWorld(core: CoreState): WorldSnapshot {
+  const world = worldRecords(core);
   return {
     format: SNAPSHOT_FORMAT,
     apiVersion: core.apiVersion,
     date: core.date,
     world: encode({
-      core: record,
-      modules: [...moduleStateStores(core)].map(([id, store]) => [
-        id,
-        store.snapshot(),
-      ]),
-      parts: saved,
+      core: world.core,
+      modules: [...world.modules].map(([id, store]) => [id, store.snapshot()]),
+      parts: world.parts,
     }),
   };
 }

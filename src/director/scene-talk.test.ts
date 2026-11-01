@@ -329,6 +329,39 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
       void lies;
     }
   });
+  it("keeps a colleague's \"I'll look at it\" as a vague promise and a traded vote as a firm one", () => {
+    // Governing phase B reads a promise's firmness from the scene's reply
+    // record. When the player asks for a vote, a colleague a favor would
+    // carry answers "not yet" (the arc's asks, carried: stall): a promise,
+    // but a vague one.
+    const type = types.find((row) => row.key === "vote-sought")!;
+    const endings = new Map<string, { keeps: string; firmness?: string }>();
+    for (const colleague of adults.slice(1, 13)) {
+      const result = composeSceneTalk(
+        core,
+        director,
+        { askerId: colleague.id, askedId },
+        type,
+        facts,
+        { standing: { lean: -0.2, favor: 0.3 } },
+        HELD,
+      );
+      if (result.kind !== "composed") continue;
+      const walk = (node: typeof result.talk.tree) => {
+        if (node.end?.ending) endings.set(node.end.ending.id, node.end.ending);
+        for (const reply of node.replies) if (reply.next) walk(reply.next);
+        for (const branch of node.branches ?? []) walk(branch.node);
+      };
+      walk(result.talk.tree);
+    }
+    expect([...endings.keys()]).toContain("will-look");
+    expect(endings.get("will-look")).toMatchObject({
+      keeps: "promise",
+      firmness: "vague",
+    });
+    for (const id of ["traded", "false-yes"])
+      if (endings.has(id)) expect(endings.get(id)!.firmness, id).toBe("firm");
+  });
   it("answers by the same lean every decision reads: two of the town's people with opposite leans answer the same reply each by their own", () => {
     // The asker's answer reads each move's act kinds in the shared decision
     // table (`scene-talk.move`), as every other decision does, never a pull

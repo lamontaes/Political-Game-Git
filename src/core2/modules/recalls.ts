@@ -976,7 +976,13 @@ function recallWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       grievanceOf(p) +
       decisionTraitWeight(api.state, "recalls.vote") *
         decisionLean(api.state, p, "recalls.vote", "remove", "keep");
-    const t = turnoutOn(api, p, { remove: { total: g }, keep: { total: -g } });
+    // A recall of a town seat is a local question on the ballot.
+    const t = turnoutOn(
+      api,
+      p,
+      { remove: { total: g }, keep: { total: -g } },
+      true,
+    );
     // A named voter goes or stays home; a counted one votes at their propensity.
     const votes = p.counted ? t.propensity * p.weight : t.votes ? 1 : 0;
     if (g > 0) remove += votes;

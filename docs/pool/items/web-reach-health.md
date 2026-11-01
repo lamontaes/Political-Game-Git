@@ -5,7 +5,7 @@ area: core
 kind: wiring
 priority: 1
 size: M
-status: claimed
+status: done
 claimed-by: claude/web-reach-health-coverage
 pr: #6006
 blocked-on:
@@ -26,3 +26,5 @@ claimed-at: 2026-10-25T23:52:14.042Z
 Sent back 2026-10-25 from PR #6006 (branch claude/web-reach-health-played): Done-when evidence counts three coverage reads on still-open #5661, while this test checks only web values and those links have no specific unwired rows; land/prove the consumer or accurately register the remaining links, or route the bounded lag fix separately while health-family stays open; finish on that branch, merge main into it first.
 
 Effects lead, Oct 25: #6006 now carries only `web-lag-law-before-opening-reads-none` (line 1), as Merger 2 offered. Its played test's records for the seven running links into death outcomes stay this family's evidence (death engine look, named full people, counted month, by record id). What remains here: the three links into the uninsured share reach once the coverage review reads the web's factor (`web-coverage-reads`, #5661), and the Medicaid expansion and the work requirement each need a played coverage record, on branch `claude/web-reach-health-coverage` after #5661 merges. Sixteen waiting links have their rows on main (#5980); the two the web does not run are graded by `web-matrix-unrun-links-not-reaching` (#6008).
+
+Oct 29 (CTO): set done; PR #6006 merged (the done flip failed while branch protection refused the flip job's push).

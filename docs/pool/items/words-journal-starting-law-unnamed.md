@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by:
 pr: #6721
 blocked-on:
@@ -22,3 +22,5 @@ lead: words
 **Files.** src/director/journal.ts, src/director/data/journal-rows.json
 
 **Notes.** TODO
+
+Oct 29 (CTO): set done; PR #6721 merged (the done flip failed while branch protection refused the flip job's push).

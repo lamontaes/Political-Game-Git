@@ -13,11 +13,11 @@ source: "core-player-money-spending: world campaigns no longer draw on the playe
 claimed-at:
 ---
 
-**What.** A world candidate's campaign asks the people it can reach for money, and now skips the controlled player. A candidate who knows the player (family, a friend, the party) should reach them as a request in conversation or a letter, which the player accepts, declines or sizes; the amount then moves through `askForDonation`'s own rules.
+**What.** A world candidate's campaign asks the people it can reach for money, and now skips the controlled player. A candidate who knows the player (family, a friend, the party) should reach them as a request in conversation or a letter, which the player accepts, declines or sizes; the amount then moves through `askForDonation`'s own rules. The engine side is done under core-player-money-spending, which stopped world campaigns from drawing on the player's account. What is missing is the player's side: a request they can see and answer.
 
-**Rules.** No engine makes a choice for the controlled person; words from the English engine; an effect is a read.
+**Rules.** No engine makes a choice for the controlled person. No hand-written player text: the request's words come from the English engine. An effect is a read, not a record: the candidate's next ask reads the player's answer from the journal or relationship record.
 
-**Done when.** In a played year a candidate the player knows asks them, the player answers, and the gift (or the refusal) is a journal or relationship record the candidate's next ask reads.
+**Done when.** In a played year a candidate the player knows asks them, the player answers, and the gift (or the refusal) is a journal or relationship record the candidate's next ask reads, named by record id in the PR body with a generated-game browser screenshot of the request, the gift and the refusal.
 
 **Files.** src/core2/modules/campaigns.ts (`campaignTurn`), the conversation surface.
 

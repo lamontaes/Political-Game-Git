@@ -1272,6 +1272,174 @@
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
       "kind": "spoken"
+    },
+    {
+      "key": "bring-it-up.your-bill-passed-ordinance.i-read-in-subject-that-your-ordinance-on",
+      "move": "your-bill-passed-ordinance",
+      "text": "I read in {subject} that your ordinance on {topic} passed.",
+      "uses": [
+        {
+          "move": "your-bill-passed-ordinance",
+          "subject": "your-bill",
+          "role": "passed",
+          "choice": "ordinance"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "kind": "spoken"
+    },
+    {
+      "key": "bring-it-up.your-bill-passed-ordinance.subject-says-your-ordinance-passed-good",
+      "move": "your-bill-passed-ordinance",
+      "text": "{subject} says your ordinance passed. Good for you.",
+      "uses": [
+        {
+          "move": "your-bill-passed-ordinance",
+          "subject": "your-bill",
+          "role": "passed",
+          "choice": "ordinance"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "kind": "spoken"
+    },
+    {
+      "key": "bring-it-up.your-bill-failed-ordinance.i-read-in-subject-that-your-ordinance-on",
+      "move": "your-bill-failed-ordinance",
+      "text": "I read in {subject} that your ordinance on {topic} failed.",
+      "uses": [
+        {
+          "move": "your-bill-failed-ordinance",
+          "subject": "your-bill",
+          "role": "failed",
+          "choice": "ordinance"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "kind": "spoken"
+    },
+    {
+      "key": "bring-it-up.your-bill-failed-ordinance.subject-says-your-ordinance-didnt-pass-i",
+      "move": "your-bill-failed-ordinance",
+      "text": "{subject} says your ordinance didn't pass. I'm sorry.",
+      "uses": [
+        {
+          "move": "your-bill-failed-ordinance",
+          "subject": "your-bill",
+          "role": "failed",
+          "choice": "ordinance"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "kind": "spoken"
+    },
+    {
+      "key": "bring-it-up.your-bill-passed-act.i-read-in-subject-that-your-bill-on-topi",
+      "move": "your-bill-passed-act",
+      "text": "I read in {subject} that your bill on {topic} passed.",
+      "uses": [
+        {
+          "move": "your-bill-passed-act",
+          "subject": "your-bill",
+          "role": "passed",
+          "choice": "act"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "kind": "spoken"
+    },
+    {
+      "key": "bring-it-up.your-bill-passed-act.subject-says-your-bill-passed-good-for-y",
+      "move": "your-bill-passed-act",
+      "text": "{subject} says your bill passed. Good for you.",
+      "uses": [
+        {
+          "move": "your-bill-passed-act",
+          "subject": "your-bill",
+          "role": "passed",
+          "choice": "act"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "kind": "spoken"
+    },
+    {
+      "key": "bring-it-up.your-bill-failed-act.i-read-in-subject-that-your-bill-on-topi",
+      "move": "your-bill-failed-act",
+      "text": "I read in {subject} that your bill on {topic} failed.",
+      "uses": [
+        {
+          "move": "your-bill-failed-act",
+          "subject": "your-bill",
+          "role": "failed",
+          "choice": "act"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "kind": "spoken"
+    },
+    {
+      "key": "bring-it-up.your-bill-failed-act.subject-says-your-bill-didnt-pass-im-sor",
+      "move": "your-bill-failed-act",
+      "text": "{subject} says your bill didn't pass. I'm sorry.",
+      "uses": [
+        {
+          "move": "your-bill-failed-act",
+          "subject": "your-bill",
+          "role": "failed",
+          "choice": "act"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-30",
+      "kind": "spoken"
     }
   ]
 }

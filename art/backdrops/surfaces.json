@@ -1520,13 +1520,6 @@
         "no painted screens, posters, papers or boards (windows, curtains and doors excluded)"
       ]
     },
-    "oval-office-resolute": {
-      "checked": ["oval-office-resolute__midday.jpg"],
-      "surfaces": [],
-      "skipped": [
-        "live surfaces not mapped yet: imported Oct 13, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
-      ]
-    },
     "park": {
       "checked": [
         "park__midday.jpg",

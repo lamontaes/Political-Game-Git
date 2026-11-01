@@ -22,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/state.ts, src/core2/modules/people.ts, src/director/data/situation-types.json
 
 **Notes.** TODO
+
+Oct 29 (Words): the director's `celebration` (married) and `breakup` (separated) causes wait on this. `setPartnersV1` in src/core2/state.ts emits `family.partnered` and `family.separated`, but no engine calls it in play: a played year in Glasgow, Delaware (seed rel-c) recorded 0 of each, and the only partnership records are the pre-start history's. Once an engine partners and separates people in play, the two causes are a read (skill `scene-producers`).

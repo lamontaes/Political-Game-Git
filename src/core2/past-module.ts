@@ -65,6 +65,8 @@ export { seededUnit } from "./seeded";
 export {
   pastForLater,
   preStartHistory,
+  preStartWindowOf,
+  recordPreStartLater,
   type HistoryRecord,
   type HistoryWriter,
   type PreStartModule,

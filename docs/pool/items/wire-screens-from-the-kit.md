@@ -5,7 +5,7 @@ area: play
 kind: feature
 priority: 1
 size: L
-status: in-pr
+status: done
 claimed-by: screens/kit-package
 pr: #6594
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-28T05:25:29.284Z
 **Files.** src/bench/ui/,src/bench/play.mjs,src/bench/play.html,src/bench/play.css,src/bench/data/controls.json,src/english
 
 **Notes.** Filed by the CTO from the engine map on the owner's go (Oct 28). engine: src/bench/ui/, screenLine, seatView, budgetView. guard: kit-only-ui, english. Read: OWNER-DECISIONS (one UI package, every piece from the kit, screens rulings), the engine map section 2. Starts now; does not wait on the trim.
+
+Oct 29 (CTO): set done; PR #6594 merged (the done flip failed while branch protection refused the flip job's push).

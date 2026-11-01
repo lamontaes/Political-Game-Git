@@ -33,7 +33,7 @@ it(`gives each outlet owner cash and a living cost in ${place.name} (${place.key
   );
   expect(owners.length, `${where}: outlet owners`).toBeGreaterThan(0);
   const debited = (id: string) =>
-    core.cashJournal.totalsByOwner.get(id)?.grossDebitMinor ?? 0;
+    Number(core.cashJournal.totalsByOwner.get(id)?.grossDebitMinor ?? 0);
   const start = new Map<string, number>();
   for (const { outlet, id } of owners) {
     const person = core.people.get(id)!;

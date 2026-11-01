@@ -5,8 +5,8 @@ area: director
 kind: bug
 priority: 1
 size: M
-status: claimed
-claimed-by: golden/door-ask
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: golden-path playthrough, Oct 28
@@ -27,3 +27,5 @@ milestone: play-first
 **Screenshot.** A door scene at 1440 by 900 from a drawn place, in the PR body.
 
 **Files.** src/director/ask-talk.ts, src/director/purpose-scene.ts, src/director/data/situation-types.json, src/director/data/circumstances.json, data/english/parts/scene-talk.json, scripts/scene-web/domains.json
+
+Oct 29 (CTO, second account): claim released; the session that held it ended with the Oct 19 to 29 crews. Branch `golden/door-ask` is kept; claiming this item takes it over.

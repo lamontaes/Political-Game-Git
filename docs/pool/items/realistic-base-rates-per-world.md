@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/realistic-base-rates
 pr: #6599
 blocked-on:
@@ -25,3 +25,5 @@ claimed-at: 2026-10-28T05:27:47.039Z
 **Files.** src/core2/condition-pack.ts, src/core2/health-mortality-table.ts, src/core2/births-counted.ts, src/core2/modules/moves.ts, src/core2/free-block.ts
 
 **Notes.** Filed by the realistic-not-real audit of Oct 27.
+
+Oct 29 (CTO): set done; PR #6599 merged (the done flip failed while branch protection refused the flip job's push).

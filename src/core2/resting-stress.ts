@@ -11,13 +11,64 @@
  * module) and a counted person (when a counted group decides), so a counted
  * resident reads the same rule as a full person (one model, two tiers).
  */
+import reachParameters from "./data/laws/reach-group-a-parameters.json" with { type: "json" };
+import { moduleState } from "./module-state";
+import { webReach } from "./modules/laws";
 import { parameterValues } from "./parameters";
+import { stopgap } from "./stopgaps";
 import type { CoreState, PersonInput } from "./types";
 
 export type RestingStressRow = Pick<
   PersonInput,
-  "birthDate" | "liquidMinor" | "livingCostDailyMinor" | "jobId" | "traits"
+  | "birthDate"
+  | "liquidMinor"
+  | "livingCostDailyMinor"
+  | "jobId"
+  | "traits"
+  | "placeId"
 >;
+
+/** What a read of the web needs of a world (outcome-web-reach.ts): its state and its modules' tables. */
+type WebHost = Parameters<typeof webReach>[0];
+
+/** The web's reach on a world, built from its state alone: the counted tier decides without an engine API. */
+const HOSTS = new WeakMap<CoreState, WebHost>();
+function webHost(core: CoreState): WebHost {
+  let host = HOSTS.get(core);
+  if (!host) {
+    host = { state: core, moduleState: (id) => moduleState(core, id) };
+    HOSTS.set(core, host);
+  }
+  return host;
+}
+
+/**
+ * The web's factor on the share of teens in a major depressive episode, for a
+ * person in the ages the social media age check covers (its reach row in
+ * data/laws/reach-group-a.json: from `socialMediaAgeFrom` up to the voting
+ * age); undefined for everyone else, and one where the web keeps no month for
+ * the place.
+ * The age check moves that share by age-verification-to-youth-depressive-episode
+ * (an estimate from the nearest research, with a spread across zero).
+ */
+function teenDistressFactor(
+  core: CoreState,
+  row: RestingStressRow,
+  age: number,
+  votingAge: number,
+): number | undefined {
+  if (age < reachParameters.parameters.socialMediaAgeFrom.value)
+    return undefined;
+  if (age >= votingAge) return undefined;
+  // stopgapId: SG-LAW-age-check-teen-distress: one for one with the share in an episode; no mood or depression record.
+  stopgap("SG-LAW-age-check-teen-distress", core);
+  return webReach(
+    webHost(core),
+    row.placeId,
+    "health.youth-major-depressive-episode",
+    { age },
+  ).factor;
+}
 
 /** The share of a rise between two points that a value has made, held in 0..1. */
 function ramp(
@@ -30,41 +81,47 @@ function ramp(
   return Math.min(one, Math.max(zero, (value - from) / (to - from)));
 }
 
+/** One value from the cached numeric view, or the same throw as an untagged row. */
+function valueOf(
+  values: Readonly<Record<string, number>>,
+  key: string,
+): number {
+  const value = values[key];
+  if (value === undefined)
+    throw new Error(`Untagged numeric parameter: ${key}`);
+  return value;
+}
+
 /**
  * The resting stress for this person on this date. `healthNeed` is the share
  * (0..1) of care the person's own health asks, which only a full person has.
  */
 export function restingStress(
-  core: Pick<CoreState, "data" | "date">,
+  core: CoreState,
   row: RestingStressRow,
   healthNeed = 0,
 ): number {
   // The cached numeric view of the table: a counted group calls this daily.
   const values = parameterValues(core.data.parameters);
-  const p = (key: string): number => {
-    const value = values[key];
-    if (value === undefined)
-      throw new Error(`Untagged numeric parameter: ${key}`);
-    return value;
-  };
-  const zero = p("zero");
-  const one = p("one");
+  const zero = valueOf(values, "zero");
+  const one = valueOf(values, "one");
   const age =
-    Number(core.date.slice(zero, p("isoYearCharacters"))) -
-    Number(row.birthDate.slice(zero, p("isoYearCharacters")));
+    Number(core.date.slice(zero, valueOf(values, "isoYearCharacters"))) -
+    Number(row.birthDate.slice(zero, valueOf(values, "isoYearCharacters")));
   // Money: the months of living costs the person's cash covers. Pressure is
   // one with no cash and falls smoothly as the cushion grows.
   const monthlyCost =
-    row.livingCostDailyMinor * (p("daysPerMeanYear") / p("monthsPerYear"));
+    row.livingCostDailyMinor *
+    (valueOf(values, "daysPerMeanYear") / valueOf(values, "monthsPerYear"));
   // Someone with no recorded living costs has no money pressure to read.
   const money =
     monthlyCost > zero
-      ? p("restingStressMoneyWeight") *
+      ? valueOf(values, "restingStressMoneyWeight") *
         (one /
           (one +
             Math.max(zero, row.liquidMinor) /
               monthlyCost /
-              p("restingStressMoneyHalfMonths")))
+              valueOf(values, "restingStressMoneyHalfMonths")))
       : zero;
   // Work: a person in the years people work, without a job. The weight rises
   // into those years and falls out of them, so a retiree or a child is not
@@ -72,63 +129,75 @@ export function restingStress(
   const workAge =
     ramp(
       age,
-      p("restingStressWorkAgeFrom"),
-      p("restingStressWorkAgeFullFrom"),
+      valueOf(values, "restingStressWorkAgeFrom"),
+      valueOf(values, "restingStressWorkAgeFullFrom"),
       zero,
       one,
     ) *
     (one -
       ramp(
         age,
-        p("restingStressWorkAgeFullTo"),
-        p("restingStressWorkAgeTo"),
+        valueOf(values, "restingStressWorkAgeFullTo"),
+        valueOf(values, "restingStressWorkAgeTo"),
         zero,
         one,
       ));
-  const jobless = row.jobId ? zero : p("restingStressJoblessWeight") * workAge;
-  // Age: the young run higher, and the old run lower.
+  const jobless = row.jobId
+    ? zero
+    : valueOf(values, "restingStressJoblessWeight") * workAge;
+  // Age: the young run higher, and the old run lower. A teen's gap moves with
+  // the web's factor on the share of teens in a depressive episode, where the
+  // social media age check is in force (teenDistressFactor).
   const young =
-    p("restingStressYouthWeight") *
+    valueOf(values, "restingStressYouthWeight") *
     (one -
       ramp(
         age,
-        p("restingStressYouthFromAge"),
-        p("restingStressYouthToAge"),
+        valueOf(values, "restingStressYouthFromAge"),
+        valueOf(values, "restingStressYouthToAge"),
         zero,
         one,
-      ));
+      )) *
+    (teenDistressFactor(core, row, age, valueOf(values, "votingAge")) ?? one);
   const old =
-    p("restingStressElderWeight") *
+    valueOf(values, "restingStressElderWeight") *
     ramp(
       age,
-      p("restingStressElderFromAge"),
-      p("restingStressElderToAge"),
+      valueOf(values, "restingStressElderFromAge"),
+      valueOf(values, "restingStressElderToAge"),
       zero,
       one,
     );
   // Traits: brooding raises it and calm lowers it, each on a two-sided scale.
-  const scale = p("traitScale");
+  const scale = valueOf(values, "traitScale");
   const brooding = Math.min(
     one,
     Math.max(
-      p("negativeOne"),
+      valueOf(values, "negativeOne"),
       (row.traits["personality-v1:facet-brooding"] ?? zero) / scale,
     ),
   );
   const calm = Math.min(
     one,
     Math.max(
-      p("negativeOne"),
+      valueOf(values, "negativeOne"),
       (row.traits["personality-v1:facet-calm"] ?? zero) / scale,
     ),
   );
   const traits =
-    p("restingStressBroodingWeight") * brooding -
-    p("restingStressCalmWeight") * calm;
+    valueOf(values, "restingStressBroodingWeight") * brooding -
+    valueOf(values, "restingStressCalmWeight") * calm;
   const health =
-    p("restingStressHealthWeight") * Math.min(one, Math.max(zero, healthNeed));
+    valueOf(values, "restingStressHealthWeight") *
+    Math.min(one, Math.max(zero, healthNeed));
   return Math.max(
     zero,
-    p("restingStressFloor") + money + jobless + young - old + traits + health,
+    valueOf(values, "restingStressFloor") +
+      money +
+      jobless +
+      young -
+      old +
+      traits +
+      health,
   );
 }

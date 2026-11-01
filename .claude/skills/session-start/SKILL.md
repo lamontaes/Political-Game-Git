@@ -25,7 +25,7 @@ Copy this checklist and keep it current:
 - [ ] Copy the item's done-when lines into a scratch list
 - [ ] Build to the done-when, proven in a played world
 - [ ] Self-check: every done-when line has evidence; break-it test; merge main
-- [ ] Local gate on changed files
+- [ ] Only the tests you wrote or changed (the checker runs the gate)
 - [ ] Ready PR from the template, done-when table filled; item set in-pr
 - [ ] Next item
 ```
@@ -44,7 +44,7 @@ Copy this checklist and keep it current:
 3. An L item: split it into S or M items with their own done-when before building, and mark the L item `blocked-on` them.
 4. Copy every line of the item's **Done when** into a scratch list before writing code. Each line is a thing you will show, not a thing you will describe. Read every function, export and field you plan to use on current `origin/main` first; names change daily, and code written from memory of an older main is the most common unverified assumption.
 5. Branch from `origin/main` and build to the done-when. Prove it in a played world (`played-world-proof`), in a place drawn from all 56, naming place, seed and record ids.
-6. Register every shortcut as a stopgap. **Simulate it, don't ask** (owner, Oct 24): a mechanic real life has that the simulation needs is built from research in the background, calibrated not hardcoded; only a design call about the player's own experience is an owner question. For that, register an `owner-decision` stopgap and ask under **OWNER DECISIONS NEEDED**. Add a pool item for anything you find that isn't yours, with `lead:` set to the role that owns it, after searching for an existing one first (`grep -ril "<key words>" docs/pool/items`; add your evidence to a match's Notes instead of a twin); a `src/bench` change is the play-first lane's.
+6. Register every shortcut as a stopgap. **Simulate it, don't ask** (owner, Oct 24): a mechanic real life has that the simulation needs is built from research in the background, calibrated not hardcoded; only a design call about the player's own experience is an owner question. For that, register an `owner-decision` stopgap and ask under **OWNER DECISIONS NEEDED**. Add a pool item for anything you find that isn't yours, with `lead:` set to the role that owns it, after searching for an existing one first (`grep -ril "<key words>" docs/pool/items`; add your evidence to a match's Notes instead of a twin); a `src/bench` change is the play-first lane's. When `npm run pool -- add` refuses (an area or kind outside its list, a body too short), it can leave the new item file in your tree: delete it before any other pool command or commit, or the next commit carries an invalid item to main and turns `pool --check` red for everyone (Oct 30, governing lead). Areas are `laws`, `gov`, `elections`, `office`, `world`, `core`, `people`, `director`, `words`, `play`, `art`, `release`, `docs`; there is no `tests`. `pool add` checks only the fields it is given, not the quality gate: a What under three sentences or 40 words passes `add` and turns `pool --check` red on main (Oct 30, governing lead), so run `npm run pool -- --check` after every `add` and fix the item before anything else.
 
 ## Self-check before the PR
 
@@ -74,11 +74,11 @@ Mergers send back most PRs for the same few reasons, and every model makes them,
 
 ## Open the PR
 
-1. Run the local gate on changed files (`local-gate`; `npm run agent:test-cadence` lists the commands).
+1. Don't run the local gate, typecheck or the guards yourself, and never in a helper (owner, Oct 29: builders strictly build). Run only the test files you wrote or changed. The checker for your PR runs the gate (`checker`).
 2. Add a release declaration: `npm run release:declare -- <id>`. An `impact: none` file holds only `id` and `impact`. `patch` or `minor` also needs `section` and `title`.
 3. Push with plain `git push -u origin <branch>`. Open the PR **ready for review** against main, following `.github/PULL_REQUEST_TEMPLATE.md`. Line 1 is exactly `Pool item: <id>`, with no backticks; the merge flips that item to done automatically. Fill the **Done when** table from your scratch list: one row per line of the item's done-when, each with its evidence.
    **For every new or changed test file, the gate line also says `fresh draws: N of 10 passed` with the seeds you ran, and the test's file name.** Nobody writes it, so the test that fails on a fresh draw reaches the merger (Oct 28: #6653, #6660 and #6664 each sent back for a new test that failed on fresh seeds, after the lessons in item 2 had landed; a line in the body is checkable where a line in the middle of the loop was not).
-4. `npm run pool -- status <id> in-pr --pr <N>`. Never edit an item's status inside your feature PR.
+4. `npm run pool -- status <id> in-pr --pr <N>`. Never edit an item's status inside your feature PR. Message the checker whose number is N mod 5 (`docs/coordination/CREW.md`) the PR number; from then on the checker is the branch's one writer until it merges, so ask it before you push there again. Never wait on GitHub's CI or re-run it (owner, Oct 29): it runs on GitHub's machines by itself after every push, and the checker and merger read it.
 5. Take the next item. When a merger sends your PR back, fix it before starting anything new.
 
 ## Rules

@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/realistic-housing
 pr: #6472
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-28T01:30:18.125Z
 **Files.** src/core2/modules/housing.ts, src/core2/data/housing/parameters.json
 
 **Notes.** TODO
+
+Oct 29 (CTO): set done; PR #6472 merged (the done flip failed while branch protection refused the flip job's push).

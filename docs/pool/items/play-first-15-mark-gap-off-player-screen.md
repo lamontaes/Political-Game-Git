@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/quirky-ride-vrwwz4-play-stop-02
 pr: #6058
 blocked-on:
@@ -30,3 +30,5 @@ claimed-at: 2026-10-25T17:51:53.551Z
 **Files.** src/bench/play.html, src/bench/play.mjs
 
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md); the owner's read of its screenshots (docs/coordination/OWNER-DECISIONS.md, Oct 24). Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md). Playtest Oct 26 sitting 1 (installed v0.34.0): Mark gap still in every talk box on v0.34.0 (family talks and the filing counter). Same owner quote as above.
+
+Oct 29 (CTO): set done; PR #6058 merged (the done flip failed while branch protection refused the flip job's push).

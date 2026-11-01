@@ -40,15 +40,21 @@ describe("patch notes for the title", () => {
       groups: [
         {
           heading: "Changed",
-          lines: [
-            "Each new world opens with its own business climate Each new game opens with its own closure rate, drawn around the published figures.",
-            "A second point with code in it.",
+          notes: [
+            {
+              title: "Each new world opens with its own business climate",
+              text: "Each new game opens with its own closure rate, drawn around the published figures.",
+            },
+            { text: "A second point with code in it." },
           ],
         },
       ],
     });
-    expect(releases[1]?.groups[0]?.lines).toEqual([
-      "Winners take office on the record. The seat changes hands.",
+    expect(releases[1]?.groups[0]?.notes).toEqual([
+      {
+        title: "Winners take office on the record",
+        text: "The seat changes hands.",
+      },
     ]);
   });
 
@@ -63,9 +69,9 @@ describe("patch notes for the title", () => {
       expect(release.version).toMatch(/^\d+\.\d+\.\d+$/);
       expect(release.title).not.toMatch(/UNRELEASED|CANDIDATE/);
       for (const group of release.groups)
-        for (const line of group.lines) {
-          expect(line).not.toMatch(/\*\*/);
-          expect(line).not.toMatch(/^[-*] /);
+        for (const { title, text } of group.notes) {
+          expect(`${title ?? ""} ${text}`).not.toMatch(/\*\*/);
+          expect(text).not.toMatch(/^[-*] /);
         }
     }
   });

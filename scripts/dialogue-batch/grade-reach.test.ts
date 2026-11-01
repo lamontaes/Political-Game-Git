@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import {
   CALIBRATION,
+  calibratedVariants,
   gradeReach,
   pieceFactor,
 } from "../../src/english/calibration";
@@ -147,5 +148,86 @@ describe("a grade reaches the pieces that share its pattern, voice and register"
     );
     // The same grades with the reach removed pick the same lines as before.
     expect(picks({ ...after, reach: undefined })).toEqual(before);
+  });
+});
+
+// A line the owner liked is chosen more itself, not only its neighbors
+// (owner, Oct 29: "I've given feedback on some good ones ... it's calibrate
+// the entire engine"); one he rejected is chosen less where it still plays.
+describe("the owner's grade weighs the graded line itself", () => {
+  const without = { ...CALIBRATION, ledger: undefined };
+  const counted = Object.entries(PART_GRADES.parts);
+  const liked = counted
+    .filter(([, row]) => row.good > 0 && row.bad + row.fix === 0)
+    .map(([key]) => key);
+  const rejected = counted
+    .filter(([, row]) => row.good === 0 && row.bad + row.fix > 0)
+    .map(([key]) => key);
+
+  it("weighs every liked line more and every rejected line less than its numeric grade alone", () => {
+    expect(liked.length).toBeGreaterThan(0);
+    expect(rejected.length).toBeGreaterThan(0);
+    for (const key of liked) {
+      const own = pieceFactor([key], CALIBRATION);
+      expect(own, key).toBeGreaterThanOrEqual(pieceFactor([key], without));
+      if (!(key in CALIBRATION.pieces))
+        expect(own, key).toBeGreaterThan(pieceFactor([key], without));
+    }
+    for (const key of rejected)
+      expect(pieceFactor([key], CALIBRATION), key).toBeLessThanOrEqual(
+        pieceFactor([key], without),
+      );
+  });
+
+  it("gives the threats he liked a larger share of every threat a scene can make", () => {
+    // Every scene-bank threat with no slots, as one move's variants: three
+    // of them he liked ("The party has a long memory.", "You know how this
+    // works.", "Then I'll find a candidate who listens."). The renderer draws
+    // in proportion to these weights (`grounded-english.ts`).
+    const bank = JSON.parse(
+      readFileSync("data/english/parts/scene-talk.json", "utf8"),
+    ) as {
+      parts: {
+        key: string;
+        text: string;
+        uses: { step: string; move: string }[];
+      }[];
+    };
+    const variants = bank.parts
+      .filter(
+        (part) =>
+          !part.text.includes("{") &&
+          part.uses.some(
+            (use) => use.step === "follow" && use.move === "threaten",
+          ),
+      )
+      .map((part) => ({ key: part.key, text: part.text, pieceKey: part.key }));
+    const favored = new Set(
+      variants.filter((row) => liked.includes(row.key)).map((row) => row.key),
+    );
+    expect(favored.size, "threats he liked").toBeGreaterThanOrEqual(3);
+    const share = (calibration: typeof CALIBRATION) => {
+      const weighed = calibratedVariants(
+        variants,
+        {
+          bankKey: "scene-talk:follow:threaten",
+          register: "scene-talk",
+          traits: {},
+          textOf: (row) => row.text,
+        },
+        calibration,
+      );
+      const total = weighed.reduce((sum, row) => sum + (row.weight ?? 1), 0);
+      const liked = weighed
+        .filter((row) => favored.has(row.key))
+        .reduce((sum, row) => sum + (row.weight ?? 1), 0);
+      return liked / total;
+    };
+    const withGrades = share(CALIBRATION);
+    const withoutGrades = share(without);
+    process.stdout.write(
+      `OWN GRADE the threats he liked: ${(withGrades * 100).toFixed(1)}% of the weight with his grades, ${(withoutGrades * 100).toFixed(1)}% without\n`,
+    );
+    expect(withGrades).toBeGreaterThan(withoutGrades);
   });
 });

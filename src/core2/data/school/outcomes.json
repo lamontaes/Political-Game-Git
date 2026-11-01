@@ -40,11 +40,75 @@
       "source": "NCES Condition of Education, Public High School Graduation Rates: 'economically disadvantaged students (81 percent)' against 'the U.S. average adjusted cohort graduation rate (ACGR) for public high school students was 87 percent' (2021-22). The not-disadvantaged rate is the figure that, with about half of students disadvantaged, gives 87 on average."
     }
   },
+  "college": {
+    "about": "The college step of a graduating senior (owner ruling, Oct 29, 2026: the college step after high school is a background simulation built from research, never a step the player takes). On the day a senior year's graduation is decided, each graduate is ranked by the same standing within their income fifth for two things in turn: whether they enroll in college (the immediate enrollment share), and, of those who enroll, whether they complete a bachelor's degree (the six-year completion share, times the web's factor for school.college-completion-pct, which is how the state's higher education line reaches a named graduate). Within a fifth the count is filled from the top by standing, a counted graduate standing for as many students as their household's weight, and the fraction left over carries to next year, exactly as graduation is decided. Each share is the NCES figure moved once by the world's own factor for it (worldBaseRateCollegeEnrollmentSpreadShare and worldBaseRateCollegeCompletionSpreadShare), so no two worlds open on the same college-going rate. There is no roll. From the award day of the year the bachelor's takes, a completer holds a bachelor's and an enrolled graduate who does not complete holds some college; the jobs engine reads both when it prices a hire.",
+    "enrollment": {
+      "share": {
+        "value": 62,
+        "unit": "percent of high school graduates",
+        "tag": "SOURCED",
+        "source": "National Center for Education Statistics, Condition of Education 2024, Immediate College Enrollment Rate (https://nces.ed.gov/programs/coe/indicator/cpa/immediate-college-enrollment-rate): \"Of the 3.0 million high school completers who graduated in the first 9 months of 2022, some 1.9 million (or 62 percent) were enrolled in college in October 2022.\" The national figure stands for every place; a place's own level comes from the income fifths of its graduates (SG-SCHOOL-college-decided-at-graduation)."
+      },
+      "gradientByIncomeFifth": {
+        "values": [56.1, 64.6, 64.6, 64.6, 81.9],
+        "unit": "percent of recent high school completers enrolled in college, by national family-income fifth (low income is the bottom fifth, high the top fifth, middle the three between)",
+        "tag": "ESTIMATED",
+        "source": "NCES Digest of Education Statistics 2017, Table 302.30, Percentage of recent high school completers enrolled in college, by income level (https://nces.ed.gov/programs/digest/d17/tables/dt17_302.30.asp), annual figures 2010 to 2016: low income 50.7, 53.5, 50.9, 45.5, 57.8, 69.2, 65.4 (mean 56.1); middle income 66.7, 66.2, 64.7, 63.8, 63.6, 62.2, 65.0 (mean 64.6); high income 82.2, 82.4, 80.7, 78.5, 83.6, 83.2, 82.5 (mean 81.9). \"Low income refers to the bottom 20 percent of all family incomes, high income refers to the top 20 percent of all family incomes, and middle income refers to the 60 percent in between.\" Only the ratio between the fifths is used: the fifths are scaled so the place's mean is its enrollment share.",
+        "spread": {
+          "low": 45.5,
+          "high": 69.2,
+          "unit": "percent, the range of the low-income annual figures (the middle and high fifths vary by under 5 points)"
+        }
+      }
+    },
+    "completion": {
+      "share": {
+        "value": 64,
+        "unit": "percent of enrolled graduates",
+        "tag": "SOURCED",
+        "source": "National Center for Education Statistics, Condition of Education 2022, Undergraduate Retention and Graduation Rates (https://nces.ed.gov/programs/coe/indicator/ctr/undergrad-retention-graduation): \"In 2020, the overall 6-year graduation rate for first-time, full-time undergraduate students who began seeking a bachelor's degree at 4-year degree-granting institutions in fall 2014 was 64 percent.\" It counts completions at the school where the student started and leaves out part-time students and transfers, and the 62 percent who enroll include two-year colleges; both are taken as the national rate for every enrolled graduate (SG-SCHOOL-college-decided-at-graduation)."
+      },
+      "gradient": {
+        "eligible": 50,
+        "notEligible": 65,
+        "tag": "ESTIMATED",
+        "source": "The Education Trust, The Pell Partnership (Nichols, 2015; https://eric.ed.gov/?id=ED566658): \"While almost 65 percent of non-Pell recipients graduate in six years, only half of Pell students leave with a bachelor's degree in the same time frame.\" Nearly 1,150 public and private nonprofit four-year institutions. The Pell-eligible share of each national income fifth is the one the graduation gradient uses (gradient.eligibleShareByIncomeFifth). Kelchen's analysis of 1,266 four-year colleges (https://robertkelchen.com/tag/pell-grant/) gives a narrower gap: \"The average six-year graduation rate for Pell recipients in my sample was 51.4%, compared to 59.2% for non-Pell recipients\" (2010 entrants), so the gap between the two is about 8 to 15 points.",
+        "spread": {
+          "low": 8,
+          "high": 15,
+          "unit": "points between the not-eligible and eligible completion rates"
+        }
+      }
+    },
+    "yearsToDegree": {
+      "value": 4,
+      "unit": "school years from the senior year's graduation to the degree",
+      "tag": "ESTIMATED",
+      "source": "NCES, Condition of Education, Undergraduate Retention and Graduation Rates: the six-year graduation rate is measured at 150 percent of normal time, \"within 6 years for students seeking a 4-year bachelor's degree\", so normal time is four years. Every completer is given the degree at normal time, though about a third of them take longer (SG-SCHOOL-college-decided-at-graduation).",
+      "spread": {
+        "low": 4,
+        "high": 6,
+        "unit": "years"
+      }
+    },
+    "awardDay": {
+      "value": "05-15",
+      "tag": "ESTIMATED",
+      "source": "Spring commencement for the school year that ends the degree, mid-May; no source gives a national date.",
+      "spread": {
+        "low": "05-01",
+        "high": "06-01",
+        "unit": "month-day"
+      }
+    }
+  },
   "links": {
-    "schoolMove": "school-move-to-scores"
+    "schoolMove": "school-move-to-scores",
+    "collegeCompletion": "higher-education-spending-to-college-completion"
   },
   "stopgaps": {
-    "collegeCompletion": "SG-SCHOOL-college-completion",
+    "collegeDecidedAtGraduation": "SG-SCHOOL-college-decided-at-graduation",
+    "collegeStockLedger": "SG-SCHOOL-college-stock-ledger",
     "equalizedFunding": "SG-SCHOOL-equalized-funding-budget",
     "switchWindow": "SG-SCHOOL-switch-window"
   }

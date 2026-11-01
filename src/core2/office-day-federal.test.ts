@@ -71,7 +71,10 @@ import {
   proposedBudget,
 } from "./modules/budgets";
 
-const seed = process.env.OFFICE_FEDERAL_SEED || randomBytes(8).toString("hex");
+const seed =
+  process.env.OFFICE_FEDERAL_SEED ||
+  process.env.GOLDEN_PATH_SEED ||
+  randomBytes(8).toString("hex");
 const place = drawPlace(seed, "office-federal");
 console.log(`office-day-federal: ${place.name} (${place.key}), seed ${seed}`);
 const world = buildBenchWorld(seed, gameStartDate(), {

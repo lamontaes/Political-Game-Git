@@ -20,7 +20,12 @@ describe.each(drawn ? [drawn] : ["m0-06-a", "m0-06-b", "m0-06-c"])(
       startedAt: "2021-01-01",
       minimumPeople: 1000,
     });
-    const byId = new Map(input.people.map((person) => [person.id, person]));
+    // A relative who died before day one is a named record (a husk with a date
+    // of death); the living are full people.
+    const byId = new Map<string, { id: string; birthDate?: string }>([
+      ...input.people.map((person) => [person.id, person] as const),
+      ...(input.husks ?? []).map((husk) => [husk.id, husk] as const),
+    ]);
     const age = (birthDate: string, on = input.startedAt) =>
       ageOnDate(makeIsoDate(birthDate), makeIsoDate(on));
     const player = input.people.find(

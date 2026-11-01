@@ -1,5 +1,5 @@
-import { GARMENTS } from "./figure-colors";
-import { drawnFigure } from "./figure-hair";
+import { drawAheadNow, figureAtPath, figurePng } from "./people-pack";
+import { frontPng } from "./mannequin-plates";
 import { writeLineGrade } from "./grade-line";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { personOrFillIn } from "../core2/state";
@@ -99,6 +99,7 @@ import {
   politicsStates,
   stateLegislators,
 } from "./government";
+import { governmentBodies } from "./government-bodies";
 import type { Director } from "../director/ledger";
 import type { CoreState } from "../core2/types";
 import { benchProgress } from "./progress";
@@ -124,6 +125,20 @@ let filingVisit: BenchFilingVisit | undefined;
 /** The election nights each player has watched, and the mornings they canvassed. */
 const nightsWatched = new Set<string>();
 const canvassedOn = new Set<string>();
+/** The scene a person is in now, as the screen shows it: the player's opening day ends at home that evening, where the news is. */
+function sceneNow(current: CoreState, id: string) {
+  const playing = player?.personId === id;
+  const openingDay =
+    playing &&
+    !player!.packet &&
+    director?.ledger.opening?.date === current.date;
+  return benchScene(
+    current,
+    id,
+    playing ? player!.packet : undefined,
+    openingDay ? OPENING_EVENING_MINUTE : undefined,
+  );
+}
 /** The speech the player is building, one part at a time. */
 let speechBuild: SpeechBuild | undefined;
 // Where the build is, for the loading screen's polls.
@@ -305,6 +320,12 @@ export async function benchRequest(
                 world.director.ledger.opening,
               )
             : null;
+          // The first screen's people and the faces the first menus show
+          // (the player's card: household and closest ties) are drawn during
+          // loading too, so they are there the moment the screen asks.
+          sceneNow(world.core, entrant.personId);
+          personCard(world.core, entrant.personId);
+          drawAheadNow();
           buildProgress = { stage: "done", done: 0, total: 0 };
           // A scene the director already staged for today (the address the
           // household watches that evening) plays first.
@@ -329,30 +350,32 @@ export async function benchRequest(
         }
         return;
       }
-      if (
-        request.method === "GET" &&
-        /^\/art\/people-engine\/v2\/figures\/[\w.-]+\.png$/.test(url.pathname)
-      ) {
-        // Standing people: the v2 figures, served as they are. The folder is
-        // written out so the desktop build copies it (it reads the fixed part
-        // of this path, desktop/scripts/build-play-api.mjs).
-        const file = url.pathname.split("/").at(-1)!;
-        const content = drawnFigure(
-          file.replace(/\.png$/, ""),
-          Object.fromEntries(
-            ["skin", "hair", "hairColor", "face", ...GARMENTS].flatMap(
-              (key) => {
-                const value = url.searchParams.get(key);
-                return value ? [[key, value]] : [];
-              },
-            ),
-          ),
-        );
+      if (request.method === "GET" && url.pathname.startsWith("/art/people/")) {
+        // A person: the pack's figure (people-pack.ts), a kit in the colors
+        // the query names, a look as painted.
+        const figure = figureAtPath(url.pathname);
+        if (!figure) throw new Error("Unknown figure.");
         response.writeHead(200, {
           "Content-Type": "image/png",
           "Cache-Control": "public, max-age=3600",
         });
-        response.end(content);
+        response.end(
+          figurePng(figure, Object.fromEntries(url.searchParams.entries())),
+        );
+        return;
+      }
+      if (
+        request.method === "GET" &&
+        url.pathname.startsWith("/art/people-rooms/fronts/")
+      ) {
+        // The furniture a plate paints in front of a mannequin, as a mask.
+        response.writeHead(200, {
+          "Content-Type": "image/png",
+          "Cache-Control": "max-age=3600",
+        });
+        response.end(
+          frontPng(url.pathname.slice("/art/people-rooms/fronts/".length)),
+        );
         return;
       }
       if (
@@ -409,21 +432,7 @@ export async function benchRequest(
         // Someone still in the counts is filled in the moment they're looked at.
         if (!personOrFillIn(current, id))
           throw new Error("Resident does not exist in core records.");
-        const playing = player?.personId === id;
-        // The opening day ends at home that evening, where the news is.
-        const openingDay =
-          playing &&
-          !player!.packet &&
-          director?.ledger.opening?.date === current.date;
-        send(
-          200,
-          benchScene(
-            current,
-            id,
-            playing ? player!.packet : undefined,
-            openingDay ? OPENING_EVENING_MINUTE : undefined,
-          ),
-        );
+        send(200, sceneNow(current, id));
         return;
       }
       if (request.method === "POST" && url.pathname === "/api/talk/open") {
@@ -554,7 +563,14 @@ export async function benchRequest(
           "Content-Type": "image/png",
           "Cache-Control": "max-age=3600",
         });
-        response.end(portraitPng(readRecipe(kept)));
+        // Everyday clothes, or with dress=work the work clothes (the creator
+        // shows the two side by side).
+        response.end(
+          portraitPng(
+            readRecipe(kept),
+            url.searchParams.get("dress") === "work" ? "work" : "everyday",
+          ),
+        );
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/title") {
@@ -966,7 +982,11 @@ export async function benchRequest(
             director,
             player.personId,
             url.searchParams.get("momentId") ?? "",
-            player.packet?.at.minuteOfDay ?? 12 * 60,
+            // The opening day's scene is that evening at home (as /api/scene).
+            player.packet?.at.minuteOfDay ??
+              (director.ledger.opening?.date === requireCore().date
+                ? OPENING_EVENING_MINUTE
+                : 12 * 60),
             // ?held=1 on the play page: the grading view, held lines marked.
             { held: url.searchParams.get("held") === "1" },
           ),
@@ -1257,6 +1277,22 @@ export async function benchRequest(
         url.pathname === "/api/government/local-races"
       ) {
         send(200, localRaces(requireCore()));
+        return;
+      }
+      if (
+        request.method === "GET" &&
+        url.pathname === "/api/government/bodies"
+      ) {
+        const level = url.searchParams.get("level");
+        send(
+          200,
+          governmentBodies(
+            requireCore(),
+            url.searchParams.get("id") ?? "",
+            level === "state" || level === "federal" ? level : "local",
+            url.searchParams.get("state") ?? "",
+          ),
+        );
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/government") {

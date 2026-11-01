@@ -5,14 +5,14 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: claimed
-claimed-by: play-first/play-town-moves-on-screen
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: Oct 25 pool audit, on-screen pass (from world-town-net-moving-negative)
 lead: play-first
 milestone: play-first
-claimed-at: 2026-10-26T08:55:02.387Z
+claimed-at:
 ---
 
 **What.** The moves engine moves households in and out of the town every month, and world-town-net-moving-negative is fixing a town that shrinks too fast. The player never sees the town's size change. Show the town's population under its name on Who you are, with this year's arrivals and departures, and let News print a line when someone the player knows moves away or a new family moves onto the street, read from the move records.
@@ -30,3 +30,5 @@ claimed-at: 2026-10-26T08:55:02.387Z
 **Files.** src/bench/card.ts, src/bench/story.ts, src/bench/play.mjs
 
 **Notes.** Filed by the Oct 25 pool audit: world-town-net-moving-negative's Done when names no screen. Build the screen against what the engine gives today; when the engine side is thin, the screen says so in plain words. An engine change stays with world-town-net-moving-negative (needs-from in the handoff line).
+
+Oct 29 (CTO, second account): claim released; the session that held it ended with the Oct 19 to 29 crews. Branch `play-first/play-town-moves-on-screen` is kept; claiming this item takes it over.

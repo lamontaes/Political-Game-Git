@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by:
 pr: #6598
 blocked-on:
@@ -25,3 +25,5 @@ claimed-at:
 **Files.** src/core2/starting-cash.ts, src/core2/opening-finance.ts, src/core2/opening-income.ts, src/core2/modules/credit.ts, src/core2/opening-private-tuition.ts, src/core2/gov-rules/place-population.ts
 
 **Notes.** Filed by the realistic-not-real audit of Oct 27.
+
+Oct 29 (CTO): set done; PR #6598 merged (the done flip failed while branch protection refused the flip job's push).

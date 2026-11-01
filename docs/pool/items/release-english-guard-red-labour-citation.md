@@ -5,7 +5,7 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/release-english-guard-labour
 pr: #6550
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-28T05:57:01.541Z
 **Files.** tests/guards/english/spelling-dates-units.test.ts, tests/guards/english/allowlist.ts, docs/reports/law-wiring-matrix.json
 
 **Notes.** TODO
+
+Oct 29 (CTO): set done; PR #6550 merged (the done flip failed while branch protection refused the flip job's push).

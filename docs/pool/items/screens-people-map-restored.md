@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: screens/people-map
 pr: #6489
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-28T02:33:44.551Z
 **Files.** src/bench/play.mjs, src/bench/play.css
 
 **Notes.** TODO
+
+Oct 29 (CTO): set done; PR #6489 merged (the done flip failed while branch protection refused the flip job's push).

@@ -222,6 +222,12 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
     let turns = 0;
     for (const otherId of others.slice(0, 15)) {
       const talk = openConversation(core, player.id, otherId);
+      // With nothing on record to say, nothing is said: never a hello and a
+      // goodbye with nothing between (owner, Oct 24).
+      if (!talk.lines.length) {
+        expect(talk.choices).toEqual([]);
+        continue;
+      }
       // A greeting at most, then one question.
       expect(talk.lines.filter((row) => row.kind !== "greet").length).toBe(1);
       for (let turn = 0; turn < 4 && talk.choices.length; turn += 1) {
@@ -321,8 +327,10 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
     const coworker = [...core.jobs.values()].find(
       (job) => job.personId !== player.id && job.organizationId === myOrg(),
     )!.personId;
+    // A coworker already knows where the player works: they ask nothing
+    // about it, and where they do talk, the scales are dim.
     const known = openConversation(core, player.id, coworker);
-    if (opening(known).kind === "own-work") expect(known.lies).toEqual([]);
+    if (opening(known)?.kind === "own-work") expect(known.lies).toEqual([]);
   });
 
   it("turns every choice false with the scales: different moves, each contradicting the player's record", () => {
@@ -514,8 +522,15 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
   });
   it("keeps to one topic, may lead to one related topic, and the other person closes it", () => {
     let closed = 0;
+    let silent = 0;
     for (const otherId of others.slice(0, 15)) {
       const talk = openConversation(core, player.id, otherId, { director });
+      // Someone with nothing on record to say says nothing: never "Hey." and
+      // "I'll see you." with nothing between (owner, Oct 24).
+      if (!talk.lines.length) {
+        silent += 1;
+        continue;
+      }
       for (let turn = 0; turn < 8 && talk.choices.length; turn += 1)
         say(core, talk, talk.choices[0]!.key);
       expect(talk.topics.length).toBeLessThanOrEqual(2);
@@ -525,12 +540,18 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
           kindOf(talk.topics[1]!),
         );
       }
+      // A talk that said something closes on the other person's line.
       if (!talk.choices.length) {
         expect(talk.lines.at(-1)?.speakerId).toBe(otherId);
+        expect(
+          talk.lines.some(
+            (line) => line.kind !== "greet" && line.kind !== "farewell",
+          ),
+        ).toBe(true);
         closed += 1;
       }
     }
-    expect(closed).toBeGreaterThan(0);
+    expect(closed + silent).toBeGreaterThan(0);
   });
   it("opens a reunion scene's talk on a school or workplace the two once shared only when decades have passed and the record shows it (owner, Oct 15, evening)", () => {
     const book = director.ledger.people.get(player.id)!;

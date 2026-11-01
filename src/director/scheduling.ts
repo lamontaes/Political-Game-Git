@@ -59,6 +59,8 @@ export interface SituationCause {
      */
     causeFacts?: readonly {
       key: string;
+      /** The record must not carry the fact. */
+      absent?: true;
       is?: "subject" | "other";
       equals?: readonly string[];
       includes?: "subject";
@@ -305,6 +307,12 @@ export function causeMatches(
   if (!match) return false;
   for (const want of match.causeFacts ?? []) {
     const fact = core.durableLog.get(moment.causeId)?.facts?.[want.key];
+    // A fact the record must not carry (an interview the player did not sit
+    // for has no `sat`): a record the log did not keep carries none.
+    if (want.absent) {
+      if (fact) return false;
+      continue;
+    }
     if (typeof fact !== "string" || !fact) return false;
     if (want.is && (fact === moment.personId) !== (want.is === "subject"))
       return false;
@@ -431,6 +439,24 @@ function fillRole(
       return moment.counterpartIds.slice(zero, one);
     case "household":
       return household();
+    case "bereaved": {
+      // Those who lost the same person: the living family the deceased's
+      // record names (a parent's widow, their children, their siblings), the
+      // subject's own household first, then the closest, never the subject.
+      // A funeral at a venue has no one "present" by setting.
+      const gone = core.people.get(moment.counterpartIds[zero] ?? "");
+      if (!gone) return [];
+      const home = new Set(household());
+      const kin = closest(
+        [...gone.familyIds].filter(
+          (id) => id !== moment.personId && alive(core, id) && !taken.has(id),
+        ),
+      );
+      return [
+        ...kin.filter((id) => home.has(id)),
+        ...kin.filter((id) => !home.has(id)),
+      ];
+    }
     case "household-stake":
       // The household members the filing puts something of theirs at risk
       // for, strongest first; none, and the scene is not staged.

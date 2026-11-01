@@ -14,7 +14,10 @@ import { buildBenchWorld } from "./world";
 // the estimate the records give for it, the floor date and whip, and the vote
 // and signature records when the body has made them. The bench world, a place
 // drawn from all 56 on a seed nobody chose.
-const seed = process.env.BILL_PAPER_SEED ?? randomBytes(8).toString("hex");
+const seed =
+  process.env.BILL_PAPER_SEED ??
+  process.env.GOLDEN_PATH_SEED ??
+  randomBytes(8).toString("hex");
 const place = drawPlace(seed, "bill-paper");
 
 describe(`a bill on paper (${place.name}, seed ${seed})`, () => {

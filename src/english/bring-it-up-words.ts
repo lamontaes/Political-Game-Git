@@ -25,7 +25,12 @@ export interface BringWords {
   changes: Readonly<Record<string, Variant[]>>;
   /** The sentences that say whom the speaker blames, by how they came to it. */
   blame: Readonly<Record<BlameHow, Variant[]>>;
+  /** The sentences that tell the listener what came of their own bill, by outcome. */
+  yours: Readonly<Record<BillOutcome, Variant[]>>;
 }
+
+/** How a vote on a bill came out. */
+export type BillOutcome = "passed" | "failed";
 /** The default words are the mined bank's. */
 export const BRING_IT_UP_WORDS: BringWords = bringWordsFromBank();
 
@@ -36,7 +41,9 @@ export const BRING_IT_UP_WORDS: BringWords = bringWordsFromBank();
  */
 export type BringMove =
   | { part: "change"; eventKind: string }
-  | { part: "blame"; how: BlameHow; named: boolean };
+  | { part: "blame"; how: BlameHow; named: boolean }
+  /** What came of the listener's own bill; `form` is the bill's (an act, an ordinance), which its lines name. */
+  | { part: "yours"; outcome: BillOutcome; form: string };
 
 /** Words one line of bringing it up, or null when no sentence fits its facts. */
 export function wordBringMove(request: {
@@ -51,11 +58,18 @@ export function wordBringMove(request: {
 }): RenderedLine | null {
   const words = request.words ?? BRING_IT_UP_WORDS;
   const { move } = request;
-  const part = move.part === "change" ? "change" : `blame:${move.how}`;
+  const part =
+    move.part === "change"
+      ? "change"
+      : move.part === "yours"
+        ? `yours:${move.outcome}`
+        : `blame:${move.how}`;
   const variants =
     move.part === "change"
       ? (words.changes[move.eventKind] ?? [])
-      : words.blame[move.named ? move.how : "unknown"];
+      : move.part === "yours"
+        ? words.yours[move.outcome]
+        : words.blame[move.named ? move.how : "unknown"];
   return renderLine({
     seed: request.seed,
     surface: "dialogue",
@@ -65,6 +79,7 @@ export function wordBringMove(request: {
     variants,
     facts: request.facts,
     momentKey: `${request.momentKey}:${part}`,
+    ...(move.part === "yours" ? { stage: move.form } : {}),
     fallbackSourceId: request.fallbackSourceId,
     voice: { traits: request.traits, register: "conversation" },
   });

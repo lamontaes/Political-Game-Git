@@ -5,7 +5,7 @@ area: play
 kind: cleanup
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/dup-who-works-here
 pr: #6484
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-28T02:23:48.641Z
 **Files.** src/bench/scene.ts, src/bench/places.ts
 
 **Notes.** TODO
+
+Oct 29 (CTO): set done; PR #6484 merged (the done flip failed while branch protection refused the flip job's push).

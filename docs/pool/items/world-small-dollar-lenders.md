@@ -5,11 +5,12 @@ area: world
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/laws-small-dollar-lenders
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-29T16:32:43.821Z
 ---
 
 **What.** The owner ruled on Oct 24 that payday and small-dollar lenders are simulated in the background, not asked about. They exist wherever state law allows them, with rates, fees and volumes taken from sourced data (CFPB payday and installment lending reports, state regulator filings) so a town's borrowing households have a lender whose rates sit far above the bank's. The consumer-loan rate cap and fee limits in the laws engine read these lenders, so a cap that today changes no one's rate binds on them and moves money. Households that borrow pick the lender by the same chooser as any purchase, from their own cash, credit and circumstances.
