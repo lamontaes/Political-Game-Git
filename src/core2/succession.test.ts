@@ -169,6 +169,30 @@ describe(`presidential succession in the played world: ${where}`, () => {
     expect(fresh.core.people.get(after.holderId)?.alive, where).toBe(true);
     const votes = after.confirmation as { yes: number; no: number }[];
     expect(votes[0]!.yes, where).toBeGreaterThan(votes[0]!.no);
+    // The post's seat is held again, not left on the roster as empty.
+    const seatRows = (
+      freshApi
+        .moduleState("core2-officials-v1")
+        .table("officials")
+        .rows() as unknown as {
+        seatId: string;
+        ended: string | null;
+        id: string;
+      }[]
+    ).filter(
+      (r) =>
+        r.seatId ===
+        (
+          freshApi
+            .moduleState("core2-succession-v1")
+            .table("postSeats")
+            .get(dead.id) as unknown as { seatId: string }
+        ).seatId,
+    );
+    expect(
+      seatRows.some((r) => r.ended === null && r.id === after.holderId),
+      where,
+    ).toBe(true);
   });
 
   it("a vice president named to a vacancy is eligible to be president, vacancy after vacancy", () => {

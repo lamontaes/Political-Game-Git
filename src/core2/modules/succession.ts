@@ -96,7 +96,7 @@ export const SUCCESSION_MODULE: CoreModule = {
   id: SUCCESSION_MODULE_ID,
   state: {
     schemaVersion: 1,
-    tables: { cabinet: {}, successions: {} },
+    tables: { cabinet: {}, successions: {}, postSeats: {} },
   },
   onCalendarWork: (api, work) => {
     if (work.kind !== "cabinet-review") return;
@@ -264,6 +264,11 @@ function appointCabinet(api: CoreAPI): void {
       chambers: [FEDERAL_SENATE],
     });
     if (!chosen) continue;
+    // The post keeps one seat, whoever holds it.
+    table(api, "postSeats").put({
+      id: post.key,
+      seatId: chosen.row.seatId,
+    } as unknown as ModuleRow);
     table(api, "cabinet").put({
       id: post.key,
       title: post.title,
@@ -293,6 +298,23 @@ function refillCabinet(api: CoreAPI): void {
       chambers: [FEDERAL_SENATE],
     });
     if (!chosen) continue;
+    // The new secretary sits in the post's own seat, so the seat is not left
+    // empty by the death of the one before them.
+    const postSeat = table(api, "postSeats").get(post.key) as unknown as
+      { seatId: string } | undefined;
+    if (postSeat)
+      api
+        .moduleState(OFFICIALS_MODULE_ID)
+        .table("officials")
+        .put({
+          ...chosen.row,
+          seatId: postSeat.seatId,
+        } as unknown as ModuleRow);
+    else
+      table(api, "postSeats").put({
+        id: post.key,
+        seatId: chosen.row.seatId,
+      } as unknown as ModuleRow);
     table(api, "cabinet").put({
       id: post.key,
       title: post.title,
