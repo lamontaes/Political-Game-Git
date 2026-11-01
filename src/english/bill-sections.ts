@@ -231,14 +231,15 @@ export function composeBill(input: BillWordsInput): ComposedBill | null {
     words.push(w);
   }
   const allRepeal = words.every((w) => w.repeal);
+  // Two sections on one law (a raise in dated steps) state its purpose once.
   const purposes = joinWords(
-    words.map((w) => w.purpose),
+    [...new Set(words.map((w) => w.purpose))],
     BILL_SECTIONS.joiners.purposes,
   );
   const title = allRepeal
     ? fill(form.repealTitle, {
         subject: joinWords(
-          words.map((w) => w.subject),
+          [...new Set(words.map((w) => w.subject))],
           BILL_SECTIONS.joiners.subjects,
         ),
       })
