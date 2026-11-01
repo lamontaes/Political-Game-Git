@@ -5,11 +5,12 @@ area: core
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: lives/partners
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-01T21:57:46.055Z
 ---
 
 **What.** Unit 4 of core-every-life-simulated. Nobody forms or ends a partnership in play (setPartnersV1 has no caller). People living elsewhere get a monthly pull to partner (the opening chain's ACS first-marriage and NCFMR remarriage paces for single people their age) and couples a pull to part (NSFG's intact-marriage curve), moved by their traits; a single person with nobody suitable gets a generated partner, and every change goes through setPartnersV1 with their relatives in town as witnesses.
