@@ -1269,6 +1269,17 @@ async function openFiling(filedWith, contestId) {
   const opened = await post(
     `/api/filing/open?filedWith=${encodeURIComponent(filedWith)}`,
   );
+  // A closed office is visited at its next opening: the clock has moved there.
+  // Something that came up on the way is lived first; the counter waits.
+  if (opened.waiting || opened.waited) {
+    const packet = opened.waiting ? opened.packet : opened.waited;
+    if (packet) renderPacket(packet);
+    if (opened.waiting) {
+      const moment = storyStop(packet);
+      if (moment) await showStory(moment.recordId);
+      return;
+    }
+  }
   const pick =
     contestId &&
     opened.visit?.choices.find(
@@ -3339,7 +3350,13 @@ const sheets = {
           : labels.closed;
     // A card opens the place's own view: its picture, what you do there, who
     // works there, then Go (owner, Oct 28, point 28).
-    const showPlace = (p) => {
+    const showPlace = async (p) => {
+      // An office keeps its clerk's hours: the card says when it next opens.
+      const hours = p.filing
+        ? await api(
+            `/api/filing/hours?filedWith=${encodeURIComponent(p.filedWith)}`,
+          )
+        : {};
       const picture = p.presentation?.imageUrl;
       // Each race named apart: its district, and its election day when two
       // races for the same office are open at once (a regular and a special).
@@ -3373,8 +3390,14 @@ const sheets = {
         }
         return named;
       };
+      const opensLine = hours.opens
+        ? labels.opensAt
+            .replace("{day}", dateWords(hours.opens.date, { weekday: true }))
+            .replace("{time}", timeWords(hours.opens.minuteOfDay))
+        : "";
       const doHere = p.filing
         ? [
+            ...(opensLine ? [{ text: opensLine }] : []),
             {
               actions: p.races.map((race) => ({
                 label: raceLabel(race),

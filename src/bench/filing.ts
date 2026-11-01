@@ -1,5 +1,7 @@
 import { coreAPI } from "../core2/state";
 import { filingClerkFor } from "../core2/modules/filing-clerk";
+import { workSpansOnDateV1 } from "../core2/work-spans-v1";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import {
   checkEligibility,
   filingOfficeFor,
@@ -241,4 +243,59 @@ export function chooseAtCounter(
     return { ...state, visit: { ...state.visit, choices: [] }, result };
   }
   return { ...state, visit: { ...state.visit, choices: [] } };
+}
+
+/** A moment the counter next opens: its day and the minute of that day. */
+export interface CounterOpening {
+  date: string;
+  minuteOfDay: number;
+}
+
+/**
+ * When the office that takes these filings is next open, read from its clerk's
+ * own work spans (the same record Travel's "who is there now" reads; owner,
+ * Nov 1: "obviously the office isn't open at 8:30 p.m."). Null when the clerk
+ * is at work at this minute, or the records name no clerk or hours (then the
+ * counter stands open, as it did). The clerk's days off (a holiday, a
+ * weekend) are skipped by the spans themselves.
+ */
+export function counterOpening(
+  core: CoreState,
+  filedWith: string,
+  at: { date: string; minuteOfDay: number },
+): CounterOpening | null {
+  const api = coreAPI(core);
+  const contest = playerContests(api).find(
+    (row) => filingOfficeFor(api, row.id).filedWith === filedWith,
+  );
+  const clerk = contest ? filingClerkFor(api, contest.id) : null;
+  if (!clerk) return null;
+  // Looks a fortnight ahead: no week is without a day the office is open.
+  for (let ahead = 0; ahead < 14; ahead += 1) {
+    const date = addDays(makeIsoDate(at.date), ahead);
+    let starts: number[];
+    try {
+      const spans = workSpansOnDateV1(api, {
+        controlledPersonId: clerk.personId,
+        date,
+      }).owners.flatMap((owner) => owner.spans);
+      if (
+        ahead === 0 &&
+        spans.some(
+          (span) =>
+            span.startMinute <= at.minuteOfDay &&
+            at.minuteOfDay < span.endMinute,
+        )
+      )
+        return null;
+      starts = spans
+        .filter((span) => ahead > 0 || span.startMinute > at.minuteOfDay)
+        .map((span) => span.startMinute);
+    } catch {
+      // No hours on record for this clerk: the counter stands open.
+      return null;
+    }
+    if (starts.length) return { date, minuteOfDay: Math.min(...starts) };
+  }
+  return null;
 }
