@@ -5,12 +5,13 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: words/address-no-figures
 pr:
 blocked-on:
 lead: words
 source: CTO opening root-cause report, Oct 27
+claimed-at: 2026-11-01T22:21:39.835Z
 ---
 
 **What.** The address is one sentence per number (src/english/english-opening-speech.ts:92-125, src/director/opening-story.ts:369-393), so it reads as a stat readout. The bank fragment "I was in {place}." (data/english/parts/opening-speech.json:2704) is said alone with no reason. On inauguration night the news says "John Holt won." because the address is worded as an election story (src/director/opening-story.ts:779). The owner's Oct 27 ruling asks for an address that flows like a real speech. Coordinate with play-first-09's claim (words/opening-address-from-records). Evidence: docs/reports/opening-root-cause-2026-10-27.md.
