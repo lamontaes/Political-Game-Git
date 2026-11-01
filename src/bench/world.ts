@@ -115,6 +115,21 @@ export function entrantOf(
 }
 
 /**
+ * Whether a person lives in a household, not in group quarters (a dormitory,
+ * a cell, a barracks or a nursing-home room): the player starts in a
+ * household, as every resident did before group quarters were counted.
+ */
+function inHousehold(
+  input: CoreInput,
+): (person: { householdId?: string }) => boolean {
+  const rooms = new Set(
+    input.households.filter((home) => home.quarters).map((home) => home.id),
+  );
+  return (person) =>
+    !rooms.size || !person.householdId || !rooms.has(person.householdId);
+}
+
+/**
  * The entrant and what the pick rests on: `estimated` is true when nobody
  * here is 17 or 18 and the resident nearest 18 stands in, younger first so
  * the 18th birthday still comes in play. Fails only where no resident lives.
@@ -128,8 +143,14 @@ export function entrantChoice(
 ): { id: string; age: number; estimated: boolean } {
   if (birthDate) return entrantBornNear(input, placeId, makeIsoDate(birthDate));
   const at = makeIsoDate(input.startedAt);
+  const household = inHousehold(input);
   const residents = input.people
-    .filter((person) => person.placeId === placeId && person.tier !== "husk")
+    .filter(
+      (person) =>
+        person.placeId === placeId &&
+        person.tier !== "husk" &&
+        household(person),
+    )
     .map((person) => ({
       id: person.id,
       age: ageOnDate(makeIsoDate(person.birthDate), at),
@@ -192,8 +213,14 @@ function entrantBornNear(
         return ageOnDate(chosen, makeIsoDate(other)) >= minParentAge;
       return true;
     });
+  const household = inHousehold(input);
   const nearest = input.people
-    .filter((person) => person.placeId === placeId && person.tier !== "husk")
+    .filter(
+      (person) =>
+        person.placeId === placeId &&
+        person.tier !== "husk" &&
+        household(person),
+    )
     .map((person) => ({
       person,
       apart: Math.abs(daysBetween(chosen, makeIsoDate(person.birthDate))),

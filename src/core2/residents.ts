@@ -40,6 +40,7 @@ import PLACE_EARNINGS from "./data/place-earnings-2024.json" with { type: "json"
 import schools from "./data/opening-public-schools.json" with { type: "json" };
 import { worldLevel } from "./world-draw";
 import { parameter } from "./parameters";
+import { outsideLaborForce } from "./gov-rules/place-population";
 
 export const RESIDENTS_STOPGAP = "SG-CORE-residents-cadence";
 export const RESIDENTS_KIND = "residents";
@@ -799,6 +800,9 @@ export function collapseToTwoLevels(
   const countedEmployedByPlace = new Map<PlaceId, number>();
   const jobHolders = new Set(input.jobs.map((row) => row.personId));
   for (const home of collapsedHomes) {
+    // Residents of institutions and military quarters are outside the
+    // civilian labor force: none of them is an unplaced worker.
+    if (outsideLaborForce(home.quarters)) continue;
     countedAdultsByPlace.set(
       home.placeId,
       (countedAdultsByPlace.get(home.placeId) ?? 0) + adults(home.memberIds),

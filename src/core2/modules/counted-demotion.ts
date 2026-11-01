@@ -220,7 +220,10 @@ export function demoteHousehold(
   }
   // Its bills become its parts of the merged flows again.
   const parts = new Map<string, number>();
-  let tenure: "rent" | "mortgage" | "other" = "other";
+  // A group-quarters room returns to the counts as a room, outside the market.
+  let tenure: "rent" | "mortgage" | "other" | "group" = home.quarters
+    ? "group"
+    : "other";
   let rent:
     { payeeId: string; amountMinor: number; source: Source } | undefined;
   for (const contract of core.finance.contracts.values()) {
@@ -273,7 +276,13 @@ export function demoteHousehold(
   }
   const members = new Set(people.map((p) => p.id));
   const record: ResidentHouseholdRecord = {
-    household: { id: householdId, placeId, memberIds: [...members], source },
+    household: {
+      id: householdId,
+      placeId,
+      memberIds: [...members],
+      source,
+      ...(home.quarters ? { quarters: home.quarters } : {}),
+    },
     people: people.map((p) => asCounted(p, members)),
     jobs,
     workCommitments: commitments,

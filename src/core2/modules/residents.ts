@@ -75,6 +75,7 @@ export { worldPrivateTuitionAnnualUsd } from "../opening-private-tuition";
 import { placeDistrictPopulations } from "../../districts/place-population-share";
 import { stopgap } from "../stopgaps";
 import { corePlaceByKey } from "../place-lookup";
+import { outsideLaborForce } from "../gov-rules/place-population";
 import { recordEstatePaid, sellHome } from "../housing-sale";
 import {
   addCountedJob,
@@ -380,6 +381,7 @@ export function groupKeyOf(
     tenure: h.tenure,
     ageBand: ageBandOf(Math.max(0, headAge)),
     work,
+    ...(h.quarters ? { quarters: h.quarters } : {}),
   };
 }
 
@@ -594,7 +596,8 @@ function packOpening(
   const eligible = new Map<PlaceId, number>();
   const open = new Map<number, number>();
   for (const h of households) {
-    const n = jobless(store, h, date);
+    // Residents of institutions and military quarters seek no civilian work.
+    const n = outsideLaborForce(h.quarters) ? 0 : jobless(store, h, date);
     open.set(h.index, n);
     // A record stands for as many households as its weight says.
     eligible.set(
@@ -1969,12 +1972,17 @@ export function takeResidentHousehold(
   const payers = people
     .filter((row) => row.livingCostDailyMinor > 0)
     .map((row) => row.id);
+  // A group-quarters room stays one when filled in: its home is the opening's
+  // `group` dwelling, and its type comes with it. The engines that read full
+  // people's work do not read the type yet.
+  if (h.quarters) stopgap("SG-GQ-full-resident-work");
   const record: ResidentHouseholdRecord = {
     household: {
       id: h.id,
       placeId: h.placeId,
       memberIds: people.map((row) => row.id),
       source: h.source,
+      ...(h.quarters ? { quarters: h.quarters } : {}),
     },
     people,
     jobs: [...h.jobs],

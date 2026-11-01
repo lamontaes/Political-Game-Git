@@ -443,8 +443,10 @@ export function applyCountedFlows(
           householdId,
           counted!.households[at]!.tenure === "rent" ? "rent" : "own",
         );
+      // A group-quarters room's income is no household's: no fifth (a
+      // zero-income room would read as the poorest).
       const fifth =
-        at === undefined
+        at === undefined || counted!.households[at]!.quarters
           ? undefined
           : incomeBandOf(householdIncome(runtime!, counted!.households[at]!));
       for (const person of members) {
@@ -787,7 +789,10 @@ export function applyCountedFlows(
       hud?.veryLow4 != null
         ? hud.veryLow4 * CENTS_PER_DOLLAR * p("renewalMedianPerVeryLowLimit")
         : p("renewalMedianAnnualIncomeMinor");
-    const current = countedHouseholdsByPlace(core).get(placeId) ?? [];
+    // No baby joins a dormitory, a cell or a nursing-home room.
+    const current = (countedHouseholdsByPlace(core).get(placeId) ?? []).filter(
+      (record) => !record.household.quarters,
+    );
     const spacing = p("renewalCountedBirthSpacingDays");
     const today = Date.parse(date);
     /** The real women of childbearing age the counted women stand for. */

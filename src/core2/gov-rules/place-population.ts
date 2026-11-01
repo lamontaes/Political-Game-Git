@@ -10,10 +10,14 @@
  * world starts from, not a live count.
  */
 import territoryPlaces from "../data/places/territory-places.json" with { type: "json" };
+import groupQuartersProfile from "../data/people/group-quarters.json" with { type: "json" };
 import acsPlaces from "../../../data/research/money/place-population-acs-2024.json" with { type: "json" };
+import groupQuartersCounts from "../../../data/research/group-quarters/census-2020-group-quarters.json" with { type: "json" };
 import placePopulationTable from "../../../data/tables/place-population.json" with { type: "json" };
 
 import { parameter as p } from "../parameters";
+import { stopgap } from "../stopgaps";
+import { GROUP_QUARTERS_TYPES, type GroupQuartersType } from "../types";
 import { worldLevel, worldOffsetShare } from "../world-draw";
 
 let table: ReadonlyMap<string, number> | null = null;
@@ -122,4 +126,73 @@ export function placePopulation(
   return published === null
     ? null
     : worldPopulationOf(placeGeoid, seed, published);
+}
+
+/** A place's group-quarters residents by type, from the Census (see `placeGroupQuarters`). */
+export interface PlaceGroupQuarters {
+  readonly byType: Readonly<Record<GroupQuartersType, number>>;
+  readonly total: number;
+  /** P5 and P28 rows are SOURCED; a `blocks` row is ESTIMATED (the file's `tables`). */
+  readonly table: "P5" | "P28" | "blocks";
+}
+
+let groupQuartersTable: ReadonlyMap<string, PlaceGroupQuarters> | null = null;
+
+function loadGroupQuarters(): ReadonlyMap<string, PlaceGroupQuarters> {
+  if (groupQuartersTable) return groupQuartersTable;
+  // The file's columns are the key, the table, the total, then the types in
+  // the order the game names them.
+  const columns = groupQuartersCounts.columns;
+  if (
+    columns.length !== GROUP_QUARTERS_TYPES.length + 3 ||
+    GROUP_QUARTERS_TYPES.some((type, i) => columns[i + 3] !== type)
+  )
+    throw new Error(
+      "The group-quarters research file's columns do not match the game's group-quarters types.",
+    );
+  const map = new Map<string, PlaceGroupQuarters>();
+  for (const [key, table, total, ...counts] of groupQuartersCounts.rows)
+    map.set(key, {
+      byType: Object.fromEntries(
+        GROUP_QUARTERS_TYPES.map((type, i) => [type, counts[i]!]),
+      ) as Record<GroupQuartersType, number>,
+      total: total!,
+      table,
+    });
+  groupQuartersTable = map;
+  return map;
+}
+
+/**
+ * The place's residents in group quarters (college housing, prisons,
+ * juvenile facilities, nursing homes, other institutions, military quarters
+ * and other noninstitutional quarters) on Census Day 2020, by its locality
+ * key (`placeLocalities`), or null where the file has no row. The CTO's
+ * ruling of Nov 1: the count by place and type comes from the Census.
+ */
+export function placeGroupQuarters(key: string): PlaceGroupQuarters | null {
+  const row = loadGroupQuarters().get(key) ?? null;
+  // The counts are April 1, 2020's, not a later vintage's.
+  if (row && row.total > p("zero")) stopgap("SG-GQ-census-day-2020");
+  return row;
+}
+
+type GroupQuartersProfile =
+  (typeof groupQuartersProfile.types)[keyof typeof groupQuartersProfile.types];
+
+/** Who lives in a type of group quarters: its age bands, female share, and whether it is an institution and outside the civilian labor force. */
+export function groupQuartersProfileOf(
+  type: GroupQuartersType,
+): GroupQuartersProfile {
+  return groupQuartersProfile.types[type];
+}
+
+/** People in institutions and in the armed forces are outside the civilian labor force: they neither hold nor seek a civilian job. */
+export function outsideLaborForce(
+  type: GroupQuartersType | undefined,
+): boolean {
+  return (
+    type !== undefined &&
+    groupQuartersProfile.types[type].laborForce === "outside"
+  );
 }

@@ -94,6 +94,7 @@ import type {
   CoreInput,
   CoreModule,
   CoreState,
+  GroupQuartersType,
   PersonState,
   JobInput,
   Source,
@@ -437,6 +438,53 @@ function withKinds(
   return out;
 }
 
+/**
+ * Each group-quarters room's home, full or counted: tenure `group`, its type
+ * as the kind, no rent or value, and the institution that houses it where
+ * the town records one (its college's directory record, its nursing home).
+ * The one row keeps the room out of re-renting after a fill-in.
+ */
+function groupDwellings(
+  input: CoreInput,
+  placeId: string,
+): [string, "group", number, string, string?][] {
+  const rooms = [
+    ...input.households,
+    ...(input.residents?.households ?? []).map((row) => row.household),
+  ].filter(
+    (row) => row.placeId === placeId && row.memberIds.length && row.quarters,
+  );
+  if (!rooms.length) return [];
+  const first = (ids: string[]) => ids.sort()[0];
+  const institution: Partial<Record<GroupQuartersType, string>> = {
+    college: first(
+      (input.publicOrganizations ?? [])
+        .filter(
+          (row) =>
+            row.placeId === placeId && row.facts?.sourceKind === "college",
+        )
+        .map((row) => row.id),
+    ),
+    nursing: first(
+      input.organizations
+        .filter(
+          (row) =>
+            row.placeId === placeId &&
+            row.classification === "service:nursing-home",
+        )
+        .map((row) => row.id),
+    ),
+  };
+  return rooms.map((row): [string, "group", number, string, string?] => {
+    const owner = institution[row.quarters!];
+    // Prisons, bases and other institutions have no record in town yet.
+    if (!owner) stopgap("SG-GQ-institution-owner");
+    return owner
+      ? [row.id, "group", 0, row.quarters!, owner]
+      : [row.id, "group", 0, row.quarters!];
+  });
+}
+
 /** Annual pay of a household's members from their recorded current jobs. */
 function householdIncome(
   jobs: readonly JobInput[],
@@ -530,9 +578,14 @@ export function withHousing(input: CoreInput): CoreInput {
   const oldestOf = (births: readonly string[]) =>
     Math.min(...births.map((date) => Number(date.slice(0, 4))));
   // Full households and the wider population's, ranked together for owning.
+  // Group-quarters rooms are outside the housing market: the institution
+  // houses them, so they never own, rent or borrow (CTO, Nov 1).
   const households = [
     ...input.households
-      .filter((row) => row.placeId === town.placeId && row.memberIds.length)
+      .filter(
+        (row) =>
+          row.placeId === town.placeId && row.memberIds.length && !row.quarters,
+      )
       .map((row) => ({
         id: row.id,
         counted: false,
@@ -548,7 +601,10 @@ export function withHousing(input: CoreInput): CoreInput {
       })),
     ...(input.residents?.households ?? [])
       .filter(
-        (row) => row.household.placeId === town.placeId && row.people.length,
+        (row) =>
+          row.household.placeId === town.placeId &&
+          row.people.length &&
+          !row.household.quarters,
       )
       .map((row) => ({
         id: row.household.id,
@@ -760,9 +816,10 @@ export function withHousing(input: CoreInput): CoreInput {
         housingState: town.usps,
         housingTown: town.placeId,
         housingCounty: town.county,
-        [DWELLINGS_KEY]: JSON.stringify(
-          withKinds(input, town.county, households, dwellings),
-        ),
+        [DWELLINGS_KEY]: JSON.stringify([
+          ...withKinds(input, town.county, households, dwellings),
+          ...groupDwellings(input, town.placeId),
+        ]),
         ...(mortgages.terms.length
           ? { [MORTGAGE_TERMS_KEY]: JSON.stringify(mortgages.terms) }
           : {}),
@@ -2411,22 +2468,45 @@ export const HOUSING_MODULE: CoreModule = {
     const loans = new Map(
       (terms0(api) ?? []).map((row) => [row.householdId, row.holderId]),
     );
-    for (const [householdId, tenure, amount, kind] of homes
-      ? (JSON.parse(homes) as [string, "own" | "rent", number, string?][])
+    for (const [householdId, tenure, amount, kind, institutionId] of homes
+      ? (JSON.parse(homes) as [
+          string,
+          "own" | "rent" | "group",
+          number,
+          string?,
+          string?,
+        ][])
       : [])
       store(api)
         .table("dwellings")
-        .put({
-          id: `dwelling:${householdId}`,
-          householdId,
-          tenure,
-          kind: kind ?? "house",
-          ...(tenure === "own"
-            ? { valueMinor: amount, loanHolderId: loans.get(householdId) ?? "" }
-            : { rentMinor: amount }),
-          since: api.state.date,
-          basis: "opening",
-        });
+        .put(
+          tenure === "group"
+            ? // A group-quarters room: the institution houses it, for no
+              // rent or value of its own.
+              {
+                id: `dwelling:${householdId}`,
+                householdId,
+                tenure,
+                kind: kind!,
+                ...(institutionId ? { institutionId } : {}),
+                since: api.state.date,
+                basis: "opening",
+              }
+            : {
+                id: `dwelling:${householdId}`,
+                householdId,
+                tenure,
+                kind: kind ?? "house",
+                ...(tenure === "own"
+                  ? {
+                      valueMinor: amount,
+                      loanHolderId: loans.get(householdId) ?? "",
+                    }
+                  : { rentMinor: amount }),
+                since: api.state.date,
+                basis: "opening",
+              },
+        );
     const terms = api.state.placeMetadata?.[MORTGAGE_TERMS_KEY];
     for (const row of terms ? (JSON.parse(terms) as MortgageTerms[]) : [])
       store(api)

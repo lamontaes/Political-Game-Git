@@ -228,11 +228,32 @@ export interface PublicOrganization {
   }[];
 }
 
+/**
+ * The Census's seven major group-quarters types, in its P5 cell order (the
+ * columns of data/research/group-quarters/census-2020-group-quarters.json,
+ * compiled by scripts/research/compile-group-quarters.ts).
+ */
+export const GROUP_QUARTERS_TYPES = [
+  "adultCorrectional",
+  "juvenile",
+  "nursing",
+  "otherInstitutional",
+  "college",
+  "military",
+  "otherNoninstitutional",
+] as const;
+export type GroupQuartersType = (typeof GROUP_QUARTERS_TYPES)[number];
+
 export interface HouseholdInput {
   id: string;
   placeId: PlaceId;
   memberIds: readonly PersonId[];
   source: Source;
+  /**
+   * A group-quarters room (a dormitory double, a cell, a barracks room, a
+   * nursing-home room): its type. Absent for a household.
+   */
+  quarters?: GroupQuartersType;
 }
 
 /** P15: why a closeness changed, the cause and the record behind it. */

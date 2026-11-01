@@ -36,6 +36,7 @@ import {
 import { LAWS_MODULE_ID, lawInForce, socialSecurityAges } from "./laws";
 import { publicPayFloorHourly } from "../public-pay-floor";
 import { inCustody } from "./justice";
+import { outsideLaborForce } from "../gov-rules/place-population";
 import { regionalMonth } from "./regional";
 import { ageOn, isDemoted } from "../counted-groups";
 import { webFactorFor, type Subject } from "../outcome-web-reach";
@@ -735,6 +736,8 @@ function openCountedSeekers(api: CoreAPI): void {
     daysBetweenText(counted.born[m]!, c.date) /
     api.parameter("jobsDaysPerYear");
   for (const h of counted.liveHouseholds()) {
+    // People in custody or in the armed forces seek no civilian work.
+    if (outsideLaborForce(h.quarters)) continue;
     const adults = counted.countedMembers(h).filter((m) => {
       const age = ageAt(m);
       return age >= young && age < old;
@@ -3183,6 +3186,8 @@ export function reviewCountedEntry(api: CoreAPI): void {
   const monthDays = p("jobsDaysPerYear") / p("macroMonthsPerYear");
   const counted = rt.store;
   for (const h of counted.liveHouseholds()) {
+    // People in custody or in the armed forces seek no civilian work.
+    if (outsideLaborForce(h.quarters)) continue;
     let days: number | undefined;
     for (const m of counted.countedMembers(h)) {
       const personId = counted.ids[m]!;

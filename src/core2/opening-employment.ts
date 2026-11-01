@@ -365,6 +365,11 @@ export function openingEmploymentFromRecordedRoles(
   rateData: ResidentEmploymentData = DEFAULT_RESIDENT_EMPLOYMENT,
   /** The minimum wage in force on the start date, dollars an hour; the table's rate when omitted. */
   minimumHourly?: number,
+  /**
+   * Residents of institutions and of military quarters: outside the civilian
+   * labor force, they take no job here.
+   */
+  outsideLaborForce: ReadonlySet<string> = new Set(),
 ): OpeningEmploymentAllocation {
   stopgap("SG-P8-opening-employment");
   if (data.stopgapId !== "SG-P8-opening-employment") stopgap(data.stopgapId);
@@ -377,7 +382,11 @@ export function openingEmploymentFromRecordedRoles(
   // Every unrecorded working-age resident is a candidate: no enrollment or
   // care record exists before the first day is played.
   const candidates = residents
-    .filter((resident) => !recordedPeople.has(resident.personId))
+    .filter(
+      (resident) =>
+        !recordedPeople.has(resident.personId) &&
+        !outsideLaborForce.has(resident.personId),
+    )
     .map((resident) => ({
       ...resident,
       order: stableHash(`${data.version}:${seed}:${resident.personId}`),
@@ -414,6 +423,14 @@ export function openingEmploymentFromRecordedRoles(
     const county = countyGeoidByPerson.get(resident.personId);
     const rate = residentEmploymentRate(resident.age, county, seed, rateData);
     if (!rate) continue;
+    // The national CPS rate is over the civilian noninstitutional population,
+    // so people outside it are outside its denominator too; a county's ACS
+    // rate counts everyone.
+    if (
+      outsideLaborForce.has(resident.personId) &&
+      rate.basis.startsWith("national-CPS")
+    )
+      continue;
     const key = `${county ?? "missing-county"}:${rate.ageId}`;
     const row = ageTargets.get(key) ?? {
       key,
