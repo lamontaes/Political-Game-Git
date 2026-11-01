@@ -92,15 +92,22 @@ function checkRemovals(played: ReturnType<typeof play>): {
       (event) => event.id === `event:housing.eviction:${row.id}`,
     )!;
     expect(eviction, at).toBeDefined();
-    expect(eviction.personIds, at).toEqual([]);
-    expect(eviction.facts?.["counted-household"], at).toBe(id);
-    // Every counted member is a subject, as every member of a full household
-    // is named by its eviction.
+    // Every member is a subject, as every member of a full household is
+    // named by its eviction: one with a person record (a husk, once its
+    // household went back to the counts) by the event, the rest by its facts.
     const subjects = JSON.parse(
       eviction.facts?.["counted-subjects"] ?? "[]",
     ) as string[];
-    expect(subjects.length, at).toBeGreaterThan(0);
-    subjectsOf.set(eviction.id, new Set(subjects));
+    for (const person of eviction.personIds)
+      expect(core.people.has(person), at).toBe(true);
+    for (const person of subjects)
+      expect(core.people.has(person as never), at).toBe(false);
+    const named = [...eviction.personIds, ...subjects];
+    expect(named.length, at).toBeGreaterThan(0);
+    if (subjects.length) {
+      expect(eviction.facts?.["counted-household"], at).toBe(id);
+      subjectsOf.set(eviction.id, new Set(subjects));
+    }
     // Placed by the same rule: a status announced the day of the removal.
     const placed = events.find(
       (event) =>
@@ -110,11 +117,15 @@ function checkRemovals(played: ReturnType<typeof play>): {
         event.facts?.previousStatus === "housed",
     );
     expect(placed, at).toBeDefined();
-    expect(placed!.facts?.["counted-household"], at).toBe(id);
+    expect(placed!.facts?.["counted-household"], at).toBe(
+      subjects.length ? id : undefined,
+    );
     const h = rt.store.liveHousehold(id);
     const status = housing.table("statuses").get(id) as unknown as
       HousingStatusRow | undefined;
     if (!h || !status) continue;
+    // The eviction happened where the counted record lives, as its status says.
+    expect(eviction.placeId, at).toBe(status.placeId);
     // Still counted, for the one household removed, with no home.
     expect(h.tenure, at).toBe("none");
     expect(rt.store.weightOf(h), at).toBe(1);
@@ -123,7 +134,7 @@ function checkRemovals(played: ReturnType<typeof play>): {
     expect(rt.flows.get(`rent:${id}`)?.endedAt, at).toBeDefined();
     expect(housingStatusOf(api, status.memberIds[0]!), at).toBe(status.status);
     for (const member of status.memberIds)
-      expect(subjects, `${at}: ${member}`).toContain(member);
+      expect(named, `${at}: ${member}`).toContain(member);
     homeless.push(id);
   }
   // The drives engine answers each counted member as the eviction's subject,

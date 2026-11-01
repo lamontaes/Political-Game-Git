@@ -237,8 +237,8 @@ function setStatus(
     for (const id of row.memberIds)
       table(api, "statusByPerson").put({ id, householdId: row.id });
   }
-  // Members still counted are named by the event's facts, as a counted
-  // death names its household (the event itself names only full people).
+  // Members with a person record are named by the event; members still only
+  // counted by its facts, each a subject (`countedFacts`).
   const countedIds = row.memberIds.filter((id) => !c.people.has(id));
   api.emit({
     id: `${HOUSING_STATUS_EVENT}:${row.id}:${c.date}`,

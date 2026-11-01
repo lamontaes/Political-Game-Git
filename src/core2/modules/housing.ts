@@ -2229,26 +2229,33 @@ function remove(api: CoreAPI, caseId: string, owed: number): void {
         },
       ) as unknown as ModuleRow,
     );
-  // A counted household is named by the event's facts and its place is its
-  // record's: the live counted record where there is one (a household
-  // returned to the counts keeps its full record too), else the full one.
-  const counted = residentsRuntime(c)?.store.liveHousehold(row.householdId);
+  // The household as the housing rules read it: the live counted record
+  // where there is one (a household returned to the counts keeps its full
+  // record, and its people their husk records), else the full one. Its place
+  // is that record's; members with a person record are named by the event,
+  // and members still only counted by its facts, as a status change names
+  // them (`setStatus`).
+  const store = residentsRuntime(c)?.store;
+  const counted = store?.liveHousehold(row.householdId);
   const household = counted ? undefined : c.households.get(row.householdId);
+  const memberIds = counted
+    ? store!.memberIdsOf(counted)
+    : (household?.memberIds ?? []);
   api.emit({
     id: `event:housing.eviction:${caseId}`,
     date: c.date,
     kind: "housing.eviction",
-    personIds: (household?.memberIds ?? []).filter((id) => c.people.has(id)),
+    personIds: memberIds.filter((id) => c.people.has(id)),
     placeId:
-      household?.placeId ??
       counted?.placeId ??
+      household?.placeId ??
       c.organizations.get(row.landlordId)?.placeId ??
       "",
     ...(counted
       ? {
           facts: countedFacts(
             counted.id,
-            residentsRuntime(c)!.store.memberIdsOf(counted),
+            memberIds.filter((id) => !c.people.has(id)),
           ),
         }
       : {}),

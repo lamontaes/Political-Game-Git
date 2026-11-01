@@ -78,6 +78,8 @@ const HOUSING_STATUSES = [
   "sheltered",
   "unsheltered",
 ] as const;
+/** A household housing does not weigh on: factor one, the chance's own cache slot. */
+const UNSTRAINED = Object.freeze({ factor: 1, key: 0 });
 
 /** Unit conversions only: NCHS rates are per 1,000 women; HUD figures are dollars. */
 const PER_THOUSAND = 1000,
@@ -434,19 +436,20 @@ export function applyCountedFlows(
     // falls ill sooner), by the same factors a full person's strain takes.
     const housingOf = new Map<string, { factor: number; key: number }>();
     const housingStrain = (person: PersonInput, on: string) => {
-      if (on !== date) return { factor: 1, key: 0 };
+      if (on !== date) return UNSTRAINED;
       let found = housingOf.get(person.householdId);
       if (!found) {
         const read = housingHealthFactor(api, person.householdId);
-        found = {
-          factor: read.factor,
-          key:
-            read.status === "housed" && !read.evictedOn
-              ? 0
-              : 1 +
-                HOUSING_STATUSES.indexOf(read.status) * 2 +
-                (read.evictedOn ? 1 : 0),
-        };
+        found =
+          read.status === "housed" && !read.evictedOn
+            ? UNSTRAINED
+            : {
+                factor: read.factor,
+                key:
+                  1 +
+                  HOUSING_STATUSES.indexOf(read.status) * 2 +
+                  (read.evictedOn ? 1 : 0),
+              };
         housingOf.set(person.householdId, found);
       }
       return found;
