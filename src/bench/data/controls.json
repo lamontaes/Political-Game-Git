@@ -303,6 +303,7 @@
     "go": "Go",
     "open": "Open now",
     "closed": "Closed now",
+    "opensAt": "Closed now. Opens {day} at {time}.",
     "reasons": {
       "work": "You work here",
       "action": "You can",
