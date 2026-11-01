@@ -1,4 +1,4 @@
-/* global process, console, document, getComputedStyle */
+/* global process, console, document, getComputedStyle, URLSearchParams */
 // Nothing on the front page invites a click that does nothing (owner, Nov 1:
 // "I click on it, nothing happens"): every headline that is a button opens its
 // story in place, and a brief in the side column is plain type with no pointer
