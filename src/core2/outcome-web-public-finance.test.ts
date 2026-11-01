@@ -231,8 +231,22 @@ function play(place: ReturnType<typeof drawPlace>, requirement: boolean) {
   const named = appliedOn(api, ASSIST_WORK).filter(
     (r) => r.what === "assistance-stopped" && r.target === "person",
   );
+  // What the caller reads of this world's law rows: the series each stop's
+  // law is in. The world itself is not returned, so the shifted world is
+  // collected before the twin plays (two worlds at once ran past node's
+  // default heap).
+  const lawsTable = api.moduleState(LAWS_MODULE_ID).table("laws");
+  const stopLawSeries = new Map(
+    stopped.map((stop) => [
+      stop.lawId,
+      stop.lawId
+        ? (lawsTable.get(stop.lawId) as unknown as LawRowInput | undefined)
+            ?.series
+        : undefined,
+    ]),
+  );
   return {
-    api,
+    stopLawSeries,
     drawing,
     reachedNow,
     householdOf,
@@ -267,12 +281,11 @@ describe(`the SNAP work requirement is the benefit's, not the web's (seed ${seed
       expect(twin.named, where).toEqual([]);
       expect(twin.counted, where).toEqual([]);
       // The shifted world's stops cite a work-requirement law row and the head's own months.
-      const lawsTable = shifted.api.moduleState(LAWS_MODULE_ID).table("laws");
       const limit = 3;
       let held = 0;
       for (const stop of shifted.stopped) {
         expect(
-          (lawsTable.get(stop.lawId!) as unknown as LawRowInput).series,
+          shifted.stopLawSeries.get(stop.lawId),
           `${where}: ${stop.id} cites ${stop.lawId}`,
         ).toBe(ASSIST_WORK);
         expect(
