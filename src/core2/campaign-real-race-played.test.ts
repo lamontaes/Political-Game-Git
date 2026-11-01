@@ -6,7 +6,11 @@
  * player turns 18, files for the soonest council race they may file for at
  * the office that takes it, and campaigns every week to election day the way
  * `src/bench/path-check.ts` plays it: three evenings at the doors, an evening
- * of calls, an event, and a forum one week and a donor meeting the next.
+ * of calls, then the week's one evening at a rented venue and, every other
+ * week, a donor meeting. A forum and an event rent the same venue for the same
+ * price, so the venue evening is a forum until one has been held and in every
+ * other week after it, and an event in the weeks between (the money goes to
+ * the forum first, never to an event that leaves the forum unaffordable).
  * Then, each by record id, read on the eve of election day (the day before
  * the contest's election date, after the last campaign day), before the
  * count closes the race and its campaign causes fold into `causeSummaries`
@@ -23,8 +27,10 @@
  * (b) a forum the player hosted (a meetings `townHalls` row with the player
  *     as host, the player's filing and the causes it wrote);
  * (c) money raised by named donors (`gifts` rows and `campaign-gift`
- *     events), and where the player held a donor meeting (at a host not
- *     running in the player's contest), a gift given there;
+ *     events) and a donor meeting the player held at a host not running in
+ *     the player's contest, with a gift given there; no donor meeting held is
+ *     missing, and a gift from anyone with a filing in the player's contest
+ *     (the rival's money) is never the evidence;
  * (d) the seat's incumbent, running against the player, changing their
  *     schedule after the player gains (the done-when: "the incumbent
  *     changing their schedule after the player gains"): a `steppedUp` row for
@@ -34,16 +40,19 @@
  * Every clause is read before election day (`readOn` before the contest's
  * election date).
  *
- * A clause the drawn place cannot show (no group backed the player, the
- * player's petition short, an open seat with no incumbent running, or the
- * incumbent never stepped up) is named and the next place drawn, up to six;
- * the last test fails naming every place, seed and reason.
+ * Only a place with an elected council is drawn (`hasCouncilSeat`, read from
+ * the place's local offices before any world is built); a place without one
+ * is named as skipped and the next one drawn, never played. A clause the
+ * drawn place cannot show (no group backed the player, the player's petition
+ * short, an open seat with no incumbent running, or the incumbent never
+ * stepped up) is named and the next place drawn, up to six; the last test
+ * fails naming every place, seed and reason.
  * REAL_RACE_SMOKE_WEEKS=<n> plays one place for n campaign weeks and only
  * prints what it found (a quick check that the play loop runs).
  */
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
-import { drawPlace } from "../../scripts/core2-year/place";
+import { drawPlace, type DrawnPlace } from "../../scripts/core2-year/place";
 import { campaignDay } from "../bench/campaign";
 import { chooseAtCounter, openBenchFilingVisit } from "../bench/filing";
 import { governmentView } from "../bench/government";
@@ -87,6 +96,7 @@ import {
 } from "./modules/office-day";
 import { OFFICES_MODULE_ID } from "./modules/offices";
 import { actOn, waitingEntries } from "./office-day-state";
+import { localOfficesForPlace } from "./offices-local";
 import { coreAPI } from "./state";
 import type { CoreAPI, CoreState, LogRecord } from "./types";
 
@@ -96,6 +106,15 @@ const SMOKE_WEEKS = Math.max(
   Math.floor(Number(process.env.REAL_RACE_SMOKE_WEEKS ?? 0) || 0),
 );
 const DRAWS = SMOKE_WEEKS ? 1 : 6;
+/**
+ * The most weeks one campaign may be played: a hard guard on the weekly loop.
+ * A race files at most a year or so before its election; a loop that reaches
+ * this (a day that stopped advancing, an election date that never comes)
+ * fails the draw, naming the place, instead of running on.
+ */
+const MAX_CAMPAIGN_WEEKS = 110;
+/** The most places skipped for want of a council before the draw itself fails. */
+const MAX_SKIPPED_PLACES = 40;
 /** One draw is a played year: building the town, living to 18 and a campaign. */
 const DRAW_TIMEOUT = 1_800_000;
 
@@ -135,6 +154,19 @@ function isCouncil(api: CoreAPI, officeId: string): boolean {
     officeId,
   );
   return (office?.kind ?? "").startsWith("council");
+}
+
+/**
+ * Whether a place has an elected council for the player to run for, read from
+ * its local offices (the rows the world's offices module seats) before any
+ * world is built. A place without one (a county board or a township board
+ * only, or no local council at all) has no council race to play, so it is
+ * never drawn.
+ */
+function hasCouncilSeat(placeKey: string): boolean {
+  return localOfficesForPlace(placeKey).some(
+    (office) => office.elected && office.kind.startsWith("council"),
+  );
 }
 
 /**
@@ -377,13 +409,24 @@ function playRace(
   };
   while (addDays(makeIsoDate(core.date), 7) <= contest.electionDate) {
     if (SMOKE_WEEKS && week.weeks >= SMOKE_WEEKS) break;
+    if (week.weeks >= MAX_CAMPAIGN_WEEKS)
+      throw new Error(
+        `${where}: the campaign loop reached its ${MAX_CAMPAIGN_WEEKS}-week guard on ${core.date}, and election day ${contest.electionDate} not yet reached (filing ${filing.id}; ${notes.slice(0, 3).join("; ") || "no notes"})`,
+      );
+    const weekStart = core.date;
+    // A forum and an event rent the same venue at the same price, and gifts
+    // are the campaign's only money, so the week's venue evening is a forum
+    // until one has been held and in every other week after it, and an event
+    // in the weeks between. The raise-money evening stays ahead of it, so the
+    // week's gifts count toward the rent.
+    const forumWeek = week.forums === 0 || week.weeks % 2 === 0;
     for (const kind of [
       "canvass",
       "canvass",
       "raise-money",
       "canvass",
-      "event",
-      week.weeks % 2 ? "donor-meeting" : "forum",
+      forumWeek ? "forum" : "event",
+      ...(week.weeks % 2 ? ["donor-meeting"] : []),
     ]) {
       const choice = campaignDayChoices(api, filing.id).find(
         (c) => c.kind === kind,
@@ -430,6 +473,12 @@ function playRace(
     }
     week.weeks += 1;
     liveUntil(addDays(makeIsoDate(core.date), 7), eve);
+    // A week that ends on the day it began is a play that has stopped, which
+    // the loop would otherwise repeat for ever.
+    if (core.date <= weekStart)
+      throw new Error(
+        `${where}: campaign week ${week.weeks} ended on ${core.date}, where it began (filing ${filing.id}, election day ${contest.electionDate}; ${notes.slice(0, 3).join("; ") || "no notes"})`,
+      );
   }
   // The eve: every campaign day is done and the count has not run, so the
   // race's cause rows are all still kept. Each clause is read here.
@@ -596,20 +645,18 @@ function clauseForum(played: Race): Clause {
 }
 
 /**
- * (c) Money raised by named donors: the player's filing's `gifts` rows from
- * full people (`donationAnswer`) and their public `campaign-gift` records
- * (`recordGift`); where the player held a donor meeting (a host the day
- * added to the campaign's `donorMeetingHostIds`), one gift given there
- * (`holdDonorMeeting`'s `campaign-donor-meeting` record, for that filing,
- * day and host, names the donors). A meeting held whose record is gone, or
- * none of whose donors left a gift with its record, is missing. A meeting
- * hosted by someone with a filing in the player's contest is never the
- * evidence.
+ * The player's filing's gifts from named people: full people other than the
+ * player (`donationAnswer`) who gave something and are not themselves a
+ * candidate in the player's contest. A rival's money is the engine's defect,
+ * never the player's donors, so it is counted apart and never as evidence.
  */
-function clauseDonors(played: Race): Clause {
+function namedGifts(played: Race): {
+  readonly gifts: GiftRow[];
+  readonly fromCandidates: GiftRow[];
+} {
   const { api, core, me, filing, contest } = played;
   const running = othersRunning(api, contest, me);
-  const gifts = queryOf<GiftRow>(
+  const named = queryOf<GiftRow>(
     api,
     CAMPAIGNS_MODULE_ID,
     "gifts",
@@ -618,6 +665,30 @@ function clauseDonors(played: Race): Clause {
   ).filter(
     (g) => g.donorId !== me && core.people.has(g.donorId) && g.totalMinor > 0,
   );
+  return {
+    gifts: named.filter((g) => !running.has(g.donorId)),
+    fromCandidates: named.filter((g) => running.has(g.donorId)),
+  };
+}
+
+/**
+ * (c) Money raised by named donors the player reached: the player's filing's
+ * `gifts` rows from full people who are not candidates in the player's
+ * contest (`donationAnswer`, `namedGifts`) with their public `campaign-gift`
+ * records (`recordGift`), and a donor meeting the player held at a host who
+ * is not running (a host the day added to the campaign's
+ * `donorMeetingHostIds`, `holdDonorMeeting`), where one of the meeting's
+ * donors gave: the `campaign-donor-meeting` record for that filing, day and
+ * host names the donors, and that donor's gift and record are dated that day.
+ * Missing when there is no such gift, when no donor meeting was held, when
+ * every meeting was hosted by someone running in the contest or left no
+ * record, and when no donor at a meeting left a gift with its record. Money
+ * from anyone with a filing in the player's contest is never the evidence.
+ */
+function clauseDonors(played: Race): Clause {
+  const { api, core, me, filing, contest } = played;
+  const running = othersRunning(api, contest, me);
+  const { gifts, fromCandidates } = namedGifts(played);
   const events = logOfKind(core, "campaign-gift").filter(
     (e) => e.facts?.filingId === filing.id,
   );
@@ -625,14 +696,20 @@ function clauseDonors(played: Race): Clause {
     gifts.some((g) => g.donorId === e.facts?.donorId),
   );
   const gift = event && gifts.find((g) => g.donorId === event.facts?.donorId);
+  const notCounted = fromCandidates.length
+    ? ` (${fromCandidates.length} gifts from people running in the race, ${fromCandidates
+        .slice(0, 3)
+        .map((g) => `${g.id} ${dollars(g.totalMinor)}`)
+        .join(", ")}, not counted)`
+    : "";
   if (!event || !gift)
     return {
-      missing: `the player's filing ${filing.id} has ${gifts.length} gifts from named people and ${events.length} campaign-gift records, none matching (raise-money unavailable ${played.unavailable["raise-money"] ?? "never"})`,
+      missing: `the player's filing ${filing.id} has ${gifts.length} gifts from named people not running${notCounted} and ${events.length} campaign-gift records, none matching (raise-money unavailable ${played.unavailable["raise-money"] ?? "never"})`,
     };
-  const base = `${gifts.length} named donors; gift ${gift.id} (${gift.donorId}, ${dollars(gift.totalMinor)} in all) and its record ${event.id}`;
+  const base = `${gifts.length} named donors not running${notCounted}; gift ${gift.id} (${gift.donorId}, ${dollars(gift.totalMinor)} in all) and its record ${event.id}`;
   if (!played.donorMeetings.length)
     return {
-      found: `${base}; no donor meeting could be held (donor-meeting unavailable ${played.unavailable["donor-meeting"] ?? "never"}; refused ${played.unavailable["donor-meeting (refused)"] ?? "never"})`,
+      missing: `${base}; but no donor meeting was held (donor-meeting unavailable ${played.unavailable["donor-meeting"] ?? "never"}; refused ${played.unavailable["donor-meeting (refused)"] ?? "never"})`,
     };
   const kept = logOfKind(core, "campaign-donor-meeting").filter(
     (row) => row.facts?.filingId === filing.id,
@@ -660,7 +737,7 @@ function clauseDonors(played: Race): Clause {
   for (const meeting of meetings)
     for (const donorId of (meeting.facts?.donorIds ?? "")
       .split(",")
-      .filter(Boolean)) {
+      .filter((id) => id && !running.has(id))) {
       const given = gifts.find((g) => g.donorId === donorId);
       const record = events.find(
         (e) => e.facts?.donorId === donorId && e.date === meeting.date,
@@ -771,11 +848,36 @@ function clauseSteppedUp(played: Race): Clause {
 
 type Draw = { readonly proven: string } | { readonly tried: string };
 
+/**
+ * The place for one draw: the draw of seed and attempt, and, where that place
+ * has no elected council, the next draws of the same attempt (`:skipN`) until
+ * one has; every place passed over is named, and none is played.
+ */
+function drawCouncilPlace(attempt: number): {
+  readonly place: DrawnPlace;
+  readonly skipped: readonly string[];
+} {
+  const skipped: string[] = [];
+  for (let redraw = 0; redraw <= MAX_SKIPPED_PLACES; redraw += 1) {
+    const place = drawPlace(
+      redraw ? `${seed}:${attempt}:skip${redraw}` : `${seed}:${attempt}`,
+      "campaign-real-race-played",
+    );
+    if (hasCouncilSeat(place.key)) return { place, skipped };
+    skipped.push(
+      `${place.name} (${place.key}), place seed ${place.seed}, no elected council`,
+    );
+  }
+  throw new Error(
+    `draw ${attempt} of seed ${seed}: ${skipped.length} places drawn in a row with no elected council: ${skipped.join("; ")}`,
+  );
+}
+
 /** One drawn place: play the race, reading each clause's records on the eve. */
 function attemptPlace(attempt: number): Draw {
   setBookkeeping(false);
-  const place = drawPlace(`${seed}:${attempt}`, "campaign-real-race-played");
-  const where = `${place.name} (${place.key}), place seed ${place.seed}, draw ${attempt} of seed ${seed}`;
+  const { place, skipped } = drawCouncilPlace(attempt);
+  const where = `${place.name} (${place.key}), place seed ${place.seed}, draw ${attempt} of seed ${seed}${skipped.length ? ` (skipped ${skipped.length} drawn places with no council: ${skipped.join("; ")})` : ""}`;
   const played = playRace(where, place.seed, place.key);
   if ("tried" in played) return played;
   const { clauses } = played;
@@ -803,15 +905,8 @@ function attemptPlace(attempt: number): Draw {
       `${where}: the player's forum`,
     ).toBe(true);
     expect(
-      queryOf<GiftRow>(
-        api,
-        CAMPAIGNS_MODULE_ID,
-        "gifts",
-        "byCampaign",
-        filing.id,
-      ).filter((g) => g.donorId !== me && played.core.people.has(g.donorId))
-        .length,
-      `${where}: named donors`,
+      namedGifts(played).gifts.length,
+      `${where}: named donors not running in the race`,
     ).toBeGreaterThan(0);
     return { proven: text };
   }
