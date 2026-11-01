@@ -1207,6 +1207,12 @@
       "source": "How far (on the -1 to 1 lean scale) a nominee's views may sit from a member's before the member votes to reject: confirming bodies defer to executives; the U.S. Senate has rejected only nine cabinet nominees in its history (Senate Historical Office), and state senates rarely reject a governor's.",
       "spread": [1, 2]
     },
+    "confirmationRoundWidening": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How much further (on the -1 to 1 lean scale) a confirming body's tolerance reaches after each nominee it has refused: a body that has turned down a nominee settles for one it can live with, and a president offers another (the Senate has refused few cabinet nominees and each post was then filled by a later nominee; Senate Historical Office). Checked so that a post is filled within the lean scale's span.",
+      "spread": [0.25, 1]
+    },
     "executiveReviewDays": {
       "value": 30,
       "tag": "TUNABLE",
