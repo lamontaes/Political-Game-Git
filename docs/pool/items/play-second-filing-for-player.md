@@ -7,7 +7,7 @@ priority: 1
 size: S
 status: in-pr
 claimed-by: play-first/play-second-filing-for-player
-pr: #0
+pr: #6967
 blocked-on:
 source: "found by the words-and-scenes lead, Oct 27, in the campaign-season test"
 lead: play-first
