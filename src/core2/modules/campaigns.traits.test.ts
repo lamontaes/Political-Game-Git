@@ -137,6 +137,12 @@ interface Played {
   readonly end: Day;
   /** The yes answers' listeners (living, and not the candidate) whose why the engine kept on the day they were asked (`keepsWhy`: the player's circle that day). */
   readonly keptWhys: number;
+  /**
+   * Every person a candidate asked to endorse across the window, as read on
+   * the days the asks were on record: a race's close may drop its endorsement
+   * rows, so nothing after the window reads the table.
+   */
+  readonly asked: readonly EndorsementRow[];
 }
 
 /** Who hears an endorser: their known people and family; nobody for a person no longer on record. */
@@ -151,14 +157,21 @@ function circleOf(world: CoreState, id: string): ReadonlySet<string> {
  * cause. The player's circle grows through the window, so this is read on the
  * day each answer is given, not later.
  */
-function keptWhysOfNewYes(world: CoreState, counted: Set<string>): number {
+function keptWhysOfNewYes(
+  world: CoreState,
+  counted: Set<string>,
+  asked: Map<string, EndorsementRow>,
+): number {
   const rows = coreAPI(world)
     .moduleState(CAMPAIGNS_MODULE_ID)
     .table("endorsements")
     .rows() as unknown as EndorsementRow[];
   let kept = 0;
   for (const row of rows) {
-    if (row.organizationId !== null || row.answer !== "yes") continue;
+    if (row.organizationId !== null) continue;
+    // Each person's ask as the record holds it while it is on record.
+    asked.set(row.id, row);
+    if (row.answer !== "yes") continue;
     if (counted.has(row.id)) continue;
     counted.add(row.id);
     for (const id of circleOf(world, row.speakerId))
@@ -216,7 +229,7 @@ function endorsementsHeard(
 
 /** How the asks went, in words for a failure or a skipped draw. */
 function describeAsks(played: Played): string {
-  const asked = played.end.asked;
+  const asked = played.asked;
   const yes = asked.filter((row) => row.answer === "yes");
   const reached = yes.reduce((sum, row) => sum + row.reached, 0);
   return `${asked.length} asked to endorse, ${yes.length} said yes and reached listeners ${reached} times, ${played.keptWhys} of them with a kept why on the day asked`;
@@ -232,7 +245,7 @@ function describeAsks(played: Played): string {
  * case.
  */
 function noEndorsementToRead(played: Played): string | null {
-  const asked = played.end.asked;
+  const asked = played.asked;
   if (endorsementsHeard(played).length > 0 || asked.length === 0) return null;
   const yes = asked.filter((row) => row.answer === "yes");
   if (yes.length === 0)
@@ -303,17 +316,23 @@ function play(world: CoreState, eveDate: string, last: string): Played {
   });
   try {
     const counted = new Set<string>();
+    const asked = new Map<string, EndorsementRow>();
     let keptWhys = 0;
     const playTo = (through: string) => {
       while (world.date < through) {
         advanceCore(world, addDays(makeIsoDate(world.date), 1));
-        keptWhys += keptWhysOfNewYes(world, counted);
+        keptWhys += keptWhysOfNewYes(world, counted, asked);
       }
     };
     playTo(eveDate);
     const eve = readDay(world);
     playTo(last);
-    return { eve, end: readDay(world), keptWhys };
+    return {
+      eve,
+      end: readDay(world),
+      keptWhys,
+      asked: [...asked.values()].sort((a, b) => a.id.localeCompare(b.id)),
+    };
   } finally {
     setTraitProbe(undefined);
   }
@@ -630,13 +649,10 @@ describe("personality in campaigns and candidacy (a played slice of a drawn plac
       .rows() as unknown as CampaignRow[];
     expect(campaigns.length, placeName).toBeGreaterThan(0);
     // The endorsement record is the one list of who was asked and who said
-    // yes: a person's answer names the candidate as the one who asked.
-    const asked = (
-      api
-        .moduleState(CAMPAIGNS_MODULE_ID)
-        .table("endorsements")
-        .rows() as unknown as EndorsementRow[]
-    ).filter((row) => row.organizationId === null);
+    // yes: a person's answer names the candidate as the one who asked. It is
+    // read on the days each ask was on record (`play`), since a race's close
+    // may drop its endorsement rows.
+    const asked = played.asked;
     expect(
       asked.length,
       `${placeName}: people asked to endorse`,
