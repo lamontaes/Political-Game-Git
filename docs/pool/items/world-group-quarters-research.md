@@ -5,9 +5,9 @@ area: world
 kind: research
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: speed/group-quarters-research
-pr:
+pr: #7017
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-01T14:15:57.310Z
