@@ -8,6 +8,7 @@ import {
   openingStance,
   stancesOf,
   viewOf,
+  VIEWS_DATA,
   viewsModule,
   VIEWS_KEYS,
 } from "./modules/views";
@@ -49,7 +50,8 @@ function drawnPlace(seed: string) {
 }
 
 const seeds = [process.env.GOLDEN_PATH_SEED ?? "views-a", "views-b"];
-const towns = seeds.map((seed) => {
+/** A town of the views engine alone, in a place drawn from all 56 by the seed. */
+function buildTown(seed: string) {
   const place =
     seed === process.env.GOLDEN_PATH_SEED && process.env.GOLDEN_PATH_PLACE_KEY
       ? { key: process.env.GOLDEN_PATH_PLACE_KEY }
@@ -69,7 +71,10 @@ const towns = seeds.map((seed) => {
   );
   const views = adults.map((row) => viewOf(api, row.id)!);
   return { seed, input, core, api, adults, views };
-});
+}
+const towns = seeds.map(buildTown);
+// Its own town, since its clock runs two years past the others'.
+const windowTown = buildTown("views-window");
 
 describe("political views", () => {
   it.each(
@@ -328,45 +333,76 @@ describe("political views", () => {
     expect(total).toBeGreaterThan(cause!.change);
   });
 
-  it("keeps a year of a circle stance's causes and the newest, and every speaker's wear-out", () => {
-    const { core, api, adults } = towns[1]!;
-    const [first, second, third, listener] = adults.slice(6);
+  it(`keeps a year of a circle stance's causes and the newest, and every speaker's wear-out (${windowTown.input.placeMetadata?.placeName}, seed ${windowTown.seed})`, () => {
+    const { core, api, adults } = windowTown;
+    const kept = VIEWS_DATA.parameters.stanceCauseKeptDays!.value;
+    const [a, b, c, listener, outsider] = adults.slice(6);
     core.focusPersonIds.add(listener!.id);
     const start = makeIsoDate(core.date);
-    const hear = (id: string, speaker: typeof first, days: number) => {
+    const hear = (
+      id: string,
+      speaker: typeof a,
+      days: number,
+      hearer = listener,
+    ) => {
       core.date = addDays(start, days);
       applyCoreEvent(core, {
         id,
         date: core.date,
         kind: "fixture.case-made",
         personIds: [speaker!.id],
-        witnessIds: [listener!.id],
+        witnessIds: [hearer!.id],
         placeId: speaker!.placeId,
         topic: "fixture:window",
         desiredChange: "raise-it",
         moodImpulse: -0.3,
         source: { tag: "SOURCED", citation: "Fixture event.", asOf: core.date },
       });
+      const [stance] = stancesOf(api, hearer!.id).filter(
+        (row) => row.topic === "fixture:window",
+      );
+      return stance!;
     };
-    try {
-      hear("fixture-window-0", first, 0);
-      hear("fixture-window-200", second, 200);
-      hear("fixture-window-400", third, 400);
-    } finally {
-      core.date = start;
-    }
-    const [stance] = stancesOf(api, listener!.id).filter(
-      (row) => row.topic === "fixture:window",
-    );
-    // The first speaker's case is past the year (stanceCauseKeptDays) when
-    // the third moves the stance; the second's is inside it; the third is the
-    // newest. Every speaker still counts toward the wear-out.
-    expect(stance!.causes.map((cause) => cause.eventId)).toEqual([
-      "fixture-window-200",
-      "fixture-window-400",
+    const ids = (stance: ReturnType<typeof hear>) =>
+      stance.causes.map((cause) => cause.eventId);
+    hear("window-a-1", a, 0);
+    hear("window-b", b, 1);
+    // C's case comes the window's length after B's and one day more after
+    // A's: B's is exactly stanceCauseKeptDays old and stays, A's drops.
+    expect(ids(hear("window-c", c, kept + 1))).toEqual([
+      "window-b",
+      "window-c",
     ]);
-    expect(Object.keys(stance!.heard ?? {}).sort()).toEqual(
-      [first!.id, second!.id, third!.id].sort(),
+    // A comes back after C's write dropped it: its count starts again.
+    let stance = hear("window-a-2", a, kept + 2);
+    expect(ids(stance)).toEqual(["window-c", "window-a-2"]);
+    expect(stance.causes.at(-1)!.count).toBe(1);
+    expect(stance.causes.at(-1)!.total).toBe(stance.causes.at(-1)!.change);
+    // A comes back again past the window with no one else heard between:
+    // its own old row drops too, and the count starts again the same way.
+    stance = hear("window-a-3", a, 2 * kept + 3);
+    expect(ids(stance)).toEqual(["window-a-3"]);
+    expect(stance.causes[0]!.count).toBe(1);
+    const third = stance.causes[0]!.change;
+    // Inside the window it counts on.
+    stance = hear("window-a-4", a, 2 * kept + 4);
+    expect(ids(stance)).toEqual(["window-a-4"]);
+    expect(stance.causes[0]!.count).toBe(2);
+    expect(stance.causes[0]!.total).toBeCloseTo(
+      third + stance.causes[0]!.change,
+      10,
     );
+    // Every hearing still counts toward each speaker's wear-out.
+    expect(stance.heard).toEqual({ [a!.id]: 4, [b!.id]: 1, [c!.id]: 1 });
+    // Someone outside the circle keeps only the newest cause.
+    const everyone = setKeepEveryonesWhy(false);
+    try {
+      hear("window-outside-b", b, 2 * kept + 4, outsider);
+      stance = hear("window-outside-c", c, 2 * kept + 4, outsider);
+    } finally {
+      setKeepEveryonesWhy(everyone);
+    }
+    expect(ids(stance)).toEqual(["window-outside-c"]);
+    expect(stance.heard).toEqual({ [b!.id]: 1, [c!.id]: 1 });
   });
 });

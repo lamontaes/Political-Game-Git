@@ -154,11 +154,12 @@ const FAITH_IMPORTANCE: Readonly<Record<string, string>> = {
 };
 
 /**
- * The causes after one more event: the new one replaces its source's earlier
- * row (same speaker, same record) and moves to the end, carrying how many
- * events that source has moved the stance and by how much in all. Other
- * sources whose latest event is older than `since` drop (Words, Oct 30: a
- * year's causes and the newest), so a long life's list stays bounded.
+ * The causes after one more event. Sources whose latest event is older than
+ * `since` drop first (Words, Oct 30: a year's causes and the newest), so a
+ * long life's list stays bounded. The new one then replaces its source's
+ * kept row (same speaker, same record) and moves to the end, carrying how
+ * many events that source has moved the stance, and by how much in all,
+ * since it last went quiet for longer than the window.
  */
 function withCause(
   causes: Stance["causes"],
@@ -167,9 +168,10 @@ function withCause(
 ): Stance["causes"] {
   const same = (row: Stance["causes"][number]) =>
     row.speakerId === cause.speakerId && row.learnedFrom === cause.learnedFrom;
-  const earlier = causes.find(same);
+  const kept = causes.filter((row) => row.date >= since);
+  const earlier = kept.find(same);
   return [
-    ...causes.filter((row) => !same(row) && row.date >= since),
+    ...kept.filter((row) => !same(row)),
     {
       ...cause,
       count: (earlier?.count ?? (earlier ? 1 : 0)) + 1,
@@ -193,7 +195,7 @@ export interface Stance {
     speakerId?: string;
     /** The record (a story heard, a notice) by which they learned of the law, vote or bill the event cites. */
     learnedFrom?: string;
-    /** How many events from this same source (speaker and record) have moved the stance, and by how much in all. `eventId`, `date` and `change` are the latest. */
+    /** How many events from this same source (speaker and record) have moved the stance, and by how much in all, since the source last went quiet for longer than stanceCauseKeptDays. `eventId`, `date` and `change` are the latest. */
     count?: number;
     total?: number;
   }[];

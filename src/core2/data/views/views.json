@@ -125,7 +125,13 @@
     "stanceCauseKeptDays": {
       "value": 365,
       "tag": "TUNABLE",
-      "citation": "How long a stance in the player's circle keeps each source that moved it, besides the event that moves it now (Words agreed, Oct 30): the year the circle's other routine records keep (circleActRetentionMonths), so a stance's why reaches back as far. Its readers in play (speech movedBy, life answeredWithNothingNew) read only the newest causes; spread 30 to 730."
+      "citation": "How long a stance in the player's circle keeps each source that moved it, besides the event that moves it now (Words agreed, Oct 30: a year's causes and the newest; heard, strength and desired change kept whole). A year is set by hand to match circleActRetentionMonths (12), so a stance's why reaches back as far as the circle's routine acts; retuning one does not move the other. Its readers in play (speech movedBy, life answeredWithNothingNew) read only the newest causes.",
+      "spread": {
+        "low": 30,
+        "high": 730,
+        "unit": "days",
+        "citation": "A month to two years; checked against speed:year's records kept and memory over a four-year run (the stance rows' size), and against dev mode's trace of a circle member's stance."
+      }
     }
   },
   "labels": [
