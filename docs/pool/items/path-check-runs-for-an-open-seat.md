@@ -5,7 +5,7 @@ area: elections
 kind: feature
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: governing/path-check-open-seat
 pr: #6981
 blocked-on:

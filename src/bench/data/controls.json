@@ -588,7 +588,8 @@
     "debtKinds": {
       "personal": "Personal loan",
       "startup": "Startup loan",
-      "mortgage": "Mortgage"
+      "mortgage": "Mortgage",
+      "small-dollar": "Cash advance"
     },
     "reasons": {
       "household.rent": "Rent",
@@ -656,6 +657,7 @@
   },
   "journal": {
     "title": "My life",
+    "empty": "Nothing is written here yet.",
     "chapter": "Chapter {n}",
     "numbers": [
       "one",

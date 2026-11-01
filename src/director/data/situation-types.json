@@ -2158,6 +2158,7 @@
         {
           "match": {
             "label": "cause:event:election-result",
+            "selfNamed": true,
             "causeFacts": [
               {
                 "key": "winnerId",
@@ -3312,6 +3313,7 @@
         {
           "match": {
             "label": "cause:event:candidate-filed",
+            "selfNamed": true,
             "counterpart": "none"
           },
           "causeEngine": "elections",
@@ -3325,14 +3327,14 @@
         }
       ],
       "tag": {
-        "key": "routine",
+        "key": "filed",
         "endpoint": "political",
         "registers": ["scene-talk", "journal"]
       },
-      "purpose": "filing-clerk",
+      "purpose": "filing-petition",
       "asker": "clerk",
       "asked": "candidate",
-      "stakes": ["office", "opponent"]
+      "stakes": ["office", "petition"]
     },
     {
       "key": "layoff",
@@ -4063,7 +4065,8 @@
       "causes": [
         {
           "match": {
-            "label": "cause:event:candidate-filed"
+            "label": "cause:event:candidate-filed",
+            "selfNamed": true
           },
           "causeEngine": "elections",
           "causeRecord": "candidate-filed",

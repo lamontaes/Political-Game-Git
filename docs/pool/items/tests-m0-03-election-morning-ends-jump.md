@@ -6,9 +6,9 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: play-first/tests-m0-03-election-morning-ends-jump
-pr:
+pr: #6963
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-01T13:41:57.471Z
