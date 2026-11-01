@@ -36,6 +36,7 @@ import type {
   CoreEventInput,
   CoreModule,
   CoreState,
+  PersonId,
   PersonState,
 } from "../types";
 import type { ModuleRow } from "../module-data";
