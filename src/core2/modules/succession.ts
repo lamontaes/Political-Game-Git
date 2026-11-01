@@ -19,7 +19,7 @@ import succession from "../../../data/research/offices/presidential-succession.j
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 import type { ModuleRow } from "../module-data";
-import { ageOnDate } from "../kernel/dates";
+import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
 import { nominateAndConfirm, partySide } from "../appointments";
 import { boardAppointer } from "../board-appointer";
 import { registerBoardAppointer } from "../central-bank-appointments";
@@ -98,6 +98,11 @@ export const SUCCESSION_MODULE: CoreModule = {
     schemaVersion: 1,
     tables: { cabinet: {}, successions: {} },
   },
+  onCalendarWork: (api, work) => {
+    if (work.kind !== "cabinet-review") return;
+    scheduleCabinetReview(api, api.state.date);
+    refillCabinet(api);
+  },
 };
 
 const table = (api: CoreAPI, name: string) =>
@@ -140,6 +145,9 @@ function cannotServe(api: CoreAPI, personId: string | null): string | null {
 const sides = (api: CoreAPI, chamber: string) =>
   members(api, chamber).map((t) => partySide(t.party));
 
+/** The lean scale runs from -1 to 1, so no two views sit further apart than this. */
+const LEAN_SPAN = 2;
+
 /**
  * The president's choice among three people who exist for a post, confirmed
  * by the bodies the law names (each by majority): the same reasons a
@@ -166,55 +174,71 @@ function nominate(
       stateKey: string;
     }
   ).stateKey;
-  const pool = [0, 1, 2].map((n) =>
-    seatOfficial(api, {
-      key: `${input.key}:${n}`,
-      seatId: `seat:${input.key}:${n}`,
-      term: null,
-      body: `US:${input.officeKind}`,
-      officeKind: input.officeKind,
-      stateKey,
-      district: null,
-      party,
-      termYears: null,
-    }),
-  );
   const tolerance = campaignParameter("confirmationTolerance");
-  // The president's ranking, by the reasons a governor's cabinet is chosen by.
-  const ranking = nominateAndConfirm({
-    seatKey: input.key,
-    appointerSide: side,
-    candidates: pool.map((row, n) => ({
-      id: row.id,
-      lean: officialLean(row),
-      qualification:
-        campaignParameter("cabinetQualificationBase") +
-        campaignParameter("cabinetQualificationStep") * (pool.length - 1 - n),
-      known: n === 0,
-    })),
-    confirmingBody: null,
-  }).reasons;
-  // Each member confirms a nominee within their tolerance of their own side;
-  // the first nominee a majority of every body confirms takes the post.
-  const vote = (chamber: string, lean: number) => {
-    const all = sides(api, chamber);
-    const yes = all.filter((own) => Math.abs(lean - own) <= tolerance).length;
-    return { body: chamber, yes, no: all.length - yes };
-  };
+  const widening = campaignParameter("confirmationRoundWidening");
+  const everyone: ReturnType<typeof seatOfficial>[] = [];
   let chosenId: string | null = null;
-  let confirmation: ReturnType<typeof vote>[] = [];
-  for (const choice of ranking) {
-    const lean = officialLean(pool.find((r) => r.id === choice.candidateId)!);
-    const votes = input.chambers.map((c) => vote(c, lean));
-    if (votes.every((v) => v.yes > v.no)) {
-      chosenId = choice.candidateId;
-      confirmation = votes;
-      break;
+  let confirmation: { body: string; yes: number; no: number }[] = [];
+  let ranking: ReturnType<typeof nominateAndConfirm>["reasons"] = [];
+  // A nominee the bodies refuse is followed by a fresh field of three, and
+  // each refused round makes the bodies readier to confirm (a Senate that has
+  // turned down a nominee settles for one it can live with), so a post is
+  // never left empty.
+  const lastRound = Math.max(
+    0,
+    Math.ceil((LEAN_SPAN - tolerance) / widening),
+  );
+  for (let round = 0; !chosenId && round <= lastRound; round++) {
+    const roundKey = round ? `${input.key}:round-${round}` : input.key;
+    const pool = [0, 1, 2].map((n) =>
+      seatOfficial(api, {
+        key: `${roundKey}:${n}`,
+        seatId: `seat:${roundKey}:${n}`,
+        term: null,
+        body: `US:${input.officeKind}`,
+        officeKind: input.officeKind,
+        stateKey,
+        district: null,
+        party,
+        termYears: null,
+      }),
+    );
+    everyone.push(...pool);
+    // The president's ranking, by the reasons a governor's cabinet is chosen by.
+    ranking = nominateAndConfirm({
+      seatKey: roundKey,
+      appointerSide: side,
+      candidates: pool.map((row, n) => ({
+        id: row.id,
+        lean: officialLean(row),
+        qualification:
+          campaignParameter("cabinetQualificationBase") +
+          campaignParameter("cabinetQualificationStep") * (pool.length - 1 - n),
+        known: n === 0,
+      })),
+      confirmingBody: null,
+    }).reasons;
+    // Each member confirms a nominee within their tolerance of their own
+    // side; the first nominee a majority of every body confirms takes the post.
+    const within = tolerance + widening * round;
+    const vote = (chamber: string, lean: number) => {
+      const all = sides(api, chamber);
+      const yes = all.filter((own) => Math.abs(lean - own) <= within).length;
+      return { body: chamber, yes, no: all.length - yes };
+    };
+    for (const choice of ranking) {
+      const lean = officialLean(pool.find((r) => r.id === choice.candidateId)!);
+      const votes = input.chambers.map((c) => vote(c, lean));
+      if (votes.every((v) => v.yes > v.no)) {
+        chosenId = choice.candidateId;
+        confirmation = votes;
+        break;
+      }
     }
   }
   if (!chosenId) return null;
   // Those not chosen were never seated.
-  for (const row of pool)
+  for (const row of everyone)
     if (row.id !== chosenId)
       api
         .moduleState(OFFICIALS_MODULE_ID)
@@ -253,6 +277,54 @@ function appointCabinet(api: CoreAPI): void {
       since: api.state.date,
     } satisfies CabinetRow as unknown as ModuleRow);
   }
+}
+
+/**
+ * A secretary who died is replaced the way the cabinet was named: the
+ * President's nominee, confirmed by the Senate, on the executive's regular
+ * review (the state cabinets refill on theirs).
+ */
+function refillCabinet(api: CoreAPI): void {
+  for (const post of LAW.line.filter((e) => e.kind === "cabinet")) {
+    const row = table(api, "cabinet").get(post.key) as unknown as
+      CabinetRow | undefined;
+    if (row && !cannotServe(api, row.holderId)?.startsWith("not living"))
+      continue;
+    const chosen = nominate(api, {
+      key: `cabinet:US:${post.key}:${api.state.date}`,
+      officeKind: "cabinet-secretary",
+      chambers: [FEDERAL_SENATE],
+    });
+    if (!chosen) continue;
+    table(api, "cabinet").put({
+      id: post.key,
+      title: post.title,
+      order: row?.order ?? LAW.line.findIndex((e) => e.key === post.key),
+      holderId: chosen.row.id,
+      party: chosen.row.party,
+      confirmation: chosen.confirmation,
+      since: api.state.date,
+    } satisfies CabinetRow as unknown as ModuleRow);
+  }
+}
+
+function scheduleCabinetReview(api: CoreAPI, from: string): void {
+  const date = addDays(
+    makeIsoDate(from),
+    campaignParameter("executiveReviewDays"),
+  );
+  api.moduleCalendar(SUCCESSION_MODULE_ID).schedule({
+    key: `cabinet-review:${date}`,
+    date,
+    kind: "cabinet-review",
+    source: {
+      tag: "ESTIMATED",
+      citation: "The President's regular review of vacant cabinet posts",
+      asOf: api.state.date,
+      estimatedFrom: "executiveReviewDays",
+    },
+    sourceRecordIds: ["cabinet-review:US"],
+  });
 }
 
 /** The holder of a place in the line today, and their seat in Congress if any. */
@@ -431,6 +503,7 @@ export function openSuccession(core: CoreState): void {
   // by this Senate, once the government is open.
   registerBoardAppointer(boardAppointer);
   appointCabinet(coreAPI(core));
+  scheduleCabinetReview(coreAPI(core), core.date);
 }
 
 /** The federal cabinet in the order of the line. */
