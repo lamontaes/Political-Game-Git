@@ -124,9 +124,20 @@ function missingContests(
   );
   // Every term, serving or since ended: an election that has already been
   // held leaves the term it closed behind as an ended row.
+  // A term that ended because its holder left (took another office, resigned,
+  // died) opens a vacancy that day and is filled by the office's own rule
+  // (an appointment, then a special election), so its end date is not the
+  // seat's scheduled election (Kentucky's auditor, whose holder took a seat
+  // in Congress on January 3, 2027, is due in 2027, not 2026).
+  const left = new Set(
+    rows(core, OFFICES, "vacancies").map((row) => `${row.seatId}@${row.since}`),
+  );
   const ends = new Map<string, string[]>();
   for (const row of rows(core, OFFICES, "terms"))
-    if (typeof row.endDate === "string")
+    if (
+      typeof row.endDate === "string" &&
+      !left.has(`${row.seatId}@${row.endDate}`)
+    )
       ends.set(row.seatId as string, [
         ...(ends.get(row.seatId as string) ?? []),
         row.endDate,
