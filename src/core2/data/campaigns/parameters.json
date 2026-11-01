@@ -258,6 +258,12 @@
       "source": "What a voter's own record of voting adds (times their share of elections voted, less one half, by how long the record is). Voting in one election raises the chance of voting in the next by about 10 points (Gerber, Green and Shachar 2003, 'Voting May Be Habit-Forming: Evidence from a Randomized Field Experiment', American Journal of Political Science 47(3):540-550); at the turnout scale, a record of always voting adds about 0.2, about 10 points near even odds.",
       "spread": [0.2, 0.8]
     },
+    "turnoutElectionYears": {
+      "value": 2,
+      "tag": "SOURCED",
+      "source": "Years between the November general elections a counted adult has been old enough to vote in: the House is elected every two years (U.S. Constitution, art. I, sec. 2), so a counted adult's record of past elections is their years of adulthood over this.",
+      "spread": [2, 2]
+    },
     "turnoutHabitFamiliarity": {
       "value": 2,
       "tag": "TUNABLE",

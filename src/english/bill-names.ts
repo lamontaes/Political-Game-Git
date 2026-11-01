@@ -141,7 +141,10 @@ export function billNameOf(
 }
 
 /** Items in a list as American English writes them: "a", "a and b", "a, b, and c". */
-function joinList(items: readonly string[], conjunction: string): string {
+export function joinList(
+  items: readonly string[],
+  conjunction: string,
+): string {
   if (items.length < 3) return items.join(` ${conjunction} `);
   return `${items.slice(0, -1).join(", ")}, ${conjunction} ${items.at(-1)}`;
 }
