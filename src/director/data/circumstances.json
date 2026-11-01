@@ -391,6 +391,24 @@
       "everyParameter": "directorCircumstanceStreetEveryDays"
     },
     {
+      "id": "no-graduation-home",
+      "recordKinds": ["school.finished"],
+      "recordFactEquals": {
+        "passed": ["false"]
+      },
+      "playerNamed": true,
+      "afterDays": 1,
+      "place": "home",
+      "pool": ["own-household"],
+      "where": "pool",
+      "player": "named-in-it",
+      "cast": "the day after the player's senior year ended without a diploma, someone they live with, scored on tie and sociability",
+      "typeKey": "no-diploma-home",
+      "outcome": "conversation.told",
+      "impactParameter": "directorCircumstanceSchoolImpact",
+      "everyParameter": "directorCircumstanceStreetEveryDays"
+    },
+    {
       "id": "door-first",
       "recordKinds": ["campaign.door"],
       "recordFactEquals": {

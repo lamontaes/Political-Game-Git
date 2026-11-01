@@ -10,6 +10,7 @@ claimed-by: play-first/play-browser-checks-name-deleted-opening-box
 pr: #6958
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-01T13:19:56.813Z
 ---
 
 **What.** Commit dcfc8aa74c (Oct 28 04:28, the opening's own scene system deleted) removed the #opening-box element and its speech list; four-screens.browser.mjs waited 120 s for it and timed out (fixed on branch fixer/red-main-browser-checks). src/bench/rates-named.browser.mjs (lines 36 to 62) and src/bench/framing.browser.mjs (lines 29 and 78, the Skip opening button) still wait for #opening-box or press Skip opening, so they cannot pass on main. rates-named also asserts the opening speech names the unemployment and other rates, which now play as a scene in the talk box, so it needs its reading moved to where the speech is told.

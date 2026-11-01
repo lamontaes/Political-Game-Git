@@ -23,3 +23,5 @@ claimed-at: 2026-10-29T21:33:49.309Z
 **Files.** src/director/data/situation-types.json, data/english/parts/, src/core2/modules/offices.ts
 
 **Notes.** Filed by the CTO, Oct 29, from the owner's voice note on the governing brief (OWNER-DECISIONS, Oct 29 21:40 UTC). Read: OWNER-DECISIONS, DECISION-REGISTER, the governing brief's four research notes; searched the pool for twins.
+
+Built on branch words/swearing-in (helper, Oct 29): type `swearing-in` (src/director/data/situation-types.json, purpose arc in purpose-arcs.json), cast fills `oath-giver` and `sworn-colleagues` (src/director/civic-roles.ts, src/director/swearing-in.ts), the address through the speech engine (src/director/inaugural-address.ts, data in src/director/data/swearing-in.json), lines in scene-talk, scene-words and journal, proof in src/director/swearing-in-scene.test.ts, packet docs/design/scenes/from-life/sworn-in.md. Stopgaps: SG-WORDS-swearing-in-no-court, SG-WORDS-swearing-in-address-in-scene. Not done: the bench screenshot in docs/play-first/shots.
