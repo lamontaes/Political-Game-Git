@@ -33,6 +33,7 @@ import {
   journalClosing,
   journalEntry,
   journalRows,
+  metRelation,
   possessivePronoun,
   relationPhrase,
   saysOffice,
@@ -1333,11 +1334,23 @@ export function composeJournal(
       .sort((a, b) => b.hindsight - a.hindsight || a.id.localeCompare(b.id))[
       zero
     ];
+    // A look-back that names someone ("Susan mattered more than I knew",
+    // "Susan would come back into my life") is about a person met, never a
+    // relative one was born to or raised: "My mother took office. Susan
+    // mattered more than I knew." named a mother as a stranger.
+    const counterpart = moment.counterpartIds[zero];
+    const relation = counterpart ? kin.get(counterpart)?.relation : undefined;
+    const looked =
+      relation && !metRelation(relation, words)
+        ? Object.fromEntries(
+            Object.entries(facts).filter(([key]) => key !== "name"),
+          )
+        : facts;
     const revision =
-      changed && facts.name
+      changed && looked.name
         ? render(
             { part: "memoir", field: "revise" },
-            facts,
+            looked,
             `${moment.id}:revise`,
             [changed.causeId, moment.causeId],
           )
@@ -1359,7 +1372,7 @@ export function composeJournal(
             turned,
           },
         },
-        facts,
+        looked,
         `${moment.id}:hook`,
         sourceIds,
       );

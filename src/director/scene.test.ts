@@ -58,8 +58,11 @@ describe(`scenes in ${base.placeMetadata?.placeName} (seed ${seed})`, () => {
         if (scene.talkToId) {
           expect(scene.presentIds).toContain(scene.talkToId);
           const talk = openConversation(core, book.personId, scene.talkToId);
-          // With nothing mined to say, they greet and say goodbye.
-          if (!talk.choices.length)
+          // With nothing on record to say, nothing is said: no hello and
+          // goodbye with nothing between (owner, Oct 24: "that should be
+          // going to the hi, have a good day. That makes no sense."). A talk
+          // that said something and has nothing left ends with a goodbye.
+          if (!talk.choices.length && talk.lines.length)
             expect(talk.lines.at(-1)?.kind).toBe("farewell");
         }
         scenes += 1;

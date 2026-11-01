@@ -11,6 +11,7 @@ claimed-by: play-first/tests-m0-03-election-morning-ends-jump
 pr: #6963
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-01T13:41:57.471Z
 ---
 
 **What.** The accepted golden-path spec M0-03 (src/bench/m0-check.ts) fails on main at 553bb7e78a with GOLDEN_PATH_SEED=d66119bba97518125829fc864eff970049d073f5e74ec36a164f8f5405bd6f7f and GOLDEN_PATH_PLACE_KEY=5031750 (Hardwick, Vermont): 'The jump ended early without a stop (complete).' The check's 30-day calendar jump from 2025-02-04 ends on 2025-03-04, Vermont's Town Meeting Day, because BenchPlayer.run in src/bench/player.ts stops for election morning: polling visit person_ff90668f8df7cbd0:2025-03-04, with the Selectboard contests contest:seat:gus2025:187831:board:0:2025-03-04 through board:2. That pause leaves the packet's kind as complete on that date, and the check accepts only a stop packet or a jump that reached its target, so a morning the player is rightly stopped for reads as an early end. It turned the golden-path check red twice on #6375 (head 44088842b9), whose diff touches neither file.

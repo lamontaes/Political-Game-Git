@@ -568,11 +568,24 @@ async function act(path) {
     const moment = storyStop(result.packet);
     if (moment) await showStory(moment.recordId);
   } catch (error) {
-    $("card-place").textContent = error.message;
+    // The server holds an open stop this page does not show (a skip raced a stop another call
+    // opened): take it back from the server so Continue shows; only a refusal with nothing held
+    // is told as it is.
+    if (!(await resyncOpenStop())) $("card-place").textContent = error.message;
   } finally {
     busy = false;
     renderPacket();
   }
+}
+/** Show the stop the server holds for the saved life, if one is open; true when it did. */
+async function resyncOpenStop() {
+  const held = (await api("/api/title").catch(() => undefined))?.life?.packet;
+  if (held?.kind !== "stop") return false;
+  renderPacket(held);
+  await refresh();
+  const moment = storyStop(held);
+  if (moment) await showStory(moment.recordId);
+  return true;
 }
 
 // ---- The officeholder's day (OFFICE-LOCAL): the meeting and the desk ----
@@ -1112,6 +1125,9 @@ $("talk-next").addEventListener("click", async () => {
   if (talk) await post("/api/talk/leave");
   renderTalk(undefined);
   show("talk", false);
+  // A story's end hands the room back to the one scene renderer, so the people in it can be
+  // clicked to talk again (a story draws them without a click).
+  await renderScene();
   if (!$("continue").hidden) $("continue").click();
 });
 $("talk-leave").addEventListener("click", async () => {
@@ -1126,6 +1142,7 @@ $("talk-leave").addEventListener("click", async () => {
   onContinue = undefined;
   await post("/api/talk/leave");
   renderTalk(undefined);
+  await renderScene();
 });
 
 // ---- The filing office (step 3), a visit in the clerk's words ----
