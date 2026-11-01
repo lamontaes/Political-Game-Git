@@ -1,21 +1,23 @@
 /**
  * Medical bills and medical debt in a played world (world-medical-spending-
  * categories, health-medical-debt-record): a place drawn from all 56 on a
- * seed nobody chose, the bench world with every module installed, built
- * twice from the same seed. In one the Medicaid expansion is in force at
- * every level of the town's chain; in its twin it is repealed. Each month the
- * coverage engine bills every household of the places whose money the world
- * keeps by its members' coverage and health records, and the household pays
- * from what it holds; a bill unpaid past the 120-day wait goes to collections
- * as a medical-debt record on the household's books.
+ * seed nobody chose, the bench world with every module installed (for part
+ * (b), built twice from the same seed: in one the Medicaid expansion is in
+ * force at every level of the town's chain; in its twin it is repealed). Each
+ * month the coverage engine bills every household of the places whose money
+ * the world keeps by its members' coverage and health records, and the
+ * household pays from what it holds; a bill unpaid past the 120-day wait goes
+ * to collections as a medical-debt record on the household's books.
  *
  * (a) In the drawn town, every household-month with a member whose serious
  *     illness is under way (a health case with an onset event, care need
  *     one) is billed more than each healthy household of the same size and
  *     plans that month, and such a household, owing nothing before, pays more
- *     for its month by journal entries than a healthy one paid in full (one
- *     that paid its own bill in full, where any did); members covered by a
- *     plan are billed less than uncovered ones; and every payment is a
+ *     for its month by journal entries than a healthy one of the same size
+ *     paid in full, whose plans leave its members at least the share of
+ *     their care the ill household's leave its own (one on the same plans,
+ *     and one that paid its own bill in full, where any did); members covered
+ *     by a plan are billed less than uncovered ones; and every payment is a
  *     balanced journal entry from the household's members' main accounts to
  *     the main account of the medical seller its row names, one of the
  *     town's when it has any.
@@ -542,16 +544,33 @@ const plansOf = (row: MedicalBillRow) =>
     .sort()
     .join(",");
 
+/** The share of a member's care each plan leaves them, as the bills price it. */
+const PLAN_SHARE: Readonly<Record<string, number>> = {
+  employer: bills.parameters.medicalPatientShareEmployer.value,
+  medicaid: bills.parameters.medicalPatientShareMedicaid.value,
+  medicare: bills.parameters.medicalPatientShareMedicare.value,
+  none: bills.parameters.medicalPatientShareUninsured.value,
+};
+
+/** What a household's plans leave its members, together, of their care. */
+const shareOf = (row: MedicalBillRow) =>
+  row.members.reduce((n, m) => n + PLAN_SHARE[m.plan]!, 0);
+
 /**
  * Part (a)'s witness in a world's town rows so far: a full town household-
  * month with a member whose serious illness is under way (care need one, a
  * health case with an onset event that billed day), owing nothing before (it
  * was asked its month's bill alone), that paid more by journal entries than
  * a healthy town household (every member's care need none) of the same size
- * and plans paid for the same month in full, one that paid its own bill in
- * full first; and a member on an employer plan beside an uncovered one, both
- * at care need none, in town households of the same size the same month
- * (and a Medicaid member beside an uncovered one, where there is one).
+ * paid for the same month in full, whose plans leave its members, together,
+ * at least the share of their care the ill household's plans leave its own
+ * (so its bill is at least what the ill household's would be were all its
+ * members healthy: a healthy member's care costs the same in households of
+ * one size in one place and month). One that paid its own bill in full, and
+ * one beside a healthy household on the same plans, first. Beside it, a
+ * member on an employer plan and an uncovered one, both at care need none,
+ * in town households of the same size the same month (and a Medicaid member
+ * beside an uncovered one, where there is one).
  */
 function illWitness(
   rows: readonly MedicalBillRow[],
@@ -575,21 +594,31 @@ function illWitness(
   const healthy = full.filter((row) =>
     row.members.every((m) => m.careNeed === 0),
   );
-  // Each like group's healthy household paid in full with the largest bill.
-  const healthyPaid = new Map<string, MedicalBillRow>();
-  for (const row of healthy)
-    if (
-      inFull(row) &&
-      row.billMinor > (healthyPaid.get(likeOf(row))?.billMinor ?? -1)
-    )
-      healthyPaid.set(likeOf(row), row);
+  const healthyInFull = healthy.filter(inFull);
   const illMonths = full.filter((row) => seriouslyIll(row));
   const paidSome = illMonths.filter(paidOwingNothing);
-  const beside = paidSome.filter((row) => healthyPaid.has(likeOf(row)));
-  const more = beside.filter(
-    (row) => row.paidMinor > healthyPaid.get(likeOf(row))!.paidMinor,
-  );
-  const illRow = more.find(inFull) ?? more[0];
+  const compared = paidSome.map((row) => {
+    const wells = healthyInFull.filter(
+      (h) =>
+        h.date === row.date &&
+        h.members.length === row.members.length &&
+        shareOf(h) >= shareOf(row),
+    );
+    // The largest healthy bill it paid more than.
+    const well = wells
+      .filter((h) => row.paidMinor > h.paidMinor)
+      .sort((x, y) => y.paidMinor - x.paidMinor || x.id.localeCompare(y.id))[0];
+    return { row, wells, well };
+  });
+  const beside = compared.filter((c) => c.wells.length);
+  const more = compared.filter((c) => c.well);
+  const samePlans = (c: { row: MedicalBillRow; well?: MedicalBillRow }) =>
+    plansOf(c.well!) === plansOf(c.row);
+  const chosen =
+    more.find((c) => inFull(c.row) && samePlans(c)) ??
+    more.find((c) => inFull(c.row)) ??
+    more.find(samePlans) ??
+    more[0];
   const memberBills = full.flatMap((row) =>
     row.members
       .filter((m) => m.careNeed === 0)
@@ -613,9 +642,9 @@ function illWitness(
     healthy,
     illMonths,
     paidSome,
-    beside,
-    illRow,
-    well: illRow ? healthyPaid.get(likeOf(illRow)) : undefined,
+    beside: beside.map((c) => c.row),
+    illRow: chosen?.row,
+    well: chosen?.well,
     employer: pair("employer"),
     medicaid: pair("medicaid"),
   };
@@ -729,7 +758,7 @@ describe("medical bills and medical debt in a played world", () => {
           const w = illWitness(played.rows, played.onsets, town);
           const households = (rows: readonly MedicalBillRow[]) =>
             new Set(rows.map((row) => row.householdId)).size;
-          const counts = `played ${start} to ${end}: ${w.illMonths.length} town household-months of ${households(w.illMonths)} households with a serious illness under way, ${w.paidSome.length} of them paid by journal entries owing nothing before (${w.paidSome.filter(w.inFull).length} in full), ${w.beside.length} beside a healthy household of the same size and plans paid in full`;
+          const counts = `played ${start} to ${end}: ${w.illMonths.length} town household-months of ${households(w.illMonths)} households with a serious illness under way, ${w.paidSome.length} of them paid by journal entries owing nothing before (${w.paidSome.filter(w.inFull).length} in full), ${w.beside.length} beside a healthy household of the same size paid in full whose plans leave its members at least their share`;
           // Every such month is billed more than each healthy household of
           // the same size and plans that month: the bill reads the care need.
           let compared = 0;
@@ -743,7 +772,7 @@ describe("medical bills and medical debt in a played world", () => {
                 compared += 1;
               }
           if (!w.illRow) {
-            const reason = `(a) ${where}: no town household with a serious illness under way, owing nothing before, paid more for its month than a healthy household of the same size and plans paid in full (${counts})`;
+            const reason = `(a) ${where}: no town household with a serious illness under way, owing nothing before, paid more for its month than a healthy household of the same size, on plans leaving its members at least their share, paid in full (${counts})`;
             passed.push(reason);
             log(`draw ${attempt}: ${reason}`);
             continue;
@@ -773,7 +802,7 @@ describe("medical bills and medical debt in a played world", () => {
           const outsideAccount = outsideAccountOf(api);
           const payee = (row: MedicalBillRow) =>
             `${row.sellerId} (${row.sellerId === outsideAccount ? "the outside account" : "the town's seller"})`;
-          const proof = `(a) ${where}; the town as built, no law changed, ${counts}. ${illRow.date}: ${illRow.id}, owing nothing before, billed ${illRow.billMinor} and paid ${illRow.paidMinor}${w.inFull(illRow) ? " (in full)" : `, owing the rest`} by ${illRow.journalIds.join(", ")} to ${payee(illRow)}; its member ${ill.personId} (${ill.plan}, care need ${ill.careNeed}, health case onset ${w.onsetOf(illRow, ill.personId)}) billed ${ill.billMinor} (care needs ${illRow.members.map((m) => m.careNeed).join(", ")}; plans ${plansOf(illRow)}). Healthy ${well.id} billed and paid ${well.paidMinor} in full by ${well.journalIds.join(", ")} to ${payee(well)} (care needs ${well.members.map((m) => m.careNeed).join(", ")}; plans ${plansOf(well)}). Every one of the ${w.illMonths.length} household-months with a serious illness under way billed more than each healthy household of the same size and plans that month (${compared} comparisons). Employer member ${employer.c.personId} ${employer.c.billMinor} against uncovered ${employer.u.personId} ${employer.u.billMinor} on ${employer.c.row.date}${medicaid ? `; Medicaid member ${medicaid.c.personId} ${medicaid.c.billMinor} against uncovered ${medicaid.u.personId} ${medicaid.u.billMinor} on ${medicaid.c.row.date}` : ""}. ${played.checked} town household payments read line by line (members' main accounts to the seller's); ${posted.size} medical journal entries, each balanced; ${lines}.`;
+          const proof = `(a) ${where}; the town as built, no law changed, ${counts}. ${illRow.date}: ${illRow.id}, owing nothing before, billed ${illRow.billMinor} and paid ${illRow.paidMinor}${w.inFull(illRow) ? " (in full)" : `, owing the rest`} by ${illRow.journalIds.join(", ")} to ${payee(illRow)}; its member ${ill.personId} (${ill.plan}, care need ${ill.careNeed}, health case onset ${w.onsetOf(illRow, ill.personId)}) billed ${ill.billMinor} (care needs ${illRow.members.map((m) => m.careNeed).join(", ")}; plans ${plansOf(illRow)}). Healthy ${well.id}, the same size, billed and paid ${well.paidMinor} in full by ${well.journalIds.join(", ")} to ${payee(well)} (care needs ${well.members.map((m) => m.careNeed).join(", ")}; plans ${plansOf(well)}, leaving its members ${shareOf(well).toFixed(3)} of their care in all against the ill household's ${shareOf(illRow).toFixed(3)}${plansOf(well) === plansOf(illRow) ? ", the same plans" : ""}). Every one of the ${w.illMonths.length} household-months with a serious illness under way billed more than each healthy household of the same size and plans that month (${compared} comparisons). Employer member ${employer.c.personId} ${employer.c.billMinor} against uncovered ${employer.u.personId} ${employer.u.billMinor} on ${employer.c.row.date}${medicaid ? `; Medicaid member ${medicaid.c.personId} ${medicaid.c.billMinor} against uncovered ${medicaid.u.personId} ${medicaid.u.billMinor} on ${medicaid.c.row.date}` : ""}. ${played.checked} town household payments read line by line (members' main accounts to the seller's); ${posted.size} medical journal entries, each balanced; ${lines}.`;
           log(`draw ${attempt}: shown`);
           process.stdout.write(
             `MEDICAL-DEBT (a) (MEDICAL_DEBT_SEED=${SEED})\n${proof}\nPassed over: ${passed.join("; ") || "none"}\n`,
