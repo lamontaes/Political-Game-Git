@@ -465,6 +465,8 @@
     "journal.office-other-act.other-put-forward-law": "tell|none|narration",
     "journal.office-other-act.other-voted-against-law": "tell|none|narration",
     "journal.office-other-act.other-voted-for-law": "tell|none|narration",
+    "journal.office-other-took-office.other-took-office-as-office": "tell|none|narration",
+    "journal.office-other-took-office.other-was-sworn-in-as-office": "tell|none|narration",
     "journal.recall-count.hearing-other-out-cost-the-petition-fewer-signatures-it-fell-short": "tell|none|narration",
     "journal.recall-count.hearing-other-out-cost-the-petition-fewer-signatures-not-the-vote": "tell|none|narration",
     "journal.recall-count.hearing-the-petitioners-out-cost-them-fewer-signatures-it-fell-short": "tell|none|narration",
