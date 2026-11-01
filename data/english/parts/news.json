@@ -8142,6 +8142,72 @@
       }
     },
     {
+      "key": "news.conditions-also.also-went-up-too",
+      "move": "conditions-also",
+      "kind": "written",
+      "text": "{also} went up too.",
+      "uses": [
+        {
+          "move": "conditions-also",
+          "subject": "news",
+          "role": "conditions-also",
+          "choice": "context",
+          "requiresFacts": ["also", "also-up", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions-also.also-also-rose",
+      "move": "conditions-also",
+      "kind": "written",
+      "text": "{also} also rose.",
+      "uses": [
+        {
+          "move": "conditions-also",
+          "subject": "news",
+          "role": "conditions-also",
+          "choice": "context",
+          "requiresFacts": ["also", "also-up", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions-also.also-increased-as-well",
+      "move": "conditions-also",
+      "kind": "written",
+      "text": "{also} increased as well.",
+      "uses": [
+        {
+          "move": "conditions-also",
+          "subject": "news",
+          "role": "conditions-also",
+          "choice": "context",
+          "requiresFacts": ["also", "also-up", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "news.conditions-also.also-climbed-too",
       "move": "conditions-also",
       "kind": "written",
@@ -8246,6 +8312,72 @@
       "origin": "authored",
       "author": "Words, scenes and the director (words-printed-bodies-2)",
       "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions-also.also-went-down-too",
+      "move": "conditions-also",
+      "kind": "written",
+      "text": "{also} went down too.",
+      "uses": [
+        {
+          "move": "conditions-also",
+          "subject": "news",
+          "role": "conditions-also",
+          "choice": "context",
+          "requiresFacts": ["also", "also-down", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions-also.also-also-fell",
+      "move": "conditions-also",
+      "kind": "written",
+      "text": "{also} also fell.",
+      "uses": [
+        {
+          "move": "conditions-also",
+          "subject": "news",
+          "role": "conditions-also",
+          "choice": "context",
+          "requiresFacts": ["also", "also-down", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions-also.also-decreased-as-well",
+      "move": "conditions-also",
+      "kind": "written",
+      "text": "{also} decreased as well.",
+      "uses": [
+        {
+          "move": "conditions-also",
+          "subject": "news",
+          "role": "conditions-also",
+          "choice": "context",
+          "requiresFacts": ["also", "also-down", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
