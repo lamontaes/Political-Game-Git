@@ -14,6 +14,7 @@ import {
   queueDecisionDetail,
 } from "./decision-detail";
 export { condenseCircleDecisions } from "./decision-detail";
+import { queueExperience } from "./knowledge-retention";
 import { meetAtWork } from "./encounters";
 import { workgroupOf } from "./shared-history";
 import { derivePersonAppearance } from "./appearance";
@@ -982,6 +983,8 @@ export function coreAPI(core: CoreState): CoreAPI {
       if (fact.learnedAt > core.date)
         throw new Error("Cannot learn a future fact.");
       known.set(fact.key, { ...fact });
+      // An experienced key is queued by its day, to be forgotten when old.
+      queueExperience(core, personId, fact.key, fact.learnedAt);
     },
     knows: (personId, key) => core.knowledgeByPerson.get(personId)?.get(key),
     postJournal(input) {

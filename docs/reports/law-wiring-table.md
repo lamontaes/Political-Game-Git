@@ -1,6 +1,6 @@
 # Law wiring table
 
-Laws wired: 87 of 89 (2 partly, 0 on a stopgap). Research links reaching people or carried by an engine: 172 of 246 (18 the research finds about zero, 56 unread, 0 of them with no stopgap).
+Laws wired: 87 of 89 (2 partly, 0 on a stopgap). Research links reaching people or carried by an engine: 174 of 246 (21 the research finds about zero, 51 unread, 0 of them with no stopgap).
 
 Every law the game has, graded on the nine wiring links in two drawn places. Each cell is the link's status; the full law-wiring report gives every reason and record id. The last column names the screens a player sees the law on in a played world, read through the play page's own views (Your office lists it as a bill a member can draft).
 
@@ -150,7 +150,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 
 **cap consumer loan rates** (`us-policy-positions:business-commerce.cap-consumer-loan-rates`)
 
-- web: the year-long check cannot show the cap links' 12-month lag: the checker changes the law once and leaves it to the world's legislature, which in the one checker place with a lender put the cap back seven months in, so no checker run shows the lender reading the factor; the runs whose web ledger did move began with the cap, where no lender opens, so nobody read those rows. The played lenders test holds the law past the lag and shows the read; its records are the evidence (SG-LAW-loan-cap-web-past-checker-lag)
+- web: the year-long check cannot show the cap links' 12-month lag. The checker changes the law once and leaves it to the world's legislature. In the one checker place with a lender, the legislature put the cap back seven months in, so no checker run shows the lender reading the factor. The runs whose web ledger did move began with the cap, where no lender opens, so nobody read those rows. The played lenders test holds the law past the lag and shows the read; its records are the evidence (SG-LAW-loan-cap-web-past-checker-lag)
 
 **Spending: corrections** (`budget-line:corrections`)
 
