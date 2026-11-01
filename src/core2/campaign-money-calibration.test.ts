@@ -13,10 +13,12 @@
  *   held to half to twice that, as the row is one city;
  * - the median gift near $50 (localContributionMedianUsd, $35 to $100:
  *   https://www.opb.org/article/2021/08/09/portland-elections-oregon-politics-city-hall-small-donors-campaign-funding/),
- *   widened by a quarter at each end for the spread between drawn towns (at
- *   the fitted donationShareOfMonthPerWarmth and donationMonthScaleMonths,
- *   48 drawn eight-place pools held out from the fit ran medians of $47 to
- *   $117).
+ *   widened by a quarter at each end for the spread between drawn towns.
+ *
+ * The month's share (donationShareOfMonthPerWarmth) was fitted on the asks
+ * of 51 run seeds' places; 50 more run seeds recorded alongside were held
+ * out from the fit: there 3.7% of eight-place pools and 0.29% of
+ * sixteen-place pools fell outside a band (parameters.json has the rows).
  *
  * The world is the opening population (`buildPopulation`), as in
  * campaigns.test.ts: its retirees hold no recorded income award, so they
@@ -51,7 +53,14 @@ const START = "2026-01-05";
 const runSeed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`campaign-money:${Date.now()}`).digest("hex");
-const PLACES = Number(process.env.CAMPAIGN_MONEY_PLACES ?? 8);
+/**
+ * Places pooled per run: sixteen, so the pool's dollars per hour, mean and
+ * median read the field's totals rather than one draw of towns where most
+ * of the people a campaign reaches have no reason to give. Sixteen places
+ * outrun vitest's default 30 seconds on a busy machine, so the test sets its
+ * own timeout.
+ */
+const PLACES = Number(process.env.CAMPAIGN_MONEY_PLACES ?? 16);
 /** Weeks of campaigning: one evening of doors and one of donor calls each. */
 const WEEKS = 10;
 
@@ -221,5 +230,5 @@ describe("campaign money matches local campaign finance", () => {
     expect(summary.mean, `mean gift: ${where}`).toBeLessThanOrEqual(288);
     expect(summary.median, `median gift: ${where}`).toBeGreaterThanOrEqual(26);
     expect(summary.median, `median gift: ${where}`).toBeLessThanOrEqual(125);
-  });
+  }, 240_000);
 });
