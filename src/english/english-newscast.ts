@@ -95,6 +95,7 @@ export const STORY_KINDS = {
       "death-age",
       "death-born",
       "death-place",
+      "death-office",
       "death-work",
       "death-survivors",
     ],

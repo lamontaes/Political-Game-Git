@@ -33,6 +33,7 @@ import {
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { wordPrintedStory } from "./archive-words";
+import { printedFacts } from "./printed-words";
 import { heardItems } from "./calendar";
 import { buildBenchWorld } from "./world";
 
@@ -300,37 +301,50 @@ describe("printed stories in News", () => {
       ),
       where,
     ).toBeNull();
-    // An obituary tells the life's facts the records hold: the year's
-    // deaths of full people, each worded, and one whose records name an
-    // employer or survivors says so (words-paper-and-journal-everyday-life).
+    // An obituary tells the life's facts the records hold: each death the
+    // paper prints (the town's and its state's), worded, and every life fact
+    // its record holds (where they were born, the office they served in,
+    // where they worked, who survives them) said in it
+    // (words-paper-and-journal-everyday-life).
+    const LIFE = ["born", "office", "employer", "survivors"];
     const deaths = [...core.durableLog.values()].filter(
       (row) =>
         row.kind === "life.death" &&
         row.date >= start &&
+        (row.placeId === town || row.placeId === lawChain(api).stateKey) &&
         core.people.has(row.personIds[0] as PersonId),
     );
-    const obituaries = deaths.map((row) => ({
-      row,
-      worded: wordPrintedStory(core, printedAs(row.id, row.date)),
-    }));
-    for (const { row, worded } of obituaries) {
+    const obituaries = deaths.map((row) => {
+      const story = printedAs(row.id, row.date);
+      return {
+        row,
+        read: printedFacts(core, story),
+        worded: wordPrintedStory(core, story),
+      };
+    });
+    for (const { row, read, worded } of obituaries) {
       expect(worded, `${row.id} in ${where}`).not.toBeNull();
-      for (const text of worded!.paragraphs ?? [worded!.lede ?? ""])
-        expect(text, `${row.id} in ${where}`).not.toMatch(DEVELOPER);
+      const text = (worded!.paragraphs ?? [worded!.lede ?? ""]).join(" ");
+      expect(text, `${row.id} in ${where}`).not.toMatch(DEVELOPER);
+      for (const key of LIFE)
+        if (read?.facts[key])
+          expect(text, `${key} in ${row.id} in ${where}`).toContain(
+            read.facts[key]!.text,
+          );
     }
-    const told = obituaries.filter(
-      ({ worded }) => (worded?.paragraphs?.length ?? 0) > 2,
+    const lived = obituaries.filter(({ read }) =>
+      LIFE.some((key) => read?.facts[key]),
     );
     process.stdout.write(
-      `printed-words obituaries: ${told.length} of ${deaths.length} tell more than the age and town; e.g. ${told
+      `printed-words obituaries: ${lived.length} of ${deaths.length} tell a life fact; e.g. ${lived
         .slice(0, 2)
         .map(
           ({ worded }) =>
-            `${worded!.headline} / ${worded!.paragraphs!.join(" ")}`,
+            `${worded!.headline} / ${(worded!.paragraphs ?? []).join(" ")}`,
         )
         .join(" || ")}\n`,
     );
-    if (deaths.length) expect(told.length, where).toBeGreaterThan(0);
+    if (deaths.length) expect(lived.length, where).toBeGreaterThan(0);
     // A round birthday and a business's round year, each a brief from its
     // own record: a living resident, and a business the town keeps open.
     const resident = [...(core.peopleByPlace.get(town) ?? [])]

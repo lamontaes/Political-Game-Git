@@ -5,6 +5,7 @@
   "slots": {
     "years": "A number of years, from the record's dates.",
     "ordinal": "An age as an ordinal (80th), from the birth record.",
+    "firm": "A business a public contract went to, by name, from the award and the business records.",
     "subject": "The business or office, from the event record.",
     "law": "The law, as its record names it.",
     "date": "A date from the record.",
@@ -5587,6 +5588,72 @@
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.exposed.name-voted-on-a-contract-for-firm",
+      "move": "exposed",
+      "kind": "written",
+      "text": "{name} voted on a contract for {firm}",
+      "uses": [
+        {
+          "move": "exposed",
+          "subject": "headline",
+          "role": "exposed",
+          "choice": "headline",
+          "requiresFacts": ["conflict", "firm"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.exposed.name-again-votes-on-a-contract-for-firm",
+      "move": "exposed",
+      "kind": "written",
+      "text": "{name} again votes on a contract for {firm}",
+      "uses": [
+        {
+          "move": "exposed",
+          "subject": "headline",
+          "role": "exposed",
+          "choice": "headline",
+          "requiresFacts": ["again", "firm"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.exposed.a-ordinal-vote-by-name-for-firm",
+      "move": "exposed",
+      "kind": "written",
+      "text": "A {ordinal} vote by {name} for {firm}",
+      "uses": [
+        {
+          "move": "exposed",
+          "subject": "headline",
+          "role": "exposed",
+          "choice": "headline",
+          "requiresFacts": ["again", "firm"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
       "tag": {
         "move": "headline",
         "key": "news-received"

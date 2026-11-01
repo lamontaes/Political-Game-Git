@@ -1544,20 +1544,69 @@ const exposed: Builder = (read, f) => {
   const id = read.first();
   const acts = Object.values(f);
   const office = id ? read.officeOf(id) : null;
+  const conflict = acts.includes("conflict-of-interest");
+  const firm = conflict ? read.organization(f.organizationId) : null;
+  // The same official's earlier votes for the same firm that a paper
+  // exposed, each award once however many outlets ran it: a repeat is told
+  // as the time it is, not in the first story's words (one council member's
+  // six votes for a family firm, six times in the same words in one paper,
+  // Cogswell, North Dakota, seed paper-nov1:1).
+  const award = (facts: Readonly<Record<string, string>> | undefined) =>
+    Object.keys(facts ?? {}).find((key) => key.startsWith("award:"));
+  const mine = award(f);
+  const earlier = new Set<string>();
+  if (conflict && firm && id && mine)
+    for (const logId of read.core.logByKind.get("press.exposed") ?? []) {
+      const row = read.core.durableLog.get(logId as EntityId);
+      const theirs = award(row?.facts);
+      if (
+        row &&
+        theirs &&
+        theirs !== mine &&
+        row.personIds[0] === id &&
+        row.facts?.organizationId === f.organizationId &&
+        row.date <= (read.happened || read.story.date)
+      )
+        earlier.add(theirs);
+    }
+  const time = earlier.size + 1;
   return story(
     "exposed",
     {
       ...read.who(id, "name", false),
       ...(office ? { office: read.fact(office) } : {}),
       ...(acts.includes("bribe-taken") ? { bribe: read.yes() } : {}),
-      ...(acts.includes("conflict-of-interest")
-        ? { conflict: read.yes() }
+      ...(conflict && firm
+        ? { firm: read.fact(firm, f.organizationId ?? "") }
         : {}),
+      ...(conflict && time > 1 && firm
+        ? {
+            again: read.yes(),
+            ordinal: read.fact(TIMES[time] ?? `${ordinalOf(time)}`),
+          }
+        : conflict
+          ? { conflict: read.yes() }
+          : {}),
     },
     ["name"],
     id,
   );
 };
+
+/** The time something happened, as a paper says it ("second", "fifth"). */
+const TIMES: readonly (string | undefined)[] = [
+  undefined,
+  "first",
+  "second",
+  "third",
+  "fourth",
+  "fifth",
+  "sixth",
+  "seventh",
+  "eighth",
+  "ninth",
+  "tenth",
+];
 
 /**
  * A recorded bribe that someone who learned of it took to the press (the
@@ -2254,8 +2303,9 @@ const birth: Builder = (read, f) => {
  * An obituary: who died, the age they reached and the town they lived in,
  * then the life's facts the records hold (words-paper-and-journal-everyday-
  * life; owner, Nov 1: "real ones with some good fluff"): where they were
- * born (the run's birth record, as the Journal reads it), where they last
- * worked and for how long (their latest work record), and the partner and
+ * born (the run's birth record, as the Journal reads it), the office they
+ * served in (their term), where they last worked and for how long (their
+ * latest work record), and the partner and
  * children who survive them (their family records, by name). A fact the
  * records do not hold is left out, never guessed.
  */
@@ -2281,6 +2331,9 @@ const death: Builder = (read) => {
         .sort((a, b) => b.startsAt.localeCompare(a.startsAt))[0]
     : undefined;
   const employer = read.organization(work?.organizationId);
+  // The office they held, from their term's own record (an official's
+  // obituary says what they served as).
+  const office = id ? read.officeOf(id) : null;
   const tenure =
     work && read.happened
       ? yearsBetween(work.heldSince ?? work.startsAt, read.happened)
@@ -2320,6 +2373,7 @@ const death: Builder = (read) => {
               : { elsewhere: read.yes() }),
           }
         : {}),
+      ...(office ? { office: read.fact(office, id ?? "") } : {}),
       ...(employer && work
         ? {
             employer: read.fact(employer, work.id),
