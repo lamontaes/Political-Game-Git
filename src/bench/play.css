@@ -4765,5 +4765,13 @@ select.release-pick {
 }
 .calendar-layout .day-icon[class*="kind-"] {
   border-radius: 50%;
-  box-shadow: 0 0 0 2px var(--kind-color);
+  background: var(--kind-color);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
+  filter: none;
+}
+.calendar-layout .calendar-entry[class*="kind-"] {
+  border-left: 3px solid var(--kind-color);
+}
+.calendar-layout .calendar-entry[class*="kind-"] .when {
+  color: var(--kind-color);
 }

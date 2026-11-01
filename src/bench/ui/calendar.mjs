@@ -128,7 +128,9 @@ export function calendarScreen({ date, items: every, labels, onAdvance }) {
       ? day.map((item) =>
           el(
             "div",
-            { className: `calendar-entry${item.own ? " own" : ""}` },
+            {
+              className: `calendar-entry kind-${groupOf(item.kind)}${item.own ? " own" : ""}`,
+            },
             icon(item),
             el("span", { className: "what", textContent: item.line }),
           ),
@@ -159,7 +161,7 @@ export function calendarScreen({ date, items: every, labels, onAdvance }) {
   const drawSide = () => {
     const rowOf = (item) => {
       const row = listRow(
-        `calendar-entry${item.own ? " own" : ""}`,
+        `calendar-entry kind-${groupOf(item.kind)}${item.own ? " own" : ""}`,
         { as: "button", type: "button" },
         el("span", {
           className: "when",
