@@ -9,7 +9,8 @@ status: open
 claimed-by:
 pr:
 blocked-on:
-source: added with npm run pool -- add
+lead: words
+source: governing lead, Nov 1 (legislature-ask-before-the-roll-test-red-by-seed)
 ---
 
 **What.** The director caps one person's vote-ask scenes at six per 91 days (src/director/scheduling.ts:823-845, seasonCap in src/director/data/situation-types.json:83-89); past it the ask becomes a journal line with no stop and no reason recorded. A sitting legislator who is the player is asked about nearly every failing bill, about five evenings in nine in Springfield, Oregon (4169600, run seed chk2-b), so from the seventh ask in a quarter the player never hears a sponsor's request and the vote happens without them knowing it was close. The cap and how the player is told are the director's and Words' to rule on.
