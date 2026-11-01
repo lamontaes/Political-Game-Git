@@ -1,6 +1,8 @@
 /**
  * M1-12 (OPUS-OFFICIALS), in a random place among all 56: every member of
- * Congress and the town's state's officials are people from the opening,
+ * Congress and the town's state's officials are people from the opening
+ * (another place's governor, legislators and statewide officers are named
+ * officials on their terms until the player meets them),
  * views vary within each party, independents keep their caucus and reasons,
  * and a federal and a state vote split within a party on members' own
  * recorded reasons, not on a party line.
@@ -12,6 +14,7 @@ import { createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import { openLaws } from "./modules/laws";
 import {
+  isOutsideOffice,
   openOffices,
   OFFICES_MODULE_ID,
   type TermRow,
@@ -133,19 +136,45 @@ describe(
         expect(Object.keys(person!.traits).length).toBeGreaterThan(0);
         expect(officialOf(api, term.personId!)?.seatId).toBeDefined();
       }
-      // Every term the offices engine seats outside the town has its person.
+      // Every term the offices engine seats for the town's own state and the
+      // federal offices has its person; another place's holders are named
+      // officials on their terms until the player meets or opens them (the
+      // two-level rule, CTO ruling Oct 29 22:40).
+      const officeTable = api.moduleState(OFFICES_MODULE_ID).table("offices");
       const terms = api
         .moduleState(OFFICES_MODULE_ID)
         .table("terms")
         .query("byStatus", ["serving"]) as unknown as TermRow[];
+      const own = terms.filter(
+        (t) => !isOutsideOffice(api, officeTable.get(t.officeId)),
+      );
+      expect(own.length, where).toBeGreaterThan(0);
       expect(
-        terms.every((t) => t.personId),
+        own.filter((t) => !t.personId).map((t) => t.id),
         where,
-      ).toBe(true);
+      ).toEqual([]);
+      // Every other place's governor seat is held on a named term.
+      const governors = (
+        officeTable.query("byTown", [false]) as unknown as {
+          id: string;
+          kind: string;
+          level: string;
+          jurisdiction: string;
+        }[]
+      ).filter((o) => o.kind === "governor" && isOutsideOffice(api, o));
+      expect(governors.length, where).toBeGreaterThanOrEqual(50);
+      for (const office of governors) {
+        const held = terms.filter((t) => t.officeId === office.id);
+        expect(held.length, `${office.id} ${where}`).toBe(1);
+        expect(
+          held[0]!.identity.givenName && held[0]!.identity.familyName,
+          `${held[0]!.id} ${where}`,
+        ).toBeTruthy();
+        expect(held[0]!.identity.homeState, `${held[0]!.id} ${where}`).toBe(
+          office.jurisdiction,
+        );
+      }
       const officials = allOfficials(api);
-      expect(
-        officials.filter((o) => o.officeKind === "governor").length,
-      ).toBeGreaterThanOrEqual(50);
       // Views vary within a party: all three wings of each major party.
       for (const side of [-1, 1]) {
         const mine = officials.filter(

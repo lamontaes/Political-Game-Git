@@ -5,14 +5,14 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr: #6080
+status: in-pr
+claimed-by: play-first/play-stop-20-sister-born-a-week-apart-runs-public-works
+pr: #7059
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at:
+claimed-at: 2026-11-01T21:35:03.901Z
 ---
 
 **What.** I made Bo Snider, born February 3, 2007, in Anson, Texas on the v0.22.10 release. My sister Madison Stein lives in the same household and was born February 10, 2007, seven days later; she is not listed as a twin. On the first night she is a teenager in a letterman jacket; by December 2025, at 18 with no college shown, she is "Public Works Director · CITY OF ANSON treasury", a department head filed under the treasury. When she came to see me she said only "How's John?" about our father, by his first name, with him standing in the room. I expected siblings born at least months apart, a department head with experience, and a sister who calls our father Dad.
@@ -34,3 +34,5 @@ claimed-at:
 Oct 26 (speed lead, on Merger 0's send-back of #6080): the finished corrections (siblings born months apart, only residents who have turned 18 weighed for town posts, no asking after a shared relative) are their own item, `play-siblings-spaced-adults-by-birthday`, which #6080 now closes. This umbrella stays open on `gov-department-head-qualified-by-record` (an 18-year-old with no related work or schooling can still be weighed above older residents) and `words-family-talk-kin-address` (a sister names their shared father as Dad).
 
 Sent back 2026-10-26 from PR #6080 (branch claude/play-stop-20-siblings, checked 6390a944fb): the Done-when still requires the owner timeline to prevent an unqualified 18-year-old department head and to name a shared parent as a parent; the change excludes 17-year-olds by birthday and suppresses shared-parent talk while its wording remains filed elsewhere. conversation.test.ts:710 additionally guards its positive turned-question check on backable without a positive replacement. Supply the missing qualification/timeline and parent-address evidence, or bound the completed slice while leaving the umbrella open; do not invent an arbitrary higher age threshold, replace seeds or weaken assertions. No green local gate is claimed. Finish on that branch, merge main into it first.
+
+- 2026-11-01 (lane): All three parts of this umbrella are merged and done on main: `play-siblings-spaced-adults-by-birthday` (#6080, siblings born months apart), `gov-department-head-qualified-by-record` (#6149, a department head is chosen by recorded related work and schooling, not an age threshold) and `words-family-talk-kin-address` (#6156, a relative asks after the shared parent as Dad or Mom). `src/core2/sibling-births.test.ts` passes on the Nov 1 head (4 passed; Fajardo, Puerto Rico, seed 2b8c6a06941ebf15, 202 sibling pairs at home). The owner's installed-build screenshot is the item's own check; no code changes here. Closed on the three parts' evidence.
