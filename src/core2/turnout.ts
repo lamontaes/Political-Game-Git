@@ -65,9 +65,18 @@ export function interestOf(
   return second === -Infinity ? Math.abs(first) : first - second;
 }
 
+// The two weights the turnout rule reads for every voter counted (millions
+// on an election day), read once from the campaign parameter table: the
+// table is fixed data, so each call computes exactly what a fresh read would.
+let stakesWeight: number | undefined;
+let turnoutScale: number | undefined;
+
 /** What a race's appeal gap adds: the stakes, rising with the gap and leveling off. */
 export function stakesOf(interest: number): number {
-  return campaignParameter("turnoutStakesWeight") * Math.tanh(interest);
+  return (
+    (stakesWeight ??= campaignParameter("turnoutStakesWeight")) *
+    Math.tanh(interest)
+  );
 }
 
 /**
@@ -77,12 +86,21 @@ export function stakesOf(interest: number): number {
  */
 export function turnoutShare(readiness: number, interest: number): number {
   const z = readiness + stakesOf(interest);
-  return 1 / (1 + Math.exp(-z / campaignParameter("turnoutScale")));
+  return (
+    1 /
+    (1 + Math.exp(-z / (turnoutScale ??= campaignParameter("turnoutScale"))))
+  );
 }
 
 /** The propensity from all of a voter's parts. */
 export function propensityOf(parts: TurnoutParts): number {
-  return 1 / (1 + Math.exp(-zOf(parts) / campaignParameter("turnoutScale")));
+  return (
+    1 /
+    (1 +
+      Math.exp(
+        -zOf(parts) / (turnoutScale ??= campaignParameter("turnoutScale")),
+      ))
+  );
 }
 
 function zOf(parts: TurnoutParts): number {

@@ -370,6 +370,10 @@ export interface CountedAppeal {
   readonly pledge: number;
 }
 
+// Read once from the campaign parameter table (fixed data): every counted
+// voter on every race reads it.
+let doorPledgeWeight: number | undefined;
+
 /**
  * A counted voter's appeal for each candidate, from what the ballot and the
  * town tell them: the party label against their own lean, each candidate's
@@ -399,6 +403,8 @@ export function countedAppeal(
   },
 ): Record<string, CountedAppeal> {
   const appeal: Record<string, CountedAppeal> = {};
+  const pledgeWeight = (doorPledgeWeight ??=
+    campaignParameter("doorPledgeWeight"));
   for (const entry of field) {
     const party = lean * entry.side;
     const standing = entry.standing + (where.local ? entry.localStanding : 0);
@@ -419,8 +425,7 @@ export function countedAppeal(
       ? -(entry.scandal ?? 0) * (where.trust ?? 1)
       : 0;
     // Their own word at the door (owner, Oct 29: a "yes" is near-binding).
-    const pledge =
-      campaignParameter("doorPledgeWeight") * (where.pledges?.[entry.id] ?? 0);
+    const pledge = pledgeWeight * (where.pledges?.[entry.id] ?? 0);
     appeal[entry.id] = {
       total:
         party + standing + recognition + incumbent + ballot + scandal + pledge,
@@ -532,7 +537,17 @@ function orderPlacement(
 ): (target: number) => number {
   // Each voter's own readiness against their own place in the order: who
   // turns out at what strength of feeling, as the count itself decides it.
+  // Kept for each point of the order it was read at, so the day's races,
+  // whose searches pass the same points, read each once.
+  const shares = new Map<number, number>();
   const shareAt = (right: number) => {
+    const held = shares.get(right);
+    if (held !== undefined) return held;
+    const share = shareFrom(right);
+    shares.set(right, share);
+    return share;
+  };
+  const shareFrom = (right: number) => {
     let r = 0,
       all = 0;
     for (const voter of voters) {
@@ -565,6 +580,52 @@ function orderPlacement(
 }
 
 /**
+ * The town's voters as a place counted coarsely sees them, evenly spaced
+ * through the sample, each record counting as many places in the line as the
+ * real voters it stands for, with where a place's people stand on their
+ * order. Kept for the sample (the voting engine keeps one for each election
+ * day), so the day's races share the search: the same voters give the same
+ * placement.
+ */
+const coarseKept = new WeakMap<
+  readonly SampleVoter[],
+  {
+    readonly size: number;
+    readonly length: number;
+    readonly voters: readonly SampleVoter[];
+    readonly placement: (target: number) => number;
+  }
+>();
+function coarseVoters(sample: readonly SampleVoter[]): {
+  readonly voters: readonly SampleVoter[];
+  readonly placement: (target: number) => number;
+} {
+  const size = Math.max(1, electorateParameter("coarseSampleVoters"));
+  const held = coarseKept.get(sample);
+  if (held && held.size === size && held.length === sample.length) return held;
+  const total = sample.reduce((n, v) => n + v.weight, 0);
+  const step = Math.max(1, total / size);
+  const voters: SampleVoter[] = [];
+  let upTo = 0,
+    at = 0;
+  for (let i = step / 2; i < total && at < sample.length; i += step) {
+    while (at < sample.length - 1 && upTo + sample[at]!.weight <= i) {
+      upTo += sample[at]!.weight;
+      at += 1;
+    }
+    voters.push(sample[at]!);
+  }
+  const kept = {
+    size,
+    length: sample.length,
+    voters,
+    placement: orderPlacement(voters),
+  };
+  coarseKept.set(sample, kept);
+  return kept;
+}
+
+/**
  * Count places outside the town's counted residents on the same engine:
  * each place's voters are the town's counted voters re-placed on the
  * place's own lean (the same rank in the order, against the place's right
@@ -588,24 +649,9 @@ export function countPlaces(
   readonly cast: number;
   readonly places: readonly PlaceResult[];
 } {
-  const size = Math.max(1, electorateParameter("coarseSampleVoters"));
-  // Evenly spaced through the town's voters, each record counting as many
-  // places in the line as the real voters it stands for.
-  const total = sample.reduce((n, v) => n + v.weight, 0);
-  const step = Math.max(1, total / size);
-  const voters: SampleVoter[] = [];
-  let upTo = 0,
-    at = 0;
-  for (let i = step / 2; i < total && at < sample.length; i += step) {
-    while (at < sample.length - 1 && upTo + sample[at]!.weight <= i) {
-      upTo += sample[at]!.weight;
-      at += 1;
-    }
-    voters.push(sample[at]!);
-  }
+  const { voters, placement } = coarseVoters(sample);
   const totals: Record<string, number> = {};
   const results: PlaceResult[] = [];
-  const placement = orderPlacement(voters);
   let cast = 0;
   for (const place of places) {
     const votes: Record<string, number> = {};
@@ -619,7 +665,8 @@ export function countPlaces(
     // town's own people stand where the town's order puts them).
     const right = place.inTown ? place.rightShare : placement(place.rightShare);
     if (weight > 0)
-      for (const [form, voter] of voters.entries()) {
+      for (let form = 0; form < voters.length; form += 1) {
+        const voter = voters[form]!;
         const lean = Math.max(-1, Math.min(1, 2 * (right - voter.rank)));
         if (primary) {
           const identifies = Math.abs(lean) >= primary.cut && lean !== 0;
