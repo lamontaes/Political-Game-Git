@@ -109,8 +109,25 @@ describe("committee markup trades", () => {
         vote.traded?.map((t) => t.terms),
         why,
       ).toContain(deal.terms);
-      const pilled = bill.deals.some((d) => d.kind === "poison-pill");
-      expect(pilled ? ["yes", "no"] : ["yes"], why).toContain(vote.vote);
+      // A no is explained by an amendment adopted after this trade (a pill, or
+      // another member's trade: its section can reverse a law the body just
+      // passed, which weighs on the member through `recordConsistency`) and
+      // by the vote's own record: the member's position on the bill as it
+      // then stood was not for it. Seed 4f6a8c0e2b1d3957, Shrewsbury, West
+      // Virginia: two later trades reversed same-day laws, consistency -1.
+      const after = bill.deals
+        .slice(bill.deals.indexOf(deal) + 1)
+        .some(
+          (d) =>
+            d.memberId !== deal.memberId &&
+            (d.kind === "poison-pill" || d.kind === "trade-amendment"),
+        );
+      if (vote.vote === "no")
+        expect(
+          vote.position.total,
+          `${why}: a no needs a position against`,
+        ).toBeLessThanOrEqual(0);
+      expect(after ? ["yes", "no"] : ["yes"], why).toContain(vote.vote);
       if (vote.vote === "yes") honored += 1;
     }
     expect(honored, played.where).toBeGreaterThan(0);
