@@ -359,6 +359,16 @@
     ]
   },
   "situationPlaces": {
+    "swearing-in:venue": [
+      "council-chamber",
+      "council-chamber-small",
+      "city-hall-steps-event"
+    ],
+    "swearing-in:public": [
+      "council-chamber",
+      "council-chamber-small",
+      "city-hall-steps-event"
+    ],
     "funeral:venue": [
       "funeral-home-viewing-room",
       "church-sanctuary",
