@@ -28,6 +28,7 @@ A red is not named until you have the failing test, the drawn place, the seed an
 ## 4. Reproduce, then go to the cause
 
 - Reproduce on clean main first. If it does not reproduce, say so with the seeds you tried; do not fix a guess.
+- Clean main means main's head fetched just now, not the commit the red was reported on. Before fixing, search merged PRs and the engine owner's channel block for the test's name: the owner may already have fixed it. On Nov 1 a fix for `scene.test.ts` at birth-n1 and bb-fresh was built on the test from before Words' merged fix (#6989), so merging it would have undone that fix (#7027, closed).
 - Run world tests one process at a time. Eleven long vitest files in one call killed two workers (`Worker exited unexpectedly`, memory) and left those two without a verdict; run each long file alone, with a timeout longer than 30 minutes for the director's full-year tests (`circumstance.test.ts` outran 28 minutes), and say "no verdict" for one that times out rather than "passes".
 - `pkill -f <pattern>` can kill your own shell when the pattern is in your command line; wait for a run to end with `until ! pgrep -f "runne[r]"` instead.
 - Use `NODE_OPTIONS=--max-old-space-size=8192` for world runs; `tsc` over the whole project may run out of heap, so typecheck by running the changed tests.
