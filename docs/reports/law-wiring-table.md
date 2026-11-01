@@ -1,6 +1,6 @@
 # Law wiring table
 
-Laws wired: 87 of 89 (1 partly, 1 on a stopgap). Research links reaching people or carried by an engine: 170 of 246 (18 the research finds about zero, 58 unread, 0 of them with no stopgap), from docs/reports/effect-web-matrix-2026-10-20.json, the one count of links.
+Laws wired: 87 of 89 (1 partly, 1 on a stopgap). Research links reaching people or carried by an engine: 170 of 246 (18 the research finds about zero, 58 unread, 0 of them with no stopgap).
 
 Every law the game has, graded on the nine wiring links in two drawn places. Each cell is the link's status; the full law-wiring report gives every reason and record id. The last column names the screens a player sees the law on in a played world, read through the play page's own views (Your office lists it as a bill a member can draft).
 
@@ -199,3 +199,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 **unemployment-insurance** (`unemployment-insurance`)
 
 - repeal: A claimant's benefit rights are determined when the claim is established and benefits are payable during the benefit year (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2021, chapter 3, Monetary Entitlement: "An individual's benefit rights are determined using wages and employment from a specific period of time called a base-period. Once a claim is established, benefits are payable during a period of time called the benefit year."). Putting the old terms back governs the claims filed after it; a claim already filed keeps being paid, and recorded, on the terms it was filed under.
+
+## How this was made
+
+The count of research links is read from `docs/reports/effect-web-matrix-2026-10-20.json`, the one count of links.

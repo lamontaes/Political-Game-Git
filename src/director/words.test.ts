@@ -32,5 +32,8 @@ describe("properName", () => {
     expect(properName("COUNTY OF WASHINGTON treasury")).toBe(
       "County of Washington treasury",
     );
+    // A whole name in capitals keeps its small words small too.
+    expect(properName("COUNTY OF CARBON")).toBe("County of Carbon");
+    expect(properName("TOWN OF SINCLAIR")).toBe("Town of Sinclair");
   });
 });

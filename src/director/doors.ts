@@ -7,7 +7,11 @@
  * owner's porch scene in a day of door knocking (Oct 8). While the
  * candidate's petition circulates, each door says whether its resident signed.
  */
-import { CAMPAIGNS_MODULE_ID, type CauseRow } from "../core2/modules/campaigns";
+import {
+  CAMPAIGNS_MODULE_ID,
+  causeSummaryOf,
+  type CauseRow,
+} from "../core2/modules/campaigns";
 import {
   ELECTIONS_MODULE_ID,
   petitionCirculating,
@@ -60,15 +64,17 @@ export function doorsKnocked(
   ];
   return today.map((row) => {
     const petition = petitionAtDoor(core, personId, row.voterId as PersonId);
-    // A door the candidate knocked on an earlier day is a return visit.
-    const before = (
-      causes.query("byVoter", [row.voterId]) as unknown as CauseRow[]
-    ).some(
-      (earlier) =>
-        earlier.candidateId === personId &&
-        door(earlier) &&
-        earlier.date < row.date,
-    );
+    // A door the candidate knocked on an earlier day is a return visit,
+    // a closed race's door among them (its folded summary).
+    const firstDoor = causeSummaryOf(api, row.voterId, personId)?.firstDoor;
+    const before =
+      (!!firstDoor && firstDoor < row.date) ||
+      (causes.query("byVoter", [row.voterId]) as unknown as CauseRow[]).some(
+        (earlier) =>
+          earlier.candidateId === personId &&
+          door(earlier) &&
+          earlier.date < row.date,
+      );
     return {
       id: row.id,
       kind: "campaign.door",

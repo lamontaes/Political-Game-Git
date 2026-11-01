@@ -32,6 +32,8 @@ A red is not named until you have the failing test, the drawn place, the seed an
 - `pkill -f <pattern>` can kill your own shell when the pattern is in your command line; wait for a run to end with `until ! pgrep -f "runne[r]"` instead.
 - Use `NODE_OPTIONS=--max-old-space-size=8192` for world runs; `tsc` over the whole project may run out of heap, so typecheck by running the changed tests.
 - Stack of a thrown error: `vitest run` output cut to the lines starting with `❯`. When two writers collide on one key, record the stack of each scheduling in a temporary Map and print the first when the second arrives; remove it before the commit (Oct 29, `Duplicate institutional calendar key`: two review chains for one couple).
+- Call the failing step directly before reading the engine: in the empty-talk red (Oct 30) the greeting worded fine when called alone, which pointed past the wording to the owner's rule that clears a talk with nothing on record.
+- When a test's premise changed with a ruling (the six-offices rule moved the player's first race to the next even year), fix the premise and quote the ruling; when the ruling exposed a gap the test is right about (no beat for a year after an early filing), leave it red and message the owner of the gap.
 - Bisect with the failing test as the oracle when the cause is not in the stack: `git bisect` on the known good and bad merge commits, one run per step.
 - A fix that fails somewhere new has found the next assumption, not a reason to stop: read what the new failure assumes. If three assumptions in a row each need an exception (Oct 29: a dead parent as a person broke household, place, tier and opening-income checks), the design is wrong; step back to the tier that never reaches those loops (a husk).
 

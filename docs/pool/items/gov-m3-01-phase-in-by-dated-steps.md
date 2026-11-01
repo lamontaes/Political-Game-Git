@@ -6,11 +6,12 @@ lead: governing
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: governing/phase-in-dated-steps
 pr:
 blocked-on:
 source: governing lead Oct 29
+claimed-at: 2026-10-30T07:20:28.526Z
 ---
 
 **What.** M3-01's test sentence gives a drafted ordinance an optional phase-in, and the owner ruled that bills can phase in by dated steps or a percent a year (DECISION-REGISTER, Sept 12 travel clarification, item 1). The catalog's `provisionFor` takes one optional `effectiveDate` per section, and legislature.test.ts drafts one raise dated later, but no test drafts two dated steps of the same amount and follows the law in force through each date. The player's route has none at all: `seatAct` in src/bench/legislature.ts takes no date. Let the seat draft a phase-in as dated sections of one bill and prove each step takes effect on its date.

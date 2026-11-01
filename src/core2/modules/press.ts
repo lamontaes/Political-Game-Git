@@ -67,7 +67,6 @@ import { promisesOf, votesOf } from "./record";
 import { partySide } from "../appointments";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
 import { CORRUPTION_MODULE_ID, type CrimeRecord } from "./corruption";
-import { familyRelation } from "../closeness";
 import {
   awardsOn,
   CONTRACTS_MODULE_ID,
@@ -75,7 +74,11 @@ import {
   type ContractAwardRow,
 } from "./contracts";
 import { type Stance as ViewStance } from "./views";
-import { candidateStance } from "../campaign-stances";
+import {
+  candidateStance,
+  stanceReader,
+  type StanceReader,
+} from "../campaign-stances";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { JOBS_MODULE_ID, registerEmployer } from "./jobs";
 import { BUSINESS_MODULE_ID, enrollBusinessOwner, ownerOf } from "./business";
@@ -107,6 +110,13 @@ import {
 import { countedJobHeads, countedJobsOf } from "../residents-economy";
 import { pressStaffChanged } from "../press-conflict";
 import { isPolicyTopic, wireItem, type WireItem } from "../press-topics";
+import { CRIME_EVENT, CRIME_MODULE_ID } from "./crime";
+import {
+  familyRelation,
+  SCHOOL_MEASURE,
+  SCHOOL_MODULE_ID,
+  type SchoolMeasureRow,
+} from "./people";
 import {
   archiveItem,
   closeness,
@@ -388,8 +398,12 @@ export const PRESS_MODULE: CoreModule = {
       tipOff(api, event);
       return;
     }
-    // Every public record in the town's coverage goes on the wire.
-    if (!event.publicRecord) return;
+    // Every public record in the town's coverage goes on the wire, and the
+    // police log's entries in the town (owner, Oct 29: side stories), which
+    // the paper prints as briefs though the crime record itself is kept.
+    const policeLog =
+      event.kind === CRIME_EVENT && event.placeId === lawChain(api).townPlaceId;
+    if (!event.publicRecord && !policeLog) return;
     const chain = lawChain(api);
     const item = wireItem(api, event, {
       placeId: chain.townPlaceId,
@@ -1355,17 +1369,22 @@ export function newsworthiness(api: CoreAPI, who: FilingRow | Speaker): number {
   );
 }
 
-/** A candidate's public position on a question: what they've stated, else where they stand. */
+/**
+ * A candidate's public position on a question: what they've stated, else
+ * where they stand (through `reader`, their stance reader for a caller that
+ * asks many questions; a fresh one otherwise).
+ */
 function statedPosition(
   api: CoreAPI,
   who: FilingRow | Speaker,
   platform: readonly Stance[],
   question: string,
+  reader?: StanceReader,
 ): number {
   const { personId, party } = asSpeaker(who);
   return (
     platform.find((s) => s.question === question)?.position ??
-    candidateStance(api, personId, party, question) ??
+    (reader ?? stanceReader(api, personId, party)).stance(question) ??
     0
   );
 }
@@ -1378,12 +1397,14 @@ const concernCache = new WeakMap<
 /**
  * Where a candidate stands on a question, as a reporter reads it: what they
  * said in the campaign, else how they last voted on it, else their own view
- * blended with their party's; 0 where none says.
+ * blended with their party's; 0 where none says. `reader` is their stance
+ * reader for a caller that asks many questions; a fresh one otherwise.
  */
 export function standingOn(
   api: CoreAPI,
   who: FilingRow | Speaker,
   question: string,
+  reader?: StanceReader,
 ): {
   position: number;
   from: "platform" | "vote" | "party" | "none";
@@ -1393,13 +1414,12 @@ export function standingOn(
   const stated = platformOf(api, who).find((s) => s.question === question);
   if (stated)
     return { position: stated.position, from: "platform", recordId: null };
-  const vote = votesOf(api, personId)
-    .filter((v) => v.stance.question === question)
-    .at(-1);
+  const read = reader ?? stanceReader(api, personId, party);
+  const vote = read.lastVote(question);
   if (vote)
     return { position: vote.stance.position, from: "vote", recordId: vote.id };
   // Their own view blended with their party's (GOV's campaign stances).
-  const stance = candidateStance(api, personId, party, question);
+  const stance = read.stance(question);
   return stance === null
     ? { position: 0, from: "none", recordId: null }
     : { position: stance, from: "party", recordId: null };
@@ -1476,6 +1496,16 @@ export function interviewQuestions(
   const speaker = asSpeaker(who);
   const filing = speaker.filing;
   const personId = speaker.personId;
+  // One stance reader per person and party label, for this call only:
+  // nothing a stance reads is written while the questions are scored.
+  const readers = new Map<string, StanceReader>();
+  const readerOf = (of: FilingRow | Speaker): StanceReader => {
+    const { personId: id, party } = asSpeaker(of);
+    const key = `${id}\u0000${party ?? ""}`;
+    let reader = readers.get(key);
+    if (!reader) readers.set(key, (reader = stanceReader(api, id, party)));
+    return reader;
+  };
   for (const p of promisesOf(api, personId))
     if (p.status === "broken")
       add(p.promise.stance.question, pressParameter("brokenPromiseNewsWeight"));
@@ -1508,26 +1538,36 @@ export function interviewQuestions(
       ...rivals.flatMap((r) => platformOf(api, r).map((s) => s.question)),
     ]),
   ].sort();
+  const speakerReader = readerOf(speaker);
   const mine = new Map(
-    questions.map((q) => [q, statedPosition(api, speaker, own, q)]),
+    questions.map((q) => [
+      q,
+      statedPosition(api, speaker, own, q, speakerReader),
+    ]),
   );
   // The asking outlet's readers: how far the candidate stands from the side
   // the outlet's line takes, on what its followers care about.
   if (outlet) {
     const followers = followersOf(api, outlet.id);
+    // Each follower's lean, read once for every question.
+    const leans = questions.length
+      ? followers.map((id) => leanOf(api, id))
+      : [];
     for (const q of questions) {
-      const care = followers.length
-        ? followers.reduce(
-            (s, id) => s + Math.abs((leanOf(api, id) / 2) * questionAxis(q)),
+      const care = leans.length
+        ? leans.reduce(
+            (s, lean) => s + Math.abs((lean / 2) * questionAxis(q)),
             0,
-          ) / followers.length
+          ) / leans.length
         : 0;
       const line = Math.sign((outlet.lean / 2) * questionAxis(q));
       add(
         q,
         (pressParameter("outletReadersNewsWeight") *
           care *
-          Math.abs(line - standingOn(api, speaker, q).position)) /
+          Math.abs(
+            line - standingOn(api, speaker, q, speakerReader).position,
+          )) /
           2,
       );
     }
@@ -1548,11 +1588,14 @@ export function interviewQuestions(
         add(d.topic, pressParameter("reporterCauseNewsWeight") * d.strength);
   for (const rival of rivals) {
     const theirs = platformOf(api, rival);
+    const reader = readerOf(rival);
     for (const q of questions)
       add(
         q,
         (pressParameter("partyGapNewsWeight") *
-          Math.abs(mine.get(q)! - statedPosition(api, rival, theirs, q))) /
+          Math.abs(
+            mine.get(q)! - statedPosition(api, rival, theirs, q, reader),
+          )) /
           2,
       );
   }
@@ -2925,6 +2968,92 @@ function rivalsOf(api: CoreAPI, personId: string): readonly string[] {
 }
 
 /** Fresh items on the wire, oldest first. */
+/**
+ * The school year's results reach the desk the week the school engine keeps
+ * them (owner, Oct 29: side stories): how many of the town's seniors
+ * graduated, and the spring tests' proficiency, one item each, worded from
+ * the measure rows themselves (`graduation:<year>`, `tests:<year>`).
+ */
+function schoolResults(api: CoreAPI): void {
+  if (!api.state.modules.has(SCHOOL_MODULE_ID)) return;
+  const town = lawChain(api).townPlaceId;
+  const since = addDays(
+    makeIsoDate(api.state.date),
+    -api.parameter("daysPerWeek"),
+  );
+  for (const row of api
+    .moduleState(SCHOOL_MODULE_ID)
+    .table("measures")
+    .query("byPlace", [town]) as unknown as readonly SchoolMeasureRow[]) {
+    if (row.date < since || row.date > api.state.date) continue;
+    // The tests are told once, by their math row (reading is said with it).
+    const kind =
+      row.measure === SCHOOL_MEASURE.graduation
+        ? "graduation"
+        : row.measure === SCHOOL_MEASURE.math
+          ? "tests"
+          : null;
+    if (!kind) continue;
+    const id = `${kind}:${row.startYear}`;
+    if (table(api, "wire").get(id)) continue;
+    const item: WireItem = {
+      id,
+      kind: `school.${kind}`,
+      date: row.date,
+      level: "town",
+      topic: `school:${town}`,
+      desiredChange: `school.${kind}`,
+      ending: false,
+      subjectIds: [],
+      facts: { measureId: row.id },
+    };
+    table(api, "wire").put(item as unknown as ModuleRow);
+  }
+}
+
+/**
+ * The police log of the month that just closed reaches the desk in the next
+ * month's first week (owner, Oct 29: side stories, "fourth car stolen"): the
+ * crimes the town's residents reported to police, worded from the crime
+ * engine's own month record (`police-log:<month>`). A month with none
+ * reported puts nothing on the wire.
+ */
+function policeLog(api: CoreAPI): void {
+  if (!api.state.modules.has(CRIME_MODULE_ID)) return;
+  if (Number(api.state.date.slice(8, 10)) > api.parameter("daysPerWeek"))
+    return;
+  const town = lawChain(api).townPlaceId;
+  const month = addDays(
+    makeIsoDate(`${api.state.date.slice(0, 8)}01`),
+    -1,
+  ).slice(0, 7);
+  const id = `police-log:${month}`;
+  if (table(api, "wire").get(id)) return;
+  const row = api
+    .moduleState(CRIME_MODULE_ID)
+    .table("months")
+    .get(`${town}:${month}`) as unknown as
+    | { readonly types?: Record<string, { readonly reported?: number }> }
+    | undefined;
+  const reported = Object.values(row?.types ?? {}).reduce(
+    (sum, type) => sum + (type.reported ?? 0),
+    0,
+  );
+  if (!(reported > 0)) return;
+  const item: WireItem = {
+    id,
+    kind: "crime.month",
+    date: api.state.date,
+    level: "town",
+    topic: `crime:${town}`,
+    desiredChange: "crime.month",
+    ending: false,
+    subjectIds: [],
+    facts: { monthId: `${town}:${month}` },
+  };
+  table(api, "wire").put(item as unknown as ModuleRow);
+}
+
 function freshWire(api: CoreAPI): WireItem[] {
   const out: WireItem[] = [];
   const days = pressParameter("storyFreshDays");
@@ -3135,6 +3264,8 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   conflictBeat(api);
   // stopgapId: SG-PEOPLE-press-endorsements
   api.stopgap("SG-PEOPLE-press-endorsements");
+  schoolResults(api);
+  policeLog(api);
   // The week's stories: each reporter files from the fresh wire.
   const wire = freshWire(api);
   // A national outlet covers the nation and the town's own state; a town's

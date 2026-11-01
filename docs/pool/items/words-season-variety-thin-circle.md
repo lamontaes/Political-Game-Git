@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/director/campaign-season.test.ts,src/director/data/situation-types.json,src/core2/modules/campaigns.ts,data/english/parts/scene-talk.json
 
 **Notes.** lead: words. Found Oct 29 while fixing the Northford seed red.
+
+Oct 30 (Words): more evidence, a first-beat gap: Pineland, Florida (seed chk2-b:0) failed campaign-season's first beat on main. Related: most of the people the player knows at the start are husks, and a talk with one opens empty (words-talk-husk-acquaintances-empty), which thins the circle a season can cast from.

@@ -874,7 +874,7 @@ function table(
   const lines = [
     "# Law wiring table",
     "",
-    `Laws wired: ${rows.filter((r) => r.overall === "wired").length} of ${rows.length} (${rows.filter((r) => r.overall === "partly").length} partly, ${rows.filter((r) => r.overall === "stopgapped").length} on a stopgap). Research links reaching people or carried by an engine: ${LINK_COUNTS.reaching} of ${LINK_COUNTS.links} (${LINK_COUNTS.aboutZero} the research finds about zero, ${LINK_COUNTS.unread} unread, ${LINK_COUNTS.unreadWithNoStopgap} of them with no stopgap), from docs/reports/effect-web-matrix-2026-10-20.json, the one count of links.`,
+    `Laws wired: ${rows.filter((r) => r.overall === "wired").length} of ${rows.length} (${rows.filter((r) => r.overall === "partly").length} partly, ${rows.filter((r) => r.overall === "stopgapped").length} on a stopgap). Research links reaching people or carried by an engine: ${LINK_COUNTS.reaching} of ${LINK_COUNTS.links} (${LINK_COUNTS.aboutZero} the research finds about zero, ${LINK_COUNTS.unread} unread, ${LINK_COUNTS.unreadWithNoStopgap} of them with no stopgap).`,
     "",
     "Every law the game has, graded on the nine wiring links in two drawn places. Each cell is the link's status; the full law-wiring report gives every reason and record id. The last column names the screens a player sees the law on in a played world, read through the play page's own views (Your office lists it as a bill a member can draft).",
     "",
@@ -894,6 +894,12 @@ function table(
       lines.push(`- ${k}: ${r.links[k]!.why || r.links[k]!.status}`);
     lines.push("");
   }
+  lines.push(
+    "## How this was made",
+    "",
+    "The count of research links is read from `docs/reports/effect-web-matrix-2026-10-20.json`, the one count of links.",
+    "",
+  );
   return `${lines.join("\n")}\n`;
 }
 

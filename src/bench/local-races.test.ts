@@ -9,6 +9,7 @@ import {
   standing,
   type ContestRow,
   type FilingRow,
+  playerMayFileFor,
 } from "../core2/modules/elections";
 import { coreAPI } from "../core2/state";
 import { localRaces } from "./government";
@@ -74,6 +75,11 @@ it("after the filing deadline, every local seat on the next ballot lists its fil
       ).toEqual(filed.map((row) => row.id).sort());
       for (const f of race.filers)
         expect(f.name, `${where}: ${f.filingId} named`).toMatch(/\S+ \S+/);
+      // The screen offers to file only for a race the player may run for.
+      expect(
+        race.playerMayFile,
+        `${where}: ${race.contestId} may the player file`,
+      ).toBe(playerMayFileFor(coreAPI(core), race.contestId));
       filers += race.filers.length;
       if (race.filers.length === 1) unopposed += 1;
     }

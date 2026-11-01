@@ -17,6 +17,7 @@ import { format, resolveConfig } from "prettier";
 import {
   placeholderPathFor,
   scanPlaceholders,
+  type MarkerKind,
   type PlaceholderLedger,
 } from "./placeholder-scan";
 
@@ -29,10 +30,15 @@ export const LEDGER = resolve(
 function build(): PlaceholderLedger {
   const markers = scanPlaceholders(root);
   const byPath: Record<string, number> = {};
-  const byKind: Record<string, number> = {};
+  // Every kind is listed, at zero when no marker carries it (the counts name the whole vocabulary).
+  const byKind: Record<MarkerKind, number> = {
+    placeholder: 0,
+    blanket: 0,
+    unresearched: 0,
+  };
   for (const marker of markers) {
     byPath[marker.path] = (byPath[marker.path] ?? 0) + 1;
-    for (const kind of marker.kinds) byKind[kind] = (byKind[kind] ?? 0) + 1;
+    for (const kind of marker.kinds) byKind[kind] += 1;
   }
   const questions = new Set(
     markers

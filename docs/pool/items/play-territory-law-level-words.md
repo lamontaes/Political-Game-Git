@@ -6,7 +6,7 @@ lead: play-first
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: play-first/play-territory-law-level-words
 pr: #6850
 blocked-on:

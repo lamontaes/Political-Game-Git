@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: speed/townhall-salience-once
-pr:
+pr: #6863
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-30T02:01:10.148Z

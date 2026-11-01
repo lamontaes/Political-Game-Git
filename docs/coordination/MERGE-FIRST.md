@@ -1,6 +1,6 @@
 # Merge first (CTO's list; mergers read this before every merge)
 
-Current as of 2026-10-29, 20:45 UTC (CTO, the owner's second account). This replaces the Oct 27 and Oct 28 lists; the crew is the owner's smaller crew of Oct 29 (`OWNER-DECISIONS.md`, Oct 29 16:30).
+Current as of 2026-10-30, 03:05 UTC (CTO, the owner's second account). This replaces the Oct 27 and Oct 28 lists; the crew is the owner's smaller crew of Oct 29 (`OWNER-DECISIONS.md`, Oct 29 16:30).
 
 **Two mergers.** Merger 0 takes even PR numbers, Merger 1 odd ones. Either takes any line below when the other is busy. Each merge is pinned to the head you checked.
 
@@ -15,11 +15,12 @@ Current as of 2026-10-29, 20:45 UTC (CTO, the owner's second account). This repl
 
 ## The order
 
-0. **Red main:** any PR whose line 1 is `Touches pool item: release-main-red-standing` (the red-main fixer), ahead of everything.
-1. **Words and director** (the owner's words session): #6802 first (a race nobody filed for prints a story; also fixes a drawn-town red of printed-words.test on main, Barton VT), then #6797 (donor-call totals read right), #6800 (most stories print a body, plus a briefs column), #6805 (an interview seats you with the reporter and you answer each question), #6793 (delete the eviction-notice twin), then every new words or director PR as it goes green. (#6759, #6762, #6764, #6765 and #6770 merged.)
-2. **The lane** (play-first): #6772 (anyone's history on their card), then #6775 (marriages, moves and school stages before the start; stacked on #6772), then #6789 (no empty heading on a person's card, `play-stop-41`), #6790 (no leftover Politics tabs over News, `play-sheet-stale-tabs`) and #6791 (evidence only: the Oct 29 verify sweep, Anguilla MS; the CTO flipped its seven items done), #6796 (the Politics Leaders list: each leader's chamber and state under their own name, `play-politics-leaders-list-order`), then `play-faces-show-the-moment-a-menu-opens` as it opens. #6772, #6775 and #6787 carry words bank pieces: words reviews them. (#6768, #6771, #6779 and #6787 merged.) Scrolling inside a panel under the gold scroller is the ruled replacement for paging (CTO, Oct 29), and the creator's step Back and Continue stay.
-3. **Laws:** #6806 first (a SNAP test red by draw), then #6763 (civic: a closed local paper lowers local turnout), #6792 (crime and justice: a parent's prison term lowers household income), #6794 (social media age check), #6808 (the college step: higher education wired), then the background-record PRs as they open. (#6760, #6766, #6782, #6795 and #6799 merged; main holds laws 85 of 89 and links 165 of 245.)
-4. **Older ready PRs:** none. (#6050 and #5150 closed by the CTO Oct 29 as superseded; #6091, #6411, #5056 and #5695 closed earlier.)
-5. **People pack v4** (#6801, `people-pack-v4`): **approved by the owner for its general look (Oct 29, 19:20 UTC), no longer held.** It replaces v3 (#6778 closed unmerged) and carries v3's loader and the v1/v2 deletions. Merge it the hour it is green, after the usual checks on the merged result; the CTO's Mac build waits for it. A figure that looks wrong in play is a fix PR afterwards, not a reason to hold.
+0. **Red main:** any PR whose line 1 is `Touches pool item: release-main-red-standing` (the red-main fixer), ahead of everything. Now: #6906 (the families guard, all five files).
+1. **The menu redesign (CTO, owner Oct 29 22:45):** #6844 through #6885 are merged (Oct 30 04:25). Left, in order: #6892 (timeline lines; Checker 2 passed at 17ef539) → #6900 (Patch notes, stacked on #6892). Beside them, #6904 (Budgets and Campaigns browser checks red on main) and red main's #6906 (the families guard, line 0). #6909 duplicates #6906: never merge it.
+2. **The lane's menus** (#6861 now targets main, Oct 30 06:50): #6861 (Calendar), #6910 (Journal; #6875 merged into a landed branch and never reached main), #6879 (Travel); and #6850 (territory law words), #6843 (bill screens). Where one conflicts with line 1 in `play.css` or `play.mjs`, keep both sides.
+3. **People before the lane:** #6856 (the family drawn in a plated living room) before #6870 (the room clickable after a story), whose check needs #6856.
+4. **Governing (phase A):** #6836 → #6838; #6882 (File for it only where the player may run; the Campaigns redesign already reads its `playerMayFile`); #6854 (the first local race is the place's own body); #6853, #6860, #6867, #6869, #6872, #6874, #6876, #6849 as they pass their checkers.
+5. **Words:** #6831 → #6837; #6840 (swearing in); #6851; #6824 when its bank conflicts are fixed.
+6. **Speed:** #6863, then the journal overflow fix and #6880 (the causes fold, ruled Oct 30 03:05) as they open.
 
 Drafts are not yours; the CTO closes the stale ones. When a line is merged or sent back, comment `Merge-first: <PR> done` on the PR; the CTO removes the line on the next pass.

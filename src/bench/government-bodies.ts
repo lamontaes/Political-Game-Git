@@ -20,23 +20,24 @@ import {
   type TermRow,
 } from "../core2/modules/offices";
 import {
+  floorDateOf,
   LEGISLATURE_MODULE_ID,
   type BillRow,
 } from "../core2/modules/legislature";
-import { RECORD_MODULE_ID, type VoteRecordRow } from "../core2/modules/record";
+import {
+  keyPeopleOf,
+  RECORD_MODULE_ID,
+  type VoteRecordRow,
+} from "../core2/modules/people";
 import type { ContestRow } from "../core2/modules/elections";
-import { meetingRule } from "../core2/office-day-calendar";
-import { upcomingMeeting } from "../core2/modules/office-day";
-import { floorDateOf } from "../core2/modules/world-legislating";
-import { currentCloseness } from "../core2/closeness";
+import { meetingRule, upcomingMeeting } from "../core2/modules/office-day";
 import { billTitleOf } from "../english/bill-names";
 import { backdropFile, faceOf } from "./scene";
 import { capitolPlaceFor } from "./backdrop-places";
 import { calendarItems } from "./calendar";
-import { tieBetween } from "./card";
-import { facePlace, holderFace, homeStateOf, readable } from "./government";
+import { facePlace, holderFace, homeStateOf } from "./government";
+import { properName } from "../director/words";
 import { policyNames } from "./words";
-import { keyPeopleOf } from "../core2/opening-key-people";
 
 const LOCAL_LEVELS = new Set(["city", "township", "county"]);
 /** A town's own government before the county's. */
@@ -106,19 +107,15 @@ function roomFor(office: Office, usps: string | null): string | null {
   }
 }
 
-/** A seat's holder as a member card reads them: face, name, party, seat, and how they feel about the viewer when the viewer knows them. */
+/** A seat's holder as a member card reads them: face, name, party and seat (never how they feel about the viewer: owner, Oct 29). */
 function memberOf(
   core: CoreState,
-  viewerId: string,
   row: SeatRow,
   place: string,
   ownSeats: ReadonlySet<string>,
 ) {
   const holder = row.holder;
   if (!holder) return null;
-  const tie = holder.personId
-    ? tieBetween(core, viewerId, holder.personId)
-    : undefined;
   return {
     seatId: row.seat.id,
     district: row.seat.district,
@@ -126,9 +123,6 @@ function memberOf(
     party: holder.party ?? null,
     serviceStart: holder.serviceStart ?? holder.startDate,
     own: ownSeats.has(row.seat.id),
-    // How they feel about the viewer: only a tie the viewer's character has
-    // (owner, Oct 29: "only if your character knows them").
-    feeling: tie ? currentCloseness(core, tie) : null,
     ...holderFace(core, holder, place),
   };
 }
@@ -323,7 +317,7 @@ export function governmentBodies(
   const view = (seats: SeatRow[]) => {
     const office = seats[0]!.office;
     const members = seats
-      .map((row) => memberOf(core, viewerId, row, place, ownSeats))
+      .map((row) => memberOf(core, row, place, ownSeats))
       .filter((m): m is NonNullable<typeof m> => m !== null)
       .map((m) => (ownIds.has(m.cardId) ? { ...m, own: true } : m))
       .sort(
@@ -358,7 +352,7 @@ export function governmentBodies(
       // A local body by its own name ("Latimer Board of Aldermen"); a state
       // chamber or an office by its title, its government named apart.
       name: office.bodyName ?? office.title,
-      government: readable(office.governmentName),
+      government: properName(office.governmentName),
       level: office.level,
       seats: seats.length,
       vacant: seats.filter((row) => !row.holder).length,

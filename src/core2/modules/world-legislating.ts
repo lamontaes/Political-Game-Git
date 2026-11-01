@@ -85,6 +85,7 @@ import {
   proposeAsExecutive,
   FEDERAL_SENATE,
   LEGISLATURE_MODULE_ID,
+  registerFloorDateReader,
   registerSittingReader,
   registerWeeklyFloorReader,
   settledness,
@@ -182,6 +183,7 @@ export const WORLD_LEGISLATING_MODULE: CoreModule = {
 export function openWorldLegislating(core: CoreState): void {
   registerSittingReader(nextSitting);
   registerWeeklyFloorReader(weeklyFloorOn);
+  registerFloorDateReader(floorDateOf);
   if (!core.modules.has(WORLD_LEGISLATING_MODULE_ID))
     registerModule(core, WORLD_LEGISLATING_MODULE);
   const api = coreAPI(core);

@@ -335,7 +335,7 @@ try {
     path: "docs/reports/ballot-pages-2026-10-24/calendar-nov.png",
   });
   // Run time forward with the skip control; answer stops until the ballot shows.
-  const skip = page.locator(".calendar-side-head .skip-forward");
+  const skip = page.locator(".calendar-day .go-to-day");
   console.log("Skip-forward present:", await skip.count());
   if (await skip.count()) {
     await skip.first().click();
@@ -479,7 +479,7 @@ try {
     }
     await day3.first().click();
     await page.waitForTimeout(1000);
-    const skip2 = page.locator(".calendar-side-head .skip-forward");
+    const skip2 = page.locator(".calendar-day .go-to-day");
     if (await skip2.count()) {
       await skip2.first().click();
       await page.waitForTimeout(4000);

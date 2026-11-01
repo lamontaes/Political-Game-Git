@@ -11,12 +11,14 @@
 import { P } from "../core2/parameters";
 import { storyOfReadEvent } from "../core2/modules/news";
 import { printedStoryOf } from "../core2/modules/press";
+import { LEGISLATURE_MODULE_ID, billOf } from "../core2/modules/legislature";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import { decisionLean } from "../core2/trait-decisions";
 import type { CoreState, PersonId, PersonState, Source } from "../core2/types";
 import { storyTopicName } from "../english/policy-names";
 import {
   wordBringMove,
+  type BillOutcome,
   type BlameHow,
   type BringMove,
   type BringWords,
@@ -184,6 +186,37 @@ function nameOf(core: Readonly<CoreState>, id: string): string | null {
   return person ? `${person.givenName} ${person.familyName}` : null;
 }
 
+/** The vote on the listener's own bill a story printed, and how it came out. */
+function ownBillVote(
+  core: Readonly<CoreState>,
+  api: ReturnType<typeof coreAPI>,
+  change: KnownChange,
+): { outcome: BillOutcome; form: string; recordId: string } | null {
+  const storyId = storyOfReadEvent(change.eventId);
+  const story = storyId ? printedStoryOf(api, storyId) : undefined;
+  const record = story ? core.durableLog.get(story.wireId as never) : undefined;
+  if (!record) return null;
+  const facts = record.facts ?? {};
+  const outcome: BillOutcome | null =
+    record.kind === "bill-failed"
+      ? "failed"
+      : record.kind === "legislative-vote" &&
+          facts.yes !== undefined &&
+          facts.no !== undefined
+        ? Number(facts.yes) > Number(facts.no)
+          ? "passed"
+          : "failed"
+        : null;
+  // What the bill is in its body (an ordinance, a bill), from its own row.
+  const billId = String(facts.billId ?? "");
+  const bill =
+    billId && api.state.modules.has(LEGISLATURE_MODULE_ID)
+      ? billOf(api, billId)
+      : undefined;
+  const form = bill?.form?.kind;
+  return outcome && form ? { outcome, form, recordId: record.id } : null;
+}
+
 export interface BroughtUp {
   lines: { text: string; sourceRecordIds: readonly string[] }[];
   change: KnownChange;
@@ -212,7 +245,48 @@ export function bringItUp(
     !!nameOf(core, change.institutionId) &&
     (!data.changes.find((row) => row.eventKind === change.kind)?.story ||
       storyTopic(change) !== null);
-  const change = changesKnownTo(core, speakerId, data).find(speakable);
+  // A story about the listener (a vote they cast, a bill they sponsored) is
+  // what one brings up to them first; otherwise the newest change (the
+  // owner's council member heard nothing of his own ordinance, Oct 29).
+  const aboutListener = (known: KnownChange): boolean => {
+    const storyId = storyOfReadEvent(known.eventId);
+    const story = storyId ? printedStoryOf(api, storyId) : undefined;
+    if (!story) return false;
+    const record = core.durableLog.get(story.wireId as never);
+    return (
+      story.subjectIds.includes(listenerId) ||
+      record?.facts?.sponsorId === listenerId
+    );
+  };
+  const speakables = changesKnownTo(core, speakerId, data).filter(speakable);
+  // What they read about the listener, by story: an outlet's latest story
+  // replaces the one before it, but each story read is kept as its own
+  // news fact, so a vote on the listener's bill printed beside newer stories
+  // is still theirs to raise with them, the newest first.
+  const storyRow = data.changes.find((row) => row.story);
+  let readAbout: KnownChange | undefined;
+  for (const fact of core.knowledgeByPerson.get(speakerId)?.values() ?? []) {
+    if (!storyRow || !fact.key.startsWith("news:printed:")) continue;
+    if (fact.key.endsWith(":outlet")) continue;
+    const storyId = fact.key.slice("news:".length);
+    const story = printedStoryOf(api, storyId);
+    if (!story) continue;
+    const known: KnownChange = {
+      eventId: `${storyRow.eventIdPrefix ?? `${storyRow.eventKind}:`}${storyId}:${fact.learnedAt}`,
+      kind: storyRow.eventKind,
+      institutionId: story.organizationId,
+      learnedAt: fact.learnedAt,
+      route: "seen",
+    };
+    if (
+      aboutListener(known) &&
+      speakable(known) &&
+      (!readAbout || known.learnedAt > readAbout.learnedAt)
+    )
+      readAbout = known;
+  }
+  const change =
+    readAbout ?? speakables.find(aboutListener) ?? speakables[P.zero];
   const subject = change ? nameOf(core, change.institutionId) : null;
   if (!change || !subject) return null;
   const attribution = believedCause(core, speakerId, change, data);
@@ -235,18 +309,32 @@ export function bringItUp(
     });
   const lines = [];
   const topic = story ? storyTopic(change) : null;
-  const first = say(
-    { part: "change", eventKind: change.kind },
-    {
-      subject: {
-        text: subject,
-        sourceRecordIds: [change.eventId, change.institutionId],
-      },
-      ...(topic
-        ? { topic: { text: topic, sourceRecordIds: [change.eventId] } }
-        : {}),
+  const facts = {
+    subject: {
+      text: subject,
+      sourceRecordIds: [change.eventId, change.institutionId],
     },
-  );
+    ...(topic
+      ? { topic: { text: topic, sourceRecordIds: [change.eventId] } }
+      : {}),
+  };
+  // A story about the listener's own bill is told as theirs, with how the
+  // vote came out ("I read in the Courier that your ordinance on transit
+  // failed."), from the vote's own record.
+  const own = change === readAbout ? ownBillVote(core, api, change) : null;
+  const first =
+    (own &&
+      say(
+        { part: "yours", outcome: own.outcome, form: own.form },
+        {
+          ...facts,
+          subject: {
+            ...facts.subject,
+            sourceRecordIds: [...facts.subject.sourceRecordIds, own.recordId],
+          },
+        },
+      )) ||
+    say({ part: "change", eventKind: change.kind }, facts);
   if (first) lines.push(first);
   // A printed story blames no one: the outlet only printed it.
   const who =

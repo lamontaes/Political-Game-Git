@@ -57,6 +57,12 @@ describe("a person's history on their card", () => {
       expect(records.has(line.recordId), `${where}: ${line.recordId}`).toBe(
         true,
       );
+    // Each line names its kind of record, the bank's move, which picks the
+    // timeline's icon on the card.
+    for (const line of card.history)
+      expect(line.kind, `${where}: ${line.text}`).toMatch(
+        /^(born|school|moved|partner|child|work|loss|office|tie)$/,
+      );
     // Your own birth is said to you, not by your name.
     const yours = card.history.filter((line) =>
       line.text.startsWith("You were born"),
