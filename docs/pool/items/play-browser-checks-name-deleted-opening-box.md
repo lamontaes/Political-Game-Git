@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: in-pr
 claimed-by: play-first/play-browser-checks-name-deleted-opening-box
-pr: #0
+pr: #6958
 blocked-on:
 source: added with npm run pool -- add
 ---
