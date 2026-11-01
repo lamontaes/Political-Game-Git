@@ -13,7 +13,7 @@ source: added with npm run pool -- add
 claimed-at: 2026-11-01T18:51:40.045Z
 ---
 
-**What.** Once a month the game reread every memory of every person, the dead included, to forget old event notes. In the four-year Ringgold run that monthly reread grew from about 0.13 seconds to 0.76 seconds. Part of core-long-run-tables-grow-with-history.
+**What.** Once a month the game reread every memory of every person, the dead included, to forget old event notes. In the four-year Ringgold run that monthly reread grew from about 0.13 seconds to 0.76 seconds. In a long save that pass alone grows with every person who ever lived in the world. Part of core-long-run-tables-grow-with-history.
 
 **Rules.** Speed: a country's year runs under 120 seconds, and years 97 to 100 of a save run at most 1.2 times years 1 to 4; never scan the whole world or its history every day. A speed change never changes what the simulation decides: dev mode's records proof must be identical before and after on a drawn place.
 
