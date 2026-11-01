@@ -1419,6 +1419,7 @@
     },
     {
       "key": "visit",
+      "occasion": "visit",
       "roles": [
         {
           "key": "visitor",
@@ -2229,6 +2230,7 @@
     },
     {
       "key": "bill-signed",
+      "occasion": "signing",
       "roles": [
         {
           "key": "sponsor",
@@ -2301,6 +2303,7 @@
     },
     {
       "key": "veto",
+      "occasion": "signing",
       "roles": [
         {
           "key": "sponsor",
@@ -3019,6 +3022,7 @@
     },
     {
       "key": "address",
+      "occasion": "address",
       "roles": [
         {
           "key": "speaker",
@@ -4995,6 +4999,7 @@
     },
     {
       "key": "debate-sitting",
+      "occasion": "debate",
       "note": "The candidate said yes to a debate's invitation: the meetings engine's debate-accepted record names the candidate, the moderator who will ask and the outlet that hosts it. The sitting is played in the conversation engine, never answered for them: the moderator puts each of the debate's own questions as a line, the candidate picks how to answer each (plainly, with a further fact from their record, by turning it back on a rival, briefly, or the lie where their record allows one) or says nothing, and when the sitting ends the meetings engine holds the debate with exactly those moves while the other candidates answer from their own positions. A question the moderator cannot put in words is answered from the candidate's filed platform. A debate no one sits for is held on the eve of the election. Its stage is a public place until the lane maps the debate stage picture to this type.",
       "roles": [
         {
@@ -5547,6 +5552,88 @@
       "asker": "family",
       "asked": "you",
       "stakes": ["home", "rent"]
+    },
+    {
+      "key": "swearing-in",
+      "occasion": "ceremony",
+      "note": "The day the offices engine seats the player (its took-office record, from a count, a special election or an appointment), someone the records name gives the oath: the clerk who took the filing or keeps the government's papers, else the holder who left the seat that day, else the body's presiding officer. The player's household and the government's other officeholders are in the room. The player's reply is the oath, a scene reply the journal tells; an office that gives an address (data/swearing-in.json: mayor, county executive, governor, president) goes on to it, and the speech engine records it as heard by the people named in the room, so the views engine moves those it persuades and each may retell it at home. No court is on record, so no judge swears anyone in (SG-WORDS-swearing-in-no-court). It stops the day: taking office is an event, not a status change (owner, Sept 22 and Oct 29).",
+      "roles": [
+        {
+          "key": "officiant",
+          "fill": "oath-giver",
+          "count": "one",
+          "moves": [
+            "greet",
+            "request",
+            "answer",
+            "congratulate",
+            "offer",
+            "thank",
+            "accept"
+          ],
+          "wants": ["follow-rules"],
+          "bearing": "solemn"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": [
+            "agree",
+            "promise",
+            "thank",
+            "ask",
+            "tell",
+            "comfort",
+            "offer",
+            "deflect"
+          ],
+          "wants": ["commit"],
+          "bearing": "steady"
+        },
+        {
+          "key": "family",
+          "fill": "household",
+          "count": "some",
+          "moves": ["congratulate"],
+          "wants": ["help-others"],
+          "bearing": "proud"
+        },
+        {
+          "key": "colleagues",
+          "fill": "sworn-colleagues",
+          "count": "some",
+          "moves": ["congratulate"],
+          "wants": ["cooperate"],
+          "bearing": "steady"
+        }
+      ],
+      "setting": ["seat", "venue"],
+      "timing": "at-cause",
+      "stopsDay": true,
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:took-office",
+            "selfNamed": true
+          },
+          "causeEngine": "offices",
+          "causeRecord": "took-office",
+          "bind": {
+            "you": "subject"
+          },
+          "opener": "officiant"
+        }
+      ],
+      "tag": {
+        "key": "honor",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words", "journal"]
+      },
+      "purpose": "swearing-in",
+      "asker": "officiant",
+      "asked": "you",
+      "stakes": ["office", "oath"]
     }
   ]
 }
