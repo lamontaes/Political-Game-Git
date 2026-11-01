@@ -9,7 +9,7 @@
  * (the test watches each call of candidatePlatform and, in that instant,
  * scores the same candidate and questions by platformScores and counts the
  * electorate on each question itself by the readers the vote scores a
- * platform by, platform-test-kit.ts, since what reaches people later that day
+ * platform by, campaign-platform-test-kit.ts, since what reaches people later that day
  * can move their views): the candidate, every question the seat takes up
  * with their conviction, the electorate's support for their side (which
  * must be the count by the vote's readers) and the score, and the platform
@@ -64,7 +64,12 @@ import {
   electorateAgreement,
   sidesByAgreement,
   type AgreementSides,
-} from "./platform-test-kit";
+} from "./campaign-platform-test-kit";
+import {
+  agreementWith,
+  countedStanceProfile,
+  VIEWS_MODULE_ID,
+} from "./modules/views";
 
 /** Each platform chosen in play: the rule's scores, and the electorate by the vote's readers, in the same instant. */
 interface Chosen {
@@ -101,7 +106,15 @@ vi.mock("./campaign-stances", async (importOriginal) => {
       for (const question of positions) {
         const key = `${day}|${question}`;
         let held = sidesKept.get(key);
-        if (!held) sidesKept.set(key, (held = sidesByAgreement(api, question)));
+        if (!held)
+          sidesKept.set(
+            key,
+            (held = sidesByAgreement(api, question, {
+              agreementWith,
+              countedStanceProfile,
+              moduleId: VIEWS_MODULE_ID,
+            })),
+          );
         sides.set(question, held);
       }
       const scores = real.platformScores(api, personId, party, positions);

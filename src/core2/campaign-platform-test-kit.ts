@@ -13,12 +13,27 @@ import type { CountedVoter } from "./electorate";
 import { townLean } from "./modules/campaigns";
 import { ELECTIONS_MODULE_ID } from "./modules/elections";
 import { electorateRoll } from "./modules/voting";
-import {
-  agreementWith,
-  countedStanceProfile,
-  VIEWS_MODULE_ID,
-} from "./modules/views";
+import type { StanceProfile } from "./campaign-views";
 import type { CoreAPI, CoreState } from "./types";
+
+/**
+ * The views engine's readers, passed in by the test (the views engine's file
+ * is not an entry other families may import): its agreement reader for a
+ * named adult, a counted record's faith and degree profile, and its module id.
+ */
+export interface ViewsReaders {
+  readonly agreementWith: (
+    api: CoreAPI,
+    personId: string,
+    lean: number,
+    platform: readonly { question: string; position: number }[],
+  ) => number;
+  readonly countedStanceProfile: (
+    api: CoreAPI,
+    voter: CountedVoter,
+  ) => StanceProfile;
+  readonly moduleId: string;
+}
 
 /** The electorate on a question by the agreement readers. */
 export interface AgreementSides {
@@ -41,12 +56,13 @@ export interface AgreementSides {
 export function sidesByAgreement(
   api: CoreAPI,
   question: string,
+  views: ViewsReaders,
 ): AgreementSides {
   const core = api.state as CoreState;
   if (!core.modules.has(ELECTIONS_MODULE_ID))
     return { yes: 0, no: 0, mean: 0, people: 0 };
   const records = new Map(countedResidents(core).map((row) => [row.id, row]));
-  const views = core.modules.has(VIEWS_MODULE_ID);
+  const profiled = core.modules.has(views.moduleId);
   const lean0 = townLean(api);
   const platform = [{ question, position: 1 }];
   let yes = 0,
@@ -59,11 +75,13 @@ export function sidesByAgreement(
     if (!who) continue;
     const lean = personLean(core.people, who, lean0);
     const agree = named
-      ? agreementWith(api, row.id, lean, platform)
+      ? views.agreementWith(api, row.id, lean, platform)
       : groupAgreement(
           lean,
           platform,
-          views ? countedStanceProfile(api, who as CountedVoter) : null,
+          profiled
+            ? views.countedStanceProfile(api, who as CountedVoter)
+            : null,
         );
     all += row.count;
     sum += row.count * agree;

@@ -8,7 +8,7 @@
  * test works out every share itself from the electorate by the readers the
  * vote scores a platform by (each named adult by `agreementWith`, each counted
  * record by `groupAgreement` times the people it stands for, on the platform
- * "yes on this question"; platform-test-kit.ts), scores every question by the
+ * "yes on this question"; campaign-platform-test-kit.ts), scores every question by the
  * rule, and finds a candidate whose strongest view is the town's minority
  * side and is left off for a question that scores higher.
  */
@@ -29,7 +29,19 @@ import { contestPositions } from "./contest-positions";
 import { lawChain } from "./modules/laws";
 import { ELECTIONS_MODULE_ID, type ContestRow } from "./modules/elections";
 import { OFFICES_MODULE_ID } from "./modules/offices";
-import { sidesByAgreement } from "./platform-test-kit";
+import { sidesByAgreement } from "./campaign-platform-test-kit";
+import {
+  agreementWith,
+  countedStanceProfile,
+  VIEWS_MODULE_ID,
+} from "./modules/views";
+
+/** The views engine's readers the shares are counted by. */
+const VIEWS = {
+  agreementWith,
+  countedStanceProfile,
+  moduleId: VIEWS_MODULE_ID,
+};
 
 const seed = process.env.PLATFORM_SEED ?? randomBytes(8).toString("hex");
 const MAX_DRAWS = 8;
@@ -104,7 +116,8 @@ function attempt(draw: number): { proven: string } | { tried: string } {
         const position = candidateStance(api, adult.id, null, question);
         if (position === null || position === 0) continue;
         let s = supportOf.get(question);
-        if (!s) supportOf.set(question, (s = sidesByAgreement(api, question)));
+        if (!s)
+          supportOf.set(question, (s = sidesByAgreement(api, question, VIEWS)));
         const support = 100 * (position > 0 ? s.yes : s.no);
         const conviction = Math.abs(position);
         scored.push({
