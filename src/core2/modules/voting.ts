@@ -29,6 +29,7 @@ import { placeStateKeys } from "../places";
 import territoryPlaces from "../data/places/territory-places.json" with { type: "json" };
 import {
   NATIONAL_ENGAGEMENT,
+  townEngagementCenter,
   countPlaces,
   countedAppeal,
   countedChoice,
@@ -1372,7 +1373,7 @@ export function turnoutReasons(
     (engagement === null
       ? 0
       : campaignParameter("turnoutEngagementWeight") *
-        (engagement - NATIONAL_ENGAGEMENT));
+        (engagement - townEngagementCenter(api.state as CoreState)));
   const state = api.state as CoreState;
   const weeklyWork = recordedWeeklyMinutes ?? weeklyWorkOf(state, voter.id);
   const cost =

@@ -310,8 +310,24 @@ export function engagementOf(
   return cell.engagement ?? VIEWS_KEYS.national.engagement ?? null;
 }
 
-/** The nation's average engagement, the center turnout reads it against. */
+/** The nation's average engagement. */
 export const NATIONAL_ENGAGEMENT = VIEWS_KEYS.national.engagement ?? 0;
+
+/**
+ * The center turnout reads a voter's engagement against: their own state's
+ * average, so that how closely people follow politics sets who in a place
+ * turns out more (the old against the young, the engaged against the rest)
+ * and a state's survey level does not move the whole town. The states' news
+ * interest and their citizen turnout (CPS, November 2024) do not line up
+ * (Mississippi follows the news least of any state and votes above the
+ * national figure), so reading it against the nation put a whole town far
+ * below its state's turnout. The nation's where the survey has no state.
+ */
+export function townEngagementCenter(core: CoreState): number {
+  const key = townStateKey(core);
+  const usps = key ? key.slice(key.lastIndexOf("-") + 1) : "";
+  return VIEWS_KEYS.states[usps]?.engagement ?? NATIONAL_ENGAGEMENT;
+}
 
 /**
  * What a counted voter can know of one candidate on a ballot: the party
