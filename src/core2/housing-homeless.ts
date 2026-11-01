@@ -364,6 +364,9 @@ export function reviewHomeless(
   const webFactors = new Map<string, number>();
   const daysPerMonth =
     api.parameter("jobsDaysPerYear") / api.parameter("macroMonthsPerYear");
+  // Every write this loop makes calls `wrote()` before the next `rentOf`: a new
+  // write here (a person filled in, a move, a dwelling) must too, or the rent
+  // `rentOf` keeps goes stale.
   for (const row of table(
     api,
     "statuses",

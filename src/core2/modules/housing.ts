@@ -875,11 +875,6 @@ function rehouse(api: CoreAPI): void {
   );
 }
 
-/** The town's typical monthly rent; none where it has no other renters. */
-export function typicalRentMinor(api: CoreAPI, placeId: string): number {
-  return townFigures(api, placeId).rentMinor;
-}
-
 /**
  * A household without a home signs a lease at a rent: from the town's landlord
  * (or the landlord of the offered unit, which it then consumes), due next month,
