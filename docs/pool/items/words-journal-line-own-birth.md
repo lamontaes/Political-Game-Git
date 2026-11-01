@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: words/journal-own-birth
 pr: #6985
 blocked-on:
