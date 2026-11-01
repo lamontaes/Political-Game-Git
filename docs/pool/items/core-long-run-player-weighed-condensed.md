@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: speed/fold-player-weighed
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-01T21:16:08.260Z
 ---
 
 **What.** The event log keeps the player's own person.weighed rows forever with every option's score and reasons, while their person.acted rows are condensed after playerDecisionDetailDays (365). The decision-detail queue only takes person.acted (decision-detail.ts), so each weighed choice the player ever made keeps its whole table of options. The Oct 20 ruling says that after a year the player's routine decisions keep their summary and reasons.
