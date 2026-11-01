@@ -1310,13 +1310,13 @@
     "id": "SG-GOV-territory-governor-race",
     "kind": "missing-data",
     "file": "src/core2/modules/voting.ts",
-    "line": 3600,
+    "line": 3737,
     "whatItFakes": "A territory's governor race outside the town's own is not run, so its governor serves on past the election its law holds (Guam, the Northern Mariana Islands and the U.S. Virgin Islands elect one in November 2026).",
     "why": "The territories have no counted electorate places (no presidential vote or county places on record) and no major-party record for their governors; their own parties (Puerto Rico's New Progressive and Popular Democratic, for one) are not modeled.",
     "addedBy": "claude/world-governor-races",
     "addedAt": "2026-10-24",
-    "replacement": "Each territory's electorate places from its own 2024 governor or delegate results, and its own parties, so its governor race runs on the same counted engine.",
-    "status": "open"
+    "replacement": "Superseded Oct 30, 2026 by SG-GOV-territory-legislature-race (gov-every-state-and-town-governs U1): governorRaces is deleted and another place's governor is raced through racesIn's one seat loop in src/core2/modules/voting.ts, whose territory check skips a territory's governor with its legislative and statewide executive seats under that row; the replacement (each territory's electorate places from its own governor, legislative or delegate results, and its own parties, on the same counted engine) is that row's.",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-world-governor-executive",
@@ -1327,8 +1327,8 @@
     "why": "Other states' governments are not yet played at a coarser level; only Congress outside the town is read back (src/core2/modules/legislature.ts reads the world races' seats).",
     "addedBy": "claude/world-governor-races",
     "addedAt": "2026-10-24",
-    "replacement": "A coarse executive for each other state whose acts read the seat's elected governor, and the officials roster's governor replaced by the winner when the party changes (pool item gov-world-races-run-no-governors).",
-    "status": "open"
+    "replacement": "Resolved Oct 30, 2026 (gov-every-state-and-town-governs U1, the laws lead's decision B): every other state's governor is held on the offices engine's term from the opening (seatOutsideOffices in src/core2/modules/offices.ts), and racesIn's one seat loop in src/core2/modules/voting.ts races the governor's seat by the same rule as every other statewide office (governorRaces is deleted), so seatRaceWinner seats the winner on that term through seatWinner, the one term writer, at home in that state; the voting engine's own seats table is no longer written for a governor, and the race reads the incumbent's party from the serving term. The officials roster's separate governor is gone. A coarse executive acting for each other state (budget, signature, appointment) is the world-governing plan's U3 (SG-GOV-other-legislatures-not-sitting).",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-presidential-environment",
@@ -2728,12 +2728,12 @@
     "id": "SG-WORLD-housing-counted-rent",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/housing.ts",
-    "line": 500,
-    "whatItFakes": "The wider population's renters pay rent from their place's pooled residents account, and the arrears they run up are held per group (households of one kind in one place), not per household; a case is opened and a household removed from the group's pool, but which household in the group is behind is not recorded.",
+    "line": 689,
+    "whatItFakes": "The wider population's renters pay rent from their group's money (the place's residents account, kept per group), and the arrears they run up are held per group (households of one kind in one place), not per household: which of the group's households are behind is read from the group's arrears, the ones with the least income first. A removed counted household stays counted without a home (tenure none, its record standing for the one household removed) and is placed, counted homeless and rents again from its record (CTO, Nov 1); its cash is its share of the group of households without a home it joins, shared with any other such household of that group. One that doubles up with a relative in another town leaves the counts through the counted moves engine at its coarse grain: to its state's rest-of-state count when the relative's town is in the same state, to the other state's count otherwise, not to the relative's own town as a full household is relocated; without the moves engine it stays in town (a relative there, a shelter bed or the street).",
     "why": "The two-level population pools counted households' cash by place (OPUS-CORE's stopgap), so the group falls behind together; a single counted household's own shortfall is not kept.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "Per-household cash for counted households (or fill-in when a household falls behind), with arrears and eviction through the same legal steps.",
+    "replacement": "Per-household cash for counted households, with arrears and eviction through the same legal steps; until then the group's arrears and money stand for its households'. Counted moves to a named town (the host's), once the counted moves engine keeps towns beyond the governing one.",
     "status": "open"
   },
   {
@@ -3418,7 +3418,7 @@
     "id": "SG-OFFICIALS-unrecorded-party",
     "kind": "assumed-data",
     "file": "src/core2/modules/officials.ts",
-    "line": 389,
+    "line": 430,
     "whatItFakes": "A holder whose party the roster doesn't record (a statewide executive such as an attorney general or treasurer, or a legislative seat with no roster row) sits in the party that carried the state in 2024; a lieutenant governor on the governor's ticket takes the governor's party.",
     "why": "The offices research records each statewide office's term and vacancy rule but not its holder's party, and the legislative roster has no row for a few seats.",
     "addedBy": "OPUS-OFFICIALS",
@@ -4969,8 +4969,8 @@
     "id": "SG-GOV-wide-resident-pool",
     "kind": "missing-record",
     "file": "src/core2/modules/candidacy.ts",
-    "line": 655,
-    "whatItFakes": "Wider races reach named officials across their jurisdiction and the played town residents. Unnamed ordinary residents elsewhere have no candidate records. State legislative district residency is not individually known for officials stored at state scope.",
+    "line": 744,
+    "whatItFakes": "Wider races reach named officials across their jurisdiction and the played town residents: a state race, the state's officials and serving holders; a national race, every member of Congress, the town's own state's officials and every place's governor and statewide officers (another place's are filled in from their term rows the first time a national pool is built, fillStatewideHolders in src/core2/candidate-pool.ts), but not another place's legislators, who stay named on their terms (SG-GOV-outside-legislators-national-pool). Unnamed ordinary residents elsewhere have no candidate records. State legislative district residency is not individually known for officials stored at state scope.",
     "why": "The wider electorate has counts but no resident household records from which candidacy can read personal resources and ambitions.",
     "addedBy": "SESSION-C",
     "addedAt": "2026-10-15",
@@ -7466,18 +7466,6 @@
     "status": "resolved"
   },
   {
-    "id": "SG-WORLD-creator-town-count-published",
-    "kind": "estimated-data",
-    "file": "src/bench/creator.ts",
-    "line": 178,
-    "whatItFakes": "The creator's town list shows each town's published Census count; the world opens on its own count drawn around it (within worldPopulationSpreadShare), so the two can differ by a few people.",
-    "why": "The list is shown before Start and the world's seed is drawn when the world is built (handler.ts randomUUID), so no world count exists yet when the list is read.",
-    "addedBy": "realistic-money-and-population-per-world (Claude Opus, wire-office)",
-    "addedAt": "2026-10-28",
-    "replacement": "The bench draws the world's seed when the creator opens and creatorTowns reads placeReferencePopulation(geoid, seed), the count the world will open on.",
-    "status": "open"
-  },
-  {
     "id": "SG-WIRE-PEOPLE-SCHOOLMATES",
     "kind": "history-gap",
     "file": "src/core2/state.ts",
@@ -7600,12 +7588,12 @@
     "id": "SG-GOV-unheld-filler-party",
     "kind": "assumed-data",
     "file": "src/core2/modules/officials.ts",
-    "line": 177,
-    "whatItFakes": "Whoever fills a seat the offices engine keeps no term for (a sample member of another state's legislature, another state's governor) sits in the party of the one they replace: an appointee or a special election's winner is assumed to keep the seat's party, and a governor's successor (a lieutenant governor elected on their own ticket in some states) is assumed to share the governor's.",
-    "why": "The officials engine seats these holders without the offices engine's terms, so no record names the appointee, the special election's candidates or the successor's own party.",
+    "line": 172,
+    "whatItFakes": "Whoever fills a seat the offices engine keeps no term for (another state's member of Congress, whom the officials engine seats from the roster) sits in the party of the one they replace: an appointee or a special election's winner is assumed to keep the seat's party. Since gov-every-state-and-town-governs U1 (Oct 29) every other place's chambers, governor and statewide executives are held on office terms, so their vacancies go through the offices engine's own fill, not this one.",
+    "why": "The officials engine seats other states' members of Congress without the offices engine's terms, so no record names the appointee or the special election's candidates.",
     "addedBy": "gov-sampled-legislator-seats-never-refilled (Claude, wire-office)",
     "addedAt": "2026-10-28",
-    "replacement": "The successor's own party from the state's statewide-office roster for a governor, and the appointing authority's choice or the special election's result (the voting engine's world races) for a legislative seat.",
+    "replacement": "Other states' seats in Congress held on office terms like every other seat, so the appointing authority's choice or the special election's result (the voting engine's world races) names the holder and their party.",
     "status": "open"
   },
   {
@@ -7824,6 +7812,90 @@
     "status": "open"
   },
   {
+    "id": "SG-GOV-other-legislatures-not-sitting",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/world-legislating.ts",
+    "line": 195,
+    "whatItFakes": "Every other state's, D.C.'s and each territory's chambers, governor and statewide executives are seated at the opening as named officials on office terms, and each state's and D.C.'s legislators, governor and partisan statewide officers are raced on their own calendars (a territory's are not: SG-GOV-territory-legislature-race; nor is an office elected without party labels: SG-GOV-outside-nonpartisan-race), but only Congress and the town's own state legislature sit: no other legislature opens a session, files a bill or enacts a law.",
+    "why": "gov-every-state-and-town-governs is built in units (docs/reports/world-governing-plan-2026-10-29.md): U1 seats every chamber; each body's law must be its own (U2) before another state's act can be written without landing as the town's own state law.",
+    "addedBy": "laws lead (claude/gov-every-state-and-town-governs, U1)",
+    "addedAt": "2026-10-29",
+    "replacement": "U3 of the plan: openWorldLegislating opens a session for Congress and every place in the session calendar data, each body voting from its members' saved positions on the official rows, never filling them in. The reads that fill a named holder in today (each calls holderOf) and must not run for an outside body in U3: legislature.ts members() and everything that reads a body through it (floor votes, committees and leadership.ts organize, staff, meetings, interest-groups lobbied, office-day, world-legislating chamber()), legislature.ts tieBreaker (the lieutenant governor) and executiveOf (the governor's signature or veto), and election-ties.ts bodyVotes; office-day-state.ts computerGovernorsDay already skips another place's offices (isOutsideOffice in offices.ts, by jurisdiction).",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-territory-legislature-race",
+    "kind": "missing-data",
+    "file": "src/core2/modules/voting.ts",
+    "line": 4504,
+    "whatItFakes": "A territory's legislative seats, governor and statewide executive seats outside the town (Puerto Rico's, Guam's, the Virgin Islands', American Samoa's and the Northern Marianas') are not raced, in the world races or a legislative special election, so their opening holders serve on past the elections their law holds (Guam, the Northern Mariana Islands and the U.S. Virgin Islands elect a governor in November 2026); a legislative vacancy there is filled by the offices engine's stand-in.",
+    "why": "The territories have no counted electorate places (no presidential vote or county places on record), so no count could decide a seat; several of their seats carry no party or a party of their own (Puerto Rico's New Progressive and Popular Democratic, American Samoa's nonpartisan Fono), not the two major parties the count fields. Without the skip each such race named no winner and the seat was never refilled.",
+    "addedBy": "laws lead (claude/gov-every-state-and-town-governs, U1 review fixes)",
+    "addedAt": "2026-10-30",
+    "replacement": "Each territory's electorate places from its own legislative, executive or delegate results, and its own parties on the count, so its seats are raced on the same counted engine (the same replacement as SG-GOV-territory-governor-race).",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-outside-nonpartisan-race",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/voting.ts",
+    "line": 4515,
+    "whatItFakes": "Another place's statewide office elected without party labels (about ten: superintendents of public instruction in California, North Dakota, Washington and Wisconsin, Oregon's labor commissioner, Hawaii's Office of Hawaiian Affairs trustees, D.C.'s state board of education president, Guam's public auditor and utilities commission, the Northern Marianas board of education) is seated at the opening but never raced, so its holder serves past the end of the term on its row.",
+    "why": "The world races count two major parties' candidates; an office whose ballot carries no party labels (data/research/offices/unrecorded-holder-parties-2026.json, appliesTo office) has no partisan race to count, and the voting engine has no nonpartisan count for a race the town doesn't vote in.",
+    "addedBy": "laws lead (claude/gov-every-state-and-town-governs, U1 review fixes)",
+    "addedAt": "2026-10-30",
+    "replacement": "A nonpartisan count for a race the town doesn't vote in (the incumbent against a challenger drawn from the state, decided by the places' votes on the candidates' own standing), so the seat loop in racesIn races these offices like every other.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-outside-ticket-raced-alone",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/voting.ts",
+    "line": 4520,
+    "whatItFakes": "Another place's statewide officer whom the law elects on one ticket with the governor (a lieutenant governor in about thirty places, data/research/offices/state-offices.json electedWithGovernorOnTicket) is raced on its own seat, the same as every other statewide officer, so the count can seat a lieutenant governor of a different party from the governor elected the same night.",
+    "why": "The world races count one seat at a time; nothing joins a ticket office's race to its governor's. The town's own contests run each office separately too.",
+    "addedBy": "laws lead (claude/gov-every-state-and-town-governs, U1 review fixes)",
+    "addedAt": "2026-10-30",
+    "replacement": "A ticket office's race decided with its governor's: the governor race's winning party seats the running mate the same day, read from the office's research row.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-outside-seat-party-unread",
+    "kind": "missing-data",
+    "file": "src/core2/modules/offices.ts",
+    "line": 819,
+    "whatItFakes": "Another place's holder whose party neither the legislative roster nor the research (data/research/offices/unrecorded-holder-parties-2026.json) reads sits with no party on the term: six vacant legislative seats with no Ballotpedia vacancy row (Florida, Massachusetts, Missouri, New York), Guam's attorney general and the Virgin Islands board of elections (eight seats). Filled in as a person (holderOf in src/core2/modules/officials.ts), such a holder keeps the term's no party, so the person matches the term row, never the 2024 state-lean estimate. A race for such a seat fields both major parties as if it were open.",
+    "why": "The research file lists them as unread seats; nothing on record names the holder's party.",
+    "addedBy": "laws lead (claude/gov-every-state-and-town-governs, U1 review fixes)",
+    "addedAt": "2026-10-30",
+    "replacement": "Each seat's holder read into the research file (the chamber's own member page or the territory's election results), so seatOutsideOffices seats them in their party.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-outside-legislators-national-pool",
+    "kind": "missing-record",
+    "file": "src/core2/candidate-pool.ts",
+    "line": 343,
+    "whatItFakes": "A national race's pool (the presidency) holds every member of Congress, the town's own state's legislators and every place's governor and statewide officers, but not another place's legislators (about 7,400 seats): they are named officials on their term rows (personId null, the CTO's ruling of Oct 29, 22:40), and the pool weighs only full people, so none of them weighs running for president. Before U1 an 8-member sample of each other chamber, full people, stood in for them.",
+    "why": "The chooser (decideToRun) reads a person's traits, money and party, which a named official on a term row does not have, and filling about 7,400 legislators in as full people to weigh one race would make people the player never meets (the two-level rule).",
+    "addedBy": "laws lead (claude/gov-every-state-and-town-governs, U1 re-review fixes)",
+    "addedAt": "2026-11-01",
+    "replacement": "Another place's legislators weighed from their term rows by the same reasons as a full official (the seat's reach, the party's backing, an ambition read from the seat), the way candidacy's counted screen weighs counted residents, and filled in only when one runs.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-outside-seat-records-unfolded",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/voting.ts",
+    "line": 4526,
+    "whatItFakes": "Every state seat the world races outside the town (each other place's legislators, governor and statewide officers, and the town's own state's districts that do not cover it; thousands of seats in an even year) keeps, every cycle, its race row, its count's results and places, the ended term beside the new one and the took-office record, and nothing folds the old ones once play no longer reads them. In Long Hill, Connecticut (seed m7b, four played years to January 2029) the offices engine's terms grow from 21,136 rows to 33,973 (main at the branch's base: 644 to 1,044), and the voting engine's races, results and returns from 185 to 13,932 rows each and its places from 624 to 40,981; November 2026 alone races 6,923 seats (Leola, South Dakota, seed m2-nov1). The took-office records themselves are not kept in the town's log (they are placed in the office's own place).",
+    "why": "A fold needs each reader's window agreed with the session that owns that reader (the CTO's ruling of Oct 30, 04:14: the person card's past offices, the press's took-office story, the trace's record search), which this change cannot do; the Oct 30 01:55 records bar (years 97 to 100 at most 1.2 times years 1 to 4) is not yet measured for these tables.",
+    "addedBy": "laws lead (claude/gov-every-state-and-town-governs, U1 re-review fixes)",
+    "addedAt": "2026-11-01",
+    "replacement": "A fold of each outside seat's ended terms, race rows and results older than its last few cycles into one summary row per seat (who held it, in which party, from and to), its readers' windows named, proven by a long save's records kept (pool item core-long-run-tables-grow-with-history).",
+    "status": "open"
+  },
+  {
     "id": "SG-GOV-threat-from-circle",
     "kind": "partial-model",
     "file": "src/core2/modules/campaigns.ts",
@@ -7907,6 +7979,30 @@
     "status": "open"
   },
   {
+    "id": "SG-LEGISLATURE-phase-in-percent-a-year",
+    "kind": "missing-mechanic",
+    "file": "src/bench/legislature.ts",
+    "line": 264,
+    "whatItFakes": "A bill drafted from the seat phases in an amount only by dated steps the sponsor names (one section per step). The ruling's other form, an amount that rises by a percent a year, cannot be drafted: the seat takes no rate and no span.",
+    "why": "The owner ruled that bills phase in by dated steps or a percent a year (DECISION-REGISTER, Sept 12 travel clarification, item 1); pool item gov-m3-01-phase-in-by-dated-steps built the dated steps first, and how a yearly percent is written into law (a step per year, or one indexed row the laws engine raises each year) is not built.",
+    "addedBy": "governing lead",
+    "addedAt": "2026-10-30",
+    "replacement": "seatAct takes a percent a year and the years it runs; the steps are drafted as dated sections of the one bill a year apart, each the law in force raised by the percent, through the same enact path (or one indexed law row the laws engine raises each year on its calendar), with no number typed.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LEGISLATURE-dated-budget-line-amended-on-enactment",
+    "kind": "partial-model",
+    "file": "src/core2/modules/legislature.ts",
+    "line": 5181,
+    "whatItFakes": "A budget-line section that names its own effective date (provisionFor with an effectiveDate) is amended into the budget the day the bill becomes law: amendBudget takes no date, so every step of a budget phase-in would land at once; seatAct refuses phase-in steps on a budget line for that reason.",
+    "why": "enact reads each law section's date through enactLaw and the laws engine's calendar, but a budget line has no dated amendment in the budgets engine; found building pool item gov-m3-01-phase-in-by-dated-steps, whose test phases in a wage floor instead.",
+    "addedBy": "governing lead",
+    "addedAt": "2026-10-30",
+    "replacement": "The budgets engine amends a line on the section's date: enact schedules the dated budget section on the calendar (as enactLaw does a dated law row) and amendBudget applies it to the fiscal year that date falls in, so lawmakers and the budget screen read each step when it lands; seatAct then takes phase-in steps on a budget line, as it does on a law amount.",
+    "status": "open"
+  },
+  {
     "id": "SG-GOV-body-lawyer-unrecorded",
     "kind": "missing-record",
     "file": "src/bench/legislature.ts",
@@ -7928,6 +8024,42 @@
     "addedBy": "claude/people-home-plated-room-first",
     "addedAt": "2026-10-30",
     "replacement": "Plates for every house living room (people-home-plates); once each room the lists name has one, the preference picks from the whole list and is deleted.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-milestone-birthday-full-people",
+    "kind": "rule-copy",
+    "file": "src/core2/modules/press.ts",
+    "line": 3069,
+    "whatItFakes": "The paper's round-birthday briefs read only the town's full residents; a counted resident who turns 80, 90 or 100 gets no notice.",
+    "why": "A birthday notice names the person, and a counted resident has no name until the player meets them. Filling one in for the paper would make the press decide who exists.",
+    "addedBy": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+    "addedAt": "2026-11-01",
+    "replacement": "A person a brief names is a named person, so the counted resident whose round birthday falls in the week is filled in, seeded from the world, when the notice prints (two-level population; the CTO, Nov 1, the same rule the lives lead uses), and the week's round birthdays are read from the counted population's ages by place by the same rule as a full resident.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-counted-evicted-push-rate",
+    "kind": "partial-model",
+    "file": "src/core2/modules/counted-moves.ts",
+    "line": 373,
+    "whatItFakes": "An eviction's push toward leaving town (movesEvictedPull, 0.35) lands on a counted household as a raised rate of leaving, times exp(0.35), for as long as the eviction leaves it without a home (tenure none, its housing status row naming an eviction case); a full person takes the same push once, on the day of the housing.eviction, added to a pull that keeps it until they decide (moves.ts EVENT_PULLS). A household a foreclosure removed takes no push on either tier, since a foreclosure records no eviction.",
+    "why": "The counted tier moves by expected rates accrued monthly by group, with no per-household pull carried from month to month; a household without a home is the record the eviction left, so its rate is the one place the push can land (CTO ruling, Nov 1: an evicted counted household stays counted).",
+    "addedBy": "speed lead builder (core-evicted-counted-stays-counted)",
+    "addedAt": "2026-11-01",
+    "replacement": "A counted household's own pull carried month to month (the push added once on the day, faded as a full person's), or the push calibrated against the share of evicted households that leave their county (Desmond and Shollenberger 2015).",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-counted-eviction-kin-notice",
+    "kind": "partial-model",
+    "file": "src/core2/modules/housing.ts",
+    "line": 2241,
+    "whatItFakes": "A counted household's eviction names its members with a record (person records, and husks: relatives a full person knows) and the rest by its facts, so a watched relative reads it through the director's place reach and the press prints it from its counted subjects; but the full people who list a counted member as family learn of it only as any reader in town does. On main the evicted household was filled in, and its members, as full people, passed the news on at each contact (news.ts) to the relatives fill-in tied them to; counted members pass nothing on, and the eviction names no full relative as a witness.",
+    "why": "CTO ruling, Nov 1: an evicted counted household stays counted until it comes to matter to the player. Naming the full relatives as witnesses (as births-counted notifyCountedDeaths does for a counted death, the precedent) would make each of them perceive the eviction on the day: the drives engine would answer them, the director would appraise them as named, and neither has been checked to read a relative's eviction as a relative's rather than as the subject's.",
+    "addedBy": "speed lead builder (core-evicted-counted-stays-counted)",
+    "addedAt": "2026-11-01",
+    "replacement": "The eviction names as witnesses the full people who know a counted member (the full people who list them as family, and their ties), as notifyCountedDeaths does for a counted death, once drives, trait change and the director read a witness to a relative's eviction by their relation; or counted members pass news on at contact by the news engine's rule.",
     "status": "open"
   }
 ]
