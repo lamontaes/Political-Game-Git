@@ -8,7 +8,7 @@ priority: 1
 size: S
 status: in-pr
 claimed-by: play-first/tests-m0-03-election-morning-ends-jump
-pr: #0
+pr: #6963
 blocked-on:
 source: added with npm run pool -- add
 ---
