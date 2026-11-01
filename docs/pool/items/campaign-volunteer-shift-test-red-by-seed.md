@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: governing/volunteer-shift-test-by-seed
 pr: #6977
 blocked-on:
