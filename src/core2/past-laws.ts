@@ -26,7 +26,11 @@ import { questionAxis } from "./campaign-views";
 import { memberSupportAt } from "./officials-roster";
 import { LAWS_MODULE_ID } from "./modules/laws";
 import { members } from "./modules/legislature";
-import { RECORD_MODULE_ID, type VoteRecordRow } from "./modules/record";
+import {
+  RECORD_MODULE_ID,
+  voteRecordId,
+  type VoteRecordRow,
+} from "./modules/record";
 import type { LawRowInput } from "./laws-starting";
 import type { ModuleRow } from "./module-data";
 import type { TermRow } from "./modules/offices";
@@ -212,10 +216,11 @@ function recordVotes(
   ] as const)
     for (const personId of ids) {
       const row: VoteRecordRow = {
-        id: `vote:${measureId}:${personId}`,
+        id: voteRecordId(measureId, question, personId),
         personId,
         date,
         body,
+        billId: measureId,
         measureId,
         stance: { question, position: way * position },
         passed,

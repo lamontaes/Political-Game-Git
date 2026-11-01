@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: governing/record-vote-per-question
-pr:
+pr: #7013
 blocked-on:
 lead: governing
 source: governing lead, Nov 1 (phase B map)

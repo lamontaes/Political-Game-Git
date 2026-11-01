@@ -5,9 +5,9 @@ area: people
 kind: feature
 priority: 1
 size: M
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #7036
 lead: laws
 blocked-on:
 after: world-medical-spending-categories

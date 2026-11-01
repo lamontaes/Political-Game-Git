@@ -296,6 +296,132 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.72.0
+
+_Released November 1, 2026._
+
+### Added
+
+- **When your senior year ends without a diploma, someone at home talks it
+  through with you.** A senior whose year ended without a diploma used to hear
+  nothing at all. A graduate was congratulated at home the next day, but a
+  student who didn't finish got no scene. Now someone you live with sits you
+  down the day after ("I heard about school. It isn't the end of anything.").
+  You can tell them what happened, promise to finish, apologize or say you'd
+  rather not talk. Both the graduation scene and this one now open with a
+  sentence that sets them up.
+
+### Improved
+
+- **Big towns run faster each month** Every month the game pays, moves and
+  counts the births and deaths of a town's wider population. It used to work out
+  the same numbers again for every household; now it works them out once, so big
+  towns run faster, and the same people move, are born and die.
+
+- **People with causes decide faster** People who care about a cause used to
+  sort through all their causes and every group on the topic each time they
+  chose what to do. Now they do it once a day, so a year runs faster and they
+  make the same choices.
+
+- **Election nights count faster** On an election night the game counts every
+  state and race from the same sample of voters. It used to line those voters up
+  again for each count; now it does it once a night, so election years run
+  faster and every result is the same.
+
+- **No menu scrolls as a whole** Every menu now fits its window, at 1440 by 900
+  and at 1280 by 720: Parties, Issues, Government, Travel and the family on Who
+  you are page sooner on a short window, and the News paper is read inside its
+  own box.
+
+### Fixed
+
+- **Your record keeps every vote on a bill with several parts** A member's
+  record now keeps their vote on each part of a bill, not only the last, and a
+  later bill with the same number no longer overwrites an older one. The
+  Government screen's recent votes now show this term's bills under their own
+  number with the floor's count and result.
+
+- **No more twins on the couch** When your family is bigger than the couch, the
+  seats now go to people who can sit there in their everyday clothes and who
+  don't share a face with someone already in the room. Two identical people in
+  the same blazer no longer sit side by side on your first evening.
+
+- **A held clock always shows its Continue** When a calendar skip ran into a
+  stop the screen had not shown, the clock stopped moving with no Continue on
+  screen. The game now takes the open stop back from the save and shows it.
+
+- **Your first act no longer runs through the night** In a new life, filing at
+  the counter or canvassing before you press Day now takes its hours from the
+  morning, not from midnight, so the clock lands in the day instead of at 3:00
+  AM.
+
+- **A dead cabinet secretary is replaced** A cabinet secretary who dies is
+  replaced by the President's next nominee, and a nominee the Senate refuses is
+  followed by another, so a federal post is never left empty.
+
+- **The title's Continue shows only its name** On the title menu, Continue no
+  longer prints your saved life's name, age and place under it; every entry
+  shows its name alone.
+
+- **Your journal no longer tells a family member's swearing-in as your own**
+  When someone you live with took office, your journal said "I took office as
+  Council member." as if you had. It now names them and the office instead. Your
+  own swearing-in still reads in the first person.
+
+- **A housemate's filing or lost race is no longer staged as your own.** When
+  someone you live with filed for office, the game could stage the household
+  talk about your run, as if you had filed. Another candidate's loss could
+  likewise stage your own losing night. Each of these scenes now plays only on a
+  record that names you.
+
+- **A campaign staffer who also volunteers stands once in the election-night
+  scene.** On election night the candidate's supporters are the campaign's
+  volunteers and staff; someone who was both stood in the scene twice. They are
+  now cast once.
+
+- **A scene no longer ends on a question nobody answers.** When someone offered
+  to run your campaign and you put them off, they could end the talk with "Then
+  we start tonight. Where do you keep your contacts?" and nothing answered it.
+  They now say "Then we start tonight. Bring me your contact list." A reporter's
+  "Fair. Who wrote it?" is now "Fair. I'll ask who wrote it." for the same
+  reason.
+
+- **A scene says it is evening only when it plays in the evening.** Scenes stop
+  your day when their cause is recorded, usually in the morning, and some of
+  their lines said "tonight" anyway ("Thanks for your time tonight."). A line
+  that says the present is the evening now plays only in the evening, a morning
+  greeting only before noon, and a line that says the afternoon is still ahead
+  only before the evening. Promises for later tonight ("I'll read it tonight.")
+  play at any hour.
+
+- **A count before a vote says "tomorrow" only the day before, and nobody names
+  a vote shortfall the count does not hold.** The scene where you or a colleague
+  goes looking for votes says the vote is tomorrow only on the day before it,
+  and today on the day itself; before, it said "tomorrow" on the morning of the
+  vote. Lines that named how many votes were missing ("Three votes. That's all
+  I'm short.") now say only that the votes are short, because no count of the
+  shortfall is on record.
+
+### Changed
+
+- **A resident tells only the candidate they would vote for that they have their
+  vote.** When your campaign asks for a vote at the door, a resident now says
+  yes only if you are the one they would vote for, and a resident who already
+  gave a rival their word mostly keeps it. Before, anyone who enjoyed the visit
+  said yes, so the same residents promised their vote to every candidate who
+  knocked, and your rivals' doors counted as much as yours.
+
+- **Your Journal starts with your birth.** The Journal's first line now tells
+  where you were born, from the record of your birth ("I was born in Crescent,
+  Louisiana."). The old line that said where your family came from told the same
+  record again and is gone. A district or an island territory is named with its
+  article: "the District of Columbia", "the U.S. Virgin Islands".
+
+- **Office holders stand, sit or take the podium as the scene calls for.** A
+  debate puts the candidates at podiums, a visit has the office holder standing,
+  and an address, a signing or a veto has them at the desk. Before, every one of
+  these scenes seated them.
+
 ## PRE-ALPHA 0.71.0
 
 _Released November 1, 2026._
