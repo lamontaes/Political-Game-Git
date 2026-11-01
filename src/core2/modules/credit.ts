@@ -1253,10 +1253,12 @@ function loanWeight(api: CoreAPI, householdId: string): number {
 function serviceLoans(api: CoreAPI): void {
   const c = core(api),
     p = (key: string) => api.parameter(key);
-  // The cap laws in force today, by law row: a loan written under a law since repealed is not credited to it.
-  const capsInForce = c.modules.has(LAWS_MODULE_ID)
-    ? new Set(yesLevels(api, CAP_LOAN_RATES).map((level) => level.lawId))
-    : new Set<string>();
+  // The cap laws in force today, by law row, each with its question: a loan written under a law since repealed is not credited to it.
+  const capsInForce = new Map<string, string>();
+  if (c.modules.has(LAWS_MODULE_ID))
+    for (const key of LOAN_CAPS)
+      for (const level of yesLevels(api, key))
+        capsInForce.set(level.lawId, key);
   for (const loan of store(api)
     .table("loans")
     .query("open", [true]) as unknown as LoanRow[]) {
@@ -1297,7 +1299,7 @@ function serviceLoans(api: CoreAPI): void {
     ) {
       const weight = loanWeight(api, loan.householdId);
       lawApplied(api, {
-        key: CAP_LOAN_RATES,
+        key: capsInForce.get(loan.rateLawId)!,
         lawId: loan.rateLawId,
         targetId: loan.householdId,
         target: weight > 1 ? "group" : "household",
@@ -1376,6 +1378,10 @@ function serviceLoans(api: CoreAPI): void {
 
 const CAP_LOAN_RATES =
   "us-policy-positions:business-commerce.cap-consumer-loan-rates";
+const FEDERAL_LOAN_CAP =
+  "us-federal-positions:monetary-financial.cap-consumer-loan-interest";
+/** The consumer-loan caps both lenders quote under: the state's question and Congress's, one ceiling. */
+const LOAN_CAPS = [CAP_LOAN_RATES, FEDERAL_LOAN_CAP] as const;
 
 /** The town's small-dollar lender and the cash it has to lend this month, or nothing where its state's law ends them. */
 function smallLender(api: CoreAPI) {
@@ -1409,8 +1415,8 @@ function smallLender(api: CoreAPI) {
  * `creditMinimumLoanMinor`) asks the town's small-dollar lender, which asks
  * only for documented income and writes a loan of a share of it
  * (`smallDollarLoanToMonthlyIncome`). Both quote under the consumer-loan cap
- * where it governs, so a cap that never touches the bank's rate binds the
- * storefront's. The chooser is the bank's own (`personalBorrowingDecision`),
+ * where it governs, the state's question or Congress's, so a cap that never
+ * touches the bank's rate binds the storefront's. The chooser is the bank's own (`personalBorrowingDecision`),
  * asked again at the lender's quote: a household borrows from a lender only
  * for a shortfall on its record and when that lender's payment, against its
  * income, still leaves borrowing the stronger pull.
@@ -1431,9 +1437,9 @@ function householdApplications(
   const marketRate =
     (prime + p("macroPrimeSpreadPct") + p("creditPersonalSpreadPct")) /
     p("macroHundred");
-  const cap = c.modules.has(LAWS_MODULE_ID)
-    ? lawInForce(api, CAP_LOAN_RATES)
-    : undefined;
+  const laws = c.modules.has(LAWS_MODULE_ID);
+  const cap = laws ? lawInForce(api, CAP_LOAN_RATES) : undefined;
+  const federalCap = laws ? lawInForce(api, FEDERAL_LOAN_CAP) : undefined;
   const town = cap ? lawChain(api).townPlaceId : undefined;
   const owing = new Set(
     (
@@ -1491,19 +1497,25 @@ function householdApplications(
     if (room <= 0 && lenderRoom <= 0) continue;
     // stopgapId: SG-GOV-REACH-A-consumer-credit — product-specific caps,
     // fees and counted attendance still need records. This is the catalog ceiling.
-    const applicable =
-      cap?.value === 1 && cap.governing && household.placeId === town;
-    if (applicable) api.stopgap("SG-GOV-REACH-A-consumer-credit");
-    const ceiling = applicable
+    // The state's cap governs where the town's chain does; Congress's binds
+    // every household in the country, at the same ceiling.
+    const governing =
+      cap?.value === 1 && cap.governing && household.placeId === town
+        ? { key: CAP_LOAN_RATES, lawId: cap.governing.id }
+        : federalCap?.value === 1 && federalCap.governing
+          ? { key: FEDERAL_LOAN_CAP, lawId: federalCap.governing.id }
+          : null;
+    if (governing) api.stopgap("SG-GOV-REACH-A-consumer-credit");
+    const ceiling = governing
       ? lawParameters.parameters.consumerLoanRateCap.value
       : null;
     const rate = ceiling === null ? marketRate : Math.min(marketRate, ceiling);
-    const lawId = applicable ? cap.governing!.id : null;
+    const lawId = governing?.lawId ?? null;
     // Whom the cap governed at the quote: every household quoted under it, and whether it held the rate below the market.
-    if (lawId && room > 0)
+    if (governing && room > 0)
       lawApplied(api, {
-        key: CAP_LOAN_RATES,
-        lawId,
+        key: governing.key,
+        lawId: governing.lawId,
         targetId: household.id,
         target: household.weight > 1 ? "group" : "household",
         count: household.weight,
@@ -1706,10 +1718,10 @@ function householdApplications(
         priorDefaultLoanId: priorDefault,
       });
     if (principal <= 0) continue;
-    if (lawId)
+    if (governing)
       lawApplied(api, {
-        key: CAP_LOAN_RATES,
-        lawId,
+        key: governing.key,
+        lawId: governing.lawId,
         targetId: household.id,
         target: household.weight > 1 ? "group" : "household",
         count: household.weight,

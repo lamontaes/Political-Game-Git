@@ -12,12 +12,19 @@
  * cap's ceiling, and the loan's payment, its payment row and the journal
  * entry that pays it agree; the same household's loan in the control is
  * written at the lender's own rate, and its payment is worked from the
- * control's own principal. Past the research links' twelve-month lag, the
- * outcome web's factor on high-cost lenders is read where the lender quotes
- * and sizes the loan: a loan in the capped world records a factor below one,
- * the web month it stands on and the cap's link, and is lent below what the
- * household asked; in the federal world a loan records the federal cap's
- * link the same way, against its twin in the control.
+ * control's own principal. Congress's cap binds the lender the same way: in
+ * the federal world every loan is written at the ceiling, under the federal
+ * law. Past the research links' twelve-month lag, the outcome web's factor on
+ * high-cost lenders is read where the lender quotes and sizes the loan: every
+ * loan the capped world writes past the lag records a factor below one, the
+ * web month it stands on and the cap's link, and is lent below what the
+ * household asked; every one the federal world writes records the federal
+ * cap's link the same way, unless a body in play moved its cause, and one is
+ * set against its twin in the control.
+ *
+ * A run is played again from the place key and world seed its LENDERS line
+ * prints (LENDERS_PLACE, LENDERS_WORLD_SEED), or the whole draw from its
+ * LENDERS_SEED.
  *
  * Where the state began with the cap, repealing it moves no dollar through
  * the bank: the bank's quotes stay at the market rate, which sits under the
@@ -40,18 +47,44 @@ import {
   smallDollarTerms,
 } from "./modules/credit";
 import { enactLaw, lawChain, lawInForce, LAWS_MODULE_ID } from "./modules/laws";
-import { OUTCOME_WEB_MODULE_ID } from "./outcome-web-model";
+import { OUTCOME_WEB_MODULE_ID, WEB_LINKS } from "./outcome-web-model";
 import { residentsRuntime } from "./modules/residents";
+import { corePlaceByKey } from "./place-lookup";
 import { coreAPI } from "./state";
 import type { CoreState } from "./types";
 
 const seed = process.env.LENDERS_SEED ?? randomBytes(20).toString("hex");
+/** One place played again from a LENDERS line: its place key and world seed. */
+const REPLAY = (() => {
+  const key = process.env.LENDERS_PLACE;
+  const worldSeed = process.env.LENDERS_WORLD_SEED;
+  if (!key || !worldSeed) return null;
+  const place = corePlaceByKey(key);
+  if (!place?.stateJurisdictionKey)
+    throw new Error(`LENDERS_PLACE is not a recorded place: ${key}`);
+  return {
+    seed: worldSeed,
+    key,
+    name: place.displayName,
+    state: place.stateJurisdictionKey,
+  };
+})();
 const CAP = "us-policy-positions:business-commerce.cap-consumer-loan-rates";
 const FEDERAL_CAP =
   "us-federal-positions:monetary-financial.cap-consumer-loan-interest";
 const STATE_LINK = "loan-rate-cap-to-high-cost-borrowing";
 const FEDERAL_LINK = "federal-loan-cap-to-high-cost-loans";
 const CEILING = lawParameters.parameters.consumerLoanRateCap.value;
+/** The cap links' lag (links.json): both links read their law as it stood this many months before. */
+const LAG_MONTHS = (() => {
+  const lags = new Set(
+    WEB_LINKS.filter((l) => l.key === STATE_LINK || l.key === FEDERAL_LINK).map(
+      (l) => l.lagMonths,
+    ),
+  );
+  if (lags.size !== 1) throw new Error("The cap links' lags differ.");
+  return [...lags][0]!;
+})();
 /**
  * Past the links' 12-month lag (links.json): the cap enacted on the opening
  * day first moves the web's month row about thirteen months on, and the
@@ -103,14 +136,24 @@ function applicationsOf(core: CoreState, kind: string) {
  * play (not the test) wrote.
  */
 interface Played {
+  /** The opening day, when the twin's caps were set. */
+  since: string;
   loans: Row[];
   payments: Map<string, Row[]>;
   journal: Entry[];
-  months: Map<string, { id: string; effects: Record<string, number> }>;
+  months: Map<string, WebMonth>;
   held: ReturnType<typeof appliedOn>;
+  heldFederal: ReturnType<typeof appliedOn>;
   cap: number | null;
   lenders: Row[];
   inPlay: InPlayRow[];
+}
+
+/** A web month row: the day it was recorded (a link reads its law as it stood the lag before that day) and its links' effects. */
+interface WebMonth {
+  id: string;
+  date: string;
+  effects: Record<string, number>;
 }
 
 interface InPlayRow {
@@ -177,21 +220,20 @@ function played(core: CoreState, journal: Entry[], since: string): Played {
       api
         .moduleState(OUTCOME_WEB_MODULE_ID)
         .table("months")
-        .query("byPlace", [town]) as unknown as {
-        id: string;
-        effects: Record<string, number>;
-      }[]
-    ).map((row): [string, { id: string; effects: Record<string, number> }] => [
+        .query("byPlace", [town]) as unknown as WebMonth[]
+    ).map((row): [string, WebMonth] => [
       row.id,
-      { id: row.id, effects: { ...row.effects } },
+      { id: row.id, date: row.date, effects: { ...row.effects } },
     ]),
   );
   return {
+    since,
     loans,
     payments,
     journal,
     months,
     held: appliedOn(api, CAP).map((row) => ({ ...row })),
+    heldFederal: appliedOn(api, FEDERAL_CAP).map((row) => ({ ...row })),
     cap: lawInForce(api, CAP).value ?? null,
     lenders: (credit.table("lenders").rows() as Row[]).map((r) => ({ ...r })),
     inPlay: inPlayRows(core, since),
@@ -311,8 +353,8 @@ describe("the consumer-loan cap reaches the small-dollar lender", () => {
       const bookkeeping = setBookkeeping(false);
       const passed: string[] = [];
       try {
-        for (let i = 0; i < DRAWS; i += 1) {
-          const drawn = drawPlace(seed, `law-wiring-lenders:${i}`);
+        for (let i = 0; i < (REPLAY ? 1 : DRAWS); i += 1) {
+          const drawn = REPLAY ?? drawPlace(seed, `law-wiring-lenders:${i}`);
           const terms = smallDollarTerms(drawn.state);
           if (!terms) {
             passed.push(`${drawn.name}, ${drawn.state}: state ends them`);
@@ -400,14 +442,42 @@ describe("the consumer-loan cap reaches the small-dollar lender", () => {
             );
             expect(String(loan.rateLawId), String(loan.id)).toContain(CAP);
           }
-          // The control and the federal world hold the state cap off: a loan written in the days before the hold put back a cap the state passed in play is capped; every other is at the lender's rate.
-          for (const loan of [...plain, ...federalLoans]) {
+          // The control holds both caps off: a loan written in the days before the hold put back a cap a body passed in play is capped; every other is at the lender's rate.
+          for (const loan of plain) {
             expect(loan.lenderId, String(loan.id)).toBe(org.id);
             expect(loan.annualRate, String(loan.id)).toBe(
               loan.rateLawId === null
                 ? terms.annualRate
                 : Math.min(terms.annualRate, CEILING),
             );
+          }
+          // Congress's cap binds the lender's quote as the state's does: every
+          // loan in the federal world is written at the ceiling under the
+          // federal law, or under the state's where its legislature passed one
+          // in play. One at the lender's rate was written in the days a repeal
+          // Congress passed in play stood before the hold put the cap back.
+          const passedInPlay = (series: string, value: number) =>
+            federal.inPlay
+              .filter((row) => row.series === series && row.value === value)
+              .map((row) => row.id);
+          for (const loan of federalLoans) {
+            expect(loan.lenderId, String(loan.id)).toBe(org.id);
+            if (loan.rateLawId === null) {
+              expect(
+                passedInPlay(FEDERAL_CAP, 0),
+                `${where}: federal ${loan.id} at the lender's rate with no repeal passed in play`,
+              ).not.toHaveLength(0);
+              expect(loan.annualRate, String(loan.id)).toBe(terms.annualRate);
+              continue;
+            }
+            expect(loan.annualRate, String(loan.id)).toBe(
+              Math.min(terms.annualRate, CEILING),
+            );
+            if (!String(loan.rateLawId).includes(FEDERAL_CAP))
+              expect(
+                passedInPlay(CAP, 1),
+                `${where}: federal ${loan.id} under ${loan.rateLawId} with no state cap passed in play`,
+              ).not.toHaveLength(0);
           }
           // The control's loans read the web's factor of one, except a month
           // whose cause a body in play passed (yes on the link's own law)
@@ -432,6 +502,82 @@ describe("the consumer-loan cap reaches the small-dollar lender", () => {
                   .map((row) => row.id),
                 `${where}: control ${loan.id} read ${link} at ${loan.webFactor} from ${loan.webRecordId} with no cap passed in play`,
               ).not.toHaveLength(0);
+          }
+          // The web's factor, as the engine read it where the lender quoted and sized the loan and recorded it there.
+          const lent = (world: Played, loan: Row, link: string) => {
+            const factor = Number(loan.webFactor);
+            const month = world.months.get(String(loan.webRecordId));
+            expect(
+              month,
+              `${where}: ${loan.id} names no web month past the lag (${loan.webRecordId})`,
+            ).toBeDefined();
+            expect(
+              month!.effects[link],
+              `${where}: ${loan.webRecordId} (${link})`,
+            ).toBeLessThan(0);
+            expect(
+              factor,
+              `${where}: ${loan.id} from ${loan.webRecordId}`,
+            ).toBeLessThan(1);
+            expect(loan.webLinks as string[], String(loan.id)).toContain(link);
+            // The factor sized the loan: lent below the ask, no more than the ask times the factor.
+            expect(Number(loan.principalMinor), String(loan.id)).toBeLessThan(
+              Number(loan.askedMinor),
+            );
+            expect(
+              Number(loan.principalMinor),
+              String(loan.id),
+            ).toBeLessThanOrEqual(Number(loan.askedMinor) * factor + 1);
+          };
+          // A web month row recorded on day D reads the cap as it stood the
+          // lag before D (outcome-web.ts, causeAt). Past the lag is a row
+          // recorded at least the lag's months of 31 days after the opening
+          // day, when the caps were set; a loan that names no row is past it
+          // once written a month after that.
+          const pastLag = (world: Played, loan: Row) => {
+            const end = addDays(makeIsoDate(world.since), LAG_MONTHS * 31);
+            const month = world.months.get(String(loan.webRecordId));
+            return month
+              ? month.date >= end
+              : String(loan.openedAt) >= addDays(end, 31);
+          };
+          // The test enacted the state's cap at every level of the chain, and
+          // the web reads a cap in force where any level's row says yes, so no
+          // bill passed in play ends it there: every loan the capped world
+          // wrote past the lag read the cap's link.
+          const cappedPast = capped.filter((l) => pastLag(law, l));
+          for (const loan of cappedPast) lent(law, loan, STATE_LINK);
+          // In the federal world a month past the lag carries no federal
+          // effect only where a body in play moved its cause: Congress
+          // repealed its cap before the hold put it back, or the state passed
+          // its own (the federal link steps aside where the state's cap is in
+          // force, its moderator in links.json).
+          const federalMoved = [
+            ...passedInPlay(FEDERAL_CAP, 0),
+            ...passedInPlay(CAP, 1),
+          ];
+          const federalReads = federalLoans
+            .filter((l) => pastLag(federal, l))
+            .filter((loan) => {
+              const month = federal.months.get(String(loan.webRecordId));
+              expect(
+                month,
+                `${where}: federal ${loan.id} names no web month past the lag (${loan.webRecordId})`,
+              ).toBeDefined();
+              if ((month!.effects[FEDERAL_LINK] ?? 0) < 0) return true;
+              expect(
+                federalMoved,
+                `${where}: federal ${loan.id} read ${loan.webRecordId} at factor ${loan.webFactor} past the lag with no cap moved in play`,
+              ).not.toHaveLength(0);
+              return false;
+            });
+          for (const loan of federalReads) lent(federal, loan, FEDERAL_LINK);
+          // A place is passed over only where a world wrote no loan past the lag.
+          if (!cappedPast.length || !federalReads.length) {
+            passed.push(
+              `${where}: no loan past the web's lag (capped ${cappedPast.length} of ${capped.length}, federal ${federalReads.length} of ${federalLoans.length})`,
+            );
+            continue;
           }
           // The rate chain: a capped loan whose household borrowed the same day in the control, at the lender's rate.
           const twins = new Map(
@@ -507,44 +653,19 @@ describe("the consumer-loan cap reaches the small-dollar lender", () => {
               `${where}: ${lawChainIds.due.id} against ${twinChainIds.due.id}`,
             ).toBeLessThan(Number(twinChainIds.due.dueMinor));
 
-          // The web's factor, as the engine read it where the lender quoted and recorded it on the loan.
-          const lent = (world: Played, loan: Row, link: string) => {
-            const factor = Number(loan.webFactor);
-            expect(factor, `${where}: ${loan.id}`).toBeLessThan(1);
-            expect(loan.webLinks as string[], String(loan.id)).toContain(link);
-            const month = world.months.get(String(loan.webRecordId));
-            expect(month, `${where}: ${loan.webRecordId}`).toBeDefined();
-            expect(month!.effects[link], String(loan.webRecordId)).toBeLessThan(
-              0,
-            );
-            // The factor sized the loan: lent below the ask, no more than the ask times the factor.
-            expect(Number(loan.principalMinor), String(loan.id)).toBeLessThan(
-              Number(loan.askedMinor),
-            );
-            expect(
-              Number(loan.principalMinor),
-              String(loan.id),
-            ).toBeLessThanOrEqual(Number(loan.askedMinor) * factor + 1);
-          };
-          const read = capped.find((l) => Number(l.webFactor) < 1);
-          // The federal loan's twin is a control loan the web left at one.
-          const federalRead = federalLoans.find(
-            (l) =>
-              Number(l.webFactor) < 1 &&
-              twins.get(String(l.id))?.webFactor === 1 &&
-              (l.webLinks as string[]).includes(FEDERAL_LINK),
+          // The federal world is the control until its link moves: a loan the
+          // federal cap's link sized, set against the same household's
+          // same-day loan in the control, which the web left at one.
+          const federalRead = federalReads.find(
+            (l) => twins.get(String(l.id))?.webFactor === 1,
           );
-          if (!read || !federalRead) {
+          if (!federalRead) {
             passed.push(
-              `${where}: no loan past the web's lag (capped ${capped.filter((l) => Number(l.webFactor) < 1).length}, federal with a control twin ${federalRead ? 1 : 0}, federal ${federalLoans.filter((l) => Number(l.webFactor) < 1).length})`,
+              `${where}: ${federalReads.length} federal loans past the lag, none with a control twin the web left at one`,
             );
             continue;
           }
-          lent(law, read, STATE_LINK);
-          lent(federal, federalRead, FEDERAL_LINK);
-          // The federal world is the control until its link moves: the twin was lent more, at the factor of one.
           const federalTwin = twins.get(String(federalRead.id))!;
-          expect(federalTwin.webFactor, String(federalTwin.id)).toBe(1);
           expect(
             Number(federalRead.principalMinor),
             `${where}: ${federalRead.id} against the control's`,
@@ -557,6 +678,26 @@ describe("the consumer-loan cap reaches the small-dollar lender", () => {
           );
           expect(federalLend, String(federalRead.id)).toBeDefined();
           expect(federalTwinLend, String(federalTwin.id)).toBeDefined();
+          const read =
+            cappedPast.find((l) => l.householdId === federalRead.householdId) ??
+            cappedPast[0]!;
+          // Congress's cap held interest back on its own law's record, where a
+          // loan written under it was serviced and no repeal in play ended it.
+          const heldFederal = federal.heldFederal.filter(
+            (row) => row.amountMinor > 0,
+          );
+          if (
+            !passedInPlay(FEDERAL_CAP, 0).length &&
+            federalLoans.some(
+              (l) =>
+                String(l.rateLawId).includes(FEDERAL_CAP) &&
+                (federal.payments.get(String(l.id)) ?? []).length > 0,
+            )
+          )
+            expect(
+              heldFederal.length,
+              `${where}: interest the federal cap held back`,
+            ).toBeGreaterThan(0);
           // The cap held interest back on the law's own record. The credit
           // engine writes an amount on the cap's applied rows only where it
           // services a capped loan (interest-capped, serviceLoans); a row's
@@ -570,12 +711,13 @@ describe("the consumer-loan cap reaches the small-dollar lender", () => {
           const saved =
             held.find((row) => row.targetId === first.householdId) ?? held[0]!;
           process.stdout.write(
-            `LENDERS ${where}: lender ${org.id} (${terms.product} at ${terms.annualRate}, ${terms.source}, volume ${lender.annualVolumeMinor}, cash ${lender.openingCapitalMinor}); ` +
+            `LENDERS ${where} [${REPLAY ? "replayed from LENDERS_PLACE and LENDERS_WORLD_SEED" : `LENDERS_SEED ${seed}, draw ${i}`}]: lender ${org.id} (${terms.product} at ${terms.annualRate}, ${terms.source}, volume ${lender.annualVolumeMinor}, cash ${lender.openingCapitalMinor}); ` +
               `rate: household ${first.householdId} (standing for ${lawChainIds.times}), loan ${first.id} principal ${first.principalMinor} at ${first.annualRate} (${first.rateLawId}) lent by ${lawChainIds.lend.id}, bill ${lawChainIds.due.id} due ${lawChainIds.due.dueMinor} paid ${lawChainIds.due.paidMinor} by ${lawChainIds.paid?.id ?? "nothing"}; ` +
               `control ${twin.id} principal ${twin.principalMinor} at ${twin.annualRate} lent by ${twinChainIds.lend.id}, bill ${twinChainIds.due.id} due ${twinChainIds.due.dueMinor} paid ${twinChainIds.due.paidMinor} by ${twinChainIds.paid?.id ?? "nothing"}; ` +
               `web (state cap): loan ${read.id} asked ${read.askedMinor}, lent ${read.principalMinor} at factor ${Number(read.webFactor).toFixed(3)} from ${read.webRecordId} (${(read.webLinks as string[]).join(", ")}); ` +
-              `web (federal cap): loan ${federalRead.id} asked ${federalRead.askedMinor}, lent ${federalRead.principalMinor} at factor ${Number(federalRead.webFactor).toFixed(3)} from ${federalRead.webRecordId} (${(federalRead.webLinks as string[]).join(", ")}) by ${federalLend!.id}, against control ${federalTwin.id} asked ${federalTwin.askedMinor}, lent ${federalTwin.principalMinor} at factor 1 by ${federalTwinLend!.id}; ` +
-              `${capped.length} capped loans, ${plain.length} in the control, ${federalLoans.length} in the federal world; interest held back ${saved.id} ${saved.amountMinor} (${saved.lawId}); caps passed in play: ${[...law.inPlay, ...control.inPlay, ...federal.inPlay].map((row) => `${row.id} (${row.value})`).join(", ") || "none"}. Passed over: ${passed.join("; ") || "none"}\n`,
+              `past the lag: ${cappedPast.length} capped loans and ${federalReads.length} federal ones, each below factor one; ` +
+              `web (federal cap): loan ${federalRead.id} at ${federalRead.annualRate} (${federalRead.rateLawId}) asked ${federalRead.askedMinor}, lent ${federalRead.principalMinor} at factor ${Number(federalRead.webFactor).toFixed(3)} from ${federalRead.webRecordId} (${(federalRead.webLinks as string[]).join(", ")}) by ${federalLend!.id}, against control ${federalTwin.id} asked ${federalTwin.askedMinor}, lent ${federalTwin.principalMinor} at factor 1 by ${federalTwinLend!.id}; ` +
+              `${capped.length} capped loans, ${plain.length} in the control, ${federalLoans.length} in the federal world; interest held back ${saved.id} ${saved.amountMinor} (${saved.lawId}); federal ${heldFederal.map((row) => `${row.id} ${row.amountMinor} (${row.lawId})`).join(", ") || "none"}; caps passed in play: ${[...law.inPlay, ...control.inPlay, ...federal.inPlay].map((row) => `${row.id} (${row.value})`).join(", ") || "none"}. Passed over: ${passed.join("; ") || "none"}\n`,
           );
           return;
         }

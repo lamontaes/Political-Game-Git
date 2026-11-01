@@ -3952,7 +3952,7 @@
         "effectAtFull": -1,
         "mode": "scale"
       },
-      "notes": "Read where the town's small-dollar lender quotes a loan (householdApplications in src/core2/modules/credit.ts, webReach on finance.high-cost-loans): the factor multiplies what the lender lends, and the loan records it with the web month it stands on. No engine reads the federal cap question's law directly; it reaches the lender only through this link. Proved in a played world by src/core2/law-wiring-small-dollar-lenders.test.ts: with the federal cap enacted at the federal level in a twin and the state cap held off, a loan past the lag records this link's factor and month row and is lent less than the same household's same-day loan in the control, by loan and journal ids."
+      "notes": "Read where the town's small-dollar lender quotes a loan (householdApplications in src/core2/modules/credit.ts, webReach on finance.high-cost-loans): the factor multiplies what the lender lends, and the loan records it with the web month it stands on. The federal question's law is also read where both lenders quote (householdApplications): its ceiling caps the rate, as the state question's does, so the price and this link's supply path are each read from their own record. Proved in a played world by src/core2/law-wiring-small-dollar-lenders.test.ts: with the federal cap enacted at the federal level in a twin and the state cap held off, every loan is written at the ceiling under the federal law, and every loan past the lag records this link's factor and month row, one of them lent less than the same household's same-day loan in the control, by loan and journal ids."
     },
     {
       "key": "student-debt-relief-to-finances",
