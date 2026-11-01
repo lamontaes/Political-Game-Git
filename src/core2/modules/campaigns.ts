@@ -25,7 +25,7 @@ import { residentsRuntime } from "./residents";
 import { discretionaryHours } from "./work";
 import { fillInPerson } from "../state";
 import { keepsWhy } from "../why-kept";
-import { closenessBetween, ENCOUNTERS } from "./people";
+import { closenessBetween, ENCOUNTERS, householdIncome } from "./people";
 import {
   decisionLean,
   decisionTraitWeight,
@@ -103,7 +103,6 @@ import {
   type BillRow,
 } from "./legislature";
 import { recordAppeal } from "./record";
-import { householdIncome } from "./moves";
 import { withholdingOnPay } from "./budgets";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";

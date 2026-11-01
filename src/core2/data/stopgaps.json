@@ -7802,7 +7802,7 @@
     "id": "SG-GOV-outside-donor-month-income",
     "kind": "partial-model",
     "file": "src/core2/modules/campaigns.ts",
-    "line": 3062,
+    "line": 3113,
     "whatItFakes": "Donors outside the town (askOutsideDonors, for seats wider than the town) give only the savings share of the person rule (donationShareOfCashPerWarmth), and on a typical donor's whole account balance one for one (medianTransactionBalance at outsideDonorIncomeUsd), not as a named donor does on the savings beyond a cushion of their living costs, weighed on a log scale of that cushion; the share of a month's income after bills that a named donor also gives from (giftBudget, donationShareOfMonthPerWarmth, weighed on a log scale of donationMonthScaleMonths of their living costs) is not read for them.",
     "why": "The outside donor is a counted place group with no household of its own: no recorded monthly living costs to take from a typical donor's income, so the month's budget after bills cannot be read from records yet.",
     "addedBy": "governing/campaign-money-calibrated",
