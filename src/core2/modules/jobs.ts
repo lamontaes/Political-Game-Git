@@ -2210,7 +2210,8 @@ export function unemployedNeed(api: CoreAPI, personId: string): number {
  * scan, which keeps the first applicant unless a later one weighs more or
  * the same with a lower id, picks them as each leaves the pool. None where
  * the scan's picks need not follow one ranking: a weight that is not a finite
- * number, whose differences are not, or two applicants alike in weight and id.
+ * number (the scan's difference is then not a number), or two applicants
+ * alike in both weight and id.
  */
 function rankedOrder(
   pool: readonly SeekerRow[],
