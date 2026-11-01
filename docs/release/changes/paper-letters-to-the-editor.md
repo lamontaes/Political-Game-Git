@@ -5,4 +5,4 @@ section: Added
 title: Letters to the editor
 ---
 
-Residents now write to the local paper. Each week the paper prints a letter from the reader a recent story moved most, weighed by how strongly they feel and by their temperament, for or against the policy the story was about. Readers who see the letter are moved by how they regard its writer.
+Residents now write to the town newspaper. When a story about a bill or a law stirs a reader enough, and their temperament runs that way, they may write in for or against it, and the paper prints at most one letter a week, naming the bill or law. Readers who see the letter are moved by how they regard its writer.

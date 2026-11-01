@@ -249,6 +249,18 @@
       "source": "Weight of the reporter's own causes and grudges in what they pick.",
       "spread": [0.2, 1]
     },
+    "letterStrength": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How strongly a reader must feel (the views engine's stance strength, 0 to 1) before writing to the paper is on the table; their temperament moves it from there (press.letter). Checked against a newspaper's letters page, which a paper fills at most once a week here: a played year prints fewer letters than weeks.",
+      "spread": [0.3, 0.8]
+    },
+    "letterTopicDays": {
+      "value": 365,
+      "tag": "TUNABLE",
+      "source": "Days before the paper prints the same writer on the same question again, once it has printed their say on it. Checked against a played year's paper: no sentence printed more than three times in a year.",
+      "spread": [90, 730]
+    },
     "letterWriterDays": {
       "value": 30,
       "tag": "TUNABLE",

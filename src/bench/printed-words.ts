@@ -47,7 +47,7 @@ import {
 } from "../english/bill-names";
 import type { StoryKind } from "../english/english-newscast";
 import { joinList } from "../english/bill-names";
-import { storyTopicName, topicInSentence } from "../english/policy-names";
+import { storyTopicName } from "../english/policy-names";
 import { lineName } from "./budget";
 import { policyNames } from "./words";
 import { placeLabel } from "../director/journal";
@@ -2532,24 +2532,32 @@ const retirement: Builder = (read, f) => {
  * story they read last moved (cited by that story).
  */
 const letter: Builder = (read, f) => {
-  const subject = f.topic ? topicInSentence(f.topic) : null;
-  const side =
-    f.desiredChange === "enact"
-      ? "supports"
-      : f.desiredChange === "repeal"
-        ? "opposes"
-        : null;
+  // The bill the story reported, by its name or its number; or the law that
+  // took effect, by the name its policy goes by.
+  const bill = f.billId ? read.billFacts(f.billId) : {};
+  const form =
+    f.level === "state" || f.level === "federal" ? "act" : "ordinance";
+  const named =
+    !f.billId && f.series
+      ? billNameFor(f.series, form, f.change === "ended")
+      : null;
+  const law =
+    bill.law ?? (named ? read.fact(named.title, f.lawId ?? "") : null);
+  const designation = bill.designation;
   const town = read.residence(f.personId);
-  if (!subject || !side) return null;
+  if ((!law && !designation) || (f.side !== "for" && f.side !== "against"))
+    return null;
   return story(
     "letter",
     {
       ...read.who(f.personId, "name", false),
-      subject: read.fact(subject, f.storyId ?? ""),
-      [side]: read.yes(),
+      ...(law ? { law } : { designation: designation! }),
+      ...(f.side === "for"
+        ? { supports: read.yes() }
+        : { opposes: read.yes() }),
       ...(town ? { place: read.fact(town, f.personId ?? "") } : {}),
     },
-    ["name", "subject"],
+    ["name"],
     f.personId,
   );
 };

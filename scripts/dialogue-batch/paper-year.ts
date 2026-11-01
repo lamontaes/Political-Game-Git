@@ -20,6 +20,7 @@ import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import { advanceCore } from "../../src/core2/life";
 import { BenchPlayer } from "../../src/bench/player";
 import { coreAPI } from "../../src/core2/state";
+import { outletsHere } from "../../src/core2/modules/press";
 import type { PersonId } from "../../src/core2/types";
 import { composeJournal } from "../../src/director/journal";
 
@@ -167,6 +168,13 @@ for (let draw = 0; draw < draws; draw += 1) {
   );
   console.log(
     `Paper: ${printed.length} printed stories, ${unworded} unworded, ${kinds.size} kinds, ${said.size} distinct sentences, ${repeated.length} printed more than ${REPEATS} times.\n`,
+  );
+  // The town's newspapers: letters to the editor are theirs alone.
+  const newspapers = outletsHere(api)
+    .filter((row) => row.tier !== "national" && row.kind === "newspaper")
+    .map((row) => core.organizations.get(row.organizationId as never)?.name);
+  console.log(
+    `Town newspapers: ${newspapers.length ? newspapers.join(", ") : "none"}.\n`,
   );
   console.log("| Story kind | Printed |\n| --- | --- |");
   for (const [kind, count] of table(kinds))

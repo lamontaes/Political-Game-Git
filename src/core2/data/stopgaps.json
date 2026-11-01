@@ -7850,7 +7850,7 @@
     "id": "SG-WORDS-letters-counted-readers",
     "kind": "rule-copy",
     "file": "src/core2/modules/press.ts",
-    "line": 3204,
+    "line": 3220,
     "whatItFakes": "Only full readers write letters to the editor: a counted reader of the outlet never does.",
     "why": "A letter is written from a stance the reader's last story moved, and a counted reader's view is not moved by what they read (views.ts countedLean), so no counted stance cites a story to answer.",
     "addedBy": "Words, scenes and the director (words-paper-and-journal-everyday-life)",

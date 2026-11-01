@@ -911,7 +911,8 @@ export function runDesk(
         api,
         ctx,
         outlet,
-        outlet.reporterIds[0] ?? writer,
+        // A letter is printed under its writer's name.
+        writer,
         item,
         {
           proximity,

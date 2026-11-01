@@ -24,7 +24,7 @@ import {
 import { BUSINESS_MODULE_ID } from "../core2/modules/business";
 import { storiesHeard } from "../core2/modules/news";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
-import { schoolResultKind } from "../core2/modules/press";
+import { outletsHere, schoolResultKind } from "../core2/modules/press";
 import { placeLocalities } from "../core2/places";
 import {
   SCHOOL_MODULE_ID,
@@ -128,14 +128,36 @@ describe("printed stories in News", () => {
       `printed-words meetings: ${sat.length} sittings with business, ${weekly.length} weekly briefs, ${oaths.length} oaths and vacancies; e.g. ${example ? `${example.headline} / ${example.lede}` : "none"}`,
     );
     // A reader's letter to the editor, from the stance a story of the same
-    // outlet last moved: each worded (the check above) and cited by its writer.
+    // newspaper last moved: each worded (the check above), cited by its
+    // writer, and about the bill or law that story reported.
     const letters = printed.filter((story) =>
       source(story).startsWith("letter:"),
     );
-    for (const story of letters)
-      expect(source(story).split(":")[1], `${story.id} in ${where}`).toBe(
-        String(story.facts.personId),
-      );
+    const newspapers = new Set(
+      outletsHere(coreAPI(core))
+        .filter((row) => row.kind === "newspaper")
+        .map((row) => row.id),
+    );
+    // A person's id can hold colons (an outlet's owner), so match the prefix.
+    for (const story of letters) {
+      const outlet = String(story.facts.outletId);
+      expect(newspapers.has(outlet), `${story.id} in ${where}`).toBe(true);
+      expect(
+        Boolean(story.facts.billId ?? story.facts.lawId),
+        `${story.id} names no bill or law`,
+      ).toBe(true);
+      expect(["for", "against"]).toContain(story.facts.side);
+      expect(
+        source(story).startsWith(`letter:${String(story.facts.personId)}:`),
+        `${story.id} in ${where}`,
+      ).toBe(true);
+      // Printed by the outlet whose story moved the writer, and only there.
+      expect(story.id.startsWith(`printed:${outlet}:`), story.id).toBe(true);
+      expect(
+        String(story.facts.storyId).startsWith(`printed:${outlet}:`),
+        `${story.id} cites ${String(story.facts.storyId)}`,
+      ).toBe(true);
+    }
     const firstLetter = letters[0] && wordPrintedStory(core, letters[0]);
     process.stdout.write(
       `printed-words letters: ${letters.length} in the year; e.g. ${firstLetter ? `${firstLetter.headline} / ${firstLetter.lede}` : "none"}\n`,
