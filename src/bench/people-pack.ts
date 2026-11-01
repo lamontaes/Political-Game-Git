@@ -208,6 +208,34 @@ export function figurePng(
   return out;
 }
 
+const ahead: string[] = [];
+/**
+ * Draws the figure a link names (`/art/people/<id>.png?<colors>`) in the
+ * background, one between requests, so a face the server has handed out is
+ * ready before the screen that shows it asks (owner, Oct 29: faces "should
+ * be there instantly"). Drawn once per look; asking again is a cache hit.
+ */
+export function drawAhead(link: string): void {
+  ahead.push(link);
+  if (ahead.length === 1) setImmediate(drawWaiting);
+}
+/** Draws every figure waiting to be drawn ahead, now: while a life loads. */
+export function drawAheadNow(): void {
+  for (let link = ahead.shift(); link !== undefined; link = ahead.shift())
+    drawLink(link);
+}
+function drawWaiting() {
+  const link = ahead.shift();
+  if (link === undefined) return;
+  drawLink(link);
+  if (ahead.length) setImmediate(drawWaiting);
+}
+function drawLink(link: string) {
+  const url = new URL(link, "http://localhost");
+  const figure = figureAtPath(url.pathname);
+  if (figure) figurePng(figure, Object.fromEntries(url.searchParams));
+}
+
 /** Lays one part (same frame as the figure) over the canvas. */
 function over(canvas: PNG, width: number, height: number, data: Uint8Array) {
   const w = Math.min(width, canvas.width),
@@ -266,20 +294,26 @@ function recolor(art: PNG, tone: PNG, color: Rgb, Lmed: number): Uint8Array {
   const [tL, ta, tb] = toLab(color);
   const quiet = Math.min(1, (tL + 10) / (Lmed + 10));
   const line = Math.min(14, 0.45 * Lmed);
-  const out = new Uint8Array(art.data);
-  for (let i = 0; i < out.length; i += 4) {
-    if (out[i + 3] === 0) continue;
-    const Lp = tone.data[i]! / 2.55;
+  // A pixel's new color depends only on its tone (0 to 255) and whether the
+  // tone map is see-through there, so each of the 512 is worked out once.
+  const table = new Uint8Array(512 * 3);
+  for (let entry = 0; entry < 512; entry++) {
+    const Lp = (entry & 255) / 2.55;
     let off = (Lp - Lmed) * quiet;
-    if (tone.data[i + 3]! < 250) off = Math.min(off, 0);
+    if (entry >= 256) off = Math.min(off, 0);
     let L = Math.min(Math.max(tL + off, 0), 100);
     const weight = Math.min(Math.max((Lp - line) / Math.max(line, 1), 0), 1);
     L = weight * L + (1 - weight) * Math.min(Lp, L);
     const k = Math.min(Math.max(L / Math.max(tL, 1), 0), 1) * weight;
-    const [r, g, b] = fromLab(L, ta * k, tb * k);
-    out[i] = r;
-    out[i + 1] = g;
-    out[i + 2] = b;
+    table.set(fromLab(L, ta * k, tb * k), entry * 3);
+  }
+  const out = new Uint8Array(art.data);
+  for (let i = 0; i < out.length; i += 4) {
+    if (out[i + 3] === 0) continue;
+    const entry = (tone.data[i]! + (tone.data[i + 3]! < 250 ? 256 : 0)) * 3;
+    out[i] = table[entry]!;
+    out[i + 1] = table[entry + 1]!;
+    out[i + 2] = table[entry + 2]!;
   }
   return out;
 }

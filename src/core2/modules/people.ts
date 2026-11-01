@@ -141,6 +141,7 @@ export { SCHOOL_MODULE_ID, type SchoolMeasureRow } from "../school-measures";
 export { SCHOOL_MEASURE } from "../school-outcomes";
 export { isNoncitizen, isUnauthorized } from "../citizenship";
 export { addressesGivenBy } from "./speech";
+export { ENCOUNTERS } from "../encounters";
 
 export const PEOPLE_MODULE_ID = "core2-people-p15-v1";
 const LOOKUP = {

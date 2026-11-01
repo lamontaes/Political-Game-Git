@@ -118,6 +118,7 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `screen-to-mock`: screens follow the mocks and the shared controls
 - `session-start`: the pool worker loop
 - `skill-lessons`: the skills learn from each day
+- `speed-work`: timing a year, proving a cut changes nothing, folding what grows
 - `trace-audit`: the 56-place trace audit
 - `wiring-audit`: auditing a family of mechanics end to end
 - `words-engine`: the English engine and the director

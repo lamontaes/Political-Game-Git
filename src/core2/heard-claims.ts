@@ -36,20 +36,21 @@ export function believesClaim(
   hearer: Pick<PersonState, "traits"> & { id?: string },
   claim: HeardClaim = {},
 ): boolean {
-  const p = (key: string) => parameter(key, core.data.parameters);
+  const params = core.data.parameters;
   const closeness =
     claim.tellerId && hearer.id
       ? closenessBetween(core, hearer.id, claim.tellerId)
-      : p("zero");
+      : parameter("zero", params);
   return leanedYes(
     core,
     hearer,
     "conversation.believe-claim",
     "believe",
     "doubt",
-    p("believeStrangerPull") +
-      p("believeClosenessWeight") * closeness +
-      p("believeFitWeight") * (claim.fit ?? p("zero")),
+    parameter("believeStrangerPull", params) +
+      parameter("believeClosenessWeight", params) * closeness +
+      parameter("believeFitWeight", params) *
+        (claim.fit ?? parameter("zero", params)),
   );
 }
 

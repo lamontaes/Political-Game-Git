@@ -5,11 +5,12 @@ area: elections
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: governing/volunteer-shifts
 pr: #6874
 blocked-on:
-source: added with npm run pool -- add
+source: governing lead, Oct 30 (phase A of campaign-like-real-races)
+lead: governing
 claimed-at: 2026-10-30T02:30:25.639Z
 ---
 
