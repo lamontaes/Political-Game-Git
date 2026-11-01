@@ -1,5 +1,10 @@
 /** Small word rules shared by the journal, conversations and scenes. */
 import { P } from "../core2/parameters";
+import {
+  corePlaceByJurisdictionId,
+  coreStateKeyOfPlaceholderId,
+  coreStateName,
+} from "../core2/place-lookup";
 import SPOKEN_WHEN from "./data/spoken-when.json" with { type: "json" };
 
 /**
@@ -53,6 +58,20 @@ export function spoken(place: {
  */
 export function stateInSentence(name: string): string {
   return /Islands$|^District of /.test(name) ? `the ${name}` : name;
+}
+
+/**
+ * A place as a person names it: the town, county or territory, or the state
+ * for someone whose records put them elsewhere in it (the wider population's
+ * state-level households).
+ */
+export function placeLabel(placeId: string | undefined): string | null {
+  if (!placeId) return null;
+  const place = corePlaceByJurisdictionId(placeId as never);
+  if (place) return place.displayName;
+  const state = coreStateKeyOfPlaceholderId(placeId);
+  const name = state ? coreStateName(state.slice("US-".length)) : null;
+  return name ? stateInSentence(name) : null;
 }
 
 /** The possessive of a name: "Chen's", "Chandler Builders'". */

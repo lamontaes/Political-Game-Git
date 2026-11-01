@@ -21,6 +21,7 @@ import {
   LEGISLATURE_MODULE_ID,
   type BillRow,
 } from "../core2/modules/legislature";
+import { BUSINESS_MODULE_ID } from "../core2/modules/business";
 import { storiesHeard } from "../core2/modules/news";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { schoolResultKind } from "../core2/modules/press";
@@ -299,6 +300,80 @@ describe("printed stories in News", () => {
       ),
       where,
     ).toBeNull();
+    // An obituary tells the life's facts the records hold: the year's
+    // deaths of full people, each worded, and one whose records name an
+    // employer or survivors says so (words-paper-and-journal-everyday-life).
+    const deaths = [...core.durableLog.values()].filter(
+      (row) =>
+        row.kind === "life.death" &&
+        row.date >= start &&
+        core.people.has(row.personIds[0] as PersonId),
+    );
+    const obituaries = deaths.map((row) => ({
+      row,
+      worded: wordPrintedStory(core, printedAs(row.id, row.date)),
+    }));
+    for (const { row, worded } of obituaries) {
+      expect(worded, `${row.id} in ${where}`).not.toBeNull();
+      for (const text of worded!.paragraphs ?? [worded!.lede ?? ""])
+        expect(text, `${row.id} in ${where}`).not.toMatch(DEVELOPER);
+    }
+    const told = obituaries.filter(
+      ({ worded }) => (worded?.paragraphs?.length ?? 0) > 2,
+    );
+    process.stdout.write(
+      `printed-words obituaries: ${told.length} of ${deaths.length} tell more than the age and town; e.g. ${told
+        .slice(0, 2)
+        .map(
+          ({ worded }) =>
+            `${worded!.headline} / ${worded!.paragraphs!.join(" ")}`,
+        )
+        .join(" || ")}\n`,
+    );
+    if (deaths.length) expect(told.length, where).toBeGreaterThan(0);
+    // A round birthday and a business's round year, each a brief from its
+    // own record: a living resident, and a business the town keeps open.
+    const resident = [...(core.peopleByPlace.get(town) ?? [])]
+      .map((id) => core.people.get(id)!)
+      .find((person) => person.alive);
+    const birthday = wordPrintedStory(
+      core,
+      printedAs(`birthday:${resident!.id}:${core.date}`, core.date, {
+        personId: resident!.id,
+        age: "90",
+      }),
+    );
+    expect(birthday?.brief, where).toBe(true);
+    expect(`${birthday!.headline} ${birthday!.lede}`, where).toContain(
+      resident!.givenName,
+    );
+    const firm = (
+      api.moduleState(BUSINESS_MODULE_ID).table("ages").rows() as unknown as {
+        id: string;
+        foundedAt: string;
+      }[]
+    ).find(
+      (row) =>
+        core.organizations.get(row.id)?.placeId === town &&
+        !core.finance.businesses.get(row.id)?.closedAt,
+    );
+    if (firm) {
+      const marked = wordPrintedStory(
+        core,
+        printedAs(`anniversary:${firm.id}:${core.date}`, core.date, {
+          organizationId: firm.id,
+          years: "25",
+          since: firm.foundedAt,
+        }),
+      );
+      expect(marked?.brief, where).toBe(true);
+      expect(`${marked!.headline} ${marked!.lede}`, where).toContain(
+        core.organizations.get(firm.id)!.name,
+      );
+      process.stdout.write(
+        `printed-words milestones: ${birthday!.headline} / ${birthday!.lede} || ${marked!.headline} / ${marked!.lede}\n`,
+      );
+    }
   }, 900_000);
 
   it("words Ohio's minimum wage change from the law in force before and after", () => {

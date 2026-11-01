@@ -36,6 +36,8 @@ import {
   corePlaceByJurisdictionId,
   coreStateName,
 } from "../core2/place-lookup";
+import { familyFactsOf } from "../core2/modules/people";
+import { preStartHistory } from "../core2/past";
 import { coreAPI } from "../core2/state";
 import type { CoreState } from "../core2/types";
 import {
@@ -48,7 +50,7 @@ import { joinList } from "../english/bill-names";
 import { storyTopicName } from "../english/policy-names";
 import { lineName } from "./budget";
 import { policyNames } from "./words";
-import { stateInSentence } from "../director/words";
+import { placeLabel, stateInSentence } from "../director/words";
 
 /**
  * The ids of the modules whose tables a story is told from, named here by
@@ -2246,7 +2248,15 @@ const birth: Builder = (read, f) => {
   );
 };
 
-/** A death: who, the age they reached, and the town they lived in. */
+/**
+ * An obituary: who died, the age they reached and the town they lived in,
+ * then the life's facts the records hold (words-paper-and-journal-everyday-
+ * life; owner, Nov 1: "real ones with some good fluff"): where they were
+ * born (the run's birth record, as the Journal reads it), where they last
+ * worked and for how long (their latest work record), and the partner and
+ * children who survive them (their family records, by name). A fact the
+ * records do not hold is left out, never guessed.
+ */
 const death: Builder = (read) => {
   const id = read.first();
   const person = id ? read.core.people.get(id as EntityId) : undefined;
@@ -2255,6 +2265,42 @@ const death: Builder = (read) => {
     person && read.happened
       ? yearsBetween(person.birthDate, read.happened)
       : undefined;
+  const born = person
+    ? preStartHistory(read.core, {
+        kind: "person.birth",
+        personId: person.id,
+      })[0]
+    : undefined;
+  const bornIn = placeLabel(born?.placeId);
+  // Their latest work: the commitment that started last, and its employer.
+  const work = person
+    ? [...(read.core.work.commitmentsByPerson.get(person.id) ?? [])]
+        .flatMap((cid) => read.core.work.commitments.get(cid) ?? [])
+        .sort((a, b) => b.startsAt.localeCompare(a.startsAt))[0]
+    : undefined;
+  const employer = read.organization(work?.organizationId);
+  const tenure =
+    work && read.happened
+      ? yearsBetween(work.heldSince ?? work.startsAt, read.happened)
+      : 0;
+  // The partner first, then the children, oldest first: each living and
+  // named in the records.
+  const kin = person ? [...familyFactsOf(person)] : [];
+  const survivors = (["partner", "child"] as const).flatMap((relation) =>
+    kin
+      .filter(([kinId, row]) => {
+        const other = read.core.people.get(kinId);
+        return row.relation === relation && other?.alive && read.name(kinId);
+      })
+      .sort(
+        (a, b) =>
+          read.core.people
+            .get(a[0])!
+            .birthDate.localeCompare(read.core.people.get(b[0])!.birthDate) ||
+          a[0].localeCompare(b[0]),
+      )
+      .map(([kinId, row]) => ({ kinId, factId: row.factId })),
+  );
   return story(
     "death",
     {
@@ -2264,9 +2310,85 @@ const death: Builder = (read) => {
         ? { age: read.fact(String(age), id ?? "") }
         : {}),
       ...(town ? { place: read.fact(town, id ?? "") } : {}),
+      ...(bornIn && born
+        ? {
+            born: read.fact(bornIn, born.id),
+            ...(town && born.placeId === person?.placeId
+              ? { native: read.yes() }
+              : { elsewhere: read.yes() }),
+          }
+        : {}),
+      ...(employer && work
+        ? {
+            employer: read.fact(employer, work.id),
+            ...(tenure > 1
+              ? { years: read.fact(String(tenure), work.id) }
+              : {}),
+          }
+        : {}),
+      ...(survivors.length
+        ? {
+            survivors: read.fact(
+              joinList(
+                survivors.map((row) => read.name(row.kinId)!),
+                "and",
+              ),
+              ...survivors.map((row) => row.factId),
+            ),
+          }
+        : {}),
     },
     ["name"],
     id,
+  );
+};
+
+/** An age as an ordinal ("80th", "101st"), for a birthday brief. */
+function ordinalOf(n: number): string {
+  const tens = n % 100;
+  const suffix =
+    tens >= 11 && tens <= 13
+      ? "th"
+      : (["th", "st", "nd", "rd"][n % 10] ?? "th");
+  return `${n}${suffix}`;
+}
+
+/** A resident's round birthday, from the press's week of milestones. */
+const milestoneBirthday: Builder = (read, f) => {
+  const age = num(f.age);
+  const town = read.residence(f.personId);
+  if (!age) return null;
+  return story(
+    "birthday",
+    {
+      ...read.who(f.personId, "name", false),
+      age: read.fact(String(age), f.personId ?? ""),
+      ordinal: read.fact(ordinalOf(age), f.personId ?? ""),
+      ...(town ? { place: read.fact(town, f.personId ?? "") } : {}),
+      date: read.date(),
+    },
+    ["name", "age"],
+    f.personId,
+  );
+};
+
+/** A business's round year since its founding, from the press's week of milestones. */
+const anniversary: Builder = (read, f) => {
+  const id = f.organizationId ?? "";
+  const name = read.organization(id);
+  const years = num(f.years);
+  const place = read.place();
+  if (!name || !years) return null;
+  return story(
+    "anniversary",
+    {
+      subject: read.fact(name, id),
+      years: read.fact(String(years), id),
+      ...(f.since ? { year: read.fact(f.since.slice(0, 4), id) } : {}),
+      ...(place ? { place: read.fact(place) } : {}),
+      ...businessExtras(read, "anniversary", id, f),
+    },
+    ["subject", "years"],
   );
 };
 
@@ -2613,6 +2735,8 @@ const BUILDERS: Readonly<Record<string, Builder>> = {
   "public-meeting": publicMeeting,
   "meeting-held": publicMeeting,
   "meetings-week": meetingsWeek,
+  birthday: milestoneBirthday,
+  anniversary,
   profile,
   interview,
   claim: claimCheck,
