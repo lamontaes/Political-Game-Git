@@ -3,6 +3,9 @@
   "register": "headlines",
   "description": "News headlines for the new core's stories, by the kind of record they report. News sources give patterns only; every part here is a headline from U.S. federal agencies' own news releases (public domain), with record words as slots.",
   "slots": {
+    "years": "A number of years, from the record's dates.",
+    "ordinal": "An age as an ordinal (80th), from the birth record.",
+    "firm": "A business a public contract went to, by name, from the award and the business records.",
     "subject": "The business or office, from the event record.",
     "law": "The law, as its record names it.",
     "date": "A date from the record.",
@@ -4942,6 +4945,50 @@
       }
     },
     {
+      "key": "headlines.life-death.name-age-of-place",
+      "move": "life-death",
+      "kind": "written",
+      "text": "{name}, {age}, of {place}",
+      "uses": [
+        {
+          "move": "life-death",
+          "subject": "headline",
+          "role": "life.death",
+          "choice": "headline",
+          "requiresFacts": ["age", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.life-death.name-of-place-dies-at-age",
+      "move": "life-death",
+      "kind": "written",
+      "text": "{name} of {place} dies at {age}",
+      "uses": [
+        {
+          "move": "life-death",
+          "subject": "headline",
+          "role": "life.death",
+          "choice": "headline",
+          "requiresFacts": ["age", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "headlines.address.name-sworn-in-gives-inaugural-address",
       "move": "address",
       "kind": "written",
@@ -5541,6 +5588,72 @@
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.exposed.name-voted-on-a-contract-for-firm",
+      "move": "exposed",
+      "kind": "written",
+      "text": "{name} voted on a contract for {firm}",
+      "uses": [
+        {
+          "move": "exposed",
+          "subject": "headline",
+          "role": "exposed",
+          "choice": "headline",
+          "requiresFacts": ["conflict", "firm"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.exposed.name-again-votes-on-a-contract-for-firm",
+      "move": "exposed",
+      "kind": "written",
+      "text": "{name} again votes on a contract for {firm}",
+      "uses": [
+        {
+          "move": "exposed",
+          "subject": "headline",
+          "role": "exposed",
+          "choice": "headline",
+          "requiresFacts": ["again", "firm"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.exposed.a-ordinal-vote-by-name-for-firm",
+      "move": "exposed",
+      "kind": "written",
+      "text": "A {ordinal} vote by {name} for {firm}",
+      "uses": [
+        {
+          "move": "exposed",
+          "subject": "headline",
+          "role": "exposed",
+          "choice": "headline",
+          "requiresFacts": ["again", "firm"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
       "tag": {
         "move": "headline",
         "key": "news-received"
@@ -6544,6 +6657,133 @@
       "origin": "authored",
       "author": "Words, scenes and the director (words-printed-bodies-2)",
       "date": "2026-10-29",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.birthday.name-turns-age",
+      "move": "birthday",
+      "kind": "written",
+      "text": "{name} turns {age}",
+      "uses": [
+        {
+          "move": "birthday",
+          "subject": "headline",
+          "role": "birthday",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.birthday.name-marks-ordinal-birthday",
+      "move": "birthday",
+      "kind": "written",
+      "text": "{name} marks {ordinal} birthday",
+      "uses": [
+        {
+          "move": "birthday",
+          "subject": "headline",
+          "role": "birthday",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.birthday.name-of-place-turns-age",
+      "move": "birthday",
+      "kind": "written",
+      "text": "{name} of {place} turns {age}",
+      "uses": [
+        {
+          "move": "birthday",
+          "subject": "headline",
+          "role": "birthday",
+          "choice": "headline",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.anniversary.subject-marks-years-years",
+      "move": "anniversary",
+      "kind": "written",
+      "text": "{subject} marks {years} years",
+      "uses": [
+        {
+          "move": "anniversary",
+          "subject": "headline",
+          "role": "anniversary",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.anniversary.subject-turns-years",
+      "move": "anniversary",
+      "kind": "written",
+      "text": "{subject} turns {years}",
+      "uses": [
+        {
+          "move": "anniversary",
+          "subject": "headline",
+          "role": "anniversary",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.anniversary.years-years-of-subject",
+      "move": "anniversary",
+      "kind": "written",
+      "text": "{years} years of {subject}",
+      "uses": [
+        {
+          "move": "anniversary",
+          "subject": "headline",
+          "role": "anniversary",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
       "tag": {
         "move": "headline",
         "key": "news-received"
