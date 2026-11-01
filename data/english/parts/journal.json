@@ -652,6 +652,58 @@
       }
     },
     {
+      "key": "journal.work-line-started.i-went-to-work-in-place",
+      "move": "work-line-started",
+      "kind": "spoken",
+      "text": "I went to work in {place}.",
+      "uses": [
+        {
+          "move": "work-line-started",
+          "subject": "work",
+          "role": "line",
+          "choice": "started",
+          "journal": [
+            {
+              "kindPrefix": "job-started",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-journal-work-line-without-employer)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-started.i-found-a-job-in-place",
+      "move": "work-line-started",
+      "kind": "spoken",
+      "text": "I found a job in {place}.",
+      "uses": [
+        {
+          "move": "work-line-started",
+          "subject": "work",
+          "role": "line",
+          "choice": "started",
+          "journal": [
+            {
+              "kindPrefix": "job-started",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-journal-work-line-without-employer)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
       "key": "journal.work-line-lost.i-lost-my-job",
       "move": "work-line-lost",
       "kind": "spoken",
@@ -7297,6 +7349,136 @@
       }
     },
     {
+      "key": "journal.self-line-school-finished.i-graduated-from-high-school",
+      "move": "self-line-school-finished",
+      "kind": "spoken",
+      "text": "I graduated from high school.",
+      "uses": [
+        {
+          "move": "self-line-school-finished",
+          "subject": "life",
+          "role": "school-finished",
+          "choice": "school-finished",
+          "journal": [
+            {
+              "kindPrefix": "event:school.finished",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.self-line-school-finished.i-finished-high-school-at-school",
+      "move": "self-line-school-finished",
+      "kind": "spoken",
+      "text": "I finished high school at {school}.",
+      "uses": [
+        {
+          "move": "self-line-school-finished",
+          "subject": "life",
+          "role": "school-finished",
+          "choice": "school-finished",
+          "journal": [
+            {
+              "kindPrefix": "event:school.finished",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.self-line-school-finished.i-got-my-diploma",
+      "move": "self-line-school-finished",
+      "kind": "spoken",
+      "text": "I got my diploma.",
+      "uses": [
+        {
+          "move": "self-line-school-finished",
+          "subject": "life",
+          "role": "school-finished",
+          "choice": "school-finished",
+          "journal": [
+            {
+              "kindPrefix": "event:school.finished",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.self-line-school-finished.my-senior-year-ended-without-a-diploma",
+      "move": "self-line-school-finished",
+      "kind": "spoken",
+      "text": "My senior year ended without a diploma.",
+      "uses": [
+        {
+          "move": "self-line-school-finished",
+          "subject": "life",
+          "role": "school-finished",
+          "choice": "school-finished",
+          "journal": [
+            {
+              "kindPrefix": "event:school.finished",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.self-line-school-finished.i-left-school-without-a-diploma",
+      "move": "self-line-school-finished",
+      "kind": "spoken",
+      "text": "I left {school} without a diploma.",
+      "uses": [
+        {
+          "move": "self-line-school-finished",
+          "subject": "life",
+          "role": "school-finished",
+          "choice": "school-finished",
+          "journal": [
+            {
+              "kindPrefix": "event:school.finished",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
       "key": "journal.self-line-came-of-age.i-am-eighteen-now",
       "move": "self-line-came-of-age",
       "kind": "spoken",
@@ -7482,6 +7664,110 @@
       }
     },
     {
+      "key": "journal.work-line-again.after-span-out-of-work-i-went-back-to-work",
+      "move": "work-line-again",
+      "kind": "spoken",
+      "text": "After {span} out of work, I went back to work.",
+      "uses": [
+        {
+          "move": "work-line-again",
+          "subject": "work",
+          "role": "line",
+          "choice": "again",
+          "journal": [
+            {
+              "kindPrefix": "job-started:again",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-journal-work-line-without-employer)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-again.i-found-work-again",
+      "move": "work-line-again",
+      "kind": "spoken",
+      "text": "I found work again.",
+      "uses": [
+        {
+          "move": "work-line-again",
+          "subject": "work",
+          "role": "line",
+          "choice": "again",
+          "journal": [
+            {
+              "kindPrefix": "job-started:again",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-journal-work-line-without-employer)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-again.after-span-out-of-work-i-found-work-in-place",
+      "move": "work-line-again",
+      "kind": "spoken",
+      "text": "After {span} out of work, I found work in {place}.",
+      "uses": [
+        {
+          "move": "work-line-again",
+          "subject": "work",
+          "role": "line",
+          "choice": "again",
+          "journal": [
+            {
+              "kindPrefix": "job-started:again",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-journal-work-line-without-employer)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-again.i-found-work-again-in-place",
+      "move": "work-line-again",
+      "kind": "spoken",
+      "text": "I found work again in {place}.",
+      "uses": [
+        {
+          "move": "work-line-again",
+          "subject": "work",
+          "role": "line",
+          "choice": "again",
+          "journal": [
+            {
+              "kindPrefix": "job-started:again",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-journal-work-line-without-employer)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
       "key": "journal.work-line-moved-on.i-left-employer-for-a-job-at-next",
       "move": "work-line-moved-on",
       "kind": "spoken",
@@ -7555,6 +7841,58 @@
       "origin": "authored",
       "author": "Claude Opus (pool item history-past-work)",
       "date": "2026-10-27",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-moved-on.i-left-for-a-job-at-next",
+      "move": "work-line-moved-on",
+      "kind": "spoken",
+      "text": "I left for a job at {next}.",
+      "uses": [
+        {
+          "move": "work-line-moved-on",
+          "subject": "work",
+          "role": "line",
+          "choice": "on",
+          "journal": [
+            {
+              "kindPrefix": "job-ended:moved-on",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-journal-work-line-without-employer)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.work-line-moved-on.i-moved-on-to-another-job",
+      "move": "work-line-moved-on",
+      "kind": "spoken",
+      "text": "I moved on to another job.",
+      "uses": [
+        {
+          "move": "work-line-moved-on",
+          "subject": "work",
+          "role": "line",
+          "choice": "on",
+          "journal": [
+            {
+              "kindPrefix": "job-ended:moved-on",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-journal-work-line-without-employer)",
+      "date": "2026-11-01",
       "tag": {
         "move": "tell"
       }

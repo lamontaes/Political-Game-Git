@@ -296,6 +296,87 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.73.0
+
+_Released November 1, 2026._
+
+### Improved
+
+- **Quicker campaign days in long games** Campaigns no longer check quiet races
+  each day for word of a rival's ads or doors. Folding old campaign contacts
+  reads each voter's knowledge once, so long saves stay quicker with the same
+  results.
+
+- **Faster monthly forgetting** People let go of old everyday event notes on the
+  same dates as before, but the game no longer rereads every memory in the world
+  each month to do it. A save made before this change rebuilds the list as it
+  loads.
+
+- **People close to you remember a year of reasons** A person in your circle now
+  remembers who moved their view over the last year, plus the newest reason. How
+  strongly they feel, and how tired they are of hearing the same speaker, are
+  unchanged.
+
+- **Hiring runs faster in busy towns** Employers now put their job applicants in
+  order once for each opening. Before, they re-read the whole line after every
+  applicant who said no. Who gets hired does not change. In Storrs,
+  Connecticut's second year, hiring fell from about two and a half minutes to
+  seven seconds.
+
+- **Meeting new people costs less time as a town fills in** When the game fills
+  in a person you meet, it writes their past without sorting every past record
+  in town again. Nothing you see in play changes. A large town's first year runs
+  faster.
+
+- **Towns with many homeless households play faster** Each month the game checks
+  whether households without a home can rent again. For each household, it used
+  to rebuild the whole town's homes and jobs just to find the typical rent. Now
+  it reads the rents alone, once, until something changes. Storrs, Connecticut's
+  first year runs about 17% faster. Nothing in the world plays differently.
+
+- **The paper reports what the council did, not that it met** The local paper no
+  longer runs a story every time a council or county board meets. A meeting with
+  business is told by its votes, and the week's meetings that took up nothing
+  are one short dated brief. Another state's swearings-in stay out of a town
+  paper, a small town's jobless rate is said in words instead of "0%", and the
+  most-printed lines read more than one way.
+
+### Fixed
+
+- **Your progress credits a law only to the bill that made it** Your progress
+  toward a town that changes now counts a law only for the bill that enacted it.
+  Before, a council bill and a county board bill with the same number could each
+  take credit for the other's law.
+
+### Changed
+
+- **Payday lenders now exist where state law allows them, and the loan rate cap
+  reaches them** Towns in states that allow payday and other high-cost small
+  loans now have a cash-advance lender, charging that state's real rate, which
+  is several times a bank's. A household that is short of money and cannot get a
+  bank loan can borrow from it against its documented pay. In a state that bans
+  these loans there is no such lender. A consumer loan rate cap passed in a town
+  that allows them now holds the lender's rate down to the cap, and the
+  borrower's payments drop with it. Once a cap has been in force for a year, the
+  lender also lends less to each borrower. A household that defaults on the
+  lender is turned away for a year, and an open loan from it shows on the bank
+  screen as a cash advance.
+
+- **When someone asks after your relative, you can tell them what happened.**
+  Asked "How's your mother?", you can now answer with what the records say
+  happened to her lately: that she's in the hospital, that she moved ("Mom moved
+  to Tulsa."), that she started a new job, or that there's a new baby. Before,
+  every answer was "She's doing well.", whatever had happened. You can still
+  just thank them for asking.
+
+- **After you file, the clerk tells you what the petition needs in a scene of
+  its own.** Filing at the counter now ends when you file. The clerk then tells
+  you what comes next in a scene you can answer: how many signatures the
+  petition needs and the day they are due, or that the office takes no petition.
+  You can ask what happens if you come up short, push back on the number, or
+  head out to start. Before, the clerk said it at the counter, and a player who
+  lived alone then got a second, empty visit to the clerk's office.
+
 ## PRE-ALPHA 0.72.0
 
 _Released November 1, 2026._
