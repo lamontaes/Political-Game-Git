@@ -7,6 +7,18 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 - None open. The relative-with-no-news question was ruled Nov 1, 16:50 (below).
 - The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
 
+## Nov 1, 21:25 UTC: CTO ruling: old itemized payment copies fold once their readers' windows pass (speed lead's question, with the reading line)
+
+- **Ruling (under "Speed": old records fold into summaries once play no longer reads them):** the Oct 30 10:21 ruling below covers what people know, not itemized copies of payments. The cash journal's itemized receipts may fold into per-person, per-kind yearly totals past the windows their readers name: 365 days for the player's circle, two calendar years for the player's household. Open obligations, observer rows, balances, the journal itself and every total stay whole, and a receipt a kept fact, a pledge or a law's chain proof names by id is kept. The fold waits for the lane's and the laws lead's answers on their windows, and its records proof shows every screen, scene and trace why reading the same before and after.
+- Read: OWNER-DECISIONS (Oct 30 03:05, 04:14, 08:15 and 08:41 campaign-cause rulings; Oct 20 decision detail), DECISION-REGISTER, the leads channel (Speed, Oct 30 11:05), docs search for "compacted" and "foldedCauses".
+
+## Oct 30, 10:21 UTC (recorded Nov 1, 21:25): CTO ruling: knowledge is compacted, never forgotten (speed lead's long-save plan)
+
+- **Ruling (DECISION-REGISTER line 646: "Persistent history, relationships, commitments, memories, reputation, knowledge and consequences are core character state"; the absence design: "known events do not disappear"):** knowledge is compacted, never forgotten. Promise hearers kept on the promise row instead of one fact each is right: the same knowledge in one row. "Heard of the candidate" kept as a per-person set or a per-candidate count is right. Dropping any of it is not, except through the monthly forgetting pass for the two kinds that already have one. A fact play reads (a scene's "you heard...", the trace's why) must still answer the same after the change, and the records proof shows it.
+- The dead may leave the live set for an archive (two-level population), as long as their history stays readable for kin, journals and the trace.
+- Order of the long-save plan: exact cuts, then folds with their readers agreed, then dormant ties, then event ids and the dead.
+- This was sent to the speed lead on Oct 30 and quoted in the channel (Speed, Oct 30 11:05), but was not written here until Nov 1.
+
 ## Nov 1, 20:00 UTC: CTO ruling: who writes a letter to the editor is a trait-engine decision (Words' question, with the reading line)
 
 - **Ruling (under "No dice" and "One engine per mechanic"):** a letter to the editor is the trait engine's decision `press.letter` (write or keep quiet), the same shape as the meetings take-part decision (`traitWeightMeetingsTakePart`). It is weighed among the outlet's readers whose stance on a law cites a story they read, with each reader's strength of feeling as an input beside their traits, never stance strength alone, which would be a second decision path and a threshold. No traits lead is running, so Words adds the row itself: the decision row, its trait-coverage rows, a weight in `parameters.json` that starts TUNABLE with its spread, and a row in `data/research/trait-effect-sizes.json` from a fetched study of who writes letters (`researcher`). It is calibrated with `scripts/traits/trait-calibrate.ts` the way the meetings weight was. If no study gives an effect size, the weight stays TUNABLE with a registered stopgap naming the search.
