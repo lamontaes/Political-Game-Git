@@ -58,9 +58,15 @@ export { webReach, webFactorFor } from "../outcome-web-reach";
 export { POLICY_QUESTIONS } from "../policy-answers";
 /** The research links the web runs, for an engine that reads a person-level link from its own records. */
 export { WEB_LINKS } from "../outcome-web-model";
-/** Each resident's Medicaid coverage as the law reach keeps it, for the health engine and the medical bills. */
+/**
+ * Each resident's Medicaid coverage as the law reach keeps it, for the health
+ * engine and the medical bills, with the mark of coverage the work requirement
+ * ended and the treasuries' payment of Medicaid's part of their care.
+ */
 export {
+  ENDED_BY_REQUIREMENT,
   medicaidCoverageSpells,
+  payMedicaidCare,
   type CoverageSpell,
 } from "../law-reach/group-b-money";
 

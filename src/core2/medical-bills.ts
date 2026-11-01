@@ -67,11 +67,6 @@ import { incomeBandOf, fullHouseholdIncomes } from "./counted-income-fifth";
 import { countedIllnessOf } from "./counted-illness";
 import { coverageSpellsNow, spellOn } from "./health-own";
 import {
-  ENDED_BY_REQUIREMENT,
-  medicaidCoverageSpells,
-  payMedicaidCare,
-} from "./law-reach/group-b-money";
-import {
   addDays,
   ageOnDate,
   daysBetweenText,
@@ -86,7 +81,13 @@ import {
 } from "./modules/business";
 import { careNeedOf } from "./modules/health";
 import { householdStateOf } from "./modules/counted-moves";
-import { lawChain, LAWS_MODULE_ID } from "./modules/laws";
+import {
+  ENDED_BY_REQUIREMENT,
+  lawChain,
+  LAWS_MODULE_ID,
+  medicaidCoverageSpells,
+  payMedicaidCare,
+} from "./modules/laws";
 import { webReach, type WebReach } from "./modules/outcome-web";
 import { householdIncome, residentsRuntime } from "./modules/residents";
 import { parameter, type Parameter } from "./parameters";
