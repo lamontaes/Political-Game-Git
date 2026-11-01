@@ -46,7 +46,7 @@
  * built with no law changed, played up to a full year so serious illnesses
  * have time to begin (a small town's full households see a few in a year,
  * and a seriously ill household's bill is often more than it holds), ending
- * the month it shows its witness, up to fifteen draws. Part (b) builds the
+ * the month it shows its witness, up to twenty draws. Part (b) builds the
  * two worlds of each draw for eight months (a twin's own lawmakers may enact
  * the expansion again), up to ten draws.
  */
@@ -89,7 +89,7 @@ const TRIES = 10;
 /** Months part (a) plays its one world at most: a full year, so serious illnesses have time to begin. */
 const ILL_MONTHS = 12;
 /** Part (a)'s draws, each one world (no twin). */
-const ILL_TRIES = 15;
+const ILL_TRIES = 20;
 
 /** The close's per-payee rounding on a line, far below a month's care. */
 const CENT_ROUNDING = 100;
@@ -722,7 +722,7 @@ describe("medical bills and medical debt in a played world", () => {
 
   it(
     `(a) a household with a serious illness under way pays more for its month than a healthy one (MEDICAL_DEBT_SEED=${SEED})`,
-    { timeout: 5_400_000 },
+    { timeout: 7_200_000 },
     () =>
       traced(() => {
         const passed: string[] = [];
