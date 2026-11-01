@@ -70,3 +70,21 @@ export function schoolFinished(
       },
     }));
 }
+
+/**
+ * One graduation result by its id, as the school engine wrote it: whether
+ * the senior passed and the school they attended. The Journal tells the
+ * school year's end from it.
+ */
+export function schoolResult(
+  core: Readonly<CoreState>,
+  id: string,
+): { passed: boolean; schoolId: string | undefined } | undefined {
+  const row = school(core)?.table("results").get(id) as unknown as
+    ResultRow | undefined;
+  if (!row || row.measure !== GRADUATION) return undefined;
+  return {
+    passed: row.passed,
+    schoolId: attendedSchool(core, row.personId as PersonId)?.schoolId,
+  };
+}
