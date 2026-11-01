@@ -150,7 +150,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 
 **cap consumer loan rates** (`us-policy-positions:business-commerce.cap-consumer-loan-rates`)
 
-- web: the year-long check cannot show the cap links' 12-month lag: the checker changes the law once and leaves it to the world's legislature, which in the one checker place with a lender put the cap back seven months in, so no checker run shows the lender reading the factor; the runs whose web ledger did move began with the cap, where no lender opens, so nobody read those rows. The played lenders test holds the law past the lag and shows the read; its records are the evidence (SG-LAW-loan-cap-web-past-checker-lag)
+- web: the year-long check cannot show the cap links' 12-month lag. The checker changes the law once and leaves it to the world's legislature. In the one checker place with a lender, the legislature put the cap back seven months in, so no checker run shows the lender reading the factor. The runs whose web ledger did move began with the cap, where no lender opens, so nobody read those rows. The played lenders test holds the law past the lag and shows the read; its records are the evidence (SG-LAW-loan-cap-web-past-checker-lag)
 
 **Spending: corrections** (`budget-line:corrections`)
 
