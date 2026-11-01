@@ -609,7 +609,10 @@ it(
           (row) =>
             row.continues === false &&
             row.restricted === true &&
-            Number(row.lawShare) > 0,
+            Number(row.lawShare) > 0 &&
+            // A group without the cash for the trip pays nothing, so it leaves
+            // no row of the law's part to read.
+            Number(row.cashMinor) >= Number(row.travelMinor),
         );
       tried.push(`${draw.key} seed ${draw.seed}: ${ended.length} ended`);
       if (!ended.length) continue;
