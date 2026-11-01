@@ -3150,7 +3150,10 @@ details.entry[open] {
   margin: 0 0 10px;
   font: 16px/1.5 var(--speech);
 }
-.story-body .story-text:first-child::first-letter {
+.story-body .story-text {
+  break-inside: avoid;
+}
+.story-body .story-text.drop-cap::first-letter {
   float: left;
   margin: 4px 6px 0 0;
   font: 700 44px/0.8 var(--speech);
