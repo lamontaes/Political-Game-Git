@@ -577,7 +577,7 @@
     "opening-speech.salutation.polished-sta-chair-male-mr-speaker-members-of-congress-and-my-fellow-citizens-at-hom": "salutation|none|public",
     "opening-speech.salutation.polished-sta-chair-male-mr-speaker-members-of-congress-my-fellow-americans": "salutation|none|public",
     "opening-speech.story-open.plain-ina-sta-things-are-better-than-they-were-a-year-ago-and-i-intend-to-": "story-open|glad|public",
-    "opening-speech.story-open.polished-ina-sta-by-the-plain-measures-the-country-is-doing-better-than-it-wa": "story-open|glad|public",
+    "opening-speech.story-open.polished-ina-sta-we-meet-in-a-hopeful-season-the-country-is-better-off-than-i": "story-open|glad|public",
     "scene-talk.auto-ask.me-why-me": "ask|curious|private",
     "scene-talk.auto-ask.office-why-me": "ask|curious|private",
     "scene-talk.close-accept.all-right-go-celebrate": "accept|calm|private",
@@ -3192,10 +3192,9 @@
       }
     },
     "story-open|glad|public": {
-      "net": -2,
+      "net": -1,
       "graded": {
-        "opening-speech.story-open.plain-ina-sta-things-are-better-than-they-were-a-year-ago-and-i-intend-to-": -1,
-        "opening-speech.story-open.polished-ina-sta-by-the-plain-measures-the-country-is-doing-better-than-it-wa": -1
+        "opening-speech.story-open.plain-ina-sta-things-are-better-than-they-were-a-year-ago-and-i-intend-to-": -1
       }
     },
     "tell|calm|private": {

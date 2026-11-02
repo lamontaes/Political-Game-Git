@@ -58,6 +58,7 @@ import type {
 import { offer } from "./life";
 import { departureRateFor } from "./moves";
 import { pairKey } from "../kernel/ids";
+import { bookkeeping } from "../bookkeeping";
 
 /** The hours a tie has lost, read near or far: the pull toward a visit. */
 function tiePull(
@@ -126,6 +127,33 @@ function weeklyContacts(
   return tied.filter((id) => ids.has(id));
 }
 
+/**
+ * The people each person has a tie with, read from the person's own set of
+ * tie records and kept by that set. Ties are never removed, so a set of the
+ * same size holds the same ties; it is read again only once it has grown.
+ * A reader asks it instead of building each pair's key.
+ */
+const tiedSets = new WeakMap<
+  ReadonlySet<string>,
+  { size: number; ids: ReadonlySet<PersonId> }
+>();
+const NO_TIES: ReadonlySet<PersonId> = new Set();
+function tiedTo(api: CoreAPI, actorId: PersonId): ReadonlySet<PersonId> {
+  const keys = api.state.relationshipsByPerson.get(actorId);
+  if (!keys) return NO_TIES;
+  let row = tiedSets.get(keys);
+  if (row?.size !== keys.size) {
+    const ids = new Set<PersonId>();
+    for (const key of keys) {
+      const tie = api.state.relationships.get(key);
+      if (tie) ids.add(tie.actorId === actorId ? tie.otherId : tie.actorId);
+    }
+    row = { size: keys.size, ids };
+    tiedSets.set(keys, row);
+  }
+  return row.ids;
+}
+
 // The one reader of a person's relatives, for readers outside the family.
 export {
   closenessBetween,
@@ -142,6 +170,9 @@ export { SCHOOL_MEASURE } from "../school-outcomes";
 export { isNoncitizen, isUnauthorized } from "../citizenship";
 export { SPEECH_MODULE_ID, addressesGivenBy, deliverSpeech } from "./speech";
 export { ENCOUNTERS } from "../encounters";
+// A household's month of income (its open jobs and income awards), for
+// readers outside the family.
+export { householdIncome } from "./moves";
 // Who lives a life elsewhere, and each state's unemployment, for the jobs family.
 export { livesElsewhere } from "./moves";
 export { stateUnemployment } from "./counted-moves";
@@ -593,9 +624,16 @@ export const PEOPLE_MODULE: PreStartModule = {
       const out: ActOffer[] = [];
       const tied: PersonId[] = [];
       let untied: string | undefined;
+      const ties = tiedTo(api, actor.id);
       for (const id of actor.knownIds) {
         if (!api.state.people.get(id)?.alive) continue;
-        if (api.state.relationships.has(pairKey(actor.id, id))) tied.push(id);
+        const hasTie = ties.has(id);
+        if (
+          bookkeeping() &&
+          hasTie !== api.state.relationships.has(pairKey(actor.id, id))
+        )
+          throw new Error("A person's kept ties no longer match their ties.");
+        if (hasTie) tied.push(id);
         else if (untied === undefined || id < untied) untied = id;
       }
       for (const id of actor.drives.size
