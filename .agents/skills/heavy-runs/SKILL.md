@@ -27,6 +27,7 @@ Learned by the path-check runners A and B and the speed lead, Oct 29 to Nov 1. A
 - **Log progress to stderr as it happens** (`LOG …` lines), with stdout and stderr in separate files per row. A run that dies with nothing printed tells you nothing.
 - **Silence is not a hang.** Before calling a run stuck, read its memory (RSS) and when stderr last changed. Ringwood, New Jersey's race 2 (Nov 1) was one call living 22 months (to a petition due date) while the heap climbed from 567 MB to the 8 GB cap and the collector thrashed. That's memory, not a loop.
 - **A container or worker restart kills every background run and its watcher.** After any restart, check `ps` and the `.done` files before starting anything new.
+- **Do not resume a world from a snapshot to reproduce a crash.** `snapshotWorld` after a few simulated months is over 100 MB, past a year it is over `JSON.stringify`'s string limit (`RangeError: Invalid string length`), and a restored world is not the same world: the first day after a restore failed with "A drive act requires the actor's recorded drive" (Nov 1, Superior, Colorado). To reproduce a crash in year 3, rerun from the start and expect restarts to cost you a run; start the run right after one.
 - **To swap a queue mid-run,** kill only the wrapper script by the PID you stored; let the node child finish, and have the replacement wait on that PID. Never `pkill -f <name>`: it matches your own shell (exit 144).
 
 ## After the run
