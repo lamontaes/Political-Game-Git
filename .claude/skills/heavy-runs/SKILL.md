@@ -27,7 +27,12 @@ Learned by the path-check runners A and B and the speed lead, Oct 29 to Nov 1. A
 - **Log progress to stderr as it happens** (`LOG …` lines), with stdout and stderr in separate files per row. A run that dies with nothing printed tells you nothing.
 - **Silence is not a hang.** Before calling a run stuck, read its memory (RSS) and when stderr last changed. Ringwood, New Jersey's race 2 (Nov 1) was one call living 22 months (to a petition due date) while the heap climbed from 567 MB to the 8 GB cap and the collector thrashed. That's memory, not a loop.
 - **A container or worker restart kills every background run and its watcher.** After any restart, check `ps` and the `.done` files before starting anything new.
+- **A memory gate checks only at the start.** A gate that waits for free memory before a run still lets the run grow beside another one. The container's memory limit then kills the biggest process: vitest says "Worker exited unexpectedly", a script exits 137, and `dmesg` shows an oom-kill. On Nov 1 a test file running two workers next to a 5 GB replay lost a worker, and a low-priority replay was killed twice in an evening while workflows tested. Rerun the killed file alone with `--maxWorkers=1`, and rerun long replays when the machine is quiet.
 - **To swap a queue mid-run,** kill only the wrapper script by the PID you stored; let the node child finish, and have the replacement wait on that PID. Never `pkill -f <name>`: it matches your own shell (exit 144).
+
+- **CI's heap is the default, about 2.2 GB.** Reproduce a CI out-of-memory with `env -u NODE_OPTIONS`. The container has no `/usr/bin/time`, so record a run's peak by polling its process tree's memory every two seconds: walk `pgrep -P` from the run's PID and sum `ps -o rss=`. On Nov 1, law-wiring-housing.test.ts died at the default heap on main and ran to the end on the closed-race fold.
+- **Never switch branches in a copy that a run or an agent is reading.** The pool CLI checks out a temporary branch in the copy it runs in, so run pool commands from an idle copy.
+- **A push to main can lose a race.** Fetch, rebase and push again, and stay on the branch until the push lands. Switching away first loses the commit, which happened twice on Nov 1.
 
 ## After the run
 
