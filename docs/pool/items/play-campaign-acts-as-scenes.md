@@ -5,11 +5,12 @@ area: play
 kind: feature
 priority: 2
 size: L
-status: open
-claimed-by:
+status: claimed
+claimed-by: play-first/play-campaign-acts-as-scenes
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-02T00:34:57.259Z
 ---
 
 **What.** SG-PLAY-campaign-acts-buttons: Volunteers, Donations, Endorsements, Ad, Poll, Mail and Put in your own money are still buttons on the campaign trail card. Owner (OWNER-DECISIONS, Door-knocking and every campaign act are scenes): campaign acts are scenes you go to. The owner's words: "Door-knocking and every campaign act are scenes... Scenes are the game. They're the narrative." The doors, event, forum, interview, calls, donor meeting, speech and debate already start their scenes from the campaign trail card in Travel (play-first-13-campaign-screen-to-mock-b); these seven are the ones that do not yet.

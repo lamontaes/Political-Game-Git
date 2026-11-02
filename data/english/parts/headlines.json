@@ -6793,6 +6793,183 @@
       }
     },
     {
+      "key": "headlines.letter.letter-name-on-the-law",
+      "move": "letter",
+      "kind": "written",
+      "text": "Letter: {name} on the {law}",
+      "uses": [
+        {
+          "move": "letter",
+          "subject": "headline",
+          "role": "letter",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.letter.letter-name-backs-the-law",
+      "move": "letter",
+      "kind": "written",
+      "text": "Letter: {name} backs the {law}",
+      "uses": [
+        {
+          "move": "letter",
+          "subject": "headline",
+          "role": "letter",
+          "choice": "headline",
+          "requiresFacts": ["supports"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.letter.name-writes-in-support-of-the-law",
+      "move": "letter",
+      "kind": "written",
+      "text": "{name} writes in support of the {law}",
+      "uses": [
+        {
+          "move": "letter",
+          "subject": "headline",
+          "role": "letter",
+          "choice": "headline",
+          "requiresFacts": ["supports"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.letter.letter-name-opposes-the-law",
+      "move": "letter",
+      "kind": "written",
+      "text": "Letter: {name} opposes the {law}",
+      "uses": [
+        {
+          "move": "letter",
+          "subject": "headline",
+          "role": "letter",
+          "choice": "headline",
+          "requiresFacts": ["opposes"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.letter.name-writes-against-the-law",
+      "move": "letter",
+      "kind": "written",
+      "text": "{name} writes against the {law}",
+      "uses": [
+        {
+          "move": "letter",
+          "subject": "headline",
+          "role": "letter",
+          "choice": "headline",
+          "requiresFacts": ["opposes"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.letter.letter-name-on-designation",
+      "move": "letter",
+      "kind": "written",
+      "text": "Letter: {name} on {designation}",
+      "uses": [
+        {
+          "move": "letter",
+          "subject": "headline",
+          "role": "letter",
+          "choice": "headline",
+          "excludesFacts": ["law"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.letter.name-writes-in-support-of-designation",
+      "move": "letter",
+      "kind": "written",
+      "text": "{name} writes in support of {designation}",
+      "uses": [
+        {
+          "move": "letter",
+          "subject": "headline",
+          "role": "letter",
+          "choice": "headline",
+          "requiresFacts": ["supports"],
+          "excludesFacts": ["law"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.letter.name-writes-against-designation",
+      "move": "letter",
+      "kind": "written",
+      "text": "{name} writes against {designation}",
+      "uses": [
+        {
+          "move": "letter",
+          "subject": "headline",
+          "role": "letter",
+          "choice": "headline",
+          "requiresFacts": ["opposes"],
+          "excludesFacts": ["law"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "headlines.retirement.name-retires-from-public-service",
       "move": "retirement",
       "kind": "written",
