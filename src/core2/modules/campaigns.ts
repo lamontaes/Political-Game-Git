@@ -97,11 +97,7 @@ import {
   viewOn,
   VIEWS_SPEAKER_KEY,
 } from "./views";
-import {
-  LEGISLATURE_MODULE_ID,
-  provisionStance,
-  type BillRow,
-} from "./legislature";
+import { LEGISLATURE_MODULE_ID, billStance, type BillRow } from "./legislature";
 import { recordAppeal } from "./record";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
@@ -3141,7 +3137,7 @@ function donorsBill(
       continue;
     if (!row.number) continue;
     const stance = row.provisions[0]
-      ? provisionStance(api, row.provisions[0])
+      ? billStance(api, row.provisions[0], row)
       : null;
     if (!stance) continue;
     const strength = Math.abs(

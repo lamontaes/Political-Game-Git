@@ -15,7 +15,11 @@
  * the paper's before are equal and match the law row (or the budget line) of
  * the bill's own government, by record id. A county with its own income tax
  * (Indiana, Maryland) in a town with a government of its own shows the
- * county's, never the town's.
+ * county's, never the town's, and every reader of the bill's stance (the
+ * vote, the room) reads the county's. A township board's budget line is its
+ * treasury's, which is keyed by the town's place. A passed bill's paper keeps
+ * the law as it stood before the bill: its before and after read the same
+ * after it is enacted and its law has taken effect.
  */
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
@@ -28,22 +32,35 @@ import { gameStartDate } from "./game-start";
 import type { LawRowInput } from "./laws-starting";
 import { placeLocalGovernmentUnits } from "./gov-rules/local-governments";
 import { governments } from "./modules/budgets";
-import { enactLaw, lawChain, lawInForce } from "./modules/laws";
+import { enactLaw, LAWS_MODULE_ID, lawChain, lawInForce } from "./modules/laws";
 import {
+  billOf,
   billSections,
+  billStance,
   bodyJurisdiction,
   bodyRow,
+  castMemberVote,
+  chambersOf,
   draftBill,
+  effectiveRule,
+  executiveDecision,
+  executiveOf,
+  holdVote,
   inForceAtLevel,
   memberKey,
   members,
+  provisionStance,
+  type BillRow,
   type Provision,
 } from "./modules/legislature";
+import { localBillStance } from "./modules/meetings";
+import { addDays, makeIsoDate } from "./kernel/dates";
+import { advanceCore } from "./life";
 import { OFFICES_MODULE_ID } from "./modules/offices";
 import { corePlaceByKey } from "./place-lookup";
 import { placeLocalities } from "./places";
 import { coreAPI } from "./state";
-import type { CoreAPI } from "./types";
+import type { CoreAPI, CoreState } from "./types";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 
@@ -54,8 +71,8 @@ const BROOKSIDE = {
   seed: "4d50e1f88df997f9",
 };
 
-/** The three kinds of lawmaking body: the state's chamber, the town's own council, a county's board. */
-type Kind = "state" | "council" | "county";
+/** The four kinds of lawmaking body: the state's chamber, the town's own council, a county's board, a township's board. */
+type Kind = "state" | "council" | "county" | "township";
 
 interface Body {
   readonly kind: Kind;
@@ -64,6 +81,8 @@ interface Body {
   readonly sponsorId: string;
   /** The government its bills make law for, from the chain, not from `bodyJurisdiction`. */
   readonly expected: string;
+  /** The government whose treasury holds its budget lines: a township's is keyed by the town's place. */
+  readonly treasury: string;
 }
 
 function bodyOfKind(api: CoreAPI, kind: Kind): Body | null {
@@ -87,62 +106,78 @@ function bodyOfKind(api: CoreAPI, kind: Kind): Body | null {
         )
       : kind === "county"
         ? offices.find((o) => bodyRow(o.kind)?.level === "county")
-        : offices.find(
-            (o) =>
-              bodyRow(o.kind)?.level === "city" &&
-              bodyRow(o.kind)?.law !== "township",
-          );
+        : kind === "township"
+          ? offices.find((o) => bodyRow(o.kind)?.law === "township")
+          : offices.find(
+              (o) =>
+                bodyRow(o.kind)?.level === "city" &&
+                bodyRow(o.kind)?.law !== "township",
+            );
   if (!office) return null;
   const expected =
     kind === "state"
       ? chain.stateKey
       : kind === "council"
         ? town
-        : bodyJurisdiction(api, office.id);
-  if (kind === "county")
+        : kind === "township"
+          ? office.jurisdiction
+          : bodyJurisdiction(api, office.id);
+  if (kind === "county" || kind === "township")
     expect(
-      chain.levels.some(
-        (l) => l.level === "county" && l.jurisdiction === expected,
-      ),
-      `a county board's bills make law for a county in the town's chain, not ${expected}`,
+      chain.levels.some((l) => l.level === kind && l.jurisdiction === expected),
+      `a ${kind} board's bills make law for a ${kind} in the town's chain, not ${expected}`,
     ).toBe(true);
+  // A township's treasury is the town's own (keyed by its place), and says
+  // whose it is by the township's unit id.
+  const treasury = kind === "township" ? town : expected;
+  if (kind === "township") {
+    const gov = governments(api).find((g) => g.id === treasury);
+    expect(
+      gov,
+      `the township ${expected} has a treasury at ${treasury}`,
+    ).toBeDefined();
+    expect(
+      api.state.organizations.get(gov!.organizationId)?.governmentFacts
+        ?.governmentKey,
+    ).toBe(expected);
+  }
   return {
     kind,
     officeId: office.id,
     officeKind: office.kind,
     sponsorId: memberKey(members(api, office.id)[0]!),
     expected,
+    treasury,
   };
 }
 
 /** The law row for the government the body makes law for, read straight off the chain's levels. */
 function ownRow(api: CoreAPI, series: string, body: Body): LawRowInput | null {
   const answer = lawInForce(api, series);
-  const own = (name: string) =>
-    answer.levels.find(
-      (l) =>
-        l.level === name &&
-        (name !== "county" || l.jurisdiction === body.expected),
-    )?.row ?? null;
   const level =
     body.kind === "state"
       ? "state"
       : body.kind === "council"
         ? "city"
-        : "county";
+        : body.kind;
+  const named = (name: string) => name === "county" || name === "township";
+  const own = (name: string) =>
+    answer.levels.find(
+      (l) =>
+        l.level === name && (!named(name) || l.jurisdiction === body.expected),
+    )?.row ?? null;
   if (answer.doctrine === "additive") return own(level);
   if (answer.doctrine === "floor")
     return body.kind === "state"
       ? (own("state") ?? own("federal"))
       : body.kind === "council"
         ? answer.governing
-        : own("county");
+        : own(level);
   // One level sets it: the deepest row at or above the body's government,
   // never another county's.
   const reach = answer.levels.findIndex(
     (l) =>
-      l.level === level &&
-      (level !== "county" || l.jurisdiction === body.expected),
+      l.level === level && (!named(level) || l.jurisdiction === body.expected),
   );
   return (
     answer.levels
@@ -155,10 +190,9 @@ function ownRow(api: CoreAPI, series: string, body: Body): LawRowInput | null {
   );
 }
 
-/** The budget the body's government has in force. */
+/** The budget the body's treasury has in force. */
 function ownBudget(api: CoreAPI, body: Body) {
-  const gov = governments(api).find((g) => g.id === body.expected);
-  return gov ? (budgetInForce(api, gov.id) ?? null) : null;
+  return budgetInForce(api, body.treasury) ?? null;
 }
 
 interface Check {
@@ -296,6 +330,180 @@ function checkBudgetLine(
   };
 }
 
+const ENACTED = ["enacted", "signed", "overridden"];
+
+/** The bill a body's members all vote for, and the executive signs where one must. */
+function voteThrough(
+  api: CoreAPI,
+  core: CoreState,
+  body: Body,
+  bill: BillRow,
+): BillRow {
+  for (const chamber of chambersOf(api, bill))
+    for (const term of members(api, chamber))
+      castMemberVote(api, bill.id, memberKey(term), "yes");
+  let decided = holdVote(api, bill.id);
+  if (decided.status === "awaiting-signature") {
+    const executive = executiveOf(api, body.officeId).term?.personId;
+    if (executive) {
+      (core as unknown as { playerId: string }).playerId = executive;
+      decided = executiveDecision(api, bill.id, true);
+    }
+  }
+  return decided;
+}
+
+/**
+ * One stance per bill: a county's income tax cut by a quarter point is a cut to
+ * the vote and to the room (`localBillStance`), where the town's own reading
+ * (no income tax, so a raise) would say the opposite.
+ */
+function checkStance(api: CoreAPI, where: string, body: Body): string | null {
+  if (body.kind !== "county") return null;
+  const row = ownRow(api, "income-tax", body);
+  if (!row?.value) return null;
+  const provision: Provision = {
+    kind: "law-amount",
+    series: "income-tax",
+    value: row.value - 0.25,
+    unit: "percent",
+  };
+  const bill = draftBill(api, {
+    bodyOfficeId: body.officeId,
+    sponsorId: body.sponsorId,
+    provisions: [provision],
+  });
+  const label = `${where}: a cut of the county's income tax ${row.id}`;
+  const stance = billStance(api, provision, bill);
+  expect(stance, label).not.toBeNull();
+  expect(stance!.position, label).toBeLessThan(0);
+  expect(localBillStance(api, bill), label).toEqual(stance);
+  const town = provisionStance(api, provision);
+  expect(town!.position, `${label}: read at the town's law`).toBeGreaterThan(0);
+  return `stance on ${provision.value}% against the county's ${row.value}% (${row.id}): ${stance!.position} for the vote and the room, where the town's law would read ${town!.position}`;
+}
+
+/**
+ * A budget-line bill and a law-amount bill passed by the body: the budget the
+ * card named is the one the bill amends, and the paper reads the same before
+ * and after as it did the day it was drafted, after the law has taken effect.
+ */
+function checkEnacted(
+  api: CoreAPI,
+  core: CoreState,
+  where: string,
+  body: Body,
+): string[] {
+  const lines: string[] = [];
+  const required = body.kind === "township";
+  const label = `${where}: ${body.kind} body ${body.officeKind} (${body.expected})`;
+  const budget = ownBudget(api, body);
+  const policy = billCatalog(
+    api,
+    body.kind === "state" ? "state" : "city",
+    bodyJurisdiction(api, body.officeId),
+  )
+    .flatMap((menu) => menu.topics.flatMap((topic) => topic.policies))
+    .find(
+      (p) =>
+        p.kind === "budget-line" &&
+        p.line &&
+        (budget?.spendingMinor[p.line] ?? 0) > 0,
+    );
+  if (required)
+    expect(budget && policy, `${label}: a budget line`).toBeTruthy();
+  if (budget && policy) {
+    const line = policy.line!;
+    const line0 = budget.spendingMinor[line]!;
+    const delta = 100_000;
+    const bill = draftBill(api, {
+      bodyOfficeId: body.officeId,
+      sponsorId: body.sponsorId,
+      provisions: [{ kind: "budget-line", line, value: delta }],
+    });
+    const drafted = billSections(api, bill)[0]!;
+    // The card, the paper and the budget the bill amends are one record.
+    const card = billCatalog(
+      api,
+      body.kind === "state" ? "state" : "city",
+      bodyJurisdiction(api, body.officeId),
+    )
+      .flatMap((menu) => menu.topics.flatMap((topic) => topic.policies))
+      .find((p) => p.id === policy.id)!;
+    expect(card.inForce, label).toBe(line0);
+    expect(drafted.before.value, label).toBe(line0);
+    expect(
+      inForceAtLevel(api, { kind: "budget-line", line }, body.expected)
+        .recordId,
+      label,
+    ).toBe(budget.id);
+    const decided = voteThrough(api, core, body, bill);
+    if (required)
+      expect(ENACTED, `${label}: budget bill ${decided.status}`).toContain(
+        decided.status,
+      );
+    if (ENACTED.includes(decided.status)) {
+      const now = budgetInForce(api, body.treasury)!;
+      expect(now.id, label).toBe(budget.id);
+      expect(
+        now.spendingMinor[line],
+        `${label}: the bill changed ${line}`,
+      ).toBe(line0 + delta);
+      expect(now.adoptedBy, label).toContain(`amended by ${decided.number}`);
+      const paper = billSections(api, billOf(api, bill.id))[0]!;
+      expect(paper.before, `${label}: paper before`).toEqual(drafted.before);
+      expect(paper.after, `${label}: paper after`).toEqual(drafted.after);
+      expect(billOf(api, bill.id).wasInForce, label).toHaveLength(1);
+      lines.push(
+        `budget-line bill ${decided.number} (${line}) ${decided.status} into ${now.id}: card ${card.inForce}, paper ${drafted.before.value} to ${drafted.after.value}, the line is now ${now.spendingMinor[line]}, and the decided paper still reads ${paper.before.value} to ${paper.after.value}`,
+      );
+    } else lines.push(`budget-line bill ${decided.status}: not enacted here`);
+  }
+
+  // A law-amount bill: once its row has taken effect, the live law is the
+  // bill's own, and a paper that read it live would say "X to X".
+  const series = "property-tax";
+  const row0 = ownRow(api, series, body);
+  const value = (row0?.value ?? 0) + 0.25;
+  const law = draftBill(api, {
+    bodyOfficeId: body.officeId,
+    sponsorId: body.sponsorId,
+    provisions: [{ kind: "law-amount", series, value, unit: "percent" }],
+  });
+  const was = billSections(api, law)[0]!;
+  expect(was.before.lawId, label).toBe(row0?.id ?? null);
+  const passed = voteThrough(api, core, body, law);
+  if (required)
+    expect(ENACTED, `${label}: ${series} bill ${passed.status}`).toContain(
+      passed.status,
+    );
+  if (!ENACTED.includes(passed.status)) {
+    lines.push(`${series} bill ${passed.status}: not enacted here`);
+    return lines;
+  }
+  const made = (
+    api
+      .moduleState(LAWS_MODULE_ID)
+      .table("laws")
+      .rows() as unknown as LawRowInput[]
+  ).find((r) => r.terms?.enactedByBill === law.id);
+  expect(made, `${label}: the law row the bill wrote`).toBeDefined();
+  if (made!.effectiveDate >= core.date)
+    advanceCore(core, addDays(makeIsoDate(made!.effectiveDate), 1));
+  expect(
+    ownRow(api, series, body)?.id,
+    `${label}: the bill's own row is now the law in force`,
+  ).toBe(made!.id);
+  const paper = billSections(api, billOf(api, law.id))[0]!;
+  expect(paper.before, `${label}: paper before`).toEqual(was.before);
+  expect(paper.after, `${label}: paper after`).toEqual(was.after);
+  expect(paper.before.value, label).not.toBe(paper.after.value);
+  lines.push(
+    `${series} bill ${passed.number} ${passed.status}, law ${made!.id} in force on ${core.date}: paper before ${paper.before.value} (${paper.before.lawId ?? "no law"}) after ${paper.after.value}, as drafted`,
+  );
+  return lines;
+}
+
 const describeCheck = (c: Check) =>
   `${c.what}: card ${c.card}, paper ${c.paper}, record ${c.recordId ?? "none (no law there)"}`;
 
@@ -303,7 +511,13 @@ function checkWorld(
   name: string,
   placeKey: string,
   worldSeed: string,
-): { readonly report: string; readonly checks: readonly Check[] } {
+  options: {
+    /** Pass bills in this world and read their papers after (the body kinds to try, in order). */
+    readonly enact?: readonly Kind[];
+    /** Give up, with null, where the world seats no body of this kind. */
+    readonly need?: Kind;
+  } = {},
+): { readonly report: string; readonly checks: readonly Check[] } | null {
   const where = `${name} (${placeKey}), seed ${worldSeed}`;
   const { core } = buildBenchWorld(worldSeed, gameStartDate(), {
     twoLevel: true,
@@ -316,11 +530,14 @@ function checkWorld(
     checks.push(check);
     return describeCheck(check);
   };
-  const bodies = (["state", "council", "county"] as const).flatMap((kind) => {
-    const body = bodyOfKind(api, kind);
-    if (!body) lines.push(`no ${kind} body here`);
-    return body ? [body] : [];
-  });
+  const bodies = (["state", "council", "county", "township"] as const).flatMap(
+    (kind) => {
+      const body = bodyOfKind(api, kind);
+      if (!body) lines.push(`no ${kind} body here`);
+      return body ? [body] : [];
+    },
+  );
+  if (options.need && !bodies.some((b) => b.kind === options.need)) return null;
   expect(
     bodies.some((b) => b.kind === "state"),
     `${where}: a state legislature to draft before`,
@@ -345,6 +562,8 @@ function checkWorld(
     lines.push(
       budget ? keep(budget) : `no budget line to read for ${body.expected}`,
     );
+    const stance = checkStance(api, where, body);
+    if (stance) lines.push(stance);
 
     // Where no income tax is on record for the bill's government, a law its
     // body passed earlier is read the same way by both screens, and no other
@@ -357,7 +576,7 @@ function checkWorld(
             ? "state"
             : body.kind === "council"
               ? "city"
-              : "county",
+              : body.kind,
         series: "income-tax",
         value: 1.5,
         unit: "percent-flat",
@@ -373,6 +592,10 @@ function checkWorld(
         `after a ${body.kind} income tax of 1.5% is enacted: ${describeCheck(after)}`,
       );
     }
+  }
+  for (const kind of options.enact ?? []) {
+    const body = bodies.find((b) => b.kind === kind);
+    if (body) lines.push(...checkEnacted(api, core, where, body));
   }
   return { report: `${where}\n  ${lines.join("\n  ")}`, checks };
 }
@@ -392,16 +615,57 @@ function drawCountyIncomeTaxPlace() {
   return { name: locality.displayName, key: locality.key, seed: place.seed };
 }
 
+/** Towns with no municipality and a township over them, in Midwestern and New England states. */
+function drawTownshipPlaces(count: number) {
+  const place = drawPlace(`${seed}:township`, "bill-level-in-force");
+  const states = [
+    "US-MI",
+    "US-OH",
+    "US-PA",
+    "US-NJ",
+    "US-NY",
+    "US-WI",
+    "US-IN",
+    "US-IL",
+    "US-ME",
+    "US-NH",
+    "US-VT",
+    "US-MA",
+    "US-CT",
+  ];
+  const state = states[parseInt(place.seed.slice(0, 8), 16) % states.length]!;
+  const own = [...placeLocalities(state)]
+    .sort((a, b) => a.key.localeCompare(b.key))
+    .filter((l) => {
+      const units = placeLocalGovernmentUnits(corePlaceByKey(l.key));
+      return units.municipal.length === 0 && units.townships.length > 0;
+    });
+  const start = parseInt(place.seed.slice(8, 16), 16) % own.length;
+  return Array.from({ length: count }, (_, i) => {
+    const locality = own[(start + i * 7) % own.length]!;
+    return { name: locality.displayName, key: locality.key, seed: place.seed };
+  });
+}
+
 it(`a bill's draft card and paper read one value for the government the bill makes law for, by record (seed ${seed})`, () => {
   setBookkeeping(false);
   const report: string[] = [];
+  const must = <T>(value: T | null, what: string): T => {
+    expect(value, what).not.toBeNull();
+    return value!;
+  };
   for (let draw = 0; draw < 2; draw += 1) {
     const place = drawPlace(`${seed}:${draw}`, "bill-level-in-force");
-    report.push(checkWorld(place.name, place.key, place.seed).report);
+    report.push(
+      must(checkWorld(place.name, place.key, place.seed), place.name).report,
+    );
   }
   // Brookside, Delaware: the state's rate, the county's and the town's are what the
   // screens show, never the federal 37%, and a state with no estate tax shows none.
-  const brookside = checkWorld(BROOKSIDE.name, BROOKSIDE.key, BROOKSIDE.seed);
+  const brookside = must(
+    checkWorld(BROOKSIDE.name, BROOKSIDE.key, BROOKSIDE.seed),
+    "Brookside",
+  );
   for (const check of brookside.checks.filter((c) =>
     c.what.startsWith("income-tax"),
   )) {
@@ -415,7 +679,10 @@ it(`a bill's draft card and paper read one value for the government the bill mak
   report.push(brookside.report);
   // A county with an income tax of its own, in a town with a government of its own.
   const county = drawCountyIncomeTaxPlace();
-  const counties = checkWorld(county.name, county.key, county.seed);
+  const counties = must(
+    checkWorld(county.name, county.key, county.seed, { enact: ["county"] }),
+    county.name,
+  );
   const countyTax = counties.checks.find(
     (c) => c.what === "income-tax (county)",
   );
@@ -428,6 +695,34 @@ it(`a bill's draft card and paper read one value for the government the bill mak
   expect(countyTax!.card, "the county's rate on the card").toBe(
     countyTax!.paper,
   );
+  expect(counties.report, "the stance of a county's cut").toContain(
+    "stance on",
+  );
   report.push(counties.report);
+  // A township board in a town with no municipality: its budget lines are
+  // its treasury's, keyed by the town's place, and its bills amend that budget.
+  let township: ReturnType<typeof checkWorld> = null;
+  for (const place of drawTownshipPlaces(3)) {
+    township = checkWorld(place.name, place.key, place.seed, {
+      need: "township",
+      enact: ["township"],
+    });
+    if (township) break;
+  }
+  const seated = must(township, "a drawn township with a board seated");
+  const lineCheck = seated.checks.find(
+    (c) => c.what.startsWith("budget line") && c.what.endsWith("(township)"),
+  );
+  expect(lineCheck, "the township board's budget-line bill").toBeDefined();
+  expect(lineCheck!.recordId, "the township's budget").toMatch(
+    /^budget:place:/,
+  );
+  expect(lineCheck!.card, "the township's line on the card").toBe(
+    lineCheck!.paper,
+  );
+  expect(seated.report, "the township's bills were passed").toContain(
+    "into budget:place:",
+  );
+  report.push(seated.report);
   process.stdout.write(`BILL-LEVEL ${report.join("\n")}\n`);
-}, 1_200_000);
+}, 1_800_000);

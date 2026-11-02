@@ -64,7 +64,7 @@ import {
   budgetLineStakes,
   learnStake,
   members,
-  provisionStance,
+  billStance,
   registerLegislatureHooks,
   type BillRow,
   type MemberPosition,
@@ -922,7 +922,7 @@ export function briefOnBill(
     .get(billId) as unknown as BillRow;
   const question =
     bill.provisions
-      .map((p) => provisionStance(api, p)?.question)
+      .map((p) => billStance(api, p, bill)?.question)
       .find((q): q is string => !!q) ?? null;
   const q = workQuality(api, staffer, question);
   const body = members(api, bill.bodyOfficeId)

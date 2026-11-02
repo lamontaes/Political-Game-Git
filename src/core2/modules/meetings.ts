@@ -61,7 +61,7 @@ import {
   billReach,
   LEGISLATURE_MODULE_ID,
   members,
-  provisionStance,
+  billStance,
   registerLegislatureHooks,
   type BillRow,
 } from "./legislature";
@@ -269,9 +269,8 @@ function billQuestion(
   api: CoreAPI,
   bill: BillRow,
 ): { question: string; position: number } | null {
-  const level = local(bill) ? "city" : "state";
   for (const p of bill.provisions) {
-    const stance = provisionStance(api, p, level);
+    const stance = billStance(api, p, bill);
     if (stance) return stance;
   }
   return null;

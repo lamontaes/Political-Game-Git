@@ -76,6 +76,7 @@ import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
 import {
   BUDGETS_MODULE_ID,
   amendBudget,
+  budgetGovernmentOf,
   budgetPriorities,
   carriedBudget,
   clearBudgetPriorities,
@@ -231,6 +232,12 @@ export interface BillRow {
    * Names the law row it repeats or collides with.
    */
   readonly moot?: SettledQuestion & { readonly question: string };
+  /**
+   * Each section's law as it stood before the bill, written when the bill
+   * passes and before it writes any law or budget: the paper of a decided bill
+   * reads this, never the law as the bill has since left it.
+   */
+  readonly wasInForce?: readonly BillSection["before"][];
   /** Sections of an enacted bill that only repeated law already made: no new law row, the row they repeat named. */
   readonly repeats?: readonly (SettledQuestion & {
     readonly question: string;
@@ -1026,6 +1033,11 @@ function councilBudget(
     }),
   );
   const votes = tallies.join(", ");
+  // The lines as they stood before the budget changes them, for the paper.
+  const stored = kept.length ? kept : provisions;
+  const wasInForce =
+    bill.wasInForce ??
+    billSections(api, { ...bill, provisions: stored }).map((s) => s.before);
   // A passed bill's line changes become the government's enacted lines; a
   // failed one leaves last year's enacted lines in force.
   const budget = adopted
@@ -1056,9 +1068,10 @@ function councilBudget(
   clearBudgetPriorities(api, gov.id);
   table(api, "bills").put({
     ...bill,
-    provisions: kept.length ? kept : provisions,
+    provisions: stored,
     kind: "budget",
     status: adopted ? "enacted" : "failed",
+    ...(adopted ? { wasInForce } : {}),
   } as unknown as ModuleRow);
   return budget;
 }
@@ -1276,14 +1289,12 @@ const seriesQuestion = (
 /**
  * The policy question a provision speaks to, and which way the provision
  * points on it. A law's direction is read against what is in force for the
- * government the bill makes law for: the level's own (the town, the state, the
- * nation), or `jurisdiction` where the bill's body governs another (a county or
- * a township).
+ * government it makes law for (`jurisdiction`; the town's when none is named).
+ * A bill's provisions are read through `billStance`.
  */
 export function provisionStance(
   api: CoreAPI,
   provision: Provision,
-  level: LawLevel = "city",
   jurisdiction?: string,
 ): { question: string; position: number } | null {
   if (provision.kind === "policy-question" && provision.question)
@@ -1317,7 +1328,7 @@ export function provisionStance(
     inForceAtLevel(
       api,
       { kind: "law-amount", series: provision.series },
-      jurisdiction ?? levelJurisdiction(api, level),
+      jurisdiction ?? levelJurisdiction(api, "city"),
     ).value ?? 0;
   const direction = Math.sign(provision.value - current);
   return direction === 0
@@ -1366,7 +1377,7 @@ export function inForceAtLevel(
 ): InForce {
   if (subject.kind === "budget-line") {
     const gov = api.state.modules.has(BUDGETS_MODULE_ID)
-      ? governments(api).find((g) => g.id === jurisdiction)
+      ? budgetGovernmentOf(api, jurisdiction)
       : undefined;
     const budget = gov ? budgetInForce(api, gov.id) : undefined;
     return {
@@ -1392,17 +1403,17 @@ export function inForceAtLevel(
   };
 }
 
-/** A provision's stance, read against the law in force for the government its bill makes law for. */
-function billStance(api: CoreAPI, provision: Provision, bill: BillRow) {
-  // The level is the body's (a county's reads as the town's); what the law
-  // holds is read for the government the bill makes law for.
-  const level = bodyLevel(api, bill.bodyOfficeId);
-  return provisionStance(
-    api,
-    provision,
-    level === "county" ? "city" : level,
-    billJurisdiction(api, bill),
-  );
+/**
+ * A provision's stance, read against the law in force for the government its
+ * bill makes law for: the one stance of a bill's provision, whoever reads it
+ * (the vote, the room, the lobby, a staffer's brief, a donor's ask).
+ */
+export function billStance(
+  api: CoreAPI,
+  provision: Provision,
+  bill: BillRow,
+): { question: string; position: number } | null {
+  return provisionStance(api, provision, billJurisdiction(api, bill));
 }
 
 /**
@@ -1748,9 +1759,6 @@ export function billSections(
     // What is in force for the government the bill makes law for, read as the draft card reads it.
     const inForce = inForceAtLevel(api, p, jurisdiction);
     const row = inForce.row;
-    // A budget line is changed from the amount the bill recorded, else the
-    // line in force.
-    const lineBase = p.of ?? inForce.value;
     const schedules = row?.terms?.schedules;
     const shapeBefore: BillSection["before"]["shape"] = row
       ? schedules
@@ -1772,10 +1780,14 @@ export function billSections(
       typeof row?.terms?.cite === "string" && row.terms.cite
         ? row.terms.cite
         : null;
+    // A decided bill keeps the law as it stood before it (`wasInForce`); an
+    // undecided one reads it live. A budget line is changed from the amount
+    // the bill recorded, else the line in force.
     const before: BillSection["before"] =
-      p.kind === "budget-line"
+      bill.wasInForce?.[index] ??
+      (p.kind === "budget-line"
         ? {
-            value: lineBase,
+            value: p.of ?? inForce.value,
             unit: inForce.unit,
             shape: null,
             lawId: null,
@@ -1789,14 +1801,15 @@ export function billSections(
             lawId: row?.id ?? null,
             statute: enacting?.number || recorded,
             statuteForm: enacting?.number ? enacting.form.kind : null,
-          };
+          });
     return {
       index,
       kind: p.kind,
       subject: subjectKey(p),
       before,
       after: {
-        value: p.kind === "budget-line" ? (lineBase ?? 0) + p.value : p.value,
+        value:
+          p.kind === "budget-line" ? (before.value ?? 0) + p.value : p.value,
         unit: p.unit ?? before.unit,
         shape: p.shape ?? before.shape,
         effectiveDate: p.effectiveDate ?? null,
@@ -2215,9 +2228,8 @@ function payProjectGrant(
 ): void {
   const row = projectRequestOf(api, input.requestId);
   if (!row || row.status === "paid" || input.amountMinor <= 0) return;
-  const all = governments(api);
-  const from = all.find((g) => g.id === input.fromGovernmentId);
-  const to = all.find((g) => g.id === row.recipientId);
+  const from = budgetGovernmentOf(api, input.fromGovernmentId);
+  const to = budgetGovernmentOf(api, row.recipientId);
   if (!from || !to) return;
   const accounts = api.accounts();
   const receipt = accounts.transfer({
@@ -5123,6 +5135,9 @@ function enact(
       : {}),
   };
   const terms = Object.keys(recorded).length ? recorded : undefined;
+  // The law as it stands before the bill writes any of it.
+  const wasInForce =
+    bill.wasInForce ?? billSections(api, bill).map((section) => section.before);
   const rule = effectiveRule(api, bill);
   const { jurisdiction, level, federal, state } = rule;
   const defaultDate = rule.date;
@@ -5239,6 +5254,7 @@ function enact(
   const next: BillRow = {
     ...bill,
     status: bill.status === "overridden" ? "overridden" : "enacted",
+    wasInForce,
     ...(repeats.length ? { repeats } : {}),
   };
   table(api, "bills").put(next as unknown as ModuleRow);

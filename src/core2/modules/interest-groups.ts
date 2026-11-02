@@ -27,7 +27,7 @@ import {
   employerCosts,
   LEGISLATURE_MODULE_ID,
   members,
-  provisionStance,
+  billStance,
   registerLegislatureHooks,
   votesOn,
   type BillRow,
@@ -707,13 +707,10 @@ function billQuestionOf(
   b: BillRow,
   kind?: string,
 ): { question: string; position: number } | null {
-  const local =
-    !b.bodyOfficeId.includes(":legislature-") &&
-    !b.bodyOfficeId.includes(":us-");
   return (
     b.provisions
       .filter((p) => !kind || p.kind === kind)
-      .map((p) => provisionStance(api, p, local ? "city" : "state"))
+      .map((p) => billStance(api, p, b))
       .find((row) => row !== null) ?? null
   );
 }

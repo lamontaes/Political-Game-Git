@@ -1780,6 +1780,7 @@ function postWithholding(
 export function amendBudget(
   api: CoreAPI,
   input: {
+    /** A government's id, or the jurisdiction whose treasury it is (`budgetGovernmentOf`). */
     readonly governmentId: string;
     readonly line: string;
     readonly deltaMinor: number;
@@ -1793,8 +1794,7 @@ export function amendBudget(
     readonly carry?: boolean;
   },
 ): BudgetRow | null {
-  const gov = table(api, "governments").get(input.governmentId) as unknown as
-    GovernmentRow | undefined;
+  const gov = budgetGovernmentOf(api, input.governmentId);
   if (!gov) return null;
   const fy = fiscalYearOf(api.state.date, gov.fiscalYearStart);
   const budget = table(api, "budgets").get(
@@ -1935,6 +1935,25 @@ export function taxPaymentsOf(
 
 export function governments(api: CoreAPI): readonly GovernmentRow[] {
   return table(api, "governments").rows() as unknown as GovernmentRow[];
+}
+/**
+ * The government whose treasury a jurisdiction is: the one with that id, else
+ * the one whose treasury organization names the jurisdiction as its
+ * `governmentKey` (a township's unit id; its treasury is keyed `place:<geoid>`).
+ */
+export function budgetGovernmentOf(
+  api: CoreAPI,
+  jurisdiction: string,
+): GovernmentRow | undefined {
+  const all = governments(api);
+  return (
+    all.find((g) => g.id === jurisdiction) ??
+    all.find(
+      (g) =>
+        api.state.organizations.get(g.organizationId)?.governmentFacts
+          ?.governmentKey === jurisdiction,
+    )
+  );
 }
 export function budgetsOf(
   api: CoreAPI,
