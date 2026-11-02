@@ -346,13 +346,29 @@ export function campaignAct(
         }),
         scene: askScene(core, personId, scenePlaces.endorsementMeetingPlace),
       };
-    case "ad":
-      return summary(
+    case "ad": {
+      // The ad is bought at the outlet; the player stands at the buy.
+      const before = campaign.spentMinor;
+      const rows = summary(
         runAd(api, {
           filingId: input.filingId,
           amountMinor: input.amountMinor ?? 0,
         }),
       );
+      const spentMinor = campaignFor(api, input.filingId).spentMinor - before;
+      return {
+        ...rows,
+        spentMinor,
+        line: standingLine(
+          core.seed,
+          personId,
+          spentMinor > 0 ? "ad-bought" : "ad-none",
+          `${input.filingId}|ad|${before}`,
+          { cost: dollarsOf(spentMinor), reached: rows.reached },
+        ),
+        scene: askScene(core, personId, scenePlaces.adBuyPlace),
+      };
+    }
     case "mail": {
       // Mailers to the town's next households, as many as the amount the
       // player chose buys (never past what the campaign holds).

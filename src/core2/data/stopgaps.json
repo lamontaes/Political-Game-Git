@@ -8115,7 +8115,7 @@
     "kind": "placeholder",
     "file": "src/bench/play.mjs",
     "line": 1463,
-    "whatItFakes": "Ad, Poll, Mail and Put in your own money are buttons on the campaign trail card in Travel, not scenes at places (donor calls, the volunteer shift and the endorsement meeting became scenes; the Donations button, a twin of Call donors, is gone).",
+    "whatItFakes": "Poll, Mail and Put in your own money are buttons on the campaign trail card in Travel, not scenes at places (donor calls, the volunteer shift, the endorsement meeting and the ad buy became scenes; the Donations button, a twin of Call donors, is gone).",
     "why": "The Campaigns tab shows standing only (owner, Oct 20: campaign acts are scenes you go to); the doors, event, forum, interview, calls, donor meeting, speech and debate already start their scenes, and these five have no scene yet.",
     "addedBy": "play-first-13-campaign-screen-to-mock-b (Claude Sonnet 5.5, play-first lane)",
     "addedAt": "2026-11-01",
