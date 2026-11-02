@@ -71,7 +71,6 @@ export const OFFICIALS_DATA = officialsData as unknown as {
   ambitionTraits: { perEnterprising: number; perRisk: number };
   visibility: Record<string, number>;
   leadership: { roles: readonly string[] };
-  stateSample: { perChamber: number };
   colleagues: { hoursPerSharedYear: Weight; maxYears: Weight };
   tier: string;
   candidacy: {

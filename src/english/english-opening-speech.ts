@@ -2,10 +2,14 @@
  * The opening address's words (`data/english/parts/opening-speech.json`):
  * authored pieces for the President's inaugural address or State of the
  * Union, each with a polished and a plain version for the speaker's recorded
- * manner. The shape is a real address's: an opening, a story of the country,
- * priorities each tied to a law, a close. A piece holds no figure and names
- * no law: every number, policy name, state and office is a slot, and every
- * claim the piece makes ("lower than a year ago", "the law says no") is a
+ * manner. The shape is a real address's: an opening and the oath, what the
+ * President believes, the country's year, its people, the turn to Congress
+ * and the priorities each tied to a law, the Vice President, the states, a
+ * call to the people, a close. The address says no figure at all (owner, Oct
+ * 27: "none of that real data in there"; Nov 1: "I don't like where this part
+ * of the speech where it just laces statistics"), and a piece names no law:
+ * every policy, name and office is a slot, and every claim a piece makes
+ * ("more people are working than a year ago", "the law says no") is a
  * required fact the director supplies from a record, so a piece is said only
  * where its fact is held (`requiresFacts`).
  *
@@ -28,7 +32,7 @@ interface OpeningPart extends BankPart {
   voice: SpeechVoice;
   /** How the sentence lands (glad, braced, tender, calm), for the speaker's trait pulls. */
   bearing?: string;
-  /** The country's number the sentence is about, for choosing its figure. */
+  /** The country's subject the sentence is about ("unemployment", "wages"). */
   topic?: string;
   /** The Speaker's gender the salutation is for (`chair-male`, `chair-female`). */
   stages?: string[];
@@ -44,7 +48,15 @@ export type SpeechVoice = "polished" | "plain";
 
 /** Where the camera is while a block is spoken. */
 export type OpeningLevel =
-  "salutation" | "occasion" | "country" | "congress" | "families" | "close";
+  | "salutation"
+  | "occasion"
+  | "country"
+  | "people"
+  | "congress"
+  | "vice-president"
+  | "states"
+  | "families"
+  | "close";
 
 /** One move of a block, with the number it reports when it reports one. */
 export type OpeningMove = AddressMove & { readonly topic?: string };
@@ -53,16 +65,24 @@ export type OpeningMove = AddressMove & { readonly topic?: string };
 const ACTS: Readonly<Record<string, SpeechAct>> = {
   salutation: "greet",
   occasion: "tell",
+  oath: "promise",
   creed: "tell",
   unity: "promise",
   "story-open": "tell",
-  "story-fig": "tell",
+  "story-says": "tell",
   "story-turn": "tell",
   pledge: "promise",
+  people: "tell",
+  "to-congress": "request",
   "lead-in": "tell",
   stake: "tell",
   law: "tell",
   ask: "request",
+  "to-vp": "tell",
+  "to-states": "request",
+  call: "request",
+  history: "tell",
+  hope: "promise",
   families: "comfort",
   close: "farewell",
 };
@@ -99,7 +119,7 @@ function variantsFor(
 
 /**
  * One role of a block as a move, or null when the bank holds no piece of it
- * for this kind and voice. `topic` limits a story figure to one number.
+ * for this kind and voice. `topic` limits a story line to one subject.
  */
 export function openingMove(
   kind: OpeningSpeechKind,

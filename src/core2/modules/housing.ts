@@ -26,7 +26,7 @@ import { bookkeeping } from "../bookkeeping";
 import { depositsHeld, withdrawSavings } from "../accounts";
 import { transferCash } from "../world-transfer";
 import { countedHousingInArrears, countedPayment } from "../counted-money";
-import { COUNTED_PLACE_PREFIX } from "../counted-groups";
+import { COUNTED_PLACE_PREFIX, type CountedHousehold } from "../counted-groups";
 import type { FinanceContractInput } from "../finance-types";
 import type { ResidentFlowInput } from "../residents";
 import { MACRO_PARAMETERS } from "./macro";
@@ -66,10 +66,11 @@ import {
   releaseVacatedRentals,
   completedRentalOffer,
   occupyRehousedRental,
+  openCountedRent,
   type CompletedRentalOffer,
   renewRentalLeases,
 } from "../housing-occupancy";
-import { residentsRuntime } from "./residents";
+import { regroupHousehold, residentsRuntime } from "./residents";
 import { LAWS_MODULE_ID, lawChain, lawInForce, webFactorFor } from "./laws";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import lawParameters from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
@@ -81,6 +82,7 @@ import {
   startForeclosures,
 } from "../housing-foreclosure";
 import {
+  countedFacts,
   countedLate,
   countedOwed,
   nextDue,
@@ -854,8 +856,7 @@ function rehouse(api: CoreAPI): void {
   };
   reviewHomeless(
     api,
-    (householdId, incomeMinor) => {
-      const placeId = c.households.get(householdId)?.placeId;
+    (householdId, placeId, incomeMinor) => {
       const offer = placeId
         ? completedRentalOffer(api, placeId, incomeMinor)
         : undefined;
@@ -867,7 +868,10 @@ function rehouse(api: CoreAPI): void {
       const typical = placeId ? typicalRent(placeId) : 0;
       return typical > 0
         ? typical
-        : (c.finance.contracts.get(`lease:${householdId}`)?.amountMinor ?? 0);
+        : (c.finance.contracts.get(`lease:${householdId}`)?.amountMinor ??
+            residentsRuntime(c)?.flows.get(`rent:${householdId}`)
+              ?.amountMinor ??
+            0);
     },
     (householdId, rentMinor) =>
       leaseHousehold(api, householdId, rentMinor, offers.get(householdId)),
@@ -888,6 +892,8 @@ export function leaseHousehold(
   offer?: CompletedRentalOffer,
 ): string | undefined {
   const c = core(api);
+  const counted = residentsRuntime(c)?.store.liveHousehold(householdId);
+  if (counted) return leaseCounted(api, counted, rentMinor, offer);
   const household = c.households.get(householdId)!;
   const landlordId =
     offer?.project.payerId ?? `organization:landlord:${household.placeId}`;
@@ -910,6 +916,17 @@ export function leaseHousehold(
       estimatedFrom: `Rents again at the offered rent once pay reached ${api.parameter("housingRehouseIncomeMultiple")} times it.`,
     },
   });
+  rehousedDwelling(api, householdId, rentMinor);
+  if (offer) occupyRehousedRental(api, offer, householdId, id);
+  return id;
+}
+
+/** The home a household rents again, on the dwellings record. */
+function rehousedDwelling(
+  api: CoreAPI,
+  householdId: string,
+  rentMinor: number,
+): void {
   store(api)
     .table("dwellings")
     .put({
@@ -922,10 +939,43 @@ export function leaseHousehold(
             { kind?: string } | undefined
         )?.kind ?? "apartment",
       rentMinor,
-      since: c.date,
+      since: api.state.date,
       basis: "rehoused",
     });
-  if (offer) occupyRehousedRental(api, offer, householdId, id);
+}
+
+/**
+ * A counted household without a home rents again by the same rule: its rent
+ * flow (`rent:<household>`, ended at its removal) begins again to the town's
+ * landlord or the offered unit's, paid from its group's money as any counted
+ * renter's is, due next month; it rents again (tenure "rent") and joins the
+ * renters' group, its share of its money going with it.
+ */
+function leaseCounted(
+  api: CoreAPI,
+  h: CountedHousehold,
+  rentMinor: number,
+  offer?: CompletedRentalOffer,
+): string | undefined {
+  const c = core(api);
+  const landlordId =
+    offer?.project.payerId ?? `organization:landlord:${h.placeId}`;
+  if (!c.organizations.has(landlordId)) return undefined;
+  const id = openCountedRent(api, h, landlordId, rentMinor, {
+    tag: "ESTIMATED",
+    asOf: c.date,
+    citation: housingData.source.citation,
+    estimatedFrom: `Rents again at the offered rent once pay reached ${api.parameter("housingRehouseIncomeMultiple")} times it.`,
+  });
+  if (!id) return undefined;
+  rehousedDwelling(api, h.id, rentMinor);
+  // The offered unit's occupancy sets its tenure and group; the town's
+  // landlord's lease sets them here.
+  if (offer) occupyRehousedRental(api, offer, h.id, id);
+  else {
+    h.tenure = "rent";
+    regroupHousehold(residentsRuntime(c)!, h, c.date);
+  }
   return id;
 }
 
@@ -2182,7 +2232,7 @@ function remove(api: CoreAPI, caseId: string, owed: number): void {
     law: Steps;
     [key: string]: unknown;
   };
-  // A counted household's rent ends and its people are filled in; a full household's lease ends.
+  // A counted household's rent ends and it stays counted without a home; a full household's lease ends.
   if (row.counted) removeCountedHousehold(api, row.householdId, owed);
   else api.endStandingContract(row.leaseId);
   store(api)
@@ -2212,14 +2262,41 @@ function remove(api: CoreAPI, caseId: string, owed: number): void {
         },
       ) as unknown as ModuleRow,
     );
-  const household = c.households.get(row.householdId);
+  // The household as the housing rules read it: the live counted record
+  // where there is one (a household returned to the counts keeps its full
+  // record, and its people their husk records), else the full one. Its place
+  // is that record's. The event names every member with a record: a person
+  // record, or a husk (a relative a full person knows, kept until met), as a
+  // counted death names its own (births-counted `notifyCountedDeaths`), so the
+  // full people who follow that relative read it. Members still counted are
+  // named by its facts too (`countedFacts`), each a subject, as a status
+  // change names them (`setStatus`).
+  // stopgapId: SG-WORLD-counted-eviction-kin-notice
+  const countedStore = residentsRuntime(c)?.store;
+  const counted = countedStore?.liveHousehold(row.householdId);
+  const household = counted ? undefined : c.households.get(row.householdId);
+  const memberIds = counted
+    ? countedStore!.memberIdsOf(counted)
+    : (household?.memberIds ?? []);
+  if (counted) api.stopgap("SG-WORLD-counted-eviction-kin-notice");
   api.emit({
     id: `event:housing.eviction:${caseId}`,
     date: c.date,
     kind: "housing.eviction",
-    personIds: (household?.memberIds ?? []).filter((id) => c.people.has(id)),
+    personIds: memberIds.filter((id) => c.people.has(id) || c.husks.has(id)),
     placeId:
-      household?.placeId ?? c.organizations.get(row.landlordId)?.placeId ?? "",
+      counted?.placeId ??
+      household?.placeId ??
+      c.organizations.get(row.landlordId)?.placeId ??
+      "",
+    ...(counted
+      ? {
+          facts: countedFacts(
+            counted.id,
+            memberIds.filter((id) => !c.people.has(id)),
+          ),
+        }
+      : {}),
     source: {
       tag: "ESTIMATED",
       asOf: c.date,
@@ -2312,7 +2389,12 @@ export const HOUSING_MODULE: CoreModule = {
     schemaVersion: 1,
     tables: {
       state: {},
-      cases: { indexes: { openByLease: { fields: ["leaseId", "open"] } } },
+      cases: {
+        indexes: {
+          openByLease: { fields: ["leaseId", "open"] },
+          byHousehold: { fields: ["householdId"] },
+        },
+      },
       renewals: {},
       mortgages: {},
       purchases: {},
