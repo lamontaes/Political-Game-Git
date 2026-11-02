@@ -22,3 +22,5 @@ claimed-at: 2026-11-01T21:24:07.425Z
 **Files.** src/core2/modules/campaigns.ts,src/core2/campaign-doors-fold.test.ts
 
 **Notes.** lead: speed. Round four; stacked on core-long-run-closed-race-rows-fold (speed/fold-doors).
+
+Nov 2, 01:20 UTC (speed lead, handoff record; the first account is near its weekly limit): branch speed/fold-race-close-rows, not yet pushed: a workflow is building it in the speed lead's scratchpad copy r4-raceclose, stacked on speed/fold-doors 186c88ac52, to be proved against that head's own proof (only gifts, endorsements, polls and steppedUp may differ). If this session ends before the push: rebuild from this item and the reader map (closeRace in campaigns.ts, after the door drop and only when the player did not file in the contest, removes gifts by campaign, endorsements by filing, polls by contest and steppedUp by filing); the governing lead moved its traits test's endorsement reads in #7072.
