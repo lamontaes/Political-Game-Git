@@ -23,3 +23,5 @@ claimed-at: 2026-11-02T00:36:34.968Z
 **Files.** src/core2/law-reach/group-a-voting.ts, src/core2/modules/voting.ts
 
 **Notes.** TODO
+
+Nov 2, 01:20 UTC (laws lead, progress record): branch claude/laws-lobbying-bar-on-reelection, not pushed yet; a Sonnet helper is building it in /home/user/h-lobby (cause per the review: seatWinner ends the serving term on a re-election and lobbyingBarredUntil, group-a-voting.ts:617-629, reads it as leaving; fix: a person leaves an office only when no serving term of theirs continues past the ended one). Next: review the helper's diff, open the PR (line 1 Pool item: laws-lobbying-bar-on-reelection), hand it to the checker by PR number mod 5. If the branch is missing on the remote, start again from main: the item's What, Rules and Done when are the brief.
