@@ -125820,6 +125820,431 @@
         "move": "agree",
         "key": "routine"
       }
+    },
+    {
+      "key": "scene-talk.state-tell.you-ll-need-signatures-signatures-from-voters-here-back-on-my-desk-by-due-have-y",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "You'll need {signatures} signatures from voters here, back on my desk by {due}. Have you ever run a campaign before?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["signatures", "first-filing"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (play-first-filing-campaign-tutorial)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "tell",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.next-you-collect-signatures-signatures-and-i-need-them-by-due-have-you-done-this",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Next you collect {signatures} signatures, and I need them by {due}. Have you done this before?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["signatures", "first-filing"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words, scenes and the director (play-first-filing-campaign-tutorial)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "tell",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.it-takes-signatures-signatures-to-get-on-the-ballot-and-they-re-due-due-you-know",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "It takes {signatures} signatures to get on the ballot, and they're due {due}. You know how to run a campaign?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["signatures", "first-filing"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (play-first-filing-campaign-tutorial)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "tell",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.you-need-one-signature-from-a-voter-here-back-to-me-by-due-have-you-ever-run-a-c",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "You need one signature from a voter here, back to me by {due}. Have you ever run a campaign before?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["one-signature", "first-filing"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (play-first-filing-campaign-tutorial)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "tell",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.this-office-doesn-t-take-a-petition-so-once-i-check-the-forms-you-re-on-the-ball",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "This office doesn't take a petition, so once I check the forms, you're on the ballot. Have you ever run a campaign before?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["no-petition", "first-filing"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (play-first-filing-campaign-tutorial)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "tell",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.no-where-do-i-even-start",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "No. Where do I even start?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["first-filing", "due"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Words, scenes and the director (play-first-filing-campaign-tutorial)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "ask",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.not-really-can-you-walk-me-through-it",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Not really. Can you walk me through it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["first-filing", "due"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (play-first-filing-campaign-tutorial)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "ask",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.no-what-do-i-do-now",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "No. What do I do now?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["first-filing", "no-petition"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Words, scenes and the director (play-first-filing-campaign-tutorial)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "ask",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-have-i-ll-have-them-back-before-then",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I have. I'll have them back before then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["first-filing", "due"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (play-first-filing-campaign-tutorial)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "agree",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-know-the-drill-you-ll-have-them-in-time",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I know the drill. You'll have them in time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["first-filing", "due"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words, scenes and the director (play-first-filing-campaign-tutorial)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "agree",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-have-i-ll-take-it-from-here",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I have. I'll take it from here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["first-filing", "no-petition"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (play-first-filing-campaign-tutorial)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "agree",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.start-with-the-signatures-knock-on-doors-set-up-a-table-where-people-shop-and-ge",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Start with the signatures. Knock on doors, set up a table where people shop, and get your friends to carry a sheet each. Then money: ask everyone you know, and spend it on mailers, a poll or ads in the {outlet}. And call the paper before they write about you without you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["first-filing", "signatures", "outlet"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (play-first-filing-campaign-tutorial)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "answer",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.signatures-first-doors-are-slow-but-they-work-and-a-table-outside-the-grocery-on",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Signatures first. Doors are slow but they work, and a table outside the grocery on a Saturday works faster. Once you're on, it's money and the press. Raise what you can, buy ads in the {outlet} or send mailers, and get to know whoever covers the town there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["first-filing", "signatures", "outlet"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words, scenes and the director (play-first-filing-campaign-tutorial)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "answer",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.start-with-the-signatures-knock-on-doors-set-up-a-table-where-people-shop-and-ge-2",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Start with the signatures. Knock on doors, set up a table where people shop, and get your friends to carry a sheet each. Then money: ask everyone you know, and spend it on mailers or a poll. And talk to the reporters before they talk about you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["first-filing", "signatures"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (play-first-filing-campaign-tutorial)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "answer",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.get-your-one-signature-today-and-that-part-s-done-then-it-s-the-voters-knock-on-",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Get your one signature today and that part's done. Then it's the voters. Knock on doors, ask everyone you know for money, and spend it on mailers or ads in the {outlet}. And call the paper before they write about you without you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["first-filing", "one-signature", "outlet"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (play-first-filing-campaign-tutorial)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "answer",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.then-your-time-goes-to-the-voters-knock-on-doors-show-up-where-people-gather-and",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Then your time goes to the voters. Knock on doors, show up where people gather, and get your friends to bring theirs. Raise money from everyone you know, and spend it on mailers, a poll or ads in the {outlet}. And call the paper before they write about you without you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["first-filing", "no-petition", "outlet"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (play-first-filing-campaign-tutorial)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "answer",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.then-your-time-goes-to-the-voters-knock-on-doors-show-up-where-people-gather-and-2",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Then your time goes to the voters. Knock on doors, show up where people gather, and get your friends to bring theirs. Raise money from everyone you know, and spend it on mailers or a poll. And talk to the reporters before they talk about you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["first-filing", "no-petition"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (play-first-filing-campaign-tutorial)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "answer",
+        "key": "filed"
+      }
     }
   ]
 }
