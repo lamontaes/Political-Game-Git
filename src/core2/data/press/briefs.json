@@ -11,7 +11,8 @@
     "housing.completed",
     "housing.purchase",
     "person.milestone-birthday",
-    "organization.anniversary"
+    "organization.anniversary",
+    "person.retired"
   ],
   "townWide": ["crime.month", "school.graduation", "school.tests"],
   "milestones": {

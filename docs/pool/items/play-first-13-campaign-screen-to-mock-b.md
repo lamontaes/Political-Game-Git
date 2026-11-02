@@ -5,11 +5,10 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #7067
 blocked-on:
-after: play-first-13-campaign-screen-to-mock-a,play-stop-11-campaign-actions-do-nothing-visible-b
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first

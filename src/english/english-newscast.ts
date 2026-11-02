@@ -270,6 +270,13 @@ export const STORY_KINDS = {
   // The week's round birthdays and business anniversaries (the briefs
   // column, from the press's milestones step).
   birthday: { headline: ["birthday"], lede: ["birthday"], brief: true },
+  retirement: {
+    headline: ["retirement"],
+    lede: ["retirement"],
+    brief: true,
+  },
+  // A reader's letter to the editor, from the press's weekly letters step.
+  letter: { headline: ["letter"], lede: ["letter"], brief: true },
   anniversary: {
     headline: ["anniversary"],
     lede: ["anniversary"],
