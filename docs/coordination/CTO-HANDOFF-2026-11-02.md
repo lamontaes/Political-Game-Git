@@ -42,6 +42,26 @@ The stray branches x, UNKNOWN, none and X (only he can delete them on GitHub); t
 
 Unchanged: the `OCD` cloud environment, the `RELEASE_PUSH_TOKEN` repository secret, every npm command with `OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14"`. No scheduled tasks exist (the owner banned wake-up timers on Nov 1). The owner may run ultracode sessions on the other account; the governing and speed leads already work that way.
 
+## Final state at the handoff (Nov 2, 02:00 UTC)
+
+Every session was interrupted at 01:40 UTC on the owner's word and handed off. Nothing is running. Each open PR carries a comment or a body section saying what is done and what is left, and each unfinished item is back to open with its branch, head and next step in Notes.
+
+**Merge in this order** (from the mergers' handoff comments):
+
+1. #7083 (offices keep their hours; Checker 3 passed it on 8 of 8 benches), then #7087 (the clerk's Travel card, stacked on it).
+2. #7109 (donor calls as a scene), then #7111 (volunteers, stacked; merge main in again first).
+3. #7101 (the clerk visit), then #7103 (the first-filing tutorial, re-gate on top).
+4. #7088, then #7098 (past races name their district, after Words' review), then #7108 (the closing business as a story).
+5. Checker-passed and waiting for a merger: #7036 (medical debt), #7070, #7074 (the couch fix), #7077 (no click without talk), #7082 (partners elsewhere), #7095, #7096, #7104, #7106, #7128, #7131.
+
+**Still need a checker:** #7105 (the opening montage; its gate was interrupted), #7135 (press-staff households and the money refit, which Checker 0 left with a note), #7110, #7112, #7129, #7130, #7132 and #7097 (gate started; browser checks left).
+
+**Sent back, with the cause on the PR:** #7100 (the calendar: two imports must go through their families' entry files), #7085 (one council race: two filing tests, fix and seeds in the body), #7090 (histories, Words).
+
+**Long saves:** the 40-year run dies in year 19 on main and in year 23 on the speed lead's combined branch (year 22: 525 seconds, 6.5 GB, 3.48 million records). The next run's settings are in the Speed block.
+
+**Words:** not yet handed off when this was written. Its newest status block in the channel is the place to start.
+
 ## How to read this
 
 Written at 01:00 UTC on Nov 2 by the CTO session on the second account (session_01S4WSHrFBAnJLwUcjDV8Vc3). That account's weekly usage resets Nov 8 at 06:00 UTC. After this file, read `OWNER-DECISIONS.md` from the top (every entry since Nov 1 13:20 UTC is this account's), then `docs/coordination/CREW.md`, then the newest block of each section in `docs/coordination/LEADS-2026-10-24.md`.
