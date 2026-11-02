@@ -5,13 +5,14 @@ area: words
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: words/paper-briefs
 pr:
 blocked-on:
 source: owner playtest of v0.73.0, Nov 1, 22:40 UTC (second batch)
 lead: words
 milestone: play-first
+claimed-at: 2026-11-02T00:36:40.587Z
 ---
 
 **What.** Owner, Nov 1 playtest of v0.73.0, scrolling to the bottom of the first paper: "you can see that there's a bunch of nonsensical stuff there." The bottom rows are bare lines such as "State unemployment tax rate took effect on January 1, 2025." and "Corporate income tax rate became law on October 5, 2024.", with no place, no change and no one it reaches. "Congress passes the federal budget" on January 20, 2025 says "The federal budget for 2024 is law" and "spend $7145 billion, against $5366.1 billion" (unrounded billions for trillions). The Delegate race printed 14,415 votes beside legislative races of 52 to 55.
