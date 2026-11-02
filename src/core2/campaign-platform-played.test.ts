@@ -723,7 +723,7 @@ function withinCandidatePer10(
   return conditionalPer10(reads.map((r) => groupOf(r, saidOf(r))));
 }
 
-it("every contested local race's candidates run on their top questions by the rule, and emphasis rises with support inside the research band", () => {
+it("every contested local race's candidates run on their top questions by the rule, and the emphasis total is printed (C1: campaign-platform-emphasis-c1)", () => {
   const tried: string[] = [];
   let proof: string[] | null = null;
   const contestedPool: Read[] = [];
