@@ -81,7 +81,7 @@ try {
   // A click on a figure with nothing to say does nothing.
   const figures = page.locator("#people .figure");
   for (let i = 0; i < (await figures.count()); i += 1) {
-    await figures.nth(i).hover();
+    await figures.nth(i).hover({ force: true });
     await figures.nth(i).click({ force: true });
   }
   await page.waitForTimeout(500);
