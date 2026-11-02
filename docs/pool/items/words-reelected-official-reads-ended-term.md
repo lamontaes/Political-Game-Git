@@ -1,6 +1,6 @@
 ---
 id: words-reelected-official-reads-ended-term
-title: "A re-elected official's profile and the press desk read the term that ended at the re-election"
+title: "An official who moved seats or left office is profiled with their first office; the press desk reads the minted term (latent until other chambers sit)"
 area: words
 kind: bug
 priority: 2
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/press-desk.ts,src/bench/printed-words.ts
 
 **Notes.** lead: words. Words asked for it on Nov 1, 23:54 UTC, to take after its current order. When the office-terms fold (core-long-run-election-and-term-rows) lands, these reads go through its termById resolver.
+
+Nov 2, 00:05 UTC (speed lead, from the laws lead's read-only check of every reader on main): two of the claims above were too strong. holdsHighOffice (press-desk.ts) is latent until U3 of SG-GOV-other-legislatures-not-sitting, because press-topics.ts:144-149 keeps full people out of officialIds. printed-words reads a re-election correctly; its real case is an official who moved seats or left office, whose profile prints the first office (owner by family: Screens, Review: words). The live re-election flaw is in recalls.ts:208-215 and is filed for the governing lead as elections-recall-reads-ended-term. One helper should answer an official's current term: servingTermsOf (src/core2/modules/offices.ts:316-325), which the laws lead will widen for the unfilled alias when U3 needs it.
