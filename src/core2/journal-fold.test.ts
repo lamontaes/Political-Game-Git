@@ -16,7 +16,11 @@ import { BenchPlayer } from "../bench/player";
 import { findRecord } from "../bench/dev-trace";
 import { whyPanels } from "../bench/dev-why";
 import { setBookkeeping } from "./bookkeeping";
-import { foldOldCashJournalDetail } from "./decision-detail";
+import {
+  foldOldCashJournalDetail,
+  journalIdsNamed,
+  registerJournalIdReader,
+} from "./decision-detail";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
@@ -148,12 +152,16 @@ it(`the cash journal folds itemized receipts past their readers' windows and kee
   const foldDay = makeIsoDate(next.toISOString().slice(0, 10));
   advanceCore(core, addDays(foldDay, -1));
   const before = addDays(foldDay, -detailDays);
-  const startYear = Number(gameStartDate().slice(0, 4));
   const priorYear = `${Number(foldDay.slice(0, 4)) - 1}-01-01`;
   const householdSince = priorYear < before ? priorYear : before;
   home = household();
   const named = namedJournalIds(core);
   const namedKept = [...named].filter((id) => journal.detailedReceipts.has(id));
+  // The fold keeps what the registered readers name (coverage's lastJournalId,
+  // ended rows too): every id a kept record names anywhere is one of them.
+  const registered = journalIdsNamed(core);
+  for (const id of named)
+    expect(registered.has(id), `${where} ${id}`).toBe(true);
   const old = [...journal.detailedReceipts.values()].filter(
     (r) => r.date < before,
   );
@@ -164,13 +172,27 @@ it(`the cash journal folds itemized receipts past their readers' windows and kee
       r.date >= householdSince &&
       followedOwners(r).some((id) => home.has(id)),
   );
-  const toFold = old.filter(
+  const foldable = old.filter(
     (r) =>
       !r.retention.requiredBySource &&
       !r.retention.observer &&
       !named.has(r.id) &&
       !ofHousehold.includes(r),
   );
+  // An old receipt a kept record names, neither required nor the
+  // household's, stays. Coverage names one only through a followed
+  // policyholder's row ended in the first weeks, which a drawn place seldom
+  // has, so a reader registered here names one receipt that would fold.
+  const namedOld = old.filter(
+    (r) =>
+      named.has(r.id) &&
+      !r.retention.requiredBySource &&
+      !ofHousehold.includes(r),
+  );
+  expect(foldable.length, where).toBeGreaterThan(1);
+  const pinned = foldable[0]!;
+  registerJournalIdReader((state) => (state === core ? [pinned.id] : []));
+  const toFold = foldable.slice(1);
   const foldedBefore = structuredClone(journal.foldedByOwner);
   const expected = new Map<
     string,
@@ -188,7 +210,7 @@ it(`the cash journal folds itemized receipts past their readers' windows and kee
       expected.set(key, row);
     }
   console.log(
-    `${where}: on ${core.date}, ${journal.detailedReceipts.size} receipts kept, ${old.length} dated before ${before}: ${toFold.length} to fold, ${required.length} still required (the resident controlled to ${controlledUntil}), ${ofHousehold.length} the player's household's from ${householdSince}, ${named.size} journal ids named by kept records (${namedKept.length} resolve)`,
+    `${where}: on ${core.date}, ${journal.detailedReceipts.size} receipts kept, ${old.length} dated before ${before}: ${toFold.length} to fold, ${required.length} still required (the resident controlled to ${controlledUntil}), ${ofHousehold.length} the player's household's from ${householdSince}, ${named.size} journal ids named by kept records (${namedKept.length} resolve, ${namedOld.length} of them dated before ${before} and kept only for that), ${pinned.id} named by the test's reader`,
   );
   expect(toFold.length, where).toBeGreaterThan(0);
   expect(required.length, where).toBeGreaterThan(0);
@@ -227,8 +249,9 @@ it(`the cash journal folds itemized receipts past their readers' windows and kee
     expect(now!.count - (prior?.count ?? 0), `${where} ${key}`).toBe(row.count);
   }
   // What a source still requires (an open obligation), the household's
-  // prior-year receipts and every receipt a kept record names stay, indexed.
-  for (const receipt of [...required, ...ofHousehold]) {
+  // prior-year receipts and every receipt a kept record or a registered
+  // reader names stay, indexed.
+  for (const receipt of [...required, ...ofHousehold, pinned]) {
     expect(
       journal.detailedReceipts.has(receipt.id),
       `${where} ${receipt.id}`,
@@ -264,13 +287,25 @@ it(`the cash journal folds itemized receipts past their readers' windows and kee
   expect(foldOldCashJournalDetail(core), where).toBe(0);
   expect(state(), where).toBe(once);
 
-  // Dev mode reads the folded year: the resident's ledger lists its totals.
-  const [ledger] = whyPanels(core, circle.id, findRecord(core, circle.id));
-  expect(
-    ledger!.rows.some((row) => row.label.includes(`${startYear} total:`)),
-    `${where} ${circle.id}`,
-  ).toBe(journal.foldedByOwner.has(circle.id));
+  // Dev mode reads the folded years: the ledger of a person whose receipts
+  // folded (the resident, when any of theirs did) lists each year and kind.
+  const owners = new Set([...expected.keys()].map((key) => key.split("|")[0]!));
+  const reader = owners.has(circle.id) ? circle.id : [...owners][0]!;
+  const yearly = [...(journal.foldedByOwner.get(reader)?.values() ?? [])];
+  expect(yearly.length, `${where} ${reader}`).toBeGreaterThan(0);
+  const [ledger] = whyPanels(core, reader, findRecord(core, reader));
+  for (const row of yearly) {
+    const line = ledger!.rows.find(
+      (item) =>
+        item.label.startsWith(`  ${row.year}, older than a year: `) &&
+        item.label.endsWith(`: ${row.kind}`),
+    );
+    expect(line, `${where} ${reader} ${row.year} ${row.kind}`).toBeDefined();
+    expect(line!.value, `${where} ${reader}`).toContain(
+      `${row.count} payments`,
+    );
+  }
   console.log(
-    `${where}: on ${core.date}, ${journal.detailedReceipts.size} receipts kept, ${[...journal.foldedByOwner.values()].reduce((n, rows) => n + rows.size, 0)} yearly totals for ${journal.foldedByOwner.size} people`,
+    `${where}: on ${core.date}, ${journal.detailedReceipts.size} receipts kept, ${[...journal.foldedByOwner.values()].reduce((n, rows) => n + rows.size, 0)} yearly totals for ${journal.foldedByOwner.size} people; ${reader}${reader === circle.id ? " (the resident)" : ""} reads ${yearly.length} in dev mode`,
   );
 }, 1_800_000);

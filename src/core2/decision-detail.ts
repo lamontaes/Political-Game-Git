@@ -322,6 +322,14 @@ export function registerJournalIdReader(
   journalIdReaders.push(read);
 }
 
+/** Every journal id the registered readers name today: the receipts the fold keeps for them. */
+export function journalIdsNamed(core: CoreState): Set<string> {
+  const named = new Set<string>();
+  for (const read of journalIdReaders)
+    for (const id of read(core)) if (id) named.add(id);
+  return named;
+}
+
 /**
  * The cash journal's itemized receipts fold past their readers' windows on
  * the 1st of each month (CTO, Nov 1, 21:25): a followed person's after
@@ -351,14 +359,11 @@ export function foldOldCashJournalDetail(core: CoreState): number {
     );
     for (const id of home?.memberIds ?? []) householdIds.add(id);
   }
-  const named = new Set<string>();
-  for (const read of journalIdReaders)
-    for (const id of read(core)) if (id) named.add(id);
   return foldCashJournalDetail(journal, {
     before,
     // The household's window always covers the circle's, whatever its length.
     householdSince: priorYear < before ? priorYear : before,
     householdIds,
-    named,
+    named: journalIdsNamed(core),
   });
 }

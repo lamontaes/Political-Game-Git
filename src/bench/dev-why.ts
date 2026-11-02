@@ -441,12 +441,16 @@ function ledgerPanels(core: CoreState, personId: string): WhyPanel[] {
       value: `${money(earned)} / ${money(paid)}`,
     },
   );
-  // Earlier years: receipts folded past the window, one total per year and kind.
+  // Older than the window: receipts folded past it, one row per year and
+  // kind. A year's row holds only what has folded so far (the rest of that
+  // year is still itemized above), and a receipt kept past the window (an
+  // open obligation, one a kept record names, the household's prior year) is
+  // in no row until it folds.
   const folded = [...(journal.foldedByOwner.get(personId)?.values() ?? [])];
   folded.sort((a, b) => b.year - a.year || b.count - a.count);
   for (const row of folded)
     rows.push({
-      label: `  ${row.year} total: ${groupOf(row.kind)}: ${row.kind}`,
+      label: `  ${row.year}, older than a year: ${groupOf(row.kind)}: ${row.kind}`,
       value: `in ${money(row.inMinor)}, out ${money(row.outMinor)}, ${row.count} payments`,
     });
   const all = journal.totalsByOwner.get(personId);

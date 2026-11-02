@@ -27,7 +27,14 @@ describe(`dev why panels: ${world.place.displayName} (seed ${seed})`, () => {
     const worker = [...core.people.values()].find(
       (p) => p.alive && p.jobId && core.cashJournal.detailedByOwner.has(p.id),
     );
-    const followed = worker ?? [...core.people.values()].find((p) => p.alive)!;
+    // With no itemized worker, someone nobody follows (the player and anyone
+    // in focus are followed, and say so in other words).
+    const followed =
+      worker ??
+      [...core.people.values()].find(
+        (p) =>
+          p.alive && p.id !== core.playerId && !core.focusPersonIds.has(p.id),
+      )!;
     const [ledger] = why(followed.id);
     expect(ledger!.title).toContain(core.date);
     expect(ledger!.rows.map((r) => r.label)).toEqual(
