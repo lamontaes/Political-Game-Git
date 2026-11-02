@@ -125512,10 +125512,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-agree.that-s-the-real-question-a-speech-doesn-t-pay-the-rent",
+      "key": "scene-talk.follow-agree.a-speech-doesn-t-pay-the-rent-either",
       "move": "follow-agree",
       "kind": "spoken",
-      "text": "That's the real question. A speech doesn't pay the rent.",
+      "text": "A speech doesn't pay the rent, either.",
       "uses": [
         {
           "subject": "scene",
@@ -125536,10 +125536,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-agree.i-ll-believe-it-when-i-see-it-around-here",
+      "key": "scene-talk.follow-agree.we-ll-be-the-last-place-to-see-any-of-it",
       "move": "follow-agree",
       "kind": "spoken",
-      "text": "I'll believe it when I see it around here.",
+      "text": "We'll be the last place to see any of it.",
       "uses": [
         {
           "subject": "scene",
