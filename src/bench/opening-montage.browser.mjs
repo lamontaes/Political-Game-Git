@@ -36,7 +36,7 @@ try {
     );
     console.log("Place:", await page.locator("#card-place").innerText());
     const beats = [];
-    for (let i = 0; i < 16; i += 1) {
+    for (let i = 0; i < 24; i += 1) {
       await page.waitForTimeout(500);
       await page.waitForFunction(
         () => document.getElementById("backdrop").complete,
@@ -51,7 +51,7 @@ try {
       }));
       if (state.text.trim() && state.who.trim()) {
         beats.push(state);
-        if (shots)
+        if (shots && beats.length <= 12)
           await page.screenshot({
             path: `${shots}/beat-${beats.length}-${width}x${height}.png`,
           });
@@ -65,7 +65,7 @@ try {
         `  ${at + 1}. ${beat.backdrop} · ${beat.people} people · ${beat.text.replace(/\n+/g, " / ").slice(0, 110)}`,
       );
     const pictures = new Set(beats.map((beat) => beat.backdrop));
-    assert.ok(beats.length >= 3, `the address has only ${beats.length} parts`);
+    assert.ok(beats.length >= 7, `the address has only ${beats.length} parts`);
     assert.match(
       beats[0].backdrop,
       /^oval-/,

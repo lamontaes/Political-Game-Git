@@ -13,7 +13,7 @@ const hasBackdrop = (place: string) =>
 const DATA = montage as unknown as {
   first: BeatKind;
   last: BeatKind;
-  order: BeatKind[];
+  levels: Record<string, BeatKind>;
   places: Record<string, string[]>;
   mostOfficials: number;
   mostAmerica: number;
@@ -34,15 +34,34 @@ export interface MontageBeat {
   readonly sourceRecordIds: readonly string[];
 }
 
-/** The kind of each part of an address of `parts` parts: the desk first, home last, the cutaways between. */
-export function beatKinds(parts: number): BeatKind[] {
-  if (parts <= 1) return [DATA.last];
-  return Array.from({ length: parts }, (_, at) =>
+/**
+ * The kind of each part of an address from its role: the desk first, home
+ * last, and between them the beat its first sentence's level keys to
+ * (occasion: the colonnade; country and people: America; congress, the Vice
+ * President and the states: the officials; the families: home). A varied
+ * address still finds its beats, since they follow the role, not the position.
+ */
+export function beatKinds(levels: readonly string[]): BeatKind[] {
+  if (levels.length <= 1) return [DATA.last];
+  return levels.map((level, at) =>
     at === 0
       ? DATA.first
-      : at === parts - 1
+      : at === levels.length - 1
         ? DATA.last
-        : DATA.order[(at - 1) % DATA.order.length]!,
+        : (DATA.levels[level] ?? "america"),
+  );
+}
+
+/** Each part's role: the level of its first sentence that is not the salutation. */
+export function partLevels(
+  sentences: readonly { level: string; part: number }[],
+  parts: number,
+): string[] {
+  return Array.from(
+    { length: parts },
+    (_, part) =>
+      sentences.find((row) => row.part === part && row.level !== "salutation")
+        ?.level ?? "occasion",
   );
 }
 
@@ -57,7 +76,7 @@ export function addressMontage(
   core: CoreState,
   personId: string,
   speakerId: string,
-  parts: number,
+  levels: readonly string[],
   minuteOfDay: number,
 ): MontageBeat[] {
   const named = (id: string) => {
@@ -103,7 +122,7 @@ export function addressMontage(
     )
     .sort();
   let americaTurn = 0;
-  return beatKinds(parts).map((kind) => {
+  return beatKinds(levels).map((kind) => {
     const place =
       kind === "home"
         ? homeOf(core, personId, minuteOfDay)

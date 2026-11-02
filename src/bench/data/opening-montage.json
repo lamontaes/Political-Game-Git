@@ -1,8 +1,7 @@
 {
-  "note": "The President's address plays as a montage (owner, Oct 29 02:35: the cutaways alternate the President working with America; the Vice President, Congress and the player's governor appear named by office as the camera passes; it ends at home). One beat per part of the speech. `order` is the beats in turn; the first part is always the President at the desk and the last is always home. Each kind names its tagged place picture; `america` lists the town's pictures in turn, the first that has one painted. The sequence of beats is the lane's framing, not a record. Only a place with a mannequin plate (art/people-rooms/mannequin-plates) draws people: the Oval Office address (the speaker at the desk), the Oval Office (officials seated and standing), the colonnade, the train depot platform (people along a route) and the home living room.",
+  "note": "The President's address plays as a montage (owner, Oct 29 02:35: the cutaways alternate the President working with America; the Vice President, Congress and the player's governor appear named by office as the camera passes; it ends at home). One beat per part of the speech. `levels` keys each part's beat to its role (the first non-salutation level of its sentences, agreed with Words, Nov 2): the first part is always the President at the desk and the last is always home. Each kind names its tagged place picture; `america` lists the town's pictures in turn, the first that has one painted. The sequence of beats is the lane's framing, not a record. Only a place with a mannequin plate (art/people-rooms/mannequin-plates) draws people: the Oval Office address (the speaker at the desk), the Oval Office (officials seated and standing), the colonnade, the train depot platform (people along a route) and the home living room.",
   "first": "oval-desk",
   "last": "home",
-  "order": ["america", "colonnade", "officials", "america", "oval-desk"],
   "places": {
     "oval-desk": ["oval-address-standard", "oval-office-standard"],
     "colonnade": ["white-house-colonnade"],
@@ -10,5 +9,15 @@
     "america": ["train-depot-platform"]
   },
   "mostOfficials": 4,
-  "mostAmerica": 6
+  "mostAmerica": 6,
+  "levels": {
+    "occasion": "colonnade",
+    "country": "america",
+    "people": "america",
+    "congress": "officials",
+    "vice-president": "officials",
+    "states": "officials",
+    "families": "home",
+    "close": "home"
+  }
 }

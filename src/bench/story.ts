@@ -4,7 +4,7 @@ import { purposeScene, replyInScene } from "../director/purpose-scene";
 import type { SceneTalkLine, TreeNode } from "../director/scene-talk";
 import { shipped } from "../english/scene-talk-words";
 import { hasBackdrop } from "./backdrop-places";
-import { addressMontage } from "./montage";
+import { addressMontage, partLevels } from "./montage";
 import {
   homeOf,
   orgPlace,
@@ -208,7 +208,10 @@ export function storyScene(
             core,
             personId,
             scene.speech.speakerId,
-            scene.speech.parts?.length || 1,
+            partLevels(
+              director.ledger.opening?.address.sentences ?? [],
+              scene.speech.parts?.length || 1,
+            ),
             minuteOfDay,
           ),
         }
