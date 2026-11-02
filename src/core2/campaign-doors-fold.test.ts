@@ -8,17 +8,29 @@
  * stay (a voter who gave a yes in both keeps the other), no visit its pledges
  * named is left in `foldedCauses` unless a fact names it while
  * `causeSummaries` still counts those contacts (governing lead, Nov 1 21:22),
- * a closed race's messages and word stay while word's window reads them and
- * are gone once its last week has left it, and a race the player filed in
- * keeps every pledge, its rivals' too (CTO, Nov 1 21:25). A place whose races
- * knock no doors, read no word, keep no old newest word, or hold no pledges
- * in two contests from one voter and no folded pledged visit, or where the
- * player can enter no race or their race holds no rival's pledge, tests
- * nothing, so up to six are drawn for each check; each passed over is named
- * with why.
+ * a closed contest's gifts, endorsement answers, stepped-up readings and
+ * polls go while every other contest's stay and its campaigns keep what they
+ * raised (governing lead, Nov 1 21:22), a closed race's messages and word
+ * stay while word's window reads them and are gone once its last week has
+ * left it, and a race the player filed in keeps every pledge, gift,
+ * endorsement answer, stepped-up reading and poll, its rivals' too (CTO, Nov
+ * 1 21:25; governing lead, Nov 1 21:22). A town's first races seldom buy a
+ * poll, so where the day's races hold no poll or stepped-up reading by the
+ * eve their campaigns raise for one, buy it and take a turn through the
+ * engine's own acts (`workTheField`), and in the player's race the player
+ * buys a poll and asks for endorsements as the campaign screen does, and the
+ * rivals poll and take a turn. A place whose races knock no doors, read no
+ * word, keep no old newest word, hold no pledges in two contests from one
+ * voter and no folded pledged visit, or hold none of one of those four kinds
+ * of rows, or where the player can enter no race or their race holds no
+ * rival's pledge, gift, endorsement answer or poll, tests nothing, so up to
+ * six are drawn for each check; each passed over is named with why. A rival
+ * steps up only where they read the player ahead, so the player's race's
+ * stepped-up readings are compared, and counted, but not required.
  */
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
+import { campaignAct } from "../bench/campaign";
 import { fileForOffice } from "../bench/government";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
@@ -28,11 +40,16 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import {
   CAMPAIGNS_MODULE_ID,
+  askForDonation,
+  campaignFor,
+  campaignTurn,
   causeSummaryOf,
   closeRace,
+  commissionPoll,
   foldRivalWord,
   knockDoors,
   raceReading,
+  reachablePeople,
   type CauseRow,
   type CauseSummaryRow,
   type PledgeRow,
@@ -45,6 +62,7 @@ import {
   type FilingRow,
 } from "./modules/elections";
 import { coreAPI } from "./state";
+import type { CoreAPI, CoreState } from "./types";
 
 const runSeed = process.env.DOORS_FOLD_SEED ?? randomBytes(8).toString("hex");
 const draws = 6;
@@ -55,6 +73,133 @@ interface Word {
   readonly date: string;
   readonly contestId?: string;
   readonly rivalId?: string;
+}
+
+/**
+ * The rows a race's close drops with its doors and pledges unless the player
+ * filed in it (governing lead, Nov 1 21:22): its gifts, endorsement answers,
+ * stepped-up readings and polls.
+ */
+const RACE_TABLES = ["gifts", "endorsements", "steppedUp", "polls"] as const;
+type RaceRows = Record<(typeof RACE_TABLES)[number], string[]>;
+const NONE: RaceRows = {
+  gifts: [],
+  endorsements: [],
+  steppedUp: [],
+  polls: [],
+};
+
+/**
+ * Each of those tables' row ids whose contest `inContest` takes, sorted: every
+ * row is read and its contest taken from the row itself (a gift's from its
+ * campaign, which is its filing), not through the indexes `closeRace` reads.
+ */
+function raceRows(
+  api: CoreAPI,
+  inContest: (contestId: string) => boolean,
+): RaceRows {
+  const campaigns = api.moduleState(CAMPAIGNS_MODULE_ID),
+    filings = api.moduleState(ELECTIONS_MODULE_ID).table("filings");
+  const contestOf = (row: { contestId?: string; campaignId?: string }) =>
+    row.contestId ??
+    (
+      filings.get(row.campaignId ?? "") as unknown as
+        { contestId: string } | undefined
+    )?.contestId ??
+    "";
+  const rows = { ...NONE };
+  for (const name of RACE_TABLES)
+    rows[name] = (
+      campaigns.table(name).rows() as unknown as {
+        id: string;
+        contestId?: string;
+        campaignId?: string;
+      }[]
+    )
+      .filter((row) => inContest(contestOf(row)))
+      .map((row) => row.id)
+      .sort();
+  return rows;
+}
+
+/** How many rows of each, for the log. */
+const told = (rows: RaceRows) =>
+  RACE_TABLES.map((name) => `${rows[name].length} ${name}`).join(", ");
+
+/** What each campaign in the contests raised, by its filing (the campaign row keeps it after the close). */
+function raisedIn(
+  api: CoreAPI,
+  contestIds: Iterable<string>,
+): Map<string, number | undefined> {
+  const campaigns = api.moduleState(CAMPAIGNS_MODULE_ID).table("campaigns"),
+    filings = api.moduleState(ELECTIONS_MODULE_ID).table("filings");
+  const raised = new Map<string, number | undefined>();
+  for (const contestId of contestIds)
+    for (const filing of filings.query("byContest", [contestId]) as unknown as {
+      id: string;
+    }[])
+      raised.set(
+        filing.id,
+        (
+          campaigns.get(filing.id) as unknown as
+            { raisedMinor: number } | undefined
+        )?.raisedMinor,
+      );
+  return raised;
+}
+const sumOf = (raised: ReadonlyMap<string, number | undefined>) =>
+  [...raised.values()].reduce<number>((a, b) => a + (b ?? 0), 0);
+
+/**
+ * A drawn town's first races are often too small to buy a poll, and so to
+ * read one and step up. This works races through the campaigns engine's own
+ * acts, the most crowded first (then by id), until `enough` holds (as
+ * campaign-incumbent-response.test.ts does for one incumbent): each living
+ * world candidate on a race's ballot asks the people their campaign can reach
+ * for what a poll costs (`askForDonation`, each answering by their own
+ * reasons) and buys one (`commissionPoll`), then each takes a turn
+ * (`campaignTurn`), in which one whom their own poll shows behind steps up
+ * (`rivalDay`). A race needs at least `least` such candidates. Returns the
+ * races worked.
+ */
+function workTheField(
+  api: CoreAPI,
+  contestIds: readonly string[],
+  electionDate: string,
+  least: number,
+  enough: () => boolean,
+): string[] {
+  const core = api.state as CoreState;
+  const sample = campaignParameter("pollSampleSize"),
+    cost = sample * campaignParameter("pollCostPerInterviewMinor");
+  const fieldOf = (contestId: string) =>
+    ballot(api, contestId).filter(
+      (f) =>
+        f.status === "on-ballot" &&
+        f.filedOn <= core.date &&
+        f.personId !== core.playerId &&
+        core.people.get(f.personId)?.alive === true,
+    );
+  const worked: string[] = [];
+  for (const contestId of contestIds
+    .filter((id) => fieldOf(id).length >= least)
+    .sort(
+      (a, b) => fieldOf(b).length - fieldOf(a).length || a.localeCompare(b),
+    )) {
+    if (enough()) break;
+    const field = fieldOf(contestId);
+    for (const filing of field) {
+      for (const id of reachablePeople(api, campaignFor(api, filing.id))) {
+        const held = campaignFor(api, filing.id);
+        if (held.raisedMinor - held.spentMinor >= cost) break;
+        askForDonation(api, filing.id, id);
+      }
+      commissionPoll(api, { filingId: filing.id, sampleSize: sample });
+    }
+    for (const filing of field) campaignTurn(api, filing.id, electionDate);
+    worked.push(contestId);
+  }
+  return worked;
 }
 
 describe(`campaign doors and word fold (run seed ${runSeed})`, () => {
@@ -176,6 +321,16 @@ describe(`campaign doors and word fold (run seed ${runSeed})`, () => {
       );
       const closed = (row: { contestId?: string }) =>
         !!row.contestId && ofDay.has(row.contestId);
+      // Where the day's races hold no poll or no stepped-up reading by the
+      // eve, their contested races are worked until they do (`workTheField`).
+      const worked = workTheField(api, [...ofDay], first, 2, () => {
+        const rows = raceRows(api, (id) => ofDay.has(id));
+        return rows.polls.length > 0 && rows.steppedUp.length > 0;
+      });
+      if (worked.length)
+        console.log(
+          `${where}: on the eve the campaigns of ${worked.join(", ")} raised for a poll, bought it and took a turn`,
+        );
       const pledges = campaigns.table("pledges"),
         causes = campaigns.table("causes"),
         foldedCauses = campaigns.table("foldedCauses");
@@ -283,6 +438,10 @@ describe(`campaign doors and word fold (run seed ${runSeed})`, () => {
       // again at the first campaign turn after it.
       const dayMessages = (messages.rows() as unknown as Word[]).filter(closed);
       const dayWords = (words.rows() as unknown as Word[]).filter(closed);
+      // The day's races' gifts, endorsement answers, stepped-up readings and
+      // polls as election day ends, and what each of their campaigns raised.
+      const dayRows = raceRows(api, (id) => ofDay.has(id));
+      const dayRaised = raisedIn(api, ofDay);
 
       // The day's count is in and no race of the day has closed yet. The
       // contest with the most pledges is closed here by hand (`closeRace`, the
@@ -306,11 +465,14 @@ describe(`campaign doors and word fold (run seed ${runSeed})`, () => {
       const visitsOfOne = [...visits.values()].filter(
         (row) => row.contestId === one && !causes.get(row.causeId!),
       ).length;
+      const oneRows = raceRows(api, (id) => id === one),
+        otherRows = raceRows(api, (id) => id !== one);
+      const oneRaised = raisedIn(api, one ? [one] : []);
       // Every race of the day has counted: the visits the count folded are
       // read against the voters' facts today.
       const dayFolded = foldedVisits(ofDay, true);
       console.log(
-        `${where}: ${closing.length} door rows and ${wordOnDay} word rows in races on ${first}; by hand the fold took ${removed} rows, kept ${keptOld} old newest words and left ${read} races' word read; ${ofOne.length} pledges in ${one ?? "no contest"} naming ${visitsOfOne} visits folded at the count, ${others.length} pledges in other contests, ${shared} of them from its voters`,
+        `${where}: ${closing.length} door rows and ${wordOnDay} word rows in races on ${first}; by hand the fold took ${removed} rows, kept ${keptOld} old newest words and left ${read} races' word read; ${ofOne.length} pledges in ${one ?? "no contest"} naming ${visitsOfOne} visits folded at the count, ${others.length} pledges in other contests, ${shared} of them from its voters; ${told(oneRows)} in ${one ?? "no contest"} and ${told(dayRows)} in the races on ${first} the player did not file in, raised ${sumOf(dayRaised)}`,
       );
       if (
         !closing.length ||
@@ -318,10 +480,14 @@ describe(`campaign doors and word fold (run seed ${runSeed})`, () => {
         !keptOld ||
         !ofOne.length ||
         !shared ||
-        !visitsOfOne
+        !visitsOfOne ||
+        RACE_TABLES.some((name) => !dayRows[name].length) ||
+        !oneRows.gifts.length ||
+        !oneRows.endorsements.length ||
+        !sumOf(oneRaised)
       ) {
         tried.push(
-          `${where}: ${closing.length} door rows in the races on ${first}, ${read} races' word read, ${keptOld} old newest words kept, ${ofOne.length} pledges in the contest closed by hand naming ${visitsOfOne} folded visits, and ${shared} pledges its voters gave in another contest`,
+          `${where}: ${closing.length} door rows in the races on ${first}, ${read} races' word read, ${keptOld} old newest words kept, ${ofOne.length} pledges in the contest closed by hand naming ${visitsOfOne} folded visits and holding ${told(oneRows)}, raised ${sumOf(oneRaised)}, ${shared} pledges its voters gave in another contest, and ${told(dayRows)} in the day's races`,
         );
         continue;
       }
@@ -358,8 +524,20 @@ describe(`campaign doors and word fold (run seed ${runSeed})`, () => {
       expect(foldedVisits(new Set([one!]), true), where).toBe(visitsOfOne);
       for (const [campaignId, count] of counts)
         expect(knocked(campaignId), where).toBe(count);
+      // Its gifts, endorsement answers, stepped-up readings and polls go with
+      // them, every other contest's stay, and its campaigns keep what they
+      // raised.
+      expect(
+        raceRows(api, (id) => id === one),
+        where,
+      ).toEqual(NONE);
+      expect(
+        raceRows(api, (id) => id !== one),
+        where,
+      ).toEqual(otherRows);
+      expect(raisedIn(api, [one!]), where).toEqual(oneRaised);
       console.log(
-        `closed ${one} by hand: ${ofOne.length} pledges went, ${others.length} in other contests stayed, ${doorsElsewhere.length} door rows of other races stayed, ${messagesOfOne.length} messages and ${wordOfOne.length} word rows stayed, ${visitsOfOne} pledged visits left only in causeSummaries`,
+        `closed ${one} by hand: ${ofOne.length} pledges went, ${others.length} in other contests stayed, ${doorsElsewhere.length} door rows of other races stayed, ${messagesOfOne.length} messages and ${wordOfOne.length} word rows stayed, ${visitsOfOne} pledged visits left only in causeSummaries; ${told(oneRows)} went, ${told(otherRows)} in other contests stayed, and its campaigns kept the ${sumOf(oneRaised)} they raised`,
       );
 
       // At the first campaign turn after election day every race of the day
@@ -371,6 +549,16 @@ describe(`campaign doors and word fold (run seed ${runSeed})`, () => {
         [...ofDay].filter((id) => races.get(id)),
         where,
       ).toEqual([]);
+      // None of their gifts, endorsement answers, stepped-up readings or
+      // polls is left, and their campaigns keep what they raised.
+      expect(
+        raceRows(api, (id) => ofDay.has(id)),
+        where,
+      ).toEqual(NONE);
+      expect(raisedIn(api, ofDay), where).toEqual(dayRaised);
+      console.log(
+        `the races of ${first} closed by ${core.date}: ${told(dayRows)} went, and their campaigns kept the ${sumOf(dayRaised)} they raised`,
+      );
       const inWindow = (rows: readonly Word[]) =>
         rows.filter((row) => row.date > since()).map((row) => row.id);
       const messagesRead = inWindow(dayMessages),
@@ -508,6 +696,21 @@ describe(`campaign doors and word fold (run seed ${runSeed})`, () => {
           hours: 4,
           fillCounted: 2,
         });
+      // The player puts in what a poll costs, as far as they hold it, buys
+      // one and asks the people they know to endorse them, as the campaign
+      // screen's buttons do; the rivals' campaigns raise for a poll, buy it
+      // and take a turn (`workTheField`).
+      const pollCost =
+        campaignParameter("pollSampleSize") *
+        campaignParameter("pollCostPerInterviewMinor");
+      campaignAct(core, me, {
+        filingId: filing.id,
+        kind: "contribute",
+        amountMinor: Math.min(pollCost, core.people.get(me)!.liquidMinor),
+      });
+      campaignAct(core, me, { filingId: filing.id, kind: "poll" });
+      campaignAct(core, me, { filingId: filing.id, kind: "endorsement" });
+      workTheField(api, [contestId], electionDate, 1, () => false);
       advanceCore(core, makeIsoDate(electionDate));
       const pledges = campaigns.table("pledges"),
         doors = campaigns.table("doors"),
@@ -549,12 +752,28 @@ describe(`campaign doors and word fold (run seed ${runSeed})`, () => {
       );
       const elsewhere = pledgesOf(sameDay).length;
       const rivals = kept.filter((row) => row.candidateId !== me).length;
+      // The race's gifts, endorsement answers, stepped-up readings and polls,
+      // and the day's other races' (`raceRows`), and what the race's
+      // campaigns raised.
+      const ourRows = raceRows(api, (id) => id === contestId),
+        sameDayRows = raceRows(api, (id) => sameDay.has(id));
+      const ourRaised = raisedIn(api, [contestId]);
       console.log(
-        `${where}: the player filed for ${contestId} (${mine.status} a week out); on ${electionDate} it holds ${kept.length} pledges, ${rivals} of them to rivals, and ${doorsOnDay} door rows; ${elsewhere} pledges in ${sameDay.size} other races that day`,
+        `${where}: the player filed for ${contestId} (${mine.status} a week out); on ${electionDate} it holds ${kept.length} pledges, ${rivals} of them to rivals, ${doorsOnDay} door rows and ${told(ourRows)}, raised ${sumOf(ourRaised)}; ${elsewhere} pledges and ${told(sameDayRows)} in ${sameDay.size} other races that day`,
       );
-      if (!underWay || !rivals) {
+      // A rival steps up only where their own poll or word shows the player
+      // ahead, which a player who walks one evening of doors seldom is, so
+      // the race's stepped-up readings are compared but not required.
+      if (
+        !underWay ||
+        !rivals ||
+        !ourRows.gifts.length ||
+        !ourRows.endorsements.length ||
+        !ourRows.polls.length ||
+        !sumOf(ourRaised)
+      ) {
         tried.push(
-          `${where}: the player's race ${contestId} ${underWay ? "was" : "was not"} under way on election day and held ${rivals} pledges to rivals`,
+          `${where}: the player's race ${contestId} ${underWay ? "was" : "was not"} under way on election day and held ${rivals} pledges to rivals and ${told(ourRows)}, raised ${sumOf(ourRaised)}`,
         );
         continue;
       }
@@ -566,8 +785,19 @@ describe(`campaign doors and word fold (run seed ${runSeed})`, () => {
       expect(raceDoors(), where).toBe(0);
       expect(pledgesOf(ours), where).toEqual(kept);
       expect(pledgesOf(sameDay), where).toEqual([]);
+      // Every gift, endorsement answer, stepped-up reading and poll of the
+      // player's race stays, the rivals' too; the day's other races' go.
+      expect(
+        raceRows(api, (id) => id === contestId),
+        where,
+      ).toEqual(ourRows);
+      expect(
+        raceRows(api, (id) => sameDay.has(id)),
+        where,
+      ).toEqual(NONE);
+      expect(raisedIn(api, [contestId]), where).toEqual(ourRaised);
       console.log(
-        `${where}: closed by ${core.date}: ${kept.length} pledges stayed, ${doorsOnDay} door rows and ${elsewhere} pledges in the day's other races went`,
+        `${where}: closed by ${core.date}: ${kept.length} pledges and ${told(ourRows)} stayed, ${doorsOnDay} door rows, ${elsewhere} pledges and ${told(sameDayRows)} in the day's other races went`,
       );
       return;
     }

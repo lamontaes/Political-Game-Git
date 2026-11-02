@@ -448,8 +448,20 @@ export const CAMPAIGNS_MODULE: CoreModule = {
           byCandidate: { fields: ["candidateId"] },
         },
       },
+      /**
+       * Each poll a campaign commissioned, kept while its contest is open: a
+       * closed contest's rows go at its close (`closeRace`), except in a
+       * contest the player filed in, which keeps every row (governing lead,
+       * Nov 1 21:22).
+       */
       polls: { indexes: { byContest: { fields: ["contestId"] } } },
       money: {},
+      /**
+       * Each donor's running total to a campaign, kept while its contest is
+       * open: a closed contest's rows go at its close (`closeRace`; the
+       * campaign row keeps `raisedMinor`), except in a contest the player
+       * filed in, which keeps every row (governing lead, Nov 1 21:22).
+       */
       gifts: {
         indexes: {
           byCampaign: { fields: ["campaignId"] },
@@ -477,9 +489,20 @@ export const CAMPAIGNS_MODULE: CoreModule = {
        * campaign turn any other row goes (`foldRivalWord`).
        */
       rivalWord: { indexes: { byCandidate: { fields: ["candidateId"] } } },
-      /** Each reading of the race that made a world candidate campaign harder, one row each. */
+      /**
+       * Each reading of the race that made a world candidate campaign
+       * harder, one row each, kept while its contest is open: a closed
+       * contest's rows go at its close (`closeRace`), except in a contest the
+       * player filed in, which keeps every row (governing lead, Nov 1 21:22).
+       */
       steppedUp: { indexes: { byFiling: { fields: ["filingId"] } } },
-      /** Each endorsement answer: a person asked, or a group's backing. */
+      /**
+       * Each endorsement answer, a person asked or a group's backing, kept
+       * while its contest is open: a closed contest's rows go at its close
+       * (`closeRace`; a yes was said in public as its `campaign-endorsed`
+       * event), except in a contest the player filed in, which keeps every
+       * row (governing lead, Nov 1 21:22).
+       */
       endorsements: {
         indexes: {
           byContest: { fields: ["contestId"] },
@@ -5889,9 +5912,10 @@ function campaignWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     }[]
   ).slice()) {
     if (race.electionDate < date) {
-      // Once its election day has passed, a race's door rows and pledges
-      // have no reader (`closeRace`; a race the player ran in keeps its
-      // pledges). Its messages and word go as they leave word's window
+      // Once its election day has passed, a race's door rows, pledges,
+      // gifts, endorsements, polls and stepped-up readings have no reader
+      // (`closeRace`; a race the player ran in keeps all but its door rows).
+      // Its messages and word go as they leave word's window
       // (`foldRivalWord`, after the races are worked).
       closeRace(api, race.id);
       races.remove(race.id);
@@ -5934,9 +5958,16 @@ function campaignWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
  * which the door's answer read during the race and the ballot on primary and
  * election day. Every filing of the contest is read by its id, so no
  * campaign row is made. Only this contest's pledges go, by their contest: a
- * voter's yes in another race still open stays. A contest the player filed in
- * keeps every pledge, its rivals' too (CTO, Nov 1 21:25). No cause is kept
- * for a pledge (`foldCauses`), so the drop leaves nothing behind. Its
+ * voter's yes in another race still open stays. No cause is kept for a
+ * pledge (`foldCauses`), so the drop leaves nothing behind. Its gifts, its
+ * endorsement answers and its stepped-up readings (each by filing) and its
+ * polls (by contest) go too: the contribution limit, who was asked, the
+ * groups that backed someone, a campaign's newest poll and a reading kept
+ * once are read only while the race is open (governing lead, Nov 1 21:22).
+ * The campaign row keeps `raisedMinor`, and a yes was said in public as its
+ * `campaign-endorsed` event. A contest the player filed in keeps every one
+ * of these rows, its rivals' too (CTO, Nov 1 21:25; governing lead, Nov 1
+ * 21:22): the player's screen and the played-year proof read them. Its
  * messages and word are not touched here: a filing stays on the ballot after
  * the count, so word of it may still pass on (`foldRivalWord`).
  */
@@ -5957,6 +5988,20 @@ export function closeRace(api: CoreAPI, contestId: string): void {
       candidateId,
     ]) as unknown as PledgeRow[])
       if (row.contestId === contestId) pledges.remove(row.id);
+  // A campaign's id is its filing's.
+  const gifts = table(api, "gifts"),
+    endorsements = table(api, "endorsements"),
+    steppedUp = table(api, "steppedUp"),
+    polls = table(api, "polls");
+  for (const filing of filings) {
+    for (const row of gifts.query("byCampaign", [filing.id]))
+      gifts.remove(row.id);
+    for (const row of endorsements.query("byFiling", [filing.id]))
+      endorsements.remove(row.id);
+    for (const row of steppedUp.query("byFiling", [filing.id]))
+      steppedUp.remove(row.id);
+  }
+  for (const row of polls.query("byContest", [contestId])) polls.remove(row.id);
 }
 
 /**

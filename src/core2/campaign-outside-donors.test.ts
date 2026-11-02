@@ -84,7 +84,10 @@ it("a wider race raises from donors outside the town, under the limit, and buys 
     }
     if (!filed) continue;
     const contest = wider.find((c) => c.id === filed!.contestId)!;
+    // The polls and the outside donors' gifts are read each turn, as the
+    // turn left them: a decided race's rows go at its close (`closeRace`).
     const polls = new Map<string, PollRow>();
+    const outside = new Map<string, GiftRow>();
     for (let turn = 0; turn < 120; turn += 1) {
       advanceCore(world.core, addDays(makeIsoDate(world.core.date), 3));
       campaignTurn(api, filed.id, contest.electionDate);
@@ -93,14 +96,14 @@ it("a wider race raises from donors outside the town, under the limit, and buys 
         .table("polls")
         .rows() as unknown as PollRow[])
         polls.set(row.id, row);
-    }
-    const campaign = campaignFor(api, filed.id);
-    const gifts = (
-      api
+      for (const row of api
         .moduleState(CAMPAIGNS_MODULE_ID)
         .table("gifts")
-        .rows() as unknown as GiftRow[]
-    ).filter((g) => g.donorId.startsWith("outside:"));
+        .rows() as unknown as GiftRow[])
+        if (row.donorId.startsWith("outside:")) outside.set(row.id, row);
+    }
+    const campaign = campaignFor(api, filed.id);
+    const gifts = [...outside.values()];
     console.log(
       `outside-donors ${where}: ${contest.title}, ${gifts.length} outside gifts, raised ${campaign.raisedMinor}, ${polls.size} polls`,
     );
