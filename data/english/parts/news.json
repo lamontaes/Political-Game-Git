@@ -4675,6 +4675,359 @@
       }
     },
     {
+      "key": "news.retirement.name-retired-from-employer-on-date",
+      "move": "retirement",
+      "kind": "written",
+      "text": "{name} retired from {employer} on {date}.",
+      "uses": [
+        {
+          "move": "retirement",
+          "subject": "news",
+          "role": "retirement",
+          "choice": "lede",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.letter.in-a-letter-to-the-editor-name-of-place-backs-the-law",
+      "move": "letter",
+      "kind": "written",
+      "text": "In a letter to the editor, {name} of {place} backs the {law}.",
+      "uses": [
+        {
+          "move": "letter",
+          "subject": "news",
+          "role": "letter",
+          "choice": "lede",
+          "requiresFacts": ["supports", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.letter.name-wrote-to-the-paper-in-support-of-the-law",
+      "move": "letter",
+      "kind": "written",
+      "text": "{name} wrote to the paper in support of the {law}.",
+      "uses": [
+        {
+          "move": "letter",
+          "subject": "news",
+          "role": "letter",
+          "choice": "lede",
+          "requiresFacts": ["supports"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.letter.name-of-place-wrote-in-to-speak-up-for-the-law",
+      "move": "letter",
+      "kind": "written",
+      "text": "{name} of {place} wrote in to speak up for the {law}.",
+      "uses": [
+        {
+          "move": "letter",
+          "subject": "news",
+          "role": "letter",
+          "choice": "lede",
+          "requiresFacts": ["supports", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.letter.in-a-letter-to-the-editor-name-urges-readers-to-back-the-law",
+      "move": "letter",
+      "kind": "written",
+      "text": "In a letter to the editor, {name} urges readers to back the {law}.",
+      "uses": [
+        {
+          "move": "letter",
+          "subject": "news",
+          "role": "letter",
+          "choice": "lede",
+          "requiresFacts": ["supports"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.letter.in-a-letter-to-the-editor-name-of-place-opposes-the-law",
+      "move": "letter",
+      "kind": "written",
+      "text": "In a letter to the editor, {name} of {place} opposes the {law}.",
+      "uses": [
+        {
+          "move": "letter",
+          "subject": "news",
+          "role": "letter",
+          "choice": "lede",
+          "requiresFacts": ["opposes", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.letter.name-wrote-to-the-paper-against-the-law",
+      "move": "letter",
+      "kind": "written",
+      "text": "{name} wrote to the paper against the {law}.",
+      "uses": [
+        {
+          "move": "letter",
+          "subject": "news",
+          "role": "letter",
+          "choice": "lede",
+          "requiresFacts": ["opposes"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.letter.name-of-place-wrote-in-to-speak-against-the-law",
+      "move": "letter",
+      "kind": "written",
+      "text": "{name} of {place} wrote in to speak against the {law}.",
+      "uses": [
+        {
+          "move": "letter",
+          "subject": "news",
+          "role": "letter",
+          "choice": "lede",
+          "requiresFacts": ["opposes", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.letter.in-a-letter-to-the-editor-name-argues-against-the-law",
+      "move": "letter",
+      "kind": "written",
+      "text": "In a letter to the editor, {name} argues against the {law}.",
+      "uses": [
+        {
+          "move": "letter",
+          "subject": "news",
+          "role": "letter",
+          "choice": "lede",
+          "requiresFacts": ["opposes"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.letter.name-wrote-to-the-paper-in-support-of-designation",
+      "move": "letter",
+      "kind": "written",
+      "text": "{name} wrote to the paper in support of {designation}.",
+      "uses": [
+        {
+          "move": "letter",
+          "subject": "news",
+          "role": "letter",
+          "choice": "lede",
+          "requiresFacts": ["supports"],
+          "excludesFacts": ["law"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.letter.name-wrote-to-the-paper-against-designation",
+      "move": "letter",
+      "kind": "written",
+      "text": "{name} wrote to the paper against {designation}.",
+      "uses": [
+        {
+          "move": "letter",
+          "subject": "news",
+          "role": "letter",
+          "choice": "lede",
+          "requiresFacts": ["opposes"],
+          "excludesFacts": ["law"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.retirement.after-years-years-at-employer-name-has-retired",
+      "move": "retirement",
+      "kind": "written",
+      "text": "After {years} years at {employer}, {name} has retired.",
+      "uses": [
+        {
+          "move": "retirement",
+          "subject": "news",
+          "role": "retirement",
+          "choice": "lede",
+          "requiresFacts": ["employer", "years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.retirement.name-of-place-retired-on-date",
+      "move": "retirement",
+      "kind": "written",
+      "text": "{name} of {place} retired on {date}.",
+      "uses": [
+        {
+          "move": "retirement",
+          "subject": "news",
+          "role": "retirement",
+          "choice": "lede",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.retirement.name-retired-on-date",
+      "move": "retirement",
+      "kind": "written",
+      "text": "{name} retired on {date}.",
+      "uses": [
+        {
+          "move": "retirement",
+          "subject": "news",
+          "role": "retirement",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.retirement.name-retired-from-government-on-date",
+      "move": "retirement",
+      "kind": "written",
+      "text": "{name} retired from {government} on {date}.",
+      "uses": [
+        {
+          "move": "retirement",
+          "subject": "news",
+          "role": "retirement",
+          "choice": "lede",
+          "requiresFacts": ["government"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.retirement.after-years-years-with-government-name-has-retired",
+      "move": "retirement",
+      "kind": "written",
+      "text": "After {years} years with {government}, {name} has retired.",
+      "uses": [
+        {
+          "move": "retirement",
+          "subject": "news",
+          "role": "retirement",
+          "choice": "lede",
+          "requiresFacts": ["government", "years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "news.anniversary.subject-opened-in-place-years-years-ago-this-week",
       "move": "anniversary",
       "kind": "written",
