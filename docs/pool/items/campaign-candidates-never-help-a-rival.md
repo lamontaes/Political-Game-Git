@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: governing/candidates-never-help-rival
 pr: #7069
 blocked-on:
