@@ -1317,6 +1317,42 @@ let speechState = null;
  * with each filer by name, from the filing records, marked unopposed or
  * unfilled where that is what the records hold.
  */
+/**
+ * An evening of donor calls, played as a scene: the phone bank with the player
+ * at it, and each call the next Continue (the person's name and bust, what they
+ * said from the call's own record), the last the night's total in the
+ * narrator's voice.
+ */
+function playCallNight(result) {
+  closeSheet();
+  renderTalk(undefined);
+  if (result.scene) {
+    $("backdrop").src = result.scene.backdrop.url;
+    // Each person is heard on the line, not in the room.
+    drawPeople(result.scene.people.filter((p) => p.personId === me.id));
+  }
+  show("talk", true);
+  const calls = result.calls ?? [];
+  const call = (at) => {
+    talkControls({ silent: false, leave: false });
+    setScales({ available: false });
+    if (at < calls.length) {
+      setWho(calls[at].personId, calls[at].name);
+      fillTalk({
+        lines: [talkLine({ kind: "speech", text: calls[at].line })],
+        replies: [],
+      });
+      onContinue = () => call(at + 1);
+      return;
+    }
+    setWho(null, null);
+    fillTalk({
+      lines: [talkLine({ kind: "speech narration", text: result.callsLine })],
+      replies: [],
+    });
+  };
+  call(0);
+}
 async function campaignParts() {
   const v = await api(`/api/campaign?id=${encodeURIComponent(me.id)}`);
   const parts = [];
@@ -1344,10 +1380,12 @@ async function campaignParts() {
       // The outing's hours moved the clock: the card shows the new time.
       if (result.packet) renderPacket(result.packet);
       campaignLines = (result.calls ?? []).map((call) => call.line);
-      // The calls are read on the sheet, each person with what they gave or why not.
+      // An evening of calls is a scene (owner: every campaign act is a scene):
+      // the player at the phones, one call per Continue, each person heard by
+      // name with what they gave or why not, then the night's total.
       if (outing === "calls" && result.callsLine) {
         campaignResult = result.callsLine;
-        reopenTrail(filing.id);
+        playCallNight(result);
         return;
       }
       campaignResult = [
@@ -1449,7 +1487,6 @@ async function campaignParts() {
       // stopgapId: SG-PLAY-campaign-acts-buttons
       buttonRow(
         button(controls.campaignActs.volunteer, "volunteer"),
-        button(controls.campaignActs.donation, "donation"),
         button(controls.campaignActs.endorsement, "endorsement"),
         button(controls.campaignActs.ad, "ad", { amountMinor: "5000" }),
         button(controls.campaignActs.poll, "poll", {
