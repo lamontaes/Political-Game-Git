@@ -22,8 +22,6 @@ import {
 } from "./gov-rules/names-data";
 import { isRealOfficeholderName } from "./officials-names";
 import { fillInIdentity, fillInPerson } from "./state";
-import { parameter } from "./parameters";
-import { medianTransactionBalance } from "./starting-cash";
 import { countedResidents } from "./electorate";
 import { startPublicJob } from "./public-payroll";
 import { giveLivingCost } from "./official-living";
@@ -113,7 +111,7 @@ export interface StaffRow {
   readonly role: StaffRole;
   readonly jobId: string | null;
   readonly hiredOn: string;
-  /** An owner given a household cost at hire, which they spend out of each week through this date. */
+  /** Someone given a household cost at hire (an owner, or staff from outside the town), which they spend out of each week through this date. */
   readonly livedThrough?: string;
   /** When they left the outlet (another job, a move, death). */
   readonly leftOn?: string;
@@ -188,7 +186,6 @@ export function hireStaffMember(
     const person = fillInPerson(core, resident);
     return seatStaff(api, input, key, person.id);
   }
-  const minorPerDollar = parameter("minorPerDollar", core.data.parameters);
   const neighbor =
     home === input.townPlaceId
       ? [...(core.peopleByPlace.get(input.townPlaceId) ?? [])]
@@ -207,18 +204,6 @@ export function hireStaffMember(
     gender: gender === "female" || gender === "male" ? gender : "nonbinary",
     // The town's own cadence, as its neighbors live.
     ...(neighbor?.tier ? { tier: neighbor.tier } : {}),
-    // What a family at their pay keeps in its accounts (SCF 2022), as the
-    // town's generated residents do; later hires arrive with what they have.
-    ...(input.role.payParameter && core.date === core.startedAt
-      ? {
-          openingLiquidMinor: Math.round(
-            medianTransactionBalance(
-              input.parameter(input.role.payParameter) / minorPerDollar,
-              core.seed,
-            ) * minorPerDollar,
-          ),
-        }
-      : {}),
     source: input.source,
   } as Parameters<typeof fillInIdentity>[1]);
   return seatStaff(api, input, key, id);
@@ -272,17 +257,18 @@ function seatStaff(
           citation: input.source.citation,
         })
       : null;
-  // An owner holds the outlet and is on no payroll, so nothing gives them a
-  // household: a wealthy owner's cost and savings, at the income the press
-  // parameters set, with the savings paid in from outside.
-  const lives =
-    !pay &&
-    giveLivingCost(api, {
-      personId: id,
-      stateKey: input.stateKey,
-      annualMinor: input.parameter("ownerHouseholdIncomeMinor"),
-      governmentKey: input.stateKey,
-    });
+  // Someone seated from a recorded identity (an owner, or staff who live
+  // outside the town) has no household to give them a cost, so they get the
+  // one-person household officials get: the Consumer Expenditure basket and a
+  // studio's rent, and the savings a family keeps at their pay (an owner's,
+  // at the income the press parameters set), paid in from outside. Staff
+  // drawn from the town's people keep their household's own costs.
+  const lives = giveLivingCost(api, {
+    personId: id,
+    stateKey: input.stateKey,
+    annualMinor: input.parameter(pay ?? "ownerHouseholdIncomeMinor"),
+    governmentKey: input.stateKey,
+  });
   return {
     id,
     outletId: input.outletId,

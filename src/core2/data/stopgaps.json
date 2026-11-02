@@ -3936,7 +3936,7 @@
     "kind": "missing-record",
     "file": "src/core2/press-staff.ts",
     "line": 196,
-    "whatItFakes": "A press person who lives outside the town (a station group's owner, a station news director, a national outlet's staff) is seated alone in their own household with no rent, living costs or family, as the core's identity fill-in makes them. The town's own staff are filled in from its wider population with their household.",
+    "whatItFakes": "A press person who lives outside the town (a station group's owner, a station news director, a national outlet's staff), or one the town had no jobless adult of the role's age left to fill in, is seated from a recorded identity in a household of one with no kin. Since people-press-staff-households they carry the one-person household officials get (official-living.ts: the Consumer Expenditure basket and the state's studio rent, and the savings a family keeps at their pay) and spend it each week, but no household record holds them a home, a family or a rent of their own. The town's own staff are filled in from its wider population with their household.",
     "why": "The identity fill-in (OPUS-CORE) seats a named person without a home or a budget; a press person's home and family need the population builder's household draw.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-14",
@@ -3971,13 +3971,13 @@
     "id": "SG-PEOPLE-press-national-payroll",
     "kind": "missing-record",
     "file": "src/core2/press-staff.ts",
-    "line": 256,
-    "whatItFakes": "People of an outlet who live outside the town (every owner of a station or national outlet, a station's news director, the national tier's staff) hold no job and draw no pay, and a national outlet has no revenue or books.",
+    "line": 245,
+    "whatItFakes": "People of an outlet who live outside the town (every owner of a station or national outlet, a station's news director, the national tier's staff) hold no job and draw no pay, and a national outlet has no revenue or books. Since people-press-staff-households they also spend a one-person household's cost each week, so those with thin savings run out: in Petersville, Alaska (seed pst-1), three of four station news directors held $0 by May to August of the first year. The row was restored as resolved on Oct 14 while this marker still ran; it is open until people-press-out-of-town-staff-paid pays them.",
     "why": "The shared payroll path copies a schedule from a job where the employer sits, and the world keeps no full jobs outside the town; national outlets' money belongs to the national economy (OPUS-WORLD).",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-14",
     "replacement": "National outlets with books in the national economy (advertising and subscriptions by audience), paying their people through the core's payroll wherever they are based.",
-    "status": "resolved"
+    "status": "open"
   },
   {
     "id": "SG-PEOPLE-press-staff-turnover",
@@ -7988,7 +7988,7 @@
     "addedBy": "governing/campaign-money-calibrated",
     "addedAt": "2026-11-01",
     "replacement": "Give such households their month of living costs where they are made (press staff through the one-person household official-living.ts already gives owners and officials, giveLivingCost, or the household draw SG-PEOPLE-press-staff-households names), delete the one-for-one branch, and refit donationShareOfMonthPerWarmth: with those donors weighed against their town's median month instead, the best share (about 2.2) leaves 13% of eight-place and 3.3% of sixteen-place pools outside a band, so the money rule needs more than a new share.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-CAMPAIGN-volunteer-shift-no-scene",
