@@ -296,6 +296,125 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.74.0
+
+_Released November 1, 2026._
+
+### Added
+
+- **Obituaries, round birthdays and business anniversaries in the local paper**
+  An obituary now tells what the records hold of a life: where the person was
+  born, the office they served in, where they worked and for how long, and who
+  survives them. A resident who turns 80, 90 or 100 gets a birthday notice, and
+  a local business marks its 10th, 25th or 50th year. A council member who votes
+  again for a family firm is reported as the second or third time, with the firm
+  named.
+
+### Improved
+
+- **Towns with many evictions keep running at full speed** Households in the
+  wider population who lose their homes now stay part of the town's counts
+  instead of each becoming a fully simulated person. A college town where many
+  students fall behind on rent plays its first year in about a third of the
+  time. Its homeless count includes those households, and they can find a place
+  to rent again.
+
+- **Faster interview checks in long games** Checking whether a news outlet has
+  room for an interview no longer looks through every interview it ever held.
+  Long saves stay as quick at this as new ones.
+
+- **Your Journal tells finishing high school and work before a move** The
+  Journal now tells the end of your senior year, whether you graduated or left
+  without a diploma. It also tells work you did in another place before you
+  moved, by where you did it, where it used to skip those years because no
+  employer was on record.
+
+### Fixed
+
+- **People running against you no longer work for your campaign.** Someone who
+  has filed for the same seat as you now campaigns only for themselves. They no
+  longer knock doors as your volunteer, offer to run your campaign, host or come
+  to your donor meetings, or say yes when you ask them for an endorsement, even
+  when they are your relative, your friend or a member of a group that backs
+  you, and a group whose spokesperson is running gives no new endorsement to
+  anyone else in that race. Someone already working on your campaign who then
+  files for the same seat leaves it that day and stops coming to your events; a
+  volunteer's time working with you is still part of your history. The same
+  holds for every other candidate in town.
+
+- **A resident who told you "You've got my vote" keeps their word when you knock
+  again.** Before, if you or a volunteer knocked a second time on the door of
+  someone who had already said yes, and the visit went a little cooler, they
+  took their yes back, sometimes by the smallest margin. Now a yes once given
+  stands unless something heavy changes their mind, such as a scandal they hear
+  of or a rival they are close to, or unless they give a rival their yes
+  instead.
+
+- **Cabinet members and national reporters no longer quit and "move away" to the
+  place they already live.** National and state cabinet members and national
+  press people were being treated like townspeople deciding whether to move.
+  Every few weeks one "moved away" to the same state they were in and lost their
+  job. They now stay in their posts. And someone leaving town with no relative
+  or usual destination to go to now moves elsewhere in their state, not back
+  into the town they left.
+
+- **The creator's town list shows the population the world opens with** The town
+  you pick in the creator shows the same number of residents the game opens
+  with.
+
+- **A firm that cannot pay its workers closes** A business with no cash and no
+  credit that misses a day's wages now closes with that missed pay as its
+  recorded reason, and the game carries on instead of stopping.
+
+- **A relative's race is told as theirs in your Journal** When a relative of
+  yours ran and lost, your Journal sometimes told the race as their rival's, a
+  stranger it couldn't name, and left it out. The Journal now tells someone
+  else's moment as your relative's first, then as someone you know.
+
+- **A relative whose move has no new place on record moved away** When someone
+  asks after a relative whose move has no new place on record (a new home within
+  their state's record, or a move with no destination found), the answer is now
+  that they moved away. Before, it said they moved to the place they had just
+  left. Every answer about a relative's news now cites the record it tells.
+
+### Changed
+
+- **Every state, D.C. and territory now has its whole legislature, governor and
+  statewide officers seated.** Every other state, D.C. and each territory now
+  opens with every seat of its legislature, its governor and its statewide
+  officers held by a named official with a career behind them, in the party on
+  record for the seat. Each state's and D.C.'s legislators, governor and
+  statewide officers (lieutenant governors, attorneys general, secretaries of
+  state and the rest) come up on their own calendars, and the voting engine
+  seats each winner in the office as someone from that state; a governor who
+  loses is replaced by the winner, not kept on. The territories' races and the
+  handful of offices elected without party labels aren't run yet, so those
+  officials stay on past their terms for now. The old handful of eight sample
+  members per chamber is gone. These officials are names on the record, filled
+  in as full people only when the player meets or opens one, or, for a governor
+  or statewide officer, when a presidential field is first weighed: every
+  state's governor and statewide officers can weigh a run for president, as the
+  home state's can; other states' legislators can't yet. An official who loses
+  their seat leaves office that day, and the town paper no longer prints another
+  place's swearings-in as town news. Those legislatures don't pass laws yet;
+  that comes next.
+
+- **Relatives who live elsewhere now move house over the years, and you hear
+  about it.** Your relatives who live outside your town used to stay exactly
+  where the game started them. Now each one weighs moving every month the way
+  people in town do: by their age, their state's moving rates and what ties them
+  where they live. When they move, to a relative's town, to where people from
+  their county usually go, or to a new home in their state, the family in your
+  town hears about it.
+
+- **Relatives who live elsewhere now have working lives, and you hear when one
+  loses a job, finds one or retires.** Your relatives in other towns used to
+  have no work at all. Now each one of working age starts out working, looking
+  or out of work in the same shares as real Americans their age, then gets let
+  go, finds work, moves to a better job or retires at real-life rates, sooner or
+  later by their own temperament and their state's job market. When one of them
+  loses a job, starts one or retires, the family in your town hears about it.
+
 ## PRE-ALPHA 0.73.0
 
 _Released November 1, 2026._

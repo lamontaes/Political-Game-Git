@@ -6,12 +6,13 @@ kind: bug
 priority: 1
 size: S
 status: in-pr
-claimed-by:
-pr:
+claimed-by: play-first/play-person-clickable-only-with-talk
+pr: #7077
 blocked-on:
 source: owner playtest of v0.73.0, Nov 1, 22:25 UTC
 lead: play-first
 milestone: play-first
+claimed-at: 2026-11-01T22:26:34.325Z
 ---
 
 **What.** Owner, Nov 1 playtest of v0.73.0: "If there's no dialogue, you shouldn't be able to click on the person." After the talk following the address ended, clicking the housemate again replayed the same opening exchange. The owner's Oct 29 ruling made clicking a person start the talk, with no Talk button. The director already knows whether a talk has anything new to say for a person on a day; the room should read that and leave the figure unclickable when it has nothing.

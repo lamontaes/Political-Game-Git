@@ -4,6 +4,7 @@
 // Usage: BENCH_PORT=3121 BENCH_BROWSER=... node src/bench/donors.browser.mjs <before|after>
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
+import { openCampaignTrail } from "./campaign-trail.mjs";
 const mode = process.argv[2] ?? "after";
 const base = `http://localhost:${process.env.BENCH_PORT ?? 3000}`;
 const out = "docs/reports/donors-2026-10-25";
@@ -79,8 +80,9 @@ try {
   );
   console.log("Raised before:", raisedBefore);
   await page.screenshot({ path: `${out}/${mode}-1-campaigns.png` });
+  await openCampaignTrail(page);
   const calls = page
-    .locator(".row.campaign button", { hasText: "Call donors" })
+    .locator("#sheet-body.place-view button", { hasText: "Call donors" })
     .first();
   if (await calls.isDisabled()) {
     console.log(
@@ -96,8 +98,20 @@ try {
     const result = await (await day).json();
     await page.waitForTimeout(800);
     await page.screenshot({ path: `${out}/${mode}-2-after-calls.png` });
+    // The calls are read on the trail, where the act was; the money on the tab.
     const body = await page.locator("#sheet-body").innerText();
-    const raisedAfter = dollarsIn(body);
+    await page
+      .locator('[data-tab="politics"]')
+      .first()
+      .evaluate((e) => e.click());
+    await page
+      .locator("#sheet-tabs")
+      .getByRole("button", { name: "Campaigns", exact: true })
+      .click();
+    await page.locator(".row.campaign").first().waitFor();
+    const raisedAfter = dollarsIn(
+      await page.locator(".row.campaign").first().innerText(),
+    );
     if (Number.isNaN(raisedAfter))
       console.log(
         "Sheet body:",

@@ -18,7 +18,7 @@ milestone: play-first
 
 **Rules.** This is a game, not a spreadsheet: the owner named The Political Process as the model for this screen. An effect is a read, not a record: the screen reads the budgets engine's records for each government and computes nothing of its own. No hand-written player text: the period reads as "October 1, 2024 to September 30, 2025" through the English engine, and "in force at the opening" goes.
 
-**Done when.** In a drawn place (named with seed), the government picker lists the nation, every state and territory, the player's county and town; the period line shows the budget's start and end dates; the books panel's figures come from the journal for that government with their record ids named in the PR; the PR shows the TPP references and the mock beside screenshots at 1440x900.
+**Done when.** In a drawn place (named with seed), the government picker lists the nation, every state and territory, the player's county and town; the period line shows the budget's start and end dates; the books panel's figures come from the journal for that government with their record ids named in the PR; the PR shows the TPP references and the mock beside screenshots at 1440x900. The build follows the mock the owner approved through the CTO.
 
 **Time box.** 4 hours; if not done, push what exists, open the draft PR, write the handoff.
 
@@ -29,3 +29,5 @@ milestone: play-first
 **Files.** src/bench/play.mjs, src/bench/budgets.browser.mjs, src/bench/play.css
 
 **Notes.** Filed by the CTO from the owner's v0.73.0 playtest, second batch (Nov 1, 22:40 UTC, five screenshots, a game in the U.S. Virgin Islands). Read: OWNER-DECISIONS (Oct 29 menus redesigned the way Government was; Oct 29 Political Process baseline; one history), the pool for twins.
+
+Owner's answer, Nov 1 23:30: "So the lane will show me a mock and you'll send it to me in this chat." MOCK FIRST: the lane sends the mock image (from The Political Process references) to the CTO, who sends it to the owner; build after his answer.
