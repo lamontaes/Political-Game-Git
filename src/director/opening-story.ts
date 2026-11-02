@@ -219,11 +219,26 @@ const GOOD_CLAIMS: Readonly<Record<string, readonly string[]>> = {
   jobs: ["jobs-up"],
 };
 
+/** What an address leads with after the greeting. */
+type Lead = "occasion" | "country" | "people" | "history" | "mission";
+
 interface AddressData {
   numbersBySubject: Readonly<Record<string, readonly string[]>>;
   mannerTraits: { plain: readonly string[]; polished: readonly string[] };
+  /** The facets that pull a President toward each lead. */
+  leads: Readonly<Record<Exclude<Lead, "occasion">, readonly string[]>>;
+  /** The middle of the address in order, for each lead. */
+  orders: Readonly<Record<Lead, readonly string[]>>;
+  /** The parts an address may leave out, by the facets that pull a President to say each. */
+  asides: Readonly<Record<string, readonly string[]>>;
+  /** The facets that make a President say more, and those that keep it short. */
+  talk: { more: readonly string[]; less: readonly string[] };
   parameters: Record<
-    "prioritiesMax" | "priorityStanceShare" | "storyTopics",
+    | "prioritiesMax"
+    | "priorityStanceShare"
+    | "storyTopics"
+    | "asidesBase"
+    | "asidesPerTalk",
     { value: number }
   >;
 }
@@ -462,6 +477,69 @@ interface Block {
 
 const RANKS = ["rank-first", "rank-second", "rank-third"] as const;
 
+/** A President's summed values on a set of recorded facets. */
+function traitSum(president: PersonState, keys: readonly string[]): number {
+  return keys.reduce(
+    (total, key) => total + (president.traits[key] ?? P.zero),
+    P.zero,
+  );
+}
+
+/**
+ * What the address leads with (owner, Nov 1: "Every one of these speeches has
+ * the same general outline. They need to vary."). A hard year leads with the
+ * country's story, as addresses in a crisis do. Otherwise the President's
+ * strongest leaning above zero picks it: the people, the country's long story,
+ * their mission (only with a priority to lead with) or the year's work. A
+ * President with no leaning opens with the year when a priority bears on it,
+ * else with the occasion.
+ */
+function leadOf(
+  president: PersonState,
+  record: { hardYear: boolean; firstBears: boolean; priorities: number },
+): Lead {
+  if (record.hardYear) return "country";
+  const leads = (Object.keys(SHAPE.leads) as Exclude<Lead, "occasion">[])
+    .filter((lead) => lead in SHAPE.orders && lead !== ("about" as string))
+    .filter((lead) => lead !== "mission" || record.priorities > P.zero)
+    .map((lead) => ({ lead, pull: traitSum(president, SHAPE.leads[lead]) }))
+    .filter((row) => row.pull > P.zero)
+    .sort((a, b) => b.pull - a.pull || a.lead.localeCompare(b.lead));
+  return leads[P.zero]?.lead ?? (record.firstBears ? "country" : "occasion");
+}
+
+/**
+ * The asides this President says: a talkative one more of them, a terse one
+ * fewer, those their traits pull hardest first. The part the address leads
+ * with is always said.
+ */
+function asidesOf(president: PersonState, lead: Lead): ReadonlySet<string> {
+  const par = SHAPE.parameters;
+  const keys = Object.keys(SHAPE.asides).filter((key) => key !== "about");
+  const talk =
+    traitSum(president, SHAPE.talk.more) - traitSum(president, SHAPE.talk.less);
+  const count = Math.max(
+    P.zero,
+    Math.min(
+      keys.length,
+      Math.round(par.asidesBase.value + par.asidesPerTalk.value * talk),
+    ),
+  );
+  const ranked = keys
+    .map((key) => ({ key, pull: traitSum(president, SHAPE.asides[key]!) }))
+    .sort(
+      (a, b) =>
+        Number(b.key === lead) - Number(a.key === lead) ||
+        b.pull - a.pull ||
+        a.key.localeCompare(b.key),
+    );
+  return new Set(
+    ranked
+      .slice(P.zero, Math.max(count, Number(keys.includes(lead))))
+      .map((row) => row.key),
+  );
+}
+
 /**
  * Plan the address from the world's records: which priorities the President
  * leads with and the law on each, the line they will not cross, which of the
@@ -644,9 +722,14 @@ function planAddress(
     },
     moves: [move("creed"), move("unity")],
   };
-  // A hard year, or a first priority that bears on a number, opens with the
-  // country's story; any other President opens with the occasion.
-  const storyFirst = !!country.facts["mood-hard"] || firstBears;
+  // What the address leads with and which asides it says, from the year's
+  // record and the President's traits: two Presidents give different speeches.
+  const lead = leadOf(president, {
+    hardYear: !!country.facts["mood-hard"],
+    firstBears,
+    priorities: priorities.length,
+  });
+  const asides = asidesOf(president, lead);
   // The country's people, while the camera is out among them (owner, Oct
   // 29: the cutaways alternate the President at work with America).
   const people: Draft = {
@@ -662,14 +745,9 @@ function planAddress(
     facts: creed.facts,
     moves: [move("history")],
   };
-  blocks.push(
-    ...(storyFirst
-      ? [story, people, occasion, creed, history]
-      : [occasion, creed, history, story, people]),
-  );
   // The turn to Congress, then what the President will ask of it. A
   // President with nothing to ask says what they will bring instead.
-  blocks.push(
+  const congress: Draft[] = [
     {
       key: "to-congress",
       level: "congress",
@@ -680,7 +758,20 @@ function planAddress(
     },
     ...priorityBlocks,
     ...(lineBlock ? [lineBlock] : []),
-  );
+  ];
+  // The middle of the speech in the lead's order, leaving out the asides
+  // this President doesn't say.
+  const parts: Readonly<Record<string, readonly Draft[]>> = {
+    occasion: [occasion],
+    creed: [creed],
+    history: [history],
+    story: [story],
+    people: [people],
+    congress,
+  };
+  for (const part of SHAPE.orders[lead])
+    if (!(part in SHAPE.asides) || asides.has(part))
+      blocks.push(...(parts[part] ?? []));
   // The speech turns to the Vice President and to the states, as the
   // montage shows them (owner, Oct 29: "the Vice President, Congress and
   // the player's governor with a few state legislators appear"). The words
@@ -694,29 +785,29 @@ function planAddress(
       facts: { "vice-president": fact(fullName(vicePerson), vice.id) },
       moves: [move("to-vp")],
     });
-  blocks.push(
-    {
-      key: "to-states",
-      level: "states",
-      facts: {},
-      moves: [move("to-states")],
-    },
-    // What the President asks of the people themselves, in their party's terms.
-    {
+  blocks.push({
+    key: "to-states",
+    level: "states",
+    facts: {},
+    moves: [move("to-states")],
+  });
+  // What the President asks of the people themselves, in their party's
+  // terms, and the hope they close on, when this President says them.
+  if (asides.has("call"))
+    blocks.push({
       key: "call",
       level: "families",
       facts: { ...country.facts, ...creed.facts },
       moves: [move("call")],
-    },
-  );
-
-  blocks.push(
-    {
+    });
+  if (asides.has("hope"))
+    blocks.push({
       key: "hope",
       level: "close",
       facts: country.facts,
       moves: [move("hope")],
-    },
+    });
+  blocks.push(
     {
       key: "families",
       level: "families",

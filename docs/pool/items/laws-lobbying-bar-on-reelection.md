@@ -5,12 +5,13 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/laws-lobbying-bar-on-reelection
 pr:
 blocked-on:
 source: added with npm run pool -- add
 lead: laws
+claimed-at: 2026-11-02T00:36:34.968Z
 ---
 
 **What.** On a re-election, seatWinner ends the serving term and seats the same person on a new term. lobbyingBarredUntil (src/core2/law-reach/group-a-voting.ts:617-629) reads the ended term as the official leaving office and starts the revolving-door bar. So a sitting resident who won again is treated as a former official barred from lobbying. Found by the laws lead's review of the speed lead's fold proposal (core-long-run-election-and-term-rows), Nov 2.
@@ -22,3 +23,5 @@ lead: laws
 **Files.** src/core2/law-reach/group-a-voting.ts, src/core2/modules/voting.ts
 
 **Notes.** TODO
+
+Nov 2, 01:20 UTC (laws lead, progress record): branch claude/laws-lobbying-bar-on-reelection, not pushed yet; a Sonnet helper is building it in /home/user/h-lobby (cause per the review: seatWinner ends the serving term on a re-election and lobbyingBarredUntil, group-a-voting.ts:617-629, reads it as leaving; fix: a person leaves an office only when no serving term of theirs continues past the ended one). Next: review the helper's diff, open the PR (line 1 Pool item: laws-lobbying-bar-on-reelection), hand it to the checker by PR number mod 5. If the branch is missing on the remote, start again from main: the item's What, Rules and Done when are the brief.

@@ -22,3 +22,5 @@ claimed-at: 2026-11-01T21:16:04.344Z
 **Files.** src/core2/state.ts,src/core2/act-cash.ts,src/core2/work-attendance.ts,src/core2/decision-detail.ts
 
 **Notes.** lead: speed. Round four; Words told Nov 1 21:12.
+
+Nov 2, 01:20 UTC (speed lead, handoff record; the first account is near its weekly limit): branch speed/cut-log-by-place, head 6016d630fa (built on main 15059c66cc), built, reviewed and fixed. Its four-year proof against main 15059c66cc is running. Next: proof (only core.logByPlace may differ), PR, checker.
