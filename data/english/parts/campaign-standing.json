@@ -1152,6 +1152,48 @@
         "move": "deliver-news",
         "key": "ad-none"
       }
+    },
+    {
+      "key": "campaign-standing.poll-none.the-pollster-could-not-be-paid-for-a-single-interview",
+      "move": "poll-none",
+      "kind": "written",
+      "text": "The pollster could not be paid for a single interview.",
+      "uses": [
+        {
+          "move": "poll-none",
+          "subject": "campaign",
+          "role": "polls",
+          "choice": "poll-none"
+        }
+      ],
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "poll-none"
+      }
+    },
+    {
+      "key": "campaign-standing.poll-none.the-campaign-has-no-money-to-pay-a-pollster",
+      "move": "poll-none",
+      "kind": "written",
+      "text": "The campaign has no money to pay a pollster.",
+      "uses": [
+        {
+          "move": "poll-none",
+          "subject": "campaign",
+          "role": "polls",
+          "choice": "poll-none"
+        }
+      ],
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "poll-none"
+      }
     }
   ]
 }

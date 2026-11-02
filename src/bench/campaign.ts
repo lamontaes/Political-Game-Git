@@ -379,11 +379,39 @@ export function campaignAct(
         spentMinor: campaignFor(api, input.filingId).spentMinor - before,
       };
     }
-    case "poll":
-      return commissionPoll(api, {
+    case "poll": {
+      const row = commissionPoll(api, {
         filingId: input.filingId,
         sampleSize: input.sampleSize ?? POLL_SAMPLE,
       });
+      // The pollster briefs the player at the campaign office, in the
+      // campaign-standing bank's own words for a poll's result.
+      const recordId = `${input.filingId}|poll|${row.date}`;
+      const tally = Object.entries(row.answers)
+        .flatMap(([who, n]) => {
+          const person = core.people.get(who);
+          return person
+            ? [[`${person.givenName} ${person.familyName}`, n] as const]
+            : [];
+        })
+        .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+        .map(([name, n]) => `${name} ${n}`)
+        .join(", ");
+      return {
+        ...row,
+        line:
+          row.contacted === 0
+            ? standingLine(core.seed, personId, "poll-none", recordId, {})
+            : standingLine(
+                core.seed,
+                personId,
+                row.contacted === 1 ? "poll-result-one" : "poll-result",
+                recordId,
+                { date: spokenDate(row.date), contacted: row.contacted, tally },
+              ),
+        scene: askScene(core, personId, scenePlaces.pollsterBriefingPlace),
+      };
+    }
     default:
       throw new Error("Unknown campaign act.");
   }

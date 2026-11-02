@@ -1444,7 +1444,7 @@ async function campaignParts() {
               ? `${controls.campaignActs[kind] ?? ""}: ${result.reached} · +${result.warmer} · −${result.cooler}`
               : `${controls.campaignActs[kind] ?? ""}: ${result.answers.filter((a) => a.yes || a.givenMinor > 0).length} / ${result.answers.length}${result.answers.some((a) => a.givenMinor) ? ` · ${moneyWords(result.answers.reduce((t, a) => t + (a.givenMinor ?? 0), 0))}` : ""}`;
       // A volunteer shift is a scene: each person asked is the next Continue.
-      if (kind === "ad" && result.scene) {
+      if ((kind === "ad" || kind === "poll") && result.scene) {
         playAsks({ asked: [], summary: result.line, scene: result.scene });
         return;
       }
