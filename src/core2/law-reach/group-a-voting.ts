@@ -610,6 +610,30 @@ export function recordTermLimitFiling(
 }
 
 /**
+ * The days a person left an office: the end of each ended term that none of
+ * theirs in the same office carries on past. A term that ends the day the same
+ * person is seated again (re-election, a move to another seat of the office)
+ * is not leaving, and neither is an end while they hold the office again; the
+ * offices engine's own record of how the term ended is not read.
+ */
+function departures(terms: readonly TermRow[]): string[] {
+  return terms
+    .filter((t) => t.status === "ended" && t.endDate)
+    .filter(
+      (t) =>
+        !terms.some(
+          (u) =>
+            u.id !== t.id &&
+            u.officeId === t.officeId &&
+            (u.status === "serving" ||
+              (u.startDate <= t.endDate! &&
+                (u.endDate ?? "9999-12-31") > t.endDate!)),
+        ),
+    )
+    .map((t) => t.endDate!);
+}
+
+/**
  * The date until which a former officeholder may not lobby, under a ban in
  * force (null when none applies). For the interest-groups engine's choice
  * of a lobbyist.
@@ -619,14 +643,7 @@ export function lobbyingBarredUntil(
   personId: string,
 ): string | null {
   if (!inForce(api, LOBBYING_BAN)) return null;
-  const ended = termsOf(api, personId)
-    // A term that ended in re-election isn't leaving office.
-    .filter(
-      (t) => t.status === "ended" && t.endDate && t.endedBy !== "re-elected",
-    )
-    .map((t) => t.endDate!)
-    .sort()
-    .pop();
+  const ended = departures(termsOf(api, personId)).sort().pop();
   if (!ended) return null;
   const until = new Date(Date.parse(`${ended}T00:00:00Z`));
   until.setUTCFullYear(
