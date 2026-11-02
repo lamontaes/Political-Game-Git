@@ -136,6 +136,16 @@ Then message the merger for the PR's parity (`CREW.md`) with the PR number and h
 - **Name the parity once, from the number.** An even PR number goes to Merger 0, an odd one to Merger 1; work it out before you write the comment and write "For Merger 0 (even number)". A hedge like "odd? even: Merger 0" went into four comments; fix a wrong one with `update_issue_comment` on the comment id.
 - **A builder who asks to push to a branch you hold** gets an explicit yes and the head to push to; the branch is theirs until they say they are done, then you recheck the new head (Words, #6884, three times). Tell the merger the head each time.
 
+## Traps from the Nov 2 pass (Checker 0)
+
+- **A PR with no branch of its own on the remote** (a red-main PR from a fork-style ref) is fetched with `git fetch origin pull/<n>/head:refs/remotes/origin/pr<n>`; gate that ref, and delete it afterwards (`git update-ref -d refs/remotes/origin/pr<n>`).
+- **One vitest process with several heavy files loses workers too**, not only two processes at once (printed-words with the English tests and `press.test.ts` in one command crashed on two of three seeds). Run each heavy file in its own process, one after another, in the background, and read the logs.
+- **A browser check the PR itself adds has no `main` twin to compare with.** Run it on at least six fresh draws (a fresh bench and a new life for each) and report the count. A rate below 6 of 6 is a defect in the PR's check or its screen, not a flake: #7067 passed 2 of 6 and #7077 4 of 7 before their builders found the cause.
+- **A type error that appears only on the merged tree** (a name the merge no longer imports, a parameter type tightened on main) is a mechanical fix: use the idiom the file already uses (`makeIsoDate(...)` around a date, the missing `import type`), keep the behavior, rerun typecheck, and name the fix in the comment. A weak all-optional parameter type that rejects a table row is not mechanical when it is the PR's own design; describe the fix and send it back.
+- **An unused `/* global x */` line in a `.mjs` check fails eslint** (`'x' is defined but never used`); delete the line.
+- **Pick the merger from the PR number's parity before you paste a session id**, and put the parity in the message ("Merger 0 (even)"). One hand-off went to the wrong merger because the id and the label were typed apart; resend to the right one and tell the wrong one to ignore it.
+- **When the CTO asks for handover notes, comment on each queued PR:** gate started or not, the head, what is done (with seeds), what is left, and the exact commands, so another checker can pick it up from the record.
+
 ## Stop condition
 
 A pass ends when every PR in your share is checked at its current head or sent back with one comment. Then take the oldest unchecked PR in another share. When nothing is open, message the CTO one line and wait for the next message.

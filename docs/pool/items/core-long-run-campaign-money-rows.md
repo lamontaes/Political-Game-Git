@@ -22,3 +22,5 @@ claimed-at: 2026-11-01T21:24:03.715Z
 **Files.** src/core2/modules/campaigns.ts,src/bench/dev-trace.ts
 
 **Notes.** lead: speed. Round four; reader map in the speed lead's scratchpad r4/round-four-map.json (campaignMoney).
+
+Nov 2, 01:20 UTC (speed lead, handoff record; the first account is near its weekly limit): PR #7110, branch speed/fold-campaign-money, head 193fe8f3bd (built on main 15059c66cc), with Checker 0. Proof done: only core2-campaigns-v1.money differs (10,017 rows). The play-first lane approved its two dev-mode files. Next: the checker's gate, then a merger.
