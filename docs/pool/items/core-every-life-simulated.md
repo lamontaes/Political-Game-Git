@@ -6,12 +6,12 @@ lead: lives
 kind: bug
 priority: 1
 size: L
-status: claimed
-claimed-by: lives/every-life-simulated
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: owner, Nov 1 ("EVERY. LIFE. IS. SIMULATED. WHAT DO YOU NOT UNDERSTAND. THIS IS LOW INTENSITY STUFF")
-claimed-at: 2026-11-01T16:51:32.659Z
+claimed-at:
 ---
 
 **What.** The people the player knows who live elsewhere (most of the relatives at the start, the "husks") are kept minimal until met, and nothing happens to them, so a talk with one has nothing on record and opens empty: 12 of the 14 people the player knew in Lordship, Connecticut (`words-talk-husk-acquaintances-empty`). The owner rules that every life is simulated, at low intensity for people outside the played town. This item gives each of them a life at a coarse cadence: work and job changes, moves, marriage and partners, births, illness, aging and death. Each comes from the engines that already run those things for the town's people, never a second life engine, and each event writes the dated record those engines write, so the director, the journal and the conversation bank read it as news.
