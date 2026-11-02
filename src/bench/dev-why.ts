@@ -65,6 +65,7 @@ const money = (minor: number) =>
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   })}`;
+const payments = (n: number) => `${n} ${n === 1 ? "payment" : "payments"}`;
 const number = (value: number) => Math.round(value * 1000) / 1000;
 const nameOf = (core: CoreState, id: string) => {
   const person = core.people.get(id);
@@ -409,13 +410,13 @@ function ledgerPanels(core: CoreState, personId: string): WhyPanel[] {
     if (row)
       rows.push({
         label: name,
-        value: `in ${money(row.in)}, out ${money(row.out)}, ${row.count} payments`,
+        value: `in ${money(row.in)}, out ${money(row.out)}, ${payments(row.count)}`,
       });
   }
   for (const [kind, row] of [...kinds].sort((a, b) => b[1].count - a[1].count))
     rows.push({
       label: `  ${row.group}: ${kind}`,
-      value: `net ${money(row.net)}, ${row.count} payments`,
+      value: `net ${money(row.net)}, ${payments(row.count)}`,
     });
   // Hours: the work engine's weekly rollups for the person's jobs.
   let weeks = 0;
@@ -451,7 +452,7 @@ function ledgerPanels(core: CoreState, personId: string): WhyPanel[] {
   for (const row of folded)
     rows.push({
       label: `  ${row.year}, older than a year: ${groupOf(row.kind)}: ${row.kind}`,
-      value: `in ${money(row.inMinor)}, out ${money(row.outMinor)}, ${row.count} payments`,
+      value: `in ${money(row.inMinor)}, out ${money(row.outMinor)}, ${payments(row.count)}`,
     });
   const all = journal.totalsByOwner.get(personId);
   if (all)
