@@ -36,8 +36,10 @@ import {
   corePlaceByJurisdictionId,
   coreStateName,
 } from "../core2/place-lookup";
+import { familyFactsOf } from "../core2/modules/people";
+import { preStartHistory } from "../core2/past";
 import { coreAPI } from "../core2/state";
-import type { CoreState } from "../core2/types";
+import type { CoreState, PersonId, PersonState } from "../core2/types";
 import {
   billNameFor,
   billNameOf,
@@ -48,6 +50,7 @@ import { joinList } from "../english/bill-names";
 import { storyTopicName } from "../english/policy-names";
 import { lineName } from "./budget";
 import { policyNames } from "./words";
+import { placeLabel } from "../director/journal";
 import { stateInSentence } from "../director/words";
 
 /**
@@ -1542,20 +1545,69 @@ const exposed: Builder = (read, f) => {
   const id = read.first();
   const acts = Object.values(f);
   const office = id ? read.officeOf(id) : null;
+  const conflict = acts.includes("conflict-of-interest");
+  const firm = conflict ? read.organization(f.organizationId) : null;
+  // The same official's earlier votes for the same firm that a paper
+  // exposed, each award once however many outlets ran it: a repeat is told
+  // as the time it is, not in the first story's words (one council member's
+  // six votes for a family firm, six times in the same words in one paper,
+  // Cogswell, North Dakota, seed paper-nov1:1).
+  const award = (facts: Readonly<Record<string, string>> | undefined) =>
+    Object.keys(facts ?? {}).find((key) => key.startsWith("award:"));
+  const mine = award(f);
+  const earlier = new Set<string>();
+  if (conflict && firm && id && mine)
+    for (const logId of read.core.logByKind.get("press.exposed") ?? []) {
+      const row = read.core.durableLog.get(logId as EntityId);
+      const theirs = award(row?.facts);
+      if (
+        row &&
+        theirs &&
+        theirs !== mine &&
+        row.personIds[0] === id &&
+        row.facts?.organizationId === f.organizationId &&
+        row.date <= (read.happened || read.story.date)
+      )
+        earlier.add(theirs);
+    }
+  const time = earlier.size + 1;
   return story(
     "exposed",
     {
       ...read.who(id, "name", false),
       ...(office ? { office: read.fact(office) } : {}),
       ...(acts.includes("bribe-taken") ? { bribe: read.yes() } : {}),
-      ...(acts.includes("conflict-of-interest")
-        ? { conflict: read.yes() }
+      ...(conflict && firm
+        ? { firm: read.fact(firm, f.organizationId ?? "") }
         : {}),
+      ...(conflict && time > 1 && firm
+        ? {
+            again: read.yes(),
+            ordinal: read.fact(TIMES[time] ?? `${ordinalOf(time)}`),
+          }
+        : conflict
+          ? { conflict: read.yes() }
+          : {}),
     },
     ["name"],
     id,
   );
 };
+
+/** The time something happened, as a paper says it ("second", "fifth"). */
+const TIMES: readonly (string | undefined)[] = [
+  undefined,
+  "first",
+  "second",
+  "third",
+  "fourth",
+  "fifth",
+  "sixth",
+  "seventh",
+  "eighth",
+  "ninth",
+  "tenth",
+];
 
 /**
  * A recorded bribe that someone who learned of it took to the press (the
@@ -2248,7 +2300,83 @@ const birth: Builder = (read, f) => {
   );
 };
 
-/** A death: who, the age they reached, and the town they lived in. */
+/**
+ * A government's treasury, which pays its public workers, named as the
+ * government people say they worked for ("the government of Arizona", "the
+ * federal government"), never as the account ("Arizona treasury"). Null for
+ * any other employer.
+ */
+function governmentEmployer(
+  read: Reader,
+  organizationId: string | undefined,
+): string | null {
+  const org = organizationId
+    ? read.core.organizations.get(organizationId as EntityId)
+    : undefined;
+  if (org?.kind !== "government-treasury") return null;
+  const row = read.row<{ level: string; name: string }>(
+    BUDGETS_MODULE_ID,
+    "governments",
+    organizationId!.replace(/^organization:treasury:/, ""),
+  );
+  if (!row) return null;
+  if (row.level === "federal") return "the federal government";
+  return `the government of ${row.level === "state" ? stateInSentence(row.name) : row.name}`;
+}
+
+/**
+ * An obituary: who died, the age they reached and the town they lived in,
+ * then the life's facts the records hold (words-paper-and-journal-everyday-
+ * life; owner, Nov 1: "real ones with some good fluff"): where they were
+ * born (the run's birth record, as the Journal reads it), the office they
+ * served in (their term), where they last worked and for how long (their
+ * latest work record), and the partner and
+ * children who survive them (their family records, by name). A fact the
+ * records do not hold is left out, never guessed.
+ */
+/** What a relative's own record calls someone, and what that makes the relative to them. */
+const SURVIVOR_BY_THEIR_RECORD: Readonly<Record<string, "partner" | "child">> =
+  { partner: "partner", parent: "child" };
+
+/**
+ * Someone's partner and children, partner first and then the children oldest
+ * first, from the family records: the person's own, else each relative's
+ * record of them (a relative who records them as a parent is their child).
+ * A person filled in from the wider population can carry the family ties
+ * with only the relatives holding the facts.
+ */
+export function survivorsOf(
+  core: Readonly<CoreState>,
+  person: Readonly<PersonState>,
+): readonly {
+  kinId: PersonId;
+  relation: "partner" | "child";
+  factId: string;
+}[] {
+  const own = familyFactsOf(person);
+  const rows: {
+    kinId: PersonId;
+    relation: "partner" | "child";
+    factId: string;
+  }[] = [];
+  for (const [kinId, row] of own)
+    if (row.relation === "partner" || row.relation === "child")
+      rows.push({ kinId, relation: row.relation, factId: row.factId });
+  for (const kinId of [...person.familyIds].sort()) {
+    if (own.has(kinId)) continue;
+    const theirs = familyFactsOf(core.people.get(kinId)).get(person.id);
+    const relation = theirs && SURVIVOR_BY_THEIR_RECORD[theirs.relation];
+    if (relation) rows.push({ kinId, relation, factId: theirs.factId });
+  }
+  const born = (id: PersonId) => core.people.get(id)?.birthDate ?? "";
+  return rows.sort(
+    (a, b) =>
+      (a.relation === b.relation ? 0 : a.relation === "partner" ? -1 : 1) ||
+      born(a.kinId).localeCompare(born(b.kinId)) ||
+      a.kinId.localeCompare(b.kinId),
+  );
+}
+
 const death: Builder = (read) => {
   const id = read.first();
   const person = id ? read.core.people.get(id as EntityId) : undefined;
@@ -2257,6 +2385,60 @@ const death: Builder = (read) => {
     person && read.happened
       ? yearsBetween(person.birthDate, read.happened)
       : undefined;
+  const born = person
+    ? preStartHistory(read.core, {
+        kind: "person.birth",
+        personId: person.id,
+      })[0]
+    : undefined;
+  const bornIn = placeLabel(born?.placeId);
+  // Their latest work: the commitment that started last, and its employer.
+  const work = person
+    ? [...(read.core.work.commitmentsByPerson.get(person.id) ?? [])]
+        .flatMap((cid) => read.core.work.commitments.get(cid) ?? [])
+        .sort((a, b) => b.startsAt.localeCompare(a.startsAt))[0]
+    : undefined;
+  // The office they held, from their latest term's own record, serving or
+  // ended at their death (an official's obituary says what they served as).
+  // The table's own rows are read-only: sort a copy.
+  const lastTerm = id
+    ? [
+        ...read.query<{ officeId: string; startDate: string }>(
+          OFFICES_MODULE_ID,
+          "terms",
+          "byPerson",
+          [id],
+        ),
+      ].sort((a, b) => b.startDate.localeCompare(a.startDate))[0]
+    : undefined;
+  const office = id
+    ? (read.officeOf(id) ??
+      (lastTerm ? read.officeTitle(lastTerm.officeId) : null))
+    : null;
+  // Work for the outside account (buyers and sellers outside the town) is
+  // work out of town, not an employer the paper can name.
+  const away =
+    !!work &&
+    read.core.organizations.get(work.organizationId as EntityId)
+      ?.outsideFlow !== undefined;
+  // A government that pays for the office they held is told by the office.
+  const government = away
+    ? null
+    : governmentEmployer(read, work?.organizationId);
+  const paidBy = office ? null : government;
+  const employer =
+    away || government ? null : read.organization(work?.organizationId);
+  const tenure =
+    work && read.happened
+      ? yearsBetween(work.heldSince ?? work.startsAt, read.happened)
+      : 0;
+  // The partner first, then the children, oldest first: each living and
+  // named in the records, theirs or the person's own.
+  const survivors = person
+    ? survivorsOf(read.core, person).filter(
+        (row) => read.core.people.get(row.kinId)?.alive && read.name(row.kinId),
+      )
+    : [];
   return story(
     "death",
     {
@@ -2266,9 +2448,133 @@ const death: Builder = (read) => {
         ? { age: read.fact(String(age), id ?? "") }
         : {}),
       ...(town ? { place: read.fact(town, id ?? "") } : {}),
+      ...(bornIn && born
+        ? {
+            born: read.fact(bornIn, born.id),
+            ...(town && born.placeId === person?.placeId
+              ? { native: read.yes() }
+              : { elsewhere: read.yes() }),
+          }
+        : {}),
+      ...(office ? { office: read.fact(office, id ?? "") } : {}),
+      ...(away && town ? { away: read.fact("yes", work!.id) } : {}),
+      ...(paidBy && work
+        ? {
+            government: read.fact(paidBy, work.id),
+            ...(tenure > 1
+              ? { years: read.fact(String(tenure), work.id) }
+              : {}),
+          }
+        : {}),
+      ...(employer && work
+        ? {
+            employer: read.fact(employer, work.id),
+            ...(tenure > 1
+              ? { years: read.fact(String(tenure), work.id) }
+              : {}),
+          }
+        : {}),
+      ...(survivors.length
+        ? {
+            survivors: read.fact(
+              joinList(
+                survivors.map((row) => read.name(row.kinId)!),
+                "and",
+              ),
+              ...survivors.map((row) => row.factId),
+            ),
+          }
+        : {}),
     },
     ["name"],
     id,
+  );
+};
+
+/** An age as an ordinal ("80th", "101st"), for a birthday brief. */
+function ordinalOf(n: number): string {
+  const tens = n % 100;
+  const suffix =
+    tens >= 11 && tens <= 13
+      ? "th"
+      : (["th", "st", "nd", "rd"][n % 10] ?? "th");
+  return `${n}${suffix}`;
+}
+
+/** A resident's round birthday, from the press's week of milestones. */
+const milestoneBirthday: Builder = (read, f) => {
+  const age = num(f.age);
+  const town = read.residence(f.personId);
+  if (!age) return null;
+  return story(
+    "birthday",
+    {
+      ...read.who(f.personId, "name", false),
+      age: read.fact(String(age), f.personId ?? ""),
+      ordinal: read.fact(ordinalOf(age), f.personId ?? ""),
+      ...(town ? { place: read.fact(town, f.personId ?? "") } : {}),
+      date: read.date(),
+    },
+    ["name", "age"],
+    f.personId,
+  );
+};
+
+/**
+ * A resident's retirement, from the press's week of milestones: who, from
+ * which employer and after how many years, from the jobs engine's record of
+ * their leaving and their work record. Work for the outside account is not
+ * named as an employer.
+ */
+const retirement: Builder = (read, f) => {
+  const org = f.organizationId
+    ? read.core.organizations.get(f.organizationId as EntityId)
+    : undefined;
+  // A government's treasury is said as the government they worked for.
+  const government = governmentEmployer(read, f.organizationId);
+  const employer =
+    org && org.outsideFlow === undefined && !government
+      ? read.organization(f.organizationId)
+      : null;
+  const years =
+    f.since && read.happened ? yearsBetween(f.since, read.happened) : 0;
+  const town = read.residence(f.personId);
+  return story(
+    "retirement",
+    {
+      ...read.who(f.personId, "name", false),
+      date: read.date(),
+      ...(employer
+        ? { employer: read.fact(employer, f.organizationId ?? "") }
+        : {}),
+      ...(government
+        ? { government: read.fact(government, f.organizationId ?? "") }
+        : {}),
+      ...(years > 1 ? { years: read.fact(String(years), f.jobId ?? "") } : {}),
+      ...(town ? { place: read.fact(town, f.personId ?? "") } : {}),
+    },
+    ["name"],
+    f.personId,
+  );
+};
+
+/** A business's round year since its founding, from the press's week of milestones. */
+const anniversary: Builder = (read, f) => {
+  const id = f.organizationId ?? "";
+  const name = read.organization(id);
+  const years = num(f.years);
+  const place = read.place();
+  if (!name || !years) return null;
+  return story(
+    "anniversary",
+    {
+      subject: read.fact(name, id),
+      years: read.fact(String(years), id),
+      ...(f.since ? { year: read.fact(f.since.slice(0, 4), id) } : {}),
+      ...(place ? { place: read.fact(place) } : {}),
+      ...businessExtras(read, "anniversary", id, f),
+    },
+    ["subject", "years"],
   );
 };
 
@@ -2297,8 +2603,10 @@ const CRIME_FLAGS: Readonly<Record<string, string>> = {
 };
 /** One victimization the town's records hold: what kind, where, which of the month's it was. */
 const crime: Builder = (read) => {
+  // The household's id can hold colons (a household that moved is
+  // `<household>:moved:<person>:<date>`), so it is read up to the date.
   const hit =
-    /^(?:event:)?crime\.victimized:([a-z-]+):[^:]+:\d{4}-\d{2}-\d{2}(?::\d+)?$/.exec(
+    /^(?:event:)?crime\.victimized:([a-z-]+):.+:\d{4}-\d{2}-\d{2}(?::\d+)?$/.exec(
       read.sourceId,
     );
   const flag = hit ? CRIME_FLAGS[hit[1]!] : undefined;
@@ -2466,8 +2774,14 @@ const address: Builder = (read, f) => {
     "address",
     {
       ...read.who(id, "name", false),
+      // An inaugural is told as the taking of office, citing the offices
+      // engine's inauguration record the address was given at.
       ...(f["address:kind"] === "inaugural"
-        ? { inaugural: read.yes() }
+        ? {
+            inaugural: f["address:inauguration"]
+              ? read.fact("yes", f["address:inauguration"])
+              : read.yes(),
+          }
         : { "joint-session": read.yes() }),
       date: read.date(),
     },
@@ -2615,6 +2929,9 @@ const BUILDERS: Readonly<Record<string, Builder>> = {
   "public-meeting": publicMeeting,
   "meeting-held": publicMeeting,
   "meetings-week": meetingsWeek,
+  birthday: milestoneBirthday,
+  anniversary,
+  retirement,
   profile,
   interview,
   claim: claimCheck,

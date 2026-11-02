@@ -5,13 +5,14 @@ area: elections
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: governing/past-race-votes
+pr: #7088
 blocked-on:
 source: owner playtest of v0.73.0, Nov 1, 22:25 UTC
 lead: governing
 milestone: play-first
+claimed-at: 2026-11-01T22:29:41.140Z
 ---
 
 **What.** Owner, Nov 1 playtest of v0.73.0, on the opening's front page: "All 54 votes were cast. No, I can tell that's the generated number of people, not the simulated amount of votes. You see all of these are race for legislator." Each state legislative race printed 52 to 55 votes cast, which is the count of full people the world holds, not the district's voters (counted groups times their count). Every headline also says "the race for Legislator" instead of the office and district. The opening's past races must total the district's simulated votes, and their story must name the office as the place's records do.

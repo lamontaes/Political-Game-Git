@@ -6,12 +6,13 @@ kind: bug
 priority: 1
 size: M
 status: in-pr
-claimed-by:
-pr:
+claimed-by: play-first/play-opening-who-shares-the-couch
+pr: #7074
 blocked-on:
 source: owner playtest of v0.73.0, Nov 1, 22:25 UTC
 lead: play-first
 milestone: play-first
+claimed-at: 2026-11-01T22:18:52.337Z
 ---
 
 **What.** Owner, Nov 1 playtest of v0.73.0: "I guess it has chosen to make my character gay again. I don't know why." The opening's last shot puts the player on the couch with Sean McMillan, a man with another surname, and the Oct 29 ruling ends the montage with the partner's "Did you see the President's speech?". A player who is 17 turning 18 normally lives with family; no orientation record exists yet (people-orientation-record is blocked on people-partnership-forms). Find who Sean McMillan is to the player by record, why the opening cast him in the partner's place, and fix it in the writer that made it.
