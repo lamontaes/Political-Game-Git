@@ -20,4 +20,4 @@ source: added with npm run pool -- add
 
 **Files.** src/core2/modules/campaigns.ts, src/core2/state.ts, src/core2/modules/speeches.ts, src/core2/modules/budgets.ts, scripts/speed-years/run.ts
 
-**Notes.** Nov 2 (speed lead's round four, review of speed/fold-cash-receipts): three more tables grow with history and are not folded yet. work.detailedPayroll keeps a second full payroll receipt for the observer, player, focus and controlled people and never drops one (src/core2/work-payroll-cash.ts:1130 and :1759; saved-trace-v1.ts:1326 reads it). An ended coverage row stays for good with its lastJournalId (src/core2/modules/coverage.ts:469 and :502), one per plan or premium change and death, and the cash journal's fold keeps every receipt such a row names. accounts.transferIds keeps every transfer id in the world (src/core2/accounts.ts:362 and :477) to refuse a repeat.
+**Notes.** TODO
