@@ -135,6 +135,8 @@ Then message the merger for the PR's parity (`CREW.md`) with the PR number and h
 - **Withdraw a send-back only on the same draws.** Run counts on different random places say nothing (my 3-of-4 against main's 0-of-3 on #6949 came from different places). The speed lead's records proof across the four places I had drawn did settle it; ask for the same seeds on both sides, or digests per table, before you withdraw.
 - **Name the parity once, from the number.** An even PR number goes to Merger 0, an odd one to Merger 1; work it out before you write the comment and write "For Merger 0 (even number)". A hedge like "odd? even: Merger 0" went into four comments; fix a wrong one with `update_issue_comment` on the comment id.
 - **A builder who asks to push to a branch you hold** gets an explicit yes and the head to push to; the branch is theirs until they say they are done, then you recheck the new head (Words, #6884, three times). Tell the merger the head each time.
+- **A `minor` or `patch` release declaration needs `section:` (Added, Changed, Fixed or Improved) and `title:`**; only `impact: none` goes without. `release:check` reads the committed head, so commit the fix before rerunning it (#7103, #7108).
+- **Never `pkill -f vitest` or `pkill -f <server>` inside a command whose own text contains that word**: it kills your shell (exit 144) and any monitors with it. Kill by stored pid. Also run a targeted file list, not `src/director src/english`: a whole-folder run outlasts 30 minutes and fails tests from load. For one worker use `--no-file-parallelism`; `--poolOptions` is unknown here.
 
 ## Traps from the Nov 2 pass (Checker 0)
 
