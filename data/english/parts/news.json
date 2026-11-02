@@ -81,8 +81,6 @@
     "previous": "The former owner, by name, from the ownership record.",
     "spending": "A government's planned spending for the year, from its budget record.",
     "revenue": "The revenue a government expects for the year, from its budget record.",
-    "relation": "How the person who died was related to the reader, from the family record.",
-    "survivor": "The relative who survives, by name, from the family record.",
     "margin": "How many votes the winning side led by, from the vote record.",
     "crimes": "What most of a month's police reports were (thefts, assaults), from the crime engine's month record."
   },
