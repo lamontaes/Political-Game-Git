@@ -5,9 +5,9 @@ area: people
 kind: stopgap
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: governing/press-staff-households
-pr:
+pr: #7135
 blocked-on:
 source: added with npm run pool -- add
 lead: governing
