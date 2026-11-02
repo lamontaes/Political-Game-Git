@@ -170,6 +170,9 @@ export { SCHOOL_MEASURE } from "../school-outcomes";
 export { isNoncitizen, isUnauthorized } from "../citizenship";
 export { SPEECH_MODULE_ID, addressesGivenBy, deliverSpeech } from "./speech";
 export { ENCOUNTERS } from "../encounters";
+// A household's month of income (its open jobs and income awards), for
+// readers outside the family.
+export { householdIncome } from "./moves";
 // Who lives a life elsewhere, and each state's unemployment, for the jobs family.
 export { livesElsewhere } from "./moves";
 export { stateUnemployment } from "./counted-moves";
