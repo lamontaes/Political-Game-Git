@@ -121233,6 +121233,14 @@
           "role": "asker",
           "purpose": "talk",
           "after": "agree"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "agree",
+          "role": "asker",
+          "purpose": "talk",
+          "after": "address-view:agree"
         }
       ],
       "bearing": "glad",
@@ -125261,6 +125269,294 @@
       "tag": {
         "move": "thank",
         "key": "no-diploma"
+      }
+    },
+    {
+      "key": "scene-talk.follow-agree.then-we-agree-on-something-for-once",
+      "move": "follow-agree",
+      "kind": "spoken",
+      "text": "Then we agree on something for once.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "agree",
+          "role": "asker",
+          "purpose": "talk",
+          "after": "address-view:agree"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-after-address-talk-follows)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "agree",
+        "key": "talk"
+      }
+    },
+    {
+      "key": "scene-talk.follow-agree.glad-somebody-heard-it-the-way-i-did",
+      "move": "follow-agree",
+      "kind": "spoken",
+      "text": "Glad somebody heard it the way I did.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "agree",
+          "role": "asker",
+          "purpose": "talk",
+          "after": "address-view:agree"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-after-address-talk-follows)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "agree",
+        "key": "talk"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.fair-enough-ask-me-again-in-a-year",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fair enough. Ask me again in a year.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "talk",
+          "after": "address-view:disagree"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-after-address-talk-follows)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "accept",
+        "key": "talk"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.we-don-t-have-to-see-it-the-same-way",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "We don't have to see it the same way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "talk",
+          "after": "address-view:disagree"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-after-address-talk-follows)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "accept",
+        "key": "talk"
+      }
+    },
+    {
+      "key": "scene-talk.follow-disagree.give-it-time-you-might-come-around",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "Give it time. You might come around.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "purpose": "talk",
+          "after": "address-view:disagree"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-after-address-talk-follows)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "disagree",
+        "key": "talk"
+      }
+    },
+    {
+      "key": "scene-talk.follow-disagree.then-we-ll-see-which-of-us-was-right",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "Then we'll see which of us was right.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "purpose": "talk",
+          "after": "address-view:disagree"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-after-address-talk-follows)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "disagree",
+        "key": "talk"
+      }
+    },
+    {
+      "key": "scene-talk.follow-agree.that-s-fair-talk-is-cheap-and-that-was-a-lot-of-talk",
+      "move": "follow-agree",
+      "kind": "spoken",
+      "text": "That's fair. Talk is cheap, and that was a lot of talk.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "agree",
+          "role": "asker",
+          "purpose": "talk",
+          "after": "address-view:wait"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-after-address-talk-follows)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "agree",
+        "key": "talk"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.fair-enough-i-ll-hold-my-applause-too",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fair enough. I'll hold my applause too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "talk",
+          "after": "address-view:wait"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-after-address-talk-follows)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "accept",
+        "key": "talk"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.smart-a-speech-is-the-easy-part",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Smart. A speech is the easy part.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "talk",
+          "after": "address-view:wait"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-after-address-talk-follows)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "accept",
+        "key": "talk"
+      }
+    },
+    {
+      "key": "scene-talk.follow-agree.things-take-a-long-time-getting-out-here",
+      "move": "follow-agree",
+      "kind": "spoken",
+      "text": "Things take a long time getting out here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "agree",
+          "role": "asker",
+          "purpose": "talk",
+          "after": "address-view:local"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-after-address-talk-follows)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "agree",
+        "key": "talk"
+      }
+    },
+    {
+      "key": "scene-talk.follow-agree.that-s-the-real-question-a-speech-doesn-t-pay-the-rent",
+      "move": "follow-agree",
+      "kind": "spoken",
+      "text": "That's the real question. A speech doesn't pay the rent.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "agree",
+          "role": "asker",
+          "purpose": "talk",
+          "after": "address-view:local"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-after-address-talk-follows)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "agree",
+        "key": "talk"
+      }
+    },
+    {
+      "key": "scene-talk.follow-agree.i-ll-believe-it-when-i-see-it-around-here",
+      "move": "follow-agree",
+      "kind": "spoken",
+      "text": "I'll believe it when I see it around here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "agree",
+          "role": "asker",
+          "purpose": "talk",
+          "after": "address-view:local"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-after-address-talk-follows)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "agree",
+        "key": "talk"
       }
     }
   ]
