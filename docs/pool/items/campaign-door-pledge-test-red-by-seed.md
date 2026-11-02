@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: governing/door-pledge-test-by-seed
 pr: #7073
 blocked-on:

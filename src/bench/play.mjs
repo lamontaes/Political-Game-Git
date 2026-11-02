@@ -4796,8 +4796,21 @@ function filledIn() {
 }
 for (const id of ["cr-given", "cr-family"])
   $(id).addEventListener("input", filledIn);
+/**
+ * The random name waits for a gender (owner, Nov 1: "Randomized name shouldn't
+ * work until you choose a gender"): a name is drawn for the chosen gender, and
+ * the button says what it waits for until then.
+ */
+function nameWaitsForGender() {
+  const waiting = !setup.gender;
+  $("cr-random-name").disabled = waiting;
+  $("cr-random-name").textContent = waiting
+    ? controls.creator.nameWaitsForGender
+    : controls.creator.randomName;
+}
 function pickGender(g) {
   setup.gender = g;
+  nameWaitsForGender();
   filledIn();
   for (const b of document.querySelectorAll("[data-gender]")) {
     const on = b.dataset.gender === g;
@@ -4832,6 +4845,8 @@ async function openCreator() {
   setup.seed = $("seed").value || (await api("/api/seed")).seed;
   $("cr-route-name").textContent = $("new-start").textContent.trim();
   if (!$("cr-year").options.length) await randomBirthday();
+  await controlsReady;
+  nameWaitsForGender();
   frontPanel("cr-character");
 }
 $("new-life").addEventListener("click", () => frontPanel("front-new"));
