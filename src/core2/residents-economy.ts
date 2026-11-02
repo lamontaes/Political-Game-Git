@@ -640,6 +640,39 @@ export function setResidentFlowAmount(
   return true;
 }
 
+/**
+ * A counted household's standing flow, ended before (its rent, after a
+ * removal), begins again under the same id: a new payee, amount and source,
+ * first due on its own date (never today), with nothing owed. One that never
+ * existed is added. Readers that look the flow up by id (`rent:<household>`)
+ * find it again.
+ */
+export function reopenResidentFlow(
+  core: CoreState,
+  input: ResidentFlowInput,
+): void {
+  const rt = residentsRuntime(core);
+  const flow = rt?.flows.get(input.id);
+  if (!rt || !flow) return addResidentFlow(core, input);
+  if (!flow.endedAt) throw new Error(`The flow is still running: ${input.id}`);
+  if (!Number.isSafeInteger(input.amountMinor) || input.amountMinor < 0)
+    throw new Error(`Invalid flow amount: ${input.id}`);
+  for (const id of [input.payerId, input.payeeId])
+    if (!core.organizations.has(id) && !core.people.has(id))
+      throw new Error(`Flow owner is not recorded: ${id}`);
+  // Its last due date, if still ahead, would pay the new rent early.
+  rt.due.get(flow.nextAt)?.delete(input.id);
+  let nextAt = makeIsoDate(input.firstAt);
+  if (nextAt <= core.date)
+    nextAt = makeIsoDate(addDays(makeIsoDate(core.date), 1));
+  delete flow.endedAt;
+  delete flow.endedReason;
+  Object.assign(flow, input, { nextAt, arrearsMinor: 0 });
+  const ids = rt.due.get(nextAt) ?? new Set<string>();
+  ids.add(input.id);
+  rt.due.set(nextAt, ids);
+}
+
 /** A counted household's standing flow ends today (a lease ended by removal). */
 export function endResidentFlow(
   core: CoreState,

@@ -25,14 +25,20 @@ export type SharedHistoryKind =
   | "coworker"
   /** Both attended one school in one school year (the school engine's records). */
   | "schoolmate"
-  /** One works on the other's campaign (its volunteers). */
+  /**
+   * One works on the other's campaign (its volunteers), or did until they
+   * filed in its race themselves (its `leftToRun`).
+   */
   | "campaign";
 
 export interface SharedHistory {
   kind: SharedHistoryKind;
   /** The record that says so: the household, the employer, the school or the filing. */
   recordId: string;
-  /** Shared work that ended: the later of the two jobs' end dates. */
+  /**
+   * Shared work that ended: the later of the two jobs' end dates, or the day a
+   * volunteer left the campaign to run in its race.
+   */
   endedOn?: IsoDate;
   /** Schoolmates: the school year they shared (its first calendar year). */
   year?: number;
@@ -142,11 +148,18 @@ export function workgroupOf(
     .sort();
 }
 
-/** The campaigns a candidate runs, by their filings, with their volunteers. */
+/** A campaign's volunteers, and who left it on what day to run in its race (`leaveForOwnRun`). */
+interface CampaignHelpers {
+  filingId: string;
+  volunteerIds: readonly string[];
+  leftOn: ReadonlyMap<string, IsoDate>;
+}
+
+/** The campaigns a candidate runs, by their filings, with their volunteers past and present. */
 function campaignsOf(
   core: Readonly<CoreState>,
   candidateId: PersonId,
-): { filingId: string; volunteerIds: readonly string[] }[] {
+): CampaignHelpers[] {
   if (
     !core.modules.has(ELECTIONS_MODULE_ID) ||
     !core.modules.has(CAMPAIGNS_MODULE_ID)
@@ -160,9 +173,24 @@ function campaignsOf(
   const campaigns = api.moduleState(CAMPAIGNS_MODULE_ID).table("campaigns");
   return filings.flatMap((filing) => {
     const row = campaigns.get(filing.id) as unknown as
-      { volunteerIds?: readonly string[] } | undefined;
-    return row?.volunteerIds?.length
-      ? [{ filingId: filing.id, volunteerIds: row.volunteerIds }]
+      | {
+          volunteerIds?: readonly string[];
+          leftToRun?: readonly {
+            personId: string;
+            role: string;
+            on: IsoDate;
+          }[];
+        }
+      | undefined;
+    // A volunteer who filed in the race left that day; the work they shared
+    // with the candidate is still theirs.
+    const leftOn = new Map(
+      (row?.leftToRun ?? [])
+        .filter((left) => left.role === "volunteer")
+        .map((left) => [left.personId, left.on] as const),
+    );
+    return row?.volunteerIds?.length || leftOn.size
+      ? [{ filingId: filing.id, volunteerIds: row?.volunteerIds ?? [], leftOn }]
       : [];
   });
 }
@@ -199,8 +227,12 @@ export function sharedHistory(
     [a, b],
     [b, a],
   ] as const)
-    for (const row of campaignsOf(core, candidate))
+    for (const row of campaignsOf(core, candidate)) {
+      const left = row.leftOn.get(helper);
       if (row.volunteerIds.includes(helper))
         out.push({ kind: "campaign", recordId: row.filingId });
+      else if (left)
+        out.push({ kind: "campaign", recordId: row.filingId, endedOn: left });
+    }
   return out;
 }

@@ -19,6 +19,15 @@ import { openPastModule, pastTable, putPast } from "./past-module";
 // The one history and what two people share, for readers outside the family
 // (the history's own readers are re-exported from past-module.ts).
 export * from "./past-module";
+// The working life's shared quarterly pulls, for the review of lives elsewhere.
+export {
+  findPerQuarter,
+  layoffPerQuarter,
+  PAST_WORK_SPELL,
+  quitPerQuarter,
+  workAgeFactor,
+  workLeans,
+} from "./past-work";
 export {
   attendedSchool,
   sharedHistory,

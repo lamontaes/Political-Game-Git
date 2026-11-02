@@ -16101,6 +16101,182 @@
       "bearing": "tender"
     },
     {
+      "key": "conversation.family-answer-moved.moved-to",
+      "move": "family-answer-moved",
+      "kind": "spoken",
+      "text": "{name} moved to {place}.",
+      "uses": [
+        {
+          "move": "family-answer-moved",
+          "subject": "family",
+          "role": "answer",
+          "choice": "moved",
+          "stages": ["moved"],
+          "raises": "their-family"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.family-answer-moved.s-living-in-now",
+      "move": "family-answer-moved",
+      "kind": "spoken",
+      "text": "{name}'s living in {place} now.",
+      "uses": [
+        {
+          "move": "family-answer-moved",
+          "subject": "family",
+          "role": "answer",
+          "choice": "moved",
+          "stages": ["moved"],
+          "raises": "their-family"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.family-answer-moved.moved-away",
+      "move": "family-answer-moved",
+      "kind": "spoken",
+      "text": "{name} moved away.",
+      "uses": [
+        {
+          "move": "family-answer-moved",
+          "subject": "family",
+          "role": "answer",
+          "choice": "moved",
+          "stages": ["moved"],
+          "raises": "their-family"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.family-answer-job.started-a-new-job-at",
+      "move": "family-answer-job",
+      "kind": "spoken",
+      "text": "{name} started a new job at {employer}.",
+      "uses": [
+        {
+          "move": "family-answer-job",
+          "subject": "family",
+          "role": "answer",
+          "choice": "job",
+          "stages": ["job"],
+          "raises": "their-family"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.family-answer-job.s-working-at-now",
+      "move": "family-answer-job",
+      "kind": "spoken",
+      "text": "{name}'s working at {employer} now.",
+      "uses": [
+        {
+          "move": "family-answer-job",
+          "subject": "family",
+          "role": "answer",
+          "choice": "job",
+          "stages": ["job"],
+          "raises": "their-family"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.family-answer-job.has-a-new-job",
+      "move": "family-answer-job",
+      "kind": "spoken",
+      "text": "{name} has a new job.",
+      "uses": [
+        {
+          "move": "family-answer-job",
+          "subject": "family",
+          "role": "answer",
+          "choice": "job",
+          "stages": ["job"],
+          "raises": "their-family"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.family-answer-baby.just-had-a-baby",
+      "move": "family-answer-baby",
+      "kind": "spoken",
+      "text": "{name} just had a baby.",
+      "uses": [
+        {
+          "move": "family-answer-baby",
+          "subject": "family",
+          "role": "answer",
+          "choice": "baby",
+          "stages": ["baby"],
+          "raises": "their-family"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.family-answer-baby.had-a-baby",
+      "move": "family-answer-baby",
+      "kind": "spoken",
+      "text": "{name} had a baby.",
+      "uses": [
+        {
+          "move": "family-answer-baby",
+          "subject": "family",
+          "role": "answer",
+          "choice": "baby",
+          "stages": ["baby"],
+          "raises": "their-family"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words and director session",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
       "key": "conversation.home-lie-elsewhere.i-live-in-claimed-now",
       "move": "home-lie-elsewhere",
       "kind": "spoken",
