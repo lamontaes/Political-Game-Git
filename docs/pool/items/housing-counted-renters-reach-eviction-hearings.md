@@ -10,6 +10,7 @@ claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+lead: laws
 ---
 
 **What.** Housing opens an eviction case only from a full household's lease: contract with arrears past the grace period. In Clemmons, North Carolina (about 22,800 people; key 3712960, world seed 24811d36fe547b3e21330b24f52ba0fb17dffce7368ad148f5ae6056676ba0d6, GOLDEN_PATH_SEED=hr-fresh-9c2) housing's cases table had 0 rows in 700 days with the right-to-counsel law in force on 23 of 24 monthly checks. If counted renters (paid by their groups as rent: contracts) can never produce a case, only full households can, which breaks one model, two tiers (AGENTS.md). PR 7136 passes such a town over in law-wiring-housing.test.ts; it does not answer this.
