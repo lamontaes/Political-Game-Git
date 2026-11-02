@@ -5,13 +5,14 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: play-first/play-calendar-more-than-birthdays
 pr:
 blocked-on:
 source: owner playtest of v0.73.0, Nov 1, 22:25 UTC
 lead: play-first
 milestone: play-first
+claimed-at: 2026-11-01T23:44:00.970Z
 ---
 
 **What.** Owner, Nov 1 playtest of v0.73.0: "Something on the calendar I don't like is that it's just people's birthdays." A new player's calendar is filled with the birthdays of everyone they know. The CTO's reading, open to the owner's correction: the calendar leads with the player's own appointments and deadlines and the town's dated public events (meetings, filing deadlines, elections, holidays), and shows birthdays only for the household and close family. Every entry is read from an engine's dated record.
