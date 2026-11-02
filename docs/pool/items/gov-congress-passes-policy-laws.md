@@ -6,12 +6,12 @@ lead: laws
 kind: bug
 priority: 1
 size: M
-status: claimed
-claimed-by: claude/gov-congress-passes-policy-laws
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: owner, Oct 29 voice note on the governing brief
-claimed-at: 2026-10-29T21:28:28.662Z
+claimed-at:
 ---
 
 **What.** In three played years Congress passed no policy bill in any world; it adopted only its budget (SG-GOV-federal-proposal-coverage; governing brief, Oct 29). The owner, Oct 29: "No, laws need to work federally." The president's desk signs or vetoes like any executive's. Federal laws must pass through the same legislature engine on Congress's real session calendar, with members deciding from their own reasons, and reach the town through the law store like state and local laws do.
