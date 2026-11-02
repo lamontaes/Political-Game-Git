@@ -17,6 +17,16 @@
  * rolls no longer list them, and they are no longer simulated in town (the
  * same inactive tier as relatives who live elsewhere). The ACS rates check a
  * year's totals.
+ *
+ * Every life is simulated (owner, Nov 1, 2026: "EVERY. LIFE. IS. SIMULATED.
+ * ... THIS IS LOW INTENSITY STUFF."): a relative or acquaintance who lives
+ * in another real place (the inactive tier, kept minimal until met) builds
+ * the same monthly pull at their own stage of life, weighs it through the
+ * same chooser and moves to a relative's place, else where people from their
+ * county most often go, else elsewhere in their state. Their ties are read
+ * where they live (their household, partner and relatives there). A move
+ * there is the same dated record, witnessed by their relatives in town; it
+ * moves no money and fills nobody in (two-level population).
  */
 import { worldRateFactor } from "../world-base-rates";
 import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
@@ -24,6 +34,7 @@ import {
   corePlaceByJurisdictionId,
   corePlaceByKey,
   coreStateJurisdiction,
+  coreStateKeyOfJurisdictionId,
 } from "../place-lookup";
 import moverRates from "../../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
 import majority from "../../../data/research/people/age-of-majority.json" with { type: "json" };
@@ -44,6 +55,8 @@ import { currentCloseness } from "../closeness";
 import { regionalLevel, regionalRegistered } from "./regional";
 import { webReach, type Subject } from "../outcome-web-reach";
 import { registerModule } from "../state";
+import { isDemoted } from "../counted-groups";
+import { townPlaceOf } from "./residents";
 import type { Parameter } from "../parameters";
 import type { EntityId } from "../kernel/brands";
 import type {
@@ -63,6 +76,7 @@ export const MOVES_PARAMETERS = rows as unknown as Readonly<
 >;
 export const MOVED_AWAY_EVENT = "person.moved-away";
 const STOPGAP = "SG-P15-moves-weights";
+const ELSEWHERE_STOPGAP = "SG-LIVES-elsewhere-not-into-town";
 const OWNER_STOPGAP = "SG-P15-moves-owners-stay";
 const TAX_STOPGAP = "SG-WEB-moves-full-tax-pull";
 const INACTIVE_TIER = "husk";
@@ -190,12 +204,27 @@ function lifeStageRate(
 
 /** The share of a place's state's people in an ACS age band who leave their county in a year, else the nation's. */
 function rateOf(placeId: string, band: string): number | undefined {
-  const place = corePlaceByJurisdictionId(placeId as EntityId);
-  const byAge = (
-    (place?.stateJurisdictionKey && RATES.places[place.stateJurisdictionKey]) ||
-    RATES.national
-  ).departurePerYearByAge;
+  const state = stateKeyOf(placeId);
+  const byAge = ((state && RATES.places[state]) || RATES.national)
+    .departurePerYearByAge;
   return byAge[band];
+}
+
+const stateKeys = new Map<string, string | null>();
+
+/**
+ * The state a place is in: a town's or county's state, or the state itself
+ * for someone recorded only at their state's level. Cached by place id.
+ */
+function stateKeyOf(placeId: string): string | null {
+  let key = stateKeys.get(placeId);
+  if (key === undefined) {
+    key =
+      corePlaceByJurisdictionId(placeId as EntityId)?.stateJurisdictionKey ??
+      coreStateKeyOfJurisdictionId(placeId);
+    stateKeys.set(placeId, key);
+  }
+  return key;
 }
 
 /**
@@ -263,6 +292,59 @@ function inTown(core: CoreState, id: PersonId): boolean {
     person.tier !== INACTIVE_TIER &&
     livesInAPlace(person.placeId)
   );
+}
+
+/**
+ * Someone living a life elsewhere at low intensity: alive, of the inactive
+ * tier, in a real place outside the played town's full-detail places, and not
+ * back in the counts (the counted engines carry those).
+ */
+export function livesElsewhere(
+  core: CoreState,
+  person: Readonly<PersonState>,
+): boolean {
+  return (
+    person.alive &&
+    person.tier === INACTIVE_TIER &&
+    !isDemoted(person) &&
+    !playedTown(core, person.placeId) &&
+    stateKeyOf(person.placeId) !== null
+  );
+}
+
+const townByCore = new WeakMap<CoreState, { town: string | undefined }>();
+
+/** The played town: its own place (looked up once per world) and any full-detail place. */
+function playedTown(core: CoreState, placeId: string): boolean {
+  let held = townByCore.get(core);
+  if (!held) {
+    held = { town: townPlaceOf(core) };
+    townByCore.set(core, held);
+  }
+  return core.focusPlaceIds.has(placeId) || held.town === placeId;
+}
+
+/**
+ * Whether another person is where this person lives: in town for a resident;
+ * for someone living elsewhere, alive in the same place.
+ */
+function here(
+  core: CoreState,
+  id: PersonId,
+  person: Readonly<PersonState>,
+): boolean {
+  if (person.tier !== INACTIVE_TIER) return inTown(core, id);
+  const other = core.people.get(id);
+  return (
+    !!other?.alive &&
+    other.tier === INACTIVE_TIER &&
+    other.placeId === person.placeId
+  );
+}
+
+/** Whether this person's own move is reviewed: a resident in town, or a life elsewhere. */
+function reviewed(core: CoreState, person: Readonly<PersonState>): boolean {
+  return inTown(core, person.id) || livesElsewhere(core, person);
 }
 
 function ownsWithMortgage(core: CoreState, householdId: string): boolean {
@@ -341,17 +423,18 @@ export function holdsOf(
   const zero = api.parameter("zero");
   const kin = kinOf(core);
   const atHome = (id: PersonId) =>
-    inTown(core, id) && core.people.get(id)!.householdId === person.householdId;
+    here(core, id, person) &&
+    core.people.get(id)!.householdId === person.householdId;
   // A grown child living with a parent does not own the parent's home.
   const childAtHome = (kin.parents.get(person.id) ?? []).some(atHome);
   // Their own children not yet of age where they live, living with them.
   const children = (kin.children.get(person.id) ?? []).some(
     (id) => atHome(id) && !decidesAlone(api, core.people.get(id)!),
   );
-  // Relatives in town, at home or not, other than their own young children.
+  // Relatives where they live, at home or not, other than their own young children.
   const relatives = [...person.familyIds].filter(
     (id) =>
-      inTown(core, id) &&
+      here(core, id, person) &&
       !(
         (kin.children.get(person.id) ?? []).includes(id) &&
         !decidesAlone(api, core.people.get(id)!)
@@ -567,7 +650,7 @@ export function pushesOf(
     const other = row.actorId === person.id ? row.otherId : row.actorId;
     if (!close.has(other)) continue;
     const relative = core.people.get(other);
-    if (!relative?.alive || inTown(core, other)) continue;
+    if (!relative?.alive || here(core, other, person)) continue;
     closeness += currentCloseness(core, row);
     away.push(row.id);
   }
@@ -662,10 +745,16 @@ function destinationFor(
     ...(kin.children.get(person.id) ?? []),
     ...[...person.familyIds],
   ];
+  // Someone living elsewhere never moves into the played town as a husk: the
+  // town's people are its residents and counts (stopgap).
+  const elsewhere = person.tier === INACTIVE_TIER;
+  const open = (placeId: string) =>
+    placeId !== person.placeId && (!elsewhere || !playedTown(core, placeId));
+  if (elsewhere) api.stopgap(ELSEWHERE_STOPGAP);
   for (const id of close) {
     if (goingIds.has(id)) continue;
     const relative = core.people.get(id);
-    if (relative?.alive && relative.placeId !== person.placeId)
+    if (relative?.alive && open(relative.placeId) && !isDemoted(relative))
       return {
         destinationId: relative.placeId,
         destinationBasis: "relative",
@@ -681,7 +770,7 @@ function destinationFor(
   const to = top
     ? corePlaceByKey(`county:${top}`)?.context.jurisdiction.id
     : undefined;
-  if (to)
+  if (to && open(to))
     return { destinationId: to, destinationBasis: "county-flow", countyId: to };
   const place = corePlaceByJurisdictionId(person.placeId as EntityId);
   const state = place?.stateJurisdictionKey
@@ -704,7 +793,7 @@ function goingWith(api: CoreAPI, person: Readonly<PersonState>): PersonId[] {
   const kin = kinOf(core);
   const household = core.households.get(person.householdId);
   const members = new Set(
-    (household?.memberIds ?? []).filter((id) => inTown(core, id)),
+    (household?.memberIds ?? []).filter((id) => here(core, id, person)),
   );
   const going = [person.id];
   // A grown child living with a parent leaves on their own.
@@ -750,8 +839,10 @@ function leave(
   person: Readonly<PersonState>,
   pull: Pull,
   holds: Readonly<Record<string, number>>,
-): Departure {
+): Departure | null {
   const core = api.state as CoreState;
+  if (person.tier === INACTIVE_TIER)
+    return leaveElsewhere(api, person, pull, holds);
   const going = goingWith(api, person);
   const { countyId, ...where } = destinationFor(api, person, new Set(going));
   const fromPlaceId = person.placeId;
@@ -884,6 +975,113 @@ function leave(
       ),
       ...jobsLeft,
       ...(sale ? { homeSaleId: sale.id } : {}),
+      [DEPARTURE_FACT]: JSON.stringify(departure),
+    },
+  });
+  return departure;
+}
+
+/** Marks a move between two places outside the played town on its event. */
+const ELSEWHERE_FACT = "moves:elsewhere";
+/** Marks a move to a new home within the same state's record. */
+const WITHIN_STATE_FACT = "moves:within-state";
+
+/**
+ * A move by someone living elsewhere: the same record a leaver writes, from
+ * their place to the next, with the household that goes with them. Nothing
+ * of the town's (money, jobs, homes, tiers) changes; their relatives in town
+ * witness it, so it reaches the player as news. No place to go but their
+ * own (already at the state's level): they stay, and their pull stands.
+ */
+function leaveElsewhere(
+  api: CoreAPI,
+  person: Readonly<PersonState>,
+  pull: Pull,
+  holds: Readonly<Record<string, number>>,
+): Departure | null {
+  const core = api.state as CoreState;
+  const going = goingWith(api, person);
+  const { countyId, ...where } = destinationFor(api, person, new Set(going));
+  // Someone recorded only at their state's level who goes to no relative
+  // moves within their state (about half of those who leave a county stay in
+  // its state, ACS 2024): a new home there, in the same state's record.
+  const withinState =
+    where.destinationId === person.placeId &&
+    coreStateKeyOfJurisdictionId(person.placeId) !== null;
+  if (where.destinationId === person.placeId && !withinState) return null;
+  const fromPlaceId = person.placeId;
+  const household = core.households.get(person.householdId);
+  const staying = (household?.memberIds ?? []).filter(
+    (id) => here(core, id, person) && !going.includes(id),
+  );
+  const departure: Departure = {
+    id: `${MOVED_AWAY_EVENT}:${person.id}:${api.state.date}`,
+    personId: person.id,
+    withIds: going,
+    householdId: person.householdId,
+    date: api.state.date,
+    fromPlaceId,
+    ...where,
+    reasons: {
+      ...pull.causes,
+      ...Object.fromEntries(
+        Object.entries(pull.pushes ?? {}).map(([key, value]) => [
+          `push:${key}`,
+          value,
+        ]),
+      ),
+      ...Object.fromEntries(
+        Object.entries(holds).map(([key, value]) => [`hold:${key}`, -value]),
+      ),
+    },
+    reads: pull.reads,
+  };
+  // Their housemates who stay, and their relatives in town, know they moved.
+  const witnessIds = [
+    ...new Set([
+      ...staying,
+      ...going.flatMap((id) =>
+        [...core.people.get(id)!.familyIds].filter(
+          (other) => !going.includes(other) && inTown(core, other),
+        ),
+      ),
+    ]),
+  ].sort();
+  for (const id of going) store(api).table("pulls").remove(id);
+  const source = {
+    tag: "ESTIMATED" as const,
+    asOf: api.state.date,
+    citation: `${person.givenName} ${person.familyName} moved (${where.destinationBasis}).`,
+    estimatedFrom: STOPGAP,
+  };
+  const arrivalHousehold = household?.memberIds.every(
+    (id) => going.includes(id) || !core.people.get(id)?.alive,
+  )
+    ? person.householdId
+    : `${person.householdId}:moved:${person.id}:${api.state.date}`;
+  api.relocatePeopleV1({
+    personIds: going,
+    placeId: where.destinationId,
+    ...(countyId ? { countyId } : {}),
+    householdId: arrivalHousehold,
+    source,
+  });
+  api.emit({
+    id: departure.id,
+    date: api.state.date,
+    kind: MOVED_AWAY_EVENT,
+    personIds: going,
+    witnessIds,
+    placeId: fromPlaceId,
+    publicRecord: false,
+    topic: where.destinationId,
+    source,
+    facts: {
+      ...Object.fromEntries(
+        going.map((id) => [`person:${id}:residence`, where.destinationId]),
+      ),
+      [ELSEWHERE_FACT]: fromPlaceId,
+      ...(withinState ? { [WITHIN_STATE_FACT]: fromPlaceId } : {}),
       [DEPARTURE_FACT]: JSON.stringify(departure),
     },
   });
@@ -1086,7 +1284,7 @@ function partnerAtHome(
   const id = kinOf(core).partner.get(person.id);
   const partner = id ? core.people.get(id) : undefined;
   return partner &&
-    inTown(core, partner.id) &&
+    here(core, partner.id, person) &&
     partner.householdId === person.householdId &&
     decidesAlone(api, partner)
     ? partner
@@ -1251,7 +1449,7 @@ export function reviewMove(
   typical?: ReadonlyMap<string, number>,
 ): Departure | null {
   const person = api.state.people.get(personId);
-  if (!person || !inTown(api.state as CoreState, person.id)) return null;
+  if (!person || !reviewed(api.state as CoreState, person)) return null;
   if (!decidesAlone(api, person)) return null;
   accumulate(api, person, typical);
   return decide(api, person);
@@ -1312,13 +1510,44 @@ function monthlyReview(api: CoreAPI): void {
   const typical = new Map(
     [...sums].map(([band, [sum, count]]) => [band, sum / count]),
   );
+  // Everyone living elsewhere, weighed against the typical of their own
+  // kind (their ties are where they live, not the town's).
+  const elsewhere = [...core.people.values()]
+    .filter((row) => livesElsewhere(core, row) && decidesAlone(api, row))
+    .sort((a, b) => a.id.localeCompare(b.id));
+  const elsewhereSums = new Map<string, [number, number]>();
+  for (const person of elsewhere) {
+    const band = bandOf(api, person);
+    if (!band) continue;
+    const [sum, count] = elsewhereSums.get(band) ?? [
+      api.parameter("zero"),
+      api.parameter("zero"),
+    ];
+    elsewhereSums.set(band, [
+      sum + netFactor(api, person).factor,
+      count + api.parameter("one"),
+    ]);
+  }
+  const typicalElsewhere = new Map(
+    [...elsewhereSums].map(([band, [sum, count]]) => [band, sum / count]),
+  );
   const state = store(api).table("state").get("moves:state") as
-    { id: string; openingRanked?: boolean } | undefined;
+    | { id: string; openingRanked?: boolean; elsewhereRanked?: boolean }
+    | undefined;
   if (state && !state.openingRanked) {
     openingPulls(api, adults, typical);
     store(api)
       .table("state")
       .put({ ...state, openingRanked: true });
+  }
+  // Lives elsewhere have been running for years too: their pulls are
+  // spread the same way, once, among themselves.
+  const ranked = store(api).table("state").get("moves:state") as typeof state;
+  if (ranked && !ranked.elsewhereRanked) {
+    openingPulls(api, elsewhere, typicalElsewhere);
+    store(api)
+      .table("state")
+      .put({ ...ranked, elsewhereRanked: true });
   }
   const places = new Map<string, { factor: number; reads: string[] }>();
   const before = new Map<PersonId, number>();
@@ -1331,6 +1560,15 @@ function monthlyReview(api: CoreAPI): void {
     before.set(person.id, pullOf(api, person).value);
     accumulate(api, person, typical, place);
   }
+  for (const person of elsewhere) {
+    let place = places.get(person.placeId);
+    if (!place) {
+      place = placeConditions(api, person.placeId);
+      places.set(person.placeId, place);
+    }
+    before.set(person.id, pullOf(api, person).value);
+    accumulate(api, person, typicalElsewhere, place);
+  }
   // Each couple or adult alone leaves on the day in the month their pull,
   // building evenly, reaches the point where leaving wins; nobody's choice
   // waits for the 1st.
@@ -1340,8 +1578,8 @@ function monthlyReview(api: CoreAPI): void {
       Date.parse(`${api.state.date}T00:00:00Z`)) /
       86_400_000,
   );
-  for (const person of adults) {
-    if (!inTown(core, person.id) || decider(api, person) !== person) continue;
+  for (const person of [...adults, ...elsewhere]) {
+    if (!reviewed(core, person) || decider(api, person) !== person) continue;
     const partner = partnerAtHome(api, person);
     const ids = partner ? [person.id, partner.id] : [person.id];
     const mean = (values: number[]) =>
@@ -1367,6 +1605,8 @@ function addEventPull(api: CoreAPI, event: CoreEventInput): void {
   const amount = m(api, key);
   let named: PersonId[] = [...event.personIds];
   if (event.kind === MOVED_AWAY_EVENT) {
+    // A move between two places elsewhere leaves nobody in town behind.
+    if (event.facts?.[ELSEWHERE_FACT]) return;
     // A parent, child or sibling still in town feels the pull to follow.
     const kin = kinOf(core);
     const relatives = new Set<PersonId>();
@@ -1394,13 +1634,15 @@ function addEventPull(api: CoreAPI, event: CoreEventInput): void {
       for (const member of core.households.get(home ?? "")?.memberIds ?? [])
         left.add(member);
     }
-    named = [...left].filter(
-      (id) => !event.personIds.includes(id) && inTown(core, id),
-    );
+    // Those at home with them where they live, in town or elsewhere.
+    named = [...left].filter((id) => {
+      const other = core.people.get(id);
+      return !event.personIds.includes(id) && !!other && reviewed(core, other);
+    });
   }
   for (const id of named) {
     const person = core.people.get(id);
-    if (!person || !inTown(core, id)) continue;
+    if (!person || !reviewed(core, person)) continue;
     if (!decidesAlone(api, person)) continue;
     const pull = pullOf(api, person);
     pull.value += amount;
@@ -1414,7 +1656,7 @@ function addEventPull(api: CoreAPI, event: CoreEventInput): void {
     };
     savePull(api, pull);
     // The cause changed their pull: they weigh leaving the next day.
-    if (inTown(core, id))
+    if (reviewed(core, person))
       bookReview(
         api,
         decider(api, person).id,
@@ -1477,9 +1719,8 @@ export const movesModule: CoreModule = {
       const id = (work.payload as { personId?: string } | undefined)?.personId;
       const person = id ? api.state.people.get(id) : undefined;
       if (
-        person?.alive &&
-        person.tier !== INACTIVE_TIER &&
-        inTown(api.state as CoreState, person.id) &&
+        person &&
+        reviewed(api.state as CoreState, person) &&
         decidesAlone(api, person)
       )
         decide(api, decider(api, person));

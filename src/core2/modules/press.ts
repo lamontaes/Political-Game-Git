@@ -3023,6 +3023,10 @@ function schoolResults(api: CoreAPI): void {
 export const MILESTONE_BIRTHDAY = "person.milestone-birthday";
 /** A business's round year since its founding, as the briefs column prints it. */
 export const BUSINESS_ANNIVERSARY = "organization.anniversary";
+/** A resident's retirement, as the briefs column prints it. */
+export const RETIREMENT = "person.retired";
+/** The jobs engine's reason for a worker who leaves work for good. */
+const RETIRED = "retired";
 
 /** The anniversary of a date in a year, as a date ("02-29" falls on the 28th outside leap years). */
 function anniversaryIn(year: number, date: string): string {
@@ -3034,7 +3038,8 @@ function anniversaryIn(year: number, date: string): string {
 /**
  * The week's milestones, for the briefs column (words-paper-and-journal-
  * everyday-life; owner, Nov 1: "real ones with some good fluff"): a
- * resident of the town who reached a round birthday this week, and a
+ * resident of the town who retired this week (the jobs engine's record of
+ * their leaving), one who reached a round birthday this week, and a
  * business in town that reached a round year since it was founded, each
  * from its own record's date (the person's birth date; the business
  * engine's founding row or its age at the opening). The round ages and
@@ -3062,9 +3067,45 @@ function milestones(api: CoreAPI): void {
   // A full resident only: a counted resident's birthday is printed once
   // they are filled in (the notice names them).
   // stopgapId: SG-WORDS-milestone-birthday-full-people
+  const jobs = c.modules.has(JOBS_MODULE_ID)
+    ? api.moduleState(JOBS_MODULE_ID)
+    : undefined;
   for (const id of c.peopleByPlace.get(town) ?? []) {
     const person = c.people.get(id);
     if (!person?.alive) continue;
+    // A resident who retired this week, from the jobs engine's own record of
+    // their leaving (reason "retired"), and the years they held the job.
+    for (const row of (jobs?.table("changes").query("byPerson", [id]) ??
+      []) as unknown as {
+      date: string;
+      kind: string;
+      reasonKey: string;
+      organizationId: string;
+      jobId: string;
+    }[]) {
+      if (row.kind !== "left-work" || row.reasonKey !== RETIRED) continue;
+      if (row.date <= since || row.date > api.state.date) continue;
+      const held = [...(c.work.commitmentsByPerson.get(id) ?? [])]
+        .map((cid) => c.work.commitments.get(cid))
+        .find((commitment) => commitment?.jobId === row.jobId);
+      const from = held?.heldSince ?? held?.startsAt;
+      put({
+        id: `retirement:${id}:${row.date}`,
+        kind: RETIREMENT,
+        date: row.date,
+        level: "town",
+        topic: `person:${id}`,
+        desiredChange: RETIREMENT,
+        ending: false,
+        subjectIds: [id],
+        facts: {
+          personId: id,
+          organizationId: row.organizationId,
+          jobId: row.jobId,
+          ...(from ? { since: from } : {}),
+        },
+      });
+    }
     const day = thisWeek(person.birthDate);
     if (!day) continue;
     const age = Number(day.slice(0, 4)) - Number(person.birthDate.slice(0, 4));
