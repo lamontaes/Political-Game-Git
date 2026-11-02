@@ -275,6 +275,8 @@ export const STORY_KINDS = {
     lede: ["retirement"],
     brief: true,
   },
+  // A reader's letter to the editor, from the press's weekly letters step.
+  letter: { headline: ["letter"], lede: ["letter"], brief: true },
   anniversary: {
     headline: ["anniversary"],
     lede: ["anniversary"],
