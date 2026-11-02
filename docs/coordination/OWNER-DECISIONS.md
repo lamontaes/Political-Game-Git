@@ -7,6 +7,11 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 - None open. The relative-with-no-news question was ruled Nov 1, 16:50 (below).
 - The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
 
+## Nov 2, 01:30 UTC: CTO ruling: the group-quarters test's eviction band leaves out Maryland, for its filing law (speed lead's question, with the reading line)
+
+- **Ruling (under "Research before building": real data checks the simulation, with the reason cited):** the test band for eviction filings per 100 renter households is 0.65 to 23.32, every state's 2018 estimate except Maryland (Eviction Lab, Gromis et al., PNAS 2022; national 7.80, Connecticut 3.98, Tolland County 2.18). Maryland's 69.58 is left out because there the filing is the eviction notice and paying cancels it, so landlords file again and again (the Eviction Lab methods report, section 5.3). The game does not model that law, so its level is not a standard for a place the game plays. The full range would pass main's 43.25, which comes from students renting at their own incomes and being evicted, so it could not tell main from the build (Storrs, Connecticut: 1.31). If the game ever models a state's filing-as-notice law, places in that state get their own band from that state's figure.
+- Read: OWNER-DECISIONS (Nov 1 14:20 group quarters; Oct 24 "Simulate it, don't ask"), DECISION-REGISTER, docs search for "eviction filing" and "Eviction Lab", `data/research/housing/eviction-filings-README.md` on the build's branch.
+
 ## Nov 2, 00:50 UTC: at about 91% of the weekly usage, everyone keeps working; skills now; progress recorded for the other account (owner)
 
 - **The owner:** "Okay, so I'm at 90 or 91%. Everyone keep working like normal. Just remind everyone right now to do their skills, updates and new skills, or maybe delete whatever. And then just be sure that progress is recorded so that when you do run out of usage, my other account can know what's going on, etc. I'm not sure if I want to use Ultra Code on my other account when it resets."
