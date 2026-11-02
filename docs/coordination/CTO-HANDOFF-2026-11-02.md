@@ -60,7 +60,7 @@ Every session was interrupted at 01:40 UTC on the owner's word and handed off. N
 
 **Long saves:** the 40-year run dies in year 19 on main and in year 23 on the speed lead's combined branch (year 22: 525 seconds, 6.5 GB, 3.48 million records). The next run's settings are in the Speed block.
 
-**Words:** not yet handed off when this was written. Its newest status block in the channel is the place to start.
+**Words:** handed off at 02:45 UTC. Its final block (channel commit ecef82660d) lists its queue in order; its open PRs (#7090, #7101, #7103, #7106, #7108, #7127, #7131) each end with their state. Nine claims are back to open, seven of them already fully on main and needing only a done-when check.
 
 ## How to read this
 
