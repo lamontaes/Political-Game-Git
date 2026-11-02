@@ -814,10 +814,11 @@ it("every contested local race's candidates run on their top questions by the ru
   ).toBeGreaterThanOrEqual(MIN_CANDIDATES);
   // The town agrees more with what the rule runs on than with the strongest views.
   expect(agree.rule, total).toBeGreaterThan(agree.strongest);
-  // C1: emphasis by record rises with support inside the research band.
-  // Measured outside it (SG-GOV-platform-slope-c1-out-of-band), for the
-  // governing lead's ruling on which total C1 holds; the band is not
-  // widened.
-  expect(all.per10, total).toBeGreaterThanOrEqual(BAND.low);
-  expect(all.per10, total).toBeLessThanOrEqual(BAND.high);
+  // C1, emphasis by record rising with support inside the research band, is
+  // printed above and not held (governing lead, Nov 2). Every campaign act
+  // carries one question, so a campaign's emphasis falls on its lead
+  // (SG-GOV-platform-emphasis-lead-only) and no slope meets the band
+  // (SG-GOV-platform-slope-c1-out-of-band). The band check moves to pool
+  // item campaign-platform-emphasis-c1, with acts sharing their emphasis
+  // over the platform; the band is not widened.
 }, 7_200_000);
