@@ -7553,7 +7553,7 @@
     "kind": "missing-mechanic",
     "file": "src/bench/play.mjs",
     "line": 0,
-    "whatItFakes": "The filing counter offers at most six replies; an office that takes more races than that shows the first six at the counter, and the rest are reached from the office's own view in Travel and from Campaigns.",
+    "whatItFakes": "The filing counter offers at most four replies; an office that takes more races than that shows the four soonest at the counter, and the rest are reached from the office's own view in Travel and from Campaigns.",
     "why": "The talk box holds a few replies, never a long list (owner, Oct 26), and the Open races menu that held the rest was a dev panel (owner, Oct 28, point 29).",
     "addedBy": "screens session (sitting Oct 28, point 29)",
     "addedAt": "2026-10-28",
