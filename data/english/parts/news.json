@@ -4675,6 +4675,137 @@
       }
     },
     {
+      "key": "news.retirement.name-retired-from-employer-on-date",
+      "move": "retirement",
+      "kind": "written",
+      "text": "{name} retired from {employer} on {date}.",
+      "uses": [
+        {
+          "move": "retirement",
+          "subject": "news",
+          "role": "retirement",
+          "choice": "lede",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.retirement.after-years-years-at-employer-name-has-retired",
+      "move": "retirement",
+      "kind": "written",
+      "text": "After {years} years at {employer}, {name} has retired.",
+      "uses": [
+        {
+          "move": "retirement",
+          "subject": "news",
+          "role": "retirement",
+          "choice": "lede",
+          "requiresFacts": ["employer", "years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.retirement.name-of-place-retired-on-date",
+      "move": "retirement",
+      "kind": "written",
+      "text": "{name} of {place} retired on {date}.",
+      "uses": [
+        {
+          "move": "retirement",
+          "subject": "news",
+          "role": "retirement",
+          "choice": "lede",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.retirement.name-retired-on-date",
+      "move": "retirement",
+      "kind": "written",
+      "text": "{name} retired on {date}.",
+      "uses": [
+        {
+          "move": "retirement",
+          "subject": "news",
+          "role": "retirement",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.retirement.name-retired-from-government-on-date",
+      "move": "retirement",
+      "kind": "written",
+      "text": "{name} retired from {government} on {date}.",
+      "uses": [
+        {
+          "move": "retirement",
+          "subject": "news",
+          "role": "retirement",
+          "choice": "lede",
+          "requiresFacts": ["government"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.retirement.after-years-years-with-government-name-has-retired",
+      "move": "retirement",
+      "kind": "written",
+      "text": "After {years} years with {government}, {name} has retired.",
+      "uses": [
+        {
+          "move": "retirement",
+          "subject": "news",
+          "role": "retirement",
+          "choice": "lede",
+          "requiresFacts": ["government", "years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "news.anniversary.subject-opened-in-place-years-years-ago-this-week",
       "move": "anniversary",
       "kind": "written",

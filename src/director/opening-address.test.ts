@@ -18,19 +18,12 @@ import { composeOpeningStory } from "./opening-story";
 // drawn from all 56 places on seeds the builder did not choose open with
 // addresses of different shape: how many priorities the President leads with
 // and which, what the state's law says on each, the line they will not cross,
-// whether the governors are addressed, which of the country's numbers the
-// story tells. Every figure is a record's value, every priority a policy
-// question the President holds a view on, every law line a law row the laws
-// engine holds; nothing is written in a sentence.
+// whether the governors are addressed, which of the country's subjects the
+// story tells. The year is told in words from its record and no figure is
+// said (owner, Oct 27 and Nov 1); every priority is a policy question the
+// President holds a view on, every law line a law row the laws engine holds;
+// nothing is written in a sentence.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
-const FIGURES = [
-  "unemployment-rate",
-  "inflation-rate",
-  "mortgage-rate",
-  "wage-growth",
-  "growth-rate",
-  "jobs-added",
-];
 
 setBookkeeping(false);
 const worlds = Array.from({ length: 4 }, (_, at) => {
@@ -148,7 +141,15 @@ describe("the opening address from a world's records", () => {
     }
   });
 
-  it("says every figure as its record's value, and no figure when the record changes its mind", () => {
+  it("says no figure, and tells the year as its record has it (a test of the old per-number shape)", () => {
+    // No sentence of any world's address holds a digit (owner, Nov 1: "I
+    // don't like where this part of the speech where it just laces
+    // statistics"; Oct 27: "none of that real data in there").
+    for (const { where, story } of worlds)
+      for (const sentence of story!.address.sentences)
+        expect(sentence.text, `${where}: "${sentence.text}"`).not.toMatch(
+          /\d|percent/,
+        );
     const { where, world, story } = worlds[0]!;
     const api = coreAPI(world.core);
     // The opening month and the year before, as the macro engine publishes them.
@@ -167,40 +168,25 @@ describe("the opening address from a world's records", () => {
     const now = rows
       .filter((row) => row.month <= world.core.date.slice(0, 7))
       .at(-1)!;
-    const figures = (told: typeof story) =>
+    const before = rows[rows.indexOf(now) - 12]!;
+    const work = (told: typeof story) =>
       told!.address.sentences.flatMap((row) =>
-        Object.entries(row.values).filter(([key]) => FIGURES.includes(key)),
+        row.facts.filter((key) => /^unemployment-(up|down)$/.test(key)),
       );
-    const said = figures(story);
-    expect(said.length, where).toBeGreaterThan(0);
-    // Every number in the text is one of the figures the sentence cites.
-    for (const sentence of story!.address.sentences) {
-      const cited = Object.entries(sentence.values)
-        .filter(([key]) => FIGURES.includes(key))
-        .map(([, value]) => value);
-      for (const digits of sentence.text.match(/\d[\d.,]*\d|\d/g) ?? [])
-        expect(cited, `${where}: "${sentence.text}"`).toContain(digits);
-    }
-    // Change the record: the address says the new value.
-    const moved = {
-      ...now,
-      unemploymentPct: now.unemploymentPct + 1.3,
-      inflationPct: now.inflationPct + 0.7,
-      mortgage30Pct: now.mortgage30Pct + 0.9,
-    };
+    // Work is always told, in words, citing the months it compares.
+    expect(work(story).length, where).toBeGreaterThan(0);
+    for (const sentence of story!.address.sentences.filter((row) =>
+      row.facts.some((key) => /^unemployment-(up|down)$/.test(key)),
+    ))
+      expect(sentence.sourceRecordIds, sentence.text).toContain(now.id);
+    // Change the record so work got harder to find: the address says so.
+    const moved = { ...now, unemploymentPct: before.unemploymentPct + 1.3 };
     for (const row of rows)
       months.put((row === now ? moved : row) as unknown as ModuleRow);
     const again = composeOpeningStory(world.core, world.playerId!);
-    const expected: Record<string, string> = {
-      "unemployment-rate": moved.unemploymentPct.toFixed(1),
-      "inflation-rate": moved.inflationPct.toFixed(1),
-      "mortgage-rate": moved.mortgage30Pct.toFixed(1),
-    };
-    const changed = figures(again).filter(([key]) => expected[key]);
-    expect(changed.length, where).toBeGreaterThan(0);
-    for (const [key, value] of changed) expect(value, key).toBe(expected[key]);
+    expect(work(again), where).toContain("unemployment-up");
+    expect(work(again), where).not.toContain("unemployment-down");
     for (const sentence of again!.address.sentences)
-      for (const [key, value] of Object.entries(sentence.values))
-        if (expected[key]) expect(sentence.text, key).toContain(value);
+      expect(sentence.text, `${where}: "${sentence.text}"`).not.toMatch(/\d/);
   });
 }, 600_000);

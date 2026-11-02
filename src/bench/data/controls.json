@@ -34,6 +34,8 @@
     "previous": "Previous {row}",
     "next": "Next {row}",
     "randomPlace": "Random place",
+    "randomName": "Randomize name",
+    "nameWaitsForGender": "Choose a gender to randomize a name",
     "missingGender": "Choose a gender to go on.",
     "missingName": "Type a first and last name to go on."
   },

@@ -5,12 +5,13 @@ area: people
 kind: stopgap
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: governing/press-staff-households
 pr:
 blocked-on:
 source: added with npm run pool -- add
 lead: governing
+claimed-at: 2026-11-01T23:54:24.940Z
 ---
 
 **What.** src/core2/press-staff.ts seats an out-of-town press person alone, with no rent, living costs or family, because the identity fill-in makes a person without a home. Draw their household as the opening draws any household of their age and pay, with rent, living costs and kin. Closes SG-PEOPLE-press-staff-households.
