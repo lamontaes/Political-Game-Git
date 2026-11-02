@@ -23,3 +23,5 @@ claimed-at: 2026-11-01T18:01:46.419Z
 **Files.** src/core2/electorate.ts, src/core2/modules/voting.ts, src/core2/electorate.test.ts, scripts/core2-year/incumbency-totals.ts
 
 **Notes.** CTO ruling Nov 1, ~18:00 UTC (recorded in OWNER-DECISIONS). Measured on governing/incumbency-calibration (the four-way ablation, 8 places). Built before the incumbency parameter fit.
+
+Nov 2, 01:40 (governing lead): branch governing/counted-vote-share at e616b5dbb3 (the split, the primaries rule, src/core2/counted-vote-share.test.ts). Runner A's paired totals (governing/measure-m7a 1fd789c892, seed 911ff0d875eff939, 12 places, 2 years): the holder's two-way median share is 0.744 with both terms (n 4) and 0.476 with neither (n 5); paired moves -0.460, -0.339, -0.226 and -0.148 (median -0.28); T3 1.0 against 0.333. Santa Cruz, California crashed in run A in work-cash.ts:930 (to red main). Next: open the PR with these numbers, the 51-state check, Arvada and Lexington, and speed (+3.2%), carrying the move past 12 points to campaign-incumbency-calibrated (CTO, Nov 1).

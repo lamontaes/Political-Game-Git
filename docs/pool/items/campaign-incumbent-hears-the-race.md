@@ -22,4 +22,4 @@ claimed-at: 2026-11-01T15:09:47.897Z
 
 **Files.** src/core2/modules/campaigns.ts, src/core2/campaign-incumbent-response.test.ts, src/core2/data/stopgaps.json
 
-**Notes.** TODO
+**Notes.** Nov 2, 01:40 (governing lead): branch governing/incumbent-hears-the-race at 6d0f3bd18c (clause (d)'s engine fix, built by a workflow on Nov 1). Not re-checked since. Next: read the branch's commits against the done-when, run its test on two fresh seeds, then open the PR or write what is left here.

@@ -22,4 +22,4 @@ claimed-at: 2026-10-30T09:16:22.511Z
 
 **Files.** src/core2/campaign-real-race-played.test.ts
 
-**Notes.** TODO
+**Notes.** Nov 2, 01:40 (governing lead): branch governing/real-race-played-proof at ede6bf1934. Not re-checked since Nov 1. Next: run its played test on two fresh seeds against the done-when, then open the PR or write what is left here.

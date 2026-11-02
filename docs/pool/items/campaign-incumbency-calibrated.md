@@ -22,4 +22,4 @@ claimed-at: 2026-11-01T22:09:50.709Z
 
 **Files.** src/core2/electorate.ts, src/core2/modules/voting.ts, src/core2/data/campaigns/parameters.json, docs/research/local-incumbency-2026-10-30.md
 
-**Notes.** TODO
+**Notes.** Nov 2, 01:40 (governing lead): branch governing/incumbency-calibration at f520af79ba (the trait term centered on the town's incumbent lean). Next, after the counted-split PR: fit the incumbency weight against T1 to T6 with scripts/core2-year/incumbency-totals.ts, one totals run at a time (governing-measurement).

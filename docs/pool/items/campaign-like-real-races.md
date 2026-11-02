@@ -23,3 +23,5 @@ claimed-at: 2026-10-29T21:27:33.811Z
 **Files.** src/core2/modules/campaigns.ts, src/core2/modules/voting.ts, src/bench/campaign.ts, src/bench/path-check.ts
 
 **Notes.** Filed by the CTO, Oct 29, from the owner's voice note on the governing brief (OWNER-DECISIONS, Oct 29 21:40 UTC). Read: OWNER-DECISIONS, DECISION-REGISTER, the governing brief's four research notes; searched the pool for twins.
+
+Nov 2, 01:40 (governing lead): the played-year test is on governing/real-race-played-test at 6ec2b016c2, 14 commits ahead of main; the claimed branch governing/campaign-like-real-races has nothing of its own. Next: merge main into governing/real-race-played-test, run its test on two fresh seeds, and open the PR from it.
