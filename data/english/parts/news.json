@@ -84,7 +84,10 @@
     "relation": "How the person who died was related to the reader, from the family record.",
     "survivor": "The relative who survives, by name, from the family record.",
     "margin": "How many votes the winning side led by, from the vote record.",
-    "crimes": "What most of a month's police reports were (thefts, assaults), from the crime engine's month record."
+    "crimes": "What most of a month's police reports were (thefts, assaults), from the crime engine's month record.",
+    "who": "Whom a law reaches: who pays a tax, or who gets a benefit or a wage, from the law's series (data/english/bill-names.json).",
+    "starts": "The day a law passed now takes effect, from the law record.",
+    "statute": "The kind of law and the level that made it (a state law, a town ordinance), from the law record."
   },
   "maxWords": 14,
   "mining": {
@@ -1012,66 +1015,6 @@
       }
     },
     {
-      "key": "news.law-took-effect.measure-took-effect-on-date",
-      "move": "law-took-effect",
-      "kind": "written",
-      "text": "{measure} took effect on {date}.",
-      "uses": [
-        {
-          "move": "law-took-effect",
-          "subject": "news",
-          "role": "law-took-effect",
-          "choice": "lede",
-          "requiresFacts": ["effective"]
-        }
-      ],
-      "transcriptsUsing": 17,
-      "bySource": {
-        "fr": 17
-      },
-      "source": {
-        "document": "U.S. Citizenship and Immigration Services Fee Schedule and Changes to Certain Other Immigration Benefit Request Requirements; Second Correction (Federal Register)",
-        "date": "2025-01-17",
-        "granule": "FR-2025-01-17/2025-01386",
-        "url": "https://www.govinfo.gov/content/pkg/FR-2025-01-17/html/2025-01386.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.law-took-effect.measure-became-law-on-date",
-      "move": "law-took-effect",
-      "kind": "written",
-      "text": "{measure} became law on {date}.",
-      "uses": [
-        {
-          "move": "law-took-effect",
-          "subject": "news",
-          "role": "law-took-effect",
-          "choice": "lede",
-          "requiresFacts": ["enacted"]
-        }
-      ],
-      "transcriptsUsing": 40,
-      "bySource": {
-        "fr": 40
-      },
-      "source": {
-        "document": "Partitioning, Disaggregation, and Leasing of Spectrum (Federal Register)",
-        "date": "2019-04-02",
-        "granule": "FR-2019-04-02/2019-06348",
-        "url": "https://www.govinfo.gov/content/pkg/FR-2019-04-02/html/2019-06348.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "news.law.the-law-took-effect-in-place-on-date",
       "move": "law",
       "kind": "written",
@@ -1189,159 +1132,6 @@
           "role": "law",
           "choice": "lede",
           "requiresFacts": ["ended"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-live-news-worded)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.law-amount.the-measure-in-place-stays-at-to-under-a-law-that-took-effec",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "The {measure} in {place} stays at {to} under a law that took effect on {date}.",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "news",
-          "role": "law-amount",
-          "choice": "lede",
-          "requiresFacts": ["same"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-live-news-worded)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.law-amount.the-measure-stays-at-to-under-a-law-that-took-effect-on-date",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "The {measure} stays at {to} under a law that took effect on {date}.",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "news",
-          "role": "law-amount",
-          "choice": "lede",
-          "requiresFacts": ["same"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-live-news-worded)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.law-amount.the-measure-in-place-went-from-from-to-to-on-date",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "The {measure} in {place} went from {from} to {to} on {date}.",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "news",
-          "role": "law-amount",
-          "choice": "lede"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-live-news-worded)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.law-amount.on-date-the-measure-in-place-fell-from-from-to-to",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "On {date}, the {measure} in {place} fell from {from} to {to}.",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "news",
-          "role": "law-amount",
-          "choice": "lede",
-          "requiresFacts": ["down"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-live-news-worded)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.law-amount.on-date-the-measure-in-place-rose-from-from-to-to",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "On {date}, the {measure} in {place} rose from {from} to {to}.",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "news",
-          "role": "law-amount",
-          "choice": "lede",
-          "requiresFacts": ["up"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-live-news-worded)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.law-amount.the-measure-in-place-is-now-to-down-from-from",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "The {measure} in {place} is now {to}, down from {from}.",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "news",
-          "role": "law-amount",
-          "choice": "lede",
-          "requiresFacts": ["down"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-live-news-worded)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.law-amount.the-measure-in-place-is-now-to-up-from-from",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "The {measure} in {place} is now {to}, up from {from}.",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "news",
-          "role": "law-amount",
-          "choice": "lede",
-          "requiresFacts": ["up"]
         }
       ],
       "origin": "authored",
@@ -8799,94 +8589,6 @@
       }
     },
     {
-      "key": "news.law-reach.it-applies-across-the-country",
-      "move": "law-reach",
-      "kind": "written",
-      "text": "It applies across the country.",
-      "uses": [
-        {
-          "move": "law-reach",
-          "subject": "news",
-          "role": "law-reach",
-          "choice": "context",
-          "requiresFacts": ["federal"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-bodies-2)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.law-reach.it-covers-everyone-in-the-country",
-      "move": "law-reach",
-      "kind": "written",
-      "text": "It covers everyone in the country.",
-      "uses": [
-        {
-          "move": "law-reach",
-          "subject": "news",
-          "role": "law-reach",
-          "choice": "context",
-          "requiresFacts": ["federal"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-bodies-2)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.law-reach.it-applies-across-place",
-      "move": "law-reach",
-      "kind": "written",
-      "text": "It applies across {place}.",
-      "uses": [
-        {
-          "move": "law-reach",
-          "subject": "news",
-          "role": "law-reach",
-          "choice": "context",
-          "requiresFacts": ["place"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-bodies-2)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.law-reach.it-covers-everyone-in-place",
-      "move": "law-reach",
-      "kind": "written",
-      "text": "It covers everyone in {place}.",
-      "uses": [
-        {
-          "move": "law-reach",
-          "subject": "news",
-          "role": "law-reach",
-          "choice": "context",
-          "requiresFacts": ["place"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-bodies-2)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "news.death-place.name-lived-in-place",
       "move": "death-place",
       "kind": "written",
@@ -10854,6 +10556,754 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-30",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.on-date-a-statute-raised-the-measure-in-place-from-from-to-t",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "On {date}, a {statute} raised the {measure} in {place} from {from} to {to}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["took", "here", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.the-measure-in-place-is-now-to-up-from-from",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "The {measure} in {place} is now {to}, up from {from}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["took", "here", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.on-date-a-statute-cut-the-measure-in-place-from-from-to-to",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "On {date}, a {statute} cut the {measure} in {place} from {from} to {to}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["took", "here", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.the-measure-in-place-is-now-to-down-from-from",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "The {measure} in {place} is now {to}, down from {from}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["took", "here", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.a-statute-keeps-the-measure-in-place-at-to-as-of-date",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "A {statute} keeps the {measure} in {place} at {to} as of {date}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["took", "here", "same"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.on-date-a-statute-set-the-measure-in-place-at-to",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "On {date}, a {statute} set the {measure} in {place} at {to}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["took", "here", "new"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.on-date-a-federal-law-raised-the-measure-from-from-to-to",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "On {date}, a federal law raised the {measure} from {from} to {to}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["took", "nationwide", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.the-federal-measure-is-now-to-up-from-from",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "The federal {measure} is now {to}, up from {from}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["took", "nationwide", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.on-date-a-federal-law-cut-the-measure-from-from-to-to",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "On {date}, a federal law cut the {measure} from {from} to {to}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["took", "nationwide", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.the-federal-measure-is-now-to-down-from-from",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "The federal {measure} is now {to}, down from {from}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["took", "nationwide", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.a-federal-law-keeps-the-measure-at-to-as-of-date",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "A federal law keeps the {measure} at {to} as of {date}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["took", "nationwide", "same"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.on-date-a-federal-law-set-the-measure-at-to",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "On {date}, a federal law set the {measure} at {to}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["took", "nationwide", "new"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.on-date-the-federal-measure-for-place-rose-from-from-to-to",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "On {date}, the federal {measure} for {place} rose from {from} to {to}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["took", "federal-here", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.the-federal-measure-for-place-is-now-to-up-from-from",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "The federal {measure} for {place} is now {to}, up from {from}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["took", "federal-here", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.on-date-the-federal-measure-for-place-fell-from-from-to-to",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "On {date}, the federal {measure} for {place} fell from {from} to {to}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["took", "federal-here", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.the-federal-measure-for-place-is-now-to-down-from-from",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "The federal {measure} for {place} is now {to}, down from {from}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["took", "federal-here", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.the-federal-measure-for-place-stays-at-to-as-of-date",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "The federal {measure} for {place} stays at {to} as of {date}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["took", "federal-here", "same"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.on-date-the-federal-measure-for-place-was-set-at-to",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "On {date}, the federal {measure} for {place} was set at {to}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["took", "federal-here", "new"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.place-will-raise-its-measure-from-from-to-to-on-starts",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "{place} will raise its {measure} from {from} to {to} on {starts}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["enacted", "here", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.under-a-statute-the-measure-in-place-goes-from-from-to-to-on",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "Under a {statute}, the {measure} in {place} goes from {from} to {to} on {starts}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["enacted", "here", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.place-will-lower-its-measure-from-from-to-to-on-starts",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "{place} will lower its {measure} from {from} to {to} on {starts}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["enacted", "here", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.under-a-statute-the-measure-in-place-drops-from-from-to-to-o",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "Under a {statute}, the {measure} in {place} drops from {from} to {to} on {starts}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["enacted", "here", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.congress-voted-to-raise-the-measure-from-from-to-to-starting",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "Congress voted to raise the {measure} from {from} to {to}, starting {starts}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["enacted", "nationwide", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.under-a-new-federal-law-the-measure-goes-from-from-to-to-on",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "Under a new federal law, the {measure} goes from {from} to {to} on {starts}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["enacted", "nationwide", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.congress-voted-to-lower-the-measure-from-from-to-to-starting",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "Congress voted to lower the {measure} from {from} to {to}, starting {starts}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["enacted", "nationwide", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.under-a-new-federal-law-the-measure-drops-from-from-to-to-on",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "Under a new federal law, the {measure} drops from {from} to {to} on {starts}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["enacted", "nationwide", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.the-federal-measure-for-place-will-go-from-from-to-to-on-sta",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "The federal {measure} for {place} will go from {from} to {to} on {starts}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["enacted", "federal-here", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.starting-starts-the-federal-measure-for-place-goes-from-from",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "Starting {starts}, the federal {measure} for {place} goes from {from} to {to}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["enacted", "federal-here", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.the-federal-measure-for-place-will-drop-from-from-to-to-on-s",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "The federal {measure} for {place} will drop from {from} to {to} on {starts}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["enacted", "federal-here", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.starting-starts-the-federal-measure-for-place-drops-from-fro",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "Starting {starts}, the federal {measure} for {place} drops from {from} to {to}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["enacted", "federal-here", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-reach.the-change-falls-on-who",
+      "move": "law-reach",
+      "kind": "written",
+      "text": "The change falls on {who}.",
+      "uses": [
+        {
+          "move": "law-reach",
+          "subject": "news",
+          "role": "law-reach",
+          "choice": "context",
+          "requiresFacts": ["who", "pays"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-reach.it-is-paid-by-who",
+      "move": "law-reach",
+      "kind": "written",
+      "text": "It is paid by {who}.",
+      "uses": [
+        {
+          "move": "law-reach",
+          "subject": "news",
+          "role": "law-reach",
+          "choice": "context",
+          "requiresFacts": ["who", "pays"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-reach.the-change-reaches-who",
+      "move": "law-reach",
+      "kind": "written",
+      "text": "The change reaches {who}.",
+      "uses": [
+        {
+          "move": "law-reach",
+          "subject": "news",
+          "role": "law-reach",
+          "choice": "context",
+          "requiresFacts": ["who", "gets"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-reach.it-matters-most-to-who",
+      "move": "law-reach",
+      "kind": "written",
+      "text": "It matters most to {who}.",
+      "uses": [
+        {
+          "move": "law-reach",
+          "subject": "news",
+          "role": "law-reach",
+          "choice": "context",
+          "requiresFacts": ["who", "gets"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"

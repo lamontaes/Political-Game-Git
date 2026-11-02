@@ -243,6 +243,17 @@ export function newsKey(storyId: string): string {
   return `news:${storyId}`;
 }
 
+/**
+ * Whether a story dated `storyDate` is still news today: within the days a
+ * story stays news (newsMaxAgeDays), the cutoff telling reads. Past it no
+ * outlet carries it.
+ */
+export function stillNews(api: CoreAPI, storyDate: string): boolean {
+  return (
+    storyDate >= addDays(makeIsoDate(api.state.date), -n(api, "newsMaxAgeDays"))
+  );
+}
+
 /** The stories a person has heard (since a date they heard them, if given), newest first. */
 export function storiesHeard(
   api: CoreAPI,
