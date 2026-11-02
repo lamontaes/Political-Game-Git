@@ -37788,7 +37788,7 @@
           "role": "narrator",
           "purpose": "filing-clerk",
           "key": "routine",
-          "excludesFacts": ["returning"]
+          "excludesFacts": ["returning", "on-ballot"]
         }
       ],
       "bearing": "calm",
@@ -64624,7 +64624,7 @@
           "purpose": "filing-clerk",
           "key": "routine",
           "requiresFacts": ["incumbent"],
-          "excludesFacts": ["returning"]
+          "excludesFacts": ["returning", "on-ballot"]
         }
       ],
       "bearing": "calm",
@@ -64650,7 +64650,7 @@
           "purpose": "filing-clerk",
           "key": "routine",
           "requiresFacts": ["incumbent"],
-          "excludesFacts": ["returning"]
+          "excludesFacts": ["returning", "on-ballot"]
         }
       ],
       "bearing": "calm",
@@ -72566,7 +72566,7 @@
           "purpose": "filing-clerk",
           "key": "routine",
           "requiresFacts": ["incumbent"],
-          "excludesFacts": ["returning"]
+          "excludesFacts": ["returning", "on-ballot"]
         }
       ],
       "bearing": "calm",
@@ -86725,7 +86725,7 @@
           "purpose": "filing-clerk",
           "key": "routine",
           "requiresFacts": ["office", "post"],
-          "excludesFacts": ["returning"]
+          "excludesFacts": ["returning", "on-ballot"]
         }
       ],
       "bearing": "calm",
@@ -125818,6 +125818,56 @@
       "date": "2026-11-01",
       "tag": {
         "move": "agree",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-re-back-at-the-post-s-counter-your-name-already-on-the-ballot-name-looks-up",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You're back at the {post}'s counter, your name already on the ballot. {name} looks up and nods.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["on-ballot", "post"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-clerk-visit-narration-real)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-come-back-to-the-post-s-office-with-nothing-left-to-file-name-waves-you-over",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You come back to the {post}'s office with nothing left to file. {name} waves you over anyway.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["on-ballot", "post"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-clerk-visit-narration-real)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "narrate",
         "key": "routine"
       }
     }

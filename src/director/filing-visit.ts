@@ -73,8 +73,9 @@ export interface FilingVisit {
     key: string;
     text: string;
     /**
-     * What the screen's control is: filing is its own control, named by the
-     * screen, so it never reads like acknowledging a refusal.
+     * What the choice does: pick a race, file, or take a refusal. Each shows
+     * the player's own words, and the words that file are never those that
+     * acknowledge a refusal.
      */
     control: "pick" | "file" | "acknowledge";
     action: FilingAction;
@@ -311,18 +312,24 @@ export function counterNarration(
   visit: FilingVisit,
   clerk: { title: string; recordId: string },
   /**
-   * The player's filing at this counter still gathering signatures, when
-   * there is one: they are back with the petition. Without one, this is
-   * their first visit, to ask for the papers (owner, Nov 1: "You filled out
-   * the forms there").
+   * The player's filing at this counter, when there is one: still gathering
+   * signatures, they are back with the petition; already on the ballot, they
+   * are back with nothing left to bring. Without one, this is their first
+   * visit, to ask for the papers (owner, Nov 1: "You filled out the forms
+   * there").
    */
-  filing?: { id: string } | null,
+  filing?: { id: string; status: string } | null,
 ): { text: string; sourceRecordIds: readonly string[] }[] {
   const person = visit.clerkId ? core.people.get(visit.clerkId) : undefined;
   if (!person) return [];
   const facts: Record<string, Fact> = {
     ...(filing
-      ? { returning: { text: "yes", sourceRecordIds: [filing.id] } }
+      ? {
+          [filing.status === "petitioning" ? "returning" : "on-ballot"]: {
+            text: "yes",
+            sourceRecordIds: [filing.id],
+          },
+        }
       : {
           "first-visit": {
             text: "yes",

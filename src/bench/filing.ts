@@ -219,13 +219,14 @@ export function openBenchFilingVisit(
     filedWith,
     place,
     // A first visit asks for the papers; a filing here still gathering
-    // signatures brings the petition back, by its record.
+    // signatures brings the petition back, and one already on the ballot
+    // comes back with nothing to bring, each by its record.
     intro: clerkRow
       ? counterNarration(
           core,
           visit,
           clerkRow,
-          petitioningHere(core, playerId, filedWith),
+          filedHere(core, playerId, filedWith),
         )
       : [],
     backdrop,
@@ -235,12 +236,12 @@ export function openBenchFilingVisit(
   };
 }
 
-/** The player's filing at this office still gathering signatures, if any. */
-function petitioningHere(
+/** The player's filing at this office still gathering signatures or on the ballot, if any. */
+function filedHere(
   core: CoreState,
   playerId: string,
   filedWith: string,
-): { id: string } | null {
+): { id: string; status: string } | null {
   const filings = coreAPI(core)
     .moduleState(ELECTIONS_MODULE_ID)
     .table("filings")
@@ -250,10 +251,14 @@ function petitioningHere(
     filedWith: string;
     status: string;
   }[];
-  const held = filings.find(
-    (row) => row.filedWith === filedWith && row.status === "petitioning",
-  );
-  return held ? { id: held.id } : null;
+  const held =
+    filings.find(
+      (row) => row.filedWith === filedWith && row.status === "petitioning",
+    ) ??
+    filings.find(
+      (row) => row.filedWith === filedWith && row.status === "on-ballot",
+    );
+  return held ? { id: held.id, status: held.status } : null;
 }
 
 /** The player's choice at the counter: name an office, file, or leave. */
