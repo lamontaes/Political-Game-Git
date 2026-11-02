@@ -383,6 +383,36 @@ describe("printed stories in News", () => {
       }),
     );
     expect(birthday?.brief, where).toBe(true);
+    // A retirement, from a resident's own work record: the employer named.
+    const worker = [...(core.peopleByPlace.get(town) ?? [])]
+      .map((id) => core.people.get(id)!)
+      .find(
+        (person) =>
+          person.alive &&
+          person.jobId &&
+          core.jobs.get(person.jobId) &&
+          core.organizations.get(core.jobs.get(person.jobId)!.organizationId)
+            ?.outsideFlow === undefined,
+      );
+    if (worker) {
+      const job = core.jobs.get(worker.jobId!)!;
+      const retired = wordPrintedStory(
+        core,
+        printedAs(`retirement:${worker.id}:${core.date}`, core.date, {
+          personId: worker.id,
+          organizationId: job.organizationId,
+          jobId: job.id,
+          since: "2001-03-01",
+        }),
+      );
+      expect(retired?.brief, where).toBe(true);
+      expect(`${retired!.headline} ${retired!.lede}`, where).toContain(
+        worker.givenName,
+      );
+      process.stdout.write(
+        `printed-words retirement: ${retired!.headline} / ${retired!.lede}\n`,
+      );
+    }
     expect(`${birthday!.headline} ${birthday!.lede}`, where).toContain(
       resident!.givenName,
     );
