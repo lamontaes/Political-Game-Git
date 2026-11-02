@@ -61,13 +61,10 @@ export const STORY_KINDS = {
     only: /\{\{subject\}\}|plant|store/,
     headline: ["organization.closed"],
     lede: ["organization.closed"],
-    context: [
-      "closing-years",
-      "closing-workers",
-      "closing-why",
-      "closing-owner",
-      "business-kind",
-    ],
+    // A closing is told, not listed (owner, Nov 1: "none of this is a
+    // story"): who ran it, how long and why it closed in one sentence, then
+    // what it leaves the people who worked there.
+    context: ["closing-account", "closing-workers"],
   },
   // A brief is a side item: a headline and one line, never paragraphs, and
   // the screen does not open it.
