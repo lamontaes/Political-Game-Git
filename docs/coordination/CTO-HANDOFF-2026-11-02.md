@@ -54,7 +54,7 @@ Every session was interrupted at 01:40 UTC on the owner's word and handed off. N
 4. #7088, then #7098 (past races name their district, after Words' review), then #7108 (the closing business as a story).
 5. Checker-passed and waiting for a merger: #7036 (medical debt), #7070, #7074 (the couch fix), #7077 (no click without talk), #7082 (partners elsewhere), #7095, #7096, #7104, #7106, #7128, #7131.
 
-**Still need a checker:** #7105 (the opening montage; its gate was interrupted), #7135 (press-staff households and the money refit, which Checker 0 left with a note), #7110, #7112, #7129, #7130, #7132, #7097 (gate started; browser checks left) and #7136. #7136 fixes the right-to-counsel red in `law-wiring-housing.test.ts` by redrawing a town with eviction hearings, and the file then takes about 25 minutes because it builds the towns it skips; ask whether that cost belongs in CI before merging.
+**Still need a checker:** #7105 (the opening montage; its gate was interrupted) and #7135 (press-staff households and the money refit; Checker 0 left a note). Also #7110, #7112, #7129, #7130 and #7132, and #7097, whose gate started with browser checks left. #7136 fixes the right-to-counsel red in `law-wiring-housing.test.ts` by redrawing a town with eviction hearings. The file then takes about 25 minutes, because it builds the towns it skips, so decide whether that cost belongs in CI before merging it.
 
 **Sent back, with the cause on the PR:** #7100 (the calendar: two imports must go through their families' entry files), #7085 (one council race: two filing tests, fix and seeds in the body), #7090 (histories, Words).
 
