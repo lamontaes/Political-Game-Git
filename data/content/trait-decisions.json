@@ -1412,6 +1412,23 @@
       ]
     },
     {
+      "id": "press.letter",
+      "site": "src/core2/modules/press.ts",
+      "owner": "WORDS",
+      "route": "formula",
+      "traitWeightParameter": "traitWeightPressLetter",
+      "options": [
+        {
+          "id": "keep",
+          "actKinds": ["withdraw", "stay-quiet", "keep-same"]
+        },
+        {
+          "id": "write",
+          "actKinds": ["speak-out", "engage", "commit"]
+        }
+      ]
+    },
+    {
       "id": "meetings.take-part",
       "site": "src/core2/modules/meetings.ts",
       "owner": "OPUS-GOV",

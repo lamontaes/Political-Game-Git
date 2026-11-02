@@ -17,8 +17,8 @@ lead: governing
 
 **Rules.** Never loosen the assertion: fix the generated inputs or the engine. One rule, all 56 places: the test names the place and seed it drew. No dice.
 
-**Done when.** src/core2/campaign-turn.test.ts passes on the Whiteville seed above and on two fresh seeds named in the pull request body, with the cause named by record.
+**Done when.** The test src/core2/campaign-turn.test.ts passes on the Whiteville, North Carolina seed above and on two fresh drawn place seeds named in the pull request body, with the cause of the candidate raising nothing named by record id (the asks made and who they reached).
 
 **Files.** src/core2/campaign-turn.test.ts
 
-**Notes.** TODO
+**Notes.** Filed by the governing lead, Nov 2; the Done when was lengthened by the CTO to pass the pool check (Nov 2, 00:30). The donor call list ruled at 00:25 (OWNER-DECISIONS) may change who is reached; rerun on it before tracing.
