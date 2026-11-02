@@ -1,7 +1,7 @@
 {
   "schema": "english-parts/1",
   "register": "campaign-standing",
-  "description": "How the Campaigns screen says where a race stands: voters reached, how many warmed or cooled, who the opponents are, the last poll and what a poll costs. Every part is a whole sentence; the facts are slots from the campaign's cause, filing and poll records and the Poll action's price.",
+  "description": "How the Campaigns screen says where a race stands: voters reached, how many warmed or cooled, who the opponents are, the last poll and what a poll costs. Every part is a whole sentence; the facts are slots from the campaign's cause, filing and poll records and the Poll action's price. The volunteer asks say each answer: yes (the person signs on) or no (they cannot help just now), from the volunteer ask's answer.",
   "slots": {
     "reached": "Voters reached, from the campaign's cause records (each voter once).",
     "warmer": "Voters whose warmth toward the candidate rose, from the same records.",
@@ -899,6 +899,90 @@
       "tag": {
         "move": "deliver-news",
         "key": "none-gave"
+      }
+    },
+    {
+      "key": "campaign-standing.volunteer-yes.name-says-yes-and-will-give-some-hours",
+      "move": "volunteer-yes",
+      "kind": "written",
+      "text": "{name} says yes and will give some hours.",
+      "uses": [
+        {
+          "move": "volunteer-yes",
+          "subject": "campaign",
+          "role": "volunteers",
+          "choice": "volunteer-yes"
+        }
+      ],
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "volunteer-yes"
+      }
+    },
+    {
+      "key": "campaign-standing.volunteer-yes.name-signs-on-to-help-the-campaign",
+      "move": "volunteer-yes",
+      "kind": "written",
+      "text": "{name} signs on to help the campaign.",
+      "uses": [
+        {
+          "move": "volunteer-yes",
+          "subject": "campaign",
+          "role": "volunteers",
+          "choice": "volunteer-yes"
+        }
+      ],
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "volunteer-yes"
+      }
+    },
+    {
+      "key": "campaign-standing.volunteer-no.name-cannot-help-just-now",
+      "move": "volunteer-no",
+      "kind": "written",
+      "text": "{name} cannot help just now.",
+      "uses": [
+        {
+          "move": "volunteer-no",
+          "subject": "campaign",
+          "role": "volunteers",
+          "choice": "volunteer-no"
+        }
+      ],
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "volunteer-no"
+      }
+    },
+    {
+      "key": "campaign-standing.volunteer-no.name-cannot-give-the-campaign-any-time-right-now",
+      "move": "volunteer-no",
+      "kind": "written",
+      "text": "{name} cannot give the campaign any time right now.",
+      "uses": [
+        {
+          "move": "volunteer-no",
+          "subject": "campaign",
+          "role": "volunteers",
+          "choice": "volunteer-no"
+        }
+      ],
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "volunteer-no"
       }
     }
   ]

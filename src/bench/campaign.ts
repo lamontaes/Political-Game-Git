@@ -284,14 +284,30 @@ export function campaignAct(
   const known = [...(core.people.get(personId)?.knownIds ?? [])].sort();
   switch (input.kind) {
     case "volunteer": {
-      const answers = known.map((id) => ({
-        personId: id,
-        yes: askToVolunteer(api, input.filingId, id),
-      }));
+      const answers = known.map((id) => {
+        const yes = askToVolunteer(api, input.filingId, id);
+        const row = core.people.get(id);
+        const name = row ? `${row.givenName} ${row.familyName}` : "";
+        return {
+          personId: id,
+          yes,
+          name,
+          // What each said, in words, from the ask's own answer.
+          line: standingLine(
+            core.seed,
+            personId,
+            yes ? "volunteer-yes" : "volunteer-no",
+            `${input.filingId}|${id}`,
+            { name },
+          ),
+        };
+      });
       // The count shown is the campaign record's, the one the header reads.
       return {
         answers,
         volunteers: campaignFor(api, input.filingId).volunteerIds.length,
+        // The shift is at the campaign office, the player at it.
+        scene: askScene(core, personId, scenePlaces.volunteerOfficePlace),
       };
     }
     case "contribute":
@@ -340,6 +356,23 @@ export function campaignAct(
     default:
       throw new Error("Unknown campaign act.");
   }
+}
+
+/** A place where the player asks people for something (the campaign office, the phone bank), the player at it; each person asked is heard by name. */
+function askScene(core: CoreState, personId: string, place: string) {
+  const backdrop = backdropFor(core, place, 18 * 60);
+  const row = core.people.get(personId);
+  return {
+    place,
+    backdrop,
+    ...stagePeople(core, backdrop.file, [
+      {
+        id: personId,
+        name: row ? `${row.givenName} ${row.familyName}` : "",
+        reason: "you" as const,
+      },
+    ]),
+  };
 }
 
 /** The speech where it was given: the candidate up front, the people it reached around them. */
