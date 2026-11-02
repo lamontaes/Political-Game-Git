@@ -7,11 +7,12 @@ priority: 2
 size: S
 status: in-pr
 claimed-by:
-pr:
+pr: #7096
 blocked-on:
 source: owner playtest of v0.73.0, Nov 1, 22:25 UTC
 lead: play-first
 milestone: play-first
+claimed-at: 2026-11-01T23:34:49.151Z
 ---
 
 **What.** Owner, Nov 1 playtest of v0.73.0, screenshot of the front page: the closure story's body begins "16 people worked there." and the drop cap printed a large "1" with "6 people worked there." beside it. The front page's drop cap takes the body's first character whatever it is. A body that starts with a digit takes no drop cap, or the whole number is set large. Words is asked to open stories with a word, so this is the layout's guard.

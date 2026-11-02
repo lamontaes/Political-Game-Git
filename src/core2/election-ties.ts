@@ -15,7 +15,8 @@
  * the law of the state, a recorded lot where the law says lot.
  */
 import ties from "../../data/research/elections/tie-rules-2026.json" with { type: "json" };
-import { stableHash } from "./kernel/ids";
+import { pairKey, stableHash } from "./kernel/ids";
+import { bookkeeping } from "./bookkeeping";
 import { campaignParameter, type Stance } from "./campaign-views";
 import { agreementWith } from "./modules/views";
 import { partySide } from "./appointments";
@@ -209,6 +210,23 @@ function relationshipOf(
 ): number {
   const member = api.state.people.get(memberId);
   if (!member?.knownIds.has(candidateId)) return 0;
+  // A tie is kept under its pair's key, among each of the two's ties.
+  if (memberId !== candidateId) {
+    const row = api.state.relationships.get(pairKey(memberId, candidateId));
+    const level = row ? Math.max(-1, Math.min(1, row.level)) : 0;
+    if (bookkeeping() && level !== levelAmongTies(api, memberId, candidateId))
+      throw new Error("A member's tie is not the one among their ties.");
+    return level;
+  }
+  return levelAmongTies(api, memberId, candidateId);
+}
+
+/** The last of a member's ties that names the candidate, -1 to 1. */
+function levelAmongTies(
+  api: CoreAPI,
+  memberId: string,
+  candidateId: string,
+): number {
   let level = 0;
   for (const id of api.state.relationshipsByPerson.get(memberId) ?? []) {
     const row = api.state.relationships.get(id);

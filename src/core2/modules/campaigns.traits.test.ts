@@ -15,6 +15,7 @@ import { beforeAll, describe, expect, it } from "vitest";
 import research from "../../../data/research/trait-effect-sizes.json" with { type: "json" };
 import { buildBenchWorld } from "../../bench/world";
 import { gameStartDate } from "../game-start";
+import { addDays, makeIsoDate } from "../kernel/dates";
 import { advanceCore } from "../life";
 import { coreAPI } from "../state";
 import {
@@ -24,6 +25,7 @@ import {
 } from "../trait-decisions";
 import { setTraitProbe } from "../trait-probe";
 import type { CoreState } from "../types";
+import { keepsWhy } from "../why-kept";
 import { drawPlace } from "../../../tests/golden-path/place";
 import {
   answerPollReason,
@@ -32,6 +34,7 @@ import {
   CAMPAIGNS_MODULE_ID,
   type CampaignRow,
   type CauseRow,
+  type CauseSummaryRow,
   type EndorsementRow,
 } from "./campaigns";
 import { standAgainReason } from "./candidacy";
@@ -56,6 +59,7 @@ interface Row {
 const formula = new Map<string, Row[]>();
 const chooser: Row[] = [];
 let core: CoreState;
+let played: Played;
 let placeName = "";
 
 /** Every adult each campaign can reach: their reasons to volunteer and their lean toward it. */
@@ -91,6 +95,166 @@ function volunteerRows(): Row[] {
   return rows;
 }
 
+/** An endorsement a voter heard while its race was open: the cause row the campaigns engine keeps for it, naming its endorser. */
+interface HeardEndorsement {
+  readonly id: string;
+  readonly voterId: string;
+  readonly candidateId: string;
+  readonly actorId: string;
+}
+
+/** One answer to a candidate's ask for an endorsement, as the endorsement record holds it. */
+type Answer = Pick<
+  EndorsementRow,
+  "id" | "candidateId" | "speakerId" | "answer" | "reached"
+>;
+
+/**
+ * The campaigns engine's endorsement records on one day (`readDay`). A race's
+ * causes fold when its count is in (`foldClosedRaceCauses`): every folded
+ * cause is counted into the voter's summary for the candidate
+ * (`causeSummaries`, which names no endorser), and a cause that a known fact
+ * or a pledge names as its source is also copied to `foldedCauses`. So the
+ * cause rows that name an endorser exist only until their race's count, and
+ * this test reads them before it (CTO ruling, Oct 30 08:41, in
+ * OWNER-DECISIONS: the test's checks move "to before the race closes"): on
+ * the eve of the first count and on the window's last day, when races still to
+ * be counted hold theirs.
+ */
+interface Day {
+  readonly date: string;
+  /** Every endorsement cause the engine holds that day. */
+  readonly heard: readonly HeardEndorsement[];
+  /** Everyone a candidate asked to endorse (a person's own word, not a group's), as they had answered. */
+  readonly asked: readonly Answer[];
+  /** The circle each endorser who said yes reached (their known people and family), by endorser. */
+  readonly circles: ReadonlyMap<string, ReadonlySet<string>>;
+}
+
+/** A played window: the eve of its first race's count, its last day, and the listeners the engine kept a why for across it. */
+interface Played {
+  readonly eve: Day;
+  readonly end: Day;
+  /** The yes answers' listeners (living, and not the candidate) whose why the engine kept on the day they were asked (`keepsWhy`: the player's circle that day). */
+  readonly keptWhys: number;
+  /**
+   * Every person a candidate asked to endorse across the window, as read on
+   * the days the asks were on record: a race's close may drop its endorsement
+   * rows, so nothing after the window reads the table.
+   */
+  readonly asked: readonly EndorsementRow[];
+}
+
+/** Who hears an endorser: their known people and family; nobody for a person no longer on record. */
+function circleOf(world: CoreState, id: string): ReadonlySet<string> {
+  const person = world.people.get(id);
+  return new Set(person ? [...person.knownIds, ...person.familyIds] : []);
+}
+
+/**
+ * The listeners of the yes answers given since `counted` whose why the
+ * engine keeps today (`keepsWhy`), the way it decides when it records the
+ * cause. The player's circle grows through the window, so this is read on the
+ * day each answer is given, not later.
+ */
+function keptWhysOfNewYes(
+  world: CoreState,
+  counted: Set<string>,
+  asked: Map<string, EndorsementRow>,
+): number {
+  const rows = coreAPI(world)
+    .moduleState(CAMPAIGNS_MODULE_ID)
+    .table("endorsements")
+    .rows() as unknown as EndorsementRow[];
+  let kept = 0;
+  for (const row of rows) {
+    if (row.organizationId !== null) continue;
+    // Each person's ask as the record holds it while it is on record.
+    asked.set(row.id, row);
+    if (row.answer !== "yes") continue;
+    if (counted.has(row.id)) continue;
+    counted.add(row.id);
+    for (const id of circleOf(world, row.speakerId))
+      if (
+        world.people.get(id)?.alive &&
+        id !== row.candidateId &&
+        keepsWhy(world, id, row.candidateId)
+      )
+        kept += 1;
+  }
+  return kept;
+}
+
+/** Reads the endorsement causes, answers and circles as the world holds them today. */
+function readDay(world: CoreState): Day {
+  const state = coreAPI(world).moduleState(CAMPAIGNS_MODULE_ID);
+  const heard = (state.table("causes").rows() as unknown as CauseRow[])
+    .filter((cause) => cause.act === "endorsement")
+    .map(({ id, voterId, candidateId, actorId }) => ({
+      id,
+      voterId,
+      candidateId,
+      actorId,
+    }));
+  const asked = (
+    state.table("endorsements").rows() as unknown as EndorsementRow[]
+  )
+    .filter((row) => row.organizationId === null)
+    .map(({ id, candidateId, speakerId, answer, reached }) => ({
+      id,
+      candidateId,
+      speakerId,
+      answer,
+      reached,
+    }));
+  const circles = new Map<string, ReadonlySet<string>>();
+  for (const row of asked)
+    if (row.answer === "yes")
+      circles.set(row.speakerId, circleOf(world, row.speakerId));
+  return { date: world.date, heard, asked, circles };
+}
+
+/** Every endorsement heard that a cause row still names, with the day it was read on (the eve's first; a cause read on both days once). */
+function endorsementsHeard(
+  played: Played,
+): { readonly day: Day; readonly cause: HeardEndorsement }[] {
+  const onEve = new Set(played.eve.heard.map((cause) => cause.id));
+  return [
+    ...played.eve.heard.map((cause) => ({ day: played.eve, cause })),
+    ...played.end.heard
+      .filter((cause) => !onEve.has(cause.id))
+      .map((cause) => ({ day: played.end, cause })),
+  ];
+}
+
+/** How the asks went, in words for a failure or a skipped draw. */
+function describeAsks(played: Played): string {
+  const asked = played.asked;
+  const yes = asked.filter((row) => row.answer === "yes");
+  const reached = yes.reduce((sum, row) => sum + row.reached, 0);
+  return `${asked.length} asked to endorse, ${yes.length} said yes and reached listeners ${reached} times, ${played.keptWhys} of them with a kept why on the day asked`;
+}
+
+/**
+ * Why a draw has no endorsement heard to read that is the draw's doing, not
+ * the engine's, or null. A why is kept only for the player's circle
+ * (`keepsWhy`), so a draw is passed over only when people were asked and
+ * either none said yes or the yes answers reached listeners of whom none has
+ * a kept why. No one asked, or yes answers that reached no one or whose
+ * kept-why listeners have no cause, are the engine's defects and fail the
+ * case.
+ */
+function noEndorsementToRead(played: Played): string | null {
+  const asked = played.asked;
+  if (endorsementsHeard(played).length > 0 || asked.length === 0) return null;
+  const yes = asked.filter((row) => row.answer === "yes");
+  if (yes.length === 0)
+    return `endorsements: ${describeAsks(played)}, nobody said yes`;
+  if (yes.some((row) => row.reached > 0) && played.keptWhys === 0)
+    return `endorsements: ${describeAsks(played)}, none in the player's circle`;
+  return null;
+}
+
 /**
  * What the played window lacks for the tests to read: enough calls of each
  * played decision, and for giving and answering the door at least one call
@@ -99,8 +263,10 @@ function volunteerRows(): Row[] {
  * odds ratio of 1.21 between thirds) temperament tips about one newcomer a
  * year in a town (1, 1, 2 and 0 in the four election years its weight was
  * fitted on), so half a year often holds none; its slope is read below.
+ * And an endorsement heard whose why is kept, unless the engine is at fault
+ * (`noEndorsementToRead`).
  */
-function windowGaps(world: CoreState): string[] {
+function windowGaps(world: CoreState, slice: Played): string[] {
   const gaps: string[] = [];
   const reached = volunteerRows().length;
   if (reached <= 50) gaps.push(`campaigns reached ${reached} adults`);
@@ -117,11 +283,18 @@ function windowGaps(world: CoreState): string[] {
     if (rows.length <= 50 || (turned === 0 && id !== "candidacy.run"))
       gaps.push(`${id}: ${rows.length} calls, ${turned} turned by temperament`);
   }
+  const endorsements = noEndorsementToRead(slice);
+  if (endorsements) gaps.push(endorsements);
   return gaps;
 }
 
-/** Plays a drawn world for the window with the probe on, keeping every formula and run-for-office call. */
-function play(world: CoreState, last: string) {
+/**
+ * Plays a drawn world for the window with the probe on, keeping every formula
+ * and run-for-office call. It reads the endorsement records on `eveDate`, the
+ * day before the first race's count, and on `last`; a day at a time, so each
+ * yes answer's kept whys are counted on the day it is given.
+ */
+function play(world: CoreState, eveDate: string, last: string): Played {
   formula.clear();
   chooser.length = 0;
   setTraitProbe({
@@ -142,7 +315,24 @@ function play(world: CoreState, last: string) {
     },
   });
   try {
-    advanceCore(world, last);
+    const counted = new Set<string>();
+    const asked = new Map<string, EndorsementRow>();
+    let keptWhys = 0;
+    const playTo = (through: string) => {
+      while (world.date < through) {
+        advanceCore(world, addDays(makeIsoDate(world.date), 1));
+        keptWhys += keptWhysOfNewYes(world, counted, asked);
+      }
+    };
+    playTo(eveDate);
+    const eve = readDay(world);
+    playTo(last);
+    return {
+      eve,
+      end: readDay(world),
+      keptWhys,
+      asked: [...asked.values()].sort((a, b) => a.id.localeCompare(b.id)),
+    };
   } finally {
     setTraitProbe(undefined);
   }
@@ -182,12 +372,19 @@ beforeAll(() => {
       twoLevel: true,
       placeKey: place.key,
     }).core;
-    play(world, end.toISOString().slice(0, 10));
+    // The eve of the race is the last day its causes are still rows.
+    const slice = play(
+      world,
+      addDays(makeIsoDate(next), -1),
+      end.toISOString().slice(0, 10),
+    );
     core = world;
+    played = slice;
     placeName = `${name}, race ${next}, played from ${start}`;
-    const missing = windowGaps(world);
+    const missing = windowGaps(world, slice);
     if (missing.length === 0) return;
     tried.push(`${placeName}: ${missing.join(", ")}`);
+    console.log(`Passed over ${placeName}: ${missing.join(", ")}`);
   }
   throw new Error(
     `No drawn place's race gave every decision enough calls (base seed ${BASE_SEED}): ${tried.join("; ")}`,
@@ -452,13 +649,10 @@ describe("personality in campaigns and candidacy (a played slice of a drawn plac
       .rows() as unknown as CampaignRow[];
     expect(campaigns.length, placeName).toBeGreaterThan(0);
     // The endorsement record is the one list of who was asked and who said
-    // yes: a person's answer names the candidate as the one who asked.
-    const asked = (
-      api
-        .moduleState(CAMPAIGNS_MODULE_ID)
-        .table("endorsements")
-        .rows() as unknown as EndorsementRow[]
-    ).filter((row) => row.organizationId === null);
+    // yes: a person's answer names the candidate as the one who asked. It is
+    // read on the days each ask was on record (`play`), since a race's close
+    // may drop its endorsement rows.
+    const asked = played.asked;
     expect(
       asked.length,
       `${placeName}: people asked to endorse`,
@@ -472,28 +666,68 @@ describe("personality in campaigns and candidacy (a played slice of a drawn plac
     }
     const endorsers = asked.filter((row) => row.answer === "yes");
     expect(endorsers.length, `${placeName}: endorsers`).toBeGreaterThan(0);
-    // Each endorsement a voter heard names an endorser of that candidate who
-    // was asked, and the voter is in the endorser's circle.
-    const heard = (
+    // The per-row checks read the days before a race's count, when the causes
+    // that name an endorser are still rows (the eve of the first count, and
+    // the last day for races still to be counted): each endorsement a voter
+    // heard names an endorser who said yes for that candidate that day, and
+    // the voter is in that endorser's circle.
+    const heard = endorsementsHeard(played);
+    expect(
+      heard.length,
+      `${placeName}: endorsements heard on the eve, ${played.eve.date}, and on the last day, ${played.end.date} (${describeAsks(played)})`,
+    ).toBeGreaterThan(0);
+    const yesOn = new Map(
+      [played.eve, played.end].map((day) => [
+        day,
+        new Set(
+          day.asked
+            .filter((row) => row.answer === "yes")
+            .map((row) => `${row.candidateId}|${row.speakerId}`),
+        ),
+      ]),
+    );
+    const strictChecks = { eve: 0, end: 0 };
+    for (const { day, cause } of heard) {
+      expect(
+        yesOn.get(day)?.has(`${cause.candidateId}|${cause.actorId}`),
+        `${cause.id}: its endorser said yes for the candidate`,
+      ).toBe(true);
+      expect(
+        day.circles.get(cause.actorId)?.has(cause.voterId),
+        `${cause.id}: the voter is in the endorser's circle`,
+      ).toBe(true);
+      strictChecks[day === played.eve ? "eve" : "end"] += 1;
+    }
+    expect(
+      strictChecks.eve + strictChecks.end,
+      `${placeName}: per-row checks run`,
+    ).toBeGreaterThan(0);
+    // After the count the causes are folded into summaries, which name no
+    // endorser. A summary cannot hold more endorsements for a candidate and
+    // voter than the candidate has yes endorsers with the voter in their
+    // circle.
+    const circles = new Map(
+      endorsers.map((row) => [row.speakerId, circleOf(core, row.speakerId)]),
+    );
+    const summaries = (
       api
         .moduleState(CAMPAIGNS_MODULE_ID)
-        .table("causes")
-        .rows() as unknown as CauseRow[]
-    ).filter((cause) => cause.act === "endorsement");
-    expect(heard.length, `${placeName}: endorsements heard`).toBeGreaterThan(0);
-    for (const cause of heard) {
+        .table("causeSummaries")
+        .rows() as unknown as CauseSummaryRow[]
+    ).filter((summary) => (summary.acts.endorsement?.reached ?? 0) > 0);
+    for (const summary of summaries)
       expect(
-        endorsers.some(
+        summary.acts.endorsement!.reached,
+        `${summary.id}: endorsements counted, at most the candidate's yes endorsers with the voter in their circle`,
+      ).toBeLessThanOrEqual(
+        endorsers.filter(
           (row) =>
-            row.candidateId === cause.candidateId &&
-            row.speakerId === cause.actorId,
-        ),
-        cause.id,
-      ).toBe(true);
-      const endorser = core.people.get(cause.actorId)!;
-      expect([...endorser.knownIds, ...endorser.familyIds], cause.id).toContain(
-        cause.voterId,
+            row.candidateId === summary.candidateId &&
+            circles.get(row.speakerId)?.has(summary.voterId),
+        ).length,
       );
-    }
+    console.log(
+      `${placeName}: ${strictChecks.eve + strictChecks.end} strict per-row endorsement checks (${strictChecks.eve} on the eve, ${played.eve.date}; ${strictChecks.end} on the last day, ${played.end.date}; ${describeAsks(played)}), ${summaries.length} summaries cross-checked`,
+    );
   });
 });
