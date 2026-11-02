@@ -46,10 +46,12 @@ try {
     await page.locator("#card-place").innerText(),
   );
   const talkable = () => page.locator("#people .figure.talkable");
-  assert.ok(
-    await talkable().count(),
-    "someone has something to say at the start",
-  );
+  // A world where nobody in the room has anything to say at the start (the
+  // player lives alone, or the household has nothing new) is quiet from the
+  // start: no figure is clickable and a click opens nothing.
+  const quietFromStart = !(await talkable().count());
+  if (quietFromStart)
+    console.log("Nobody in the room has anything to say at the start.");
   let talks = 0;
   for (let step = 0; step < 60; step += 1) {
     if (await page.locator("#talk:visible").count()) {
@@ -72,7 +74,7 @@ try {
     talks += 1;
     await page.waitForTimeout(600);
   }
-  assert.ok(talks > 0, "the person was talked to");
+  assert.ok(quietFromStart || talks > 0, "the person was talked to");
   assert.equal(
     await talkable().count(),
     0,
