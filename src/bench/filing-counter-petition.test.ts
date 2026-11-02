@@ -80,6 +80,14 @@ it(`the clerk tells the petition's signatures and due day once, in the scene aft
     }
     const filedWith = filingOfficeFor(api, contest.id).filedWith;
     let counter = openBenchFilingVisit(core, playerId, filedWith, 10 * 60);
+    // A counter the records staff with no one has no clerk to cast in the
+    // scene (North Amityville, New York files with its county board of
+    // elections and has no town clerk, seed 96f34b32a90f7079):
+    // gov-filing-counter-clerk-at-county-board.
+    if (!counter.visit.clerkId) {
+      tried.push(`${where}: ${filedWith} has no clerk`);
+      continue;
+    }
     counter = chooseAtCounter(core, counter, `pick:${contest.id}`);
     counter = chooseAtCounter(core, counter, "file", {
       platform: [`${PLATFORM_QUESTIONS[0]}=1`],
