@@ -516,5 +516,17 @@
       "unit": "share of pay a year per year of how they work",
       "citation": "Merit points per deviation of rated performance 0.8 to 1.2 (WorldatWork Figure 18's 1.2 to 2.0 point gaps between performance groups), the trait correlation 0.20 to 0.23 across occupational groups (Barrick and Mount 1991, Table 2) and the lean spread 0.25 to 0.34 across the three places traitWeightJobsValueWorker names."
     }
+  },
+  "livesRetirementBandSpanYears": {
+    "value": 10,
+    "tag": "ESTIMATED",
+    "citation": "The years between the CPS 2024 participation bands 55-64 and 65+ (data/research/labor/cps-2024-employment-by-age.json): someone living elsewhere at or past the earliest retirement age builds a pull to retire each year of ln(participation at 55-64 / participation at 65+) over this span, about 0.12 a year (65.9% to 19.5%).",
+    "estimatedFrom": "The midpoint of 55-64 (about 60) to the median age of the 65+ labor force's exit (about 70).",
+    "spread": {
+      "low": 7,
+      "high": 12,
+      "unit": "years",
+      "citation": "BLS CPS participation by single year of age, 2015-2019: the fall from 62 to 70 spans about seven to twelve years at the rates of the two bands."
+    }
   }
 }

@@ -509,7 +509,16 @@
     "journal.self-line-came-of-age.i-am-eighteen-now": "tell|none|narration",
     "journal.self-line-came-of-age.i-turned-eighteen": "tell|none|narration",
     "journal.self-line-came-of-age.today-i-turned-eighteen": "tell|none|narration",
+    "journal.self-line-school-finished.i-finished-high-school-at-school": "tell|none|narration",
+    "journal.self-line-school-finished.i-got-my-diploma": "tell|none|narration",
+    "journal.self-line-school-finished.i-graduated-from-high-school": "tell|none|narration",
+    "journal.self-line-school-finished.i-left-school-without-a-diploma": "tell|none|narration",
+    "journal.self-line-school-finished.my-senior-year-ended-without-a-diploma": "tell|none|narration",
+    "journal.work-line-again.after-span-out-of-work-i-found-work-in-place": "tell|none|narration",
+    "journal.work-line-again.after-span-out-of-work-i-went-back-to-work": "tell|none|narration",
     "journal.work-line-again.after-span-out-of-work-i-went-to-work-for-employer": "tell|none|narration",
+    "journal.work-line-again.i-found-work-again": "tell|none|narration",
+    "journal.work-line-again.i-found-work-again-in-place": "tell|none|narration",
     "journal.work-line-again.i-was-out-of-work-for-span-before-employer-took-me-on": "tell|none|narration",
     "journal.work-line-again.it-was-span-before-i-found-work-again-at-employer": "tell|none|narration",
     "journal.work-line-let-go.employer-cut-back-and-i-was-let-go": "tell|none|narration",
@@ -521,6 +530,8 @@
     "journal.work-line-lost.i-lost-my-job": "tell|none|narration",
     "journal.work-line-moved-on.after-employer-i-took-a-job-at-next": "tell|none|narration",
     "journal.work-line-moved-on.i-left-employer-for-a-job-at-next": "tell|none|narration",
+    "journal.work-line-moved-on.i-left-for-a-job-at-next": "tell|none|narration",
+    "journal.work-line-moved-on.i-moved-on-to-another-job": "tell|none|narration",
     "journal.work-line-moved-on.i-went-from-employer-to-next": "tell|none|narration",
     "journal.work-line-parent-job.other-got-a-new-job": "tell|none|narration",
     "journal.work-line-parent-job.other-started-a-new-job": "tell|none|narration",
@@ -528,12 +539,14 @@
     "journal.work-line-retired.i-retired": "tell|none|narration",
     "journal.work-line-retired.i-retired-after-my-years-at-employer": "tell|none|narration",
     "journal.work-line-retired.i-retired-from-employer": "tell|none|narration",
+    "journal.work-line-started.i-found-a-job-in-place": "tell|none|narration",
     "journal.work-line-started.i-got-a-job": "tell|none|narration",
     "journal.work-line-started.i-started-working-for-employer": "tell|none|narration",
     "journal.work-line-started.i-was-hired-by-employer": "tell|none|narration",
     "journal.work-line-started.i-went-to-work": "tell|none|narration",
     "journal.work-line-started.i-went-to-work-at-employer": "tell|none|narration",
     "journal.work-line-started.i-went-to-work-for-employer": "tell|none|narration",
+    "journal.work-line-started.i-went-to-work-in-place": "tell|none|narration",
     "journal.work-line-stopped.i-stopped-working-at-employer-when-named-was-born": "tell|none|narration",
     "journal.work-line-stopped.i-stopped-working-when-named-was-born": "tell|none|narration",
     "journal.work-line-stopped.when-named-was-born-i-left-employer-to-stay-home": "tell|none|narration",
@@ -564,7 +577,7 @@
     "opening-speech.salutation.polished-sta-chair-male-mr-speaker-members-of-congress-and-my-fellow-citizens-at-hom": "salutation|none|public",
     "opening-speech.salutation.polished-sta-chair-male-mr-speaker-members-of-congress-my-fellow-americans": "salutation|none|public",
     "opening-speech.story-open.plain-ina-sta-things-are-better-than-they-were-a-year-ago-and-i-intend-to-": "story-open|glad|public",
-    "opening-speech.story-open.polished-ina-sta-by-the-plain-measures-the-country-is-doing-better-than-it-wa": "story-open|glad|public",
+    "opening-speech.story-open.polished-ina-sta-we-meet-in-a-hopeful-season-the-country-is-better-off-than-i": "story-open|glad|public",
     "scene-talk.auto-ask.me-why-me": "ask|curious|private",
     "scene-talk.auto-ask.office-why-me": "ask|curious|private",
     "scene-talk.close-accept.all-right-go-celebrate": "accept|calm|private",
@@ -3179,10 +3192,9 @@
       }
     },
     "story-open|glad|public": {
-      "net": -2,
+      "net": -1,
       "graded": {
-        "opening-speech.story-open.plain-ina-sta-things-are-better-than-they-were-a-year-ago-and-i-intend-to-": -1,
-        "opening-speech.story-open.polished-ina-sta-by-the-plain-measures-the-country-is-doing-better-than-it-wa": -1
+        "opening-speech.story-open.plain-ina-sta-things-are-better-than-they-were-a-year-ago-and-i-intend-to-": -1
       }
     },
     "tell|calm|private": {

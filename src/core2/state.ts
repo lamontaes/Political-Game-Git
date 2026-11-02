@@ -14,6 +14,7 @@ import {
   queueDecisionDetail,
 } from "./decision-detail";
 export { condenseCircleDecisions } from "./decision-detail";
+import { queueExperience } from "./knowledge-retention";
 import { meetAtWork } from "./encounters";
 import { workgroupOf } from "./shared-history";
 import { derivePersonAppearance } from "./appearance";
@@ -1006,6 +1007,8 @@ export function coreAPI(core: CoreState): CoreAPI {
       if (fact.learnedAt > core.date)
         throw new Error("Cannot learn a future fact.");
       known.set(fact.key, { ...fact });
+      // An experienced key is queued by its day, to be forgotten when old.
+      queueExperience(core, personId, fact.key, fact.learnedAt);
     },
     knows: (personId, key) => core.knowledgeByPerson.get(personId)?.get(key),
     postJournal(input) {
@@ -1289,6 +1292,9 @@ export function coreAPI(core: CoreState): CoreAPI {
       row.lastContactDate = at;
       row.latestChange = latestChange;
       core.relationships.set(id, row);
+      // Ties are only ever added here, never removed: tiedTo in
+      // modules/people.ts reads a person's set of the same size as the same
+      // ties. Anything that removes a tie must also drop that kept copy.
       index(core.relationshipsByPerson, actorId, id);
       index(core.relationshipsByPerson, otherId, id);
       if (actorId === core.playerId) core.focusPersonIds.add(otherId);

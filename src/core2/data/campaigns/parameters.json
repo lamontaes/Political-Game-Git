@@ -81,7 +81,7 @@
     "doorPledgeTurnoutWeight": {
       "value": 0.7,
       "tag": "ESTIMATED",
-      "source": "How much a voter's own \"yes\" at a campaign's door adds to their reason to vote, on the turnout scale (src/core2/turnout.ts readiness), on top of the stakes the pledge's appeal already adds: saying you will vote for someone is also saying you will vote. People who tell a caller they will vote mostly do: 13.3% (2008 general) to 54.2% (2009 New Jersey off-year) of them did not (Rogers and Aida, 'Why Bother Asking? The Limited Value of Self-Reported Vote Intention', Harvard Kennedy School, research.hks.harvard.edu/publications/getFile.aspx?Id=929); 61% to 73% of a poll's stated supporters were verified to have voted in the 2014 midterm (Pew Research Center, 'Polls and votes: the 2014 elections by the numbers', 2016); and signing an in-person pledge to vote raised turnout 3.7 points over a petition (Costa, Schaffner and Prevost 2018, PLoS ONE, pmc.ncbi.nlm.nih.gov/articles/PMC5973556). With the logistic scale 0.5, 0.7 here plus the pledge's stakes (about 0.58) lifts a voter at a 10% local-election propensity to about half, inside the 46% to 87% band that stated intent predicts; checked as a total, the turnout of a played race's pledgers against its other adults (src/core2/door-pledge.test.ts), never one voter's draw.",
+      "source": "How much a voter's own \"yes\" at a campaign's door adds to their reason to vote, on the turnout scale (src/core2/turnout.ts readiness), on top of the stakes the pledge's appeal already adds: saying you will vote for someone is also saying you will vote. People who tell a caller they will vote mostly do: 13.3% (2008 general) to 54.2% (2009 New Jersey off-year) of them did not (Rogers and Aida, 'Why Bother Asking? The Limited Value of Self-Reported Vote Intention', Harvard Kennedy School, research.hks.harvard.edu/publications/getFile.aspx?Id=929); 61% to 73% of a poll's stated supporters were verified to have voted in the 2014 midterm (Pew Research Center, 'Polls and votes: the 2014 elections by the numbers', 2016); and signing an in-person pledge to vote raised turnout 3.7 points over a petition (Costa, Schaffner and Prevost 2018, PLoS ONE, pmc.ncbi.nlm.nih.gov/articles/PMC5973556). With the logistic scale 0.5, 0.7 here plus the pledge's stakes (about 0.58) lifts a voter at a 10% local-election propensity to about half, inside the 46% to 87% band that stated intent predicts; checked per voter in src/core2/door-pledge.test.ts (each voter who votes on a held yes carries the pledge reason). The total check, the turnout of a played race's pledgers against its other adults, read 0.17 of 18 against 0.19 of 36 in 1717939 (seed dp-fresh-1, Nov 1) and is pool item campaign-door-pledge-turnout-total; never one voter's draw.",
       "spread": [0.3, 1.2]
     },
     "playerDoorFillIns": {
@@ -257,6 +257,12 @@
       "tag": "ESTIMATED",
       "source": "What a voter's own record of voting adds (times their share of elections voted, less one half, by how long the record is). Voting in one election raises the chance of voting in the next by about 10 points (Gerber, Green and Shachar 2003, 'Voting May Be Habit-Forming: Evidence from a Randomized Field Experiment', American Journal of Political Science 47(3):540-550); at the turnout scale, a record of always voting adds about 0.2, about 10 points near even odds.",
       "spread": [0.2, 0.8]
+    },
+    "turnoutElectionYears": {
+      "value": 2,
+      "tag": "SOURCED",
+      "source": "Years between the November general elections a counted adult has been old enough to vote in: the House is elected every two years (U.S. Constitution, art. I, sec. 2), so a counted adult's record of past elections is their years of adulthood over this.",
+      "spread": [2, 2]
     },
     "turnoutHabitFamiliarity": {
       "value": 2,
