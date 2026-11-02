@@ -986,10 +986,10 @@
       }
     },
     {
-      "key": "campaign-standing.endorse-yes.name-will-put-their-name-behind-you",
+      "key": "campaign-standing.endorse-yes.name-agrees-to-back-you-in-public",
       "move": "endorse-yes",
       "kind": "written",
-      "text": "{name} will put their name behind you.",
+      "text": "{name} agrees to back you in public.",
       "uses": [
         {
           "move": "endorse-yes",
@@ -1049,10 +1049,10 @@
       }
     },
     {
-      "key": "campaign-standing.endorse-no.name-will-not-endorse-anyone-this-time",
+      "key": "campaign-standing.endorse-no.name-wont-endorse-you-this-time",
       "move": "endorse-no",
       "kind": "written",
-      "text": "{name} will not endorse anyone this time.",
+      "text": "{name} won't endorse you this time.",
       "uses": [
         {
           "move": "endorse-no",
