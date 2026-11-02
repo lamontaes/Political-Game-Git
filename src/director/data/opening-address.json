@@ -35,11 +35,11 @@
       "spread": "0.3 to 0.7",
       "note": "A supported question is a priority while the President's stance on it is at least this share of their strongest stance; the address is as long as the President's convictions are many."
     },
-    "storyFigures": {
+    "storyTopics": {
       "value": 1,
       "tag": "TUNABLE",
       "spread": "1 to 3",
-      "note": "How many of the country's numbers the story of the country cites besides the nation's unemployment rate, always told under its scope: those that moved most over the year, apart from the ones the priorities argue from."
+      "note": "How many of the country's subjects the story of the country tells besides work, always told: those that moved most over the year, apart from the ones the priorities argue from. Each is told in words, never as a figure (owner, Oct 27 and Nov 1)."
     }
   }
 }
