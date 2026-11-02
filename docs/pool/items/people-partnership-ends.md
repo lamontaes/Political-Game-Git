@@ -29,3 +29,4 @@ Sent back 2026-10-17 from PR #4970 (branch claude/partnership-ends): Morning che
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: rewrite SMART, apply OD:588; stacked on people-partnership-forms.
 
 Oct 29 (CTO, second account): PR #4970 closed as stale under the owner's standing approval; back to open. Branch `claude/partnership-ends` is kept; claiming this item takes it over.
+Nov 2, 01:45 UTC (lives lead, handoff): released. Nothing built and branch lives/partners-town was never pushed. Next step: after people-partnership-forms, the town's couples part through the same partnerships module from strain, closeness and money, one moving out through changeHouseholdV1, written through setPartnersV1 (together false). Closes SG-LIVES-partner-town with forms. Method: the lives skill.
