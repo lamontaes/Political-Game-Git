@@ -1205,14 +1205,26 @@ function renderFiling(value) {
       seat.holder ? `${counter.heldBy} ${seat.holder}` : counter.openSeat,
     ].join(" · ");
   };
-  // The counter offers six replies at most (SG-SCREENS-counter-six-replies);
-  // every race is a way in from the office's own view in Travel.
-  const choices = value.visit.choices.slice(0, 6);
+  // The counter offers four replies at most (SG-SCREENS-counter-six-replies),
+  // the races soonest first; every race is a way in from the office's own view
+  // in Travel. Each race is told apart in its own line (its seat, its election
+  // day and who holds it now), never in a hover card over the next line
+  // (owner, Nov 1: "a terribly designed menu").
+  const electionOf = (choice) =>
+    value.seats?.[choice.action.contestId]?.electionDate ?? "";
+  const picks = new Set(
+    value.visit.choices
+      .filter((choice) => choice.action.kind === "pick")
+      .sort((x, y) => electionOf(x).localeCompare(electionOf(y)))
+      .slice(0, 4),
+  );
+  const choices = value.visit.choices
+    .filter((choice) => choice.action.kind !== "pick" || picks.has(choice))
+    .slice(0, 4);
   const buttons = replies(choices, choose);
   choices.forEach((choice, i) => {
     if (choice.action.kind !== "pick") return;
-    buttons[i].append(smallText(factsOf(choice), "reply-facts"));
-    officeTip(buttons[i], choice.action.contestId, value);
+    buttons[i].append(" ", smallText(factsOf(choice), "reply-facts"));
   });
   fillTalk({ replies: buttons });
   // The filing's record once it is made: its status, shown as the record's
@@ -1232,31 +1244,6 @@ function renderFiling(value) {
       }),
     );
   setScales({ available: false });
-}
-/**
- * An office explained on hover (owner, Oct 28, point 30: "Hovering Trustee
- * should explain what the office does"): the hover card with what the
- * records know of it: its district, the election day and who holds the
- * seat now. The office's duties in words are the words session's
- * (SG-SCREENS-office-hover-prose).
- */
-function officeTip(node, contestId, value) {
-  const contest = value.visit.contests.find((c) => c.id === contestId);
-  const seat = value.seats?.[contestId];
-  if (!contest) return;
-  const facts = [
-    contest.district ? `${controls.travel.district} ${contest.district}` : null,
-    seat?.electionDate
-      ? `${controls.filing.election} ${dateWords(seat.electionDate)}`
-      : null,
-    seat?.holder
-      ? `${controls.filing.heldBy} ${seat.holder}`
-      : controls.filing.openSeat,
-  ].filter(Boolean);
-  node.addEventListener("mouseenter", () =>
-    showTipAt(node, { term: contest.title, short: facts.join(" · ") }),
-  );
-  node.addEventListener("mouseleave", hideTipSoon);
 }
 async function openFiling(filedWith, contestId) {
   closeSheet();

@@ -24,7 +24,7 @@ import {
 import { BUSINESS_MODULE_ID } from "../core2/modules/business";
 import { storiesHeard } from "../core2/modules/news";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
-import { schoolResultKind } from "../core2/modules/press";
+import { outletsHere, schoolResultKind } from "../core2/modules/press";
 import { placeLocalities } from "../core2/places";
 import {
   SCHOOL_MODULE_ID,
@@ -48,6 +48,7 @@ describe("printed stories in News", () => {
     setBookkeeping(false);
     const place = drawPlace(seed, "printed-words");
     const where = `${place.name} (${place.key}), seed ${seed}`;
+    process.stdout.write(`printed-words draw: ${where}\n`);
     console.log(`printed-words: ${where}`);
     const world = buildBenchWorld(place.seed, gameStartDate(), {
       twoLevel: true,
@@ -128,6 +129,41 @@ describe("printed stories in News", () => {
     console.log(
       `printed-words meetings: ${sat.length} sittings with business, ${weekly.length} weekly briefs, ${oaths.length} oaths and vacancies; e.g. ${example ? `${example.headline} / ${example.lede}` : "none"}`,
     );
+    // A reader's letter to the editor, from the stance a story of the same
+    // newspaper last moved: each worded (the check above), cited by its
+    // writer, and about the bill or law that story reported.
+    const letters = printed.filter((story) =>
+      source(story).startsWith("letter:"),
+    );
+    const newspapers = new Set(
+      outletsHere(coreAPI(core))
+        .filter((row) => row.kind === "newspaper")
+        .map((row) => row.id),
+    );
+    // A person's id can hold colons (an outlet's owner), so match the prefix.
+    for (const story of letters) {
+      const outlet = String(story.facts.outletId);
+      expect(newspapers.has(outlet), `${story.id} in ${where}`).toBe(true);
+      expect(
+        Boolean(story.facts.billId ?? story.facts.lawId),
+        `${story.id} names no bill or law`,
+      ).toBe(true);
+      expect(["for", "against"]).toContain(story.facts.side);
+      expect(
+        source(story).startsWith(`letter:${String(story.facts.personId)}:`),
+        `${story.id} in ${where}`,
+      ).toBe(true);
+      // Printed by the outlet whose story moved the writer, and only there.
+      expect(story.id.startsWith(`printed:${outlet}:`), story.id).toBe(true);
+      expect(
+        String(story.facts.storyId).startsWith(`printed:${outlet}:`),
+        `${story.id} cites ${String(story.facts.storyId)}`,
+      ).toBe(true);
+    }
+    const firstLetter = letters[0] && wordPrintedStory(core, letters[0]);
+    process.stdout.write(
+      `printed-words letters: ${letters.length} in the year; e.g. ${firstLetter ? `${firstLetter.headline} / ${firstLetter.lede}` : "none"}\n`,
+    );
     // News prints stories, not only briefs: some of the year's stories carry a body.
     console.log(
       `printed-words bodies: ${withBody.length} of ${printed.length}; e.g. ${withBody.slice(0, 3).join(" || ")}`,
@@ -173,6 +209,7 @@ describe("printed stories in News", () => {
     setBookkeeping(false);
     const place = drawPlace(seed, "printed-words-briefs");
     const where = `${place.name} (${place.key}), seed ${seed}`;
+    process.stdout.write(`printed-words draw: ${where}\n`);
     console.log(`printed-words briefs: ${where}`);
     const world = buildBenchWorld(place.seed, gameStartDate(), {
       twoLevel: true,
@@ -383,6 +420,36 @@ describe("printed stories in News", () => {
       }),
     );
     expect(birthday?.brief, where).toBe(true);
+    // A retirement, from a resident's own work record: the employer named.
+    const worker = [...(core.peopleByPlace.get(town) ?? [])]
+      .map((id) => core.people.get(id)!)
+      .find(
+        (person) =>
+          person.alive &&
+          person.jobId &&
+          core.jobs.get(person.jobId) &&
+          core.organizations.get(core.jobs.get(person.jobId)!.organizationId)
+            ?.outsideFlow === undefined,
+      );
+    if (worker) {
+      const job = core.jobs.get(worker.jobId!)!;
+      const retired = wordPrintedStory(
+        core,
+        printedAs(`retirement:${worker.id}:${core.date}`, core.date, {
+          personId: worker.id,
+          organizationId: job.organizationId,
+          jobId: job.id,
+          since: "2001-03-01",
+        }),
+      );
+      expect(retired?.brief, where).toBe(true);
+      expect(`${retired!.headline} ${retired!.lede}`, where).toContain(
+        worker.givenName,
+      );
+      process.stdout.write(
+        `printed-words retirement: ${retired!.headline} / ${retired!.lede}\n`,
+      );
+    }
     expect(`${birthday!.headline} ${birthday!.lede}`, where).toContain(
       resident!.givenName,
     );
@@ -424,6 +491,7 @@ describe("printed stories in News", () => {
     const town =
       localities[parseInt(hash.slice(8, 16), 16) % localities.length]!;
     const where = `${town.displayName} (${town.key}), seed ${seed}`;
+    process.stdout.write(`printed-words draw: ${where}\n`);
     console.log(`printed-words ohio: ${where}`);
     const world = buildBenchWorld(hash, gameStartDate(), {
       twoLevel: true,

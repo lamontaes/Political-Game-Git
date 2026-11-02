@@ -5,13 +5,14 @@ area: words
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: words/after-address-talk
+pr: #7106
 blocked-on:
 source: owner playtest of v0.73.0, Nov 1, 22:25 UTC
 lead: words
 milestone: play-first
+claimed-at: 2026-11-02T00:12:51.382Z
 ---
 
 **What.** Owner, Nov 1 playtest of v0.73.0, after the inaugural: the housemate opens with "I liked what the President had to say." every time ("There's only one dialogue for after the president... that's not how I approve this"). The choice "We'll see what they actually do." says they for a President whose record says she ("Why would it say they? Why not she?"). "What I want to know is what it means here." makes no sense, and the replies do not follow: "I don't see it that way" gets "Suit yourself. We can pick this up later.", and "what it means here" gets "That's what I keep wondering. We'll talk more later." Clicking him again asks "Did you catch the President's speech?" and loops back to the same opening line.
