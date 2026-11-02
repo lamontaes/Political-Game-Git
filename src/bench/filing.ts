@@ -1,6 +1,7 @@
 import { coreAPI } from "../core2/state";
 import { filingClerkFor } from "../core2/modules/filing-clerk";
 import { workSpansOf } from "./places";
+import officeHours from "./data/office-hours.json" with { type: "json" };
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import {
   checkEligibility,
@@ -252,12 +253,28 @@ export interface CounterOpening {
 }
 
 /**
- * When the office that takes these filings is next open, read from its clerk's
- * own work spans (the same record Travel's "who is there now" reads; owner,
- * Nov 1: "obviously the office isn't open at 8:30 p.m."). Null when the clerk
- * is at work at this minute, or the records name no clerk or hours (then the
- * counter stands open, as it did). The clerk's days off (a holiday, a
- * weekend) are skipped by the spans themselves.
+ * The spans of an office with no work record for its clerk: its estimated
+ * weekday hours (`data/office-hours.json`), a stopgap that every office has
+ * hours until the records give them.
+ * stopgapId: SG-PLAY-office-hours-assumed
+ */
+function assumedSpans(
+  date: string,
+): { startMinute: number; endMinute: number }[] {
+  const hours = officeHours.estimated;
+  const weekday = new Date(`${date}T12:00:00Z`).getUTCDay();
+  return hours.weekdays.includes(weekday)
+    ? [{ startMinute: hours.opensMinute, endMinute: hours.closesMinute }]
+    : [];
+}
+
+/**
+ * When the office that takes these filings is next open (owner, Nov 1:
+ * "obviously the office isn't open at 8:30 p.m."): its clerk's own work spans,
+ * the record Travel's "who is there now" reads, and where the records hold no
+ * hours for the clerk (or name no clerk), the estimated weekday hours of every
+ * office. Null when the office is open at this minute. A day off (a weekend, a
+ * holiday the spans leave out) is skipped.
  */
 export function counterOpening(
   core: CoreState,
@@ -269,13 +286,21 @@ export function counterOpening(
     (row) => filingOfficeFor(api, row.id).filedWith === filedWith,
   );
   const clerk = contest ? filingClerkFor(api, contest.id) : null;
-  if (!clerk) return null;
   // Looks a fortnight ahead: no week is without a day the office is open.
-  for (let ahead = 0; ahead < 14; ahead += 1) {
-    const date = addDays(makeIsoDate(at.date), ahead);
-    const spans = workSpansOf(core, clerk.personId, date);
-    // No hours on record for this clerk: the counter stands open.
-    if (!spans) return null;
+  const days = Array.from({ length: 14 }, (_, ahead) =>
+    addDays(makeIsoDate(at.date), ahead),
+  );
+  // A clerk whose records hold no work in that fortnight has no hours on
+  // record: the office keeps the assumed ones.
+  const recorded =
+    clerk !== null &&
+    days.some(
+      (date) => (workSpansOf(core, clerk.personId, date)?.length ?? 0) > 0,
+    );
+  for (const [ahead, date] of days.entries()) {
+    const spans =
+      (recorded ? workSpansOf(core, clerk!.personId, date) : null) ??
+      assumedSpans(date);
     if (
       ahead === 0 &&
       spans.some(
