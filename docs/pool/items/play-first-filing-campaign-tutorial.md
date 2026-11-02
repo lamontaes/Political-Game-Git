@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: words/campaign-walkthrough
-pr:
+pr: #7103
 blocked-on:
 source: owner, Nov 1 23:30 UTC (playtest of v0.73.0, Northampton, Massachusetts)
 lead: words
