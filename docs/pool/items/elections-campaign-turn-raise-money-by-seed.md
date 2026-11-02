@@ -9,7 +9,8 @@ status: open
 claimed-by:
 pr:
 blocked-on:
-source: added with npm run pool -- add
+source: governing lead, Nov 2 (found by the platform workflow on Nov 1, red on main too)
+lead: governing
 ---
 
 **What.** src/core2/campaign-turn.test.ts, the case that raises money and spends it on the journal, fails with "expected 0 to be greater than 0" in Whiteville, North Carolina (3773660) on GOLDEN_PATH_SEED=53cc0ecaeb4fa8faa359aa4d217f1bef751915df839c9f9e668e38aba1d6ac6c. The governing lead's platform workflow found it on Nov 1, and it fails the same way with main's engine files swapped in. Find whether the candidate raised nothing because no one they reached had a reason or money to give, or because the test's pick of candidate leaves them no donors, and fix that cause.

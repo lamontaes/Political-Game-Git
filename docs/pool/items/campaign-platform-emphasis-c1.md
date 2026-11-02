@@ -10,7 +10,8 @@ claimed-by:
 pr:
 blocked-on:
 after: campaign-platform-follows-agreement
-source: added with npm run pool -- add
+source: governing lead, Nov 2 (the C1 band of campaign-platform-follows-agreement, carried from its played-year test)
+lead: governing
 ---
 
 **What.** In the played-year test of campaign-platform-follows-agreement, emphasis by record does not rise with support. Every campaign act (a message, an event, a donor meeting, a speech promise) carries one question, the platform's lead, so a candidate's emphasis falls entirely on their top-scored question. Measured over 42 candidates and 1,480 pairs (run seed b6c9d59eda6a31f1), the pooled fit with each candidate offset reads -3% per 10 points of support at every slope from 0.015 to 0.062, against the research band of +16% to +86% (Druckman, Jacobs and Ostermeier 2004). Build the replacement SG-GOV-platform-emphasis-lead-only names: each act takes its topic in turn across the platform, the question furthest behind its score share of what the campaign has said so far, then hold the band check again.

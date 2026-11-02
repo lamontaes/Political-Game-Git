@@ -10,7 +10,8 @@ claimed-by:
 pr:
 blocked-on:
 after: people-press-staff-households
-source: added with npm run pool -- add
+source: governing lead, Nov 2 (found building people-press-staff-households: unpaid out-of-town press people run out of money)
+lead: governing
 ---
 
 **What.** A local station's news director and a national outlet's staff live outside the town and hold no job, so nothing pays them (SG-PEOPLE-press-national-payroll; the registry row was restored as resolved on Oct 14 though its marker in press-staff.ts still runs). With people-press-staff-households they carry the one-person household officials get and spend it each week, so they run out. In Petersville, Alaska (seed pst-1), three of four station news directors held $0 by May to August of the first year. Pay them as official-pay pays officials who live outside the town (a salaried post paid each month by an outside payer at the role's pay), or through national outlets' books as the stopgap's replacement says.
