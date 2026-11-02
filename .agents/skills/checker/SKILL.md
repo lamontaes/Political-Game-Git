@@ -149,3 +149,5 @@ Then message the merger for the PR's parity (`CREW.md`) with the PR number and h
 ## Stop condition
 
 A pass ends when every PR in your share is checked at its current head or sent back with one comment. Then take the oldest unchecked PR in another share. When nothing is open, message the CTO one line and wait for the next message.
+
+- **Two mechanical fixes from Nov 2 (Checker 1).** A declaration with `impact: minor` or `major` needs `section:` and `title:` in its frontmatter, or `release:check` fails (#7101, #7106). A PR that adds bank pieces fails `grade-reach.test.ts` until `data/english/grade-reach.json` is rebuilt: run `node --import tsx scripts/dialogue-batch/apply-grades.ts`, check that only `grade-reach.json` changed, and commit it (#7111).
