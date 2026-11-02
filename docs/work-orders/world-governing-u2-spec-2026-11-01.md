@@ -1,6 +1,6 @@
 # U2 build spec: each body's law is its own
 
-Base: `origin/main` c9b60ce1ed. Line numbers are on c9b60ce1ed unless a line says "main", which means 87bcf4bfbf (its `press-topics.ts` is the same as 708514a1b9). Later merges will move lines, so find each site by its function name. Pool item: `gov-every-state-and-town-governs` (U2 of `docs/reports/world-governing-plan-2026-10-29.md`). The agreed seams are in that item's Notes, Nov 1 20:00 UTC.
+U2 makes each legislature's and council's laws its own, so that once unit U3 opens every state's legislature and U4 other towns' councils, no other place's law, vote or event lands as the town's. A builder finds each site below by its function name; the base the line numbers refer to, and the record of what was agreed, are under Method at the end.
 
 ## 1. What U2 changes for the player
 
@@ -589,7 +589,13 @@ The bar is a country's year in under two minutes, and no more than 20% slower th
   - `lastEnactment` over `bySeries [j, series]` reads only the set's rows. After U3 this avoids reading 50 states' rows.
 - **Steps 9 and 11-14:**
   - `bodyPlace` is computed once per roll call, not per member.
-  - These per-bill and per-member costs go away for every outside bill or record: per-member `office.voted` events, `organizeResidents`' scan of the town's adults, `employerCosts`, the bribes hook's crimes scan, `townConcernShare`'s daily build on days only outside sessions open, the weekly filling-in of outside members by `considerTownHalls`, and the term queries in `wireItem`.
+  - For every outside bill or record, these per-bill and per-member costs go away:
+    - per-member `office.voted` events;
+    - `organizeResidents`' scan of the town's adults, and `employerCosts`;
+    - the bribes hook's crimes scan;
+    - `townConcernShare`'s daily build on days only outside sessions open;
+    - the weekly filling-in of outside members by `considerTownHalls`;
+    - the term queries in `wireItem`.
 - **Step 13a:** one indexed officials get per filer per sitting (535 at Congress's opening, 60 to 400 at a state's, 5 to 15 at a council meeting). It may change how many bills are filed, so measure it alone.
 - **Not built in U2. File as one U3 pool item and name it in the PR body (search `docs/pool/items` first):**
   - **A bills index.** The bills table (legislature.ts:301) has no index, and it is scanned in full on paths that run per day and per gift:
@@ -641,3 +647,7 @@ The bar is a country's year in under two minutes, and no more than 20% slower th
 **Speed lead:** the bills-index pool item and the `lawInForceToday` invalidation, filed for U3. Share the U2 records proofs and the `speed:year` numbers.
 
 **Lives lead:** SG-GOV-other-place-law-effects' replacement runs through husks and counted lives elsewhere.
+
+## 7. Method
+
+Base: `origin/main` c9b60ce1ed. Line numbers are on c9b60ce1ed unless a line says "main", which means 87bcf4bfbf (its `press-topics.ts` is the same as 708514a1b9). Later merges will move lines, so find each site by its function name. Pool item: `gov-every-state-and-town-governs` (U2 of `docs/reports/world-governing-plan-2026-10-29.md`). The agreed seams are in that item's Notes, Nov 1 20:00 UTC.

@@ -1,21 +1,16 @@
 {
   "schema": "english-parts/1",
   "register": "opening-speech",
-  "description": "The President's opening address, authored to the shape of real inaugural and state-of-the-union addresses (an opening, a story of the country, named priorities each tied to a law, a close) and written for this game's Presidents: every figure, law and priority is a slot or a required fact read from the world's records, never a number or a law in a sentence. Each sentence has a polished and a plain version for the speaker's recorded manner. No real President's words.",
+  "description": "The President's opening address, authored to the shape of real inaugural and state-of-the-union addresses (an opening, a story of the country, named priorities each tied to a law, a close) and written for this game's Presidents: every law and priority is a slot or a required fact read from the world's records, and the address says no figure at all (owner, Oct 27: \"none of that real data in there\"; Nov 1: \"I don't like where this part of the speech where it just laces statistics\"). Each sentence has a polished and a plain version for the speaker's recorded manner. No real President's words.",
   "slots": {
-    "unemployment-rate": "macro month, percent",
-    "inflation-rate": "macro month, percent over the year",
-    "mortgage-rate": "macro month, percent",
-    "wage-growth": "macro months, percent over the year",
-    "growth-rate": "macro months, percent over the year",
-    "jobs-added": "macro months, jobs over the year",
     "home-state": "the President's identity record",
     "prior-office": "the President's career record",
     "about": "the policy question's spoken noun phrase",
     "to": "the policy question's spoken verb phrase",
     "state-name": "the player's state, whose law the laws engine reads",
     "place": "a state the President campaigned in",
-    "name": "a governor on the stage"
+    "name": "a governor on the stage",
+    "vice-president": "the Vice President's name, from the officials engine's seat"
   },
   "maxWords": 40,
   "mining": {
@@ -443,33 +438,6 @@
       "bearing": "tender"
     },
     {
-      "key": "opening-speech.story-open.polished-ina-sta-by-the-plain-measures-the-country-is-doing-better-than-it-wa",
-      "move": "story-open",
-      "kind": "spoken",
-      "text": "By the plain measures, the country is doing better than it was a year ago, and I mean to build on that.",
-      "uses": [
-        {
-          "move": "story-open",
-          "subject": "inaugural",
-          "role": "story-open",
-          "choice": "story-open",
-          "requiresFacts": ["mood-better"]
-        },
-        {
-          "move": "story-open",
-          "subject": "state-of-the-union",
-          "role": "story-open",
-          "choice": "story-open",
-          "requiresFacts": ["mood-better"]
-        }
-      ],
-      "voice": "polished",
-      "origin": "authored",
-      "author": "Words builder (Claude Code)",
-      "date": "2026-10-27",
-      "bearing": "glad"
-    },
-    {
       "key": "opening-speech.story-open.plain-ina-sta-things-are-better-than-they-were-a-year-ago-and-i-intend-to-",
       "move": "story-open",
       "kind": "spoken",
@@ -603,698 +571,6 @@
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
       "bearing": "calm"
-    },
-    {
-      "key": "opening-speech.story-fig.polished-ina-sta-across-the-country-unemployment-stands-at-unemployment-rate-",
-      "move": "story-fig",
-      "kind": "spoken",
-      "text": "Across the country, unemployment stands at {unemployment-rate} percent, lower than it was a year ago.",
-      "uses": [
-        {
-          "move": "story-fig",
-          "subject": "inaugural",
-          "role": "story-fig",
-          "choice": "story-fig",
-          "requiresFacts": ["unemployment-rate", "unemployment-down"]
-        },
-        {
-          "move": "story-fig",
-          "subject": "state-of-the-union",
-          "role": "story-fig",
-          "choice": "story-fig",
-          "requiresFacts": ["unemployment-rate", "unemployment-down"]
-        }
-      ],
-      "voice": "polished",
-      "origin": "authored",
-      "author": "Words builder (Claude Code)",
-      "date": "2026-10-27",
-      "topic": "unemployment",
-      "bearing": "glad"
-    },
-    {
-      "key": "opening-speech.story-fig.plain-ina-sta-unemployment-is-down-across-the-country-to-unemployment-rate",
-      "move": "story-fig",
-      "kind": "spoken",
-      "text": "Unemployment is down across the country, to {unemployment-rate} percent, from where it was a year ago.",
-      "uses": [
-        {
-          "move": "story-fig",
-          "subject": "inaugural",
-          "role": "story-fig",
-          "choice": "story-fig",
-          "requiresFacts": ["unemployment-rate", "unemployment-down"]
-        },
-        {
-          "move": "story-fig",
-          "subject": "state-of-the-union",
-          "role": "story-fig",
-          "choice": "story-fig",
-          "requiresFacts": ["unemployment-rate", "unemployment-down"]
-        }
-      ],
-      "voice": "plain",
-      "origin": "authored",
-      "author": "Words builder (Claude Code)",
-      "date": "2026-10-27",
-      "topic": "unemployment",
-      "bearing": "glad"
-    },
-    {
-      "key": "opening-speech.story-fig.polished-ina-sta-across-the-country-unemployment-has-risen-over-the-year-to-u",
-      "move": "story-fig",
-      "kind": "spoken",
-      "text": "Across the country, unemployment has risen over the year, to {unemployment-rate} percent.",
-      "uses": [
-        {
-          "move": "story-fig",
-          "subject": "inaugural",
-          "role": "story-fig",
-          "choice": "story-fig",
-          "requiresFacts": ["unemployment-rate", "unemployment-up"]
-        },
-        {
-          "move": "story-fig",
-          "subject": "state-of-the-union",
-          "role": "story-fig",
-          "choice": "story-fig",
-          "requiresFacts": ["unemployment-rate", "unemployment-up"]
-        }
-      ],
-      "voice": "polished",
-      "origin": "authored",
-      "author": "Words builder (Claude Code)",
-      "date": "2026-10-27",
-      "topic": "unemployment",
-      "bearing": "braced"
-    },
-    {
-      "key": "opening-speech.story-fig.plain-ina-unemployment-is-up-across-the-country-from-a-year-ago-it-s-a",
-      "move": "story-fig",
-      "kind": "spoken",
-      "text": "Unemployment is up across the country from a year ago. It's at {unemployment-rate} percent.",
-      "uses": [
-        {
-          "move": "story-fig",
-          "subject": "inaugural",
-          "role": "story-fig",
-          "choice": "story-fig",
-          "requiresFacts": ["unemployment-rate", "unemployment-up"]
-        },
-        {
-          "move": "story-fig",
-          "subject": "state-of-the-union",
-          "role": "story-fig",
-          "choice": "story-fig",
-          "requiresFacts": ["unemployment-rate", "unemployment-up"]
-        }
-      ],
-      "voice": "plain",
-      "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-10-28",
-      "topic": "unemployment",
-      "bearing": "braced"
-    },
-    {
-      "key": "opening-speech.story-fig.polished-ina-the-national-unemployment-rate-is-at-unemployment-rate-perce",
-      "move": "story-fig",
-      "kind": "spoken",
-      "text": "The national unemployment rate is at {unemployment-rate} percent.",
-      "uses": [
-        {
-          "move": "story-fig",
-          "subject": "inaugural",
-          "role": "story-fig",
-          "choice": "story-fig",
-          "requiresFacts": ["unemployment-rate"]
-        },
-        {
-          "move": "story-fig",
-          "subject": "state-of-the-union",
-          "role": "story-fig",
-          "choice": "story-fig",
-          "requiresFacts": ["unemployment-rate"]
-        }
-      ],
-      "voice": "polished",
-      "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-10-28",
-      "topic": "unemployment"
-    },
-    {
-      "key": "opening-speech.story-fig.plain-ina-across-the-country-unemployment-is-at-unemployment-rate-perc",
-      "move": "story-fig",
-      "kind": "spoken",
-      "text": "Across the country, unemployment is at {unemployment-rate} percent.",
-      "uses": [
-        {
-          "move": "story-fig",
-          "subject": "inaugural",
-          "role": "story-fig",
-          "choice": "story-fig",
-          "requiresFacts": ["unemployment-rate"]
-        },
-        {
-          "move": "story-fig",
-          "subject": "state-of-the-union",
-          "role": "story-fig",
-          "choice": "story-fig",
-          "requiresFacts": ["unemployment-rate"]
-        }
-      ],
-      "voice": "plain",
-      "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-10-28",
-      "topic": "unemployment"
-    },
-    {
-      "key": "opening-speech.story-fig.polished-ina-sta-prices-are-still-rising-by-inflation-rate-percent-over-the-y",
-      "move": "story-fig",
-      "kind": "spoken",
-      "text": "Prices are still rising, by {inflation-rate} percent over the year, but more slowly than before.",
-      "uses": [
-        {
-          "move": "story-fig",
-          "subject": "inaugural",
-          "role": "story-fig",
-          "choice": "story-fig",
-          "requiresFacts": ["inflation-rate", "inflation-down", "prices-up"]
-        },
-        {
-          "move": "story-fig",
-          "subject": "state-of-the-union",
-          "role": "story-fig",
-          "choice": "story-fig",
-          "requiresFacts": ["inflation-rate", "inflation-down", "prices-up"]
-        }
-      ],
-      "voice": "polished",
-      "origin": "authored",
-      "author": "Words builder (Claude Code)",
-      "date": "2026-10-27",
-      "topic": "inflation",
-      "bearing": "calm"
-    },
-    {
-      "key": "opening-speech.story-fig.plain-ina-sta-prices-are-still-going-up-inflation-rate-percent-over-the-ye",
-      "move": "story-fig",
-      "kind": "spoken",
-      "text": "Prices are still going up, {inflation-rate} percent over the year, but not as fast as before.",
-      "uses": [
-        {
-          "move": "story-fig",
-          "subject": "inaugural",
-          "role": "story-fig",
-          "choice": "story-fig",
-          "requiresFacts": ["inflation-rate", "inflation-down", "prices-up"]
-        },
-        {
-          "move": "story-fig",
-          "subject": "state-of-the-union",
-          "role": "story-fig",
-          "choice": "story-fig",
-          "requiresFacts": ["inflation-rate", "inflation-down", "prices-up"]
-        }
-      ],
-      "voice": "plain",
-      "origin": "authored",
-      "author": "Words builder (Claude Code)",
-      "date": "2026-10-27",
-      "topic": "inflation",
-      "bearing": "calm"
-    },
-    {
-      "key": "opening-speech.story-fig.polished-ina-sta-prices-rose-inflation-rate-percent-over-the-year-faster-than",
-      "move": "story-fig",
-      "kind": "spoken",
-      "text": "Prices rose {inflation-rate} percent over the year, faster than the year before.",
-      "uses": [
-        {
-          "move": "story-fig",
-          "subject": "inaugural",
-          "role": "story-fig",
-          "choice": "story-fig",
-          "requiresFacts": ["inflation-rate", "inflation-up"]
-        },
-        {
-          "move": "story-fig",
-          "subject": "state-of-the-union",
-          "role": "story-fig",
-          "choice": "story-fig",
-          "requiresFacts": ["inflation-rate", "inflation-up"]
-        }
-      ],
-      "voice": "polished",
-      "origin": "authored",
-      "author": "Words builder (Claude Code)",
-      "date": "2026-10-27",
-      "topic": "inflation",
-      "bearing": "braced"
-    },
-    {
-      "key": "opening-speech.story-fig.plain-ina-sta-prices-are-climbing-faster-they-went-up-inflation-rate-perce",
-      "move": "story-fig",
-      "kind": "spoken",
-      "text": "Prices are climbing faster. They went up {inflation-rate} percent over the year.",
-      "uses": [
-        {
-          "move": "story-fig",
-          "subject": "inaugural",
-          "role": "story-fig",
-          "choice": "story-fig",
-          "requiresFacts": ["inflation-rate", "inflation-up"]
-        },
-        {
-          "move": "story-fig",
-          "subject": "state-of-the-union",
-          "role": "story-fig",
-          "choice": "story-fig",
-          "requiresFacts": ["inflation-rate", "inflation-up"]
-        }
-      ],
-      "voice": "plain",
-      "origin": "authored",
-      "author": "Words builder (Claude Code)",
-      "date": "2026-10-27",
-      "topic": "inflation",
-      "bearing": "braced"
-    },
-    {
-      "key": "opening-speech.story-fig.polished-ina-sta-prices-rose-inflation-rate-percent-over-the-past-year",
-      "move": "story-fig",
-      "kind": "spoken",
-      "text": "Prices rose {inflation-rate} percent over the past year.",
-      "uses": [
-        {
-          "move": "story-fig",
-          "subject": "inaugural",
-          "role": "story-fig",
-          "choice": "story-fig",
-          "requiresFacts": ["inflation-rate", "prices-up"]
-        },
-        {
-          "move": "story-fig",
-          "subject": "state-of-the-union",
-          "role": "story-fig",
-          "choice": "story-fig",
-          "requiresFacts": ["inflation-rate", "prices-up"]
-        }
-      ],
-      "voice": "polished",
-      "origin": "authored",
-      "author": "Words builder (Claude Code)",
-      "date": "2026-10-27",
-      "topic": "inflation"
-    },
-    {
-      "key": "opening-speech.story-fig.plain-ina-sta-prices-went-up-inflation-rate-percent-over-the-past-year",
-      "move": "story-fig",
-      "kind": "spoken",
-      "text": "Prices went up {inflation-rate} percent over the past year.",
-      "uses": [
-        {
-          "move": "story-fig",
-          "subject": "inaugural",
-          "role": "story-fig",
-          "choice": "story-fig",
-          "requiresFacts": ["inflation-rate", "prices-up"]
-        },
-        {
-          "move": "story-fig",
-          "subject": "state-of-the-union",
-          "role": "story-fig",
-          "choice": "story-fig",
-          "requiresFacts": ["inflation-rate", "prices-up"]
-        }
-      ],
-      "voice": "plain",
-      "origin": "authored",
-      "author": "Words builder (Claude Code)",
-      "date": "2026-10-27",
-      "topic": "inflation"
-    },
-    {
-      "key": "opening-speech.story-fig.polished-ina-sta-hourly-pay-is-up-wage-growth-percent-over-the-year-ahead-of-",
-      "move": "story-fig",
-      "kind": "spoken",
-      "text": "Hourly pay is up {wage-growth} percent over the year, ahead of the rise in prices.",
-      "uses": [
-        {
-          "move": "story-fig",
-          "subject": "inaugural",
-          "role": "story-fig",
-          "choice": "story-fig",
-          "requiresFacts": ["wage-growth", "wages-ahead-of-prices", "prices-up"]
-        },
-        {
-          "move": "story-fig",
-          "subject": "state-of-the-union",
-          "role": "story-fig",
-          "choice": "story-fig",
-          "requiresFacts": ["wage-growth", "wages-ahead-of-prices", "prices-up"]
-        }
-      ],
-      "voice": "polished",
-      "origin": "authored",
-      "author": "Words builder (Claude Code)",
-      "date": "2026-10-27",
-      "topic": "wages",
-      "bearing": "glad"
-    },
-    {
-      "key": "opening-speech.story-fig.plain-ina-sta-pay-is-up-wage-growth-percent-over-the-year-and-that-s-ahead",
-      "move": "story-fig",
-      "kind": "spoken",
-      "text": "Pay is up {wage-growth} percent over the year, and that's ahead of prices.",
-      "uses": [
-        {
-          "move": "story-fig",
-          "subject": "inaugural",
-          "role": "story-fig",
-          "choice": "story-fig",
-          "requiresFacts": ["wage-growth", "wages-ahead-of-prices", "prices-up"]
-        },
-        {
-          "move": "story-fig",
-          "subject": "state-of-the-union",
-          "role": "story-fig",
-          "choice": "story-fig",
-          "requiresFacts": ["wage-growth", "wages-ahead-of-prices", "prices-up"]
-        }
-      ],
-      "voice": "plain",
-      "origin": "authored",
-      "author": "Words builder (Claude Code)",
-      "date": "2026-10-27",
-      "topic": "wages",
-      "bearing": "glad"
-    },
-    {
-      "key": "opening-speech.story-fig.polished-ina-sta-hourly-pay-is-up-wage-growth-percent-over-the-year-but-price",
-      "move": "story-fig",
-      "kind": "spoken",
-      "text": "Hourly pay is up {wage-growth} percent over the year, but prices rose faster, and a paycheck buys less than it did.",
-      "uses": [
-        {
-          "move": "story-fig",
-          "subject": "inaugural",
-          "role": "story-fig",
-          "choice": "story-fig",
-          "requiresFacts": ["wage-growth", "wages-behind-prices"]
-        },
-        {
-          "move": "story-fig",
-          "subject": "state-of-the-union",
-          "role": "story-fig",
-          "choice": "story-fig",
-          "requiresFacts": ["wage-growth", "wages-behind-prices"]
-        }
-      ],
-      "voice": "polished",
-      "origin": "authored",
-      "author": "Words builder (Claude Code)",
-      "date": "2026-10-27",
-      "topic": "wages",
-      "bearing": "braced"
-    },
-    {
-      "key": "opening-speech.story-fig.plain-ina-sta-pay-is-up-wage-growth-percent-but-prices-rose-faster-so-your",
-      "move": "story-fig",
-      "kind": "spoken",
-      "text": "Pay is up {wage-growth} percent, but prices rose faster, so your paycheck buys less than it did.",
-      "uses": [
-        {
-          "move": "story-fig",
-          "subject": "inaugural",
-          "role": "story-fig",
-          "choice": "story-fig",
-          "requiresFacts": ["wage-growth", "wages-behind-prices"]
-        },
-        {
-          "move": "story-fig",
-          "subject": "state-of-the-union",
-          "role": "story-fig",
-          "choice": "story-fig",
-          "requiresFacts": ["wage-growth", "wages-behind-prices"]
-        }
-      ],
-      "voice": "plain",
-      "origin": "authored",
-      "author": "Words builder (Claude Code)",
-      "date": "2026-10-27",
-      "topic": "wages",
-      "bearing": "braced"
-    },
-    {
-      "key": "opening-speech.story-fig.polished-ina-sta-hourly-pay-is-up-wage-growth-percent-over-the-year",
-      "move": "story-fig",
-      "kind": "spoken",
-      "text": "Hourly pay is up {wage-growth} percent over the year.",
-      "uses": [
-        {
-          "move": "story-fig",
-          "subject": "inaugural",
-          "role": "story-fig",
-          "choice": "story-fig",
-          "requiresFacts": ["wage-growth"]
-        },
-        {
-          "move": "story-fig",
-          "subject": "state-of-the-union",
-          "role": "story-fig",
-          "choice": "story-fig",
-          "requiresFacts": ["wage-growth"]
-        }
-      ],
-      "voice": "polished",
-      "origin": "authored",
-      "author": "Words builder (Claude Code)",
-      "date": "2026-10-27",
-      "topic": "wages"
-    },
-    {
-      "key": "opening-speech.story-fig.plain-ina-sta-pay-is-up-wage-growth-percent-from-a-year-ago",
-      "move": "story-fig",
-      "kind": "spoken",
-      "text": "Pay is up {wage-growth} percent from a year ago.",
-      "uses": [
-        {
-          "move": "story-fig",
-          "subject": "inaugural",
-          "role": "story-fig",
-          "choice": "story-fig",
-          "requiresFacts": ["wage-growth"]
-        },
-        {
-          "move": "story-fig",
-          "subject": "state-of-the-union",
-          "role": "story-fig",
-          "choice": "story-fig",
-          "requiresFacts": ["wage-growth"]
-        }
-      ],
-      "voice": "plain",
-      "origin": "authored",
-      "author": "Words builder (Claude Code)",
-      "date": "2026-10-27",
-      "topic": "wages"
-    },
-    {
-      "key": "opening-speech.story-fig.polished-ina-sta-the-economy-grew-growth-rate-percent-over-the-past-year",
-      "move": "story-fig",
-      "kind": "spoken",
-      "text": "The economy grew {growth-rate} percent over the past year.",
-      "uses": [
-        {
-          "move": "story-fig",
-          "subject": "inaugural",
-          "role": "story-fig",
-          "choice": "story-fig",
-          "requiresFacts": ["growth-rate", "growth-up"]
-        },
-        {
-          "move": "story-fig",
-          "subject": "state-of-the-union",
-          "role": "story-fig",
-          "choice": "story-fig",
-          "requiresFacts": ["growth-rate", "growth-up"]
-        }
-      ],
-      "voice": "polished",
-      "origin": "authored",
-      "author": "Words builder (Claude Code)",
-      "date": "2026-10-27",
-      "topic": "growth",
-      "bearing": "glad"
-    },
-    {
-      "key": "opening-speech.story-fig.plain-ina-sta-the-economy-grew-growth-rate-percent-over-the-year",
-      "move": "story-fig",
-      "kind": "spoken",
-      "text": "The economy grew {growth-rate} percent over the year.",
-      "uses": [
-        {
-          "move": "story-fig",
-          "subject": "inaugural",
-          "role": "story-fig",
-          "choice": "story-fig",
-          "requiresFacts": ["growth-rate", "growth-up"]
-        },
-        {
-          "move": "story-fig",
-          "subject": "state-of-the-union",
-          "role": "story-fig",
-          "choice": "story-fig",
-          "requiresFacts": ["growth-rate", "growth-up"]
-        }
-      ],
-      "voice": "plain",
-      "origin": "authored",
-      "author": "Words builder (Claude Code)",
-      "date": "2026-10-27",
-      "topic": "growth",
-      "bearing": "glad"
-    },
-    {
-      "key": "opening-speech.story-fig.polished-ina-sta-a-thirty-year-home-loan-costs-mortgage-rate-percent-a-year",
-      "move": "story-fig",
-      "kind": "spoken",
-      "text": "A thirty-year home loan costs {mortgage-rate} percent a year.",
-      "uses": [
-        {
-          "move": "story-fig",
-          "subject": "inaugural",
-          "role": "story-fig",
-          "choice": "story-fig",
-          "requiresFacts": ["mortgage-rate"]
-        },
-        {
-          "move": "story-fig",
-          "subject": "state-of-the-union",
-          "role": "story-fig",
-          "choice": "story-fig",
-          "requiresFacts": ["mortgage-rate"]
-        }
-      ],
-      "voice": "polished",
-      "origin": "authored",
-      "author": "Words builder (Claude Code)",
-      "date": "2026-10-27",
-      "topic": "mortgage"
-    },
-    {
-      "key": "opening-speech.story-fig.plain-ina-sta-if-you-want-to-buy-a-house-the-loan-costs-mortgage-rate-perc",
-      "move": "story-fig",
-      "kind": "spoken",
-      "text": "If you want to buy a house, the loan costs {mortgage-rate} percent.",
-      "uses": [
-        {
-          "move": "story-fig",
-          "subject": "inaugural",
-          "role": "story-fig",
-          "choice": "story-fig",
-          "requiresFacts": ["mortgage-rate"]
-        },
-        {
-          "move": "story-fig",
-          "subject": "state-of-the-union",
-          "role": "story-fig",
-          "choice": "story-fig",
-          "requiresFacts": ["mortgage-rate"]
-        }
-      ],
-      "voice": "plain",
-      "origin": "authored",
-      "author": "Words builder (Claude Code)",
-      "date": "2026-10-27",
-      "topic": "mortgage"
-    },
-    {
-      "key": "opening-speech.story-fig.polished-ina-there-are-more-jobs-in-the-country-than-there-were-a-year-ag",
-      "move": "story-fig",
-      "kind": "spoken",
-      "text": "There are more jobs in the country than there were a year ago.",
-      "uses": [
-        {
-          "move": "story-fig",
-          "subject": "inaugural",
-          "role": "story-fig",
-          "choice": "story-fig",
-          "requiresFacts": ["jobs-up"]
-        }
-      ],
-      "voice": "polished",
-      "origin": "authored",
-      "author": "Words builder (Claude Code)",
-      "date": "2026-10-27",
-      "topic": "jobs",
-      "bearing": "glad"
-    },
-    {
-      "key": "opening-speech.story-fig.plain-ina-there-are-more-jobs-than-there-were-a-year-ago",
-      "move": "story-fig",
-      "kind": "spoken",
-      "text": "There are more jobs than there were a year ago.",
-      "uses": [
-        {
-          "move": "story-fig",
-          "subject": "inaugural",
-          "role": "story-fig",
-          "choice": "story-fig",
-          "requiresFacts": ["jobs-up"]
-        }
-      ],
-      "voice": "plain",
-      "origin": "authored",
-      "author": "Words builder (Claude Code)",
-      "date": "2026-10-27",
-      "topic": "jobs",
-      "bearing": "glad"
-    },
-    {
-      "key": "opening-speech.story-fig.polished-sta-the-country-added-jobs-added-jobs-over-the-year",
-      "move": "story-fig",
-      "kind": "spoken",
-      "text": "The country added {jobs-added} jobs over the year.",
-      "uses": [
-        {
-          "move": "story-fig",
-          "subject": "state-of-the-union",
-          "role": "story-fig",
-          "choice": "story-fig",
-          "requiresFacts": ["jobs-added"]
-        }
-      ],
-      "voice": "polished",
-      "origin": "authored",
-      "author": "Words builder (Claude Code)",
-      "date": "2026-10-27",
-      "topic": "jobs",
-      "bearing": "glad"
-    },
-    {
-      "key": "opening-speech.story-fig.plain-sta-we-added-jobs-added-jobs-over-the-year",
-      "move": "story-fig",
-      "kind": "spoken",
-      "text": "We added {jobs-added} jobs over the year.",
-      "uses": [
-        {
-          "move": "story-fig",
-          "subject": "state-of-the-union",
-          "role": "story-fig",
-          "choice": "story-fig",
-          "requiresFacts": ["jobs-added"]
-        }
-      ],
-      "voice": "plain",
-      "origin": "authored",
-      "author": "Words builder (Claude Code)",
-      "date": "2026-10-27",
-      "topic": "jobs",
-      "bearing": "glad"
     },
     {
       "key": "opening-speech.story-turn.polished-ina-sta-that-is-progress-and-progress-is-not-the-same-as-finished",
@@ -1879,204 +1155,6 @@
       "bearing": "braced"
     },
     {
-      "key": "opening-speech.stake.polished-ina-sta-hourly-pay-is-up-wage-growth-percent-over-the-year-while-pri",
-      "move": "stake",
-      "kind": "spoken",
-      "text": "Hourly pay is up {wage-growth} percent over the year, while prices rose {inflation-rate} percent, so a paycheck buys less than it did.",
-      "uses": [
-        {
-          "move": "stake",
-          "subject": "inaugural",
-          "role": "stake",
-          "choice": "stake",
-          "requiresFacts": [
-            "wage-growth",
-            "inflation-rate",
-            "wages-behind-prices"
-          ]
-        },
-        {
-          "move": "stake",
-          "subject": "state-of-the-union",
-          "role": "stake",
-          "choice": "stake",
-          "requiresFacts": [
-            "wage-growth",
-            "inflation-rate",
-            "wages-behind-prices"
-          ]
-        }
-      ],
-      "voice": "polished",
-      "origin": "authored",
-      "author": "Words builder (Claude Code)",
-      "date": "2026-10-27",
-      "topic": "wages"
-    },
-    {
-      "key": "opening-speech.stake.plain-ina-sta-pay-is-up-wage-growth-percent-prices-are-up-inflation-rate-p",
-      "move": "stake",
-      "kind": "spoken",
-      "text": "Pay is up {wage-growth} percent, prices are up {inflation-rate} percent, and your paycheck buys less than it did.",
-      "uses": [
-        {
-          "move": "stake",
-          "subject": "inaugural",
-          "role": "stake",
-          "choice": "stake",
-          "requiresFacts": [
-            "wage-growth",
-            "inflation-rate",
-            "wages-behind-prices"
-          ]
-        },
-        {
-          "move": "stake",
-          "subject": "state-of-the-union",
-          "role": "stake",
-          "choice": "stake",
-          "requiresFacts": [
-            "wage-growth",
-            "inflation-rate",
-            "wages-behind-prices"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "origin": "authored",
-      "author": "Words builder (Claude Code)",
-      "date": "2026-10-27",
-      "topic": "wages"
-    },
-    {
-      "key": "opening-speech.stake.polished-ina-sta-hourly-pay-is-up-wage-growth-percent-over-the-year-and-price",
-      "move": "stake",
-      "kind": "spoken",
-      "text": "Hourly pay is up {wage-growth} percent over the year and prices rose {inflation-rate} percent, so paychecks are stretching a little further.",
-      "uses": [
-        {
-          "move": "stake",
-          "subject": "inaugural",
-          "role": "stake",
-          "choice": "stake",
-          "requiresFacts": [
-            "wage-growth",
-            "inflation-rate",
-            "wages-ahead-of-prices",
-            "prices-up"
-          ]
-        },
-        {
-          "move": "stake",
-          "subject": "state-of-the-union",
-          "role": "stake",
-          "choice": "stake",
-          "requiresFacts": [
-            "wage-growth",
-            "inflation-rate",
-            "wages-ahead-of-prices",
-            "prices-up"
-          ]
-        }
-      ],
-      "voice": "polished",
-      "origin": "authored",
-      "author": "Words builder (Claude Code)",
-      "date": "2026-10-27",
-      "topic": "wages"
-    },
-    {
-      "key": "opening-speech.stake.plain-ina-sta-pay-is-up-wage-growth-percent-and-prices-are-up-inflation-ra",
-      "move": "stake",
-      "kind": "spoken",
-      "text": "Pay is up {wage-growth} percent and prices are up {inflation-rate} percent, so paychecks are stretching a bit further.",
-      "uses": [
-        {
-          "move": "stake",
-          "subject": "inaugural",
-          "role": "stake",
-          "choice": "stake",
-          "requiresFacts": [
-            "wage-growth",
-            "inflation-rate",
-            "wages-ahead-of-prices",
-            "prices-up"
-          ]
-        },
-        {
-          "move": "stake",
-          "subject": "state-of-the-union",
-          "role": "stake",
-          "choice": "stake",
-          "requiresFacts": [
-            "wage-growth",
-            "inflation-rate",
-            "wages-ahead-of-prices",
-            "prices-up"
-          ]
-        }
-      ],
-      "voice": "plain",
-      "origin": "authored",
-      "author": "Words builder (Claude Code)",
-      "date": "2026-10-27",
-      "topic": "wages"
-    },
-    {
-      "key": "opening-speech.stake.polished-ina-sta-hourly-pay-is-up-wage-growth-percent-over-the-year-and-the-r",
-      "move": "stake",
-      "kind": "spoken",
-      "text": "Hourly pay is up {wage-growth} percent over the year, and the rules that govern work should keep pace.",
-      "uses": [
-        {
-          "move": "stake",
-          "subject": "inaugural",
-          "role": "stake",
-          "choice": "stake",
-          "requiresFacts": ["wage-growth"]
-        },
-        {
-          "move": "stake",
-          "subject": "state-of-the-union",
-          "role": "stake",
-          "choice": "stake",
-          "requiresFacts": ["wage-growth"]
-        }
-      ],
-      "voice": "polished",
-      "origin": "authored",
-      "author": "Words builder (Claude Code)",
-      "date": "2026-10-27",
-      "topic": "wages"
-    },
-    {
-      "key": "opening-speech.stake.plain-ina-sta-pay-is-up-wage-growth-percent-and-the-rules-on-the-job-shoul",
-      "move": "stake",
-      "kind": "spoken",
-      "text": "Pay is up {wage-growth} percent, and the rules on the job should keep up with it.",
-      "uses": [
-        {
-          "move": "stake",
-          "subject": "inaugural",
-          "role": "stake",
-          "choice": "stake",
-          "requiresFacts": ["wage-growth"]
-        },
-        {
-          "move": "stake",
-          "subject": "state-of-the-union",
-          "role": "stake",
-          "choice": "stake",
-          "requiresFacts": ["wage-growth"]
-        }
-      ],
-      "voice": "plain",
-      "origin": "authored",
-      "author": "Words builder (Claude Code)",
-      "date": "2026-10-27",
-      "topic": "wages"
-    },
-    {
       "key": "opening-speech.stake.polished-ina-sta-there-are-more-jobs-than-a-year-ago-and-the-rules-that-gover",
       "move": "stake",
       "kind": "spoken",
@@ -2129,168 +1207,6 @@
       "author": "Words builder (Claude Code)",
       "date": "2026-10-27",
       "topic": "jobs"
-    },
-    {
-      "key": "opening-speech.stake.polished-ina-sta-a-home-loan-costs-mortgage-rate-percent-a-year-and-i-want-to",
-      "move": "stake",
-      "kind": "spoken",
-      "text": "A home loan costs {mortgage-rate} percent a year, and I want to talk about who can afford one.",
-      "uses": [
-        {
-          "move": "stake",
-          "subject": "inaugural",
-          "role": "stake",
-          "choice": "stake",
-          "requiresFacts": ["mortgage-rate"]
-        },
-        {
-          "move": "stake",
-          "subject": "state-of-the-union",
-          "role": "stake",
-          "choice": "stake",
-          "requiresFacts": ["mortgage-rate"]
-        }
-      ],
-      "voice": "polished",
-      "origin": "authored",
-      "author": "Words builder (Claude Code)",
-      "date": "2026-10-27",
-      "topic": "mortgage"
-    },
-    {
-      "key": "opening-speech.stake.plain-ina-sta-a-home-loan-costs-mortgage-rate-percent-and-i-want-to-talk-a",
-      "move": "stake",
-      "kind": "spoken",
-      "text": "A home loan costs {mortgage-rate} percent, and I want to talk about who can afford a house.",
-      "uses": [
-        {
-          "move": "stake",
-          "subject": "inaugural",
-          "role": "stake",
-          "choice": "stake",
-          "requiresFacts": ["mortgage-rate"]
-        },
-        {
-          "move": "stake",
-          "subject": "state-of-the-union",
-          "role": "stake",
-          "choice": "stake",
-          "requiresFacts": ["mortgage-rate"]
-        }
-      ],
-      "voice": "plain",
-      "origin": "authored",
-      "author": "Words builder (Claude Code)",
-      "date": "2026-10-27",
-      "topic": "mortgage"
-    },
-    {
-      "key": "opening-speech.stake.polished-ina-sta-the-economy-grew-growth-rate-percent-over-the-year-and-the-q",
-      "move": "stake",
-      "kind": "spoken",
-      "text": "The economy grew {growth-rate} percent over the year, and the question before us is who gets to keep that growth.",
-      "uses": [
-        {
-          "move": "stake",
-          "subject": "inaugural",
-          "role": "stake",
-          "choice": "stake",
-          "requiresFacts": ["growth-rate", "growth-up"]
-        },
-        {
-          "move": "stake",
-          "subject": "state-of-the-union",
-          "role": "stake",
-          "choice": "stake",
-          "requiresFacts": ["growth-rate", "growth-up"]
-        }
-      ],
-      "voice": "polished",
-      "origin": "authored",
-      "author": "Words builder (Claude Code)",
-      "date": "2026-10-27",
-      "topic": "growth"
-    },
-    {
-      "key": "opening-speech.stake.plain-ina-sta-the-economy-grew-growth-rate-percent-and-i-want-to-talk-abou",
-      "move": "stake",
-      "kind": "spoken",
-      "text": "The economy grew {growth-rate} percent, and I want to talk about who keeps it.",
-      "uses": [
-        {
-          "move": "stake",
-          "subject": "inaugural",
-          "role": "stake",
-          "choice": "stake",
-          "requiresFacts": ["growth-rate", "growth-up"]
-        },
-        {
-          "move": "stake",
-          "subject": "state-of-the-union",
-          "role": "stake",
-          "choice": "stake",
-          "requiresFacts": ["growth-rate", "growth-up"]
-        }
-      ],
-      "voice": "plain",
-      "origin": "authored",
-      "author": "Words builder (Claude Code)",
-      "date": "2026-10-27",
-      "topic": "growth"
-    },
-    {
-      "key": "opening-speech.stake.polished-ina-sta-prices-rose-inflation-rate-percent-over-the-year-and-i-want-",
-      "move": "stake",
-      "kind": "spoken",
-      "text": "Prices rose {inflation-rate} percent over the year, and I want to talk about what we do about it.",
-      "uses": [
-        {
-          "move": "stake",
-          "subject": "inaugural",
-          "role": "stake",
-          "choice": "stake",
-          "requiresFacts": ["inflation-rate", "prices-up"]
-        },
-        {
-          "move": "stake",
-          "subject": "state-of-the-union",
-          "role": "stake",
-          "choice": "stake",
-          "requiresFacts": ["inflation-rate", "prices-up"]
-        }
-      ],
-      "voice": "polished",
-      "origin": "authored",
-      "author": "Words builder (Claude Code)",
-      "date": "2026-10-27",
-      "topic": "inflation"
-    },
-    {
-      "key": "opening-speech.stake.plain-ina-sta-prices-rose-inflation-rate-percent-and-i-want-to-talk-about-",
-      "move": "stake",
-      "kind": "spoken",
-      "text": "Prices rose {inflation-rate} percent, and I want to talk about what we do about it.",
-      "uses": [
-        {
-          "move": "stake",
-          "subject": "inaugural",
-          "role": "stake",
-          "choice": "stake",
-          "requiresFacts": ["inflation-rate", "prices-up"]
-        },
-        {
-          "move": "stake",
-          "subject": "state-of-the-union",
-          "role": "stake",
-          "choice": "stake",
-          "requiresFacts": ["inflation-rate", "prices-up"]
-        }
-      ],
-      "voice": "plain",
-      "origin": "authored",
-      "author": "Words builder (Claude Code)",
-      "date": "2026-10-27",
-      "topic": "inflation"
     },
     {
       "key": "opening-speech.law.polished-ina-sta-on-about-federal-law-already-says-yes",
@@ -3631,81 +2547,6 @@
       "bearing": "tender"
     },
     {
-      "key": "opening-speech.families.polished-ina-sta-to-every-family-listening-this-work-is-for-you",
-      "move": "families",
-      "kind": "spoken",
-      "text": "To every family listening: this work is for you.",
-      "uses": [
-        {
-          "move": "families",
-          "subject": "inaugural",
-          "role": "families",
-          "choice": "families"
-        },
-        {
-          "move": "families",
-          "subject": "state-of-the-union",
-          "role": "families",
-          "choice": "families"
-        }
-      ],
-      "voice": "polished",
-      "origin": "authored",
-      "author": "Words builder (Claude Code)",
-      "date": "2026-10-27",
-      "bearing": "tender"
-    },
-    {
-      "key": "opening-speech.families.plain-ina-sta-to-everyone-listening-all-of-this-is-for-you",
-      "move": "families",
-      "kind": "spoken",
-      "text": "To everyone listening, all of this is for you.",
-      "uses": [
-        {
-          "move": "families",
-          "subject": "inaugural",
-          "role": "families",
-          "choice": "families"
-        },
-        {
-          "move": "families",
-          "subject": "state-of-the-union",
-          "role": "families",
-          "choice": "families"
-        }
-      ],
-      "voice": "plain",
-      "origin": "authored",
-      "author": "Words builder (Claude Code)",
-      "date": "2026-10-27",
-      "bearing": "tender"
-    },
-    {
-      "key": "opening-speech.close.polished-ina-sta-thank-you-and-may-god-bless-the-united-states",
-      "move": "close",
-      "kind": "spoken",
-      "text": "Thank you, and may God bless the United States.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "inaugural",
-          "role": "close",
-          "choice": "close"
-        },
-        {
-          "move": "close",
-          "subject": "state-of-the-union",
-          "role": "close",
-          "choice": "close"
-        }
-      ],
-      "voice": "polished",
-      "origin": "authored",
-      "author": "Words builder (Claude Code)",
-      "date": "2026-10-27",
-      "bearing": "calm"
-    },
-    {
       "key": "opening-speech.close.plain-ina-sta-thank-you-god-bless-you-and-god-bless-america",
       "move": "close",
       "kind": "spoken",
@@ -3785,33 +2626,6 @@
       "move": "creed",
       "kind": "spoken",
       "text": "I believe the people of this country can run their own lives, and that their government should trust them to.",
-      "uses": [
-        {
-          "move": "creed",
-          "subject": "inaugural",
-          "role": "creed",
-          "choice": "creed",
-          "requiresFacts": ["party-republican"]
-        },
-        {
-          "move": "creed",
-          "subject": "state-of-the-union",
-          "role": "creed",
-          "choice": "creed",
-          "requiresFacts": ["party-republican"]
-        }
-      ],
-      "voice": "polished",
-      "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-10-28",
-      "bearing": "calm"
-    },
-    {
-      "key": "opening-speech.creed.polished-ina-sta-i-hold-that-the-government-closest-to-the-people-serves-them",
-      "move": "creed",
-      "kind": "spoken",
-      "text": "I hold that the government closest to the people serves them best, and I will govern that way.",
       "uses": [
         {
           "move": "creed",
@@ -4051,25 +2865,6 @@
       "bearing": "calm"
     },
     {
-      "key": "opening-speech.unity.polished-ina-i-was-not-the-choice-of-everyone-who-voted-i-will-be-the-pre",
-      "move": "unity",
-      "kind": "spoken",
-      "text": "I was not the choice of everyone who voted. I will be the President of everyone who did, and of everyone who did not.",
-      "uses": [
-        {
-          "move": "unity",
-          "subject": "inaugural",
-          "role": "unity",
-          "choice": "unity"
-        }
-      ],
-      "voice": "polished",
-      "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-10-28",
-      "bearing": "solemn"
-    },
-    {
       "key": "opening-speech.unity.plain-ina-not-everybody-voted-for-me-i-work-for-them-too",
       "move": "unity",
       "kind": "spoken",
@@ -4221,62 +3016,6 @@
       "date": "2026-10-28",
       "bearing": "calm",
       "device": "contrast"
-    },
-    {
-      "key": "opening-speech.pledge.polished-ina-sta-too-many-people-who-want-work-cannot-find-it-and-that-is-whe",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "Too many people who want work cannot find it, and that is where I begin.",
-      "uses": [
-        {
-          "move": "pledge",
-          "subject": "inaugural",
-          "role": "pledge",
-          "choice": "pledge",
-          "requiresFacts": ["unemployment-up"]
-        },
-        {
-          "move": "pledge",
-          "subject": "state-of-the-union",
-          "role": "pledge",
-          "choice": "pledge",
-          "requiresFacts": ["unemployment-up"]
-        }
-      ],
-      "voice": "polished",
-      "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-10-28",
-      "bearing": "braced",
-      "topic": "unemployment"
-    },
-    {
-      "key": "opening-speech.pledge.plain-ina-sta-too-many-people-want-work-and-can-t-find-it-that-s-where-i-s",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "Too many people want work and can't find it. That's where I start.",
-      "uses": [
-        {
-          "move": "pledge",
-          "subject": "inaugural",
-          "role": "pledge",
-          "choice": "pledge",
-          "requiresFacts": ["unemployment-up"]
-        },
-        {
-          "move": "pledge",
-          "subject": "state-of-the-union",
-          "role": "pledge",
-          "choice": "pledge",
-          "requiresFacts": ["unemployment-up"]
-        }
-      ],
-      "voice": "plain",
-      "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-10-28",
-      "bearing": "braced",
-      "topic": "unemployment"
     },
     {
       "key": "opening-speech.pledge.polished-ina-sta-prices-are-taking-more-out-of-every-paycheck-than-they-shoul",
@@ -4535,14 +3274,14 @@
       "bearing": "solemn"
     },
     {
-      "key": "opening-speech.salutation.polished-ina-to-my-fellow-citizens-and-to-everyone-watching-tonight-thank",
+      "key": "opening-speech.salutation.polished-sta-to-my-fellow-citizens-and-to-everyone-watching-tonight-thank",
       "move": "salutation",
       "kind": "spoken",
       "text": "To my fellow citizens, and to everyone watching tonight, thank you.",
       "uses": [
         {
           "move": "salutation",
-          "subject": "inaugural",
+          "subject": "state-of-the-union",
           "role": "salutation",
           "choice": "salutation"
         }
@@ -4999,46 +3738,6 @@
       "bearing": "calm"
     },
     {
-      "key": "opening-speech.story-open.polished-ina-by-most-measures-the-country-i-inherit-is-stronger-than-it-w",
-      "move": "story-open",
-      "kind": "spoken",
-      "text": "By most measures, the country I inherit is stronger than it was a year ago.",
-      "uses": [
-        {
-          "move": "story-open",
-          "subject": "inaugural",
-          "role": "story-open",
-          "choice": "story-open",
-          "requiresFacts": ["mood-better"]
-        }
-      ],
-      "voice": "polished",
-      "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-10-28",
-      "bearing": "calm"
-    },
-    {
-      "key": "opening-speech.story-open.plain-ina-by-most-of-the-numbers-things-are-better-than-they-were-a-ye",
-      "move": "story-open",
-      "kind": "spoken",
-      "text": "By most of the numbers, things are better than they were a year ago.",
-      "uses": [
-        {
-          "move": "story-open",
-          "subject": "inaugural",
-          "role": "story-open",
-          "choice": "story-open",
-          "requiresFacts": ["mood-better"]
-        }
-      ],
-      "voice": "plain",
-      "origin": "authored",
-      "author": "Words and director session",
-      "date": "2026-10-28",
-      "bearing": "calm"
-    },
-    {
       "key": "opening-speech.pledge.polished-ina-sta-holding-on-to-good-times-is-harder-than-it-sounds-and-i-inte",
       "move": "pledge",
       "kind": "spoken",
@@ -5147,17 +3846,11 @@
       "bearing": "braced"
     },
     {
-      "key": "opening-speech.families.polished-ina-sta-to-the-family-that-sat-down-tonight-and-wondered-whether-thi",
+      "key": "opening-speech.families.polished-sta-to-the-family-that-sat-down-tonight-and-wondered-whether-thi",
       "move": "families",
       "kind": "spoken",
       "text": "To the family that sat down tonight and wondered whether this would change anything for them: it will, and I will show you.",
       "uses": [
-        {
-          "move": "families",
-          "subject": "inaugural",
-          "role": "families",
-          "choice": "families"
-        },
         {
           "move": "families",
           "subject": "state-of-the-union",
@@ -5377,60 +4070,6 @@
       "bearing": "tender"
     },
     {
-      "key": "opening-speech.stake.polished-ina-sta-prices-rose-inflation-rate-percent-over-the-year-and-it-is-f",
-      "move": "stake",
-      "kind": "spoken",
-      "text": "Prices rose {inflation-rate} percent over the year, and it is families who are paying for it.",
-      "uses": [
-        {
-          "move": "stake",
-          "subject": "inaugural",
-          "role": "stake",
-          "choice": "stake",
-          "requiresFacts": ["inflation-rate", "prices-up"]
-        },
-        {
-          "move": "stake",
-          "subject": "state-of-the-union",
-          "role": "stake",
-          "choice": "stake",
-          "requiresFacts": ["inflation-rate", "prices-up"]
-        }
-      ],
-      "voice": "polished",
-      "origin": "authored",
-      "author": "Words builder (Claude Code)",
-      "date": "2026-10-28",
-      "topic": "inflation"
-    },
-    {
-      "key": "opening-speech.stake.plain-ina-sta-prices-are-up-inflation-rate-percent-and-families-are-the-on",
-      "move": "stake",
-      "kind": "spoken",
-      "text": "Prices are up {inflation-rate} percent, and families are the ones paying for it.",
-      "uses": [
-        {
-          "move": "stake",
-          "subject": "inaugural",
-          "role": "stake",
-          "choice": "stake",
-          "requiresFacts": ["inflation-rate", "prices-up"]
-        },
-        {
-          "move": "stake",
-          "subject": "state-of-the-union",
-          "role": "stake",
-          "choice": "stake",
-          "requiresFacts": ["inflation-rate", "prices-up"]
-        }
-      ],
-      "voice": "plain",
-      "origin": "authored",
-      "author": "Words builder (Claude Code)",
-      "date": "2026-10-28",
-      "topic": "inflation"
-    },
-    {
       "key": "opening-speech.families.polished-ina-sta-whether-you-work-a-shift-run-a-shop-or-raise-a-family-this-w",
       "move": "families",
       "kind": "spoken",
@@ -5479,6 +4118,2733 @@
       "origin": "authored",
       "author": "Words builder (Claude Code)",
       "date": "2026-10-28"
+    },
+    {
+      "key": "opening-speech.oath.polished-ina-this-office-does-not-belong-to-me-it-belongs-to-the-people-w",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "This office does not belong to me. It belongs to the people who lent it to me, and I mean to hand it back better than I found it.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.oath.polished-ina-i-accept-this-trust-humbly-knowing-the-office-is-larger-than",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I accept this trust humbly, knowing the office is larger than any one person who holds it.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.oath.polished-ina-the-power-i-was-given-today-is-not-mine-to-keep-it-is-yours",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "The power I was given today is not mine to keep. It is yours, on loan, and I will account for every day of it.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.oath.polished-ina-i-asked-for-this-responsibility-and-i-will-not-shrink-from-i",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I asked for this responsibility, and I will not shrink from it now that it is mine.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.oath.polished-ina-no-one-is-ready-for-this-office-on-the-day-they-take-it-i-in",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "No one is ready for this office on the day they take it. I intend to grow into it in your service.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.oath.plain-ina-this-job-isn-t-mine-it-s-yours-i-m-just-the-one-you-ve-trust",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "This job isn't mine. It's yours. I'm just the one you've trusted to do it for a while.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.oath.plain-ina-i-asked-for-this-i-m-not-going-to-turn-around-now-and-say-it",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I asked for this. I'm not going to turn around now and say it's too hard.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.oath.plain-ina-nobody-s-ready-for-this-job-on-day-one-i-ll-learn-it-fast-an",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "Nobody's ready for this job on day one. I'll learn it fast, and I'll learn it working for you.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.oath.plain-ina-you-lent-me-this-office-i-intend-to-give-it-back-in-better-s",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "You lent me this office. I intend to give it back in better shape than I got it.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.oath.plain-ina-i-ll-make-mistakes-i-won-t-make-them-for-lack-of-trying",
+      "move": "oath",
+      "kind": "spoken",
+      "text": "I'll make mistakes. I won't make them for lack of trying.",
+      "uses": [
+        {
+          "move": "oath",
+          "subject": "inaugural",
+          "role": "oath",
+          "choice": "oath"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.creed.polished-ina-sta-i-believe-that-free-people-left-to-build-and-to-look-after-o",
+      "move": "creed",
+      "kind": "spoken",
+      "text": "I believe that free people, left to build and to look after one another, will do more good than any government can do for them.",
+      "uses": [
+        {
+          "move": "creed",
+          "subject": "inaugural",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-republican"]
+        },
+        {
+          "move": "creed",
+          "subject": "state-of-the-union",
+          "role": "creed",
+          "choice": "creed",
+          "requiresFacts": ["party-republican"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.unity.polished-ina-to-those-who-voted-for-someone-else-i-know-this-is-not-the-d",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "To those who voted for someone else: I know this is not the day you hoped for. I will work as hard for you as for anyone.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.unity.polished-ina-an-election-divides-us-for-a-season-governing-is-the-work-of",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "An election divides us for a season. Governing is the work of bringing us back together, and I begin it today.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.unity.plain-ina-some-of-you-didn-t-want-me-here-i-understand-give-me-the-cha",
+      "move": "unity",
+      "kind": "spoken",
+      "text": "Some of you didn't want me here. I understand. Give me the chance to earn it.",
+      "uses": [
+        {
+          "move": "unity",
+          "subject": "inaugural",
+          "role": "unity",
+          "choice": "unity"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.story-open.polished-ina-sta-we-meet-in-a-hopeful-season-the-country-is-better-off-than-i",
+      "move": "story-open",
+      "kind": "spoken",
+      "text": "We meet in a hopeful season. The country is better off than it was a year ago, and that is worth protecting.",
+      "uses": [
+        {
+          "move": "story-open",
+          "subject": "inaugural",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["mood-better"]
+        },
+        {
+          "move": "story-open",
+          "subject": "state-of-the-union",
+          "role": "story-open",
+          "choice": "story-open",
+          "requiresFacts": ["mood-better"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.story-says.polished-ina-sta-work-has-been-easier-to-find-this-year-than-last-and-in-a-gr",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "Work has been easier to find this year than last, and in a great many homes that has made all the difference.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["unemployment-down"]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["unemployment-down"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "glad",
+      "topic": "unemployment",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.story-says.polished-ina-sta-fewer-americans-are-out-of-work-today-than-a-year-ago-and-ev",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "Fewer Americans are out of work today than a year ago, and every one of them is a family breathing a little easier.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["unemployment-down"]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["unemployment-down"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "glad",
+      "topic": "unemployment",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.story-says.plain-ina-sta-it-s-easier-to-find-a-job-than-it-was-a-year-ago-for-a-lot-o",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "It's easier to find a job than it was a year ago. For a lot of families, that changed everything.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["unemployment-down"]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["unemployment-down"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "glad",
+      "topic": "unemployment",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.story-says.plain-ina-sta-fewer-people-are-out-of-work-than-a-year-ago-that-s-a-lot-of",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "Fewer people are out of work than a year ago. That's a lot of families sleeping better.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["unemployment-down"]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["unemployment-down"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "glad",
+      "topic": "unemployment",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.story-says.polished-ina-sta-but-work-has-grown-harder-to-find-this-year-and-there-are-me",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "But work has grown harder to find this year, and there are men and women in every part of the country still looking for it.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["unemployment-up", "unemployment-up-but"]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["unemployment-up", "unemployment-up-but"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "topic": "unemployment",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.story-says.polished-ina-sta-more-americans-are-looking-for-work-today-than-a-year-ago-an",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "More Americans are looking for work today than a year ago, and they deserve more from us than patience.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["unemployment-up", "unemployment-up-and"]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["unemployment-up", "unemployment-up-and"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "topic": "unemployment",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.story-says.plain-ina-sta-jobs-got-harder-to-find-this-year-there-are-people-in-every",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "Jobs got harder to find this year. There are people in every corner of this country still looking.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["unemployment-up", "unemployment-up-and"]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["unemployment-up", "unemployment-up-and"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "topic": "unemployment",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.story-says.plain-ina-sta-more-people-are-out-of-work-than-a-year-ago-they-need-more-f",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "More people are out of work than a year ago. They need more from us than patience.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["unemployment-up", "unemployment-up-and"]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["unemployment-up", "unemployment-up-and"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "topic": "unemployment",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.story-says.polished-ina-sta-prices-have-climbed-faster-this-year-than-last-and-families",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "Prices have climbed faster this year than last, and families feel it every time they fill a cart or a tank.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["inflation-up"]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["inflation-up"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "topic": "inflation",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.story-says.plain-ina-sta-prices-are-going-up-faster-than-they-were-you-feel-it-at-the",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "Prices are going up faster than they were. You feel it at the store and at the pump.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["inflation-up"]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["inflation-up"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "topic": "inflation",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.story-says.polished-ina-sta-prices-are-still-rising-but-more-slowly-than-they-were-and-t",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "Prices are still rising, but more slowly than they were, and the worst of that strain is beginning to ease.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["inflation-down", "prices-up"]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["inflation-down", "prices-up"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "topic": "inflation",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.story-says.plain-ina-sta-prices-are-still-going-up-just-not-as-fast-it-s-easing-slowl",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "Prices are still going up, just not as fast. It's easing, slowly.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["inflation-down", "prices-up"]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["inflation-down", "prices-up"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "topic": "inflation",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.story-says.polished-ina-sta-prices-are-still-rising-and-for-many-families-the-month-runs",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "Prices are still rising, and for many families the month runs out before the money does.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["prices-up"]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["prices-up"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "topic": "inflation",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.story-says.plain-ina-sta-things-still-cost-more-than-they-did-for-a-lot-of-folks-the",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "Things still cost more than they did. For a lot of folks the money runs out before the month does.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["prices-up"]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["prices-up"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "topic": "inflation",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.story-says.polished-ina-sta-paychecks-have-grown-faster-than-prices-this-year-and-that-i",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "Paychecks have grown faster than prices this year, and that is real progress for working people.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["wages-ahead-of-prices"]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["wages-ahead-of-prices"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "glad",
+      "topic": "wages",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.story-says.plain-ina-sta-pay-went-up-faster-than-prices-this-year-that-s-real-money-i",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "Pay went up faster than prices this year. That's real money in people's pockets.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["wages-ahead-of-prices"]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["wages-ahead-of-prices"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "glad",
+      "topic": "wages",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.story-says.polished-ina-sta-paychecks-have-grown-but-prices-have-grown-faster-and-a-week",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "Paychecks have grown, but prices have grown faster, and a week's work buys less than it did a year ago.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["wages-behind-prices"]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["wages-behind-prices"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "topic": "wages",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.story-says.plain-ina-sta-pay-went-up-but-prices-went-up-more-your-paycheck-buys-less",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "Pay went up, but prices went up more. Your paycheck buys less than it did.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["wages-behind-prices"]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["wages-behind-prices"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "topic": "wages",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.story-says.polished-ina-sta-the-economy-has-grown-this-year-and-the-question-now-is-whet",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "The economy has grown this year, and the question now is whether that growth reaches the people who do the work.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["growth-up"]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["growth-up"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "topic": "growth",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.story-says.plain-ina-sta-the-economy-grew-this-year-now-the-question-is-whether-you-f",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "The economy grew this year. Now the question is whether you feel it.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["growth-up"]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["growth-up"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "topic": "growth",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.story-says.polished-ina-sta-borrowing-to-buy-a-home-costs-more-than-it-did-a-year-ago-an",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "Borrowing to buy a home costs more than it did a year ago, and for young families the door to owning one is narrowing.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["mortgage-up"]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["mortgage-up"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "topic": "mortgage",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.story-says.plain-ina-sta-a-home-loan-costs-more-than-it-did-a-year-ago-for-young-fami",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "A home loan costs more than it did a year ago. For young families, buying a house is getting harder.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["mortgage-up"]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["mortgage-up"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "topic": "mortgage",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.story-says.polished-ina-sta-home-loans-cost-less-than-they-did-a-year-ago-and-more-famil",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "Home loans cost less than they did a year ago, and more families can think again about a place of their own.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["mortgage-down"]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["mortgage-down"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "glad",
+      "topic": "mortgage",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.story-says.plain-ina-sta-home-loans-are-cheaper-than-a-year-ago-more-folks-can-think",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "Home loans are cheaper than a year ago. More folks can think about buying.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["mortgage-down"]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["mortgage-down"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "glad",
+      "topic": "mortgage",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.story-says.polished-ina-sta-there-are-more-jobs-in-this-country-than-a-year-ago-made-by",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "There are more jobs in this country than a year ago, made by people who opened their doors and took a chance.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["jobs-up"]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["jobs-up"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "glad",
+      "topic": "jobs",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.story-says.plain-ina-sta-there-are-more-jobs-than-a-year-ago-because-people-took-chan",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "There are more jobs than a year ago, because people took chances and opened their doors.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["jobs-up"]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["jobs-up"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "glad",
+      "topic": "jobs",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.pledge.polished-ina-sta-every-american-who-wants-to-work-should-be-able-to-find-it-a",
+      "move": "pledge",
+      "kind": "spoken",
+      "text": "Every American who wants to work should be able to find it, and until that is true, it is the first thing I will answer for.",
+      "uses": [
+        {
+          "move": "pledge",
+          "subject": "inaugural",
+          "role": "pledge",
+          "choice": "pledge",
+          "requiresFacts": ["unemployment-up"]
+        },
+        {
+          "move": "pledge",
+          "subject": "state-of-the-union",
+          "role": "pledge",
+          "choice": "pledge",
+          "requiresFacts": ["unemployment-up"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "topic": "unemployment",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.pledge.plain-ina-sta-if-you-want-a-job-you-ought-to-be-able-to-get-one-until-that",
+      "move": "pledge",
+      "kind": "spoken",
+      "text": "If you want a job, you ought to be able to get one. Until that's true, that's my first job.",
+      "uses": [
+        {
+          "move": "pledge",
+          "subject": "inaugural",
+          "role": "pledge",
+          "choice": "pledge",
+          "requiresFacts": ["unemployment-up"]
+        },
+        {
+          "move": "pledge",
+          "subject": "state-of-the-union",
+          "role": "pledge",
+          "choice": "pledge",
+          "requiresFacts": ["unemployment-up"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "topic": "unemployment",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.stake.polished-ina-sta-a-week-s-work-buys-less-than-it-did-a-year-ago-and-the-rules",
+      "move": "stake",
+      "kind": "spoken",
+      "text": "A week's work buys less than it did a year ago, and the rules that govern work have to answer for that.",
+      "uses": [
+        {
+          "move": "stake",
+          "subject": "inaugural",
+          "role": "stake",
+          "choice": "stake",
+          "requiresFacts": ["wages-behind-prices"]
+        },
+        {
+          "move": "stake",
+          "subject": "state-of-the-union",
+          "role": "stake",
+          "choice": "stake",
+          "requiresFacts": ["wages-behind-prices"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "topic": "wages",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.stake.plain-ina-sta-your-paycheck-buys-less-than-it-did-a-year-ago-the-rules-at",
+      "move": "stake",
+      "kind": "spoken",
+      "text": "Your paycheck buys less than it did a year ago. The rules at work need to answer for that.",
+      "uses": [
+        {
+          "move": "stake",
+          "subject": "inaugural",
+          "role": "stake",
+          "choice": "stake",
+          "requiresFacts": ["wages-behind-prices"]
+        },
+        {
+          "move": "stake",
+          "subject": "state-of-the-union",
+          "role": "stake",
+          "choice": "stake",
+          "requiresFacts": ["wages-behind-prices"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "topic": "wages",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.stake.polished-ina-sta-paychecks-are-finally-outpacing-prices-and-the-rules-that-go",
+      "move": "stake",
+      "kind": "spoken",
+      "text": "Paychecks are finally outpacing prices, and the rules that govern work should help them keep it up.",
+      "uses": [
+        {
+          "move": "stake",
+          "subject": "inaugural",
+          "role": "stake",
+          "choice": "stake",
+          "requiresFacts": ["wages-ahead-of-prices"]
+        },
+        {
+          "move": "stake",
+          "subject": "state-of-the-union",
+          "role": "stake",
+          "choice": "stake",
+          "requiresFacts": ["wages-ahead-of-prices"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "glad",
+      "topic": "wages",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.stake.plain-ina-sta-paychecks-are-finally-beating-prices-the-rules-at-work-shoul",
+      "move": "stake",
+      "kind": "spoken",
+      "text": "Paychecks are finally beating prices. The rules at work should help keep it that way.",
+      "uses": [
+        {
+          "move": "stake",
+          "subject": "inaugural",
+          "role": "stake",
+          "choice": "stake",
+          "requiresFacts": ["wages-ahead-of-prices"]
+        },
+        {
+          "move": "stake",
+          "subject": "state-of-the-union",
+          "role": "stake",
+          "choice": "stake",
+          "requiresFacts": ["wages-ahead-of-prices"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "glad",
+      "topic": "wages",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.stake.polished-ina-sta-a-home-costs-more-to-borrow-for-than-it-did-a-year-ago-and-i",
+      "move": "stake",
+      "kind": "spoken",
+      "text": "A home costs more to borrow for than it did a year ago, and I want to talk about who can still afford one.",
+      "uses": [
+        {
+          "move": "stake",
+          "subject": "inaugural",
+          "role": "stake",
+          "choice": "stake",
+          "requiresFacts": ["mortgage-up"]
+        },
+        {
+          "move": "stake",
+          "subject": "state-of-the-union",
+          "role": "stake",
+          "choice": "stake",
+          "requiresFacts": ["mortgage-up"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "topic": "mortgage",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.stake.plain-ina-sta-home-loans-cost-more-than-a-year-ago-and-i-want-to-talk-abou",
+      "move": "stake",
+      "kind": "spoken",
+      "text": "Home loans cost more than a year ago, and I want to talk about who can still buy a house.",
+      "uses": [
+        {
+          "move": "stake",
+          "subject": "inaugural",
+          "role": "stake",
+          "choice": "stake",
+          "requiresFacts": ["mortgage-up"]
+        },
+        {
+          "move": "stake",
+          "subject": "state-of-the-union",
+          "role": "stake",
+          "choice": "stake",
+          "requiresFacts": ["mortgage-up"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "topic": "mortgage",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.stake.polished-ina-sta-home-loans-are-within-reach-of-more-families-than-a-year-ago",
+      "move": "stake",
+      "kind": "spoken",
+      "text": "Home loans are within reach of more families than a year ago, and I want to keep that door open.",
+      "uses": [
+        {
+          "move": "stake",
+          "subject": "inaugural",
+          "role": "stake",
+          "choice": "stake",
+          "requiresFacts": ["mortgage-down"]
+        },
+        {
+          "move": "stake",
+          "subject": "state-of-the-union",
+          "role": "stake",
+          "choice": "stake",
+          "requiresFacts": ["mortgage-down"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "glad",
+      "topic": "mortgage",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.stake.plain-ina-sta-home-loans-are-cheaper-than-a-year-ago-i-want-to-keep-it-tha",
+      "move": "stake",
+      "kind": "spoken",
+      "text": "Home loans are cheaper than a year ago. I want to keep it that way.",
+      "uses": [
+        {
+          "move": "stake",
+          "subject": "inaugural",
+          "role": "stake",
+          "choice": "stake",
+          "requiresFacts": ["mortgage-down"]
+        },
+        {
+          "move": "stake",
+          "subject": "state-of-the-union",
+          "role": "stake",
+          "choice": "stake",
+          "requiresFacts": ["mortgage-down"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "glad",
+      "topic": "mortgage",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.stake.polished-ina-sta-the-economy-has-grown-and-the-question-before-us-is-who-gets",
+      "move": "stake",
+      "kind": "spoken",
+      "text": "The economy has grown, and the question before us is who gets to keep that growth.",
+      "uses": [
+        {
+          "move": "stake",
+          "subject": "inaugural",
+          "role": "stake",
+          "choice": "stake",
+          "requiresFacts": ["growth-up"]
+        },
+        {
+          "move": "stake",
+          "subject": "state-of-the-union",
+          "role": "stake",
+          "choice": "stake",
+          "requiresFacts": ["growth-up"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "topic": "growth",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.stake.plain-ina-sta-the-economy-grew-and-i-want-to-talk-about-who-gets-to-keep-i",
+      "move": "stake",
+      "kind": "spoken",
+      "text": "The economy grew, and I want to talk about who gets to keep it.",
+      "uses": [
+        {
+          "move": "stake",
+          "subject": "inaugural",
+          "role": "stake",
+          "choice": "stake",
+          "requiresFacts": ["growth-up"]
+        },
+        {
+          "move": "stake",
+          "subject": "state-of-the-union",
+          "role": "stake",
+          "choice": "stake",
+          "requiresFacts": ["growth-up"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "topic": "growth",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.stake.polished-ina-sta-prices-are-still-rising-and-i-want-to-talk-about-what-we-do",
+      "move": "stake",
+      "kind": "spoken",
+      "text": "Prices are still rising, and I want to talk about what we do about it.",
+      "uses": [
+        {
+          "move": "stake",
+          "subject": "inaugural",
+          "role": "stake",
+          "choice": "stake",
+          "requiresFacts": ["prices-up"]
+        },
+        {
+          "move": "stake",
+          "subject": "state-of-the-union",
+          "role": "stake",
+          "choice": "stake",
+          "requiresFacts": ["prices-up"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "topic": "inflation",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.stake.plain-ina-sta-prices-keep-going-up-and-i-want-to-talk-about-what-we-do-abo",
+      "move": "stake",
+      "kind": "spoken",
+      "text": "Prices keep going up, and I want to talk about what we do about it.",
+      "uses": [
+        {
+          "move": "stake",
+          "subject": "inaugural",
+          "role": "stake",
+          "choice": "stake",
+          "requiresFacts": ["prices-up"]
+        },
+        {
+          "move": "stake",
+          "subject": "state-of-the-union",
+          "role": "stake",
+          "choice": "stake",
+          "requiresFacts": ["prices-up"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "topic": "inflation",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.stake.polished-ina-sta-prices-are-still-rising-and-it-is-families-who-are-paying-fo",
+      "move": "stake",
+      "kind": "spoken",
+      "text": "Prices are still rising, and it is families who are paying for it.",
+      "uses": [
+        {
+          "move": "stake",
+          "subject": "inaugural",
+          "role": "stake",
+          "choice": "stake",
+          "requiresFacts": ["prices-up"]
+        },
+        {
+          "move": "stake",
+          "subject": "state-of-the-union",
+          "role": "stake",
+          "choice": "stake",
+          "requiresFacts": ["prices-up"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "tender",
+      "topic": "inflation",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.stake.plain-ina-sta-prices-are-still-going-up-and-families-are-the-ones-paying-f",
+      "move": "stake",
+      "kind": "spoken",
+      "text": "Prices are still going up, and families are the ones paying for it.",
+      "uses": [
+        {
+          "move": "stake",
+          "subject": "inaugural",
+          "role": "stake",
+          "choice": "stake",
+          "requiresFacts": ["prices-up"]
+        },
+        {
+          "move": "stake",
+          "subject": "state-of-the-union",
+          "role": "stake",
+          "choice": "stake",
+          "requiresFacts": ["prices-up"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "tender",
+      "topic": "inflation",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.people.polished-ina-across-this-country-today-a-nurse-is-starting-a-long-shift-a",
+      "move": "people",
+      "kind": "spoken",
+      "text": "Across this country today, a nurse is starting a long shift, a farmer is watching the sky, and a teacher is grading papers at the kitchen table. They are the reason this office exists.",
+      "uses": [
+        {
+          "move": "people",
+          "subject": "inaugural",
+          "role": "people",
+          "choice": "people"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.people.polished-ina-i-have-met-americans-who-build-things-fix-things-teach-and-h",
+      "move": "people",
+      "kind": "spoken",
+      "text": "I have met Americans who build things, fix things, teach and heal and serve, and I have never met one who asked for more than a fair chance.",
+      "uses": [
+        {
+          "move": "people",
+          "subject": "inaugural",
+          "role": "people",
+          "choice": "people"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.people.polished-ina-in-a-great-many-homes-this-year-the-bills-came-before-the-pa",
+      "move": "people",
+      "kind": "spoken",
+      "text": "In a great many homes this year the bills came before the paychecks, and parents went without so their children would not. I carry them with me into this office.",
+      "uses": [
+        {
+          "move": "people",
+          "subject": "inaugural",
+          "role": "people",
+          "choice": "people",
+          "requiresFacts": ["mood-hard"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.people.polished-ina-in-towns-and-cities-everywhere-people-are-hiring-again-build",
+      "move": "people",
+      "kind": "spoken",
+      "text": "In towns and cities everywhere, people are hiring again, building again, planning again. My work is to see that no one is left watching from the side of the road.",
+      "uses": [
+        {
+          "move": "people",
+          "subject": "inaugural",
+          "role": "people",
+          "choice": "people",
+          "requiresFacts": ["mood-better", "unemployment-down"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.people.polished-ina-this-country-has-never-been-made-great-in-this-building-it-i",
+      "move": "people",
+      "kind": "spoken",
+      "text": "This country has never been made great in this building. It is made great every day by people who will never stand on this platform.",
+      "uses": [
+        {
+          "move": "people",
+          "subject": "inaugural",
+          "role": "people",
+          "choice": "people"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.people.plain-ina-right-now-somebody-s-starting-a-long-shift-somebody-s-openin",
+      "move": "people",
+      "kind": "spoken",
+      "text": "Right now somebody's starting a long shift, somebody's opening a shop, somebody's teaching a kid to read. They're who this job is for.",
+      "uses": [
+        {
+          "move": "people",
+          "subject": "inaugural",
+          "role": "people",
+          "choice": "people"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.people.plain-ina-i-met-a-lot-of-people-on-the-way-here-not-one-of-them-asked",
+      "move": "people",
+      "kind": "spoken",
+      "text": "I met a lot of people on the way here. Not one of them asked for anything but a fair shot.",
+      "uses": [
+        {
+          "move": "people",
+          "subject": "inaugural",
+          "role": "people",
+          "choice": "people"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.people.plain-ina-for-a-lot-of-families-this-year-the-bills-showed-up-before-t",
+      "move": "people",
+      "kind": "spoken",
+      "text": "For a lot of families this year, the bills showed up before the paychecks did. I know it, and I'm bringing that with me.",
+      "uses": [
+        {
+          "move": "people",
+          "subject": "inaugural",
+          "role": "people",
+          "choice": "people",
+          "requiresFacts": ["mood-hard"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.people.plain-ina-people-are-hiring-again-and-building-again-i-want-everybody",
+      "move": "people",
+      "kind": "spoken",
+      "text": "People are hiring again and building again. I want everybody to feel it, not just some.",
+      "uses": [
+        {
+          "move": "people",
+          "subject": "inaugural",
+          "role": "people",
+          "choice": "people",
+          "requiresFacts": ["mood-better", "unemployment-down"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.people.plain-ina-this-country-doesn-t-run-on-speeches-it-runs-on-people-getti",
+      "move": "people",
+      "kind": "spoken",
+      "text": "This country doesn't run on speeches. It runs on people getting up every morning and doing the work.",
+      "uses": [
+        {
+          "move": "people",
+          "subject": "inaugural",
+          "role": "people",
+          "choice": "people"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.to-congress.polished-ina-to-the-members-of-congress-i-will-send-you-my-first-proposal",
+      "move": "to-congress",
+      "kind": "spoken",
+      "text": "To the members of Congress: I will send you my first proposals within days. I ask you to read them as the work of a partner, not a rival.",
+      "uses": [
+        {
+          "move": "to-congress",
+          "subject": "inaugural",
+          "role": "to-congress",
+          "choice": "to-congress",
+          "requiresFacts": ["has-priorities"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.to-congress.polished-ina-to-the-men-and-women-of-congress-i-will-not-ask-you-to-agree",
+      "move": "to-congress",
+      "kind": "spoken",
+      "text": "To the men and women of Congress, I will not ask you to agree with me on everything, only to meet me in good faith. Here is where I hope we begin.",
+      "uses": [
+        {
+          "move": "to-congress",
+          "subject": "inaugural",
+          "role": "to-congress",
+          "choice": "to-congress",
+          "requiresFacts": ["has-priorities"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.to-congress.polished-ina-to-the-members-of-congress-the-people-sent-us-here-together",
+      "move": "to-congress",
+      "kind": "spoken",
+      "text": "To the members of Congress: the people sent us here together, and they will judge us together. I mean to work with you, and I will come to you often.",
+      "uses": [
+        {
+          "move": "to-congress",
+          "subject": "inaugural",
+          "role": "to-congress",
+          "choice": "to-congress"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.to-congress.plain-ina-to-congress-my-first-plans-are-coming-your-way-this-week-rea",
+      "move": "to-congress",
+      "kind": "spoken",
+      "text": "To Congress: my first plans are coming your way this week. Read them. Argue with me. But let's get something done.",
+      "uses": [
+        {
+          "move": "to-congress",
+          "subject": "inaugural",
+          "role": "to-congress",
+          "choice": "to-congress",
+          "requiresFacts": ["has-priorities"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.to-congress.plain-ina-congress-i-m-not-asking-you-to-agree-with-me-on-everything-i",
+      "move": "to-congress",
+      "kind": "spoken",
+      "text": "Congress, I'm not asking you to agree with me on everything. I'm asking you to work with me. Here's where I'd start.",
+      "uses": [
+        {
+          "move": "to-congress",
+          "subject": "inaugural",
+          "role": "to-congress",
+          "choice": "to-congress",
+          "requiresFacts": ["has-priorities"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.to-congress.plain-ina-to-congress-we-re-in-this-together-whether-we-like-it-or-not",
+      "move": "to-congress",
+      "kind": "spoken",
+      "text": "To Congress: we're in this together whether we like it or not. I'll be knocking on your door.",
+      "uses": [
+        {
+          "move": "to-congress",
+          "subject": "inaugural",
+          "role": "to-congress",
+          "choice": "to-congress"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.to-vp.polished-ina-i-am-grateful-to-vice-president-vice-president-who-will-stan",
+      "move": "to-vp",
+      "kind": "spoken",
+      "text": "I am grateful to Vice President {vice-president}, who will stand beside me in this work and tell me when I am wrong.",
+      "uses": [
+        {
+          "move": "to-vp",
+          "subject": "inaugural",
+          "role": "to-vp",
+          "choice": "to-vp",
+          "requiresFacts": ["vice-president"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.to-vp.polished-ina-vice-president-vice-president-has-my-trust-and-in-the-years",
+      "move": "to-vp",
+      "kind": "spoken",
+      "text": "Vice President {vice-president} has my trust, and in the years ahead the country will come to know why.",
+      "uses": [
+        {
+          "move": "to-vp",
+          "subject": "inaugural",
+          "role": "to-vp",
+          "choice": "to-vp",
+          "requiresFacts": ["vice-president"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.to-vp.plain-ina-vice-president-vice-president-is-going-to-be-right-beside-me",
+      "move": "to-vp",
+      "kind": "spoken",
+      "text": "Vice President {vice-president} is going to be right beside me, and I'm counting on that.",
+      "uses": [
+        {
+          "move": "to-vp",
+          "subject": "inaugural",
+          "role": "to-vp",
+          "choice": "to-vp",
+          "requiresFacts": ["vice-president"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.to-vp.plain-ina-i-trust-vice-president-vice-president-you-ll-see-why",
+      "move": "to-vp",
+      "kind": "spoken",
+      "text": "I trust Vice President {vice-president}. You'll see why.",
+      "uses": [
+        {
+          "move": "to-vp",
+          "subject": "inaugural",
+          "role": "to-vp",
+          "choice": "to-vp",
+          "requiresFacts": ["vice-president"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.to-states.polished-ina-to-the-governors-and-legislators-of-every-state-much-of-what",
+      "move": "to-states",
+      "kind": "spoken",
+      "text": "To the governors and legislators of every state: much of what this country needs will be built in your capitals, not this one. I will be your partner.",
+      "uses": [
+        {
+          "move": "to-states",
+          "subject": "inaugural",
+          "role": "to-states",
+          "choice": "to-states"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.to-states.polished-ina-this-nation-is-its-states-before-it-is-any-one-capital-to-th",
+      "move": "to-states",
+      "kind": "spoken",
+      "text": "This nation is its states before it is any one capital. To the governors and the lawmakers who serve them, I offer a partnership, and an open door.",
+      "uses": [
+        {
+          "move": "to-states",
+          "subject": "inaugural",
+          "role": "to-states",
+          "choice": "to-states"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.to-states.plain-ina-to-every-governor-and-every-state-lawmaker-a-lot-of-what-mat",
+      "move": "to-states",
+      "kind": "spoken",
+      "text": "To every governor and every state lawmaker: a lot of what matters gets done in your statehouses, not here. I'll work with you, whatever party you're in.",
+      "uses": [
+        {
+          "move": "to-states",
+          "subject": "inaugural",
+          "role": "to-states",
+          "choice": "to-states"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.to-states.plain-ina-governors-state-lawmakers-i-need-you-and-i-ll-act-like-it-my",
+      "move": "to-states",
+      "kind": "spoken",
+      "text": "Governors, state lawmakers: I need you, and I'll act like it. My door's open.",
+      "uses": [
+        {
+          "move": "to-states",
+          "subject": "inaugural",
+          "role": "to-states",
+          "choice": "to-states"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.call.polished-ina-and-so-i-ask-something-of-you-as-well-look-after-the-neighbo",
+      "move": "call",
+      "kind": "spoken",
+      "text": "And so I ask something of you as well: look after the neighbor who is struggling, show up where you are needed, and do not leave the work of this country to Washington alone.",
+      "uses": [
+        {
+          "move": "call",
+          "subject": "inaugural",
+          "role": "call",
+          "choice": "call"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.call.polished-ina-government-can-do-a-great-deal-but-it-cannot-be-your-neighbo",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Government can do a great deal, but it cannot be your neighbor, coach your child's team or sit with the sick. That work is yours, and it has always been this country's strength.",
+      "uses": [
+        {
+          "move": "call",
+          "subject": "inaugural",
+          "role": "call",
+          "choice": "call"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.call.polished-ina-i-will-ask-washington-to-do-less-and-trust-you-more-in-retur",
+      "move": "call",
+      "kind": "spoken",
+      "text": "I will ask Washington to do less and trust you more. In return I ask you to do what free people have always done: take care of your families, your neighbors and your towns.",
+      "uses": [
+        {
+          "move": "call",
+          "subject": "inaugural",
+          "role": "call",
+          "choice": "call",
+          "requiresFacts": ["party-republican"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.call.polished-ina-i-ask-you-to-remember-that-we-are-bound-to-one-another-when",
+      "move": "call",
+      "kind": "spoken",
+      "text": "I ask you to remember that we are bound to one another. When one family falls behind, all of us are a little poorer, and none of us should look away.",
+      "uses": [
+        {
+          "move": "call",
+          "subject": "inaugural",
+          "role": "call",
+          "choice": "call",
+          "requiresFacts": ["party-democratic"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.call.polished-ina-i-ask-you-to-hold-me-and-everyone-in-this-city-to-account-wa",
+      "move": "call",
+      "kind": "spoken",
+      "text": "I ask you to hold me, and everyone in this city, to account. Watch what we do, not what we say, and speak up when we fall short.",
+      "uses": [
+        {
+          "move": "call",
+          "subject": "inaugural",
+          "role": "call",
+          "choice": "call",
+          "requiresFacts": ["party-other"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.call.plain-ina-now-i-m-asking-something-of-you-check-on-your-neighbor-show",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Now I'm asking something of you. Check on your neighbor. Show up for your town. Don't leave it all to Washington.",
+      "uses": [
+        {
+          "move": "call",
+          "subject": "inaugural",
+          "role": "call",
+          "choice": "call"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.call.plain-ina-government-can-t-coach-your-kid-s-team-or-sit-with-a-sick-fr",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Government can't coach your kid's team or sit with a sick friend. That's on all of us, and it always has been.",
+      "uses": [
+        {
+          "move": "call",
+          "subject": "inaugural",
+          "role": "call",
+          "choice": "call"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.call.plain-ina-i-m-going-to-ask-washington-to-back-off-and-trust-you-more-y",
+      "move": "call",
+      "kind": "spoken",
+      "text": "I'm going to ask Washington to back off and trust you more. Your end of the deal: look after your family and your town.",
+      "uses": [
+        {
+          "move": "call",
+          "subject": "inaugural",
+          "role": "call",
+          "choice": "call",
+          "requiresFacts": ["party-republican"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.call.plain-ina-we-re-in-this-together-when-one-family-falls-behind-we-all-f",
+      "move": "call",
+      "kind": "spoken",
+      "text": "We're in this together. When one family falls behind, we all feel it, so let's not look away.",
+      "uses": [
+        {
+          "move": "call",
+          "subject": "inaugural",
+          "role": "call",
+          "choice": "call",
+          "requiresFacts": ["party-democratic"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.call.plain-ina-keep-an-eye-on-me-and-on-everybody-else-in-this-town-watch-w",
+      "move": "call",
+      "kind": "spoken",
+      "text": "Keep an eye on me, and on everybody else in this town. Watch what we do, not what we say.",
+      "uses": [
+        {
+          "move": "call",
+          "subject": "inaugural",
+          "role": "call",
+          "choice": "call",
+          "requiresFacts": ["party-other"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.families.polished-ina-sta-to-every-parent-who-lay-awake-this-year-wondering-how-to-mak",
+      "move": "families",
+      "kind": "spoken",
+      "text": "To every parent who lay awake this year wondering how to make it work: I hear you, and I will measure my days by whether your nights get easier.",
+      "uses": [
+        {
+          "move": "families",
+          "subject": "inaugural",
+          "role": "families",
+          "choice": "families"
+        },
+        {
+          "move": "families",
+          "subject": "state-of-the-union",
+          "role": "families",
+          "choice": "families"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.families.plain-ina-sta-if-you-ve-been-up-at-night-this-year-doing-the-math-on-your",
+      "move": "families",
+      "kind": "spoken",
+      "text": "If you've been up at night this year doing the math on your bills, I hear you. That's who I'm working for.",
+      "uses": [
+        {
+          "move": "families",
+          "subject": "inaugural",
+          "role": "families",
+          "choice": "families"
+        },
+        {
+          "move": "families",
+          "subject": "state-of-the-union",
+          "role": "families",
+          "choice": "families"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.close.polished-ina-the-road-ahead-is-long-and-we-will-not-walk-all-of-it-in-my",
+      "move": "close",
+      "kind": "spoken",
+      "text": "The road ahead is long, and we will not walk all of it in my time. But we will walk it together, and we begin today. God bless you, and God bless the United States of America.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.close.polished-ina-let-us-leave-this-day-better-neighbors-than-we-came-and-leav",
+      "move": "close",
+      "kind": "spoken",
+      "text": "Let us leave this day better neighbors than we came, and leave this country stronger than we found it. Thank you, and God bless America.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.close.plain-ina-there-s-a-lot-to-do-and-it-starts-this-afternoon-thank-you-a",
+      "move": "close",
+      "kind": "spoken",
+      "text": "There's a lot to do, and it starts this afternoon. Thank you, and God bless America.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.close.plain-ina-we-ve-got-work-to-do-and-i-d-rather-do-it-with-you-than-with",
+      "move": "close",
+      "kind": "spoken",
+      "text": "We've got work to do, and I'd rather do it with you than without you. Thank you. God bless.",
+      "uses": [
+        {
+          "move": "close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.story-says.polished-ina-sta-not-everyone-has-shared-in-it-work-has-grown-harder-to-find",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "Not everyone has shared in it. Work has grown harder to find, and more Americans are looking for it than a year ago.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["unemployment-up", "unemployment-up-but"]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["unemployment-up", "unemployment-up-but"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "topic": "unemployment",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.story-says.plain-ina-sta-but-jobs-got-harder-to-find-this-year-there-are-people-in-ev",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "But jobs got harder to find this year. There are people in every corner of this country still looking.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["unemployment-up", "unemployment-up-but"]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["unemployment-up", "unemployment-up-but"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "topic": "unemployment",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.story-says.plain-ina-sta-not-everybody-s-feeling-it-though-more-people-are-out-of-wor",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "Not everybody's feeling it, though. More people are out of work than a year ago.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["unemployment-up", "unemployment-up-but"]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["unemployment-up", "unemployment-up-but"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "topic": "unemployment",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.story-says.polished-ina-sta-work-has-grown-harder-to-find-this-year-and-there-are-men-an",
+      "move": "story-says",
+      "kind": "spoken",
+      "text": "Work has grown harder to find this year, and there are men and women in every part of the country still looking for it.",
+      "uses": [
+        {
+          "move": "story-says",
+          "subject": "inaugural",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["unemployment-up", "unemployment-up-and"]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["unemployment-up", "unemployment-up-and"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "topic": "unemployment",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.history.polished-ina-this-country-was-never-finished-each-generation-has-been-han",
+      "move": "history",
+      "kind": "spoken",
+      "text": "This country was never finished. Each generation has been handed it half-built and asked to carry it a little further, and now it is our turn.",
+      "uses": [
+        {
+          "move": "history",
+          "subject": "inaugural",
+          "role": "history",
+          "choice": "history"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.history.polished-ina-we-are-heirs-to-people-who-crossed-oceans-and-prairies-on-li",
+      "move": "history",
+      "kind": "spoken",
+      "text": "We are heirs to people who crossed oceans and prairies on little more than hope. We owe them more than remembrance; we owe them work.",
+      "uses": [
+        {
+          "move": "history",
+          "subject": "inaugural",
+          "role": "history",
+          "choice": "history"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.history.polished-ina-every-president-who-stood-here-inherited-troubles-they-did-n",
+      "move": "history",
+      "kind": "spoken",
+      "text": "Every President who stood here inherited troubles they did not choose. What they chose was how to meet them, and so will I.",
+      "uses": [
+        {
+          "move": "history",
+          "subject": "inaugural",
+          "role": "history",
+          "choice": "history"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.history.polished-ina-the-founders-did-not-trust-power-and-they-were-right-not-to",
+      "move": "history",
+      "kind": "spoken",
+      "text": "The founders did not trust power, and they were right not to. I mean to use this office's power sparingly, and to give back what it does not need.",
+      "uses": [
+        {
+          "move": "history",
+          "subject": "inaugural",
+          "role": "history",
+          "choice": "history",
+          "requiresFacts": ["party-republican"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.history.polished-ina-this-country-has-always-grown-larger-by-letting-more-people",
+      "move": "history",
+      "kind": "spoken",
+      "text": "This country has always grown larger by letting more people in on its promise. I mean to keep widening that circle.",
+      "uses": [
+        {
+          "move": "history",
+          "subject": "inaugural",
+          "role": "history",
+          "choice": "history",
+          "requiresFacts": ["party-democratic"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.history.plain-ina-this-country-s-never-been-finished-every-generation-gets-han",
+      "move": "history",
+      "kind": "spoken",
+      "text": "This country's never been finished. Every generation gets handed the job, and now it's ours.",
+      "uses": [
+        {
+          "move": "history",
+          "subject": "inaugural",
+          "role": "history",
+          "choice": "history"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.history.plain-ina-the-folks-who-came-before-us-didn-t-have-much-but-hope-and-g",
+      "move": "history",
+      "kind": "spoken",
+      "text": "The folks who came before us didn't have much but hope and grit. We can do at least as well as they did.",
+      "uses": [
+        {
+          "move": "history",
+          "subject": "inaugural",
+          "role": "history",
+          "choice": "history"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.history.plain-ina-everybody-who-s-had-this-job-walked-into-problems-they-didn",
+      "move": "history",
+      "kind": "spoken",
+      "text": "Everybody who's had this job walked into problems they didn't make. The job is fixing them anyway.",
+      "uses": [
+        {
+          "move": "history",
+          "subject": "inaugural",
+          "role": "history",
+          "choice": "history"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.history.plain-ina-the-founders-didn-t-trust-a-big-government-and-neither-do-i",
+      "move": "history",
+      "kind": "spoken",
+      "text": "The founders didn't trust a big government, and neither do I. I'll use this power carefully.",
+      "uses": [
+        {
+          "move": "history",
+          "subject": "inaugural",
+          "role": "history",
+          "choice": "history",
+          "requiresFacts": ["party-republican"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.history.plain-ina-this-country-gets-better-every-time-it-makes-room-for-more-p",
+      "move": "history",
+      "kind": "spoken",
+      "text": "This country gets better every time it makes room for more people. I want to keep making room.",
+      "uses": [
+        {
+          "move": "history",
+          "subject": "inaugural",
+          "role": "history",
+          "choice": "history",
+          "requiresFacts": ["party-democratic"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.hope.polished-ina-i-do-not-promise-you-that-the-years-ahead-will-be-easy-i-pro",
+      "move": "hope",
+      "kind": "spoken",
+      "text": "I do not promise you that the years ahead will be easy. I promise you that they will be worth it, and that you will not face them alone.",
+      "uses": [
+        {
+          "move": "hope",
+          "subject": "inaugural",
+          "role": "hope",
+          "choice": "hope"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.hope.polished-ina-i-believe-the-best-of-this-country-is-still-ahead-of-it-not",
+      "move": "hope",
+      "kind": "spoken",
+      "text": "I believe the best of this country is still ahead of it, not behind it, and I intend to spend every day of this office proving it.",
+      "uses": [
+        {
+          "move": "hope",
+          "subject": "inaugural",
+          "role": "hope",
+          "choice": "hope"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.hope.polished-ina-hard-years-end-this-one-will-too-and-when-it-does-i-want-you",
+      "move": "hope",
+      "kind": "spoken",
+      "text": "Hard years end. This one will too, and when it does, I want you to look back and say we met it together.",
+      "uses": [
+        {
+          "move": "hope",
+          "subject": "inaugural",
+          "role": "hope",
+          "choice": "hope",
+          "requiresFacts": ["mood-hard"]
+        }
+      ],
+      "voice": "polished",
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.hope.polished-ina-when-this-term-is-over-i-hope-you-will-say-that-we-argued-ha",
+      "move": "hope",
+      "kind": "spoken",
+      "text": "When this term is over, I hope you will say that we argued hard and worked harder, and that the country was kinder and stronger for it.",
+      "uses": [
+        {
+          "move": "hope",
+          "subject": "inaugural",
+          "role": "hope",
+          "choice": "hope"
+        }
+      ],
+      "voice": "polished",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.hope.plain-ina-i-m-not-going-to-promise-you-easy-i-ll-promise-you-it-ll-be",
+      "move": "hope",
+      "kind": "spoken",
+      "text": "I'm not going to promise you easy. I'll promise you it'll be worth it, and you won't be doing it alone.",
+      "uses": [
+        {
+          "move": "hope",
+          "subject": "inaugural",
+          "role": "hope",
+          "choice": "hope"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.hope.plain-ina-i-think-our-best-days-are-ahead-of-us-i-m-going-to-spend-eve",
+      "move": "hope",
+      "kind": "spoken",
+      "text": "I think our best days are ahead of us. I'm going to spend every day in this job proving it.",
+      "uses": [
+        {
+          "move": "hope",
+          "subject": "inaugural",
+          "role": "hope",
+          "choice": "hope"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.hope.plain-ina-hard-years-end-this-one-will-too-and-i-want-us-to-look-back",
+      "move": "hope",
+      "kind": "spoken",
+      "text": "Hard years end. This one will too, and I want us to look back and say we got through it together.",
+      "uses": [
+        {
+          "move": "hope",
+          "subject": "inaugural",
+          "role": "hope",
+          "choice": "hope",
+          "requiresFacts": ["mood-hard"]
+        }
+      ],
+      "voice": "plain",
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
+    },
+    {
+      "key": "opening-speech.hope.plain-ina-when-i-m-done-i-hope-you-ll-say-we-argued-plenty-and-worked",
+      "move": "hope",
+      "kind": "spoken",
+      "text": "When I'm done, I hope you'll say we argued plenty and worked even harder, and that it was worth it.",
+      "uses": [
+        {
+          "move": "hope",
+          "subject": "inaugural",
+          "role": "hope",
+          "choice": "hope"
+        }
+      ],
+      "voice": "plain",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-address-flows-from-records)",
+      "date": "2026-11-01"
     }
   ]
 }

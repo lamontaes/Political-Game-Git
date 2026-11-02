@@ -194,6 +194,26 @@
       "code": "const COUNCIL_TERM_SHARES: readonly Share[] = ["
     },
     {
+      "file": "src/core2/jobs-elsewhere.ts",
+      "kind": "roll",
+      "count": 1,
+      "code": "line < employed",
+      "class": "GENERATION",
+      "keyedBy": "world seed + person id",
+      "reason": "Whether someone living elsewhere is at work, looking or out of the labor force on day one is who they are: their own seeded line read against CPS 2024 employment and participation for their age, so the shares hold over everyone, as citizenship is drawn. What they do after (let go, find work, move on, retire) is the working-life pulls from rates, causes and their traits.",
+      "replacement": null
+    },
+    {
+      "file": "src/core2/jobs-elsewhere.ts",
+      "kind": "roll",
+      "count": 1,
+      "code": ": line < inForce",
+      "class": "GENERATION",
+      "keyedBy": "world seed + person id",
+      "reason": "Whether someone living elsewhere is at work, looking or out of the labor force on day one is who they are: their own seeded line read against CPS 2024 employment and participation for their age, so the shares hold over everyone, as citizenship is drawn. What they do after (let go, find work, move on, retire) is the working-life pulls from rates, causes and their traits.",
+      "replacement": null
+    },
+    {
       "file": "src/core2/modules/campaigns.ts",
       "kind": "fixed-share",
       "build": "pool:core-zero-dice-shares-in-code",
