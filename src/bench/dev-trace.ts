@@ -7,6 +7,7 @@
  */
 import { coreAPI } from "../core2/state";
 import { resolveSavedTraceV1 } from "../core2/saved-trace-v1";
+import { CAMPAIGN_MONEY_KINDS } from "../core2/modules/campaigns";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
 import { LEGISLATURE_MODULE_ID, votesOn } from "../core2/modules/legislature";
 import type { CoreState } from "../core2/types";
@@ -40,6 +41,9 @@ export interface TraceNode {
 const SKIP = new Set(["date", "kind", "version", "status", "tag", "citation"]);
 const MAX_CHILDREN = 80;
 const MAX_LEARNED = 40;
+/** What a payment's trace shows where its campaign money record was let go once posted. */
+export const FOLDED_AT_POST =
+  "The record behind this was folded once the payment posted";
 
 /** Find a record anywhere the core or an engine keeps one. */
 export function findRecord(
@@ -278,6 +282,30 @@ export function traceNode(
         via: `${found.engine}.${path}`,
       });
     children.push(...learnedOf(core, id));
+  }
+  // A campaign payment's source record is let go once the payment posts
+  // (campaigns' postMoney): the receipt, which is the journal entry, holds
+  // its source and postings, and the link to the record says so in words.
+  const sourceRef =
+    found?.engine === "core.cashJournal"
+      ? (found.record as { sourceRef?: { kind: string; id: string } }).sourceRef
+      : undefined;
+  if (
+    sourceRef &&
+    CAMPAIGN_MONEY_KINDS.includes(sourceRef.kind) &&
+    !findRecord(core, sourceRef.id)
+  ) {
+    const at = children.findIndex(
+      (child) => child.kind === "missing" && child.id === sourceRef.id,
+    );
+    const folded: TraceChild = {
+      id: sourceRef.id,
+      kind: "missing",
+      via: at >= 0 ? children[at]!.via : "core.cashJournal.sourceRef",
+      value: FOLDED_AT_POST,
+    };
+    if (at >= 0) children[at] = folded;
+    else children.push(folded);
   }
   const seen = new Set<string>();
   return {

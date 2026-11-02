@@ -249,7 +249,8 @@ export function whyView(panel, onTrace) {
 
 /**
  * One trace child: its kind and how it was reached, its value, and (but for a reason, which
- * has no record) the id that opens it. Returns the box and the id link to wire.
+ * has no record, or a record let go once used, whose value says so) the id that opens it.
+ * Returns the box and the id link to wire.
  */
 export function traceBox(child, valueNode) {
   const box = node("div", { className: `node ${child.kind}` });
@@ -262,6 +263,12 @@ export function traceBox(child, valueNode) {
   box.append(head);
   if (valueNode) box.append(valueNode);
   if (child.kind === "reason") return { box };
+  // A record let go once it was used (a posted payment's source) says so in
+  // place; there is nothing to open, so its id is shown, not linked.
+  if (child.kind === "missing" && child.value !== undefined) {
+    head.append(node("span", { className: "via" }, child.id));
+    return { box };
+  }
   const link = node("span", { className: "id" }, child.id);
   head.append(link);
   return { box, link };

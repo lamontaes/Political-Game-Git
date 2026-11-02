@@ -42,12 +42,18 @@ describe(`ad time (${place.name}, seed ${seed})`, () => {
     const before = Object.fromEntries(
       outlets.map((o) => [o.organizationId, cash(o.organizationId)]),
     );
-    const reached = buyAdTime(api, {
-      buyerId: buyer.id,
-      amountMinor: 50_000,
-      recordId: `ad-test:${buyer.id}`,
-      citation: "A test buyer's ad time",
-    });
+    const buy = () =>
+      buyAdTime(api, {
+        buyerId: buyer.id,
+        amountMinor: 50_000,
+        recordId: `ad-test:${buyer.id}:${core.date}`,
+        citation: "A test buyer's ad time",
+      });
+    const reached = buy();
+    expect(core.people.get(buyer.id)!.liquidMinor).toBe(buyerBefore - 50_000);
+    // No record keeps a posted payment, so the engine refuses its id a second
+    // time that day itself, and no money moves.
+    expect(buy).toThrow("Campaign payment is already posted today.");
     expect(core.people.get(buyer.id)!.liquidMinor).toBe(buyerBefore - 50_000);
     // The seller is a local outlet with the most followers; its books took the payment.
     const most = Math.max(...outlets.map((o) => followersOf(api, o.id).length));

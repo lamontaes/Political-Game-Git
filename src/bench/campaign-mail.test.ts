@@ -11,6 +11,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { buildPopulation } from "../core2/population";
 import { createLifeCore } from "../core2/life";
 import { coreAPI } from "../core2/state";
+import { setJournalTrace } from "../core2/journal-state";
 import type { CoreState } from "../core2/types";
 import { openLaws } from "../core2/modules/laws";
 import { openOffices } from "../core2/modules/offices";
@@ -26,7 +27,7 @@ import {
   type FilingRow,
 } from "../core2/modules/elections";
 import {
-  CAMPAIGNS_MODULE_ID,
+  CAMPAIGN_MONEY_KINDS,
   campaignFor,
   openCampaigns,
   unitPrice,
@@ -35,12 +36,36 @@ import {
 import { PLATFORM_QUESTIONS } from "../core2/campaign-views";
 import { takeCampaignDayChoice } from "../core2/campaign-day";
 import { campaignAct, campaignDay, campaignView } from "./campaign";
+import { FOLDED_AT_POST, findRecord, traceNode } from "./dev-trace";
 import controls from "./data/controls.json" with { type: "json" };
 
 const START = "2026-01-05";
 const runSeed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`campaign-mail:${Date.now()}`).digest("hex");
+
+interface CampaignPayment {
+  readonly kind: string;
+  readonly id: string;
+  readonly postings: readonly {
+    readonly accountId: string;
+    readonly deltaMinor: number;
+  }[];
+}
+
+/** The campaign payments the journal posts while `act` runs: each one's source and postings. */
+function campaignPayments<T>(act: () => T): [T, CampaignPayment[]] {
+  const payments: CampaignPayment[] = [];
+  setJournalTrace((input) => {
+    if (CAMPAIGN_MONEY_KINDS.includes(input.sourceRef.kind))
+      payments.push({ ...input.sourceRef, postings: input.postings });
+  });
+  try {
+    return [act(), payments];
+  } finally {
+    setJournalTrace(null);
+  }
+}
 
 function world() {
   const place = drawPlace(runSeed, "campaign-mail");
@@ -125,11 +150,30 @@ it("mail spends what the player set on mailers and reaches the households it buy
     100 * perPiece,
     Math.floor((core.people.get(personId)?.liquidMinor ?? 0) / 2),
   );
-  campaignAct(core, personId, {
-    filingId: id,
-    kind: "contribute",
-    amountMinor: put,
-  });
+  const [, gifts] = campaignPayments(() =>
+    campaignAct(core, personId, {
+      filingId: id,
+      kind: "contribute",
+      amountMinor: put,
+    }),
+  );
+  // The player's own gift is one journal entry; its money record was let go
+  // once it posted, and dev mode's trace from the player's receipt says so in
+  // words.
+  expect(
+    gifts.map((g) => g.kind),
+    where,
+  ).toEqual(["campaigns:donation"]);
+  const receipt = [...core.cashJournal.detailedReceipts.values()].find(
+    (r) => r.sourceRef.id === gifts[0]!.id,
+  );
+  expect(receipt, `the player's receipt is kept: ${where}`).toBeDefined();
+  expect(findRecord(core, gifts[0]!.id), where).toBeUndefined();
+  const folded = traceNode(core, undefined, receipt!.id).children.find(
+    (c) => c.id === gifts[0]!.id,
+  );
+  expect(folded?.kind, where).toBe("missing");
+  expect(folded?.value, where).toBe(FOLDED_AT_POST);
   const held =
     campaignFor(api, id).raisedMinor - campaignFor(api, id).spentMinor;
   expect(held, `the candidate's own money is in: ${where}`).toBeGreaterThan(
@@ -137,18 +181,14 @@ it("mail spends what the player set on mailers and reaches the households it buy
   );
   const amount = Math.min(held, 20 * perPiece + perPiece - 1);
   const before = campaignFor(api, id);
-  const purchases = () =>
-    (
-      api.moduleState(CAMPAIGNS_MODULE_ID).table("money").rows() as unknown as {
-        kind: string;
-      }[]
-    ).filter((r) => r.kind === "campaigns:purchase").length;
-  const purchasesBefore = purchases();
-  const sent = campaignAct(core, personId, {
-    filingId: id,
-    kind: "mail",
-    amountMinor: amount,
-  }) as { reached: number; spentMinor: number; causes: CauseRow[] };
+  const [sent, payments] = campaignPayments(
+    () =>
+      campaignAct(core, personId, {
+        filingId: id,
+        kind: "mail",
+        amountMinor: amount,
+      }) as { reached: number; spentMinor: number; causes: CauseRow[] },
+  );
   const after = campaignFor(api, id);
   // Whole mailers, as many as the amount buys: never more than it.
   expect(sent.spentMinor, where).toBeGreaterThan(0);
@@ -160,7 +200,17 @@ it("mail spends what the player set on mailers and reaches the households it buy
     (after.spentByKind?.mail ?? 0) - (before.spentByKind?.mail ?? 0),
     where,
   ).toBe(sent.spentMinor);
-  expect(purchases() - purchasesBefore, `on the journal: ${where}`).toBe(1);
+  // One purchase on the cash journal, out of the campaign's cash.
+  expect(
+    payments.map((p) => p.kind),
+    `on the journal: ${where}`,
+  ).toEqual(["campaigns:purchase"]);
+  expect(
+    payments[0]!.postings.find(
+      (p) => p.accountId === `cash:${after.organizationId}:residual`,
+    )?.deltaMinor,
+    where,
+  ).toBe(-sent.spentMinor);
   // Each full adult it reached is a recorded mail cause; counted households
   // are counted as reached.
   expect(

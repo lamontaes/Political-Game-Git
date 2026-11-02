@@ -175,7 +175,7 @@ export interface CampaignDayResult {
     readonly why: DonationWhy;
   }[];
   readonly raisedMinor: number;
-  /** The money record id of the event's or forum's venue, on the journal's `campaigns:purchase`. */
+  /** The id the journal entry for the event's or forum's venue names as its source (`sourceRef.id`, kind `campaigns:purchase`). */
   readonly eventMoneyId: string | null;
   /** The forum's town hall row (meetings engine): who came, what they asked, what the host answered. */
   readonly townHall: TownHallRow | null;

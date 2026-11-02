@@ -17,6 +17,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { buildPopulation } from "./population";
 import { createLifeCore } from "./life";
 import { coreAPI } from "./state";
+import { setJournalTrace } from "./journal-state";
 import { campaignDayChoices, takeCampaignDayChoice } from "./campaign-day";
 import type { CoreAPI, CoreState } from "./types";
 import { openLaws } from "./modules/laws";
@@ -32,6 +33,7 @@ import {
 } from "./modules/elections";
 import {
   CAMPAIGNS_MODULE_ID,
+  CAMPAIGN_MONEY_KINDS,
   askForDonation,
   campaignFor,
   campaignRecognition,
@@ -161,6 +163,29 @@ function worldWithPair(
   );
 }
 
+interface CampaignPayment {
+  readonly kind: string;
+  readonly id: string;
+  readonly postings: readonly {
+    readonly accountId: string;
+    readonly deltaMinor: number;
+  }[];
+}
+
+/** The campaign payments the journal posts while `act` runs: each one's source and postings. */
+function campaignPayments<T>(act: () => T): [T, CampaignPayment[]] {
+  const payments: CampaignPayment[] = [];
+  setJournalTrace((input) => {
+    if (CAMPAIGN_MONEY_KINDS.includes(input.sourceRef.kind))
+      payments.push({ ...input.sourceRef, postings: input.postings });
+  });
+  try {
+    return [act(), payments];
+  } finally {
+    setJournalTrace(null);
+  }
+}
+
 const electionOf = (api: CoreAPI, filing: FilingRow) =>
   (
     api
@@ -179,11 +204,14 @@ describe("campaigns that raise and spend", () => {
     const sellersBefore = new Map(
       [...core.organizations.values()].map((o) => [o.id, o.liquidMinor]),
     );
-    const turns = [];
-    for (let i = 0; i < 12; i += 1)
-      turns.push(campaignTurn(api, rival.id, electionOf(api, rival)));
-    // The last turn before election day spends what's left.
-    turns.push(campaignTurn(api, rival.id, "2026-01-07"));
+    const turns: ReturnType<typeof campaignTurn>[] = [];
+    // Each payment is read off the cash journal as it posts: no table keeps it.
+    const [, payments] = campaignPayments(() => {
+      for (let i = 0; i < 12; i += 1)
+        turns.push(campaignTurn(api, rival.id, electionOf(api, rival)));
+      // The last turn before election day spends what's left.
+      turns.push(campaignTurn(api, rival.id, "2026-01-07"));
+    });
     const campaign = campaignFor(api, rival.id);
     const gifts = api
       .moduleState(CAMPAIGNS_MODULE_ID)
@@ -228,14 +256,12 @@ describe("campaigns that raise and spend", () => {
     expect(core.organizations.get(campaign.organizationId)!.liquidMinor).toBe(
       campaign.raisedMinor - campaign.spentMinor,
     );
-    const money = api
-      .moduleState(CAMPAIGNS_MODULE_ID)
-      .table("money")
-      .rows() as unknown as {
-      postings: { accountId: string; deltaMinor: number }[];
-    }[];
+    // No source id is posted twice: each carries the date and a running total.
+    expect(new Set(payments.map((p) => p.id)).size, where).toBe(
+      payments.length,
+    );
     let paidOut = 0;
-    for (const record of money) {
+    for (const record of payments) {
       // Every payment balances: what leaves one account enters another.
       expect(record.postings.reduce((s, p) => s + p.deltaMinor, 0)).toBe(0);
       const out = record.postings.find(
@@ -442,15 +468,14 @@ describe("campaigns that raise and spend", () => {
       // 3d29bb4ba93ab238770ab3570ad393b0144d225cabba0415b78f6a7fd4ccb5bc).
       askForDonation(api, rival.id, gift.donorId);
       const total = giftOf(api, rival.id, gift.donorId)!;
-      // Forget every payment record: the donor has still given what they'd give.
-      const money = api.moduleState(CAMPAIGNS_MODULE_ID).table("money");
-      for (const row of money.rows().slice()) money.remove(row.id);
+      // No table keeps the payments (each is let go once posted): the gift
+      // row alone says the donor has given what they'd give.
       expect(askForDonation(api, rival.id, gift.donorId), where).toBe(0);
       expect(giftOf(api, rival.id, gift.donorId)!.totalMinor, where).toBe(
         total.totalMinor,
       );
       console.info(
-        `campaign-turn donor ${where}: ${gift.donorId} gave ${gift.totalMinor} to ${rival.id}, ${total.totalMinor} in all, and nothing more with the payments forgotten`,
+        `campaign-turn donor ${where}: ${gift.donorId} gave ${gift.totalMinor} to ${rival.id}, ${total.totalMinor} in all, and nothing more when asked again`,
       );
       return;
     }
