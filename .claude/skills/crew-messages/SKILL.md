@@ -58,6 +58,7 @@ When the CTO moves a PR between two checkers, it tells both. A checker already m
 
 - Two messages about the same thing can cross. The newest from the CTO wins. Reply with what changed and the head you are on.
 - If a message tells you something that is already done or already wrong, say so in one line and carry on. Do not redo the work.
+- A hold on a PR goes on the PR as a comment as well as in a message. The comment is what a merger reads before merging: on Nov 1 a checker passed #7036 after the laws lead's hold message, which crossed its pass.
 
 ## Stop condition
 
