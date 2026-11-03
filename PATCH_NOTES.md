@@ -296,6 +296,94 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.75.0
+
+_Released November 2, 2026._
+
+### Added
+
+- **Letters to the editor** Residents now write to the town newspaper. When a
+  story about a bill or a law stirs a reader enough, and their temperament runs
+  that way, they may write in for or against it, and the paper prints at most
+  one letter a week, naming the bill or law. Readers who see the letter are
+  moved by how they regard its writer.
+
+- **Retirements in the local paper** When a resident retires, the local paper
+  notes it in its side column, from their own work record: who retired, from
+  which employer, and after how many years. A public worker is said to retire
+  from the government they worked for.
+
+### Improved
+
+- **Faster choices for people with a cause** People who care about a cause now
+  look only at the groups they could know of, not every group in town. Nothing
+  in play changes, and busy years run faster.
+
+- **The clerk's counter offers at most four races, each told apart in its own
+  line** At the clerk's counter the races read as plain lines with the seat,
+  election day and holder in the line itself, the four soonest first, and no
+  hover card covers the lines below.
+
+- **Campaign acts start from the campaign trail in Travel, not from the
+  Campaigns tab** Knocking on doors, holding an event, the interview, the donor
+  calls, the speech and the debate now wait on a campaign trail card in Travel;
+  the Campaigns tab shows standing and results only.
+
+- **The President's inaugural address no longer follows one outline** The
+  President's inaugural address no longer follows one outline. What it leads
+  with comes from the President's traits and the year's record: the people they
+  met, the country's long story, their mission, the year's work or the occasion
+  itself. A talkative President says more, a terse one less, so addresses run
+  from about seven paragraphs to eleven. The openings the owner turned down
+  ("I'm from Wisconsin. I've been Vice President. Now I've been handed this
+  job") are rewritten, and a President's home state is no longer called their
+  birthplace.
+
+### Fixed
+
+- **Last year's legislature races show the votes the district really cast, and
+  name the office.** On the opening's front page, a territory's legislature
+  races printed about fifty votes each, the number of people the game had drawn
+  in town, and every story said "the race for Legislator". Now each race counts
+  the ballots its territory reported, the whole territory for an at-large seat
+  and a district's share for the rest. Each office is named the way its chamber
+  names its members: Senator in Guam and the Virgin Islands, State Senator in
+  Nebraska, Assemblymember, Delegate or Councilmember where those are the
+  titles. A one-chamber legislature is called by its own name, such as the
+  Legislature of the Virgin Islands.
+
+- **The creator's random name waits until you choose a gender** The Randomize
+  name button is disabled, saying what it waits for, until a gender is chosen;
+  then it draws a name for that gender.
+
+- **A person with nothing new to say can no longer be clicked** A person in the
+  room is clickable only while they have something new to say; once every topic
+  is talked over, the figure has no click state and a click does nothing. A
+  topic already talked over is not opened again.
+
+### Changed
+
+- **Donors give from their monthly pay after taxes and bills.** When a candidate
+  spends an evening calling for money, the people who want them to win now give
+  from what is left of their month's pay after taxes and their bills, not only
+  from savings most of them do not have. Whether someone gives now depends on
+  how much they have to spare as well as how they feel about the candidate, so
+  people living paycheck to paycheck usually say no and comfortable supporters
+  usually say yes. A town race's call time brings in about what local campaigns
+  raise: gifts of $25 to $100 from most supporters and more from the closest and
+  best-off, so a candidate can pay for an event or a forum after an evening or
+  two of calls.
+
+- **The President's address reads like a real inaugural** The opening address no
+  longer reads out statistics. It follows the shape of real inaugural addresses:
+  the oath, what the President believes, the country's place in its long story,
+  the year told in words, the people, then a turn to Congress, the Vice
+  President, the governors and legislatures, and the people themselves, with
+  hope before the close. It runs eleven paragraphs, one for each scene of the
+  opening montage. Lines that read clunky are gone, including "government
+  closest to the people", "everyone who did, and everyone who did not", both
+  "Too many people" and the "To every family listening" close.
+
 ## PRE-ALPHA 0.74.0
 
 _Released November 1, 2026._

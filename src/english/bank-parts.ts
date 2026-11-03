@@ -14,6 +14,8 @@ export interface PartUse {
   subject: string;
   role: string;
   requiresFacts?: string[];
+  /** Facts that rule the piece out where the record holds them, as in scene talk. */
+  excludesFacts?: string[];
 }
 
 /** A part of a bank file: the key a grade reaches it by, its words and where it is said. */

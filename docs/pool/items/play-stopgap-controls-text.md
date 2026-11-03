@@ -5,12 +5,12 @@ area: play
 kind: stopgap
 priority: 3
 status: open
-claimed-by: claude/political-game-pool-76ksvw
+claimed-by:
 pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/bench/data/controls.json, kind text"
-claimed-at: 2026-10-20T00:40:20.177Z
+claimed-at:
 ---
 
 **What.** Replace or clear the 1 open text stopgap row(s) in src/bench/data/controls.json: SG-PLAY-act-control-names. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T00:40:20.177Z
 **Files.** src/bench/data/controls.json
 
 **Notes.** First row: Where OPUS-WORDS' mined bank has no name for an act yet (care for a relative, join an association, hold a meeting, visit an office), the play screen names its choice button from a bench table of control names (“Look afte Released from idle draft #5180 by the CTO, Oct 26.
+
+Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/political-game-pool-76ksvw` (2026-10-20). Cleared from the front matter and kept here.

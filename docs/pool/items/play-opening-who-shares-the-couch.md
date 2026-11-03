@@ -30,3 +30,5 @@ claimed-at: 2026-11-01T22:18:52.337Z
 **Files.** src/director/opening-story.ts, src/bench/play.mjs, src/core2/opening-partnership.ts
 
 **Notes.** Filed by the CTO from the owner's v0.73.0 playtest (Nov 1, 22:25 UTC, five screenshots, New Game). Read: OWNER-DECISIONS (Oct 29 02:35 opening montage and address; Oct 29 address "no real statistic in play"; Oct 26 one scene system), the pool for twins.
+
+Lane 5 (pool truth, Nov 3): claimed with PR #7074 open from its branch; set in-pr.

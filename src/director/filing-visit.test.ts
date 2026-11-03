@@ -48,12 +48,16 @@ describe("the filing visit", () => {
     ]);
     const said = visit.lines.at(-1)!.text;
     // Said as people say a date: no year within the year (words.ts spokenDate).
-    expect(said).toBe("The deadline is March 5.");
+    expect(said).toMatch(/March 5\b/);
+    expect(said).not.toMatch(/2021/);
     expect(visit.choices.map((row) => row.action)).toEqual([
       { kind: "file", contestId: contest.id },
     ]);
-    // Filing is its own control, apart from acknowledging a refusal.
+    // Filing is its own control, apart from acknowledging a refusal, and
+    // worded as the player's own reply (owner, Nov 1: "It should be an
+    // actual reply"), never an acknowledgment like "I see."
     expect(visit.choices.map((row) => row.control)).toEqual(["file"]);
+    expect(visit.choices[0]!.text).toMatch(/papers|sign/);
     for (const line of visit.lines)
       expect(line.sourceRecordIds.length).toBeGreaterThan(0);
   });
@@ -71,6 +75,10 @@ describe("the filing visit", () => {
     };
     const visit = openFilingVisit(core, player.id, [race]);
     pickContest(core, visit, race.id, terms, []);
+    // One answer in connected sentences after the player names the office,
+    // never a stack of one-line facts (owner, Nov 1).
+    expect(visit.lines.at(-1)!.speaker).toBe("clerk");
+    expect(visit.lines.at(-2)!.speaker).toBe("player");
     const clerk = visit.lines
       .filter((row) => row.speaker === "clerk")
       .map((row) => row.text)
