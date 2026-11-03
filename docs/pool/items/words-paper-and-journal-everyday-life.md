@@ -6,12 +6,11 @@ lead: words
 kind: bug
 priority: 1
 size: L
-status: claimed
-claimed-by: words/paper-everyday
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: owner, Nov 1 ("what are the events that are reported in the news/in journal? there needs to be real ones with some good fluff or else it will get old")
-claimed-at: 2026-11-01T17:58:15.037Z
 ---
 
 **What.** The news bank has about 124 story kinds, most of them government process (bills, committees, roll calls, budgets), with 3 to 7 wordings each. It has no obituaries, no wedding or anniversary notices, no milestone birthdays or retirements, no letters to the editor and no local business features. The journal's everyday lines are 15 routine-day pieces. A paper that prints the same council sentence every week gets old. This item makes the paper and the journal carry real everyday life from records the world already keeps, worded with enough variety that a reader rarely meets the same sentence twice in a year. First it measures what a played year actually prints.
@@ -25,3 +24,5 @@ claimed-at: 2026-11-01T17:58:15.037Z
 **Files.** data/english/parts/news.json, data/english/parts/headlines.json, data/english/parts/journal.json, src/bench/printed-words.ts, src/core2/modules/press.ts, src/bench/printed-words.test.ts
 
 **Notes.** Filed by the CTO, Nov 1 18:00, on the owner's question. Read: OWNER-DECISIONS (Oct 30 press briefs, Nov 1 every life simulated), the briefs column (#6824). Searched the pool for obituary, wedding, anniversary, letters to the editor and festival: no twin.
+
+Words handoff, Nov 2 02:50 UTC (the account at its weekly limit): branch words/paper-everyday, head adb0e0253a, fully merged. Merged toward it: meetings by what the body did (#7022), obituaries with life facts, round birthdays and business anniversaries (#7040), retirements (#7047), the paper's repeats (#7070) and letters (#7050) as they land. Next step: rerun the played-year kinds table in three drawn places, list which of the eight everyday kinds still print nothing (the police and fire log needs the laws lead's fire record), and finish or file those.

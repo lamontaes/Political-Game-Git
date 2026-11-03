@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: governing/traits-endorsements-heard
-pr:
+pr: #7072
 blocked-on:
 source: governing lead, Oct 30 (money fixer's draws)
 lead: governing

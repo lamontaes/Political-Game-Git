@@ -97,6 +97,8 @@ export interface OpeningKin {
   people: KinPerson[];
   households: { id: string; placeId: string; memberIds: PersonId[] }[];
   parentChildLinks: { id: string; parentId: PersonId; childId: PersonId }[];
+  /** A resident's two living parents whose marriage is intact share a home as partners. */
+  partnerLinks: { id: string; personIds: readonly [PersonId, PersonId] }[];
   relations: KinRelationFact[];
   /** Biological parents the generator knows, for inherited temperament. */
   parentsOf: Map<PersonId, PersonId[]>;
@@ -360,6 +362,7 @@ export function buildOpeningKin(
     people: [],
     households: [],
     parentChildLinks: [],
+    partnerLinks: [],
     relations: [],
     parentsOf: new Map(),
     deaths: [],
@@ -372,6 +375,19 @@ export function buildOpeningKin(
   const maxMotherAge = OPENING_KIN.fertilityByAge.completedFromAge;
   const ageAt = (date: string) => ageOnDate(makeIsoDate(date), startedAt);
   const ageOf = (row: Dated) => ageAt(row.birthDate);
+
+  // Generated birthdays use days 1–28. Keep the drawn month and day, but
+  // move a generated parent back enough whole years for their oldest child.
+  // Comparing birth years alone admits a parent who is still fourteen.
+  const parentBornBefore = (birthDate: IsoDate, childBirth: IsoDate) => {
+    const atBirth = ageOnDate(birthDate, childBirth);
+    if (atBirth >= minParentAge) return birthDate;
+    return isoDateFromParts(
+      yearOfDate(birthDate) - (minParentAge - atBirth),
+      Number(birthDate.slice(5, 7)),
+      Number(birthDate.slice(8, 10)),
+    );
+  };
 
   const relate = (a: Dated, b: Dated, aToB: KinRelation, bToA: KinRelation) => {
     const date = a.birthDate > b.birthDate ? a.birthDate : b.birthDate;
@@ -475,6 +491,13 @@ export function buildOpeningKin(
       const motherCohort = Math.round(birthYear - firstAge - interval);
       const sibship = drawCount(r, completedRow(motherCohort), p("one"), true);
       const order = r.integer(p("one"), sibship + p("one"));
+      const oldestBirth =
+        order === p("one")
+          ? adult.birthDate
+          : dateInYear(
+              r.fork(`sibling:${p("one")}`),
+              birthYear + (p("one") - order) * interval,
+            );
       const motherAge = Math.min(
         maxMotherAge,
         firstAge + (order - p("one")) * interval,
@@ -494,29 +517,32 @@ export function buildOpeningKin(
       ] as const) {
         const pr = r.fork(role);
         const draw = pr.next();
+        const parentBirth = parentBornBefore(
+          dateInYear(pr, birthYear - Math.round(parentAge)),
+          oldestBirth,
+        );
+        const ageAtBirth = ageOnDate(parentBirth, adult.birthDate);
+        const currentAge = ageAt(parentBirth);
         if (
           !survivesAt(
             draw,
             gender,
-            birthYear - Math.round(parentAge),
-            parentAge,
-            parentAge + age,
+            yearOfDate(parentBirth),
+            ageAtBirth,
+            currentAge,
           )
         ) {
           const through = diedInWindow(
             draw,
             gender,
-            birthYear - Math.round(parentAge),
-            parentAge,
-            parentAge + age,
+            yearOfDate(parentBirth),
+            ageAtBirth,
+            currentAge,
             archiveDays / p("daysPerMeanYear"),
           );
           if (through !== null) {
             const stableKey = `${household.stableKey}:kin:origin:${index}:${role}`;
-            const birthDate = dateInYear(
-              pr.fork("died"),
-              birthYear - Math.round(parentAge),
-            );
+            const birthDate = parentBirth;
             const named = options.name({
               stableKey,
               gender,
@@ -547,7 +573,7 @@ export function buildOpeningKin(
         const parent = makePerson(
           `origin:${index}:${role}`,
           gender,
-          dateInYear(pr, birthYear - Math.round(parentAge)),
+          parentBirth,
           lineName,
           apart && role === "father"
             ? newHome(
@@ -568,6 +594,19 @@ export function buildOpeningKin(
           relate(parent, child, R.grandparent, R.grandchild);
       }
       addParents(adult.id, parents);
+      // Parents still married live together as partners, so the engines
+      // that read couples (moves, births) see them as one (every life is
+      // simulated, owner, Nov 1).
+      if (!apart && parents.length === p("two")) {
+        const [a, b] = [...parents].sort((x, y) => x.id.localeCompare(y.id));
+        out.partnerLinks.push({
+          id: createStableId(
+            "kinship",
+            `${options.worldId}:opening-kin:partner:${a!.id}:${b!.id}`,
+          ),
+          personIds: [a!.id, b!.id],
+        });
+      }
       for (let j = p("one"); j <= sibship; j += p("one")) {
         if (j === order) continue;
         const sr = r.fork(`sibling:${j}`);
@@ -643,10 +682,12 @@ export function buildOpeningKin(
         const or = dr.fork("other-parent");
         const gender = reference.gender === MALE ? FEMALE : MALE;
         const gap = p("kinPaternalAgeGapYears");
-        const birthDate = dateInYear(
+        let birthDate = dateInYear(
           or,
           refYear + Math.round(gender === MALE ? -gap : gap),
         );
+        for (const child of unit.here)
+          birthDate = parentBornBefore(birthDate, child.birthDate);
         if (
           !survives(
             or,
@@ -696,6 +737,14 @@ export function buildOpeningKin(
         if (
           childAge < adultAge &&
           (household.couple || reference.gender === FEMALE || !other())
+        )
+          continue;
+        // A child living elsewhere must fit every recorded parent's actual
+        // birthday, including the younger partner and an absent parent.
+        if (
+          [...unit.parents, ...(otherParent ? [otherParent] : [])].some(
+            (parent) => ageOnDate(parent.birthDate, birthDate) < minParentAge,
+          )
         )
           continue;
         const gender = drawnGender(cr.fork("identity"));

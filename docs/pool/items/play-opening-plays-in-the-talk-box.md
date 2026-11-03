@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: done
 claimed-by: play-first/play-opening-plays-in-the-talk-box
-pr:
+pr: #7061
 blocked-on:
 lead: play-first
 milestone: play-first
@@ -30,3 +30,5 @@ claimed-at: 2026-11-01T21:36:31.402Z
 **Files.** src/bench/play.mjs, src/bench/play.html, src/bench/play.css, src/bench/ui/panel.mjs
 
 **Notes.** Filed by the CTO root-cause report of Oct 27 (docs/reports/opening-root-cause-2026-10-27.md). Lead: play-first.
+
+Lane 5 (pool truth, Nov 3): claimed with PR #7061 open from its branch; set in-pr.

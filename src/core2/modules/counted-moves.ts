@@ -230,8 +230,8 @@ function stateIncomeTax(
   );
 }
 
-/** Each state's unemployment rate this month, from the regional engine where it runs. */
-function unemployment(api: CoreAPI): Map<string, number> {
+/** Each state's unemployment rate this month by USPS code, from the regional engine where it runs (also read by the working lives elsewhere, src/core2/jobs-elsewhere.ts). */
+export function stateUnemployment(api: CoreAPI): Map<string, number> {
   const out = new Map<string, number>();
   if (!api.state.modules.has(REGIONAL_MODULE_ID)) return out;
   const latest = (
@@ -459,6 +459,22 @@ export const stateOfCountedPlace = (placeId: string) =>
 const homeStateOf = (rt: Pick<Runtime, "townState">, placeId: string) =>
   stateOfCountedPlace(placeId) ?? rt.townState;
 
+/**
+ * The state a household of the world's places lives in, by the same rule as
+ * homeStateOf: its place's state, else the town's (the place id of the
+ * town's governing unit, which the lookup may not know).
+ */
+export function householdStateOf(
+  core: CoreState,
+  placeId: string,
+): string | undefined {
+  const town = townPlaceOf(core);
+  return (
+    stateOfCountedPlace(placeId) ??
+    (town ? stateOfCountedPlace(town) : undefined)
+  );
+}
+
 function month(api: CoreAPI): void {
   const core = api.state as CoreState;
   const residents = residentsRuntime(core);
@@ -467,7 +483,7 @@ function month(api: CoreAPI): void {
   const date = api.state.date;
   const adultAge = api.parameter("votingAge");
   rt.netCache.clear();
-  const jobless = unemployment(api);
+  const jobless = stateUnemployment(api);
   const stateList = [...rt.states.values()];
   const nationPeople = stateList.reduce(
     (n, s) => n + s.people.reduce((a, b) => a + b, 0),
