@@ -52,3 +52,5 @@
 - **Known cheats:** removing the index from the check, dropping Notes, leaving the temporary-fix list split until the queue has drained (the Oct 31 work order's timing).
 - **Size:** about 2-3 hours, my estimate.
 - **Save, if stuck, hand-in:** as Lane 1's card, in `docs/lanes/state/lane-5.md`. **Checked by:** a fresh session, and the desk's next conflict.
+
+**Every later unit gets the same card.** Before starting a unit, write its card in `docs/lanes/state/lane-5.md` from this page and the unit's pool items: finish line, proof, hands off, known cheats, size, checked by. Split it if it grows past about 400 changed lines. A unit with no card isn't started.
