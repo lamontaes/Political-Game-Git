@@ -173,6 +173,11 @@ const run = (drawSeed: string): string | null => {
   // clerk's check, the morning after the deadline.
   gatherSignatures(core, ...filings.map((f) => f.id));
 
+  // Whether someone at home put work or money into the filer's race.
+  const partIn = (filer: PersonId, causeId: string) =>
+    (
+      core.households.get(core.people.get(filer)!.householdId)?.memberIds ?? []
+    ).some((id) => stakeOf(core, filer, causeId, id) !== null);
   // Whether the filer still lives with someone to meet them at home.
   const livesWithSomeone = (filer: PersonId) =>
     (
@@ -196,11 +201,15 @@ const run = (drawSeed: string): string | null => {
         .get(filer)!
         .schedule.find((row) => row.momentId.includes(primary!.id));
       expect(entry, `${here}: the primary fired no scene`).toBeTruthy();
-      const home = livesWithSomeone(filer);
-      expect(
-        entry!.bindings.map((row) => row.typeKey),
-        here,
-      ).toContain(home ? "family-loss" : "race-lost");
+      // The talk at home after a loss is for a relative who put work or
+      // money into the race, on the records (family-stake.ts); with none,
+      // no one at home is staged to talk about it.
+      const part = partIn(filer, primary!.id);
+      const types = entry!.bindings.map((row) => row.typeKey);
+      if (part) expect(types, here).toContain("family-loss");
+      else expect(types, here).not.toContain("family-loss");
+      if (!types.includes("family-loss") && !types.includes("race-lost"))
+        continue;
       const scene = purposeScene(core, director, filer, entry!);
       expect(scene?.kind, here).toBe("composed");
       if (scene?.kind !== "composed") continue;
@@ -237,6 +246,7 @@ const run = (drawSeed: string): string | null => {
   ).toBeTruthy();
   let counted = 0;
   let alone = 0;
+  let quiet = 0;
   for (const filing of filings) {
     const filer = filing.personId as PersonId;
     const here = `${where}: ${filing.id}`;
@@ -280,6 +290,15 @@ const run = (drawSeed: string): string | null => {
       alone += 1;
       continue;
     }
+    // A loss is talked over at home only with a relative who put work or
+    // money into the race; with none, nobody is staged to talk about it.
+    if (!won && !partIn(filer, `election-result:${contest.id}`)) {
+      expect(sitting("family-loss"), `${here}: no part, no talk`).toBe(
+        undefined,
+      );
+      quiet += 1;
+      continue;
+    }
     const staged = sitting(won ? "family-win" : "family-loss");
     expect(
       staged,
@@ -319,10 +338,12 @@ const run = (drawSeed: string): string | null => {
     );
   }
   // Every filer on the count has its scene: the household's for each who
-  // still lives with someone, and there is at least one.
-  expect(counted + alone + outInPrimary.size, `${where}: result scenes`).toBe(
-    filings.length,
-  );
+  // still lives with someone and won, or lost with a relative's part in it,
+  // and there is at least one.
+  expect(
+    counted + alone + quiet + outInPrimary.size,
+    `${where}: result scenes`,
+  ).toBe(filings.length);
   if (!counted)
     return `${where}: no filer on the count lived with someone (${alone} alone, ${outInPrimary.size} out in the primary)`;
   // The rest of the year plays out.
