@@ -1329,40 +1329,40 @@ let speechState = null;
  * unfilled where that is what the records hold.
  */
 /**
- * An evening of donor calls, played as a scene: the phone bank with the player
- * at it, and each call the next Continue (the person's name and bust, what they
- * said from the call's own record), the last the night's total in the
- * narrator's voice.
+ * Asking people for something, played as a scene (owner: every campaign act is
+ * a scene): the place with the player at it, each person asked the next
+ * Continue (their name and bust, what they said from the ask's own record),
+ * the last the total in the narrator's voice. An evening of donor calls and a
+ * volunteer shift are this.
  */
-function playCallNight(result) {
+function playAsks({ asked, summary, scene }) {
   closeSheet();
   renderTalk(undefined);
-  if (result.scene) {
-    $("backdrop").src = result.scene.backdrop.url;
-    // Each person is heard on the line, not in the room.
-    drawPeople(result.scene.people.filter((p) => p.personId === me.id));
+  if (scene) {
+    $("backdrop").src = scene.backdrop.url;
+    // Each person is heard by name and bust, not drawn in the room.
+    drawPeople(scene.people.filter((p) => p.personId === me.id));
   }
   show("talk", true);
-  const calls = result.calls ?? [];
-  const call = (at) => {
+  const step = (at) => {
     talkControls({ silent: false, leave: false });
     setScales({ available: false });
-    if (at < calls.length) {
-      setWho(calls[at].personId, calls[at].name);
+    if (at < asked.length) {
+      setWho(asked[at].personId, asked[at].name);
       fillTalk({
-        lines: [talkLine({ kind: "speech", text: calls[at].line })],
+        lines: [talkLine({ kind: "speech", text: asked[at].line })],
         replies: [],
       });
-      onContinue = () => call(at + 1);
+      onContinue = () => step(at + 1);
       return;
     }
     setWho(null, null);
     fillTalk({
-      lines: [talkLine({ kind: "speech narration", text: result.callsLine })],
+      lines: [talkLine({ kind: "speech narration", text: summary })],
       replies: [],
     });
   };
-  call(0);
+  step(0);
 }
 async function campaignParts() {
   const v = await api(`/api/campaign?id=${encodeURIComponent(me.id)}`);
@@ -1396,7 +1396,11 @@ async function campaignParts() {
       // name with what they gave or why not, then the night's total.
       if (outing === "calls" && result.callsLine) {
         campaignResult = result.callsLine;
-        playCallNight(result);
+        playAsks({
+          asked: result.calls ?? [],
+          summary: result.callsLine,
+          scene: result.scene,
+        });
         return;
       }
       campaignResult = [
@@ -1450,6 +1454,15 @@ async function campaignParts() {
             : result.reached !== undefined
               ? `${controls.campaignActs[kind] ?? ""}: ${result.reached} · +${result.warmer} · −${result.cooler}`
               : `${controls.campaignActs[kind] ?? ""}: ${result.answers.filter((a) => a.yes || a.givenMinor > 0).length} / ${result.answers.length}${result.answers.some((a) => a.givenMinor) ? ` · ${moneyWords(result.answers.reduce((t, a) => t + (a.givenMinor ?? 0), 0))}` : ""}`;
+      // A volunteer shift is a scene: each person asked is the next Continue.
+      if (kind === "volunteer" && result.answers?.length) {
+        playAsks({
+          asked: result.answers,
+          summary: campaignResult,
+          scene: result.scene,
+        });
+        return;
+      }
       // A speech is seen where it was given, with the people it reached.
       if (result.scene) {
         closeSheet();
