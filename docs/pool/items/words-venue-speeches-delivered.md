@@ -6,11 +6,11 @@ kind: wiring
 priority: 2
 size: M
 status: open
-claimed-by: claude/political-game-pool-7xkkii
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T03:52:34.624Z
+claimed-at:
 ---
 
 **What.** The venue speeches (src/english/venue-speech.ts) compose a floor speech, a campaign stop, a victory and a concession in their register from the speaker's records, and a public hearing scene already carries the speaker's own words. No scene yet shows a member's floor speech on a bill, a winner's victory words or a loser's concession, though the legislature records each floor vote and the elections engine records each result. Give the director a floor-speech scene when a member votes on a bill they spoke on, and a victory and a concession scene when a contest is decided, each carrying the venue words and citing the records they were filled from.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T03:52:34.624Z
 **Files.** src/director/scene.ts, src/english/venue-speech.ts, src/director/hearing-scenes.test.ts, src/director/data/director.json
 
 **Notes.** TODO Released from idle draft #5196 by the CTO, Oct 26.
+
+Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/political-game-pool-7xkkii` (2026-10-20). Cleared from the front matter and kept here.

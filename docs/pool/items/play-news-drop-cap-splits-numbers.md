@@ -5,13 +5,14 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: play-first/play-news-drop-cap-splits-numbers
+pr: #7096
 blocked-on:
 source: owner playtest of v0.73.0, Nov 1, 22:25 UTC
 lead: play-first
 milestone: play-first
+claimed-at: 2026-11-01T23:34:49.151Z
 ---
 
 **What.** Owner, Nov 1 playtest of v0.73.0, screenshot of the front page: the closure story's body begins "16 people worked there." and the drop cap printed a large "1" with "6 people worked there." beside it. The front page's drop cap takes the body's first character whatever it is. A body that starts with a digit takes no drop cap, or the whole number is set large. Words is asked to open stories with a word, so this is the layout's guard.
@@ -29,3 +30,5 @@ milestone: play-first
 **Files.** src/bench/play.mjs, src/bench/play.css, src/bench/news.browser.mjs
 
 **Notes.** Filed by the CTO from the owner's v0.73.0 playtest (Nov 1, 22:25 UTC, five screenshots, New Game). Read: OWNER-DECISIONS (Oct 29 02:35 opening montage and address; Oct 29 address "no real statistic in play"; Oct 26 one scene system), the pool for twins.
+
+Lane 5 (pool truth, Nov 3): claimed with PR #7096 open from its branch; set in-pr.

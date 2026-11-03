@@ -9,7 +9,7 @@ import { advanceCore } from "../core2/life";
 import {
   checkEligibility,
   filingOfficeFor,
-  openContests,
+  playerContests,
   petitionOf,
 } from "../core2/modules/elections";
 import { coreAPI } from "../core2/state";
@@ -63,7 +63,8 @@ it(`the clerk tells the petition's signatures and due day once, in the scene aft
     director.watch(core, playerId);
     // A local race the player may file for, as the town's weeks go by.
     const open = () =>
-      openContests(api).find(
+      // The races the player may file for, as the counter offers them.
+      playerContests(api).find(
         (row) =>
           row.level !== "federal" &&
           row.level !== "state" &&

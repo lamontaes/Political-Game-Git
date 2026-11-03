@@ -2870,10 +2870,10 @@ details.entry[open] {
 #talk-choices:has(.reply-facts) {
   grid-auto-rows: 1fr;
 }
-/* A race at the filing counter, told apart under its choice. */
+/* A race at the filing counter, told apart in its own line, after its words. */
 #talk-choices .reply .reply-facts {
-  display: block;
-  margin-top: 2px;
+  display: inline;
+  margin-left: 0.5em;
   font-size: 0.85em;
   opacity: 0.8;
 }

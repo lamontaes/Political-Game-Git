@@ -49,7 +49,10 @@ export function roomPeople(people, { selfId, backdropUrl, onClick }) {
       const box = el("div", { className: "figure" }, img);
       box.dataset.person = person.personId ?? "";
       place(box, f);
-      if (onClick && person.personId !== selfId) {
+      // A person with nothing to say is not clicked (owner, Nov 1: "If there's no
+      // dialogue, you shouldn't be able to click on the person"); the scene says
+      // which, from the director's own answer.
+      if (onClick && person.personId !== selfId && person.talkable !== false) {
         box.classList.add("talkable");
         box.tabIndex = 0;
         box.setAttribute("role", "button");

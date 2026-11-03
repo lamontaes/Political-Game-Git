@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: lives/work-elsewhere
 pr: #7049
 blocked-on:

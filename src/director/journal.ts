@@ -711,6 +711,18 @@ export function composeJournal(
   const kin = familyFactsOf(person);
   const named = new Set<PersonId>();
   const saidAs = new Map<string, PersonId>();
+  // Whose moment it is, when it is someone else's: a relative first, then
+  // someone the person knows, else the first on record. A moment's people
+  // are kept sorted by id, so a rival a relative lost to can come first
+  // (Wayne Heights, Pennsylvania, seed je-2: "a stranger won" for a
+  // daughter's lost race, which no line could tell).
+  const subjectOf = (moment: {
+    counterpartIds: readonly PersonId[];
+  }): PersonId | undefined =>
+    moment.counterpartIds.find((id) => kin.has(id)) ??
+    moment.counterpartIds.find((id) => person.knownIds.has(id)) ??
+    moment.counterpartIds[zero];
+
   const factsById = new Map((person.pastFacts ?? []).map((f) => [f.id, f]));
 
   // How the person refers to someone: a relative by relation, anyone else by
@@ -900,7 +912,7 @@ export function composeJournal(
     const hasOwnLine = Boolean(row?.hasOwnLine);
     const toldWithoutOther = Boolean(row?.toldWithoutOther);
     const otherId =
-      moment.counterpartIds[zero] ??
+      subjectOf(moment) ??
       (moment.causeKind === "family:child"
         ? fact?.facts?.otherPersonId
         : undefined);
@@ -1278,7 +1290,7 @@ export function composeJournal(
         // Someone else's race is told by the record's result for them; a
         // line worded by an event fact (a vote's yes or no) by that fact.
         !own && row.hasOwnLine
-          ? facts.winner?.text === moment.counterpartIds[zero]
+          ? facts.winner?.text === subjectOf(moment)
             ? "won"
             : "lost"
           : stageOf(row, moment, facts),
@@ -1305,7 +1317,7 @@ export function composeJournal(
     if (
       (moment.causeKind === "event:life.death" &&
         !!facts.other &&
-        kin.has(moment.counterpartIds[zero]!)) ||
+        kin.has(subjectOf(moment)!)) ||
       ((moment.causeKind === "job-ended" ||
         moment.causeKind === "job-ended:let-go") &&
         own)
@@ -1359,7 +1371,7 @@ export function composeJournal(
           earlier.hindsight >= interrupt &&
           daysBetween(makeIsoDate(earlier.date), makeIsoDate(moment.date)) >=
             monthSpan &&
-          earlier.counterpartIds.includes(moment.counterpartIds[zero]!),
+          earlier.counterpartIds.includes(subjectOf(moment)!),
       )
       .sort((a, b) => b.hindsight - a.hindsight || a.id.localeCompare(b.id))[
       zero
@@ -1368,7 +1380,7 @@ export function composeJournal(
     // "Susan would come back into my life") is about a person met, never a
     // relative one was born to or raised: "My mother took office. Susan
     // mattered more than I knew." named a mother as a stranger.
-    const counterpart = moment.counterpartIds[zero];
+    const counterpart = subjectOf(moment);
     const relation = counterpart ? kin.get(counterpart)?.relation : undefined;
     const looked =
       relation && !metRelation(relation, words)
