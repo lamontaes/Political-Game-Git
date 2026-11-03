@@ -6,11 +6,11 @@ kind: bug
 priority: 2
 size: S
 status: open
-claimed-by: claude/political-game-pool-udtiwn
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T05:57:23.686Z
+claimed-at:
 ---
 
 **What.** A professional-services business founded on 2026-04-01 by person_84379c678df01275 stopped a 600-day played world with 'No purchase kinds to enter for organization:founded:professional:person_84379c678df01275:2026-04-01 (give financeKinds or a rival)', thrown by enterResidentMarket from business.found. The founding gives the new firm no purchase kinds and no rival to copy. Find which sector row has no financeKinds and give it the kinds its customers buy, or have the founding refuse a firm no one would buy from.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T05:57:23.686Z
 **Files.** src/core2/modules/business.ts, src/core2/modules/residents.ts
 
 **Notes.** TODO Released from idle draft #5217 by the CTO, Oct 26.
+
+Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/political-game-pool-udtiwn` (2026-10-20). Cleared from the front matter and kept here.
