@@ -1,0 +1,59 @@
+0 of 14 paths confirmed. Oldest open PR 2 days.
+
+# Lane 2 state — November 3, 2026
+
+## Plan and ownership
+
+Follow units 1–15 in `docs/lanes/lane-2.md` on `docs/lanes-nov3` (read at bb51218415475d6aa1b031caf8ce264d66dd9236). Within First minutes, take the parent-age item before sibling names: Hebron reproduces on current main and the parent correction needs no shared-file edit; custom-name collisions pass through Lane 5's identity writer and need an agreement. The November 3 owner rulings override older process rules. Only a session that did not build a path may mark it Verified, after replay on main. Built does not increase the first-line count.
+
+Lane 1 owns legislature.ts and voting.ts; Lane 5 owns the core state files. Write the agreement under `docs/lanes/agreements/` before shared edits. No shared files edited. Parent correction claimed and submitted through the pool CLI for lane-2/parent-birthdays. Parent-birthday PR #7143 is open at 967286fff108321fd6cadccc6663986d0a538384; pool status is in-pr. Next claimed item: people-player-shares-sibling-name on lane-2/sibling-names. Inherited Lane 2 PRs include #7036 (medical bills) and #7082 (relatives' partnerships), both opened November 1; their checks are not confirmations of a whole path. Merge desk merges; this session never merges its PRs.
+
+## Machine trial
+
+- Existing full checkout: `/workspace/Political-Game-Git`, 8.3 GB; about 30 GB available, 17 GiB RAM, Node v24.19.0.
+- Download/update: `git fetch origin main docs/lanes-nov3` passed after network permission. Main at trial: e341dd83a5ff21b4fd0736b71b75f09ecc3cc474. Saved the documentation ref with `git fetch origin docs/lanes-nov3:refs/remotes/origin/docs/lanes-nov3`.
+- Install passed on current main: `OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" NODE_OPTIONS=--max-old-space-size=8192 npm install --offline --no-audit --no-fund` (up to date in 297ms).
+- New Game through Chromium: Hazardville, Connecticut; replay e5325098874284d4; River Brown, person_90eee6012356f631. New Game returned HTTP 200, the opening rendered, zero page errors. The day request returned HTTP 200 with packet at 2025-01-21 07:00 (simulatedDays=0); this is an opening smoke check, not a played-year or finish-line proof. Local proof: `test-results/lane-2-machine/new-game.png` and `result.json`; runner: `/tmp/lane-2-machine-smoke.mjs`.
+- Push passed: empty test commit 5882a1a7742993d4528b03bdaf5de9e4316e19b0 on `trial/lane-2`.
+- Initial sandbox failures reported immediately: fetch could not connect to proxy:8080; bench listen EPERM at 0.0.0.0:3000. Both succeeded with permission. Golden-path baseline initially failed `spawnSync git EPERM`; retry ran with process permission. Use the approved execution permissions for network, server, browser and child-process commands.
+- Baseline: latest release on main e341dd83a5 is green (run 41717648906). Local golden-path runner: 20 accepted specs passed, including M0-13 in Alpine, Utah / a9d19e98bd12fbda7e53d0e8a93684e43d1574c99af795832ffaf93e6e4bc16c (110099ms). M1-11 timed out after its remaining 29709ms when the total 450000ms budget expired; exit 1. No budget or test changed. Separate M1-11 rerun passed on corrected source in Piney Mountain, Virginia (5162738), seed bc3f68c98ddb7a2635d7314443dbe6753441e4df8516b3b50ef10c91a73be08d: drives-economy.test.ts 5 passed in 16.7s; played-year check passed in 69.4s. Full local output: /tmp/lane-2-golden-baseline.log.
+
+## Current card: First minutes
+
+- Finish line: in every new life, no player shares a first name with a living sibling, no parent was under 15 at birth, and every household has a home record that determines the room.
+- Pool items, in order: people-player-shares-sibling-name; people-m0-06-parent-fourteen-at-birth; housing-dwelling-records-cover-few-households.
+- Proof: 20 drawn lives with town and replay; pinned regressions Mazomanie b37762f4-7895-40f5-8d83-0634db5b60cb; Hebron 5533675 / ed0fcb9d5fe8c4fc405921ee692d31ba212d34a236b449fb2c63040a79e143bb; Norcross GOLDEN_PATH_SEED=b2. Existing checks: src/core2/m0-life-at-18.test.ts and src/bench/room-condition.test.ts. Browser replay of all eight fixed towns for the path.
+- Hands off: the 15-year test and opening screens; other lanes' owned files without agreement.
+- Known cheats: renaming only on screen, skipping a place, a default home for households without a record.
+- Size: three small PRs; split any unit growing beyond about 400 changed lines.
+- Checked by: a fresh session opening all eight fixed towns on main; none assigned or recorded yet.
+- Current action: parent-birthday correction in opening-kin.ts. Before: unchanged M0-06 fails in Hebron, expected 14 >= 15. Levi Sims person_8c0d0b0d5e62f97f born 2002-06-24; mother Haley Sims person_8bf215274a5f3b71 born 1987-11-08. A full generated-family audit found 18 under-15 links, including ages 12 and 13; the corrected audit found zero. Existing kin/M0 checks plus the new regression: 17 tests passed. Restoring the original generator makes both new regression cases fail (Hebron and Stoddard, Wisconsin / ff28471ddd8550e2f827f9d66c567dfeea63171140ee0e35a12d38e286a3b788). Not Built or Verified yet. The sibling item's past-family.ts no longer exists; its current producer is opening-kin.ts/population.ts.
+- Four-year performance comparison complete, one process at a time, same machine, Haleyville / ab5f58e9be125c95 / 0132704. Base: 53.1, 138.0, 141.6, 394.1 seconds. Corrected: 53.4, 129.7, 136.6, 333.5 seconds (+0.6%, -6.0%, -3.5%, -15.4%). Every year meets the 20% comparison. Both runs exit 1 for the existing 120-second bar in years 2–4, without crashing; no limit changed. Record growth overlaps Lane 5's existing core-long-run-tables-grow-with-history work. Receipts: /tmp/lane-2-parent-speed-{base,head}.json. Ten fresh regression draws passed; unchanged M0-06 passed in Rand, Hebron, Springfield (Wisconsin) and New Castle (Delaware). Commands and full seeds: docs/lanes/proof/parent-birthdays.md. Corrected source commit 6c745b3717 opened New Game through Chromium in Santa Rita Ranch, Texas, replay 738770178046ccd7, Kevin Walter (person_8e8f742fb879fcf8), HTTP 200 for New Game and advance and zero page errors. The advance ended at 2025-01-21 07:00 with simulatedDays=0; opening smoke only. M1-11 passed alone on the original Piney Mountain draw; logs /tmp/lane-2-m1-11-{0,1}.log.
+- Read-only follow-up: sibling-name generation does not exclude siblings' names, and the creator can later choose a sibling's name through Lane 5's writer. Housing's opening filter seeds only the played town, leaving outside relatives without dwellings; Norcross measurement is next before a housing change. The inherited #7082 describes rates selecting partnerships and is not accepted as proof under this goal's rule.
+- After merging main 8bd425577e without conflicts, source head 1f36cc0c4d4ebe8b854f16e1f01111193d9e243f passed another Chromium New Game and advance: Maxwell Colony, South Dakota, replay b3360053421257aa, Kendall Vincent (person_40ae4c791c871ce4), age 65. Both requests returned HTTP 200, with zero page errors. Local screenshot and response: test-results/lane-2-parent-merged/new-game.png and result.json.
+- Custom-name seam: proposed agreement in docs/lanes/agreements/2-5.md; no acceptance from Lane 5 recorded and no shared source changed.
+
+## Played paths
+
+| Path                             | Status                                | Town / replay and proof                                                |
+| -------------------------------- | ------------------------------------- | ---------------------------------------------------------------------- |
+| 1. First minutes                 | Not built by this session; unverified | Eight fixed towns; pending                                             |
+| 2. A vote reaches a person       | Unverified                            | Meadow Lakes / f835dd278d7312a1; pending                               |
+| 3. Congress passes a law         | Unverified                            | Drawn town and replay pending                                          |
+| 4. Other states and towns govern | Unverified                            | Haleyville / ab5f58e9be125c95; pending                                 |
+| 5. A sane session                | Unverified                            | Charlotte Amalie / 8d768ae66bd2d090; pending                           |
+| 6. A medical bill                | Unverified                            | Storrs / storrs-1; pending                                             |
+| 7. Money makes sense             | Unverified                            | Cabo Rojo / f857db7436bf7449; Santa Rita / 6f539fcfdf6d96f9-5; pending |
+| 8. A layoff                      | Unverified                            | Storrs / storrs-1; pending                                             |
+| 9. Couples                       | Unverified                            | Murray / 1d3f0e18ca4ba7e5; pending                                     |
+| 10. Neighbors differ             | Unverified                            | Haleyville / ab5f58e9be125c95; pending                                 |
+| 11. The crowd moves              | Unverified                            | Brookside / 4d50e1f88df997f9; pending                                  |
+| 12. Towns keep their people      | Unverified                            | Murray and Haleyville, replays above; pending                          |
+| 13. Town life                    | Unverified                            | Meadow Lakes / f835dd278d7312a1; pending                               |
+| 14. A bribe                      | Unverified                            | Washington, D.C. / dc-closures-a; pending                              |
+
+Print and check each replay's actual place on first use; use the New Game Advanced picker if it moved. No law-chain or performance claims yet. No design questions. No repeated three-attempt failure yet.
+
+## Next build: sibling names
+
+Claimed people-player-shares-sibling-name on lane-2/sibling-names, based on current main after the claim. Reproduce Mazomanie replay b37762f4-7895-40f5-8d83-0634db5b60cb first through buildBenchWorld; name the actual place, since replay geography can move. Trace generated names in town-households.ts, population.ts and opening-kin.ts, and custom names through chooseIdentityV1 in state.ts. Preserve the chosen name and change a colliding sibling in the actual person record, with family/history readers checked. Generated-family naming is now implemented in opening-kin.ts, population.ts and sibling-names.ts; no Lane 5 source changed. Mazomanie reproduces exactly: Evelyn Underwood person_526f98c72f070459 and living sister person_f277a01c09158a60. The correction keeps the player Evelyn and gives the sister Sabrina in her record. sibling-names.test.ts passed on Mazomanie (132 living sibling links) and Madison, New York (3644424; run replay 3f9c85898019ebff, world seed 531af62d2399236aeb7beb78b41f759578bfe2ce47ddda2f62b0279951105074; 114 links). Restoring the original generators makes Mazomanie fail; restoring the correction passes both cases again. The first ablation was interrupted by an environment restart and is not counted. Fixed source is backed up in /tmp/lane-2-sibling-fixed/. Twenty fresh lives, creator integration, browser proof and timing are still required; no second PR is open. Plan: use the existing corpus/cohort functions to exclude living siblings' names at generation; a pure resolver may be called by the existing identity writer under a written Lane 2–5 seam. No new identity writer or screen-side fix. Twenty drawn lives and the Mazomanie regression are the item's proof; the eight fixed towns remain the whole path's finish line.
