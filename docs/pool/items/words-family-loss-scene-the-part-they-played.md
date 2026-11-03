@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: lane3/night-you-lose
-pr:
+pr: #7151
 blocked-on:
 source: added with npm run pool -- add
 lead: director
