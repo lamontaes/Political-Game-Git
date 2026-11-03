@@ -375,7 +375,6 @@ export function createCore(
     quietChoiceByPerson: new Map(),
     logByPerson: new Map(),
     logByKind: new Map(),
-    logByPlace: new Map(),
     latestPublicViews: new Map(),
     actCounters: new Map(),
     actCountersByMonth: new Map(),
@@ -768,7 +767,6 @@ export function retainLog(
   for (const id of new Set([...row.personIds, ...(row.witnessIds ?? [])]))
     index(core.logByPerson, id, row.id);
   index(core.logByKind, row.kind, row.id);
-  index(core.logByPlace, row.placeId, row.id);
 }
 
 /** Shared act admission is pure so coupled money writers can validate before payment. */
@@ -2805,11 +2803,7 @@ export function assertCoreIntegrity(core: CoreState): void {
       `membership:${id}`,
     );
   for (const [id, row] of core.durableLog) {
-    fail(
-      core.logByKind.get(row.kind)?.has(id) === true &&
-        core.logByPlace.get(row.placeId)?.has(id) === true,
-      `log:${id}`,
-    );
+    fail(core.logByKind.get(row.kind)?.has(id) === true, `log:${id}`);
     for (const actorId of row.personIds)
       fail(core.logByPerson.get(actorId)?.has(id) === true, `log-person:${id}`);
   }

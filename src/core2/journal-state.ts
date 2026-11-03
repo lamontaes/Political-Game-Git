@@ -147,6 +147,22 @@ export interface CashJournalReceipt extends CashJournalProjection {
   };
 }
 
+/**
+ * One followed person's itemized receipts of one kind in one calendar year,
+ * once they fold past their readers' windows (`foldCashJournalDetail`): what
+ * came in, what went out and how many payments. At most one row per person,
+ * kind and year.
+ */
+export interface CashJournalFoldedTotal {
+  readonly ownerId: string;
+  readonly year: number;
+  /** The receipt's source kind (`sourceRef.kind`), as dev mode's ledger groups it. */
+  readonly kind: string;
+  inMinor: number;
+  outMinor: number;
+  count: number;
+}
+
 export interface CashJournalRuntime {
   accounts: Map<string, CashAccountSnapshot>;
   accountsByOwner: Map<string, Set<string>>;
@@ -167,6 +183,8 @@ export interface CashJournalRuntime {
   detailedByOwner: Map<string, Set<string>>;
   /** Only still-required canonical sources occur in this current-source index. */
   requiredBySource: Map<string, Map<string, string>>;
+  /** Folded receipts by person, then by "<year> <kind>": dev mode reads them as earlier years. */
+  foldedByOwner: Map<string, Map<string, CashJournalFoldedTotal>>;
 }
 
 const nativeMapSet = Map.prototype.set;
@@ -505,6 +523,7 @@ export function emptyCashJournalRuntime(
     detailedReceipts: new Map(),
     detailedByOwner: new Map(),
     requiredBySource: new Map(),
+    foldedByOwner: new Map(),
   };
   protectJournalObjects(
     runtime,
@@ -522,6 +541,7 @@ export function emptyCashJournalRuntime(
     runtime.detailedReceipts,
     runtime.detailedByOwner,
     runtime.requiredBySource,
+    runtime.foldedByOwner,
   );
   return runtime;
 }
@@ -2084,4 +2104,99 @@ export function releaseCashJournalSource(
   } finally {
     activeWriters.delete(runtime);
   }
+}
+
+/**
+ * Folds the itemized receipts past their readers' windows (CTO, Nov 1,
+ * 21:25: "itemized payment copies fold past their readers' windows"; the
+ * play-first lane and the laws lead agreed the windows). Walks the receipts
+ * from the oldest and stops at the first dated on or after `before`. It keeps
+ * a receipt its source still requires (an open obligation; release reads it),
+ * every observer-mode receipt, one a kept record names by id (`named`), and
+ * one dated on or after `householdSince` that the player or a member of the
+ * player's household is followed on. Every other receipt adds its amount and
+ * count to each followed owner's total for its kind and calendar year
+ * (`foldedByOwner`), leaves those owners' indexes (an emptied index goes) and
+ * goes. Balances, the lifetime totals, the latest rows and the required index
+ * stay whole. Folding again on the same day changes nothing. Returns how many
+ * receipts folded.
+ */
+export function foldCashJournalDetail(
+  runtime: CashJournalRuntime,
+  keep: Readonly<{
+    before: string;
+    householdSince: string;
+    householdIds: ReadonlySet<string>;
+    named: ReadonlySet<string>;
+  }>,
+): number {
+  if (activeWriters.has(runtime)) throw new Error("Reentrant journal fold.");
+  activeWriters.add(runtime);
+  const { zero, one } = constants(P);
+  let folded = zero;
+  try {
+    const checks = bookkeeping(),
+      receipts = runtime.detailedReceipts,
+      indexes = runtime.detailedByOwner,
+      totals = runtime.foldedByOwner;
+    // Posting order is date order (the date only moves forward, and a release
+    // replaces its row in place), so the old receipts lead.
+    for (const [id, receipt] of receipts) {
+      if (receipt.date >= keep.before) break;
+      const retention = receipt.retention;
+      if (
+        retention.requiredBySource ||
+        retention.observer ||
+        keep.named.has(id) ||
+        (receipt.date >= keep.householdSince &&
+          retention.focusOwnerIds.some((ownerId) =>
+            keep.householdIds.has(ownerId),
+          ))
+      )
+        continue;
+      const year = Number(receipt.date.slice(zero, receipt.date.indexOf("-"))),
+        kind = receipt.sourceRef.kind,
+        key = `${year} ${kind}`;
+      for (const ownerId of retention.focusOwnerIds) {
+        const ids = indexes.get(ownerId);
+        if (checks && !ids?.has(id))
+          throw new Error(
+            "A folded journal receipt is missing from its index.",
+          );
+        const change = receipt.owners.get(ownerId),
+          delta = change ? change.afterMinor - change.beforeMinor : zero;
+        let byKind = totals.get(ownerId);
+        if (!byKind) {
+          byKind = new Map();
+          protectJournalObjects(byKind);
+          nativeMapSet.call(totals, ownerId, byKind);
+        }
+        let row = byKind.get(key);
+        if (!row) {
+          row = {
+            ownerId,
+            year,
+            kind,
+            inMinor: zero,
+            outMinor: zero,
+            count: zero,
+          };
+          protectJournalObjects(row);
+          nativeMapSet.call(byKind, key, row);
+        }
+        if (delta >= zero) row.inMinor += delta;
+        else row.outMinor -= delta;
+        row.count += one;
+        if (ids) {
+          nativeSetDelete.call(ids, id);
+          if (ids.size === zero) nativeMapDelete.call(indexes, ownerId);
+        }
+      }
+      nativeMapDelete.call(receipts, id);
+      folded += one;
+    }
+  } finally {
+    activeWriters.delete(runtime);
+  }
+  return folded;
 }

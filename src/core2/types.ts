@@ -817,7 +817,6 @@ export interface CoreState {
   quietChoiceByPerson: Map<PersonId, string>;
   logByPerson: Map<PersonId, Set<string>>;
   logByKind: Map<string, Set<string>>;
-  logByPlace: Map<PlaceId, Set<string>>;
   latestPublicViews: Map<
     string,
     { personId: PersonId; topic: string; view: string; reasonKey: string }
