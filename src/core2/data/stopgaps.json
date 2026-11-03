@@ -7553,7 +7553,7 @@
     "kind": "missing-mechanic",
     "file": "src/bench/play.mjs",
     "line": 0,
-    "whatItFakes": "The filing counter offers at most six replies; an office that takes more races than that shows the first six at the counter, and the rest are reached from the office's own view in Travel and from Campaigns.",
+    "whatItFakes": "The filing counter offers at most four replies; an office that takes more races than that shows the four soonest at the counter, and the rest are reached from the office's own view in Travel and from Campaigns.",
     "why": "The talk box holds a few replies, never a long list (owner, Oct 26), and the Open races menu that held the rest was a dev panel (owner, Oct 28, point 29).",
     "addedBy": "screens session (sitting Oct 28, point 29)",
     "addedAt": "2026-10-28",
@@ -7967,6 +7967,30 @@
     "status": "open"
   },
   {
+    "id": "SG-GOV-outside-donor-month-income",
+    "kind": "partial-model",
+    "file": "src/core2/modules/campaigns.ts",
+    "line": 3135,
+    "whatItFakes": "Donors outside the town (askOutsideDonors, for seats wider than the town) give only the savings share of the person rule (donationShareOfCashPerWarmth), and on a typical donor's whole account balance one for one (medianTransactionBalance at outsideDonorIncomeUsd), not as a named donor does on the savings beyond a cushion of their living costs, weighed on a log scale of that cushion; the share of a month's income after bills that a named donor also gives from (giftBudget, donationShareOfMonthPerWarmth, weighed on a log scale of donationMonthScaleMonths of their living costs) is not read for them.",
+    "why": "The outside donor is a counted place group with no household of its own: no recorded monthly living costs to take from a typical donor's income, so the month's budget after bills cannot be read from records yet.",
+    "addedBy": "governing/campaign-money-calibrated",
+    "addedAt": "2026-10-30",
+    "replacement": "Read a typical donor household's monthly living costs for the place group (the same living-cost tables the population is built from), make the cushion and the month's spare from them, and give by donationAnswer's two log-scaled shares, so outside and named donors use one rule; recheck the outside share of a campaign's receipts against localInPlaceDonorShare (0.65, 0.25 to 0.95).",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-gift-no-living-costs",
+    "kind": "partial-model",
+    "file": "src/core2/modules/campaigns.ts",
+    "line": 2921,
+    "whatItFakes": "A donor whose household holds no recorded living costs at all (no member carries a livingCostDailyMinor) has no span to weigh money against (weighedAgainst), so the month's spare after taxes and their savings each count one for one toward a gift, as if a dollar weighed the same however many they had, and their cushion is zero; the month's part is still capped at the month's spare. A donor with no living costs of their own but a household that has them already takes the span and cushion from their share of the household's month (giftBudget). In the calibration's drawn places these donors are press staff seated by identity fill-in (SG-PEOPLE-press-staff-households): 631 of 10,990 gifts but 44.6% of the money (408 places, 51 run seeds, Nov 1), $1,200 at the median and up to $5,049.",
+    "why": "The opening population puts a household's living costs on its heads (population.ts), and the press module seats staff it cannot draw from the town's people alone, with no rent or living costs (SG-PEOPLE-press-staff-households), so their households hold none. Unknown costs are not zero, but nothing yet gives those households a month of costs, and the campaigns engine is not the place to price a household.",
+    "addedBy": "governing/campaign-money-calibrated",
+    "addedAt": "2026-11-01",
+    "replacement": "Give such households their month of living costs where they are made (press staff through the one-person household official-living.ts already gives owners and officials, giveLivingCost, or the household draw SG-PEOPLE-press-staff-households names), delete the one-for-one branch, and refit donationShareOfMonthPerWarmth: with those donors weighed against their town's median month instead, the best share (about 2.2) leaves 13% of eight-place and 3.3% of sixteen-place pools outside a band, so the money rule needs more than a new share.",
+    "status": "open"
+  },
+  {
     "id": "SG-CAMPAIGN-volunteer-shift-no-scene",
     "kind": "missing-mechanic",
     "file": "src/core2/modules/campaigns.ts",
@@ -8012,6 +8036,66 @@
     "addedBy": "governing builder (gov-m3-01-city-attorney-warning-on-the-bill)",
     "addedAt": "2026-10-30",
     "replacement": "The executive engine seats each other body's own lawyer as an appointment the way it seats the town's City Attorney (the county attorney from the county forms in executive-powers-2026.json, township counsel and legislative counsel from research on who advises each kind of body), and the paper names that appointment's title in bill-paper.authority.disputed.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-platform-support-true-share",
+    "kind": "missing-record",
+    "file": "src/core2/campaign-stances.ts",
+    "line": 384,
+    "whatItFakes": "A candidate choosing which questions to run on reads the true share of the town's electorate on their side of each question (electorateSides: every named adult at their own view, every counted record at its record's stance times the people it stands for, by the stance the ballot reads a voter's agreement from), as if they knew it exactly. For a ward, county, state or federal seat it is still the town's electorate, so a statewide candidate is scored against one town.",
+    "why": "The research rule scores a question by the support the candidate believes it has (Druckman, Jacobs and Ostermeier 2004 used Nixon's private polls), and no engine keeps a candidate's belief about how the town stands on a question.",
+    "addedBy": "governing lead",
+    "addedAt": "2026-10-30",
+    "replacement": "The candidate's belief about support, read from the people they know and the polls and news they have received, so it leans toward their own side and their circle (Pereira, APSR 2021: local officials misjudge majority opinion and overestimate support for the policies they endorse) and toward the conservative position, more for Republicans (Broockman and Skovron 2018: Republicans overestimate support for the conservative position on every issue by over ten points and often by over twenty, Democrats by less), with the seat's own electorate (its ward, county or state) in place of the town's.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-platform-slope-c1-out-of-band",
+    "kind": "uncalibrated-tunable",
+    "file": "src/core2/campaign-stances.ts",
+    "line": 381,
+    "whatItFakes": "platformSupportSlope is the study's domestic coefficient carried over, and the played total it is checked against does not reach the research's band. The research's C1 (docs/research/platform-emphasis-2026-10-30.md, as its quote verification restates it: +16% to +86% emphasis per 10 points of support), measured from what candidates said by record (messages and speeches on each question they hold a view on, silences included, each candidate offset by how many questions they hold a view on) over 42 candidates in four drawn places' years (run seed b6c9d59eda6a31f1, src/core2/campaign-platform-played.test.ts), gives -3% at the slope's value 0.035; with each campaign's lead chosen again from the recorded scores, -16% at 0 (the old rule), -10% at 0.015 and -3% at 0.028, 0.043 and 0.062. No slope in the research's spread brings it in. Every act carries the campaign's lead alone (SG-GOV-platform-emphasis-lead-only), so each candidate's emphasis is all on their top score, the fit within one candidate's questions has no finite value, and the pooled total is set by the differences between candidates; over every slope from 0.028 up the top score does not change. Earlier measures on score shares (-13% pooled, +345% to +712% within candidates) overshoot or miss for the same reasons: picking the top 3 with silences sharpens the slope, as the research's C1 warns.",
+    "why": "The study followed one candidate who spoke on many issues in graded amounts; the played world's candidates each speak on one question, and their support varies mostly between candidates (a candidate on the town's minority side has low support on most questions), not between one candidate's questions. Which total C1 holds in a world of many candidates, and whether a campaign's acts should share its emphasis over the platform by score as the research's emphasis share has it, is the governing lead's ruling.",
+    "addedBy": "governing lead",
+    "addedAt": "2026-10-30",
+    "replacement": "The slope measured into the C1 band once a campaign's acts share its emphasis over the platform by score (SG-GOV-platform-emphasis-lead-only's replacement), by the pooled total with each candidate's offset, and the played-year test holds the band again: pool item campaign-platform-emphasis-c1. Until then the test prints C1 and does not hold it (governing lead, Nov 2, under the CTO's Nov 1 ruling that an unmet calibration line is reported in the PR and carried to its own item, never tuned or widened to pass).",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-budget-line-stance-lean-only",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/voting.ts",
+    "line": 1526,
+    "whatItFakes": "A voter's stance on spending more on a budget line (\"budget-line:<line>\") is their lean times the line's party direction (budget-line-axes.json, GSS 2024 by party) and nothing else: no faith, degree or age term as the policy questions have, and no term for the town's overall wish to spend more or less on it. Every line therefore splits the electorate the same way, the share on the right of the town's lean order against the share on the left, so a candidate's support on every spending line they hold a view on is the same number, and the platform rule chooses among spending lines by conviction alone.",
+    "why": "The opening-stance loadings (opening-stance-loadings.json, CES 2020) cover the survey's policy items only; no loading table exists for the GSS spending items, and the spending preferences in data/research/money are kept by party only.",
+    "addedBy": "governing lead",
+    "addedAt": "2026-10-30",
+    "replacement": "Faith, degree and age loadings for each budget line from the GSS spending items (NATEDUC, NATHEAL, NATCRIME and the rest, 2024 cumulative file) and the national share wanting more spent on each, read into the opening stance by the views engine for named and counted voters alike.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-platform-record-term-left-out",
+    "kind": "missing-mechanic",
+    "file": "src/core2/campaign-stances.ts",
+    "line": 386,
+    "whatItFakes": "A candidate's platform score leaves out the research rule's record factor, (1 + platformRecordWeight x record(q)): a question the candidate's own votes, job or past acts bear on favorably scores no higher than one they have no record on.",
+    "why": "The research (docs/research/platform-emphasis-2026-10-30.md, section 1 and the verified P4) multiplies the score by the record term with platformRecordWeight 0.5, TUNABLE, spread 0 to 1, from Sellers (APSR 1998), which gives only the direction; the first version scores conviction and support only.",
+    "addedBy": "governing lead",
+    "addedAt": "2026-10-30",
+    "replacement": "record(q), 0 to 1, read from the candidate's recorded votes on the question (StanceReader.votesOn, the votes a voter's record reader already reads) and their job's tie to it, weighted by a platformRecordWeight row (TUNABLE, 0.5, spread 0 to 1, Sellers 1998), with C1 kept in its band with it on.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-platform-emphasis-lead-only",
+    "kind": "missing-mechanic",
+    "file": "src/core2/campaign-views.ts",
+    "line": 41,
+    "whatItFakes": "Every campaign act that carries one question (a donor meeting, an event, an ad, a mailer, an evening of doors) carries the campaign's lead (platformLead), so everything a candidate chooses to say in a race is on one question, the top score of their platform; the other platform questions are heard only where the whole platform is (a door, an interview answer).",
+    "why": "The research's emphasis share gives each platform question its score's share of the space in speeches, flyers, ads and news quotes (docs/research/platform-emphasis-2026-10-30.md, section 1), and no campaign engine yet takes its acts' topics in turn over the platform.",
+    "addedBy": "governing lead",
+    "addedAt": "2026-10-30",
+    "replacement": "Each act's topic taken in turn over the platform, the question furthest behind its score's share of what the campaign has said so far (no roll), so a candidate's messages and speeches follow the score shares; C1 then measured from those records.",
     "status": "open"
   },
   {
@@ -8066,12 +8150,24 @@
     "id": "SG-WORDS-milestone-birthday-full-people",
     "kind": "rule-copy",
     "file": "src/core2/modules/press.ts",
-    "line": 3074,
+    "line": 3079,
     "whatItFakes": "The paper's round-birthday and retirement briefs read only the town's full residents; a counted resident who turns 80, 90 or 100, or who retires, gets no notice.",
     "why": "A birthday notice names the person, and a counted resident has no name until the player meets them. Filling one in for the paper would make the press decide who exists.",
     "addedBy": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
     "addedAt": "2026-11-01",
     "replacement": "A person a brief names is a named person, so the counted resident whose round birthday falls in the week is filled in, seeded from the world, when the notice prints (two-level population; the CTO, Nov 1, the same rule the lives lead uses), and the week's round birthdays are read from the counted population's ages by place by the same rule as a full resident.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-letters-counted-readers",
+    "kind": "rule-copy",
+    "file": "src/core2/modules/press.ts",
+    "line": 3220,
+    "whatItFakes": "Only full readers write letters to the editor: a counted reader of the outlet never does.",
+    "why": "A letter is written from a stance the reader's last story moved, and a counted reader's view is not moved by what they read (views.ts countedLean), so no counted stance cites a story to answer.",
+    "addedBy": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+    "addedAt": "2026-11-01",
+    "replacement": "The CTO's rule (OWNER-DECISIONS Nov 1 20:00): counted readers are weighed by the same press.letter rule, times their count, from their view on the story's question and their temperament, and the writer a printed letter names is filled in, seeded, when it prints.",
     "status": "open"
   },
   {
@@ -8108,6 +8204,18 @@
     "addedBy": "play-offices-keep-their-hours (Claude Sonnet 5.5, play-first lane)",
     "addedAt": "2026-11-01",
     "replacement": "Every filing office's clerk or staff is a person with work spans (or the office's own published hours are a record), after which `data/office-hours.json` and this fallback are deleted.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PLAY-campaign-acts-buttons",
+    "kind": "placeholder",
+    "file": "src/bench/play.mjs",
+    "line": 1463,
+    "whatItFakes": "Volunteers, Donations, Endorsements, Ad, Poll, Mail and Put in your own money are buttons on the campaign trail card in Travel, not scenes at places.",
+    "why": "The Campaigns tab shows standing only (owner, Oct 20: campaign acts are scenes you go to); the doors, event, forum, interview, calls, donor meeting, speech and debate already start their scenes, and these seven have no scene yet.",
+    "addedBy": "play-first-13-campaign-screen-to-mock-b (Claude Sonnet 5.5, play-first lane)",
+    "addedAt": "2026-11-01",
+    "replacement": "Each becomes a scene the director stages (play-campaign-acts-as-scenes): an evening of donor calls, a volunteer shift at the office, an endorsement meeting, an ad shoot, the pollster's briefing, the mail piece, putting in your own money; then the buttons and this entry are deleted.",
     "status": "open"
   }
 ]

@@ -306,12 +306,15 @@
     "open": "Open now",
     "closed": "Closed now",
     "opensAt": "Closed now. Opens {day} at {time}.",
+    "counterTitle": "{office}, {town}",
+    "filingDoes": "You file here to run for office. The clerk takes your papers, tells you each race's dates and what it asks of you, and keeps your filing.",
     "reasons": {
       "work": "You work here",
       "action": "You can",
       "serve": "Where you serve",
       "filing": "You file here"
     },
+    "trail": "The campaign trail",
     "whatYouDo": "What you do here",
     "whoWorks": "Who works here",
     "district": "District"
