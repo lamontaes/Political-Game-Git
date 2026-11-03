@@ -5,6 +5,12 @@ import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { coreAPI } from "./state";
+import cohorts from "./data/names/given-names-by-decade.json" with { type: "json" };
+import {
+  DEFAULT_CORPUS_VERSION,
+  getNameCorpus,
+  givenNamePoolForCorpus,
+} from "./gov-rules/names-data";
 
 const replay = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const drawn = drawPlace(replay, "sibling-names");
@@ -69,11 +75,13 @@ it("keeps a chosen sibling name on the player and updates the sibling's record",
       return row?.alive ? [row] : [];
     });
   expect(siblings.length).toBeGreaterThan(0);
+  expect(siblings[0]!.looks?.gender).toBe("female");
   const chosen = siblings[0]!.givenName.toUpperCase();
   const before = siblings.map((row) => ({
     id: row.id,
     familyName: row.familyName,
     birthDate: row.birthDate,
+    looks: structuredClone(row.looks),
     facts: structuredClone(row.pastFacts),
   }));
   coreAPI(core).chooseIdentityV1(player.id, {
@@ -85,11 +93,19 @@ it("keeps a chosen sibling name on the player and updates the sibling's record",
   expect(player.givenName).toBe(chosen);
   const names = [player, ...siblings].map((row) => row.givenName.toLowerCase());
   expect(new Set(names).size).toBe(names.length);
+  const femaleNames = new Set([
+    ...givenNamePoolForCorpus(getNameCorpus(DEFAULT_CORPUS_VERSION), "female"),
+    ...Object.values(cohorts.decades).flatMap((decade) =>
+      decade.female.map(([name]) => name),
+    ),
+  ]);
+  expect(femaleNames.has(siblings[0]!.givenName)).toBe(true);
   expect(
     siblings.map((row) => ({
       id: row.id,
       familyName: row.familyName,
       birthDate: row.birthDate,
+      looks: structuredClone(row.looks),
       facts: structuredClone(row.pastFacts),
     })),
   ).toEqual(before);

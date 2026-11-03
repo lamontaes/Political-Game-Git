@@ -1654,7 +1654,12 @@ export function coreAPI(core: CoreState): CoreAPI {
         row.givenName = distinctSiblingGivenName(
           core.seed,
           row.id,
-          row,
+          {
+            givenName: row.givenName,
+            familyName: row.familyName,
+            birthDate: row.birthDate,
+            gender: row.looks?.gender,
+          },
           siblingNames,
         );
         siblingNames.push(row.givenName);

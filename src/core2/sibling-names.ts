@@ -4,7 +4,6 @@ import {
   getNameCorpus,
   givenNamePoolForCorpus,
 } from "./gov-rules/names-data";
-import type { GenderIdentityKey } from "./gov-rules/types";
 import { SeededRng } from "./kernel/rng";
 
 /** Keep a generated name unless a living sibling already carries it. */
@@ -15,17 +14,23 @@ export function distinctSiblingGivenName(
     givenName: string;
     familyName: string;
     birthDate: string;
-    gender: GenderIdentityKey | undefined;
+    gender: string | undefined;
   },
   takenGivenNames: readonly string[],
 ): string {
   const taken = new Set(takenGivenNames.map((name) => name.toLowerCase()));
   if (!taken.has(person.givenName.toLowerCase())) return person.givenName;
   const corpus = getNameCorpus(DEFAULT_CORPUS_VERSION);
+  const gender =
+    person.gender === "male" ||
+    person.gender === "female" ||
+    person.gender === "nonbinary"
+      ? person.gender
+      : "unstated";
   const pool =
-    !person.gender || person.gender === "unstated"
+    gender === "unstated"
       ? corpus.givenNames
-      : givenNamePoolForCorpus(corpus, person.gender);
+      : givenNamePoolForCorpus(corpus, gender);
   const available = pool.filter((name) => !taken.has(name.toLowerCase()));
   if (!available.length) throw new Error("No unused sibling name in corpus.");
   const givenName = new SeededRng(seed)
@@ -34,7 +39,7 @@ export function distinctSiblingGivenName(
   const cohort = birthCohortGivenName(
     seed,
     key,
-    { ...person, givenName },
+    { ...person, givenName, gender },
     takenGivenNames,
   );
   // A creator's capitalization must not turn Evelyn into a second EVELYN.
