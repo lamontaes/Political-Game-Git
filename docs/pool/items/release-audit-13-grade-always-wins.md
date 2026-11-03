@@ -6,11 +6,11 @@ kind: bug
 priority: 3
 size: S
 status: open
-claimed-by: claude/political-game-pool-76ksvw
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T04:32:27.396Z
+claimed-at:
 ---
 
 **What.** Require several grades or keep variety so one grade no longer forces a piece to win, and set the release note to impact none until grades exist.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T04:32:27.396Z
 **Files.** docs/release/changes, the grading module #5286 touched
 
 **Notes.** Item 13 of docs/reports/merge-audit-2026-10-20.md, split from release-merge-audit-oct20-fixes. Released from idle draft #5180 by the CTO, Oct 26.
+
+Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/political-game-pool-76ksvw` (2026-10-20). Cleared from the front matter and kept here.
