@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: lane-5/home-sale-outside-lender
-pr:
+pr: #7148
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-03T22:37:54.969Z

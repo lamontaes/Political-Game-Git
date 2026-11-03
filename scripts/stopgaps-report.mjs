@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 // Lists every open stopgap, grouped by owning session (id prefix) and then by kind.
 // Read-only: it never edits the registries. Output is Markdown for BOARD.md's "Open stand-ins".
-import { readFileSync, existsSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { dirname, join } from "node:path";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 export const REGISTRIES = [
-  "src/core2/data/stopgaps.json",
+  "src/core2/data/stopgaps",
   "src/director/data/stopgaps.json",
 ];
 export const KINDS = ["behavior", "figure", "text", "art", "unclassified"];
@@ -103,9 +103,19 @@ export function loadRows(root = ROOT, registries = REGISTRIES) {
   for (const rel of registries) {
     const path = join(root, rel);
     if (!existsSync(path)) continue;
-    const parsed = JSON.parse(readFileSync(path, "utf8"));
-    if (!Array.isArray(parsed)) throw new Error(`${rel} is not a list of rows`);
-    rows.push(...parsed);
+    // A folder is a register kept one file per family (src/core2/data/stopgaps).
+    const files = statSync(path).isDirectory()
+      ? readdirSync(path)
+          .filter((f) => f.endsWith(".json"))
+          .sort()
+          .map((f) => join(path, f))
+      : [path];
+    for (const file of files) {
+      const parsed = JSON.parse(readFileSync(file, "utf8"));
+      if (!Array.isArray(parsed))
+        throw new Error(`${file} is not a list of rows`);
+      rows.push(...parsed);
+    }
   }
   return rows;
 }
