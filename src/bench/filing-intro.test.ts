@@ -2,6 +2,8 @@ import { createHash } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "../core2/game-start";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { advanceCore } from "../core2/life";
 import { openBenchFilingVisit } from "./filing";
 import { governmentView } from "./government";
 import { buildBenchWorld } from "./world";
@@ -22,10 +24,21 @@ it("every counter with a clerk is introduced before the clerk speaks", () => {
   });
   const { core } = world;
   const me = world.playerId!;
-  const counters = new Set(
-    governmentView(core, me).contests.map((c) => c.filingOffice.filedWith),
-  );
-  expect(counters.size, `no counter in ${where}`).toBeGreaterThan(0);
+  // A counter offers races only while their filing is open (agreement 1-4:
+  // the elections engine's window), so the town's weeks go by until one does.
+  const countersToday = () =>
+    new Set(
+      governmentView(core, me).contests.map((c) => c.filingOffice.filedWith),
+    );
+  let counters = countersToday();
+  for (let week = 0; week < 104 && !counters.size; week += 1) {
+    advanceCore(core, addDays(makeIsoDate(core.date), 7));
+    counters = countersToday();
+  }
+  expect(
+    counters.size,
+    `no counter in ${where} by ${core.date}`,
+  ).toBeGreaterThan(0);
   let withClerk = 0;
   for (const filedWith of counters) {
     const visit = openBenchFilingVisit(core, me, filedWith, 10 * 60);
