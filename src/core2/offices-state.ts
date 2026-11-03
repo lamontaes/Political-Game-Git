@@ -75,6 +75,8 @@ interface ResearchChamber {
   readonly chamber: "upper" | "lower" | "unicameral";
   readonly staggered?: boolean;
   readonly name?: string;
+  /** The title the chamber's members hold ("State Senator", "Delegate", "Senator"). */
+  readonly memberTitle?: string;
   readonly seats?: number;
   readonly termYears?: number;
   readonly vacancyRule?: ResearchVacancy;
@@ -679,20 +681,24 @@ export function stateOffices(
         true,
       );
     }
+    // A one-chamber legislature is called by the legislature's own name
+    // ("Legislature of the Virgin Islands"); a chamber of two, by its own.
+    const chamberName =
+      key === "unicameral"
+        ? (place.legislature?.name ?? chamberRead?.name)
+        : chamberRead?.name;
     offices.push({
       office: {
         id,
         level: "state",
         jurisdiction: stateKey,
-        governmentName: chamberRead?.name ?? stateNameOf(stateKey),
-        bodyName: chamberRead?.name ?? stateNameOf(stateKey),
+        governmentName: chamberName ?? stateNameOf(stateKey),
+        bodyName: chamberName ?? stateNameOf(stateKey),
         kind: `legislature-${key}`,
+        // The members' title as the place's records name it.
         title:
-          key === "lower"
-            ? "State Representative"
-            : key === "unicameral"
-              ? "Legislator"
-              : "State Senator",
+          chamberRead?.memberTitle ??
+          (key === "lower" ? "State Representative" : "State Senator"),
         seats: seats.length,
         termYears: chamberRead?.termYears ?? null,
         elected: true,

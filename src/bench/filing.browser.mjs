@@ -107,36 +107,30 @@ try {
     choices.length,
     "two choices read the same",
   );
-  // The office explained on hover: the card names the office and what the
-  // records know of it, with nothing to mark learned.
+  // The counter shows at most four races, each told apart in its own line
+  // (seat, election day, who holds it) and no hover card over the next line
+  // (owner, Nov 1: "a terribly designed menu").
+  assert.ok(choices.length <= 4, `the counter lists ${choices.length} choices`);
   const pick = page
     .locator("#talk-choices button", { has: page.locator(".reply-facts") })
     .first();
   assert.ok(await pick.count(), "no race to pick at the counter");
-  const picked = (
-    await pick.evaluate((b) => b.childNodes[0]?.textContent ?? "")
-  ).trim();
-  await pick.hover();
-  await page.locator("#tip:not([hidden])").waitFor();
-  const tip = await page.evaluate(() => ({
-    term: document.getElementById("tip-term").textContent.trim(),
-    short: document.getElementById("tip-short").textContent.trim(),
-    learned: document.getElementById("tip-learned").hidden,
-  }));
-  console.log(`Hover "${picked}": ${tip.term} — ${tip.short}`);
-  assert.ok(
-    tip.term && picked.includes(tip.term),
-    "the card names another office",
+  const picked = (await pick.innerText()).replace(/\s+/g, " ").trim();
+  console.log(`Choice: ${picked}`);
+  assert.match(
+    picked,
+    /\b(January|February|March|April|May|June|July|August|September|October|November|December) \d{1,2}, \d{4}\b/,
+    "the race's line names no election day",
   );
-  assert.ok(tip.short.length > 8, "the card says nothing of the office");
-  assert.ok(tip.learned, "an office card offers Mark as learned");
-  assert.doesNotMatch(
-    tip.short,
-    /\b\d{4}-\d{2}-\d{2}\b/,
-    "a date reads as a code",
+  await pick.hover();
+  await page.waitForTimeout(600);
+  assert.equal(
+    await page.locator("#tip:not([hidden])").count(),
+    0,
+    "a hover card covers the choices",
   );
   await page.screenshot({
-    path: "docs/play-first/shots/sitting-oct28/30-office-hover.png",
+    path: "docs/play-first/shots/play-clerk-choices-designed/counter-1440x900.png",
   });
   await page.mouse.move(10, 10);
   await pick.click();
@@ -217,8 +211,14 @@ try {
   console.log(
     `Clock: ${before.date} minute ${before.minuteOfDay} -> ${after.date} minute ${after.minuteOfDay} (${spent} minutes)`,
   );
+  // The filing is recorded at the minute of the visit, and its own story may
+  // hold the clock there until the player lives through it (the office now
+  // opens at its clerk's hour, so the visit and the story share a minute).
+  const held =
+    (await (await page.request.get(`${base}/api/title`)).json()).life.packet
+      ?.kind === "stop";
   assert.ok(
-    spent > 0 && spent <= parameters.filingVisitHours.value * 60,
+    (spent > 0 || held) && spent <= parameters.filingVisitHours.value * 60,
     `filing moved the clock ${spent} minutes`,
   );
   // The visit lands in the day: never at 3:00 AM after a midnight start.
@@ -259,7 +259,7 @@ try {
     assert.equal(onRecord, joined, "the join did not reach the record");
   assert.deepEqual(errors, []);
   console.log(
-    "PASS the counter with no panels: races read apart and explain their office on hover; the filing keeps the party joined",
+    "PASS the counter with no panels: at most four races, each told apart in its own line with no hover card; the filing keeps the party joined",
   );
 } finally {
   await browser.close();

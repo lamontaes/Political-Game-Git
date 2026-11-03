@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: governing/traits-endorsements-heard
 pr: #7072
 blocked-on:

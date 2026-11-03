@@ -19,6 +19,8 @@ Learned by the path-check runners A and B and the speed lead, Oct 29 to Nov 1. A
 
 - **One heavy run at a time** on a 15 to 16 GB container. A second one, or a long save beside it, gets killed for memory.
 - **Give node 8,000 MB:** `NODE_OPTIONS=--max-old-space-size=8000` (or 8192). At 6,500, two of the three heaviest rows died with exit 134 (heap out of memory).
+- **The heavy lock serializes heavy runs only.** Start no light test run, matrix regeneration or typecheck in another copy while an 8 GB run holds it: on Nov 1 the lenders test was killed with "Worker exited unexpectedly" and no heap message while such runs shared the container.
+- **A test keeps one world in memory at a time.** A helper that returns a world (`api`, `core`) keeps it alive while the next one plays; return the values the caller reads instead. On Nov 1 the public-finance test held two worlds at once and ran past node's default heap on 5 of 7 seeds once the medical bills added rows.
 - **Pull the branch before every row,** and put `git log --oneline -1` in each result line. Branches moved under a run three times on Oct 30 to 31.
 
 ## During the run
@@ -27,7 +29,15 @@ Learned by the path-check runners A and B and the speed lead, Oct 29 to Nov 1. A
 - **Log progress to stderr as it happens** (`LOG …` lines), with stdout and stderr in separate files per row. A run that dies with nothing printed tells you nothing.
 - **Silence is not a hang.** Before calling a run stuck, read its memory (RSS) and when stderr last changed. Ringwood, New Jersey's race 2 (Nov 1) was one call living 22 months (to a petition due date) while the heap climbed from 567 MB to the 8 GB cap and the collector thrashed. That's memory, not a loop.
 - **A container or worker restart kills every background run and its watcher.** After any restart, check `ps` and the `.done` files before starting anything new.
+- **Do not resume a world from a snapshot to reproduce a crash.** `snapshotWorld` after a few simulated months is over 100 MB, past a year it is over `JSON.stringify`'s string limit (`RangeError: Invalid string length`), and a restored world is not the same world: the first day after a restore failed with "A drive act requires the actor's recorded drive" (Nov 1, Superior, Colorado). To reproduce a crash in year 3, rerun from the start and expect restarts to cost you a run; start the run right after one.
+
+- **A memory gate checks only at the start.** A gate that waits for free memory before a run still lets the run grow beside another one. The container's memory limit then kills the biggest process: vitest says "Worker exited unexpectedly", a script exits 137, and `dmesg` shows an oom-kill. On Nov 1 a test file running two workers next to a 5 GB replay lost a worker, and a low-priority replay was killed twice in an evening while workflows tested. Rerun the killed file alone with `--maxWorkers=1`, and rerun long replays when the machine is quiet.
 - **To swap a queue mid-run,** kill only the wrapper script by the PID you stored; let the node child finish, and have the replacement wait on that PID. Never `pkill -f <name>`: it matches your own shell (exit 144).
+- **List a run's inputs by exact name.** A loop over `$F/chunk-*` also took the logs written beside the chunks (`chunk-00.r2.log`) as seed lists on the next run, and spent three chunks on junk seeds (Nov 2). Write logs to their own folder, or list the inputs (`chunk-0[2-8]`).
+
+- **CI's heap is the default, about 2.2 GB.** Reproduce a CI out-of-memory with `env -u NODE_OPTIONS`. The container has no `/usr/bin/time`, so record a run's peak by polling its process tree's memory every two seconds: walk `pgrep -P` from the run's PID and sum `ps -o rss=`. On Nov 1, law-wiring-housing.test.ts died at the default heap on main and ran to the end on the closed-race fold.
+- **Never switch branches in a copy that a run or an agent is reading.** The pool CLI checks out a temporary branch in the copy it runs in, so run pool commands from an idle copy.
+- **A push to main can lose a race.** Fetch, rebase and push again, and stay on the branch until the push lands. Switching away first loses the commit, which happened twice on Nov 1.
 
 ## After the run
 
