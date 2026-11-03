@@ -5,11 +5,12 @@ area: docs
 kind: cleanup
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane-5/state-page
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-03T22:27:23.360Z
 ---
 
 **What.** No one page says where the game stands: the furthest step a player reaches, the newest build, who owns what and whether the pool's claims are true are spread across the leads channel, CREW.md, the pool and the roadmap. The owner reads several files to learn what he can play, and stale claims make open work look taken. Lane 5's unit 2 makes docs/STATE.md that page, with a source on every line.
