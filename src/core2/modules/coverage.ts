@@ -31,7 +31,12 @@
  * same policyholder and premium, until the next review ranks them as it ranks
  * everyone. The employer's share of the premium is part of the employer's
  * compensation and is not modeled.
+ *
+ * After the premiums, each household's out-of-pocket medical bills are billed
+ * from these records and paid, and what goes unpaid is placed for collection
+ * as a medical-debt record (medical-bills.ts).
  */
+import { billMedicalCare, EMPLOYER_PLAN_LEAVES_OUT } from "../medical-bills";
 import { webReach } from "../outcome-web-reach";
 import { coreAPI, registerModule } from "../state";
 import { outsideAccountOf } from "../budgets-treasury";
@@ -221,10 +226,18 @@ function holdersToday(
     // says has pushed this worker toward being uninsured (a recession lands
     // on men more than on women): the uninsured part times the web's factor
     // for them, in the same rank order.
-    const reach = webReach(api, c.placeId, "health.uninsured-pct", {
-      age: c.age,
-      ...(c.sex ? { sex: c.sex } : {}),
-    });
+    const reach = webReach(
+      api,
+      c.placeId,
+      "health.uninsured-pct",
+      {
+        age: c.age,
+        ...(c.sex ? { sex: c.sex } : {}),
+      },
+      // Medicaid coverage is not an employer plan: no worker's plan, in any
+      // place, reads a Medicaid law (medical-bills.ts).
+      EMPLOYER_PLAN_LEAVES_OUT,
+    );
     const slots = Math.round(
       total * Math.min(1, Math.max(0, 1 - (1 - share) * reach.factor)),
     );
@@ -562,6 +575,19 @@ function handOff(api: CoreAPI, householdId: string): void {
   );
 }
 
+/** The month's out-of-pocket medical bills, priced by the coverage records as they stand after the premiums. */
+function billMedical(api: CoreAPI): void {
+  billMedicalCare(api, {
+    module: COVERAGE_MODULE_ID,
+    coverage: new Map(current(api).map((row) => [row.personId, row.plan])),
+    countedHolders: new Set(
+      countedRows(api)
+        .filter((row) => row.to === null)
+        .map((row) => row.householdId),
+    ),
+  });
+}
+
 /** Each policyholder pays the month's premium to the outside account, from what they hold. */
 function payPremiums(api: CoreAPI): void {
   const outside = outsideAccountOf(api);
@@ -601,6 +627,8 @@ export const COVERAGE_MODULE: CoreModule = {
       countedCoverage: {
         indexes: { byHousehold: { fields: ["householdId"] } },
       },
+      // Each household's latest month of medical bills (medical-bills.ts).
+      medicalBills: {},
     },
   },
   onFillIn(api, { householdId }) {
@@ -614,6 +642,7 @@ export const COVERAGE_MODULE: CoreModule = {
     if (payday) {
       payPremiums(api);
       payCountedPremiums(api);
+      billMedical(api);
     }
     return undefined;
   },

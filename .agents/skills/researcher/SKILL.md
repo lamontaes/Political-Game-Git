@@ -35,7 +35,7 @@ engine can look it up and obey it.
 
 1. Claim a `kind: research` item from the pool before you read anything:
    `npm run pool -- claim <id> --branch <branch>`.
-2. Read every stopgap row the item lists in `src/core2/data/stopgaps.json`
+2. Read every stopgap row the item lists in its family file under `src/core2/data/stopgaps/`
    (`whatItFakes`, `why`, `replacement`) and the parameter rows in
    `src/core2/data/parameters.json` (or the area table it names) that carry
    `stopgapId` or the TUNABLE tag.

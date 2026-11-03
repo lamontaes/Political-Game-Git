@@ -982,7 +982,8 @@ interface LoanRow {
   householdId: string;
   borrowerId: string;
   lenderId: string;
-  kind: "personal" | "startup" | "mortgage" | "small-dollar";
+  /** A medical debt is a bill placed for collection, not money lent (`recordMedicalDebt`). */
+  kind: "personal" | "startup" | "mortgage" | "small-dollar" | "medical";
   principalMinor: number;
   balanceMinor: number;
   marketAnnualRate?: number;
@@ -993,6 +994,167 @@ interface LoanRow {
   pastDueMinor: number;
   firstPastDueAt?: string;
   standing: "current" | "late" | "charged-off" | "paid";
+}
+
+/** One part of a medical debt placed for collection, from one bill. */
+export interface MedicalDebtPart {
+  /** The day the bill was billed and went unpaid (its first delinquency). */
+  readonly delinquentSince: string;
+  readonly minor: number;
+}
+
+/** A household's medical debt in collections: one record on its books, the balance its unpaid medical bills sent there. */
+export interface MedicalDebtRow extends LoanRow {
+  readonly kind: "medical";
+  /** The day the first unpaid bill was placed for collection. */
+  readonly chargedOffAt: string;
+  /**
+   * Each part placed for collection with its own bill's first delinquency
+   * (the day it was billed and went unpaid): the credit report shows a part
+   * from the reporting wait after its own day until seven years after it
+   * (reportedMedicalMinor). A part seven years past its delinquency is folded
+   * into `agedOff` the next time the record is written, so the list holds at
+   * most seven years of parts.
+   */
+  readonly placed: readonly MedicalDebtPart[];
+  /** The parts folded off the report seven years after their own delinquency: how many, and what they still leave owed. */
+  readonly agedOff: { readonly parts: number; readonly minor: number };
+  readonly chargeOffCause: "medical-bill-unpaid";
+  /** The last month's part placed for collection, its bill record and the web month row its share read. */
+  readonly lastSentAt: string;
+  readonly lastSentMinor: number;
+  readonly lastBillId: string;
+  readonly lastWebRecordId: string | null;
+  readonly source: Source;
+}
+
+/**
+ * Part of a household's medical bill it could not pay is placed for
+ * collection by the provider (health-medical-debt-record; the coverage
+ * engine's bills, medical-bills.ts): it is added to the household's one
+ * medical-debt record in the credit engine's loans, owed to the provider. It
+ * moves no cash (nothing was lent); the bank reads it as a charge-off on the
+ * household's credit report once the reporting wait has passed
+ * (householdApplications). Returns the record id, or null where the credit
+ * engine does not run.
+ */
+export function recordMedicalDebt(
+  api: CoreAPI,
+  input: {
+    readonly householdId: string;
+    readonly borrowerId: string;
+    readonly creditorId: string;
+    /** The parts placed for collection, each with its bill's first delinquency. */
+    readonly parts: readonly MedicalDebtPart[];
+    readonly billId: string;
+    readonly webRecordId: string | null;
+    readonly source: Source;
+  },
+): string | null {
+  const amountMinor = input.parts.reduce((n, part) => n + part.minor, 0);
+  if (!core(api).modules.has(CREDIT_MODULE_ID) || amountMinor <= 0) return null;
+  const id = `medical-debt:${input.householdId}`;
+  const loans = store(api).table("loans");
+  const held = loans.get(id) as unknown as MedicalDebtRow | undefined;
+  const today = api.state.date;
+  // A part leaves the report seven years after its own delinquency (the
+  // bureaus' rule): it is folded into the summary, still owed, and no
+  // application reads it again.
+  const { placed, folded } = foldAgedParts(
+    [...(held?.placed ?? []), ...input.parts.filter((part) => part.minor > 0)],
+    today,
+    (key) => api.parameter(key),
+  );
+  const row: MedicalDebtRow = {
+    id,
+    isLoan: true,
+    // Placed for collection: nobody services it as a loan.
+    open: false,
+    householdId: input.householdId,
+    borrowerId: held?.borrowerId ?? input.borrowerId,
+    lenderId: input.creditorId,
+    kind: "medical",
+    principalMinor: (held?.principalMinor ?? 0) + amountMinor,
+    balanceMinor: (held?.balanceMinor ?? 0) + amountMinor,
+    annualRate: 0,
+    paymentMinor: 0,
+    openedAt: held?.openedAt ?? today,
+    pastDueMinor: (held?.pastDueMinor ?? 0) + amountMinor,
+    firstPastDueAt:
+      held?.firstPastDueAt ??
+      [...input.parts].map((part) => part.delinquentSince).sort()[0] ??
+      today,
+    standing: "charged-off",
+    chargedOffAt: held?.chargedOffAt ?? today,
+    chargeOffCause: "medical-bill-unpaid",
+    placed,
+    agedOff: {
+      parts: (held?.agedOff?.parts ?? 0) + folded.length,
+      minor:
+        (held?.agedOff?.minor ?? 0) +
+        folded.reduce((n, part) => n + part.minor, 0),
+    },
+    lastSentAt: today,
+    lastSentMinor: amountMinor,
+    lastBillId: input.billId,
+    lastWebRecordId: input.webRecordId,
+    source: input.source,
+  };
+  loans.put(row as never);
+  return id;
+}
+
+/** How long a charge-off stays on the credit report, in days: seven years (15 U.S.C. 1681c(a)(4)). */
+function reportWindowDays(p: (key: string) => number): number {
+  return p("creditReportYears") * p("jobsDaysPerYear");
+}
+
+/**
+ * A medical debt's parts on a day: those still within seven years of their
+ * own delinquency stay placed; the rest are folded off the report.
+ */
+export function foldAgedParts(
+  parts: readonly MedicalDebtPart[],
+  date: string,
+  p: (key: string) => number,
+): { placed: MedicalDebtPart[]; folded: MedicalDebtPart[] } {
+  const until = reportWindowDays(p);
+  const placed: MedicalDebtPart[] = [];
+  const folded: MedicalDebtPart[] = [];
+  for (const part of parts)
+    if (daysBetweenText(part.delinquentSince, date) < until) placed.push(part);
+    else folded.push(part);
+  return { placed, folded };
+}
+
+/**
+ * The part of a medical debt the credit report shows on a day: each part
+ * from the reporting wait after its own bill's first delinquency (one year
+ * since July 2022) until seven years after it (the bureaus report a
+ * collection for seven years from the original delinquency, 15 U.S.C.
+ * 1681c(a)(4)).
+ */
+export function reportedMedicalMinor(
+  row: Pick<MedicalDebtRow, "placed">,
+  date: string,
+  p: (key: string) => number,
+): number {
+  const wait = p("creditMedicalReportDays");
+  const until = reportWindowDays(p);
+  return row.placed.reduce((n, part) => {
+    const age = daysBetweenText(part.delinquentSince, date);
+    return age >= wait && age < until ? n + part.minor : n;
+  }, 0);
+}
+
+/** A household's medical-debt record, if any of its bills went to collections. */
+export function medicalDebtOf(
+  api: CoreAPI,
+  householdId: string,
+): MedicalDebtRow | undefined {
+  if (!core(api).modules.has(CREDIT_MODULE_ID)) return undefined;
+  return store(api).table("loans").get(`medical-debt:${householdId}`) as
+    MedicalDebtRow | undefined;
 }
 
 /** Monthly payment on an amortized loan. */
@@ -1458,9 +1620,18 @@ function householdApplications(
       .filter(
         (row) =>
           row.kind !== "small-dollar" &&
-          (!row.chargedOffAt ||
-            daysBetweenText(row.chargedOffAt, c.date) <
-              p("creditReportYears") * p("jobsDaysPerYear")),
+          // A medical debt in collections is reported part by part: each from
+          // the reporting wait after its own first delinquency (one year
+          // since July 2022, the three nationwide reporting companies' rule)
+          // until seven years after it.
+          (row.kind === "medical"
+            ? reportedMedicalMinor(
+                row as unknown as MedicalDebtRow,
+                c.date,
+                p,
+              ) > 0
+            : !row.chargedOffAt ||
+              daysBetweenText(row.chargedOffAt, c.date) < reportWindowDays(p)),
       )
       .map((row) => row.householdId),
   );

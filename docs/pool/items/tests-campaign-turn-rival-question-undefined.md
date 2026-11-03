@@ -5,12 +5,13 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: lane-5/campaign-turn-empty-platform
+pr: #7149
 blocked-on:
 lead: wire-elections
 source: wire-office session, Oct 28 (found red on main)
+claimed-at: 2026-11-03T22:53:17.618Z
 ---
 
 **What.** `src/core2/campaign-turn.test.ts` fails one of ten cases on clean main: the rival chooser case in Bonanza, Oregon (4107300), run seed ad381adf543851f279796cac3221d2b41f8c27e04e566f24202cedf8f76a5e4b, place seed 8710a4b0ada0ee1732d697b95910f32dfd71d34e0d27e97cd05bed7d968079db, for the filing filing:contest:seat:US-OR:us-senate:0:2026-11-03:person:press:outlet:television:0:jurisdiction_b7892e72d6c6c05a:owner:0, throws "TypeError: Cannot read properties of undefined (reading 'question')". `tests-rival-chooser-nobody-to-ask` (done) fixed an earlier failure of the same case. Every other case of the file passes in that draw, so the rival chooser alone reads a stance that is not there.

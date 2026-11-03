@@ -2,11 +2,12 @@
  * Memory stays small (owner, Oct 12): act records keep their full reasons
  * (every option's score) for `circleDecisionDetailDays`; after that a circle
  * member's act keeps only what the "why" view needs to name the choice. The
- * player's own routine acts keep everything for `playerDecisionDetailDays`
- * (after a year only the summary and the reasons, not every option's
- * score); their public records and news keep everything. A circle
- * member's weighed choice keeps its full record for the same detail window
- * and then goes; their other entries go after `circleActRetentionMonths`.
+ * player's own routine acts and weighed choices keep everything for
+ * `playerDecisionDetailDays` (after a year only the summary and the reasons,
+ * not every option's score: the Oct 20 decision-detail ruling); their public
+ * records and news keep everything. A circle member's weighed choice keeps
+ * its full record for the same detail window and then goes; their other
+ * entries go after `circleActRetentionMonths`.
  * Writers
  * queue each record as they keep it, so condensing visits each record once
  * and never scans the log.
@@ -26,7 +27,7 @@ registerWorldMapPart("core2-decision-detail-drop-queue", dropQueues);
 const entryQueues = new WeakMap<CoreState, [string, string][]>();
 registerWorldMapPart("core2-decision-detail-entry-queue", entryQueues);
 
-/** The player's own routine acts, with their full scores, to condense once a year old. */
+/** The player's own routine acts and weighed choices, with their full scores, to condense once a year old. */
 const playerQueues = new WeakMap<CoreState, [string, string][]>();
 registerWorldMapPart("core2-decision-detail-player-queue", playerQueues);
 
@@ -113,20 +114,28 @@ function involvesPlayer(
   );
 }
 
-/** The decision with only the chosen reasons: what the "why" view needs to name the choice. */
+/**
+ * The decision with only the chosen reasons: what the "why" view needs to
+ * name the choice. Only the fields the decision holds are kept: a two-way
+ * weighing (keepWeighing in trait-decisions.ts) has neither a compact choice
+ * nor a selected offer, so neither is written as undefined.
+ */
 function condenseDecision(core: CoreState, id: string): void {
   const row = core.durableLog.get(id);
   const decision = row?.decision;
   if (!row || !decision?.scores) return;
-  const kept: Record<string, unknown> = {
+  const compact = (decision as { compactChoice?: unknown }).compactChoice;
+  const kept: Record<string, unknown> = {};
+  for (const [key, value] of Object.entries({
     actorId: decision.actorId,
     date: decision.date,
     reasonKey: decision.reasonKey,
     selectedReasons: decision.selectedReasons,
-  };
-  const compact = (decision as { compactChoice?: unknown }).compactChoice;
-  if (compact !== undefined) kept.compactChoice = compact;
-  else kept.selected = decision.selected;
+    ...(compact !== undefined
+      ? { compactChoice: compact }
+      : { selected: decision.selected }),
+  }))
+    if (value !== undefined) kept[key] = value;
   core.durableLog.set(row.id, {
     ...row,
     decision: kept as unknown as DecisionResult,
@@ -159,10 +168,11 @@ export function condenseCircleDecisions(core: CoreState): void {
     done++;
     if (!row) continue;
     if (involvesPlayer(core, row)) {
-      // The player's own routine act keeps its scores a year longer; anything
-      // public or in the news, or an act by someone else, keeps its full record.
+      // The player's own routine act or weighed choice keeps its scores a year
+      // longer; anything public or in the news, or a decision by someone else,
+      // keeps its full record.
       if (
-        row.kind === "person.acted" &&
+        (row.kind === "person.acted" || row.kind === "person.weighed") &&
         row.actorId === core.playerId &&
         !row.publicRecord &&
         !row.news
