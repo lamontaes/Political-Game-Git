@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: words/address-no-figures
-pr: #7080
+pr: #7094
 blocked-on:
 lead: words
 source: CTO opening root-cause report, Oct 27
