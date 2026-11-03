@@ -67,3 +67,5 @@
 - **Save:** push each step; update `docs/lanes/state/lane-1.md`.
 - **If stuck:** same failure three times, write it down and take the next. A crash in Santa Cruz, California in the cash code goes to Lane 5.
 - **Hand-in:** line 1 `Pool item:`, the numbers attached, marked Built. **Checked by:** a fresh session replaying election night in Haleyville.
+
+**Every later unit gets the same card.** Before starting a unit, write its card in `docs/lanes/state/lane-1.md` from this page and the unit's pool items: finish line, proof, hands off, known cheats, size, checked by. Split it if it grows past about 400 changed lines. A unit with no card isn't started.
