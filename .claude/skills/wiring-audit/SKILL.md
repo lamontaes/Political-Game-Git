@@ -40,6 +40,8 @@ Reuse them; don't build a parallel one.
 
 Commit `docs/reports/<job>-<date>.md` plus a machine-readable matrix: one row per item, each point's status, its evidence (record id or `file:line`), and why each miss happened. The counts in your channel block come from this file. Typical reasons: no handler, a handler that only records, wrong key, no money flow, no measure, the engine never reads it, counted twice. Open it as its own PR early. Report counts from the matrix file, never from memory.
 
+A declared file's `why` or `evidence` text (`scripts/law-wiring/declared/*.json`) is generated into `docs/reports/law-wiring-table.md`, which `npm run test:skill-ops` reads with `report:check`: keep its sentences under 40 words, and run `npm run report:check -- docs/reports/law-wiring-table.md` after regenerating (Nov 1: a 70-word sentence turned main red, fixed in #7042).
+
 ## 4. Fix by family
 
 One family per helper (Sonnet, at most two per lead), each with its own paths, branch and check. The lead (Opus) reviews every diff before it becomes a PR and sends back:

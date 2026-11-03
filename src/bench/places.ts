@@ -191,6 +191,26 @@ export function townPlaces(
   );
 }
 
+/**
+ * The minute spans one person is at work on a date, from their own work
+ * records (the ones that decide who is there now); empty on a day off, and
+ * null where the records hold no hours for them.
+ */
+export function workSpansOf(
+  core: CoreState,
+  personId: string,
+  date: string,
+): { startMinute: number; endMinute: number }[] | null {
+  try {
+    return workSpansOnDateV1(coreAPI(core), {
+      controlledPersonId: personId,
+      date,
+    }).owners.flatMap((owner) => owner.spans);
+  } catch {
+    return null;
+  }
+}
+
 /** Who is at work there at this minute, by their own work spans. */
 function onShift(
   core: CoreState,
