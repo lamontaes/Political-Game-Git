@@ -326,10 +326,25 @@ export function campaignAct(
       };
     case "endorsement":
       return {
-        answers: known.map((id) => ({
-          personId: id,
-          yes: askForEndorsement(api, input.filingId, id),
-        })),
+        answers: known.map((id) => {
+          const yes = askForEndorsement(api, input.filingId, id);
+          const row = core.people.get(id);
+          const name = row ? `${row.givenName} ${row.familyName}` : "";
+          return {
+            personId: id,
+            yes,
+            name,
+            // What each said, in words, from the ask's own answer.
+            line: standingLine(
+              core.seed,
+              personId,
+              yes ? "endorse-yes" : "endorse-no",
+              `${input.filingId}|${id}`,
+              { name },
+            ),
+          };
+        }),
+        scene: askScene(core, personId, scenePlaces.endorsementMeetingPlace),
       };
     case "ad":
       return summary(

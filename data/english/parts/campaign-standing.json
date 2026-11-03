@@ -984,6 +984,90 @@
         "move": "deliver-news",
         "key": "volunteer-no"
       }
+    },
+    {
+      "key": "campaign-standing.endorse-yes.name-agrees-to-back-you-in-public",
+      "move": "endorse-yes",
+      "kind": "written",
+      "text": "{name} agrees to back you in public.",
+      "uses": [
+        {
+          "move": "endorse-yes",
+          "subject": "campaign",
+          "role": "endorsements",
+          "choice": "endorse-yes"
+        }
+      ],
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "endorse-yes"
+      }
+    },
+    {
+      "key": "campaign-standing.endorse-yes.name-agrees-to-endorse-you",
+      "move": "endorse-yes",
+      "kind": "written",
+      "text": "{name} agrees to endorse you.",
+      "uses": [
+        {
+          "move": "endorse-yes",
+          "subject": "campaign",
+          "role": "endorsements",
+          "choice": "endorse-yes"
+        }
+      ],
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "endorse-yes"
+      }
+    },
+    {
+      "key": "campaign-standing.endorse-no.name-would-rather-stay-out-of-it",
+      "move": "endorse-no",
+      "kind": "written",
+      "text": "{name} would rather stay out of it.",
+      "uses": [
+        {
+          "move": "endorse-no",
+          "subject": "campaign",
+          "role": "endorsements",
+          "choice": "endorse-no"
+        }
+      ],
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "endorse-no"
+      }
+    },
+    {
+      "key": "campaign-standing.endorse-no.name-wont-endorse-you-this-time",
+      "move": "endorse-no",
+      "kind": "written",
+      "text": "{name} won't endorse you this time.",
+      "uses": [
+        {
+          "move": "endorse-no",
+          "subject": "campaign",
+          "role": "endorsements",
+          "choice": "endorse-no"
+        }
+      ],
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "endorse-no"
+      }
     }
   ]
 }
