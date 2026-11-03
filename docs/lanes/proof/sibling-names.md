@@ -1,10 +1,10 @@
 # First minutes: sibling names
 
-Status: generated-name correction in progress; all twenty drawn lives passed; creator integration, browser proof, timing and non-builder verification remain. Source correction: a55f4f4d3b on lane-2/sibling-names. No Path 1 Built or Verified claim.
+Status: generated names and the agreed creator call are implemented; twenty drawn generated lives and the creator/browser regression pass. Current source 91012586fb. Ten fresh creator regressions and a fresh-town New Game check also pass; timing remains. No Path 1 Built or Verified claim.
 
 ## Reproduction
 
-Mazomanie, Wisconsin (5550225), replay b37762f4-7895-40f5-8d83-0634db5b60cb, still reproduces on current main: player Evelyn Underwood, person_526f98c72f070459, born 2007-01-27; living sister Evelyn Underwood, person_f277a01c09158a60, born 2001-07-09. With the generator correction the player remains Evelyn and the same sister is Sabrina; the other siblings remain Riley and Lauren. Generated names change before family facts and the opening history are constructed. The wider population retains the generated name in its counted record for fill-in.
+Mazomanie, Wisconsin (5550225), replay b37762f4-7895-40f5-8d83-0634db5b60cb, reproduces on base cf31d0ed63: player Evelyn Underwood, person_526f98c72f070459, born 2007-01-27; living sister Evelyn Underwood, person_f277a01c09158a60, born 2001-07-09. With the generator correction the player remains Evelyn and the same sister is Sabrina; the other siblings remain Riley and Lauren. Generated names change before family facts and the opening history are constructed. The wider population retains the generated name in its counted record for fill-in.
 
 ## Break-it check
 
@@ -37,10 +37,37 @@ Each command uses OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14", N
 | Sardis, Mississippi           | 2865560   | 7c27f6294212b8c0 | 930a7094cab89c873ac76b31bc7f2b55b572efbdd3d5cb1365b66fe17aca957b | Pass   |
 | Riviera Beach, Maryland       | 2466850   | fca7ce020263b56c | 2ae878569aa929a01ef20cac3a87aab69145b9e090a445c3e1227d28f7461f9d | Pass   |
 
-## Creator seam
+## Creator seam and break-it checks
 
-Choosing Riley through chooseIdentityV1 on the corrected Mazomanie world still leaves player person_526f98c72f070459 and sibling person_f277a31c09158f79 both Riley. This is measured, not inferred. Lane 5 owns that writer. The concrete proposed agreement is docs/lanes/agreements/2-5.md and the request is https://github.com/lamontaes/Political-Game-Git/pull/7144#issuecomment-6616917278 . No shared source has changed and no acceptance is claimed. The person's card resolves family:child names from otherPersonId, so the writer must update the sibling's person record.
+Lane 5 accepted the narrow identity-writer call: [agreement](../agreements/2-5.md), [acceptance](https://github.com/lamontaes/Political-Game-Git/pull/7144#issuecomment-6617602731). The shared edit is only an import and the resolver call in the existing sibling birthday loop. The chosen player name stays; each living sibling's actual record gets a distinct name. The call supplies the gender recorded in looks, and the existing corpus/cohort generator chooses the name. Surname, identity, relations, looks and birthday handling are preserved.
 
-Still unexplored: chosen-name behavior after integration, browser cards and history after that rename, future births during play, the four-year comparison, and all eight First minutes finish-line towns. Housing remains a separate item in the same card.
+Choosing RILEY in Mazomanie previously left both the player and sibling person_f277a31c09158f79 named Riley. Corrected source keeps player person_526f98c72f070459 as RILEY Underwood and names that sibling Hailey Underwood. The test checks case-insensitive uniqueness, unchanged family/identity records and the recorded gender's admitted name pools. All three tests pass on Mazomanie plus drawn Madison. Restoring the original writer fails uniqueness; restoring the call that omitted gender fails the gender-pool assertion. Corrected bytes were restored after both ablations. Logs: /tmp/lane-2-sibling-{creator,gender}-{after,ablation}.log. Main's parent-birthday integration changed living-link counts to 131 in Mazomanie and 113 in Madison; distinct names still hold.
 
-Creator regression passed on the approved writer: Mazomanie and Madison generation plus choosing a sibling's uppercase name (3 tests). Replacing only state.ts with main makes the creator assertion fail (duplicate first names); the exact corrected bytes were then restored. Logs /tmp/lane-2-sibling-creator-{after,ablation}.log. Parent-birthday integration changes living-link counts to 131 in Mazomanie and 113 in Madison; distinct names still hold. Shared scope remains only the authorized import and existing loop.
+## Browser proof
+
+Source 91012586fb; Mazomanie (5550225), replay b37762f4-7895-40f5-8d83-0634db5b60cb. New Game through the creator with RILEY Underwood, female, born January 27, 2007. The sibling card displays Hailey Underwood. Patricia Underwood's history displays “Hailey Underwood was born.” from record person_526f96c72f0700f3:family:person_f277a31c09158f79. The check asserts that exact record ID and rendered sentence. New Game and two advances return 200; the final advance runs one simulated day, 79 decisions and acts. Zero page errors. Raw responses: test-results/lane-2-sibling-creator/{family,result}.json; runner /tmp/lane-2-sibling-browser.mjs.
+
+![Sibling card](sibling-name-card.png)
+
+![Parent history](sibling-name-history.png)
+
+## Final creator fresh draws
+
+Source 91012586fb. All ten runs passed all three tests. Each keeps the pinned Mazomanie regressions beside this fresh drawn town. Logs: /tmp/lane-2-sibling-creator-fresh/.
+
+| Town (place key)                       | Replay           | World seed                                                       | Result |
+| -------------------------------------- | ---------------- | ---------------------------------------------------------------- | ------ |
+| Alpine, Arkansas (0501090)             | e4aebb5e6f089b6c | 1dc14352bad4a41c3d0878573b641a0a06eda1de0f2b9b7215055fbd80a61003 | Pass   |
+| Barnesville, Maryland (2404475)        | 034e0080bfd7d5fb | 4d186e9658621a02c4c9baca1403f0c82b39f140643ab7df246233675320c286 | Pass   |
+| Joyce, Louisiana (2238880)             | 8270db2255f28010 | 0abdc85c60c59628e09fdbe6c1c65858bfd7b992b91024c5a8b378bf131dffdd | Pass   |
+| Scotia, South Carolina (4564465)       | 239cb5c7eef98a2f | 28a46e8463d2f301ec316154a72b131c257b9060d18d5875a5df8f3d24aac5c3 | Pass   |
+| Dakota City, Nebraska (3112000)        | 0e1b180d88b6c233 | 9fe23688e16fdc84a3790005991fb786cd762bf86ca63a0aba60fe5f113bc657 | Pass   |
+| Stovall, North Carolina (3765320)      | fcf073e9483f611e | 2287f0ded243535b8f673dddcc0f330b3dd98b0931ce623f0a3921ddf2b3c7b5 | Pass   |
+| Manzano, New Mexico (3546730)          | 51069ea8ff9a263b | 4b1fda1b277217c13216a44ae7c921ac508d4b4b75f2cc63978282ceaa5c74f4 | Pass   |
+| Walcott, Iowa (1981705)                | fbf8f853b573206d | d65f4a468d1f582fc2ca0c5ae1873f28d4fe3246eab2812281154a681898c95a | Pass   |
+| Salmon, Idaho (1671650)                | e4eae20593cf0937 | 3b2c697ffcdd46e1f03f5c6500985fb281eb6d64f9cb023cb0a6a4e379a6881a | Pass   |
+| Merion Station, Pennsylvania (4248768) | 2aea5d424ceb294a | 7c6587e1a2afb8b6ea08342ce4884e9308997d9faec9ad90acc69871efeae16a | Pass   |
+
+New Game check: Sun River, Montana, replay 83d2ffd7cd4ba37e; four weeks of normal play, scene and Journal returned 200. Log: /tmp/lane-2-sibling-newgame.log.
+
+Still required: four-year timing, all eight First minutes finish-line towns and a non-builder's confirmation on main. Future births during play remain unexplored by this opening item.
