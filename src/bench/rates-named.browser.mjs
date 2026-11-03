@@ -4,6 +4,7 @@
 // BENCH_PORT and BENCH_BROWSER; BENCH_SHOT names a screenshot prefix.
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
+import { playOpening } from "./start-life.mjs";
 const port = process.env.BENCH_PORT ?? "3000";
 const shot = process.env.BENCH_SHOT;
 const browser = await chromium.launch({
@@ -30,6 +31,11 @@ try {
   if (await page.locator("#new-advanced").isVisible())
     await page.locator("#new-advanced").click();
   await page.locator("#new-world").click();
+  // The opening plays first, as a player sees it (start-life.mjs).
+  await playOpening(
+    page,
+    (await (await response).json()).sceneMomentId ?? null,
+  );
   const r = await response;
   assert.equal(r.status(), 200);
   const seed = new URL(r.url()).searchParams.get("seed");
