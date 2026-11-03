@@ -241,7 +241,6 @@ function forgetEntry(core: CoreState, row: LogRecord): void {
   for (const person of new Set([...row.personIds, ...(row.witnessIds ?? [])]))
     core.logByPerson.get(person)?.delete(row.id);
   core.logByKind.get(row.kind)?.delete(row.id);
-  core.logByPlace.get(row.placeId)?.delete(row.id);
 }
 
 /**
