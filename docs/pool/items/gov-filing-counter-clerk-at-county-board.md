@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: governing/local-filing-officer
-pr:
+pr: #7156
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-03T23:39:42.217Z
