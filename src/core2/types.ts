@@ -817,7 +817,6 @@ export interface CoreState {
   quietChoiceByPerson: Map<PersonId, string>;
   logByPerson: Map<PersonId, Set<string>>;
   logByKind: Map<string, Set<string>>;
-  logByPlace: Map<PlaceId, Set<string>>;
   latestPublicViews: Map<
     string,
     { personId: PersonId; topic: string; view: string; reasonKey: string }
@@ -1286,7 +1285,18 @@ export interface CoreAPI {
     personIds: readonly [PersonId, PersonId];
     together: boolean;
     source: Source;
+    /** Who hears of it (relatives in the played town), on the emitted event. */
+    witnessIds?: readonly PersonId[];
+    /** Facts the event carries besides its link (a union's kind). */
+    facts?: Readonly<Record<string, string>>;
   }): void;
+  /**
+   * An adult who comes to exist in play (a partner met by someone living
+   * elsewhere): admitted with no cash and no job into a household that
+   * already exists at their place. Their family and known people must
+   * already be full people.
+   */
+  addPersonV1(input: PersonInput): PersonState;
   /** New hourly pay from today for a full or counted worker (e.g. a wage law). */
   rerateJob(jobId: string, hourlyMinor: number, source: Source): void;
   /**

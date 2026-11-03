@@ -853,3 +853,69 @@ export function partnerAgedHousehold<
     grownChildParents: grownChildren.length ? grownChildParents : [],
   };
 }
+
+/*
+ * The partnership chain's yearly paces, shared with the review of lives in
+ * play (src/core2/modules/partnerships.ts), so the opening and play run on
+ * one rule.
+ */
+
+/**
+ * A single person's yearly pace of partnering at an age: the never-married
+ * first-marriage pace (the place's ACS never-married shares) and the
+ * previously married remarriage pace (NCFMR 2022), weighted by how many of
+ * the single people that age are each, by the chain itself.
+ */
+export function partneringPerYear(
+  geo: { key: string; rows: Geo },
+  sex: Sex,
+  age: number,
+): number {
+  if (age < data.firstMarriageAge || age >= data.oldestAge) return p("zero");
+  const never = neverMarriedShare(geo.rows, sex, age);
+  const next = neverMarriedShare(geo.rows, sex, age + p("one"));
+  const firstRate =
+    never > p("zero")
+      ? Math.min(Math.max(p("one") - next / never, p("zero")), p("one"))
+      : p("zero");
+  const partnered = partneredByAge(geo.key, geo.rows, sex)[age] ?? p("zero");
+  const previously = Math.max(p("one") - never - partnered, p("zero"));
+  const band = bandIndex(REMARRIAGE_BANDS, age);
+  const remarryRate =
+    band < p("zero")
+      ? p("zero")
+      : data.remarriage.perThousand[sex][band]! / data.remarriage.per;
+  const single = never + previously;
+  return single > p("zero")
+    ? (never * firstRate + previously * remarryRate) / single
+    : p("zero");
+}
+
+/** A marriage's yearly pace of ending by divorce in its given year (NSFG first marriages). */
+export function separatingPerYear(years: number): number {
+  const longest = data.marriageIntact.points.at(-p("one"))!.years;
+  if (years >= longest) return p("zero");
+  const now = intact(Math.max(years, p("zero")));
+  return now > p("zero")
+    ? Math.max(p("zero"), p("one") - intact(years + p("one")) / now)
+    : p("zero");
+}
+
+/** A new partner's age: the CPS spouse age gap from this person's age, seeded by the pair's key. */
+export function partnerAgeFor(
+  seed: string,
+  key: string,
+  age: number,
+  sex: Sex,
+  partnerSex: Sex,
+  /** The youngest a partner may be (the law's adult age, from the caller). */
+  youngest: number = data.firstMarriageAge,
+): number | undefined {
+  const minimum = Math.max(data.firstMarriageAge, youngest);
+  return pickAge(
+    seed,
+    key,
+    minimum,
+    partnerAgeWeights(age, sex, partnerSex, minimum, data.oldestAge + p("one")),
+  );
+}
