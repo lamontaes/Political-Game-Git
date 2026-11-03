@@ -15,6 +15,7 @@ import { parameter } from "./parameters";
 import type { CoreState, DecisionResult, LogRecord } from "./types";
 import { registerWorldMapPart } from "./snapshot";
 import { forgetOldExperiences } from "./knowledge-retention";
+import { foldCashJournalDetail } from "./journal-state";
 
 const queues = new WeakMap<CoreState, [string, string][]>();
 registerWorldMapPart("core2-decision-detail-queue", queues);
@@ -140,6 +141,7 @@ const daysAgo = (core: CoreState, days: number): string => {
 
 export function condenseCircleDecisions(core: CoreState): void {
   dropOldReceiptDetail(core);
+  if (core.date.endsWith("-01")) foldOldCashJournalDetail(core);
   forgetOldExperiences(core);
   condensePlayerDecisions(core);
   const queue = queues.get(core);
@@ -305,4 +307,62 @@ function dropOldPayrollSources(core: CoreState, before: string): void {
     if (player && JSON.stringify(source.result).includes(player)) continue;
     Map.prototype.delete.call(sources, id);
   }
+}
+
+/**
+ * Kept records that name a cash journal receipt by its id (a coverage row's
+ * last premium, `lastJournalId`). An engine that keeps such an id registers
+ * its reader here, and the fold keeps every receipt one of them names.
+ */
+const journalIdReaders: ((core: CoreState) => Iterable<string | null>)[] = [];
+export function registerJournalIdReader(
+  read: (core: CoreState) => Iterable<string | null>,
+): void {
+  journalIdReaders.push(read);
+}
+
+/** Every journal id the registered readers name today: the receipts the fold keeps for them. */
+export function journalIdsNamed(core: CoreState): Set<string> {
+  const named = new Set<string>();
+  for (const read of journalIdReaders)
+    for (const id of read(core)) if (id) named.add(id);
+  return named;
+}
+
+/**
+ * The cash journal's itemized receipts fold past their readers' windows on
+ * the 1st of each month (CTO, Nov 1, 21:25): a followed person's after
+ * `cashJournalDetailDays` (dev mode's 365-day ledger), the player's and their
+ * household's from Jan 1 of the prior year (play-first lane, Nov 1). What
+ * folds goes into each person's yearly total by kind; open obligations,
+ * observer rows, receipts a kept record names, balances and every total stay
+ * (`foldCashJournalDetail`). Returns how many receipts folded.
+ */
+export function foldOldCashJournalDetail(core: CoreState): number {
+  const journal = core.cashJournal;
+  const oldest = journal.detailedReceipts.values().next().value;
+  const before = daysAgo(
+    core,
+    parameter("cashJournalDetailDays", core.data.parameters),
+  );
+  if (!oldest || oldest.date >= before)
+    return parameter("zero", core.data.parameters);
+  const year = Number(core.date.slice(0, core.date.indexOf("-")));
+  const priorYear = `${year - parameter("one", core.data.parameters)}-01-01`;
+  const householdIds = new Set<string>();
+  const player = core.playerId;
+  if (player) {
+    householdIds.add(player);
+    const home = core.households.get(
+      core.people.get(player)?.householdId ?? "",
+    );
+    for (const id of home?.memberIds ?? []) householdIds.add(id);
+  }
+  return foldCashJournalDetail(journal, {
+    before,
+    // The household's window always covers the circle's, whatever its length.
+    householdSince: priorYear < before ? priorYear : before,
+    householdIds,
+    named: journalIdsNamed(core),
+  });
 }
