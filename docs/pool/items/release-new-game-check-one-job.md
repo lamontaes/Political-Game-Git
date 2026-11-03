@@ -5,11 +5,12 @@ area: release
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane-5/new-game-check
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-03T21:58:11.733Z
 ---
 
 **What.** The owner ruled on Nov 3 that one check holds a merge: a new game opens and runs briefly without crashing, and nothing else holds a merge. No single job does that today; the validate aggregate runs the repository, guards and unit jobs, none of which opens a game. A player who downloads a build that cannot open a new game hits the worst failure there is, so this is the one check that must stand before every merge.
