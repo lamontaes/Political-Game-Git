@@ -38,18 +38,26 @@ All four runs passed (three tests per run). Replay with the listed world seed as
 | Springfield, Wisconsin | 5575975   | 2692dea5d0f1b4e0c97e5e0cf4db41af95ab6e3fc692ec71a894c961a695c8c8 | Pass   |
 | New Castle, Delaware   | 1050800   | ec6df85944910b76e1fec860ce11a15ef7098b7b61d7691d507f666580259e31 | Pass   |
 
+## New Game check
+
+On corrected commit 6c745b3717, Chromium opened New Game in Santa Rita Ranch, Texas (not Santa Rita, Guam), replay 738770178046ccd7. Kevin Walter, person_8e8f742fb879fcf8, age 19, appeared in the opening. New Game and the advance request both returned HTTP 200, with no page errors. The packet ended at 2025-01-21 07:00 (simulatedDays=0): an opening smoke check, not a played-year proof. Local screenshot: test-results/lane-2-parent/new-game.png; response: result.json in the same folder.
+
 ## Four-year timing
 
 Same machine (4c46091479ea), no other simulation, Haleyville (0132704), replay ab5f58e9be125c95, four consecutive 365-day years. Command: npm run speed:year -- --seed ab5f58e9be125c95 --place 0132704 --years 4 --max-seconds 120 --exclusive --out <receipt.json>.
 
-| Year | Base seconds | Corrected seconds | Change  |
-| ---- | ------------ | ----------------- | ------- |
-| 1    | 53.1         | Pending           | Pending |
-| 2    | 138          | Pending           | Pending |
-| 3    | 141.6        | Pending           | Pending |
-| 4    | 394.1        | Pending           | Pending |
+| Year | Base seconds | Corrected seconds | Change |
+| ---- | ------------ | ----------------- | ------ |
+| 1    | 53.1         | 53.4              | +0.6%  |
+| 2    | 138          | 129.7             | -6.0%  |
+| 3    | 141.6        | 136.6             | -3.5%  |
+| 4    | 394.1        | 333.5             | -15.4% |
 
-Base completed without crashing but exited 1 because years 2–4 exceeded 120 seconds. The owner's 20% comparison is still pending. Raw local receipt: /tmp/lane-2-parent-speed-base.json.
+Every year is within 20% of the same-machine base; the largest increase is 0.6% in year 1. Both runs finish without crashing and exit 1 because years 2–4 exceed 120 seconds. This is a functional correction, not a claim that the country now meets the two-minute target. Corrected source: 6c745b3717d61e4b4eb432b2c08d005bd49c437e. Raw local receipts: /tmp/lane-2-parent-speed-base.json and /tmp/lane-2-parent-speed-head.json. The corrected command also supplied --baseline /tmp/lane-2-parent-speed-base.json. Its comparison reported no problems; only the absolute 120-second target produced a failure. Percentages above are calculated from the two receipts.
+
+## Baseline timeout resolved
+
+The initial golden-path run passed twenty accepted specs, then M1-11 exhausted its remaining 29709ms in the suite-wide 450000ms budget. Replayed separately on corrected source, with the same Piney Mountain, Virginia place (5162738) and world seed bc3f68c98ddb7a2635d7314443dbe6753441e4df8516b3b50ef10c91a73be08d: drives-economy.test.ts passed 5 tests (16.7s), and src/bench/m1-11-check.ts passed its played year (69.4s). No test or timeout changed. Logs: /tmp/lane-2-m1-11-{0,1}.log.
 
 ## Still required for the path
 
