@@ -4,6 +4,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
+import { coreAPI } from "./state";
 
 const replay = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const drawn = drawPlace(replay, "sibling-names");
@@ -52,3 +53,57 @@ for (const place of cases) {
     );
   }, 300_000);
 }
+
+it("keeps a chosen sibling name on the player and updates the sibling's record", () => {
+  setBookkeeping(false);
+  const place = cases[0]!;
+  const { core, playerId } = buildBenchWorld(place.seed, gameStartDate(), {
+    twoLevel: true,
+    placeKey: place.key,
+  });
+  const player = core.people.get(playerId!)!;
+  const siblings = (player.pastFacts ?? [])
+    .filter((fact) => fact.kind === "family:sibling")
+    .flatMap((fact) => {
+      const row = core.people.get(String(fact.facts?.otherPersonId));
+      return row?.alive ? [row] : [];
+    });
+  expect(siblings.length).toBeGreaterThan(0);
+  const chosen = siblings[0]!.givenName.toUpperCase();
+  const before = siblings.map((row) => ({
+    id: row.id,
+    familyName: row.familyName,
+    birthDate: row.birthDate,
+    facts: structuredClone(row.pastFacts),
+  }));
+  coreAPI(core).chooseIdentityV1(player.id, {
+    givenName: chosen,
+    familyName: player.familyName,
+    birthDate: player.birthDate,
+    looks: player.looks ?? {},
+  });
+  expect(player.givenName).toBe(chosen);
+  const names = [player, ...siblings].map((row) => row.givenName.toLowerCase());
+  expect(new Set(names).size).toBe(names.length);
+  expect(
+    siblings.map((row) => ({
+      id: row.id,
+      familyName: row.familyName,
+      birthDate: row.birthDate,
+      facts: structuredClone(row.pastFacts),
+    })),
+  ).toEqual(before);
+  console.log(
+    JSON.stringify({
+      place: place.name,
+      replay: place.seed,
+      playerId,
+      chosen,
+      siblings: siblings.map(({ id, givenName, familyName }) => ({
+        id,
+        givenName,
+        familyName,
+      })),
+    }),
+  );
+}, 300_000);
