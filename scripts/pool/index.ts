@@ -359,7 +359,10 @@ export function setFields(
       const h2 = head[0].replace(re, `${k}: ${v}`.trimEnd());
       out = h2 + out.slice(head[0].length);
     } else {
-      const h2 = head[0].replace(/\r?\n---$/, `\n${k}: ${v}\n---`);
+      const h2 = head[0].replace(
+        /\r?\n---$/,
+        `\n${`${k}: ${v}`.trimEnd()}\n---`,
+      );
       out = h2 + out.slice(head[0].length);
     }
   }
