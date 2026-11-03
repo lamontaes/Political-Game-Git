@@ -61,3 +61,5 @@
 - **Known cheats:** renaming only on screen, skipping a place, a default home for those with no record.
 - **Size:** 3-4 hours, three small pull requests.
 - **Save, if stuck, hand-in:** as Lane 1's card, in `docs/lanes/state/lane-2.md`. **Checked by:** a fresh session opening all eight towns.
+
+**Every later unit gets the same card.** Before starting a unit, write its card in `docs/lanes/state/lane-2.md` from this page and the unit's pool items: finish line, proof, hands off, known cheats, size, checked by. Split it if it grows past about 400 changed lines. A unit with no card isn't started.
