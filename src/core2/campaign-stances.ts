@@ -21,6 +21,7 @@
  */
 import { townLean } from "./modules/campaigns";
 import { votesOf, type VoteRecordRow } from "./modules/record";
+import { electorateSides } from "./modules/voting";
 import { partyName, partySide } from "./appointments";
 import { leanedScore, weighingKept } from "./trait-decisions";
 import type { CoreAPI } from "./types";
@@ -347,11 +348,68 @@ export function candidateLean(
   return clamp((1 - firm) * own + firm * theirs);
 }
 
+/** One question a candidate could run on, scored by the platform rule. */
+export interface PlatformScore {
+  readonly question: string;
+  /** Where the candidate stands on it, in [-1, 1] (their own, unchanged). */
+  readonly position: number;
+  /** How strongly they hold it: the position's size, 0 to 1. */
+  readonly conviction: number;
+  /** The percent of the town's electorate whose own stance is on their side of it, 0 to 100. */
+  readonly support: number;
+  /** conviction × exp(platformSupportSlope × support). */
+  readonly score: number;
+}
+
 /**
- * A candidate's platform: of the questions the contest's seat takes up (its
- * positions, `contestPositions`), the ones they feel most strongly about, each
- * at its own position. Empty for a candidate with neither a view nor a party,
- * and for a seat that takes up no question.
+ * Each question the contest's seat takes up (`contestPositions`) that the
+ * candidate holds a view on, scored by how candidates choose what to run on
+ * (docs/research/platform-emphasis-2026-10-30.md): how strongly they hold it
+ * times exp(slope × the percent of the electorate on their side, by the
+ * stance the ballot reads a voter's agreement from: `electorateSides`), so
+ * of two views held about as strongly, the one more of the town shares is
+ * talked about. The research's record term (how far the candidate's own
+ * votes and job bear on the question) is left out for now. Positions never
+ * move for it; only which questions are run on.
+ */
+export function platformScores(
+  api: CoreAPI,
+  personId: string,
+  party: string | null | undefined,
+  positions: readonly string[],
+): readonly PlatformScore[] {
+  // stopgapId: SG-GOV-platform-slope-c1-out-of-band (the slope is the study's; the played total of emphasis on support, research C1, falls outside its band at every slope in the spread)
+  api.stopgap("SG-GOV-platform-slope-c1-out-of-band");
+  const slope = campaignParameter("platformSupportSlope");
+  // stopgapId: SG-GOV-platform-support-true-share (a candidate reads the electorate's true share on each question, not their belief from the people they know and the polls they have seen)
+  api.stopgap("SG-GOV-platform-support-true-share");
+  // stopgapId: SG-GOV-platform-record-term-left-out (the research's (1 + platformRecordWeight x record(q)) factor is not applied: a candidate's own votes and job do not raise a question's score)
+  api.stopgap("SG-GOV-platform-record-term-left-out");
+  // One reader for every question: the candidate's inputs are read once.
+  const reader = stanceReader(api, personId, party);
+  const scores: PlatformScore[] = [];
+  for (const question of positions) {
+    const position = reader.stance(question);
+    if (position === null || position === 0) continue;
+    const sides = electorateSides(api, question);
+    const support = 100 * (position > 0 ? sides.yes : sides.no);
+    const conviction = Math.abs(position);
+    scores.push({
+      question,
+      position,
+      conviction,
+      support,
+      score: conviction * Math.exp(slope * support),
+    });
+  }
+  return scores;
+}
+
+/**
+ * A candidate's platform: the seat's questions with the highest scores by
+ * the platform rule (`platformScores`), ties by question, each at the
+ * candidate's own position. Empty for a candidate with neither a view nor a
+ * party, and for a seat that takes up no question.
  */
 export function candidatePlatform(
   api: CoreAPI,
@@ -360,17 +418,8 @@ export function candidatePlatform(
   positions: readonly string[],
   count = campaignParameter("candidatePlatformQuestions"),
 ): readonly Stance[] {
-  return positions
-    .map((question) => ({
-      question,
-      position: candidateStance(api, personId, party, question),
-    }))
-    .filter((s): s is Stance => s.position !== null && s.position !== 0)
-    .sort(
-      (a, b) =>
-        Math.abs(b.position) - Math.abs(a.position) ||
-        a.question.localeCompare(b.question),
-    )
+  return [...platformScores(api, personId, party, positions)]
+    .sort((a, b) => b.score - a.score || a.question.localeCompare(b.question))
     .slice(0, count)
     .map((s) => ({
       question: s.question,

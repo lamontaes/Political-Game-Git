@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: governing/campaign-money-calibrated
 pr: #7062
 blocked-on:
