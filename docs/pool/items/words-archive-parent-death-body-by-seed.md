@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: words/archive-death-body
-pr:
+pr: #7131
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-02T01:19:27.410Z

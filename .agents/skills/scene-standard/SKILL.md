@@ -33,4 +33,6 @@ Owner, Oct 24: scenes "that come out of what is actually happening in the world,
 - Read the transcript as the player: every line in the player's voice is one they picked, and no speaker says three or more facts as separate one-line sentences.
 - Show the scene is reached in ordinary play on the golden path. A scene only a test reaches is not done.
 - Show a line that names the hour, the day or a record's time plays only when its record makes it true: "tonight" in the evening, "Morning." before noon, "today" on the record's own day (the time-of-day and day marks).
+- Read a return visit against the record's state, never as a first visit: a filing still gathering signatures brings its petition, and one already on the ballot comes back with nothing to bring (#7101, Laramie, Wyoming, where a race needs no petition).
+- Read a line shown under a person's name as that person speaking. Narration of their answer ("Ruth agrees to endorse you.") belongs in a summary; the talk box gets their own words by trait and tie (rule 4; the lane's #7111 and #7112).
 - Add a "Scene standard" row to the PR's Done when table with this evidence; a different session checks it.

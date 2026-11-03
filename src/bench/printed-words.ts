@@ -2898,7 +2898,9 @@ const ARCHIVED: Readonly<Record<string, Builder>> = {
       ["subject"],
     );
   },
-  // Reported once, to the survivor: the parent is named from the fact's own names.
+  // Reported once, to the survivor: the parent is named from the fact's own
+  // names, and survived by the resident whose record holds the death, said as
+  // an obituary says its survivors.
   "parent-died": (read, f) => {
     const name = [f.givenName, f.familyName].filter(Boolean).join(" ");
     const survivor = read.name(f.survivorId);
@@ -2907,10 +2909,13 @@ const ARCHIVED: Readonly<Record<string, Builder>> = {
       {
         ...(name ? { name: read.fact(name, f.survivorId ?? "") } : {}),
         date: read.date(),
-        ...(survivor && f.relation
+        ...(survivor
           ? {
-              relation: read.fact(f.relation, f.survivorId ?? ""),
-              survivor: read.fact(survivor, f.survivorId ?? ""),
+              survivors: read.fact(
+                survivor,
+                f.survivorId ?? "",
+                f.recordId ?? "",
+              ),
             }
           : {}),
       },

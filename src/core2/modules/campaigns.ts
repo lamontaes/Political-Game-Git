@@ -71,6 +71,7 @@ import {
   groupAgreement,
   personLean,
   PLATFORM_QUESTIONS,
+  platformLead,
   type Stance,
 } from "../campaign-views";
 import {
@@ -3790,8 +3791,8 @@ export interface DonorMeetingResult {
  * invitation's pull (`donorMeetingHostTieWeight`), and the campaign's
  * volunteers come. The candidate meets everyone there they did not know (the
  * encounter engine's meeting, at the host's home), speaks to the room on
- * what they feel most strongly about (a face-to-face speech, heard and
- * retold as one), and the evening ends by asking each person there, the
+ * the question the campaign leads with (`platformLead`: a face-to-face
+ * speech, heard and retold as one), and the evening ends by asking each person there, the
  * host first, through `donationAnswer`: the gift rows, the journal and the
  * public `campaign-gift` record follow from it. No venue is paid; the host's
  * hours are recorded. While the petition circulates, the room is asked to
@@ -3846,11 +3847,7 @@ export function holdDonorMeeting(
         cause: ENCOUNTERS.causes.metOnVisit,
         hours: hours / room.length,
       });
-  const lead = [...campaign.platform].sort(
-    (a, b) =>
-      Math.abs(b.position) - Math.abs(a.position) ||
-      a.question.localeCompare(b.question),
-  )[0];
+  const lead = platformLead(campaign.platform);
   const venue = `home:${host.householdId}`;
   const causes = makeStatements(api, {
     filingId,
@@ -4272,8 +4269,8 @@ export function runAd(
 }
 
 /**
- * A campaign's message, kept as a `messages` row (its kind, the campaign's
- * strongest stance as its topic, and who it reached) that word of a rival
+ * A campaign's message, kept as a `messages` row (its kind, the question
+ * the campaign leads with as its topic, `platformLead`, and who it reached) that word of a rival
  * passes on from (`rivalWordPassedOn`). A paid message (an ad, a mailer) is
  * also an event its audience learns: it carries that topic and the change
  * the candidate wants, and the candidate's lean on the views engine's scale,
@@ -4292,11 +4289,7 @@ function emitMessage(
     readonly witnessIds: readonly string[];
   },
 ): void {
-  const lead = [...campaign.platform].sort(
-    (a, b) =>
-      Math.abs(b.position) - Math.abs(a.position) ||
-      a.question.localeCompare(b.question),
-  )[0];
+  const lead = platformLead(campaign.platform);
   const witnessIds = [...new Set(input.witnessIds)].filter(
     (id) => id !== campaign.candidateId && api.state.people.has(id),
   );
@@ -5326,18 +5319,14 @@ export function rentVenue(
 
 /**
  * An event: the campaign rents an evening at a venue in town and the
- * candidate speaks on what they feel most strongly about to whoever chooses
- * to come (`whoComes`). Only a candidate who is a full person speaks in a
+ * candidate speaks on the question the campaign leads with (`platformLead`)
+ * to whoever chooses to come (`whoComes`). Only a candidate who is a full person speaks in a
  * room.
  */
 export function holdEvent(api: CoreAPI, filingId: string): readonly CauseRow[] {
   const campaign = campaignFor(api, filingId);
   if (!api.state.people.get(campaign.candidateId)?.alive) return [];
-  const lead = [...campaign.platform].sort(
-    (a, b) =>
-      Math.abs(b.position) - Math.abs(a.position) ||
-      a.question.localeCompare(b.question),
-  )[0];
+  const lead = platformLead(campaign.platform);
   if (!lead) return [];
   const venue = rentVenue(api, filingId, "event").sellerId;
   const audienceIds = whoComes(api, campaign);
