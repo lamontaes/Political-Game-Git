@@ -6,11 +6,11 @@ kind: bug
 priority: 2
 size: S
 status: open
-claimed-by: claude/political-game-pool-udtiwn
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T12:18:56.125Z
+claimed-at:
 ---
 
 **What.** Two tests in src/core2/law-reach-group-b.test.ts fail on origin/main's src/core2, checked Oct 20. 'registers a handler for every group B policy and budget line' expects 35 handlers and gets 34, so a policy row was added or a handler removed without the other. 'a city sales tax rate reaches every household and seller as a price record' fails with seed fe0ccacfdc69466b7eaf7b6844dcd892c394fb70e12524e00314298c091b21de in Pecktonville, Maryland (place 2460770): expected 253 price records and got 0. Find the change that broke each and fix the code or the registry, not the test's bound.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T12:18:56.125Z
 **Files.** src/core2/law-reach-group-b.test.ts, src/core2/law-reach/
 
 **Notes.** TODO Released from idle draft #5217 by the CTO, Oct 26.
+
+Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/political-game-pool-udtiwn` (2026-10-20). Cleared from the front matter and kept here.

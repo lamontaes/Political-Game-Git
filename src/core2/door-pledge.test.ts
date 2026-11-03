@@ -238,7 +238,10 @@ describe("a door yes is near-binding", () => {
       expect(after, `${place}: closeness to a rival`).toBeGreaterThan(before);
       expect(after).toBeLessThanOrEqual(1);
 
-      advanceCore(core, addDays(makeIsoDate(contest.electionDate), 1));
+      // The count is in at the end of election day; the pledges are read
+      // then, as the ballot read them, since the race's first campaign turn
+      // after election day drops them (`closeRace`).
+      advanceCore(core, contest.electionDate);
       expect(resultOf(api, contest.id), `${place}: no result`).not.toBeNull();
       const ballots = api
         .moduleState(VOTING_MODULE_ID)

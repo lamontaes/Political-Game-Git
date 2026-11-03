@@ -6,11 +6,11 @@ kind: feature
 priority: 2
 size: L
 status: open
-claimed-by: claude/political-game-pool-3xfqef-26
+claimed-by:
 pr: #5076
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T06:33:29.793Z
+claimed-at:
 ---
 
 **What.** A filled-in worker whom no employer in town holds on its books (the place's unplaced counted workers) takes a job with an employer outside the town, paid from the place's outside account against an exact pay-due record, with tax withheld to the treasuries. This replaces the cloned place-level flow and `returnUnplacedPay`, so the stopgap SG-CORE-filled-unplaced-income closes. The work is built on branch claude/peaceful-ritchie-03780x (PR #5076) but was sent back: that PR loosened a tolerance in counted-weight-money.test.ts, raised two test timeouts without saying why, and added features under src/simulation (the old engine). Finish it on that branch with only the commuter-wage change, or move that change to a fresh branch from main.
@@ -30,3 +30,5 @@ Split Oct 20 (claude/political-game-pool-3xfqef-26), unbuilt: PR #5076 (branch c
 Oct 20 (claude/fixed-on-main-notes), handed back: the item text is an empty shell, and PR #5076's branch (`claude/peaceful-ritchie-03780x`) is a 218-file branch carrying many other items (about 790,000 added lines of generated data and tooling, outlets, allocation cuts), so "finish on that branch" cannot be done as one unit. What its title asks for, a private employer outside the town paying a worker through a recorded outside account, is the same missing piece as `world-lodes-commutes-split-flow` (the commuter flow paid from a recorded commute-destination account, read by the nonresident local tax). Write the spec once for both, and build it from a fresh branch off main with the split flow and its reader; take only the allocation-cut commits of #5076 (`99e6b394ee`, `17d1996fab`) if they are still wanted, each on its own PR.
 
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): already built (stopgap resolved; the branch is the sent-back leftover).
+
+Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/political-game-pool-3xfqef-26` (2026-10-20). Cleared from the front matter and kept here.

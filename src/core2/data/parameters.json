@@ -5397,10 +5397,21 @@
       "citation": "A week (the routine retention window, routineRetentionDays) to a season; checked against the memory guard and the 'why' view."
     }
   },
+  "cashJournalDetailDays": {
+    "value": 365,
+    "tag": "TUNABLE",
+    "citation": "How long the cash journal keeps a followed person's itemized payment before it folds into their yearly total by kind (CTO, Nov 1, 21:25; play-first lane and laws lead, Nov 1). Dev mode's person ledger reads the last 365 days (src/bench/dev-why.ts, ledgerPanels) and no law reader needs itemized payments past a year; the player and their household keep the current and prior calendar year, which always covers this window. Balances and lifetime totals keep the money itself.",
+    "spread": {
+      "low": 365,
+      "high": 730,
+      "unit": "days",
+      "citation": "One year (dev mode's 365-day person ledger) to two; checked against the long save's records count (npm run speed:year) and dev mode's ledger."
+    }
+  },
   "playerDecisionDetailDays": {
     "value": 365,
     "tag": "TUNABLE",
-    "citation": "How long the player's own routine act keeps every option's score before only its chosen reasons remain; after a year the summary and reasons are kept, not every detail.",
+    "citation": "How long the player's own routine act or weighed choice keeps every option's score before only its chosen reasons remain; after a year the summary and reasons are kept, not every detail.",
     "spread": {
       "low": 180,
       "high": 730,
@@ -7833,6 +7844,24 @@
       "high": 0.3,
       "unit": "share of the sourced volume",
       "citation": "FDIC 2023 survey, Table 5.2, payday loan use 2019 (1.5) against 2021 and 2023 (1.1); Pew 2012, Exhibit 8, 6.3 against 6.6 percent between regulatory types."
+    }
+  },
+  "traitWeightPeoplePartner": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the people.partner decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightPeoplePart": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the people.part decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
     }
   }
 }

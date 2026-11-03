@@ -65,6 +65,7 @@ const money = (minor: number) =>
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   })}`;
+const payments = (n: number) => `${n} ${n === 1 ? "payment" : "payments"}`;
 const number = (value: number) => Math.round(value * 1000) / 1000;
 const nameOf = (core: CoreState, id: string) => {
   const person = core.people.get(id);
@@ -369,13 +370,21 @@ function ledgerPanels(core: CoreState, personId: string): WhyPanel[] {
   from.setUTCDate(from.getUTCDate() - 365);
   const since = from.toISOString().slice(0, 10);
   const journal = core.cashJournal;
-  const followed = journal.detailedByOwner.get(personId);
+  // The journal itemizes the payments of the player and everyone followed
+  // (all, in observer mode). A followed person whose receipts all folded past
+  // the year has no index left, yet is still followed.
+  const itemized = journal.detailedByOwner.get(personId);
+  const followed =
+    itemized !== undefined ||
+    core.observer ||
+    personId === core.playerId ||
+    core.focusPersonIds.has(personId);
   const totals = new Map<string, { in: number; out: number; count: number }>();
   const kinds = new Map<
     string,
     { group: string; net: number; count: number }
   >();
-  for (const receiptId of followed ?? []) {
+  for (const receiptId of itemized ?? []) {
     const receipt = journal.detailedReceipts.get(receiptId);
     const change = receipt?.owners.get(personId);
     if (!receipt || !change || receipt.date < since) continue;
@@ -401,13 +410,13 @@ function ledgerPanels(core: CoreState, personId: string): WhyPanel[] {
     if (row)
       rows.push({
         label: name,
-        value: `in ${money(row.in)}, out ${money(row.out)}, ${row.count} payments`,
+        value: `in ${money(row.in)}, out ${money(row.out)}, ${payments(row.count)}`,
       });
   }
   for (const [kind, row] of [...kinds].sort((a, b) => b[1].count - a[1].count))
     rows.push({
       label: `  ${row.group}: ${kind}`,
-      value: `net ${money(row.net)}, ${row.count} payments`,
+      value: `net ${money(row.net)}, ${payments(row.count)}`,
     });
   // Hours: the work engine's weekly rollups for the person's jobs.
   let weeks = 0;
@@ -433,6 +442,18 @@ function ledgerPanels(core: CoreState, personId: string): WhyPanel[] {
       value: `${money(earned)} / ${money(paid)}`,
     },
   );
+  // Older than the window: receipts folded past it, one row per year and
+  // kind. A year's row holds only what has folded so far (the rest of that
+  // year is still itemized above), and a receipt kept past the window (an
+  // open obligation, one a kept record names, the household's prior year) is
+  // in no row until it folds.
+  const folded = [...(journal.foldedByOwner.get(personId)?.values() ?? [])];
+  folded.sort((a, b) => b.year - a.year || b.count - a.count);
+  for (const row of folded)
+    rows.push({
+      label: `  ${row.year}, older than a year: ${groupOf(row.kind)}: ${row.kind}`,
+      value: `in ${money(row.inMinor)}, out ${money(row.outMinor)}, ${payments(row.count)}`,
+    });
   const all = journal.totalsByOwner.get(personId);
   if (all)
     rows.push({
@@ -446,11 +467,13 @@ function ledgerPanels(core: CoreState, personId: string): WhyPanel[] {
     {
       title: `${nameOf(core, personId)}: the year to ${core.date}`,
       rows,
-      ...(followed && !totals.has("rent") && !totals.has("spending")
-        ? {
-            gap: "This person's cash journal holds no rent or spending payments this year, so rent and spending are not in the ledger. Engine gap: whichever engine charges rent and consumption writes no journal receipt for it.",
-          }
-        : {}),
+      ...(followed && !totals.size
+        ? { gap: "No itemized payments in the last year." }
+        : followed && !totals.has("rent") && !totals.has("spending")
+          ? {
+              gap: "This person's cash journal holds no rent or spending payments this year, so rent and spending are not in the ledger. Engine gap: whichever engine charges rent and consumption writes no journal receipt for it.",
+            }
+          : {}),
       ...(followed
         ? {}
         : {
