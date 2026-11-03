@@ -6,6 +6,7 @@ import { gameStartDate } from "../core2/game-start";
 import { buildBenchWorld } from "./world";
 import { preStartHistory } from "../core2/past";
 import { coreAPI } from "../core2/state";
+import { servingTermsOf } from "../core2/modules/offices";
 import { countedHouseholdsByPlace } from "../core2/modules/residents";
 import { personOrFillIn } from "../core2/state";
 import { knownCard } from "./card";
@@ -47,6 +48,9 @@ describe("a person's history on their card", () => {
       ),
       ...schoolsOf(core, parentId!).map((row) => row.recordId),
       ...core.relationships.keys(),
+      // The term they serve now: a board member seated with the world, whom
+      // no earlier record names, is told as taking office on that term.
+      ...servingTermsOf(coreAPI(core), parentId!).map((term) => term.id),
       parentId!,
     ]);
     expect(card.history.length, where).toBeGreaterThan(0);
