@@ -1,4 +1,4 @@
-/* global document, fetch, URLSearchParams, setTimeout, setInterval, clearInterval, window, localStorage, ResizeObserver, __RELEASE_VERSION__ */
+/* global document, fetch, URLSearchParams, setTimeout, setInterval, clearInterval, window, localStorage, ResizeObserver, Image, __RELEASE_VERSION__ */
 // The game screen on the new core: one scene, the player card, the menus.
 // Words on screen are record data, engine text and control names only.
 import { makeButton, buttonRow, buttonTray } from "./ui/button.mjs";
@@ -1742,12 +1742,27 @@ async function showStory(momentId) {
     const parts = story.speech.parts?.length
       ? story.speech.parts
       : [story.speech.text];
+    // Every part's picture is fetched up front, so a cutaway never shows the
+    // last room under the next part's people.
+    for (const beat of story.beats ?? []) new Image().src = beat.backdrop.url;
     const sayPart = (at) => {
       show("talk-skip", true);
       setWho(story.speech.speakerId, story.names[story.speech.speakerId]);
+      // The part's picture and cast: the desk, the town, the colonnade, the
+      // officials named by office as the camera passes, and home.
+      const beat = story.beats?.[at];
+      if (beat) {
+        $("backdrop").src = beat.backdrop.url;
+        drawPeople(beat.people);
+      }
       talkControls({ silent: false, leave: false });
       fillTalk({
-        lines: [talkLine({ kind: "speech", text: parts[at] })],
+        lines: [
+          talkLine({ kind: "speech", text: parts[at] }),
+          ...(beat?.caption
+            ? [talkLine({ kind: "label", text: beat.caption })]
+            : []),
+        ],
         replies: [],
       });
       setScales({ available: false });
