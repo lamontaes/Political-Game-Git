@@ -43,7 +43,7 @@
     },
     {
       "file": "data/research/local-government/governing-body-seat-qualification.json",
-      "reason": "Raw source the game does not read directly: source cited by src/core2/data/stopgaps.json. Its only direct reader was the old engine, deleted Oct 28, 2026."
+      "reason": "Raw source the game does not read directly: source cited by the stopgap register (src/core2/data/stopgaps/). Its only direct reader was the old engine, deleted Oct 28, 2026."
     },
     {
       "file": "data/research/money/federal-income-tax-schedules.json",

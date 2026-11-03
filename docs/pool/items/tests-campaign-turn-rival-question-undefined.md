@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: lane-5/campaign-turn-empty-platform
-pr:
+pr: #7149
 blocked-on:
 lead: wire-elections
 source: wire-office session, Oct 28 (found red on main)

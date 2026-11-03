@@ -689,11 +689,11 @@ function playWorld(seed: string) {
   // counted population. Whether counted adults live in the town is read from
   // the residents' books at the start and the end of the run; when they do,
   // every local race with someone on its ballot must keep a counted ballot
-  // record. Each record keeps every counted voter's choice, the share of the
-  // people they stand for who turn out, and how many they stand for; a race
-  // is silent when its record is missing, when no counted voter chose
-  // anyone, or when the counted votes those ballots add up to are missing
-  // from the result. A town whose counted adults add up to under two
+  // record. Each record keeps how every counted voter's people divide among
+  // the candidates (each one's share of their appeal) and the share of them
+  // who turn out; a race is silent when its record is missing, when no
+  // counted voter backed anyone, or when the counted votes those ballots add
+  // up to are missing from the result. A town whose counted adults add up to under two
   // expected voters (a tiny town is nearly all full people; the result also
   // takes out non-citizens) can record zero votes honestly: that is
   // rounding, not a silent counted population.
@@ -702,9 +702,8 @@ function playWorld(seed: string) {
       (r) => r.contestId === contestId,
     ) as
       | {
-          choice: number[];
+          split: number[][];
           voted: number[];
-          weight: number[];
         }
       | undefined;
   const countedAdultsLive = countedAdultsAtStart > 0 && countedAdultsAtEnd > 0;
@@ -715,11 +714,9 @@ function playWorld(seed: string) {
   const silent = judged.filter((c) => {
     const kept = countedOf(String(c.id));
     if (!kept) return true;
-    const chose = kept.choice.some((x) => x >= 0);
-    const expected = kept.choice.reduce(
-      (n, x, i) => (x >= 0 ? n + kept.voted[i]! * kept.weight[i]! : n),
-      0,
-    );
+    const backing = kept.split.map((row) => row.reduce((n, x) => n + x, 0));
+    const chose = backing.some((x) => x > 0);
+    const expected = backing.reduce((n, x, i) => n + kept.voted[i]! * x, 0);
     const recorded = Object.values(
       resultOf(api, String(c.id))!.countedVotes,
     ).reduce((n, v) => n + v, 0);
