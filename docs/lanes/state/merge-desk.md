@@ -97,7 +97,10 @@ Mac builds (`release-package.yml` on main) were started after 8, 20, 26 and 34 m
 
 ## Owner, one click
 
-- **Close #6971.** This session is not allowed to close PRs. The CTO said they will handle it from the Mac.
+#6971 is closed and its item is done (the CTO handled it).
+
+- **#7148** (Lane 5, an outside lender in a home sale): check passed on head 90684a67a8; ready to merge (Brattleboro, Vermont, replay 05a0f2cc63c5cb84).
+- **#7149** (Lane 5, a campaign turn with an empty platform): check passed on head bcbde26a02; ready to merge (Torreon, New Mexico, replay 587151fadb62ef34).
 - **Make the new-game check the rule.** The required checks on main are still `validate` and `golden-path`, not the one check. To make GitHub match ruling 2: `gh api -X PATCH repos/lamontaes/Political-Game-Git/branches/main/protection/required_status_checks -F strict=false -f 'contexts[]=new game'` (the job's name is `new game`; check the exact name GitHub shows).
 - **Merges outside the owner's list.** After your approval, merges in your Nov 3 order went through. Merging lane PRs not on that list (#7085, #7147) was refused as "merge without review". Both turned out to have conflicts anyway. To let the desk keep merging lanes' PRs on the one check, say so in this session.
 
