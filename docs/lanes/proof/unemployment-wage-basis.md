@@ -29,3 +29,9 @@ The observation records jobs before each day. After the first uncapped claim fil
 The original-data observation finished the same year with a 0.300812 Colorado reader, 55 claims and 394 payments. It did not open Danielle's person card, so these aggregate totals are not a controlled same-person causal comparison. The corrected payment's amount is established directly from her recorded lost wage and the law's formula.
 
 Local raw evidence: /tmp/lane-2-ui-{before,after}.json and .log; /tmp/lane-2-ui-summary.json. Reproduction observer: /tmp/lane-2-ui-after-audit.ts. Source correction: 285b7e165f. Browser/New Game and same-machine timing follow below.
+
+## New Game
+
+Source e8558ed94a after integrating main cf31d0ed63: npm run new-game-check passed in San Vicente, Northern Mariana Islands, replay 27e313b4e39a5bd2. New Game, four weeks of normal play, scene and Journal reads all returned 200.
+
+Fresh draws: 10 of 10 passed for unemployment-share.test.ts after main integration, each reading all 56 jurisdictions. Replay numbers: 86ccb082737f699a, 71095cee76618909, e58b0aaea76d6c7b, 963c461644b364a7, 0264ac05ef5c6228, 9bb1a15a0fafd3a6, 26432bdbe38c6ccf, aac818fcf9d1c33f, b79ce684c56d3ee4, a3a131faca9fc637.

@@ -94,3 +94,7 @@ The Severance corrected year finished through 2026-01-20: 99 natural claims, six
 Housing update: integrated main cf31d0ed63; the only conflict was the older Lane 2 state file, resolved with the current record. No housing source conflict. Corrected the release declaration metadata. New Game check on the merged head follows.
 
 Merged-main smoke check: source 3b3e884b45, Newport East, Rhode Island, replay 1717ba1e0e910c5c. npm run new-game-check passed: New Game, four weeks of normal play, scene and Journal readers all returned 200. No source conflict; merge conflict was only the older lane state.
+
+Unemployment New Game check passes after main integration: San Vicente, Northern Mariana Islands, replay 27e313b4e39a5bd2, four weeks of play, scene and Journal returned 200; source e8558ed94a. All-jurisdiction fresh replay checks are running before the isolated four-year performance comparison.
+
+Unemployment all-jurisdiction regression passed ten fresh draws (560 jurisdiction reads); replays attached in proof/unemployment-wage-basis.md. Speed comparison is next, base cf31d0ed63, same host, Severance key 0869150, replay c62f44a716f82f64; no source change during either run.
