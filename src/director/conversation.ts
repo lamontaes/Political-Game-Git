@@ -147,6 +147,8 @@ export interface ConversationData {
   tells?: Readonly<Record<string, Readonly<Record<string, string>>>>;
   /** The ledger labels, by prefix, that are something happening to a person. */
   happenings?: { prefixes: readonly string[] };
+  /** A relative's latest happening, by label prefix, as the stage their news is told in. */
+  familyNews?: { stages: Readonly<Record<string, string>> };
   /** The subject kinds relatives do not raise or ask between them. */
   familyTalk: { dropped: readonly string[] };
   /** What the player answers when the other person raises one of their own subjects. */
@@ -413,6 +415,53 @@ function latestMoment(
 }
 
 /**
+ * What a relative's latest recorded happening gives a talk about them (the
+ * owner, Nov 1: every life is simulated, and under Q7 what happened to them
+ * is the news): the stage their news is told in, and the facts it needs,
+ * where they moved and where they work now, each cited to its record.
+ */
+function familyNews(
+  core: Readonly<CoreState>,
+  director: Director | undefined,
+  speakerId: PersonId,
+  relativeId: PersonId,
+): { stage: string; facts: Facts } {
+  const moment = latestMoment(core, director, speakerId, relativeId);
+  const stages = CONVERSATION_RULES.familyNews?.stages ?? {};
+  const prefix = moment
+    ? Object.keys(stages).find((row) => moment.label.startsWith(row))
+    : undefined;
+  if (!moment || !prefix) return { stage: "default", facts: {} };
+  const stage = stages[prefix]!;
+  const cited = [moment.causeId];
+  // Whatever the line says, it cites the record of what happened, even a
+  // line that names no place or employer ("Dana moved away.").
+  const facts: Facts = { happened: { text: stage, sourceRecordIds: cited } };
+  if (stage === "moved") {
+    const move = core.durableLog.get(moment.causeId);
+    const place = move?.topic
+      ? corePlaceByJurisdictionId(move.topic as never)
+      : null;
+    // A move with no new place on record (where they went is where they
+    // left: a new home within their state's record, or no destination the
+    // moves engine could find) names none: they "moved away", never "moved
+    // to" the place they already lived in.
+    if (place && move!.topic !== move!.placeId)
+      facts.place = { text: spoken(place), sourceRecordIds: cited };
+  }
+  if (stage === "job") {
+    const job = core.jobs.get(moment.causeId);
+    const org = job ? core.organizations.get(job.organizationId) : undefined;
+    if (org)
+      facts.employer = {
+        text: properName(org.name),
+        sourceRecordIds: [...cited, org.id],
+      };
+  }
+  return { stage, facts };
+}
+
+/**
  * How much a subject weighs as a talk's main topic: the impact of the
  * biggest recent moment of its holder it is about (the moment's cause or
  * counterpart in the subject's records, or the subject its label is talked
@@ -500,6 +549,9 @@ const NEWS_KINDS: Readonly<Record<string, string>> = {
   "feeling:event:justice.imprisoned": "prison-news",
 };
 
+// A counted household evicted and filled in later holds its case and status
+// row but no such moment, so its people never tell it.
+// stopgapId: SG-WORDS-eviction-moment-at-fill-in
 const EVICTION_LABEL = "feeling:event:housing.eviction";
 const EVICTION_EVENT = "event:housing.eviction:";
 
@@ -1156,6 +1208,7 @@ export function subjectsBetween(
     } else phrase = relationPhrase(row.relation, gender, "scene");
     if (!phrase) continue;
     const shared = listener.familyIds.has(id);
+    const news = familyNews(core, director, speakerId, id);
     out.push({
       id: `family:${id}`,
       kind: "family",
@@ -1164,7 +1217,9 @@ export function subjectsBetween(
         relation: { text: phrase, sourceRecordIds },
         // "I'll tell Dad you asked": a shared relative goes by what both call them.
         name: { text: shared ? phrase : relative.givenName, sourceRecordIds },
+        ...news.facts,
       },
+      stage: news.stage,
     });
   }
   // The listener's relatives the speaker knows, asked after in turn once the
@@ -1629,7 +1684,12 @@ function askSubject(
     act: "ask",
     ...line,
   });
-  conversation.last = { subject, kind, facts: subject.facts, stage: "default" };
+  conversation.last = {
+    subject,
+    kind,
+    facts: subject.facts,
+    stage: subject.stage ?? "default",
+  };
   conversation.topics.push(subject.id);
   offerChoices(core, conversation, data);
   // A question the player has no answer to is not asked (someone who never
@@ -1813,8 +1873,14 @@ const OPENING_ORDER = [
 /** The subjects that are the two speakers' relationship: what they share. */
 const SHARED_KINDS = ["shared-school", "shared-work"];
 
-/** The key a listener remembers the last talk's topic under. */
-const lastTalkKey = (playerId: PersonId) => `talk:${playerId}:topic`;
+/**
+ * The key a listener remembers each topic the player talked over with them
+ * under (owner, Nov 1: a talk with nothing new is no talk; remembering only
+ * the last topic let two topics alternate forever).
+ */
+const talkedKeyPrefix = (playerId: PersonId) => `talk:${playerId}:topic:`;
+const talkedKey = (playerId: PersonId, topic: string) =>
+  `${talkedKeyPrefix(playerId)}${topic}`;
 
 /** The subjects a person tells as news of their own life; a reaction to one is never answered with small talk. */
 const NEWS_SUBJECTS: ReadonlySet<string> = new Set([
@@ -2079,11 +2145,11 @@ export function openConversation(
       conversation.used.push(...ids);
     }
   }
-  // The topic of their last talk isn't opened again (the listener remembers).
-  const remembered = core.knowledgeByPerson
-    .get(otherId)
-    ?.get(lastTalkKey(playerId))?.value;
-  if (remembered) conversation.used.push(remembered);
+  // A topic already talked over isn't opened again (the listener remembers
+  // each one; a new event is a new topic id).
+  for (const [key, fact] of core.knowledgeByPerson.get(otherId) ?? [])
+    if (key.startsWith(talkedKeyPrefix(playerId)))
+      conversation.used.push(fact.value);
   const main = raisedBrought ? null : mainTopic(core, conversation, data);
   const opened =
     raisedBrought ||
@@ -2917,7 +2983,7 @@ export function say(
   // The listener remembers what this talk was about.
   if (conversation.topics[zero])
     api.observe(otherId, {
-      key: lastTalkKey(playerId),
+      key: talkedKey(playerId, conversation.topics[zero]),
       value: conversation.topics[zero],
       learnedAt: core.date,
       sourceId: eventId,

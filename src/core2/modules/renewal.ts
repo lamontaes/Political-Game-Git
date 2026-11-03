@@ -617,6 +617,7 @@ function initialize(api: CoreAPI): void {
   scheduleCounted(api);
   const children = childrenByParent(api);
   // stopgapId: SG-TRAITS-partnerships-no-engine (couples come from the opening and from links a core call makes; no engine decides in play who partners or separates, so no temperament read decides it)
+  // stopgapId: SG-FAMILY-marriage-not-recorded (nor who marries: no marriage law is read and no same-sex marriage is counted by place)
   for (const link of api.state.familyLinks.values()) {
     if (link.kind !== "partner") continue;
     const row = coupleFromLink(api, link, children);

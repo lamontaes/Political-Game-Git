@@ -58,7 +58,7 @@ describe("the opening story", () => {
       ).toBe(true);
       expect(sentence.sourceRecordIds).toContain(story.president.id);
     }
-    // A number or claim about the country cites the macro engine's months.
+    // A claim about the country cites the macro engine's months.
     for (const sentence of story.address.sentences.filter(
       (row) => row.level === "country" && row.facts.length,
     ))
@@ -66,11 +66,10 @@ describe("the opening story", () => {
         sentence.sourceRecordIds.some((id) => id.startsWith("macro-month:")),
         sentence.text,
       ).toBe(true);
-    // A figure with what it is, never a bare claim ("Prices are too high").
-    for (const sentence of story.address.sentences.filter((row) =>
-      row.facts.some((key) => /-rate$|-growth$|-added$/.test(key)),
-    ))
-      expect(sentence.text, sentence.text).toMatch(/\d/);
+    // No figure at all (owner, Nov 1: "I don't like where this part of the
+    // speech where it just laces statistics"): the year is told in words.
+    for (const sentence of story.address.sentences)
+      expect(sentence.text, sentence.text).not.toMatch(/\d|percent/);
     // The party creed says the President's own party (an Oct 28 voice note:
     // the speech reads the President's party, traits and the world), and the
     // country's story ends on what the President will do about it.
@@ -87,9 +86,6 @@ describe("the opening story", () => {
           ),
         country.at(-1)!.text,
       ).toBe(true);
-    // A number is said as people say it: "is at 3.4 percent", never "is 3.4".
-    for (const sentence of story.address.sentences)
-      expect(sentence.text).not.toMatch(/\bis \d/);
     // Composed from records, the same every time.
     expect(composeOpeningStory(core, playerId)).toEqual(story);
   });

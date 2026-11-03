@@ -53,9 +53,14 @@
     "required": "How many signatures the law required, from the recall's count.",
     "fewer": "How many fewer signed after the member's answer, from the count's reasons.",
     "asker": "The citizen who asked a member to carry a bill, by name, from the ask record.",
+    "bodies": "The bodies that met in the week and took up nothing, listed, from the meeting records.",
+    "born": "Where a person was born, from the run's birth record, as the place records name it.",
+    "employer": "The organization a person worked for, from their work record.",
+    "survivors": "The living partner and children a person leaves, named from their family records, listed.",
+    "firm": "A business a public contract went to, by name, from the award and the business records.",
+    "government": "The government a public worker worked for, named from its record (the government of Arizona).",
     "also": "A second condition that moved the same month, from the outcome web month record.",
     "jobless": "How many residents are looking for work, from the economic month record.",
-    "members": "How many members sit on the body, from the meeting record.",
     "staff": "The staff a business plans for or starts with, from its staffing record.",
     "industry": "What a business does, from the business books' industry for its kind.",
     "years": "How many years a business was open, from its founding date.",
@@ -229,6 +234,446 @@
       }
     },
     {
+      "key": "news.life-death.name-age-of-place-died-on-date",
+      "move": "life-death",
+      "kind": "written",
+      "text": "{name}, {age}, of {place}, died on {date}.",
+      "uses": [
+        {
+          "move": "life-death",
+          "subject": "news",
+          "role": "life.death",
+          "choice": "lede",
+          "requiresFacts": ["age", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.life-death.name-died-on-date-at-the-age-of-age",
+      "move": "life-death",
+      "kind": "written",
+      "text": "{name} died on {date} at the age of {age}.",
+      "uses": [
+        {
+          "move": "life-death",
+          "subject": "news",
+          "role": "life.death",
+          "choice": "lede",
+          "requiresFacts": ["age"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.death-born.name-was-a-native-of-born",
+      "move": "death-born",
+      "kind": "written",
+      "text": "{name} was a native of {born}.",
+      "uses": [
+        {
+          "move": "death-born",
+          "subject": "news",
+          "role": "death-born",
+          "choice": "context",
+          "requiresFacts": ["born", "native"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.death-born.name-was-born-in-born-and-lived-there",
+      "move": "death-born",
+      "kind": "written",
+      "text": "{name} was born in {born} and lived there.",
+      "uses": [
+        {
+          "move": "death-born",
+          "subject": "news",
+          "role": "death-born",
+          "choice": "context",
+          "requiresFacts": ["born", "native"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.death-born.name-was-born-in-born",
+      "move": "death-born",
+      "kind": "written",
+      "text": "{name} was born in {born}.",
+      "uses": [
+        {
+          "move": "death-born",
+          "subject": "news",
+          "role": "death-born",
+          "choice": "context",
+          "requiresFacts": ["born", "elsewhere"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.death-born.name-was-born-in-born-and-later-made-a-home-in-place",
+      "move": "death-born",
+      "kind": "written",
+      "text": "{name} was born in {born} and later made a home in {place}.",
+      "uses": [
+        {
+          "move": "death-born",
+          "subject": "news",
+          "role": "death-born",
+          "choice": "context",
+          "requiresFacts": ["born", "elsewhere"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.death-office.name-served-as-office",
+      "move": "death-office",
+      "kind": "written",
+      "text": "{name} served as {office}.",
+      "uses": [
+        {
+          "move": "death-office",
+          "subject": "news",
+          "role": "death-office",
+          "choice": "context",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.death-office.name-had-served-as-office",
+      "move": "death-office",
+      "kind": "written",
+      "text": "{name} had served as {office}.",
+      "uses": [
+        {
+          "move": "death-office",
+          "subject": "news",
+          "role": "death-office",
+          "choice": "context",
+          "requiresFacts": ["office"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.death-work.name-worked-at-employer",
+      "move": "death-work",
+      "kind": "written",
+      "text": "{name} worked at {employer}.",
+      "uses": [
+        {
+          "move": "death-work",
+          "subject": "news",
+          "role": "death-work",
+          "choice": "context",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.death-work.name-had-worked-for-employer",
+      "move": "death-work",
+      "kind": "written",
+      "text": "{name} had worked for {employer}.",
+      "uses": [
+        {
+          "move": "death-work",
+          "subject": "news",
+          "role": "death-work",
+          "choice": "context",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.death-work.name-worked-at-employer-for-years-years",
+      "move": "death-work",
+      "kind": "written",
+      "text": "{name} worked at {employer} for {years} years.",
+      "uses": [
+        {
+          "move": "death-work",
+          "subject": "news",
+          "role": "death-work",
+          "choice": "context",
+          "requiresFacts": ["employer", "years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.death-work.name-spent-years-years-at-employer",
+      "move": "death-work",
+      "kind": "written",
+      "text": "{name} spent {years} years at {employer}.",
+      "uses": [
+        {
+          "move": "death-work",
+          "subject": "news",
+          "role": "death-work",
+          "choice": "context",
+          "requiresFacts": ["employer", "years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.death-work.name-worked-outside-place",
+      "move": "death-work",
+      "kind": "written",
+      "text": "{name} worked outside {place}.",
+      "uses": [
+        {
+          "move": "death-work",
+          "subject": "news",
+          "role": "death-work",
+          "choice": "context",
+          "requiresFacts": ["away", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.death-work.name-worked-out-of-town-and-lived-in-place",
+      "move": "death-work",
+      "kind": "written",
+      "text": "{name} worked out of town and lived in {place}.",
+      "uses": [
+        {
+          "move": "death-work",
+          "subject": "news",
+          "role": "death-work",
+          "choice": "context",
+          "requiresFacts": ["away", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.death-work.name-worked-for-government",
+      "move": "death-work",
+      "kind": "written",
+      "text": "{name} worked for {government}.",
+      "uses": [
+        {
+          "move": "death-work",
+          "subject": "news",
+          "role": "death-work",
+          "choice": "context",
+          "requiresFacts": ["government"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.death-work.name-worked-for-government-for-years-years",
+      "move": "death-work",
+      "kind": "written",
+      "text": "{name} worked for {government} for {years} years.",
+      "uses": [
+        {
+          "move": "death-work",
+          "subject": "news",
+          "role": "death-work",
+          "choice": "context",
+          "requiresFacts": ["government", "years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.death-work.name-spent-years-years-working-for-government",
+      "move": "death-work",
+      "kind": "written",
+      "text": "{name} spent {years} years working for {government}.",
+      "uses": [
+        {
+          "move": "death-work",
+          "subject": "news",
+          "role": "death-work",
+          "choice": "context",
+          "requiresFacts": ["government", "years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.death-survivors.name-is-survived-by-survivors",
+      "move": "death-survivors",
+      "kind": "written",
+      "text": "{name} is survived by {survivors}.",
+      "uses": [
+        {
+          "move": "death-survivors",
+          "subject": "news",
+          "role": "death-survivors",
+          "choice": "context",
+          "requiresFacts": ["survivors"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.death-survivors.survivors-include-survivors",
+      "move": "death-survivors",
+      "kind": "written",
+      "text": "Survivors include {survivors}.",
+      "uses": [
+        {
+          "move": "death-survivors",
+          "subject": "news",
+          "role": "death-survivors",
+          "choice": "context",
+          "requiresFacts": ["survivors"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.death-survivors.name-leaves-behind-survivors",
+      "move": "death-survivors",
+      "kind": "written",
+      "text": "{name} leaves behind {survivors}.",
+      "uses": [
+        {
+          "move": "death-survivors",
+          "subject": "news",
+          "role": "death-survivors",
+          "choice": "context",
+          "requiresFacts": ["survivors"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "news.life-death.name-was-age-years-old",
       "move": "life-death",
       "kind": "spoken",
@@ -304,64 +749,6 @@
         "date": "2025-05-01",
         "granule": "DCPD-202500550",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202500550/html/DCPD-202500550.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "deliver-news",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "news.life-death.name-is-survived-by-pronoun-wife",
-      "move": "life-death",
-      "kind": "spoken",
-      "text": "{name} is survived by {pronoun} wife.",
-      "uses": [
-        {
-          "move": "life-death",
-          "subject": "news",
-          "role": "life.death",
-          "choice": "lede"
-        }
-      ],
-      "transcriptsUsing": 9,
-      "bySource": {
-        "crec": 9
-      },
-      "source": {
-        "document": "Congressional Record, House section, 2025-05-15",
-        "date": "2025-05-15",
-        "granule": "CREC-2025-05-15-house",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-05-15",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "deliver-news",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "news.life-death.name-is-survived-by-pronoun-husband",
-      "move": "life-death",
-      "kind": "spoken",
-      "text": "{name} is survived by {pronoun} husband.",
-      "uses": [
-        {
-          "move": "life-death",
-          "subject": "news",
-          "role": "life.death",
-          "choice": "lede"
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "crec": 2
-      },
-      "source": {
-        "document": "Congressional Record, Senate section, 2025-05-15",
-        "date": "2025-05-15",
-        "granule": "CREC-2025-05-15-senate",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-05-15",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       },
       "tag": {
@@ -1662,6 +2049,27 @@
       }
     },
     {
+      "key": "news.jobs-report.in-month-unemployment-in-area-stood-at-percent-against-nation",
+      "move": "jobs-report",
+      "kind": "written",
+      "text": "In {month}, unemployment in {area} stood at {percent}, against {nation} for the nation.",
+      "uses": [
+        {
+          "move": "jobs-report",
+          "subject": "news",
+          "role": "jobs-report",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "news.jobs-report.the-jobless-rate-in-area-was-percent-in-month-the-national-rate-was-nation",
       "move": "jobs-report",
       "kind": "written",
@@ -1726,6 +2134,50 @@
       }
     },
     {
+      "key": "news.conditions.unemployment-in-place-rose-to-percent-last-month-no-one-was-out-of-work",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Unemployment in {place} rose to {percent}; last month no one was out of work.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["unemployment", "up", "from-nobody"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.after-a-month-with-no-one-out-of-work-place-is-at-percent",
+      "move": "conditions",
+      "kind": "written",
+      "text": "After a month with no one out of work, unemployment in {place} is {percent}.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["unemployment", "up", "from-nobody"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "news.conditions.the-unemployment-rate-in-place-fell-to-percent-from-from",
       "move": "conditions",
       "kind": "written",
@@ -1742,6 +2194,50 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.no-one-in-place-is-out-of-work-this-month",
+      "move": "conditions",
+      "kind": "written",
+      "text": "No one in {place} is out of work this month, the town's figures show.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["unemployment", "down", "nobody"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions.everyone-in-place-looking-for-work-has-found-a-job",
+      "move": "conditions",
+      "kind": "written",
+      "text": "Everyone in {place} who was looking for work has found a job.",
+      "uses": [
+        {
+          "move": "conditions",
+          "subject": "news",
+          "role": "conditions",
+          "choice": "lede",
+          "requiresFacts": ["unemployment", "down", "nobody"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
@@ -1946,6 +2442,28 @@
       }
     },
     {
+      "key": "news.rate.the-federal-reserve-raised-interest-rates-on-date-to-percent",
+      "move": "rate",
+      "kind": "written",
+      "text": "The Federal Reserve raised interest rates on {date}, to {percent}.",
+      "uses": [
+        {
+          "move": "rate",
+          "subject": "news",
+          "role": "rate",
+          "choice": "lede",
+          "requiresFacts": ["up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "news.rate.the-federal-reserve-cut-its-key-interest-rate-to-percent-on-",
       "move": "rate",
       "kind": "written",
@@ -1968,6 +2486,28 @@
       }
     },
     {
+      "key": "news.rate.the-federal-reserve-lowered-interest-rates-on-date-to-percent",
+      "move": "rate",
+      "kind": "written",
+      "text": "The Federal Reserve lowered interest rates on {date}, to {percent}.",
+      "uses": [
+        {
+          "move": "rate",
+          "subject": "news",
+          "role": "rate",
+          "choice": "lede",
+          "requiresFacts": ["down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "news.rate.the-federal-reserve-left-its-key-interest-rate-at-percent-on",
       "move": "rate",
       "kind": "written",
@@ -1984,6 +2524,28 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.rate.the-federal-reserve-kept-interest-rates-at-percent-on-date",
+      "move": "rate",
+      "kind": "written",
+      "text": "The Federal Reserve kept interest rates at {percent} on {date}.",
+      "uses": [
+        {
+          "move": "rate",
+          "subject": "news",
+          "role": "rate",
+          "choice": "lede",
+          "requiresFacts": ["held"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
@@ -2076,28 +2638,6 @@
       }
     },
     {
-      "key": "news.body-meeting.the-body-met-on-date-with-nothing-on-its-agenda",
-      "move": "body-meeting",
-      "kind": "written",
-      "text": "The {body} met on {date}, with nothing on its agenda.",
-      "uses": [
-        {
-          "move": "body-meeting",
-          "subject": "news",
-          "role": "body-meeting",
-          "choice": "lede",
-          "requiresFacts": ["none"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-live-news-worded)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "news.body-meeting.the-body-held-its-regular-meeting-on-date",
       "move": "body-meeting",
       "kind": "written",
@@ -2113,6 +2653,160 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.body-meeting.the-body-had-one-item-before-it-when-it-met-on-date",
+      "move": "body-meeting",
+      "kind": "written",
+      "text": "The {body} had one item before it when it met on {date}.",
+      "uses": [
+        {
+          "move": "body-meeting",
+          "subject": "news",
+          "role": "body-meeting",
+          "choice": "lede",
+          "requiresFacts": ["one"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.meetings-week.the-bodies-met-on-date-and-took-up-no-business",
+      "move": "meetings-week",
+      "kind": "written",
+      "text": "The {bodies} met on {date} and took up no business.",
+      "uses": [
+        {
+          "move": "meetings-week",
+          "subject": "news",
+          "role": "meetings-week",
+          "choice": "lede",
+          "requiresFacts": ["one"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.meetings-week.no-business-came-before-the-bodies-on-date",
+      "move": "meetings-week",
+      "kind": "written",
+      "text": "No business came before the {bodies} on {date}.",
+      "uses": [
+        {
+          "move": "meetings-week",
+          "subject": "news",
+          "role": "meetings-week",
+          "choice": "lede",
+          "requiresFacts": ["one"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.meetings-week.the-bodies-held-its-regular-meeting-on-date-with-nothing-before-it",
+      "move": "meetings-week",
+      "kind": "written",
+      "text": "The {bodies} held its regular meeting on {date}, with nothing before it.",
+      "uses": [
+        {
+          "move": "meetings-week",
+          "subject": "news",
+          "role": "meetings-week",
+          "choice": "lede",
+          "requiresFacts": ["one"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.meetings-week.the-bodies-met-the-week-of-date-and-took-up-no-business",
+      "move": "meetings-week",
+      "kind": "written",
+      "text": "The {bodies} met the week of {date} and took up no business.",
+      "uses": [
+        {
+          "move": "meetings-week",
+          "subject": "news",
+          "role": "meetings-week",
+          "choice": "lede",
+          "requiresFacts": ["several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.meetings-week.no-business-came-before-the-bodies-the-week-of-date",
+      "move": "meetings-week",
+      "kind": "written",
+      "text": "No business came before the {bodies} the week of {date}.",
+      "uses": [
+        {
+          "move": "meetings-week",
+          "subject": "news",
+          "role": "meetings-week",
+          "choice": "lede",
+          "requiresFacts": ["several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.meetings-week.the-bodies-held-their-regular-meetings-the-week-of-date-with-nothing-before-them",
+      "move": "meetings-week",
+      "kind": "written",
+      "text": "The {bodies} held their regular meetings the week of {date}, with nothing before them.",
+      "uses": [
+        {
+          "move": "meetings-week",
+          "subject": "news",
+          "role": "meetings-week",
+          "choice": "lede",
+          "requiresFacts": ["several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
@@ -2409,6 +3103,28 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.vacancy.with-names-death-a-office-seat-is-open",
+      "move": "vacancy",
+      "kind": "written",
+      "text": "With {name}'s death, a {office} seat is open.",
+      "uses": [
+        {
+          "move": "vacancy",
+          "subject": "news",
+          "role": "vacancy",
+          "choice": "lede",
+          "requiresFacts": ["died"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
@@ -3874,6 +4590,531 @@
       }
     },
     {
+      "key": "news.birthday.name-turned-age-on-date",
+      "move": "birthday",
+      "kind": "written",
+      "text": "{name} turned {age} on {date}.",
+      "uses": [
+        {
+          "move": "birthday",
+          "subject": "news",
+          "role": "birthday",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.birthday.name-of-place-turned-age-on-date",
+      "move": "birthday",
+      "kind": "written",
+      "text": "{name} of {place} turned {age} on {date}.",
+      "uses": [
+        {
+          "move": "birthday",
+          "subject": "news",
+          "role": "birthday",
+          "choice": "lede",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.birthday.name-marked-a-milestone-birthday-on-date-turning-age",
+      "move": "birthday",
+      "kind": "written",
+      "text": "{name} marked a milestone birthday on {date}, turning {age}.",
+      "uses": [
+        {
+          "move": "birthday",
+          "subject": "news",
+          "role": "birthday",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.birthday.name-reached-the-age-of-age-on-date",
+      "move": "birthday",
+      "kind": "written",
+      "text": "{name} reached the age of {age} on {date}.",
+      "uses": [
+        {
+          "move": "birthday",
+          "subject": "news",
+          "role": "birthday",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.retirement.name-retired-from-employer-on-date",
+      "move": "retirement",
+      "kind": "written",
+      "text": "{name} retired from {employer} on {date}.",
+      "uses": [
+        {
+          "move": "retirement",
+          "subject": "news",
+          "role": "retirement",
+          "choice": "lede",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.letter.in-a-letter-to-the-editor-name-of-place-backs-the-law",
+      "move": "letter",
+      "kind": "written",
+      "text": "In a letter to the editor, {name} of {place} backs the {law}.",
+      "uses": [
+        {
+          "move": "letter",
+          "subject": "news",
+          "role": "letter",
+          "choice": "lede",
+          "requiresFacts": ["supports", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.letter.name-wrote-to-the-paper-in-support-of-the-law",
+      "move": "letter",
+      "kind": "written",
+      "text": "{name} wrote to the paper in support of the {law}.",
+      "uses": [
+        {
+          "move": "letter",
+          "subject": "news",
+          "role": "letter",
+          "choice": "lede",
+          "requiresFacts": ["supports"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.letter.name-of-place-wrote-in-to-speak-up-for-the-law",
+      "move": "letter",
+      "kind": "written",
+      "text": "{name} of {place} wrote in to speak up for the {law}.",
+      "uses": [
+        {
+          "move": "letter",
+          "subject": "news",
+          "role": "letter",
+          "choice": "lede",
+          "requiresFacts": ["supports", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.letter.in-a-letter-to-the-editor-name-urges-readers-to-back-the-law",
+      "move": "letter",
+      "kind": "written",
+      "text": "In a letter to the editor, {name} urges readers to back the {law}.",
+      "uses": [
+        {
+          "move": "letter",
+          "subject": "news",
+          "role": "letter",
+          "choice": "lede",
+          "requiresFacts": ["supports"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.letter.in-a-letter-to-the-editor-name-of-place-opposes-the-law",
+      "move": "letter",
+      "kind": "written",
+      "text": "In a letter to the editor, {name} of {place} opposes the {law}.",
+      "uses": [
+        {
+          "move": "letter",
+          "subject": "news",
+          "role": "letter",
+          "choice": "lede",
+          "requiresFacts": ["opposes", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.letter.name-wrote-to-the-paper-against-the-law",
+      "move": "letter",
+      "kind": "written",
+      "text": "{name} wrote to the paper against the {law}.",
+      "uses": [
+        {
+          "move": "letter",
+          "subject": "news",
+          "role": "letter",
+          "choice": "lede",
+          "requiresFacts": ["opposes"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.letter.name-of-place-wrote-in-to-speak-against-the-law",
+      "move": "letter",
+      "kind": "written",
+      "text": "{name} of {place} wrote in to speak against the {law}.",
+      "uses": [
+        {
+          "move": "letter",
+          "subject": "news",
+          "role": "letter",
+          "choice": "lede",
+          "requiresFacts": ["opposes", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.letter.in-a-letter-to-the-editor-name-argues-against-the-law",
+      "move": "letter",
+      "kind": "written",
+      "text": "In a letter to the editor, {name} argues against the {law}.",
+      "uses": [
+        {
+          "move": "letter",
+          "subject": "news",
+          "role": "letter",
+          "choice": "lede",
+          "requiresFacts": ["opposes"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.letter.name-wrote-to-the-paper-in-support-of-designation",
+      "move": "letter",
+      "kind": "written",
+      "text": "{name} wrote to the paper in support of {designation}.",
+      "uses": [
+        {
+          "move": "letter",
+          "subject": "news",
+          "role": "letter",
+          "choice": "lede",
+          "requiresFacts": ["supports"],
+          "excludesFacts": ["law"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.letter.name-wrote-to-the-paper-against-designation",
+      "move": "letter",
+      "kind": "written",
+      "text": "{name} wrote to the paper against {designation}.",
+      "uses": [
+        {
+          "move": "letter",
+          "subject": "news",
+          "role": "letter",
+          "choice": "lede",
+          "requiresFacts": ["opposes"],
+          "excludesFacts": ["law"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.retirement.after-years-years-at-employer-name-has-retired",
+      "move": "retirement",
+      "kind": "written",
+      "text": "After {years} years at {employer}, {name} has retired.",
+      "uses": [
+        {
+          "move": "retirement",
+          "subject": "news",
+          "role": "retirement",
+          "choice": "lede",
+          "requiresFacts": ["employer", "years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.retirement.name-of-place-retired-on-date",
+      "move": "retirement",
+      "kind": "written",
+      "text": "{name} of {place} retired on {date}.",
+      "uses": [
+        {
+          "move": "retirement",
+          "subject": "news",
+          "role": "retirement",
+          "choice": "lede",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.retirement.name-retired-on-date",
+      "move": "retirement",
+      "kind": "written",
+      "text": "{name} retired on {date}.",
+      "uses": [
+        {
+          "move": "retirement",
+          "subject": "news",
+          "role": "retirement",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.retirement.name-retired-from-government-on-date",
+      "move": "retirement",
+      "kind": "written",
+      "text": "{name} retired from {government} on {date}.",
+      "uses": [
+        {
+          "move": "retirement",
+          "subject": "news",
+          "role": "retirement",
+          "choice": "lede",
+          "requiresFacts": ["government"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.retirement.after-years-years-with-government-name-has-retired",
+      "move": "retirement",
+      "kind": "written",
+      "text": "After {years} years with {government}, {name} has retired.",
+      "uses": [
+        {
+          "move": "retirement",
+          "subject": "news",
+          "role": "retirement",
+          "choice": "lede",
+          "requiresFacts": ["government", "years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.anniversary.subject-opened-in-place-years-years-ago-this-week",
+      "move": "anniversary",
+      "kind": "written",
+      "text": "{subject} opened in {place} {years} years ago this week.",
+      "uses": [
+        {
+          "move": "anniversary",
+          "subject": "news",
+          "role": "anniversary",
+          "choice": "lede",
+          "requiresFacts": ["place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.anniversary.subject-has-been-in-business-for-years-years",
+      "move": "anniversary",
+      "kind": "written",
+      "text": "{subject} has been in business for {years} years.",
+      "uses": [
+        {
+          "move": "anniversary",
+          "subject": "news",
+          "role": "anniversary",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.anniversary.subject-first-opened-its-doors-in-year",
+      "move": "anniversary",
+      "kind": "written",
+      "text": "{subject} first opened its doors in {year}.",
+      "uses": [
+        {
+          "move": "anniversary",
+          "subject": "news",
+          "role": "anniversary",
+          "choice": "lede",
+          "requiresFacts": ["year"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.anniversary.subject-in-industry-has-been-open-since-year",
+      "move": "anniversary",
+      "kind": "written",
+      "text": "{subject}, in {industry}, has been open since {year}.",
+      "uses": [
+        {
+          "move": "anniversary",
+          "subject": "news",
+          "role": "anniversary",
+          "choice": "lede",
+          "requiresFacts": ["industry", "year"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "news.address.name-was-sworn-in-as-president-on-date",
       "move": "address",
       "kind": "written",
@@ -4995,6 +6236,72 @@
       }
     },
     {
+      "key": "news.exposed.records-show-name-voted-on-a-public-contract-for-firm-a-firm-with-personal-ties",
+      "move": "exposed",
+      "kind": "written",
+      "text": "Records show {name} voted on a public contract for {firm}, a firm with personal ties.",
+      "uses": [
+        {
+          "move": "exposed",
+          "subject": "news",
+          "role": "exposed",
+          "choice": "lede",
+          "requiresFacts": ["conflict", "firm"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.exposed.for-the-ordinal-time-records-show-name-voted-on-a-contract-for-firm",
+      "move": "exposed",
+      "kind": "written",
+      "text": "For the {ordinal} time, records show {name} voted on a contract for {firm}.",
+      "uses": [
+        {
+          "move": "exposed",
+          "subject": "news",
+          "role": "exposed",
+          "choice": "lede",
+          "requiresFacts": ["again", "firm"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.exposed.name-voted-on-a-contract-for-firm-again-the-ordinal-time-records-show",
+      "move": "exposed",
+      "kind": "written",
+      "text": "{name} voted on a contract for {firm} again, the {ordinal} time records show.",
+      "uses": [
+        {
+          "move": "exposed",
+          "subject": "news",
+          "role": "exposed",
+          "choice": "lede",
+          "requiresFacts": ["again", "firm"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "news.took-office.a-new-post-from-place-took-the-oath-of-office",
       "move": "took-office",
       "kind": "written",
@@ -5011,6 +6318,28 @@
       "origin": "authored",
       "author": "Words and director session",
       "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.took-office.a-new-post-from-place-was-sworn-in",
+      "move": "took-office",
+      "kind": "written",
+      "text": "A new {post} from {place} was sworn in.",
+      "uses": [
+        {
+          "move": "took-office",
+          "subject": "news",
+          "role": "took-office",
+          "choice": "lede",
+          "requiresFacts": ["post", "place"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
@@ -5823,6 +7152,72 @@
       }
     },
     {
+      "key": "news.bill-purpose.the-measure-covers-purpose",
+      "move": "bill-purpose",
+      "kind": "written",
+      "text": "The measure covers {purpose}.",
+      "uses": [
+        {
+          "move": "bill-purpose",
+          "subject": "news",
+          "role": "bill-purpose",
+          "choice": "context",
+          "requiresFacts": ["purpose"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.bill-purpose.it-concerns-purpose",
+      "move": "bill-purpose",
+      "kind": "written",
+      "text": "It concerns {purpose}.",
+      "uses": [
+        {
+          "move": "bill-purpose",
+          "subject": "news",
+          "role": "bill-purpose",
+          "choice": "context",
+          "requiresFacts": ["purpose"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.bill-purpose.the-bill-is-about-purpose",
+      "move": "bill-purpose",
+      "kind": "written",
+      "text": "The bill is about {purpose}.",
+      "uses": [
+        {
+          "move": "bill-purpose",
+          "subject": "news",
+          "role": "bill-purpose",
+          "choice": "context",
+          "requiresFacts": ["purpose"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "news.bill-purpose.the-law-is-about-purpose",
       "move": "bill-purpose",
       "kind": "written",
@@ -5993,6 +7388,50 @@
       "origin": "authored",
       "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
       "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.committee-next.the-bill-stays-in-committee-for-now",
+      "move": "committee-next",
+      "kind": "written",
+      "text": "The bill stays in committee for now.",
+      "uses": [
+        {
+          "move": "committee-next",
+          "subject": "news",
+          "role": "committee-next",
+          "choice": "context",
+          "requiresFacts": ["failed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.committee-next.the-committee-s-vote-stops-the-bill-there",
+      "move": "committee-next",
+      "kind": "written",
+      "text": "The committee's vote stops the bill there.",
+      "uses": [
+        {
+          "move": "committee-next",
+          "subject": "news",
+          "role": "committee-next",
+          "choice": "context",
+          "requiresFacts": ["failed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
@@ -6461,6 +7900,28 @@
       }
     },
     {
+      "key": "news.conditions-also.also-climbed-too",
+      "move": "conditions-also",
+      "kind": "written",
+      "text": "{also} climbed too.",
+      "uses": [
+        {
+          "move": "conditions-also",
+          "subject": "news",
+          "role": "conditions-also",
+          "choice": "context",
+          "requiresFacts": ["also", "also-up", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "news.conditions-also.also-fell-too",
       "move": "conditions-also",
       "kind": "written",
@@ -6505,6 +7966,28 @@
       }
     },
     {
+      "key": "news.conditions-also.also-dropped-too",
+      "move": "conditions-also",
+      "kind": "written",
+      "text": "{also} dropped too.",
+      "uses": [
+        {
+          "move": "conditions-also",
+          "subject": "news",
+          "role": "conditions-also",
+          "choice": "context",
+          "requiresFacts": ["also", "also-down", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "news.conditions-also.at-the-same-time-also-fell",
       "move": "conditions-also",
       "kind": "written",
@@ -6538,50 +8021,6 @@
           "role": "conditions-also",
           "choice": "context",
           "requiresFacts": ["also", "also-up", "down"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-bodies-2)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.meeting-members.the-body-has-members-members",
-      "move": "meeting-members",
-      "kind": "written",
-      "text": "The {body} has {members} members.",
-      "uses": [
-        {
-          "move": "meeting-members",
-          "subject": "news",
-          "role": "meeting-members",
-          "choice": "context",
-          "requiresFacts": ["body", "members"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-bodies-2)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.meeting-members.members-members-sit-on-the-body",
-      "move": "meeting-members",
-      "kind": "written",
-      "text": "{members} members sit on the {body}.",
-      "uses": [
-        {
-          "move": "meeting-members",
-          "subject": "news",
-          "role": "meeting-members",
-          "choice": "context",
-          "requiresFacts": ["body", "members"]
         }
       ],
       "origin": "authored",
@@ -7272,6 +8711,50 @@
       }
     },
     {
+      "key": "news.took-office-cause.its-last-holder-died-in-office",
+      "move": "took-office-cause",
+      "kind": "written",
+      "text": "Its last holder died in office.",
+      "uses": [
+        {
+          "move": "took-office-cause",
+          "subject": "news",
+          "role": "took-office-cause",
+          "choice": "context",
+          "requiresFacts": ["died"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.took-office-cause.the-seat-came-open-on-its-holders-death",
+      "move": "took-office-cause",
+      "kind": "written",
+      "text": "The seat came open on its holder's death.",
+      "uses": [
+        {
+          "move": "took-office-cause",
+          "subject": "news",
+          "role": "took-office-cause",
+          "choice": "context",
+          "requiresFacts": ["died"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "news.took-office-cause.the-seat-opened-after-its-holder-moved-away",
       "move": "took-office-cause",
       "kind": "written",
@@ -7288,6 +8771,28 @@
       "origin": "authored",
       "author": "Words, scenes and the director (words-printed-bodies-2)",
       "date": "2026-10-29",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.took-office-cause.its-last-holder-moved-away",
+      "move": "took-office-cause",
+      "kind": "written",
+      "text": "Its last holder moved away.",
+      "uses": [
+        {
+          "move": "took-office-cause",
+          "subject": "news",
+          "role": "took-office-cause",
+          "choice": "context",
+          "requiresFacts": ["moved"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
@@ -8779,28 +10284,6 @@
           "role": "budget-largest",
           "choice": "context",
           "requiresFacts": ["purpose", "money"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-bodies-2)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.death-kin.name-was-the-relation-of-survivor",
-      "move": "death-kin",
-      "kind": "written",
-      "text": "{name} was the {relation} of {survivor}.",
-      "uses": [
-        {
-          "move": "death-kin",
-          "subject": "news",
-          "role": "death-kin",
-          "choice": "context",
-          "requiresFacts": ["name", "relation", "survivor"]
         }
       ],
       "origin": "authored",

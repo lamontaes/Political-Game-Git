@@ -34,6 +34,8 @@
     "previous": "Previous {row}",
     "next": "Next {row}",
     "randomPlace": "Random place",
+    "randomName": "Randomize name",
+    "nameWaitsForGender": "Choose a gender to randomize a name",
     "missingGender": "Choose a gender to go on.",
     "missingName": "Type a first and last name to go on."
   },
@@ -309,6 +311,7 @@
       "serve": "Where you serve",
       "filing": "You file here"
     },
+    "trail": "The campaign trail",
     "whatYouDo": "What you do here",
     "whoWorks": "Who works here",
     "district": "District"
@@ -588,7 +591,8 @@
     "debtKinds": {
       "personal": "Personal loan",
       "startup": "Startup loan",
-      "mortgage": "Mortgage"
+      "mortgage": "Mortgage",
+      "small-dollar": "Cash advance"
     },
     "reasons": {
       "household.rent": "Rent",

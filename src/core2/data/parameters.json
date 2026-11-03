@@ -6359,6 +6359,18 @@
       "citation": "The weight scales with the log odds ratio: the study's 95% Bayesian credibility interval for the odds ratio is 0.47 to 0.60 (Section 3.1: \"HH resulted in a medium to large effect of OR = 0.53 with a 95% BCI of [0.47; 0.60]\"; Table 2: 0.53, 2.5% 0.47, 97.5% 0.60)."
     }
   },
+  "traitWeightPressLetter": {
+    "value": 0.0068,
+    "tag": "ESTIMATED",
+    "citation": "The trait weight of the press.letter decision (who writes a letter to the editor about a story they read), from its row in data/research/trait-effect-sizes.json: Mondak and Halperin (2008), agreeableness and writing letters to the editor, ordered logit 0.27 per scale unit (trait SD 0.64), carried to the thirds of readers leaning most and least toward writing: target odds ratio 1.46. Fitted with the strength bar at 0.02 (letterStrength) on two played years of Blunt, South Dakota (key 4606180), by scripts/traits/trait-calibrate.ts's formula on a finer sweep than its 0.005 grid, net of the same gap with personality off: seed letters-cal-1, 313 weighings, best 0.0048; seed letters-cal-2, 2,696 weighings, best 0.0097 (the script's own grid gives 0.01, calibrated). The value is the two worlds' geometric mean; at it the odds between thirds are 1.72 and 1.33, and temperament turns 9 of 313 and 55 of 2,696 weighings. Strength of feeling on a question a story moved runs 0.0001 to 0.09 in the first world (median 0.0075) and to 0.45 in the second (median 0.08), so the weight is small on that scale and strength does most of the deciding.",
+    "estimatedFrom": "press.letter in data/research/trait-effect-sizes.json (Mondak and Halperin 2008), fitted in two played years at 27f014c4e3.",
+    "spread": {
+      "low": 0.0048,
+      "high": 0.0097,
+      "unit": "weight",
+      "citation": "The two worlds' own best fits."
+    }
+  },
   "traitWeightPressTip": {
     "value": 1,
     "tag": "TUNABLE",
@@ -7810,5 +7822,17 @@
     "value": 0.5,
     "tag": "SOURCED",
     "citation": "The Jeffreys prior for a binomial share, Beta(1/2, 1/2): a share read from x of n people is estimated as (x + 1/2) / (n + 1), which stays strictly between none and all for any sample. Brown, Cai and DasGupta (2001), Interval Estimation for a Binomial Proportion, Statistical Science 16(2): 101-133, recommend the Jeffreys interval for small samples; its center is this estimate. Read by publishedResidentEmploymentRate for the ACS county age cells (B23001 counts of a few dozen in small counties)."
+  },
+  "worldSmallDollarVolumeSpreadShare": {
+    "value": 0.2,
+    "tag": "ESTIMATED",
+    "citation": "How far a world's small-dollar lending volume (the households that borrow from the town's payday or high-cost installment lender, and so the cash the lender lends) sits from the sourced national figure for a place, as a share of it. National household use fell from 1.5 percent in 2019 to 1.1 percent in 2021 (FDIC National Survey of Unbanked and Underbanked Households, Table 5.2), a change of about a quarter.",
+    "estimatedFrom": "Owner, Oct 27: real data calibrates, every start differs (realistic, not real). The published figure is the center; a world's offset is drawn once from its seed at Start, its size between worldDrawOffsetFloorShare of this spread and the whole spread, so no world copies the published value.",
+    "spread": {
+      "low": 0.1,
+      "high": 0.3,
+      "unit": "share of the sourced volume",
+      "citation": "FDIC 2023 survey, Table 5.2, payday loan use 2019 (1.5) against 2021 and 2023 (1.1); Pew 2012, Exhibit 8, 6.3 against 6.6 percent between regulatory types."
+    }
   }
 }

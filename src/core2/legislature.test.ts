@@ -245,7 +245,7 @@ describe(
         const v = votes.find((x) => x.memberId === m)!;
         if (v.vote !== "abstain")
           expect(
-            votesOf(api, m).some((r) => r.measureId === bill.number),
+            votesOf(api, m).some((r) => r.billId === bill.id),
             `member ${m} voted ${v.vote} on ${bill.number} with no vote record (vote ${v.id}, place ${key}, seed ${seed})`,
           ).toBe(true);
       }
@@ -580,9 +580,9 @@ describe(
       const chambers = new Set(votes.map((v) => v.chamber).filter(Boolean));
       if (after.status !== "failed") expect(chambers.size).toBe(2);
       if (first.reported)
-        expect(
-          votesOf(api, sponsorKey).some((r) => r.measureId === bill.number),
-        ).toBe(true);
+        expect(votesOf(api, sponsorKey).some((r) => r.billId === bill.id)).toBe(
+          true,
+        );
       if (["enacted", "signed", "overridden"].includes(after.status)) {
         const row = (
           api

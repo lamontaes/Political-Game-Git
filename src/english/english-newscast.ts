@@ -91,7 +91,14 @@ export const STORY_KINDS = {
     story: "death",
     headline: ["life.death"],
     lede: ["life.death"],
-    context: ["death-age", "death-place", "death-kin"],
+    context: [
+      "death-age",
+      "death-born",
+      "death-place",
+      "death-office",
+      "death-work",
+      "death-survivors",
+    ],
   },
   // The stories the press prints during play, each worded by its own
   // headline and lede pieces; one with no newscast story of its own is told
@@ -163,7 +170,14 @@ export const STORY_KINDS = {
   "body-meeting": {
     headline: ["body-meeting"],
     lede: ["body-meeting"],
-    context: ["meeting-members", "meeting-bill"],
+    context: ["meeting-bill"],
+  },
+  // The week's sittings that took up nothing, in one brief (CTO, Nov 1:
+  // print what the body did, not that it sat).
+  "meetings-week": {
+    headline: ["meetings-week"],
+    lede: ["meetings-week"],
+    brief: true,
   },
   profile: {
     headline: ["profile"],
@@ -253,6 +267,21 @@ export const STORY_KINDS = {
   },
   "homeless-count": { headline: ["homeless-count"], lede: ["homeless-count"] },
   birth: { headline: ["birth"], lede: ["birth"], brief: true },
+  // The week's round birthdays and business anniversaries (the briefs
+  // column, from the press's milestones step).
+  birthday: { headline: ["birthday"], lede: ["birthday"], brief: true },
+  retirement: {
+    headline: ["retirement"],
+    lede: ["retirement"],
+    brief: true,
+  },
+  // A reader's letter to the editor, from the press's weekly letters step.
+  letter: { headline: ["letter"], lede: ["letter"], brief: true },
+  anniversary: {
+    headline: ["anniversary"],
+    lede: ["anniversary"],
+    brief: true,
+  },
   // The President's address as a short news piece: after the lede, the
   // country's figures the address argued from and one sentence quoted from it.
   address: {

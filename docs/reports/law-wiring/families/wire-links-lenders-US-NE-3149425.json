@@ -1,0 +1,508 @@
+{
+  "seed": "5e27b0c4196fd3a8",
+  "place": {
+    "seed": "a4e2c7a01cbd38db5b12d694a8610e04cd0edfde084d015590666753e6fdc2b3",
+    "key": "3149425",
+    "name": "Uehling, Nebraska",
+    "state": "US-NE"
+  },
+  "window": 430,
+  "after": 31,
+  "results": [
+    {
+      "key": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+      "kind": "question",
+      "family": "business",
+      "inForceAtOpening": true,
+      "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2026-03-28",
+      "lawIds": [
+        "law:US-NE:state:us-policy-positions:business-commerce.cap-consumer-loan-rates:general:starting",
+        "law:US-NE:state:us-policy-positions:business-commerce.cap-consumer-loan-rates:general:2025-01-21:law-wiring-60189aa2",
+        "law:US-NE:state:us-policy-positions:business-commerce.cap-consumer-loan-rates:general:2026-03-28:law-wiring-60189aa2-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 106,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 106,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:business-commerce.cap-consumer-loan-rates|household_018e4ce91545651b",
+          "applied|us-policy-positions:business-commerce.cap-consumer-loan-rates|household_0183c0e9153c22b2",
+          "applied|us-policy-positions:business-commerce.cap-consumer-loan-rates|household_018ac3e915424679",
+          "applied|us-policy-positions:business-commerce.cap-consumer-loan-rates|household_0183c6e9153c2ce4"
+        ]
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "inPlay": [
+        {
+          "id": "law:US-NE:state:us-policy-positions:business-commerce.cap-consumer-loan-rates:general:2025-09-03:LB 30",
+          "level": "state",
+          "effectiveDate": "2025-09-03",
+          "value": 1
+        }
+      ],
+      "applied": {
+        "rows": 98,
+        "withAmount": 0,
+        "sample": [
+          "applied|us-policy-positions:business-commerce.cap-consumer-loan-rates|household_01983fe9154da389",
+          "applied|us-policy-positions:business-commerce.cap-consumer-loan-rates|household_018e4be915456368",
+          "applied|us-policy-positions:business-commerce.cap-consumer-loan-rates|household_019bcae91550c591"
+        ]
+      },
+      "readers": {
+        "src/core2/modules/legislature.ts:2669": 2640,
+        "src/core2/modules/legislature.ts:3847": 590,
+        "src/core2/modules/outcome-web.ts:214": 506,
+        "src/core2/modules/world-legislating.ts:299": 180,
+        "src/core2/modules/world-legislating.ts:229": 102,
+        "src/core2/modules/credit.ts:1260": 30,
+        "src/core2/modules/credit.ts:1441": 30,
+        "src/core2/life.ts:565": 10,
+        "src/core2/modules/world-legislating.ts:384": 4,
+        "src/core2/modules/legislature.ts:5130": 1
+      },
+      "openingRow": "law:US-NE:state:us-policy-positions:business-commerce.cap-consumer-loan-rates:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:616",
+            "treatment": 3267371517,
+            "control": 3270367492,
+            "ids": [
+              "journal:2025-01-25:1637",
+              "journal:2025-01-25:1639",
+              "journal:2025-01-27:1659"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1272",
+            "treatment": 1261599531,
+            "control": 1258863768,
+            "ids": [
+              "journal:2025-02-01:3475",
+              "journal:2025-02-01:3476",
+              "journal:2025-02-01:3477"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1290",
+            "treatment": 4086271212,
+            "control": 4088587287,
+            "ids": [
+              "journal:2025-01-21:1517",
+              "journal:2025-01-21:1518",
+              "journal:2025-01-21:1519"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 656693368,
+            "control": 654737142,
+            "ids": [
+              "journal:2025-01-27:1656",
+              "journal:2025-01-28:1661",
+              "journal:2025-01-28:1664"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:738",
+            "treatment": 211514433,
+            "control": 212877706,
+            "ids": [
+              "journal:2025-02-01:3451",
+              "journal:2025-02-01:3452",
+              "journal:2025-02-01:3453"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+            "treatment": 3106494900,
+            "control": 3105220864,
+            "ids": [
+              "journal:2025-01-21:1543",
+              "journal:2025-01-21:1544",
+              "journal:2025-01-21:1545"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 726864615,
+            "control": 725650275,
+            "ids": [
+              "journal:2025-01-21:1584",
+              "journal:2025-01-21:1585",
+              "journal:2025-01-21:1586"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:350",
+            "treatment": 89336432,
+            "control": 88889583,
+            "ids": [
+              "journal:2025-02-01:2117",
+              "journal:2025-02-01:2120",
+              "journal:2025-02-01:2123"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1756",
+            "treatment": 3745568478,
+            "control": 3745185128,
+            "ids": [
+              "journal:2025-01-27:1657",
+              "journal:2025-01-28:1662",
+              "journal:2025-01-28:1665"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1859",
+            "treatment": 5858419,
+            "control": 5481631,
+            "ids": [
+              "journal:2025-02-19:8640",
+              "journal:2025-02-19:8641",
+              "journal:2025-02-19:8642"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:863",
+            "treatment": 26547776,
+            "control": 26872991,
+            "ids": [
+              "journal:2025-02-01:8022",
+              "journal:2025-02-01:8023",
+              "journal:2025-02-01:8024"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+            "treatment": 243130974,
+            "control": 243412952,
+            "ids": [
+              "journal:2025-02-01:2087",
+              "journal:2025-02-01:2088",
+              "journal:2025-02-01:2089"
+            ]
+          }
+        ],
+        "diffKinds": 33,
+        "cited": [],
+        "controlCited": [],
+        "own": {
+          "targets": 106,
+          "among": "reached",
+          "pairs": [
+            {
+              "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+              "way": "in",
+              "targets": 2,
+              "moved": 33696,
+              "earliest": "2025-03-31",
+              "sample": [
+                {
+                  "target": "household_018e4ae9154561b5",
+                  "row": "applied|us-policy-positions:business-commerce.cap-consumer-loan-rates|household_018e4ae9154561b5",
+                  "date": "2025-03-31",
+                  "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+                  "way": "in",
+                  "treatment": 99792,
+                  "control": 110880,
+                  "journal": "journal:2025-03-31:16868"
+                },
+                {
+                  "target": "household_01983de9154da023",
+                  "row": "applied|us-policy-positions:business-commerce.cap-consumer-loan-rates|household_01983de9154da023",
+                  "date": "2025-04-17",
+                  "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+                  "way": "in",
+                  "treatment": 67824,
+                  "control": 90432,
+                  "journal": "journal:2025-04-17:24345"
+                }
+              ]
+            },
+            {
+              "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1756",
+              "way": "out",
+              "targets": 2,
+              "moved": 8074,
+              "earliest": "2025-03-31",
+              "sample": [
+                {
+                  "target": "household_018e4ae9154561b5",
+                  "row": "applied|us-policy-positions:business-commerce.cap-consumer-loan-rates|household_018e4ae9154561b5",
+                  "date": "2025-03-31",
+                  "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1756",
+                  "way": "out",
+                  "treatment": -14043,
+                  "control": -16542,
+                  "journal": "journal:2025-03-31:16869"
+                },
+                {
+                  "target": "household_01983de9154da023",
+                  "row": "applied|us-policy-positions:business-commerce.cap-consumer-loan-rates|household_01983de9154da023",
+                  "date": "2025-04-17",
+                  "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1756",
+                  "way": "out",
+                  "treatment": -11214,
+                  "control": -16789,
+                  "journal": "journal:2025-04-17:24346"
+                }
+              ]
+            },
+            {
+              "kind": "drive-donation @ src/core2/modules/drives.ts:1372",
+              "way": "out",
+              "targets": 2,
+              "moved": 7,
+              "earliest": "2025-04-01",
+              "sample": [
+                {
+                  "target": "household_018e4ae9154561b5",
+                  "row": "applied|us-policy-positions:business-commerce.cap-consumer-loan-rates|household_018e4ae9154561b5",
+                  "date": "2025-04-01",
+                  "kind": "drive-donation @ src/core2/modules/drives.ts:1372",
+                  "way": "out",
+                  "treatment": 800,
+                  "control": 798,
+                  "journal": "journal:2025-04-01:19180"
+                },
+                {
+                  "target": "household_018acde915425777",
+                  "row": "applied|us-policy-positions:business-commerce.cap-consumer-loan-rates|household_018acde915425777",
+                  "date": "2025-04-20",
+                  "kind": "drive-donation @ src/core2/modules/drives.ts:1372",
+                  "way": "out",
+                  "treatment": 931,
+                  "control": 926,
+                  "journal": "journal:2025-04-20:24410"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+              "way": "out",
+              "targets": 1,
+              "moved": 8590,
+              "earliest": "2025-04-01",
+              "sample": [
+                {
+                  "target": "household_018e4ae9154561b5",
+                  "row": "applied|us-policy-positions:business-commerce.cap-consumer-loan-rates|household_018e4ae9154561b5",
+                  "date": "2025-04-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+                  "way": "out",
+                  "treatment": -756368,
+                  "control": -764958,
+                  "journal": "journal:2025-04-01:17126"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+              "way": "out",
+              "targets": 1,
+              "moved": 6151,
+              "earliest": "2025-04-01",
+              "sample": [
+                {
+                  "target": "household_018e4ae9154561b5",
+                  "row": "applied|us-policy-positions:business-commerce.cap-consumer-loan-rates|household_018e4ae9154561b5",
+                  "date": "2025-04-01",
+                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+                  "way": "out",
+                  "treatment": 33676,
+                  "control": 27525,
+                  "journal": "journal:2025-04-01:17254"
+                }
+              ]
+            },
+            {
+              "kind": "drive-donation @ src/core2/modules/drives.ts:1372",
+              "way": "in",
+              "targets": 1,
+              "moved": 5,
+              "earliest": "2025-04-20",
+              "sample": [
+                {
+                  "target": "household_018e4ae9154561b5",
+                  "row": "applied|us-policy-positions:business-commerce.cap-consumer-loan-rates|household_018e4ae9154561b5",
+                  "date": "2025-04-20",
+                  "kind": "drive-donation @ src/core2/modules/drives.ts:1372",
+                  "way": "in",
+                  "treatment": -931,
+                  "control": -926,
+                  "journal": "journal:2025-04-20:24410"
+                }
+              ]
+            }
+          ],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "loan-rate-cap-to-high-cost-borrowing",
+            "status": "built",
+            "to": "finance.high-cost-loans"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 430,
+        "cause": [
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+            "month": "2025-01",
+            "link": "loan-rate-cap-to-high-cost-borrowing",
+            "from": "law:us-policy-positions:business-commerce.cap-consumer-loan-rates",
+            "lagMonths": 12,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+            "month": "2025-02",
+            "link": "loan-rate-cap-to-high-cost-borrowing",
+            "from": "law:us-policy-positions:business-commerce.cap-consumer-loan-rates",
+            "lagMonths": 12,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-03",
+            "month": "2025-03",
+            "link": "loan-rate-cap-to-high-cost-borrowing",
+            "from": "law:us-policy-positions:business-commerce.cap-consumer-loan-rates",
+            "lagMonths": 12,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-04",
+            "month": "2025-04",
+            "link": "loan-rate-cap-to-high-cost-borrowing",
+            "from": "law:us-policy-positions:business-commerce.cap-consumer-loan-rates",
+            "lagMonths": 12,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-05",
+            "month": "2025-05",
+            "link": "loan-rate-cap-to-high-cost-borrowing",
+            "from": "law:us-policy-positions:business-commerce.cap-consumer-loan-rates",
+            "lagMonths": 12,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-06",
+            "month": "2025-06",
+            "link": "loan-rate-cap-to-high-cost-borrowing",
+            "from": "law:us-policy-positions:business-commerce.cap-consumer-loan-rates",
+            "lagMonths": 12,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-07",
+            "month": "2025-07",
+            "link": "loan-rate-cap-to-high-cost-borrowing",
+            "from": "law:us-policy-positions:business-commerce.cap-consumer-loan-rates",
+            "lagMonths": 12,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-08",
+            "month": "2025-08",
+            "link": "loan-rate-cap-to-high-cost-borrowing",
+            "from": "law:us-policy-positions:business-commerce.cap-consumer-loan-rates",
+            "lagMonths": 12,
+            "treated": 0,
+            "control": 1
+          }
+        ],
+        "reenacted": {
+          "id": "law:US-NE:state:us-policy-positions:business-commerce.cap-consumer-loan-rates:general:2025-09-03:LB 30",
+          "level": "state",
+          "effectiveDate": "2025-09-03",
+          "value": 1
+        }
+      },
+      "heard": {
+        "people": 76,
+        "sample": [
+          "person_e02fea68a64aaf0b:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:business-commerce.cap-consumer-loan-rates:general:2025-01-21:law-wiring-60189aa2",
+          "person_014872ba8397579a:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:business-commerce.cap-consumer-loan-rates:general:2025-01-21:law-wiring-60189aa2",
+          "person_e02fe968a64aad58:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:business-commerce.cap-consumer-loan-rates:general:2025-01-21:law-wiring-60189aa2"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 99,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 99,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:business-commerce.cap-consumer-loan-rates|household_01983fe9154da389",
+          "applied|us-policy-positions:business-commerce.cap-consumer-loan-rates|household_018e4be915456368",
+          "applied|us-policy-positions:business-commerce.cap-consumer-loan-rates|household_019bcae91550c591",
+          "applied|us-policy-positions:business-commerce.cap-consumer-loan-rates|household_0180b7e91539dd90"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 98
+    }
+  ]
+}

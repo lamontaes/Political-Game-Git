@@ -679,6 +679,7 @@ export function assistanceIncomeByHousehold(
 ): ReadonlyMap<string, number> {
   const out = new Map<string, number>();
   if (!core.modules.has(REACH_B_MODULE_ID)) return out;
+  // stopgapId: SG-FAMILY-child-benefit-not-paid (the welfare line's assistance, the same per household, is the only benefit income read here; nothing pays a benefit per child)
   const row = getRow<{ monthlyByHousehold: Record<string, number> }>(
     coreAPI(core),
     "taken",

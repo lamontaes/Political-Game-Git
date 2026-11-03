@@ -1111,13 +1111,21 @@ function executivePriorities(
 ): { setBy: string; changes: Record<string, number> } | null {
   const kind = BODIES.vetoHolder[gov.level];
   const offices = api.moduleState(OFFICES_MODULE_ID);
+  // The government's own executive: a state's governor by its jurisdiction,
+  // never another state's.
   const office = (
     offices.table("offices").rows() as unknown as {
       id: string;
       kind: string;
       level: string;
+      jurisdiction: string;
     }[]
-  ).find((o) => o.kind === kind && o.level === gov.level);
+  ).find(
+    (o) =>
+      o.kind === kind &&
+      o.level === gov.level &&
+      (o.level !== "state" || o.jurisdiction === gov.id),
+  );
   if (!office) return null;
   const holder = (
     offices.table("seats").query("byOffice", [office.id]) as unknown as {
@@ -1333,6 +1341,42 @@ function billLevel(api: CoreAPI, bill: BillRow): LawLevel {
   // A county body's law reads at the town's level.
   const level = bodyLevel(api, bill.bodyOfficeId);
   return level === "county" ? "city" : level;
+}
+
+/**
+ * The questions a bill changes, once each, with the section that changes
+ * each last. A phase-in's dated steps on one law are one change, weighed at
+ * its last step against the law in force, so a member weighs the question
+ * once however many steps reach it (pool item gov-phase-in-weighed-once). A
+ * section with no date of its own takes effect with the bill, before any
+ * dated step; of two on one date, the later in the bill's text.
+ */
+function billStances(
+  api: CoreAPI,
+  bill: BillRow,
+): readonly {
+  readonly question: string;
+  readonly position: number;
+  readonly provision: Provision;
+}[] {
+  const level = billLevel(api, bill);
+  const last = new Map<
+    string,
+    { question: string; position: number; provision: Provision; on: string }
+  >();
+  for (const provision of bill.provisions) {
+    const stance = provisionStance(api, provision, level);
+    if (!stance) continue;
+    const on = provision.effectiveDate ?? "";
+    const seen = last.get(stance.question);
+    if (!seen || on >= seen.on)
+      last.set(stance.question, { ...stance, provision, on });
+  }
+  return [...last.values()].map(({ question, position, provision }) => ({
+    question,
+    position,
+    provision,
+  }));
 }
 
 /**
@@ -1682,6 +1726,10 @@ export function billSections(
   api: CoreAPI,
   bill: BillRow,
 ): readonly BillSection[] {
+  // What an earlier section of this bill makes a law, by series or question:
+  // a later section on the same law (a phase-in's next step) amends the law
+  // as that section leaves it, not today's.
+  const madeBy = new Map<string, BillSection["after"]>();
   return bill.provisions.map((p, index) => {
     const series =
       p.kind === "law-amount"
@@ -1690,6 +1738,7 @@ export function billSections(
           ? p.question
           : undefined;
     const row = series ? lawInForceRow(api, series) : null;
+    const earlier = series ? madeBy.get(series) : undefined;
     const schedules = row?.terms?.schedules;
     const shapeBefore: BillSection["before"]["shape"] = row
       ? schedules
@@ -1722,24 +1771,26 @@ export function billSections(
             statuteForm: null,
           }
         : {
-            value: row?.value ?? null,
-            unit: row?.unit ?? null,
-            shape: shapeBefore,
+            value: earlier?.value ?? row?.value ?? null,
+            unit: earlier ? earlier.unit : (row?.unit ?? null),
+            shape: earlier ? earlier.shape : shapeBefore,
             lawId: row?.id ?? null,
             statute: enacting?.number || recorded,
             statuteForm: enacting?.number ? enacting.form.kind : null,
           };
+    const after: BillSection["after"] = {
+      value: p.kind === "budget-line" ? (p.of ?? 0) + p.value : p.value,
+      unit: p.unit ?? before.unit,
+      shape: p.shape ?? before.shape,
+      effectiveDate: p.effectiveDate ?? null,
+    };
+    if (series) madeBy.set(series, after);
     return {
       index,
       kind: p.kind,
       subject: subjectKey(p),
       before,
-      after: {
-        value: p.kind === "budget-line" ? (p.of ?? 0) + p.value : p.value,
-        unit: p.unit ?? before.unit,
-        shape: p.shape ?? before.shape,
-        effectiveDate: p.effectiveDate ?? null,
-      },
+      after,
       editable: [
         ...(p.kind === "policy-question" ? [] : (["value"] as const)),
         "effectiveDate" as const,
@@ -1902,8 +1953,14 @@ export function billForm(
   const sections = billSections(api, bill);
   const dates = new Set(bill.provisions.map((p) => p.effectiveDate ?? null));
   const named = dates.size === 1 ? [...dates][0]! : null;
+  // Sections that name different dates (a phase-in's steps) each take effect
+  // on their own: no one closing section speaks for all of them, so the paper
+  // states none rather than one a step contradicts. Each section's date is
+  // its `after.effectiveDate`.
   const rule =
-    bill.form.kind === "ordinance" || named ? effectiveRule(api, bill) : null;
+    dates.size === 1 && (bill.form.kind === "ordinance" || named)
+      ? effectiveRule(api, bill)
+      : null;
   return {
     number: bill.number,
     kind: bill.form.kind,
@@ -2701,10 +2758,9 @@ function recordConsistency(
   bill: BillRow,
 ): number {
   let sum = 0;
-  for (const p of bill.provisions) {
-    const series = provisionSeries(p);
-    const stance = provisionStance(api, p, billLevel(api, bill));
-    if (!series || !stance) continue;
+  for (const stance of billStances(api, bill)) {
+    const series = provisionSeries(stance.provision);
+    if (!series) continue;
     const last = votesOf(api, memberId)
       .filter((v) => v.stance.question === stance.question)
       .at(-1);
@@ -2733,10 +2789,7 @@ function positionOn(
   memberId: string,
 ): MemberPosition {
   const official = officialOf(api, memberId);
-  const stances = bill.provisions.flatMap((provision) => {
-    const stance = provisionStance(api, provision, billLevel(api, bill));
-    return stance ? [stance] : [];
-  });
+  const stances = billStances(api, bill);
   // A state or federal official weighs their own reasons (OPUS-OFFICIALS);
   // a town member their own views and the town's lean.
   const parts = official ? officialParts(api, official, stances) : null;
@@ -3490,12 +3543,12 @@ function chamberVote(
           ...(d.stage === undefined ? {} : { stage: d.stage }),
         })),
     } as unknown as ModuleRow);
-    for (const provision of bill.provisions) {
-      const stance = provisionStance(api, provision, billLevel(api, bill));
-      if (stance && vote !== "abstain" && vote !== "absent")
+    for (const stance of billStances(api, bill)) {
+      if (vote !== "abstain" && vote !== "absent")
         recordVote(api, {
           personId: key,
           body: officeId,
+          billId: bill.id,
           measureId: bill.number,
           stance: {
             question: stance.question,
@@ -5023,9 +5076,56 @@ function countyOfBody(api: CoreAPI, bill: BillRow): string | null {
 }
 
 /**
+ * The day each section of a bill enacted today takes effect, or null for a
+ * section that writes no law. A section's own date governs while it is still
+ * ahead (a bill may name its own date); an undated section takes effect by its
+ * government's rule (`ruleDate`). A section whose date had passed before the
+ * bill became law (a step drafted for a day the vote or the signature came
+ * after) makes no law in the past, so it too takes effect by the rule, unless
+ * a later step of the same law in this bill takes effect on or before the
+ * rule's date: then the passed step is overtaken before it could take effect
+ * and is null, so a phase-in's steps keep their order (the law never ends at
+ * an earlier step's amount). Budget lines do not read a date yet
+ * (SG-LEGISLATURE-dated-budget-line-amended-on-enactment), so only sections
+ * that write a law (a law amount or a policy question) overtake each other.
+ */
+export function sectionDates(
+  provisions: readonly Provision[],
+  today: string,
+  ruleDate: string,
+  struck: readonly number[] = [],
+): readonly (string | null)[] {
+  const lawOf = (p: Provision) =>
+    p.kind === "law-amount"
+      ? p.series
+      : p.kind === "policy-question"
+        ? p.question
+        : undefined;
+  const resolved = (named: string | undefined) =>
+    named !== undefined && named >= today ? named : ruleDate;
+  return provisions.map((provision, index) => {
+    const named = provision.effectiveDate;
+    if (named === undefined || named >= today) return resolved(named);
+    const law = lawOf(provision);
+    const overtaken =
+      law !== undefined &&
+      provisions.some(
+        (other, at) =>
+          at !== index &&
+          !struck.includes(at) &&
+          lawOf(other) === law &&
+          other.effectiveDate !== undefined &&
+          other.effectiveDate > named &&
+          resolved(other.effectiveDate) <= ruleDate,
+      );
+    return overtaken ? null : ruleDate;
+  });
+}
+
+/**
  * Put each provision into law on its effective date: an ordinance thirty days
  * after enactment unless it names a date; a state act by its state's default
- * rule.
+ * rule. Each section's date is `sectionDates`.
  */
 function enact(
   api: CoreAPI,
@@ -5068,6 +5168,12 @@ function enact(
       }
     | undefined;
   const repeats: NonNullable<BillRow["repeats"]>[number][] = [];
+  const dates = sectionDates(
+    bill.provisions,
+    api.state.date,
+    defaultDate,
+    itemVeto?.struck,
+  );
   for (const [index, provision] of bill.provisions.entries()) {
     if (itemVeto?.struck.includes(index)) continue;
     const itemDecision = itemVeto?.decisions.find(
@@ -5077,7 +5183,10 @@ function enact(
       itemDecision && !itemDecision.overridden
         ? itemDecision.remainingMinor
         : provision.value;
-    const effectiveDate = provision.effectiveDate ?? defaultDate;
+    const effectiveDate = dates[index] ?? null;
+    // A passed step that a later step of the same law overtakes before it
+    // could take effect writes nothing: no row, no calendar entry.
+    if (effectiveDate === null) continue;
     if (provision.kind === "law-amount" && provision.series) {
       const shaped = shapedRate(
         lawInForce(api, provision.series).levels.find(
@@ -5108,6 +5217,9 @@ function enact(
       });
     }
     if (provision.kind === "budget-line" && provision.line) {
+      // stopgapId: SG-LEGISLATURE-dated-budget-line-amended-on-enactment
+      // A budget section's own date is not read yet: the line is amended
+      // the day the bill becomes law, whatever date the section names.
       amendBudget(api, {
         governmentId: jurisdiction,
         line: provision.line,
@@ -5507,6 +5619,53 @@ export function votesOn(
     position: MemberPosition;
     traded?: readonly { kind: string; terms: string; stage?: string }[];
   }[];
+}
+
+/**
+ * What one chamber's floor roll call on a bill counted: the yes and no votes
+ * of its members and a tie-breaker's, from the roll call's own rows, and
+ * whether the chamber carried it. It leaves out the executive's desk row and
+ * any override roll call, which are other votes on the same bill. Null when
+ * the chamber never voted the bill. A screen that shows a vote reads this,
+ * not the members' record rows, which hold each member's side of each section
+ * and not the count.
+ *
+ * Carried is read from where the floor stopped the bill, not recounted: the
+ * floor marks a bill failed at the chamber that fails it (a majority against,
+ * a tie the presiding officer breaks against, or the Senate short of
+ * cloture), so a chamber carried it when the bill is not failed or when a
+ * chamber after it in the bill's order went on to vote it.
+ */
+export function floorCountOf(
+  api: CoreAPI,
+  billId: string,
+  chamber: string,
+): {
+  readonly yes: number;
+  readonly no: number;
+  readonly carried: boolean;
+} | null {
+  const all = (
+    table(api, "votes").query("byBill", [billId]) as unknown as {
+      chamber?: string;
+      vote: string;
+      override?: boolean;
+    }[]
+  ).filter((row) => row.chamber !== undefined && !row.override);
+  const rows = all.filter((row) => row.chamber === chamber);
+  if (!rows.length) return null;
+  const bill = table(api, "bills").get(billId) as unknown as
+    BillRow | undefined;
+  const order = bill ? chambersOf(api, bill) : [];
+  const voted = new Set(all.map((row) => row.chamber));
+  const later = order
+    .slice(order.indexOf(chamber) + 1)
+    .some((next) => voted.has(next));
+  return {
+    yes: rows.filter((row) => row.vote === "yes").length,
+    no: rows.filter((row) => row.vote === "no").length,
+    carried: bill?.status !== "failed" || later,
+  };
 }
 
 export type { PersonState };
