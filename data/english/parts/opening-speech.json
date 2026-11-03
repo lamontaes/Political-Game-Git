@@ -265,7 +265,7 @@
       "key": "opening-speech.occasion.plain-ina-i-m-from-home-state-i-ve-been-prior-office-now-i-ve-been-han",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I'm from {home-state}. I've been {prior-office}. Now I've been handed this job, and I intend to do it right.",
+      "text": "I've served as {prior-office}, and I thought that job was hard. I'm going to give this one everything I've got.",
       "uses": [
         {
           "move": "occasion",
@@ -278,7 +278,7 @@
       "voice": "plain",
       "origin": "authored",
       "author": "Words builder (Claude Code)",
-      "date": "2026-10-27",
+      "date": "2026-11-01",
       "bearing": "calm"
     },
     {
@@ -4019,7 +4019,7 @@
       "key": "opening-speech.occasion.polished-ina-sta-i-was-born-and-raised-in-home-state-and-everything-i-bring-t",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I was born and raised in {home-state}, and everything I bring to this work, I owe to it.",
+      "text": "Everything I bring to this work, I learned in {home-state}, and I don't intend to forget it.",
       "uses": [
         {
           "move": "occasion",
@@ -4039,14 +4039,14 @@
       "voice": "polished",
       "origin": "authored",
       "author": "Words builder (Claude Code)",
-      "date": "2026-10-28",
+      "date": "2026-11-01",
       "bearing": "tender"
     },
     {
       "key": "opening-speech.occasion.plain-ina-sta-i-was-born-and-raised-in-home-state-everything-i-have-i-owe",
       "move": "occasion",
       "kind": "spoken",
-      "text": "I was born and raised in {home-state}. Everything I have, I owe to it.",
+      "text": "{home-state} made me who I am. I'm bringing it with me.",
       "uses": [
         {
           "move": "occasion",
@@ -4066,7 +4066,7 @@
       "voice": "plain",
       "origin": "authored",
       "author": "Words builder (Claude Code)",
-      "date": "2026-10-28",
+      "date": "2026-11-01",
       "bearing": "tender"
     },
     {

@@ -1,21 +1,32 @@
 /**
  * Where the town stands on a question, which a candidate shades an answer
- * toward (`townStand`), is read from the town's adults in both tiers: each
- * full person once and each counted record by the people it stands for. A
- * place drawn from all 56 on a fresh seed (PRESS_STAND_SEED replays one),
- * built two-level as the game builds it.
+ * toward (`townStand`), is the mean of the town's electorate's own stances in
+ * both tiers, by the one reader of where the town stands (`electorateSides`,
+ * which a candidate's platform weighs too): each named adult once, at the
+ * view the ballot reads them by, and each counted record by the people it
+ * stands for. Counted here apart from the engine by the ballot's agreement
+ * readers (campaign-platform-test-kit.ts). A place drawn from all 56 on a
+ * fresh seed (PRESS_STAND_SEED replays one), built two-level as the game
+ * builds it.
  */
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../tests/golden-path/place";
+import { sidesByAgreement } from "./campaign-platform-test-kit";
 import { PLATFORM_QUESTIONS, questionAxis } from "./campaign-views";
 import { countedResidents } from "./electorate";
 import { gameStartDate } from "./game-start";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { lawChain } from "./modules/laws";
 import { townStand } from "./modules/press";
-import { countedLean, viewOf } from "./modules/views";
+import {
+  agreementWith,
+  countedLean,
+  countedStanceProfile,
+  viewOf,
+} from "./modules/views";
+import { electorateRoll, voterLean } from "./modules/voting";
 import { coreAPI, fillInPerson } from "./state";
 import type { CoreState } from "./types";
 
@@ -34,34 +45,36 @@ it("counted residents move where the town stands by the people they stand for, a
     const town = lawChain(api).townPlaceId;
     const adult = (birthDate: string) =>
       ageOnDate(makeIsoDate(birthDate), core.date) >= 18;
-    const full = [...(core.peopleByPlace.get(town) ?? [])]
-      .map((id) => core.people.get(id)!)
-      .filter((p) => p.alive && adult(p.birthDate));
+    const roll = electorateRoll(api);
+    const named = roll.filter((row) => row.target === "person");
     const counted = countedResidents(core).filter(
       (v) => v.placeId === town && adult(v.birthDate),
     );
     const where = `${place.name} (${place.key}), seed ${seed}:${draw}`;
-    if (!full.length || !counted.length) {
-      passed.push(`${where}: ${full.length} full, ${counted.length} counted`);
+    if (!named.length || !counted.length) {
+      passed.push(`${where}: ${named.length} named, ${counted.length} counted`);
       continue;
     }
-    // Each tier read alone, on the views scale halved as the press reads it.
-    const axis = questionAxis(question);
-    const fullSum = full.reduce((s, p) => s + viewOf(api, p.id)!.lean / 2, 0);
-    const countedSum = counted.reduce(
-      (s, v) => s + (countedLean(api, v) / 2) * v.weight,
-      0,
-    );
-    const countedWeight = counted.reduce((s, v) => s + v.weight, 0);
-    const both =
-      ((fullSum + countedSum) / (full.length + countedWeight)) * axis;
-    const fullOnly = (fullSum / full.length) * axis;
+    // Both tiers, and the named voters alone, by the ballot's readers.
+    const both = sidesByAgreement(api, question, {
+      agreementWith,
+      countedStanceProfile,
+    });
+    const namedOnly =
+      named.reduce(
+        (t, row) =>
+          t +
+          agreementWith(api, row.id, voterLean(api, core.people.get(row.id)!), [
+            { question, position: 1 },
+          ]),
+        0,
+      ) / named.length;
     const stand = townStand(api, question);
     console.log(
-      `${where}: ${full.length} full adults, ${counted.length} counted records for ${countedWeight.toFixed(0)} adults; stand ${stand.toFixed(4)}, full people alone ${fullOnly.toFixed(4)}`,
+      `${where}: ${named.length} named voters, ${roll.length - named.length} counted records for ${(both.people - named.length).toFixed(0)} voters; stand ${stand.toFixed(4)}, named voters alone ${namedOnly.toFixed(4)}`,
     );
-    expect(stand, where).toBeCloseTo(both, 10);
-    expect(Math.abs(stand - fullOnly), where).toBeGreaterThan(1e-6);
+    expect(stand, where).toBeCloseTo(both.mean, 10);
+    expect(Math.abs(stand - namedOnly), where).toBeGreaterThan(1e-6);
     // A counted adult filled in keeps the lean they were counted with; the
     // people their record stood for go to their group, so the stand barely moves.
     const voter = counted[0]!;
@@ -76,6 +89,6 @@ it("counted residents move where the town stands by the people they stand for, a
     return;
   }
   throw new Error(
-    `No drawn place had adults in both tiers: ${passed.join("; ")}`,
+    `No drawn place had voters in both tiers: ${passed.join("; ")}`,
   );
 }, 900_000);

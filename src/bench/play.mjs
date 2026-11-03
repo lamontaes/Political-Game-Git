@@ -1256,6 +1256,17 @@ async function openFiling(filedWith, contestId) {
   const opened = await post(
     `/api/filing/open?filedWith=${encodeURIComponent(filedWith)}`,
   );
+  // A closed office is visited at its next opening: the clock has moved there.
+  // Something that came up on the way is lived first; the counter waits.
+  if (opened.waiting || opened.waited) {
+    const packet = opened.waiting ? opened.packet : opened.waited;
+    if (packet) renderPacket(packet);
+    if (opened.waiting) {
+      const moment = storyStop(packet);
+      if (moment) await showStory(moment.recordId);
+      return;
+    }
+  }
   const pick =
     contestId &&
     opened.visit?.choices.find(
@@ -3354,28 +3365,25 @@ const sheets = {
       api(`/api/government?id=${encodeURIComponent(me.id)}`),
     ]);
     const labels = controls.travel;
-    // The offices that take your filings: one card each, with its races.
+    // The offices that take your filings: one card each.
     const byOffice = new Map();
     for (const c of government.contests) {
       const filedWith = c.filingOffice.filedWith;
       const name = filedWith.replace(/\s*\([^)]*\)/g, "");
+      // A town's or county's own clerk is named for the place ("City or town
+      // clerk, Point Pleasant"); a state's or the nation's office already is.
+      const title =
+        c.contest.family === "municipalOffice"
+          ? labels.counterTitle
+              .replace("{office}", name)
+              .replace("{town}", me.placeName.split(",")[0])
+          : name;
       if (!byOffice.has(name))
-        byOffice.set(name, { name, filedWith, races: [], filing: true });
-      const office = byOffice.get(name);
-      if (!office.races.some((race) => race.contestId === c.contest.id)) {
-        const seat = government.seats.find(
-          (row) => row.seatId === c.contest.seatId,
-        );
-        office.races.push({
-          contestId: c.contest.id,
-          title: c.contest.title,
-          district: c.contest.district ?? null,
-          electionDate: c.contest.electionDate,
-          holder: seat?.holder
-            ? `${seat.holder.givenName} ${seat.holder.familyName}`
-            : null,
+        byOffice.set(name, {
+          name: title,
+          filedWith,
+          filing: true,
         });
-      }
     }
     const counters = await Promise.all(
       [...byOffice.values()].map(async (office) => ({
@@ -3428,49 +3436,28 @@ const sheets = {
             : labels.closed;
     // A card opens the place's own view: its picture, what you do there, who
     // works there, then Go (owner, Oct 28, point 28).
-    const showPlace = (p) => {
+    const showPlace = async (p) => {
       if (p.trail) return trailView(p.trail);
+      // An office keeps its clerk's hours: the card says when it next opens.
+      const hours = p.filing
+        ? await api(
+            `/api/filing/hours?filedWith=${encodeURIComponent(p.filedWith)}`,
+          )
+        : {};
       const picture = p.presentation?.imageUrl;
-      // Each race named apart: its district, and its election day when two
-      // races for the same office are open at once (a regular and a special).
-      // A district code on the record ("02", "004") reads as "District 2".
-      const district = (code) =>
-        /^\d+$/.test(code) ? `${labels.district} ${Number(code)}` : code;
-      const name = (race) =>
-        race.district
-          ? `${race.title}, ${district(race.district)}`
-          : race.title;
-      // Two races for the same office at once (three selectmen's seats up
-      // the same day) are told apart by who holds each seat now, then by the
-      // election day (a regular and a special), then by their place in the
-      // office's list.
-      const counter = controls.filing;
-      const raceLabel = (race) => {
-        let named = name(race);
-        const twins = (label) =>
-          p.races.filter((other) => label(other) === label(race));
-        if (twins(name).length > 1) {
-          const held = (r) =>
-            `${name(r)} · ${r.holder ? `${counter.heldBy} ${r.holder}` : counter.openSeat}`;
-          named = held(race);
-          if (twins(held).length > 1 && race.electionDate) {
-            const dated = (r) =>
-              `${held(r)} · ${dateWords(r.electionDate ?? "")}`;
-            named = dated(race);
-            if (twins(dated).length > 1)
-              named = `${named} · ${counter.seat} ${twins(dated).indexOf(race) + 1}`;
-          }
-        }
-        return named;
-      };
+      const opensLine = hours.opens
+        ? labels.opensAt
+            .replace("{day}", dateWords(hours.opens.date, { weekday: true }))
+            .replace("{time}", timeWords(hours.opens.minuteOfDay))
+        : "";
+      // A filing office says what you do there in a sentence, never a list of
+      // seats by their holders' names (owner, Nov 1: "It says what you do
+      // here. And then it's just a list of people's names."); the clerk asks
+      // which race at the counter.
       const doHere = p.filing
         ? [
-            {
-              actions: p.races.map((race) => ({
-                label: raceLabel(race),
-                onClick: () => openFiling(p.filedWith, race.contestId),
-              })),
-            },
+            { text: labels.filingDoes },
+            ...(opensLine ? [{ text: opensLine }] : []),
           ]
         : reasonLine(p)
           ? reasonLine(p)
