@@ -5,14 +5,13 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: claimed
-claimed-by: play-first/play-travel-place-card-says-what-you-do
-pr:
+status: in-pr
+claimed-by:
+pr: #7087
 blocked-on:
 source: owner playtest of v0.73.0, Nov 1, 23:05 UTC (third batch, a Massachusetts life)
 lead: play-first
 milestone: play-first
-claimed-at: 2026-11-01T22:55:28.093Z
 ---
 
 **What.** Owner, Nov 1 playtest of v0.73.0, on Travel's card for the clerk: "Okay. This doesn't make any sense. It says what you do here. And then it's just a list of people's names." The card is titled "City or town clerk" with "Filing office" under it, and What you do here lists six seat buttons by their holders' names. The card should carry the office's own name from the place's records (for example the town's City Clerk's Office) and say in a sentence or two what a resident does there (file for office, register to vote, ask for records), with no seat list.
