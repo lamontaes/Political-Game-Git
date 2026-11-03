@@ -5,7 +5,6 @@
 // Run against a fresh bench: node src/bench/room-talkable-after-story.browser.mjs [shot-dir]
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { playOpening } from "./start-life.mjs";
 
 const shots = process.argv[2];
 const seeds = (process.env.BENCH_SEEDS ?? "").split(",").filter(Boolean);
@@ -37,8 +36,6 @@ try {
     if (await page.locator("#new-advanced").isVisible())
       await page.locator("#new-advanced").click();
     await page.locator("#new-world").click();
-    // The opening plays first, as a player sees it (start-life.mjs).
-    await playOpening(page, (await (await built).json()).sceneMomentId ?? null);
     const seed = new URL((await built).url()).searchParams.get("seed");
     await page.waitForFunction(() =>
       document.getElementById("card-name").textContent.trim(),
