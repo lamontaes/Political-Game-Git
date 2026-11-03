@@ -492,6 +492,42 @@ export function openElections(core: CoreState): void {
   }
 }
 
+/**
+ * A side's filing deadline for a contest, the one date every reader uses
+ * (filing-clerk-deadline-differs-from-rules): the state's filing law's own
+ * 2026 date for that side where it falls before the contest's first vote,
+ * else the contest's calendar deadline. A state's 2026 date that would fall
+ * on or after the first vote belongs to the races on the state's calendar,
+ * not this one.
+ */
+export function filingDeadlineFor(
+  api: CoreAPI,
+  contest: ContestRow,
+  side: FilingSide = "party",
+): string {
+  const own = filingRulesFor(api, contest, side).deadline;
+  return own && own < (contest.primaryDate ?? contest.electionDate)
+    ? own
+    : contest.filingDeadline;
+}
+
+/**
+ * A contest closes on its party side's deadline (`filingDeadlineFor`), so the
+ * clerk's line, the filing panel, Campaigns and the world's candidates read
+ * the same day; an independent's own deadline stays on its side's rules.
+ */
+function withFilingLawDeadline(api: CoreAPI, row: ContestRow): ContestRow {
+  const deadline = filingDeadlineFor(api, row, "party");
+  if (deadline === row.filingDeadline) return row;
+  return {
+    ...row,
+    filingDeadline: deadline,
+    sources: [...row.sources, filingRulesFor(api, row, "party").source].filter(
+      Boolean,
+    ),
+  };
+}
+
 /** A seat's next contest from today: its real dates, filing deadline and incumbent. */
 function contestFor(
   api: CoreAPI,
@@ -544,7 +580,7 @@ function contestFor(
   if (!dates || dates.electionDate <= api.state.date) return null;
   const family = officeFamily(office);
   noteEstimates(api, dates);
-  return {
+  const row: ContestRow = {
     ...dates,
     id: `contest:${seat.id}:${dates.electionDate}`,
     officeId: office.id,
@@ -555,6 +591,7 @@ function contestFor(
     family,
     incumbentTermId: holder?.id ?? null,
   };
+  return withFilingLawDeadline(api, row);
 }
 
 /**
@@ -824,7 +861,7 @@ export function checkEligibility(
   ) as unknown as ContestRow;
   const side: FilingSide = party ? "party" : "independent";
   const rules = filingRulesFor(api, contest, side);
-  const deadline = rules.deadline ?? contest.filingDeadline;
+  const deadline = filingDeadlineFor(api, contest, side);
   const person = api.state.people.get(personId);
   if (!person) throw new Error(`No such person: ${personId}`);
   const today = api.state.date;
@@ -1127,12 +1164,11 @@ export function petitionDue(api: CoreAPI, filing: FilingRow): string {
   const contest = table(api, "contests").get(
     filing.contestId,
   ) as unknown as ContestRow;
-  const rules = filingRulesFor(
+  return filingDeadlineFor(
     api,
     contest,
     filing.party ? "party" : "independent",
   );
-  return rules.deadline ?? contest.filingDeadline;
 }
 
 /** A filing's petition, once opened. */
