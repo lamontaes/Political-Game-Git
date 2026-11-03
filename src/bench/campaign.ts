@@ -1,7 +1,6 @@
 import { spokenDate } from "../core2/kernel/dates";
 import { coreAPI } from "../core2/state";
 import {
-  askForDonation,
   askForEndorsement,
   contributeOwnMoney,
   askToVolunteer,
@@ -285,23 +284,32 @@ export function campaignAct(
   const known = [...(core.people.get(personId)?.knownIds ?? [])].sort();
   switch (input.kind) {
     case "volunteer": {
-      const answers = known.map((id) => ({
-        personId: id,
-        yes: askToVolunteer(api, input.filingId, id),
-      }));
+      const answers = known.map((id) => {
+        const yes = askToVolunteer(api, input.filingId, id);
+        const row = core.people.get(id);
+        const name = row ? `${row.givenName} ${row.familyName}` : "";
+        return {
+          personId: id,
+          yes,
+          name,
+          // What each said, in words, from the ask's own answer.
+          line: standingLine(
+            core.seed,
+            personId,
+            yes ? "volunteer-yes" : "volunteer-no",
+            `${input.filingId}|${id}`,
+            { name },
+          ),
+        };
+      });
       // The count shown is the campaign record's, the one the header reads.
       return {
         answers,
         volunteers: campaignFor(api, input.filingId).volunteerIds.length,
+        // The shift is at the campaign office, the player at it.
+        scene: askScene(core, personId, scenePlaces.volunteerOfficePlace),
       };
     }
-    case "donation":
-      return {
-        answers: known.map((id) => ({
-          personId: id,
-          givenMinor: askForDonation(api, input.filingId, id),
-        })),
-      };
     case "contribute":
       // The player's own money, the amount they chose.
       return {
@@ -318,18 +326,49 @@ export function campaignAct(
       };
     case "endorsement":
       return {
-        answers: known.map((id) => ({
-          personId: id,
-          yes: askForEndorsement(api, input.filingId, id),
-        })),
+        answers: known.map((id) => {
+          const yes = askForEndorsement(api, input.filingId, id);
+          const row = core.people.get(id);
+          const name = row ? `${row.givenName} ${row.familyName}` : "";
+          return {
+            personId: id,
+            yes,
+            name,
+            // What each said, in words, from the ask's own answer.
+            line: standingLine(
+              core.seed,
+              personId,
+              yes ? "endorse-yes" : "endorse-no",
+              `${input.filingId}|${id}`,
+              { name },
+            ),
+          };
+        }),
+        scene: askScene(core, personId, scenePlaces.endorsementMeetingPlace),
       };
-    case "ad":
-      return summary(
+    case "ad": {
+      // The ad is bought at the outlet; the player stands at the buy.
+      const before = campaign.spentMinor;
+      const rows = summary(
         runAd(api, {
           filingId: input.filingId,
           amountMinor: input.amountMinor ?? 0,
         }),
       );
+      const spentMinor = campaignFor(api, input.filingId).spentMinor - before;
+      return {
+        ...rows,
+        spentMinor,
+        line: standingLine(
+          core.seed,
+          personId,
+          spentMinor > 0 ? "ad-bought" : "ad-none",
+          `${input.filingId}|ad|${before}`,
+          { cost: dollarsOf(spentMinor), reached: rows.reached },
+        ),
+        scene: askScene(core, personId, scenePlaces.adBuyPlace),
+      };
+    }
     case "mail": {
       // Mailers to the town's next households, as many as the amount the
       // player chose buys (never past what the campaign holds).
@@ -348,6 +387,23 @@ export function campaignAct(
     default:
       throw new Error("Unknown campaign act.");
   }
+}
+
+/** A place where the player asks people for something (the campaign office, the phone bank), the player at it; each person asked is heard by name. */
+function askScene(core: CoreState, personId: string, place: string) {
+  const backdrop = backdropFor(core, place, 18 * 60);
+  const row = core.people.get(personId);
+  return {
+    place,
+    backdrop,
+    ...stagePeople(core, backdrop.file, [
+      {
+        id: personId,
+        name: row ? `${row.givenName} ${row.familyName}` : "",
+        reason: "you" as const,
+      },
+    ]),
+  };
 }
 
 /** The speech where it was given: the candidate up front, the people it reached around them. */

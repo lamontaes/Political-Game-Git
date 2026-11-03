@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: speed/fold-player-weighed
-pr:
+pr: #7130
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-01T21:16:08.260Z

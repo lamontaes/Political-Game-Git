@@ -1,0 +1,11 @@
+{
+  "note": "The hours of a filing office whose clerk has no work record to read (a state's election office, a finance officer who is not one of the town's full people). Read only where the clerk's own work spans (`workSpansOf`) hold nothing; stopgap SG-PLAY-office-hours-assumed.",
+  "estimated": {
+    "tag": "ESTIMATED",
+    "source": "Government offices that take filings keep weekday business hours, about 8:00 AM to 5:00 PM (county and municipal clerks' published counter hours; a game assumption, the same kind the work schedules use for hours with no record). Holidays are not skipped here.",
+    "spread": "opening 7:30 to 9:00 AM, closing 4:30 to 5:30 PM",
+    "opensMinute": 480,
+    "closesMinute": 1020,
+    "weekdays": [1, 2, 3, 4, 5]
+  }
+}

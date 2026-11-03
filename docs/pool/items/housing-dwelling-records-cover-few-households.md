@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane-2/dwelling-coverage
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-03T22:34:21.659Z
 ---
 
 **What.** room-condition.test.ts on GOLDEN_PATH_SEED=b2 (Norcross, Minnesota, 2746492, place seed 5fe571d94d73c89c29836c319b1fea9fe91a0f0643a3405b54b6340d475128f8) finds 17 dwelling rows (house:own 13, mobile-home:own 1, farmhouse:own 1, mobile-home:rent 1, rowhouse:rent 1) after the first day for 1,722 households, so thirdOf in src/bench/scene.ts reads the other households as middle (lived-in) and the test's 'a town has homes of every condition' (as painted) fails. Housing onDay seeds dwellings from placeMetadata DWELLINGS_KEY only. Seed a1 passes, so coverage varies by town.

@@ -55,7 +55,6 @@ function tables(r: FinanceReadGuard, core: CoreState) {
     r.field(core, "durableLog"),
     r.field(core, "logByPerson"),
     r.field(core, "logByKind"),
-    r.field(core, "logByPlace"),
     r.field(core, "knowledgeByPerson"),
     r.field(w, "currentAttendanceJobByRecordId"),
     r.field(w, "lastAttendanceByJob"),
@@ -1188,7 +1187,6 @@ export function recordWorkAttendance(
     });
     batch.index(r.field(core, "logByPerson"), actorView.id, sourceActId);
     batch.index(r.field(core, "logByKind"), "person.acted", sourceActId);
-    batch.index(r.field(core, "logByPlace"), actorView.placeId, sourceActId);
     const known = r.mapGet(r.field(core, "knowledgeByPerson"), actorView.id);
     if (!known) throw new Error("Missing watched worker knowledge index.");
     // Replace the owned inner map; never mutate an injected map/property callback.
