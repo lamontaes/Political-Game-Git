@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: governing/local-filing-officer
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-03T23:39:42.217Z
 ---
 
 **What.** In North Amityville, New York (3651396; test seed 96f34b32a90f7079, world seed 48ecdf8d2595a1bafbf052509fe6e2fa00f861fe559fbc7a97fa73f32b6b6d62) the player's local race (contest:seat:gus2025:184112:board:0:2025-11-04, family municipalOffice) files with 'County board of elections (counter: election commissioner)'. filingClerkFor returns null: localClerkFor('municipalOffice') finds no town clerk, and the county board's commissioner is no one in the records. So the counter has no clerk, the player files at an empty counter, and the director cannot cast the filing scene that tells the petition. Found by Words on Nov 2 (words-filing-petition-scene-not-staged-by-seed); filing-counter-petition.test.ts now skips such a counter.
