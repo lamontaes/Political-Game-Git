@@ -1,0 +1,1 @@
+Merge desk cloud trial, Nov 3 2026: clone, install, bench and a new game (Ravi Bates, Kinston, North Carolina, seed 2cc052d6-8a97-4835-b77a-fa0b5e75bd3b) all worked.
