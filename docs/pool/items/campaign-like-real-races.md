@@ -6,12 +6,12 @@ lead: governing
 kind: feature
 priority: 1
 size: L
-status: claimed
-claimed-by: governing/campaign-like-real-races
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: owner, Oct 29 voice note on the governing brief
-claimed-at: 2026-10-29T21:27:33.811Z
+claimed-at:
 ---
 
 **What.** No life started from New Game has ever won a race (governing brief, Oct 29). The owner, Oct 29: "look at real races... she was working with the Democratic Socialists of America. And, you know, then her campaign gained steam, and then it caused [the incumbent] to try to go back to New York to campaign... some people... just do donor meetings... you need to be able to... host a forum... meet your possible constituents... debate" and "it's not just door knocking, it's raising money and stuff like that that needs to be decided for A." A door yes is near-binding (Oct 29). This is phase A of the governing plan: the campaign actions a real underdog uses, each moving real voters through the campaigns engine, and an incumbent who reacts when a challenger gains.
@@ -23,3 +23,5 @@ claimed-at: 2026-10-29T21:27:33.811Z
 **Files.** src/core2/modules/campaigns.ts, src/core2/modules/voting.ts, src/bench/campaign.ts, src/bench/path-check.ts
 
 **Notes.** Filed by the CTO, Oct 29, from the owner's voice note on the governing brief (OWNER-DECISIONS, Oct 29 21:40 UTC). Read: OWNER-DECISIONS, DECISION-REGISTER, the governing brief's four research notes; searched the pool for twins.
+
+Nov 2, 01:40 (governing lead): the played-year test is on governing/real-race-played-test at 6ec2b016c2, 14 commits ahead of main; the claimed branch governing/campaign-like-real-races has nothing of its own. Next: merge main into governing/real-race-played-test, run its test on two fresh seeds, and open the PR from it.
