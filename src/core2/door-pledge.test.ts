@@ -13,6 +13,7 @@ import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { countedChoice, countedResidents } from "./electorate";
+import { electorateParameter } from "./electorate-inputs";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { describe, expect, it } from "vitest";
 import { buildPopulation } from "./population";
@@ -521,11 +522,14 @@ describe("a door yes holds for the one household the door reached", () => {
         .moduleState(VOTING_MODULE_ID)
         .table("countedBallots")
         .get(`counted:${contestId}`) as unknown as {
-        readonly field: readonly { readonly id: string }[];
+        readonly field: readonly {
+          readonly id: string;
+          readonly side: number;
+        }[];
         readonly voterIds: readonly string[];
         readonly weight: readonly number[];
-        readonly choice: readonly number[];
         readonly pledgedChoice?: readonly number[];
+        readonly split: readonly (readonly number[])[];
       };
       const at = kept.voterIds.indexOf(pledged.voterId);
       // Not in the race's electorate (a ward seat elsewhere in town): redraw.
@@ -539,15 +543,31 @@ describe("a door yes holds for the one household the door reached", () => {
       expect(kept.pledgedChoice?.[at], `${where}: pledged household`).toBe(
         mineAt,
       );
-      // The record's own kept choice is the rest's: the top of its appeal
-      // without the pledge.
+      // The rest of the record divide by their appeal without the pledge
+      // (CTO, Nov 1): whole to its top on a ballot with party labels, by each
+      // candidate's logistic share at appealPerShare's slope without them,
+      // and the pledged household's one vote on top.
       const recordBallot = countedBallotsOf(api, contestId)[at]!;
       expect(recordBallot.appeal[mine.personId]?.pledge ?? 0).toBe(0);
-      const rest = countedChoice(recordBallot.appeal);
-      expect(
-        kept.choice[at],
-        `${where}: the rest of ${kept.weight[at]} households`,
-      ).toBe(rest === null ? -1 : kept.field.findIndex((f) => f.id === rest));
+      const restWeight = kept.weight[at]! - 1;
+      const ids = kept.field.map((f) => f.id);
+      const expected: Record<string, number> = { [mine.personId]: 1 };
+      const top = countedChoice(recordBallot.appeal);
+      if (kept.field.some((f) => f.side !== 0) || ids.length === 1) {
+        if (top) expected[top] = (expected[top] ?? 0) + restWeight;
+      } else {
+        const k = 4 / electorateParameter("appealPerShare");
+        const pull = (id: string) =>
+          Math.exp(k * recordBallot.appeal[id]!.total);
+        const sum = ids.reduce((n, id) => n + pull(id), 0);
+        for (const id of ids)
+          expected[id] = (expected[id] ?? 0) + (restWeight * pull(id)) / sum;
+      }
+      for (const [j, id] of ids.entries())
+        expect(
+          kept.split[at]![j]!,
+          `${where}: the rest of ${kept.weight[at]} households for ${id}`,
+        ).toBeCloseTo(expected[id] ?? 0, 9);
       return;
     }
     throw new Error(
