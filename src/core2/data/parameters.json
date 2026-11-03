@@ -5411,7 +5411,7 @@
   "playerDecisionDetailDays": {
     "value": 365,
     "tag": "TUNABLE",
-    "citation": "How long the player's own routine act keeps every option's score before only its chosen reasons remain; after a year the summary and reasons are kept, not every detail.",
+    "citation": "How long the player's own routine act or weighed choice keeps every option's score before only its chosen reasons remain; after a year the summary and reasons are kept, not every detail.",
     "spread": {
       "low": 180,
       "high": 730,

@@ -22,7 +22,7 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
-import stopgaps from "./data/stopgaps.json" with { type: "json" };
+import { STOPGAPS as stopgaps } from "./stopgaps";
 import unwired from "./data/outcome-web/unwired.json" with { type: "json" };
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
