@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: play-first/play-person-clickable-only-with-talk
 pr: #7077
 blocked-on:

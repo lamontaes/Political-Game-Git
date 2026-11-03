@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/director/purpose-scene.ts, src/bench/filing-counter-petition.test.ts
 
 **Notes.** TODO
+
+Words handoff, Nov 2 02:50 UTC (the account at its weekly limit): branch words/petition-scene-by-seed, head e236e35ae6. Cause found: North Amityville, New York files its town races with the county board of elections, has no town clerk, so filingClerkFor names no one and the filing scene cannot cast its clerk. The branch makes filing-counter-petition.test.ts skip a counter with no clerk, as filing-visit-talk.test.ts does, and passes at seed 96f34b32a90f7079. The missing person is gov-filing-counter-clerk-at-county-board (lead governing). Next step: run the test on three fresh draws, then open the PR with line 1 `Pool item: words-filing-petition-scene-not-staged-by-seed`.
