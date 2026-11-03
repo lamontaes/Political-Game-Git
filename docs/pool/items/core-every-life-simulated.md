@@ -6,12 +6,12 @@ lead: lives
 kind: bug
 priority: 1
 size: L
-status: claimed
-claimed-by: lives/every-life-simulated
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: owner, Nov 1 ("EVERY. LIFE. IS. SIMULATED. WHAT DO YOU NOT UNDERSTAND. THIS IS LOW INTENSITY STUFF")
-claimed-at: 2026-11-01T16:51:32.659Z
+claimed-at:
 ---
 
 **What.** The people the player knows who live elsewhere (most of the relatives at the start, the "husks") are kept minimal until met, and nothing happens to them, so a talk with one has nothing on record and opens empty: 12 of the 14 people the player knew in Lordship, Connecticut (`words-talk-husk-acquaintances-empty`). The owner rules that every life is simulated, at low intensity for people outside the played town. This item gives each of them a life at a coarse cadence: work and job changes, moves, marriage and partners, births, illness, aging and death. Each comes from the engines that already run those things for the town's people, never a second life engine, and each event writes the dated record those engines write, so the director, the journal and the conversation bank read it as news.
@@ -33,3 +33,4 @@ Nov 2, 01:10 UTC (lives lead, the record for whoever continues): units by sub-it
 - Next: `core-every-life-work-dead-rows`; `core-every-life-partner-from-counts`; town partners (`people-partnership-forms` and `people-partnership-ends`, branch lives/partners-town); orientation (`people-orientation-record`, after forms); counted partners (`people-partnership-counted` and its parts); births for couples elsewhere (renewal closes a husk couple as inactive today; no item yet); `world-community-calendar`.
 - This item closes when the five-year run of its Done when passes: every husk adult reviewed by moves, work, partnerships and births, the yearly shares at those engines' rates, and the household-talk test opening on a relative's news in three drawn places (Words' side, after #7082).
 - Method: the `lives` skill (#7121 brings it up to date).
+Nov 2, 01:45 UTC (lives lead, handoff): released as the parent; its units are listed in the Nov 2 01:10 note above and in the channel's ## Lives section. In review: core-every-life-partners (#7082, branch lives/partners, Checker 2). Next unit to take: core-every-life-work-dead-rows, then core-every-life-partner-from-counts, then people-partnership-forms. Branch lives/every-life-simulated is merged (#7032); a new unit takes a new branch.

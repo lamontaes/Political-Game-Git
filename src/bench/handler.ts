@@ -138,12 +138,27 @@ function sceneNow(current: CoreState, id: string) {
     playing &&
     !player!.packet &&
     director?.ledger.opening?.date === current.date;
-  return benchScene(
+  const scene = benchScene(
     current,
     id,
     playing ? player!.packet : undefined,
     openingDay ? OPENING_EVENING_MINUTE : undefined,
   );
+  // Who has something to say: the director's own answer (a talk that opens with
+  // no lines is no talk), read without writing anything. The room leaves the
+  // rest unclickable (owner, Nov 1).
+  return playing && director
+    ? {
+        ...scene,
+        people: scene.people.map((person) => ({
+          ...person,
+          talkable:
+            person.personId === id ||
+            openConversation(current, id, person.personId, { director }).lines
+              .length > 0,
+        })),
+      }
+    : scene;
 }
 /** The speech the player is building, one part at a time. */
 let speechBuild: SpeechBuild | undefined;
