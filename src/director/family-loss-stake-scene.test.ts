@@ -216,7 +216,9 @@ const run = (drawSeed: string): { done: boolean; note: string } => {
     const root = talk.tree.replies[at]!;
     const answer = root.next?.lines.find((row) => row.role === "asker");
     core.playerId = filer;
-    const id = replyInScene(core, director, filer, entry!, [at]);
+    const id = replyInScene(core, director, filer, entry!, [at], {
+      typeKey: "family-loss",
+    });
     expect(id, here).toBeTruthy();
     const backing = core.durableLog.get(id!)?.facts?.backing;
     const rows = api
@@ -253,7 +255,7 @@ it(`the talk after a lost race is for the relative who put in work or money, and
   for (let attempt = 0; attempt < ATTEMPTS; attempt += 1) {
     const out = run(`${seed}:${attempt}`);
     if (out.done) {
-      console.log(out.note);
+      process.stdout.write(`${out.note}\n`);
       return;
     }
     skipped.push(out.note);
