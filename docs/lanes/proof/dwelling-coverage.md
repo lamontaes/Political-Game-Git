@@ -33,3 +33,5 @@ Four-year comparison passed, both commands exit 0. Fananganan, Northern Mariana 
 | 4    |         79.7 |              82.4 |  +3.4% |
 
 Command: npm run speed:year -- --seed 974331fb899c5fa7 --years 4 --max-seconds 120 --exclusive --out /tmp/lane-2-housing-speed-{base,head}.json; corrected run additionally uses --baseline /tmp/lane-2-housing-speed-base.json. Source and test were restored from disk backups between runs. Full typecheck also passes after the main merge.
+
+Merged-main smoke check: source 3b3e884b45, Newport East, Rhode Island, replay 1717ba1e0e910c5c. npm run new-game-check passed: New Game, four weeks of normal play, scene and Journal readers all returned 200. No source conflict; merge conflict was only the older lane state.
