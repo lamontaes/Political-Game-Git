@@ -5,14 +5,14 @@ area: words
 kind: feature
 priority: 1
 size: S
-status: claimed
-claimed-by: words/web-meeting
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: "words-and-scenes lead, Oct 27: first pass of words-scene-web-meeting-people-and-places"
 lead: words
 milestone: play-first
-claimed-at: 2026-10-27
+claimed-at:
 ---
 
 **What.** The first pass of the meeting-people domain of the scene web, the quietest stretch of a played year. Four real lives become packets: an introduction at a civic event, a neighbor's ask to join a cause, neighbors falling out over a vote, and making up after the fight. The thin rows get openings that say only what their trigger holds. The report stops printing "tie:" for a type fired by a tie's turn and says which turn.
@@ -30,3 +30,5 @@ claimed-at: 2026-10-27
 **Files.** docs/design/scenes/from-life/, data/english/parts/scene-words.json, scripts/scene-web/build.ts, docs/reports/scene-web.*
 
 **Notes.** Part of `words-scene-web-meeting-people-and-places`, which stays open for the other rows.
+
+Lane 5 (pool truth, Nov 3): claim released under the 48-hour rule. Claimed 2026-10-27 on `words/web-meeting`; last push Oct 27, 16:33 UTC; no open PR. The branch keeps its work; claiming it takes the branch.

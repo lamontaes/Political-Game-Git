@@ -6,11 +6,11 @@ kind: stopgap
 priority: 2
 size: S
 status: open
-claimed-by: claude/political-game-pool-7xkkii
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T22:35:12.454Z
+claimed-at:
 ---
 
 **What.** Every town rental is paid to one ownerless business, `organization:landlord:<place>` (housing.ts `withHousing`), and `review` serves notice on the late leases by `landlordPulls`: a summed logistic of months owed and months late, carried month to month. Give each rental a real owner, a resident (or a household) recorded in the business module's `owners` table, and make the notice a choice by that owner from their own traits, cash and the tenant's history, as `credit.ts` does for a business owner (`chooseAct` between waiting and acting, with the reasons recorded). The landlord's payout then goes to its owners, and an owner who is short of cash weighs the arrears differently from one who is not.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-19T22:35:12.454Z
 **Files.** src/core2/modules/housing.ts, src/core2/modules/business.ts, src/core2/data/housing/housing.json, src/core2/data/housing/parameters.json, src/core2/data/stopgaps.json, src/core2/housing.test.ts
 
 **Notes.** Oct 19 (claude/landlord-owners, released after reading the code). Spec written, not built: the housing module is over 1,800 lines and the decision touches the business owners table, the payout, the notice, `countedLate` and the parameters `housingNoticeBaseline`, `housingNoticeArrearsWeight` and `housingNoticeLateWeight`, so it deserves a session of its own. Pattern to copy: `credit.ts` review, lines near 451 to 480 (owner id, reasons, `chooseAct`). First check whether `world-business-owner-seam` already gives rentals an owner. Released from idle draft #5196 by the CTO, Oct 26.
+
+Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/political-game-pool-7xkkii` (2026-10-19). Cleared from the front matter and kept here.

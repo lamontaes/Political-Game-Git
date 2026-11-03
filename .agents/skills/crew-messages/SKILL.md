@@ -52,12 +52,13 @@ When the CTO moves a PR between two checkers, it tells both. A checker already m
 - If you are about to explain in a message how to do something (a command, an order of steps, a trap to avoid), write it into the skill that covers it, or a new skill, and send the skill's name and line instead. Ship it as a `skills:` PR the CTO merges at once (AGENTS.md, "Skills").
 - If you receive a process in a message, check that a skill holds it. If none does, add it.
 - A message that settles something for the future (a route, a ruling, a recurring fix) is also a skill line or an `OWNER-DECISIONS.md` entry, never only a message.
-- A skills PR is merged within minutes of your message. Before you push more to its branch, check the PR is still open; once it has merged, anything you push is stranded on the branch, so open a new skills PR for it (Nov 1: three sessions' later lines were stranded this way).
+- A skills PR is merged within minutes of your message. Before you push more to its branch, check the PR is still open, by reading the PR itself (its state and whether it merged); a status or checks read shows only the head's checks and says nothing about a merge (Nov 1: a line pushed after that kind of check was stranded); once it has merged, anything you push is stranded on the branch, so open a new skills PR for it (Nov 1: three sessions' later lines were stranded this way).
 
 ## When messages cross
 
 - Two messages about the same thing can cross. The newest from the CTO wins. Reply with what changed and the head you are on.
 - If a message tells you something that is already done or already wrong, say so in one line and carry on. Do not redo the work.
+- A hold on a PR goes on the PR as a comment as well as in a message. The comment is what a merger reads before merging: on Nov 1 a checker passed #7036 after the laws lead's hold message, which crossed its pass.
 
 ## Stop condition
 

@@ -6,12 +6,12 @@ kind: feature
 priority: 3
 size: M
 status: open
-claimed-by: claude/peaceful-ritchie-03780x
+claimed-by:
 pr:
 blocked-on:
 after: gov-redistricting-plan-builder
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T00:36:12.479Z
+claimed-at:
 ---
 
 **What.** TODO
@@ -23,3 +23,5 @@ claimed-at: 2026-10-20T00:36:12.479Z
 **Files.** TODO
 
 **Notes.** TODO Released from idle draft #5076 by the CTO, Oct 26.
+
+Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/peaceful-ritchie-03780x` (2026-10-20). Cleared from the front matter and kept here.

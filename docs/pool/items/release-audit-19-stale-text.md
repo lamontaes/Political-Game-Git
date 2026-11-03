@@ -6,11 +6,11 @@ kind: bug
 priority: 3
 size: S
 status: open
-claimed-by: claude/political-game-pool-76ksvw
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T04:32:12.345Z
+claimed-at:
 ---
 
 **What.** Update SG-WORLD-credit-island-deposits and add a territory test, fix the SG-CORE-territory-places replacement text, remove references to the deleted build-place-lookup-data.ts, unblock people-partnership-rates-check from the empty shell, set #5334's item blocked on a design call, and restore the #5101 pr link.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T04:32:12.345Z
 **Files.** src/core2/data/stopgaps.json, docs/pool/items
 
 **Notes.** Item 19 of docs/reports/merge-audit-2026-10-20.md, split from release-merge-audit-oct20-fixes. Released from idle draft #5180 by the CTO, Oct 26.
+
+Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/political-game-pool-76ksvw` (2026-10-20). Cleared from the front matter and kept here.

@@ -219,6 +219,18 @@ export class BenchPlayer {
   }
 
   /**
+   * Wait for an office to open: the clock moves to that day and minute (a
+   * later moment than the one it stands at), the way an act's hours move it.
+   * Stands still where a stop or choice holds the clock.
+   */
+  waitUntil(moment: PlayerMomentV1) {
+    if (!this.personId) throw new Error("Choose a resident first.");
+    if (this.pollingPlace) return undefined;
+    if (this.packet && this.packet.kind !== "complete") return undefined;
+    return this.driveTo(moment, "day");
+  }
+
+  /**
    * An act that takes hours spends them on the clock the packet reports
    * (a canvass of 3 hours moves the clock 3 hours). A clock already held by
    * an open stop or choice stays where it is until that is answered.

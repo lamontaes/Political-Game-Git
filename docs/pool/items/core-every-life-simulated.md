@@ -6,12 +6,12 @@ lead: lives
 kind: bug
 priority: 1
 size: L
-status: claimed
-claimed-by: lives/every-life-simulated
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: owner, Nov 1 ("EVERY. LIFE. IS. SIMULATED. WHAT DO YOU NOT UNDERSTAND. THIS IS LOW INTENSITY STUFF")
-claimed-at: 2026-11-01T16:51:32.659Z
+claimed-at:
 ---
 
 **What.** The people the player knows who live elsewhere (most of the relatives at the start, the "husks") are kept minimal until met, and nothing happens to them, so a talk with one has nothing on record and opens empty: 12 of the 14 people the player knew in Lordship, Connecticut (`words-talk-husk-acquaintances-empty`). The owner rules that every life is simulated, at low intensity for people outside the played town. This item gives each of them a life at a coarse cadence: work and job changes, moves, marriage and partners, births, illness, aging and death. Each comes from the engines that already run those things for the town's people, never a second life engine, and each event writes the dated record those engines write, so the director, the journal and the conversation bank read it as news.
@@ -26,3 +26,11 @@ claimed-at: 2026-11-01T16:51:32.659Z
 
 **Notes.** Filed by the CTO, Nov 1 16:50, on the owner's ruling (OWNER-DECISIONS, Nov 1 16:50). `words-talk-husk-acquaintances-empty` reads what this writes; Words words the news. Read: OWNER-DECISIONS (Oct 14 Q7, Oct 15 family talk, Oct 30 04:10, Nov 1), DECISION-REGISTER line 964 (relationships, absence), the `core-od-fill-in-outside-kin` item (done, kin kept minimal until met); searched the pool for husk, outside kin, low intensity.
 Nov 1 (lives lead, lives/every-life-simulated): measured on main, Hamburg, New Jersey (3429220, drawPlace lives-a): 9 of the player's 13 relatives are husks, all at the state's record, each alone in a household, no job; one played year gave them no life record. Health already gives husks illness onsets and deaths (it indexes every living person by date). Unit 1 (moves): husks join the moves engine's monthly review. Units next: work from the place's counted workers' records; partnerships (lead: lives, CTO Nov 1; also `people-partnering-in-play`), with births for husk couples following through renewal's family.partnered reader.
+Nov 2, 01:10 UTC (lives lead, the record for whoever continues): units by sub-item.
+
+- Done: moves (`core-every-life-moves`, #7032), work (`core-every-life-work`, #7049), officials' false moves (`core-moves-state-officials-move-to-same-state`, #7055); health already gives husks illness and death.
+- In review: partnerships for people elsewhere (`core-every-life-partners`, #7082, branch lives/partners, Checker 2).
+- Next: `core-every-life-work-dead-rows`; `core-every-life-partner-from-counts`; town partners (`people-partnership-forms` and `people-partnership-ends`, branch lives/partners-town); orientation (`people-orientation-record`, after forms); counted partners (`people-partnership-counted` and its parts); births for couples elsewhere (renewal closes a husk couple as inactive today; no item yet); `world-community-calendar`.
+- This item closes when the five-year run of its Done when passes: every husk adult reviewed by moves, work, partnerships and births, the yearly shares at those engines' rates, and the household-talk test opening on a relative's news in three drawn places (Words' side, after #7082).
+- Method: the `lives` skill (#7121 brings it up to date).
+Nov 2, 01:45 UTC (lives lead, handoff): released as the parent; its units are listed in the Nov 2 01:10 note above and in the channel's ## Lives section. In review: core-every-life-partners (#7082, branch lives/partners, Checker 2). Next unit to take: core-every-life-work-dead-rows, then core-every-life-partner-from-counts, then people-partnership-forms. Branch lives/every-life-simulated is merged (#7032); a new unit takes a new branch.
