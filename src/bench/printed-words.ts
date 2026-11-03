@@ -2610,6 +2610,42 @@ const retirement: Builder = (read, f) => {
   );
 };
 
+/**
+ * A reader's letter to the editor, from the press's weekly letters step: who
+ * wrote, from where, and for or against which policy, from the stance the
+ * story they read last moved (cited by that story).
+ */
+const letter: Builder = (read, f) => {
+  // The bill the story reported, by its name or its number; or the law that
+  // took effect, by the name its policy goes by.
+  const bill = f.billId ? read.billFacts(f.billId) : {};
+  const form =
+    f.level === "state" || f.level === "federal" ? "act" : "ordinance";
+  const named =
+    !f.billId && f.series
+      ? billNameFor(f.series, form, f.change === "ended")
+      : null;
+  const law =
+    bill.law ?? (named ? read.fact(named.title, f.lawId ?? "") : null);
+  const designation = bill.designation;
+  const town = read.residence(f.personId);
+  if ((!law && !designation) || (f.side !== "for" && f.side !== "against"))
+    return null;
+  return story(
+    "letter",
+    {
+      ...read.who(f.personId, "name", false),
+      ...(law ? { law } : { designation: designation! }),
+      ...(f.side === "for"
+        ? { supports: read.yes() }
+        : { opposes: read.yes() }),
+      ...(town ? { place: read.fact(town, f.personId ?? "") } : {}),
+    },
+    ["name"],
+    f.personId,
+  );
+};
+
 /** A business's round year since its founding, from the press's week of milestones. */
 const anniversary: Builder = (read, f) => {
   const id = f.organizationId ?? "";
@@ -2915,7 +2951,9 @@ const ARCHIVED: Readonly<Record<string, Builder>> = {
       ["subject"],
     );
   },
-  // Reported once, to the survivor: the parent is named from the fact's own names.
+  // Reported once, to the survivor: the parent is named from the fact's own
+  // names, and survived by the resident whose record holds the death, said as
+  // an obituary says its survivors.
   "parent-died": (read, f) => {
     const name = [f.givenName, f.familyName].filter(Boolean).join(" ");
     const survivor = read.name(f.survivorId);
@@ -2924,10 +2962,13 @@ const ARCHIVED: Readonly<Record<string, Builder>> = {
       {
         ...(name ? { name: read.fact(name, f.survivorId ?? "") } : {}),
         date: read.date(),
-        ...(survivor && f.relation
+        ...(survivor
           ? {
-              relation: read.fact(f.relation, f.survivorId ?? ""),
-              survivor: read.fact(survivor, f.survivorId ?? ""),
+              survivors: read.fact(
+                survivor,
+                f.survivorId ?? "",
+                f.recordId ?? "",
+              ),
             }
           : {}),
       },
@@ -2985,6 +3026,7 @@ const BUILDERS: Readonly<Record<string, Builder>> = {
   birthday: milestoneBirthday,
   anniversary,
   retirement,
+  letter,
   profile,
   interview,
   claim: claimCheck,

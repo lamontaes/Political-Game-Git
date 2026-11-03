@@ -4,6 +4,7 @@
 // Usage: BENCH_PORT=3121 BENCH_BROWSER=... node src/bench/donors.browser.mjs <before|after>
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
+import { openCampaignTrail } from "./campaign-trail.mjs";
 const mode = process.argv[2] ?? "after";
 const base = `http://localhost:${process.env.BENCH_PORT ?? 3000}`;
 const out = "docs/reports/donors-2026-10-25";
@@ -79,8 +80,9 @@ try {
   );
   console.log("Raised before:", raisedBefore);
   await page.screenshot({ path: `${out}/${mode}-1-campaigns.png` });
+  await openCampaignTrail(page);
   const calls = page
-    .locator(".row.campaign button", { hasText: "Call donors" })
+    .locator("#sheet-body.place-view button", { hasText: "Call donors" })
     .first();
   if (await calls.isDisabled()) {
     console.log(
@@ -94,10 +96,41 @@ try {
     );
     await calls.click();
     const result = await (await day).json();
-    await page.waitForTimeout(800);
-    await page.screenshot({ path: `${out}/${mode}-2-after-calls.png` });
-    const body = await page.locator("#sheet-body").innerText();
-    const raisedAfter = dollarsIn(body);
+    // The evening of calls is a scene (owner: every campaign act is a scene):
+    // one call per Continue, each person by name with their line, then the
+    // night's total. Live through it, reading what is said.
+    const said = [];
+    for (let i = 0; i < result.calls.length + 6; i += 1) {
+      await page.locator("#talk:visible").waitFor();
+      await page.waitForTimeout(700);
+      said.push(await page.locator("#talk-lines").innerText());
+      if (i === 0)
+        await page.screenshot({ path: `${out}/${mode}-2-after-calls.png` });
+      const next = page.locator("#talk-next:visible");
+      if (!(await next.count())) break;
+      const more = await page.evaluate(
+        () => document.getElementById("talk-next").offsetParent !== null,
+      );
+      if (!more) break;
+      await next.click();
+      if (said.length > result.calls.length) break;
+    }
+    const body = said.join("\n");
+    await page.waitForTimeout(500);
+    if (await page.locator("#talk-next:visible").count())
+      await page.locator("#talk-next").click();
+    await page
+      .locator('[data-tab="politics"]')
+      .first()
+      .evaluate((e) => e.click());
+    await page
+      .locator("#sheet-tabs")
+      .getByRole("button", { name: "Campaigns", exact: true })
+      .click();
+    await page.locator(".row.campaign").first().waitFor();
+    const raisedAfter = dollarsIn(
+      await page.locator(".row.campaign").first().innerText(),
+    );
     if (Number.isNaN(raisedAfter))
       console.log(
         "Sheet body:",
@@ -111,7 +144,7 @@ try {
       assert.equal(Math.round((raisedAfter - raisedBefore) * 100), sum);
       for (const call of result.calls) {
         assert.ok(call.line.includes(call.name), call.line);
-        assert.ok(body.includes(call.line), `the screen lists: ${call.line}`);
+        assert.ok(body.includes(call.line), `the scene says: ${call.line}`);
       }
       console.log("People:", result.calls.map((c) => c.line).join(" | "));
       console.log("Summary:", result.callsLine);

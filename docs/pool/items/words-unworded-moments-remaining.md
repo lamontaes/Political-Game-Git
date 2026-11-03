@@ -6,11 +6,11 @@ kind: feature
 priority: 2
 size: M
 status: open
-claimed-by: claude/political-game-pool-76ksvw
+claimed-by:
 pr:
 blocked-on:
 source: "split from words-unworded-moments, Oct 16"
-claimed-at: 2026-10-19T22:04:58.951Z
+claimed-at:
 ---
 
 **What.** Four moments the records fire still have no words or thin ones: the player saying they filed their papers after the filing visit, a new law taking effect, a held meeting, and the blame someone was told. Author each to the calibrated patterns as bank parts with move tags (author and date on each, at least two wordings each), and have the director say them when the filing, law-effect, meeting and blame records fire. The clerk does not state a fee or a signature count, because no one pays a fee or gathers signatures to file (owner, Oct 13).
@@ -24,3 +24,5 @@ claimed-at: 2026-10-19T22:04:58.951Z
 **Notes.** Split from words-unworded-moments, which fixed the misfit school answer. The original item asked for the clerk to say the fee and signature count and the player to say "I paid the fee"; those are dropped under the Oct 13 ruling recorded in the elections engine (modules/elections.ts header). Released from idle draft #5180 by the CTO, Oct 26.
 
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: drop the batch-grading clause; re-check which four moments still lack pieces.
+
+Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/political-game-pool-76ksvw` (2026-10-19). Cleared from the front matter and kept here.
