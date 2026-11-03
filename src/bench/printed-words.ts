@@ -16,7 +16,13 @@ import { BUDGETS_MODULE_ID, type BudgetRow } from "../core2/modules/budgets";
 import { ELECTIONS_MODULE_ID } from "../core2/modules/elections";
 import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import { BUSINESS_MODULE_ID } from "../core2/modules/business";
-import { LAWS_MODULE_ID, lawChain, lawInForce } from "../core2/modules/laws";
+import {
+  LAWS_MODULE_ID,
+  lawChain,
+  lawInForce,
+  rowReplaced,
+  type LawRowInput,
+} from "../core2/modules/laws";
 import {
   LEGISLATURE_MODULE_ID,
   type BillRow,
@@ -96,9 +102,11 @@ const MONTHS = [
   "December",
 ];
 const dollars = (minor: number, cents = false) => {
-  // A paper rounds a large sum: "$228.7 million", never "$228,722,690".
+  // A paper rounds a large sum: "$228.7 million", never "$228,722,690", and
+  // "$7.2 trillion", never "$7204.5 billion".
   const whole = Math.abs(minor / 100);
   for (const [size, word] of [
+    [1e12, "trillion"],
     [1e9, "billion"],
     [1e6, "million"],
   ] as const)
@@ -220,12 +228,8 @@ let ISSUES: Record<string, string> | undefined;
 /** Other states' office titles by office id, by state: read once, never stored in the world. */
 const ELSEWHERE = new Map<string, Map<string, string>>();
 
-/** The facts for one printed story, or null when its record can't be said. */
-export function printedFacts(
-  core: CoreState,
-  story: PrintedStory,
-): PrintedFacts | null {
-  if (story.kind !== "press.printed") return null;
+/** The record a printed story was printed from, and its kind. */
+function printedSource(core: CoreState, story: PrintedStory) {
   const sourceId = String(story.facts.sourceRecordId ?? "");
   const source = core.durableLog.get(sourceId as EntityId) as
     | {
@@ -242,6 +246,25 @@ export function printedFacts(
     (sourceId.startsWith("event:")
       ? sourceId.split(":")[1]!
       : sourceId.split(":")[0]!);
+  return { sourceId, source, kind };
+}
+
+/** The kind of record a story reports: an archived story's own, or the record a printed one was printed from. */
+export function storyRecordKind(core: CoreState, story: PrintedStory): string {
+  return story.kind === "press.archived"
+    ? String(story.facts.recordKind ?? "")
+    : story.kind === "press.printed"
+      ? printedSource(core, story).kind
+      : story.kind;
+}
+
+/** The facts for one printed story, or null when its record can't be said. */
+export function printedFacts(
+  core: CoreState,
+  story: PrintedStory,
+): PrintedFacts | null {
+  if (story.kind !== "press.printed") return null;
+  const { sourceId, source, kind } = printedSource(core, story);
   const facts: Record<string, string> = { ...(source?.facts ?? {}) };
   for (const [key, value] of Object.entries(story.facts))
     if (typeof value === "string") facts[key] = value;
@@ -605,12 +628,56 @@ function rule(
   );
 }
 
-/** A law in force changing: a policy law, or an amount (a wage, a rate). */
+/**
+ * Each law amount by what it is called whatever level sets it, and whom it
+ * reaches: who pays a tax, or who gets a benefit or a wage
+ * (data/english/bill-names.json). An amount with no row here stays a record.
+ */
+const AMOUNTS = (
+  billNames as unknown as {
+    amounts: {
+      series: Readonly<
+        Record<
+          string,
+          { measure: string; top?: string; who: string; how: "pays" | "gets" }
+        >
+      >;
+    };
+  }
+).amounts.series;
+
+/** The kind of law each level makes, as a paper says it: "a state law", "a town ordinance". */
+const STATUTES: Readonly<Record<string, string>> = {
+  federal: "federal law",
+  state: "state law",
+  county: "county ordinance",
+  city: "town ordinance",
+};
+
+/** A law's row in the laws table, by id. */
+function lawRow(read: Reader, lawId: string | undefined) {
+  return lawId
+    ? (read.api
+        .moduleState(LAWS_MODULE_ID)
+        .table("laws")
+        .get(lawId) as unknown as LawRowInput | undefined)
+    : undefined;
+}
+
+/**
+ * A law in force changing, or passed to change on a later day: a policy law,
+ * or an amount (a wage, a rate). An amount is told at its own level, the
+ * level's row against the row it replaced there (a state's income tax rate,
+ * not the state's and the nation's added), named by the government that set
+ * it, and with whom it reaches; a wage floor is the highest level's, so it is
+ * told by the town's law in force.
+ */
 const lawTookEffect: Builder = (read, f) => {
   const series = f.series ?? "";
   const ended = Number(f.value) === 0 || f.change === "ended";
   const federal = f.level === "federal";
   const state = f.level === "state";
+  const enacted = read.kind === "law-enacted";
   const place = federal ? null : read.place(state ? f.jurisdiction : undefined);
   const form = state || federal ? "act" : "ordinance";
   const base: Facts = {
@@ -629,31 +696,70 @@ const lawTookEffect: Builder = (read, f) => {
       : {}),
   };
   if (f.unit && f.unit !== "program") {
-    // An amount: the town's law in force the day before, and now.
-    const was = lawInForce(
-      read.api,
-      series,
-      addDays(makeIsoDate(read.story.date), -1),
-    ).value;
-    const now = lawInForce(read.api, series, read.story.date).value;
+    const named = AMOUNTS[series];
+    if (!named) return null;
+    const row = lawRow(read, f.lawId);
+    const before = row ? rowReplaced(read.api, row) : null;
+    const day = enacted
+      ? (row?.effectiveDate ?? read.story.date)
+      : read.story.date;
+    const chain = (date: string) => lawInForce(read.api, series, date);
+    const floor = chain(day).doctrine === "floor";
+    // An amount: the level's row and the one it replaced; a floor, the
+    // town's law in force the day before and on the day.
+    const was = floor
+      ? chain(addDays(makeIsoDate(day), -1)).value
+      : (before?.value ?? null);
+    const now =
+      floor && !enacted ? chain(day).value : (row?.value ?? Number(f.value));
     const to = typeof now === "number" ? amount(f.unit, now) : null;
     const from = typeof was === "number" ? amount(f.unit, was) : null;
-    if (!to || !from) return rule(read, f, base);
+    if (!to) return rule(read, f, base);
+    // Where: a state's or the town's law names its place; a federal amount set
+    // for one state (a food aid maximum, a Medicaid share) names that state.
+    const where = federal
+      ? f.jurisdiction && f.jurisdiction !== "US"
+        ? read.place(f.jurisdiction)
+        : null
+      : place;
+    if (!federal && !where) return null;
+    const scope = !federal ? "here" : where ? "federal-here" : "nationwide";
     return story(
       "law-amount",
       {
         ...base,
-        measure: read.fact(measureName(series), f.lawId ?? ""),
+        ...(where ? { place: read.fact(where, f.lawId ?? "") } : {}),
+        [scope]: read.yes(),
+        statute: read.fact(STATUTES[f.level ?? ""] ?? "law", f.lawId ?? ""),
+        measure: read.fact(
+          (f.unit === "percent-top-rate" && named.top) || named.measure,
+          f.lawId ?? "",
+        ),
         to: read.fact(to, f.lawId ?? ""),
-        ...(from !== to
-          ? { from: read.fact(from, f.lawId ?? ""), changed: read.yes() }
-          : { same: read.yes() }),
-        ...(Number(now) < Number(was) ? { down: read.yes() } : {}),
-        ...(Number(now) > Number(was) ? { up: read.yes() } : {}),
+        who: read.fact(named.who, f.lawId ?? ""),
+        [named.how]: read.yes(),
+        // Passed now for a later day, or in force from today.
+        ...(enacted
+          ? {
+              enacted: read.yes(),
+              starts: read.fact(spokenDate(day), f.lawId ?? ""),
+            }
+          : { took: read.yes() }),
+        ...(!from
+          ? { new: read.yes() }
+          : from === to
+            ? { same: read.yes() }
+            : {
+                from: read.fact(from, before?.id ?? f.lawId ?? ""),
+                [Number(now) < Number(was) ? "down" : "up"]: read.yes(),
+              }),
       },
       ["measure", "to"],
     );
   }
+  // A policy law passed for a later day has no pieces of its own yet; it is
+  // told when it takes effect.
+  if (enacted) return null;
   const named = billNameFor(series, form, ended);
   if (!named) return rule(read, f, base);
   return story(
@@ -669,30 +775,23 @@ const lawTookEffect: Builder = (read, f) => {
 };
 
 /**
- * A law that took effect in the year before day one, told as the press tells a law
- * that takes effect in play: from the law's own row (its level, its amount, the bill
- * that enacted it) and the law in force the day before. Null when the row is gone.
+ * A law passed or taking effect in the year before day one, told as the press
+ * tells a law that takes effect in play: from the law's own row (its level, its
+ * amount, the bill that enacted it) and the row it replaced. Null when the row
+ * is gone or the banks can't say it.
  */
 export function archivedLawFacts(
   core: CoreState,
   story: PrintedStory,
 ): PrintedFacts | null {
   const lawId = String(story.facts.lawId ?? "");
-  const row = coreAPI(core)
-    .moduleState(LAWS_MODULE_ID)
-    .table("laws")
-    .get(lawId) as unknown as
-    | {
-        series: string;
-        level: string;
-        jurisdiction: string;
-        value?: number;
-        unit?: string;
-        terms?: { enactedBy?: string };
-      }
-    | undefined;
+  const kind =
+    story.facts.recordKind === "law-enacted"
+      ? "law-enacted"
+      : "law-took-effect";
+  const read = new Reader(core, story, lawId, kind, []);
+  const row = lawRow(read, lawId);
   if (!row) return null;
-  const read = new Reader(core, story, lawId, "law-took-effect", []);
   return lawTookEffect(read, {
     lawId,
     series: row.series,

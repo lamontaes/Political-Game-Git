@@ -42,7 +42,10 @@
     "area": "The region a rate is measured for (a metro area, or the state), by name.",
     "outside": "The possessive of the state an area outside its metro areas belongs to (\"Kentucky's\", \"Texas'\"), from the regional record.",
     "candidate": "A candidate, by name, from the campaign's record.",
-    "crimes": "What most of a month's police reports were (thefts, assaults), from the crime engine's month record."
+    "crimes": "What most of a month's police reports were (thefts, assaults), from the crime engine's month record.",
+    "who": "Whom a law reaches: who pays a tax, or who gets a benefit or a wage, from the law's series (data/english/bill-names.json).",
+    "starts": "The day a law passed now takes effect, from the law record.",
+    "statute": "The kind of law and the level that made it (a state law, a town ordinance), from the law record."
   },
   "maxWords": 14,
   "mining": {
@@ -1861,160 +1864,6 @@
           "role": "law",
           "choice": "headline",
           "requiresFacts": ["effective"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-live-news-worded)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "headline",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "headlines.law-amount.place-measure-falls-to-to",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "{place} {measure} falls to {to}",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "headline",
-          "role": "law-amount",
-          "choice": "headline",
-          "requiresFacts": ["down"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-live-news-worded)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "headline",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "headlines.law-amount.place-measure-drops-from-from-to-to",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "{place} {measure} drops from {from} to {to}",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "headline",
-          "role": "law-amount",
-          "choice": "headline",
-          "requiresFacts": ["down"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-live-news-worded)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "headline",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "headlines.law-amount.place-measure-rises-to-to",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "{place} {measure} rises to {to}",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "headline",
-          "role": "law-amount",
-          "choice": "headline",
-          "requiresFacts": ["up"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-live-news-worded)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "headline",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "headlines.law-amount.place-measure-goes-from-from-to-to",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "{place} {measure} goes from {from} to {to}",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "headline",
-          "role": "law-amount",
-          "choice": "headline",
-          "requiresFacts": ["up"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-live-news-worded)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "headline",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "headlines.law-amount.new-measure-of-to-takes-effect-in-place",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "New {measure} of {to} takes effect in {place}",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "headline",
-          "role": "law-amount",
-          "choice": "headline",
-          "requiresFacts": ["changed"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-live-news-worded)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "headline",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "headlines.law-amount.new-measure-of-to-takes-effect",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "New {measure} of {to} takes effect",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "headline",
-          "role": "law-amount",
-          "choice": "headline",
-          "requiresFacts": ["changed"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-live-news-worded)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "headline",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "headlines.law-amount.place-measure-stays-at-to",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "{place} {measure} stays at {to}",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "headline",
-          "role": "law-amount",
-          "choice": "headline",
-          "requiresFacts": ["same"]
         }
       ],
       "origin": "authored",
@@ -6202,72 +6051,6 @@
       }
     },
     {
-      "key": "headlines.law-amount.measure-stays-at-to",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "{measure} stays at {to}",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "headline",
-          "role": "law-amount",
-          "choice": "headline",
-          "requiresFacts": ["same"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "headline",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "headlines.law-amount.measure-rises-to-to",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "{measure} rises to {to}",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "headline",
-          "role": "law-amount",
-          "choice": "headline",
-          "requiresFacts": ["up"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "headline",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "headlines.law-amount.measure-falls-to-to",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "{measure} falls to {to}",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "headline",
-          "role": "law-amount",
-          "choice": "headline",
-          "requiresFacts": ["down"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-stories-have-a-body)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "headline",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "headlines.roll-call.designation-passes-count",
       "move": "roll-call",
       "kind": "written",
@@ -7417,6 +7200,490 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-30",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-amount.place-measure-rises-to-to",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "{place} {measure} rises to {to}",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "headline",
+          "role": "law-amount",
+          "choice": "headline",
+          "requiresFacts": ["took", "here", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-amount.place-measure-goes-from-from-to-to",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "{place} {measure} goes from {from} to {to}",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "headline",
+          "role": "law-amount",
+          "choice": "headline",
+          "requiresFacts": ["took", "here", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-amount.place-measure-falls-to-to",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "{place} {measure} falls to {to}",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "headline",
+          "role": "law-amount",
+          "choice": "headline",
+          "requiresFacts": ["took", "here", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-amount.place-measure-drops-from-from-to-to",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "{place} {measure} drops from {from} to {to}",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "headline",
+          "role": "law-amount",
+          "choice": "headline",
+          "requiresFacts": ["took", "here", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-amount.place-measure-stays-at-to",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "{place} {measure} stays at {to}",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "headline",
+          "role": "law-amount",
+          "choice": "headline",
+          "requiresFacts": ["took", "here", "same"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-amount.new-measure-of-to-takes-effect-in-place",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "New {measure} of {to} takes effect in {place}",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "headline",
+          "role": "law-amount",
+          "choice": "headline",
+          "requiresFacts": ["took", "here", "new"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-amount.federal-measure-rises-to-to",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "Federal {measure} rises to {to}",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "headline",
+          "role": "law-amount",
+          "choice": "headline",
+          "requiresFacts": ["took", "nationwide", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-amount.federal-measure-falls-to-to",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "Federal {measure} falls to {to}",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "headline",
+          "role": "law-amount",
+          "choice": "headline",
+          "requiresFacts": ["took", "nationwide", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-amount.federal-measure-stays-at-to",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "Federal {measure} stays at {to}",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "headline",
+          "role": "law-amount",
+          "choice": "headline",
+          "requiresFacts": ["took", "nationwide", "same"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-amount.new-federal-measure-of-to-takes-effect",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "New federal {measure} of {to} takes effect",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "headline",
+          "role": "law-amount",
+          "choice": "headline",
+          "requiresFacts": ["took", "nationwide", "new"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-amount.federal-measure-for-place-rises-to-to",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "Federal {measure} for {place} rises to {to}",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "headline",
+          "role": "law-amount",
+          "choice": "headline",
+          "requiresFacts": ["took", "federal-here", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-amount.federal-measure-for-place-falls-to-to",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "Federal {measure} for {place} falls to {to}",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "headline",
+          "role": "law-amount",
+          "choice": "headline",
+          "requiresFacts": ["took", "federal-here", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-amount.federal-measure-for-place-stays-at-to",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "Federal {measure} for {place} stays at {to}",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "headline",
+          "role": "law-amount",
+          "choice": "headline",
+          "requiresFacts": ["took", "federal-here", "same"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-amount.federal-measure-for-place-set-at-to",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "Federal {measure} for {place} set at {to}",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "headline",
+          "role": "law-amount",
+          "choice": "headline",
+          "requiresFacts": ["took", "federal-here", "new"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-amount.place-raises-measure-to-to",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "{place} raises {measure} to {to}",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "headline",
+          "role": "law-amount",
+          "choice": "headline",
+          "requiresFacts": ["enacted", "here", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-amount.place-will-raise-measure-to-to",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "{place} will raise {measure} to {to}",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "headline",
+          "role": "law-amount",
+          "choice": "headline",
+          "requiresFacts": ["enacted", "here", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-amount.place-lowers-measure-to-to",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "{place} lowers {measure} to {to}",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "headline",
+          "role": "law-amount",
+          "choice": "headline",
+          "requiresFacts": ["enacted", "here", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-amount.place-cuts-measure-to-to",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "{place} cuts {measure} to {to}",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "headline",
+          "role": "law-amount",
+          "choice": "headline",
+          "requiresFacts": ["enacted", "here", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-amount.congress-raises-measure-to-to",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "Congress raises {measure} to {to}",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "headline",
+          "role": "law-amount",
+          "choice": "headline",
+          "requiresFacts": ["enacted", "nationwide", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-amount.congress-lowers-measure-to-to",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "Congress lowers {measure} to {to}",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "headline",
+          "role": "law-amount",
+          "choice": "headline",
+          "requiresFacts": ["enacted", "nationwide", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-amount.congress-raises-measure-for-place-to-to",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "Congress raises {measure} for {place} to {to}",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "headline",
+          "role": "law-amount",
+          "choice": "headline",
+          "requiresFacts": ["enacted", "federal-here", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-amount.congress-lowers-measure-for-place-to-to",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "Congress lowers {measure} for {place} to {to}",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "headline",
+          "role": "law-amount",
+          "choice": "headline",
+          "requiresFacts": ["enacted", "federal-here", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
       "tag": {
         "move": "headline",
         "key": "news-received"

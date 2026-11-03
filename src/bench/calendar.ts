@@ -1,6 +1,7 @@
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { familyFactsOf } from "../core2/modules/people";
 import { wordArchiveStory, wordPrintedStory } from "./archive-words";
+import { storyRecordKind } from "./printed-words";
 import { coreAPI } from "../core2/state";
 import {
   standing,
@@ -9,7 +10,7 @@ import {
 } from "../core2/modules/elections";
 import { screenLine } from "../english/screen-words";
 import type { CoreState, LogRecord } from "../core2/types";
-import { storiesHeard } from "../core2/modules/news";
+import { stillNews, storiesHeard } from "../core2/modules/news";
 
 const ELECTIONS = "core2-elections-v1";
 // Engineering window for the calendar screen, not a model value.
@@ -211,10 +212,29 @@ export function newsItems(core: CoreState) {
     }));
 }
 
+/**
+ * The kinds of story the paper carries only while they are news: a budget's
+ * news is its adoption and a law's is its passing or taking effect; past the
+ * days a story stays news, the Budgets and Laws screens carry them, not the
+ * paper (owner's Nov 1 playtest: a January paper carried an October budget as
+ * "Congress passes the federal budget").
+ */
+const NEWS_WHILE_FRESH = new Set([
+  "budget-adopted",
+  "law-enacted",
+  "law-took-effect",
+]);
+
 /** The stories the person has heard (OPUS-PEOPLE's news), newest first. */
 export function heardItems(core: CoreState, personId: string) {
   if (!core.modules.has("news")) return [];
-  return storiesHeard(coreAPI(core), personId)
+  const api = coreAPI(core);
+  return storiesHeard(api, personId)
+    .filter(
+      (story) =>
+        !NEWS_WHILE_FRESH.has(storyRecordKind(core, story)) ||
+        stillNews(api, story.date),
+    )
     .slice(0, 30)
     .map((story) => ({
       id: story.id,

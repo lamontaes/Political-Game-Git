@@ -411,6 +411,34 @@ function seriesRows(api: CoreAPI, series: string): readonly LawRowInput[] {
     .query("bySeriesOnly", [series]) as unknown as readonly LawRowInput[];
 }
 
+/** A law's row in the laws table, for readers outside the laws family. */
+export type { LawRowInput };
+
+/**
+ * The row a law replaced at its own level and place: the same series and tier
+ * there that took effect last before it. Null for the first row the world
+ * holds there (the law as the world starts), which replaced nothing recorded.
+ * What a law changed is told against this, not against the whole chain's
+ * amount (a state's income tax rate, not the state's and the nation's added).
+ */
+export function rowReplaced(
+  api: CoreAPI,
+  row: LawRowInput,
+): LawRowInput | null {
+  let before: LawRowInput | null = null;
+  for (const other of seriesRows(api, row.series))
+    if (
+      other.id !== row.id &&
+      other.level === row.level &&
+      other.jurisdiction === row.jurisdiction &&
+      other.tier === row.tier &&
+      other.effectiveDate < row.effectiveDate &&
+      (!before || other.effectiveDate > before.effectiveDate)
+    )
+      before = other;
+  return before;
+}
+
 /**
  * When and how a law was enacted: a law passed in play from its own record
  * (the day it passed, its margin); a day-one law from its history (the

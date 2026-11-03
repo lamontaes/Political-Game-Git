@@ -52,8 +52,8 @@ export const STORY_KINDS = {
   },
   "vote-or-law": {
     story: "vote-or-law",
-    headline: ["council", "law-took-effect"],
-    lede: ["council-vote", "law-took-effect", "budget"],
+    headline: ["council"],
+    lede: ["council-vote", "budget"],
     context: ["vote-margin"],
   },
   closing: {

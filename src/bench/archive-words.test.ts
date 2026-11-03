@@ -89,40 +89,61 @@ describe(`archive story bodies (${world.place.key}, seed ${seed})`, () => {
   }, 120_000);
 });
 
-describe(`archive law news words (${world.place.key}, seed ${seed})`, () => {
-  it("words an archived law that took effect, naming the law and the date", () => {
-    const stories = coreAPI(world.core)
-      .moduleState(NEWS_MODULE_ID)
-      .table("stories")
-      .rows() as unknown as {
+describe("archive law news words", () => {
+  it("words an archived law that passed or took effect, from the law's own row", () => {
+    // The archive keeps only a law that changed what stood, and some places
+    // had none in the year before day one (Poloa, American Samoa, seed
+    // bf7a11915fec1a25): this world first, then drawn places (bounded) until
+    // one archives a law, and at least one is required.
+    type Stored = {
       id: string;
       kind: string;
       date: string;
       facts: Record<string, string>;
-    }[];
-    const laws = stories.filter(
-      (row) => row.facts.recordKind === "law-took-effect",
-    );
-    expect(laws.length).toBeGreaterThan(0);
+    };
+    const lawsOf = (core: typeof world.core) =>
+      (
+        coreAPI(core)
+          .moduleState(NEWS_MODULE_ID)
+          .table("stories")
+          .rows() as unknown as Stored[]
+      ).filter((row) =>
+        /^law-(?:enacted|took-effect)$/.test(row.facts.recordKind ?? ""),
+      );
+    let core = world.core;
+    let where = `${world.place.key}, seed ${seed}`;
+    for (let draw = 0; draw < 8 && !lawsOf(core).length; draw += 1) {
+      const place = drawPlace(`${seed}:${draw}`, "archive-law-words");
+      where = `${place.name} (${place.key}), seed ${place.seed}`;
+      core = buildBenchWorld(place.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: place.key,
+      }).core;
+    }
+    const laws = lawsOf(core);
+    expect(
+      laws.length,
+      `no law archived in 9 places; seed ${seed}`,
+    ).toBeGreaterThan(0);
     const worded = laws
-      .map((story) => ({ story, words: wordArchiveStory(world.core, story) }))
+      .map((story) => ({ story, words: wordArchiveStory(core, story) }))
       .filter((row) => row.words);
-    expect(worded.length, "a law has a name on the catalog").toBeGreaterThan(0);
+    expect(worded.length, `${where}: a law has a name`).toBeGreaterThan(0);
     for (const { story, words } of worded) {
       // Told as the press tells a law in play, from the law's own row.
-      expect(words!.lede, story.id).toBeTruthy();
+      expect(words!.lede, `${where}: ${story.id}`).toBeTruthy();
       expect(words!.sourceRecordIds, story.id).toContain(story.id);
       expect(words!.sourceRecordIds, story.id).toContain(story.facts.lawId);
     }
-    // At least one archived law carries a body after its lede (the bill's purpose).
+    // At least one archived law carries a body after its lede (whom it reaches).
     expect(
       worded.some((row) => (row.words!.paragraphs?.length ?? 0) > 1),
-      "no archived law has a body",
+      `${where}: no archived law has a body`,
     ).toBe(true);
     process.stdout.write(
-      `ARCHIVED LAWS ${world.place.key}, seed ${seed}: ${worded.length} of ${laws.length} worded, e.g. ${worded[0]!.story.id} (${worded[0]!.story.facts.lawId}): "${worded[0]!.words!.lede}"\n`,
+      `ARCHIVED LAWS ${where}: ${worded.length} of ${laws.length} worded, e.g. ${worded[0]!.story.id} (${worded[0]!.story.facts.lawId}): "${worded[0]!.words!.lede}"\n`,
     );
-  }, 120_000);
+  }, 600_000);
 });
 
 describe("archive death news words", () => {

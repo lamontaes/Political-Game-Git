@@ -4,11 +4,11 @@
  * empty on day one and a person can have heard of something.
  *
  * Stories come from the past's records: each prior election decided in the
- * year, each law passed or taking effect in it, each recorded vote of a body
- * covering the town, each budget that began in it, each business of the town
- * that closed in it, and each parent of a resident who died in it. The press
- * engine writes every one of them (its outlet, its framing and the record's
- * facts), as the town's own paper.
+ * year, each law passed or taking effect in it that changed what stood, each
+ * recorded vote of a body covering the town, each budget that began in it,
+ * each business of the town that closed in it, and each parent of a resident
+ * who died in it. The press engine writes every one of them (its outlet, its
+ * framing and the record's facts), as the town's own paper.
  *
  * Who heard: the news engine's own delivery rule. A full resident hears a
  * story after a delay set by how closely they follow politics and how much
@@ -17,6 +17,7 @@
  * calendar for that day. Nobody too young to follow the news hears it.
  */
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
+import { LAWS_MODULE_ID, rowReplaced, type LawRowInput } from "./modules/laws";
 import { printStory, readingDelay, type Story } from "./modules/news";
 import { writeArchiveStory } from "./modules/press";
 import type { PastTown } from "./past-bodies";
@@ -101,12 +102,26 @@ export function buildNewsArchive(
       },
       { personIds: [election.winnerId] },
     );
+  const laws = api.moduleState(LAWS_MODULE_ID).table("laws");
   for (const history of past.histories) {
+    // A law is news when it changes what stood at its own level and place:
+    // the row it replaced set a different amount. The first row the world
+    // holds there replaced nothing recorded (the law as the world starts),
+    // and a year's row that sets what the last one did changes nothing; the
+    // paper prints neither.
+    const row = laws.get(history.lawId) as unknown as LawRowInput | undefined;
+    const before = row ? rowReplaced(api, row) : null;
+    if (!row || !before || before.value === row.value) continue;
     const facts = {
       lawId: history.lawId,
       series: history.series,
       jurisdiction: history.jurisdiction,
       body: history.body,
+      level: row.level,
+      value: String(row.value ?? ""),
+      priorValue: String(before.value ?? ""),
+      unit: row.unit ?? "",
+      effectiveDate: row.effectiveDate,
     };
     add("law-enacted", history.id, history.enactedOn, facts, {
       topic: history.series,

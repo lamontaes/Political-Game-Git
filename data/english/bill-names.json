@@ -473,5 +473,90 @@
   "budget": {
     "name": "Budget",
     "purpose": "the government's spending for the year"
+  },
+  "amounts": {
+    "about": "Each law amount by what it is called whatever level of government sets it (a state's and a city's sales tax rate are both the sales tax rate; the paper names the level), with whom it reaches: who pays a tax, or who gets a benefit or a wage. A top rate (a unit of percent-top-rate) is named by `top`. Read by the paper's law stories (src/bench/printed-words.ts); an amount with no row here stays a record. Owner's Nov 1 playtest: the paper's law items named neither the level, the change nor whom it reaches.",
+    "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+    "date": "2026-11-02",
+    "series": {
+      "medicare-tax": {
+        "measure": "Medicare payroll tax rate",
+        "who": "workers and their employers",
+        "how": "pays"
+      },
+      "medicaid-match": {
+        "measure": "share of Medicaid costs",
+        "who": "the state's Medicaid program",
+        "how": "gets"
+      },
+      "income-tax": {
+        "measure": "income tax rate",
+        "top": "top income tax rate",
+        "who": "taxpayers",
+        "how": "pays"
+      },
+      "sales-tax": {
+        "measure": "sales tax rate",
+        "who": "shoppers",
+        "how": "pays"
+      },
+      "property-tax": {
+        "measure": "property tax rate",
+        "who": "homeowners and landlords",
+        "how": "pays"
+      },
+      "corporate-income-tax": {
+        "measure": "corporate income tax rate",
+        "who": "corporations",
+        "how": "pays"
+      },
+      "estate-tax": {
+        "measure": "estate tax rate",
+        "top": "top estate tax rate",
+        "who": "the largest estates",
+        "how": "pays"
+      },
+      "inheritance-tax": {
+        "measure": "inheritance tax rate",
+        "top": "top inheritance tax rate",
+        "who": "people who inherit",
+        "how": "pays"
+      },
+      "snap-maximum": {
+        "measure": "maximum monthly food aid benefit",
+        "who": "households on food aid",
+        "how": "gets"
+      },
+      "federal-unemployment-tax": {
+        "measure": "unemployment tax rate",
+        "who": "employers",
+        "how": "pays"
+      },
+      "state-unemployment-tax": {
+        "measure": "unemployment tax rate",
+        "who": "employers",
+        "how": "pays"
+      },
+      "unemployment-weekly-maximum": {
+        "measure": "maximum weekly unemployment benefit",
+        "who": "workers who lose their jobs",
+        "how": "gets"
+      },
+      "social-security-tax": {
+        "measure": "Social Security payroll tax rate",
+        "who": "workers and their employers",
+        "how": "pays"
+      },
+      "minimum-wage": {
+        "measure": "minimum wage",
+        "who": "the lowest-paid workers",
+        "how": "gets"
+      },
+      "public-pay-floor": {
+        "measure": "pay floor for public employees",
+        "who": "public employees",
+        "how": "gets"
+      }
+    }
   }
 }
