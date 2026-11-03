@@ -116,7 +116,6 @@ function cashWorkSnapshot(core: CoreState) {
     durableLog: core.durableLog,
     logByPerson: core.logByPerson,
     logByKind: core.logByKind,
-    logByPlace: core.logByPlace,
     actCounters: core.actCounters,
     actCountersByMonth: core.actCountersByMonth,
     actsByMonthKind: core.actsByMonthKind,

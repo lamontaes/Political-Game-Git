@@ -97,6 +97,8 @@ export interface OpeningKin {
   people: KinPerson[];
   households: { id: string; placeId: string; memberIds: PersonId[] }[];
   parentChildLinks: { id: string; parentId: PersonId; childId: PersonId }[];
+  /** A resident's two living parents whose marriage is intact share a home as partners. */
+  partnerLinks: { id: string; personIds: readonly [PersonId, PersonId] }[];
   relations: KinRelationFact[];
   /** Biological parents the generator knows, for inherited temperament. */
   parentsOf: Map<PersonId, PersonId[]>;
@@ -360,6 +362,7 @@ export function buildOpeningKin(
     people: [],
     households: [],
     parentChildLinks: [],
+    partnerLinks: [],
     relations: [],
     parentsOf: new Map(),
     deaths: [],
@@ -568,6 +571,19 @@ export function buildOpeningKin(
           relate(parent, child, R.grandparent, R.grandchild);
       }
       addParents(adult.id, parents);
+      // Parents still married live together as partners, so the engines
+      // that read couples (moves, births) see them as one (every life is
+      // simulated, owner, Nov 1).
+      if (!apart && parents.length === p("two")) {
+        const [a, b] = [...parents].sort((x, y) => x.id.localeCompare(y.id));
+        out.partnerLinks.push({
+          id: createStableId(
+            "kinship",
+            `${options.worldId}:opening-kin:partner:${a!.id}:${b!.id}`,
+          ),
+          personIds: [a!.id, b!.id],
+        });
+      }
       for (let j = p("one"); j <= sibship; j += p("one")) {
         if (j === order) continue;
         const sr = r.fork(`sibling:${j}`);

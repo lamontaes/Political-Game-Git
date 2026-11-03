@@ -83,6 +83,11 @@ the player, with "Before:" and "After:" where that helps.
    a failing markdown upload to Drive. It cannot run step 2 for you, and it
    doesn't cover pull request bodies.
 
+`npm run test:skill-ops` runs `report:check` over every report under
+`docs/reports/` written after the standard, so a report pushed without its
+own check turns every skills PR red (Nov 1, the U2 build spec, fixed at
+a44c7b833d). Run step 1 before any push.
+
 `docs/writing/the-next-generation-rewrite.md` is the worked example: the
 report that prompted this skill, and the same facts rewritten to the bar.
 

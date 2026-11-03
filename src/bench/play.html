@@ -342,6 +342,7 @@
               id="cr-random-name"
               class="action small"
               type="button"
+              disabled
               data-testid="creator-randomize-name"
             >
               Randomize name
@@ -570,6 +571,13 @@
             class="action primary"
             type="button"
             data-label="talkBox.continue"
+          ></button>
+          <button
+            id="talk-skip"
+            class="action small"
+            type="button"
+            data-label="talkBox.skipScene"
+            hidden
           ></button>
           <button id="talk-silent" class="action small" type="button">
             Say nothing

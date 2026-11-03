@@ -5,14 +5,14 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: claimed
-claimed-by: words/web-campaign
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: "words-and-scenes lead, Oct 27: split of words-scene-web-from-lives (owner, Oct 27: scenes and their variants from hundreds of real lives)"
 lead: words
 milestone: play-first
-claimed-at: 2026-10-27T13:20:16.439Z
+claimed-at:
 ---
 
 **What.** The scene web (`npm run scene-web`, `docs/reports/scene-web.md`) lists every situation type in the the campaign domain, one row per cause that fires it. This domain covers a campaign's season: filing, a rally, the party's ask, an opponent's event, the speech and the people after it. A row is complete when a real life calibrates it, its lines vary by speaker, and it fires in a played year. The owner's the campaign requests with no type are listed under Missing in the report and become rows here.
@@ -30,3 +30,5 @@ claimed-at: 2026-10-27T13:20:16.439Z
 **Files.** docs/design/scenes/from-life/, data/english/parts/, src/director/data/situation-types.json, docs/reports/scene-web.json
 
 **Notes.** Split from `words-scene-web-from-lives` by the words lead on Oct 27. Method per row: `scenes-from-life`. Producers belong to the director engineer (`lead: director` items); this item owns the packets and the lines.
+
+Lane 5 (pool truth, Nov 3): claim released under the 48-hour rule. Claimed 2026-10-27 on `words/web-campaign`; last push Oct 27, 16:01 UTC; no open PR. The branch keeps its work; claiming it takes the branch.

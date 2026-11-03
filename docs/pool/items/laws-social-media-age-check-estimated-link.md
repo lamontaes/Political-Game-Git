@@ -5,7 +5,7 @@ area: laws
 kind: wiring
 priority: 1
 size: M
-status: claimed
+status: done
 claimed-by: claude/laws-social-media-age-check
 pr:
 lead: laws

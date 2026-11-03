@@ -5397,6 +5397,17 @@
       "citation": "A week (the routine retention window, routineRetentionDays) to a season; checked against the memory guard and the 'why' view."
     }
   },
+  "cashJournalDetailDays": {
+    "value": 365,
+    "tag": "TUNABLE",
+    "citation": "How long the cash journal keeps a followed person's itemized payment before it folds into their yearly total by kind (CTO, Nov 1, 21:25; play-first lane and laws lead, Nov 1). Dev mode's person ledger reads the last 365 days (src/bench/dev-why.ts, ledgerPanels) and no law reader needs itemized payments past a year; the player and their household keep the current and prior calendar year, which always covers this window. Balances and lifetime totals keep the money itself.",
+    "spread": {
+      "low": 365,
+      "high": 730,
+      "unit": "days",
+      "citation": "One year (dev mode's 365-day person ledger) to two; checked against the long save's records count (npm run speed:year) and dev mode's ledger."
+    }
+  },
   "playerDecisionDetailDays": {
     "value": 365,
     "tag": "TUNABLE",
@@ -6357,6 +6368,18 @@
       "high": 1.296,
       "unit": "weight",
       "citation": "The weight scales with the log odds ratio: the study's 95% Bayesian credibility interval for the odds ratio is 0.47 to 0.60 (Section 3.1: \"HH resulted in a medium to large effect of OR = 0.53 with a 95% BCI of [0.47; 0.60]\"; Table 2: 0.53, 2.5% 0.47, 97.5% 0.60)."
+    }
+  },
+  "traitWeightPressLetter": {
+    "value": 0.0068,
+    "tag": "ESTIMATED",
+    "citation": "The trait weight of the press.letter decision (who writes a letter to the editor about a story they read), from its row in data/research/trait-effect-sizes.json: Mondak and Halperin (2008), agreeableness and writing letters to the editor, ordered logit 0.27 per scale unit (trait SD 0.64), carried to the thirds of readers leaning most and least toward writing: target odds ratio 1.46. Fitted with the strength bar at 0.02 (letterStrength) on two played years of Blunt, South Dakota (key 4606180), by scripts/traits/trait-calibrate.ts's formula on a finer sweep than its 0.005 grid, net of the same gap with personality off: seed letters-cal-1, 313 weighings, best 0.0048; seed letters-cal-2, 2,696 weighings, best 0.0097 (the script's own grid gives 0.01, calibrated). The value is the two worlds' geometric mean; at it the odds between thirds are 1.72 and 1.33, and temperament turns 9 of 313 and 55 of 2,696 weighings. Strength of feeling on a question a story moved runs 0.0001 to 0.09 in the first world (median 0.0075) and to 0.45 in the second (median 0.08), so the weight is small on that scale and strength does most of the deciding.",
+    "estimatedFrom": "press.letter in data/research/trait-effect-sizes.json (Mondak and Halperin 2008), fitted in two played years at 27f014c4e3.",
+    "spread": {
+      "low": 0.0048,
+      "high": 0.0097,
+      "unit": "weight",
+      "citation": "The two worlds' own best fits."
     }
   },
   "traitWeightPressTip": {
@@ -7821,6 +7844,24 @@
       "high": 0.3,
       "unit": "share of the sourced volume",
       "citation": "FDIC 2023 survey, Table 5.2, payday loan use 2019 (1.5) against 2021 and 2023 (1.1); Pew 2012, Exhibit 8, 6.3 against 6.6 percent between regulatory types."
+    }
+  },
+  "traitWeightPeoplePartner": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the people.partner decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "traitWeightPeoplePart": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The trait weight of the people.part decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
     }
   }
 }
