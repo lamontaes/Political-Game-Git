@@ -21,6 +21,14 @@
 
 **Next:** a checker runs the gate on each of the three branches (I can't message or comment while the API is down), the desk merges them, and a second session replays each proof on main. Then unit 2, the night you lose.
 
+## Unit 2: the night you lose (in progress; card written Nov 3, after step 1 was pushed)
+
+**Card.** Finish line (path 6): lose in a drawn place with a relative on your volunteer list. They talk about what they gave, your answer counts next time, a real concession plays, and a rival may gloat. With no one who helped, no scene is staged and ordinary talk continues. Proof: `src/director/family-loss-stake-scene.test.ts` in `buildBenchWorld` on drawn places (place, seed, record ids printed), then path 6 replayed on main in Storrs, Connecticut (storrs-1) by another session. Hands off: Lane 1's files, except the `candidacy.ts` read written first in `agreements/1-3.md`; `src/bench` (Lane 4). Known cheats: a line naming no record, a scene with no consequence, the gloat or concession typed in code, counting lines as proof. Size: 4 to 6 hours in three steps, each about 400 changed lines of code. A bank file's added pieces are counted apart, since 47 lifted pieces are about 1,150 lines of JSON. Checked by: a fresh session for the replay, and the owner for how it reads.
+
+- **Step 1, `words-family-loss-scene-the-part-they-played` (Built, pushed):** branch `lane3/night-you-lose`. The talk at home is cast only from a relative who worked the race or whose money went in. It opens on their part and the margin (`src/english/count-words.ts`), and a "run again" reply's answer is kept as `backing`, which `candidacyReasons` reads as `householdBacking`. 14 generic lines deleted, 47 added; about 300 changed lines of code. PR body draft ready; the PR is not opened because the GitHub API is down for this session.
+- **Step 2, a real concession (`words-venue-speeches-delivered`, slimmed to victory and concession):** the concession call's endings ("conceded", "not yet", marked `story-runs`) are read by nobody today. The press reads the ending as a public record: the paper prints that you conceded or haven't, and your tie with the winner moves.
+- **Step 3, the rival who may gloat (`words-arrogance-anger-and-fear`, boasts only):** the winner's boast, plain or rude by their traits, from bank pieces.
+
 ## Failed
 
 - None three times.
