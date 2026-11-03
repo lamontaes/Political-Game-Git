@@ -1,4 +1,4 @@
-0 of 14 paths confirmed. Oldest open PR 2 days.
+0 of 14 paths confirmed. Oldest open PR 0 days.
 
 # Lane 2 state — November 3, 2026
 
@@ -6,7 +6,7 @@
 
 Follow units 1–15 in `docs/lanes/lane-2.md` on `docs/lanes-nov3` (read at bb51218415475d6aa1b031caf8ce264d66dd9236). Within First minutes, take the parent-age item before sibling names: Hebron reproduces on current main and the parent correction needs no shared-file edit; custom-name collisions pass through Lane 5's identity writer and need an agreement. The November 3 owner rulings override older process rules. Only a session that did not build a path may mark it Verified, after replay on main. Built does not increase the first-line count.
 
-Lane 1 owns legislature.ts and voting.ts; Lane 5 owns the core state files. Write the agreement under `docs/lanes/agreements/` before shared edits. No shared files edited. Parent correction claimed and submitted through the pool CLI for lane-2/parent-birthdays. Parent-birthday PR #7143 is open at 967286fff108321fd6cadccc6663986d0a538384; pool status is in-pr. Sibling work is on lane-2/sibling-names; current claimed item: housing-dwelling-records-cover-few-households on lane-2/dwelling-coverage. Inherited Lane 2 PRs include #7036 (medical bills) and #7082 (relatives' partnerships), both opened November 1; their checks are not confirmations of a whole path. Merge desk merges; this session never merges its PRs.
+Lane 1 owns legislature.ts and voting.ts; Lane 5 owns the core state files. Write the agreement under `docs/lanes/agreements/` before shared edits. No shared files edited. Parent correction claimed and submitted through the pool CLI for lane-2/parent-birthdays. Parent-birthday PR #7143 is open at 967286fff108321fd6cadccc6663986d0a538384; pool status is in-pr. Sibling work is on lane-2/sibling-names; current claimed item: housing-dwelling-records-cover-few-households on lane-2/dwelling-coverage. Inherited #7036 (medical bills) and #7082 (relatives' partnerships) merged during this work; neither merge confirms a whole path. The partnership rates still require review against this goal's no-dice rule. Merge desk merges; this session never merges its PRs.
 
 ## Machine trial
 
@@ -71,3 +71,5 @@ Housing checks: unchanged Norcross room-condition and housing-opening tests pass
 Housing source 1c9e29e221 is pushed. All four regression draws pass: Norcross b2 (873 households, 878 dwellings), Ames IA 57f47a172725333f (870/5924), Othello NJ 29afc53e842415c1 (805/846), Manville WY 61280908ca6e7687 (769/792), each zero missing. Added leases paid: 266/269, 251/256, 292/305, 254/260. Full seeds and named cash receipts: docs/lanes/proof/dwelling-coverage.md. Merged main ae007a0de4 without conflicts; source 76171c847f opens New Game in Assaria KS / c3c43bc513701e1d, Jesse Wallace person_0e107788e3868ec6, then advances one simulated day (58 decisions/acts), zero page errors. Bench stopped for timing. Performance draw 974331fb899c5fa7, base ae007a0de4, same machine, four years each; pending.
 
 Housing unit complete for review; whole path 1 still requires the custom-name seam and all eight towns. Four-year Fananganan comparison passes: base 25.6/45.9/43.7/79.7 seconds; corrected 24.7/46.8/44.7/82.4 seconds (-3.5%, +2.0%, +2.3%, +3.4%). Both exit 0, every year under 120 seconds and within 20%. Source files restored; no timing processes remain. Merged-source typecheck passed. Proof and screenshot are attached under docs/lanes/proof/dwelling-coverage.*. No path Verified.
+
+Housing PR #7147 is open and attached, head 8608f53a7d; pool status is in-pr. A concurrent manual fetch collided with the pool CLI's fetch (incorrect old ref value); the sequential retry passed. GitHub's initial normalized mergeable=false was an unknown calculation, not a confirmed conflict; latest main has no overlap with the housing source. Inherited #7036 and #7082 are now merged. Tracked open Lane 2 PRs: #7143 and #7147, both November 3. No independent confirmation received.
