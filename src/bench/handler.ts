@@ -57,6 +57,7 @@ import { bankView } from "./bank";
 import { budgetView, setPriority } from "./budget";
 import {
   chooseAtCounter,
+  counterOpening,
   officePlace,
   openBenchFilingVisit,
   type BenchFilingVisit,
@@ -1151,15 +1152,81 @@ export async function benchRequest(
         );
         return;
       }
+      // When the office that takes these filings is next open (its clerk's own
+      // hours); `opens` is absent while it is open now.
+      if (request.method === "GET" && url.pathname === "/api/filing/hours") {
+        const current = requireCore();
+        const opens = counterOpening(
+          current,
+          url.searchParams.get("filedWith") ?? "",
+          player?.packet?.at ?? {
+            date: current.date,
+            minuteOfDay:
+              director?.ledger.opening?.date === current.date
+                ? OPENING_EVENING_MINUTE
+                : 12 * 60,
+          },
+        );
+        send(200, opens ? { opens } : {});
+        return;
+      }
       if (request.method === "POST" && url.pathname === "/api/filing/open") {
         if (!player?.personId) throw new Error("Choose a resident first.");
+        const filedWith = url.searchParams.get("filedWith") ?? "";
+        const current = requireCore();
+        // The office keeps its clerk's hours: going to a closed one plays the
+        // visit at its next opening, the clock moving there (owner, Nov 1:
+        // "it should have started the next day").
+        const now = player.packet?.at ?? {
+          date: current.date,
+          minuteOfDay:
+            director?.ledger.opening?.date === current.date
+              ? OPENING_EVENING_MINUTE
+              : 12 * 60,
+        };
+        const opens = counterOpening(current, filedWith, now);
+        if (opens) {
+          const reachedOpening = () => {
+            const at = player?.packet?.at;
+            return (
+              !!at &&
+              (at.date > opens.date ||
+                (at.date === opens.date && at.minuteOfDay >= opens.minuteOfDay))
+            );
+          };
+          // A fresh clock first lives to the morning's start; the wait goes on
+          // from there until it stands at the opening.
+          let waited: ReturnType<typeof player.waitUntil> | undefined;
+          for (let tries = 0; tries < 3 && !reachedOpening(); tries += 1) {
+            waited = player.waitUntil({
+              date: makeIsoDate(opens.date),
+              minuteOfDay: opens.minuteOfDay,
+            });
+            if (!waited || player.packet?.kind !== "complete") break;
+          }
+          // Something came up on the way: it is lived first, the counter
+          // waits for the next try.
+          const reached = player.packet?.at;
+          if (
+            !waited ||
+            player.packet?.kind !== "complete" ||
+            !reached ||
+            !reachedOpening()
+          ) {
+            send(200, { waiting: true, packet: player.packet });
+            return;
+          }
+        }
         filingVisit = openBenchFilingVisit(
-          requireCore(),
+          current,
           player.personId,
-          url.searchParams.get("filedWith") ?? "",
+          filedWith,
           player.packet?.at.minuteOfDay ?? 12 * 60,
         );
-        send(200, filingVisit);
+        send(
+          200,
+          opens ? { ...filingVisit, waited: player.packet } : filingVisit,
+        );
         return;
       }
       if (request.method === "POST" && url.pathname === "/api/filing/choose") {

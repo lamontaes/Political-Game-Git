@@ -8135,6 +8135,18 @@
     "status": "open"
   },
   {
+    "id": "SG-PLAY-office-hours-assumed",
+    "kind": "estimated-data",
+    "file": "src/bench/filing.ts",
+    "line": 252,
+    "whatItFakes": "A filing office whose clerk has no work record to read (a state's election office, a municipal finance officer who is not one of the town's full people) keeps assumed weekday hours of 8:00 AM to 5:00 PM, holidays not skipped.",
+    "why": "Going to a closed office plays the visit at its next opening (owner, Nov 1); only some clerks are full people with work spans, and an office with no record of hours must still have some, never none.",
+    "addedBy": "play-offices-keep-their-hours (Claude Sonnet 5.5, play-first lane)",
+    "addedAt": "2026-11-01",
+    "replacement": "Every filing office's clerk or staff is a person with work spans (or the office's own published hours are a record), after which `data/office-hours.json` and this fallback are deleted.",
+    "status": "open"
+  },
+  {
     "id": "SG-PLAY-campaign-acts-buttons",
     "kind": "placeholder",
     "file": "src/bench/play.mjs",
