@@ -1,0 +1,26 @@
+[
+  {
+    "id": "SG-HEALTH-youth-cannabis-record-unread",
+    "kind": "missing-reader",
+    "file": "src/core2/modules/health.ts",
+    "line": 750,
+    "whatItFakes": "Each full teen's monthly past-month cannabis use record (and the counted teens' count in the counted monthly row) is decided from their own conscientiousness and the place's share, which the state's sales law moves through the outcome web, but no other engine reads the record yet: a teen who used is no different at school, at home or at 18.",
+    "why": "The owner's Oct 29 ruling builds the record as a background simulation for the sales law; the readers the research names (school performance and leaving school, the adult substance-use condition at 18, a parent's worry) are engines that do not take a teen's use as an input today.",
+    "addedBy": "laws lead (health-teen-substance-use-record)",
+    "addedAt": "2026-10-29",
+    "replacement": "The school engine reads a teen's use where it decides grades and leaving school, and the health engine reads it where a person turning 18 is given the adult substance-use condition, each at a researched size.",
+    "status": "open"
+  },
+  {
+    "id": "SG-HEALTH-own-records-counted",
+    "kind": "partial-model",
+    "file": "src/core2/modules/health.ts",
+    "line": 596,
+    "whatItFakes": "coverage-to-mortality-55-64 cuts a full person's death hazard at 55 to 64 by their own Medicaid coverage, and job-loss-to-death-risk raises it for a worker whose long job ended in a closure or layoff (src/core2/health-own.ts, src/core2/job-displacement.ts), and long-hours-to-heart-and-stroke raises it for a worker whose job is recorded at long weekly hours. A counted person has none of these records of their own (the Medicaid payment keeps a count for the town's counted adults; the counted flows read no closure and no job hours), so the counted flows (src/core2/births-counted.ts) keep the place-level twin, medicaid-expansion-to-mortality, which is the same cause averaged over the low-income 55- to 64-year-olds enrolled or not, and take no job-loss or long-hours excess. The research finds the excess only at firms that lost 30% or more of their jobs; the jobs engine keeps no firm peak, so a layoff counts when it reaches a worker with years on the job, which it lets go only after everyone it values less (a deep cut), and a worker's sex is not split although the paper's sample is men.",
+    "why": "The payment records named people one by one but counted adults only as a number (payCoverage returns counted), so no counted person can be marked covered or uncovered; the counted tier's closures are not tied to the health flows.",
+    "addedBy": "laws-lead-mortality-helper",
+    "addedAt": "2026-10-28",
+    "replacement": "payCoverage keeps the covered counted households by id, and the counted flows multiply a counted member's chance of a serious illness by the same (1 + size x covered) / (1 + size x covered at the first look) factor, leaving the place-level twin out for them as for a full person; the counted flows read the jobs engine's closure records (the changes table, counted workers included) and the counted jobs' hours, and multiply a displaced or long-hours counted member's chance by the same excess.",
+    "status": "open"
+  }
+]

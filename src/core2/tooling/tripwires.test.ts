@@ -557,7 +557,7 @@ function fixtureRoot(options: FixtureOptions = {}): string {
   };
   writeFixtureFile(
     root,
-    "src/core2/data/stopgaps.json",
+    "src/core2/data/stopgaps/fixture.json",
     JSON.stringify(options.stopgaps ?? [], null, 2),
   );
   writeFixtureFile(root, "src/core2/data/parameters.json", parameterSource);

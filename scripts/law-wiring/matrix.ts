@@ -7,7 +7,7 @@
  *   node --import tsx scripts/law-wiring/matrix.ts docs/reports/law-wiring/*.json
  */
 import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
-import stopgaps from "../../src/core2/data/stopgaps.json" with { type: "json" };
+import { STOPGAPS as stopgaps } from "../../src/core2/stopgaps";
 import researchGaps from "../../src/core2/data/laws/outcome-research-gaps.json" with { type: "json" };
 import unwiredLinks from "../../src/core2/data/outcome-web/unwired.json" with { type: "json" };
 import effectMatrix from "../../docs/reports/effect-web-matrix-2026-10-20.json" with { type: "json" };
