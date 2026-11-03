@@ -41,7 +41,7 @@ import { drawPlace } from "../../tests/golden-path/place";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { fullHouseholdIncomes } from "./counted-income-fifth";
-import stopgaps from "./data/stopgaps.json" with { type: "json" };
+import { STOPGAPS as stopgaps } from "./stopgaps";
 import unwired from "./data/outcome-web/unwired.json" with { type: "json" };
 import { gameStartDate } from "./game-start";
 import { briberyRange, dispositionDays } from "./justice-law";

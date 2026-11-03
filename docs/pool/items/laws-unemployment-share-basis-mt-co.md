@@ -6,11 +6,12 @@ lead: laws
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane-2/unemployment-basis
 pr:
 blocked-on:
 source: "Traits lead, Oct 28 (research-unemployment-claim-take-up)"
+claimed-at: 2026-11-03T23:00:49.982Z
 ---
 
 **What.** `unemploymentTerms` (src/core2/jobs-benefits.ts) turns a state's `weeklyBenefitFraction` and `weeklyBenefitBasisQuarters` from `src/core2/data/laws/starting-law.json` into the share of weekly pay the benefit replaces. Two rows pair a fraction with the wrong basis. Montana's text reads "1% BPW or 1.9% of wages in 2 HQs", but the row stores 0.01 with 2 quarters, so the benefit is 26% of pay instead of about 50%. Colorado's text reads "60% of 1/26 of 2 consecutive HQW", but the row stores 0.011538 with 2 quarters, so the benefit is 30% of pay instead of 60%. Every other state's row lands between 40% and 65% of pay. In a played year in Piltzville, Montana, 2 of 9 laid-off workers filed, against about 75% in other towns.
