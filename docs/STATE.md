@@ -25,7 +25,7 @@ One page, kept by Lane 5 (engine and release). Every line names where it comes f
   - `play-stop-12-status-card-covers-menu-after-canvass` is done: the owner closed #6971 with "its pool item is finished".
   - 4 claims released under the 48-hour rule, branches kept: `words-scene-web-meeting-pass-1`, `words-scene-web-the-campaign`, `words-scene-web-legislating` (last pushes Oct 27) and `people-home-plates` (Oct 30).
   - 56 open items still named an old claim; the claim was moved into each item's Notes (same commit, f429f50bb6).
-- Four items read in-pr for PRs that merged on Nov 3 (#7083, #7087, #7088, #7104); the done-on-merge workflow (`.github/workflows/pool-done-on-merge.yml`) flips them.
+- Three items read in-pr for PRs that merged on Nov 3 (#7083, #7087, #7104); the done-on-merge workflow (`.github/workflows/pool-done-on-merge.yml`) flips them. `elections-past-race-votes-from-electorate` read in-pr for #7088, which merged Nov 2 as "Touches" with its district line and screenshot left; it is open again, and the district line is `elections-past-race-names-the-district` (#7098).
 
 ## Roadmap flags
 
