@@ -1068,6 +1068,90 @@
         "move": "deliver-news",
         "key": "endorse-no"
       }
+    },
+    {
+      "key": "campaign-standing.ad-bought.you-bought-cost-of-ad-time-and-it-reached-reached-voters",
+      "move": "ad-bought",
+      "kind": "written",
+      "text": "You bought {cost} of ad time, and it reached {reached} voters.",
+      "uses": [
+        {
+          "move": "ad-bought",
+          "subject": "campaign",
+          "role": "ads",
+          "choice": "ad-bought"
+        }
+      ],
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "ad-bought"
+      }
+    },
+    {
+      "key": "campaign-standing.ad-bought.the-ad-runs-cost-bought-it-a-place-in-front-of-reached-voters",
+      "move": "ad-bought",
+      "kind": "written",
+      "text": "The ad runs: {cost} bought it a place in front of {reached} voters.",
+      "uses": [
+        {
+          "move": "ad-bought",
+          "subject": "campaign",
+          "role": "ads",
+          "choice": "ad-bought"
+        }
+      ],
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "ad-bought"
+      }
+    },
+    {
+      "key": "campaign-standing.ad-none.the-campaign-has-no-money-left-to-buy-ad-time",
+      "move": "ad-none",
+      "kind": "written",
+      "text": "The campaign has no money left to buy ad time.",
+      "uses": [
+        {
+          "move": "ad-none",
+          "subject": "campaign",
+          "role": "ads",
+          "choice": "ad-none"
+        }
+      ],
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "ad-none"
+      }
+    },
+    {
+      "key": "campaign-standing.ad-none.no-ad-time-could-be-bought-this-time",
+      "move": "ad-none",
+      "kind": "written",
+      "text": "No ad time could be bought this time.",
+      "uses": [
+        {
+          "move": "ad-none",
+          "subject": "campaign",
+          "role": "ads",
+          "choice": "ad-none"
+        }
+      ],
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "ad-none"
+      }
     }
   ]
 }

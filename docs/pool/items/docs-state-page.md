@@ -5,9 +5,9 @@ area: docs
 kind: cleanup
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: lane-5/state-page
-pr:
+pr: #7146
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-03T22:27:23.360Z

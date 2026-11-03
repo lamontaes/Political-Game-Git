@@ -183,7 +183,6 @@
     "speakAgainst": "Speak against"
   },
   "filing": {
-    "file": "File for this office",
     "status": {
       "petitioning": "Your petition is out for signatures",
       "on-ballot": "You are on the ballot",
@@ -340,6 +339,9 @@
   "party": {
     "join": "Join",
     "member": "Your party",
+    "registered": "Registered {party} since {date}",
+    "fitLine": "Your recorded views against the party's platform: {fit}",
+    "notRegistered": "You are not registered with a party. Joining one lets you file under its name.",
     "agreement": "Views fit",
     "fit": [
       {
@@ -628,6 +630,7 @@
   },
   "talkBox": {
     "continue": "Continue",
+    "skipScene": "Skip scene",
     "markGap": "Mark gap"
   },
   "guide": {
