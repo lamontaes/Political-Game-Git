@@ -1,25 +1,28 @@
 import { describe, expect, it } from "vitest";
-import controls from "./data/controls.json" with { type: "json" };
 import sceneTalk from "../../data/english/parts/scene-talk.json" with { type: "json" };
 
-// Filing is a control of its own: its name is never one of the clerk-visit
-// replies that acknowledge a refusal ("I understand.").
-describe("the filing control's name", () => {
-  const file = (controls as unknown as { filing: { file: string } }).filing
-    .file;
-  const answers = (
-    sceneTalk as unknown as {
-      parts: { text: string; uses: { purpose?: string; move?: string }[] }[];
-    }
-  ).parts.filter((part) =>
-    part.uses.some(
-      (use) => use.purpose === "filing-clerk" && use.move === "accept-terms",
-    ),
-  );
+// Filing is the player's own reply at the clerk's counter, worded from the
+// pieces that take the papers (owner, Nov 1: a choice "should be an actual
+// reply"); it is never one of the replies that acknowledge a refusal
+// ("I understand.").
+describe("the filing reply", () => {
+  const said = (move: string) =>
+    (
+      sceneTalk as unknown as {
+        parts: { text: string; uses: { purpose?: string; move?: string }[] }[];
+      }
+    ).parts
+      .filter((part) =>
+        part.uses.some(
+          (use) => use.purpose === "filing-clerk" && use.move === move,
+        ),
+      )
+      .map((part) => part.text.toLowerCase());
   it("exists and is not any acknowledgment the player can say", () => {
-    expect(file).toBeTruthy();
+    const filing = said("take-papers");
+    const answers = said("accept-terms");
+    expect(filing.length).toBeGreaterThan(0);
     expect(answers.length).toBeGreaterThan(0);
-    for (const part of answers)
-      expect(part.text.toLowerCase()).not.toBe(file.toLowerCase());
+    for (const text of filing) expect(answers).not.toContain(text);
   });
 });

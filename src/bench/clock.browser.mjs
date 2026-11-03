@@ -4,6 +4,7 @@
 // on midnight, and a campaign outing moves the card's clock by its hours.
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
+import { openCampaignTrail } from "./campaign-trail.mjs";
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
 });
@@ -13,7 +14,10 @@ const errors = [];
 page.on("pageerror", (e) => errors.push(e.message));
 const shots = process.env.CLOCK_SHOTS;
 const clock = async () =>
-  (await page.locator("#card-clock").innerText()).replace(/\s+/g, " ").trim();
+  (await page.locator("#card-clock").innerText())
+    .replace(/(\d{4})(\d{1,2}:)/, "$1 $2")
+    .replace(/\s+/g, " ")
+    .trim();
 const minutes = (text) => {
   const [, h, m, ap] = text.match(/(\d+):(\d+)\s*(AM|PM)$/);
   return ((Number(h) % 12) + (ap === "PM" ? 12 : 0)) * 60 + Number(m);
@@ -144,28 +148,16 @@ try {
   });
   console.log("Filed for:", filed);
   assert.ok(filed, "the player could file for nothing in this town");
-  if (!(await page.locator('[data-tab="politics"]:visible').count()))
-    await page.locator('#rings [data-tab="calendar"]').click();
-  await page.locator('[data-tab="politics"]:visible').first().click();
-  await page
-    .locator("#sheet-tabs")
-    .getByRole("button", { name: "Campaigns", exact: true })
-    .click();
+  await openCampaignTrail(page);
   const doors = page
-    .locator(".row.campaign button", { hasText: "Knock on doors" })
+    .locator("#sheet-body.place-view button", { hasText: "Knock on doors" })
     .first();
   await doors.waitFor();
   const label = await doors.innerText();
   const hours = Number(label.match(/(\d+)\s*hours?/)[1]);
   // Whatever came up while filing is lived through before the outing.
   await settle();
-  if (!(await page.locator('[data-tab="politics"]:visible').count()))
-    await page.locator('#rings [data-tab="calendar"]').click();
-  await page.locator('[data-tab="politics"]:visible').first().click();
-  await page
-    .locator("#sheet-tabs")
-    .getByRole("button", { name: "Campaigns", exact: true })
-    .click();
+  await openCampaignTrail(page);
   await doors.waitFor();
   const before = await clock();
   const day = page.waitForResponse(
