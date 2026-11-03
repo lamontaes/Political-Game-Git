@@ -8195,6 +8195,18 @@
     "status": "open"
   },
   {
+    "id": "SG-GOV-named-district-story",
+    "kind": "partial-model",
+    "file": "src/bench/printed-words.ts",
+    "line": 1446,
+    "whatItFakes": "A race's story names its seat's district only where the seat record numbers it (\"State Senate District 4\", a county board's District 3). A district the record names by place (Massachusetts' \"1st Barnstable District\", New Hampshire's \"Belknap 01\", Vermont's \"Addison-1\"), D.C.'s wards and a council's wards print the office only, as every race did before.",
+    "why": "Words gave the numbered and at-large lines (Nov 1, 23:06 and 23:11); the bank has no piece that says a district by its own name or a ward, and the pool item elections-past-race-names-the-district asks only for those two.",
+    "addedBy": "governing lead",
+    "addedAt": "2026-11-01",
+    "replacement": "A news and a headline piece for a district named by place and one for a ward, worded by Words, reading the seat's districtName and its office's seatTerm, so every district seat's story names its seat.",
+    "status": "open"
+  },
+  {
     "id": "SG-PLAY-office-hours-assumed",
     "kind": "estimated-data",
     "file": "src/bench/filing.ts",
