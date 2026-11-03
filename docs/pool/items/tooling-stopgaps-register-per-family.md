@@ -6,9 +6,9 @@ lead: fixer
 kind: cleanup
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: lane-5/stopgaps-per-family
-pr:
+pr: #7144
 after:
 blocked-on:
 source: "owner, Oct 28 20:20 UTC ruling ('The stopgap register is being split into per-family files to end those collisions'); asked for twice by the old-engine session and never filed (CTO, Oct 29)"

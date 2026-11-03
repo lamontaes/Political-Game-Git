@@ -42,7 +42,8 @@
     "area": "The region a rate is measured for (a metro area, or the state), by name.",
     "outside": "The possessive of the state an area outside its metro areas belongs to (\"Kentucky's\", \"Texas'\"), from the regional record.",
     "candidate": "A candidate, by name, from the campaign's record.",
-    "crimes": "What most of a month's police reports were (thefts, assaults), from the crime engine's month record."
+    "crimes": "What most of a month's police reports were (thefts, assaults), from the crime engine's month record.",
+    "district": "A seat's district, as its seat record numbers it (4, 12A), from the seat records."
   },
   "maxWords": 14,
   "mining": {
@@ -3575,12 +3576,57 @@
           "subject": "headline",
           "role": "election",
           "choice": "headline",
-          "requiresFacts": ["won"]
+          "requiresFacts": ["won"],
+          "excludesFacts": ["district", "atLarge"]
         }
       ],
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.election.name-takes-district",
+      "move": "election",
+      "kind": "written",
+      "text": "{name} takes District {district}",
+      "uses": [
+        {
+          "move": "election",
+          "subject": "headline",
+          "role": "election",
+          "choice": "headline",
+          "requiresFacts": ["won", "district"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (elections-past-race-names-the-district)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.election.name-wins-at-large-seat",
+      "move": "election",
+      "kind": "written",
+      "text": "{name} wins at-large seat",
+      "uses": [
+        {
+          "move": "election",
+          "subject": "headline",
+          "role": "election",
+          "choice": "headline",
+          "requiresFacts": ["won", "atLarge"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (elections-past-race-names-the-district)",
+      "date": "2026-11-01",
       "tag": {
         "move": "headline",
         "key": "news-received"

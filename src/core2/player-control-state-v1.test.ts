@@ -130,7 +130,6 @@ function boundary(core: CoreState) {
     durableLog: core.durableLog,
     logByPerson: core.logByPerson,
     logByKind: core.logByKind,
-    logByPlace: core.logByPlace,
     actsByMonthKind: core.actsByMonthKind,
     actCounters: core.actCounters,
     actCountersByMonth: core.actCountersByMonth,

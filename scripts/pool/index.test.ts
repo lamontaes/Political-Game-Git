@@ -407,3 +407,43 @@ describe("add", () => {
     }
   });
 });
+
+describe("empty fields", () => {
+  it("reopening an item with no claimed-at inserts it without trailing whitespace", () => {
+    const dir = mkdtempSync(join(tmpdir(), "pool-empty-"));
+    const pool = join(dir, "docs", "pool");
+    mkdirSync(join(pool, "items"), { recursive: true });
+    const g = (...a: string[]): string =>
+      execFileSync("git", a, { cwd: dir, encoding: "utf8" });
+    g("init", "-q");
+    g("config", "user.email", "t@t");
+    g("config", "user.name", "t");
+    writeFileSync(
+      join(pool, "items", "laws-a.md"),
+      item("laws-a")
+        .replace("status: open", "status: blocked\nblocked-on: laws-b")
+        .replace("**Notes.** None.", "**Notes.** Keep this line."),
+    );
+    writeFileSync(join(pool, "items", "laws-b.md"), item("laws-b"));
+    run(pool, false);
+    g("add", ".");
+    g("commit", "-qm", "init");
+    const cwd = process.cwd();
+    process.chdir(dir);
+    try {
+      expect(command(["status", "laws-a", "open", "--no-push"])).toBeNull();
+      const text = readFileSync(join(pool, "items", "laws-a.md"), "utf8");
+      expect(text).toContain("status: open");
+      expect(text).toMatch(/^claimed-at:$/m);
+      expect(text).not.toMatch(/[ \t]+$/m);
+      expect(text).toContain("**Notes.** Keep this line.");
+      expect(run(pool, true).errors).toEqual([]);
+      execFileSync("npx", ["prettier", "--check", join(pool, "items")], {
+        cwd,
+        stdio: "pipe",
+      });
+    } finally {
+      process.chdir(cwd);
+    }
+  });
+});

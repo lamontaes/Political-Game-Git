@@ -116,7 +116,6 @@ function boundary(core: CoreState) {
     logs: core.durableLog,
     byPerson: core.logByPerson,
     byKind: core.logByKind,
-    byPlace: core.logByPlace,
     cash: {
       ...core.cashJournal,
       sourceProviders: [...core.cashJournal.sourceProviders.keys()],

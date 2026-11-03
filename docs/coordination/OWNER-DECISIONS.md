@@ -7,6 +7,22 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 - None open. The relative-with-no-news question was ruled Nov 1, 16:50 (below).
 - The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
 
+## Nov 3, 21:15 UTC: the final reorganization, and what the owner ruled (owner)
+
+- **Five lanes and a merge desk:** `docs/lanes/`. All 837 unfinished items were accounted for: 446 live, reducing to 76 units; 135 later; 238 done, dropped or test-only; 18 answered from standing rules.
+- **Six rulings on finishing,** his words: "for the first question. Sure, your recommendation, yes. Sure, option B. Not sure what the question is for number three, but you said you keep my rule. Sure. Yeah, whatever. Sure, number four, only in test files. Sure, no blocked status. Sure, your recommendation for number six."
+  1. Checkers never hold a merge; nothing is done until a second session replays its finish line on main; only confirmed work moves the number.
+  2. One check before merging: a new game opens and runs briefly without crashing. Nothing else holds a merge. This changes the Oct 6, 12 and 13 merge rules.
+  3. Merge towns come from a printed replay number; a failure is replayed on that town against main to see whose fault it is. Fixed towns are for lane finish lines only.
+  4. Stand-ins only in test files; lanes that can't use one run in sequence.
+  5. "Blocked" means only a machine or permission failure, reported at once. Ownership is by lane; the second to merge updates; lanes sharing files write their agreement first.
+  6. The same failure three times moves the session to its next item. No lane budget. A lane that passes all its paths takes other lanes' open items and invents nothing.
+- **First-time winners:** a hard-working first-timer wins within three tries in most of the eight fixed towns, with holders at real rates. Replaces the CTO's "7 of 10," which was never his ruling.
+- **Temporary fixes before release:** those a player can see. The rest stay listed with a reason. This relaxes the Oct 9 "release refuses while any is open" and the Oct 6 "nothing hardcoded."
+- **People:** bodies built in Blender and seated by the room's camera, with people painted on them; each hair, face and garment is its own picture on that body. On a test in the Oval Office: "these look great." He had Blender and the add-on installed for this. People v1, v2, v3 and the green mannequin pictures are deleted. The work runs on the Mac; no cloud session works on people until he says.
+- **The Oct 29 monument ruling stands:** menu screens show DC monuments, not conventions, with the latest character in front and passersby.
+- **The store page is the owner's alone:** "I'm sick of you mentioning it at all. Has nothing to do with you." No session touches it or raises it. The Oct 29 stop stays in force.
+
 ## Nov 2, 01:40 UTC: at 94% of the weekly usage, every session hands off and stops (owner)
 
 - **The owner:** "Okay, I'm at 94%. Have everyone come to a natural handoff. No need to necessarily rush, but do it with some intention. Because like I said, I left some buffer." Then: "interrupt them. We spoke earlier."
