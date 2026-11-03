@@ -1,4 +1,4 @@
-/* global document, fetch, URLSearchParams, setTimeout, setInterval, clearInterval, window, localStorage, ResizeObserver, __RELEASE_VERSION__ */
+/* global document, fetch, URLSearchParams, setTimeout, setInterval, clearInterval, window, localStorage, ResizeObserver, Image, __RELEASE_VERSION__ */
 // The game screen on the new core: one scene, the player card, the menus.
 // Words on screen are record data, engine text and control names only.
 import { makeButton, buttonRow, buttonTray } from "./ui/button.mjs";
@@ -1291,11 +1291,23 @@ function partyRows(party) {
   const words = controls.party ?? {};
   if (party.member) {
     const m = party.member;
+    // What the line stands on: the registration (the tie's own record, with
+    // the day it began) and the fit (the player's recorded views against the
+    // party's platform), each said as what it compares (owner, Nov 1: "Views
+    // fit close. How do you know?").
+    const fit =
+      m.agreement === null
+        ? ""
+        : ((words.fit ?? []).find((band) => m.agreement >= band.atLeast)
+            ?.label ?? "");
     const line = row(
       words.member,
-      // How well their views fit the party's, in words: the first band the
-      // record's agreement (-1 to 1) reaches.
-      `${m.name} · ${words.agreement} ${m.agreement === null ? "" : ((words.fit ?? []).find((band) => m.agreement >= band.atLeast)?.label ?? "")}`,
+      [
+        words.registered
+          .replace("{party}", m.name)
+          .replace("{date}", dateWords(m.since)),
+        ...(fit ? [words.fitLine.replace("{fit}", fit)] : []),
+      ].join(" · "),
     );
     // The tie's record, for the checks that read it.
     line.dataset.tieId = m.tieId;
@@ -1730,12 +1742,27 @@ async function showStory(momentId) {
     const parts = story.speech.parts?.length
       ? story.speech.parts
       : [story.speech.text];
+    // Every part's picture is fetched up front, so a cutaway never shows the
+    // last room under the next part's people.
+    for (const beat of story.beats ?? []) new Image().src = beat.backdrop.url;
     const sayPart = (at) => {
       show("talk-skip", true);
       setWho(story.speech.speakerId, story.names[story.speech.speakerId]);
+      // The part's picture and cast: the desk, the town, the colonnade, the
+      // officials named by office as the camera passes, and home.
+      const beat = story.beats?.[at];
+      if (beat) {
+        $("backdrop").src = beat.backdrop.url;
+        drawPeople(beat.people);
+      }
       talkControls({ silent: false, leave: false });
       fillTalk({
-        lines: [talkLine({ kind: "speech", text: parts[at] })],
+        lines: [
+          talkLine({ kind: "speech", text: parts[at] }),
+          ...(beat?.caption
+            ? [talkLine({ kind: "label", text: beat.caption })]
+            : []),
+        ],
         replies: [],
       });
       setScales({ available: false });
@@ -4241,6 +4268,11 @@ const sheets = {
     // the mock; never joined: files unaffiliated), the join buttons in a tray.
     const membership = v.party ? partyRows(v.party) : [];
     const joins = membership.filter((node) => node.tagName === "BUTTON");
+    // No tie on record: not registered, said so (never a party by default).
+    const unregistered =
+      v.party && !v.party.member
+        ? prose(controls.party.notRegistered, "record-empty")
+        : null;
     // The map and its key on a plate; beside it your party, then each party's
     // officeholders as face cards, one party at a time on the rail, paged.
     const keys = v.parties.map(({ party }) => party);
@@ -4307,7 +4339,9 @@ const sheets = {
         side: [
           membership.length && {
             title: v.party?.member ? null : controls.party.member,
-            nodes: joins.length ? [buttonTray(...joins)] : membership,
+            nodes: joins.length
+              ? [...(unregistered ? [unregistered] : []), buttonTray(...joins)]
+              : membership,
           },
           keys.length && {
             title: labels.inOffice,

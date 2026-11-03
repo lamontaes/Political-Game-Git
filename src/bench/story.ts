@@ -4,6 +4,7 @@ import { purposeScene, replyInScene } from "../director/purpose-scene";
 import type { SceneTalkLine, TreeNode } from "../director/scene-talk";
 import { shipped } from "../english/scene-talk-words";
 import { hasBackdrop } from "./backdrop-places";
+import { addressMontage, partLevels } from "./montage";
 import {
   homeOf,
   orgPlace,
@@ -199,6 +200,22 @@ export function storyScene(
     talkToId: scene.talkToId,
     // A speech heard plays in its speaker's own words, from its record.
     ...(scene.speech ? { speech: scene.speech } : {}),
+    // The address plays as a montage: one picture and cast per part (owner,
+    // Oct 29 02:35).
+    ...(scene.speech
+      ? {
+          beats: addressMontage(
+            core,
+            personId,
+            scene.speech.speakerId,
+            partLevels(
+              director.ledger.opening?.address.sentences ?? [],
+              scene.speech.parts?.length || 1,
+            ),
+            minuteOfDay,
+          ),
+        }
+      : {}),
     talk,
     ...(purpose?.kind === "skipped" ? { talkSkipped: purpose.reason } : {}),
     names: Object.fromEntries([

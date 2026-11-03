@@ -879,6 +879,30 @@ export function coreAPI(core: CoreState): CoreAPI {
   };
   const journalHost = cashJournalHost(core);
   const api: CoreAPI = {
+    addPersonV1(input) {
+      const zero = parameter("zero", core.data.parameters);
+      const household = core.households.get(input.householdId);
+      if (
+        !household ||
+        household.placeId !== input.placeId ||
+        household.memberIds.includes(input.id) ||
+        core.people.has(input.id) ||
+        core.husks.has(input.id) ||
+        input.liquidMinor !== zero ||
+        input.jobId !== undefined ||
+        input.birthDate > core.date ||
+        input.familyIds.some((id) => !core.people.has(id)) ||
+        input.knownIds.some((id) => !core.people.has(id))
+      )
+        throw new Error("Invalid adult admission.");
+      // admitPerson validates identity, tier, traits and knowledge before indexing.
+      const person = admitPerson(core, input);
+      core.households.set(household.id, {
+        ...household,
+        memberIds: [...household.memberIds, person.id],
+      });
+      return person;
+    },
     addBornPersonV1(input, parents, relations) {
       const zero = parameter("zero", core.data.parameters);
       const household = core.households.get(input.householdId);
@@ -1828,7 +1852,10 @@ export function coreAPI(core: CoreState): CoreAPI {
           placeId: left.placeId,
           publicRecord: false,
           source: input.source,
-          facts: { linkId: id },
+          ...(input.witnessIds?.length
+            ? { witnessIds: [...input.witnessIds] }
+            : {}),
+          facts: { ...(input.facts ?? {}), linkId: id },
         });
       } else {
         if (!between) throw new Error("These two are not partners.");
@@ -1855,7 +1882,10 @@ export function coreAPI(core: CoreState): CoreAPI {
           placeId: left.placeId,
           publicRecord: false,
           source: input.source,
-          facts: { linkId: between.id },
+          ...(input.witnessIds?.length
+            ? { witnessIds: [...input.witnessIds] }
+            : {}),
+          facts: { ...(input.facts ?? {}), linkId: between.id },
         });
       }
     },
