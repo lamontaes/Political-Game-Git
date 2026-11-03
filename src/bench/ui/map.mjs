@@ -4,7 +4,7 @@
 // map with districts; bring it back. Parties illustrated in that same way").
 // The screen hands it the map view (/api/map) and the parties with their seat
 // counts; nothing here reads a record.
-/* global document */
+/* global document, requestAnimationFrame */
 import { el } from "./dom.mjs";
 
 const NS = "http://www.w3.org/2000/svg";
@@ -58,8 +58,12 @@ export function districtMap(view, { wordHolders }) {
         view.state.name,
       ),
     );
-  for (const county of view.counties)
-    svg.append(path(county.d, "county", county.name));
+  const named = [];
+  for (const county of view.counties) {
+    const node = path(county.d, "county", county.name);
+    svg.append(node);
+    named.push([node, county.name]);
+  }
   for (const [layer, district] of Object.entries(view.yours ?? {})) {
     if (!district?.d) continue;
     const node = path(
@@ -69,9 +73,53 @@ export function districtMap(view, { wordHolders }) {
     );
     node.dataset.layer = layer;
     svg.append(node);
+    named.push([node, district.name]);
   }
+  // Every named place is labeled on the map (owner, Nov 1: "I don't know what
+  // this is supposed to be"), drawn once the map is on screen and its shapes
+  // have a size. A state's many counties are named by hover alone.
+  const labeled =
+    view.counties.length <= MAP_LABELS_MOST
+      ? named
+      : named.slice(view.counties.length);
+  const drawLabels = () => {
+    if (!svg.isConnected) return requestAnimationFrame(drawLabels);
+    const size = (y1 - y0) * 0.04;
+    const placed = [];
+    const overlaps = (a, b) =>
+      a.x < b.x + b.width &&
+      b.x < a.x + a.width &&
+      a.y < b.y + b.height &&
+      b.y < a.y + a.height;
+    for (const [node, name] of labeled) {
+      if (!name) continue;
+      const box = node.getBBox();
+      if (!box.width) continue;
+      const text = document.createElementNS(NS, "text");
+      text.setAttribute("class", "map-label");
+      text.setAttribute("x", String(box.x + box.width / 2));
+      text.setAttribute("text-anchor", "middle");
+      text.setAttribute("font-size", String(size));
+      text.textContent = name;
+      svg.append(text);
+      // Under the shape; kept inside the map; moved off any label already
+      // there (a small island beside a bigger one).
+      let y = Math.min(box.y + box.height + size * 1.1, y1 - size * 0.3);
+      const up = y >= y1 - size * 0.4;
+      for (let tries = 0; tries < 8; tries += 1) {
+        text.setAttribute("y", String(y));
+        const at = text.getBBox();
+        if (!placed.some((other) => overlaps(at, other))) break;
+        y += up ? -size * 1.05 : size * 1.05;
+      }
+      placed.push(text.getBBox());
+    }
+  };
+  requestAnimationFrame(drawLabels);
   return svg;
 }
+/** The most counties a map names on itself; more are named by hover. */
+const MAP_LABELS_MOST = 8;
 
 /** The legend under the map: a swatch per party and its seats, in the party's color. */
 export function partyLegend(parties, wordSeats) {

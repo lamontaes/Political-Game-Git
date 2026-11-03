@@ -5,9 +5,9 @@ area: release
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: lane-5/pool-index-main-only
-pr:
+pr: #7140
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-03T21:45:05.076Z

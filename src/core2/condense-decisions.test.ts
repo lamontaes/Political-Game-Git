@@ -9,8 +9,10 @@ import { buildBenchWorld } from "../bench/world";
 import { gameStartDate } from "./game-start";
 import { advanceCore, createLifeCore } from "./life";
 import { parameter } from "./parameters";
+import { leanedYes } from "./trait-decisions";
 import { generatedOpening } from "./tooling/generated-world";
 import { daysAfterStart } from "./tooling/test-days";
+import type { DecisionResult, LogRecord } from "./types";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 const place = drawPlace(seed, "core2-condense-decisions");
@@ -76,7 +78,7 @@ describe(`old reasons condense in ${place.name}, ${place.state} (seed ${seed})`,
     expect(recent.some((row) => row.decision!.scores !== undefined)).toBe(true);
   }, 300_000);
 
-  it("drops a circle member's weighed choices after the detail window and their other entries after circleActRetentionMonths, keeping the player's own", () => {
+  it("drops a circle member's weighed choices after the detail window and their other entries after circleActRetentionMonths, keeping the player's own and condensing their weighed choices after a year", () => {
     // Every module installed, so drives, campaigns and the news write the
     // circle's weighed choices and entries as in play.
     const { core } = buildBenchWorld(place.seed, gameStartDate(), {
@@ -104,6 +106,36 @@ describe(`old reasons condense in ${place.name}, ${place.state} (seed ${seed})`,
       0,
     );
     expect(own.length, "the player's own entries").toBeGreaterThan(0);
+    // The player's own weighed choices: those the played days kept (the
+    // shared chooser's, keepChoice), and one two-way weighing (keepWeighing),
+    // which has neither a compact choice nor a selected offer.
+    const playedWeighed = own.filter(
+      (row) => row.kind === "person.weighed" && row.actorId === player,
+    );
+    expect(
+      playedWeighed.length,
+      "the player's weighed choices in the played days",
+    ).toBeGreaterThan(0);
+    leanedYes(
+      core,
+      core.people.get(player)!,
+      "campaigns.open-door",
+      "open",
+      "ignore",
+      1,
+    );
+    const twoWay = [...(core.logByPerson.get(player) ?? [])]
+      .map((id) => core.durableLog.get(id)!)
+      .filter(
+        (row) =>
+          row.kind === "person.weighed" &&
+          row.date === core.date &&
+          row.reasonKey === "campaigns.open-door",
+      );
+    expect(twoWay.length, "the player's two-way weighing").toBeGreaterThan(0);
+    const ownWeighed: LogRecord[] = [...new Set([...playedWeighed, ...twoWay])];
+    for (const row of ownWeighed)
+      expect(row.decision?.scores?.length, row.id).toBeGreaterThan(0);
     const later = (move: (day: Date) => void) => {
       const day = new Date(`${core.date}T00:00:00Z`);
       move(day);
@@ -124,9 +156,15 @@ describe(`old reasons condense in ${place.name}, ${place.state} (seed ${seed})`,
         day.getUTCDate() + parameter("circleDecisionDetailDays") + 1,
       ),
     );
+    // A circle member's weighed choice is forgotten, not condensed.
     gone(weighed);
     for (const row of entries)
       expect(core.durableLog.has(row.id), row.id).toBe(true);
+    // The player's own weighed choices keep every option's score for a year.
+    for (const row of ownWeighed)
+      expect(core.durableLog.get(row.id)?.decision?.scores, row.id).toEqual(
+        row.decision!.scores,
+      );
     // Past the retention months the entries are gone too.
     later((day) =>
       day.setUTCMonth(
@@ -136,5 +174,42 @@ describe(`old reasons condense in ${place.name}, ${place.state} (seed ${seed})`,
     gone(entries);
     for (const row of own)
       expect(core.durableLog.has(row.id), row.id).toBe(true);
+    // Past the player's detail window, whatever the two windows above are.
+    later((day) =>
+      day.setUTCDate(
+        day.getUTCDate() + parameter("playerDecisionDetailDays") + 1,
+      ),
+    );
+    // After a year the player's weighed choices keep their summary and
+    // reasons, not every option's score, and write no field as undefined.
+    const shapes = new Set<string>();
+    for (const row of ownWeighed) {
+      const was = row.decision as DecisionResult;
+      const kept = core.durableLog.get(row.id)!;
+      const decision = kept.decision as DecisionResult;
+      expect(kept.actionId, row.id).toBe(row.actionId);
+      expect(decision.scores, row.id).toBeUndefined();
+      expect(decision.actorId, row.id).toBe(player);
+      expect(decision.date, row.id).toBe(row.date);
+      expect(decision.reasonKey, row.id).toBe(was.reasonKey);
+      expect(decision.selectedReasons, row.id).toEqual(was.selectedReasons);
+      const undefinedKeys = Object.entries(decision)
+        .filter(([, value]) => value === undefined)
+        .map(([key]) => key);
+      expect(undefinedKeys, row.id).toEqual([]);
+      if (was.compactChoice) {
+        shapes.add("compact choice");
+        expect(decision.compactChoice, row.id).toEqual(was.compactChoice);
+        expect("selected" in decision, row.id).toBe(false);
+      } else if (was.selected) {
+        shapes.add("selected offer");
+        expect(decision.selected, row.id).toEqual(was.selected);
+      } else {
+        shapes.add("two-way");
+        expect("selected" in decision, row.id).toBe(false);
+        expect("compactChoice" in decision, row.id).toBe(false);
+      }
+    }
+    expect(shapes.has("two-way"), [...shapes].join(", ")).toBe(true);
   }, 300_000);
 });

@@ -322,10 +322,10 @@
       "spread": [1.5, 2.5]
     },
     "townStandReach": {
-      "value": 0.12,
+      "value": 0.25,
       "tag": "ESTIMATED",
-      "source": "How far from the middle a town stands on a question at the furthest, as a candidate weighs it: a town's stand is the mean of its adults' leans on the question's axis in both tiers (each counted record by the people it stands for), and a candidate reads the town's stand against this reach, so a town standing this far reads as half way to an end, where shadeBase's calibration sits. Measured on the 54 questions with a left-right direction in 12 towns drawn from all 56 places, built two-level (seed standfit1, Oct 26): the 95th percentile of how far a town stood is 0.12 (median 0.031; Washington, District of Columbia reached 0.26).",
-      "spread": [0.086, 0.227]
+      "source": "How far from the middle a town stands on a question at the furthest, as a candidate weighs it: a town's stand is the mean of its electorate's own stances on the question in both tiers, by the one reader of where the town stands (electorateSides: a named voter at their current view, a counted record at its record's stance with its faith and degree, each by the people it stands for), and a candidate reads the town's stand against this reach, so a town standing this far reads as half way to an end, where shadeBase's calibration sits. Measured on the 54 questions with a left-right direction in 12 towns drawn from all 56 places, built two-level (seed standfit3, Nov 1): the 95th percentile of how far a town stood is 0.246, rounded (median 0.032; 90th percentile 0.177, 99th 0.333; Clayton, Oklahoma reached 0.364). The spread is the 90th to the 99th percentile. The earlier 0.12 (seed standfit1, Oct 26) was measured on the leans alone, with no faith, degree or stance moves.",
+      "spread": [0.177, 0.333]
     },
     "moveWeightPlain": {
       "value": 1,
