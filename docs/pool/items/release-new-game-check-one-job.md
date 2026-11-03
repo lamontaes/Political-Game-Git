@@ -5,9 +5,9 @@ area: release
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: lane-5/new-game-check
-pr:
+pr: #7141
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-03T21:58:11.733Z
