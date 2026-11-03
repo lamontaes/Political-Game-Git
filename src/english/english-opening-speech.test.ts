@@ -11,10 +11,22 @@ import type { GroundedEnglishPacket } from "./grounded-english";
 /**
  * The opening address's pieces hold no figure and no law (owner, Oct 27: "the
  * unemployment is at 4.1%, the fact that I know that is ridiculous ... if
- * there are 58 laws, there are 58 choices"): every number, policy and place
- * is a slot, every claim a required fact, and a piece is said only where its
- * fact is held. A figure written into a piece fails here.
+ * there are 58 laws, there are 58 choices"; Nov 1: "I don't like where this
+ * part of the speech where it just laces statistics"): the year is told in
+ * words, every policy and name is a slot, every claim a required fact, and a
+ * piece is said only where its fact is held. A figure, written in or slotted,
+ * fails here, and so does any line the owner turned down.
  */
+const FIGURE_SLOT = /\{[\w-]*(?:rate|growth|added|percent)\}/;
+/** Lines the owner turned down in the v0.73.0 playtest (OWNER-DECISIONS, Nov 1 22:25). */
+const TURNED_DOWN = [
+  /government closest to the people/,
+  /everyone who did, and of everyone who did not/,
+  /^Too many people/,
+  /^To every family listening/,
+  /^Thank you, and may God bless the United States\.$/,
+  /^By most (?:measures|of the numbers)/,
+];
 const KINDS: OpeningSpeechKind[] = ["inaugural", "state-of-the-union"];
 const VOICES: SpeechVoice[] = ["polished", "plain"];
 
@@ -56,9 +68,12 @@ const said = (
 };
 
 describe("the opening address's pieces", () => {
-  it("hold no figure, year, state or office", () => {
+  it("hold no figure, year, state or office, and no line the owner turned down", () => {
     for (const part of OPENING_SPEECH_BANK.parts) {
-      expect(part.text, part.key).not.toMatch(/\d/);
+      expect(part.text, part.key).not.toMatch(/\d|percent/);
+      expect(part.text, part.key).not.toMatch(FIGURE_SLOT);
+      for (const line of TURNED_DOWN)
+        expect(part.text, part.key).not.toMatch(line);
       expect(part.text, part.key).not.toMatch(
         /\b(?:Pennsylvania|Ohio|Texas|California|Florida|Congress shall)\b/,
       );
@@ -101,17 +116,18 @@ describe("the opening address's pieces", () => {
     }
   });
 
-  it("says a figure from the fact it is given, in the speaker's manner", () => {
+  it("tells the country's year in words, in the speaker's manner", () => {
     for (const kind of KINDS) {
-      const facts = { "inflation-rate": "7.3", "inflation-up": "yes" };
-      const polished = said(kind, "polished", "story-fig", facts, {
+      const facts = { "inflation-up": "yes", "prices-up": "yes" };
+      const polished = said(kind, "polished", "story-says", facts, {
         topic: "inflation",
       });
-      const plain = said(kind, "plain", "story-fig", facts, {
+      const plain = said(kind, "plain", "story-says", facts, {
         topic: "inflation",
       });
-      expect(polished).toContain("7.3");
-      expect(plain).toContain("7.3");
+      expect(polished).toMatch(/price|cost/i);
+      expect(plain).toMatch(/price|cost/i);
+      expect(polished).not.toMatch(/\d/);
       expect(polished).not.toBe(plain);
     }
   });
@@ -119,7 +135,7 @@ describe("the opening address's pieces", () => {
   it("says a claim only where its fact is held", () => {
     // No fact, no sentence: the country's story cannot be told without its record.
     expect(
-      said("inaugural", "plain", "story-fig", {}, { topic: "unemployment" }),
+      said("inaugural", "plain", "story-says", {}, { topic: "unemployment" }),
     ).toBeNull();
     // A law that is not in force is never said to be.
     // The address is national only (owner, Oct 27): federal law.

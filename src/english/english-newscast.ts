@@ -61,13 +61,10 @@ export const STORY_KINDS = {
     only: /\{\{subject\}\}|plant|store/,
     headline: ["organization.closed"],
     lede: ["organization.closed"],
-    context: [
-      "closing-years",
-      "closing-workers",
-      "closing-why",
-      "closing-owner",
-      "business-kind",
-    ],
+    // A closing is told, not listed (owner, Nov 1: "none of this is a
+    // story"): who ran it, how long and why it closed in one sentence, then
+    // what it leaves the people who worked there.
+    context: ["closing-account", "closing-workers"],
   },
   // A brief is a side item: a headline and one line, never paragraphs, and
   // the screen does not open it.
@@ -91,7 +88,14 @@ export const STORY_KINDS = {
     story: "death",
     headline: ["life.death"],
     lede: ["life.death"],
-    context: ["death-age", "death-place", "death-kin"],
+    context: [
+      "death-age",
+      "death-born",
+      "death-place",
+      "death-office",
+      "death-work",
+      "death-survivors",
+    ],
   },
   // The stories the press prints during play, each worded by its own
   // headline and lede pieces; one with no newscast story of its own is told
@@ -260,6 +264,21 @@ export const STORY_KINDS = {
   },
   "homeless-count": { headline: ["homeless-count"], lede: ["homeless-count"] },
   birth: { headline: ["birth"], lede: ["birth"], brief: true },
+  // The week's round birthdays and business anniversaries (the briefs
+  // column, from the press's milestones step).
+  birthday: { headline: ["birthday"], lede: ["birthday"], brief: true },
+  retirement: {
+    headline: ["retirement"],
+    lede: ["retirement"],
+    brief: true,
+  },
+  // A reader's letter to the editor, from the press's weekly letters step.
+  letter: { headline: ["letter"], lede: ["letter"], brief: true },
+  anniversary: {
+    headline: ["anniversary"],
+    lede: ["anniversary"],
+    brief: true,
+  },
   // The President's address as a short news piece: after the lede, the
   // country's figures the address argued from and one sentence quoted from it.
   address: {
@@ -301,12 +320,22 @@ export type StoryKind = keyof typeof STORY_KINDS;
 /** A mined sentence as the engine's template variant. */
 type MinedVariant = Extract<LinePartVariant, { kind: "template" }>;
 
-/** A role's sentences. */
+/**
+ * A role's sentences. A piece whose use excludes a fact the story holds is
+ * left out: "{name} won the race for {office}." is not said of a seat whose
+ * story names its district.
+ */
 function variants(
   bank: Bank,
   match: (use: { subject: string; role: string }) => boolean,
+  facts: GroundedEnglishPacket["facts"] = {},
 ): MinedVariant[] {
-  const parts = admittedParts(bank.parts, (part) => part.uses.some(match));
+  const parts = admittedParts(
+    bank.parts,
+    (part) =>
+      part.uses.some(match) &&
+      !part.uses.find(match)?.excludesFacts?.some((key) => facts[key]),
+  );
   return parts.map((part) => {
     // "Good morning" is said only in the morning, "Good evening" and
     // "tonight" only in the evening, from the broadcast's record.
@@ -410,8 +439,10 @@ export function composeNewsStory(
       `${kind}/headline`,
       "news",
       "tell",
-      variants(HEADLINES_BANK, (use) =>
-        (roles.headline as readonly string[]).includes(use.role),
+      variants(
+        HEADLINES_BANK,
+        (use) => (roles.headline as readonly string[]).includes(use.role),
+        packet.facts,
       ),
     ),
   );
@@ -421,8 +452,10 @@ export function composeNewsStory(
       `${kind}/lede`,
       "news",
       "tell",
-      variants(NEWS_BANK, (use) =>
-        (roles.lede as readonly string[]).includes(use.role),
+      variants(
+        NEWS_BANK,
+        (use) => (roles.lede as readonly string[]).includes(use.role),
+        packet.facts,
       ),
     ),
   );
@@ -436,7 +469,7 @@ export function composeNewsStory(
       `${kind}/${name}`,
       "news",
       "tell",
-      variants(NEWS_BANK, (use) => use.role === name),
+      variants(NEWS_BANK, (use) => use.role === name, packet.facts),
     );
     if (!composed) continue;
     // A sentence that only repeats what the lede or an earlier sentence said

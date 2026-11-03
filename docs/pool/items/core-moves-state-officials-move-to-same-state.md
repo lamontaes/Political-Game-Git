@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: lives/moves-state-destination
-pr:
+pr: #7055
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-01T21:04:27.901Z

@@ -22,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/parties.ts, src/core2/modules/campaigns.ts, src/core2/data/parameters.json, src/core2/data/campaigns/parameters.json, data/research/trait-effect-sizes.json, data/content/trait-decision-gaps.json
 
 **Notes.** TODO
+
+Nov 1 (governing lead, CTO ruling Q2 in OWNER-DECISIONS Nov 1): voting.back-incumbent's trait term is now read around the town's average incumbent lean in every race, not only where a race has a public standing record (governing/incumbency-calibration, f520af79ba, item campaign-incumbency-calibrated). `traitWeightVotingBackIncumbent` is fitted there after the counted vote split (elections-counted-vote-splits-by-share), within its spread, and tagged ESTIMATED; the thirds' crossed odds for voting.back-incumbent here are read on that fitted weight.

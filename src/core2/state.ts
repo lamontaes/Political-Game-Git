@@ -1266,6 +1266,9 @@ export function coreAPI(core: CoreState): CoreAPI {
       row.lastContactDate = at;
       row.latestChange = latestChange;
       core.relationships.set(id, row);
+      // Ties are only ever added here, never removed: tiedTo in
+      // modules/people.ts reads a person's set of the same size as the same
+      // ties. Anything that removes a tie must also drop that kept copy.
       index(core.relationshipsByPerson, actorId, id);
       index(core.relationshipsByPerson, otherId, id);
       if (actorId === core.playerId) core.focusPersonIds.add(otherId);

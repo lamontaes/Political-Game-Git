@@ -43,8 +43,7 @@ it(`a relative's recorded move is the player's answer when someone asks after th
     const player = core.people.get(me)!;
     advanceCore(core, addDays(makeIsoDate(gameStartDate()), 30));
     // A relative of the player someone else knows, who lives apart from
-    // them, and a place for them to move to: where they live now, if it is
-    // not the player's town, else the player's town itself.
+    // them (another household), and a place for them to move to below.
     const pair = [...player.familyIds].sort().flatMap((relativeId) => {
       const relative = core.people.get(relativeId);
       if (!relative?.alive) return [];
@@ -67,7 +66,13 @@ it(`a relative's recorded move is the player's answer when someone asks after th
       continue;
     }
     const relative = core.people.get(pair.relativeId)!;
-    const destination = corePlaceByJurisdictionId(player.placeId as never)!;
+    // Somewhere they don't live: the player's town, or for a relative who
+    // lives in it, the town's county.
+    const to =
+      relative.placeId !== player.placeId
+        ? player.placeId
+        : (player.countyId ?? player.placeId);
+    const destination = corePlaceByJurisdictionId(to as never)!;
     const moveId = `person.moved-away:${relative.id}:${core.date}`;
     applyCoreEvent(core, {
       id: moveId,
@@ -77,7 +82,7 @@ it(`a relative's recorded move is the player's answer when someone asks after th
       witnessIds: [me],
       placeId: relative.placeId,
       publicRecord: false,
-      topic: player.placeId,
+      topic: to,
       source: {
         tag: "ESTIMATED",
         asOf: core.date,
@@ -85,7 +90,7 @@ it(`a relative's recorded move is the player's answer when someone asks after th
         estimatedFrom: "SG-P15-moves-weights",
       },
       facts: {
-        [`person:${relative.id}:residence`]: player.placeId,
+        [`person:${relative.id}:residence`]: to,
         "moves:elsewhere": relative.placeId,
       },
     } as never);
@@ -116,6 +121,60 @@ it(`a relative's recorded move is the player's answer when someone asks after th
     expect(said!.sourceRecordIds, where).toContain(moveId);
     process.stdout.write(
       `FAMILY NEWS ${where}: ${pair.listenerId} asks after ${relative.id}; the player can say "${said!.text}", citing ${said!.sourceRecordIds.join(", ")}\n`,
+    );
+    // A later move with no new place on record, as the moves engine writes
+    // a new home within a state's record (and a leaver it found no
+    // destination for): where they went is where they left. The answer says
+    // they moved away, never "moved to" the place they already lived in.
+    const at = core.people.get(relative.id)!.placeId;
+    const atPlace = corePlaceByJurisdictionId(at as never);
+    const withinId = `person.moved-away:${relative.id}:${core.date}`;
+    applyCoreEvent(core, {
+      id: withinId,
+      date: core.date,
+      kind: "person.moved-away",
+      personIds: [relative.id],
+      witnessIds: [me],
+      placeId: at,
+      publicRecord: false,
+      topic: at,
+      source: {
+        tag: "ESTIMATED",
+        asOf: core.date,
+        citation:
+          "Recorded as the moves engine writes a move within a place's record.",
+        estimatedFrom: "SG-P15-moves-weights",
+      },
+      facts: {
+        [`person:${relative.id}:residence`]: at,
+        "moves:elsewhere": at,
+        "moves:within-state": at,
+      },
+    } as never);
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    const within = subjectsBetween(core, me, pair.listenerId, director).find(
+      (subject) => subject.kind === "family" && subject.aboutId === relative.id,
+    );
+    expect(within?.stage, where).toBe("moved");
+    expect(within!.facts.place, where).toBeUndefined();
+    const away = wordConversationMove({
+      seed: core.seed,
+      subject: "family",
+      part: "answers",
+      speakerId: me,
+      traits: player.traits,
+      facts: within!.facts,
+      momentKey: `${me}:${pair.listenerId}:${core.date}:family-news`,
+      about: { gender: relative.looks?.gender },
+      relationText: within!.facts.relation!.text,
+      stage: within!.stage!,
+      keys: [within!.stage!],
+    });
+    expect(away?.text, where).toMatch(/moved away/);
+    if (atPlace) expect(away!.text, where).not.toContain(spoken(atPlace));
+    expect(away!.sourceRecordIds, where).toContain(withinId);
+    process.stdout.write(
+      `FAMILY NEWS no new place (${atPlace ? spoken(atPlace) : at}): "${away!.text}", citing ${withinId}\n`,
     );
     return;
   }
