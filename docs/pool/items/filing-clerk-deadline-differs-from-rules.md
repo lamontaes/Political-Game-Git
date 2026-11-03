@@ -5,11 +5,12 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: governing/one-deadline
+pr: #7150
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-03T23:02:34.802Z
 ---
 
 **What.** In Goulding, Florida (seed 04118aef-9767-4fc6-a50a-92327c7801b1, January 20, 2025), filing for U.S. Senator at the counter, the clerk says 'The deadline is April 24, 2026' while the filing panel's deadline rule reads June 12, 2026. The clerk's line reads the contest's filingDeadline (src/director/filing-visit.ts, deadline fact). The panel reads checkEligibility in src/core2/modules/elections.ts, where the deadline is the filing rules' own deadline for the side filed under, else the contest's. A player told two dates cannot know when they must file.

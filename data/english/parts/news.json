@@ -82,7 +82,8 @@
     "spending": "A government's planned spending for the year, from its budget record.",
     "revenue": "The revenue a government expects for the year, from its budget record.",
     "margin": "How many votes the winning side led by, from the vote record.",
-    "crimes": "What most of a month's police reports were (thefts, assaults), from the crime engine's month record."
+    "crimes": "What most of a month's police reports were (thefts, assaults), from the crime engine's month record.",
+    "district": "A seat's district, as its seat record numbers it (4, 12A), from the seat records."
   },
   "maxWords": 14,
   "mining": {
@@ -764,7 +765,8 @@
           "move": "election-result",
           "subject": "news",
           "role": "election-result",
-          "choice": "lede"
+          "choice": "lede",
+          "excludesFacts": ["district", "atLarge"]
         }
       ],
       "transcriptsUsing": 2,
@@ -824,7 +826,8 @@
           "move": "election-result",
           "subject": "news",
           "role": "election-result",
-          "choice": "lede"
+          "choice": "lede",
+          "excludesFacts": ["district", "atLarge"]
         }
       ],
       "origin": "authored",
@@ -833,6 +836,50 @@
       "tag": {
         "move": "announce-result",
         "key": "honor"
+      }
+    },
+    {
+      "key": "news.election-result.name-won-the-race-for-office-in-district",
+      "move": "election-result",
+      "kind": "written",
+      "text": "{name} won the race for {office} in District {district}.",
+      "uses": [
+        {
+          "move": "election-result",
+          "subject": "news",
+          "role": "election-result",
+          "choice": "lede",
+          "requiresFacts": ["won", "district"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (elections-past-race-names-the-district)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-result.name-won-the-at-large-race-for-office",
+      "move": "election-result",
+      "kind": "written",
+      "text": "{name} won the at-large race for {office}.",
+      "uses": [
+        {
+          "move": "election-result",
+          "subject": "news",
+          "role": "election-result",
+          "choice": "lede",
+          "requiresFacts": ["won", "atLarge"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (elections-past-race-names-the-district)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
       }
     },
     {
@@ -10381,226 +10428,6 @@
       }
     },
     {
-      "key": "news.closing-years.it-had-been-open-for-years-years",
-      "move": "closing-years",
-      "kind": "written",
-      "text": "It had been open for {years} years.",
-      "uses": [
-        {
-          "move": "closing-years",
-          "subject": "news",
-          "role": "closing-years",
-          "choice": "context",
-          "requiresFacts": ["years"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-bodies-2)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.closing-years.it-was-in-business-for-years-years",
-      "move": "closing-years",
-      "kind": "written",
-      "text": "It was in business for {years} years.",
-      "uses": [
-        {
-          "move": "closing-years",
-          "subject": "news",
-          "role": "closing-years",
-          "choice": "context",
-          "requiresFacts": ["years"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-bodies-2)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.closing-workers.number-people-worked-there",
-      "move": "closing-workers",
-      "kind": "written",
-      "text": "{number} people worked there.",
-      "uses": [
-        {
-          "move": "closing-workers",
-          "subject": "news",
-          "role": "closing-workers",
-          "choice": "context",
-          "requiresFacts": ["number", "several"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-bodies-2)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.closing-workers.it-employed-number-people",
-      "move": "closing-workers",
-      "kind": "written",
-      "text": "It employed {number} people.",
-      "uses": [
-        {
-          "move": "closing-workers",
-          "subject": "news",
-          "role": "closing-workers",
-          "choice": "context",
-          "requiresFacts": ["number", "several"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-bodies-2)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.closing-why.the-owner-was-retiring",
-      "move": "closing-why",
-      "kind": "written",
-      "text": "The owner was retiring.",
-      "uses": [
-        {
-          "move": "closing-why",
-          "subject": "news",
-          "role": "closing-why",
-          "choice": "context",
-          "requiresFacts": ["retiring"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-bodies-2)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.closing-why.no-one-was-in-line-to-take-it-over",
-      "move": "closing-why",
-      "kind": "written",
-      "text": "No one was in line to take it over.",
-      "uses": [
-        {
-          "move": "closing-why",
-          "subject": "news",
-          "role": "closing-why",
-          "choice": "context",
-          "requiresFacts": ["no-successor"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-bodies-2)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.closing-why.it-had-been-losing-money",
-      "move": "closing-why",
-      "kind": "written",
-      "text": "It had been losing money.",
-      "uses": [
-        {
-          "move": "closing-why",
-          "subject": "news",
-          "role": "closing-why",
-          "choice": "context",
-          "requiresFacts": ["losses"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-bodies-2)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.closing-why.it-ran-out-of-cash-to-pay-what-it-owed",
-      "move": "closing-why",
-      "kind": "written",
-      "text": "It ran out of cash to pay what it owed.",
-      "uses": [
-        {
-          "move": "closing-why",
-          "subject": "news",
-          "role": "closing-why",
-          "choice": "context",
-          "requiresFacts": ["broke"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-bodies-2)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.closing-owner.owner-owned-the-business",
-      "move": "closing-owner",
-      "kind": "written",
-      "text": "{owner} owned the business.",
-      "uses": [
-        {
-          "move": "closing-owner",
-          "subject": "news",
-          "role": "closing-owner",
-          "choice": "context",
-          "requiresFacts": ["owner"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-bodies-2)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.closing-owner.the-owner-was-owner",
-      "move": "closing-owner",
-      "kind": "written",
-      "text": "The owner was {owner}.",
-      "uses": [
-        {
-          "move": "closing-owner",
-          "subject": "news",
-          "role": "closing-owner",
-          "choice": "context",
-          "requiresFacts": ["owner"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-bodies-2)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "news.election-share.name-took-percent-of-the-vote",
       "move": "election-share",
       "kind": "written",
@@ -11314,6 +11141,584 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-30",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-account.owner-is-retiring-after-years-years-of-running-it",
+      "move": "closing-account",
+      "kind": "written",
+      "text": "{owner} is retiring after {years} years of running it.",
+      "uses": [
+        {
+          "move": "closing-account",
+          "subject": "news",
+          "role": "closing-account",
+          "choice": "context",
+          "requiresFacts": ["retiring", "owner", "years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-account.after-years-years-owner-decided-it-was-time-to-retire",
+      "move": "closing-account",
+      "kind": "written",
+      "text": "After {years} years, {owner} decided it was time to retire.",
+      "uses": [
+        {
+          "move": "closing-account",
+          "subject": "news",
+          "role": "closing-account",
+          "choice": "context",
+          "requiresFacts": ["retiring", "owner", "years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-account.owner-who-owned-it-is-retiring",
+      "move": "closing-account",
+      "kind": "written",
+      "text": "{owner}, who owned it, is retiring.",
+      "uses": [
+        {
+          "move": "closing-account",
+          "subject": "news",
+          "role": "closing-account",
+          "choice": "context",
+          "requiresFacts": ["retiring", "owner"],
+          "excludesFacts": ["years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-account.its-owner-is-retiring-after-years-years",
+      "move": "closing-account",
+      "kind": "written",
+      "text": "Its owner is retiring after {years} years.",
+      "uses": [
+        {
+          "move": "closing-account",
+          "subject": "news",
+          "role": "closing-account",
+          "choice": "context",
+          "requiresFacts": ["retiring", "years"],
+          "excludesFacts": ["owner"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-account.its-owner-is-retiring",
+      "move": "closing-account",
+      "kind": "written",
+      "text": "Its owner is retiring.",
+      "uses": [
+        {
+          "move": "closing-account",
+          "subject": "news",
+          "role": "closing-account",
+          "choice": "context",
+          "requiresFacts": ["retiring"],
+          "excludesFacts": ["owner", "years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-account.owner-ran-it-for-years-years-with-no-one-to-take-over",
+      "move": "closing-account",
+      "kind": "written",
+      "text": "{owner} ran it for {years} years, with no one to take over.",
+      "uses": [
+        {
+          "move": "closing-account",
+          "subject": "news",
+          "role": "closing-account",
+          "choice": "context",
+          "requiresFacts": ["no-successor", "owner", "years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-account.after-years-years-owner-found-no-one-to-take-it-over",
+      "move": "closing-account",
+      "kind": "written",
+      "text": "After {years} years, {owner} found no one to take it over.",
+      "uses": [
+        {
+          "move": "closing-account",
+          "subject": "news",
+          "role": "closing-account",
+          "choice": "context",
+          "requiresFacts": ["no-successor", "owner", "years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-account.owner-had-no-one-in-line-to-take-it-over",
+      "move": "closing-account",
+      "kind": "written",
+      "text": "{owner} had no one in line to take it over.",
+      "uses": [
+        {
+          "move": "closing-account",
+          "subject": "news",
+          "role": "closing-account",
+          "choice": "context",
+          "requiresFacts": ["no-successor", "owner"],
+          "excludesFacts": ["years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-account.after-years-years-no-one-was-in-line-to-take-it-over",
+      "move": "closing-account",
+      "kind": "written",
+      "text": "After {years} years, no one was in line to take it over.",
+      "uses": [
+        {
+          "move": "closing-account",
+          "subject": "news",
+          "role": "closing-account",
+          "choice": "context",
+          "requiresFacts": ["no-successor", "years"],
+          "excludesFacts": ["owner"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-account.no-one-was-in-line-to-take-it-over",
+      "move": "closing-account",
+      "kind": "written",
+      "text": "No one was in line to take it over.",
+      "uses": [
+        {
+          "move": "closing-account",
+          "subject": "news",
+          "role": "closing-account",
+          "choice": "context",
+          "requiresFacts": ["no-successor"],
+          "excludesFacts": ["owner", "years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-account.owner-kept-it-going-for-years-years-but-it-was-losing-money",
+      "move": "closing-account",
+      "kind": "written",
+      "text": "{owner} kept it going for {years} years, but it was losing money.",
+      "uses": [
+        {
+          "move": "closing-account",
+          "subject": "news",
+          "role": "closing-account",
+          "choice": "context",
+          "requiresFacts": ["losses", "owner", "years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-account.after-years-years-it-was-losing-more-than-owner-could-keep-up-with",
+      "move": "closing-account",
+      "kind": "written",
+      "text": "After {years} years, it was losing more than {owner} could keep up with.",
+      "uses": [
+        {
+          "move": "closing-account",
+          "subject": "news",
+          "role": "closing-account",
+          "choice": "context",
+          "requiresFacts": ["losses", "owner", "years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-account.owner-had-been-losing-money-on-it",
+      "move": "closing-account",
+      "kind": "written",
+      "text": "{owner} had been losing money on it.",
+      "uses": [
+        {
+          "move": "closing-account",
+          "subject": "news",
+          "role": "closing-account",
+          "choice": "context",
+          "requiresFacts": ["losses", "owner"],
+          "excludesFacts": ["years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-account.after-years-years-in-business-it-had-been-losing-money",
+      "move": "closing-account",
+      "kind": "written",
+      "text": "After {years} years in business, it had been losing money.",
+      "uses": [
+        {
+          "move": "closing-account",
+          "subject": "news",
+          "role": "closing-account",
+          "choice": "context",
+          "requiresFacts": ["losses", "years"],
+          "excludesFacts": ["owner"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-account.it-had-been-losing-money",
+      "move": "closing-account",
+      "kind": "written",
+      "text": "It had been losing money.",
+      "uses": [
+        {
+          "move": "closing-account",
+          "subject": "news",
+          "role": "closing-account",
+          "choice": "context",
+          "requiresFacts": ["losses"],
+          "excludesFacts": ["owner", "years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-account.after-years-years-owner-ran-out-of-cash-to-pay-its-bills",
+      "move": "closing-account",
+      "kind": "written",
+      "text": "After {years} years, {owner} ran out of cash to pay its bills.",
+      "uses": [
+        {
+          "move": "closing-account",
+          "subject": "news",
+          "role": "closing-account",
+          "choice": "context",
+          "requiresFacts": ["broke", "owner", "years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-account.owner-ran-out-of-cash-to-pay-what-the-business-owed",
+      "move": "closing-account",
+      "kind": "written",
+      "text": "{owner} ran out of cash to pay what the business owed.",
+      "uses": [
+        {
+          "move": "closing-account",
+          "subject": "news",
+          "role": "closing-account",
+          "choice": "context",
+          "requiresFacts": ["broke", "owner"],
+          "excludesFacts": ["years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-account.after-years-years-it-ran-out-of-cash-to-pay-what-it-owed",
+      "move": "closing-account",
+      "kind": "written",
+      "text": "After {years} years, it ran out of cash to pay what it owed.",
+      "uses": [
+        {
+          "move": "closing-account",
+          "subject": "news",
+          "role": "closing-account",
+          "choice": "context",
+          "requiresFacts": ["broke", "years"],
+          "excludesFacts": ["owner"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-account.it-ran-out-of-cash-to-pay-what-it-owed",
+      "move": "closing-account",
+      "kind": "written",
+      "text": "It ran out of cash to pay what it owed.",
+      "uses": [
+        {
+          "move": "closing-account",
+          "subject": "news",
+          "role": "closing-account",
+          "choice": "context",
+          "requiresFacts": ["broke"],
+          "excludesFacts": ["owner", "years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-account.owner-had-run-it-for-years-years",
+      "move": "closing-account",
+      "kind": "written",
+      "text": "{owner} had run it for {years} years.",
+      "uses": [
+        {
+          "move": "closing-account",
+          "subject": "news",
+          "role": "closing-account",
+          "choice": "context",
+          "requiresFacts": ["owner", "years"],
+          "excludesFacts": ["retiring", "no-successor", "losses", "broke"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-account.it-was-owner-s-business-for-years-years",
+      "move": "closing-account",
+      "kind": "written",
+      "text": "It was {owner}'s business for {years} years.",
+      "uses": [
+        {
+          "move": "closing-account",
+          "subject": "news",
+          "role": "closing-account",
+          "choice": "context",
+          "requiresFacts": ["owner", "years"],
+          "excludesFacts": ["retiring", "no-successor", "losses", "broke"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-account.it-was-owner-s-business",
+      "move": "closing-account",
+      "kind": "written",
+      "text": "It was {owner}'s business.",
+      "uses": [
+        {
+          "move": "closing-account",
+          "subject": "news",
+          "role": "closing-account",
+          "choice": "context",
+          "requiresFacts": ["owner"],
+          "excludesFacts": [
+            "years",
+            "retiring",
+            "no-successor",
+            "losses",
+            "broke"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-account.it-had-served-the-town-for-years-years",
+      "move": "closing-account",
+      "kind": "written",
+      "text": "It had served the town for {years} years.",
+      "uses": [
+        {
+          "move": "closing-account",
+          "subject": "news",
+          "role": "closing-account",
+          "choice": "context",
+          "requiresFacts": ["years"],
+          "excludesFacts": [
+            "owner",
+            "retiring",
+            "no-successor",
+            "losses",
+            "broke"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-workers.that-leaves-the-number-people-who-worked-there-looking-for-work",
+      "move": "closing-workers",
+      "kind": "written",
+      "text": "That leaves the {number} people who worked there looking for work.",
+      "uses": [
+        {
+          "move": "closing-workers",
+          "subject": "news",
+          "role": "closing-workers",
+          "choice": "context",
+          "requiresFacts": ["number", "several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-workers.the-number-people-who-worked-there-are-out-of-a-job",
+      "move": "closing-workers",
+      "kind": "written",
+      "text": "The {number} people who worked there are out of a job.",
+      "uses": [
+        {
+          "move": "closing-workers",
+          "subject": "news",
+          "role": "closing-workers",
+          "choice": "context",
+          "requiresFacts": ["number", "several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
+      "date": "2026-11-02",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"

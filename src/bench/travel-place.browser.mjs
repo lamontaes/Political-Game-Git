@@ -111,19 +111,19 @@ try {
     view.picture.w >= 600 && view.picture.h >= 200,
     "the picture is not large",
   );
+  // The card says what you do there in a sentence and lists no seats by
+  // their holders' names (owner, Nov 1: "It says what you do here. And then
+  // it's just a list of people's names."); the clerk asks which race.
   assert.equal(
     view.raceButtons.length,
-    races.length,
-    "the view does not list every race the office takes",
+    0,
+    `the view still lists races: ${view.raceButtons.join(" | ")}`,
   );
-  assert.equal(
-    new Set(view.raceButtons).size,
-    view.raceButtons.length,
-    "two races read the same",
-  );
-  assert.ok(
-    !view.raceButtons.some((t) => /\(\d+\)/.test(t)),
-    "a district reads as a code",
+  assert.ok(races.length > 0, "the office takes no race");
+  assert.match(
+    await page.locator("#sheet-body").innerText(),
+    /You file here to run for office/,
+    "the card does not say what you do there",
   );
   assert.ok(view.go, "no Go on the place view");
   if (process.env.SHOT_DIR)
@@ -133,6 +133,9 @@ try {
   await page.locator('[data-testid="place-go"]').click();
   await page.locator("#talk:not([hidden])").waitFor();
   console.log("Go: the counter opened");
+  // The narrator sets the counter up first; Continue, then the clerk's Leave.
+  if (await page.locator("#talk-next").isVisible())
+    await page.locator("#talk-next").click();
   await page.locator("#talk-leave").click();
   await page.locator("#talk").waitFor({ state: "hidden" });
 

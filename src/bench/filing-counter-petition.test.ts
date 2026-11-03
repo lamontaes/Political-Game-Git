@@ -9,8 +9,8 @@ import { advanceCore } from "../core2/life";
 import {
   checkEligibility,
   filingOfficeFor,
-  petitionOf,
   playerContests,
+  petitionOf,
 } from "../core2/modules/elections";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
@@ -61,10 +61,9 @@ it(`the clerk tells the petition's signatures and due day once, in the scene aft
     const playerId = player.id as PersonId;
     core.playerId = playerId;
     director.watch(core, playerId);
-    // A local race the player may file for, as the town's weeks go by: one
-    // the clerk's list offers that day (playerContests, the counter's own
-    // choices), so the test files where the player may (agreement 1-4).
+    // A local race the player may file for, as the town's weeks go by.
     const open = () =>
+      // The races the player may file for, as the counter offers them.
       playerContests(api).find(
         (row) =>
           row.level !== "federal" &&

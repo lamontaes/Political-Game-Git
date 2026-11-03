@@ -15,7 +15,7 @@ import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import unwired from "./data/outcome-web/unwired.json" with { type: "json" };
-import stopgaps from "./data/stopgaps.json" with { type: "json" };
+import { STOPGAPS as stopgaps } from "./stopgaps";
 import { engineMeasure, WEB_LINKS } from "./outcome-web-model";
 
 const WAITING = {
@@ -55,8 +55,10 @@ function sources(dir = "src/core2"): string[] {
   return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
     const path = join(dir, entry.name);
     if (entry.isDirectory())
-      return path === "src/core2/data/outcome-web" ? [] : sources(path);
-    if (path === "src/core2/data/stopgaps.json") return [];
+      return path === "src/core2/data/outcome-web" ||
+        path === "src/core2/data/stopgaps"
+        ? []
+        : sources(path);
     return /\.(ts|json)$/.test(path) && !path.endsWith(".test.ts")
       ? [path]
       : [];
