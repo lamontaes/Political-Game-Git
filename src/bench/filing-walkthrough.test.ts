@@ -21,6 +21,7 @@ import {
   petitionOf,
   playerContests,
 } from "../core2/modules/elections";
+import { filingClerkFor } from "../core2/modules/filing-clerk";
 import { townOutlet } from "../core2/modules/press";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
@@ -67,12 +68,21 @@ it(`the first filing asks about running a campaign and walks a no through it; a 
     const playerId = player.id as PersonId;
     core.playerId = playerId;
     director.watch(core, playerId);
+    // Races whose counter names someone: the director casts the clerk from
+    // the records and never invents one, so a race filed where no record
+    // names a clerk has no clerk's scene (a county board with no staff on
+    // record, gov-filing-counter-clerk-at-county-board; Trucksville,
+    // Pennsylvania at seed d17e9b4a9dc4455a).
     const races = () =>
-      playerContests(api).filter((row) =>
-        checkEligibility(api, playerId, row.id).every((check) => check.met),
+      playerContests(api).filter(
+        (row) =>
+          checkEligibility(api, playerId, row.id).every((check) => check.met) &&
+          filingClerkFor(api, row.id) !== null,
       );
     if (races().length < 2) {
-      tried.push(`${where}: fewer than two races to file for`);
+      tried.push(
+        `${where}: fewer than two races to file for with a clerk on record`,
+      );
       continue;
     }
     // File, then the clerk's scene the next day.

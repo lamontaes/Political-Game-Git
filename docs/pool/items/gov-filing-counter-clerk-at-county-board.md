@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/filing-clerk.ts, src/core2/modules/executive.ts, src/bench/filing-counter-petition.test.ts
 
 **Notes.** Needs from others: none. Words will add the counter lines for an election commissioner if the title differs from a clerk's.
+
+Lane 3, Nov 3: also Trucksville, Pennsylvania (4277656), test seed d17e9b4a9dc4455a (filing-walkthrough:0): the county board race contest:seat:gus2025:209387:board:0:2025-11-04 (countyOffice) gets no clerk from filingClerkFor (no county staff under a clerk title), so the director leaves the filing scene uncast (coverage reason role-unbound, clerk). filing-walkthrough.test.ts now files only races whose counter names someone until this item lands.
