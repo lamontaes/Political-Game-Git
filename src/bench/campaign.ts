@@ -1,7 +1,6 @@
 import { spokenDate } from "../core2/kernel/dates";
 import { coreAPI } from "../core2/state";
 import {
-  askForDonation,
   askForEndorsement,
   contributeOwnMoney,
   askToVolunteer,
@@ -295,13 +294,6 @@ export function campaignAct(
         volunteers: campaignFor(api, input.filingId).volunteerIds.length,
       };
     }
-    case "donation":
-      return {
-        answers: known.map((id) => ({
-          personId: id,
-          givenMinor: askForDonation(api, input.filingId, id),
-        })),
-      };
     case "contribute":
       // The player's own money, the amount they chose.
       return {
