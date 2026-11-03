@@ -83,7 +83,6 @@ Mac builds (`release-package.yml` on main) were started after 8, 20, 26 and 34 m
 
 ## Waiting
 
-- **#7085** (Lane 1): the lane fixed the send-back, but merging main in conflicts in `filing-counter-petition.test.ts`, which both sides changed. Back to Lane 1.
 - **#7147** (Lane 2): merging main in conflicts in the lane's own state page. Back to Lane 2.
 - **#7110** (speed): handed to Lane 5. The test conflict in `campaign-day.test.ts` is not mechanical (main's new donor rule against this branch's payments wrapper).
 - **#7105's pool item** stays open per the order. The done-on-merge run for it was still queued; once it runs, the item has to go back to open. This session was not allowed to cancel that run.
@@ -101,6 +100,11 @@ Mac builds (`release-package.yml` on main) were started after 8, 20, 26 and 34 m
 
 - **#7148** (Lane 5, an outside lender in a home sale): check passed on head 90684a67a8; ready to merge (Brattleboro, Vermont, replay 05a0f2cc63c5cb84).
 - **#7149** (Lane 5, a campaign turn with an empty platform): check passed on head bcbde26a02; ready to merge (Torreon, New Mexico, replay 587151fadb62ef34).
+- **#7150** (Lane 1, one filing deadline from the clerk and the form): check passed on head c6545ef860; ready to merge (Springville, Alabama, replay c1f65e48186db742).
+- **#7085** (Lane 1, one council race while filing is open): the lane fixed its send-back and merged main in; check passed on head 082491e773; ready to merge (East Peru, Iowa, replay 5eb4849e175d5965).
+- **#7151** (Lane 3, the night you lose: the talk at home comes from the relative who worked the race): check passed on head 3a8a08e2ea; ready to merge (Edgemere, Maryland, replay 20d0ea7a17b0f3bb).
+- **#7152** (skills, from Lane 1: two shallow-clone traps for session-start): check passed on head 993b8d3572; ready to merge, and the CTO merges skills PRs (Orason, Texas, replay 6d72516d4eb6336d).
+- **#7153** (Lane 2, unemployment benefits use the law's full wage basis): check passed on head bbbd32e463 after the lane's later push; ready to merge (Stockton Bend, Texas, replay 386cad3faa37935b).
 - **Make the new-game check the rule.** The required checks on main are still `validate` and `golden-path`, not the one check. To make GitHub match ruling 2: `gh api -X PATCH repos/lamontaes/Political-Game-Git/branches/main/protection/required_status_checks -F strict=false -f 'contexts[]=new game'` (the job's name is `new game`; check the exact name GitHub shows).
 - **Merges outside the owner's list.** After your approval, merges in your Nov 3 order went through. Merging lane PRs not on that list (#7085, #7147) was refused as "merge without review". Both turned out to have conflicts anyway. To let the desk keep merging lanes' PRs on the one check, say so in this session.
 

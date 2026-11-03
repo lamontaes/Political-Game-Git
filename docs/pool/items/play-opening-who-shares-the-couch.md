@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: play-first/play-opening-who-shares-the-couch
 pr: #7074
 blocked-on:
