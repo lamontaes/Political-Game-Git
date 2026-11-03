@@ -5,13 +5,13 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: claimed
-claimed-by: lives/partners-town
+status: open
+claimed-by:
 pr: #4963
 blocked-on:
 after: core-household-membership-change
 source: added with npm run pool -- add
-claimed-at: 2026-11-01T23:28:32.705Z
+claimed-at:
 ---
 
 **What.** Two single adults who are close, fit in age and can afford a home together become one household, as a decision read from each person's traits, closeness and money. The core calls exist but nothing uses them in play: setPartnersV1 with together true (src/core2/state.ts, around line 1764) links two living single adults and emits family.partnered, and changeHouseholdV1 moves one into the other's household with the lease following (done item core-household-membership-change). After the opening sets partnerships once (src/core2/opening-partnership.ts), households change only by births, deaths and moves, and the director's married and started-dating scenes (src/director/data/situation-types.json, marked awaitingProducer) have no record to wait on. The owner's Oct 19 pairing ruling (docs/coordination/OWNER-DECISIONS.md, Pairing) says people can move in together, who pairs with whom reads each person's own record including orientation, two homeowners can pair and combine households like anyone else, and the home they leave returns to the market; the woman-and-man-only and never-two-homeowners rules in PR #4963 are defects to replace.
@@ -31,3 +31,4 @@ Sent back 2026-10-24 from PR #4963 (branch claude/partnership-forms): The item s
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: rewrite SMART, apply OD:588.
 Nov 1 (lives lead): carried over from the twin people-partnering-in-play, dropped on the CTO's word. Oct 29 (Words): the director's `celebration` (married) and `breakup` (separated) causes wait on this. `setPartnersV1` in src/core2/state.ts emits `family.partnered` and `family.separated`, but no engine calls it in play: a played year in Glasgow, Delaware (seed rel-c) recorded 0 of each, and the only partnership records are the pre-start history's. Once an engine partners and separates people in play, the two causes are a read (skill `scene-producers`).
 Nov 1 (lives lead): the engine exists now for people living elsewhere (`src/core2/modules/partnerships.ts`, PR #7082, through setPartnersV1); this item brings the town's full people into it on branch lives/partners-town, closing SG-LIVES-partner-town.
+Nov 2, 01:45 UTC (lives lead, handoff): released. Nothing built and branch lives/partners-town was never pushed. Next step: build the town's full people into the partnerships module (src/core2/modules/partnerships.ts, PR #7082, once merged). Choose a partner among the people a person knows by closeness, age gap, fit and money, move one into the other's home through changeHouseholdV1 so the lease follows, and write through setPartnersV1. Closes SG-LIVES-partner-town. Method: the lives skill.

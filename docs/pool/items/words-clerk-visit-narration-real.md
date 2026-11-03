@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: words/clerk-visit
-pr:
+pr: #7101
 blocked-on:
 source: owner playtest of v0.73.0, Nov 1, 23:05 UTC (third batch, a Massachusetts life)
 lead: words
