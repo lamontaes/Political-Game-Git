@@ -5,9 +5,9 @@ area: elections
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: governing/platform-follows-agreement
-pr:
+pr: #7104
 blocked-on:
 source: governing lead, Oct 30 (measurement: players and rivals run on views the town opposes; research in the PR)
 lead: governing

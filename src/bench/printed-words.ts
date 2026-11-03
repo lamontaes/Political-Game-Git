@@ -2520,6 +2520,80 @@ const milestoneBirthday: Builder = (read, f) => {
   );
 };
 
+/**
+ * A resident's retirement, from the press's week of milestones: who, from
+ * which employer and after how many years, from the jobs engine's record of
+ * their leaving and their work record. Work for the outside account is not
+ * named as an employer.
+ */
+const retirement: Builder = (read, f) => {
+  const org = f.organizationId
+    ? read.core.organizations.get(f.organizationId as EntityId)
+    : undefined;
+  // A government's treasury is said as the government they worked for.
+  const government = governmentEmployer(read, f.organizationId);
+  const employer =
+    org && org.outsideFlow === undefined && !government
+      ? read.organization(f.organizationId)
+      : null;
+  const years =
+    f.since && read.happened ? yearsBetween(f.since, read.happened) : 0;
+  const town = read.residence(f.personId);
+  return story(
+    "retirement",
+    {
+      ...read.who(f.personId, "name", false),
+      date: read.date(),
+      ...(employer
+        ? { employer: read.fact(employer, f.organizationId ?? "") }
+        : {}),
+      ...(government
+        ? { government: read.fact(government, f.organizationId ?? "") }
+        : {}),
+      ...(years > 1 ? { years: read.fact(String(years), f.jobId ?? "") } : {}),
+      ...(town ? { place: read.fact(town, f.personId ?? "") } : {}),
+    },
+    ["name"],
+    f.personId,
+  );
+};
+
+/**
+ * A reader's letter to the editor, from the press's weekly letters step: who
+ * wrote, from where, and for or against which policy, from the stance the
+ * story they read last moved (cited by that story).
+ */
+const letter: Builder = (read, f) => {
+  // The bill the story reported, by its name or its number; or the law that
+  // took effect, by the name its policy goes by.
+  const bill = f.billId ? read.billFacts(f.billId) : {};
+  const form =
+    f.level === "state" || f.level === "federal" ? "act" : "ordinance";
+  const named =
+    !f.billId && f.series
+      ? billNameFor(f.series, form, f.change === "ended")
+      : null;
+  const law =
+    bill.law ?? (named ? read.fact(named.title, f.lawId ?? "") : null);
+  const designation = bill.designation;
+  const town = read.residence(f.personId);
+  if ((!law && !designation) || (f.side !== "for" && f.side !== "against"))
+    return null;
+  return story(
+    "letter",
+    {
+      ...read.who(f.personId, "name", false),
+      ...(law ? { law } : { designation: designation! }),
+      ...(f.side === "for"
+        ? { supports: read.yes() }
+        : { opposes: read.yes() }),
+      ...(town ? { place: read.fact(town, f.personId ?? "") } : {}),
+    },
+    ["name"],
+    f.personId,
+  );
+};
+
 /** A business's round year since its founding, from the press's week of milestones. */
 const anniversary: Builder = (read, f) => {
   const id = f.organizationId ?? "";
@@ -2736,8 +2810,14 @@ const address: Builder = (read, f) => {
     "address",
     {
       ...read.who(id, "name", false),
+      // An inaugural is told as the taking of office, citing the offices
+      // engine's inauguration record the address was given at.
       ...(f["address:kind"] === "inaugural"
-        ? { inaugural: read.yes() }
+        ? {
+            inaugural: f["address:inauguration"]
+              ? read.fact("yes", f["address:inauguration"])
+              : read.yes(),
+          }
         : { "joint-session": read.yes() }),
       date: read.date(),
     },
@@ -2818,7 +2898,9 @@ const ARCHIVED: Readonly<Record<string, Builder>> = {
       ["subject"],
     );
   },
-  // Reported once, to the survivor: the parent is named from the fact's own names.
+  // Reported once, to the survivor: the parent is named from the fact's own
+  // names, and survived by the resident whose record holds the death, said as
+  // an obituary says its survivors.
   "parent-died": (read, f) => {
     const name = [f.givenName, f.familyName].filter(Boolean).join(" ");
     const survivor = read.name(f.survivorId);
@@ -2827,10 +2909,13 @@ const ARCHIVED: Readonly<Record<string, Builder>> = {
       {
         ...(name ? { name: read.fact(name, f.survivorId ?? "") } : {}),
         date: read.date(),
-        ...(survivor && f.relation
+        ...(survivor
           ? {
-              relation: read.fact(f.relation, f.survivorId ?? ""),
-              survivor: read.fact(survivor, f.survivorId ?? ""),
+              survivors: read.fact(
+                survivor,
+                f.survivorId ?? "",
+                f.recordId ?? "",
+              ),
             }
           : {}),
       },
@@ -2887,6 +2972,8 @@ const BUILDERS: Readonly<Record<string, Builder>> = {
   "meetings-week": meetingsWeek,
   birthday: milestoneBirthday,
   anniversary,
+  retirement,
+  letter,
   profile,
   interview,
   claim: claimCheck,

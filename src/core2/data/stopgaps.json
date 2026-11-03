@@ -7553,7 +7553,7 @@
     "kind": "missing-mechanic",
     "file": "src/bench/play.mjs",
     "line": 0,
-    "whatItFakes": "The filing counter offers at most six replies; an office that takes more races than that shows the first six at the counter, and the rest are reached from the office's own view in Travel and from Campaigns.",
+    "whatItFakes": "The filing counter offers at most four replies; an office that takes more races than that shows the four soonest at the counter, and the rest are reached from the office's own view in Travel and from Campaigns.",
     "why": "The talk box holds a few replies, never a long list (owner, Oct 26), and the Open races menu that held the rest was a dev panel (owner, Oct 28, point 29).",
     "addedBy": "screens session (sitting Oct 28, point 29)",
     "addedAt": "2026-10-28",
@@ -7967,6 +7967,30 @@
     "status": "open"
   },
   {
+    "id": "SG-GOV-outside-donor-month-income",
+    "kind": "partial-model",
+    "file": "src/core2/modules/campaigns.ts",
+    "line": 3135,
+    "whatItFakes": "Donors outside the town (askOutsideDonors, for seats wider than the town) give only the savings share of the person rule (donationShareOfCashPerWarmth), and on a typical donor's whole account balance one for one (medianTransactionBalance at outsideDonorIncomeUsd), not as a named donor does on the savings beyond a cushion of their living costs, weighed on a log scale of that cushion; the share of a month's income after bills that a named donor also gives from (giftBudget, donationShareOfMonthPerWarmth, weighed on a log scale of donationMonthScaleMonths of their living costs) is not read for them.",
+    "why": "The outside donor is a counted place group with no household of its own: no recorded monthly living costs to take from a typical donor's income, so the month's budget after bills cannot be read from records yet.",
+    "addedBy": "governing/campaign-money-calibrated",
+    "addedAt": "2026-10-30",
+    "replacement": "Read a typical donor household's monthly living costs for the place group (the same living-cost tables the population is built from), make the cushion and the month's spare from them, and give by donationAnswer's two log-scaled shares, so outside and named donors use one rule; recheck the outside share of a campaign's receipts against localInPlaceDonorShare (0.65, 0.25 to 0.95).",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-gift-no-living-costs",
+    "kind": "partial-model",
+    "file": "src/core2/modules/campaigns.ts",
+    "line": 2921,
+    "whatItFakes": "A donor whose household holds no recorded living costs at all (no member carries a livingCostDailyMinor) has no span to weigh money against (weighedAgainst), so the month's spare after taxes and their savings each count one for one toward a gift, as if a dollar weighed the same however many they had, and their cushion is zero; the month's part is still capped at the month's spare. A donor with no living costs of their own but a household that has them already takes the span and cushion from their share of the household's month (giftBudget). In the calibration's drawn places these donors are press staff seated by identity fill-in (SG-PEOPLE-press-staff-households): 631 of 10,990 gifts but 44.6% of the money (408 places, 51 run seeds, Nov 1), $1,200 at the median and up to $5,049.",
+    "why": "The opening population puts a household's living costs on its heads (population.ts), and the press module seats staff it cannot draw from the town's people alone, with no rent or living costs (SG-PEOPLE-press-staff-households), so their households hold none. Unknown costs are not zero, but nothing yet gives those households a month of costs, and the campaigns engine is not the place to price a household.",
+    "addedBy": "governing/campaign-money-calibrated",
+    "addedAt": "2026-11-01",
+    "replacement": "Give such households their month of living costs where they are made (press staff through the one-person household official-living.ts already gives owners and officials, giveLivingCost, or the household draw SG-PEOPLE-press-staff-households names), delete the one-for-one branch, and refit donationShareOfMonthPerWarmth: with those donors weighed against their town's median month instead, the best share (about 2.2) leaves 13% of eight-place and 3.3% of sixteen-place pools outside a band, so the money rule needs more than a new share.",
+    "status": "open"
+  },
+  {
     "id": "SG-CAMPAIGN-volunteer-shift-no-scene",
     "kind": "missing-mechanic",
     "file": "src/core2/modules/campaigns.ts",
@@ -8027,15 +8051,63 @@
     "status": "open"
   },
   {
+    "id": "SG-LIVES-elsewhere-not-into-town",
+    "kind": "partial-model",
+    "file": "src/core2/modules/moves.ts",
+    "line": 753,
+    "whatItFakes": "A relative or acquaintance living elsewhere (the inactive tier) never moves into the played town: their move skips a relative or county destination that is one of the town's full-detail places and goes to the next record instead.",
+    "why": "A husk in town would sit outside the town's residents, counts and voter rolls; arriving needs the counted arrival path or a fill-in, which the two-level population allows only when the player meets them.",
+    "addedBy": "lives lead (core-every-life-simulated)",
+    "addedAt": "2026-11-01",
+    "replacement": "A husk whose move lands in the played town arrives through the counted-moves arrival path as one counted household (one model, two tiers), filled in when the player meets them.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LIVES-work-no-employer",
+    "kind": "missing-record",
+    "file": "src/core2/jobs-elsewhere.ts",
+    "line": 182,
+    "whatItFakes": "A relative or town leaver living elsewhere works, is let go, finds work and moves to another job with no employer named: the world keeps no firms outside the played town.",
+    "why": "Firms exist only for the played town's businesses; a second economy of named employers elsewhere would be a second engine.",
+    "addedBy": "lives lead (core-every-life-simulated)",
+    "addedAt": "2026-11-01",
+    "replacement": "The regional engine's employers by industry for each state (counted, never named until met) give a person living elsewhere an employer record their work spell names, filled in when the player meets it.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LIVES-work-out-of-labor-force",
+    "kind": "missing-mechanic",
+    "file": "src/core2/jobs-elsewhere.ts",
+    "line": 285,
+    "whatItFakes": "Someone living elsewhere who was out of the labor force on day one (a student, a parent at home, someone not looking) stays out until they reach the age of retiring.",
+    "why": "The pre-start run's pulls are for people in the labor force; entering it (school's end, a youngest child's age, a partner's lost job) needs its causes for people with no school or household records.",
+    "addedBy": "lives lead (core-every-life-simulated)",
+    "addedAt": "2026-11-01",
+    "replacement": "The jobs engine's enter choice (the one counted and full people make) read for people living elsewhere from their age, household and partner's work, checked against CPS flows into the labor force by age.",
+    "status": "open"
+  },
+  {
     "id": "SG-WORDS-milestone-birthday-full-people",
     "kind": "rule-copy",
     "file": "src/core2/modules/press.ts",
-    "line": 3069,
-    "whatItFakes": "The paper's round-birthday briefs read only the town's full residents; a counted resident who turns 80, 90 or 100 gets no notice.",
+    "line": 3079,
+    "whatItFakes": "The paper's round-birthday and retirement briefs read only the town's full residents; a counted resident who turns 80, 90 or 100, or who retires, gets no notice.",
     "why": "A birthday notice names the person, and a counted resident has no name until the player meets them. Filling one in for the paper would make the press decide who exists.",
     "addedBy": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
     "addedAt": "2026-11-01",
     "replacement": "A person a brief names is a named person, so the counted resident whose round birthday falls in the week is filled in, seeded from the world, when the notice prints (two-level population; the CTO, Nov 1, the same rule the lives lead uses), and the week's round birthdays are read from the counted population's ages by place by the same rule as a full resident.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-letters-counted-readers",
+    "kind": "rule-copy",
+    "file": "src/core2/modules/press.ts",
+    "line": 3220,
+    "whatItFakes": "Only full readers write letters to the editor: a counted reader of the outlet never does.",
+    "why": "A letter is written from a stance the reader's last story moved, and a counted reader's view is not moved by what they read (views.ts countedLean), so no counted stance cites a story to answer.",
+    "addedBy": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+    "addedAt": "2026-11-01",
+    "replacement": "The CTO's rule (OWNER-DECISIONS Nov 1 20:00): counted readers are weighed by the same press.letter rule, times their count, from their view on the story's question and their temperament, and the writer a printed letter names is filled in, seeded, when it prints.",
     "status": "open"
   },
   {
@@ -8060,6 +8132,30 @@
     "addedBy": "speed lead builder (core-evicted-counted-stays-counted)",
     "addedAt": "2026-11-01",
     "replacement": "The eviction names as witnesses the full people who know a counted member (the full people who list them as family, and their ties), as notifyCountedDeaths does for a counted death, once drives, trait change and the director read a witness to a relative's eviction by their relation; or counted members pass news on at contact by the news engine's rule.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PLAY-office-hours-assumed",
+    "kind": "estimated-data",
+    "file": "src/bench/filing.ts",
+    "line": 252,
+    "whatItFakes": "A filing office whose clerk has no work record to read (a state's election office, a municipal finance officer who is not one of the town's full people) keeps assumed weekday hours of 8:00 AM to 5:00 PM, holidays not skipped.",
+    "why": "Going to a closed office plays the visit at its next opening (owner, Nov 1); only some clerks are full people with work spans, and an office with no record of hours must still have some, never none.",
+    "addedBy": "play-offices-keep-their-hours (Claude Sonnet 5.5, play-first lane)",
+    "addedAt": "2026-11-01",
+    "replacement": "Every filing office's clerk or staff is a person with work spans (or the office's own published hours are a record), after which `data/office-hours.json` and this fallback are deleted.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PLAY-campaign-acts-buttons",
+    "kind": "placeholder",
+    "file": "src/bench/play.mjs",
+    "line": 1463,
+    "whatItFakes": "Volunteers, Donations, Endorsements, Ad, Poll, Mail and Put in your own money are buttons on the campaign trail card in Travel, not scenes at places.",
+    "why": "The Campaigns tab shows standing only (owner, Oct 20: campaign acts are scenes you go to); the doors, event, forum, interview, calls, donor meeting, speech and debate already start their scenes, and these seven have no scene yet.",
+    "addedBy": "play-first-13-campaign-screen-to-mock-b (Claude Sonnet 5.5, play-first lane)",
+    "addedAt": "2026-11-01",
+    "replacement": "Each becomes a scene the director stages (play-campaign-acts-as-scenes): an evening of donor calls, a volunteer shift at the office, an endorsement meeting, an ad shoot, the pollster's briefing, the mail piece, putting in your own money; then the buttons and this entry are deleted.",
     "status": "open"
   }
 ]

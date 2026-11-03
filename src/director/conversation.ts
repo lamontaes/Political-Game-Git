@@ -433,12 +433,21 @@ function familyNews(
     : undefined;
   if (!moment || !prefix) return { stage: "default", facts: {} };
   const stage = stages[prefix]!;
-  const facts: Facts = {};
   const cited = [moment.causeId];
+  // Whatever the line says, it cites the record of what happened, even a
+  // line that names no place or employer ("Dana moved away.").
+  const facts: Facts = { happened: { text: stage, sourceRecordIds: cited } };
   if (stage === "moved") {
-    const to = core.durableLog.get(moment.causeId)?.topic;
-    const place = to ? corePlaceByJurisdictionId(to as never) : null;
-    if (place) facts.place = { text: spoken(place), sourceRecordIds: cited };
+    const move = core.durableLog.get(moment.causeId);
+    const place = move?.topic
+      ? corePlaceByJurisdictionId(move.topic as never)
+      : null;
+    // A move with no new place on record (where they went is where they
+    // left: a new home within their state's record, or no destination the
+    // moves engine could find) names none: they "moved away", never "moved
+    // to" the place they already lived in.
+    if (place && move!.topic !== move!.placeId)
+      facts.place = { text: spoken(place), sourceRecordIds: cited };
   }
   if (stage === "job") {
     const job = core.jobs.get(moment.causeId);
@@ -1864,8 +1873,14 @@ const OPENING_ORDER = [
 /** The subjects that are the two speakers' relationship: what they share. */
 const SHARED_KINDS = ["shared-school", "shared-work"];
 
-/** The key a listener remembers the last talk's topic under. */
-const lastTalkKey = (playerId: PersonId) => `talk:${playerId}:topic`;
+/**
+ * The key a listener remembers each topic the player talked over with them
+ * under (owner, Nov 1: a talk with nothing new is no talk; remembering only
+ * the last topic let two topics alternate forever).
+ */
+const talkedKeyPrefix = (playerId: PersonId) => `talk:${playerId}:topic:`;
+const talkedKey = (playerId: PersonId, topic: string) =>
+  `${talkedKeyPrefix(playerId)}${topic}`;
 
 /** The subjects a person tells as news of their own life; a reaction to one is never answered with small talk. */
 const NEWS_SUBJECTS: ReadonlySet<string> = new Set([
@@ -2130,11 +2145,11 @@ export function openConversation(
       conversation.used.push(...ids);
     }
   }
-  // The topic of their last talk isn't opened again (the listener remembers).
-  const remembered = core.knowledgeByPerson
-    .get(otherId)
-    ?.get(lastTalkKey(playerId))?.value;
-  if (remembered) conversation.used.push(remembered);
+  // A topic already talked over isn't opened again (the listener remembers
+  // each one; a new event is a new topic id).
+  for (const [key, fact] of core.knowledgeByPerson.get(otherId) ?? [])
+    if (key.startsWith(talkedKeyPrefix(playerId)))
+      conversation.used.push(fact.value);
   const main = raisedBrought ? null : mainTopic(core, conversation, data);
   const opened =
     raisedBrought ||
@@ -2968,7 +2983,7 @@ export function say(
   // The listener remembers what this talk was about.
   if (conversation.topics[zero])
     api.observe(otherId, {
-      key: lastTalkKey(playerId),
+      key: talkedKey(playerId, conversation.topics[zero]),
       value: conversation.topics[zero],
       learnedAt: core.date,
       sourceId: eventId,

@@ -5,13 +5,14 @@ area: elections
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: governing/one-council-race
+pr: #7085
 blocked-on:
 source: owner playtest of v0.73.0, Nov 1, 23:05 UTC (third batch, a Massachusetts life)
 lead: governing
 milestone: play-first
+claimed-at: 2026-11-01T22:46:57.616Z
 ---
 
 **What.** Owner, Nov 1 playtest of v0.73.0 in Massachusetts: "So first thing I see is that it just gives me the choice of a bunch of council seats. No, I should only be able to run for one council seat." Campaigns lists three council seats by their holders' names plus Mayor, and the clerk offers six "I want to run for Council member" lines, two of them for November 2027 seats on January 20, 2025. Under the CTO's town council seats ruling, a place's council is elected as its records say: by district, the player may file only for their own district's seat; at-large, the seats up together are one race the player files for once. A race is offered only while its filing period is open.
