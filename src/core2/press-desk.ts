@@ -31,11 +31,27 @@ import {
   VIEWS_MODULE_ID,
   VIEWS_SPEAKER_KEY,
 } from "./modules/views";
+import { residentsRuntime } from "./modules/residents";
+
+/**
+ * The facts that name the counted household a record happened to and its
+ * members (the drives engine's countedHousehold and countedSubjects keys,
+ * written by housing-homeless `countedFacts`).
+ */
+const COUNTED_HOUSEHOLD = "counted-household";
+const COUNTED_SUBJECTS = "counted-subjects";
 
 /** The record kinds a local outlet prints in its briefs column. */
 const BRIEF_KINDS: ReadonlySet<string> = new Set(briefs.kinds);
 /** The briefs about the whole town, which name no one: they involve every follower. */
 const TOWN_WIDE_BRIEFS: ReadonlySet<string> = new Set(briefs.townWide);
+
+/** A body's regular sitting, as office-day records it. */
+const MEETING_KIND = "public-meeting";
+/** A reader's letter to the editor (the press's weekly letters step). */
+const LETTER_KIND = "press.letter";
+/** The week's sittings that took up nothing, printed as one brief. */
+export const MEETINGS_WEEK_KIND = "meetings-week";
 
 export interface DeskOutlet {
   readonly id: string;
@@ -616,11 +632,51 @@ export function runDesk(
     (item) => item.date >= since && !ctx.printed(item.id, outlet.id),
   );
   if (!open.length || !outlet.reporterIds.length) return [];
+  // A body's sitting is news for what it did, not that it sat (CTO, Nov 1,
+  // under the owner's "real ones with some good fluff or else it will get
+  // old"): one that took up business is told by its votes, one story a
+  // bill, so its own record prints only where none of its votes reached the
+  // wire; one that took up nothing goes in the week's meetings brief. A
+  // county board's sittings filled 94 of a year's headlines in Blunt, South
+  // Dakota, seed paper-nov1:2, all "Hughes County Board of Commissioners
+  // meets".
+  const routine = open.filter(
+    (item) => item.kind === MEETING_KIND && !(Number(item.facts?.items) > 0),
+  );
+  const toldByVotes = (item: WireItem) =>
+    item.kind === MEETING_KIND &&
+    wire.some(
+      (vote) =>
+        sittingVote(vote) &&
+        vote.date === item.date &&
+        vote.facts?.chamber === item.facts?.officeId,
+    );
+  const told = new Set([
+    ...routine.map((item) => item.id),
+    ...open.filter(toldByVotes).map((item) => item.id),
+  ]);
   const followers = ctx.followers(outlet.id);
   const care = readerCare(api, followers, new Set(open.map((i) => i.topic)));
   const core = api.state as CoreState;
   const inTown = (id: string) =>
     core.people.get(id)?.placeId === ctx.townPlaceId;
+  // The counted people a record happened to (a counted household's eviction
+  // names its members by its facts, not as people), in town by the same rule
+  // as a full subject: where their counted record lives, or where they live
+  // once filled in.
+  const counted = residentsRuntime(core)?.store;
+  const countedInTown = (item: WireItem): number => {
+    const listed = item.facts?.[COUNTED_SUBJECTS];
+    if (!listed) return api.parameter("zero");
+    const h = counted?.liveHousehold(item.facts?.[COUNTED_HOUSEHOLD] ?? "");
+    const here =
+      h?.placeId === ctx.townPlaceId
+        ? new Set(counted!.memberIdsOf(h))
+        : undefined;
+    return (JSON.parse(listed) as string[]).filter((id) =>
+      core.people.has(id) ? inTown(id) : here?.has(id) === true,
+    ).length;
+  };
   // A law taking effect names no one, but it involves the outlet's followers
   // it reaches: the named ones the law-reach records name (every named
   // follower where they hold no record for it, since a law in force binds the
@@ -680,21 +736,33 @@ export function runDesk(
       : followers.length;
     return named + ctx.countedFollowers(outlet);
   };
-  const base = open.map((item) => ({
-    item,
-    proximity: p(
-      (outlet.tier === "national" ? NATIONAL_PROXIMITY : PROXIMITY)[item.level],
-    ),
-    readerCare: Math.max(care.get(item.topic) ?? 0, amountMove(item)),
-    people: Math.log1p(
-      Math.max(item.subjectIds.filter(inTown).length, involved(item)),
-    ),
-    renown: Math.log1p(
-      item.subjectIds.filter((id) => isPublicFigure(api, id)).length +
-        (item.officialIds ?? []).filter((id) => holdsHighOffice(api, id))
-          .length,
-    ),
-  }));
+  // A reader's letter is the outlet's own page, never a reporter's pick or
+  // the briefs column's: printed after the column, in the writer's words.
+  const letters = open.filter(
+    (item) => item.kind === LETTER_KIND && item.facts?.outletId === outlet.id,
+  );
+  const base = open
+    .filter((item) => !told.has(item.id) && item.kind !== LETTER_KIND)
+    .map((item) => ({
+      item,
+      proximity: p(
+        (outlet.tier === "national" ? NATIONAL_PROXIMITY : PROXIMITY)[
+          item.level
+        ],
+      ),
+      readerCare: Math.max(care.get(item.topic) ?? 0, amountMove(item)),
+      people: Math.log1p(
+        Math.max(
+          item.subjectIds.filter(inTown).length + countedInTown(item),
+          involved(item),
+        ),
+      ),
+      renown: Math.log1p(
+        item.subjectIds.filter((id) => isPublicFigure(api, id)).length +
+          (item.officialIds ?? []).filter((id) => holdsHighOffice(api, id))
+            .length,
+      ),
+    }));
   const taken = new Set<string>();
   const out: PrintedStory[] = [];
   for (const reporterId of outlet.reporterIds) {
@@ -809,6 +877,91 @@ export function runDesk(
         }),
       );
     }
+    // The week's sittings that took up nothing, in one brief after the
+    // column: each body named once, however often it sat.
+    const weekAgo = addDays(
+      makeIsoDate(api.state.date),
+      -api.parameter("daysPerWeek"),
+    );
+    const sat = routine
+      .filter((item) => item.date > weekAgo)
+      .sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id));
+    const bodies = [
+      ...new Set(sat.flatMap((item) => item.facts?.officeId ?? [])),
+    ];
+    if (bodies.length) {
+      const proximity = p(PROXIMITY.town);
+      out.push(
+        printItem(
+          api,
+          ctx,
+          outlet,
+          filer,
+          {
+            id: `${MEETINGS_WEEK_KIND}:${outlet.id}:${api.state.date}`,
+            kind: MEETINGS_WEEK_KIND,
+            date: api.state.date,
+            level: "town",
+            topic: MEETINGS_WEEK_KIND,
+            desiredChange: "met",
+            ending: false,
+            subjectIds: [],
+            facts: {
+              officeIds: bodies.join(","),
+              meetingIds: sat.map((item) => item.id).join(","),
+              // The day the week's first such sitting met, which the brief
+              // is dated by, so no two weeks print the same line.
+              sittingDate: sat[0]!.date,
+            },
+          },
+          {
+            proximity,
+            readerCare: 0,
+            people: 0,
+            renown: 0,
+            drive: 0,
+            score: proximity,
+            rank: column.length + 1,
+            weighed: column.length + 1,
+          },
+        ),
+      );
+    }
+  }
+  // The week's letter, in the writer's own voice: the change it argues is
+  // the writer's, and its readers are moved by their standing with the
+  // writer, as with a reporter's story.
+  for (const item of letters) {
+    const writer = item.subjectIds[0];
+    if (!writer || !api.state.people.get(writer)?.alive) continue;
+    const proximity = p(PROXIMITY.town);
+    out.push(
+      printItem(
+        api,
+        ctx,
+        outlet,
+        // A letter is printed under its writer's name.
+        writer,
+        item,
+        {
+          proximity,
+          readerCare: 0,
+          people: 0,
+          renown: 0,
+          drive: 0,
+          score: proximity,
+          rank: 1,
+          weighed: letters.length,
+        },
+        {
+          slant: {
+            slant: Math.min(1, Number(item.facts?.strength ?? 0)),
+            reasons: { lean: 0, tie: 0, publisher: 0, advertiser: 0 },
+          },
+          facts: { [VIEWS_SPEAKER_KEY]: writer },
+        },
+      ),
+    );
   }
   return out;
 }

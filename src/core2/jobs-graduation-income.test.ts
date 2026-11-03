@@ -9,8 +9,13 @@
  * where they graduated, and their household's income carries it. A place is
  * drawn from all 56 on a seed nobody chose (GRADUATION_PAY_SEED pins one);
  * a place where no such senior is hired within the year is drawn again.
+ *
+ * This is the played proof that hire pay carries the outcome web's
+ * graduation-to-earnings and graduation-to-poverty links (links.json
+ * carriedBy), so the web does not run them.
  */
 import { randomBytes } from "node:crypto";
+import { readFileSync } from "node:fs";
 import { afterAll, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
@@ -25,6 +30,8 @@ import {
   residentPerson,
   residentsRuntime,
 } from "./modules/residents";
+import unwired from "./data/outcome-web/unwired.json" with { type: "json" };
+import { linkCoverage, WEB_LINKS, WIRED_INTO } from "./outcome-web-model";
 import { SCHOOL_MODULE_ID } from "./school-measures";
 import { SCHOOL_MEASURE, type SchoolResultRow } from "./school-outcomes";
 import { coreAPI } from "./state";
@@ -37,6 +44,35 @@ const SHIFT = 0.5;
 const before = setBookkeeping(false);
 afterAll(() => {
   setBookkeeping(before);
+});
+
+it("graduation-to-earnings and graduation-to-poverty are carried by hire pay, not run by the web", () => {
+  const jobs = readFileSync("src/core2/modules/jobs.ts", "utf8");
+  // The read itself: hire pay takes the schooling a person holds on the day,
+  // and a senior's schooling is their graduation record from play.
+  expect(jobs).toMatch(/const weekly = schoolingWeekly\(api, personId\);/);
+  expect(jobs).toMatch(
+    /const level = schoolingOn\(api, personId, core\(api\)\.date\);/,
+  );
+  expect(jobs).toMatch(/graduationOf\(api, personId, person\.birthDate\)/);
+  const running = [...WIRED_INTO.values()].flat().map((row) => row.key);
+  for (const [key, names] of [
+    [
+      "graduation-to-earnings",
+      ["hirePay", "schoolingWeekly", "schoolingOn", "graduationOf"],
+    ],
+    ["graduation-to-poverty", ["hirePay", "graduationOf", "householdPoverty"]],
+  ] as const) {
+    const row = WEB_LINKS.find((one) => one.key === key)!;
+    for (const name of names) expect(row.carriedBy, key).toContain(name);
+    expect(row.carriedBy, key).not.toMatch(/^none yet/);
+    expect("carriedBy" in linkCoverage(row), key).toBe(true);
+    expect(running, key).not.toContain(key);
+    expect(
+      unwired.links.some((one) => one.link === key),
+      key,
+    ).toBe(false);
+  }
 });
 
 interface Hire {

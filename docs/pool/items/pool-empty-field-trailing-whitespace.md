@@ -5,11 +5,12 @@ area: release
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: lane-5/pool-empty-field-trim
+pr: #7145
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-03T22:21:11.306Z
 ---
 
 **What.** While reopening world-gun-sale-flow during PR #5102 review, the pool status command inserted a missing empty claimed-at field as claimed-at followed by a colon and trailing space. Prettier then rejects the generated item. Existing empty keys are trimmed, but the insertion branch of setFields in scripts/pool/index.ts does not trim its inserted value.

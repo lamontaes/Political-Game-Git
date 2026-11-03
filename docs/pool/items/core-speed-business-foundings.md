@@ -6,11 +6,11 @@ kind: cleanup
 priority: 2
 size: S
 status: open
-claimed-by: claude/political-game-pool-76ksvw
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T03:08:03.624Z
+claimed-at:
 ---
 
 **What.** In the CPU profile of a played year in Long Hill, Connecticut (seed m7b), foundings in the business engine takes 9.0 of 251 seconds, 3.6 percent. For every market it rebuilds the table of every job's monthly pay and sorts every person in the world by id, though a founding returns from the function, so nothing changes between the markets that go on. Build the pay table and the sorted list once, when the first market needs them.
@@ -24,3 +24,5 @@ claimed-at: 2026-10-20T03:08:03.624Z
 **Notes.** TODO Released from idle draft #5180 by the CTO, Oct 26.
 
 Oct 20 (claude): duplicate of `core-speed-foundings-per-place` (branch `claude/speed-foundings`, another session), which already restructures the same function more widely (it weighs the town's counted founders once a month rather than once per kind of business). I found it after writing the same cut (pay table and sorted people built once per pass, `foundings` 9.0 -> 5.3 seconds in the profile), so I dropped mine unpushed. For the CTO to drop this item.
+
+Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/political-game-pool-76ksvw` (2026-10-20). Cleared from the front matter and kept here.

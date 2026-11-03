@@ -5,14 +5,13 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: claimed
-claimed-by: words/web-home
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: "words-and-scenes lead, Oct 27: split of words-scene-web-from-lives (owner, Oct 27: scenes and their variants from hundreds of real lives)"
 lead: words
 milestone: play-first
-claimed-at: 2026-10-27T10:32:12.021Z
 ---
 
 **What.** The scene web (`npm run scene-web`, `docs/reports/scene-web.md`) lists every situation type in the home and family domain, one row per cause that fires it. This domain covers household records: a filing, a win or loss, a birth, a death, a job lost, an eviction, someone leaving or coming home. A row is complete when a real life calibrates it, its lines vary by speaker, and it fires in a played year. The owner's home and family requests with no type are listed under Missing in the report and become rows here.
@@ -30,3 +29,5 @@ claimed-at: 2026-10-27T10:32:12.021Z
 **Files.** docs/design/scenes/from-life/, data/english/parts/, src/director/data/situation-types.json, docs/reports/scene-web.json
 
 **Notes.** Split from `words-scene-web-from-lives` by the words lead on Oct 27. Method per row: `scenes-from-life`. Producers belong to the director engineer (`lead: director` items); this item owns the packets and the lines.
+
+Words handoff, Nov 2 02:50 UTC (the account at its weekly limit): branch words/web-home, head 1d4b80a5ab, fully merged. Next step: regenerate `npm run scene-web` on a fresh seed and check every home-and-family row names an episode and has three lines per speaker role.

@@ -146,7 +146,6 @@ function saved(core: CoreState) {
     logs: core.durableLog,
     byPerson: core.logByPerson,
     byKind: core.logByKind,
-    byPlace: core.logByPlace,
     money: money(core),
   });
 }

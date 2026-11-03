@@ -5,9 +5,9 @@ area: core
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: done
 claimed-by: lives/work-elsewhere
-pr:
+pr: #7049
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-01T20:10:34.441Z

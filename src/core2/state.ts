@@ -375,7 +375,6 @@ export function createCore(
     quietChoiceByPerson: new Map(),
     logByPerson: new Map(),
     logByKind: new Map(),
-    logByPlace: new Map(),
     latestPublicViews: new Map(),
     actCounters: new Map(),
     actCountersByMonth: new Map(),
@@ -768,7 +767,6 @@ export function retainLog(
   for (const id of new Set([...row.personIds, ...(row.witnessIds ?? [])]))
     index(core.logByPerson, id, row.id);
   index(core.logByKind, row.kind, row.id);
-  index(core.logByPlace, row.placeId, row.id);
 }
 
 /** Shared act admission is pure so coupled money writers can validate before payment. */
@@ -1268,6 +1266,9 @@ export function coreAPI(core: CoreState): CoreAPI {
       row.lastContactDate = at;
       row.latestChange = latestChange;
       core.relationships.set(id, row);
+      // Ties are only ever added here, never removed: tiedTo in
+      // modules/people.ts reads a person's set of the same size as the same
+      // ties. Anything that removes a tie must also drop that kept copy.
       index(core.relationshipsByPerson, actorId, id);
       index(core.relationshipsByPerson, otherId, id);
       if (actorId === core.playerId) core.focusPersonIds.add(otherId);
@@ -2802,11 +2803,7 @@ export function assertCoreIntegrity(core: CoreState): void {
       `membership:${id}`,
     );
   for (const [id, row] of core.durableLog) {
-    fail(
-      core.logByKind.get(row.kind)?.has(id) === true &&
-        core.logByPlace.get(row.placeId)?.has(id) === true,
-      `log:${id}`,
-    );
+    fail(core.logByKind.get(row.kind)?.has(id) === true, `log:${id}`);
     for (const actorId of row.personIds)
       fail(core.logByPerson.get(actorId)?.has(id) === true, `log-person:${id}`);
   }

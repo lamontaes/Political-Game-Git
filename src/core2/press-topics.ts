@@ -10,7 +10,11 @@
  * key the campaign views read; a race is about its contest.
  */
 import type { CoreAPI, CoreEventInput } from "./types";
-import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
+import {
+  isOutsideOffice,
+  OFFICES_MODULE_ID,
+  type TermRow,
+} from "./modules/offices";
 import type { OfficeInput } from "./offices-local";
 import { POLICY_QUESTIONS } from "./policy-answers";
 import { LEGISLATURE_MODULE_ID, type BillRow } from "./modules/legislature";
@@ -81,6 +85,26 @@ function officeLevel(
 }
 
 /**
+ * The office a seat belongs to, from the offices engine's own seats: null
+ * when the engine holds no such seat (another state's, sampled by the
+ * officials engine), undefined when there is no seat to look up.
+ */
+function seatOffice(
+  api: CoreAPI,
+  seatId: string | undefined,
+): OfficeInput | null | undefined {
+  if (!seatId || !api.state.modules.has(OFFICES_MODULE_ID)) return undefined;
+  const offices = api.moduleState(OFFICES_MODULE_ID);
+  const seat = offices.table("seats").get(seatId) as unknown as
+    { readonly officeId: string } | undefined;
+  const office = seat
+    ? (offices.table("offices").get(seat.officeId) as unknown as
+        OfficeInput | undefined)
+    : undefined;
+  return office ?? null;
+}
+
+/**
  * The wire item a public record makes for a town's press, or null when it is
  * outside what the town's outlets cover (another state's report).
  */
@@ -90,10 +114,24 @@ export function wireItem(
   town: { readonly placeId: string; readonly stateKey: string },
 ): WireItem | null {
   const facts = event.facts ?? {};
+  // An oath or a vacancy is the paper's news only on a seat of the town's
+  // own governments: its town's, county's, state's and nation's. Another
+  // state's seat is that state's news, whether the offices engine seats it
+  // (every other place's chambers and statewide offices since
+  // gov-every-state-and-town-governs U1, decided by isOutsideOffice) or holds
+  // no such seat; its record sits in town only because the town keeps the
+  // world's log (a Florida state representative's oath printed in Blunt,
+  // South Dakota, seed paper-nov1:2).
+  const seat =
+    event.kind === "took-office" || event.kind === "seat-vacated"
+      ? seatOffice(api, facts.seatId)
+      : undefined;
+  if (seat === null || (seat && isOutsideOffice(api, seat))) return null;
   // Where it happened: the town's own records, its state's, the nation's.
   let level: WireLevel | null = null;
   const authority = officeLevel(api, event, town.stateKey);
-  if (facts.level && LEVELS[facts.level]) level = LEVELS[facts.level]!;
+  if (seat) level = LEVELS[seat.level] ?? "town";
+  else if (facts.level && LEVELS[facts.level]) level = LEVELS[facts.level]!;
   else if (authority) level = authority;
   else if (event.placeId === town.placeId) level = "town";
   else if (String(event.placeId).startsWith("national:")) level = "nation";

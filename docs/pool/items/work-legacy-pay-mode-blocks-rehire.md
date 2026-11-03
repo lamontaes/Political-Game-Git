@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/work-attendance.ts,src/core2/job-lifecycle.ts,src/core2/work-cash.ts
 
 **Notes.** Found behind finance-close-employer-no-current-receipt (closeEmployer accepted no legacy pay cause; PR fixer/red-main-finance-close fixes that first). Candidate fix: end the person's legacy cash mode where their job ends (job-lifecycle), not in the enrollment check.
+
+Nov 1 evidence (governing lead, door-pledge test round): the same throw in the first year, a faster repro. Oak Hills, Iowa (1958048), drawn by drawPlace('dp-fresh-1:0','door-pledge-weighted'): `buildBenchWorld(<that place's seed>, gameStartDate(), {twoLevel: true, placeKey: '1958048', countScale: 3})`, then `advanceCore` toward 2026-06-03, throws on 2026-02-02 in admitWorkPayrollCalendar via jobs.ts hire in runWeek, with no campaign running. It fails src/core2/door-pledge.test.ts's weighted-household case on GOLDEN_PATH_SEED=dp-fresh-1.
