@@ -6,11 +6,11 @@ kind: bug
 priority: 2
 size: S
 status: open
-claimed-by: claude/political-game-pool-udtiwn
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T01:31:38.230Z
+claimed-at:
 ---
 
 **What.** In a played year of Euharlee, Georgia (seed life-2), Nicholas Phillips shared the same cause with the same neighbor, the mayor, every day from May 5 to May 11, 2025. The drives engine is built to tell each person once: its drive-confidant offer skips anyone already in the drive's told set (src/core2/modules/drives.ts, around line 1778) and the share effect adds the target to that set (around line 1881). So the told set is not kept across days, a second drive on the same topic offers the same person again, or another path produces the repeat, and which one is not yet known, so a worker must reproduce the week first.
@@ -24,3 +24,5 @@ claimed-at: 2026-10-20T01:31:38.230Z
 **Notes.** TODO Released from idle draft #5217 by the CTO, Oct 26.
 
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: rewrite SMART or close (same OD:556 behavior defect).
+
+Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/political-game-pool-udtiwn` (2026-10-20). Cleared from the front matter and kept here.

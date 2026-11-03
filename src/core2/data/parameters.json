@@ -5397,6 +5397,17 @@
       "citation": "A week (the routine retention window, routineRetentionDays) to a season; checked against the memory guard and the 'why' view."
     }
   },
+  "cashJournalDetailDays": {
+    "value": 365,
+    "tag": "TUNABLE",
+    "citation": "How long the cash journal keeps a followed person's itemized payment before it folds into their yearly total by kind (CTO, Nov 1, 21:25; play-first lane and laws lead, Nov 1). Dev mode's person ledger reads the last 365 days (src/bench/dev-why.ts, ledgerPanels) and no law reader needs itemized payments past a year; the player and their household keep the current and prior calendar year, which always covers this window. Balances and lifetime totals keep the money itself.",
+    "spread": {
+      "low": 365,
+      "high": 730,
+      "unit": "days",
+      "citation": "One year (dev mode's 365-day person ledger) to two; checked against the long save's records count (npm run speed:year) and dev mode's ledger."
+    }
+  },
   "playerDecisionDetailDays": {
     "value": 365,
     "tag": "TUNABLE",

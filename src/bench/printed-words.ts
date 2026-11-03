@@ -499,8 +499,7 @@ class Reader {
     const office = this.table(OFFICES_MODULE_ID, "offices")?.get(
       officeId,
     ) as unknown as { bodyName?: string } | undefined;
-    // "Legislature (unicameral)" is the body's name; the note is the record's.
-    return office?.bodyName?.replace(/\s*\([^)]*\)$/, "") ?? null;
+    return office?.bodyName ?? null;
   }
   /**
    * The town's own name ("Stockport"), or a state's ("Ohio") by its key. A
@@ -1382,6 +1381,14 @@ const electionResult: Builder = (read, f) => {
       ...read.who(f.winnerId, "name", false),
       ...read.who(rival, "opponent"),
       ...(f.office ? { office: read.fact(f.office, f.contestId ?? "") } : {}),
+      ...seatFacts(
+        read,
+        read.row<{ seatId?: string }>(
+          ELECTIONS_MODULE_ID,
+          "contests",
+          f.contestId,
+        )?.seatId,
+      ),
       won: read.yes(),
       ...voteFacts(
         read,
@@ -1394,6 +1401,51 @@ const electionResult: Builder = (read, f) => {
     f.winnerId,
   );
 };
+
+/**
+ * Where a race's seat is, as its story says it, from the seat's record: its
+ * district's number where the record numbers it ("State Senate District 4",
+ * "004" say District 4), or that the seat is at large where the record says
+ * so or its office's other seats have districts. A seat its office holds
+ * alone (a mayor, a governor, a state's one member of Congress) is the
+ * office, and a seat elected by the whole body's voters, all at large, says
+ * nothing more. A district the record names by place ("1st Barnstable
+ * District") or as a ward is not numbered, and its story names the office
+ * only (SG-GOV-named-district-story).
+ */
+function seatFacts(read: Reader, seatId: string | undefined): Facts {
+  type Seat = {
+    officeId: string;
+    district: string | null;
+    districtName?: string;
+  };
+  const seat = read.row<Seat>(OFFICES_MODULE_ID, "seats", seatId);
+  if (!seat) return {};
+  const all = read.query<Seat>(OFFICES_MODULE_ID, "seats", "byOffice", [
+    seat.officeId,
+  ]);
+  if (all.length < 2) return {};
+  const name = seat.districtName ?? seat.district ?? "";
+  if (
+    /large/i.test(name) ||
+    (!seat.district && all.some((other) => other.district))
+  )
+    return { atLarge: read.fact("yes", seatId ?? "") };
+  if (!seat.district) return {};
+  const ward =
+    read.row<{ seatTerm?: string }>(OFFICES_MODULE_ID, "offices", seat.officeId)
+      ?.seatTerm === "ward";
+  const district = ward
+    ? null
+    : /(?:^|\bDistrict )(\d+[A-Z]?|[A-Z])$/
+        .exec(name)?.[1]
+        ?.replace(/^0+(?=\w)/, "");
+  if (district && district !== "0")
+    return { district: read.fact(district, seatId ?? "") };
+  // stopgapId: SG-GOV-named-district-story (a district named by place or a ward prints the office only)
+  read.api.stopgap("SG-GOV-named-district-story");
+  return {};
+}
 
 /** The winner's share of the vote and how many votes were cast, when the count is kept. */
 function voteFacts(
@@ -2839,6 +2891,7 @@ const ARCHIVED: Readonly<Record<string, Builder>> = {
       {
         ...read.who(f.winnerId, "name", false),
         ...(office ? { office: read.fact(office, f.officeId ?? "") } : {}),
+        ...seatFacts(read, f.seatId),
         won: read.yes(),
         ...voteFacts(read, num(f.winnerVotes), num(f.totalVotes), f.recordId),
       },
@@ -2898,7 +2951,9 @@ const ARCHIVED: Readonly<Record<string, Builder>> = {
       ["subject"],
     );
   },
-  // Reported once, to the survivor: the parent is named from the fact's own names.
+  // Reported once, to the survivor: the parent is named from the fact's own
+  // names, and survived by the resident whose record holds the death, said as
+  // an obituary says its survivors.
   "parent-died": (read, f) => {
     const name = [f.givenName, f.familyName].filter(Boolean).join(" ");
     const survivor = read.name(f.survivorId);
@@ -2907,10 +2962,13 @@ const ARCHIVED: Readonly<Record<string, Builder>> = {
       {
         ...(name ? { name: read.fact(name, f.survivorId ?? "") } : {}),
         date: read.date(),
-        ...(survivor && f.relation
+        ...(survivor
           ? {
-              relation: read.fact(f.relation, f.survivorId ?? ""),
-              survivor: read.fact(survivor, f.survivorId ?? ""),
+              survivors: read.fact(
+                survivor,
+                f.survivorId ?? "",
+                f.recordId ?? "",
+              ),
             }
           : {}),
       },
