@@ -135,6 +135,8 @@ Then message the merger for the PR's parity (`CREW.md`) with the PR number and h
 - **Withdraw a send-back only on the same draws.** Run counts on different random places say nothing (my 3-of-4 against main's 0-of-3 on #6949 came from different places). The speed lead's records proof across the four places I had drawn did settle it; ask for the same seeds on both sides, or digests per table, before you withdraw.
 - **Name the parity once, from the number.** An even PR number goes to Merger 0, an odd one to Merger 1; work it out before you write the comment and write "For Merger 0 (even number)". A hedge like "odd? even: Merger 0" went into four comments; fix a wrong one with `update_issue_comment` on the comment id.
 - **A builder who asks to push to a branch you hold** gets an explicit yes and the head to push to; the branch is theirs until they say they are done, then you recheck the new head (Words, #6884, three times). Tell the merger the head each time.
+- **A `minor` or `patch` release declaration needs `section:` (Added, Changed, Fixed or Improved) and `title:`**; only `impact: none` goes without. `release:check` reads the committed head, so commit the fix before rerunning it (#7103, #7108).
+- **Never `pkill -f vitest` or `pkill -f <server>` inside a command whose own text contains that word**: it kills your shell (exit 144) and any monitors with it. Kill by stored pid. Also run a targeted file list, not `src/director src/english`: a whole-folder run outlasts 30 minutes and fails tests from load. For one worker use `--no-file-parallelism`; `--poolOptions` is unknown here.
 
 ## Traps from the Nov 2 pass (Checker 0)
 
@@ -145,6 +147,19 @@ Then message the merger for the PR's parity (`CREW.md`) with the PR number and h
 - **An unused `/* global x */` line in a `.mjs` check fails eslint** (`'x' is defined but never used`); delete the line.
 - **Pick the merger from the PR number's parity before you paste a session id**, and put the parity in the message ("Merger 0 (even)"). One hand-off went to the wrong merger because the id and the label were typed apart; resend to the right one and tell the wrong one to ignore it.
 - **When the CTO asks for handover notes, comment on each queued PR:** gate started or not, the head, what is done (with seeds), what is left, and the exact commands, so another checker can pick it up from the record.
+
+## Traps from the Nov 2 pass (Checker 2)
+
+- **Write a script to a file before you launch it, and never wait with a `pgrep -f` pattern that your own command contains.** A `pkill -f <script>` in the same command killed the shell before the script file was written, and 25 minutes passed with nothing running; a wait loop on `pgrep -f "vitest run src/core2/renewal"` matched its own `bash -c` and never ended. Use `pgrep` on a pid you stored, or poll for a `.done` file the script writes last.
+- **A random-draw failure is reproduced by naming the seed, on the PR and on clean main.** The test's printed seed is derived; set `GOLDEN_PATH_SEED` to a short value (`3333`) on both and compare the assertion line and the drawn place. Say in the comment which seeds passed and which failed, and tell Red main with the seed and the main commit.
+- **Main moves while a long gate runs; before posting, list the files changed on both sides.** `git diff --name-only HEAD...origin/main | sort > m; git diff --name-only origin/main...HEAD | sort > p; comm -12 m p`. If any overlap, merge again and rerun typecheck, release check and one test for those files. Three merges in one gate were normal on Nov 1 and 2.
+- **Appended-row conflicts in `stopgaps.json` have one shape.** Close the first side's last row with `"status": "open" }, {` and keep the shared tail; check by script that the ids are unique and every id of `origin/main` is present. Do it with a short script, not by hand.
+- **Browser checks need the bench on port 3000 and an explicit browser.** `people.browser.mjs` hardcodes `localhost:3000`; start `node --import tsx src/bench/server.ts` from a script that stores its pid, set `BENCH_BROWSER=/opt/pw-browsers/chromium` (there is no `/usr/bin/chromium`), run `people.browser.mjs` first so a life is in progress, then the PR's checks, then kill by pid, `git checkout -- docs` and delete untracked shots the checks wrote.
+- **A play.mjs merge conflict whose two sides are independent additions** (an early return from one PR, a lookup from another) is a union, not a send-back; prove it with the browser checks of both PRs. A conflict where both sides change the same line's behavior goes back.
+- **A pool item set `in-pr` without `pr:` fails `pool --check`.** Set `pr: #N` yourself; other items in the `--check` output belong to other sessions and do not count.
+- **A stacked PR gets its own head gate and says what it carries.** Gate the diff against main, name the base PR's commit that the branch includes, and say which merges first.
+- **When a builder or lead pushes to a branch you hold, gate the newest head and say so.** Fetch before every comment; a lead's push mid-gate (as on #7032 and #7082) means rechecking only what that commit touches.
+- **When the CTO asks for a queue comment,** post on each waiting PR: gate started or not, the head, what is done and what is left, so another checker can pick it up from the record.
 
 ## Stop condition
 

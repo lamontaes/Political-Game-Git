@@ -51,6 +51,8 @@ Used on Nov 1 for the campaign money share (`campaign-money-from-local-finance`,
 - **Hold seeds out.** Choose the value on one half of the run seeds and report the failure rate on the other half too.
 - **Size the test's pool from the resampled rate.** On Nov 1, 8-place pools failed 2.6% to 3.7% at the best value and 16-place pools 0.13% to 0.29%, so the test draws 16. A drawn place's band failure is then a finding, not noise.
 - **Break the total down by group before you trust the fit.** Total the money by kind of donor (named or counted, household with or without recorded costs, who seated them). On Nov 1, 631 of 10,990 gifts but 44.6% of the money came from press staff seated with no living cost. The fit leaned on a stopgap population, so the stopgap was registered and its fix filed (`people-press-staff-households`) before the PR opened.
+- **When a stopgap population leaves the fit, refit every knob together and size the pool again.** On Nov 2, once press staff carried a living cost, no share and month span held 16-place pools under 0.5% of band failures (best 3.1%, 3.7% held out), because poor towns fell under the hourly floor while rich towns' median gift passed its ceiling. 32-place pools gave 0.13% and 0.22%. Bring those numbers to the CTO before setting a value.
+- **Check that an engine change can reach the total before you build it.** Compare it on the same recorded seeds first. On Nov 2 a donor call list (the candidate's family and circle first) changed nothing: over ten weeks the calls reach everyone the campaign can reach, so the order did not change who gave ($526,967 against $526,589 on the same 24 seeds). It was dropped before the PR.
 
 ## Heavy commands on one machine
 
