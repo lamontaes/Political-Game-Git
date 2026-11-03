@@ -1815,7 +1815,7 @@
     "id": "SG-GOV-petition-town-share",
     "kind": "partial-model",
     "file": "src/core2/modules/voting.ts",
-    "line": 527,
+    "line": 572,
     "whatItFakes": "Where a contest's district reaches past the town (a county seat drawn as a state's places, a legislative, U.S. House or statewide race), the clerk counts the town's share of the law's signatures, by the town's eligible voters over the district's, at least one: the signatures a candidate would gather in the places the world holds only as counts are neither gathered nor checked.",
     "why": "The world holds people one by one only in the town (two-level population); a canvass, an event and a circle reach only the town.",
     "addedBy": "claude/elections-petition-filing",
@@ -2073,6 +2073,18 @@
     "addedBy": "governing lead",
     "addedAt": "2026-11-01",
     "replacement": "A news and a headline piece for a district named by place and one for a ward, worded by Words, reading the seat's districtName and its office's seatTerm, so every district seat's story names its seat.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-petition-electorate-cap",
+    "kind": "partial-model",
+    "file": "src/core2/modules/voting.ts",
+    "line": 599,
+    "whatItFakes": "A local race's petition asks at most petitionMaxShareOfVoters (10%) of the town's voters, at least one, wherever the law's count or the estimated median would ask more: one share for every place, not each place's own percentage, minimum and maximum.",
+    "why": "The places' rows give a fixed count or a median estimate that does not scale with the town, so a town of a few dozen adults was asked for 30 signatures (Johnson, Minnesota). The rows' own formulas scale with the place's voters (Vermont 30 or 1% whichever is less; Iowa 2% minimum 10; North Dakota 10% maximum 300; North Carolina 10% maximum 200; Arizona 5% to 10%).",
+    "addedBy": "Lane 1 (elections-petition-larger-than-the-town)",
+    "addedAt": "2026-11-03",
+    "replacement": "Each place's own petition formula read into data (its percentage, base, minimum and maximum) and applied to the town's voters, so the cap is the law's own and no common share is needed.",
     "status": "open"
   }
 ]
