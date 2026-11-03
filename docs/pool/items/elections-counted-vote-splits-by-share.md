@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: governing/counted-vote-share
-pr:
+pr: #7142
 blocked-on:
 lead: governing
 source: governing lead, Nov 1 (incumbency ablation; CTO ruling)
