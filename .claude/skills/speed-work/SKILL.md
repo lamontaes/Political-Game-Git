@@ -34,11 +34,14 @@ description: >
 - Take both proofs on the same main: merge one pinned main commit into the branch, run that main and the branch one after the other, same seed and years. `compareProofs` names each differing table, its row counts and the first differing id.
 - A pure speed cut shows 0 differing tables. A fold shows only its own tables.
 - A unit test with its own small world proves an edge, never sameness in play.
+- A behavior change (not a cut) gives the records proof's count of differing tables and why, and compares the item's own records one by one against main. On Nov 1 the evicted-counted change differed in 287 tables, because thousands fewer people were filled in, but the first removal day's 140 case ids and placements matched main exactly.
+- Pin one main for a batch of units, so one main baseline proof serves all of them. A unit stacked on another branch is proved against that branch's own proof, so only its own tables differ.
 - When a checker suspects a branch makes a test that fails by draw fail more often, prove it in the checker's own places: `speed:year --place <key> --years 1 --proof-out` on main and on the branch, one pair per place. Equal digests in every place settle it, and say more than rerunning the test (Nov 1: the drives branch in four places).
 
 ## Find exact cuts
 
 - Read a profile by inclusive time under one engine's entry, then ask what is computed again with the same inputs. Patterns that paid on Oct 29 and 30: a value recomputed inside a sort comparator (town halls, about 4%); an id search that tries every id taken that day (`keepWeighing`, 12% of a presidential year); a person built twice to read an id; a list sorted again though it only grows at its end; a per-call closure, which tsx names at run time (`keepNames`); a check that only tests need, run in play.
+- A list grown by spreading itself for each item, `map.set(k, [...(map.get(k) ?? []), x])`, is quadratic in the group's size: the medical bills' grouping of about 20,000 counted households a month cost 11 s of a profiled year (Long Hill, Connecticut, seed m7b) and took year 1 from +7% to +31% against its base. Push into the list (Nov 1, 03873cbf37; records proof identical).
 - What keeps a cut exact: the same reads in the same order (a first read can write, as an opening stance does), the same draws, the same float operations in the same order. A cache is keyed on everything it reads, lives beside the state (a `WeakMap` keyed by the world or store), never in a saved field, and resets when what it reads changes (the date, a table's write count). A check that only guards may skip in play under `bookkeeping()`; under bookkeeping, which tests run, it runs as before, or the old path runs beside the new one and must agree.
 - After merging main into a speed branch, check each new store method or write path against every counter or index the old one now updates. On Oct 30 an owned put added beside `put` skipped the store write count main had just added for the laws cache; the records proof stayed identical, a verifier caught it, and a test that fails without the count fixed it.
 - Have a second agent review each cut for exactness from the diff and the code before the PR, then prove it with the records proof.
@@ -50,7 +53,21 @@ description: >
 - Sweep every reader of the table, its indexes and its query functions. The dev trace's `findRecord` reads any engine table by id, so a row moved to another table of the same engine is still found.
 - Before proposing a fold, read the engine's own retention: `decision-detail.ts` already drops circle-only log records after `circleActRetentionMonths` (`retainLog` queues them). A reader sweep lists who reads, not what is already dropped; on Oct 30 an event-log fold that already existed went to four owners and had to be withdrawn.
 - The fold's test reads the same answers before and after (a standing, a scene's check), and folding twice changes nothing. Its records proof differs only in the folded tables.
-- What grew in a Ringgold, Louisiana save by year 8 (before folds): campaign causes, then per-circle kept causes (circle members times candidates), the event log and speech retellings. The player's circle grows over time, so anything kept per circle member grows with it.
+- Map every reader before proposing a fold, then have a second agent check the map. On Nov 1 every check found readers the map had missed:
+  - a town hall row keeps each attendee's cause id;
+  - campaign summaries share an id with impressions, so the trace never reaches them;
+  - opening-era promises and attack-ad viewers read promise facts;
+  - a closed race's messages are still read for one window, because filings stay on the ballot after the count.
+    Send each owner only their part, with file and line.
+- A folded row can live inside a summary. The CTO ruled (Nov 1, 23:40, OWNER-DECISIONS) that dev mode's `findRecord` resolving a folded term or race id to its entry in its seat's summary meets "the trace reaches any table by id". The conditions:
+  - each entry keeps every field a reader reads;
+  - the player's own town, and every race or term the player, their household or their circle took part in, stay as rows;
+  - each reader's window is agreed first;
+  - the proof shows screens, scenes, cards and the trace reading the same.
+- Fold into totals, not to nothing, when a reader may want the amounts. Itemized cash receipts fold into per-person, per-kind yearly totals (CTO, Nov 1). Open obligations, observer rows, and any receipt a kept fact, pledge or law's chain proof names, stay.
+- Before calling a table a grower, check whether it keeps a row per event or a row per thing. Medical bills put each month's bill under the household's own id, so the table holds one row per household however long the save runs (Nov 1).
+- When a merged feature may grow records, run `speed:year --out` on the merge commit's two parents and compare records per table, year by year. On Nov 1 that showed seating every legislature adds office terms and race returns every election, not once per seat: Kirkman, Iowa, 367,386 to 454,608 records at year 4.
+- What grew in a Ringgold, Louisiana save by year 18 (runner, Nov 1, before round four's folds): folded campaign causes 611,382, door rows 454,211, the event log 349,804, itemized cash receipts 211,013 and campaign money 84,040. Both the base and the lives branch died of a full 8 GB heap in year 19. The player's circle grows over time, so anything kept per circle member grows with it.
 - Totals that only grow overflow: the money journal's lifetime totals passed 2^53 cents in year 7 and now go to `bigint` past the safe range.
 
 ## Work another session adds to every day
@@ -61,6 +78,7 @@ When a session builds work that runs for many people (relatives elsewhere, the c
 - A cadence keyed on a due date from an index (a monthly calendar entry, a queue by date registered as a snapshot world map part), never a daily scan of everyone or of all history.
 - Everything it writes is bounded: folded or dropped once no reader needs it, or a 100-year save grows without limit.
 - Measured with `speed:year` on main and the branch, one process at a time, alternating twice before quoting a percentage: `--out` gives each year's seconds, heap and records per table, and `--proof-out` names every table that differs, each of which the PR explains.
+- When a unit's people send news into the town, the proof differs in hundreds of tables, because relatives hear it and act. Ask the unit's session for an ablation: the feature running with its events silenced, against the feature switched off. If those two differ only in the unit's own tables, every other difference is news reaching people, and the unit is clean on speed. If not, compare two worlds day by day to find the first difference. On Nov 1, lives unit 4's first difference was a new partner counted as a resident of their state, which moved a household's arrival day.
 
 ## Long saves
 

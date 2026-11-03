@@ -6,12 +6,12 @@ kind: feature
 priority: 3
 size: L
 status: open
-claimed-by: claude/political-game-pool-76ksvw
+claimed-by:
 pr:
 blocked-on:
 milestone: M6
 source: "docs/roadmap/later-specs-draft.md M6-04"
-claimed-at: 2026-10-20T01:14:36.124Z
+claimed-at:
 ---
 
 **What.** A new game starts from real data in a random place, or from a customized world (place, demographics, ideology, turnout, party strength, economy and more), like _The Political Process_'s advanced options. (Owner: OPUS-PLAY (the new-game screen), with OPUS-CORE (world generation).)
@@ -23,3 +23,5 @@ claimed-at: 2026-10-20T01:14:36.124Z
 **Files.** see spec
 
 **Notes.** Priority 3 until scheduled. Verify how much is built before starting. Released from idle draft #5180 by the CTO, Oct 26.
+
+Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/political-game-pool-76ksvw` (2026-10-20). Cleared from the front matter and kept here.

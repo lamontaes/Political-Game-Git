@@ -29,8 +29,9 @@ try {
   await page.locator("#new-life").click();
   await page.locator("#new-start").click();
   await page.locator("#cr-character:not([hidden])").waitFor();
-  await page.locator("#cr-random-name").click();
-  await page.locator("#cr-given:not([value=''])").waitFor();
+  // The random name waits for a gender, so the names are typed here.
+  await page.locator("#cr-given").fill("Pat");
+  await page.locator("#cr-family").fill("Candidate");
   // No gender yet: Continue says so and marks the gender row.
   await page.locator("#cr-character-next").click();
   let seen = await state();

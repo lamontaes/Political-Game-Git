@@ -1034,18 +1034,13 @@ function narrateFirst(setting, then) {
   fillTalk({ lines: setting, replies: [] });
   setScales({ available: false });
 }
-/** Numbered replies; a key press of the number says it. */
+/**
+ * Numbered replies; a key press of the number says it. Each is shown as the
+ * player's own words, the line the transcript then records (owner, Nov 1:
+ * a choice "should be an actual reply").
+ */
 function replies(choices, onPick) {
-  return choices.map((choice) =>
-    talkReply(
-      choice,
-      // Filing is a control of its own, never worded like acknowledging a refusal.
-      choice.control === "file"
-        ? (controls.filing?.file ?? choice.text)
-        : choice.text,
-      onPick,
-    ),
-  );
+  return choices.map((choice) => talkReply(choice, choice.text, onPick));
 }
 mountTalkKeys(() => $("game").classList.contains("sheet-open"));
 function setScales({ available, on }) {
@@ -1122,6 +1117,7 @@ $("talk-lie").addEventListener("click", () => {
 // Continue, bottom left, when there is nothing to answer: the beat is over, and
 // a stop that held the clock for it goes on.
 $("talk-next").addEventListener("click", async () => {
+  if (!onContinue) show("talk-skip", false);
   if (onContinue) {
     const then = onContinue;
     onContinue = undefined;
@@ -1137,6 +1133,15 @@ $("talk-next").addEventListener("click", async () => {
   show("talk", false);
   // A story's end hands the room back to the one scene renderer, so the people in it can be
   // clicked to talk again (a story draws them without a click).
+  await renderScene();
+  if (!$("continue").hidden) $("continue").click();
+});
+// Skip scene ends the address at once; the room is handed back as at its last Continue.
+$("talk-skip").addEventListener("click", async () => {
+  onContinue = undefined;
+  show("talk-skip", false);
+  renderTalk(undefined);
+  show("talk", false);
   await renderScene();
   if (!$("continue").hidden) $("continue").click();
 });
@@ -1210,14 +1215,26 @@ function renderFiling(value) {
       seat.holder ? `${counter.heldBy} ${seat.holder}` : counter.openSeat,
     ].join(" · ");
   };
-  // The counter offers six replies at most (SG-SCREENS-counter-six-replies);
-  // every race is a way in from the office's own view in Travel.
-  const choices = value.visit.choices.slice(0, 6);
+  // The counter offers four replies at most (SG-SCREENS-counter-six-replies),
+  // the races soonest first; every race is a way in from the office's own view
+  // in Travel. Each race is told apart in its own line (its seat, its election
+  // day and who holds it now), never in a hover card over the next line
+  // (owner, Nov 1: "a terribly designed menu").
+  const electionOf = (choice) =>
+    value.seats?.[choice.action.contestId]?.electionDate ?? "";
+  const picks = new Set(
+    value.visit.choices
+      .filter((choice) => choice.action.kind === "pick")
+      .sort((x, y) => electionOf(x).localeCompare(electionOf(y)))
+      .slice(0, 4),
+  );
+  const choices = value.visit.choices
+    .filter((choice) => choice.action.kind !== "pick" || picks.has(choice))
+    .slice(0, 4);
   const buttons = replies(choices, choose);
   choices.forEach((choice, i) => {
     if (choice.action.kind !== "pick") return;
-    buttons[i].append(smallText(factsOf(choice), "reply-facts"));
-    officeTip(buttons[i], choice.action.contestId, value);
+    buttons[i].append(" ", smallText(factsOf(choice), "reply-facts"));
   });
   fillTalk({ replies: buttons });
   // The filing's record once it is made: its status, shown as the record's
@@ -1238,37 +1255,23 @@ function renderFiling(value) {
     );
   setScales({ available: false });
 }
-/**
- * An office explained on hover (owner, Oct 28, point 30: "Hovering Trustee
- * should explain what the office does"): the hover card with what the
- * records know of it: its district, the election day and who holds the
- * seat now. The office's duties in words are the words session's
- * (SG-SCREENS-office-hover-prose).
- */
-function officeTip(node, contestId, value) {
-  const contest = value.visit.contests.find((c) => c.id === contestId);
-  const seat = value.seats?.[contestId];
-  if (!contest) return;
-  const facts = [
-    contest.district ? `${controls.travel.district} ${contest.district}` : null,
-    seat?.electionDate
-      ? `${controls.filing.election} ${dateWords(seat.electionDate)}`
-      : null,
-    seat?.holder
-      ? `${controls.filing.heldBy} ${seat.holder}`
-      : controls.filing.openSeat,
-  ].filter(Boolean);
-  node.addEventListener("mouseenter", () =>
-    showTipAt(node, { term: contest.title, short: facts.join(" · ") }),
-  );
-  node.addEventListener("mouseleave", hideTipSoon);
-}
 async function openFiling(filedWith, contestId) {
   closeSheet();
   renderTalk(undefined);
   const opened = await post(
     `/api/filing/open?filedWith=${encodeURIComponent(filedWith)}`,
   );
+  // A closed office is visited at its next opening: the clock has moved there.
+  // Something that came up on the way is lived first; the counter waits.
+  if (opened.waiting || opened.waited) {
+    const packet = opened.waiting ? opened.packet : opened.waited;
+    if (packet) renderPacket(packet);
+    if (opened.waiting) {
+      const moment = storyStop(packet);
+      if (moment) await showStory(moment.recordId);
+      return;
+    }
+  }
   const pick =
     contestId &&
     opened.visit?.choices.find(
@@ -1330,9 +1333,45 @@ let speechState = null;
  * with each filer by name, from the filing records, marked unopposed or
  * unfilled where that is what the records hold.
  */
-async function campaignRows() {
+/**
+ * Asking people for something, played as a scene (owner: every campaign act is
+ * a scene): the place with the player at it, each person asked the next
+ * Continue (their name and bust, what they said from the ask's own record),
+ * the last the total in the narrator's voice. An evening of donor calls and a
+ * volunteer shift are this.
+ */
+function playAsks({ asked, summary, scene }) {
+  closeSheet();
+  renderTalk(undefined);
+  if (scene) {
+    $("backdrop").src = scene.backdrop.url;
+    // Each person is heard by name and bust, not drawn in the room.
+    drawPeople(scene.people.filter((p) => p.personId === me.id));
+  }
+  show("talk", true);
+  const step = (at) => {
+    talkControls({ silent: false, leave: false });
+    setScales({ available: false });
+    if (at < asked.length) {
+      setWho(asked[at].personId, asked[at].name);
+      fillTalk({
+        lines: [talkLine({ kind: "speech", text: asked[at].line })],
+        replies: [],
+      });
+      onContinue = () => step(at + 1);
+      return;
+    }
+    setWho(null, null);
+    fillTalk({
+      lines: [talkLine({ kind: "speech narration", text: summary })],
+      replies: [],
+    });
+  };
+  step(0);
+}
+async function campaignParts() {
   const v = await api(`/api/campaign?id=${encodeURIComponent(me.id)}`);
-  const rows = [];
+  const parts = [];
   for (const {
     filing,
     contest,
@@ -1357,10 +1396,16 @@ async function campaignRows() {
       // The outing's hours moved the clock: the card shows the new time.
       if (result.packet) renderPacket(result.packet);
       campaignLines = (result.calls ?? []).map((call) => call.line);
-      // The calls are read on the sheet, each person with what they gave or why not.
+      // An evening of calls is a scene (owner: every campaign act is a scene):
+      // the player at the phones, one call per Continue, each person heard by
+      // name with what they gave or why not, then the night's total.
       if (outing === "calls" && result.callsLine) {
         campaignResult = result.callsLine;
-        openSheet("campaigns");
+        playAsks({
+          asked: result.calls ?? [],
+          summary: result.callsLine,
+          scene: result.scene,
+        });
         return;
       }
       campaignResult = [
@@ -1389,7 +1434,7 @@ async function campaignRows() {
         $("card-why").textContent = campaignResult;
       }
       if (moment) await showStory(moment.recordId);
-      if (!result.scene && !moment) openSheet("campaigns");
+      if (!result.scene && !moment) reopenTrail(filing.id);
     };
     const act = async (kind, extra = {}) => {
       campaignLines = [];
@@ -1414,6 +1459,22 @@ async function campaignRows() {
             : result.reached !== undefined
               ? `${controls.campaignActs[kind] ?? ""}: ${result.reached} · +${result.warmer} · −${result.cooler}`
               : `${controls.campaignActs[kind] ?? ""}: ${result.answers.filter((a) => a.yes || a.givenMinor > 0).length} / ${result.answers.length}${result.answers.some((a) => a.givenMinor) ? ` · ${moneyWords(result.answers.reduce((t, a) => t + (a.givenMinor ?? 0), 0))}` : ""}`;
+      // A volunteer shift is a scene: each person asked is the next Continue.
+      if (kind === "ad" && result.scene) {
+        playAsks({ asked: [], summary: result.line, scene: result.scene });
+        return;
+      }
+      if (
+        (kind === "volunteer" || kind === "endorsement") &&
+        result.answers?.length
+      ) {
+        playAsks({
+          asked: result.answers,
+          summary: campaignResult,
+          scene: result.scene,
+        });
+        return;
+      }
       // A speech is seen where it was given, with the people it reached.
       if (result.scene) {
         closeSheet();
@@ -1422,7 +1483,7 @@ async function campaignRows() {
         $("card-why").textContent = campaignResult;
         return;
       }
-      openSheet("campaigns");
+      reopenTrail(filing.id);
     };
     const venue = select({
       options: (v.venues ?? []).map((place) => ({
@@ -1437,138 +1498,173 @@ async function campaignRows() {
       );
       return b;
     };
-    rows.push(
-      listRow(
-        "campaign",
-        {},
-        bold(
-          [
-            contest?.title,
-            contest ? dateWords(contest.electionDate) : null,
-            controls.filing?.status?.[filing.status] ?? "",
-          ]
-            .filter(Boolean)
-            .join(" · "),
-        ),
-        `${controls.campaignResults.raised.replace("{amount}", moneyWords(campaign.raisedMinor))} · ${controls.campaignResults.spent.replace("{amount}", moneyWords(campaign.spentMinor))} · ${volunteerCount(campaign.volunteers)} · ${controls.campaignResults.doors.replace("{n}", campaign.doors)}${
-          // The endorsements given, from the campaign's endorsement records.
-          campaign.endorsements
-            ? ` · ${(campaign.endorsements === 1 ? controls.campaignEndorsements.one : controls.campaignEndorsements.other).replace("{n}", String(campaign.endorsements))}`
-            : ""
-        }`,
-        buttonRow(
-          ...(outings ?? []).map((choice) => {
-            // A grayed outing says why, from the records.
-            const why = choice.why
-              ? (controls.campaignUnavailable[choice.why.key] ?? "")
-                  .replace("{price}", moneyWords(choice.why.priceMinor ?? 0))
-                  .replace("{cash}", moneyWords(choice.why.cashMinor ?? 0))
-              : "";
-            const b = makeButton({
-              textContent: `${controls.campaignOutings[choice.outing]} · ${choice.hours} ${controls.campaignOutings.hours}${why ? ` · ${why}` : ""}`,
-              disabled: !choice.available,
-              title: why,
-            });
-            b.addEventListener("click", () =>
-              goOut(choice.outing, choice.outletId),
-            );
-            return b;
-          }),
-        ),
-        buttonRow(
-          button(controls.campaignActs.volunteer, "volunteer"),
-          button(controls.campaignActs.donation, "donation"),
-          button(controls.campaignActs.endorsement, "endorsement"),
-          button(controls.campaignActs.ad, "ad", { amountMinor: "5000" }),
-          button(controls.campaignActs.poll, "poll", {
-            sampleSize: String(pollSample),
-          }),
-        ),
-        // Mail to the town's households: the player sets what to spend.
-        (() => {
-          const dollarsOut = numberBox({
-            value: 50,
-            min: 0,
-            step: 1,
-            label: controls.campaignContribute.dollars,
+    // The acts are scenes you go to, never buttons on the tab (owner, Oct 20):
+    // they wait on the campaign trail in Travel; the tab keeps standing and results.
+    const trail = [
+      buttonRow(
+        ...(outings ?? []).map((choice) => {
+          // A grayed outing says why, from the records.
+          const why = choice.why
+            ? (controls.campaignUnavailable[choice.why.key] ?? "")
+                .replace("{price}", moneyWords(choice.why.priceMinor ?? 0))
+                .replace("{cash}", moneyWords(choice.why.cashMinor ?? 0))
+            : "";
+          const b = makeButton({
+            textContent: `${controls.campaignOutings[choice.outing]} · ${choice.hours} ${controls.campaignOutings.hours}${why ? ` · ${why}` : ""}`,
+            disabled: !choice.available,
+            title: why,
           });
-          const send = button(controls.campaignActs.mail, "mail", () => ({
-            amountMinor: String(Math.round(Number(dollarsOut.value) * 100)),
-          }));
-          send.dataset.testid = "campaign-mail";
-          return buttonRow(dollarsOut, send);
-        })(),
-        // The player's own money into the campaign: the amount is theirs to set.
-        (() => {
-          const dollarsIn = numberBox({
-            value: 0,
-            min: 0,
-            step: 1,
-            label: controls.campaignContribute.dollars,
-          });
-          const give = makeButton({
-            textContent: controls.campaignContribute.give,
-          });
-          give.addEventListener("click", () =>
-            act("contribute", {
-              amountMinor: String(Math.round(Number(dollarsIn.value) * 100)),
-            }),
+          b.addEventListener("click", () =>
+            goOut(choice.outing, choice.outletId),
           );
-          return buttonRow(dollarsIn, give);
-        })(),
-        speechCard({
-          words: controls.speech,
-          state: speechState,
-          venue,
-          onBegin: async () => {
-            speechState = await post("/api/campaign/speech/begin");
-            openSheet("campaigns");
-          },
-          onPick: async (choice) => {
-            speechState = await post(
-              `/api/campaign/speech/pick?${new URLSearchParams({ key: choice.key })}`,
+          return b;
+        }),
+      ),
+      // stopgapId: SG-PLAY-campaign-acts-buttons
+      buttonRow(
+        button(controls.campaignActs.volunteer, "volunteer"),
+        button(controls.campaignActs.endorsement, "endorsement"),
+        button(controls.campaignActs.ad, "ad", { amountMinor: "5000" }),
+        button(controls.campaignActs.poll, "poll", {
+          sampleSize: String(pollSample),
+        }),
+      ),
+      // Mail to the town's households: the player sets what to spend.
+      (() => {
+        const dollarsOut = numberBox({
+          value: 50,
+          min: 0,
+          step: 1,
+          label: controls.campaignContribute.dollars,
+        });
+        const send = button(controls.campaignActs.mail, "mail", () => ({
+          amountMinor: String(Math.round(Number(dollarsOut.value) * 100)),
+        }));
+        send.dataset.testid = "campaign-mail";
+        return buttonRow(dollarsOut, send);
+      })(),
+      // The player's own money into the campaign: the amount is theirs to set.
+      (() => {
+        const dollarsIn = numberBox({
+          value: 0,
+          min: 0,
+          step: 1,
+          label: controls.campaignContribute.dollars,
+        });
+        const give = makeButton({
+          textContent: controls.campaignContribute.give,
+        });
+        give.addEventListener("click", () =>
+          act("contribute", {
+            amountMinor: String(Math.round(Number(dollarsIn.value) * 100)),
+          }),
+        );
+        return buttonRow(dollarsIn, give);
+      })(),
+      speechCard({
+        words: controls.speech,
+        state: speechState,
+        venue,
+        onBegin: async () => {
+          speechState = await post("/api/campaign/speech/begin");
+          reopenTrail(filing.id);
+        },
+        onPick: async (choice) => {
+          speechState = await post(
+            `/api/campaign/speech/pick?${new URLSearchParams({ key: choice.key })}`,
+          );
+          reopenTrail(filing.id);
+        },
+        onGive: async () => {
+          const result = await post(
+            `/api/campaign/speech/give?${new URLSearchParams({ filingId: filing.id, venue: venue.value })}`,
+          );
+          speechState = null;
+          campaignResult = `${result.reached} · +${result.warmer} · −${result.cooler} · ${result.retold} ${controls.speech.retold}`;
+          // A speech is seen where it was given, with the people it reached.
+          closeSheet();
+          $("backdrop").src = result.scene.backdrop.url;
+          drawPeople(result.scene.people);
+          $("card-why").textContent = campaignResult;
+        },
+      }),
+      // A debate the outlet invited the candidates to: one position (or a pass) on each question it asks.
+      ...(debates ?? []).map((debate) =>
+        debateCard({
+          words: controls.debate,
+          debate,
+          questionLabel: policyLabel,
+          onAnswer: async (answers) => {
+            await post(
+              `/api/campaign/debate?${new URLSearchParams({
+                debateId: debate.id,
+                answers: JSON.stringify(answers),
+              })}`,
             );
-            openSheet("campaigns");
-          },
-          onGive: async () => {
-            const result = await post(
-              `/api/campaign/speech/give?${new URLSearchParams({ filingId: filing.id, venue: venue.value })}`,
-            );
-            speechState = null;
-            campaignResult = `${result.reached} · +${result.warmer} · −${result.cooler} · ${result.retold} ${controls.speech.retold}`;
-            // A speech is seen where it was given, with the people it reached.
-            closeSheet();
-            $("backdrop").src = result.scene.backdrop.url;
-            drawPeople(result.scene.people);
-            $("card-why").textContent = campaignResult;
+            reopenTrail(filing.id);
           },
         }),
-        // A debate the outlet invited the candidates to: one position (or a pass) on each question it asks.
-        ...(debates ?? []).map((debate) =>
-          debateCard({
-            words: controls.debate,
-            debate,
-            questionLabel: policyLabel,
-            onAnswer: async (answers) => {
-              await post(
-                `/api/campaign/debate?${new URLSearchParams({
-                  debateId: debate.id,
-                  answers: JSON.stringify(answers),
-                })}`,
-              );
-              openSheet("campaigns");
-            },
-          }),
-        ),
-        // Where the race stands, in plain sentences from the English engine.
-        bold(controls.raceStanding.title),
-        ...(standing ?? []).map((text) => listRow("", { textContent: text })),
-        campaignResult ? line(campaignResult) : "",
-        ...campaignLines.map((text) => line(text)),
       ),
+      campaignResult ? line(campaignResult) : "",
+      ...campaignLines.map((text) => line(text)),
+    ];
+    const tab = listRow(
+      "campaign",
+      {},
+      bold(
+        [
+          contest?.title,
+          contest ? dateWords(contest.electionDate) : null,
+          controls.filing?.status?.[filing.status] ?? "",
+        ]
+          .filter(Boolean)
+          .join(" · "),
+      ),
+      `${controls.campaignResults.raised.replace("{amount}", moneyWords(campaign.raisedMinor))} · ${controls.campaignResults.spent.replace("{amount}", moneyWords(campaign.spentMinor))} · ${volunteerCount(campaign.volunteers)} · ${controls.campaignResults.doors.replace("{n}", campaign.doors)}${
+        // The endorsements given, from the campaign's endorsement records.
+        campaign.endorsements
+          ? ` · ${(campaign.endorsements === 1 ? controls.campaignEndorsements.one : controls.campaignEndorsements.other).replace("{n}", String(campaign.endorsements))}`
+          : ""
+      }`,
+      // Where the race stands, in plain sentences from the English engine.
+      bold(controls.raceStanding.title),
+      ...(standing ?? []).map((text) => listRow("", { textContent: text })),
     );
+    parts.push({ filing, contest, tab, trail });
   }
-  return rows;
+  return parts;
+}
+/**
+ * The campaign trail: where the acts are (owner, Oct 20: "campaign acts are
+ * scenes you go to"). One card in Travel per filed campaign; its doors, event,
+ * interview, forum, calls, donor meeting, speech and debate start their scenes.
+ */
+function trailView(part) {
+  $("sheet-body").replaceChildren(
+    ...recordScreen({
+      heading: {
+        name: controls.travel.trail,
+        meta: [
+          part.contest?.title,
+          part.contest ? dateWords(part.contest.electionDate) : null,
+        ]
+          .filter(Boolean)
+          .join(" · "),
+      },
+      sections: [{ items: part.trail.map((node) => ({ node })) }],
+    }),
+  );
+  $("sheet-body").classList.add("place-view");
+}
+/** Back to the trail after an act that stays on the screen (a poll, an ad, a speech's next step). */
+async function reopenTrail(filingId) {
+  await openSheet("travel");
+  const part = (await campaignParts()).find((p) => p.filing.id === filingId);
+  if (part) trailView(part);
+}
+/** The tab's rows: each filed campaign's standing and results. */
+async function campaignRows() {
+  return (await campaignParts()).map((part) => part.tab);
 }
 
 // ---- A big moment, staged when it stops the clock ----
@@ -1635,6 +1731,7 @@ async function showStory(momentId) {
       ? story.speech.parts
       : [story.speech.text];
     const sayPart = (at) => {
+      show("talk-skip", true);
       setWho(story.speech.speakerId, story.names[story.speech.speakerId]);
       talkControls({ silent: false, leave: false });
       fillTalk({
@@ -3278,28 +3375,25 @@ const sheets = {
       api(`/api/government?id=${encodeURIComponent(me.id)}`),
     ]);
     const labels = controls.travel;
-    // The offices that take your filings: one card each, with its races.
+    // The offices that take your filings: one card each.
     const byOffice = new Map();
     for (const c of government.contests) {
       const filedWith = c.filingOffice.filedWith;
       const name = filedWith.replace(/\s*\([^)]*\)/g, "");
+      // A town's or county's own clerk is named for the place ("City or town
+      // clerk, Point Pleasant"); a state's or the nation's office already is.
+      const title =
+        c.contest.family === "municipalOffice"
+          ? labels.counterTitle
+              .replace("{office}", name)
+              .replace("{town}", me.placeName.split(",")[0])
+          : name;
       if (!byOffice.has(name))
-        byOffice.set(name, { name, filedWith, races: [], filing: true });
-      const office = byOffice.get(name);
-      if (!office.races.some((race) => race.contestId === c.contest.id)) {
-        const seat = government.seats.find(
-          (row) => row.seatId === c.contest.seatId,
-        );
-        office.races.push({
-          contestId: c.contest.id,
-          title: c.contest.title,
-          district: c.contest.district ?? null,
-          electionDate: c.contest.electionDate,
-          holder: seat?.holder
-            ? `${seat.holder.givenName} ${seat.holder.familyName}`
-            : null,
+        byOffice.set(name, {
+          name: title,
+          filedWith,
+          filing: true,
         });
-      }
     }
     const counters = await Promise.all(
       [...byOffice.values()].map(async (office) => ({
@@ -3313,74 +3407,67 @@ const sheets = {
         },
       })),
     );
-    const destinations = [...counters, ...places];
+    // The campaign trail: one card per filed campaign, where its acts wait.
+    const trails = (await campaignParts()).map((part) => ({
+      name: labels.trail,
+      trail: part,
+      presentCount: 0,
+      presentNames: [],
+      reasons: [],
+      organizationId: part.filing.id,
+    }));
+    const destinations = [...trails, ...counters, ...places];
     // Why each card is listed, from the player's own record: where they work,
     // what they can do there, where they serve, where they file. Never what
     // someone they know does there (owner, Oct 28, point 27: "things do not
     // pop up because someone the player knows does them").
     const OWN = new Set(["work", "action", "serve"]);
     const reasonLine = (p) =>
-      p.filing
-        ? labels.reasons.filing
-        : p.reasons
-            .filter((r) => OWN.has(r.kind))
-            .map((r) =>
-              r.kind === "action"
-                ? `${labels.reasons.action} ${(controls.actions?.[r.recordId] ?? "").toLowerCase()}`
-                : labels.reasons[r.kind],
-            )
-            .join(" · ");
+      p.trail
+        ? ""
+        : p.filing
+          ? labels.reasons.filing
+          : p.reasons
+              .filter((r) => OWN.has(r.kind))
+              .map((r) =>
+                r.kind === "action"
+                  ? `${labels.reasons.action} ${(controls.actions?.[r.recordId] ?? "").toLowerCase()}`
+                  : labels.reasons[r.kind],
+              )
+              .join(" · ");
     // Open while someone works there now, by their own hours; else closed.
     const hereLine = (p) =>
-      p.filing
-        ? labels.filing
-        : p.presentCount
-          ? `${labels.open} · ${p.presentNames.join(", ")}`
-          : labels.closed;
+      p.trail
+        ? (p.trail.contest?.title ?? "")
+        : p.filing
+          ? labels.filing
+          : p.presentCount
+            ? `${labels.open} · ${p.presentNames.join(", ")}`
+            : labels.closed;
     // A card opens the place's own view: its picture, what you do there, who
     // works there, then Go (owner, Oct 28, point 28).
-    const showPlace = (p) => {
+    const showPlace = async (p) => {
+      if (p.trail) return trailView(p.trail);
+      // An office keeps its clerk's hours: the card says when it next opens.
+      const hours = p.filing
+        ? await api(
+            `/api/filing/hours?filedWith=${encodeURIComponent(p.filedWith)}`,
+          )
+        : {};
       const picture = p.presentation?.imageUrl;
-      // Each race named apart: its district, and its election day when two
-      // races for the same office are open at once (a regular and a special).
-      // A district code on the record ("02", "004") reads as "District 2".
-      const district = (code) =>
-        /^\d+$/.test(code) ? `${labels.district} ${Number(code)}` : code;
-      const name = (race) =>
-        race.district
-          ? `${race.title}, ${district(race.district)}`
-          : race.title;
-      // Two races for the same office at once (three selectmen's seats up
-      // the same day) are told apart by who holds each seat now, then by the
-      // election day (a regular and a special), then by their place in the
-      // office's list.
-      const counter = controls.filing;
-      const raceLabel = (race) => {
-        let named = name(race);
-        const twins = (label) =>
-          p.races.filter((other) => label(other) === label(race));
-        if (twins(name).length > 1) {
-          const held = (r) =>
-            `${name(r)} · ${r.holder ? `${counter.heldBy} ${r.holder}` : counter.openSeat}`;
-          named = held(race);
-          if (twins(held).length > 1 && race.electionDate) {
-            const dated = (r) =>
-              `${held(r)} · ${dateWords(r.electionDate ?? "")}`;
-            named = dated(race);
-            if (twins(dated).length > 1)
-              named = `${named} · ${counter.seat} ${twins(dated).indexOf(race) + 1}`;
-          }
-        }
-        return named;
-      };
+      const opensLine = hours.opens
+        ? labels.opensAt
+            .replace("{day}", dateWords(hours.opens.date, { weekday: true }))
+            .replace("{time}", timeWords(hours.opens.minuteOfDay))
+        : "";
+      // A filing office says what you do there in a sentence, never a list of
+      // seats by their holders' names (owner, Nov 1: "It says what you do
+      // here. And then it's just a list of people's names."); the clerk asks
+      // which race at the counter.
       const doHere = p.filing
         ? [
-            {
-              actions: p.races.map((race) => ({
-                label: raceLabel(race),
-                onClick: () => openFiling(p.filedWith, race.contestId),
-              })),
-            },
+            { text: labels.filingDoes },
+            ...(opensLine ? [{ text: opensLine }] : []),
           ]
         : reasonLine(p)
           ? reasonLine(p)
@@ -3467,16 +3554,18 @@ const sheets = {
             picture: p.presentation?.imageUrl,
             lines: [hereLine(p)],
             note: reasonLine(p),
-            badge: p.filing || p.presentCount > 0,
+            badge: Boolean(p.trail) || p.filing || p.presentCount > 0,
             label: p.name,
             onSelect: () => showPlace(p),
             // The record behind the reason, for the specs; never shown as text.
             data: {
-              reason: (p.filing
-                ? [p.filedWith]
-                : p.reasons.length
-                  ? p.reasons.map((r) => r.recordId)
-                  : [p.organizationId]
+              reason: (p.trail
+                ? [p.trail.filing.id]
+                : p.filing
+                  ? [p.filedWith]
+                  : p.reasons.length
+                    ? p.reasons.map((r) => r.recordId)
+                    : [p.organizationId]
               ).join(" "),
             },
           })),
@@ -4809,8 +4898,21 @@ function filledIn() {
 }
 for (const id of ["cr-given", "cr-family"])
   $(id).addEventListener("input", filledIn);
+/**
+ * The random name waits for a gender (owner, Nov 1: "Randomized name shouldn't
+ * work until you choose a gender"): a name is drawn for the chosen gender, and
+ * the button says what it waits for until then.
+ */
+function nameWaitsForGender() {
+  const waiting = !setup.gender;
+  $("cr-random-name").disabled = waiting;
+  $("cr-random-name").textContent = waiting
+    ? controls.creator.nameWaitsForGender
+    : controls.creator.randomName;
+}
 function pickGender(g) {
   setup.gender = g;
+  nameWaitsForGender();
   filledIn();
   for (const b of document.querySelectorAll("[data-gender]")) {
     const on = b.dataset.gender === g;
@@ -4845,6 +4947,8 @@ async function openCreator() {
   setup.seed = $("seed").value || (await api("/api/seed")).seed;
   $("cr-route-name").textContent = $("new-start").textContent.trim();
   if (!$("cr-year").options.length) await randomBirthday();
+  await controlsReady;
+  nameWaitsForGender();
   frontPanel("cr-character");
 }
 $("new-life").addEventListener("click", () => frontPanel("front-new"));

@@ -6,11 +6,11 @@ kind: bug
 priority: 2
 size: M
 status: open
-claimed-by: claude/pool-cash-journal
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T01:43:25.293Z
+claimed-at:
 ---
 
 **What.** A CPU profile of the played year in Long Hill, Connecticut (npm run speed:year -- --seed m7b --exclusive, 176.6 s unprofiled-by-wall, 210 s sampled) puts postCashJournal (journal-state.ts) at 5.9 s, projectCashJournal (journal.ts) at 4.0 s and portfolios (journal-state.ts) at 2.5 s self time, about 12 s together, beside 38.9 s of garbage collection. Find what each daily posting rebuilds or copies that it could update in place or index, and cut it without changing any balance. Whoever claims it designs the batching and writes the design in the PR body.
@@ -26,3 +26,5 @@ claimed-at: 2026-10-20T01:43:25.293Z
 Released Oct 20 after reading `postCashJournal` (journal-state.ts 1137 on): it is a transactional, bigint-checked writer copying posting rows, capturing secondary markers and building a full projection per entry, about 5.7% of the profiled year. Halving it saves about 3% of the year, so batching postings per day (one projection for many same-source rows) is the only worthwhile cut and needs the journal owner's design; not started.
 
 Oct 25 audit: set open; it waited on a design item that was never filed, so the claimer designs the batching and says so in the PR.
+
+Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/pool-cash-journal` (2026-10-20). Cleared from the front matter and kept here.

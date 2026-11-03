@@ -1344,6 +1344,42 @@ function billLevel(api: CoreAPI, bill: BillRow): LawLevel {
 }
 
 /**
+ * The questions a bill changes, once each, with the section that changes
+ * each last. A phase-in's dated steps on one law are one change, weighed at
+ * its last step against the law in force, so a member weighs the question
+ * once however many steps reach it (pool item gov-phase-in-weighed-once). A
+ * section with no date of its own takes effect with the bill, before any
+ * dated step; of two on one date, the later in the bill's text.
+ */
+function billStances(
+  api: CoreAPI,
+  bill: BillRow,
+): readonly {
+  readonly question: string;
+  readonly position: number;
+  readonly provision: Provision;
+}[] {
+  const level = billLevel(api, bill);
+  const last = new Map<
+    string,
+    { question: string; position: number; provision: Provision; on: string }
+  >();
+  for (const provision of bill.provisions) {
+    const stance = provisionStance(api, provision, level);
+    if (!stance) continue;
+    const on = provision.effectiveDate ?? "";
+    const seen = last.get(stance.question);
+    if (!seen || on >= seen.on)
+      last.set(stance.question, { ...stance, provision, on });
+  }
+  return [...last.values()].map(({ question, position, provision }) => ({
+    question,
+    position,
+    provision,
+  }));
+}
+
+/**
  * Whether the town may pass a provision: a minimum wage needs the state's
  * local-minimum-wage authority (read through the lifted law-in-force rule);
  * a local income or sales tax needs the state's recorded permission; a policy
@@ -2722,10 +2758,9 @@ function recordConsistency(
   bill: BillRow,
 ): number {
   let sum = 0;
-  for (const p of bill.provisions) {
-    const series = provisionSeries(p);
-    const stance = provisionStance(api, p, billLevel(api, bill));
-    if (!series || !stance) continue;
+  for (const stance of billStances(api, bill)) {
+    const series = provisionSeries(stance.provision);
+    if (!series) continue;
     const last = votesOf(api, memberId)
       .filter((v) => v.stance.question === stance.question)
       .at(-1);
@@ -2754,10 +2789,7 @@ function positionOn(
   memberId: string,
 ): MemberPosition {
   const official = officialOf(api, memberId);
-  const stances = bill.provisions.flatMap((provision) => {
-    const stance = provisionStance(api, provision, billLevel(api, bill));
-    return stance ? [stance] : [];
-  });
+  const stances = billStances(api, bill);
   // A state or federal official weighs their own reasons (OPUS-OFFICIALS);
   // a town member their own views and the town's lean.
   const parts = official ? officialParts(api, official, stances) : null;
@@ -3511,9 +3543,8 @@ function chamberVote(
           ...(d.stage === undefined ? {} : { stage: d.stage }),
         })),
     } as unknown as ModuleRow);
-    for (const provision of bill.provisions) {
-      const stance = provisionStance(api, provision, billLevel(api, bill));
-      if (stance && vote !== "abstain" && vote !== "absent")
+    for (const stance of billStances(api, bill)) {
+      if (vote !== "abstain" && vote !== "absent")
         recordVote(api, {
           personId: key,
           body: officeId,

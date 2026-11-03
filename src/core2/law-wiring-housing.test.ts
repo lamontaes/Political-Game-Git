@@ -790,10 +790,19 @@ function play(
         cap.every((r) => r.what !== "interest-capped" || r.amountMinor > 0),
       "the rate cap recorded interest that was not capped",
     );
+    // A counted household is read by the same rule as a full one (one model,
+    // two tiers): its quote is a group row, and the small-dollar lender that
+    // lends it is quoted under the same ceiling, so both lenders' loans and
+    // both kinds of row count. In East Providence, Rhode Island (seed
+    // 3ac3c153…) every household that borrowed in the year was a counted one
+    // at a storefront lender.
     for (const row of cap) {
-      if (row.target !== "household") continue;
+      if (row.target !== "household" && row.target !== "group") continue;
       const loan = posts.find(
-        (p) => p.ref.startsWith(`loan:${row.targetId}:`) && p.gross > 0,
+        (p) =>
+          (p.ref.startsWith(`loan:${row.targetId}:`) ||
+            p.ref.startsWith(`loan:small-dollar:${row.targetId}:`)) &&
+          p.gross > 0,
       );
       if (!loan) continue;
       trails.cap = {
