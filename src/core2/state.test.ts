@@ -191,7 +191,6 @@ function mutableSnapshot(core: CoreState) {
     durableLog: core.durableLog,
     logByPerson: core.logByPerson,
     logByKind: core.logByKind,
-    logByPlace: core.logByPlace,
     actCounters: core.actCounters,
     eventIds: core.eventIds,
     sequence: core.sequence,
@@ -670,7 +669,6 @@ describe("P8 visible records and calendar boundaries", () => {
     );
     for (const record of core.durableLog.values()) {
       expect(core.logByKind.get(record.kind)).toContain(record.id);
-      expect(core.logByPlace.get(record.placeId)).toContain(record.id);
       for (const id of record.personIds)
         expect(core.logByPerson.get(id)).toContain(record.id);
     }

@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: play-first/play-stop-12-status-card-covers-menu-after-canvass
 pr: #6051
 blocked-on:
@@ -34,3 +34,5 @@ claimed-at: 2026-11-01T14:39:23.572Z
 Sent back 2026-10-25 ~22:05 UTC from PR #6051 (branch claude/quirky-ride-vrwwz4-play-stop-12, head 1d51fa6ef9 with main merged in): the body screenshot is wrapped in backticks so it renders as code, not an image, and OWNER SCREENSHOT NEEDED still awaits the owner's yes; unwrap the image tag and it goes back in the queue once the owner says yes; finish on that branch, merge main into it first.
 
 Sent back 2026-10-26 from PR #6051 (branch claude/quirky-ride-vrwwz4-play-stop-12): Current-main integration conflicts in src/bench/card.browser.mjs and three card PNGs; reconcile the additional check/evidence with the dock layout already landed through #5971 and keep the separate #6083 wage port distinct, preserving installed-build acceptance as open.; finish on that branch, merge main into it first.
+
+Lane 5 (pool truth, Nov 3): done. The owner closed #6971 on Nov 3 at 22:08 UTC: "Closed by the owner: its pool item is finished."

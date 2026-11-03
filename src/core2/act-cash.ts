@@ -224,7 +224,6 @@ export function admitSelectedCashAct(
       queueDecisionDetail(core, date, id);
       m.indexAdd(r.field(core, "logByPerson"), actorId, id);
       m.indexAdd(r.field(core, "logByKind"), record.kind, id);
-      m.indexAdd(r.field(core, "logByPlace"), placeId, id);
     }
     return selection;
   } catch (error) {
