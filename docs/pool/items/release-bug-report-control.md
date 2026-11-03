@@ -6,11 +6,11 @@ kind: feature
 priority: 3
 size: M
 status: open
-claimed-by: claude/political-game-pool-76ksvw
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T01:28:01.753Z
+claimed-at:
 ---
 
 **What.** TODO
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T01:28:01.753Z
 **Files.** TODO
 
 **Notes.** TODO Released from idle draft #5180 by the CTO, Oct 26.
+
+Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/political-game-pool-76ksvw` (2026-10-20). Cleared from the front matter and kept here.

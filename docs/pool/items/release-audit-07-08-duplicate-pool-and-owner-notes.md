@@ -6,11 +6,11 @@ kind: bug
 priority: 3
 size: S
 status: open
-claimed-by: claude/political-game-pool-76ksvw
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T04:32:20.825Z
+claimed-at:
 ---
 
 **What.** Remove the duplicated sections in world-corporate-office-staff-never-paid, world-utility-staff-never-paid and people-press-turnover-no-leavers-no-openings, and the owner and date notes added to data citations and stopgap text.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T04:32:20.825Z
 **Files.** docs/pool/items, data, src/core2/data/stopgaps.json
 
 **Notes.** Item 7-8 of docs/reports/merge-audit-2026-10-20.md, split from release-merge-audit-oct20-fixes. Released from idle draft #5180 by the CTO, Oct 26.
+
+Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/political-game-pool-76ksvw` (2026-10-20). Cleared from the front matter and kept here.

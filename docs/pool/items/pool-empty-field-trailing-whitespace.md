@@ -5,9 +5,9 @@ area: release
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: lane-5/pool-empty-field-trim
-pr:
+pr: #7145
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-03T22:21:11.306Z

@@ -4,6 +4,7 @@ import { workSpansOf } from "./places";
 import officeHours from "./data/office-hours.json" with { type: "json" };
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import {
+  ELECTIONS_MODULE_ID,
   checkEligibility,
   filingOfficeFor,
   openContests,
@@ -125,9 +126,36 @@ export function openBenchFilingVisit(
   // What the clerk tells a candidate about the race, from the contest and
   // its office records: the dates, the term and the kind of office.
   const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
+  type OfficeRecord = {
+    id: string;
+    jurisdiction?: string;
+    termYears?: number;
+    seats?: number;
+    bodyName?: string;
+  };
+  // The place's own council or board, by its office record: the body a seat
+  // sits on, or for a single office the body of the same government (owner,
+  // Nov 1: "Do you mean city council?").
+  const bodyOf = (office: OfficeRecord | undefined) => {
+    const named = (row: OfficeRecord | undefined) =>
+      row?.bodyName && (row.seats ?? 1) > 1
+        ? { name: row.bodyName, recordId: row.id }
+        : null;
+    if (!office) return null;
+    return (
+      named(office) ??
+      named(
+        (
+          offices.query("byJurisdiction", [
+            office.jurisdiction ?? "",
+          ]) as unknown as OfficeRecord[]
+        ).find((row) => named(row)),
+      )
+    );
+  };
   const contests = open.map((row) => {
     const office = offices.get(row.officeId) as unknown as
-      { termYears?: number; seats?: number } | undefined;
+      OfficeRecord | undefined;
     return {
       id: row.id,
       title: row.district ? `${row.title} (${row.district})` : row.title,
@@ -136,6 +164,7 @@ export function openBenchFilingVisit(
       primaryDate: row.primaryDate,
       termYears: office?.termYears ?? null,
       kind: `${row.family}-${(office?.seats ?? 1) > 1 ? "body" : "single"}`,
+      body: bodyOf(office),
       sourceIds: [...row.sources, row.officeId],
     };
   });
@@ -192,12 +221,47 @@ export function openBenchFilingVisit(
     visit,
     filedWith,
     place,
-    intro: clerkRow ? counterNarration(core, visit, clerkRow) : [],
+    // A first visit asks for the papers; a filing here still gathering
+    // signatures brings the petition back, and one already on the ballot
+    // comes back with nothing to bring, each by its record.
+    intro: clerkRow
+      ? counterNarration(
+          core,
+          visit,
+          clerkRow,
+          filedHere(core, playerId, filedWith),
+        )
+      : [],
     backdrop,
     people: stagePeople(core, backdrop.file, cast).people,
     names: Object.fromEntries(cast.map((row) => [row.id, row.name])),
     seats,
   };
+}
+
+/** The player's filing at this office still gathering signatures or on the ballot, if any. */
+function filedHere(
+  core: CoreState,
+  playerId: string,
+  filedWith: string,
+): { id: string; status: string } | null {
+  const filings = coreAPI(core)
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("filings")
+    .query("byPerson", [playerId]) as unknown as {
+    id: string;
+    personId: string;
+    filedWith: string;
+    status: string;
+  }[];
+  const held =
+    filings.find(
+      (row) => row.filedWith === filedWith && row.status === "petitioning",
+    ) ??
+    filings.find(
+      (row) => row.filedWith === filedWith && row.status === "on-ballot",
+    );
+  return held ? { id: held.id, status: held.status } : null;
 }
 
 /** The player's choice at the counter: name an office, file, or leave. */

@@ -309,6 +309,7 @@ export function run(
   poolDir: string,
   check: boolean,
   qualityOnly?: ReadonlySet<string>,
+  opts: { staleCheck?: boolean; writeIndex?: boolean } = {},
 ): { index: string; errors: string[]; warnings: string[] } {
   const dir = join(poolDir, "items");
   const files = existsSync(dir)
@@ -336,10 +337,67 @@ export function run(
   const index = buildIndex(items);
   const path = join(poolDir, "INDEX.md");
   if (check) {
-    if (!existsSync(path) || readFileSync(path, "utf8") !== index)
-      errors.push("docs/pool/INDEX.md is stale: run `npm run pool`");
-  } else if (!errors.length) writeFileSync(path, index);
+    if (opts.staleCheck !== false)
+      if (!existsSync(path) || readFileSync(path, "utf8") !== index)
+        errors.push("docs/pool/INDEX.md is stale: run `npm run pool`");
+  } else if (!errors.length && opts.writeIndex !== false)
+    writeFileSync(path, index);
   return { index, errors: check ? [...errors, ...warnings] : errors, warnings };
+}
+
+/** The index main's items would produce, without writing it. */
+export function buildIndexFor(poolDir: string): string {
+  return run(poolDir, true, new Set(), { staleCheck: false }).index;
+}
+
+/**
+ * The index is main's alone (pool-generated-index-merge-starvation): its count
+ * line and lists change with every status, so any two branches that each wrote
+ * it conflicted, and checked PRs starved. It is written only where the checkout
+ * stands on main (a claim's push, the pool index workflow, the done-on-merge
+ * flip, each on a branch made at origin/main to push to it); a branch never
+ * changes it. A checkout with no origin/main is its own main.
+ */
+export function onIndexHome(): boolean {
+  try {
+    git("rev-parse", "--verify", "-q", "origin/main");
+  } catch {
+    return true;
+  }
+  return git("rev-parse", "--abbrev-ref", "HEAD") === "main";
+}
+
+/**
+ * The index's part of `--check`. On main it must be current. On a branch it
+ * must equal main's copy at the merge base: the branch changed nothing in it,
+ * so no merge can conflict there, and the workflow on main regenerates it.
+ */
+export function indexCheck(poolDir: string): string[] {
+  const path = join(poolDir, "INDEX.md");
+  if (onIndexHome()) {
+    const index = buildIndexFor(poolDir);
+    return existsSync(path) && readFileSync(path, "utf8") === index
+      ? []
+      : ["docs/pool/INDEX.md is stale: run `npm run pool`"];
+  }
+  const base = git("merge-base", "HEAD", "origin/main");
+  const rel = git("ls-files", "--full-name", path) || "docs/pool/INDEX.md";
+  let mains = "";
+  try {
+    mains = execFileSync("git", ["show", `${base}:${rel}`], {
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "pipe"],
+      maxBuffer: 64 * 1024 * 1024,
+    });
+  } catch {
+    mains = "";
+  }
+  const own = existsSync(path) ? readFileSync(path, "utf8") : "";
+  return own === mains
+    ? []
+    : [
+        "docs/pool/INDEX.md is written on main only and this branch changes it: run `git checkout origin/main -- docs/pool/INDEX.md` (after merging main) and commit",
+      ];
 }
 
 const POOL = (): string => join(process.cwd(), "docs", "pool");
@@ -381,33 +439,28 @@ function readItem(id: string): Record<string, string> {
 }
 
 /** Applies an edit, regenerates the index and commits the two files. Throws on a refusal. */
-function applyAndCommit(id: string, edit: () => void, message: string): void {
-  edit();
-  const { errors } = run(POOL(), false);
-  if (errors.length) throw new Error(errors.join("\n"));
-  git("add", "docs/pool/INDEX.md", `docs/pool/items/${id}.md`);
-  // Another writer (a merger, the CTO) may have made the same change on main
-  // between the read and the fetch; nothing to commit is then a finished job.
-  if (!git("diff", "--cached", "--name-only")) return;
-  git(
-    "commit",
-    "-m",
-    message,
-    "--",
-    "docs/pool/INDEX.md",
-    `docs/pool/items/${id}.md`,
-  );
-}
-
-function mutate(
+function applyAndCommit(
   id: string,
   edit: () => void,
   message: string,
-  noPush: boolean,
+  home: boolean,
 ): void {
-  if (noPush) return applyAndCommit(id, edit, message);
+  edit();
+  const { errors } = run(POOL(), false, undefined, { writeIndex: home });
+  if (errors.length) throw new Error(errors.join("\n"));
+  const files = home
+    ? ["docs/pool/INDEX.md", `docs/pool/items/${id}.md`]
+    : [`docs/pool/items/${id}.md`];
+  git("add", ...files);
+  // Another writer (a merger, the CTO) may have made the same change on main
+  // between the read and the fetch; nothing to commit is then a finished job.
+  if (!git("diff", "--cached", "--name-only")) return;
+  git("commit", "-m", message, "--", ...files);
+}
+
+/** Runs `step` on a fresh branch at origin/main and pushes it to main, retrying a lost race. */
+function onMain(tmp: string, step: () => void): void {
   const prev = git("rev-parse", "--abbrev-ref", "HEAD");
-  const tmp = `pool-claim-${id}`;
   let last: unknown;
   try {
     // A merge burst runs many flips at once; each loses the push race to the
@@ -415,7 +468,7 @@ function mutate(
     for (let n = 0; n < 8; n++) {
       git("fetch", "origin", "main");
       git("checkout", "-B", tmp, "origin/main");
-      applyAndCommit(id, edit, message);
+      step();
       try {
         git("push", "origin", "HEAD:main");
         return;
@@ -435,6 +488,42 @@ function mutate(
 }
 
 /**
+ * Regenerates the index on main from main's items and pushes it when it moved.
+ * The pool index workflow runs it after every push to main that changes an item.
+ * Returns an error message or null.
+ */
+export function reindex(): string | null {
+  try {
+    onMain("pool-reindex", () => {
+      const { errors } = run(POOL(), false);
+      if (errors.length) throw new Error(errors.join("\n"));
+      git("add", "docs/pool/INDEX.md");
+      if (!git("diff", "--cached", "--name-only")) return;
+      git(
+        "commit",
+        "-m",
+        "pool: regenerate the index",
+        "--",
+        "docs/pool/INDEX.md",
+      );
+    });
+    return null;
+  } catch (e) {
+    return e instanceof Error ? e.message : String(e);
+  }
+}
+
+function mutate(
+  id: string,
+  edit: () => void,
+  message: string,
+  noPush: boolean,
+): void {
+  if (noPush) return applyAndCommit(id, edit, message, onIndexHome());
+  onMain(`pool-claim-${id}`, () => applyAndCommit(id, edit, message, true));
+}
+
+/**
  * Flags come as `--key value` or `--key=value`. `--by` may also come from
  * POOL_BY: npm swallows a `--by` written without `--` before the arguments
  * (`npm run pool status x done --by cto` reaches the tool as `done cto`), and
@@ -449,6 +538,7 @@ export function flags(
   if (env.POOL_BY) f.by = env.POOL_BY;
   for (let i = 0; i < argv.length; i++) {
     if (argv[i] === "--no-push") f["no-push"] = "1";
+    else if (argv[i] === "--local") f.local = "1";
     else if (argv[i].startsWith("--")) {
       const eq = argv[i].indexOf("=");
       if (eq > 2) f[argv[i].slice(2, eq)] = argv[i].slice(eq + 1);
@@ -473,6 +563,13 @@ export function command(
   const [cmd, id] = pos;
   const noPush = !!f["no-push"];
   try {
+    if (cmd === "reindex") {
+      if (!f.local) return reindex();
+      const { errors } = run(POOL(), false, undefined, {
+        writeIndex: onIndexHome(),
+      });
+      return errors.length ? errors.join("\n") : null;
+    }
     if (cmd === "claim") {
       if (!id || !f.branch) return "usage: pool claim <id> --branch <branch>";
       const edit = (): void => {
@@ -576,15 +673,23 @@ if (
           .map((f) => f.slice("docs/pool/items/".length)),
       )
     : undefined;
-  const { errors, warnings } = run(
-    join(process.cwd(), "docs", "pool"),
-    check,
-    qualityOnly,
-  );
+  const poolDir = join(process.cwd(), "docs", "pool");
+  const home = onIndexHome();
+  const { errors, warnings } = run(poolDir, check, qualityOnly, {
+    staleCheck: false,
+    writeIndex: home,
+  });
+  if (check) errors.push(...indexCheck(poolDir));
   if (!check && warnings.length) console.warn(warnings.join("\n"));
   if (errors.length) {
     console.error(errors.join("\n"));
     process.exit(1);
   }
-  console.log(check ? "pool index is current" : "pool index written");
+  console.log(
+    check
+      ? "pool items are valid and the index is main's"
+      : home
+        ? "pool index written"
+        : "pool items are valid; the index is written on main only, by the pool index workflow",
+  );
 }
