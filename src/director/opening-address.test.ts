@@ -72,9 +72,22 @@ describe("the opening address from a world's records", () => {
     const shapes = new Set(
       worlds.map(({ story }) => shapeOf(story!.address.sentences).join(" ")),
     );
-    // Shapes vary only where Presidents hold federal views; with none, every
-    // address has one shape and differs in the country's story (printed).
     process.stdout.write(`ADDRESS SHAPES ${seed}: ${shapes.size}\n`);
+    // The structure itself varies with the President (owner, Nov 1: "Every
+    // one of these speeches has the same general outline. They need to
+    // vary."): what it leads with, and which parts it says, in its own order.
+    const structures = new Set(
+      worlds.map(({ story }) =>
+        story!.address.sentences
+          .map((row) => row.level)
+          .filter((level, at, all) => level !== all[at - 1])
+          .join(" > "),
+      ),
+    );
+    process.stdout.write(
+      `ADDRESS STRUCTURES ${seed}:\n  ${[...structures].join("\n  ")}\n`,
+    );
+    expect(structures.size, `four worlds at ${seed}`).toBeGreaterThan(1);
     const asked = (index: number) =>
       worlds[index]!.story!.address.sentences.flatMap((row) =>
         row.sourceRecordIds.filter((id) => id.startsWith("question:")),

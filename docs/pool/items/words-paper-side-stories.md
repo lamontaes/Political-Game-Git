@@ -5,12 +5,11 @@ area: play
 kind: feature
 priority: 2
 size: M
-status: claimed
-claimed-by: words/press-briefs
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-29T20:28:54.227Z
 ---
 
 **What.** The owner asked on Oct 29 for side stories on the newspaper for realism: a fourth car stolen when crime is up, someone opening a business, a local child winning a spelling bee, Division I recruits on the high school team. They are a line or two and not clickable. The CTO ruled (OWNER-DECISIONS Oct 29 17:40) that the one press desk prints them from records it already sees, chosen by cause, never padded. Wording exists (#6800, brief: true); the school honors record is on words/school-honors; the wire lacks the police log and the school results, and the desk has no briefs column.
@@ -22,3 +21,5 @@ claimed-at: 2026-10-29T20:28:54.227Z
 **Files.** src/core2/modules/press.ts,src/core2/press-desk.ts,src/core2/data/press/parameters.json,src/core2/school-honors.ts,src/core2/modules/school.ts,src/bench/printed-words.ts,src/bench/printed-words.test.ts
 
 **Notes.** lead: words. Owner, Oct 29, to the words session. Ruling: OWNER-DECISIONS Oct 29 17:40 UTC.
+
+Words handoff, Nov 2 02:50 UTC (the account at its weekly limit): branch words/press-briefs, head 0b8354b84b, fully merged (#6824 and follow-ups). Next step: confirm the done-when's test exists on main (a brief kind on the wire with space and nothing printed fails) and set the item done, or write that test.
