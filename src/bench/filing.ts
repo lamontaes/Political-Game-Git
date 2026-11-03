@@ -1,6 +1,10 @@
 import { coreAPI } from "../core2/state";
 import { filingClerkFor } from "../core2/modules/filing-clerk";
+import { workSpansOf } from "./places";
+import officeHours from "./data/office-hours.json" with { type: "json" };
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import {
+  ELECTIONS_MODULE_ID,
   checkEligibility,
   filingOfficeFor,
   openContests,
@@ -122,9 +126,36 @@ export function openBenchFilingVisit(
   // What the clerk tells a candidate about the race, from the contest and
   // its office records: the dates, the term and the kind of office.
   const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
+  type OfficeRecord = {
+    id: string;
+    jurisdiction?: string;
+    termYears?: number;
+    seats?: number;
+    bodyName?: string;
+  };
+  // The place's own council or board, by its office record: the body a seat
+  // sits on, or for a single office the body of the same government (owner,
+  // Nov 1: "Do you mean city council?").
+  const bodyOf = (office: OfficeRecord | undefined) => {
+    const named = (row: OfficeRecord | undefined) =>
+      row?.bodyName && (row.seats ?? 1) > 1
+        ? { name: row.bodyName, recordId: row.id }
+        : null;
+    if (!office) return null;
+    return (
+      named(office) ??
+      named(
+        (
+          offices.query("byJurisdiction", [
+            office.jurisdiction ?? "",
+          ]) as unknown as OfficeRecord[]
+        ).find((row) => named(row)),
+      )
+    );
+  };
   const contests = open.map((row) => {
     const office = offices.get(row.officeId) as unknown as
-      { termYears?: number; seats?: number } | undefined;
+      OfficeRecord | undefined;
     return {
       id: row.id,
       title: row.district ? `${row.title} (${row.district})` : row.title,
@@ -133,6 +164,7 @@ export function openBenchFilingVisit(
       primaryDate: row.primaryDate,
       termYears: office?.termYears ?? null,
       kind: `${row.family}-${(office?.seats ?? 1) > 1 ? "body" : "single"}`,
+      body: bodyOf(office),
       sourceIds: [...row.sources, row.officeId],
     };
   });
@@ -189,12 +221,47 @@ export function openBenchFilingVisit(
     visit,
     filedWith,
     place,
-    intro: clerkRow ? counterNarration(core, visit, clerkRow) : [],
+    // A first visit asks for the papers; a filing here still gathering
+    // signatures brings the petition back, and one already on the ballot
+    // comes back with nothing to bring, each by its record.
+    intro: clerkRow
+      ? counterNarration(
+          core,
+          visit,
+          clerkRow,
+          filedHere(core, playerId, filedWith),
+        )
+      : [],
     backdrop,
     people: stagePeople(core, backdrop.file, cast).people,
     names: Object.fromEntries(cast.map((row) => [row.id, row.name])),
     seats,
   };
+}
+
+/** The player's filing at this office still gathering signatures or on the ballot, if any. */
+function filedHere(
+  core: CoreState,
+  playerId: string,
+  filedWith: string,
+): { id: string; status: string } | null {
+  const filings = coreAPI(core)
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("filings")
+    .query("byPerson", [playerId]) as unknown as {
+    id: string;
+    personId: string;
+    filedWith: string;
+    status: string;
+  }[];
+  const held =
+    filings.find(
+      (row) => row.filedWith === filedWith && row.status === "petitioning",
+    ) ??
+    filings.find(
+      (row) => row.filedWith === filedWith && row.status === "on-ballot",
+    );
+  return held ? { id: held.id, status: held.status } : null;
 }
 
 /** The player's choice at the counter: name an office, file, or leave. */
@@ -241,4 +308,75 @@ export function chooseAtCounter(
     return { ...state, visit: { ...state.visit, choices: [] }, result };
   }
   return { ...state, visit: { ...state.visit, choices: [] } };
+}
+
+/** A moment the counter next opens: its day and the minute of that day. */
+export interface CounterOpening {
+  date: string;
+  minuteOfDay: number;
+}
+
+/**
+ * The spans of an office with no work record for its clerk: its estimated
+ * weekday hours (`data/office-hours.json`), a stopgap that every office has
+ * hours until the records give them.
+ * stopgapId: SG-PLAY-office-hours-assumed
+ */
+function assumedSpans(
+  date: string,
+): { startMinute: number; endMinute: number }[] {
+  const hours = officeHours.estimated;
+  const weekday = new Date(`${date}T12:00:00Z`).getUTCDay();
+  return hours.weekdays.includes(weekday)
+    ? [{ startMinute: hours.opensMinute, endMinute: hours.closesMinute }]
+    : [];
+}
+
+/**
+ * When the office that takes these filings is next open (owner, Nov 1:
+ * "obviously the office isn't open at 8:30 p.m."): its clerk's own work spans,
+ * the record Travel's "who is there now" reads, and where the records hold no
+ * hours for the clerk (or name no clerk), the estimated weekday hours of every
+ * office. Null when the office is open at this minute. A day off (a weekend, a
+ * holiday the spans leave out) is skipped.
+ */
+export function counterOpening(
+  core: CoreState,
+  filedWith: string,
+  at: { date: string; minuteOfDay: number },
+): CounterOpening | null {
+  const api = coreAPI(core);
+  const contest = playerContests(api).find(
+    (row) => filingOfficeFor(api, row.id).filedWith === filedWith,
+  );
+  const clerk = contest ? filingClerkFor(api, contest.id) : null;
+  // Looks a fortnight ahead: no week is without a day the office is open.
+  const days = Array.from({ length: 14 }, (_, ahead) =>
+    addDays(makeIsoDate(at.date), ahead),
+  );
+  // A clerk whose records hold no work in that fortnight has no hours on
+  // record: the office keeps the assumed ones.
+  const recorded =
+    clerk !== null &&
+    days.some(
+      (date) => (workSpansOf(core, clerk.personId, date)?.length ?? 0) > 0,
+    );
+  for (const [ahead, date] of days.entries()) {
+    const spans =
+      (recorded ? workSpansOf(core, clerk!.personId, date) : null) ??
+      assumedSpans(date);
+    if (
+      ahead === 0 &&
+      spans.some(
+        (span) =>
+          span.startMinute <= at.minuteOfDay && at.minuteOfDay < span.endMinute,
+      )
+    )
+      return null;
+    const starts = spans
+      .filter((span) => ahead > 0 || span.startMinute > at.minuteOfDay)
+      .map((span) => span.startMinute);
+    if (starts.length) return { date, minuteOfDay: Math.min(...starts) };
+  }
+  return null;
 }

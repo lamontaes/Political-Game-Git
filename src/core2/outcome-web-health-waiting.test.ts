@@ -99,6 +99,22 @@ describe("health links that wait, and why", () => {
         ).toEqual([]);
       });
 
+  // The medical-debt link no longer waits (health-medical-debt-record): the
+  // coverage engine's bills read its outcome where the share sent to
+  // collections is decided, it is off the unwired list, and the stopgap it
+  // waited on is resolved.
+  it("medicaid-expansion-to-medical-debt is read by the medical bills", () => {
+    const outcome = link("medicaid-expansion-to-medical-debt").to;
+    expect(readersOf(outcome)).toContain("src/core2/medical-bills.ts");
+    expect(
+      rows.find((row) => row.link === "medicaid-expansion-to-medical-debt"),
+    ).toBeUndefined();
+    const row = (stopgaps as { id: string; status?: string }[]).find(
+      (one) => one.id === "SG-EW-HEALTH-medical-debt-reader",
+    )!;
+    expect(row.status).toBe("resolved");
+  });
+
   // Break-it: the reader check trips the day an engine file names the
   // outcome, for an unsized link as for a condition-record one.
   for (const key of ["heat-to-deaths", "gas-hookup-ban-to-child-asthma"])

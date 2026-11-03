@@ -22,7 +22,9 @@
     "addedBy": "claude/web-coverage-reads",
     "addedAt": "2026-10-24",
     "replacement": "A medical-debt record on the household's books, decided from the household's own coverage record times the web's factor, which the medical-debt link then reads like the coverage links.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedAt": "2026-10-29",
+    "resolution": "Built (health-medical-debt-record): the coverage engine's monthly medical bills (src/core2/medical-bills.ts) bill each household by its members' coverage and health records, carry what it cannot pay for the 120-day wait, then place the rest with collections as a medical-debt record on its books (the credit engine's loans, kind medical, recordMedicalDebt in src/core2/modules/credit.ts), the share sent there multiplied by webReach for finance.medical-debt-in-collections. A town household, full or counted, whose members' Medicaid coverage the law reach keeps by person id meets the expansion through that coverage (a bill at Medicaid's share), so the place-level medicaid-expansion-to-medical-debt row is left out of its share; a household in another place the world keeps reads the row. The marriage-equality-to-coverage link it also named now waits on SG-EW-HEALTH-marriage-equality-cause."
   },
   {
     "id": "SG-EW-HEALTH-death-cause",
@@ -70,6 +72,18 @@
     "addedBy": "effect-web-health",
     "addedAt": "2026-10-20",
     "replacement": "Records on the person for each cause, read by the health engine's hazard like the web's death factor. The reader is the monthly look in src/core2/modules/health.ts (refreshWebFactors), which books a per-person factor from health-own.ts (plan.own): coverage-to-mortality-55-64, job-loss-to-death-risk and long-hours-to-heart-and-stroke are read that way now (carriedBy in data/research/outcome-web/links.json), and the links still waiting here are read the same way once the person's record exists (a stored coverage history for catastrophic bills and depression, childhood benefit years, a birth weight).",
+    "status": "open"
+  },
+  {
+    "id": "SG-EW-HEALTH-marriage-equality-cause",
+    "kind": "missing-record",
+    "file": "src/core2/health-web.ts",
+    "line": 91,
+    "whatItFakes": "The marriage-equality-to-coverage link (marriage-equality-to-coverage) has no running cause (the law has been national since 2015, link status cause-not-recorded), so it moves nothing.",
+    "why": "Nothing in the core records law.marriage-equality, the link's cause; the web does not run a link whose cause it cannot read.",
+    "addedBy": "claude/laws-medical-debt",
+    "addedAt": "2026-10-29",
+    "replacement": "A recorded marriage-equality law the web reads as the link's cause (a spouse's employer plan then covers a same-sex spouse through the coverage engine), or the link graded not applicable because the law is national and does not change in play.",
     "status": "open"
   }
 ]

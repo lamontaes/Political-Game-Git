@@ -120,6 +120,17 @@ try {
       `${text}: the fit in words`,
     );
     assert.ok(await line.getAttribute("data-tie-id"), "the tie record id");
+    // The line says what it stands on (owner, Nov 1: "How do you know?").
+    assert.match(
+      text,
+      /Registered .+ since .+\d{4}/,
+      `${text}: the registration`,
+    );
+    assert.match(
+      text,
+      /views against the party's platform/,
+      `${text}: the fit`,
+    );
     assert.equal(
       await sheet.getByRole("button", { name: /^Join / }).count(),
       0,
@@ -134,6 +145,11 @@ try {
     await join.first().waitFor();
     const offered = await join.count();
     assert.ok(offered > 0, "a party to join");
+    assert.match(
+      await sheet.innerText(),
+      /not registered with a party/i,
+      "an unregistered player is not told they are in a party",
+    );
     assert.equal(await sheet.locator("[data-tie-id]").count(), 0);
     const label = (await join.first().innerText()).replace(/^Join /, "");
     const joined = page.waitForResponse(

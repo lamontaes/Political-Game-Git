@@ -34,5 +34,53 @@
     "addedAt": "2026-11-01",
     "replacement": "The jobs engine's enter choice (the one counted and full people make) read for people living elsewhere from their age, household and partner's work, checked against CPS flows into the labor force by age.",
     "status": "open"
+  },
+  {
+    "id": "SG-LIVES-partner-same-sex",
+    "kind": "partial-model",
+    "file": "src/core2/modules/partnerships.ts",
+    "line": 156,
+    "whatItFakes": "A partner met by someone living elsewhere is always of the other sex: no adult carries a recorded orientation, so the pairing cannot read one (owner, Oct 19: \"who pairs with whom reads each person's own record, including orientation\"; #4963's woman-and-man pairing was ruled a defect).",
+    "why": "The partnership chain's rates are by sex and the spouse age gap is for opposite-sex couples (CPS FG3); same-sex couples need their own share and age gap.",
+    "addedBy": "lives lead (core-every-life-simulated)",
+    "addedAt": "2026-11-01",
+    "replacement": "people-orientation-record: every adult carries a recorded orientation, and the partner met is of a sex both records admit, with the ACS share of same-sex couples (about 1.5%) and their age gaps checking totals.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LIVES-partner-cohabiting",
+    "kind": "partial-model",
+    "file": "src/core2/modules/partnerships.ts",
+    "line": 356,
+    "whatItFakes": "Every partnership formed in play is recorded as a marriage (union: married); nobody moves in together unmarried.",
+    "why": "The partnership chain holds marriage paces only (ACS, NCFMR, NSFG first marriages); cohabitation needs its own entry and dissolution paces.",
+    "addedBy": "lives lead (core-every-life-simulated)",
+    "addedAt": "2026-11-01",
+    "replacement": "NSFG cohabitation and transition-to-marriage paces by age, so a union starts as cohabiting or married and a cohabitation marries or ends at its own pace.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LIVES-partner-town",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/partnerships.ts",
+    "line": 244,
+    "whatItFakes": "People in the played town never partner or part in play; only people living elsewhere do.",
+    "why": "Partnering in town moves people between households (rent, benefits, the household's money), which needs changeHouseholdV1 and the people they know as candidates.",
+    "addedBy": "lives lead (core-every-life-simulated)",
+    "addedAt": "2026-11-01",
+    "replacement": "people-partnership-forms and people-partnership-ends: the same monthly pull for the town's full people, choosing a partner among the people they know by closeness, age gap, fit and money, moving one into the other's home through changeHouseholdV1 (the lease follows), and parting from strain, closeness and money.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LIVES-partner-counted",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/partnerships.ts",
+    "line": 245,
+    "whatItFakes": "The counted population's household types never change by partnering or parting.",
+    "why": "One model, two tiers (CTO, Nov 1): the counted groups should partner and part by the same yearly paces times their count, moving the household-type counts.",
+    "addedBy": "lives lead (core-every-life-simulated)",
+    "addedAt": "2026-11-01",
+    "replacement": "people-partnership-counted (with its parts people-partnership-counted-leave-home and people-partnership-counted-pair-and-split): the counted households partner and part by partneringPerYear and separatingPerYear times their count, merging and splitting counted households.",
+    "status": "open"
   }
 ]

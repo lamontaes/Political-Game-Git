@@ -361,6 +361,18 @@ function play(
   );
   if (startedUnderLaw.length === 0)
     return `no subject: no apartment building was started while the by-right law stood (in force on ${lawDays.inForce} of ${lawDays.checked} monthly checks)`;
+  // An eviction hearing comes only from a full household's lease that went
+  // unpaid past the grace period, so a town can go the 700 days with none
+  // (Clemmons, North Carolina, seed hr-fresh-9c2: no case at all); the right
+  // to counsel then has nothing to reach, and the place is redrawn.
+  const hearings = api
+    .moduleState("housing")
+    .table("cases")
+    .rows() as unknown as {
+    counselLawId?: string | null;
+  }[];
+  if (!hearings.some((row) => row.counselLawId))
+    return `no subject: no eviction hearing had a lawyer in ${DAYS} days (${hearings.length} hearings)`;
 
   // Rent stabilization: every renewed lease under the law, full and counted.
   {
