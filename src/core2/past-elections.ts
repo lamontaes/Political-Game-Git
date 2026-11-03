@@ -288,10 +288,11 @@ function electorateBallots(
   api: CoreAPI,
   town: PastTown,
   office: PastOffice,
+  seat: { readonly district: string | null },
   date: string,
 ): number {
-  // A territory casts no presidential vote: its own town's ballots stand in
-  // for the territory's electorate.
+  // A territory casts no presidential vote: the ballots its own election
+  // office reported stand for its electorate instead.
   const reported = stateBallots(town);
   const own = reported
     ? undefined
@@ -301,14 +302,17 @@ function electorateBallots(
           { delegate?: { ballots: number }; governor?: { ballots: number } }
         >
       )[town.usps];
-  // A territory's delegate race and governor race count the ballots its own
-  // election office reported; where that total isn't in the data, the town's
-  // ballots stand in.
+  // A territory's delegate race counts the delegate ballots; every
+  // territory-wide office and its legislature count the ballots of its
+  // general election (the governor's race, or where the data hold none, the
+  // delegate's, which is on the same ballot). Where neither total is in the
+  // data, the town's ballots stand in.
+  const general = own?.governor?.ballots ?? own?.delegate?.ballots;
   const territory =
     office.level === "federal" && office.kind.startsWith("us-house")
       ? own?.delegate?.ballots
-      : office.level === "state" && !office.kind.startsWith("legislature-")
-        ? own?.governor?.ballots
+      : office.level === "state"
+        ? general
         : undefined;
   if (!reported && !territory) api.stopgap("SG-CORE-past-territory-ballots");
   const state = reported || territory || townBallots(api, town, date);
@@ -319,7 +323,10 @@ function electorateBallots(
       if (office.kind === "us-senate") return state;
       return CORPUS.presidentialByState.reduce((s, r) => s + r.totalVotes, 0);
     case "state":
-      return office.kind.startsWith("legislature-")
+      // An at-large seat is elected by the whole state or territory; a
+      // district seat by its share of it.
+      return office.kind.startsWith("legislature-") &&
+        !/large/i.test(seat.district ?? "")
         ? state / Math.max(1, office.seats)
         : state;
     case "county": {
@@ -461,7 +468,8 @@ export function buildPriorElections(
         // recorded or estimated total moved once by the world's offset.
         const total = Math.round(
           worldLevel(
-            real?.total ?? electorateBallots(api, town, office, date) * ratio,
+            real?.total ??
+              electorateBallots(api, town, office, seat, date) * ratio,
             town.seed,
             `past-votes:${key}`,
             "worldPastVotesSpreadShare",
