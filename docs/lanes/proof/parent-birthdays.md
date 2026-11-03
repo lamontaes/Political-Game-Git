@@ -42,6 +42,8 @@ All four runs passed (three tests per run). Replay with the listed world seed as
 
 On corrected commit 6c745b3717, Chromium opened New Game in Santa Rita Ranch, Texas (not Santa Rita, Guam), replay 738770178046ccd7. Kevin Walter, person_8e8f742fb879fcf8, age 19, appeared in the opening. New Game and the advance request both returned HTTP 200, with no page errors. The packet ended at 2025-01-21 07:00 (simulatedDays=0): an opening smoke check, not a played-year proof. Local screenshot: test-results/lane-2-parent/new-game.png; response: result.json in the same folder.
 
+After merging main 8bd425577e without conflicts, source head 1f36cc0c4d4ebe8b854f16e1f01111193d9e243f passed another Chromium New Game and advance: Maxwell Colony, South Dakota, replay b3360053421257aa, Kendall Vincent (person_40ae4c791c871ce4), age 65. Both requests returned HTTP 200, with zero page errors. Local screenshot and response: test-results/lane-2-parent-merged/new-game.png and result.json.
+
 ## Four-year timing
 
 Same machine (4c46091479ea), no other simulation, Haleyville (0132704), replay ab5f58e9be125c95, four consecutive 365-day years. Command: npm run speed:year -- --seed ab5f58e9be125c95 --place 0132704 --years 4 --max-seconds 120 --exclusive --out <receipt.json>.
