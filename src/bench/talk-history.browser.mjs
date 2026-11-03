@@ -6,7 +6,7 @@
 // Run against a fresh bench: node src/bench/talk-history.browser.mjs [screenshot-dir]
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { startLife } from "./start-life.mjs";
+import { startLife, toReplies } from "./start-life.mjs";
 
 const shots = process.argv[2];
 const browser = await chromium.launch({
@@ -30,8 +30,9 @@ try {
   await page.locator("#talk:not([hidden])").waitFor();
   // Two exchanges: pick the first reply twice.
   for (let turn = 0; turn < 2; turn++) {
+    // A talk may open with lines and Continue before its replies.
+    assert.ok(await toReplies(page), "the talk ended with no reply to choose");
     const reply = page.locator("#talk-choices .reply").first();
-    await reply.waitFor();
     const before = await page.locator("#talk-lines").innerText();
     await reply.click();
     await page.waitForFunction(

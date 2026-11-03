@@ -113,3 +113,31 @@ export async function finishTalk(page) {
   }
   throw new Error(`The opening talk did not end in ${MAX_STEPS} steps.`);
 }
+
+/**
+ * Presses Continue in the open talk until it offers replies, as a player
+ * reads a talk's opening lines before answering. Returns true when replies
+ * show and false when the talk ends without any. Never presses Skip scene.
+ */
+export async function toReplies(page) {
+  for (let step = 0; step < MAX_STEPS; step += 1) {
+    if (await page.locator("#talk-choices .reply").first().isVisible())
+      return true;
+    const talk = await page.evaluate(talkState);
+    if (talk === "closed") return false;
+    const next = page.locator("#talk-next");
+    if (await next.isVisible()) await next.click();
+    await page.waitForFunction(
+      (was) => {
+        const box = document.getElementById("talk");
+        if (!box || box.hidden) return true;
+        if (document.querySelector("#talk-choices .reply")) return true;
+        const lines = document.getElementById("talk-lines")?.textContent ?? "";
+        return `${lines.length}:${lines.slice(-200)}:0` !== was;
+      },
+      talk,
+      { timeout: 30000 },
+    );
+  }
+  throw new Error(`The talk offered no reply in ${MAX_STEPS} steps.`);
+}
