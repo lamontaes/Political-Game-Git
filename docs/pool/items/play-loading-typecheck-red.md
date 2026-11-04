@@ -5,11 +5,12 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane3/red-loading-personid
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T09:19:33.760Z
 ---
 
 **What.** npx tsc --noEmit -p tsconfig.app.json fails on main since 2c3a4b59: src/bench/loading.ts(3,15) imports PersonId from core2/kernel/brands, which has no such export.
