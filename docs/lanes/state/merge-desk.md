@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 137 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 138 pull requests merged. Newest state at the top of each section.
 
 ## What the owner can play now
 
@@ -85,7 +85,7 @@ New on Nov 3:
   - A pool fix (#7145).
   - A state page (#7146).
 
-## Lane PRs merged on Nov 4 (102), on the owner's word ("You may merge lane PRs that pass the new-game check")
+## Lane PRs merged on Nov 4 (103), on the owner's word ("You may merge lane PRs that pass the new-game check")
 
 Each had main merged in again, passed `npm run new-game-check` (a town drawn from all 56, a new life, four weeks) and merged pinned to that head.
 
@@ -193,6 +193,7 @@ Each had main merged in again, passed `npm run new-game-check` (a town drawn fro
 | #7245 | The Journal names the person who walked doors for you                                                                                                               | Bancroft, Wisconsin               | 1ccc470e84b08f10 |
 | #7238 | The newspaper turns pages: stories that don't fit the front page are on the next one                                                                                | Shonto, Arizona                   | 13579d6f5f88df6d |
 | #7246 | The map reads the town's name through the places entry (fixes main's families guard after #7244)                                                                    | Wauseon, Ohio                     | 5a21bbd547e0df27 |
+| #7247 | A person restored from a save decides from their saved traits                                                                                                       | Hallettsville, Texas              | 5abf7bb42df001ff |
 
 Conflicts resolved mechanically: #7154 (both sides added a parameter and a stopgap row; both kept), and #7153, #7157, #7160, #7162 (Lane 2's state page: main's wording for the one edited line, both sides' log entries kept). Mac builds started after 5, 13, 18, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 91, 96 and 102 of these merges.
 
@@ -258,7 +259,7 @@ Mac builds (`release-package.yml` on main) were started after 8, 20, 26 and 34 m
 
 ## Owner, one click
 
-- **#7233** (skills, from Lane 4: play-first lessons): check passed on head 8e6377704f (Carolina, Rhode Island); skill tests pass. The CTO's to merge.
+- **#7233** (skills, from Lane 4: play-first lessons): check passed on head 4f213562c4 after the lane's later push (Crystal, New Mexico); skill tests pass. The CTO's to merge.
 
 #6971 is closed and its item is done (the CTO handled it).
 
