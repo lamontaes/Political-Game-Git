@@ -1,10 +1,11 @@
-/* global process, URL, URLSearchParams, console, document, fetch */
+/* global process, URL, URLSearchParams, console, document */
 // Asking for endorsements is a scene (owner: every campaign act is a scene): the
 // campaign office with the player at it, each person asked the next Continue
 // with what they said, then the total; the campaign record's volunteer count
 // moves by the yeses. Usage: SEED=<seed> node src/bench/endorsement-meeting.browser.mjs [screenshot-dir]
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
+import { fileWhenFilingOpens } from "./start-life.mjs";
 import { openCampaignTrail } from "./campaign-trail.mjs";
 
 const shots = process.argv[2];
@@ -44,23 +45,8 @@ try {
     "Place:",
     await page.locator("#card-place").innerText(),
   );
-  const filed = await page.evaluate(async () => {
-    const gov = await (await fetch("/api/government")).json();
-    for (const { contest } of gov.contests ?? []) {
-      const r = await fetch(
-        `/api/file?${new URLSearchParams({ contestId: contest.id })}`,
-        { method: "POST" },
-      );
-      const body = await r.json().catch(() => ({}));
-      if (
-        r.ok &&
-        body.status !== "refused" &&
-        ["petitioning", "on-ballot"].includes(body.filing?.status)
-      )
-        return contest.id;
-    }
-    return null;
-  });
+  // Filing opens on a set day: the weeks go by until a race is open.
+  const filed = (await fileWhenFilingOpens(page)).contestId;
   assert.ok(filed, "the player could file for nothing in this town");
   await openCampaignTrail(page);
   const ask = page.waitForResponse(

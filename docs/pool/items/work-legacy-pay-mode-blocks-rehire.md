@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: done
 claimed-by: lane-5/legacy-pay-ends-with-job
-pr:
+pr: #7172
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-04T00:27:45.596Z

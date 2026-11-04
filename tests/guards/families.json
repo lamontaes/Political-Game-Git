@@ -32,7 +32,14 @@
     "src/core2/gov-test-report.ts",
     "src/core2/law-test-start.ts",
     "src/core2/free-block.ts",
-    "src/core2/focus.ts"
+    "src/core2/focus.ts",
+    "src/core2/gov-rules/place-population.ts",
+    "src/core2/group-quarters-types.ts",
+    "src/core2/stopgap-families.ts",
+    "src/core2/stopgaps-folder.ts",
+    "src/core2/gov-rules/names-data.ts",
+    "src/core2/gov-rules/given-name-cohorts.ts",
+    "src/core2/gov-rules/person-identity.ts"
   ],
   "families": [
     {
@@ -237,7 +244,8 @@
         "src/core2/modules/residents.ts",
         "src/core2/modules/life.ts",
         "src/core2/modules/housing.ts",
-        "src/core2/modules/health.ts"
+        "src/core2/modules/health.ts",
+        "src/core2/modules/partnerships.ts"
       ],
       "paths": [
         "src/core2/modules/people.ts",
@@ -311,7 +319,9 @@
         "src/core2/journal-state.ts",
         "src/core2/journal.ts",
         "src/core2/heard-claims.ts",
-        "src/core2/home-distance.ts"
+        "src/core2/home-distance.ts",
+        "src/core2/sibling-names.ts",
+        "src/core2/modules/partnerships.ts"
       ]
     },
     {

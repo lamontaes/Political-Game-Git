@@ -192,34 +192,45 @@
   "housingNoticeBaseline": {
     "value": -4,
     "tag": "TUNABLE",
-    "citation": "Landlords usually wait until a tenant owes two or more months of rent before filing (Humphries, Nelson, Nguyen, van Dijk and Waldinger, NBER w33155, 2024); 14.4% of renters are behind at a time, most by about a month (Census Household Pulse Survey 2024, Housing Tables 1b and 3b). Set so a month's pull is about 0.15 at one month owed and 0.7 at two; checked against Eviction Lab 2018 filing rates (7.8 per 100 renter households nationally). Gathered in data/research/housing/eviction-filings-2026.json.",
+    "citation": "Landlords usually wait until a tenant owes two or more months of rent before filing (Humphries, Nelson, Nguyen, van Dijk and Waldinger, NBER w33155, 2024); 14.4% of renters are behind at a time, most by about a month (Census Household Pulse Survey 2024, Housing Tables 1b and 3b). Set so a month's pull is about 0.15 at one month owed and 0.7 at two; checked against Eviction Lab 2018 filing rates (7.8 per 100 renter households nationally; the states run from 0.65 to 69.58), committed in data/research/housing/eviction-filings-2026.json (its national row and 51 state rows).",
     "spread": {
       "low": -5,
       "high": -3,
       "unit": "logit of a month's pull to serve notice",
-      "citation": "Landlords usually wait until a tenant owes two or more months of rent before filing (Humphries, Nelson, Nguyen, van Dijk and Waldinger, NBER w33155, 2024); 14.4% of renters are behind at a time, most by about a month (Census Household Pulse Survey 2024, Housing Tables 1b and 3b). Set so a month's pull is about 0.15 at one month owed and 0.7 at two; checked against Eviction Lab 2018 filing rates (7.8 per 100 renter households nationally). Gathered in data/research/housing/eviction-filings-2026.json."
+      "citation": "Landlords usually wait until a tenant owes two or more months of rent before filing (Humphries, Nelson, Nguyen, van Dijk and Waldinger, NBER w33155, 2024); 14.4% of renters are behind at a time, most by about a month (Census Household Pulse Survey 2024, Housing Tables 1b and 3b). Set so a month's pull is about 0.15 at one month owed and 0.7 at two; checked against Eviction Lab 2018 filing rates (7.8 per 100 renter households nationally; the states run from 0.65 to 69.58), committed in data/research/housing/eviction-filings-2026.json (its national row and 51 state rows)."
     }
   },
   "housingNoticeArrearsWeight": {
     "value": 2.25,
     "tag": "TUNABLE",
-    "citation": "Landlords usually wait until a tenant owes two or more months of rent before filing (Humphries, Nelson, Nguyen, van Dijk and Waldinger, NBER w33155, 2024); 14.4% of renters are behind at a time, most by about a month (Census Household Pulse Survey 2024, Housing Tables 1b and 3b). Set so a month's pull is about 0.15 at one month owed and 0.7 at two; checked against Eviction Lab 2018 filing rates (7.8 per 100 renter households nationally). Gathered in data/research/housing/eviction-filings-2026.json.",
+    "citation": "Landlords usually wait until a tenant owes two or more months of rent before filing (Humphries, Nelson, Nguyen, van Dijk and Waldinger, NBER w33155, 2024); 14.4% of renters are behind at a time, most by about a month (Census Household Pulse Survey 2024, Housing Tables 1b and 3b). Set so a month's pull is about 0.15 at one month owed and 0.7 at two; checked against Eviction Lab 2018 filing rates (7.8 per 100 renter households nationally; the states run from 0.65 to 69.58), committed in data/research/housing/eviction-filings-2026.json (its national row and 51 state rows).",
     "spread": {
       "low": 1.5,
       "high": 3,
       "unit": "per month of rent owed",
-      "citation": "Landlords usually wait until a tenant owes two or more months of rent before filing (Humphries, Nelson, Nguyen, van Dijk and Waldinger, NBER w33155, 2024); 14.4% of renters are behind at a time, most by about a month (Census Household Pulse Survey 2024, Housing Tables 1b and 3b). Set so a month's pull is about 0.15 at one month owed and 0.7 at two; checked against Eviction Lab 2018 filing rates (7.8 per 100 renter households nationally). Gathered in data/research/housing/eviction-filings-2026.json."
+      "citation": "Landlords usually wait until a tenant owes two or more months of rent before filing (Humphries, Nelson, Nguyen, van Dijk and Waldinger, NBER w33155, 2024); 14.4% of renters are behind at a time, most by about a month (Census Household Pulse Survey 2024, Housing Tables 1b and 3b). Set so a month's pull is about 0.15 at one month owed and 0.7 at two; checked against Eviction Lab 2018 filing rates (7.8 per 100 renter households nationally; the states run from 0.65 to 69.58), committed in data/research/housing/eviction-filings-2026.json (its national row and 51 state rows)."
     }
   },
   "housingNoticeLateWeight": {
     "value": 0.3,
     "tag": "TUNABLE",
-    "citation": "Landlords usually wait until a tenant owes two or more months of rent before filing (Humphries, Nelson, Nguyen, van Dijk and Waldinger, NBER w33155, 2024); 14.4% of renters are behind at a time, most by about a month (Census Household Pulse Survey 2024, Housing Tables 1b and 3b). Set so a month's pull is about 0.15 at one month owed and 0.7 at two; checked against Eviction Lab 2018 filing rates (7.8 per 100 renter households nationally). Gathered in data/research/housing/eviction-filings-2026.json.",
+    "citation": "Landlords usually wait until a tenant owes two or more months of rent before filing (Humphries, Nelson, Nguyen, van Dijk and Waldinger, NBER w33155, 2024); 14.4% of renters are behind at a time, most by about a month (Census Household Pulse Survey 2024, Housing Tables 1b and 3b). Set so a month's pull is about 0.15 at one month owed and 0.7 at two; checked against Eviction Lab 2018 filing rates (7.8 per 100 renter households nationally; the states run from 0.65 to 69.58), committed in data/research/housing/eviction-filings-2026.json (its national row and 51 state rows).",
     "spread": {
       "low": 0,
       "high": 1,
       "unit": "per month since rent first went unpaid",
-      "citation": "Landlords usually wait until a tenant owes two or more months of rent before filing (Humphries, Nelson, Nguyen, van Dijk and Waldinger, NBER w33155, 2024); 14.4% of renters are behind at a time, most by about a month (Census Household Pulse Survey 2024, Housing Tables 1b and 3b). Set so a month's pull is about 0.15 at one month owed and 0.7 at two; checked against Eviction Lab 2018 filing rates (7.8 per 100 renter households nationally). Gathered in data/research/housing/eviction-filings-2026.json."
+      "citation": "Landlords usually wait until a tenant owes two or more months of rent before filing (Humphries, Nelson, Nguyen, van Dijk and Waldinger, NBER w33155, 2024); 14.4% of renters are behind at a time, most by about a month (Census Household Pulse Survey 2024, Housing Tables 1b and 3b). Set so a month's pull is about 0.15 at one month owed and 0.7 at two; checked against Eviction Lab 2018 filing rates (7.8 per 100 renter households nationally; the states run from 0.65 to 69.58), committed in data/research/housing/eviction-filings-2026.json (its national row and 51 state rows)."
+    }
+  },
+  "housingEvictionFilingRate": {
+    "value": 7.8,
+    "tag": "SOURCED",
+    "citation": "Eviction filings per 100 renter households a year: Eviction Lab state and national eviction estimates, 2018 (Gromis et al., PNAS 2022), national row 3,656,428 filings over 46,902,048 renting households, 7.80 (data/research/housing/eviction-filings-2026.json, national). The check a played year's filings are read against (src/core2/group-quarters.test.ts); it decides no household's case.",
+    "spread": {
+      "low": 0.65,
+      "high": 23.32,
+      "unit": "filings per 100 renter households a year",
+      "citation": "The lowest and highest of the states' and D.C.'s 2018 rates in the same file, Maryland left out (spread.withoutMaryland): South Dakota 0.65 and South Carolina 23.32. Maryland's 69.58 is left out because its filing is itself the notice and a tenant who pays stays, so its landlords file month after month (Eviction Lab supplementary information section 5.3); the game does not model that law, so it is no standard for a place the game plays (CTO ruling, OWNER-DECISIONS Nov 2 01:30)."
     }
   },
   "housingHostMaxPeople": {

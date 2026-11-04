@@ -5,19 +5,19 @@ area: laws
 kind: wiring
 priority: 1
 size: S
-status: claimed
-claimed-by: lane-2/tax-learning
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-11-04T02:06:01.365Z
+claimed-at:
 ---
 
 **What.** A naturally voted income tax in Meadow Lakes changes named workers cash, but payroll withholding only writes payment and applied records. The existing monetary-law learning reader handles price rules and does not receive this tax payment. Connect the successful withholding to that same reader, preserving the actual tax posting and the law that caused it; attribution must require a story the payer actually heard.
 
 **Rules.** The chain is the acceptance: a real tax posting must connect to its actual payer, a heard law story, a nonzero stance cause and normal shipping Journal output. No dice, invented payment, omniscient knowledge, duplicate learning engine or attribution of unrelated federal deductions.
 
-**Done when.** The fixed Meadow Lakes played year at f835dd278d7312a1 follows the naturally voted income-tax bill through an exact named state-tax posting, a heard story, changed stance and ordinary Journal line. A named person is actually paid from the receiving treasury. Ten fresh generated-world reader controls cover hearing before and after payment and no-hearing, existing price-learning checks still pass, and four-year timing stays within 20 percent of base.
+**Done when.** The fixed Meadow Lakes played world year at f835dd278d7312a1 follows the naturally voted income-tax bill through an exact named state-tax posting, a heard story, changed stance and ordinary Journal line. A named person is actually paid from the receiving treasury. Ten fresh generated-world reader controls cover hearing before and after payment and no-hearing, existing price-learning checks still pass, and four-year timing stays within 20 percent of base.
 
 **Files.** src/core2/modules/budgets.ts; src/core2/modules/place-prices.ts; src/core2/income-tax-learned.test.ts
 

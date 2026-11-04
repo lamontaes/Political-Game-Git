@@ -296,6 +296,261 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.78.0
+
+_Released November 4, 2026._
+
+### Added
+
+- **The clerk walks you through running a campaign** The first time you file,
+  the clerk tells you the signatures and the day they are due, then asks whether
+  you have run a campaign before. Say no and the clerk walks you through it: the
+  signatures and how to gather them (doors, a table where people shop, friends
+  carrying a sheet), money and what it buys (mailers, a poll, ads in the town's
+  own paper), and the press. Say you have and the clerk lets you go. After
+  filing, the status reads "Collecting signatures".
+
+- **What you tell a reporter, or that you declined, is in the paper's story.**
+  When a reporter asks you about something you did, such as a bill you just
+  introduced, your answer now goes into the paper's story of it ('Connie
+  Gallagher told reporters: "People who work two jobs and still come up short.
+  It's written for them."'). If you refuse or walk off, the story says so
+  ("Timothy McKay declined to comment."). The reporter's scene about a newly
+  introduced bill now plays: it names the reporter's own outlet and opens on the
+  bill.
+
+### Improved
+
+- **A person's card tells their life as a short story** A person's card tells
+  their life as a short story: the first sentence names them, the rest use their
+  pronouns, and your own card speaks to you. A run of terms in one office is one
+  sentence ("won election as state representative, and won every race for the
+  seat after that"). Two or three lines under the name say who they are now and
+  where they come from. The seat's "since" year, the public record and those
+  lines all date the seat from the first term the story tells.
+
+### Fixed
+
+- **Homes are ready on the first New Game screen** New Game creates household
+  dwelling records before the first person card and room read them. The existing
+  housing initializer now runs during opening setup and remains safe to call
+  again, so the first screen uses the same home and contract records as later
+  housing payments.
+
+- **The night's paper prints only news that is still news on its date; older
+  stories stay in the News archive.** The first paper used to run votes and
+  races from months before its date as if they were today's news. Now the paper
+  prints only stories from the last 30 days, the window the news engine itself
+  uses. What you heard earlier is still listed in News.
+
+- **The talk at home after a lost race no longer opens by saying who is
+  waiting.** When a relative who worked your campaign talks with you after a
+  loss, the opening now says what they did ("Dana worked this campaign beside
+  you.") instead of only saying they are there, which the screen already shows.
+
+### Changed
+
+- **A friend and a rival say different things on the call after the count.** The
+  calls after an election now depend on how the two people stand. A friend who
+  won takes your concession warmly ("Hey. You did everything right, you know.
+  Some years it just goes the other way."). Someone you last quarreled with
+  doesn't ("I didn't think you'd call. I'll take it."). The same holds when a
+  runner-up calls you after you win. The tie comes from your record together: a
+  friend is someone you're closer to than not, and a rival is someone your last
+  contact was a quarrel with.
+
+## PRE-ALPHA 0.77.0
+
+_Released November 4, 2026._
+
+### Added
+
+- **Favors from deals get called in at election time** A favor you trade for a
+  vote is remembered. When a colleague who took your favor runs for office,
+  their campaign asks you to endorse them, and a colleague who owes you weighs
+  that debt when your campaign asks for theirs. An endorsement given for the
+  favor repays it. When a colleague asks you to repay, the game waits for your
+  answer instead of giving one for you; that ask doesn't reach you on screen
+  yet.
+
+- **Rivals run attack ads on an officeholder's record** A challenger running
+  against someone with a record in office now spends part of their ad money
+  showing it: the votes and broken promises the voters they reach disagree with.
+  How much depends on the challenger's temperament. When you run for
+  re-election, the ads against you name the real votes you cast, and the voters
+  who saw them weigh those votes. Before, no rival ever ran an attack ad.
+
+- **After you concede, the winner takes your call, gracious or gloating as they
+  are.** When you concede a lost race, the winner now picks up. What they say
+  follows who they are: "Thank you for calling. You ran a hard race, and I mean
+  that." or "Took you long enough. It was never that close, you know." You can
+  wish them well, keep it short or answer back. A sharp exchange strains the tie
+  between you.
+
+- **Governors declare emergencies when disaster strikes** When a federally
+  declared disaster hits the state, the sitting governor now declares a state of
+  emergency the day it is recorded, where the state's law gives them that power.
+  The state's budget takes on its share of the recovery cost, and the
+  declaration makes the news. If you are the governor, the game does not declare
+  for you.
+
+### Improved
+
+- **A yes at the door becomes a vote** People who tell a campaign "yes" at their
+  door now turn out the way people who say they'll vote really do: about three
+  in five of them vote in a town race, against about one in four of their
+  neighbors. Before, a promise at the door barely moved whether someone showed
+  up, so the doors you knocked won you fewer votes than they should have. It
+  works the same for your rivals' doors.
+
+- **Your office remembers where colleagues stand on your bill** When you talk to
+  a colleague about your bill, or your aide briefs you on it, the office now
+  keeps where each colleague stands and how you learned it. Your bill's list of
+  colleagues reads it back: for, against or undecided, from a talk or from the
+  record.
+
+### Fixed
+
+- **Filing opens weeks before the deadline, not on the game's first day** Every
+  race now opens for filing on a set day: the day the place's calendar gives, or
+  about two months before the deadline where the calendar gives none. Before,
+  most races stood open from the first day of the game, so a race in November
+  2026 could be filed for in January 2025, and a campaign stretched over almost
+  two years with nothing in it.
+
+- **Small towns no longer ask more signatures than they have voters** A town
+  council petition now fits the town. Where the state's law offers a petition
+  only as a way around the filing fee, as in Minnesota's towns, the fee files
+  you and no petition is required. Elsewhere a local petition never asks for
+  more than a tenth of the town's voters, the most any local petition law read
+  for the game asks, so a town of a few dozen adults no longer needs thirty
+  names. Before this, 620 of 31,787 towns asked for more signatures than they
+  had citizen adults.
+
+- **One filing deadline at the counter** Each race now has one filing deadline.
+  The clerk, the filing panel, the petition's due date and the race list all
+  read it from the same rule: the state's filing law for your side where it sets
+  its own date before the race's first vote, otherwise the race's calendar. The
+  clerk can no longer give you one date while the form shows another.
+
+- **Someone stands at every filing counter** Where a town's races file with a
+  county board of elections, or with a clerk's office its records name no one
+  for, the counter now has a person at it: an election commissioner or clerk
+  drawn for the world, on the county's or the town's payroll. They introduce
+  themselves, take your papers and tell you about the petition in the scene that
+  follows, instead of leaving you at an empty counter.
+
+- **A phased minimum wage's cost note counts every step** A minimum-wage bill
+  raised in dated steps now shows what each step adds to the pay of the jobs
+  under it, and the full cost once the last step takes effect. Before, the
+  bill's cost note counted only the first step, so the cost colleagues and
+  employers weighed was a fraction of the real one. Employers' stake in the bill
+  now counts every step too.
+
+- **Government budgets can spend their opening reserves** Government treasuries
+  start with estimated operating reserves, so their ordinary budgets can spend
+  money carried into the new game.
+
+- **Unemployment benefits use the full wage basis in their law.** Unemployment
+  benefits use the wage basis quoted by their law: Montana's one-percent formula
+  uses the full base period, and Colorado's sixty-percent formula uses the
+  two-quarter sum. The existing jobs engine reads the corrected rows when a
+  laid-off worker files.
+
+- **Sponsors ask for your vote only on bills that will reach the floor.**
+  Before, a sponsor could ask you the evening before a floor day about a bill
+  its committee was about to hold, so the answer you gave went nowhere. Now a
+  bill on the week's floor goes before its committee the evening before, as a
+  scheduled bill already did, and a bill the committee holds leaves the agenda
+  before anyone is asked. Every ask is about a bill that comes to a vote the
+  next day. A bill's second chamber, which votes the same day only if the first
+  passes, is not asked about the evening before.
+
+- **Re-election does not start the former-official lobbying ban** Continuous
+  service through re-election no longer starts a former-official lobbying ban. A
+  genuine departure still does, including when someone later returns to office.
+  Existing laws use their researched waiting periods where provided; laws
+  without a recorded period retain the listed estimate.
+
+- **Siblings keep distinct first names** Opening families keep different first
+  names for living siblings, including relatives who live elsewhere. Choosing a
+  sibling's name in the creator keeps your choice and gives the sibling a
+  different name in their record.
+
+- **Superseded national law rows do not announce a territorial change** A
+  scheduled law row no longer announces that it took effect when the place's
+  actual law-in-force answer contains no matching national row. This includes
+  territories whose specific federal law replaces the national level, so a
+  superseded national wage row does not produce a false change for the paper.
+
+### Changed
+
+- **College towns, prison towns and base towns house their residents in group
+  quarters** The students in a college's dormitories, the people in a prison or
+  a nursing home and the service members in a base's barracks now live in group
+  quarters, counted from the Census, instead of renting homes in town, so a
+  college town's rents, renters and evictions follow the households that really
+  rent there.
+
+- **Whether you concede on election night is printed in the race's story.** On
+  the call after a lost race, conceding or refusing now counts. The press puts
+  it on the record, and the race's story in the paper says so by name: "Vivian
+  Ramirez called Hugo Osborn to concede." or "Jessica McGee would not concede
+  the race." A concession made after the paper has printed is not told in that
+  story.
+
+- **After a lost race, the talk at home comes from the relative who worked it or
+  whose money went in.** The talk at home after you lose a race now comes only
+  from someone in your household who put something into it: a relative on your
+  volunteer list, or the household's money you gave your own campaign. They open
+  on what they put in and how close the count was ("We lost by 12 votes. I put
+  my time in too, so tell me what you want from me next."). If nobody at home
+  helped, no scene is staged for it. When you say you'll run again, their answer
+  is kept, and it counts the next time anyone in that household weighs a run.
+  The old general comfort lines are gone, including a sister the records never
+  named.
+
+- **The Journal says you filed to run and when the election is, not that you
+  ran.** On the day you file, your Journal no longer says "So I ran." months
+  before the race. It says what happened that day: "So I filed to run for
+  Trustee, with the election set for November 4, 2025."
+
+## PRE-ALPHA 0.76.1
+
+_Released November 4, 2026._
+
+### Fixed
+
+- **You can run for one seat on your town's council, and only while filing is
+  open.** Before, the clerk and the Campaigns screen offered you every seat on
+  the council at once, and even races whose filing would not open for years. Now
+  you are offered one race of each local body: the seat for your own district
+  where it is elected by district, or the at-large race once where its seats are
+  elected at large. A race shows up only while its filing period is open, and
+  once you have filed for one of a body's races, its others are no longer
+  offered.
+
+- **Relatives and officials have recorded homes** Households added after the
+  opening town population, including relatives and officials, receive homes
+  through the housing engine. Their rooms read those homes, renters owe recorded
+  rent to a landlord, and outside homes use their own place for prices and
+  eviction law.
+
+- **Reporters who live out of town get paid** A station's news director in the
+  market city and a national outlet's reporters are now paid each month for the
+  job they hold, with taxes taken out like any paycheck, from the outlet's
+  audience and advertisers outside the town. Before, they paid rent and bills
+  from their savings with no paycheck coming, and most ran out of money within
+  the first year.
+
+- **Campaign money no longer leans on press people who had no bills to pay.**
+  Reporters and news directors who live outside your town now have the living
+  costs and savings an official at their pay has, and they spend them each week.
+  Before, they had no bills at all, so their whole balance counted as spare and
+  they gave nearly half of a campaign's money, $1,200 at the median. Supporters'
+  gifts were refit to match what local campaigns raise: an evening of calls
+  brings in about $120 to $157 an hour, with a typical gift of $92 to $107.
+
 ## PRE-ALPHA 0.76.0
 
 _Released November 3, 2026._
