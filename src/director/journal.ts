@@ -1090,6 +1090,15 @@ export function composeJournal(
     );
   const rowOf = (moment: JournalMoment) =>
     rows.find((entry) => moment.causeKind.startsWith(entry.kindPrefix));
+  const turnOf = (
+    row: { turn?: boolean; turnFor?: "self" | "self-or-kin" },
+    moment: JournalMoment,
+  ) =>
+    !!row.turn &&
+    (row.turnFor === undefined ||
+      moment.selfNamed === true ||
+      (row.turnFor === "self-or-kin" &&
+        moment.counterpartIds.some((id) => kin.has(id))));
   const ageAt = (date: IsoDate) =>
     ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(date));
   const interrupt =
@@ -1189,8 +1198,13 @@ export function composeJournal(
     // the chapter began with the same kind of turn.
     // A turn of the same kind about someone else opens its own chapter: a
     // daughter's birth is never told under "My son".
+    // Whose moment opens a chapter, by the row: another person's oath or race
+    // is a line in the chapter one is living, and a stranger's birth or death
+    // is no chapter of this life (lane 3, path 9: no chapter titled after
+    // someone else).
+    const turn = turnOf(row, moment);
     const ownTitle =
-      row.turn && chapterKind === row.kindPrefix
+      turn && chapterKind === row.kindPrefix
         ? render(
             { part: "title", kindPrefix: row.kindPrefix },
             facts,
@@ -1200,10 +1214,10 @@ export function composeJournal(
         : null;
     if (
       !chapter ||
-      (row.turn && chapterKind !== row.kindPrefix) ||
+      (turn && chapterKind !== row.kindPrefix) ||
       (ownTitle && ownTitle.text !== chapter.title)
     ) {
-      chapterKind = row.turn ? row.kindPrefix : undefined;
+      chapterKind = turn ? row.kindPrefix : undefined;
       const place = placeName(person.placeId);
       const title =
         ownTitle ??
@@ -1222,10 +1236,10 @@ export function composeJournal(
       open(moment.id, title?.text ?? "", moment.date);
     }
     const contestId = core.durableLog.get(moment.causeId)?.facts?.contestId;
-    if (typeof contestId === "string" && row.turn)
+    if (typeof contestId === "string" && turn)
       chapterOfContest.set(contestId, chapter!);
     const told =
-      (typeof contestId === "string" && !row.turn
+      (typeof contestId === "string" && !turn
         ? chapterOfContest.get(contestId)
         : undefined) ?? chapter!;
     // The scene: the event itself, worded for whose it was.
@@ -1353,12 +1367,13 @@ export function composeJournal(
     // "That was a turning point" only when the record shows one: a later
     // chapter of another kind opened in this life.
     const turned =
-      !!row.turn &&
+      turn &&
       stories.some((story) => {
         const next = rowOf(story);
         return (
           story.date > moment.date &&
-          !!next?.turn &&
+          !!next &&
+          turnOf(next, story) &&
           next.kindPrefix !== row.kindPrefix
         );
       });
