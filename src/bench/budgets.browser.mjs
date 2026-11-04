@@ -6,6 +6,7 @@
 // Run against a fresh bench: node src/bench/budgets.browser.mjs [screenshot-dir]
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
+import { playOpening } from "./start-life.mjs";
 
 const shots = process.argv[2];
 const browser = await chromium.launch({
@@ -50,6 +51,8 @@ try {
   if (await page.locator("#new-advanced").isVisible())
     await page.locator("#new-advanced").click();
   await page.locator("#new-world").click();
+  // The opening plays first, as a player sees it (start-life.mjs).
+  await playOpening(page, (await (await made).json()).sceneMomentId ?? null);
   const asked = new URL((await made).url()).searchParams;
   const world = { seed: asked.get("seed"), date: asked.get("date") };
   console.log("Seed:", world.seed);
