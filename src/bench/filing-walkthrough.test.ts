@@ -79,6 +79,10 @@ it(`the first filing asks about running a campaign and walks a no through it; a 
           checkEligibility(api, playerId, row.id).every((check) => check.met) &&
           filingClerkFor(api, row.id) !== null,
       );
+    // Filing opens on a set day (elections-filing-window-opens): the weeks go
+    // by until two races the player may file for are open.
+    for (let week = 0; week < 104 && races().length < 2; week += 1)
+      advanceCore(core, addDays(makeIsoDate(core.date), 7));
     if (races().length < 2) {
       tried.push(
         `${where}: fewer than two races to file for with a clerk on record`,
