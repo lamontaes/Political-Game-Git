@@ -698,9 +698,10 @@ function composeBinding(
     }
     const runnerUp = Object.entries(totals)
       .filter(([id]) => id !== askedId && core.people.has(id as PersonId))
-      .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))[P.zero]?.[
-      P.zero
-    ];
+      .sort(
+        ([aId, aVotes], [bId, bVotes]) =>
+          bVotes - aVotes || aId.localeCompare(bId),
+      )[P.zero]?.[P.zero];
     const other = runnerUp ? core.people.get(runnerUp as PersonId) : undefined;
     if (other)
       facts.opponent = {

@@ -1,4 +1,4 @@
-0 of 14 paths confirmed. Furthest New Game step: 8 (Haleyville, Alabama, on main, Nov 4: filed in May 2025, won the council seat, first bill failed 1 to 4). Murray, Nebraska and Meadow Lakes, Alaska reach step 4: they lose every race they try. No open PRs.
+0 of 14 paths confirmed. Furthest New Game step: 10 (Ely, Nevada, on main, Nov 4: won an open council seat in 2026, its parks bill passed 5 to 0, and its law took effect and was read). Of seven fixed towns that ran, two win; five lose or find no race. Oldest open PR 0 days; open: #7265.
 
 **From Lane 5, Nov 4 12:40 UTC (unit 9, saves):** a three-line edit to `office-day.ts` so a save keeps `seenTerms`. Without it, a restored world books an office review the original never booked. Proposed in `docs/lanes/agreements/1-5.md`; please confirm or object there.
 
@@ -57,12 +57,35 @@
 - **Size:** step A under 100 lines; step B 300 to 400; each its own PR.
 - **Checked by:** a fresh session replaying a county race on main in a place it draws.
 
-## Fixed towns on main (Nov 4, path check)
+## Fixed towns on main (Nov 4, path check, main 80dd12c83a)
 
-- Haleyville, Alabama (ab5f58e9be125c95): step 8; won the council seat on the first try (2025).
-- Murray, Nebraska (1d3f0e18ca4ba7e5): step 4; lost an open council seat (2026), a council seat against its holder (2028) and the state senate (2030).
-- Meadow Lakes, Alaska (f835dd278d7312a1): step 4; lost borough mayor (2025); no race it could enter for two years; lost the state house (2028). Its petition line reads "the clerk's check: petitioning" with 38 of 25 signatures: the check reads the status on the day the clerk's check is scheduled, before it runs, so read it a day later before trusting it.
-- Brookside, Storrs, Washington D.C., Cabo Rojo and Santa Rita: running one at a time (two at once ran out of memory on Brookside).
+The replay numbers in towns.md no longer all open the towns named: three now open other places (below).
+
+| Replay             | Opens                    | Furthest | What happened                                                                                |
+| ------------------ | ------------------------ | -------- | -------------------------------------------------------------------------------------------- |
+| dc-closures-a      | Ely, Nevada              | 10       | Won an open council seat (2026); bill passed 5 to 0; law took effect 2027-02-18 and was read |
+| ab5f58e9be125c95   | Haleyville, Alabama      | 8        | Won the council seat (2025); first bill failed 1 to 4                                        |
+| 1d3f0e18ca4ba7e5   | Murray, Nebraska         | 4        | Lost three races (2026, 2028, 2030)                                                          |
+| f835dd278d7312a1   | Meadow Lakes, Alaska     | 4        | Lost borough mayor (2025), no race for two years, lost the state house (2028)                |
+| storrs-1           | Hardyville, Kentucky     | 4        | Lost a county commission race (2026), then no race to enter through 2028                     |
+| 6f539fcfdf6d96f9-5 | Jericho, Vermont         | 4        | Lost a selectboard race (2026), then ran for governor and lost                               |
+| f857db7436bf7449   | Malaeimi, American Samoa | none     | No race offered in six years (`elections-territory-village-player-race`)                     |
+| 4d50e1f88df997f9   | not printed              | none     | Out of an 8 GB heap after 74 minutes (evidence on `core-played-year-large-town-heap-bound`)  |
+
+Margins (lane-1/path-margins, Nov 4): Jericho's selectboard races are crowded, so the player got 12.7 percent of six (2026) and 5.7 percent of seven (2027), and 2.4 percent for governor. Hardyville's county race was a two-way loss, 35.4 to 64.6, with 14 door yes from 1,848 reached over 41 weeks, against Ely's 738 from 2,986. Leads: crowded at-large boards (unit 2, `elections-at-large-race-pooled`), and a door yes rate near zero in some places (unit 4).
+
+Causes found (Nov 4): (1) a counted household's door yes is the record's first choice while its ballot splits by share, so a challenger to a known holder gets almost no yeses (filed `campaign-door-yes-follows-the-share-rule`, question for the CTO in its rules: does the Nov 1 division ruling mean every reached household answers by the record's first choice?); (2) Jericho's selectboard elects three at-large seats on one day as three one-winner contests with three or four filings each, so the player must win outright instead of placing in the top three (`elections-at-large-race-pooled`, unit 2).
+
+Two of seven win, against the owner's target that a hard-working first-timer wins within three tries in most towns. Path-check notes: a petition's status is read on the morning the clerk checks it, before the check runs (it says "petitioning" with enough signatures); "lost" is logged when no race was entered at all.
+
+**Unit 2b: an at-large race is one race** (`elections-at-large-race-pooled`, branch `governing/at-large-pooled`)
+
+- **Finish line:** a body's at-large seats up on one day share one field and one count: every candidate files once, each voter votes for up to as many as there are seats, and the top finishers take the seats; the player in Jericho, Vermont runs for "three of the seats" and is judged against the whole field.
+- **Proof:** a test in three drawn places whose council or board is elected at large (named with seeds): one count across the seats' contests, ballots with up to N choices, the top N seated by record id; a break-it that splits the race back fails it; the path check in Jericho (replay 6f539fcfdf6d96f9-5) prints the pooled shares.
+- **Hands off:** ward seats, single-seat races, partisan primaries, the readers of a result's winner (each seat contest keeps one winner, per the item's design note).
+- **Known cheats:** seating the player by hand, a per-town seat count, a drawn order among ties (ties go by the place's law), counting only named voters.
+- **Size:** three steps of about 400 lines: (A) the count gives each voter up to N votes, named and counted, by the same appeal and share rules; (B) the top N are seated across the group's seat contests; (C) the player files once for the race and sees it as one.
+- **Checked by:** a fresh session replaying Jericho's March selectboard election on main.
 
 ## Measuring now
 
