@@ -1404,11 +1404,6 @@ function statedPosition(
   );
 }
 
-const concernCache = new WeakMap<
-  object,
-  { date: string; map: Map<string, number> }
->();
-
 /**
  * Where a candidate stands on a question, as a reporter reads it: what they
  * said in the campaign, else how they last voted on it, else their own view
@@ -1457,30 +1452,39 @@ export function lastVoteOn(
 }
 
 /**
- * How much the town cares about a question, 0 to 1: the summed strength of
- * the stances its people hold on it (PEOPLE's views engine) over the town's
- * adults, read once a day.
+ * Local adults' concern, by the people each resident record represents.
+ * Build the audience once per interview; read the current stance rows for
+ * each question. A child or someone elsewhere is not a local adult, and a
+ * counted resident without a heard stance contributes only to the audience.
  */
-function townConcern(api: CoreAPI, question: string): number {
-  if (!api.state.modules.has(VIEWS_MODULE_ID)) return 0;
-  const held = concernCache.get(api.state);
-  const map =
-    held?.date === api.state.date ? held.map : new Map<string, number>();
-  if (held?.date !== api.state.date)
-    concernCache.set(api.state, { date: api.state.date, map });
-  const hit = map.get(question);
-  if (hit !== undefined) return hit;
-  const adults =
-    api.state.peopleByPlace.get(lawChain(api).townPlaceId)?.size || 1;
-  const strength = (
-    api
-      .moduleState(VIEWS_MODULE_ID)
-      .table("stances")
-      .query("byTopic", [question]) as unknown as ViewStance[]
-  ).reduce((sum, row) => sum + row.strength, 0);
-  const share = Math.min(1, strength / adults);
-  map.set(question, share);
-  return share;
+export function townConcernReader(api: CoreAPI): (question: string) => number {
+  if (!api.state.modules.has(VIEWS_MODULE_ID)) return () => 0;
+  const town = lawChain(api).townPlaceId;
+  const adultAge = api.parameter("votingAge");
+  const adults = new Map<string, number>();
+  for (const id of api.state.peopleByPlace.get(town) ?? []) {
+    const person = api.state.people.get(id);
+    if (person?.alive && ageOn(person, api.state.date) >= adultAge)
+      adults.set(id, 1);
+  }
+  for (const resident of countedResidentsOf(api.state as CoreState, town)) {
+    if (
+      ageOn(resident, api.state.date) >= adultAge &&
+      api.state.people.get(resident.id)?.alive !== false
+    )
+      adults.set(resident.id, resident.weight);
+  }
+  const count = [...adults.values()].reduce((sum, weight) => sum + weight, 0);
+  const stances = api.moduleState(VIEWS_MODULE_ID).table("stances");
+  return (question) => {
+    const strength = (
+      stances.query("byTopic", [question]) as unknown as ViewStance[]
+    ).reduce(
+      (sum, row) => sum + row.strength * (adults.get(row.personId) ?? 0),
+      0,
+    );
+    return Math.min(1, strength / Math.max(1, count));
+  };
 }
 
 /**
@@ -1614,8 +1618,9 @@ export function interviewQuestions(
           2,
       );
   }
+  const concern = townConcernReader(api);
   for (const q of questions) {
-    add(q, pressParameter("townConcernNewsWeight") * townConcern(api, q));
+    add(q, pressParameter("townConcernNewsWeight") * concern(q));
     add(
       q,
       pressParameter("divisiveNewsWeight") *
