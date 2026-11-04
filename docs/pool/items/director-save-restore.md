@@ -5,11 +5,12 @@ area: director
 kind: feature
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane3/director-save-restore
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T09:17:40.458Z
 ---
 
 **What.** Lane 5's path 6 (quit and come back) needs the director's ledger and closure maps saved beside snapshotWorld; createDirector keeps them in closures nothing saved (agreements/3-5.md, proposed by Lane 5).
