@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: lane-4/results-raw-words
-pr:
+pr: #7197
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-04T06:47:47.516Z
