@@ -15,7 +15,8 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
 import { buildPopulation } from "./population";
-import { createLifeCore } from "./life";
+import { advanceCore, createLifeCore } from "./life";
+import { addDays, makeIsoDate } from "./kernel/dates";
 import { coreAPI } from "./state";
 import { openOffices } from "./modules/offices";
 import {
@@ -143,10 +144,20 @@ describe("M2-02 election calendars and filing rules", () => {
 
 describe("M2-03 filing (engine)", () => {
   it("a resident files once, at no charge, and stands in the race while the petition circulates; an ineligible person is told the rule", () => {
-    const core = world(randomPlace("file").key);
+    const place = randomPlace("file");
+    const core = world(place.key);
     const api = coreAPI(core);
-    const open = openContests(api);
-    expect(open.length).toBeGreaterThan(0);
+    // Filing opens on a set day (elections-filing-window-opens): the weeks go
+    // by, at most two years, until a contest is open.
+    let open = openContests(api);
+    for (let week = 0; week < 104 && !open.length; week += 1) {
+      advanceCore(core, addDays(makeIsoDate(core.date), 7));
+      open = openContests(api);
+    }
+    process.stdout.write(
+      `FILING ${place.key}, seed ${seed}: ${open.length} open on ${core.date}\n`,
+    );
+    expect(open.length, `no contest open by ${core.date}`).toBeGreaterThan(0);
     const contest = open.find((c) => c.level !== "federal") ?? open[0]!;
     const adults = [...core.people.values()]
       .filter(
