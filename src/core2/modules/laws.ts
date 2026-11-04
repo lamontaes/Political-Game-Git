@@ -233,7 +233,14 @@ export function openLaws(core: CoreState): LawChain {
       retrieved: ANSWERS_AS_OF,
       estimate: answer.estimated !== undefined,
       // The statute the answer rests on, which Issues shows beside it.
-      ...(answer.cite ? { terms: { cite: answer.cite } } : {}),
+      ...(answer.cite || answer.lawTerms?.length
+        ? {
+            terms: {
+              ...(answer.cite ? { cite: answer.cite } : {}),
+              ...(answer.lawTerms?.length ? { lawTerms: answer.lawTerms } : {}),
+            },
+          }
+        : {}),
     };
     if (!state.table("laws").get(row.id))
       state.table("laws").put(row as unknown as ModuleRow);
