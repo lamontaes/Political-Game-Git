@@ -126933,6 +126933,108 @@
       }
     },
     {
+      "key": "scene-talk.state-congratulate.you-re-ahead-by-lead-votes-and-i-wanted-you-to-hear-it-from-a-friend-congratulations",
+      "move": "state-congratulate",
+      "kind": "spoken",
+      "text": "You're ahead by {lead} votes, and I wanted you to hear it from a friend: congratulations.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "congratulate",
+          "role": "asker",
+          "purpose": "concession-received",
+          "key": "call-in",
+          "requiresFacts": ["lead", "tie-friend"],
+          "excludesFacts": ["lead-one"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-scene-talk-lines-by-tie)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "congratulate",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.state-congratulate.you-re-ahead-by-one-vote-and-i-wanted-you-to-hear-it-from-a-friend-congratulations",
+      "move": "state-congratulate",
+      "kind": "spoken",
+      "text": "You're ahead by one vote, and I wanted you to hear it from a friend: congratulations.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "congratulate",
+          "role": "asker",
+          "purpose": "concession-received",
+          "key": "call-in",
+          "requiresFacts": ["lead", "lead-one", "tie-friend"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-scene-talk-lines-by-tie)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "congratulate",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.state-congratulate.you-re-ahead-by-lead-votes-i-ll-say-it-once-because-i-have-to-congratulations",
+      "move": "state-congratulate",
+      "kind": "spoken",
+      "text": "You're ahead by {lead} votes. I'll say it once, because I have to: congratulations.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "congratulate",
+          "role": "asker",
+          "purpose": "concession-received",
+          "key": "call-in",
+          "requiresFacts": ["lead", "tie-rival"],
+          "excludesFacts": ["lead-one"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-scene-talk-lines-by-tie)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "congratulate",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.state-congratulate.you-re-ahead-by-one-vote-i-ll-say-it-once-because-i-have-to-congratulations",
+      "move": "state-congratulate",
+      "kind": "spoken",
+      "text": "You're ahead by one vote. I'll say it once, because I have to: congratulations.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "congratulate",
+          "role": "asker",
+          "purpose": "concession-received",
+          "key": "call-in",
+          "requiresFacts": ["lead", "lead-one", "tie-rival"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-scene-talk-lines-by-tie)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "congratulate",
+        "key": "call-in"
+      }
+    },
+    {
       "key": "scene-talk.state-tell.thanks-for-calling-i-m-glad-it-was-you-i-ran-against-and-i-mean-that",
       "move": "state-tell",
       "kind": "spoken",
