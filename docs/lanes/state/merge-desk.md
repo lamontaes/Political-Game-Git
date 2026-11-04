@@ -100,19 +100,20 @@ Mac builds (`release-package.yml` on main) were started after 8, 20, 26 and 34 m
 - **#7149** (Lane 5, a campaign turn with an empty platform): check passed on head bcbde26a02; ready to merge (Torreon, New Mexico, replay 587151fadb62ef34).
 - **#7150** (Lane 1, one filing deadline from the clerk and the form): check passed on head c6545ef860; ready to merge (Springville, Alabama, replay c1f65e48186db742).
 - **#7085** (Lane 1, one council race while filing is open): the lane fixed its send-back and merged main in; check passed on head 082491e773; ready to merge (East Peru, Iowa, replay 5eb4849e175d5965).
-- **#7151** (Lane 3, the night you lose: the talk at home comes from the relative who worked the race): check passed on head 3a8a08e2ea; ready to merge (Edgemere, Maryland, replay 20d0ea7a17b0f3bb).
+- **#7151** (Lane 3, the night you lose: the talk at home comes from the relative who worked the race): check passed on head 40a094ab3e after the lane's later push; ready to merge (Hanover, Ohio, replay f559e6b1cf4b640d).
 - **#7152** (skills, from Lane 1: two shallow-clone traps for session-start): check passed on head 993b8d3572; ready to merge, and the CTO merges skills PRs (Orason, Texas, replay 6d72516d4eb6336d).
-- **#7153** (Lane 2, unemployment benefits use the law's full wage basis): check passed on head 6f96e22779 after the lane's later pushes; ready to merge (Broadland, South Dakota, replay cc56c320ae0c66bf).
+- **#7153** (Lane 2, unemployment benefits use the law's full wage basis): check passed on head befa6346aa after the lane's later pushes; ready to merge (Bibo, New Mexico, replay 824d215807097ff3).
 - **#7154** (Lane 1, a town's council petition fits the town): check passed on head a38ab6c17b; ready to merge (Maia, American Samoa, replay 374cd62c2796d5da).
 - **#7155** (Lane 5, browser checks play the opening address first): check passed on head 1846543caf; ready to merge (Blenheim, South Carolina, replay 49d8003127b8fff0).
 - **#7147** (Lane 2, relatives and officials at the opening have homes and pay rent): the lane resolved its conflict; check passed on head 6ad84c4e5f; ready to merge (Republic, Missouri, replay 2a1c49dff8db9fc2).
 - **#7156** (Lane 1, someone stands at every local filing counter): check passed on head 43ecc5af28; ready to merge (Charlotte Amalie East, U.S. Virgin Islands, replay dbf56bbe0593ee17).
 - **#7157** (Lane 2, living siblings never share a first name): check passed on head a039f9d4a6 after the lane's later push; ready to merge (Sugarcreek, Ohio, replay 89a8607e7a16ea55).
 - **#7158** (Lane 5, 16 more browser checks play the opening first; stacked on #7155, merge #7155 first): check passed on head 4d6802861a; ready to merge (Morrison, Colorado, replay 4e4239ac538b9b7a).
-- **#7159** (Lane 3, conceding or refusing on the call is printed in the race's story): check passed on head 8018653f4c; ready to merge (Shorter, Alabama, replay 9315d1054e71159d).
+- **#7159** (Lane 3, conceding or refusing on the call is printed in the race's story): check passed on head 600b13b468 after the lane's later push; ready to merge (Fagamalo, American Samoa, replay 0eb00aa1659702cc).
 - **#7135** (Lane 1, press people's bills and pay, out-of-town press staff paid): the lane said it's ready; check passed on head b2ea605842; ready to merge (Rock Falls, Iowa, replay 94cea84ceb1165ed).
-- **#7160** (Lane 2, the lobbying ban for officials who leave starts on the day they actually leave): check passed on head 2e994374ea after the lane's later push; ready to merge (Roswell, Georgia, replay 37ea441260246ad1).
+- **#7160** (Lane 2, the lobbying ban for officials who leave starts on the day they actually leave): check passed on head 458985417b after the lane's later pushes; ready to merge (Kemp, Oklahoma, replay 1de74f38175dd39b).
 - **#7161** (Lane 5, test workers start with a third of the memory): check passed on head 72a8768a5e; ready to merge (Silverton, Ohio, replay ef0bb3eb9b9370c2).
+- **#7162** (Lane 2, a national law already replaced is not announced as taking effect): check passed on head a7240de079 after the lane's later pushes; ready to merge (Taputimu, American Samoa, replay 74e648628f5dec26).
 - **Make the new-game check the rule.** The required checks on main are still `validate` and `golden-path`, not the one check. To make GitHub match ruling 2: `gh api -X PATCH repos/lamontaes/Political-Game-Git/branches/main/protection/required_status_checks -F strict=false -f 'contexts[]=new game'` (the job's name is `new game`; check the exact name GitHub shows).
 - **Merges outside the owner's list.** After your approval, merges in your Nov 3 order went through. Merging lane PRs not on that list (#7085, #7147) was refused as "merge without review". Both turned out to have conflicts anyway. To let the desk keep merging lanes' PRs on the one check, say so in this session.
 

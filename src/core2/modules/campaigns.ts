@@ -3117,12 +3117,13 @@ export function giftBudget(
  * `donationMonthScaleMonths` of their month of living costs, savings against
  * their cushion (`caseCushionMonths`); a donor with no living costs of their
  * own takes both from their share of the household's month (`giftBudget`).
- * Only a household with no recorded living costs at all has no span, and its
- * money counts one for one (stopgap SG-GOV-gift-no-living-costs).
+ * Every household holds living costs (a press person seated from a recorded
+ * identity gets the one-person household officials get), so a donor always
+ * has a span; money weighed against no span counts for nothing, never one
+ * for one.
  */
 function weighedAgainst(minor: number, spanMinor: number): number {
-  // stopgapId: SG-GOV-gift-no-living-costs
-  return spanMinor > 0 ? spanMinor * Math.log1p(minor / spanMinor) : minor;
+  return spanMinor > 0 ? spanMinor * Math.log1p(minor / spanMinor) : 0;
 }
 
 /**

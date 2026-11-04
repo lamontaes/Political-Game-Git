@@ -163,6 +163,10 @@ export function wireItem(
     case "person.recorded":
     case "organization.recorded":
       return null;
+    // A concession, or a refusal, is told in the race's own story (the
+    // paper's election story reads it), not as a story of its own.
+    case "concession":
+      return null;
     case "law-took-effect": {
       const topic = facts.series ?? event.kind;
       // A policy law at 0, or an amount set to nothing, ends what stood.

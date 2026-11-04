@@ -30,6 +30,13 @@ export type StartingAnswers = Record<
         estimated?: string;
         /** The statute or rule the answer rests on, where the research names one. */
         cite?: string;
+        /** Numeric provisions attached to this researched answer. */
+        lawTerms?: readonly {
+          questionKey: string;
+          key: string;
+          value: number;
+          unit: string;
+        }[];
       }
     >;
   }
