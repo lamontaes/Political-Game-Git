@@ -5,11 +5,12 @@ area: elections
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: governing/at-large-weighed-once
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T17:18:04.900Z
 ---
 
 **What.** Since an at-large race is counted as one (elections-at-large-race-pooled), its seats' fields add up: in Jericho, Vermont (replay 6f539fcfdf6d96f9-5) 12 candidates ran for three selectboard seats in March 2026 and more than 17 in March 2027. Candidacy (src/core2/modules/candidacy.ts weighContest) still weighs each seat's contest apart, and a runner lowers the pull (candidacyFieldWeight) only for their own seat, so each seat draws three or four.
