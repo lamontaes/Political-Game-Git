@@ -103,4 +103,5 @@
 
 Replays by a session that built none of this lane's work, on main, from a fresh New Game. Only this section is the Confirmer's.
 
+- **Path 1, the clerk and the address: pass.** Main 99d774785b, Nov 4. Haleyville, Alabama, replay ab5f58e9be125c95 (opened as Haleyville). The address plays; the talk after it (Ryan Carter, January 29) follows the reply picked ("I saw it differently." → "Then we'll see which of us was right."), showing only that line; the clerk (Secretary of State Seth Sharp, November 25, 2025, the town's first open filing) speaks in sentences with the race's dates. Proof: `docs/lanes/proof/confirmer-lane3-path1/`.
 - **Path 3, a card as a life story: replayed, waits on the owner's look** (not counted). Main 99d774785b, Nov 4. Storrs, Connecticut, replay storrs-1. Six relatives' cards and two selectmen's cards read in sentences, the history by year ("You were born to her.", "He took office as selectman."); relatives with only a birth get one line. Proof: `docs/lanes/proof/confirmer-lane3-path3/`.
