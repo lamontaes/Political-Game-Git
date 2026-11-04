@@ -5,9 +5,10 @@
 // there, and a second visit that morning finds it open (no line, no move).
 // BENCH_SEED replays a world; BENCH_PLACE (a place key) pins the town, and
 // BENCH_JUMP (a date) plays on to that day by the calendar, for a town whose
-// filing opens later. Path 6's finish line, Brookside, Delaware, whose first
-// filing day is a Saturday: BENCH_SEED=4d50e1f88df997f9 BENCH_PLACE=1009850
-// BENCH_JUMP=2025-08-30. Run against a fresh bench:
+// filing opens later. Path 6's finish line, Brookside, Delaware: its first
+// race the player may enter opens Friday, May 15, 2026, so the Saturday after
+// finds the office shut: BENCH_SEED=4d50e1f88df997f9 BENCH_PLACE=1009850
+// BENCH_JUMP=2026-05-16 (BENCH_TRACE logs each jump). Run against a fresh bench:
 // node src/bench/office-hours.browser.mjs [screenshot-dir]
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
@@ -45,20 +46,35 @@ try {
   );
   console.log("Place:", await page.locator("#card-place").innerText());
   if (process.env.BENCH_TRACE)
-    console.log("Card:", (await page.locator("#card").innerText()).slice(0, 300));
+    console.log(
+      "Card:",
+      (await page.locator("#card").innerText()).slice(0, 300),
+    );
   // Scenes and stops that hold the clock are left, as a player would leave
   // them (Continue on a stop).
   const leaveScenes = async () => {
     const exits =
       "#talk-leave:visible, #talk-next:visible, #talk-skip:visible, #continue:visible";
+    // Election morning: not today, then stay home (no ballot is cast).
+    const morning = ["Not today", "Stay home", "Continue"];
     for (
       let i = 0;
       i < 12 &&
-      (await page.locator("#talk:visible, #continue:visible").count());
+      (await page
+        .locator("#talk:visible, #continue:visible, #election-day:visible")
+        .count());
       i += 1
     ) {
+      const day = page.locator("#election-day-acts button:visible");
+      const names = await day.allInnerTexts();
+      const pick = morning.find((name) => names.includes(name));
+      if (pick)
+        await page
+          .locator("#election-day-acts button", { hasText: pick })
+          .first()
+          .click();
       // The scene's own way out, or else its first answer ("Continue").
-      if (await page.locator(exits).count())
+      else if (await page.locator(exits).count())
         await page.locator(exits).first().click();
       else if (await page.locator("#talk-choices button:visible").count())
         await page.locator("#talk-choices button:visible").first().click();
