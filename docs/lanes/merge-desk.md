@@ -15,7 +15,7 @@ Until then the desk uses a stand-in check that plays 7 days in a 400-person town
 **The order**
 
 1. **Ready today:** #7131 (a parent's death says who survives them), #7070 (no sentence printed over three times in a year).
-2. **Minutes each:** #7099 (test fix), #7104 ("urbanisation" fixed, then candidates run on what the town agrees on).
+2. **Minutes each:** #7099 (test fix), #7104 (a British spelling fixed, then candidates run on what the town agrees on).
 3. **The clerk:** #7083 (a closed office waits until it opens), #7087 (the card says what you do there).
 4. **Campaign acts as scenes, stacked:** #7109 donor calls, #7111 volunteer shift, #7112 endorsement meeting, #7132 buying an ad.
 5. **Words:** #7101 (the clerk talks in sentences; compare Cabo Rojo, Puerto Rico on main), #7106 (the talk after the address follows your choice).
