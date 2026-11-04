@@ -3,7 +3,14 @@ import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { reachOn } from "../core2/law-reach/host";
 import { coreAPI, personOrFillIn } from "../core2/state";
 import { currentCloseness } from "../core2/closeness";
-import { familyFactsOf } from "../core2/modules/people";
+import {
+  COUNTED_MOVES_MODULE_ID,
+  countedMoves,
+  familyFactsOf,
+  MOVED_AWAY_EVENT,
+} from "../core2/modules/people";
+import { townFacts } from "../core2/modules/laws";
+import type { EntityId } from "../core2/kernel/brands";
 import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import { PAST_MODULE_ID } from "../core2/past-module";
 import { publicKnowledgeOf } from "../core2/past-public";
@@ -124,6 +131,8 @@ export function personCard(core: CoreState, personId: string) {
     // or that nobody there draws a wage. Null with a job, or under voting age.
     noJob: job ? null : noJobLine(core, person, relationOf),
     liquidMinor: person.liquidMinor,
+    // The town's size and this year's moves (path 10), from the records.
+    town: townMoves(core, person.placeId),
     // The household's home, from OPUS-WORLD's housing records.
     dwelling: core.modules.has(HOUSING_MODULE_ID)
       ? ((coreAPI(core)
@@ -513,6 +522,42 @@ function tellHistory(lines: readonly HistoryLine[], teller: Teller) {
       },
     ];
   });
+}
+
+/**
+ * A town's size and this calendar year's moves: everyone modeled there now
+ * (named and counted, `townFacts`), the people the counted moves' records
+ * brought in and took out, and the named residents' moved-away records.
+ * Each count is a sum of records, which the card names.
+ */
+export function townMoves(core: CoreState, town: string) {
+  const api = coreAPI(core);
+  const from = `${core.date.slice(0, 4)}-01-01`;
+  let arrivals = 0;
+  let departures = 0;
+  const recordIds: string[] = [];
+  if (core.modules.has(COUNTED_MOVES_MODULE_ID))
+    for (const move of countedMoves(api)) {
+      if (move.date < from) continue;
+      if (move.direction === "in" && move.toPlace === town)
+        arrivals += move.people;
+      else if (move.direction === "out" && move.fromPlace === town)
+        departures += move.people;
+      else continue;
+      recordIds.push(move.id);
+    }
+  for (const id of core.logByKind.get(MOVED_AWAY_EVENT) ?? []) {
+    const row = core.durableLog.get(id as EntityId);
+    if (!row || row.placeId !== town || row.date < from) continue;
+    departures += row.personIds?.length ?? 0;
+    recordIds.push(row.id);
+  }
+  return {
+    population: Math.round(townFacts(api, town).modeled),
+    arrivals: Math.round(arrivals),
+    departures: Math.round(departures),
+    recordIds,
+  };
 }
 
 /**
