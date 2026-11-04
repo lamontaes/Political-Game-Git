@@ -1,6 +1,8 @@
 # Lane 3 state
 
-0 of 11 paths confirmed. Oldest open PR 3 days (#7090, opened Nov 1). Open: #7090, #7103, #7127, #7187, #7188 (at the limit of 5). Merged Nov 4: #7151, #7159, #7178, #7179, #7184, #7185, #7186.
+0 of 11 paths confirmed. Oldest open PR 2 days (#7127, opened Nov 2). Open: #7127, #7191, #7192. Merged Nov 4: #7090, #7103, #7151, #7159, #7178, #7179, #7184, #7185, #7186, #7187, #7188.
+
+**From Lane 5, red main, Nov 4 06:45 UTC (answered):** two reds in `src/director/purpose-scene.ts`, the bare `0`s in the tie read and the `PRESS_STORY_EVENT` import from `core2/press-desk`. Both are fixed in #7192 (`words-purpose-scene-guards-red`): `P.zero`, and the kind re-exported from `core2/modules/press.ts`.
 
 ## Machine and permission (Nov 3, cloud trial)
 
@@ -9,7 +11,7 @@
 - **Fetching big branches:** a plain `git fetch` of a branch with screenshots cuts off ("unexpected disconnect"). Leaving out large files works: `git -c remote.origin.promisor=true -c remote.origin.partialclonefilter=blob:limit=300k fetch --filter=blob:limit=300k origin <branch>`.
 - **Merging main into an old PR branch:** main's history no longer shares the PR branches' older commits (thousands of commits apart, several merge bases), so `git merge origin/main` conflicts on files the PR never touched. For every conflicted file that is not in the PR's own commits, take main's side (`git checkout --theirs`), then check that `git diff origin/main --name-only` lists only the PR's own files.
 
-## Unit 1: finish what's in review (Built; needs a checker and a second session)
+## Unit 1: finish what's in review (#7090 and #7103 merged Nov 4; #7127 open, main merged in again; each needs a second session's replay)
 
 **Card.** Finish line: a card reads as a life story with every term in it, the first filing offers its tutorial, and the paper's law items name the level. Proof: each PR's test at its failing town, replayed on main. Hands off: other lanes' files. Known cheats: a line typed in code, dropping the failing term, changing only the test. Size: about 4 hours, three PRs. Checked by: a fresh session, and the owner for how it reads.
 
@@ -58,8 +60,8 @@
 
 **Card.** Finish line (path 7): Meadow Lakes, Alaska (f835dd278d7312a1). A promised vote is held to you, "we'll talk later" comes due, and a reporter's story quotes you or says you declined. Proof: played-world tests naming place, replay number and record ids, replayed on main by another session. Hands off: Lane 1's legislature and campaigns records, which Lane 3 reads. Known cheats: a scene with no consequence, a keeps label nobody reads. Size: 16 to 20 hours, steps of about 400 lines. Checked by: a fresh session.
 
-- **Step 1, `words-press-comment-in-the-story` (PR #7187, Nov 4; main merged in):** what a member tells a reporter about their bill, or that they declined, is in the paper's story of it. The press keeps a `comments` table, and every story kind may end on a comment sentence. The reporter's scene about an introduced bill could never be worded before: nothing set `introduced` or the reporter's outlet. Now it plays. Shown: Jayuya, Puerto Rico ('Connie Gallagher told reporters: "People who work two jobs and still come up short. It's written for them."') and Crimora, Virginia ("Timothy McKay declined to comment."), seed f03c46d0d2876ea3; also Weogufka, Alabama and St. George, West Virginia, seed e2c4609d58b7565d. Break-it check: without the scene fix the scene is not composed. A candidate meets no reporter's question, since declining an interview is a snub, so the proof is from office. Next in unit 5: "we'll talk later" coming due.
-- **Step 2, `scene-reporter-calls-on-a-vote` (claimed; branch `lane3/reporter-on-vote`, stacked on #7187, head 0cf9ff51; PR waits for #7187 and a slot):** the reporter's call now has a cause on the member's own `legislative-vote`. The scene reads the side from `office.voted` (`voted-yes` or `voted-no`, worded in the bank), and "how you'll vote" never plays after the vote. The repeat window gains `repeatsBy: "cause"`, so a call about a bill's introduction no longer swallows the call about its vote. Without it, Rockport, Illinois staged only the floor vote. `reporter-on-vote.test.ts`, seed 981d4fd83b051ad0:
+- **Step 1, `words-press-comment-in-the-story` (merged, #7187, Nov 4):** what a member tells a reporter about their bill, or that they declined, is in the paper's story of it. The press keeps a `comments` table, and every story kind may end on a comment sentence. The reporter's scene about an introduced bill could never be worded before: nothing set `introduced` or the reporter's outlet. Now it plays. Shown: Jayuya, Puerto Rico ('Connie Gallagher told reporters: "People who work two jobs and still come up short. It's written for them."') and Crimora, Virginia ("Timothy McKay declined to comment."), seed f03c46d0d2876ea3; also Weogufka, Alabama and St. George, West Virginia, seed e2c4609d58b7565d. Break-it check: without the scene fix the scene is not composed. A candidate meets no reporter's question, since declining an interview is a snub, so the proof is from office. Next in unit 5: "we'll talk later" coming due.
+- **Step 2, `scene-reporter-calls-on-a-vote` (PR #7191, Nov 4):** the reporter's call now has a cause on the member's own `legislative-vote`. The scene reads the side from `office.voted` (`voted-yes` or `voted-no`, worded in the bank), and "how you'll vote" never plays after the vote. The repeat window gains `repeatsBy: "cause"`, so a call about a bill's introduction no longer swallows the call about its vote. Without it, Rockport, Illinois staged only the floor vote. `reporter-on-vote.test.ts`, seed 981d4fd83b051ad0:
   - McCoy, Colorado (voted no, answered): "You voted against Ordinance 2025-1. What should people know about why?" The story then reads: 'Asked about it, Piper Figueroa said: "Read the bill before you judge it."'
   - Rockport, Illinois (voted yes, refused): "Oscar Ochoa would not comment for this story."
   - **Known gap:** in Talala, Oklahoma and Dover, Massachusetts the desk didn't print the vote within 10 days, so the answer waits on a story that never runs.
@@ -75,7 +77,8 @@
   - `journal.test.ts`'s same-day relatives' race test now expects the relative's race inside the player's chapter.
   - The filing day's wording ("So I filed to run for…, with the election set for…") is on `lane3/journal-filed-not-ran`.
   - **Still open on the item:** a cause, feeling or time link between lines, and the Haleyville replay.
-- **Step 2, `words-opening-paper-only-fresh-news` (PR #7188, Nov 4; agreement `agreements/3-4.md`, proposed):** the night's paper prints only stories within the news engine's own `newsMaxAgeDays` (`freshSince` in `news.ts`, which its retention reads too), and the News archive keeps the rest. `src/bench/paper-fresh.test.ts`, paper seed briefs-nov2:
+  - **Main merged in (head 4811760f).** The journal tests pass, 25 of 25. A fresh two-year draw crashed while building Queen Creek, Arizona (`openBudgets`, "Module data must be finite"), but newest main (9e2f7a46) builds it, so it is already fixed upstream. The PR waits for the line-link part, or the chapter part filed as its own item.
+- **Step 2, `words-opening-paper-only-fresh-news` (merged, #7188, Nov 4; agreement `agreements/3-4.md`, proposed):** the night's paper prints only stories within the news engine's own `newsMaxAgeDays` (`freshSince` in `news.ts`, which its retention reads too), and the News archive keeps the rest. `src/bench/paper-fresh.test.ts`, paper seed briefs-nov2:
   - Port Richey, Florida: 12 of 27 stories fresh, of 3 kinds.
   - Knik River, Alaska: 9 of 26 fresh, of 2 kinds.
   - Lewisville, Idaho: 9 of 27 fresh, of 3 kinds.
