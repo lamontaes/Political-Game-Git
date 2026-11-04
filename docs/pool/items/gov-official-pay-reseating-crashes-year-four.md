@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: lane-2/official-pay-reseating
 pr: #7217
 blocked-on:
