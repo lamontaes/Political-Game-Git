@@ -20,7 +20,7 @@ import { resultOf } from "../core2/modules/voting";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { stakeOf } from "./family-stake";
-import { purposeScene } from "./purpose-scene";
+import { purposeScene, replyInScene } from "./purpose-scene";
 
 // Scenes with a purpose fire in play from their cause records, in the lines
 // that play (no grading view). In the played world, on a fresh seed and places
@@ -137,8 +137,11 @@ const run = (drawSeed: string): string | null => {
     if (!stake) continue;
     // Filing is a record of the filer's own life: it stops the day at home.
     expect(entry!.outcome, here).toBe("scene-now");
-    // The lines that play, as ordinary play says them.
-    const result = purposeScene(core, director, filer, entry!);
+    // The lines that play, as ordinary play says them: the talk at home,
+    // which follows the clerk's counter where the place has a clerk.
+    const result = purposeScene(core, director, filer, entry!, {
+      typeKey: "family-filing",
+    });
     expect(result?.kind, `${here}: ${JSON.stringify(result)}`).toBe("composed");
     if (result?.kind !== "composed") continue;
     const { scene } = result;
@@ -157,7 +160,13 @@ const run = (drawSeed: string): string | null => {
     expect(scene.talk.state.text.length, here).toBeGreaterThan(0);
     expect(scene.talk.tree.replies.length, here).toBeGreaterThan(1);
     // The play screen's story, outside the grading view, carries the same
-    // exchange and why it happened.
+    // exchange and why it happened, once the player is through the clerk's
+    // counter where the place has one.
+    if (entry!.bindings.some((row) => row.typeKey === "filing"))
+      expect(
+        replyInScene(core, director, filer, entry!, [0], { typeKey: "filing" }),
+        `${here}: the counter took no reply`,
+      ).not.toBeNull();
     const story = storyScene(core, director, filer, entry!.momentId, 18 * 60);
     expect(story.talk?.typeKey, here).toBe("family-filing");
     expect(story.talk?.why.cause.id, here).toBe(scene.cause.id);
