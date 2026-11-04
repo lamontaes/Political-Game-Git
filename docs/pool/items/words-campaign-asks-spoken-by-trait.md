@@ -5,9 +5,9 @@ area: words
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: done
 claimed-by: lane3/campaign-answers
-pr:
+pr: #7261
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-04T14:26:02.543Z
