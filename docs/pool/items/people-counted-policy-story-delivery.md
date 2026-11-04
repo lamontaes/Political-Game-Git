@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/counted-news-views.ts; src/core2/counted-groups.ts; src/core2/modules/views.ts; src/core2/modules/news.ts; src/core2/modules/press.ts; focused source test; agreed press import baseline tightening; lane proof
 
 **Notes.** Existing parent people-counted-readers-stances-from-stories stays claimed. Shared transition merged #7230; local adult concern is #7234. Search finds no equivalent policy-delivery child. Build only the policy argument delivery now; condition-story direction and transfers are separate. No legislature, voting, electorate, state.ts, scene or screen edit.
+
+Nov4 Lane2: returned open after three ordinary git push attempts received GitHub Internal Server Error at11:13,11:17,11:18 UTC. Local card3e0bb57d8b and untested source stash preserved; remote lane-2/counted-policy-delivery holds only base0ad21a9921. Details in lane-2 state. No fourth retry; next item is the separate mortgage repair.

@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: governing/alabama-towns-2025
 pr: #7239
 blocked-on:

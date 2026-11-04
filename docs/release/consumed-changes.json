@@ -1,6 +1,18 @@
 {
   "entries": [
     {
+      "version": "0.82.0",
+      "releasedOn": "2026-11-04",
+      "revision": "32deba00ead77fd9e44bc646478df804f0db8318",
+      "changeIds": [
+        "drives-runtime-in-saves",
+        "elections-alabama-towns-vote-2025",
+        "screens-party-roster-kit",
+        "words-journal-joins",
+        "words-journal-meant-tie"
+      ]
+    },
+    {
       "version": "0.81.0",
       "releasedOn": "2026-11-04",
       "revision": "e99aaf63e4d1786b3d17ac535c8ab0cc5f0ffc40",
