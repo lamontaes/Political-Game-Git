@@ -5,7 +5,7 @@ area: elections
 kind: feature
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: lane-1/path-margins
 pr: #7265
 blocked-on:
