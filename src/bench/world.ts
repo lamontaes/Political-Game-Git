@@ -274,6 +274,11 @@ type BuildOptions = {
    * (the speed guard measures and hashes it; scripts/core2-guard/month.mjs).
    */
   onOpening?: (input: CoreInput) => void;
+  /**
+   * The built world, once its past and people exist and before the opening
+   * story and first scene are drawn: the loading screen plays from it.
+   */
+  onWorld?: (core: CoreState, playerId: string | undefined) => void;
 };
 type Built = BenchWorld & { playerId?: string };
 
@@ -536,6 +541,7 @@ function* benchWorldStages(
   // (people who arrive later get theirs on the next 1st); the household pays its premium.
   openCoverage(core);
   director.start(core);
+  options.onWorld?.(core, playerId);
   yield "opening";
   // The opening, told as a story from the records (owner, Oct 14, 2026): the
   // President's address and that night's news, composed once while the
