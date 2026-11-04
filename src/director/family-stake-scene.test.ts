@@ -9,7 +9,11 @@ import { familyFactsOf } from "../core2/modules/people";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
-import { CAMPAIGNS_MODULE_ID, campaignFor } from "../core2/modules/campaigns";
+import {
+  CAMPAIGNS_MODULE_ID,
+  campaignFor,
+  rivalFiling,
+} from "../core2/modules/campaigns";
 import {
   fileCandidacy,
   openContests,
@@ -120,6 +124,9 @@ it("stages the filing talk only for a relative with a stake, and records what th
     const { core, director, where } = found;
     for (const { filing } of found.filings) {
       const filer = filing.personId as PersonId;
+      // Each filer answers as the player would: the world keeps their
+      // private records (a scene reply) as it keeps the player's.
+      core.focusPersonIds.add(filer);
       const here = `${where}: ${filing.id}`;
       const entry = entryOf(found, filing);
       expect(entry, `${here} fired no moment`).toBeTruthy();
@@ -210,10 +217,23 @@ it("stages the filing talk only for a relative with a stake, and records what th
           const before = core.modules.has(CAMPAIGNS_MODULE_ID)
             ? [...campaignFor(coreAPI(core), filing.id).volunteerIds]
             : [];
-          const id = replyInScene(core, director, filer, entry!, path);
+          const id = replyInScene(core, director, filer, entry!, path, {
+            typeKey: "family-filing",
+          });
           expect(id, here).toBeTruthy();
           const after = [...campaignFor(coreAPI(core), filing.id).volunteerIds];
-          if (answered?.move === "promise") {
+          // A relative running in the same race is a rival filer, whom the
+          // campaign never counts (enlistVolunteer).
+          const rival = !!rivalFiling(
+            coreAPI(core),
+            campaignFor(coreAPI(core), filing.id),
+            scene.askerId,
+          );
+          if (answered?.move === "promise" && rival)
+            expect(after, `${here}: a rival filer counted`).not.toContain(
+              scene.askerId,
+            );
+          else if (answered?.move === "promise") {
             expect(before, here).not.toContain(scene.askerId);
             expect(after, `${here}: said yes, not counted`).toContain(
               scene.askerId,
@@ -242,7 +262,9 @@ it("stages the filing talk only for a relative with a stake, and records what th
           });
           if (ended && ended.length > 1) {
             const before = closenessBetween(core, scene.askedId, scene.askerId);
-            const id = replyInScene(core, director, filer, entry!, ended);
+            const id = replyInScene(core, director, filer, entry!, ended, {
+              typeKey: "family-filing",
+            });
             const facts = core.durableLog.get(id!)?.facts;
             expect(facts?.keeps, here).toBe("relationship-strained");
             expect(
@@ -271,8 +293,21 @@ it("stages the filing talk only for a relative with a stake, and records what th
         }
         if (root.line.move === "deflect" && !sawPutOff) {
           const before = closenessBetween(core, scene.askedId, scene.askerId);
-          const id = replyInScene(core, director, filer, entry!, path);
+          const id = replyInScene(core, director, filer, entry!, path, {
+            typeKey: "family-filing",
+          });
           expect(id, here).toBeTruthy();
+          // A matter put off owes the relative a talk: the reply's record
+          // says with whom, about what and by when (agreements/2-3.md).
+          const kept = core.durableLog.get(id as never)?.facts;
+          if (kept?.ending === "put-off") {
+            expect(kept.owedWith, here).toBe(scene.askerId);
+            expect(String(kept.owedDueOn) > core.date, here).toBe(true);
+            expect(kept.owedTopic, here).toBeTruthy();
+            notes.push(
+              `${here}: owed talk with ${String(kept.owedWith)} about ${String(kept.owedTopic)} due ${String(kept.owedDueOn)} (${id})`,
+            );
+          }
           const after = closenessBetween(core, scene.askedId, scene.askerId);
           expect(
             after,
