@@ -1,6 +1,6 @@
 ---
 id: title-screen-national-scene-regression
-title: "Title-screen national scene test fails on current main"
+title: "The title shows the monuments on main in their light; conventions and rallies out"
 area: play
 kind: bug
 priority: 2
@@ -13,14 +13,12 @@ source: added with npm run pool -- add
 claimed-at: 2026-11-04T08:33:35.321Z
 ---
 
-**What.** The current main title-screen test fails before and after PR #6178 because TITLE_SCENES includes lincoln-memorial while the test rejects it. Reconcile the generated title scene list with the approved screen and backdrop rulings. Preserve the unrelated shared-panel implementation and report the original failing assertion.
+**What.** Rewritten by Lane 4 on Nov 4, as `docs/lanes/lane-4.md` directs (title card, unit 6): the title rotated through conventions, rallies, chamber floors, a debate stage and the Oval Office beside two monuments. The owner's Oct 29 monument ruling (`OWNER-DECISIONS.md`: "menu screens show DC monuments, not conventions, with the latest character in front and passersby") and the lane's path 1 want monuments only, in varied light.
 
-**Rules.** Follow the screens owner rulings and replace, never layer. Read the approved title backdrop decision before changing the test or production list; never add a bypass just to clear the assertion.
+**Rules.** The art on main only tonight (owner, Nov 4): the U.S. Capitol (morning, midday, night, rain), the White House (midday) and the Lincoln Memorial (night). No Washington or Jefferson paintings, no person on the title until the people system lands. Replace, never layer.
 
-**Done when.** Run node --test desktop/tests/title-screen.test.mjs on the corrected head and record both tests passing. Name the approved backdrop ruling that justifies the chosen scene list, and verify the title still renders a real manifest backdrop with its menu controls.
+**Done when.** Every title frame is a monument on main in one of its painted lights, never a convention, rally or room; no monument shows twice in a row; the picture fills the window under the menu at 1440x900, 1280x800 and 1024x768 (`src/bench/title-monuments.browser.mjs`), with screenshots naming monument and light.
 
-**Files.** src/bench/title.ts, desktop/tests/title-screen.test.mjs, art/backdrops/manifest.json
+**Files.** src/bench/title.ts, src/bench/title.test.ts, src/bench/title-monuments.browser.mjs
 
-**Notes.** TODO
-
-Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): already built (no failing assertion on main).
+**Notes.** The character in front and passersby wait on the people system (path 1 gap, in `docs/lanes/state/lane-4.md`). Old note: the Oct 27 look-first audit found the original failing assertion already gone.
