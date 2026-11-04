@@ -5,12 +5,13 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane-2/homes-at-opening
 pr:
 blocked-on:
 after: housing-dwelling-records-cover-few-households
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T05:01:18.375Z
 ---
 
 **What.** New Game can show a home scene while the player has no dwelling record. Burnet, Texas, replay 6e32d4b3c4eb3d6e returned dwelling:null before any advance on source 00cb393a73. The existing housing initializer runs only onDay; expose that same idempotent producer and run it after opening households exist, before the first room or card reads them.
