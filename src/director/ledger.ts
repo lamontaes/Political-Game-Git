@@ -846,6 +846,12 @@ export function createDirector(
         (entry) => entry.eventKind === row.event.kind,
       );
       if (!rule) continue;
+      if (
+        Object.entries(rule.whenFacts ?? {}).some(
+          ([key, value]) => row.event.facts?.[key] !== value,
+        )
+      )
+        continue;
       // The person a fact of the event names (the official a recall's count
       // is about) is named by it as surely as its own people: the event is
       // theirs, and its people are who it was with.

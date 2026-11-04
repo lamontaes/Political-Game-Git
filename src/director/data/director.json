@@ -962,6 +962,17 @@
       "impactParameter": "directorFilingImpact"
     },
     {
+      "eventKind": "volunteer-shift",
+      "channel": "cause",
+      "impactParameter": "directorCampaignSpeechImpact",
+      "whenFacts": { "firstShift": "true" }
+    },
+    {
+      "eventKind": "petition-checked",
+      "channel": "cause",
+      "impactParameter": "directorFilingImpact"
+    },
+    {
       "eventKind": "party-asked",
       "channel": "cause",
       "impactParameter": "directorFilingImpact"

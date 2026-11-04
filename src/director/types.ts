@@ -67,6 +67,11 @@ export interface DirectorData {
     scaleFact?: string;
     /** The fact naming who the moment is about (the baby at a birth), when not the event's people. */
     counterpartFact?: string;
+    /**
+     * Facts the event must carry, by value, to be a moment at all (a
+     * volunteer's first evening, not every week after it).
+     */
+    whenFacts?: Readonly<Record<string, string>>;
   }[];
   /** The reason key and citation on a core player stop for an interrupting moment. */
   interruptStop: { reasonKey: string; citation: string };
