@@ -1,6 +1,22 @@
 {
   "entries": [
     {
+      "version": "0.78.0",
+      "releasedOn": "2026-11-04",
+      "revision": "b53cf5cf37b37a3ba98d029cf1cde4948cd9c551",
+      "changeIds": [
+        "homes-at-opening",
+        "release-lane-state-files",
+        "words-campaign-walkthrough",
+        "words-comment-in-the-story",
+        "words-first-paper-fresh-news",
+        "words-lines-by-tie",
+        "words-loss-narration-no-presence",
+        "words-person-history-story",
+        "zero-dice-sibling-name-entry"
+      ]
+    },
+    {
       "version": "0.77.0",
       "releasedOn": "2026-11-04",
       "revision": "7497b6035b60326fece3a917ba9b040d934c4493",
