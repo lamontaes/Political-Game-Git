@@ -147,6 +147,10 @@
     "money:job-changed": "own-work",
     "home:moved": "home"
   },
+  "answersTo": {
+    "about": "The reply choices that answer a question, by the move of the bank piece that asked it (owner, Nov 1: questions get answers; Oct 29: a question is answered before anything else). A choice not listed is not offered after that question. Moves and choices only; no sentence.",
+    "news-ask-think": ["opinion"]
+  },
   "tells": {
     "about": "Owner, Oct 14, 2026, night (Q10: one 'listen' and one 'ask more'): when the player answers the other person's line with a choice that asks for more, the other person tells this subject of their own, from their records, as a side remark on the same topic. By the line's kind, then the choice.",
     "job-lost-reply": {

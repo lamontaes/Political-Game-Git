@@ -1,0 +1,142 @@
+NEWLIFE http://localhost:3000/api/newlife?seed=ab5f58e9be125c95&date=&placeKey=0132704&person=%7B%22givenName%22%3A%22Emily%22%2C%22familyName%22%3A%22Carter%22%2C%22gender%22%3A%22female%22%2C%22birthYear%22%3A1985%2C%22birthMonth%22%3A4%2C%22birthDay%22%3A10%2C%22recipe%22%3A%7B%22person%22%3A%22woman-heavy%22%2C%22outfit%22%3A%22everyday%22%2C%22work%22%3A%22pantsuitblack%3Achin-length+bob%22%2C%22colors%22%3A%7B%22top%22%3A%22royal+blue%22%2C%22trousers%22%3A%22maroon%22%2C%22shoes%22%3A%22cream%22%2C%22hair%22%3A%22blond%22%7D%7D%7D
+PLACE Haleyville, Alabama PERSON person_ac1cd0c0b705f97c
+DAY0 Monday, January 20, 2025
+8:30 PM
+CAMPAIGNS0 Politics | Government | Campaigns | Parties | Issues | Budgets | ON THE BALLOT | Circuit clerk | No one has filed | November 3, 2026 | Filing closes January 23, 2026 | Commissioner (1) | No one has filed | November 3, 2026 | Filing closes January 23, 2026 | Commissioner (2) | No one has filed | November 3, 2026 | Filing closes January 23, 2026 | Commissioner (3) | No one has filed | November 3, 2026 | Filing closes January 23, 2026 | Commissioner (4) | No one has filed | November 3, 2026 | Filing closes January 23, 2026 | Commissioner (5) | No one has filed | November 3, 2026 | Filing closes January 23, 2026 | Commissioner (6) | No one has filed | November 3, 2026 | Filing closes January 23, 2026 | Commissioner (7) | No one has filed | November 3, 2026 | Filing closes January 23, 2026 | Coroner | No one has filed | November 3, 2026 | Filing closes January 23, 2026 | District attorney | No one has filed | November 3, 2026 | Filing closes January 23, 2026 | Probate judge | No one has filed | November 3, 2026 | Filing closes January 23, 2026 | Sheriff | No one has filed | November 3, 2026 | Filing closes January 23, 2026 | ‹ | 1 of 2 | ›
+OFFERED 1 0  next {"contestId":"contest:seat:US-AL:us-senate:0:2026-11-03","title":"U.S. Senator","filedWith":"State party chair (party candidates); Secretary of State (independents)","filingOpens":"2025-11-24","filingDeadline":"2026-01-23","primaryDate":"2026-05-19","electionDate":"2026-11-03","estimated":false}
+WEEK 1 Tuesday, January 28, 2025
+7:00 AM races 13 open 0 mayFile 0 
+RACEKEYS ["contestId","title","electionDate","filingDeadline","filingClosed","filingOpen","filedWith","playerMayFile","filers"]
+OFFERED 2 0  next {"contestId":"contest:seat:US-AL:us-senate:0:2026-11-03","title":"U.S. Senator","filedWith":"State party chair (party candidates); Secretary of State (independents)","filingOpens":"2025-11-24","filingDeadline":"2026-01-23","primaryDate":"2026-05-19","electionDate":"2026-11-03","estimated":false}
+WEEK 2 Tuesday, February 4, 2025
+7:00 AM races 13 open 0 mayFile 0 
+OFFERED 3 0  next {"contestId":"contest:seat:US-AL:us-senate:0:2026-11-03","title":"U.S. Senator","filedWith":"State party chair (party candidates); Secretary of State (independents)","filingOpens":"2025-11-24","filingDeadline":"2026-01-23","primaryDate":"2026-05-19","electionDate":"2026-11-03","estimated":false}
+WEEK 3 Tuesday, February 11, 2025
+7:00 AM races 13 open 0 mayFile 0 
+OFFERED 4 0  next {"contestId":"contest:seat:US-AL:us-senate:0:2026-11-03","title":"U.S. Senator","filedWith":"State party chair (party candidates); Secretary of State (independents)","filingOpens":"2025-11-24","filingDeadline":"2026-01-23","primaryDate":"2026-05-19","electionDate":"2026-11-03","estimated":false}
+WEEK 4 Tuesday, February 18, 2025
+7:00 AM races 13 open 0 mayFile 0 
+OFFERED 5 0  next {"contestId":"contest:seat:US-AL:us-senate:0:2026-11-03","title":"U.S. Senator","filedWith":"State party chair (party candidates); Secretary of State (independents)","filingOpens":"2025-11-24","filingDeadline":"2026-01-23","primaryDate":"2026-05-19","electionDate":"2026-11-03","estimated":false}
+WEEK 5 Tuesday, February 25, 2025
+7:00 AM races 13 open 0 mayFile 0 
+OFFERED 6 0  next {"contestId":"contest:seat:US-AL:us-senate:0:2026-11-03","title":"U.S. Senator","filedWith":"State party chair (party candidates); Secretary of State (independents)","filingOpens":"2025-11-24","filingDeadline":"2026-01-23","primaryDate":"2026-05-19","electionDate":"2026-11-03","estimated":false}
+WEEK 6 Tuesday, March 4, 2025
+7:00 AM races 13 open 0 mayFile 0 
+OFFERED 7 0  next {"contestId":"contest:seat:US-AL:us-senate:0:2026-11-03","title":"U.S. Senator","filedWith":"State party chair (party candidates); Secretary of State (independents)","filingOpens":"2025-11-24","filingDeadline":"2026-01-23","primaryDate":"2026-05-19","electionDate":"2026-11-03","estimated":false}
+WEEK 7 Tuesday, March 11, 2025
+7:00 AM races 13 open 0 mayFile 0 
+OFFERED 8 0  next {"contestId":"contest:seat:US-AL:us-senate:0:2026-11-03","title":"U.S. Senator","filedWith":"State party chair (party candidates); Secretary of State (independents)","filingOpens":"2025-11-24","filingDeadline":"2026-01-23","primaryDate":"2026-05-19","electionDate":"2026-11-03","estimated":false}
+WEEK 8 Tuesday, March 18, 2025
+7:00 AM races 13 open 0 mayFile 0 
+OFFERED 9 0  next {"contestId":"contest:seat:US-AL:us-senate:0:2026-11-03","title":"U.S. Senator","filedWith":"State party chair (party candidates); Secretary of State (independents)","filingOpens":"2025-11-24","filingDeadline":"2026-01-23","primaryDate":"2026-05-19","electionDate":"2026-11-03","estimated":false}
+WEEK 9 Tuesday, March 25, 2025
+7:00 AM races 13 open 0 mayFile 0 
+OFFERED 10 0  next {"contestId":"contest:seat:US-AL:us-senate:0:2026-11-03","title":"U.S. Senator","filedWith":"State party chair (party candidates); Secretary of State (independents)","filingOpens":"2025-11-24","filingDeadline":"2026-01-23","primaryDate":"2026-05-19","electionDate":"2026-11-03","estimated":false}
+WEEK 10 Tuesday, April 1, 2025
+7:00 AM races 13 open 0 mayFile 0 
+OFFERED 11 0  next {"contestId":"contest:seat:US-AL:us-senate:0:2026-11-03","title":"U.S. Senator","filedWith":"State party chair (party candidates); Secretary of State (independents)","filingOpens":"2025-11-24","filingDeadline":"2026-01-23","primaryDate":"2026-05-19","electionDate":"2026-11-03","estimated":false}
+WEEK 11 Tuesday, April 8, 2025
+7:00 AM races 13 open 0 mayFile 0 
+OFFERED 12 0  next {"contestId":"contest:seat:US-AL:us-senate:0:2026-11-03","title":"U.S. Senator","filedWith":"State party chair (party candidates); Secretary of State (independents)","filingOpens":"2025-11-24","filingDeadline":"2026-01-23","primaryDate":"2026-05-19","electionDate":"2026-11-03","estimated":false}
+WEEK 12 Tuesday, April 15, 2025
+7:00 AM races 13 open 0 mayFile 0 
+OFFERED 13 0  next {"contestId":"contest:seat:US-AL:us-senate:0:2026-11-03","title":"U.S. Senator","filedWith":"State party chair (party candidates); Secretary of State (independents)","filingOpens":"2025-11-24","filingDeadline":"2026-01-23","primaryDate":"2026-05-19","electionDate":"2026-11-03","estimated":false}
+WEEK 13 Tuesday, April 22, 2025
+7:00 AM races 13 open 0 mayFile 0 
+OFFERED 14 0  next {"contestId":"contest:seat:US-AL:us-senate:0:2026-11-03","title":"U.S. Senator","filedWith":"State party chair (party candidates); Secretary of State (independents)","filingOpens":"2025-11-24","filingDeadline":"2026-01-23","primaryDate":"2026-05-19","electionDate":"2026-11-03","estimated":false}
+WEEK 14 Tuesday, April 29, 2025
+7:00 AM races 13 open 0 mayFile 0 
+OFFERED 15 0  next {"contestId":"contest:seat:US-AL:us-senate:0:2026-11-03","title":"U.S. Senator","filedWith":"State party chair (party candidates); Secretary of State (independents)","filingOpens":"2025-11-24","filingDeadline":"2026-01-23","primaryDate":"2026-05-19","electionDate":"2026-11-03","estimated":false}
+WEEK 15 Tuesday, May 6, 2025
+7:00 AM races 13 open 0 mayFile 0 
+OFFERED 16 0  next {"contestId":"contest:seat:US-AL:us-senate:0:2026-11-03","title":"U.S. Senator","filedWith":"State party chair (party candidates); Secretary of State (independents)","filingOpens":"2025-11-24","filingDeadline":"2026-01-23","primaryDate":"2026-05-19","electionDate":"2026-11-03","estimated":false}
+WEEK 16 Tuesday, May 13, 2025
+7:00 AM races 13 open 0 mayFile 0 
+OFFERED 17 0  next {"contestId":"contest:seat:US-AL:us-senate:0:2026-11-03","title":"U.S. Senator","filedWith":"State party chair (party candidates); Secretary of State (independents)","filingOpens":"2025-11-24","filingDeadline":"2026-01-23","primaryDate":"2026-05-19","electionDate":"2026-11-03","estimated":false}
+WEEK 17 Tuesday, May 20, 2025
+7:00 AM races 13 open 0 mayFile 0 
+OFFERED 18 0  next {"contestId":"contest:seat:US-AL:us-senate:0:2026-11-03","title":"U.S. Senator","filedWith":"State party chair (party candidates); Secretary of State (independents)","filingOpens":"2025-11-24","filingDeadline":"2026-01-23","primaryDate":"2026-05-19","electionDate":"2026-11-03","estimated":false}
+WEEK 18 Tuesday, May 27, 2025
+7:00 AM races 13 open 0 mayFile 0 
+OFFERED 19 0  next {"contestId":"contest:seat:US-AL:us-senate:0:2026-11-03","title":"U.S. Senator","filedWith":"State party chair (party candidates); Secretary of State (independents)","filingOpens":"2025-11-24","filingDeadline":"2026-01-23","primaryDate":"2026-05-19","electionDate":"2026-11-03","estimated":false}
+WEEK 19 Tuesday, June 3, 2025
+7:00 AM races 13 open 0 mayFile 0 
+OFFERED 20 0  next {"contestId":"contest:seat:US-AL:us-senate:0:2026-11-03","title":"U.S. Senator","filedWith":"State party chair (party candidates); Secretary of State (independents)","filingOpens":"2025-11-24","filingDeadline":"2026-01-23","primaryDate":"2026-05-19","electionDate":"2026-11-03","estimated":false}
+WEEK 20 Tuesday, June 10, 2025
+7:00 AM races 13 open 0 mayFile 0 
+OFFERED 21 0  next {"contestId":"contest:seat:US-AL:us-senate:0:2026-11-03","title":"U.S. Senator","filedWith":"State party chair (party candidates); Secretary of State (independents)","filingOpens":"2025-11-24","filingDeadline":"2026-01-23","primaryDate":"2026-05-19","electionDate":"2026-11-03","estimated":false}
+WEEK 21 Tuesday, June 17, 2025
+7:00 AM races 13 open 0 mayFile 0 
+OFFERED 22 0  next {"contestId":"contest:seat:US-AL:us-senate:0:2026-11-03","title":"U.S. Senator","filedWith":"State party chair (party candidates); Secretary of State (independents)","filingOpens":"2025-11-24","filingDeadline":"2026-01-23","primaryDate":"2026-05-19","electionDate":"2026-11-03","estimated":false}
+WEEK 22 Tuesday, June 24, 2025
+7:00 AM races 13 open 0 mayFile 0 
+OFFERED 23 0  next {"contestId":"contest:seat:US-AL:us-senate:0:2026-11-03","title":"U.S. Senator","filedWith":"State party chair (party candidates); Secretary of State (independents)","filingOpens":"2025-11-24","filingDeadline":"2026-01-23","primaryDate":"2026-05-19","electionDate":"2026-11-03","estimated":false}
+WEEK 23 Tuesday, July 1, 2025
+7:00 AM races 13 open 0 mayFile 0 
+OFFERED 24 0  next {"contestId":"contest:seat:US-AL:us-senate:0:2026-11-03","title":"U.S. Senator","filedWith":"State party chair (party candidates); Secretary of State (independents)","filingOpens":"2025-11-24","filingDeadline":"2026-01-23","primaryDate":"2026-05-19","electionDate":"2026-11-03","estimated":false}
+WEEK 24 Tuesday, July 8, 2025
+7:00 AM races 13 open 0 mayFile 0 
+OFFERED 25 0  next {"contestId":"contest:seat:US-AL:us-senate:0:2026-11-03","title":"U.S. Senator","filedWith":"State party chair (party candidates); Secretary of State (independents)","filingOpens":"2025-11-24","filingDeadline":"2026-01-23","primaryDate":"2026-05-19","electionDate":"2026-11-03","estimated":false}
+WEEK 25 Tuesday, July 15, 2025
+7:00 AM races 13 open 0 mayFile 0 
+OFFERED 26 0  next {"contestId":"contest:seat:US-AL:us-senate:0:2026-11-03","title":"U.S. Senator","filedWith":"State party chair (party candidates); Secretary of State (independents)","filingOpens":"2025-11-24","filingDeadline":"2026-01-23","primaryDate":"2026-05-19","electionDate":"2026-11-03","estimated":false}
+WEEK 26 Tuesday, July 22, 2025
+7:00 AM races 13 open 0 mayFile 0 
+OFFERED 27 0  next {"contestId":"contest:seat:US-AL:us-senate:0:2026-11-03","title":"U.S. Senator","filedWith":"State party chair (party candidates); Secretary of State (independents)","filingOpens":"2025-11-24","filingDeadline":"2026-01-23","primaryDate":"2026-05-19","electionDate":"2026-11-03","estimated":false}
+WEEK 27 Tuesday, July 29, 2025
+7:00 AM races 13 open 0 mayFile 0 
+OFFERED 28 0  next {"contestId":"contest:seat:US-AL:us-senate:0:2026-11-03","title":"U.S. Senator","filedWith":"State party chair (party candidates); Secretary of State (independents)","filingOpens":"2025-11-24","filingDeadline":"2026-01-23","primaryDate":"2026-05-19","electionDate":"2026-11-03","estimated":false}
+WEEK 28 Tuesday, August 5, 2025
+7:00 AM races 13 open 0 mayFile 0 
+OFFERED 29 0  next {"contestId":"contest:seat:US-AL:us-senate:0:2026-11-03","title":"U.S. Senator","filedWith":"State party chair (party candidates); Secretary of State (independents)","filingOpens":"2025-11-24","filingDeadline":"2026-01-23","primaryDate":"2026-05-19","electionDate":"2026-11-03","estimated":false}
+WEEK 29 Tuesday, August 12, 2025
+7:00 AM races 13 open 0 mayFile 0 
+OFFERED 30 0  next {"contestId":"contest:seat:US-AL:us-senate:0:2026-11-03","title":"U.S. Senator","filedWith":"State party chair (party candidates); Secretary of State (independents)","filingOpens":"2025-11-24","filingDeadline":"2026-01-23","primaryDate":"2026-05-19","electionDate":"2026-11-03","estimated":false}
+WEEK 30 Tuesday, August 19, 2025
+7:00 AM races 13 open 0 mayFile 0 
+OFFERED 31 0  next {"contestId":"contest:seat:US-AL:us-senate:0:2026-11-03","title":"U.S. Senator","filedWith":"State party chair (party candidates); Secretary of State (independents)","filingOpens":"2025-11-24","filingDeadline":"2026-01-23","primaryDate":"2026-05-19","electionDate":"2026-11-03","estimated":false}
+WEEK 31 Tuesday, August 26, 2025
+7:00 AM races 13 open 0 mayFile 0 
+OFFERED 32 0  next {"contestId":"contest:seat:US-AL:us-senate:0:2026-11-03","title":"U.S. Senator","filedWith":"State party chair (party candidates); Secretary of State (independents)","filingOpens":"2025-11-24","filingDeadline":"2026-01-23","primaryDate":"2026-05-19","electionDate":"2026-11-03","estimated":false}
+WEEK 32 Tuesday, September 2, 2025
+7:00 AM races 13 open 0 mayFile 0 
+OFFERED 33 0  next {"contestId":"contest:seat:US-AL:us-senate:0:2026-11-03","title":"U.S. Senator","filedWith":"State party chair (party candidates); Secretary of State (independents)","filingOpens":"2025-11-24","filingDeadline":"2026-01-23","primaryDate":"2026-05-19","electionDate":"2026-11-03","estimated":false}
+WEEK 33 Tuesday, September 9, 2025
+7:00 AM races 13 open 0 mayFile 0 
+OFFERED 34 0  next {"contestId":"contest:seat:US-AL:us-senate:0:2026-11-03","title":"U.S. Senator","filedWith":"State party chair (party candidates); Secretary of State (independents)","filingOpens":"2025-11-24","filingDeadline":"2026-01-23","primaryDate":"2026-05-19","electionDate":"2026-11-03","estimated":false}
+WEEK 34 Tuesday, September 16, 2025
+7:00 AM races 13 open 0 mayFile 0 
+OFFERED 35 0  next {"contestId":"contest:seat:US-AL:us-senate:0:2026-11-03","title":"U.S. Senator","filedWith":"State party chair (party candidates); Secretary of State (independents)","filingOpens":"2025-11-24","filingDeadline":"2026-01-23","primaryDate":"2026-05-19","electionDate":"2026-11-03","estimated":false}
+WEEK 35 Tuesday, September 23, 2025
+7:00 AM races 13 open 0 mayFile 0 
+OFFERED 36 0  next {"contestId":"contest:seat:US-AL:us-senate:0:2026-11-03","title":"U.S. Senator","filedWith":"State party chair (party candidates); Secretary of State (independents)","filingOpens":"2025-11-24","filingDeadline":"2026-01-23","primaryDate":"2026-05-19","electionDate":"2026-11-03","estimated":false}
+WEEK 36 Tuesday, September 30, 2025
+7:00 AM races 13 open 0 mayFile 0 
+OFFERED 37 0  next {"contestId":"contest:seat:US-AL:us-senate:0:2026-11-03","title":"U.S. Senator","filedWith":"State party chair (party candidates); Secretary of State (independents)","filingOpens":"2025-11-24","filingDeadline":"2026-01-23","primaryDate":"2026-05-19","electionDate":"2026-11-03","estimated":false}
+WEEK 37 Tuesday, October 7, 2025
+7:00 AM races 13 open 0 mayFile 0 
+OFFERED 38 0  next {"contestId":"contest:seat:US-AL:us-senate:0:2026-11-03","title":"U.S. Senator","filedWith":"State party chair (party candidates); Secretary of State (independents)","filingOpens":"2025-11-24","filingDeadline":"2026-01-23","primaryDate":"2026-05-19","electionDate":"2026-11-03","estimated":false}
+WEEK 38 Tuesday, October 14, 2025
+7:00 AM races 13 open 0 mayFile 0 
+OFFERED 39 0  next {"contestId":"contest:seat:US-AL:us-senate:0:2026-11-03","title":"U.S. Senator","filedWith":"State party chair (party candidates); Secretary of State (independents)","filingOpens":"2025-11-24","filingDeadline":"2026-01-23","primaryDate":"2026-05-19","electionDate":"2026-11-03","estimated":false}
+WEEK 39 Tuesday, October 21, 2025
+7:00 AM races 13 open 0 mayFile 0 
+OFFERED 40 0  next {"contestId":"contest:seat:US-AL:us-senate:0:2026-11-03","title":"U.S. Senator","filedWith":"State party chair (party candidates); Secretary of State (independents)","filingOpens":"2025-11-24","filingDeadline":"2026-01-23","primaryDate":"2026-05-19","electionDate":"2026-11-03","estimated":false}
+WEEK 40 Tuesday, October 28, 2025
+7:00 AM races 13 open 0 mayFile 0 
+OFFERED 41 0  next {"contestId":"contest:seat:US-AL:us-senate:0:2026-11-03","title":"U.S. Senator","filedWith":"State party chair (party candidates); Secretary of State (independents)","filingOpens":"2025-11-24","filingDeadline":"2026-01-23","primaryDate":"2026-05-19","electionDate":"2026-11-03","estimated":false}
+WEEK 41 Tuesday, November 4, 2025
+7:00 AM races 13 open 0 mayFile 0 
+OFFERED 42 0  next {"contestId":"contest:seat:US-AL:us-senate:0:2026-11-03","title":"U.S. Senator","filedWith":"State party chair (party candidates); Secretary of State (independents)","filingOpens":"2025-11-24","filingDeadline":"2026-01-23","primaryDate":"2026-05-19","electionDate":"2026-11-03","estimated":false}
+WEEK 42 Tuesday, November 11, 2025
+7:00 AM races 13 open 0 mayFile 0 
+OFFERED 43 0  next {"contestId":"contest:seat:US-AL:us-senate:0:2026-11-03","title":"U.S. Senator","filedWith":"State party chair (party candidates); Secretary of State (independents)","filingOpens":"2025-11-24","filingDeadline":"2026-01-23","primaryDate":"2026-05-19","electionDate":"2026-11-03","estimated":false}
+WEEK 43 Tuesday, November 18, 2025
+7:00 AM races 13 open 0 mayFile 0 
+OFFERED 44 5 U.S. Senator [2025-11-24 to 2026-01-23] ; U.S. Representative [2025-11-24 to 2026-01-23] ; Governor [2025-11-24 to 2026-01-23] ; State Senator [2025-11-24 to 2026-01-23] ; State Representative [2025-11-24 to 2026-01-23] next {"contestId":"contest:seat:US-AL:us-senate:0:2026-11-03","title":"U.S. Senator","filedWith":"State party chair (party candidates); Secretary of State (independents)","filingOpens":"2025-11-25","filingDeadline":"2026-01-23","primaryDate":"2026-05-19","electionDate":"2026-11-03","estimated":false}
+OPENED {"week":44,"offered":["U.S. Senator [2025-11-24 to 2026-01-23]","U.S. Representative [2025-11-24 to 2026-01-23]","Governor [2025-11-24 to 2026-01-23]","State Senator [2025-11-24 to 2026-01-23]","State Representative [2025-11-24 to 2026-01-23]"]}
+CAMPAIGNS Politics | Government | Campaigns | Parties | Issues | Budgets | ON THE BALLOT | Circuit clerk | 1 running | November 3, 2026 | Filing closes January 23, 2026 | Commissioner (1) | 2 running | November 3, 2026 | Filing closes January 23, 2026 | Commissioner (2) | No one has filed | November 3, 2026 | Filing closes January 23, 2026 | Commissioner (3) | 1 running | November 3, 2026 | Filing closes January 23, 2026 | Commissioner (4) | No one has filed | November 3, 2026 | Filing closes January 23, 2026 | Commissioner (5) | 1 running | November 3, 2026 | Filing closes January 23, 2026 | Commissioner (6) | No one has filed | November 3, 2026 | Filing closes January 23, 2026 | Commissioner (7) | 1 running | November 3, 2026 | Filing closes January 23, 2026 | Coroner | No one has filed | November 3, 2026 | Filing closes January 23, 2026 | District attorney | 1 running | November 3, 2026 | Filing closes January 23, 2026 | Probate judge | 1 running | November 3, 2026 | Filing closes January 23, 2026 | Sheriff | 1 running | November 3, 2026 | Filing closes January 23, 2026 | ‹ | 1 of 2 | ›
+TRAVEL Travel | State party chair; Secretary of State | Filing office | You file here | Spencer Manufacturing | Open now · Maria Hughes, Tyler Copeland | You work here | Haleyville Public Schools | Closed now | Brooks's Market | Closed now | Peck's Kitchen | Closed now | Patterson's Kitchen | Closed now | ‹ | 1 of 2 | ›
+TRAVEL2 Travel | Riddle's Market | Closed now | Moore's Kitchen | Closed now | Ingram's Salon and Barbershop | Closed now | Haleyville Post Office | Closed now | ‹ | 2 of 2 | ›
+GOVERNMENT Politics | Government | Campaigns | Parties | Issues | Budgets | Local | State | Federal | Legislative | Executive | Haleyville City Council | Winston County Board of Commissioners | Haleyville City Council | Meets the 1st and 3rd Tuesday of the month · 5 seats | Nonpartisan · 5 seats | Andrew Clay | At large | Cora Daniels | At large | Keith Robinson | At large | Robert Chavez | At large | Suzanne Copeland | At large | RECENT VOTES | Eviction Counsel Repeal Ordinance | Jul 15 | FAILED | 2 yes | 3 no | Eviction Defense Ordinance | Jun 3 | PASSED | 3 yes | 2 no | Clean electricity standard | Dec 30, 2024 | FAILED | 2 yes | 3 no | COMING UP | Dec 2 | Regular meeting | MAYOR | Leslie Campos | Since September 2020
+ERRORS []
