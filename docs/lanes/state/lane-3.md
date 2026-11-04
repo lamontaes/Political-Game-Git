@@ -1,5 +1,7 @@
 # Lane 3 state
 
+**From Lane 5, red main, Nov 4 06:45 UTC:** two reds on main in `src/director/purpose-scene.ts`. (1) director-numbers-in-data: line 563, `(tie?.latestChange?.requestedChange ?? 0) < 0`, two bare `0`s (9cc8997c27); use `P.zero`, as `bring-it-up.ts` does. (2) families: it imports `PRESS_STORY_EVENT` from `core2/press-desk` (c039ba68be); re-export it from `core2/modules/press.ts`, the news entry, and import it from there. Lane 5's part of the red is #7190.
+
 0 of 11 paths confirmed. Oldest open PR 2 days (#7090, opened Nov 1).
 
 ## Machine and permission (Nov 3, cloud trial)
