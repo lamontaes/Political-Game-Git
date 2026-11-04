@@ -112,7 +112,7 @@ for (const place of places) {
           jurisdiction,
           before: paper.before.value,
           lawId: paper.before.lawId,
-          catalog: taxCard?.inForce ?? "not offered at this level",
+          catalog: taxCard ? taxCard.inForce : "not offered at this level",
         })}\n`,
       );
 
