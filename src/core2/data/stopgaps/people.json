@@ -158,13 +158,13 @@
   {
     "id": "SG-PEOPLE-counted-readers-stories",
     "kind": "missing-mechanic",
-    "file": "src/core2/modules/news.ts",
-    "line": 554,
-    "whatItFakes": "A printed story reaches an outlet's counted followers only as a count (the press engine's countedFollowers at delivery). Their groups' views do not move, so a story about the town's conditions, a policy or a law moves only the full readers it reached.",
-    "why": "A counted group's view is read from its opening profile alone; the views engine keeps no per-group stance that a story could move, and filling a member in would have to carry that moved stance.",
+    "file": "src/core2/campaign-views.ts",
+    "line": 411,
+    "whatItFakes": "Counted ballot readers still use opening stances. News now moves group stances, the press reads their population-weighted concern, and a filled-in member carries the view and story knowledge; campaign-views groupStance and saved counted ballot profiles do not yet read that heard shift.",
+    "why": "The producer exposes heardShift by question. Lane 1 owns the campaign and voting readers; their narrow reader, saved-profile and cache agreement is pending in docs/lanes/agreements/1-2.md.",
     "addedBy": "effects lead (web-views-hear-conditions-full-readers)",
     "addedAt": "2026-10-24",
-    "replacement": "people-counted-readers-stances-from-stories: each counted group a story reached moves by the full reader's rule times its count, citing the story's news record, and a member filled in from that group holds the moved view.",
+    "replacement": "Wire the existing counted heardShift into the shared stance reader and saved counted ballots under agreement 1-2; prove a real story changes the background vote result in the Brookside played path.",
     "status": "open"
   },
   {

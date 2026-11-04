@@ -1,7 +1,7 @@
 /** Counted audiences use the views engine's heard-case rule on group fields. */
 import { coreAPI } from "./state";
 import { inheritCountedStory } from "./modules/news";
-import { ageOnDate, dateAtAge } from "./kernel/dates";
+import { ageOnDate, dateAtAge, makeIsoDate } from "./kernel/dates";
 import {
   residentsRuntime,
   registerCountedGroupMoveListener,
@@ -40,12 +40,15 @@ const groupsCache = new WeakMap<
     store: object;
     key: string;
     groups: CountedNewsGroup[];
-    entries: Map<string, {
-      revision: number;
-      date: string;
-      expires?: string;
-      value?: CountedNewsGroup;
-    }>;
+    entries: Map<
+      string,
+      {
+        revision: number;
+        date: string;
+        expires?: string;
+        value?: CountedNewsGroup;
+      }
+    >;
   }
 >();
 const groupPersonId = (id: string) => `counted-news:${id}`;
@@ -64,9 +67,12 @@ export function countedNewsGroups(api: CoreAPI): readonly CountedNewsGroup[] {
   for (const group of store.groups) {
     const revision = store.groupReadRevision(group.index);
     const cached = entries.get(group.id);
-    if (cached && cached.revision === revision &&
+    if (
+      cached &&
+      cached.revision === revision &&
       cached.date <= api.state.date &&
-      (!cached.expires || api.state.date < cached.expires)) {
+      (!cached.expires || api.state.date < cached.expires)
+    ) {
       if (cached.value) groups.push(cached.value);
       continue;
     }
@@ -87,7 +93,10 @@ export function countedNewsGroups(api: CoreAPI): readonly CountedNewsGroup[] {
         // They must not also receive the counted audience's move.
         if (api.state.people.has(voter.id)) continue;
         const age = ageOnDate(voter.birthDate, api.state.date);
-        const birthday = dateAtAge(voter.birthDate, Math.max(0, age + 1));
+        const birthday = dateAtAge(
+          makeIsoDate(voter.birthDate),
+          Math.max(0, age + 1),
+        );
         if (!expires || birthday < expires) expires = birthday;
         if (age < api.parameter("votingAge")) continue;
         count += weight;
@@ -99,7 +108,8 @@ export function countedNewsGroups(api: CoreAPI): readonly CountedNewsGroup[] {
         college += (profile.collegeFromAverage ?? 0) * weight;
         // Packed traits are inherited getters, so Object.entries is empty.
         for (const kind of store.traitNames)
-          traits[kind] = (traits[kind] ?? 0) + (voter.traits[kind] ?? 0) * weight;
+          traits[kind] =
+            (traits[kind] ?? 0) + (voter.traits[kind] ?? 0) * weight;
       }
     }
     if (count <= 0) {

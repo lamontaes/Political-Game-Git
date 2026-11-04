@@ -67,19 +67,29 @@ it(`a counted reader in ${place.name} keeps the story's moved view when met (${r
           row.causes.some((c) => c.learnedFrom?.startsWith("news:printed:")),
       );
       if (!stance) continue;
-      expect(Object.keys(group.traits).length, "packed traits reach the group rule").toBeGreaterThan(0);
-      const groupRow = store.groups.find((row) => `counted-news:${row.id}` === group.id)!;
+      expect(
+        Object.keys(group.traits).length,
+        "packed traits reach the group rule",
+      ).toBeGreaterThan(0);
+      const groupRow = store.groups.find(
+        (row) => `counted-news:${row.id}` === group.id,
+      )!;
       for (const kind of store.traitNames) {
         let total = 0;
         for (const hix of groupRow.households) {
           const home = store.households[hix]!;
           for (const m of store.countedMembers(home)) {
-            if (core.people.has(store.ids[m]!) ||
-              ageOnDate(store.born[m]!, core.date) < api.parameter("votingAge")) continue;
+            if (
+              core.people.has(store.ids[m]!) ||
+              ageOnDate(store.born[m]!, core.date) < api.parameter("votingAge")
+            )
+              continue;
             total += (store.trait(m, kind) ?? 0) * store.weightOf(home);
           }
         }
-        expect(group.traits[kind], `${group.id}: ${kind}`).toBe(total / group.count);
+        expect(group.traits[kind], `${group.id}: ${kind}`).toBe(
+          total / group.count,
+        );
       }
       const member = [...store.memberOf].find(
         ([id]) =>
@@ -296,7 +306,8 @@ it(`a counted reader in ${place.name} keeps the story's moved view when met (${r
   const birthdayHome = [...rt.store.liveHouseholds()].find((h) =>
     rt.store.countedMembers(h).some((m) => !core.people.has(rt.store.ids[m]!)),
   )!;
-  const birthdayMember = rt.store.countedMembers(birthdayHome)
+  const birthdayMember = rt.store
+    .countedMembers(birthdayHome)
     .find((m) => !core.people.has(rt.store.ids[m]!))!;
   const oldBirth = rt.store.born[birthdayMember]!;
   const oldDate = core.date;
@@ -305,11 +316,13 @@ it(`a counted reader in ${place.name} keeps the story's moved view when met (${r
     rt.store.born[birthdayMember] = makeIsoDate("2008-02-29");
     rt.store.touch(birthdayHome);
     (core as { date: string }).date = "2026-02-27";
-    const before = countedNewsGroups(api).find((g) => g.id === birthdayGroup)?.count ?? 0;
+    const before =
+      countedNewsGroups(api).find((g) => g.id === birthdayGroup)?.count ?? 0;
     (core as { date: string }).date = "2026-02-28";
     const onBirthday = countedNewsGroups(api);
-    expect(onBirthday.find((g) => g.id === birthdayGroup)!.count)
-      .toBe(before + rt.store.weightOf(birthdayHome));
+    expect(onBirthday.find((g) => g.id === birthdayGroup)!.count).toBe(
+      before + rt.store.weightOf(birthdayHome),
+    );
     expect(countedNewsGroups(api)).toBe(onBirthday);
     rt.store.touch(birthdayHome);
     expect(countedNewsGroups(api)).toEqual(onBirthday);

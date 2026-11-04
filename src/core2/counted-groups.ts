@@ -193,7 +193,10 @@ export interface PackedTraits {
 
 // Read-cache revisions live outside saved population state. Each writer marks
 // only the groups whose members or fields changed.
-const groupReadRevisions = new WeakMap<object, { version: number; groups: Map<number, number> }>();
+const groupReadRevisions = new WeakMap<
+  object,
+  { version: number; groups: Map<number, number> }
+>();
 
 export class CountedStore {
   // Member columns.
