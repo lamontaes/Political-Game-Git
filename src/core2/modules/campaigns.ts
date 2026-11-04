@@ -102,10 +102,13 @@ import {
 } from "./views";
 import {
   LEGISLATURE_MODULE_ID,
+  obligationsOwedBetween,
+  obligationsOwedTo,
   provisionStance,
+  settleObligation,
   type BillRow,
 } from "./legislature";
-import { recordAppeal } from "./record";
+import { promisesOf, recordAppeal, votesOf } from "./record";
 import { withholdingOnPay } from "./budgets";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
@@ -264,6 +267,8 @@ export interface CauseRow {
   readonly agreement: number | null;
   readonly rapport: number;
   readonly weight: number;
+  /** The record items an attack ad showed this voter: the rival's votes and broken promises, by id. */
+  readonly shownIds?: readonly string[];
 }
 
 /**
@@ -345,6 +350,8 @@ export type EndorsementReason =
  * campaign row keeps no list of its own.
  */
 export interface EndorsementRow {
+  /** A favor the speaker owed the candidate from a deal, weighed in this answer (campaign-favor-called-in). */
+  readonly obligationId?: string;
   /** endorsement:<filingId>:<the person asked, or the group's organization>. */
   readonly id: string;
   readonly filingId: string;
@@ -846,6 +853,7 @@ function reach(
     readonly weight: number;
     readonly rapport: number;
     readonly target?: number;
+    readonly shownIds?: readonly string[];
   },
 ): CauseRow | null {
   const voter = api.state.people.get(voterId);
@@ -875,6 +883,7 @@ function reach(
     agreement,
     rapport: options.rapport,
     weight: options.weight,
+    ...(options.shownIds?.length ? { shownIds: options.shownIds } : {}),
   };
   keepCause(api, cause);
   table(api, "impressions").put({
@@ -3117,12 +3126,13 @@ export function giftBudget(
  * `donationMonthScaleMonths` of their month of living costs, savings against
  * their cushion (`caseCushionMonths`); a donor with no living costs of their
  * own takes both from their share of the household's month (`giftBudget`).
- * Only a household with no recorded living costs at all has no span, and its
- * money counts one for one (stopgap SG-GOV-gift-no-living-costs).
+ * Every household holds living costs (a press person seated from a recorded
+ * identity gets the one-person household officials get), so a donor always
+ * has a span; money weighed against no span counts for nothing, never one
+ * for one.
  */
 function weighedAgainst(minor: number, spanMinor: number): number {
-  // stopgapId: SG-GOV-gift-no-living-costs
-  return spanMinor > 0 ? spanMinor * Math.log1p(minor / spanMinor) : minor;
+  return spanMinor > 0 ? spanMinor * Math.log1p(minor / spanMinor) : 0;
 }
 
 /**
@@ -4311,7 +4321,10 @@ export function runAd(
         weight: campaignParameter("adWarmthWeight"),
         rapport: 0,
         ...(attack
-          ? { target: clamp(attack.reduce((sum, r) => sum + r.effect, 0)) }
+          ? {
+              target: clamp(attack.reduce((sum, r) => sum + r.effect, 0)),
+              shownIds: attack.map((r) => r.itemId),
+            }
           : {}),
       },
     );
@@ -4540,6 +4553,26 @@ function platformRead(
 }
 
 /** The campaigns of everyone standing in a contest who has filed by today. */
+/**
+ * The rival in a campaign's race whose record in office an attack ad could
+ * show: the one with the most recorded votes and promises, other than the
+ * candidate; none where no rival has a record.
+ */
+function attackTarget(
+  api: CoreAPI,
+  campaign: CampaignRow,
+): CampaignRow | undefined {
+  let best: { row: CampaignRow; items: number } | undefined;
+  for (const row of raceCampaigns(api, campaign.contestId)) {
+    if (row.candidateId === campaign.candidateId) continue;
+    const items =
+      votesOf(api, row.candidateId).length +
+      promisesOf(api, row.candidateId).length;
+    if (items > 0 && (!best || items > best.items)) best = { row, items };
+  }
+  return best?.row;
+}
+
 function raceCampaigns(api: CoreAPI, contestId: string): CampaignRow[] {
   return ballot(api, contestId)
     .filter((filing) => filing.filedOn <= api.state.date)
@@ -4548,6 +4581,8 @@ function raceCampaigns(api: CoreAPI, contestId: string): CampaignRow[] {
 
 /** What weighing one candidate against the race came to (`weighEndorsement`). */
 export interface EndorsementWeighing extends PlatformRead {
+  /** A favor the endorser owed the candidate, weighed in and settled by a yes. */
+  readonly obligationId?: string;
   readonly yes: boolean;
   readonly reason: EndorsementReason;
   readonly tie: number;
@@ -4590,10 +4625,24 @@ function weighEndorsement(
       row.candidateId === endorser.id
         ? 0
         : closenessBetween(api.state, endorser.id, row.candidateId);
+    // A favor the endorser owes this candidate from a deal they took
+    // (campaign-favor-called-in): worth what a favor is worth in the
+    // legislature, more the closer they are; a person speaks for themselves.
+    const owed =
+      speaksFor === "self"
+        ? obligationsOwedBetween(api, endorser.id, row.candidateId)[0]
+        : undefined;
+    const favor = owed
+      ? campaignParameter("dealWeight") * (1 + Math.max(0, tie))
+      : 0;
     return {
       ...read,
       tie,
-      backing: read.agreement + campaignParameter("endorsementTieWeight") * tie,
+      backing:
+        read.agreement +
+        campaignParameter("endorsementTieWeight") * tie +
+        favor,
+      ...(owed ? { obligationId: owed.id } : {}),
     };
   };
   const weighed = (read: PlatformRead) =>
@@ -4733,6 +4782,7 @@ function endorsementRow(
     askerId: input.askerId,
     answer: w.yes ? "yes" : "no",
     reason: w.reason,
+    ...(w.obligationId ? { obligationId: w.obligationId } : {}),
     issue: w.issue,
     // A group speaks for its stance; a person's own word stands on no group's.
     stance: input.organizationId !== null ? w.agreesOn : null,
@@ -4839,6 +4889,9 @@ export function askForEndorsement(
       volunteerIds: [],
     }),
   );
+  // A favor owed and weighed in is repaid by the endorsement.
+  if (weighing.yes && weighing.obligationId)
+    settleObligation(api, weighing.obligationId, id);
   return weighing.yes;
 }
 
@@ -5964,6 +6017,19 @@ export function campaignTurn(
   // traits. The controlled person's money moves only by their own choice, so
   // asks skip them.
   askOutsideDonors(api, filingId);
+  // The candidate calls in the favors owed them from deals in office: each
+  // colleague who owes one is asked to endorse (campaign-favor-called-in).
+  // The player is never answered for: a favor asked of them waits for the
+  // player (stopgap SG-GOV-player-favor-asked).
+  if (candidate?.alive)
+    for (const owed of obligationsOwedTo(api, candidate.id)) {
+      if (owed.owedBy === (api.state as CoreState).playerId) {
+        // stopgapId: SG-GOV-player-favor-asked
+        api.stopgap("SG-GOV-player-favor-asked");
+        continue;
+      }
+      askForEndorsement(api, filingId, owed.owedBy);
+    }
   let doors = 0;
   let asks = 0;
   let dayAct: CampaignTurnResult["dayAct"] = null;
@@ -6044,12 +6110,38 @@ export function campaignTurn(
   // views engine reads once for each person it reached.
   const told: string[] = [];
   if (part("ad") > 0) {
+    // A challenger facing a rival with a record in office (their votes, the
+    // promises they made) puts part of the ad money on showing it, by their
+    // own temperament (rival-ad-quotes-a-real-vote; register D-2 and D-5:
+    // never a fixed share). The rest carries their own platform.
+    const target = attackTarget(api, campaignFor(api, filingId));
+    const attackShare = target
+      ? Math.min(
+          1,
+          Math.max(
+            0,
+            campaignParameter("attackAdShare") *
+              (1 + w * trait("people-mind-v1:conflict")),
+          ),
+        )
+      : 0;
+    const attackMinor = Math.floor(part("ad") * attackShare);
+    if (target && attackMinor > 0) {
+      const shown = runAd(api, {
+        filingId,
+        amountMinor: attackMinor,
+        attackFilingId: target.filingId,
+        quiet: true,
+      });
+      adReached += shown.length;
+      for (const c of shown) told.push(c.voterId);
+    }
     const seen = runAd(api, {
       filingId,
-      amountMinor: part("ad"),
+      amountMinor: part("ad") - attackMinor,
       quiet: true,
     });
-    adReached = seen.length;
+    adReached += seen.length;
     for (const c of seen) told.push(c.voterId);
   }
   if (part("mail") > 0) {

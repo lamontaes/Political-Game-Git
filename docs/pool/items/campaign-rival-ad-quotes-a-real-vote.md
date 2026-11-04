@@ -5,11 +5,12 @@ area: elections
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: governing/rival-attack-ad
+pr: #7174
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T04:05:30.304Z
 ---
 
 **What.** Path 11 of Lane 1 (the next election uses the record) needs a rival who runs on what the player did in office. Today a rival's attack ad can cite an incumbent's broken promise (src/core2/record.test.ts), but nothing shows an ad built from the player's own recorded roll-call votes in a New Game life that won a seat and voted. The ad's subject should be chosen from the player's votes the rival's supporters disagree with most, read from the legislature's vote records, and a voter who saw the ad should weigh that vote among their reasons. This is a chain through engines that exist (legislature votes, campaigns' ads, voting's reasons), not a new mechanic.

@@ -73,7 +73,8 @@
     "reached": "How many people talked with the candidate, from the canvass record.",
     "required": "What a filing rule requires (an age, a residence), from the eligibility rule.",
     "trail": "The runner-up's votes there, from the count.",
-    "body": "The place's own council or board, as its office record names it: City Council, Board of Selectmen."
+    "body": "The place's own council or board, as its office record names it: City Council, Board of Selectmen.",
+    "given": "What the candidate gave their own campaign, as people round it, from the campaign's gift record."
   },
   "maxWords": 70,
   "parts": [
@@ -1754,54 +1755,6 @@
       "tag": {
         "move": "narrate",
         "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.you-lost-the-race-for-office-the-house-is-quiet-when-you-get-home-and-",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "You lost the race for {office}. The house is quiet when you get home, and {name} is still up.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "family-loss",
-          "key": "loss"
-        }
-      ],
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.the-race-for-office-is-over-and-you-lost-it-name-sits-down-across-from",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "The race for {office} is over, and you lost it. {name} sits down across from you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "family-loss",
-          "key": "loss"
-        }
-      ],
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "narrate",
-        "key": "loss"
       }
     },
     {
@@ -3729,78 +3682,6 @@
       "tag": {
         "move": "congratulate",
         "key": "honor"
-      }
-    },
-    {
-      "key": "scene-talk.state-comfort.i-m-sorry-about-the-race",
-      "move": "state-comfort",
-      "kind": "spoken",
-      "text": "I'm sorry about the race.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "comfort",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "comfort",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.state-comfort.you-ran-a-good-race",
-      "move": "state-comfort",
-      "kind": "spoken",
-      "text": "You ran a good race.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "comfort",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "comfort",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.state-comfort.you-don-t-have-to-talk-about-it",
-      "move": "state-comfort",
-      "kind": "spoken",
-      "text": "You don't have to talk about it.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "comfort",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "comfort",
-        "key": "loss"
       }
     },
     {
@@ -18042,176 +17923,6 @@
       }
     },
     {
-      "key": "scene-talk.state-comfort.do-you-want-to-call-your-mother-or-should-i",
-      "move": "state-comfort",
-      "kind": "spoken",
-      "text": "Do you want to call your mother, or should I?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "comfort",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "comfort",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.state-comfort.your-phone-s-off-your-sister-called-twice",
-      "move": "state-comfort",
-      "kind": "spoken",
-      "text": "Your phone's off. Your sister called twice.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "comfort",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "comfort",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.follow-comfort.eat-something-first",
-      "move": "follow-comfort",
-      "kind": "spoken",
-      "text": "Eat something first.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "comfort",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "comfort",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.follow-comfort.you-knocked-every-door-on-our-street-i-watched",
-      "move": "follow-comfort",
-      "kind": "spoken",
-      "text": "You knocked every door on our street. I watched.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "comfort",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "comfort",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.come-to-bed-it-ll-still-be-true-in-the-morning",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Come to bed. It'll still be true in the morning.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss",
-          "excludesFacts": ["daytime"]
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.follow-thank.sit-with-me-a-while-it-ll-still-be-true-tomorrow",
-      "move": "follow-thank",
-      "kind": "spoken",
-      "text": "Sit with me a while. It'll still be true tomorrow.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "thank",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-11-01",
-      "tag": {
-        "move": "thank",
-        "key": "loss"
-      }
-    },
-    {
-      "key": "scene-talk.reply-thank.you-call-her-i-can-t-tonight",
-      "move": "reply-thank",
-      "kind": "spoken",
-      "text": "You call her. I can't tonight.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "thank",
-          "role": "asked",
-          "purpose": "family-loss",
-          "key": "loss",
-          "after": "scene-talk.state-comfort.do-you-want-to-call-your-mother-or-should-i"
-        }
-      ],
-      "bearing": "hurt",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "thank",
-        "key": "loss"
-      }
-    },
-    {
       "key": "scene-talk.state-confront.four-nights-this-week",
       "move": "state-confront",
       "kind": "spoken",
@@ -19622,30 +19333,6 @@
       "tag": {
         "move": "accept",
         "key": "favor-asked"
-      }
-    },
-    {
-      "key": "scene-talk.follow-press.somebody-has-to-get-the-signs-back",
-      "move": "follow-press",
-      "kind": "spoken",
-      "text": "Somebody has to get the signs back.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "press",
-          "role": "asker",
-          "purpose": "family-loss",
-          "key": "loss"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "press",
-        "key": "loss"
       }
     },
     {
@@ -89097,30 +88784,6 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.the-race-for-office-went-the-other-way-name-waited-up-anyway",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "The race for {office} went the other way. {name} waited up anyway.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "family-loss",
-          "key": "loss"
-        }
-      ],
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "narrate",
-        "key": "loss"
-      }
-    },
-    {
       "key": "scene-talk.narrate-narrate.name-asks-for-ten-minutes-alone-with-you",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -125830,6 +125493,431 @@
       }
     },
     {
+      "key": "scene-talk.state-tell.you-ll-need-signatures-signatures-from-voters-here-back-on-my-desk-by-due-have-y",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "You'll need {signatures} signatures from voters here, back on my desk by {due}. Have you ever run a campaign before?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["signatures", "first-filing"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (play-first-filing-campaign-tutorial)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "tell",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.next-you-collect-signatures-signatures-and-i-need-them-by-due-have-you-done-this",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Next you collect {signatures} signatures, and I need them by {due}. Have you done this before?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["signatures", "first-filing"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words, scenes and the director (play-first-filing-campaign-tutorial)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "tell",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.it-takes-signatures-signatures-to-get-on-the-ballot-and-they-re-due-due-you-know",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "It takes {signatures} signatures to get on the ballot, and they're due {due}. You know how to run a campaign?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["signatures", "first-filing"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (play-first-filing-campaign-tutorial)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "tell",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.you-need-one-signature-from-a-voter-here-back-to-me-by-due-have-you-ever-run-a-c",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "You need one signature from a voter here, back to me by {due}. Have you ever run a campaign before?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["one-signature", "first-filing"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (play-first-filing-campaign-tutorial)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "tell",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.this-office-doesn-t-take-a-petition-so-once-i-check-the-forms-you-re-on-the-ball",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "This office doesn't take a petition, so once I check the forms, you're on the ballot. Have you ever run a campaign before?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["no-petition", "first-filing"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (play-first-filing-campaign-tutorial)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "tell",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.no-where-do-i-even-start",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "No. Where do I even start?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["first-filing", "due"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Words, scenes and the director (play-first-filing-campaign-tutorial)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "ask",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.not-really-can-you-walk-me-through-it",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Not really. Can you walk me through it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["first-filing", "due"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (play-first-filing-campaign-tutorial)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "ask",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.no-what-do-i-do-now",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "No. What do I do now?",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "requiresFacts": ["first-filing", "no-petition"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Words, scenes and the director (play-first-filing-campaign-tutorial)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "ask",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-have-i-ll-have-them-back-before-then",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I have. I'll have them back before then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["first-filing", "due"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (play-first-filing-campaign-tutorial)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "agree",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-know-the-drill-you-ll-have-them-in-time",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I know the drill. You'll have them in time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["first-filing", "due"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words, scenes and the director (play-first-filing-campaign-tutorial)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "agree",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-have-i-ll-take-it-from-here",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I have. I'll take it from here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "requiresFacts": ["first-filing", "no-petition"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (play-first-filing-campaign-tutorial)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "agree",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.start-with-the-signatures-knock-on-doors-set-up-a-table-where-people-shop-and-ge",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Start with the signatures. Knock on doors, set up a table where people shop, and get your friends to carry a sheet each. Then money: ask everyone you know, and spend it on mailers, a poll or ads in the {outlet}. And call the paper before they write about you without you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["first-filing", "signatures", "outlet"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (play-first-filing-campaign-tutorial)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "answer",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.signatures-first-doors-are-slow-but-they-work-and-a-table-outside-the-grocery-on",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Signatures first. Doors are slow but they work, and a table outside the grocery on a Saturday works faster. Once you're on, it's money and the press. Raise what you can, buy ads in the {outlet} or send mailers, and get to know whoever covers the town there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["first-filing", "signatures", "outlet"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words, scenes and the director (play-first-filing-campaign-tutorial)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "answer",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.start-with-the-signatures-knock-on-doors-set-up-a-table-where-people-shop-and-ge-2",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Start with the signatures. Knock on doors, set up a table where people shop, and get your friends to carry a sheet each. Then money: ask everyone you know, and spend it on mailers or a poll. And talk to the reporters before they talk about you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["first-filing", "signatures"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (play-first-filing-campaign-tutorial)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "answer",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.get-your-one-signature-today-and-that-part-s-done-then-it-s-the-voters-knock-on-",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Get your one signature today and that part's done. Then it's the voters. Knock on doors, ask everyone you know for money, and spend it on mailers or ads in the {outlet}. And call the paper before they write about you without you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["first-filing", "one-signature", "outlet"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (play-first-filing-campaign-tutorial)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "answer",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.then-your-time-goes-to-the-voters-knock-on-doors-show-up-where-people-gather-and",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Then your time goes to the voters. Knock on doors, show up where people gather, and get your friends to bring theirs. Raise money from everyone you know, and spend it on mailers, a poll or ads in the {outlet}. And call the paper before they write about you without you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["first-filing", "no-petition", "outlet"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (play-first-filing-campaign-tutorial)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "answer",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.then-your-time-goes-to-the-voters-knock-on-doors-show-up-where-people-gather-and-2",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Then your time goes to the voters. Knock on doors, show up where people gather, and get your friends to bring theirs. Raise money from everyone you know, and spend it on mailers or a poll. And talk to the reporters before they talk about you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["first-filing", "no-petition"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (play-first-filing-campaign-tutorial)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "answer",
+        "key": "filed"
+      }
+    },
+    {
       "key": "scene-talk.narrate-narrate.you-re-back-at-the-post-s-counter-your-name-already-on-the-ballot-name-looks-up",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -126165,6 +126253,2485 @@
       "tag": {
         "move": "agree",
         "key": "talk"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-make-the-call-name-picks-up-on-the-second-ring",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You make the call. {name} picks up on the second ring.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "concession-taken",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "narrate",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-call-goes-through-name-answers-over-a-noisy-room",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The call goes through. {name} answers over a noisy room.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "concession-taken",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "narrate",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.this-is-name",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "This is {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "greet",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.name-i-had-a-feeling-it-was-you",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{name}. I had a feeling it was you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "greet",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.thank-you-for-calling-you-ran-a-hard-race-for-office-and-i-mean-that",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Thank you for calling. You ran a hard race for {office}, and I mean that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "tell",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.that-can-t-have-been-an-easy-call-to-make-i-m-grateful-you-made-it",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "That can't have been an easy call to make. I'm grateful you made it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "tell",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.took-you-long-enough-it-was-never-that-close-you-know",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Took you long enough. It was never that close, you know.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "tell",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-figured-you-d-call-eventually-better-luck-next-time",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I figured you'd call eventually. Better luck next time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "tell",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-ll-take-the-call-some-of-what-you-said-about-me-i-won-t-forget",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I'll take the call. Some of what you said about me, I won't forget.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "tell",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.congratulations-take-good-care-of-the-job",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Congratulations. Take good care of the job.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "concession-taken",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "thank",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.thanks-for-picking-up-good-luck-with-it",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thanks for picking up. Good luck with it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "concession-taken",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "thank",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.reply-congratulate.you-earned-it-congratulations",
+      "move": "reply-congratulate",
+      "kind": "spoken",
+      "text": "You earned it. Congratulations.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "congratulate",
+          "role": "asked",
+          "purpose": "concession-taken",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "congratulate",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.reply-congratulate.the-voters-picked-you-i-hope-you-do-right-by-them",
+      "move": "reply-congratulate",
+      "kind": "spoken",
+      "text": "The voters picked you. I hope you do right by them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "congratulate",
+          "role": "asked",
+          "purpose": "concession-taken",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "congratulate",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.reply-warn.enjoy-it-i-ll-be-watching-every-vote-you-cast",
+      "move": "reply-warn",
+      "kind": "spoken",
+      "text": "Enjoy it. I'll be watching every vote you cast.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "warn",
+          "role": "asked",
+          "purpose": "concession-taken",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "warn",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.reply-warn.gloat-all-you-want-people-remember-how-you-won",
+      "move": "reply-warn",
+      "kind": "spoken",
+      "text": "Gloat all you want. People remember how you won.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "warn",
+          "role": "asked",
+          "purpose": "concession-taken",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "warn",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.that-s-all-i-called-to-say",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "That's all I called to say.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "concession-taken",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "leave",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-just-wanted-you-to-hear-it-from-me-good-night",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I just wanted you to hear it from me. Good night.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "concession-taken",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "leave",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-will-thank-you",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I will. Thank you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in",
+          "after": "thank"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "accept",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.count-on-it-good-night",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Count on it. Good night.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in",
+          "after": "thank"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "accept",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.that-means-something-coming-from-you-thanks",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That means something, coming from you. Thanks.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in",
+          "after": "congratulate"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "thank",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thanks-i-ll-try-not-to-let-them-down",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thanks. I'll try not to let them down.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in",
+          "after": "congratulate"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "thank",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.watch-all-you-want-i-ll-be-busy-doing-the-job",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Watch all you want. I'll be busy doing the job.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in",
+          "after": "warn"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "press",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.then-watch-you-ll-see-me-keep-my-word",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Then watch. You'll see me keep my word.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in",
+          "after": "warn"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "press",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.fair-enough-i-d-say-the-same-in-your-place",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fair enough. I'd say the same in your place.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in",
+          "after": "warn"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "accept",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.understood-good-night",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Understood. Good night.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in",
+          "after": "leave"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "accept",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-heard-it-thanks-for-that-much",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I heard it. Thanks for that much.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in",
+          "after": "leave"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "accept",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.good-night-then",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Good night, then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "accept",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thanks-for-the-call",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thanks for the call.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "thank",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.see-you-in-four-years-then",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "See you next election, then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "press",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.reply-accept.fair-enough-good-night",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "Fair enough. Good night.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "concession-taken",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "accept",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.reply-accept.all-right-congratulations-again",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "All right. Congratulations again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "concession-taken",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "accept",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.we-ll-see-about-that",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "We'll see about that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "concession-taken",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "refuse",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.don-t-get-comfortable",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Don't get comfortable.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "concession-taken",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "refuse",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.if-you-need-anything-from-my-side-call-me",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "If you need anything from my side, call me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "concession-taken",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "promise",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.my-people-will-want-a-say-i-ll-be-in-touch",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "My people will want a say. I'll be in touch.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "concession-taken",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "promise",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-night",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good night.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in",
+          "after": "accept"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "thank",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thanks-get-some-sleep",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thanks. Get some sleep.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in",
+          "after": "accept"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "thank",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.suit-yourself",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Suit yourself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "press",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-ll-be-right-here",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I'll be right here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "press",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.i-ll-hold-you-to-that-thanks",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'll hold you to that. Thanks.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in",
+          "after": "promise"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "thank",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.i-d-like-that-thank-you",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'd like that. Thank you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in",
+          "after": "promise"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "thank",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.state-congratulate.it-s-me-i-wanted-you-to-hear-it-from-a-friend-first-congratulations",
+      "move": "state-congratulate",
+      "kind": "spoken",
+      "text": "It's me. I wanted you to hear it from a friend first: congratulations.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "congratulate",
+          "role": "asker",
+          "purpose": "concession-received",
+          "key": "call-in",
+          "requiresFacts": ["tie-friend"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-scene-talk-lines-by-tie)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "congratulate",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.state-congratulate.well-if-i-had-to-lose-to-anybody-i-m-glad-it-was-you-congratulations",
+      "move": "state-congratulate",
+      "kind": "spoken",
+      "text": "Well, if I had to lose to anybody, I'm glad it was you. Congratulations.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "congratulate",
+          "role": "asker",
+          "purpose": "concession-received",
+          "key": "call-in",
+          "requiresFacts": ["tie-friend"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-scene-talk-lines-by-tie)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "congratulate",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.state-congratulate.i-ll-say-it-once-because-i-have-to-congratulations",
+      "move": "state-congratulate",
+      "kind": "spoken",
+      "text": "I'll say it once, because I have to: congratulations.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "congratulate",
+          "role": "asker",
+          "purpose": "concession-received",
+          "key": "call-in",
+          "requiresFacts": ["tie-rival"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-scene-talk-lines-by-tie)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "congratulate",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.state-congratulate.you-won-i-m-not-going-to-pretend-i-m-happy-about-it-but-you-won",
+      "move": "state-congratulate",
+      "kind": "spoken",
+      "text": "You won. I'm not going to pretend I'm happy about it, but you won.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "congratulate",
+          "role": "asker",
+          "purpose": "concession-received",
+          "key": "call-in",
+          "requiresFacts": ["tie-rival"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-scene-talk-lines-by-tie)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "congratulate",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.state-congratulate.you-re-ahead-by-lead-votes-and-i-wanted-you-to-hear-it-from-a-friend-congratulations",
+      "move": "state-congratulate",
+      "kind": "spoken",
+      "text": "You're ahead by {lead} votes, and I wanted you to hear it from a friend: congratulations.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "congratulate",
+          "role": "asker",
+          "purpose": "concession-received",
+          "key": "call-in",
+          "requiresFacts": ["lead", "tie-friend"],
+          "excludesFacts": ["lead-one"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-scene-talk-lines-by-tie)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "congratulate",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.state-congratulate.you-re-ahead-by-one-vote-and-i-wanted-you-to-hear-it-from-a-friend-congratulations",
+      "move": "state-congratulate",
+      "kind": "spoken",
+      "text": "You're ahead by one vote, and I wanted you to hear it from a friend: congratulations.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "congratulate",
+          "role": "asker",
+          "purpose": "concession-received",
+          "key": "call-in",
+          "requiresFacts": ["lead", "lead-one", "tie-friend"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-scene-talk-lines-by-tie)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "congratulate",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.state-congratulate.you-re-ahead-by-lead-votes-i-ll-say-it-once-because-i-have-to-congratulations",
+      "move": "state-congratulate",
+      "kind": "spoken",
+      "text": "You're ahead by {lead} votes. I'll say it once, because I have to: congratulations.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "congratulate",
+          "role": "asker",
+          "purpose": "concession-received",
+          "key": "call-in",
+          "requiresFacts": ["lead", "tie-rival"],
+          "excludesFacts": ["lead-one"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-scene-talk-lines-by-tie)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "congratulate",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.state-congratulate.you-re-ahead-by-one-vote-i-ll-say-it-once-because-i-have-to-congratulations",
+      "move": "state-congratulate",
+      "kind": "spoken",
+      "text": "You're ahead by one vote. I'll say it once, because I have to: congratulations.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "congratulate",
+          "role": "asker",
+          "purpose": "concession-received",
+          "key": "call-in",
+          "requiresFacts": ["lead", "lead-one", "tie-rival"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-scene-talk-lines-by-tie)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "congratulate",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.thanks-for-calling-i-m-glad-it-was-you-i-ran-against-and-i-mean-that",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Thanks for calling. I'm glad it was you I ran against, and I mean that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in",
+          "requiresFacts": ["tie-friend"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-scene-talk-lines-by-tie)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "tell",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.hey-you-did-everything-right-you-know-some-years-it-just-goes-the-other-way",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Hey. You did everything right, you know. Some years it just goes the other way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in",
+          "requiresFacts": ["tie-friend"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-scene-talk-lines-by-tie)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "tell",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-didn-t-think-you-d-call-i-ll-take-it",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I didn't think you'd call. I'll take it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in",
+          "requiresFacts": ["tie-rival"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-scene-talk-lines-by-tie)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "tell",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.well-after-everything-you-said-about-me-i-didn-t-expect-this-call",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Well. I didn't expect this call from you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in",
+          "requiresFacts": ["tie-rival"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-scene-talk-lines-by-tie)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "tell",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-lost-the-race-for-office-by-margin-name-worked-it-with-you-and-is-up-when-yo",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You lost the race for {office} by {margin}. {name} worked it with you and is up when you get in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-worked"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-count-is-in-office-lost-by-margin-name-worked-this-campaign-beside-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The count is in: {office}, lost by {margin}. {name} worked this campaign beside you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-worked"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (red main: place-and-presence ban)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-lost-the-race-for-office-by-margin-you-put-given-of-your-own-into-it-and-nam",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You lost the race for {office} by {margin}. You put {given} of your own into it, and {name} is up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-comfort.i-worked-this-race-with-you-we-lost-by-margin-and-i-d-work-it-again",
+      "move": "state-comfort",
+      "kind": "spoken",
+      "text": "I worked this race with you. We lost by {margin}, and I'd work it again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-worked"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-comfort.we-lost-by-margin-i-gave-that-campaign-my-time-and-i-d-like-to-know-what-we-do-w",
+      "move": "state-comfort",
+      "kind": "spoken",
+      "text": "We lost by {margin}. I gave that campaign my time, and I'd like to know what we do with that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-worked"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-comfort.we-lost-by-margin-i-put-my-time-in-too-so-tell-me-what-you-want-from-me-next",
+      "move": "state-comfort",
+      "kind": "spoken",
+      "text": "We lost by {margin}. I put my time in too, so tell me what you want from me next.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-worked"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-comfort.i-worked-this-race-with-you-and-now-it-s-over-what-do-we-do-with-all-of-it",
+      "move": "state-comfort",
+      "kind": "spoken",
+      "text": "I worked this race with you, and we lost it by {margin}. What do we do with all of it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-worked"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-comfort.we-lost-by-margin-you-put-given-of-ours-in-and-i-d-do-it-again",
+      "move": "state-comfort",
+      "kind": "spoken",
+      "text": "We lost by {margin}. You put {given} of ours in, and I'd do it again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-comfort.given-of-ours-went-in-and-we-lost-by-margin-say-something-to-me",
+      "move": "state-comfort",
+      "kind": "spoken",
+      "text": "{given} of ours went in, and we lost by {margin}. Say something to me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-comfort.we-lost-by-margin-and-given-of-ours-went-into-it-don-t-tell-me-it-was-nothing",
+      "move": "state-comfort",
+      "kind": "spoken",
+      "text": "We lost by {margin} and {given} of ours went into it. Don't tell me it was nothing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-comfort.given-is-spent-and-the-race-is-lost-by-margin-tell-me-what-happens-now",
+      "move": "state-comfort",
+      "kind": "spoken",
+      "text": "{given} is spent and the race is lost by {margin}. Tell me what happens now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.you-gave-it-your-time-when-you-didn-t-have-to-i-won-t-forget-that",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "You gave it your time when you didn't have to. I won't forget that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-worked"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.i-couldn-t-have-run-it-without-you-not-one-day-of-it",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "I couldn't have run it without you. Not one day of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-worked"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-blame.we-lost-by-margin-that-s-on-me-not-on-you",
+      "move": "reply-blame",
+      "kind": "spoken",
+      "text": "We lost by {margin}. That's on me, not on you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "blame",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-worked"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "blame",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-blame.i-should-have-asked-for-more-help-sooner-margin-is-not-much-to-lose-by",
+      "move": "reply-blame",
+      "kind": "spoken",
+      "text": "I should have asked for more help sooner. {margin} is not much to lose by.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "blame",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-worked"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "blame",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.not-tonight-ask-me-in-the-morning",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Not tonight. Ask me in the morning.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-worked"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deflect",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-can-t-count-it-yet-give-me-a-day",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I can't count it yet. Give me a day.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-worked"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deflect",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-m-running-again-and-i-want-you-in-it-again",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'm running again, and I want you in it again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-worked"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-run-again-next-time-we-start-earlier-and-count-what-it-costs-first",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll run again. Next time we start earlier and count what it costs first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-worked"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.you-stood-behind-me-while-i-spent-it-thank-you",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "You stood behind me while I spent it. Thank you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.you-never-once-told-me-to-stop-i-know-what-that-was-worth",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "You never once told me to stop. I know what that was worth.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-blame.i-put-given-in-and-lost-that-s-on-me",
+      "move": "reply-blame",
+      "kind": "spoken",
+      "text": "I put {given} in and lost. That's on me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "blame",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "blame",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-blame.i-spent-more-than-i-should-have-and-margin-is-all-it-came-to",
+      "move": "reply-blame",
+      "kind": "spoken",
+      "text": "I spent more than I should have, and {margin} is all it came to.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "blame",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "blame",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.don-t-ask-me-about-the-money-tonight",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Don't ask me about the money tonight.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deflect",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.give-me-a-day-before-we-add-it-up",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Give me a day before we add it up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deflect",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-run-again-and-next-time-i-ll-tell-you-before-i-put-in-a-dollar-of-ours",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll run again, and next time I'll tell you before I put in a dollar of ours.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-run-again-this-time-we-agree-on-a-number-first",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll run again. This time we agree on a number first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.it-isn-t-on-you-we-both-worked-it-and-the-count-was-margin",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "It isn't on you. We both worked it, and the count was {margin}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-worked"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-disagree.don-t-carry-it-by-yourself-i-was-in-it-too",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "Don't carry it by yourself. I was in it too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-worked"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "disagree",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.talk-to-me-i-worked-this-race-and-tonight-i-d-like-to-hear-you-say-something",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Talk to me. I worked this race, and tonight I'd like to hear you say something.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-worked"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "plea",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.again-then-tell-me-what-s-different-next-time",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Again. Then tell me what's different next time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-worked"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.then-count-me-in-tell-me-when-you-decide",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Then count me in. Tell me when you decide.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-worked"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.it-isn-t-on-you-we-put-it-in-knowing-it-might-not-come-back",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "It isn't on you. We put it in knowing it might not come back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-disagree.you-re-counting-what-we-spent-not-what-we-tried",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "You're counting what we spent, not what we tried.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "disagree",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.talk-to-me-that-was-ours-and-i-d-like-to-hear-you-say-something",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Talk to me. That was ours, and I'd like to hear you say something.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "plea",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.again-then-tell-me-what-we-have-left-to-put-in",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Again. Then tell me what we have left to put in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.then-we-do-it-with-a-number-before-we-start",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Then we do it with a number before we start.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.you-did-what-a-candidate-does-sit-down-with-me-for-a-minute",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "You did what a candidate does. Sit down with me for a minute.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-worked"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.you-spent-it-on-something-you-believed-in-sit-down-with-me-for-a-minute",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "You spent it on something you believed in. Sit down with me for a minute.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-disagree.stop-adding-it-up-tonight-we-both-knew-it-could-go-this-way",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "Stop adding it up tonight. We both knew it could go this way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-worked"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "disagree",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-disagree.don-t-add-it-up-tonight-we-knew-it-could-go-this-way-when-we-put-it-in",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "Don't add it up tonight. We knew it could go this way when we put it in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "disagree",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.look-at-me-i-worked-this-race-too-and-i-need-you-to-say-one-true-thing",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Look at me. I worked this race too, and I need you to say one true thing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-worked"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "plea",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.look-at-me-that-money-was-ours-and-i-need-you-to-say-one-true-thing",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Look at me. That money was ours, and I need you to say one true thing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "plea",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.again-then-i-ll-want-to-know-the-plan-before-i-give-you-another-month",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Again. Then I'll want to know the plan before I give you another month.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-worked"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.again-then-i-ll-want-a-number-in-writing-before-another-dollar-goes-in",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Again. Then I'll want a number in writing before another dollar goes in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.then-i-m-in-again-wake-me-when-you-ve-decided",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Then I'm in again. Wake me when you've decided.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-worked"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.then-we-start-with-what-s-left-in-the-account-and-we-say-it-out-loud",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Then we start with what's left in the account, and we say it out loud.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "family-loss",
+          "key": "loss",
+          "requiresFacts": ["stake-gave"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Scene builder A",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
       }
     }
   ]

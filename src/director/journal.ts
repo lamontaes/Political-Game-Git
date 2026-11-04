@@ -46,7 +46,7 @@ import {
 import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
 import { comingOfAgeOn } from "./coming-of-age";
 import type { RACE_MARGINS } from "../english/mined/journal-bank";
-import { properName, stateInSentence } from "./words";
+import { properName, spokenDate, stateInSentence } from "./words";
 import { schoolResult } from "./school";
 import {
   PAST_WORK_OUT,
@@ -892,7 +892,12 @@ export function composeJournal(
             : spec.format === "lawName"
               ? law?.text
               : logged?.facts?.[spec.fact];
-      if (value === undefined) return null;
+      // A fact the row marks optional leaves its lines out when the record
+      // lacks it; any other missing fact leaves the moment untold.
+      if (value === undefined) {
+        if ("optional" in spec && spec.optional) continue;
+        return null;
+      }
       facts[key] = {
         text:
           spec.format === "money"
@@ -902,7 +907,11 @@ export function composeJournal(
               }).format(Number(value) / P.minorPerDollar)
             : spec.format === "count"
               ? Number(value).toLocaleString("en-US")
-              : value,
+              : spec.format === "date"
+                ? // As people say a date, from the day the line tells:
+                  // the year only when it differs.
+                  spokenDate(String(value), moment.date)
+                : value,
         sourceRecordIds:
           spec.format === "organization"
             ? [moment.causeId, logged!.topic!]

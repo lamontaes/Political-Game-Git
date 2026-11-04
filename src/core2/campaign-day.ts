@@ -228,6 +228,8 @@ const ageOn = (birthDate: string, date: string) =>
 
 /** The town's households, full and counted, as the campaign engine's doors walk them. */
 function townHouseholdCount(api: CoreAPI): number {
+  // Group-quarters rooms are doors here, institutions' included.
+  // stopgapId: SG-GQ-campaign-doors
   const core = api.state as CoreState;
   const town = (
     api

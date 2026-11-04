@@ -1,4 +1,4 @@
-/* global process, URLSearchParams, console, document, fetch */
+/* global process, URLSearchParams, console, document */
 // The campaign season in the bench (npm run bench): a grown player in a place
 // drawn from all 56 files for the first race at least two months out, then
 // plays week by week. Each scene that stops the day after filing is read and
@@ -6,6 +6,7 @@
 // with SEASON_SEED to replay the place src/director/campaign-season.test.ts drew.
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
+import { fileWhenFilingOpens } from "./start-life.mjs";
 import { drawPlace } from "../../scripts/core2-year/place.ts";
 
 const runSeed = process.env.SEASON_SEED ?? String(Date.now());
@@ -44,33 +45,9 @@ try {
   await page.waitForFunction(() =>
     document.getElementById("card-name").textContent.trim(),
   );
-  const filed = await page.evaluate(async () => {
-    const gov = await (await fetch("/api/government")).json();
-    const soon = new Date(Date.parse("2025-01-20") + 60 * 86400000)
-      .toISOString()
-      .slice(0, 10);
-    const contests = (gov.contests ?? [])
-      .map((row) => row.contest)
-      .filter((c) => c.electionDate >= soon)
-      .sort(
-        (a, b) =>
-          a.electionDate.localeCompare(b.electionDate) ||
-          a.id.localeCompare(b.id),
-      );
-    for (const contest of contests) {
-      const r = await fetch(
-        `/api/file?${new URLSearchParams({ contestId: contest.id })}`,
-        { method: "POST" },
-      );
-      const body = await r.json().catch(() => ({}));
-      if (
-        r.ok &&
-        ["petitioning", "on-ballot"].includes(body.filing?.status ?? "")
-      )
-        return contest.id;
-    }
-    return null;
-  });
+  // Filing opens on a set day: the weeks go by until a race is open (a
+  // race open for filing is months from its election).
+  const filed = (await fileWhenFilingOpens(page)).contestId;
   console.log("Filed for:", filed);
   assert.ok(filed, "no race two months out the player could enter");
   await page.reload();

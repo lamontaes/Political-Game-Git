@@ -5,11 +5,12 @@ area: elections
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: governing/favor-called-in
+pr: #7175
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T04:18:30.153Z
 ---
 
 **What.** Deals in the legislature leave obligations rows (legislature.ts obligationsOf), but nothing outside the legislature reads them, so a favor owed never reaches a campaign. Path 11 of Lane 1 says a favor gets called in at the next election: a colleague the player helped pass a bill endorses, volunteers or gives when the player runs again, and a colleague the player owes asks for the player's endorsement or help in their own race. The engines exist: legislature deals and obligations, campaigns' endorsements, volunteers and gifts.

@@ -5,11 +5,12 @@ area: words
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: lane3/paper-fresh
+pr: #7188
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T04:31:39.010Z
 ---
 
 **What.** The first paper lists every story the player heard in the year before day one, newest first, so its foot carries votes and races from months before the paper's date as if they were today's news. On a January 20, 2025 paper in Peck, Idaho (seed briefs-nov2:2), after words-paper-law-and-budget-briefs-read-right keeps laws and budgets to the days a story stays news, the foot reaches back to county board votes of January and February 2024. Measured on main in six drawn places (seeds briefs-nov2:0-2, front-nov2:0-2): of 28 or 29 worded stories, only 5 to 12 are within the news engine's newsMaxAgeDays (30) of the opening, and most of those were laws that changed nothing, so the general rule would leave Mahinahina, Hawaii and Yaurel, Puerto Rico with no story at all.

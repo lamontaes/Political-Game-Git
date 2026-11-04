@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: governing/pledge-turnout
-pr:
+pr: #7163
 blocked-on:
 source: governing lead, Nov 1 (review of governing/door-pledge-test-by-seed)
 lead: governing

@@ -136,6 +136,62 @@
   },
   "types": [
     {
+      "key": "concession-taken",
+      "note": "The loser's side, after they conceded: the winner takes the call. The press's concession record (conceded yes) names the loser and the winner. The winner answers as their traits lean, gracious or gloating, and how the loser answers back is a scene reply. A sharp word strains the tie (path 6, 'a rival who may gloat').",
+      "roles": [
+        {
+          "key": "winner",
+          "fill": "winner",
+          "count": "one",
+          "moves": ["greet", "tell", "accept", "thank", "press", "close"],
+          "wants": ["engage"],
+          "bearing": "calm"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": [
+            "thank",
+            "congratulate",
+            "warn",
+            "leave",
+            "accept",
+            "refuse",
+            "promise"
+          ],
+          "wants": ["withdraw"],
+          "bearing": "solemn"
+        }
+      ],
+      "setting": ["phone"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:concession",
+            "causeFacts": [
+              { "key": "loserId", "is": "subject" },
+              { "key": "conceded", "equals": ["yes"] }
+            ]
+          },
+          "causeEngine": "press",
+          "causeRecord": "concession",
+          "bind": { "winner": "winner", "you": "subject" },
+          "opener": "winner"
+        }
+      ],
+      "tag": {
+        "key": "call-in",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words", "journal"]
+      },
+      "purpose": "concession-taken",
+      "asker": "winner",
+      "asked": "you",
+      "stakes": ["opponent", "office", "race"]
+    },
+    {
       "key": "departure",
       "roles": [
         {
@@ -4140,7 +4196,7 @@
       "purpose": "family-loss",
       "asker": "relative",
       "asked": "you",
-      "stakes": ["office", "votes", "opponent"],
+      "stakes": ["office", "votes", "opponent", "household-part"],
       "roles": [
         {
           "key": "relative",
@@ -4175,7 +4231,7 @@
           "causeEngine": "elections",
           "causeRecord": "election-result",
           "bind": {
-            "relative": "household",
+            "relative": "household-stake",
             "you": "subject"
           },
           "opener": "relative"
@@ -4193,7 +4249,7 @@
           "causeEngine": "elections",
           "causeRecord": "primary-result",
           "bind": {
-            "relative": "household",
+            "relative": "household-stake",
             "you": "subject"
           },
           "opener": "relative"

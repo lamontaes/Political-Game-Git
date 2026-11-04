@@ -3278,8 +3278,8 @@
             "minimumHighQuarterWages": null,
             "estimate": false
           },
-          "weeklyBenefitFraction": 0.011538,
-          "weeklyBenefitAppliesTo": "sum of 2 consecutive highest quarters (60% of 1/26 of their average); alt 50% of 1/52 BPW",
+          "weeklyBenefitFraction": 0.023076923076923078,
+          "weeklyBenefitAppliesTo": "sum of 2 consecutive highest quarters; alt 50% of 1/52 BPW",
           "weeklyBenefitBasisQuarters": 2,
           "weeklyBenefitText": "Higher of 60% of 1/26 of 2 consecutive HQW (capped 50% state AWW) or 50% of 1/52 BPW (capped 55% state AWW)",
           "waitingWeek": true,
@@ -11659,8 +11659,8 @@
             "estimate": true
           },
           "weeklyBenefitFraction": 0.01,
-          "weeklyBenefitAppliesTo": "base-period wages (or 1.9% of wages in 2 highest quarters)",
-          "weeklyBenefitBasisQuarters": 2,
+          "weeklyBenefitAppliesTo": "base-period wages",
+          "weeklyBenefitBasisQuarters": 4,
           "weeklyBenefitText": "1% BPW or 1.9% of wages in 2 HQs",
           "waitingWeek": true,
           "maxWeeks": 24,

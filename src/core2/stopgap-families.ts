@@ -14,6 +14,7 @@ import f_ew from "./data/stopgaps/ew.json" with { type: "json" };
 import f_family from "./data/stopgaps/family.json" with { type: "json" };
 import f_fixer from "./data/stopgaps/fixer.json" with { type: "json" };
 import f_gov from "./data/stopgaps/gov.json" with { type: "json" };
+import f_gq from "./data/stopgaps/gq.json" with { type: "json" };
 import f_health from "./data/stopgaps/health.json" with { type: "json" };
 import f_hist from "./data/stopgaps/hist.json" with { type: "json" };
 import f_justice from "./data/stopgaps/justice.json" with { type: "json" };
@@ -57,6 +58,7 @@ export const STOPGAP_FAMILIES: Record<string, readonly unknown[]> = {
   "family.json": f_family,
   "fixer.json": f_fixer,
   "gov.json": f_gov,
+  "gq.json": f_gq,
   "health.json": f_health,
   "hist.json": f_hist,
   "justice.json": f_justice,

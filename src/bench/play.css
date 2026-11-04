@@ -1848,6 +1848,15 @@ body.dev .dev-ring {
 #person-role:empty {
   display: none;
 }
+/* Who they are now and where they come from, under the name (owner, Nov 1). */
+#person-summary {
+  margin: 0;
+  color: var(--text);
+  line-height: 1.4;
+}
+#person-summary:empty {
+  display: none;
+}
 #person-facts {
   flex: 1;
   min-height: 0;

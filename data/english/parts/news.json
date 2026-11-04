@@ -83,7 +83,8 @@
     "revenue": "The revenue a government expects for the year, from its budget record.",
     "margin": "How many votes the winning side led by, from the vote record.",
     "crimes": "What most of a month's police reports were (thefts, assaults), from the crime engine's month record.",
-    "district": "A seat's district, as its seat record numbers it (4, 12A), from the seat records."
+    "district": "A seat's district, as its seat record numbers it (4, 12A), from the seat records.",
+    "commenter": "The person a reporter asked for comment, by name, from the comment record."
   },
   "maxWords": 14,
   "mining": {
@@ -11719,6 +11720,182 @@
       "origin": "authored",
       "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
       "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.comment.commenter-declined-to-comment",
+      "move": "comment",
+      "kind": "written",
+      "text": "{commenter} declined to comment.",
+      "uses": [
+        {
+          "move": "comment",
+          "subject": "news",
+          "role": "comment",
+          "choice": "context",
+          "requiresFacts": ["declined"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (scene-reporter-calls-on-a-vote)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.comment.commenter-did-not-return-a-request-for-comment",
+      "move": "comment",
+      "kind": "written",
+      "text": "{commenter} would not comment for this story.",
+      "uses": [
+        {
+          "move": "comment",
+          "subject": "news",
+          "role": "comment",
+          "choice": "context",
+          "requiresFacts": ["declined"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (scene-reporter-calls-on-a-vote)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.comment.asked-about-it-commenter-said-quote",
+      "move": "comment",
+      "kind": "written",
+      "text": "Asked about it, {commenter} said: \"{quote}\"",
+      "uses": [
+        {
+          "move": "comment",
+          "subject": "news",
+          "role": "comment",
+          "choice": "context",
+          "requiresFacts": ["quote"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (scene-reporter-calls-on-a-vote)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.comment.commenter-told-the-paper-quote",
+      "move": "comment",
+      "kind": "written",
+      "text": "{commenter} told reporters: \"{quote}\"",
+      "uses": [
+        {
+          "move": "comment",
+          "subject": "news",
+          "role": "comment",
+          "choice": "context",
+          "requiresFacts": ["quote"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (scene-reporter-calls-on-a-vote)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-concession.opponent-called-to-concede-after-the-count",
+      "move": "election-concession",
+      "kind": "written",
+      "text": "{opponent} called to concede after the count.",
+      "uses": [
+        {
+          "move": "election-concession",
+          "subject": "news",
+          "role": "election-concession",
+          "choice": "context",
+          "requiresFacts": ["conceded"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-venue-speeches-delivered)",
+      "date": "2026-11-03",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-concession.opponent-called-name-to-concede",
+      "move": "election-concession",
+      "kind": "written",
+      "text": "{opponent} called {name} to concede.",
+      "uses": [
+        {
+          "move": "election-concession",
+          "subject": "news",
+          "role": "election-concession",
+          "choice": "context",
+          "requiresFacts": ["conceded"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-venue-speeches-delivered)",
+      "date": "2026-11-03",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-concession.opponent-has-not-called-to-concede",
+      "move": "election-concession",
+      "kind": "written",
+      "text": "{opponent} has not called to concede.",
+      "uses": [
+        {
+          "move": "election-concession",
+          "subject": "news",
+          "role": "election-concession",
+          "choice": "context",
+          "requiresFacts": ["declined"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-venue-speeches-delivered)",
+      "date": "2026-11-03",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-concession.opponent-would-not-concede-the-race",
+      "move": "election-concession",
+      "kind": "written",
+      "text": "{opponent} would not concede the race.",
+      "uses": [
+        {
+          "move": "election-concession",
+          "subject": "news",
+          "role": "election-concession",
+          "choice": "context",
+          "requiresFacts": ["declined"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-venue-speeches-delivered)",
+      "date": "2026-11-03",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
