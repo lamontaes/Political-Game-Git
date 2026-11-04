@@ -1,4 +1,4 @@
-0 of 14 paths confirmed. Furthest New Game step: 8 (Johnson, Minnesota path-check: filed, on the ballot, won the council seat, first bill failed 2 to 3). Oldest open PR 1 day (#7152).
+0 of 14 paths confirmed. Furthest New Game step: 8 (Johnson, Minnesota path-check: filed, on the ballot, won the council seat, first bill failed 2 to 3). Oldest open PR 1 day (#7152); open: #7152, #7174, #7175.
 
 # Lane 1 state: Run and govern
 
@@ -14,13 +14,16 @@
   - #7165: asks reach a roll call; one sponsor's evening in one stop.
   - #7166: a phased wage's cost note counts every step.
   - #7167: the office keeps colleagues' stakes.
-- **Built, open:**
-  - #7152: skills.
   - #7154: petitions fit the town; Johnson, Minnesota makes the ballot and wins.
-  - #7168: filing opens on a set day (the second done-when line is Words' quiet-season item).
+  - #7168: filing opens on a set day.
   - #7169: the mayor's desk, sign and veto, proved in play.
   - #7170: governors declare emergencies.
-- **Filed for path 11:** `campaign-rival-ad-quotes-a-real-vote`, `campaign-favor-called-in`, `play-campaigns-shows-your-record`.
+  - #7171: the campaign test's filing-window search.
+- **Built, open:**
+  - #7152: skills.
+  - #7174: a rival's attack ad names the holder's real votes, and ballots weigh them (path 11).
+  - #7175: a favor traded for a vote is called in as an endorsement at the next race (path 11).
+- **Filed for path 11:** `play-campaigns-shows-your-record` (Lane 4's screen).
 - **Agreements:** 1-2 written (one bill engine). 1-3 confirmed and extended (director tests that file the player; a worded law line asked of Lane 3). 1-4 written (filing seams in `src/bench`).
 - **Waiting on a question:** `gov-m3-02-amend-and-endorsement-deals`, the endorsement half (see its Notes).
 
@@ -28,14 +31,15 @@
 
 - **Unit 1b, incumbency fit**, on `governing/incumbency-calibration` (main merged, d6db3df9ff). Ablation on seed f556fe5e8b2fe6fd, 12 places:
 
-  | Version | Contested holder wins (T3) | Newcomers who beat a holder (T6) |
-  | --- | --- | --- |
-  | Both terms | 1.0 | 0 |
-  | Standing only | 0.83 | 0.29 |
-  | Trait only | 0.67 | 0.44 |
-  | Neither | 0.54 | 0.55 |
+  | Version       | Contested holder wins (T3) | Newcomers who beat a holder (T6) |
+  | ------------- | -------------------------- | -------------------------------- |
+  | Both terms    | 1.0                        | 0                                |
+  | Standing only | 0.83                       | 0.29                             |
+  | Trait only    | 0.67                       | 0.44                             |
+  | Neither       | 0.54                       | 0.55                             |
 
-  The bands are 66% to 78% and 18% to 30%. Each term alone is near the band, so together they count the advantage twice. A 24-place run on seed a63ad2af1003c7ad is going: play values, standing halved (0.075), trait halved (0.5), and neither.
+  The bands are 66% to 78% and 18% to 30%. On seed a63ad2af1003c7ad, 24 places, 23 contested races: play values 0.565 and 0.77; the trait term halved gives the same 0.565 (it barely moves a race); recognition halved (0.075) drops T3 to 0.39. Pooled with f556, play values are 25 of 35 (0.71, inside the band). Recognition is the lever, and the play value stays. "Neither" on a63 is running.
+
 - **Unit 6, month-end crash**: reproducing `office-day-member-filings.test.ts` at pet-run-1 on `governing/month-close-journal`.
 
 ## Failed (on main as well, filed)

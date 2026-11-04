@@ -5,9 +5,9 @@ area: elections
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: governing/favor-called-in
-pr:
+pr: #7175
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-04T04:18:30.153Z

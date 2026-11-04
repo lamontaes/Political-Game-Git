@@ -6,7 +6,7 @@ lead: governing
 kind: wiring
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: governing/desk-sign-veto
 pr: #7169
 blocked-on:

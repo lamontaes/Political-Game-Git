@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: governing/ask-skips-held-bills
 pr: #7165
 blocked-on:

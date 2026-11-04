@@ -3462,6 +3462,58 @@ export function obligationsOf(
   ).filter((o) => o.owedBy === personId);
 }
 
+/** A favor or backing a sponsor owes a member who took their deal, until it is called in. */
+export interface ObligationRow {
+  readonly id: string;
+  readonly owedBy: string;
+  readonly owedTo: string;
+  readonly kind: string;
+  readonly billId: string;
+  readonly measure: string;
+  readonly date: string;
+  readonly settled: boolean;
+  /** The record that called it in (an endorsement given), and when. */
+  readonly settledBy?: string;
+  readonly settledOn?: string;
+}
+
+/** The favors still owed to a person: the deals they took that the sponsor has not repaid (campaign-favor-called-in). */
+export function obligationsOwedTo(
+  api: CoreAPI,
+  personId: string,
+): readonly ObligationRow[] {
+  if (!api.state.modules.has(LEGISLATURE_MODULE_ID)) return [];
+  return (table(api, "obligations").rows() as unknown as ObligationRow[])
+    .filter((o) => o.owedTo === personId && !o.settled)
+    .sort((a, b) => a.id.localeCompare(b.id));
+}
+
+/** The favors a person still owes one other person. */
+export function obligationsOwedBetween(
+  api: CoreAPI,
+  owedBy: string,
+  owedTo: string,
+): readonly ObligationRow[] {
+  return obligationsOwedTo(api, owedTo).filter((o) => o.owedBy === owedBy);
+}
+
+/** A favor repaid: the record that called it in settles it. */
+export function settleObligation(
+  api: CoreAPI,
+  obligationId: string,
+  recordId: string,
+): void {
+  const row = table(api, "obligations").get(obligationId) as unknown as
+    ObligationRow | undefined;
+  if (!row || row.settled) return;
+  table(api, "obligations").put({
+    ...row,
+    settled: true,
+    settledBy: recordId,
+    settledOn: api.state.date,
+  } as unknown as ModuleRow);
+}
+
 /** The bill's chambers, in order: the town's body, or its legislature's chambers starting where it was introduced. */
 export function chambersOf(api: CoreAPI, bill: BillRow): readonly string[] {
   const office = bodyOf(api, bill.bodyOfficeId);

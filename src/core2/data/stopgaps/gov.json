@@ -2134,5 +2134,17 @@
     "addedAt": "2026-11-04",
     "replacement": "An office-screen stop the day a federally declared disaster is recorded in the player governor's state, offering declareEmergency with the hazard record and the state's power named, or leaving it to the character.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-player-favor-asked",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/campaigns.ts",
+    "line": 6000,
+    "whatItFakes": "A colleague the player owes a favor from a deal never asks the player to repay it: their campaign skips the player when it calls in favors, because the engine never answers for the player and no scene puts the ask to them.",
+    "why": "The engine does not decide for the player; the ask needs a scene the director stages from the obligation record (Lane 3) and an answer the player gives.",
+    "addedBy": "Lane 1 (campaign-favor-called-in)",
+    "addedAt": "2026-11-04",
+    "replacement": "The colleague's campaign writes a favor-asked record naming the obligation; the director stages the ask, and the player's answer endorses (settling the obligation) or refuses.",
+    "status": "open"
   }
 ]

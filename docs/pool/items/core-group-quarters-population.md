@@ -5,9 +5,9 @@ area: core
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: speed/group-quarters-population
-pr:
+pr: #7176
 blocked-on:
 after: world-group-quarters-research
 source: added with npm run pool -- add

@@ -6,7 +6,7 @@ lead: governing
 kind: wiring
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: governing/two-stakes
 pr: #7167
 blocked-on:
