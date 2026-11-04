@@ -49,6 +49,8 @@
     "release:check-push": "node --import tsx scripts/release/check-push.ts",
     "release:check": "node --import tsx scripts/release/index.ts check",
     "stopgaps:report": "node scripts/stopgaps-report.mjs",
+    "place-map": "node --import tsx src/core2/tooling/place-map-build.ts",
+    "place-map:check": "node --import tsx src/core2/tooling/place-map-check.ts",
     "pool": "node --import tsx scripts/pool/index.ts",
     "opening:every-locality": "node --max-old-space-size=8192 --expose-gc --import tsx scripts/opening-every-locality.ts",
     "new-game-check": "node --max-old-space-size=8192 --import tsx scripts/new-game-check.ts",
