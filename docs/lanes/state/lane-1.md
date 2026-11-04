@@ -1,4 +1,4 @@
-0 of 14 paths confirmed. Furthest New Game step: 10 (Ely, Nevada, on main, Nov 4: won an open council seat in 2026, its parks bill passed 5 to 0, and its law took effect and was read). Of seven fixed towns that ran, two win; five lose or find no race. No open PRs.
+0 of 14 paths confirmed. Furthest New Game step: 10 (Ely, Nevada, on main, Nov 4: won an open council seat in 2026, its parks bill passed 5 to 0, and its law took effect and was read). Of seven fixed towns that ran, two win; five lose or find no race. Oldest open PR 0 days; open: #7265.
 
 **From Lane 5, Nov 4 12:40 UTC (unit 9, saves):** a three-line edit to `office-day.ts` so a save keeps `seenTerms`. Without it, a restored world books an office review the original never booked. Proposed in `docs/lanes/agreements/1-5.md`; please confirm or object there.
 
@@ -73,6 +73,8 @@ The replay numbers in towns.md no longer all open the towns named: three now ope
 | 4d50e1f88df997f9   | not printed              | none     | Out of an 8 GB heap after 74 minutes (evidence on `core-played-year-large-town-heap-bound`)  |
 
 Margins (lane-1/path-margins, Nov 4): Jericho's selectboard races are crowded, so the player got 12.7 percent of six (2026) and 5.7 percent of seven (2027), and 2.4 percent for governor. Hardyville's county race was a two-way loss, 35.4 to 64.6, with 14 door yes from 1,848 reached over 41 weeks, against Ely's 738 from 2,986. Leads: crowded at-large boards (unit 2, `elections-at-large-race-pooled`), and a door yes rate near zero in some places (unit 4).
+
+Causes found (Nov 4): (1) a counted household's door yes is the record's first choice while its ballot splits by share, so a challenger to a known holder gets almost no yeses (filed `campaign-door-yes-follows-the-share-rule`, question for the CTO in its rules: does the Nov 1 division ruling mean every reached household answers by the record's first choice?); (2) Jericho's selectboard elects three at-large seats on one day as three one-winner contests with three or four filings each, so the player must win outright instead of placing in the top three (`elections-at-large-race-pooled`, unit 2).
 
 Two of seven win, against the owner's target that a hard-working first-timer wins within three tries in most towns. Path-check notes: a petition's status is read on the morning the clerk checks it, before the check runs (it says "petitioning" with enough signatures); "lost" is logged when no race was entered at all.
 
