@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: lane-5/circle-log-window
-pr:
+pr: #7198
 blocked-on:
 lead: speed
 source: added with npm run pool -- add
