@@ -17,9 +17,9 @@ claimed-at: 2026-11-04T09:49:09.197Z
 
 **What.** Bounded shipping part of claimed laws-bill-before-reads-bill-level. Existing draftable laws and budget lines must use one jurisdiction reader in the catalog, paper and seat card. Keep the parent unfinished while its state income-tax catalog eligibility and broader decided-paper coverage remain separate; do not auto-close it by shipping this part.
 
-**Rules.** One engine per mechanic: screens read the same existing law or budget record and never calculate their own version. Keep additive versus floor doctrine, numeric null, real source IDs, earlier phase values and all voting or enactment behavior.
+**Rules.** Wire to the world: the normal card and opened paper must read the existing jurisdiction record and retain its actual source identity. One engine per mechanic: screens read the same existing law or budget record and never calculate their own version. Keep additive versus floor doctrine, numeric null, real source IDs, earlier phase values and all voting or enactment behavior.
 
-**Done when.** Denver preserves its unknown tax amount and law identity; Brookside and two drawn worlds have matching paper, catalog and real seat-view values at actual county or town jurisdiction; a federal seat reads national law. Existing legislature checks and a fresh New Game pass; normal draft-card and bill-paper browser proof names the towns and replays; each of four timing years remains within twenty percent of its base.
+**Done when.** Denver preserves its unknown tax amount and law identity; Brookside and two drawn worlds have matching paper, catalog and real seat-view values at actual county or town jurisdiction; a federal seat reads national law. Existing legislature checks and a fresh New Game pass; normal draft-card and bill-paper browser proof names the towns and replays; each of four timing years remains within twenty percent of its base. Browser screenshots and buildBenchWorld tests retain the actual record id read.
 
 **Files.** src/core2/laws-bill-values.ts; bill-catalog.ts; accepted currentAmount and billSections reads; accepted src/bench/legislature.ts and one play.mjs read; regression and proof
 
