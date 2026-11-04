@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 117 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 119 pull requests merged. Newest state at the top of each section.
 
 ## What the owner can play now
 
@@ -82,7 +82,7 @@ New on Nov 3:
   - A pool fix (#7145).
   - A state page (#7146).
 
-## Lane PRs merged on Nov 4 (82), on the owner's word ("You may merge lane PRs that pass the new-game check")
+## Lane PRs merged on Nov 4 (84), on the owner's word ("You may merge lane PRs that pass the new-game check")
 
 Each had main merged in again, passed `npm run new-game-check` (a town drawn from all 56, a new life, four weeks) and merged pinned to that head.
 
@@ -170,6 +170,8 @@ Each had main merged in again, passed `npm run new-game-check` (a town drawn fro
 | #7223 | The paper's story of a race keeps who won (and mends #7219's release note)                                                                                          | Dubberly, Louisiana               | 8c48f7b019ad69a2 |
 | #7224 | Three more malformed release notes on main are fixed, so builds pass the release check again (main's wording kept for #7219's note, which #7223 had already mended) | Raceland, Louisiana               | e22d70ba3bd075ff |
 | #7225 | Lane 5's state page as of Nov 4 (docs only)                                                                                                                         | Coral Bay, U.S. Virgin Islands    | c128271393145ada |
+| #7226 | The Journal tells your own lost race as yours                                                                                                                       | Chena Ridge, Alaska               | 44f9944beb13b17b |
+| #7227 | A loading test imports the person type from where it lives, so the release build's typecheck passes (test only)                                                     | Woburn, Massachusetts             | db8299c12dd18749 |
 
 Conflicts resolved mechanically: #7154 (both sides added a parameter and a stopgap row; both kept), and #7153, #7157, #7160, #7162 (Lane 2's state page: main's wording for the one edited line, both sides' log entries kept). Mac builds started after 5, 13, 18, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75 and 80 of these merges.
 
