@@ -7,12 +7,13 @@
  *   node --import tsx scripts/law-wiring/matrix.ts docs/reports/law-wiring/*.json
  */
 import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
-import stopgaps from "../../src/core2/data/stopgaps.json" with { type: "json" };
+import { STOPGAPS as stopgaps } from "../../src/core2/stopgaps";
 import researchGaps from "../../src/core2/data/laws/outcome-research-gaps.json" with { type: "json" };
 import unwiredLinks from "../../src/core2/data/outcome-web/unwired.json" with { type: "json" };
 import effectMatrix from "../../docs/reports/effect-web-matrix-2026-10-20.json" with { type: "json" };
 import { ownLeast, pickOwn, type OwnPair } from "./own-payments";
 import { splitByReader } from "./unread-links";
+import type { BillRecords } from "./bill-records";
 import {
   allLaws,
   changeInData,
@@ -118,6 +119,8 @@ interface Result {
     }[];
     /** The first law row a body (not the checker) enacted on the law's key in the window, which can put a changed cause back. */
     reenacted?: { id: string; effectiveDate: string; value: number } | null;
+    /** The bill records that read or carry the law's links (bill-records.ts): here, and in the control world for a law in force at the opening (older result files have none). */
+    records?: { treatment: BillRecords; control?: BillRecords };
   };
   heard: { people: number; sample: string[] };
   /** Who the law could bind in the drawn place, for a law whose handler binds one kind of subject (older result files have none). */
@@ -647,9 +650,119 @@ function webLink(
   // A link an engine now carries is not run by the web: a ledger row an
   // older run kept for it is history, not this link's evidence.
   const carriedNow = new Set(links.filter((l) => carried(l)).map((l) => l.key));
+  // A link into an outcome whose records name the links they read (the
+  // medical bills) is read only where a record read it: a web month row it
+  // fired in is no read where the engine leaves it out (bill-records.ts). The
+  // records of the world where the law did its work: this one, else the
+  // control world, where a law in force at the opening stayed in force.
+  const recordsOf = (r: Result) =>
+    (["treatment", "control"] as const).flatMap((world) => {
+      const rec = r.web?.records?.[world];
+      return rec ? [{ world, rec }] : [];
+    });
+  const recorded = new Set(
+    runs.flatMap(({ r }) =>
+      recordsOf(r).flatMap(({ rec }) => rec.recordedLinks),
+    ),
+  );
+  const recordReads = runs.flatMap(({ place, r }) => {
+    const found = recordsOf(r).filter(({ rec }) =>
+      Object.values(rec.reads).some((x) => x.count > 0),
+    )[0];
+    return found
+      ? Object.entries(found.rec.reads).flatMap(([link, x]) =>
+          x.sample.map((s) => ({
+            place,
+            world: found.world,
+            link,
+            count: x.count,
+            s,
+          })),
+        )
+      : [];
+  });
+  // A recorded link no bill record read anywhere counts where the town's own
+  // records carry it instead (the bills left the place row out of a town
+  // household's share and priced its member by their coverage records),
+  // named by record id: never a grade from a read that does not happen.
+  const ownCarried = [...recorded]
+    .filter((key) => !recordReads.some((x) => x.link === key))
+    .flatMap((key) =>
+      runs.flatMap(({ place, r }) => {
+        const found = recordsOf(r).filter(
+          ({ rec }) => (rec.own?.[key]?.count ?? 0) > 0,
+        )[0];
+        const own = found?.rec.own?.[key];
+        return found && own
+          ? own.sample.slice(0, 1).map((s) => ({
+              place,
+              world: found.world,
+              link: key,
+              by: own.by,
+              count: own.count,
+              s,
+            }))
+          : [];
+      }),
+    );
+  const unreadRecorded = [...recorded].filter(
+    (key) =>
+      !recordReads.some((x) => x.link === key) &&
+      !ownCarried.some((x) => x.link === key),
+  );
+  const ownEvidence = [...new Set(ownCarried.map((x) => x.link))].map((key) => {
+    const rows = ownCarried.filter((x) => x.link === key);
+    return `${key}: no bill record outside the town read the place row in the runs; carried by ${rows[0]!.by}: ${rows
+      .map(
+        ({ place, world, count, s }) =>
+          `${place}${world === "control" ? " (control world, where it stayed in force)" : ""}: ${count} bill records left the row out and priced a member by their coverage, e.g. ${s.id} on ${s.date} (${s.placeId}), member ${s.personId}, coverage records ${s.recordIds.join(" ") || "none"}`,
+      )
+      .join("; ")}`;
+  });
+  // A carried link the bills price by counts where a bill priced a member by
+  // its records in a run (bill-records.ts), named by record id.
+  const carriedRecords = (key: string) =>
+    runs.flatMap(({ place, r }) => {
+      const found = recordsOf(r).filter(
+        ({ rec }) => (rec.carried[key]?.count ?? 0) > 0,
+      )[0];
+      return found
+        ? found.rec.carried[key]!.sample.slice(0, 1).map((s) => ({
+            place,
+            world: found.world,
+            count: found.rec.carried[key]!.count,
+            s,
+          }))
+        : [];
+    });
+  const lookedFor = new Set(
+    runs.flatMap(({ r }) =>
+      recordsOf(r).flatMap(({ rec }) => rec.carriedLinks),
+    ),
+  );
+  const carriedUnseen = [...lookedFor].filter(
+    (key) => !carriedRecords(key).length,
+  );
+  const carriedEvidence = (l: {
+    key: string;
+    carriedBy?: string;
+    source?: string;
+  }) => {
+    const seen = carriedRecords(l.key);
+    return `${l.key}: carried by ${l.carriedBy} (${l.source ?? ""})${
+      seen.length
+        ? `; ${seen
+            .map(
+              ({ place, world, count, s }) =>
+                `${place}${world === "control" ? " (control world, where it stayed in force)" : ""}: ${count} bill records priced by it, e.g. ${s.id} on ${s.date} (${s.placeId}), member ${s.personId}, coverage records ${s.recordIds.join(" ") || "none"}`,
+            )
+            .join("; ")}`
+        : ""
+    }`;
+  };
   const allFired = runs.flatMap(({ place, r }) =>
     (r.web?.fired ?? [])
-      .filter((f) => !carriedNow.has(f.link))
+      .filter((f) => !carriedNow.has(f.link) && !recorded.has(f.link))
       .map((f) => ({ place, f })),
   );
   // A fired ledger row whose factor no engine reads (unwired.json, open
@@ -669,14 +782,25 @@ function webLink(
   const notBuilt = links.filter(
     (l) => l.status !== "built" && !zero(l) && !byEngine.includes(l),
   );
-  if (!fired.length && byEngine.length && !notBuilt.length && !built.length)
-    return {
-      status: "wired",
-      evidence: byEngine
-        .map((l) => `${l.key}: carried by ${l.carriedBy} (${l.source ?? ""})`)
-        .join("; "),
-      why: "",
-    };
+  if (
+    !fired.length &&
+    !recordReads.length &&
+    !ownCarried.length &&
+    byEngine.length &&
+    !notBuilt.length &&
+    !built.length
+  )
+    return carriedUnseen.length
+      ? {
+          status: "partial",
+          evidence: byEngine.map(carriedEvidence).join("; "),
+          why: `no bill record priced a member by ${carriedUnseen.join(", ")} in the runs`,
+        }
+      : {
+          status: "wired",
+          evidence: byEngine.map(carriedEvidence).join("; "),
+          why: "",
+        };
   if (!fired.length && unread.length)
     return {
       status: "stopgap",
@@ -689,19 +813,34 @@ function webLink(
         .join("; "),
       why: `no production reader: ${[...new Set(unread.map((u) => `${u.item.f.link} (${u.stopgapId})`))].join(", ")} move only the web's ledger`,
     };
-  if (fired.length) {
-    const ev = fired
+  if (fired.length || recordReads.length || ownCarried.length) {
+    // A bill record's read first, by record id, then the web rows read by
+    // an engine that reads every place's row.
+    const readEv = recordReads
       .slice(0, 3)
+      .map(
+        ({ place, world, link, count, s }) =>
+          `${place}${world === "control" ? " (control world, where it stayed in force)" : ""}: ${s.id} on ${s.date} (${s.placeId}) read ${link}${s.effect === null ? "" : ` ${s.effect.toFixed(4)}`} from ${s.webRecordId}, one of ${count} bill records reading it (src/core2/medical-bills.ts collectionsShare)`,
+      );
+    const firedEv = fired
+      .slice(0, Math.max(0, 3 - readEv.length))
       .map(
         ({ place, f }) =>
           `${place}: ${f.id} ${f.link} ${f.effect.toFixed(4)}${WEB_READERS.has(f.link) ? `, read by ${WEB_READERS.get(f.link)}` : ""}`,
-      )
-      .join("; ");
+      );
+    const ev = [
+      ...readEv,
+      ...ownEvidence,
+      ...firedEv,
+      ...byEngine.map(carriedEvidence),
+    ].join("; ");
     const missing = [
       ...notBuilt.map((l) => `${l.key} (${l.status})`),
       ...new Set(
         unread.map((u) => `${u.item.f.link} (no reader, ${u.stopgapId})`),
       ),
+      ...unreadRecorded.map((key) => `${key} (no bill record read it)`),
+      ...carriedUnseen.map((key) => `${key} (no bill record priced by it)`),
     ];
     return missing.length
       ? {
@@ -734,9 +873,12 @@ function webLink(
   // the law row that reversed it is named.
   const monthIndex = (month: string) =>
     Number(month.slice(0, 4)) * 12 + Number(month.slice(5, 7));
+  // A link only a record's read counts for is never graded on its cause.
   const lagged = runs.flatMap(({ place, r }) =>
     (r.web?.cause ?? [])
-      .filter((c) => built.some((l) => l.key === c.link))
+      .filter(
+        (c) => built.some((l) => l.key === c.link) && !recorded.has(c.link),
+      )
       .flatMap((c) => {
         if (c.lagMonths > (r.web.windowDays ?? 35) / 30)
           return [
@@ -763,11 +905,15 @@ function webLink(
       .slice(0, 3)
       .map(({ place, text }) => `${place}: ${text}`)
       .join("; ");
-    return notBuilt.length
+    const missing = [
+      ...notBuilt.map((l) => `${l.key} (${l.status})`),
+      ...unreadRecorded.map((key) => `${key} (no bill record read it)`),
+    ];
+    return missing.length
       ? {
           status: "partial",
           evidence: ev,
-          why: `links not built: ${notBuilt.map((l) => `${l.key} (${l.status})`).join(", ")}`,
+          why: `links not built or not read: ${missing.join(", ")}`,
         }
       : { status: "wired", evidence: ev, why: "" };
   }

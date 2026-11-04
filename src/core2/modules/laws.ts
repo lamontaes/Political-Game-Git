@@ -58,9 +58,15 @@ export { webReach, webFactorFor } from "../outcome-web-reach";
 export { POLICY_QUESTIONS } from "../policy-answers";
 /** The research links the web runs, for an engine that reads a person-level link from its own records. */
 export { WEB_LINKS } from "../outcome-web-model";
-/** Each named person's Medicaid coverage as the law reach pays it, for the health engine. */
+/**
+ * Each resident's Medicaid coverage as the law reach keeps it, for the health
+ * engine and the medical bills, with the mark of coverage the work requirement
+ * ended and the treasuries' payment of Medicaid's part of their care.
+ */
 export {
+  ENDED_BY_REQUIREMENT,
   medicaidCoverageSpells,
+  payMedicaidCare,
   type CoverageSpell,
 } from "../law-reach/group-b-money";
 
@@ -227,7 +233,14 @@ export function openLaws(core: CoreState): LawChain {
       retrieved: ANSWERS_AS_OF,
       estimate: answer.estimated !== undefined,
       // The statute the answer rests on, which Issues shows beside it.
-      ...(answer.cite ? { terms: { cite: answer.cite } } : {}),
+      ...(answer.cite || answer.lawTerms?.length
+        ? {
+            terms: {
+              ...(answer.cite ? { cite: answer.cite } : {}),
+              ...(answer.lawTerms?.length ? { lawTerms: answer.lawTerms } : {}),
+            },
+          }
+        : {}),
     };
     if (!state.table("laws").get(row.id))
       state.table("laws").put(row as unknown as ModuleRow);
@@ -799,12 +812,13 @@ function lawTookEffect(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (!row || !inForceOn(row, api.state.date)) return;
   // A row a later statute overrides never governs, so nothing took effect: the
   // level's law in force today is another row (a repeal enacted over a
-  // scheduled rise).
+  // scheduled rise). A territory-specific federal row can also replace the
+  // national level entirely, leaving no matching jurisdiction in the answer.
   const governing = lawInForce(api, row.series).levels.find(
     (level) =>
       level.jurisdiction === row.jurisdiction && level.level === row.level,
   )?.row;
-  if (governing && governing.id !== row.id) return;
+  if (governing?.id !== row.id) return;
   const town = lawChain(api).townPlaceId;
   // What it replaced: the law in force on the series the day before. A
   // policy question set to 0 ends that law (a repeal).

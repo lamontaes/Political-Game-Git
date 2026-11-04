@@ -1749,6 +1749,40 @@
           "actKinds": ["play-safe", "withdraw"]
         }
       ]
+    },
+    {
+      "id": "people.partner",
+      "site": "src/core2/modules/partnerships.ts",
+      "owner": "lives lead",
+      "route": "formula",
+      "traitWeightParameter": "traitWeightPeoplePartner",
+      "options": [
+        {
+          "id": "stay-single",
+          "actKinds": ["keep-same", "withdraw"]
+        },
+        {
+          "id": "partner",
+          "actKinds": ["commit", "change"]
+        }
+      ]
+    },
+    {
+      "id": "people.part",
+      "site": "src/core2/modules/partnerships.ts",
+      "owner": "lives lead",
+      "route": "formula",
+      "traitWeightParameter": "traitWeightPeoplePart",
+      "options": [
+        {
+          "id": "stay-together",
+          "actKinds": ["keep-same", "commit"]
+        },
+        {
+          "id": "part",
+          "actKinds": ["change", "withdraw"]
+        }
+      ]
     }
   ],
   "outside": [

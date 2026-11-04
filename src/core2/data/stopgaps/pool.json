@@ -1,0 +1,14 @@
+[
+  {
+    "id": "SG-POOL-party-officers-local",
+    "kind": "missing-data",
+    "file": "src/core2/candidate-pool.ts",
+    "line": 394,
+    "whatItFakes": "A state or national party's officers in the standing pool: only the town's local party chair is recorded, so the pool's party officers are the chairs of the state's parties as the town sees them.",
+    "why": "The parties engine records one local committee and its chair per party, not a state committee, its officers or a national committee.",
+    "addedBy": "GOV-CANDIDACY",
+    "addedAt": "2026-10-14",
+    "replacement": "The parties engine records state and national committees and their officers; the pool reads them in place of the local chair.",
+    "status": "open"
+  }
+]

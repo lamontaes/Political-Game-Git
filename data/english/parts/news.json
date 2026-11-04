@@ -81,10 +81,10 @@
     "previous": "The former owner, by name, from the ownership record.",
     "spending": "A government's planned spending for the year, from its budget record.",
     "revenue": "The revenue a government expects for the year, from its budget record.",
-    "relation": "How the person who died was related to the reader, from the family record.",
-    "survivor": "The relative who survives, by name, from the family record.",
     "margin": "How many votes the winning side led by, from the vote record.",
     "crimes": "What most of a month's police reports were (thefts, assaults), from the crime engine's month record.",
+    "district": "A seat's district, as its seat record numbers it (4, 12A), from the seat records.",
+    "commenter": "The person a reporter asked for comment, by name, from the comment record.",
     "who": "Whom a law reaches: who pays a tax, or who gets a benefit or a wage, from the law's series (data/english/bill-names.json).",
     "starts": "The day a law passed now takes effect, from the law record.",
     "statute": "The kind of law and the level that made it (a state law, a town ordinance), from the law record."
@@ -769,7 +769,8 @@
           "move": "election-result",
           "subject": "news",
           "role": "election-result",
-          "choice": "lede"
+          "choice": "lede",
+          "excludesFacts": ["district", "atLarge"]
         }
       ],
       "transcriptsUsing": 2,
@@ -829,7 +830,8 @@
           "move": "election-result",
           "subject": "news",
           "role": "election-result",
-          "choice": "lede"
+          "choice": "lede",
+          "excludesFacts": ["district", "atLarge"]
         }
       ],
       "origin": "authored",
@@ -838,6 +840,50 @@
       "tag": {
         "move": "announce-result",
         "key": "honor"
+      }
+    },
+    {
+      "key": "news.election-result.name-won-the-race-for-office-in-district",
+      "move": "election-result",
+      "kind": "written",
+      "text": "{name} won the race for {office} in District {district}.",
+      "uses": [
+        {
+          "move": "election-result",
+          "subject": "news",
+          "role": "election-result",
+          "choice": "lede",
+          "requiresFacts": ["won", "district"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (elections-past-race-names-the-district)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-result.name-won-the-at-large-race-for-office",
+      "move": "election-result",
+      "kind": "written",
+      "text": "{name} won the at-large race for {office}.",
+      "uses": [
+        {
+          "move": "election-result",
+          "subject": "news",
+          "role": "election-result",
+          "choice": "lede",
+          "requiresFacts": ["won", "atLarge"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (elections-past-race-names-the-district)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
       }
     },
     {
@@ -1137,6 +1183,732 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-live-news-worded)",
       "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.the-measure-in-place-is-now-to-down-from-from",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "The {measure} in {place} is now {to}, down from {from}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["took", "here", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.a-statute-keeps-the-measure-in-place-at-to-as-of-date",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "A {statute} keeps the {measure} in {place} at {to} as of {date}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["took", "here", "same"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.on-date-a-statute-set-the-measure-in-place-at-to",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "On {date}, a {statute} set the {measure} in {place} at {to}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["took", "here", "new"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.on-date-a-federal-law-raised-the-measure-from-from-to-to",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "On {date}, a federal law raised the {measure} from {from} to {to}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["took", "nationwide", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.the-federal-measure-is-now-to-up-from-from",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "The federal {measure} is now {to}, up from {from}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["took", "nationwide", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.on-date-a-federal-law-cut-the-measure-from-from-to-to",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "On {date}, a federal law cut the {measure} from {from} to {to}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["took", "nationwide", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.the-federal-measure-is-now-to-down-from-from",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "The federal {measure} is now {to}, down from {from}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["took", "nationwide", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.a-federal-law-keeps-the-measure-at-to-as-of-date",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "A federal law keeps the {measure} at {to} as of {date}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["took", "nationwide", "same"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.on-date-a-federal-law-set-the-measure-at-to",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "On {date}, a federal law set the {measure} at {to}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["took", "nationwide", "new"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.on-date-the-federal-measure-for-place-rose-from-from-to-to",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "On {date}, the federal {measure} for {place} rose from {from} to {to}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["took", "federal-here", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.the-federal-measure-for-place-is-now-to-up-from-from",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "The federal {measure} for {place} is now {to}, up from {from}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["took", "federal-here", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.on-date-the-federal-measure-for-place-fell-from-from-to-to",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "On {date}, the federal {measure} for {place} fell from {from} to {to}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["took", "federal-here", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.the-federal-measure-for-place-is-now-to-down-from-from",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "The federal {measure} for {place} is now {to}, down from {from}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["took", "federal-here", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.the-federal-measure-for-place-stays-at-to-as-of-date",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "The federal {measure} for {place} stays at {to} as of {date}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["took", "federal-here", "same"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.on-date-the-federal-measure-for-place-was-set-at-to",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "On {date}, the federal {measure} for {place} was set at {to}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["took", "federal-here", "new"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.place-will-raise-its-measure-from-from-to-to-on-starts",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "{place} will raise its {measure} from {from} to {to} on {starts}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["enacted", "here", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.under-a-statute-the-measure-in-place-goes-from-from-to-to-on",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "Under a {statute}, the {measure} in {place} goes from {from} to {to} on {starts}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["enacted", "here", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.place-will-lower-its-measure-from-from-to-to-on-starts",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "{place} will lower its {measure} from {from} to {to} on {starts}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["enacted", "here", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.under-a-statute-the-measure-in-place-drops-from-from-to-to-o",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "Under a {statute}, the {measure} in {place} drops from {from} to {to} on {starts}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["enacted", "here", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.congress-voted-to-raise-the-measure-from-from-to-to-starting",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "Congress voted to raise the {measure} from {from} to {to}, starting {starts}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["enacted", "nationwide", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.under-a-new-federal-law-the-measure-goes-from-from-to-to-on",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "Under a new federal law, the {measure} goes from {from} to {to} on {starts}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["enacted", "nationwide", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.congress-voted-to-lower-the-measure-from-from-to-to-starting",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "Congress voted to lower the {measure} from {from} to {to}, starting {starts}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["enacted", "nationwide", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.under-a-new-federal-law-the-measure-drops-from-from-to-to-on",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "Under a new federal law, the {measure} drops from {from} to {to} on {starts}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["enacted", "nationwide", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.the-federal-measure-for-place-will-go-from-from-to-to-on-sta",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "The federal {measure} for {place} will go from {from} to {to} on {starts}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["enacted", "federal-here", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.starting-starts-the-federal-measure-for-place-goes-from-from",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "Starting {starts}, the federal {measure} for {place} goes from {from} to {to}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["enacted", "federal-here", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.the-federal-measure-for-place-will-drop-from-from-to-to-on-s",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "The federal {measure} for {place} will drop from {from} to {to} on {starts}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["enacted", "federal-here", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.starting-starts-the-federal-measure-for-place-drops-from-fro",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "Starting {starts}, the federal {measure} for {place} drops from {from} to {to}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["enacted", "federal-here", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-reach.the-change-falls-on-who",
+      "move": "law-reach",
+      "kind": "written",
+      "text": "The change falls on {who}.",
+      "uses": [
+        {
+          "move": "law-reach",
+          "subject": "news",
+          "role": "law-reach",
+          "choice": "context",
+          "requiresFacts": ["who", "pays"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-reach.it-is-paid-by-who",
+      "move": "law-reach",
+      "kind": "written",
+      "text": "It is paid by {who}.",
+      "uses": [
+        {
+          "move": "law-reach",
+          "subject": "news",
+          "role": "law-reach",
+          "choice": "context",
+          "requiresFacts": ["who", "pays"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-reach.the-change-reaches-who",
+      "move": "law-reach",
+      "kind": "written",
+      "text": "The change reaches {who}.",
+      "uses": [
+        {
+          "move": "law-reach",
+          "subject": "news",
+          "role": "law-reach",
+          "choice": "context",
+          "requiresFacts": ["who", "gets"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-reach.it-matters-most-to-who",
+      "move": "law-reach",
+      "kind": "written",
+      "text": "It matters most to {who}.",
+      "uses": [
+        {
+          "move": "law-reach",
+          "subject": "news",
+          "role": "law-reach",
+          "choice": "context",
+          "requiresFacts": ["who", "gets"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.the-measure-in-place-is-now-to-up-from-from",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "The {measure} in {place} is now {to}, up from {from}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["took", "here", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Opus (pool item words-live-news-worded)",
+      "date": "2026-10-27",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount.on-date-a-statute-cut-the-measure-in-place-from-from-to-to",
+      "move": "law-amount",
+      "kind": "written",
+      "text": "On {date}, a {statute} cut the {measure} in {place} from {from} to {to}.",
+      "uses": [
+        {
+          "move": "law-amount",
+          "subject": "news",
+          "role": "law-amount",
+          "choice": "lede",
+          "requiresFacts": ["took", "here", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "date": "2026-11-02",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
@@ -7008,6 +7780,116 @@
       }
     },
     {
+      "key": "news.bill-purpose.it-addresses-purpose",
+      "move": "bill-purpose",
+      "kind": "written",
+      "text": "It addresses {purpose}.",
+      "uses": [
+        {
+          "move": "bill-purpose",
+          "subject": "news",
+          "role": "bill-purpose",
+          "choice": "context",
+          "requiresFacts": ["purpose"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.bill-purpose.its-subject-is-purpose",
+      "move": "bill-purpose",
+      "kind": "written",
+      "text": "Its subject is {purpose}.",
+      "uses": [
+        {
+          "move": "bill-purpose",
+          "subject": "news",
+          "role": "bill-purpose",
+          "choice": "context",
+          "requiresFacts": ["purpose"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.bill-purpose.the-proposal-deals-with-purpose",
+      "move": "bill-purpose",
+      "kind": "written",
+      "text": "The proposal deals with {purpose}.",
+      "uses": [
+        {
+          "move": "bill-purpose",
+          "subject": "news",
+          "role": "bill-purpose",
+          "choice": "context",
+          "requiresFacts": ["purpose"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.bill-purpose.the-legislation-covers-purpose",
+      "move": "bill-purpose",
+      "kind": "written",
+      "text": "The legislation covers {purpose}.",
+      "uses": [
+        {
+          "move": "bill-purpose",
+          "subject": "news",
+          "role": "bill-purpose",
+          "choice": "context",
+          "requiresFacts": ["purpose"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.bill-purpose.this-one-is-about-purpose",
+      "move": "bill-purpose",
+      "kind": "written",
+      "text": "This one is about {purpose}.",
+      "uses": [
+        {
+          "move": "bill-purpose",
+          "subject": "news",
+          "role": "bill-purpose",
+          "choice": "context",
+          "requiresFacts": ["purpose"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "news.bill-purpose.the-law-is-about-purpose",
       "move": "bill-purpose",
       "kind": "written",
@@ -7210,6 +8092,72 @@
       "move": "committee-next",
       "kind": "written",
       "text": "The committee's vote stops the bill there.",
+      "uses": [
+        {
+          "move": "committee-next",
+          "subject": "news",
+          "role": "committee-next",
+          "choice": "context",
+          "requiresFacts": ["failed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.committee-next.for-now-the-bill-stops-in-committee",
+      "move": "committee-next",
+      "kind": "written",
+      "text": "For now, the bill stops in committee.",
+      "uses": [
+        {
+          "move": "committee-next",
+          "subject": "news",
+          "role": "committee-next",
+          "choice": "context",
+          "requiresFacts": ["failed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.committee-next.the-committee-s-no-keeps-the-bill-off-the-floor",
+      "move": "committee-next",
+      "kind": "written",
+      "text": "The committee's no keeps the bill off the floor.",
+      "uses": [
+        {
+          "move": "committee-next",
+          "subject": "news",
+          "role": "committee-next",
+          "choice": "context",
+          "requiresFacts": ["failed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.committee-next.that-ends-the-bill-s-run-unless-the-committee-changes-course",
+      "move": "committee-next",
+      "kind": "written",
+      "text": "That ends the bill's run unless the committee changes course.",
       "uses": [
         {
           "move": "committee-next",
@@ -7602,6 +8550,72 @@
       }
     },
     {
+      "key": "news.business-kind.subject-is-in-industry",
+      "move": "business-kind",
+      "kind": "written",
+      "text": "{subject} is in {industry}.",
+      "uses": [
+        {
+          "move": "business-kind",
+          "subject": "news",
+          "role": "business-kind",
+          "choice": "context",
+          "requiresFacts": ["industry"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.business-kind.it-works-in-industry",
+      "move": "business-kind",
+      "kind": "written",
+      "text": "It works in {industry}.",
+      "uses": [
+        {
+          "move": "business-kind",
+          "subject": "news",
+          "role": "business-kind",
+          "choice": "context",
+          "requiresFacts": ["industry"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.business-kind.subject-does-business-in-industry",
+      "move": "business-kind",
+      "kind": "written",
+      "text": "{subject} does business in {industry}.",
+      "uses": [
+        {
+          "move": "business-kind",
+          "subject": "news",
+          "role": "business-kind",
+          "choice": "context",
+          "requiresFacts": ["industry"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "news.conditions-jobless.in-all-jobless-people-in-place-are-looking-for-work",
       "move": "conditions-jobless",
       "kind": "written",
@@ -7690,10 +8704,120 @@
       }
     },
     {
+      "key": "news.conditions-also.also-went-up-too",
+      "move": "conditions-also",
+      "kind": "written",
+      "text": "{also} went up too.",
+      "uses": [
+        {
+          "move": "conditions-also",
+          "subject": "news",
+          "role": "conditions-also",
+          "choice": "context",
+          "requiresFacts": ["also", "also-up", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions-also.also-also-rose",
+      "move": "conditions-also",
+      "kind": "written",
+      "text": "{also} also rose.",
+      "uses": [
+        {
+          "move": "conditions-also",
+          "subject": "news",
+          "role": "conditions-also",
+          "choice": "context",
+          "requiresFacts": ["also", "also-up", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions-also.also-increased-as-well",
+      "move": "conditions-also",
+      "kind": "written",
+      "text": "{also} increased as well.",
+      "uses": [
+        {
+          "move": "conditions-also",
+          "subject": "news",
+          "role": "conditions-also",
+          "choice": "context",
+          "requiresFacts": ["also", "also-up", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "news.conditions-also.also-climbed-too",
       "move": "conditions-also",
       "kind": "written",
       "text": "{also} climbed too.",
+      "uses": [
+        {
+          "move": "conditions-also",
+          "subject": "news",
+          "role": "conditions-also",
+          "choice": "context",
+          "requiresFacts": ["also", "also-up", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions-also.also-rose-as-well",
+      "move": "conditions-also",
+      "kind": "written",
+      "text": "{also} rose as well.",
+      "uses": [
+        {
+          "move": "conditions-also",
+          "subject": "news",
+          "role": "conditions-also",
+          "choice": "context",
+          "requiresFacts": ["also", "also-up", "up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions-also.also-increased-too",
+      "move": "conditions-also",
+      "kind": "written",
+      "text": "{also} increased too.",
       "uses": [
         {
           "move": "conditions-also",
@@ -7756,10 +8880,120 @@
       }
     },
     {
+      "key": "news.conditions-also.also-went-down-too",
+      "move": "conditions-also",
+      "kind": "written",
+      "text": "{also} went down too.",
+      "uses": [
+        {
+          "move": "conditions-also",
+          "subject": "news",
+          "role": "conditions-also",
+          "choice": "context",
+          "requiresFacts": ["also", "also-down", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions-also.also-also-fell",
+      "move": "conditions-also",
+      "kind": "written",
+      "text": "{also} also fell.",
+      "uses": [
+        {
+          "move": "conditions-also",
+          "subject": "news",
+          "role": "conditions-also",
+          "choice": "context",
+          "requiresFacts": ["also", "also-down", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions-also.also-decreased-as-well",
+      "move": "conditions-also",
+      "kind": "written",
+      "text": "{also} decreased as well.",
+      "uses": [
+        {
+          "move": "conditions-also",
+          "subject": "news",
+          "role": "conditions-also",
+          "choice": "context",
+          "requiresFacts": ["also", "also-down", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "news.conditions-also.also-dropped-too",
       "move": "conditions-also",
       "kind": "written",
       "text": "{also} dropped too.",
+      "uses": [
+        {
+          "move": "conditions-also",
+          "subject": "news",
+          "role": "conditions-also",
+          "choice": "context",
+          "requiresFacts": ["also", "also-down", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions-also.also-fell-as-well",
+      "move": "conditions-also",
+      "kind": "written",
+      "text": "{also} fell as well.",
+      "uses": [
+        {
+          "move": "conditions-also",
+          "subject": "news",
+          "role": "conditions-also",
+          "choice": "context",
+          "requiresFacts": ["also", "also-down", "down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-paper-and-journal-everyday-life)",
+      "date": "2026-11-01",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.conditions-also.also-decreased-too",
+      "move": "conditions-also",
+      "kind": "written",
+      "text": "{also} decreased too.",
       "uses": [
         {
           "move": "conditions-also",
@@ -9623,226 +10857,6 @@
       }
     },
     {
-      "key": "news.closing-years.it-had-been-open-for-years-years",
-      "move": "closing-years",
-      "kind": "written",
-      "text": "It had been open for {years} years.",
-      "uses": [
-        {
-          "move": "closing-years",
-          "subject": "news",
-          "role": "closing-years",
-          "choice": "context",
-          "requiresFacts": ["years"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-bodies-2)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.closing-years.it-was-in-business-for-years-years",
-      "move": "closing-years",
-      "kind": "written",
-      "text": "It was in business for {years} years.",
-      "uses": [
-        {
-          "move": "closing-years",
-          "subject": "news",
-          "role": "closing-years",
-          "choice": "context",
-          "requiresFacts": ["years"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-bodies-2)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.closing-workers.number-people-worked-there",
-      "move": "closing-workers",
-      "kind": "written",
-      "text": "{number} people worked there.",
-      "uses": [
-        {
-          "move": "closing-workers",
-          "subject": "news",
-          "role": "closing-workers",
-          "choice": "context",
-          "requiresFacts": ["number", "several"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-bodies-2)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.closing-workers.it-employed-number-people",
-      "move": "closing-workers",
-      "kind": "written",
-      "text": "It employed {number} people.",
-      "uses": [
-        {
-          "move": "closing-workers",
-          "subject": "news",
-          "role": "closing-workers",
-          "choice": "context",
-          "requiresFacts": ["number", "several"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-bodies-2)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.closing-why.the-owner-was-retiring",
-      "move": "closing-why",
-      "kind": "written",
-      "text": "The owner was retiring.",
-      "uses": [
-        {
-          "move": "closing-why",
-          "subject": "news",
-          "role": "closing-why",
-          "choice": "context",
-          "requiresFacts": ["retiring"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-bodies-2)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.closing-why.no-one-was-in-line-to-take-it-over",
-      "move": "closing-why",
-      "kind": "written",
-      "text": "No one was in line to take it over.",
-      "uses": [
-        {
-          "move": "closing-why",
-          "subject": "news",
-          "role": "closing-why",
-          "choice": "context",
-          "requiresFacts": ["no-successor"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-bodies-2)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.closing-why.it-had-been-losing-money",
-      "move": "closing-why",
-      "kind": "written",
-      "text": "It had been losing money.",
-      "uses": [
-        {
-          "move": "closing-why",
-          "subject": "news",
-          "role": "closing-why",
-          "choice": "context",
-          "requiresFacts": ["losses"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-bodies-2)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.closing-why.it-ran-out-of-cash-to-pay-what-it-owed",
-      "move": "closing-why",
-      "kind": "written",
-      "text": "It ran out of cash to pay what it owed.",
-      "uses": [
-        {
-          "move": "closing-why",
-          "subject": "news",
-          "role": "closing-why",
-          "choice": "context",
-          "requiresFacts": ["broke"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-bodies-2)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.closing-owner.owner-owned-the-business",
-      "move": "closing-owner",
-      "kind": "written",
-      "text": "{owner} owned the business.",
-      "uses": [
-        {
-          "move": "closing-owner",
-          "subject": "news",
-          "role": "closing-owner",
-          "choice": "context",
-          "requiresFacts": ["owner"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-bodies-2)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.closing-owner.the-owner-was-owner",
-      "move": "closing-owner",
-      "kind": "written",
-      "text": "The owner was {owner}.",
-      "uses": [
-        {
-          "move": "closing-owner",
-          "subject": "news",
-          "role": "closing-owner",
-          "choice": "context",
-          "requiresFacts": ["owner"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-printed-bodies-2)",
-      "date": "2026-10-29",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "news.election-share.name-took-percent-of-the-vote",
       "move": "election-share",
       "kind": "written",
@@ -10584,659 +11598,21 @@
       }
     },
     {
-      "key": "news.law-amount.the-measure-in-place-is-now-to-up-from-from",
-      "move": "law-amount",
+      "key": "news.closing-account.owner-is-retiring-after-years-years-of-running-it",
+      "move": "closing-account",
       "kind": "written",
-      "text": "The {measure} in {place} is now {to}, up from {from}.",
+      "text": "{owner} is retiring after {years} years of running it.",
       "uses": [
         {
-          "move": "law-amount",
+          "move": "closing-account",
           "subject": "news",
-          "role": "law-amount",
-          "choice": "lede",
-          "requiresFacts": ["took", "here", "up"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-live-news-worded)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.law-amount.on-date-a-statute-cut-the-measure-in-place-from-from-to-to",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "On {date}, a {statute} cut the {measure} in {place} from {from} to {to}.",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "news",
-          "role": "law-amount",
-          "choice": "lede",
-          "requiresFacts": ["took", "here", "down"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.law-amount.the-measure-in-place-is-now-to-down-from-from",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "The {measure} in {place} is now {to}, down from {from}.",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "news",
-          "role": "law-amount",
-          "choice": "lede",
-          "requiresFacts": ["took", "here", "down"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Opus (pool item words-live-news-worded)",
-      "date": "2026-10-27",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.law-amount.a-statute-keeps-the-measure-in-place-at-to-as-of-date",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "A {statute} keeps the {measure} in {place} at {to} as of {date}.",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "news",
-          "role": "law-amount",
-          "choice": "lede",
-          "requiresFacts": ["took", "here", "same"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.law-amount.on-date-a-statute-set-the-measure-in-place-at-to",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "On {date}, a {statute} set the {measure} in {place} at {to}.",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "news",
-          "role": "law-amount",
-          "choice": "lede",
-          "requiresFacts": ["took", "here", "new"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.law-amount.on-date-a-federal-law-raised-the-measure-from-from-to-to",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "On {date}, a federal law raised the {measure} from {from} to {to}.",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "news",
-          "role": "law-amount",
-          "choice": "lede",
-          "requiresFacts": ["took", "nationwide", "up"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.law-amount.the-federal-measure-is-now-to-up-from-from",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "The federal {measure} is now {to}, up from {from}.",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "news",
-          "role": "law-amount",
-          "choice": "lede",
-          "requiresFacts": ["took", "nationwide", "up"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.law-amount.on-date-a-federal-law-cut-the-measure-from-from-to-to",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "On {date}, a federal law cut the {measure} from {from} to {to}.",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "news",
-          "role": "law-amount",
-          "choice": "lede",
-          "requiresFacts": ["took", "nationwide", "down"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.law-amount.the-federal-measure-is-now-to-down-from-from",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "The federal {measure} is now {to}, down from {from}.",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "news",
-          "role": "law-amount",
-          "choice": "lede",
-          "requiresFacts": ["took", "nationwide", "down"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.law-amount.a-federal-law-keeps-the-measure-at-to-as-of-date",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "A federal law keeps the {measure} at {to} as of {date}.",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "news",
-          "role": "law-amount",
-          "choice": "lede",
-          "requiresFacts": ["took", "nationwide", "same"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.law-amount.on-date-a-federal-law-set-the-measure-at-to",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "On {date}, a federal law set the {measure} at {to}.",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "news",
-          "role": "law-amount",
-          "choice": "lede",
-          "requiresFacts": ["took", "nationwide", "new"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.law-amount.on-date-the-federal-measure-for-place-rose-from-from-to-to",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "On {date}, the federal {measure} for {place} rose from {from} to {to}.",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "news",
-          "role": "law-amount",
-          "choice": "lede",
-          "requiresFacts": ["took", "federal-here", "up"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.law-amount.the-federal-measure-for-place-is-now-to-up-from-from",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "The federal {measure} for {place} is now {to}, up from {from}.",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "news",
-          "role": "law-amount",
-          "choice": "lede",
-          "requiresFacts": ["took", "federal-here", "up"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.law-amount.on-date-the-federal-measure-for-place-fell-from-from-to-to",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "On {date}, the federal {measure} for {place} fell from {from} to {to}.",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "news",
-          "role": "law-amount",
-          "choice": "lede",
-          "requiresFacts": ["took", "federal-here", "down"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.law-amount.the-federal-measure-for-place-is-now-to-down-from-from",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "The federal {measure} for {place} is now {to}, down from {from}.",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "news",
-          "role": "law-amount",
-          "choice": "lede",
-          "requiresFacts": ["took", "federal-here", "down"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.law-amount.the-federal-measure-for-place-stays-at-to-as-of-date",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "The federal {measure} for {place} stays at {to} as of {date}.",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "news",
-          "role": "law-amount",
-          "choice": "lede",
-          "requiresFacts": ["took", "federal-here", "same"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.law-amount.on-date-the-federal-measure-for-place-was-set-at-to",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "On {date}, the federal {measure} for {place} was set at {to}.",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "news",
-          "role": "law-amount",
-          "choice": "lede",
-          "requiresFacts": ["took", "federal-here", "new"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.law-amount.place-will-raise-its-measure-from-from-to-to-on-starts",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "{place} will raise its {measure} from {from} to {to} on {starts}.",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "news",
-          "role": "law-amount",
-          "choice": "lede",
-          "requiresFacts": ["enacted", "here", "up"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.law-amount.under-a-statute-the-measure-in-place-goes-from-from-to-to-on",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "Under a {statute}, the {measure} in {place} goes from {from} to {to} on {starts}.",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "news",
-          "role": "law-amount",
-          "choice": "lede",
-          "requiresFacts": ["enacted", "here", "up"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.law-amount.place-will-lower-its-measure-from-from-to-to-on-starts",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "{place} will lower its {measure} from {from} to {to} on {starts}.",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "news",
-          "role": "law-amount",
-          "choice": "lede",
-          "requiresFacts": ["enacted", "here", "down"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.law-amount.under-a-statute-the-measure-in-place-drops-from-from-to-to-o",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "Under a {statute}, the {measure} in {place} drops from {from} to {to} on {starts}.",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "news",
-          "role": "law-amount",
-          "choice": "lede",
-          "requiresFacts": ["enacted", "here", "down"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.law-amount.congress-voted-to-raise-the-measure-from-from-to-to-starting",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "Congress voted to raise the {measure} from {from} to {to}, starting {starts}.",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "news",
-          "role": "law-amount",
-          "choice": "lede",
-          "requiresFacts": ["enacted", "nationwide", "up"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.law-amount.under-a-new-federal-law-the-measure-goes-from-from-to-to-on",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "Under a new federal law, the {measure} goes from {from} to {to} on {starts}.",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "news",
-          "role": "law-amount",
-          "choice": "lede",
-          "requiresFacts": ["enacted", "nationwide", "up"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.law-amount.congress-voted-to-lower-the-measure-from-from-to-to-starting",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "Congress voted to lower the {measure} from {from} to {to}, starting {starts}.",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "news",
-          "role": "law-amount",
-          "choice": "lede",
-          "requiresFacts": ["enacted", "nationwide", "down"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.law-amount.under-a-new-federal-law-the-measure-drops-from-from-to-to-on",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "Under a new federal law, the {measure} drops from {from} to {to} on {starts}.",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "news",
-          "role": "law-amount",
-          "choice": "lede",
-          "requiresFacts": ["enacted", "nationwide", "down"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.law-amount.the-federal-measure-for-place-will-go-from-from-to-to-on-sta",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "The federal {measure} for {place} will go from {from} to {to} on {starts}.",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "news",
-          "role": "law-amount",
-          "choice": "lede",
-          "requiresFacts": ["enacted", "federal-here", "up"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.law-amount.starting-starts-the-federal-measure-for-place-goes-from-from",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "Starting {starts}, the federal {measure} for {place} goes from {from} to {to}.",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "news",
-          "role": "law-amount",
-          "choice": "lede",
-          "requiresFacts": ["enacted", "federal-here", "up"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.law-amount.the-federal-measure-for-place-will-drop-from-from-to-to-on-s",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "The federal {measure} for {place} will drop from {from} to {to} on {starts}.",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "news",
-          "role": "law-amount",
-          "choice": "lede",
-          "requiresFacts": ["enacted", "federal-here", "down"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.law-amount.starting-starts-the-federal-measure-for-place-drops-from-fro",
-      "move": "law-amount",
-      "kind": "written",
-      "text": "Starting {starts}, the federal {measure} for {place} drops from {from} to {to}.",
-      "uses": [
-        {
-          "move": "law-amount",
-          "subject": "news",
-          "role": "law-amount",
-          "choice": "lede",
-          "requiresFacts": ["enacted", "federal-here", "down"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
-      "date": "2026-11-02",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.law-reach.the-change-falls-on-who",
-      "move": "law-reach",
-      "kind": "written",
-      "text": "The change falls on {who}.",
-      "uses": [
-        {
-          "move": "law-reach",
-          "subject": "news",
-          "role": "law-reach",
+          "role": "closing-account",
           "choice": "context",
-          "requiresFacts": ["who", "pays"]
+          "requiresFacts": ["retiring", "owner", "years"]
         }
       ],
       "origin": "authored",
-      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
       "date": "2026-11-02",
       "tag": {
         "move": "deliver-news",
@@ -11244,21 +11620,21 @@
       }
     },
     {
-      "key": "news.law-reach.it-is-paid-by-who",
-      "move": "law-reach",
+      "key": "news.closing-account.after-years-years-owner-decided-it-was-time-to-retire",
+      "move": "closing-account",
       "kind": "written",
-      "text": "It is paid by {who}.",
+      "text": "After {years} years, {owner} decided it was time to retire.",
       "uses": [
         {
-          "move": "law-reach",
+          "move": "closing-account",
           "subject": "news",
-          "role": "law-reach",
+          "role": "closing-account",
           "choice": "context",
-          "requiresFacts": ["who", "pays"]
+          "requiresFacts": ["retiring", "owner", "years"]
         }
       ],
       "origin": "authored",
-      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
       "date": "2026-11-02",
       "tag": {
         "move": "deliver-news",
@@ -11266,21 +11642,22 @@
       }
     },
     {
-      "key": "news.law-reach.the-change-reaches-who",
-      "move": "law-reach",
+      "key": "news.closing-account.owner-who-owned-it-is-retiring",
+      "move": "closing-account",
       "kind": "written",
-      "text": "The change reaches {who}.",
+      "text": "{owner}, who owned it, is retiring.",
       "uses": [
         {
-          "move": "law-reach",
+          "move": "closing-account",
           "subject": "news",
-          "role": "law-reach",
+          "role": "closing-account",
           "choice": "context",
-          "requiresFacts": ["who", "gets"]
+          "requiresFacts": ["retiring", "owner"],
+          "excludesFacts": ["years"]
         }
       ],
       "origin": "authored",
-      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
       "date": "2026-11-02",
       "tag": {
         "move": "deliver-news",
@@ -11288,22 +11665,687 @@
       }
     },
     {
-      "key": "news.law-reach.it-matters-most-to-who",
-      "move": "law-reach",
+      "key": "news.closing-account.its-owner-is-retiring-after-years-years",
+      "move": "closing-account",
       "kind": "written",
-      "text": "It matters most to {who}.",
+      "text": "Its owner is retiring after {years} years.",
       "uses": [
         {
-          "move": "law-reach",
+          "move": "closing-account",
           "subject": "news",
-          "role": "law-reach",
+          "role": "closing-account",
           "choice": "context",
-          "requiresFacts": ["who", "gets"]
+          "requiresFacts": ["retiring", "years"],
+          "excludesFacts": ["owner"]
         }
       ],
       "origin": "authored",
-      "author": "Words, scenes and the director (words-paper-law-and-budget-briefs-read-right)",
+      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
       "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-account.its-owner-is-retiring",
+      "move": "closing-account",
+      "kind": "written",
+      "text": "Its owner is retiring.",
+      "uses": [
+        {
+          "move": "closing-account",
+          "subject": "news",
+          "role": "closing-account",
+          "choice": "context",
+          "requiresFacts": ["retiring"],
+          "excludesFacts": ["owner", "years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-account.owner-ran-it-for-years-years-with-no-one-to-take-over",
+      "move": "closing-account",
+      "kind": "written",
+      "text": "{owner} ran it for {years} years, with no one to take over.",
+      "uses": [
+        {
+          "move": "closing-account",
+          "subject": "news",
+          "role": "closing-account",
+          "choice": "context",
+          "requiresFacts": ["no-successor", "owner", "years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-account.after-years-years-owner-found-no-one-to-take-it-over",
+      "move": "closing-account",
+      "kind": "written",
+      "text": "After {years} years, {owner} found no one to take it over.",
+      "uses": [
+        {
+          "move": "closing-account",
+          "subject": "news",
+          "role": "closing-account",
+          "choice": "context",
+          "requiresFacts": ["no-successor", "owner", "years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-account.owner-had-no-one-in-line-to-take-it-over",
+      "move": "closing-account",
+      "kind": "written",
+      "text": "{owner} had no one in line to take it over.",
+      "uses": [
+        {
+          "move": "closing-account",
+          "subject": "news",
+          "role": "closing-account",
+          "choice": "context",
+          "requiresFacts": ["no-successor", "owner"],
+          "excludesFacts": ["years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-account.after-years-years-no-one-was-in-line-to-take-it-over",
+      "move": "closing-account",
+      "kind": "written",
+      "text": "After {years} years, no one was in line to take it over.",
+      "uses": [
+        {
+          "move": "closing-account",
+          "subject": "news",
+          "role": "closing-account",
+          "choice": "context",
+          "requiresFacts": ["no-successor", "years"],
+          "excludesFacts": ["owner"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-account.no-one-was-in-line-to-take-it-over",
+      "move": "closing-account",
+      "kind": "written",
+      "text": "No one was in line to take it over.",
+      "uses": [
+        {
+          "move": "closing-account",
+          "subject": "news",
+          "role": "closing-account",
+          "choice": "context",
+          "requiresFacts": ["no-successor"],
+          "excludesFacts": ["owner", "years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-account.owner-kept-it-going-for-years-years-but-it-was-losing-money",
+      "move": "closing-account",
+      "kind": "written",
+      "text": "{owner} kept it going for {years} years, but it was losing money.",
+      "uses": [
+        {
+          "move": "closing-account",
+          "subject": "news",
+          "role": "closing-account",
+          "choice": "context",
+          "requiresFacts": ["losses", "owner", "years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-account.after-years-years-it-was-losing-more-than-owner-could-keep-up-with",
+      "move": "closing-account",
+      "kind": "written",
+      "text": "After {years} years, it was losing more than {owner} could keep up with.",
+      "uses": [
+        {
+          "move": "closing-account",
+          "subject": "news",
+          "role": "closing-account",
+          "choice": "context",
+          "requiresFacts": ["losses", "owner", "years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-account.owner-had-been-losing-money-on-it",
+      "move": "closing-account",
+      "kind": "written",
+      "text": "{owner} had been losing money on it.",
+      "uses": [
+        {
+          "move": "closing-account",
+          "subject": "news",
+          "role": "closing-account",
+          "choice": "context",
+          "requiresFacts": ["losses", "owner"],
+          "excludesFacts": ["years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-account.after-years-years-in-business-it-had-been-losing-money",
+      "move": "closing-account",
+      "kind": "written",
+      "text": "After {years} years in business, it had been losing money.",
+      "uses": [
+        {
+          "move": "closing-account",
+          "subject": "news",
+          "role": "closing-account",
+          "choice": "context",
+          "requiresFacts": ["losses", "years"],
+          "excludesFacts": ["owner"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-account.it-had-been-losing-money",
+      "move": "closing-account",
+      "kind": "written",
+      "text": "It had been losing money.",
+      "uses": [
+        {
+          "move": "closing-account",
+          "subject": "news",
+          "role": "closing-account",
+          "choice": "context",
+          "requiresFacts": ["losses"],
+          "excludesFacts": ["owner", "years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-account.after-years-years-owner-ran-out-of-cash-to-pay-its-bills",
+      "move": "closing-account",
+      "kind": "written",
+      "text": "After {years} years, {owner} ran out of cash to pay its bills.",
+      "uses": [
+        {
+          "move": "closing-account",
+          "subject": "news",
+          "role": "closing-account",
+          "choice": "context",
+          "requiresFacts": ["broke", "owner", "years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-account.owner-ran-out-of-cash-to-pay-what-the-business-owed",
+      "move": "closing-account",
+      "kind": "written",
+      "text": "{owner} ran out of cash to pay what the business owed.",
+      "uses": [
+        {
+          "move": "closing-account",
+          "subject": "news",
+          "role": "closing-account",
+          "choice": "context",
+          "requiresFacts": ["broke", "owner"],
+          "excludesFacts": ["years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-account.after-years-years-it-ran-out-of-cash-to-pay-what-it-owed",
+      "move": "closing-account",
+      "kind": "written",
+      "text": "After {years} years, it ran out of cash to pay what it owed.",
+      "uses": [
+        {
+          "move": "closing-account",
+          "subject": "news",
+          "role": "closing-account",
+          "choice": "context",
+          "requiresFacts": ["broke", "years"],
+          "excludesFacts": ["owner"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-account.it-ran-out-of-cash-to-pay-what-it-owed",
+      "move": "closing-account",
+      "kind": "written",
+      "text": "It ran out of cash to pay what it owed.",
+      "uses": [
+        {
+          "move": "closing-account",
+          "subject": "news",
+          "role": "closing-account",
+          "choice": "context",
+          "requiresFacts": ["broke"],
+          "excludesFacts": ["owner", "years"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-account.owner-had-run-it-for-years-years",
+      "move": "closing-account",
+      "kind": "written",
+      "text": "{owner} had run it for {years} years.",
+      "uses": [
+        {
+          "move": "closing-account",
+          "subject": "news",
+          "role": "closing-account",
+          "choice": "context",
+          "requiresFacts": ["owner", "years"],
+          "excludesFacts": ["retiring", "no-successor", "losses", "broke"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-account.it-was-owner-s-business-for-years-years",
+      "move": "closing-account",
+      "kind": "written",
+      "text": "It was {owner}'s business for {years} years.",
+      "uses": [
+        {
+          "move": "closing-account",
+          "subject": "news",
+          "role": "closing-account",
+          "choice": "context",
+          "requiresFacts": ["owner", "years"],
+          "excludesFacts": ["retiring", "no-successor", "losses", "broke"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-account.it-was-owner-s-business",
+      "move": "closing-account",
+      "kind": "written",
+      "text": "It was {owner}'s business.",
+      "uses": [
+        {
+          "move": "closing-account",
+          "subject": "news",
+          "role": "closing-account",
+          "choice": "context",
+          "requiresFacts": ["owner"],
+          "excludesFacts": [
+            "years",
+            "retiring",
+            "no-successor",
+            "losses",
+            "broke"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-account.it-had-served-the-town-for-years-years",
+      "move": "closing-account",
+      "kind": "written",
+      "text": "It had served the town for {years} years.",
+      "uses": [
+        {
+          "move": "closing-account",
+          "subject": "news",
+          "role": "closing-account",
+          "choice": "context",
+          "requiresFacts": ["years"],
+          "excludesFacts": [
+            "owner",
+            "retiring",
+            "no-successor",
+            "losses",
+            "broke"
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-workers.that-leaves-the-number-people-who-worked-there-looking-for-work",
+      "move": "closing-workers",
+      "kind": "written",
+      "text": "That leaves the {number} people who worked there looking for work.",
+      "uses": [
+        {
+          "move": "closing-workers",
+          "subject": "news",
+          "role": "closing-workers",
+          "choice": "context",
+          "requiresFacts": ["number", "several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.closing-workers.the-number-people-who-worked-there-are-out-of-a-job",
+      "move": "closing-workers",
+      "kind": "written",
+      "text": "The {number} people who worked there are out of a job.",
+      "uses": [
+        {
+          "move": "closing-workers",
+          "subject": "news",
+          "role": "closing-workers",
+          "choice": "context",
+          "requiresFacts": ["number", "several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-news-stories-not-fact-lists)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.comment.commenter-declined-to-comment",
+      "move": "comment",
+      "kind": "written",
+      "text": "{commenter} declined to comment.",
+      "uses": [
+        {
+          "move": "comment",
+          "subject": "news",
+          "role": "comment",
+          "choice": "context",
+          "requiresFacts": ["declined"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (scene-reporter-calls-on-a-vote)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.comment.commenter-did-not-return-a-request-for-comment",
+      "move": "comment",
+      "kind": "written",
+      "text": "{commenter} would not comment for this story.",
+      "uses": [
+        {
+          "move": "comment",
+          "subject": "news",
+          "role": "comment",
+          "choice": "context",
+          "requiresFacts": ["declined"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (scene-reporter-calls-on-a-vote)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.comment.asked-about-it-commenter-said-quote",
+      "move": "comment",
+      "kind": "written",
+      "text": "Asked about it, {commenter} said: \"{quote}\"",
+      "uses": [
+        {
+          "move": "comment",
+          "subject": "news",
+          "role": "comment",
+          "choice": "context",
+          "requiresFacts": ["quote"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (scene-reporter-calls-on-a-vote)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.comment.commenter-told-the-paper-quote",
+      "move": "comment",
+      "kind": "written",
+      "text": "{commenter} told reporters: \"{quote}\"",
+      "uses": [
+        {
+          "move": "comment",
+          "subject": "news",
+          "role": "comment",
+          "choice": "context",
+          "requiresFacts": ["quote"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (scene-reporter-calls-on-a-vote)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-concession.opponent-called-to-concede-after-the-count",
+      "move": "election-concession",
+      "kind": "written",
+      "text": "{opponent} called to concede after the count.",
+      "uses": [
+        {
+          "move": "election-concession",
+          "subject": "news",
+          "role": "election-concession",
+          "choice": "context",
+          "requiresFacts": ["conceded"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-venue-speeches-delivered)",
+      "date": "2026-11-03",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-concession.opponent-called-name-to-concede",
+      "move": "election-concession",
+      "kind": "written",
+      "text": "{opponent} called {name} to concede.",
+      "uses": [
+        {
+          "move": "election-concession",
+          "subject": "news",
+          "role": "election-concession",
+          "choice": "context",
+          "requiresFacts": ["conceded"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-venue-speeches-delivered)",
+      "date": "2026-11-03",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-concession.opponent-has-not-called-to-concede",
+      "move": "election-concession",
+      "kind": "written",
+      "text": "{opponent} has not called to concede.",
+      "uses": [
+        {
+          "move": "election-concession",
+          "subject": "news",
+          "role": "election-concession",
+          "choice": "context",
+          "requiresFacts": ["declined"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-venue-speeches-delivered)",
+      "date": "2026-11-03",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-concession.opponent-would-not-concede-the-race",
+      "move": "election-concession",
+      "kind": "written",
+      "text": "{opponent} would not concede the race.",
+      "uses": [
+        {
+          "move": "election-concession",
+          "subject": "news",
+          "role": "election-concession",
+          "choice": "context",
+          "requiresFacts": ["declined"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-venue-speeches-delivered)",
+      "date": "2026-11-03",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"

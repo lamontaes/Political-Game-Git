@@ -6,11 +6,11 @@ kind: bug
 priority: 3
 size: S
 status: open
-claimed-by: claude/peaceful-ritchie-03780x
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T23:30:04.577Z
+claimed-at:
 ---
 
 **What.** TODO
@@ -22,3 +22,5 @@ claimed-at: 2026-10-19T23:30:04.577Z
 **Files.** TODO
 
 **Notes.** TODO Released from idle draft #5076 by the CTO, Oct 26.
+
+Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/peaceful-ritchie-03780x` (2026-10-19). Cleared from the front matter and kept here.

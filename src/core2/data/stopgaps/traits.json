@@ -1,0 +1,110 @@
+[
+  {
+    "id": "SG-TRAITS-household-distance-estimate",
+    "kind": "estimated-data",
+    "file": "src/core2/home-distance.ts",
+    "line": 59,
+    "whatItFakes": "How far a household lives from the middle of town is an estimate: a point spread evenly over a disc the size of the place's land area (2020 Census place-county parts), fixed by the world's seed. There are no home addresses or street map, so two households that are neighbors can be recorded far apart. Only the party meeting's attendance reads it.",
+    "why": "No generated household has an address or a position; the party meeting's distance cost needs a number that differs between households and grows with the size of the place.",
+    "addedBy": "traits-civic",
+    "addedAt": "2026-10-24",
+    "replacement": "Households placed on the town's real streets or tracts (the housing engine's dwellings), and the meeting hall placed with them; the distance cost then reads the real trip.",
+    "status": "open"
+  },
+  {
+    "id": "SG-TRAITS-director-claims-reader",
+    "kind": "rule-copy",
+    "file": "src/core2/heard-claims.ts",
+    "line": 33,
+    "whatItFakes": "Two believing rules: a story or speech one resident passes to another goes through believesClaim (the stranger's pull believeStrangerPull, plus closeness to the teller and how well the claim fits the hearer's view, against the trait lean at its weight), while the player's own claim in a conversation is still read by the director's doubtsClaim (src/director/conversation.ts), the flat truthDefaultPull against the raw trait lean, with no closeness, fit or weight.",
+    "why": "src/director edits belong to the Words line (merger rule); the civic family may not change the director's reader on its own branch.",
+    "addedBy": "traits-civic",
+    "addedAt": "2026-10-25",
+    "replacement": "The Words line routes doubtsClaim through believesClaim, passing the player as the teller (pool item words-director-claims-shared-rule); truthDefaultPull is then removed.",
+    "status": "open"
+  },
+  {
+    "id": "SG-TRAITS-counted-health-no-trait",
+    "kind": "partial-model",
+    "file": "src/core2/modules/health.ts",
+    "line": 1,
+    "whatItFakes": "Conscientiousness shifts who falls seriously ill and who holds behavior-driven conditions for full people only; a counted group draws its illnesses and deaths from the life-table share without its members' traits.",
+    "why": "The counted flows (renewal) pick who is ill by the group's share, and a group has no per-member hazard to scale; the factor is rescaled to the opening mean so totals still match the life tables, but the group's own trait mix does not move its rate.",
+    "addedBy": "traits-health",
+    "addedAt": "2026-10-20",
+    "replacement": "Counted illness reads the group's mean of the same factor (exp of the slope times each member's level, from the packed trait columns) when a month's owed illnesses are booked; a person filled in from a group already carries their own.",
+    "status": "open"
+  },
+  {
+    "id": "SG-TRAITS-counted-no-maturity",
+    "kind": "partial-model",
+    "file": "src/core2/modules/trait-change.ts",
+    "line": 1,
+    "whatItFakes": "Counted people's trait columns do not move with age or life events while they are counted; they are brought to their age norm in one step when filled in.",
+    "why": "Their traits are read in place from one packed column per group, shared by the lean cache; changing them each birthday would need a per-member cache drop for every counted person.",
+    "addedBy": "traits-health",
+    "addedAt": "2026-10-20",
+    "replacement": "Groups apply the same yearly shift to their columns by age band once the counted store can drop a member's cached lean.",
+    "status": "open"
+  },
+  {
+    "id": "SG-TRAITS-partnerships-no-engine",
+    "kind": "missing-engine",
+    "file": "src/core2/modules/renewal.ts",
+    "line": 272,
+    "whatItFakes": "Couples exist only as the opening drew them: no one partners, marries, separates or divorces during play, so the temperament reads that should decide those (extraversion raises the odds of a first marriage 1.35 per standard deviation and openness lowers them 0.77, Jokela et al. 2011; neuroticism raises divorce r = 0.17, agreeableness lowers it r = -0.18, Roberts et al. 2007) have no decision to read them.",
+    "why": "The partnership engine is gated in the pool (people-partnerships-full-people-form and people-partnerships-full-people-end wait on core family-link and household-membership changes). The effect sizes are in data/research/trait-effect-sizes.json (outcome.marriage-formation, outcome.divorce).",
+    "addedBy": "claude/traits-family",
+    "addedAt": "2026-10-20",
+    "replacement": "When partnerships form and end in play, the forming and ending decisions read both partners' traits through leanedYes with weights calibrated from those rows by scripts/traits/trait-calibrate.ts.",
+    "status": "open"
+  },
+  {
+    "id": "SG-TRAITS-press-local-misconduct-reach",
+    "kind": "rule-copy",
+    "file": "src/core2/press-desk.ts",
+    "line": 532,
+    "whatItFakes": "A charge against, or an exposure of, someone serving in a local office is ranked by the press desk as involving every follower of the outlet, named or counted, the way a law in force is.",
+    "why": "The desk's people term counts the item's named subjects, so a charge against one council member (one subject) was outranked by every law taking effect (every follower it reaches) and every town hall (its attendees). In the recall-for-cause test's draws, six of six towns printed no story on a council member's bribery charge in three weeks, so no resident heard of it and the recall for cause could not start. A real town's paper covers such a charge.",
+    "addedBy": "traits lead (OPUS)",
+    "addedAt": "2026-10-25",
+    "replacement": "The press desk weighs how much a story matters to the outlet's followers by who it concerns (a public official answers to every constituent) for every item kind, owned by the press area, replacing this one-kind rule.",
+    "status": "open"
+  },
+  {
+    "id": "SG-TRAITS-counted-hardship-stress",
+    "kind": "partial-model",
+    "file": "src/core2/trait-decisions.ts",
+    "line": 472,
+    "whatItFakes": "The stress a layoff, an eviction or a missed payment leaves is read by the loan and move decisions for full people only; a counted person's decision reads none, because the wider population stores no stress (a counted worker laid off feels the layoff's appraisal for the day of their claim only).",
+    "why": "A counted person's stress impulses are appraised when the event reaches them (drives.ts) and not kept, and their resting stress is recomputed from their situation each time their group decides; there is no stored stress above rest to read a month later.",
+    "addedBy": "traits-outcome-hardship-coping",
+    "addedAt": "2026-10-24",
+    "replacement": "Keep a counted person's appraised hardship impulse with the date it landed (a row beside the counted record, written where drives.ts appraises it) and read it, decayed by emotion.ts, in hardshipStress; a person filled in from a group would take it into their affect.",
+    "status": "open"
+  },
+  {
+    "id": "SG-TRAITS-people-fire-producers",
+    "kind": "estimated-behavior",
+    "file": "src/core2/modules/drives.ts",
+    "line": 2030,
+    "whatItFakes": "Nothing is faked; this records that two personality decisions have a real producer that a drawn played year rarely reaches: relationships.fall-out (a grudge against the person who decided a layoff, counted deciders now met when confronted, drives.ts confront) and appointments.weigh (a governor refilling a cabinet post whose holder died or left, executive.ts deskReview). In every drawn place measured (Oct 28), the grudges of laid-off workers aimed at outside-market employers, which have no person behind them, and no department head or cabinet member died or left in the year.",
+    "why": "Both decisions run only where their cause happens (a local owner or manager lays off a full worker who then confronts them; a department head or cabinet member leaves), and neither happened in the audited years. A cause is not forced for the audit.",
+    "addedBy": "traits helper (people family)",
+    "addedAt": "2026-10-28",
+    "replacement": "Outside-market employers name a person (their local manager) once the jobs engine records one; until then the decisions are proven by the generated-world tests src/core2/grudge-counted-decider.traits.test.ts and src/core2/cabinet-vacancy.traits.test.ts, and counted in a played year when a drawn year contains the cause.",
+    "status": "open"
+  },
+  {
+    "id": "SG-TRAITS-file-claim-circumstances-tie",
+    "kind": "partial-model",
+    "file": "src/core2/jobs-benefits.ts",
+    "line": 235,
+    "whatItFakes": "Filing for unemployment weighs only the benefit's share of the lost pay and the layoff's stress beside temperament. Within a town the share is the same for nearly every worker, so temperament decides who skips far more than the study allows (thirds' odds 6 to 20 against 1.32), and the trait weight stays at the general 1.",
+    "why": "No study found gives the size of a household's savings or of expected time to reemployment on unemployment take-up; without one, adding either read would type a number.",
+    "addedBy": "traits-lead",
+    "addedAt": "2026-10-28",
+    "replacement": "The filing reads the household's cash runway and the place's seekers per opening at researched sizes, then traitWeightJobsBenefitsFileClaim is fitted to Vella, Richiardi and van de Ven 2025.",
+    "status": "open"
+  }
+]

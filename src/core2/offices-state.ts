@@ -54,6 +54,12 @@ export interface SeatInput {
   readonly officeId: string;
   /** The district the seat represents, or null for an at-large or single seat. */
   readonly district: string | null;
+  /**
+   * The district's name as its record gives it: the Census's ("State Senate
+   * District 4", "1st Barnstable District", "Ward 1"), or the roster's where
+   * the Census names none.
+   */
+  readonly districtName?: string;
   readonly index: number;
   readonly coversTown: boolean;
   /** The seat's next regular election year, where it differs from the office's. */
@@ -636,12 +642,14 @@ export function stateOffices(
       district: string,
       members: readonly (string | null)[],
       covers: boolean,
+      name: string = district,
     ) =>
       members.forEach((party, member) =>
         seats.push({
           id: `seat:${stateKey}:${key}:${district}:${member}`,
           officeId: id,
           district,
+          districtName: name,
           index: seats.length,
           coversTown: covers,
           electionYear: seatElectionYear(
@@ -661,6 +669,7 @@ export function stateOffices(
         d.districtCode,
         members.length ? members : [null],
         d.geoid === mine?.geoid,
+        d.sourceName ?? d.districtCode,
       );
     }
     // Roster districts the Census geography doesn't name (New Hampshire's

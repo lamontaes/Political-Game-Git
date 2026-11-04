@@ -72,6 +72,24 @@
       "tag": "TUNABLE",
       "spread": [0.5, 2],
       "checkedAgainst": "Hours of quarrel a night of putting off a relative's stated cost counts for on the tie (the closeness engine reads negative hours as a quarrel, tempered by who holds on to it); one hour is about one talk's length, so a put-off cancels one talk's worth of time together. Checked in the played-world test: the tie ends lower than it began."
+    },
+    "gaveStrength": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "spread": [0.25, 0.75],
+      "checkedAgainst": "Where a candidate's own money in a lost race ranks against a relative who worked it (1): working it is the stronger claim to speak about the loss; money given is half."
+    },
+    "behindMoves": ["thank", "accept", "comfort", "promise"],
+    "doubtMoves": ["ask", "disagree", "plea", "press"],
+    "answersNote": "Which of the relative's answer moves, to a candidate who says they will run again after a loss, mean they are behind the run and which mean they doubt it. Moves only; no sentence."
+  },
+  "tieSides": {
+    "about": "Which side of their tie a scene's two people stand, read from the relationship record so a friend and a rival say different things (scene-standard rule 4). A rival is one whose last contact on the tie was a quarrel; a friend is one nearer full closeness than none.",
+    "friendCloseness": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "spread": [0.4, 0.6],
+      "checkedAgainst": "The middle of the closeness scale (0 none, 1 full): a tie at or past it is nearer friendship than no tie. Checked in concession-reported.test.ts: forty hours together put a tie at about 0.46 to 0.5."
     }
   },
   "endingStrain": {
@@ -103,5 +121,10 @@
       "spread": [1020, 1080],
       "checkedAgainst": "5:00 PM, when the director's offices close (director.json settingHours: an office holds scenes to minute 1020), so a scene in an office is never told as evening. Ordinary American usage starts the evening at about 5 to 6 PM, the end of the usual working day in the American Time Use Survey."
     }
+  },
+  "concession": {
+    "about": "Which endings of the concession call (purpose concession-call, scene race-lost) mean the candidate conceded and which mean they would not concede that night. The director marks the reply record conceded yes or no; the press reads the mark and puts the concession, or the refusal, on the public record the paper prints. Ending ids only; no sentence.",
+    "conceded": ["conceded-after-fight", "conceded-after-numbers", "conceded"],
+    "notConceded": ["not-yet"]
   }
 }
