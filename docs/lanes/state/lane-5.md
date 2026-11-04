@@ -35,7 +35,7 @@ Every unit gets one before it starts (lane page, CTO rule). Units 1 and 2 were s
 - **Hands off:** fixing a crash in another lane's engine (file it to that lane instead).
 - **Known cheats:** skipping a town that fails; a catch that hides a crash.
 - **Size:** mostly machine time, about 30 hours of sweep. **Checked by:** a fresh session rerunning a sample of the sweep's towns.
-- Sweep: 986 of 8,242 opened, none failed. Paused at 05:32 for unit 7's run (one heavy process at a time); it resumes where it stopped.
+- Sweep, Nov 4 17:05: 2,256 of 8,242 opened (Alabama to Florida), none failed. Each run lasts at most two hours (the tool's limit), and the next resumes where it stopped; a container restart at about 14:20 lost no results. About 200 towns an hour, so roughly 30 more hours.
 
 ### Unit 7: big towns and election years (in progress)
 
@@ -137,7 +137,7 @@ Every unit gets one before it starts (lane page, CTO rule). Units 1 and 2 were s
 ## Next
 
 - Unit 7: finish Arcadia and Chamblee at 4,096 MiB; file or fix what grows in the election year (Nov 1 note: durableLog, foldedCauses, doors).
-- Unit 4: resume the sweep after unit 7's run.
+- Unit 4: the sweep runs on, in two-hour runs.
 
 ## Confirmer
 
