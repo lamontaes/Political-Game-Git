@@ -1396,13 +1396,22 @@ export function standsAgain(
   );
 }
 
-/** The reasons to stand again before personality: the base, less the weight of age past the pivot. */
+/**
+ * The reasons to stand again before personality: the base, less the time
+ * their other work takes (the same time reason a newcomer weighs, read from
+ * their recorded job), less the weight of age past the pivot.
+ */
 export function standAgainReason(
   api: CoreAPI,
   incumbent: Readonly<PersonState>,
 ): number {
+  const job = incumbent.jobId ? api.state.jobs.get(incumbent.jobId) : undefined;
+  const hours =
+    (job && job.endsAt === undefined ? job.hoursDaily : 0) /
+    c(api, "candidacyFullShiftHours");
   return (
     campaignParameter("votingStandAgainBase") -
+    c(api, "candidacyTimeWeight") * Math.min(1, hours) -
     campaignParameter("votingStandAgainAgeWeight") *
       Math.min(
         1,
