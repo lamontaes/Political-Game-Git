@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: lane3/red-purpose-numbers
-pr:
+pr: #7263
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-04T14:59:41.876Z
