@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: lane-5/office-needs-staff
 pr: #7200
 blocked-on:
