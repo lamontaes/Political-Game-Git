@@ -5,11 +5,12 @@ area: words
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane3/journal-links
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T10:31:45.783Z
 ---
 
 **What.** Split from director-journal-one-story: every Journal line after the first carries a link to the line before it, by cause (its records name the earlier line's records or share a fact such as the contest or bill, never only a person or place), feeling (the mood moved the same way) or time, with the record ids that join them. The joining words and another's turn told through the tie stay on director-journal-one-story.
