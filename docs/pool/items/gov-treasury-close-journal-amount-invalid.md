@@ -27,3 +27,6 @@ claimed-at: 2026-11-04T00:31:16.224Z
 **Notes.** TODO
 
 Nov 4 (Lane 1, branch governing/month-close-journal at main 72cb0950b2): two reproduction tries of `office-day-member-filings.test.ts` at GOLDEN_PATH_SEED=pet-run-1 ended with the vitest worker out of memory before any journal error, once at a 6 GB heap and once at 8 GB after 64 minutes, each beside a 4 GB totals run in a 15 GB container. The next try runs alone with a 10 GB heap. If it dies the same way, this item goes back with that note (ruling 6).
+
+Nov 4, 04:40 (Lane 1, ruling 6: the same failure three times; the item goes back to open): a third try with a 10 GB heap ended with the vitest worker exiting unexpectedly after 395 seconds, before any journal error, while a 4 GB totals run and a short test shared the 15 GB container. The reproduction needs a container with nothing else running and about 12 GB free: run `GOLDEN_PATH_SEED=pet-run-1 NODE_OPTIONS=--max-old-space-size=12000 npx vitest run src/core2/office-day-member-filings.test.ts` alone. Branch governing/month-close-journal holds no change yet.
+
