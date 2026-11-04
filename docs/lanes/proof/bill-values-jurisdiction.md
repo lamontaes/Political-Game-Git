@@ -23,3 +23,5 @@ These tests draft through generated bodies; they do not supply enacted laws or v
 - Fresh New Game and four-year source-controlled comparison pending. No source from an older run will be labeled current main.
 
 State income-tax catalog eligibility is not offered and remains an unaccepted separate proposal. Decided-paper pre-enactment capture is outside this accepted reader scope.
+
+Second unchanged browser run on15cc6ad267 fails Brookside at `0% top rate` versus `0%`. `seatAct.sectionOf` selects the federal unit through `lawHere`; the catalog has the local percent unit. This additional seat-action read requires Lane4 agreement, proposed before any edit. No browser pass or Built status claimed.
