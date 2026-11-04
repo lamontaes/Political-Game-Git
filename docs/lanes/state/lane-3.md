@@ -1,7 +1,8 @@
 # Lane 3 state
 
-2 of 11 paths confirmed. Oldest open PR 2 days (#7127, opened Nov 2). Open: #7127, #7228 (its commits merged with #7236).
+2 of 11 paths confirmed. Oldest open PR 2 days (#7127, opened Nov 2). Open: #7127, #7228 (its commits merged with #7236), #7260.
 
+- **Built, #7260 (Nov 4):** a debate's answers no longer stage campaign stops (`speechOccasion` reads `debate`). Stratton, Colorado (51249c3bebe88f3ee957:5): 2 debates and 23 campaign stops, none from a debate answer; without the fix, the same seed staged one.
 **Ready for the Confirmer (Nov 4, on main):**
 - **Path 9, the Journal is a story (Haleyville, two years):** chapters only on your own turns (#7195), each line joined to the one before by cause or time (#7228 and #7236), and another person's step told through your tie (#7240). The first paper prints only fresh news (#7188).
 - **Path 6, again in Storrs (storrs-1):** the race story (#7223), your own loss in the Journal (#7226), and the father named for his doors (#7245) hold. The concession still waits on Lane 4's bench.
