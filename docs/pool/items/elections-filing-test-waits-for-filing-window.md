@@ -6,6 +6,7 @@ kind: bug
 priority: 1
 size: S
 status: open
+lead: governing
 claimed-by:
 pr:
 blocked-on:
