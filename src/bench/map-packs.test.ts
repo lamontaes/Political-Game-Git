@@ -11,7 +11,10 @@ import { readFileSync, readdirSync } from "node:fs";
 import { expect, it } from "vitest";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
-import { corePlaceStateIdentities } from "../core2/place-lookup";
+import {
+  corePlaceByKey,
+  corePlaceStateIdentities,
+} from "../core2/place-lookup";
 import { placeLocalities } from "../core2/places";
 import { buildBenchWorld } from "./world";
 import { governmentMap } from "./map";
@@ -126,6 +129,10 @@ it("a drawn territory's town loads its map with the outline and its county equiv
   expect(map!.state?.name, where).toBeTruthy();
   expect(map!.state?.d.length, where).toBeGreaterThan(0);
   expect(map!.counties.length, where).toBeGreaterThan(0);
+  // The town is named as the game names it, never the census's "Storrs CDP".
+  const town = map!.yours.place;
+  if (town?.name)
+    expect(town.name, where).toBe(corePlaceByKey(place.key)?.formalName);
   console.log(
     `MAP ${where}: ${map!.state!.name}, ${map!.counties.length} county equivalents`,
   );
@@ -153,3 +160,16 @@ it("the manifest names each territory pack by its size and hash", () => {
     );
   }
 });
+
+it("the map names a census-designated town as the game does (Storrs, not Storrs CDP)", () => {
+  // Storrs, Connecticut is the loading path's finish-line town (Confirmer,
+  // Nov 4: the map labeled it "Storrs CDP").
+  const key = "0973980";
+  setBookkeeping(false);
+  const { core } = buildBenchWorld(`${seed}:storrs`, gameStartDate(), {
+    twoLevel: true,
+    placeKey: key,
+  });
+  const town = governmentMap(core)?.yours.place;
+  expect(town?.name, `Storrs, seed ${seed}:storrs`).toBe("Storrs");
+}, 900_000);
