@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 130 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 131 pull requests merged. Newest state at the top of each section.
 
 ## What the owner can play now
 
@@ -85,7 +85,7 @@ New on Nov 3:
   - A pool fix (#7145).
   - A state page (#7146).
 
-## Lane PRs merged on Nov 4 (95), on the owner's word ("You may merge lane PRs that pass the new-game check")
+## Lane PRs merged on Nov 4 (96), on the owner's word ("You may merge lane PRs that pass the new-game check")
 
 Each had main merged in again, passed `npm run new-game-check` (a town drawn from all 56, a new life, four weeks) and merged pinned to that head.
 
@@ -186,8 +186,9 @@ Each had main merged in again, passed `npm run new-game-check` (a town drawn fro
 | #7237 | A save keeps the causes' drives, groups and giving                                                                                                                  | Pine Point, Minnesota             | 9edffd3c711ad4e7 |
 | #7239 | Alabama's towns vote in 2025 and every fourth year after, so a life in an Alabama town can reach an election                                                        | Euharlee, Georgia                 | 7e811532ac75f9f8 |
 | #7240 | The Journal tells another person's step into public life through your tie to them                                                                                   | Poynor, Texas                     | b5617774e8803610 |
+| #7241 | The Parties roster box is built from the shared screen kit (fixes main's kit-only guard)                                                                            | Freeport, Michigan                | 8d71c18ed99410b4 |
 
-Conflicts resolved mechanically: #7154 (both sides added a parameter and a stopgap row; both kept), and #7153, #7157, #7160, #7162 (Lane 2's state page: main's wording for the one edited line, both sides' log entries kept). Mac builds started after 5, 13, 18, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85 and 91 of these merges.
+Conflicts resolved mechanically: #7154 (both sides added a parameter and a stopgap row; both kept), and #7153, #7157, #7160, #7162 (Lane 2's state page: main's wording for the one edited line, both sides' log entries kept). Mac builds started after 5, 13, 18, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 91 and 96 of these merges.
 
 ## Merged (35), each on the one check with a printed replay number
 
