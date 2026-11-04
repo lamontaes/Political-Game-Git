@@ -5,11 +5,12 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane3/everyday-answers
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T06:56:18.537Z
 ---
 
 **What.** Split from words-everyday-talk-one-engine (its first done-when clause). After a question in everyday talk ('What do you think?'), the player was offered acknowledgments ('I heard about it.', 'Huh.') because replies were picked from the subject's whole bank, not from the moves that answer the question.
