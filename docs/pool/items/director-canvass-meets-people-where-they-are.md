@@ -5,11 +5,12 @@ area: director
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane3/canvass-at-work
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T16:21:08.503Z
 ---
 
 **What.** The owner ruled on Oct 27 at 5 PM that every campaign act is a scene: sometimes uneventful, sometimes you meet someone at the library, sometimes someone waiting outside a job. The porch scene (director-producer-canvass-visit) stages every canvass at the resident's door. The campaign engine knocks household doors and keeps no record of meeting voters anywhere else. Where a person is at the canvass hour (at work, at a public building) is the integrator's settingHours and the work schedule, so this waits on that data path.
