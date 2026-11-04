@@ -1142,6 +1142,15 @@ export function replyInScene(
   // strains is written to closeness (the plan, section 3: "Each 'keeps'
   // becomes a write to the engine that owns it").
   const ending = reply!.next?.end?.ending;
+  // The concession call: conceding, or refusing to that night, is marked on
+  // the reply for the press to put on the public record.
+  const conceded = ending
+    ? rulesFile.concession.conceded.includes(ending.id)
+      ? "yes"
+      : rulesFile.concession.notConceded.includes(ending.id)
+        ? "no"
+        : undefined
+    : undefined;
   applyCoreEvent(core, {
     id,
     date: core.date,
@@ -1160,6 +1169,7 @@ export function replyInScene(
       ...(enlists && filingId ? { enlisted: filingId } : {}),
       ...(ending ? { ending: ending.id, keeps: ending.keeps } : {}),
       ...(ending?.firmness ? { firmness: ending.firmness } : {}),
+      ...(conceded ? { conceded } : {}),
     },
     source: {
       tag: "SOURCED",
