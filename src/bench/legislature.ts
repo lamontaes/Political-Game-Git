@@ -557,7 +557,10 @@ function menusFor(
   const lineNames = budgetLineNames();
   const level =
     bodyLevel === "federal" || bodyLevel === "state" ? bodyLevel : "city";
-  const jurisdiction = bodyOf(api, officeId)?.jurisdiction;
+  const body = bodyOf(api, officeId);
+  // A senator's seat is of a state; its lawmaking body is the one US chamber.
+  const jurisdiction =
+    bodyRow(body?.kind ?? "")?.jurisdiction ?? body?.jurisdiction;
   return billCatalog(api, level, jurisdiction).map((menu) => ({
     id: menu.id,
     name: menu.name,

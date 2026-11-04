@@ -69,7 +69,28 @@ for (const place of places) {
     let localChecked = 0;
     let draftCardsChecked = 0;
     for (const office of offices) {
-      if (office.level === "federal") continue;
+      if (office.level === "federal") {
+        const resident = members(api, office.id).find((term) => term.personId);
+        if (resident && office.seats > 1) {
+          const screen = seatView(core, resident.personId!).bodies.find(
+            (body) => body.officeId === office.id,
+          );
+          expect(screen, office.id).toBeDefined();
+          const budget = budgetInForce(api, "US")!;
+          const item = screen!.menus
+            .flatMap((menu) => menu.items)
+            .find(
+              (row) => row.line && budget.spendingMinor[row.line] !== undefined,
+            );
+          expect(item, office.id).toBeDefined();
+          expect(item!.today).toEqual({
+            value: budget.spendingMinor[item!.line!],
+            unit: "minor",
+            recordId: budget.id,
+          });
+        }
+        continue;
+      }
       const draft = (provisions: readonly Provision[]) =>
         draftBill(api, {
           bodyOfficeId: office.id,
