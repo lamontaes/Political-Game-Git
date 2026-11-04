@@ -28,6 +28,7 @@ import { resultOf } from "../core2/modules/voting";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { stakeOf } from "./family-stake";
+import { composeJournal } from "./journal";
 import { purposeScene, replyInScene } from "./purpose-scene";
 
 // The talk at home after a lost race (scenes-from-life, household-after-the-loss):
@@ -131,6 +132,34 @@ const run = (drawSeed: string): { done: boolean; note: string } => {
   advanceCore(core, addDays(makeIsoDate(contest.electionDate), 2));
   const result = resultOf(api, contest.id);
   if (!result?.winnerId) return { done: false, note: `${where}: no winner` };
+  // The relative who walked doors is named in the filer's Journal, never
+  // "someone from my campaign" (Storrs, Connecticut, storrs-1: a father).
+  {
+    const filer = worked!.personId as PersonId;
+    const shifts = new Set(
+      (director.ledger.people.get(filer)?.moments ?? [])
+        .filter(
+          (moment) =>
+            moment.causeKind.startsWith("event:volunteer-shift") &&
+            moment.counterpartIds.includes(mateOf.id as PersonId),
+        )
+        .map((moment) => moment.id),
+    );
+    const told = composeJournal(core, director, filer)
+      .flatMap((chapter) => chapter.lines)
+      .filter((line) => line.momentIds.some((id) => shifts.has(id)));
+    for (const line of told)
+      expect(
+        (line.plain ?? line.text).match(/^(Someone|A volunteer)\b/),
+        `${where}: "${line.text}" for ${mateOf.id}`,
+      ).toBeNull();
+    process.stdout.write(
+      `VOLUNTEER LINES ${where}: ${told.length} lines for ${mateOf.id}: ${told
+        .slice(0, 2)
+        .map((line) => `"${line.text}"`)
+        .join(" ")}\n`,
+    );
+  }
   const causeId = `election-result:${contest.id}`;
   const lines: string[] = [];
   let promised = false;
