@@ -1,6 +1,6 @@
 # Lane 5 state
 
-1 of 12 played paths confirmed. Oldest open PR 0 days (#7173, Nov 4).
+2 of 12 played paths confirmed. Oldest open PR 0 days (#7173, Nov 4).
 
 ## Unit cards
 
@@ -75,6 +75,13 @@ Every unit gets one before it starts (lane page, CTO rule). Units 1 and 2 were s
 - **Hands off / known cheats / checked by:** as the step above.
 - **Size:** one parameter row, under 20 lines.
 
+### Red main, Nov 4 07:45: builds stopped (CTO's note)
+
+- **Found:** every Release run on main since #7193 merged (06:43) fails at "Enforce declarations": runs 12112, 12114, 12115, 12116, 12117 and 12118, plus the two Release package runs (12111, 12113 cancelled). The first and the two newest logs read: `docs/release/changes/lane-2-first-minutes-proof.md: impact:none must not carry 'section' or 'title'`. The file came in with Lane 2's 3e377288ee. Newest build is still v0.78.0.
+- **Fix:** #7201 drops the two lines; `release:check --mode pr` prints OK on it. After it merges I'll confirm that a Release run on main passes, in case another failure is behind this one.
+- **Stopping it again without holding a merge (proposal for the CTO):** the declaration check could run in the `new game` job as a report only: it prints the release check's error into the job summary and the PR, without failing the job, so the desk sees it before merging. Or the push-mode check could set a malformed `impact: none` declaration aside with a warning instead of stopping the build, since such a file changes nothing a player sees. I have built neither; the second changes what the release check refuses, so it needs the CTO's word.
+- Also open: #7200 (people no longer approach an office with no staff; public-knowledge-index.test.ts was red on clean main).
+
 ### Unit 9: real save and load (waiting on Lane 3)
 
 - **Finish line (path 6):** play two months, quit, reopen: Continue returns the same date and people, and the load doesn't grow with played years.
@@ -86,7 +93,9 @@ Every unit gets one before it starts (lane page, CTO rule). Units 1 and 2 were s
 
 ## Open PRs
 
-- None (#7198 merged).
+- #7201 (red main): the impact-none declaration that stops every build.
+- #7200: an office to approach needs staff (a test red on main).
+- Branch `lane-5/experienced-key-window` (unit 7, second cut): proof run going; PR after it.
 
 ## Merged
 
@@ -115,5 +124,6 @@ Every unit gets one before it starts (lane page, CTO rule). Units 1 and 2 were s
 
 Replays by a session that built none of this lane's work, on main. Only this section is the Confirmer's.
 
+- **Path 1, every place opens: pass.** Main d070e3d2d1, Nov 4. `npm run all-places -- --years 0 --seed confirmer-open-1`: one drawn locality in each of the 56 opened, 0 crashed, exit 0 in 562 s. Proof: `docs/lanes/proof/confirmer-lane5-path1/`. One locality per place; the 8,242-locality sweep stays the lane's.
 - **Path 2, a year doesn't stop: pass.** Main c60a509956, Nov 4. `speed:year --years 3` (January 2025 to January 2028): Madras, Oregon (4145250, seed confirmer-madras-1) 116.9, 307.4 and 329.6 s, past May 11, 2026; Bloomingdale, Tennessee (4706640, seed confirmer-bloomingdale-1) 105.4, 165.0 and 141.5 s. Both exit 0, nothing on stderr. Proof: `docs/lanes/proof/confirmer-lane5-path2/`.
 - **Path 12, merges don't collide: fail.** Nov 4, main 99d774785b. Step: the new-game check the only required one. `gh api repos/lamontaes/Political-Game-Git/branches/main/protection` lists the required checks as `validate` and `golden-path`; the `new game` job (#7141) is not among them, and every push to main prints "2 of 2 required status checks are expected". The two-PR merge half was not replayed (it needs two PRs merged, which the Confirmer doesn't do). Filed `release-main-requires-only-new-game-check` (a branch setting, the owner's one click per the merge desk page). Fail 1 of 3.

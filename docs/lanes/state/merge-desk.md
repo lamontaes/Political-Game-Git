@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 90 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 93 pull requests merged. Newest state at the top of each section.
 
 ## What the owner can play now
 
@@ -23,6 +23,7 @@ New on Nov 4, from the lanes:
   - Governors declare a state of emergency when a federally declared disaster strikes.
 - **Campaign and election night.**
   - A yes at the door becomes a vote as the person's stated intent predicts.
+  - Every month from filing to election day holds a scene or a Journal line.
   - On the night you lose, the talk at home comes from the relative who worked the race or put money in.
   - Whether you concede or refuse is printed in the race's story, and the winner takes your call gracious or gloating, by their traits; a friend and a rival say different things on the call after the count.
   - Rivals run attack ads on your record that name your real votes.
@@ -74,7 +75,7 @@ New on Nov 3:
   - A pool fix (#7145).
   - A state page (#7146).
 
-## Lane PRs merged on Nov 4 (55), on the owner's word ("You may merge lane PRs that pass the new-game check")
+## Lane PRs merged on Nov 4 (58), on the owner's word ("You may merge lane PRs that pass the new-game check")
 
 Each had main merged in again, passed `npm run new-game-check` (a town drawn from all 56, a new life, four weeks) and merged pinned to that head.
 
@@ -135,6 +136,9 @@ Each had main merged in again, passed `npm run new-game-check` (a town drawn fro
 | #7196 | A question in everyday talk is answered, not just acknowledged                                                                                   | Stepping Stone, Colorado          | 90f886358d4bfcb3 |
 | #7197 | Election night names a district "District 14" and an at-large seat by its state, never a code                                                    | Cruger, Mississippi               | 98634737a874e481 |
 | #7198 | Someone you met once has their daily log kept three months, not a year; a big town's election year uses 290 MB less memory                       | Harrisville, Rhode Island         | 3a9f295857e53718 |
+| #7199 | A campaign is never silent: every month from filing to election holds a scene or a Journal line                                                  | Cerrillos Hoyos, Puerto Rico      | 37aae2649c058464 |
+| #7200 | People no longer go to a public office nobody works at                                                                                           | Washington, District of Columbia  | cb36b936901b8d09 |
+| #7201 | A release declaration on main that broke the release check everywhere is fixed (release only)                                                    | Fraser, Colorado                  | 183a975886e2f166 |
 
 Conflicts resolved mechanically: #7154 (both sides added a parameter and a stopgap row; both kept), and #7153, #7157, #7160, #7162 (Lane 2's state page: main's wording for the one edited line, both sides' log entries kept). Mac builds started after 5, 13, 18, 25, 30, 35, 40, 45, 50 and 55 of these merges.
 
