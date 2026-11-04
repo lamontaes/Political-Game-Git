@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: lane3/press-comment-printed
-pr:
+pr: #7187
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-04T02:54:52.505Z

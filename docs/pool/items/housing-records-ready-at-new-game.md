@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: lane-2/homes-at-opening
-pr:
+pr: #7189
 blocked-on:
 lead: laws-effects
 after: housing-dwelling-records-cover-few-households
