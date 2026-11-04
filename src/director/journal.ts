@@ -25,6 +25,7 @@ import {
   ageOnDate,
   daysBetween,
   makeIsoDate,
+  spokenDate,
 } from "../core2/kernel/dates";
 import {
   billNumberName,
@@ -892,7 +893,12 @@ export function composeJournal(
             : spec.format === "lawName"
               ? law?.text
               : logged?.facts?.[spec.fact];
-      if (value === undefined) return null;
+      // A fact the row marks optional leaves its lines out when the record
+      // lacks it; any other missing fact leaves the moment untold.
+      if (value === undefined) {
+        if ("optional" in spec && spec.optional) continue;
+        return null;
+      }
       facts[key] = {
         text:
           spec.format === "money"
@@ -902,7 +908,9 @@ export function composeJournal(
               }).format(Number(value) / P.minorPerDollar)
             : spec.format === "count"
               ? Number(value).toLocaleString("en-US")
-              : value,
+              : spec.format === "date"
+                ? spokenDate(value)
+                : value,
         sourceRecordIds:
           spec.format === "organization"
             ? [moment.causeId, logged!.topic!]
