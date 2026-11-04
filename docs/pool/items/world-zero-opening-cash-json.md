@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: lane-2/zero-opening-cash
 pr: #7222
 blocked-on:
