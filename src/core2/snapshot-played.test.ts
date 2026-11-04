@@ -4,6 +4,7 @@
 // rebuilt, and both run on; every saved field must then agree. An engine whose
 // state lives outside what the snapshot keeps shows here as a differing field.
 import { randomBytes } from "node:crypto";
+import { deserialize, serialize } from "node:v8";
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -56,8 +57,9 @@ describe(`a save of the played world in ${place.name} (${place.key}), seed ${see
       buildBenchWorld(place.seed, gameStartDate(), {
         twoLevel: true,
         placeKey: place.key,
-      }).core;
-    const original = build();
+      });
+    const first = build();
+    const original = first.core;
     const start = makeIsoDate(original.date);
     advanceCore(original, addDays(start, 30));
     const uncovered = uncoveredModules(original);
@@ -65,13 +67,36 @@ describe(`a save of the played world in ${place.name} (${place.key}), seed ${see
       `SNAPSHOT ${place.name}: ${original.modules.size} engines, ${uncovered.length} uncovered: ${uncovered.join(", ")}\n`,
     );
     const saved = JSON.stringify(snapshotWorld(original));
-    const loaded = build();
+    // The story director's memory is saved beside the world (agreements/3-5.md),
+    // through bytes as a save file would hold it.
+    const savedDirector = serialize(first.director.save());
+    const second = build();
+    const loaded = second.core;
     restoreWorld(loaded, JSON.parse(saved) as WorldSnapshot);
+    second.director.restore(
+      deserialize(savedDirector) as ReturnType<typeof first.director.save>,
+    );
     expect(loaded.date).toBe(original.date);
     advanceCore(original, addDays(start, 75));
     advanceCore(loaded, addDays(start, 75));
     const a = content(original),
       b = content(loaded);
+    // The director's own memory, compared the same way, field by field.
+    const directorText = (save: unknown): Record<string, string> =>
+      Object.fromEntries(
+        Object.entries(save as Record<string, unknown>).map(([k, v]) => [
+          `director.${k}`,
+          JSON.stringify(v, (_key, x) =>
+            x instanceof Map
+              ? { $map: [...x] }
+              : x instanceof Set
+                ? { $set: [...x] }
+                : x,
+          ),
+        ]),
+      );
+    Object.assign(a, directorText(first.director.save()));
+    Object.assign(b, directorText(second.director.save()));
     const differing = Object.keys(a).filter((key) => a[key] !== b[key]);
     process.stdout.write(
       `SNAPSHOT ${place.name}: ${Object.keys(a).length} saved fields, ${differing.length} differ: ${differing.slice(0, 40).join(", ")}\n`,
