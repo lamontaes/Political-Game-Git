@@ -1,6 +1,6 @@
 # Lane 5 state
 
-0 of 12 played paths confirmed. Oldest open PR 0 days (#7173, Nov 4).
+1 of 12 played paths confirmed. Oldest open PR 0 days (#7173, Nov 4).
 
 ## Unit cards
 
@@ -115,4 +115,5 @@ Every unit gets one before it starts (lane page, CTO rule). Units 1 and 2 were s
 
 Replays by a session that built none of this lane's work, on main. Only this section is the Confirmer's.
 
+- **Path 2, a year doesn't stop: pass.** Main c60a509956, Nov 4. `speed:year --years 3` (January 2025 to January 2028): Madras, Oregon (4145250, seed confirmer-madras-1) 116.9, 307.4 and 329.6 s, past May 11, 2026; Bloomingdale, Tennessee (4706640, seed confirmer-bloomingdale-1) 105.4, 165.0 and 141.5 s. Both exit 0, nothing on stderr. Proof: `docs/lanes/proof/confirmer-lane5-path2/`.
 - **Path 12, merges don't collide: fail.** Nov 4, main 99d774785b. Step: the new-game check the only required one. `gh api repos/lamontaes/Political-Game-Git/branches/main/protection` lists the required checks as `validate` and `golden-path`; the `new game` job (#7141) is not among them, and every push to main prints "2 of 2 required status checks are expected". The two-PR merge half was not replayed (it needs two PRs merged, which the Confirmer doesn't do). Filed `release-main-requires-only-new-game-check` (a branch setting, the owner's one click per the merge desk page). Fail 1 of 3.
