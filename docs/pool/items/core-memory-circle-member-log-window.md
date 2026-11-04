@@ -5,11 +5,13 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane-5/circle-log-window
 pr:
 blocked-on:
+lead: speed
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T06:49:42.893Z
 ---
 
 **What.** At the desktop app's real heap limit (4,096 MiB), Arcadia, California (0602462, seed app-heap-1) runs out of memory in its fourth year on main 44f14801eb. The durable log is the largest table: 417 MB of JSON after year 3, nearly all routine rows of circle members who are not the player. The circle grows from 18 to 232 people in the election year, 201 of them level-0 contacts, and each keeps a year of rests, visits, retold speeches and drive changes, because circleActRetentionMonths is 12.
