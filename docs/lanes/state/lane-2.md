@@ -202,3 +202,4 @@ Replays by a session that built none of this lane's work, on main, from a fresh 
   - 13, town life: three world items open. 14, a bribe: two corruption items open.
 - **Path 1 checked against merges after its result:** #7222 (a treasury may open with no cash), #7243 (mortgage balances paid month by month) and #7241 (the people kit) change neither names, ages nor the kind of home and room on the first evening.
 - **Units (each merged PR's own tests on main 7898b3ea2c, the replay seed from the proof table above; `docs/lanes/proof/confirmer-units/`). A unit never moves the count.** All pass: #7143 (Hebron's seed), #7147, #7153 (c62f44a716f82f64), #7157 (b37762f4-7895-40f5-8d83-0634db5b60cb), #7160 (e25e0b67dfb8fa1a), #7162 (2fa4d8f150b51d99), #7164 (fb1831bebc2a4db0), #7189 (6e32d4b3c4eb3d6e), #7217, #7222, #7243.
+  - Rerun on main d6f72cf7c9: all 11 pass again.
