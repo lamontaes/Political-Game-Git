@@ -192,16 +192,21 @@ const LOOKUP = {
   affordances: ["known-office", "public-meeting-place", "known-group"],
 } as const;
 
-const seeded = new WeakSet<object>();
+/**
+ * Worlds whose housemates have had their opening ties. Saved with the world,
+ * so a restored world doesn't seed its housemates a second time.
+ */
+const seeded = new WeakMap<CoreState, true>();
+registerWorldMapPart("core2-people-home-seeded", seeded);
 
 function shareHomeTime(api: CoreAPI): void {
   const core = api.state;
   const p = (key: string) => api.parameter(key);
   const day = daysBetweenText(core.startedAt, core.date);
   const week = p("daysPerWeek");
-  const opening = !seeded.has(core);
+  const opening = !seeded.has(core as CoreState);
   if (!opening && (day <= p("zero") || day % week !== p("zero"))) return;
-  seeded.add(core);
+  seeded.set(core as CoreState, true);
   api.stopgap(CLOSENESS.stopgapId);
   for (const household of core.households.values()) {
     if (household.memberIds.length < p("two")) continue;

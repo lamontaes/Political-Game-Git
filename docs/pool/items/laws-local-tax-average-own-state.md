@@ -7,7 +7,7 @@ priority: 2
 size: S
 lead: laws-effects
 milestone: play-first
-status: in-pr
+status: done
 claimed-by: lane-2/law-chain-reader
 pr: #7251
 blocked-on:

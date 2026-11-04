@@ -1,6 +1,6 @@
 # Lane 3 state
 
-2 of 11 paths confirmed. Oldest open PR 2 days (#7127, opened Nov 2). Open: #7127, #7228 (its commits merged with #7236), #7240.
+2 of 11 paths confirmed. Oldest open PR 2 days (#7127, opened Nov 2). Open: #7127, #7228 (its commits merged with #7236), #7255.
 
 
 **Path 6, Nov 4 (after the Confirmer's fail in Storrs, storrs-1):** two of the three faults are merged and wait for a replay. #7223: the race story no longer says the loser beat the winner. #7226: the Journal tells your own lost race as yours, not your father's. The third, no concession, is not in Lane 3's files: the director composes the concession call on the result night and puts it first (Villa Esperanza, Puerto Rico, seed diag:4), but the bench never stages it before the morning-after talk. **Needs from others (Lane 4):** stage the player's `election-result` moment the night of the count, after the returns close (notes on `words-venue-speeches-delivered`).
@@ -71,6 +71,9 @@
   - McCoy, Colorado (voted no, answered): "You voted against Ordinance 2025-1. What should people know about why?" The story then reads: 'Asked about it, Piper Figueroa said: "Read the bill before you judge it."'
   - Rockport, Illinois (voted yes, refused): "Oscar Ochoa would not comment for this story."
   - **Known gap:** in Talala, Oklahoma and Dover, Massachusetts the desk didn't print the vote within 10 days, so the answer waits on a story that never runs.
+
+- **Step 3, `words-owed-talk-reply-facts` (built, #7255, Nov 4):** Lane 3's half of the owed talk (`agreements/2-3.md`). A reply that sets a meeting or puts a matter off (keeps `meeting-set`, endings `put-off` and `not-yet`) records `owedWith`, `owedTopic` and `owedDueOn` (`owedTalk.dueDays`, a TUNABLE of 7). West Sayville, New York (41aa07c2e9b1d311-7): an owed talk about `time`, due 2025-02-12. **Needs from others (Lane 2):** `people-owed-talk-record` can now read these facts. After it, Lane 3 builds `scene-owed-talk-comes-due`. Also fixed `family-stake-scene.test.ts`, which was red on main at two seeds (four test mistakes, listed in #7255).
+- **Merged Nov 4:** #7245 (the Journal names who walked doors for you: "James Ellis walked 37 doors for me.").
 
 ## Unit 6: one life told as a story (card written Nov 4; step 1 built)
 

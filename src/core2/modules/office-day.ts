@@ -21,6 +21,7 @@ import type { ItemVetoSelection } from "../state-item-veto";
  *   (`acts`) as the character's own, with its reasons.
  */
 import { coreAPI, registerModule } from "../state";
+import { registerWorldMapPart } from "../snapshot";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
@@ -160,8 +161,8 @@ export const OFFICE_DAY_MODULE: CoreModule = {
     // roster grows, and on the 1st for terms that ended.
     const terms = api.moduleState(OFFICES_MODULE_ID).table("terms").size;
     const payday = api.state.date.endsWith("-01");
-    if (payday || seenTerms.get(api.state) !== terms) {
-      seenTerms.set(api.state, terms);
+    if (payday || seenTerms.get(api.state as CoreState) !== terms) {
+      seenTerms.set(api.state as CoreState, terms);
       scheduleOfficeReview(api);
     }
     if (payday) payStipends(api);
@@ -169,7 +170,13 @@ export const OFFICE_DAY_MODULE: CoreModule = {
     return undefined;
   },
 };
-const seenTerms = new WeakMap<object, number>();
+/**
+ * The size of the offices roster the last day read. Saved with the world, so
+ * a restored world doesn't read its roster as changed and book a review the
+ * original never booked.
+ */
+const seenTerms = new WeakMap<CoreState, number>();
+registerWorldMapPart("core2-office-day-seen-terms", seenTerms);
 
 const table = (api: CoreAPI, name: string) =>
   api.moduleState(OFFICE_DAY_MODULE_ID).table(name);
