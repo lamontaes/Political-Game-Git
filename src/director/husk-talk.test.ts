@@ -21,7 +21,7 @@ import rules from "./data/conversation-rules.json";
  * is not a talk). Drawn places, a fresh seed, place and seed printed.
  */
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
-const DRAWS = 4;
+const DRAWS = 8;
 const DAYS = 365;
 const WEEK = 7;
 
