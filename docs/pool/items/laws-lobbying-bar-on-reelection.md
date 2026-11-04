@@ -5,13 +5,13 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: lane-2/lobbying-departure
+pr: #7160
 blocked-on:
 source: added with npm run pool -- add
 lead: laws
-claimed-at:
+claimed-at: 2026-11-03T23:53:06.398Z
 ---
 
 **What.** On a re-election, seatWinner ends the serving term and seats the same person on a new term. lobbyingBarredUntil (src/core2/law-reach/group-a-voting.ts:617-629) reads the ended term as the official leaving office and starts the revolving-door bar. So a sitting resident who won again is treated as a former official barred from lobbying. Found by the laws lead's review of the speed lead's fold proposal (core-long-run-election-and-term-rows), Nov 2.

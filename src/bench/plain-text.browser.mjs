@@ -5,6 +5,7 @@
 // no field name, status code, ISO date or developer button.
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
+import { playOpening } from "./start-life.mjs";
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
 });
@@ -105,6 +106,7 @@ try {
   await page.waitForFunction(() =>
     document.getElementById("card-name").textContent.trim(),
   );
+  await playOpening(page, (await (await made).json()).sceneMomentId ?? null);
   console.log("Place:", await page.locator("#card-place").innerText());
   await sheet("news");
   await read("News", "#sheet");
