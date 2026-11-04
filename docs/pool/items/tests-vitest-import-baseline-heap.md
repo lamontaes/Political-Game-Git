@@ -5,11 +5,12 @@ area: release
 kind: bug
 priority: 3
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: lane-5/vitest-json-from-disk
+pr: #7161
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T00:26:54.056Z
 ---
 
 **What.** In this cloud container node's default heap limit is 2,198 MB. src/core2/recalls.test.ts, measured with --expose-gc and a forced collection, holds 1,280 MB live at the top of the file before any test runs, against 293 MB when plain node imports the same bench modules. A bench world adds 100 to 300 MB live after that, and its build peaks higher. So a plain npx vitest run of any file that builds a bench world can run the worker out of memory on a machine whose default heap is small. Where the extra gigabyte goes (transformed JSON research tables, source maps, the module graph) is not traced.
