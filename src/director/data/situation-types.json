@@ -2738,6 +2738,7 @@
       ],
       "setting": ["venue", "phone"],
       "timing": "at-cause",
+      "repeatsBy": "cause",
       "causes": [
         {
           "match": {
@@ -2784,6 +2785,20 @@
           },
           "causeEngine": "legislature",
           "causeRecord": "office.introduced",
+          "bind": {
+            "reporter": "press-corps",
+            "official": "subject"
+          },
+          "opener": "reporter",
+          "opening": "greet"
+        },
+        {
+          "match": {
+            "label": "cause:event:legislative-vote",
+            "selfNamed": true
+          },
+          "causeEngine": "legislature",
+          "causeRecord": "legislative-vote",
           "bind": {
             "reporter": "press-corps",
             "official": "subject"
