@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: lane-5/legacy-pay-ends-with-job
 pr: #7172
 blocked-on:

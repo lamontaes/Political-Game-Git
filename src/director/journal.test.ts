@@ -320,7 +320,7 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     ).toBe(true);
     expect(
       text.some((line) =>
-        /^(I ran for City Council, Seat 2\.|So I ran\.)/.test(line),
+        /^(So )?I filed to run for City Council, Seat 2[.,]/.test(line),
       ),
     ).toBe(true);
   });
