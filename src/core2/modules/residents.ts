@@ -122,6 +122,7 @@ interface FlowState extends ResidentFlowInput {
   /** Latest settled request and payment, read by lenders rather than opening cash or promised pay. */
   lastRequestedMinor?: number;
   lastPaidMinor?: number;
+  lastPaidMonth?: string;
   /** outside-costs: the firm's receipts and local purchases already counted. */
   receivedMinor?: number;
   /** Local operating payments when the flow started (a baseline). */
@@ -1193,6 +1194,7 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
   }
   flow.lastRequestedMinor = requested;
   flow.lastPaidMinor = paid;
+  flow.lastPaidMonth = date.slice(0, 7);
   if (flow.kind === "outside-costs")
     flow.outsidePaidMinor = (flow.outsidePaidMinor ?? 0) + paid;
   const month = date.slice(0, 7);
@@ -1947,6 +1949,21 @@ export function releaseResidentHousehold(
       amountByContract: undefined,
       arrearsMinor: 0,
     };
+    if (flow.financeKind === "household.mortgage") {
+      // Carry only this household's share of the already-settled group bill,
+      // never the merged flow's request/payment from unrelated groups.
+      const receipt = cash ? rt.housingMonth.get(cash.group) : undefined;
+      delete flow.lastPaidMonth;
+      delete flow.lastRequestedMinor;
+      delete flow.lastPaidMinor;
+      if (receipt && receipt.asked > 0) {
+        flow.lastPaidMonth = receipt.month;
+        flow.lastRequestedMinor = own.amount;
+        flow.lastPaidMinor = Math.round(
+          own.amount * Math.min(1, receipt.paid / receipt.asked),
+        );
+      }
+    }
     rt.flows.set(flow.id, flow);
     schedule(rt, flow);
   }
