@@ -5,9 +5,9 @@ area: words
 kind: wiring
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: lane3/journal-joins
-pr:
+pr: #7236
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-04T11:18:47.542Z
