@@ -296,6 +296,29 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.83.3
+
+_Released November 4, 2026._
+
+### Fixed
+
+- **Who you are names a school only while you are at one.** A grown player's Who
+  you are no longer shows the school they went to as a child as if they were
+  still there; the school plate shows only while you are of school age.
+
+- **A debate no longer plays as a string of campaign stops.** Each answer a
+  candidate gave in a debate used to stage its own campaign-stop scene, with a
+  volunteer and a crowd the broadcast never had. A debate is now its own
+  occasion; a town hall or speech still plays as a campaign stop.
+
+### Changed
+
+- **People answer your volunteer and endorsement asks in their own words.** When
+  you ask people you know to volunteer or to endorse you, each one now answers
+  in a spoken line of their own, worded by their character and by how close they
+  are to you, with their name shown as the speaker. The old narrated answers
+  ("Wendy Ford signs on to help the campaign.") are gone.
+
 ## PRE-ALPHA 0.83.2
 
 _Released November 4, 2026._
