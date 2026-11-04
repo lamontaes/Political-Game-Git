@@ -41,6 +41,8 @@ describe("the release event", () => {
     ]) {
       expect(pushWorkflow).toContain(`      - "${path}"`);
     }
+    // And the lanes' state files, written straight to main by every lane.
+    expect(pushWorkflow).toContain('      - "docs/lanes/**"');
     expect(pushWorkflow).toContain("workflow_dispatch:");
     expect(pushWorkflow).not.toContain("pull_request_target");
   });

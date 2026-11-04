@@ -17,7 +17,8 @@
     "feeling:event:justice.convicted",
     "feeling:event:justice.acquitted",
     "feeling:event:cause.shared",
-    "feeling:event:person-birth"
+    "feeling:event:person-birth",
+    "cause:event:law.effect-learned"
   ],
   "openings": [
     "tell",

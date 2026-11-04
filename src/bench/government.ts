@@ -1,3 +1,4 @@
+import { raceTitle } from "./race-words";
 import { properName } from "../director/words";
 import { ageOnDate } from "../core2/kernel/dates";
 import { parameter } from "../core2/parameters";
@@ -21,6 +22,7 @@ import {
   checkEligibility,
   fileCandidacy,
   filingOfficeFor,
+  filingWindowOpen,
   incumbentOf,
   playerContests,
   playerMayFileFor,
@@ -429,16 +431,13 @@ export function localRaces(core: CoreState) {
       const office = filingOfficeFor(api, contest.id);
       return {
         contestId: contest.id,
-        title: contest.district
-          ? `${contest.title} (${contest.district})`
-          : contest.title,
+        title: raceTitle(contest.title, contest.district),
         electionDate: contest.electionDate,
         filingDeadline: contest.filingDeadline,
         filingClosed: contest.filingDeadline < core.date,
-        // Filing is open today: the office takes a filing for it.
-        filingOpen:
-          (contest.filingOpens === null || contest.filingOpens <= core.date) &&
-          contest.filingDeadline >= core.date,
+        // Filing is open today: the office takes a filing for it, by the
+        // elections engine's one window (`filingWindowOpen`).
+        filingOpen: filingWindowOpen(contest, core.date),
         // Where a filing for it is made, for the hot link to the office.
         filedWith: office?.filedWith ?? null,
         // Whether the player may run for it (the offices the player runs

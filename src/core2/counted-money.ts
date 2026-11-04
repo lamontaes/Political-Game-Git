@@ -47,6 +47,7 @@ type SplitFlow = Pick<
   | "placeId"
   | "perDayMinorByJob"
   | "amountByContract"
+  | "quarters"
 >;
 
 export const HOUSING_KINDS = new Set(["household.rent", "household.mortgage"]);
@@ -260,7 +261,11 @@ function weighFlow(rt: ResidentsRuntime, flow: SplitFlow): Weighed {
       };
   } else if (flow.financeKind === "work.unplaced-residents") {
     for (const h of rt.store.liveHouseholds())
-      if (h.placeId === flow.placeId && h.unplacedWorkers > 0)
+      if (
+        h.placeId === flow.placeId &&
+        h.unplacedWorkers > 0 &&
+        !h.quarters === !flow.quarters
+      )
         out.set(
           h.group,
           (out.get(h.group) ?? 0) + h.unplacedWorkers * rt.store.weightOf(h),
@@ -547,7 +552,11 @@ export function workersByGroup(
   const out = new Map<number, number>();
   if (flow.financeKind === "work.unplaced-residents") {
     for (const h of rt.store.liveHouseholds())
-      if (h.placeId === flow.placeId && h.unplacedWorkers > 0)
+      if (
+        h.placeId === flow.placeId &&
+        h.unplacedWorkers > 0 &&
+        !h.quarters === !flow.quarters
+      )
         out.set(
           h.group,
           (out.get(h.group) ?? 0) + h.unplacedWorkers * rt.store.weightOf(h),

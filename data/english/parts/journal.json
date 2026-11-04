@@ -24,7 +24,11 @@
     "topic": "What a law no bill enacted is about, from its own record (\"electricity and the grid\").",
     "signatures": "How many signed a recall petition, from the count's record.",
     "required": "How many signatures the law required, from the count's record.",
-    "fewer": "How many fewer signed after the official heard the petitioners out, from the count's before and after."
+    "fewer": "How many fewer signed after the official heard the petitioners out, from the count's before and after.",
+    "election": "The day of the election a filing is for, as people say a date, from the filing record.",
+    "valid": "How many signatures on the petition the clerk counted as good, from the petition check record.",
+    "needed": "How many good signatures the petition needed, from the petition record.",
+    "doors": "How many doors a volunteer knocked in an evening, from the volunteer-shift record."
   },
   "maxWords": 10,
   "mining": {
@@ -1651,7 +1655,7 @@
       "key": "journal.office-line-filed.i-ran-for-office",
       "move": "office-line-filed",
       "kind": "spoken",
-      "text": "I ran for {office}.",
+      "text": "I filed to run for {office}, in an election set for {election}.",
       "uses": [
         {
           "move": "office-line-filed",
@@ -1695,10 +1699,60 @@
       }
     },
     {
+      "key": "journal.office-line-filed.i-filed-to-run-for-office",
+      "move": "office-line-filed",
+      "kind": "spoken",
+      "text": "I filed to run for {office}.",
+      "uses": [
+        {
+          "move": "office-line-filed",
+          "subject": "office",
+          "role": "line",
+          "choice": "filed",
+          "journal": [
+            {
+              "kindPrefix": "event:candidate-filed",
+              "field": "line"
+            }
+          ]
+        },
+        {
+          "move": "memoir-decided",
+          "subject": "memoir",
+          "role": "decided",
+          "choice": "decided",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "decided"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "hearings": 1,
+        "house": 1
+      },
+      "source": {
+        "document": "TAX REFORM: ENSURING THAT MAIN STREET ISN'T LEFT BEHIND",
+        "date": "2015-04-15",
+        "granule": "CHRG-114hhrg94158",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-114hhrg94158/html/CHRG-114hhrg94158.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell"
+      },
+      "author": "Lane 3, words and scenes (play-stop-19-turning-eighteen-and-journal-silent-b)",
+      "date": "2026-11-04",
+      "origin": "authored"
+    },
+    {
       "key": "journal.office-line-filed.i-ran-for-office-2",
       "move": "office-line-filed",
       "kind": "spoken",
-      "text": "I ran for office.",
+      "text": "I filed to run for office.",
       "uses": [
         {
           "move": "office-line-filed",
@@ -5168,7 +5222,7 @@
       "key": "journal.memoir-decided.so-i-ran",
       "move": "memoir-decided",
       "kind": "spoken",
-      "text": "So I ran.",
+      "text": "So I filed to run for {office}, with the election set for {election}.",
       "uses": [
         {
           "move": "memoir-decided",
@@ -9479,6 +9533,110 @@
       "origin": "authored",
       "author": "Words session (Claude Code)",
       "date": "2026-10-29",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-petition.the-clerk-counted-valid-good-signatures",
+      "move": "office-line-petition",
+      "kind": "spoken",
+      "text": "The clerk counted {valid} good signatures on my petition for {office}. I needed {needed}.",
+      "uses": [
+        {
+          "move": "office-line-petition",
+          "subject": "office",
+          "role": "line",
+          "choice": "the-clerk-counted-valid-good-signatures",
+          "journal": [
+            {
+              "kindPrefix": "event:petition-checked",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-petition.my-petition-came-back-from-the-clerk",
+      "move": "office-line-petition",
+      "kind": "spoken",
+      "text": "My petition for {office} came back from the clerk: {valid} good signatures, against the {needed} I needed.",
+      "uses": [
+        {
+          "move": "office-line-petition",
+          "subject": "office",
+          "role": "line",
+          "choice": "my-petition-came-back-from-the-clerk",
+          "journal": [
+            {
+              "kindPrefix": "event:petition-checked",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-volunteer-shift.a-volunteer-knocked-doors-for-me",
+      "move": "office-line-volunteer-shift",
+      "kind": "spoken",
+      "text": "A volunteer knocked on {doors} doors for me.",
+      "uses": [
+        {
+          "move": "office-line-volunteer-shift",
+          "subject": "office",
+          "role": "line",
+          "choice": "a-volunteer-knocked-doors-for-me",
+          "journal": [
+            {
+              "kindPrefix": "event:volunteer-shift",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-volunteer-shift.someone-from-my-campaign-walked-doors",
+      "move": "office-line-volunteer-shift",
+      "kind": "spoken",
+      "text": "Someone from my campaign walked {doors} doors for me.",
+      "uses": [
+        {
+          "move": "office-line-volunteer-shift",
+          "subject": "office",
+          "role": "line",
+          "choice": "someone-from-my-campaign-walked-doors",
+          "journal": [
+            {
+              "kindPrefix": "event:volunteer-shift",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-11-04",
       "tag": {
         "move": "tell"
       }

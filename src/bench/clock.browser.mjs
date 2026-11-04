@@ -1,9 +1,10 @@
-/* global process, console, document, URL, URLSearchParams, fetch */
+/* global process, console, document, URL, URLSearchParams */
 // The player's clock in a real browser, on the bench (npm run bench): a grown
 // resident of a place drawn from all 56. Day lands on the next morning, never
 // on midnight, and a campaign outing moves the card's clock by its hours.
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
+import { fileWhenFilingOpens } from "./start-life.mjs";
 import { openCampaignTrail } from "./campaign-trail.mjs";
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
@@ -130,22 +131,8 @@ try {
     "Day advances one date",
   );
   // File, then go out knocking on doors: the card's clock moves by the hours.
-  const filed = await page.evaluate(async () => {
-    const gov = await (await fetch("/api/government")).json();
-    for (const { contest } of gov.contests ?? []) {
-      const r = await fetch(
-        `/api/file?${new URLSearchParams({ contestId: contest.id })}`,
-        { method: "POST" },
-      );
-      const body = await r.json().catch(() => ({}));
-      if (
-        r.ok &&
-        ["petitioning", "on-ballot"].includes(body.filing?.status ?? "")
-      )
-        return contest.id;
-    }
-    return null;
-  });
+  // Filing opens on a set day: the weeks go by until a race is open.
+  const filed = (await fileWhenFilingOpens(page)).contestId;
   console.log("Filed for:", filed);
   assert.ok(filed, "the player could file for nothing in this town");
   await openCampaignTrail(page);

@@ -1,17 +1,23 @@
 {
-  "about": "A person's recorded pronoun set as the words a third-person sentence fills: subject at a sentence's start, subject inside one, object and reflexive. A set with no row here (they-them) is said with the they form of a line. Read by src/english/pronoun-words.ts.",
+  "about": "A person's recorded pronoun set as the words a third-person sentence fills: subject at a sentence's start, subject inside one, object, reflexive and possessive. A set with no row here (they-them) is said with the they form of a line. Read by src/english/pronoun-words.ts. byGender is the pronoun set a person who has only a recorded gender is said with (an official the officials engine seats by identity); any other gender is said with the they form.",
   "sets": {
     "she-her": {
       "subject": "She",
       "lower": "she",
       "object": "her",
-      "reflexive": "herself"
+      "reflexive": "herself",
+      "possessive": "her"
     },
     "he-him": {
       "subject": "He",
       "lower": "he",
       "object": "him",
-      "reflexive": "himself"
+      "reflexive": "himself",
+      "possessive": "his"
     }
+  },
+  "byGender": {
+    "female": "she-her",
+    "male": "he-him"
   }
 }

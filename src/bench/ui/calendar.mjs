@@ -1,4 +1,4 @@
-/* global window */
+/* global window, localStorage */
 // The calendar, to its mock (MOCKS calendar.png): a compact month of day tiles with a small
 // icon for each thing on the day, the chosen day on a plate of its own between, and Coming up
 // beside it paged inside its box (owner, Oct 29: a menu never scrolls as a page). The screen
@@ -20,7 +20,36 @@ const dayIcon = (kind) =>
     "filing-deadline": "deadline",
     primary: "election",
     election: "election",
+    holiday: "meeting",
   })[kind] ?? "meeting";
+
+// The kinds a player keeps on a calendar, each with its own color (owner, Nov
+// 1: "color code those things. Like town meetings and stuff. And be able to
+// hide them if you want"); the key above the month names them and hides them.
+const GROUPS = [
+  { key: "birthday", kinds: ["birthday", "your-birthday"] },
+  { key: "deadline", kinds: ["filing-opens", "filing-deadline"] },
+  { key: "election", kinds: ["primary", "election"] },
+  { key: "meeting", kinds: ["meeting"] },
+  { key: "holiday", kinds: ["holiday"] },
+];
+const groupOf = (kind) =>
+  GROUPS.find((group) => group.kinds.includes(kind))?.key ?? "meeting";
+const HIDDEN_KEY = "ocd-calendar-hidden";
+const savedHidden = () => {
+  try {
+    return new Set(JSON.parse(localStorage.getItem(HIDDEN_KEY) ?? "[]"));
+  } catch {
+    return new Set();
+  }
+};
+const saveHidden = (hidden) => {
+  try {
+    localStorage.setItem(HIDDEN_KEY, JSON.stringify([...hidden]));
+  } catch {
+    // The choice still holds for this screen.
+  }
+};
 
 const DAY_MS = 86400000;
 const daysBetween = (from, to) =>
@@ -29,17 +58,33 @@ const daysBetween = (from, to) =>
   );
 
 /** The calendar's node, for the sheet's body. */
-export function calendarScreen({ date, items, labels, onAdvance }) {
-  const byDate = new Map();
-  for (const item of items)
-    byDate.set(item.date, [...(byDate.get(item.date) ?? []), item]);
+export function calendarScreen({ date, items: every, labels, onAdvance }) {
+  // The kinds the player has hidden stay hidden, and the key lists the kinds
+  // the calendar has (never a key for a kind with nothing to show).
+  const hidden = savedHidden();
+  let items = every;
+  let byDate = new Map();
+  let ahead = [];
+  const rebuild = () => {
+    items = every.filter((item) => !hidden.has(groupOf(item.kind)));
+    byDate = new Map();
+    for (const item of items)
+      byDate.set(item.date, [...(byDate.get(item.date) ?? []), item]);
+    // Coming up lists the player's own dates first, then everything else by date.
+    ahead = items
+      .filter((i) => i.date >= date)
+      .toSorted(
+        (a, b) => Number(b.own) - Number(a.own) || a.date.localeCompare(b.date),
+      );
+  };
+  rebuild();
   // A day on the calendar says its year only when it is not this year's.
   const dayWords = (iso, options) => dateWords(iso, { ...options, year: date });
   const icon = (item) =>
     el("img", {
       src: `/ui/kit13/calendar-${dayIcon(item.kind)}.png`,
       alt: "",
-      className: "day-icon",
+      className: `day-icon kind-${groupOf(item.kind)}`,
     });
   let month = new Date(`${date.slice(0, 7)}-01T12:00:00`);
   let selected = date;
@@ -83,7 +128,9 @@ export function calendarScreen({ date, items, labels, onAdvance }) {
       ? day.map((item) =>
           el(
             "div",
-            { className: `calendar-entry${item.own ? " own" : ""}` },
+            {
+              className: `calendar-entry kind-${groupOf(item.kind)}${item.own ? " own" : ""}`,
+            },
             icon(item),
             el("span", { className: "what", textContent: item.line }),
           ),
@@ -111,16 +158,10 @@ export function calendarScreen({ date, items, labels, onAdvance }) {
       ),
     );
   };
-  // Coming up lists the player's own dates first, then everything else by date.
-  const ahead = items
-    .filter((i) => i.date >= date)
-    .toSorted(
-      (a, b) => Number(b.own) - Number(a.own) || a.date.localeCompare(b.date),
-    );
   const drawSide = () => {
     const rowOf = (item) => {
       const row = listRow(
-        `calendar-entry${item.own ? " own" : ""}`,
+        `calendar-entry kind-${groupOf(item.kind)}${item.own ? " own" : ""}`,
         { as: "button", type: "button" },
         el("span", {
           className: "when",
@@ -215,13 +256,13 @@ export function calendarScreen({ date, items, labels, onAdvance }) {
           el(
             "span",
             { className: "marks" },
-            ...[...new Set(entries.map((e) => dayIcon(e.kind)))]
+            ...[...new Set(entries.map((e) => groupOf(e.kind)))]
               .slice(0, 3)
-              .map((name) =>
+              .map((group) =>
                 el("img", {
-                  src: `/ui/kit13/calendar-${name}.png`,
+                  src: `/ui/kit13/calendar-${dayIcon(GROUPS.find((g) => g.key === group).kinds[0])}.png`,
                   alt: "",
-                  className: "day-icon",
+                  className: `day-icon kind-${group}`,
                 }),
               ),
           ),
@@ -230,9 +271,40 @@ export function calendarScreen({ date, items, labels, onAdvance }) {
     }
     monthBox.replaceChildren(header, grid);
   };
+  const key = el("nav", {
+    className: "calendar-key",
+    "aria-label": labels.key,
+  });
+  const drawKey = () =>
+    key.replaceChildren(
+      ...GROUPS.filter((group) =>
+        every.some((item) => group.kinds.includes(item.kind)),
+      ).map((group) => {
+        const shown = !hidden.has(group.key);
+        const toggle = button(
+          labels.kinds[group.key],
+          () => {
+            if (hidden.has(group.key)) hidden.delete(group.key);
+            else hidden.add(group.key);
+            saveHidden(hidden);
+            rebuild();
+            drawKey();
+            drawMonth();
+            drawDay();
+            drawSide();
+          },
+          `key-kind kind-${group.key}${shown ? " on" : ""}`,
+        );
+        toggle.dataset.kind = group.key;
+        toggle.setAttribute("aria-pressed", String(shown));
+        toggle.title = shown ? labels.hide : labels.show;
+        return toggle;
+      }),
+    );
+  drawKey();
   drawMonth();
   drawDay();
   drawSide();
-  root.append(monthBox, dayBox, side);
+  root.append(key, monthBox, dayBox, side);
   return root;
 }

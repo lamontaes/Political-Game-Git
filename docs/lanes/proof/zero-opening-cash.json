@@ -1,0 +1,61 @@
+{
+  "replay": "75ae3c9378284205",
+  "worldSeed": "75ae3c9378284205",
+  "through": "2026-01-20",
+  "opening": [
+    {
+      "id": "US",
+      "organizationId": "organization:treasury:US",
+      "openingCash": {
+        "minor": 87179586892374,
+        "journalSequence": 0
+      }
+    },
+    {
+      "id": "US-ND",
+      "organizationId": "organization:treasury:US-ND",
+      "openingCash": {
+        "minor": 0
+      }
+    },
+    {
+      "id": "county:38097",
+      "organizationId": "organization:treasury:county:38097",
+      "openingCash": {
+        "minor": 432901913,
+        "journalSequence": 1
+      }
+    },
+    {
+      "id": "place:3814740",
+      "organizationId": "organization:treasury:place:3814740",
+      "openingCash": {
+        "minor": 9336836,
+        "journalSequence": 2
+      }
+    }
+  ],
+  "reopening": "cash, markers and journal sequence unchanged",
+  "place": {
+    "key": "3814740",
+    "displayName": "Clifford, North Dakota"
+  },
+  "evidence": [
+    {
+      "id": "US-ND",
+      "months": 12,
+      "namedPayments": 3356,
+      "payee": {
+        "journal": "journal:2025-02-01:883",
+        "source": {
+          "kind": "accounts.transfer",
+          "id": "per-diem:official:term:seat:US-ND:upper:001:0:2025-01-20:2025-01"
+        },
+        "person": "official:term:seat:US-ND:upper:001:0:2025-01-20",
+        "name": "Catherine Green",
+        "minor": 246000
+      },
+      "firstCloseId": "treasury-month:US-ND:2025-02-01"
+    }
+  ]
+}

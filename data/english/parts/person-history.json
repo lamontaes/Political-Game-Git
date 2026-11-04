@@ -1,7 +1,7 @@
 {
   "schema": "english-parts/1",
   "register": "person-history",
-  "description": "A person's history on their card, one dated line per record the player would know of: born, school, a move, meeting a partner, a child born, a job started, a parent's death, an election won, and the player's own tie growing closer or apart (owner, Oct 28: View person shows the person's history). Said of them without pronouns, so one line fits everyone; the card's name says who. Each line has a timeline twin (person-history.timeline.<key>) without the year, for the card's timeline, which shows the year beside it.",
+  "description": "A person's history on their card, told as a short biography from the records the player would know of: born, school, a move, a partner, a child, work, a parent's death, the offices they won (owner, Nov 1: \"Elected legislator, it needs to be told like a story. How many times do I have to say that?\"). Each sentence of the story (person-history.story.<key>) has three forms: said of someone in the third person (the first sentence names them, the rest use their recorded pronouns), in the they form, and to the player about their own life. A run of terms in one office is one sentence. The card shows the year beside each sentence, so a sentence leaves it out. person-history.summary.<key> are the lines under the name: who they are now, and where they come from.",
   "slots": {
     "place": "A place's name from the place records.",
     "year": "The record's year.",
@@ -10,172 +10,915 @@
     "name": "A person's full name from their record.",
     "title": "The job's title from the job record.",
     "employer": "The employer's name from the organization record.",
-    "relation": "Mother or Father, from the record, at the start of a sentence.",
+    "relation": "Mother or father, from the record, in lower case.",
     "office": "The office won, in lower case: president, mayor.",
-    "stage": "The school stage as its record writes it: elementary, middle or high."
+    "stage": "The school stage as its record writes it: elementary, middle or high.",
+    "who": "The person the sentence is about: their full name in the story's first sentence, then their pronoun (She, He), from their record.",
+    "their": "Their possessive pronoun from their record (her, his).",
+    "years": "The later years they won the same office again, joined as a list: 2013 and 2015.",
+    "state": "A state's name from the place records: Ohio.",
+    "whom": "The person the story is about, as the object of a sentence: their full name the first time, then their pronoun (her, him)."
   },
-  "maxWords": 12,
+  "maxWords": 24,
   "parts": [
     {
-      "key": "person-history.timeline.born.place",
-      "move": "timeline",
-      "text": "Born in {place}.",
+      "key": "person-history.story.born.place.third",
+      "move": "story",
+      "text": "{who} was born in {place}.",
       "origin": "authored",
-      "author": "Claude (Words, scenes and the director)",
-      "date": "2026-10-30",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
       "kind": "written"
     },
     {
-      "key": "person-history.timeline.born.year",
-      "move": "timeline",
-      "text": "Born.",
+      "key": "person-history.story.born.place.they",
+      "move": "story",
+      "text": "They were born in {place}.",
       "origin": "authored",
-      "author": "Claude (Words, scenes and the director)",
-      "date": "2026-10-30",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
       "kind": "written"
     },
     {
-      "key": "person-history.timeline.school.started",
-      "move": "timeline",
-      "text": "Started at {school}.",
+      "key": "person-history.story.born.place.you",
+      "move": "story",
+      "text": "You were born in {place}.",
       "origin": "authored",
-      "author": "Claude (Words, scenes and the director)",
-      "date": "2026-10-30",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
       "kind": "written"
     },
     {
-      "key": "person-history.timeline.moved.in",
-      "move": "timeline",
-      "text": "Moved to the county.",
+      "key": "person-history.story.born.year.third",
+      "move": "story",
+      "text": "{who} was born.",
       "origin": "authored",
-      "author": "Claude (Words, scenes and the director)",
-      "date": "2026-10-30",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
       "kind": "written"
     },
     {
-      "key": "person-history.timeline.moved.away",
-      "move": "timeline",
-      "text": "Moved away.",
+      "key": "person-history.story.born.year.they",
+      "move": "story",
+      "text": "They were born.",
       "origin": "authored",
-      "author": "Claude (Words, scenes and the director)",
-      "date": "2026-10-30",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
       "kind": "written"
     },
     {
-      "key": "person-history.timeline.partner.met",
-      "move": "timeline",
-      "text": "Met {name} in {place}.",
-      "origin": "authored",
-      "author": "Claude (Words, scenes and the director)",
-      "date": "2026-10-30",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.timeline.partner.met-you",
-      "move": "timeline",
-      "text": "Met you in {place}.",
-      "origin": "authored",
-      "author": "Claude (Words, scenes and the director)",
-      "date": "2026-10-30",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.timeline.child.born",
-      "move": "timeline",
-      "text": "{name} was born.",
-      "origin": "authored",
-      "author": "Claude (Words, scenes and the director)",
-      "date": "2026-10-30",
-      "kind": "written"
-    },
-    {
-      "key": "person-history.timeline.child.you",
-      "move": "timeline",
+      "key": "person-history.story.born.year.you",
+      "move": "story",
       "text": "You were born.",
       "origin": "authored",
-      "author": "Claude (Words, scenes and the director)",
-      "date": "2026-10-30",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
       "kind": "written"
     },
     {
-      "key": "person-history.timeline.work.started",
-      "move": "timeline",
-      "text": "Started as {title} at {employer}.",
+      "key": "person-history.story.school.started.third",
+      "move": "story",
+      "text": "{who} started school at {school}.",
       "origin": "authored",
-      "author": "Claude (Words, scenes and the director)",
-      "date": "2026-10-30",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
       "kind": "written"
     },
     {
-      "key": "person-history.timeline.loss.parent",
-      "move": "timeline",
-      "text": "{relation}, {name}, died.",
+      "key": "person-history.story.school.started.they",
+      "move": "story",
+      "text": "They started school at {school}.",
       "origin": "authored",
-      "author": "Claude (Words, scenes and the director)",
-      "date": "2026-10-30",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
       "kind": "written"
     },
     {
-      "key": "person-history.timeline.office.elected",
-      "move": "timeline",
-      "text": "Elected {office}.",
+      "key": "person-history.story.school.started.you",
+      "move": "story",
+      "text": "You started school at {school}.",
       "origin": "authored",
-      "author": "Claude (Words, scenes and the director)",
-      "date": "2026-10-30",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
       "kind": "written"
     },
     {
-      "key": "person-history.timeline.work.spell",
-      "move": "timeline",
-      "text": "Started work at {employer}.",
+      "key": "person-history.story.school.joined.third",
+      "move": "story",
+      "text": "{who} went to {stage} school at {school}.",
       "origin": "authored",
-      "author": "Claude (Words, scenes and the director)",
-      "date": "2026-10-30",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
       "kind": "written"
     },
     {
-      "key": "person-history.timeline.office.appointed",
-      "move": "timeline",
-      "text": "Appointed {office}.",
+      "key": "person-history.story.school.joined.they",
+      "move": "story",
+      "text": "They went to {stage} school at {school}.",
       "origin": "authored",
-      "author": "Claude (Words, scenes and the director)",
-      "date": "2026-10-30",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
       "kind": "written"
     },
     {
-      "key": "person-history.timeline.office.entered",
-      "move": "timeline",
-      "text": "Took office as {office}.",
+      "key": "person-history.story.school.joined.you",
+      "move": "story",
+      "text": "You went to {stage} school at {school}.",
       "origin": "authored",
-      "author": "Claude (Words, scenes and the director)",
-      "date": "2026-10-30",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
       "kind": "written"
     },
     {
-      "key": "person-history.timeline.partner.home",
-      "move": "timeline",
-      "text": "Set up home with {name}.",
+      "key": "person-history.story.school.stage.third",
+      "move": "story",
+      "text": "{who} went on to {stage} school.",
       "origin": "authored",
-      "author": "Claude (Words, scenes and the director)",
-      "date": "2026-10-30",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
       "kind": "written"
     },
     {
-      "key": "person-history.timeline.partner.home-you",
-      "move": "timeline",
-      "text": "Set up home with you.",
+      "key": "person-history.story.school.stage.they",
+      "move": "story",
+      "text": "They went on to {stage} school.",
       "origin": "authored",
-      "author": "Claude (Words, scenes and the director)",
-      "date": "2026-10-30",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
       "kind": "written"
     },
     {
-      "key": "person-history.timeline.school.stage",
-      "move": "timeline",
-      "text": "Started {stage} school.",
+      "key": "person-history.story.school.stage.you",
+      "move": "story",
+      "text": "You went on to {stage} school.",
       "origin": "authored",
-      "author": "Claude (Words, scenes and the director)",
-      "date": "2026-10-30",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.in.third",
+      "move": "story",
+      "text": "{who} moved to the county.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.in.they",
+      "move": "story",
+      "text": "They moved to the county.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.in.you",
+      "move": "story",
+      "text": "You moved to the county.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.away.third",
+      "move": "story",
+      "text": "{who} moved away.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.away.they",
+      "move": "story",
+      "text": "They moved away.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.moved.away.you",
+      "move": "story",
+      "text": "You moved away.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.met.third",
+      "move": "story",
+      "text": "{who} met {name} in {place}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.met.they",
+      "move": "story",
+      "text": "They met {name} in {place}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.met.you",
+      "move": "story",
+      "text": "You met {name} in {place}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.met-you.third",
+      "move": "story",
+      "text": "{who} met you in {place}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.met-you.they",
+      "move": "story",
+      "text": "They met you in {place}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.home.third",
+      "move": "story",
+      "text": "{who} made a home with {name}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.home.they",
+      "move": "story",
+      "text": "They made a home with {name}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.home.you",
+      "move": "story",
+      "text": "You made a home with {name}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.home-you.third",
+      "move": "story",
+      "text": "{who} made a home with you.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.partner.home-you.they",
+      "move": "story",
+      "text": "They made a home with you.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.child.born.third",
+      "move": "story",
+      "text": "{who} had a child, {name}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.child.born.they",
+      "move": "story",
+      "text": "They had a child, {name}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.child.born.you",
+      "move": "story",
+      "text": "You had a child, {name}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.child.you.third",
+      "move": "story",
+      "text": "You were born to {whom}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.child.you.they",
+      "move": "story",
+      "text": "You were born to them.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.started.third",
+      "move": "story",
+      "text": "{who} started as {title} at {employer}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.started.they",
+      "move": "story",
+      "text": "They started as {title} at {employer}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.started.you",
+      "move": "story",
+      "text": "You started as {title} at {employer}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.spell.third",
+      "move": "story",
+      "text": "{who} went to work at {employer}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.spell.they",
+      "move": "story",
+      "text": "They went to work at {employer}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.spell.you",
+      "move": "story",
+      "text": "You went to work at {employer}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.spell-again.third",
+      "move": "story",
+      "text": "{who} went to work at {employer}, and went back in {years}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.spell-again.they",
+      "move": "story",
+      "text": "They went to work at {employer}, and went back in {years}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.spell-again.you",
+      "move": "story",
+      "text": "You went to work at {employer}, and went back in {years}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.spell-always.third",
+      "move": "story",
+      "text": "{who} went to work at {employer}, and kept going back.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.spell-always.they",
+      "move": "story",
+      "text": "They went to work at {employer}, and kept going back.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.spell-always.you",
+      "move": "story",
+      "text": "You went to work at {employer}, and kept going back.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.loss.parent.third",
+      "move": "story",
+      "text": "{who} lost {their} {relation}, {name}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.loss.parent.they",
+      "move": "story",
+      "text": "They lost their {relation}, {name}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.loss.parent.you",
+      "move": "story",
+      "text": "You lost your {relation}, {name}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.elected.third",
+      "move": "story",
+      "text": "{who} won election as {office}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.elected.they",
+      "move": "story",
+      "text": "They won election as {office}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.elected.you",
+      "move": "story",
+      "text": "You won election as {office}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.elected-again.third",
+      "move": "story",
+      "text": "{who} won election as {office}, and won it again in {years}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.elected-again.they",
+      "move": "story",
+      "text": "They won election as {office}, and won it again in {years}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.elected-again.you",
+      "move": "story",
+      "text": "You won election as {office}, and won it again in {years}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.appointed.third",
+      "move": "story",
+      "text": "{who} was appointed {office}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.appointed.they",
+      "move": "story",
+      "text": "They were appointed {office}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.appointed.you",
+      "move": "story",
+      "text": "You were appointed {office}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.appointed-again.third",
+      "move": "story",
+      "text": "{who} was appointed {office}, and won the seat in {years}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.appointed-again.they",
+      "move": "story",
+      "text": "They were appointed {office}, and won the seat in {years}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.appointed-again.you",
+      "move": "story",
+      "text": "You were appointed {office}, and won the seat in {years}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.entered.third",
+      "move": "story",
+      "text": "{who} took office as {office}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.entered.they",
+      "move": "story",
+      "text": "They took office as {office}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.entered.you",
+      "move": "story",
+      "text": "You took office as {office}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.entered-again.third",
+      "move": "story",
+      "text": "{who} took office as {office}, and was returned in {years}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.entered-again.they",
+      "move": "story",
+      "text": "They took office as {office}, and were returned in {years}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.entered-again.you",
+      "move": "story",
+      "text": "You took office as {office}, and were returned in {years}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.summary.office.run",
+      "move": "summary",
+      "text": "Has served as {office} since {year}, reelected each time.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.summary.office.run.you",
+      "move": "summary",
+      "text": "You have served as {office} since {year}, reelected each time.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.summary.office.one",
+      "move": "summary",
+      "text": "Has served as {office} since {year}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.summary.office.one.you",
+      "move": "summary",
+      "text": "You have served as {office} since {year}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.summary.before.vice-president",
+      "move": "summary",
+      "text": "Was vice president before that.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.summary.before.governor",
+      "move": "summary",
+      "text": "Was governor of {state} before that.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.summary.before.us-senate",
+      "move": "summary",
+      "text": "Was a U.S. senator from {state} before that.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.summary.before.cabinet",
+      "move": "summary",
+      "text": "Served in the cabinet before that.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.summary.work.title",
+      "move": "summary",
+      "text": "Works as {title} at {employer}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.summary.work.title.you",
+      "move": "summary",
+      "text": "You work as {title} at {employer}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.summary.work.employer",
+      "move": "summary",
+      "text": "Works at {employer}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.summary.work.employer.you",
+      "move": "summary",
+      "text": "You work at {employer}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.summary.no-work.earner.you",
+      "move": "summary",
+      "text": "You have no job of your own; your household lives on what {name} earns at {employer}.",
+      "origin": "authored",
+      "author": "Lane 4, Screens (play-who-you-are-says-why-no-job)",
+      "date": "2026-11-04",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.summary.no-work.none.you",
+      "move": "summary",
+      "text": "You have no job, and nobody in your household draws a wage.",
+      "origin": "authored",
+      "author": "Lane 4, Screens (play-who-you-are-says-why-no-job)",
+      "date": "2026-11-04",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.summary.school",
+      "move": "summary",
+      "text": "A student at {school}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.summary.school.you",
+      "move": "summary",
+      "text": "You're a student at {school}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.summary.place",
+      "move": "summary",
+      "text": "Lives in {place}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.summary.place.you",
+      "move": "summary",
+      "text": "You live in {place}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.summary.born.place",
+      "move": "summary",
+      "text": "Born in {place} in {year}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.summary.born.place.you",
+      "move": "summary",
+      "text": "You were born in {place} in {year}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.summary.born.year",
+      "move": "summary",
+      "text": "Born in {year}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.summary.born.year.you",
+      "move": "summary",
+      "text": "You were born in {year}.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.elected-always.third",
+      "move": "story",
+      "text": "{who} won election as {office}, and won every race for the seat after that.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.elected-always.they",
+      "move": "story",
+      "text": "They won election as {office}, and won every race for the seat after that.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.elected-always.you",
+      "move": "story",
+      "text": "You won election as {office}, and won every race for the seat after that.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.appointed-always.third",
+      "move": "story",
+      "text": "{who} was appointed {office}, and won every race for the seat after that.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.appointed-always.they",
+      "move": "story",
+      "text": "They were appointed {office}, and won every race for the seat after that.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.appointed-always.you",
+      "move": "story",
+      "text": "You were appointed {office}, and won every race for the seat after that.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.entered-always.third",
+      "move": "story",
+      "text": "{who} took office as {office}, and was returned at every election after that.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.entered-always.they",
+      "move": "story",
+      "text": "They took office as {office}, and were returned at every election after that.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.entered-always.you",
+      "move": "story",
+      "text": "You took office as {office}, and were returned at every election after that.",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-person-history-tells-a-story)",
+      "date": "2026-11-01",
       "kind": "written"
     }
   ]

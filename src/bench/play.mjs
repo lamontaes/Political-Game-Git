@@ -220,10 +220,14 @@ function storyPhoto(story) {
 function hideNewsToast() {
   hideToast($("news-surface"));
 }
-/** The night's paper: the news engine's stories the player heard, newest first. */
+/**
+ * The night's paper: the news engine's stories the player heard, newest
+ * first, only those still news on its date (the archive keeps the rest).
+ */
 async function nightsNews(personId) {
   const rows = await api(`/api/news?id=${encodeURIComponent(personId)}`);
   const stories = rows
+    .filter((r) => r.fresh !== false)
     .filter((r) => r.headline || r.lede)
     .filter(storyHeadline);
   return { stories, outlet: stories[0]?.outlet };
@@ -844,37 +848,41 @@ function electionNight(night) {
       $("backdrop").src = night.scene.backdrop.url;
       drawPeople(night.scene.people);
     }
+    // The governor races elsewhere that night have their own page after the
+    // call, two columns of rows, so all of them fit the panel at 1024x768
+    // with nothing to scroll (owner, Oct 27 audit: rows past the panel's foot
+    // could not be reached).
+    const steps = night.nation.races.length
+      ? [...night.steps, { nation: night.nation }]
+      : night.steps;
     let at = 0;
     const draw = () => {
-      const step = night.steps[at];
-      const last = at === night.steps.length - 1;
+      const step = steps[at];
+      const last = at === steps.length - 1;
       $("returns-title").textContent = night.title;
+      $("returns").classList.toggle("nation", Boolean(step.nation));
       $("returns-lines").replaceChildren(
-        ...step.lines.map((line) => prose(line.text)),
+        ...(step.nation ?? step).lines.map((line) => prose(line.text)),
       );
       $("returns-count").replaceChildren(
-        ...step.totals.map((entry) =>
-          row(
-            entry.name,
-            `${entry.votes.toLocaleString("en-US")} ${entry.votes === 1 ? labels.vote : labels.votes}`,
-          ),
-        ),
-        ...(last && night.nation.races.length
-          ? [
-              ...night.nation.lines.map((line) => prose(line.text)),
-              ...night.nation.races.map((race) =>
-                row(
-                  race.state,
-                  `${race.winnerParty} · ${labels.marginBy} ${race.marginPoints} ${labels.points}`,
-                ),
+        ...(step.nation
+          ? step.nation.races.map((race) =>
+              row(
+                race.state,
+                `${race.winnerParty} · ${labels.marginBy} ${race.marginPoints} ${labels.points}`,
               ),
-            ]
-          : []),
+            )
+          : step.totals.map((entry) =>
+              row(
+                entry.name,
+                `${entry.votes.toLocaleString("en-US")} ${entry.votes === 1 ? labels.vote : labels.votes}`,
+              ),
+            )),
       );
       $("returns-next").textContent = last ? labels.close : labels.next;
     };
     $("returns-next").onclick = async () => {
-      if (at < night.steps.length - 1) {
+      if (at < steps.length - 1) {
         at += 1;
         draw();
         return;
@@ -1894,6 +1902,8 @@ async function showPerson(person) {
   ]
     .filter((part) => part !== null && part !== undefined && part !== "")
     .join(" · ");
+  // Who they are now and where they come from, worded from their records.
+  $("person-summary").textContent = (c.summary ?? []).join(" ");
   // What the public knows of a figure (the past module's public tier): read
   // from the record, shown beside the tie if there is one.
   const known = c.publicKnowledge;
@@ -2678,6 +2688,24 @@ const sheets = {
                   {
                     title: c.age < 18 ? labels.householdHome : labels.home,
                     value: c.home?.placeName ?? me.placeName,
+                    // The town's size and this year's moves (path 10).
+                    note: c.town
+                      ? [
+                          labels.townPeople.replace(
+                            "{n}",
+                            c.town.population.toLocaleString("en-US"),
+                          ),
+                          labels.townMoves
+                            .replace(
+                              "{in}",
+                              c.town.arrivals.toLocaleString("en-US"),
+                            )
+                            .replace(
+                              "{out}",
+                              c.town.departures.toLocaleString("en-US"),
+                            ),
+                        ].join(" · ")
+                      : "",
                   },
                   c.job && {
                     title: labels.work,
@@ -2916,7 +2944,11 @@ const sheets = {
               `${Number(job.hoursDaily.toFixed(1))} ${labels.daily}`,
             ),
           ]
-        : [prose(labels.noJob, "record-empty")]),
+        : [
+            prose(labels.noJob, "record-empty"),
+            // Why, from the household's records (path 10).
+            ...(me.card.noJob ? [prose(me.card.noJob.text, "job-why")] : []),
+          ]),
     );
     work.classList.add("job-plate");
     return [
@@ -5279,6 +5311,75 @@ async function enterAs(life, personId) {
   await refresh();
 }
 
+/**
+ * Loading worth watching (Lane 4, path 3): while the first scene is drawn,
+ * the world just built tells its past. A year counter runs through the
+ * years of your life; each year writes its lines of your story into the
+ * journal and prints the headlines you heard that year; the state's map
+ * fills in county by county, your districts last. Everything comes from the
+ * built world's records (/api/newlife/story, loading.ts). A click, or the
+ * end of the years, finishes it. Resolves when it is done.
+ */
+function playLoadingStory(story) {
+  const panel = $("loading-story");
+  const years = story?.years ?? [];
+  if (!years.length) return Promise.resolve();
+  const map = $("loading-map");
+  const journal = $("loading-journal");
+  journal.replaceChildren();
+  map.replaceChildren(
+    ...(story.map
+      ? [districtMap(story.map, { wordHolders: (d) => d.name })]
+      : []),
+  );
+  const counties = [...map.querySelectorAll(".county")];
+  const yours = [...map.querySelectorAll(".yours")];
+  for (const node of [...counties, ...yours]) node.classList.add("unfilled");
+  show("loading-story", true);
+  // About six seconds in all, at most seven tenths of a second a year.
+  const step = Math.min(700, 6000 / years.length);
+  return new Promise((resolve) => {
+    let at = 0;
+    let shown = years[0].year;
+    let timer;
+    const finish = () => {
+      window.clearTimeout(timer);
+      panel.removeEventListener("click", finish);
+      for (const node of [...counties, ...yours])
+        node.classList.remove("unfilled");
+      $("loading-year").textContent = String(years.at(-1).year);
+      resolve();
+    };
+    panel.addEventListener("click", finish);
+    const next = () => {
+      if (at >= years.length) return finish();
+      const year = years[at];
+      // The counter runs up to the year, a year at a time.
+      if (shown < year.year) {
+        shown += 1;
+        $("loading-year").textContent = String(shown);
+        timer = window.setTimeout(next, Math.min(80, step / 4));
+        return;
+      }
+      $("loading-year").textContent = String(year.year);
+      journal.append(
+        ...year.lines.map((row) => prose(row.text, "loading-line")),
+        ...year.headlines.map((row) => prose(row.headline, "loading-headline")),
+      );
+      // The map fills in as the years pass: its share of the counties, then
+      // your districts with the last year.
+      const share = Math.ceil(((at + 1) / years.length) * counties.length);
+      for (const node of counties.slice(0, share))
+        node.classList.remove("unfilled");
+      if (at === years.length - 1)
+        for (const node of yours) node.classList.remove("unfilled");
+      at += 1;
+      timer = window.setTimeout(next, step);
+    };
+    next();
+  });
+}
+
 async function startLife({ custom = false, pick = false, placeKey, person }) {
   for (const id of placeControls) $(id).disabled = true;
   // The loading card: the panel holds only the progress over the scene.
@@ -5304,8 +5405,15 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
     ];
     // A poll still in flight when the build ends leaves the line alone.
     let built = false;
+    // The world's story plays once the world exists (playLoadingStory).
+    let playback = null;
+    const playStory = () =>
+      (playback ??= api("/api/newlife/story")
+        .catch(() => null)
+        .then((story) => playLoadingStory(story)));
     const poll = setInterval(async () => {
       const p = await api("/api/newlife/progress").catch(() => undefined);
+      if (p?.story) playStory();
       if (!p || built) return;
       const at =
         p.stage === "done" ? STEPS.length : Math.max(STEPS.indexOf(p.stage), 0);
@@ -5323,6 +5431,9 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
       clearInterval(poll);
       built = true;
     }
+    // The story plays to its end (or a click) before the life opens.
+    await playStory();
+    show("loading-story", false);
     // Advanced: the world is built; choose whom to play, with no address.
     if (pick) {
       await offerPlayAs(life);

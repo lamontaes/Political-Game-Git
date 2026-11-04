@@ -1,3 +1,4 @@
+import type { GroupQuartersType } from "./group-quarters-types";
 import type { PurchaseTaxInput } from "./modules/purchase-tax";
 import type { MarketEntry } from "./modules/residents";
 import type { ResidentsInput } from "./residents";
@@ -228,11 +229,21 @@ export interface PublicOrganization {
   }[];
 }
 
+export {
+  GROUP_QUARTERS_TYPES,
+  type GroupQuartersType,
+} from "./group-quarters-types";
+
 export interface HouseholdInput {
   id: string;
   placeId: PlaceId;
   memberIds: readonly PersonId[];
   source: Source;
+  /**
+   * A group-quarters room (a dormitory double, a cell, a barracks room, a
+   * nursing-home room): its type. Absent for a household.
+   */
+  quarters?: GroupQuartersType;
 }
 
 /** P15: why a closeness changed, the cause and the record behind it. */

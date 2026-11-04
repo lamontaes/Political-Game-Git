@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: lane-2/sibling-names
 pr: #7157
 blocked-on:
