@@ -1965,7 +1965,7 @@
     "addedBy": "governing/campaign-money-calibrated",
     "addedAt": "2026-11-01",
     "replacement": "Give such households their month of living costs where they are made (press staff through the one-person household official-living.ts already gives owners and officials, giveLivingCost, or the household draw SG-PEOPLE-press-staff-households names), delete the one-for-one branch, and refit donationShareOfMonthPerWarmth: with those donors weighed against their town's median month instead, the best share (about 2.2) leaves 13% of eight-place and 3.3% of sixteen-place pools outside a band, so the money rule needs more than a new share.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-body-lawyer-unrecorded",
