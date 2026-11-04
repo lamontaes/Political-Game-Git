@@ -1,0 +1,5 @@
+   × out-of-town press people live on a household cost and are paid each month through a played year (seed fbb5b426a359381f) 127284ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+ FAIL  src/core2/press-staff.test.ts > out-of-town press people live on a household cost and are paid each month through a played year (seed fbb5b426a359381f)
+AssertionError: Kaneohe Base, Hawaii (1528287), seed fbb5b426a359381f draw 0, world seed 63c1a32d1affe946510b4526b00a3b42b7bdcfd860bf0e13de5f2fb1fc4b3cab person_0025b03a282619d7: no pay record: expected undefined to be truthy
+      Tests  1 failed (1)
