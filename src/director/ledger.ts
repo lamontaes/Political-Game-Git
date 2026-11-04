@@ -841,11 +841,26 @@ export function createDirector(
 
     // Events an engine records without an appraised impact (a raise under a
     // new law) are sized from their own facts by the director's rules.
+    // Kinds told at most once in so many days, made a moment earlier today.
+    const spacedToday = new Set<string>();
     for (const row of today.events) {
       const rule = data.eventImpacts?.find(
         (entry) => entry.eventKind === row.event.kind,
       );
       if (!rule) continue;
+      // A kind told at most once in so many days: the newest moments are at
+      // the end, so the look back stops at the first one older than that.
+      if (
+        rule.minDaysApart &&
+        (spacedToday.has(row.event.kind) ||
+          recentMoment(
+            book,
+            `event:${row.event.kind}`,
+            date,
+            rule.minDaysApart,
+          ))
+      )
+        continue;
       // The person a fact of the event names (the official a recall's count
       // is about) is named by it as surely as its own people: the event is
       // theirs, and its people are who it was with.
@@ -900,6 +915,7 @@ export function createDirector(
       );
       if (self || (!named && row.event.personIds.includes(book.personId)))
         made.selfNamed = true;
+      if (rule.minDaysApart) spacedToday.add(row.event.kind);
     }
 
     // Ties: every change in closeness, read once at the end of the day.
@@ -1867,4 +1883,20 @@ export function createDirector(
       return book && thread ? fadingOf(thread, book, date) : one;
     },
   };
+}
+
+/** Whether the person has a moment of this kind within the last `days` days. */
+function recentMoment(
+  book: PersonLedger,
+  causeKind: string,
+  date: string,
+  days: number,
+): boolean {
+  for (let i = book.moments.length - one; i >= zero; i -= one) {
+    const moment = book.moments[i]!;
+    if (daysBetween(makeIsoDate(moment.date), makeIsoDate(date)) >= days)
+      return false;
+    if (moment.causeKind === causeKind) return true;
+  }
+  return false;
 }

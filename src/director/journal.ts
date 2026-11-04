@@ -142,7 +142,7 @@ function billName(
  * Bottle Deposit Act"), with the records it rests on. Undefined for a law no
  * bill enacted, and the line that would name it is left out.
  */
-function lawName(
+export function lawName(
   core: Readonly<CoreState>,
   lawId: string | undefined,
 ): { text: string; recordIds: string[] } | undefined {
@@ -160,7 +160,7 @@ function lawName(
  * A law no bill enacted (a starting law), by what it is about ("electricity
  * and the grid"), from its own record: what the line says in place of a name.
  */
-function lawTopic(
+export function lawTopic(
   core: Readonly<CoreState>,
   lawId: string | undefined,
 ): { text: string; recordIds: string[] } | undefined {

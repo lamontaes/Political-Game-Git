@@ -3,7 +3,14 @@ import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { reachOn } from "../core2/law-reach/host";
 import { coreAPI, personOrFillIn } from "../core2/state";
 import { currentCloseness } from "../core2/closeness";
-import { familyFactsOf } from "../core2/modules/people";
+import {
+  COUNTED_MOVES_MODULE_ID,
+  countedMoves,
+  familyFactsOf,
+  MOVED_AWAY_EVENT,
+} from "../core2/modules/people";
+import { townFacts } from "../core2/modules/laws";
+import type { EntityId } from "../core2/kernel/brands";
 import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import { PAST_MODULE_ID } from "../core2/past-module";
 import { publicKnowledgeOf } from "../core2/past-public";
@@ -118,7 +125,14 @@ export function personCard(core: CoreState, personId: string) {
       wageDailyMinor: job.wageDailyMinor,
       hoursDaily: job.hoursDaily,
     },
+    // Why a grown person holds no job, told to them on Who you are (path 10):
+    // who in the home earns, from the household's members and their jobs'
+    // records (a partner first, then a parent, then anyone else at home),
+    // or that nobody there draws a wage. Null with a job, or under voting age.
+    noJob: job ? null : noJobLine(core, person, relationOf),
     liquidMinor: person.liquidMinor,
+    // The town's size and this year's moves (path 10), from the records.
+    town: townMoves(core, person.placeId),
     // The household's home, from OPUS-WORLD's housing records.
     dwelling: core.modules.has(HOUSING_MODULE_ID)
       ? ((coreAPI(core)
@@ -508,6 +522,85 @@ function tellHistory(lines: readonly HistoryLine[], teller: Teller) {
       },
     ];
   });
+}
+
+/**
+ * A town's size and this calendar year's moves: everyone modeled there now
+ * (named and counted, `townFacts`), the people the counted moves' records
+ * brought in and took out, and the named residents' moved-away records.
+ * Each count is a sum of records, which the card names.
+ */
+export function townMoves(core: CoreState, town: string) {
+  const api = coreAPI(core);
+  const from = `${core.date.slice(0, 4)}-01-01`;
+  let arrivals = 0;
+  let departures = 0;
+  const recordIds: string[] = [];
+  if (core.modules.has(COUNTED_MOVES_MODULE_ID))
+    for (const move of countedMoves(api)) {
+      if (move.date < from) continue;
+      if (move.direction === "in" && move.toPlace === town)
+        arrivals += move.people;
+      else if (move.direction === "out" && move.fromPlace === town)
+        departures += move.people;
+      else continue;
+      recordIds.push(move.id);
+    }
+  for (const id of core.logByKind.get(MOVED_AWAY_EVENT) ?? []) {
+    const row = core.durableLog.get(id as EntityId);
+    if (!row || row.placeId !== town || row.date < from) continue;
+    departures += row.personIds?.length ?? 0;
+    recordIds.push(row.id);
+  }
+  return {
+    population: Math.round(townFacts(api, town).modeled),
+    arrivals: Math.round(arrivals),
+    departures: Math.round(departures),
+    recordIds,
+  };
+}
+
+/**
+ * Why a grown person has no job, in the you form, from the records: the
+ * household member whose job keeps the home, by its job and employer record,
+ * or that no one at home holds a job. The line names its records.
+ */
+function noJobLine(
+  core: CoreState,
+  person: NonNullable<ReturnType<typeof personOrFillIn>>,
+  relationOf: (id: string) => string | undefined,
+): { text: string; recordIds: string[] } | null {
+  const age = ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(core.date));
+  if (age < coreAPI(core).parameter("votingAge")) return null;
+  const household = core.households.get(person.householdId);
+  const rank = (id: string) =>
+    relationOf(id) === "partner" ? 0 : relationOf(id) === "parent" ? 1 : 2;
+  const earner = (household?.memberIds ?? [])
+    .filter((id) => id !== person.id)
+    .map((id) => core.people.get(id))
+    .filter((other) => other?.alive && other.jobId)
+    .sort((a, b) => rank(a!.id) - rank(b!.id))[0];
+  const job = earner?.jobId ? core.jobs.get(earner.jobId) : undefined;
+  const employer = job ? core.organizations.get(job.organizationId) : undefined;
+  if (earner && job && employer) {
+    const text = screenLine(
+      "person-history",
+      "person-history.summary.no-work.earner.you",
+      {
+        name: `${earner.givenName} ${earner.familyName}`,
+        employer: employer.name,
+      },
+    );
+    return text
+      ? { text, recordIds: [household!.id, earner.id, job.id, employer.id] }
+      : null;
+  }
+  const text = screenLine(
+    "person-history",
+    "person-history.summary.no-work.none.you",
+    {},
+  );
+  return text ? { text, recordIds: household ? [household.id] : [] } : null;
 }
 
 /** A run of terms in one office, as a card's header and lines under the name read it. */

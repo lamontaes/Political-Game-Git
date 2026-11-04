@@ -166,6 +166,10 @@ export {
 // measure's id and rows, for readers outside the family.
 export { RECORD_MODULE_ID, votesOf, type VoteRecordRow } from "./record";
 export { keyPeopleOf } from "../opening-key-people";
+// The town's moves, for the screens that count them: counted households'
+// move records and a named resident's moved-away event.
+export { COUNTED_MOVES_MODULE_ID, countedMoves } from "./counted-moves";
+export { MOVED_AWAY_EVENT } from "./moves";
 export { SCHOOL_MODULE_ID, type SchoolMeasureRow } from "../school-measures";
 export { SCHOOL_MEASURE } from "../school-outcomes";
 export { isNoncitizen, isUnauthorized } from "../citizenship";

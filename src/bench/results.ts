@@ -13,6 +13,7 @@ import type { CoreAPI, CoreState } from "../core2/types";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { backdropFor, stagePeople } from "./scene";
 import { hasBackdrop } from "./backdrop-places";
+import { districtWords, raceTitle } from "./race-words";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 import controls from "./data/controls.json" with { type: "json" };
 
@@ -40,15 +41,12 @@ export function placeWords(
       (row) => row.jurisdictionKey === `US-${usps}`,
     )?.name ?? usps;
   if (placeId.startsWith("legislative:") || placeId.startsWith("district:")) {
-    // A numbered district drops its leading zeros; a named one ("4A",
-    // "Chittenden-6-1") is read as the records spell it. District 0 is a
-    // state's one at-large House seat (`ND-00`): the whole state.
+    // The race's district in words (race-words.ts); a seat elected at large
+    // (`ND-00`) is the whole state.
     const code =
       district ?? (placeId.startsWith("district:") ? name.slice(3) : null);
-    const numbered = code !== null && /^\d+$/.test(code);
-    if (numbered && Number(code) === 0) return stateName(name.slice(0, 2));
-    const n = code?.replace(/^0+(?=\d)/, "") ?? null;
-    return n ? controls.politics.district.replace("{n}", n) : name;
+    if (code === null) return name;
+    return districtWords(code) ?? stateName(name.slice(0, 2));
   }
   if (placeId.startsWith("state:")) return stateName(name);
   return name;
@@ -94,9 +92,7 @@ export function electionResults(core: CoreState, playerId: string) {
     const ran = playerId in result.totals;
     out.push({
       contestId: contest.id,
-      title: contest.district
-        ? `${contest.title} (${contest.district})`
-        : contest.title,
+      title: raceTitle(contest.title, contest.district),
       date: contest.electionDate,
       /** The seat's district, for wording the places counted in it. */
       district: contest.district ?? null,

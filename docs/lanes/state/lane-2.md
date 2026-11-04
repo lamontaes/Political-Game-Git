@@ -1,6 +1,8 @@
 1 of 14 paths confirmed. Oldest open PR 0 days.
 
 # Lane 2 state — November 4, 2026
+**From Lane 3, Nov 4 08:10 UTC:** a new game crashes in some places while the opening treasury is built. `openBudgets` (`budgets.ts:481`) writes a non-finite amount and the module store throws "Module data must be finite, acyclic JSON data.". Replay: Checotah, Oklahoma (4013650), place seed 47b06e171d253ce7139d26b0df3defc6376e0d99ab8022cebfbba3ff5d28b8dc, on main 3fd359c4 (`GOLDEN_PATH_SEED=1acc04b6572d6ef2474607b73d0e7066b70ba9bcf5c519202b24a8c654ed707e npx vitest run src/bench/stops-answerable.test.ts`). Filed as `world-opening-treasury-not-finite-crash`.
+
 
 **Path 1 is independently confirmed on main 783974f6 by the non-builder Confirmer; 1 of 14 confirmed.** See the untouched Confirmer section below and [its eight-town evidence](../proof/confirmer-lane2-path1/README.md). The earlier builder proof was on main 69b9126328. The builder opened all eight fixed towns through normal New Game and audited their records. Only a session that did not build the fixes may replay the path on main and mark Verified. [First-minutes proof](../proof/first-minutes.md) attaches every town, replay, screenshot and named home/family record. No own PR merge, force push or rewritten history.
 

@@ -397,6 +397,166 @@
       }
     },
     {
+      "key": "scene-words.cause-law-effect-self.law-cost-your-household-cost",
+      "move": "cause-law-effect-self",
+      "kind": "spoken",
+      "text": "{law} cost your household {cost}.",
+      "uses": [
+        {
+          "move": "cause-law-effect-self",
+          "subject": "cause",
+          "role": "cause:event:law.effect-learned",
+          "choice": "self"
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-scene-cause-law-effect-learned)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-law-effect-self.you-worked-out-that-law-is-why-your-household-paid-cost",
+      "move": "cause-law-effect-self",
+      "kind": "spoken",
+      "text": "You worked out that {law} is why your household paid {cost}.",
+      "uses": [
+        {
+          "move": "cause-law-effect-self",
+          "subject": "cause",
+          "role": "cause:event:law.effect-learned",
+          "choice": "self"
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-scene-cause-law-effect-learned)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-law-effect-self.law-put-refund-back-in-your-household-s-hands",
+      "move": "cause-law-effect-self",
+      "kind": "spoken",
+      "text": "{law} put {refund} back in your household's hands.",
+      "uses": [
+        {
+          "move": "cause-law-effect-self",
+          "subject": "cause",
+          "role": "cause:event:law.effect-learned",
+          "choice": "self"
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-scene-cause-law-effect-learned)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-law-effect-self.you-worked-out-that-law-is-why-your-household-got-refund-back",
+      "move": "cause-law-effect-self",
+      "kind": "spoken",
+      "text": "You worked out that {law} is why your household got {refund} back.",
+      "uses": [
+        {
+          "move": "cause-law-effect-self",
+          "subject": "cause",
+          "role": "cause:event:law.effect-learned",
+          "choice": "self"
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-scene-cause-law-effect-learned)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-law-effect-self.the-law-on-topic-cost-your-household-cost",
+      "move": "cause-law-effect-self",
+      "kind": "spoken",
+      "text": "The law on {topic} cost your household {cost}.",
+      "uses": [
+        {
+          "move": "cause-law-effect-self",
+          "subject": "cause",
+          "role": "cause:event:law.effect-learned",
+          "choice": "self"
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-scene-cause-law-effect-learned)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-law-effect-self.you-worked-out-that-the-law-on-topic-is-why-your-household-paid-cost",
+      "move": "cause-law-effect-self",
+      "kind": "spoken",
+      "text": "You worked out that the law on {topic} is why your household paid {cost}.",
+      "uses": [
+        {
+          "move": "cause-law-effect-self",
+          "subject": "cause",
+          "role": "cause:event:law.effect-learned",
+          "choice": "self"
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-scene-cause-law-effect-learned)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-law-effect-self.the-law-on-topic-put-refund-back-in-your-household-s-hands",
+      "move": "cause-law-effect-self",
+      "kind": "spoken",
+      "text": "The law on {topic} put {refund} back in your household's hands.",
+      "uses": [
+        {
+          "move": "cause-law-effect-self",
+          "subject": "cause",
+          "role": "cause:event:law.effect-learned",
+          "choice": "self"
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-scene-cause-law-effect-learned)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-law-effect-self.you-worked-out-that-the-law-on-topic-is-why-your-household-got-refund-back",
+      "move": "cause-law-effect-self",
+      "kind": "spoken",
+      "text": "You worked out that the law on {topic} is why your household got {refund} back.",
+      "uses": [
+        {
+          "move": "cause-law-effect-self",
+          "subject": "cause",
+          "role": "cause:event:law.effect-learned",
+          "choice": "self"
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-scene-cause-law-effect-learned)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
       "key": "scene-words.cause-eviction-self.your-household-is-being-evicted",
       "move": "cause-eviction-self",
       "text": "Your household is being evicted.",
@@ -3128,10 +3288,10 @@
       }
     },
     {
-      "key": "scene-words.lead-news-arrives-other.other-asks-you-to-sit-down-first",
+      "key": "scene-words.lead-news-arrives-other.other-has-something-to-tell-you-as-soon-as-you-re-in-the-door",
       "move": "lead-news-arrives-other",
       "kind": "spoken",
-      "text": "{other} asks you to sit down first.",
+      "text": "{other} has something to tell you as soon as you're in the door.",
       "uses": [
         {
           "move": "lead-news-arrives-other",
@@ -3142,8 +3302,8 @@
         }
       ],
       "origin": "authored",
-      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
-      "date": "2026-10-27",
+      "author": "Lane 3, words and scenes (Confirmer's note, path 1)",
+      "date": "2026-11-04",
       "tag": {
         "move": "narrate"
       }

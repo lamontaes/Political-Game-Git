@@ -296,6 +296,67 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.79.0
+
+_Released November 4, 2026._
+
+### Added
+
+- **The Journal tells your campaign's months: the clerk's count of your petition
+  and your volunteers' evenings at the doors.** While you run, the Journal now
+  notes the clerk's count of your petition signatures ("The clerk counted 32
+  good signatures on my petition for Council member. I needed 30.") and, at most
+  every two weeks, a volunteer's evening knocking on doors for you ("A volunteer
+  knocked on 37 doors for me.").
+
+- **After you vote on a bill, a reporter calls to ask why, and the paper's story
+  of the vote quotes you or says you wouldn't comment.** When you vote on a bill
+  as a member of a council or board, a reporter from an outlet that covers the
+  body asks why you voted the way you did ("You voted against Ordinance 2025-1.
+  What should people know about why?"). If you answer on the record, the paper's
+  story of that vote quotes you. If you refuse, it says you would not comment. A
+  reporter who already called about the bill's introduction calls again about
+  the vote.
+
+### Improved
+
+- **The calendar shows the town's meetings and the holidays, birthdays only for
+  family, and each kind has a color and can be hidden** The calendar now carries
+  the town's council and board meetings and the federal holidays beside filing
+  dates and elections; birthdays are only for the household and close family. A
+  key above the month names each kind in its color and hides or shows it.
+
+### Fixed
+
+- **People no longer go to an office nobody works at** People are no longer sent
+  to approach a public office that has no staff.
+
+- **Election night names a district as District 14 and an at-large seat by its
+  state, never a code.** The places a race was counted in read as words on
+  election night: a state legislative or U.S. House district as "District 14", a
+  state's one at-large House seat as the state's name, and a state as its name.
+  Blank and refused exit-poll answers read as words too.
+
+- **Journal chapters open only on your own turns or a relative's, never on
+  someone else's oath or a stranger's birth.** The Journal used to start a new
+  chapter, titled "Commissioner" or with a stranger's name, when someone you
+  knew took office or a neighbor had a baby. Those moments are now told inside
+  the chapter you are living. A relative's birth or death still opens a chapter,
+  and a death's chapter names them by your tie ("My father").
+
+- **Ordinary news at home no longer opens with someone asking you to sit down
+  first.** When someone at home brings you ordinary news, like what they thought
+  of the President's speech, the scene no longer opens as if bad news were
+  coming ("Your partner asks you to sit down first."). It opens with "{name} has
+  something to tell you as soon as you're in the door."
+
+### Changed
+
+- **When someone asks what you think, your replies are opinions.** When someone
+  brings up the news and asks "What do you think?", your choices are now answers
+  to that question ("I like it.", "I'd want more than a headline before I
+  decide."), not "I heard about it." or "Huh."
+
 ## PRE-ALPHA 0.78.0
 
 _Released November 4, 2026._

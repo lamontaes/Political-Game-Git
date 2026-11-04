@@ -1,0 +1,47 @@
+RESUMED Tuesday, November 24, 2026 7:00 AM
+WEEK 1 Tuesday, December 1, 2026 7:00 AM
+TABS 1 Government | Campaigns | Parties | Issues | Budgets
+WEEK 2 Tuesday, December 8, 2026 7:00 AM
+TABS 2 Government | Campaigns | Parties | Issues | Budgets
+WEEK 3 Tuesday, December 15, 2026 7:00 AM
+TABS 3 Government | Campaigns | Parties | Issues | Budgets
+WEEK 4 Tuesday, December 22, 2026 7:00 AM
+TABS 4 Government | Campaigns | Parties | Issues | Budgets
+WEEK 5 Tuesday, December 29, 2026 7:00 AM
+TABS 5 Government | Campaigns | Parties | Issues | Budgets
+WEEK 6 Tuesday, January 5, 2027 7:00 AM
+TABS 6 Government | Your office | Campaigns | Parties | Issues | Budgets
+WEEK 7 Tuesday, January 12, 2027 7:00 AM
+TABS 7 Government | Your office | Campaigns | Parties | Issues | Budgets
+WEEK 8 Tuesday, January 19, 2027 7:00 AM
+TABS 8 Government | Your office | Campaigns | Parties | Issues | Budgets
+WEEK 9 Tuesday, January 26, 2027 7:00 AM
+TABS 9 Government | Your office | Campaigns | Parties | Issues | Budgets
+WEEK 10 Tuesday, February 2, 2027 7:00 AM
+TABS 10 Government | Your office | Campaigns | Parties | Issues | Budgets
+WEEK 11 Tuesday, February 9, 2027 7:00 AM
+TABS 11 Government | Your office | Campaigns | Parties | Issues | Budgets
+WEEK 12 Tuesday, February 16, 2027 7:00 AM
+TABS 12 Government | Your office | Campaigns | Parties | Issues | Budgets
+WEEK 13 Tuesday, February 23, 2027 7:00 AM
+TABS 13 Government | Your office | Campaigns | Parties | Issues | Budgets
+WEEK 14 Tuesday, March 2, 2027 7:00 AM
+TABS 14 Government | Your office | Campaigns | Parties | Issues | Budgets
+WEEK 15 Tuesday, March 9, 2027 7:00 AM
+TABS 15 Government | Your office | Campaigns | Parties | Issues | Budgets
+WEEK 16 Tuesday, March 16, 2027 7:00 AM
+TABS 16 Government | Your office | Campaigns | Parties | Issues | Budgets
+WEEK 17 Tuesday, March 23, 2027 7:00 AM
+TABS 17 Government | Your office | Campaigns | Parties | Issues | Budgets
+WEEK 18 Tuesday, March 30, 2027 7:00 AM
+TABS 18 Government | Your office | Campaigns | Parties | Issues | Budgets
+WEEK 19 Tuesday, April 6, 2027 7:00 AM
+TABS 19 Government | Your office | Campaigns | Parties | Issues | Budgets
+WEEK 20 Tuesday, April 13, 2027 7:00 AM
+TABS 20 Government | Your office | Campaigns | Parties | Issues | Budgets
+WEEK 21 Tuesday, April 20, 2027 7:00 AM
+TABS 21 Government | Your office | Campaigns | Parties | Issues | Budgets
+WEEK 22 Tuesday, April 27, 2027 7:00 AM
+TABS 22 Government | Your office | Campaigns | Parties | Issues | Budgets
+END Tuesday, April 27, 2027 7:00 AM
+ERRORS []

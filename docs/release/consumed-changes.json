@@ -1,6 +1,28 @@
 {
   "entries": [
     {
+      "version": "0.79.0",
+      "releasedOn": "2026-11-04",
+      "revision": "2115da38186101ef3a622f6076cce93af5f2360f",
+      "changeIds": [
+        "circle-member-log-window",
+        "guards-montage-people-entry",
+        "guards-red-nov4",
+        "known-office-needs-staff",
+        "lane-2-first-minutes-proof",
+        "play-calendar-more-than-birthdays",
+        "play-stop-race-list-row-heights-differ-when-a-label-wraps",
+        "results-screen-raw-words",
+        "skills-lane-1-traps",
+        "skills-lane5-nov3",
+        "words-campaign-months-journal",
+        "words-journal-chapters-own-turns",
+        "words-news-lead-not-bad-news",
+        "words-questions-answered",
+        "words-reporter-calls-on-a-vote"
+      ]
+    },
+    {
       "version": "0.78.0",
       "releasedOn": "2026-11-04",
       "revision": "b53cf5cf37b37a3ba98d029cf1cde4948cd9c551",

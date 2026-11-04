@@ -5432,9 +5432,9 @@
     }
   },
   "circleActRetentionMonths": {
-    "value": 12,
+    "value": 3,
     "tag": "TUNABLE",
-    "citation": "Owner ruling, Oct 12 (running memory stays small: keep current state, each person's key facts and recent detail; summarize or drop old detail): how long a circle member's routine act stays in the log after its reasons are condensed.",
+    "citation": "Owner ruling, Oct 12 (running memory stays small: keep current state, each person's key facts and recent detail; summarize or drop old detail): how long a circle member's routine act stays in the log after its reasons are condensed. Set to the spread's low end: at 12 months a large town (Arcadia, California) ran out of the desktop app's 4,096 MiB heap in its fourth year, its log holding a year of routine rows for each of about 200 people met once in the campaign; nothing reads a member's row after its own day except debug views.",
     "spread": {
       "low": 3,
       "high": 36,

@@ -231,7 +231,7 @@
     "votingStandAgainBase": {
       "value": 0.9,
       "tag": "TUNABLE",
-      "source": "The reason a serving incumbent who is a full person carries to stand again before their age and traits weigh in. With the age reason below and the calibrated voting.stand-again weight, about 82% of incumbents stand, against about 81% of U.S. local incumbents who seek reelection, the figure the repo's candidacy test cites.",
+      "source": "The reason a serving incumbent who is a full person carries to stand again before the time their other work takes (the newcomer's time reason, candidacyTimeWeight times their recorded daily hours over a full shift), their age and their traits weigh in. Checked against the share of eligible local incumbents who seek re-election, 58 to 78 percent (councils 63 to 76, county commissions 70 to 81; docs/research/local-incumbency-2026-10-30.md, T1, from ICMA council surveys and Ballotpedia): over two played years in 24 places drawn from all 56 (scripts/core2-year/incumbency-totals.ts, seed a63ad2af1003c7ad), 0.9 with the time reason gives 0.766 (cities and townships 0.83, counties 0.75); without the time reason it gave 0.917 at 0.9, 0.898 at 0.7 and 0.843 at 0.5, and with it 0.912 at 1.2.",
       "spread": [0.5, 1.2]
     },
     "votingStandAgainAgeWeight": {

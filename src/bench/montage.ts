@@ -20,7 +20,7 @@ const DATA = montage as unknown as {
 };
 
 export type BeatKind =
-  "oval-desk" | "colonnade" | "officials" | "america" | "home";
+  "oval-desk" | "colonnade" | "officials" | "state" | "america" | "home";
 
 /** One part of the address, shown: its picture, who stands in it, and the office-and-name line for officials. */
 export interface MontageBeat {
@@ -38,7 +38,8 @@ export interface MontageBeat {
  * The kind of each part of an address from its role: the desk first, home
  * last, and between them the beat its first sentence's level keys to
  * (occasion: the colonnade; country and people: America; congress, the Vice
- * President and the states: the officials; the families: home). A varied
+ * President: the officials; the states: the player's state; the families:
+ * home). A varied
  * address still finds its beats, since they follow the role, not the position.
  */
 export function beatKinds(levels: readonly string[]): BeatKind[] {
@@ -90,7 +91,11 @@ export function addressMontage(
       ? places.filter(hasBackdrop)[
           turn % Math.max(places.filter(hasBackdrop).length, 1)
         ]
-      : places.find(hasBackdrop);
+      : kind === "state"
+        ? places
+            .map((place) => place.replace("{state}", stateCode))
+            .find(hasBackdrop)
+        : places.find(hasBackdrop);
   };
   // The Vice President first, then the chambers' leaders, the player's
   // governor, and the legislators after (owner, Oct 29: "the Vice President,
@@ -103,12 +108,37 @@ export function addressMontage(
         : person.officeKind === "governor"
           ? 2
           : 3;
-  const key = keyPeopleOf(core, personId as PersonId)
+  const everyKey = keyPeopleOf(core, personId as PersonId)
+    .filter((person) => person.id !== speakerId)
+    .sort((a, b) => rank(a) - rank(b));
+  // Drawn in the Oval Office: the national key people who are full people
+  // (the states' part names its own and draws no one).
+  const drawable = everyKey.filter((person) =>
+    core.people.has(person.id as PersonId),
+  );
+  // The state's own offices: its governor and its legislature's chambers.
+  const ofState = (person: { officeKind: string }) =>
+    person.officeKind === "governor" ||
+    person.officeKind.startsWith("legislature-");
+  const national = drawable.filter((person) => !ofState(person));
+  const key = national.length ? national : drawable;
+  // The states' part: the player's governor and the state's chamber leaders,
+  // named over the state's own capitol (filled in or not: nobody is drawn).
+  const statePeople = everyKey
     .filter(
       (person) =>
-        person.id !== speakerId && core.people.has(person.id as PersonId),
+        ofState(person) &&
+        (person.reasons.includes("governor") ||
+          person.reasons.includes("chamber-leader")),
     )
-    .sort((a, b) => rank(a) - rank(b));
+    // The governor first, then the chambers' leaders.
+    .sort(
+      (a, b) =>
+        Number(!a.reasons.includes("governor")) -
+        Number(!b.reasons.includes("governor")),
+    );
+  // Their state's capitol; with nobody to name, the generic dome.
+  const stateCode = (statePeople[0]?.stateKey ?? "").slice(3).toLowerCase();
   // America: the town's own people, as they are along a route (the full
   // people the town keeps, never the player's household, who wait at home).
   const player = core.people.get(personId as PersonId);
@@ -147,6 +177,14 @@ export function addressMontage(
       caption = officials
         .map((person) => `${person.officeTitle} ${person.name}`)
         .join(" · ");
+    } else if (kind === "state") {
+      for (const person of statePeople)
+        records.push(person.id, ...person.sourceRecordIds);
+      caption = statePeople.length
+        ? statePeople
+            .map((person) => `${person.officeTitle} ${person.name}`)
+            .join(" · ")
+        : null;
     } else if (kind === "america") {
       for (const id of known.slice(
         americaTurn * 2 - 2,

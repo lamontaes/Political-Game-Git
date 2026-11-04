@@ -147,13 +147,19 @@ export function keyPeopleOf(
   const heads = seatsOfOffices(
     api,
     (offices(api).rows() as unknown as OfficeRow[]).filter(
-      (row) => row.kind === "president" || row.kind === "vice-president",
+      (row) =>
+        row.kind === "president" ||
+        row.kind === "vice-president" ||
+        // The player's own governor, from the offices of their state.
+        (row.kind === "governor" && row.jurisdiction === state),
     ) as never,
   ).filter(({ seat }) => !over.some((row) => row.seat.id === seat.id));
   for (const { office, seat, holder } of [...over, ...heads]) {
     if (!holder) continue;
     const reason: KeyReason | undefined =
-      office.kind === "president" || office.kind === "vice-president"
+      office.kind === "president" ||
+      office.kind === "vice-president" ||
+      office.kind === "governor"
         ? office.kind
         : own.get(office.kind);
     if (!reason) continue;
