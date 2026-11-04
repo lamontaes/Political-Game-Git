@@ -5,12 +5,13 @@ area: core
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: speed/group-quarters-population
 pr:
 blocked-on:
 after: world-group-quarters-research
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T00:57:59.660Z
 ---
 
 **What.** The residents engine places every resident in a household that rents or owns. A place's group-quarters residents (students in college housing, people in prison, service members in barracks, nursing-home residents) are instead housed by their institution and do not enter the rental market. Without them, Storrs, Connecticut's students seem to rent at their own incomes, fall behind and are evicted in large numbers, which also fills in thousands of full people (see core-evicted-counted-stays-counted). The counts come from world-group-quarters-research.
