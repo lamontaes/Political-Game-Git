@@ -7,9 +7,9 @@ milestone: play-first
 kind: wiring
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: lane-2/counted-adult-concern
-pr:
+pr: #7234
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-04T10:50:29.054Z
