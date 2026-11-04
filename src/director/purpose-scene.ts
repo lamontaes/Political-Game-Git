@@ -75,6 +75,7 @@ import {
   type CauseRow,
 } from "../core2/modules/campaigns";
 import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };
+import { outletsHere, PRESS_MODULE_ID } from "../core2/modules/press";
 import { closenessBetween } from "../core2/closeness";
 import { stakeOf } from "./family-stake";
 import { properName, spoken, spokenDate } from "./words";
@@ -469,6 +470,28 @@ function composeBinding(
       facts["about-bill"] = facts.bill;
     } else if (said.subjectId === askedId && said.subjectFraming === "against")
       facts["about-you"] = { text: asked.givenName, sourceRecordIds: cited };
+  }
+  // A bill the asked person just introduced (legislature.ts introduce): the
+  // lines about an introduction need it.
+  if (record?.kind === "office.introduced")
+    facts.introduced = {
+      text: said.number ?? "",
+      sourceRecordIds: [moment.causeId, said.billId ?? moment.causeId],
+    };
+  // A reporter cast for a record that names no outlet speaks for the outlet
+  // that employs them, by its record.
+  if (!facts.outlet && !said.outletId && core.modules.has(PRESS_MODULE_ID)) {
+    const employer = outletsHere(coreAPI(core as CoreState)).find((row) =>
+      row.reporterIds.includes(askerId),
+    );
+    const outlet = employer
+      ? core.organizations.get(employer.organizationId)
+      : undefined;
+    if (outlet)
+      facts.outlet = {
+        text: properName(outlet.name),
+        sourceRecordIds: [employer!.id, outlet.id],
+      };
   }
   // An outlet any other cause names (an invitation to an interview or a
   // debate), by name.
