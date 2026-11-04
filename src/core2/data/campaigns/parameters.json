@@ -1577,6 +1577,12 @@
       "tag": "TUNABLE",
       "source": "The window of recent cases an official weighs when deciding whether to take on an aide: the office's demand over the last season.",
       "spread": [30, 180]
+    },
+    "attackAdShare": {
+      "value": 0.36,
+      "tag": "ESTIMATED",
+      "source": "The share of a challenger's ad money that goes on showing a rival's record in office, for a candidate of average temperament (moved by the people-mind conflict trait through spendTraitWeight, never a fixed share; register D-2 and D-5). Checked as a total against U.S. House races, the nearest measured contests: \"The percentage of negativity in U.S. House races was up slightly in the 2020 election cycle ... (41 percent compared to 32 percent in 2018)\", with positive ads at 39 percent in 2020 and 38 percent in 2018 (Wesleyan Media Project, 'Political Ads in 2020: Fast and Furious', mediaproject.wesleyan.edu/2020-summary-032321). A challenger facing no rival with a record shows none.",
+      "spread": [0.32, 0.41]
     }
   }
 }
