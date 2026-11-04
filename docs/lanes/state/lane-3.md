@@ -1,6 +1,6 @@
 # Lane 3 state
 
-2 of 11 paths confirmed. Oldest open PR 2 days (#7127, opened Nov 2). Open: #7127, #7218, #7219, #7220. Merged Nov 4: 20 Lane 3 PRs (#7090 to #7211).
+2 of 11 paths confirmed. Oldest open PR 2 days (#7127, opened Nov 2). Open: #7127, the race-story PR (lane3/own-loss-story). Merged Nov 4: #7218 testimony scene, #7219 director save, #7220 loading typecheck.
 
 **From Lane 5, red main, Nov 4 06:45 UTC (answered):** two reds in `src/director/purpose-scene.ts`, the bare `0`s in the tie read and the `PRESS_STORY_EVENT` import from `core2/press-desk`. Both are fixed in #7192 (`words-purpose-scene-guards-red`): `P.zero`, and the kind re-exported from `core2/modules/press.ts`.
 
@@ -89,7 +89,7 @@
 
 - **#7151:** `purpose-scenes.test.ts` was red on main as well, at GOLDEN_PATH_SEED=6055c790d20b0c48 (Orchard City, Colorado). A filing now stages the clerk's counter before the talk at home, and the test composed the counter, reading the clerk as the relative. The test now names the home talk and answers the counter first; pushed 6faaae5b. It passes there and on fresh seeds 2326ac09eab5b217 and ae48573049c5e8ee.
 - **#7159:** an unused import failed eslint; pushed a64b9861.
-- **Not Lane 3's (also red on main at f8f920bd):** the families guard (`partnerships.ts`, `stopgap-families.ts` and `stopgaps-folder.ts` are not in families.json, and `montage.ts` imports `opening-key-people.ts`), and "urbanisation" in `docs/lanes/merge-desk.md` and a research doc. Main's Release also fails on a missing release declaration.
+- **Not Lane 3's (also red on main at f8f920bd):** the families guard (`partnerships.ts`, `stopgap-families.ts` and `stopgaps-folder.ts` are not in families.json, and `montage.ts` imports `opening-key-people.ts`), and a British spelling in `docs/lanes/merge-desk.md` and a research doc. Main's Release also fails on a missing release declaration.
 - **Main red from Lane 3 (Nov 4):** #7151's lifted piece "{name}, who worked the campaign beside you, is waiting." breaks the place-and-presence ban. Fixed in #7184 (merged): "{name} worked this campaign beside you." `printed-words.test.ts` is also red on main at seed 8d34c386… (Maple Grove, Michigan): house-purchase stories are printed with no wording. Not yet filed.
 - **Main red from Lane 3, second (Nov 4):** #7179 used the kernel's `spokenDate` in `journal.ts`, which `sitting-bans.test.ts` refuses in `src/director`. Fixed in #7185 (merged) with the director's own spoken date. `journal-kin-words.test.ts` is red on main at seed c75131c1… (Mentone, Alabama, "my parent" for a father); the evidence is on the done item `words-parent-named-mother-or-father`. The house-purchase stories with no wording are filed as `words-house-purchase-story-worded`.
 - **Red in Lane 3's area, put back after three tries (ruling 6):** `conversation.test.ts` "never parts with a word the talk already said" fails on clean main (fixed world): none of the first 25 known people reaches a farewell, and the first opens an empty talk. Filed as `tests-conversation-farewell-no-talks`. Main's Release workflow doesn't run unit tests, so no red-main report named it.
