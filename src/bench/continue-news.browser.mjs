@@ -6,6 +6,7 @@
 // BENCH_SEED a world to replay.
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
+import { playOpening } from "./start-life.mjs";
 const port = process.env.BENCH_PORT ?? "3000";
 const shot = process.env.BENCH_SHOT;
 const browser = await chromium.launch({
@@ -50,6 +51,10 @@ try {
     const r = await response;
     assert.equal(r.status(), 200);
     seed = new URL(r.url()).searchParams.get("seed");
+    await page.waitForFunction(() =>
+      document.getElementById("card-clock")?.textContent.trim(),
+    );
+    await playOpening(page, (await r.json()).sceneMomentId ?? null);
     await page.locator("#news-surface:not([hidden])").waitFor();
     clock = await page.locator("#card-clock").innerText();
     fresh = await readRates();

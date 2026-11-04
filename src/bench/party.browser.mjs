@@ -4,6 +4,7 @@
 // their views fit it, and the join buttons go away.
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
+import { playOpening } from "./start-life.mjs";
 
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
@@ -33,6 +34,11 @@ try {
     await page.locator("#new-life").click();
     await page.locator("#new-advanced").click();
     await page.locator("#new-world").click();
+    // The opening plays first, as a player sees it (start-life.mjs).
+    await playOpening(
+      page,
+      (await (await response).json()).sceneMomentId ?? null,
+    );
     const r = await response;
     assert.equal(r.status(), 200);
     lastLife = r.url();
