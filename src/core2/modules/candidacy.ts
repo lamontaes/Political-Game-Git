@@ -747,8 +747,8 @@ export function weighContest(
       : undefined;
   const rank = FAMILY_RANK[contest.family];
   const wide = contest.level === "state" || contest.level === "federal";
-  // A county seat is weighed by the town's adults only, as the town alone
-  // votes in it: the rest of the county is not counted yet.
+  // A county seat is weighed by the town's adults only: the rest of the
+  // county votes in it but no one from there runs yet.
   if (contest.family === "countyOffice") {
     // stopgapId: SG-GOV-county-race-town-only
     api.stopgap("SG-GOV-county-race-town-only");
