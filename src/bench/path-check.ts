@@ -395,8 +395,12 @@ for (let race = 0; race < 3 && !won; race++) {
       c.checks.every((k) => k.met),
     );
     const next = chooseRace(open).race;
-    if (!next) break;
-    log.push(`lost; trying ${next.contest.title}`);
+    // With none open today, the next stand waits for a window to open.
+    log.push(
+      next
+        ? `lost; trying ${next.contest.title}`
+        : "lost; waiting for the next race to open",
+    );
   }
 }
 
