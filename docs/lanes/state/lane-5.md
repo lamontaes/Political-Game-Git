@@ -18,8 +18,18 @@
 
 ## Built, waiting for a PR slot
 
-- `lane-5/legacy-pay-ends-with-job` (`work-legacy-pay-mode-blocks-rehire`): on main, Oak Hills, Iowa stops on 2026-02-02; with the fix it reaches 2026-06-03, and `person_318925d9787653e7` holds payroll job `job:position:organization_6bd731cdf9b572c4:2025-08-01:1:person_318925d9787653e7` after their legacy job ended 2026-02-02. Superior, Colorado runs 2025 to 2028-01-01 with no throw.
-- `lane-5/skills-nov3`: skill lines (start-life helper; shallow fetches; storage guard override).
+- `lane-5/legacy-pay-ends-with-job` (`work-legacy-pay-mode-blocks-rehire`): Oak Hills, Iowa no longer stops on 2026-02-02; Superior, Colorado runs to 2028-01-01.
+- `lane-5/skills-nov3`: skill lines.
+- `lane-5/opening-every-locality` (`core-opening-coverage-every-locality`): a resumable script; the sweep is running in chunks (89 of 8,242 county-governed localities opened, none failed so far).
+
+## In progress
+
+- `speed/group-quarters-population` (`core-group-quarters-population`, taken over from the speed lead): main merged in, the eviction band set by the Nov 2 ruling, residents of rooms outside the labor force kept out of staff and public posts. group-quarters.test passes on 3 seeds. One test left: `housing-counted-evicted`'s rent-again step needs a place with an evicted household that has pay, now that Storrs's students aren't evicted. Then the Storrs and zero-group-quarters measurements, then the PR.
+- Unit 9: `core-played-game-saves-and-continues` filed (Continue today is only the server's memory). The plan for `core-snapshot-cover-rest` is in its Notes: re-apply the old branch's intent on main, don't merge it.
+
+## Found and fixed in my own tools
+
+- `scripts/stopgaps-move-old.ts` (merged in #7144) reverted rows main had changed since a branch was cut. The fix (merge base plus field-by-field) rides on the group-quarters branch, and the desk was warned on #7144.
 
 ## Filed for others (lead play)
 
@@ -34,8 +44,8 @@
 
 ## Next
 
-- `release-audit-07-08`: answered by `docs/packages/M7-early-access.md` line 88; it belongs to launch preparation.
-- Replay M0-13 in Rachel, West Virginia on main (red main?).
+- `release-audit-07-08`: answered by `docs/packages/M7-early-access.md` line 88 (launch preparation). `release-build-ships-nothing-from-the-workroom` filed.
+- M0-13 red in Rachel, West Virginia reproduces on main: filed `tests-played-world-no-rental-tiny-town`. The press-staff crash doesn't reproduce on main; `tests-electoral-scenes-speech-crowd-member` filed.
 
 - Unit 3 rest, then `tests-filing-browser-cold-bench-timeouts` and `tests-election-browser-checks-red-on-main`.
 - Unit 4: `core-press-staff-counted-job-not-resident` (a 24-minute repro), `work-legacy-pay-mode-blocks-rehire`, `core-relocation-job-held-intermittent`, `core-opening-coverage-every-locality`.
