@@ -5,11 +5,12 @@ area: words
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane3/red-journal-spoken-date
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T05:49:25.202Z
 ---
 
 **What.** tests/guards/english/sitting-bans.test.ts ('the director says a date in speech with the director's own spoken date') fails on main: src/director/journal.ts imports spokenDate from core2/kernel/dates, added in #7179 for the filing's election date.
