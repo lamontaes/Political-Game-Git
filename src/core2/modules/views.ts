@@ -48,6 +48,7 @@ import {
   reportOutcome,
 } from "../trait-decisions";
 import { keepsWhy } from "../why-kept";
+import { countedNewsStances, fillInNewsViews } from "../counted-news-views";
 
 interface CellKey {
   n: number;
@@ -486,10 +487,11 @@ function direction(desiredChange: string): number {
  */
 export function standingWith(
   api: CoreAPI,
-  listener: PersonView,
+  listener: Pick<PersonView, "id" | "lean">,
   speakerId: string,
   topic: string,
   desiredChange: string,
+  countedHearer?: Pick<PersonState, "traits">,
 ): number {
   const speaker = viewOf(api, speakerId);
   const half = v("one") / v("two");
@@ -503,7 +505,7 @@ export function standingWith(
     : half;
   // How far the listener trusts anyone follows their own traits (generalized
   // trust: agreeableness), at the weight fitted to its study.
-  const hearer = api.state.people.get(listener.id);
+  const hearer = countedHearer ?? api.state.people.get(listener.id);
   let trust = nearTrust;
   if (hearer) {
     const lean = decisionLean(
@@ -519,7 +521,7 @@ export function standingWith(
         Math.exp(decisionTraitWeight(api.state, "views.trust") * lean),
     );
     // The audit's probe (off in play) sees the trust with and without the trait term.
-    reportOutcome("views.trust", hearer.id, lean, "size", (withTerm) =>
+    reportOutcome("views.trust", listener.id, lean, "size", (withTerm) =>
       withTerm ? trust : nearTrust,
     );
   }
@@ -577,7 +579,10 @@ export function stanceOn(
   if (!api.state.modules.has(VIEWS_MODULE_ID)) return v("zero");
   const stance = stancesTable(api).get(`${personId}:${question}`) as unknown as
     Stance | undefined;
-  return stance ? direction(stance.desiredChange) * stance.strength : v("zero");
+  const held =
+    stance ??
+    countedNewsStances(api, personId).find((row) => row.topic === question);
+  return held ? direction(held.desiredChange) * held.strength : v("zero");
 }
 
 /**
@@ -704,17 +709,42 @@ const profiles = new WeakMap<object, Map<PersonId, StanceProfile>>();
  * same profile the person will have once met (`profileFor` depends on nobody
  * else, and `viewOf` reads it the same way).
  */
-export function countedStanceProfile(
+export function countedOpeningStanceProfile(
   api: CoreAPI,
   voter: Pick<PersonState, "id" | "householdId" | "birthDate" | "placeId">,
 ): StanceProfile {
   const held = profiles.get(api.state) ?? new Map();
   profiles.set(api.state, held);
-  const kept = held.get(voter.id);
-  if (kept) return kept;
-  const out = profileFromAverage(voter, api.state.startedAt, api.state.seed);
-  held.set(voter.id, out);
+  let out = held.get(voter.id);
+  if (!out) {
+    out = profileFromAverage(voter, api.state.startedAt, api.state.seed);
+    held.set(voter.id, out);
+  }
   return out;
+}
+
+/** Current counted views add heard cases to the cached opening profile. */
+export function countedStanceProfile(
+  api: CoreAPI,
+  voter: Pick<PersonState, "id" | "householdId" | "birthDate" | "placeId">,
+): StanceProfile & { readonly heardShift?: Readonly<Record<string, number>> } {
+  const out = countedOpeningStanceProfile(api, voter);
+  if (!api.state.modules.has(VIEWS_MODULE_ID)) return out;
+  const heard = [
+    ...stancesOf(api, voter.id),
+    ...countedNewsStances(api, voter.id),
+  ];
+  return heard.length
+    ? {
+        ...out,
+        heardShift: Object.fromEntries(
+          heard.map((row) => [
+            row.topic,
+            v("stanceViewWeight") * direction(row.desiredChange) * row.strength,
+          ]),
+        ),
+      }
+    : out;
 }
 
 /**
@@ -769,7 +799,7 @@ export function stanceRow(
 
 /** One heard case, applied by the same rule to a person or a counted group. */
 export interface HeardCase {
-  readonly view: PersonView;
+  readonly view: Pick<PersonView, "id" | "engagement">;
   readonly hearer?: Pick<PersonState, "traits">;
   readonly prior?: Stance;
   readonly event: Pick<CoreEventInput, "id" | "date">;
@@ -780,6 +810,8 @@ export interface HeardCase {
   readonly speakerId?: string;
   readonly learnedFrom?: string;
   readonly keepCauses: boolean;
+  /** Counted audience mass / represented population; full readers use one. */
+  readonly exposure?: number;
 }
 
 export function stanceAfterCase(
@@ -798,6 +830,7 @@ export function stanceAfterCase(
     speakerId,
     learnedFrom,
     keepCauses,
+    exposure = 1,
   } = heardCase;
   const personId = view.id;
   const id = `${personId}:${topic}`;
@@ -831,19 +864,28 @@ export function stanceAfterCase(
       "size",
       (withTerm) => (withTerm ? change : change / yielding),
     );
-  if (change <= v("zero")) return undefined;
+  if (change <= v("zero") || exposure <= v("zero")) return undefined;
   const same = prior?.desiredChange === desiredChange;
-  const strength = Math.min(
+  const fullStrength = Math.min(
     v("one"),
     prior ? (same ? prior.strength + change : prior.strength - change) : change,
   );
+  // An audience count changes the group's mean, without choosing a member.
+  // Mix the reached and unreached masses after the full reader's capped move.
+  const signedBefore = prior ? (same ? prior.strength : -prior.strength) : 0;
+  const signedAfter = prior && !same ? -fullStrength : fullStrength;
+  const signedMean =
+    exposure === 1
+      ? signedAfter
+      : signedBefore + (signedAfter - signedBefore) * exposure;
+  const strength = Math.abs(signedMean);
   return {
     id,
     personId,
     topic,
     // A stance pushed past zero turns toward the new change.
     desiredChange:
-      prior && !same && strength > v("zero")
+      prior && !same && signedMean < v("zero")
         ? prior.desiredChange
         : desiredChange,
     strength: Math.abs(strength),
@@ -861,7 +903,7 @@ export function stanceAfterCase(
       {
         eventId: event.id,
         date: event.date,
-        change,
+        change: change * exposure,
         ...(speakerId ? { speakerId } : {}),
         ...(learnedFrom ? { learnedFrom } : {}),
       },
@@ -871,7 +913,7 @@ export function stanceAfterCase(
       ? {
           heard: {
             ...prior?.heard,
-            ...(speakerId ? { [speakerId]: heard + v("one") } : {}),
+            ...(speakerId ? { [speakerId]: heard + exposure } : {}),
           },
         }
       : {}),
@@ -885,6 +927,7 @@ export const viewsModule: CoreModule = {
     tables: {
       people: {},
       openings: { indexes: { byPerson: { fields: ["personId"] } } },
+      countedStances: { indexes: { byGroup: { fields: ["groupId"] } } },
       stances: {
         indexes: {
           byPerson: { fields: ["personId"] },
@@ -894,6 +937,9 @@ export const viewsModule: CoreModule = {
     },
   },
   eventKinds: ["*"],
+  onFillIn(api, filled) {
+    fillInNewsViews(api, filled.memberIds);
+  },
   onEvent(api, event, learnedBy) {
     // Only an event with a topic and a wanted change carries a stance, or a
     // condition someone lives (their household burglarized): that argues no

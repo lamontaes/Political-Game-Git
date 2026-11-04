@@ -131,7 +131,13 @@ import {
   type DeskContext,
   type PrintedStory,
 } from "../press-desk";
-import { newsKey, storiesHeard, type Story } from "./news";
+import {
+  newsKey,
+  storiesHeard,
+  registerCountedNewsSource,
+  type Story,
+} from "./news";
+import { countedNewsConcern, countedNewsGroups } from "../counted-news-views";
 import { worldLevel } from "../world-draw";
 
 export const PRESS_MODULE_ID = "core2-press-v1";
@@ -1463,15 +1469,30 @@ function townConcern(api: CoreAPI, question: string): number {
     concernCache.set(api.state, { date: api.state.date, map });
   const hit = map.get(question);
   if (hit !== undefined) return hit;
-  const adults =
-    api.state.peopleByPlace.get(lawChain(api).townPlaceId)?.size || 1;
+  const town = lawChain(api).townPlaceId;
+  const adults = new Set(
+    [...(api.state.peopleByPlace.get(town) ?? [])].filter((id) => {
+      const person = api.state.people.get(id);
+      return (
+        person?.alive &&
+        ageOn(person, api.state.date) >= api.parameter("votingAge")
+      );
+    }),
+  );
+  const counted = countedNewsConcern(api, town, question);
   const strength = (
     api
       .moduleState(VIEWS_MODULE_ID)
       .table("stances")
       .query("byTopic", [question]) as unknown as ViewStance[]
-  ).reduce((sum, row) => sum + row.strength, 0);
-  const share = Math.min(1, strength / adults);
+  ).reduce(
+    (sum, row) => sum + (adults.has(row.personId) ? row.strength : 0),
+    counted.strength,
+  );
+  const share = Math.min(
+    1,
+    strength / Math.max(1, adults.size + counted.count),
+  );
   map.set(question, share);
   return share;
 }
@@ -3980,3 +4001,56 @@ export function attackOutlet(
   followCache.delete(api.state);
   return id;
 }
+
+/** The audience already counted by the desk, distributed across its groups. */
+registerCountedNewsSource((api, storyId, namedReaders) => {
+  const printed = printedStoryOf(api, storyId);
+  if (
+    !printed ||
+    printed.receivedNamed <= 0 ||
+    printed.receivedCounted <= 0 ||
+    namedReaders <= 0
+  )
+    return [];
+  const outlet = table(api, "outlets").get(printed.outletId) as unknown as
+    OutletRow | undefined;
+  if (!outlet) return [];
+  const town = lawChain(api).townPlaceId;
+  const national =
+    outlet.tier === "national"
+      ? NATIONAL.kinds.find((kind) => kind.kind === outlet.kind)
+      : undefined;
+  const own = Math.max(
+    1,
+    outletsHere(api).filter((o) => o.kind === outlet.kind).length,
+  );
+  const groups = countedNewsGroups(api).filter(
+    (group) =>
+      group.placeId === outlet.placeId || (national && group.placeId === town),
+  );
+  const weighted = groups.map((group) => ({
+    group,
+    followers: national
+      ? (group.count * national.followShare) /
+        Math.max(1, national.audienceLeans.length)
+      : [...group.byAge].reduce(
+          (sum, [age, count]) =>
+            sum +
+            count *
+              (NEWS.habits.byAge[bandOf(age)]?.[
+                HABIT[outlet.kind as LocalKind]
+              ] ?? 0),
+          0,
+        ) / own,
+  }));
+  const total = weighted.reduce((sum, row) => sum + row.followers, 0);
+  if (total <= 0) return [];
+  const delivered =
+    (printed.receivedCounted * namedReaders) / printed.receivedNamed;
+  return weighted
+    .filter((row) => row.followers > 0)
+    .map(({ group, followers }) => ({
+      group,
+      reached: (delivered * followers) / total,
+    }));
+});

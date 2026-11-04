@@ -383,6 +383,20 @@ export function groupKeyOf(
   };
 }
 
+type CountedGroupMoveListener = (
+  api: CoreAPI,
+  householdId: string,
+  fromGroup: string,
+  toGroup: string,
+) => void;
+const countedGroupMoveListeners = new Set<CountedGroupMoveListener>();
+/** Engines holding group fields carry those fields with the existing regroup. */
+export function registerCountedGroupMoveListener(
+  listener: CountedGroupMoveListener,
+): void {
+  countedGroupMoveListeners.add(listener);
+}
+
 /** Put a household in the group its facts key it to today. */
 export function regroupHousehold(
   rt: ResidentsRuntime,
@@ -394,8 +408,14 @@ export function regroupHousehold(
   const groupBefore = before >= 0 ? peopleInGroup(rt, before) : 0;
   rt.store.regroup(h, groupKeyOf(rt, h, date));
   // Its share of the old group's money goes with it.
-  if (rt.api && before !== h.group)
+  if (rt.api && before !== h.group) {
     moveShare(rt.api, rt, before, h.group, people, groupBefore);
+    const from = rt.store.groups[before];
+    const to = rt.store.groups[h.group];
+    if (from && to)
+      for (const listener of countedGroupMoveListeners)
+        listener(rt.api, h.id, from.id, to.id);
+  }
 }
 
 /** A household's share of its place's unplaced workers (their pay follows them out of the counts). */
@@ -1955,6 +1975,18 @@ export function releaseResidentHousehold(
  * person records built from the group's columns (no past: fill-in builds it),
  * its jobs and work, and its standing bills as its own contracts.
  */
+type CountedFillInListener = (
+  core: CoreState,
+  memberIds: readonly PersonId[],
+) => void;
+const countedFillInListeners = new Set<CountedFillInListener>();
+/** Group fields transfer before full-person hooks read the admitted household. */
+export function registerCountedFillInListener(
+  listener: CountedFillInListener,
+): void {
+  countedFillInListeners.add(listener);
+}
+
 export function takeResidentHousehold(
   core: CoreState,
   personId: PersonId,
@@ -1986,6 +2018,8 @@ export function takeResidentHousehold(
       payers.length ? payers : people.slice(0, 1).map((row) => row.id),
     ),
   };
+  for (const listener of countedFillInListeners)
+    listener(core, record.household.memberIds);
   rt.fillInCash.set(h.id, {
     group: h.group,
     amount: householdCash(rt, h),
