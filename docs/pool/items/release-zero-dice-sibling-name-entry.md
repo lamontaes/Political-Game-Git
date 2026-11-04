@@ -5,7 +5,7 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: lane-5/zero-dice-sibling-names
 pr: #7182
 blocked-on:
