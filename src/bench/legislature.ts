@@ -557,44 +557,43 @@ function menusFor(
   const lineNames = budgetLineNames();
   const level =
     bodyLevel === "federal" || bodyLevel === "state" ? bodyLevel : "city";
-  return billCatalog(api, level, bodyOf(api, officeId)?.jurisdiction).map(
-    (menu) => ({
-      id: menu.id,
-      name: menu.name,
-      items: menu.topics
-        .flatMap((topic) => topic.policies)
-        .filter(
-          (row) =>
-            (row.kind === "policy-question" && row.question) ||
-            (row.kind === "budget-line" && row.line) ||
-            (row.kind === "law-amount" && row.series),
-        )
-        .map((row) => ({
-          kind: row.kind,
-          // A budget line by its name on the budgets screen, never its key.
-          name:
-            (row.kind === "budget-line" &&
-              lineNames[`budget-line:${row.line}`]) ||
-            row.name,
-          ...(row.question ? { question: row.question } : {}),
-          ...(row.line ? { line: row.line } : {}),
-          ...(row.series ? { series: row.series } : {}),
-          ...(row.unit ? { unit: row.unit } : {}),
-          inForce: row.inForce,
-          // The amount the law in force holds, as the bill's paper cites it ("before"): the
-          // draft card shows this beside the new amount so both screens say one thing.
-          today:
-            row.inForce !== null
-              ? {
-                  value: row.inForce,
-                  unit: row.inForceUnit ?? row.unit ?? null,
-                  recordId: row.inForceRecordId,
-                }
-              : null,
-          allowed: row.authority.allowed,
-          warning: row.authority.warning,
-          reason: row.authority.reason,
-        })),
-    }),
-  );
+  const jurisdiction = bodyOf(api, officeId)?.jurisdiction;
+  return billCatalog(api, level, jurisdiction).map((menu) => ({
+    id: menu.id,
+    name: menu.name,
+    items: menu.topics
+      .flatMap((topic) => topic.policies)
+      .filter(
+        (row) =>
+          (row.kind === "policy-question" && row.question) ||
+          (row.kind === "budget-line" && row.line) ||
+          (row.kind === "law-amount" && row.series),
+      )
+      .map((row) => ({
+        kind: row.kind,
+        // A budget line by its name on the budgets screen, never its key.
+        name:
+          (row.kind === "budget-line" &&
+            lineNames[`budget-line:${row.line}`]) ||
+          row.name,
+        ...(row.question ? { question: row.question } : {}),
+        ...(row.line ? { line: row.line } : {}),
+        ...(row.series ? { series: row.series } : {}),
+        ...(row.unit ? { unit: row.unit } : {}),
+        inForce: row.inForce,
+        // The amount the law in force holds, as the bill's paper cites it ("before"): the
+        // draft card shows this beside the new amount so both screens say one thing.
+        today:
+          row.inForce !== null
+            ? {
+                value: row.inForce,
+                unit: row.inForceUnit ?? row.unit ?? null,
+                recordId: row.inForceRecordId,
+              }
+            : null,
+        allowed: row.authority.allowed,
+        warning: row.authority.warning,
+        reason: row.authority.reason,
+      })),
+  }));
 }
