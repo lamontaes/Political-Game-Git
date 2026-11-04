@@ -54,20 +54,22 @@ export function billValueInForce(
       );
     const budget = government && budgetInForce(api, government.id);
     return {
-      value: budget && subject.line
-        ? (budget.spendingMinor[subject.line] ?? 0)
-        : null,
+      value:
+        budget && subject.line
+          ? (budget.spendingMinor[subject.line] ?? 0)
+          : null,
       unit: "minor",
       recordId: budget?.id ?? null,
       row: null,
     };
   }
-  const series = subject.kind === "policy-question"
-    ? subject.question
-    : subject.series;
+  const series =
+    subject.kind === "policy-question" ? subject.question : subject.series;
   if (!series) return { value: null, unit: null, recordId: null, row: null };
   const answer = lawInForce(api, series);
-  const at = answer.levels.findIndex((row) => row.jurisdiction === jurisdiction);
+  const at = answer.levels.findIndex(
+    (row) => row.jurisdiction === jurisdiction,
+  );
   if (at < 0) return { value: null, unit: null, recordId: null, row: null };
   const own = answer.levels[at]!;
   let row: LawRowInput | null = null;
@@ -76,18 +78,24 @@ export function billValueInForce(
   } else {
     // Only this jurisdiction and its governing levels apply to this bill.
     // A neighboring county in the place's chain never supplies its baseline.
-    const governing = answer.levels.slice(0, at + 1).filter(
-      (level) => !level.setAside && level.row &&
-        (level.level === "federal" || level.level === "state" ||
-          level.jurisdiction === jurisdiction || own.level === "city"),
-    );
+    const governing = answer.levels
+      .slice(0, at + 1)
+      .filter(
+        (level) =>
+          !level.setAside &&
+          level.row &&
+          (level.level === "federal" ||
+            level.level === "state" ||
+            level.jurisdiction === jurisdiction ||
+            own.level === "city"),
+      );
     if (answer.doctrine === "floor") {
       for (const level of governing)
         if (!row || (level.row!.value ?? 0) > (row.value ?? 0)) row = level.row;
     } else row = governing.at(-1)?.row ?? null;
   }
   return {
-    value: row?.value ?? 0,
+    value: row ? row.value : answer.doctrine === "additive" ? 0 : null,
     unit: row?.unit ?? null,
     recordId: row?.id ?? null,
     row,

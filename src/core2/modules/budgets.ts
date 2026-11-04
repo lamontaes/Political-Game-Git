@@ -79,7 +79,11 @@ import {
 } from "../government-jurisdictions";
 import { syncServiceCharges } from "../budgets-service-charges";
 
-export { budgetInForce, outsideAccountOf, townShareOf } from "../budgets-treasury";
+export {
+  budgetInForce,
+  outsideAccountOf,
+  townShareOf,
+} from "../budgets-treasury";
 
 export const BUDGETS_MODULE_ID = "core2-budgets-v1";
 
