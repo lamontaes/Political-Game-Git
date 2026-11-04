@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 62 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 64 pull requests merged. Newest state at the top of each section.
 
 ## What the owner can play now
 
@@ -23,6 +23,8 @@ New on Nov 4, from the lanes:
   - A yes at the door becomes a vote as the person's stated intent predicts.
   - On the night you lose, the talk at home comes from the relative who worked the race or put money in.
   - Whether you concede or refuse is printed in the race's story.
+  - Rivals run attack ads on your record that name your real votes.
+  - Favors you traded for votes are called in at election time.
 - **Family and home.**
   - Relatives and officials at the opening have homes and pay rent.
   - Living siblings never share a first name.
@@ -66,7 +68,7 @@ New on Nov 3:
   - A pool fix (#7145).
   - A state page (#7146).
 
-## Lane PRs merged on Nov 4 (27), on the owner's word ("You may merge lane PRs that pass the new-game check")
+## Lane PRs merged on Nov 4 (29), on the owner's word ("You may merge lane PRs that pass the new-game check")
 
 Each had main merged in again, passed `npm run new-game-check` (a town drawn from all 56, a new life, four weeks) and merged pinned to that head.
 
@@ -99,6 +101,8 @@ Each had main merged in again, passed `npm run new-game-check` (a town drawn fro
 | #7170 | Governors declare a state of emergency when a federally declared disaster strikes                             | Frederiksted, U.S. Virgin Islands | 66d1a94d549de6b8 |
 | #7171 | A campaigns test waits for a contest whose filing is open (test only)                                         | Bridgeport, Alabama               | 51e14ef7daaaace0 |
 | #7172 | A worker laid off from a job paid at a legacy rate can be hired again, so a year no longer stops on that hire | Arnegard, North Dakota            | 0c7b362ef3c9c17e |
+| #7174 | Rivals run attack ads on an officeholder's record, naming the real votes                                      | Grover, Wyoming                   | ea7a079c5ea3582d |
+| #7175 | Favors traded for votes are called in at election time                                                        | Palm Valley, Florida              | 86791939a396ec01 |
 
 Conflicts resolved mechanically: #7154 (both sides added a parameter and a stopgap row; both kept), and #7153, #7157, #7160, #7162 (Lane 2's state page: main's wording for the one edited line, both sides' log entries kept). Mac builds started after 5, 13, 18 and 25 of these merges.
 
