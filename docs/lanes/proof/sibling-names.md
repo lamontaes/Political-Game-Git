@@ -70,4 +70,20 @@ Source 91012586fb. All ten runs passed all three tests. Each keeps the pinned Ma
 
 New Game check: Sun River, Montana, replay 83d2ffd7cd4ba37e; four weeks of normal play, scene and Journal returned 200. Log: /tmp/lane-2-sibling-newgame.log.
 
-Still required: four-year timing, all eight First minutes finish-line towns and a non-builder's confirmation on main. Future births during play remain unexplored by this opening item.
+Still required: all eight First minutes finish-line towns and a non-builder's confirmation on main. Future births during play remain unexplored by this opening item.
+
+
+## Four-year comparison
+
+Niarada, Montana (3053725), replay 419935957e6de373, same host 4c46091479ea, serial exclusive runs. Controlled source base cf31d0ed63f3256c95d3247053ef31269c14e7bf; corrected source 91012586fb with later documentation-only merges. All five corrected files were restored byte-for-byte after the baseline. Both commands exited 0; every year meets the unchanged 120-second limit and the owner’s 20% relative limit.
+
+| Year | Base seconds | Corrected seconds | Change |
+| --- | --- | --- | --- |
+| 1 | 15 | 13.4 | -10.7% |
+| 2 | 19 | 18.3 | -3.7% |
+| 3 | 16.9 | 16.2 | -4.1% |
+| 4 | 27.2 | 29.3 | +7.7% |
+
+Command for each: `OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" NODE_OPTIONS=--max-old-space-size=8192 npm run speed:year -- --seed 419935957e6de373 --years 4 --max-seconds 120 --exclusive --out /tmp/lane-2-sibling-speed-{base,head}.json`; corrected run adds `--baseline /tmp/lane-2-sibling-speed-base.json`. Raw logs use the same basename. Baseline receipt reports the checkout commit, so the controlled source base is stated explicitly here.
+
+Attempt one remains a baseline failure: Absecon Highlands NJ (3400160), replay c89c92ac66b703f1, base years 53.8/59.2/108.1 seconds, then year-four salaried-post guard exception. No corrected run occurred there. Filed gov-official-pay-reseating-crashes-year-four; logs preserved in /tmp/lane-2-sibling-speed-attempt-1/. The exact failing guard condition remains unexplored.
