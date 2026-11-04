@@ -1,6 +1,6 @@
 # Lane 5 state
 
-0 of 12 paths confirmed. Oldest open PR 0 days (#7172, Nov 4).
+0 of 12 paths confirmed. Oldest open PR 0 days (#7173, Nov 4).
 
 ## Merged (built; each needs a session that didn't build it to confirm its path on main)
 
@@ -9,10 +9,13 @@
 
 ## Open PRs
 
-- #7172 `work-legacy-pay-mode-blocks-rehire`: a laid-off legacy-paid worker can be hired again. Oak Hills, Iowa no longer stops on 2026-02-02; Superior, Colorado runs to 2028.
+- #7181 (red main, from my #7176): the counted-eviction case plays Storrs for a year; passes on 3 seeds. Merge first.
+- #7180 (Touches `play-browser-checks-open-on-the-address`): eight browser checks wait for filing to open through `fileWhenFilingOpens`. Of 36 checks swept on main: 20 already pass, 8 fixed here, 8 left on other causes (listed in the PR).
 - #7173 skills: start-life.mjs, shallow fetches, the storage guard.
-- #7176 `core-group-quarters-population` (taken over from the speed lead): Storrs's year 142.9 s on main to 93.3 s; a place with no group quarters keeps identical records at the same speed; eviction filings 43.25 to 1.31 per 100. One known failing test, `housing-counted-evicted`'s Storrs rent-again step, whose premise was the student-eviction defect (explained in the PR).
-- #7177 `core-opening-coverage-every-locality` (Touches): the every-locality script. 968 of 8,242 opened, none failed; the sweep continues in chunks.
+
+## Merged Nov 4, later
+
+- #7172 the rehire fix; #7176 group quarters (Storrs's year 142.9 s to 93.3 s, same records and speed where there are no group quarters); #7177 the every-locality script. Sweep: 969 of 8,242 opened, none failed. (My owner note said "1,100+", which was wrong; it is 969.)
 
 ## In progress
 
@@ -23,7 +26,7 @@
 
 - `gh auth status`: the token is invalid; only search uses it.
 - `docs/lanes/towns.md`: replay ab5f58e9be125c95 opens Old Forge, New York, not Haleyville, Alabama.
-- `housing-counted-evicted` rent-again (above): twice, two different causes found; the decision is in #7176.
+- `housing-counted-evicted` rent-again: red on main after #7176; fixed by #7181 (a year of Storrs).
 
 ## Filed for others
 
