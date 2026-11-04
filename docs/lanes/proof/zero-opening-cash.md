@@ -33,4 +33,6 @@ A fresh New Game passes four weeks in **Charlotte Amalie West, U.S. Virgin Islan
 
 Restoring only budgets.ts from main bf4e8386cd makes the same full-world observer fail immediately: the zero opening record has the journalSequence property (`true !== false`). Exit 1 is expected. The corrected source was restored byte-for-byte, SHA-256 2d50c0d82f780ddf21cb501909029f0c3392b8711da64fc71287377ba9536c3c.
 
-Four-year timing remains to be completed before submission. Independent main replay remains the checker's work.
+The four-year comparison did not complete. On pinned main bf4e8386cd, Wolf Creek Colony, South Dakota (4672500), replay dc5525b9b709e9c4, host 4c46091479ea, years 1–3 took **86.3/198.0/188.5 seconds**. Year four crashed in official-pay.ts seat → startSalariedPost: `A salaried post needs a living person, a recorded employer and no shift hours.` This is another reproduction of the existing gov-official-pay-reseating-crashes-year-four item, not a treasury timing pass. The corrected run never started. The wrapper restored budgets.ts byte-for-byte. Base raw metadata records HEAD b58a4d66c0 and sourceMain bf4e8386cd because only this production file was temporarily replaced; this was a controlled source comparison, not a detached main checkout. The original logs/three-year receipt are retained under /tmp/lane-2-zero-opening-cash-speed-*.
+
+The accepted official-pay root repair comes next, then this replay's comparison can be completed. No new draw substitutes for the crash. Independent main replay remains the checker's work.
