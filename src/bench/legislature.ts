@@ -586,14 +586,11 @@ function menusFor(
         inForce: row.inForce,
         // The amount the law in force holds, as the bill's paper cites it ("before"): the
         // draft card shows this beside the new amount so both screens say one thing.
-        today:
-          row.inForce !== null
-            ? {
-                value: row.inForce,
-                unit: row.inForceUnit ?? row.unit ?? null,
-                recordId: row.inForceRecordId,
-              }
-            : null,
+        today: {
+          value: row.inForce,
+          unit: row.inForceUnit ?? row.unit ?? null,
+          recordId: row.inForceRecordId,
+        },
         allowed: row.authority.allowed,
         warning: row.authority.warning,
         reason: row.authority.reason,

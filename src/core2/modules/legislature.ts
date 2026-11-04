@@ -1884,7 +1884,7 @@ export function billSections(
           }
         : {
             value: earlier?.value ?? inForce.value,
-            unit: earlier ? earlier.unit : (row?.unit ?? null),
+            unit: earlier ? earlier.unit : inForce.unit,
             shape: earlier ? earlier.shape : shapeBefore,
             lawId: row?.id ?? null,
             statute: enacting?.number || recorded,

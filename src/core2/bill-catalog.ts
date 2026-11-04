@@ -81,6 +81,7 @@ export function billCatalog(
             series: p.series,
             question: p.question,
             line: p.line,
+            unit: p.unit,
             value: 1,
           } as Provision;
           const inForce = billValueInForce(api, provision, jurisdiction);

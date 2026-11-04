@@ -13,6 +13,7 @@ export interface BillSubject {
   readonly series?: string;
   readonly question?: string;
   readonly line?: string;
+  readonly unit?: string;
 }
 
 export interface BillValue {
@@ -91,7 +92,7 @@ export function billValueInForce(
   }
   return {
     value: row ? row.value : answer.doctrine === "additive" ? 0 : null,
-    unit: row?.unit ?? null,
+    unit: row ? row.unit : (subject.unit ?? null),
     recordId: row?.id ?? null,
     row,
   };

@@ -77,18 +77,21 @@ for (const place of places) {
             (body) => body.officeId === office.id,
           );
           expect(screen, office.id).toBeDefined();
-          const budget = budgetInForce(api, "US")!;
-          const item = screen!.menus
-            .flatMap((menu) => menu.items)
-            .find(
-              (row) => row.line && budget.spendingMinor[row.line] !== undefined,
-            );
-          expect(item, office.id).toBeDefined();
-          expect(item!.today).toEqual({
-            value: budget.spendingMinor[item!.line!],
-            unit: "minor",
-            recordId: budget.id,
-          });
+          for (const series of ["estate-tax", "minimum-wage"]) {
+            const law = lawInForce(api, series).levels.find(
+              (row) => row.jurisdiction === "US",
+            )?.row;
+            expect(law, office.id).toBeDefined();
+            const item = screen!.menus
+              .flatMap((menu) => menu.items)
+              .find((row) => row.series === series);
+            expect(item, office.id).toBeDefined();
+            expect(item!.today).toEqual({
+              value: law!.value,
+              unit: law!.unit,
+              recordId: law!.id,
+            });
+          }
         }
         continue;
       }
@@ -135,6 +138,8 @@ for (const place of places) {
         expect(taxCard, jurisdiction).toBeDefined();
         expect(taxCard!.inForce, jurisdiction).toBe(paper.before.value);
         expect(taxCard!.inForceRecordId, jurisdiction).toBe(paper.before.lawId);
+        expect(taxCard!.inForceUnit, jurisdiction).toBe(paper.before.unit);
+        expect(paper.before.unit, jurisdiction).toBe(ownTax?.unit ?? "percent");
         if (screenItems) {
           const shown = screenItems.find(
             (item) => item.series === "income-tax",
@@ -143,6 +148,7 @@ for (const place of places) {
           expect(shown!.inForce).toBe(paper.before.value);
           expect(shown!.today?.value ?? null).toBe(paper.before.value);
           expect(shown!.today?.recordId ?? null).toBe(paper.before.lawId);
+          expect(shown!.today?.unit).toBe(paper.before.unit);
           if (ownTax?.value !== null && ownTax?.unit)
             expect(shown!.today?.unit).toBe(ownTax.unit);
           draftCardsChecked++;
