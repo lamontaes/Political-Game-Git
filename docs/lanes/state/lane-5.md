@@ -107,16 +107,18 @@ Every unit gets one before it starts (lane page, CTO rule). Units 1 and 2 were s
 - **Known cheats:** a save file the game never uses; a load that replays every day.
 - **Size:** 17 to 27 hours. **Checked by:** a fresh session quitting and reopening in the browser.
 - Lane 3 agreed and built the director's `save()`/`restore()` (merged 09:17). On `lane-5/snapshot-cover` (1bf44d035c) the measure now saves the director through v8 bytes and compares its fields: Phoenix, Arizona (seed snapshot-1), the worlds are identical right after the restore and no director field differs, but 48 of 142 fields still differ 45 days later. The first split is on day 1: in the original, `person_45670ca22bc4878f` is told two newspaper stories and weighs a claim three times; in the restored world those talks don't happen. Sent to Lane 3's state file with the ids; the core's free-time plans are saved and its caches are derived, so the talk state is the lead.
+- Nov 4 10:50: the talk split was news's own state. A teller's carried parts and refused stories weren't saved, and two caches (recent heard, heard counts) were built from the rebuilt opening before the restore. With those fixed (#7229), the person's day-1 split is gone. The next split, also on day 1, is a cause drive's strength: the `runtimes` WeakMap in `src/core2/modules/drives.ts` (Lane 2's, `core2-drives-p10-v1` uncovered) isn't saved. Asked on Lane 2's state file.
 
 ## Open PRs
 
-- #7225: the state page as of Nov 4.
-- Branch `lane-5/snapshot-cover` (unit 9): main merged in, the measure now saves and restores the director (Lane 3's `save()`/`restore()`, merged at 09:17); the measure is running.
+- #7229 (unit 9, one step): a restore refills each object once; news's carried story parts and refused stories and people's weekly contacts are saved; caches built from records (`registerDerivedCache`) are cleared on restore. Infrastructure only; `core-snapshot-cover-rest` stays open.
+- Branch `lane-5/snapshot-cover` keeps the measure (`snapshot-played.test.ts`), not in a PR: it still fails until the drives runtime is saved.
 
 ## Merged
 
 - Nov 3: #7140, #7141, #7144, #7145, #7146.
-- Nov 4: #7148, #7149, #7155, #7158, #7161, #7172 (rehire), #7176 (group quarters: Storrs 142.9 s to 93.3 s), #7177 (every-locality sweep), #7180 (eight browser checks wait for filing), #7181 (Storrs eviction case, red main), #7182 (no-dice entry for sibling names, red main), #7183 (lane state files need no release declaration), #7190 (Lane 5's part of the red guards), #7173 (skills), #7198 (a met-once contact's log kept three months).
+- Nov 4: #7148, #7149, #7155, #7158, #7161, #7172 (rehire), #7176 (group quarters: Storrs 142.9 s to 93.3 s), #7177 (every-locality sweep), #7180 (eight browser checks wait for filing), #7181 (Storrs eviction case, red main), #7182 (no-dice entry for sibling names, red main), #7183 (lane state files need no release declaration), #7190 (Lane 5's part of the red guards), #7173 (skills), #7198 (a met-once contact's log kept three months), #7200, #7201, #7206, #7210, #7221, #7224, #7225, #7227.
+- Nov 4 10:45: v0.80.0 published (Mac and Windows). Release package run 60 hit a GitHub 502 creating the release; rerunning the failed job published it.
 
 ## Failed or blocked
 
