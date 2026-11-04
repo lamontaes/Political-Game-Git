@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: lane-4/town-size
-pr:
+pr: #7208
 blocked-on:
 source: Oct 25 pool audit, on-screen pass (from world-town-net-moving-negative)
 lead: play-first
