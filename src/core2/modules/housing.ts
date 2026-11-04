@@ -9,10 +9,8 @@ import type { PreStartModule } from "../past-module";
 import { townOutsideOf } from "../opening-outside-market";
 import { lawApplied } from "../law-reach/applied";
 import { payRentAssistance } from "../housing-assistance";
-import {
-  countyPopulationSharesForPlace,
-  governmentUnitsForState,
-} from "../reference/government-units";
+import { governmentUnitsForState } from "../reference/government-units";
+import { placeCounty } from "../place-map";
 import {
   corePlaceByKey,
   corePlaceByJurisdictionId,
@@ -332,19 +330,18 @@ interface Town {
   placeId: string;
 }
 
+/** The five-digit county area of a place, from the one place map. */
+function mapCountyGeoid(placeKey: string): string | undefined {
+  return placeCounty(placeKey)?.id.slice("county:".length);
+}
+
 function townOf(input: CoreInput): Town | undefined {
   const place = input.placeMetadata?.placeKey
     ? corePlaceByKey(input.placeMetadata.placeKey)
     : null;
   const geoid = place?.sourceGeoid ?? "";
-  const county =
-    geoid.length === "SSPPPPP".length
-      ? [...countyPopulationSharesForPlace(geoid)].sort(
-          (a, b) => (b[1] ?? 0) - (a[1] ?? 0),
-        )[0]?.[0]
-      : geoid.length === "SSCCC".length
-        ? geoid
-        : undefined;
+  // The one place map says which county area the place sits in.
+  const county = place ? mapCountyGeoid(place.key) : undefined;
   const counts = new Map<string, number>();
   for (const row of input.households)
     counts.set(row.placeId, (counts.get(row.placeId) ?? 0) + 1);
@@ -887,14 +884,8 @@ function openMissingHomes(api: CoreAPI): void {
           ?.countyGeoid
       : undefined;
     const county =
-      geoid.length === 5
-        ? geoid
-        : ([...countyPopulationSharesForPlace(geoid)].sort(
-            (a, b) => (b[1] ?? 0) - (a[1] ?? 0),
-          )[0]?.[0] ??
-          (stateCounty
-            ? `${stateCounty.slice(0, 2)}000`
-            : `${NATION}:${usps}`));
+      (place ? mapCountyGeoid(place.key) : undefined) ??
+      (stateCounty ? `${stateCounty.slice(0, 2)}000` : `${NATION}:${usps}`);
     const memberIds = new Set(households.flatMap((row) => row.memberIds));
     const input: CoreInput = {
       seed: c.seed,

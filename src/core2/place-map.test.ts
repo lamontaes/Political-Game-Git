@@ -55,6 +55,11 @@ describe("the one place map", () => {
     expect(placeCounty("county:72001")?.id).toBe("county:72001");
   });
 
+  it("puts a Puerto Rico town under its municipio, the county the housing tables key", () => {
+    expect(placeCounty("7246626")?.id).toBe("county:72029");
+    expect(placeState("7246626")?.id).toBe("US-PR");
+  });
+
   it("reads a place with no government of its own through the row above", () => {
     const none = rows.find(
       (r) =>
