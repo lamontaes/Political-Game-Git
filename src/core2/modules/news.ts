@@ -24,11 +24,13 @@ import type { Parameter } from "../parameters";
 import type {
   CoreAPI,
   CoreModule,
+  CoreState,
   KnownFact,
   PersonId,
   PersonState,
 } from "../types";
 import { believesClaim, claimFit } from "../heard-claims";
+import { registerDerivedCache, registerWorldMapPart } from "../snapshot";
 import {
   decisionLean,
   decisionTraitWeight,
@@ -67,7 +69,10 @@ function passOnLean(api: CoreAPI, person: PersonState): number {
  * so a teller who leans toward passing news on tells a little more often
  * and one who leans away a little less, with no roll.
  */
-const tellCarry = new WeakMap<object, Map<PersonId, number>>();
+const tellCarry = new WeakMap<CoreState, Map<PersonId, number>>();
+// The carried parts live across days, so a save keeps them: a restored world's
+// tellers pass on what the original's do (core-snapshot-cover-rest).
+registerWorldMapPart("core2-news-tell-carry", tellCarry);
 /** A teller who has not yet been counted owes half a story, so an even teller tells one at once. */
 const OPENING_TELL_CARRY = 0.5;
 
@@ -110,7 +115,8 @@ function storiesToTell(api: CoreAPI, tellerId: PersonId, owed: number): number {
 }
 
 /** The told stories a listener took no stock in, so the same teller does not repeat them. */
-const refusedStories = new WeakMap<object, Set<string>>();
+const refusedStories = new WeakMap<CoreState, Set<string>>();
+registerWorldMapPart("core2-news-refused-stories", refusedStories);
 const refused = (api: CoreAPI): Set<string> => {
   let set = refusedStories.get(api.state);
   if (!set) refusedStories.set(api.state, (set = new Set()));
@@ -287,7 +293,8 @@ const newestFirst = (a: HeardEntry, b: HeardEntry) =>
  * first read. Telling reads this instead of everything a person ever heard;
  * entries past the story life are dropped once a day, when first read.
  */
-const recentHeard = new WeakMap<object, Map<PersonId, Recent>>();
+const recentHeard = new WeakMap<CoreState, Map<PersonId, Recent>>();
+registerDerivedCache(recentHeard);
 function recentOf(api: CoreAPI): Map<PersonId, Recent> {
   let map = recentHeard.get(api.state);
   if (!map) {
@@ -376,7 +383,8 @@ function recentList(
 }
 
 /** How many stories each person has heard, rebuilt from the table when first read. */
-const heardCounts = new WeakMap<object, Map<PersonId, number>>();
+const heardCounts = new WeakMap<CoreState, Map<PersonId, number>>();
+registerDerivedCache(heardCounts);
 function countsOf(api: CoreAPI): Map<PersonId, number> {
   let map = heardCounts.get(api.state);
   if (!map) {
