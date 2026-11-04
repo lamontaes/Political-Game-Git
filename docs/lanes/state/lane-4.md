@@ -1,4 +1,4 @@
-1 of 13 played paths confirmed; 2 wait on the people system. Oldest open PR 0 days (#7233); open: #7233, #7238, #7241, #7242.
+1 of 13 played paths confirmed; 2 wait on the people system. Oldest open PR 0 days (#7233); open: #7233, #7238, #7241, #7242, #7244 (five, the most allowed).
 
 # Lane 4 state: Screens
 
@@ -26,6 +26,7 @@ Owner's word, Nov 4: screens tonight, no people. No new pictures: the art on mai
   - #7238: the newspaper turns pages; it carries two fit fixes that missed #7231's merge. Replay: `MENUS_PLACE="Delaware|Brookside" node src/bench/menus-no-scroll.browser.mjs` (reads every page).
   - #7241: main red, kit-only-ui (from my #7231): the Parties roster box comes from the kit. The other two guards red on main (families: executive.ts; english: other lanes' docs) are not Lane 4's.
   - #7242: main red, families (executive.ts deep import of the filing clerk, from #7164): read through the elections entry. Left for owners: "Rockville Centre" in the Confirmer's Lane 5 proof and "Fairfield Harbour" in merge-desk.md trip the english guard.
+  - #7244: path 3 after the Confirmer's replay: the map says "Storrs", not "Storrs CDP" (loading and Parties); the bar is full when it says Ready. Headlines show only in the last frames, because the paper's archive starts near the start year; earlier years stay without news rather than invented. Replay: `node src/bench/loading.browser.mjs`.
 - **Path 6 (Clerk and Travel), seen in passing:** in Oakland, South Carolina the filing office's Travel card read "Closed now. Opens Monday, February 2, 2026 at 8:00 AM", and Go opened the counter that morning at 8:00. Not yet replayed in Brookside at night.
 - **Mock for the owner (through the CTO):** the campaign board, `docs/mocks/2026-11-04/campaign-board.html` and `.png` (path 9): the race with its standing and poll, signatures against needed and the clerk's verdict, the issues the race turns on, an inbox where each item opens its scene, and the team by role (names only until the people system). Building waits on his look; Lane 4 takes the next unit meanwhile.
 - **Issues and Budgets (unit 9):** no answer yet on the Nov 1 mocks (`play-first/mocks-issues-budgets`); only shared parts until he answers. The shared fit (#7231) already keeps Issues from scrolling; Budgets runs 13px over at 1024x768 and is left for his answer. `play-law-on-your-record-unreachable` reworks Issues, so it waits too.
