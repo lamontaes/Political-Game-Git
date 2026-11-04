@@ -5,11 +5,12 @@ area: core
 kind: cleanup
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: one-map-reader
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T19:54:30.468Z
 ---
 
 **What.** Generate one map of every place (town, county, state, country) with its level, parent and form of government from existing files, and one reader module every system reads places through.
