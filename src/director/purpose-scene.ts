@@ -75,6 +75,7 @@ import {
   type CauseRow,
 } from "../core2/modules/campaigns";
 import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };
+import { closenessBetween } from "../core2/closeness";
 import { stakeOf } from "./family-stake";
 import { properName, spoken, spokenDate } from "./words";
 import { PRESS_STORY_EVENT } from "../core2/press-desk";
@@ -529,6 +530,22 @@ function composeBinding(
       sourceRecordIds: [askerId, askedId],
     };
   else facts.stranger = { text: asker.givenName, sourceRecordIds: [askerId] };
+  // Which side of their tie the two stand nearer, from its record: a friend
+  // (`tie-friend`) is nearer full closeness than none; a rival (`tie-rival`)
+  // is one whose last contact on the tie was a quarrel. A friend and a rival
+  // say different things.
+  const tieId =
+    askerId < askedId ? `${askerId}:${askedId}` : `${askedId}:${askerId}`;
+  const tie = core.relationships.get(tieId);
+  const quarrel = (tie?.latestChange?.requestedChange ?? 0) < 0;
+  if (tie && quarrel)
+    facts["tie-rival"] = { text: asker.givenName, sourceRecordIds: [tieId] };
+  else if (
+    tie &&
+    closenessBetween(core, askerId, askedId) >=
+      rulesFile.tieSides.friendCloseness.value
+  )
+    facts["tie-friend"] = { text: asker.givenName, sourceRecordIds: [tieId] };
   // A committee trade coming due on the floor (legislature.ts
   // recordPromises): the member promised their vote, and the lines about a
   // promised vote need it.
