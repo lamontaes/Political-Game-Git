@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: governing/at-large-weighed-once
-pr:
+pr: #7270
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-04T17:18:04.900Z
