@@ -969,5 +969,17 @@
     "addedAt": "2026-11-01",
     "replacement": "The eviction names as witnesses the full people who know a counted member (the full people who list them as family, and their ties), as notifyCountedDeaths does for a counted death, once drives, trait change and the director read a witness to a relative's eviction by their relation; or counted members pass news on at contact by the news engine's rule.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORLD-government-opening-fund-balance",
+    "kind": "estimated-parameter",
+    "file": "data/research/money/treasury-opening-cash.json",
+    "line": 15,
+    "whatItFakes": "Opening operating cash is calibrated from reporting-year balances instead of a dated account for each fictional government. The first slice covers federal operating cash; state and local treasuries still need calibrated opening stocks.",
+    "why": "A new game has no preceding cash history. Census cash-and-security totals include restricted funds and securities and cannot be deposited as freely spendable cash.",
+    "addedBy": "lane-2/opening-treasuries",
+    "addedAt": "2026-11-04",
+    "replacement": "Complete world-government-opening-fund-balance using operating cash or explicitly estimated available reserves by government, with dated source and spread, journal posting and named payments. Replace the federal two-year calibration with a sourced opening-date operating cash series when available.",
+    "status": "open"
   }
 ]
