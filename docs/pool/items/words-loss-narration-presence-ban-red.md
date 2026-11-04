@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: lane3/red-presence-line
-pr:
+pr: #7184
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-04T05:43:41.182Z
