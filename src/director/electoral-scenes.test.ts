@@ -206,6 +206,16 @@ function filingAndStops(
     // to election day, and most of a town cannot run for its offices.
     if (checkEligibility(api, person.id, contest.id, null).some((c) => !c.met))
       continue;
+    // A resident already running (filed on their own, for this body's other
+    // seat or another race) has had their filing scene; filing them again
+    // the same day folds into that one sitting.
+    const running = (
+      api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("filings")
+        .query("byPerson", [person.id]) as unknown as FilingRow[]
+    ).some((row) => ["petitioning", "on-ballot"].includes(row.status ?? ""));
+    if (running) continue;
     director.watch(core, person.id);
     const result = fileCandidacy(api, {
       personId: person.id,
