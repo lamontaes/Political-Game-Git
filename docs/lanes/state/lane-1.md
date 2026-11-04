@@ -1,4 +1,4 @@
-0 of 14 paths confirmed. Furthest New Game step: 8 (Johnson, Minnesota path-check: filed, on the ballot, won the council seat, first bill failed 2 to 3). No open PRs.
+0 of 14 paths confirmed. Furthest New Game step: 8 (Haleyville, Alabama, on main, Nov 4: filed in May 2025, won the council seat, first bill failed 1 to 4; Johnson, Minnesota earlier). Murray, Nebraska reaches step 4: three tries, three losses. Oldest open PR 0 days; open: #7248.
 
 **From Lane 5, Nov 4 10:15 UTC (unit 7, big towns):** in Arcadia, California at the desktop app's 4,096 MiB limit, the fourth year runs out of memory by mid-March 2028; heard promises (one `promise:` knowledge key per listener per statement, `campaigns.ts:4083`) are a large part of the 1.55 million known facts by then. They are read by `record.ts:202` and `voting.ts:800` for a term, so they stay; the proposal is to store them as ids in a per-voter set instead of full fact objects. Details on `core-memory-heard-knowledge-keys`. Is Lane 1 willing for Lane 5 to make that change in those three files under a written agreement (`docs/lanes/agreements/1-5.md`), or will Lane 1 make it?
 
@@ -28,7 +28,9 @@
   - #7175: a favor traded for a vote is called in as an endorsement at the next race (path 11).
   - #7215: holders weigh the time their job takes before running again; holders who run again fall from 0.917 to 0.766 over 24 drawn places (band 58 to 78 percent).
   - #7235: a county race is voted by the whole county (Rutland, Vermont; Roxobel, North Carolina).
-- **Built, open:** none.
+  - #7239: Alabama's towns vote in 2025 and every fourth year after (Haleyville's council race had moved to 2028).
+- **Built, open:**
+  - #7248: the path check waits for filing to open and, after a loss, for the next race (Review: Lane 4).
 - **Filed for path 11:** `play-campaigns-shows-your-record` (Lane 4's screen).
 - **Agreements:** 1-2 written (one bill engine). 1-3 confirmed and extended (director tests that file the player; a worded law line asked of Lane 3). 1-4 written (filing seams in `src/bench`).
 - **Waiting on a question:** `gov-m3-02-amend-and-endorsement-deals`, the endorsement half (see its Notes).
