@@ -5,11 +5,12 @@ area: words
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane3/concession
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T00:11:01.418Z
 ---
 
 **What.** The concession call after a lost race (director purpose concession-call, scene race-lost) ends in conceded or not-yet, and no engine reads either: its ending keeps story-runs, which nothing reads. Path 6 asks for a real concession. The director marks the reply conceded yes or no, the press keeps a public concession record, and the paper's race story says it of the runner-up.
