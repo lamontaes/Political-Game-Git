@@ -5,11 +5,12 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: one-map-last-town-records
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T23:59:16.877Z
 ---
 
 **What.** Delete the last two townOf records in game code; both read the town from the place map.
