@@ -20,6 +20,7 @@ import { gameStartDate } from "./game-start";
 import { addDays, daysBetweenText, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { lawChain } from "./modules/laws";
+import { OFFICIAL_PAY_MODULE_ID } from "./modules/official-pay";
 import { outletsHere, pressParameter, PRESS_MODULE_ID } from "./modules/press";
 import { officialHousehold } from "./official-living";
 import { STAFF_ROLES, type StaffRow } from "./press-staff";
@@ -32,7 +33,7 @@ afterAll(() => {
   setBookkeeping(bookkeepingBefore);
 });
 
-it(`an out-of-town station news director lives on a household cost through a played year (seed ${seed})`, () => {
+it(`out-of-town press people live on a household cost and are paid each month through a played year (seed ${seed})`, () => {
   const passed: string[] = [];
   for (let draw = 0; draw < DRAWS; draw += 1) {
     const place = drawPlace(`${seed}:${draw}`, "press-staff");
@@ -87,17 +88,42 @@ it(`an out-of-town station news director lives on a household cost through a pla
         daysBetweenText(row!.livedThrough!, today),
         `${where} ${id} lived through ${row!.livedThrough}`,
       ).toBeLessThanOrEqual(api.parameter("daysPerWeek"));
-      // They spent a year of the cost, or everything they had.
-      const owed = person.livingCostDailyMinor * 350;
-      expect(
-        person.liquidMinor,
-        `${where} ${id}: held ${before.get(id)} at the opening`,
-      ).toBeLessThanOrEqual(Math.max(0, before.get(id)! - owed));
+      // Paid each month from outside the town for the post they hold
+      // (people-press-out-of-town-staff-paid): the pay record is current,
+      // nothing is owed, and the cost never ran them out for want of pay.
+      const payRow = api
+        .moduleState(OFFICIAL_PAY_MODULE_ID)
+        .table("pay")
+        .get(`post:${id}`) as unknown as
+        { paidFrom: string; owedMinor?: number; payerId: string } | undefined;
+      expect(payRow, `${where} ${id}: no pay record`).toBeTruthy();
+      expect(payRow!.paidFrom, `${where} ${id}`).toBe(`${today.slice(0, 8)}01`);
+      expect(payRow!.owedMinor ?? 0, `${where} ${id}`).toBe(0);
+      expect(person.liquidMinor, `${where} ${id}`).toBeGreaterThan(0);
       const latest = core.cashJournal.latestByOwner.get(id);
       lines.push(
-        `${id}: ${person.livingCostDailyMinor} a day, held ${before.get(id)} then ${person.liquidMinor}; lived through ${row!.livedThrough}; latest entry ${latest?.id ?? "none"}`,
+        `${id}: ${person.livingCostDailyMinor} a day, held ${before.get(id)} then ${person.liquidMinor}; lived through ${row!.livedThrough}; paid through ${payRow!.paidFrom} by ${payRow!.payerId}; latest entry ${latest?.id ?? "none"}`,
       );
     }
+    // Every press person who lives outside the town and still works at
+    // their outlet (owners draw no pay) holds a current pay record.
+    const town = core.people.get(core.playerId!)!.placeId;
+    let paid = 0;
+    for (const row of staff().values()) {
+      const person = core.people.get(row.id);
+      if (row.role === "owner" || row.leftOn || !person?.alive) continue;
+      if (person.placeId === town) continue;
+      const payRow = api
+        .moduleState(OFFICIAL_PAY_MODULE_ID)
+        .table("pay")
+        .get(`post:${row.id}`) as unknown as
+        { paidFrom: string; owedMinor?: number } | undefined;
+      expect(payRow, `${where} ${row.id}: no pay record`).toBeTruthy();
+      expect(payRow!.owedMinor ?? 0, `${where} ${row.id}`).toBe(0);
+      expect(person.liquidMinor, `${where} ${row.id}`).toBeGreaterThan(0);
+      paid += 1;
+    }
+    lines.push(`${paid} out-of-town press people paid through ${today}`);
     console.log(
       `press-staff: ${[...passed, `${where}\n  ${lines.join("\n  ")}`].join("\n")}`,
     );
