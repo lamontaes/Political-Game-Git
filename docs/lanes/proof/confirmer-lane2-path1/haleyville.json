@@ -1,0 +1,40 @@
+{
+ "town": "haleyville",
+ "replay": "ab5f58e9be125c95",
+ "newlifeURL": "http://localhost:3000/api/newlife?seed=ab5f58e9be125c95&date=&placeKey=0132704&person=%7B%22givenName%22%3A%22Emily%22%2C%22familyName%22%3A%22Carter%22%2C%22gender%22%3A%22female%22%2C%22birthYear%22%3A2006%2C%22birthMonth%22%3A7%2C%22birthDay%22%3A16%2C%22recipe%22%3A%7B%22person%22%3A%22woman-heavy%22%2C%22outfit%22%3A%22everyday%22%2C%22work%22%3A%22pantsuitblack%3Achin-length+bob%22%2C%22colors%22%3A%7B%22top%22%3A%22royal+blue%22%2C%22trousers%22%3A%22maroon%22%2C%22shoes%22%3A%22cream%22%2C%22hair%22%3A%22blond%22%7D%7D%7D",
+ "place": "Haleyville, Alabama",
+ "player": "person_6f630a8a80e09e80",
+ "clock": "Monday, January 20, 2025\n8:30 PM",
+ "backdrop": [
+  "http://localhost:3000/art/backdrops/trailer-home-living__night.jpg"
+ ],
+ "money": "Money and property\nCASH AVAILABLE\n$635\nHOME\nRENTED\nMobile home\nRent $488 per month",
+ "pageErrors": [],
+ "httpErrors": [],
+ "cards": [
+  {
+   "label": "Mila Carter\nmother",
+   "text": "Mila Carter\n\nMother \u00b7 Age 46\n\nLives with you\n\nShe plays it safe. When she says she'll do something, she does it.\n\nWORK\nPolice Chief\nCITY OF HALEYVILLE treasury\nHOME\nHaleyville, Alabama\nHISTORY\n1978\n\nBorn in Haleyville, Alabama.\n\n2003\n\nMelanie Reed was born.\n\n2006\n\nStarted work at Brooks's Market.\n\n2006\n\nYou were born.\n\n2012\n\nStarted work at Wilkinson's Market.\n\n\u2039\n1978 \u2013 2012\n\u203a"
+  },
+  {
+   "label": "Melanie Reed\nsister",
+   "text": "Melanie Reed\n\nSister \u00b7 Age 21\n\nShe would rather find common ground than fight. She acts on impulse. She'll take a chance most people wouldn't.\n\nHISTORY\n2003\n\nBorn."
+  },
+  {
+   "label": "Jared Snider\nfather",
+   "text": "Jared Snider\n\nFather \u00b7 Age 48\n\nHe loves being around people. He would rather find common ground than fight. When he says he'll do something, he does it.\n\nHISTORY\n1976\n\nBorn.\n\n2003\n\nMelanie Reed was born.\n\n2006\n\nYou were born."
+  },
+  {
+   "label": "Kathleen Reed\ngrandmother",
+   "text": "Kathleen Reed\n\nGrandmother \u00b7 Age 74\n\nShe would rather find common ground than fight. When she says she'll do something, she does it. She plays it safe.\n\nHISTORY\n1950\n\nBorn.\n\n1975\n\nRyan Reed was born.\n\n1978\n\nMila Carter was born."
+  },
+  {
+   "label": "Larry Reed\ngrandfather",
+   "text": "Larry Reed\n\nGrandfather \u00b7 Age 76\n\nHe thinks things through before acting. He doesn't back down from a fight. When he says he'll do something, he does it.\n\nHISTORY\n1948\n\nBorn.\n\n1975\n\nRyan Reed was born.\n\n1978\n\nMila Carter was born."
+  },
+  {
+   "label": "Ryan Reed\nuncle",
+   "text": "Ryan Reed\n\nUncle \u00b7 Age 49\n\nHe keeps to himself. He plays it safe.\n\nHISTORY\n1975\n\nBorn."
+  }
+ ]
+}

@@ -446,6 +446,17 @@
       "replacement": null
     },
     {
+      "file": "src/core2/sibling-names.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "const givenName = new SeededRng(seed) .fork(`sibling-name:${key}`) .pick(available);",
+      "class": "IDENTITY",
+      "keyedBy": "seed + sibling key",
+      "reason": "A sibling's given name from the name corpus, one no one in the family already has: who they are, never what they do.",
+      "replacement": null
+    },
+    {
       "file": "src/core2/town-households.ts",
       "kind": "list-pick",
       "build": null,

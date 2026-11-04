@@ -54,6 +54,8 @@ import {
  * moment it decides (this family's entry, tests/guards/families.json).
  */
 export { webReach, webFactorFor } from "../outcome-web-reach";
+// The town's modeled people (named and counted), for the screens.
+export { townFacts } from "../law-reach/group-b-people";
 /** The researched starting answers by state, for an engine in another family that reads which states' law lets a product operate (the credit engine's small-dollar lenders). */
 export { POLICY_QUESTIONS } from "../policy-answers";
 /** The research links the web runs, for an engine that reads a person-level link from its own records. */

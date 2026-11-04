@@ -71,6 +71,9 @@ function knownPublicTargets(
       const row = api.state.publicOrganizations.get(id)!;
       if (
         row.affordances?.includes(action.targetKind) &&
+        // An office to approach is one with recorded staff, as the look-up
+        // that finds it requires (office-directory in modules/people.ts).
+        (action.targetKind !== "known-office" || !!row.staff?.length) &&
         api.knows(actor.id, `organization:${id}:public`)
       )
         out.push(offer(api, actor, action, id));

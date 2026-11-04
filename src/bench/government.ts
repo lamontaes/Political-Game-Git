@@ -1,3 +1,4 @@
+import { raceTitle } from "./race-words";
 import { properName } from "../director/words";
 import { ageOnDate } from "../core2/kernel/dates";
 import { parameter } from "../core2/parameters";
@@ -430,9 +431,7 @@ export function localRaces(core: CoreState) {
       const office = filingOfficeFor(api, contest.id);
       return {
         contestId: contest.id,
-        title: contest.district
-          ? `${contest.title} (${contest.district})`
-          : contest.title,
+        title: raceTitle(contest.title, contest.district),
         electionDate: contest.electionDate,
         filingDeadline: contest.filingDeadline,
         filingClosed: contest.filingDeadline < core.date,

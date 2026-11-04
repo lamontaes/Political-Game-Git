@@ -296,6 +296,383 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.80.0
+
+_Released November 4, 2026._
+
+### Added
+
+- **The opening's address names your governor and your state's chamber leaders
+  over your state's capitol.** When the President's address turns to the states,
+  the picture cuts to your own state's capitol and names your governor and the
+  leaders of your state's legislature.
+
+- **Who you are shows your town's population and how many moved in and out this
+  year.** The Home plate on Who you are gives your town's population and this
+  year's moves ("Population 1,376 · 2 moved in, 13 moved out this year"),
+  counted from the households that moved.
+
+- **When you have no job, Who you are says how your household gets by.** On Who
+  you are, under Jobs and study, a grown character with no job now reads why:
+  who at home earns and where ("your household lives on what Patrick Matthews
+  earns at Chang Inn"), or that nobody at home draws a wage.
+
+- **Loading a new game plays your town's story: a year counter through your
+  life, your journal writing itself, headlines and the map.** While a new game's
+  first scene is drawn, a panel plays the world that was just built: the years
+  of your life count up, each year writes its lines of your story and prints the
+  headlines you heard, and your state's map fills in county by county, your
+  districts last. A click ends it early.
+
+- **After public comment on a bill, a resident who spoke comes to you, as a
+  member, about the bill and the side they took.** When you sit on a council or
+  board and residents speak at public comment before a vote, one of them may
+  catch you afterward ("You heard what I said about Ordinance 2025-3. I'm asking
+  you to vote for it."). What you answer is kept: you can stand by your view,
+  give ground, offer to talk later, or brush them off.
+
+### Fixed
+
+- **An official who returns to an office is paid again without a crash, and
+  their earlier service stays on record.** Officials who return to an office
+  after leaving it receive a new job record, preserving their earlier service
+  history and avoiding a crash when payroll resumes.
+
+- **Races name their district in words, such as District 5, instead of a code
+  like (05), and say it once.** At the clerk's counter, on Campaigns, in
+  Government and on election night, a race's title names its district as
+  "District 5" rather than the records' "(05)", and the counter no longer
+  repeats it as "Seat 05". A seat elected at large shows no district.
+
+- **Election night shows every governor race around the country on its own page,
+  two columns that fit the window.** After your race is called, election night
+  turns to a page of the other states' governor races: each state, the winning
+  party and the margin in whole points, in two columns that fit a 1024 by 768
+  window with nothing cut off. Before, the rows were added under your race's
+  count and the ones past the panel's foot could not be seen.
+
+- **A colleague asking for your vote meets you in your body's chamber, and a
+  visit about a bill is at the office, not a living room.** Scenes the game
+  stages in a council or legislative chamber now show that body's own room, the
+  same one the body's sitting shows. Scenes at an official's office show the
+  city hall hallway or an office. Before, both showed a house.
+
+- **Your Journal tells your own lost race as yours, not a relative's.** When a
+  relative helped your campaign, the Journal could tell your loss as theirs ("My
+  father lost the race for Selectman."). It now reads who ran from the race's
+  result, so it says you lost.
+
+- **When you lose a race, the paper no longer says you beat the person who
+  won.** The race story's line about your opponent now follows the count: "Avery
+  Cooper beat Emily Carter." when you lost, "Emily Carter beat Avery Cooper."
+  only when you won.
+
+- **Keep governments with empty opening treasuries valid** A government that
+  starts with no available reserve now keeps a valid budget record without an
+  absent journal number. Its opening balance stays zero, and reopening budgets
+  does not fund it again.
+
+### Changed
+
+- **Local officeholders who hold a job weigh the time it takes when deciding to
+  run again, so more seats open up.** A council member or county officer with a
+  full-time job now weighs the hours it takes before standing for another term,
+  as anyone thinking of running does. About three in four holders run again,
+  near the real share, so more seats come open for newcomers.
+
+- **The title shows the Capitol, the White House and the Lincoln Memorial in
+  their lights, not conventions or rallies.** The title screen now turns through
+  the national monuments only: the U.S. Capitol in the morning, at midday, at
+  night and in the rain, the White House at midday and the Lincoln Memorial at
+  night. Conventions, rallies, chamber floors and the Oval Office no longer
+  appear there.
+
+- **When you work out what a law did to your household's bills, the scene says
+  which law and how much.** The scene where you connect a change in what you pay
+  to a law now names the law, by its bill's name or what it is about, and the
+  amount: "The law on electricity and the grid cost your household $4.13." or
+  "The law on transportation put $9.61 back in your household's hands."
+
+## PRE-ALPHA 0.79.0
+
+_Released November 4, 2026._
+
+### Added
+
+- **The Journal tells your campaign's months: the clerk's count of your petition
+  and your volunteers' evenings at the doors.** While you run, the Journal now
+  notes the clerk's count of your petition signatures ("The clerk counted 32
+  good signatures on my petition for Council member. I needed 30.") and, at most
+  every two weeks, a volunteer's evening knocking on doors for you ("A volunteer
+  knocked on 37 doors for me.").
+
+- **After you vote on a bill, a reporter calls to ask why, and the paper's story
+  of the vote quotes you or says you wouldn't comment.** When you vote on a bill
+  as a member of a council or board, a reporter from an outlet that covers the
+  body asks why you voted the way you did ("You voted against Ordinance 2025-1.
+  What should people know about why?"). If you answer on the record, the paper's
+  story of that vote quotes you. If you refuse, it says you would not comment. A
+  reporter who already called about the bill's introduction calls again about
+  the vote.
+
+### Improved
+
+- **The calendar shows the town's meetings and the holidays, birthdays only for
+  family, and each kind has a color and can be hidden** The calendar now carries
+  the town's council and board meetings and the federal holidays beside filing
+  dates and elections; birthdays are only for the household and close family. A
+  key above the month names each kind in its color and hides or shows it.
+
+### Fixed
+
+- **People no longer go to an office nobody works at** People are no longer sent
+  to approach a public office that has no staff.
+
+- **Election night names a district as District 14 and an at-large seat by its
+  state, never a code.** The places a race was counted in read as words on
+  election night: a state legislative or U.S. House district as "District 14", a
+  state's one at-large House seat as the state's name, and a state as its name.
+  Blank and refused exit-poll answers read as words too.
+
+- **Journal chapters open only on your own turns or a relative's, never on
+  someone else's oath or a stranger's birth.** The Journal used to start a new
+  chapter, titled "Commissioner" or with a stranger's name, when someone you
+  knew took office or a neighbor had a baby. Those moments are now told inside
+  the chapter you are living. A relative's birth or death still opens a chapter,
+  and a death's chapter names them by your tie ("My father").
+
+- **Ordinary news at home no longer opens with someone asking you to sit down
+  first.** When someone at home brings you ordinary news, like what they thought
+  of the President's speech, the scene no longer opens as if bad news were
+  coming ("Your partner asks you to sit down first."). It opens with "{name} has
+  something to tell you as soon as you're in the door."
+
+### Changed
+
+- **When someone asks what you think, your replies are opinions.** When someone
+  brings up the news and asks "What do you think?", your choices are now answers
+  to that question ("I like it.", "I'd want more than a headline before I
+  decide."), not "I heard about it." or "Huh."
+
+## PRE-ALPHA 0.78.0
+
+_Released November 4, 2026._
+
+### Added
+
+- **The clerk walks you through running a campaign** The first time you file,
+  the clerk tells you the signatures and the day they are due, then asks whether
+  you have run a campaign before. Say no and the clerk walks you through it: the
+  signatures and how to gather them (doors, a table where people shop, friends
+  carrying a sheet), money and what it buys (mailers, a poll, ads in the town's
+  own paper), and the press. Say you have and the clerk lets you go. After
+  filing, the status reads "Collecting signatures".
+
+- **What you tell a reporter, or that you declined, is in the paper's story.**
+  When a reporter asks you about something you did, such as a bill you just
+  introduced, your answer now goes into the paper's story of it ('Connie
+  Gallagher told reporters: "People who work two jobs and still come up short.
+  It's written for them."'). If you refuse or walk off, the story says so
+  ("Timothy McKay declined to comment."). The reporter's scene about a newly
+  introduced bill now plays: it names the reporter's own outlet and opens on the
+  bill.
+
+### Improved
+
+- **A person's card tells their life as a short story** A person's card tells
+  their life as a short story: the first sentence names them, the rest use their
+  pronouns, and your own card speaks to you. A run of terms in one office is one
+  sentence ("won election as state representative, and won every race for the
+  seat after that"). Two or three lines under the name say who they are now and
+  where they come from. The seat's "since" year, the public record and those
+  lines all date the seat from the first term the story tells.
+
+### Fixed
+
+- **Homes are ready on the first New Game screen** New Game creates household
+  dwelling records before the first person card and room read them. The existing
+  housing initializer now runs during opening setup and remains safe to call
+  again, so the first screen uses the same home and contract records as later
+  housing payments.
+
+- **The night's paper prints only news that is still news on its date; older
+  stories stay in the News archive.** The first paper used to run votes and
+  races from months before its date as if they were today's news. Now the paper
+  prints only stories from the last 30 days, the window the news engine itself
+  uses. What you heard earlier is still listed in News.
+
+- **The talk at home after a lost race no longer opens by saying who is
+  waiting.** When a relative who worked your campaign talks with you after a
+  loss, the opening now says what they did ("Dana worked this campaign beside
+  you.") instead of only saying they are there, which the screen already shows.
+
+### Changed
+
+- **A friend and a rival say different things on the call after the count.** The
+  calls after an election now depend on how the two people stand. A friend who
+  won takes your concession warmly ("Hey. You did everything right, you know.
+  Some years it just goes the other way."). Someone you last quarreled with
+  doesn't ("I didn't think you'd call. I'll take it."). The same holds when a
+  runner-up calls you after you win. The tie comes from your record together: a
+  friend is someone you're closer to than not, and a rival is someone your last
+  contact was a quarrel with.
+
+## PRE-ALPHA 0.77.0
+
+_Released November 4, 2026._
+
+### Added
+
+- **Favors from deals get called in at election time** A favor you trade for a
+  vote is remembered. When a colleague who took your favor runs for office,
+  their campaign asks you to endorse them, and a colleague who owes you weighs
+  that debt when your campaign asks for theirs. An endorsement given for the
+  favor repays it. When a colleague asks you to repay, the game waits for your
+  answer instead of giving one for you; that ask doesn't reach you on screen
+  yet.
+
+- **Rivals run attack ads on an officeholder's record** A challenger running
+  against someone with a record in office now spends part of their ad money
+  showing it: the votes and broken promises the voters they reach disagree with.
+  How much depends on the challenger's temperament. When you run for
+  re-election, the ads against you name the real votes you cast, and the voters
+  who saw them weigh those votes. Before, no rival ever ran an attack ad.
+
+- **After you concede, the winner takes your call, gracious or gloating as they
+  are.** When you concede a lost race, the winner now picks up. What they say
+  follows who they are: "Thank you for calling. You ran a hard race, and I mean
+  that." or "Took you long enough. It was never that close, you know." You can
+  wish them well, keep it short or answer back. A sharp exchange strains the tie
+  between you.
+
+- **Governors declare emergencies when disaster strikes** When a federally
+  declared disaster hits the state, the sitting governor now declares a state of
+  emergency the day it is recorded, where the state's law gives them that power.
+  The state's budget takes on its share of the recovery cost, and the
+  declaration makes the news. If you are the governor, the game does not declare
+  for you.
+
+### Improved
+
+- **A yes at the door becomes a vote** People who tell a campaign "yes" at their
+  door now turn out the way people who say they'll vote really do: about three
+  in five of them vote in a town race, against about one in four of their
+  neighbors. Before, a promise at the door barely moved whether someone showed
+  up, so the doors you knocked won you fewer votes than they should have. It
+  works the same for your rivals' doors.
+
+- **Your office remembers where colleagues stand on your bill** When you talk to
+  a colleague about your bill, or your aide briefs you on it, the office now
+  keeps where each colleague stands and how you learned it. Your bill's list of
+  colleagues reads it back: for, against or undecided, from a talk or from the
+  record.
+
+### Fixed
+
+- **Filing opens weeks before the deadline, not on the game's first day** Every
+  race now opens for filing on a set day: the day the place's calendar gives, or
+  about two months before the deadline where the calendar gives none. Before,
+  most races stood open from the first day of the game, so a race in November
+  2026 could be filed for in January 2025, and a campaign stretched over almost
+  two years with nothing in it.
+
+- **Small towns no longer ask more signatures than they have voters** A town
+  council petition now fits the town. Where the state's law offers a petition
+  only as a way around the filing fee, as in Minnesota's towns, the fee files
+  you and no petition is required. Elsewhere a local petition never asks for
+  more than a tenth of the town's voters, the most any local petition law read
+  for the game asks, so a town of a few dozen adults no longer needs thirty
+  names. Before this, 620 of 31,787 towns asked for more signatures than they
+  had citizen adults.
+
+- **One filing deadline at the counter** Each race now has one filing deadline.
+  The clerk, the filing panel, the petition's due date and the race list all
+  read it from the same rule: the state's filing law for your side where it sets
+  its own date before the race's first vote, otherwise the race's calendar. The
+  clerk can no longer give you one date while the form shows another.
+
+- **Someone stands at every filing counter** Where a town's races file with a
+  county board of elections, or with a clerk's office its records name no one
+  for, the counter now has a person at it: an election commissioner or clerk
+  drawn for the world, on the county's or the town's payroll. They introduce
+  themselves, take your papers and tell you about the petition in the scene that
+  follows, instead of leaving you at an empty counter.
+
+- **A phased minimum wage's cost note counts every step** A minimum-wage bill
+  raised in dated steps now shows what each step adds to the pay of the jobs
+  under it, and the full cost once the last step takes effect. Before, the
+  bill's cost note counted only the first step, so the cost colleagues and
+  employers weighed was a fraction of the real one. Employers' stake in the bill
+  now counts every step too.
+
+- **Government budgets can spend their opening reserves** Government treasuries
+  start with estimated operating reserves, so their ordinary budgets can spend
+  money carried into the new game.
+
+- **Unemployment benefits use the full wage basis in their law.** Unemployment
+  benefits use the wage basis quoted by their law: Montana's one-percent formula
+  uses the full base period, and Colorado's sixty-percent formula uses the
+  two-quarter sum. The existing jobs engine reads the corrected rows when a
+  laid-off worker files.
+
+- **Sponsors ask for your vote only on bills that will reach the floor.**
+  Before, a sponsor could ask you the evening before a floor day about a bill
+  its committee was about to hold, so the answer you gave went nowhere. Now a
+  bill on the week's floor goes before its committee the evening before, as a
+  scheduled bill already did, and a bill the committee holds leaves the agenda
+  before anyone is asked. Every ask is about a bill that comes to a vote the
+  next day. A bill's second chamber, which votes the same day only if the first
+  passes, is not asked about the evening before.
+
+- **Re-election does not start the former-official lobbying ban** Continuous
+  service through re-election no longer starts a former-official lobbying ban. A
+  genuine departure still does, including when someone later returns to office.
+  Existing laws use their researched waiting periods where provided; laws
+  without a recorded period retain the listed estimate.
+
+- **Siblings keep distinct first names** Opening families keep different first
+  names for living siblings, including relatives who live elsewhere. Choosing a
+  sibling's name in the creator keeps your choice and gives the sibling a
+  different name in their record.
+
+- **Superseded national law rows do not announce a territorial change** A
+  scheduled law row no longer announces that it took effect when the place's
+  actual law-in-force answer contains no matching national row. This includes
+  territories whose specific federal law replaces the national level, so a
+  superseded national wage row does not produce a false change for the paper.
+
+### Changed
+
+- **College towns, prison towns and base towns house their residents in group
+  quarters** The students in a college's dormitories, the people in a prison or
+  a nursing home and the service members in a base's barracks now live in group
+  quarters, counted from the Census, instead of renting homes in town, so a
+  college town's rents, renters and evictions follow the households that really
+  rent there.
+
+- **Whether you concede on election night is printed in the race's story.** On
+  the call after a lost race, conceding or refusing now counts. The press puts
+  it on the record, and the race's story in the paper says so by name: "Vivian
+  Ramirez called Hugo Osborn to concede." or "Jessica McGee would not concede
+  the race." A concession made after the paper has printed is not told in that
+  story.
+
+- **After a lost race, the talk at home comes from the relative who worked it or
+  whose money went in.** The talk at home after you lose a race now comes only
+  from someone in your household who put something into it: a relative on your
+  volunteer list, or the household's money you gave your own campaign. They open
+  on what they put in and how close the count was ("We lost by 12 votes. I put
+  my time in too, so tell me what you want from me next."). If nobody at home
+  helped, no scene is staged for it. When you say you'll run again, their answer
+  is kept, and it counts the next time anyone in that household weighs a run.
+  The old general comfort lines are gone, including a sister the records never
+  named.
+
+- **The Journal says you filed to run and when the election is, not that you
+  ran.** On the day you file, your Journal no longer says "So I ran." months
+  before the race. It says what happened that day: "So I filed to run for
+  Trustee, with the election set for November 4, 2025."
+
 ## PRE-ALPHA 0.76.1
 
 _Released November 4, 2026._

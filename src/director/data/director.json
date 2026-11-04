@@ -962,6 +962,17 @@
       "impactParameter": "directorFilingImpact"
     },
     {
+      "eventKind": "volunteer-shift",
+      "channel": "cause",
+      "impactParameter": "directorCampaignSpeechImpact",
+      "minDaysApart": 14
+    },
+    {
+      "eventKind": "petition-checked",
+      "channel": "cause",
+      "impactParameter": "directorFilingImpact"
+    },
+    {
       "eventKind": "party-asked",
       "channel": "cause",
       "impactParameter": "directorFilingImpact"
@@ -985,6 +996,11 @@
     },
     {
       "eventKind": "election-result",
+      "channel": "cause",
+      "impactParameter": "directorElectionResultImpact"
+    },
+    {
+      "eventKind": "concession",
       "channel": "cause",
       "impactParameter": "directorElectionResultImpact"
     },

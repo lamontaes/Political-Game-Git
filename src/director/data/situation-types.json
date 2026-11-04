@@ -136,6 +136,62 @@
   },
   "types": [
     {
+      "key": "concession-taken",
+      "note": "The loser's side, after they conceded: the winner takes the call. The press's concession record (conceded yes) names the loser and the winner. The winner answers as their traits lean, gracious or gloating, and how the loser answers back is a scene reply. A sharp word strains the tie (path 6, 'a rival who may gloat').",
+      "roles": [
+        {
+          "key": "winner",
+          "fill": "winner",
+          "count": "one",
+          "moves": ["greet", "tell", "accept", "thank", "press", "close"],
+          "wants": ["engage"],
+          "bearing": "calm"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": [
+            "thank",
+            "congratulate",
+            "warn",
+            "leave",
+            "accept",
+            "refuse",
+            "promise"
+          ],
+          "wants": ["withdraw"],
+          "bearing": "solemn"
+        }
+      ],
+      "setting": ["phone"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:concession",
+            "causeFacts": [
+              { "key": "loserId", "is": "subject" },
+              { "key": "conceded", "equals": ["yes"] }
+            ]
+          },
+          "causeEngine": "press",
+          "causeRecord": "concession",
+          "bind": { "winner": "winner", "you": "subject" },
+          "opener": "winner"
+        }
+      ],
+      "tag": {
+        "key": "call-in",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words", "journal"]
+      },
+      "purpose": "concession-taken",
+      "asker": "winner",
+      "asked": "you",
+      "stakes": ["opponent", "office", "race"]
+    },
+    {
       "key": "departure",
       "roles": [
         {
@@ -2654,6 +2710,56 @@
       "stakes": ["bill", "minutes"]
     },
     {
+      "key": "testimony-heard",
+      "note": "A member sat through a public hearing on a bill. A resident who spoke comes to them after it, about the bill and the side they took, while the member can still answer. The speech.heard record names the resident who spoke and the members who heard it; the meetings engine's remark names the bill and the side (remark.ts).",
+      "roles": [
+        {
+          "key": "speaker",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["greet", "ask", "thank", "close"],
+          "wants": ["change"],
+          "bearing": "nervous"
+        },
+        {
+          "key": "member",
+          "fill": "subject-on-body",
+          "count": "one",
+          "moves": ["answer", "relent", "offer", "deflect"],
+          "wants": ["keep-same"],
+          "bearing": "calm"
+        }
+      ],
+      "setting": ["venue"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "feeling:event:speech.heard",
+            "occasion": "remark",
+            "counterpart": "some"
+          },
+          "causeEngine": "speech",
+          "causeRecord": "speech.heard",
+          "bind": {
+            "speaker": "counterpart",
+            "member": "subject-on-body"
+          },
+          "opener": "speaker",
+          "opening": "greet"
+        }
+      ],
+      "tag": {
+        "key": "favor-asked",
+        "endpoint": "bill",
+        "registers": ["scene-talk", "scene-words", "journal"]
+      },
+      "purpose": "testimony-heard",
+      "asker": "speaker",
+      "asked": "member",
+      "stakes": ["bill"]
+    },
+    {
       "key": "press-interview",
       "roles": [
         {
@@ -2682,6 +2788,7 @@
       ],
       "setting": ["venue", "phone"],
       "timing": "at-cause",
+      "repeatsBy": "cause",
       "causes": [
         {
           "match": {
@@ -2728,6 +2835,20 @@
           },
           "causeEngine": "legislature",
           "causeRecord": "office.introduced",
+          "bind": {
+            "reporter": "press-corps",
+            "official": "subject"
+          },
+          "opener": "reporter",
+          "opening": "greet"
+        },
+        {
+          "match": {
+            "label": "cause:event:legislative-vote",
+            "selfNamed": true
+          },
+          "causeEngine": "legislature",
+          "causeRecord": "legislative-vote",
           "bind": {
             "reporter": "press-corps",
             "official": "subject"

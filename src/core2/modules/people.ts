@@ -59,6 +59,7 @@ import { offer } from "./life";
 import { departureRateFor } from "./moves";
 import { pairKey } from "../kernel/ids";
 import { bookkeeping } from "../bookkeeping";
+import { registerWorldMapPart } from "../snapshot";
 
 /** The hours a tie has lost, read near or far: the pull toward a visit. */
 function tiePull(
@@ -87,9 +88,12 @@ function tiePull(
  * more ties than the shortlist holds weighs them all.
  */
 const shortlists = new WeakMap<
-  object,
+  CoreState,
   Map<PersonId, { week: number; ids: ReadonlySet<PersonId> }>
 >();
+// Held for the week, so a save keeps it: a world restored mid-week weighs the
+// same ties its original does (core-snapshot-cover-rest).
+registerWorldMapPart("core2-people-weekly-contacts", shortlists);
 function weeklyContacts(
   api: CoreAPI,
   actor: Readonly<PersonState>,
@@ -156,6 +160,7 @@ function tiedTo(api: CoreAPI, actorId: PersonId): ReadonlySet<PersonId> {
 
 // The one reader of a person's relatives, for readers outside the family.
 export {
+  CLOSENESS,
   closenessBetween,
   familyFactsOf,
   familyRelation,
@@ -165,6 +170,10 @@ export {
 // measure's id and rows, for readers outside the family.
 export { RECORD_MODULE_ID, votesOf, type VoteRecordRow } from "./record";
 export { keyPeopleOf } from "../opening-key-people";
+// The town's moves, for the screens that count them: counted households'
+// move records and a named resident's moved-away event.
+export { COUNTED_MOVES_MODULE_ID, countedMoves } from "./counted-moves";
+export { MOVED_AWAY_EVENT } from "./moves";
 export { SCHOOL_MODULE_ID, type SchoolMeasureRow } from "../school-measures";
 export { SCHOOL_MEASURE } from "../school-outcomes";
 export { isNoncitizen, isUnauthorized } from "../citizenship";

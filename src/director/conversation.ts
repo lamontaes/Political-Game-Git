@@ -145,6 +145,12 @@ export interface ConversationData {
    * the same topic, not a new one.
    */
   tells?: Readonly<Record<string, Readonly<Record<string, string>>>>;
+  /**
+   * The reply choices that answer a question, by the move of the line that
+   * asked it (`news-ask-think`, "What do you think?", is answered by an
+   * opinion, not by having heard of it).
+   */
+  answersTo?: Readonly<Record<string, readonly string[]>>;
   /** The ledger labels, by prefix, that are something happening to a person. */
   happenings?: { prefixes: readonly string[] };
   /** A relative's latest happening, by label prefix, as the stage their news is told in. */
@@ -2362,6 +2368,10 @@ function offerChoices(
   // (owner, Oct 29): no reply to it opens with a question of its own.
   const said = conversation.lines.at(-one);
   const putQuestion = !!said && asksQuestion(said);
+  // The question's own move, from the bank piece that asked it, and the
+  // replies that answer it, where the rules name them.
+  const askedMove = said?.wording?.parts.at(-one)?.split(".")[one];
+  const fitting = askedMove ? data.answersTo?.[askedMove] : undefined;
   // A reply's second move follows from its first (owner, batch 6): turning
   // the same question back ("I'm from here. And you?"), or asking about their
   // work after naming yours. Never an unrelated subject tacked on.
@@ -2428,6 +2438,7 @@ function offerChoices(
         tail = answer;
       }
     }
+    if (putQuestion && fitting && !fitting.includes(choiceKey)) return;
     // Turning the question back asks it; nothing more is said.
     if (raised === last.subject && !answer.asks) return;
     // A move that turns the question back says nothing without its subject.

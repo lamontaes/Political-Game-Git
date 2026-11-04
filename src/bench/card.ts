@@ -3,14 +3,29 @@ import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { reachOn } from "../core2/law-reach/host";
 import { coreAPI, personOrFillIn } from "../core2/state";
 import { currentCloseness } from "../core2/closeness";
-import { familyFactsOf } from "../core2/modules/people";
+import {
+  COUNTED_MOVES_MODULE_ID,
+  countedMoves,
+  familyFactsOf,
+  MOVED_AWAY_EVENT,
+} from "../core2/modules/people";
+import { townFacts } from "../core2/modules/laws";
+import type { EntityId } from "../core2/kernel/brands";
 import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import { PAST_MODULE_ID } from "../core2/past-module";
 import { publicKnowledgeOf } from "../core2/past-public";
 import type { CoreState, PersonId } from "../core2/types";
 import { screenLine } from "../english/screen-words";
-import { pronounWords } from "../english/pronoun-words";
-import { corePlaceByJurisdictionId } from "../core2/place-lookup";
+import {
+  pronounSetOfGender,
+  pronounWords,
+  type PronounWords,
+} from "../english/pronoun-words";
+import { joinList } from "../english/bill-names";
+import {
+  corePlaceByJurisdictionId,
+  coreStateName,
+} from "../core2/place-lookup";
 import { relationWord, schoolsOf } from "./words";
 import { faceOf, scenePlace } from "./scene";
 import {
@@ -110,7 +125,14 @@ export function personCard(core: CoreState, personId: string) {
       wageDailyMinor: job.wageDailyMinor,
       hoursDaily: job.hoursDaily,
     },
+    // Why a grown person holds no job, told to them on Who you are (path 10):
+    // who in the home earns, from the household's members and their jobs'
+    // records (a partner first, then a parent, then anyone else at home),
+    // or that nobody there draws a wage. Null with a job, or under voting age.
+    noJob: job ? null : noJobLine(core, person, relationOf),
     liquidMinor: person.liquidMinor,
+    // The town's size and this year's moves (path 10), from the records.
+    town: townMoves(core, person.placeId),
     // The household's home, from OPUS-WORLD's housing records.
     dwelling: core.modules.has(HOUSING_MODULE_ID)
       ? ((coreAPI(core)
@@ -230,13 +252,20 @@ function historyLines(
       });
     else if (fact.kind === "family:parent-died" && f.relation)
       add("loss.parent", {
-        relation:
-          String(f.relation).charAt(0).toUpperCase() +
-          String(f.relation).slice(1),
+        relation: String(f.relation).toLowerCase(),
         name: [f.givenName, f.familyName].filter(Boolean).join(" "),
       });
-    else if (fact.kind === "campaign:elected" && f.office)
-      add("office.elected", { office: String(f.office).replace(/-/g, " ") });
+    else if (fact.kind === "campaign:elected" && f.office) {
+      const office = String(f.office).replace(/-/g, " ");
+      add("office.elected", { office });
+      // The term that election won, when they serve in it now: its first day.
+      const term = servingTermsOf(coreAPI(core), other.id).find(
+        (row) =>
+          row.startDate >= fact.date &&
+          inSentence(officeTitle(core, row.officeId) ?? "") === office,
+      );
+      if (term) lines.at(-1)!.start = term.startDate;
+    }
   }
   // The years before the start, from the one history every engine reads: the school
   // they started at, the jobs they held, the seats they reached.
@@ -278,11 +307,17 @@ function historyLines(
       slots: { year: other.birthDate.slice(0, 4) },
       recordId: other.id,
     });
+  // Kindergarten is starting school; a first record later on (they moved in,
+  // or were older when the records begin) is the stage they joined at.
   for (const school of schoolsOf(core, other.id))
     lines.push({
       date: school.date,
-      key: "school.started",
-      slots: { year: school.date.slice(0, 4), school: school.name },
+      key: school.grade > 0 ? "school.joined" : "school.started",
+      slots: {
+        year: school.date.slice(0, 4),
+        school: school.name,
+        stage: school.stage,
+      },
       recordId: school.recordId,
     });
   for (const row of preStartHistory(core, { personId: other.id as PersonId })) {
@@ -363,48 +398,300 @@ interface HistoryLine {
   key: string;
   slots: Record<string, string>;
   recordId: string;
+  /** The day the term an office line tells began, when it is not the line's own day (an election in November, a term in January). */
+  start?: string;
 }
 
 /** Office titles read in running text: "council member", but "U.S. senator". */
 const inSentence = (title: string) =>
   /^[A-Z][a-z]/.test(title) ? title.toLowerCase() : title;
 
+/** Who a card's story is about, and the form its sentences take. */
+interface Teller {
+  /** Said of someone (third person), in the they form, or to the player of their own life. */
+  readonly form: "third" | "they" | "you";
+  /** Their full name, said in the story's first sentence. */
+  readonly name: string;
+  /** Their recorded pronouns, for the third-person form. */
+  readonly words: PronounWords | null;
+}
+
+/** The teller for one person's card, as the viewer reads it. */
+function tellerOf(
+  viewerId: string,
+  personId: string,
+  name: string,
+  pronouns: string | undefined,
+): Teller {
+  if (viewerId === personId) return { form: "you", name, words: null };
+  const words = pronounWords(pronouns);
+  return { form: words ? "third" : "they", name, words };
+}
+
+/** The most later terms a run names by year before it is said whole. */
+const TERMS_NAMED = 2;
+
+/** The office lines of a run of terms, by how the first was reached. */
+const OFFICE_KEYS = ["office.elected", "office.appointed", "office.entered"];
+
 /**
- * The lines as the card says them, oldest first, each worded from the bank. One
- * school is said once, from the year they started there.
+ * The card's story, oldest first (owner, Nov 1: "Elected legislator, it needs
+ * to be told like a story. How many times do I have to say that?"): each
+ * record a sentence of a short biography from the bank, the first naming
+ * them and the rest using their recorded pronouns, or said to the player of
+ * their own life. A run of terms in one office is one sentence ("won
+ * election as state representative, and won it again in 1988 and 1990"),
+ * and one school is said once. The timeline shows the year beside each.
  */
-function tellHistory(lines: readonly HistoryLine[]) {
+function tellHistory(lines: readonly HistoryLine[], teller: Teller) {
+  // Terms in the same office, one after another, fold into the first.
+  const sorted = [...lines].sort((a, b) => a.date.localeCompare(b.date));
+  const folded: (HistoryLine & { again?: string[]; later?: string[] })[] = [];
+  for (const line of sorted) {
+    const run = folded.at(-1);
+    // A later term won at the polls, or one the records do not say how they
+    // reached (in office at the opening), folds into the run; a later
+    // appointment is its own sentence, since the run's words say "won".
+    // Spells at the same employer one after another (a campaign shop's
+    // seasons) fold the same way.
+    const term =
+      run &&
+      OFFICE_KEYS.includes(run.key) &&
+      OFFICE_KEYS.includes(line.key) &&
+      line.key !== "office.appointed" &&
+      run.slots.office === line.slots.office;
+    const spell =
+      run &&
+      run.key === "work.spell" &&
+      line.key === "work.spell" &&
+      run.slots.employer === line.slots.employer;
+    if (run && (term || spell)) {
+      const year = line.date.slice(0, 4);
+      const years = (run.again ??= []);
+      if (year !== run.date.slice(0, 4) && !years.includes(year))
+        years.push(year);
+      (run.later ??= []).push(line.recordId);
+      continue;
+    }
+    folded.push({ ...line });
+  }
   const said = new Set<string>();
-  return [...lines]
-    .sort((a, b) => a.date.localeCompare(b.date))
-    .flatMap((line) => {
-      // The timeline shows the year, so its lines leave it out (Words, #6862).
-      const text = screenLine(
-        "person-history",
-        `person-history.timeline.${line.key}`,
-        line.slots,
-      );
-      if (!text) return [];
-      // The same event from two records (a move the person's own facts and the
-      // moves engine both keep) is said once: the same words in the same year.
-      // One school is said once, whatever year a record starts it.
-      const key =
-        line.key === "school.started"
-          ? text
-          : `${line.date.slice(0, 4)} ${text}`;
-      if (said.has(key)) return [];
-      said.add(key);
-      // The kind of record (born, school, work, office...) picks the
-      // timeline's icon: the bank's move, the key's first part.
-      return [
+  let named = false;
+  return folded.flatMap((line) => {
+    // The same record twice (a move the person's own facts and the moves
+    // engine both keep, a school started twice) is said once.
+    const key =
+      line.key === "school.started" || line.key === "school.joined"
+        ? `school:${line.slots.school}`
+        : `${line.date.slice(0, 4)} ${line.key} ${JSON.stringify(line.slots)}`;
+    if (said.has(key)) return [];
+    said.add(key);
+    // Two or three terms name their years; a longer run is said whole.
+    const again = !line.again?.length
+      ? line.key
+      : line.again.length > TERMS_NAMED
+        ? `${line.key}-always`
+        : `${line.key}-again`;
+    // The first sentence names them; the rest use their pronouns, or the
+    // they form when their record holds none.
+    const first = teller.form !== "you" && !named;
+    const form = first ? "third" : teller.form;
+    const text = screenLine(
+      "person-history",
+      `person-history.story.${again}.${form}`,
+      {
+        ...line.slots,
+        ...(line.again?.length ? { years: joinList(line.again, "and") } : {}),
+        who: first ? teller.name : (teller.words?.subject ?? ""),
+        whom: first ? teller.name : (teller.words?.object ?? ""),
+        their: teller.words?.possessive ?? (first ? "their" : ""),
+      },
+    );
+    if (!text) return [];
+    if (first) named = true;
+    // The kind of record (born, school, work, office...) picks the
+    // timeline's icon: the key's first part.
+    return [
+      {
+        date: line.date,
+        text,
+        kind: line.key.split(".")[0],
+        recordId: line.recordId,
+        // Every record the sentence tells: a run's later terms too.
+        records: [line.recordId, ...(line.later ?? [])],
+      },
+    ];
+  });
+}
+
+/**
+ * A town's size and this calendar year's moves: everyone modeled there now
+ * (named and counted, `townFacts`), the people the counted moves' records
+ * brought in and took out, and the named residents' moved-away records.
+ * Each count is a sum of records, which the card names.
+ */
+export function townMoves(core: CoreState, town: string) {
+  const api = coreAPI(core);
+  const from = `${core.date.slice(0, 4)}-01-01`;
+  let arrivals = 0;
+  let departures = 0;
+  const recordIds: string[] = [];
+  if (core.modules.has(COUNTED_MOVES_MODULE_ID))
+    for (const move of countedMoves(api)) {
+      if (move.date < from) continue;
+      if (move.direction === "in" && move.toPlace === town)
+        arrivals += move.people;
+      else if (move.direction === "out" && move.fromPlace === town)
+        departures += move.people;
+      else continue;
+      recordIds.push(move.id);
+    }
+  for (const id of core.logByKind.get(MOVED_AWAY_EVENT) ?? []) {
+    const row = core.durableLog.get(id as EntityId);
+    if (!row || row.placeId !== town || row.date < from) continue;
+    departures += row.personIds?.length ?? 0;
+    recordIds.push(row.id);
+  }
+  return {
+    population: Math.round(townFacts(api, town).modeled),
+    arrivals: Math.round(arrivals),
+    departures: Math.round(departures),
+    recordIds,
+  };
+}
+
+/**
+ * Why a grown person has no job, in the you form, from the records: the
+ * household member whose job keeps the home, by its job and employer record,
+ * or that no one at home holds a job. The line names its records.
+ */
+function noJobLine(
+  core: CoreState,
+  person: NonNullable<ReturnType<typeof personOrFillIn>>,
+  relationOf: (id: string) => string | undefined,
+): { text: string; recordIds: string[] } | null {
+  const age = ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(core.date));
+  if (age < coreAPI(core).parameter("votingAge")) return null;
+  const household = core.households.get(person.householdId);
+  const rank = (id: string) =>
+    relationOf(id) === "partner" ? 0 : relationOf(id) === "parent" ? 1 : 2;
+  const earner = (household?.memberIds ?? [])
+    .filter((id) => id !== person.id)
+    .map((id) => core.people.get(id))
+    .filter((other) => other?.alive && other.jobId)
+    .sort((a, b) => rank(a!.id) - rank(b!.id))[0];
+  const job = earner?.jobId ? core.jobs.get(earner.jobId) : undefined;
+  const employer = job ? core.organizations.get(job.organizationId) : undefined;
+  if (earner && job && employer) {
+    const text = screenLine(
+      "person-history",
+      "person-history.summary.no-work.earner.you",
+      {
+        name: `${earner.givenName} ${earner.familyName}`,
+        employer: employer.name,
+      },
+    );
+    return text
+      ? { text, recordIds: [household!.id, earner.id, job.id, employer.id] }
+      : null;
+  }
+  const text = screenLine(
+    "person-history",
+    "person-history.summary.no-work.none.you",
+    {},
+  );
+  return text ? { text, recordIds: household ? [household.id] : [] } : null;
+}
+
+/** A run of terms in one office, as a card's header and lines under the name read it. */
+interface OfficeRun {
+  readonly office: string;
+  readonly since: string;
+  readonly terms: number;
+  readonly wonAgain: boolean;
+}
+
+/**
+ * The lines under a person's name (owner, Nov 1: "Under her name, she told
+ * legislator. That's not good. There needs to be more text."): who they are
+ * now (the office they have held since their first term in it, else their
+ * work, their school or their town), then where and when they were born.
+ * From the same records the story tells, so the two agree.
+ */
+function summaryOf(
+  teller: Teller,
+  now: {
+    readonly office?: OfficeRun | null;
+    readonly work?: { title: string | null; employer: string | null } | null;
+    readonly school?: string | null;
+    readonly place?: string | null;
+    readonly born?: { year: string; place: string | null } | null;
+    /** The office held before this one, from a President's record: its kind and state. */
+    readonly before?: { kind: string; state: string } | null;
+  },
+): string[] {
+  const you = teller.form === "you" ? ".you" : "";
+  const line = (key: string, slots: Record<string, string>) =>
+    screenLine("person-history", `person-history.summary.${key}${you}`, slots);
+  const role = now.office
+    ? line(
+        now.office.terms > 1 && now.office.wonAgain
+          ? "office.run"
+          : "office.one",
         {
-          date: line.date,
-          text,
-          kind: line.key.split(".")[0],
-          recordId: line.recordId,
+          office: now.office.office,
+          year: now.office.since.slice(0, 4),
         },
-      ];
-    });
+      )
+    : now.work?.employer
+      ? now.work.title
+        ? line("work.title", {
+            title: inSentence(now.work.title),
+            employer: now.work.employer,
+          })
+        : line("work.employer", { employer: now.work.employer })
+      : now.school
+        ? line("school", { school: now.school })
+        : now.place
+          ? line("place", { place: now.place })
+          : null;
+  const born = now.born
+    ? now.born.place
+      ? line("born.place", { place: now.born.place, year: now.born.year })
+      : line("born.year", { year: now.born.year })
+    : null;
+  const before = now.before
+    ? line(`before.${now.before.kind}`, { state: now.before.state })
+    : null;
+  return [role, before, born].filter((text): text is string => !!text);
+}
+
+/**
+ * An office run's facts from a card's office lines: its title, the day its
+ * first term began (the header's "since" reads the same day), how many terms,
+ * and whether they won it again with no term given by appointment.
+ */
+function officeRunOf(
+  lines: readonly HistoryLine[],
+  office: string | null | undefined,
+): OfficeRun | null {
+  if (!office) return null;
+  const said = inSentence(office);
+  const terms = lines
+    .filter((line) => OFFICE_KEYS.includes(line.key))
+    .filter((line) => line.slots.office === said)
+    .sort((a, b) => (a.start ?? a.date).localeCompare(b.start ?? b.date));
+  if (!terms.length) return null;
+  return {
+    office: said,
+    since: terms[0]!.start ?? terms[0]!.date,
+    terms: new Set(terms.map((line) => line.date.slice(0, 4))).size,
+    // Won again: a later term won at the polls and none given by appointment
+    // (a term the records do not say how they reached claims nothing).
+    wonAgain:
+      terms.slice(1).some((line) => line.key === "office.elected") &&
+      !terms.slice(1).some((line) => line.key === "office.appointed"),
+  };
 }
 
 /**
@@ -485,6 +772,7 @@ interface TermLike {
     givenName: string;
     familyName: string;
     birthDate?: string;
+    gender?: string;
   };
   readonly startDate: string;
   readonly party: string | null;
@@ -492,21 +780,26 @@ interface TermLike {
   readonly reached?: string;
 }
 
-/** When a sitting officeholder's service began, from the public record. */
+/**
+ * When a sitting officeholder's service began: the public record's start,
+ * else the first day of the term they serve now (a board member seated with
+ * the world, whom no earlier record names), with that term's record.
+ */
 function enteredOffice(
   core: CoreState,
   personId: string,
   known: ReturnType<typeof publicKnowledgeOf> | null,
 ): HistoryLine[] {
-  const start = known?.serviceStart;
-  const office = servingOffices(core, personId)[0];
+  const term = servingTermsOf(coreAPI(core), personId)[0];
+  const office = term ? officeTitle(core, term.officeId) : null;
+  const start = known?.serviceStart ?? term?.startDate;
   return start && office
     ? [
         {
           date: start,
           key: "office.entered",
           slots: { year: start.slice(0, 4), office: inSentence(office) },
-          recordId: personId,
+          recordId: known?.serviceStart ? personId : term!.id,
         },
       ]
     : [];
@@ -580,9 +873,49 @@ function officialCard(core: CoreState, viewerId: string, id: string) {
   } catch {
     publicKnowledge = null;
   }
+  const name = `${term.identity.givenName} ${term.identity.familyName}`;
+  const allTerms = terms.rows() as unknown as TermLike[];
+  // Their life from the terms they served (each with its record) and their birth.
+  const lines = [
+    ...officialLines(core, allTerms, term),
+    // Their service began before the term the records hold: the public record's start.
+    ...(publicKnowledge?.serviceStart &&
+    publicKnowledge.serviceStart < term.startDate &&
+    office?.title
+      ? [
+          {
+            date: publicKnowledge.serviceStart,
+            key: "office.entered",
+            slots: {
+              year: publicKnowledge.serviceStart.slice(0, 4),
+              office: inSentence(office.title),
+            },
+            recordId: term.id,
+          },
+        ]
+      : []),
+  ];
+  // A holder who is a full person is said with their own record's pronouns
+  // (their terms' gender reads "recorded").
+  const holder = term.personId ? core.people.get(term.personId) : undefined;
+  const teller = tellerOf(
+    viewerId,
+    id,
+    name,
+    holder?.looks?.pronouns ??
+      pronounSetOfGender(holder?.looks?.gender ?? term.identity.gender),
+  );
+  const run = officeRunOf(lines, office?.title);
   return {
     personId: id,
-    name: `${term.identity.givenName} ${term.identity.familyName}`,
+    name,
+    // Who they are now and where they come from, under the name.
+    summary: summaryOf(teller, {
+      office: run,
+      born: term.identity.birthDate
+        ? { year: term.identity.birthDate.slice(0, 4), place: null }
+        : null,
+    }),
     relation: null,
     relationRecordId: null,
     age: null,
@@ -596,45 +929,46 @@ function officialCard(core: CoreState, viewerId: string, id: string) {
     tie: null,
     known: false,
     shared: [],
+    // The seat since their first term in it, the same terms the story
+    // tells, so the header and the story agree.
     seats: [
       {
         recordId: term.id,
         termId: term.id,
         office: office?.title ?? null,
-        year: Number(term.startDate.slice(0, 4)),
+        year: Number((run?.since ?? term.startDate).slice(0, 4)),
       },
     ],
-    // Their life from the terms they served (each with its record) and their birth.
-    history: tellHistory([
-      ...officialLines(core, terms.rows() as unknown as TermLike[], term),
-      // Their service began before the term the records hold: the public record's start.
-      ...(publicKnowledge?.serviceStart &&
-      publicKnowledge.serviceStart < term.startDate &&
-      office?.title
-        ? [
-            {
-              date: publicKnowledge.serviceStart,
-              key: "office.entered",
-              slots: {
-                year: publicKnowledge.serviceStart.slice(0, 4),
-                office: inSentence(office.title),
-              },
-              recordId: term.id,
-            },
-          ]
-        : []),
-    ]),
+    history: tellHistory(lines, teller),
     colleagues: [],
-    publicKnowledge: publicKnowledge ?? {
-      party: term.party,
-      serviceStart: term.startDate,
-      votesOnRecord: null,
-      lawsSponsored: null,
-      lawsSigned: null,
-      positions: [],
-    },
+    // The public record's "since" is the run's first term too.
+    publicKnowledge: withSince(
+      publicKnowledge ?? {
+        party: term.party,
+        serviceStart: term.startDate,
+        votesOnRecord: null,
+        lawsSponsored: null,
+        lawsSigned: null,
+        positions: [],
+      },
+      run,
+    ),
     face: faceOf(core, term.id, scenePlace(core, viewerId).place),
   };
+}
+
+/**
+ * A public record whose service began no later than the office run the card
+ * tells (owner, Nov 1: the header's "Since 2025" against elections in 2011,
+ * 2013 and 2015), so the header, the lines under the name and the story agree.
+ */
+function withSince<T extends { serviceStart: string }>(
+  known: T,
+  run: OfficeRun | null,
+): T {
+  return run && run.since < known.serviceStart
+    ? { ...known, serviceStart: run.since }
+    : known;
 }
 
 /** The tie between two people, either way round, when they have one. */
@@ -678,9 +1012,79 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
           .at(-1) ?? null)
       : null;
   const face = faceOf(core, otherId, scenePlace(core, viewerId).place);
+  const lines = (() => {
+    const base = historyLines(core, viewerId, other);
+    const entered = enteredOffice(core, otherId, publicKnowledge);
+    // Service in an office whose first term is already told is not told twice.
+    const told = entered.some((line) =>
+      base.some(
+        (row) =>
+          OFFICE_KEYS.includes(row.key) &&
+          row.slots.office === line.slots.office &&
+          (row.start ?? row.date) <= line.date,
+      ),
+    );
+    return told ? base : [...base, ...entered];
+  })();
+  const name = `${other.givenName} ${other.familyName}`;
+  const teller = tellerOf(
+    viewerId,
+    otherId,
+    name,
+    other.looks?.pronouns ?? pronounSetOfGender(other.looks?.gender),
+  );
+  // Where they live, when the viewer knows it: their own life, family,
+  // housemates and coworkers, or anyone living in the viewer's town.
+  const knowsHome =
+    viewerId === otherId ||
+    family ||
+    housemate ||
+    coworker ||
+    other.placeId === viewer.placeId;
+  const homePlace = knowsHome
+    ? (corePlaceByJurisdictionId(other.placeId as never)?.displayName ?? null)
+    : null;
+  const birthplace = (other.pastFacts ?? []).find(
+    (row) => row.kind === "birthplace",
+  );
+  const bornIn =
+    typeof birthplace?.facts?.placeId === "string"
+      ? (corePlaceByJurisdictionId(birthplace.facts.placeId as never)
+          ?.displayName ?? null)
+      : null;
+  const run = officeRunOf(lines, servingOffices(core, otherId)[0]);
+  // The office a President held before, from their record.
+  const prior = (other.pastFacts ?? []).find(
+    (row) => row.kind === "career:prior-office",
+  )?.facts;
+  const priorOffice =
+    run && typeof prior?.office === "string"
+      ? {
+          kind: prior.office,
+          state:
+            typeof prior.stateKey === "string"
+              ? (coreStateName(prior.stateKey.replace(/^US-/, "")) ?? "")
+              : "",
+        }
+      : null;
   return {
     personId: otherId,
-    name: `${other.givenName} ${other.familyName}`,
+    name,
+    // Who they are now and where they come from, under the name.
+    summary: summaryOf(teller, {
+      office: run,
+      // Their work, as the story already tells it of anyone.
+      work: job
+        ? {
+            title: job.title,
+            employer: core.organizations.get(job.organizationId)?.name ?? null,
+          }
+        : null,
+      school: school?.name ?? null,
+      place: homePlace,
+      born: { year: other.birthDate.slice(0, 4), place: bornIn },
+      before: priorOffice,
+    }),
     relation,
     // The family fact the relation is read from, the one scenes cite.
     relationRecordId: kin?.factId ?? null,
@@ -736,37 +1140,33 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
       })),
     // The seats they reached before the start, from the government's history
     // before day one, each with the term record it stands on.
+    // The office they serve in now is dated from the run's first term, as
+    // the lines under the name say it.
     seats: preStartHistory(core, {
       kind: "office.seat-reached",
       personId: otherId,
-    }).map((row) => ({
-      recordId: row.id,
-      termId: String(row.facts.termId),
-      office: officeTitle(core, String(row.facts.officeId)),
-      year: Number(row.date.slice(0, 4)),
-    })),
+    }).map((row) => {
+      const office = officeTitle(core, String(row.facts.officeId));
+      const since =
+        run && office && inSentence(office) === run.office
+          ? run.since
+          : row.date;
+      return {
+        recordId: row.id,
+        termId: String(row.facts.termId),
+        office,
+        year: Number(since.slice(0, 4)),
+      };
+    }),
     // Their history from the one history every engine reads, oldest first, for
-    // everyone the viewer opens.
-    history: tellHistory(
-      (() => {
-        const base = historyLines(core, viewerId, other);
-        const entered = enteredOffice(core, otherId, publicKnowledge);
-        // Service that began with a term already told is not told twice.
-        const told = entered.some((line) =>
-          base.some(
-            (row) =>
-              row.key.startsWith("office.") &&
-              row.date.slice(0, 4) <= line.date.slice(0, 4),
-          ),
-        );
-        return told ? base : [...base, ...entered];
-      })(),
-    ),
+    // everyone the viewer opens, told as a story.
+    history: tellHistory(lines, teller),
     // An officeholder's colleagues in office, by their tie records.
     colleagues: colleaguesOf(core, otherId),
     // What the public knows of a figure the viewer may never have met (the
-    // past module's public tier); null for anyone else.
-    publicKnowledge,
+    // past module's public tier), serving since the run's first term; null
+    // for anyone else.
+    publicKnowledge: publicKnowledge && withSince(publicKnowledge, run),
     // Their headshot for the talk box (the same face the People map draws),
     // and the card's standing figure: the same picture, whole.
     face,
