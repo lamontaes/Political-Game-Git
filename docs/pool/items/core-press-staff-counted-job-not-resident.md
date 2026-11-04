@@ -28,3 +28,5 @@ Oct 20, diagnosis (claude/press-staff-counted): the crash reproduces only on the
 Oct 25 audit: unblocked; words-pack-scene-talk is done.
 
 Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/press-staff-counted` (2026-10-20). Cleared from the front matter and kept here.
+
+Lane 5, Nov 4: replayed on main (fde-era head of Nov 4) with `GOLDEN_PATH_SEED=78df996a2a76eb81378fcb7c5c00238bb398b33a npx vitest run src/director/electoral-scenes.test.ts`, 90 s. No "Not in the wider population" throw: Bascom, Florida (1203725) plays through the press weeks. The second case fails on a different check, filed as `tests-electoral-scenes-speech-crowd-member`. `refreshPressStaff` still calls `fillInPerson` directly on a counted job's worker (`src/core2/modules/press.ts:3473`), so the throw stays possible wherever a counted job outlives its worker, but no current seed shows it. Left open for the by-draw sweep to catch a seed.
