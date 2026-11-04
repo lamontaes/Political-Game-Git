@@ -296,6 +296,17 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.85.1
+
+_Released November 4, 2026._
+
+### Fixed
+
+- **Puerto Rico towns read their own municipio rent and home value instead of
+  national numbers.** A Puerto Rico town now finds its municipio through the one
+  place map, so rent and home value come from that municipio, not the national
+  medians.
+
 ## PRE-ALPHA 0.85.0
 
 _Released November 4, 2026._

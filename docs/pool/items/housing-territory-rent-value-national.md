@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: one-map-housing
-pr:
+pr: #7274
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-04T20:03:37.036Z
