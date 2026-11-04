@@ -31,7 +31,9 @@ import {
   townEngagementCenter,
   countPlaces,
   countedAppeal,
+  blockShares,
   countedChoice,
+  countedChoices,
   countedResidents,
   countedShareRule,
   customPolitics,
@@ -722,7 +724,17 @@ function candidateFacts(api: CoreAPI, filing: FilingRow, contest: ContestRow) {
   const platform: readonly Stance[] = campaign
     ? (campaign as unknown as { platform: Stance[] }).platform
     : parsePlatform(filing.platform);
-  const isIncumbent = holds(seatHolder(api, contest), filing.personId);
+  // The holder of the seat the filing is for (in an at-large race, each
+  // candidate's own seat's contest).
+  const own =
+    filing.contestId === contest.id
+      ? contest
+      : ((api
+          .moduleState(ELECTIONS_MODULE_ID)
+          .table("contests")
+          .get(filing.contestId) as unknown as ContestRow | undefined) ??
+        contest);
+  const isIncumbent = holds(seatHolder(api, own), filing.personId);
   return { platform, party: filing.party ?? null, isIncumbent };
 }
 
@@ -2834,6 +2846,77 @@ export function winningPersonId(api: CoreAPI, candidateId: string): string {
   return term ? (holderOf(api, term).personId ?? candidateId) : candidateId;
 }
 
+/**
+ * The contests of a body's at-large seats held on one contest's day, in
+ * seat order: the same office, the same election day, seats without a
+ * district, no special election and no primary. One contest alone where the
+ * seat isn't at large or is up by itself.
+ */
+export function atLargeGroup(
+  api: CoreAPI,
+  contest: ContestRow,
+): readonly ContestRow[] {
+  const seatsTable = api.moduleState(OFFICES_MODULE_ID).table("seats");
+  const atLarge = (row: ContestRow) =>
+    !row.special &&
+    !row.primaryDate &&
+    !(seatsTable.get(row.seatId) as { district?: string | null } | undefined)
+      ?.district;
+  if (!atLarge(contest)) return [contest];
+  const group = (
+    api
+      .moduleState(ELECTIONS_MODULE_ID)
+      .table("contests")
+      .query("byOffice", [contest.officeId]) as unknown as ContestRow[]
+  )
+    .filter((row) => row.electionDate === contest.electionDate && atLarge(row))
+    .sort((a, b) => a.seatId.localeCompare(b.seatId, "en", { numeric: true }));
+  return group.length > 1 ? group : [contest];
+}
+
+/**
+ * The winner an at-large race gives one of its seats: the top finishers, as
+ * many as there are seats with a candidate ranked, each above the next; a
+ * holder among them keeps their own seat, and the rest take the other seats
+ * in seat order, by their place in the count. A seat no one is ranked for
+ * stays with its holder or vacant until the next contest; a tie at the last
+ * place leaves that seat undecided (the place's tie law is a later step).
+ */
+function atLargeWinner(
+  api: CoreAPI,
+  group: readonly ContestRow[],
+  contest: ContestRow,
+  ranked: readonly (readonly [string, number])[],
+): string | null {
+  const live = ranked.filter(([, votes]) => votes > 0);
+  const seats = group.length;
+  const top: string[] = [];
+  for (const [n, [id, votes]] of live.entries()) {
+    if (top.length >= seats) break;
+    // A tie straddling the last seat decides none of the tied.
+    const next = live[n + 1];
+    if (top.length === seats - 1 && next && next[1] === votes) break;
+    top.push(id);
+  }
+  const assigned = new Map<string, string>();
+  const placed = new Set<string>();
+  for (const row of group) {
+    const holder = seatHolder(api, row);
+    const keeps = top.find((id) => !placed.has(id) && holds(holder, id));
+    if (keeps) {
+      assigned.set(row.id, keeps);
+      placed.add(keeps);
+    }
+  }
+  const rest = top.filter((id) => !placed.has(id));
+  for (const row of group)
+    if (!assigned.has(row.id)) {
+      const next = rest.shift();
+      if (next) assigned.set(row.id, next);
+    }
+  return assigned.get(contest.id) ?? null;
+}
+
 /** Count a contest: named ballots, then the wider electorate's groups. */
 export function holdElection(api: CoreAPI, contestId: string): ResultRow {
   const contest = api
@@ -2842,7 +2925,16 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     .get(contestId) as unknown as ContestRow;
   // A midterm or off-cycle election draws fewer voters (audit 2, item 5).
   const cycleCost = cycleTurnout(contest.electionDate).cost;
-  const filings = ballot(api, contestId);
+  // A body's at-large seats up on one day are one race: one field, each
+  // voter voting for up to as many as there are seats, the top finishers
+  // seated (`atLargeGroup`). Each seat's contest counts the same race and
+  // keeps the winner the ranking gives its seat.
+  const group = atLargeGroup(api, contest);
+  const seats = group.length;
+  const filings =
+    seats > 1
+      ? group.flatMap((other) => ballot(api, other.id))
+      : ballot(api, contestId);
   const date = api.state.date;
   const { townPlaceId } = town(api);
   const adultAge = api.parameter("votingAge");
@@ -2898,13 +2990,21 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     // they are for them; else they leave the race blank.
     // A candidate in the race backs themselves; anyone else by the one
     // choice rule.
-    const choice = chosen
+    // At large, a voter votes for up to as many as there are seats, by the
+    // same choice rule (their first places); the first is kept as their choice.
+    const choices: readonly string[] = chosen
       ? chosen.candidateId
+        ? [chosen.candidateId]
+        : []
       : !t.votes
-        ? null
+        ? []
         : filings.some((f) => f.personId === voter.id)
-          ? voter.id
-          : countedChoice(appeal);
+          ? [
+              voter.id,
+              ...countedChoices(appeal, seats).filter((id) => id !== voter.id),
+            ].slice(0, seats)
+          : countedChoices(appeal, seats);
+    const choice = choices[0] ?? null;
     const pollster =
       t.votes && choice !== null ? pollsterCase(api, voter, t.interest) : null;
     const told = !t.votes
@@ -2925,7 +3025,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       voted += 1;
       exitPoll[told!] = (exitPoll[told!] ?? 0) + 1;
     }
-    if (choice) namedVotes[choice] = (namedVotes[choice] ?? 0) + 1;
+    for (const id of choices) namedVotes[id] = (namedVotes[id] ?? 0) + 1;
     // The reasons behind a ballot (each candidate's appeal terms, the record
     // reasons, why they turned out) are kept for the player's circle (and
     // everyone's under the keep-everyone's-why switch); everyone else's ballot
@@ -2999,7 +3099,12 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
   const countedAdults = wards > 0 ? countedAdultsToday(api) : 0;
   let countedAdultIndex = 0;
   // How a record's people divide in this race, read once for the count.
-  const shares = countedShareRule(field);
+  const oneSeat = countedShareRule(field);
+  const shares =
+    seats > 1
+      ? (appeal: Parameters<typeof oneSeat>[0]) =>
+          blockShares(oneSeat(appeal), seats)
+      : oneSeat;
   for (const voter of countedResidents(api.state as CoreState)) {
     if (voter.placeId !== townPlaceId) continue;
     const age = ageOn(voter, date);
@@ -3105,6 +3210,8 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
         electorateSample(api, contest.electionDate, cycleCost),
         places,
         field,
+        undefined,
+        seats,
       )
     : null;
   const incumbent = contest.incumbentTermId
@@ -3148,19 +3255,21 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     // turnout; no one wins on no votes (the seat stays with its holder, or
     // vacant, until the next contest).
     decide: (ranked, electorate) =>
-      tiedFirst(ranked)
-        ? breakElectionTie(
-            api,
-            contest,
-            ranked.filter((r) => r[1] === ranked[0]![1]).map((r) => r[0]),
-            secondElection,
-            electorate,
-          )
-        : ranked.length === 1
-          ? ranked[0]![0]
-          : ranked.length && ranked[0]![1] > 0
+      seats > 1
+        ? atLargeWinner(api, group, contest, ranked)
+        : tiedFirst(ranked)
+          ? breakElectionTie(
+              api,
+              contest,
+              ranked.filter((r) => r[1] === ranked[0]![1]).map((r) => r[0]),
+              secondElection,
+              electorate,
+            )
+          : ranked.length === 1
             ? ranked[0]![0]
-            : null,
+            : ranked.length && ranked[0]![1] > 0
+              ? ranked[0]![0]
+              : null,
     winnerOf: (candidateId) => winningPersonId(api, candidateId),
     takesOffice,
   });

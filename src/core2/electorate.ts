@@ -941,6 +941,8 @@ export function countPlaces(
     readonly cut: number;
     readonly open: boolean;
   },
+  /** Seats the ballot elects at once (an at-large race): each voter votes for up to this many. */
+  seats = 1,
 ): {
   readonly votes: Readonly<Record<string, number>>;
   readonly cast: number;
@@ -948,7 +950,11 @@ export function countPlaces(
 } {
   const { voters, placement } = coarseSample(sample);
   const rule = turnoutRule();
-  const shares = countedShareRule(field);
+  const one = countedShareRule(field);
+  const shares =
+    seats > 1
+      ? (appeal: Parameters<typeof one>[0]) => blockShares(one(appeal), seats)
+      : one;
   const totals: Record<string, number> = {};
   const results: PlaceResult[] = [];
   let cast = 0;
