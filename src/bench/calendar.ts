@@ -1,7 +1,6 @@
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
-import { familyFactsOf } from "../core2/modules/people";
-import { CLOSENESS } from "../core2/closeness";
-import { federalHolidays } from "../core2/office-day-federal-calendar";
+import { CLOSENESS, familyFactsOf } from "../core2/modules/people";
+import { federalHolidays } from "../core2/modules/office-day";
 import { nextSittingOf } from "../core2/modules/legislature";
 import { townSeats } from "../core2/modules/offices";
 import { wordArchiveStory, wordPrintedStory } from "./archive-words";
