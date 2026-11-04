@@ -1,0 +1,143 @@
+{
+  "head": "37d827ddf9",
+  "checks": [
+    {
+      "name": "Brookside, Delaware",
+      "key": "1009850",
+      "replay": "4d50e1f88df997f9",
+      "worldSeed": "4d50e1f88df997f9",
+      "player": "person_98675ac71b99880e",
+      "holder": "Barry Hart \u00b7 Commissioner, County Of New Castle",
+      "officeId": "office:gus2025:101811:board",
+      "checks": [
+        {
+          "billId": "bill:office:gus2025:101811:board:2025-01-20:person_98675ac71b99880e:0",
+          "subject": "income-tax",
+          "today": "0%",
+          "source": {
+            "value": 0,
+            "unit": "percent",
+            "recordId": null
+          },
+          "estimate": {
+            "statute": null,
+            "lawId": null,
+            "beforeValue": 0,
+            "beforeUnit": "percent",
+            "afterValue": 2,
+            "afterUnit": "percent",
+            "effectiveDate": null,
+            "line": null,
+            "lineAmountMinor": null,
+            "ofMinor": null
+          },
+          "cells": [
+            "0%",
+            "2%"
+          ]
+        },
+        {
+          "billId": "bill:office:gus2025:101811:board:2025-01-20:person_98675ac71b99880e:1",
+          "subject": "highways",
+          "today": "$81,503,997.88",
+          "source": {
+            "value": 8150399788,
+            "unit": "minor",
+            "recordId": "budget:county:10003:2024"
+          },
+          "estimate": {
+            "statute": null,
+            "lawId": null,
+            "beforeValue": 8150399788,
+            "beforeUnit": "minor",
+            "afterValue": 8150399988,
+            "afterUnit": "minor",
+            "effectiveDate": null,
+            "line": "highways",
+            "lineAmountMinor": 200,
+            "ofMinor": null
+          },
+          "cells": [
+            "$81,503,997.88",
+            "$81,503,999.88"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Random Lake, Wisconsin",
+      "key": "5566200",
+      "replay": "75ae3c9378284205:0",
+      "worldSeed": "3e1c45254451bd62b3517712a0eca476d19117eb2fd7b76773fb3ffba8631191",
+      "player": "person_9912fb50b94ecbcf",
+      "holder": "James Barnett \u00b7 Council member, Village Of Random Lake",
+      "officeId": "office:gus2025:177248:council",
+      "checks": [
+        {
+          "billId": "bill:office:gus2025:177248:council:2025-01-20:person_9912fb50b94ecbcf:0",
+          "subject": "highways",
+          "today": "$578,202.32",
+          "source": {
+            "value": 57820232,
+            "unit": "minor",
+            "recordId": "budget:place:5566200:2025"
+          },
+          "estimate": {
+            "statute": null,
+            "lawId": null,
+            "beforeValue": 57820232,
+            "beforeUnit": "minor",
+            "afterValue": 57820432,
+            "afterUnit": "minor",
+            "effectiveDate": null,
+            "line": "highways",
+            "lineAmountMinor": 200,
+            "ofMinor": null
+          },
+          "cells": [
+            "$578,202.32",
+            "$578,204.32"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Bear River City, Utah",
+      "key": "4903950",
+      "replay": "75ae3c9378284205:1",
+      "worldSeed": "c44277a85264058fe9617425dafc7d269ad83eea0d0eed6b9eaeeac1fb25ea30",
+      "player": "person_308808508d91e570",
+      "holder": "Anya Jenkins \u00b7 Council member, City Of Bear River",
+      "officeId": "office:gus2025:176445:council",
+      "checks": [
+        {
+          "billId": "bill:office:gus2025:176445:council:2025-01-20:person_308808508d91e570:0",
+          "subject": "highways",
+          "today": "$124,290.40",
+          "source": {
+            "value": 12429040,
+            "unit": "minor",
+            "recordId": "budget:place:4903950:2024"
+          },
+          "estimate": {
+            "statute": null,
+            "lawId": null,
+            "beforeValue": 12429040,
+            "beforeUnit": "minor",
+            "afterValue": 12429240,
+            "afterUnit": "minor",
+            "effectiveDate": null,
+            "line": "highways",
+            "lineAmountMinor": 200,
+            "ofMinor": null
+          },
+          "cells": [
+            "$124,290.40",
+            "$124,292.40"
+          ]
+        }
+      ]
+    }
+  ],
+  "pageErrors": []
+}
