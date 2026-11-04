@@ -2,7 +2,7 @@
 
 Merge desk report, Nov 3 and 4, 2026 (cloud session). 161 pull requests merged. Newest state at the top of each section.
 
-**Stopped by the owner, Nov 4, 2:37 p.m. Eastern (relayed by the CTO at 19:41 UTC): 161 pull requests merged in all. Open PRs were left as they are; nothing more merges until a person says to resume.**
+**Stopped by the owner, Nov 4, 2:37 p.m. Eastern, at 161 merged; resumed on the owner's word at about 2:53 p.m. Eastern (relayed by the CTO). The desk now merges only One Map's PRs. Lanes 1, 3, 4 and 5 are stopped and Lane 2 is off, so #7110 and #7127 stay open, and skills PRs #7233, #7254 and #7264 stay with the CTO.**
 
 ## What the owner can play now
 
