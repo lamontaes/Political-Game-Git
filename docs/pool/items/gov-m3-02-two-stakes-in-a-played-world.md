@@ -6,9 +6,9 @@ lead: governing
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: done
 claimed-by: governing/two-stakes
-pr:
+pr: #7167
 blocked-on:
 source: governing lead Oct 29
 claimed-at: 2026-11-04T03:10:51.478Z

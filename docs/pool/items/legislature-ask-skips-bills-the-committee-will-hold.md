@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: governing/ask-skips-held-bills
-pr:
+pr: #7165
 blocked-on:
 lead: governing
 source: governing lead, Nov 1 (skeptic on legislature-ask-before-the-roll-test-red-by-seed)

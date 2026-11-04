@@ -5,9 +5,9 @@ area: world
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: done
 claimed-by: governing/governor-emergency
-pr:
+pr: #7170
 blocked-on:
 source: words-and-scenes helper D, Oct 27
 lead: laws-effects

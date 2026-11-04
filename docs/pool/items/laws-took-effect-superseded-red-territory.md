@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: lane-2/superseded-law-events
 pr: #7162
 blocked-on:
