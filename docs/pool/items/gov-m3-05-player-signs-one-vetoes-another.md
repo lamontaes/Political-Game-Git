@@ -6,11 +6,12 @@ lead: governing
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: governing/desk-sign-veto
+pr: #7169
 blocked-on:
 source: governing lead Oct 29
+claimed-at: 2026-11-04T03:23:41.503Z
 ---
 
 **What.** M3-05's test sentence says that as mayor, in the place's real form of government, the player signs one bill and vetoes another with recorded reasons. legislature.test.ts has the player as mayor sign through `executiveDecision` and leave one unsigned past its window, and src/core2/office-day-desk.test.ts has a governor's character decide by the engine's lean, but no test has the player veto, and the player's own route, `deskDecide` in src/bench/office.ts (about lines 121 to 127, called from the play handler), is never tested. Prove the player's sign and veto through the desk, with the reasons the act keeps.

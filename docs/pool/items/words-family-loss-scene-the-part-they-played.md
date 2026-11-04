@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: lane3/night-you-lose
 pr: #7151
 blocked-on:

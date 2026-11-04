@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: governing/local-filing-officer
 pr: #7156
 blocked-on:

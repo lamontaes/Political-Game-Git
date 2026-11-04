@@ -5,13 +5,13 @@ area: world
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by: 
-pr:
+status: in-pr
+claimed-by: governing/governor-emergency
+pr: #7170
 blocked-on:
 source: words-and-scenes helper D, Oct 27
 lead: laws-effects
-claimed-at: 
+claimed-at: 2026-11-04T03:30:35.008Z
 ---
 
 **What.** declareEmergency exists in the executive engine, sets the state's cost share on a budget line and records emergency-declared naming the governor, but no code in the game calls it: nothing in a played governor's year declares an emergency even in a year with four disasters. Add the call where the state's own law gives the governor the power: for a player governor an offer on the office screen, for any other the governor's review when a disaster is on record, deciding by the governor's traits and the state's power (the existing emergencyPower), never a fixed chance. Today only the unit test declares one, by hand.

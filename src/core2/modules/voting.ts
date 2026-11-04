@@ -567,10 +567,37 @@ function petitionNeededHere(
       : contest.level === "state" || contest.level === "federal"
         ? districtPeopleShare(api, contest)
         : 1;
-  if (share >= 1) return count;
-  // stopgapId: SG-GOV-petition-town-share
-  api.stopgap("SG-GOV-petition-town-share");
-  return Math.max(1, Math.ceil(count * share));
+  let scaled = count;
+  if (share < 1) {
+    // stopgapId: SG-GOV-petition-town-share
+    api.stopgap("SG-GOV-petition-town-share");
+    scaled = Math.max(1, Math.ceil(count * share));
+  }
+  // A local race's petition never asks more than a share of the town's own
+  // voters, as the places' own laws scale it (elections-petition-larger-than-
+  // the-town): a town of a few dozen adults is not asked for thirty names.
+  if (contest.level === "state" || contest.level === "federal") return scaled;
+  const voters = electorateRoll(api).reduce((n, v) => n + v.count, 0);
+  return petitionWithinElectorate(scaled, voters);
+}
+
+/**
+ * A local petition's count against the town's voters: at most
+ * `petitionMaxShareOfVoters` of them, and at least one signature where the
+ * law asks any.
+ */
+export function petitionWithinElectorate(
+  count: number,
+  voters: number,
+): number {
+  if (count <= 0 || voters <= 0) return count;
+  const cap = Math.max(
+    1,
+    Math.floor(voters * electionsParameter("petitionMaxShareOfVoters")),
+  );
+  if (count <= cap) return count;
+  // stopgapId: SG-GOV-petition-electorate-cap
+  return cap;
 }
 
 const islandPeople = new Map<string, number>();

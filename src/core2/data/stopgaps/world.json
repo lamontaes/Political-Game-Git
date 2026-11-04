@@ -969,5 +969,17 @@
     "addedAt": "2026-11-01",
     "replacement": "The eviction names as witnesses the full people who know a counted member (the full people who list them as family, and their ties), as notifyCountedDeaths does for a counted death, once drives, trait change and the director read a witness to a relative's eviction by their relation; or counted members pass news on at contact by the news engine's rule.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORLD-government-opening-fund-balance",
+    "kind": "estimated-parameter",
+    "file": "data/research/money/treasury-opening-cash.json",
+    "line": 15,
+    "whatItFakes": "Opening cash is calibrated from reported cash and net reserves instead of dated accounts for each fictional government. State and local net fund balances are treated as available cash; exact fund assignments and opening legacy deficits are not modeled.",
+    "why": "A new game has no preceding cash history. Federal cash uses two reporting years; state reserves use a 37-state historical sample; local reserves use Michigan medians and general-government revenue as a general-fund proxy. These estimates replace neither appropriation nor borrowing decisions.",
+    "addedBy": "lane-2/opening-treasuries",
+    "addedAt": "2026-11-04",
+    "replacement": "Replace the sampled state and local proxies in treasury-opening-cash.json with available operating cash by government/type/place and a measured spread, preserving separate restricted funds. The existing budget and transfer engines must remain the readers. Complete world-government-opening-fund-balance with named payments, fixture removal, New Game and relative timing.",
+    "status": "open"
   }
 ]

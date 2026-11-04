@@ -1815,7 +1815,7 @@
     "id": "SG-GOV-petition-town-share",
     "kind": "partial-model",
     "file": "src/core2/modules/voting.ts",
-    "line": 527,
+    "line": 572,
     "whatItFakes": "Where a contest's district reaches past the town (a county seat drawn as a state's places, a legislative, U.S. House or statewide race), the clerk counts the town's share of the law's signatures, by the town's eligible voters over the district's, at least one: the signatures a candidate would gather in the places the world holds only as counts are neither gathered nor checked.",
     "why": "The world holds people one by one only in the town (two-level population); a canvass, an event and a circle reach only the town.",
     "addedBy": "claude/elections-petition-filing",
@@ -1965,7 +1965,7 @@
     "addedBy": "governing/campaign-money-calibrated",
     "addedAt": "2026-11-01",
     "replacement": "Give such households their month of living costs where they are made (press staff through the one-person household official-living.ts already gives owners and officials, giveLivingCost, or the household draw SG-PEOPLE-press-staff-households names), delete the one-for-one branch, and refit donationShareOfMonthPerWarmth: with those donors weighed against their town's median month instead, the best share (about 2.2) leaves 13% of eight-place and 3.3% of sixteen-place pools outside a band, so the money rule needs more than a new share.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-body-lawyer-unrecorded",
@@ -2073,6 +2073,66 @@
     "addedBy": "governing lead",
     "addedAt": "2026-11-01",
     "replacement": "A news and a headline piece for a district named by place and one for a ward, worded by Words, reading the seat's districtName and its office's seatTerm, so every district seat's story names its seat.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-petition-electorate-cap",
+    "kind": "partial-model",
+    "file": "src/core2/modules/voting.ts",
+    "line": 599,
+    "whatItFakes": "A local race's petition asks at most petitionMaxShareOfVoters (10%) of the town's voters, at least one, wherever the law's count or the estimated median would ask more: one share for every place, not each place's own percentage, minimum and maximum.",
+    "why": "The places' rows give a fixed count or a median estimate that does not scale with the town, so a town of a few dozen adults was asked for 30 signatures (Johnson, Minnesota). The rows' own formulas scale with the place's voters (Vermont 30 or 1% whichever is less; Iowa 2% minimum 10; North Dakota 10% maximum 300; North Carolina 10% maximum 200; Arizona 5% to 10%).",
+    "addedBy": "Lane 1 (elections-petition-larger-than-the-town)",
+    "addedAt": "2026-11-03",
+    "replacement": "Each place's own petition formula read into data (its percentage, base, minimum and maximum) and applied to the town's voters, so the cap is the law's own and no common share is needed.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-home-local-district",
+    "kind": "missing-data",
+    "file": "src/core2/modules/elections.ts",
+    "line": 785,
+    "whatItFakes": "The district of a town council or county board elected by district that the player's home is in is drawn from the home's household id over the body's district seats (homeDistrict), the same district every day, because no district map is read for local bodies; the player is offered only that district's seat. Every resident still votes in every district's race (the seats all cover the town).",
+    "why": "Owner, Nov 1 playtest (\"I should only be able to run for one council seat\") under the CTO's town council seats ruling: by district, the player files only for their own district's seat. The repository holds a council's district seat count (council-election-method.ts) but no district boundaries, so which district a home is in cannot be read.",
+    "addedBy": "governing lead (campaign-player-files-for-one-council-race)",
+    "addedAt": "2026-11-01",
+    "replacement": "Read each local body's district boundaries (or its residents' precinct-to-district assignments) into data, place every home in its district, and have each district race's electorate be that district's residents; the player is offered the seat of the district their home is in.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-at-large-race-one-contest",
+    "kind": "partial-model",
+    "file": "src/core2/modules/elections.ts",
+    "line": 855,
+    "whatItFakes": "A local body's at-large seats up on one day are separate contests, one winner a seat; the player is offered the at-large race once, as the first of those seats' contests whose filing is open, and files for that seat, not for the race as a whole with the top vote-getters seated.",
+    "why": "Owner, Nov 1 playtest: one council race, not one per seat. The elections engine holds a contest per seat; a pooled at-large race (each voter votes for up to the number of seats, the top finishers win) is a new count and ballot.",
+    "addedBy": "governing lead (campaign-player-files-for-one-council-race)",
+    "addedAt": "2026-11-01",
+    "replacement": "An at-large race as one contest for the body's seats up that day, where each voter may vote for as many candidates as there are seats and the top finishers are seated (the place's own rule), so every candidate, the player included, files once for the race.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-later-chamber-same-day",
+    "kind": "partial-model",
+    "file": "src/core2/modules/legislature.ts",
+    "line": 554,
+    "whatItFakes": "A bill's later chamber votes on the same floor day as its first, and only if the first passes (countVote takes each chamber in turn), so the evening before, nobody knows whether the later chamber will vote at all. Its members are not asked for their vote then; a sponsor asks only in the bill's first chamber, whose committee has met.",
+    "why": "Asks whose bill never reaches a roll call are pulls no vote reads (pool item legislature-ask-skips-bills-the-committee-will-hold); the model gives a bill one floor day for every chamber.",
+    "addedBy": "governing lead",
+    "addedAt": "2026-11-02",
+    "replacement": "A later chamber takes up a bill on a floor day of its own after the first chamber passes it, with its own committee meeting the evening before and its own asks.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-player-emergency-offer",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/executive.ts",
+    "line": 140,
+    "whatItFakes": "A governor the player plays never declares a state of emergency: the engine does not declare for them, and no office screen offers the declaration when a disaster is recorded in their state.",
+    "why": "The engine never answers for the player (the desk rule); the office screen's offer is the play-first lane's (agreement 1-4).",
+    "addedBy": "Lane 1 (world-governor-declares-emergency-in-play)",
+    "addedAt": "2026-11-04",
+    "replacement": "An office-screen stop the day a federally declared disaster is recorded in the player governor's state, offering declareEmergency with the hazard record and the state's power named, or leaving it to the character.",
     "status": "open"
   }
 ]

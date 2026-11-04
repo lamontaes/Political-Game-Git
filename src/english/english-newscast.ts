@@ -37,7 +37,12 @@ export const STORY_KINDS = {
     story: "election",
     headline: ["election"],
     lede: ["election-result"],
-    context: ["election-opponent", "election-share", "election-turnout"],
+    context: [
+      "election-opponent",
+      "election-concession",
+      "election-share",
+      "election-turnout",
+    ],
   },
   // A race nobody filed for: the result names no winner.
   unfilled: {

@@ -55,6 +55,7 @@ import { startPublicJob } from "../public-payroll";
 import { parameter } from "../parameters";
 import { medianTransactionBalance } from "../starting-cash";
 import { filingRequirements } from "./elections";
+import { localClerkFor } from "./filing-clerk";
 import { pairKey } from "../kernel/ids";
 
 export const EXECUTIVE_MODULE_ID = "core2-executive-v1";
@@ -111,7 +112,40 @@ export const EXECUTIVE_MODULE: CoreModule = {
     },
   },
   onCalendarWork: (api, work) => deskReview(api, work),
+  // A disaster on the record reaches the governor's desk the day it is
+  // recorded (world-governor-declares-emergency-in-play).
+  eventKinds: ["hazard.disaster"],
+  onEvent: (api, event) => governorAnswersDisaster(api, event.id),
 };
+
+/**
+ * The sitting governor declares a state of emergency for a federally declared
+ * disaster in the state, where the state's law gives them the power. A FEMA
+ * major-disaster number on the record means the governor already acted: the
+ * federal declaration comes only on the governor's request, after the state
+ * has acted under its own law (Robert T. Stafford Act, 42 U.S.C. 5170; 44 CFR
+ * 206.36). So the cause decides it, never a chance. A player governor
+ * decides for themselves: the engine never declares for them (stopgap
+ * SG-GOV-player-emergency-offer until the office screen offers it).
+ */
+function governorAnswersDisaster(api: CoreAPI, hazardRecordId: string): void {
+  const hazard = (api.state as CoreState).durableLog.get(hazardRecordId);
+  if (!hazard?.facts?.disasterNumber) return;
+  const governor = townSeats(api).find(
+    (s) => s.office.kind === "governor",
+  )?.holder;
+  if (!governor || !emergencyPower(api)) return;
+  const executiveId = memberKey(governor);
+  if (executiveId === (api.state as CoreState).playerId) {
+    // stopgapId: SG-GOV-player-emergency-offer
+    api.stopgap("SG-GOV-player-emergency-offer");
+    return;
+  }
+  const id = `emergency:${lawChain(api).stateKey}:${hazardRecordId}`;
+  if (table(api, "emergencies").get(id)) return;
+  if (!governments(api).some((g) => g.level === "state")) return;
+  declareEmergency(api, { executiveId, hazardRecordId });
+}
 
 const table = (api: CoreAPI, name: string) =>
   api.moduleState(EXECUTIVE_MODULE_ID).table(name);
@@ -146,6 +180,7 @@ export function openExecutive(core: CoreState, worldSeed: string): void {
   appointTownDepartments(api);
   appointStateCabinet(api, worldSeed);
   seatElectionChief(api, worldSeed);
+  seatLocalFilingOfficers(api, worldSeed);
   table(api, "review").put({ id: "seed", worldSeed } as unknown as ModuleRow);
   scheduleReview(api, core.date);
 }
@@ -742,64 +777,135 @@ export const ELECTION_CHIEF_POST = "chief-election-official";
  * the head dies or leaves the state.
  */
 function seatElectionChief(api: CoreAPI, worldSeed: string): void {
+  const state = lawChain(api).stateKey;
+  const agency = filingRequirements(state, "statewideExecutive").filedWith;
+  seatDrawnOfficer(api, worldSeed, {
+    government: state,
+    post: ELECTION_CHIEF_POST,
+    title: agency,
+    seatKey: `election-chief:${state}`,
+    personKey: `election-chief:${state}`,
+    placeId: state,
+    payroll: "state",
+    citation: `The head of ${agency}, who takes filings for state and federal races in ${state}.`,
+    estimatedFrom:
+      "The filing data names the agency, not its head; the person is drawn from the world's seed like any invented official.",
+  });
+}
+
+/** The post that keeps the person at a local filing counter the records name no one for, by family. */
+export const LOCAL_FILING_OFFICER_POST = "local-filing-officer";
+
+/**
+ * The person at the town's or the county's filing counter where the records
+ * name no clerk (gov-filing-counter-clerk-at-county-board): a county board of
+ * elections whose commissioner is no one on record (North Amityville, New
+ * York), or a town clerk's office with no clerk seated or appointed. Drawn from
+ * the world's seed like the state's election chief, marked as an estimate, and
+ * on the county's or the town's payroll; a clerk the records do name always
+ * comes first (`localClerkFor`).
+ */
+function seatLocalFilingOfficers(api: CoreAPI, worldSeed: string): void {
+  const { stateKey, townPlaceId } = lawChain(api);
+  for (const family of ["municipalOffice", "countyOffice"] as const) {
+    if (localClerkFor(api, family, { drawn: false })) continue;
+    const office = filingRequirements(stateKey, family).filedWith;
+    // The data names who stands at the counter where it knows ("County board
+    // of elections (counter: election commissioner)"): that is their title.
+    const counter = /\(counter: ([^)]+)\)/.exec(office)?.[1]?.trim();
+    seatDrawnOfficer(api, worldSeed, {
+      government: townPlaceId,
+      post: `${LOCAL_FILING_OFFICER_POST}:${family}`,
+      title: counter ?? office,
+      seatKey: `filing-officer:${townPlaceId}:${family}`,
+      personKey: `filing-officer:${townPlaceId}:${family}`,
+      placeId: townPlaceId,
+      payroll:
+        family === "countyOffice" || /county/i.test(office) ? "county" : "city",
+      citation: `The person at the counter of ${office}, who takes filings for the town's ${family === "countyOffice" ? "county" : "local"} races.`,
+      estimatedFrom:
+        "The filing data names the office, and the place's records name no clerk or staff for it; the person is drawn from the world's seed like any invented official.",
+    });
+  }
+}
+
+/**
+ * An official the records name only by office: drawn from the world's seed,
+ * filled in as a full person marked as an estimate, kept as an agency head of
+ * their government and put on its payroll. Seated once, and again when the
+ * holder dies.
+ */
+function seatDrawnOfficer(
+  api: CoreAPI,
+  worldSeed: string,
+  spec: {
+    readonly government: string;
+    readonly post: string;
+    readonly title: string;
+    readonly seatKey: string;
+    readonly personKey: string;
+    readonly placeId: string;
+    readonly payroll: "state" | "county" | "city";
+    readonly citation: string;
+    readonly estimatedFrom: string;
+  },
+): void {
   const core = api.state as CoreState;
   const state = lawChain(api).stateKey;
-  const id = `appointment:${state}:${ELECTION_CHIEF_POST}`;
+  const id = `appointment:${spec.government}:${spec.post}`;
   const held = table(api, "agencyHeads").get(id) as unknown as
     AppointmentRow | undefined;
   if (held && core.people.get(held.holderId)?.alive) return;
-  const agency = filingRequirements(state, "statewideExecutive").filedWith;
   const date = api.state.date;
   const round = held ? `${date}:` : "";
   const identity = drawOfficialIdentity({
     worldSeed,
-    seatKey: `election-chief:${state}:${round}`,
+    seatKey: `${spec.seatKey}:${round}`,
     stateUsps: state.slice(3),
     role: "executive-officeholder-at-opening",
     referenceDate: date,
   });
-  const personId = `person:election-chief:${state}${round ? `:${date}` : ""}`;
+  const personId = `person:${spec.personKey}${round ? `:${date}` : ""}`;
   fillInIdentity(core, {
     id: personId,
     givenName: identity.givenName,
     familyName: identity.familyName,
     birthDate: identity.birthDate,
-    placeId: state,
+    placeId: spec.placeId,
     gender: identity.gender,
     source: {
       tag: "ESTIMATED",
       asOf: date,
-      citation: `The head of ${agency}, who takes filings for state and federal races in ${state}.`,
-      estimatedFrom:
-        "The filing data names the agency, not its head; the person is drawn from the world's seed like any invented official.",
+      citation: spec.citation,
+      estimatedFrom: spec.estimatedFrom,
     },
   });
   table(api, "agencyHeads").put({
     id,
-    government: state,
-    post: ELECTION_CHIEF_POST,
-    title: agency,
+    government: spec.government,
+    post: spec.post,
+    title: spec.title,
     holderId: personId,
     identity: {
       givenName: identity.givenName,
       familyName: identity.familyName,
     },
-    appointedBy: state,
+    appointedBy: spec.government,
     confirmation: null,
     reasons: [],
     since: date,
   } as unknown as ModuleRow);
-  // On the state government's payroll, as the town's heads are on the town's.
+  // On their government's payroll, as the town's heads are on the town's.
   const govs = api.state.modules.has(BUDGETS_MODULE_ID) ? governments(api) : [];
-  const employer = govs.find((g) => g.level === "state")?.organizationId;
-  const post = `state:${ELECTION_CHIEF_POST}`;
+  const employer = govs.find((g) => g.level === spec.payroll)?.organizationId;
+  const post = `${spec.payroll}:${spec.post}`;
   // A world with no treasury open has no payroll to hold the post on.
   if (employer)
     startPublicJob(api, {
       personId,
       employerId: employer,
       post,
-      title: agency,
+      title: spec.title,
       hourlyMinor: campaignParameter("appointeeHourlyMinor"),
       maxDailyMinor: postPayCapDaily(api, employer, post, 1),
       scheduleFromPlaceId: lawChain(api).townPlaceId,
@@ -1252,7 +1358,10 @@ function deskReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       );
   }
   // The election agency's head is replaced when they die.
-  if (worldSeed) seatElectionChief(api, worldSeed);
+  if (worldSeed) {
+    seatElectionChief(api, worldSeed);
+    seatLocalFilingOfficers(api, worldSeed);
+  }
   const executiveId = memberKey(governor);
   if (executiveId === playerId) return;
   for (const order of pendingGovernorOrders(api, executiveId))
