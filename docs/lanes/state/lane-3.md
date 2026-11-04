@@ -1,7 +1,9 @@
 # Lane 3 state
 
-2 of 11 paths confirmed. Oldest open PR 2 days (#7127, opened Nov 2). Open: #7127, #7228 (its commits merged with #7236), #7264.
+2 of 11 paths confirmed. Oldest open PR 2 days (#7127, opened Nov 2). Open: #7127, #7228 (its commits merged with #7236), #7264, #7268.
 
+- **Built, #7267 (merged Nov 4, path 8, `words-talk-replies-follow-move-pair-grades`):** your move-pair grades now decide which four replies a talk offers first; a reply kind graded unnatural after a line drops behind the others. Seed f3cdee835a78a9e9: Starks, Louisiana ("Oh, my." gives way to "I know." with `ask>react` graded unnatural) and Three Rivers, California (7 talks moved). Still open on `words-everyday-talk-one-engine`: the fold into the one word maker.
+- **Red on main (Lane 3's test):** `conversation.test.ts` "never parts with a word the talk already said" finds no talk ending in a goodbye in its fixed world (5 people known; each talk is question, answer, "Okay.", end, by the Nov 2 rule of no goodbye after your own question is answered). Fixed on #7268: the test now checks the people known, then every other full person in the same world (58 of 60 talks end in a goodbye, none repeating); the check itself is unchanged.
 - **Failed, Nov 4 evening (path 5, meeting a voter at work):** the design was wrong. The campaign engine opens doors only to residents home at the knock (`campaigns.ts` `athome`), so no record can place a canvass meeting at a job. Asked of Lane 1 in `agreements/1-3.md`; the item is back to open. Next: Lane 3 builds its side once Lane 1's record lands.
 
 - **Built, #7260 (Nov 4):** a debate's answers no longer stage campaign stops (`speechOccasion` reads `debate`). Stratton, Colorado (51249c3bebe88f3ee957:5): 2 debates and 23 campaign stops, none from a debate answer; without the fix, the same seed staged one.

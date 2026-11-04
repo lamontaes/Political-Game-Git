@@ -43,6 +43,11 @@ import {
 } from "../core2/kernel/dates";
 import { ADDRESS_FACT } from "./opening-facts";
 import { stableHash } from "../core2/kernel/ids";
+import {
+  CALIBRATION,
+  movePairFactor,
+  type CalibrationTable,
+} from "../english/calibration";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { P } from "../core2/parameters";
 import { HOUSING_MODULE_ID } from "../core2/modules/housing";
@@ -121,6 +126,8 @@ const LONG_AGO_YEARS = (
 
 export interface ConversationData {
   version: string;
+  /** The owner's grades the offered replies are weighed by; the shipped table by default. */
+  calibration?: CalibrationTable;
   toldEvent: string;
   lieEvent: string;
   minutesPerExchange: number;
@@ -186,7 +193,7 @@ const REPLY_MOVES = (
  * The move the player's answer to a line of this kind makes: "note" for one
  * that only takes the line in ("Oh, okay."), which the talk does not answer.
  */
-function replyMoveOf(kind: string, choice: string): string {
+export function replyMoveOf(kind: string, choice: string): string {
   if (
     REPLY_MOVES.notes.some(
       (note) => choice === note || choice.startsWith(`${note}:`),
@@ -2630,7 +2637,13 @@ function offerChoices(
         "conversation:ack:reply",
       );
   }
-  conversation.choices = rankChoices(core, playerId, conversation.choices);
+  // The other person's last line, by the move it made: a question asks.
+  const before = conversation.lines.at(-one);
+  conversation.choices = rankChoices(core, playerId, conversation.choices, {
+    kind: last.kind,
+    ...(before ? { previous: asksQuestion(before) ? "ask" : before.act } : {}),
+    table: data.calibration ?? CALIBRATION,
+  });
   // The scales: a question about the player's own record they could deny.
   const asked = conversation.lines.at(-one);
   if (
@@ -2673,7 +2686,19 @@ function rankChoices(
   core: Readonly<CoreState>,
   playerId: PersonId,
   pool: readonly ConversationChoice[],
+  after: { kind: string; previous?: string; table: CalibrationTable },
 ): ConversationChoice[] {
+  // The owner's grade of each reply's move after the other person's line
+  // (`movePairs`, "ask>note"): a pair graded unnatural is offered after the
+  // ones that read right, one graded natural before them (owner, Oct 29:
+  // calibration reaches every line). Ungraded, every factor is 1 and the
+  // order is the reach order below.
+  const pair = (row: ConversationChoice) =>
+    movePairFactor(
+      after.previous,
+      replyMoveOf(after.kind, row.move),
+      after.table,
+    );
   const reach = replyReach(core, playerId);
   const carries = (row: ConversationChoice) =>
     !!row.raises || !!row.tail || asksQuestion(row);
@@ -2692,7 +2717,10 @@ function rankChoices(
           : zero;
   const ranked = pool
     .map((row, at) => ({ row, at }))
-    .sort((a, b) => place(a.row) - place(b.row) || a.at - b.at)
+    .sort(
+      (a, b) =>
+        pair(b.row) - pair(a.row) || place(a.row) - place(b.row) || a.at - b.at,
+    )
     .map(({ row }) => row);
   const count = DEFAULT_DIRECTOR_DATA.parameters.directorChoicesPerTurn!.value;
   // Four replies are four answers, never one reworded (owner, Oct 27, 4 PM
