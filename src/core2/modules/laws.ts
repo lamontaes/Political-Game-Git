@@ -9,6 +9,7 @@
  * is raised to it that day. Later engines read law through `lawInForce`.
  */
 import { addDays, makeIsoDate } from "../kernel/dates";
+export { billLevelJurisdiction, billValueInForce } from "../laws-bill-values";
 import type {
   HistoryWriter,
   PreStartModule,
