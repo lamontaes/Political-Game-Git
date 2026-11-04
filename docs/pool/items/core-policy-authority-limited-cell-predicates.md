@@ -5,11 +5,12 @@ area: core
 kind: stopgap
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: one-map-authority
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T23:21:36.286Z
 ---
 
 **What.** src/core2/policy-authority.ts allows any power cell marked limited, and records the grant as disputed, because the cell's conditions are prose, not checks. Fourteen county cells (zoning, building codes, policing, public health, water, parks and others) carry the condition home rule or Dillon's Rule, and NACo Research (2022) now gives each state's county authority level from 1 to 6, its home rule option and its Dillon's Rule flexibilities for all 56 places in data/research/core/naco-2022-county-authority.json. Turn each limited cell's condition into a structured predicate the same reader evaluates before introduction or an executive order, reading the county level from that file and the city cells' conditions (municipal utilities only, ordinance violations only, charter election rules) from the place's records. Closes SG-GOV-policy-power-conditions with laws-territory-powers-research for the territory cells.
