@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: speed/cut-log-by-place
 pr: #7129
 blocked-on:

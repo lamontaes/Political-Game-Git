@@ -54,13 +54,14 @@ const runSeed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`campaign-money:${Date.now()}`).digest("hex");
 /**
- * Places pooled per run: sixteen, so the pool's dollars per hour, mean and
- * median read the field's totals rather than one draw of towns where most
- * of the people a campaign reaches have no reason to give. Sixteen places
- * outrun vitest's default 30 seconds on a busy machine, so the test sets its
- * own timeout.
+ * Places pooled per run: 32, so the pool's dollars per hour, mean and median
+ * read the field's totals rather than one draw of towns where most of the
+ * people a campaign reaches have no reason to give. Resampled from 808
+ * recorded places (Nov 2), 3.7% of sixteen-place pools and 0.22% of 32-place
+ * pools fall outside a band on held-out run seeds. The places outrun vitest's
+ * default 30 seconds, so the test sets its own timeout.
  */
-const PLACES = Number(process.env.CAMPAIGN_MONEY_PLACES ?? 16);
+const PLACES = Number(process.env.CAMPAIGN_MONEY_PLACES ?? 32);
 /** Weeks of campaigning: one evening of doors and one of donor calls each. */
 const WEEKS = 10;
 
@@ -230,5 +231,5 @@ describe("campaign money matches local campaign finance", () => {
     expect(summary.mean, `mean gift: ${where}`).toBeLessThanOrEqual(288);
     expect(summary.median, `median gift: ${where}`).toBeGreaterThanOrEqual(26);
     expect(summary.median, `median gift: ${where}`).toBeLessThanOrEqual(125);
-  }, 240_000);
+  }, 600_000);
 });
