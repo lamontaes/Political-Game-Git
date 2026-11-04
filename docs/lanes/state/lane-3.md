@@ -46,6 +46,13 @@
 - `play-stop-19-turning-eighteen-and-journal-silent-b` (claimed; branch `lane3/journal-filed-not-ran`). The filing day said "So I ran." months before the race. It now says what happened that day: in Murray, Nebraska (1d3f0e18ca4ba7e5), "So I filed to run for Trustee, with the election set for November 4, 2025." The journal's event facts gain a spoken `date` format and `optional` facts. `journal.test.ts` passes 18 of 18. Still open on that item: the screenshot its done-when asks for.
 - Filed for Lane 1: `campaign-finance-reports-as-records` (a campaign's periodic report as a dated record), the record the last silent month in unit 3 needs.
 
+## Unit 4: talk like people (card written Nov 4; first piece built, blocked in play)
+
+**Card.** Finish line (path 8): Cabo Rojo, Puerto Rico (f857db7436bf7449). A friend and a rival say different things, a question is answered ("For how long?"), relatives have real news, and your grades reach everyday talk. Proof: played-world tests in `src/director` that name the place, the replay number and the record ids, replayed on main by another session. Hands off: Lane 2's health and justice records, which Lane 3 only reads. Known cheats: a line naming no record, an answer that only acknowledges, talk read as a list. Size: 13 to 18 hours in steps of about 400 lines. Checked by: a fresh session, and the owner for how it reads.
+
+- **`words-news-ask-gets-answer` (blocked on `health-serious-illness-onsets-in-play`; branch `lane3/questions-get-answers`):** asked "For how long?" after prison news, the relative answers from the justice record's release date. Asked "How long has {name} been sick?", they answer from the health record's onset date. Each gets its own reply choice and a told subject (`prison-term`, `illness-since`). The move-away news already names the place. In play it can't be reached yet: a watched year of Cabo Rojo holds 5 deaths, 3 moves away and no serious illness or prison sentence, and six drawn towns had none either. Filed for Lane 2.
+- **Next in unit 4:** `words-scene-talk-lines-by-tie` (a friend and a rival speak differently, starting with the concession call, which #7159 and the winner's call build on).
+
 ## Failed
 
 - None three times.
