@@ -1,10 +1,41 @@
 # Merge desk
 
-Merge desk report, Nov 3, 2026 (cloud session). Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 64 pull requests merged. Newest state at the top of each section.
 
 ## What the owner can play now
 
-Main opens a new game, loads a person and a town, and plays four weeks without a crash (Lane 5's new-game check, now on main and on every pull request). The one check passed on every merge below. New tonight:
+Main opens a new game, loads a person and a town, and plays four weeks without a crash (Lane 5's new-game check, now on main and on every pull request). The one check passed on every merge below.
+
+New on Nov 4, from the lanes:
+
+- **Filing.**
+  - You are offered one council race, and only while filing is open.
+  - The clerk and the filing form give the same deadline.
+  - Someone stands at every local filing counter, including a county board of elections.
+  - A town's petition asks for a number of signatures that fits the town.
+  - Filing opens weeks before the deadline, not on the game's first day.
+- **Governing.**
+  - As mayor, you can sign one ordinance and veto another at your desk.
+  - Your office remembers where colleagues stand on your bill.
+  - A bill's sponsor asks you only about bills that will reach the floor.
+  - Governors declare a state of emergency when a federally declared disaster strikes.
+- **Campaign and election night.**
+  - A yes at the door becomes a vote as the person's stated intent predicts.
+  - On the night you lose, the talk at home comes from the relative who worked the race or put money in.
+  - Whether you concede or refuse is printed in the race's story.
+  - Rivals run attack ads on your record that name your real votes.
+  - Favors you traded for votes are called in at election time.
+- **Family and home.**
+  - Relatives and officials at the opening have homes and pay rent.
+  - Living siblings never share a first name.
+- **Laws and money.**
+  - Unemployment benefits use the law's full wage basis.
+  - The lobbying ban for officials who leave starts the day they actually leave.
+  - A replaced national law is no longer announced as taking effect.
+  - Press people's pay and bills add up.
+  - A home sale can use an outside lender.
+
+New on Nov 3:
 
 - **The campaign plays as scenes.** An evening of donor calls, a volunteer shift, an endorsement meeting and buying an ad are now scenes you go to, not buttons (#7109, #7111, #7112, #7132).
 - **The opening.** The opening address plays in the talk box and as a montage, and the partner at home fits on the couch (#7061, #7105, #7074). The talk after the address has openers by speaker and stance (#7106).
@@ -36,6 +67,44 @@ Main opens a new game, loads a person and a town, and plays four weeks without a
   - Stopgaps are kept one file per family (#7144).
   - A pool fix (#7145).
   - A state page (#7146).
+
+## Lane PRs merged on Nov 4 (29), on the owner's word ("You may merge lane PRs that pass the new-game check")
+
+Each had main merged in again, passed `npm run new-game-check` (a town drawn from all 56, a new life, four weeks) and merged pinned to that head.
+
+| PR    | What it does                                                                                                  | Town                              | Replay number    |
+| ----- | ------------------------------------------------------------------------------------------------------------- | --------------------------------- | ---------------- |
+| #7085 | You are offered one council race, only while filing is open                                                   | North Star, Delaware              | 12e807f587618187 |
+| #7135 | Press people's bills and pay; out-of-town press staff are paid                                                | Memphis, Tennessee                | 3d0e53113b24548a |
+| #7147 | Relatives and officials at the opening have homes and pay rent                                                | Langley Park, Maryland            | 7d1e4e25f5705571 |
+| #7148 | A home sale can use an outside lender                                                                         | Brandt, Ohio                      | 5c529b0edbe66b00 |
+| #7149 | A campaign turn with an empty platform no longer breaks                                                       | Collinsville, Connecticut         | 898bf0f167c66a3b |
+| #7150 | The clerk and the filing form give one deadline                                                               | Braden, Tennessee                 | 337b0a089ffe6a52 |
+| #7151 | The night you lose: the talk at home comes from the relative who worked the race                              | Grand Rapids, Minnesota           | 3e591e88c6f10bdb |
+| #7155 | Browser checks play the opening address first                                                                 | Gillis, Louisiana                 | 33b226486f432fa8 |
+| #7154 | A town's council petition fits the town                                                                       | Dollars Corner, Washington        | c11455b08d423c3e |
+| #7156 | Someone stands at every local filing counter                                                                  | Murphy, Idaho                     | 1d9444cb6c3e1501 |
+| #7158 | 16 more browser checks play the opening first                                                                 | Attica, Ohio                      | 640599fa525c0f24 |
+| #7159 | Conceding or refusing on the call is printed in the race's story                                              | Tonyville, California             | 77b02e510da8130c |
+| #7160 | The lobbying ban starts on the day an official actually leaves                                                | Dellwood, Wisconsin               | 2927a2b80127895b |
+| #7157 | Living siblings never share a first name                                                                      | Brighton, Michigan                | 499a4cc21b9797bc |
+| #7153 | Unemployment benefits use the law's full wage basis                                                           | Rafael Capó, Puerto Rico          | 2c3618fd851aeb24 |
+| #7161 | Test workers start with a third of the memory                                                                 | Zebulon, North Carolina           | 05a93e37581589fb |
+| #7162 | A national law already replaced is not announced as taking effect                                             | Trail Creek, Indiana              | 78bf3a7153541e89 |
+| #7163 | A yes at the door becomes a vote as the person's stated intent predicts                                       | Edom, Texas                       | 17542edf9785bf14 |
+| #7164 | Governments open with treasuries whose reserves are on the books, sourced or estimated                        | Cairo, West Virginia              | f54c50c0528dea05 |
+| #7165 | A bill's sponsor asks you only about bills that will reach the floor, in one stop per evening                 | Mediapolis, Iowa                  | 057ff7e849d655cf |
+| #7166 | A phased minimum wage's cost note counts every step                                                           | Pascoag, Rhode Island             | ea12de7ce082f713 |
+| #7167 | Your office remembers where colleagues stand on your bill, from a talk or your aide's brief                   | Bantam, Connecticut               | 16b332ecf91efa13 |
+| #7168 | Filing opens weeks before the deadline, not on the game's first day                                           | Rincon, Georgia                   | 655ea866813e93ea |
+| #7169 | As mayor, you sign one ordinance and veto another at your desk                                                | Center Ridge, Arkansas            | 8860661b3b3f3670 |
+| #7170 | Governors declare a state of emergency when a federally declared disaster strikes                             | Frederiksted, U.S. Virgin Islands | 66d1a94d549de6b8 |
+| #7171 | A campaigns test waits for a contest whose filing is open (test only)                                         | Bridgeport, Alabama               | 51e14ef7daaaace0 |
+| #7172 | A worker laid off from a job paid at a legacy rate can be hired again, so a year no longer stops on that hire | Arnegard, North Dakota            | 0c7b362ef3c9c17e |
+| #7174 | Rivals run attack ads on an officeholder's record, naming the real votes                                      | Grover, Wyoming                   | ea7a079c5ea3582d |
+| #7175 | Favors traded for votes are called in at election time                                                        | Palm Valley, Florida              | 86791939a396ec01 |
+
+Conflicts resolved mechanically: #7154 (both sides added a parameter and a stopgap row; both kept), and #7153, #7157, #7160, #7162 (Lane 2's state page: main's wording for the one edited line, both sides' log entries kept). Mac builds started after 5, 13, 18 and 25 of these merges.
 
 ## Merged (35), each on the one check with a printed replay number
 
@@ -83,14 +152,12 @@ Mac builds (`release-package.yml` on main) were started after 8, 20, 26 and 34 m
 
 ## Waiting
 
-- **#7147** (Lane 2): merging main in conflicts in the lane's own state page. Back to Lane 2.
 - **#7110** (speed): handed to Lane 5. The test conflict in `campaign-day.test.ts` is not mechanical (main's new donor rule against this branch's payments wrapper).
-- **#7105's pool item** stays open per the order. The done-on-merge run for it was still queued; once it runs, the item has to go back to open. This session was not allowed to cancel that run.
+- **#7105's pool item** (play-m6-01-the-opening) is back to open on main after its done-on-merge run, as the order asked.
 
 ## Lanes (all running now)
 
-- **Lane 1:** #7135 (never gated; last push Nov 2).
-- **Lane 3:** #7090, #7103 and #7127 were pushed today, with no "ready" from the lane yet.
+- **Lane 3:** #7090, #7103 and #7127 were last pushed Nov 3, with no "ready" from the lane yet.
 - **Lane 4:** #7100 (families guard: `calendar.ts` reaches two core internals; last push Nov 1).
 - **48-hour rule:** if a lane goes 48 hours without pushing to one of these, it merges on the one check and its named failure is filed.
 
@@ -98,12 +165,9 @@ Mac builds (`release-package.yml` on main) were started after 8, 20, 26 and 34 m
 
 #6971 is closed and its item is done (the CTO handled it).
 
-- **#7148** (Lane 5, an outside lender in a home sale): check passed on head 90684a67a8; ready to merge (Brattleboro, Vermont, replay 05a0f2cc63c5cb84).
-- **#7149** (Lane 5, a campaign turn with an empty platform): check passed on head bcbde26a02; ready to merge (Torreon, New Mexico, replay 587151fadb62ef34).
-- **#7150** (Lane 1, one filing deadline from the clerk and the form): check passed on head c6545ef860; ready to merge (Springville, Alabama, replay c1f65e48186db742).
-- **#7085** (Lane 1, one council race while filing is open): the lane fixed its send-back and merged main in; check passed on head 082491e773; ready to merge (East Peru, Iowa, replay 5eb4849e175d5965).
+- **#7152** (skills, from Lane 1: two shallow-clone traps for session-start): check passed on head 993b8d3572. Skills PRs are the CTO's to merge.
+- **#7173** (skills, from Lane 5: browser checks start a life through one helper; shallow fetches; the storage guard): check passed on head 3c2d487144. The CTO's to merge.
 - **Make the new-game check the rule.** The required checks on main are still `validate` and `golden-path`, not the one check. To make GitHub match ruling 2: `gh api -X PATCH repos/lamontaes/Political-Game-Git/branches/main/protection/required_status_checks -F strict=false -f 'contexts[]=new game'` (the job's name is `new game`; check the exact name GitHub shows).
-- **Merges outside the owner's list.** After your approval, merges in your Nov 3 order went through. Merging lane PRs not on that list (#7085, #7147) was refused as "merge without review". Both turned out to have conflicts anyway. To let the desk keep merging lanes' PRs on the one check, say so in this session.
 
 ## How the desk ran
 

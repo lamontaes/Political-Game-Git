@@ -10,7 +10,6 @@ import type { EntityId } from "../core2/kernel/brands";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import {
-  ELECTIONS_MODULE_ID,
   fileCandidacy,
   openContests,
   type ContestRow,

@@ -41,6 +41,7 @@ export interface KinHouseholdMember {
   role: "adult" | "child";
   birthDate: IsoDate;
   gender?: string;
+  givenName?: string;
   familyName: string;
 }
 
@@ -58,6 +59,7 @@ export type KinNamer = (input: {
   gender: string;
   birthDate: IsoDate;
   familyName: string | null;
+  takenGivenNames?: readonly string[];
 }) => { givenName: string; familyName: string };
 
 export interface OpeningKinOptions {
@@ -459,9 +461,16 @@ export function buildOpeningKin(
       birthDate: IsoDate,
       familyName: string | null,
       home: Home,
+      takenGivenNames: readonly string[] = [],
     ): KinPerson => {
       const stableKey = `${household.stableKey}:kin:${key}`;
-      const named = options.name({ stableKey, gender, birthDate, familyName });
+      const named = options.name({
+        stableKey,
+        gender,
+        birthDate,
+        familyName,
+        takenGivenNames,
+      });
       const row: KinPerson = {
         id: createStableId("person", `${options.worldId}:${stableKey}`),
         stableKey,
@@ -607,6 +616,7 @@ export function buildOpeningKin(
           personIds: [a!.id, b!.id],
         });
       }
+      const siblingNames = adult.givenName ? [adult.givenName] : [];
       for (let j = p("one"); j <= sibship; j += p("one")) {
         if (j === order) continue;
         const sr = r.fork(`sibling:${j}`);
@@ -639,7 +649,9 @@ export function buildOpeningKin(
                   ? parentsNear
                   : false,
               ),
+          siblingNames,
         );
+        siblingNames.push(sibling.givenName);
         relate(sibling, adult, R.sibling, R.sibling);
         for (const child of children)
           relate(sibling, child, R.auntUncle, R.nieceNephew);
@@ -720,6 +732,7 @@ export function buildOpeningKin(
         : undefined;
       const firstYear =
         oldest ?? refYear + Math.round(firstBirthAge(refYear) + shift);
+      const childNames = unit.here.flatMap((child) => child.givenName ?? []);
       for (let i = p("one"); i <= total - unit.here.length; i += p("one")) {
         const cr = dr.fork(`child:${i}`);
         const year =
@@ -760,7 +773,9 @@ export function buildOpeningKin(
                 `${unit.key}:child:${i}`,
                 stayed(`${unit.key}:child:${i}`, childAge),
               ),
+          childNames,
         );
+        childNames.push(child.givenName);
         for (const parent of unit.parents) parentOf(parent, child, R.parent);
         if (otherParent) parentOf(otherParent, child, R.otherParent);
         addParents(
@@ -789,6 +804,7 @@ export function buildOpeningKin(
                 birthDate: child.birthDate,
                 familyName: null,
               }).familyName;
+        const grandchildNames: string[] = [];
         for (let g = p("one"); g <= grandchildren; g += p("one")) {
           const gr = cr.fork(`grandchild:${g}`);
           const gyear = gfirst + (g - p("one")) * interval;
@@ -803,7 +819,9 @@ export function buildOpeningKin(
             gdate,
             gfamily,
             homeOf(child),
+            grandchildNames,
           );
+          grandchildNames.push(grandchild.givenName);
           parentOf(child, grandchild, R.parent);
           addParents(grandchild.id, [child]);
           for (const parent of unit.parents)

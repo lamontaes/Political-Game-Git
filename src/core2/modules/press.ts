@@ -3535,8 +3535,8 @@ function reviewOutletRevenue(api: CoreAPI, monthStart: boolean): void {
   }
 }
 
-/** Owners given a household cost spend what it came to since last week out of what they hold. */
-function ownersLive(api: CoreAPI): void {
+/** Press people given a household cost (owners, and staff from outside the town) spend what it came to since last week out of what they hold. */
+function pressPeopleLive(api: CoreAPI): void {
   for (const raw of table(api, "staff").rows()) {
     const row = raw as unknown as StaffRow;
     if (!row.livedThrough || row.livedThrough >= api.state.date) continue;
@@ -3561,7 +3561,7 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     api,
     Number(api.state.date.slice(8, 10)) <= api.parameter("daysPerWeek"),
   );
-  ownersLive(api);
+  pressPeopleLive(api);
   conflictBeat(api);
   // stopgapId: SG-PEOPLE-press-endorsements
   api.stopgap("SG-PEOPLE-press-endorsements");

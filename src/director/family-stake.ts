@@ -8,7 +8,10 @@
  * read from persons and the filing record; nothing is rolled.
  */
 import { ageOnDate, daysBetweenText } from "../core2/kernel/dates";
+import { CAMPAIGNS_MODULE_ID } from "../core2/modules/campaigns";
 import { P } from "../core2/parameters";
+import { coreAPI } from "../core2/state";
+import { moneySaid, votesSaid } from "../english/count-words";
 import { spanSaid } from "../english/span-words";
 import type { CoreState, PersonId } from "../core2/types";
 import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };
@@ -17,7 +20,7 @@ const RULES = rulesFile.familyStakes;
 const zero = P.zero;
 const one = P.one;
 
-export type StakeKind = "money" | "time";
+export type StakeKind = "money" | "time" | "worked" | "gave";
 
 export interface StakeFact {
   text: string;
@@ -41,7 +44,7 @@ const ageOn = ageOnDate;
  * The stake one relative has in the filing, or null. `causeId` is the filing's
  * own record (`candidate-filed:<id>`), which names the election date.
  */
-export function stakeOf(
+function filingStakeOf(
   core: Readonly<CoreState>,
   filerId: PersonId,
   causeId: string,
@@ -135,7 +138,85 @@ export function stakeOf(
 }
 
 /**
- * The household members with a stake in a filing, the strongest first (ties
+ * The stake one relative has in a lost race, or null: they are counted among
+ * the campaign's volunteers (they worked it), or the candidate gave their own
+ * money to it (the household's savings went in). `causeId` is the race's
+ * count (`election-result:<contest>` or `primary-result:<contest>`), which
+ * holds each candidate's votes; the facts say how close it was
+ * (docs/design/scenes/from-life/household-after-the-loss.md).
+ */
+function lossStakeOf(
+  core: Readonly<CoreState>,
+  filerId: PersonId,
+  causeId: string,
+  relativeId: PersonId,
+): Stake | null {
+  const filer = core.people.get(filerId);
+  const relative = core.people.get(relativeId);
+  if (!filer || !relative || relative.id === filer.id || !relative.alive)
+    return null;
+  if (relative.householdId !== filer.householdId) return null;
+  if (ageOn(relative.birthDate, core.date) < P.votingAge) return null;
+  if (!core.modules.has(CAMPAIGNS_MODULE_ID)) return null;
+  const record = core.durableLog.get(causeId);
+  const contestId = record?.facts?.contestId;
+  if (typeof contestId !== "string") return null;
+  const filingId = `filing:${contestId}:${filerId}`;
+  const tables = coreAPI(core as CoreState).moduleState(CAMPAIGNS_MODULE_ID);
+  const campaign = tables.table("campaigns").get(filingId) as unknown as
+    { volunteerIds: readonly string[] } | undefined;
+  const gift = tables
+    .table("gifts")
+    .get(`${filingId}|${filerId}`) as unknown as
+    { totalMinor: number } | undefined;
+  const counted = JSON.parse(
+    String(record?.facts?.totals ?? record?.facts?.votes ?? "{}"),
+  ) as Record<string, number>;
+  const own = counted[filerId] ?? zero;
+  const best = Math.max(zero, ...Object.values(counted));
+  const margin: StakeFact = {
+    text: votesSaid(best - own),
+    recordIds: [causeId],
+  };
+  if (campaign?.volunteerIds.includes(relativeId))
+    return {
+      kind: "worked",
+      strength: one,
+      facts: {
+        margin,
+        "stake-worked": {
+          text: "worked",
+          recordIds: [filingId, relativeId, causeId],
+        },
+      },
+    };
+  if ((gift?.totalMinor ?? zero) > zero)
+    return {
+      kind: "gave",
+      strength: RULES.gaveStrength.value,
+      facts: {
+        margin,
+        "stake-gave": { text: "gave", recordIds: [filingId, causeId] },
+        given: { text: moneySaid(gift!.totalMinor), recordIds: [filingId] },
+      },
+    };
+  return null;
+}
+
+/** The stake a relative has in what a record says happened: a filing or a lost race. */
+export function stakeOf(
+  core: Readonly<CoreState>,
+  filerId: PersonId,
+  causeId: string,
+  relativeId: PersonId,
+): Stake | null {
+  return /^(election|primary)-result:/.test(causeId)
+    ? lossStakeOf(core, filerId, causeId, relativeId)
+    : filingStakeOf(core, filerId, causeId, relativeId);
+}
+
+/**
+ * The household members with a stake in a filing or a lost race, the strongest first (ties
  * to the nearest by id, as the director's other household fills break them).
  */
 export function stakeholders(
