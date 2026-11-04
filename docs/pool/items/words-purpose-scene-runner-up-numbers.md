@@ -5,11 +5,12 @@ area: words
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane3/red-purpose-numbers
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T14:59:41.876Z
 ---
 
 **What.** Deterministic validation on main failed at 14:20 UTC Nov 4 (run 41846509312): director.test.ts 'registers every stopgap it marks and keeps numbers in data' found purpose-scene.ts:1, :1, :0, :0, the runner-up sort #7258 added.
