@@ -35,4 +35,20 @@ Restoring only budgets.ts from main bf4e8386cd makes the same full-world observe
 
 The four-year comparison did not complete. On pinned main bf4e8386cd, Wolf Creek Colony, South Dakota (4672500), replay dc5525b9b709e9c4, host 4c46091479ea, years 1–3 took **86.3/198.0/188.5 seconds**. Year four crashed in official-pay.ts seat → startSalariedPost: `A salaried post needs a living person, a recorded employer and no shift hours.` This is another reproduction of the existing gov-official-pay-reseating-crashes-year-four item, not a treasury timing pass. The corrected run never started. The wrapper restored budgets.ts byte-for-byte. Base raw metadata records HEAD b58a4d66c0 and sourceMain bf4e8386cd because only this production file was temporarily replaced; this was a controlled source comparison, not a detached main checkout. The original logs/three-year receipt are retained under /tmp/lane-2-zero-opening-cash-speed-*.
 
-The accepted official-pay root repair comes next, then this replay's comparison can be completed. No new draw substitutes for the crash. Independent main replay remains the checker's work.
+The salary repair merged as #7217 (db7a019177fb4a4de87b24cd3b507ef8fb024657). Its corrected Wolf Creek run on df5caffa89 completed four years at 78.0/201.8/164.1/783.2 seconds. The zero-cash branch incorporates that exact producer by ordinary merge. Production source differs from df5caffa89 only in this seven-line budgets.ts return; this completed receipt is the controlled comparison base. It is not relabeled as latest main, which has additional unrelated changes. The zero-cash comparison is pending. Independent main replay remains the checker's work.
+
+## Checotah and drawn opening regressions
+
+Lane 3's world-opening-treasury-not-finite-crash report is the same missing optional field. Exact main 3fd359c4ce9633f40f9fcf6427ed60b786af1950 fails Checotah with bookkeeping enabled; changing only this writer opens all four treasuries. US-OK has finite zero, not NaN. The federal opening retains real journal sequence zero.
+
+The new opening-treasury-json.test.ts checks every government's finite opening amount, JSON round trip and absent sequence for zero cash, with bookkeeping enabled. It runs the reported world and two fresh draws from all 56 jurisdictions:
+
+| Place                      | Replay                                                           | World seed                                                       | Result                                        |
+| -------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------- | --------------------------------------------- |
+| Checotah, OK 4013650       | 1acc04b6572d6ef2474607b73d0e7066b70ba9bcf5c519202b24a8c654ed707e | 47b06e171d253ce7139d26b0df3defc6376e0d99ab8022cebfbba3ff5d28b8dc | Four finite openings; US-OK zero, no sequence |
+| Oakland Park, FL 1250575   | 1f67dd9fee9d631f:0                                               | a884190aa03e4358c3b4f52d8eeb33cae4acf5ad103dca225f5e416ec84288da | Four finite openings, sequences 0–3           |
+| Matfield Green, KS 2045150 | 1f67dd9fee9d631f:1                                               | 31ab8a5af9e9b67ce6aaf8233130fa235b46f939adcf222e776288b56e1e4b6d | Four finite openings, sequences 0–3           |
+
+All three pass: 47.31 seconds of tests / 56.72 total. Restoring only the original writer makes Checotah fail through the unchanged JSON guard (one failed, two skipped; 10.92 / 20.44 seconds); corrected source restored byte-for-byte. Reproduce with `OPENING_TREASURY_SEED=1f67dd9fee9d631f` and the required environment, `npm exec -- vitest run src/core2/opening-treasury-json.test.ts --maxWorkers=1 --reporter=verbose`. The unchanged legislature suite's earlier 20 passing cases remain pinned to their original source.
+
+Integrated New Game passes **Big Pine Key, Florida / 769fd576a0db7190**, player person_ea79faa836e4182c, through four weeks; all new-life, advance, resume, scene and Journal requests return HTTP 200. This is unit proof, not another confirmed played path.
