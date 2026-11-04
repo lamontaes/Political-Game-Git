@@ -1,4 +1,4 @@
-0 of 14 paths confirmed. Furthest New Game step: 8 (Johnson, Minnesota path-check: filed, on the ballot, won the council seat, first bill failed 2 to 3). Oldest open PR 1 day (#7152); open: #7152, #7174, #7175.
+0 of 14 paths confirmed. Furthest New Game step: 8 (Johnson, Minnesota path-check: filed, on the ballot, won the council seat, first bill failed 2 to 3). Oldest open PR 0 days; open: #7215.
 
 **From Lane 5, red main, Nov 4 06:45 UTC:** the families guard on main fails on `src/core2/modules/executive.ts`, which imports `localClerkFor` from `./filing-clerk` (c6fec44b64), inside the elections family. Fix: export it from an elections entry (`candidacy.ts` or `elections.ts`) and import it from there. Lane 5's part of the red is #7190.
 
@@ -21,10 +21,11 @@
   - #7169: the mayor's desk, sign and veto, proved in play.
   - #7170: governors declare emergencies.
   - #7171: the campaign test's filing-window search.
-- **Built, open:**
   - #7152: skills.
   - #7174: a rival's attack ad names the holder's real votes, and ballots weigh them (path 11).
   - #7175: a favor traded for a vote is called in as an endorsement at the next race (path 11).
+- **Built, open:**
+  - #7215: holders weigh the time their job takes before running again; holders who run again fall from 0.917 to 0.766 over 24 drawn places (band 58 to 78 percent).
 - **Filed for path 11:** `play-campaigns-shows-your-record` (Lane 4's screen).
 - **Agreements:** 1-2 written (one bill engine). 1-3 confirmed and extended (director tests that file the player; a worded law line asked of Lane 3). 1-4 written (filing seams in `src/bench`).
 - **Waiting on a question:** `gov-m3-02-amend-and-endorsement-deals`, the endorsement half (see its Notes).
@@ -40,19 +41,19 @@
 - **Size:** about 2 hours and under 100 changed lines if the weight is enough; if not, the rest of the county weighing a county seat (stopgap SG-GOV-wide-resident-pool), split into its own unit.
 - **Checked by:** a fresh session running the test on a seed it chooses.
 
+**Unit 5b: the county sees its own races** (`elections-county-race-sees-only-the-town`, branch `governing/county-challengers`)
+
+- **Finish line:** a county race is voted by the whole county (the town and the rest of the county, counted on the same engine) and weighed by people from the rest of the county as well as the town; county seats go uncontested at a real rate.
+- **Proof:** step A, voting: a played county contest's result counts the rest of the county by its place record id, in a test over drawn places; step B, running: a challenger who lives elsewhere in the county is filled in from the counted rest of the county and files; then the totals script over 24 places (seed a63ad2af1003c7ad) for the uncontested share (band 55 to 80) and T3, and `local-races-contested.test.ts`.
+- **Hands off:** town races, the countywide weight until step B replaces it, statewide and federal races.
+- **Known cheats:** a drawn number of challengers, a per-county number, outside challengers who never lose, a test that fills them in by hand.
+- **Size:** step A under 100 lines; step B 300 to 400; each its own PR.
+- **Checked by:** a fresh session replaying a county race on main in a place it draws.
+
 ## Measuring now
 
-- **Unit 1b, incumbency fit**, on `governing/incumbency-calibration` (main merged, d6db3df9ff). Ablation on seed f556fe5e8b2fe6fd, 12 places:
-
-  | Version       | Contested holder wins (T3) | Newcomers who beat a holder (T6) |
-  | ------------- | -------------------------- | -------------------------------- |
-  | Both terms    | 1.0                        | 0                                |
-  | Standing only | 0.83                       | 0.29                             |
-  | Trait only    | 0.67                       | 0.44                             |
-  | Neither       | 0.54                       | 0.55                             |
-
-  The bands are 66% to 78% and 18% to 30%. On seed a63ad2af1003c7ad, 24 places, 23 contested races: play values 0.565 and 0.77; the trait term halved gives the same 0.565 (it barely moves a race); recognition halved (0.075) drops T3 to 0.39. Pooled with f556, play values are 25 of 35 (0.71, inside the band). Recognition is the lever, and the play value stays. "Neither" on a63 is running.
-
+- **Unit 1b, incumbency fit** (`governing/incumbency-calibration`, d6db3df9ff). On seed a63ad2af1003c7ad, 24 places, 23 to 26 contested races: play values T3 0.565, trait term halved 0.565, recognition halved 0.391, neither 0.375. The holder's edge is real, carried by recognition, not counted twice. T6 stayed at 0.77 because holders ran again 92 percent of the time; with #7215 it is 0.36 and T3 0.60. The PR waits on #7215's merge and a pooled re-measure.
+- **Unit 5, seats open up** (card above). Causes found: holders ran again too often (#7215), and a county race is weighed and voted by the town alone (`SG-GOV-county-race-town-only`, item `elections-county-race-sees-only-the-town`, the next build). The countywide weight at 0.4 moved county races only from 0.92 to 0.90 uncontested.
 - **Unit 6, month-end crash**: reproducing `office-day-member-filings.test.ts` at pet-run-1 on `governing/month-close-journal`.
 
 ## Failed (on main as well, filed)
@@ -66,6 +67,8 @@
 Unit 1b fit, then unit 5 (uncontested seats: in these runs 87% of running holders are unopposed, against a 40% to 67% band). Unit 7's last three scenes (poll, mail, own money) are play-first's stack in `src/bench`; they need agreement 1-4 confirmed first. Unit 2's remaining pieces: `elections-at-large-race-pooled`, and `elections-filing-window-opens` after #7085.
 
 ## Traps
+
+- **Wait on a run by its literal PID.** `pgrep -f` matches the waiter's own shell (Nov 4: an hour lost).
 
 - **The clone is shallow.** Run `git fetch --shallow-since=<date> origin main` before merging main into an old branch.
 - **Pool commands check out main.** Commit first, and never run one while a test runs in that checkout.
