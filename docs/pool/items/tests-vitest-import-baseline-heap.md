@@ -5,9 +5,9 @@ area: release
 kind: bug
 priority: 3
 size: M
-status: claimed
+status: in-pr
 claimed-by: lane-5/vitest-json-from-disk
-pr:
+pr: #7161
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-04T00:26:54.056Z
