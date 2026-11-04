@@ -79,11 +79,11 @@ import {
   outletsHere,
   PRESS_MODULE_ID,
   townOutlet,
+  PRESS_STORY_EVENT,
 } from "../core2/modules/press";
 import { closenessBetween } from "../core2/closeness";
 import { stakeOf } from "./family-stake";
 import { properName, spoken, spokenDate } from "./words";
-import { PRESS_STORY_EVENT } from "../core2/press-desk";
 import { giveInauguralAddress, inauguralStand } from "./inaugural-address";
 import {
   ADDRESS_KEEPS,
@@ -581,7 +581,7 @@ function composeBinding(
   const tieId =
     askerId < askedId ? `${askerId}:${askedId}` : `${askedId}:${askerId}`;
   const tie = core.relationships.get(tieId);
-  const quarrel = (tie?.latestChange?.requestedChange ?? 0) < 0;
+  const quarrel = (tie?.latestChange?.requestedChange ?? P.zero) < P.zero;
   if (tie && quarrel)
     facts["tie-rival"] = { text: asker.givenName, sourceRecordIds: [tieId] };
   else if (
