@@ -75,7 +75,12 @@ import {
   type CauseRow,
 } from "../core2/modules/campaigns";
 import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };
-import { outletsHere, PRESS_MODULE_ID } from "../core2/modules/press";
+import {
+  outletsHere,
+  PRESS_MODULE_ID,
+  townOutlet,
+} from "../core2/modules/press";
+import { closenessBetween } from "../core2/closeness";
 import { stakeOf } from "./family-stake";
 import { properName, spoken, spokenDate } from "./words";
 import { PRESS_STORY_EVENT } from "../core2/press-desk";
@@ -569,6 +574,22 @@ function composeBinding(
       sourceRecordIds: [askerId, askedId],
     };
   else facts.stranger = { text: asker.givenName, sourceRecordIds: [askerId] };
+  // Which side of their tie the two stand nearer, from its record: a friend
+  // (`tie-friend`) is nearer full closeness than none; a rival (`tie-rival`)
+  // is one whose last contact on the tie was a quarrel. A friend and a rival
+  // say different things.
+  const tieId =
+    askerId < askedId ? `${askerId}:${askedId}` : `${askedId}:${askerId}`;
+  const tie = core.relationships.get(tieId);
+  const quarrel = (tie?.latestChange?.requestedChange ?? 0) < 0;
+  if (tie && quarrel)
+    facts["tie-rival"] = { text: asker.givenName, sourceRecordIds: [tieId] };
+  else if (
+    tie &&
+    closenessBetween(core, askerId, askedId) >=
+      rulesFile.tieSides.friendCloseness.value
+  )
+    facts["tie-friend"] = { text: asker.givenName, sourceRecordIds: [tieId] };
   // A committee trade coming due on the floor (legislature.ts
   // recordPromises): the member promised their vote, and the lines about a
   // promised vote need it.
@@ -1082,11 +1103,49 @@ function petitionFacts(
       : null;
   if (!petition) return {};
   const fact = (text: string) => ({ text, sourceRecordIds: [petition.id] });
-  if (petition.needed <= P.zero) return { "no-petition": fact("yes") };
+  const walk = walkThroughFacts(core, petition);
+  if (petition.needed <= P.zero) return { "no-petition": fact("yes"), ...walk };
   const due = fact(spokenDate(petition.due, core.date));
   return petition.needed === P.one
-    ? { "one-signature": fact("yes"), due }
-    : { signatures: fact(petition.needed.toLocaleString("en-US")), due };
+    ? { "one-signature": fact("yes"), due, ...walk }
+    : {
+        signatures: fact(petition.needed.toLocaleString("en-US")),
+        due,
+        ...walk,
+      };
+}
+
+/**
+ * The first filing of a life (owner, Nov 1: "it should be the first time in
+ * a game that the player files for an office... do you know how to run a
+ * campaign?"): the clerk asks, and a candidate who says no is walked through
+ * it from the place's records, the petition and the town's own paper, whose
+ * ad time a campaign buys and whose reporters cover the race. A second filing
+ * is not asked again.
+ */
+function walkThroughFacts(
+  core: Readonly<CoreState>,
+  petition: { filingId: string; personId: string },
+): Record<string, Fact> {
+  const api = coreAPI(core as CoreState);
+  const filings = api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("filings")
+    .query("byPerson", [petition.personId]);
+  if (filings.length !== P.one) return {};
+  // The town's own newspaper, whose ads and reporters the answer names.
+  const town = core.modules.has(PRESS_MODULE_ID) ? townOutlet(api) : null;
+  const outlet = town?.kind === "newspaper" ? town : null;
+  // Said as "the Mauston Record": a name that carries its own article drops it.
+  const paper = outlet
+    ? core.organizations.get(outlet.organizationId)?.name?.replace(/^The /, "")
+    : undefined;
+  return {
+    "first-filing": { text: "yes", sourceRecordIds: [petition.filingId] },
+    ...(outlet && paper
+      ? { outlet: { text: paper, sourceRecordIds: [outlet.id] } }
+      : {}),
+  };
 }
 
 const AFTERNOON_FROM = rulesFile.timeOfDay.afternoonFromMinute.value;
