@@ -21,7 +21,7 @@ claimed-at: 2026-11-04T13:33:03.532Z
 
 **Done when.** A generated all-module year drawn from all 56 names its town, replay, actual body, bill, roll call and enacted law whose jurisdiction agrees with that body's real government. Existing outside-state office rows resolve to their own state, and a multi-county body's law key comes from its own unit. Pure edge checks preserve township, federal, municipio and city fallbacks; the original readers fail their regression. Fresh New Game passes and four serial years remain within 20 percent of the same-host base, with world-record differences explained. The every-state-and-town parent remains unfinished.
 
-**Files.** src/core2/laws-in-force.ts; src/core2/modules/legislature.ts jurisdiction readers only; src/core2/body-jurisdiction.test.ts; lane agreement and proof
+**Files.** src/core2/laws-in-force.ts; src/core2/modules/legislature.ts jurisdiction readers only; src/core2/body-jurisdiction.test.ts; src/core2/modules/world-legislating.ts localMeeting jurisdiction/repeal reader only; lane agreement and proof
 
 **Notes.** Existing gov-every-state-and-town-governs Nov1 20:00 notes and world-governing-u2-spec-2026-11-01 section6 agree the billJurisdiction/countyOfBody seam; step2 specifies this unit. Searched pool for body jurisdiction, officeLawJurisdiction and countyOfBody; the merged draft-value reader addresses amounts, not body identity. Bound this child to step2; U2 remaining steps and U3/U4 stay with the parent. Two-hour implementation time box, serial verification follows.
 
@@ -32,3 +32,5 @@ claimed-at: 2026-11-04T13:33:03.532Z
 **Screenshot.** No screen edit. The ordinary-year proof names the body, roll call and law records consumed by the existing engine.
 
 **Checked by.** A session that did not build the change, on main.
+
+Nov4 scope correction before source edit: include the existing U2 step13e localMeeting identity and repeal read through bodyJurisdiction. The critique gap1 shows that otherwise the multi-county board would enact at its own county while agenda checks still read the first county. No change to fileChanges/co-sponsors, schedules, outside-session activation or the raise resolver (the later U2 own-chain reader still owns that).
