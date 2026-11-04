@@ -2935,6 +2935,9 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     seats > 1
       ? group.flatMap((other) => ballot(api, other.id))
       : ballot(api, contestId);
+  // The race is counted once, as its first seat's contest sees it, so every
+  // seat's count reads the same appeal, pledges and chosen ballots.
+  const counting = group[0]!;
   const date = api.state.date;
   const { townPlaceId } = town(api);
   const adultAge = api.parameter("votingAge");
@@ -2956,15 +2959,21 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     const { appeal, lean, recordReasons, basis } = appealFor(
       api,
       voter,
-      contest,
+      counting,
       filings,
     );
     // A voter who chose their ballot (the player, by hand) votes as they
     // chose; with none chosen (a player skipping past election day), they
     // vote or stay home on their own reasons like everyone else.
-    const chosen = table(api, "chosen").get(
-      `${contestId}|${voter.id}`,
-    ) as unknown as { candidateId: string | null } | undefined;
+    // The player's chosen ballot, kept on whichever seat's contest they
+    // marked it in.
+    const chosen = group
+      .map(
+        (row) =>
+          table(api, "chosen").get(`${row.id}|${voter.id}`) as unknown as
+            { candidateId: string | null } | undefined,
+      )
+      .find(Boolean);
     // The player's ballot is the player's own: the engine never casts it.
     // With none chosen, the player didn't vote in this race.
     if (voter.id === playerId && !chosen) {
@@ -3076,7 +3085,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
   const countedVotes: Record<string, number> = {};
   let countedVoted = 0;
   let countedEligible = 0;
-  const field = countedField(api, contest, filings);
+  const field = countedField(api, counting, filings);
   const kept = {
     voterIds: [] as string[],
     voted: [] as number[],
@@ -3128,7 +3137,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       api,
       voter.id,
       trustWeight(api, lean),
-      contestId,
+      counting.id,
       field,
     );
     const where = {
