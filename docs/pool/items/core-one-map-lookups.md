@@ -5,11 +5,12 @@ area: core
 kind: cleanup
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: one-map-lookups
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T21:26:54.796Z
 ---
 
 **What.** Delete the private stateOf, stateKeyOf and county lookups in game code and read a place's state through the one place map reader; add a guard against new ones.
