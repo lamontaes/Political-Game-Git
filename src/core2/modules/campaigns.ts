@@ -108,7 +108,7 @@ import {
   settleObligation,
   type BillRow,
 } from "./legislature";
-import { recordAppeal } from "./record";
+import { promisesOf, recordAppeal, votesOf } from "./record";
 import { withholdingOnPay } from "./budgets";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
@@ -267,6 +267,8 @@ export interface CauseRow {
   readonly agreement: number | null;
   readonly rapport: number;
   readonly weight: number;
+  /** The record items an attack ad showed this voter: the rival's votes and broken promises, by id. */
+  readonly shownIds?: readonly string[];
 }
 
 /**
@@ -851,6 +853,7 @@ function reach(
     readonly weight: number;
     readonly rapport: number;
     readonly target?: number;
+    readonly shownIds?: readonly string[];
   },
 ): CauseRow | null {
   const voter = api.state.people.get(voterId);
@@ -880,6 +883,7 @@ function reach(
     agreement,
     rapport: options.rapport,
     weight: options.weight,
+    ...(options.shownIds?.length ? { shownIds: options.shownIds } : {}),
   };
   keepCause(api, cause);
   table(api, "impressions").put({
@@ -4317,7 +4321,10 @@ export function runAd(
         weight: campaignParameter("adWarmthWeight"),
         rapport: 0,
         ...(attack
-          ? { target: clamp(attack.reduce((sum, r) => sum + r.effect, 0)) }
+          ? {
+              target: clamp(attack.reduce((sum, r) => sum + r.effect, 0)),
+              shownIds: attack.map((r) => r.itemId),
+            }
           : {}),
       },
     );
@@ -4546,6 +4553,26 @@ function platformRead(
 }
 
 /** The campaigns of everyone standing in a contest who has filed by today. */
+/**
+ * The rival in a campaign's race whose record in office an attack ad could
+ * show: the one with the most recorded votes and promises, other than the
+ * candidate; none where no rival has a record.
+ */
+function attackTarget(
+  api: CoreAPI,
+  campaign: CampaignRow,
+): CampaignRow | undefined {
+  let best: { row: CampaignRow; items: number } | undefined;
+  for (const row of raceCampaigns(api, campaign.contestId)) {
+    if (row.candidateId === campaign.candidateId) continue;
+    const items =
+      votesOf(api, row.candidateId).length +
+      promisesOf(api, row.candidateId).length;
+    if (items > 0 && (!best || items > best.items)) best = { row, items };
+  }
+  return best?.row;
+}
+
 function raceCampaigns(api: CoreAPI, contestId: string): CampaignRow[] {
   return ballot(api, contestId)
     .filter((filing) => filing.filedOn <= api.state.date)
@@ -6083,12 +6110,38 @@ export function campaignTurn(
   // views engine reads once for each person it reached.
   const told: string[] = [];
   if (part("ad") > 0) {
+    // A challenger facing a rival with a record in office (their votes, the
+    // promises they made) puts part of the ad money on showing it, by their
+    // own temperament (rival-ad-quotes-a-real-vote; register D-2 and D-5:
+    // never a fixed share). The rest carries their own platform.
+    const target = attackTarget(api, campaignFor(api, filingId));
+    const attackShare = target
+      ? Math.min(
+          1,
+          Math.max(
+            0,
+            campaignParameter("attackAdShare") *
+              (1 + w * trait("people-mind-v1:conflict")),
+          ),
+        )
+      : 0;
+    const attackMinor = Math.floor(part("ad") * attackShare);
+    if (target && attackMinor > 0) {
+      const shown = runAd(api, {
+        filingId,
+        amountMinor: attackMinor,
+        attackFilingId: target.filingId,
+        quiet: true,
+      });
+      adReached += shown.length;
+      for (const c of shown) told.push(c.voterId);
+    }
     const seen = runAd(api, {
       filingId,
-      amountMinor: part("ad"),
+      amountMinor: part("ad") - attackMinor,
       quiet: true,
     });
-    adReached = seen.length;
+    adReached += seen.length;
     for (const c of seen) told.push(c.voterId);
   }
   if (part("mail") > 0) {
