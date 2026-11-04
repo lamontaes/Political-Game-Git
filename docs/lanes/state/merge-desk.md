@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 68 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 69 pull requests merged. Newest state at the top of each section.
 
 ## What the owner can play now
 
@@ -68,7 +68,7 @@ New on Nov 3:
   - A pool fix (#7145).
   - A state page (#7146).
 
-## Lane PRs merged on Nov 4 (33), on the owner's word ("You may merge lane PRs that pass the new-game check")
+## Lane PRs merged on Nov 4 (34), on the owner's word ("You may merge lane PRs that pass the new-game check")
 
 Each had main merged in again, passed `npm run new-game-check` (a town drawn from all 56, a new life, four weeks) and merged pinned to that head.
 
@@ -107,6 +107,7 @@ Each had main merged in again, passed `npm run new-game-check` (a town drawn fro
 | #7177 | A crew script opens every county-governed locality and names each one that won't open (no change in play)                 | Romeville, Louisiana              | 8c8e6f57ca3c0234 |
 | #7178 | The winner takes your concession call, gracious or gloating by their traits                                               | Pughtown, Pennsylvania            | ba7436a4fd49b389 |
 | #7179 | The Journal says you filed to run and when the election is, instead of "So I ran."                                        | Derry, New Hampshire              | b443b61d2ac8fc53 |
+| #7180 | Browser checks that file the player wait for filing to open (no change in play)                                           | Presque Isle Harbor, Michigan     | 95456057cb2df45c |
 
 Conflicts resolved mechanically: #7154 (both sides added a parameter and a stopgap row; both kept), and #7153, #7157, #7160, #7162 (Lane 2's state page: main's wording for the one edited line, both sides' log entries kept). Mac builds started after 5, 13, 18, 25 and 30 of these merges.
 

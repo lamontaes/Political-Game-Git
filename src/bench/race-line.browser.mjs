@@ -7,6 +7,7 @@
 // screenshot file in docs/reports/race-line-2026-10-25/.
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
+import { fileWhenFilingOpens } from "./start-life.mjs";
 const base = `http://localhost:${process.env.BENCH_PORT ?? 3000}`;
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
@@ -44,26 +45,8 @@ try {
   );
   console.log("Place:", await page.locator("#card-place").innerText());
   // File for the first office the records let the player file for, then campaign a month.
-  const run = await page.evaluate(async () => {
-    const gov = await (await fetch("/api/government")).json();
-    let filed = null;
-    for (const { contest } of gov.contests ?? []) {
-      const r = await fetch(
-        `/api/file?${new URLSearchParams({ contestId: contest.id })}`,
-        { method: "POST" },
-      );
-      const body = await r.json().catch(() => ({}));
-      if (
-        r.ok &&
-        ["petitioning", "on-ballot"].includes(body.filing?.status ?? "")
-      ) {
-        filed = contest.id;
-        break;
-      }
-    }
-    if (!filed) return { filed };
-    return { filed };
-  });
+  // Filing opens on a set day: the weeks go by until a race is open.
+  const run = { filed: (await fileWhenFilingOpens(page)).contestId };
   assert.ok(run.filed, "the player could file for nothing in this town");
   console.log("Filed for:", run.filed);
   // A month of campaigning: a day out knocking on doors, then the day goes on
