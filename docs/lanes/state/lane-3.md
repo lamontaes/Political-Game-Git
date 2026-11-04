@@ -1,6 +1,14 @@
 # Lane 3 state
 
-2 of 11 paths confirmed. Oldest open PR 2 days (#7127, opened Nov 2). Open: #7127, #7228 (its commits merged with #7236), #7255.
+2 of 11 paths confirmed. Oldest open PR 2 days (#7127, opened Nov 2). Open: #7127, #7228 (its commits merged with #7236), #7260.
+
+- **Built, #7260 (Nov 4):** a debate's answers no longer stage campaign stops (`speechOccasion` reads `debate`). Stratton, Colorado (51249c3bebe88f3ee957:5): 2 debates and 23 campaign stops, none from a debate answer; without the fix, the same seed staged one.
+**Ready for the Confirmer (Nov 4, on main):**
+- **Path 9, the Journal is a story (Haleyville, two years):** chapters only on your own turns (#7195), each line joined to the one before by cause or time (#7228 and #7236), and another person's step told through your tie (#7240). The first paper prints only fresh news (#7188).
+- **Path 6, again in Storrs (storrs-1):** the race story (#7223), your own loss in the Journal (#7226), and the father named for his doors (#7245) hold. The concession still waits on Lane 4's bench.
+- **Path 11, first term (seated):** a neighbor who testified comes to you (#7218), a law scene says what it cost your household (#7211), the chamber and office pictures (#7207), and the night you win plays (#7258).
+
+**Nov 4, afternoon (all merged):** #7245 (the Journal names who walked doors for you), #7255 (owed-talk reply facts; Lane 2 can build `people-owed-talk-record`), #7258 (the night you win plays: the runner-up is the opponent; Bay Springs, Mississippi, seed e38d8df3bf438bc3:5). **Waiting producers (plan line 6):** only `separated` and `election-day` have a core event. `separated` is wired on `lane3/separated-producer`, but in-town couples never part yet (`SG-LIVES-partner-town`), so it stays a branch. Notes are on `engine-records-for-waiting-life-scenes`.
 
 
 **Path 6, Nov 4 (after the Confirmer's fail in Storrs, storrs-1):** two of the three faults are merged and wait for a replay. #7223: the race story no longer says the loser beat the winner. #7226: the Journal tells your own lost race as yours, not your father's. The third, no concession, is not in Lane 3's files: the director composes the concession call on the result night and puts it first (Villa Esperanza, Puerto Rico, seed diag:4), but the bench never stages it before the morning-after talk. **Needs from others (Lane 4):** stage the player's `election-result` moment the night of the count, after the returns close (notes on `words-venue-speeches-delivered`).

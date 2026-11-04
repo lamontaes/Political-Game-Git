@@ -32457,6 +32457,54 @@
       }
     },
     {
+      "key": "scene-talk.state-ask.what-do-you-want-to-say-tonight-ninety-seconds-tops",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "What do you want to say tonight? Ninety seconds, tops.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-victory-night-worded)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.you-won-what-is-the-first-thing-you-want-to-say",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "You won. What's the first thing you want to say?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-victory-night-worded)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
       "key": "scene-talk.reply-answer.that-they-ran-hard-and-i-ll-need-their-voters-by-monday-write-that",
       "move": "reply-answer",
       "kind": "spoken",
@@ -129538,6 +129586,398 @@
       "tag": {
         "move": "thank",
         "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.count-me-in-i-can-give-you-saturdays",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Count me in. I can give you Saturdays.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "campaign-answer",
+          "key": "volunteer"
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-campaign-asks-spoken-by-trait)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "agree",
+        "key": "volunteer"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.all-right-tell-me-where-to-be-and-when",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "All right. Tell me where to be and when.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "campaign-answer",
+          "key": "volunteer"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-campaign-asks-spoken-by-trait)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "agree",
+        "key": "volunteer"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.for-you-of-course-put-me-down-for-whatever-you-need",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "For you? Of course. Put me down for whatever you need.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "campaign-answer",
+          "key": "volunteer",
+          "requiresFacts": ["tie-friend"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-campaign-asks-spoken-by-trait)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "agree",
+        "key": "volunteer"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-ll-help-don-t-make-me-regret-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll help. Don't make me regret it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "campaign-answer",
+          "key": "volunteer",
+          "requiresFacts": ["tie-rival"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-campaign-asks-spoken-by-trait)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "agree",
+        "key": "volunteer"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-d-like-to-but-i-can-t-spare-the-time-right-now",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'd like to, but I can't spare the time right now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "campaign-answer",
+          "key": "volunteer"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-campaign-asks-spoken-by-trait)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "decline",
+        "key": "volunteer"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.not-this-time-i-ve-got-too-much-going-on",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Not this time. I've got too much going on.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "campaign-answer",
+          "key": "volunteer"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-campaign-asks-spoken-by-trait)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "decline",
+        "key": "volunteer"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.you-know-i-would-if-i-could-i-just-can-t-right-now",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "You know I would if I could. I just can't right now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "campaign-answer",
+          "key": "volunteer",
+          "requiresFacts": ["tie-friend"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-campaign-asks-spoken-by-trait)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "decline",
+        "key": "volunteer"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.you-ll-have-to-find-someone-else-for-that",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "You'll have to find someone else for that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "campaign-answer",
+          "key": "volunteer",
+          "requiresFacts": ["tie-rival"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-campaign-asks-spoken-by-trait)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "decline",
+        "key": "volunteer"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.you-can-use-my-name-i-ll-stand-behind-you",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You can use my name. I'll stand behind you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "campaign-answer",
+          "key": "endorse"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-campaign-asks-spoken-by-trait)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "agree",
+        "key": "endorse"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.all-right-you-have-my-support",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "All right. You have my support.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "campaign-answer",
+          "key": "endorse"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-campaign-asks-spoken-by-trait)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "agree",
+        "key": "endorse"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.of-course-you-have-my-name-who-else-would-i-back",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Of course you have my name. Who else would I back?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "campaign-answer",
+          "key": "endorse",
+          "requiresFacts": ["tie-friend"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-campaign-asks-spoken-by-trait)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "agree",
+        "key": "endorse"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.fine-you-have-my-name-for-what-it-s-worth",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Fine. You have my name, for what it's worth.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "campaign-answer",
+          "key": "endorse",
+          "requiresFacts": ["tie-rival"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-campaign-asks-spoken-by-trait)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "agree",
+        "key": "endorse"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-d-rather-keep-my-name-out-of-it-this-time",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'd rather keep my name out of it this time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "campaign-answer",
+          "key": "endorse"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-campaign-asks-spoken-by-trait)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "decline",
+        "key": "endorse"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-can-t-put-my-name-to-it-not-yet",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I can't put my name to it. Not yet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "campaign-answer",
+          "key": "endorse"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-campaign-asks-spoken-by-trait)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "decline",
+        "key": "endorse"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-m-with-you-but-i-can-t-say-so-in-public-i-m-sorry",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'm with you, but I can't say so in public. I'm sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "campaign-answer",
+          "key": "endorse",
+          "requiresFacts": ["tie-friend"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-campaign-asks-spoken-by-trait)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "decline",
+        "key": "endorse"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.no-i-won-t-be-putting-my-name-next-to-yours",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "No. I won't be putting my name next to yours.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "campaign-answer",
+          "key": "endorse",
+          "requiresFacts": ["tie-rival"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-campaign-asks-spoken-by-trait)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "decline",
+        "key": "endorse"
       }
     }
   ]

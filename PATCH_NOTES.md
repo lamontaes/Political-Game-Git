@@ -296,6 +296,18 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.83.2
+
+_Released November 4, 2026._
+
+### Fixed
+
+- **The night you win plays.** After you win a race, the talk on victory night
+  now plays: someone from your campaign asks what you'll say about the runner-up
+  ("Then tell me what you're going to say about Sharon Cruz. Ninety seconds,
+  tops."), or, unopposed, what you want to say first. Before, it could never be
+  worded and was skipped.
+
 ## PRE-ALPHA 0.83.1
 
 _Released November 4, 2026._

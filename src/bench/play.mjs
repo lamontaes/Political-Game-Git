@@ -2661,7 +2661,8 @@ const sheets = {
     // sheet's media slot); what you're like in plain sentences, never the
     // traits' names (owner, Oct 27); small plates for home, work, school and
     // cash; the people at home as face cards; your views as small plates.
-    const school = c.schools?.length ? c.schools.at(-1) : null;
+    // A school only while they are at one (never a grown player's old school).
+    const school = c.schoolNow ?? null;
     const members = (c.home?.members ?? []).map((member) =>
       memberCard({
         name: member.name,

@@ -688,6 +688,27 @@ function composeBinding(
       text: `${winner.givenName} ${winner.familyName}`,
       sourceRecordIds: [moment.causeId, winner.id],
     };
+  // In a race the asked won, the opponent is the runner-up on the count.
+  if (winner?.id === askedId && !facts.opponent && said.totals) {
+    let totals: Record<string, number> = {};
+    try {
+      totals = JSON.parse(said.totals) as Record<string, number>;
+    } catch {
+      totals = {};
+    }
+    const runnerUp = Object.entries(totals)
+      .filter(([id]) => id !== askedId && core.people.has(id as PersonId))
+      .sort(
+        ([aId, aVotes], [bId, bVotes]) =>
+          bVotes - aVotes || aId.localeCompare(bId),
+      )[P.zero]?.[P.zero];
+    const other = runnerUp ? core.people.get(runnerUp as PersonId) : undefined;
+    if (other)
+      facts.opponent = {
+        text: `${other.givenName} ${other.familyName}`,
+        sourceRecordIds: [moment.causeId, other.id],
+      };
+  }
   // A race's result for the asked (the morning after): the lines for a
   // winner and for the one who lost differ.
   if (said.winnerId && said.contestId)

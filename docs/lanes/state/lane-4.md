@@ -4,6 +4,20 @@
 
 Owner's word, Nov 4: screens tonight, no people. No new pictures: the art on main only.
 
+## Blocked: GitHub access (Nov 4)
+
+`gh auth status` reports "The token in GH_TOKEN is invalid", and the GitHub MCP connection fails ("Authorization header is badly formatted"). Git fetch and push still work, so this file stays current, but Lane 4 can't read or comment on PRs (#7233) until GitHub is reconnected. Step 0's trial pushed earlier: 91239f0848 on `trial/lane-4`.
+
+## Ready for the Confirmer (Nov 4)
+
+Replays on main by a session that built none of it; each line names the check and the town.
+
+- **Path 11, menus:** #7231 and #7238 merged. `MENUS_PLACE="Nebraska|Murray" node src/bench/menus-no-scroll.browser.mjs` (also Storrs, Meadow Lakes): every rail menu and tab at 1440x900 and 1024x768, nothing scrolls; Budgets is reported, not held (waits on the owner's Nov 1 mocks).
+- **Path 3, loading, Storrs (again):** #7244 merged. `node src/bench/loading.browser.mjs`: the map says "Storrs", the bar is full when it says Ready; headlines show in the last years only (the paper's archive starts near the start year).
+- **Path 10, who you are:** #7259 merged (no old school on a grown player's plate). Offers as scenes are still another lane's (`world-player-jobless-no-offers`).
+- **Path 6, clerk and Travel, Brookside:** by hand, replay 4d50e1f88df997f9: play on to Saturday, May 16, 2026, open Travel, read the closed card, Go; the scripted check (`office-hours.browser.mjs`, BENCH_JUMP) did not get through 16 months of scenes.
+- **Not ready:** 1 and 3 wait on the owner's look; 7 to 9 on his mock answers; 2, 4, 5 and 12 on the people system.
+
 ## Works
 
 - **Cloud trial, Nov 4:** install, `npm run bench`, New Game with a random place (Long Pine, Nebraska, 3129050) opens its first card with no page errors; screenshot on `trial/lane-4` (`docs/lanes/proof/trial-lane-4/`). `gh` has no valid token in this container (search only); git and the GitHub tools work.
@@ -28,13 +42,14 @@ Owner's word, Nov 4: screens tonight, no people. No new pictures: the art on mai
   - #7242 (merged): main red, families (executive.ts deep import of the filing clerk, from #7164): read through the elections entry. Left for owners: two real place names, one in the Confirmer's Lane 5 proof and one in merge-desk.md line 159, trip the english guard.
   - #7244 (merged): path 3 after the Confirmer's replay: the map says "Storrs", not "Storrs CDP" (loading and Parties); the bar is full when it says Ready. Headlines show only in the last frames, because the paper's archive starts near the start year; earlier years stay without news rather than invented. Replay: `node src/bench/loading.browser.mjs`.
   - #7246 (merged): main red, families again (my #7244 imported `place-lookup.ts`; now through `places.ts`).
+  - #7259 (merged): path 10 after the Confirmer's replay: Who you are names a school only while you are at one (a 39-year-old in Brookside showed their old school).
 - **Path 6 (Clerk and Travel), seen in passing:** in Oakland, South Carolina the filing office's Travel card read "Closed now. Opens Monday, February 2, 2026 at 8:00 AM", and Go opened the counter that morning at 8:00. Not yet replayed in Brookside at night. **Replay for Brookside (Nov 4, corrected):** the filing office has a Travel card only while a race the player may enter is open (owner, Oct 26: "the offices that take the player's filings are their own cards"). In Brookside (replay 4d50e1f88df997f9, player Kaitlyn Moran, 18 on January 23, 2025) the August 30, 2025 special race is not one she may enter; the first that is opens Friday, May 15, 2026 (the November 3, 2026 races, the county board's filed with the county clerk). So the replay is: play on to Saturday, May 16, 2026 (the office shut), open Travel, read the closed card, Go, and the visit plays Monday morning. **Scripted, not yet passing:** `office-hours.browser.mjs` on `lane-4/path6-brookside` pins the town (BENCH_PLACE=1009850) and jumps by the calendar (BENCH_JUMP=2026-05-16), leaving scenes, stops and election mornings as a non-voter. Four runs failed on the way through 16 months of scenes (a stop, an election morning twice, then an advance that never answered); per ruling 6 it goes back, with that branch for whoever takes it. Not blocked.
 - **Mock for the owner (through the CTO):** the campaign board, `docs/mocks/2026-11-04/campaign-board.html` and `.png` (path 9): the race with its standing and poll, signatures against needed and the clerk's verdict, the issues the race turns on, an inbox where each item opens its scene, and the team by role (names only until the people system). Building waits on his look; Lane 4 takes the next unit meanwhile.
 - **Issues and Budgets (unit 9):** no answer yet on the Nov 1 mocks (`play-first/mocks-issues-budgets`); only shared parts until he answers. The shared fit (#7231) already keeps Issues from scrolling; Budgets runs 13px over at 1024x768 and is left for his answer. `play-law-on-your-record-unreachable` reworks Issues, so it waits too.
 - **Agreement 2-4, second part:** the bill draft adapter scope accepted on `lane-2/bill-values` (356db0f4df); Lane 2 makes the edit, named under "Review: Lane 4".
 - **Filed for other lanes:** `tests-election-day-no-race-to-enter` and `elections-governor-margins-twice-real` (Lane 1). Mine: `play-town-moves-news-line` (needs Words for the line), `play-opening-home-beat-draws-nobody` (waits on people).
 - **Lesson (release):** a declaration id must not already be in `docs/release/consumed-changes.json`; an old pool item's id may be (#7206 renamed mine). Check before naming the file.
-- **Agreements:** 1-4 confirmed and amended (Lane 1's controls in `src/bench`). 2-4 accepted on `lane-2/opening-home-agreement` (`openHousing` before the first card).
+- **Agreements:** 3-4 confirmed (fresh news, the Journal, scene pictures; all three already on main). 1-4 confirmed and amended (Lane 1's controls in `src/bench`). 2-4 accepted on `lane-2/opening-home-agreement` (`openHousing` before the first card).
 
 ## Gaps that wait on people or new pictures (not blocked)
 

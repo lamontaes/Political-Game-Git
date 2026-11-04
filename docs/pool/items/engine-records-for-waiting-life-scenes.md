@@ -24,3 +24,5 @@ source: added with npm run pool -- add
 **Files.** src/core2 (the owning engines), src/director/data/situation-types.json (the director lead adds each match)
 
 **Notes.** TODO
+
+Lane 3 (Nov 4): of the plan's waiting producers (situation-types.json `awaitingProducer`), only `separated` and `election-day` have a core event today. The breakup type's `separated` cause is wired on branch `lane3/separated-producer` (cause rows on `family.separated`, selfNamed, with `breakup-separated.test.ts`), but it can't fire in a played town yet. `src/core2/modules/partnerships.ts` partners and parts only people living elsewhere; in-town partnering is `SG-LIVES-partner-town`. In four drawn towns (seed a73b529bcddc05f2: Westbrook, Maine; Norfolk, Virginia; Kernersville, North Carolina; Poland, Ohio), no watched couple out of 160 separated in a year. The branch opens as a PR when in-town separations are recorded. `married`, `school-started`, `started-dating`, `broke-up`, `next-step`, mentorship formed and `bribe-offer` have no event yet.
