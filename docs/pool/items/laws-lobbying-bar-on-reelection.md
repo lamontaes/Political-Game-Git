@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: lane-2/lobbying-departure
-pr:
+pr: #7160
 blocked-on:
 source: added with npm run pool -- add
 lead: laws
