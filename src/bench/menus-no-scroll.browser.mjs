@@ -4,10 +4,10 @@
 // (MENUS_PLACE "State|Town", default Meadow Lakes, Alaska), then every rail
 // menu and each of its tabs at 1440x900 and 1024x768. The sheet's body and
 // every part inside it hold what they show: nothing runs past its foot into a
-// scroller. Budgets is reported, not asserted: its layout waits on the
-// owner's answer to the Nov 1 mocks (play-budgets-every-government-political-
-// process-style). MENUS_SHOTS saves the sheets that run over, and those
-// MENUS_SHOT_TABS names.
+// scroller, Budgets included (its layout still waits on the owner's answer to
+// the Nov 1 mocks, play-budgets-every-government-political-process-style, but
+// it fits at both sizes). MENUS_SHOTS saves the sheets that run over, and
+// those MENUS_SHOT_TABS names.
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
 
@@ -20,7 +20,7 @@ const shots = process.env.MENUS_SHOTS;
 const pictured = new Set(
   (process.env.MENUS_SHOT_TABS ?? "").split(",").filter(Boolean),
 );
-const WAITING = new Set(["budgets"]);
+const WAITING = new Set();
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
 });

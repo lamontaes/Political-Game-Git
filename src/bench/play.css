@@ -4713,14 +4713,27 @@ select.release-pick {
   overflow: hidden;
 }
 
-/* A short window gives the budgets ring less room. */
+/* A short window gives the budgets ring less room: the ring's picture sizes
+   with its box, and a budget's two columns of rows sit closer. */
 @media (max-height: 780px) {
   .donut-chart {
     grid-template-columns: 120px minmax(0, 1fr);
   }
-  .donut-center {
+  .donut-center,
+  .donut-ring svg {
     width: 120px;
     height: 120px;
+  }
+  .budget-screen .donut-chart {
+    gap: 10px;
+  }
+  .budget-screen .donut-center,
+  .budget-screen .donut-ring svg {
+    width: 104px;
+    height: 104px;
+  }
+  .budget-screen .donut-key {
+    gap: 2px;
   }
 }
 /* The news paper is read inside its own box: the menu itself never scrolls as a page. */
