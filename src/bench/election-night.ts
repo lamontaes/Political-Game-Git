@@ -385,7 +385,12 @@ export function electionNight(core: CoreState, personId: string) {
       races: nation.map((row) => ({
         state: row.state,
         winnerParty: row.winnerParty,
-        marginPoints: Math.round(row.marginPoints * 10) / 10,
+        // Whole points, as a night's returns are read; a race closer than
+        // one point keeps its tenth so it never reads "by 0 points".
+        marginPoints:
+          row.marginPoints < 1
+            ? Math.round(row.marginPoints * 10) / 10
+            : Math.round(row.marginPoints),
       })),
     },
     scene: resultsScene(core, personId),
