@@ -5,10 +5,10 @@ area: director
 kind: feature
 priority: 2
 size: M
-status: claimed
-claimed-by: lane3/canvass-at-work
+status: open
+claimed-by:
 pr:
-blocked-on:
+blocked-on: Lane 1 record (agreements/1-3.md, met away from home)
 source: added with npm run pool -- add
 claimed-at: 2026-11-04T16:21:08.503Z
 ---
@@ -28,3 +28,5 @@ Lane 3 (Nov 4), the design (its dependency on place hours is done):
 - **Which scene (`circumstances.json`, Lane 3):** a `door-at-work` row (`recordFactEquals` `at: ["work"]`) staged at a new setting kind, `their-workplace`. The door rows take `at: ["home"]`.
 - **Where it plays (`scheduling.ts` `resolveSetting`, Lane 3):** `their-workplace` resolves to the counterpart's job's employer, with an opening in `director.json` `settingHours`.
 - **The picture (`src/bench/story.ts` `SETTINGS`, Lane 4):** `their-workplace` needs the workplace pictures, or the scene falls back to a home picture. Proposed in `agreements/3-4.md`. Not started on a branch.
+
+Lane 3 (Nov 4, evening), the design above was wrong and is replaced: the campaign engine opens a door only to an adult who is home at the minute of the knock (`src/core2/modules/campaigns.ts`, the `athome` filter in the door walk), so every `campaign.door` cause already means the resident was at home. Reading their shift in `doors.ts` would always say home, and staging the scene at a job would contradict the record. Meeting someone where they are needs the campaign engine to reach them there and record it. Asked of Lane 1 in `agreements/1-3.md` ("Asked by Lane 3, Nov 4: a resident met away from home"). Lane 3's side (the circumstance row, `their-workplace` in `resolveSetting`, the bank lines) follows Lane 1's record. Put back to open; the branch `lane3/canvass-at-work` holds nothing.

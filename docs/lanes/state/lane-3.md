@@ -2,6 +2,8 @@
 
 2 of 11 paths confirmed. Oldest open PR 2 days (#7127, opened Nov 2). Open: #7127, #7228 (its commits merged with #7236), #7264.
 
+- **Failed, Nov 4 evening (path 5, meeting a voter at work):** the design was wrong. The campaign engine opens doors only to residents home at the knock (`campaigns.ts` `athome`), so no record can place a canvass meeting at a job. Asked of Lane 1 in `agreements/1-3.md`; the item is back to open. Next: Lane 3 builds its side once Lane 1's record lands.
+
 - **Built, #7260 (Nov 4):** a debate's answers no longer stage campaign stops (`speechOccasion` reads `debate`). Stratton, Colorado (51249c3bebe88f3ee957:5): 2 debates and 23 campaign stops, none from a debate answer; without the fix, the same seed staged one.
 **Nov 4, late afternoon (merged):** #7260 (a debate is not a string of campaign stops), #7261 (campaign asks answered in the speaker's own words; on screen once Lane 4 makes the one-call change in `agreements/3-4.md`), #7263 (main red from #7258's bare 0 and 1, fixed), #7266 (relatives living elsewhere tell their news: "We're being evicted.", "Your uncle is seriously ill."). **The paper (unit 7):** the played-year table is on `words-paper-and-journal-everyday-life`. Seven everyday kinds print, but the same sentences repeat 20 to 56 times a year because every campaign gift and endorsement is its own story, a design call put to the CTO on the item.
 **Ready for the Confirmer (Nov 4, on main):**
