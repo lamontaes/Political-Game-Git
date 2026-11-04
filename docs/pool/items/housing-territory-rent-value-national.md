@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: one-map-housing
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T20:03:37.036Z
 ---
 
 **What.** housing.ts townOf gives a Puerto Rico place the county nation:PR because countyPopulationSharesForPlace returns nothing for its 7-digit geoid, so rentValueOf falls through to NATIONAL.rentValue ($1,418 rent, $393,149 value). The 78 municipio medians in housing.json countyRentValue (72xxx) are never read. Roadmap M1-05's check fails on it in Lomas, Puerto Rico (key 7246626, seed 591a7dea70e8601ff33ba68cdc050acfd4eee1b0b96f73c00c9606d9e7decf31): rent $913.75 against municipio medians $349 to $901, value $432,494 against $86,500 to $226,800.
