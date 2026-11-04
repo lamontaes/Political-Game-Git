@@ -7,9 +7,9 @@ milestone: play-first
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: lane-4/why-no-job
-pr:
+pr: #7205
 blocked-on: laws-opening-past-fits-the-chosen-age
 source: laws-and-effects lead, Oct 27 (from the work on laws-opening-past-fits-the-chosen-age)
 claimed-at: 2026-11-04T08:08:20.693Z
