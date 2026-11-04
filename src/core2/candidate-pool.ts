@@ -30,6 +30,7 @@ import type { ContestRow } from "./modules/elections";
 import { isOutsideOffice, type TermRow } from "./modules/offices";
 import { holderOf, type OfficialRow } from "./modules/officials";
 import type { PartyRow, TieRow } from "./modules/parties";
+import { placeStateKey } from "./place-map";
 
 export const CANDIDACY_MODULE_ID = "candidacy";
 export const CANDIDACY_PARAMETERS = rows as Readonly<Record<string, Parameter>>;
@@ -104,16 +105,8 @@ export interface RaceScope {
   readonly lean: number;
 }
 
-interface Town {
-  readonly stateKey: string;
-  readonly townPlaceId: string;
-}
-
 function offices(api: CoreAPI) {
   return api.moduleState(OFFICES);
-}
-function townOf(api: CoreAPI): Town {
-  return offices(api).table("loaded").get("town") as unknown as Town;
 }
 function officialRows(api: CoreAPI): readonly OfficialRow[] {
   if (!api.state.modules.has(OFFICIALS)) return [];
@@ -249,7 +242,9 @@ export function raceScope(api: CoreAPI, contest: ContestRow): RaceScope {
     .table("offices")
     .get(contest.officeId) as unknown as OfficeInput | undefined;
   const national = office?.kind === "president";
-  const town = townOf(api);
+  const town = {
+    stateKey: placeStateKey(api.state.placeMetadata?.placeKey) ?? "",
+  };
   const counts = countsOf(api);
   const holder = officialRows(api).find(
     (row) => row.seatId === contest.seatId && row.ended === null,
