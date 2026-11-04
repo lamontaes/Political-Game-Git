@@ -7,7 +7,7 @@ milestone: play-first
 kind: wiring
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: lane-2/heard-case-shared-rule
 pr: #7230
 blocked-on:
