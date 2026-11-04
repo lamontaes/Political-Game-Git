@@ -11,6 +11,7 @@
  * guessed here: the check reports them.
  */
 import { writeFileSync } from "node:fs";
+import geography from "../../../data/research/geography/state-reference.json" with { type: "json" };
 import { corePlaceByKey, corePlaceStateIdentities } from "../place-lookup";
 import { placeLocalities } from "../places";
 import { municipiosForPlace } from "../gov-rules/county-governing-body-rules";
@@ -25,14 +26,25 @@ import { NATIONAL_COUNTIES_ROWS } from "../reference/national-counties.generated
 type Row = [string, string, string | null, string, string];
 const rows: Row[] = [["US", "country", null, "United States", "nation"]];
 
-for (const state of corePlaceStateIdentities())
+// A state's form is its kind (state, district or territory); "commonwealth"
+// is only what its name calls it.
+const KIND_FORM: Readonly<Record<string, string>> = {
+  state: "state",
+  "federal-district": "district",
+  territory: "territory",
+};
+for (const state of corePlaceStateIdentities()) {
+  const kind = (
+    geography.places as Record<string, { jurisdictionKind: string }>
+  )[state.usps]?.jurisdictionKind;
   rows.push([
     state.jurisdictionKey,
     "state",
     "US",
     state.name,
-    state.levelWord.toLowerCase(),
+    KIND_FORM[kind ?? ""] ?? "state",
   ]);
+}
 
 const countyIds = new Set<string>();
 for (const [geoid, name, usps] of JSON.parse(NATIONAL_COUNTIES_ROWS) as [
