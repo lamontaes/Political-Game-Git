@@ -1,7 +1,7 @@
 import { ageOnDate, daysBetween, makeIsoDate } from "../core2/kernel/dates";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { realLocalities } from "../core2/places";
-import { buildPopulation } from "../core2/population";
+import { buildPopulation, inHousehold } from "../core2/population";
 import { enrichCivicInputs } from "../core2/civic-inputs";
 import { createOpeningFinance } from "../core2/opening-finance";
 import { DEFAULT_DATA } from "../core2/data";
@@ -110,8 +110,9 @@ export function entrantOf(
   input: CoreInput,
   placeId: string,
   birthDate?: string,
+  gender?: string,
 ): string {
-  return entrantChoice(input, placeId, birthDate).id;
+  return entrantChoice(input, placeId, birthDate, gender).id;
 }
 
 /**
@@ -125,11 +126,19 @@ export function entrantChoice(
   input: CoreInput,
   placeId: string,
   birthDate?: string,
+  gender?: string,
 ): { id: string; age: number; estimated: boolean } {
-  if (birthDate) return entrantBornNear(input, placeId, makeIsoDate(birthDate));
+  if (birthDate)
+    return entrantBornNear(input, placeId, makeIsoDate(birthDate), gender);
   const at = makeIsoDate(input.startedAt);
+  const household = inHousehold(input);
   const residents = input.people
-    .filter((person) => person.placeId === placeId && person.tier !== "husk")
+    .filter(
+      (person) =>
+        person.placeId === placeId &&
+        person.tier !== "husk" &&
+        household(person),
+    )
     .map((person) => ({
       id: person.id,
       age: ageOnDate(makeIsoDate(person.birthDate), at),
@@ -174,6 +183,7 @@ function entrantBornNear(
   input: CoreInput,
   placeId: string,
   chosen: ReturnType<typeof makeIsoDate>,
+  gender?: string,
 ): { id: string; age: number; estimated: boolean } {
   const at = makeIsoDate(input.startedAt);
   const born = new Map(input.people.map((row) => [row.id, row.birthDate]));
@@ -192,8 +202,14 @@ function entrantBornNear(
         return ageOnDate(chosen, makeIsoDate(other)) >= minParentAge;
       return true;
     });
+  const household = inHousehold(input);
   const nearest = input.people
-    .filter((person) => person.placeId === placeId && person.tier !== "husk")
+    .filter(
+      (person) =>
+        person.placeId === placeId &&
+        person.tier !== "husk" &&
+        household(person),
+    )
     .map((person) => ({
       person,
       apart: Math.abs(daysBetween(chosen, makeIsoDate(person.birthDate))),
@@ -201,7 +217,16 @@ function entrantBornNear(
     .sort(
       (a, b) => a.apart - b.apart || a.person.id.localeCompare(b.person.id),
     );
-  const pick = nearest.find((row) => kinFit(row.person)) ?? nearest[0];
+  // A woman or a man is drawn from the residents of that sex, so the partner
+  // the place gave the resident is one the chosen gender fits (owner, Nov 1,
+  // v0.73.0: "it has chosen to make my character gay again"); nonbinary and
+  // a place with none of that sex at the age take the nearest birthday.
+  const sexed =
+    gender === "female" || gender === "male"
+      ? nearest.filter((row) => row.person.looks?.gender === gender)
+      : [];
+  const pool = sexed.length ? sexed : nearest;
+  const pick = pool.find((row) => kinFit(row.person)) ?? pool[0];
   if (!pick) throw new Error("No resident here.");
   const age = ageOnDate(makeIsoDate(pick.person.birthDate), at);
   return {
@@ -235,6 +260,13 @@ type BuildOptions = {
    * who turns 18, so their past fits the age they chose.
    */
   playerBirthDate?: string;
+  /**
+   * With `playerBirthDate`: the gender the creator chose. The player is a
+   * resident of that sex where the place has one at the age, so the partner
+   * and household drawn for the resident are the ones that fit the player
+   * (a woman drawn with a husband is not made a man beside him).
+   */
+  playerGender?: string;
   /** A custom world (M6-04): what the player changed from real data. */
   settings?: WorldSettings;
   /**
@@ -349,6 +381,7 @@ function* benchWorldStages(
       input,
       place.context.jurisdiction.id,
       options.playerBirthDate,
+      options.playerGender,
     );
     // A town opens at its real Census size: the sample is the
     // people generated, and each counted household stands for as many real

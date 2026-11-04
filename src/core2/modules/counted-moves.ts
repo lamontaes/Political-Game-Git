@@ -459,6 +459,22 @@ export const stateOfCountedPlace = (placeId: string) =>
 const homeStateOf = (rt: Pick<Runtime, "townState">, placeId: string) =>
   stateOfCountedPlace(placeId) ?? rt.townState;
 
+/**
+ * The state a household of the world's places lives in, by the same rule as
+ * homeStateOf: its place's state, else the town's (the place id of the
+ * town's governing unit, which the lookup may not know).
+ */
+export function householdStateOf(
+  core: CoreState,
+  placeId: string,
+): string | undefined {
+  const town = townPlaceOf(core);
+  return (
+    stateOfCountedPlace(placeId) ??
+    (town ? stateOfCountedPlace(town) : undefined)
+  );
+}
+
 function month(api: CoreAPI): void {
   const core = api.state as CoreState;
   const residents = residentsRuntime(core);
@@ -491,7 +507,8 @@ function month(api: CoreAPI): void {
       let people = 0,
         held = 0;
       for (const h of store.liveHouseholds()) {
-        if (h.placeId !== placeId) continue;
+        // Group-quarters rooms move with their institution, not the ACS rates.
+        if (h.placeId !== placeId || h.tenure === "group") continue;
         const n = store.weightedCount(h);
         people += n;
         held += n * Math.exp(-holdOf(residents, h, date, adultAge));
@@ -616,6 +633,9 @@ function month(api: CoreAPI): void {
     }
   >();
   for (const h of store.liveHouseholds()) {
+    // An institution admits and discharges its residents (not built yet):
+    // nobody leaves group quarters by the households' leaving rates.
+    if (h.tenure === "group") continue;
     const home = homeOf(h.placeId);
     if (!rt.states.has(home)) continue;
     // Real people: a record stands for as many households as its weight says.
@@ -896,11 +916,13 @@ function month(api: CoreAPI): void {
   // People arriving in the town's state go to its counted places by their share.
   const home = rt.states.get(rt.townState);
   const placePeople = new Map<PlaceId, number>();
+  // Newcomers come to households, not to group quarters.
   for (const h of store.liveHouseholds())
-    placePeople.set(
-      h.placeId,
-      (placePeople.get(h.placeId) ?? 0) + store.weightedCount(h),
-    );
+    if (h.tenure !== "group")
+      placePeople.set(
+        h.placeId,
+        (placePeople.get(h.placeId) ?? 0) + store.weightedCount(h),
+      );
   const counted = [...placePeople.values()].reduce((a, b) => a + b, 0);
   // The full people living in those places are residents too: newcomers
   // arrive in proportion to everyone who lives there at the arriving age, not
@@ -913,10 +935,15 @@ function month(api: CoreAPI): void {
     agedHere.set(placeId, row);
   };
   for (const h of store.liveHouseholds())
-    for (const m of store.countedMembers(h))
-      addResident(h.placeId, ageOn(store.born[m]!, date), store.weightOf(h));
+    if (h.tenure !== "group")
+      for (const m of store.countedMembers(h))
+        addResident(h.placeId, ageOn(store.born[m]!, date), store.weightOf(h));
   for (const person of core.people.values())
-    if (person.alive && placePeople.has(person.placeId))
+    if (
+      person.alive &&
+      placePeople.has(person.placeId) &&
+      !core.households.get(person.householdId)?.quarters
+    )
       addResident(person.placeId, ageOn(person.birthDate, date), 1);
   const living = [...agedHere.values()].reduce(
     (n, row) => n + row.reduce((a, c) => a + c, 0),
@@ -1069,6 +1096,10 @@ function arrivals(
   const adultAge = api.parameter("votingAge");
   const templates = new Map<PlaceId, Map<number, CountedHousehold[]>>();
   for (const h of store.liveHouseholds()) {
+    // A newcomer copying a room would join group quarters, and institutions
+    // admit nobody yet: their rooms only empty as residents die or are met.
+    // stopgapId: SG-GQ-no-turnover
+    if (h.tenure === "group") continue;
     // A household without a home is no shape a newcomer arrives in.
     if (h.tenure === "none") continue;
     const members = store.countedMembers(h);
@@ -1202,6 +1233,8 @@ function unplacedRates(
   const workers = new Map<PlaceId, number>(),
     open = new Map<PlaceId, number>();
   for (const h of residents.store.liveHouseholds()) {
+    // Newcomers are households: the rooms' pool is apart from theirs.
+    if (h.quarters) continue;
     workers.set(h.placeId, (workers.get(h.placeId) ?? 0) + h.unplacedWorkers);
     open.set(
       h.placeId,

@@ -5,14 +5,13 @@ area: words
 kind: bug
 priority: 1
 size: M
-status: in-pr
-claimed-by: words/person-history-story
+status: done
+claimed-by:
 pr: #7090
 blocked-on:
 source: owner playtest of v0.73.0, Nov 1, 22:40 UTC (second batch)
 lead: words
 milestone: play-first
-claimed-at: 2026-11-01T22:42:18.263Z
 ---
 
 **What.** Owner, Nov 1 playtest of v0.73.0, on Angela Moseley's card: "Also, the people's histories are still terrible. Elected legislator, it needs to be told like a story. How many times do I have to say that? And I don't like just the top part. Under her name, she told legislator. That's not good. There needs to be more text." The History tab reads "1990 Born.", "2001 Started middle school.", "2004 Started high school.", then "Elected legislator." three times (2011, 2013, 2015), and the header says only "Seat held: Legislator, Since 2025", which contradicts the elections it lists. The card should read like a short biography from the same records: where she grew up, what she studied and did for work, how she came to run, each race told with its office, district and how it went, and a line or two under the name that say who she is now.
@@ -30,3 +29,5 @@ claimed-at: 2026-11-01T22:42:18.263Z
 **Files.** data/english/parts/person-history.json, src/bench/play.mjs, src/bench/person-card.browser.mjs
 
 **Notes.** Filed by the CTO from the owner's v0.73.0 playtest, second batch (Nov 1, 22:40 UTC, five screenshots, a game in the U.S. Virgin Islands). Read: OWNER-DECISIONS (Oct 29 menus redesigned the way Government was; Oct 29 Political Process baseline; one history), the pool for twins.
+
+Words handoff, Nov 2 02:50 UTC (the account at its weekly limit): PR #7090, branch words/person-history-story, head 0288132116, sent back by Checker 4 (Nov 2 01:00). card-history.test.ts fails at GOLDEN_PATH_SEED=5988e88997d38b1e (Lyndonville, Vermont): term:seat:gus2025:176534:board:1:2025-01-20 is in no history line's `records`. Next step: make tellHistory's folded run of terms in src/bench/card.ts carry every term id of the run in its line's `records`, rerun that seed, push, and message Checker 4 for the recheck.

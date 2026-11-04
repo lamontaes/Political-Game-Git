@@ -6,11 +6,11 @@ kind: bug
 priority: 1
 size: M
 status: open
-claimed-by: claude/press-staff-counted
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T07:15:58.730Z
+claimed-at:
 ---
 
 **What.** In Bascom, Florida with seed 78df996a2a76eb81378fcb7c5c00238bb398b33a, advanceCore throws 'Not in the wider population: person_4f9db9d9b815de95' from fillInPerson (state.ts:1997) called by refreshPressStaff (press.ts, the loop over countedJobsOf(core, outlet.organizationId)) during pressWeek. A counted job names a worker no household in the counts holds and no full person is left to return, so the press week stops the game. Find which step leaves a counted job pointing at a person who has left the counts (a move, a death or a demotion that does not clear the job), and clear or reassign the job at that step rather than catching the error in the press loop.
@@ -26,3 +26,7 @@ claimed-at: 2026-10-20T07:15:58.730Z
 Oct 20, diagnosis (claude/press-staff-counted): the crash reproduces only on the words/word-pack head (PR #4626, older than main's latest residents.ts and counted-groups.ts), not on current main with the same seed. The failing worker is a husk person whose counted household is already marked Filled and gone (a demoted household whose member index still points at the old, filled record), so `takeResidentHousehold` finds nothing; `refreshPressStaff` calls `fillInPerson` directly on a husk. Merging main into the word-pack branch should clear it; that merge collides on two calibration systems (main's `english-calibration.ts` and `data/english/calibration.json` against the branch's `calibration.ts`), which is the Words session's call. Drop this item once PR #4626 has merged main and `electoral-scenes.test.ts` passes there (Bascom, Florida, seed 78df996a2a76eb81378fcb7c5c00238bb398b33a).
 
 Oct 25 audit: unblocked; words-pack-scene-talk is done.
+
+Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/press-staff-counted` (2026-10-20). Cleared from the front matter and kept here.
+
+Lane 5, Nov 4: replayed on main at 89f0d4d5c1 with `GOLDEN_PATH_SEED=78df996a2a76eb81378fcb7c5c00238bb398b33a npx vitest run src/director/electoral-scenes.test.ts`, 90 s. No "Not in the wider population" throw: Bascom, Florida (1203725) plays through the press weeks. The second case fails on a different check, filed as `tests-electoral-scenes-speech-crowd-member`. `refreshPressStaff` still calls `fillInPerson` directly on a counted job's worker (`src/core2/modules/press.ts:3473`), so the throw stays possible wherever a counted job outlives its worker, but no current seed shows it. Left open for the by-draw sweep to catch a seed.

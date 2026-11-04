@@ -5,13 +5,14 @@ area: play
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: words/campaign-walkthrough
+pr: #7103
 blocked-on:
 source: owner, Nov 1 23:30 UTC (playtest of v0.73.0, Northampton, Massachusetts)
 lead: words
 milestone: play-first
+claimed-at: 2026-11-01T23:58:52.279Z
 ---
 
 **What.** Owner, Nov 1: "it should be the first time in a game that the player files for an office. It should start this quote unquote tutorial... do you know how to run a campaign? So that's essentially saying, do you want the tutorial, yes or no? And then it could be like, your goal is to get X amount of signatures to get on the ballot. You do that by doing this. Now, you'll need money... this is what you can spend money [on]. You can get TV ads. Etc. You may want to do media... That's how the tutorials should work in the game." Today the clerk's visit ends with "Your petition is out for signatures" and Continue sends the player home with nothing explained. On the first filing of a life, the clerk (or the scene's other person) asks whether the player knows how to run a campaign. A yes-to-help walks through the goal (the signatures the place's filing rules require, by the deadline), how to get them (doors, events, volunteers), money (raising it and what it buys: ads, mail, staff) and media, each figure read from the place's records, and ends where the player can start.

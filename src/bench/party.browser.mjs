@@ -4,6 +4,7 @@
 // their views fit it, and the join buttons go away.
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
+import { playOpening } from "./start-life.mjs";
 
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
@@ -33,6 +34,11 @@ try {
     await page.locator("#new-life").click();
     await page.locator("#new-advanced").click();
     await page.locator("#new-world").click();
+    // The opening plays first, as a player sees it (start-life.mjs).
+    await playOpening(
+      page,
+      (await (await response).json()).sceneMomentId ?? null,
+    );
     const r = await response;
     assert.equal(r.status(), 200);
     lastLife = r.url();
@@ -120,6 +126,17 @@ try {
       `${text}: the fit in words`,
     );
     assert.ok(await line.getAttribute("data-tie-id"), "the tie record id");
+    // The line says what it stands on (owner, Nov 1: "How do you know?").
+    assert.match(
+      text,
+      /Registered .+ since .+\d{4}/,
+      `${text}: the registration`,
+    );
+    assert.match(
+      text,
+      /views against the party's platform/,
+      `${text}: the fit`,
+    );
     assert.equal(
       await sheet.getByRole("button", { name: /^Join / }).count(),
       0,
@@ -134,6 +151,11 @@ try {
     await join.first().waitFor();
     const offered = await join.count();
     assert.ok(offered > 0, "a party to join");
+    assert.match(
+      await sheet.innerText(),
+      /not registered with a party/i,
+      "an unregistered player is not told they are in a party",
+    );
     assert.equal(await sheet.locator("[data-tie-id]").count(), 0);
     const label = (await join.first().innerText()).replace(/^Join /, "");
     const joined = page.waitForResponse(

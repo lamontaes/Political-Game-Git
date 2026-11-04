@@ -1,4 +1,5 @@
 import { townLean } from "./campaigns";
+import { keepsWhy } from "../why-kept";
 import { lawApplied } from "../law-reach/applied";
 import type { OfficeInput } from "../offices-local";
 import { snapshotExplicitControlV1 } from "../player-control-state-v1";
@@ -207,6 +208,14 @@ export interface BillRow {
     readonly workersRaised: number;
     readonly annualPayMinor: number;
     readonly note: string;
+    /** A minimum-wage raise's dated steps, each costed over the step before (gov-fiscal-note-every-step). */
+    readonly steps?: readonly {
+      readonly date: string | null;
+      readonly floorMinor: number;
+      readonly workersRaised: number;
+      readonly annualPayMinor: number;
+      readonly commitmentIds: readonly string[];
+    }[];
   };
   readonly authority: readonly Authority[];
   readonly status:
@@ -324,10 +333,22 @@ export const LEGISLATURE_MODULE: CoreModule = {
       },
       /** The evening before a floor vote, the sponsor's ask of a member the bill needs, by the record that names it. */
       voteAsks: {},
+      /**
+       * Where a colleague stands on a bill, as someone learned it: in
+       * conversation, from the record (an aide's brief) or the news. The
+       * latest a learner holds of a member on a bill; the office panel reads
+       * it back (gov-m3-02-two-stakes-in-a-played-world).
+       */
+      learnedStakes: {
+        indexes: { byLearner: { fields: ["learnerId", "billId"] } },
+      },
     },
   },
   onCalendarWork: legislatureCalendar,
-  onDay: (api) => askBeforeTheRoll(api),
+  onDay: (api) => {
+    committeesBeforeTheFloor(api);
+    askBeforeTheRoll(api);
+  },
   eventKinds: ["scene.reply"],
   onEvent: (api, event) => keepReply(api, event),
 };
@@ -499,6 +520,28 @@ function replyPull(
  * ask is staged from and the member's answer cites (`keepReply`). A bill the
  * asks could not carry, or one already passing, is asked about by no one.
  */
+/**
+ * The evening before a floor day, each bill the floor takes up goes before its
+ * first chamber's committee on a day of its own, as a scheduled bill does
+ * (`holdCommittee`): the committee hears it, marks it up and reports it or
+ * holds it, and a held bill leaves the agenda before anyone is asked about it
+ * (`askBeforeTheRoll`). A bill whose committee already met is not taken
+ * again, and a body with no committee meets on the floor day as it did.
+ */
+function committeesBeforeTheFloor(api: CoreAPI): void {
+  const floorDate = addDays(makeIsoDate(api.state.date), 1);
+  // The same agenda the sponsor's asks read (floorAgendaOn): the weekly
+  // floor, a meeting's agenda, and a bill scheduled for tomorrow's sitting
+  // (scheduleVote books no committee ahead when the sitting is tomorrow).
+  for (const bill of floorAgendaOn(api, floorDate)) {
+    const id = bill.id;
+    const first = chambersOf(api, bill)[0];
+    if (!first || table(api, "committees").get(`committee:${id}:${first}`))
+      continue;
+    holdCommittee(api, id);
+  }
+}
+
 function askBeforeTheRoll(api: CoreAPI): void {
   const player =
     snapshotExplicitControlV1(api.state).personId ??
@@ -520,7 +563,15 @@ function askBeforeTheRoll(api: CoreAPI): void {
       committeeRecords(api, bill.id).some((c) => !c.reported)
     )
       continue;
-    for (const chamber of chambersOf(api, bill)) {
+    const chambers = chambersOf(api, bill);
+    for (const chamber of chambers) {
+      // A later chamber votes the same floor day, and only if the first
+      // passes, so its members are not asked the evening before.
+      // stopgapId: SG-GOV-later-chamber-same-day
+      if (chamber !== chambers[0]) {
+        api.stopgap("SG-GOV-later-chamber-same-day");
+        continue;
+      }
       const seats = members(api, chamber);
       if (!seats.some((term) => memberKey(term) === player)) continue;
       let margin = 0;
@@ -666,22 +717,81 @@ export function employerCosts(
   api: CoreAPI,
   bill: Pick<BillRow, "provisions">,
 ): ReadonlyMap<string, { workers: number; annualMinor: number }> {
-  const wage = bill.provisions.find(
-    (p) => p.kind === "law-amount" && p.series === "minimum-wage",
-  );
   const out = new Map<string, { workers: number; annualMinor: number }>();
-  if (!wage) return out;
-  for (const c of (api.state as CoreState).work.commitments.values())
-    if (c.endsAt === undefined && c.hourlyMinor < wage.value) {
+  const raised = new Map<string, Set<string>>();
+  for (const step of wageStepCosts(api, bill.provisions))
+    for (const c of step.commitments) {
       const row = out.get(c.organizationId) ?? { workers: 0, annualMinor: 0 };
+      const ids = raised.get(c.organizationId) ?? new Set<string>();
+      ids.add(c.id);
+      raised.set(c.organizationId, ids);
       out.set(c.organizationId, {
-        workers: row.workers + 1,
+        workers: ids.size,
+        annualMinor: row.annualMinor + c.annualMinor,
+      });
+    }
+  return out;
+}
+
+/** One dated step of a minimum-wage raise and what it adds to the open commitments under it. */
+export interface WageStepCost {
+  /** The day the step takes effect; null for a section with no date (on enactment). */
+  readonly date: string | null;
+  /** The floor the step sets, in minor units an hour. */
+  readonly floorMinor: number;
+  readonly commitments: readonly {
+    readonly id: string;
+    readonly organizationId: string;
+    /** What this step adds to the commitment's yearly pay over the step before. */
+    readonly annualMinor: number;
+  }[];
+  readonly annualPayMinor: number;
+}
+
+/**
+ * A minimum-wage raise costed step by step (gov-fiscal-note-every-step): the
+ * bill's minimum-wage sections in date order, each step's raise over the step
+ * before (or over the commitment's own pay, where that is higher) for the
+ * open commitments paid under it, at their scheduled hours. The one counting
+ * rule for the fiscal note and the employers' stakes (`employerCosts`).
+ */
+export function wageStepCosts(
+  api: CoreAPI,
+  provisions: readonly Provision[],
+): readonly WageStepCost[] {
+  const steps = provisions
+    .filter((p) => p.kind === "law-amount" && p.series === "minimum-wage")
+    .slice()
+    .sort((a, b) =>
+      (a.effectiveDate ?? "").localeCompare(b.effectiveDate ?? ""),
+    );
+  if (!steps.length) return [];
+  const open = [...(api.state as CoreState).work.commitments.values()].filter(
+    (c) => c.endsAt === undefined,
+  );
+  const out: WageStepCost[] = [];
+  let before = 0;
+  for (const step of steps) {
+    const commitments: WageStepCost["commitments"][number][] = [];
+    for (const c of open) {
+      const from = Math.max(before, c.hourlyMinor);
+      if (step.value <= from) continue;
+      commitments.push({
+        id: c.id,
+        organizationId: c.organizationId,
         annualMinor: Math.round(
-          row.annualMinor +
-            (wage.value - c.hourlyMinor) * (c.expectedWeeklyMinutes / 60) * 52,
+          (step.value - from) * (c.expectedWeeklyMinutes / 60) * 52,
         ),
       });
     }
+    out.push({
+      date: step.effectiveDate ?? null,
+      floorMinor: step.value,
+      commitments,
+      annualPayMinor: commitments.reduce((n, c) => n + c.annualMinor, 0),
+    });
+    before = Math.max(before, step.value);
+  }
   return out;
 }
 
@@ -1344,6 +1454,42 @@ function billLevel(api: CoreAPI, bill: BillRow): LawLevel {
 }
 
 /**
+ * The questions a bill changes, once each, with the section that changes
+ * each last. A phase-in's dated steps on one law are one change, weighed at
+ * its last step against the law in force, so a member weighs the question
+ * once however many steps reach it (pool item gov-phase-in-weighed-once). A
+ * section with no date of its own takes effect with the bill, before any
+ * dated step; of two on one date, the later in the bill's text.
+ */
+function billStances(
+  api: CoreAPI,
+  bill: BillRow,
+): readonly {
+  readonly question: string;
+  readonly position: number;
+  readonly provision: Provision;
+}[] {
+  const level = billLevel(api, bill);
+  const last = new Map<
+    string,
+    { question: string; position: number; provision: Provision; on: string }
+  >();
+  for (const provision of bill.provisions) {
+    const stance = provisionStance(api, provision, level);
+    if (!stance) continue;
+    const on = provision.effectiveDate ?? "";
+    const seen = last.get(stance.question);
+    if (!seen || on >= seen.on)
+      last.set(stance.question, { ...stance, provision, on });
+  }
+  return [...last.values()].map(({ question, position, provision }) => ({
+    question,
+    position,
+    provision,
+  }));
+}
+
+/**
  * Whether the town may pass a provision: a minimum wage needs the state's
  * local-minimum-wage authority (read through the lifted law-in-force rule);
  * a local income or sales tax needs the state's recorded permission; a policy
@@ -1465,22 +1611,22 @@ function numberAndForm(
  * fiscal note and each employer's cost are one computation.
  */
 function costOf(api: CoreAPI, provisions: readonly Provision[]) {
-  if (
-    !provisions.some(
-      (p) => p.kind === "law-amount" && p.series === "minimum-wage",
-    )
-  )
+  const steps = wageStepCosts(api, provisions);
+  if (!steps.length)
     return { workersRaised: 0, annualPayMinor: 0, note: "no pay effect" };
-  let workersRaised = 0;
-  let annualPayMinor = 0;
-  for (const row of employerCosts(api, { provisions }).values()) {
-    workersRaised += row.workers;
-    annualPayMinor += row.annualMinor;
-  }
+  const raised = new Set(steps.flatMap((s) => s.commitments.map((c) => c.id)));
   return {
-    workersRaised,
-    annualPayMinor,
-    note: "town jobs paid under the new floor, at their scheduled hours",
+    workersRaised: raised.size,
+    annualPayMinor: steps.reduce((n, s) => n + s.annualPayMinor, 0),
+    note: "town jobs paid under the new floor, at their scheduled hours, every step",
+    // Each dated step's raise over the step before, by commitment.
+    steps: steps.map((s) => ({
+      date: s.date,
+      floorMinor: s.floorMinor,
+      workersRaised: s.commitments.length,
+      annualPayMinor: s.annualPayMinor,
+      commitmentIds: s.commitments.map((c) => c.id),
+    })),
   };
 }
 
@@ -2722,10 +2868,9 @@ function recordConsistency(
   bill: BillRow,
 ): number {
   let sum = 0;
-  for (const p of bill.provisions) {
-    const series = provisionSeries(p);
-    const stance = provisionStance(api, p, billLevel(api, bill));
-    if (!series || !stance) continue;
+  for (const stance of billStances(api, bill)) {
+    const series = provisionSeries(stance.provision);
+    if (!series) continue;
     const last = votesOf(api, memberId)
       .filter((v) => v.stance.question === stance.question)
       .at(-1);
@@ -2754,10 +2899,7 @@ function positionOn(
   memberId: string,
 ): MemberPosition {
   const official = officialOf(api, memberId);
-  const stances = bill.provisions.flatMap((provision) => {
-    const stance = provisionStance(api, provision, billLevel(api, bill));
-    return stance ? [stance] : [];
-  });
+  const stances = billStances(api, bill);
   // A state or federal official weighs their own reasons (OPUS-OFFICIALS);
   // a town member their own views and the town's lean.
   const parts = official ? officialParts(api, official, stances) : null;
@@ -2867,6 +3009,8 @@ export function learnStake(
   billId: string,
   memberId: string,
   route: "conversation" | "record" | "news",
+  /** Who learns it: the sponsor in conversation by default, or the member an aide briefs. */
+  learnerId?: string,
 ): MemberPosition {
   const bill = table(api, "bills").get(billId) as unknown as BillRow;
   if (
@@ -2875,7 +3019,48 @@ export function learnStake(
     memberId !== bill.sponsorId
   )
     api.relationship(bill.sponsorId, memberId, "contact", 0.05);
-  return memberPosition(api, billId, memberId);
+  const position = memberPosition(api, billId, memberId);
+  const learner = learnerId ?? bill.sponsorId;
+  // Kept for the player and the people they deal with, as reasons are.
+  if (!keepsWhy(api.state as CoreState, learner)) return position;
+  table(api, "learnedStakes").put({
+    id: `stake:${billId}|${memberId}|${learner}`,
+    billId,
+    memberId,
+    learnerId: learner,
+    route,
+    date: api.state.date,
+    total: position.total,
+  } satisfies LearnedStake as unknown as ModuleRow);
+  return position;
+}
+
+/** A colleague's stake on a bill as someone learned it, and how. */
+export interface LearnedStake {
+  readonly id: string;
+  readonly billId: string;
+  readonly memberId: string;
+  readonly learnerId: string;
+  readonly route: "conversation" | "record" | "news";
+  readonly date: string;
+  /** The member's position on the bill when learned: for above zero, against below. */
+  readonly total: number;
+}
+
+/** The stakes a person has learned on a bill, by member. */
+export function learnedStakesOf(
+  api: CoreAPI,
+  learnerId: string,
+  billId: string,
+): readonly LearnedStake[] {
+  return (
+    table(api, "learnedStakes").query("byLearner", [
+      learnerId,
+      billId,
+    ]) as unknown as LearnedStake[]
+  )
+    .slice()
+    .sort((a, b) => a.memberId.localeCompare(b.memberId));
 }
 
 /** A request that a member carry a bill, the member's answer and why. */
@@ -3277,6 +3462,58 @@ export function obligationsOf(
   ).filter((o) => o.owedBy === personId);
 }
 
+/** A favor or backing a sponsor owes a member who took their deal, until it is called in. */
+export interface ObligationRow {
+  readonly id: string;
+  readonly owedBy: string;
+  readonly owedTo: string;
+  readonly kind: string;
+  readonly billId: string;
+  readonly measure: string;
+  readonly date: string;
+  readonly settled: boolean;
+  /** The record that called it in (an endorsement given), and when. */
+  readonly settledBy?: string;
+  readonly settledOn?: string;
+}
+
+/** The favors still owed to a person: the deals they took that the sponsor has not repaid (campaign-favor-called-in). */
+export function obligationsOwedTo(
+  api: CoreAPI,
+  personId: string,
+): readonly ObligationRow[] {
+  if (!api.state.modules.has(LEGISLATURE_MODULE_ID)) return [];
+  return (table(api, "obligations").rows() as unknown as ObligationRow[])
+    .filter((o) => o.owedTo === personId && !o.settled)
+    .sort((a, b) => a.id.localeCompare(b.id));
+}
+
+/** The favors a person still owes one other person. */
+export function obligationsOwedBetween(
+  api: CoreAPI,
+  owedBy: string,
+  owedTo: string,
+): readonly ObligationRow[] {
+  return obligationsOwedTo(api, owedTo).filter((o) => o.owedBy === owedBy);
+}
+
+/** A favor repaid: the record that called it in settles it. */
+export function settleObligation(
+  api: CoreAPI,
+  obligationId: string,
+  recordId: string,
+): void {
+  const row = table(api, "obligations").get(obligationId) as unknown as
+    ObligationRow | undefined;
+  if (!row || row.settled) return;
+  table(api, "obligations").put({
+    ...row,
+    settled: true,
+    settledBy: recordId,
+    settledOn: api.state.date,
+  } as unknown as ModuleRow);
+}
+
 /** The bill's chambers, in order: the town's body, or its legislature's chambers starting where it was introduced. */
 export function chambersOf(api: CoreAPI, bill: BillRow): readonly string[] {
   const office = bodyOf(api, bill.bodyOfficeId);
@@ -3511,9 +3748,8 @@ function chamberVote(
           ...(d.stage === undefined ? {} : { stage: d.stage }),
         })),
     } as unknown as ModuleRow);
-    for (const provision of bill.provisions) {
-      const stance = provisionStance(api, provision, billLevel(api, bill));
-      if (stance && vote !== "abstain" && vote !== "absent")
+    for (const stance of billStances(api, bill)) {
+      if (vote !== "abstain" && vote !== "absent")
         recordVote(api, {
           personId: key,
           body: officeId,

@@ -497,20 +497,38 @@ function conditionsOf(core: CoreState): Conditions {
   return built;
 }
 
-/** A household's monthly income from its records: its members' open jobs and recorded income awards. */
-function householdIncome(
+/**
+ * A household's monthly income from its records: its living members' open
+ * jobs and recorded income awards, before taxes. Moves weighs its rent or
+ * mortgage against it, and campaigns' `giftBudget` reads what is left of it
+ * after the taxes and the bills. It is not the only reader of a household's
+ * income: residents (a counted household's yearly income), housing (the
+ * opening's yearly pay from current jobs) and credit (`monthlyIncome`, pay
+ * as a lender counts it) read their own. `wages` is each open job's monthly
+ * pay by member, the pay payroll withholds taxes from (budgets'
+ * `withholdingOnPay`), over `monthDays` days.
+ */
+export function householdIncome(
   api: CoreAPI,
   householdId: string,
-): { minor: number; ids: string[] } {
+): {
+  minor: number;
+  ids: string[];
+  wages: { readonly personId: string; readonly minor: number }[];
+  monthDays: number;
+} {
   const core = api.state as CoreState;
   const ids: string[] = [];
+  const wages: { personId: string; minor: number }[] = [];
   let minor = api.parameter("zero");
   const perMonth = m(api, "movesDaysPerYear") / api.parameter("monthsPerYear");
   for (const id of core.households.get(householdId)?.memberIds ?? []) {
-    const jobId = core.people.get(id)?.jobId;
-    const job = jobId ? core.jobs.get(jobId) : undefined;
+    const member = core.people.get(id);
+    if (!member?.alive) continue;
+    const job = member.jobId ? core.jobs.get(member.jobId) : undefined;
     if (job && job.endsAt === undefined) {
       minor += job.wageDailyMinor * perMonth;
+      wages.push({ personId: id, minor: job.wageDailyMinor * perMonth });
       ids.push(job.id);
     }
     for (const contractId of core.finance.incomeContractsByPerson.get(id) ??
@@ -521,7 +539,7 @@ function householdIncome(
       ids.push(row.id);
     }
   }
-  return { minor, ids };
+  return { minor, ids, wages, monthDays: perMonth };
 }
 
 /** A household's own cash, net of what its members owe on credit lines. */
@@ -586,6 +604,19 @@ function ageOfMajority(placeId: string): number {
 /** Whether a person decides for themselves where they live: they are of age where they live. */
 function decidesAlone(api: CoreAPI, person: Readonly<PersonState>): boolean {
   return ageOf(api, person) >= ageOfMajority(person.placeId);
+}
+
+/**
+ * Whether a person lives in group quarters (a dormitory, a cell, a barracks
+ * or a nursing-home room): an institution admits and discharges them, so no
+ * household's pull to leave moves them, full or counted alike.
+ */
+function inGroupQuarters(
+  core: CoreState,
+  person: Readonly<PersonState>,
+): boolean {
+  // stopgapId: SG-GQ-no-turnover
+  return core.households.get(person.householdId)?.quarters !== undefined;
 }
 
 /**
@@ -1451,6 +1482,7 @@ export function reviewMove(
   const person = api.state.people.get(personId);
   if (!person || !reviewed(api.state as CoreState, person)) return null;
   if (!decidesAlone(api, person)) return null;
+  if (inGroupQuarters(api.state as CoreState, person)) return null;
   accumulate(api, person, typical);
   return decide(api, person);
 }
@@ -1491,7 +1523,12 @@ function scheduleReview(api: CoreAPI): void {
 function monthlyReview(api: CoreAPI): void {
   const core = api.state as CoreState;
   const adults = [...core.people.values()]
-    .filter((row) => inTown(core, row.id) && decidesAlone(api, row))
+    .filter(
+      (row) =>
+        inTown(core, row.id) &&
+        decidesAlone(api, row) &&
+        !inGroupQuarters(core, row),
+    )
     .sort((a, b) => a.id.localeCompare(b.id));
   // The town's typical hold for each age band, from this month's ties.
   const sums = new Map<string, [number, number]>();

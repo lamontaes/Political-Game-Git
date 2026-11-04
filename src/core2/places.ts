@@ -169,5 +169,6 @@ export function stateOfPlaceKey(key: string): string | undefined {
 // The place lookups other families read (a person's place and state).
 export {
   corePlaceByJurisdictionId,
+  corePlaceByKey,
   coreStateKeyOfJurisdictionId,
 } from "./place-lookup";

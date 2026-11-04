@@ -46,7 +46,7 @@ import {
   type SchoolGroupRow,
   type SchoolResultRow,
 } from "./school-outcomes";
-import stopgaps from "./data/stopgaps.json" with { type: "json" };
+import { STOPGAPS as stopgaps } from "./stopgaps";
 import { coreAPI } from "./state";
 
 const seed = process.env.SCHOOLS_WEB_SEED ?? randomBytes(20).toString("hex");

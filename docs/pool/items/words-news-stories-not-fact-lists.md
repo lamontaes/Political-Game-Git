@@ -5,13 +5,14 @@ area: words
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: words/news-stories
+pr: #7108
 blocked-on:
 source: owner playtest of v0.73.0, Nov 1, 22:25 UTC
 lead: words
 milestone: play-first
+claimed-at: 2026-11-02T00:20:15.693Z
 ---
 
 **What.** Owner, Nov 1 playtest of v0.73.0, on the front page: "Stanton's Kitchen closes... 16 people worked here. The owner was retiring. That's not... none of this is a story." The closure printed four separate field sentences (people who worked there, the owner, retiring, the industry), and the rest of the page was race results ("Again, it's all just winning races"). A closing told as news says who, what it meant to the town and why, in sentences that connect, from the same records. The opening's front page also needs more than election results: the everyday kinds of words-paper-and-journal-everyday-life on its first day.

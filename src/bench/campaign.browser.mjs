@@ -1,6 +1,8 @@
-/* global process, URL, URLSearchParams, console, document, fetch */
+/* global process, URL, URLSearchParams, console, document */
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
+import { fileWhenFilingOpens } from "./start-life.mjs";
+import { openCampaignTrail } from "./campaign-trail.mjs";
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
 });
@@ -38,34 +40,8 @@ try {
   );
   console.log("Place:", await page.locator("#card-place").innerText());
   // File for the first office the player can: the records decide which.
-  const { filed, tried } = await page.evaluate(async () => {
-    const tried = [];
-    const gov = await (await fetch("/api/government")).json();
-    for (const { contest } of gov.contests ?? []) {
-      const contestId = contest.id;
-      const r = await fetch(`/api/file?${new URLSearchParams({ contestId })}`, {
-        method: "POST",
-      });
-      const body = await r.json().catch(() => ({}));
-      tried.push(
-        contestId.slice(-40) +
-          " " +
-          r.status +
-          " " +
-          JSON.stringify(body).slice(0, 200),
-      );
-      if (
-        r.ok &&
-        body.status !== "refused" &&
-        ["petitioning", "on-ballot"].includes(body.filing?.status ?? "")
-      )
-        return { filed: contestId, tried };
-    }
-    return {
-      filed: null,
-      tried: [`${(gov.contests ?? []).length} contests`, ...tried],
-    };
-  });
+  // Filing opens on a set day: the weeks go by until a race is open.
+  const { contestId: filed, tried } = await fileWhenFilingOpens(page);
   console.log("Filed for:", filed, tried.join("\n"));
   assert.ok(filed, "the player could file for nothing in this town");
   await page
@@ -79,71 +55,46 @@ try {
   await page.locator(".row.campaign").first().waitFor();
   const body = await page.locator("#sheet-body").innerText();
   assert.ok(!body.includes("undefined"));
+  // The Campaigns tab shows standing and results only: no act button on it.
+  assert.equal(
+    await page.locator(".row.campaign button").count(),
+    0,
+    "the Campaigns tab has no act buttons",
+  );
+  await page.screenshot({
+    path: "docs/reports/campaign-controls-2026-10-20/campaigns.png",
+  });
+  // The acts wait on the campaign trail in Travel, one control per outing.
+  await openCampaignTrail(page);
   const controls = await page
-    .locator(".row.campaign button")
+    .locator("#sheet-body.place-view button")
     .evaluateAll((nodes) => nodes.map((n) => n.textContent.trim()));
   console.log("Buttons:", controls.join(" | "));
-  for (const name of [
-    "Knock on doors",
-    "Hold an event",
-    "Ask for an interview",
-    "Call donors",
-  ])
-    assert.ok(
-      controls.some((c) => c.startsWith(name)),
-      `the Campaigns screen has ${name}`,
-    );
-  // The campaign day has no list of acts: no "Today" heading, and each
-  // campaign row carries exactly one control per outing.
   const outings = [
     "Knock on doors",
     "Hold an event",
     "Ask for an interview",
     "Call donors",
   ];
+  for (const name of outings) {
+    const matching = controls.filter((c) => c.startsWith(name));
+    assert.equal(
+      matching.length,
+      1,
+      `the trail has exactly one "${name}" control`,
+    );
+  }
   const headings = await page
     .locator("#sheet-body b")
     .evaluateAll((nodes) => nodes.map((n) => n.textContent.trim()));
-  assert.ok(!headings.includes("Today"), "the Campaigns screen lists no acts");
-  const rows = page.locator(".row.campaign");
-  // Rows that offer outings are the ones checked; at least one must exist, so
-  // a screen with no outing controls cannot pass unchecked.
-  let checkedRows = 0;
-  for (let i = 0; i < (await rows.count()); i += 1) {
-    const labels = await rows
-      .nth(i)
-      .locator("button")
-      .evaluateAll((nodes) => nodes.map((n) => n.textContent.trim()));
-    const outingButtons = labels.filter((l) =>
-      outings.some((name) => l.startsWith(name)),
-    );
-    if (!outingButtons.length) continue;
-    checkedRows += 1;
-    for (const name of outings) {
-      const matching = labels.filter((l) => l.startsWith(name));
-      assert.equal(
-        matching.length,
-        1,
-        `row ${i}: exactly one "${name}" control, no list of acts: ${outingButtons.join(" | ")}`,
-      );
-    }
-    assert.equal(
-      outingButtons.length,
-      outings.length,
-      `row ${i}: only the four outings: ${outingButtons.join(" | ")}`,
-    );
-  }
-  assert.ok(
-    checkedRows > 0,
-    "the Campaigns screen has at least one campaign row with outing controls",
-  );
+  assert.ok(!headings.includes("Today"), "no list of acts under Today");
   await page.screenshot({
-    path: "docs/reports/campaign-controls-2026-10-20/campaigns.png",
+    path: "docs/reports/campaign-controls-2026-10-20/trail.png",
   });
   // Taking an interview and an event runs the engine's own act; each answers with its own record.
   for (const name of ["Ask for an interview", "Hold an event"]) {
     const button = page
-      .locator(".row.campaign button", { hasText: name })
+      .locator("#sheet-body.place-view button", { hasText: name })
       .first();
     if (await button.isDisabled()) {
       console.log(`${name}: not available today (the records say so)`);
@@ -168,19 +119,11 @@ try {
     await page.screenshot({
       path: `docs/reports/campaign-controls-2026-10-20/${result.kind}.png`,
     });
-    if (await page.locator("#sheet-tabs").isHidden())
-      await page
-        .locator('[data-tab="politics"]')
-        .first()
-        .evaluate((e) => e.click());
-    await page
-      .locator("#sheet-tabs")
-      .getByRole("button", { name: "Campaigns", exact: true })
-      .click();
+    await openCampaignTrail(page);
   }
   assert.deepEqual(errors, []);
   console.log(
-    "PASS the Campaigns screen has the four outing controls and no list of acts",
+    "PASS the campaign trail has the four outing controls; the Campaigns tab has no acts",
   );
 } finally {
   await browser.close();

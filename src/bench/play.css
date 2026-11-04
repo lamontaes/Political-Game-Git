@@ -1387,6 +1387,7 @@ body.dev .dev-ring {
 #talk.narration #talk-leave,
 #talk.narration #talk-lie,
 #talk:not(.narration) #talk-next,
+#talk:not(.narration) #talk-skip,
 #talk.no-silent #talk-silent,
 #talk.no-leave #talk-leave {
   display: none;
@@ -1845,6 +1846,15 @@ body.dev .dev-ring {
   color: var(--text-2);
 }
 #person-role:empty {
+  display: none;
+}
+/* Who they are now and where they come from, under the name (owner, Nov 1). */
+#person-summary {
+  margin: 0;
+  color: var(--text);
+  line-height: 1.4;
+}
+#person-summary:empty {
   display: none;
 }
 #person-facts {
@@ -2869,10 +2879,10 @@ details.entry[open] {
 #talk-choices:has(.reply-facts) {
   grid-auto-rows: 1fr;
 }
-/* A race at the filing counter, told apart under its choice. */
+/* A race at the filing counter, told apart in its own line, after its words. */
 #talk-choices .reply .reply-facts {
-  display: block;
-  margin-top: 2px;
+  display: inline;
+  margin-left: 0.5em;
   font-size: 0.85em;
   opacity: 0.8;
 }
@@ -3080,9 +3090,16 @@ details.entry[open] {
   padding-top: 10px;
   border-top: 1px solid var(--paper-rule);
 }
+/* A brief is a headline and a line, never opened (owner, Oct 29 and Nov 1:
+   "I click on it, nothing happens"): set small and plain, in the paper's sans,
+   so nothing on it looks like the headlines that open. */
 #sheet-body .side-headline {
   margin: 0 0 4px;
-  font: 700 16px/1.2 var(--speech);
+  color: var(--paper-ink);
+  font: 600 12px/1.35 var(--ui);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: default;
 }
 .paper-column {
   display: flex;
@@ -3150,7 +3167,10 @@ details.entry[open] {
   margin: 0 0 10px;
   font: 16px/1.5 var(--speech);
 }
-.story-body .story-text:first-child::first-letter {
+.story-body .story-text {
+  break-inside: avoid;
+}
+.story-body .story-text.drop-cap::first-letter {
   float: left;
   margin: 4px 6px 0 0;
   font: 700 44px/0.8 var(--speech);
@@ -3307,6 +3327,14 @@ details.entry[open] {
   width: 100%;
   max-height: 300px;
   margin: 0 0 12px;
+}
+.gov-map .map-label {
+  fill: var(--text);
+  paint-order: stroke;
+  stroke: rgba(0, 0, 0, 0.7);
+  stroke-width: 0.4em;
+  stroke-linejoin: round;
+  pointer-events: none;
 }
 .gov-map .state {
   fill: var(--party, rgba(242, 237, 228, 0.06));

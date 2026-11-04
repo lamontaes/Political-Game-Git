@@ -316,7 +316,12 @@ it("Storrs, Connecticut: an evicted counted household stays counted, is placed a
     caseId: string;
     householdId: string;
   }[] = [];
-  const played = play("0973980", `${seed}:storrs`, 3.5, (world) => {
+  // A year: with group quarters, Storrs's students live in rooms outside the
+  // rental market and are no longer evicted at their own incomes, so its
+  // evictions come at the real rate (about 1.3 filings per 100 renter
+  // households a year), and the rent-again step below needs a year to find a
+  // homeless household with pay (3.5 months gave only the fixture's).
+  const played = play("0973980", `${seed}:storrs`, 12, (world) => {
     while (relatives.length < 3) {
       const made = watchRelativeOfEvicted(
         world,
@@ -328,7 +333,7 @@ it("Storrs, Connecticut: an evicted counted household stays counted, is placed a
   });
   const { core, api, where, events, director } = played;
   const { removed, homeless, perceived } = checkRemovals(played);
-  // Storrs's renters fall behind from its first spring.
+  // Storrs's renters fall behind within the year.
   expect(removed, where).toBeGreaterThan(0);
   expect(homeless.length, where).toBeGreaterThan(0);
   expect(perceived, `${where}: counted eviction perceptions`).toBeGreaterThan(

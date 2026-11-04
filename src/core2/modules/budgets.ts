@@ -23,6 +23,7 @@ import { corePlaceByKey } from "../place-lookup";
 import { placeLocalGovernmentUnits } from "../gov-rules/local-governments";
 import budgetBases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
 import federal from "../../../data/research/money/federal-budget-fy2025.json" with { type: "json" };
+import openingCash from "../../../data/research/money/treasury-opening-cash.json" with { type: "json" };
 import localYears from "../data/budgets/local-fiscal-years.json" with { type: "json" };
 import { addDays, makeIsoDate } from "../kernel/dates";
 import priorGrowth from "../data/budgets/prior-year-growth.json" with { type: "json" };
@@ -39,7 +40,10 @@ import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { CashJournalSourceSlot } from "../journal-state";
 import type { WorkPayrollJournalReceipt } from "../work-payroll-cash";
-import { countyGovernmentUnit } from "../reference/government-units";
+import {
+  countyGovernmentUnit,
+  type GovernmentUnitType,
+} from "../reference/government-units";
 import {
   LAWS_MODULE_ID,
   lawChain,
@@ -66,6 +70,7 @@ import {
   applySocialSecurityLevel,
   closeTreasuries,
   notePublicPay,
+  outsideAccountOf,
   sameGovernment,
 } from "../budgets-treasury";
 import {
@@ -74,7 +79,7 @@ import {
 } from "../government-jurisdictions";
 import { syncServiceCharges } from "../budgets-service-charges";
 
-export { townShareOf } from "../budgets-treasury";
+export { outsideAccountOf, townShareOf } from "../budgets-treasury";
 
 export const BUDGETS_MODULE_ID = "core2-budgets-v1";
 
@@ -97,6 +102,11 @@ export interface GovernmentRow {
    * carries the whole local share of every function.
    */
   readonly base: BaseRowName;
+  /** Read at opening to prevent a second deposit when budgets reopen. */
+  readonly openingCash?: {
+    readonly minor: number;
+    readonly journalSequence?: number;
+  };
 }
 
 export interface BudgetRow {
@@ -428,6 +438,7 @@ function government(
   api: CoreAPI,
   row: Omit<GovernmentRow, "organizationId">,
   unitId?: string,
+  unitType?: GovernmentUnitType,
 ): GovernmentRow {
   // Each government's treasury is its own account. The opening's public
   // employers are outside payers with no cash; their pay should draw from
@@ -458,9 +469,83 @@ function government(
         ...(jurisdictionId ? { governmentJurisdictionId: jurisdictionId } : {}),
       },
     });
-  const full = { ...row, organizationId };
+  const previous = table(api, "governments").get(row.id) as unknown as
+    GovernmentRow | undefined;
+  const identity = { ...row, organizationId };
+  const full: GovernmentRow = {
+    ...identity,
+    openingCash:
+      previous?.openingCash ??
+      fundOpeningTreasury(api, identity, unitType ?? row.level),
+  };
   table(api, "governments").put(full as unknown as ModuleRow);
   return full;
+}
+
+/** Opening stock uses the same balanced transfer writer as later payments. */
+function fundOpeningTreasury(
+  api: CoreAPI,
+  government: GovernmentRow,
+  profile: string,
+): GovernmentRow["openingCash"] {
+  const calibration = (
+    openingCash.profiles as Record<
+      string,
+      (typeof openingCash.profiles)["federal"] | undefined
+    >
+  )[profile];
+  if (!calibration)
+    throw new Error(`No opening cash calibration for ${profile}`);
+  const { id: governmentId, organizationId } = government;
+  const outside = outsideAccountOf(api);
+  if (!outside)
+    throw new Error(`No outside account for opening treasury ${governmentId}`);
+  api.stopgap(calibration.stopgapId);
+  const offset = worldOffsetUnit(
+    api.state.seed,
+    `opening-cash:${governmentId}`,
+  );
+  const estimate =
+    calibration.value +
+    offset *
+      (offset < 0
+        ? calibration.value - calibration.spread.low
+        : calibration.spread.high - calibration.value);
+  const budget = baseBudget(
+    api,
+    government,
+    fiscalYearOf(api.state.date, government.fiscalYearStart),
+  );
+  const basis: Record<string, number> = {
+    dollars: 100,
+    annualRevenue: Object.values(budget.revenueMinor).reduce(
+      (sum, n) => sum + n,
+      0,
+    ),
+    annualSpending: Object.values(budget.spendingMinor).reduce(
+      (sum, n) => sum + n,
+      0,
+    ),
+  };
+  // Net reserves can be negative; a deficit is not spendable cash.
+  const amountMinor = Math.round(
+    Math.max(0, estimate) * basis[calibration.basis]!,
+  );
+  const accounts = api.accounts();
+  const receipt = accounts.transfer({
+    id: `opening-treasury:${governmentId}`,
+    from: accounts.main(outside),
+    to: accounts.main(organizationId),
+    amountMinor,
+    reasonKey: "opening-treasury-balance",
+    source: {
+      tag: "ESTIMATED",
+      citation: calibration.citation,
+      asOf: api.state.date,
+      estimatedFrom: calibration.estimatedFrom,
+    },
+  });
+  return { minor: receipt.paidMinor, journalSequence: receipt.journalSequence };
 }
 
 const minor = (dollarsPerResident: number, residents: number, factor: number) =>
@@ -731,6 +816,7 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
           residents: townResidents,
         },
         city.id,
+        city.unitType,
       ),
     );
   // The opening's public employers (the county's offices, schools, police)
@@ -1603,28 +1689,15 @@ export function withholdPay(
   if (paid <= 0) return;
   const person = api.state.people.get(pay.personId);
   if (!person) return;
-  const law = residentLaw(api, person.placeId);
-  const year = api.state.date.slice(0, 4);
-  const ytdId = `${pay.personId}:${year}`;
-  const ytd =
-    (
-      table(api, "yearToDate").get(ytdId) as unknown as
-        { minor: number } | undefined
-    )?.minor ?? 0;
   const periodDays = Math.max(
     1,
     Math.round(
       (Date.parse(pay.throughAt) - Date.parse(pay.fromAt)) / 86_400_000,
     ) + 1,
   );
-  let lines = withholdingFor({
-    paidMinor: paid,
-    periodDays,
-    yearToDateMinor: ytd,
-    incomeTax: law("income-tax"),
-    socialSecurity: law("social-security-tax"),
-    medicare: law("medicare-tax"),
-  });
+  const due = withholdingDue(api, person, paid, periodDays);
+  const { ytdId, ytd } = due;
+  let lines = due.lines;
   if (pay.limitToCash) {
     const owed = lines.reduce((n, l) => n + l.minor, 0);
     const held = Math.max(
@@ -1665,6 +1738,70 @@ export function withholdPay(
       id: ytdId,
       minor: ytd + paid,
     } as unknown as ModuleRow);
+}
+
+/**
+ * The lines the income and payroll tax law in force where a person lives
+ * takes out of one pay of `paidMinor` over `periodDays`, against their pay so
+ * far this year (the Social Security wage base). Read on payday by
+ * `withholdPay` and, posting nothing, by `withholdingOnPay`.
+ */
+function withholdingDue(
+  api: CoreAPI,
+  person: Readonly<{ id: string; placeId: string }>,
+  paidMinor: number,
+  periodDays: number,
+): {
+  readonly lines: readonly WithholdingLine[];
+  readonly ytdId: string;
+  readonly ytd: number;
+} {
+  const law = residentLaw(api, person.placeId);
+  const ytdId = `${person.id}:${api.state.date.slice(0, 4)}`;
+  const ytd =
+    (
+      table(api, "yearToDate").get(ytdId) as unknown as
+        { minor: number } | undefined
+    )?.minor ?? 0;
+  const lines = withholdingFor({
+    paidMinor,
+    periodDays,
+    yearToDateMinor: ytd,
+    incomeTax: law("income-tax"),
+    socialSecurity: law("social-security-tax"),
+    medicare: law("medicare-tax"),
+  });
+  return { lines, ytdId, ytd };
+}
+
+/**
+ * What the law in force would take out of one pay to this person, in minor
+ * units, posting nothing: the same lines `withholdPay` posts on payday
+ * (income tax at each level, Social Security, Medicare), for a reader of
+ * take-home pay (campaigns' `giftBudget`). Zero for no pay or no such person,
+ * and in a world whose payroll withholds nothing (no budgets or laws module).
+ */
+export function withholdingOnPay(
+  api: CoreAPI,
+  pay: {
+    readonly personId: string;
+    readonly paidMinor: number;
+    readonly periodDays: number;
+  },
+): number {
+  if (
+    pay.paidMinor <= 0 ||
+    !api.state.modules.has(BUDGETS_MODULE_ID) ||
+    !api.state.modules.has(LAWS_MODULE_ID)
+  )
+    return 0;
+  const person = api.state.people.get(pay.personId);
+  if (!person) return 0;
+  let withheld = 0;
+  for (const line of withholdingDue(api, person, pay.paidMinor, pay.periodDays)
+    .lines)
+    withheld += Math.max(0, line.minor);
+  return withheld;
 }
 
 /**

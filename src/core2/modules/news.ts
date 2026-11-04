@@ -17,6 +17,7 @@
  * date, so no day scans the whole town.
  */
 import { addDays, makeIsoDate } from "../kernel/dates";
+import type { IsoDate } from "../kernel/brands";
 import { corePlaceByJurisdictionId } from "../place-lookup";
 import rows from "../data/news/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
@@ -453,6 +454,14 @@ function hear(
 }
 
 /**
+ * The oldest date a story is still news on today's date: the news engine's
+ * one window (`newsMaxAgeDays`), read by its retention and by the paper.
+ */
+export function freshSince(api: CoreAPI): IsoDate {
+  return addDays(makeIsoDate(api.state.date), -n(api, "newsMaxAgeDays"));
+}
+
+/**
  * Retention (MEMORY-FLAT), once a month: past its life a story is never
  * delivered or told again, so who heard it no longer decides anything, and
  * those rows go, with the story's own two keys (its kind and outlet), which
@@ -460,7 +469,7 @@ function hear(
  * their knowledge; the player's own rows and keys stay too.
  */
 function forgetOldNews(api: CoreAPI): void {
-  const since = addDays(makeIsoDate(api.state.date), -n(api, "newsMaxAgeDays"));
+  const since = freshSince(api);
   const counts = countsOf(api);
   // Past a story's life it is never told, so the doubted ones are forgotten too.
   refused(api).clear();

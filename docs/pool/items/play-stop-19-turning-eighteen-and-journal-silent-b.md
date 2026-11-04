@@ -5,14 +5,15 @@ area: words
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: lane3/journal-filed-not-ran
+pr: #7179
 blocked-on:
 after: play-stop-19-turning-eighteen-and-journal-silent-a
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
+claimed-at: 2026-11-04T01:40:18.581Z
 ---
 
 **What.** On the v0.22.10 release the journal stayed blank for three weeks, then said "I ran for Council member.", past tense, 21 months before the election. The owner's rulings make the journal a memoir where deciding to run is an entry and no entry is a lone event. This part words the filing entry and the 18th birthday entry so each carries its subject and sits inside the player's story.

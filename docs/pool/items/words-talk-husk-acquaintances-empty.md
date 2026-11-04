@@ -5,12 +5,11 @@ area: words
 kind: bug
 priority: 1
 size: M
-status: claimed
-claimed-by: words/family-news
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-11-01T17:33:17.048Z
 ---
 
 **What.** Most of the people the player knows at the start are husks: relatives living elsewhere, kept minimal until met (core-od-fill-in-outside-kin). A talk with nothing on record between the two says nothing, greeting included (owner, Oct 24: "Hello and goodbye with nothing between is not a talk"; openConversation in src/director/conversation.ts), and between the player and a husk nothing is on record, so every such talk opens empty: 12 of the 14 people the player knew in Lordship, Connecticut. Promoting a husk to a full person does not change it (red main's probe, Oct 30). Relatives have the family to talk about: the household both belong to, a parent's or sibling's job, a move, a birth, a death, a wedding, from the kin and household records the core already keeps. The talk's subjects (subjectsBetween, mainTopic) should offer those, worded from the conversation bank.
@@ -27,3 +26,4 @@ Oct 30, 04:05 (Words, claimed on words/kin-family-news): the husks in Lordship, 
 
 Oct 30, 04:10 (Words): not built. Two owner rulings already answer it (src/director/data/conversation-rules.json): `happenings`, Oct 14 night Q7, "someone not in the room is talked about only when something recorded happened to them", and `familyTalk`, Oct 15, "between relatives, work, school, where each is from and mutual acquaintances are not talked about". Asking after a relative with nothing new, or answering with their job or home, breaks both. Put to the CTO as one owner question: should a talk with a relative who has no news say nothing (as now), or ask after the family you share? Released until it is answered; branch words/kin-family-news holds nothing.
 
+Words handoff, Nov 2 02:50 UTC (the account at its weekly limit): branch words/family-news, head c95cb2d810, fully merged. Next step: confirm src/english/mined/conversation-bank.test.ts talks with husks (its non-husk filter removed) and a played test cites a relative's move by id, then set it done. The work-spell job stage waits on the lives lead's person.work-spell record.

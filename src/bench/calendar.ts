@@ -13,7 +13,7 @@ import {
 } from "../core2/modules/elections";
 import { screenLine } from "../english/screen-words";
 import type { CoreState, LogRecord } from "../core2/types";
-import { storiesHeard } from "../core2/modules/news";
+import { freshSince, storiesHeard } from "../core2/modules/news";
 
 const ELECTIONS = "core2-elections-v1";
 // Engineering window for the calendar screen, not a model value.
@@ -280,12 +280,16 @@ export function newsItems(core: CoreState) {
 /** The stories the person has heard (OPUS-PEOPLE's news), newest first. */
 export function heardItems(core: CoreState, personId: string) {
   if (!core.modules.has("news")) return [];
+  // Still news on today's date, by the news engine's own window: the paper
+  // prints only these; older ones stay in the archive (agreements/3-4.md).
+  const since = freshSince(coreAPI(core));
   return storiesHeard(coreAPI(core), personId)
     .slice(0, 30)
     .map((story) => ({
       id: story.id,
       date: story.date,
       kind: story.kind,
+      fresh: story.date >= since,
       facts: story.facts,
       staffing: staffingNews(core, story.facts),
       // A story archived before day one, or printed since, in the English

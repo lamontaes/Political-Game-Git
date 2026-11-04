@@ -44,6 +44,11 @@ export const ALLOWED_PHRASES: readonly {
       "Brown and Taylor's method note on their personality measure, quoted verbatim in the borrowing research",
   },
   {
+    pattern: /\bgeography, urbanisation, and the perceived competence\b/g,
+    reason:
+      "a study of 98 Danish local agendas (econpapers envirc), quoted verbatim in the platform-emphasis research",
+  },
+  {
     pattern: /\bBribes in the analysed cases\b/g,
     reason:
       "a summary of the OECD Foreign Bribery Report (2014), quoted verbatim in the corruption research",

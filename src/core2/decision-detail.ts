@@ -2,11 +2,12 @@
  * Memory stays small (owner, Oct 12): act records keep their full reasons
  * (every option's score) for `circleDecisionDetailDays`; after that a circle
  * member's act keeps only what the "why" view needs to name the choice. The
- * player's own routine acts keep everything for `playerDecisionDetailDays`
- * (after a year only the summary and the reasons, not every option's
- * score); their public records and news keep everything. A circle
- * member's weighed choice keeps its full record for the same detail window
- * and then goes; their other entries go after `circleActRetentionMonths`.
+ * player's own routine acts and weighed choices keep everything for
+ * `playerDecisionDetailDays` (after a year only the summary and the reasons,
+ * not every option's score: the Oct 20 decision-detail ruling); their public
+ * records and news keep everything. A circle member's weighed choice keeps
+ * its full record for the same detail window and then goes; their other
+ * entries go after `circleActRetentionMonths`.
  * Writers
  * queue each record as they keep it, so condensing visits each record once
  * and never scans the log.
@@ -15,6 +16,7 @@ import { parameter } from "./parameters";
 import type { CoreState, DecisionResult, LogRecord } from "./types";
 import { registerWorldMapPart } from "./snapshot";
 import { forgetOldExperiences } from "./knowledge-retention";
+import { foldCashJournalDetail } from "./journal-state";
 
 const queues = new WeakMap<CoreState, [string, string][]>();
 registerWorldMapPart("core2-decision-detail-queue", queues);
@@ -25,7 +27,7 @@ registerWorldMapPart("core2-decision-detail-drop-queue", dropQueues);
 const entryQueues = new WeakMap<CoreState, [string, string][]>();
 registerWorldMapPart("core2-decision-detail-entry-queue", entryQueues);
 
-/** The player's own routine acts, with their full scores, to condense once a year old. */
+/** The player's own routine acts and weighed choices, with their full scores, to condense once a year old. */
 const playerQueues = new WeakMap<CoreState, [string, string][]>();
 registerWorldMapPart("core2-decision-detail-player-queue", playerQueues);
 
@@ -112,20 +114,28 @@ function involvesPlayer(
   );
 }
 
-/** The decision with only the chosen reasons: what the "why" view needs to name the choice. */
+/**
+ * The decision with only the chosen reasons: what the "why" view needs to
+ * name the choice. Only the fields the decision holds are kept: a two-way
+ * weighing (keepWeighing in trait-decisions.ts) has neither a compact choice
+ * nor a selected offer, so neither is written as undefined.
+ */
 function condenseDecision(core: CoreState, id: string): void {
   const row = core.durableLog.get(id);
   const decision = row?.decision;
   if (!row || !decision?.scores) return;
-  const kept: Record<string, unknown> = {
+  const compact = (decision as { compactChoice?: unknown }).compactChoice;
+  const kept: Record<string, unknown> = {};
+  for (const [key, value] of Object.entries({
     actorId: decision.actorId,
     date: decision.date,
     reasonKey: decision.reasonKey,
     selectedReasons: decision.selectedReasons,
-  };
-  const compact = (decision as { compactChoice?: unknown }).compactChoice;
-  if (compact !== undefined) kept.compactChoice = compact;
-  else kept.selected = decision.selected;
+    ...(compact !== undefined
+      ? { compactChoice: compact }
+      : { selected: decision.selected }),
+  }))
+    if (value !== undefined) kept[key] = value;
   core.durableLog.set(row.id, {
     ...row,
     decision: kept as unknown as DecisionResult,
@@ -140,6 +150,7 @@ const daysAgo = (core: CoreState, days: number): string => {
 
 export function condenseCircleDecisions(core: CoreState): void {
   dropOldReceiptDetail(core);
+  if (core.date.endsWith("-01")) foldOldCashJournalDetail(core);
   forgetOldExperiences(core);
   condensePlayerDecisions(core);
   const queue = queues.get(core);
@@ -157,10 +168,11 @@ export function condenseCircleDecisions(core: CoreState): void {
     done++;
     if (!row) continue;
     if (involvesPlayer(core, row)) {
-      // The player's own routine act keeps its scores a year longer; anything
-      // public or in the news, or an act by someone else, keeps its full record.
+      // The player's own routine act or weighed choice keeps its scores a year
+      // longer; anything public or in the news, or a decision by someone else,
+      // keeps its full record.
       if (
-        row.kind === "person.acted" &&
+        (row.kind === "person.acted" || row.kind === "person.weighed") &&
         row.actorId === core.playerId &&
         !row.publicRecord &&
         !row.news
@@ -241,7 +253,6 @@ function forgetEntry(core: CoreState, row: LogRecord): void {
   for (const person of new Set([...row.personIds, ...(row.witnessIds ?? [])]))
     core.logByPerson.get(person)?.delete(row.id);
   core.logByKind.get(row.kind)?.delete(row.id);
-  core.logByPlace.get(row.placeId)?.delete(row.id);
 }
 
 /**
@@ -306,4 +317,62 @@ function dropOldPayrollSources(core: CoreState, before: string): void {
     if (player && JSON.stringify(source.result).includes(player)) continue;
     Map.prototype.delete.call(sources, id);
   }
+}
+
+/**
+ * Kept records that name a cash journal receipt by its id (a coverage row's
+ * last premium, `lastJournalId`). An engine that keeps such an id registers
+ * its reader here, and the fold keeps every receipt one of them names.
+ */
+const journalIdReaders: ((core: CoreState) => Iterable<string | null>)[] = [];
+export function registerJournalIdReader(
+  read: (core: CoreState) => Iterable<string | null>,
+): void {
+  journalIdReaders.push(read);
+}
+
+/** Every journal id the registered readers name today: the receipts the fold keeps for them. */
+export function journalIdsNamed(core: CoreState): Set<string> {
+  const named = new Set<string>();
+  for (const read of journalIdReaders)
+    for (const id of read(core)) if (id) named.add(id);
+  return named;
+}
+
+/**
+ * The cash journal's itemized receipts fold past their readers' windows on
+ * the 1st of each month (CTO, Nov 1, 21:25): a followed person's after
+ * `cashJournalDetailDays` (dev mode's 365-day ledger), the player's and their
+ * household's from Jan 1 of the prior year (play-first lane, Nov 1). What
+ * folds goes into each person's yearly total by kind; open obligations,
+ * observer rows, receipts a kept record names, balances and every total stay
+ * (`foldCashJournalDetail`). Returns how many receipts folded.
+ */
+export function foldOldCashJournalDetail(core: CoreState): number {
+  const journal = core.cashJournal;
+  const oldest = journal.detailedReceipts.values().next().value;
+  const before = daysAgo(
+    core,
+    parameter("cashJournalDetailDays", core.data.parameters),
+  );
+  if (!oldest || oldest.date >= before)
+    return parameter("zero", core.data.parameters);
+  const year = Number(core.date.slice(0, core.date.indexOf("-")));
+  const priorYear = `${year - parameter("one", core.data.parameters)}-01-01`;
+  const householdIds = new Set<string>();
+  const player = core.playerId;
+  if (player) {
+    householdIds.add(player);
+    const home = core.households.get(
+      core.people.get(player)?.householdId ?? "",
+    );
+    for (const id of home?.memberIds ?? []) householdIds.add(id);
+  }
+  return foldCashJournalDetail(journal, {
+    before,
+    // The household's window always covers the circle's, whatever its length.
+    householdSince: priorYear < before ? priorYear : before,
+    householdIds,
+    named: journalIdsNamed(core),
+  });
 }
