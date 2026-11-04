@@ -5,7 +5,7 @@
  * grace period and follows the place's own steps: notice, cure, filing,
  * hearing, judgment and removal, each a dated step on the module calendar.
  */
-import type { PreStartModule } from "../pre-start";
+import type { PreStartModule } from "../past-module";
 import { townOutsideOf } from "../opening-outside-market";
 import { lawApplied } from "../law-reach/applied";
 import { payRentAssistance } from "../housing-assistance";
@@ -2702,7 +2702,9 @@ export const HOUSING_MODULE: PreStartModule = {
     // Opening households and offices already exist when the history passes run.
     // These are current opening records, not invented historical events.
     phase: "government",
-    run(api) { openHousing(api); },
+    run(api) {
+      openHousing(api);
+    },
   },
   state: {
     schemaVersion: 1,
