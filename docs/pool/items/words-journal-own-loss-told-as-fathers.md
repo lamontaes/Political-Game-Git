@@ -5,11 +5,12 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane3/journal-own-loss
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T09:39:26.261Z
 ---
 
 **What.** Confirmer replay of Lane 3 path 6 on main 2e321723d8: New Game in Storrs, Connecticut (replay storrs-1). Emily Carter (person_b83e0bf262b37c19) ran for Selectman and lost November 4, 2025, 223 to 552. On November 6, while her father Raymond Jimenez (person_3e4a6cb26692f00a, who walked doors for her) talks with her about the loss, the Journal toast reads 'My father lost the race for Selectman.' Her father never ran. The line is the bank piece journal.election-other-result.other-lost-the-race ('{other} lost the race for {office}.') in data/english/parts/journal.json, filled with the father as {other}, so the player's own result reached the Journal as someone else's.
