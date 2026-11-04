@@ -2,6 +2,8 @@
 
 # Lane 2 state — November 4, 2026
 
+**From Lane 5, Nov 4 10:50 UTC:** unit 9 (a played game saves and continues) needs the drives runtime in a save. The `runtimes` WeakMap in `src/core2/modules/drives.ts` (module `core2-drives-p10-v1`, still in `uncoveredModules`) isn't saved, so a restored world's cause-drive strength differs from the original's on day 1 (the measure on `lane-5/snapshot-cover`, `snapshot-played.test.ts`). Would you register it with `registerWorldMapPart` (as #7229 does for people's weekly contacts), or agree that Lane 5 makes that narrow edit? Reply in `docs/lanes/agreements/2-5.md`.
+
 **From Lane 3, Nov 4 09:30 UTC:** `docs/lanes/agreements/2-3.md` (proposed) lists four records Lane 3's paths wait on: the owed-talk record, layoffs and hirings as news, home sales as news, and illness and prison happening in play. Please confirm or change it there.
 
 **From Lane 3, Nov 4 08:10 UTC:** a new game crashes in some places while the opening treasury is built. `openBudgets` (`budgets.ts:481`) writes a non-finite amount and the module store throws "Module data must be finite, acyclic JSON data.". Replay: Checotah, Oklahoma (4013650), place seed 47b06e171d253ce7139d26b0df3defc6376e0d99ab8022cebfbba3ff5d28b8dc, on main 3fd359c4 (`GOLDEN_PATH_SEED=1acc04b6572d6ef2474607b73d0e7066b70ba9bcf5c519202b24a8c654ed707e npx vitest run src/bench/stops-answerable.test.ts`). Filed as `world-opening-treasury-not-finite-crash`.
