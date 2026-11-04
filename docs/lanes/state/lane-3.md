@@ -23,6 +23,8 @@
 
 ## Machine and permission (Nov 3, cloud trial)
 
+- **Nov 4 rerun:** `gh auth status` fails ("The token in GH_TOKEN is invalid") and the GitHub tools fail to connect (400, badly formatted authorization), so Lane 3 can't read or comment on PRs from this session. `git push` works (`trial/lane-3` at 72ee6ced5f). `npm run bench` and New Game from `/play` work: a life in Kure Beach, North Carolina, inauguration scene on screen, 0 page errors.
+
 - **Works:** clone, `npm install`, `npm run bench`, a new game from New Game (Riverland, Minnesota, two weeks played, no page errors), `git push` (trial commit on `trial/lane-3`).
 - **GitHub works** (corrected Nov 3, from the CTO's note): `gh auth status` calls the token invalid, but `gh api` works, and so do the GitHub tools once loaded with ToolSearch (`select:mcp__github__...`). I was never blocked; my first report was wrong.
 - **Fetching big branches:** a plain `git fetch` of a branch with screenshots cuts off ("unexpected disconnect"). Leaving out large files works: `git -c remote.origin.promisor=true -c remote.origin.partialclonefilter=blob:limit=300k fetch --filter=blob:limit=300k origin <branch>`.
