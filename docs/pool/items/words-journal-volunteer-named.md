@@ -5,11 +5,12 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane3/journal-names-helper
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T12:02:03.980Z
 ---
 
 **What.** Confirmer replay of path 6 in Storrs, Connecticut (storrs-1): Emily Carter's father Raymond Jimenez walked doors for her campaign, and her Journal said 'Someone from my campaign walked 33 doors for me.' The volunteer-shift row's own lines named no one.
