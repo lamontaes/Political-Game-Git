@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 56 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 57 pull requests merged. Newest state at the top of each section.
 
 ## What the owner can play now
 
@@ -60,7 +60,7 @@ New on Nov 3:
   - A pool fix (#7145).
   - A state page (#7146).
 
-## Lane PRs merged on Nov 4 (21), on the owner's word ("You may merge lane PRs that pass the new-game check")
+## Lane PRs merged on Nov 4 (22), on the owner's word ("You may merge lane PRs that pass the new-game check")
 
 Each had main merged in again, passed `npm run new-game-check` (a town drawn from all 56, a new life, four weeks) and merged pinned to that head.
 
@@ -87,6 +87,7 @@ Each had main merged in again, passed `npm run new-game-check` (a town drawn fro
 | #7164 | Governments open with treasuries whose reserves are on the books, sourced or estimated        | Cairo, West Virginia       | f54c50c0528dea05 |
 | #7165 | A bill's sponsor asks you only about bills that will reach the floor, in one stop per evening | Mediapolis, Iowa           | 057ff7e849d655cf |
 | #7166 | A phased minimum wage's cost note counts every step                                           | Pascoag, Rhode Island      | ea12de7ce082f713 |
+| #7167 | Your office remembers where colleagues stand on your bill, from a talk or your aide's brief   | Bantam, Connecticut        | 16b332ecf91efa13 |
 
 Conflicts resolved mechanically: #7154 (both sides added a parameter and a stopgap row; both kept), and #7153, #7157, #7160, #7162 (Lane 2's state page: main's wording for the one edited line, both sides' log entries kept). Mac builds started after 5, 13 and 18 of these merges.
 
