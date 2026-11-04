@@ -6,6 +6,7 @@ import { coreAPI } from "./state";
 import { advanceCore } from "./life";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { sellHome } from "./housing-sale";
+import { townOutsideOf } from "./opening-outside-market";
 import type { MortgageRow } from "./housing-foreclosure";
 import type { ModuleRow } from "./module-data";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -43,12 +44,12 @@ it("sells a home whose mortgage the outside market holds: the loan ends and no c
       continue;
     }
     const household = core.households.get(loan.householdId)!;
-    const buyer = [...core.organizations.values()]
-      .filter(
-        (org) =>
-          org.outsideFlow !== undefined && org.placeId === household.placeId,
-      )
-      .sort((a, b) => a.id.localeCompare(b.id))[0];
+    // The town's outside market, found the way housing finds the holder of an
+    // outside loan and the sale finds its buyer. The first outside account by
+    // id was not it where a place also has an out-of-town employer (Plainview,
+    // Arkansas): the loan went to the employer, and the payoff tried to move
+    // cash between two outside accounts.
+    const buyer = townOutsideOf(core.organizations.values(), household.placeId);
     if (!buyer) {
       tried.push(`${where}: no outside market`);
       continue;

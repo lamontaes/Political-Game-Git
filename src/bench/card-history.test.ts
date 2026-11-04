@@ -6,6 +6,7 @@ import { gameStartDate } from "../core2/game-start";
 import { buildBenchWorld } from "./world";
 import { preStartHistory } from "../core2/past";
 import { coreAPI } from "../core2/state";
+import { servingTermsOf } from "../core2/modules/offices";
 import { countedHouseholdsByPlace } from "../core2/modules/residents";
 import { personOrFillIn } from "../core2/state";
 import { knownCard } from "./card";
@@ -47,6 +48,9 @@ describe("a person's history on their card", () => {
       ),
       ...schoolsOf(core, parentId!).map((row) => row.recordId),
       ...core.relationships.keys(),
+      // The term they serve now: a board member seated with the world, whom
+      // no earlier record names, is told as taking office on that term.
+      ...servingTermsOf(coreAPI(core), parentId!).map((term) => term.id),
       parentId!,
     ]);
     expect(card.history.length, where).toBeGreaterThan(0);
@@ -206,13 +210,15 @@ describe("a person's history on their card", () => {
     );
     for (const term of earlier)
       expect(
-        card.history.some((line) => line.recordId === term.id),
+        card.history.some((line) => line.records.includes(term.id)),
         `${where}: ${term.id} is on the card`,
       ).toBe(true);
-    // Their birth and each earlier term, at least.
-    expect(card.history.length, where).toBeGreaterThanOrEqual(
-      earlier.length + 1,
+    // The run of terms in the seat is one sentence, told on every term's
+    // record (owner, Nov 1: "it needs to be told like a story").
+    const run = card.history.filter((line) =>
+      earlier.some((term) => line.records.includes(term.id)),
     );
+    expect(run, where).toHaveLength(1);
   }, 600_000);
 
   it("tells a couple among people filled in from the counts, on a record both share", () => {
@@ -246,7 +252,7 @@ describe("a person's history on their card", () => {
         expect(
           card.history.some(
             (line) =>
-              line.recordId === couple.id && /Set up home/.test(line.text),
+              line.recordId === couple.id && /made a home/.test(line.text),
           ),
           `${where}: ${couple.id} on ${b!.id}'s card`,
         ).toBe(true);

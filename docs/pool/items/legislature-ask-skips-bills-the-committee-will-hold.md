@@ -5,13 +5,13 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: governing/ask-skips-held-bills
+pr: #7165
 blocked-on:
 lead: governing
 source: governing lead, Nov 1 (skeptic on legislature-ask-before-the-roll-test-red-by-seed)
-claimed-at:
+claimed-at: 2026-11-04T02:14:33.236Z
 ---
 
 **What.** askBeforeTheRoll (src/core2/modules/legislature.ts) skips a bill only when a committee has already held it, but a bill on the weekly floor runs its committee stage inside countVote on the floor day itself (legislature.ts:4228-4241; only scheduleVote puts a committee meeting on the calendar ahead of the floor, :5398). So the evening before, the sponsor asks members about bills the majority chair is about to hold, and the member's reply is a pull no roll call ever reads. In Smithville, Tennessee (4769320, run seed chk2-b draw 0) 361 asks in 240 days and in Lincoln Park, Georgia 369 never reached a roll call, and the player is asked about nearly every failing bill.

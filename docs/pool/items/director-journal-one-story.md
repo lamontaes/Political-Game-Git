@@ -5,12 +5,13 @@ area: director
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane3/journal-story
 pr:
 blocked-on:
 lead: director
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T04:22:01.042Z
 ---
 
 **What.** Owner, Oct 28, from the Journal in v0.59.0: 'saying I started school, and then a random person became county assessor. No. It needs to read like a story. There's no reason to have separate headings for your son Jasper.' In src/director/journal.ts a turn row (a child, a race) opens a chapter titled by its record, which is the per-person heading. Another person's turn, such as a friend taking office, is told as a bare line about them. The memoir is one dramatized story (owner, Oct 14, Oct 26, Oct 27).

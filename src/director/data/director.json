@@ -1000,6 +1000,11 @@
       "impactParameter": "directorElectionResultImpact"
     },
     {
+      "eventKind": "concession",
+      "channel": "cause",
+      "impactParameter": "directorElectionResultImpact"
+    },
+    {
       "eventKind": "primary-result",
       "channel": "cause",
       "impactParameter": "directorElectionResultImpact"

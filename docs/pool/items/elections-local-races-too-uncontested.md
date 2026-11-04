@@ -5,12 +5,12 @@ area: elections
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: governing/county-challengers
 pr: #5804
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-11-04T04:36:03.434Z
 ---
 
 **What.** Candidacy's weights (src/core2/data/candidacy/parameters.json, stopgap SG-P15-candidacy-weights) were to be checked against candidate counts per seat. Measured Oct 20 on buildBenchWorld worlds run 400 days in six drawn places (sha256 of labels c1 to c6, purpose candidacy-calibration): Ailey, Georgia had 4 local contests, 4 uncontested; Oaklyn, New Jersey 11, 10 uncontested and 1 with no candidate; Whitingham, Vermont 15, all uncontested and 2 with no candidate; Palm River-Clair Mel, Florida, Lake Park, Minnesota and Agricola, Mississippi had no local contest decided in the window. Of 30 local contests, 29 (97 percent) had no more candidates than seats, and the mean candidates per seat was about 1.0. Ballotpedia counts 71 percent of the 4,500-plus local elections it covered in April 2024 as uncontested (https://news.ballotpedia.org/2024/05/03/71-of-the-more-than-4500-local-elections-ballotpedia-covered-in-april-were-uncontested/), 75 percent of the 36,068 elections of all kinds it covered through October 2024, and an average near 58 percent for local races from 2018 to 2023. Find why challengers rarely file (the weights, the pool of residents who weigh each contest, the filing rules) and bring the town's share into the real band by changing the causes, not by drawing a share.
@@ -34,3 +34,5 @@ Sent back 2026-10-23 from PR #5804 (branch claude/local-races-closeout): The cal
 Sent back 2026-10-24 from PR #5592 (branch claude/pool-elections-local-races-too-uncontested): unrelated housing scope removed, but pooled calibration share and contest-to-filing decision proof remain explicitly NOT MET; finish acceptance or supply a valid bounded reporting specification; finish on that branch, merge main into it first.
 
 Oct 25 audit: From the dropped elections-local-races-share-above-band: pooled 94 of 111 local seats uncontested (85 percent) on Oct 20; try the staying-out pull at 3.8.
+
+Nov 4, 05:45 (Lane 1, branch governing/county-challengers): on seed a63ad2af1003c7ad, 24 drawn places, two played years: town contests 30 of 41 uncontested (0.73, in band), county contests 161 of 175 (0.92), all 191 of 216 (0.88). candidacyCountywideWeight at 0.4 (the bottom of its spread) gives county 158 of 175 (0.90): not the lever. Cause: a county race is weighed and voted by the town alone (Mallard Bay, Oklahoma: nine county contests each weighed by the same 102 named adults and 149 counted records). Registered SG-GOV-county-race-town-only and filed elections-county-race-sees-only-the-town. Holders running again at 92 percent (elections-holders-stand-again-too-often) is the other cause; its measurement is running. The test src/core2/local-races-contested.test.ts is on the branch.

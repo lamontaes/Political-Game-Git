@@ -184,7 +184,7 @@
   },
   "filing": {
     "status": {
-      "petitioning": "Your petition is out for signatures",
+      "petitioning": "Collecting signatures",
       "on-ballot": "You are on the ballot",
       "short": "Your petition came up short",
       "withdrawn": "Withdrawn",
@@ -334,7 +334,17 @@
     "page": "{page} of {pages}",
     "previousPage": "Previous page",
     "nextPage": "Next page",
-    "weekdays": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+    "weekdays": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+    "key": "What the calendar shows",
+    "hide": "Hide these",
+    "show": "Show these",
+    "kinds": {
+      "birthday": "Birthdays",
+      "deadline": "Filing dates",
+      "election": "Elections",
+      "meeting": "Meetings",
+      "holiday": "Holidays"
+    }
   },
   "party": {
     "join": "Join",

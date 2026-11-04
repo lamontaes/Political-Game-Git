@@ -9,6 +9,7 @@ import { coreAPI } from "../core2/state";
 import type { CoreState } from "../core2/types";
 import {
   billOf,
+  learnedStakesOf,
   LEGISLATURE_MODULE_ID,
   memberKey,
   members,
@@ -173,11 +174,31 @@ export function officeView(core: CoreState, personId: string) {
     deals: pendingBills(api, personId).map((bill) => ({
       billId: bill.id,
       number: bill.number,
-      colleagues: colleaguesOn(api, bill, personId).map((key) => ({
-        key,
-        name: personName(core, key),
-        deal: dealsSet(api, personId)[key] ?? null,
-      })),
+      colleagues: colleaguesOn(api, bill, personId).map((key) => {
+        // Where the player learned this colleague stands, and how (a talk or
+        // an aide's brief), from the legislature's record of it.
+        const stake = learnedStakesOf(api, personId, bill.id).find(
+          (row) => row.memberId === key,
+        );
+        return {
+          key,
+          name: personName(core, key),
+          deal: dealsSet(api, personId)[key] ?? null,
+          stake: stake
+            ? {
+                recordId: stake.id,
+                leaning:
+                  stake.total > 0
+                    ? "for"
+                    : stake.total < 0
+                      ? "against"
+                      : "undecided",
+                route: stake.route,
+                date: stake.date,
+              }
+            : null,
+        };
+      }),
     })),
     acts: officeActsOf(api, personId)
       .slice()

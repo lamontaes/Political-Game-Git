@@ -220,10 +220,14 @@ function storyPhoto(story) {
 function hideNewsToast() {
   hideToast($("news-surface"));
 }
-/** The night's paper: the news engine's stories the player heard, newest first. */
+/**
+ * The night's paper: the news engine's stories the player heard, newest
+ * first, only those still news on its date (the archive keeps the rest).
+ */
 async function nightsNews(personId) {
   const rows = await api(`/api/news?id=${encodeURIComponent(personId)}`);
   const stories = rows
+    .filter((r) => r.fresh !== false)
     .filter((r) => r.headline || r.lede)
     .filter(storyHeadline);
   return { stories, outlet: stories[0]?.outlet };
@@ -1894,6 +1898,8 @@ async function showPerson(person) {
   ]
     .filter((part) => part !== null && part !== undefined && part !== "")
     .join(" · ");
+  // Who they are now and where they come from, worded from their records.
+  $("person-summary").textContent = (c.summary ?? []).join(" ");
   // What the public knows of a figure (the past module's public tier): read
   // from the record, shown beside the tie if there is one.
   const known = c.publicKnowledge;

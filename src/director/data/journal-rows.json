@@ -163,6 +163,7 @@
     {
       "kindPrefix": "family:child",
       "turn": true,
+      "turnFor": "self-or-kin",
       "title": [
         {
           "key": "born",
@@ -222,10 +223,11 @@
     {
       "kindPrefix": "event:life.death",
       "turn": true,
+      "turnFor": "self-or-kin",
       "title": [
         {
           "key": "after",
-          "text": "{{name}}"
+          "text": "{{other}}"
         }
       ],
       "entry": "story",
@@ -259,6 +261,7 @@
     {
       "kindPrefix": "event:person-birth",
       "turn": true,
+      "turnFor": "self-or-kin",
       "title": [
         {
           "key": "born",
@@ -335,10 +338,16 @@
     {
       "kindPrefix": "event:candidate-filed",
       "turn": true,
+      "turnFor": "self",
       "eventFacts": {
         "office": {
           "fact": "office",
           "format": "text"
+        },
+        "election": {
+          "fact": "electionDate",
+          "format": "date",
+          "optional": true
         }
       },
       "hasOtherLine": true,
@@ -442,6 +451,7 @@
     {
       "kindPrefix": "event:took-office",
       "turn": true,
+      "turnFor": "self",
       "entry": "story",
       "eventFacts": {
         "office": {

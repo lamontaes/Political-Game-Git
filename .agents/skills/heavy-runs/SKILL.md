@@ -37,6 +37,8 @@ Learned by the path-check runners A and B and the speed lead, Oct 29 to Nov 1. A
 
 - **CI's heap is the default, about 2.2 GB.** Reproduce a CI out-of-memory with `env -u NODE_OPTIONS`. The container has no `/usr/bin/time`, so record a run's peak by polling its process tree's memory every two seconds: walk `pgrep -P` from the run's PID and sum `ps -o rss=`. On Nov 1, law-wiring-housing.test.ts died at the default heap on main and ran to the end on the closed-race fold.
 - **Never switch branches in a copy that a run or an agent is reading.** The pool CLI checks out a temporary branch in the copy it runs in, so run pool commands from an idle copy.
+- **A cloud copy is shallow, so `git fetch origin main` can pull hundreds of thousands of objects** (Nov 3: 385,472 objects, the pack grew to 4.1 GB, three minutes). Every `npm run pool` claim or status runs that fetch. Batch pool edits into one commit on a branch made at `origin/main` (or the scratch-index method in `cto`) instead of one command per item, and start no browser or heavy run in that copy while a pool command runs.
+- **The storage guard refuses the bench without the override** once free disk drops under its 25 GiB reserve: `[storage-guard] Refused test: needs 1.0 GiB, but only 0 B is usable`. Every command that starts the bench, including a `setsid nohup npm run bench` restart, carries `OCD_STORAGE_OVERRIDE`.
 - **A push to main can lose a race.** Fetch, rebase and push again, and stay on the branch until the push lands. Switching away first loses the commit, which happened twice on Nov 1.
 
 ## After the run

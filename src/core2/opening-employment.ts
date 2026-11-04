@@ -365,6 +365,11 @@ export function openingEmploymentFromRecordedRoles(
   rateData: ResidentEmploymentData = DEFAULT_RESIDENT_EMPLOYMENT,
   /** The minimum wage in force on the start date, dollars an hour; the table's rate when omitted. */
   minimumHourly?: number,
+  /**
+   * Residents of institutions and of military quarters: outside the civilian
+   * labor force, they take no job here.
+   */
+  outsideLaborForce: ReadonlySet<string> = new Set(),
 ): OpeningEmploymentAllocation {
   stopgap("SG-P8-opening-employment");
   if (data.stopgapId !== "SG-P8-opening-employment") stopgap(data.stopgapId);
@@ -377,7 +382,11 @@ export function openingEmploymentFromRecordedRoles(
   // Every unrecorded working-age resident is a candidate: no enrollment or
   // care record exists before the first day is played.
   const candidates = residents
-    .filter((resident) => !recordedPeople.has(resident.personId))
+    .filter(
+      (resident) =>
+        !recordedPeople.has(resident.personId) &&
+        !outsideLaborForce.has(resident.personId),
+    )
     .map((resident) => ({
       ...resident,
       order: stableHash(`${data.version}:${seed}:${resident.personId}`),
@@ -411,6 +420,15 @@ export function openingEmploymentFromRecordedRoles(
   >();
   const quotaByPerson = new Map<string, string>();
   for (const resident of residentRows) {
+    // People outside the civilian labor force are outside every target's
+    // denominator, as they are outside the collapse's counted adults
+    // (`collapseToTwoLevels`): one denominator for the opening's workers and
+    // the unplaced ones. The national CPS rate is over the civilian
+    // noninstitutional population already; a county's ACS rate counts its
+    // institutional residents among its civilians, so read over the rest it
+    // is low by the county's institutional share.
+    // stopgapId: SG-GQ-county-employment-denominator
+    if (outsideLaborForce.has(resident.personId)) continue;
     const county = countyGeoidByPerson.get(resident.personId);
     const rate = residentEmploymentRate(resident.age, county, seed, rateData);
     if (!rate) continue;

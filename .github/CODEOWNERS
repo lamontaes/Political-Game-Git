@@ -34,6 +34,13 @@
 /src/core2/law-test-start.ts @lamontaes
 /src/core2/free-block.ts @lamontaes
 /src/core2/focus.ts @lamontaes
+/src/core2/gov-rules/place-population.ts @lamontaes
+/src/core2/group-quarters-types.ts @lamontaes
+/src/core2/stopgap-families.ts @lamontaes
+/src/core2/stopgaps-folder.ts @lamontaes
+/src/core2/gov-rules/names-data.ts @lamontaes
+/src/core2/gov-rules/given-name-cohorts.ts @lamontaes
+/src/core2/gov-rules/person-identity.ts @lamontaes
 
 # Elections and campaigns (elections)
 /src/core2/modules/elections.ts @lamontaes
@@ -250,6 +257,8 @@
 /src/core2/journal.ts @lamontaes
 /src/core2/heard-claims.ts @lamontaes
 /src/core2/home-distance.ts @lamontaes
+/src/core2/sibling-names.ts @lamontaes
+/src/core2/modules/partnerships.ts @lamontaes
 
 # The past before the start (past)
 /src/core2/past.ts @lamontaes

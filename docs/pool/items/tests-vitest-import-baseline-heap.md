@@ -5,7 +5,7 @@ area: release
 kind: bug
 priority: 3
 size: M
-status: in-pr
+status: done
 claimed-by: lane-5/vitest-json-from-disk
 pr: #7161
 blocked-on:

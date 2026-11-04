@@ -155,6 +155,52 @@ it(`a bill drafted from the seat phases in a minimum wage by two dated steps, an
         drafted.provisions.map((p) => [p.series, p.value, p.effectiveDate]),
         `${where}: ${drafted.id}`,
       ).toEqual(steps.map((s) => [SERIES, s.value, s.effectiveDate]));
+      // The fiscal note costs every step (gov-fiscal-note-every-step): each
+      // step's raise over the step before, for the open commitments under
+      // it, named by commitment id and step date; the bill paper shows the
+      // same figure.
+      const note = billOf(api, drafted.id).costEstimate;
+      expect(
+        note.steps?.map((row) => row.date),
+        `${where}: ${drafted.id}`,
+      ).toEqual(steps.map((row) => row.effectiveDate));
+      const open = [...core.work.commitments.values()].filter(
+        (c) => c.endsAt === undefined,
+      );
+      let below = 0;
+      note.steps!.forEach((row, i) => {
+        const expected = open
+          .filter((c) => Math.max(below, c.hourlyMinor) < steps[i]!.value)
+          .map((c) => ({
+            id: c.id,
+            annual: Math.round(
+              (steps[i]!.value - Math.max(below, c.hourlyMinor)) *
+                (c.expectedWeeklyMinutes / 60) *
+                52,
+            ),
+          }));
+        expect(
+          row.commitmentIds.slice().sort(),
+          `${where}: step ${row.date}`,
+        ).toEqual(expected.map((c) => c.id).sort());
+        expect(row.annualPayMinor, `${where}: step ${row.date}`).toBe(
+          expected.reduce((n, c) => n + c.annual, 0),
+        );
+        below = Math.max(below, steps[i]!.value);
+      });
+      expect(note.annualPayMinor, where).toBe(
+        note.steps!.reduce((n, row) => n + row.annualPayMinor, 0),
+      );
+      expect(
+        note.steps![1]!.annualPayMinor,
+        `${where}: no commitment under the second step`,
+      ).toBeGreaterThan(0);
+      expect(billPaper(core, drafted.id).estimate.payMinor, where).toBe(
+        note.annualPayMinor,
+      );
+      process.stdout.write(
+        `FISCAL NOTE ${where}: ${drafted.id} ${note.steps!.map((row) => `${row.date} to ${row.floorMinor}: ${row.workersRaised} commitments, ${row.annualPayMinor} a year`).join("; ")}; total ${note.annualPayMinor}\n`,
+      );
       if (drafted.status !== "drafted") {
         tried.push(`${where}: ${drafted.id} ${drafted.status}`);
         continue;
