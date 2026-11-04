@@ -296,6 +296,42 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.76.1
+
+_Released November 4, 2026._
+
+### Fixed
+
+- **You can run for one seat on your town's council, and only while filing is
+  open.** Before, the clerk and the Campaigns screen offered you every seat on
+  the council at once, and even races whose filing would not open for years. Now
+  you are offered one race of each local body: the seat for your own district
+  where it is elected by district, or the at-large race once where its seats are
+  elected at large. A race shows up only while its filing period is open, and
+  once you have filed for one of a body's races, its others are no longer
+  offered.
+
+- **Relatives and officials have recorded homes** Households added after the
+  opening town population, including relatives and officials, receive homes
+  through the housing engine. Their rooms read those homes, renters owe recorded
+  rent to a landlord, and outside homes use their own place for prices and
+  eviction law.
+
+- **Reporters who live out of town get paid** A station's news director in the
+  market city and a national outlet's reporters are now paid each month for the
+  job they hold, with taxes taken out like any paycheck, from the outlet's
+  audience and advertisers outside the town. Before, they paid rent and bills
+  from their savings with no paycheck coming, and most ran out of money within
+  the first year.
+
+- **Campaign money no longer leans on press people who had no bills to pay.**
+  Reporters and news directors who live outside your town now have the living
+  costs and savings an official at their pay has, and they spend them each week.
+  Before, they had no bills at all, so their whole balance counted as spare and
+  they gave nearly half of a campaign's money, $1,200 at the median. Supporters'
+  gifts were refit to match what local campaigns raise: an evening of calls
+  brings in about $120 to $157 an hour, with a typical gift of $92 to $107.
+
 ## PRE-ALPHA 0.76.0
 
 _Released November 3, 2026._
