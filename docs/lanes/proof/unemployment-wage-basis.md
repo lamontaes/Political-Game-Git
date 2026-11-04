@@ -16,7 +16,7 @@ New unemployment-share.test.ts reads the live laws engine in one drawn locality 
 
 Played through January 20, 2026, with all buildBenchWorld modules and normal daily advanceCore, two-level population, bookkeeping off. Replay c62f44a716f82f64; drawPlace(`${replay}:${draw}`, "unemployment-basis"), first affected-state draw 13: Severance, Colorado (0869150), world seed 2f914ebe2fd87d0457ecc99849b0330f462a6e85634d13cc7732eacea462751a. Observer retention preserved receipts; this run is not a speed measurement.
 
-The observation records jobs before each day. After the first uncapped claim filed that day, it opens the claimant through personOrFillIn, the normal person-card reader, then follows payments. It never enacts a law, creates a layoff, files a claim or inserts money. No rate or roll selects this person's outcome. The opening job assignment is generated; the recorded loss reason is demand-below-staff.
+The observation records jobs before each day. After the first uncapped claim filed that day, it opens the claimant through personOrFillIn, the normal resident fill-in reader used by person cards, then follows payments. It never enacts a law, creates a layoff, files a claim or inserts money. No rate or roll selects this person's outcome. The opening job assignment is generated; the recorded loss reason is demand-below-staff.
 
 - Danielle Stone, person_c7f696ab63d01e72, warehouse worker for organization_19a87ad582e16f88.
 - Lost job work-relationship_168610fa63246d3a, March 1, 2025; recorded wage 11882 cents/day, 83174 cents/week.
@@ -26,13 +26,15 @@ The observation records jobs before each day. After the first uncapped claim fil
 - Treasury cash: cash:organization:treasury:US-CO:residual, 56096266913 → 56096216871 cents. Personal cash: cash:person_c7f696ab63d01e72:residual, 0 → 50042 cents. Equal debit and credit; no outside advance in this receipt.
 - Twenty-six payments of 50042 cents each, 1301092 cents total. Each personal balance delta and each balanced posting were checked against the claim. The year ends with 99 naturally filed claims, six observed named claimants and 785 benefit payments across the world.
 
-The original-data observation finished the same year with a 0.300812 Colorado reader, 55 claims and 394 payments. It did not open Danielle's person card, so these aggregate totals are not a controlled same-person causal comparison. The corrected payment's amount is established directly from her recorded lost wage and the law's formula.
+The original-data observation finished the same year with a 0.300812 Colorado reader, 55 claims and 394 payments. It did not materialize Danielle through that reader, so these aggregate totals are not a controlled same-person causal comparison. The corrected payment's amount is established directly from her recorded lost wage and the law's formula.
 
 Local raw evidence: /tmp/lane-2-ui-{before,after}.json and .log; /tmp/lane-2-ui-summary.json. Reproduction observer: /tmp/lane-2-ui-after-audit.ts. Source correction: 285b7e165f. Browser/New Game and same-machine timing follow below.
 
 ## New Game
 
 Source e8558ed94a after integrating main cf31d0ed63: npm run new-game-check passed in San Vicente, Northern Mariana Islands, replay 27e313b4e39a5bd2. New Game, four weeks of normal play, scene and Journal reads all returned 200.
+
+Independent merge-desk New Game: Stockton Bend, Texas / 386cad3faa37935b, four weeks on head bbbd32e463. This is an opening/running check, not a replay of the whole layoff path.
 
 Fresh draws: 10 of 10 passed for unemployment-share.test.ts after main integration, each reading all 56 jurisdictions. Replay numbers: 86ccb082737f699a, 71095cee76618909, e58b0aaea76d6c7b, 963c461644b364a7, 0264ac05ef5c6228, 9bb1a15a0fafd3a6, 26432bdbe38c6ccf, aac818fcf9d1c33f, b79ce684c56d3ee4, a3a131faca9fc637.
 
