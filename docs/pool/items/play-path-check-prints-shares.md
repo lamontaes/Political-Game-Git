@@ -5,9 +5,9 @@ area: elections
 kind: feature
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: lane-1/path-margins
-pr:
+pr: #7265
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-04T16:03:28.777Z
