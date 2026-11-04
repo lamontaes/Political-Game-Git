@@ -18,7 +18,16 @@
 
 ## Current work and order
 
-**Current, Built unit: people-counted-policy-story-delivery**, reclaimed on `lane-2/counted-policy-reach` after the mortgage and bill units were completed and ordinary publication recovered. The old failure branch/stash remains preserved. This is the bounded policy-delivery part of `people-counted-readers-stances-from-stories`; the parent and path 11 stay unfinished.
+**Current: tests-price-learning-observer-mixes-laws**, claimed on `lane-2/price-learning-observer`, base maine0e7ddbcdc. This advances the vote-to-person work after the policy-delivery handoff. The price-learning production engine belongs to Lane2; its adjacent source test is not in Lane5's owned root `tests/` directory. The earlier request to Lane5 inferred a broader ownership restriction than the lane pages state. This correction touches only that Lane2 observer, with the no-test-loosening rule unchanged; it needs no shared-file implementation.
+
+- Finish line: all three existing WilliamsburgVA5186160 /bc8a0987576fa6c8a36db1564f7fec5f scenarios retain both natural clean-electricity and supplied transit events, checking every event against its actual law, price rule, payer, hearing and same-topic stance. Fixture-specific before-payment, after-payment and forgotten-source witnesses remain required, plus an explicit rejection of an unreceived or mismatched source.
+- Proof: unchanged original failure logs already identify the natural February3 clean-electricity event. Corrected full-file replay, deliberately wrong-source countercheck, a fresh drawn world and fresh New Game. These are controlled test fixtures, never claimed as voted law proof.
+- Hands off: all production, core state, root tests, guards and screens. No law/news suppression, narrowed-away event, friendly redraw, relaxed assertion or changed timeout. Source target: `src/core2/place-prices-learned.test.ts` only.
+- Size/time box: 2 hours; one observer and compact evidence. Checked by a nonbuilder on main. Whole path2 remains unfinished; the income-tax production draft stays open until its controls and browser chain pass.
+
+**Policy delivery Built and merged:** PR#7250, desk headb4ccb29d6f75c3916bd5a3ba867f560681a7d8f7. A concurrent docs-only push was rejected by the ref lock; no history was rewritten and no further push was made to the desk's branch. Production exactly matches the tested candidate6572bd523c. The late Lane5 seeded-mark acceptance is carried here before any shared edit. Detailed unit proof is below.
+
+**Completed bounded unit: people-counted-policy-story-delivery**, reclaimed on `lane-2/counted-policy-reach` after the mortgage and bill units were completed and ordinary publication recovered. The old failure branch/stash remains preserved. This is the bounded policy-delivery part of `people-counted-readers-stances-from-stories`; the parent and path 11 stay unfinished.
 
 - Finish line: an ordinary all-module generated year, drawn from all 56, names an actual printed/delivered policy story, the counted adult group whose stance it moved through stanceAfterCase, and the press concern reader using that strength. Removing delivery must fail the focused check; fresh New Game and four serial years must meet the 20% limit.
 - Hands off: legislature, voting, electorate, core state, scenes and screens. Preserve Lane 5's existing news snapshot registrations and derived-cache hooks. The accepted press import baseline change is only 16→15, in the same PR as its consolidation.
