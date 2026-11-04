@@ -138,9 +138,9 @@ export function newspaperScreen({
       return true;
     },
   ];
-  // Drawn before the sheet mounts it, the page waits for the screen (a few
-  // frames at most), then gives way until it fits.
-  const fit = (waits = 30) =>
+  // Drawn before the sheet mounts it, the page waits for the screen (five
+  // seconds at most), then gives way until it fits.
+  const fit = (waits = 300) =>
     window.requestAnimationFrame(() => {
       if (!paper.isConnected) {
         if (waits > 0) fit(waits - 1);
@@ -336,6 +336,9 @@ export function newspaperScreen({
   // Type that arrives late changes the page's height: it gives way again
   // (a late photo does too, from its own load).
   document.fonts?.ready.then(() => fit());
+  // The paper's own type is first asked for when the paper shows, after the
+  // page's fonts were ready: each font that arrives later fits it again.
+  document.fonts?.addEventListener?.("loadingdone", () => fit());
   return [outletPicker, paper];
 }
 
