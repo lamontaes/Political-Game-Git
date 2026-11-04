@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: lane-2/lobbying-departure
 pr: #7160
 blocked-on:

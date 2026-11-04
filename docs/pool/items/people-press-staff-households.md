@@ -5,7 +5,7 @@ area: people
 kind: stopgap
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: governing/press-staff-households
 pr: #7135
 blocked-on:

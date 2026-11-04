@@ -6,9 +6,9 @@ lead: m0-m2
 kind: feature
 priority: 2
 size: M
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #7164
 blocked-on:
 source: laws lead, Oct 26
 claimed-at:
