@@ -1,6 +1,19 @@
 {
   "entries": [
     {
+      "version": "0.83.0",
+      "releasedOn": "2026-11-04",
+      "revision": "66777a44702d366b0ca9a75e18fd905d36ccf130",
+      "changeIds": [
+        "guards-executive-clerk-entry",
+        "housing-paid-mortgage-balance",
+        "play-news-paper-turns-pages",
+        "screens-loading-town-name",
+        "screens-map-places-entry",
+        "words-journal-volunteer-named"
+      ]
+    },
+    {
       "version": "0.82.0",
       "releasedOn": "2026-11-04",
       "revision": "32deba00ead77fd9e44bc646478df804f0db8318",
