@@ -171,13 +171,15 @@
     "id": "SG-GQ-full-resident-work",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/staff.ts",
-    "line": 554,
-    "whatItFakes": "The jobs engine keeps full residents of institutions and military quarters out of civilian work as the counted tier does (outOfCivilianWork, src/core2/modules/jobs.ts), but the campaign and office staff engine (src/core2/modules/staff.ts: its full applicants, its counted pool and its hire) and public posts (src/core2/public-payroll.ts) read custody only: a resident of a prison room, a nursing home or a barracks, full or counted, may apply and be hired as a staffer or seated in a public post.",
+    "line": 385,
+    "whatItFakes": "The jobs engine keeps full residents of institutions and military quarters out of civilian work as the counted tier does (outOfCivilianWork, src/core2/modules/jobs.ts), and staff candidates now read the same rule (src/core2/modules/staff.ts, roomOutsideLaborForce), but seating a public post (src/core2/public-payroll.ts) reads custody only: a resident of a nursing home or a barracks, full or counted, may be seated in a public post.",
     "why": "Those engines read custody from the justice engine's records (inCustody) and no group-quarters type.",
     "addedBy": "claude/speed-group-quarters-population",
     "addedAt": "2026-11-01",
-    "replacement": "Staff hiring and public posts read the household's group-quarters type as the jobs engine does (outsideLaborForce), or a custody record for a correctional resident.",
-    "status": "open"
+    "replacement": "Public posts read the household's group-quarters type as the jobs engine does (outsideLaborForce), once the seating of elected and appointed officials who live in such a room is ruled on, or a custody record for a correctional resident.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-04",
+    "resolution": "Staff candidates (src/core2/modules/staff.ts, roomOutsideLaborForce, full and counted) and public posts (src/core2/public-payroll.ts) read the household's group-quarters type with the jobs engine's outsideLaborForce: a resident of an institution or barracks is neither hired as staff nor seated in a public post. Found by group-quarters.test.ts in places 5007975 (a staffer) and 4037650 (a town finance director)."
   },
   {
     "id": "SG-GQ-county-employment-denominator",
