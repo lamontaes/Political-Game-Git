@@ -1,5 +1,7 @@
 1 of 13 played paths confirmed; 2 wait on the people system. Oldest open PR 0 days (#7233); open: #7233.
 
+**Stopped by the owner, Nov 4, 2:37 p.m. Eastern (relayed by the CTO at 19:41 UTC; Lane 4 read it on main at 19:45).** Open: #7233 (skills; red only on main's filing test). Unfinished, pushed without PRs because this session's GitHub token is invalid: `lane-4/budgets-fit-1024` (bd6d8e1487, path 11's Budgets fit, menus check passes in Meadow Lakes and Burnet) and `lane-4/elections-filing-test-window` (1d6f5c02fb, the filing test #7233 needs). No unpushed work.
+
 # Lane 4 state: Screens
 
 Owner's word, Nov 4: screens tonight, no people. No new pictures: the art on main only.
