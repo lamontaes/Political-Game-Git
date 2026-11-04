@@ -2,6 +2,8 @@
 
 Merge desk report, Nov 3 and 4, 2026 (cloud session). 161 pull requests merged. Newest state at the top of each section.
 
+**Stopped by the owner, Nov 4, 2:37 p.m. Eastern (relayed by the CTO at 19:41 UTC): 161 pull requests merged in all. Open PRs were left as they are; nothing more merges until a person says to resume.**
+
 ## What the owner can play now
 
 Main opens a new game, loads a person and a town, and plays four weeks without a crash (Lane 5's new-game check, now on main and on every pull request). The one check passed on every merge below.
