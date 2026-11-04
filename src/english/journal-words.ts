@@ -57,6 +57,13 @@ export interface JournalWordRow {
   title?: readonly { key: string; text: string }[];
   /** The person's own moment when the causing event names them among its people. */
   selfWhenNamed?: boolean;
+  /**
+   * Whose moment of a turn row opens a chapter: only the person's own
+   * ("self"; another's filing or oath is a line in the chapter being lived),
+   * or theirs and a relative's ("self-or-kin"; a stranger's birth or death is
+   * never a chapter of this life). Unset, any moment the row tells.
+   */
+  turnFor?: "self" | "self-or-kin";
   /** The own line when the causing event names others with them ("we"). */
   groupLine?: readonly { key: string; text: string }[];
   /**
@@ -88,6 +95,7 @@ export interface RowShape {
   toldWithoutOther?: boolean;
   title?: JournalWordRow["title"];
   selfWhenNamed?: boolean;
+  turnFor?: JournalWordRow["turnFor"];
   sameDay?: string;
   oncePer?: string;
   framesAge?: boolean;

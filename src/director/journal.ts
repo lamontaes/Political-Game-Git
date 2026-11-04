@@ -1081,6 +1081,15 @@ export function composeJournal(
     );
   const rowOf = (moment: JournalMoment) =>
     rows.find((entry) => moment.causeKind.startsWith(entry.kindPrefix));
+  const turnOf = (
+    row: { turn?: boolean; turnFor?: "self" | "self-or-kin" },
+    moment: JournalMoment,
+  ) =>
+    !!row.turn &&
+    (row.turnFor === undefined ||
+      moment.selfNamed === true ||
+      (row.turnFor === "self-or-kin" &&
+        moment.counterpartIds.some((id) => kin.has(id))));
   const ageAt = (date: IsoDate) =>
     ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(date));
   const interrupt =
@@ -1180,10 +1189,11 @@ export function composeJournal(
     // the chapter began with the same kind of turn.
     // A turn of the same kind about someone else opens its own chapter: a
     // daughter's birth is never told under "My son".
-    // Only one's own turn opens a chapter: another person's oath or race is a
-    // line in the chapter one is living, never its title (owner's path 9: no
-    // chapter titled after someone else).
-    const turn = row.turn && moment.selfNamed === true;
+    // Whose moment opens a chapter, by the row: another person's oath or race
+    // is a line in the chapter one is living, and a stranger's birth or death
+    // is no chapter of this life (lane 3, path 9: no chapter titled after
+    // someone else).
+    const turn = turnOf(row, moment);
     const ownTitle =
       turn && chapterKind === row.kindPrefix
         ? render(
@@ -1353,8 +1363,8 @@ export function composeJournal(
         const next = rowOf(story);
         return (
           story.date > moment.date &&
-          !!next?.turn &&
-          story.selfNamed === true &&
+          !!next &&
+          turnOf(next, story) &&
           next.kindPrefix !== row.kindPrefix
         );
       });
