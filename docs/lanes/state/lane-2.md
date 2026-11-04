@@ -2,9 +2,13 @@
 
 # Lane 2 state — November 4, 2026
 
-**Path 1 is Built on main 69b9126328; none is Verified yet.** The builder opened all eight fixed towns through normal New Game and audited their records. Only a session that did not build the fixes may replay the path on main and mark Verified. [First-minutes proof](../proof/first-minutes.md) attaches every town, replay, screenshot and named home/family record. No own PR merge, force push or rewritten history.
+**Path 1 is independently confirmed on main 783974f6 by the non-builder Confirmer; 1 of 14 confirmed.** See the untouched Confirmer section below and [its eight-town evidence](../proof/confirmer-lane2-path1/README.md). The earlier builder proof was on main 69b9126328. The builder opened all eight fixed towns through normal New Game and audited their records. Only a session that did not build the fixes may replay the path on main and mark Verified. [First-minutes proof](../proof/first-minutes.md) attaches every town, replay, screenshot and named home/family record. No own PR merge, force push or rewritten history.
 
 ## Current work and order
+
+**Now: world-zero-opening-cash-json**, claimed on lane-2/zero-opening-cash from main bf4e8386cd. Finish line: legitimate zero opening cash saves without an undefined optional journal sequence; reopening preserves the zero marker and never funds twice. Proof: unchanged legislature.test on replay 75ae3c9378284205, a drawn New Game, an ordinary-world zero-cash record and four serial timing years within 20% of base. Hands off: accounts, module-data validation, core state, legislature, test assertions and other lanes’ files. Known cheats: positive cash floors, invented journal ids, dropping real sequence zero or weakening validation. Size: one return expression plus proof. Checked by: another session on main.
+
+The bill regression exposed this already-merged treasury bug: 15 PASS / 5 FAIL, all five failing in openBudgets before bill reading (96.31s tests / 104.50s command). Original main 69b9126328 reproduces the project-request case, 1 FAIL / 19 skipped, 10.00s. A zero transfer has no journalSequence, but the government writer explicitly stores undefined. Fix this owned writer before resuming bill checks; this is why the order changes. Existing tests stay unchanged. Path 1 proof #7193 has merged; the independent Confirmer separately completed its eight-town replay. No own PR is currently open.
 
 **First minutes:** finish line: no living sibling shares the player’s first name, no parent was under 15, and the room reads the actual home. Eight normal browser openings pass on main, playing Continue and actual replies with no Skip scene or day advance. The exact-world audit passes 651 parent links, 996 living sibling links and all 6,184 full households, zero failures across eight separate worlds. Screenshots are inspected. Hands off: the 15-year test, opening screens and other lanes’ source. Known cheats excluded: screen-only names, omitted towns, default homes and advancing a day to make a home appear. Size: proof only; the source fixes merged separately. Checked by: a fresh non-builder session on main. The complete home-row equality and direct homeOf room checks also pass in all eight exact worlds. No whole-path confirmation is claimed from the desk’s unit New Game checks.
 
@@ -56,7 +60,7 @@ All desk openings above played four weeks. The desk says its session may merge o
 
 | Path                             | Status                                     | Town / replay and proof                                                             |
 | -------------------------------- | ------------------------------------------ | ----------------------------------------------------------------------------------- |
-| 1. First minutes                 | **Built on main 69b9126328; not Verified** | [All eight towns, replays, screenshots and record proof](../proof/first-minutes.md) |
+| 1. First minutes                 | **Confirmed by non-builder on main 783974f6** | [All eight towns, replays, screenshots and record proof](../proof/first-minutes.md) |
 | 2. A vote reaches a person       | Unverified                                 | Meadow Lakes / f835dd278d7312a1; pending                                            |
 | 3. Congress passes a law         | Unverified                                 | Drawn town and replay pending                                                       |
 | 4. Other states and towns govern | Unverified                                 | Haleyville / ab5f58e9be125c95; pending                                              |
