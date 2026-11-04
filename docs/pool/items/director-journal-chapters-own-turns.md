@@ -5,11 +5,12 @@ area: director
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane3/journal-story
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T06:41:47.465Z
 ---
 
 **What.** Split from director-journal-one-story (its first done-when line). Over two played years the Journal opened chapters on other people's filings and oaths ('Commissioner') and on a stranger's birth ('Oscar Roy'), so chapters were titled after someone else (lane 3 path 9).
