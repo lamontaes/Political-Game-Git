@@ -71,12 +71,19 @@ import {
   townHouseholdPeople,
   townHouseholdSkeleton,
   type TownHouseholdSkeleton,
+  type TownPersonInput,
 } from "./town-households";
 import {
   placeGovernmentOrganizations,
   placeLocalGovernmentUnits,
 } from "./gov-rules/local-governments";
-import { placeReferencePopulation } from "./gov-rules/place-population";
+import {
+  groupQuartersProfileOf,
+  outsideLaborForce,
+  placeGroupQuarters,
+  placeReferencePopulation,
+  publishedPlaceReferencePopulation,
+} from "./gov-rules/place-population";
 import { PEOPLE_MIND_VERSION } from "./people-mind";
 import {
   openingFamilyIndex,
@@ -108,20 +115,26 @@ import { inventedPersonBirthDate } from "./gov-rules/invented-person-age";
 import { SeededRng } from "./kernel/rng";
 import moverRates from "../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
 import { buildOpeningKin, OPENING_KIN } from "./opening-kin";
-import { partnerAgedHousehold, partnershipGeo } from "./opening-partnership";
+import {
+  partnerAgedHousehold,
+  partnershipGeo,
+  type Sex,
+} from "./opening-partnership";
 import { spacedSiblingBirths } from "./sibling-births";
 import { distinctSiblingGivenName } from "./sibling-names";
 import { openingTemperaments } from "./opening-personality";
 import { PARAMETERS, parameter as p } from "./parameters";
 import { stopgap } from "./stopgaps";
-import type {
-  CoreInput,
-  HouseholdInput,
-  JobInput,
-  OrganizationInput,
-  PersonInput,
-  HuskInput,
-  Source,
+import {
+  GROUP_QUARTERS_TYPES,
+  type CoreInput,
+  type GroupQuartersType,
+  type HouseholdInput,
+  type JobInput,
+  type OrganizationInput,
+  type PersonInput,
+  type HuskInput,
+  type Source,
 } from "./types";
 
 export interface PopulationOptions {
@@ -162,10 +175,14 @@ interface HouseholdPlan {
   /** P15: members who are grown children of `grownChildParents` (opening-partnership.ts). */
   grownChildren?: readonly number[];
   grownChildParents?: readonly number[];
+  /** A group-quarters room's type; absent for a household. */
+  quarters?: GroupQuartersType;
 }
 
 /** Each [child, parent] member pair of a household: children under 18 with every adult, and a grown child with their parent. */
 function parentChildMembers(plan: HouseholdPlan): [number, number][] {
+  // Roommates in group quarters are not family.
+  if (plan.quarters) return [];
   // The household's parents: its adults other than grown children living at
   // home, and old enough to have had the child (a grown sibling is not a
   // parent of the younger children).
@@ -281,6 +298,79 @@ function selectedPlace(
       "No real locality with a sourced county context fits the requested opening cohort.",
     );
   return selected;
+}
+
+/**
+ * Whole counts for shares of a total: each part's floor, then one more to
+ * the parts with the largest remainders (the first of equals first) until
+ * the parts sum to the rounded total. No draw decides who gets one.
+ */
+function wholeShares(exact: readonly number[]): number[] {
+  const whole = exact.map((value) => Math.floor(value));
+  let left =
+    Math.round(exact.reduce((sum, value) => sum + value, p("zero"))) -
+    whole.reduce((sum, value) => sum + value, p("zero"));
+  const order = exact
+    .map((_, i) => i)
+    .sort((a, b) => exact[b]! - whole[b]! - (exact[a]! - whole[a]!) || a - b);
+  for (const i of order) {
+    if (left <= p("zero")) break;
+    whole[i]! += p("one");
+    left -= p("one");
+  }
+  return whole;
+}
+
+/**
+ * Each group-quarters type's residents in the opening's sample of `sample`
+ * people (CTO, Nov 1: the count by place and type comes from the Census).
+ * This world's count of a type is the Census count times the world's
+ * population over the published one, never past the world's whole count;
+ * the sample holds it in the sample's proportion, so the world's own count
+ * cancels: the Census count times the sample over the published population
+ * (or over the group-quarters total where that is larger). Empty where the
+ * place has none.
+ */
+function groupQuartersSample(
+  place: CorePlace,
+  sample: number,
+): [GroupQuartersType, number][] {
+  const row = placeGroupQuarters(place.key);
+  const published = place.sourceGeoid
+    ? publishedPlaceReferencePopulation(place.sourceGeoid)?.value
+    : undefined;
+  if (
+    !row ||
+    !(row.total > p("zero")) ||
+    published === undefined ||
+    !(published > p("zero"))
+  )
+    return [];
+  const whole = wholeShares(
+    GROUP_QUARTERS_TYPES.map(
+      (type) => (row.byType[type] * sample) / Math.max(published, row.total),
+    ),
+  );
+  return GROUP_QUARTERS_TYPES.flatMap((type, i) =>
+    whole[i]! > p("zero")
+      ? [[type, whole[i]!] as [GroupQuartersType, number]]
+      : [],
+  );
+}
+
+/**
+ * What the opening leaves for later wherever a type of group quarters
+ * opens: the engines that read room records as households, one marker each.
+ */
+function groupQuartersStopgaps(type: GroupQuartersType): void {
+  stopgap("SG-GQ-no-turnover");
+  stopgap("SG-GQ-means-tests-poverty");
+  stopgap("SG-GQ-crime-exposure");
+  stopgap("SG-GQ-campaign-doors");
+  stopgap("SG-GQ-home-backdrop");
+  if (type === "adultCorrectional") stopgap("SG-GQ-counted-prisoners-vote");
+  if (type === "juvenile") stopgap("SG-GQ-juvenile-school");
+  if (type === "military") stopgap("SG-GQ-military-pay");
 }
 
 function estimatedSource(
@@ -449,6 +539,23 @@ function withFamilyContext(
 }
 
 /** One-time legacy-source importer; no legacy clock, world generation or advance. */
+/**
+ * Whether a person lives in a household, not in group quarters (a dormitory,
+ * a cell, a barracks or a nursing-home room): the player starts in a
+ * household, as every resident did before group quarters were counted.
+ */
+export function inHousehold(
+  input: Pick<CoreInput, "households">,
+): (person: { householdId?: string }) => boolean {
+  const rooms = new Set(
+    (input.households ?? [])
+      .filter((home) => home.quarters)
+      .map((home) => home.id),
+  );
+  return (person) =>
+    !rooms.size || !person.householdId || !rooms.has(person.householdId);
+}
+
 export function buildPopulation(options: PopulationOptions): CoreInput {
   const target = options.minimumPeople ?? p("targetPopulation");
   if (!Number.isSafeInteger(target) || target < p("one"))
@@ -551,6 +658,47 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     });
     return { ...drawn, people, skeleton: { ...drawn.skeleton, members } };
   };
+  // A resident the opening adds by stable key, sex and age: a household's new
+  // member (P15) or a group-quarters resident.
+  const addPerson = (
+    key: string,
+    sex: Sex,
+    age: number,
+    familyName?: string,
+  ): TownPersonInput => {
+    const identity = {
+      gender: sex,
+      pronouns: defaultPronounsForGender(sex),
+    };
+    const named = drawCanonicalNamedIdentity(
+      new SeededRng(seedWorld.seed).fork(key).fork("name"),
+      identity,
+      { corpusVersion: DEFAULT_CORPUS_VERSION },
+    );
+    const birthDate = inventedPersonBirthDate(
+      new SeededRng(seedWorld.seed).fork(`${key}:p15-birth`),
+      {
+        role: "household-member",
+        referenceDate: startedAt,
+        age,
+        placement: "drawn-exact",
+      },
+    );
+    const surname = familyName ?? named.familyName;
+    return {
+      stableKey: key,
+      givenName: birthCohortGivenName(seedWorld.seed, key, {
+        givenName: named.givenName,
+        familyName: surname,
+        birthDate,
+        gender: sex,
+      }),
+      familyName: surname,
+      identity,
+      birthDate,
+      homeJurisdictionId: town,
+    };
+  };
   const drawAged = (index: number, shape?: HouseholdShape) =>
     partnerAgedHousehold({
       seed: options.seed,
@@ -597,51 +745,18 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
             : drawnName,
         };
       },
-      addPerson: (key, sex, age, familyName) => {
-        const identity = {
-          gender: sex,
-          pronouns: defaultPronounsForGender(sex),
-        };
-        const named = drawCanonicalNamedIdentity(
-          new SeededRng(seedWorld.seed).fork(key).fork("name"),
-          identity,
-          { corpusVersion: DEFAULT_CORPUS_VERSION },
-        );
-        const birthDate = inventedPersonBirthDate(
-          new SeededRng(seedWorld.seed).fork(`${key}:p15-birth`),
-          {
-            role: "household-member",
-            referenceDate: startedAt,
-            age,
-            placement: "drawn-exact",
-          },
-        );
-        const surname = familyName ?? named.familyName;
-        return {
-          stableKey: key,
-          givenName: birthCohortGivenName(seedWorld.seed, key, {
-            givenName: named.givenName,
-            familyName: surname,
-            birthDate,
-            gender: sex,
-          }),
-          familyName: surname,
-          identity,
-          birthDate,
-          homeJurisdictionId: town,
-        };
-      },
+      addPerson,
     });
-  const addHousehold = (
-    index: number,
+  const addPlan = (
+    stableKey: string,
     {
       skeleton,
       people: householdPeople,
       grownChildren,
       grownChildParents,
     }: ReturnType<typeof drawHousehold>,
+    quarters?: GroupQuartersType,
   ) => {
-    const stableKey = `${TOWN_RESIDENTS_VERSION}:${town}:household:${index}`;
     const county = [...counties].sort((left, right) => {
       const gap = (row: CountyContext) =>
         (totalShare > p("zero")
@@ -668,11 +783,25 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
       ),
       ...(county ? { countyId: county.place.context.jurisdiction.id } : {}),
       ...(grownChildren.length ? { grownChildren, grownChildParents } : {}),
+      ...(quarters ? { quarters } : {}),
     });
     inputs.push(...householdPeople);
   };
+  const addHousehold = (
+    index: number,
+    drawn: ReturnType<typeof drawHousehold>,
+  ) => addPlan(`${TOWN_RESIDENTS_VERSION}:${town}:household:${index}`, drawn);
+  // Group quarters (CTO, Nov 1): the place's Census count of residents in
+  // college housing, prisons, nursing homes, barracks and other quarters is
+  // part of its population, so their share of the sample is carved out of
+  // the same draw, and households are drawn for the rest only.
+  const quartersSample = groupQuartersSample(place, minimumPeople);
+  const quartersPeople = quartersSample.reduce(
+    (sum, [, count]) => sum + count,
+    p("zero"),
+  );
   let index = p("zero");
-  for (; inputs.length < minimumPeople; index += p("one"))
+  for (; inputs.length < minimumPeople - quartersPeople; index += p("one"))
     addHousehold(index, drawHousehold(index));
   // The player's cohorts: a town whose own sample shows no family with a
   // child that age (a small place's survey count can show none at all) still
@@ -742,6 +871,90 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
       }
     }
   }
+  // The group-quarters rooms, after the player's cohorts, so a juvenile
+  // resident never stands in for the player.
+  const roomMembers = p("groupQuartersRoomMembers");
+  for (const [type, count] of quartersSample) {
+    groupQuartersStopgaps(type);
+    // Each age band and sex holds its share of the type's residents, whole
+    // by largest remainder, and their ages spread evenly across the band:
+    // who lives here is generated, never rolled.
+    stopgap("SG-GQ-ages-by-type");
+    const profile = groupQuartersProfileOf(type);
+    const shares = profile.ages.reduce(
+      (sum, [, , share]) => sum + share!,
+      p("zero"),
+    );
+    const cells = profile.ages.flatMap(([low, high, share]) =>
+      (["female", "male"] as const).map((sex) => ({
+        low: low!,
+        high: high!,
+        sex,
+        exact:
+          (count *
+            share! *
+            (sex === "female"
+              ? profile.female.share
+              : p("one") - profile.female.share)) /
+          shares,
+      })),
+    );
+    const residents: { sex: Sex; age: number }[] = [];
+    wholeShares(cells.map((cell) => cell.exact)).forEach((n, i) => {
+      const { low, high, sex } = cells[i]!;
+      const span = high - low + p("one");
+      for (let k = p("zero"); k < n; k += p("one"))
+        residents.push({
+          sex,
+          age: low + Math.floor(((k + p("half")) * span) / n),
+        });
+    });
+    // Residents of the same sex share a room in age order, this many at a
+    // time (TUNABLE).
+    stopgap("SG-GQ-room-size");
+    let room = p("zero");
+    for (const sex of ["female", "male"] as const) {
+      const ofSex = residents.filter((row) => row.sex === sex);
+      for (let at = p("zero"); at < ofSex.length; at += roomMembers) {
+        const stableKey = `${TOWN_RESIDENTS_VERSION}:${town}:quarters:${type}:${room}`;
+        const people = ofSex
+          .slice(at, at + roomMembers)
+          .reverse()
+          .map((row, member) =>
+            addPerson(`${stableKey}:${member}`, sex, row.age),
+          );
+        addPlan(
+          stableKey,
+          {
+            skeleton: {
+              index: room,
+              shape: "housemates",
+              members: people.map((person) => {
+                const age = ageOnDate(makeIsoDate(person.birthDate), startedAt);
+                return {
+                  age,
+                  role:
+                    age < p("votingAge")
+                      ? ("child" as const)
+                      : ("adult" as const),
+                };
+              }),
+            },
+            people,
+            grownChildren: [],
+            grownChildParents: [],
+          },
+          type,
+        );
+        room += p("one");
+      }
+    }
+  }
+  // People in institutions and in the armed forces hold and seek no
+  // civilian job (the same rule as a person in custody).
+  const outsideLaborForceIds = new Set(
+    plans.flatMap((plan) => (outsideLaborForce(plan.quarters) ? plan.ids : [])),
+  );
   const world = withFamilyContext(
     createCharacterHistoryContextPeople(seedWorld, inputs),
     plans,
@@ -754,6 +967,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
       ...(place.sourceGeoid ? { sourceGeoid: place.sourceGeoid } : {}),
     },
     placeGovernmentOrganizations(place, startedAt),
+    outsideLaborForceIds,
   );
   const employmentSource = estimatedSource(
     startedAt,
@@ -868,6 +1082,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
           countyGeoidByPerson,
           undefined,
           startMinimumHourly ?? undefined,
+          outsideLaborForceIds,
         );
   for (const job of openingAllocation.jobs) {
     jobs.push(job);
@@ -1007,6 +1222,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     placeId: town,
     memberIds: plan.ids,
     source,
+    ...(plan.quarters ? { quarters: plan.quarters } : {}),
   }));
   const familyLinks: FamilyLink[] = [];
   const familyPast = new Map<
@@ -1120,11 +1336,14 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
         "child",
       );
     }
-    // Children at home, minors and grown, are each other's siblings.
-    const siblings = [
-      ...children,
-      ...(plan.grownChildren ?? []).map((member) => plan.ids[member]!),
-    ];
+    // Children at home, minors and grown, are each other's siblings
+    // (roommates in group quarters are not).
+    const siblings = plan.quarters
+      ? []
+      : [
+          ...children,
+          ...(plan.grownChildren ?? []).map((member) => plan.ids[member]!),
+        ];
     for (const child of siblings) {
       for (const sibling of siblings) {
         if (sibling === child) continue;
@@ -1147,14 +1366,34 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
         id,
         plan.ids.filter((member) => member !== id),
       );
-    const costs = worldMonthlyHouseholdLivingCosts(
-      options.seed,
-      livingCostsRegionForState(place.stateJurisdictionKey),
-      plan.ids.length,
-    );
-    const monthlyShelterMinor = rent
-      ? rent.rents[bedroomsForHousehold(plan.ids.length)]! * p("minorPerDollar")
-      : p("zero");
+    // Group quarters: the institution houses its residents, so a room has no
+    // shelter cost; an institution's residents spend nothing in town, and
+    // the others keep one person's nonhousing costs each.
+    const profile = plan.quarters
+      ? groupQuartersProfileOf(plan.quarters)
+      : undefined;
+    if (profile) stopgap("SG-GQ-institution-costs");
+    const costs = profile
+      ? {
+          monthlyMinor: profile.institutional
+            ? p("zero")
+            : plan.ids.length *
+              worldMonthlyHouseholdLivingCosts(
+                options.seed,
+                livingCostsRegionForState(place.stateJurisdictionKey),
+                p("one"),
+              ).monthlyMinor,
+        }
+      : worldMonthlyHouseholdLivingCosts(
+          options.seed,
+          livingCostsRegionForState(place.stateJurisdictionKey),
+          plan.ids.length,
+        );
+    const monthlyShelterMinor =
+      rent && !plan.quarters
+        ? rent.rents[bedroomsForHousehold(plan.ids.length)]! *
+          p("minorPerDollar")
+        : p("zero");
     const householdDailyCost = Math.round(
       ((costs.monthlyMinor + monthlyShelterMinor) * p("monthsPerYear")) /
         p("daysPerMeanYear"),
