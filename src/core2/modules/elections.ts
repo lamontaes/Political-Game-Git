@@ -598,7 +598,7 @@ function contestFor(
   if (!dates || dates.electionDate <= api.state.date) return null;
   const family = officeFamily(office);
   noteEstimates(api, dates);
-  const row: ContestRow = {
+  const row = withFilingLawDeadline(api, {
     ...dates,
     id: `contest:${seat.id}:${dates.electionDate}`,
     officeId: office.id,
@@ -608,8 +608,25 @@ function contestFor(
     district: seat.district,
     family,
     incumbentTermId: holder?.id ?? null,
+  });
+  // Every contest opens its filing on a day (elections-filing-window-opens):
+  // the calendar's read date where it has one, else the window the place's
+  // law usually gives before its one deadline (filingDeadlineFor), marked as
+  // an estimate with its source. A contest never stands open from the first
+  // day for want of one.
+  if (row.filingOpens !== null) return row;
+  const opens = addDays(
+    makeIsoDate(row.filingDeadline),
+    -electionsParameter("filingWindowDays"),
+  );
+  return {
+    ...row,
+    filingOpens: opens,
+    sources: [
+      ...row.sources,
+      `filing opens ${opens}: estimated, ${electionsParameter("filingWindowDays")} days before the deadline (elections parameter filingWindowDays)`,
+    ],
   };
-  return withFilingLawDeadline(api, row);
 }
 
 /**
