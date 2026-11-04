@@ -5,11 +5,12 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane3/own-loss-story
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T09:26:04.823Z
 ---
 
 **What.** Confirmer replay of Lane 3 path 6 on main 2e321723d8: New Game in Storrs, Connecticut (replay storrs-1), Emily Carter (person_b83e0bf262b37c19) filed for Selectman on June 10, 2025 and lost on November 4, 552 to 223, to Avery Cooper (person_683a7051218ca664). The race's news record election-result:contest:seat:gus2025:161511:board:0:2025-11-04 (served by /api/news) has lede 'Emily Carter lost the election.' and paragraphs 'Emily Carter lost the election.' and 'Emily Carter beat Avery Cooper.' The second paragraph reverses the result in the same story. It also names no concession (no concession call was staged; that half is words-venue-speeches-delivered).
