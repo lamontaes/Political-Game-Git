@@ -116,7 +116,7 @@ it(`a housemate's swearing-in is told as theirs, seed ${seed}`, () => {
               .find((line) => line.sourceRecordIds.includes(record.id));
           // The winner's own journal says it in the first person.
           const own = lineFor(winner.id as PersonId);
-          if (own) expect(own.text, said).toMatch(/^I\b/);
+          if (own) expect(own.plain ?? own.text, said).toMatch(/^I\b/);
           for (const id of home) {
             const line = lineFor(id);
             if (!line) continue;
