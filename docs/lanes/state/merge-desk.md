@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 71 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 72 pull requests merged. Newest state at the top of each section.
 
 ## What the owner can play now
 
@@ -68,7 +68,7 @@ New on Nov 3:
   - A pool fix (#7145).
   - A state page (#7146).
 
-## Lane PRs merged on Nov 4 (36), on the owner's word ("You may merge lane PRs that pass the new-game check")
+## Lane PRs merged on Nov 4 (37), on the owner's word ("You may merge lane PRs that pass the new-game check")
 
 Each had main merged in again, passed `npm run new-game-check` (a town drawn from all 56, a new life, four weeks) and merged pinned to that head.
 
@@ -110,6 +110,7 @@ Each had main merged in again, passed `npm run new-game-check` (a town drawn fro
 | #7180 | Browser checks that file the player wait for filing to open (no change in play)                                           | Presque Isle Harbor, Michigan     | 95456057cb2df45c |
 | #7181 | The counted-eviction test plays Storrs for a year; it fixes a red #7176 left on main (test only)                          | Washington, District of Columbia  | 427412a7e94c6d8d |
 | #7182 | The no-dice guard is green on main: the sibling-name pick counts as who exists (guard only)                               | Riverside, Wyoming                | 3fb1b38d13c583e0 |
+| #7183 | A lane state file pushed to main (this page included) no longer turns the release run red (release only)                  | Magna, Utah                       | b721fbbd762fc58a |
 
 Conflicts resolved mechanically: #7154 (both sides added a parameter and a stopgap row; both kept), and #7153, #7157, #7160, #7162 (Lane 2's state page: main's wording for the one edited line, both sides' log entries kept). Mac builds started after 5, 13, 18, 25, 30 and 35 of these merges.
 
