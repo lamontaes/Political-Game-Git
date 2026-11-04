@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 83 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 84 pull requests merged. Newest state at the top of each section.
 
 ## What the owner can play now
 
@@ -71,7 +71,7 @@ New on Nov 3:
   - A pool fix (#7145).
   - A state page (#7146).
 
-## Lane PRs merged on Nov 4 (48), on the owner's word ("You may merge lane PRs that pass the new-game check")
+## Lane PRs merged on Nov 4 (49), on the owner's word ("You may merge lane PRs that pass the new-game check")
 
 Each had main merged in again, passed `npm run new-game-check` (a town drawn from all 56, a new life, four weeks) and merged pinned to that head.
 
@@ -125,6 +125,7 @@ Each had main merged in again, passed `npm run new-game-check` (a town drawn fro
 | #7190 | Lane 5's part of the red guards on main (the families and English guards; guards only)                                                           | Wilroads Gardens, Kansas          | 56017b096bed5ef5 |
 | #7191 | After you vote, a reporter asks why, and the vote's story quotes you or says you wouldn't comment                                                | Tryon, Oklahoma                   | 181fe7677c869c88 |
 | #7192 | Lane 3's part of the red guards: the scene code keeps its numbers in data and reads press stories through the press module's entry (guards only) | Lakeview, Louisiana               | 2f87205bc844ea8a |
+| #7193 | Lane 2's first-minutes proof in eight towns, on main (built, not yet confirmed by a second session; docs only)                                   | West Hattiesburg, Mississippi     | 5e0307fe27bc0262 |
 
 Conflicts resolved mechanically: #7154 (both sides added a parameter and a stopgap row; both kept), and #7153, #7157, #7160, #7162 (Lane 2's state page: main's wording for the one edited line, both sides' log entries kept). Mac builds started after 5, 13, 18, 25, 30, 35, 40 and 45 of these merges.
 
