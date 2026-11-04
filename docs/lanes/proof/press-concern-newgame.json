@@ -45,5 +45,14 @@
       "status": 200,
       "seconds": 0.0011322189999991678
     }
-  ]
+  ],
+  "mainIntegration": {
+    "head": "829947c08e61c1f24812dee3bfdb0c9a376b0821",
+    "replay": "8be5bbc5382de8f1",
+    "place": "Ramah, New Mexico",
+    "failure": null,
+    "personId": "person_11236e4dc7044666",
+    "weeks": 4,
+    "statuses": [200, 200, 200, 200, 200, 200, 200, 200]
+  }
 }
