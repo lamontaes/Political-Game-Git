@@ -5,12 +5,13 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane-2/price-learning-observer
 pr:
 blocked-on:
 lead: laws-effects
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T13:03:05.347Z
 ---
 
 **What.** The unchanged place-prices-learned test captures every price-learning event but compares each one with its fare-free-transit fixture. In Williamsburg, Virginia, an ordinary clean-electricity law produces a legitimate learned event on February 3. All three cases then fail on that event: its law ID, hearing record and date are checked against the unrelated fixture. The same failures occur with the original production source, so this is not introduced by the adopted-income-tax reader.
