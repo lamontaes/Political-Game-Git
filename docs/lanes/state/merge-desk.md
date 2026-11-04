@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 66 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 67 pull requests merged. Newest state at the top of each section.
 
 ## What the owner can play now
 
@@ -22,7 +22,7 @@ New on Nov 4, from the lanes:
 - **Campaign and election night.**
   - A yes at the door becomes a vote as the person's stated intent predicts.
   - On the night you lose, the talk at home comes from the relative who worked the race or put money in.
-  - Whether you concede or refuse is printed in the race's story.
+  - Whether you concede or refuse is printed in the race's story, and the winner takes your call gracious or gloating, by their traits.
   - Rivals run attack ads on your record that name your real votes.
   - Favors you traded for votes are called in at election time.
 - **Family and home.**
@@ -68,7 +68,7 @@ New on Nov 3:
   - A pool fix (#7145).
   - A state page (#7146).
 
-## Lane PRs merged on Nov 4 (31), on the owner's word ("You may merge lane PRs that pass the new-game check")
+## Lane PRs merged on Nov 4 (32), on the owner's word ("You may merge lane PRs that pass the new-game check")
 
 Each had main merged in again, passed `npm run new-game-check` (a town drawn from all 56, a new life, four weeks) and merged pinned to that head.
 
@@ -105,6 +105,7 @@ Each had main merged in again, passed `npm run new-game-check` (a town drawn fro
 | #7175 | Favors traded for votes are called in at election time                                                                    | Palm Valley, Florida              | 86791939a396ec01 |
 | #7176 | Dorms, barracks, prisons and nursing homes are rooms outside the rental market; a college town's year runs a third faster | Hillsboro Beach, Florida          | daf3dcca65f27910 |
 | #7177 | A crew script opens every county-governed locality and names each one that won't open (no change in play)                 | Romeville, Louisiana              | 8c8e6f57ca3c0234 |
+| #7178 | The winner takes your concession call, gracious or gloating by their traits                                               | Pughtown, Pennsylvania            | ba7436a4fd49b389 |
 
 Conflicts resolved mechanically: #7154 (both sides added a parameter and a stopgap row; both kept), and #7153, #7157, #7160, #7162 (Lane 2's state page: main's wording for the one edited line, both sides' log entries kept). Mac builds started after 5, 13, 18, 25 and 30 of these merges.
 
