@@ -1,6 +1,18 @@
 {
   "entries": [
     {
+      "version": "0.83.2",
+      "releasedOn": "2026-11-04",
+      "revision": "a2222834687bad41b1e6067a8d3ac2cda0ce5506",
+      "changeIds": [
+        "english-guard-lane-town-names",
+        "restore-marks-saved",
+        "retention-queue-empty-rebuild",
+        "words-owed-talk-reply-facts",
+        "words-victory-night-worded"
+      ]
+    },
+    {
       "version": "0.83.1",
       "releasedOn": "2026-11-04",
       "revision": "68fdf63e3e80189454ced57ef15e316d8fea8c4c",
