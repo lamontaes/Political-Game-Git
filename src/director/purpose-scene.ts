@@ -578,9 +578,10 @@ function composeBinding(
         sourceRecordIds: [moment.causeId, said.filingId ?? moment.causeId],
       };
   }
-  // What the relative has at stake in the run, from the household's records
-  // (the cast rule chose them for it): the lines about money or time need it.
-  const stake = type.stakes?.includes("household-money-or-time")
+  // What the relative has at stake in the run or the lost race, from the
+  // household's and the campaign's records (the cast rule chose them for it):
+  // the lines about money, time or the part they played need it.
+  const stake = type.stakes?.some((row) => row.startsWith("household-"))
     ? stakeOf(core, askedId, moment.causeId, askerId)
     : null;
   for (const [key, fact] of Object.entries(stake?.facts ?? {}))
@@ -1132,6 +1133,20 @@ export function replyInScene(
     answer?.move === "promise" &&
     core.modules.has(CAMPAIGNS_MODULE_ID) &&
     enlistVolunteer(coreAPI(core), filingId, scene.askerId);
+  // After a lost race, saying they will run again meets the relative's own
+  // answer (led by their traits); the candidacy engine keeps it for the next
+  // contest the person weighs: behind the run pulls toward it, doubts away.
+  const lossPart = scene.facts.some(
+    (row) => row.key === "stake-worked" || row.key === "stake-gave",
+  );
+  const backing =
+    lossPart && line.move === "promise" && answer
+      ? rulesFile.familyStakes.behindMoves.includes(answer.move)
+        ? "behind"
+        : rulesFile.familyStakes.doubtMoves.includes(answer.move)
+          ? "doubts"
+          : undefined
+      : undefined;
   // Where the player asks, the reply kept is the colleague's answer, theirs
   // to the player (the one asked first, as the legislature reads it).
   const theirs = scene.playerAsks
@@ -1158,6 +1173,7 @@ export function replyInScene(
       line: line.text,
       ...(stakeKind ? { stake: stakeKind } : {}),
       ...(enlists && filingId ? { enlisted: filingId } : {}),
+      ...(backing ? { backing } : {}),
       ...(ending ? { ending: ending.id, keeps: ending.keeps } : {}),
       ...(ending?.firmness ? { firmness: ending.firmness } : {}),
     },
