@@ -22,4 +22,4 @@ claimed-at: 2026-11-04T15:32:07.567Z
 
 **Files.** src/core2/elections-filing.test.ts
 
-**Notes.** TODO
+**Notes.** Built on lane-4/elections-filing-test-window (1d6f5c02fb), Nov 4: passes at the failing seed (place 5176432, open on 2026-02-02) and three fresh seeds (b9691f71…, 7273716, June 15; 412ec8f4…, 5033325, Jan 5; 1c39895f…, 1933420, Jan 12). PR not opened: this session's GitHub token is invalid. Anyone may open it from that branch, line 1 `Pool item: elections-filing-test-waits-for-filing-window`.
