@@ -476,6 +476,7 @@
       "kindPrefix": "event:volunteer-shift",
       "turn": false,
       "entry": "story",
+      "toldWithoutOther": true,
       "eventFacts": {
         "office": { "fact": "office", "format": "text" },
         "doors": { "fact": "doorsKnocked", "format": "count" }

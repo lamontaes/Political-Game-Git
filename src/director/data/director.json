@@ -965,7 +965,7 @@
       "eventKind": "volunteer-shift",
       "channel": "cause",
       "impactParameter": "directorCampaignSpeechImpact",
-      "minDaysApart": 28
+      "minDaysApart": 14
     },
     {
       "eventKind": "petition-checked",
