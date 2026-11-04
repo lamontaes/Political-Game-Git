@@ -5,11 +5,12 @@ area: play
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane-4/loading
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T08:20:43.240Z
 ---
 
 **What.** Loading is a bar and a status line (src/bench/play.mjs startLife). Path 3 (docs/lanes/lane-4.md): New Game, Storrs; see the journal writing itself, a year counter with headlines, the map filling in. The world's past (openThePast: elections, laws, the news archive) and the player's life story exist about a second before the build ends; the server then spends several more seconds drawing the first scene and faces.
