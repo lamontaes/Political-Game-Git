@@ -17,7 +17,9 @@ import { inverseStandardNormal } from "./kernel/deterministic-math";
 import { currentCloseness } from "./closeness";
 import data from "./data/grief.json" with { type: "json" };
 import { extendData } from "./data";
+import { registerDerivedCache, registerWorldMapPart } from "./snapshot";
 import type {
+  CoreState,
   CoreAPI,
   CoreData,
   CoreEventInput,
@@ -37,7 +39,15 @@ export interface Bereavement {
 }
 
 const bereavements = new WeakMap<object, Map<string, Bereavement[]>>();
+// Each relative's losses are the world's state: saved with it, so a restored
+// world's grieving relatives still feel the pull (core-snapshot-cover-rest).
+registerWorldMapPart(
+  "core2-grief-bereavements",
+  bereavements as WeakMap<CoreState, Map<string, Bereavement[]>>,
+);
 const halfLives = new WeakMap<object, Map<string, number>>();
+// Drawn from the world's seed per person: rebuilt the same after a restore.
+registerDerivedCache(halfLives as WeakMap<CoreState, Map<string, number>>);
 
 function byPerson<T>(store: WeakMap<object, Map<string, T>>, key: object) {
   let rows = store.get(key);
