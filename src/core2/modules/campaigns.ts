@@ -102,7 +102,10 @@ import {
 } from "./views";
 import {
   LEGISLATURE_MODULE_ID,
+  obligationsOwedBetween,
+  obligationsOwedTo,
   provisionStance,
+  settleObligation,
   type BillRow,
 } from "./legislature";
 import { recordAppeal } from "./record";
@@ -345,6 +348,8 @@ export type EndorsementReason =
  * campaign row keeps no list of its own.
  */
 export interface EndorsementRow {
+  /** A favor the speaker owed the candidate from a deal, weighed in this answer (campaign-favor-called-in). */
+  readonly obligationId?: string;
   /** endorsement:<filingId>:<the person asked, or the group's organization>. */
   readonly id: string;
   readonly filingId: string;
@@ -4549,6 +4554,8 @@ function raceCampaigns(api: CoreAPI, contestId: string): CampaignRow[] {
 
 /** What weighing one candidate against the race came to (`weighEndorsement`). */
 export interface EndorsementWeighing extends PlatformRead {
+  /** A favor the endorser owed the candidate, weighed in and settled by a yes. */
+  readonly obligationId?: string;
   readonly yes: boolean;
   readonly reason: EndorsementReason;
   readonly tie: number;
@@ -4591,10 +4598,24 @@ function weighEndorsement(
       row.candidateId === endorser.id
         ? 0
         : closenessBetween(api.state, endorser.id, row.candidateId);
+    // A favor the endorser owes this candidate from a deal they took
+    // (campaign-favor-called-in): worth what a favor is worth in the
+    // legislature, more the closer they are; a person speaks for themselves.
+    const owed =
+      speaksFor === "self"
+        ? obligationsOwedBetween(api, endorser.id, row.candidateId)[0]
+        : undefined;
+    const favor = owed
+      ? campaignParameter("dealWeight") * (1 + Math.max(0, tie))
+      : 0;
     return {
       ...read,
       tie,
-      backing: read.agreement + campaignParameter("endorsementTieWeight") * tie,
+      backing:
+        read.agreement +
+        campaignParameter("endorsementTieWeight") * tie +
+        favor,
+      ...(owed ? { obligationId: owed.id } : {}),
     };
   };
   const weighed = (read: PlatformRead) =>
@@ -4734,6 +4755,7 @@ function endorsementRow(
     askerId: input.askerId,
     answer: w.yes ? "yes" : "no",
     reason: w.reason,
+    ...(w.obligationId ? { obligationId: w.obligationId } : {}),
     issue: w.issue,
     // A group speaks for its stance; a person's own word stands on no group's.
     stance: input.organizationId !== null ? w.agreesOn : null,
@@ -4840,6 +4862,9 @@ export function askForEndorsement(
       volunteerIds: [],
     }),
   );
+  // A favor owed and weighed in is repaid by the endorsement.
+  if (weighing.yes && weighing.obligationId)
+    settleObligation(api, weighing.obligationId, id);
   return weighing.yes;
 }
 
@@ -5965,6 +5990,19 @@ export function campaignTurn(
   // traits. The controlled person's money moves only by their own choice, so
   // asks skip them.
   askOutsideDonors(api, filingId);
+  // The candidate calls in the favors owed them from deals in office: each
+  // colleague who owes one is asked to endorse (campaign-favor-called-in).
+  // The player is never answered for: a favor asked of them waits for the
+  // player (stopgap SG-GOV-player-favor-asked).
+  if (candidate?.alive)
+    for (const owed of obligationsOwedTo(api, candidate.id)) {
+      if (owed.owedBy === (api.state as CoreState).playerId) {
+        // stopgapId: SG-GOV-player-favor-asked
+        api.stopgap("SG-GOV-player-favor-asked");
+        continue;
+      }
+      askForEndorsement(api, filingId, owed.owedBy);
+    }
   let doors = 0;
   let asks = 0;
   let dayAct: CampaignTurnResult["dayAct"] = null;
