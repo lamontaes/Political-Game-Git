@@ -55,5 +55,19 @@
     "organizationId": "organization:treasury:US-SD",
     "hoursDaily": 0,
     "endsAt": "2028-09-01"
+  },
+  "corrected": {
+    "head": "df5caffa8908557f2c09d84bf9002e7c34e61ce1",
+    "observedAt": "2029-02-01",
+    "newJobId": "job:office:seat:US-SD:upper:019:0:official:term:seat:US-SD:upper:019:0:2025-01-20:term:seat:US-SD:upper:019:0:2029-01-01:elected",
+    "oldJobUnchanged": true,
+    "previousTermId": "term:seat:US-SD:upper:019:0:2027-01-04:elected",
+    "previousTermEndedBy": "conviction",
+    "salaryId": "salary:official:term:seat:US-SD:upper:019:0:2025-01-20:2029-02-01",
+    "journalId": "journal:2029-02-01:907635",
+    "paidMinor": 67760,
+    "payerAccount": "cash:organization:treasury:US-SD:residual",
+    "payeeAccount": "cash:official:term:seat:US-SD:upper:019:0:2025-01-20:residual",
+    "postingsSumMinor": 0
   }
 }
