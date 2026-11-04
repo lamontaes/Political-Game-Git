@@ -3,6 +3,8 @@ import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "../core2/game-start";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { advanceCore } from "../core2/life";
 import { preStartHistory } from "../core2/pre-start";
 import { composeJournal } from "./journal";
 import type { PersonId } from "../core2/types";
@@ -177,4 +179,80 @@ describe("the journal as a story from birth", () => {
   it("names no employer for the Haugan, Montana player's first job before the move", () => {
     expect(ownEmployersOnly("final-a:elsewhere:1")).toBeNull();
   }, 300_000);
+
+  /**
+   * Whether, over a played year in the place drawn from this seed, the
+   * player's Journal opens no chapter on someone else's filing or oath; a
+   * reason it holds no such case otherwise (nobody the player follows filed
+   * or took office).
+   */
+  const ownChaptersOnly = (drawSeed: string): string | null => {
+    const place = drawPlace(drawSeed, "journal-story");
+    const where = `seed ${drawSeed}, ${place.name} (${place.key})`;
+    const { core, director, playerId } = buildBenchWorld(
+      place.seed,
+      gameStartDate(),
+      { twoLevel: true, placeKey: place.key },
+    );
+    const id = playerId as PersonId;
+    director.watch(core, id);
+    advanceCore(core, addDays(makeIsoDate(core.date), 730));
+    const moments = director.ledger.people.get(id)?.moments ?? [];
+    const governing = (kind: string) =>
+      kind.startsWith("event:candidate-filed") ||
+      kind.startsWith("event:took-office");
+    const others = moments.filter(
+      (moment) => governing(moment.causeKind) && moment.selfNamed !== true,
+    );
+    if (!others.length)
+      return `${where}: no one else's filing or oath reached the player`;
+    const journal = composeJournal(core, director, id);
+    const told = others.filter((moment) =>
+      journal.some((chapter) =>
+        chapter.lines.some((line) => line.momentIds.includes(moment.id)),
+      ),
+    );
+    if (!told.length)
+      return `${where}: ${others.length} filings or oaths of others, none told`;
+    // Every chapter after the first opens on one of the player's own turns;
+    // another's filing or oath is told inside the chapter being lived.
+    const byId = new Map(moments.map((moment) => [moment.id, moment]));
+    for (const chapter of journal.slice(1)) {
+      const opened = byId.get(chapter.key);
+      if (!opened || !governing(opened.causeKind)) continue;
+      expect(
+        opened.selfNamed,
+        `${where}: chapter "${chapter.title}" opens on ${opened.causeId}`,
+      ).toBe(true);
+    }
+    // No chapter is titled with another person's name.
+    for (const chapter of journal) {
+      const named = [...core.people.values()].find(
+        (row) =>
+          row.id !== id &&
+          (chapter.title === `${row.givenName} ${row.familyName}` ||
+            chapter.title === row.givenName),
+      );
+      expect(
+        named?.id,
+        `${where}: chapter "${chapter.title}" opens on ${chapter.key}`,
+      ).toBeUndefined();
+    }
+    process.stdout.write(
+      `journal-story: ${where}; ${told.length} filings or oaths of others told inside chapters (${told.map((moment) => moment.causeId).join(", ")}): ${journal.map((chapter) => chapter.title).join(" | ")}\n`,
+    );
+    return null;
+  };
+
+  it("opens no chapter on someone else's filing or oath over two played years", () => {
+    const passed: string[] = [];
+    for (let draw = 0; draw < 3; draw += 1) {
+      const skipped = ownChaptersOnly(`${seed}:others:${draw}`);
+      if (!skipped) return;
+      passed.push(skipped);
+    }
+    throw new Error(
+      `No drawn place had another's filing or oath (seed ${seed}): ${passed.join("; ")}`,
+    );
+  }, 1_800_000);
 });

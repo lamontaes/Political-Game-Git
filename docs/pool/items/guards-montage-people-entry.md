@@ -5,7 +5,7 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: lane-4/montage-import
 pr: #7194
 blocked-on:
