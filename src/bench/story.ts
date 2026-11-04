@@ -4,6 +4,7 @@ import { purposeScene, replyInScene } from "../director/purpose-scene";
 import type { SceneTalkLine, TreeNode } from "../director/scene-talk";
 import { shipped } from "../english/scene-talk-words";
 import { hasBackdrop } from "./backdrop-places";
+import { bodyPicture } from "./legislature";
 import { addressMontage, partLevels } from "./montage";
 import {
   homeOf,
@@ -105,7 +106,14 @@ export function storyScene(
   if (!scene) throw new Error("This moment has no scene.");
   const person = core.people.get(personId)!;
   const age = ageOnDate(person.birthDate, core.date);
+  // A scene in a body's chamber shows that body's own room, as the body
+  // scene does (agreements/3-4.md).
+  const chamber =
+    scene.setting.kind === "chamber" && scene.setting.recordId
+      ? bodyPicture(core, personId, scene.setting.recordId)
+      : null;
   const steps = [
+    ...(chamber ? [chamber] : []),
     ...(SITUATIONS[`${scene.typeKey}:${scene.setting.kind}`] ?? []),
     ...(scene.setting.kind === "school"
       ? (SCHOOLS.find((row) => age < row.underAge)?.places ?? [])
