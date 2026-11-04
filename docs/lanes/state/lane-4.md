@@ -1,4 +1,4 @@
-0 of 13 played paths confirmed; 2 wait on the people system. Oldest open PR 0 days (#7233); open: #7233, #7238, #7241.
+1 of 13 played paths confirmed; 2 wait on the people system. Oldest open PR 0 days (#7233); open: #7233, #7238, #7241.
 
 # Lane 4 state: Screens
 
@@ -115,4 +115,5 @@ Replays by a session that built none of this lane's work, on main. Only this sec
 - **Path 4, opening, Haleyville: not confirmed.** Main 705120be1b, replay ab5f58e9be125c95. Desk, colonnade, America, Congress, the governor and state leaders named over the capitol, home, Skip scene throughout. The home beat has no partner's line and draws nobody (waits on people, as this page says).
 - **Path 5, first evening: fail.** Main fb000259ca, the eight fixed towns. The room matches the house everywhere; Haleyville draws nobody at home, and Storrs and Santa Rita seat someone in a work blazer. Covered by `people-home-plates` and `people-pack-v4-pose-gaps`. Fail 1 of 3.
 - **Path 10, who you are, Santa Rita: fail.** Main 705120be1b, replay 6f539fcfdf6d96f9-5, born 1960 (no job). Why ("nobody in your household draws a wage") and the town's size show at three sizes; eight weeks brought no job offer as a scene. Covered by `world-player-jobless-no-offers`. Fail 1 of 3.
+- **Path 13, election night, Storrs: pass.** Main 705120be1b, replay storrs-1, New Game, lost Selectman 223 to 552 on November 4, 2025. Four returns pages at 1440×900, 1280×800 and 1024×768: no raw words, both governor rows inside the panel, nothing scrolls. Filed `elections-night-returns-steps-add-up` (a middle page says the rest of the town is in at 2 to 0). Proof: `docs/lanes/proof/confirmer-lane4/election-night/`.
 - **Not replayed:** 6 (no filing office in Brookside until filing opens), 7 to 9 (the owner's mocks), 11 (#7231 open), 2 and 12 (people).
