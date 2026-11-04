@@ -4,6 +4,16 @@
 
 Owner's word, Nov 4: screens tonight, no people. No new pictures: the art on main only.
 
+## Ready for the Confirmer (Nov 4)
+
+Replays on main by a session that built none of it; each line names the check and the town.
+
+- **Path 11, menus:** #7231 and #7238 merged. `MENUS_PLACE="Nebraska|Murray" node src/bench/menus-no-scroll.browser.mjs` (also Storrs, Meadow Lakes): every rail menu and tab at 1440x900 and 1024x768, nothing scrolls; Budgets is reported, not held (waits on the owner's Nov 1 mocks).
+- **Path 3, loading, Storrs (again):** #7244 merged. `node src/bench/loading.browser.mjs`: the map says "Storrs", the bar is full when it says Ready; headlines show in the last years only (the paper's archive starts near the start year).
+- **Path 10, who you are:** #7259 merged (no old school on a grown player's plate). Offers as scenes are still another lane's (`world-player-jobless-no-offers`).
+- **Path 6, clerk and Travel, Brookside:** by hand, replay 4d50e1f88df997f9: play on to Saturday, May 16, 2026, open Travel, read the closed card, Go; the scripted check (`office-hours.browser.mjs`, BENCH_JUMP) did not get through 16 months of scenes.
+- **Not ready:** 1 and 3 wait on the owner's look; 7 to 9 on his mock answers; 2, 4, 5 and 12 on the people system.
+
 ## Works
 
 - **Cloud trial, Nov 4:** install, `npm run bench`, New Game with a random place (Long Pine, Nebraska, 3129050) opens its first card with no page errors; screenshot on `trial/lane-4` (`docs/lanes/proof/trial-lane-4/`). `gh` has no valid token in this container (search only); git and the GitHub tools work.
