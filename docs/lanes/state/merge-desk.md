@@ -100,7 +100,7 @@ Mac builds (`release-package.yml` on main) were started after 8, 20, 26 and 34 m
 - **#7149** (Lane 5, a campaign turn with an empty platform): check passed on head bcbde26a02; ready to merge (Torreon, New Mexico, replay 587151fadb62ef34).
 - **#7150** (Lane 1, one filing deadline from the clerk and the form): check passed on head c6545ef860; ready to merge (Springville, Alabama, replay c1f65e48186db742).
 - **#7085** (Lane 1, one council race while filing is open): the lane fixed its send-back and merged main in; check passed on head 082491e773; ready to merge (East Peru, Iowa, replay 5eb4849e175d5965).
-- **#7151** (Lane 3, the night you lose: the talk at home comes from the relative who worked the race): check passed on head 3a8a08e2ea; ready to merge (Edgemere, Maryland, replay 20d0ea7a17b0f3bb).
+- **#7151** (Lane 3, the night you lose: the talk at home comes from the relative who worked the race): check passed on head 40a094ab3e after the lane's later push; ready to merge (Hanover, Ohio, replay f559e6b1cf4b640d).
 - **#7152** (skills, from Lane 1: two shallow-clone traps for session-start): check passed on head 993b8d3572; ready to merge, and the CTO merges skills PRs (Orason, Texas, replay 6d72516d4eb6336d).
 - **#7153** (Lane 2, unemployment benefits use the law's full wage basis): check passed on head befa6346aa after the lane's later pushes; ready to merge (Bibo, New Mexico, replay 824d215807097ff3).
 - **#7154** (Lane 1, a town's council petition fits the town): check passed on head a38ab6c17b; ready to merge (Maia, American Samoa, replay 374cd62c2796d5da).
