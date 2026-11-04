@@ -388,7 +388,9 @@
     "school": "School",
     "money": "Money",
     "family": "Family",
-    "views": "Politics"
+    "views": "Politics",
+    "townPeople": "Population {n}",
+    "townMoves": "{in} moved in, {out} moved out this year"
   },
   "people": {
     "all": "All",

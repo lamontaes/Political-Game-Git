@@ -1,0 +1,3 @@
+# Who you are: the town's size and this year's moves
+
+Custom world seed 6f539fcfdf6d96f9-5 (the towns.md seed for Santa Rita, Guam, which now opens Jericho, Vermont). After the opening and ten weeks of play, on March 3, 2025, the Home plate reads "Population 1,376 · 2 moved in, 13 moved out this year". On the opening night it read 1,382 with no moves. The counts are sums of the move records: move:in:household_3f9f47f9d8fc71a2:2025-02-01, move:out:household_c68f6538dc5129d3:2025-02-01 and four more. It fits without scrolling at 1440x900, 1280x800 and 1024x768 (who-you-are-town-1440.png, -1280.png, -1024.png).

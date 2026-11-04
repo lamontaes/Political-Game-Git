@@ -2688,6 +2688,24 @@ const sheets = {
                   {
                     title: c.age < 18 ? labels.householdHome : labels.home,
                     value: c.home?.placeName ?? me.placeName,
+                    // The town's size and this year's moves (path 10).
+                    note: c.town
+                      ? [
+                          labels.townPeople.replace(
+                            "{n}",
+                            c.town.population.toLocaleString("en-US"),
+                          ),
+                          labels.townMoves
+                            .replace(
+                              "{in}",
+                              c.town.arrivals.toLocaleString("en-US"),
+                            )
+                            .replace(
+                              "{out}",
+                              c.town.departures.toLocaleString("en-US"),
+                            ),
+                        ].join(" · ")
+                      : "",
                   },
                   c.job && {
                     title: labels.work,
