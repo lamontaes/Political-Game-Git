@@ -5,7 +5,7 @@ area: release
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: lane-5/pool-empty-field-trim
 pr: #7145
 blocked-on:
