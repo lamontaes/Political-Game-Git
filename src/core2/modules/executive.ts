@@ -112,7 +112,40 @@ export const EXECUTIVE_MODULE: CoreModule = {
     },
   },
   onCalendarWork: (api, work) => deskReview(api, work),
+  // A disaster on the record reaches the governor's desk the day it is
+  // recorded (world-governor-declares-emergency-in-play).
+  eventKinds: ["hazard.disaster"],
+  onEvent: (api, event) => governorAnswersDisaster(api, event.id),
 };
+
+/**
+ * The sitting governor declares a state of emergency for a federally declared
+ * disaster in the state, where the state's law gives them the power. A FEMA
+ * major-disaster number on the record means the governor already acted: the
+ * federal declaration comes only on the governor's request, after the state
+ * has acted under its own law (Robert T. Stafford Act, 42 U.S.C. 5170; 44 CFR
+ * 206.36). So the cause decides it, never a chance. A player governor
+ * decides for themselves: the engine never declares for them (stopgap
+ * SG-GOV-player-emergency-offer until the office screen offers it).
+ */
+function governorAnswersDisaster(api: CoreAPI, hazardRecordId: string): void {
+  const hazard = (api.state as CoreState).durableLog.get(hazardRecordId);
+  if (!hazard?.facts?.disasterNumber) return;
+  const governor = townSeats(api).find(
+    (s) => s.office.kind === "governor",
+  )?.holder;
+  if (!governor || !emergencyPower(api)) return;
+  const executiveId = memberKey(governor);
+  if (executiveId === (api.state as CoreState).playerId) {
+    // stopgapId: SG-GOV-player-emergency-offer
+    api.stopgap("SG-GOV-player-emergency-offer");
+    return;
+  }
+  const id = `emergency:${lawChain(api).stateKey}:${hazardRecordId}`;
+  if (table(api, "emergencies").get(id)) return;
+  if (!governments(api).some((g) => g.level === "state")) return;
+  declareEmergency(api, { executiveId, hazardRecordId });
+}
 
 const table = (api: CoreAPI, name: string) =>
   api.moduleState(EXECUTIVE_MODULE_ID).table(name);

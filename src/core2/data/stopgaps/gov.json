@@ -2122,5 +2122,17 @@
     "addedAt": "2026-11-02",
     "replacement": "A later chamber takes up a bill on a floor day of its own after the first chamber passes it, with its own committee meeting the evening before and its own asks.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-player-emergency-offer",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/executive.ts",
+    "line": 140,
+    "whatItFakes": "A governor the player plays never declares a state of emergency: the engine does not declare for them, and no office screen offers the declaration when a disaster is recorded in their state.",
+    "why": "The engine never answers for the player (the desk rule); the office screen's offer is the play-first lane's (agreement 1-4).",
+    "addedBy": "Lane 1 (world-governor-declares-emergency-in-play)",
+    "addedAt": "2026-11-04",
+    "replacement": "An office-screen stop the day a federally declared disaster is recorded in the player governor's state, offering declareEmergency with the hazard record and the state's power named, or leaving it to the character.",
+    "status": "open"
   }
 ]
