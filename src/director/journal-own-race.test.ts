@@ -112,7 +112,10 @@ it(`a candidate's journal tells their own race, even against a rival they never 
         // Connecticut, replay storrs-1: the father who walked doors was
         // told as the one who lost). The race record names the candidate.
         const helper = [...person.knownIds].find(
-          (id) => id !== filing.personId && !rivals.includes(id),
+          (id) =>
+            id !== filing.personId &&
+            !rivals.includes(id) &&
+            core.people.has(id),
         );
         if (helper) {
           const kept = {
