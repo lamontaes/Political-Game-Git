@@ -75,7 +75,6 @@ import {
   OWNER_RELATION,
   type ContractAwardRow,
 } from "./contracts";
-import { type Stance as ViewStance } from "./views";
 import {
   candidateStance,
   stanceReader,
@@ -97,7 +96,14 @@ import {
   STAFF_ROLES,
   type StaffRow,
 } from "../press-staff";
-import { stancesOf, viewOf, VIEWS_MODULE_ID } from "./views";
+import {
+  stancesOf,
+  viewOf,
+  VIEWS_MODULE_ID,
+  countedNewsConcern,
+  countedNewsGroups,
+  type Stance as ViewStance,
+} from "./views";
 import { electorateSides } from "./voting";
 import { residentCounts, residentsRuntime } from "./residents";
 import { openingEmployerCashBufferPrior } from "../opening-capital";
@@ -137,7 +143,6 @@ import {
   registerCountedNewsSource,
   type Story,
 } from "./news";
-import { countedNewsConcern, countedNewsGroups } from "../counted-news-views";
 import { worldLevel } from "../world-draw";
 
 export const PRESS_MODULE_ID = "core2-press-v1";

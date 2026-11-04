@@ -27,6 +27,7 @@ import { corePlaceByJurisdictionId } from "../place-lookup";
 import { PROFILE_FACT_KINDS, profileFor } from "../opening-profile";
 import {
   personStance,
+  loadingShift,
   STANCE_LOADINGS,
   type StanceProfile,
 } from "../campaign-views";
@@ -49,6 +50,15 @@ import {
 } from "../trait-decisions";
 import { keepsWhy } from "../why-kept";
 import { countedNewsStances, fillInNewsViews } from "../counted-news-views";
+export { loadingShift, personStance };
+export {
+  countedNewsGroups,
+  countedNewsConcern,
+  countedNewsSide,
+  hearCountedNews,
+  installCountedNewsTransfers,
+  type CountedNewsAudience,
+} from "../counted-news-views";
 
 interface CellKey {
   n: number;

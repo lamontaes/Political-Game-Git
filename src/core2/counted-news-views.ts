@@ -2,13 +2,15 @@
 import { coreAPI } from "./state";
 import { inheritCountedStory } from "./modules/news";
 import { ageOnDate } from "./kernel/dates";
-import { loadingShift, personStance } from "./campaign-views";
 import {
   residentsRuntime,
   registerCountedGroupMoveListener,
   registerCountedFillInListener,
+  registerCountedWeightReleaseListener,
 } from "./modules/residents";
 import {
+  loadingShift,
+  personStance,
   countedEngagement,
   countedLean,
   countedOpeningStanceProfile,
@@ -245,6 +247,7 @@ const pendingStories = new WeakMap<object, Map<string, InheritedStory[]>>();
 export function installCountedNewsTransfers(): void {
   registerCountedGroupMoveListener(moveNewsViews);
   registerCountedFillInListener(prepareNewsFillIn);
+  registerCountedWeightReleaseListener(prepareNewsWeightRelease);
 }
 function prepareNewsFillIn(
   core: CoreState,
@@ -336,16 +339,25 @@ function moveNewsViews(
     0,
   );
   if (moved <= 0 || total <= 0) return;
-  const table = api.moduleState(VIEWS_MODULE_ID).table("countedStances");
-  const before = table.query("byGroup", [
+  blendNewsIntoGroup(
+    api,
     groupPersonId(fromGroup),
-  ]) as unknown as Stance[];
-  const after = table.query("byGroup", [
     groupPersonId(toGroup),
-  ]) as unknown as Stance[];
+    moved / total,
+  );
+}
+
+function blendNewsIntoGroup(
+  api: CoreAPI,
+  fromGroup: string,
+  toGroup: string,
+  share: number,
+): void {
+  const table = api.moduleState(VIEWS_MODULE_ID).table("countedStances");
+  const before = table.query("byGroup", [fromGroup]) as unknown as Stance[];
+  const after = table.query("byGroup", [toGroup]) as unknown as Stance[];
   const oldByTopic = new Map(before.map((row) => [row.topic, row]));
   const topics = new Set([...before, ...after].map((row) => row.topic));
-  const share = moved / total;
   const signed = (row?: Stance) =>
     row
       ? (row.desiredChange === "enact"
@@ -356,7 +368,7 @@ function moveNewsViews(
       : 0;
   for (const topic of topics) {
     const from = oldByTopic.get(topic);
-    const to = countedStanceRow(api, groupPersonId(toGroup), topic);
+    const to = countedStanceRow(api, toGroup, topic);
     const value = signed(to) * (1 - share) + signed(from) * share;
     const heard = Object.fromEntries(
       [
@@ -386,7 +398,7 @@ function moveNewsViews(
           a.date.localeCompare(b.date) || a.eventId.localeCompare(b.eventId),
       )
       .slice(-1);
-    const personId = groupPersonId(toGroup);
+    const personId = toGroup;
     table.putOwned({
       id: `${personId}:${topic}`,
       personId,
@@ -398,4 +410,32 @@ function moveNewsViews(
       causes,
     });
   }
+}
+
+/** A sample's excess households can go to other groups when it is filled in. */
+function prepareNewsWeightRelease(
+  api: CoreAPI,
+  householdId: string,
+): (() => void) | undefined {
+  if (!api.state.modules.has(VIEWS_MODULE_ID)) return;
+  const store = residentsRuntime(api.state as CoreState)?.store;
+  const hix = store?.householdOf.get(householdId);
+  if (!store || hix === undefined) return;
+  const home = store.households[hix]!;
+  const origin = store.groups[home.group];
+  if (!origin) return;
+  const from = groupPersonId(origin.id);
+  const before = new Map(
+    countedNewsGroups(api)
+      .filter((group) => group.placeId === home.placeId)
+      .map((group) => [group.id, group.count]),
+  );
+  return () => {
+    for (const group of countedNewsGroups(api)) {
+      if (group.id === from || group.placeId !== home.placeId) continue;
+      const gained = group.count - (before.get(group.id) ?? 0);
+      if (gained > 0)
+        blendNewsIntoGroup(api, from, group.id, gained / group.count);
+    }
+  };
 }

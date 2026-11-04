@@ -35,14 +35,16 @@ import {
   reportOutcome,
   traitProbe,
 } from "../trait-decisions";
-import { VIEWS_SPEAKER_KEY, viewOf, viewOn } from "./views";
 import { conditionQuestions, measureOfFactKey } from "../outcome-news";
 import {
+  VIEWS_SPEAKER_KEY,
+  viewOf,
+  viewOn,
   countedNewsSide,
   installCountedNewsTransfers,
   hearCountedNews,
   type CountedNewsAudience,
-} from "../counted-news-views";
+} from "./views";
 
 type CountedNewsSource = (
   api: CoreAPI,

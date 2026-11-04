@@ -208,6 +208,74 @@ it(`a counted reader in ${place.name} keeps the story's moved view when met (${r
   regroupHousehold(rt, home!, core.date);
   expect(home!.group).not.toBe(beforeGroup);
   expect(totalStance()).toBeCloseTo(beforeTotal, 8);
+  // A second technical fixture gives an isolated household one extra copy.
+  // Filling in one household redistributes the remaining population through
+  // CountedStore.releaseWeight; their existing view must travel with them.
+  const isolated = [...rt.store.liveHouseholds()].find(
+    (h) =>
+      rt.store.groups[h.group]?.households.size === 1 &&
+      h.tenure !== "none" &&
+      rt.store
+        .countedMembers(h)
+        .some(
+          (m) =>
+            !core.people.has(rt.store.ids[m]!) &&
+            ageOnDate(rt.store.born[m]!, core.date) >=
+              api.parameter("votingAge") &&
+            countedNewsStances(api, rt.store.ids[m]!).some(
+              (row) => row.topic === question && row.strength > 0,
+            ),
+        ),
+  );
+  expect(
+    isolated,
+    "fixture has a one-household group whose view must leave with its excess count",
+  ).toBeDefined();
+  isolated!.weight = rt.store.weightOf(isolated!) + 1;
+  rt.store.version++;
+  const actor = rt.store
+    .countedMembers(isolated!)
+    .map((m) => rt.store.ids[m]!)
+    .find(
+      (id) =>
+        !core.people.has(id) &&
+        ageOnDate(rt.store.born[rt.store.memberOf.get(id)!]!, core.date) >=
+          api.parameter("votingAge"),
+    )!;
+  const sourceGroup = countedNewsGroupId(api, actor)!;
+  const signed = (groupId: string) => {
+    const row = api
+      .moduleState(VIEWS_MODULE_ID)
+      .table("countedStances")
+      .get(`${groupId}:${question}`) as unknown as Stance | undefined;
+    return row ? (row.desiredChange === "enact" ? 1 : -1) * row.strength : 0;
+  };
+  const fromView = signed(sourceGroup);
+  const beforeRelease = new Map(
+    countedNewsGroups(api).map((group) => [
+      group.id,
+      { count: group.count, view: signed(group.id) },
+    ]),
+  );
+  fillInPerson(core, actor);
+  let changedTargets = 0;
+  for (const group of countedNewsGroups(api)) {
+    if (group.id === sourceGroup) continue;
+    const before = beforeRelease.get(group.id) ?? { count: 0, view: 0 };
+    const gained = group.count - before.count;
+    if (gained <= 0) continue;
+    const expected =
+      (before.view * before.count + fromView * gained) / group.count;
+    expect(
+      signed(group.id),
+      `released audience reaches ${group.id}`,
+    ).toBeCloseTo(expected, 10);
+    if (Math.abs(expected - before.view) > Number.EPSILON) changedTargets++;
+  }
+  expect(
+    changedTargets,
+    "excess people carry a differing view to another group",
+  ).toBeGreaterThan(0);
   if (process.env.LANE2_COUNTED_NEWS_PROOF)
     writeFileSync(
       process.env.LANE2_COUNTED_NEWS_PROOF,

@@ -1975,6 +1975,18 @@ export function releaseResidentHousehold(
  * person records built from the group's columns (no past: fill-in builds it),
  * its jobs and work, and its standing bills as its own contracts.
  */
+type CountedWeightReleaseListener = (
+  api: CoreAPI,
+  householdId: string,
+) => (() => void) | undefined;
+const countedWeightReleaseListeners = new Set<CountedWeightReleaseListener>();
+/** Group fields follow the weights the existing population release redistributes. */
+export function registerCountedWeightReleaseListener(
+  listener: CountedWeightReleaseListener,
+): void {
+  countedWeightReleaseListeners.add(listener);
+}
+
 type CountedFillInListener = (
   core: CoreState,
   memberIds: readonly PersonId[],
@@ -2045,8 +2057,15 @@ function releaseToOne(
   h: CountedHousehold,
 ): void {
   const held = heldJobHeads(rt, h);
+  const finish =
+    rt.api && rt.store.weightOf(h) > 1
+      ? [...countedWeightReleaseListeners].map((listener) =>
+          listener(rt.api!, h.id),
+        )
+      : [];
   rt.store.releaseWeight(h);
   keepJobHeads(core, rt, h, held);
+  for (const transfer of finish) transfer?.();
 }
 
 /**
