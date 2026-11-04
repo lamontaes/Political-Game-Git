@@ -5,7 +5,7 @@ area: play
 kind: feature
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: lane-4/paper-pages
 pr: #7238
 blocked-on:
