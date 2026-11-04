@@ -1,0 +1,102 @@
+{
+  "town": "Oxnard, California",
+  "place": "0654652",
+  "replay": "0644883ece2be105",
+  "host": "4c46091479ea",
+  "baseHead": "56b85d5a93b1bd5bc2fb79e0bd4d8cd2f56d17e5",
+  "head": "54a951efc4f4dd4f3bf11d7fb2b3fd7cbbd4cb78",
+  "exclusive": true,
+  "rows": [
+    {
+      "year": 1,
+      "date": "2026-01-20",
+      "baseSeconds": 151.8,
+      "headSeconds": 145,
+      "changePercent": -4.48,
+      "withinTwentyPercent": true,
+      "baseFingerprint": "ed699d198a335148",
+      "headFingerprint": "ed699d198a335148",
+      "sameRecords": true,
+      "differingTables": [],
+      "baseRecords": 357744,
+      "headRecords": 357744
+    },
+    {
+      "year": 2,
+      "date": "2027-01-20",
+      "baseSeconds": 451.1,
+      "headSeconds": 436.4,
+      "changePercent": -3.26,
+      "withinTwentyPercent": true,
+      "baseFingerprint": "cb438ab97cfedd94",
+      "headFingerprint": "cb438ab97cfedd94",
+      "sameRecords": true,
+      "differingTables": [],
+      "baseRecords": 819841,
+      "headRecords": 819841
+    },
+    {
+      "year": 3,
+      "date": "2028-01-20",
+      "baseSeconds": 306.9,
+      "headSeconds": 295,
+      "changePercent": -3.88,
+      "withinTwentyPercent": true,
+      "baseFingerprint": "572bbd3137f26069",
+      "headFingerprint": "572bbd3137f26069",
+      "sameRecords": true,
+      "differingTables": [],
+      "baseRecords": 1109307,
+      "headRecords": 1109307
+    },
+    {
+      "year": 4,
+      "date": "2029-01-19",
+      "baseSeconds": 1187.2,
+      "headSeconds": 1096.6,
+      "changePercent": -7.63,
+      "withinTwentyPercent": true,
+      "baseFingerprint": "76da71bd41de4935",
+      "headFingerprint": "76da71bd41de4935",
+      "sameRecords": true,
+      "differingTables": [],
+      "baseRecords": 1985604,
+      "headRecords": 1985604
+    }
+  ],
+  "exits": {
+    "base": {
+      "exit": 1,
+      "elapsed": 2305.849637405998
+    },
+    "head": {
+      "exit": 1,
+      "elapsed": 2176.590632692998
+    }
+  },
+  "receiptSha256": {
+    "base": "fa32343e2a58201ee9763d1507bd18e27cb5fe057575e1b786664e3bed36bf75",
+    "head": "ab607e189fc2eae65721f29780ffe347f20d3f3ad92fd5ff9595ec597ad9f0b7"
+  },
+  "allWithinTwentyPercent": true,
+  "allRecordsEqual": true,
+  "baseOver120": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "headOver120": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "limits": [
+    "Both historical source heads are named exactly; later main integrations are not included in this paired run.",
+    "The separate120-second target is reported independently of the required20-percent comparison.",
+    "Uncovered engine runtimes are not in the record fingerprint; the runner lists them in its retained logs."
+  ],
+  "baseSourceSha256": "27b70dcd4bd292cdfcc4139a32174c91bdc742b803dd67430363f96940d5fa69",
+  "headSourceSha256": "d674ffa907eda162ce96e6ccadf76614577e90ee55f6fa33b8a2c2d014629560"
+}
