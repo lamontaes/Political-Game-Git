@@ -1180,8 +1180,12 @@ export function composeJournal(
     // the chapter began with the same kind of turn.
     // A turn of the same kind about someone else opens its own chapter: a
     // daughter's birth is never told under "My son".
+    // Only one's own turn opens a chapter: another person's oath or race is a
+    // line in the chapter one is living, never its title (owner's path 9: no
+    // chapter titled after someone else).
+    const turn = row.turn && moment.selfNamed === true;
     const ownTitle =
-      row.turn && chapterKind === row.kindPrefix
+      turn && chapterKind === row.kindPrefix
         ? render(
             { part: "title", kindPrefix: row.kindPrefix },
             facts,
@@ -1191,10 +1195,10 @@ export function composeJournal(
         : null;
     if (
       !chapter ||
-      (row.turn && chapterKind !== row.kindPrefix) ||
+      (turn && chapterKind !== row.kindPrefix) ||
       (ownTitle && ownTitle.text !== chapter.title)
     ) {
-      chapterKind = row.turn ? row.kindPrefix : undefined;
+      chapterKind = turn ? row.kindPrefix : undefined;
       const place = placeName(person.placeId);
       const title =
         ownTitle ??
@@ -1213,10 +1217,10 @@ export function composeJournal(
       open(moment.id, title?.text ?? "", moment.date);
     }
     const contestId = core.durableLog.get(moment.causeId)?.facts?.contestId;
-    if (typeof contestId === "string" && row.turn)
+    if (typeof contestId === "string" && turn)
       chapterOfContest.set(contestId, chapter!);
     const told =
-      (typeof contestId === "string" && !row.turn
+      (typeof contestId === "string" && !turn
         ? chapterOfContest.get(contestId)
         : undefined) ?? chapter!;
     // The scene: the event itself, worded for whose it was.
@@ -1344,12 +1348,13 @@ export function composeJournal(
     // "That was a turning point" only when the record shows one: a later
     // chapter of another kind opened in this life.
     const turned =
-      !!row.turn &&
+      turn &&
       stories.some((story) => {
         const next = rowOf(story);
         return (
           story.date > moment.date &&
           !!next?.turn &&
+          story.selfNamed === true &&
           next.kindPrefix !== row.kindPrefix
         );
       });
