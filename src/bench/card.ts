@@ -173,6 +173,15 @@ export function personCard(core: CoreState, personId: string) {
       : null,
     ties,
     schools: schoolsOf(core, personId),
+    // The school they are at now: the latest one, while they are of school
+    // age (under voting age), the same rule the cards of others use.
+    schoolNow:
+      ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(core.date)) <
+      coreAPI(core).parameter("votingAge")
+        ? (schoolsOf(core, personId)
+            .filter((row) => row.date <= core.date)
+            .at(-1) ?? null)
+        : null,
     // What the law in force puts on this person's record (step 9).
     lawEffects: reachOn(coreAPI(core), personId).map((row) => ({
       id: row.id,
