@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: lane-5/circle-log-window
 pr: #7198
 blocked-on:
