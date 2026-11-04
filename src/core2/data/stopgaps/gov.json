@@ -2110,5 +2110,17 @@
     "addedAt": "2026-11-01",
     "replacement": "An at-large race as one contest for the body's seats up that day, where each voter may vote for as many candidates as there are seats and the top finishers are seated (the place's own rule), so every candidate, the player included, files once for the race.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-later-chamber-same-day",
+    "kind": "partial-model",
+    "file": "src/core2/modules/legislature.ts",
+    "line": 554,
+    "whatItFakes": "A bill's later chamber votes on the same floor day as its first, and only if the first passes (countVote takes each chamber in turn), so the evening before, nobody knows whether the later chamber will vote at all. Its members are not asked for their vote then; a sponsor asks only in the bill's first chamber, whose committee has met.",
+    "why": "Asks whose bill never reaches a roll call are pulls no vote reads (pool item legislature-ask-skips-bills-the-committee-will-hold); the model gives a bill one floor day for every chamber.",
+    "addedBy": "governing lead",
+    "addedAt": "2026-11-02",
+    "replacement": "A later chamber takes up a bill on a floor day of its own after the first chamber passes it, with its own committee meeting the evening before and its own asks.",
+    "status": "open"
   }
 ]

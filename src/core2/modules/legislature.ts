@@ -335,7 +335,10 @@ export const LEGISLATURE_MODULE: CoreModule = {
     },
   },
   onCalendarWork: legislatureCalendar,
-  onDay: (api) => askBeforeTheRoll(api),
+  onDay: (api) => {
+    committeesBeforeTheFloor(api);
+    askBeforeTheRoll(api);
+  },
   eventKinds: ["scene.reply"],
   onEvent: (api, event) => keepReply(api, event),
 };
@@ -507,6 +510,28 @@ function replyPull(
  * ask is staged from and the member's answer cites (`keepReply`). A bill the
  * asks could not carry, or one already passing, is asked about by no one.
  */
+/**
+ * The evening before a floor day, each bill the floor takes up goes before its
+ * first chamber's committee on a day of its own, as a scheduled bill does
+ * (`holdCommittee`): the committee hears it, marks it up and reports it or
+ * holds it, and a held bill leaves the agenda before anyone is asked about it
+ * (`askBeforeTheRoll`). A bill whose committee already met is not taken
+ * again, and a body with no committee meets on the floor day as it did.
+ */
+function committeesBeforeTheFloor(api: CoreAPI): void {
+  const floorDate = addDays(makeIsoDate(api.state.date), 1);
+  // The same agenda the sponsor's asks read (floorAgendaOn): the weekly
+  // floor, a meeting's agenda, and a bill scheduled for tomorrow's sitting
+  // (scheduleVote books no committee ahead when the sitting is tomorrow).
+  for (const bill of floorAgendaOn(api, floorDate)) {
+    const id = bill.id;
+    const first = chambersOf(api, bill)[0];
+    if (!first || table(api, "committees").get(`committee:${id}:${first}`))
+      continue;
+    holdCommittee(api, id);
+  }
+}
+
 function askBeforeTheRoll(api: CoreAPI): void {
   const player =
     snapshotExplicitControlV1(api.state).personId ??
@@ -528,7 +553,15 @@ function askBeforeTheRoll(api: CoreAPI): void {
       committeeRecords(api, bill.id).some((c) => !c.reported)
     )
       continue;
-    for (const chamber of chambersOf(api, bill)) {
+    const chambers = chambersOf(api, bill);
+    for (const chamber of chambers) {
+      // A later chamber votes the same floor day, and only if the first
+      // passes, so its members are not asked the evening before.
+      // stopgapId: SG-GOV-later-chamber-same-day
+      if (chamber !== chambers[0]) {
+        api.stopgap("SG-GOV-later-chamber-same-day");
+        continue;
+      }
       const seats = members(api, chamber);
       if (!seats.some((term) => memberKey(term) === player)) continue;
       let margin = 0;
