@@ -32,3 +32,5 @@ The positive newspaper control passes: legitimate raised-wage reporting still wo
 Source `ab30b9508baf33c2e6c805e226ae4a964ae9d2d8`, Bettsville, Ohio, replay `c2797efbe1a45c7c`: New Game, four weekly advances, resume, scene and Journal returned HTTP 200; failure null. Player `person_a6ff171c5c2b56e2`. Runner: `node --import tsx /tmp/lane-2-superseded-newgame.mts`, using the repository's `newGameCheck`. Raw response: `/tmp/lane-2-superseded-newgame-result.json`. This checks opening and brief play, not one year or a whole lane path.
 
 Four-year controlled performance comparison and another session's main replay remain pending. No path is Built or Verified by this unit.
+
+Independent New Game (merge desk): Browndale, Pennsylvania, replay `1ad79caaa1390e3f`, four weeks on head `989ee3f5284269972bc980101eb7f4b6f694a4a9`; [desk result](https://github.com/lamontaes/Political-Game-Git/pull/7162#issuecomment-6620144335). This is a branch opening check, not a whole-path confirmation on main.
