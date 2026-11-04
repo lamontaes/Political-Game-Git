@@ -146,7 +146,39 @@ export interface Director {
   importance(personId: PersonId, otherId: PersonId, date: IsoDate): number;
   /** How far a thread has faded on a date, from 0 to 1. Pure. */
   fading(personId: PersonId, otherId: PersonId, date: IsoDate): number;
+  /**
+   * Everything the director remembers across days, as plain data (Maps, Sets
+   * and objects) a save of the world can hold beside it
+   * (agreements/3-5.md). Rebuilt tables (the circumstance rows) are not in it.
+   */
+  save(): DirectorSave;
+  /** Takes back a save from `save()`: the director continues as it was. */
+  restore(data: DirectorSave): void;
 }
+
+/** What `Director.save` holds: the ledger and the memory kept between days. */
+export interface DirectorSave {
+  readonly version: number;
+  readonly ledger: Ledger;
+  readonly circumstanceQueue: readonly unknown[];
+  readonly circumstanceLater: ReadonlyMap<string, readonly unknown[]>;
+  readonly employerJobs: ReadonlyMap<
+    PersonId,
+    { orgId: string; jobs: Set<string> }
+  >;
+  readonly housemates: ReadonlyMap<
+    PersonId,
+    { householdId: string; ids: Set<PersonId> }
+  >;
+  readonly snapshots: ReadonlyMap<PersonId, unknown>;
+  readonly pending: ReadonlyMap<PersonId, unknown>;
+  readonly interrupts: readonly unknown[];
+  readonly started: boolean;
+  readonly mode: "live" | "skipping";
+}
+
+/** The shape of a director save; a different number is refused, not guessed at. */
+const SAVE_VERSION = one;
 
 export function createDirector(
   options: {
@@ -1876,6 +1908,63 @@ export function createDirector(
       const book = ledger.people.get(personId);
       const thread = book?.threads.get(otherId);
       return book && thread ? importanceOf(book, thread, date) : zero;
+    },
+    save() {
+      return structuredClone({
+        version: SAVE_VERSION,
+        ledger,
+        circumstanceQueue,
+        circumstanceLater,
+        employerJobs,
+        housemates,
+        snapshots,
+        pending,
+        interrupts,
+        started,
+        mode,
+      }) as DirectorSave;
+    },
+    restore(saved) {
+      if (saved.version !== SAVE_VERSION)
+        throw new Error(`Unknown director save version: ${saved.version}`);
+      const data = structuredClone(saved) as DirectorSave;
+      // The closures hold these very maps: refill them, never replace them.
+      const refill = <K, V>(into: Map<K, V>, from: ReadonlyMap<K, V>) => {
+        into.clear();
+        for (const [key, value] of from) into.set(key, value);
+      };
+      const fromLedger = data.ledger;
+      refill(ledger.people, fromLedger.people);
+      refill(ledger.broadEvents, fromLedger.broadEvents);
+      refill(ledger.hitBy, fromLedger.hitBy);
+      refill(ledger.liesByLearner, fromLedger.liesByLearner);
+      ledger.stopgapHits.clear();
+      for (const hit of fromLedger.stopgapHits) ledger.stopgapHits.add(hit);
+      refill(ledger.sceneFilters, fromLedger.sceneFilters);
+      refill(ledger.pollingVisits, fromLedger.pollingVisits);
+      refill(ledger.circumstanceLast, fromLedger.circumstanceLast);
+      if (fromLedger.opening) ledger.opening = fromLedger.opening;
+      else delete ledger.opening;
+      circumstanceQueue.splice(
+        zero,
+        circumstanceQueue.length,
+        ...(data.circumstanceQueue as QueuedRecord[]),
+      );
+      refill(
+        circumstanceLater,
+        data.circumstanceLater as ReadonlyMap<string, QueuedRecord[]>,
+      );
+      refill(employerJobs, data.employerJobs);
+      refill(housemates, data.housemates);
+      refill(snapshots, data.snapshots as ReadonlyMap<PersonId, Snapshot>);
+      refill(pending, data.pending as ReadonlyMap<PersonId, Pending>);
+      interrupts.splice(
+        zero,
+        interrupts.length,
+        ...(data.interrupts as { moment: Moment; entry: ScheduleEntry }[]),
+      );
+      started = data.started;
+      mode = data.mode;
     },
     fading(personId, otherId, date) {
       const book = ledger.people.get(personId);

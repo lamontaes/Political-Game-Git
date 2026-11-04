@@ -59,6 +59,7 @@ import { offer } from "./life";
 import { departureRateFor } from "./moves";
 import { pairKey } from "../kernel/ids";
 import { bookkeeping } from "../bookkeeping";
+import { registerWorldMapPart } from "../snapshot";
 
 /** The hours a tie has lost, read near or far: the pull toward a visit. */
 function tiePull(
@@ -87,9 +88,12 @@ function tiePull(
  * more ties than the shortlist holds weighs them all.
  */
 const shortlists = new WeakMap<
-  object,
+  CoreState,
   Map<PersonId, { week: number; ids: ReadonlySet<PersonId> }>
 >();
+// Held for the week, so a save keeps it: a world restored mid-week weighs the
+// same ties its original does (core-snapshot-cover-rest).
+registerWorldMapPart("core2-people-weekly-contacts", shortlists);
 function weeklyContacts(
   api: CoreAPI,
   actor: Readonly<PersonState>,

@@ -231,6 +231,11 @@ export function decoder(): (
   path?: string,
 ) => unknown {
   const defs: unknown[] = [];
+  // A rebuilt object refilled in place once is not refilled again: the
+  // rebuilt world may share one object between records the saved world keeps
+  // apart (every person's opening source), and a second refill would change
+  // the first holder's too.
+  const refilled = new Set<object>();
   // Objects of the rebuilt world refilled in place, which sealing leaves writable.
   const live = new WeakSet<object>();
   const walk = (value: Encoded, current: unknown, path: string): unknown => {
@@ -268,7 +273,8 @@ export function decoder(): (
         })
         .filter(([, inner]) => inner !== NOT_YET);
       // Refill the rebuilt world's own Map: engines hold references to it.
-      if (old && !Object.isFrozen(old)) {
+      if (old && !Object.isFrozen(old) && !refilled.has(old)) {
+        refilled.add(old);
         Map.prototype.clear.call(old);
         for (const [k, inner] of entries) Map.prototype.set.call(old, k, inner);
         live.add(old);
@@ -280,7 +286,12 @@ export function decoder(): (
       const items = (value.$set as Encoded[]).map((inner) =>
         walk(inner, undefined, `${path}{}`),
       );
-      if (current instanceof Set && !Object.isFrozen(current)) {
+      if (
+        current instanceof Set &&
+        !Object.isFrozen(current) &&
+        !refilled.has(current)
+      ) {
+        refilled.add(current);
         Set.prototype.clear.call(current);
         for (const item of items) Set.prototype.add.call(current, item);
         live.add(current);
@@ -311,9 +322,16 @@ export function decoder(): (
     if (old && Object.isFrozen(old))
       return same(out, old) ? old : seal(out, live);
     // Refill the rebuilt world's own object in place when it can be written.
-    if (old && Object.isExtensible(old)) {
+    if (old && Object.isExtensible(old) && !refilled.has(old)) {
+      refilled.add(old);
       for (const key of Object.keys(old))
         if (!(key in out) && typeof old[key] !== "function") delete old[key];
+      // Keys in the saved order, so an engine that walks them sums in the
+      // order the saved world did.
+      const order = Object.keys(out);
+      const kept = Object.keys(old).filter((key) => key in out);
+      if (kept.some((key, i) => key !== order[i]))
+        for (const key of kept) delete old[key];
       for (const [key, inner] of Object.entries(out))
         if (old[key] !== inner) old[key] = inner;
       live.add(old);
@@ -389,6 +407,19 @@ export function restoreWorld(core: CoreState, snapshot: WorldSnapshot): void {
   for (const [id, part] of parts)
     if (id in savedParts) part.restore(core, savedParts[id]);
     else part.missing?.(core);
+  for (const map of derivedCaches) map.delete(core);
+}
+
+const derivedCaches: WeakMap<CoreState, unknown>[] = [];
+
+/**
+ * A cache built from the world's records and keyed by the world. A restore
+ * refills the same world object in place, so a cache filled while the world
+ * was being built would outlive its records; registered, it is cleared at the
+ * end of every restore and built again from the restored records on first read.
+ */
+export function registerDerivedCache(map: WeakMap<CoreState, unknown>): void {
+  derivedCaches.push(map);
 }
 
 /**
