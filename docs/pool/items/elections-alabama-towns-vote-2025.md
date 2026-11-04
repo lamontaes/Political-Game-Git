@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: governing/alabama-towns-2025
-pr:
+pr: #7239
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-04T11:55:30.216Z
