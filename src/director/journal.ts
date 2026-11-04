@@ -80,6 +80,24 @@ export interface JournalLine {
   sourceRecordIds: readonly string[];
   /** The earlier entries this one revises, when a later record changed what they meant. */
   revises?: readonly string[];
+  /** How this line follows the one told before it; the first line has none. */
+  link?: JournalLink;
+}
+
+/**
+ * Why one line follows another (director-journal-one-story): its records
+ * name the earlier line's records or share a fact with them (the same
+ * contest, the same bill), the person's mood moved the same way, or only
+ * time passed. The joining words read it; it decides nothing.
+ */
+export interface JournalLink {
+  by: "cause" | "feeling" | "time";
+  /** The line it follows. */
+  earlierId: string;
+  /** The records that join them: the shared record or fact's records, or the two lines' own. */
+  recordIds: readonly string[];
+  /** Days from the earlier line. */
+  days: number;
 }
 
 export interface JournalChapter {
@@ -1601,7 +1619,92 @@ export function composeJournal(
     });
     home.lines.sort((a, b) => a.date.localeCompare(b.date));
   }
-  return chapters.filter((row) => row.lines.length > zero);
+  const kept = chapters.filter((row) => row.lines.length > zero);
+  linkLines(core, book.momentsById, kept);
+  return kept;
+}
+
+/** The names a record carries: its own id, its people and its facts' ids. */
+function namesOf(core: Readonly<CoreState>, recordId: string): Set<string> {
+  const record = core.durableLog.get(recordId as never);
+  const names = new Set<string>([recordId]);
+  for (const value of Object.values(record?.facts ?? {}))
+    if (typeof value === "string" && value.includes(":")) names.add(value);
+  return names;
+}
+
+/** The person's mood in a moment, by the sign of its channels' sum. */
+function moodOf(moment: Moment | undefined): number {
+  const sum = (moment?.channels ?? []).reduce(
+    (total, row) => total + row.contribution,
+    zero,
+  );
+  return Math.sign(sum);
+}
+
+/**
+ * Links each line to the line told before it, across chapters, by cause,
+ * feeling or time (see JournalLink).
+ */
+function linkLines(
+  core: Readonly<CoreState>,
+  moments: ReadonlyMap<string, Moment>,
+  chapters: JournalChapter[],
+): void {
+  let before: JournalLine | undefined;
+  for (const line of chapters.flatMap((chapter) => chapter.lines)) {
+    if (before) {
+      const earlier = before;
+      const days = daysBetween(
+        makeIsoDate(earlier.date),
+        makeIsoDate(line.date),
+      );
+      const theirs = new Map<string, string>();
+      for (const id of earlier.sourceRecordIds)
+        for (const name of namesOf(core, id)) theirs.set(name, id);
+      const shared = line.sourceRecordIds.flatMap((id) =>
+        [...namesOf(core, id)]
+          .filter((name) => theirs.has(name))
+          .flatMap((name) => [theirs.get(name)!, id]),
+      );
+      const echoed = line.momentIds.some((id) =>
+        moments
+          .get(id)
+          ?.echoes.some((echo) => earlier.momentIds.includes(echo.earlierId)),
+      );
+      const mood = moodOf(moments.get(line.momentIds[zero] ?? ""));
+      const felt =
+        mood !== zero &&
+        mood === moodOf(moments.get(earlier.momentIds[zero] ?? ""));
+      line.link =
+        shared.length || echoed
+          ? {
+              by: "cause",
+              earlierId: earlier.id,
+              recordIds: shared.length
+                ? [...new Set(shared)]
+                : [
+                    ...new Set([
+                      ...earlier.sourceRecordIds.slice(zero, one),
+                      ...line.sourceRecordIds.slice(zero, one),
+                    ]),
+                  ],
+              days,
+            }
+          : {
+              by: felt ? "feeling" : "time",
+              earlierId: earlier.id,
+              recordIds: [
+                ...new Set([
+                  ...earlier.sourceRecordIds.slice(zero, one),
+                  ...line.sourceRecordIds.slice(zero, one),
+                ]),
+              ],
+              days,
+            };
+    }
+    before = line;
+  }
 }
 
 /**
