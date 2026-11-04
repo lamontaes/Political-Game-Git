@@ -5,9 +5,9 @@ area: core
 kind: cleanup
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: one-map-counties
-pr:
+pr: #7279
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-04T23:51:54.206Z
