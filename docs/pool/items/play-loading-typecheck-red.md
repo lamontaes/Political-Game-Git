@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: lane3/red-loading-personid
-pr:
+pr: #7220
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-04T09:19:33.760Z
