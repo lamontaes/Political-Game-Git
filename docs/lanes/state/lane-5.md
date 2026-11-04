@@ -87,7 +87,7 @@ Every unit gets one before it starts (lane page, CTO rule). Units 1 and 2 were s
 
 - **Found:** three more malformed declarations on main: `director-save-restore.md` (impact none, no reason), `official-pay-return.md` (a patch with no id, section or title), `screens-loading-worth-watching.md` (a 144-character title). #7224 fixed all three in one PR; the check over the whole range since v0.79.0 (c7ae16cfd9 to main 2a5885d) prints OK with 16 pending declarations, after #7222 and #7223 too.
 - **The CTO's ruling on my proposal:** build neither; the desk runs the release check on each PR while merging and mends the note itself. Nothing for Lane 5 to build.
-- Confirming a Release run passes and a build publishes after #7224: pending (run 12145).
+- After #7224 the next blocker was the build's typecheck: `src/bench/loading.test.ts` imported `PersonId` from a module that doesn't export it (Release run 12146). #7227 fixed it (merged 10:06); the full typecheck passes locally on main with it. Confirming a build publishes: Release run 12148, in progress.
 
 ### Red main, Nov 4 07:45: builds stopped (CTO's note)
 
@@ -99,14 +99,14 @@ Every unit gets one before it starts (lane page, CTO rule). Units 1 and 2 were s
 - **(Declined by the CTO, 09:42: the desk runs the check instead.)** Proposal was: a workflow on main, like the pool index one, that runs the release check after each merge and, when the only failures are mechanical (an `impact: none` file with a section or title, or an id already consumed), fixes the file and pushes the fix to main. It holds no merge (ruling 2) and needs no session awake. I can build it as a unit-1 item if the CTO agrees.
 - #7200 merged (an office to approach needs staff).
 
-### Unit 9: real save and load (waiting on Lane 3)
+### Unit 9: real save and load (in progress again)
 
 - **Finish line (path 6):** play two months, quit, reopen: Continue returns the same date and people, and the load doesn't grow with played years.
 - **Proof:** `snapshot-played.test.ts` on the played world (no field differs 45 days after a restore), and the bench's save and load route.
-- **Hands off:** `src/director` (Lane 3's), except through the agreement in `docs/lanes/agreements/3-5.md`.
+- **Hands off:** `src/director` (Lane 3's), except through `docs/lanes/agreements/3-5.md`.
 - **Known cheats:** a save file the game never uses; a load that replays every day.
 - **Size:** 17 to 27 hours. **Checked by:** a fresh session quitting and reopening in the browser.
-- Phoenix, Arizona: 55 of 75 engines uncovered; first split is day 1, the director's ledger, which lives in closures and isn't saved. Asked on #7159.
+- Lane 3 agreed and built the director's `save()`/`restore()` (merged 09:17). On `lane-5/snapshot-cover` (1bf44d035c) the measure now saves the director through v8 bytes and compares its fields: Phoenix, Arizona (seed snapshot-1), the worlds are identical right after the restore and no director field differs, but 48 of 142 fields still differ 45 days later. The first split is on day 1: in the original, `person_45670ca22bc4878f` is told two newspaper stories and weighs a claim three times; in the restored world those talks don't happen. Sent to Lane 3's state file with the ids; the core's free-time plans are saved and its caches are derived, so the talk state is the lead.
 
 ## Open PRs
 
