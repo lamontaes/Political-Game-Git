@@ -5,11 +5,12 @@ area: core
 kind: cleanup
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: one-map-waiting
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T23:44:43.704Z
 ---
 
 **What.** Replace the stateOf lookups in estates, school and election ties with the place map reader.
