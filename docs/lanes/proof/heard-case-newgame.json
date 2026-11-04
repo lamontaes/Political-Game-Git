@@ -42,5 +42,54 @@
       "route": "GET /api/journal",
       "status": 200
     }
-  ]
+  ],
+  "mainIntegration": {
+    "head": "14d58c9a3b7ea05a0724e06f0ab77386b3a6c759",
+    "replay": "af604cdbd2a659ea",
+    "place": "New Castle, Virginia",
+    "failure": null,
+    "personId": "person_7aee110a29d86534",
+    "steps": [
+      {
+        "route": "POST /api/newlife?seed=af604cdbd2a659ea",
+        "status": 200,
+        "seconds": 4.935846605999999
+      },
+      {
+        "route": "POST /api/advance?mode=week",
+        "status": 200,
+        "seconds": 0.5976460739999994
+      },
+      {
+        "route": "POST /api/advance?mode=week",
+        "status": 200,
+        "seconds": 0.7302664349999995
+      },
+      {
+        "route": "POST /api/advance?mode=week",
+        "status": 200,
+        "seconds": 0.13774633100000028
+      },
+      {
+        "route": "POST /api/resume?pauseId=player%3Aperson_7aee110a29d86534%3A16",
+        "status": 200,
+        "seconds": 0.572829968
+      },
+      {
+        "route": "POST /api/advance?mode=week",
+        "status": 200,
+        "seconds": 2.9220372119999993
+      },
+      {
+        "route": "GET /api/scene?id=person_7aee110a29d86534",
+        "status": 200,
+        "seconds": 0.001873872999998639
+      },
+      {
+        "route": "GET /api/journal",
+        "status": 200,
+        "seconds": 0.001110966999998709
+      }
+    ]
+  }
 }
