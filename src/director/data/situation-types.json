@@ -171,13 +171,22 @@
           "match": {
             "label": "cause:event:concession",
             "causeFacts": [
-              { "key": "loserId", "is": "subject" },
-              { "key": "conceded", "equals": ["yes"] }
+              {
+                "key": "loserId",
+                "is": "subject"
+              },
+              {
+                "key": "conceded",
+                "equals": ["yes"]
+              }
             ]
           },
           "causeEngine": "press",
           "causeRecord": "concession",
-          "bind": { "winner": "winner", "you": "subject" },
+          "bind": {
+            "winner": "winner",
+            "you": "subject"
+          },
           "opener": "winner"
         }
       ],
@@ -922,10 +931,15 @@
       "timing": "at-cause",
       "causes": [
         {
-          "match": { "label": "circumstance:graduation-home" },
+          "match": {
+            "label": "circumstance:graduation-home"
+          },
           "causeEngine": "circumstance",
           "causeRecord": "school.finished",
-          "bind": { "graduate": "subject", "proud": "counterpart" },
+          "bind": {
+            "graduate": "subject",
+            "proud": "counterpart"
+          },
           "opener": "proud",
           "setting": ["home"]
         }
@@ -1370,7 +1384,25 @@
           }
         },
         {
-          "awaitingProducer": "separated",
+          "match": {
+            "label": "cause:event:family.separated",
+            "selfNamed": true
+          },
+          "causeEngine": "people",
+          "causeRecord": "family.separated",
+          "bind": {
+            "ending": "subject",
+            "partner": "counterpart",
+            "children": "household"
+          }
+        },
+        {
+          "match": {
+            "label": "feeling:event:family.separated",
+            "selfNamed": true
+          },
+          "causeEngine": "people",
+          "causeRecord": "family.separated",
           "bind": {
             "ending": "subject",
             "partner": "counterpart",
