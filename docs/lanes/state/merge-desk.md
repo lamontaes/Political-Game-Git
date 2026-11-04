@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 78 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 79 pull requests merged. Newest state at the top of each section.
 
 ## What the owner can play now
 
@@ -12,6 +12,7 @@ New on Nov 4, from the lanes:
   - You are offered one council race, and only while filing is open.
   - The clerk and the filing form give the same deadline.
   - Someone stands at every local filing counter, including a county board of elections.
+  - On your first filing, the clerk asks if you've run a campaign before and walks a newcomer through it.
   - A town's petition asks for a number of signatures that fits the town.
   - Filing opens weeks before the deadline, not on the game's first day.
 - **Governing.**
@@ -68,7 +69,7 @@ New on Nov 3:
   - A pool fix (#7145).
   - A state page (#7146).
 
-## Lane PRs merged on Nov 4 (43), on the owner's word ("You may merge lane PRs that pass the new-game check")
+## Lane PRs merged on Nov 4 (44), on the owner's word ("You may merge lane PRs that pass the new-game check")
 
 Each had main merged in again, passed `npm run new-game-check` (a town drawn from all 56, a new life, four weeks) and merged pinned to that head.
 
@@ -117,6 +118,7 @@ Each had main merged in again, passed `npm run new-game-check` (a town drawn fro
 | #7187 | What you tell a reporter about your bill is in the paper's story of it (main merged in with both sides' imports kept)     | Kickapoo Site 1, Kansas           | 1a323bb4802a8fef |
 | #7188 | The night's paper prints only news that is still news on its date                                                         | Okauchee Lake, Wisconsin          | c703902b25039143 |
 | #7189 | Homes exist before the first new-game card and room                                                                       | Si'ufaga, American Samoa          | 3a2fd883d5e9053f |
+| #7103 | On your first filing, the clerk asks if you've run a campaign and walks a newcomer through it                             | Rehobeth, Alabama                 | aa7b08dae2200c3e |
 
 Conflicts resolved mechanically: #7154 (both sides added a parameter and a stopgap row; both kept), and #7153, #7157, #7160, #7162 (Lane 2's state page: main's wording for the one edited line, both sides' log entries kept). Mac builds started after 5, 13, 18, 25, 30, 35 and 40 of these merges.
 
@@ -173,7 +175,7 @@ Mac builds (`release-package.yml` on main) were started after 8, 20, 26 and 34 m
 
 ## Lanes (all running now)
 
-- **Lane 3:** #7090, #7103 and #7127 were last pushed Nov 3, with no "ready" from the lane yet.
+- **Lane 3:** #7090 and #7127 were last pushed Nov 3, with no "ready" from the lane yet.
 - **Lane 4:** #7100 (families guard: `calendar.ts` reaches two core internals; last push Nov 1).
 - **48-hour rule:** if a lane goes 48 hours without pushing to one of these, it merges on the one check and its named failure is filed.
 
