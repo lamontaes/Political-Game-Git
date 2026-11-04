@@ -1,6 +1,7 @@
-/* global process, URL, URLSearchParams, console, document, fetch */
+/* global process, URL, URLSearchParams, console, document */
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
+import { fileWhenFilingOpens } from "./start-life.mjs";
 import { openCampaignTrail } from "./campaign-trail.mjs";
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
@@ -39,34 +40,8 @@ try {
   );
   console.log("Place:", await page.locator("#card-place").innerText());
   // File for the first office the player can: the records decide which.
-  const { filed, tried } = await page.evaluate(async () => {
-    const tried = [];
-    const gov = await (await fetch("/api/government")).json();
-    for (const { contest } of gov.contests ?? []) {
-      const contestId = contest.id;
-      const r = await fetch(`/api/file?${new URLSearchParams({ contestId })}`, {
-        method: "POST",
-      });
-      const body = await r.json().catch(() => ({}));
-      tried.push(
-        contestId.slice(-40) +
-          " " +
-          r.status +
-          " " +
-          JSON.stringify(body).slice(0, 200),
-      );
-      if (
-        r.ok &&
-        body.status !== "refused" &&
-        ["petitioning", "on-ballot"].includes(body.filing?.status ?? "")
-      )
-        return { filed: contestId, tried };
-    }
-    return {
-      filed: null,
-      tried: [`${(gov.contests ?? []).length} contests`, ...tried],
-    };
-  });
+  // Filing opens on a set day: the weeks go by until a race is open.
+  const { contestId: filed, tried } = await fileWhenFilingOpens(page);
   console.log("Filed for:", filed, tried.join("\n"));
   assert.ok(filed, "the player could file for nothing in this town");
   await page

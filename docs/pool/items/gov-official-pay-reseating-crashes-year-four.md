@@ -9,6 +9,7 @@ status: open
 claimed-by:
 pr:
 blocked-on:
+lead: governing
 source: added with npm run pool -- add
 ---
 

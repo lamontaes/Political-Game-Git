@@ -1,8 +1,9 @@
-/* global process, URL, URLSearchParams, console, document, fetch */
+/* global process, URL, URLSearchParams, console, document */
 // Buying an ad is a scene (owner: every campaign act is a scene): the
 // outlet with the player at it, then what the buy cost and how many it reached. Usage: SEED=<seed> node src/bench/ad-buy.browser.mjs [screenshot-dir]
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
+import { fileWhenFilingOpens } from "./start-life.mjs";
 import { openCampaignTrail } from "./campaign-trail.mjs";
 
 const shots = process.argv[2];
@@ -42,23 +43,8 @@ try {
     "Place:",
     await page.locator("#card-place").innerText(),
   );
-  const filed = await page.evaluate(async () => {
-    const gov = await (await fetch("/api/government")).json();
-    for (const { contest } of gov.contests ?? []) {
-      const r = await fetch(
-        `/api/file?${new URLSearchParams({ contestId: contest.id })}`,
-        { method: "POST" },
-      );
-      const body = await r.json().catch(() => ({}));
-      if (
-        r.ok &&
-        body.status !== "refused" &&
-        ["petitioning", "on-ballot"].includes(body.filing?.status)
-      )
-        return body.filing.id;
-    }
-    return null;
-  });
+  // Filing opens on a set day: the weeks go by until a race is open.
+  const filed = (await fileWhenFilingOpens(page)).filingId;
   assert.ok(filed, "the player could file for nothing in this town");
   // The campaign holds nothing yet: the ad cannot be bought, and says so.
   await openCampaignTrail(page);

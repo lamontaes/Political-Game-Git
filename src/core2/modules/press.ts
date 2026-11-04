@@ -394,6 +394,7 @@ export const PRESS_MODULE: CoreModule = {
     if (event.kind === "scene.reply") {
       answerInvitation(api, event);
       keepComment(api, event);
+      reportConcession(api, event);
       return;
     }
     // A hidden act someone was just told of may reach a reporter.
@@ -3539,8 +3540,8 @@ function reviewOutletRevenue(api: CoreAPI, monthStart: boolean): void {
   }
 }
 
-/** Owners given a household cost spend what it came to since last week out of what they hold. */
-function ownersLive(api: CoreAPI): void {
+/** Press people given a household cost (owners, and staff from outside the town) spend what it came to since last week out of what they hold. */
+function pressPeopleLive(api: CoreAPI): void {
   for (const raw of table(api, "staff").rows()) {
     const row = raw as unknown as StaffRow;
     if (!row.livedThrough || row.livedThrough >= api.state.date) continue;
@@ -3565,7 +3566,7 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     api,
     Number(api.state.date.slice(8, 10)) <= api.parameter("daysPerWeek"),
   );
-  ownersLive(api);
+  pressPeopleLive(api);
   conflictBeat(api);
   // stopgapId: SG-PEOPLE-press-endorsements
   api.stopgap("SG-PEOPLE-press-endorsements");
@@ -3894,6 +3895,57 @@ function keepComment(api: CoreAPI, event: Readonly<CoreEventInput>): void {
     quote: said ? String(facts.line ?? "") || null : null,
     replyId: event.id,
   } satisfies CommentRow as unknown as ModuleRow);
+}
+
+/**
+ * A candidate who lost conceded on the call after the count, or would not
+ * concede that night (the director marks the reply `conceded`): either is
+ * put on the public record, so the paper prints it and the town hears it.
+ * Once each way for a candidate and a race.
+ */
+function reportConcession(api: CoreAPI, event: Readonly<CoreEventInput>): void {
+  const facts = event.facts ?? {};
+  const conceded = facts.conceded;
+  if (conceded !== "yes" && conceded !== "no") return;
+  const cause = api.state.durableLog.get(String(facts.causeId ?? ""));
+  if (cause?.kind !== "election-result") return;
+  // The candidate on the call: the one in the reply the count names, not the
+  // winner.
+  const winnerId = String(cause.facts?.winnerId ?? "");
+  const counted = JSON.parse(String(cause.facts?.totals ?? "{}")) as Record<
+    string,
+    number
+  >;
+  const loserId = event.personIds.find(
+    (id) => id in counted && id !== winnerId,
+  );
+  if (!loserId || !winnerId || loserId === winnerId) return;
+  const contestId = String(cause.facts?.contestId ?? "");
+  const id = `concession:${contestId}:${loserId}:${conceded}`;
+  if (api.state.durableLog.has(id)) return;
+  api.emit({
+    id,
+    date: api.state.date,
+    kind: "concession",
+    personIds: [loserId, winnerId],
+    placeId: lawChain(api).townPlaceId,
+    source: {
+      tag: "SOURCED",
+      citation: `The concession call after ${cause.id}, in ${event.id}`,
+      asOf: api.state.date,
+    },
+    publicRecord: true,
+    news: true,
+    facts: {
+      contestId,
+      office: String(cause.facts?.office ?? ""),
+      winnerId,
+      loserId,
+      conceded,
+      resultId: cause.id,
+      replyId: event.id,
+    },
+  });
 }
 
 /**

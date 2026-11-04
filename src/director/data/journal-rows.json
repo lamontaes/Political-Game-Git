@@ -339,6 +339,11 @@
         "office": {
           "fact": "office",
           "format": "text"
+        },
+        "election": {
+          "fact": "electionDate",
+          "format": "date",
+          "optional": true
         }
       },
       "hasOtherLine": true,

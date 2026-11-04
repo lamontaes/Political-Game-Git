@@ -11812,6 +11812,94 @@
         "move": "deliver-news",
         "key": "news-received"
       }
+    },
+    {
+      "key": "news.election-concession.opponent-called-to-concede-after-the-count",
+      "move": "election-concession",
+      "kind": "written",
+      "text": "{opponent} called to concede after the count.",
+      "uses": [
+        {
+          "move": "election-concession",
+          "subject": "news",
+          "role": "election-concession",
+          "choice": "context",
+          "requiresFacts": ["conceded"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-venue-speeches-delivered)",
+      "date": "2026-11-03",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-concession.opponent-called-name-to-concede",
+      "move": "election-concession",
+      "kind": "written",
+      "text": "{opponent} called {name} to concede.",
+      "uses": [
+        {
+          "move": "election-concession",
+          "subject": "news",
+          "role": "election-concession",
+          "choice": "context",
+          "requiresFacts": ["conceded"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-venue-speeches-delivered)",
+      "date": "2026-11-03",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-concession.opponent-has-not-called-to-concede",
+      "move": "election-concession",
+      "kind": "written",
+      "text": "{opponent} has not called to concede.",
+      "uses": [
+        {
+          "move": "election-concession",
+          "subject": "news",
+          "role": "election-concession",
+          "choice": "context",
+          "requiresFacts": ["declined"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-venue-speeches-delivered)",
+      "date": "2026-11-03",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-concession.opponent-would-not-concede-the-race",
+      "move": "election-concession",
+      "kind": "written",
+      "text": "{opponent} would not concede the race.",
+      "uses": [
+        {
+          "move": "election-concession",
+          "subject": "news",
+          "role": "election-concession",
+          "choice": "context",
+          "requiresFacts": ["declined"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-venue-speeches-delivered)",
+      "date": "2026-11-03",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
     }
   ]
 }

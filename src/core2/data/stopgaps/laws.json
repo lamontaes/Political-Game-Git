@@ -22,5 +22,17 @@
     "addedAt": "2026-10-28",
     "replacement": "A per-state field in the starting-law research (data/research/laws/local-starting-law/sales-tax.json) saying whether local sales taxes follow the state's grocery exemption, sourced from each state's revenue department, read here so a state exemption spares only the levels its base covers.",
     "status": "open"
+  },
+  {
+    "id": "SG-LAWS-lobbying-period-unspecified",
+    "kind": "assumed-data",
+    "file": "src/core2/law-reach/group-a-voting.ts",
+    "line": 666,
+    "whatItFakes": "A lobbying ban with no numeric period on its law row retains the existing estimated two-year cooling-off period. Researched numeric periods are read from the actual law instead.",
+    "why": "Some researched yes answers have no structured period, and a newly enacted yes/no bill can omit a duration. This item fixes continuous service and reads available provisions without inventing missing statutory detail.",
+    "addedBy": "lane-2/lobbying-departure",
+    "addedAt": "2026-11-03",
+    "replacement": "Supply the missing structured periods through researched starting-law and voted bill provisions; remove the fallback when every applicable ban carries one.",
+    "status": "open"
   }
 ]

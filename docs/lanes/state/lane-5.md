@@ -1,52 +1,85 @@
 # Lane 5 state
 
-0 of 12 paths confirmed. Oldest open PR 1 day (#7148, Nov 3).
+0 of 12 played paths confirmed. Oldest open PR 0 days (#7173, Nov 4).
 
-## Works (built and merged; not yet confirmed by another session)
+## Unit cards
 
-- Cloud trial, Nov 3: install, bench, New game → Start a life → Oxford, Idaho → the opening on Jan 20, 2025. `trial/lane-5` pushed.
-- Path 12, merges don't collide: #7140 merged (the pool index is written on main only, by the Pool index workflow; a branch never changes it), #7144 merged (the stopgap register is 40 family files; the desk's conflict resolution kept all 691 rows, checked against main's side). #7141 merged: the one `new game` check (ruling 2), green on GitHub. The owner was asked to make it the only required check (branch protection).
-- Path 11, the record is true: #7146 merged (`docs/STATE.md`, every bullet sourced, with a test). The pool truth pass is on main at f429f50bb6: 7 claims set in-pr, 1 done on the owner's close, 4 stale claims released, 56 leftover claims moved to Notes. `elections-past-race-votes-from-electorate` was reopened (#7088 merged as "Touches").
-- #7145 merged: an inserted empty pool field has no trailing space.
+Every unit gets one before it starts (lane page, CTO rule). Units 1 and 2 were started before the rule; their cards are written now from what was done.
 
-## Open PRs (all wait on the owner's click; the desk may not merge lane PRs outside his Nov 3 list)
+### Unit 1: merges stop colliding (built; card on the lane page)
 
-- #7148 `home-sale-outside-lender-two-outside-accounts`: the test's lender is now the town's outside market, as in play. Its `golden-path-year` red is M0-13 in Rachel, West Virginia, which this PR can't touch (commented).
-- #7149 `tests-campaign-turn-rival-question-undefined`: the ad case passes over a rival with no platform; 11 of 11 on 11 seeds. Desk: checked, new game passed (Torreon, New Mexico, 587151fadb62ef34).
-- #7155 and #7158 (Touches `play-browser-checks-open-on-the-address`): `src/bench/start-life.mjs`; 21 checks play the opening first. person-card and panels pass 3 of 3, plus 10 more once each. The rest fail past the address on filed causes.
-- #7161 `tests-vitest-import-baseline-heap`: Vitest reads JSON from disk; a worker starts at 386 MB, not 1,069.
+- **Finish line:** two PRs that both change pool items both land by ordinary merge, nothing lost. **Proof:** `scripts/pool/index-merge.test.ts` (#7140), the new-game check as one job (#7141), the stopgap register in family files (#7144). **Checked by:** a fresh session, and the desk's next conflict. Not yet confirmed.
 
-## Built, waiting for a PR slot
+### Unit 2: pool truth and one state page (in progress)
 
-- `lane-5/legacy-pay-ends-with-job` (`work-legacy-pay-mode-blocks-rehire`): Oak Hills, Iowa no longer stops on 2026-02-02; Superior, Colorado runs to 2028-01-01.
-- `lane-5/skills-nov3`: skill lines.
-- `lane-5/opening-every-locality` (`core-opening-coverage-every-locality`): a resumable script; the sweep is running in chunks (89 of 8,242 county-governed localities opened, none failed so far).
+- **Finish line:** `docs/STATE.md` true on main; no claim older than 48 hours without a live branch; roadmap flags only from evidence.
+- **Proof:** a list of every claimed item with its branch and last change; each stale claim released with a Notes line naming why.
+- **Hands off:** another lane's live claim; any item's specs or done-when; deleting items.
+- **Known cheats:** releasing a claim whose branch still has commits; closing an item without rerunning its done-when.
+- **Size:** about 6 to 8 hours; pool edits only. **Checked by:** a session that didn't build it, reading STATE.md against the pool.
+- Nov 4 05:45: `release-main-red-standing` released (branch gone, last handoff Nov 2). All other claims are less than a day old.
 
-## In progress
+### Unit 3: screen checks see again (in progress)
 
-- `speed/group-quarters-population` (`core-group-quarters-population`, taken over from the speed lead): main merged in, the eviction band set by the Nov 2 ruling, residents of rooms outside the labor force kept out of staff and public posts. group-quarters.test passes on 3 seeds. One test left: `housing-counted-evicted`'s rent-again step needs a place with an evicted household that has pay, now that Storrs's students aren't evicted. Then the Storrs and zero-group-quarters measurements, then the PR.
-- Unit 9: `core-played-game-saves-and-continues` filed (Continue today is only the server's memory). The plan for `core-snapshot-cover-rest` is in its Notes: re-apply the old branch's intent on main, don't merge it.
+- **Finish line (path 7):** five browser checks in three towns pass on main, the first click under 60 seconds.
+- **Proof:** each check's run on main with its town and replay number; start-life.mjs is the one opening helper.
+- **Hands off:** `src/bench` screens themselves (play-first lane); the words of any scene.
+- **Known cheats:** skipping a step the check exists to test; a longer timeout instead of a cause; a check that passes because it checks nothing.
+- **Size:** 8 to 10 hours, in steps under 400 lines (#7155, #7158, #7180 merged). **Checked by:** a fresh session running the five on main.
+- Left: filing, office hours, election day, options, sheets, dev follow, polling, printed news (8 checks, other causes, listed in #7180).
 
-## Found and fixed in my own tools
+### Unit 4: crashes a player can hit (in progress)
 
-- `scripts/stopgaps-move-old.ts` (merged in #7144) reverted rows main had changed since a branch was cut. The fix (merge base plus field-by-field) rides on the group-quarters branch, and the desk was warned on #7144.
+- **Finish line (paths 1 and 2):** every locality opens; Madras, Oregon and Bloomingdale, Tennessee play a full year.
+- **Proof:** `npm run opening:every-locality` (#7177), resumable, naming each town that won't open; the two towns' years on main.
+- **Hands off:** fixing a crash in another lane's engine (file it to that lane instead).
+- **Known cheats:** skipping a town that fails; a catch that hides a crash.
+- **Size:** mostly machine time, about 30 hours of sweep. **Checked by:** a fresh session rerunning a sample of the sweep's towns.
+- Sweep: 986 of 8,242 opened, none failed. Paused at 05:32 for unit 7's run (one heavy process at a time); it resumes where it stopped.
 
-## Filed for others (lead play)
+### Unit 7: big towns and election years (in progress)
 
-- `play-news-reader-lead-without-text-crashes` (p1): clicking the first night's paper throws in `readerBody`.
-- `tests-talk-history-one-exchange`, `tests-plain-text-no-travel-filing-place`, `tests-opening-address-skip-check-red`.
+- **Finish line (paths 3 and 4):** Arcadia, California and Chamblee, Georgia play four years at the shipped app's memory limit with no out-of-memory; every year under the bar.
+- **Proof:** `speed:year` on main at that limit, four years, place and seed named, heap and seconds per year.
+- **Hands off:** game rules; any engine's output (a cut must keep the same records, `--same-records`).
+- **Known cheats:** timing a town when the bar is a country's year; leaving a slow town out; a bigger heap than the app has.
+- **Size:** 15 to 20 hours; each cut its own PR under 400 lines. **Checked by:** a fresh session repeating the run on main.
+- The shipped app's limit, measured: Electron 38.4.0's play-server utility process has a heap limit of **4,096 MiB** (`v8.getHeapStatistics()` inside `utilityProcess.fork`, same flags as `desktop/play-api-client.mjs`; the app sets no heap flag).
+- Arcadia (0602462, seed app-heap-1, main 44f14801eb, 4,096 MiB): built in 24.9 s; year 1 145.3 s, heap 1,041 MB. Years 2 to 4 running.
 
-## Failed
+### Unit 9: real save and load (waiting on Lane 3)
 
-- `gh auth status`: the token is invalid. Only search uses it.
-- `docs/lanes/towns.md`: replay ab5f58e9be125c95 opens Old Forge, New York, not Haleyville, Alabama. The fixed towns need picking again in the Advanced picker.
-- This cloud copy is shallow: each pool command's `git fetch origin main` can take minutes (385k objects once), and the storage guard needs the override for every bench start.
+- **Finish line (path 6):** play two months, quit, reopen: Continue returns the same date and people, and the load doesn't grow with played years.
+- **Proof:** `snapshot-played.test.ts` on the played world (no field differs 45 days after a restore), and the bench's save and load route.
+- **Hands off:** `src/director` (Lane 3's), except through the agreement in `docs/lanes/agreements/3-5.md`.
+- **Known cheats:** a save file the game never uses; a load that replays every day.
+- **Size:** 17 to 27 hours. **Checked by:** a fresh session quitting and reopening in the browser.
+- Phoenix, Arizona: 55 of 75 engines uncovered; first split is day 1, the director's ledger, which lives in closures and isn't saved. Asked on #7159.
+
+## Open PRs
+
+- #7183 (red main): lane state files under `docs/lanes` need no release declaration. Main's Release run failed on every state push (runs 12086, 12088, 12089, 12091).
+- #7173 skills: start-life.mjs, shallow fetches, the storage guard. Desk check passed; the CTO merges skills.
+
+## Merged
+
+- Nov 3: #7140, #7141, #7144, #7145, #7146.
+- Nov 4: #7148, #7149, #7155, #7158, #7161, #7172 (rehire), #7176 (group quarters: Storrs 142.9 s to 93.3 s), #7177 (every-locality sweep), #7180 (eight browser checks wait for filing), #7181 (Storrs eviction case, red main), #7182 (no-dice entry for sibling names, red main).
+
+## Failed or blocked
+
+- `gh auth status`: the token is invalid; only search uses it.
+- `docs/lanes/towns.md`: replay ab5f58e9be125c95 opens Old Forge, New York, not Haleyville, Alabama.
+
+## Agreements made
+
+- Lane 2, on #7173: Lane 2 lowers `src/core2/modules/press.ts` 16 to 15 in `tests/guards/families-baseline.json`, in its counted-news PR only.
+
+## Filed for others
+
+- `play-news-reader-lead-without-text-crashes` (p1), `tests-talk-history-one-exchange`, `tests-plain-text-no-travel-filing-place`, `tests-opening-address-skip-check-red`, `tests-played-world-no-rental-tiny-town`, `tests-electoral-scenes-speech-crowd-member`, `release-build-ships-nothing-from-the-workroom`.
 
 ## Next
 
-- `release-audit-07-08`: answered by `docs/packages/M7-early-access.md` line 88 (launch preparation). `release-build-ships-nothing-from-the-workroom` filed.
-- M0-13 red in Rachel, West Virginia reproduces on main: filed `tests-played-world-no-rental-tiny-town`. The press-staff crash doesn't reproduce on main; `tests-electoral-scenes-speech-crowd-member` filed.
-
-- Unit 3 rest, then `tests-filing-browser-cold-bench-timeouts` and `tests-election-browser-checks-red-on-main`.
-- Unit 4: `core-press-staff-counted-job-not-resident` (a 24-minute repro), `work-legacy-pay-mode-blocks-rehire`, `core-relocation-job-held-intermittent`, `core-opening-coverage-every-locality`.
-- `core-stopgap-never-hit-audit` now that the register is split.
+- Unit 7: finish Arcadia and Chamblee at 4,096 MiB; file or fix what grows in the election year (Nov 1 note: durableLog, foldedCauses, doors).
+- Unit 4: resume the sweep after unit 7's run.
