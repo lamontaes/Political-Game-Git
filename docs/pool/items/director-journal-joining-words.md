@@ -5,11 +5,12 @@ area: words
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane3/journal-joins
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T11:18:47.542Z
 ---
 
 **What.** Split from director-journal-one-story, after director-journal-line-links: a line whose link is a cause opens on a joining clause from the journal bank ('Because of that, ...', 'So, ...'), and one that comes a month or more after the line before opens on the time that passed ('Three months later, ...'). A line that says its own time takes none.
