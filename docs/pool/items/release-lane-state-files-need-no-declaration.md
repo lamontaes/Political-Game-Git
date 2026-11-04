@@ -5,11 +5,12 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane-5/release-lane-files
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T05:37:40.487Z
 ---
 
 **What.** The Release run on main fails at Enforce declarations whenever a lane or the merge desk pushes its state file straight to main: run 41779634904 on 44f14801eb says the range modifies docs/lanes/state/merge-desk.md and adds no declaration, and runs 12086, 12088 and 12089 failed the same way. docs/lanes is coordination, like docs/coordination and docs/pool, which the check already skips.
