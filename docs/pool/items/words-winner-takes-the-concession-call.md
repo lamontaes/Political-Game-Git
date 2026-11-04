@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: lane3/rival-gloats
-pr:
+pr: #7178
 blocked-on:
 after: words-concession-reaches-the-paper
 source: added with npm run pool -- add
