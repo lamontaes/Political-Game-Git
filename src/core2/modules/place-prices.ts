@@ -35,6 +35,7 @@ import { sha256Hex } from "../kernel/sha256";
 import { transferCash } from "../world-transfer";
 import { newsKey, onStoryHeard, storiesHeard, type Story } from "./news";
 import { lawApplied, type AppliedTarget } from "../law-reach/applied";
+import type { LawRowInput } from "../laws-starting";
 import type {
   CoreAPI,
   CoreModule,
@@ -595,31 +596,73 @@ function learnFromStory(
   const law = lawOf(rule);
   const moved = Math.round(change.refundMinor) - Math.round(change.payMinor);
   if (!law || !moved) return;
+  recordPaidLawEffect(api, {
+    ...law,
+    personId,
+    movedMinor: moved,
+    earningsMinor: monthlyEarningsMinor,
+    evidence: { kind: "price", id: rule.id, householdId },
+  });
+}
+
+/** Remember actual money moved under a law; only heard news attributes it. */
+export function recordPaidLawEffect(
+  api: CoreAPI,
+  input: {
+    readonly personId: string;
+    readonly lawId: string;
+    readonly key: string;
+    readonly movedMinor: number;
+    /** Earnings over the same period as the payment, not an invented loss. */
+    readonly earningsMinor: number;
+    readonly evidence:
+      | {
+          readonly kind: "price";
+          readonly id: string;
+          readonly householdId: string;
+        }
+      | { readonly kind: "withholding"; readonly id: string };
+  },
+): void {
+  if (!api.state.modules.has(PLACE_PRICES_MODULE_ID)) return;
+  const { personId, evidence } = input;
+  const law = { key: input.key, lawId: input.lawId };
+  const moved = Math.round(input.movedMinor);
+  if (!moved || !api.state.people.get(personId)?.alive) return;
   if (store(api).table("learned").get(`${personId}|${law.lawId}`)) return;
-  // What the household paid under the law, for a story heard later.
+  // Household prices keep their existing key; each worker's withholding is
+  // their own payment, even when two taxpayers share the same household.
+  const targetId = evidence.kind === "price" ? evidence.householdId : personId;
   store(api)
     .table("felt")
     .put({
-      id: `${householdId}|${law.lawId}`,
-      householdId,
+      id: `${targetId}|${law.lawId}`,
       payerId: personId,
-      ruleId: rule.id,
+      ...(evidence.kind === "price"
+        ? {
+            householdId: evidence.householdId,
+            ruleId: evidence.id,
+            monthlyEarningsMinor: input.earningsMinor,
+          }
+        : {
+            withholdingId: evidence.id,
+            periodEarningsMinor: input.earningsMinor,
+          }),
       key: law.key,
       lawId: law.lawId,
       movedMinor: moved,
-      monthlyEarningsMinor,
       date: api.state.date,
     });
   // A story they heard about the law: one still in the news, or one they
-  // heard before the household's bill first changed (the news forgets a
+  // heard before the payer's bill or withholding first changed (the news forgets a
   // story after its days, but the person remembers hearing it).
   const remembered = store(api)
     .table("heardLaws")
     .get(`${personId}|${law.lawId}`) as unknown as
     { storyId: string; known?: KnownFact } | undefined;
   const storyId =
-    storiesHeard(api, personId).find((s) => s.facts.lawId === law.lawId)?.id ??
-    remembered?.storyId;
+    storiesHeard(api, personId).find((s) => storyLawId(api, s) === law.lawId)
+      ?.id ?? remembered?.storyId;
   // A story remembered after the news forgot it is known again as they
   // first heard it (its day and how it reached them).
   if (
@@ -634,9 +677,11 @@ function learnFromStory(
       personId,
       lawId: law.lawId,
       key: law.key,
-      ruleId: rule.id,
+      ...(evidence.kind === "price"
+        ? { ruleId: evidence.id }
+        : { withholdingId: evidence.id }),
       moved,
-      monthlyEarningsMinor,
+      earningsMinor: input.earningsMinor,
       storyId,
     });
 }
@@ -644,34 +689,39 @@ function learnFromStory(
 /**
  * A story about a law reaches a person. If their household already paid
  * under it and they paid, they tie the change to the law now; otherwise they
- * remember hearing it, for the month their household's bill changes. Only a
- * law the price engine prices is remembered.
+ * remember hearing it until its monetary effect lands. This is the same
+ * attribution reader for a household price and an adopted payroll tax.
  */
 function learnOnHearing(api: CoreAPI, personId: string, story: Story): void {
-  const lawId = story.facts?.lawId;
+  const lawId = storyLawId(api, story);
   if (!lawId || !api.state.modules.has(PLACE_PRICES_MODULE_ID)) return;
   if (store(api).table("learned").get(`${personId}|${lawId}`)) return;
   const householdId = api.state.people.get(personId)?.householdId;
   if (!householdId) return;
-  const felt = store(api)
-    .table("felt")
-    .get(`${householdId}|${lawId}`) as unknown as
+  const feltTable = store(api).table("felt");
+  const felt = (feltTable.get(`${personId}|${lawId}`) ??
+    feltTable.get(`${householdId}|${lawId}`)) as unknown as
     | {
         payerId: string;
-        ruleId: string;
+        ruleId?: string;
+        withholdingId?: string;
         key: string;
         movedMinor: number;
-        monthlyEarningsMinor: number;
+        monthlyEarningsMinor?: number;
+        periodEarningsMinor?: number;
       }
     | undefined;
   if (felt && felt.payerId === personId) {
+    const earningsMinor = felt.periodEarningsMinor ?? felt.monthlyEarningsMinor;
+    if (earningsMinor === undefined) return;
     emitLearned(api, {
       personId,
       lawId,
       key: felt.key,
       ruleId: felt.ruleId,
+      withholdingId: felt.withholdingId,
       moved: felt.movedMinor,
-      monthlyEarningsMinor: felt.monthlyEarningsMinor,
+      earningsMinor,
       storyId: story.id,
     });
     return;
@@ -685,7 +735,11 @@ function learnOnHearing(api: CoreAPI, personId: string, story: Story): void {
     api.moduleState(LAWS_MODULE_ID).table("laws").get(lawId) as unknown as
       { series?: string } | undefined
   )?.series;
-  if (!series || !PRICE_LAW_QUESTIONS.has(series)) return;
+  if (
+    !series ||
+    (!PRICE_LAW_QUESTIONS.has(series) && series !== ADOPT_INCOME_TAX)
+  )
+    return;
   // What they now know of the story, kept with the memory: the news forgets
   // a story's key after its days, and the views engine reads it.
   const known = api.knows(personId, newsKey(story.id));
@@ -700,16 +754,17 @@ function learnOnHearing(api: CoreAPI, personId: string, story: Story): void {
 }
 onStoryHeard(learnOnHearing);
 
-/** The person ties the price change to the law, citing the story they heard. */
+/** The person ties money moved to the law, citing the story they heard. */
 function emitLearned(
   api: CoreAPI,
   input: {
     readonly personId: string;
     readonly lawId: string;
     readonly key: string;
-    readonly ruleId: string;
+    readonly ruleId?: string;
+    readonly withholdingId?: string;
     readonly moved: number;
-    readonly monthlyEarningsMinor: number;
+    readonly earningsMinor: number;
     /** The story about the law they heard, which the learned event cites. */
     readonly storyId: string;
   },
@@ -722,7 +777,7 @@ function emitLearned(
   if (!person?.alive) return;
   const share = Math.max(
     -1,
-    Math.min(1, moved / Math.max(input.monthlyEarningsMinor, Math.abs(moved))),
+    Math.min(1, moved / Math.max(input.earningsMinor, Math.abs(moved))),
   );
   api.emit({
     id: `event:law.effect-learned:${api.state.date}:${personId}:${lawId}`,
@@ -738,7 +793,8 @@ function emitLearned(
     facts: {
       lawId,
       learnedFrom: newsKey(storyId),
-      priceRuleId: input.ruleId,
+      ...(input.ruleId ? { priceRuleId: input.ruleId } : {}),
+      ...(input.withholdingId ? { withholdingId: input.withholdingId } : {}),
       movedMinor: String(moved),
     },
     publicRecord: false,
@@ -938,6 +994,35 @@ const PRICE_LAWS = {
 const PRICE_LAW_QUESTIONS: ReadonlySet<string> = new Set(
   Object.values(PRICE_LAWS),
 );
+const ADOPT_INCOME_TAX = "us-policy-positions:fiscal.adopt-income-tax";
+
+/** The existing adopting measure links a numeric withholding rule to its bill's policy. */
+export function adoptedIncomeTaxPolicy(
+  api: CoreAPI,
+  numericId: string,
+): LawRowInput | undefined {
+  if (!api.state.modules.has(LAWS_MODULE_ID)) return undefined;
+  const laws = api.moduleState(LAWS_MODULE_ID).table("laws");
+  const numeric = laws.get(numericId) as unknown as LawRowInput | undefined;
+  const measure = numeric?.terms?.enactedBy;
+  if (
+    numeric?.series !== "income-tax" ||
+    typeof measure !== "string" ||
+    !measure.startsWith("adopt:")
+  )
+    return undefined;
+  const policy = laws.get(measure.slice("adopt:".length)) as unknown as
+    LawRowInput | undefined;
+  return policy?.series === ADOPT_INCOME_TAX &&
+    policy.jurisdiction === numeric.jurisdiction
+    ? policy
+    : undefined;
+}
+
+function storyLawId(api: CoreAPI, story: Story): string | undefined {
+  const id = story.facts?.lawId;
+  return id ? (adoptedIncomeTaxPolicy(api, id)?.id ?? id) : undefined;
+}
 
 /** Read statutes where the existing price engine is about to charge use. */
 function readPriceLaws(api: CoreAPI): void {

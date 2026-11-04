@@ -62,6 +62,7 @@ import { corePlaceByJurisdictionId } from "../place-lookup";
 import { outsideGovernment } from "../outside-governments";
 import { withholdingFor, type WithholdingLine } from "../tax-withholding";
 import { recordIncomeTaxApplied } from "../tax-applied";
+import { adoptedIncomeTaxPolicy, recordPaidLawEffect } from "./place-prices";
 import {
   applySocialSecurityLevel,
   closeTreasuries,
@@ -1821,7 +1822,27 @@ function postWithholding(
     table(api, "withholding").put(record as unknown as ModuleRow);
   // The entry is posted: the held slot (a second copy of every posting) is let go.
   slots.get(api.state)?.delete(record.id);
+  learnPaidIncomeTax(api, record);
   return record;
+}
+
+/** Attribute only the adopted tax actually posted, never the other deductions. */
+function learnPaidIncomeTax(api: CoreAPI, record: WithholdingRecord): void {
+  for (const line of record.lines) {
+    if (line.tax !== "income" || line.minor <= 0) continue;
+    // incomeTaxAct records the adopting policy in this existing measure field.
+    // Reading that link avoids borrowing the played town's law for commuters.
+    const law = adoptedIncomeTaxPolicy(api, line.lawId);
+    if (!law || law.jurisdiction !== line.jurisdiction) continue;
+    recordPaidLawEffect(api, {
+      personId: record.personId,
+      lawId: law.id,
+      key: law.series,
+      movedMinor: -line.minor,
+      earningsMinor: record.paidMinor,
+      evidence: { kind: "withholding", id: record.id },
+    });
+  }
 }
 
 /**
