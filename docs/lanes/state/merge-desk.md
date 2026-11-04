@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 77 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 78 pull requests merged. Newest state at the top of each section.
 
 ## What the owner can play now
 
@@ -26,7 +26,7 @@ New on Nov 4, from the lanes:
   - Rivals run attack ads on your record that name your real votes.
   - Favors you traded for votes are called in at election time.
 - **Family and home.**
-  - Relatives and officials at the opening have homes and pay rent.
+  - Relatives and officials at the opening have homes and pay rent, and your home exists before the first card and room appear.
   - Living siblings never share a first name.
 - **Laws and money.**
   - Unemployment benefits use the law's full wage basis.
@@ -68,7 +68,7 @@ New on Nov 3:
   - A pool fix (#7145).
   - A state page (#7146).
 
-## Lane PRs merged on Nov 4 (42), on the owner's word ("You may merge lane PRs that pass the new-game check")
+## Lane PRs merged on Nov 4 (43), on the owner's word ("You may merge lane PRs that pass the new-game check")
 
 Each had main merged in again, passed `npm run new-game-check` (a town drawn from all 56, a new life, four weeks) and merged pinned to that head.
 
@@ -116,6 +116,7 @@ Each had main merged in again, passed `npm run new-game-check` (a town drawn fro
 | #7186 | A friend and a rival say different things on the call after the count                                                     | Pleasant Grove, Alabama           | 59e77f3f5234eec5 |
 | #7187 | What you tell a reporter about your bill is in the paper's story of it (main merged in with both sides' imports kept)     | Kickapoo Site 1, Kansas           | 1a323bb4802a8fef |
 | #7188 | The night's paper prints only news that is still news on its date                                                         | Okauchee Lake, Wisconsin          | c703902b25039143 |
+| #7189 | Homes exist before the first new-game card and room                                                                       | Si'ufaga, American Samoa          | 3a2fd883d5e9053f |
 
 Conflicts resolved mechanically: #7154 (both sides added a parameter and a stopgap row; both kept), and #7153, #7157, #7160, #7162 (Lane 2's state page: main's wording for the one edited line, both sides' log entries kept). Mac builds started after 5, 13, 18, 25, 30, 35 and 40 of these merges.
 
