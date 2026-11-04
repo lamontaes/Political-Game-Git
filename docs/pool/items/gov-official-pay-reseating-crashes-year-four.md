@@ -5,12 +5,13 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane-2/official-pay-reseating
 pr:
 blocked-on:
 lead: governing
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T07:21:51.252Z
 ---
 
 **What.** A four-year baseline run in Absecon Highlands, New Jersey (3400160), replay c89c92ac66b703f1, crashes in year four at official-pay.ts seat() calling startSalariedPost. The thrown message says a salaried post needs a living person, a recorded employer and no shift hours; that guard also rejects an existing job ID. Three years completed on base cf31d0ed63, with no sibling-name correction applied. The failing guard condition is not yet isolated; do not assume death from the generic message.
