@@ -1,12 +1,14 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 103 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 104 pull requests merged. Newest state at the top of each section.
 
 ## What the owner can play now
 
 Main opens a new game, loads a person and a town, and plays four weeks without a crash (Lane 5's new-game check, now on main and on every pull request). The one check passed on every merge below.
 
 New on Nov 4, from the lanes:
+
+- **Starting a game.** The loading screen plays the world being built: a year counter, the Journal writing itself, headlines and the map filling in.
 
 - **Filing.**
   - You are offered one council race, and only while filing is open.
@@ -78,7 +80,7 @@ New on Nov 3:
   - A pool fix (#7145).
   - A state page (#7146).
 
-## Lane PRs merged on Nov 4 (68), on the owner's word ("You may merge lane PRs that pass the new-game check")
+## Lane PRs merged on Nov 4 (69), on the owner's word ("You may merge lane PRs that pass the new-game check")
 
 Each had main merged in again, passed `npm run new-game-check` (a town drawn from all 56, a new life, four weeks) and merged pinned to that head.
 
@@ -152,6 +154,7 @@ Each had main merged in again, passed `npm run new-game-check` (a town drawn fro
 | #7210 | #7207's patch-note title was too long and stopped builds; fixed (release only)                                                                   | Fairfield Harbour, North Carolina | 7a39090c1e10518f |
 | #7209 | The moment spacing loop keeps its numbers in data (fixes a red guard on main)                                                                    | Oakwood, Georgia                  | 607187dde30c724b |
 | #7211 | The scene of a law's effect names the law and what your household paid or got back                                                               | Wauchula, Florida                 | c888652ad5e1faad |
+| #7212 | The loading screen plays the world being built: a year counter, the Journal writing itself, headlines, the map filling in                        | Addison, Texas                    | 82f2da5b7b85d85a |
 
 Conflicts resolved mechanically: #7154 (both sides added a parameter and a stopgap row; both kept), and #7153, #7157, #7160, #7162 (Lane 2's state page: main's wording for the one edited line, both sides' log entries kept). Mac builds started after 5, 13, 18, 25, 30, 35, 40, 45, 50, 55, 60 and 65 of these merges.
 
