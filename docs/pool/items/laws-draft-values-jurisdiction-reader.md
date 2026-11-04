@@ -32,3 +32,5 @@ claimed-at: 2026-11-04T09:49:09.197Z
 **Screenshot.** Normal draft and paper in Brookside and the two recorded drawn worlds.
 
 **Checked by.** A session that did not build this change; Lane 4 reviews its accepted adapter.
+
+Nov 4 Built unit: accepted sectionOf correction plus actual federal/local/phased seatAct coverage. Four generated worlds pass; Brookside and both drawn browser worlds pass with screenshots; Misquamicut RI / ba819f115508897c opens and runs four weeks. Current-main Brownville Junction comparison passes all four years (maximum +1.00%, all under 120s, every table equal). Proof: docs/lanes/proof/bill-values-jurisdiction.md. Parent laws-bill-before-reads-bill-level and whole path remain unfinished.
