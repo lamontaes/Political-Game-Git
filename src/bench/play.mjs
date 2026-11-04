@@ -15,7 +15,7 @@ import {
 } from "./ui/talk-box.mjs";
 import { showToast, hideToast } from "./ui/toast.mjs";
 import { mountRail } from "./ui/rail.mjs";
-import { districtMap, partyLegend } from "./ui/map.mjs";
+import { districtMap, partyLegend, partyRoster } from "./ui/map.mjs";
 import { chamberHeader } from "./ui/chamber.mjs";
 import { partyBar } from "./ui/party-bar.mjs";
 import { memberCard } from "./ui/member-card.mjs";
@@ -527,6 +527,9 @@ async function refresh(scene = {}) {
   );
   if (night) {
     await electionNight(night);
+    // That night, once the returns close: the scene of your own result (the
+    // concession call or the victory), when the director staged one.
+    if (night.resultMomentId) await showStory(night.resultMomentId);
     return;
   }
   // No card notice that "a law took effect" (owner, Oct 27: "Why am I getting a
@@ -4304,8 +4307,7 @@ const sheets = {
     const keys = v.parties.map(({ party }) => party);
     let chosen = keys.includes(partyTab) ? partyTab : keys[0];
     // The roster's box inside the "In office" plate under the map.
-    const roster = document.createElement("div");
-    roster.className = "party-roster";
+    const roster = partyRoster();
     const drawRoster = () => {
       const seats =
         v.parties.find(({ party }) => party === chosen)?.seats ?? [];
@@ -5465,7 +5467,8 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
       const at =
         p.stage === "done" ? STEPS.length : Math.max(STEPS.indexOf(p.stage), 0);
       const within = p.total ? p.done / p.total : 0;
-      bar.style.width = `${Math.round(((at + within) / (STEPS.length + 1)) * 100)}%`;
+      // Full when the build says it is done ("Ready"), never before.
+      bar.style.width = `${Math.round((Math.min(at + within, STEPS.length) / STEPS.length) * 100)}%`;
       $("front-status").textContent =
         `${controls.loading?.[p.stage] ?? ""}${p.total ? ` ${p.done} / ${p.total}` : ""}`;
     }, 400);

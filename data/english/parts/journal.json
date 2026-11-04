@@ -4164,6 +4164,218 @@
       }
     },
     {
+      "key": "journal.memoir-join-cause.because-of-that",
+      "move": "memoir-join-cause",
+      "kind": "spoken",
+      "text": "Because of that.",
+      "uses": [
+        {
+          "move": "memoir-join-cause",
+          "subject": "memoir",
+          "role": "joinCause",
+          "choice": "join-cause",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "joinCause"
+            }
+          ],
+          "clause": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (director-journal-one-story)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-join-cause.so",
+      "move": "memoir-join-cause",
+      "kind": "spoken",
+      "text": "So.",
+      "uses": [
+        {
+          "move": "memoir-join-cause",
+          "subject": "memoir",
+          "role": "joinCause",
+          "choice": "join-cause",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "joinCause"
+            }
+          ],
+          "clause": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (director-journal-one-story)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-join-later.span-later",
+      "move": "memoir-join-later",
+      "kind": "spoken",
+      "text": "{span} later.",
+      "uses": [
+        {
+          "move": "memoir-join-later",
+          "subject": "memoir",
+          "role": "joinLater",
+          "choice": "join-later",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "joinLater"
+            }
+          ],
+          "clause": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (director-journal-one-story)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-join-later.span-on",
+      "move": "memoir-join-later",
+      "kind": "spoken",
+      "text": "{span} on.",
+      "uses": [
+        {
+          "move": "memoir-join-later",
+          "subject": "memoir",
+          "role": "joinLater",
+          "choice": "join-later",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "joinLater"
+            }
+          ],
+          "clause": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (director-journal-one-story)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-meant-friend.that-made-me-glad",
+      "move": "memoir-meant-friend",
+      "kind": "spoken",
+      "text": "That made me glad.",
+      "uses": [
+        {
+          "move": "memoir-meant-friend",
+          "subject": "memoir",
+          "role": "meantFriend",
+          "choice": "meant-friend",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "meantFriend"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (director-journal-one-story)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-meant-friend.i-was-happy-about-that",
+      "move": "memoir-meant-friend",
+      "kind": "spoken",
+      "text": "I was happy about that.",
+      "uses": [
+        {
+          "move": "memoir-meant-friend",
+          "subject": "memoir",
+          "role": "meantFriend",
+          "choice": "meant-friend",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "meantFriend"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (director-journal-one-story)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-meant-rival.we-never-did-see-eye-to-eye",
+      "move": "memoir-meant-rival",
+      "kind": "spoken",
+      "text": "We never did see eye to eye.",
+      "uses": [
+        {
+          "move": "memoir-meant-rival",
+          "subject": "memoir",
+          "role": "meantRival",
+          "choice": "meant-rival",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "meantRival"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (director-journal-one-story)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-meant-rival.i-had-my-doubts-about-that",
+      "move": "memoir-meant-rival",
+      "kind": "spoken",
+      "text": "I had my doubts about that.",
+      "uses": [
+        {
+          "move": "memoir-meant-rival",
+          "subject": "memoir",
+          "role": "meantRival",
+          "choice": "meant-rival",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "meantRival"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (director-journal-one-story)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
       "key": "journal.memoir-age-line.i-was-age-years-old",
       "move": "memoir-age-line",
       "kind": "spoken",
@@ -9636,6 +9848,58 @@
       ],
       "origin": "authored",
       "author": "Lane 3, words and scenes (words-campaign-season-scenes-fill-the-months)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-volunteer-shift.other-walked-doors-for-me",
+      "move": "office-line-volunteer-shift",
+      "kind": "spoken",
+      "text": "{other} walked {doors} doors for me.",
+      "uses": [
+        {
+          "move": "office-line-volunteer-shift",
+          "subject": "office",
+          "role": "line",
+          "choice": "other-walked-doors-for-me",
+          "journal": [
+            {
+              "kindPrefix": "event:volunteer-shift",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-journal-volunteer-named)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-volunteer-shift.other-knocked-on-doors-for-me",
+      "move": "office-line-volunteer-shift",
+      "kind": "spoken",
+      "text": "{other} knocked on {doors} doors for me.",
+      "uses": [
+        {
+          "move": "office-line-volunteer-shift",
+          "subject": "office",
+          "role": "line",
+          "choice": "other-knocked-on-doors-for-me",
+          "journal": [
+            {
+              "kindPrefix": "event:volunteer-shift",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-journal-volunteer-named)",
       "date": "2026-11-04",
       "tag": {
         "move": "tell"

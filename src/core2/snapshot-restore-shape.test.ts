@@ -4,6 +4,7 @@ import { createLifeCore } from "./life";
 import {
   decoder,
   registerDerivedCache,
+  registerRestoreReset,
   restoreWorld,
   snapshotWorld,
   type WorldSnapshot,
@@ -55,5 +56,17 @@ describe("restoring into the rebuilt world", () => {
       JSON.parse(JSON.stringify(snapshotWorld(saved))) as WorldSnapshot,
     );
     expect(cache.has(rebuilt)).toBe(false);
+  });
+
+  it("runs each restore reset once, for caches keyed by records the restore refills", () => {
+    let resets = 0;
+    registerRestoreReset(() => resets++);
+    const saved = createLifeCore(piecesInput());
+    const rebuilt = createLifeCore(piecesInput());
+    restoreWorld(
+      rebuilt,
+      JSON.parse(JSON.stringify(snapshotWorld(saved))) as WorldSnapshot,
+    );
+    expect(resets).toBe(1);
   });
 });

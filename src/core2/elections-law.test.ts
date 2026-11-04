@@ -223,6 +223,16 @@ describe(`election law from data (place ${drawn.name}, ${drawn.state}, seed ${se
         onDate: "2025-01-01",
       })?.electionDate,
     ).toBe("2025-06-03");
+    // Alabama's towns moved to 2025 and every fourth year after (SB119, 2021).
+    expect(
+      electionInYear({
+        office: town("US-AL"),
+        stateKey: "US-AL",
+        placeGeoid: "0000000",
+        year: 2025,
+        onDate: "2025-01-01",
+      })?.electionDate,
+    ).toBe("2025-08-26");
   });
 
   it("every place's municipal election years match its state's data (all 56, the drawn place named)", () => {

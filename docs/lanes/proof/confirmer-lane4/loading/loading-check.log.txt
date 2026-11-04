@@ -1,0 +1,5 @@
+1440x900 {"inside":true,"journalScrollbar":false,"counties":9,"filled":3,"lines":2,"year":"1999","over":[]}
+1280x800 {"inside":true,"journalScrollbar":false,"counties":9,"filled":3,"lines":2,"year":"1999","over":[]}
+1024x768 {"inside":true,"journalScrollbar":false,"counties":9,"filled":4,"lines":3,"year":"2002","over":[]}
+Place: Storrs, Connecticut Years: 1988 to 2025
+PASS the loading screen plays the world's story at three sizes

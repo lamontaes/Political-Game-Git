@@ -1,6 +1,32 @@
 {
   "entries": [
     {
+      "version": "0.82.0",
+      "releasedOn": "2026-11-04",
+      "revision": "32deba00ead77fd9e44bc646478df804f0db8318",
+      "changeIds": [
+        "drives-runtime-in-saves",
+        "elections-alabama-towns-vote-2025",
+        "screens-party-roster-kit",
+        "words-journal-joins",
+        "words-journal-meant-tie"
+      ]
+    },
+    {
+      "version": "0.81.0",
+      "releasedOn": "2026-11-04",
+      "revision": "e99aaf63e4d1786b3d17ac535c8ab0cc5f0ffc40",
+      "changeIds": [
+        "elections-county-race-county-votes",
+        "heard-case-shared-rule",
+        "press-local-adult-concern",
+        "screens-menus-never-scroll",
+        "screens-result-night-scene",
+        "snapshot-restore-refill-and-caches",
+        "words-journal-line-links"
+      ]
+    },
+    {
       "version": "0.80.0",
       "releasedOn": "2026-11-04",
       "revision": "8b24caf99ed0e1c05ff1582994d25427a70a1fa7",

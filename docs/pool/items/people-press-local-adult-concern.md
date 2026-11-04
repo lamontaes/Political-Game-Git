@@ -2,12 +2,14 @@
 id: people-press-local-adult-concern
 title: "Press interview concern counts the town's adults in both tiers"
 area: people
+lead: laws
+milestone: play-first
 kind: wiring
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: lane-2/counted-adult-concern
-pr:
+pr: #7234
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-04T10:50:29.054Z
@@ -22,3 +24,11 @@ claimed-at: 2026-11-04T10:50:29.054Z
 **Files.** src/core2/modules/press.ts; src/core2/press-local-concern.test.ts; compact lane proof and release declaration
 
 **Notes.** Looked first: parent is claimed by Lane 2; pool search finds no equivalent press concern correction. This narrows the next split to an existing-reader repair, leaving packed-group caching until actual delivery uses it. No Lane 1, core state, guard or screen edit.
+
+**Time box.** Two hours for the bounded reader and focused validation, with the serial four-year comparison recorded separately.
+
+**You will see.** Reporters weigh concern from local adults in both population tiers when choosing interview questions.
+
+**Screenshot.** New Game proof; exact story, stance and interview question records attach the world witness.
+
+**Checked by.** A session that did not build it, on main.

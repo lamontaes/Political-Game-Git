@@ -7,6 +7,8 @@ import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import { preStartHistory } from "../core2/pre-start";
 import { composeJournal } from "./journal";
+import { tieSide } from "./purpose-scene";
+import journalBank from "../../data/english/parts/journal.json";
 import type { PersonId } from "../core2/types";
 
 // The Journal is a story from birth (owner, Oct 27: "this journal needs to be
@@ -242,6 +244,7 @@ describe("the journal as a story from birth", () => {
     // feeling or time, citing the records that join them.
     const lines = journal.flatMap((chapter) => chapter.lines);
     const links = { cause: 0, feeling: 0, time: 0 };
+    const joined: string[] = [];
     lines.forEach((line, at) => {
       if (at === 0) {
         expect(
@@ -267,13 +270,66 @@ describe("the journal as a story from birth", () => {
             ),
           `${where}: ${line.id} after ${earlier.id}, ${line.link!.recordIds.join(", ")}`,
         ).toBe(true);
+      // A line opens on how it follows the one before only for a cause or a
+      // month or more ("Because of that, ...", "Three months later, ...");
+      // the rest of the line is the event as told.
+      if (line.plain !== undefined) {
+        expect(["cause", "time"], `${where}: ${line.text}`).toContain(
+          line.link!.by,
+        );
+        expect(
+          line.text.toLowerCase().endsWith(line.plain.toLowerCase()),
+          `${where}: "${line.text}" ends on "${line.plain}"`,
+        ).toBe(true);
+        // A line that says its own time takes no other (journal-rows ownTime).
+        expect(line.plain, `${where}: ${line.text}`).not.toMatch(/^Today\b/);
+        joined.push(line.text);
+      }
       links[line.link!.by] += 1;
     });
+    // Another's turn told as what it meant, from the tie on record: a
+    // friend's with gladness, a rival's with doubt.
+    const meant = (field: string) =>
+      (
+        journalBank as {
+          parts: { text: string; uses: { role?: string }[] }[];
+        }
+      ).parts
+        .filter((part) => part.uses.some((use) => use.role === field))
+        .map((part) => part.text);
+    const felt: string[] = [];
+    for (const moment of others) {
+      const line = lines.find((row) => row.momentIds.includes(moment.id));
+      if (!line) continue;
+      const otherId = moment.counterpartIds.find((pid) => pid !== id);
+      const side = otherId ? tieSide(core, id, otherId) : null;
+      for (const [field, want] of [
+        ["meantFriend", "friend"],
+        ["meantRival", "rival"],
+      ] as const)
+        if (meant(field).some((text) => line.text.endsWith(text))) {
+          expect(side?.side, `${where}: "${line.text}" on ${otherId}`).toBe(
+            want,
+          );
+          felt.push(line.text);
+        }
+    }
+    process.stdout.write(
+      `journal-story meant: ${where}; ${felt.length} others' turns told through the tie: ${felt
+        .slice(0, 3)
+        .map((text) => `"${text}"`)
+        .join(" ")}\n`,
+    );
     const caused = lines
       .filter((line) => line.link?.by === "cause")
       .slice(0, 3);
     process.stdout.write(
-      `journal-story links: ${where}; ${lines.length} lines, ${links.cause} by cause, ${links.feeling} by feeling, ${links.time} by time; ${caused.map((line) => `"${line.text}" follows ${line.link!.earlierId} by ${line.link!.recordIds.join(" + ")}`).join("; ")}\n`,
+      `journal-story links: ${where}; ${lines.length} lines, ${links.cause} by cause, ${links.feeling} by feeling, ${links.time} by time; joined: ${joined
+        .slice(0, 4)
+        .map((text) => `"${text}"`)
+        .join(
+          " ",
+        )}; ${caused.map((line) => `"${line.text}" follows ${line.link!.earlierId} by ${line.link!.recordIds.join(" + ")}`).join("; ")}\n`,
     );
     process.stdout.write(
       `journal-story: ${where}; ${told.length} filings or oaths of others told inside chapters (${told.map((moment) => moment.causeId).join(", ")}): ${journal.map((chapter) => chapter.title).join(" | ")}\n`,

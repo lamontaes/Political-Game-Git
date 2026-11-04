@@ -38,6 +38,7 @@ import {
   canvassedLine,
   electionDay,
   electionNight,
+  resultMomentOf,
   stayedHomeLine,
 } from "./election-night";
 import { wordOwnResult } from "./archive-words";
@@ -993,10 +994,16 @@ export async function benchRequest(
       if (request.method === "GET" && url.pathname === "/api/election-night") {
         const id = url.searchParams.get("id") ?? "";
         const night = id ? electionNight(requireCore(), id) : null;
+        // The director's scene of the player's own result, staged that night
+        // once the returns close (resultMomentOf).
+        const result =
+          night && director
+            ? resultMomentOf(director, id, night.recordId)
+            : null;
         send(
           200,
           night && !nightsWatched.has(`${id}|${night.contestId}`)
-            ? night
+            ? { ...night, resultMomentId: result }
             : null,
         );
         return;

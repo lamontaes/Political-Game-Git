@@ -62,6 +62,7 @@ import {
 import { pastParameter } from "../core2/past-module";
 import { spanSaid } from "../english/span-words";
 import type { Moment } from "./types";
+import { tieSide } from "./purpose-scene";
 import {
   OFFICE_DAY_MODULE_ID,
   type OfficeActRow,
@@ -82,6 +83,8 @@ export interface JournalLine {
   revises?: readonly string[];
   /** How this line follows the one told before it; the first line has none. */
   link?: JournalLink;
+  /** The line as the event tells it, before the words joining it to the line before ("Because of that, ..."). */
+  plain?: string;
 }
 
 /**
@@ -1147,6 +1150,10 @@ export function composeJournal(
   let chapterKind: string | undefined;
   const toldOnce = new Set<string>();
   const beatEntries = new Map<string, JournalLine>();
+  // Each told line's facts, and the lines an age frame already opens, for
+  // the words that join a line to the one before it.
+  const lineFacts = new Map<string, Facts>();
+  const framed = new Set<string>();
   // Every moment of the person's so far, told or not, and those a later
   // entry has already revised.
   const momentsById = new Map(moments.map((moment) => [moment.id, moment]));
@@ -1335,6 +1342,7 @@ export function composeJournal(
           kindPrefix: row.kindPrefix,
           whose: own ? "own" : "other",
           together,
+          named: !!facts.other,
         },
         facts,
         moment.id,
@@ -1363,7 +1371,10 @@ export function composeJournal(
         sourceIds,
       );
       // A mined opening clause leads into the event.
-      if (frame) parts[zero] = framedByAge(frame, event, facts);
+      if (frame) {
+        parts[zero] = framedByAge(frame, event, facts);
+        framed.add(moment.id);
+      }
     }
     // A death in the family or a lost job is a hard time.
     if (
@@ -1476,6 +1487,31 @@ export function composeJournal(
         parts.push(hook);
       }
     }
+    // Another's turn in public life (their filing, their oath, a race they
+    // won) is told as what it meant to the person, from their tie: a friend's
+    // is gladness, a rival's is doubt; anyone else's is only the line.
+    const governing = row.turnFor === "self" || row.hasOwnLine;
+    const theirWin =
+      !row.hasOwnLine || facts.winner?.text === subjectOf(moment);
+    if (!own && governing && theirWin && parts.length === one && counterpart) {
+      const side = tieSide(core, personId, counterpart);
+      const meant = side
+        ? render(
+            {
+              part: "memoir",
+              field: side.side === "friend" ? "meantFriend" : "meantRival",
+            },
+            {},
+            `${moment.id}:meant`,
+            [side.tieId, moment.causeId],
+          )
+        : null;
+      if (meant) parts.push(meant);
+    }
+    lineFacts.set(moment.id, facts);
+    // A line that says its own time ("Today I turned eighteen.") opens on
+    // no other.
+    if (row.ownTime) framed.add(moment.id);
     const entry = {
       id: moment.id,
       date: moment.date,
@@ -1621,6 +1657,31 @@ export function composeJournal(
   }
   const kept = chapters.filter((row) => row.lines.length > zero);
   linkLines(core, book.momentsById, kept);
+  // A line its records say came of the one before opens on that ("Because
+  // of that, ..."); one after a month or more, on the time that passed
+  // ("Three months later, ..."). Feeling and a short wait need no words.
+  for (const line of kept.flatMap((chapter) => chapter.lines)) {
+    const link = line.link;
+    const facts = lineFacts.get(line.id);
+    if (!link || !facts || framed.has(line.id)) continue;
+    const span = spanSaid(link.days);
+    const later = link.by === "time" && span !== spanSaid(zero);
+    if (link.by !== "cause" && !later) continue;
+    const frame = render(
+      {
+        part: "memoir",
+        field: link.by === "cause" ? "joinCause" : "joinLater",
+      },
+      later ? { span: { text: span, sourceRecordIds: link.recordIds } } : {},
+      `${line.id}:join`,
+      link.recordIds,
+    );
+    if (!frame) continue;
+    const joined = framedByAge(frame, line, facts);
+    line.plain = line.text;
+    line.text = joined.text;
+    line.sourceRecordIds = joined.sourceRecordIds;
+  }
   return kept;
 }
 

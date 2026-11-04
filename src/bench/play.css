@@ -3091,6 +3091,17 @@ details.entry[open] {
   font: 13px/1.2 var(--ui);
   letter-spacing: 0.05em;
 }
+/* The paper's page arrows, at the end of the dateline (ui/newspaper.mjs). */
+.paper-pages {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: -3px 0;
+}
+/* The shared arrows; the page's words in the paper's ink. */
+#sheet-body .paper-pages .pager-where {
+  color: var(--paper-ink);
+}
 .paper-stories {
   display: grid;
   grid-template-columns: 1.7fr 1fr;

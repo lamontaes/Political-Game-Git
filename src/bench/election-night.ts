@@ -30,7 +30,8 @@ import {
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { coreAPI } from "../core2/state";
 import type { EntityId } from "../core2/kernel/brands";
-import type { CoreAPI, CoreState } from "../core2/types";
+import type { CoreAPI, CoreState, PersonId } from "../core2/types";
+import type { Director } from "../director/ledger";
 import {
   electionResults,
   governorRacesTonight,
@@ -395,4 +396,28 @@ export function electionNight(core: CoreState, personId: string) {
     },
     scene: resultsScene(core, personId),
   };
+}
+
+/**
+ * The director's scene of a person's own result (the concession call, the
+ * victory) for the race's result record, staged the night of the count once
+ * the returns close (Lane 3, `words-venue-speeches-delivered`): the moment
+ * the result record caused, with a scene bound to it. Null when the director
+ * staged none.
+ */
+export function resultMomentOf(
+  director: Director,
+  personId: string,
+  recordId: string,
+): string | null {
+  const book = director.ledger.people.get(personId as PersonId);
+  return (
+    book?.schedule.find(
+      (row) =>
+        row.outcome.startsWith("scene") &&
+        row.bindings.length > 0 &&
+        (row.momentId.includes(recordId) ||
+          book.momentsById.get(row.momentId)?.causeId === recordId),
+    )?.momentId ?? null
+  );
 }
