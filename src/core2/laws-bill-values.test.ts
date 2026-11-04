@@ -71,8 +71,9 @@ for (const place of places) {
     for (const office of offices) {
       if (office.level === "federal") {
         const resident = members(api, office.id).find((term) => term.personId);
-        if (resident && office.seats > 1) {
-          const screen = seatView(core, resident.personId!).bodies.find(
+        if (office.seats > 1) {
+          expect(resident, office.id).toBeDefined();
+          const screen = seatView(core, resident!.personId!).bodies.find(
             (body) => body.officeId === office.id,
           );
           expect(screen, office.id).toBeDefined();
