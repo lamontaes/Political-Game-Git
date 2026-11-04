@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 67 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 77 pull requests merged. Newest state at the top of each section.
 
 ## What the owner can play now
 
@@ -22,7 +22,7 @@ New on Nov 4, from the lanes:
 - **Campaign and election night.**
   - A yes at the door becomes a vote as the person's stated intent predicts.
   - On the night you lose, the talk at home comes from the relative who worked the race or put money in.
-  - Whether you concede or refuse is printed in the race's story, and the winner takes your call gracious or gloating, by their traits.
+  - Whether you concede or refuse is printed in the race's story, and the winner takes your call gracious or gloating, by their traits; a friend and a rival say different things on the call after the count.
   - Rivals run attack ads on your record that name your real votes.
   - Favors you traded for votes are called in at election time.
 - **Family and home.**
@@ -68,7 +68,7 @@ New on Nov 3:
   - A pool fix (#7145).
   - A state page (#7146).
 
-## Lane PRs merged on Nov 4 (32), on the owner's word ("You may merge lane PRs that pass the new-game check")
+## Lane PRs merged on Nov 4 (42), on the owner's word ("You may merge lane PRs that pass the new-game check")
 
 Each had main merged in again, passed `npm run new-game-check` (a town drawn from all 56, a new life, four weeks) and merged pinned to that head.
 
@@ -106,8 +106,18 @@ Each had main merged in again, passed `npm run new-game-check` (a town drawn fro
 | #7176 | Dorms, barracks, prisons and nursing homes are rooms outside the rental market; a college town's year runs a third faster | Hillsboro Beach, Florida          | daf3dcca65f27910 |
 | #7177 | A crew script opens every county-governed locality and names each one that won't open (no change in play)                 | Romeville, Louisiana              | 8c8e6f57ca3c0234 |
 | #7178 | The winner takes your concession call, gracious or gloating by their traits                                               | Pughtown, Pennsylvania            | ba7436a4fd49b389 |
+| #7179 | The Journal says you filed to run and when the election is, instead of "So I ran."                                        | Derry, New Hampshire              | b443b61d2ac8fc53 |
+| #7180 | Browser checks that file the player wait for filing to open (no change in play)                                           | Presque Isle Harbor, Michigan     | 95456057cb2df45c |
+| #7181 | The counted-eviction test plays Storrs for a year; it fixes a red #7176 left on main (test only)                          | Washington, District of Columbia  | 427412a7e94c6d8d |
+| #7182 | The no-dice guard is green on main: the sibling-name pick counts as who exists (guard only)                               | Riverside, Wyoming                | 3fb1b38d13c583e0 |
+| #7183 | A lane state file pushed to main (this page included) no longer turns the release run red (release only)                  | Magna, Utah                       | b721fbbd762fc58a |
+| #7184 | The talk at home after a loss says what the relative did, not that they are waiting (fixes a red on main)                 | Bridgeport, Connecticut           | 812d976f0b55954f |
+| #7185 | The Journal says a date the way the director does (fixes a red on main)                                                   | Stamford, Connecticut             | 94c07a596249e43d |
+| #7186 | A friend and a rival say different things on the call after the count                                                     | Pleasant Grove, Alabama           | 59e77f3f5234eec5 |
+| #7187 | What you tell a reporter about your bill is in the paper's story of it (main merged in with both sides' imports kept)     | Kickapoo Site 1, Kansas           | 1a323bb4802a8fef |
+| #7188 | The night's paper prints only news that is still news on its date                                                         | Okauchee Lake, Wisconsin          | c703902b25039143 |
 
-Conflicts resolved mechanically: #7154 (both sides added a parameter and a stopgap row; both kept), and #7153, #7157, #7160, #7162 (Lane 2's state page: main's wording for the one edited line, both sides' log entries kept). Mac builds started after 5, 13, 18, 25 and 30 of these merges.
+Conflicts resolved mechanically: #7154 (both sides added a parameter and a stopgap row; both kept), and #7153, #7157, #7160, #7162 (Lane 2's state page: main's wording for the one edited line, both sides' log entries kept). Mac builds started after 5, 13, 18, 25, 30, 35 and 40 of these merges.
 
 ## Merged (35), each on the one check with a printed replay number
 
@@ -154,6 +164,8 @@ Conflicts resolved mechanically: #7154 (both sides added a parameter and a stopg
 Mac builds (`release-package.yml` on main) were started after 8, 20, 26 and 34 merges. A dispatch at 14 failed because it ran outside the repository folder; the one at 20 covers it.
 
 ## Waiting
+
+- **Release run on main (Lane 5, Nov 4 05:45 UTC), fixed.** The CTO's note: Release failed at "Enforce declarations" on every run since 01:10. Cause: the release check wanted a declaration for any file outside `docs/coordination` and `docs/pool`, so each direct push of a lane state file (`docs/lanes/state/*.md`, this page included) turned the run red. Runs 12086, 12088, 12089 and 12091 failed that way; the range in 12091 was 7497b6035b..44f14801eb, one file, `docs/lanes/state/merge-desk.md`. #7183 (merged) exempts `docs/lanes/` in `scripts/release/transition.ts` and in the workflow's ignored paths, with a test; `release:check` on that range now prints OK. Separately, #7182 (merged) gave the no-dice guard its sibling-name entry, which was red on every branch.
 
 - **#7110** (speed): handed to Lane 5. The test conflict in `campaign-day.test.ts` is not mechanical (main's new donor rule against this branch's payments wrapper).
 - **#7105's pool item** (play-m6-01-the-opening) is back to open on main after its done-on-merge run, as the order asked.

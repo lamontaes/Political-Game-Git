@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: done
 claimed-by: lane3/lines-by-tie
-pr:
+pr: #7186
 blocked-on:
 source: "Helper B, Oct 27, episode docs/design/scenes/from-life/concession-call-received.md"
 lead: words
