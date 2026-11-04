@@ -200,6 +200,7 @@ it.each(cases)(
     ).toBeDefined();
     const household =
       rt.store.households[rt.store.householdOf.get(loan!.householdId)!]!;
+    const groupReceipt = { ...rt.housingMonth.get(household.group)! };
     const personId = rt.store.ids[rt.store.countedMembers(household)[0]!]!;
     fillInPerson(core, personId);
     const person = core.people.get(personId)!;
@@ -224,6 +225,14 @@ it.each(cases)(
       asked: ownFlow!.lastRequestedMinor,
       paid: ownFlow!.lastPaidMinor,
     };
+    expect(carried).toEqual({
+      month: groupReceipt.month,
+      asked: loan!.paymentMinor,
+      paid: Math.round(
+        loan!.paymentMinor *
+          Math.min(1, groupReceipt.paid / groupReceipt.asked),
+      ),
+    });
     const followup: unknown[] = [];
     for (let month = 0; month < 2; month++) {
       const before = table.get(loan!.id) as unknown as Loan;
