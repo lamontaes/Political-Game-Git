@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane-2/bill-values
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T09:49:09.197Z
 ---
 
 **What.** Bounded shipping part of claimed laws-bill-before-reads-bill-level. Existing draftable laws and budget lines must use one jurisdiction reader in the catalog, paper and seat card. Keep the parent unfinished while its state income-tax catalog eligibility and broader decided-paper coverage remain separate; do not auto-close it by shipping this part.
