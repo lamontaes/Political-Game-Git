@@ -387,8 +387,14 @@ function recentMoments(
   director: Director | undefined,
   personId: PersonId,
 ) {
-  const moments = director?.ledger.people.get(personId)?.moments ?? [];
+  const book = director?.ledger.people.get(personId);
   const since = addDays(makeIsoDate(core.date), -recentDays());
+  // Someone the director does not watch (a relative living elsewhere) has
+  // no book; what happened to them is still on record, read from their own
+  // events (the core's index by person, never the whole log), so a talk
+  // with them has their news (words-talk-husk-acquaintances-empty).
+  if (!book) return recordedMoments(core, personId, since);
+  const moments = book.moments;
   const out = [];
   for (let at = moments.length - one; at >= zero; at -= one) {
     const moment = moments[at]!;
@@ -396,6 +402,50 @@ function recentMoments(
     if (moment.date <= core.date) out.push(moment);
   }
   return out;
+}
+
+/**
+ * A person's own recorded events within the window, newest first, read as
+ * the moments a book would hold: the event is the cause, its other people
+ * the counterparts.
+ */
+function recordedMoments(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+  since: string,
+): Moment[] {
+  const out: Moment[] = [];
+  for (const id of core.logByPerson.get(personId) ?? []) {
+    const row = core.durableLog.get(id as never);
+    if (!row || row.date <= since || row.date > core.date) continue;
+    // Only what happened to them (the owner's Q7 happenings): a speech they
+    // heard or a vote they cast is not their news.
+    const label = `feeling:event:${row.kind}`;
+    if (
+      !(CONVERSATION_RULES.happenings?.prefixes ?? []).some((prefix) =>
+        label.startsWith(prefix),
+      )
+    )
+      continue;
+    out.push({
+      id: `record:${row.id}`,
+      personId,
+      date: row.date,
+      label,
+      causeId: row.id,
+      causeKind: `event:${row.kind}`,
+      counterpartIds: row.personIds.filter((other) => other !== personId),
+      selfNamed: true,
+      // Not appraised for someone unwatched: weighed as the least a book
+      // keeps, so it is news but never outranks an appraised moment.
+      impact: DEFAULT_DIRECTOR_DATA.parameters.directorMomentFloor!.value,
+      channels: [],
+      hindsight: zero,
+      hindsightAt: row.date,
+      echoes: [],
+    });
+  }
+  return out.sort((a, b) => b.date.localeCompare(a.date));
 }
 
 /**
@@ -1750,6 +1800,16 @@ function raiseSubject(
       kind: then.kind,
       act: said || subject.kind === "own-work" ? "tell" : "ask",
       ...row,
+      // The line stands on its subject's records too, even when the words
+      // need none of its facts ("We're being evicted." cites the eviction).
+      sourceRecordIds: [
+        ...new Set([
+          ...row.sourceRecordIds,
+          ...Object.values(subject.facts).flatMap(
+            (fact) => fact.sourceRecordIds,
+          ),
+        ]),
+      ],
     });
   // Someone both know, or news both may know, is shared: neither raises it again.
   if (subject.kind === "mutual" || subject.kind === "news")
