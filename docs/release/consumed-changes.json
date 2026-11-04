@@ -1,6 +1,20 @@
 {
   "entries": [
     {
+      "version": "0.76.1",
+      "releasedOn": "2026-11-04",
+      "revision": "f4ada484ac09457c1b37405568d799be18721e43",
+      "changeIds": [
+        "campaign-player-files-for-one-council-race",
+        "campaign-turn-empty-platform",
+        "home-sale-test-town-market",
+        "housing-dwelling-records-cover-few-households",
+        "people-press-out-of-town-staff-paid",
+        "people-press-staff-households",
+        "stopgaps-per-family"
+      ]
+    },
+    {
       "version": "0.76.0",
       "releasedOn": "2026-11-03",
       "revision": "20c4a942bdb410c48dcbccaebec93692af7e4940",

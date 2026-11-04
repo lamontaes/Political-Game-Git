@@ -1,7 +1,7 @@
 import { ageOnDate, daysBetween, makeIsoDate } from "../core2/kernel/dates";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { realLocalities } from "../core2/places";
-import { buildPopulation } from "../core2/population";
+import { buildPopulation, inHousehold } from "../core2/population";
 import { enrichCivicInputs } from "../core2/civic-inputs";
 import { createOpeningFinance } from "../core2/opening-finance";
 import { DEFAULT_DATA } from "../core2/data";
@@ -131,8 +131,14 @@ export function entrantChoice(
   if (birthDate)
     return entrantBornNear(input, placeId, makeIsoDate(birthDate), gender);
   const at = makeIsoDate(input.startedAt);
+  const household = inHousehold(input);
   const residents = input.people
-    .filter((person) => person.placeId === placeId && person.tier !== "husk")
+    .filter(
+      (person) =>
+        person.placeId === placeId &&
+        person.tier !== "husk" &&
+        household(person),
+    )
     .map((person) => ({
       id: person.id,
       age: ageOnDate(makeIsoDate(person.birthDate), at),
@@ -196,8 +202,14 @@ function entrantBornNear(
         return ageOnDate(chosen, makeIsoDate(other)) >= minParentAge;
       return true;
     });
+  const household = inHousehold(input);
   const nearest = input.people
-    .filter((person) => person.placeId === placeId && person.tier !== "husk")
+    .filter(
+      (person) =>
+        person.placeId === placeId &&
+        person.tier !== "husk" &&
+        household(person),
+    )
     .map((person) => ({
       person,
       apart: Math.abs(daysBetween(chosen, makeIsoDate(person.birthDate))),
