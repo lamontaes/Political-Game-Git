@@ -1,4 +1,4 @@
-0 of 13 played paths confirmed; 2 wait on the people system. Oldest open PR 3 days (#7100); open: #7100, #7204, #7205.
+0 of 13 played paths confirmed; 2 wait on the people system. Oldest open PR 3 days (#7100); open: #7100, #7213, #7214.
 
 # Lane 4 state: Screens
 
@@ -7,22 +7,30 @@ Owner's word, Nov 4: screens tonight, no people. No new pictures: the art on mai
 ## Works
 
 - **Cloud trial, Nov 4:** install, `npm run bench`, New Game with a random place (Long Pine, Nebraska, 3129050) opens its first card with no page errors; screenshot on `trial/lane-4` (`docs/lanes/proof/trial-lane-4/`). `gh` has no valid token in this container (search only); git and the GitHub tools work.
-- **Merged, awaiting a second session's replay (Nov 4):**
+- **Merged, awaiting a second session's replay (Nov 4).** Each line gives the replay; a session that did not build it marks it Verified here.
   - #7194: the families guard's montage line.
-  - #7197: election night names a district "District 14" and an at-large seat by its state (path 13).
-  - #7203: the clerk's race list is one row height at three sizes; `race-list-rows.browser.mjs` and the buttons check's travel drive.
+  - #7197: election night names a district "District 14", an at-large seat by its state (path 13). Replay: `GOLDEN_PATH_SEED=lane4-results-a` on `src/bench/election-results.test.ts` (Bathgate, North Dakota).
+  - #7203: the clerk's race list is one row height at three sizes. Replay: `RACE_SEED=lane4-rows-1 node src/bench/race-list-rows.browser.mjs` (Oakland, South Carolina); `buttons.browser.mjs` ten fresh runs.
+  - #7204: election night's governor races on their own page, every row inside the panel at 1024x768 (path 13). Replay: `GOV_SEED=lane4-gov-1 node src/bench/governor-rows.browser.mjs` (Cecilia, Louisiana).
+  - #7205: Who you are says why there is no job (path 10). Replay: `GOLDEN_PATH_SEED=lane4-nojob-a` on `src/bench/who-you-are-no-job.test.ts` (Oneonta, New York).
+  - #7208: Who you are shows the town's population and this year's moves (path 10). Replay: `GOLDEN_PATH_SEED=lane4-town-a` on `src/bench/town-moves.test.ts`.
+  - #7212: loading plays the built world's story: year counter, journal, headlines, map filling in (path 3). Replay: `node src/bench/loading.browser.mjs` (creator: Connecticut, Storrs).
 - **Built, open:**
   - #7100: calendar kinds; the two families imports fixed, said ready.
-  - #7204: election night's governor races on their own page, every row inside the panel at 1024x768 (path 13). Replay: `GOV_SEED=lane4-gov-1 node src/bench/governor-rows.browser.mjs` (Cecilia, Louisiana).
-  - #7205: Who you are says why there is no job (path 10). Replay: `GOLDEN_PATH_SEED=lane4-nojob-a` on `who-you-are-no-job.test.ts` (Oneonta, New York).
-- **Filed for other lanes:** `tests-election-day-no-race-to-enter` and `elections-governor-margins-twice-real` (Lane 1). Mine: `play-filing-race-label-district-code`.
+  - #7213: the title shows the monuments on main in their lights; conventions and rallies out (path 1). Replay: `node src/bench/title-monuments.browser.mjs`.
+  - #7214: the opening's states part names the governor and the state's chamber leaders over the state's capitol (path 4). Replay: `node src/bench/opening-montage.browser.mjs`; `GOLDEN_PATH_SEED=lane4-open-b` on `montage.test.ts` (Agat GU, St. Johnsbury VT, Kapalua HI).
+- **Mock for the owner (through the CTO):** the campaign board, `docs/mocks/2026-11-04/campaign-board.html` and `.png` (path 9): the race with its standing and poll, signatures against needed and the clerk's verdict, the issues the race turns on, an inbox where each item opens its scene, and the team by role (names only until the people system). Building waits on his look; Lane 4 takes the next unit meanwhile.
+- **Issues and Budgets (unit 9):** no answer yet on the Nov 1 mocks (`play-first/mocks-issues-budgets`); only shared parts until he answers.
+- **Filed for other lanes:** `tests-election-day-no-race-to-enter` and `elections-governor-margins-twice-real` (Lane 1). Mine: `play-filing-race-label-district-code`, `play-town-moves-news-line`, `play-opening-home-beat-draws-nobody` (waits on people).
+- **Lesson (release):** a declaration id must not already be in `docs/release/consumed-changes.json`; an old pool item's id may be (#7206 renamed mine). Check before naming the file.
 - **Agreements:** 1-4 confirmed and amended (Lane 1's controls in `src/bench`). 2-4 accepted on `lane-2/opening-home-agreement` (`openHousing` before the first card).
 
 ## Gaps that wait on people or new pictures (not blocked)
 
 - Path 1, Title: the latest character in front and passersby wait on the people system; Washington and Jefferson wait on new paintings.
 - Path 2, Creator, and path 12, Chamber: the people system.
-- Path 4, Opening: the President at the desk and the colonnade need art main does not have.
+- Path 4, Opening: the partner's line at home and the household on the couch wait on the people system (home plates); the montage's home beat draws nobody in some towns (`play-opening-home-beat-draws-nobody`).
+- Path 9, Campaign board: waits on the owner's look at the mock.
 
 ## Unit cards
 
@@ -49,6 +57,38 @@ Owner's word, Nov 4: screens tonight, no people. No new pictures: the art on mai
 - **Hands off:** the jobs engine; job offers as scenes stay Lane 3's.
 - **Known cheats:** a reason typed in code; a reason not read from a record.
 - **Size:** about 3 hours. **Checked by:** a second session's replay.
+
+**Unit 5: loading** (`screens-loading-worth-watching`)
+
+- **Finish line:** New Game in Storrs shows the journal writing itself, a year counter with headlines, the map filling in.
+- **Proof:** `loading.browser.mjs` at three sizes; `loading.test.ts` checks every line and headline by record id.
+- **Hands off:** the build's own steps and timings.
+- **Known cheats:** a staged screenshot; invented history; a wait added for show.
+- **Size:** about 4 hours. **Checked by:** the owner's batch, after a second session's replay.
+
+**Unit 6: title** (`title-screen-national-scene-regression`, rewritten)
+
+- **Finish line:** monuments only, in their lights; conventions and rallies out.
+- **Proof:** `title-monuments.browser.mjs` over a full round, three sizes.
+- **Hands off:** the character in front and passersby (people); Washington and Jefferson paintings (no new pictures).
+- **Known cheats:** one monument repeated; a menu beside the old one.
+- **Size:** about 2 hours. **Checked by:** the owner's batch.
+
+**Unit 7: opening** (`opening-governor-key-person`)
+
+- **Finish line:** the governor and chamber leaders named over existing art.
+- **Proof:** `montage.test.ts` names the governor by record ids; `opening-montage.browser.mjs` screenshots.
+- **Hands off:** drawing anyone new; the address's words (Words).
+- **Known cheats:** a person painted into the capitol picture.
+- **Size:** about 2 hours. **Checked by:** a second session's replay.
+
+**Unit 8: campaign board** (`screens-campaign-board`), mock first
+
+- **Finish line:** the owner has the mock; building follows his look.
+- **Proof:** `docs/mocks/2026-11-04/campaign-board.png`.
+- **Hands off:** faces on the team (people).
+- **Known cheats:** building before he looks.
+- **Size:** 1 hour for the mock. **Checked by:** the owner, through the CTO.
 
 **Unit 2: #7100's two imports** (`play-calendar-more-than-birthdays`)
 

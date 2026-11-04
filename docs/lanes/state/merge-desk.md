@@ -1,12 +1,14 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 100 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 109 pull requests merged. Newest state at the top of each section.
 
 ## What the owner can play now
 
 Main opens a new game, loads a person and a town, and plays four weeks without a crash (Lane 5's new-game check, now on main and on every pull request). The one check passed on every merge below.
 
 New on Nov 4, from the lanes:
+
+- **Starting a game.** The title screen shows the monuments in their lights. The loading screen plays the world being built: a year counter, the Journal writing itself, headlines and the map filling in. The opening names your governor and the state's chamber leaders over your state's capitol.
 
 - **Filing.**
   - You are offered one council race, and only while filing is open.
@@ -15,6 +17,7 @@ New on Nov 4, from the lanes:
   - On your first filing, the clerk asks if you've run a campaign before and walks a newcomer through it.
   - A town's petition asks for a number of signatures that fits the town.
   - Filing opens weeks before the deadline, not on the game's first day.
+  - Officeholders weigh the time the job takes before running again, so more local seats open.
 - **Governing.**
   - As mayor, you can sign one ordinance and veto another at your desk.
   - Your office remembers where colleagues stand on your bill.
@@ -43,6 +46,7 @@ New on Nov 4, from the lanes:
   - A replaced national law is no longer announced as taking effect.
   - Press people's pay and bills add up.
   - A home sale can use an outside lender.
+  - When a law takes effect, its scene names the law and what your household paid or got back.
 
 New on Nov 3:
 
@@ -77,7 +81,7 @@ New on Nov 3:
   - A pool fix (#7145).
   - A state page (#7146).
 
-## Lane PRs merged on Nov 4 (65), on the owner's word ("You may merge lane PRs that pass the new-game check")
+## Lane PRs merged on Nov 4 (74), on the owner's word ("You may merge lane PRs that pass the new-game check")
 
 Each had main merged in again, passed `npm run new-game-check` (a town drawn from all 56, a new life, four weeks) and merged pinned to that head.
 
@@ -148,8 +152,17 @@ Each had main merged in again, passed `npm run new-game-check` (a town drawn fro
 | #7205 | The Who you are screen says why a grown player has no job, from the household's records                                                          | Odon, Indiana                     | 1c059c51a4295ea3 |
 | #7207 | A vote ask is pictured in your body's chamber and a desk visit at the office, not in a house                                                     | Donahue, Iowa                     | 2fa377a176aa6d19 |
 | #7208 | The Who you are screen shows the town's population and this year's moves (main merged in, both new functions kept beside #7205's)                | Green Bank, West Virginia         | 9b13adf9679381d0 |
+| #7210 | #7207's patch-note title was too long and stopped builds; fixed (release only)                                                                   | Fairfield Harbour, North Carolina | 7a39090c1e10518f |
+| #7209 | The moment spacing loop keeps its numbers in data (fixes a red guard on main)                                                                    | Oakwood, Georgia                  | 607187dde30c724b |
+| #7211 | The scene of a law's effect names the law and what your household paid or got back                                                               | Wauchula, Florida                 | c888652ad5e1faad |
+| #7212 | The loading screen plays the world being built: a year counter, the Journal writing itself, headlines, the map filling in                        | Addison, Texas                    | 82f2da5b7b85d85a |
+| #7213 | The title screen shows the monuments in their lights; the convention and rally pictures are out                                                  | Great Falls, Virginia             | ffc343633c5a55a2 |
+| #7214 | The opening's states part names the governor and the state's chamber leaders over the state's capitol                                            | Freeburg, Missouri                | 25be6cc9f39ff981 |
+| #7215 | Officeholders weigh the time the job takes before running again, so more local seats open                                                        | Townsend, Delaware                | 463d27c505a52ea3 |
+| #7216 | Races name their district once, in words ("District 5"), never the padded code                                                                   | Callender, Iowa                   | 16438f7ac4afdb9e |
+| #7217 | An official who returns to office no longer crashes payroll                                                                                      | Belle, West Virginia              | 074aa55d65ae6df6 |
 
-Conflicts resolved mechanically: #7154 (both sides added a parameter and a stopgap row; both kept), and #7153, #7157, #7160, #7162 (Lane 2's state page: main's wording for the one edited line, both sides' log entries kept). Mac builds started after 5, 13, 18, 25, 30, 35, 40, 45, 50, 55, 60 and 65 of these merges.
+Conflicts resolved mechanically: #7154 (both sides added a parameter and a stopgap row; both kept), and #7153, #7157, #7160, #7162 (Lane 2's state page: main's wording for the one edited line, both sides' log entries kept). Mac builds started after 5, 13, 18, 25, 30, 35, 40, 45, 50, 55, 60, 65 and 70 of these merges.
 
 ## Merged (35), each on the one check with a printed replay number
 

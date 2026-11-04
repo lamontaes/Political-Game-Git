@@ -116,9 +116,25 @@ describe(`who runs for office in ${input.placeMetadata?.placeName} (seed ${seed}
       );
       expect(row.run).toBe(standsAgain(api, holder));
     }
-    // Age weighs against standing again: the oldest's case is the weaker.
-    expect(standAgainReason(api, byAge[0]!)).toBeLessThan(
-      standAgainReason(api, byAge.at(-1)!),
+    // The time a holder's other work takes weighs against standing again, by
+    // the same reason a newcomer weighs: the hours of their recorded job.
+    const workTime = (p: (typeof adults)[number]) => {
+      const job = p.jobId ? core.jobs.get(p.jobId) : undefined;
+      const hours = job && job.endsAt === undefined ? job.hoursDaily / 8 : 0;
+      return Math.min(1, hours);
+    };
+    const working = adults.find((p) => workTime(p) > 0);
+    expect(working, "an adult with a job in the fixture town").toBeTruthy();
+    const before = standAgainReason(api, working!);
+    const jobId = working!.jobId!;
+    const job = core.jobs.get(jobId)!;
+    core.jobs.set(jobId, { ...job, hoursDaily: 0 });
+    expect(standAgainReason(api, working!)).toBeGreaterThan(before);
+    core.jobs.set(jobId, job);
+    // Age weighs against standing again: with the time their work takes set
+    // aside, the oldest's case is the weaker.
+    expect(standAgainReason(api, byAge[0]!) + workTime(byAge[0]!)).toBeLessThan(
+      standAgainReason(api, byAge.at(-1)!) + workTime(byAge.at(-1)!),
     );
   });
 

@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: lane-2/official-pay-reseating
-pr:
+pr: #7217
 blocked-on:
 lead: governing
 source: added with npm run pool -- add

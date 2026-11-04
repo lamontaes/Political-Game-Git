@@ -76,6 +76,13 @@ Every unit gets one before it starts (lane page, CTO rule). Units 1 and 2 were s
 - **Hands off / known cheats / checked by:** as the step above.
 - **Size:** one parameter row, under 20 lines.
 
+### Unit 7, step: the fourth year's peak (started Nov 4 08:35)
+
+- **Measured (main d959cf9322, 8 GB heap, Arcadia's fourth year month by month):** heap after a full collection Feb 2,314 MB, Apr 2,629, Jun 2,849, Aug 3,013, Oct 3,259, Dec 3,064. The 4,096 MiB runs die in February to April, when the kept heap is only 2.3 to 2.6 GB, so a short-lived peak of more than a gigabyte is what runs out. Kept growth: campaign causes (to 590,717 rows before November's fold; Lane 1's `campaigns.ts`) and `knowledgeByPerson` (1.58 million keys by November). Numbers on `core-speed-large-town-year-heap-nightly`.
+- **Tried:** a heap snapshot at the limit (`--heapsnapshot-near-heap-limit`): the container killed the process while writing it (exit 137, empty file).
+- **Now:** a day-by-day probe from 2028-01-20 records each day's heap before and after collection and a sampling allocation profile of the heaviest day, to name the code that makes the peak.
+- **Finish line, proof, hands off, cheats, checked by:** as the steps above. **Size:** the fix's own card once the code is named.
+
 ### Red main, Nov 4 07:45: builds stopped (CTO's note)
 
 - **Found:** every Release run on main since #7193 merged (06:43) fails at "Enforce declarations": runs 12112, 12114, 12115, 12116, 12117 and 12118, plus the two Release package runs (12111, 12113 cancelled). The first and the two newest logs read: `docs/release/changes/lane-2-first-minutes-proof.md: impact:none must not carry 'section' or 'title'`. The file came in with Lane 2's 3e377288ee. Newest build is still v0.78.0.
@@ -97,7 +104,7 @@ Every unit gets one before it starts (lane page, CTO rule). Units 1 and 2 were s
 
 ## Open PRs
 
-- #7206 (red main): a reused declaration id stops every build again.
+- None. Merged since the last update: #7200, #7201, #7206, #7210 (three declaration fixes that each stopped every build; v0.79.0 shipped after #7201).
 
 ## Merged
 
