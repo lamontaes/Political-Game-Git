@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 105 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 106 pull requests merged. Newest state at the top of each section.
 
 ## What the owner can play now
 
@@ -8,7 +8,7 @@ Main opens a new game, loads a person and a town, and plays four weeks without a
 
 New on Nov 4, from the lanes:
 
-- **Starting a game.** The title screen shows the monuments in their lights. The loading screen plays the world being built: a year counter, the Journal writing itself, headlines and the map filling in.
+- **Starting a game.** The title screen shows the monuments in their lights. The loading screen plays the world being built: a year counter, the Journal writing itself, headlines and the map filling in. The opening names your governor and the state's chamber leaders over your state's capitol.
 
 - **Filing.**
   - You are offered one council race, and only while filing is open.
@@ -80,7 +80,7 @@ New on Nov 3:
   - A pool fix (#7145).
   - A state page (#7146).
 
-## Lane PRs merged on Nov 4 (70), on the owner's word ("You may merge lane PRs that pass the new-game check")
+## Lane PRs merged on Nov 4 (71), on the owner's word ("You may merge lane PRs that pass the new-game check")
 
 Each had main merged in again, passed `npm run new-game-check` (a town drawn from all 56, a new life, four weeks) and merged pinned to that head.
 
@@ -156,6 +156,7 @@ Each had main merged in again, passed `npm run new-game-check` (a town drawn fro
 | #7211 | The scene of a law's effect names the law and what your household paid or got back                                                               | Wauchula, Florida                 | c888652ad5e1faad |
 | #7212 | The loading screen plays the world being built: a year counter, the Journal writing itself, headlines, the map filling in                        | Addison, Texas                    | 82f2da5b7b85d85a |
 | #7213 | The title screen shows the monuments in their lights; the convention and rally pictures are out                                                  | Great Falls, Virginia             | ffc343633c5a55a2 |
+| #7214 | The opening's states part names the governor and the state's chamber leaders over the state's capitol                                            | Freeburg, Missouri                | 25be6cc9f39ff981 |
 
 Conflicts resolved mechanically: #7154 (both sides added a parameter and a stopgap row; both kept), and #7153, #7157, #7160, #7162 (Lane 2's state page: main's wording for the one edited line, both sides' log entries kept). Mac builds started after 5, 13, 18, 25, 30, 35, 40, 45, 50, 55, 60, 65 and 70 of these merges.
 
