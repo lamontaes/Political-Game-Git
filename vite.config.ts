@@ -1,5 +1,6 @@
 import { runtimeArtBuild } from "./scripts/dev-lab/runtime-art-build";
 import { runtimeContentOrigin } from "./scripts/dev-lab/runtime-content-origin";
+import { jsonFromDisk } from "./scripts/dev-lab/json-from-disk";
 import { renameSync, rmSync } from "node:fs";
 import { resolve } from "node:path";
 import { sites } from "@openai/sites-vite-plugin";
@@ -45,6 +46,8 @@ export default defineConfig({
     process.env.PG_CACHE_DIR ??
     resolve("test-results", "cache", process.env.PG_RUN_ID ?? "dev"),
   plugins: [
+    // Tests only: JSON is parsed at run time, not kept as module code.
+    ...(process.env.VITEST ? [jsonFromDisk()] : []),
     playIsIndex(),
     runtimeArtBuild(),
     runtimeContentOrigin(),

@@ -16,6 +16,7 @@ import { stopgap } from "./stopgaps";
 import type { FinanceContractInput } from "./finance-types";
 import type { ResidentHouseholdRecord } from "./residents";
 import type {
+  GroupQuartersType,
   HouseholdInput,
   IsoDate,
   JobInput,
@@ -51,9 +52,10 @@ export type HouseholdKind = "one-adult" | "adults" | "with-children";
 /**
  * How a counted household holds its home; "none" is a household an eviction
  * or a foreclosure removed, without a home until it rents again (the housing
- * engine's status row says where it stays).
+ * engine's status row says where it stays); "group" is a group-quarters room
+ * (outside the rental market).
  */
-export type Tenure = "rent" | "mortgage" | "other" | "none";
+export type Tenure = "rent" | "mortgage" | "other" | "none" | "group";
 export type HeadWork = "working" | "retired" | "not-working";
 
 export interface GroupKey {
@@ -66,6 +68,8 @@ export interface GroupKey {
   /** The head's age band (`AGE_BANDS`). */
   readonly ageBand: string;
   readonly work: HeadWork;
+  /** Group-quarters rooms group by their type; absent for households. */
+  readonly quarters?: GroupQuartersType;
 }
 
 export interface CountedGroup extends GroupKey {
@@ -109,6 +113,8 @@ export interface CountedHousehold {
   /** Working-age members the opening's employment target puts to work outside a recorded job. */
   unplacedWorkers: number;
   tenure: Tenure;
+  /** A group-quarters room's type (its tenure is `group`); absent for a household. */
+  quarters?: GroupQuartersType;
   /**
    * How many real households this record stands for (a town opened at its
    * Census count carries a sample of its households; absent means one).
@@ -153,6 +159,7 @@ export function groupId(key: GroupKey): string {
     key.tenure,
     key.ageBand,
     key.work,
+    ...(key.quarters ? [key.quarters] : []),
   ].join(":");
 }
 
@@ -521,9 +528,13 @@ export class CountedStore {
     let found = near(
       [...(group?.households ?? [])].map((i) => this.households[i]!),
     );
+    // Alone in its group: the place's other records of its kind, rooms of
+    // its group-quarters type or households, so each type's count holds.
     if (!found.size)
       found = near(
-        [...this.liveHouseholds()].filter((x) => x.placeId === h.placeId),
+        [...this.liveHouseholds()].filter(
+          (x) => x.placeId === h.placeId && x.quarters === h.quarters,
+        ),
       );
     if (!found.size) return people;
     const added = people / found.size;
@@ -629,7 +640,11 @@ export class CountedStore {
     return new HouseholdView(this, h);
   }
 
-  /** Pack a household record (the opening's, a newcomer's) into the store. */
+  /**
+   * Pack a household record (the opening's, a newcomer's, a returning one's)
+   * into the store. A group-quarters room keeps its type and holds its home
+   * as `group`, whatever tenure the caller read.
+   */
   addHousehold(
     record: ResidentHouseholdRecord,
     facts: {
@@ -680,7 +695,10 @@ export class CountedStore {
       wagesMinorYear: Math.round(wages),
       retirementMinorYear: Math.round(retirement),
       unplacedWorkers: facts.unplacedWorkers,
-      tenure: facts.tenure,
+      tenure: record.household.quarters ? "group" : facts.tenure,
+      ...(record.household.quarters
+        ? { quarters: record.household.quarters }
+        : {}),
       ...(facts.weight !== undefined && facts.weight !== 1
         ? { weight: facts.weight }
         : {}),
@@ -725,6 +743,7 @@ class HouseholdView implements ResidentHouseholdRecord {
         .countedMembers(this.h)
         .map((m) => this.store.ids[m]!),
       source: this.h.source,
+      ...(this.h.quarters ? { quarters: this.h.quarters } : {}),
     };
   }
   get people(): readonly PersonInput[] {

@@ -27,11 +27,14 @@ import {
 } from "./modules/elections";
 import {
   askForDonation,
+  CAMPAIGNS_MODULE_ID,
   campaignFor,
+  campaignTurn,
   giveSpeech,
   knockDoors,
   openCampaigns,
   runAd,
+  type CauseRow,
 } from "./modules/campaigns";
 import { openParties } from "./modules/parties";
 import { fileRunners, weighContest } from "./modules/candidacy";
@@ -75,7 +78,7 @@ describe("M4-06 the record follows you", () => {
   });
 
   /** One draw: a place, an incumbent's broken promise, and the election that follows. */
-  function scenario(draw: number) {
+  function scenario(draw: number, byTurn = false) {
     let place = process.env.GOLDEN_PATH_PLACE_KEY;
     let core = null as ReturnType<typeof createLifeCore> | null;
     let contest: ContestRow | undefined;
@@ -186,7 +189,7 @@ describe("M4-06 the record follows you", () => {
       statements: [{ question, position: 1 }],
     });
     // Fixture: the council vote that breaks it.
-    recordVote(api, {
+    const brokeIt = recordVote(api, {
       personId: incumbent.id,
       body: contest!.officeId,
       billId: "fixture-measure",
@@ -214,6 +217,53 @@ describe("M4-06 the record follows you", () => {
     });
     for (const id of [...core!.people.keys()].sort())
       askForDonation(api, rivalFiling.id, id);
+    if (byTurn) {
+      // The rival's own campaign turn decides to show the record
+      // (campaign-rival-ad-quotes-a-real-vote): no hand call of the ad.
+      campaignTurn(api, rivalFiling.id, contest!.electionDate);
+      const causes = (
+        api
+          .moduleState(CAMPAIGNS_MODULE_ID)
+          .table("causes")
+          .rows() as unknown as CauseRow[]
+      ).filter(
+        (c) =>
+          c.act === "attack-ad" &&
+          c.actorId === challenger.id &&
+          c.candidateId === incumbent.id,
+      );
+      if (!causes.length)
+        return {
+          where,
+          skipped: `the rival's turn bought no attack ad (raised ${campaignFor(api, rivalFiling.id).raisedMinor})`,
+        };
+      // The ad names the vote it showed, by record id.
+      const showing = causes.filter((c) => c.shownIds?.includes(brokeIt.id));
+      expect(showing.length, `${where}: ${brokeIt.id}`).toBeGreaterThan(0);
+      holdElection(api, contest!.id);
+      // A voter it reached weighs that vote among their reasons, by id.
+      const citing = showing
+        .map((c) => ballotOf(api, contest!.id, c.voterId))
+        .filter((b) =>
+          (b?.recordReasons?.[incumbent.id] ?? []).some(
+            (r) => r.kind === "vote" && r.itemId === brokeIt.id,
+          ),
+        );
+      expect(
+        citing.length,
+        `${where}: no ballot cites ${brokeIt.id}`,
+      ).toBeGreaterThan(0);
+      process.stdout.write(
+        `RIVAL AD ${where}: ${challenger.id} ran ${causes.length} attack-ad causes against ${incumbent.id}; ${showing.length} showed vote ${brokeIt.id} (for example ${showing[0]!.id}); ${citing.length} ballots cite it (for example ${citing[0]!.id})\n`,
+      );
+      return {
+        where,
+        skipped: null,
+        weighed: citing.length,
+        flippable: 0,
+        changed: 0,
+      };
+    }
     attack = runAd(api, {
       filingId: rivalFiling.id,
       amountMinor: campaignFor(api, rivalFiling.id).raisedMinor,
@@ -385,6 +435,19 @@ describe("M4-06 the record follows you", () => {
     throw new Error(
       `No race close enough for the record to matter: ${tried.join("; ")}`,
     );
+  });
+
+  it("the rival's own campaign turn buys an attack ad that names a real vote, and a ballot it reached cites that vote", () => {
+    const tried: string[] = [];
+    for (let draw = 0; draw < 8; draw += 1) {
+      const result = scenario(draw, true);
+      if (result.skipped) {
+        tried.push(`${result.where}: ${result.skipped}`);
+        continue;
+      }
+      return;
+    }
+    throw new Error(`No rival's turn ran an attack ad: ${tried.join("; ")}`);
   });
 });
 

@@ -7,6 +7,7 @@
 // Run against a fresh bench: node src/bench/circumstance-scene.browser.mjs [screenshot-dir]
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
+import { playOpening } from "./start-life.mjs";
 
 const shots = process.argv[2];
 const WEEKS = Number(process.env.CIRCUMSTANCE_WEEKS ?? 30);
@@ -45,6 +46,8 @@ try {
   if (await page.locator("#new-advanced").isVisible())
     await page.locator("#new-advanced").click();
   await page.locator("#new-world").click();
+  // The opening plays first, as a player sees it (start-life.mjs).
+  await playOpening(page, (await (await made).json()).sceneMomentId ?? null);
   console.log("Seed:", new URL((await made).url()).searchParams.get("seed"));
   await page.waitForFunction(() =>
     document.getElementById("card-name").textContent.trim(),

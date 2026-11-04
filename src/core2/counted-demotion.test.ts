@@ -141,12 +141,18 @@ describe(`a filled-in household that moved away from the counted places (seed ${
       ...(player?.knownIds ?? []),
     ]);
     // A counted household with no job to keep it in town, out of the
-    // player's circle.
+    // player's circle: no recorded job, and no share of the place's unplaced
+    // workers, which a fill-in turns into a commuter job (residents.ts,
+    // `startCommuterJob`; moving that worker away is
+    // core-relocation-job-held-intermittent's). A household, not a
+    // group-quarters room, which an institution houses and nobody moves.
     const record = [...rt.households.values()]
       .filter(
         (row) =>
           row.people.length > 0 &&
           !row.jobs.length &&
+          !row.household.quarters &&
+          !(rt.store.liveHousehold(row.household.id)!.unplacedWorkers > 0) &&
           row.people.every((p) => !circle.has(p.id)),
       )
       .sort((a, b) => a.household.id.localeCompare(b.household.id))[0];

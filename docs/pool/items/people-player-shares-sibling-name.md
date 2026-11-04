@@ -5,9 +5,9 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: lane-2/sibling-names
-pr:
+pr: #7157
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-03T22:13:43.590Z
