@@ -527,6 +527,9 @@ async function refresh(scene = {}) {
   );
   if (night) {
     await electionNight(night);
+    // That night, once the returns close: the scene of your own result (the
+    // concession call or the victory), when the director staged one.
+    if (night.resultMomentId) await showStory(night.resultMomentId);
     return;
   }
   // No card notice that "a law took effect" (owner, Oct 27: "Why am I getting a

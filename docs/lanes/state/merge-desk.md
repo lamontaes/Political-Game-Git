@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 121 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 127 pull requests merged. Newest state at the top of each section.
 
 ## What the owner can play now
 
@@ -28,6 +28,8 @@ New on Nov 4, from the lanes:
 - **Campaign and election night.**
   - A yes at the door becomes a vote as the person's stated intent predicts.
   - Every month from filing to election day holds a scene or a Journal line.
+  - On election night, once the returns close, a scene shows your own result.
+  - A county race is voted on by the whole county, not just your town.
   - On the night you lose, the talk at home comes from the relative who worked the race or put money in.
   - Whether you concede or refuse is printed in the race's story, and the winner takes your call gracious or gloating, by their traits; a friend and a rival say different things on the call after the count.
   - Rivals run attack ads on your record that name your real votes.
@@ -37,6 +39,7 @@ New on Nov 4, from the lanes:
   - Living siblings never share a first name.
   - A person's card tells their life as a short story.
   - The calendar shows meetings and holidays, not just birthdays.
+  - No menu scrolls: every sheet fits its window, and the paper fits its front page.
   - Journal chapters open only on your own turns or a relative's.
   - A question in everyday talk gets an answer, not just a nod.
   - The Who you are screen says why a grown player has no job, and shows the town's population and this year's moves.
@@ -82,7 +85,7 @@ New on Nov 3:
   - A pool fix (#7145).
   - A state page (#7146).
 
-## Lane PRs merged on Nov 4 (86), on the owner's word ("You may merge lane PRs that pass the new-game check")
+## Lane PRs merged on Nov 4 (92), on the owner's word ("You may merge lane PRs that pass the new-game check")
 
 Each had main merged in again, passed `npm run new-game-check` (a town drawn from all 56, a new life, four weeks) and merged pinned to that head.
 
@@ -174,8 +177,14 @@ Each had main merged in again, passed `npm run new-game-check` (a town drawn fro
 | #7227 | A loading test imports the person type from where it lives, so the release build's typecheck passes (test only)                                                     | Woburn, Massachusetts             | db8299c12dd18749 |
 | #7229 | A restored world refills once and keeps its news and weekly-contact state                                                                                           | Du Bois, Nebraska                 | c4d3fa6be2410ab2 |
 | #7228 | Each Journal line records how it follows the one before (merged after GitHub's sync trouble cleared)                                                                | Oil City, Louisiana               | 6fd81a2db8501927 |
+| #7231 | No menu scrolls: every sheet's pagers fit, Parties' roster sits under the map, the paper fits its front page                                                        | LaBelle, Florida                  | f8dbfede0149471d |
+| #7230 | One shared rule decides how a person who heard of a case stands on it (the lane settled its agreement conflict)                                                     | Safford, Arizona                  | 1f52524cb2f18acb |
+| #7234 | Reporters weigh concern from local adults in both population tiers (the desk mended its release note: section and title added)                                      | Scircleville, Indiana             | 8c716e8c4e32804c |
+| #7232 | On election night, once the returns close, the director stages the scene of your own result                                                                         | Columbia, North Carolina          | 84340e32d40ad92e |
+| #7235 | A county race is voted on by the whole county, not just the town                                                                                                    | Tok, Alaska                       | 55025f4e77f84b20 |
+| #7236 | The Journal reads on from one entry to the next                                                                                                                     | Paint Rock, Alabama               | 3de71ff4cfe0d7aa |
 
-Conflicts resolved mechanically: #7154 (both sides added a parameter and a stopgap row; both kept), and #7153, #7157, #7160, #7162 (Lane 2's state page: main's wording for the one edited line, both sides' log entries kept). Mac builds started after 5, 13, 18, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80 and 85 of these merges.
+Conflicts resolved mechanically: #7154 (both sides added a parameter and a stopgap row; both kept), and #7153, #7157, #7160, #7162 (Lane 2's state page: main's wording for the one edited line, both sides' log entries kept). Mac builds started after 5, 13, 18, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85 and 91 of these merges.
 
 ## Merged (35), each on the one check with a printed replay number
 
@@ -229,7 +238,6 @@ Mac builds (`release-package.yml` on main) were started after 8, 20, 26 and 34 m
 
 - **Release run on main (Lane 5, Nov 4 05:45 UTC), fixed.** The CTO's note: Release failed at "Enforce declarations" on every run since 01:10. Cause: the release check wanted a declaration for any file outside `docs/coordination` and `docs/pool`, so each direct push of a lane state file (`docs/lanes/state/*.md`, this page included) turned the run red. Runs 12086, 12088, 12089 and 12091 failed that way; the range in 12091 was 7497b6035b..44f14801eb, one file, `docs/lanes/state/merge-desk.md`. #7183 (merged) exempts `docs/lanes/` in `scripts/release/transition.ts` and in the workflow's ignored paths, with a test; `release:check` on that range now prints OK. Separately, #7182 (merged) gave the no-dice guard its sibling-name entry, which was red on every branch.
 
-- **#7230** (Lane 2, one shared rule for a heard case's stance): back to Lane 2. Merging main in conflicts in the Lanes 2 and 3 agreement file, which the lanes settle.
 - **#7110** (speed): handed to Lane 5. The test conflict in `campaign-day.test.ts` is not mechanical (main's new donor rule against this branch's payments wrapper).
 - **#7105's pool item** (play-m6-01-the-opening) is back to open on main after its done-on-merge run, as the order asked.
 
@@ -239,6 +247,8 @@ Mac builds (`release-package.yml` on main) were started after 8, 20, 26 and 34 m
 - **48-hour rule:** if a lane goes 48 hours without pushing to one of these, it merges on the one check and its named failure is filed.
 
 ## Owner, one click
+
+- **#7233** (skills, from Lane 4: play-first lessons): check passed on head 8e6377704f (Carolina, Rhode Island); skill tests pass. The CTO's to merge.
 
 #6971 is closed and its item is done (the CTO handled it).
 

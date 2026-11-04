@@ -4164,6 +4164,114 @@
       }
     },
     {
+      "key": "journal.memoir-join-cause.because-of-that",
+      "move": "memoir-join-cause",
+      "kind": "spoken",
+      "text": "Because of that.",
+      "uses": [
+        {
+          "move": "memoir-join-cause",
+          "subject": "memoir",
+          "role": "joinCause",
+          "choice": "join-cause",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "joinCause"
+            }
+          ],
+          "clause": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (director-journal-one-story)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-join-cause.so",
+      "move": "memoir-join-cause",
+      "kind": "spoken",
+      "text": "So.",
+      "uses": [
+        {
+          "move": "memoir-join-cause",
+          "subject": "memoir",
+          "role": "joinCause",
+          "choice": "join-cause",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "joinCause"
+            }
+          ],
+          "clause": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (director-journal-one-story)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-join-later.span-later",
+      "move": "memoir-join-later",
+      "kind": "spoken",
+      "text": "{span} later.",
+      "uses": [
+        {
+          "move": "memoir-join-later",
+          "subject": "memoir",
+          "role": "joinLater",
+          "choice": "join-later",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "joinLater"
+            }
+          ],
+          "clause": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (director-journal-one-story)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-join-later.span-on",
+      "move": "memoir-join-later",
+      "kind": "spoken",
+      "text": "{span} on.",
+      "uses": [
+        {
+          "move": "memoir-join-later",
+          "subject": "memoir",
+          "role": "joinLater",
+          "choice": "join-later",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "joinLater"
+            }
+          ],
+          "clause": true
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (director-journal-one-story)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
       "key": "journal.memoir-age-line.i-was-age-years-old",
       "move": "memoir-age-line",
       "kind": "spoken",

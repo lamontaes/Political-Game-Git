@@ -550,7 +550,9 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
       expect(line.text).toMatch(/\b(son|daughter|child|[A-Z][a-z]+)\b/);
     // "My daughter Jane was born." or, for a second child, "Jane was born."
     for (const line of births.filter((row) => / was born\./.test(row.text)))
-      expect(line.text).toMatch(/^(My \w+ )?[A-Z][a-z]+ was born\./);
+      expect(line.plain ?? line.text).toMatch(
+        /^(My \w+ )?[A-Z][a-z]+ was born\./,
+      );
     for (const line of lines) {
       expect(line.text).not.toMatch(/Little did I know\.?$/);
       // A turning point needs a later chapter of another kind in the record.
@@ -617,7 +619,9 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     expect(told.length).toBeGreaterThan(0);
     for (const line of told) {
       // A second relative of one relation is said by given name ("Olivia moved away.").
-      expect(line.text).toMatch(/^(My \w+( \w+)?|[A-Z][a-z]+) moved away\.$/);
+      expect(line.plain ?? line.text).toMatch(
+        /^(My \w+( \w+)?|[A-Z][a-z]+) moved away\.$/,
+      );
       expect(line.sourceRecordIds.length).toBeGreaterThan(0);
     }
   });
@@ -725,7 +729,7 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
         .filter((line) =>
           line.momentIds.some((id) => [own.id, movedMoment.id].includes(id)),
         )
-        .map((line) => line.text);
+        .map((line) => line.plain ?? line.text);
     const named = told(mover.placeId);
     const moved = named.filter((line) => /^We /.test(line));
     expect(moved).toHaveLength(1);
