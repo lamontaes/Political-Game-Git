@@ -1342,6 +1342,7 @@ export function composeJournal(
           kindPrefix: row.kindPrefix,
           whose: own ? "own" : "other",
           together,
+          named: !!facts.other,
         },
         facts,
         moment.id,
