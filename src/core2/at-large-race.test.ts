@@ -15,13 +15,19 @@ import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
-import { ELECTIONS_MODULE_ID, type ContestRow } from "./modules/elections";
 import {
   atLargeGroup,
-  VOTING_MODULE_ID,
-  type ResultRow,
-} from "./modules/voting";
+  ELECTIONS_MODULE_ID,
+  type ContestRow,
+} from "./modules/elections";
+import { VOTING_MODULE_ID, type ResultRow } from "./modules/voting";
 import { OFFICES_MODULE_ID } from "./modules/offices";
+import { candidacyParameter } from "./candidate-pool";
+import {
+  CANDIDACY_MODULE_ID,
+  decisionOf,
+  type WeighedContest,
+} from "./modules/candidacy";
 import { coreAPI } from "./state";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
@@ -84,6 +90,25 @@ it(`a body's at-large seats up on one day are one race, the top finishers seated
       tried.push(`${where}: ${race[0]!.id} and its seats not all decided`);
       continue;
     }
+    // Each would-be candidate weighed the whole race: a newcomer running for
+    // one seat counted, in their field, those already running for the race's
+    // other seats (the seat's weighing row keeps how many).
+    const weighed = api.moduleState(CANDIDACY_MODULE_ID).table("weighed");
+    const fieldWeight = candidacyParameter(api, "candidacyFieldWeight");
+    let checked = 0;
+    for (const c of race) {
+      const row = weighed.get(c.id) as unknown as WeighedContest | undefined;
+      if (!row?.raceRunners) continue;
+      for (const id of row.runIds) {
+        const field = decisionOf(api, c.id, id)?.reasons.field;
+        if (field === undefined) continue; // a holder standing again
+        checked += 1;
+        expect(
+          -field / fieldWeight,
+          `${where}: ${id} in ${c.id} did not count the race's ${row.raceRunners} other runners`,
+        ).toBeGreaterThanOrEqual(row.raceRunners - 1e-9);
+      }
+    }
     const counted = rows as ResultRow[];
     const totals = counted[0]!.totals;
     const field = Object.keys(totals);
@@ -108,7 +133,7 @@ it(`a body's at-large seats up on one day are one race, the top finishers seated
         `${where}: ${id} seated from place ${ranked.indexOf(id) + 1}`,
       ).toBeLessThan(race.length);
     process.stdout.write(
-      `AT LARGE ${where}: ${race.length} seats on ${race[0]!.electionDate} (${race.map((c) => c.id).join(", ")}); ${field.length} candidates, ${votes} votes from ${counted[0]!.electorate} voters; seated ${counted.map((r) => `${r.contestId.split(":").slice(-2, -1)[0]}: ${r.winnerId} (${totals[r.winnerId ?? ""] ?? 0})`).join("; ")}${tried.length ? `; passed over: ${tried.join("; ")}` : ""}\n`,
+      `AT LARGE ${where}: ${race.length} seats on ${race[0]!.electionDate} (${race.map((c) => c.id).join(", ")}); ${field.length} candidates, ${votes} votes from ${counted[0]!.electorate} voters; newcomers checked against the race's field ${checked}; seated ${counted.map((r) => `${r.contestId.split(":").slice(-2, -1)[0]}: ${r.winnerId} (${totals[r.winnerId ?? ""] ?? 0})`).join("; ")}${tried.length ? `; passed over: ${tried.join("; ")}` : ""}\n`,
     );
     return;
   }
