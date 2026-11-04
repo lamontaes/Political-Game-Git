@@ -22,8 +22,10 @@ source: realistic-not-real audit, Oct 27 (found running src/core2/macro-mortgage
 
 **Time box.** 3 hours; if not done, push what exists, open the draft PR, write the handoff.
 
-**Files.** src/core2/modules/housing.ts, src/core2/macro-mortgage-history.test.ts
+**Files.** src/core2/modules/housing.ts, src/core2/modules/residents.ts (existing flow receipt metadata), src/core2/housing.test.ts, src/core2/housing-paid-mortgage.test.ts; unchanged src/core2/macro-mortgage-history.test.ts.
 
 **Notes.** Same balances on clean main and with the per-world macro change; not caused by it.
 
 Nov4 Lane2: claimed on lane-2/mortgage-paid-balance. Echo original trace confirms paid group mortgages receive the all-town payment fraction; the named loan grows in two monthly observations while its group pays372650c in full. February6 original regression fails expected30635721 vs30637072 for another paid Echo mortgage. Narrow replacement reads the existing own-group housingMonth receipt; source checks and serial base/head proof are underway. No finance writer or state.ts changes.
+
+Nov4 Built unit on 9a6b9f7feb: fixed Echo year, same drawn Mountain City regression, five unchanged history tests, three negative counterchecks, typecheck/lint/format, fresh Dededo New Game and La Pica four-year comparison pass (maximum +8.33%; both base/head exceed 120s in year 4). Proof: docs/lanes/proof/paid-mortgage-balance.md. Independent review pending; no whole path confirmed.

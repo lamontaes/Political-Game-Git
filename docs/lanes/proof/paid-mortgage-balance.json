@@ -175,8 +175,8 @@
     },
     "pairedGenerated": {
       "passed": 2,
-      "seconds": 86.82,
-      "testSeconds": 76.9
+      "seconds": 89.79,
+      "testSeconds": 80.11
     }
   },
   "sourceSha256": {
