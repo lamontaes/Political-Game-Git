@@ -4,6 +4,10 @@
 
 Owner's word, Nov 4: screens tonight, no people. No new pictures: the art on main only.
 
+## Blocked: GitHub access (Nov 4)
+
+`gh auth status` reports "The token in GH_TOKEN is invalid", and the GitHub MCP connection fails ("Authorization header is badly formatted"). Git fetch and push still work, so this file stays current, but Lane 4 can't read or comment on PRs (#7233) until GitHub is reconnected. Step 0's trial pushed earlier: 91239f0848 on `trial/lane-4`.
+
 ## Ready for the Confirmer (Nov 4)
 
 Replays on main by a session that built none of it; each line names the check and the town.
