@@ -27,3 +27,9 @@ State income-tax catalog eligibility is not offered and remains an unaccepted se
 Second unchanged browser run on15cc6ad267 fails Brookside at `0% top rate` versus `0%`. `seatAct.sectionOf` selects the federal unit through `lawHere`; the catalog has the local percent unit. This additional seat-action read requires Lane4 agreement, proposed before any edit. No browser pass or Built status claimed.
 
 Fresh New Game on6f3712540a: Sabattus, Maine /7a8dd4f399654d25, four weeks PASS, every handler request HTTP200. Additional Lane4 unit request is #7100 comment6628052498; acceptance pending. Timing base0de6987f82 is running alone on fresh replay d0a859c3fc33a41f. No timing pass yet.
+
+## Four-year comparison
+
+Brownville Junction, Maine2308360, fresh replay `d0a859c3fc33a41f`, host4c46091479ea. Controlled base0de6987f82 ran27.3/51.4/43.3/91.3s; corrected3c39628816 ran31.6/55.1/50.3/94.6s. Both exited0. All four years are within20% (maximum+16.17%) and under120s; all fingerprints and every table digest match. [Source identities and year/table comparison](bill-values-timing.json). The base retains the same production surroundings and removes only this bill reader; it is main33371378e2 plus the already-merged zero-cash correction, not relabeled latest main.
+
+The normal browser unit mismatch remains unpassed; the performance result does not make this unit Built. The newest proof commit could not yet be published after GitHub commit_refs/Internal Server Error rejections; it is retained locally.
