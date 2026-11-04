@@ -7292,6 +7292,15 @@
           "purpose": "town-hall-question",
           "key": "favor-asked",
           "after": "lie"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "testimony-heard",
+          "key": "favor-asked",
+          "after": "lie"
         }
       ],
       "bearing": "guarded",
@@ -12966,6 +12975,15 @@
           "move": "deflect",
           "role": "asked",
           "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "confront"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "testimony-heard",
           "key": "favor-asked",
           "after": "confront"
         }
@@ -23730,6 +23748,15 @@
           "move": "accept",
           "role": "asker",
           "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "confess"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "testimony-heard",
           "key": "favor-asked",
           "after": "confess"
         }
@@ -91154,6 +91181,14 @@
           "role": "asker",
           "purpose": "town-hall-question",
           "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "testimony-heard",
+          "key": "favor-asked"
         }
       ],
       "bearing": "calm",
@@ -91178,6 +91213,14 @@
           "role": "asker",
           "purpose": "town-hall-question",
           "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "testimony-heard",
+          "key": "favor-asked"
         }
       ],
       "bearing": "nervous",
@@ -91201,6 +91244,14 @@
           "move": "greet",
           "role": "asker",
           "purpose": "town-hall-question",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "testimony-heard",
           "key": "favor-asked"
         }
       ],
@@ -91232,6 +91283,181 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-hearing-on-bill-breaks-up-name-who-spoke-during-public-comment-com",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The hearing on {bill} breaks up. {name}, who spoke during public comment, comes up to the dais.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "testimony-heard",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (scene-member-hears-testimony)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.public-comment-on-bill-is-over-name-catches-you-before-you-can-leave-t",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "Public comment on {bill} is over. {name} catches you before you can leave the room.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "testimony-heard",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (scene-member-hears-testimony)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.you-heard-what-i-said-about-bill-in-there-i-d-like-to-know-where-you-s",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "You heard what I said about {bill} in there. I'd like to know where you stand.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "testimony-heard",
+          "key": "favor-asked",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (scene-member-hears-testimony)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.you-heard-what-i-said-about-bill-i-m-asking-you-to-vote-for-it",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "You heard what I said about {bill}. I'm asking you to vote for it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "testimony-heard",
+          "key": "favor-asked",
+          "requiresFacts": ["bill", "spoke-for"]
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (scene-member-hears-testimony)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.i-meant-every-word-i-said-up-there-bill-would-help-people-like-me-will",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "I meant every word I said up there. {bill} would help people like me. Will you back it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "testimony-heard",
+          "key": "favor-asked",
+          "requiresFacts": ["bill", "spoke-for"]
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (scene-member-hears-testimony)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.you-heard-me-on-bill-please-vote-against-it",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "You heard me on {bill}. Please vote against it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "testimony-heard",
+          "key": "favor-asked",
+          "requiresFacts": ["bill", "spoke-against"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (scene-member-hears-testimony)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.i-didn-t-come-down-here-to-be-polite-about-bill-it-would-hurt-us-will",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "I didn't come down here to be polite about {bill}. It would hurt us. Will you vote no?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "testimony-heard",
+          "key": "favor-asked",
+          "requiresFacts": ["bill", "spoke-against"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (scene-member-hears-testimony)",
+      "date": "2026-11-04",
       "tag": {
         "move": "ask",
         "key": "favor-asked"
@@ -91476,6 +91702,14 @@
           "role": "asked",
           "purpose": "town-hall-question",
           "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "testimony-heard",
+          "key": "favor-asked"
         }
       ],
       "bearing": "calm",
@@ -91510,6 +91744,24 @@
           "purpose": "town-hall-question",
           "key": "favor-asked",
           "requiresFacts": ["host-declined"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "testimony-heard",
+          "key": "favor-asked",
+          "requiresFacts": ["host-opposed"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "testimony-heard",
+          "key": "favor-asked",
+          "requiresFacts": ["host-declined"]
         }
       ],
       "bearing": "calm",
@@ -91533,6 +91785,14 @@
           "move": "answer",
           "role": "asked",
           "purpose": "town-hall-question",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "testimony-heard",
           "key": "favor-asked"
         }
       ],
@@ -91566,6 +91826,24 @@
           "move": "relent",
           "role": "asked",
           "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["host-declined"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "testimony-heard",
+          "key": "favor-asked",
+          "requiresFacts": ["host-opposed"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "testimony-heard",
           "key": "favor-asked",
           "requiresFacts": ["host-declined"]
         }
@@ -91602,6 +91880,24 @@
           "purpose": "town-hall-question",
           "key": "favor-asked",
           "requiresFacts": ["host-declined"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "testimony-heard",
+          "key": "favor-asked",
+          "requiresFacts": ["host-opposed"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "testimony-heard",
+          "key": "favor-asked",
+          "requiresFacts": ["host-declined"]
         }
       ],
       "bearing": "calm",
@@ -91625,6 +91921,14 @@
           "move": "offer",
           "role": "asked",
           "purpose": "town-hall-question",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "testimony-heard",
           "key": "favor-asked"
         }
       ],
@@ -91650,6 +91954,14 @@
           "role": "asked",
           "purpose": "town-hall-question",
           "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "testimony-heard",
+          "key": "favor-asked"
         }
       ],
       "bearing": "calm",
@@ -91673,6 +91985,14 @@
           "move": "offer",
           "role": "asked",
           "purpose": "town-hall-question",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "testimony-heard",
           "key": "favor-asked"
         }
       ],
@@ -91698,6 +92018,14 @@
           "role": "asked",
           "purpose": "town-hall-question",
           "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "testimony-heard",
+          "key": "favor-asked"
         }
       ],
       "bearing": "guarded",
@@ -91722,6 +92050,14 @@
           "role": "asked",
           "purpose": "town-hall-question",
           "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "testimony-heard",
+          "key": "favor-asked"
         }
       ],
       "bearing": "guarded",
@@ -91745,6 +92081,14 @@
           "move": "lie",
           "role": "asked",
           "purpose": "town-hall-question",
+          "key": "favor-asked"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "testimony-heard",
           "key": "favor-asked"
         }
       ],
@@ -91780,6 +92124,24 @@
           "purpose": "town-hall-question",
           "key": "favor-asked",
           "requiresFacts": ["host-declined"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "testimony-heard",
+          "key": "favor-asked",
+          "requiresFacts": ["host-opposed"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "testimony-heard",
+          "key": "favor-asked",
+          "requiresFacts": ["host-declined"]
         }
       ],
       "bearing": "calm",
@@ -91803,6 +92165,15 @@
           "move": "press",
           "role": "asker",
           "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "answer"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "testimony-heard",
           "key": "favor-asked",
           "after": "answer"
         }
@@ -91830,6 +92201,15 @@
           "purpose": "town-hall-question",
           "key": "favor-asked",
           "after": "answer"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "testimony-heard",
+          "key": "favor-asked",
+          "after": "answer"
         }
       ],
       "bearing": "braced",
@@ -91853,6 +92233,15 @@
           "move": "accept",
           "role": "asker",
           "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "answer"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "testimony-heard",
           "key": "favor-asked",
           "after": "answer"
         }
@@ -91880,6 +92269,15 @@
           "purpose": "town-hall-question",
           "key": "favor-asked",
           "after": "answer"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "testimony-heard",
+          "key": "favor-asked",
+          "after": "answer"
         }
       ],
       "bearing": "guarded",
@@ -91903,6 +92301,15 @@
           "move": "thank",
           "role": "asker",
           "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "relent"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "testimony-heard",
           "key": "favor-asked",
           "after": "relent"
         }
@@ -91930,6 +92337,15 @@
           "purpose": "town-hall-question",
           "key": "favor-asked",
           "after": "relent"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "testimony-heard",
+          "key": "favor-asked",
+          "after": "relent"
         }
       ],
       "bearing": "calm",
@@ -91953,6 +92369,15 @@
           "move": "thank",
           "role": "asker",
           "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "offer"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "testimony-heard",
           "key": "favor-asked",
           "after": "offer"
         }
@@ -91980,6 +92405,15 @@
           "purpose": "town-hall-question",
           "key": "favor-asked",
           "after": "offer"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "testimony-heard",
+          "key": "favor-asked",
+          "after": "offer"
         }
       ],
       "bearing": "nervous",
@@ -92005,6 +92439,15 @@
           "purpose": "town-hall-question",
           "key": "favor-asked",
           "after": "deflect"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "testimony-heard",
+          "key": "favor-asked",
+          "after": "deflect"
         }
       ],
       "bearing": "braced",
@@ -92028,6 +92471,15 @@
           "move": "plea",
           "role": "asker",
           "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "deflect"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "testimony-heard",
           "key": "favor-asked",
           "after": "deflect"
         }
@@ -92066,6 +92518,26 @@
           "key": "favor-asked",
           "after": "press",
           "requiresFacts": ["host-declined"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "testimony-heard",
+          "key": "favor-asked",
+          "after": "press",
+          "requiresFacts": ["host-opposed"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "testimony-heard",
+          "key": "favor-asked",
+          "after": "press",
+          "requiresFacts": ["host-declined"]
         }
       ],
       "bearing": "contrite",
@@ -92089,6 +92561,15 @@
           "move": "leave",
           "role": "asked",
           "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "press"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "testimony-heard",
           "key": "favor-asked",
           "after": "press"
         }
@@ -92127,6 +92608,26 @@
           "key": "favor-asked",
           "after": "plea",
           "requiresFacts": ["host-declined"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "testimony-heard",
+          "key": "favor-asked",
+          "after": "plea",
+          "requiresFacts": ["host-opposed"]
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "testimony-heard",
+          "key": "favor-asked",
+          "after": "plea",
+          "requiresFacts": ["host-declined"]
         }
       ],
       "bearing": "contrite",
@@ -92150,6 +92651,15 @@
           "move": "offer",
           "role": "asked",
           "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "plea"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "testimony-heard",
           "key": "favor-asked",
           "after": "plea"
         }
@@ -92177,6 +92687,15 @@
           "purpose": "town-hall-question",
           "key": "favor-asked",
           "after": "plea"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "testimony-heard",
+          "key": "favor-asked",
+          "after": "plea"
         }
       ],
       "bearing": "guarded",
@@ -92200,6 +92719,16 @@
           "move": "confront",
           "role": "asker",
           "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "lie",
+          "requiresFacts": ["knows-truth"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "testimony-heard",
           "key": "favor-asked",
           "after": "lie",
           "requiresFacts": ["knows-truth"]
@@ -92229,6 +92758,16 @@
           "key": "favor-asked",
           "after": "lie",
           "requiresFacts": ["knows-truth"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "testimony-heard",
+          "key": "favor-asked",
+          "after": "lie",
+          "requiresFacts": ["knows-truth"]
         }
       ],
       "bearing": "braced",
@@ -92252,6 +92791,15 @@
           "move": "confess",
           "role": "asked",
           "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "confront"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confess",
+          "role": "asked",
+          "purpose": "testimony-heard",
           "key": "favor-asked",
           "after": "confront"
         }
@@ -92279,6 +92827,15 @@
           "purpose": "town-hall-question",
           "key": "favor-asked",
           "after": "confront"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "testimony-heard",
+          "key": "favor-asked",
+          "after": "confront"
         }
       ],
       "bearing": "nervous",
@@ -92302,6 +92859,15 @@
           "move": "ask",
           "role": "asker",
           "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "after": "confess"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "testimony-heard",
           "key": "favor-asked",
           "after": "confess"
         }
@@ -92329,6 +92895,15 @@
           "purpose": "town-hall-question",
           "key": "favor-asked",
           "after": "deflect"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "testimony-heard",
+          "key": "favor-asked",
+          "after": "deflect"
         }
       ],
       "bearing": "braced",
@@ -92352,6 +92927,15 @@
           "move": "thank",
           "role": "asker",
           "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "outcome": "resolved"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "testimony-heard",
           "key": "favor-asked",
           "outcome": "resolved"
         }
@@ -92379,6 +92963,15 @@
           "purpose": "town-hall-question",
           "key": "favor-asked",
           "outcome": "resolved"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "testimony-heard",
+          "key": "favor-asked",
+          "outcome": "resolved"
         }
       ],
       "bearing": "calm",
@@ -92402,6 +92995,15 @@
           "move": "accept",
           "role": "asker",
           "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "outcome": "refused"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "testimony-heard",
           "key": "favor-asked",
           "outcome": "refused"
         }
@@ -92429,6 +93031,15 @@
           "purpose": "town-hall-question",
           "key": "favor-asked",
           "outcome": "refused"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "testimony-heard",
+          "key": "favor-asked",
+          "outcome": "refused"
         }
       ],
       "bearing": "braced",
@@ -92454,6 +93065,15 @@
           "purpose": "town-hall-question",
           "key": "favor-asked",
           "outcome": "open"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "testimony-heard",
+          "key": "favor-asked",
+          "outcome": "open"
         }
       ],
       "bearing": "braced",
@@ -92477,6 +93097,15 @@
           "move": "warn",
           "role": "asker",
           "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "outcome": "open"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "testimony-heard",
           "key": "favor-asked",
           "outcome": "open"
         }

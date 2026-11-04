@@ -1,3 +1,4 @@
+import { raceTitle } from "./race-words";
 import { coreAPI } from "../core2/state";
 import { filingClerkFor } from "../core2/modules/filing-clerk";
 import { workSpansOf } from "./places";
@@ -97,9 +98,7 @@ function overlayFor(
   const tie = parties.length ? partyTie(api, playerId) : null;
   return {
     contestId,
-    title: contest.district
-      ? `${contest.title} (${contest.district})`
-      : contest.title,
+    title: raceTitle(contest.title, contest.district),
     filingDeadline: contest.filingDeadline,
     checks: checkEligibility(api, playerId, contestId),
     questions: contestPositions(api, contest),
@@ -158,7 +157,7 @@ export function openBenchFilingVisit(
       OfficeRecord | undefined;
     return {
       id: row.id,
-      title: row.district ? `${row.title} (${row.district})` : row.title,
+      title: raceTitle(row.title, row.district),
       filingDeadline: row.filingDeadline,
       electionDate: row.electionDate,
       primaryDate: row.primaryDate,
@@ -179,13 +178,9 @@ export function openBenchFilingVisit(
       return [
         row.id,
         {
-          // Seats sharing a district (at large) are numbered among themselves.
-          seat:
-            sameDay.length > 1
-              ? [row.district, String(sameDay.indexOf(i) + 1)]
-                  .filter(Boolean)
-                  .join(" ")
-              : row.district,
+          // Seats of one office on one day (at large) are numbered among
+          // themselves; the district is in the title, never said twice.
+          seat: sameDay.length > 1 ? String(sameDay.indexOf(i) + 1) : null,
           electionDate: row.electionDate,
           holder: holder
             ? `${holder.identity.givenName} ${holder.identity.familyName}`
