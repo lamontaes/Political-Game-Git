@@ -1,4 +1,6 @@
 /** M1-05 checks on a recorded fixture: eviction only from unpaid rent, through the place's steps. */
+import { collapseToTwoLevels } from "./residents";
+import { residentsRuntime } from "./modules/residents";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { describe, expect, it } from "vitest";
 import housingData from "./data/housing/housing.json" with { type: "json" };
@@ -465,13 +467,28 @@ describe("right to counsel in eviction", () => {
 
 describe("a counted household's mortgage", () => {
   it("falls only by the principal actually paid: an unpaid month leaves the principal where it was, a paid month amortizes", () => {
-    const core = createLifeCore(input("TX"), {
-        data: worldCoreData(),
-        modules: [HOUSING_MODULE],
-      }),
+    const fixture = input("TX");
+    // This edge fixture supplies mortgage receipts directly; no rent bill is needed.
+    const counted = {
+      ...fixture,
+      finance: { ...fixture.finance!, contracts: [] },
+    };
+    const core = createLifeCore(
+        collapseToTwoLevels(counted, {
+          keep: new Set(["broke"]),
+          outsideLivingCosts: false,
+        }),
+        {
+          data: worldCoreData(),
+          modules: [HOUSING_MODULE],
+        },
+      ),
       api = coreAPI(core);
     advanceCore(core, "2021-01-02");
     const table = api.moduleState("housing").table("mortgages");
+    const rt = residentsRuntime(core)!;
+    const household =
+      rt.store.households[rt.store.householdOf.get("household:payer")!]!;
     const row = {
       id: "mortgage:fixture",
       householdId: "household:payer",
@@ -486,12 +503,11 @@ describe("a counted household's mortgage", () => {
     table.put(row);
     const interest = Math.round((row.balanceMinor * row.rate) / 12);
     // Nothing of the month's mortgage payments posted: the balance doesn't fall.
-    core.finance.totalsByKind.set("household.mortgage", {
-      requestedMinor: 120_000,
-      paidMinor: 0,
-      unfundedMinor: 120_000,
-      borrowedMinor: 0,
-      repaidMinor: 0,
+    advanceCore(core, "2021-02-05");
+    rt.housingMonth.set(household.group, {
+      month: "2021-02",
+      asked: 120_000,
+      paid: 0,
     });
     advanceCore(core, "2021-02-10");
     const unpaid = table.get("mortgage:fixture") as unknown as typeof row;
@@ -499,12 +515,11 @@ describe("a counted household's mortgage", () => {
     expect(unpaid.balanceMinor).toBe(row.balanceMinor + interest);
     expect(unpaid.monthsLeft).toBe(200);
     // The next month's payment posted in full: the balance falls by the principal in it.
-    core.finance.totalsByKind.set("household.mortgage", {
-      requestedMinor: 240_000,
-      paidMinor: 120_000,
-      unfundedMinor: 120_000,
-      borrowedMinor: 0,
-      repaidMinor: 0,
+    advanceCore(core, "2021-03-05");
+    rt.housingMonth.set(household.group, {
+      month: "2021-03",
+      asked: 120_000,
+      paid: 120_000,
     });
     advanceCore(core, "2021-03-10");
     const paid = table.get("mortgage:fixture") as unknown as typeof row;
