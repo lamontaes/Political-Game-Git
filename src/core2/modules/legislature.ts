@@ -50,7 +50,6 @@ import type {
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { campaignParameter, personLean, personStance } from "../campaign-views";
-import { governmentUnitsForPlace } from "../reference/government-units";
 import {
   enactLaw,
   lastEnactment,
@@ -62,7 +61,11 @@ import {
   questionSettled,
   type SettledQuestion,
 } from "./laws";
-import { localAuthority, type EnactedAuthority } from "../laws-in-force";
+import {
+  localAuthority,
+  officeLawJurisdiction,
+  type EnactedAuthority,
+} from "../laws-in-force";
 import type { LawRowInput } from "../laws-starting";
 import { awaitingVacancy, OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { recordVote, votesOf } from "./record";
@@ -1951,15 +1954,21 @@ export function billReach(
 
 /** The government whose law a bill makes: the nation, the state, or the county, township or town its body governs. */
 export function billJurisdiction(api: CoreAPI, bill: BillRow): string {
+  return bodyJurisdiction(api, bill.bodyOfficeId);
+}
+
+/** One body's own government, whether or not it covers the player's town. */
+export function bodyJurisdiction(api: CoreAPI, bodyOfficeId: string): string {
+  if (bodyOfficeId === FEDERAL_HOUSE || bodyOfficeId === FEDERAL_SENATE)
+    return "US";
   const chain = lawChain(api);
-  const { federal, state, county, township } = billReach(api, bill);
-  return federal
-    ? "US"
-    : state
-      ? chain.stateKey
-      : (county ??
-        township ??
-        chain.levels[chain.levels.length - 1]!.jurisdiction);
+  const office = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(bodyOfficeId) as unknown as OfficeInput | undefined;
+  return office
+    ? officeLawJurisdiction(chain, office)
+    : chain.levels[chain.levels.length - 1]!.jurisdiction;
 }
 
 /**
@@ -5254,7 +5263,6 @@ export function executiveItemVeto(
   return executiveDecision(api, billId, true);
 }
 
-/** A county board's ordinances are county law: the county the board governs, in the town's chain. */
 /** The township a township board governs: its government-unit id, which is the law chain's township jurisdiction. */
 function townshipOfBody(api: CoreAPI, bill: BillRow): string | null {
   const office = api
@@ -5267,6 +5275,7 @@ function townshipOfBody(api: CoreAPI, bill: BillRow): string | null {
     : null;
 }
 
+/** A county board's ordinances use its own county, or the chain's city fallback. */
 function countyOfBody(api: CoreAPI, bill: BillRow): string | null {
   const office = api
     .moduleState(OFFICES_MODULE_ID)
@@ -5274,12 +5283,8 @@ function countyOfBody(api: CoreAPI, bill: BillRow): string | null {
     .get(bill.bodyOfficeId) as unknown as
     { kind: string; jurisdiction: string } | undefined;
   if (!office || bodyRow(office.kind)?.law !== "county") return null;
-  const chain = lawChain(api);
-  const unit = governmentUnitsForPlace(
-    chain.levels[chain.levels.length - 1]!.jurisdiction.slice("place:".length),
-  ).find((u) => u.id === office.jurisdiction);
-  const geoid = unit?.countyGeoid ?? chain.countyGeoids[0];
-  return geoid ? `county:${geoid}` : null;
+  const jurisdiction = bodyJurisdiction(api, bill.bodyOfficeId);
+  return jurisdiction.startsWith("county:") ? jurisdiction : null;
 }
 
 /**
