@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: lane-4/governor-rows
-pr: #6159
+pr: #7204
 blocked-on:
 source: Oct 25 pool audit, on-screen pass (from gov-world-races-run-no-governors)
 lead: play-first
