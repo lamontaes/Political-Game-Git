@@ -5,9 +5,9 @@ area: director
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: done
 claimed-by: lane3/member-hears-testimony
-pr:
+pr: #7218
 blocked-on:
 source: "words-and-scenes lead, Oct 27, scene web legislating pass (packet three-minutes-at-the-microphone)"
 lead: director
