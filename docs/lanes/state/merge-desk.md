@@ -109,6 +109,7 @@ Mac builds (`release-package.yml` on main) were started after 8, 20, 26 and 34 m
 - **#7147** (Lane 2, relatives and officials at the opening have homes and pay rent): the lane resolved its conflict; check passed on head 6ad84c4e5f; ready to merge (Republic, Missouri, replay 2a1c49dff8db9fc2).
 - **#7156** (Lane 1, someone stands at every local filing counter): check passed on head 43ecc5af28; ready to merge (Charlotte Amalie East, U.S. Virgin Islands, replay dbf56bbe0593ee17).
 - **#7157** (Lane 2, living siblings never share a first name): check passed on head 4d11826203; ready to merge (Vera, Oklahoma, replay 567be656347db8c8).
+- **#7158** (Lane 5, 16 more browser checks play the opening first; stacked on #7155, merge #7155 first): check passed on head 4d6802861a; ready to merge (Morrison, Colorado, replay 4e4239ac538b9b7a).
 - **Make the new-game check the rule.** The required checks on main are still `validate` and `golden-path`, not the one check. To make GitHub match ruling 2: `gh api -X PATCH repos/lamontaes/Political-Game-Git/branches/main/protection/required_status_checks -F strict=false -f 'contexts[]=new game'` (the job's name is `new game`; check the exact name GitHub shows).
 - **Merges outside the owner's list.** After your approval, merges in your Nov 3 order went through. Merging lane PRs not on that list (#7085, #7147) was refused as "merge without review". Both turned out to have conflicts anyway. To let the desk keep merging lanes' PRs on the one check, say so in this session.
 
