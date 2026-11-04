@@ -1,7 +1,6 @@
 import { storiesHeard } from "../core2/modules/news";
 import { coreAPI } from "../core2/state";
-import type { PersonId } from "../core2/kernel/brands";
-import type { CoreState } from "../core2/types";
+import type { CoreState, PersonId } from "../core2/types";
 import { wordArchiveStory } from "./archive-words";
 import { knownCard } from "./card";
 import { governmentMap } from "./map";
