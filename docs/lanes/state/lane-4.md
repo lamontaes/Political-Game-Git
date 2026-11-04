@@ -105,3 +105,14 @@ Owner's word, Nov 4: screens tonight, no people. No new pictures: the art on mai
 - **Hands off:** the calendar's behavior.
 - **Known cheats:** raising a baseline count.
 - **Size:** under an hour. **Checked by:** the checker and the merge desk.
+
+## Confirmer
+
+Replays by a session that built none of this lane's work, on main. Only this section is the Confirmer's. Proof: `docs/lanes/proof/confirmer-lane4/` (README per path).
+
+- **Path 1, title: replayed, waits on the owner's look.** Main 705120be1b. White House, Lincoln and the Capitol in six lights at three sizes, no conventions, nothing past the window. Character and passersby wait on people.
+- **Path 3, loading, Storrs: replayed, waits on the owner's look.** Main 705120be1b. Inside the window at three sizes, no scroll; year counter, journal lines and counties filling in. Seen: "Storrs CDP" on the map; no headline in the three frames.
+- **Path 4, opening, Haleyville: not confirmed.** Main 705120be1b, replay ab5f58e9be125c95. Desk, colonnade, America, Congress, the governor and state leaders named over the capitol, home, Skip scene throughout. The home beat has no partner's line and draws nobody (waits on people, as this page says).
+- **Path 5, first evening: fail.** Main fb000259ca, the eight fixed towns. The room matches the house everywhere; Haleyville draws nobody at home, and Storrs and Santa Rita seat someone in a work blazer. Covered by `people-home-plates` and `people-pack-v4-pose-gaps`. Fail 1 of 3.
+- **Path 10, who you are, Santa Rita: fail.** Main 705120be1b, replay 6f539fcfdf6d96f9-5, born 1960 (no job). Why ("nobody in your household draws a wage") and the town's size show at three sizes; eight weeks brought no job offer as a scene. Covered by `world-player-jobless-no-offers`. Fail 1 of 3.
+- **Not replayed:** 6 (no filing office in Brookside until filing opens), 7 to 9 (the owner's mocks), 11 (#7231 open), 2 and 12 (people).
