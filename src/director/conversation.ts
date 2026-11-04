@@ -1800,6 +1800,16 @@ function raiseSubject(
       kind: then.kind,
       act: said || subject.kind === "own-work" ? "tell" : "ask",
       ...row,
+      // The line stands on its subject's records too, even when the words
+      // need none of its facts ("We're being evicted." cites the eviction).
+      sourceRecordIds: [
+        ...new Set([
+          ...row.sourceRecordIds,
+          ...Object.values(subject.facts).flatMap(
+            (fact) => fact.sourceRecordIds,
+          ),
+        ]),
+      ],
     });
   // Someone both know, or news both may know, is shared: neither raises it again.
   if (subject.kind === "mutual" || subject.kind === "news")
