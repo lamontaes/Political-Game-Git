@@ -5,8 +5,8 @@ area: words
 kind: bug
 priority: 1
 size: M
-status: claimed
-claimed-by: lane3/husk-talk
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
@@ -28,3 +28,9 @@ Oct 30, 04:05 (Words, claimed on words/kin-family-news): the husks in Lordship, 
 Oct 30, 04:10 (Words): not built. Two owner rulings already answer it (src/director/data/conversation-rules.json): `happenings`, Oct 14 night Q7, "someone not in the room is talked about only when something recorded happened to them", and `familyTalk`, Oct 15, "between relatives, work, school, where each is from and mutual acquaintances are not talked about". Asking after a relative with nothing new, or answering with their job or home, breaks both. Put to the CTO as one owner question: should a talk with a relative who has no news say nothing (as now), or ask after the family you share? Released until it is answered; branch words/kin-family-news holds nothing.
 
 Words handoff, Nov 2 02:50 UTC (the account at its weekly limit): branch words/family-news, head c95cb2d810, fully merged. Next step: confirm src/english/mined/conversation-bank.test.ts talks with husks (its non-husk filter removed) and a played test cites a relative's move by id, then set it done. The work-spell job stage waits on the lives lead's person.work-spell record.
+
+
+Lane 3 (Nov 4), put back with branch `lane3/husk-talk` (head pushed); claiming it takes the branch.
+- **Built there:** a talk reads an unwatched person's own recent happenings (the owner's Q7 prefixes) through `core.logByPerson`, weighed at `directorMomentFloor` (`recordedMoments` in `src/director/conversation.ts`). Only the player and household are watched (`src/bench/player.ts`), so a relative elsewhere had no book and no news. `src/director/husk-talk.test.ts` lives week by week and talks with a relative the week their news lands.
+- **Passes:** Charlotte Amalie East, U.S. Virgin Islands (seed a941c8c718e23028:2): "Your uncle is seriously ill.", citing `health.serious-illness:...`. Colony, Oklahoma (38f6f96c59a3a025:2): "How is David?" after `person.moved-away:...`. The conversation set passes except the known red "never parts with a word".
+- **Not done:** an eviction, the commonest news of a relative elsewhere in a year, is the chosen subject (`mainTopic` picks `eviction`, weight 0.11) but `raiseSubject` gets no line from `worded(... "eviction", "raise")`, though `conversation.eviction-raise.*` pieces exist and need no facts. The likely cause is the grounded render's knowledge check: a relative filled in from elsewhere may hold no knowledge of their own eviction record. At seed a1ea0ff421b71608 all eight draws had only evictions, so the test fails there. `conversation-bank.test.ts`'s husk filter is still in place.
