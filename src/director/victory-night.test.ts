@@ -9,6 +9,9 @@ import type { EntityId } from "../core2/kernel/brands";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import {
+  ballot,
+  checkEligibility,
+  ELECTIONS_MODULE_ID,
   fileCandidacy,
   openContests,
   type ContestRow,
@@ -42,44 +45,71 @@ const run = (drawSeed: string): { done: boolean; note: string } => {
   const end = addDays(makeIsoDate(core.date), YEAR);
   // Residents of the town file: a filing refuses a resident of another place.
   const townId = core.people.get(core.playerId!)?.placeId;
-  for (let day = 0; !openContests(api).length && day < YEAR; day += 7)
-    advanceCore(core, addDays(makeIsoDate(core.date), 7));
+  // The weeks pass, bounded, until a race opens that two residents can file
+  // for: each race is tried once, the week it is first open. Only residents
+  // who may run and are not already running file.
+  const tried = new Set<string>();
   let contest: ContestRow | undefined;
   let filings: FilingRow[] = [];
-  for (const race of [...openContests(api)]
-    .filter((row) => addDays(makeIsoDate(row.electionDate), 2) <= end)
-    .sort((a, b) => a.id.localeCompare(b.id))) {
-    const clerkId = filingClerkFor(api, race.id)?.personId;
-    const town = [...core.people.values()]
+  const running = (personId: string) =>
+    (
+      api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("filings")
+        .query("byPerson", [personId]) as unknown as FilingRow[]
+    ).some((row) => ["petitioning", "on-ballot"].includes(row.status));
+  for (let day = 0; !contest && day < YEAR; day += 7) {
+    for (const race of [...openContests(api)]
       .filter(
-        (p) =>
-          p.alive &&
-          p.placeId === townId &&
-          p.id !== core.playerId &&
-          p.id !== clerkId &&
-          p.birthDate < "2000-01-01",
+        (row) =>
+          !tried.has(row.id) &&
+          addDays(makeIsoDate(row.electionDate), 2) <= end,
       )
-      .sort((a, b) => a.id.localeCompare(b.id))
-      .slice(0, 40);
-    filings = [];
-    for (const person of town) {
-      if (filings.length >= 3) break;
-      director.watch(core, person.id);
-      const result = fileCandidacy(api, {
-        personId: person.id,
-        contestId: race.id,
-        platform: [],
-      });
-      if (["petitioning", "on-ballot"].includes(result.status ?? ""))
-        filings.push(result.filing);
+      .sort((a, b) => a.id.localeCompare(b.id))) {
+      tried.add(race.id);
+      const clerkId = filingClerkFor(api, race.id)?.personId;
+      const town = [...core.people.values()]
+        .filter(
+          (p) =>
+            p.alive &&
+            p.placeId === townId &&
+            p.id !== core.playerId &&
+            p.id !== clerkId &&
+            !running(p.id) &&
+            !checkEligibility(api, p.id, race.id, null).some((c) => !c.met),
+        )
+        .sort((a, b) => a.id.localeCompare(b.id))
+        .slice(0, 40);
+      filings = [];
+      for (const person of town) {
+        if (filings.length >= 3) break;
+        director.watch(core, person.id);
+        // The log keeps a private record only for the people in focus.
+        core.focusPersonIds.add(person.id);
+        const result = fileCandidacy(api, {
+          personId: person.id,
+          contestId: race.id,
+          platform: [],
+        });
+        if (["petitioning", "on-ballot"].includes(result.status ?? ""))
+          filings.push(result.filing);
+      }
+      if (filings.length >= 2) {
+        contest = race;
+        break;
+      }
     }
-    if (filings.length >= 2) {
-      contest = race;
-      break;
-    }
+    if (!contest) advanceCore(core, addDays(makeIsoDate(core.date), 7));
   }
   if (!contest) return { done: false, note: `${where}: fewer than two filers` };
   gatherSignatures(core, ...filings.map((f) => f.id));
+  // Everyone else running for the seat is followed too: whoever wins the
+  // count, a resident who filed on their own among them, has their night.
+  advanceCore(core, addDays(makeIsoDate(contest.electionDate), -1));
+  for (const row of ballot(api, contest.id)) {
+    director.watch(core, row.personId as PersonId);
+    core.focusPersonIds.add(row.personId as PersonId);
+  }
   // The call is played the night the count comes in, as in play.
   advanceCore(core, makeIsoDate(contest.electionDate));
   for (let day = 0; day < 3 && !resultOf(api, contest.id); day += 1)
@@ -94,11 +124,8 @@ const run = (drawSeed: string): { done: boolean; note: string } => {
   const loser = Object.entries(totals)
     .filter(([id]) => id !== result.winnerId && core.people.has(id))
     .sort((x, y) => y[1] - x[1])[0]?.[0] as PersonId | undefined;
-  if (!loser || !filings.some((f) => f.personId === loser))
-    return { done: false, note: `${where}: the runner-up is not a filer here` };
+  if (!loser) return { done: false, note: `${where}: no runner-up` };
   const winner = result.winnerId as PersonId;
-  if (!filings.some((f) => f.personId === winner))
-    return { done: false, note: `${where}: the winner is not a filer here` };
   const here = `${where}: ${winner}`;
   const entry = director.ledger.people
     .get(winner)
