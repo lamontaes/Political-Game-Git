@@ -2,7 +2,7 @@
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
-import { seatView } from "../bench/legislature";
+import { seatAct, seatView } from "../bench/legislature";
 import { buildBenchWorld } from "../bench/world";
 import { billCatalog } from "./bill-catalog";
 import { setBookkeeping } from "./bookkeeping";
@@ -91,6 +91,16 @@ for (const place of places) {
               unit: law!.unit,
               recordId: law!.id,
             });
+            const acted = seatAct(core, resident!.personId!, {
+              kind: "draft",
+              officeId: office.id,
+              series,
+              value: 2,
+            });
+            const section = billSections(api, acted)[0]!;
+            expect(section.before.lawId).toBe(law!.id);
+            expect(section.before.value).toBe(law!.value);
+            expect(section.after.unit).toBe(item!.unit);
           }
         }
         continue;
@@ -151,6 +161,32 @@ for (const place of places) {
           expect(shown!.today?.unit).toBe(paper.before.unit);
           if (ownTax?.value !== null && ownTax?.unit)
             expect(shown!.today?.unit).toBe(ownTax.unit);
+          for (const amounts of [
+            { value: 2 },
+            {
+              steps: [
+                { value: 2, effectiveDate: "2027-01-01" },
+                { value: 3, effectiveDate: "2028-01-01" },
+              ],
+            },
+          ]) {
+            const acted = seatAct(core, resident!.personId!, {
+              kind: "draft",
+              officeId: office.id,
+              series: "income-tax",
+              ...amounts,
+            });
+            const actual = billSections(api, acted);
+            expect(actual[0]!.before).toEqual(paper.before);
+            for (const section of actual) {
+              expect(section.after.unit, acted.id).toBe(taxCard!.unit);
+            }
+            if (amounts.steps) {
+              expect(actual[1]!.before.value).toBe(2);
+              expect(actual[1]!.before.unit).toBe(actual[0]!.after.unit);
+              expect(actual[1]!.after.value).toBe(3);
+            }
+          }
           draftCardsChecked++;
         }
       }

@@ -240,8 +240,10 @@ export function seatAct(
 ) {
   const api = coreAPI(core);
   if (input.kind !== "draft") throw new Error("Unknown act from your seat.");
-  if (!bodiesOf(core, personId).some((b) => b.officeId === input.officeId))
-    throw new Error("You don't sit on that body.");
+  const body = bodiesOf(core, personId).find(
+    (b) => b.officeId === input.officeId,
+  );
+  if (!body) throw new Error("You don't sit on that body.");
   const sectionOf = (value: number | undefined): Provision =>
     input.line
       ? { kind: "budget-line", line: input.line, value: value ?? 0 }
@@ -251,9 +253,9 @@ export function seatAct(
             series: input.series,
             value: value ?? 0,
             unit:
-              lawHere(api, undefined, [input.series]).find(
-                (row) => row.series === input.series,
-              )?.unit ?? undefined,
+              menusFor(api, body.level, input.officeId!)
+                .flatMap((menu) => menu.items)
+                .find((row) => row.series === input.series)?.unit ?? undefined,
           }
         : {
             kind: "policy-question",

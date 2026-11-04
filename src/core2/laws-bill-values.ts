@@ -92,7 +92,7 @@ export function billValueInForce(
   }
   return {
     value: row ? row.value : answer.doctrine === "additive" ? 0 : null,
-    unit: row ? row.unit : (subject.unit ?? null),
+    unit: row ? (row.unit ?? null) : (subject.unit ?? null),
     recordId: row?.id ?? null,
     row,
   };
