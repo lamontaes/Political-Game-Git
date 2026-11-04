@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: governing/holders-stand-again
 pr: #7215
 blocked-on:
