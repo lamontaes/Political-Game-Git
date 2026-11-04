@@ -486,10 +486,11 @@ function direction(desiredChange: string): number {
  */
 export function standingWith(
   api: CoreAPI,
-  listener: PersonView,
+  listener: Pick<PersonView, "id" | "lean">,
   speakerId: string,
   topic: string,
   desiredChange: string,
+  countedHearer?: Pick<PersonState, "traits">,
 ): number {
   const speaker = viewOf(api, speakerId);
   const half = v("one") / v("two");
@@ -503,7 +504,7 @@ export function standingWith(
     : half;
   // How far the listener trusts anyone follows their own traits (generalized
   // trust: agreeableness), at the weight fitted to its study.
-  const hearer = api.state.people.get(listener.id);
+  const hearer = countedHearer ?? api.state.people.get(listener.id);
   let trust = nearTrust;
   if (hearer) {
     const lean = decisionLean(
@@ -519,7 +520,7 @@ export function standingWith(
         Math.exp(decisionTraitWeight(api.state, "views.trust") * lean),
     );
     // The audit's probe (off in play) sees the trust with and without the trait term.
-    reportOutcome("views.trust", hearer.id, lean, "size", (withTerm) =>
+    reportOutcome("views.trust", listener.id, lean, "size", (withTerm) =>
       withTerm ? trust : nearTrust,
     );
   }
@@ -769,7 +770,7 @@ export function stanceRow(
 
 /** One heard case, applied by the same rule to a person or a counted group. */
 export interface HeardCase {
-  readonly view: PersonView;
+  readonly view: Pick<PersonView, "id" | "engagement">;
   readonly hearer?: Pick<PersonState, "traits">;
   readonly prior?: Stance;
   readonly event: Pick<CoreEventInput, "id" | "date">;
@@ -780,6 +781,8 @@ export interface HeardCase {
   readonly speakerId?: string;
   readonly learnedFrom?: string;
   readonly keepCauses: boolean;
+  /** Counted audience mass / represented population; full readers use one. */
+  readonly exposure?: number;
 }
 
 export function stanceAfterCase(
@@ -798,6 +801,7 @@ export function stanceAfterCase(
     speakerId,
     learnedFrom,
     keepCauses,
+    exposure = 1,
   } = heardCase;
   const personId = view.id;
   const id = `${personId}:${topic}`;
@@ -831,19 +835,28 @@ export function stanceAfterCase(
       "size",
       (withTerm) => (withTerm ? change : change / yielding),
     );
-  if (change <= v("zero")) return undefined;
+  if (change <= v("zero") || exposure <= v("zero")) return undefined;
   const same = prior?.desiredChange === desiredChange;
-  const strength = Math.min(
+  const fullStrength = Math.min(
     v("one"),
     prior ? (same ? prior.strength + change : prior.strength - change) : change,
   );
+  // An audience count changes the group's mean, without choosing a member.
+  // Mix the reached and unreached masses after the full reader's capped move.
+  const signedBefore = prior ? (same ? prior.strength : -prior.strength) : 0;
+  const signedAfter = prior && !same ? -fullStrength : fullStrength;
+  const signedMean =
+    exposure === 1
+      ? signedAfter
+      : signedBefore + (signedAfter - signedBefore) * exposure;
+  const strength = Math.abs(signedMean);
   return {
     id,
     personId,
     topic,
     // A stance pushed past zero turns toward the new change.
     desiredChange:
-      prior && !same && strength > v("zero")
+      prior && !same && signedMean < v("zero")
         ? prior.desiredChange
         : desiredChange,
     strength: Math.abs(strength),
@@ -861,7 +874,7 @@ export function stanceAfterCase(
       {
         eventId: event.id,
         date: event.date,
-        change,
+        change: change * exposure,
         ...(speakerId ? { speakerId } : {}),
         ...(learnedFrom ? { learnedFrom } : {}),
       },
@@ -871,7 +884,7 @@ export function stanceAfterCase(
       ? {
           heard: {
             ...prior?.heard,
-            ...(speakerId ? { [speakerId]: heard + v("one") } : {}),
+            ...(speakerId ? { [speakerId]: heard + exposure } : {}),
           },
         }
       : {}),
@@ -884,6 +897,7 @@ export const viewsModule: CoreModule = {
     schemaVersion: 1,
     tables: {
       people: {},
+      countedStances: { indexes: { byGroup: { fields: ["groupId"] } } },
       openings: { indexes: { byPerson: { fields: ["personId"] } } },
       stances: {
         indexes: {
@@ -974,3 +988,10 @@ export const viewsModule: CoreModule = {
     }
   },
 };
+
+export {
+  countedNewsGroups,
+  countedNewsConcern,
+  hearCountedNews,
+  type CountedNewsAudience,
+} from "../counted-news-views";

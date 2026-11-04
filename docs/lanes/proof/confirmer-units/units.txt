@@ -1,0 +1,29 @@
+L1|7142|-|src/core2/counted-vote-share.test.ts src/core2/two-level-elections.test.ts
+L1|7085|08e2f825ba118ac8|src/bench/one-council-race.test.ts src/bench/filing-intro.test.ts src/bench/filing-counter-petition.test.ts
+L1|7135|-|src/core2/press-staff.test.ts
+L1|7150|-|src/bench/filing-one-deadline.test.ts
+L1|7156|96f34b32a90f7079|src/bench/local-filing-officer.test.ts
+L1|7163|-|src/core2/door-pledge.test.ts
+L1|7165|-|src/core2/legislature-ask-reaches-roll.test.ts src/director/ask-before-the-roll.test.ts src/director/one-sponsor-one-evening-staged.test.ts
+L1|7166|-|src/bench/phase-in.test.ts
+L1|7167|-|src/bench/office-two-stakes.test.ts
+L1|7154|3e569f4194a9e160|src/core2/petition-town-size.test.ts
+L1|7168|-|src/core2/filing-window.test.ts
+L1|7169|-|src/bench/office-desk.test.ts
+L1|7170|-|src/core2/emergency-declaration.test.ts
+L1|7171|cm-1|src/core2/campaigns.test.ts
+L1|7174|-|src/core2/record.test.ts
+L1|7175|-|src/core2/favor-called-in.test.ts
+L1|7215|-|src/core2/candidacy.test.ts
+L1|7239|-|src/core2/elections-law.test.ts
+L2|7143|ed0fcb9d5fe8c4fc405921ee692d31ba212d34a236b449fb2c63040a79e143bb|src/core2/m0-life-at-18.test.ts src/core2/opening-parent-birthdays.test.ts
+L2|7147|-|src/core2/housing-coverage.test.ts
+L2|7153|c62f44a716f82f64|src/core2/unemployment-share.test.ts
+L2|7157|b37762f4-7895-40f5-8d83-0634db5b60cb|src/core2/sibling-names.test.ts
+L2|7160|e25e0b67dfb8fa1a|src/core2/lobbying-departure.test.ts
+L2|7162|2fa4d8f150b51d99|src/core2/law-took-effect-superseded.test.ts
+L2|7164|fb1831bebc2a4db0|src/core2/opening-treasuries.test.ts
+L2|7189|6e32d4b3c4eb3d6e|src/core2/housing-ready-at-opening.test.ts
+L2|7217|-|src/core2/official-pay-return.test.ts
+L2|7222|-|src/core2/opening-treasury-json.test.ts
+L2|7243|-|src/core2/housing-paid-mortgage.test.ts

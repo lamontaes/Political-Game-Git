@@ -1,0 +1,31 @@
+main 7898b3ea2c lanes: Confirmer replays Lane 1 path 1 after #7239: council race now in 2025; fails at the pooled at-large race
+L1 #7142 exit 0 291s
+L1 #7085 exit 0 109s
+L1 #7135 exit 1 144s
+L1 #7150 exit 0 58s
+L1 #7156 exit 0 363s
+L1 #7163 exit 1 234s
+L1 #7165 exit 0 554s
+L1 #7166 exit 0 72s
+L1 #7167 exit 0 29s
+L1 #7154 exit 0 16s
+L1 #7168 exit 0 28s
+L1 #7169 exit 0 36s
+L1 #7170 exit 0 465s
+L1 #7171 exit 0 59s
+L1 #7174 exit 0 24s
+L1 #7175 exit 0 58s
+L1 #7215 exit 0 22s
+L1 #7239 exit 1 27s
+L2 #7143 exit 0 21s
+L2 #7147 exit 0 30s
+L2 #7153 exit 0 16s
+L2 #7157 exit 0 40s
+L2 #7160 exit 0 26s
+L2 #7162 exit 0 99s
+L2 #7164 exit 0 76s
+L2 #7189 exit 0 63s
+L2 #7217 exit 0 61s
+L2 #7222 exit 0 50s
+L2 #7243 exit 0 116s
+ALLDONE

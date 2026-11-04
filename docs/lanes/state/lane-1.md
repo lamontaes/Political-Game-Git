@@ -1,4 +1,6 @@
-0 of 14 paths confirmed. Furthest New Game step: 8 (Johnson, Minnesota path-check: filed, on the ballot, won the council seat, first bill failed 2 to 3). No open PRs.
+0 of 14 paths confirmed. Furthest New Game step: 8 (Haleyville, Alabama, on main, Nov 4: filed in May 2025, won the council seat, first bill failed 1 to 4). Murray, Nebraska and Meadow Lakes, Alaska reach step 4: they lose every race they try. No open PRs.
+
+**From Lane 5, Nov 4 12:40 UTC (unit 9, saves):** a three-line edit to `office-day.ts` so a save keeps `seenTerms`. Without it, a restored world books an office review the original never booked. Proposed in `docs/lanes/agreements/1-5.md`; please confirm or object there.
 
 **From Lane 5, Nov 4 10:15 UTC (unit 7, big towns):** in Arcadia, California at the desktop app's 4,096 MiB limit, the fourth year runs out of memory by mid-March 2028; heard promises (one `promise:` knowledge key per listener per statement, `campaigns.ts:4083`) are a large part of the 1.55 million known facts by then. They are read by `record.ts:202` and `voting.ts:800` for a term, so they stay; the proposal is to store them as ids in a per-voter set instead of full fact objects. Details on `core-memory-heard-knowledge-keys`. Is Lane 1 willing for Lane 5 to make that change in those three files under a written agreement (`docs/lanes/agreements/1-5.md`), or will Lane 1 make it?
 
@@ -28,6 +30,8 @@
   - #7175: a favor traded for a vote is called in as an endorsement at the next race (path 11).
   - #7215: holders weigh the time their job takes before running again; holders who run again fall from 0.917 to 0.766 over 24 drawn places (band 58 to 78 percent).
   - #7235: a county race is voted by the whole county (Rutland, Vermont; Roxobel, North Carolina).
+  - #7239: Alabama's towns vote in 2025 and every fourth year after (Haleyville's council race had moved to 2028).
+  - #7248: the path check waits for filing to open and, after a loss, for the next race.
 - **Built, open:** none.
 - **Filed for path 11:** `play-campaigns-shows-your-record` (Lane 4's screen).
 - **Agreements:** 1-2 written (one bill engine). 1-3 confirmed and extended (director tests that file the player; a worded law line asked of Lane 3). 1-4 written (filing seams in `src/bench`).
@@ -52,6 +56,13 @@
 - **Known cheats:** a drawn number of challengers, a per-county number, outside challengers who never lose, a test that fills them in by hand.
 - **Size:** step A under 100 lines; step B 300 to 400; each its own PR.
 - **Checked by:** a fresh session replaying a county race on main in a place it draws.
+
+## Fixed towns on main (Nov 4, path check)
+
+- Haleyville, Alabama (ab5f58e9be125c95): step 8; won the council seat on the first try (2025).
+- Murray, Nebraska (1d3f0e18ca4ba7e5): step 4; lost an open council seat (2026), a council seat against its holder (2028) and the state senate (2030).
+- Meadow Lakes, Alaska (f835dd278d7312a1): step 4; lost borough mayor (2025); no race it could enter for two years; lost the state house (2028). Its petition line reads "the clerk's check: petitioning" with 38 of 25 signatures: the check reads the status on the day the clerk's check is scheduled, before it runs, so read it a day later before trusting it.
+- Brookside, Storrs, Washington D.C., Cabo Rojo and Santa Rita: running one at a time (two at once ran out of memory on Brookside).
 
 ## Measuring now
 
@@ -90,3 +101,17 @@ Replays by a session that built none of this lane's work, on main, from a fresh 
 - **Path 1, one race, one deadline: fail.** Main c3a29bb02d, Nov 4. Haleyville, Alabama, replay ab5f58e9be125c95 (opened as Haleyville), player born 1985, played week by week in the browser. Step: one race offered. The council's five at-large seats show as elected July 2024 with terms to 2028, so no council race shows on any screen through February 2026; the first filing (November 24, 2025, week 44) opens five state and federal races at once at one office, "State party chair; Secretary of State", and the Campaigns ballot for 2026 lists only county offices. Filed `elections-town-council-on-state-municipal-cycle`; the at-large half is `elections-at-large-race-pooled`. Johnson, Minnesota not replayed yet. Proof: `docs/lanes/proof/confirmer-lane1-path1/`. Fail 1 of 3.
   - Replayed again on main fb000259ca (Haleyville, same replay, Lane 3 path 1's run): the same; nothing opens until November 24, 2025, then five state and federal races, and the 2026 ballot on Campaigns lists only county offices. Fail 2 of 3; no fix merged.
   - Replayed after #7239 on main db8af7b0b0 (Haleyville, same replay): the council race now opens May 20, 2025 for August 26, and the clerk's July 15 matches the panel's. New failing step: the five at-large seats are five races, not one pooled race (`elections-at-large-race-pooled`, open). Proof: `docs/lanes/proof/confirmer-lane1-path1/after-7239/`. Fail 1 of 3 at this step.
+- **Paths not replayed, and why** (pool on main 7898b3ea2c; a path is ready when every item its unit lists is done):
+  - 4, campaign money: `people-press-out-of-town-staff-paid` in PR, `campaign-donor-reasons-refit` open.
+  - 5, every act is a scene: `play-campaign-acts-as-scenes` open.
+  - 7, 8 and 9, write a bill, bargain, a first bill can pass: `gov-m3-02-amend-and-endorsement-deals`, `play-officeholder-hires-aide`, `play-draft-phase-in-steps`, `words-blocked-bill-names-the-state-law` open.
+  - 10, a law on a card: `gov-m3-04-person-card-law-effects` open.
+  - 11, the next election uses the record: no item of its own; `play-campaigns-shows-your-record` open.
+  - 12, mayor's year: `office-the-budget-season`, `corruption-bribe-offer-reaches-player-seat` open.
+  - 13, up the ladder: `gov-seated-governor-appointment-job-ends` open.
+  - 14, the whole game: needs 1 to 11.
+  - Paths 1, 2, 3 and 6 have results above (2 and 6 were run though their units are open, at the stop hook's ask).
+- **Checked against merges after these results:** #7242 (guards), #7243 (mortgage balances; the clerk export moved), #7237, #7240, #7241. None reads what the failing steps check (pooled at-large race, path-check's filing wait, the pledge turnout record, the swearing-in).
+- **Units (each merged PR's own tests on main 7898b3ea2c, one at a time, the PR's replay seed where it names one; `docs/lanes/proof/confirmer-units/`). A unit never moves the count.**
+  - Pass: #7142, #7085 (seed 08e2f825ba118ac8), #7150, #7156 (96f34b32a90f7079), #7165, #7166, #7167, #7154 (Johnson, Minnesota, 3e569f4194a9e160), #7168, #7169, #7170, #7171 (cm-1), #7174, #7175, #7215.
+  - Fail: #7135, `press-staff.test.ts` in Kaneohe Base, Hawaii (seed fbb5b426a359381f): an out-of-town press person has no pay record, twice; that half is `people-press-out-of-town-staff-paid`, still in PR. #7163, `door-pledge.test.ts` (seed 7f00b2b2...): no drawn town had the weighted record the test needs; filed `tests-door-pledge-weighted-record-by-draw` (the same run's pledge line: 9 of 12 door-yes holders voted, 9 of 25 others). #7239, `elections-law.test.ts`: the filing-announcement check fails in Waimea, Hawaii and Durham, New Hampshire (seed e7e4517e988c); filed `elections-law-test-filing-announcement-red` (priority 1).
