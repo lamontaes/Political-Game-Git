@@ -5,9 +5,9 @@ area: director
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: done
 claimed-by: lane3/reporter-on-vote
-pr:
+pr: #7191
 blocked-on:
 source: "words-and-scenes lead, Oct 27, scene web press pass (packet the-reporter-calls-for-comment)"
 lead: director

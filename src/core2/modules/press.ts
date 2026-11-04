@@ -131,6 +131,8 @@ import {
   type DeskContext,
   type PrintedStory,
 } from "../press-desk";
+// The press desk's own story record, read by the director through this entry.
+export { PRESS_STORY_EVENT } from "../press-desk";
 import { newsKey, storiesHeard, type Story } from "./news";
 import { worldLevel } from "../world-draw";
 

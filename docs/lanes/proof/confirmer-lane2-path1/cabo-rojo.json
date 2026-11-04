@@ -1,0 +1,36 @@
+{
+ "town": "cabo-rojo",
+ "replay": "f857db7436bf7449",
+ "newlifeURL": "http://localhost:3000/api/newlife?seed=f857db7436bf7449&date=&placeKey=7209861&person=%7B%22givenName%22%3A%22Emily%22%2C%22familyName%22%3A%22Carter%22%2C%22gender%22%3A%22female%22%2C%22birthYear%22%3A2006%2C%22birthMonth%22%3A7%2C%22birthDay%22%3A16%2C%22recipe%22%3A%7B%22person%22%3A%22woman-heavy%22%2C%22outfit%22%3A%22everyday%22%2C%22work%22%3A%22pantsuitnavy%22%2C%22colors%22%3A%7B%22top%22%3A%22denim%22%2C%22trousers%22%3A%22brown%22%2C%22shoes%22%3A%22white%22%2C%22hair%22%3A%22dark+brown%22%7D%7D%7D",
+ "place": "Cabo Rojo, Puerto Rico",
+ "player": "person_1d329be36ac6c1d9",
+ "clock": "Monday, January 20, 2025\n8:30 PM",
+ "backdrop": [
+  "http://localhost:3000/art/backdrops/apartment-student-shared__night.jpg"
+ ],
+ "money": "Money and property\nCASH AVAILABLE\n$1,510\nHOME\nRENTED\nApartment\nRent $352 per month",
+ "pageErrors": [],
+ "httpErrors": [],
+ "cards": [
+  {
+   "label": "Rowan Carter\nson",
+   "text": "Rowan Carter\n\nSon \u00b7 Age 1\n\nLives with you\n\nHe doesn't back down from a fight. He'll take a chance most people wouldn't.\n\nHOME\nCabo Rojo, Puerto Rico\nHISTORY\n2023\n\nBorn in Cabo Rojo, Puerto Rico."
+  },
+  {
+   "label": "Elijah Carter\nson",
+   "text": "Elijah Carter\n\nSon \u00b7 Age 2\n\nLives with you\n\nHe loves being around people. He'll take a chance most people wouldn't.\n\nHOME\nCabo Rojo, Puerto Rico\nHISTORY\n2022\n\nBorn in Cabo Rojo, Puerto Rico."
+  },
+  {
+   "label": "Cora Molina\nmother",
+   "text": "Cora Molina\n\nMother \u00b7 Age 47\n\nShe acts on impulse. She'll take a chance most people wouldn't. She doesn't back down from a fight.\n\nHOME\nCabo Rojo Municipio, Puerto Rico\nHISTORY\n1977\n\nBorn.\n\n2003\n\nLauren Molina was born.\n\n2006\n\nYou were born."
+  },
+  {
+   "label": "Joshua Molina\nfather",
+   "text": "Joshua Molina\n\nFather \u00b7 Age 50\n\nHe acts on impulse. He would rather find common ground than fight.\n\nHOME\nCabo Rojo Municipio, Puerto Rico\nHISTORY\n1974\n\nBorn.\n\n2003\n\nLauren Molina was born.\n\n2006\n\nYou were born."
+  },
+  {
+   "label": "Lauren Molina\nsister",
+   "text": "Lauren Molina\n\nSister \u00b7 Age 21\n\nShe acts on impulse. She'll take a chance most people wouldn't.\n\nHOME\nCabo Rojo Municipio, Puerto Rico\nHISTORY\n2003\n\nBorn."
+  }
+ ]
+}

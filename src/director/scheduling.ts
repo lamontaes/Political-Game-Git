@@ -127,7 +127,9 @@ export interface SituationType {
   /**
    * What the repeat window tells scenes apart by besides the cast: "bill"
    * for a scene about one bill (a vote asked for), so the same two people
-   * about another bill on a later day is a new scene.
+   * about another bill on a later day is a new scene; "cause" for a scene
+   * about one record (a reporter's call), so the same reporter calling about
+   * a bill's vote after its introduction is a new scene.
    */
   repeatsBy?: string;
   /** The decision the scene is for, when it has one ("ballot": the vote is cast here). */
@@ -787,14 +789,18 @@ export function scheduleMoment(
   // A type whose scene is about one bill (a vote asked for) repeats by the
   // bill: on an earlier day in the window the same people about another bill
   // is a new scene; the same day still folds into one sitting.
-  const byBill = (row: SceneBinding) =>
-    library.types.find((type) => type.key === row.typeKey)?.repeatsBy ===
-    "bill";
+  const repeatsBy = (row: SceneBinding) =>
+    library.types.find((type) => type.key === row.typeKey)?.repeatsBy;
+  const causeOf = (momentId: string) =>
+    book.momentsById.get(momentId)?.causeId ?? "";
   const billOf = (momentId: string) =>
-    core.durableLog.get(book.momentsById.get(momentId)?.causeId ?? "")?.facts
-      ?.billId ?? "";
+    core.durableLog.get(causeOf(momentId))?.facts?.billId ?? "";
   const windowKey = (row: SceneBinding, momentId: string) =>
-    byBill(row) ? `${castOf(row)}|${billOf(momentId)}` : castOf(row);
+    repeatsBy(row) === "bill"
+      ? `${castOf(row)}|${billOf(momentId)}`
+      : repeatsBy(row) === "cause"
+        ? `${castOf(row)}|${causeOf(momentId)}`
+        : castOf(row);
   const sittingToday = new Set(
     book.schedule
       .filter(

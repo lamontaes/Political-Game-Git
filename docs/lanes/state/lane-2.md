@@ -1,4 +1,4 @@
-0 of 14 paths confirmed. Oldest open PR 0 days.
+1 of 14 paths confirmed. Oldest open PR 0 days.
 
 # Lane 2 state — November 4, 2026
 
@@ -80,3 +80,16 @@ Machine qualification passed: full 8.3 GB checkout, offline install, Chromium Ne
 Automatic review rejected an earlier manual direct-main metadata push because it bypassed the PR/merge-desk workflow. It never executed; the manual edits were restored. Official pool CLI metadata operations were separately approved and used. No force push, rewritten history or own PR merge.
 
 Earlier chronological records and detailed trial/test outputs remain at [state before condensation](https://github.com/lamontaes/Political-Game-Git/blob/e0c1792520/docs/lanes/state/lane-2.md), plus the linked unit proofs. This file is condensed to keep the current plan and evidence reviewable; no failed run is converted to a pass.
+
+Current checkout: lane-2/homes-at-opening. The counted-news corrected behavior and New Game passed, with its corrected timing still pending; no benchmark is currently running. The branch retains the other active cards and guard-agreement requests. The latest state supersedes old scheduling notes without changing any path’s verification status.
+
+First timing pair, Camas MT / d985ed7523676597, main 8801f11542 versus runtime 44e8527dd1 on host 4c46091479ea: base 12.0/16.5/14.3/23.3s; head 12.5/17.6/17.4/23.7s. Year three fails the relative limit by 1.68 percentage points (+21.68%); all years are below 120s. Recorded as failure 1, not a pass. A second serial pair on the identical replay will resolve the small disputed timing; no seed change or assertion change. Source is restored. The baseline substitutes only housing.ts from pinned main; raw JSON head names the feature checkout and sourceMain is null, so it is a controlled-source baseline, not a raw main checkout.
+
+Housing timing repeat passes: same Camas MT / d985ed7523676597, base 13.3/15.6/14.0/22.1s versus 12.6/16.9/15.0/22.7s, maximum +8.33%; all under 120s. Both base runs have identical records, as do both feature runs. The first pair’s year-three failure remains in the proof. Housing is ready for its small PR and independent main opening; first-minutes eight-town proof is next after merge. Bill-reader state-catalog gap is routed to Lane 1 on #7174 comment 6623529420; no unagreed eligibility or enactment edit. Main has since added the sibling identity guard classification; the earlier counted guard result remains a result on its pinned source, not a claim about current main.
+
+## Confirmer
+
+Replays by a session that built none of this lane's work, on main, from a fresh New Game. Only this section is the Confirmer's.
+
+- **Path 1, first minutes: pass.** Main 783974f6, Nov 4 06:29 to 06:37 UTC. All eight fixed towns, each at its replay number (Haleyville ab5f58e9be125c95, Murray 1d3f0e18ca4ba7e5, Meadow Lakes f835dd278d7312a1, Brookside 4d50e1f88df997f9, Storrs storrs-1, Washington, D.C. dc-closures-a, Cabo Rojo f857db7436bf7449, Santa Rita 6f539fcfdf6d96f9-5); each printed the town it was asked for. In the browser: no sibling named Emily (the player's name) in any town; no parent younger than 15 at a child's birth (youngest seen: a grandmother at 16 in D.C., a mother at 17 in Storrs); the room matches the home on Money in every town (rented mobile home and trailer room in Haleyville, rowhouse and rowhouse room in D.C., apartments and apartment rooms in Brookside and Cabo Rojo, houses and the house living room elsewhere). No page errors, no failed requests, no day advanced. Proof: `docs/lanes/proof/confirmer-lane2-path1/` (README, room, People and Money screenshots, the cards per town).
+  - Seen for the owner's look, not a fail: Cabo Rojo's 18-year-old mother of two gets the student shared-apartment room; Haleyville's mother reads "Police Chief" at "CITY OF HALEYVILLE treasury".
