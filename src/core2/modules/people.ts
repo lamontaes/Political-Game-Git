@@ -156,6 +156,7 @@ function tiedTo(api: CoreAPI, actorId: PersonId): ReadonlySet<PersonId> {
 
 // The one reader of a person's relatives, for readers outside the family.
 export {
+  CLOSENESS,
   closenessBetween,
   familyFactsOf,
   familyRelation,

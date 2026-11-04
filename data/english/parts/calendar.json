@@ -5,7 +5,8 @@
   "slots": {
     "name": "A family member's full name, from their person record.",
     "office": "The contest's recorded office title.",
-    "count": "How many seats of that office share the date, from the contest rows."
+    "count": "How many seats of that office share the date, from the contest rows.",
+    "body": "A town or county body's recorded office title (its council or board)."
   },
   "maxWords": 12,
   "parts": [
@@ -128,6 +129,123 @@
       "date": "2026-10-27",
       "kind": "written",
       "own": true
+    },
+    {
+      "key": "calendar.meeting.1",
+      "move": "meeting",
+      "text": "The {body} meets",
+      "origin": "authored",
+      "author": "the play-first lane",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "calendar.holiday.new-years-day",
+      "move": "holiday",
+      "text": "New Year's Day",
+      "origin": "authored",
+      "author": "the play-first lane",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "calendar.holiday.martin-luther-king-day",
+      "move": "holiday",
+      "text": "Martin Luther King Jr. Day",
+      "origin": "authored",
+      "author": "the play-first lane",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "calendar.holiday.washingtons-birthday",
+      "move": "holiday",
+      "text": "Washington's Birthday",
+      "origin": "authored",
+      "author": "the play-first lane",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "calendar.holiday.memorial-day",
+      "move": "holiday",
+      "text": "Memorial Day",
+      "origin": "authored",
+      "author": "the play-first lane",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "calendar.holiday.juneteenth",
+      "move": "holiday",
+      "text": "Juneteenth",
+      "origin": "authored",
+      "author": "the play-first lane",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "calendar.holiday.independence-day",
+      "move": "holiday",
+      "text": "Independence Day",
+      "origin": "authored",
+      "author": "the play-first lane",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "calendar.holiday.labor-day",
+      "move": "holiday",
+      "text": "Labor Day",
+      "origin": "authored",
+      "author": "the play-first lane",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "calendar.holiday.columbus-day",
+      "move": "holiday",
+      "text": "Columbus Day",
+      "origin": "authored",
+      "author": "the play-first lane",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "calendar.holiday.veterans-day",
+      "move": "holiday",
+      "text": "Veterans Day",
+      "origin": "authored",
+      "author": "the play-first lane",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "calendar.holiday.thanksgiving-day",
+      "move": "holiday",
+      "text": "Thanksgiving Day",
+      "origin": "authored",
+      "author": "the play-first lane",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "calendar.holiday.christmas-day",
+      "move": "holiday",
+      "text": "Christmas Day",
+      "origin": "authored",
+      "author": "the play-first lane",
+      "date": "2026-11-01",
+      "kind": "written"
+    },
+    {
+      "key": "calendar.holiday.inauguration-day",
+      "move": "holiday",
+      "text": "Inauguration Day",
+      "origin": "authored",
+      "author": "the play-first lane",
+      "date": "2026-11-01",
+      "kind": "written"
     }
   ]
 }
