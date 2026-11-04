@@ -739,6 +739,34 @@ function town(api: CoreAPI) {
   };
 }
 
+/**
+ * The contests of a body's at-large seats held on one contest's day, in
+ * seat order: the same office, the same election day, seats without a
+ * district, no special election and no primary. One contest alone where the
+ * seat isn't at large or is up by itself.
+ */
+export function atLargeGroup(
+  api: CoreAPI,
+  contest: ContestRow,
+): readonly ContestRow[] {
+  const seatsTable = api.moduleState(OFFICES_MODULE_ID).table("seats");
+  const atLarge = (row: ContestRow) =>
+    !row.special &&
+    !row.primaryDate &&
+    !(seatsTable.get(row.seatId) as { district?: string | null } | undefined)
+      ?.district;
+  if (!atLarge(contest)) return [contest];
+  const group = (
+    api
+      .moduleState(ELECTIONS_MODULE_ID)
+      .table("contests")
+      .query("byOffice", [contest.officeId]) as unknown as ContestRow[]
+  )
+    .filter((row) => row.electionDate === contest.electionDate && atLarge(row))
+    .sort((a, b) => a.seatId.localeCompare(b.seatId, "en", { numeric: true }));
+  return group.length > 1 ? group : [contest];
+}
+
 /** Contests whose filing is open today, soonest deadline first. */
 export function openContests(api: CoreAPI): readonly ContestRow[] {
   const today = api.state.date;

@@ -58,6 +58,7 @@ import {
   type ContestRow,
   type FilingRow,
   type OfficeFamily,
+  atLargeGroup,
 } from "./elections";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import {
@@ -796,6 +797,18 @@ export function weighContest(
     if (term?.status === "serving" && term.personId)
       committed.add(term.personId);
   }
+  // An at-large race is one race: those already running for its other seats
+  // are in the field each would-be candidate weighs (the same field term).
+  const weighedTable = api.moduleState(CANDIDACY_MODULE_ID).table("weighed");
+  const raceRunners = atLargeGroup(api, contest)
+    .filter((other) => other.id !== contest.id)
+    .reduce(
+      (n, other) =>
+        n +
+        ((weighedTable.get(other.id) as unknown as WeighedContest | undefined)
+          ?.runIds.length ?? 0),
+      0,
+    );
   const weighs = (p: PersonState) =>
     p.alive &&
     (p.placeId === town.townPlaceId || pool.has(p.id)) &&
@@ -833,7 +846,7 @@ export function weighContest(
   if (rank <= localRank || wide) {
     const screen = countedScreen(
       api,
-      field,
+      { ...field, runners: raceRunners },
       town.townPlaceId,
       rules.minimumAge,
     );
@@ -856,7 +869,7 @@ export function weighContest(
     const decision = decideToRun(
       api,
       person.id,
-      { ...field, runners: running.length },
+      { ...field, runners: running.length + raceRunners },
       reconsider,
     );
     if (!decision) continue;
