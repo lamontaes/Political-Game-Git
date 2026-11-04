@@ -5,11 +5,12 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane-4/menus
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T09:44:51.986Z
 ---
 
 **What.** Path 11 (docs/lanes/lane-4.md): every rail menu at 1440x900 and 1024x768, no scrolling. Measured on main Nov 4 in Meadow Lakes AK, Storrs CT, Murray NE and Haleyville AL: Parties' side (In office pushed under a tray of join buttons) and Government's side (recent votes over the mayor) run past their foot at 1024x768; News' paper scrolls at both sizes (the lead's photo, body and briefs); Issues at 1024x768 in some towns. Budgets at 1024x768 runs over by 13px, but its layout waits on the owner's answer to the Nov 1 mocks.
