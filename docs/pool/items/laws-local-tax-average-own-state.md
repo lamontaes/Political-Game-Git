@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: lane-2/law-chain-reader
 pr: #7251
 blocked-on:
