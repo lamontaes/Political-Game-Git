@@ -5,7 +5,7 @@ area: play
 kind: feature
 priority: 3
 size: L
-status: in-pr
+status: done
 claimed-by: play-first/play-m6-01-the-opening
 pr: #7105
 blocked-on:
