@@ -53,6 +53,7 @@ import {
   fileCandidacy,
   filingRulesFor,
   checkEligibility,
+  filingWindowOpens as electionsFilingWindowOpens,
   officeFamily,
   type ContestRow,
   type FilingRow,
@@ -555,12 +556,9 @@ function addDays(date: string, days: number): string {
     .slice(0, 10);
 }
 
-/** The day a contest's filing window opens: the record's date, else a window before the deadline. */
-export function filingWindowOpens(api: CoreAPI, contest: ContestRow): string {
-  return (
-    contest.filingOpens ??
-    addDays(contest.filingDeadline, -c(api, "candidacyFilingWindowDays"))
-  );
+/** The day a contest's filing window opens: the elections engine's one rule (`elections.ts`). */
+export function filingWindowOpens(_api: CoreAPI, contest: ContestRow): string {
+  return electionsFilingWindowOpens(contest);
 }
 
 /**

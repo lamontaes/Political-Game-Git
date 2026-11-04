@@ -21,6 +21,7 @@ import {
   checkEligibility,
   fileCandidacy,
   filingOfficeFor,
+  filingWindowOpen,
   incumbentOf,
   playerContests,
   playerMayFileFor,
@@ -435,10 +436,9 @@ export function localRaces(core: CoreState) {
         electionDate: contest.electionDate,
         filingDeadline: contest.filingDeadline,
         filingClosed: contest.filingDeadline < core.date,
-        // Filing is open today: the office takes a filing for it.
-        filingOpen:
-          (contest.filingOpens === null || contest.filingOpens <= core.date) &&
-          contest.filingDeadline >= core.date,
+        // Filing is open today: the office takes a filing for it, by the
+        // elections engine's one window (`filingWindowOpen`).
+        filingOpen: filingWindowOpen(contest, core.date),
         // Where a filing for it is made, for the hot link to the office.
         filedWith: office?.filedWith ?? null,
         // Whether the player may run for it (the offices the player runs
