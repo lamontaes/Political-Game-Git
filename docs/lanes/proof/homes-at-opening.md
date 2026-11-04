@@ -28,3 +28,5 @@ Unchanged housing-coverage.test.ts passes in Norcross, Minnesota, replay b2, wor
 ## Remaining qualification
 
 Four-week New Game passes in Glezen, Indiana / 32caaca9e520d6ff, player person_610b7ad5102ea53d, every request HTTP 200. Changed-file ESLint and formatting pass. Serial four-year base/head timing follows; no timing pass is claimed yet.
+
+First timing pair, Camas MT / d985ed7523676597, main 8801f11542 versus runtime 44e8527dd1 on host 4c46091479ea: base 12.0/16.5/14.3/23.3s; head 12.5/17.6/17.4/23.7s. Year three fails the relative limit by 1.68 percentage points (+21.68%); all years are below 120s. Recorded as failure 1, not a pass. A second serial pair on the identical replay will resolve the small disputed timing; no seed change or assertion change. Source is restored. The baseline substitutes only housing.ts from pinned main; raw JSON head names the feature checkout and sourceMain is null, so it is a controlled-source baseline, not a raw main checkout.
