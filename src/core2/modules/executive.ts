@@ -55,7 +55,7 @@ import { startPublicJob } from "../public-payroll";
 import { parameter } from "../parameters";
 import { medianTransactionBalance } from "../starting-cash";
 import { filingRequirements } from "./elections";
-import { localClerkFor } from "./filing-clerk";
+import { localClerkFor } from "./candidacy";
 import { pairKey } from "../kernel/ids";
 
 export const EXECUTIVE_MODULE_ID = "core2-executive-v1";

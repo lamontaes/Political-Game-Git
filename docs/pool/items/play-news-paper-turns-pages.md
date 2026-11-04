@@ -5,11 +5,12 @@ area: play
 kind: feature
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: lane-4/paper-pages
+pr: #7238
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T11:28:19.884Z
 ---
 
 **What.** To fit without scrolling (screens-menus-never-scroll), the News front page shrinks its lead photo and, when still too long, hides the last briefs and stories after the lead. Those stories are then not on screen that day. The shared pager (ui/pager.mjs) could turn the paper's pages instead.

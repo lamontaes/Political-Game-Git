@@ -1,4 +1,4 @@
-0 of 14 paths confirmed. Furthest New Game step: 8 (Johnson, Minnesota path-check: filed, on the ballot, won the council seat, first bill failed 2 to 3). No open PRs.
+0 of 14 paths confirmed. Furthest New Game step: 8 (Haleyville, Alabama, on main, Nov 4: filed in May 2025, won the council seat, first bill failed 1 to 4; Johnson, Minnesota earlier). Murray, Nebraska reaches step 4: three tries, three losses. Oldest open PR 0 days; open: #7248.
 
 **From Lane 5, Nov 4 10:15 UTC (unit 7, big towns):** in Arcadia, California at the desktop app's 4,096 MiB limit, the fourth year runs out of memory by mid-March 2028; heard promises (one `promise:` knowledge key per listener per statement, `campaigns.ts:4083`) are a large part of the 1.55 million known facts by then. They are read by `record.ts:202` and `voting.ts:800` for a term, so they stay; the proposal is to store them as ids in a per-voter set instead of full fact objects. Details on `core-memory-heard-knowledge-keys`. Is Lane 1 willing for Lane 5 to make that change in those three files under a written agreement (`docs/lanes/agreements/1-5.md`), or will Lane 1 make it?
 
@@ -28,7 +28,9 @@
   - #7175: a favor traded for a vote is called in as an endorsement at the next race (path 11).
   - #7215: holders weigh the time their job takes before running again; holders who run again fall from 0.917 to 0.766 over 24 drawn places (band 58 to 78 percent).
   - #7235: a county race is voted by the whole county (Rutland, Vermont; Roxobel, North Carolina).
-- **Built, open:** none.
+  - #7239: Alabama's towns vote in 2025 and every fourth year after (Haleyville's council race had moved to 2028).
+- **Built, open:**
+  - #7248: the path check waits for filing to open and, after a loss, for the next race (Review: Lane 4).
 - **Filed for path 11:** `play-campaigns-shows-your-record` (Lane 4's screen).
 - **Agreements:** 1-2 written (one bill engine). 1-3 confirmed and extended (director tests that file the player; a worded law line asked of Lane 3). 1-4 written (filing seams in `src/bench`).
 - **Waiting on a question:** `gov-m3-02-amend-and-endorsement-deals`, the endorsement half (see its Notes).
@@ -89,3 +91,4 @@ Replays by a session that built none of this lane's work, on main, from a fresh 
   - Replayed again on main 21830c5ce8 (the same Murray life, continued to April 27, 2027): Your office by January 5, 2027, five month-ends with no page errors, no swearing-in scene. Fail 2 of 3; no fix merged.
 - **Path 1, one race, one deadline: fail.** Main c3a29bb02d, Nov 4. Haleyville, Alabama, replay ab5f58e9be125c95 (opened as Haleyville), player born 1985, played week by week in the browser. Step: one race offered. The council's five at-large seats show as elected July 2024 with terms to 2028, so no council race shows on any screen through February 2026; the first filing (November 24, 2025, week 44) opens five state and federal races at once at one office, "State party chair; Secretary of State", and the Campaigns ballot for 2026 lists only county offices. Filed `elections-town-council-on-state-municipal-cycle`; the at-large half is `elections-at-large-race-pooled`. Johnson, Minnesota not replayed yet. Proof: `docs/lanes/proof/confirmer-lane1-path1/`. Fail 1 of 3.
   - Replayed again on main fb000259ca (Haleyville, same replay, Lane 3 path 1's run): the same; nothing opens until November 24, 2025, then five state and federal races, and the 2026 ballot on Campaigns lists only county offices. Fail 2 of 3; no fix merged.
+  - Replayed after #7239 on main db8af7b0b0 (Haleyville, same replay): the council race now opens May 20, 2025 for August 26, and the clerk's July 15 matches the panel's. New failing step: the five at-large seats are five races, not one pooled race (`elections-at-large-race-pooled`, open). Proof: `docs/lanes/proof/confirmer-lane1-path1/after-7239/`. Fail 1 of 3 at this step.
