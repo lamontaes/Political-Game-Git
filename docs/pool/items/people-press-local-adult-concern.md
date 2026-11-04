@@ -7,7 +7,7 @@ milestone: play-first
 kind: wiring
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: lane-2/counted-adult-concern
 pr: #7234
 blocked-on:
