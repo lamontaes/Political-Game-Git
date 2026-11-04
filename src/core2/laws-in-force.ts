@@ -65,6 +65,14 @@ export interface EnactedAuthority {
   readonly sequence: number;
 }
 
+/** Whether a law jurisdiction belongs to the place's governing chain. */
+export function inTownChain(
+  chain: Pick<LawChain, "levels">,
+  jurisdiction: string,
+): boolean {
+  return chain.levels.some((level) => level.jurisdiction === jurisdiction);
+}
+
 export function inForceOn(row: LawRowInput, date: string): boolean {
   return (
     row.effectiveDate <= date && (row.endDate === null || date < row.endDate)
@@ -242,7 +250,9 @@ export function resolveLawInForce(input: {
     const hasLocal = levels.some(
       (l) => (l.level === "city" || l.level === "county") && l.row,
     );
-    const average = input.localAverage.find((row) => inForceOn(row, date));
+    const average = input.localAverage.find(
+      (row) => row.jurisdiction === chain.stateKey && inForceOn(row, date),
+    );
     if (!hasLocal && average) {
       const index = levels.findIndex((l) => l.level === "city");
       levels[index] = { ...levels[index]!, row: average };
@@ -250,9 +260,7 @@ export function resolveLawInForce(input: {
   }
   const pending = rows
     .filter(
-      (row) =>
-        row.effectiveDate > date &&
-        chain.levels.some((l) => l.jurisdiction === row.jurisdiction),
+      (row) => row.effectiveDate > date && inTownChain(chain, row.jurisdiction),
     )
     .sort((a, b) => a.effectiveDate.localeCompare(b.effectiveDate));
 
