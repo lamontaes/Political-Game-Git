@@ -32457,6 +32457,54 @@
       }
     },
     {
+      "key": "scene-talk.state-ask.what-do-you-want-to-say-tonight-ninety-seconds-tops",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "What do you want to say tonight? Ninety seconds, tops.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-victory-night-worded)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.you-won-what-is-the-first-thing-you-want-to-say",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "You won. What's the first thing you want to say?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "victory-night",
+          "key": "honor"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-victory-night-worded)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
       "key": "scene-talk.reply-answer.that-they-ran-hard-and-i-ll-need-their-voters-by-monday-write-that",
       "move": "reply-answer",
       "kind": "spoken",
