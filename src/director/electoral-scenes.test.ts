@@ -217,6 +217,9 @@ function filingAndStops(
     ).some((row) => ["petitioning", "on-ballot"].includes(row.status ?? ""));
     if (running) continue;
     director.watch(core, person.id);
+    // The log keeps a private record (a speech they give) only for the people
+    // in focus; the crowd is checked against that record on election eve.
+    core.focusPersonIds.add(person.id);
     const result = fileCandidacy(api, {
       personId: person.id,
       contestId: contest.id,
