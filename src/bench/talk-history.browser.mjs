@@ -1,4 +1,4 @@
-/* global process, console, document, getComputedStyle, URL */
+/* global process, console, document, getComputedStyle */
 // What was said before is set apart from the line being said now (owner, Oct 26):
 // in a household talk after two exchanges the history is its own element, in a
 // different color, with a rule between it and the current line, and the current
@@ -6,6 +6,7 @@
 // Run against a fresh bench: node src/bench/talk-history.browser.mjs [screenshot-dir]
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
+import { startLife, toReplies } from "./start-life.mjs";
 
 const shots = process.argv[2];
 const browser = await chromium.launch({
@@ -16,21 +17,10 @@ page.setDefaultTimeout(60000);
 const errors = [];
 page.on("pageerror", (e) => errors.push(e.message));
 try {
-  const ready = page.waitForResponse((r) => r.url().endsWith("/api/title"));
-  await page.goto(`http://localhost:${process.env.BENCH_PORT ?? 3000}/play`);
-  await ready;
-  const made = page.waitForResponse(
-    (r) => new URL(r.url()).pathname === "/api/newlife",
-    { timeout: 600000 },
-  );
-  await page.locator("#new-life").click();
-  if (await page.locator("#new-advanced").isVisible())
-    await page.locator("#new-advanced").click();
-  await page.locator("#new-world").click();
-  console.log("Seed:", new URL((await made).url()).searchParams.get("seed"));
-  await page.waitForFunction(() =>
-    document.getElementById("card-name").textContent.trim(),
-  );
+  await startLife(page, {
+    url: `http://localhost:${process.env.BENCH_PORT ?? 3000}/play`,
+    fresh: true,
+  });
   console.log("Place:", await page.locator("#card-place").innerText());
   const figure = page.locator("#people .talkable").first();
   await figure.waitFor();
@@ -40,8 +30,9 @@ try {
   await page.locator("#talk:not([hidden])").waitFor();
   // Two exchanges: pick the first reply twice.
   for (let turn = 0; turn < 2; turn++) {
+    // A talk may open with lines and Continue before its replies.
+    assert.ok(await toReplies(page), "the talk ended with no reply to choose");
     const reply = page.locator("#talk-choices .reply").first();
-    await reply.waitFor();
     const before = await page.locator("#talk-lines").innerText();
     await reply.click();
     await page.waitForFunction(
