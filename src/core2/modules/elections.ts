@@ -547,8 +547,26 @@ function contestFor(
   if (!dates || dates.electionDate <= api.state.date) return null;
   const family = officeFamily(office);
   noteEstimates(api, dates);
+  // Every contest opens its filing on a day (elections-filing-window-opens):
+  // the calendar's read date where it has one, else the window the place's
+  // law usually gives before the deadline, marked as an estimate with its
+  // source. A contest never stands open from the first day for want of one.
+  const opens =
+    dates.filingOpens ??
+    addDays(
+      makeIsoDate(dates.filingDeadline),
+      -electionsParameter("filingWindowDays"),
+    );
   return {
     ...dates,
+    filingOpens: opens,
+    sources:
+      dates.filingOpens === null
+        ? [
+            ...dates.sources,
+            `filing opens ${opens}: estimated, ${electionsParameter("filingWindowDays")} days before the deadline (elections parameter filingWindowDays)`,
+          ]
+        : dates.sources,
     id: `contest:${seat.id}:${dates.electionDate}`,
     officeId: office.id,
     seatId: seat.id,
