@@ -5,7 +5,7 @@ area: docs
 kind: cleanup
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: lane-5/state-page
 pr: #7146
 blocked-on:

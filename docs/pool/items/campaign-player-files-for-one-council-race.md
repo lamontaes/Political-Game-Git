@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: governing/one-council-race
 pr: #7085
 blocked-on:
