@@ -177,7 +177,7 @@ Mac builds (`release-package.yml` on main) were started after 8, 20, 26 and 34 m
 
 ## Lanes (all running now)
 
-- **Lane 3:** #7127 was last pushed Nov 3, with no "ready" from the lane yet.
+- **Lane 3:** #7127: merging main in conflicts with #7188 in `src/bench/calendar.ts` (the same still-news rule written two ways); back to Lane 3.
 - **Lane 4:** #7100 (families guard: `calendar.ts` reaches two core internals; last push Nov 1).
 - **48-hour rule:** if a lane goes 48 hours without pushing to one of these, it merges on the one check and its named failure is filed.
 
@@ -185,8 +185,6 @@ Mac builds (`release-package.yml` on main) were started after 8, 20, 26 and 34 m
 
 #6971 is closed and its item is done (the CTO handled it).
 
-- **#7152** (skills, from Lane 1: two shallow-clone traps for session-start): check passed on head 993b8d3572. Skills PRs are the CTO's to merge.
-- **#7173** (skills, from Lane 5: browser checks start a life through one helper; shallow fetches; the storage guard): check passed on head 3c2d487144. The CTO's to merge.
 - **Make the new-game check the rule.** The required checks on main are still `validate` and `golden-path`, not the one check. To make GitHub match ruling 2: `gh api -X PATCH repos/lamontaes/Political-Game-Git/branches/main/protection/required_status_checks -F strict=false -f 'contexts[]=new game'` (the job's name is `new game`; check the exact name GitHub shows).
 
 ## How the desk ran
