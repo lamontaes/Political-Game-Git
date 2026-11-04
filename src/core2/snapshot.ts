@@ -408,9 +408,21 @@ export function restoreWorld(core: CoreState, snapshot: WorldSnapshot): void {
     if (id in savedParts) part.restore(core, savedParts[id]);
     else part.missing?.(core);
   for (const map of derivedCaches) map.delete(core);
+  for (const reset of restoreResets) reset();
 }
 
 const derivedCaches: WeakMap<CoreState, unknown>[] = [];
+const restoreResets: (() => void)[] = [];
+
+/**
+ * A cache keyed by records inside the world (a person, a traits object) rather
+ * than by the world. A restore refills those records in place, so the cache
+ * would keep values built from the rebuilt opening; `reset` drops all of it at
+ * the end of every restore, and it is built again from the restored records.
+ */
+export function registerRestoreReset(reset: () => void): void {
+  restoreResets.push(reset);
+}
 
 /**
  * A cache built from the world's records and keyed by the world. A restore
