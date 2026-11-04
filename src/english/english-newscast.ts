@@ -463,7 +463,12 @@ export function composeNewsStory(
   // record carries, in order, after the lede. A brief says only its line.
   const brief = "brief" in roles;
   const context: string[] = [];
-  for (const name of !brief && "context" in roles ? roles.context : []) {
+  // Every story may end on what its subject told a reporter about it, or
+  // that they declined (press.ts keepComment).
+  const contextRoles = !brief
+    ? [...("context" in roles ? roles.context : []), "comment"]
+    : [];
+  for (const name of contextRoles) {
     const composed = line(
       packet,
       `${kind}/${name}`,
@@ -588,7 +593,7 @@ export function composeNewsStory(
     ...(headline ? { headline } : {}),
     ...(lede ? { lede } : {}),
     ...(brief ? { brief: true as const } : {}),
-    ...(!brief && "context" in roles && lede
+    ...(!brief && ("context" in roles || context.length) && lede
       ? { paragraphs: [lede, ...context] }
       : {}),
     broadcast,

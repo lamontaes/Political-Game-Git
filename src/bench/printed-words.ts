@@ -31,7 +31,7 @@ import {
 } from "../core2/modules/offices";
 import { OFFICE_DAY_MODULE_ID } from "../core2/modules/office-day";
 import { officialOf } from "../core2/modules/officials";
-import { PRESS_MODULE_ID } from "../core2/modules/press";
+import { commentOn, PRESS_MODULE_ID } from "../core2/modules/press";
 import {
   corePlaceByJurisdictionId,
   coreStateName,
@@ -256,7 +256,24 @@ export function printedFacts(
     source?.personIds ?? [],
     happened,
   );
-  return BUILDERS[kind]?.(read, facts) ?? null;
+  const built = BUILDERS[kind]?.(read, facts) ?? null;
+  if (!built) return null;
+  // What the person told a reporter who asked about this record, or that
+  // they declined (press.ts keepComment), by the day the story is read.
+  const comment = commentOn(read.api, sourceId);
+  if (!comment || comment.date > story.date) return built;
+  const who = read.who(comment.personId, "commenter", false);
+  if (!who.commenter) return built;
+  return {
+    ...built,
+    facts: {
+      ...built.facts,
+      ...who,
+      ...(comment.quote
+        ? { quote: read.fact(comment.quote, comment.replyId) }
+        : { declined: read.fact("comment", comment.replyId) }),
+    },
+  };
 }
 
 /** What a builder reads with: names, offices, bills and places, each cited by record. */
