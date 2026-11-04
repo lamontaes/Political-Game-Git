@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: lane3/concession
-pr:
+pr: #7159
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-04T00:11:01.418Z
