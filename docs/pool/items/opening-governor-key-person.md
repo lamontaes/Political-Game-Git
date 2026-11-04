@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: lane-4/opening-governor
 pr: #7214
 blocked-on:
