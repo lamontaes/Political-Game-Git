@@ -266,6 +266,7 @@ Mac builds (`release-package.yml` on main) were started after 8, 20, 26 and 34 m
 ## Owner, one click
 
 - **#7233** (skills, from Lane 4: play-first lessons): check passed on head 4f213562c4 after the lane's later push (Crystal, New Mexico); skill tests pass. The CTO's to merge.
+- **#7254** (skills, from Lane 5: speed-work on finding what a save misses): check passed on head 4f9accbf52 (Fairview, Kentucky); skill tests pass. The CTO's to merge.
 
 #6971 is closed and its item is done (the CTO handled it).
 
