@@ -6,9 +6,9 @@ lead: laws
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: lane-2/unemployment-basis
-pr:
+pr: #7153
 blocked-on:
 source: "Traits lead, Oct 28 (research-unemployment-claim-take-up)"
 claimed-at: 2026-11-03T23:00:49.982Z

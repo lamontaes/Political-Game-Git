@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: words/after-address-talk
 pr: #7106
 blocked-on:
