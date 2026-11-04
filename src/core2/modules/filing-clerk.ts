@@ -16,6 +16,7 @@ import {
   appointmentsIn,
   ELECTION_CHIEF_POST,
   EXECUTIVE_MODULE_ID,
+  LOCAL_FILING_OFFICER_POST,
 } from "./executive";
 import {
   ELECTIONS_MODULE_ID,
@@ -40,7 +41,11 @@ export interface FilingClerk {
   readonly title: string;
   /** How the records name them: an elected seat, a town appointment or county staff. */
   readonly basis:
-    "elected-seat" | "town-appointment" | "county-staff" | "state-appointment";
+    | "elected-seat"
+    | "town-appointment"
+    | "county-staff"
+    | "state-appointment"
+    | "drawn-officer";
   /** The record that names them: the seat id, the appointment id or the staff job id. */
   readonly recordId: string;
 }
@@ -137,6 +142,8 @@ export function filingClerkFor(
 export function localClerkFor(
   api: CoreAPI,
   family: "municipalOffice" | "countyOffice",
+  /** Whether the officer drawn where the records name no one counts (the executive asks without it). */
+  options: { readonly drawn?: boolean } = {},
 ): FilingClerk | null {
   const core = api.state as CoreState;
   const municipal = family === "municipalOffice";
@@ -196,6 +203,23 @@ export function localClerkFor(
             recordId: staff.jobId,
           };
       }
+  }
+
+  // Where the records name no one, the officer the executive drew for the
+  // counter (seatLocalFilingOfficers, gov-filing-counter-clerk-at-county-board).
+  if (options.drawn !== false && api.state.modules.has(EXECUTIVE_MODULE_ID)) {
+    const drawn = agencyHeadsIn(api, lawChain(api).townPlaceId).find(
+      (row) =>
+        row.post === `${LOCAL_FILING_OFFICER_POST}:${family}` &&
+        living(core, row.holderId),
+    );
+    if (drawn)
+      return {
+        personId: drawn.holderId,
+        title: drawn.title,
+        basis: "drawn-officer",
+        recordId: drawn.id,
+      };
   }
   return null;
 }

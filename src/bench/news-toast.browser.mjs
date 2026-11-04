@@ -7,6 +7,7 @@ import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { mkdirSync } from "node:fs";
 import { chromium } from "playwright";
+import { playOpening } from "./start-life.mjs";
 const port = process.env.BENCH_PORT ?? "3000";
 const base = `http://localhost:${port}`;
 const label = process.env.SHOTS;
@@ -49,6 +50,11 @@ async function newGame(page) {
   if (await page.locator("#new-advanced").isVisible())
     await page.locator("#new-advanced").click();
   await page.locator("#new-world").click();
+  // The opening plays first, as a player sees it (start-life.mjs).
+  await playOpening(
+    page,
+    (await (await response).json()).sceneMomentId ?? null,
+  );
   const r = await response;
   assert.equal(r.status(), 200);
   const seed = new URL(r.url()).searchParams.get("seed");
