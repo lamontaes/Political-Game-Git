@@ -1018,7 +1018,23 @@ describe("the answers to a question fit it", () => {
 
   it("never parts with a word the talk already said", () => {
     let talks = 0;
-    for (const otherId of others.slice(0, 25)) {
+    // The people the player knows, then every other full person: in a world
+    // where each talk with someone known ends on their answered question
+    // (no goodbye then, by rule), the goodbyes are said to the rest.
+    const known = new Set(others);
+    const everyone = [
+      ...others,
+      ...[...core.people.values()]
+        .filter(
+          (row) =>
+            row.alive &&
+            row.tier !== "husk" &&
+            row.id !== player.id &&
+            !known.has(row.id),
+        )
+        .map((row) => row.id),
+    ];
+    for (const otherId of everyone.slice(0, 60)) {
       const talk = openConversation(core, player.id, otherId);
       for (let turn = 0; turn < 8 && talk.choices.length; turn += 1)
         say(core, talk, talk.choices[turn % talk.choices.length]!.key);
