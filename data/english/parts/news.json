@@ -11795,7 +11795,7 @@
       "key": "news.comment.commenter-told-the-paper-quote",
       "move": "comment",
       "kind": "written",
-      "text": "{commenter} told the paper: \"{quote}\"",
+      "text": "{commenter} told reporters: \"{quote}\"",
       "uses": [
         {
           "move": "comment",
