@@ -642,3 +642,10 @@ The test the item names as its proof is not on main now. Most were moved, rename
 - `words-held-first-test-no-held-lines` (done): names test(s) not on main: src/english/mined/held-first.test.ts
 - `words-scene-cause-law-effect-learned` (done): names test(s) not on main: src/core2/laws-end-to-end.test.ts
 - `world-jobs-offer-deadline-held` (done): names test(s) not on main: src/core2/jobs-offer-deadline-held.test.ts
+
+## Done items that look false or unclear in the sample (2)
+
+From the random sample of 100 done and 100 dropped items, after a second, deeper read. Flagged, not reopened.
+
+- `play-stop-03-player-drawn-as-strangers` (done): sample read: unclear. Code path holds: src/bench/scene.ts:674-686 looksOf reads the player's creator recipe (looks.recipe via chosenLook) and appearanceSeed for every scene, and handler.ts:598-646 serves the person's own portrait. But the done-when is a screenshot of the installed build across the first month's scenes (h
+- `screens-sheets-sized-to-content` (done): sample read: false. Partial. PR #6394 (commit 31b113c0c6) added before/after shots for all three screens (docs/reports/screens-2026-10-27/) and the fit layout (play.css:1444, play.mjs:4703-4709). But the browser check asserts fit only for journal, jobs and money (src/bench/sheets.browser.mjs:79-94). Who you are is excl

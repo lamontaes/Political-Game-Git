@@ -1,6 +1,6 @@
 # Pool audit: 416 open-real, 199 partly-done, 51 done-on-main, 32 superseded, 5 duplicate, 40 on-branch, 59 unknown, 7 waits-on-people, 2 waits-on-owner, 4 finished during the audit; 1820 done and 309 dropped before it
 
-Your call: close the 88 items listed in the first section, have the lanes rescue the 13 branches named in the second, and answer the November 1 Budgets mocks, which hold Lane 4's Budgets screen. Nothing in the pool has changed yet. Of the 815 items not done or dropped, 51 are already done in the game's code, 32 were replaced and 5 duplicate another item; two readers agreed on each. Still to do: 416 open and 199 part-built items, plus 40 whose work sits on an unmerged branch and 59 nobody can settle without a run. Of 200 done and dropped items sampled, none was clearly closed wrongly; 9 are unclear and 2 done items look thin.
+Your call: close the 88 items listed in the first section, have the lanes rescue the 13 branches named in the second, and answer the November 1 Budgets mocks, which hold Lane 4's Budgets screen. Nothing in the pool has changed yet. Of the 815 items not done or dropped, 51 are already done in the game's code, 32 were replaced and 5 duplicate another item; two readers agreed on each. Still to do: 416 open and 199 part-built items, plus 40 whose work sits on an unmerged branch and 59 nobody can settle without a run. Of 200 done and dropped items sampled, 1 done item is partly false and 1 is unclear; the rest hold.
 
 ## What can close with confidence
 
@@ -206,7 +206,7 @@ The 7 waits-on-people items are the people pack, home and chamber plates, figure
 ## How sure the audit is
 
 - **Closures:** high. Two readers agreed on all 88 from the evidence, and the second reader rejected 20 weaker calls. Neither reader ran tests, so a closure that rests on a test means the test exists and covers the line, not that it passed today.
-- **Done and dropped items:** a random 100 of each (fixed seed 20261104) were read against main. Of the 100 done, 87 hold, 6 hold but were later replaced by a newer system, 7 are unclear and none is false. Of the 100 dropped, 94 hold, 4 hold as superseded, 2 are unclear and none is plainly false. Two of the unclear done items look thin and should be looked at, though neither is reopened: `gov-filing-fee-and-file-line` built only half its line, and `play-state-legislator-career-screen` has no seat-picker screen.
+- **Done and dropped items:** a random 100 of each (fixed seed 20261104) were read against main. Of the 100 done, 91 hold, 7 hold but were later replaced by a newer system, 1 is unclear and 1 is partly false. Of the 100 dropped, 96 hold, 4 hold as superseded and none is false. The 9 items a first reader left unclear were read again more deeply. The partly false one, flagged and not reopened, is `screens-sheets-sized-to-content`: its browser check tests the fit for Journal, Jobs and Money but never the Who you are screen its Done when names (`src/bench/sheets.browser.mjs:79-94`). The unclear one is `play-stop-03-player-drawn-as-strangers`, which only a play of the first month's scenes can settle.
 - **By script, over all 2,129:** every dropped item gives a reason. 43 done items have no merged pull request naming them (most are closures by hand with a reason in Notes), and 71 name a proof test that is no longer on main, 31 of them in the deleted old core. Both lists are in `mismatches.md`.
 - **Open and partly-done calls:** medium. Each was read from code by one reader. A wrong open-real call costs a look, not lost work. The 59 unknowns are mostly by-draw test reds that only a run on the named seed can settle.
 
@@ -224,7 +224,7 @@ The 7 waits-on-people items are the people pack, home and chamber plates, figure
 
 ## Method
 
-Main at the start: `6d53b9c493` (November 4, 2026, 16:03 UTC). The final re-read for step 6 was at `cecc3d9443` (16:49 UTC); no item changed between then and `37241247fe`, the last check. Every row carries the start commit; rows that changed after it say so.
+Main at the start: `6d53b9c493` (November 4, 2026, 16:03 UTC). The final re-read for step 6 was at `cecc3d9443` (16:49 UTC); no item changed between then and `11e188e299`, main at the final push. Every row carries the start commit; rows that changed after it say so.
 
 - All 6,809 branches were fetched and the history was unshallowed (the clone started shallow). For each branch the audit measured commits ahead and behind, the last commit date, whether its commits are on main by patch (git cherry, against a patch-id set of main's 30,993 commits) and whether every file it changed matches main. Pull request data for all 7,257 came from the GitHub API; the GitHub connector failed, so read-only `gh api` calls were used.
 - 811 live items at the start commit were read; 4 more were added during the audit and read at the final commit, which is why the totals count 815.
