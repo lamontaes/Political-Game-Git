@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: governing/filing-window-opens
-pr:
+pr: #7168
 blocked-on:
 source: words session, Oct 30 (campaign-season test red), filed by the governing lead
 lead: governing
