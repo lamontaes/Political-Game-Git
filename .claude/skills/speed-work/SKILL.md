@@ -27,6 +27,8 @@ description: >
 - A low-priority lane starves while workflows keep queueing proofs: on Nov 1 three investigation runs waited two hours behind the proofs and never ran. Run an investigation first, or give it a slot of its own for a set time, never behind a workflow.
 - Before calling a run a hang, read where it lives. Ringwood, New Jersey's race-2 "stall" (Nov 1) was path-check living 22 months in one call with no progress lines while the heap grew about 70 MB a minute: a memory problem, not a loop.
 - A process whose memory sits flat at its heap cap with no output is not stuck in a loop: the collector is thrashing at the limit (Ringwood, New Jersey, Nov 1: 8.4 GB, flat for 40 minutes). Read records per table, which `speed:year --out` writes for each year, to see what grows.
+- A probe script that builds its own world must build the same one `speed:year` plays: `buildBenchWorld(drawPlace(seed, "speed-year").seed, gameStartDate(), { twoLevel: true, placeKey })`, not `buildBenchWorld(seed, …)`. On Nov 4 three Arcadia, California probes built from the bare seed and measured a lighter world (an election-year log of 224,834 rows against `speed:year`'s 342,693, and a 2.3 GB heap in early 2028 against 3.8 GB at the app's limit), so their month-by-month numbers had to be withdrawn.
+- A heap snapshot at the limit (`--heapsnapshot-near-heap-limit`) needs about as much memory again to write; at a 4,096 MiB heap in a cloud container the process was killed while writing (exit 137, an empty file, Nov 4). Count records per table and their estimated bytes instead.
 
 ## Prove it changes nothing
 

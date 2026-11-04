@@ -83,6 +83,7 @@ import {
 } from "../core2/modules/press";
 import { closenessBetween } from "../core2/closeness";
 import { stakeOf } from "./family-stake";
+import { remarkOf } from "./remark";
 import { properName, spoken, spokenDate } from "./words";
 import { giveInauguralAddress, inauguralStand } from "./inaugural-address";
 import {
@@ -263,16 +264,25 @@ function composeBinding(
   if (cause) facts.cause = { text: cause, sourceRecordIds: [moment.causeId] };
   // A bill the record names, by its number, and the section a trade added.
   // A committee's hold names its bill by id only; the bill row has the number.
+  // A public comment heard at a hearing names its bill through the
+  // meetings engine's remark, with the side the speaker took.
+  const remark = remarkOf(core, moment.causeId);
+  if (remark && remark.position !== P.zero)
+    facts[remark.position > P.zero ? "spoke-for" : "spoke-against"] = {
+      text: "yes",
+      sourceRecordIds: [remark.id, moment.causeId],
+    };
+  const billId = said.billId ?? remark?.billId;
   const named =
-    said.billId && core.modules.has(LEGISLATURE_MODULE_ID)
-      ? billOf(coreAPI(core as CoreState), said.billId)
+    billId && core.modules.has(LEGISLATURE_MODULE_ID)
+      ? billOf(coreAPI(core as CoreState), billId)
       : undefined;
   const number = said.number ?? named?.number;
   if (number) {
     // Said as a clerk reads it: a bare number takes its form's word first.
     facts.bill = {
       text: spokenDesignation(number, named?.form.kind ?? ""),
-      sourceRecordIds: [said.billId ?? moment.causeId, moment.causeId],
+      sourceRecordIds: [billId ?? moment.causeId, moment.causeId],
     };
   }
   // A law in force (a story that it took effect): its policy by name, for

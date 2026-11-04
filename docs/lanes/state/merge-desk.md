@@ -1,12 +1,14 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 89 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 113 pull requests merged. Newest state at the top of each section.
 
 ## What the owner can play now
 
 Main opens a new game, loads a person and a town, and plays four weeks without a crash (Lane 5's new-game check, now on main and on every pull request). The one check passed on every merge below.
 
 New on Nov 4, from the lanes:
+
+- **Starting a game.** The title screen shows the monuments in their lights. The loading screen plays the world being built: a year counter, the Journal writing itself, headlines and the map filling in. The opening names your governor and the state's chamber leaders over your state's capitol.
 
 - **Filing.**
   - You are offered one council race, and only while filing is open.
@@ -15,14 +17,17 @@ New on Nov 4, from the lanes:
   - On your first filing, the clerk asks if you've run a campaign before and walks a newcomer through it.
   - A town's petition asks for a number of signatures that fits the town.
   - Filing opens weeks before the deadline, not on the game's first day.
+  - Officeholders weigh the time the job takes before running again, so more local seats open.
 - **Governing.**
   - As mayor, you can sign one ordinance and veto another at your desk.
   - Your office remembers where colleagues stand on your bill.
+  - After public comment, a resident who spoke comes to you about the bill.
   - After you vote, a reporter asks why, and the paper quotes you or says you wouldn't comment.
   - A bill's sponsor asks you only about bills that will reach the floor.
   - Governors declare a state of emergency when a federally declared disaster strikes.
 - **Campaign and election night.**
   - A yes at the door becomes a vote as the person's stated intent predicts.
+  - Every month from filing to election day holds a scene or a Journal line.
   - On the night you lose, the talk at home comes from the relative who worked the race or put money in.
   - Whether you concede or refuse is printed in the race's story, and the winner takes your call gracious or gloating, by their traits; a friend and a rival say different things on the call after the count.
   - Rivals run attack ads on your record that name your real votes.
@@ -34,12 +39,15 @@ New on Nov 4, from the lanes:
   - The calendar shows meetings and holidays, not just birthdays.
   - Journal chapters open only on your own turns or a relative's.
   - A question in everyday talk gets an answer, not just a nod.
+  - The Who you are screen says why a grown player has no job, and shows the town's population and this year's moves.
+  - A vote ask happens in your chamber and a desk visit at your office, not in a house.
 - **Laws and money.**
   - Unemployment benefits use the law's full wage basis.
   - The lobbying ban for officials who leave starts the day they actually leave.
   - A replaced national law is no longer announced as taking effect.
   - Press people's pay and bills add up.
   - A home sale can use an outside lender.
+  - When a law takes effect, its scene names the law and what your household paid or got back.
 
 New on Nov 3:
 
@@ -74,68 +82,92 @@ New on Nov 3:
   - A pool fix (#7145).
   - A state page (#7146).
 
-## Lane PRs merged on Nov 4 (54), on the owner's word ("You may merge lane PRs that pass the new-game check")
+## Lane PRs merged on Nov 4 (78), on the owner's word ("You may merge lane PRs that pass the new-game check")
 
 Each had main merged in again, passed `npm run new-game-check` (a town drawn from all 56, a new life, four weeks) and merged pinned to that head.
 
-| PR    | What it does                                                                                                                                     | Town                              | Replay number    |
-| ----- | ------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------- | ---------------- |
-| #7085 | You are offered one council race, only while filing is open                                                                                      | North Star, Delaware              | 12e807f587618187 |
-| #7135 | Press people's bills and pay; out-of-town press staff are paid                                                                                   | Memphis, Tennessee                | 3d0e53113b24548a |
-| #7147 | Relatives and officials at the opening have homes and pay rent                                                                                   | Langley Park, Maryland            | 7d1e4e25f5705571 |
-| #7148 | A home sale can use an outside lender                                                                                                            | Brandt, Ohio                      | 5c529b0edbe66b00 |
-| #7149 | A campaign turn with an empty platform no longer breaks                                                                                          | Collinsville, Connecticut         | 898bf0f167c66a3b |
-| #7150 | The clerk and the filing form give one deadline                                                                                                  | Braden, Tennessee                 | 337b0a089ffe6a52 |
-| #7151 | The night you lose: the talk at home comes from the relative who worked the race                                                                 | Grand Rapids, Minnesota           | 3e591e88c6f10bdb |
-| #7155 | Browser checks play the opening address first                                                                                                    | Gillis, Louisiana                 | 33b226486f432fa8 |
-| #7154 | A town's council petition fits the town                                                                                                          | Dollars Corner, Washington        | c11455b08d423c3e |
-| #7156 | Someone stands at every local filing counter                                                                                                     | Murphy, Idaho                     | 1d9444cb6c3e1501 |
-| #7158 | 16 more browser checks play the opening first                                                                                                    | Attica, Ohio                      | 640599fa525c0f24 |
-| #7159 | Conceding or refusing on the call is printed in the race's story                                                                                 | Tonyville, California             | 77b02e510da8130c |
-| #7160 | The lobbying ban starts on the day an official actually leaves                                                                                   | Dellwood, Wisconsin               | 2927a2b80127895b |
-| #7157 | Living siblings never share a first name                                                                                                         | Brighton, Michigan                | 499a4cc21b9797bc |
-| #7153 | Unemployment benefits use the law's full wage basis                                                                                              | Rafael Capó, Puerto Rico          | 2c3618fd851aeb24 |
-| #7161 | Test workers start with a third of the memory                                                                                                    | Zebulon, North Carolina           | 05a93e37581589fb |
-| #7162 | A national law already replaced is not announced as taking effect                                                                                | Trail Creek, Indiana              | 78bf3a7153541e89 |
-| #7163 | A yes at the door becomes a vote as the person's stated intent predicts                                                                          | Edom, Texas                       | 17542edf9785bf14 |
-| #7164 | Governments open with treasuries whose reserves are on the books, sourced or estimated                                                           | Cairo, West Virginia              | f54c50c0528dea05 |
-| #7165 | A bill's sponsor asks you only about bills that will reach the floor, in one stop per evening                                                    | Mediapolis, Iowa                  | 057ff7e849d655cf |
-| #7166 | A phased minimum wage's cost note counts every step                                                                                              | Pascoag, Rhode Island             | ea12de7ce082f713 |
-| #7167 | Your office remembers where colleagues stand on your bill, from a talk or your aide's brief                                                      | Bantam, Connecticut               | 16b332ecf91efa13 |
-| #7168 | Filing opens weeks before the deadline, not on the game's first day                                                                              | Rincon, Georgia                   | 655ea866813e93ea |
-| #7169 | As mayor, you sign one ordinance and veto another at your desk                                                                                   | Center Ridge, Arkansas            | 8860661b3b3f3670 |
-| #7170 | Governors declare a state of emergency when a federally declared disaster strikes                                                                | Frederiksted, U.S. Virgin Islands | 66d1a94d549de6b8 |
-| #7171 | A campaigns test waits for a contest whose filing is open (test only)                                                                            | Bridgeport, Alabama               | 51e14ef7daaaace0 |
-| #7172 | A worker laid off from a job paid at a legacy rate can be hired again, so a year no longer stops on that hire                                    | Arnegard, North Dakota            | 0c7b362ef3c9c17e |
-| #7174 | Rivals run attack ads on an officeholder's record, naming the real votes                                                                         | Grover, Wyoming                   | ea7a079c5ea3582d |
-| #7175 | Favors traded for votes are called in at election time                                                                                           | Palm Valley, Florida              | 86791939a396ec01 |
-| #7176 | Dorms, barracks, prisons and nursing homes are rooms outside the rental market; a college town's year runs a third faster                        | Hillsboro Beach, Florida          | daf3dcca65f27910 |
-| #7177 | A crew script opens every county-governed locality and names each one that won't open (no change in play)                                        | Romeville, Louisiana              | 8c8e6f57ca3c0234 |
-| #7178 | The winner takes your concession call, gracious or gloating by their traits                                                                      | Pughtown, Pennsylvania            | ba7436a4fd49b389 |
-| #7179 | The Journal says you filed to run and when the election is, instead of "So I ran."                                                               | Derry, New Hampshire              | b443b61d2ac8fc53 |
-| #7180 | Browser checks that file the player wait for filing to open (no change in play)                                                                  | Presque Isle Harbor, Michigan     | 95456057cb2df45c |
-| #7181 | The counted-eviction test plays Storrs for a year; it fixes a red #7176 left on main (test only)                                                 | Washington, District of Columbia  | 427412a7e94c6d8d |
-| #7182 | The no-dice guard is green on main: the sibling-name pick counts as who exists (guard only)                                                      | Riverside, Wyoming                | 3fb1b38d13c583e0 |
-| #7183 | A lane state file pushed to main (this page included) no longer turns the release run red (release only)                                         | Magna, Utah                       | b721fbbd762fc58a |
-| #7184 | The talk at home after a loss says what the relative did, not that they are waiting (fixes a red on main)                                        | Bridgeport, Connecticut           | 812d976f0b55954f |
-| #7185 | The Journal says a date the way the director does (fixes a red on main)                                                                          | Stamford, Connecticut             | 94c07a596249e43d |
-| #7186 | A friend and a rival say different things on the call after the count                                                                            | Pleasant Grove, Alabama           | 59e77f3f5234eec5 |
-| #7187 | What you tell a reporter about your bill is in the paper's story of it (main merged in with both sides' imports kept)                            | Kickapoo Site 1, Kansas           | 1a323bb4802a8fef |
-| #7188 | The night's paper prints only news that is still news on its date                                                                                | Okauchee Lake, Wisconsin          | c703902b25039143 |
-| #7189 | Homes exist before the first new-game card and room                                                                                              | Si'ufaga, American Samoa          | 3a2fd883d5e9053f |
-| #7103 | On your first filing, the clerk asks if you've run a campaign and walks a newcomer through it                                                    | Rehobeth, Alabama                 | aa7b08dae2200c3e |
-| #7090 | A person's card tells their life as a short story, with lines under the name                                                                     | Sardis, Mississippi               | 31403e15b8341f2f |
-| #7190 | Lane 5's part of the red guards on main (the families and English guards; guards only)                                                           | Wilroads Gardens, Kansas          | 56017b096bed5ef5 |
-| #7191 | After you vote, a reporter asks why, and the vote's story quotes you or says you wouldn't comment                                                | Tryon, Oklahoma                   | 181fe7677c869c88 |
-| #7192 | Lane 3's part of the red guards: the scene code keeps its numbers in data and reads press stories through the press module's entry (guards only) | Lakeview, Louisiana               | 2f87205bc844ea8a |
-| #7193 | Lane 2's first-minutes proof in eight towns, on main (built, not yet confirmed by a second session; docs only)                                   | West Hattiesburg, Mississippi     | 5e0307fe27bc0262 |
-| #7194 | Lane 4's line of the red families guard: the montage imports people through the people module's entry (guards only)                              | Rockwood, Michigan                | cbce7ff365888bef |
-| #7195 | Journal chapters open only on your own turns or a relative's, never titled after someone else                                                    | Montgomery, Alabama               | 4a388744cb946666 |
-| #7100 | The calendar shows meetings and holidays, not just birthdays (the lane fixed its families-guard defect)                                          | Tiger, Georgia                    | 6eb0470304598551 |
-| #7196 | A question in everyday talk is answered, not just acknowledged                                                                                   | Stepping Stone, Colorado          | 90f886358d4bfcb3 |
-| #7197 | Election night names a district "District 14" and an at-large seat by its state, never a code                                                    | Cruger, Mississippi               | 98634737a874e481 |
+| PR    | What it does                                                                                                                                                 | Town                              | Replay number    |
+| ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------- | ---------------- |
+| #7085 | You are offered one council race, only while filing is open                                                                                                  | North Star, Delaware              | 12e807f587618187 |
+| #7135 | Press people's bills and pay; out-of-town press staff are paid                                                                                               | Memphis, Tennessee                | 3d0e53113b24548a |
+| #7147 | Relatives and officials at the opening have homes and pay rent                                                                                               | Langley Park, Maryland            | 7d1e4e25f5705571 |
+| #7148 | A home sale can use an outside lender                                                                                                                        | Brandt, Ohio                      | 5c529b0edbe66b00 |
+| #7149 | A campaign turn with an empty platform no longer breaks                                                                                                      | Collinsville, Connecticut         | 898bf0f167c66a3b |
+| #7150 | The clerk and the filing form give one deadline                                                                                                              | Braden, Tennessee                 | 337b0a089ffe6a52 |
+| #7151 | The night you lose: the talk at home comes from the relative who worked the race                                                                             | Grand Rapids, Minnesota           | 3e591e88c6f10bdb |
+| #7155 | Browser checks play the opening address first                                                                                                                | Gillis, Louisiana                 | 33b226486f432fa8 |
+| #7154 | A town's council petition fits the town                                                                                                                      | Dollars Corner, Washington        | c11455b08d423c3e |
+| #7156 | Someone stands at every local filing counter                                                                                                                 | Murphy, Idaho                     | 1d9444cb6c3e1501 |
+| #7158 | 16 more browser checks play the opening first                                                                                                                | Attica, Ohio                      | 640599fa525c0f24 |
+| #7159 | Conceding or refusing on the call is printed in the race's story                                                                                             | Tonyville, California             | 77b02e510da8130c |
+| #7160 | The lobbying ban starts on the day an official actually leaves                                                                                               | Dellwood, Wisconsin               | 2927a2b80127895b |
+| #7157 | Living siblings never share a first name                                                                                                                     | Brighton, Michigan                | 499a4cc21b9797bc |
+| #7153 | Unemployment benefits use the law's full wage basis                                                                                                          | Rafael Capó, Puerto Rico          | 2c3618fd851aeb24 |
+| #7161 | Test workers start with a third of the memory                                                                                                                | Zebulon, North Carolina           | 05a93e37581589fb |
+| #7162 | A national law already replaced is not announced as taking effect                                                                                            | Trail Creek, Indiana              | 78bf3a7153541e89 |
+| #7163 | A yes at the door becomes a vote as the person's stated intent predicts                                                                                      | Edom, Texas                       | 17542edf9785bf14 |
+| #7164 | Governments open with treasuries whose reserves are on the books, sourced or estimated                                                                       | Cairo, West Virginia              | f54c50c0528dea05 |
+| #7165 | A bill's sponsor asks you only about bills that will reach the floor, in one stop per evening                                                                | Mediapolis, Iowa                  | 057ff7e849d655cf |
+| #7166 | A phased minimum wage's cost note counts every step                                                                                                          | Pascoag, Rhode Island             | ea12de7ce082f713 |
+| #7167 | Your office remembers where colleagues stand on your bill, from a talk or your aide's brief                                                                  | Bantam, Connecticut               | 16b332ecf91efa13 |
+| #7168 | Filing opens weeks before the deadline, not on the game's first day                                                                                          | Rincon, Georgia                   | 655ea866813e93ea |
+| #7169 | As mayor, you sign one ordinance and veto another at your desk                                                                                               | Center Ridge, Arkansas            | 8860661b3b3f3670 |
+| #7170 | Governors declare a state of emergency when a federally declared disaster strikes                                                                            | Frederiksted, U.S. Virgin Islands | 66d1a94d549de6b8 |
+| #7171 | A campaigns test waits for a contest whose filing is open (test only)                                                                                        | Bridgeport, Alabama               | 51e14ef7daaaace0 |
+| #7172 | A worker laid off from a job paid at a legacy rate can be hired again, so a year no longer stops on that hire                                                | Arnegard, North Dakota            | 0c7b362ef3c9c17e |
+| #7174 | Rivals run attack ads on an officeholder's record, naming the real votes                                                                                     | Grover, Wyoming                   | ea7a079c5ea3582d |
+| #7175 | Favors traded for votes are called in at election time                                                                                                       | Palm Valley, Florida              | 86791939a396ec01 |
+| #7176 | Dorms, barracks, prisons and nursing homes are rooms outside the rental market; a college town's year runs a third faster                                    | Hillsboro Beach, Florida          | daf3dcca65f27910 |
+| #7177 | A crew script opens every county-governed locality and names each one that won't open (no change in play)                                                    | Romeville, Louisiana              | 8c8e6f57ca3c0234 |
+| #7178 | The winner takes your concession call, gracious or gloating by their traits                                                                                  | Pughtown, Pennsylvania            | ba7436a4fd49b389 |
+| #7179 | The Journal says you filed to run and when the election is, instead of "So I ran."                                                                           | Derry, New Hampshire              | b443b61d2ac8fc53 |
+| #7180 | Browser checks that file the player wait for filing to open (no change in play)                                                                              | Presque Isle Harbor, Michigan     | 95456057cb2df45c |
+| #7181 | The counted-eviction test plays Storrs for a year; it fixes a red #7176 left on main (test only)                                                             | Washington, District of Columbia  | 427412a7e94c6d8d |
+| #7182 | The no-dice guard is green on main: the sibling-name pick counts as who exists (guard only)                                                                  | Riverside, Wyoming                | 3fb1b38d13c583e0 |
+| #7183 | A lane state file pushed to main (this page included) no longer turns the release run red (release only)                                                     | Magna, Utah                       | b721fbbd762fc58a |
+| #7184 | The talk at home after a loss says what the relative did, not that they are waiting (fixes a red on main)                                                    | Bridgeport, Connecticut           | 812d976f0b55954f |
+| #7185 | The Journal says a date the way the director does (fixes a red on main)                                                                                      | Stamford, Connecticut             | 94c07a596249e43d |
+| #7186 | A friend and a rival say different things on the call after the count                                                                                        | Pleasant Grove, Alabama           | 59e77f3f5234eec5 |
+| #7187 | What you tell a reporter about your bill is in the paper's story of it (main merged in with both sides' imports kept)                                        | Kickapoo Site 1, Kansas           | 1a323bb4802a8fef |
+| #7188 | The night's paper prints only news that is still news on its date                                                                                            | Okauchee Lake, Wisconsin          | c703902b25039143 |
+| #7189 | Homes exist before the first new-game card and room                                                                                                          | Si'ufaga, American Samoa          | 3a2fd883d5e9053f |
+| #7103 | On your first filing, the clerk asks if you've run a campaign and walks a newcomer through it                                                                | Rehobeth, Alabama                 | aa7b08dae2200c3e |
+| #7090 | A person's card tells their life as a short story, with lines under the name                                                                                 | Sardis, Mississippi               | 31403e15b8341f2f |
+| #7190 | Lane 5's part of the red guards on main (the families and English guards; guards only)                                                                       | Wilroads Gardens, Kansas          | 56017b096bed5ef5 |
+| #7191 | After you vote, a reporter asks why, and the vote's story quotes you or says you wouldn't comment                                                            | Tryon, Oklahoma                   | 181fe7677c869c88 |
+| #7192 | Lane 3's part of the red guards: the scene code keeps its numbers in data and reads press stories through the press module's entry (guards only)             | Lakeview, Louisiana               | 2f87205bc844ea8a |
+| #7193 | Lane 2's first-minutes proof in eight towns, on main (built, not yet confirmed by a second session; docs only)                                               | West Hattiesburg, Mississippi     | 5e0307fe27bc0262 |
+| #7194 | Lane 4's line of the red families guard: the montage imports people through the people module's entry (guards only)                                          | Rockwood, Michigan                | cbce7ff365888bef |
+| #7195 | Journal chapters open only on your own turns or a relative's, never titled after someone else                                                                | Montgomery, Alabama               | 4a388744cb946666 |
+| #7100 | The calendar shows meetings and holidays, not just birthdays (the lane fixed its families-guard defect)                                                      | Tiger, Georgia                    | 6eb0470304598551 |
+| #7196 | A question in everyday talk is answered, not just acknowledged                                                                                               | Stepping Stone, Colorado          | 90f886358d4bfcb3 |
+| #7197 | Election night names a district "District 14" and an at-large seat by its state, never a code                                                                | Cruger, Mississippi               | 98634737a874e481 |
+| #7198 | Someone you met once has their daily log kept three months, not a year; a big town's election year uses 290 MB less memory                                   | Harrisville, Rhode Island         | 3a9f295857e53718 |
+| #7199 | A campaign is never silent: every month from filing to election holds a scene or a Journal line                                                              | Cerrillos Hoyos, Puerto Rico      | 37aae2649c058464 |
+| #7200 | People no longer go to a public office nobody works at                                                                                                       | Washington, District of Columbia  | cb36b936901b8d09 |
+| #7201 | A release declaration on main that broke the release check everywhere is fixed (release only)                                                                | Fraser, Colorado                  | 183a975886e2f166 |
+| #7202 | Ordinary news at home no longer opens with "asks you to sit down first"                                                                                      | Preston, Minnesota                | 5aee7c3dc2418614 |
+| #7203 | The clerk's race list keeps one row height at three window sizes                                                                                             | Winterville, North Carolina       | e48693a31ea9dcc0 |
+| #7204 | Election night's governor races get their own page, every row reachable on a small screen                                                                    | Belmont, Louisiana                | 3dc68772291a1212 |
+| #7206 | #7204's release note reused a change id and stopped every build; fixed (release only)                                                                        | Amherst Town, Massachusetts       | 13548966e1b1173b |
+| #7205 | The Who you are screen says why a grown player has no job, from the household's records                                                                      | Odon, Indiana                     | 1c059c51a4295ea3 |
+| #7207 | A vote ask is pictured in your body's chamber and a desk visit at the office, not in a house                                                                 | Donahue, Iowa                     | 2fa377a176aa6d19 |
+| #7208 | The Who you are screen shows the town's population and this year's moves (main merged in, both new functions kept beside #7205's)                            | Green Bank, West Virginia         | 9b13adf9679381d0 |
+| #7210 | #7207's patch-note title was too long and stopped builds; fixed (release only)                                                                               | Fairfield Harbour, North Carolina | 7a39090c1e10518f |
+| #7209 | The moment spacing loop keeps its numbers in data (fixes a red guard on main)                                                                                | Oakwood, Georgia                  | 607187dde30c724b |
+| #7211 | The scene of a law's effect names the law and what your household paid or got back                                                                           | Wauchula, Florida                 | c888652ad5e1faad |
+| #7212 | The loading screen plays the world being built: a year counter, the Journal writing itself, headlines, the map filling in                                    | Addison, Texas                    | 82f2da5b7b85d85a |
+| #7213 | The title screen shows the monuments in their lights; the convention and rally pictures are out                                                              | Great Falls, Virginia             | ffc343633c5a55a2 |
+| #7214 | The opening's states part names the governor and the state's chamber leaders over the state's capitol                                                        | Freeburg, Missouri                | 25be6cc9f39ff981 |
+| #7215 | Officeholders weigh the time the job takes before running again, so more local seats open                                                                    | Townsend, Delaware                | 463d27c505a52ea3 |
+| #7216 | Races name their district once, in words ("District 5"), never the padded code                                                                               | Callender, Iowa                   | 16438f7ac4afdb9e |
+| #7217 | An official who returns to office no longer crashes payroll                                                                                                  | Belle, West Virginia              | 074aa55d65ae6df6 |
+| #7218 | After public comment, a resident who spoke comes to the member about the bill                                                                                | Iron City, Tennessee              | 70922c48fe9ab091 |
+| #7219 | The story director's memory goes into a save and comes back whole                                                                                            | Miramiguoa Park, Missouri         | d63c7244f4ab0f46 |
+| #7220 | The loading screen code takes its person type from the right place (fixes a red check on main)                                                               | Coral Bay, U.S. Virgin Islands    | 37b8f39ef6fc78d0 |
+| #7221 | Skills: speed-work notes on probing the same world speed:year plays (a skills PR; the desk merged it by mistake, as skills PRs are the CTO's; CTO to review) | Windham, New York                 | 3ecdbe9c4c0cb6b5 |
 
-Conflicts resolved mechanically: #7154 (both sides added a parameter and a stopgap row; both kept), and #7153, #7157, #7160, #7162 (Lane 2's state page: main's wording for the one edited line, both sides' log entries kept). Mac builds started after 5, 13, 18, 25, 30, 35, 40, 45 and 50 of these merges.
+Conflicts resolved mechanically: #7154 (both sides added a parameter and a stopgap row; both kept), and #7153, #7157, #7160, #7162 (Lane 2's state page: main's wording for the one edited line, both sides' log entries kept). Mac builds started after 5, 13, 18, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70 and 75 of these merges.
 
 ## Merged (35), each on the one check with a printed replay number
 

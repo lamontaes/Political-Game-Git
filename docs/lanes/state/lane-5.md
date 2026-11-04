@@ -1,6 +1,6 @@
 # Lane 5 state
 
-0 of 12 played paths confirmed. Oldest open PR 0 days (#7173, Nov 4).
+2 of 12 played paths confirmed. Oldest open PR 0 days (#7173, Nov 4).
 
 ## Unit cards
 
@@ -65,6 +65,34 @@ Every unit gets one before it starts (lane page, CTO rule). Units 1 and 2 were s
 - **Size:** one parameter row and its citation, under 20 lines. **Checked by:** a fresh session repeating the four-year run at 4,096 MiB on main after merge.
 - Next, its own card: `knowledgeByPerson` (338 MB).
 
+- **Result (#7198, merged):** at 4,096 MiB on 2088f4e82f, year 2 2,483 to 2,191 MB and 550.1 to 504.6 s (log 342,693 to 117,751 rows); year 3 2,687 to 2,436 MB and 347.4 to 277.0 s; year 4 still out of memory, about 11 minutes in instead of 6.
+
+### Unit 7, step: the bare "I lived through it" keys (started Nov 4 07:35)
+
+- **Finish line:** as the step above: Arcadia's fourth year at 4,096 MiB, or the next table named.
+- **Measured (probe, Arcadia, two years):** `knowledgeByPerson` holds 722,306 keys after the election year (174,375 after year 1). Among the largest: event keys for speeches, campaign messages, shared causes and drive changes (about 140,000), heard promises (59,157 `promise:official:term:seat`), people met and named (106,000).
+- **Result:** tried at 45 days (the monthly pass and its tests need more than 43); no measured gain (year 3 heap 2,444 MB against 2,436 MB without it), year 4 still out of memory. Not shipped; item back to open with the numbers.
+- **Was:** `experiencedKeyRetentionDays` from 90 to 30, the low end of its declared spread. Its citation names its only readers: the same-day appraisal and a drive's update; a key a held drive cites is kept anyway (`knowledge-retention.ts`). The event's own facts and the player's keys stay.
+- **Hands off / known cheats / checked by:** as the step above.
+- **Size:** one parameter row, under 20 lines.
+
+### Unit 7, step: the fourth year's peak (started Nov 4 08:35)
+
+- **Measured (main d959cf9322, 8 GB heap, Arcadia's fourth year month by month):** heap after a full collection Feb 2,314 MB, Apr 2,629, Jun 2,849, Aug 3,013, Oct 3,259, Dec 3,064. The 4,096 MiB runs die in February to April, when the kept heap is only 2.3 to 2.6 GB, so a short-lived peak of more than a gigabyte is what runs out. Kept growth: campaign causes (to 590,717 rows before November's fold; Lane 1's `campaigns.ts`) and `knowledgeByPerson` (1.58 million keys by November). Numbers on `core-speed-large-town-year-heap-nightly`.
+- **Tried:** a heap snapshot at the limit (`--heapsnapshot-near-heap-limit`): the container killed the process while writing it (exit 137, empty file).
+- **Now:** a day-by-day probe from 2028-01-20 records each day's heap before and after collection and a sampling allocation profile of the heaviest day, to name the code that makes the peak.
+- **Finish line, proof, hands off, cheats, checked by:** as the steps above. **Size:** the fix's own card once the code is named.
+
+### Red main, Nov 4 07:45: builds stopped (CTO's note)
+
+- **Found:** every Release run on main since #7193 merged (06:43) fails at "Enforce declarations": runs 12112, 12114, 12115, 12116, 12117 and 12118, plus the two Release package runs (12111, 12113 cancelled). The first and the two newest logs read: `docs/release/changes/lane-2-first-minutes-proof.md: impact:none must not carry 'section' or 'title'`. The file came in with Lane 2's 3e377288ee. Newest build is still v0.78.0.
+- **Fix:** #7201 drops the two lines; `release:check --mode pr` prints OK on it. After it merges I'll confirm that a Release run on main passes, in case another failure is behind this one.
+- **Stopping it again without holding a merge (proposal for the CTO):** the declaration check could run in the `new game` job as a report only: it prints the release check's error into the job summary and the PR, without failing the job, so the desk sees it before merging. Or the push-mode check could set a malformed `impact: none` declaration aside with a warning instead of stopping the build, since such a file changes nothing a player sees. I have built neither; the second changes what the release check refuses, so it needs the CTO's word.
+- **Confirmed:** after #7201, Release run 12122 passed and v0.79.0 was published (07:59 UTC).
+- **A second cause right behind it:** run 12123 (#7204, Lane 4) stopped on `play-governor-races-on-screen`, an id an earlier release already consumed. #7206 gives the file its own id; `release:check` OK.
+- **Better prevention than the two above (proposal):** a workflow on main, like the pool index one, that runs the release check after each merge and, when the only failures are mechanical (an `impact: none` file with a section or title, or an id already consumed), fixes the file and pushes the fix to main. It holds no merge (ruling 2) and needs no session awake. I can build it as a unit-1 item if the CTO agrees.
+- #7200 merged (an office to approach needs staff).
+
 ### Unit 9: real save and load (waiting on Lane 3)
 
 - **Finish line (path 6):** play two months, quit, reopen: Continue returns the same date and people, and the load doesn't grow with played years.
@@ -76,12 +104,12 @@ Every unit gets one before it starts (lane page, CTO rule). Units 1 and 2 were s
 
 ## Open PRs
 
-- None (#7190 and #7173 merged).
+- None. Merged since the last update: #7200, #7201, #7206, #7210 (three declaration fixes that each stopped every build; v0.79.0 shipped after #7201).
 
 ## Merged
 
 - Nov 3: #7140, #7141, #7144, #7145, #7146.
-- Nov 4: #7148, #7149, #7155, #7158, #7161, #7172 (rehire), #7176 (group quarters: Storrs 142.9 s to 93.3 s), #7177 (every-locality sweep), #7180 (eight browser checks wait for filing), #7181 (Storrs eviction case, red main), #7182 (no-dice entry for sibling names, red main), #7183 (lane state files need no release declaration), #7190 (Lane 5's part of the red guards), #7173 (skills).
+- Nov 4: #7148, #7149, #7155, #7158, #7161, #7172 (rehire), #7176 (group quarters: Storrs 142.9 s to 93.3 s), #7177 (every-locality sweep), #7180 (eight browser checks wait for filing), #7181 (Storrs eviction case, red main), #7182 (no-dice entry for sibling names, red main), #7183 (lane state files need no release declaration), #7190 (Lane 5's part of the red guards), #7173 (skills), #7198 (a met-once contact's log kept three months).
 
 ## Failed or blocked
 
@@ -105,4 +133,6 @@ Every unit gets one before it starts (lane page, CTO rule). Units 1 and 2 were s
 
 Replays by a session that built none of this lane's work, on main. Only this section is the Confirmer's.
 
+- **Path 1, every place opens: pass.** Main d070e3d2d1, Nov 4. `npm run all-places -- --years 0 --seed confirmer-open-1`: one drawn locality in each of the 56 opened, 0 crashed, exit 0 in 562 s. Proof: `docs/lanes/proof/confirmer-lane5-path1/`. One locality per place; the 8,242-locality sweep stays the lane's.
+- **Path 2, a year doesn't stop: pass.** Main c60a509956, Nov 4. `speed:year --years 3` (January 2025 to January 2028): Madras, Oregon (4145250, seed confirmer-madras-1) 116.9, 307.4 and 329.6 s, past May 11, 2026; Bloomingdale, Tennessee (4706640, seed confirmer-bloomingdale-1) 105.4, 165.0 and 141.5 s. Both exit 0, nothing on stderr. Proof: `docs/lanes/proof/confirmer-lane5-path2/`.
 - **Path 12, merges don't collide: fail.** Nov 4, main 99d774785b. Step: the new-game check the only required one. `gh api repos/lamontaes/Political-Game-Git/branches/main/protection` lists the required checks as `validate` and `golden-path`; the `new game` job (#7141) is not among them, and every push to main prints "2 of 2 required status checks are expected". The two-PR merge half was not replayed (it needs two PRs merged, which the Confirmer doesn't do). Filed `release-main-requires-only-new-game-check` (a branch setting, the owner's one click per the merge desk page). Fail 1 of 3.

@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: lane-2/zero-opening-cash
-pr:
+pr: #7222
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-04T06:49:33.637Z

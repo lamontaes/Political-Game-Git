@@ -5,11 +5,12 @@ area: elections
 kind: bug
 priority: 2
 size: L
-status: open
-claimed-by:
+status: claimed
+claimed-by: governing/county-challengers
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T08:48:18.739Z
 ---
 
 **What.** A county seat in the played world is seated in the town (offices.ts seatingPlace), its electorate is the town alone (race-places.ts basePlaces returns no places for a local race) and only the town's adults weigh running for it (candidacy.ts weighContest). In Mallard Bay, Oklahoma (4045930, draw a63ad2af1003c7ad:5) its nine county races (board, assessor, clerk, prosecutor, sheriff, treasurer) were each weighed by the same 102 named adults and 149 counted records, and each drew one candidate. Over 24 drawn places 161 of 175 county contests had one candidate or none (0.92); BallotReady counts 66 percent of county legislative and 74 percent of sheriff races uncontested in 2020 (https://organizations.ballotready.org/research/nothing-to-lose-uncontested-races-in-2020-and-their-implications). Lowering candidacyCountywideWeight from 0.5 to 0.4 moved it only to 0.90. The rest of the county, which the electorate engine already counts coarsely for statewide races (electorate-places.ts statePlaces), neither votes in nor weighs running for its own county's seats.

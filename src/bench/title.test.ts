@@ -1,71 +1,44 @@
-import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import {
+  TITLE_MONUMENTS,
   TITLE_ROTATE_SECONDS,
   TITLE_SCENES,
   titleRotation,
   titleScene,
 } from "./title";
 
-// The Lincoln Memorial at night belongs among the title's national scenes;
-// its painting is an imported backdrop.
-describe("the title's rotation", () => {
-  it("includes the Lincoln Memorial and shows its night painting", () => {
-    expect(TITLE_SCENES).toContain("lincoln-memorial");
-    const seen = TITLE_SCENES.map(
-      (_, visit) => titleScene("2026-10-25", visit).backdrop,
+// The title shows the national monuments in their lights (owner, Oct 29
+// monument ruling): no conventions, rallies or rooms, every painting a real
+// manifest backdrop, each monument in more than one frame where main has
+// more than one painting of it.
+describe("the title's monuments", () => {
+  it("shows only monuments, in more than one light", () => {
+    const places = new Set(TITLE_SCENES.map((frame) => frame.place));
+    expect([...places].sort()).toEqual([...TITLE_MONUMENTS].sort());
+    for (const frame of TITLE_SCENES)
+      expect(frame.place, frame.backdrop.file).not.toMatch(
+        /convention|rally|floor|debate|office/,
+      );
+    const files = TITLE_SCENES.map((frame) => frame.backdrop.file);
+    const lights = new Set(TITLE_SCENES.map((frame) => frame.backdrop.variant));
+    expect(lights.size).toBeGreaterThan(2);
+    expect(files).toContain("lincoln-memorial__night.jpg");
+    expect(files).toContain("us-capitol-exterior__morning.jpg");
+  });
+
+  it("never shows one monument twice in a row, round the loop too", () => {
+    TITLE_SCENES.forEach((frame, i) =>
+      expect(frame.place, frame.backdrop.file).not.toBe(
+        TITLE_SCENES.at(i - 1)!.place,
+      ),
     );
-    const lincoln = seen.find((b) => b.file.startsWith("lincoln-memorial"));
-    expect(lincoln).toEqual({
-      file: "lincoln-memorial__night.jpg",
-      variant: "night",
-      url: "/art/backdrops/lincoln-memorial__night.jpg",
-    });
   });
 
-  it("reaches the Lincoln Memorial on some visit of any day", () => {
-    for (const day of ["2026-01-01", "2026-10-25", "2027-06-30"]) {
-      const places = TITLE_SCENES.map((_, v) => titleScene(day, v).place);
-      expect(places).toContain("lincoln-memorial");
-    }
-  });
-});
-
-// Moved from desktop/tests/title-screen.test.mjs, which only ran on desktop PRs.
-const ALLOWED = new Set([
-  "white-house-exterior",
-  "lincoln-memorial",
-  "national-convention-floor",
-  "national-convention-stage",
-  "rally-stage",
-  "rally-town-square",
-  "rally-courthouse-square",
-  "us-house-floor",
-  "us-senate-floor",
-  "debate-stage",
-  "oval-office",
-]);
-
-describe("the title's scene list", () => {
-  it("holds allowed national scenes that are in the backdrop manifest", () => {
-    const manifest = JSON.parse(
-      readFileSync("art/backdrops/manifest.json", "utf8"),
-    ) as { backdrops: { place: string }[] };
-    expect(TITLE_SCENES.length).toBeGreaterThanOrEqual(3);
-    for (const place of TITLE_SCENES) {
-      expect(ALLOWED.has(place), place).toBe(true);
-      expect(
-        manifest.backdrops.some((row) => row.place === place),
-        place,
-      ).toBe(true);
-    }
-  });
-
-  it("plays every scene once, starting where the visit starts", () => {
+  it("plays every frame once, starting where the visit starts", () => {
     const rotation = titleRotation("2026-10-25", 3);
     expect(rotation[0]).toEqual(titleScene("2026-10-25", 3));
-    expect(new Set(rotation.map((s) => s.place)).size).toBe(
-      TITLE_SCENES.length,
+    expect(rotation.map((s) => s.backdrop.file).sort()).toEqual(
+      TITLE_SCENES.map((s) => s.backdrop.file).sort(),
     );
     expect(TITLE_ROTATE_SECONDS).toBeGreaterThan(5);
   });

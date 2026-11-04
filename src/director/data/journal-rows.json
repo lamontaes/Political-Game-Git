@@ -483,6 +483,26 @@
       "entry": "story"
     },
     {
+      "kindPrefix": "event:volunteer-shift",
+      "turn": false,
+      "entry": "story",
+      "toldWithoutOther": true,
+      "eventFacts": {
+        "office": { "fact": "office", "format": "text" },
+        "doors": { "fact": "doorsKnocked", "format": "count" }
+      }
+    },
+    {
+      "kindPrefix": "event:petition-checked",
+      "turn": false,
+      "entry": "story",
+      "eventFacts": {
+        "office": { "fact": "office", "format": "text" },
+        "valid": { "fact": "valid", "format": "count" },
+        "needed": { "fact": "needed", "format": "count" }
+      }
+    },
+    {
       "kindPrefix": "act:interview",
       "turn": false,
       "entry": "story"
