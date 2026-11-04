@@ -52,13 +52,22 @@ it("marks a race with one candidate unopposed and labels the night from controls
         const shown = race.places.find((p) => p.id === row.placeId);
         expect(shown, `${where}: ${row.placeId}`).toBeDefined();
         expect(shown!.cast, `${where}: ${row.placeId}`).toBe(row.cast);
-        expect(shown!.name, `${where}: ${row.placeId}`).toBe(row.name);
+        // The place reads as words: a county by its name, a district as
+        // "District 14", never the engine's key or postal code.
+        expect(shown!.name, `${where}: ${row.placeId}`).not.toMatch(
+          /^(seat:|district:|legislative:|state:)|^[A-Z]{2}(-\w+)?$|District 0$/,
+        );
         if (shown!.leader)
           expect(shown!.leader, `${where}: ${row.placeId}`).not.toMatch(
             /^(official:|person_)/,
           );
         counted += 1;
       }
+      // An exit-poll answer that names nobody reads as words, not a key.
+      for (const key of Object.keys(race.exitPoll))
+        expect(key, `${where}: ${race.contestId} exit poll`).not.toMatch(
+          /^(left-blank|declined)$/,
+        );
       // The night's returns are the count's own record: the places that cast
       // a vote, smallest first, ending on the places' totals.
       if (!rows.length) continue;
