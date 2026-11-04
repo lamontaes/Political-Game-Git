@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: lane-4/result-night
-pr:
+pr: #7232
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-04T10:59:10.502Z
