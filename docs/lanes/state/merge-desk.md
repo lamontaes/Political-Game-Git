@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 161 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 162 pull requests merged. Newest state at the top of each section.
 
 **Stopped by the owner, Nov 4, 2:37 p.m. Eastern, at 161 merged; resumed on the owner's word at about 2:53 p.m. Eastern (relayed by the CTO). The desk now merges only One Map's PRs. Lanes 1, 3, 4 and 5 are stopped and Lane 2 is off, so #7110 and #7127 stay open, and skills PRs #7233, #7254 and #7264 stay with the CTO.**
 
@@ -89,6 +89,12 @@ New on Nov 3:
   - Stopgaps are kept one file per family (#7144).
   - A pool fix (#7145).
   - A state page (#7146).
+
+## One Map's PRs (from Nov 4, 2:53 p.m. Eastern)
+
+| PR    | What it does                                                                                  | Town            | Replay number    |
+| ----- | --------------------------------------------------------------------------------------------- | --------------- | ---------------- |
+| #7273 | One map of places: every place is one row, read through one reader, with a report of the gaps | Omaha, Arkansas | 98fb835e35583817 |
 
 ## Lane PRs merged on Nov 4 (126), on the owner's word ("You may merge lane PRs that pass the new-game check")
 
