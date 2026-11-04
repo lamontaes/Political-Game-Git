@@ -100,3 +100,9 @@ Every unit gets one before it starts (lane page, CTO rule). Units 1 and 2 were s
 
 - Unit 7: finish Arcadia and Chamblee at 4,096 MiB; file or fix what grows in the election year (Nov 1 note: durableLog, foldedCauses, doors).
 - Unit 4: resume the sweep after unit 7's run.
+
+## Confirmer
+
+Replays by a session that built none of this lane's work, on main. Only this section is the Confirmer's.
+
+- **Path 12, merges don't collide: fail.** Nov 4, main 99d774785b. Step: the new-game check the only required one. `gh api repos/lamontaes/Political-Game-Git/branches/main/protection` lists the required checks as `validate` and `golden-path`; the `new game` job (#7141) is not among them, and every push to main prints "2 of 2 required status checks are expected". The two-PR merge half was not replayed (it needs two PRs merged, which the Confirmer doesn't do). Filed `release-main-requires-only-new-game-check` (a branch setting, the owner's one click per the merge desk page). Fail 1 of 3.
