@@ -1,6 +1,6 @@
 # Opening treasury stocks — incomplete
 
-Pool item: world-government-opening-fund-balance. This is a partial implementation and observation, not a Built or Verified played path. The full draft includes state/local estimates and removes the treasury fixtures. The ordinary played-year regression passes; New Game and relative timing remain unfinished.
+Pool item: world-government-opening-fund-balance. This is a partial implementation and observation, not a Built or Verified played path. The full draft includes state/local estimates and removes the treasury fixtures. The ordinary played-year regression and New Game pass; relative timing remains unfinished.
 
 Running Water, South Dakota (4656820), replay **3c16bfebaea9cae1**, world seed `7c8bbdbdc3d169e27abe8651447dd8cbb058d0c419e111dc86f5d5f8b617bb61`. Both observations use `buildBenchWorld` with all ordinary modules, January 20 through March 6, 2025. No law, vote, benefit or person payment is supplied by the observer.
 
@@ -38,3 +38,5 @@ The new `src/core2/opening-treasuries.test.ts` passes an **ordinary year** in Vi
 All four opening postings balance (January 20 journal sequences 0–3). All four first closes have zero line/public-pay shortfalls. They make 125/3,060/353/115 captured named payments over the year, respectively. Jordan's receipt lowers federal cash from 87,175,307,708,597 to 87,175,307,706,297 cents, below the opening stock. Victoria's `journal:2025-02-01:1049`, source `treasury-wages:workers:place:0571900:budget-line:parks:2025-02-01`, lowers cash from 4,812,934 to 4,805,206 cents, below its 4,808,533-cent opening stock. Those are reserve-use witnesses. Arkansas/county cash does not fall below the opening stock in the captured receipts; no reserve-use claim is made for them. The rejected second opening adds no cash or journal entry.
 
 Reproduce with `GOLDEN_PATH_SEED=fb1831bebc2a4db0 OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" NODE_OPTIONS=--max-old-space-size=8192 npm test -- src/core2/opening-treasuries.test.ts --maxWorkers=1 --disableConsoleIntercept --reporter=verbose`.
+
+New Game passes on `1f732fe88805657dff9e3dc4a7be248ef5e4fc77`: Emerson, Nebraska, replay **19828519e5834e5a**, four weeks, scene and Journal reads. The first attempt in the sparse checkout returned HTTP 400 because `art/people-engine/v4/people/man-heavy/kit/s01/body.png` is intentionally absent there. The same replay and exact commit pass in the full checkout; no source or assertion changed. Both logs and the result are retained under `/tmp/lane-2-opening-treasuries-newgame*`. Runtime/calibration/fixture commit: `590be21c2c`; regression commit: `1f732fe888`. Research/parameter checks (33), zero-dice and test-import scan also pass on the full draft.
