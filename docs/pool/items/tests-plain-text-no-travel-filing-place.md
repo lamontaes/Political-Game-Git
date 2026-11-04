@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/bench/plain-text.browser.mjs, src/bench/travel.ts
 
 **Notes.** TODO
+
+Lane 5, Nov 3: three more fresh benches with the shared opening helper (#7155): Farmers Loop, Alaska (44e7fea7-bb6a-4a5a-ac12-035acf9dd386) and Burleson, Texas (ca2cfbd3-5a83-4b11-a04d-7992102b5f32) failed the same way; Condon, Oregon (8899fc75-7fbd-4cfc-b121-6a6b90fc5747) got past Travel and timed out waiting for a choice in a later talk (`#talk-choices button`).
