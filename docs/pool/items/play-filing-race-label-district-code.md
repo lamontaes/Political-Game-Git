@@ -5,11 +5,12 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane-4/district-words
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T08:45:21.746Z
 ---
 
 **What.** At the filing counter in Oakland, South Carolina (custom world seed lane4-rows-1, Feb 2, 2026) a race reads 'I want to run for U.S. Representative (05).' with the facts 'Seat 05 · November 3, 2026'. The district is the records' padded code, said twice. Seen in docs/play-first/shots/play-stop-race-list-row-heights-differ-when-a-label-wraps/race-list-1440.png.
