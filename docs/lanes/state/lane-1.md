@@ -1,4 +1,4 @@
-0 of 14 paths confirmed. Furthest New Game step: 10 (Ely, Nevada, on main, Nov 4: won an open council seat in 2026, its parks bill passed 5 to 0, and its law took effect and was read). Of seven fixed towns that ran, two win; five lose or find no race. Oldest open PR 0 days; open: #7265.
+0 of 14 paths confirmed. Furthest New Game step: 10 (Ely, Nevada, on main, Nov 4). Of seven fixed towns, two win; Jericho, Vermont now finishes fourth of five for three at-large seats, a few points short. Oldest open PR 0 days; open: #7270.
 
 **From Lane 5, Nov 4 12:40 UTC (unit 9, saves):** a three-line edit to `office-day.ts` so a save keeps `seenTerms`. Without it, a restored world books an office review the original never booked. Proposed in `docs/lanes/agreements/1-5.md`; please confirm or object there.
 
@@ -32,6 +32,8 @@
   - #7235: a county race is voted by the whole county (Rutland, Vermont; Roxobel, North Carolina).
   - #7239: Alabama's towns vote in 2025 and every fourth year after (Haleyville's council race had moved to 2028).
   - #7248: the path check waits for filing to open and, after a loss, for the next race.
+  - #7265: the path check prints each candidate's vote share.
+  - #7269: a body's at-large seats up on one day are one race; the top finishers take the seats.
 - **Built, open:** none.
 - **Filed for path 11:** `play-campaigns-shows-your-record` (Lane 4's screen).
 - **Agreements:** 1-2 written (one bill engine). 1-3 confirmed and extended (director tests that file the player; a worded law line asked of Lane 3). 1-4 written (filing seams in `src/bench`).
@@ -117,6 +119,7 @@ Unit 1b fit, then unit 5 (uncontested seats: in these runs 87% of running holder
 Replays by a session that built none of this lane's work, on main, from a fresh New Game. Only this section is the Confirmer's.
 
 - **Path 2, a real contest: fail (can't be run on main).** Main fb000259ca, Nov 4. path-check in all eight fixed towns at their replay numbers: "no contest the player can enter" in every one, because it gives up before filing opens (Storrs opens June 10, 2025 in the browser). The totals script the page names isn't on main. One race each seen in the browser: Storrs's holder won 552 to 223 (71%); Murray's open seat won by the player first try. Filed `elections-path-check-waits-for-filing-window`. Proof: `docs/lanes/proof/confirmer-lane1-path2/`. Fail 1 of 3.
+  - Run again after #7248 (path-check waits for filing) on main 881bea2820, same replays (`path-check-after-7248.log.txt`). Haleyville: won the first try (council, August 26, 2025; bill 2025-7 failed 1 to 4). Murray: lost all three (2026 council, 2028 council to its holder, 2030 state senate). Meadow Lakes: lost both races it found (2025 local, 2028 state house). Brookside, Storrs, D.C., Cabo Rojo and Santa Rita did not finish: each run passes 30 minutes and the session's background limit stopped them. Holders' share of the two-way vote and holders losing still have no measure on main (the totals script isn't there). Fail 2 of 3.
 - **Path 3, a yes becomes a vote: fail.** Main 2e321723d8, Nov 4. Murray, Nebraska, replay 1d3f0e18ca4ba7e5 (opened as Murray). Filed for Council member June 2, 2026, knocked doors weekly; Campaigns shows the doors (54 to 4,105); she won 110 to 37, 34 and 4. Step: the race's record of promisers voting more than neighbors. No screen, results record or run log shows it. Filed `elections-door-pledge-turnout-shown`. Proof: `docs/lanes/proof/confirmer-lane1-path3/`. Fail 1 of 3.
   - Replayed again on main 21830c5ce8 (Murray, same replay): doors on Campaigns 377 to 3,510, a win 109 to 43, 30 and 4; the promisers' turnout is still shown nowhere. Fail 2 of 3; no fix merged.
 - **Path 6, win and take the seat: fail.** Same Murray life, continued to April 27, 2027. The win, Your office (by January 5, 2027) and five month-ends with no crash all passed. Step: the swearing-in. Only the Journal line "I took office as Council member." played; no swearing-in. Covered by Lane 3's `words-swearing-in-scene-and-speech`. Proof: `docs/lanes/proof/confirmer-lane1-path6/`. Fail 1 of 3.
