@@ -5,7 +5,7 @@ area: play
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: words/campaign-walkthrough
 pr: #7103
 blocked-on:

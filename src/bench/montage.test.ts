@@ -5,6 +5,7 @@
  * people along a route, the key people named by office, and the household at
  * home (Words' address is 7 to 11 parts, each sentence carrying its level).
  */
+import { keyPeopleOf } from "../core2/modules/people";
 import { createHash } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -43,7 +44,7 @@ it("keys the beats to each part's role: the desk first, home last, the level bet
     "officials",
     "officials",
     "america",
-    "officials",
+    "state",
     "home",
     "home",
   ]);
@@ -87,7 +88,11 @@ it.each(["a", "b", "c"])(
     ).toEqual(beatKinds(levels));
     expect(beats.length, where).toBe(parts);
     for (const beat of beats) {
-      if (beat.kind !== "america")
+      if (beat.kind === "state")
+        // The states' part names its people over the capitol and draws none
+        // (owner, Nov 4: no people tonight).
+        expect(beat.people.length, `${where}: state`).toBe(0);
+      else if (beat.kind !== "america")
         expect(beat.people.length, `${where}: ${beat.kind}`).toBeGreaterThan(0);
       expect(beat.backdrop.url, where).toContain("/art/backdrops/");
     }
@@ -104,6 +109,24 @@ it.each(["a", "b", "c"])(
     expect(officials.length, where).toBeGreaterThan(0);
     for (const beat of officials)
       expect(beat.caption, where).toMatch(/\S+ \S+/);
+    // The states' part names the player's governor by office over their
+    // state's capitol, by the governor's own records.
+    const governor = keyPeopleOf(world.core, world.playerId!).find((person) =>
+      person.reasons.includes("governor"),
+    );
+    for (const beat of beats.filter((row) => row.kind === "state")) {
+      expect(beat.backdrop.file, where).toMatch(/^state-capitol-/);
+      if (!governor) continue;
+      expect(beat.caption, where).toContain(
+        `${governor.officeTitle} ${governor.name}`,
+      );
+      for (const id of governor.sourceRecordIds)
+        expect(beat.sourceRecordIds, `${where}: ${id}`).toContain(id);
+      expect(beat.backdrop.file, where).toContain(
+        `state-capitol-${governor.stateKey!.slice(3).toLowerCase()}`,
+      );
+      console.log(`${where}: ${beat.caption} over ${beat.backdrop.file}`);
+    }
     // Home holds the player.
     expect(
       beats.at(-1)!.people.map((person) => person.personId),

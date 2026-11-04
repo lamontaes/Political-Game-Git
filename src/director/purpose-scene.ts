@@ -75,9 +75,16 @@ import {
   type CauseRow,
 } from "../core2/modules/campaigns";
 import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };
+import {
+  outletsHere,
+  PRESS_MODULE_ID,
+  townOutlet,
+  PRESS_STORY_EVENT,
+} from "../core2/modules/press";
+import { closenessBetween } from "../core2/closeness";
 import { stakeOf } from "./family-stake";
+import { remarkOf } from "./remark";
 import { properName, spoken, spokenDate } from "./words";
-import { PRESS_STORY_EVENT } from "../core2/press-desk";
 import { giveInauguralAddress, inauguralStand } from "./inaugural-address";
 import {
   ADDRESS_KEEPS,
@@ -257,16 +264,25 @@ function composeBinding(
   if (cause) facts.cause = { text: cause, sourceRecordIds: [moment.causeId] };
   // A bill the record names, by its number, and the section a trade added.
   // A committee's hold names its bill by id only; the bill row has the number.
+  // A public comment heard at a hearing names its bill through the
+  // meetings engine's remark, with the side the speaker took.
+  const remark = remarkOf(core, moment.causeId);
+  if (remark && remark.position !== P.zero)
+    facts[remark.position > P.zero ? "spoke-for" : "spoke-against"] = {
+      text: "yes",
+      sourceRecordIds: [remark.id, moment.causeId],
+    };
+  const billId = said.billId ?? remark?.billId;
   const named =
-    said.billId && core.modules.has(LEGISLATURE_MODULE_ID)
-      ? billOf(coreAPI(core as CoreState), said.billId)
+    billId && core.modules.has(LEGISLATURE_MODULE_ID)
+      ? billOf(coreAPI(core as CoreState), billId)
       : undefined;
   const number = said.number ?? named?.number;
   if (number) {
     // Said as a clerk reads it: a bare number takes its form's word first.
     facts.bill = {
       text: spokenDesignation(number, named?.form.kind ?? ""),
-      sourceRecordIds: [said.billId ?? moment.causeId, moment.causeId],
+      sourceRecordIds: [billId ?? moment.causeId, moment.causeId],
     };
   }
   // A law in force (a story that it took effect): its policy by name, for
@@ -469,6 +485,45 @@ function composeBinding(
     } else if (said.subjectId === askedId && said.subjectFraming === "against")
       facts["about-you"] = { text: asked.givenName, sourceRecordIds: cited };
   }
+  // A bill the asked person just introduced (legislature.ts introduce): the
+  // lines about an introduction need it.
+  if (record?.kind === "office.introduced")
+    facts.introduced = {
+      text: said.number ?? "",
+      sourceRecordIds: [moment.causeId, said.billId ?? moment.causeId],
+    };
+  // A vote the asked person sat for (legislature.ts): the lines asked after
+  // a vote need it, and which side they took, from their own vote record; a
+  // member the roll shows on neither side has no side.
+  if (record?.kind === "legislative-vote") {
+    facts["vote-held"] = {
+      text: said.number ?? "",
+      sourceRecordIds: [moment.causeId],
+    };
+    const ownId = `office.voted:${said.billId ?? ""}:${askedId}`;
+    const own = core.durableLog.get(ownId)?.facts?.vote;
+    // The side is in the fact's name, so the bank's lines say it in words.
+    if (own === "yes" || own === "no")
+      facts[`voted-${own}`] = {
+        text: said.number ?? "",
+        sourceRecordIds: [moment.causeId, ownId],
+      };
+  }
+  // A reporter cast for a record that names no outlet speaks for the outlet
+  // that employs them, by its record.
+  if (!facts.outlet && !said.outletId && core.modules.has(PRESS_MODULE_ID)) {
+    const employer = outletsHere(coreAPI(core as CoreState)).find((row) =>
+      row.reporterIds.includes(askerId),
+    );
+    const outlet = employer
+      ? core.organizations.get(employer.organizationId)
+      : undefined;
+    if (outlet)
+      facts.outlet = {
+        text: properName(outlet.name),
+        sourceRecordIds: [employer!.id, outlet.id],
+      };
+  }
   // An outlet any other cause names (an invitation to an interview or a
   // debate), by name.
   if (record?.kind !== PRESS_STORY_EVENT && said.outletId) {
@@ -529,6 +584,22 @@ function composeBinding(
       sourceRecordIds: [askerId, askedId],
     };
   else facts.stranger = { text: asker.givenName, sourceRecordIds: [askerId] };
+  // Which side of their tie the two stand nearer, from its record: a friend
+  // (`tie-friend`) is nearer full closeness than none; a rival (`tie-rival`)
+  // is one whose last contact on the tie was a quarrel. A friend and a rival
+  // say different things.
+  const tieId =
+    askerId < askedId ? `${askerId}:${askedId}` : `${askedId}:${askerId}`;
+  const tie = core.relationships.get(tieId);
+  const quarrel = (tie?.latestChange?.requestedChange ?? P.zero) < P.zero;
+  if (tie && quarrel)
+    facts["tie-rival"] = { text: asker.givenName, sourceRecordIds: [tieId] };
+  else if (
+    tie &&
+    closenessBetween(core, askerId, askedId) >=
+      rulesFile.tieSides.friendCloseness.value
+  )
+    facts["tie-friend"] = { text: asker.givenName, sourceRecordIds: [tieId] };
   // A committee trade coming due on the floor (legislature.ts
   // recordPromises): the member promised their vote, and the lines about a
   // promised vote need it.
@@ -1042,11 +1113,49 @@ function petitionFacts(
       : null;
   if (!petition) return {};
   const fact = (text: string) => ({ text, sourceRecordIds: [petition.id] });
-  if (petition.needed <= P.zero) return { "no-petition": fact("yes") };
+  const walk = walkThroughFacts(core, petition);
+  if (petition.needed <= P.zero) return { "no-petition": fact("yes"), ...walk };
   const due = fact(spokenDate(petition.due, core.date));
   return petition.needed === P.one
-    ? { "one-signature": fact("yes"), due }
-    : { signatures: fact(petition.needed.toLocaleString("en-US")), due };
+    ? { "one-signature": fact("yes"), due, ...walk }
+    : {
+        signatures: fact(petition.needed.toLocaleString("en-US")),
+        due,
+        ...walk,
+      };
+}
+
+/**
+ * The first filing of a life (owner, Nov 1: "it should be the first time in
+ * a game that the player files for an office... do you know how to run a
+ * campaign?"): the clerk asks, and a candidate who says no is walked through
+ * it from the place's records, the petition and the town's own paper, whose
+ * ad time a campaign buys and whose reporters cover the race. A second filing
+ * is not asked again.
+ */
+function walkThroughFacts(
+  core: Readonly<CoreState>,
+  petition: { filingId: string; personId: string },
+): Record<string, Fact> {
+  const api = coreAPI(core as CoreState);
+  const filings = api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("filings")
+    .query("byPerson", [petition.personId]);
+  if (filings.length !== P.one) return {};
+  // The town's own newspaper, whose ads and reporters the answer names.
+  const town = core.modules.has(PRESS_MODULE_ID) ? townOutlet(api) : null;
+  const outlet = town?.kind === "newspaper" ? town : null;
+  // Said as "the Mauston Record": a name that carries its own article drops it.
+  const paper = outlet
+    ? core.organizations.get(outlet.organizationId)?.name?.replace(/^The /, "")
+    : undefined;
+  return {
+    "first-filing": { text: "yes", sourceRecordIds: [petition.filingId] },
+    ...(outlet && paper
+      ? { outlet: { text: paper, sourceRecordIds: [outlet.id] } }
+      : {}),
+  };
 }
 
 const AFTERNOON_FROM = rulesFile.timeOfDay.afternoonFromMinute.value;

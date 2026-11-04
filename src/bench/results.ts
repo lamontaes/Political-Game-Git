@@ -13,7 +13,9 @@ import type { CoreAPI, CoreState } from "../core2/types";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { backdropFor, stagePeople } from "./scene";
 import { hasBackdrop } from "./backdrop-places";
+import { districtWords, raceTitle } from "./race-words";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
+import controls from "./data/controls.json" with { type: "json" };
 
 const ELECTIONS = "core2-elections-v1";
 
@@ -22,6 +24,39 @@ function candidateName(api: CoreAPI, id: string): string {
   const who = candidateIdentity(api, id);
   return who ? `${who.givenName} ${who.familyName}` : id;
 }
+
+/**
+ * A counted place as the player reads it. The electorate engine keys a
+ * district's place by its seat or district code (`seat:US-NV:upper:014:0`,
+ * `NV-02`) and a state's by its postal code; the screen says "District 14"
+ * (controls) or the state's name. Counties keep their own names.
+ */
+export function placeWords(
+  placeId: string,
+  name: string,
+  district: string | null,
+): string {
+  const stateName = (usps: string) =>
+    corePlaceStateIdentities().find(
+      (row) => row.jurisdictionKey === `US-${usps}`,
+    )?.name ?? usps;
+  if (placeId.startsWith("legislative:") || placeId.startsWith("district:")) {
+    // The race's district in words (race-words.ts); a seat elected at large
+    // (`ND-00`) is the whole state.
+    const code =
+      district ?? (placeId.startsWith("district:") ? name.slice(3) : null);
+    if (code === null) return name;
+    return districtWords(code) ?? stateName(name.slice(0, 2));
+  }
+  if (placeId.startsWith("state:")) return stateName(name);
+  return name;
+}
+
+/** An exit-poll answer that names nobody: a blank ballot or a refusal, worded by controls. */
+const EXIT_POLL_WORDS: Readonly<Record<string, string>> = {
+  "left-blank": controls.results.leftBlank,
+  declined: controls.results.declined,
+};
 
 /**
  * Election night: every race held so far, newest night first and, within a
@@ -57,10 +92,10 @@ export function electionResults(core: CoreState, playerId: string) {
     const ran = playerId in result.totals;
     out.push({
       contestId: contest.id,
-      title: contest.district
-        ? `${contest.title} (${contest.district})`
-        : contest.title,
+      title: raceTitle(contest.title, contest.district),
       date: contest.electionDate,
+      /** The seat's district, for wording the places counted in it. */
+      district: contest.district ?? null,
       /** The player ran in it, and whether they won. */
       mine: ran ? { won: result.winnerId === playerId } : null,
       candidates: Object.entries(result.totals)
@@ -86,7 +121,7 @@ export function electionResults(core: CoreState, playerId: string) {
           )[0];
           return {
             id: place.placeId,
-            name: place.name,
+            name: placeWords(place.placeId, place.name, contest.district),
             cast: place.cast,
             leader: leader && leader[1] > 0 ? name(leader[0]) : null,
           };
@@ -94,7 +129,9 @@ export function electionResults(core: CoreState, playerId: string) {
         .sort((a, b) => b.cast - a.cast || a.id.localeCompare(b.id)),
       exitPoll: Object.fromEntries(
         Object.entries(result.exitPoll).map(([id, n]) => [
-          id.startsWith("official:") || core.people.has(id) ? name(id) : id,
+          id.startsWith("official:") || core.people.has(id)
+            ? name(id)
+            : (EXIT_POLL_WORDS[id] ?? id),
           n,
         ]),
       ),

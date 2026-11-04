@@ -1848,6 +1848,15 @@ body.dev .dev-ring {
 #person-role:empty {
   display: none;
 }
+/* Who they are now and where they come from, under the name (owner, Nov 1). */
+#person-summary {
+  margin: 0;
+  color: var(--text);
+  line-height: 1.4;
+}
+#person-summary:empty {
+  display: none;
+}
 #person-facts {
   flex: 1;
   min-height: 0;
@@ -2181,6 +2190,26 @@ body.dev .dev-ring {
 }
 #returns-count {
   margin-top: 12px;
+}
+/* The governor races elsewhere: their own page, two columns of tight rows. */
+#returns.nation #returns-lines {
+  flex: none;
+}
+#returns.nation #returns-count {
+  flex: 1;
+  min-height: 0;
+  columns: 2;
+  column-gap: 20px;
+}
+#returns.nation #returns-count .row {
+  padding: 2px 0;
+  gap: 8px;
+  font-size: 12.5px;
+  white-space: nowrap;
+}
+#returns.nation #returns-count .row > b:first-child {
+  max-width: none;
+  letter-spacing: 0.06em;
 }
 #election-day-lines p,
 #returns-lines p {
@@ -4728,4 +4757,156 @@ select.release-pick {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+/* The calendar's kinds, each its own color, named and hidden by the key above the month
+   (owner, Nov 1: "color code those things ... and be able to hide them"). */
+.calendar-layout {
+  --kind-birthday: #e0a090;
+  --kind-deadline: #d6bd84;
+  --kind-election: #7fa3d6;
+  --kind-meeting: #8fc79a;
+  --kind-holiday: #c4a0d8;
+}
+.calendar-key {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin: 0 0 8px;
+}
+#sheet-body .calendar-key .key-kind {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 0;
+  padding: 4px 12px;
+  border-radius: 14px;
+  font-size: 13px;
+  opacity: 0.55;
+}
+#sheet-body .calendar-key .key-kind.on {
+  opacity: 1;
+}
+.calendar-key .key-kind::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--kind-color);
+}
+.kind-birthday {
+  --kind-color: var(--kind-birthday);
+}
+.kind-deadline {
+  --kind-color: var(--kind-deadline);
+}
+.kind-election {
+  --kind-color: var(--kind-election);
+}
+.kind-meeting {
+  --kind-color: var(--kind-meeting);
+}
+.kind-holiday {
+  --kind-color: var(--kind-holiday);
+}
+.calendar-layout .day-icon[class*="kind-"] {
+  border-radius: 50%;
+  background: var(--kind-color);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
+  filter: none;
+}
+.calendar-layout .calendar-entry[class*="kind-"] {
+  border-left: 3px solid var(--kind-color);
+}
+.calendar-layout .calendar-entry[class*="kind-"] .when {
+  color: var(--kind-color);
+}
+
+/* ---- Loading worth watching (Lane 4, path 3) ----
+   The built world's past while the first scene is drawn: a year counter
+   over a map that fills in and the journal writing itself. Never a scroll:
+   the journal keeps its newest lines at the foot and lets the oldest go. */
+#loading-story {
+  position: fixed;
+  /* Under the loading card at the top left, centered across the window. */
+  bottom: var(--gutter);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 7;
+  width: min(920px, calc(100vw - 2 * var(--gutter)));
+  height: min(560px, calc(100vh - 2 * var(--gutter) - 230px));
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  cursor: pointer;
+}
+.loading-year {
+  font: 600 44px/1 var(--name);
+  letter-spacing: 0.04em;
+  color: var(--gold);
+  font-variant-numeric: tabular-nums;
+}
+.loading-body {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  grid-template-rows: minmax(0, 1fr);
+  gap: 24px;
+  margin-top: 14px;
+}
+.loading-map {
+  min-height: 0;
+  padding: 0 28px 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.loading-map .gov-map {
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+  overflow: visible;
+}
+.loading-map .county,
+.loading-map .yours {
+  transition: opacity 0.5s ease;
+}
+.loading-map .unfilled {
+  opacity: 0.08;
+}
+.loading-journal {
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+.loading-journal p {
+  margin: 0 0 8px;
+  animation: loading-write 0.6s ease both;
+}
+.loading-headline {
+  font: 600 13px/1.35 var(--ui);
+  color: rgba(242, 237, 228, 0.78);
+  border-left: 2px solid var(--gold);
+  padding-left: 10px;
+}
+@keyframes loading-write {
+  from {
+    opacity: 0;
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .loading-journal p {
+    animation: none;
+  }
 }

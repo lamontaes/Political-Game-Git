@@ -44,7 +44,7 @@ import {
 } from "../director/speech-builder";
 import { campaignParameter } from "../core2/campaign-views";
 import { backdropFor, homeOf, stagePeople } from "./scene";
-import { dollarsOf, nameList, standingLine } from "./race-words";
+import { dollarsOf, nameList, standingLine, raceTitle } from "./race-words";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 
 /** The voters a poll asks when the player commissions one from the Campaigns screen. */
@@ -109,9 +109,7 @@ export function campaignView(core: CoreState, personId: string) {
         opponents: causes.filter((who) => !who.you).map((who) => who.name),
         contest: contest
           ? {
-              title: contest.district
-                ? `${contest.title} (${contest.district})`
-                : contest.title,
+              title: raceTitle(contest.title, contest.district),
               electionDate: contest.electionDate,
             }
           : null,

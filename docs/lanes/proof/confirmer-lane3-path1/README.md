@@ -1,0 +1,11 @@
+# Confirmer replay: Lane 3, Path 1 (the clerk and the address)
+
+Replayed Nov 4, 2026 on main 99d774785b by a session that built none of it. New Game in Haleyville, Alabama (picked in the creator; replay ab5f58e9be125c95; it opened as Haleyville), Emily Carter, born April 10, 1985. Chromium at 1440 by 900. Every talk line was read and logged as it showed (`haleyville-talk.log.txt`, script `replay-clerk.mjs`); the Week button pressed once a week; the first reply picked everywhere except the first talk with a choice, where the second reply was picked to see whether the talk follows it.
+
+**The address** (January 20, 2025): President David Jennings speaks in eight lines, no reply asked (`haleyville-open-00.jpg`, `-open-07.jpg`).
+
+**The talk after it** (January 29, 2025, at home): "Your partner asks you to sit down first." Then Ryan Carter: "I liked what the President had to say." Replies: "You and me both." / "I saw it differently." / "We'll see what the President actually does." / "Washington's a long way from here, though." Picked "I saw it differently."; he answers "Then we'll see which of us was right. Let's leave it there for now." The transcript shows only the line chosen (`haleyville-week-talk-002.jpg`, `-003.jpg`). The same lines came back in a second replay of the same world.
+
+**The clerk** (November 25, 2025, the first day anything opens for filing in this town; see Lane 1's path 1 record): Travel, the filing office, Go. "You step up to the counter to ask for the papers to run. Seth Sharp, the Secretary of State, sets down a stack of mail." "How can I help you?" Picked U.S. Senator: "All right, U.S. Senator. Let's get you started. You'd serve 6 years. First comes the primary, May 19, 2026, and then the general, November 3, 2026. It's a statewide office. Every voter in the state gets a say in who holds it. You've got until January 23, 2026 to get it all back to me." (`haleyville-clerk-01.jpg` to `-03.jpg`). No page errors.
+
+**Result: pass.** Seen for the owner's look: "Your partner asks you to sit down first." reads like bad news coming, then the talk is about the speech; the office view said "Closed now. Opens Tuesday, November 25, 2025 at 8:00 AM." while the clock already read that day at 7:00 AM.

@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: done
 claimed-by: lane3/journal-filed-not-ran
-pr:
+pr: #7179
 blocked-on:
 after: play-stop-19-turning-eighteen-and-journal-silent-a
 source: added with npm run pool -- add

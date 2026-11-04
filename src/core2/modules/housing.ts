@@ -5,6 +5,7 @@
  * grace period and follows the place's own steps: notice, cure, filing,
  * hearing, judgment and removal, each a dated step on the module calendar.
  */
+import type { PreStartModule } from "../past-module";
 import { townOutsideOf } from "../opening-outside-market";
 import { lawApplied } from "../law-reach/applied";
 import { payRentAssistance } from "../housing-assistance";
@@ -103,7 +104,6 @@ import type {
   ActOffer,
   CoreAPI,
   CoreInput,
-  CoreModule,
   CoreState,
   GroupQuartersType,
   PersonState,
@@ -2625,8 +2625,87 @@ function settleArrears(
   };
 }
 
-export const HOUSING_MODULE: CoreModule = {
+/** The one opening writer, used before the first view and by worlds without history. */
+export function openHousing(api: CoreAPI): void {
+  if (store(api).table("state").get("housing:state")) return;
+  if (!api.state.placeMetadata?.housingState) return;
+  store(api)
+    .table("state")
+    .put({ id: "housing:state", openedAt: api.state.date });
+  const homes = api.state.placeMetadata?.[DWELLINGS_KEY];
+  const loans = new Map(
+    (terms0(api) ?? []).map((row) => [row.householdId, row.holderId]),
+  );
+  for (const [householdId, tenure, amount, kind, institutionId] of homes
+    ? (JSON.parse(homes) as [
+        string,
+        "own" | "rent" | "group",
+        number,
+        string?,
+        string?,
+      ][])
+    : [])
+    store(api)
+      .table("dwellings")
+      .put(
+        tenure === "group"
+          ? // A group-quarters room: the institution houses it, for no
+            // rent or value of its own.
+            {
+              id: `dwelling:${householdId}`,
+              householdId,
+              tenure,
+              kind: kind!,
+              ...(institutionId ? { institutionId } : {}),
+              since: api.state.date,
+              basis: "opening",
+            }
+          : {
+              id: `dwelling:${householdId}`,
+              householdId,
+              tenure,
+              kind: kind ?? "house",
+              ...(tenure === "own"
+                ? {
+                    valueMinor: amount,
+                    loanHolderId: loans.get(householdId) ?? "",
+                  }
+                : { rentMinor: amount }),
+              since: api.state.date,
+              basis: "opening",
+            },
+      );
+  const terms = api.state.placeMetadata?.[MORTGAGE_TERMS_KEY];
+  for (const row of terms ? (JSON.parse(terms) as MortgageTerms[]) : [])
+    store(api)
+      .table("mortgages")
+      .put({ id: `${MORTGAGE_PREFIX}${row.householdId}`, ...row });
+  openMissingHomes(api);
+  for (const landlord of api.state.organizations.values()) {
+    if (!landlord.id.startsWith("organization:landlord:")) continue;
+    const town = townFigures(api, landlord.placeId);
+    openStock(
+      store(api).table("stock"),
+      landlord.placeId,
+      town.renters,
+      town.homeValueMinor,
+      town.rentMinor,
+      macroPrices(api)?.(api.state.date) ?? 1,
+    );
+  }
+  scheduleReview(api);
+}
+
+export const HOUSING_MODULE: PreStartModule = {
   id: HOUSING_MODULE_ID,
+  preStart: {
+    // Opening households and offices already exist when the history passes run.
+    // These are current opening records, not invented historical events.
+    phase: "government",
+    run(api) {
+      openHousing(api);
+    },
+  },
   state: {
     schemaVersion: 1,
     tables: {
@@ -2726,73 +2805,7 @@ export const HOUSING_MODULE: CoreModule = {
   },
   onDay(api) {
     payCounselOwed(api);
-    if (store(api).table("state").get("housing:state")) return;
-    if (!api.state.placeMetadata?.housingState) return;
-    store(api)
-      .table("state")
-      .put({ id: "housing:state", openedAt: api.state.date });
-    const homes = api.state.placeMetadata?.[DWELLINGS_KEY];
-    const loans = new Map(
-      (terms0(api) ?? []).map((row) => [row.householdId, row.holderId]),
-    );
-    for (const [householdId, tenure, amount, kind, institutionId] of homes
-      ? (JSON.parse(homes) as [
-          string,
-          "own" | "rent" | "group",
-          number,
-          string?,
-          string?,
-        ][])
-      : [])
-      store(api)
-        .table("dwellings")
-        .put(
-          tenure === "group"
-            ? // A group-quarters room: the institution houses it, for no
-              // rent or value of its own.
-              {
-                id: `dwelling:${householdId}`,
-                householdId,
-                tenure,
-                kind: kind!,
-                ...(institutionId ? { institutionId } : {}),
-                since: api.state.date,
-                basis: "opening",
-              }
-            : {
-                id: `dwelling:${householdId}`,
-                householdId,
-                tenure,
-                kind: kind ?? "house",
-                ...(tenure === "own"
-                  ? {
-                      valueMinor: amount,
-                      loanHolderId: loans.get(householdId) ?? "",
-                    }
-                  : { rentMinor: amount }),
-                since: api.state.date,
-                basis: "opening",
-              },
-        );
-    const terms = api.state.placeMetadata?.[MORTGAGE_TERMS_KEY];
-    for (const row of terms ? (JSON.parse(terms) as MortgageTerms[]) : [])
-      store(api)
-        .table("mortgages")
-        .put({ id: `${MORTGAGE_PREFIX}${row.householdId}`, ...row });
-    openMissingHomes(api);
-    for (const landlord of api.state.organizations.values()) {
-      if (!landlord.id.startsWith("organization:landlord:")) continue;
-      const town = townFigures(api, landlord.placeId);
-      openStock(
-        store(api).table("stock"),
-        landlord.placeId,
-        town.renters,
-        town.homeValueMinor,
-        town.rentMinor,
-        macroPrices(api)?.(api.state.date) ?? 1,
-      );
-    }
-    scheduleReview(api);
+    openHousing(api);
   },
 };
 

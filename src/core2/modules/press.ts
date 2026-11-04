@@ -131,6 +131,8 @@ import {
   type DeskContext,
   type PrintedStory,
 } from "../press-desk";
+// The press desk's own story record, read by the director through this entry.
+export { PRESS_STORY_EVENT } from "../press-desk";
 import { newsKey, storiesHeard, type Story } from "./news";
 import { worldLevel } from "../world-draw";
 
@@ -354,6 +356,10 @@ export const PRESS_MODULE: CoreModule = {
       },
       staff: { indexes: { byOutlet: { fields: ["outletId"] } } },
       wire: { indexes: { byDate: { fields: ["date"] } } },
+      // What a person said to a reporter who asked them about a record (the
+      // press-interview scene), or that they declined: the paper's story
+      // of that record carries it (printed-words, commentFacts).
+      comments: {},
       digs: {},
       tips: {},
       // Stories the press wrote about the year before day one.
@@ -389,6 +395,7 @@ export const PRESS_MODULE: CoreModule = {
     // The one invited answers in the scene the invitation stages.
     if (event.kind === "scene.reply") {
       answerInvitation(api, event);
+      keepComment(api, event);
       reportConcession(api, event);
       return;
     }
@@ -3847,6 +3854,49 @@ function answerInvitation(api: CoreAPI, event: Readonly<CoreEventInput>): void {
     if (ACCEPTING_MOVES.has(move)) accepted(api, row, event.id);
     else if (REFUSING_MOVES.has(move)) refuse(api, row);
   }
+}
+
+/** What a person told a reporter about a record, or that they declined (the press-interview scene's ending). */
+export interface CommentRow {
+  readonly id: string;
+  readonly causeId: string;
+  readonly personId: string;
+  readonly date: string;
+  readonly quote: string | null;
+  readonly replyId: string;
+}
+
+/** The comment kept on a record, by the record's id. */
+export function commentOn(api: CoreAPI, causeId: string): CommentRow | null {
+  if (!api.state.modules.has(PRESS_MODULE_ID)) return null;
+  return (
+    (table(api, "comments").get(causeId) as unknown as
+      CommentRow | undefined) ?? null
+  );
+}
+
+/**
+ * A press interview that ends on the record keeps what the person said; one
+ * that ends in no comment or a walk-off keeps that they declined. A story
+ * that runs (the ending's keeps) is told in the paper's story of the record
+ * the reporter asked about.
+ */
+function keepComment(api: CoreAPI, event: Readonly<CoreEventInput>): void {
+  const facts = event.facts ?? {};
+  if (facts.typeKey !== "press-interview" || facts.keeps !== "story-runs")
+    return;
+  const causeId = String(facts.causeId ?? "");
+  const personId = event.personIds[0];
+  if (!causeId || !personId) return;
+  const said = facts.ending === "on-record" || facts.ending === "lie-printed";
+  table(api, "comments").put({
+    id: causeId,
+    causeId,
+    personId,
+    date: api.state.date,
+    quote: said ? String(facts.line ?? "") || null : null,
+    replyId: event.id,
+  } satisfies CommentRow as unknown as ModuleRow);
 }
 
 /**

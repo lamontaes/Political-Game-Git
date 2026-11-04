@@ -71,7 +71,7 @@ Mergers send back most PRs for the same few reasons, and every model makes them,
    - No record that nothing reads.
 6. **If a line can't be met,** don't open the PR as done. Either keep building, or file what blocks you as its own pool item, set your item `blocked-on` it with one Notes line, and open the PR only for what it really finishes, under a separate item whose done-when matches.
 7. **After a merge, compare the merged head with your branch.** A merger merges the head it checked, so a commit pushed after the checker's pass is left out (#6848 merged without its docs commit). Carry anything left out into your next PR and say so.
-8. **Merge main last.** Run `git merge origin/main` (plain merge), resolve conflicts keeping both sides' behavior, and rerun the checks on the merged result. Conflicts with main are the second most common send-back.
+8. **Merge main last.** Run `git merge origin/main` (plain merge), resolve conflicts keeping both sides' behavior, and rerun the checks on the merged result. Conflicts with main are the second most common send-back. In a shallow cloud clone (`git rev-parse --is-shallow-repository` prints `true`), first run `git fetch --shallow-since=<a day before the branch began> origin main`: without the real merge base, git reports false conflicts in files the branch never touched (Nov 3, Lane 1: `src/director/` conflicts on a branch that changed only `src/core2`). `npm run pool -- add`, `claim` and `status` check out main in the working tree, so commit or stash first, and never run them while a test runs in that checkout (Nov 3, Lane 1).
 
 ## Open the PR
 
