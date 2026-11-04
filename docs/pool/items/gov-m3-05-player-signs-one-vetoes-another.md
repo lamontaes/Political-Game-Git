@@ -6,9 +6,9 @@ lead: governing
 kind: wiring
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: governing/desk-sign-veto
-pr:
+pr: #7169
 blocked-on:
 source: governing lead Oct 29
 claimed-at: 2026-11-04T03:23:41.503Z

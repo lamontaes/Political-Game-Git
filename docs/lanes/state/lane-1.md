@@ -1,25 +1,28 @@
-0 of 14 paths confirmed. Furthest New Game step: 8 (Johnson, Minnesota path-check: filed, on the ballot, won the council seat, first bill failed 2 to 3). Oldest open PR 3 days (#7085).
+0 of 14 paths confirmed. Furthest New Game step: 8 (Johnson, Minnesota path-check: filed, on the ballot, won the council seat, first bill failed 2 to 3). Oldest open PR 1 day (#7152).
 
 # Lane 1 state: Run and govern
 
 ## Works
 
-- **Merged, awaiting a second session's replay:** #7142, counted voters split their votes by share.
-- **Built, open:**
+- **Merged, awaiting a second session's replay (Nov 3 to 4):**
+  - #7142: counted voters split their votes.
   - #7085: one council race, only while filing is open.
+  - #7135: press money, out-of-town press paid.
   - #7150: one filing deadline.
-  - #7154: petitions fit the town (Johnson, Minnesota now makes the ballot and wins).
-  - #7156: someone at every local filing counter.
-  - #7135: money finish, now with out-of-town press staff paid.
+  - #7156: someone at every filing counter.
+  - #7163: a door yes becomes a vote.
+  - #7165: asks reach a roll call; one sponsor's evening in one stop.
+  - #7166: a phased wage's cost note counts every step.
+  - #7167: the office keeps colleagues' stakes.
+- **Built, open:**
   - #7152: skills.
-- **Built and pushed, PR waits for a free slot (the merge desk has merged nothing since 23:07 on Nov 3):**
-  - `governing/pledge-turnout` (`campaign-door-pledge-turnout-total`): a held door yes turns out the share stated intent predicts. The weight is 1.2; three seeds give 0.56 to 0.65 against others' 0.2 to 0.3.
-  - `governing/ask-skips-held-bills` (`legislature-ask-skips-bills-the-committee-will-hold`): the evening-before committee pass reads the asks' own agenda (fixes a fresh-draw miss in Belding, Michigan). Staged one-evening test, 3 of 3.
-  - `governing/filing-window-opens` (`elections-filing-window-opens`, on #7085's branch): every contest has an opening day. campaign-season passes on aa11. bb22's first beat comes 56 days after filing, Lane 3's quiet middle.
-  - `governing/fiscal-note-every-step` (`gov-fiscal-note-every-step`): every dated step costed, each over the step before.
-  - `governing/two-stakes` (`gov-m3-02-two-stakes-in-a-played-world`): learned stakes kept and shown on the office panel.
+  - #7154: petitions fit the town; Johnson, Minnesota makes the ballot and wins.
+  - #7168: filing opens on a set day (the second done-when line is Words' quiet-season item).
+  - #7169: the mayor's desk, sign and veto, proved in play.
+  - #7170: governors declare emergencies.
 - **Filed for path 11:** `campaign-rival-ad-quotes-a-real-vote`, `campaign-favor-called-in`, `play-campaigns-shows-your-record`.
-- **Agreements:** 1-2 written (one bill engine). 1-3 confirmed and extended (director tests that file the player). 1-4 written (filing seams in `src/bench`).
+- **Agreements:** 1-2 written (one bill engine). 1-3 confirmed and extended (director tests that file the player; a worded law line asked of Lane 3). 1-4 written (filing seams in `src/bench`).
+- **Waiting on a question:** `gov-m3-02-amend-and-endorsement-deals`, the endorsement half (see its Notes).
 
 ## Measuring now
 
