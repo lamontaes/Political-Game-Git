@@ -1247,6 +1247,11 @@ export function composeJournal(
       !!selfCount ||
       !!moment.selfNamed ||
       !facts.other ||
+      // A race is the person's own when its record names them as a
+      // candidate, whoever else the moment is with (Storrs, Connecticut,
+      // replay storrs-1: a father who walked doors was told as the loser).
+      (row.hasOwnLine &&
+        !!core.durableLog.get(moment.causeId)?.personIds.includes(personId)) ||
       moment.causeKind === "family:child" ||
       // The school year's end is the person's own result, whoever the
       // scene of it was with.

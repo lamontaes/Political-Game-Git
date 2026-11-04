@@ -107,6 +107,41 @@ it(`a candidate's journal tells their own race, even against a rival they never 
         ).toBeDefined();
         if (won) expect(line!.text).not.toMatch(/\blost\b/);
         else expect(line!.text).not.toMatch(/\b(?:I|We) won\b/i);
+        // The race stays theirs when the moment is with someone else who is
+        // not a candidate, and is not marked as naming them (Storrs,
+        // Connecticut, replay storrs-1: the father who walked doors was
+        // told as the one who lost). The race record names the candidate.
+        const helper = [...person.knownIds].find(
+          (id) => id !== filing.personId && !rivals.includes(id),
+        );
+        if (helper) {
+          const kept = {
+            counterpartIds: moment.counterpartIds,
+            selfNamed: moment.selfNamed,
+          };
+          const edited = moment as {
+            counterpartIds: readonly string[];
+            selfNamed?: true;
+          };
+          edited.counterpartIds = [helper, ...moment.counterpartIds];
+          delete edited.selfNamed;
+          try {
+            const withHelper = composeJournal(core, director, filing.personId)
+              .flatMap((chapter) => chapter.lines)
+              .find((row) => row.sourceRecordIds.includes(resultId));
+            const helperRow = core.people.get(helper)!;
+            expect(
+              withHelper?.text,
+              `${where}: ${filing.personId}'s race with ${helper} in the moment`,
+            ).toBe(line!.text);
+            expect(withHelper?.text ?? "", where).not.toContain(
+              helperRow.givenName,
+            );
+          } finally {
+            edited.counterpartIds = kept.counterpartIds;
+            if (kept.selfNamed) edited.selfNamed = kept.selfNamed;
+          }
+        }
         if (strangers) {
           if (won) outcomes.unknownWins += 1;
           else outcomes.unknownLosses += 1;
