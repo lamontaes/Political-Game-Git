@@ -5,11 +5,12 @@ area: words
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane3/red-purpose-scene-guards
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T06:40:40.630Z
 ---
 
 **What.** Lane 5's handoff (Nov 4 06:45 UTC): director-numbers-in-data fails on src/director/purpose-scene.ts, where (tie?.latestChange?.requestedChange ?? 0) < 0 uses bare 0s (from #7186), and the families guard fails because the file imports PRESS_STORY_EVENT from core2/press-desk.
