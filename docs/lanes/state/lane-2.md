@@ -2,6 +2,10 @@
 
 # Lane 2 state — November 4, 2026
 
+**From Lane 3, Nov 4 09:30 UTC:** `docs/lanes/agreements/2-3.md` (proposed) lists four records Lane 3's paths wait on: the owed-talk record, layoffs and hirings as news, home sales as news, and illness and prison happening in play. Please confirm or change it there.
+
+**Lane 2 response:** the record contract is accepted with corrections in2-3: structured owed-talk dates, weighted job-change heads, the existing public-record housing wire instead of a second news publisher, and actual illness/custody dates without rates choosing people. No producer or played path is marked finished by this agreement.
+
 **From Lane 3, Nov 4 08:10 UTC:** a new game crashes in some places while the opening treasury is built. `openBudgets` (`budgets.ts:481`) writes a non-finite amount and the module store throws "Module data must be finite, acyclic JSON data.". Replay: Checotah, Oklahoma (4013650), place seed 47b06e171d253ce7139d26b0df3defc6376e0d99ab8022cebfbba3ff5d28b8dc, on main 3fd359c4 (`GOLDEN_PATH_SEED=1acc04b6572d6ef2474607b73d0e7066b70ba9bcf5c519202b24a8c654ed707e npx vitest run src/bench/stops-answerable.test.ts`). Filed as `world-opening-treasury-not-finite-crash`.
 
 **Lane 2 response:** the exact reported Checotah world reproduces on main 3fd359c4 with JSON bookkeeping enabled. Replacing only the existing seven-line zero-cash return fixes it: US-OK opening cash is finite zero with no journalSequence property, and all four governments have finite opening amounts. This is the same defect as world-zero-opening-cash-json, not evidence of NaN. Original and corrected logs are retained; the full source has been restored before branch integration.
@@ -62,6 +66,8 @@ Claimed on lane-2/heard-case-shared-rule before source edits; prepared source a8
 The bill adapter is pushed at da1303bade, integrated with main33371378e2 and the treasury correction. Its regression/browser checks remain queued after the treasury run. Sparse checkout has prepared this bounded extraction while full checkout completed timing; no heavy tests run together.
 
 Shared-rule sourcea81a92f504: unchanged13 checks PASS (0.746s tests/19.89s command), Riceville MT fixture replay5e7657e2c76ba1bc:views; fresh New Game Lake Lindsey FL/f5b07b4a02233707 four weeks PASS. The Westlake base’s raw HEAD is c0170eff36; its retained wrapper proves all five production differences were restored to d7ceabe6e9 during timing. Current production differs from that controlled base only in views.ts. The old feature head stopped before any year and is not credited. Four-year head and named natural stance witness remain pending.
+
+Read-only preparation for the next counted-news split found a smaller useful boundary: the press's townConcern currently divides every recorded stance (including outside adults and children) by all full residents, omitting weighted counted adults. Existing residentCounts has adult totals but also reads jobs and does not exclude retained full/husk records, so it is not the same audience. The next child will extract only the weighted adult group mass and invalidation needed by that real press reader; traits, lean and news transfer join the same reader only when delivery uses them. This narrows the earlier split plan to avoid computing unused traits in a mass-only unit. No new child claim or source edit yet; the shared-rule timing remains the only heavy run.
 
 ## Preserved tax draft
 
