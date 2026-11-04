@@ -21,6 +21,7 @@ import {
   VOTING_MODULE_ID,
   type ResultRow,
 } from "./modules/voting";
+import { OFFICES_MODULE_ID } from "./modules/offices";
 import { coreAPI } from "./state";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
@@ -42,12 +43,34 @@ it(`a body's at-large seats up on one day are one race, the top finishers seated
         .moduleState(ELECTIONS_MODULE_ID)
         .table("contests")
         .rows() as unknown as ContestRow[];
-    // The first local at-large race of two seats or more on the calendar.
+    // The first local at-large race of two seats or more on the calendar,
+    // grouped here from the records (the same office and day, seats without a
+    // district, no special or primary), apart from the engine's own grouping.
+    const seatRows = api.moduleState(OFFICES_MODULE_ID).table("seats");
+    const atLarge = (c: ContestRow) =>
+      ["city", "township", "county"].includes(c.level) &&
+      !c.special &&
+      !c.primaryDate &&
+      !(seatRows.get(c.seatId) as { district?: string | null } | undefined)
+        ?.district;
     const race = contests()
-      .filter((c) => ["city", "township", "county"].includes(c.level))
+      .filter(atLarge)
       .sort((a, b) => a.electionDate.localeCompare(b.electionDate))
-      .map((c) => atLargeGroup(api, c))
+      .map((c) =>
+        contests()
+          .filter(
+            (o) =>
+              atLarge(o) &&
+              o.officeId === c.officeId &&
+              o.electionDate === c.electionDate,
+          )
+          .sort((a, b) =>
+            a.seatId.localeCompare(b.seatId, "en", { numeric: true }),
+          ),
+      )
       .find((group) => group.length > 1);
+    if (race)
+      expect(atLargeGroup(api, race[0]!).length, where).toBe(race.length);
     if (!race) {
       tried.push(`${where}: no local at-large race of two seats`);
       continue;
