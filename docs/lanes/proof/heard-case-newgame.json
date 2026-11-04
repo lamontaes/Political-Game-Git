@@ -1,0 +1,46 @@
+{
+  "head": "a81a92f504a01398cd891aaccb9a6a384f4f2261",
+  "replay": "f5b07b4a02233707",
+  "place": "Lake Lindsey, Florida",
+  "failure": null,
+  "weeks": 4,
+  "personId": "person_1b3e8a42320f0cc2",
+  "requests": [
+    {
+      "route": "POST /api/newlife?seed=f5b07b4a02233707",
+      "status": 200
+    },
+    {
+      "route": "POST /api/advance?mode=week",
+      "status": 200
+    },
+    {
+      "route": "POST /api/resume?pauseId=player%3Aperson_1b3e8a42320f0cc2%3A5",
+      "status": 200
+    },
+    {
+      "route": "POST /api/advance?mode=week",
+      "status": 200
+    },
+    {
+      "route": "POST /api/advance?mode=week",
+      "status": 200
+    },
+    {
+      "route": "POST /api/advance?mode=week",
+      "status": 200
+    },
+    {
+      "route": "POST /api/resume?pauseId=player%3Aperson_1b3e8a42320f0cc2%3A29",
+      "status": 200
+    },
+    {
+      "route": "GET /api/scene?id=person_1b3e8a42320f0cc2",
+      "status": 200
+    },
+    {
+      "route": "GET /api/journal",
+      "status": 200
+    }
+  ]
+}
