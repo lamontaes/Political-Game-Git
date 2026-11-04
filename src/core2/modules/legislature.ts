@@ -512,13 +512,11 @@ function replyPull(
  */
 function committeesBeforeTheFloor(api: CoreAPI): void {
   const floorDate = addDays(makeIsoDate(api.state.date), 1);
-  const ids = new Set([
-    ...(weeklyFloorReader?.(api, floorDate) ?? []),
-    ...(meetingAgendaReader?.(api, floorDate) ?? []),
-  ]);
-  for (const id of [...ids].sort()) {
-    const bill = table(api, "bills").get(id) as unknown as BillRow | undefined;
-    if (bill?.status !== "drafted") continue;
+  // The same agenda the sponsor's asks read (floorAgendaOn): the weekly
+  // floor, a meeting's agenda, and a bill scheduled for tomorrow's sitting
+  // (scheduleVote books no committee ahead when the sitting is tomorrow).
+  for (const bill of floorAgendaOn(api, floorDate)) {
+    const id = bill.id;
     const first = chambersOf(api, bill)[0];
     if (!first || table(api, "committees").get(`committee:${id}:${first}`))
       continue;
