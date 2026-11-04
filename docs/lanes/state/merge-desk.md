@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 79 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 80 pull requests merged. Newest state at the top of each section.
 
 ## What the owner can play now
 
@@ -29,6 +29,7 @@ New on Nov 4, from the lanes:
 - **Family and home.**
   - Relatives and officials at the opening have homes and pay rent, and your home exists before the first card and room appear.
   - Living siblings never share a first name.
+  - A person's card tells their life as a short story.
 - **Laws and money.**
   - Unemployment benefits use the law's full wage basis.
   - The lobbying ban for officials who leave starts the day they actually leave.
@@ -69,7 +70,7 @@ New on Nov 3:
   - A pool fix (#7145).
   - A state page (#7146).
 
-## Lane PRs merged on Nov 4 (44), on the owner's word ("You may merge lane PRs that pass the new-game check")
+## Lane PRs merged on Nov 4 (45), on the owner's word ("You may merge lane PRs that pass the new-game check")
 
 Each had main merged in again, passed `npm run new-game-check` (a town drawn from all 56, a new life, four weeks) and merged pinned to that head.
 
@@ -119,8 +120,9 @@ Each had main merged in again, passed `npm run new-game-check` (a town drawn fro
 | #7188 | The night's paper prints only news that is still news on its date                                                         | Okauchee Lake, Wisconsin          | c703902b25039143 |
 | #7189 | Homes exist before the first new-game card and room                                                                       | Si'ufaga, American Samoa          | 3a2fd883d5e9053f |
 | #7103 | On your first filing, the clerk asks if you've run a campaign and walks a newcomer through it                             | Rehobeth, Alabama                 | aa7b08dae2200c3e |
+| #7090 | A person's card tells their life as a short story, with lines under the name                                              | Sardis, Mississippi               | 31403e15b8341f2f |
 
-Conflicts resolved mechanically: #7154 (both sides added a parameter and a stopgap row; both kept), and #7153, #7157, #7160, #7162 (Lane 2's state page: main's wording for the one edited line, both sides' log entries kept). Mac builds started after 5, 13, 18, 25, 30, 35 and 40 of these merges.
+Conflicts resolved mechanically: #7154 (both sides added a parameter and a stopgap row; both kept), and #7153, #7157, #7160, #7162 (Lane 2's state page: main's wording for the one edited line, both sides' log entries kept). Mac builds started after 5, 13, 18, 25, 30, 35, 40 and 45 of these merges.
 
 ## Merged (35), each on the one check with a printed replay number
 
@@ -175,7 +177,7 @@ Mac builds (`release-package.yml` on main) were started after 8, 20, 26 and 34 m
 
 ## Lanes (all running now)
 
-- **Lane 3:** #7090 and #7127 were last pushed Nov 3, with no "ready" from the lane yet.
+- **Lane 3:** #7127 was last pushed Nov 3, with no "ready" from the lane yet.
 - **Lane 4:** #7100 (families guard: `calendar.ts` reaches two core internals; last push Nov 1).
 - **48-hour rule:** if a lane goes 48 hours without pushing to one of these, it merges on the one check and its named failure is filed.
 
