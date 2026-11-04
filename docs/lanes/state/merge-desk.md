@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 163 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 164 pull requests merged. Newest state at the top of each section.
 
 **Stopped by the owner, Nov 4, 2:37 p.m. Eastern, at 161 merged; resumed on the owner's word at about 2:53 p.m. Eastern (relayed by the CTO). The desk now merges only One Map's PRs. Lanes 1, 3, 4 and 5 are stopped and Lane 2 is off, so #7110 and #7127 stay open, and skills PRs #7233, #7254 and #7264 stay with the CTO.**
 
@@ -92,10 +92,11 @@ New on Nov 3:
 
 ## One Map's PRs (from Nov 4, 2:53 p.m. Eastern)
 
-| PR    | What it does                                                                                          | Town              | Replay number    |
-| ----- | ----------------------------------------------------------------------------------------------------- | ----------------- | ---------------- |
-| #7273 | One map of places: every place is one row, read through one reader, with a report of the gaps         | Omaha, Arkansas   | 98fb835e35583817 |
-| #7274 | Housing reads a town's county from the one place map, which fixes Puerto Rico's rents and home values | Athens, Tennessee | 38dcb6221d4c531a |
+| PR    | What it does                                                                                          | Town                           | Replay number    |
+| ----- | ----------------------------------------------------------------------------------------------------- | ------------------------------ | ---------------- |
+| #7273 | One map of places: every place is one row, read through one reader, with a report of the gaps         | Omaha, Arkansas                | 98fb835e35583817 |
+| #7274 | Housing reads a town's county from the one place map, which fixes Puerto Rico's rents and home values | Athens, Tennessee              | 38dcb6221d4c531a |
+| #7275 | Systems read a place's state through the one place map, and a guard stops new private lookups         | Coral Bay, U.S. Virgin Islands | b5002ad1c0023077 |
 
 ## Lane PRs merged on Nov 4 (126), on the owner's word ("You may merge lane PRs that pass the new-game check")
 
