@@ -5,11 +5,12 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: governing/holders-stand-again
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T08:45:14.658Z
 ---
 
 **What.** In 24 places drawn from all 56 (totals script, seed a63ad2af1003c7ad, two played years), 198 of 216 local holders whose seat was up ran again (T1 0.917): councils 0.95, counties 0.91. The research (docs/research/local-incumbency-2026-10-30.md, T1) puts eligible local incumbents who seek re-election at 58 to 78 percent: councils 63 to 76, county commissions 70 to 81. A holder's choice is the stand-again rule in src/core2/modules/candidacy.ts (standsAgain: votingStandAgainBase 0.9 less an age reason, weighed by voting.stand-again), set in one Vermont town to give 82 percent. Because so few seats open, newly seated members mostly beat a holder (T6 0.77, band 18 to 30) and most local races go uncontested.
