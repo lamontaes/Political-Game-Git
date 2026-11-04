@@ -35,6 +35,8 @@ import {
 import { countyPopulationSharesForPlace } from "../reference/government-units";
 import type { EntityId } from "../kernel/brands";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
+import { outsideLaborForce } from "../gov-rules/place-population";
+import { residentsRuntime } from "./residents";
 import type { ModuleRow } from "../module-data";
 import { campaignParameter, personLean } from "../campaign-views";
 import { viewOn } from "./views";
@@ -375,6 +377,20 @@ function currentPay(state: CoreState, personId: string): number {
 }
 
 /**
+ * Whether a household is a group-quarters room outside the civilian labor
+ * force (an institution or barracks): its residents take no staff post, by
+ * the rule the jobs engine reads (`outOfCivilianWork`), for a full household
+ * and a counted one alike (one model, two tiers).
+ */
+function roomOutsideLaborForce(state: CoreState, householdId: string): boolean {
+  const full = state.households.get(householdId);
+  if (full) return outsideLaborForce(full.quarters);
+  const store = residentsRuntime(state)?.store;
+  const at = store?.householdOf.get(householdId);
+  return at !== undefined && outsideLaborForce(store!.households[at]!.quarters);
+}
+
+/**
  * Who an official can hire: people they know, and applicants (town adults
  * out of work, or whose current pay is under the post's, and the town's
  * counted adults with no work in the records). Each is someone the records
@@ -407,6 +423,7 @@ export function staffCandidates(
   for (const person of reachablePeople(state, official, town, review)) {
     if (person.id === officialId || hired.has(person.id)) continue;
     if (owners.has(person.id)) continue;
+    if (roomOutsideLaborForce(state, person.householdId)) continue;
     const facts = personFacts(api, person, minimum, review);
     if (!facts.open) continue;
     if (person.tier === HUSK_TIER) {
@@ -548,12 +565,14 @@ function countedPool(api: CoreAPI, town: string, minimum: number) {
   const state = api.state as CoreState;
   const held = pools.get(state);
   if (held?.date === state.date) return held.rows;
-  // Anyone earning less than the post pays may apply, not only the jobless.
+  // Anyone earning less than the post pays may apply, not only the jobless,
+  // except residents of institutions and barracks, outside the labor force.
   const postHourly = campaignParameter("staffHourlyMinor");
   const rows = countedResidents(state)
     .filter(
       (voter) =>
         voter.placeId === town &&
+        !roomOutsideLaborForce(state, voter.householdId) &&
         voter.hourlyMinor < postHourly &&
         ageOnDay(voter.birthDate, state.date) >= minimum,
     )

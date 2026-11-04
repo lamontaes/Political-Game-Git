@@ -3380,6 +3380,8 @@ export function cycleTurnout(date: string): { share: number; cost: number } {
  */
 function countedScale(api: CoreAPI): number {
   const usps = town(api).stateKey.slice(3);
+  // Counted residents of adult correctional rooms vote at this scale too.
+  // stopgapId: SG-GQ-counted-prisoners-vote
   return (
     citizenShareOf(
       api.state.placeMetadata.placeKey as string | undefined,
