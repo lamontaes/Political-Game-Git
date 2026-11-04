@@ -1,4 +1,5 @@
 import { townLean } from "./campaigns";
+import { keepsWhy } from "../why-kept";
 import { lawApplied } from "../law-reach/applied";
 import type { OfficeInput } from "../offices-local";
 import { snapshotExplicitControlV1 } from "../player-control-state-v1";
@@ -324,6 +325,15 @@ export const LEGISLATURE_MODULE: CoreModule = {
       },
       /** The evening before a floor vote, the sponsor's ask of a member the bill needs, by the record that names it. */
       voteAsks: {},
+      /**
+       * Where a colleague stands on a bill, as someone learned it: in
+       * conversation, from the record (an aide's brief) or the news. The
+       * latest a learner holds of a member on a bill; the office panel reads
+       * it back (gov-m3-02-two-stakes-in-a-played-world).
+       */
+      learnedStakes: {
+        indexes: { byLearner: { fields: ["learnerId", "billId"] } },
+      },
     },
   },
   onCalendarWork: legislatureCalendar,
@@ -2899,6 +2909,8 @@ export function learnStake(
   billId: string,
   memberId: string,
   route: "conversation" | "record" | "news",
+  /** Who learns it: the sponsor in conversation by default, or the member an aide briefs. */
+  learnerId?: string,
 ): MemberPosition {
   const bill = table(api, "bills").get(billId) as unknown as BillRow;
   if (
@@ -2907,7 +2919,48 @@ export function learnStake(
     memberId !== bill.sponsorId
   )
     api.relationship(bill.sponsorId, memberId, "contact", 0.05);
-  return memberPosition(api, billId, memberId);
+  const position = memberPosition(api, billId, memberId);
+  const learner = learnerId ?? bill.sponsorId;
+  // Kept for the player and the people they deal with, as reasons are.
+  if (!keepsWhy(api.state as CoreState, learner)) return position;
+  table(api, "learnedStakes").put({
+    id: `stake:${billId}|${memberId}|${learner}`,
+    billId,
+    memberId,
+    learnerId: learner,
+    route,
+    date: api.state.date,
+    total: position.total,
+  } satisfies LearnedStake as unknown as ModuleRow);
+  return position;
+}
+
+/** A colleague's stake on a bill as someone learned it, and how. */
+export interface LearnedStake {
+  readonly id: string;
+  readonly billId: string;
+  readonly memberId: string;
+  readonly learnerId: string;
+  readonly route: "conversation" | "record" | "news";
+  readonly date: string;
+  /** The member's position on the bill when learned: for above zero, against below. */
+  readonly total: number;
+}
+
+/** The stakes a person has learned on a bill, by member. */
+export function learnedStakesOf(
+  api: CoreAPI,
+  learnerId: string,
+  billId: string,
+): readonly LearnedStake[] {
+  return (
+    table(api, "learnedStakes").query("byLearner", [
+      learnerId,
+      billId,
+    ]) as unknown as LearnedStake[]
+  )
+    .slice()
+    .sort((a, b) => a.memberId.localeCompare(b.memberId));
 }
 
 /** A request that a member carry a bill, the member's answer and why. */
