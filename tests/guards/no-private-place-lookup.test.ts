@@ -25,13 +25,20 @@ const WAITING: Readonly<Record<string, string>> = {
 };
 const NAMES =
   /function\s+(stateOf|stateKeyOf|stateOfPlace|stateOfPlaceKey|stateOfPlaceId|townOf)\b/;
-const COUNTY_LOOKUPS = /countyPopulationSharesForPlace\(/;
+const COUNTY_LOOKUPS =
+  /(countyPopulationSharesForPlace|countyGeoidsForPlace|countyLandSharesForPlace)\(/;
 const COUNTY_WAITING = new Set([
   "src/core2/modules/credit.ts",
   "src/core2/modules/staff.ts",
   "src/core2/modules/regional.ts",
   "src/core2/population.ts",
   "src/core2/reference/government-units.ts",
+  "src/core2/tooling/place-map-build.ts",
+  "src/core2/hud-rents.ts",
+  "src/core2/opening-public-owner.ts",
+  "src/core2/reference/local-institutions.ts",
+  "src/core2/town-employment-mix.ts",
+  "src/bench/creator.ts",
 ]);
 
 function sources(dir: string, out: string[] = []): string[] {

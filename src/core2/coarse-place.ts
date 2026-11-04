@@ -14,7 +14,7 @@
  */
 import { SeededRng } from "./kernel/rng";
 import { stableHash } from "./kernel/ids";
-import { countyGeoidsForPlace } from "./reference/government-units";
+import { placeCounty } from "./place-map";
 import { corePlaceByKey } from "./place-lookup";
 import residentData from "./data/resident-employment.json" with { type: "json" };
 import type {
@@ -153,7 +153,7 @@ export function coarsePlace(
     return null;
   }
   const jurisdictionId = place.context.jurisdiction.id;
-  const county = countyGeoidsForPlace(geoid)[0];
+  const county = placeCounty(placeKey)?.id.slice("county:".length);
   const { rows, basis } = ageRowsOf(data, county, residents);
   const workers = rows.reduce((sum, row) => sum + row.workers, 0);
   const weights = townWorkplaceWeights(jurisdictionId, seed);
