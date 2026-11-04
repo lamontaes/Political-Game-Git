@@ -56,6 +56,8 @@ import {
   lastEnactment,
   lawChain,
   lawInForce,
+  billLevelJurisdiction,
+  billValueInForce,
   LAWS_MODULE_ID,
   questionSettled,
   type SettledQuestion,
@@ -1438,12 +1440,11 @@ export function currentAmount(
   series: string,
   level: LawLevel = "city",
 ): number | null {
-  const answer = lawInForce(api, series);
-  const at = (name: string) =>
-    answer.levels.find((l) => l.level === name)?.row?.value ?? null;
-  if (level === "federal") return at("federal") ?? 0;
-  if (level === "state") return at("state") ?? at("federal") ?? 0;
-  return series === "minimum-wage" ? answer.value : (at("city") ?? 0);
+  return billValueInForce(
+    api,
+    { kind: "law-amount", series },
+    billLevelJurisdiction(api, level),
+  ).value;
 }
 
 /** The level a bill legislates at. */
@@ -1847,7 +1848,8 @@ export function billSections(
         : p.kind === "policy-question"
           ? p.question
           : undefined;
-    const row = series ? lawInForceRow(api, series) : null;
+    const inForce = billValueInForce(api, p, billJurisdiction(api, bill));
+    const row = inForce.row;
     const earlier = series ? madeBy.get(series) : undefined;
     const schedules = row?.terms?.schedules;
     const shapeBefore: BillSection["before"]["shape"] = row
@@ -1873,7 +1875,7 @@ export function billSections(
     const before: BillSection["before"] =
       p.kind === "budget-line"
         ? {
-            value: p.of ?? null,
+            value: inForce.value,
             unit: "minor",
             shape: null,
             lawId: null,
@@ -1881,15 +1883,15 @@ export function billSections(
             statuteForm: null,
           }
         : {
-            value: earlier?.value ?? row?.value ?? null,
-            unit: earlier ? earlier.unit : (row?.unit ?? null),
+            value: earlier?.value ?? inForce.value,
+            unit: earlier ? earlier.unit : inForce.unit,
             shape: earlier ? earlier.shape : shapeBefore,
             lawId: row?.id ?? null,
             statute: enacting?.number || recorded,
             statuteForm: enacting?.number ? enacting.form.kind : null,
           };
     const after: BillSection["after"] = {
-      value: p.kind === "budget-line" ? (p.of ?? 0) + p.value : p.value,
+      value: p.kind === "budget-line" ? (before.value ?? 0) + p.value : p.value,
       unit: p.unit ?? before.unit,
       shape: p.shape ?? before.shape,
       effectiveDate: p.effectiveDate ?? null,

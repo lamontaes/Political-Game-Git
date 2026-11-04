@@ -12,7 +12,6 @@ import {
   currentAmount,
   draftBill,
   floorDateOf,
-  lawInForceRow,
   memberKey,
   votesOn,
   whipCount,
@@ -186,7 +185,7 @@ export function seatView(core: CoreState, personId: string) {
   // Each body's own catalog: what its level can pass, with the amount in force.
   const bodies = bodiesOf(core, personId).map((body) => ({
     ...body,
-    menus: menusFor(api, body.level),
+    menus: menusFor(api, body.level, body.officeId),
   }));
   return {
     bodies,
@@ -241,8 +240,10 @@ export function seatAct(
 ) {
   const api = coreAPI(core);
   if (input.kind !== "draft") throw new Error("Unknown act from your seat.");
-  if (!bodiesOf(core, personId).some((b) => b.officeId === input.officeId))
-    throw new Error("You don't sit on that body.");
+  const body = bodiesOf(core, personId).find(
+    (b) => b.officeId === input.officeId,
+  );
+  if (!body) throw new Error("You don't sit on that body.");
   const sectionOf = (value: number | undefined): Provision =>
     input.line
       ? { kind: "budget-line", line: input.line, value: value ?? 0 }
@@ -252,9 +253,9 @@ export function seatAct(
             series: input.series,
             value: value ?? 0,
             unit:
-              lawHere(api, undefined, [input.series]).find(
-                (row) => row.series === input.series,
-              )?.unit ?? undefined,
+              menusFor(api, body.level, input.officeId!)
+                .flatMap((menu) => menu.items)
+                .find((row) => row.series === input.series)?.unit ?? undefined,
           }
         : {
             kind: "policy-question",
@@ -550,11 +551,19 @@ export function bodyMembers(
  * its level can pass, with the amount in force today and whether the state
  * lets a town act (`billCatalog`, never the raw catalog file).
  */
-function menusFor(api: ReturnType<typeof coreAPI>, bodyLevel: string) {
+function menusFor(
+  api: ReturnType<typeof coreAPI>,
+  bodyLevel: string,
+  officeId: string,
+) {
   const lineNames = budgetLineNames();
   const level =
     bodyLevel === "federal" || bodyLevel === "state" ? bodyLevel : "city";
-  return billCatalog(api, level).map((menu) => ({
+  const body = bodyOf(api, officeId);
+  // A senator's seat is of a state; its lawmaking body is the one US chamber.
+  const jurisdiction =
+    bodyRow(body?.kind ?? "")?.jurisdiction ?? body?.jurisdiction;
+  return billCatalog(api, level, jurisdiction).map((menu) => ({
     id: menu.id,
     name: menu.name,
     items: menu.topics
@@ -579,12 +588,11 @@ function menusFor(api: ReturnType<typeof coreAPI>, bodyLevel: string) {
         inForce: row.inForce,
         // The amount the law in force holds, as the bill's paper cites it ("before"): the
         // draft card shows this beside the new amount so both screens say one thing.
-        today: row.series
-          ? (() => {
-              const law = lawInForceRow(api, row.series);
-              return law ? { value: law.value, unit: law.unit ?? null } : null;
-            })()
-          : null,
+        today: {
+          value: row.inForce,
+          unit: row.inForceUnit ?? row.unit ?? null,
+          recordId: row.inForceRecordId,
+        },
         allowed: row.authority.allowed,
         warning: row.authority.warning,
         reason: row.authority.reason,
