@@ -4272,6 +4272,110 @@
       }
     },
     {
+      "key": "journal.memoir-meant-friend.i-was-glad-for-them",
+      "move": "memoir-meant-friend",
+      "kind": "spoken",
+      "text": "I was glad for them.",
+      "uses": [
+        {
+          "move": "memoir-meant-friend",
+          "subject": "memoir",
+          "role": "meantFriend",
+          "choice": "meant-friend",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "meantFriend"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (director-journal-one-story)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-meant-friend.i-was-happy-for-them",
+      "move": "memoir-meant-friend",
+      "kind": "spoken",
+      "text": "I was happy for them.",
+      "uses": [
+        {
+          "move": "memoir-meant-friend",
+          "subject": "memoir",
+          "role": "meantFriend",
+          "choice": "meant-friend",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "meantFriend"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (director-journal-one-story)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-meant-rival.we-never-did-see-eye-to-eye",
+      "move": "memoir-meant-rival",
+      "kind": "spoken",
+      "text": "We never did see eye to eye.",
+      "uses": [
+        {
+          "move": "memoir-meant-rival",
+          "subject": "memoir",
+          "role": "meantRival",
+          "choice": "meant-rival",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "meantRival"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (director-journal-one-story)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-meant-rival.i-had-my-doubts-about-that",
+      "move": "memoir-meant-rival",
+      "kind": "spoken",
+      "text": "I had my doubts about that.",
+      "uses": [
+        {
+          "move": "memoir-meant-rival",
+          "subject": "memoir",
+          "role": "meantRival",
+          "choice": "meant-rival",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "meantRival"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (director-journal-one-story)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
       "key": "journal.memoir-age-line.i-was-age-years-old",
       "move": "memoir-age-line",
       "kind": "spoken",
