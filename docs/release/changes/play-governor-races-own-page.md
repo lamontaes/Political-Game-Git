@@ -1,5 +1,5 @@
 ---
-id: play-governor-races-on-screen
+id: play-governor-races-own-page
 impact: patch
 section: Fixed
 title: Election night shows every governor race around the country on its own page, two columns that fit the window.

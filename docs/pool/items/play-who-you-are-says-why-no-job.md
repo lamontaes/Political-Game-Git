@@ -7,7 +7,7 @@ milestone: play-first
 kind: feature
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: lane-4/why-no-job
 pr: #7205
 blocked-on: laws-opening-past-fits-the-chosen-age

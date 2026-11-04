@@ -125,6 +125,11 @@ export function personCard(core: CoreState, personId: string) {
       wageDailyMinor: job.wageDailyMinor,
       hoursDaily: job.hoursDaily,
     },
+    // Why a grown person holds no job, told to them on Who you are (path 10):
+    // who in the home earns, from the household's members and their jobs'
+    // records (a partner first, then a parent, then anyone else at home),
+    // or that nobody there draws a wage. Null with a job, or under voting age.
+    noJob: job ? null : noJobLine(core, person, relationOf),
     liquidMinor: person.liquidMinor,
     // The town's size and this year's moves (path 10), from the records.
     town: townMoves(core, person.placeId),
@@ -553,6 +558,49 @@ export function townMoves(core: CoreState, town: string) {
     departures: Math.round(departures),
     recordIds,
   };
+}
+
+/**
+ * Why a grown person has no job, in the you form, from the records: the
+ * household member whose job keeps the home, by its job and employer record,
+ * or that no one at home holds a job. The line names its records.
+ */
+function noJobLine(
+  core: CoreState,
+  person: NonNullable<ReturnType<typeof personOrFillIn>>,
+  relationOf: (id: string) => string | undefined,
+): { text: string; recordIds: string[] } | null {
+  const age = ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(core.date));
+  if (age < coreAPI(core).parameter("votingAge")) return null;
+  const household = core.households.get(person.householdId);
+  const rank = (id: string) =>
+    relationOf(id) === "partner" ? 0 : relationOf(id) === "parent" ? 1 : 2;
+  const earner = (household?.memberIds ?? [])
+    .filter((id) => id !== person.id)
+    .map((id) => core.people.get(id))
+    .filter((other) => other?.alive && other.jobId)
+    .sort((a, b) => rank(a!.id) - rank(b!.id))[0];
+  const job = earner?.jobId ? core.jobs.get(earner.jobId) : undefined;
+  const employer = job ? core.organizations.get(job.organizationId) : undefined;
+  if (earner && job && employer) {
+    const text = screenLine(
+      "person-history",
+      "person-history.summary.no-work.earner.you",
+      {
+        name: `${earner.givenName} ${earner.familyName}`,
+        employer: employer.name,
+      },
+    );
+    return text
+      ? { text, recordIds: [household!.id, earner.id, job.id, employer.id] }
+      : null;
+  }
+  const text = screenLine(
+    "person-history",
+    "person-history.summary.no-work.none.you",
+    {},
+  );
+  return text ? { text, recordIds: household ? [household.id] : [] } : null;
 }
 
 /** A run of terms in one office, as a card's header and lines under the name read it. */
