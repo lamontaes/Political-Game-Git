@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane-5/office-needs-staff
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T07:41:00.745Z
 ---
 
 **What.** On main, src/core2/public-knowledge-index.test.ts fails 'reads observations between provider calls': the known-office offer provider (knownPublicTargets in src/core2/modules/life.ts) offers a known office that has no recorded staff. The look-up that finds an office (office-directory in modules/people.ts) already requires staff, so a person could be sent to approach an office nobody works at.
