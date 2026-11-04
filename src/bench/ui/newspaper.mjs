@@ -138,9 +138,14 @@ export function newspaperScreen({
       return true;
     },
   ];
-  const fit = () =>
+  // Drawn before the sheet mounts it, the page waits for the screen (a few
+  // frames at most), then gives way until it fits.
+  const fit = (waits = 30) =>
     window.requestAnimationFrame(() => {
-      if (!paper.isConnected) return;
+      if (!paper.isConnected) {
+        if (waits > 0) fit(waits - 1);
+        return;
+      }
       // Each step is measured as it lands (reading the layout settles it).
       while (over() > 1 && steps.some((step) => step()));
     });
@@ -154,7 +159,7 @@ export function newspaperScreen({
       alt: story.presentation?.imageAlt ?? "",
     });
     image.onerror = () => image.remove();
-    image.onload = fit;
+    image.onload = () => fit();
     return [image];
   };
   // A story's printed text: its written paragraphs, else its lede when the
