@@ -5,7 +5,7 @@ area: release
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: lane-5/pool-index-main-only
 pr: #7140
 blocked-on:
