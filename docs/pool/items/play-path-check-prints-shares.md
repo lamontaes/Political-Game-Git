@@ -5,11 +5,12 @@ area: elections
 kind: feature
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane-1/path-margins
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T16:03:28.777Z
 ---
 
 **What.** The path check reported only won or lost, so a loss in a fixed town could not be read: a close race and a crowded field looked the same. It now prints each candidate's share of the race's votes, the player's marked.
