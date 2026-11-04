@@ -7,6 +7,8 @@ import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import { preStartHistory } from "../core2/pre-start";
 import { composeJournal } from "./journal";
+import { tieSide } from "./purpose-scene";
+import journalBank from "../../data/english/parts/journal.json";
 import type { PersonId } from "../core2/types";
 
 // The Journal is a story from birth (owner, Oct 27: "this journal needs to be
@@ -285,6 +287,39 @@ describe("the journal as a story from birth", () => {
       }
       links[line.link!.by] += 1;
     });
+    // Another's turn told as what it meant, from the tie on record: a
+    // friend's with gladness, a rival's with doubt.
+    const meant = (field: string) =>
+      (
+        journalBank as {
+          parts: { text: string; uses: { role?: string }[] }[];
+        }
+      ).parts
+        .filter((part) => part.uses.some((use) => use.role === field))
+        .map((part) => part.text);
+    const felt: string[] = [];
+    for (const moment of others) {
+      const line = lines.find((row) => row.momentIds.includes(moment.id));
+      if (!line) continue;
+      const otherId = moment.counterpartIds.find((pid) => pid !== id);
+      const side = otherId ? tieSide(core, id, otherId) : null;
+      for (const [field, want] of [
+        ["meantFriend", "friend"],
+        ["meantRival", "rival"],
+      ] as const)
+        if (meant(field).some((text) => line.text.endsWith(text))) {
+          expect(side?.side, `${where}: "${line.text}" on ${otherId}`).toBe(
+            want,
+          );
+          felt.push(line.text);
+        }
+    }
+    process.stdout.write(
+      `journal-story meant: ${where}; ${felt.length} others' turns told through the tie: ${felt
+        .slice(0, 3)
+        .map((text) => `"${text}"`)
+        .join(" ")}\n`,
+    );
     const caused = lines
       .filter((line) => line.link?.by === "cause")
       .slice(0, 3);

@@ -62,6 +62,7 @@ import {
 import { pastParameter } from "../core2/past-module";
 import { spanSaid } from "../english/span-words";
 import type { Moment } from "./types";
+import { tieSide } from "./purpose-scene";
 import {
   OFFICE_DAY_MODULE_ID,
   type OfficeActRow,
@@ -1484,6 +1485,27 @@ export function composeJournal(
         closedWith.add(journalClosing(hook));
         parts.push(hook);
       }
+    }
+    // Another's turn in public life (their filing, their oath, a race they
+    // won) is told as what it meant to the person, from their tie: a friend's
+    // is gladness, a rival's is doubt; anyone else's is only the line.
+    const governing = row.turnFor === "self" || row.hasOwnLine;
+    const theirWin =
+      !row.hasOwnLine || facts.winner?.text === subjectOf(moment);
+    if (!own && governing && theirWin && parts.length === one && counterpart) {
+      const side = tieSide(core, personId, counterpart);
+      const meant = side
+        ? render(
+            {
+              part: "memoir",
+              field: side.side === "friend" ? "meantFriend" : "meantRival",
+            },
+            {},
+            `${moment.id}:meant`,
+            [side.tieId, moment.causeId],
+          )
+        : null;
+      if (meant) parts.push(meant);
     }
     lineFacts.set(moment.id, facts);
     // A line that says its own time ("Today I turned eighteen.") opens on

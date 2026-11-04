@@ -1,6 +1,6 @@
 # Lane 3 state
 
-2 of 11 paths confirmed. Oldest open PR 2 days (#7127, opened Nov 2). Open: #7127, #7228, #7236.
+2 of 11 paths confirmed. Oldest open PR 2 days (#7127, opened Nov 2). Open: #7127, #7228 (its commits merged with #7236), #7240.
 
 
 **Path 6, Nov 4 (after the Confirmer's fail in Storrs, storrs-1):** two of the three faults are merged and wait for a replay. #7223: the race story no longer says the loser beat the winner. #7226: the Journal tells your own lost race as yours, not your father's. The third, no concession, is not in Lane 3's files: the director composes the concession call on the result night and puts it first (Villa Esperanza, Puerto Rico, seed diag:4), but the bench never stages it before the morning-after talk. **Needs from others (Lane 4):** stage the player's `election-result` moment the night of the count, after the returns close (notes on `words-venue-speeches-delivered`).
@@ -84,7 +84,9 @@
   - The filing day's wording ("So I filed to run for…, with the election set for…") is on `lane3/journal-filed-not-ran`.
   - **Step 1b, `director-journal-line-links` (built, #7228, Nov 4):** every Journal line after the first links to the line before it by cause, feeling or time, with the records that join them. Carroll, Nebraska (JOURNAL_STORY_SEED=e48196631294e2db): 39 lines, 2 by cause (a father's two ordinance votes, by the bill records). Woxall, Pennsylvania (5963a0143d97cfae): "Dawn took office as Supervisor." follows her election result.
   - **Step 1c, `director-journal-joining-words` (built, #7236, Nov 4):** a line linked by cause opens on "Because of that," or "So,", and one a month or more later on the time passed ("More than a year later, my father went to work somewhere new."). All four clauses are bank pieces, and a row that says its own time (`ownTime`) takes none. Carroll, Nebraska (e48196631294e2db).
-  - **Still open on the item:** another person's turn told through the tie, and the Haleyville replay.
+  - **Merged Nov 4:** #7236 (joining words, carrying #7228's links).
+  - **Step 1d, the tie (built, #7240, Nov 4):** another person's filing, oath or race win is told through the player's tie, with one reading of a tie (`tieSide`) for scenes and the Journal. Carroll, Nebraska (e48196631294e2db): "My father was sworn in as Council member. That made me glad."
+  - **Still open on the item:** the Haleyville replay by another session.
   - **Merged, #7195** (`director-journal-chapters-own-turns`, split from this item): fresh seed 22845774abbaa348, Lyman, Utah, 4 others' oaths told inside chapters. The rest of `director-journal-one-story`, the line links, stays claimed.
 - **Step 2, `words-opening-paper-only-fresh-news` (merged, #7188, Nov 4; agreement `agreements/3-4.md`, proposed):** the night's paper prints only stories within the news engine's own `newsMaxAgeDays` (`freshSince` in `news.ts`, which its retention reads too), and the News archive keeps the rest. `src/bench/paper-fresh.test.ts`, paper seed briefs-nov2:
   - Port Richey, Florida: 12 of 27 stories fresh, of 3 kinds.
