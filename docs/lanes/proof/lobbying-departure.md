@@ -48,4 +48,25 @@ The standing law is law:US-MA:state:us-policy-positions:government-operations.ba
 | Dana Mercer (person_9b7846303e6be665)   | term:seat:gus2025:106146:board:2:2025-01-20, ended by conviction                                  | Left 2025-12-30; barred until 2026-12-30. Living at the read. |
 | Marcus Parks (person_12567109c887a442)  | term:seat:gus2025:106146:board:2:2025-12-30, ended by term ended                                  | Left 2026-01-01; barred until 2027-01-01. Living at the read. |
 
-The departure dates plus the law's one-year period were independently checked against both returned expiry dates. This proves the reader on naturally produced terms, not that an interest group selected or rejected one of these people. Current office/jurisdiction applicability is unchanged by this fix. Raw records: /tmp/lane-2-lobby-natural.json; log: /tmp/lane-2-lobby-natural.log; observer: /tmp/lane-2-lobby-natural.ts. Four-year timing and independent main confirmation remain; this is not a whole Lane 2 path confirmation.
+The departure dates plus the law's one-year period were independently checked against both returned expiry dates. This proves the reader on naturally produced terms, not that an interest group selected or rejected one of these people. Current office/jurisdiction applicability is unchanged by this fix. Raw records: /tmp/lane-2-lobby-natural.json; log: /tmp/lane-2-lobby-natural.log; observer: /tmp/lane-2-lobby-natural.ts. Four-year timing passes as recorded below; independent main confirmation remains. This is not a whole Lane 2 path confirmation.
+
+
+## Controlled four-year timing
+
+Aunu’u, American Samoa (`territory:AS:aunuu`), replay `9a300821f8ddd9d4`, world seed `81c2d0833331dc7ebb42b212b43e693a037391c720cae61dee41dc57095a1170`. Host `4c46091479ea`. Source base `90f9a456a7d3f0a216db391c84be8fe4555e6324`; corrected head `e1e2c2757b49f08792db55688219bd48dbe97374`. One run per version, sequential, with no concurrent simulation or tests. The baseline temporarily restored the four changed source/data files and removed only this new test; all five files were restored byte-for-byte before the corrected run. The base report's HEAD field identifies the checkout; its sourceMain and runner log identify the controlled source.
+
+| Year | Base seconds | Corrected seconds | Change |
+| --- | --- | --- | --- |
+| 1 | 22.4 | 23.3 | +4.0% |
+| 2 | 52.1 | 55.1 | +5.8% |
+| 3 | 39.4 | 41.9 | +6.3% |
+| 4 | 88.1 | 84.4 | -4.2% |
+
+Both commands exit 0. Every year is below 120 seconds and within the 20% comparison; maximum increase 6.3%. Record totals match in each year (137416 / 308371 / 374804 / 543781), which is not a claim that the partial fingerprint covers every engine's private state.
+
+```sh
+OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" NODE_OPTIONS=--max-old-space-size=8192 npm run speed:year -- --seed 9a300821f8ddd9d4 --years 4 --max-seconds 120 --exclusive --out /tmp/lane-2-lobby-speed-base.json
+OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" NODE_OPTIONS=--max-old-space-size=8192 npm run speed:year -- --seed 9a300821f8ddd9d4 --years 4 --max-seconds 120 --exclusive --out /tmp/lane-2-lobby-speed-head.json --baseline /tmp/lane-2-lobby-speed-base.json
+```
+
+Runner and raw results: `/tmp/lane-2-lobby-speed.py`, `/tmp/lane-2-lobby-speed-results.json`, `/tmp/lane-2-lobby-speed-{base,head}.{json,log}`. Only source/data was controlled; release version metadata is 0.76.0 in both runs.
