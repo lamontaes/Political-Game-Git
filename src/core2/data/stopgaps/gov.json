@@ -2146,17 +2146,5 @@
     "addedAt": "2026-11-04",
     "replacement": "The colleague's campaign writes a favor-asked record naming the obligation; the director stages the ask, and the player's answer endorses (settling the obligation) or refuses.",
     "status": "open"
-  },
-  {
-    "id": "SG-GOV-county-race-town-only",
-    "kind": "missing-record",
-    "file": "src/core2/modules/candidacy.ts",
-    "line": 753,
-    "whatItFakes": "A county seat is weighed for running only by the played town's adults (named and counted): the rest of the county votes in its county's races (race-places.ts basePlaces), but nobody from it runs. In Mallard Bay, Oklahoma nine county contests were each weighed by the same 251 adults and each drew one candidate, and 161 of 175 county contests in 24 drawn places were uncontested.",
-    "why": "The rest of the county is counted coarsely as an electorate place (electorate-places.ts), with no counted records candidacy reads and no filled-in person to file.",
-    "addedBy": "Lane 1 (elections-local-races-too-uncontested)",
-    "addedAt": "2026-11-04",
-    "replacement": "The rest of the county's counted records weigh running for its seats by the same chooser, a drawn challenger filled in as a full person living elsewhere in the county (pool item elections-county-race-sees-only-the-town, step B).",
-    "status": "open"
   }
 ]

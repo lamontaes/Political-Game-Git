@@ -57,6 +57,8 @@ export { officeFamily, type OfficeFamily };
 export function isLocalFamily(family: OfficeFamily): boolean {
   return family === "municipalOffice" || family === "countyOffice";
 }
+import { countyPlaceIdOf } from "../electorate-places";
+
 /** This world's swing from 2024, for the engines outside elections that read a place's lean. */
 export {
   publishedSenateSeats,
@@ -1035,7 +1037,15 @@ export function checkEligibility(
       ? national
         ? stateOfPlace(person.placeId) !== null
         : stateOfPlace(person.placeId) === town(api).stateKey
-      : person.placeId === town(api).townPlaceId);
+      : person.placeId === town(api).townPlaceId ||
+        // A county seat: anyone living in the county (the rest of it is
+        // kept as the county's place).
+        (contest.family === "countyOffice" &&
+          person.placeId ===
+            countyPlaceIdOf(
+              api.state.placeMetadata.countyNames as string | undefined,
+              town(api).stateKey.slice(3),
+            )));
   const checks: RequirementCheck[] = [
     {
       rule: "filing-deadline",

@@ -39,8 +39,10 @@ import type {
   CoreEventInput,
   CoreModule,
   CoreState,
+  IsoDate,
   PersonId,
   PersonState,
+  PlaceId,
 } from "../types";
 import { decisionKinds, leanedYes } from "../trait-decisions";
 import { closenessBetween } from "../closeness";
@@ -72,7 +74,12 @@ import { DEFAULT_DRIVES_DATA } from "./drives";
 import { residentFacts } from "./residents";
 import { countedResidents, type CountedVoter } from "../electorate";
 import { revolvingDoorFor } from "../law-reach/group-a-voting";
-import { fillInPerson } from "../state";
+import { fillInIdentity, fillInPerson } from "../state";
+import { basePlaces } from "../race-places";
+import { SeededRng } from "../kernel/rng";
+import { generatePersonIdentity } from "../gov-rules/person-identity";
+import { drawCanonicalNamedIdentity } from "../person-names";
+import { createStableId } from "../kernel/ids";
 import { campaignParameter } from "../campaign-views";
 
 export const CANDIDACY_MODULE_ID = "candidacy";
@@ -747,12 +754,6 @@ export function weighContest(
       : undefined;
   const rank = FAMILY_RANK[contest.family];
   const wide = contest.level === "state" || contest.level === "federal";
-  // A county seat is weighed by the town's adults only: the rest of the
-  // county votes in it but no one from there runs yet.
-  if (contest.family === "countyOffice") {
-    // stopgapId: SG-GOV-county-race-town-only
-    api.stopgap("SG-GOV-county-race-town-only");
-  }
   const scope = wide ? raceScope(api, contest) : null;
   if (wide) {
     // stopgapId: SG-GOV-wide-resident-pool
@@ -862,6 +863,16 @@ export function weighContest(
     if (!decision) continue;
     asked.push(person.id);
     if (decision.run) running.push(person.id);
+  }
+  // A county seat: the rest of the county weighs it too, from the town's
+  // counted records standing for its people (`countyRestRunners`).
+  const fromCounty =
+    contest.family === "countyOffice"
+      ? countyRestRunners(api, contest, field, running, committed)
+      : [];
+  for (const id of fromCounty) {
+    asked.push(id);
+    running.push(id);
   }
   const row: WeighedContest = {
     id: contest.id,
@@ -991,6 +1002,127 @@ function countedScreen(
     if (pull > bar) drawn.push(voter.id);
   }
   return { weighed, drawn };
+}
+
+/**
+ * The rest of a county weighs one of its seats (two tiers, one rule): the
+ * town's counted adults stand for the county's people outside the town, each
+ * record for as many of them as the county's eligible voters outside the town
+ * are to the town's adults, given out in record order with the remainders
+ * carried, never drawn. Each one weighs the seat by the same counted reasons
+ * against the same pull of staying out, with the field as it stands (each
+ * runner lowers the next one's pull), so a crowded race stops drawing them.
+ * A runner is filled in as a full person living elsewhere in the county, with
+ * their record's age and temperament, seeded so the same person returns; the
+ * decision is kept as theirs. Returns those who chose to run.
+ */
+function countyRestRunners(
+  api: CoreAPI,
+  contest: ContestRow,
+  field: OpenContest,
+  running: readonly PersonId[],
+  committed: ReadonlySet<PersonId>,
+): PersonId[] {
+  const { places, home } = basePlaces(api, contest);
+  const county = places.find((place) => place.id === home);
+  const held = countedBases.get(api.state);
+  if (!county || !held) return [];
+  const town = api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("town")
+    .get("town") as unknown as { townPlaceId: string };
+  const adult = api.parameter("votingAge");
+  let townAdults = 0;
+  for (const person of api.state.people.values())
+    if (
+      person.alive &&
+      person.placeId === town.townPlaceId &&
+      ageOnDate(person.birthDate, api.state.date) >= adult
+    )
+      townAdults += 1;
+  for (const { voter } of held.rows) townAdults += voter.weight;
+  if (townAdults <= 0) return [];
+  const ratio = Math.max(0, county.eligible - townAdults) / townAdults;
+  const bar = c(api, "candidacyStayOutPull");
+  const record = field.incumbentId
+    ? c(api, "candidacyRecordGapWeight")
+    : api.parameter("zero");
+  const out: PersonId[] = [];
+  let carried = api.parameter("zero");
+  for (const { voter, base } of held.rows) {
+    // Sorted by pull: past here no one clears the bar.
+    if (base + record <= bar) break;
+    const before = Math.floor(carried);
+    carried += ratio * voter.weight;
+    const many = Math.floor(carried) - before;
+    for (let k = 0; k < many; k += 1) {
+      const reasons = countedCandidacyReasons(api, voter, {
+        ...field,
+        runners: running.length + out.length,
+      });
+      let pull = api.parameter("zero");
+      for (const value of Object.values(reasons)) pull += value;
+      // The field has grown past this record's people: none further runs.
+      if (pull <= bar) break;
+      const id = countyResident(api, county.id, voter, k);
+      if (!id || committed.has(id) || running.includes(id)) continue;
+      const decision: CandidacyDecision = {
+        id: `${contest.id}:${id}`,
+        personId: id,
+        contestId: contest.id,
+        date: api.state.date,
+        run: true,
+        reasons,
+        scores: [],
+        sourceIds: [...field.sourceIds, county.id, voter.id],
+      };
+      table(api).put(decision as unknown as { id: string });
+      out.push(id);
+    }
+  }
+  return out;
+}
+
+/**
+ * One of the people a counted record stands for elsewhere in the county,
+ * filled in as a full person the first time they act: their record's birth
+ * date and temperament, a name drawn from the world's seed, living in the
+ * county's place. Null when they have died since.
+ */
+function countyResident(
+  api: CoreAPI,
+  countyId: string,
+  voter: CountedVoter,
+  k: number,
+): PersonId | null {
+  const id = createStableId(
+    "person",
+    `${api.state.seed}:county-rest:${countyId}:${voter.id}:${k}`,
+  ) as PersonId;
+  const known = api.state.people.get(id);
+  if (known) return known.alive ? id : null;
+  const rng = new SeededRng(api.state.seed).fork(id);
+  const identity = generatePersonIdentity(rng.fork("identity"));
+  const name = drawCanonicalNamedIdentity(rng.fork("name"), identity);
+  fillInIdentity(api.state as CoreState, {
+    id,
+    givenName: name.givenName,
+    familyName: name.familyName,
+    birthDate: voter.birthDate as IsoDate,
+    placeId: countyId as PlaceId,
+    gender: identity.gender,
+    traits: voter.traits,
+    source: {
+      tag: "ESTIMATED",
+      asOf: api.state.date,
+      citation:
+        "A resident of the rest of the county, standing for those the town's counted record " +
+        voter.id +
+        " stands for there (the county's eligible voters, electorate-places.ts)",
+      estimatedFrom: "the town's counted residents, re-placed in the county",
+    },
+  });
+  return id;
 }
 
 /**
