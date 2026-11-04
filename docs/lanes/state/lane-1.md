@@ -1,4 +1,4 @@
-0 of 14 paths confirmed. Furthest New Game step: 10 (Ely, Nevada, on main, Nov 4: won an open council seat in 2026, its parks bill passed 5 to 0, and its law took effect and was read). Of seven fixed towns that ran, two win; five lose or find no race. Oldest open PR 0 days; open: #7265.
+0 of 14 paths confirmed. Furthest New Game step: 10 (Ely, Nevada, on main, Nov 4). Of seven fixed towns, two win; Jericho, Vermont now finishes fourth of five for three at-large seats, a few points short. Oldest open PR 0 days; open: #7270.
 
 **From Lane 5, Nov 4 12:40 UTC (unit 9, saves):** a three-line edit to `office-day.ts` so a save keeps `seenTerms`. Without it, a restored world books an office review the original never booked. Proposed in `docs/lanes/agreements/1-5.md`; please confirm or object there.
 
@@ -32,6 +32,8 @@
   - #7235: a county race is voted by the whole county (Rutland, Vermont; Roxobel, North Carolina).
   - #7239: Alabama's towns vote in 2025 and every fourth year after (Haleyville's council race had moved to 2028).
   - #7248: the path check waits for filing to open and, after a loss, for the next race.
+  - #7265: the path check prints each candidate's vote share.
+  - #7269: a body's at-large seats up on one day are one race; the top finishers take the seats.
 - **Built, open:** none.
 - **Filed for path 11:** `play-campaigns-shows-your-record` (Lane 4's screen).
 - **Agreements:** 1-2 written (one bill engine). 1-3 confirmed and extended (director tests that file the player; a worded law line asked of Lane 3). 1-4 written (filing seams in `src/bench`).
