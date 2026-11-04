@@ -387,8 +387,14 @@ function recentMoments(
   director: Director | undefined,
   personId: PersonId,
 ) {
-  const moments = director?.ledger.people.get(personId)?.moments ?? [];
+  const book = director?.ledger.people.get(personId);
   const since = addDays(makeIsoDate(core.date), -recentDays());
+  // Someone the director does not watch (a relative living elsewhere) has
+  // no book; what happened to them is still on record, read from their own
+  // events (the core's index by person, never the whole log), so a talk
+  // with them has their news (words-talk-husk-acquaintances-empty).
+  if (!book) return recordedMoments(core, personId, since);
+  const moments = book.moments;
   const out = [];
   for (let at = moments.length - one; at >= zero; at -= one) {
     const moment = moments[at]!;
@@ -396,6 +402,41 @@ function recentMoments(
     if (moment.date <= core.date) out.push(moment);
   }
   return out;
+}
+
+/**
+ * A person's own recorded events within the window, newest first, read as
+ * the moments a book would hold: the event is the cause, its other people
+ * the counterparts.
+ */
+function recordedMoments(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+  since: string,
+): Moment[] {
+  const out: Moment[] = [];
+  for (const id of core.logByPerson.get(personId) ?? []) {
+    const row = core.durableLog.get(id as never);
+    if (!row || row.date <= since || row.date > core.date) continue;
+    out.push({
+      id: `record:${row.id}`,
+      personId,
+      date: row.date,
+      label: `feeling:event:${row.kind}`,
+      causeId: row.id,
+      causeKind: `event:${row.kind}`,
+      counterpartIds: row.personIds.filter((other) => other !== personId),
+      selfNamed: true,
+      // Not appraised for someone unwatched: weighed as the least a book
+      // keeps, so it is news but never outranks an appraised moment.
+      impact: DEFAULT_DIRECTOR_DATA.parameters.directorMomentFloor!.value,
+      channels: [],
+      hindsight: zero,
+      hindsightAt: row.date,
+      echoes: [],
+    });
+  }
+  return out.sort((a, b) => b.date.localeCompare(a.date));
 }
 
 /**
