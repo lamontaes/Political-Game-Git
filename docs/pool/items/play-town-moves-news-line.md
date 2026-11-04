@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/bench/story.ts, data/english/parts/news.json
 
 **Notes.** lead: Lane 4. The old branch play-first/play-town-moves-on-screen (Oct 26, before the old core was deleted) has a wordMovedAway draft for reference.
+
+Lane 4, Nov 4: the news engine keeps no story for a move: `person.moved-away` is read by people, offices, jobs and parties, never by news or press (`src/core2/modules/news.ts`, `press.ts`). A line built in the bench would be a view inventing news (one engine per mechanic). Needs first: the press records a known person's move as a story (Lane 3, the press and news engines); then News shows it as any other story, with no bench change.
