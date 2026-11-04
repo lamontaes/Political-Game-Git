@@ -30,3 +30,5 @@ claimed-at: 2026-10-27T20:45:16.972Z
 **Files.** src/director/journal.ts, src/bench/card.ts, src/director/data/journal-rows.json, data/english/parts/journal.json
 
 **Notes.** Playtest Oct 26 sitting 1 (installed v0.34.0, commit 61b5fec; Albion, Pennsylvania, a borough in Erie County; player Jackson Knox, 35; the game starts January 20, 2025; log cto-notes/playtest/2026-10-26-1.md on the owner's Mac). No owner words on this line; the owner's journal quote is "My brother Leo was born after me. What the hell kind of entry is that?" (the line is words-journal-household-lines). Verify Kendall Roberts's recorded sex first; the bench's record view shows it. The related words-family-talk-kin-address (PR open) covers asking after a parent as Dad or Mom by the parent's recorded gender. Lead: words (the owner's local Opus session, Oct 26; docs/play-first/ORDER.md).
+
+**Notes.** Evidence (Lane 3, Nov 4 UTC): `journal-kin-words.test.ts` fails on main at GOLDEN_PATH_SEED=c75131c1ac7cb085f8f82fc46bd3357c53ad7844, Mentone, Alabama (0148064). person_647476e903449c6b (parent, male) is told as "my parent" in a Journal that opens "I was born in Mentone, Alabama."

@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: lane-5/home-sale-outside-lender
+pr: #7148
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-03T22:37:54.969Z
 ---
 
 **What.** src/core2/home-sale-outside-lender.test.ts ('sells a home whose mortgage the outside market holds: the loan ends and no cash moves to itself') fails on clean main (31ad11a8c6, Oct 28 23:20 UTC) on two random HOME_SALE_SEED draws, throwing 'Money cannot move between two outside accounts.' from src/core2/accounts.ts:357. The sale pays off a loan the outside market holds, and the payoff tries a transfer from one outside account to another instead of ending the loan with no cash moving. Found by the laws session while gating the disasters family.

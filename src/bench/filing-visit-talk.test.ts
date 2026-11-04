@@ -120,13 +120,22 @@ it(`a first visit asks for the papers, the player says only what they chose, and
     for (const line of said)
       expect(offered.has(line.text), `${where}: "${line.text}"`).toBe(true);
     expect(said.at(-1)!.text, where).toBe(file!.text);
-    const filing = (state.result as { filing?: { id: string } }).filing;
+    const filing = (state.result as { filing?: { id: string; status: string } })
+      .filing;
     expect(filing, where).toBeTruthy();
-    // Back at the counter with the petition: told from the filing's record.
+    // Back at the counter: with the petition while it gathers signatures,
+    // with nothing to bring once the name is on the ballot (a race with no
+    // petition, as in Laramie, Wyoming at seed 7d9f1b3a5c0e2468), never as a
+    // first visit; told from the filing's record.
     const back = openBenchFilingVisit(core, me, filedWith, 10 * 60);
     const told = back.intro.map((line) => line.text).join(" ");
-    process.stdout.write(`${where} return: ${told}\n`);
-    expect(told, where).toMatch(/petition/);
+    process.stdout.write(`${where} return (${filing!.status}): ${told}\n`);
+    expect(told, where).toMatch(
+      filing!.status === "petitioning" ? /petition/ : /ballot|nothing left/,
+    );
+    expect(told, where).not.toMatch(
+      /ask (?:about|for the papers)|pick up the papers/,
+    );
     expect(
       back.intro.some((line) => line.sourceRecordIds.includes(filing!.id)),
       where,

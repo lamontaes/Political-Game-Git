@@ -1,9 +1,10 @@
-/* global process, URL, URLSearchParams, console, document, fetch */
+/* global process, URL, URLSearchParams, console, document */
 // Call donors from the Campaigns screen: the list of people reached, each with
 // what they gave or why not, and the raised total moving by the sum.
 // Usage: BENCH_PORT=3121 BENCH_BROWSER=... node src/bench/donors.browser.mjs <before|after>
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
+import { fileWhenFilingOpens } from "./start-life.mjs";
 import { openCampaignTrail } from "./campaign-trail.mjs";
 const mode = process.argv[2] ?? "after";
 const base = `http://localhost:${process.env.BENCH_PORT ?? 3000}`;
@@ -48,23 +49,8 @@ try {
   );
   const placeName = await page.locator("#card-place").innerText();
   console.log("Seed:", seed, "Place:", placeName);
-  const filed = await page.evaluate(async () => {
-    const gov = await (await fetch("/api/government")).json();
-    for (const { contest } of gov.contests ?? []) {
-      const r = await fetch(
-        `/api/file?${new URLSearchParams({ contestId: contest.id })}`,
-        { method: "POST" },
-      );
-      const body = await r.json().catch(() => ({}));
-      if (
-        r.ok &&
-        body.status !== "refused" &&
-        ["petitioning", "on-ballot"].includes(body.filing?.status)
-      )
-        return contest.id;
-    }
-    return null;
-  });
+  // Filing opens on a set day: the weeks go by until a race is open.
+  const filed = (await fileWhenFilingOpens(page)).contestId;
   assert.ok(filed, "the player could file for nothing in this town");
   await page
     .locator('[data-tab="politics"]')
@@ -96,10 +82,29 @@ try {
     );
     await calls.click();
     const result = await (await day).json();
-    await page.waitForTimeout(800);
-    await page.screenshot({ path: `${out}/${mode}-2-after-calls.png` });
-    // The calls are read on the trail, where the act was; the money on the tab.
-    const body = await page.locator("#sheet-body").innerText();
+    // The evening of calls is a scene (owner: every campaign act is a scene):
+    // one call per Continue, each person by name with their line, then the
+    // night's total. Live through it, reading what is said.
+    const said = [];
+    for (let i = 0; i < result.calls.length + 6; i += 1) {
+      await page.locator("#talk:visible").waitFor();
+      await page.waitForTimeout(700);
+      said.push(await page.locator("#talk-lines").innerText());
+      if (i === 0)
+        await page.screenshot({ path: `${out}/${mode}-2-after-calls.png` });
+      const next = page.locator("#talk-next:visible");
+      if (!(await next.count())) break;
+      const more = await page.evaluate(
+        () => document.getElementById("talk-next").offsetParent !== null,
+      );
+      if (!more) break;
+      await next.click();
+      if (said.length > result.calls.length) break;
+    }
+    const body = said.join("\n");
+    await page.waitForTimeout(500);
+    if (await page.locator("#talk-next:visible").count())
+      await page.locator("#talk-next").click();
     await page
       .locator('[data-tab="politics"]')
       .first()
@@ -125,7 +130,7 @@ try {
       assert.equal(Math.round((raisedAfter - raisedBefore) * 100), sum);
       for (const call of result.calls) {
         assert.ok(call.line.includes(call.name), call.line);
-        assert.ok(body.includes(call.line), `the screen lists: ${call.line}`);
+        assert.ok(body.includes(call.line), `the scene says: ${call.line}`);
       }
       console.log("People:", result.calls.map((c) => c.line).join(" | "));
       console.log("Summary:", result.callsLine);

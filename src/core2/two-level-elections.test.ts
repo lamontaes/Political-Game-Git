@@ -27,11 +27,13 @@ import {
   openVoting,
   resultOf,
   secondElection,
+  VOTING_MODULE_ID,
 } from "./modules/voting";
 import { breakElectionTie } from "./election-ties";
 import tieRules from "../../data/research/elections/tie-rules-2026.json" with { type: "json" };
 import { partySide } from "./appointments";
 import { countedChoice, countedResidents } from "./electorate";
+import { electorateParameter } from "./electorate-inputs";
 import calibration from "../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
@@ -111,14 +113,56 @@ describe("elections in the two-level world", () => {
       const filings = ballot(api, contest.id);
       expect(result.countedEligible).toBeGreaterThan(0);
       // Every counted resident's ballot is kept with its reasons, and each
-      // choice is the one its own appeal ranks first.
+      // record's people divide as its own appeal has them (CTO, Nov 1): on a
+      // ballot with party labels whole to its first place, on one without by
+      // each candidate's logistic share at appealPerShare's slope, worked
+      // out here; a household that gave its word at a door votes whole on it.
       const kept = countedBallotsOf(api, contest.id);
       expect(kept.length, contest.title).toBeGreaterThan(0);
-      for (const b of kept) {
-        // Each stands for the town's people like them: their choice counts
-        // at their turnout propensity, which slides strictly between never
-        // and always (turnout.ts).
-        expect(b.choice, b.id).toBe(countedChoice(b.appeal));
+      const row = api
+        .moduleState(VOTING_MODULE_ID)
+        .table("countedBallots")
+        .get(`counted:${contest.id}`) as unknown as {
+        readonly field: readonly {
+          readonly id: string;
+          readonly side: number;
+        }[];
+        readonly pledges: readonly (Readonly<Record<string, number>> | null)[];
+        readonly pledgedChoice: readonly number[];
+      };
+      const labelled = row.field.some((f) => f.side !== 0);
+      const k = 4 / electorateParameter("appealPerShare");
+      for (const [i, b] of kept.entries()) {
+        const ids = Object.keys(b.appeal);
+        const expected: Record<string, number> = {};
+        const first = countedChoice(b.appeal);
+        if (row.pledges[i]) {
+          if (first) expected[first] = b.weight;
+        } else {
+          const pledgedAt = row.pledgedChoice[i]!;
+          const rest = pledgedAt >= 0 ? b.weight - 1 : b.weight;
+          if (pledgedAt >= 0) expected[row.field[pledgedAt]!.id] = 1;
+          if (labelled || ids.length === 1) {
+            if (first) expected[first] = (expected[first] ?? 0) + rest;
+          } else {
+            const sum = ids.reduce(
+              (n, id) => n + Math.exp(k * b.appeal[id]!.total),
+              0,
+            );
+            for (const id of ids)
+              expected[id] =
+                (expected[id] ?? 0) +
+                (rest * Math.exp(k * b.appeal[id]!.total)) / sum;
+          }
+        }
+        for (const id of ids)
+          expect(b.split[id] ?? 0, `${b.id} for ${id}`).toBeCloseTo(
+            expected[id] ?? 0,
+            9,
+          );
+        // Each stands for the town's people like them: their votes count at
+        // their turnout propensity, which slides strictly between never and
+        // always (turnout.ts).
         expect(b.turnout, b.id).toBeGreaterThan(0);
         expect(b.turnout, b.id).toBeLessThan(1);
       }

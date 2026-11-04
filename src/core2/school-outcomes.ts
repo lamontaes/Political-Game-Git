@@ -274,6 +274,8 @@ export function studentsByPlace(
         if (at === undefined) continue;
         const h = rt.store.households[at]!;
         const weight = rt.store.weightOf(h);
+        // A juvenile facility's residents count as the town's students.
+        // stopgapId: SG-GQ-juvenile-school
         const fifth = groupKeyOf(rt, h, date).incomeBand;
         const movedIn = moved.get(record.household.id)?.id;
         for (const kid of kids)

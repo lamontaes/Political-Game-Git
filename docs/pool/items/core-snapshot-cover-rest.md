@@ -5,12 +5,12 @@ area: core
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane-5/snapshot-cover
 pr: #5036
 blocked-on:
 source: "core-needs-core-172 triage, Oct 15"
-claimed-at:
+claimed-at: 2026-11-04T02:10:41.786Z
 ---
 
 **What.** Register or confirm-as-cache each remaining per-world WeakMap and call `declareSnapshotCovered` in drives, grief, moves, people, jobs, credit, candidacy, corruption, voting, budgets, campaigns, elections, interest groups, law-reach and the director, so a save loads fast instead of replaying from the opening (`saves.ts` replays while `uncoveredModules` is non-empty). Split by pillar if it grows to L. Each registration must be proven by a restore round trip, not asserted.
@@ -36,3 +36,11 @@ Sent back 2026-10-23 from PR #5036 (branch claude/snapshot-cover-s5): Code confl
 Sent back 2026-10-24 from PR #5036 (branch claude/snapshot-cover-s5): the corrected evidence table still marks empty uncoveredModules and exact round-trip restoration NOT MET, with nine uncovered modules and 14/20/16 differing fields; provide a valid bounded item for the completed slice or finish the umbrella, and reconcile title six versus body nine; finish on that branch, merge main into it first.
 
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: demote to p3 / hold until the early-access save work; the owner's Continue is not blocked on it (load speed only).
+
+Lane 5, Nov 4: plan, from a trial merge of `claude/snapshot-cover-s5` (e2977127d2, 10 days old) into main. It conflicts in 19 files. Imports are mechanical, but the branch side of business.ts, past-module.ts, officials.ts, outcome-web.ts, speech.ts and voting.ts carries functions main has since deleted, and `world-races.ts` is gone from main. Do not merge it. Re-apply its intent on main: (1) the `decoder()` change in `src/core2/snapshot.ts` (the `refilled` set and the saved key order), self-contained; (2) one `declareSnapshotCovered("<module id>")` line per engine the branch covered, checking each id against main; (3) `registerWorldMapPart` for each per-world WeakMap main still has (the branch's `speech-moved` map no longer exists on main; read each engine's WeakMaps fresh). Prove each engine by `scripts/core2-guard/snapshot-roundtrip.mjs`, not by assertion. The played route that uses it is `core-played-game-saves-and-continues`.
+
+Lane 5, Nov 4: claimed on `lane-5/snapshot-cover`. Step 1 is pushed: the decoder change (bbfde5e201), with snapshot-restore-shape.test.ts passing 3 of 3. The measure is `src/core2/snapshot-played.test.ts` on the branch: buildBenchWorld in a drawn place, 30 days, save, rebuild, restore, both run 45 more days, compare every saved field. Baseline Phoenix, Arizona, seed snapshot-1: 75 engines installed, 55 uncovered (list in the test output), and 47 of 131 saved fields differ after the restore. Core fields differ too (people, work, finance, cashJournal, organizations, durableLog, knowledgeByPerson), so per-world state outside the save changes play broadly, beyond the uncovered engines. 34 of the 55 keep no module-level WeakMap in their own file (map in Lane 5's scratch notes). Next: find which runtime parts the core fields depend on, register each, and rerun the measure after each engine.
+
+Lane 5, Nov 4, the first divergence (Phoenix, Arizona, seed snapshot-1, saved at day 30): right after the restore every saved field is identical. After 1 day of play, 16 fields differ: core.people (the first difference is `person_45670ca22bc4878f`'s mood, 1.420 against 1.700, with the same acts), core.relationships, relationshipsByPerson, durableLog, logByPerson, logByKind, stopgapHits, knowledgeByPerson, the credit, jobs and core2-public-projects-v1 engines, and the parts core2-knowledge-retention-queue, decision-detail-queue, decision-detail-entry-queue, module-calendars and free-block-plans. After 7 days, 29 fields. Lead: something that moves mood and plans free time on the first day reads a per-world cache built when the world is rebuilt, which the restore leaves stale, not the restored records. Look first at the free-block planner's and the module calendars' WeakMaps and at the credit and jobs runtimes. (Correction to the line above: the engine-to-file map is reproduced by listing `uncoveredModules` on a played world and grepping each module id; it is not stored anywhere.)
+
+Lane 5, Nov 4, a cause found (not yet proven the only one): the story director (`p13-story-director`) keeps its whole ledger in closures created by `createDirector` (`src/director/ledger.ts`, line 150 on): `ledger.people` moments, broadEvents, hitBy, liesByLearner, sceneFilters, pollingVisits, circumstanceLast, and the closure maps snapshots, pending, employerJobs, housemates, circumstanceQueue and circumstanceLater. `snapshotWorld(core)` saves none of it, and the old branch only declared the engine covered. A restored world gets a fresh director with no memory of the days played, and the director's moments write feelings, which fits a mood that splits on the first day. Also ruled out as causes, being keyed by date or by constant data: jobs.ts `personJobIndex`, free-block.ts `dates` and `reserves`. Next: the director needs save and restore of its ledger and closure maps, included in the save. `src/director` is Words' area, so that needs an agreement in `docs/lanes/agreements/` first. Then rerun the measure to see what remains.

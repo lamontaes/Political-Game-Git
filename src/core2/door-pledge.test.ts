@@ -13,6 +13,7 @@ import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { countedChoice, countedResidents } from "./electorate";
+import { electorateParameter } from "./electorate-inputs";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { describe, expect, it } from "vitest";
 import { buildPopulation } from "./population";
@@ -237,7 +238,10 @@ describe("a door yes is near-binding", () => {
       expect(after, `${place}: closeness to a rival`).toBeGreaterThan(before);
       expect(after).toBeLessThanOrEqual(1);
 
-      advanceCore(core, addDays(makeIsoDate(contest.electionDate), 1));
+      // The count is in at the end of election day; the pledges are read
+      // then, as the ballot read them, since the race's first campaign turn
+      // after election day drops them (`closeRace`).
+      advanceCore(core, contest.electionDate);
       expect(resultOf(api, contest.id), `${place}: no result`).not.toBeNull();
       const ballots = api
         .moduleState(VOTING_MODULE_ID)
@@ -327,8 +331,7 @@ describe("a door yes is near-binding", () => {
       // own reasons: where the ballot still holds the yes, the turnout of
       // one who voted carries the pledge reason. Whether the pledged as a
       // group turn out more than the town's others is the parameter's total
-      // check, which read 0.17 of 18 against 0.19 of 36 in 1717939 (seed
-      // dp-fresh-1) and is pool item campaign-door-pledge-turnout-total.
+      // check, the next test.
       for (const b of ballots.filter((x) => x.voted))
         if (
           keptYes(b.voterId) &&
@@ -373,6 +376,115 @@ describe("a door yes is near-binding", () => {
       setKeepEveryonesWhy(previousWhy);
     }
   }, 300_000);
+
+  it("the pledged as a group turn out at the rate stated intent predicts, above the town's others (the parameter's total check)", () => {
+    // campaign-door-pledge-turnout-total: over played races in three drawn
+    // places, the voters who still hold a yes on election day turn out
+    // inside the cited 46% to 87% (Rogers and Aida; Pew's 61% to 73%), and
+    // more than the adults who gave no yes. Each voter turns out by their
+    // own reasons; the band checks the total, never one voter.
+    const previousWhy = setKeepEveryonesWhy(true);
+    const draws = Array.from(
+      { length: 12 },
+      (_, n) => randomPlace(`:total:${n}`).key,
+    );
+    const lines: string[] = [];
+    let heldN = 0;
+    let heldVoted = 0;
+    let heldShare = 0;
+    let otherN = 0;
+    let otherVoted = 0;
+    let places = 0;
+    for (const place of draws) {
+      if (places >= 3) break;
+      const world = filedRace(place);
+      if (!world) {
+        lines.push(`${place}: no race two residents could file for`);
+        continue;
+      }
+      const { core, api, contest, filed } = world;
+      openVoting(core);
+      const [mine, theirs] = filed as [FilingRow, FilingRow];
+      const dues = filed
+        .filter((f) => petitionCirculating(api, f.id))
+        .map((f) => petitionOf(api, f.id)!.due)
+        .sort();
+      if (dues.length) advanceCore(core, addDays(makeIsoDate(dues.at(-1)!), 1));
+      if (core.date >= contest.electionDate) {
+        lines.push(`${place}: the petitions close after the election`);
+        continue;
+      }
+      for (let evening = 0; evening < 14; evening++)
+        knockDoors(api, {
+          filingId: mine.id,
+          canvasserId: mine.personId,
+          hours: 4,
+        });
+      knockDoors(api, {
+        filingId: theirs.id,
+        canvasserId: theirs.personId,
+        hours: 6,
+        fillCounted: false,
+      });
+      advanceCore(core, contest.electionDate);
+      const holds = new Set(
+        (
+          api
+            .moduleState(CAMPAIGNS_MODULE_ID)
+            .table("pledges")
+            .query("byCandidate", [mine.personId]) as unknown as PledgeRow[]
+        )
+          .filter((p) => p.contestId === contest.id)
+          .map((p) => p.voterId),
+      );
+      const ballots = (
+        api
+          .moduleState(VOTING_MODULE_ID)
+          .table("ballots")
+          .query("byContest", [contest.id]) as unknown as BallotRow[]
+      ).filter((b) => !filed.some((f) => f.personId === b.voterId));
+      const propensity = (b: BallotRow) =>
+        (b.turnoutReasons as unknown as { propensity?: number }).propensity ??
+        0;
+      const held = ballots.filter((b) => holds.has(b.voterId));
+      const other = ballots.filter(
+        (b) =>
+          !holds.has(b.voterId) &&
+          !pledgesOf(api, b.voterId).some((p) => p.contestId === contest.id),
+      );
+      if (!held.length || !other.length) {
+        lines.push(
+          `${place}: ${held.length} holding a yes, ${other.length} others`,
+        );
+        continue;
+      }
+      const mean = (rows: readonly BallotRow[]) =>
+        rows.reduce((n, b) => n + propensity(b), 0) / rows.length;
+      // In each race the pledged are likelier to vote than their neighbors.
+      expect(mean(held), `${place} (seed ${seed})`).toBeGreaterThan(
+        mean(other),
+      );
+      heldN += held.length;
+      heldVoted += held.filter((b) => b.voted).length;
+      heldShare += held.reduce((n, b) => n + propensity(b), 0);
+      otherN += other.length;
+      otherVoted += other.filter((b) => b.voted).length;
+      places += 1;
+      lines.push(
+        `${place}: ${held.filter((b) => b.voted).length} of ${held.length} holding a yes voted (share ${mean(held).toFixed(2)}), ${other.filter((b) => b.voted).length} of ${other.length} others (${mean(other).toFixed(2)})`,
+      );
+    }
+    process.stdout.write(
+      `PLEDGE TURNOUT seed ${seed}: ${lines.join("; ")}; pooled ${heldVoted} of ${heldN} pledged voted (share ${(heldShare / heldN).toFixed(3)}) against ${otherVoted} of ${otherN} others\n`,
+    );
+    expect(places, `seed ${seed}: ${lines.join("; ")}`).toBe(3);
+    // The pledged's own shares, pooled, sit inside the cited band, and more
+    // of them voted than of the others.
+    expect(heldShare / heldN).toBeGreaterThanOrEqual(0.46);
+    expect(heldShare / heldN).toBeLessThanOrEqual(0.87);
+    expect(heldVoted / heldN).toBeGreaterThan(otherVoted / otherN);
+    setKeepEveryonesWhy(previousWhy);
+  }, 1_800_000);
 });
 
 describe("a door yes holds for the one household the door reached", () => {
@@ -518,11 +630,14 @@ describe("a door yes holds for the one household the door reached", () => {
         .moduleState(VOTING_MODULE_ID)
         .table("countedBallots")
         .get(`counted:${contestId}`) as unknown as {
-        readonly field: readonly { readonly id: string }[];
+        readonly field: readonly {
+          readonly id: string;
+          readonly side: number;
+        }[];
         readonly voterIds: readonly string[];
         readonly weight: readonly number[];
-        readonly choice: readonly number[];
         readonly pledgedChoice?: readonly number[];
+        readonly split: readonly (readonly number[])[];
       };
       const at = kept.voterIds.indexOf(pledged.voterId);
       // Not in the race's electorate (a ward seat elsewhere in town): redraw.
@@ -536,15 +651,31 @@ describe("a door yes holds for the one household the door reached", () => {
       expect(kept.pledgedChoice?.[at], `${where}: pledged household`).toBe(
         mineAt,
       );
-      // The record's own kept choice is the rest's: the top of its appeal
-      // without the pledge.
+      // The rest of the record divide by their appeal without the pledge
+      // (CTO, Nov 1): whole to its top on a ballot with party labels, by each
+      // candidate's logistic share at appealPerShare's slope without them,
+      // and the pledged household's one vote on top.
       const recordBallot = countedBallotsOf(api, contestId)[at]!;
       expect(recordBallot.appeal[mine.personId]?.pledge ?? 0).toBe(0);
-      const rest = countedChoice(recordBallot.appeal);
-      expect(
-        kept.choice[at],
-        `${where}: the rest of ${kept.weight[at]} households`,
-      ).toBe(rest === null ? -1 : kept.field.findIndex((f) => f.id === rest));
+      const restWeight = kept.weight[at]! - 1;
+      const ids = kept.field.map((f) => f.id);
+      const expected: Record<string, number> = { [mine.personId]: 1 };
+      const top = countedChoice(recordBallot.appeal);
+      if (kept.field.some((f) => f.side !== 0) || ids.length === 1) {
+        if (top) expected[top] = (expected[top] ?? 0) + restWeight;
+      } else {
+        const k = 4 / electorateParameter("appealPerShare");
+        const pull = (id: string) =>
+          Math.exp(k * recordBallot.appeal[id]!.total);
+        const sum = ids.reduce((n, id) => n + pull(id), 0);
+        for (const id of ids)
+          expected[id] = (expected[id] ?? 0) + (restWeight * pull(id)) / sum;
+      }
+      for (const [j, id] of ids.entries())
+        expect(
+          kept.split[at]![j]!,
+          `${where}: the rest of ${kept.weight[at]} households for ${id}`,
+        ).toBeCloseTo(expected[id] ?? 0, 9);
       return;
     }
     throw new Error(

@@ -209,6 +209,7 @@
 /src/core2/hud-rents.ts @lamontaes
 /src/core2/health-hazard.ts @lamontaes
 /src/core2/health-own.ts @lamontaes
+/src/core2/medical-bills.ts @lamontaes
 /src/core2/health-displacement.ts @lamontaes
 /src/core2/health-mortality-table.ts @lamontaes
 /src/core2/counted-*.ts @lamontaes

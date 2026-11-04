@@ -75,6 +75,8 @@ import {
   type CauseRow,
 } from "../core2/modules/campaigns";
 import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };
+import { outletsHere, PRESS_MODULE_ID } from "../core2/modules/press";
+import { closenessBetween } from "../core2/closeness";
 import { stakeOf } from "./family-stake";
 import { properName, spoken, spokenDate } from "./words";
 import { PRESS_STORY_EVENT } from "../core2/press-desk";
@@ -470,6 +472,28 @@ function composeBinding(
     } else if (said.subjectId === askedId && said.subjectFraming === "against")
       facts["about-you"] = { text: asked.givenName, sourceRecordIds: cited };
   }
+  // A bill the asked person just introduced (legislature.ts introduce): the
+  // lines about an introduction need it.
+  if (record?.kind === "office.introduced")
+    facts.introduced = {
+      text: said.number ?? "",
+      sourceRecordIds: [moment.causeId, said.billId ?? moment.causeId],
+    };
+  // A reporter cast for a record that names no outlet speaks for the outlet
+  // that employs them, by its record.
+  if (!facts.outlet && !said.outletId && core.modules.has(PRESS_MODULE_ID)) {
+    const employer = outletsHere(coreAPI(core as CoreState)).find((row) =>
+      row.reporterIds.includes(askerId),
+    );
+    const outlet = employer
+      ? core.organizations.get(employer.organizationId)
+      : undefined;
+    if (outlet)
+      facts.outlet = {
+        text: properName(outlet.name),
+        sourceRecordIds: [employer!.id, outlet.id],
+      };
+  }
   // An outlet any other cause names (an invitation to an interview or a
   // debate), by name.
   if (record?.kind !== PRESS_STORY_EVENT && said.outletId) {
@@ -530,6 +554,22 @@ function composeBinding(
       sourceRecordIds: [askerId, askedId],
     };
   else facts.stranger = { text: asker.givenName, sourceRecordIds: [askerId] };
+  // Which side of their tie the two stand nearer, from its record: a friend
+  // (`tie-friend`) is nearer full closeness than none; a rival (`tie-rival`)
+  // is one whose last contact on the tie was a quarrel. A friend and a rival
+  // say different things.
+  const tieId =
+    askerId < askedId ? `${askerId}:${askedId}` : `${askedId}:${askerId}`;
+  const tie = core.relationships.get(tieId);
+  const quarrel = (tie?.latestChange?.requestedChange ?? 0) < 0;
+  if (tie && quarrel)
+    facts["tie-rival"] = { text: asker.givenName, sourceRecordIds: [tieId] };
+  else if (
+    tie &&
+    closenessBetween(core, askerId, askedId) >=
+      rulesFile.tieSides.friendCloseness.value
+  )
+    facts["tie-friend"] = { text: asker.givenName, sourceRecordIds: [tieId] };
   // A committee trade coming due on the floor (legislature.ts
   // recordPromises): the member promised their vote, and the lines about a
   // promised vote need it.
@@ -579,9 +619,10 @@ function composeBinding(
         sourceRecordIds: [moment.causeId, said.filingId ?? moment.causeId],
       };
   }
-  // What the relative has at stake in the run, from the household's records
-  // (the cast rule chose them for it): the lines about money or time need it.
-  const stake = type.stakes?.includes("household-money-or-time")
+  // What the relative has at stake in the run or the lost race, from the
+  // household's and the campaign's records (the cast rule chose them for it):
+  // the lines about money, time or the part they played need it.
+  const stake = type.stakes?.some((row) => row.startsWith("household-"))
     ? stakeOf(core, askedId, moment.causeId, askerId)
     : null;
   for (const [key, fact] of Object.entries(stake?.facts ?? {}))
@@ -1171,6 +1212,20 @@ export function replyInScene(
     answer?.move === "promise" &&
     core.modules.has(CAMPAIGNS_MODULE_ID) &&
     enlistVolunteer(coreAPI(core), filingId, scene.askerId);
+  // After a lost race, saying they will run again meets the relative's own
+  // answer (led by their traits); the candidacy engine keeps it for the next
+  // contest the person weighs: behind the run pulls toward it, doubts away.
+  const lossPart = scene.facts.some(
+    (row) => row.key === "stake-worked" || row.key === "stake-gave",
+  );
+  const backing =
+    lossPart && line.move === "promise" && answer
+      ? rulesFile.familyStakes.behindMoves.includes(answer.move)
+        ? "behind"
+        : rulesFile.familyStakes.doubtMoves.includes(answer.move)
+          ? "doubts"
+          : undefined
+      : undefined;
   // Where the player asks, the reply kept is the colleague's answer, theirs
   // to the player (the one asked first, as the legislature reads it).
   const theirs = scene.playerAsks
@@ -1181,6 +1236,15 @@ export function replyInScene(
   // strains is written to closeness (the plan, section 3: "Each 'keeps'
   // becomes a write to the engine that owns it").
   const ending = reply!.next?.end?.ending;
+  // The concession call: conceding, or refusing to that night, is marked on
+  // the reply for the press to put on the public record.
+  const conceded = ending
+    ? rulesFile.concession.conceded.includes(ending.id)
+      ? "yes"
+      : rulesFile.concession.notConceded.includes(ending.id)
+        ? "no"
+        : undefined
+    : undefined;
   applyCoreEvent(core, {
     id,
     date: core.date,
@@ -1197,8 +1261,10 @@ export function replyInScene(
       line: line.text,
       ...(stakeKind ? { stake: stakeKind } : {}),
       ...(enlists && filingId ? { enlisted: filingId } : {}),
+      ...(backing ? { backing } : {}),
       ...(ending ? { ending: ending.id, keeps: ending.keeps } : {}),
       ...(ending?.firmness ? { firmness: ending.firmness } : {}),
+      ...(conceded ? { conceded } : {}),
     },
     source: {
       tag: "SOURCED",

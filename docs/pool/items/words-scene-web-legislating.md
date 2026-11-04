@@ -5,14 +5,14 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: claimed
-claimed-by: words/web-legislating
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: "words-and-scenes lead, Oct 27: split of words-scene-web-from-lives (owner, Oct 27: scenes and their variants from hundreds of real lives)"
 lead: words
 milestone: play-first
-claimed-at: 2026-10-27T13:56:50.926Z
+claimed-at:
 ---
 
 **What.** The scene web (`npm run scene-web`, `docs/reports/scene-web.md`) lists every situation type in the legislating domain, one row per cause that fires it. This domain covers legislating at council, county, state and Congress: a floor vote, a hearing, a vote asked or confirmed, a bill carried, a section bargained. A row is complete when a real life calibrates it, its lines vary by speaker, and it fires in a played year. The owner's legislating requests with no type are listed under Missing in the report and become rows here.
@@ -30,3 +30,5 @@ claimed-at: 2026-10-27T13:56:50.926Z
 **Files.** docs/design/scenes/from-life/, data/english/parts/, src/director/data/situation-types.json, docs/reports/scene-web.json
 
 **Notes.** Split from `words-scene-web-from-lives` by the words lead on Oct 27. Method per row: `scenes-from-life`. Producers belong to the director engineer (`lead: director` items); this item owns the packets and the lines.
+
+Lane 5 (pool truth, Nov 3): claim released under the 48-hour rule. Claimed 2026-10-27 on `words/web-legislating`; last push Oct 27, 14:11 UTC; no open PR. The branch keeps its work; claiming it takes the branch.

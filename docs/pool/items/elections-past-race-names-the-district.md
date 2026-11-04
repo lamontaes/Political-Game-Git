@@ -5,7 +5,7 @@ area: elections
 kind: feature
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: governing/past-race-district
 pr: #7098
 blocked-on: elections-past-race-votes-from-electorate
