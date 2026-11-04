@@ -5,11 +5,12 @@ area: words
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane3/campaign-answers
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T14:26:02.543Z
 ---
 
 **What.** The lane's campaign acts as scenes (#7109 donor calls, #7111 volunteers, #7112 endorsements, #7132 the ad) show each person's answer under their own name as narration of themselves ('Ruth Stanton agrees to endorse you.'). Words' reviews passed the bank lines for the Campaigns summary and promised spoken versions: each person says their own yes or no ('Count me in. I can give you Saturdays.' / 'I'd like to, but I can't spare the time right now.').
