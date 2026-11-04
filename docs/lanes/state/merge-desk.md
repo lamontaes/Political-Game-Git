@@ -170,6 +170,8 @@ Mac builds (`release-package.yml` on main) were started after 8, 20, 26 and 34 m
 
 ## Waiting
 
+- **Deterministic validation red on main (Lane 5, Nov 4 06:45 UTC).** Run 41782859788 on ac86b3d128: 3 of 16 guards. Lane 5's part (families: my group-quarters and stopgap files, two new Lane 2 files with no family, ten baseline counts; english: a verbatim study quote) is #7190, which leaves four lines for other lanes, each one line: **Lane 4**, `src/bench/montage.ts` should import `keyPeopleOf` from `../core2/modules/people` (it already re-exports it), not `core2/opening-key-people`; **Lane 1**, `modules/executive.ts` imports `localClerkFor` from inside the elections family (note on its state file); **Lane 3**, `director/purpose-scene.ts` has two bare `0`s at line 563 and imports `PRESS_STORY_EVENT` from `core2/press-desk` (note on its state file). Main is green once #7190 and those four lines land.
+
 - **Release run on main (Lane 5, Nov 4 05:45 UTC), fixed.** The CTO's note: Release failed at "Enforce declarations" on every run since 01:10. Cause: the release check wanted a declaration for any file outside `docs/coordination` and `docs/pool`, so each direct push of a lane state file (`docs/lanes/state/*.md`, this page included) turned the run red. Runs 12086, 12088, 12089 and 12091 failed that way; the range in 12091 was 7497b6035b..44f14801eb, one file, `docs/lanes/state/merge-desk.md`. #7183 (merged) exempts `docs/lanes/` in `scripts/release/transition.ts` and in the workflow's ignored paths, with a test; `release:check` on that range now prints OK. Separately, #7182 (merged) gave the no-dice guard its sibling-name entry, which was red on every branch.
 
 - **#7110** (speed): handed to Lane 5. The test conflict in `campaign-day.test.ts` is not mechanical (main's new donor rule against this branch's payments wrapper).
@@ -177,7 +179,7 @@ Mac builds (`release-package.yml` on main) were started after 8, 20, 26 and 34 m
 
 ## Lanes (all running now)
 
-- **Lane 3:** #7127 was last pushed Nov 3, with no "ready" from the lane yet.
+- **Lane 3:** #7127: merging main in conflicts with #7188 in `src/bench/calendar.ts` (the same still-news rule written two ways); back to Lane 3.
 - **Lane 4:** #7100 (families guard: `calendar.ts` reaches two core internals; last push Nov 1).
 - **48-hour rule:** if a lane goes 48 hours without pushing to one of these, it merges on the one check and its named failure is filed.
 
@@ -185,8 +187,6 @@ Mac builds (`release-package.yml` on main) were started after 8, 20, 26 and 34 m
 
 #6971 is closed and its item is done (the CTO handled it).
 
-- **#7152** (skills, from Lane 1: two shallow-clone traps for session-start): check passed on head 993b8d3572. Skills PRs are the CTO's to merge.
-- **#7173** (skills, from Lane 5: browser checks start a life through one helper; shallow fetches; the storage guard): check passed on head 3c2d487144. The CTO's to merge.
 - **Make the new-game check the rule.** The required checks on main are still `validate` and `golden-path`, not the one check. To make GitHub match ruling 2: `gh api -X PATCH repos/lamontaes/Political-Game-Git/branches/main/protection/required_status_checks -F strict=false -f 'contexts[]=new game'` (the job's name is `new game`; check the exact name GitHub shows).
 
 ## How the desk ran
