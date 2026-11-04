@@ -28,37 +28,53 @@ const seed = process.env.GOLDEN_PATH_SEED || "1d3f0e18ca4ba7e5";
 const WINDOW = 28;
 const STEP = 7;
 
-it(`every 28 days from filing to election day holds a scene or a Journal line about the race (seed ${seed})`, () => {
+/**
+ * Checks the campaign months of the world drawn from this seed; a reason when
+ * the world has no race the player could enter within two years.
+ */
+const run = (drawSeed: string): string | null => {
   setBookkeeping(false);
-  const { core, director, playerId } = buildBenchWorld(seed, gameStartDate(), {
-    twoLevel: true,
-  });
+  const { core, director, playerId } = buildBenchWorld(
+    drawSeed,
+    gameStartDate(),
+    {
+      twoLevel: true,
+    },
+  );
   const api = coreAPI(core);
   const me = playerId! as PersonId;
   const town = String(core.people.get(me)!.placeId);
-  const where = `${town}, seed ${seed}`;
+  const where = `${town}, seed ${drawSeed}`;
   const born = core.people.get(me)!.birthDate;
   const md = born.slice(5) === "02-29" ? "03-01" : born.slice(5);
   const eighteen = makeIsoDate(`${Number(born.slice(0, 4)) + 18}-${md}`);
   if (eighteen > core.date) advanceCore(core, eighteen);
   director!.watch(core, me);
-  const filed = [...playerContests(api)]
-    .sort(
-      (a, b) =>
-        a.electionDate.localeCompare(b.electionDate) ||
-        a.id.localeCompare(b.id),
-    )
-    .find((contest) =>
-      ["petitioning", "on-ballot"].includes(
-        (
-          fileForOffice(core, me, contest.id) as {
-            filing?: { status?: string };
-          }
-        ).filing?.status ?? "",
-      ),
-    );
-  expect(filed, `${where}: no race the player could enter`).toBeTruthy();
-  const filingId = `filing:${filed!.id}:${me}`;
+  // Filing opens on a set day (elections-filing-window-opens): the weeks go
+  // by until the soonest race the player may enter is open, and they file.
+  const fileSoonest = () =>
+    [...playerContests(api)]
+      .sort(
+        (a, b) =>
+          a.electionDate.localeCompare(b.electionDate) ||
+          a.id.localeCompare(b.id),
+      )
+      .find((contest) =>
+        ["petitioning", "on-ballot"].includes(
+          (
+            fileForOffice(core, me, contest.id) as {
+              filing?: { status?: string };
+            }
+          ).filing?.status ?? "",
+        ),
+      );
+  let filed = fileSoonest();
+  for (let week = 0; week < 104 && !filed; week += 1) {
+    advanceCore(core, addDays(makeIsoDate(core.date), 7));
+    filed = fileSoonest();
+  }
+  if (!filed) return `${where}: no race the player could enter in two years`;
+  const filingId = `filing:${filed.id}:${me}`;
   const from = makeIsoDate(core.date);
   gatherSignatures(core, filingId);
   const status = (
@@ -79,9 +95,9 @@ it(`every 28 days from filing to election day holds a scene or a Journal line ab
 
   // What the player met: scenes the director staged for them, and Journal
   // lines, each on a record of the race or of the player.
-  const race = new Set([filed!.id, filingId, me]);
+  const race = new Set([filed.id, filingId, me]);
   const aboutRace = (text: string) =>
-    text.includes(filed!.id) || text.includes(filingId);
+    text.includes(filed.id) || text.includes(filingId);
   const scenes = (director!.ledger.people.get(me)?.schedule ?? [])
     .filter((row) => row.bindings.length > 0 && aboutRace(row.momentId))
     .map((row) => ({
@@ -133,7 +149,36 @@ it(`every 28 days from filing to election day holds a scene or a Journal line ab
     if (!here.length) silent.push(`${start} to ${end}`);
   }
   process.stdout.write(
-    `CAMPAIGN MONTHS ${where}: ${filed!.id}, filed ${from}, election ${through}\n${report.join("\n")}\n`,
+    `CAMPAIGN MONTHS ${where}: ${filed.id}, filed ${from}, election ${through}\n${report.join("\n")}\n`,
   );
   expect(silent, `${where}: silent stretches`).toEqual([]);
+  // At least three kinds of scene about the race over the season.
+  const kinds = new Set(
+    (director!.ledger.people.get(me)?.schedule ?? [])
+      .filter(
+        (row) =>
+          row.date >= from && row.date <= through && aboutRace(row.momentId),
+      )
+      .flatMap((row) => row.bindings.map((b) => b.typeKey)),
+  );
+  process.stdout.write(
+    `CAMPAIGN SCENE KINDS ${where}: ${[...kinds].join(", ")}\n`,
+  );
+  expect(
+    kinds.size,
+    `${where}: ${[...kinds].join(", ")}`,
+  ).toBeGreaterThanOrEqual(3);
+  return null;
+};
+
+it(`every 28 days from filing to election day holds a scene or a Journal line about the race (seed ${seed})`, () => {
+  // The seed's own world first (Murray, Nebraska by default, path 4's
+  // town); a world with no race the player can enter draws the next.
+  const passed: string[] = [];
+  for (let draw = 0; draw < 3; draw += 1) {
+    const skipped = run(draw ? `${seed}:${draw}` : seed);
+    if (!skipped) return;
+    passed.push(skipped);
+  }
+  throw new Error(`No drawn world had a race to enter: ${passed.join("; ")}`);
 }, 3_600_000);
