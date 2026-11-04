@@ -545,7 +545,12 @@ function fundOpeningTreasury(
       estimatedFrom: calibration.estimatedFrom,
     },
   });
-  return { minor: receipt.paidMinor, journalSequence: receipt.journalSequence };
+  return {
+    minor: receipt.paidMinor,
+    ...(receipt.journalSequence !== undefined
+      ? { journalSequence: receipt.journalSequence }
+      : {}),
+  };
 }
 
 const minor = (dollarsPerResident: number, residents: number, factor: number) =>
