@@ -126166,6 +126166,1008 @@
         "move": "agree",
         "key": "talk"
       }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-make-the-call-name-picks-up-on-the-second-ring",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You make the call. {name} picks up on the second ring.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "concession-taken",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "narrate",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-call-goes-through-name-answers-over-a-noisy-room",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The call goes through. {name} answers over a noisy room.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "concession-taken",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "narrate",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.this-is-name",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "This is {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "greet",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.name-i-had-a-feeling-it-was-you",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{name}. I had a feeling it was you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "greet",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.thank-you-for-calling-you-ran-a-hard-race-for-office-and-i-mean-that",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Thank you for calling. You ran a hard race for {office}, and I mean that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "tell",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.that-can-t-have-been-an-easy-call-to-make-i-m-grateful-you-made-it",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "That can't have been an easy call to make. I'm grateful you made it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "tell",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.took-you-long-enough-it-was-never-that-close-you-know",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Took you long enough. It was never that close, you know.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "tell",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-figured-you-d-call-eventually-better-luck-next-time",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I figured you'd call eventually. Better luck next time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "tell",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-ll-take-the-call-some-of-what-you-said-about-me-i-won-t-forget",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I'll take the call. Some of what you said about me, I won't forget.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "tell",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.congratulations-take-good-care-of-the-job",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Congratulations. Take good care of the job.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "concession-taken",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "thank",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.thanks-for-picking-up-good-luck-with-it",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thanks for picking up. Good luck with it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "concession-taken",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "thank",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.reply-congratulate.you-earned-it-congratulations",
+      "move": "reply-congratulate",
+      "kind": "spoken",
+      "text": "You earned it. Congratulations.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "congratulate",
+          "role": "asked",
+          "purpose": "concession-taken",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "congratulate",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.reply-congratulate.the-voters-picked-you-i-hope-you-do-right-by-them",
+      "move": "reply-congratulate",
+      "kind": "spoken",
+      "text": "The voters picked you. I hope you do right by them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "congratulate",
+          "role": "asked",
+          "purpose": "concession-taken",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "congratulate",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.reply-warn.enjoy-it-i-ll-be-watching-every-vote-you-cast",
+      "move": "reply-warn",
+      "kind": "spoken",
+      "text": "Enjoy it. I'll be watching every vote you cast.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "warn",
+          "role": "asked",
+          "purpose": "concession-taken",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "warn",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.reply-warn.gloat-all-you-want-people-remember-how-you-won",
+      "move": "reply-warn",
+      "kind": "spoken",
+      "text": "Gloat all you want. People remember how you won.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "warn",
+          "role": "asked",
+          "purpose": "concession-taken",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "warn",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.that-s-all-i-called-to-say",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "That's all I called to say.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "concession-taken",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "leave",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-just-wanted-you-to-hear-it-from-me-good-night",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I just wanted you to hear it from me. Good night.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "concession-taken",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "leave",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-will-thank-you",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I will. Thank you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in",
+          "after": "thank"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "accept",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.count-on-it-good-night",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Count on it. Good night.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in",
+          "after": "thank"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "accept",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.that-means-something-coming-from-you-thanks",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That means something, coming from you. Thanks.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in",
+          "after": "congratulate"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "thank",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thanks-i-ll-try-not-to-let-them-down",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thanks. I'll try not to let them down.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in",
+          "after": "congratulate"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "thank",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.watch-all-you-want-i-ll-be-busy-doing-the-job",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Watch all you want. I'll be busy doing the job.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in",
+          "after": "warn"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "press",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.then-watch-you-ll-see-me-keep-my-word",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Then watch. You'll see me keep my word.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in",
+          "after": "warn"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "press",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.fair-enough-i-d-say-the-same-in-your-place",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fair enough. I'd say the same in your place.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in",
+          "after": "warn"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "accept",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.understood-good-night",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Understood. Good night.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in",
+          "after": "leave"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "accept",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-heard-it-thanks-for-that-much",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I heard it. Thanks for that much.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in",
+          "after": "leave"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "accept",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.good-night-then",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Good night, then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "accept",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thanks-for-the-call",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thanks for the call.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "thank",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.see-you-in-four-years-then",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "See you next election, then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "press",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.reply-accept.fair-enough-good-night",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "Fair enough. Good night.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "concession-taken",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "accept",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.reply-accept.all-right-congratulations-again",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "All right. Congratulations again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "concession-taken",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "accept",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.we-ll-see-about-that",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "We'll see about that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "concession-taken",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "refuse",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.don-t-get-comfortable",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Don't get comfortable.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "concession-taken",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "refuse",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.if-you-need-anything-from-my-side-call-me",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "If you need anything from my side, call me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "concession-taken",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "promise",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.my-people-will-want-a-say-i-ll-be-in-touch",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "My people will want a say. I'll be in touch.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "concession-taken",
+          "key": "call-in"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "promise",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-night",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good night.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in",
+          "after": "accept"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "thank",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thanks-get-some-sleep",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thanks. Get some sleep.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in",
+          "after": "accept"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "thank",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.suit-yourself",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Suit yourself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "press",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-ll-be-right-here",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I'll be right here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "press",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.i-ll-hold-you-to-that-thanks",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'll hold you to that. Thanks.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in",
+          "after": "promise"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "thank",
+        "key": "call-in"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.i-d-like-that-thank-you",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'd like that. Thank you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "concession-taken",
+          "key": "call-in",
+          "after": "promise"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-arrogance-anger-and-fear, the rival who may gloat)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "thank",
+        "key": "call-in"
+      }
     }
   ]
 }
