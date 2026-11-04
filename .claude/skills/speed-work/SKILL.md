@@ -86,6 +86,12 @@ When a session builds work that runs for many people (relatives elsewhere, the c
 
 - A 100-year save needs a machine of its own: the long-run runner session (`CREW.md`) runs it and sends year lines. `speed:year` writes its receipt as each year ends, with each year's heap, process memory and records kept, so a killed run keeps its marks.
 - A measurement branch that merges unmerged fixes is merged by commit: take each head from `git ls-remote origin <branch>` and merge that SHA, since a helper copy's `origin/<branch>` can be stale.
+- **A restored world that drifts from its original** (unit 9, Nov 4). Run a control first: two fresh builds of the same world, no save, played the same days. Only what differs in the save run and not in the control is the save's (two worlds in one process share the stopgap recorder, so `core.stopgapHits` differs in both). Then find the first day and field that split, and look for state the save doesn't hold:
+  - A `WeakMap` or `WeakSet` keyed by the world that holds state across days (a mark such as "seeded" or "last roster size") becomes a saved part with `registerWorldMapPart`.
+  - A cache built from the world's records becomes `registerDerivedCache`.
+  - A cache keyed by records inside the world (a person, a traits object), which the restore refills in place, registers its reset with `registerRestoreReset`.
+  - To find which one, patch `globalThis.WeakMap` in the probe before anything else is imported. Record where each map was made and which keys it set before the restore, clear chosen ones after, and halve the set. Clearing every map breaks the world, because module state and the cash host live in maps too.
+  - When the split is a record that exists in only one world, wrap that world's Map `set` to print the stack that first writes the key.
 
 ## Stop condition
 
