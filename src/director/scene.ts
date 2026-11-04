@@ -4,6 +4,7 @@ import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { P } from "../core2/parameters";
 import type { CoreState, PersonId } from "../core2/types";
 import { relationPhrase } from "../english/journal-words";
+import { lawName, lawTopic } from "./journal";
 import {
   sceneParagraph,
   wordSceneLine,
@@ -237,6 +238,34 @@ export function composeScene(
             };
           const town = place(person.placeId);
           if (town) facts.place = town;
+          // A law's effect learned: which law, by its bill's name or what
+          // it is about, and what the household paid or got back under it,
+          // from the learned record (place-prices: refund minus charge).
+          const learned = core.durableLog.get(moment.causeId);
+          if (learned?.kind === "law.effect-learned") {
+            const lawId = String(learned.facts?.lawId ?? "");
+            const named = lawName(core, lawId);
+            const about = named ? undefined : lawTopic(core, lawId);
+            if (named)
+              facts.law = {
+                text: named.text,
+                sourceRecordIds: [moment.causeId, ...named.recordIds],
+              };
+            else if (about)
+              facts.topic = {
+                text: about.text,
+                sourceRecordIds: [moment.causeId, ...about.recordIds],
+              };
+            const moved = Number(learned.facts?.movedMinor ?? P.zero);
+            if (Number.isFinite(moved) && moved !== P.zero)
+              facts[moved < P.zero ? "cost" : "refund"] = {
+                text: new Intl.NumberFormat("en-US", {
+                  style: "currency",
+                  currency: "USD",
+                }).format(Math.abs(moved) / P.minorPerDollar),
+                sourceRecordIds: [moment.causeId],
+              };
+          }
           return facts;
         },
         `${moment.id}:cause`,
