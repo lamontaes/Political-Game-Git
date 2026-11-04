@@ -3053,7 +3053,7 @@
         "confront": ["refuse"]
       },
       "again": {
-        "answer": ["agree", "leave"],
+        "answer": ["leave"],
         "refuse": ["agree", "leave"]
       },
       "endings": [

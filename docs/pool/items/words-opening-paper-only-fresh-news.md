@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: done
 claimed-by: lane3/paper-fresh
-pr:
+pr: #7188
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-04T04:31:39.010Z
