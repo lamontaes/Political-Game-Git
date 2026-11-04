@@ -45,6 +45,7 @@ The owner, on the installed Mac build, from **New game → Start a life** in a d
 - **To see a test's `console.log`** (the place, seed and record ids for the PR body), run vitest with `--disableConsoleIntercept`.
 - **Before the PR** (Lane 4, Nov 4: #7206, #7220 and #7227 were fixes to Lane 4's merged work): a release declaration's id must not already be in `docs/release/consumed-changes.json` (an old pool item's id may be); `PersonId` is imported from `src/core2/types`; and run `npx tsc --noEmit -p .` once, reading every changed `.ts` file's lines, since the release build's typecheck stops on any of them.
 - **A new import in `src/bench`** (Lane 4, Nov 4: #7231 and #7244 each turned main's guards red): run `npx vitest run tests/guards/families.test.ts tests/guards/kit-only-ui.test.ts` before the PR. Import another family through its entry file (`src/core2/places.ts`, not `place-lookup.ts`), and build markup only with a kit part from `src/bench/ui/`, never `document.createElement` in `play.mjs`.
+- **A state-file push to main** (Lane 4, Nov 4: a `git commit -am` on the state branch carried a half-built browser check onto main unreviewed): name the file, `git commit docs/lanes/state/lane-4.md -m ...`, and run `git status` first; work in progress stays on its own branch.
 - `LAW.md` is not negotiable. If the item's text disagrees with it, follow `LAW.md` and say so in the PR body and the handoff line.
 - Never use dev mode to get past something. A stop you can't get past is a defect: file it.
 - No subagents unless your prompt says so.
