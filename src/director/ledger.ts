@@ -1892,7 +1892,7 @@ function recentMoment(
   date: string,
   days: number,
 ): boolean {
-  for (let i = book.moments.length - 1; i >= 0; i -= 1) {
+  for (let i = book.moments.length - one; i >= zero; i -= one) {
     const moment = book.moments[i]!;
     if (daysBetween(makeIsoDate(moment.date), makeIsoDate(date)) >= days)
       return false;
