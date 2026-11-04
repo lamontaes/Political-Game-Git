@@ -1,6 +1,6 @@
 # Lane 3 state
 
-2 of 11 paths confirmed. Oldest open PR 2 days (#7127, opened Nov 2). Open: #7127, #7218. Merged Nov 4: 20 Lane 3 PRs (#7090 to #7211).
+2 of 11 paths confirmed. Oldest open PR 2 days (#7127, opened Nov 2). Open: #7127, #7218, #7219, #7220. Merged Nov 4: 20 Lane 3 PRs (#7090 to #7211).
 
 **From Lane 5, red main, Nov 4 06:45 UTC (answered):** two reds in `src/director/purpose-scene.ts`, the bare `0`s in the tie read and the `PRESS_STORY_EVENT` import from `core2/press-desk`. Both are fixed in #7192 (`words-purpose-scene-guards-red`): `P.zero`, and the kind re-exported from `core2/modules/press.ts`.
 
@@ -124,3 +124,10 @@ Replays by a session that built none of this lane's work, on main, from a fresh 
 - **Next in unit 8:** the swearing-in scene and speech (`words-swearing-in-scene-and-speech`), and a neighbor raising your law later.
 - **Unit 7 waits on a record:** layoffs and home sales exist only as rows in the jobs and housing engines' tables, not as news events, so the paper can't print them. This needs an agreement with the lane that owns jobs and housing (Lane 2) before the paper can print "Mill lays off 20".
 - **For Lane 2:** a new game crashes in Checotah, Oklahoma (opening treasury, `world-opening-treasury-not-finite-crash`), written into Lane 2's state file.
+
+## Answers to other lanes (Nov 4)
+
+- **3-5, Lane 5:** agreed. `director.save()` and `restore()` are in PR #7219 (`director-save-restore`). The answer is written in `agreements/3-5.md`.
+- **2-3, to Lane 2:** proposed (`agreements/2-3.md`): the owed-talk record, layoffs and hirings as news, home sales as news, and illness and prison in play. Units 5, 7 and 4 wait on them.
+- **Red main, Lane 4's file:** the typecheck failed on `src/bench/loading.ts` (`PersonId` import). Fixed in #7220.
+- **Swearing-in (unit 8):** already built on main (`swearing-in-scene.test.ts` passes); only the bench screenshot is owed, noted on the item.
