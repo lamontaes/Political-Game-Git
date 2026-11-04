@@ -5,11 +5,12 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane3/electoral-scenes-race
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T18:20:27.306Z
 ---
 
 **What.** electoral-scenes.test.ts was red on main by draw. It looked for an open local race only on the game's first day (most towns have none, so draws gave up), filed residents already running (their second filing folded into the first one's scene and read as missing), and checked a stop's crowd against a speech record the log never kept (its filers were not in focus).
