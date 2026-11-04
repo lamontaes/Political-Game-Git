@@ -32,6 +32,8 @@ const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const ATTEMPTS = 16;
 const YEAR = 365;
 const PAPER_DAYS = 10;
+/** Hours of time together that warm a tie past neutral (cooled by three times as many). */
+const TIE_HOURS = 120;
 
 /** The reply path that keeps choosing `move` until the talk ends. */
 function pathTo(
@@ -154,6 +156,7 @@ const run = (
   // Conceded: the winner takes the call, speaking first, gracious or
   // gloating as their traits lean; a sharp answer back strains the tie.
   let call = "";
+  let tied = "";
   if (move === "agree") {
     advanceCore(core, addDays(makeIsoDate(core.date), 1));
     const taken = director.ledger.people
@@ -172,6 +175,42 @@ const run = (
     expect(heard?.kind, here).toBe("composed");
     if (heard?.kind !== "composed") return { done: false, note: here };
     expect(heard.scene.askerId, here).toBe(result.winnerId);
+    // A friend and a rival say different things: the same call, the tie
+    // between them warmed and then cooled through the closeness engine,
+    // each version citing the relationship record.
+    const tieId =
+      loser < result.winnerId
+        ? `${loser}:${result.winnerId}`
+        : `${result.winnerId}:${loser}`;
+    const versions: string[] = [];
+    for (const [side, hours] of [
+      ["tie-friend", TIE_HOURS],
+      ["tie-rival", -3 * TIE_HOURS],
+    ] as const) {
+      // Time together until the tie stands on the friend's side (closeness
+      // grows more slowly the closer it is); one quarrel makes a rival.
+      let again = null as ReturnType<typeof purposeScene>;
+      for (let step = 0; step < 6; step += 1) {
+        api.relationship(loser, result.winnerId as PersonId, "contact", hours);
+        again = purposeScene(core, director, loser, taken!, {
+          typeKey: "concession-taken",
+        });
+        if (
+          again?.kind === "composed" &&
+          again.scene.facts.some((row) => row.key === side)
+        )
+          break;
+      }
+      if (again?.kind !== "composed") continue;
+      const fact = again.scene.facts.find((row) => row.key === side);
+      expect(fact?.recordIds, `${here}: ${side}`).toContain(tieId);
+      versions.push(`${side}: "${again.scene.talk.state.text}"`);
+    }
+    expect(
+      new Set(versions.map((v) => v.split(": ")[1])).size,
+      `${here}: ${versions.join(" / ")}`,
+    ).toBe(2);
+    tied = versions.join(" / ");
     const sharp = pathTo(heard.scene.talk.tree, "warn", ["refuse", "accept"]);
     expect(sharp, `${here}: no sharp answer`).toBeTruthy();
     const said = replyInScene(core, director, loser, taken!, sharp!, {
@@ -184,7 +223,7 @@ const run = (
       .filter(([trait]) => /cocky|smug|polite|calm/.test(trait))
       .map(([trait, value]) => `${trait.split(":")[1]} ${value}`)
       .join(", ");
-    call = ` | the winner's call (${lean}): "${heard.scene.talk.state.text}" / you: "${core.durableLog.get(said as EntityId)?.facts?.line}" (${said})`;
+    call = ` | by tie: ${tied} | the winner's call (${lean}): "${heard.scene.talk.state.text}" / you: "${core.durableLog.get(said as EntityId)?.facts?.line}" (${said})`;
   }
 
   // The race's story in the paper, read within days, says it of the

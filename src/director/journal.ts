@@ -25,7 +25,6 @@ import {
   ageOnDate,
   daysBetween,
   makeIsoDate,
-  spokenDate,
 } from "../core2/kernel/dates";
 import {
   billNumberName,
@@ -47,7 +46,7 @@ import {
 import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
 import { comingOfAgeOn } from "./coming-of-age";
 import type { RACE_MARGINS } from "../english/mined/journal-bank";
-import { properName, stateInSentence } from "./words";
+import { properName, spokenDate, stateInSentence } from "./words";
 import { schoolResult } from "./school";
 import {
   PAST_WORK_OUT,
@@ -909,7 +908,9 @@ export function composeJournal(
             : spec.format === "count"
               ? Number(value).toLocaleString("en-US")
               : spec.format === "date"
-                ? spokenDate(value)
+                ? // As people say a date, from the day the line tells:
+                  // the year only when it differs.
+                  spokenDate(String(value), moment.date)
                 : value,
         sourceRecordIds:
           spec.format === "organization"
