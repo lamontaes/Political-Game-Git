@@ -5,11 +5,12 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: governing/alabama-towns-2025
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T11:55:30.216Z
 ---
 
 **What.** The municipal cycle row for Alabama (src/core2/data/elections/municipal-cycles.json) held the old fourth-Tuesday-in-August cycle of 2020, 2024 and 2028. Ala. Code sec. 11-46-21(a), as amended by Senate Bill 119 of the 2021 Regular Session, moved regular municipal elections to August 2025 and every fourth year after; the 2025 elections were held August 26, 2025. In the played world Haleyville's council terms ran to September 2028, so a New Game life in Haleyville had no race to enter for three and a half years (the county board is closed to the player where the town has a council).
