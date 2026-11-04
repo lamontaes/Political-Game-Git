@@ -2191,6 +2191,26 @@ body.dev .dev-ring {
 #returns-count {
   margin-top: 12px;
 }
+/* The governor races elsewhere: their own page, two columns of tight rows. */
+#returns.nation #returns-lines {
+  flex: none;
+}
+#returns.nation #returns-count {
+  flex: 1;
+  min-height: 0;
+  columns: 2;
+  column-gap: 20px;
+}
+#returns.nation #returns-count .row {
+  padding: 2px 0;
+  gap: 8px;
+  font-size: 12.5px;
+  white-space: nowrap;
+}
+#returns.nation #returns-count .row > b:first-child {
+  max-width: none;
+  letter-spacing: 0.06em;
+}
 #election-day-lines p,
 #returns-lines p {
   margin: 0 0 10px;
