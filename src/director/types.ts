@@ -68,10 +68,11 @@ export interface DirectorData {
     /** The fact naming who the moment is about (the baby at a birth), when not the event's people. */
     counterpartFact?: string;
     /**
-     * Facts the event must carry, by value, to be a moment at all (a
-     * volunteer's first evening, not every week after it).
+     * Days that must pass after the person's last moment of this kind before
+     * another is made (a volunteer's evenings are told about once a month,
+     * not every week).
      */
-    whenFacts?: Readonly<Record<string, string>>;
+    minDaysApart?: number;
   }[];
   /** The reason key and citation on a core player stop for an interrupting moment. */
   interruptStop: { reasonKey: string; citation: string };

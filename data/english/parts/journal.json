@@ -9542,7 +9542,7 @@
       "key": "journal.office-line-volunteer-shift.a-volunteer-knocked-doors-for-me",
       "move": "office-line-volunteer-shift",
       "kind": "spoken",
-      "text": "A new volunteer knocked on {doors} doors for me on their first evening.",
+      "text": "A volunteer knocked on {doors} doors for me.",
       "uses": [
         {
           "move": "office-line-volunteer-shift",
@@ -9568,7 +9568,7 @@
       "key": "journal.office-line-volunteer-shift.someone-from-my-campaign-walked-doors",
       "move": "office-line-volunteer-shift",
       "kind": "spoken",
-      "text": "Someone new joined my campaign and walked {doors} doors their first evening out.",
+      "text": "Someone from my campaign walked {doors} doors for me.",
       "uses": [
         {
           "move": "office-line-volunteer-shift",
