@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/director/conversation.ts, src/director/conversation.test.ts
 
 **Notes.** Filed by Lane 3 (Nov 4), found while checking lane3/everyday-answers; red on clean main (9e2f7a46). Unit tests don't run in main's Release workflow, so no red-main report named it.
+
+**Notes.** Probe (Lane 3, Nov 4 UTC, main 9e2f7a46). The first five people the player knows, on 2021-01-10, are two housemates and three others in the same place, all alive, tier weekly. `openConversation` gives each 0 lines and 0 choices. `openConversation` has no early return, so the greeting (`words(..., "greet", "open", { statementsOnly: true })`) found no line and no subject offered a choice. Look at what `words()` reads for these speakers, and at the conversation bank since 9b34b8ec (talk after the address, Nov 1).
