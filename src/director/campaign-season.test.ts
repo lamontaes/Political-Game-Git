@@ -67,24 +67,33 @@ it("a filed candidate's months are never silent, and each season scene writes ba
     ])
       if (core.people.get(id)?.alive) director.watch(core, id as PersonId);
     const api = coreAPI(core);
-    const filed = [...openContests(api)]
-      // The six offices the player may run for (owner, Oct 29).
-      .filter(
-        (c) =>
-          c.electionDate >= addDays(makeIsoDate(core.date), 60) &&
-          playerMayFileFor(api, c.id),
-      )
-      .sort(
-        (a, b) =>
-          a.electionDate.localeCompare(b.electionDate) ||
-          a.id.localeCompare(b.id),
-      )
-      .find((c) =>
-        ["petitioning", "on-ballot"].includes(
-          (fileForOffice(core, me, c.id) as { filing?: { status?: string } })
-            .filing?.status ?? "",
-        ),
-      );
+    // A race at least two months out the player may enter, on the day its
+    // filing opens: the weeks go by until one does (agreement 1-3; filing
+    // opens on a read or estimated day, never the game's first by default).
+    const enter = () =>
+      [...openContests(api)]
+        // The six offices the player may run for (owner, Oct 29).
+        .filter(
+          (c) =>
+            c.electionDate >= addDays(makeIsoDate(core.date), 60) &&
+            playerMayFileFor(api, c.id),
+        )
+        .sort(
+          (a, b) =>
+            a.electionDate.localeCompare(b.electionDate) ||
+            a.id.localeCompare(b.id),
+        )
+        .find((c) =>
+          ["petitioning", "on-ballot"].includes(
+            (fileForOffice(core, me, c.id) as { filing?: { status?: string } })
+              .filing?.status ?? "",
+          ),
+        );
+    let filed = enter();
+    for (let week = 0; week < 104 && !filed; week += 1) {
+      advanceCore(core, addDays(makeIsoDate(core.date), 7));
+      filed = enter();
+    }
     if (!filed) {
       tried.push(`${where}: no race two months out the player could enter`);
       continue;

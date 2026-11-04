@@ -5,6 +5,7 @@
 // 56. Every visible button that shares a row with others has their height.
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
+import { playOpening } from "./start-life.mjs";
 const base = `http://localhost:${process.env.BENCH_PORT ?? 3000}`;
 const shots = process.env.BUTTON_SHOTS;
 const browser = await chromium.launch({
@@ -68,6 +69,8 @@ try {
   await page.locator("#new-life").click();
   await page.locator("#new-advanced").click();
   await page.locator("#new-world").click();
+  // The opening plays first, as a player sees it (start-life.mjs).
+  await playOpening(page, (await (await made).json()).sceneMomentId ?? null);
   console.log("Seed:", new URL((await made).url()).searchParams.get("seed"));
   await page.waitForFunction(() =>
     document.getElementById("card-name").textContent.trim(),

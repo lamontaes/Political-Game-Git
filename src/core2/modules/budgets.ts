@@ -23,6 +23,7 @@ import { corePlaceByKey } from "../place-lookup";
 import { placeLocalGovernmentUnits } from "../gov-rules/local-governments";
 import budgetBases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
 import federal from "../../../data/research/money/federal-budget-fy2025.json" with { type: "json" };
+import openingCash from "../../../data/research/money/treasury-opening-cash.json" with { type: "json" };
 import localYears from "../data/budgets/local-fiscal-years.json" with { type: "json" };
 import { addDays, makeIsoDate } from "../kernel/dates";
 import priorGrowth from "../data/budgets/prior-year-growth.json" with { type: "json" };
@@ -39,7 +40,10 @@ import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { CashJournalSourceSlot } from "../journal-state";
 import type { WorkPayrollJournalReceipt } from "../work-payroll-cash";
-import { countyGovernmentUnit } from "../reference/government-units";
+import {
+  countyGovernmentUnit,
+  type GovernmentUnitType,
+} from "../reference/government-units";
 import {
   LAWS_MODULE_ID,
   lawChain,
@@ -66,6 +70,7 @@ import {
   applySocialSecurityLevel,
   closeTreasuries,
   notePublicPay,
+  outsideAccountOf,
   sameGovernment,
 } from "../budgets-treasury";
 import {
@@ -97,6 +102,11 @@ export interface GovernmentRow {
    * carries the whole local share of every function.
    */
   readonly base: BaseRowName;
+  /** Read at opening to prevent a second deposit when budgets reopen. */
+  readonly openingCash?: {
+    readonly minor: number;
+    readonly journalSequence?: number;
+  };
 }
 
 export interface BudgetRow {
@@ -428,6 +438,7 @@ function government(
   api: CoreAPI,
   row: Omit<GovernmentRow, "organizationId">,
   unitId?: string,
+  unitType?: GovernmentUnitType,
 ): GovernmentRow {
   // Each government's treasury is its own account. The opening's public
   // employers are outside payers with no cash; their pay should draw from
@@ -458,9 +469,83 @@ function government(
         ...(jurisdictionId ? { governmentJurisdictionId: jurisdictionId } : {}),
       },
     });
-  const full = { ...row, organizationId };
+  const previous = table(api, "governments").get(row.id) as unknown as
+    GovernmentRow | undefined;
+  const identity = { ...row, organizationId };
+  const full: GovernmentRow = {
+    ...identity,
+    openingCash:
+      previous?.openingCash ??
+      fundOpeningTreasury(api, identity, unitType ?? row.level),
+  };
   table(api, "governments").put(full as unknown as ModuleRow);
   return full;
+}
+
+/** Opening stock uses the same balanced transfer writer as later payments. */
+function fundOpeningTreasury(
+  api: CoreAPI,
+  government: GovernmentRow,
+  profile: string,
+): GovernmentRow["openingCash"] {
+  const calibration = (
+    openingCash.profiles as Record<
+      string,
+      (typeof openingCash.profiles)["federal"] | undefined
+    >
+  )[profile];
+  if (!calibration)
+    throw new Error(`No opening cash calibration for ${profile}`);
+  const { id: governmentId, organizationId } = government;
+  const outside = outsideAccountOf(api);
+  if (!outside)
+    throw new Error(`No outside account for opening treasury ${governmentId}`);
+  api.stopgap(calibration.stopgapId);
+  const offset = worldOffsetUnit(
+    api.state.seed,
+    `opening-cash:${governmentId}`,
+  );
+  const estimate =
+    calibration.value +
+    offset *
+      (offset < 0
+        ? calibration.value - calibration.spread.low
+        : calibration.spread.high - calibration.value);
+  const budget = baseBudget(
+    api,
+    government,
+    fiscalYearOf(api.state.date, government.fiscalYearStart),
+  );
+  const basis: Record<string, number> = {
+    dollars: 100,
+    annualRevenue: Object.values(budget.revenueMinor).reduce(
+      (sum, n) => sum + n,
+      0,
+    ),
+    annualSpending: Object.values(budget.spendingMinor).reduce(
+      (sum, n) => sum + n,
+      0,
+    ),
+  };
+  // Net reserves can be negative; a deficit is not spendable cash.
+  const amountMinor = Math.round(
+    Math.max(0, estimate) * basis[calibration.basis]!,
+  );
+  const accounts = api.accounts();
+  const receipt = accounts.transfer({
+    id: `opening-treasury:${governmentId}`,
+    from: accounts.main(outside),
+    to: accounts.main(organizationId),
+    amountMinor,
+    reasonKey: "opening-treasury-balance",
+    source: {
+      tag: "ESTIMATED",
+      citation: calibration.citation,
+      asOf: api.state.date,
+      estimatedFrom: calibration.estimatedFrom,
+    },
+  });
+  return { minor: receipt.paidMinor, journalSequence: receipt.journalSequence };
 }
 
 const minor = (dollarsPerResident: number, residents: number, factor: number) =>
@@ -731,6 +816,7 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
           residents: townResidents,
         },
         city.id,
+        city.unitType,
       ),
     );
   // The opening's public employers (the county's offices, schools, police)

@@ -102,6 +102,8 @@ const facts: Record<string, Fact> = {
   remaining: fact("nine months"),
   "stake-time": fact("time"),
   child: fact("Jordan"),
+  "stake-worked": fact("worked"),
+  margin: fact("about 60 votes"),
   signatures: fact("1,250"),
   due: fact("March 5"),
 };

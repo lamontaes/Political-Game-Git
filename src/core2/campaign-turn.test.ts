@@ -474,7 +474,14 @@ describe("campaigns that raise and spend", () => {
         (a, b) =>
           Math.abs(b.position) - Math.abs(a.position) ||
           a.question.localeCompare(b.question),
-      )[0]!;
+      )[0];
+      // A candidate with neither a view nor a party, or a seat that takes up
+      // no question, has an empty platform (candidatePlatform): an ad with no
+      // question has no stance to move, as the chooser case passes it over.
+      if (!lead) {
+        tried.push(`${where}: ${rival.id} has no platform`);
+        continue;
+      }
       // A town where no one the campaign reached would give has no ad to
       // test: its donors decide for their own reasons.
       if (campaign.raisedMinor === 0) {

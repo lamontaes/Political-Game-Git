@@ -1,6 +1,61 @@
 {
   "entries": [
     {
+      "version": "0.76.1",
+      "releasedOn": "2026-11-04",
+      "revision": "f4ada484ac09457c1b37405568d799be18721e43",
+      "changeIds": [
+        "campaign-player-files-for-one-council-race",
+        "campaign-turn-empty-platform",
+        "home-sale-test-town-market",
+        "housing-dwelling-records-cover-few-households",
+        "people-press-out-of-town-staff-paid",
+        "people-press-staff-households",
+        "stopgaps-per-family"
+      ]
+    },
+    {
+      "version": "0.76.0",
+      "releasedOn": "2026-11-03",
+      "revision": "20c4a942bdb410c48dcbccaebec93692af7e4940",
+      "changeIds": [
+        "campaign-platform-follows-agreement",
+        "core-long-run-cash-receipts-year",
+        "core-long-run-closed-race-rows-fold",
+        "core-long-run-log-by-place-unused",
+        "core-long-run-player-weighed-condensed",
+        "docs-state-page",
+        "elections-counted-vote-splits-by-share",
+        "elections-past-race-names-the-district",
+        "laws-medical-debt",
+        "lives-relatives-elsewhere-marry",
+        "new-game-check",
+        "opening-parent-birthdays",
+        "paper-fewer-repeats",
+        "play-campaign-ad-scene",
+        "play-campaign-donor-calls-scene",
+        "play-campaign-endorsements-scene",
+        "play-campaign-volunteers-scene",
+        "play-m6-01-the-opening",
+        "play-news-drop-cap-splits-numbers",
+        "play-news-story-click-opens",
+        "play-offices-keep-their-hours",
+        "play-opening-skip-scene",
+        "play-opening-who-shares-the-couch",
+        "play-parties-says-how-it-knows",
+        "play-travel-place-card-says-what-you-do",
+        "pool-empty-field-trim",
+        "pool-index-main-only",
+        "red-main-counsel-no-hearing-redraw",
+        "red-main-renewal",
+        "remove-green-mannequin-pictures",
+        "words-after-address-talk",
+        "words-archive-parent-death-body",
+        "words-clerk-visit-real",
+        "words-news-closing-told"
+      ]
+    },
+    {
       "version": "0.75.0",
       "releasedOn": "2026-11-02",
       "revision": "04b0ed272289c17f511048feb47e8896f1246be6",

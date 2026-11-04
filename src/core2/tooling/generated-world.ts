@@ -4,7 +4,7 @@ import { withPrivateTuition } from "../opening-private-tuition";
 import { staffToCustomers } from "../opening-staffing";
 import { representativeSample } from "../representative-sample";
 import { withPublicSchoolDistrict } from "../opening-public-schools";
-import { buildPopulation } from "../population";
+import { buildPopulation, inHousehold } from "../population";
 import { enrichCivicInputs } from "../civic-inputs";
 import { initialFocusPeople } from "../focus";
 import { buildOpeningEconomy } from "../opening-economy";
@@ -69,10 +69,13 @@ function buildOpening(
       },
     };
   const start = makeIsoDate(input.startedAt);
+  // The player starts in a household, never in group quarters.
+  const household = inHousehold(input);
   const player = input.people
     .filter(
       (person) =>
         person.jobId &&
+        household(person) &&
         ageOnDate(makeIsoDate(person.birthDate), start) >=
           parameter("votingAge"),
     )
