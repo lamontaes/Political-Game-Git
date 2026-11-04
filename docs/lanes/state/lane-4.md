@@ -1,4 +1,4 @@
-0 of 13 played paths confirmed; 2 wait on the people system. Oldest open PR 3 days (#7100); open: #7100, #7213, #7214.
+0 of 13 played paths confirmed; 2 wait on the people system. Oldest open PR 0 days (#7233); open: #7233, #7238.
 
 # Lane 4 state: Screens
 
@@ -15,13 +15,20 @@ Owner's word, Nov 4: screens tonight, no people. No new pictures: the art on mai
   - #7205: Who you are says why there is no job (path 10). Replay: `GOLDEN_PATH_SEED=lane4-nojob-a` on `src/bench/who-you-are-no-job.test.ts` (Oneonta, New York).
   - #7208: Who you are shows the town's population and this year's moves (path 10). Replay: `GOLDEN_PATH_SEED=lane4-town-a` on `src/bench/town-moves.test.ts`.
   - #7212: loading plays the built world's story: year counter, journal, headlines, map filling in (path 3). Replay: `node src/bench/loading.browser.mjs` (creator: Connecticut, Storrs).
-- **Built, open:**
-  - #7100: calendar kinds; the two families imports fixed, said ready.
   - #7213: the title shows the monuments on main in their lights; conventions and rallies out (path 1). Replay: `node src/bench/title-monuments.browser.mjs`.
-  - #7214: the opening's states part names the governor and the state's chamber leaders over the state's capitol (path 4). Replay: `node src/bench/opening-montage.browser.mjs`; `GOLDEN_PATH_SEED=lane4-open-b` on `montage.test.ts` (Agat GU, St. Johnsbury VT, Kapalua HI).
+  - #7214: the opening's states part names the governor and the state's chamber leaders over the state's capitol (path 4). Replay: `node src/bench/opening-montage.browser.mjs`; `GOLDEN_PATH_SEED=lane4-open-b` on `montage.test.ts`.
+  - #7216: races name their district once, in words ("District 5"). Replay: `RACE_SEED=lane4-rows-1 node src/bench/race-list-rows.browser.mjs` (Oakland, South Carolina).
+  - #7100: calendar kinds (meetings, holidays, family birthdays, a key that hides a kind) (path 11).
+  - #7231: no menu scrolls at 1440x900 or 1024x768 (path 11). Replay: `MENUS_PLACE="Nebraska|Murray" node src/bench/menus-no-scroll.browser.mjs` (and Storrs, Meadow Lakes).
+  - #7232: election night stages the player's own result scene (the concession call) once the returns close, for Lane 3's path 6. Replay: `GOLDEN_PATH_SEED=lane4-night-a` on `src/bench/result-night.test.ts` (Palmer, Iowa).
+- **Built, open:**
+  - #7233: skills, play-first learns this session's traps (for the CTO).
+  - #7238: the newspaper turns pages; it carries two fit fixes that missed #7231's merge. Replay: `MENUS_PLACE="Delaware|Brookside" node src/bench/menus-no-scroll.browser.mjs` (reads every page).
+- **Path 6 (Clerk and Travel), seen in passing:** in Oakland, South Carolina the filing office's Travel card read "Closed now. Opens Monday, February 2, 2026 at 8:00 AM", and Go opened the counter that morning at 8:00. Not yet replayed in Brookside at night.
 - **Mock for the owner (through the CTO):** the campaign board, `docs/mocks/2026-11-04/campaign-board.html` and `.png` (path 9): the race with its standing and poll, signatures against needed and the clerk's verdict, the issues the race turns on, an inbox where each item opens its scene, and the team by role (names only until the people system). Building waits on his look; Lane 4 takes the next unit meanwhile.
-- **Issues and Budgets (unit 9):** no answer yet on the Nov 1 mocks (`play-first/mocks-issues-budgets`); only shared parts until he answers.
-- **Filed for other lanes:** `tests-election-day-no-race-to-enter` and `elections-governor-margins-twice-real` (Lane 1). Mine: `play-filing-race-label-district-code`, `play-town-moves-news-line`, `play-opening-home-beat-draws-nobody` (waits on people).
+- **Issues and Budgets (unit 9):** no answer yet on the Nov 1 mocks (`play-first/mocks-issues-budgets`); only shared parts until he answers. The shared fit (#7231) already keeps Issues from scrolling; Budgets runs 13px over at 1024x768 and is left for his answer. `play-law-on-your-record-unreachable` reworks Issues, so it waits too.
+- **Agreement 2-4, second part:** the bill draft adapter scope accepted on `lane-2/bill-values` (356db0f4df); Lane 2 makes the edit, named under "Review: Lane 4".
+- **Filed for other lanes:** `tests-election-day-no-race-to-enter` and `elections-governor-margins-twice-real` (Lane 1). Mine: `play-town-moves-news-line` (needs Words for the line), `play-opening-home-beat-draws-nobody` (waits on people).
 - **Lesson (release):** a declaration id must not already be in `docs/release/consumed-changes.json`; an old pool item's id may be (#7206 renamed mine). Check before naming the file.
 - **Agreements:** 1-4 confirmed and amended (Lane 1's controls in `src/bench`). 2-4 accepted on `lane-2/opening-home-agreement` (`openHousing` before the first card).
 

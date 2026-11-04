@@ -3,11 +3,11 @@
   "states": {
     "US-AL": {
       "timing": "quadrennial-late-summer-august",
-      "anchorYear": 2024,
+      "anchorYear": 2025,
       "periodYears": 4,
       "day": { "kind": "nth-weekday", "month": 8, "weekday": 2, "nth": 4 },
       "tag": "SOURCED",
-      "citation": "Ala. Code sec. 11-46-21: fourth Tuesday in August every 4 years (2020, 2024, 2028)"
+      "citation": "Ala. Code sec. 11-46-21(a), as amended by Senate Bill 119 of the 2021 Regular Session: regular municipal elections on the fourth Tuesday in August 2025 and quadrennially thereafter (2025, 2029); the 2025 elections were held August 26, 2025 (https://alison.legislature.state.al.us/files/pdf/SearchableInstruments/2021RS/PrintFiles/SB119-Eng.pdf; https://yellowhammernews.com/key-deadlines-approaching-for-alabamas-2025-municipal-elections)"
     },
     "US-MS": {
       "timing": "quadrennial-summer-june",

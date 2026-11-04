@@ -36,6 +36,7 @@ import viewsJson from "../data/views/views.json" with { type: "json" };
 import drivesJson from "../data/drives.json" with { type: "json" };
 import type {
   CoreAPI,
+  CoreEventInput,
   CoreModule,
   CoreState,
   PersonId,
@@ -766,6 +767,117 @@ export function stanceRow(
     : undefined;
 }
 
+/** One heard case, applied by the same rule to a person or a counted group. */
+export interface HeardCase {
+  readonly view: PersonView;
+  readonly hearer?: Pick<PersonState, "traits">;
+  readonly prior?: Stance;
+  readonly event: Pick<CoreEventInput, "id" | "date">;
+  readonly topic: string;
+  readonly desiredChange: string;
+  readonly size: number;
+  readonly nearness: number;
+  readonly speakerId?: string;
+  readonly learnedFrom?: string;
+  readonly keepCauses: boolean;
+}
+
+export function stanceAfterCase(
+  api: CoreAPI,
+  heardCase: HeardCase,
+): Stance | undefined {
+  const {
+    view,
+    hearer,
+    prior,
+    event,
+    topic,
+    desiredChange,
+    size,
+    nearness,
+    speakerId,
+    learnedFrom,
+    keepCauses,
+  } = heardCase;
+  const personId = view.id;
+  const id = `${personId}:${topic}`;
+  const heard = speakerId
+    ? (prior?.heard?.[speakerId] ?? v("zero"))
+    : v("zero");
+  const since = addDays(makeIsoDate(event.date), -v("stanceCauseKeptDays"));
+  // How far this hearer lets an argument or a story move them follows
+  // their own traits (openness and agreeableness toward yielding), at the
+  // weight fitted to its study.
+  // A multiplier, never zero: the most resistant hearer still moves a little.
+  const yieldLean = hearer
+    ? decisionLean(api.state, hearer, "views.persuasion", "yield", "resist")
+    : v("zero");
+  const yielding = hearer
+    ? Math.exp(decisionTraitWeight(api.state, "views.persuasion") * yieldLean)
+    : v("one");
+  const change =
+    (v("stanceStep") *
+      size *
+      nearness *
+      yielding *
+      (v("one") - v("tightness") * view.engagement)) /
+    (v("one") + v("repeatWearOut") * heard);
+  // The audit's probe (off in play) sees the move with and without the trait term.
+  if (hearer)
+    reportOutcome(
+      "views.persuasion",
+      personId,
+      yieldLean,
+      "size",
+      (withTerm) => (withTerm ? change : change / yielding),
+    );
+  if (change <= v("zero")) return undefined;
+  const same = prior?.desiredChange === desiredChange;
+  const strength = Math.min(
+    v("one"),
+    prior ? (same ? prior.strength + change : prior.strength - change) : change,
+  );
+  return {
+    id,
+    personId,
+    topic,
+    // A stance pushed past zero turns toward the new change.
+    desiredChange:
+      prior && !same && strength > v("zero")
+        ? prior.desiredChange
+        : desiredChange,
+    strength: Math.abs(strength),
+    // The player's circle (and everyone, under the keep-everyone's-why switch) keeps
+    // why the stance is what it is: one cause per source, the speaker and
+    // the record they learned it from, holding that source's latest event
+    // and how often and how much it has moved the stance. A source
+    // heard from every day is one row, so the list is as long as the
+    // number of distinct sources heard in the last stanceCauseKeptDays,
+    // never the number of events. For anyone
+    // else only the latest (the speech that just moved them), since the
+    // wear-out reads `heard`.
+    causes: withCause(
+      keepCauses ? (prior?.causes ?? []) : [],
+      {
+        eventId: event.id,
+        date: event.date,
+        change,
+        ...(speakerId ? { speakerId } : {}),
+        ...(learnedFrom ? { learnedFrom } : {}),
+      },
+      since,
+    ),
+    ...(speakerId || prior?.heard
+      ? {
+          heard: {
+            ...prior?.heard,
+            ...(speakerId ? { [speakerId]: heard + v("one") } : {}),
+          },
+        }
+      : {}),
+  };
+}
+
 export const viewsModule: CoreModule = {
   id: VIEWS_MODULE_ID,
   state: {
@@ -798,8 +910,6 @@ export const viewsModule: CoreModule = {
       Math.abs(event.moodImpulse ?? v("zero")) +
       Math.max(v("zero"), event.stressImpulse ?? v("zero"));
     const size = impulse > v("zero") ? impulse : v("one");
-    // A circle stance keeps the sources heard since this day, and the newest.
-    const since = addDays(makeIsoDate(event.date), -v("stanceCauseKeptDays"));
     for (const personId of learnedBy) {
       const view = viewOf(api, personId);
       if (!view) continue;
@@ -844,90 +954,20 @@ export const viewsModule: CoreModule = {
       const nearness = speakerId
         ? standingWith(api, view, speakerId, topic, desiredChange)
         : v("one");
-      // The same case from the same speaker again persuades less each time.
-      const heard = speakerId
-        ? (prior?.heard?.[speakerId] ?? v("zero"))
-        : v("zero");
-      // How far this hearer lets an argument or a story move them follows
-      // their own traits (openness and agreeableness toward yielding), at the
-      // weight fitted to its study.
-      const hearer = api.state.people.get(personId);
-      // A multiplier, never zero: the most resistant hearer still moves a little.
-      const yieldLean = hearer
-        ? decisionLean(api.state, hearer, "views.persuasion", "yield", "resist")
-        : v("zero");
-      const yielding = hearer
-        ? Math.exp(
-            decisionTraitWeight(api.state, "views.persuasion") * yieldLean,
-          )
-        : v("one");
-      const change =
-        (v("stanceStep") *
-          size *
-          nearness *
-          yielding *
-          (v("one") - v("tightness") * view.engagement)) /
-        (v("one") + v("repeatWearOut") * heard);
-      // The audit's probe (off in play) sees the move with and without the trait term.
-      if (hearer)
-        reportOutcome(
-          "views.persuasion",
-          personId,
-          yieldLean,
-          "size",
-          (withTerm) => (withTerm ? change : change / yielding),
-        );
-      if (change <= v("zero")) continue;
-      const same = prior?.desiredChange === desiredChange;
-      const strength = Math.min(
-        v("one"),
-        prior
-          ? same
-            ? prior.strength + change
-            : prior.strength - change
-          : change,
-      );
-      const stance: Stance = {
-        id,
-        personId,
+      const stance = stanceAfterCase(api, {
+        view,
+        hearer: api.state.people.get(personId),
+        prior,
+        event,
         topic,
-        // A stance pushed past zero turns toward the new change.
-        desiredChange:
-          prior && !same && strength > v("zero")
-            ? prior.desiredChange
-            : desiredChange,
-        strength: Math.abs(strength),
-        // The player's circle (and everyone, under the keep-everyone's-why switch) keeps
-        // why the stance is what it is: one cause per source, the speaker and
-        // the record they learned it from, holding that source's latest event
-        // and how often and how much it has moved the stance. A source
-        // heard from every day is one row, so the list is as long as the
-        // number of distinct sources heard in the last stanceCauseKeptDays,
-        // never the number of events. For anyone
-        // else only the latest (the speech that just moved them), since the
-        // wear-out reads `heard`.
-        causes: withCause(
-          keepsWhy(api.state as CoreState, personId)
-            ? (prior?.causes ?? [])
-            : [],
-          {
-            eventId: event.id,
-            date: event.date,
-            change,
-            ...(speakerId ? { speakerId } : {}),
-            ...(learnedFrom ? { learnedFrom } : {}),
-          },
-          since,
-        ),
-        ...(speakerId || prior?.heard
-          ? {
-              heard: {
-                ...prior?.heard,
-                ...(speakerId ? { [speakerId]: heard + v("one") } : {}),
-              },
-            }
-          : {}),
-      };
+        desiredChange,
+        size,
+        nearness,
+        speakerId,
+        learnedFrom,
+        keepCauses: keepsWhy(api.state as CoreState, personId),
+      });
+      if (!stance) continue;
       // Built fresh here and never touched again: frozen in place, not copied.
       stancesTable(api).putOwned(stance as unknown as { id: string });
       for (const listener of stanceListeners) listener(api, personId, topic);

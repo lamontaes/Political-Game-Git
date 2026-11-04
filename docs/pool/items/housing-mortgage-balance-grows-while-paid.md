@@ -5,12 +5,13 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane-2/mortgage-paid-balance
 pr:
 blocked-on:
 lead: m0-m2
 source: realistic-not-real audit, Oct 27 (found running src/core2/macro-mortgage-history.test.ts)
+claimed-at: 2026-11-04T11:23:53.483Z
 ---
 
 **What.** In Echo, Utah (4921880), seed 2d3cadf85fab3908af3e4cdbe95e98d5a45108549587024e8f762e4ba336c335, mortgage:household_1a9aa8aaf58cac35 (2.95%, payment 421,725 cents, missed months 0) falls from 91,806,022 to 91,717,457 cents by July 2025, then rises to 91,935,300 by January 2026 on clean main. A loan with no missed payment should only fall. The test src/core2/macro-mortgage-history.test.ts draws a random place each run, so it fails on main whenever it draws a loan like this one.
