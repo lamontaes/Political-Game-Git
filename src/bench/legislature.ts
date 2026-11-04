@@ -456,15 +456,18 @@ export function billPaper(core: CoreState, billId: string) {
   };
 }
 
-/** The body in its meeting room: the player at the front, colleagues behind. */
-export function bodyScene(
+/**
+ * The picture of a body's own meeting room, by its kind and size (scene-places
+ * bodyPlaces and bodyPlacesBySize); null when the person does not sit on it.
+ * The body scene and any scene staged in that chamber show the same room.
+ */
+export function bodyPicture(
   core: CoreState,
   personId: string,
   officeId: string,
-  minute: number,
-) {
+): string | null {
   const body = bodiesOf(core, personId).find((b) => b.officeId === officeId);
-  if (!body) throw new Error("You don't sit on that body.");
+  if (!body) return null;
   const places = scenePlaces.bodyPlaces as unknown as Record<string, string[]>;
   const offices = coreAPI(core).moduleState(OFFICES).table("offices");
   // A legislature with no upper chamber on record meets in a one-house chamber.
@@ -492,6 +495,19 @@ export function bodyScene(
     [...(sized ?? []), ...(places[kind] ?? []), ...places.default!].find(
       hasBackdrop,
     ) ?? places.default![0]!;
+  return place;
+}
+
+/** The body in its meeting room: the player at the front, colleagues behind. */
+export function bodyScene(
+  core: CoreState,
+  personId: string,
+  officeId: string,
+  minute: number,
+) {
+  const body = bodiesOf(core, personId).find((b) => b.officeId === officeId);
+  if (!body) throw new Error("You don't sit on that body.");
+  const place = bodyPicture(core, personId, officeId)!;
   const cast = [
     ...body.members.filter((m) => m.you),
     ...body.members.filter((m) => !m.you),
