@@ -16,7 +16,7 @@ The natural replay contains no supplied official, law, vote or election. The tes
 - Corrected regression, unchanged replay: PASS, 17.51s test / 28.41s command. It verifies a distinct new job, unchanged ended history, no extra job on a second review, and exactly one positive paycheck for the new service.
 - Six files, 10 tests PASS: the return regression plus unchanged official-salary-payroll, official-pay-withholding, official-pay-death, official-salary-table and official-salary-statewide. 502.80s tests / 519.22s command, one worker, source 9ded40f6f2.
 - Normal New Game PASS: Farmington, Delaware / 70c146fea3ad55c3, player person_8f8bc4864bd47d4a, four weeks and scene/Journal reads; all requests HTTP 200.
-- Changed source/test eslint and prettier PASS. Corrected four-year replays: pending.
+- Changed source/test eslint and prettier PASS. Corrected Absecon four-year replay PASS for completion, record identity and the relative limit: 60.2/95.6/166.1/229.9s, all faster. Exit 1 is solely the absolute 120-second bar in years three and four. Corrected Wolf Creek replay remains. Test-only module-row casts were aligned with the existing typing convention afterward; emitted JavaScript is byte-identical to the passing test.
 
 ## Preserved timing and source control
 
@@ -26,8 +26,9 @@ All runs use the 8 GB heap, the approved cloud storage override and one heavy pr
 | ------------------------------------------------------------------------------------------- | -----: | -----: | -----: | ----------------------- |
 | Wolf Creek, original main bf4e8386cd                                                        |  86.3s | 198.0s | 188.5s | salary crash            |
 | Same main, invalid-start record output only                                                 |  84.5s | 202.0s | 171.4s | same crash, named above |
+| Absecon corrected, head 53397f7e5d                                                          |  60.2s |  95.6s | 166.1s | 229.9s; completes       |
 | Absecon Highlands NJ3400160 / c89c92ac66b703f1, main 41f2348d9b plus diagnostic output only |  69.3s | 104.2s | 179.1s | 238.8s; completes       |
 
-Every first-three-year fingerprint and table digest in the Wolf Creek diagnostic equals its original baseline. The diagnostic changed no record or guard; it has been removed. Absecon's older cf31d0ed63 crash no longer reproduces on current main, so its completion is not credited to this fix. Both completed baselines exceed the absolute 120-second target where shown. No fourth-year relative comparison is possible against a crash, and no corrected performance pass is claimed yet.
+Every first-three-year fingerprint and table digest in the Wolf Creek diagnostic equals its original baseline. The diagnostic changed no record or guard; it has been removed. Absecon's older cf31d0ed63 crash no longer reproduces on current main, so its completion is not credited to this fix. Both completed baselines exceed the absolute 120-second target where shown. All four corrected Absecon fingerprints and table digests match its original baseline; each year is faster (13.13%, 8.25%, 7.26%, 3.73%). No fourth-year Wolf Creek comparison is possible against its crash. Its corrected run will retain the standard benchmark loop and add a read-only job/history check and actual February payday observation after the timed years, with no supplied actor, term or cash.
 
 Commands: npm test -- --run src/core2/official-pay-return.test.ts --maxWorkers=1 (OFFICIAL_RETURN_SEED=471f7bb02cc1105e for the repeat); npm run speed:year -- --seed dc5525b9b709e9c4 --years 4 --max-seconds 120 --exclusive; the same speed command with c89c92ac66b703f1 for Absecon. Every npm command also sets OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" and NODE_OPTIONS=--max-old-space-size=8192.

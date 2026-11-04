@@ -55,7 +55,8 @@ it("keeps a former office job and pays a returned official through a new service
     const roster = api.moduleState(OFFICIALS_MODULE_ID).table("officials");
     const original = (roster.rows() as unknown as OfficialRow[]).find((row) => {
       const person = core.people.get(row.id);
-      const record = pay.get(row.id) as { jobId: string } | undefined;
+      const record = pay.get(row.id) as unknown as
+        { jobId: string } | undefined;
       return (
         row.ended === null &&
         row.termId !== null &&
@@ -67,7 +68,7 @@ it("keeps a former office job and pays a returned official through a new service
     });
     expect(original, `${where}: a serving salaried House member`).toBeDefined();
     const official = original!;
-    const initialPay = pay.get(official.id) as {
+    const initialPay = pay.get(official.id) as unknown as {
       jobId: string;
       payerId: string;
     };
@@ -128,7 +129,7 @@ it("keeps a former office job and pays a returned official through a new service
     if (heldVacancy && heldVacancy.status !== "filled")
       vacancyFilled(api, vacancy!.id, newTerm.id);
     reviewPay();
-    const next = pay.get(official.id) as {
+    const next = pay.get(official.id) as unknown as {
       jobId: string;
       payerId: string;
       paidFrom: string;
