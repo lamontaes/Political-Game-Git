@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: governing/county-votes
-pr:
+pr: #7235
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-04T11:08:17.823Z
