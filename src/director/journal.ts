@@ -1063,7 +1063,18 @@ export function composeJournal(
     return at < zero ? rows.length : at;
   };
   const moments: JournalMoment[] = [
-    ...book.moments,
+    // A race is the person's own when its record names them as a candidate,
+    // whoever else the moment is with (Storrs, Connecticut, replay
+    // storrs-1: a father who walked doors was told as the one who lost).
+    ...book.moments.map((moment) =>
+      !moment.selfNamed &&
+      rows.some(
+        (row) => row.hasOwnLine && moment.causeKind.startsWith(row.kindPrefix),
+      ) &&
+      core.durableLog.get(moment.causeId)?.personIds.includes(personId)
+        ? { ...moment, selfNamed: true as const }
+        : moment,
+    ),
     ...officeActMoments(
       core,
       personId,
