@@ -25,3 +25,8 @@ The corrected regression passes in 184.82 seconds. Typecheck exits 0. Because Vi
 Command: `OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" NODE_OPTIONS=--max-old-space-size=8192 npm test -- src/core2/income-tax-learned.test.ts --maxWorkers=1 --disableConsoleIntercept --reporter=verbose`. Local evidence: `/tmp/lane-2-tax-learning-proof.json`, `-proof.log`, `-proof-exit.json`; original-source `-before.log` and `-before-exit.json`.
 
 Ten fresh shared-reader controls, New Game and four-year timing are pending. The browser's Issues/person-card/paper finish line and another session's main replay remain open.
+
+
+## Existing control failure; unit returned open
+
+The first fresh draw is Williamsburg VA (5186160), replay `bc8a0987576fa6c8a36db1564f7fec5f`, world seed `0b78c1619cc76f06cec8d961f71113190a9b7d0d6f2f8b03458f96bde27a5c13`. All three unchanged `place-prices-learned.test.ts` cases fail on `event:law.effect-learned:2025-02-03:person_83d3d0b011b9d2ec:law:US-VA:state:us-policy-positions:environment-energy.clean-electricity-standard:general:starting`, comparing its law, hearing and date with the unrelated fare-free-transit fixture. The complete file fails identically on the original source (168.48s) and the draft (172.05s). Both npm exits are 1. No test or production suppression was applied. The ten-draw queue stops at this first draw; it is not a pass. Filed `tests-price-learning-observer-mixes-laws`; this tax item is returned open, with draft `9120bb778e` and the natural success above retained. Timing, New Game and the planned small-PR split are uncompleted. Corrected production files restored byte-for-byte after the comparison.
