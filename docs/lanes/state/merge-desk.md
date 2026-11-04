@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 113 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 115 pull requests merged. Newest state at the top of each section.
 
 ## What the owner can play now
 
@@ -82,7 +82,7 @@ New on Nov 3:
   - A pool fix (#7145).
   - A state page (#7146).
 
-## Lane PRs merged on Nov 4 (78), on the owner's word ("You may merge lane PRs that pass the new-game check")
+## Lane PRs merged on Nov 4 (80), on the owner's word ("You may merge lane PRs that pass the new-game check")
 
 Each had main merged in again, passed `npm run new-game-check` (a town drawn from all 56, a new life, four weeks) and merged pinned to that head.
 
@@ -166,8 +166,10 @@ Each had main merged in again, passed `npm run new-game-check` (a town drawn fro
 | #7219 | The story director's memory goes into a save and comes back whole                                                                                            | Miramiguoa Park, Missouri         | d63c7244f4ab0f46 |
 | #7220 | The loading screen code takes its person type from the right place (fixes a red check on main)                                                               | Coral Bay, U.S. Virgin Islands    | 37b8f39ef6fc78d0 |
 | #7221 | Skills: speed-work notes on probing the same world speed:year plays (a skills PR; the desk merged it by mistake, as skills PRs are the CTO's; CTO to review) | Windham, New York                 | 3ecdbe9c4c0cb6b5 |
+| #7222 | A government's treasury can open with zero cash                                                                                                              | Ardmore, South Dakota             | 3e4d8bb963b3999e |
+| #7223 | The paper's story of a race keeps who won (and mends #7219's release note)                                                                                   | Dubberly, Louisiana               | 8c48f7b019ad69a2 |
 
-Conflicts resolved mechanically: #7154 (both sides added a parameter and a stopgap row; both kept), and #7153, #7157, #7160, #7162 (Lane 2's state page: main's wording for the one edited line, both sides' log entries kept). Mac builds started after 5, 13, 18, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70 and 75 of these merges.
+Conflicts resolved mechanically: #7154 (both sides added a parameter and a stopgap row; both kept), and #7153, #7157, #7160, #7162 (Lane 2's state page: main's wording for the one edited line, both sides' log entries kept). Mac builds started after 5, 13, 18, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75 and 80 of these merges.
 
 ## Merged (35), each on the one check with a printed replay number
 
@@ -234,6 +236,9 @@ Mac builds (`release-package.yml` on main) were started after 8, 20, 26 and 34 m
 - **Make the new-game check the rule.** The required checks on main are still `validate` and `golden-path`, not the one check. To make GitHub match ruling 2: `gh api -X PATCH repos/lamontaes/Political-Game-Git/branches/main/protection/required_status_checks -F strict=false -f 'contexts[]=new game'` (the job's name is `new game`; check the exact name GitHub shows).
 
 ## How the desk ran
+
+- **Release notes, from 09:45 UTC Nov 4 (CTO).** After main is merged in, the desk runs `npm run release:check` in pr mode on the PR, and mends the PR's own note if an error names it. Two errors show on every run and hold nothing under ruling 2. This copy's shallow history can't reach the rollout cutoff (Sep 8) to prove the legacy exemption, and the CTO asked the desk not to pull deep history. #7219's note on main also fails, and #7223 carries its mend.
+- **GitHub outage, 09:39 to 09:46 UTC Nov 4.** Pushes returned 500 and merges 502, and #7222's merge sat "in progress". The status page showed nothing. Both went through once GitHub recovered.
 
 - **GitHub access:** `gh auth status` reports the token invalid, but `gh api` works through the proxy as an admin. Merging past the required `validate` and `golden-path` was refused at first by this session's permission layer, and went through once the owner approved it.
 - **Shallow clone:** this cloud copy is shallow, and fetching full history breaks off in this environment. The CTO's `git fetch --shallow-since=2026-10-20 origin main` gave real merge bases.
