@@ -2922,7 +2922,11 @@ const sheets = {
               `${Number(job.hoursDaily.toFixed(1))} ${labels.daily}`,
             ),
           ]
-        : [prose(labels.noJob, "record-empty")]),
+        : [
+            prose(labels.noJob, "record-empty"),
+            // Why, from the household's records (path 10).
+            ...(me.card.noJob ? [prose(me.card.noJob.text, "job-why")] : []),
+          ]),
     );
     work.classList.add("job-plate");
     return [
