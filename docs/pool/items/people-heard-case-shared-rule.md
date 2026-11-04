@@ -5,11 +5,12 @@ area: people
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane-2/heard-case-shared-rule
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T09:15:39.419Z
 ---
 
 **What.** Bounded first part of claimed people-counted-readers-stances-from-stories: extract the existing heard-case transition in views.ts and keep the ordinary full-reader producer calling it. Later delivery uses that same rule; no counted records or election changes in this part.
