@@ -16,7 +16,7 @@ import households from "../data/disasters/households.json" with { type: "json" }
 import severityData from "../data/disasters/severity.json" with { type: "json" };
 import fundingData from "../data/opening-income-funding.json" with { type: "json" };
 import lookup from "../data/places/place-lookup.json" with { type: "json" };
-import { stateOfPlaceKey } from "../places";
+import { placeStateKey } from "../place-map";
 import type { CoreAPI, CoreModule, CoreState, PlaceId, Source } from "../types";
 import { placePopulation } from "../gov-rules/place-population";
 import {
@@ -71,7 +71,7 @@ const runtimes = new WeakMap<CoreState, Runtime>();
 
 /** The town's county code, from its recorded county name and state. */
 function countyCode(core: CoreState): string | undefined {
-  const state = stateOfPlaceKey(core.placeMetadata.placeKey ?? "");
+  const state = placeStateKey(core.placeMetadata.placeKey ?? "");
   const named = core.placeMetadata.countyNames?.split(", ")[0]?.toLowerCase();
   if (!state || !named) return undefined;
   const usps = state.replace(/^US-/, "");

@@ -14,7 +14,7 @@
  * themselves read the web's factor for it through `outcomeWebFactor`.
  */
 import { addDays, makeIsoDate } from "../kernel/dates";
-import regions from "../data/regional/regions.json" with { type: "json" };
+import { placeStateKey } from "../place-map";
 import {
   baseOf,
   CALIBRATED_AT,
@@ -149,16 +149,6 @@ const monthRow = (api: CoreAPI, placeId: string, month: string) =>
   store(api).table("months").get(`web:${placeId}:${month}`) as
     WebMonth | undefined;
 
-/** The town's state, "US-XX", from its place key (a census GEOID starts with the state's code). */
-function stateKeyOf(core: Readonly<CoreState>): string {
-  const geoid = core.placeMetadata.placeKey ?? "";
-  const states = regions.states as Record<string, { usps: string }>;
-  const usps =
-    states[geoid.slice(0, "SS".length)]?.usps ??
-    core.placeMetadata.housingState;
-  return usps ? `US-${usps}` : "";
-}
-
 /**
  * The places the web keeps: the town (the player's place, or where most
  * households live) and every place the economy records businesses in.
@@ -282,7 +272,10 @@ const ENGINE_READERS: Readonly<
   // state draws; the web keeps one state key, the town's.
   "defense-boost-pct": (api, placeId) =>
     api.state.placeMetadata?.housingTown === placeId
-      ? defenseBoostPct(api, stateKeyOf(api.state as CoreState))
+      ? defenseBoostPct(
+          api,
+          placeStateKey(api.state.placeMetadata.placeKey) ?? "",
+        )
       : null,
   // The corporate rate in force is the town's state law; other places keep
   // their own. A state with no corporate income tax reads zero.
@@ -728,7 +721,7 @@ export const OUTCOME_WEB_MODULE: CoreModule = {
         id: STATE_ID,
         openedAt: core.date,
         openingMonth: core.date.slice(0, "YYYY-MM".length),
-        stateKey: stateKeyOf(core),
+        stateKey: placeStateKey(core.placeMetadata.placeKey) ?? "",
       });
     run(api);
     schedule(api);

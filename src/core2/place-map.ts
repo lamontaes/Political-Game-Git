@@ -18,6 +18,10 @@ import { resolveMunicipalElectionTiming } from "./gov-rules/municipal-ballot-rul
 import { nextCountyElection } from "./gov-rules/county-election-calendar";
 import { makeIsoDate } from "./kernel/dates";
 import {
+  coreStateKeyOfJurisdictionId,
+  corePlaceByJurisdictionId,
+} from "./place-lookup";
+import {
   countyGovernmentUnit,
   municipioUnit,
 } from "./reference/government-units";
@@ -102,6 +106,21 @@ export function placeChain(id: string): readonly PlaceRow[] {
 /** The state (or D.C. or territory) a place is in, as its row. */
 export function placeState(id: string): PlaceRow | null {
   return placeChain(id).find((row) => row.level === "state") ?? null;
+}
+
+/**
+ * The jurisdiction key ("US-GA") of the state a place is in, for any way the
+ * game names a place: a town's key, a county id, a state's own key, or a
+ * recorded jurisdiction id. Null where the place is in no state.
+ */
+export function placeStateKey(ref: string | null | undefined): string | null {
+  if (!ref) return null;
+  const row = placeRow(ref);
+  if (row) return placeState(ref)?.id ?? null;
+  return (
+    corePlaceByJurisdictionId(ref as never)?.stateJurisdictionKey ??
+    coreStateKeyOfJurisdictionId(ref)
+  );
 }
 
 /** The county area a place sits in, or null where the map holds none. */

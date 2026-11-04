@@ -21,7 +21,7 @@ import { electorateParameter } from "./electorate-inputs";
 import { interestOf, turnoutRule } from "./turnout";
 import type { ElectoratePlace } from "./electorate-places";
 import { bookkeeping } from "./bookkeeping";
-import { stateOfPlaceKey } from "./places";
+import { placeStateKey } from "./place-map";
 import { residentsRuntime } from "./modules/residents";
 import {
   type CountedHousehold,
@@ -55,7 +55,7 @@ const cache = new WeakMap<CoreState, { date: string; rows: CountedVoter[] }>();
 
 /** The state key of the world's own town ("US-MA"), the home of its counted people. */
 function townStateKey(core: CoreState): string {
-  return stateOfPlaceKey(core.placeMetadata?.placeKey ?? "") ?? "";
+  return placeStateKey(core.placeMetadata?.placeKey ?? "") ?? "";
 }
 
 /** A counted resident's survey cell (see `surveyCell`): their state's, falling back to the nation's where the survey has no state sample. */

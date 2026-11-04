@@ -14,7 +14,7 @@ import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { countedResidents, countedSurveyCell } from "./electorate";
 import { corePlaceByJurisdictionId } from "./place-lookup";
-import { stateOfPlaceKey } from "./places";
+import { placeStateKey } from "./place-map";
 import { VIEWS_KEYS } from "./modules/views";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
@@ -30,7 +30,7 @@ it("a counted voter whose place the lookup does not know reads the town's state,
       twoLevel: true,
       placeKey: place.key,
     });
-    const state = stateOfPlaceKey(place.key)!.slice(3);
+    const state = placeStateKey(place.key)!.slice(3);
     const row = (VIEWS_KEYS.states as Record<string, { mean: number }>)[state];
     // A state the survey has no sample of reads the nation's: nothing to tell apart.
     if (!row) continue;

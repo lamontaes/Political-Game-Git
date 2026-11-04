@@ -34,7 +34,6 @@ import {
   corePlaceByJurisdictionId,
   corePlaceByKey,
   coreStateJurisdiction,
-  coreStateKeyOfJurisdictionId,
 } from "../place-lookup";
 import moverRates from "../../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
 import majority from "../../../data/research/people/age-of-majority.json" with { type: "json" };
@@ -69,6 +68,7 @@ import type {
   PersonId,
   PersonState,
 } from "../types";
+import { placeStateKey } from "../place-map";
 
 export const MOVES_MODULE_ID = "moves";
 export const MOVES_PARAMETERS = rows as unknown as Readonly<
@@ -204,29 +204,16 @@ function lifeStageRate(
 
 /** The share of a place's state's people in an ACS age band who leave their county in a year, else the nation's. */
 function rateOf(placeId: string, band: string): number | undefined {
-  const state = stateKeyOf(placeId);
+  const state = placeStateKey(placeId);
   const byAge = ((state && RATES.places[state]) || RATES.national)
     .departurePerYearByAge;
   return byAge[band];
 }
 
-const stateKeys = new Map<string, string | null>();
-
 /**
  * The state a place is in: a town's or county's state, or the state itself
  * for someone recorded only at their state's level. Cached by place id.
  */
-function stateKeyOf(placeId: string): string | null {
-  let key = stateKeys.get(placeId);
-  if (key === undefined) {
-    key =
-      corePlaceByJurisdictionId(placeId as EntityId)?.stateJurisdictionKey ??
-      coreStateKeyOfJurisdictionId(placeId);
-    stateKeys.set(placeId, key);
-  }
-  return key;
-}
-
 /**
  * The life-stage rate for an age in a place (the rule the monthly pull reads
  * in play), for the run of the years before the start (src/core2/past-moves.ts).
@@ -308,7 +295,7 @@ export function livesElsewhere(
     person.tier === INACTIVE_TIER &&
     !isDemoted(person) &&
     !playedTown(core, person.placeId) &&
-    stateKeyOf(person.placeId) !== null
+    placeStateKey(person.placeId) !== null
   );
 }
 
@@ -1038,7 +1025,7 @@ function leaveElsewhere(
   // its state, ACS 2024): a new home there, in the same state's record.
   const withinState =
     where.destinationId === person.placeId &&
-    coreStateKeyOfJurisdictionId(person.placeId) !== null;
+    placeStateKey(person.placeId) !== null;
   if (where.destinationId === person.placeId && !withinState) return null;
   const fromPlaceId = person.placeId;
   const household = core.households.get(person.householdId);

@@ -15,6 +15,7 @@
 import nativityData from "./data/state-nativity-2024.json" with { type: "json" };
 import { SeededRng } from "./kernel/rng";
 import type { IsoDate, PersonInput, Source } from "./types";
+import { placeStateKey } from "./place-map";
 
 export const NATIVITY_FACT = "identity:nativity";
 
@@ -32,11 +33,6 @@ export function nativeShareOf(usps: string | null): {
   const row = usps ? DATA.byUsps[usps] : undefined;
   const [native, adults] = row ?? DATA.nationalFiftyStatesAndDc;
   return { share: native / adults, national: !row };
-}
-
-/** The state a place id names ("US-KY"), if it names one. */
-export function stateOfPlaceId(placeId: string): string | null {
-  return /^US-[A-Z]{2}$/.test(placeId) ? placeId.slice(3) : null;
 }
 
 export interface NativityFact {
@@ -59,7 +55,9 @@ export function nativityFact(input: {
   readonly qualified: boolean;
   readonly source: Source;
 }): NonNullable<PersonInput["pastFacts"]>[number] {
-  const { share, national } = nativeShareOf(stateOfPlaceId(input.placeId));
+  const { share, national } = nativeShareOf(
+    placeStateKey(input.placeId)?.slice("US-".length) ?? null,
+  );
   // Seeded generation of who exists, never a choice anyone makes.
   const native =
     input.qualified ||
