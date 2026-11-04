@@ -21,3 +21,9 @@ source: added with npm run pool -- add
 **Files.** src/director/doors.ts, src/director/scheduling.ts, src/director/circumstance.test.ts
 
 **Notes.** Waits on integration-day-lands-on-morning-and-places-keep-hours for a place's hours. Owner's words: OWNER-DECISIONS, Oct 27, 5 PM Eastern.
+
+Lane 3 (Nov 4), the design (its dependency on place hours is done):
+- **Where the resident is (`src/director/doors.ts`, Lane 3):** `doorsKnocked` reads the resident's work commitments over the canvass window (`campaignParameter("canvassStartHour")` and `volunteerShiftHours`, through `minutesAtWork`, the same reading the campaign engine's `canvassHoursFree` uses for volunteers). It adds `at: "work"` with the job's id, or `at: "home"`.
+- **Which scene (`circumstances.json`, Lane 3):** a `door-at-work` row (`recordFactEquals` `at: ["work"]`) staged at a new setting kind, `their-workplace`. The door rows take `at: ["home"]`.
+- **Where it plays (`scheduling.ts` `resolveSetting`, Lane 3):** `their-workplace` resolves to the counterpart's job's employer, with an opening in `director.json` `settingHours`.
+- **The picture (`src/bench/story.ts` `SETTINGS`, Lane 4):** `their-workplace` needs the workplace pictures, or the scene falls back to a home picture. Proposed in `agreements/3-4.md`. Not started on a branch.
