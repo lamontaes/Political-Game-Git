@@ -1,42 +1,97 @@
 {
-  "head": "6f3712540a39b1ff12605bad3f862a0beb84e6fc",
-  "replay": "7a8dd4f399654d25",
-  "place": "Sabattus, Maine",
-  "failure": null,
-  "weeks": 4,
-  "personId": "person_4bba73f04a71c076",
-  "requests": [
-    {
-      "route": "POST /api/newlife?seed=7a8dd4f399654d25",
-      "status": 200
-    },
-    {
-      "route": "POST /api/advance?mode=week",
-      "status": 200
-    },
-    {
-      "route": "POST /api/advance?mode=week",
-      "status": 200
-    },
-    {
-      "route": "POST /api/resume?pauseId=player%3Aperson_4bba73f04a71c076%3A10",
-      "status": 200
-    },
-    {
-      "route": "POST /api/advance?mode=week",
-      "status": 200
-    },
-    {
-      "route": "POST /api/advance?mode=week",
-      "status": 200
-    },
-    {
-      "route": "GET /api/scene?id=person_4bba73f04a71c076",
-      "status": 200
-    },
-    {
-      "route": "GET /api/journal",
-      "status": 200
-    }
-  ]
+  "earlier": {
+    "head": "6f3712540a39b1ff12605bad3f862a0beb84e6fc",
+    "replay": "7a8dd4f399654d25",
+    "place": "Sabattus, Maine",
+    "failure": null,
+    "weeks": 4,
+    "personId": "person_4bba73f04a71c076",
+    "requests": [
+      {
+        "route": "POST /api/newlife?seed=7a8dd4f399654d25",
+        "status": 200
+      },
+      {
+        "route": "POST /api/advance?mode=week",
+        "status": 200
+      },
+      {
+        "route": "POST /api/advance?mode=week",
+        "status": 200
+      },
+      {
+        "route": "POST /api/resume?pauseId=player%3Aperson_4bba73f04a71c076%3A10",
+        "status": 200
+      },
+      {
+        "route": "POST /api/advance?mode=week",
+        "status": 200
+      },
+      {
+        "route": "POST /api/advance?mode=week",
+        "status": 200
+      },
+      {
+        "route": "GET /api/scene?id=person_4bba73f04a71c076",
+        "status": 200
+      },
+      {
+        "route": "GET /api/journal",
+        "status": 200
+      }
+    ]
+  },
+  "integrated": {
+    "head": "894053af8b24d3a6e5d3074ba3ff6f42d83ea0e9",
+    "replay": "ba819f115508897c",
+    "place": "Misquamicut, Rhode Island",
+    "failure": null,
+    "steps": [
+      {
+        "route": "POST /api/newlife?seed=ba819f115508897c",
+        "status": 200,
+        "seconds": 6.383511263999999
+      },
+      {
+        "route": "POST /api/advance?mode=week",
+        "status": 200,
+        "seconds": 0.5399439289999991
+      },
+      {
+        "route": "POST /api/advance?mode=week",
+        "status": 200,
+        "seconds": 0.8324500690000004
+      },
+      {
+        "route": "POST /api/advance?mode=week",
+        "status": 200,
+        "seconds": 0.001206771999999546
+      },
+      {
+        "route": "POST /api/resume?pauseId=player%3Aperson_87aa6a3d1f6acadc%3A16",
+        "status": 200,
+        "seconds": 0.7317352719999999
+      },
+      {
+        "route": "POST /api/advance?mode=week",
+        "status": 200,
+        "seconds": 0.5212828929999996
+      },
+      {
+        "route": "POST /api/resume?pauseId=player%3Aperson_87aa6a3d1f6acadc%3A27",
+        "status": 200,
+        "seconds": 0.20615565099999913
+      },
+      {
+        "route": "GET /api/scene?id=person_87aa6a3d1f6acadc",
+        "status": 200,
+        "seconds": 0.001886521000000357
+      },
+      {
+        "route": "GET /api/journal",
+        "status": 200,
+        "seconds": 0.0010802910000002157
+      }
+    ]
+  }
 }
