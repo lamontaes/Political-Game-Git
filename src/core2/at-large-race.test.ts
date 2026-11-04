@@ -22,6 +22,12 @@ import {
 } from "./modules/elections";
 import { VOTING_MODULE_ID, type ResultRow } from "./modules/voting";
 import { OFFICES_MODULE_ID } from "./modules/offices";
+import { candidacyParameter } from "./candidate-pool";
+import {
+  CANDIDACY_MODULE_ID,
+  decisionOf,
+  type WeighedContest,
+} from "./modules/candidacy";
 import { coreAPI } from "./state";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
@@ -84,6 +90,30 @@ it(`a body's at-large seats up on one day are one race, the top finishers seated
       tried.push(`${where}: ${race[0]!.id} and its seats not all decided`);
       continue;
     }
+    // Each would-be candidate weighed the whole race: someone running for
+    // one seat saw, in their field, more runners than their own seat had.
+    const weighed = api.moduleState(CANDIDACY_MODULE_ID).table("weighed");
+    const fieldWeight = candidacyParameter(api, "candidacyFieldWeight");
+    const sawRace = race.some((c) => {
+      const row = weighed.get(c.id) as unknown as WeighedContest | undefined;
+      if (!row) return false;
+      return row.runIds.some((id) => {
+        const field = decisionOf(api, c.id, id)?.reasons.field ?? 0;
+        return -field / fieldWeight > row.runIds.length - 1 + 1e-9;
+      });
+    });
+    if (
+      race.length > 1 &&
+      race.some(
+        (c) =>
+          (weighed.get(c.id) as unknown as WeighedContest | undefined)?.runIds
+            .length,
+      )
+    )
+      expect(
+        sawRace,
+        `${where}: no runner weighed the other seats' runners`,
+      ).toBe(true);
     const counted = rows as ResultRow[];
     const totals = counted[0]!.totals;
     const field = Object.keys(totals);
