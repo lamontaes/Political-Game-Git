@@ -296,6 +296,28 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.82.0
+
+_Released November 4, 2026._
+
+### Fixed
+
+- **Alabama's towns hold their elections in 2025 and every four years after, as
+  the state's law now sets.** A new life in an Alabama town can run for the
+  council in the August 2025 town election instead of waiting until 2028.
+
+### Changed
+
+- **The Journal reads on from one entry to the next.** An entry that came of the
+  one before it now says so ("Because of that, my father was sworn in as
+  Municipal Legislator."), and one that comes a month or more later says how
+  long it was ("More than a year later, my father went to work somewhere new.").
+
+- **The Journal tells a friend's or rival's step into public life by what it
+  meant to you.** When someone you are close to files, takes office or wins, the
+  Journal says so ("My father was sworn in as Council member. That made me
+  glad."); for a rival, it says you had your doubts.
+
 ## PRE-ALPHA 0.81.0
 
 _Released November 4, 2026._
