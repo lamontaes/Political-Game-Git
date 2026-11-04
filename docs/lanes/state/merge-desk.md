@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 99 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 103 pull requests merged. Newest state at the top of each section.
 
 ## What the owner can play now
 
@@ -35,7 +35,7 @@ New on Nov 4, from the lanes:
   - The calendar shows meetings and holidays, not just birthdays.
   - Journal chapters open only on your own turns or a relative's.
   - A question in everyday talk gets an answer, not just a nod.
-  - The Who you are screen says why a grown player has no job.
+  - The Who you are screen says why a grown player has no job, and shows the town's population and this year's moves.
   - A vote ask happens in your chamber and a desk visit at your office, not in a house.
 - **Laws and money.**
   - Unemployment benefits use the law's full wage basis.
@@ -43,6 +43,7 @@ New on Nov 4, from the lanes:
   - A replaced national law is no longer announced as taking effect.
   - Press people's pay and bills add up.
   - A home sale can use an outside lender.
+  - When a law takes effect, its scene names the law and what your household paid or got back.
 
 New on Nov 3:
 
@@ -77,7 +78,7 @@ New on Nov 3:
   - A pool fix (#7145).
   - A state page (#7146).
 
-## Lane PRs merged on Nov 4 (64), on the owner's word ("You may merge lane PRs that pass the new-game check")
+## Lane PRs merged on Nov 4 (68), on the owner's word ("You may merge lane PRs that pass the new-game check")
 
 Each had main merged in again, passed `npm run new-game-check` (a town drawn from all 56, a new life, four weeks) and merged pinned to that head.
 
@@ -147,8 +148,12 @@ Each had main merged in again, passed `npm run new-game-check` (a town drawn fro
 | #7206 | #7204's release note reused a change id and stopped every build; fixed (release only)                                                            | Amherst Town, Massachusetts       | 13548966e1b1173b |
 | #7205 | The Who you are screen says why a grown player has no job, from the household's records                                                          | Odon, Indiana                     | 1c059c51a4295ea3 |
 | #7207 | A vote ask is pictured in your body's chamber and a desk visit at the office, not in a house                                                     | Donahue, Iowa                     | 2fa377a176aa6d19 |
+| #7208 | The Who you are screen shows the town's population and this year's moves (main merged in, both new functions kept beside #7205's)                | Green Bank, West Virginia         | 9b13adf9679381d0 |
+| #7210 | #7207's patch-note title was too long and stopped builds; fixed (release only)                                                                   | Fairfield Harbour, North Carolina | 7a39090c1e10518f |
+| #7209 | The moment spacing loop keeps its numbers in data (fixes a red guard on main)                                                                    | Oakwood, Georgia                  | 607187dde30c724b |
+| #7211 | The scene of a law's effect names the law and what your household paid or got back                                                               | Wauchula, Florida                 | c888652ad5e1faad |
 
-Conflicts resolved mechanically: #7154 (both sides added a parameter and a stopgap row; both kept), and #7153, #7157, #7160, #7162 (Lane 2's state page: main's wording for the one edited line, both sides' log entries kept). Mac builds started after 5, 13, 18, 25, 30, 35, 40, 45, 50, 55 and 60 of these merges.
+Conflicts resolved mechanically: #7154 (both sides added a parameter and a stopgap row; both kept), and #7153, #7157, #7160, #7162 (Lane 2's state page: main's wording for the one edited line, both sides' log entries kept). Mac builds started after 5, 13, 18, 25, 30, 35, 40, 45, 50, 55, 60 and 65 of these merges.
 
 ## Merged (35), each on the one check with a printed replay number
 
