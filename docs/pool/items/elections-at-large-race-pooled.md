@@ -21,3 +21,6 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/elections.ts, src/core2/modules/voting.ts, src/core2/modules/offices.ts, src/core2/modules/candidacy.ts
 
 **Notes.** TODO
+
+Nov 4 (Lane 1, design before building): 84 reads of a result's winnerId across 19 files (bench, director, press), so one contest with several winners would touch three lanes. The design that keeps every reader unchanged: the at-large seats up together stay separate seat contests, each with one winner, but they share one field (a filing for any of them counts for the race) and one count (each voter gives up to as many votes as there are seats, by the same appeal rule; counted records split by the same share rule), and the top finishers are assigned to the seats in order. The parts to change are holdElection's choice (a voter's top N instead of one), the player's chosen ballot (up to N picks), the counted split, pledges and the exit poll. It is several steps of about 400 lines, after unit 1b.
+

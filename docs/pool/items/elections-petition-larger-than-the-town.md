@@ -5,12 +5,13 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: governing/petition-town-size
+pr: #7154
 blocked-on:
 source: governing lead, Oct 30 (found in phase A runs)
 lead: governing
+claimed-at: 2026-11-03T23:14:59.552Z
 ---
 
 **What.** In Johnson MN (2732012, seed 3e569f4194a9e160) the player's council petition needed 30 signatures, and a month of doors reached the same few households 389 times for 19 signers, so the player never made the ballot in two races. A town of a few dozen adults cannot give thirty valid signatures, so either the town's petition row or the fallback that set it is wrong for a place that small. This item finds which one and fixes it by one rule for every small place.
