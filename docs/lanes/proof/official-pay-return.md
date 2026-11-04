@@ -14,7 +14,9 @@ The natural replay contains no supplied official, law, vote or election. The tes
 
 - Original producer, new regression: Sleepy Hollow, Wyoming (5671350), replay 471f7bb02cc1105e, fails the same duplicate-job guard at the return review: 13.52s test / 22.91s command. It first verifies the earlier earned salary is paid and the old job is ended.
 - Corrected regression, unchanged replay: PASS, 17.51s test / 28.41s command. It verifies a distinct new job, unchanged ended history, no extra job on a second review, and exactly one positive paycheck for the new service.
-- Unchanged salary/withholding/death/pay-table checks, fresh New Game and corrected four-year replays: pending.
+- Six files, 10 tests PASS: the return regression plus unchanged official-salary-payroll, official-pay-withholding, official-pay-death, official-salary-table and official-salary-statewide. 502.80s tests / 519.22s command, one worker, source 9ded40f6f2.
+- Normal New Game PASS: Farmington, Delaware / 70c146fea3ad55c3, player person_8f8bc4864bd47d4a, four weeks and scene/Journal reads; all requests HTTP 200.
+- Changed source/test eslint and prettier PASS. Corrected four-year replays: pending.
 
 ## Preserved timing and source control
 
