@@ -5,9 +5,9 @@ area: core
 kind: cleanup
 priority: 1
 size: M
-status: claimed
+status: done
 claimed-by: one-map-lookups
-pr:
+pr: #7275
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-04T21:26:54.796Z
