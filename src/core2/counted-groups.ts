@@ -191,6 +191,10 @@ export interface PackedTraits {
   readonly [key: string]: number;
 }
 
+// Read-cache revisions live outside saved population state. Each writer marks
+// only the groups whose members or fields changed.
+const groupReadRevisions = new WeakMap<object, { version: number; groups: Map<number, number> }>();
+
 export class CountedStore {
   // Member columns.
   readonly ids: string[] = [];
@@ -250,6 +254,25 @@ export class CountedStore {
   version = 0;
   /** Bumped only when someone joins or leaves the counts (not on a regroup). */
   membersVersion = 0;
+
+  get groupsVersion(): number {
+    return groupReadRevisions.get(this)?.version ?? 0;
+  }
+
+  groupReadRevision(index: number): number {
+    return groupReadRevisions.get(this)?.groups.get(index) ?? 0;
+  }
+
+  private changedGroup(index: number): void {
+    if (index < 0) return;
+    let held = groupReadRevisions.get(this);
+    if (!held) {
+      held = { version: 0, groups: new Map() };
+      groupReadRevisions.set(this, held);
+    }
+    held.version++;
+    held.groups.set(index, (held.groups.get(index) ?? 0) + 1);
+  }
 
   constructor(traitNames: readonly string[] = []) {
     for (const name of traitNames) this.traitSlot(name);
@@ -396,6 +419,7 @@ export class CountedStore {
 
   /** A household's members or their records changed. */
   touch(h: CountedHousehold): void {
+    this.changedGroup(h.group);
     h.rev = (h.rev ?? 0) + 1;
     this.peopleViews.delete(h.index);
     this.factsViews.delete(h.index);
@@ -550,6 +574,7 @@ export class CountedStore {
         if (!this.jobHeads.has(job.id))
           this.jobHeads.set(job.id, this.weightOf(other));
       other.weight = this.weightOf(other) + added;
+      this.changedGroup(other.group);
       other.wagesMinorYear = this.wagesOf(other);
     }
     return 0;
@@ -711,10 +736,12 @@ export class CountedStore {
   /** Put a household in the group its facts key it to today. */
   regroup(h: CountedHousehold, key: GroupKey): void {
     this.version++;
+    this.changedGroup(h.group);
     if (h.group >= 0) this.groups[h.group]!.households.delete(h.index);
     const group = this.group(key);
     group.households.add(h.index);
     h.group = group.index;
+    this.changedGroup(h.group);
   }
 
   /** Take a household out of the counts (filled in, moved away or emptied). */

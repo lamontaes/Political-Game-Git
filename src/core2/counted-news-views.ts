@@ -1,7 +1,7 @@
 /** Counted audiences use the views engine's heard-case rule on group fields. */
 import { coreAPI } from "./state";
 import { inheritCountedStory } from "./modules/news";
-import { ageOnDate } from "./kernel/dates";
+import { ageOnDate, dateAtAge } from "./kernel/dates";
 import {
   residentsRuntime,
   registerCountedGroupMoveListener,
@@ -36,20 +36,41 @@ export interface CountedNewsGroup {
 
 const groupsCache = new WeakMap<
   object,
-  { key: string; groups: CountedNewsGroup[] }
+  {
+    store: object;
+    key: string;
+    groups: CountedNewsGroup[];
+    entries: Map<string, {
+      revision: number;
+      date: string;
+      expires?: string;
+      value?: CountedNewsGroup;
+    }>;
+  }
 >();
 const groupPersonId = (id: string) => `counted-news:${id}`;
 
-/** The group's current fields, read from the existing packed members once a day. */
+/** Read packed members only when their group changed or a birthday is due. */
 export function countedNewsGroups(api: CoreAPI): readonly CountedNewsGroup[] {
   installCountedNewsTransfers();
   const store = residentsRuntime(api.state as CoreState)?.store;
   if (!store) return [];
-  const key = `${api.state.date}:${store.version}:${api.state.people.size}`;
-  const held = groupsCache.get(api.state);
+  const key = `${api.state.date}:${store.groupsVersion}`;
+  const previous = groupsCache.get(api.state);
+  const held = previous?.store === store ? previous : undefined;
   if (held?.key === key) return held.groups;
+  const entries = held?.entries ?? new Map();
   const groups: CountedNewsGroup[] = [];
   for (const group of store.groups) {
+    const revision = store.groupReadRevision(group.index);
+    const cached = entries.get(group.id);
+    if (cached && cached.revision === revision &&
+      cached.date <= api.state.date &&
+      (!cached.expires || api.state.date < cached.expires)) {
+      if (cached.value) groups.push(cached.value);
+      continue;
+    }
+    let expires: string | undefined;
     let count = 0,
       lean = 0,
       engagement = 0,
@@ -66,6 +87,8 @@ export function countedNewsGroups(api: CoreAPI): readonly CountedNewsGroup[] {
         // They must not also receive the counted audience's move.
         if (api.state.people.has(voter.id)) continue;
         const age = ageOnDate(voter.birthDate, api.state.date);
+        const birthday = dateAtAge(voter.birthDate, Math.max(0, age + 1));
+        if (!expires || birthday < expires) expires = birthday;
         if (age < api.parameter("votingAge")) continue;
         count += weight;
         byAge.set(age, (byAge.get(age) ?? 0) + weight);
@@ -74,13 +97,17 @@ export function countedNewsGroups(api: CoreAPI): readonly CountedNewsGroup[] {
         const profile = countedOpeningStanceProfile(api, voter);
         faith += (profile.faithFromAverage ?? 0) * weight;
         college += (profile.collegeFromAverage ?? 0) * weight;
-        for (const [kind, value] of Object.entries(voter.traits))
-          traits[kind] = (traits[kind] ?? 0) + value * weight;
+        // Packed traits are inherited getters, so Object.entries is empty.
+        for (const kind of store.traitNames)
+          traits[kind] = (traits[kind] ?? 0) + (voter.traits[kind] ?? 0) * weight;
       }
     }
-    if (count <= 0) continue;
+    if (count <= 0) {
+      entries.set(group.id, { revision, date: api.state.date, expires });
+      continue;
+    }
     for (const kind of Object.keys(traits)) traits[kind]! /= count;
-    groups.push({
+    const value: CountedNewsGroup = {
       id: groupPersonId(group.id),
       placeId: group.placeId,
       count,
@@ -90,9 +117,11 @@ export function countedNewsGroups(api: CoreAPI): readonly CountedNewsGroup[] {
       traits,
       faithFromAverage: faith / count,
       collegeFromAverage: college / count,
-    });
+    };
+    entries.set(group.id, { revision, date: api.state.date, expires, value });
+    groups.push(value);
   }
-  groupsCache.set(api.state, { key, groups });
+  groupsCache.set(api.state, { store, key, groups, entries });
   return groups;
 }
 
