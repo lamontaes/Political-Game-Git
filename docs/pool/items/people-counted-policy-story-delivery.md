@@ -5,11 +5,9 @@ area: people
 kind: wiring
 priority: 2
 size: M
-lead: laws
-milestone: play-first
-status: claimed
+status: in-pr
 claimed-by: lane-2/counted-policy-reach
-pr:
+pr: #7250
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-04T12:41:33.327Z
