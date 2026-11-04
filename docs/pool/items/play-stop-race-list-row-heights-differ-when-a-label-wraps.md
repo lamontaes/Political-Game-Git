@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: lane-4/race-row-heights
 pr: #7203
 blocked-on:
