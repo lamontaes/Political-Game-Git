@@ -1,6 +1,6 @@
 # Lobbying after an actual departure
 
-Status: reader implementation and ten fresh resident-world fixture runs pass. Natural-election proof, New Game and four-year comparison remain pending. No whole Lane 2 path is Built or Verified.
+Status: reader implementation and ten fresh resident-world fixture runs pass. New Game and a natural-election year also pass; four-year comparison remains pending. No whole Lane 2 path is Built or Verified.
 
 The reader follows continuous service through term boundaries and same-office seat changes. A later return after a gap does not erase the departure. The existing laws engine now retains the research’s numeric provisions on its starting-law rows; the lobbying reader uses their periods, including six months, and cites the governing law ID. Missing periods retain the existing estimated fallback, explicitly registered as SG-LAWS-lobbying-period-unspecified. No election or core writer changed.
 
@@ -34,3 +34,18 @@ Source 00cb393a73 passed New Game in Burnet, Texas, replay 6e32d4b3c4eb3d6e: fou
 Revere, Massachusetts (2556585), replay 7b7b49a74432ac15, world 6995c155a167457e88b03773d9709047d61494856025c0b3139df9700ea53f1c, completed one year through 2026-01-20 without an inserted law, election result or departure. Skyler Wu (person_491d10f7b1d4dd00), Brian Osborn (person_a80265ccc1f1a8cd), Brian Carson (person_3173fb0a2a53832b) and Jacqueline Barrett (person_4a7eed40343e31da) were re-elected, took their next terms on 2026-01-01 and returned no former-official bar. For Skyler, term:seat:gus2025:211226:council:0:2025-01-20 ended with “term ended”; term:seat:gus2025:211226:council:0:2026-01-01:elected continues the same person's service. The standing law is law:US-MA:state:us-policy-positions:government-operations.ban-lobbying-after-office:general:starting, with a one-year period.
 
 That run produced zero departures, so the departure assertion failed. It proves continuous re-election only; the second half remains unproven in natural play. Raw records/log: /tmp/lane-2-lobby-natural-attempt-1/. A second fresh draw is running with the assertion retained and a living former-official witness required. Calls made by the observer are reader checks, not proof that an interest group appointed or rejected a lobbyist.
+
+## Completed natural year
+
+Source 00cb393a73; Winchester, Massachusetts (2580545), replay e25e0b67dfb8fa1a, draw 5, world 7c6373cd7e050c2a0af9a84da9067a2e5d7dc9aeb7da106258dabe8703221213. Played 2025-01-20 through 2026-01-20. Passed over Cornwall CT, Middleburg NC and Lebanon NH (no numeric standing ban), and Warrenton OR and Rivergrove OR (no resident election in the opening year). No hand-enacted law, inserted election result or manufactured departure.
+
+The standing law is law:US-MA:state:us-policy-positions:government-operations.ban-lobbying-after-office:general:starting, with a one-year period. The reader checks were:
+
+| Person                                  | Actual term records                                                                               | Result                                                        |
+| --------------------------------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| David Morton (person_0522593e34a3db6f)  | term:seat:gus2025:106146:board:0:2025-01-20 → term:seat:gus2025:106146:board:0:2026-01-01:elected | Continuous service on 2026-01-01; no bar.                     |
+| Ayanna Waller (person_6b3538354f924004) | term:seat:gus2025:106146:board:1:2025-01-20 → term:seat:gus2025:106146:board:1:2026-01-01:elected | Continuous service on 2026-01-01; no bar.                     |
+| Dana Mercer (person_9b7846303e6be665)   | term:seat:gus2025:106146:board:2:2025-01-20, ended by conviction                                  | Left 2025-12-30; barred until 2026-12-30. Living at the read. |
+| Marcus Parks (person_12567109c887a442)  | term:seat:gus2025:106146:board:2:2025-12-30, ended by term ended                                  | Left 2026-01-01; barred until 2027-01-01. Living at the read. |
+
+The departure dates plus the law's one-year period were independently checked against both returned expiry dates. This proves the reader on naturally produced terms, not that an interest group selected or rejected one of these people. Current office/jurisdiction applicability is unchanged by this fix. Raw records: /tmp/lane-2-lobby-natural.json; log: /tmp/lane-2-lobby-natural.log; observer: /tmp/lane-2-lobby-natural.ts. Four-year timing and independent main confirmation remain; this is not a whole Lane 2 path confirmation.
