@@ -23,7 +23,7 @@ import {
   type CampaignDayKind,
 } from "../core2/campaign-day";
 import type { ContestRow, FilingRow } from "../core2/modules/elections";
-import type { CoreAPI, CoreState } from "../core2/types";
+import type { CoreAPI, CoreState, PersonId } from "../core2/types";
 import { dwellingKind } from "../core2/modules/housing";
 import { retellingsOf } from "../core2/modules/speech";
 import {
@@ -45,6 +45,7 @@ import {
 import { campaignParameter } from "../core2/campaign-views";
 import { backdropFor, homeOf, stagePeople } from "./scene";
 import { dollarsOf, nameList, standingLine, raceTitle } from "./race-words";
+import { campaignAnswer } from "../director/campaign-answer";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 
 /** The voters a poll asks when the player commissions one from the Campaigns screen. */
@@ -290,14 +291,17 @@ export function campaignAct(
           personId: id,
           yes,
           name,
-          // What each said, in words, from the ask's own answer.
-          line: standingLine(
-            core.seed,
-            personId,
-            yes ? "volunteer-yes" : "volunteer-no",
-            `${input.filingId}|${id}`,
-            { name },
-          ),
+          // What each said, in their own words: worded by their traits and
+          // their tie to the player (Lane 3, agreements/3-4.md); the name is
+          // the speaker's, shown beside the line.
+          line:
+            campaignAnswer(core, {
+              speakerId: id as PersonId,
+              playerId: personId as PersonId,
+              ask: "volunteer",
+              yes,
+              momentKey: `${input.filingId}|${id}`,
+            })?.text ?? "",
         };
       });
       // The count shown is the campaign record's, the one the header reads.
@@ -332,14 +336,15 @@ export function campaignAct(
             personId: id,
             yes,
             name,
-            // What each said, in words, from the ask's own answer.
-            line: standingLine(
-              core.seed,
-              personId,
-              yes ? "endorse-yes" : "endorse-no",
-              `${input.filingId}|${id}`,
-              { name },
-            ),
+            // What each said, in their own words (as the volunteer ask).
+            line:
+              campaignAnswer(core, {
+                speakerId: id as PersonId,
+                playerId: personId as PersonId,
+                ask: "endorse",
+                yes,
+                momentKey: `${input.filingId}|${id}`,
+              })?.text ?? "",
           };
         }),
         scene: askScene(core, personId, scenePlaces.endorsementMeetingPlace),
