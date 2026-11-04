@@ -22,7 +22,10 @@ import {
   corePlaceByJurisdictionId,
 } from "./place-lookup";
 import {
+  countyGeoidsForPlace,
   countyGovernmentUnit,
+  countyLandSharesForPlace,
+  countyPopulationSharesForPlace,
   municipioUnit,
 } from "./reference/government-units";
 
@@ -121,6 +124,43 @@ export function placeStateKey(ref: string | null | undefined): string | null {
     corePlaceByJurisdictionId(ref as never)?.stateJurisdictionKey ??
     coreStateKeyOfJurisdictionId(ref)
   );
+}
+
+/** The map's own county for a town named by its Census place code, as a five-digit code. */
+function parentCountyGeoid(geoid: string): string | undefined {
+  return placeCounty(geoid)?.id.slice("county:".length);
+}
+
+/**
+ * The county areas a Census place lies in, largest land share first, for the
+ * systems that weigh a place across its counties. Where the Census files hold
+ * no county parts for a place (Puerto Rico's), its one county on the map.
+ */
+export function placeCountyGeoids(geoid: string): readonly string[] {
+  const own = countyGeoidsForPlace(geoid);
+  if (own.length > 0) return own;
+  const parent = parentCountyGeoid(geoid);
+  return parent ? [parent] : [];
+}
+
+/** The same counties with the share of the place's land in each. */
+export function placeCountyLandShares(
+  geoid: string,
+): readonly (readonly [countyGeoid: string, share: number])[] {
+  const own = countyLandSharesForPlace(geoid);
+  if (own.length > 0) return own;
+  const parent = parentCountyGeoid(geoid);
+  return parent ? [[parent, 1]] : [];
+}
+
+/** The same counties with the share of the place's people in each (null where a multi-county place has no count). */
+export function placeCountyPopulationShares(
+  geoid: string,
+): readonly (readonly [countyGeoid: string, share: number | null])[] {
+  const own = countyPopulationSharesForPlace(geoid);
+  if (own.length > 0) return own;
+  const parent = parentCountyGeoid(geoid);
+  return parent ? [[parent, 1]] : [];
 }
 
 /** The county area a place sits in, or null where the map holds none. */

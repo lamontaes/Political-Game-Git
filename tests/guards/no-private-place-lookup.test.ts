@@ -21,18 +21,12 @@ const NAMES =
   /function\s+(stateOf|stateKeyOf|stateOfPlace|stateOfPlaceKey|stateOfPlaceId|townOf)\b/;
 const COUNTY_LOOKUPS =
   /(countyPopulationSharesForPlace|countyGeoidsForPlace|countyLandSharesForPlace)\(/;
+// The reference file that holds the Census county parts, the reader that wraps
+// it, and the map's own builder are the only readers of those parts.
 const COUNTY_WAITING = new Set([
-  "src/core2/modules/credit.ts",
-  "src/core2/modules/staff.ts",
-  "src/core2/modules/regional.ts",
-  "src/core2/population.ts",
   "src/core2/reference/government-units.ts",
+  "src/core2/place-map.ts",
   "src/core2/tooling/place-map-build.ts",
-  "src/core2/hud-rents.ts",
-  "src/core2/opening-public-owner.ts",
-  "src/core2/reference/local-institutions.ts",
-  "src/core2/town-employment-mix.ts",
-  "src/bench/creator.ts",
 ]);
 
 function sources(dir: string, out: string[] = []): string[] {
@@ -51,7 +45,7 @@ describe("no private place lookup", () => {
     expect(found.filter((f) => !(f in WAITING))).toEqual([]);
     expect(Object.keys(WAITING).filter((f) => !found.includes(f))).toEqual([]);
   });
-  it("looks up no town's county outside the map and the waiting list", () => {
+  it("looks up no town's county except through the place map reader", () => {
     const found = files.filter((f) =>
       COUNTY_LOOKUPS.test(readFileSync(f, "utf8")),
     );

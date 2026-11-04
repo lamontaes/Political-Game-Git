@@ -6,7 +6,7 @@
  * opening's town jobs so a bank, a hospital or a clinic enters the world only
  * under a real source name.
  */
-import { countyGeoidsForPlace } from "./government-units";
+import { placeCountyGeoids } from "../place-map";
 import { groupedJsonTable } from "./lazy-data";
 import { corePlaceByJurisdictionId } from "../place-lookup";
 import type { EntityId, IsoDate } from "../kernel/brands";
@@ -80,7 +80,7 @@ export function localInstitutionsFor(
   const geoid = corePlaceByJurisdictionId(jurisdictionId)?.sourceGeoid;
   if (!geoid) return EMPTY_LOCAL_INSTITUTIONS;
   const placeRows = corpusPlace(geoid) ?? EMPTY_LOCAL_INSTITUTIONS;
-  const countyRows = countyGeoidsForPlace(geoid).map((county) =>
+  const countyRows = placeCountyGeoids(geoid).map((county) =>
     corpusCounty(county),
   );
   return Object.fromEntries(

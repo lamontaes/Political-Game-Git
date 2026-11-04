@@ -3,7 +3,7 @@
  * state's one or two largest metros and the rest of the state, stepped after
  * each national month. A town's conditions combine the nation with its region.
  */
-import { countyPopulationSharesForPlace } from "../reference/government-units";
+import { placeCountyPopulationShares } from "../place-map";
 import {
   corePlaceByJurisdictionId,
   corePlaceStateIdentities,
@@ -46,7 +46,7 @@ export function regionOfPlace(placeId: string): string | undefined {
   let county: string | undefined;
   if (geoid.length === "SSCCC".length) county = geoid;
   else if (geoid.length === "SSPPPPP".length) {
-    const shares = countyPopulationSharesForPlace(geoid);
+    const shares = placeCountyPopulationShares(geoid);
     county = [...shares].sort((a, b) => (b[1] ?? 0) - (a[1] ?? 0))[0]?.[0];
   }
   if (county && COUNTY_REGION[county]) return COUNTY_REGION[county];

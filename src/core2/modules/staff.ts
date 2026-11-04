@@ -32,7 +32,7 @@ import {
   corePlaceByJurisdictionId,
   coreSeatOfGovernmentPlace,
 } from "../place-lookup";
-import { countyPopulationSharesForPlace } from "../reference/government-units";
+import { placeCountyPopulationShares } from "../place-map";
 import type { EntityId } from "../kernel/brands";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import { outsideLaborForce } from "../gov-rules/place-population";
@@ -250,9 +250,7 @@ function officeSiteOf(api: CoreAPI, officialId: string): OfficeSite {
   const geoid = seat.place.sourceGeoid ?? "";
   return {
     placeId: seat.place.context.jurisdiction.id,
-    countyGeoids: countyPopulationSharesForPlace(geoid).map(
-      ([county]) => county,
-    ),
+    countyGeoids: placeCountyPopulationShares(geoid).map(([county]) => county),
     stateKey: seat.place.stateJurisdictionKey ?? chain.stateKey,
   };
 }
