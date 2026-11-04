@@ -84,7 +84,7 @@ Mac builds (`release-package.yml` on main) were started after 8, 20, 26 and 34 m
 ## Waiting
 
 - **#7110** (speed): handed to Lane 5. The test conflict in `campaign-day.test.ts` is not mechanical (main's new donor rule against this branch's payments wrapper).
-- **#7105's pool item** stays open per the order. The done-on-merge run for it was still queued; once it runs, the item has to go back to open. This session was not allowed to cancel that run.
+- **#7105's pool item** (play-m6-01-the-opening) is back to open on main after its done-on-merge run, as the order asked.
 
 ## Lanes (all running now)
 
