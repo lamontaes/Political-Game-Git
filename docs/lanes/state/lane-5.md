@@ -35,7 +35,8 @@ Every unit gets one before it starts (lane page, CTO rule). Units 1 and 2 were s
 - **Hands off:** fixing a crash in another lane's engine (file it to that lane instead).
 - **Known cheats:** skipping a town that fails; a catch that hides a crash.
 - **Size:** mostly machine time, about 30 hours of sweep. **Checked by:** a fresh session rerunning a sample of the sweep's towns.
-- Sweep, Nov 4 17:05: 2,256 of 8,242 opened (Alabama to Florida), none failed. Each run lasts at most two hours (the tool's limit), and the next resumes where it stopped; a container restart at about 14:20 lost no results. About 200 towns an hour, so roughly 30 more hours.
+- Sweep, Nov 4 19:05: **2,687 of 8,242 opened (Alabama through Everett, Georgia), none failed.** Stopped here. This session's tool runs a background job for at most two hours, and it asks that a job which hit that limit not be restarted again. The other 5,555 need about 28 hours of machine time.
+- **Needs from others (CTO):** a session or machine that can run long jobs, to finish the sweep. Command: `OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" NODE_OPTIONS=--max-old-space-size=8192 npm run opening:every-locality -- --out <file>`. It resumes from `<file>`, and a copy of this run's results goes up as `docs/lanes/proof/lane5-every-locality/first-2687.jsonl`, so the runner starts at town 2,688.
 
 ### Unit 7: big towns and election years (in progress)
 
@@ -137,7 +138,7 @@ Every unit gets one before it starts (lane page, CTO rule). Units 1 and 2 were s
 ## Next
 
 - Unit 7: finish Arcadia and Chamblee at 4,096 MiB; file or fix what grows in the election year (Nov 1 note: durableLog, foldedCauses, doors).
-- Unit 4: the sweep runs on, in two-hour runs.
+- Unit 4: the sweep needs a long-run machine (asked of the CTO above). Unit 9 goes on meanwhile: every engine covered, and the bench's save and load route.
 
 ## Confirmer
 
