@@ -5,11 +5,12 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane-4/montage-import
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T06:43:27.753Z
 ---
 
 **What.** src/bench/montage.ts imports keyPeopleOf from core2/opening-key-people, inside the people family; the families guard fails on main (named by Lane 5 in #7190).
