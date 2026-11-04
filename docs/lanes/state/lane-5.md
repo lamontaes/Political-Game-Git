@@ -149,3 +149,13 @@ Replays by a session that built none of this lane's work, on main. Only this sec
   - Run again on main be9b5e649f, same seeds: Madras 121.2/320.5/358 s, Bloomingdale 111.3/156.8/139.9 s, both exit 0, nothing on stderr; still a pass.
 - **Path 3, inside the bar: fail.** Main 8b24caf99e, Nov 4. `speed:year --years 4`: the drawn place (Melvina, Wisconsin, seed confirmer-speed-1) stays under 120 s (worst 73.1); the fixed towns don't: Haleyville 172.0 and 305.1, Meadow Lakes 579.6, Brookside 755.5 (2028), Storrs 124.8 and 142.7, Murray 124.1, D.C. 130.6 and 165.8 (stopped after year 2); Cabo Rojo and Santa Rita not run. The lane's unit 7 owns it. Proof: `docs/lanes/proof/confirmer-lane5-path3/`. Fail 1 of 3.
 - **Path 12, merges don't collide: fail.** Nov 4, main 99d774785b. Step: the new-game check the only required one. `gh api repos/lamontaes/Political-Game-Git/branches/main/protection` lists the required checks as `validate` and `golden-path`; the `new game` job (#7141) is not among them, and every push to main prints "2 of 2 required status checks are expected". The two-PR merge half was not replayed (it needs two PRs merged, which the Confirmer doesn't do). Filed `release-main-requires-only-new-game-check` (a branch setting, the owner's one click per the merge desk page). Fail 1 of 3.
+- **Paths not replayed, and why** (pool on main aa6bd01914; a path is ready when every item its unit lists is done):
+  - 4, big towns: `core-speed-world-races-election-month`, `core-m7-01-speed-and-memory` open; Arcadia's out-of-memory filed (`core-speed-large-town-year-heap-nightly`).
+  - 5, long saves: `core-long-run-tables-grow-with-history`, `core-long-run-election-and-term-rows` open.
+  - 6, quit and come back: `core-m7-02-saves-that-last` blocked.
+  - 7, screen checks see: `play-browser-checks-open-on-the-address` claimed, two test items open.
+  - 8, by-draw sweep: six items open.
+  - 9, money balances: no unit lists it yet; the lane's money check is not on its work list.
+  - 10, a build ships: `release-audit-07-08-duplicate-pool-and-owner-notes` open, `release-m7-04-updates-and-bug-reports` blocked.
+  - 11, the record is true: five items of unit 2 open.
+  - Paths 1, 2, 3 and 12 have results above (3 was run though unit 7 is open).

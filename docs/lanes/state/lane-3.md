@@ -140,6 +140,15 @@ Replays by a session that built none of this lane's work, on main, from a fresh 
   - Path 1 replayed again on main fb000259ca: the same talk after the address and the same clerk lines (the lead-in now reads "Your partner has been waiting for you to get home."); still a pass.
   - Replayed again on main 516a0f9070 (after #7239 and #7267): the same talk after the address; the first clerk is now Haleyville's municipal clerk Juan Copeland on May 20, 2025, in sentences with the July 15 deadline and August 26 election. Still a pass.
 - **Path 3, a card as a life story: replayed, waits on the owner's look** (not counted). Main 99d774785b, Nov 4. Storrs, Connecticut, replay storrs-1. Six relatives' cards and two selectmen's cards read in sentences, the history by year ("You were born to her.", "He took office as selectman."); relatives with only a birth get one line. Proof: `docs/lanes/proof/confirmer-lane3-path3/`.
+- **Paths not replayed, and why** (pool on main aa6bd01914; a path is ready when every item its unit lists is done):
+  - 2, the paper reads right: `words-paper-law-and-budget-briefs-read-right` (#7127) and `words-archive-parent-death-body-by-seed` in PR.
+  - 5, doors in their own words: `director-circumstance-counted-cast-filled-in`, `director-canvass-meets-people-where-they-are` open.
+  - 7, answers count: `words-scene-ending-writes-its-record`, `scene-owed-talk-comes-due`, `people-owed-talk-record` open.
+  - 8, talk like people: `words-everyday-talk-one-engine` claimed, `words-news-ask-gets-answer` blocked.
+  - 9, the Journal is a story: `play-stop-19-turning-eighteen-and-journal-silent` blocked, `words-paper-and-journal-everyday-life` open.
+  - 10, the paper prints the town: `play-local-layoffs-on-screen`, `play-home-sales-on-screen`, `play-town-paper-on-screen` open.
+  - 11, first term: `words-swearing-in-scene-and-speech`, `words-director-one-path`, `engine-records-for-waiting-life-scenes` open.
+- **Checked against #7270** (at-large votes weighed once, after the last replays): it changes how pooled seats are counted; no recorded step reads it (the scenes each month, the clerk's lines, the cards, the concession).
 
 ## From the Confirmer's notes
 
