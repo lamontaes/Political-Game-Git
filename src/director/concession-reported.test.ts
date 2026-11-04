@@ -34,11 +34,16 @@ const YEAR = 365;
 const PAPER_DAYS = 10;
 
 /** The reply path that keeps choosing `move` until the talk ends. */
-function pathTo(tree: TreeNode, move: string): number[] | null {
+function pathTo(
+  tree: TreeNode,
+  move: string,
+  then: readonly string[] = [],
+): number[] | null {
   const path: number[] = [];
   let node: TreeNode | null = tree;
   for (let depth = 0; node && depth < 6; depth += 1) {
-    const at = node.replies.findIndex((row) => row.line.move === move);
+    const want = depth === 0 ? move : (then[depth - 1] ?? move);
+    const at = node.replies.findIndex((row) => row.line.move === want);
     if (at < 0) return null;
     path.push(at);
     const next: TreeNode | null = node.replies[at]!.next;
@@ -146,6 +151,42 @@ const run = (
   expect(record, `${here}: the press kept no concession`).toBeTruthy();
   expect(record!.personIds, here).toEqual([loser, result.winnerId]);
 
+  // Conceded: the winner takes the call, speaking first, gracious or
+  // gloating as their traits lean; a sharp answer back strains the tie.
+  let call = "";
+  if (move === "agree") {
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    const taken = director.ledger.people
+      .get(loser)
+      ?.schedule.find(
+        (row) =>
+          row.momentId.includes(id) &&
+          row.bindings.some(
+            (binding) => binding.typeKey === "concession-taken",
+          ),
+      );
+    expect(taken, `${here}: the winner's call was not staged`).toBeTruthy();
+    const heard = purposeScene(core, director, loser, taken!, {
+      typeKey: "concession-taken",
+    });
+    expect(heard?.kind, here).toBe("composed");
+    if (heard?.kind !== "composed") return { done: false, note: here };
+    expect(heard.scene.askerId, here).toBe(result.winnerId);
+    const sharp = pathTo(heard.scene.talk.tree, "warn", ["refuse", "accept"]);
+    expect(sharp, `${here}: no sharp answer`).toBeTruthy();
+    const said = replyInScene(core, director, loser, taken!, sharp!, {
+      typeKey: "concession-taken",
+    });
+    const kept = core.durableLog.get(said as EntityId)?.facts;
+    expect(kept?.keeps, `${here}: ${said}`).toBe("relationship-strained");
+    const winner = core.people.get(result.winnerId as PersonId)!;
+    const lean = Object.entries(winner.traits ?? {})
+      .filter(([trait]) => /cocky|smug|polite|calm/.test(trait))
+      .map(([trait, value]) => `${trait.split(":")[1]} ${value}`)
+      .join(", ");
+    call = ` | the winner's call (${lean}): "${heard.scene.talk.state.text}" / you: "${core.durableLog.get(said as EntityId)?.facts?.line}" (${said})`;
+  }
+
   // The race's story in the paper, read within days, says it of the
   // runner-up by name, on the concession's record.
   advanceCore(core, addDays(makeIsoDate(core.date), PAPER_DAYS));
@@ -183,7 +224,7 @@ const run = (
   expect(words!.sourceRecordIds, here).toContain(id);
   return {
     done: true,
-    note: `${here} (${move}): ${id}, printed in ${story.id}: ${words!.headline} / ${told}`,
+    note: `${here} (${move}): ${id}, printed in ${story.id}: ${words!.headline} / ${told}${call}`,
   };
 };
 
