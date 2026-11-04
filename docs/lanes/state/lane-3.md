@@ -1,6 +1,6 @@
 # Lane 3 state
 
-1 of 11 paths confirmed. Oldest open PR 2 days (#7127, opened Nov 2). Open: #7127, #7199, #7202. Merged Nov 4: #7090, #7103, #7151, #7159, #7178, #7179, #7184, #7185, #7186, #7187, #7188, #7191, #7192, #7195, #7196.
+1 of 11 paths confirmed. Oldest open PR 2 days (#7127, opened Nov 2). Open: #7127, #7209, #7211. Merged Nov 4: #7090, #7103, #7151, #7159, #7178, #7179, #7184, #7185, #7186, #7187, #7188, #7191, #7192, #7195, #7196, #7199, #7202, #7207.
 
 **From Lane 5, red main, Nov 4 06:45 UTC (answered):** two reds in `src/director/purpose-scene.ts`, the bare `0`s in the tie read and the `PRESS_STORY_EVENT` import from `core2/press-desk`. Both are fixed in #7192 (`words-purpose-scene-guards-red`): `P.zero`, and the kind re-exported from `core2/modules/press.ts`.
 
@@ -109,4 +109,14 @@ Replays by a session that built none of this lane's work, on main, from a fresh 
 
 ## From the Confirmer's notes
 
-- **Path 1:** "Your partner asks you to sit down first." opened ordinary news at home. Fixed in #7202 (`words-news-lead-not-bad-news`).
+- **Path 1:** "Your partner asks you to sit down first." opened ordinary news at home. Fixed in #7202 (merged).
+
+## Unit 8: first term (card written Nov 4)
+
+**Card.** Finish line (path 11): seated as a council member, votes are asked in the chamber, not your kitchen; a neighbor testifies while you can answer; a law scene says what it cost your household; a neighbor raises your law later. Proof: played-world tests in `src/director` naming place, seed and record ids, and a bench screenshot. Hands off: Lane 4's screens beyond `agreements/3-4.md`; Lane 1's legislature records, which Lane 3 reads. Known cheats: a picture chosen by hand, a cost line naming no record. Size: 18 to 25 hours in steps of about 400 lines. Checked by: a fresh session.
+
+- **Step 1, `director-scene-settings-chamber-office-seat` (merged, #7207):** a vote ask is pictured in the body's own room, a desk visit in the city hall hallway. Before, both were in a house: Palco, Kansas and San Jon, New Mexico, seed 4faa8c9a2e702e7431cc. The screenshot is still owed.
+- **Step 2, `words-scene-cause-law-effect-learned` (PR #7211):** the law scene names the law and the amount. Washington, D.C., seed a62e3a45b1d4e163: "The law on electricity and the grid cost your household $4.13."
+- **Main red from Lane 3, third (Nov 4):** #7199's `ledger.ts` loop used bare numbers. Fixed in #7209.
+- **Unit 7 waits on a record:** layoffs and home sales exist only as rows in the jobs and housing engines' tables, not as news events, so the paper can't print them. This needs an agreement with the lane that owns jobs and housing (Lane 2) before the paper can print "Mill lays off 20".
+- **For Lane 2:** a new game crashes in Checotah, Oklahoma (opening treasury, `world-opening-treasury-not-finite-crash`), written into Lane 2's state file.
