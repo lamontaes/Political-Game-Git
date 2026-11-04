@@ -554,7 +554,9 @@
     "you": "You",
     "yourRace": "Your race",
     "won": "Won",
-    "lost": "Lost"
+    "lost": "Lost",
+    "leftBlank": "Left it blank",
+    "declined": "Would not say"
   },
   "electionDay": {
     "canvass": "Go canvassing",

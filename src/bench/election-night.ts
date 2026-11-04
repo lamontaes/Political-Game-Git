@@ -31,7 +31,12 @@ import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { coreAPI } from "../core2/state";
 import type { EntityId } from "../core2/kernel/brands";
 import type { CoreAPI, CoreState } from "../core2/types";
-import { electionResults, governorRacesTonight, resultsScene } from "./results";
+import {
+  electionResults,
+  governorRacesTonight,
+  placeWords,
+  resultsScene,
+} from "./results";
 
 type Line = { text: string; sourceRecordIds: string[] };
 
@@ -280,7 +285,10 @@ export function electionNight(core: CoreState, personId: string) {
         .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
       const [first, second] = here;
       const lines: Line[] = [];
-      const where = fact(row.name, recordId);
+      const where = fact(
+        placeWords(row.placeId, row.name, race.district),
+        recordId,
+      );
       const step = electionDayLine(
         "returns-step",
         first && second && first[1] === second[1]
