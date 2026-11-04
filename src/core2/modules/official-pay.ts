@@ -90,6 +90,8 @@ interface PayRow {
   endedOn: string | null;
   /** The official's household was estimated here, so they spend what it costs each payday. */
   spends: boolean;
+  /** False for a post a non-government payer funds (an outlet's staff living outside the town): no treasury line records it. */
+  publicPay?: boolean;
 }
 
 const table = (api: CoreAPI, name: string) =>
@@ -298,13 +300,14 @@ function payMonth(api: CoreAPI): void {
       owedMinor = dueMinor - receipt.paidMinor;
       if (receipt.paidMinor > 0 && api.state.modules.has(BUDGETS_MODULE_ID)) {
         // The treasury's spending on the post's line, and the taxes out of the paycheck.
-        notePublicPay(api, {
-          id: receipt.id,
-          organizationId: row.payerId,
-          jobId: `job:office:${row.id}`,
-          personId: row.personId,
-          paidMinor: receipt.paidMinor,
-        });
+        if (row.publicPay !== false)
+          notePublicPay(api, {
+            id: receipt.id,
+            organizationId: row.payerId,
+            jobId: `job:office:${row.id}`,
+            personId: row.personId,
+            paidMinor: receipt.paidMinor,
+          });
         withholdPay(api, {
           id: receipt.id,
           personId: row.personId,
@@ -324,6 +327,44 @@ function payMonth(api: CoreAPI): void {
         owedMinor,
       } as unknown as ModuleRow);
   }
+}
+
+/**
+ * A salaried post its holder works outside the town, paid on the 1st of each
+ * month by the employer that funds it, the way officials outside the town are
+ * paid (people-press-out-of-town-staff-paid): a news outlet's staff who live in
+ * the state's market city or with a national outlet. The paycheck leaves the
+ * employer's account and is taxed as any paycheck is; their household cost is
+ * spent by whoever gave it to them. False when the pay engine is not running
+ * in this world.
+ */
+export function payPostFromOutside(
+  api: CoreAPI,
+  input: {
+    readonly personId: string;
+    readonly payerId: string;
+    readonly annualMinor: number;
+    readonly citation: string;
+    readonly source: Source;
+  },
+): boolean {
+  if (!api.state.modules.has(OFFICIAL_PAY_MODULE_ID)) return false;
+  const id = `post:${input.personId}`;
+  if (table(api, "pay").get(id)) return true;
+  table(api, "pay").put({
+    id,
+    personId: input.personId,
+    jobId: id,
+    payerId: input.payerId,
+    annualMinor: input.annualMinor,
+    citation: input.citation,
+    source: input.source,
+    paidFrom: api.state.date,
+    endedOn: null,
+    spends: false,
+    publicPay: false,
+  } satisfies PayRow as unknown as ModuleRow);
+  return true;
 }
 
 /** Seat new officials, and end the post of anyone whose term ended. */

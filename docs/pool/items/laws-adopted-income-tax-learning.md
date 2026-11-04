@@ -5,12 +5,12 @@ area: laws
 kind: wiring
 priority: 1
 size: S
-status: claimed
-claimed-by: lane-2/tax-learning
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-11-04T02:06:01.365Z
+claimed-at:
 ---
 
 **What.** A naturally voted income tax in Meadow Lakes changes named workers cash, but payroll withholding only writes payment and applied records. The existing monetary-law learning reader handles price rules and does not receive this tax payment. Connect the successful withholding to that same reader, preserving the actual tax posting and the law that caused it; attribution must require a story the payer actually heard.
