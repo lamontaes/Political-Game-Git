@@ -5,9 +5,9 @@ area: director
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: lane3/journal-story
-pr:
+pr: #7195
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-04T06:41:47.465Z
