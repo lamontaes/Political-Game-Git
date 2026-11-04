@@ -126858,10 +126858,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.the-count-is-in-office-lost-by-margin-name-who-worked-the-campaign-beside-you-is",
+      "key": "scene-talk.narrate-narrate.the-count-is-in-office-lost-by-margin-name-worked-this-campaign-beside-you",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "The count is in: {office}, lost by {margin}. {name}, who worked the campaign beside you, is waiting.",
+      "text": "The count is in: {office}, lost by {margin}. {name} worked this campaign beside you.",
       "uses": [
         {
           "subject": "scene",
@@ -126875,8 +126875,8 @@
       ],
       "bearing": "solemn",
       "origin": "authored",
-      "author": "Scene builder A",
-      "date": "2026-10-27",
+      "author": "Lane 3, words and scenes (red main: place-and-presence ban)",
+      "date": "2026-11-04",
       "tag": {
         "move": "narrate",
         "key": "loss"
