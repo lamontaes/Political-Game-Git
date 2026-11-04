@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: governing/petition-town-size
-pr:
+pr: #7154
 blocked-on:
 source: governing lead, Oct 30 (found in phase A runs)
 lead: governing
