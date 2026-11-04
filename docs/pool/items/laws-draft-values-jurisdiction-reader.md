@@ -25,7 +25,7 @@ claimed-at: 2026-11-04T09:49:09.197Z
 
 **Notes.** Lane 2 split of existing parent scope. Lane 1 accepted the core reader before edits; Lane 4 accepted its adapter at356db0f4df before edits. Parent claim authorized preparation on lane-2/bill-values; this child supplies a reviewable finish line without claiming absent state eligibility. Current prepared source da1303bade plus null-provenance fix is being validated. No new feature or parent closure.
 
-**Time box.** Two hours for this bounded shipping part; larger gaps stay with the parent.
+**Time box.** 2 hours for this bounded shipping part; larger gaps stay with the parent.
 
 **You will see.** The draft card and opened bill paper agree on today’s amount and unit.
 
