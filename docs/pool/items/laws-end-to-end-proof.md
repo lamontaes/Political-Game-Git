@@ -5,7 +5,7 @@ area: laws
 kind: wiring
 priority: 1
 size: M
-status: blocked
+status: open
 claimed-by:
 pr:
 blocked-on: words-law-effect-learned-journal
