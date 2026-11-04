@@ -496,8 +496,8 @@ export function openElections(core: CoreState): void {
   registerElectorate(core);
   const api = coreAPI(core);
   const place = corePlaceByKey(api.state.placeMetadata.placeKey ?? "");
-  if (!place?.stateJurisdictionKey) throw new Error("Elections need the town.");
-  const stateKey = place.stateJurisdictionKey;
+  const stateKey = placeStateKey(place?.key);
+  if (!place || !stateKey) throw new Error("Elections need the town.");
   const geoid = place.sourceGeoid ?? place.key;
   table(api, "town").put({
     id: "town",
