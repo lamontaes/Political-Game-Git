@@ -1,6 +1,18 @@
 0 of 14 paths confirmed. Oldest open PR 0 days.
 
-# Lane 2 state — November 3, 2026
+# Lane 2 state — November 4, 2026
+
+## Current position — November 4
+
+Four open PRs: housing #7147, unemployment #7153, sibling names #7157 and lobbying #7160. Parent birthdays #7143 is on main. No whole path is Built or Verified. Earlier entries below retain the work record; this paragraph is the current position. All four open units have passed New Game in another session. The merge desk reports that its session may merge only the owner's earlier November 3 list; goal authorization evidence was relayed on #7153 without merging or bypassing its permission boundary.
+
+Lobbying natural proof completed in Winchester, Massachusetts (2580545), replay e25e0b67dfb8fa1a: David Morton and Ayanna Waller were re-elected with no departure bar; living former officials Dana Mercer and Marcus Parks received the actual one-year law's expiry dates after their recorded departures. Ten resident fixture draws and both ablations pass. These are reader witnesses, not observed lobbying hires or a newly voted law. Proof: [lobbying departure](../proof/lobbying-departure.md). Independent New Game: Freeville, New York / 34311843e8c1e59e, four weeks, desk head 3c0edad7235096a8124e3966a61c0a4b95084c2f.
+
+Timing queue stays serial: sibling comparison attempt two is Niarada, Montana (3053725), replay 419935957e6de373; all four baseline years finished and corrected years are running. Retry the interrupted unemployment comparison next, then measure lobbying. Do not count interrupted/crashed runs as passes. The initial Absecon Highlands payroll crash remains filed; no identical failure has occurred three times.
+
+First minutes still needs homes before the first card/scene read. Burnet TX / 6e32d4b3c4eb3d6e opens with dwelling:null. The proposed narrow Lane 2–4 agreement is published on lane-2/opening-home-agreement at dc32db4438, still pending acceptance; no shared bench edit. Lane 5 was asked to route the new bounded opening-home item and repair the payroll item's metadata. The earlier manual metadata additions were restored, after automatic review rejected a direct main push. The official pool workflow records lobbying as in-pr / #7160.
+
+Order remains First minutes and Quick fixes. While the bill-reader and opening-home agreements are pending, finish the three outstanding timing checks and inspect the next owned law-chain unit. No ownership question is treated as a machine block.
 
 ## Plan and ownership
 
