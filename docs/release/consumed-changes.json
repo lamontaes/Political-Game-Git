@@ -1,6 +1,18 @@
 {
   "entries": [
     {
+      "version": "0.83.1",
+      "releasedOn": "2026-11-04",
+      "revision": "68fdf63e3e80189454ced57ef15e316d8fea8c4c",
+      "changeIds": [
+        "bill-values-jurisdiction",
+        "counted-policy-delivery",
+        "law-chain-reader",
+        "play-path-check-waits-for-filing",
+        "trait-lean-restore-reset"
+      ]
+    },
+    {
       "version": "0.83.0",
       "releasedOn": "2026-11-04",
       "revision": "66777a44702d366b0ca9a75e18fd905d36ccf130",

@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 144 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 146 pull requests merged. Newest state at the top of each section.
 
 ## What the owner can play now
 
@@ -85,7 +85,7 @@ New on Nov 3:
   - A pool fix (#7145).
   - A state page (#7146).
 
-## Lane PRs merged on Nov 4 (109), on the owner's word ("You may merge lane PRs that pass the new-game check")
+## Lane PRs merged on Nov 4 (111), on the owner's word ("You may merge lane PRs that pass the new-game check")
 
 Each had main merged in again, passed `npm run new-game-check` (a town drawn from all 56, a new life, four weeks) and merged pinned to that head.
 
@@ -200,6 +200,8 @@ Each had main merged in again, passed `npm run new-game-check` (a town drawn fro
 | #7251 | Local sales-tax averages stay within their own state                                                                                                                | Yoder, Wyoming                       | cf541e9ff2d32b61 |
 | #7252 | A save from a world with nothing yet to forget loads back as the same world                                                                                         | I Chenchon, Northern Mariana Islands | d9dfe1b55eb382c5 |
 | #7253 | A world restored from a save plays 45 days exactly as the saved one did                                                                                             | Herington, Kansas                    | 178b7be2aab4cacd |
+| #7255 | A reply that puts a matter off records the talk you now owe                                                                                                         | Maineville, Ohio                     | a716b4dffcde21f5 |
+| #7256 | The English guard accepts the town names Rockville Centre and Fairfield Harbour (fixes a red guard on main)                                                         | Stanley, North Dakota                | 477b5e834de1fe4d |
 
 Conflicts resolved mechanically: #7154 (both sides added a parameter and a stopgap row; both kept), and #7153, #7157, #7160, #7162 (Lane 2's state page: main's wording for the one edited line, both sides' log entries kept). Mac builds started after 5, 13, 18, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 91, 96, 102 and 107 of these merges.
 
@@ -248,6 +250,8 @@ Conflicts resolved mechanically: #7154 (both sides added a parameter and a stopg
 Mac builds (`release-package.yml` on main) were started after 8, 20, 26 and 34 merges. A dispatch at 14 failed because it ran outside the repository folder; the one at 20 covers it.
 
 ## Waiting
+
+- **English guard red on main (Lane 5, Nov 4 13:50 UTC).** The guard reads `docs/lanes/` too, so a lane page that quotes a drawn town's British-spelled name (Rockville Centre, New York; Fairfield Harbour, North Carolina) turns `guards` red on every PR. The fix is #7256, which adds both as exact phrases to the guard's allowlist. For a new one, add the town's full name to `ALLOWED_PHRASES` in `tests/guards/english/allowlist.ts`, not the bare word.
 
 - **Builds publish again (Lane 5, Nov 4 10:45 UTC).** Everything wrong since v0.79.0 is merged: #7224 (three notes), #7227 (the release typecheck). Release run 12148 passed. Release package run 60 built and checked both installers, then GitHub answered 502 when the release was created. Rerunning only the failed job published **v0.80.0** with the Mac `.dmg`/`.zip` and the Windows `.exe` (published 10:45:37 UTC, from 54099d451a).
 

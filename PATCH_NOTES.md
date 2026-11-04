@@ -296,6 +296,21 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.83.1
+
+_Released November 4, 2026._
+
+### Fixed
+
+- **Read bill amounts from the government making the law** Draft cards and bill
+  papers now read the same law or budget at their body's jurisdiction. National
+  seats read national law, local taxes retain their own baseline, and unknown
+  amounts keep their source record.
+
+- **Reporters consider the wider town's concerns** Policy arguments in delivered
+  news now affect the wider population's views, which reporters consider when
+  choosing questions for local officials.
+
 ## PRE-ALPHA 0.83.0
 
 _Released November 4, 2026._
