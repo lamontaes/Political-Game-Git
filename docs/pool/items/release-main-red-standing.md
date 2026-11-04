@@ -5,7 +5,7 @@ area: release
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: lane-5/guards-red
 pr: #7190
 blocked-on:
