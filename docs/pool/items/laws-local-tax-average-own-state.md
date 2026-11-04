@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane-2/law-chain-reader
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T13:13:15.618Z
 ---
 
 **What.** The existing world-governing U2 plan identifies a jurisdiction leak in resolveLawInForce. Its local sales-tax fallback takes the first effective average from any state. Restrict that existing reader to the chain's own state and reuse one inTownChain predicate for pending rows before other legislatures begin writing laws. This is a bounded reader unit; the every-state-and-town parent remains open.
