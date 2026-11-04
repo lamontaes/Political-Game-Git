@@ -77,6 +77,8 @@ export interface JournalWordRow {
   framesAge?: boolean;
   /** The kind of look-back the moment takes: only a memorable one for a birth. */
   lookBack?: "memorable";
+  /** The line says its own time ("Today I turned eighteen."): no words of time passed open it. */
+  ownTime?: boolean;
 }
 
 /** A journal row's structure before the mined bank words it. */
@@ -100,6 +102,8 @@ export interface RowShape {
   oncePer?: string;
   framesAge?: boolean;
   lookBack?: "memorable";
+  /** The line says its own time ("Today I turned eighteen."): no words of time passed open it. */
+  ownTime?: boolean;
   /** The mined target whose sentences word this row, when it is not the row's own kind. */
   wordsFrom?: string;
   /** The row also has a line for someone else's moment. */

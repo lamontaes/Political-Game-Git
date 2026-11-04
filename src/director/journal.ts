@@ -1486,6 +1486,9 @@ export function composeJournal(
       }
     }
     lineFacts.set(moment.id, facts);
+    // A line that says its own time ("Today I turned eighteen.") opens on
+    // no other.
+    if (row.ownTime) framed.add(moment.id);
     const entry = {
       id: moment.id,
       date: moment.date,

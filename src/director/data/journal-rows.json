@@ -587,7 +587,8 @@
     {
       "kindPrefix": "life:came-of-age",
       "turn": false,
-      "entry": "story"
+      "entry": "story",
+      "ownTime": true
     },
     {
       "kindPrefix": "scene-ending:promise",

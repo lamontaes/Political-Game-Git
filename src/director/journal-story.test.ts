@@ -279,6 +279,8 @@ describe("the journal as a story from birth", () => {
           line.text.toLowerCase().endsWith(line.plain.toLowerCase()),
           `${where}: "${line.text}" ends on "${line.plain}"`,
         ).toBe(true);
+        // A line that says its own time takes no other (journal-rows ownTime).
+        expect(line.plain, `${where}: ${line.text}`).not.toMatch(/^Today\b/);
         joined.push(line.text);
       }
       links[line.link!.by] += 1;
