@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: lane-4/title-monuments
 pr: #7213
 blocked-on:
