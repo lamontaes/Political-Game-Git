@@ -5,11 +5,12 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane3/victory-night
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T13:49:19.766Z
 ---
 
 **What.** The race-won scene (purpose victory-night) states its ask with {opponent}, but purpose-scene.ts read the opponent only from a rival the record names (rivalId) or, for a loser, the winner. A result record names neither for its winner, so the scene was skipped ('the ask that states victory-night cannot be worded from the records given'; Villa Esperanza, Puerto Rico, diag seed 4).
