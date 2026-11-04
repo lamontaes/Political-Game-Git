@@ -1,4 +1,4 @@
-/* global document, fetch, URLSearchParams, setTimeout, setInterval, clearInterval, window, localStorage, ResizeObserver, __RELEASE_VERSION__ */
+/* global document, fetch, URLSearchParams, setTimeout, setInterval, clearInterval, window, localStorage, ResizeObserver, Image, __RELEASE_VERSION__ */
 // The game screen on the new core: one scene, the player card, the menus.
 // Words on screen are record data, engine text and control names only.
 import { makeButton, buttonRow, buttonTray } from "./ui/button.mjs";
@@ -1034,18 +1034,13 @@ function narrateFirst(setting, then) {
   fillTalk({ lines: setting, replies: [] });
   setScales({ available: false });
 }
-/** Numbered replies; a key press of the number says it. */
+/**
+ * Numbered replies; a key press of the number says it. Each is shown as the
+ * player's own words, the line the transcript then records (owner, Nov 1:
+ * a choice "should be an actual reply").
+ */
 function replies(choices, onPick) {
-  return choices.map((choice) =>
-    talkReply(
-      choice,
-      // Filing is a control of its own, never worded like acknowledging a refusal.
-      choice.control === "file"
-        ? (controls.filing?.file ?? choice.text)
-        : choice.text,
-      onPick,
-    ),
-  );
+  return choices.map((choice) => talkReply(choice, choice.text, onPick));
 }
 mountTalkKeys(() => $("game").classList.contains("sheet-open"));
 function setScales({ available, on }) {
@@ -1122,6 +1117,7 @@ $("talk-lie").addEventListener("click", () => {
 // Continue, bottom left, when there is nothing to answer: the beat is over, and
 // a stop that held the clock for it goes on.
 $("talk-next").addEventListener("click", async () => {
+  if (!onContinue) show("talk-skip", false);
   if (onContinue) {
     const then = onContinue;
     onContinue = undefined;
@@ -1137,6 +1133,15 @@ $("talk-next").addEventListener("click", async () => {
   show("talk", false);
   // A story's end hands the room back to the one scene renderer, so the people in it can be
   // clicked to talk again (a story draws them without a click).
+  await renderScene();
+  if (!$("continue").hidden) $("continue").click();
+});
+// Skip scene ends the address at once; the room is handed back as at its last Continue.
+$("talk-skip").addEventListener("click", async () => {
+  onContinue = undefined;
+  show("talk-skip", false);
+  renderTalk(undefined);
+  show("talk", false);
   await renderScene();
   if (!$("continue").hidden) $("continue").click();
 });
@@ -1256,6 +1261,17 @@ async function openFiling(filedWith, contestId) {
   const opened = await post(
     `/api/filing/open?filedWith=${encodeURIComponent(filedWith)}`,
   );
+  // A closed office is visited at its next opening: the clock has moved there.
+  // Something that came up on the way is lived first; the counter waits.
+  if (opened.waiting || opened.waited) {
+    const packet = opened.waiting ? opened.packet : opened.waited;
+    if (packet) renderPacket(packet);
+    if (opened.waiting) {
+      const moment = storyStop(packet);
+      if (moment) await showStory(moment.recordId);
+      return;
+    }
+  }
   const pick =
     contestId &&
     opened.visit?.choices.find(
@@ -1275,11 +1291,23 @@ function partyRows(party) {
   const words = controls.party ?? {};
   if (party.member) {
     const m = party.member;
+    // What the line stands on: the registration (the tie's own record, with
+    // the day it began) and the fit (the player's recorded views against the
+    // party's platform), each said as what it compares (owner, Nov 1: "Views
+    // fit close. How do you know?").
+    const fit =
+      m.agreement === null
+        ? ""
+        : ((words.fit ?? []).find((band) => m.agreement >= band.atLeast)
+            ?.label ?? "");
     const line = row(
       words.member,
-      // How well their views fit the party's, in words: the first band the
-      // record's agreement (-1 to 1) reaches.
-      `${m.name} · ${words.agreement} ${m.agreement === null ? "" : ((words.fit ?? []).find((band) => m.agreement >= band.atLeast)?.label ?? "")}`,
+      [
+        words.registered
+          .replace("{party}", m.name)
+          .replace("{date}", dateWords(m.since)),
+        ...(fit ? [words.fitLine.replace("{fit}", fit)] : []),
+      ].join(" · "),
     );
     // The tie's record, for the checks that read it.
     line.dataset.tieId = m.tieId;
@@ -1317,6 +1345,42 @@ let speechState = null;
  * with each filer by name, from the filing records, marked unopposed or
  * unfilled where that is what the records hold.
  */
+/**
+ * Asking people for something, played as a scene (owner: every campaign act is
+ * a scene): the place with the player at it, each person asked the next
+ * Continue (their name and bust, what they said from the ask's own record),
+ * the last the total in the narrator's voice. An evening of donor calls and a
+ * volunteer shift are this.
+ */
+function playAsks({ asked, summary, scene }) {
+  closeSheet();
+  renderTalk(undefined);
+  if (scene) {
+    $("backdrop").src = scene.backdrop.url;
+    // Each person is heard by name and bust, not drawn in the room.
+    drawPeople(scene.people.filter((p) => p.personId === me.id));
+  }
+  show("talk", true);
+  const step = (at) => {
+    talkControls({ silent: false, leave: false });
+    setScales({ available: false });
+    if (at < asked.length) {
+      setWho(asked[at].personId, asked[at].name);
+      fillTalk({
+        lines: [talkLine({ kind: "speech", text: asked[at].line })],
+        replies: [],
+      });
+      onContinue = () => step(at + 1);
+      return;
+    }
+    setWho(null, null);
+    fillTalk({
+      lines: [talkLine({ kind: "speech narration", text: summary })],
+      replies: [],
+    });
+  };
+  step(0);
+}
 async function campaignParts() {
   const v = await api(`/api/campaign?id=${encodeURIComponent(me.id)}`);
   const parts = [];
@@ -1344,10 +1408,16 @@ async function campaignParts() {
       // The outing's hours moved the clock: the card shows the new time.
       if (result.packet) renderPacket(result.packet);
       campaignLines = (result.calls ?? []).map((call) => call.line);
-      // The calls are read on the sheet, each person with what they gave or why not.
+      // An evening of calls is a scene (owner: every campaign act is a scene):
+      // the player at the phones, one call per Continue, each person heard by
+      // name with what they gave or why not, then the night's total.
       if (outing === "calls" && result.callsLine) {
         campaignResult = result.callsLine;
-        reopenTrail(filing.id);
+        playAsks({
+          asked: result.calls ?? [],
+          summary: result.callsLine,
+          scene: result.scene,
+        });
         return;
       }
       campaignResult = [
@@ -1401,6 +1471,22 @@ async function campaignParts() {
             : result.reached !== undefined
               ? `${controls.campaignActs[kind] ?? ""}: ${result.reached} · +${result.warmer} · −${result.cooler}`
               : `${controls.campaignActs[kind] ?? ""}: ${result.answers.filter((a) => a.yes || a.givenMinor > 0).length} / ${result.answers.length}${result.answers.some((a) => a.givenMinor) ? ` · ${moneyWords(result.answers.reduce((t, a) => t + (a.givenMinor ?? 0), 0))}` : ""}`;
+      // A volunteer shift is a scene: each person asked is the next Continue.
+      if (kind === "ad" && result.scene) {
+        playAsks({ asked: [], summary: result.line, scene: result.scene });
+        return;
+      }
+      if (
+        (kind === "volunteer" || kind === "endorsement") &&
+        result.answers?.length
+      ) {
+        playAsks({
+          asked: result.answers,
+          summary: campaignResult,
+          scene: result.scene,
+        });
+        return;
+      }
       // A speech is seen where it was given, with the people it reached.
       if (result.scene) {
         closeSheet();
@@ -1449,7 +1535,6 @@ async function campaignParts() {
       // stopgapId: SG-PLAY-campaign-acts-buttons
       buttonRow(
         button(controls.campaignActs.volunteer, "volunteer"),
-        button(controls.campaignActs.donation, "donation"),
         button(controls.campaignActs.endorsement, "endorsement"),
         button(controls.campaignActs.ad, "ad", { amountMinor: "5000" }),
         button(controls.campaignActs.poll, "poll", {
@@ -1657,11 +1742,27 @@ async function showStory(momentId) {
     const parts = story.speech.parts?.length
       ? story.speech.parts
       : [story.speech.text];
+    // Every part's picture is fetched up front, so a cutaway never shows the
+    // last room under the next part's people.
+    for (const beat of story.beats ?? []) new Image().src = beat.backdrop.url;
     const sayPart = (at) => {
+      show("talk-skip", true);
       setWho(story.speech.speakerId, story.names[story.speech.speakerId]);
+      // The part's picture and cast: the desk, the town, the colonnade, the
+      // officials named by office as the camera passes, and home.
+      const beat = story.beats?.[at];
+      if (beat) {
+        $("backdrop").src = beat.backdrop.url;
+        drawPeople(beat.people);
+      }
       talkControls({ silent: false, leave: false });
       fillTalk({
-        lines: [talkLine({ kind: "speech", text: parts[at] })],
+        lines: [
+          talkLine({ kind: "speech", text: parts[at] }),
+          ...(beat?.caption
+            ? [talkLine({ kind: "label", text: beat.caption })]
+            : []),
+        ],
         replies: [],
       });
       setScales({ available: false });
@@ -3303,28 +3404,25 @@ const sheets = {
       api(`/api/government?id=${encodeURIComponent(me.id)}`),
     ]);
     const labels = controls.travel;
-    // The offices that take your filings: one card each, with its races.
+    // The offices that take your filings: one card each.
     const byOffice = new Map();
     for (const c of government.contests) {
       const filedWith = c.filingOffice.filedWith;
       const name = filedWith.replace(/\s*\([^)]*\)/g, "");
+      // A town's or county's own clerk is named for the place ("City or town
+      // clerk, Point Pleasant"); a state's or the nation's office already is.
+      const title =
+        c.contest.family === "municipalOffice"
+          ? labels.counterTitle
+              .replace("{office}", name)
+              .replace("{town}", me.placeName.split(",")[0])
+          : name;
       if (!byOffice.has(name))
-        byOffice.set(name, { name, filedWith, races: [], filing: true });
-      const office = byOffice.get(name);
-      if (!office.races.some((race) => race.contestId === c.contest.id)) {
-        const seat = government.seats.find(
-          (row) => row.seatId === c.contest.seatId,
-        );
-        office.races.push({
-          contestId: c.contest.id,
-          title: c.contest.title,
-          district: c.contest.district ?? null,
-          electionDate: c.contest.electionDate,
-          holder: seat?.holder
-            ? `${seat.holder.givenName} ${seat.holder.familyName}`
-            : null,
+        byOffice.set(name, {
+          name: title,
+          filedWith,
+          filing: true,
         });
-      }
     }
     const counters = await Promise.all(
       [...byOffice.values()].map(async (office) => ({
@@ -3377,49 +3475,28 @@ const sheets = {
             : labels.closed;
     // A card opens the place's own view: its picture, what you do there, who
     // works there, then Go (owner, Oct 28, point 28).
-    const showPlace = (p) => {
+    const showPlace = async (p) => {
       if (p.trail) return trailView(p.trail);
+      // An office keeps its clerk's hours: the card says when it next opens.
+      const hours = p.filing
+        ? await api(
+            `/api/filing/hours?filedWith=${encodeURIComponent(p.filedWith)}`,
+          )
+        : {};
       const picture = p.presentation?.imageUrl;
-      // Each race named apart: its district, and its election day when two
-      // races for the same office are open at once (a regular and a special).
-      // A district code on the record ("02", "004") reads as "District 2".
-      const district = (code) =>
-        /^\d+$/.test(code) ? `${labels.district} ${Number(code)}` : code;
-      const name = (race) =>
-        race.district
-          ? `${race.title}, ${district(race.district)}`
-          : race.title;
-      // Two races for the same office at once (three selectmen's seats up
-      // the same day) are told apart by who holds each seat now, then by the
-      // election day (a regular and a special), then by their place in the
-      // office's list.
-      const counter = controls.filing;
-      const raceLabel = (race) => {
-        let named = name(race);
-        const twins = (label) =>
-          p.races.filter((other) => label(other) === label(race));
-        if (twins(name).length > 1) {
-          const held = (r) =>
-            `${name(r)} · ${r.holder ? `${counter.heldBy} ${r.holder}` : counter.openSeat}`;
-          named = held(race);
-          if (twins(held).length > 1 && race.electionDate) {
-            const dated = (r) =>
-              `${held(r)} · ${dateWords(r.electionDate ?? "")}`;
-            named = dated(race);
-            if (twins(dated).length > 1)
-              named = `${named} · ${counter.seat} ${twins(dated).indexOf(race) + 1}`;
-          }
-        }
-        return named;
-      };
+      const opensLine = hours.opens
+        ? labels.opensAt
+            .replace("{day}", dateWords(hours.opens.date, { weekday: true }))
+            .replace("{time}", timeWords(hours.opens.minuteOfDay))
+        : "";
+      // A filing office says what you do there in a sentence, never a list of
+      // seats by their holders' names (owner, Nov 1: "It says what you do
+      // here. And then it's just a list of people's names."); the clerk asks
+      // which race at the counter.
       const doHere = p.filing
         ? [
-            {
-              actions: p.races.map((race) => ({
-                label: raceLabel(race),
-                onClick: () => openFiling(p.filedWith, race.contestId),
-              })),
-            },
+            { text: labels.filingDoes },
+            ...(opensLine ? [{ text: opensLine }] : []),
           ]
         : reasonLine(p)
           ? reasonLine(p)
@@ -4193,6 +4270,11 @@ const sheets = {
     // the mock; never joined: files unaffiliated), the join buttons in a tray.
     const membership = v.party ? partyRows(v.party) : [];
     const joins = membership.filter((node) => node.tagName === "BUTTON");
+    // No tie on record: not registered, said so (never a party by default).
+    const unregistered =
+      v.party && !v.party.member
+        ? prose(controls.party.notRegistered, "record-empty")
+        : null;
     // The map and its key on a plate; beside it your party, then each party's
     // officeholders as face cards, one party at a time on the rail, paged.
     const keys = v.parties.map(({ party }) => party);
@@ -4259,7 +4341,9 @@ const sheets = {
         side: [
           membership.length && {
             title: v.party?.member ? null : controls.party.member,
-            nodes: joins.length ? [buttonTray(...joins)] : membership,
+            nodes: joins.length
+              ? [...(unregistered ? [unregistered] : []), buttonTray(...joins)]
+              : membership,
           },
           keys.length && {
             title: labels.inOffice,

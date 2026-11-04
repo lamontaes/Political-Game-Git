@@ -3,7 +3,7 @@ import { ageOnDate } from "../kernel/dates";
 import { enrichCivicInputs } from "../civic-inputs";
 import { initialFocusPeople } from "../focus";
 import { parameter } from "../parameters";
-import { buildPopulation } from "../population";
+import { buildPopulation, inHousehold } from "../population";
 import { gameStartDate } from "../game-start";
 
 export function prepareWorldAt(options: {
@@ -20,11 +20,14 @@ export function prepareWorldAt(options: {
     scheduledWork: true,
   });
   let input = enrichCivicInputs(population);
+  // The player starts in a household, never in group quarters.
+  const household = inHousehold(input);
   const player = input.people
     .filter(
       (person) =>
         person.countyId &&
         person.jobId &&
+        household(person) &&
         ageOnDate(person.birthDate, input.startedAt) >= parameter("votingAge"),
     )
     .sort((a, b) => a.id.localeCompare(b.id))[0];

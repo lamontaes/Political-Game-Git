@@ -11,6 +11,7 @@
  * how unevenly) come from src/core2/outcome-web-twins.test.ts, which writes
  * its findings to the same matrix under `twins`.
  */
+import { readStopgapFolder } from "../../src/core2/stopgaps-folder";
 import {
   existsSync,
   readdirSync,
@@ -196,9 +197,7 @@ function size(link: WebLink & { range?: number[]; anchor?: string }): Point {
 
 /** Open stopgap rows, by the link keys their text names. */
 const STOPGAPS = (
-  JSON.parse(
-    readFileSync(join(ROOT, "src/core2/data/stopgaps.json"), "utf8"),
-  ) as {
+  readStopgapFolder(ROOT) as unknown as {
     id: string;
     status?: string;
     whatItFakes?: string;

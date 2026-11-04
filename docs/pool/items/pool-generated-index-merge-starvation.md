@@ -5,11 +5,12 @@ area: release
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: lane-5/pool-index-main-only
+pr: #7140
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-03T21:45:05.076Z
 ---
 
 **What.** Planning PRs add or refine valid pool items and regenerate the shared INDEX, but ordinary pool status updates on main change that same generated file during the local gate. Four planning PRs have repeatedly passed their own checks and then received a pinned merge conflict. The shared generated artifact prevents the reviewed specifications from landing even when their item data remains compatible, so the merge path needs a root fix rather than repeated manual reconciliation.

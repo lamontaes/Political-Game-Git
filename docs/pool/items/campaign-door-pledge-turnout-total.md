@@ -5,12 +5,13 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: governing/pledge-turnout
+pr: #7163
 blocked-on:
 source: governing lead, Nov 1 (review of governing/door-pledge-test-by-seed)
 lead: governing
+claimed-at: 2026-11-04T00:18:41.670Z
 ---
 
 **What.** `doorPledgeTurnoutWeight` (0.7, ESTIMATED, src/core2/data/campaigns/parameters.json) says it lifts a voter at a 10% local-election propensity to about half, inside the 46% to 87% that stated intent predicts. Its source says this is "checked as a total, the turnout of a played race's pledgers against its other adults (src/core2/door-pledge.test.ts)", but that check had been dead since #6912 (it mapped `voterId` over a list of id strings). Made live on Nov 1, it failed: in 1717939 (seed dp-fresh-1) 0.17 of 18 pledgers voted against 0.19 of 36 other adults. Find why the pledge reason does not lift the pledgers' turnout as a group (who the canvass reaches, the reason's size on the turnout scale, or the reason not being read on the day), fix it at the cause, and bring the total check back.

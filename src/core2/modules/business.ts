@@ -67,8 +67,16 @@ import {
   endOperatingRule,
   setOperatingLimit,
 } from "../business-operating-rules";
+import { outsideLaborForce } from "../gov-rules/place-population";
 
 export { BUSINESS_MODULE_ID };
+/** A household's books as other families read them: its medical debt and what it keeps back for its home. */
+export {
+  medicalDebtOf,
+  recordMedicalDebt,
+  type MedicalDebtRow,
+} from "./credit";
+export { housingKeptBack, livingPlan, mainBalance } from "../cost-of-living";
 export const BUSINESS_PARAMETERS = businessParameters as unknown as Readonly<
   Record<string, Parameter>
 >;
@@ -1810,7 +1818,8 @@ function foundings(api: CoreAPI): void {
     const countedSeekers = api.moduleState("jobs").table("countedSeekers");
     const counted = residentsRuntime(c)?.store;
     for (const h of counted?.liveHouseholds() ?? []) {
-      if (h.placeId !== placeId) continue;
+      // People in institutions and in the armed forces found no business.
+      if (h.placeId !== placeId || outsideLaborForce(h.quarters)) continue;
       for (const m of counted!.countedMembers(h)) {
         const personId = counted!.ids[m]!;
         const age =

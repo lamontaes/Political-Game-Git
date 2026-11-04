@@ -354,6 +354,9 @@ function wordOfDoors() {
       ).find((r) => !!r.messageId && messages.has(r.messageId));
     };
     let word: WordLike | undefined;
+    // Every evening of the sixty, gathered day by day: the engine keeps a
+    // message only while word of it can still pass on (`foldRivalWord`).
+    const evenings = new Map<string, MessageLike>();
     for (let day = 0; day < 60 && !word; day += 1) {
       if (
         campaignDayChoices(api, race.challenger.id, true).find(
@@ -364,17 +367,18 @@ function wordOfDoors() {
           world: true,
         });
       advanceCore(core, addDays(makeIsoDate(core.date), 1));
+      for (const [id, message] of canvassed()) evenings.set(id, message);
       word = wordOf();
     }
     if (!word) {
       const holderNow = core.people.get(race.incumbent.personId)!;
       const met = new Set(
-        [...canvassed().values()].flatMap((m) =>
+        [...evenings.values()].flatMap((m) =>
           m.witnessIds.filter((id) => holderNow.knownIds.has(id as never)),
         ),
       );
       tried.push(
-        `${w.where}: in sixty days of doors (${canvassed().size} evenings kept), word did not reach the incumbent from the ${met.size} met who know them`,
+        `${w.where}: in sixty days of doors (${evenings.size} evenings), word did not reach the incumbent from the ${met.size} met who know them`,
       );
       continue;
     }
