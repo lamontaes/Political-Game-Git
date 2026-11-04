@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane-2/body-law-jurisdiction
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T13:33:03.532Z
 ---
 
 **What.** Implement step2 of the existing world-governing U2 spec: the shared law-jurisdiction reader takes an office's actual state, county, township or place, and billJurisdiction uses it. The current reader assigns every state bill to the played state and looks up county units by a place-only index. The broader every-state-and-town parent remains unfinished.
