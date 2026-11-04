@@ -5,7 +5,7 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: lane-5/release-lane-files
 pr: #7183
 blocked-on:
