@@ -1,6 +1,6 @@
 # Lane 3 state
 
-2 of 11 paths confirmed. Oldest open PR 2 days (#7127, opened Nov 2). Open: #7127, #7218. Merged Nov 4: 20 Lane 3 PRs (#7090 to #7211).
+2 of 11 paths confirmed. Oldest open PR 2 days (#7127, opened Nov 2). Open: #7127, #7218, #7219, #7220. Merged Nov 4: 20 Lane 3 PRs (#7090 to #7211).
 
 **From Lane 5, red main, Nov 4 06:45 UTC (answered):** two reds in `src/director/purpose-scene.ts`, the bare `0`s in the tie read and the `PRESS_STORY_EVENT` import from `core2/press-desk`. Both are fixed in #7192 (`words-purpose-scene-guards-red`): `P.zero`, and the kind re-exported from `core2/modules/press.ts`.
 
@@ -106,6 +106,7 @@ Replays by a session that built none of this lane's work, on main, from a fresh 
 - **Path 4, a campaign never silent: pass.** Main 2e321723d8, Nov 4. Murray, Nebraska, replay 1d3f0e18ca4ba7e5 (New Game; filing opened June 2, 2026; election November 3). A scene about the race and a Journal line in every month June to October. May came before Murray's filing; the player knocked doors weekly, and a campaign with no acts was not replayed. Proof: `docs/lanes/proof/confirmer-lane3-path4/`.
 - **Path 6, the night you lose: fail** (a taste path; the rest waits on the owner's look). Main 2e321723d8, Nov 4. Storrs, Connecticut, replay storrs-1. Filed for Selectman June 10, lost November 4, 223 to 552. Step: a real concession. None played on election night or in the three weeks after. The talk at home did come from the father, Raymond Jimenez, who walked doors ("Was it worth it? Tell me straight."). On screen the Journal says "My father lost the race for Selectman." and the race's news record says "Emily Carter beat Avery Cooper." Filed `words-journal-own-loss-told-as-fathers` and `words-race-story-loser-beat-winner`; the concession is `words-venue-speeches-delivered`. Proof: `docs/lanes/proof/confirmer-lane3-path6/`. Fail 1 of 3.
 - **Path 1, the clerk and the address: pass.** Main 99d774785b, Nov 4. Haleyville, Alabama, replay ab5f58e9be125c95 (opened as Haleyville). The address plays; the talk after it (Ryan Carter, January 29) follows the reply picked ("I saw it differently." → "Then we'll see which of us was right."), showing only that line; the clerk (Secretary of State Seth Sharp, November 25, 2025, the town's first open filing) speaks in sentences with the race's dates. Proof: `docs/lanes/proof/confirmer-lane3-path1/`.
+  - Path 1 replayed again on main fb000259ca: the same talk after the address and the same clerk lines (the lead-in now reads "Your partner has been waiting for you to get home."); still a pass.
 - **Path 3, a card as a life story: replayed, waits on the owner's look** (not counted). Main 99d774785b, Nov 4. Storrs, Connecticut, replay storrs-1. Six relatives' cards and two selectmen's cards read in sentences, the history by year ("You were born to her.", "He took office as selectman."); relatives with only a birth get one line. Proof: `docs/lanes/proof/confirmer-lane3-path3/`.
 
 ## From the Confirmer's notes
@@ -123,3 +124,10 @@ Replays by a session that built none of this lane's work, on main, from a fresh 
 - **Next in unit 8:** the swearing-in scene and speech (`words-swearing-in-scene-and-speech`), and a neighbor raising your law later.
 - **Unit 7 waits on a record:** layoffs and home sales exist only as rows in the jobs and housing engines' tables, not as news events, so the paper can't print them. This needs an agreement with the lane that owns jobs and housing (Lane 2) before the paper can print "Mill lays off 20".
 - **For Lane 2:** a new game crashes in Checotah, Oklahoma (opening treasury, `world-opening-treasury-not-finite-crash`), written into Lane 2's state file.
+
+## Answers to other lanes (Nov 4)
+
+- **3-5, Lane 5:** agreed. `director.save()` and `restore()` are in PR #7219 (`director-save-restore`). The answer is written in `agreements/3-5.md`.
+- **2-3, to Lane 2:** proposed (`agreements/2-3.md`): the owed-talk record, layoffs and hirings as news, home sales as news, and illness and prison in play. Units 5, 7 and 4 wait on them.
+- **Red main, Lane 4's file:** the typecheck failed on `src/bench/loading.ts` (`PersonId` import). Fixed in #7220.
+- **Swearing-in (unit 8):** already built on main (`swearing-in-scene.test.ts` passes); only the bench screenshot is owed, noted on the item.

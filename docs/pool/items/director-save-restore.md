@@ -5,9 +5,9 @@ area: director
 kind: feature
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: lane3/director-save-restore
-pr:
+pr: #7219
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-04T09:17:40.458Z
