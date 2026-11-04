@@ -8,7 +8,7 @@ Owner's word, Nov 4: screens tonight, no people. No new pictures: the art on mai
 
 `gh auth status` reports "The token in GH_TOKEN is invalid", and the GitHub MCP connection fails ("Authorization header is badly formatted"). Git fetch and push still work, so this file stays current, but Lane 4 can't read or comment on PRs (#7233) until GitHub is reconnected. Step 0's trial pushed earlier: 91239f0848 on `trial/lane-4`.
 
-#7233 (skills only): main merged in at c2c5bff0b9. Its golden-path red is main's, not the PR's (the head differs from main only in three markdown files): M2-02 fails at West Hattiesburg, Mississippi (seed 962dfb9c…) because elections-filing.test.ts expects an open race on the first day; filed as `elections-filing-test-waits-for-filing-window` (lead governing). Lane 2's Money medical scope accepted on `lane-2/body-law-jurisdiction` (4b8b510795).
+#7233 (skills only): main merged in at c2c5bff0b9. Its golden-path red is main's, not the PR's (the head differs from main only in three markdown files): M2-02 fails at West Hattiesburg, Mississippi (seed 962dfb9c…) because elections-filing.test.ts expects an open race on the first day; filed as `elections-filing-test-waits-for-filing-window` (lead governing); fix built and pushed on `lane-4/elections-filing-test-window` (1d6f5c02fb), PR waiting on GitHub access. Lane 2's Money medical scope accepted on `lane-2/body-law-jurisdiction` (4b8b510795).
 
 ## Ready for the Confirmer (Nov 4)
 

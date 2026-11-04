@@ -72,6 +72,8 @@ The replay numbers in towns.md no longer all open the towns named: three now ope
 | f857db7436bf7449   | Malaeimi, American Samoa | none     | No race offered in six years (`elections-territory-village-player-race`)                     |
 | 4d50e1f88df997f9   | not printed              | none     | Out of an 8 GB heap after 74 minutes (evidence on `core-played-year-large-town-heap-bound`)  |
 
+Margins (lane-1/path-margins, Nov 4): Jericho's selectboard races are crowded, so the player got 12.7 percent of six (2026) and 5.7 percent of seven (2027), and 2.4 percent for governor. Hardyville's county race was a two-way loss, 35.4 to 64.6, with 14 door yes from 1,848 reached over 41 weeks, against Ely's 738 from 2,986. Leads: crowded at-large boards (unit 2, `elections-at-large-race-pooled`), and a door yes rate near zero in some places (unit 4).
+
 Two of seven win, against the owner's target that a hard-working first-timer wins within three tries in most towns. Path-check notes: a petition's status is read on the morning the clerk checks it, before the check runs (it says "petitioning" with enough signatures); "lost" is logged when no race was entered at all.
 
 ## Measuring now
