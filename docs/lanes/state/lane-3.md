@@ -98,3 +98,9 @@
 ## Failed
 
 - None three times.
+
+## Confirmer
+
+Replays by a session that built none of this lane's work, on main, from a fresh New Game. Only this section is the Confirmer's.
+
+- **Path 3, a card as a life story: replayed, waits on the owner's look** (not counted). Main 99d774785b, Nov 4. Storrs, Connecticut, replay storrs-1. Six relatives' cards and two selectmen's cards read in sentences, the history by year ("You were born to her.", "He took office as selectman."); relatives with only a birth get one line. Proof: `docs/lanes/proof/confirmer-lane3-path3/`.
