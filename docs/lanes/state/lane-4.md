@@ -8,6 +8,8 @@ Owner's word, Nov 4: screens tonight, no people. No new pictures: the art on mai
 
 `gh auth status` reports "The token in GH_TOKEN is invalid", and the GitHub MCP connection fails ("Authorization header is badly formatted"). Git fetch and push still work, so this file stays current, but Lane 4 can't read or comment on PRs (#7233) until GitHub is reconnected. Step 0's trial pushed earlier: 91239f0848 on `trial/lane-4`.
 
+Path 11 (Budgets ran 13 px over at 1024x768, Confirmer): fixed on `lane-4/budgets-fit-1024` (bd6d8e1487); the ring's picture now sizes with its box on a short window, and menus-no-scroll asserts Budgets too. Passes in Meadow Lakes, Alaska and Burnet, Texas. PR waits on GitHub access. The Confirmer's note that #7100 and #7231 are open is stale: both merged (37df53002d and the #7231 merge), so the Calendar's hideable kinds and the one fit for every sheet are on main.
+
 #7233 (skills only): main merged in at c2c5bff0b9. Its golden-path red is main's, not the PR's (the head differs from main only in three markdown files): M2-02 fails at West Hattiesburg, Mississippi (seed 962dfb9c…) because elections-filing.test.ts expects an open race on the first day; filed as `elections-filing-test-waits-for-filing-window` (lead governing); fix built and pushed on `lane-4/elections-filing-test-window` (1d6f5c02fb), PR waiting on GitHub access. Lane 2's Money medical scope accepted on `lane-2/body-law-jurisdiction` (4b8b510795).
 
 ## Ready for the Confirmer (Nov 4)
