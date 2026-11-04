@@ -5988,7 +5988,8 @@
           "move": "election-opponent",
           "subject": "news",
           "role": "election-opponent",
-          "choice": "context"
+          "choice": "context",
+          "requiresFacts": ["won"]
         }
       ],
       "origin": "authored",
@@ -6009,12 +6010,57 @@
           "move": "election-opponent",
           "subject": "news",
           "role": "election-opponent",
-          "choice": "context"
+          "choice": "context",
+          "requiresFacts": ["won"]
         }
       ],
       "origin": "authored",
       "author": "Claude Opus (Words: printed stories get body paragraphs)",
       "date": "2026-10-28",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-opponent.opponent-beat-name",
+      "move": "election-opponent",
+      "kind": "written",
+      "text": "{opponent} beat {name}.",
+      "uses": [
+        {
+          "move": "election-opponent",
+          "subject": "news",
+          "role": "election-opponent",
+          "choice": "context",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-race-story-loser-beat-winner)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.election-opponent.name-came-up-short-against-opponent",
+      "move": "election-opponent",
+      "kind": "written",
+      "text": "{name} came up short against {opponent}.",
+      "uses": [
+        {
+          "move": "election-opponent",
+          "subject": "news",
+          "role": "election-opponent",
+          "choice": "context",
+          "requiresFacts": ["lost"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-race-story-loser-beat-winner)",
+      "date": "2026-11-04",
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
