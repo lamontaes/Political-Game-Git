@@ -71,7 +71,8 @@ Every unit gets one before it starts (lane page, CTO rule). Units 1 and 2 were s
 
 - **Finish line:** as the step above: Arcadia's fourth year at 4,096 MiB, or the next table named.
 - **Measured (probe, Arcadia, two years):** `knowledgeByPerson` holds 722,306 keys after the election year (174,375 after year 1). Among the largest: event keys for speeches, campaign messages, shared causes and drive changes (about 140,000), heard promises (59,157 `promise:official:term:seat`), people met and named (106,000).
-- **The cut:** `experiencedKeyRetentionDays` from 90 to 30, the low end of its declared spread. Its citation names its only readers: the same-day appraisal and a drive's update; a key a held drive cites is kept anyway (`knowledge-retention.ts`). The event's own facts and the player's keys stay.
+- **Result:** tried at 45 days (the monthly pass and its tests need more than 43); no measured gain (year 3 heap 2,444 MB against 2,436 MB without it), year 4 still out of memory. Not shipped; item back to open with the numbers.
+- **Was:** `experiencedKeyRetentionDays` from 90 to 30, the low end of its declared spread. Its citation names its only readers: the same-day appraisal and a drive's update; a key a held drive cites is kept anyway (`knowledge-retention.ts`). The event's own facts and the player's keys stay.
 - **Hands off / known cheats / checked by:** as the step above.
 - **Size:** one parameter row, under 20 lines.
 
@@ -80,7 +81,10 @@ Every unit gets one before it starts (lane page, CTO rule). Units 1 and 2 were s
 - **Found:** every Release run on main since #7193 merged (06:43) fails at "Enforce declarations": runs 12112, 12114, 12115, 12116, 12117 and 12118, plus the two Release package runs (12111, 12113 cancelled). The first and the two newest logs read: `docs/release/changes/lane-2-first-minutes-proof.md: impact:none must not carry 'section' or 'title'`. The file came in with Lane 2's 3e377288ee. Newest build is still v0.78.0.
 - **Fix:** #7201 drops the two lines; `release:check --mode pr` prints OK on it. After it merges I'll confirm that a Release run on main passes, in case another failure is behind this one.
 - **Stopping it again without holding a merge (proposal for the CTO):** the declaration check could run in the `new game` job as a report only: it prints the release check's error into the job summary and the PR, without failing the job, so the desk sees it before merging. Or the push-mode check could set a malformed `impact: none` declaration aside with a warning instead of stopping the build, since such a file changes nothing a player sees. I have built neither; the second changes what the release check refuses, so it needs the CTO's word.
-- Also open: #7200 (people no longer approach an office with no staff; public-knowledge-index.test.ts was red on clean main).
+- **Confirmed:** after #7201, Release run 12122 passed and v0.79.0 was published (07:59 UTC).
+- **A second cause right behind it:** run 12123 (#7204, Lane 4) stopped on `play-governor-races-on-screen`, an id an earlier release already consumed. #7206 gives the file its own id; `release:check` OK.
+- **Better prevention than the two above (proposal):** a workflow on main, like the pool index one, that runs the release check after each merge and, when the only failures are mechanical (an `impact: none` file with a section or title, or an id already consumed), fixes the file and pushes the fix to main. It holds no merge (ruling 2) and needs no session awake. I can build it as a unit-1 item if the CTO agrees.
+- #7200 merged (an office to approach needs staff).
 
 ### Unit 9: real save and load (waiting on Lane 3)
 
@@ -93,9 +97,7 @@ Every unit gets one before it starts (lane page, CTO rule). Units 1 and 2 were s
 
 ## Open PRs
 
-- #7201 (red main): the impact-none declaration that stops every build.
-- #7200: an office to approach needs staff (a test red on main).
-- Branch `lane-5/experienced-key-window` (unit 7, second cut): proof run going; PR after it.
+- #7206 (red main): a reused declaration id stops every build again.
 
 ## Merged
 

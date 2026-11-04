@@ -7,11 +7,12 @@ milestone: play-first
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: lane-4/why-no-job
+pr: #7205
 blocked-on: laws-opening-past-fits-the-chosen-age
 source: laws-and-effects lead, Oct 27 (from the work on laws-opening-past-fits-the-chosen-age)
+claimed-at: 2026-11-04T08:08:20.693Z
 ---
 
 **What.** With the creator's birthday building the town around a resident of the chosen age, a 35-year-old player is often a working adult, but in about half of the drawn towns they hold no job. In those towns the household's livelihood past fact (`<household>:livelihood`) names who earns: a partner, or a parent in the home. Who you are then shows no Work section and no reason, so the owner reads a grown player with no job and no word of why. The screen should say why from that record (for example, that the household lives on a partner's pay). The controlled player is left out of the jobs engine's opening job seekers (`controlled()` in `src/core2/modules/jobs.ts`), so the player looks for work only in play.
