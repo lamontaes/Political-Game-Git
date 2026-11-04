@@ -21,6 +21,11 @@ import { initialPersonState } from "../person-state";
 import { fillInPerson, resolveOperation } from "../state";
 import type { CashJournalPosting, ResolvedCashJournalSource } from "../journal";
 import type { CashJournalPostedMarker } from "../journal-state";
+import {
+  declareSnapshotCovered,
+  registerDerivedCache,
+  registerWorldMapPart,
+} from "../snapshot";
 import type {
   ActOffer,
   ActionDefinition,
@@ -309,9 +314,16 @@ interface PredictedChoice {
   runnerUp?: { actionId: string; targetId: string; score: number };
 }
 
-const runtimes = new WeakMap<object, DrivesRuntime>();
+/**
+ * The engine's state for a world. It is saved with the world (a restored world
+ * weighs the same drives, groups and giving as the saved one); the drive
+ * objects it shares with the core stay shared through the snapshot's refs.
+ */
+const runtimes = new WeakMap<CoreState, DrivesRuntime>();
+registerWorldMapPart("core2-drives-runtime", runtimes);
 
-function runtimeFor(state: Readonly<CoreState>): DrivesRuntime {
+function runtimeFor(readonlyState: Readonly<CoreState>): DrivesRuntime {
+  const state = readonlyState as CoreState;
   let row = runtimes.get(state);
   if (!row) {
     const zero = parameter("zero", state.data.parameters);
@@ -2320,6 +2332,9 @@ export function createDrivesModule(
 }
 
 export const DRIVES_MODULE = createDrivesModule();
+// Its runtime is a saved world part; the other maps are caches (rows of static
+// data, or rebuilt from the restored organizations).
+declareSnapshotCovered(DRIVES_MODULE.id);
 
 /** Adds the drive act rows to the shared data; mods add rows the same way. */
 export function withDrives(
@@ -2385,10 +2400,12 @@ export interface CauseGroupView {
   readonly memberIds: readonly PersonId[];
 }
 
+/** Built from the world's organizations: cleared when a world is restored. */
 const causeGroupIds = new WeakMap<
-  object,
+  CoreState,
   { size: number; ids: readonly string[] }
 >();
+registerDerivedCache(causeGroupIds);
 
 /**
  * The cause groups founded in a place, read-only. The founder and the change
@@ -2458,7 +2475,7 @@ export function causeGroupsIn(
 
 /** Read-only report for observers and proofs; writes nothing. */
 export function drivesReport(core: Readonly<CoreState>) {
-  const runtime = runtimes.get(core);
+  const runtime = runtimes.get(core as CoreState);
   return {
     drives: runtime ? [...runtime.drives.values()] : [],
     formedByYearKind: Object.fromEntries(runtime?.formedByYearKind ?? []),
