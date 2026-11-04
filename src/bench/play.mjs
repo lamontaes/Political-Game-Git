@@ -15,7 +15,7 @@ import {
 } from "./ui/talk-box.mjs";
 import { showToast, hideToast } from "./ui/toast.mjs";
 import { mountRail } from "./ui/rail.mjs";
-import { districtMap, partyLegend } from "./ui/map.mjs";
+import { districtMap, partyLegend, partyRoster } from "./ui/map.mjs";
 import { chamberHeader } from "./ui/chamber.mjs";
 import { partyBar } from "./ui/party-bar.mjs";
 import { memberCard } from "./ui/member-card.mjs";
@@ -4307,8 +4307,7 @@ const sheets = {
     const keys = v.parties.map(({ party }) => party);
     let chosen = keys.includes(partyTab) ? partyTab : keys[0];
     // The roster's box inside the "In office" plate under the map.
-    const roster = document.createElement("div");
-    roster.className = "party-roster";
+    const roster = partyRoster();
     const drawRoster = () => {
       const seats =
         v.parties.find(({ party }) => party === chosen)?.seats ?? [];

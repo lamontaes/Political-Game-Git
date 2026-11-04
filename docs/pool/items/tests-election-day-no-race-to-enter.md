@@ -12,7 +12,7 @@ blocked-on:
 source: added with npm run pool -- add
 ---
 
-**What.** src/bench/election-day.test.ts fails on clean main (origin/main 0df97f1b, Nov 4) with GOLDEN_PATH_SEED=e253fc7f73075455: every draw says 'no race the player could enter' (Milbridge, Maine 2345565; South Barre, Vermont 5066025; Tellico Village, Tennessee 4773270; Dixon, Iowa 1921540; Tuckerton, New Jersey 3474210; Rose Hill, Virginia 5168885; Fairfield Harbour, North Carolina 3722305; Agana Heights, Guam). Found by Lane 4 while checking results-screen-raw-words.
+**What.** src/bench/election-day.test.ts fails on clean main (origin/main 0df97f1b, Nov 4) with GOLDEN_PATH_SEED=e253fc7f73075455: every draw says 'no race the player could enter' (Milbridge, Maine 2345565; South Barre, Vermont 5066025; Tellico Village, Tennessee 4773270; Dixon, Iowa 1921540; Tuckerton, New Jersey 3474210; Rose Hill, Virginia 5168885; the North Carolina place 3722305; Agana Heights, Guam). Found by Lane 4 while checking results-screen-raw-words.
 
 **Rules.** One rule, all 56 places. The filing answer is the elections engine's (playerMayFileFor, filingWindowOpen; agreement 1-4). Never loosen the test.
 
