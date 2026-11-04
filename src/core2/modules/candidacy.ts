@@ -200,6 +200,16 @@ export function candidacyReasons(
     reasons.partyAsked =
       c(api, "candidacyPartyAskPull") *
       (one + closenessBetween(api.state, person.id, contest.askedBy.chairId));
+  // What the household said when the person said they would run again after
+  // a loss (the talk at home, docs/lanes/agreements/1-3.md): a relative
+  // behind them pulls toward running, one who doubts it pulls away, each the
+  // more the closer they are.
+  for (const row of backingOf(api, person.id))
+    reasons.householdBacking =
+      (reasons.householdBacking ?? zero) +
+      row.stance *
+        c(api, "candidacyHouseholdPull") *
+        (one + closenessBetween(api.state, person.id, row.backerId));
   const pool = contest.poolFacts?.get(person.id);
   if (
     !api.state.modules.has(ELECTIONS_MODULE_ID) ||
@@ -1224,6 +1234,54 @@ function askForCandidates(api: CoreAPI, contest: ContestRow): void {
  * follows with the office the place's rules name. Any other reply leaves the
  * seat to the party's next ask.
  */
+/** One relative's answer to a candidate who said they would run again after a loss. */
+interface BackingRow {
+  readonly id: string;
+  readonly personId: string;
+  readonly backerId: string;
+  /** 1 behind the run, -1 doubts it. */
+  readonly stance: number;
+  readonly date: string;
+  readonly sourceIds: readonly string[];
+}
+
+function backingOf(api: CoreAPI, personId: string): readonly BackingRow[] {
+  return api
+    .moduleState(CANDIDACY_MODULE_ID)
+    .table("backing")
+    .query("byPerson", [personId]) as unknown as BackingRow[];
+}
+
+/**
+ * The talk at home after a lost race (director scene `family-loss`): when the
+ * candidate said they would run again and the relative answered, the answer
+ * is kept for the next contest the candidate weighs. The scene's reply record
+ * names the answer (`backing`); one row per relative, the latest.
+ */
+function noteHouseholdBacking(
+  api: CoreAPI,
+  event: Readonly<CoreEventInput>,
+): void {
+  const facts = event.facts ?? {};
+  if (facts.typeKey !== "family-loss" || !facts.backing) return;
+  const [personId, backerId] = event.personIds;
+  if (!personId || !backerId) return;
+  api
+    .moduleState(CANDIDACY_MODULE_ID)
+    .table("backing")
+    .put({
+      id: `${personId}|${backerId}`,
+      personId,
+      backerId,
+      stance:
+        facts.backing === "behind"
+          ? api.parameter("one")
+          : -api.parameter("one"),
+      date: api.state.date,
+      sourceIds: [event.id, String(facts.causeId ?? "")],
+    } satisfies BackingRow as unknown as ModuleRow);
+}
+
 function answerPartyAsk(api: CoreAPI, event: Readonly<CoreEventInput>): void {
   const facts = event.facts ?? {};
   const ask = api.state.durableLog.get(String(facts.causeId ?? ""));
@@ -1380,13 +1438,17 @@ export const candidacyModule: CoreModule = {
         indexes: { byContestRun: { fields: ["contestId", "run"] } },
       },
       weighed: {},
+      backing: { indexes: { byPerson: { fields: ["personId"] } } },
     },
   },
   onDay: (api) => {
     candidacyDay(api);
   },
   eventKinds: ["scene.reply"],
-  onEvent: (api, event) => answerPartyAsk(api, event),
+  onEvent: (api, event) => {
+    answerPartyAsk(api, event);
+    noteHouseholdBacking(api, event);
+  },
   reasonProviders: {
     "candidacy-circumstances": (api, actor, offer, binding) => {
       const contest = pending.get(api.state);

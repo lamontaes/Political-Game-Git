@@ -51,6 +51,13 @@
       "source": "How much more readily a voter tells the pollster the more the day's races mattered to them (their own gap between the candidates, the turnout decision's interest): people take part more in a survey on a topic that matters to them (Pew Research Center 2017, citing topic salience). Sets the scale of the case; the base, the engagement weight and the trait weight are fitted against it. Fitted on the named voters of three drawn race towns (src/core2/trait-test-kit.ts drawnRaceWorld, 30 days to two days past the race, every module): Finklea, South Carolina (place key 4525405, seed 100a9eddd8c1, 586 voters with a choice), Silver City, Nevada (3266800, 62fd4b12c74d, 122) and Douglas, Nebraska (3113505, d6f5f50c5452, 209).",
       "spread": [0.25, 1]
     },
+    "petitionMaxShareOfVoters": {
+      "value": 0.1,
+      "tag": "ESTIMATED",
+      "source": "The largest share of a place's voters a local candidate petition asks among the formulas read in data/research/elections/filing-requirements.json (municipal rows): North Dakota 10% of the last vote for the office (maximum 300), North Carolina 10% of registered voters (maximum 200), Arizona 5% to 10% of the last city vote; most others ask 1% to 5% (Vermont 1%, Iowa 2%, South Dakota 1% to 5%, South Carolina 5%). A petition above it is larger than any read law asks of a town that size.",
+      "spread": [0.05, 0.1],
+      "stopgapId": "SG-GOV-petition-electorate-cap"
+    },
     "filingWindowDays": {
       "value": 60,
       "tag": "ESTIMATED",
