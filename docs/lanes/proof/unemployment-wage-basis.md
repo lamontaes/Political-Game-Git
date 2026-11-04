@@ -35,3 +35,21 @@ Local raw evidence: /tmp/lane-2-ui-{before,after}.json and .log; /tmp/lane-2-ui-
 Source e8558ed94a after integrating main cf31d0ed63: npm run new-game-check passed in San Vicente, Northern Mariana Islands, replay 27e313b4e39a5bd2. New Game, four weeks of normal play, scene and Journal reads all returned 200.
 
 Fresh draws: 10 of 10 passed for unemployment-share.test.ts after main integration, each reading all 56 jurisdictions. Replay numbers: 86ccb082737f699a, 71095cee76618909, e58b0aaea76d6c7b, 963c461644b364a7, 0264ac05ef5c6228, 9bb1a15a0fafd3a6, 26432bdbe38c6ccf, aac818fcf9d1c33f, b79ce684c56d3ee4, a3a131faca9fc637.
+
+
+## Completed four-year comparison
+
+Severance, Colorado (0869150), CLI replay c62f44a716f82f64, benchmark world seed fad9a0bef9a21815ac806389ba5417e8541f26094dc03d59f16445b38c3bdd03. The speed-year draw purpose produces a different world seed from the natural-claim observer above; the explicit place flag keeps this comparison in Severance. Both runs use that same benchmark world, host 4c46091479ea and exclusive serial execution.
+
+Controlled source base cf31d0ed63f3256c95d3247053ef31269c14e7bf; corrected source 285b7e165f with documentation-only main integrations through bbbd32e4637c369101ff55e6922f98e16d3d722d. All three corrected data/test files were restored byte-for-byte after the base. Every year meets the owner's 20% relative limit; the maximum slowdown is 6.6%.
+
+| Year | Base seconds | Corrected seconds | Change |
+| --- | --- | --- | --- |
+| 1 | 108.7 | 115.6 | +6.3% |
+| 2 | 240.8 | 256.6 | +6.6% |
+| 3 | 196.4 | 206.8 | +5.3% |
+| 4 | 857 | 584 | -31.9% |
+
+Both commands exit 1 for the unchanged 120-second absolute target in years two through four; the logs end `over 120 seconds`. This is a relative-performance pass, not an absolute-speed pass. Baseline year four retained 2,534,245 records (heap 4,698 MiB, RSS 7,405 MiB); corrected year four retained 1,973,597 (heap 3,790 MiB, RSS 6,515 MiB). This functional law change may change the world, so no identical-records claim is made.
+
+Command: `OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" NODE_OPTIONS=--max-old-space-size=8192 npm run speed:year -- --seed c62f44a716f82f64 --place 0869150 --years 4 --max-seconds 120 --exclusive --out /tmp/lane-2-ui-speed-{base,head}.json`; corrected run adds `--baseline /tmp/lane-2-ui-speed-base.json`. Logs have the same basenames. The earlier interrupted attempt remains archived in /tmp/lane-2-ui-speed-attempt-1/ and does not count as a completed run.
