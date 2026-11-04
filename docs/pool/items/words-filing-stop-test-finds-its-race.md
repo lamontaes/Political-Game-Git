@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: lane3/electoral-scenes-race
-pr:
+pr: #7271
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-04T18:20:27.306Z
