@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: lane-2/mortgage-paid-balance
-pr:
+pr: #7243
 blocked-on:
 lead: laws
 milestone: play-first
