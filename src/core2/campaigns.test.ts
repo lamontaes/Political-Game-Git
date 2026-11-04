@@ -10,7 +10,7 @@ import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
 import { buildPopulation } from "./population";
-import { createLifeCore } from "./life";
+import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import { openOffices } from "./modules/offices";
 import {
@@ -129,15 +129,23 @@ describe("M2-05 and M2-06 campaigning and polls", () => {
     );
     let you: FilingRow | null = null;
     let rival: FilingRow | null = null;
-    for (const contest of openContests(api)) {
-      you = fileAndQualify(api, adults[0]!.id, contest.id, platformA);
-      if (!you) continue;
-      rival = fileAndQualify(api, adults[1]!.id, contest.id, platformB);
-      if (rival) break;
+    // Filing opens on a set day (elections-filing-window-opens): the weeks go
+    // by until a contest both candidates can file for is open.
+    for (let week = 0; week < 104 && !rival; week += 1) {
+      if (week) advanceCore(core, addDays(makeIsoDate(core.date), 7));
+      for (const contest of openContests(api)) {
+        you = fileAndQualify(api, adults[0]!.id, contest.id, platformA);
+        if (!you) continue;
+        rival = fileAndQualify(api, adults[1]!.id, contest.id, platformB);
+        if (rival) break;
+      }
     }
+    process.stdout.write(
+      `CAMPAIGNS ${place}, seed ${seed}: filed ${you?.contestId ?? "none"} on ${core.date}\n`,
+    );
     expect(
       you,
-      `no open contest the two candidates could both qualify for in ${place}`,
+      `no open contest the two candidates could both qualify for in ${place} by ${core.date}`,
     ).not.toBeNull();
     expect(rival).not.toBeNull();
     const candidate = core.people.get(you!.personId)!;
