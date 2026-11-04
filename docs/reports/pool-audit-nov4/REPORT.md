@@ -1,12 +1,12 @@
-# Pool audit: 416 open-real, 198 partly-done, 51 done-on-main, 32 superseded, 5 duplicate, 40 on-branch, 59 unknown, 7 waits-on-people, 2 waits-on-owner, 5 finished during the audit; 1820 done and 309 dropped before it
+# Pool audit: 416 open-real, 199 partly-done, 51 done-on-main, 32 superseded, 5 duplicate, 40 on-branch, 59 unknown, 7 waits-on-people, 2 waits-on-owner, 4 finished during the audit; 1820 done and 309 dropped before it
 
-Your call: close the 88 items listed in the first section, have the lanes rescue the 13 branches named in the second, and answer the November 1 Budgets mocks, which hold Lane 4's Budgets screen. Nothing in the pool has changed yet. Of the 815 items not done or dropped, 51 are already done in the game's code, 32 were replaced and 5 duplicate another item; two readers agreed on each. Still to do: 416 open and 198 part-built items, plus 40 whose work sits on an unmerged branch and 59 nobody can settle without a run. Of 200 done and dropped items sampled, none was clearly closed wrongly; 9 are unclear and 2 done items look thin.
+Your call: close the 88 items listed in the first section, have the lanes rescue the 13 branches named in the second, and answer the November 1 Budgets mocks, which hold Lane 4's Budgets screen. Nothing in the pool has changed yet. Of the 815 items not done or dropped, 51 are already done in the game's code, 32 were replaced and 5 duplicate another item; two readers agreed on each. Still to do: 416 open and 199 part-built items, plus 40 whose work sits on an unmerged branch and 59 nobody can settle without a run. Of 200 done and dropped items sampled, none was clearly closed wrongly; 9 are unclear and 2 done items look thin.
 
 ## What can close with confidence
 
-88 items can close (measured: two readers agreed on each from main's code). The second reader rejected 19 of 107 proposed closures (18 percent), mostly because the item's Done when asks for a played-world run nobody has shown. Those 19 stay open as unknown, listed below, so no work is lost.
+88 items can close (measured: two readers agreed on each from main's code). The second reader rejected 20 of 112 proposed closures (18 percent), mostly because the item's Done when asks for a played-world run nobody has shown. Those 19 stay open as unknown, listed below, so no work is lost.
 
-Another 5 items finished on main while the audit ran: the pool-done flip already closed four, and `words-talk-replies-follow-move-pair-grades` still says claimed though its pull request merged.
+Another 4 items finished on main while the audit ran, and a second reader agreed with each at current main: the pool-done flip already closed three, and `words-talk-replies-follow-move-pair-grades` still says claimed though its pull request merged. A sixth, `words-talk-husk-acquaintances-empty`, was set done on main, but the second reader found one line of its Done when unmet (a test filter it says to remove is still there), so it is counted as partly-done and flagged, not reopened.
 
 | Item | Class | Evidence (read by both readers) |
 |---|---|---|
@@ -99,7 +99,7 @@ Another 5 items finished on main while the audit ran: the pool-done flip already
 | `world-business-entry-below-bds` | superseded | By business-never-adds-location. Premise gone: item Notes (Oct 20 and Oct 27) measured entry at 1.7-4.7x the Census rate, closures matching; the remaining entry/foundings-loop defect is diagnosed in business-never-adds-location (open). PR #5369 only measured. |
 | `world-money-calibration-sources` | superseded | By OWNER-DECISIONS.md Oct 27 (no license or rights questions); PR #713 closed. PR #713 (codex/assignments-5-money-sources-safe) was closed; the item's own Notes cite the look-first audit docs/reports/retroactive-look-first-2026-10-27.md: close, rights gate wi… |
 
-**Rejected closures, kept open as unknown (19).** Each needs the run or the missing piece the second reader named:
+**Rejected closures, kept open as unknown (19).** These are part of the 59 unknowns in the first line. Each needs the run or the missing piece the second reader named:
 
 - `core-census-uncap-opening` (first reader: superseded): population.ts:566-574 still has Math.min(target, real), and the item's Done when requires the cap code and its stopgap deleted and the largest town (New York) running a year under two minutes; the No…
 - `core-speed-business-foundings` (first reader: done-on-main): business.ts:1757-1790 does build monthlyPay and peopleInOrder once per pass, but the Done when needs a before/after CPU profile on seed m7b showing foundings under 2% of the year, and nobody has show…
@@ -185,7 +185,7 @@ Each surviving item has one proposed lane and a rank within it. The rank follows
 |---|---|---|---|---|---|---|
 | 1, Run and govern | 112 | 77 | 18 | 8 | 9 | 0 |
 | 2, The living world | 333 | 205 | 87 | 19 | 22 | 0 |
-| 3, Words and scenes | 98 | 52 | 36 | 3 | 7 | 0 |
+| 3, Words and scenes | 99 | 52 | 37 | 3 | 7 | 0 |
 | 4, Screens and art | 37 | 13 | 11 | 0 | 5 | 8 |
 | 5, Engine and release | 142 | 69 | 46 | 10 | 16 | 1 |
 
@@ -205,7 +205,7 @@ The 7 waits-on-people items are the people pack, home and chamber plates, figure
 
 ## How sure the audit is
 
-- **Closures:** high. Two readers agreed on all 88 from the evidence, and the second reader rejected 19 weaker calls. Neither reader ran tests, so a closure that rests on a test means the test exists and covers the line, not that it passed today.
+- **Closures:** high. Two readers agreed on all 88 from the evidence, and the second reader rejected 20 weaker calls. Neither reader ran tests, so a closure that rests on a test means the test exists and covers the line, not that it passed today.
 - **Done and dropped items:** a random 100 of each (fixed seed 20261104) were read against main. Of the 100 done, 87 hold, 6 hold but were later replaced by a newer system, 7 are unclear and none is false. Of the 100 dropped, 94 hold, 4 hold as superseded, 2 are unclear and none is plainly false. Two of the unclear done items look thin and should be looked at, though neither is reopened: `gov-filing-fee-and-file-line` built only half its line, and `play-state-legislator-career-screen` has no seat-picker screen.
 - **By script, over all 2,129:** every dropped item gives a reason. 43 done items have no merged pull request naming them (most are closures by hand with a reason in Notes), and 71 name a proof test that is no longer on main, 31 of them in the deleted old core. Both lists are in `mismatches.md`.
 - **Open and partly-done calls:** medium. Each was read from code by one reader. A wrong open-real call costs a look, not lost work. The 59 unknowns are mostly by-draw test reds that only a run on the named seed can settle.
@@ -224,11 +224,11 @@ The 7 waits-on-people items are the people pack, home and chamber plates, figure
 
 ## Method
 
-Main at the start: `6d53b9c493` (November 4, 2026, 16:03 UTC). The final re-read for step 6 was at `cecc3d9443` (16:49 UTC); no item changed between then and `37241247fe` (17:01 UTC). Every row carries the start commit; rows that changed after it say so.
+Main at the start: `6d53b9c493` (November 4, 2026, 16:03 UTC). The final re-read for step 6 was at `cecc3d9443` (16:49 UTC); no item changed between then and `37241247fe`, the last check. Every row carries the start commit; rows that changed after it say so.
 
 - All 6,809 branches were fetched and the history was unshallowed (the clone started shallow). For each branch the audit measured commits ahead and behind, the last commit date, whether its commits are on main by patch (git cherry, against a patch-id set of main's 30,993 commits) and whether every file it changed matches main. Pull request data for all 7,257 came from the GitHub API; the GitHub connector failed, so read-only `gh api` calls were used.
 - 811 live items at the start commit were read; 4 more were added during the audit and read at the final commit, which is why the totals count 815.
-- The 811 were read in 21 batches by Sonnet readers, 6 at a time, against main's code. Each of the 107 proposed closures was rechecked by an Opus reader from the evidence alone. 200 done and dropped items were sampled by Sonnet readers.
+- The 811 were read in 21 batches by separate readers, 6 at a time, against main's code. Each of the 107 proposed closures was rechecked by a second, separate reader from the evidence alone, and so were the 5 items closed on main during the audit. 200 done and dropped items were sampled by further readers.
 - One defect in the audit's own scripts was caught and fixed: the first file comparison used a git option that does not exist and showed every branch as merged. The numbers above come from the corrected run.
 - Not done: no tests, no played runs. No pool item, lane page, branch or pull request was touched.
 
