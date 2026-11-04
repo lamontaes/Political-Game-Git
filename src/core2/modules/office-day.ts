@@ -68,6 +68,8 @@ import {
 } from "../office-day-calendar";
 // The meeting rule, for readers outside the family.
 export { meetingRule } from "../office-day-calendar";
+// The federal holidays, for the calendar screen.
+export { federalHolidays } from "../office-day-federal-calendar";
 import type { ModuleStopTokenV1 } from "../player-stops-v1";
 import { snapshotExplicitControlV1 } from "../player-control-state-v1";
 import { addDays, makeIsoDate } from "../kernel/dates";

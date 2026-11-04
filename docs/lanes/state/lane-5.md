@@ -54,6 +54,17 @@ Every unit gets one before it starts (lane page, CTO rule). Units 1 and 2 were s
 - #7190: Lane 5's part (families: group-quarters and stopgap files shared, place population and name data shared as reference, Lane 2's two files given a family, ten counts lowered; english: a verbatim quote allowlisted). Left for Lanes 1, 3 and 4, one line each, written on their state files and the desk page.
 - Earlier today: #7181, #7182, #7183 (all merged).
 
+### Unit 7, step: a met-once contact's routine log (started Nov 4 07:15)
+
+- **Finish line:** Arcadia, California (0602462, seed app-heap-1) plays its fourth year at the app's 4,096 MiB limit without running out of memory, or the next table in the way is named.
+- **Proof:** `speed-years/run.ts --years 4` at `--max-old-space-size=4096` on the branch against main's run above, heap and seconds per year; the durable log's member rows by age before and after.
+- **Measured (probe, Arcadia, three years):** after year 3 the table JSON is about 1,795 MB, of which the durable log is 417 MB and `knowledgeByPerson` is 338 MB (1,932 people). Members' log rows: 95,966 older than six months, 41,549 three to six months, 53,940 younger.
+- **The cut:** `circleActRetentionMonths` from 12 to 3, the low end of its own declared spread (TUNABLE, "checked against the memory check and the journal"). Readers of a member's row after its day: none outside debug views (`scene.ts` and the director's ledger read today's rows; `scheduling.ts` reads a moment's cause, staged within days). The player's own rows, public records and news are untouched.
+- **Hands off:** the player's log; any public record or news row; the director's files.
+- **Known cheats:** a bigger heap than the app has; dropping a row something reads; calling records "the same" when rows were dropped (they differ by design, so `--same-records` is not claimed).
+- **Size:** one parameter row and its citation, under 20 lines. **Checked by:** a fresh session repeating the four-year run at 4,096 MiB on main after merge.
+- Next, its own card: `knowledgeByPerson` (338 MB).
+
 ### Unit 9: real save and load (waiting on Lane 3)
 
 - **Finish line (path 6):** play two months, quit, reopen: Continue returns the same date and people, and the load doesn't grow with played years.
@@ -65,13 +76,12 @@ Every unit gets one before it starts (lane page, CTO rule). Units 1 and 2 were s
 
 ## Open PRs
 
-- #7190 (red main): Lane 5's part of the red guards.
-- #7173 skills: start-life.mjs, shallow fetches, the storage guard. Desk check passed; the CTO merges skills.
+- None (#7190 and #7173 merged).
 
 ## Merged
 
 - Nov 3: #7140, #7141, #7144, #7145, #7146.
-- Nov 4: #7148, #7149, #7155, #7158, #7161, #7172 (rehire), #7176 (group quarters: Storrs 142.9 s to 93.3 s), #7177 (every-locality sweep), #7180 (eight browser checks wait for filing), #7181 (Storrs eviction case, red main), #7182 (no-dice entry for sibling names, red main), #7183 (lane state files need no release declaration).
+- Nov 4: #7148, #7149, #7155, #7158, #7161, #7172 (rehire), #7176 (group quarters: Storrs 142.9 s to 93.3 s), #7177 (every-locality sweep), #7180 (eight browser checks wait for filing), #7181 (Storrs eviction case, red main), #7182 (no-dice entry for sibling names, red main), #7183 (lane state files need no release declaration), #7190 (Lane 5's part of the red guards), #7173 (skills).
 
 ## Failed or blocked
 

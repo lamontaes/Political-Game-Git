@@ -499,8 +499,13 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
       );
     const mine = under("election-result:contest:fixture-mine");
     expect(mine?.title).toBe("Fixture Seat A");
+    // A relative's race is a line in the chapter the player is living, never
+    // a chapter titled after someone else (lane 3, path 9).
     const kin = under("election-result:contest:fixture-kin");
-    if (kin) expect(kin.title).toBe("Fixture Seat B");
+    if (kin) expect(kin.title).toBe("Fixture Seat A");
+    expect(journal.some((chapter) => chapter.title === "Fixture Seat B")).toBe(
+      false,
+    );
   });
 
   it("tells the player's own race when nobody ran against them", () => {
