@@ -566,3 +566,79 @@ Some are files the item plans to create; others were moved or deleted. `src/core
 - `world-unemployment-work-search` (open): names paths not on main: src/core2/jobs-benefits.test.ts
 - `world-weight-release-jobless-seek-work` (open): names paths not on main: src/core2/data/stopgaps.json
 - `world-withholding-nonresident-local` (open): names paths not on main: src/core2/data/stopgaps.json
+
+## Done items whose named test no longer exists (71)
+
+The test the item names as its proof is not on main now. Most were moved, renamed or deleted with the old core (31 done items name `src/simulation`); none is reopened here. The step 4 sample read in REPORT.md found no done item that is clearly false.
+
+- `art-courtroom-seats` (done): names test(s) not on main: src/presentation/backdrop-anchors.test.ts
+- `art-seated-desks` (done): names test(s) not on main: src/presentation/backdrop-anchors-render.test.ts
+- `core-counted-drift-delete` (done): names test(s) not on main: src/core2/counted-drift.test.ts
+- `core-needs-fixer-51` (done): names test(s) not on main: src/core2/parameters.test.ts
+- `core-needs-opus-core-23` (done): names test(s) not on main: src/core2/modules/laws.test.ts
+- `core-officials-deep-past` (done): names test(s) not on main: src/core2/officials-deep-past.test.ts
+- `core-old-engine-02-gov-rules-duplicates` (done): names test(s) not on main: src/core2/gov-rules.test.ts
+- `core-old-engine-05-health-onset-lift` (done): names test(s) not on main: tests/mortality-calibration.test.ts
+- `core-old-engine-06-place-lookup-and-scripts` (done): names test(s) not on main: tests/data-tables.test.ts, tests/starting-law-term-completeness.test.ts
+- `core-old-engine-07-appearance-and-delete` (done): names test(s) not on main: tests/simulation-loads-under-tsx.test.ts
+- `director-narrator-situation-leads` (done): names test(s) not on main: src/director/office-scene.test.ts
+- `director-office-scene-hook-shape-red` (done): names test(s) not on main: src/director/office-scene-levels.test.ts, src/director/office-scene.test.ts
+- `director-opening-claims-tested-once` (done): names test(s) not on main: src/bench/opening-picture.test.ts, src/bench/opening-pictures.test.ts, src/director/opening-rates-named.test.ts
+- `director-retire-stage-speech-builder` (done): names test(s) not on main: src/core2/speech-composition.test.ts
+- `elections-campaign-stances-from-views` (done): names test(s) not on main: src/core2/campaign-views.test.ts
+- `elections-polling-place-misses-town-government` (done): names test(s) not on main: src/core2/modules/voting.test.ts
+- `gov-municipal-body-name-uncompiled-towns` (done): names test(s) not on main: src/core2/offices-local.test.ts
+- `gov-officials-views-for-case` (done): names test(s) not on main: src/director/office-scene.test.ts
+- `gov-stopgap-past-news-missing-record` (done): names test(s) not on main: src/core2/past-news.test.ts
+- `gov-town-payers-vehicle-and-owner-tax` (done): names test(s) not on main: src/core2/town-payers-vehicle-owner-tax.test.ts
+- `gov-u13` (done): names test(s) not on main: src/core2/audit.test.ts
+- `integration-english-ban-place-and-presence` (done): names test(s) not on main: tests/guards/no-place-or-presence-restated.test.ts
+- `laws-bill-section-cites-research-source` (done): names test(s) not on main: src/core2/bill-sections.test.ts
+- `laws-outcome-labor-cannabis` (done): names test(s) not on main: src/core2/public-bargaining-law.test.ts
+- `laws-override-record-names-members-and-reads-replies` (done): names test(s) not on main: src/director/override-scenes.test.ts
+- `office-scene-vote-flaky` (done): names test(s) not on main: src/director/office-scene.test.ts
+- `parties-join-act-writes-no-membership` (done): names test(s) not on main: src/core2/modules/parties.test.ts
+- `people-back-figures-draw` (done): names test(s) not on main: src/bench/figure-hair.test.ts
+- `people-faces` (done): names test(s) not on main: src/bench/figure-hair.test.ts
+- `people-figure-by-spot-facing` (done): names test(s) not on main: src/bench/whole-figures.test.ts
+- `people-garment-colors` (done): names test(s) not on main: src/bench/figure-colors.test.ts
+- `people-needs-people-128` (done): names test(s) not on main: src/bench/whole-figures.test.ts
+- `people-office-scene-state-target-not-official` (done): names test(s) not on main: src/director/office-scene-levels.test.ts
+- `people-plates-second` (done): names test(s) not on main: src/bench/plate-spots.test.ts, src/bench/whole-figures.test.ts
+- `people-seated-test-side-room` (done): names test(s) not on main: src/bench/seated.test.ts
+- `people-spots-from-plates` (done): names test(s) not on main: src/bench/plate-spots.test.ts
+- `play-creator-random-name-after-gender` (done): names test(s) not on main: src/bench/creator.browser.mjs
+- `play-figure-stands-centered-in-small-rooms` (done): names test(s) not on main: src/bench/framing.test.ts
+- `play-menus-people-no-closeness` (done): names test(s) not on main: src/bench/circle-changes.test.ts
+- `play-news-drop-cap-splits-numbers` (done): names test(s) not on main: src/bench/news.browser.mjs
+- `play-news-paper-prints-the-stories` (done): names test(s) not on main: src/bench/news.browser.mjs
+- `play-news-story-click-opens` (done): names test(s) not on main: src/bench/news.browser.mjs
+- `play-opening-pictures-from-records` (done): names test(s) not on main: src/bench/opening-cutaway-cast.test.ts, src/bench/opening-pictures.test.ts
+- `play-pick-outlet-for-interview` (done): names test(s) not on main: src/core2/office-day-acts.test.ts
+- `play-staff-dismissal-after-attendance` (done): names test(s) not on main: src/core2/jobs-offer-deadline-held.test.ts
+- `play-stop-42-news-story-opens-as-the-paper` (done): names test(s) not on main: src/bench/news.browser.mjs
+- `play-teen-has-current-high-school` (done): names test(s) not on main: src/bench/words-schools.test.ts, src/core2/deep-past.test.ts
+- `release-guards-required-checks` (done): names test(s) not on main: tests/american-english.test.ts
+- `release-old-core-typecheck` (done): names test(s) not on main: scripts/law-consequence-modules/generate-manifest.test.mjs
+- `release-pr-5766-off-main` (done): names test(s) not on main: src/core2/dates-civil-day.test.ts
+- `release-repo-sweep-unread-files` (done): names test(s) not on main: tests/assumption-markers.test.ts
+- `release-spelling-labeled-stopgaps` (done): names test(s) not on main: tests/american-english-sweep.test.ts
+- `release-spelling-sweep-red-oct17` (done): names test(s) not on main: tests/american-english-sweep.test.ts
+- `release-spelling-sweep-red-oct19` (done): names test(s) not on main: tests/american-english-sweep.test.ts, tests/american-english.test.ts
+- `release-spelling-sweep-red-oct20` (done): names test(s) not on main: tests/american-english-sweep.test.ts, tests/american-english.test.ts
+- `release-spelling-sweep-red-oct28` (done): names test(s) not on main: tests/american-english-sweep.test.ts
+- `release-touches-line-still-flips-item-done` (done): names test(s) not on main: scripts/pool/done-on-merge.test.ts
+- `scene-veto-override-whip` (done): names test(s) not on main: src/director/override-scenes.test.ts
+- `screens-news-a-newspaper` (done): names test(s) not on main: src/bench/news.browser.mjs
+- `screens-news-mockups` (done): names test(s) not on main: src/bench/news.browser.mjs
+- `screens-opening-national-people` (done): names test(s) not on main: src/bench/opening-tags.test.ts
+- `simulation-permission-records-integrity-red` (done): names test(s) not on main: src/simulation/law-consequences/permission-records.test.ts
+- `simulation-trait-pack-lean-message-red` (done): names test(s) not on main: src/simulation/trait-packs.test.ts
+- `tests-source-ref-missing-module-red` (done): names test(s) not on main: scripts/content/source-ref.test.mjs
+- `words-batch-22` (done): names test(s) not on main: scripts/dialogue-batch/held-parts-batch.test.ts
+- `words-coverage-table-scene-move-red` (done): names test(s) not on main: scripts/dialogue-batch/coverage-table.test.ts
+- `words-four-tests-red-outside-release` (done): names test(s) not on main: scripts/dialogue-batch/coverage-table.test.ts, tests/english-exchanges.test.ts
+- `words-grading-bench-handler-not-function` (done): names test(s) not on main: scripts/dialogue-batch/grading-bench.test.ts
+- `words-held-first-test-no-held-lines` (done): names test(s) not on main: src/english/mined/held-first.test.ts
+- `words-scene-cause-law-effect-learned` (done): names test(s) not on main: src/core2/laws-end-to-end.test.ts
+- `world-jobs-offer-deadline-held` (done): names test(s) not on main: src/core2/jobs-offer-deadline-held.test.ts
