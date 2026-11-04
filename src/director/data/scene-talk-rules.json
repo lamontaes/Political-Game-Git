@@ -128,9 +128,9 @@
     "notConceded": ["not-yet"]
   },
   "owedTalk": {
-    "about": "A reply whose ending sets a meeting (keeps meeting-set) or puts a matter off (ending put-off) owes the other person a talk: the reply's record carries who it is owed to, its topic and the day it falls due, for the people engine's owed-talk record (agreements/2-3.md, people-owed-talk-record) and the director's scene when it comes due (scene-owed-talk-comes-due). Ending ids and keeps only; no sentence.",
+    "about": "A reply whose ending sets a meeting (keeps meeting-set) or puts a matter off (ending put-off, or not-yet in the filing talk) owes the other person a talk: the reply's record carries who it is owed to, its topic and the day it falls due, for the people engine's owed-talk record (agreements/2-3.md, people-owed-talk-record) and the director's scene when it comes due (scene-owed-talk-comes-due). Ending ids and keeps only; no sentence.",
     "keeps": ["meeting-set"],
-    "endings": ["put-off"],
+    "endings": ["put-off", "not-yet"],
     "dueDays": {
       "value": 7,
       "tag": "TUNABLE",
