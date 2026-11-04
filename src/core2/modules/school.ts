@@ -11,7 +11,6 @@
 import data from "../data/school-days.json" with { type: "json" };
 import tuition from "../data/opening-private-tuition.json" with { type: "json" };
 import stateDays from "../../../data/research/people/state-instructional-days-2018.json" with { type: "json" };
-import { LAWS_MODULE_ID, lawChain } from "./laws";
 import { decisionFromScores, scoreOffers } from "../choice";
 import { decisionKinds } from "../trait-decisions";
 import { offer } from "./life";
@@ -39,6 +38,7 @@ import {
   schoolStartYear,
 } from "../school-outcomes";
 import { decideSchoolHonors } from "../school-honors";
+import { placeStateKey } from "../place-map";
 import outcomes from "../data/school/outcomes.json" with { type: "json" };
 
 export { SCHOOL_MODULE_ID };
@@ -155,10 +155,9 @@ function onHoliday(
 const table = (api: CoreAPI) =>
   api.moduleState(SCHOOL_MODULE_ID).table("attended");
 
-/** The two-letter postal code of the world's state, from the law chain where the laws are installed. */
-function stateOf(api: CoreAPI): string | undefined {
-  if (!api.state.modules.has(LAWS_MODULE_ID)) return undefined;
-  return lawChain(api).stateKey.slice(3);
+/** The two-letter postal code of the world's state, from the one place map. */
+function schoolState(api: CoreAPI): string | undefined {
+  return placeStateKey(api.state.placeMetadata?.placeKey)?.slice(3);
 }
 
 function schoolFor(api: CoreAPI, actor: Readonly<PersonState>) {
@@ -167,7 +166,7 @@ function schoolFor(api: CoreAPI, actor: Readonly<PersonState>) {
 
 function due(api: CoreAPI, actor: Readonly<PersonState>): boolean {
   const date = api.state.date;
-  if (!isSchoolDay(date, stateOf(api))) return false;
+  if (!isSchoolDay(date, schoolState(api))) return false;
   const age = ageOn(actor.birthDate, date);
   if (
     age < api.parameter("openingSchoolAgeFirst") ||
@@ -197,7 +196,7 @@ const STAY_HOME: ActionDefinition = {
  */
 function schoolDay(api: CoreAPI): void {
   const date = api.state.date;
-  if (!isSchoolDay(date, stateOf(api))) return;
+  if (!isSchoolDay(date, schoolState(api))) return;
   const action = api.state.data.actions.find((row) => row.id === data.actionId);
   if (!action) return;
   // Light relatives who live elsewhere (inactive tiers) make no choices here.
@@ -252,7 +251,7 @@ function attendanceShare(api: CoreAPI, startYear: number) {
     t <= Date.parse(`${api.state.date}T00:00:00Z`);
     t += 86_400_000
   )
-    if (isSchoolDay(new Date(t).toISOString().slice(0, 10), stateOf(api)))
+    if (isSchoolDay(new Date(t).toISOString().slice(0, 10), schoolState(api)))
       held += 1;
   return (personId: string): number | undefined => {
     if (!held) return undefined;
@@ -269,7 +268,7 @@ function schoolOutcomes(api: CoreAPI): void {
   const md = date.slice(5);
   const done = api.moduleState(SCHOOL_MODULE_ID).table("done");
   const testsKey = `tests:${startYear}`;
-  const lastDay = lastDayOfYear(startYear, stateOf(api));
+  const lastDay = lastDayOfYear(startYear, schoolState(api));
   if (date >= lastDay && !done.get(`graduation:${startYear}`)) {
     done.put({ id: `graduation:${startYear}`, date } as never);
     decideSchoolOutcome(
