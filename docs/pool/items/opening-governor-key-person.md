@@ -5,9 +5,9 @@ area: core
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: lane-4/opening-governor
-pr:
+pr: #7214
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-04T08:40:54.814Z
