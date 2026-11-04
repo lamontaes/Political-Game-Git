@@ -5,11 +5,12 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane-1/path-measure
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T11:55:46.572Z
 ---
 
 **What.** src/bench/path-check.ts tried to file the day after the player turns 18. Since filing opens on a set day (elections-filing-window-opens, #7168) that day is usually outside every window, so Haleyville, Alabama and Murray, Nebraska reported no step at all: 'no contest the player can enter'. A player waits for filing to open. The check now lives on a week at a time, up to two years, until a race the clerk's answer offers is open, and names the unmet checks if none opens.
