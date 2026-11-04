@@ -618,23 +618,65 @@ export function lobbyingBarredUntil(
   api: CoreAPI,
   personId: string,
 ): string | null {
-  if (!inForce(api, LOBBYING_BAN)) return null;
-  const ended = termsOf(api, personId)
-    // A term that ended in re-election isn't leaving office.
+  const laws = yesLevels(api, LOBBYING_BAN);
+  if (!laws.length) return null;
+  const terms = termsOf(api, personId);
+  const ended = terms
+    // Opening history explicitly records re-election. Live seating instead
+    // ends the old term as "term ended", so read its continuing service.
     .filter(
-      (t) => t.status === "ended" && t.endDate && t.endedBy !== "re-elected",
+      (t) =>
+        t.status === "ended" &&
+        t.endDate &&
+        t.endDate <= api.state.date &&
+        t.endedBy !== "re-elected" &&
+        !terms.some(
+          (next) =>
+            next.id !== t.id &&
+            next.officeId === t.officeId &&
+            next.startDate <= t.endDate! &&
+            (next.endDate === null || next.endDate > t.endDate!),
+        ),
     )
     .map((t) => t.endDate!)
     .sort()
     .pop();
-  if (!ended) return null;
-  const until = new Date(Date.parse(`${ended}T00:00:00Z`));
-  until.setUTCFullYear(
-    until.getUTCFullYear() + reachParameter("lobbyingCoolingOffYears"),
-  );
-  const date = until.toISOString().slice(0, 10);
+  if (!ended) {
+    lawNoLongerApplies(api, LOBBYING_BAN, personId);
+    return null;
+  }
+  const bans = laws.map((law) => {
+    const provisions = law.row.terms?.lawTerms;
+    const period = Array.isArray(provisions)
+      ? provisions.find(
+          (term) =>
+            term.questionKey === LOBBYING_BAN &&
+            term.key === "period" &&
+            term.unit === "years" &&
+            typeof term.value === "number" &&
+            Number.isFinite(term.value) &&
+            term.value >= 0,
+        )?.value
+      : undefined;
+    // stopgapId: SG-LAWS-lobbying-period-unspecified
+    if (period === undefined)
+      api.stopgap("SG-LAWS-lobbying-period-unspecified");
+    const years = period ?? reachParameter("lobbyingCoolingOffYears");
+    const until = new Date(Date.parse(`${ended}T00:00:00Z`));
+    // The researched six-month provision is half a year, not zero years.
+    const day = until.getUTCDate();
+    until.setUTCDate(1);
+    until.setUTCMonth(
+      until.getUTCMonth() + years * reachParameter("monthsPerYear"),
+    );
+    const lastDay = new Date(
+      Date.UTC(until.getUTCFullYear(), until.getUTCMonth() + 1, 0),
+    ).getUTCDate();
+    until.setUTCDate(Math.min(day, lastDay));
+    return { lawId: law.lawId, date: until.toISOString().slice(0, 10) };
+  });
+  const { date, lawId } = bans.sort((a, b) => b.date.localeCompare(a.date))[0]!;
   const barred = date > (api.state as CoreState).date;
-  const lawId = yesLevels(api, LOBBYING_BAN)[0]?.lawId;
   if (lawId) {
     if (barred)
       lawApplied(api, {
