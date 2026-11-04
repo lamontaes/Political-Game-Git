@@ -27,6 +27,17 @@
 - **Agreements:** 1-2 written (one bill engine). 1-3 confirmed and extended (director tests that file the player; a worded law line asked of Lane 3). 1-4 written (filing seams in `src/bench`).
 - **Waiting on a question:** `gov-m3-02-amend-and-endorsement-deals`, the endorsement half (see its Notes).
 
+## Unit cards
+
+**Unit 5: seats open up** (`elections-local-races-too-uncontested`, branch `governing/county-challengers`)
+
+- **Finish line:** across six places drawn from all 56, 50% to 80% of decided local contests have no more candidates than seats; each candidate on the ballot traces to their own decision to run.
+- **Proof:** `src/core2/local-races-contested.test.ts` (two played years per place, contest ids and candidate counts printed). The cause is checked first on the totals script's 24 places (seed a63ad2af1003c7ad). Before: towns 30 of 41 (0.73), counties 161 of 175 (0.92), all 191 of 216 (0.88). The lever measured is `candidacyCountywideWeight` inside its spread (0.4 to 0.6), since a county race is contested and voted by the town's own people only.
+- **Hands off:** the incumbency values (unit 1b), the stay-out bar for town seats, the tests' band.
+- **Known cheats:** a drawn share of challengers, a per-town or per-county number, a player boost, fixed seeds chosen to land in the band.
+- **Size:** about 2 hours and under 100 changed lines if the weight is enough; if not, the rest of the county weighing a county seat (stopgap SG-GOV-wide-resident-pool), split into its own unit.
+- **Checked by:** a fresh session running the test on a seed it chooses.
+
 ## Measuring now
 
 - **Unit 1b, incumbency fit**, on `governing/incumbency-calibration` (main merged, d6db3df9ff). Ablation on seed f556fe5e8b2fe6fd, 12 places:
