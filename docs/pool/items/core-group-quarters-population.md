@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: speed/group-quarters-population
 pr: #7176
 blocked-on:
