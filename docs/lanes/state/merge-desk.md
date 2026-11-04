@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 60 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 61 pull requests merged. Newest state at the top of each section.
 
 ## What the owner can play now
 
@@ -66,7 +66,7 @@ New on Nov 3:
   - A pool fix (#7145).
   - A state page (#7146).
 
-## Lane PRs merged on Nov 4 (25), on the owner's word ("You may merge lane PRs that pass the new-game check")
+## Lane PRs merged on Nov 4 (26), on the owner's word ("You may merge lane PRs that pass the new-game check")
 
 Each had main merged in again, passed `npm run new-game-check` (a town drawn from all 56, a new life, four weeks) and merged pinned to that head.
 
@@ -97,6 +97,7 @@ Each had main merged in again, passed `npm run new-game-check` (a town drawn fro
 | #7168 | Filing opens weeks before the deadline, not on the game's first day                           | Rincon, Georgia                   | 655ea866813e93ea |
 | #7169 | As mayor, you sign one ordinance and veto another at your desk                                | Center Ridge, Arkansas            | 8860661b3b3f3670 |
 | #7170 | Governors declare a state of emergency when a federally declared disaster strikes             | Frederiksted, U.S. Virgin Islands | 66d1a94d549de6b8 |
+| #7171 | A campaigns test waits for a contest whose filing is open (test only)                         | Bridgeport, Alabama               | 51e14ef7daaaace0 |
 
 Conflicts resolved mechanically: #7154 (both sides added a parameter and a stopgap row; both kept), and #7153, #7157, #7160, #7162 (Lane 2's state page: main's wording for the one edited line, both sides' log entries kept). Mac builds started after 5, 13, 18 and 25 of these merges.
 
