@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 134 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 135 pull requests merged. Newest state at the top of each section.
 
 ## What the owner can play now
 
@@ -85,7 +85,7 @@ New on Nov 3:
   - A pool fix (#7145).
   - A state page (#7146).
 
-## Lane PRs merged on Nov 4 (99), on the owner's word ("You may merge lane PRs that pass the new-game check")
+## Lane PRs merged on Nov 4 (100), on the owner's word ("You may merge lane PRs that pass the new-game check")
 
 Each had main merged in again, passed `npm run new-game-check` (a town drawn from all 56, a new life, four weeks) and merged pinned to that head.
 
@@ -190,6 +190,7 @@ Each had main merged in again, passed `npm run new-game-check` (a town drawn fro
 | #7242 | The executive code reads the filing clerk through the elections entry (fixes main's families guard)                                                                 | Oxbow Estates, Arizona            | 5ad3c74720f243f2 |
 | #7243 | A mortgage's balance goes down by the household's own payment                                                                                                       | Chico, Texas                      | d3fb967639c471f1 |
 | #7244 | The map says "Storrs", not "Storrs CDP"; the loading screen is full when it says Ready                                                                              | Hazel, Kentucky                   | ab436e8a50f7a7a7 |
+| #7245 | The Journal names the person who walked doors for you                                                                                                               | Bancroft, Wisconsin               | 1ccc470e84b08f10 |
 
 Conflicts resolved mechanically: #7154 (both sides added a parameter and a stopgap row; both kept), and #7153, #7157, #7160, #7162 (Lane 2's state page: main's wording for the one edited line, both sides' log entries kept). Mac builds started after 5, 13, 18, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 91 and 96 of these merges.
 
