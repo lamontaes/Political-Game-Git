@@ -5,11 +5,12 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: governing/county-votes
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T11:08:17.823Z
 ---
 
 **What.** Step A of elections-county-race-sees-only-the-town. A county seat's election counted only the played town's voters (race-places.ts basePlaces gave a local race no wider places), as if the town were the county. The rest of the county is already counted coarsely for statewide races (electorate-places.ts statePlaces, by county), so a county office's race can count it on the same engine, with the town as home.
