@@ -1,8 +1,6 @@
 ---
 id: heard-case-shared-rule
-impact: patch
-section: Changed
-title: Keep one rule for how a heard case moves a view
+impact: none
 ---
 
-The existing full-reader persuasion path now calls a shared transition, preserving its traits, repeated-speaker resistance and recorded causes. Counted delivery follows in a separate unit.
+Extract the existing heard-case stance transition while preserving full-reader behavior. The same producer calls the rule; counted delivery and its visible effects remain separate unfinished work.
