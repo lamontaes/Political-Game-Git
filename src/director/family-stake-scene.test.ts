@@ -75,8 +75,13 @@ const play = (drawSeed: string): Found | string => {
       )
       .sort((a, b) => a.id.localeCompare(b.id))
       .slice(0, 12);
+    // One filer to a household: a relative running in the same race is a
+    // rival, never someone the filer can ask for help.
+    const homes = new Set<string>();
     for (const person of town) {
       if (filings.length >= 6) break;
+      if (homes.has(person.householdId)) continue;
+      homes.add(person.householdId);
       director.watch(core, person.id);
       const result = fileCandidacy(api, {
         personId: person.id,
