@@ -2127,7 +2127,7 @@
     "id": "SG-GOV-player-emergency-offer",
     "kind": "missing-mechanic",
     "file": "src/core2/modules/executive.ts",
-    "line": 139,
+    "line": 140,
     "whatItFakes": "A governor the player plays never declares a state of emergency: the engine does not declare for them, and no office screen offers the declaration when a disaster is recorded in their state.",
     "why": "The engine never answers for the player (the desk rule); the office screen's offer is the play-first lane's (agreement 1-4).",
     "addedBy": "Lane 1 (world-governor-declares-emergency-in-play)",
