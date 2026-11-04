@@ -5,12 +5,13 @@ area: words
 kind: wiring
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane3/everyday-answers
 pr:
 blocked-on:
 lead: words
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T02:22:50.627Z
 ---
 
 **What.** Talking to people in town (src/director/conversation.ts, about 2,900 lines) is worded by its own word maker (src/english/conversation-words.ts, wordConversationMove) from its own bank (data/english/parts/conversation.json, 638 parts), beside the one scene word maker (wordSceneMove) and its bank that scenes, narration, news and the journal now share. A reply is picked from every reply the subject's bank has, not from the answers that fit the line it answers, so the owner saw a yes-or-no question ('Did you see the President's address?') answered with an acknowledgment and a turned-back question ('Oh, okay. What about you?'). The words-director plan of Oct 28 listed the copies to fold and missed this one.

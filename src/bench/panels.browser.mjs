@@ -1,4 +1,4 @@
-/* global process, console, document, getComputedStyle, URL */
+/* global process, console, document, getComputedStyle */
 // The reading screens in a real browser, on the bench (npm run bench): a new
 // life in a place drawn from all 56, on its first evening. The menu, News,
 // Politics → Government and a person's card must be solid (the scene never
@@ -6,6 +6,7 @@
 // against the panel.
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
+import { startLife } from "./start-life.mjs";
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
 });
@@ -67,20 +68,10 @@ async function sheet(tab) {
   await page.waitForTimeout(800);
 }
 try {
-  const ready = page.waitForResponse((r) => r.url().endsWith("/api/title"));
-  await page.goto(`http://localhost:${process.env.BENCH_PORT ?? 3000}/play`);
-  await ready;
-  const made = page.waitForResponse(
-    (r) => new URL(r.url()).pathname === "/api/newlife",
-    { timeout: 600000 },
-  );
-  await page.locator("#new-life").click();
-  await page.locator("#new-advanced").click();
-  await page.locator("#new-world").click();
-  console.log("Seed:", new URL((await made).url()).searchParams.get("seed"));
-  await page.waitForFunction(() =>
-    document.getElementById("card-name").textContent.trim(),
-  );
+  await startLife(page, {
+    url: `http://localhost:${process.env.BENCH_PORT ?? 3000}/play`,
+    fresh: true,
+  });
   console.log("Place:", await page.locator("#card-place").innerText());
   // A person's card: the first person in the room on the first evening.
   const figure = page.locator("#people .talkable").first();
