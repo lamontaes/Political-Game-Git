@@ -5,11 +5,12 @@ area: core
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane-5/opening-every-locality
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T00:55:53.281Z
 ---
 
 **What.** core-opening-public-coverage-conflict-bayou-blue's fix landed on main with #5899 (4541542a17): a government's recorded county-buyer coverage of a place stands for every office it runs there, so Bayou Blue, Louisiana opens. Its last Done-when clause is still unmet: a test that builds the opening for every locality in the place records whose governments carry more than one coverage row for a place, naming any that fail. The regression test (src/core2/opening-customers-county-office.test.ts) covers Bayou Blue and one drawn place. This item is that exhaustive check.
