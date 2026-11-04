@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 93 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 94 pull requests merged. Newest state at the top of each section.
 
 ## What the owner can play now
 
@@ -75,7 +75,7 @@ New on Nov 3:
   - A pool fix (#7145).
   - A state page (#7146).
 
-## Lane PRs merged on Nov 4 (58), on the owner's word ("You may merge lane PRs that pass the new-game check")
+## Lane PRs merged on Nov 4 (59), on the owner's word ("You may merge lane PRs that pass the new-game check")
 
 Each had main merged in again, passed `npm run new-game-check` (a town drawn from all 56, a new life, four weeks) and merged pinned to that head.
 
@@ -139,6 +139,7 @@ Each had main merged in again, passed `npm run new-game-check` (a town drawn fro
 | #7199 | A campaign is never silent: every month from filing to election holds a scene or a Journal line                                                  | Cerrillos Hoyos, Puerto Rico      | 37aae2649c058464 |
 | #7200 | People no longer go to a public office nobody works at                                                                                           | Washington, District of Columbia  | cb36b936901b8d09 |
 | #7201 | A release declaration on main that broke the release check everywhere is fixed (release only)                                                    | Fraser, Colorado                  | 183a975886e2f166 |
+| #7202 | Ordinary news at home no longer opens with "asks you to sit down first"                                                                          | Preston, Minnesota                | 5aee7c3dc2418614 |
 
 Conflicts resolved mechanically: #7154 (both sides added a parameter and a stopgap row; both kept), and #7153, #7157, #7160, #7162 (Lane 2's state page: main's wording for the one edited line, both sides' log entries kept). Mac builds started after 5, 13, 18, 25, 30, 35, 40, 45, 50 and 55 of these merges.
 
