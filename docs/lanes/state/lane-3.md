@@ -41,7 +41,10 @@
   **Fails:** seed 6dcbf05d1596da71, July 12 to August 8, 2025. The player's one volunteer worked July 4 and August 9; the shifts in between were the rivals' campaigns.
   **Next:** a monthly check-in from the player's own campaign records (money raised, doors, signatures; the campaign manager the manager-offer scene casts), then the PR once a slot opens.
 
-- **Found for unit 6:** the filing's Journal line reads "So I ran." on the day of filing, months before the race (path 9: no "I ran for..." months early).
+## Unit 6, early piece: the filing day in the Journal (Built, PR waits for a slot)
+
+- `play-stop-19-turning-eighteen-and-journal-silent-b` (claimed; branch `lane3/journal-filed-not-ran`). The filing day said "So I ran." months before the race. It now says what happened that day: in Murray, Nebraska (1d3f0e18ca4ba7e5), "So I filed to run for Trustee, with the election set for November 4, 2025." The journal's event facts gain a spoken `date` format and `optional` facts. `journal.test.ts` passes 18 of 18. Still open on that item: the screenshot its done-when asks for.
+- Filed for Lane 1: `campaign-finance-reports-as-records` (a campaign's periodic report as a dated record), the record the last silent month in unit 3 needs.
 
 ## Failed
 
