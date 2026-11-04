@@ -3091,6 +3091,21 @@ details.entry[open] {
   font: 13px/1.2 var(--ui);
   letter-spacing: 0.05em;
 }
+/* The paper's page arrows, at the end of the dateline (ui/newspaper.mjs). */
+.paper-pages {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: -3px 0;
+}
+.paper .paper-pages .pager-arrow {
+  min-height: 0;
+  padding: 0 8px;
+  color: var(--paper-ink);
+  background: none;
+  border: 1px solid var(--paper-rule);
+  box-shadow: none;
+}
 .paper-stories {
   display: grid;
   grid-template-columns: 1.7fr 1fr;

@@ -153,8 +153,17 @@ try {
         }
         if (process.env.MENUS_TRACE) console.log(`at ${width} ${tab}/${sub}`);
         await settled();
-        const over = await measure();
+        let over = await measure();
         checked.push(`${width}:${sub}`);
+        // A paper with more than one page: each page is read too.
+        for (let turn = 2; turn < 6 && !over.length; turn += 1) {
+          const next = page.locator(".paper-pages .pager-arrow").last();
+          if (!(await next.count()) || (await next.isDisabled())) break;
+          await next.click();
+          await settled();
+          over = await measure();
+          checked.push(`${width}:${sub}:page${turn}`);
+        }
         if (shots && !over.length && pictured.has(sub))
           await page.screenshot({ path: `${shots}/${sub}-${width}.png` });
         if (!over.length) continue;

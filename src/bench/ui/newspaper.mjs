@@ -83,6 +83,11 @@ export function newspaperScreen({
   photoOf,
 }) {
   let chosen = outlets.keys().next().value;
+  // The paper's pages: each the stories the page before could not hold
+  // (the first holds them all until the fit says otherwise); `at` is the
+  // page shown (Lane 4: never a scroll, and no story left off).
+  let pages = [null];
+  let at = 0;
   // A story the player opened: it takes the lead's place on the same page.
   let opened = null;
   const paper = el("section", { className: "paper" });
@@ -138,17 +143,75 @@ export function newspaperScreen({
       return true;
     },
   ];
-  // Drawn before the sheet mounts it, the page waits for the screen (a few
-  // frames at most), then gives way until it fits.
-  const fit = (waits = 30) =>
+  // Drawn before the sheet mounts it, the page waits for the screen (five
+  // seconds at most), then gives way until it fits.
+  const fit = (waits = 300) =>
     window.requestAnimationFrame(() => {
       if (!paper.isConnected) {
         if (waits > 0) fit(waits - 1);
         return;
       }
-      // Each step is measured as it lands (reading the layout settles it).
-      while (over() > 1 && steps.some((step) => step()));
+      // Each step is measured as it lands (reading the layout settles it);
+      // the stories the page could not hold make the next page, whose
+      // arrows in the dateline may take a little room, so it fits again.
+      const settle = () => {
+        while (over() > 1 && steps.some((step) => step()));
+        const shown = pages[at] ?? outlets.get(chosen).stories;
+        const left = [...paper.querySelectorAll(".paper-story")]
+          .filter((node) => node.hidden)
+          .map(
+            (node) =>
+              node.querySelector(".story-headline, .side-headline")
+                ?.textContent,
+          );
+        const rest = shown.filter((story) => left.includes(headlineOf(story)));
+        if (rest.length) pages[at + 1] = rest;
+        turners();
+      };
+      settle();
+      if (over() > 1) settle();
     });
+  // The page arrows in the dateline, as the shared pager words them.
+  const turners = () => {
+    const line = paper.querySelector(".paper-dateline");
+    if (!line || pages.length < 2) return;
+    line.querySelector(".paper-pages")?.remove();
+    const turn = (to) => () => {
+      at = to;
+      opened = null;
+      draw();
+    };
+    const previous = makeButton({
+      className: "pager-arrow",
+      textContent: "‹",
+      title: labels.previousPage,
+    });
+    const next = makeButton({
+      className: "pager-arrow",
+      textContent: "›",
+      title: labels.nextPage,
+    });
+    previous.setAttribute("aria-label", labels.previousPage);
+    next.setAttribute("aria-label", labels.nextPage);
+    previous.disabled = at === 0;
+    next.disabled = !pages[at + 1];
+    previous.onclick = turn(at - 1);
+    next.onclick = turn(at + 1);
+    line.append(
+      el(
+        "span",
+        { className: "paper-pages pager-controls" },
+        previous,
+        el("span", {
+          className: "pager-where",
+          textContent: labels.page
+            .replace("{page}", String(at + 1))
+            .replace("{pages}", String(pages.length)),
+        }),
+        next,
+      ),
+    );
+  };
   const imageFor = (story) => {
     const url =
       story.presentation?.imageUrl ?? story.imageUrl ?? photoOf(story);
@@ -180,6 +243,7 @@ export function newspaperScreen({
     });
     name.onclick = () => {
       opened = null;
+      at = 0;
       draw();
     };
     if (layout === "broadsheet" || layout === "weekly")
@@ -207,8 +271,9 @@ export function newspaperScreen({
     // story before a one-line notice); the rest keep their order, newest first.
     // Side stories (the words engine's `brief`): a line or two, set in a side column,
     // never opened as a story.
-    const side = outlet.stories.filter((story) => story.brief);
-    const front = outlet.stories.filter((story) => !story.brief);
+    const stories = pages[at] ?? outlet.stories;
+    const side = stories.filter((story) => story.brief);
+    const front = stories.filter((story) => !story.brief);
     const lead = front.includes(opened)
       ? opened
       : front.reduce(
@@ -327,6 +392,8 @@ export function newspaperScreen({
           onSelect: () => {
             chosen = key;
             opened = null;
+            pages = [null];
+            at = 0;
             draw();
           },
         }),
@@ -336,6 +403,9 @@ export function newspaperScreen({
   // Type that arrives late changes the page's height: it gives way again
   // (a late photo does too, from its own load).
   document.fonts?.ready.then(() => fit());
+  // The paper's own type is first asked for when the paper shows, after the
+  // page's fonts were ready: each font that arrives later fits it again.
+  document.fonts?.addEventListener?.("loadingdone", () => fit());
   return [outletPicker, paper];
 }
 
