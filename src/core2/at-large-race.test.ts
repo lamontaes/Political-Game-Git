@@ -15,12 +15,12 @@ import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
-import { ELECTIONS_MODULE_ID, type ContestRow } from "./modules/elections";
 import {
   atLargeGroup,
-  VOTING_MODULE_ID,
-  type ResultRow,
-} from "./modules/voting";
+  ELECTIONS_MODULE_ID,
+  type ContestRow,
+} from "./modules/elections";
+import { VOTING_MODULE_ID, type ResultRow } from "./modules/voting";
 import { OFFICES_MODULE_ID } from "./modules/offices";
 import { coreAPI } from "./state";
 
