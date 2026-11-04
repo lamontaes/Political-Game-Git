@@ -238,6 +238,43 @@ describe("the journal as a story from birth", () => {
         `${where}: chapter "${chapter.title}" opens on ${chapter.key}`,
       ).toBeUndefined();
     }
+    // Every line after the first follows the line before it by cause,
+    // feeling or time, citing the records that join them.
+    const lines = journal.flatMap((chapter) => chapter.lines);
+    const links = { cause: 0, feeling: 0, time: 0 };
+    lines.forEach((line, at) => {
+      if (at === 0) {
+        expect(
+          line.link,
+          `${where}: the first line links back`,
+        ).toBeUndefined();
+        return;
+      }
+      const earlier = lines[at - 1]!;
+      expect(line.link?.earlierId, `${where}: ${line.id}`).toBe(earlier.id);
+      expect(
+        line.link!.recordIds.length,
+        `${where}: ${line.id}`,
+      ).toBeGreaterThan(0);
+      if (line.link!.by === "cause")
+        // A cause names records of both lines.
+        expect(
+          line.link!.recordIds.some((rid) =>
+            earlier.sourceRecordIds.includes(rid),
+          ) &&
+            line.link!.recordIds.some((rid) =>
+              line.sourceRecordIds.includes(rid),
+            ),
+          `${where}: ${line.id} after ${earlier.id}, ${line.link!.recordIds.join(", ")}`,
+        ).toBe(true);
+      links[line.link!.by] += 1;
+    });
+    const caused = lines
+      .filter((line) => line.link?.by === "cause")
+      .slice(0, 3);
+    process.stdout.write(
+      `journal-story links: ${where}; ${lines.length} lines, ${links.cause} by cause, ${links.feeling} by feeling, ${links.time} by time; ${caused.map((line) => `"${line.text}" follows ${line.link!.earlierId} by ${line.link!.recordIds.join(" + ")}`).join("; ")}\n`,
+    );
     process.stdout.write(
       `journal-story: ${where}; ${told.length} filings or oaths of others told inside chapters (${told.map((moment) => moment.causeId).join(", ")}): ${journal.map((chapter) => chapter.title).join(" | ")}\n`,
     );
