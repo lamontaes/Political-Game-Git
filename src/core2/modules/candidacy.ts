@@ -538,6 +538,8 @@ export interface WeighedContest {
   readonly filledInIds: readonly PersonId[];
   /** The day the runners filed, once the filing window opened. */
   readonly filedOn: string | null;
+  /** In an at-large race, those already running for its other seats, in each weigher's field. */
+  readonly raceRunners?: number;
 }
 
 /** How high an office sits, for "the next seat up". */
@@ -885,6 +887,7 @@ export function weighContest(
     countedWeighed,
     filledInIds,
     filedOn: null,
+    ...(raceRunners ? { raceRunners } : {}),
   };
   api
     .moduleState(CANDIDACY_MODULE_ID)
