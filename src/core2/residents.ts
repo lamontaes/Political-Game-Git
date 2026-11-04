@@ -44,7 +44,7 @@ import {
   outsideLaborForce,
   placeNoninstitutionalQuartersShare,
 } from "./gov-rules/place-population";
-import { corePlaceByKey } from "./place-lookup";
+import { corePlaceByKey } from "./places";
 
 export const RESIDENTS_STOPGAP = "SG-CORE-residents-cadence";
 export const RESIDENTS_KIND = "residents";

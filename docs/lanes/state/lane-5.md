@@ -45,7 +45,14 @@ Every unit gets one before it starts (lane page, CTO rule). Units 1 and 2 were s
 - **Known cheats:** timing a town when the bar is a country's year; leaving a slow town out; a bigger heap than the app has.
 - **Size:** 15 to 20 hours; each cut its own PR under 400 lines. **Checked by:** a fresh session repeating the run on main.
 - The shipped app's limit, measured: Electron 38.4.0's play-server utility process has a heap limit of **4,096 MiB** (`v8.getHeapStatistics()` inside `utilityProcess.fork`, same flags as `desktop/play-api-client.mjs`; the app sets no heap flag).
-- Arcadia (0602462, seed app-heap-1, main 44f14801eb, 4,096 MiB): built in 24.9 s; year 1 145.3 s, heap 1,041 MB. Years 2 to 4 running.
+- Arcadia (0602462, seed app-heap-1, main 44f14801eb, 4,096 MiB): built 24.9 s; year 1 145.3 s, heap 1,041 MB; year 2 (election) 550.1 s, 2,483 MB, durableLog 342,693 rows; year 3 347.4 s, 2,687 MB; **year 4 ran out of memory** a few minutes in. Owner notified.
+- Cause found so far (probes in the scratchpad, Arcadia two years): the durable log goes from 7,073 rows to 224,834 in the election year, nearly all "circle" rows of people other than the player. The circle grows from 18 to 232 people, 201 of them level-0 contacts made during the campaign (`state.ts:1299` adds anyone the player has a tie with). Each member keeps a year of routine rows (median 461): drive.strengthened 42,954, speech.retold 35,029, resting 32,206, contacting someone they know 25,710, going to work 11,011. Next: bytes per table after three years (running), then a cut in `state.ts`/`decision-detail.ts` with its own card.
+
+### Red main, Nov 4 06:45 (CTO's note)
+
+- **Finish line:** deterministic validation green on main. **Proof:** each guard run locally on main, then on the fix. **Hands off:** other lanes' files; no baseline raised.
+- #7190: Lane 5's part (families: group-quarters and stopgap files shared, place population and name data shared as reference, Lane 2's two files given a family, ten counts lowered; english: a verbatim quote allowlisted). Left for Lanes 1, 3 and 4, one line each, written on their state files and the desk page.
+- Earlier today: #7181, #7182, #7183 (all merged).
 
 ### Unit 9: real save and load (waiting on Lane 3)
 
@@ -58,13 +65,13 @@ Every unit gets one before it starts (lane page, CTO rule). Units 1 and 2 were s
 
 ## Open PRs
 
-- #7183 (red main): lane state files under `docs/lanes` need no release declaration. Main's Release run failed on every state push (runs 12086, 12088, 12089, 12091).
+- #7190 (red main): Lane 5's part of the red guards.
 - #7173 skills: start-life.mjs, shallow fetches, the storage guard. Desk check passed; the CTO merges skills.
 
 ## Merged
 
 - Nov 3: #7140, #7141, #7144, #7145, #7146.
-- Nov 4: #7148, #7149, #7155, #7158, #7161, #7172 (rehire), #7176 (group quarters: Storrs 142.9 s to 93.3 s), #7177 (every-locality sweep), #7180 (eight browser checks wait for filing), #7181 (Storrs eviction case, red main), #7182 (no-dice entry for sibling names, red main).
+- Nov 4: #7148, #7149, #7155, #7158, #7161, #7172 (rehire), #7176 (group quarters: Storrs 142.9 s to 93.3 s), #7177 (every-locality sweep), #7180 (eight browser checks wait for filing), #7181 (Storrs eviction case, red main), #7182 (no-dice entry for sibling names, red main), #7183 (lane state files need no release declaration).
 
 ## Failed or blocked
 
