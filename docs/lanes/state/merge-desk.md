@@ -109,7 +109,7 @@ Mac builds (`release-package.yml` on main) were started after 8, 20, 26 and 34 m
 - **#7156** (Lane 1, someone stands at every local filing counter): check passed on head 43ecc5af28; ready to merge (Charlotte Amalie East, U.S. Virgin Islands, replay dbf56bbe0593ee17).
 - **#7157** (Lane 2, living siblings never share a first name): check passed on head a039f9d4a6 after the lane's later push; ready to merge (Sugarcreek, Ohio, replay 89a8607e7a16ea55).
 - **#7158** (Lane 5, 16 more browser checks play the opening first; stacked on #7155, merge #7155 first): check passed on head 4d6802861a; ready to merge (Morrison, Colorado, replay 4e4239ac538b9b7a).
-- **#7159** (Lane 3, conceding or refusing on the call is printed in the race's story): check passed on head 8018653f4c; ready to merge (Shorter, Alabama, replay 9315d1054e71159d).
+- **#7159** (Lane 3, conceding or refusing on the call is printed in the race's story): check passed on head 600b13b468 after the lane's later push; ready to merge (Fagamalo, American Samoa, replay 0eb00aa1659702cc).
 - **#7135** (Lane 1, press people's bills and pay, out-of-town press staff paid): the lane said it's ready; check passed on head b2ea605842; ready to merge (Rock Falls, Iowa, replay 94cea84ceb1165ed).
 - **#7160** (Lane 2, the lobbying ban for officials who leave starts on the day they actually leave): check passed on head 458985417b after the lane's later pushes; ready to merge (Kemp, Oklahoma, replay 1de74f38175dd39b).
 - **#7161** (Lane 5, test workers start with a third of the memory): check passed on head 72a8768a5e; ready to merge (Silverton, Ohio, replay ef0bb3eb9b9370c2).
