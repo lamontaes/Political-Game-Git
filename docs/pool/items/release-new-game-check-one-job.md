@@ -5,7 +5,7 @@ area: release
 kind: feature
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: lane-5/new-game-check
 pr: #7141
 blocked-on:
