@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 107 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 108 pull requests merged. Newest state at the top of each section.
 
 ## What the owner can play now
 
@@ -81,7 +81,7 @@ New on Nov 3:
   - A pool fix (#7145).
   - A state page (#7146).
 
-## Lane PRs merged on Nov 4 (72), on the owner's word ("You may merge lane PRs that pass the new-game check")
+## Lane PRs merged on Nov 4 (73), on the owner's word ("You may merge lane PRs that pass the new-game check")
 
 Each had main merged in again, passed `npm run new-game-check` (a town drawn from all 56, a new life, four weeks) and merged pinned to that head.
 
@@ -159,6 +159,7 @@ Each had main merged in again, passed `npm run new-game-check` (a town drawn fro
 | #7213 | The title screen shows the monuments in their lights; the convention and rally pictures are out                                                  | Great Falls, Virginia             | ffc343633c5a55a2 |
 | #7214 | The opening's states part names the governor and the state's chamber leaders over the state's capitol                                            | Freeburg, Missouri                | 25be6cc9f39ff981 |
 | #7215 | Officeholders weigh the time the job takes before running again, so more local seats open                                                        | Townsend, Delaware                | 463d27c505a52ea3 |
+| #7216 | Races name their district once, in words ("District 5"), never the padded code                                                                   | Callender, Iowa                   | 16438f7ac4afdb9e |
 
 Conflicts resolved mechanically: #7154 (both sides added a parameter and a stopgap row; both kept), and #7153, #7157, #7160, #7162 (Lane 2's state page: main's wording for the one edited line, both sides' log entries kept). Mac builds started after 5, 13, 18, 25, 30, 35, 40, 45, 50, 55, 60, 65 and 70 of these merges.
 
