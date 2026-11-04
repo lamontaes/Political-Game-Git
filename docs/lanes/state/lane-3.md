@@ -2,6 +2,11 @@
 
 2 of 11 paths confirmed. Oldest open PR 2 days (#7127, opened Nov 2). Open: #7127, #7228 (its commits merged with #7236).
 
+**Ready for the Confirmer (Nov 4, on main):**
+- **Path 9, the Journal is a story (Haleyville, two years):** chapters only on your own turns (#7195), each line joined to the one before by cause or time (#7228 and #7236), and another person's step told through your tie (#7240). The first paper prints only fresh news (#7188).
+- **Path 6, again in Storrs (storrs-1):** the race story (#7223), your own loss in the Journal (#7226), and the father named for his doors (#7245) hold. The concession still waits on Lane 4's bench.
+- **Path 11, first term (seated):** a neighbor who testified comes to you (#7218), a law scene says what it cost your household (#7211), the chamber and office pictures (#7207), and the night you win plays (#7258).
+
 **Nov 4, afternoon (all merged):** #7245 (the Journal names who walked doors for you), #7255 (owed-talk reply facts; Lane 2 can build `people-owed-talk-record`), #7258 (the night you win plays: the runner-up is the opponent; Bay Springs, Mississippi, seed e38d8df3bf438bc3:5). **Waiting producers (plan line 6):** only `separated` and `election-day` have a core event. `separated` is wired on `lane3/separated-producer`, but in-town couples never part yet (`SG-LIVES-partner-town`), so it stays a branch. Notes are on `engine-records-for-waiting-life-scenes`.
 
 
