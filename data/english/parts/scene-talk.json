@@ -3476,7 +3476,8 @@
           "move": "ask",
           "role": "asker",
           "purpose": "press-comment",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["vote-held"]
         }
       ],
       "bearing": "curious",
@@ -59890,6 +59891,182 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-roll-on-bill-is-recorded-name-from-outlet-catches-you-before-you-r",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The roll on {bill} is recorded. {name} from {outlet} catches you before you reach the stairs.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["vote-held"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (scene-reporter-calls-on-a-vote)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-clerk-reads-out-the-tally-on-bill-by-the-time-you-stand-name-of-ou",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The clerk reads out the tally on {bill}. By the time you stand, {name} of {outlet} has a pen out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["vote-held"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (scene-reporter-calls-on-a-vote)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.you-voted-for-bill-what-should-people-know-about-why",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "You voted for {bill}. What should people know about why?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["vote-held", "voted-yes"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (scene-reporter-calls-on-a-vote)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.bill-will-be-in-the-paper-you-voted-for-it-why",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "{bill} will be in the paper. You voted for it. Why?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["vote-held", "voted-yes"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (scene-reporter-calls-on-a-vote)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.you-voted-against-bill-what-should-people-know-about-why",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "You voted against {bill}. What should people know about why?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["vote-held", "voted-no"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (scene-reporter-calls-on-a-vote)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.bill-will-be-in-the-paper-you-voted-against-it-why",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "{bill} will be in the paper. You voted against it. Why?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["vote-held", "voted-no"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (scene-reporter-calls-on-a-vote)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.the-roll-on-bill-doesn-t-show-you-on-either-side-why-not",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "The roll on {bill} doesn't show you on either side. Why not?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment",
+          "key": "routine",
+          "requiresFacts": ["vote-held"],
+          "excludesFacts": ["voted-yes", "voted-no"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (scene-reporter-calls-on-a-vote)",
+      "date": "2026-11-04",
       "tag": {
         "move": "ask",
         "key": "routine"
