@@ -140,9 +140,12 @@ it(`a housemate's swearing-in is told as theirs, seed ${seed}`, () => {
               .filter((name): name is string => !!name)
               .map(capital);
             const inJournal = `${said} in ${id}'s journal`;
-            expect(line.text, inJournal).not.toMatch(/^(I|We)\b/);
+            // The line as the event tells it, before any words joining it
+            // to the line before ("Because of that, my father ...").
+            const plain = line.plain ?? line.text;
+            expect(plain, inJournal).not.toMatch(/^(I|We)\b/);
             expect(
-              names.some((name) => line.text.startsWith(name)),
+              names.some((name) => plain.startsWith(name)),
               `${inJournal}: "${line.text}" opens on none of ${names.join(", ")}`,
             ).toBe(true);
             expect(line.text, inJournal).toContain(record.office);

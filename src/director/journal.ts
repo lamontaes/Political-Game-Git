@@ -82,6 +82,8 @@ export interface JournalLine {
   revises?: readonly string[];
   /** How this line follows the one told before it; the first line has none. */
   link?: JournalLink;
+  /** The line as the event tells it, before the words joining it to the line before ("Because of that, ..."). */
+  plain?: string;
 }
 
 /**
@@ -1650,6 +1652,7 @@ export function composeJournal(
     );
     if (!frame) continue;
     const joined = framedByAge(frame, line, facts);
+    line.plain = line.text;
     line.text = joined.text;
     line.sourceRecordIds = joined.sourceRecordIds;
   }

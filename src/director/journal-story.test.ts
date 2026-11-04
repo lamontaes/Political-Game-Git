@@ -242,6 +242,7 @@ describe("the journal as a story from birth", () => {
     // feeling or time, citing the records that join them.
     const lines = journal.flatMap((chapter) => chapter.lines);
     const links = { cause: 0, feeling: 0, time: 0 };
+    const joined: string[] = [];
     lines.forEach((line, at) => {
       if (at === 0) {
         expect(
@@ -267,13 +268,31 @@ describe("the journal as a story from birth", () => {
             ),
           `${where}: ${line.id} after ${earlier.id}, ${line.link!.recordIds.join(", ")}`,
         ).toBe(true);
+      // A line opens on how it follows the one before only for a cause or a
+      // month or more ("Because of that, ...", "Three months later, ...");
+      // the rest of the line is the event as told.
+      if (line.plain !== undefined) {
+        expect(["cause", "time"], `${where}: ${line.text}`).toContain(
+          line.link!.by,
+        );
+        expect(
+          line.text.toLowerCase().endsWith(line.plain.toLowerCase()),
+          `${where}: "${line.text}" ends on "${line.plain}"`,
+        ).toBe(true);
+        joined.push(line.text);
+      }
       links[line.link!.by] += 1;
     });
     const caused = lines
       .filter((line) => line.link?.by === "cause")
       .slice(0, 3);
     process.stdout.write(
-      `journal-story links: ${where}; ${lines.length} lines, ${links.cause} by cause, ${links.feeling} by feeling, ${links.time} by time; ${caused.map((line) => `"${line.text}" follows ${line.link!.earlierId} by ${line.link!.recordIds.join(" + ")}`).join("; ")}\n`,
+      `journal-story links: ${where}; ${lines.length} lines, ${links.cause} by cause, ${links.feeling} by feeling, ${links.time} by time; joined: ${joined
+        .slice(0, 4)
+        .map((text) => `"${text}"`)
+        .join(
+          " ",
+        )}; ${caused.map((line) => `"${line.text}" follows ${line.link!.earlierId} by ${line.link!.recordIds.join(" + ")}`).join("; ")}\n`,
     );
     process.stdout.write(
       `journal-story: ${where}; ${told.length} filings or oaths of others told inside chapters (${told.map((moment) => moment.causeId).join(", ")}): ${journal.map((chapter) => chapter.title).join(" | ")}\n`,
