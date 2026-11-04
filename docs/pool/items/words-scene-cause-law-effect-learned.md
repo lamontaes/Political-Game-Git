@@ -5,11 +5,12 @@ area: words
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane3/law-effect-scene
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T08:24:54.755Z
 ---
 
 **What.** When a resident ties a price change to a law from a story they heard, the director stages a law-takes-effect scene at home (the laws end-to-end proof, Susupe, Northern Mariana Islands, seed 4a4e3819bc34b9d1e26d8413, moment person_4c22f729ef7c5a6f:2025-02-03:event:law.effect-learned:...). With the scene bank's ungraded pieces let in, it says only the day, the setting and 'A law that reaches you has taken effect.' src/director/data/scene-rows.json has no cause row for the moment's label (cause:event:law.effect-learned), so the scene never says which law it was or that the household now pays more or less. The event's facts already hold the law's bill (billId), the price rule and the amount moved (movedMinor).
