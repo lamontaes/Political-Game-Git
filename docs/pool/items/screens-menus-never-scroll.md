@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: lane-4/menus
-pr:
+pr: #7231
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-04T09:44:51.986Z
