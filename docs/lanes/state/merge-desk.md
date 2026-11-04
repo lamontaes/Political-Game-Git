@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 80 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 82 pull requests merged. Newest state at the top of each section.
 
 ## What the owner can play now
 
@@ -18,6 +18,7 @@ New on Nov 4, from the lanes:
 - **Governing.**
   - As mayor, you can sign one ordinance and veto another at your desk.
   - Your office remembers where colleagues stand on your bill.
+  - After you vote, a reporter asks why, and the paper quotes you or says you wouldn't comment.
   - A bill's sponsor asks you only about bills that will reach the floor.
   - Governors declare a state of emergency when a federally declared disaster strikes.
 - **Campaign and election night.**
@@ -70,7 +71,7 @@ New on Nov 3:
   - A pool fix (#7145).
   - A state page (#7146).
 
-## Lane PRs merged on Nov 4 (45), on the owner's word ("You may merge lane PRs that pass the new-game check")
+## Lane PRs merged on Nov 4 (47), on the owner's word ("You may merge lane PRs that pass the new-game check")
 
 Each had main merged in again, passed `npm run new-game-check` (a town drawn from all 56, a new life, four weeks) and merged pinned to that head.
 
@@ -121,6 +122,8 @@ Each had main merged in again, passed `npm run new-game-check` (a town drawn fro
 | #7189 | Homes exist before the first new-game card and room                                                                       | Si'ufaga, American Samoa          | 3a2fd883d5e9053f |
 | #7103 | On your first filing, the clerk asks if you've run a campaign and walks a newcomer through it                             | Rehobeth, Alabama                 | aa7b08dae2200c3e |
 | #7090 | A person's card tells their life as a short story, with lines under the name                                              | Sardis, Mississippi               | 31403e15b8341f2f |
+| #7190 | Lane 5's part of the red guards on main (the families and English guards; guards only)                                    | Wilroads Gardens, Kansas          | 56017b096bed5ef5 |
+| #7191 | After you vote, a reporter asks why, and the vote's story quotes you or says you wouldn't comment                         | Tryon, Oklahoma                   | 181fe7677c869c88 |
 
 Conflicts resolved mechanically: #7154 (both sides added a parameter and a stopgap row; both kept), and #7153, #7157, #7160, #7162 (Lane 2's state page: main's wording for the one edited line, both sides' log entries kept). Mac builds started after 5, 13, 18, 25, 30, 35, 40 and 45 of these merges.
 

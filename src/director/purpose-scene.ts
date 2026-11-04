@@ -79,11 +79,11 @@ import {
   outletsHere,
   PRESS_MODULE_ID,
   townOutlet,
+  PRESS_STORY_EVENT,
 } from "../core2/modules/press";
 import { closenessBetween } from "../core2/closeness";
 import { stakeOf } from "./family-stake";
 import { properName, spoken, spokenDate } from "./words";
-import { PRESS_STORY_EVENT } from "../core2/press-desk";
 import { giveInauguralAddress, inauguralStand } from "./inaugural-address";
 import {
   ADDRESS_KEEPS,
@@ -482,6 +482,23 @@ function composeBinding(
       text: said.number ?? "",
       sourceRecordIds: [moment.causeId, said.billId ?? moment.causeId],
     };
+  // A vote the asked person sat for (legislature.ts): the lines asked after
+  // a vote need it, and which side they took, from their own vote record; a
+  // member the roll shows on neither side has no side.
+  if (record?.kind === "legislative-vote") {
+    facts["vote-held"] = {
+      text: said.number ?? "",
+      sourceRecordIds: [moment.causeId],
+    };
+    const ownId = `office.voted:${said.billId ?? ""}:${askedId}`;
+    const own = core.durableLog.get(ownId)?.facts?.vote;
+    // The side is in the fact's name, so the bank's lines say it in words.
+    if (own === "yes" || own === "no")
+      facts[`voted-${own}`] = {
+        text: said.number ?? "",
+        sourceRecordIds: [moment.causeId, ownId],
+      };
+  }
   // A reporter cast for a record that names no outlet speaks for the outlet
   // that employs them, by its record.
   if (!facts.outlet && !said.outletId && core.modules.has(PRESS_MODULE_ID)) {
@@ -564,7 +581,7 @@ function composeBinding(
   const tieId =
     askerId < askedId ? `${askerId}:${askedId}` : `${askedId}:${askerId}`;
   const tie = core.relationships.get(tieId);
-  const quarrel = (tie?.latestChange?.requestedChange ?? 0) < 0;
+  const quarrel = (tie?.latestChange?.requestedChange ?? P.zero) < P.zero;
   if (tie && quarrel)
     facts["tie-rival"] = { text: asker.givenName, sourceRecordIds: [tieId] };
   else if (

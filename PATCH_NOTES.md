@@ -296,6 +296,69 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.78.0
+
+_Released November 4, 2026._
+
+### Added
+
+- **The clerk walks you through running a campaign** The first time you file,
+  the clerk tells you the signatures and the day they are due, then asks whether
+  you have run a campaign before. Say no and the clerk walks you through it: the
+  signatures and how to gather them (doors, a table where people shop, friends
+  carrying a sheet), money and what it buys (mailers, a poll, ads in the town's
+  own paper), and the press. Say you have and the clerk lets you go. After
+  filing, the status reads "Collecting signatures".
+
+- **What you tell a reporter, or that you declined, is in the paper's story.**
+  When a reporter asks you about something you did, such as a bill you just
+  introduced, your answer now goes into the paper's story of it ('Connie
+  Gallagher told reporters: "People who work two jobs and still come up short.
+  It's written for them."'). If you refuse or walk off, the story says so
+  ("Timothy McKay declined to comment."). The reporter's scene about a newly
+  introduced bill now plays: it names the reporter's own outlet and opens on the
+  bill.
+
+### Improved
+
+- **A person's card tells their life as a short story** A person's card tells
+  their life as a short story: the first sentence names them, the rest use their
+  pronouns, and your own card speaks to you. A run of terms in one office is one
+  sentence ("won election as state representative, and won every race for the
+  seat after that"). Two or three lines under the name say who they are now and
+  where they come from. The seat's "since" year, the public record and those
+  lines all date the seat from the first term the story tells.
+
+### Fixed
+
+- **Homes are ready on the first New Game screen** New Game creates household
+  dwelling records before the first person card and room read them. The existing
+  housing initializer now runs during opening setup and remains safe to call
+  again, so the first screen uses the same home and contract records as later
+  housing payments.
+
+- **The night's paper prints only news that is still news on its date; older
+  stories stay in the News archive.** The first paper used to run votes and
+  races from months before its date as if they were today's news. Now the paper
+  prints only stories from the last 30 days, the window the news engine itself
+  uses. What you heard earlier is still listed in News.
+
+- **The talk at home after a lost race no longer opens by saying who is
+  waiting.** When a relative who worked your campaign talks with you after a
+  loss, the opening now says what they did ("Dana worked this campaign beside
+  you.") instead of only saying they are there, which the screen already shows.
+
+### Changed
+
+- **A friend and a rival say different things on the call after the count.** The
+  calls after an election now depend on how the two people stand. A friend who
+  won takes your concession warmly ("Hey. You did everything right, you know.
+  Some years it just goes the other way."). Someone you last quarreled with
+  doesn't ("I didn't think you'd call. I'll take it."). The same holds when a
+  runner-up calls you after you win. The tie comes from your record together: a
+  friend is someone you're closer to than not, and a rival is someone your last
+  contact was a quarrel with.
+
 ## PRE-ALPHA 0.77.0
 
 _Released November 4, 2026._
