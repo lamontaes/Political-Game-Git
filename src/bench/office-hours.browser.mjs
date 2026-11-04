@@ -57,14 +57,17 @@ try {
       "#talk-leave:visible, #talk-next:visible, #talk-skip:visible, #continue:visible";
     // Election morning: not today, then stay home (no ballot is cast).
     const morning = ["Not today", "Stay home", "Continue"];
-    for (
-      let i = 0;
-      i < 12 &&
-      (await page
-        .locator("#talk:visible, #continue:visible, #election-day:visible")
-        .count());
-      i += 1
-    ) {
+    // Open now, or within a few seconds (a panel can follow the scene that
+    // just closed, as an election morning does).
+    const holding = "#talk:visible, #continue:visible, #election-day:visible";
+    const open = () =>
+      page
+        .locator(holding)
+        .first()
+        .waitFor({ timeout: 3000 })
+        .then(() => true)
+        .catch(() => false);
+    for (let i = 0; i < 20 && (await open()); i += 1) {
       const day = page.locator("#election-day-acts button:visible");
       // The morning's choices come after its narration.
       if (await page.locator("#election-day:visible").count())
@@ -93,6 +96,7 @@ try {
   // jump there, so it is left and the jump taken again.
   const jump = process.env.BENCH_JUMP;
   for (let tries = 0; jump && tries < 40; tries += 1) {
+    await leaveScenes();
     await page.locator('.ring[data-tab="calendar"]').click();
     await page.locator("#sheet-body .calendar-month").waitFor();
     for (
@@ -106,6 +110,11 @@ try {
     if (!(await page.locator(".go-to-day").count())) {
       await page.getByTestId("sheet-close").click();
       break;
+    }
+    // Nothing may hold the screen when the day is chosen.
+    if (await page.locator("#election-day:visible, #talk:visible").count()) {
+      await page.getByTestId("sheet-close").click();
+      continue;
     }
     await page.locator(".go-to-day").click();
     const moved = await page.waitForResponse(
