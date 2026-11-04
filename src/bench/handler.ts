@@ -33,6 +33,7 @@ import type { SpeechBuild } from "../director/speech-builder";
 import { storyReply, storyScene } from "./story";
 import { economyView, worldPanels } from "./economy";
 import { electionResults, ownRace } from "./results";
+import { loadingStory, type LoadingStory } from "./loading";
 import {
   canvassedLine,
   electionDay,
@@ -163,6 +164,8 @@ function sceneNow(current: CoreState, id: string) {
 /** The speech the player is building, one part at a time. */
 let speechBuild: SpeechBuild | undefined;
 // Where the build is, for the loading screen's polls.
+/** What the loading screen plays, from the world being built (loading.ts). */
+let loadingPeek: LoadingStory | null = null;
 let buildProgress: { stage: string; done: number; total: number } = {
   stage: "done",
   done: 0,
@@ -302,6 +305,7 @@ export async function benchRequest(
           // The whole town, two-level (OPUS-CORE): full people for the
           // player's circle and officials, counts for everyone else.
           buildProgress = { stage: "people", done: 0, total: 0 };
+          loadingPeek = null;
           // The person chosen in the creator, read before the build: the
           // player is the resident born nearest the chosen birthday.
           const chosen = url.searchParams.get("person")
@@ -313,6 +317,9 @@ export async function benchRequest(
             gameStartDate(),
             {
               twoLevel: true,
+              onWorld: (built, id) => {
+                if (id) loadingPeek = loadingStory(built, id);
+              },
               ...(chosen
                 ? {
                     playerBirthDate: chosenBirthDate(chosen),
@@ -340,6 +347,10 @@ export async function benchRequest(
           // The person chosen in the creator becomes the player.
           if (chosen) applyChosenPerson(world.core, entrant.personId, chosen);
           player.select(entrant.personId);
+          // Between the drawing steps the server answers the loading
+          // screen, which plays the world's story meanwhile (loading.ts).
+          const breathe = () => new Promise((resolve) => setImmediate(resolve));
+          await breathe();
           // The opening is prepared during loading; its whole figures are files.
           opening = world.director.ledger.opening
             ? openingFrames(
@@ -351,8 +362,11 @@ export async function benchRequest(
           // The first screen's people and the faces the first menus show
           // (the player's card: household and closest ties) are drawn during
           // loading too, so they are there the moment the screen asks.
+          await breathe();
           sceneNow(world.core, entrant.personId);
+          await breathe();
           personCard(world.core, entrant.personId);
+          await breathe();
           drawAheadNow();
           buildProgress = { stage: "done", done: 0, total: 0 };
           // A scene the director already staged for today (the address the
@@ -768,7 +782,12 @@ export async function benchRequest(
         request.method === "GET" &&
         url.pathname === "/api/newlife/progress"
       ) {
-        send(200, buildProgress);
+        send(200, { ...buildProgress, story: loadingPeek !== null });
+        return;
+      }
+      // The loading screen's story, once the world exists (loading.ts).
+      if (request.method === "GET" && url.pathname === "/api/newlife/story") {
+        send(200, loadingPeek);
         return;
       }
       // The player's interrupt setting (owner, Oct 14, 2026): which kinds of
