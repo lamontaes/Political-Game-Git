@@ -5,12 +5,13 @@ area: elections
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: governing/filing-window-opens
 pr:
 blocked-on:
 source: words session, Oct 30 (campaign-season test red), filed by the governing lead
 lead: governing
+claimed-at: 2026-11-04T02:52:27.205Z
 ---
 
 **What.** Most regular contests carry filingOpens null, which the filing check reads as open from the game's first day, so a November 2026 race can be filed for 22 months early and its campaign beats spread over a year with nothing in them. The words session's campaign-season test is red on seeds aa11 and bb22 because of it: Whittlesey WI files for governor on January 20, 2025. Real candidate filing opens in a window weeks or months before the deadline.
