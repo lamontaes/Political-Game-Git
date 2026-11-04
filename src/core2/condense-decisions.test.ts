@@ -158,8 +158,19 @@ describe(`old reasons condense in ${place.name}, ${place.state} (seed ${seed})`,
     );
     // A circle member's weighed choice is forgotten, not condensed.
     gone(weighed);
-    for (const row of entries)
+    // Entries younger than circleActRetentionMonths stay; any the played
+    // days already carried past it are gone (the window can be shorter than
+    // the 120 days played).
+    const windowStart = new Date(`${core.date}T00:00:00Z`);
+    windowStart.setUTCMonth(
+      windowStart.getUTCMonth() - parameter("circleActRetentionMonths"),
+    );
+    const cutoff = windowStart.toISOString().slice(0, 10);
+    const young = entries.filter((row) => row.date >= cutoff);
+    expect(young.length, "circle entries inside the window").toBeGreaterThan(0);
+    for (const row of young)
       expect(core.durableLog.has(row.id), row.id).toBe(true);
+    gone(entries.filter((row) => row.date < cutoff));
     // The player's own weighed choices keep every option's score for a year.
     for (const row of ownWeighed)
       expect(core.durableLog.get(row.id)?.decision?.scores, row.id).toEqual(

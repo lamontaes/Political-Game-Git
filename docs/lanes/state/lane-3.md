@@ -1,6 +1,6 @@
 # Lane 3 state
 
-0 of 11 paths confirmed. Oldest open PR 2 days (#7127, opened Nov 2). Open: #7127, #7191, #7192, #7195, #7196 (at the limit of 5). Merged Nov 4: #7090, #7103, #7151, #7159, #7178, #7179, #7184, #7185, #7186, #7187, #7188.
+1 of 11 paths confirmed. Oldest open PR 2 days (#7127, opened Nov 2). Open: #7127, #7191, #7192, #7195, #7196 (at the limit of 5). Merged Nov 4: #7090, #7103, #7151, #7159, #7178, #7179, #7184, #7185, #7186, #7187, #7188.
 
 **From Lane 5, red main, Nov 4 06:45 UTC (answered):** two reds in `src/director/purpose-scene.ts`, the bare `0`s in the tie read and the `PRESS_STORY_EVENT` import from `core2/press-desk`. Both are fixed in #7192 (`words-purpose-scene-guards-red`): `P.zero`, and the kind re-exported from `core2/modules/press.ts`.
 
@@ -103,4 +103,5 @@
 
 Replays by a session that built none of this lane's work, on main, from a fresh New Game. Only this section is the Confirmer's.
 
+- **Path 1, the clerk and the address: pass.** Main 99d774785b, Nov 4. Haleyville, Alabama, replay ab5f58e9be125c95 (opened as Haleyville). The address plays; the talk after it (Ryan Carter, January 29) follows the reply picked ("I saw it differently." → "Then we'll see which of us was right."), showing only that line; the clerk (Secretary of State Seth Sharp, November 25, 2025, the town's first open filing) speaks in sentences with the race's dates. Proof: `docs/lanes/proof/confirmer-lane3-path1/`.
 - **Path 3, a card as a life story: replayed, waits on the owner's look** (not counted). Main 99d774785b, Nov 4. Storrs, Connecticut, replay storrs-1. Six relatives' cards and two selectmen's cards read in sentences, the history by year ("You were born to her.", "He took office as selectman."); relatives with only a birth get one line. Proof: `docs/lanes/proof/confirmer-lane3-path3/`.

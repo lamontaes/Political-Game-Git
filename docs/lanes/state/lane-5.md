@@ -1,6 +1,6 @@
 # Lane 5 state
 
-0 of 12 played paths confirmed. Oldest open PR 0 days (#7173, Nov 4).
+1 of 12 played paths confirmed. Oldest open PR 0 days (#7173, Nov 4).
 
 ## Unit cards
 
@@ -65,6 +65,16 @@ Every unit gets one before it starts (lane page, CTO rule). Units 1 and 2 were s
 - **Size:** one parameter row and its citation, under 20 lines. **Checked by:** a fresh session repeating the four-year run at 4,096 MiB on main after merge.
 - Next, its own card: `knowledgeByPerson` (338 MB).
 
+- **Result (#7198, merged):** at 4,096 MiB on 2088f4e82f, year 2 2,483 to 2,191 MB and 550.1 to 504.6 s (log 342,693 to 117,751 rows); year 3 2,687 to 2,436 MB and 347.4 to 277.0 s; year 4 still out of memory, about 11 minutes in instead of 6.
+
+### Unit 7, step: the bare "I lived through it" keys (started Nov 4 07:35)
+
+- **Finish line:** as the step above: Arcadia's fourth year at 4,096 MiB, or the next table named.
+- **Measured (probe, Arcadia, two years):** `knowledgeByPerson` holds 722,306 keys after the election year (174,375 after year 1). Among the largest: event keys for speeches, campaign messages, shared causes and drive changes (about 140,000), heard promises (59,157 `promise:official:term:seat`), people met and named (106,000).
+- **The cut:** `experiencedKeyRetentionDays` from 90 to 30, the low end of its declared spread. Its citation names its only readers: the same-day appraisal and a drive's update; a key a held drive cites is kept anyway (`knowledge-retention.ts`). The event's own facts and the player's keys stay.
+- **Hands off / known cheats / checked by:** as the step above.
+- **Size:** one parameter row, under 20 lines.
+
 ### Unit 9: real save and load (waiting on Lane 3)
 
 - **Finish line (path 6):** play two months, quit, reopen: Continue returns the same date and people, and the load doesn't grow with played years.
@@ -76,12 +86,12 @@ Every unit gets one before it starts (lane page, CTO rule). Units 1 and 2 were s
 
 ## Open PRs
 
-- None (#7190 and #7173 merged).
+- None (#7198 merged).
 
 ## Merged
 
 - Nov 3: #7140, #7141, #7144, #7145, #7146.
-- Nov 4: #7148, #7149, #7155, #7158, #7161, #7172 (rehire), #7176 (group quarters: Storrs 142.9 s to 93.3 s), #7177 (every-locality sweep), #7180 (eight browser checks wait for filing), #7181 (Storrs eviction case, red main), #7182 (no-dice entry for sibling names, red main), #7183 (lane state files need no release declaration), #7190 (Lane 5's part of the red guards), #7173 (skills).
+- Nov 4: #7148, #7149, #7155, #7158, #7161, #7172 (rehire), #7176 (group quarters: Storrs 142.9 s to 93.3 s), #7177 (every-locality sweep), #7180 (eight browser checks wait for filing), #7181 (Storrs eviction case, red main), #7182 (no-dice entry for sibling names, red main), #7183 (lane state files need no release declaration), #7190 (Lane 5's part of the red guards), #7173 (skills), #7198 (a met-once contact's log kept three months).
 
 ## Failed or blocked
 
@@ -105,4 +115,5 @@ Every unit gets one before it starts (lane page, CTO rule). Units 1 and 2 were s
 
 Replays by a session that built none of this lane's work, on main. Only this section is the Confirmer's.
 
+- **Path 2, a year doesn't stop: pass.** Main c60a509956, Nov 4. `speed:year --years 3` (January 2025 to January 2028): Madras, Oregon (4145250, seed confirmer-madras-1) 116.9, 307.4 and 329.6 s, past May 11, 2026; Bloomingdale, Tennessee (4706640, seed confirmer-bloomingdale-1) 105.4, 165.0 and 141.5 s. Both exit 0, nothing on stderr. Proof: `docs/lanes/proof/confirmer-lane5-path2/`.
 - **Path 12, merges don't collide: fail.** Nov 4, main 99d774785b. Step: the new-game check the only required one. `gh api repos/lamontaes/Political-Game-Git/branches/main/protection` lists the required checks as `validate` and `golden-path`; the `new game` job (#7141) is not among them, and every push to main prints "2 of 2 required status checks are expected". The two-PR merge half was not replayed (it needs two PRs merged, which the Confirmer doesn't do). Filed `release-main-requires-only-new-game-check` (a branch setting, the owner's one click per the merge desk page). Fail 1 of 3.
