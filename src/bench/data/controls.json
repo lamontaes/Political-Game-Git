@@ -407,7 +407,10 @@
     "talk": "Talk"
   },
   "news": {
-    "title": "News"
+    "title": "News",
+    "page": "Page {page} of {pages}",
+    "previousPage": "Previous page",
+    "nextPage": "Next page"
   },
   "jobs": {
     "work": "Work",

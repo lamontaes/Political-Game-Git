@@ -324,6 +324,8 @@ export type JournalMove =
       kindPrefix: string;
       whose: "own" | "other";
       together?: boolean;
+      /** The person's own line, with the other known by name: a line that names them is told first. */
+      named?: boolean;
     }
   | { part: "check"; kindPrefix: string }
   | { part: "race"; kindPrefix: string }
@@ -371,6 +373,19 @@ const fitsGender = (text: string, gender: string | undefined) => {
 const namesTheOther = (wording: Wording) =>
   /\{(?:other|named|relation)\}/.test(wording.text);
 
+/**
+ * The person's own lines, with the other known by name: those that name them
+ * ("My father walked 33 doors for me."), when the row has any, over those
+ * that name no one ("Someone from my campaign walked 33 doors for me.").
+ */
+function namedFirst(
+  rows: readonly Wording[] | undefined,
+  named: boolean | undefined,
+): readonly Wording[] | undefined {
+  const naming = named ? rows?.filter(namesTheOther) : undefined;
+  return naming?.length ? naming : rows;
+}
+
 function wordingsFor(
   words: JournalWords,
   move: JournalMove,
@@ -386,7 +401,7 @@ function wordingsFor(
           move.whose === "own"
             ? move.together
               ? (row?.groupLine ?? row?.line)
-              : row?.line
+              : namedFirst(row?.line, move.named)
             : (row?.otherLine ?? row?.line?.filter(namesTheOther)),
       };
     }

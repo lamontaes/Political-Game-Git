@@ -5466,7 +5466,8 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
       const at =
         p.stage === "done" ? STEPS.length : Math.max(STEPS.indexOf(p.stage), 0);
       const within = p.total ? p.done / p.total : 0;
-      bar.style.width = `${Math.round(((at + within) / (STEPS.length + 1)) * 100)}%`;
+      // Full when the build says it is done ("Ready"), never before.
+      bar.style.width = `${Math.round((Math.min(at + within, STEPS.length) / STEPS.length) * 100)}%`;
       $("front-status").textContent =
         `${controls.loading?.[p.stage] ?? ""}${p.total ? ` ${p.done} / ${p.total}` : ""}`;
     }, 400);
