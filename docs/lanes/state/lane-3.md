@@ -151,6 +151,7 @@ Replays by a session that built none of this lane's work, on main, from a fresh 
   - 10, the paper prints the town: `play-local-layoffs-on-screen`, `play-home-sales-on-screen`, `play-town-paper-on-screen` open.
   - 11, first term: `words-swearing-in-scene-and-speech`, `words-director-one-path`, `engine-records-for-waiting-life-scenes` open.
 - **Checked against #7270** (at-large votes weighed once, after the last replays): it changes how pooled seats are counted; no recorded step reads it (the scenes each month, the clerk's lines, the cards, the concession).
+- **Units (merged PRs' own tests on main fa89daee38, stopped part way by the owner's Nov 4 stop; a unit never moves the count).** Pass: #7272, #7268, #7266, #7261, #7260, #7258, #7255, #7245. Fail on fresh draws: #7271, `electoral-scenes.test.ts` in Sunburst, Montana (seed 8454999970426872c0ba9c8fe68c8d399b9a7fc6): a listener not in the speech's crowd; #7267, `talk-move-pairs.test.ts` in Philadelphia, Mississippi (seed 9e86bef353075255): no talk offered replies of two moves; #7240, a Journal line in Prosperity, South Carolina (seed ccd76fd08244c993) cites a work relationship the test rejects ("my partner Cynthia works as a caseworker"). Not filed (stopped). The rest were not run.
 
 ## From the Confirmer's notes
 

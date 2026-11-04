@@ -162,3 +162,4 @@ Replays by a session that built none of this lane's work, on main. Only this sec
   - 10, a build ships: `release-audit-07-08-duplicate-pool-and-owner-notes` open, `release-m7-04-updates-and-bug-reports` blocked.
   - 11, the record is true: five items of unit 2 open.
   - Paths 1, 2, 3 and 12 have results above (3 was run though unit 7 is open).
+- **Units (merged PRs' own tests on main fa89daee38, stopped part way by the owner's Nov 4 stop; a unit never moves the count).** Pass: #7252, #7247. The rest were not run.
