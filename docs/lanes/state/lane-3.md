@@ -1,6 +1,6 @@
 # Lane 3 state
 
-0 of 11 paths confirmed. Oldest open PR 2 days (#7127, opened Nov 2). Open: #7127, #7191, #7192, #7195, #7196 (at the limit of 5). Merged Nov 4: #7090, #7103, #7151, #7159, #7178, #7179, #7184, #7185, #7186, #7187, #7188.
+1 of 11 paths confirmed. Oldest open PR 2 days (#7127, opened Nov 2). Open: #7127, #7191, #7192, #7195, #7196 (at the limit of 5). Merged Nov 4: #7090, #7103, #7151, #7159, #7178, #7179, #7184, #7185, #7186, #7187, #7188.
 
 **From Lane 5, red main, Nov 4 06:45 UTC (answered):** two reds in `src/director/purpose-scene.ts`, the bare `0`s in the tie read and the `PRESS_STORY_EVENT` import from `core2/press-desk`. Both are fixed in #7192 (`words-purpose-scene-guards-red`): `P.zero`, and the kind re-exported from `core2/modules/press.ts`.
 
