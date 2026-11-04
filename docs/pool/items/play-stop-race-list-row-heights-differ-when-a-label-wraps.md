@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: lane-4/race-row-heights
-pr:
+pr: #7203
 blocked-on:
 source: Merger 7, Oct 27 (gating #6350)
 lead: play-first
