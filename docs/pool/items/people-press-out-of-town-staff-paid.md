@@ -5,9 +5,9 @@ area: people
 kind: bug
 priority: 2
 size: M
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #7135
 blocked-on:
 after: people-press-staff-households
 source: governing lead, Nov 2 (found building people-press-staff-households: unpaid out-of-town press people run out of money)

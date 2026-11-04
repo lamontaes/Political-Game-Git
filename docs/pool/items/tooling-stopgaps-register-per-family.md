@@ -6,12 +6,13 @@ lead: fixer
 kind: cleanup
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: lane-5/stopgaps-per-family
+pr: #7144
 after:
 blocked-on:
 source: "owner, Oct 28 20:20 UTC ruling ('The stopgap register is being split into per-family files to end those collisions'); asked for twice by the old-engine session and never filed (CTO, Oct 29)"
+claimed-at: 2026-11-03T21:58:58.327Z
 ---
 
 **What.** Every registered stopgap lives in one file, `src/core2/data/stopgaps.json` (627 entries, about 7,600 lines), so any two PRs that each register or resolve a stopgap conflict on it, and the family-batch PRs of Oct 28 spent hours merging main into each other over it. The owner's Oct 28 ruling records the split as under way, but nobody built it. Split the register into one file per family under `src/core2/data/stopgaps/` (by the entry's id prefix or its `file` folder: laws, elections, people, office, world, play and so on), keep the entry shape exactly as it is, and make `src/core2/stopgaps.ts` the one reader that loads the folder; every other reader (the tripwires, the outcome-web tests, the research table check) goes through it instead of importing the JSON.

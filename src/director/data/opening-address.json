@@ -1,5 +1,5 @@
 {
-  "version": "opening-address-v2",
+  "version": "opening-address-v3",
   "about": "How the President's own record shapes the address (owner, Oct 27, 2026: 'it needs to flow like a real speech ... if there are 58 laws, there are 58 choices they have in the speech'). Any policy question in the bill catalog can be a priority: the President's recorded stance on each (`ownStance`) picks the few they lead with and the one line they will not cross, and the laws engine's answer in force for the question (the nation's for a federal question, the player's state's for any other) is what the address says about it. `numbersBySubject` says which of the country's numbers bear on a catalog subject, so a priority can be argued from one. It holds no sentence: the words are the opening-speech bank's.",
   "numbersBySubject": {
     "labor": ["wages", "jobs"],
@@ -40,6 +40,99 @@
       "tag": "TUNABLE",
       "spread": "1 to 3",
       "note": "How many of the country's subjects the story of the country tells besides work, always told: those that moved most over the year, apart from the ones the priorities argue from. Each is told in words, never as a figure (owner, Oct 27 and Nov 1)."
+    },
+    "asidesBase": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "spread": "1 to 3",
+      "note": "How many of the four asides an address of average talk says; real inaugurals run from about 700 words to over 2,000, and a short one leaves out the history and the closing hope before anything else the record supports."
+    },
+    "asidesPerTalk": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "spread": "1 to 3",
+      "note": "How many more asides a President says for each unit of talk (the talk facets' sum, which runs about -2 to 2), rounded to whole parts and kept between none and all four."
     }
+  },
+  "leads": {
+    "about": "What an address leads with after the greeting, from the President's recorded traits (owner, Nov 1: 'Every one of these speeches has the same general outline. They need to vary.'). Each lead sums the President's values on its facets; the highest lead above zero opens the speech, and with none above zero the occasion does. A hard year always leads with the country's story, as real addresses in a crisis do; the mission lead needs a priority to lead with. Facets are the personality catalog's.",
+    "people": [
+      "personality-v1:facet-friendly",
+      "personality-v1:facet-affectionate",
+      "personality-v1:facet-nurturing",
+      "personality-v1:facet-comforting",
+      "personality-v1:facet-supportive",
+      "personality-v1:facet-tender-hearted"
+    ],
+    "history": [
+      "personality-v1:facet-nostalgic",
+      "personality-v1:facet-imaginative",
+      "personality-v1:facet-dramatic",
+      "personality-v1:facet-studious",
+      "personality-v1:facet-proud"
+    ],
+    "mission": [
+      "personality-v1:facet-ambitious",
+      "personality-v1:facet-assertive",
+      "personality-v1:facet-enterprising",
+      "personality-v1:facet-zealous",
+      "personality-v1:facet-competitive"
+    ],
+    "country": [
+      "personality-v1:facet-practical",
+      "personality-v1:facet-work-centered",
+      "personality-v1:facet-analytical",
+      "personality-v1:facet-meticulous"
+    ]
+  },
+  "orders": {
+    "about": "The order of the address's middle for each lead, after the greeting and before the Vice President, the states, the call, hope and the close. 'congress' is the turn to Congress with the priorities and the line not crossed. A part the President leaves out is skipped where it stands.",
+    "occasion": ["occasion", "creed", "history", "story", "people", "congress"],
+    "country": ["story", "people", "occasion", "creed", "history", "congress"],
+    "people": ["occasion", "people", "story", "creed", "history", "congress"],
+    "history": ["history", "occasion", "creed", "story", "people", "congress"],
+    "mission": ["occasion", "creed", "congress", "story", "people", "history"]
+  },
+  "asides": {
+    "about": "The parts an address may leave out, and the facets that pull a President to say each: the country's long story, the people met on the way, the call to the people, the closing hope. A talkative President says more of them (talk), a terse one fewer; those said are the ones the President's traits pull hardest, and the part the address leads with is always said.",
+    "history": [
+      "personality-v1:facet-nostalgic",
+      "personality-v1:facet-imaginative",
+      "personality-v1:facet-studious",
+      "personality-v1:facet-proud"
+    ],
+    "people": [
+      "personality-v1:facet-friendly",
+      "personality-v1:facet-affectionate",
+      "personality-v1:facet-comforting",
+      "personality-v1:facet-charming"
+    ],
+    "call": [
+      "personality-v1:facet-duty-bound",
+      "personality-v1:facet-philanthropic",
+      "personality-v1:facet-supportive",
+      "personality-v1:facet-mediating"
+    ],
+    "hope": [
+      "personality-v1:facet-light-hearted",
+      "personality-v1:facet-excitable",
+      "personality-v1:facet-contented",
+      "personality-v1:facet-sincere"
+    ]
+  },
+  "talk": {
+    "about": "How much a President says beyond what every address says: the sum of their values on the facets that run long, less the facets that keep it short.",
+    "more": [
+      "personality-v1:facet-dramatic",
+      "personality-v1:facet-charming",
+      "personality-v1:facet-excitable",
+      "personality-v1:facet-assertive"
+    ],
+    "less": [
+      "personality-v1:facet-blunt",
+      "personality-v1:facet-practical",
+      "personality-v1:facet-guarded",
+      "personality-v1:facet-shy"
+    ]
   }
 }

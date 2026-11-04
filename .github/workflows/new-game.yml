@@ -1,0 +1,38 @@
+name: New game
+# The one check before a merge (owner, Nov 3, ruling 2): "a new game opens and
+# runs briefly without crashing; nothing else holds a merge." One job, on the
+# pull request merged with main (Actions' merge ref), in a town drawn from all
+# 56 places. The log's first line is the replay number; replay a failure on
+# main with `npm run new-game-check -- <replay number>` to see whose it is
+# (ruling 3).
+on:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      replay:
+        description: "Replay number (blank draws one)"
+        required: false
+        default: ""
+permissions:
+  contents: read
+# A newer push replaces the older run (owner rule, Oct 1, 2026).
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  new-game:
+    name: new game
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.13.0
+          cache: npm
+      - run: npm ci
+      - name: Open a new game and play four weeks
+        env:
+          OCD_STORAGE_OVERRIDE: "cloud session, owner approved Oct 14"
+          NEW_GAME_REPLAY: ${{ github.event.inputs.replay }}
+        run: npm run new-game-check

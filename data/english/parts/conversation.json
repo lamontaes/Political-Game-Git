@@ -19379,10 +19379,10 @@
       "date": "2026-10-25"
     },
     {
-      "key": "conversation.address-view-answer-wait.we-ll-see-what-they-actually-do",
+      "key": "conversation.address-view-answer-wait.we-ll-see-what-the-president-actually-does",
       "move": "address-view-answer-wait",
       "kind": "spoken",
-      "text": "We'll see what they actually do.",
+      "text": "We'll see what the President actually does.",
       "uses": [
         {
           "move": "address-view-answer-wait",
@@ -19392,8 +19392,8 @@
         }
       ],
       "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-25"
+      "author": "Words, scenes and the director (words-after-address-talk-follows)",
+      "date": "2026-11-02"
     },
     {
       "key": "conversation.address-view-answer-wait.i-ll-believe-it-when-i-see-it",
@@ -19413,10 +19413,10 @@
       "date": "2026-10-25"
     },
     {
-      "key": "conversation.address-view-answer-local.the-question-is-what-it-means-here",
+      "key": "conversation.address-view-answer-local.washington-s-a-long-way-from-here-though",
       "move": "address-view-answer-local",
       "kind": "spoken",
-      "text": "The question is what it means here.",
+      "text": "Washington's a long way from here, though.",
       "uses": [
         {
           "move": "address-view-answer-local",
@@ -19426,14 +19426,14 @@
         }
       ],
       "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-25"
+      "author": "Words, scenes and the director (words-after-address-talk-follows)",
+      "date": "2026-11-02"
     },
     {
-      "key": "conversation.address-view-answer-local.what-i-want-to-know-is-what-it-means-here",
+      "key": "conversation.address-view-answer-local.i-ll-wait-to-see-if-any-of-it-reaches-us",
       "move": "address-view-answer-local",
       "kind": "spoken",
-      "text": "What I want to know is what it means here.",
+      "text": "I'll wait to see if any of it reaches us.",
       "uses": [
         {
           "move": "address-view-answer-local",
@@ -19443,8 +19443,8 @@
         }
       ],
       "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-25"
+      "author": "Words, scenes and the director (words-after-address-talk-follows)",
+      "date": "2026-11-02"
     },
     {
       "key": "conversation.news-answer-opinion.good-that-s-been-a-long-time-coming",
@@ -23757,6 +23757,325 @@
       "date": "2026-10-29",
       "tag": {
         "move": "farewell"
+      }
+    },
+    {
+      "key": "conversation.address-view-raise-for.that-was-a-better-speech-than-i-expected",
+      "move": "address-view-raise-for",
+      "kind": "spoken",
+      "text": "That was a better speech than I expected.",
+      "uses": [
+        {
+          "move": "address-view-raise-for",
+          "subject": "address-view",
+          "role": "raise",
+          "choice": "for",
+          "stages": ["for"]
+        },
+        {
+          "move": "address-view-reply-for",
+          "subject": "address-view",
+          "role": "reply",
+          "choice": "for",
+          "stages": ["for"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-after-address-talk-follows)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "conversation.address-view-raise-for.good-to-hear-somebody-talk-about-people-like-us",
+      "move": "address-view-raise-for",
+      "kind": "spoken",
+      "text": "Good to hear somebody talk about people like us.",
+      "uses": [
+        {
+          "move": "address-view-raise-for",
+          "subject": "address-view",
+          "role": "raise",
+          "choice": "for",
+          "stages": ["for"]
+        },
+        {
+          "move": "address-view-reply-for",
+          "subject": "address-view",
+          "role": "reply",
+          "choice": "for",
+          "stages": ["for"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-after-address-talk-follows)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "conversation.address-view-raise-for.say-what-you-want-that-was-a-good-speech",
+      "move": "address-view-raise-for",
+      "kind": "spoken",
+      "text": "Say what you want, that was a good speech.",
+      "uses": [
+        {
+          "move": "address-view-raise-for",
+          "subject": "address-view",
+          "role": "raise",
+          "choice": "for",
+          "stages": ["for"]
+        },
+        {
+          "move": "address-view-reply-for",
+          "subject": "address-view",
+          "role": "reply",
+          "choice": "for",
+          "stages": ["for"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-after-address-talk-follows)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "conversation.address-view-raise-for.i-think-the-president-meant-every-word-of-that",
+      "move": "address-view-raise-for",
+      "kind": "spoken",
+      "text": "I think the President meant every word of that.",
+      "uses": [
+        {
+          "move": "address-view-raise-for",
+          "subject": "address-view",
+          "role": "raise",
+          "choice": "for",
+          "stages": ["for"]
+        },
+        {
+          "move": "address-view-reply-for",
+          "subject": "address-view",
+          "role": "reply",
+          "choice": "for",
+          "stages": ["for"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-after-address-talk-follows)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "conversation.address-view-raise-for.right-things-said-right-now-let-s-see-it-done",
+      "move": "address-view-raise-for",
+      "kind": "spoken",
+      "text": "Right things, said right. Now let's see it done.",
+      "uses": [
+        {
+          "move": "address-view-raise-for",
+          "subject": "address-view",
+          "role": "raise",
+          "choice": "for",
+          "stages": ["for"]
+        },
+        {
+          "move": "address-view-reply-for",
+          "subject": "address-view",
+          "role": "reply",
+          "choice": "for",
+          "stages": ["for"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-after-address-talk-follows)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "conversation.address-view-raise-for.i-liked-it-i-want-to-see-what-comes-next",
+      "move": "address-view-raise-for",
+      "kind": "spoken",
+      "text": "I liked it. I want to see what comes next.",
+      "uses": [
+        {
+          "move": "address-view-raise-for",
+          "subject": "address-view",
+          "role": "raise",
+          "choice": "for",
+          "stages": ["for"]
+        },
+        {
+          "move": "address-view-reply-for",
+          "subject": "address-view",
+          "role": "reply",
+          "choice": "for",
+          "stages": ["for"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-after-address-talk-follows)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "conversation.address-view-raise-against.pretty-words-washington-s-full-of-those",
+      "move": "address-view-raise-against",
+      "kind": "spoken",
+      "text": "Pretty words. Washington's full of those.",
+      "uses": [
+        {
+          "move": "address-view-raise-against",
+          "subject": "address-view",
+          "role": "raise",
+          "choice": "against",
+          "stages": ["against"]
+        },
+        {
+          "move": "address-view-reply-against",
+          "subject": "address-view",
+          "role": "reply",
+          "choice": "against",
+          "stages": ["against"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-after-address-talk-follows)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "conversation.address-view-raise-against.i-wanted-to-like-that-speech-i-just-didn-t",
+      "move": "address-view-raise-against",
+      "kind": "spoken",
+      "text": "I wanted to like that speech. I just didn't.",
+      "uses": [
+        {
+          "move": "address-view-raise-against",
+          "subject": "address-view",
+          "role": "raise",
+          "choice": "against",
+          "stages": ["against"]
+        },
+        {
+          "move": "address-view-reply-against",
+          "subject": "address-view",
+          "role": "reply",
+          "choice": "against",
+          "stages": ["against"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-after-address-talk-follows)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "conversation.address-view-raise-against.nothing-in-that-speech-was-meant-for-us",
+      "move": "address-view-raise-against",
+      "kind": "spoken",
+      "text": "Nothing in that speech was meant for us.",
+      "uses": [
+        {
+          "move": "address-view-raise-against",
+          "subject": "address-view",
+          "role": "raise",
+          "choice": "against",
+          "stages": ["against"]
+        },
+        {
+          "move": "address-view-reply-against",
+          "subject": "address-view",
+          "role": "reply",
+          "choice": "against",
+          "stages": ["against"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-after-address-talk-follows)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "conversation.address-view-raise-against.it-ll-take-more-than-a-speech-to-win-me-over",
+      "move": "address-view-raise-against",
+      "kind": "spoken",
+      "text": "It'll take more than a speech to win me over.",
+      "uses": [
+        {
+          "move": "address-view-raise-against",
+          "subject": "address-view",
+          "role": "raise",
+          "choice": "against",
+          "stages": ["against"]
+        },
+        {
+          "move": "address-view-reply-against",
+          "subject": "address-view",
+          "role": "reply",
+          "choice": "against",
+          "stages": ["against"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-after-address-talk-follows)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "conversation.address-view-raise-against.i-kept-waiting-for-something-real-it-never-came",
+      "move": "address-view-raise-against",
+      "kind": "spoken",
+      "text": "I kept waiting for something real. It never came.",
+      "uses": [
+        {
+          "move": "address-view-raise-against",
+          "subject": "address-view",
+          "role": "raise",
+          "choice": "against",
+          "stages": ["against"]
+        },
+        {
+          "move": "address-view-reply-against",
+          "subject": "address-view",
+          "role": "reply",
+          "choice": "against",
+          "stages": ["against"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Words, scenes and the director (words-after-address-talk-follows)",
+      "date": "2026-11-02",
+      "tag": {
+        "move": "tell"
       }
     }
   ]

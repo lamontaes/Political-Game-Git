@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: speed/fold-player-weighed
-pr:
+pr: #7130
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-01T21:16:08.260Z
@@ -22,3 +22,5 @@ claimed-at: 2026-11-01T21:16:08.260Z
 **Files.** src/core2/decision-detail.ts,src/core2/condense-decisions.test.ts
 
 **Notes.** lead: speed. Round four; Words told Nov 1 21:12.
+
+Nov 2, 01:20 UTC (speed lead, handoff record; the first account is near its weekly limit): branch speed/fold-player-weighed, head 0a3400655e (built on main 15059c66cc), built, reviewed and fixed. Its four-year proof against main 15059c66cc is running. Next: proof (only the player's condensed person.weighed rows may differ), PR, checker. Words agreed at 23:00 UTC Nov 1.

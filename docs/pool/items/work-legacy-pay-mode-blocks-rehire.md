@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane-5/legacy-pay-ends-with-job
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T00:27:45.596Z
 ---
 
 **What.** In Superior, Colorado (GEOID 0875640, place seed a352f38e75486e3885a7fdd8f2dc6c1112a2e6da7628ff7c20dc4aca4c849a54, drawn by drawPlace('incumb-B:2','incumbency-totals')), after a firm with no cash or credit closes on 2027-03-13, a hire on 2027-04-05 throws 'Payroll enrollment is duplicate or follows an already settled work mode.' Stack: admitWorkPayrollCalendar (work-attendance.ts), addWorkPayrollCalendar, startRecordedJob (job-lifecycle.ts), startJob, hire (modules/jobs.ts). Cause: admitWorkPayrollCalendar refuses a person who has a latestLegacyCashResultByPerson entry, and nothing ever clears that entry when the legacy-paid job ends, so a worker laid off from a legacy-paid job (any opening job) can never take a payroll-enrolled job again. Repro: a script that builds buildBenchWorld with the drawn place and advances 30 days at a time, bookkeeping off, crashes on the third year after about 9 minutes.

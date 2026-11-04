@@ -181,11 +181,18 @@ export function newspaperScreen({
                 el(
                   "div",
                   { className: "story-body" },
-                  ...text
-                    .slice(1)
-                    .map((line) =>
-                      el("p", { className: "story-text", textContent: line }),
-                    ),
+                  ...text.slice(1).map((line, at) =>
+                    el("p", {
+                      // The drop cap takes a letter, never a digit: a body that
+                      // opens on a number reads it whole (owner, Nov 1: "16"
+                      // printed as a big 1 beside "6").
+                      className:
+                        at === 0 && /^\p{L}/u.test(line)
+                          ? "story-text drop-cap"
+                          : "story-text",
+                      textContent: line,
+                    }),
+                  ),
                 ),
               ]
             : []

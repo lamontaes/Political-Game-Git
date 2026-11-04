@@ -5,7 +5,7 @@ area: elections
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: governing/platform-follows-agreement
 pr: #7104
 blocked-on:

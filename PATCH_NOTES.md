@@ -296,6 +296,256 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.76.0
+
+_Released November 3, 2026._
+
+### Added
+
+- **Medical bills and medical debt run in the background** Households in your
+  town now pay their own doctor and hospital bills each month. A family with
+  someone seriously ill pays more, and people with a health plan, Medicare or
+  Medicaid pay a smaller share than people with no coverage. A bill a family
+  cannot pay waits four months, then goes to collections as medical debt on its
+  books, and a year after each unpaid bill the bank sees it when the family asks
+  for a loan, until seven years after that bill, when it drops off the family's
+  credit report. Expanding Medicaid now shrinks that debt: the adults it covers,
+  in town households and in the wider population alike, get smaller bills, and
+  the state and federal governments pay the town's hospital or clinic the rest
+  of their care instead of sending the adults a monthly check. A Medicaid work
+  requirement takes adults off that coverage, and their next bills rise to their
+  own plan's share. Medicaid never counts as a job's health plan, so expanding
+  it does not change who holds one at work. You take no step; it all happens in
+  the background and shows in how families' money holds up.
+
+### Improved
+
+- **Campaign records no longer pile up** A decided race's door rows, its pledges
+  unless you ran in it, and campaign word nobody can still hear of are no longer
+  kept, and play is unchanged.
+
+- **Close local races come out close** In races without party labels, and in a
+  party's primary, the town's wider population now divides its votes between the
+  candidates by how much it prefers each, so a small edge wins a few points
+  instead of every group in town. An incumbent who is only slightly better known
+  no longer sweeps the whole electorate, and a close race for council or mayor
+  stays close on election night. General elections between parties count as
+  before.
+
+- **Buying an ad plays as a scene at the newspaper office** Ad on the campaign
+  trail now plays at the local newspaper office, and says what the buy cost and
+  how many voters it reached, or that the campaign has no money for it.
+
+- **An evening of donor calls plays as a scene, one call per Continue** Call
+  donors on the campaign trail plays as an evening at the phone bank, each call
+  its own Continue with the person's name and what they said, then the night's
+  total; the Donations button, a twin of it, is gone.
+
+- **Asking for endorsements plays as a meeting at the campaign office, one
+  person per Continue** Endorsements on the campaign trail plays as a scene at
+  the campaign office: each person you ask is the next Continue, with what they
+  said, then the total.
+
+- **Asking for volunteers plays as a shift at the campaign office, one person
+  per Continue** Volunteers on the campaign trail plays as a scene at the
+  campaign office: each person you ask is the next Continue, with what they
+  said, then the total.
+
+- **The President's address plays as a montage, starting at the desk in the Oval
+  Office** The address no longer plays over the home backdrop alone: it opens on
+  the President at the Resolute desk, cuts to the town's own people along a
+  route, and ends at home. A longer address also cuts to the colonnade and to
+  the Vice President, the chambers' leaders and the player's state's key
+  officials named by office.
+
+- **A brief in the paper's side column no longer looks like a headline that
+  should open** Briefs in the side column are set small and plain, with no
+  pointer or hover change, so nothing on the front page invites a click that
+  does nothing; every headline that is a button opens its story in place.
+
+- **The President's opening address in the talk box ends with a Skip scene
+  button** The opening address plays in the talk box with the President's name,
+  and now offers Skip scene beside Continue.
+
+- **Parties says how it knows your party, and the map names its places** Your
+  party reads "Registered Republican since January 20, 2025" with what the fit
+  compares, or says you are not registered; the districts map names each island,
+  county, district and town.
+
+### Fixed
+
+- **Parents' birthdays fit their children's births** Parents and relatives in a
+  new family are at least fifteen when their children are born, including family
+  members living elsewhere.
+
+- **A story that starts with a number shows the whole number, never a big 1
+  beside a 6** The front page's drop cap takes a letter only; a story body that
+  opens on a number reads it whole. The body's paragraphs no longer break across
+  the two columns.
+
+- **A filing office keeps its clerk's hours; going to a closed one plays the
+  visit at its next opening** The filing office's Travel card says when it opens
+  when it is closed, and Go plays the visit at that opening with the clock moved
+  there, never the clerk working at 8:30 PM.
+
+- **The partner beside you at home fits the gender you chose in the creator** A
+  new life drawn for a chosen gender now begins as a resident of that gender, so
+  the partner at home is the one the place gave that resident, not a same-sex
+  partner made by the gender change.
+
+- **Travel's clerk card is named for the town and says what you do there, with
+  no seat list** The clerk's Travel card carries the town's own name and a
+  sentence on what you do there, instead of six seat buttons named for their
+  holders.
+
+- **A parent's death in last year's paper says who survives them** A parent who
+  died in the year before the game starts was told in one line, "Miles Francis
+  died on February 6, 2024." The paper now says who survives them, as an
+  obituary does: "Miles Francis is survived by Brianna Francis."
+
+### Changed
+
+- **Candidates run on the questions where more of the town agrees with them.**
+  Candidates now run on the questions where more of the town agrees with them,
+  keeping their own positions. How strongly a candidate holds a view still
+  counts, but a strong view on the losing side of town opinion can be left off
+  for one that more voters share, and their ads, mailers, doors, events and
+  donor meetings lead with the question they chose first. Their stated positions
+  never change; only which questions they run on and lead with. When a candidate
+  answers a reporter about a vote the town opposes, they now weigh the same
+  reading of where the town stands as their platform does.
+
+- **An election story names the seat's district, or says the seat is at large.**
+  On the opening's front page, every legislature race read the same: "won the
+  race for State Senator". Now a story names the district where the seat's
+  record numbers it ("won the race for State Senator in District 4", headlined
+  "takes District 4"), and says "the at-large race" for a seat elected at large,
+  such as a Virgin Islands senator's or a council's at-large seat. A district
+  its records name by place, as in Massachusetts, New Hampshire and Vermont, or
+  a ward still prints the race for the office.
+
+- **Relatives who live elsewhere now meet someone, marry and sometimes split up,
+  and you hear about it.** Your single relatives in other towns used to stay
+  single forever, and married ones stayed married. Now a single relative may
+  meet someone and marry, sooner or later by their age, their temperament and
+  how often people their age marry where they live. A couple may split up, at
+  the rates real marriages end. The new partner moves in with them, and your
+  family in town hears about the wedding or the breakup.
+
+- **The town paper repeats itself less** The local paper and stations have more
+  ways to say what a bill is about, what kind of business opened, how a month's
+  crimes moved, a committee's no, a single new home and layoffs. In a played
+  year no paper prints the same sentence more than three times.
+
+- **After the address, the people you live with talk about it** After the
+  President's address, the people you live with say what they made of it in
+  their own voice, with eleven new openers for those who liked it and those who
+  didn't. Every answer you give is met by a line written for that answer: a
+  disagreement gets "Fair enough. Ask me again in a year.", not "Suit yourself."
+  Your replies name the President instead of saying "they", and "what it means
+  here" is now "Washington's a long way from here, though."
+
+- **The clerk's first visit asks for the papers** At the clerk's counter you now
+  ask for the papers on a first visit, and only a return with your petition says
+  you brought it, read from your filing record. The clerk answers in one turn of
+  connected sentences and names the place's own council or board. Filing is a
+  reply you say ("Let's do it. Where do I sign?"), and the transcript shows only
+  the lines you chose.
+
+- **A business closing reads as a story in the paper** A business closing in the
+  paper now reads as a story: who ran it, for how long and why it closed in one
+  sentence, then what it leaves the people who worked there. It no longer prints
+  a line per field ("Four people worked there. The owner was retiring. The owner
+  was Patsy Roth. The business is in food services and drinking places.").
+
+## PRE-ALPHA 0.75.0
+
+_Released November 2, 2026._
+
+### Added
+
+- **Letters to the editor** Residents now write to the town newspaper. When a
+  story about a bill or a law stirs a reader enough, and their temperament runs
+  that way, they may write in for or against it, and the paper prints at most
+  one letter a week, naming the bill or law. Readers who see the letter are
+  moved by how they regard its writer.
+
+- **Retirements in the local paper** When a resident retires, the local paper
+  notes it in its side column, from their own work record: who retired, from
+  which employer, and after how many years. A public worker is said to retire
+  from the government they worked for.
+
+### Improved
+
+- **Faster choices for people with a cause** People who care about a cause now
+  look only at the groups they could know of, not every group in town. Nothing
+  in play changes, and busy years run faster.
+
+- **The clerk's counter offers at most four races, each told apart in its own
+  line** At the clerk's counter the races read as plain lines with the seat,
+  election day and holder in the line itself, the four soonest first, and no
+  hover card covers the lines below.
+
+- **Campaign acts start from the campaign trail in Travel, not from the
+  Campaigns tab** Knocking on doors, holding an event, the interview, the donor
+  calls, the speech and the debate now wait on a campaign trail card in Travel;
+  the Campaigns tab shows standing and results only.
+
+- **The President's inaugural address no longer follows one outline** The
+  President's inaugural address no longer follows one outline. What it leads
+  with comes from the President's traits and the year's record: the people they
+  met, the country's long story, their mission, the year's work or the occasion
+  itself. A talkative President says more, a terse one less, so addresses run
+  from about seven paragraphs to eleven. The openings the owner turned down
+  ("I'm from Wisconsin. I've been Vice President. Now I've been handed this
+  job") are rewritten, and a President's home state is no longer called their
+  birthplace.
+
+### Fixed
+
+- **Last year's legislature races show the votes the district really cast, and
+  name the office.** On the opening's front page, a territory's legislature
+  races printed about fifty votes each, the number of people the game had drawn
+  in town, and every story said "the race for Legislator". Now each race counts
+  the ballots its territory reported, the whole territory for an at-large seat
+  and a district's share for the rest. Each office is named the way its chamber
+  names its members: Senator in Guam and the Virgin Islands, State Senator in
+  Nebraska, Assemblymember, Delegate or Councilmember where those are the
+  titles. A one-chamber legislature is called by its own name, such as the
+  Legislature of the Virgin Islands.
+
+- **The creator's random name waits until you choose a gender** The Randomize
+  name button is disabled, saying what it waits for, until a gender is chosen;
+  then it draws a name for that gender.
+
+- **A person with nothing new to say can no longer be clicked** A person in the
+  room is clickable only while they have something new to say; once every topic
+  is talked over, the figure has no click state and a click does nothing. A
+  topic already talked over is not opened again.
+
+### Changed
+
+- **Donors give from their monthly pay after taxes and bills.** When a candidate
+  spends an evening calling for money, the people who want them to win now give
+  from what is left of their month's pay after taxes and their bills, not only
+  from savings most of them do not have. Whether someone gives now depends on
+  how much they have to spare as well as how they feel about the candidate, so
+  people living paycheck to paycheck usually say no and comfortable supporters
+  usually say yes. A town race's call time brings in about what local campaigns
+  raise: gifts of $25 to $100 from most supporters and more from the closest and
+  best-off, so a candidate can pay for an event or a forum after an evening or
+  two of calls.
+
+- **The President's address reads like a real inaugural** The opening address no
+  longer reads out statistics. It follows the shape of real inaugural addresses:
+  the oath, what the President believes, the country's place in its long story,
+  the year told in words, the people, then a turn to Congress, the Vice
+  President, the governors and legislatures, and the people themselves, with
+  hope before the close. It runs eleven paragraphs, one for each scene of the
+  opening montage. Lines that read clunky are gone, including "government
+  closest to the people", "everyone who did, and everyone who did not", both
+  "Too many people" and the "To every family listening" close.
+
 ## PRE-ALPHA 0.74.0
 
 _Released November 1, 2026._
