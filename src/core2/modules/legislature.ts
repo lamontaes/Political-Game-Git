@@ -208,6 +208,14 @@ export interface BillRow {
     readonly workersRaised: number;
     readonly annualPayMinor: number;
     readonly note: string;
+    /** A minimum-wage raise's dated steps, each costed over the step before (gov-fiscal-note-every-step). */
+    readonly steps?: readonly {
+      readonly date: string | null;
+      readonly floorMinor: number;
+      readonly workersRaised: number;
+      readonly annualPayMinor: number;
+      readonly commitmentIds: readonly string[];
+    }[];
   };
   readonly authority: readonly Authority[];
   readonly status:
@@ -709,22 +717,81 @@ export function employerCosts(
   api: CoreAPI,
   bill: Pick<BillRow, "provisions">,
 ): ReadonlyMap<string, { workers: number; annualMinor: number }> {
-  const wage = bill.provisions.find(
-    (p) => p.kind === "law-amount" && p.series === "minimum-wage",
-  );
   const out = new Map<string, { workers: number; annualMinor: number }>();
-  if (!wage) return out;
-  for (const c of (api.state as CoreState).work.commitments.values())
-    if (c.endsAt === undefined && c.hourlyMinor < wage.value) {
+  const raised = new Map<string, Set<string>>();
+  for (const step of wageStepCosts(api, bill.provisions))
+    for (const c of step.commitments) {
       const row = out.get(c.organizationId) ?? { workers: 0, annualMinor: 0 };
+      const ids = raised.get(c.organizationId) ?? new Set<string>();
+      ids.add(c.id);
+      raised.set(c.organizationId, ids);
       out.set(c.organizationId, {
-        workers: row.workers + 1,
+        workers: ids.size,
+        annualMinor: row.annualMinor + c.annualMinor,
+      });
+    }
+  return out;
+}
+
+/** One dated step of a minimum-wage raise and what it adds to the open commitments under it. */
+export interface WageStepCost {
+  /** The day the step takes effect; null for a section with no date (on enactment). */
+  readonly date: string | null;
+  /** The floor the step sets, in minor units an hour. */
+  readonly floorMinor: number;
+  readonly commitments: readonly {
+    readonly id: string;
+    readonly organizationId: string;
+    /** What this step adds to the commitment's yearly pay over the step before. */
+    readonly annualMinor: number;
+  }[];
+  readonly annualPayMinor: number;
+}
+
+/**
+ * A minimum-wage raise costed step by step (gov-fiscal-note-every-step): the
+ * bill's minimum-wage sections in date order, each step's raise over the step
+ * before (or over the commitment's own pay, where that is higher) for the
+ * open commitments paid under it, at their scheduled hours. The one counting
+ * rule for the fiscal note and the employers' stakes (`employerCosts`).
+ */
+export function wageStepCosts(
+  api: CoreAPI,
+  provisions: readonly Provision[],
+): readonly WageStepCost[] {
+  const steps = provisions
+    .filter((p) => p.kind === "law-amount" && p.series === "minimum-wage")
+    .slice()
+    .sort((a, b) =>
+      (a.effectiveDate ?? "").localeCompare(b.effectiveDate ?? ""),
+    );
+  if (!steps.length) return [];
+  const open = [...(api.state as CoreState).work.commitments.values()].filter(
+    (c) => c.endsAt === undefined,
+  );
+  const out: WageStepCost[] = [];
+  let before = 0;
+  for (const step of steps) {
+    const commitments: WageStepCost["commitments"][number][] = [];
+    for (const c of open) {
+      const from = Math.max(before, c.hourlyMinor);
+      if (step.value <= from) continue;
+      commitments.push({
+        id: c.id,
+        organizationId: c.organizationId,
         annualMinor: Math.round(
-          row.annualMinor +
-            (wage.value - c.hourlyMinor) * (c.expectedWeeklyMinutes / 60) * 52,
+          (step.value - from) * (c.expectedWeeklyMinutes / 60) * 52,
         ),
       });
     }
+    out.push({
+      date: step.effectiveDate ?? null,
+      floorMinor: step.value,
+      commitments,
+      annualPayMinor: commitments.reduce((n, c) => n + c.annualMinor, 0),
+    });
+    before = Math.max(before, step.value);
+  }
   return out;
 }
 
@@ -1544,22 +1611,22 @@ function numberAndForm(
  * fiscal note and each employer's cost are one computation.
  */
 function costOf(api: CoreAPI, provisions: readonly Provision[]) {
-  if (
-    !provisions.some(
-      (p) => p.kind === "law-amount" && p.series === "minimum-wage",
-    )
-  )
+  const steps = wageStepCosts(api, provisions);
+  if (!steps.length)
     return { workersRaised: 0, annualPayMinor: 0, note: "no pay effect" };
-  let workersRaised = 0;
-  let annualPayMinor = 0;
-  for (const row of employerCosts(api, { provisions }).values()) {
-    workersRaised += row.workers;
-    annualPayMinor += row.annualMinor;
-  }
+  const raised = new Set(steps.flatMap((s) => s.commitments.map((c) => c.id)));
   return {
-    workersRaised,
-    annualPayMinor,
-    note: "town jobs paid under the new floor, at their scheduled hours",
+    workersRaised: raised.size,
+    annualPayMinor: steps.reduce((n, s) => n + s.annualPayMinor, 0),
+    note: "town jobs paid under the new floor, at their scheduled hours, every step",
+    // Each dated step's raise over the step before, by commitment.
+    steps: steps.map((s) => ({
+      date: s.date,
+      floorMinor: s.floorMinor,
+      workersRaised: s.commitments.length,
+      annualPayMinor: s.annualPayMinor,
+      commitmentIds: s.commitments.map((c) => c.id),
+    })),
   };
 }
 
