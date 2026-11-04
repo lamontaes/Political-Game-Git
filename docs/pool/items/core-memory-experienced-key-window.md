@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane-5/experienced-key-window
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T07:37:26.697Z
 ---
 
 **What.** After the circle log window (#7198), Arcadia, California (0602462, seed app-heap-1) still runs out of the desktop app's 4,096 MiB heap about 11 minutes into its fourth year. The next largest table is knowledgeByPerson: 722,306 keys after the election year, about 140,000 of them bare event keys for speeches, campaign messages, shared causes and drive changes. Those keys are forgotten only after experiencedKeyRetentionDays, 90 days.
