@@ -32,8 +32,7 @@ import {
 } from "./law-reach/group-a-records";
 import { countedStaffOf } from "./modules/residents";
 import { enactLaw, lawChain, yesLevels } from "./modules/laws";
-import { amendBudget, budgetsOf, governments } from "./modules/budgets";
-import { outsideAccountOf } from "./budgets-treasury";
+import { amendBudget, governments } from "./modules/budgets";
 import { corePlaceByKey } from "./place-lookup";
 import { realLocalities } from "./places";
 import { countyPopulationSharesForPlace } from "./reference/government-units";
@@ -237,41 +236,8 @@ function repealAll(w: World) {
   return { lawKeys, startedYes };
 }
 
-/**
- * Sets the budget-line laws under test and, where the town's treasury cannot
- * pay a month of its lines, gives it cash (a registered stopgap).
- */
+/** Sets the budget-line laws under test; ordinary opening cash pays them. */
 function fixtureLines(w: World) {
-  const accounts = w.api.accounts();
-  const budget = [...budgetsOf(w.api, w.gov.id)].sort(
-    (a, b) => b.fiscalYear - a.fiscalYear,
-  )[0];
-  const lines = Object.values(budget?.spendingMinor ?? {}).reduce(
-    (sum, minor) => sum + minor,
-    0,
-  );
-  // Read now, as the laws are set and before any law acts: a treasury that
-  // cannot pay a month of its lines pays none at its first closes, so no
-  // payment can name a law. Governments open with no cash.
-  const cash = accounts.balance(accounts.main(w.gov.organizationId));
-  if (cash < lines / 12) {
-    // stopgapId: SG-WORLD-government-opening-fund-balance
-    accounts.transfer({
-      id: `fixture:rights-env:treasury-cash:${w.core.date}`,
-      from: accounts.main(outsideAccountOf(w.api)!),
-      to: accounts.main(w.gov.organizationId),
-      amountMinor: lines,
-      reasonKey: "fixture",
-      source: {
-        tag: "SOURCED",
-        citation: "Test fixture: cash for the treasury's first closes.",
-        asOf: w.core.date,
-      },
-    });
-    process.stdout.write(
-      `FIXTURE treasury cash: ${w.where}: the treasury held ${cash} against ${Math.round(lines / 12)} a month of its lines; given ${lines}\n`,
-    );
-  }
   // The measure under test for the three budget-line laws: a line that an
   // ordinance raised is the law "budget-line:<line>" (the checker's
   // changeBudget makes the same change), so this raise is the law's own and
