@@ -1,8 +1,11 @@
 /**
- * Press staff open with savings: every reporter and editor the press engine
- * seats on the opening day holds what the survey rule gives a family at their
- * pay, the same rule the town's generated residents follow. A place is drawn
- * from all 56; set GOLDEN_PATH_SEED to reproduce a run.
+ * Press staff open with savings: every reporter and editor drawn from the
+ * town's people holds what the census gave them, and everyone the press
+ * engine seats from a recorded identity (staff who live outside the town)
+ * holds the savings officials seated the same way get at their pay
+ * (official-living.ts: the survey's median for a family at that pay, spread
+ * by person). A place is drawn from all 56; set GOLDEN_PATH_SEED to reproduce
+ * a run.
  */
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
@@ -11,7 +14,8 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "./game-start";
 import { outletsHere, pressParameter } from "./modules/press";
 import { STAFF_ROLES } from "./press-staff";
-import { medianTransactionBalance } from "./starting-cash";
+import { officialHousehold } from "./official-living";
+import { lawChain } from "./modules/laws";
 import { coreAPI } from "./state";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
@@ -24,13 +28,16 @@ it("every paid press employee opens with the survey balance for their pay", () =
     placeKey: draw.key,
   });
   const api = coreAPI(core);
-  const ids = outletsHere(api).flatMap((o) => [
-    o.ownerId,
-    o.headId,
-    ...o.reporterIds,
-  ]);
+  const { stateKey } = lawChain(api);
+  // Where each person was seated: a local outlet's people in the town's
+  // state, a national outlet's where it is based.
+  const ids = outletsHere(api).flatMap((o) =>
+    [o.ownerId, o.headId, ...o.reporterIds].map(
+      (id) => [id, o.tier === "national" ? o.placeId : stateKey] as const,
+    ),
+  );
   let checked = 0;
-  for (const id of ids) {
+  for (const [id, seatedIn] of ids) {
     if (!id) continue;
     // Staff drawn from the town's residents hold what the census gave them.
     if (!id.startsWith("person:press:")) {
@@ -42,14 +49,12 @@ it("every paid press employee opens with the survey balance for their pay", () =
     }
     const role = STAFF_ROLES.find((r) => id.split(":").at(-2) === r.id)!;
     if (!role.payParameter) continue;
-    // The world's own cash level: the balance rule is scaled by one level
-    // drawn per world from its seed (owner, Oct 27).
-    const expected = Math.round(
-      medianTransactionBalance(
-        pressParameter(role.payParameter) / 100,
-        core.seed,
-      ) * 100,
-    );
+    const expected = officialHousehold(
+      api,
+      seatedIn,
+      pressParameter(role.payParameter),
+      id,
+    ).savingsMinor;
     expect(core.people.get(id)?.liquidMinor, `${where} ${id}`).toBe(expected);
     checked += 1;
   }

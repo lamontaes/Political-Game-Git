@@ -72,7 +72,16 @@
       "tag": "TUNABLE",
       "spread": [0.5, 2],
       "checkedAgainst": "Hours of quarrel a night of putting off a relative's stated cost counts for on the tie (the closeness engine reads negative hours as a quarrel, tempered by who holds on to it); one hour is about one talk's length, so a put-off cancels one talk's worth of time together. Checked in the played-world test: the tie ends lower than it began."
-    }
+    },
+    "gaveStrength": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "spread": [0.25, 0.75],
+      "checkedAgainst": "Where a candidate's own money in a lost race ranks against a relative who worked it (1): working it is the stronger claim to speak about the loss; money given is half."
+    },
+    "behindMoves": ["thank", "accept", "comfort", "promise"],
+    "doubtMoves": ["ask", "disagree", "plea", "press"],
+    "answersNote": "Which of the relative's answer moves, to a candidate who says they will run again after a loss, mean they are behind the run and which mean they doubt it. Moves only; no sentence."
   },
   "endingStrain": {
     "about": "What an ending that strains a tie writes to closeness (the plan of Oct 28, section 3: each ending's keeps is a write to the engine that owns it). The closeness engine reads negative hours as a quarrel, tempered by who holds on to it. An ending that keeps a favor or a promise is written on the scene's record (facts keeps and ending) for the legislature's obligations and the campaigns engine's promises to read (SG-WORDS-favor-promise-keeps-unread).",
