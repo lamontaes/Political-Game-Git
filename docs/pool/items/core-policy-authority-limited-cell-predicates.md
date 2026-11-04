@@ -5,9 +5,9 @@ area: core
 kind: stopgap
 priority: 2
 size: M
-status: claimed
+status: done
 claimed-by: one-map-authority
-pr:
+pr: #7277
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-04T23:21:36.286Z
