@@ -1,10 +1,10 @@
 # Pool audit: 416 open-real, 198 partly-done, 51 done-on-main, 32 superseded, 5 duplicate, 40 on-branch, 59 unknown, 7 waits-on-people, 2 waits-on-owner, 5 finished during the audit; 1820 done and 309 dropped before it
 
-Of the 815 items that were not done or dropped, 88 can close now: 51 are already done in the game's code, 32 were replaced and 5 duplicate another item. A second reader agreed with each of those 88 and rejected 19 other proposed closures, which stay open as unknown. About 614 items are real work still to do. 40 have their work sitting on an unmerged branch, and 13 of those branches are worth rescuing first. The 200 done and dropped items sampled showed no false closure. Nothing was changed in the pool; every row waits for your word.
+Your call: close the 88 items listed in the first section, have the lanes rescue the 13 branches named in the second, and answer the November 1 Budgets mocks, which hold Lane 4's Budgets screen. Nothing in the pool has changed yet. Of the 815 items not done or dropped, 51 are already done in the game's code, 32 were replaced and 5 duplicate another item; two readers agreed on each. Still to do: 416 open and 198 part-built items, plus 40 whose work sits on an unmerged branch and 59 nobody can settle without a run. Of 200 done and dropped items sampled, none was clearly closed wrongly; 9 are unclear and 2 done items look thin.
 
 ## What can close with confidence
 
-88 items can close. A first reader proposed each closure from main's code, and a second reader, given only the item and the evidence, tried to break it and could not. The second reader rejected 19 of 107 proposed closures (18 percent), mostly because the item's Done when asks for a played-world run nobody has shown. Those 19 stay open as unknown, listed below, so no work is lost.
+88 items can close (measured: two readers agreed on each from main's code). The second reader rejected 19 of 107 proposed closures (18 percent), mostly because the item's Done when asks for a played-world run nobody has shown. Those 19 stay open as unknown, listed below, so no work is lost.
 
 Another 5 items finished on main while the audit ran: the pool-done flip already closed four, and `words-talk-replies-follow-move-pair-grades` still says claimed though its pull request merged.
 
@@ -123,16 +123,16 @@ Another 5 items finished on main while the audit ran: the pool-done flip already
 
 ## What is stranded on old branches
 
-There are 6809 branches on GitHub. 4289 hold nothing main lacks, and 82 more carry changes already on main. Another 668 belong to merged pull requests; main has moved past most of them. 82 have their commits on main under other names. That leaves 1688 branches with work that never reached main. Most belong to the 1441 pull requests closed without merging, chiefly in the clean-ups of October 6, 7 and 12. Only 147 of those closed pull requests name a pool item.
+There are 6809 branches on GitHub. 4289 hold nothing main lacks, and 82 more carry changes already on main (measured, by comparing each changed file with main). Another 668 belong to merged pull requests; main has moved past most of them. A further 82, by coincidence the same count, have their commits on main under other names. That leaves 1688 branches with work that never reached main. Most belong to the 1441 pull requests closed without merging, chiefly in the clean-ups of October 6, 7 and 12, 2026. Only 147 of those closed pull requests name a pool item.
 
-The 40 items whose work is on an unmerged branch are listed below. Rescue first the ones from the last week, which still fit main:
+The 40 items whose work is on an unmerged branch are listed below. These 13 branches are worth rescuing first, the newest at the top (inferred from the readers' notes on whether each still fits main):
 
 - **Lane 1, beatable incumbents and the real race:** `governing/incumbency-calibration` (November 3, main merged in), `governing/incumbent-hears-the-race`, `governing/real-race-played-proof` and `governing/real-race-played-test` (October 30 to November 1). Lane 1's page already counts on them.
-- **Lane 1, filing test:** `lane-4/elections-filing-test-window` (November 4) fixes the red filing test in 19 lines and has no pull request.
+- **Lane 1, filing test:** a Lane 4 session's branch, `lane-4/elections-filing-test-window` (November 4, 2026), fixes the red filing test in 19 lines and has no pull request.
 - **Lane 2:** `lane-2/body-law-jurisdiction` (November 4, live, Lane 2's own).
 - **Lane 3:** open pull request #7127 (`words/paper-briefs`), Lane 3's unit 1.
 - **Lane 5, memory:** open pull request #7110 (`speed/fold-campaign-money`) and `speed/fold-race-close-rows` (November 1 to 2).
-- **Older but small and still true on main:** the laws end-to-end proof (October 24), the eviction settlement notice, counted bereavement and homeschool shares (October 21 to 27). Each touches files main has rewritten since, so each needs main merged in by hand (Lane 3's note on old branches applies).
+- **Older, but small and still missing from main:** the laws end-to-end proof, the eviction settlement notice, counted bereavement and homeschool shares (October 21 to 27, 2026). Main has rewritten files they touch, so each needs main merged in by hand (Lane 3's state page describes how).
 
 | Item | Branch | Pull request | What the reader found |
 |---|---|---|---|
@@ -179,7 +179,7 @@ The 40 items whose work is on an unmerged branch are listed below. Rescue first 
 
 ## What is proposed for each lane
 
-Each surviving item has one proposed lane and a rank within it. The rank follows the lane page's unit order first. Inside a unit come work on a branch, then partly built items, then open work, then unknowns, then items waiting on you or the people art. Items the lane pages name keep that lane (220 items); the rest follow the lane pages' owned files and areas. Nothing was written to the lane pages.
+Each surviving item has one proposed lane and a rank within it. The rank follows the lane page's unit order first. Within a unit, the order is: work already on a branch, part-built items, open items, unknowns, and last the items waiting on you or on the people drawings being made in Blender. Items the lane pages name keep that lane (220 items); the rest follow the lane pages' owned files and areas. Nothing was written to the lane pages.
 
 | Lane | Items | Open-real | Partly done | On a branch | Unknown | Waiting |
 |---|---|---|---|---|---|---|
@@ -189,11 +189,11 @@ Each surviving item has one proposed lane and a rank within it. The rank follows
 | 4, Screens and art | 37 | 13 | 11 | 0 | 5 | 8 |
 | 5, Engine and release | 142 | 69 | 46 | 10 | 16 | 1 |
 
-**Lane 1, first ten:** 1. `campaign-incumbency-calibrated` (on-branch); 2. `elections-candidate-draws-zero-votes-diaz` (unknown); 3. `elections-law-test-filing-announcement-red` (open-real); 5. `elections-one-person-two-seats-same-body` (open-real); 6. `campaign-donor-reasons-refit` (open-real); 7. `campaign-door-yes-follows-the-share-rule` (open-real); 8. `campaigns-volunteer-joined-and-lapsed-records` (open-real); 9. `campaign-door-pledge-held-read-at-ballot` (open-real); 10. `elections-door-pledge-turnout-shown` (open-real); 11. `elections-county-race-sees-only-the-town` (partly-done).
+**Lane 1, first ten:** 1. `campaign-incumbency-calibrated` (on-branch); 2. `elections-candidate-draws-zero-votes-diaz` (unknown); 3. `elections-law-test-filing-announcement-red` (open-real); 4. `elections-one-person-two-seats-same-body` (open-real); 5. `campaign-donor-reasons-refit` (open-real); 6. `campaign-door-yes-follows-the-share-rule` (open-real); 7. `campaigns-volunteer-joined-and-lapsed-records` (open-real); 8. `campaign-door-pledge-held-read-at-ballot` (open-real); 9. `elections-door-pledge-turnout-shown` (open-real); 10. `elections-county-race-sees-only-the-town` (partly-done).
 
 **Lane 2, first ten:** 1. `gov-appointments-weigh-counted-adults` (open-real); 2. `laws-end-to-end-proof` (on-branch); 3. `web-views-hear-conditions-moves-stance` (partly-done); 4. `laws-end-to-end-screenshots` (open-real); 5. `laws-hold-record-names-the-sponsor` (open-real); 6. `people-counted-readers-stances-from-stories` (partly-done); 7. `meetings-town-hall-evening-cost` (open-real); 8. `views-other-places-voters` (open-real); 9. `world-counted-household-arrears-take-whole-paycheck` (partly-done); 10. `world-business-founding-no-purchase-kinds` (partly-done).
 
-**Lane 3, first ten:** 1. `words-paper-law-and-budget-briefs-read-right` (on-branch); 2. `words-arrogance-anger-and-fear` (partly-done); 3. `words-venue-speeches-delivered` (partly-done); 4. `director-canvass-meets-people-where-they-are` (open-real); 5. `director-circumstance-counted-cast-filled-in` (open-real); 7. `words-everyday-talk-one-engine` (partly-done); 8. `words-news-ask-gets-answer` (open-real); 9. `words-scene-ending-writes-its-record` (partly-done); 10. `people-owed-talk-record` (open-real); 11. `scene-owed-talk-comes-due` (open-real).
+**Lane 3, first ten:** 1. `words-paper-law-and-budget-briefs-read-right` (on-branch); 2. `words-arrogance-anger-and-fear` (partly-done); 3. `words-venue-speeches-delivered` (partly-done); 4. `director-canvass-meets-people-where-they-are` (open-real); 5. `director-circumstance-counted-cast-filled-in` (open-real); 6. `words-everyday-talk-one-engine` (partly-done); 7. `words-news-ask-gets-answer` (open-real); 8. `words-scene-ending-writes-its-record` (partly-done); 9. `people-owed-talk-record` (open-real); 10. `scene-owed-talk-comes-due` (open-real).
 
 **Lane 4, first ten:** 1. `play-m6-01-the-opening` (partly-done); 2. `play-issues-law-page-and-what-shows` (partly-done); 3. `play-law-on-your-record-unreachable` (partly-done); 4. `play-prior-budgets-on-screen` (open-real); 5. `play-budgets-every-government-political-process-style` (waits-on-owner); 6. `play-campaigns-sheet-speech-pager-races-columns-debate-date` (partly-done); 7. `play-filing-petition-on-screen` (partly-done); 8. `screens-campaign-board` (open-real); 9. `play-issue-stances-on-screen` (open-real); 10. `people-chamber-plates` (waits-on-people).
 
@@ -201,33 +201,34 @@ Each surviving item has one proposed lane and a rank within it. The rank follows
 
 Lane 2 carries the most: 333 items against its page's 373. The readers tagged 18 of them as the page's Later or Drop groups and kept them open, because no ruling closes them. The full order for every lane is the `rank` field in `items.jsonl`.
 
-The 7 waits-on-people items are the people pack, home and chamber plates, figures and faces. Six of them assume the old mannequin-plate or people-pack method that your November 3 ruling replaced; none was called superseded. The 2 waits-on-owner items are the Budgets screen, which waits on your answer to the November 1 mocks, and one release item that waits for your go-ahead.
+The 7 waits-on-people items are the people pack, home and chamber plates, figures and faces. Six of them assume the old mannequin-plate or people-pack method that your November 3, 2026 ruling replaced. They stay waiting rather than closed because the audit was told never to call them superseded on its own judgment; each needs rewriting once the Blender people land. The 2 waits-on-owner items are the Budgets screen, which waits on your answer to the November 1 mocks, and `release-m7-06-steam`, which waits until you say the release is ready (your standing rule).
 
 ## How sure the audit is
 
 - **Closures:** high. Two readers agreed on all 88 from the evidence, and the second reader rejected 19 weaker calls. Neither reader ran tests, so a closure that rests on a test means the test exists and covers the line, not that it passed today.
-- **Done and dropped items:** a random 100 of each (fixed seed 20261104) were read against main. Of the 100 done, 87 hold, 6 hold but were later replaced by a newer system, 7 are unclear and none is false. Of the 100 dropped, 94 hold, 4 hold as superseded, 2 are unclear and none is false. Two done items look thin and should be looked at, though neither is reopened: `gov-filing-fee-and-file-line` built only half its line, and `play-state-legislator-career-screen` has no seat-picker screen.
+- **Done and dropped items:** a random 100 of each (fixed seed 20261104) were read against main. Of the 100 done, 87 hold, 6 hold but were later replaced by a newer system, 7 are unclear and none is false. Of the 100 dropped, 94 hold, 4 hold as superseded, 2 are unclear and none is plainly false. Two of the unclear done items look thin and should be looked at, though neither is reopened: `gov-filing-fee-and-file-line` built only half its line, and `play-state-legislator-career-screen` has no seat-picker screen.
 - **By script, over all 2,129:** every dropped item gives a reason. 43 done items have no merged pull request naming them (most are closures by hand with a reason in Notes), and 71 name a proof test that is no longer on main, 31 of them in the deleted old core. Both lists are in `mismatches.md`.
 - **Open and partly-done calls:** medium. Each was read from code by one reader. A wrong open-real call costs a look, not lost work. The 59 unknowns are mostly by-draw test reds that only a run on the named seed can settle.
 
 ## Records that disagree
 
-`mismatches.md` lists each by item. In short:
+`mismatches.md` lists each by item. All of these are measured by script against the item files and GitHub. In short:
 
 - 6 items say in-pr though their pull request merged: the five you named plus `world-medical-spending-categories`.
 - 64 open or claimed items are named by a merged pull request. Most were partial; the item rows say which.
 - 103 waits name an item that is already done or dropped, so those gates no longer hold.
-- 36 items are marked blocked. Under your November 3 ruling, blocked means only a machine or permission failure, and none of them is one.
+- 36 items are marked blocked. Under your November 3, 2026 ruling, blocked means only a machine or permission failure, and none of them is one.
 - No claimed item lacks its branch.
-- Many items still name `src/core2/data/stopgaps.json`, which was split into one file per family on November 3. That is a stale path, not missing work.
+- Many items still name `src/core2/data/stopgaps.json`, which was split into one file per family on November 3, 2026. That is a stale path, not missing work.
 - One register row is wrong: `SG-OFFICE-public-project-finish-date` in `src/core2/data/stopgaps/office.json` is marked resolved with another row's disaster-severity text, while the code still registers it and `gov-m3-04-funded-work-delayed-or-failed` is unbuilt.
 
 ## Method
 
-Main at the start: `6d53b9c493` (November 4, 2026, 16:03 UTC). The final re-read for step 6 was at `cecc3d9443` (16:49 UTC). Every row carries the start commit; rows that changed after it say so.
+Main at the start: `6d53b9c493` (November 4, 2026, 16:03 UTC). The final re-read for step 6 was at `cecc3d9443` (16:49 UTC); no item changed between then and `37241247fe` (17:01 UTC). Every row carries the start commit; rows that changed after it say so.
 
 - All 6,809 branches were fetched and the history was unshallowed (the clone started shallow). For each branch the audit measured commits ahead and behind, the last commit date, whether its commits are on main by patch (git cherry, against a patch-id set of main's 30,993 commits) and whether every file it changed matches main. Pull request data for all 7,257 came from the GitHub API; the GitHub connector failed, so read-only `gh api` calls were used.
-- 811 live items were read in 21 batches by Sonnet readers, 6 at a time, against main's code. Each of the 107 proposed closures was rechecked by an Opus reader from the evidence alone. 200 done and dropped items were sampled by Sonnet readers.
+- 811 live items at the start commit were read; 4 more were added during the audit and read at the final commit, which is why the totals count 815.
+- The 811 were read in 21 batches by Sonnet readers, 6 at a time, against main's code. Each of the 107 proposed closures was rechecked by an Opus reader from the evidence alone. 200 done and dropped items were sampled by Sonnet readers.
 - One defect in the audit's own scripts was caught and fixed: the first file comparison used a git option that does not exist and showed every branch as merged. The numbers above come from the corrected run.
 - Not done: no tests, no played runs. No pool item, lane page, branch or pull request was touched.
 
