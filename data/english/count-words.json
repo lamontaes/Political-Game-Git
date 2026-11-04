@@ -1,0 +1,49 @@
+{
+  "about": "How a count of votes or a sum of money is said aloud in talk: a close count exactly, a larger one as people round it, never the tally to the vote or the cent. Read by src/english/count-words.ts; the director passes the number.",
+  "exactVotesBelow": {
+    "value": 20,
+    "tag": "TUNABLE",
+    "spread": [10, 50],
+    "checkedAgainst": "Below this many votes a close count is said exactly (a loss by 7 is 7); above it a count is said as people round it (\"about 60\"). Local counts in the sources run from a few dozen votes to a few hundred (Jefferson City 2013, 55; Raincross 2019, 222; docs/design/scenes/from-life/household-after-the-loss.md)."
+  },
+  "voteSteps": [
+    {
+      "below": 100,
+      "step": 5
+    },
+    {
+      "below": 1000,
+      "step": 10
+    },
+    {
+      "below": 10000,
+      "step": 100
+    },
+    {
+      "below": 100000,
+      "step": 1000
+    },
+    {
+      "below": null,
+      "step": 10000
+    }
+  ],
+  "moneySteps": [
+    {
+      "below": 1000,
+      "step": 50
+    },
+    {
+      "below": 10000,
+      "step": 100
+    },
+    {
+      "below": null,
+      "step": 1000
+    }
+  ],
+  "vote": "{count} vote",
+  "votes": "{count} votes",
+  "aboutVotes": "about {count} votes",
+  "aboutMoney": "about ${count}"
+}

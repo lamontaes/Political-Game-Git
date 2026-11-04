@@ -5,13 +5,13 @@ area: play
 kind: feature
 priority: 3
 size: L
-status: in-pr
-claimed-by: play-first/play-m6-01-the-opening
+status: open
+claimed-by:
 pr: #7105
 blocked-on:
 milestone: M6
 source: "docs/roadmap/later-specs-draft.md M6-01"
-claimed-at: 2026-11-02T00:02:04.558Z
+claimed-at:
 ---
 
 **What.** The owner's approved cinematic opening: letterbox bars and the President's speech (inaugural or State of the Union), with cutaways to your representatives, state, town, family and you. Numbers live in an openable ledger. (Owner: OPUS-PLAY.)

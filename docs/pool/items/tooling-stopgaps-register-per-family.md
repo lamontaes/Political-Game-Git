@@ -6,7 +6,7 @@ lead: fixer
 kind: cleanup
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: lane-5/stopgaps-per-family
 pr: #7144
 after:

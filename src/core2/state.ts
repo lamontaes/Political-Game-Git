@@ -117,6 +117,7 @@ import { recordStopgapsIn, stopgap } from "./stopgaps";
 import { initialFocusPeople } from "./focus";
 import { nativityFact } from "./nativity";
 import { spacedSiblingBirths } from "./sibling-births";
+import { distinctSiblingGivenName } from "./sibling-names";
 import type {
   ActOffer,
   CompactChoiceTraceV1,
@@ -1646,7 +1647,23 @@ export function coreAPI(core: CoreState): CoreAPI {
         siblings.map((row) => row.birthDate),
         [identity.birthDate],
       );
-      siblings.forEach((row, i) => (row.birthDate = births[i]!));
+      const siblingNames = [given];
+      siblings.forEach((row, i) => {
+        row.birthDate = births[i]!;
+        if (!row.alive) return;
+        row.givenName = distinctSiblingGivenName(
+          core.seed,
+          row.id,
+          {
+            givenName: row.givenName,
+            familyName: row.familyName,
+            birthDate: row.birthDate,
+            gender: row.looks?.gender,
+          },
+          siblingNames,
+        );
+        siblingNames.push(row.givenName);
+      });
     },
     relocatePeopleV1(input) {
       const ids = [...input.personIds];
