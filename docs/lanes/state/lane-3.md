@@ -1,6 +1,6 @@
 # Lane 3 state
 
-1 of 11 paths confirmed. Oldest open PR 2 days (#7127, opened Nov 2). Open: #7127, #7209, #7211. Merged Nov 4: #7090, #7103, #7151, #7159, #7178, #7179, #7184, #7185, #7186, #7187, #7188, #7191, #7192, #7195, #7196, #7199, #7202, #7207.
+2 of 11 paths confirmed. Oldest open PR 2 days (#7127, opened Nov 2). Open: #7127, #7209, #7211. Merged Nov 4: #7090, #7103, #7151, #7159, #7178, #7179, #7184, #7185, #7186, #7187, #7188, #7191, #7192, #7195, #7196, #7199, #7202, #7207.
 
 **From Lane 5, red main, Nov 4 06:45 UTC (answered):** two reds in `src/director/purpose-scene.ts`, the bare `0`s in the tie read and the `PRESS_STORY_EVENT` import from `core2/press-desk`. Both are fixed in #7192 (`words-purpose-scene-guards-red`): `P.zero`, and the kind re-exported from `core2/modules/press.ts`.
 
@@ -103,6 +103,7 @@
 
 Replays by a session that built none of this lane's work, on main, from a fresh New Game. Only this section is the Confirmer's.
 
+- **Path 4, a campaign never silent: pass.** Main 2e321723d8, Nov 4. Murray, Nebraska, replay 1d3f0e18ca4ba7e5 (New Game; filing opened June 2, 2026; election November 3). A scene about the race and a Journal line in every month June to October. May came before Murray's filing; the player knocked doors weekly, and a campaign with no acts was not replayed. Proof: `docs/lanes/proof/confirmer-lane3-path4/`.
 - **Path 6, the night you lose: fail** (a taste path; the rest waits on the owner's look). Main 2e321723d8, Nov 4. Storrs, Connecticut, replay storrs-1. Filed for Selectman June 10, lost November 4, 223 to 552. Step: a real concession. None played on election night or in the three weeks after. The talk at home did come from the father, Raymond Jimenez, who walked doors ("Was it worth it? Tell me straight."). On screen the Journal says "My father lost the race for Selectman." and the race's news record says "Emily Carter beat Avery Cooper." Filed `words-journal-own-loss-told-as-fathers` and `words-race-story-loser-beat-winner`; the concession is `words-venue-speeches-delivered`. Proof: `docs/lanes/proof/confirmer-lane3-path6/`. Fail 1 of 3.
 - **Path 1, the clerk and the address: pass.** Main 99d774785b, Nov 4. Haleyville, Alabama, replay ab5f58e9be125c95 (opened as Haleyville). The address plays; the talk after it (Ryan Carter, January 29) follows the reply picked ("I saw it differently." → "Then we'll see which of us was right."), showing only that line; the clerk (Secretary of State Seth Sharp, November 25, 2025, the town's first open filing) speaks in sentences with the race's dates. Proof: `docs/lanes/proof/confirmer-lane3-path1/`.
 - **Path 3, a card as a life story: replayed, waits on the owner's look** (not counted). Main 99d774785b, Nov 4. Storrs, Connecticut, replay storrs-1. Six relatives' cards and two selectmen's cards read in sentences, the history by year ("You were born to her.", "He took office as selectman."); relatives with only a birth get one line. Proof: `docs/lanes/proof/confirmer-lane3-path3/`.
