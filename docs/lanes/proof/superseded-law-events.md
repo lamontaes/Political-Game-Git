@@ -31,6 +31,24 @@ The positive newspaper control passes: legitimate raised-wage reporting still wo
 
 Source `ab30b9508baf33c2e6c805e226ae4a964ae9d2d8`, Bettsville, Ohio, replay `c2797efbe1a45c7c`: New Game, four weekly advances, resume, scene and Journal returned HTTP 200; failure null. Player `person_a6ff171c5c2b56e2`. Runner: `node --import tsx /tmp/lane-2-superseded-newgame.mts`, using the repository's `newGameCheck`. Raw response: `/tmp/lane-2-superseded-newgame-result.json`. This checks opening and brief play, not one year or a whole lane path.
 
-Four-year controlled performance comparison and another session's main replay remain pending. No path is Built or Verified by this unit.
+Another session's main replay remains pending. No path is Built or Verified by this unit.
 
 Independent New Game (merge desk): Browndale, Pennsylvania, replay `1ad79caaa1390e3f`, four weeks on head `989ee3f5284269972bc980101eb7f4b6f694a4a9`; [desk result](https://github.com/lamontaes/Political-Game-Git/pull/7162#issuecomment-6620144335). This is a branch opening check, not a whole-path confirmation on main.
+
+
+## Four-year performance
+
+Ocoee, Florida (1251075), replay `2b8908ebd4d8978e`, host `4c46091479ea`. Original runtime source `90f9a456a7d3f0a216db391c84be8fe4555e6324`; corrected runtime head `01b0f08ab243f3d4d758798a3445f4586d662b06`. One run at a time, same checkout and machine. The original writer was restored for the baseline, then the corrected writer was restored byte-for-byte before the second run. The baseline receipt's `head` names that controlled checkout; `sourceMain` identifies the original runtime source.
+
+| Year | Base seconds | Corrected seconds | Change |
+| --- | ---: | ---: | ---: |
+| 1 | 94.8 | 82.6 | -12.9% |
+| 2 | 176.5 | 167.7 | -5.0% |
+| 3 | 106.6 | 102.6 | -3.8% |
+| 4 | 388.4 | 377.5 | -2.8% |
+
+Every year passes the user's 20% limit. Both npm commands exit 1 for the unchanged separate 120-second target in years two and four; this is not an absolute-speed pass. Record totals match each year (309,427 / 506,256 / 633,729 / 1,093,210), which is not a claim that every module exposes its private state for comparison. At year four, the largest retained tables are durableLog 114,352, relationships 99,059 and campaigns.foldedCauses 80,469.
+
+Command, with the required npm environment above: `npm run speed:year -- --seed 2b8908ebd4d8978e --years 4 --max-seconds 120 --exclusive --out <receipt>`. Corrected run adds `--baseline /tmp/lane-2-superseded-speed-base.json`. Logs, receipts and exit records: `/tmp/lane-2-superseded-speed-{base,head}.{json,log}` and `/tmp/lane-2-superseded-speed-results.json`.
+
+Latest independent New Game: Tennyson, Indiana / `bde7f7267d8cc6bf`, four weeks, desk head `5d15f7f782d17d5907c7b8aecef322a0f9634af1`; [desk result](https://github.com/lamontaes/Political-Game-Git/pull/7162#issuecomment-6620467285). Still a branch opening check, not a main-path confirmation.
