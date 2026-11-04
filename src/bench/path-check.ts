@@ -214,12 +214,39 @@ function stand(): { held: boolean; takesOffice: string | null } {
   // enter, a council seat first where the place has one, an open seat first
   // of those (the golden path is a council race; owner, Oct 29: the player
   // runs for six offices).
-  const gov = governmentView(w.core, me);
-  const open = gov.contests.filter((c) => c.checks.every((k) => k.met));
-  const choice = chooseRace(open);
+  // A race takes filings only while its window is open (the clerk's answer,
+  // `playerMayFileFor`): with none open today, the character lives on a week
+  // at a time, up to two years, until one opens, as a player waits for it.
+  const enterableNow = () =>
+    chooseRace(
+      governmentView(w.core, me).contests.filter((c) =>
+        c.checks.every((k) => k.met),
+      ),
+    );
+  let choice = enterableNow();
+  const from = w.core.date;
+  for (let week = 0; week < 104 && !choice.race; week++) {
+    liveUntil(addDays(makeIsoDate(w.core.date), 7));
+    choice = enterableNow();
+  }
+  if (choice.race && w.core.date > from)
+    log.push(`no race open on ${from}; filing opened by ${w.core.date}`);
   const enterable = choice.race;
   if (!enterable) {
-    log.push("no contest the player can enter");
+    // What stood in the way, race by race: the checks the clerk's answer
+    // found unmet.
+    const unmet = governmentView(w.core, me)
+      .contests.map(
+        (c) =>
+          `${c.contest.id}: ${c.checks
+            .filter((k) => !k.met)
+            .map((k) => k.rule)
+            .join("+")}`,
+      )
+      .slice(0, 6);
+    log.push(
+      `no contest the player can enter by ${w.core.date} (${unmet.join("; ") || "no contests listed"})`,
+    );
     return { held: false, takesOffice: null };
   }
   log.push(choice.why);
