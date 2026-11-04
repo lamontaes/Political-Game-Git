@@ -6,7 +6,7 @@ lead: laws
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: lane-2/unemployment-basis
 pr: #7153
 blocked-on:
