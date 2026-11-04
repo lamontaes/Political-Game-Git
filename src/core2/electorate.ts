@@ -29,7 +29,6 @@ import {
   isDemoted,
 } from "./counted-groups";
 import { VIEWS_KEYS, VIEWS_MODULE_ID, viewOf } from "./modules/views";
-import { corePlaceByJurisdictionId } from "./place-lookup";
 import viewsData from "./data/views/views.json" with { type: "json" };
 import { coreAPI } from "./state";
 import { reportOutcome } from "./trait-decisions";
@@ -307,8 +306,6 @@ const cells = new Map<
   string,
   { mean: number; sd: number; engagement?: number }
 >();
-/** Each place id's state key from the place lookup, which reads only static tables. */
-const placeStateKey = new Map<string, string | null | undefined>();
 /** Each age's survey band. */
 const bandByAge = new Map<number, string>();
 /**
@@ -324,12 +321,7 @@ function surveyCell(
 ): { mean: number; sd: number; engagement?: number } {
   // The town's own counted households keep their governing unit's place id,
   // which the place lookup may not know: they are the town's people, in its state.
-  if (!placeStateKey.has(placeId))
-    placeStateKey.set(
-      placeId,
-      corePlaceByJurisdictionId(placeId as never)?.stateJurisdictionKey,
-    );
-  const key = placeStateKey.get(placeId) ?? townState;
+  const key = placeStateKey(placeId) ?? townState;
   const state = key ? key.slice(key.lastIndexOf("-") + 1) : "";
   const age =
     Number(date.slice(0, 4)) -
