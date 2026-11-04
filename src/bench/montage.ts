@@ -1,4 +1,4 @@
-import { keyPeopleOf } from "../core2/opening-key-people";
+import { keyPeopleOf } from "../core2/modules/people";
 import type { CoreState, PersonId } from "../core2/types";
 import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
 import montage from "./data/opening-montage.json" with { type: "json" };
