@@ -83,6 +83,12 @@ Every unit gets one before it starts (lane page, CTO rule). Units 1 and 2 were s
 - **Now:** a day-by-day probe from 2028-01-20 records each day's heap before and after collection and a sampling allocation profile of the heaviest day, to name the code that makes the peak.
 - **Finish line, proof, hands off, cheats, checked by:** as the steps above. **Size:** the fix's own card once the code is named.
 
+### Red main, Nov 4 09:45: builds stopped again (CTO's second note)
+
+- **Found:** three more malformed declarations on main: `director-save-restore.md` (impact none, no reason), `official-pay-return.md` (a patch with no id, section or title), `screens-loading-worth-watching.md` (a 144-character title). #7224 fixed all three in one PR; the check over the whole range since v0.79.0 (c7ae16cfd9 to main 2a5885d) prints OK with 16 pending declarations, after #7222 and #7223 too.
+- **The CTO's ruling on my proposal:** build neither; the desk runs the release check on each PR while merging and mends the note itself. Nothing for Lane 5 to build.
+- Confirming a Release run passes and a build publishes after #7224: pending (run 12145).
+
 ### Red main, Nov 4 07:45: builds stopped (CTO's note)
 
 - **Found:** every Release run on main since #7193 merged (06:43) fails at "Enforce declarations": runs 12112, 12114, 12115, 12116, 12117 and 12118, plus the two Release package runs (12111, 12113 cancelled). The first and the two newest logs read: `docs/release/changes/lane-2-first-minutes-proof.md: impact:none must not carry 'section' or 'title'`. The file came in with Lane 2's 3e377288ee. Newest build is still v0.78.0.
@@ -90,7 +96,7 @@ Every unit gets one before it starts (lane page, CTO rule). Units 1 and 2 were s
 - **Stopping it again without holding a merge (proposal for the CTO):** the declaration check could run in the `new game` job as a report only: it prints the release check's error into the job summary and the PR, without failing the job, so the desk sees it before merging. Or the push-mode check could set a malformed `impact: none` declaration aside with a warning instead of stopping the build, since such a file changes nothing a player sees. I have built neither; the second changes what the release check refuses, so it needs the CTO's word.
 - **Confirmed:** after #7201, Release run 12122 passed and v0.79.0 was published (07:59 UTC).
 - **A second cause right behind it:** run 12123 (#7204, Lane 4) stopped on `play-governor-races-on-screen`, an id an earlier release already consumed. #7206 gives the file its own id; `release:check` OK.
-- **Better prevention than the two above (proposal):** a workflow on main, like the pool index one, that runs the release check after each merge and, when the only failures are mechanical (an `impact: none` file with a section or title, or an id already consumed), fixes the file and pushes the fix to main. It holds no merge (ruling 2) and needs no session awake. I can build it as a unit-1 item if the CTO agrees.
+- **(Declined by the CTO, 09:42: the desk runs the check instead.)** Proposal was: a workflow on main, like the pool index one, that runs the release check after each merge and, when the only failures are mechanical (an `impact: none` file with a section or title, or an id already consumed), fixes the file and pushes the fix to main. It holds no merge (ruling 2) and needs no session awake. I can build it as a unit-1 item if the CTO agrees.
 - #7200 merged (an office to approach needs staff).
 
 ### Unit 9: real save and load (waiting on Lane 3)
@@ -104,7 +110,8 @@ Every unit gets one before it starts (lane page, CTO rule). Units 1 and 2 were s
 
 ## Open PRs
 
-- None. Merged since the last update: #7200, #7201, #7206, #7210 (three declaration fixes that each stopped every build; v0.79.0 shipped after #7201).
+- #7225: the state page as of Nov 4.
+- Branch `lane-5/snapshot-cover` (unit 9): main merged in, the measure now saves and restores the director (Lane 3's `save()`/`restore()`, merged at 09:17); the measure is running.
 
 ## Merged
 

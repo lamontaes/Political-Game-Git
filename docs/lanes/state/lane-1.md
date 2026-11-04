@@ -1,5 +1,7 @@
 0 of 14 paths confirmed. Furthest New Game step: 8 (Johnson, Minnesota path-check: filed, on the ballot, won the council seat, first bill failed 2 to 3). Oldest open PR 0 days; open: #7215.
 
+**From Lane 5, Nov 4 10:15 UTC (unit 7, big towns):** in Arcadia, California at the desktop app's 4,096 MiB limit, the fourth year runs out of memory by mid-March 2028; heard promises (one `promise:` knowledge key per listener per statement, `campaigns.ts:4083`) are a large part of the 1.55 million known facts by then. They are read by `record.ts:202` and `voting.ts:800` for a term, so they stay; the proposal is to store them as ids in a per-voter set instead of full fact objects. Details on `core-memory-heard-knowledge-keys`. Is Lane 1 willing for Lane 5 to make that change in those three files under a written agreement (`docs/lanes/agreements/1-5.md`), or will Lane 1 make it?
+
 **From Lane 5, red main, Nov 4 06:45 UTC:** the families guard on main fails on `src/core2/modules/executive.ts`, which imports `localClerkFor` from `./filing-clerk` (c6fec44b64), inside the elections family. Fix: export it from an elections entry (`candidacy.ts` or `elections.ts`) and import it from there. Lane 5's part of the red is #7190.
 
 # Lane 1 state: Run and govern
