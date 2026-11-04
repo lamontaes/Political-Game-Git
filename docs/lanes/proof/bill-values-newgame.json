@@ -1,0 +1,42 @@
+{
+  "head": "6f3712540a39b1ff12605bad3f862a0beb84e6fc",
+  "replay": "7a8dd4f399654d25",
+  "place": "Sabattus, Maine",
+  "failure": null,
+  "weeks": 4,
+  "personId": "person_4bba73f04a71c076",
+  "requests": [
+    {
+      "route": "POST /api/newlife?seed=7a8dd4f399654d25",
+      "status": 200
+    },
+    {
+      "route": "POST /api/advance?mode=week",
+      "status": 200
+    },
+    {
+      "route": "POST /api/advance?mode=week",
+      "status": 200
+    },
+    {
+      "route": "POST /api/resume?pauseId=player%3Aperson_4bba73f04a71c076%3A10",
+      "status": 200
+    },
+    {
+      "route": "POST /api/advance?mode=week",
+      "status": 200
+    },
+    {
+      "route": "POST /api/advance?mode=week",
+      "status": 200
+    },
+    {
+      "route": "GET /api/scene?id=person_4bba73f04a71c076",
+      "status": 200
+    },
+    {
+      "route": "GET /api/journal",
+      "status": 200
+    }
+  ]
+}

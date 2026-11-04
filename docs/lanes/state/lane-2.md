@@ -82,6 +82,8 @@ All desk openings above played four weeks. The desk says its session may merge o
 
 [Meadow Lakes investigation](https://github.com/lamontaes/Political-Game-Git/blob/lane-2/law-chain-proof/docs/lanes/proof/meadow-law-chain-investigation.md), replay f835dd278d7312a1: 25 new law rows from 19 bills; HB 2 passed 44 yes/16 no and was signed. Ryan Carr person_dbf34f057cfadf9d paid $22.84 state tax in journal:2025-05-20:39812; separate federal deductions are excluded. Alaska treasury organization:treasury:US-AK later paid Donna Summers person_97293061d8139fbd $468.60 in journal:2025-05-22:39986. Public-payroll stopgap disclosed. No evidence yet that tax revenue caused extra spending. The initial observer omitted normal player selection/director watching, so its empty Journal is not a game Journal defect. The new regression uses those normal readers. Player proposal/negotiation, failed-bill reasons and browser finish line remain open.
 
+Fresh New Game on6f3712540a: Sabattus, Maine /7a8dd4f399654d25, four weeks PASS, every handler request HTTP200. Additional Lane4 unit request is #7100 comment6628052498; acceptance pending. Timing base0de6987f82 is running alone on fresh replay d0a859c3fc33a41f. No timing pass yet.
+
 ## Shared seams and outstanding gaps
 
 - Accepted Lane 2–5 sibling seam: agreement 038b949742 preceded narrow state.ts correction 33c0035d1e; linked in sibling proof.
