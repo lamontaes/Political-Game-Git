@@ -111,13 +111,13 @@ Every unit gets one before it starts (lane page, CTO rule). Units 1 and 2 were s
 
 ## Open PRs
 
-- #7229 (unit 9, one step): a restore refills each object once; news's carried story parts and refused stories and people's weekly contacts are saved; caches built from records (`registerDerivedCache`) are cleared on restore. Infrastructure only; `core-snapshot-cover-rest` stays open.
+- None.
 - Branch `lane-5/snapshot-cover` keeps the measure (`snapshot-played.test.ts`), not in a PR: it still fails until the drives runtime is saved.
 
 ## Merged
 
 - Nov 3: #7140, #7141, #7144, #7145, #7146.
-- Nov 4: #7148, #7149, #7155, #7158, #7161, #7172 (rehire), #7176 (group quarters: Storrs 142.9 s to 93.3 s), #7177 (every-locality sweep), #7180 (eight browser checks wait for filing), #7181 (Storrs eviction case, red main), #7182 (no-dice entry for sibling names, red main), #7183 (lane state files need no release declaration), #7190 (Lane 5's part of the red guards), #7173 (skills), #7198 (a met-once contact's log kept three months), #7200, #7201, #7206, #7210, #7221, #7224, #7225, #7227.
+- Nov 4: #7148, #7149, #7155, #7158, #7161, #7172 (rehire), #7176 (group quarters: Storrs 142.9 s to 93.3 s), #7177 (every-locality sweep), #7180 (eight browser checks wait for filing), #7181 (Storrs eviction case, red main), #7182 (no-dice entry for sibling names, red main), #7183 (lane state files need no release declaration), #7190 (Lane 5's part of the red guards), #7173 (skills), #7198 (a met-once contact's log kept three months), #7200, #7201, #7206, #7210, #7221, #7224, #7225, #7227, #7229 (unit 9's restore step, 10:48).
 - Nov 4 10:45: v0.80.0 published (Mac and Windows). Release package run 60 hit a GitHub 502 creating the release; rerunning the failed job published it.
 
 ## Failed or blocked
