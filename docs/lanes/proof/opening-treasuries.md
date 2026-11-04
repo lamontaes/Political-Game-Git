@@ -1,6 +1,6 @@
 # Opening treasury stocks — builder proof
 
-Pool item: world-government-opening-fund-balance. The draft includes state/local estimates, removes the treasury fixtures, and passes its ordinary played-year regression, New Game and relative timing. This is not a Built or Verified whole played path; independent replay on main remains outstanding. No PR is opened while five Lane 2 PRs occupy the limit.
+Pool item: world-government-opening-fund-balance. The draft includes state/local estimates, removes the treasury fixtures, and passes its ordinary played-year regression, New Game and relative timing. This is not a Built or Verified whole played path; independent replay on main remains outstanding. The five earlier Lane 2 PRs have merged; this draft is ready for its own review slot.
 
 Running Water, South Dakota (4656820), replay **3c16bfebaea9cae1**, world seed `7c8bbdbdc3d169e27abe8651447dd8cbb058d0c419e111dc86f5d5f8b617bb61`. Both observations use `buildBenchWorld` with all ordinary modules, January 20 through March 6, 2025. No law, vote, benefit or person payment is supplied by the observer.
 
