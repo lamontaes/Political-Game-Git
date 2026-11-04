@@ -78,6 +78,15 @@ Causes found (Nov 4): (1) a counted household's door yes is the record's first c
 
 Two of seven win, against the owner's target that a hard-working first-timer wins within three tries in most towns. Path-check notes: a petition's status is read on the morning the clerk checks it, before the check runs (it says "petitioning" with enough signatures); "lost" is logged when no race was entered at all.
 
+**Unit 2b: an at-large race is one race** (`elections-at-large-race-pooled`, branch `governing/at-large-pooled`)
+
+- **Finish line:** a body's at-large seats up on one day share one field and one count: every candidate files once, each voter votes for up to as many as there are seats, and the top finishers take the seats; the player in Jericho, Vermont runs for "three of the seats" and is judged against the whole field.
+- **Proof:** a test in three drawn places whose council or board is elected at large (named with seeds): one count across the seats' contests, ballots with up to N choices, the top N seated by record id; a break-it that splits the race back fails it; the path check in Jericho (replay 6f539fcfdf6d96f9-5) prints the pooled shares.
+- **Hands off:** ward seats, single-seat races, partisan primaries, the readers of a result's winner (each seat contest keeps one winner, per the item's design note).
+- **Known cheats:** seating the player by hand, a per-town seat count, a drawn order among ties (ties go by the place's law), counting only named voters.
+- **Size:** three steps of about 400 lines: (A) the count gives each voter up to N votes, named and counted, by the same appeal and share rules; (B) the top N are seated across the group's seat contests; (C) the player files once for the race and sees it as one.
+- **Checked by:** a fresh session replaying Jericho's March selectboard election on main.
+
 ## Measuring now
 
 - **Unit 1b, incumbency fit** (`governing/incumbency-calibration`, d6db3df9ff). On seed a63ad2af1003c7ad, 24 places, 23 to 26 contested races: play values T3 0.565, trait term halved 0.565, recognition halved 0.391, neither 0.375. The holder's edge is real, carried by recognition, not counted twice. T6 stayed at 0.77 because holders ran again 92 percent of the time; with #7215 it is 0.36 and T3 0.60. The PR waits on #7215's merge and a pooled re-measure.
