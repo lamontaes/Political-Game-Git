@@ -219,7 +219,14 @@ function seat(api: CoreAPI, row: OfficialRow): void {
     return;
   }
   const payerId = payerFor(api, row);
-  const jobId = `job:office:${row.seatId}:${row.id}`;
+  const firstJobId = `job:office:${row.seatId}:${row.id}`;
+  const firstJob = (api.state as CoreState).jobs.get(firstJobId);
+  // Returning to a seat starts a new service record; the ended post stays
+  // in the person's history. Uninterrupted service keeps its original job.
+  const jobId =
+    firstJob?.endsAt !== undefined
+      ? `${firstJobId}:${row.termId ?? api.state.date}`
+      : firstJobId;
   const source = salarySource(salary, api.state.date);
   // Someone already working keeps their job (many legislatures sit part
   // time) and is paid the salary besides; anyone else holds the office as

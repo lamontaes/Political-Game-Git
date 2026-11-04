@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: play-first/play-calendar-more-than-birthdays
 pr: #7100
 blocked-on:
