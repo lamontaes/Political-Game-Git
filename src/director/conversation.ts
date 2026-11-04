@@ -40,6 +40,7 @@ import {
   ageOnDate,
   daysBetween,
   makeIsoDate,
+  spokenDate,
 } from "../core2/kernel/dates";
 import { ADDRESS_FACT } from "./opening-facts";
 import { stableHash } from "../core2/kernel/ids";
@@ -1041,18 +1042,46 @@ export function subjectsBetween(
       ? relationPhrase(row.relation, about?.looks?.gender ?? "other", "scene")
       : undefined;
     if (!about || !row || !phrase) continue;
-    out.push({
-      id: `${kind}:${moment.causeId}`,
-      kind,
-      aboutId,
-      facts: {
-        relation: {
-          text: phrase,
-          sourceRecordIds: [row.factId, moment.causeId],
-        },
-        name: { text: about.givenName, sourceRecordIds: [row.factId] },
+    const facts = {
+      relation: {
+        text: phrase,
+        sourceRecordIds: [row.factId, moment.causeId],
       },
-    });
+      name: { text: about.givenName, sourceRecordIds: [row.factId] },
+    };
+    out.push({ id: `${kind}:${moment.causeId}`, kind, aboutId, facts });
+    // What a question about the news asks, answered from the record it came
+    // from: how long a sentence runs (its release date on the justice
+    // record), how long an illness has gone on (its onset's date on the
+    // health record).
+    const record = core.durableLog.get(moment.causeId as never);
+    const release = record?.facts?.releaseDate;
+    if (kind === "prison-news" && typeof release === "string" && release)
+      out.push({
+        id: `prison-term:${moment.causeId}`,
+        kind: "prison-term",
+        aboutId,
+        facts: {
+          ...facts,
+          release: {
+            text: spokenDate(release),
+            sourceRecordIds: [moment.causeId],
+          },
+        },
+      });
+    if (kind === "illness-news" && record?.date)
+      out.push({
+        id: `illness-since:${moment.causeId}`,
+        kind: "illness-since",
+        aboutId,
+        facts: {
+          ...facts,
+          onset: {
+            text: spokenDate(record.date),
+            sourceRecordIds: [moment.causeId],
+          },
+        },
+      });
   }
   out.push(...evictionSubjects(core, director, speakerId, listenerId));
   out.push(...victimizationSubjects(core, director, speakerId));

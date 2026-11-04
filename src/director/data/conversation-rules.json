@@ -86,6 +86,14 @@
       "kind": "prison-news-reply",
       "stage": "default"
     },
+    "prison-term": {
+      "kind": "prison-term-reply",
+      "stage": "default"
+    },
+    "illness-since": {
+      "kind": "illness-since-reply",
+      "stage": "default"
+    },
     "job-new-told": {
       "kind": "job-new-told-reply",
       "stage": "default"
@@ -152,6 +160,8 @@
     "job-lost-reply": {
       "ask": "job-cause"
     },
+    "prison-news-reply": { "how-long": "prison-term" },
+    "illness-news-reply": { "since": "illness-since" },
     "job-cause-reply": {
       "ask": "job-hope"
     },

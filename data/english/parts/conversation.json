@@ -26,7 +26,9 @@
     "position": "The speaker's new job, with its article (\"a server\"), from the job record's title.",
     "about": "The policy question the reporter asks about, as a noun phrase that reads after 'on' or 'about', from the question's spoken name (data/english/question-names.json).",
     "to": "The same question as a verb phrase that reads after 'to', from the question's spoken name (data/english/question-names.json).",
-    "rival": "A rival on the same ballot, by name, from their filing."
+    "rival": "A rival on the same ballot, by name, from their filing.",
+    "release": "The day a sentence ends, as people say a date, from the justice record.",
+    "onset": "The day an illness began, as people say a date, from the health record."
   },
   "maxWords": 10,
   "mining": {
@@ -17020,15 +17022,15 @@
     },
     {
       "key": "conversation.illness-news-reply-answer-ask.how-long-has-name-been-sick",
-      "move": "illness-news-reply-answer-ask",
+      "move": "illness-news-reply-answer-since",
       "kind": "spoken",
       "text": "How long has {name} been sick?",
       "uses": [
         {
-          "move": "illness-news-reply-answer-ask",
+          "move": "illness-news-reply-answer-since",
           "subject": "illness-news-reply",
           "role": "answer",
-          "choice": "ask"
+          "choice": "since"
         }
       ],
       "origin": "authored",
@@ -17086,15 +17088,15 @@
     },
     {
       "key": "conversation.prison-news-reply-answer-ask.for-how-long",
-      "move": "prison-news-reply-answer-ask",
+      "move": "prison-news-reply-answer-how-long",
       "kind": "spoken",
       "text": "For how long?",
       "uses": [
         {
-          "move": "prison-news-reply-answer-ask",
+          "move": "prison-news-reply-answer-how-long",
           "subject": "prison-news-reply",
           "role": "answer",
-          "choice": "ask"
+          "choice": "how-long"
         }
       ],
       "origin": "authored",
@@ -24076,6 +24078,182 @@
       "date": "2026-11-02",
       "tag": {
         "move": "tell"
+      }
+    },
+    {
+      "key": "conversation.prison-term-raise.they-say-name-gets-out-on-release",
+      "move": "prison-term-raise",
+      "kind": "spoken",
+      "text": "They say {name} gets out on {release}.",
+      "uses": [
+        {
+          "move": "prison-term-raise",
+          "subject": "prison-term",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-news-ask-gets-answer)",
+      "date": "2026-11-04",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.prison-term-raise.release-that-s-when-name-gets-out-if-nothing-changes",
+      "move": "prison-term-raise",
+      "kind": "spoken",
+      "text": "{release}. That's when {name} gets out, if nothing changes.",
+      "uses": [
+        {
+          "move": "prison-term-raise",
+          "subject": "prison-term",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-news-ask-gets-answer)",
+      "date": "2026-11-04",
+      "bearing": "braced",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.prison-term-reply-answer-ack.that-s-a-long-time",
+      "move": "prison-term-reply-answer-ack",
+      "kind": "spoken",
+      "text": "That's a long time.",
+      "uses": [
+        {
+          "move": "prison-term-reply-answer-ack",
+          "subject": "prison-term-reply",
+          "role": "answer",
+          "choice": "ack"
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-news-ask-gets-answer)",
+      "date": "2026-11-04",
+      "bearing": "solemn",
+      "tag": {
+        "move": "ack",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.prison-term-reply-answer-comfort.we-ll-be-there-when-name-gets-out",
+      "move": "prison-term-reply-answer-comfort",
+      "kind": "spoken",
+      "text": "We'll be there when {name} gets out.",
+      "uses": [
+        {
+          "move": "prison-term-reply-answer-comfort",
+          "subject": "prison-term-reply",
+          "role": "answer",
+          "choice": "comfort"
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-news-ask-gets-answer)",
+      "date": "2026-11-04",
+      "bearing": "tender",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.illness-since-raise.since-onset-that-s-when-they-found-it",
+      "move": "illness-since-raise",
+      "kind": "spoken",
+      "text": "Since {onset}. That's when they found it.",
+      "uses": [
+        {
+          "move": "illness-since-raise",
+          "subject": "illness-since",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-news-ask-gets-answer)",
+      "date": "2026-11-04",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.illness-since-raise.it-started-around-onset-name-didn-t-tell-anyone-at-first",
+      "move": "illness-since-raise",
+      "kind": "spoken",
+      "text": "It started around {onset}. It's been hard on {name} since.",
+      "uses": [
+        {
+          "move": "illness-since-raise",
+          "subject": "illness-since",
+          "role": "raise",
+          "choice": "raise"
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-news-ask-gets-answer)",
+      "date": "2026-11-04",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.illness-since-reply-answer-ack.that-long-and-nobody-said",
+      "move": "illness-since-reply-answer-ack",
+      "kind": "spoken",
+      "text": "That long already.",
+      "uses": [
+        {
+          "move": "illness-since-reply-answer-ack",
+          "subject": "illness-since-reply",
+          "role": "answer",
+          "choice": "ack"
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-news-ask-gets-answer)",
+      "date": "2026-11-04",
+      "bearing": "solemn",
+      "tag": {
+        "move": "ack",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.illness-since-reply-answer-comfort.i-wish-i-d-known-sooner",
+      "move": "illness-since-reply-answer-comfort",
+      "kind": "spoken",
+      "text": "I wish I'd known sooner.",
+      "uses": [
+        {
+          "move": "illness-since-reply-answer-comfort",
+          "subject": "illness-since-reply",
+          "role": "answer",
+          "choice": "comfort"
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-news-ask-gets-answer)",
+      "date": "2026-11-04",
+      "bearing": "tender",
+      "tag": {
+        "move": "comfort",
+        "key": "loss"
       }
     }
   ]
