@@ -1,6 +1,6 @@
 # Lane 3 state
 
-0 of 11 paths confirmed. Oldest open PR 2 days (#7090, opened Nov 1). Open: #7090, #7103, #7127, #7151.
+0 of 11 paths confirmed. Oldest open PR 2 days (#7090, opened Nov 1). Open: #7090, #7103, #7127, #7151, #7159 (at the limit of 5).
 
 ## Machine and permission (Nov 3, cloud trial)
 
@@ -26,7 +26,7 @@
 **Card.** Finish line (path 6): lose in a drawn place with a relative on your volunteer list. They talk about what they gave, your answer counts next time, a real concession plays, and a rival may gloat. With no one who helped, no scene is staged and ordinary talk continues. Proof: `src/director/family-loss-stake-scene.test.ts` in `buildBenchWorld` on drawn places (place, seed, record ids printed), then path 6 replayed on main in Storrs, Connecticut (storrs-1) by another session. Hands off: Lane 1's files, except the `candidacy.ts` read written first in `agreements/1-3.md`; `src/bench` (Lane 4). Known cheats: a line naming no record, a scene with no consequence, the gloat or concession typed in code, counting lines as proof. Size: 4 to 6 hours in three steps, each about 400 changed lines of code. A bank file's added pieces are counted apart, since 47 lifted pieces are about 1,150 lines of JSON. Checked by: a fresh session for the replay, and the owner for how it reads.
 
 - **Step 1, `words-family-loss-scene-the-part-they-played` (Built, PR #7151, Checker 1 by number):** branch `lane3/night-you-lose`, head a205fc5f. Proof: Conashaugh Lakes, Pennsylvania, GOLDEN_PATH_SEED=9edbcb3c944a4d10:0. A doubting answer reads as householdBacking -0.97, a backing one as +0.94. The talk at home is cast only from a relative who worked the race or whose money went in. It opens on their part and the margin (`src/english/count-words.ts`), and a "run again" reply's answer is kept as `backing`, which `candidacyReasons` reads as `householdBacking`. 14 generic lines deleted, 47 added; about 300 changed lines of code.
-- **Step 2, a real concession (`words-venue-speeches-delivered`, slimmed to victory and concession):** the concession call's endings ("conceded", "not yet", marked `story-runs`) are read by nobody today. The press reads the ending as a public record: the paper prints that you conceded or haven't, and your tie with the winner moves.
+- **Step 2, a real concession (`words-concession-reaches-the-paper`, split from `words-venue-speeches-delivered`; Built, PR #7159, Checker 4 by number):** branch `lane3/concession`. The concession call's reply is marked conceded yes or no, the press keeps a `concession:` record, and the race's printed story says it by name. Proof: GOLDEN_PATH_SEED=2efbee22d2893fe6. Paw Paw, West Virginia: "Vivian Ramirez called Hugo Osborn to concede." Fort Riley, Kansas: "Jessica McGee would not concede the race." About 400 changed lines. The victory speech stays in `words-venue-speeches-delivered`, which is open again.
 - **Step 3, the rival who may gloat (`words-arrogance-anger-and-fear`, boasts only):** the winner's boast, plain or rude by their traits, from bank pieces.
 
 ## Failed
