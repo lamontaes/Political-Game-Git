@@ -2074,5 +2074,29 @@
     "addedAt": "2026-11-01",
     "replacement": "A news and a headline piece for a district named by place and one for a ward, worded by Words, reading the seat's districtName and its office's seatTerm, so every district seat's story names its seat.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-home-local-district",
+    "kind": "missing-data",
+    "file": "src/core2/modules/elections.ts",
+    "line": 785,
+    "whatItFakes": "The district of a town council or county board elected by district that the player's home is in is drawn from the home's household id over the body's district seats (homeDistrict), the same district every day, because no district map is read for local bodies; the player is offered only that district's seat. Every resident still votes in every district's race (the seats all cover the town).",
+    "why": "Owner, Nov 1 playtest (\"I should only be able to run for one council seat\") under the CTO's town council seats ruling: by district, the player files only for their own district's seat. The repository holds a council's district seat count (council-election-method.ts) but no district boundaries, so which district a home is in cannot be read.",
+    "addedBy": "governing lead (campaign-player-files-for-one-council-race)",
+    "addedAt": "2026-11-01",
+    "replacement": "Read each local body's district boundaries (or its residents' precinct-to-district assignments) into data, place every home in its district, and have each district race's electorate be that district's residents; the player is offered the seat of the district their home is in.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-at-large-race-one-contest",
+    "kind": "partial-model",
+    "file": "src/core2/modules/elections.ts",
+    "line": 855,
+    "whatItFakes": "A local body's at-large seats up on one day are separate contests, one winner a seat; the player is offered the at-large race once, as the first of those seats' contests whose filing is open, and files for that seat, not for the race as a whole with the top vote-getters seated.",
+    "why": "Owner, Nov 1 playtest: one council race, not one per seat. The elections engine holds a contest per seat; a pooled at-large race (each voter votes for up to the number of seats, the top finishers win) is a new count and ballot.",
+    "addedBy": "governing lead (campaign-player-files-for-one-council-race)",
+    "addedAt": "2026-11-01",
+    "replacement": "An at-large race as one contest for the body's seats up that day, where each voter may vote for as many candidates as there are seats and the top finishers are seated (the place's own rule), so every candidate, the player included, files once for the race.",
+    "status": "open"
   }
 ]
