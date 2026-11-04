@@ -5,11 +5,12 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: governing/campaigns-test-window
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T04:14:15.361Z
 ---
 
 **What.** src/core2/campaigns.test.ts, 'every activity moves specific people with a recorded cause; a rival campaigns; polls report what people said', looks for an open contest both candidates can file for only on its start day. Since filing opens on a set day (elections-filing-window-opens and the one-race rule), a drawn place can have none open that day, and the test fails before it reaches anything it checks: on main 37ac735ca0, GOLDEN_PATH_SEED=cm-1 fails with 'no open contest the two candidates could both qualify for in 1529000', while cm-2 passes. Found by Lane 1 while checking the rival attack-ad change, where it fails the same way.
