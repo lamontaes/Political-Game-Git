@@ -66,7 +66,12 @@ try {
       i += 1
     ) {
       const day = page.locator("#election-day-acts button:visible");
+      // The morning's choices come after its narration.
+      if (await page.locator("#election-day:visible").count())
+        await day.first().waitFor({ timeout: 60000 });
       const names = await day.allInnerTexts();
+      if (process.env.BENCH_TRACE && names.length)
+        console.log("election morning:", names.join(" | "));
       const pick = morning.find((name) => names.includes(name));
       if (pick)
         await page
