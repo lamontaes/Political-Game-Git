@@ -1,5 +1,7 @@
 # Lane 5 state
 
+**Stopped by the owner, Nov 4 19:45 UTC.** Unfinished: unit 9's next save fix (a save keeps each relative's bereavements, which a Phoenix save made Oct 7, 2025 lost) is on branch `lane-5/cover-rest` at 61299c0622, without its proof run or PR. The locality sweep stopped at 2,687 of 8,242, none failed (results in `docs/lanes/proof/lane5-every-locality/first-2687.jsonl`). No PR is open.
+
 2 of 12 played paths confirmed. Oldest open PR 0 days (#7173, Nov 4).
 
 ## Unit cards
