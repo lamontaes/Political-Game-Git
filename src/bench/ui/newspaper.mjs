@@ -94,10 +94,10 @@ export function newspaperScreen({
   const outletPicker = el("nav", { className: "outlet-picker" });
   // The page never scrolls (Lane 4, path 11): when the front page runs past
   // the paper's foot, it gives way a step at a time until it fits: the lead's
-  // photo shrinks by the difference (down to a strip), the lead's body text
-  // is left to the reader (which opens the story whole), the photo goes, the
-  // lead's headline is set smaller, the briefs keep the ones that fit, and
-  // last the front page keeps the stories after the lead that fit.
+  // photo shrinks by the difference (down to a strip), the briefs and then
+  // the stories after the lead that do not fit go to the next page, and only
+  // then is the lead's body text left to the reader (which opens the story
+  // whole), the photo dropped and the lead's headline set smaller.
   const STRIP = 90;
   const over = () => paper.scrollHeight - paper.clientHeight;
   const steps = [
@@ -106,6 +106,22 @@ export function newspaperScreen({
       if (!image || image.offsetHeight - over() < STRIP) return false;
       image.style.aspectRatio = "auto";
       image.style.height = `${image.offsetHeight - over()}px`;
+      return true;
+    },
+    () => {
+      const briefs = [...paper.querySelectorAll(".paper-briefs > *")].filter(
+        (node) => !node.hidden,
+      );
+      if (!briefs.length) return false;
+      briefs.at(-1).hidden = true;
+      return true;
+    },
+    () => {
+      const stories = [
+        ...paper.querySelectorAll(".paper-story:not(.lead)"),
+      ].filter((node) => !node.hidden);
+      if (!stories.length) return false;
+      stories.at(-1).hidden = true;
       return true;
     },
     () => {
@@ -125,30 +141,13 @@ export function newspaperScreen({
       paper.classList.add("tight");
       return true;
     },
-    () => {
-      const briefs = [...paper.querySelectorAll(".paper-briefs > *")].filter(
-        (node) => !node.hidden,
-      );
-      if (!briefs.length) return false;
-      briefs.at(-1).hidden = true;
-      return true;
-    },
-    // Last, a story after the lead, the latest first, never the lead.
-    () => {
-      const stories = [
-        ...paper.querySelectorAll(".paper-story:not(.lead)"),
-      ].filter((node) => !node.hidden);
-      if (!stories.length) return false;
-      stories.at(-1).hidden = true;
-      return true;
-    },
   ];
   // Drawn before the sheet mounts it, the page waits for the screen (five
   // seconds at most), then gives way until it fits.
-  const fit = (waits = 300) =>
+  const fit = (waits = 300, again = true) =>
     window.requestAnimationFrame(() => {
       if (!paper.isConnected) {
-        if (waits > 0) fit(waits - 1);
+        if (waits > 0) fit(waits - 1, again);
         return;
       }
       // Each step is measured as it lands (reading the layout settles it);
@@ -170,6 +169,9 @@ export function newspaperScreen({
       };
       settle();
       if (over() > 1) settle();
+      // A page whose layout moves a frame after drawing (a picture decoded,
+      // a line rewrapped) is looked at once more.
+      if (again) fit(0, false);
     });
   // The page arrows in the dateline, as the shared pager words them.
   const turners = () => {

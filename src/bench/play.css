@@ -3098,13 +3098,9 @@ details.entry[open] {
   gap: 8px;
   margin: -3px 0;
 }
-.paper .paper-pages .pager-arrow {
-  min-height: 0;
-  padding: 0 8px;
+/* The shared arrows; the page's words in the paper's ink. */
+#sheet-body .paper-pages .pager-where {
   color: var(--paper-ink);
-  background: none;
-  border: 1px solid var(--paper-rule);
-  box-shadow: none;
 }
 .paper-stories {
   display: grid;
