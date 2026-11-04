@@ -1,6 +1,6 @@
 # Lane 3 state
 
-0 of 11 paths confirmed. Oldest open PR 2 days (#7090, opened Nov 1). Open: #7090, #7103, #7127, #7151, #7159 (at the limit of 5).
+0 of 11 paths confirmed. Oldest open PR 3 days (#7090, opened Nov 1). Open: #7090, #7103, #7127, #7151, #7159 (at the limit of 5).
 
 ## Machine and permission (Nov 3, cloud trial)
 
@@ -59,6 +59,25 @@
 **Card.** Finish line (path 7): Meadow Lakes, Alaska (f835dd278d7312a1). A promised vote is held to you, "we'll talk later" comes due, and a reporter's story quotes you or says you declined. Proof: played-world tests naming place, replay number and record ids, replayed on main by another session. Hands off: Lane 1's legislature and campaigns records, which Lane 3 reads. Known cheats: a scene with no consequence, a keeps label nobody reads. Size: 16 to 20 hours, steps of about 400 lines. Checked by: a fresh session.
 
 - **Step 1, `words-press-comment-in-the-story` (Built; branch `lane3/press-comment-printed`, head e1b30cc7; PR waits for a slot):** what a member tells a reporter about their bill, or that they declined, is in the paper's story of it. The press keeps a `comments` table, and every story kind may end on a comment sentence. The reporter's scene about an introduced bill could never be worded before: nothing set `introduced` or the reporter's outlet. Now it plays. Shown: Jayuya, Puerto Rico ('Connie Gallagher told reporters: "People who work two jobs and still come up short. It's written for them."') and Crimora, Virginia ("Timothy McKay declined to comment."), seed f03c46d0d2876ea3; also Weogufka, Alabama and St. George, West Virginia, seed e2c4609d58b7565d. Break-it check: without the scene fix the scene is not composed. A candidate meets no reporter's question, since declining an interview is a snub, so the proof is from office. Next in unit 5: a reporter calling about a vote, and "we'll talk later" coming due.
+
+## Unit 6: one life told as a story (card written Nov 4; step 1 built)
+
+**Card.** Finish line (path 9): Haleyville, two years. No chapter is titled after someone else, no "I ran for..." line comes months early, and the first paper has only fresh news. Proof: played-world tests in `src/director` over two years in drawn places, naming place, seed and record ids, with a break-it check. The fixed town is replayed on main by another session. Hands off: `src/bench` (Lane 4), the paper's screen. Known cheats: a line naming no record, a title dropped rather than told, counting lines as proof. Size: 10 to 14 hours in steps of about 400 lines. Checked by: a fresh session, and the owner for how it reads.
+
+- **Step 1, `director-journal-one-story` (claimed; branch `lane3/journal-story`, head 3bae23a4; PR waits for a slot):** journal rows now name whose moment opens a chapter (`turnFor`). A filing or an oath opens one only when it is the player's own; a birth or a death, only the player's own or a relative's. A death's chapter names the tie ("My father"), not the given name. Proof: `journal-story.test.ts`, "opens no chapter on someone else's filing or oath over two played years".
+  - **Mason City, Nebraska** (JOURNAL_STORY_SEED=ab5f58e9be125c95): 12 other people's oaths are told inside the player's chapters, for example `took-office:seat:gus2025:130174:sheriff:0:2027-01-07`.
+  - **Kauneonga Lake, New York** (fresh seed 3102f490dcd338a7): 13 told the same way.
+  - **Break-it check:** without the change, Mason City opens a chapter "Commissioner" on `candidate-filed:filing:contest:seat:gus2025:130174:board:6:2026-11-03:person_89f5c1a5f1eb39e6` and a chapter "Oscar Roy" on a stranger's birth.
+  - `journal.test.ts`'s same-day relatives' race test now expects the relative's race inside the player's chapter.
+  - The filing day's wording ("So I filed to run for…, with the election set for…") is on `lane3/journal-filed-not-ran`.
+  - **Still open on the item:** a cause, feeling or time link between lines, and the Haleyville replay.
+
+## CI on the open PRs (Nov 4)
+
+- **#7151:** `purpose-scenes.test.ts` was red on main as well, at GOLDEN_PATH_SEED=6055c790d20b0c48 (Orchard City, Colorado). A filing now stages the clerk's counter before the talk at home, and the test composed the counter, reading the clerk as the relative. The test now names the home talk and answers the counter first; pushed 6faaae5b. It passes there and on fresh seeds 2326ac09eab5b217 and ae48573049c5e8ee.
+- **#7159:** an unused import failed eslint; pushed a64b9861.
+- **Not Lane 3's (also red on main at f8f920bd):** the families guard (`partnerships.ts`, `stopgap-families.ts` and `stopgaps-folder.ts` are not in families.json, and `montage.ts` imports `opening-key-people.ts`), and "urbanisation" in `docs/lanes/merge-desk.md` and a research doc. Main's Release also fails on a missing release declaration.
+- Two journal tests are red on drawn seeds in older code; evidence was added to their items. `journal-race-margin` (seed c256853f…, Antelope Hills, Wyoming) is on `tests-journal-margin-and-narration-once-flaky-on-drawn-seeds`. `journal-relative-acts` (seed 5912b772…), where the member's own Journal tells none of their bill acts, is on `words-journal-relative-office-acts-told-as-own`, which is marked done and has regressed.
 
 ## Failed
 
