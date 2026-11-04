@@ -5,11 +5,12 @@ area: words
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane3/owed-talk-facts
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T13:40:25.595Z
 ---
 
 **What.** agreements/2-3.md, owed talk: Lane 2 writes the owed-talk record; Lane 3 owns the reply facts. A scene reply whose ending keeps meeting-set, or ends put-off or not-yet, carries owedWith, owedTopic and owedDueOn on its scene.reply record.
