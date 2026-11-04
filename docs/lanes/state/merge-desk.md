@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 87 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 88 pull requests merged. Newest state at the top of each section.
 
 ## What the owner can play now
 
@@ -33,6 +33,7 @@ New on Nov 4, from the lanes:
   - A person's card tells their life as a short story.
   - The calendar shows meetings and holidays, not just birthdays.
   - Journal chapters open only on your own turns or a relative's.
+  - A question in everyday talk gets an answer, not just a nod.
 - **Laws and money.**
   - Unemployment benefits use the law's full wage basis.
   - The lobbying ban for officials who leave starts the day they actually leave.
@@ -73,7 +74,7 @@ New on Nov 3:
   - A pool fix (#7145).
   - A state page (#7146).
 
-## Lane PRs merged on Nov 4 (52), on the owner's word ("You may merge lane PRs that pass the new-game check")
+## Lane PRs merged on Nov 4 (53), on the owner's word ("You may merge lane PRs that pass the new-game check")
 
 Each had main merged in again, passed `npm run new-game-check` (a town drawn from all 56, a new life, four weeks) and merged pinned to that head.
 
@@ -131,6 +132,7 @@ Each had main merged in again, passed `npm run new-game-check` (a town drawn fro
 | #7194 | Lane 4's line of the red families guard: the montage imports people through the people module's entry (guards only)                              | Rockwood, Michigan                | cbce7ff365888bef |
 | #7195 | Journal chapters open only on your own turns or a relative's, never titled after someone else                                                    | Montgomery, Alabama               | 4a388744cb946666 |
 | #7100 | The calendar shows meetings and holidays, not just birthdays (the lane fixed its families-guard defect)                                          | Tiger, Georgia                    | 6eb0470304598551 |
+| #7196 | A question in everyday talk is answered, not just acknowledged                                                                                   | Stepping Stone, Colorado          | 90f886358d4bfcb3 |
 
 Conflicts resolved mechanically: #7154 (both sides added a parameter and a stopgap row; both kept), and #7153, #7157, #7160, #7162 (Lane 2's state page: main's wording for the one edited line, both sides' log entries kept). Mac builds started after 5, 13, 18, 25, 30, 35, 40, 45 and 50 of these merges.
 
