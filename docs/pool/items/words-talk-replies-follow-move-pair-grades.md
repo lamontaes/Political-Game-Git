@@ -5,11 +5,12 @@ area: words
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane3/talk-one-engine
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T16:38:30.597Z
 ---
 
 **What.** Split from words-everyday-talk-one-engine (its calibration line). The calibration table's move-pair grades (movePairs, 'ask>react') reached only composed speeches: the scene and talk word makers pick wordings of one move at a time, so a pair grade could not change their pick. In everyday talk the four replies offered (rankChoices in src/director/conversation.ts) are cut from a larger pool, and which reach the player was set by the reply-reach lean alone.
