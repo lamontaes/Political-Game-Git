@@ -751,6 +751,24 @@
       "kind": "written"
     },
     {
+      "key": "person-history.summary.no-work.earner.you",
+      "move": "summary",
+      "text": "You have no job of your own; your household lives on what {name} earns at {employer}.",
+      "origin": "authored",
+      "author": "Lane 4, Screens (play-who-you-are-says-why-no-job)",
+      "date": "2026-11-04",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.summary.no-work.none.you",
+      "move": "summary",
+      "text": "You have no job, and nobody in your household draws a wage.",
+      "origin": "authored",
+      "author": "Lane 4, Screens (play-who-you-are-says-why-no-job)",
+      "date": "2026-11-04",
+      "kind": "written"
+    },
+    {
       "key": "person-history.summary.school",
       "move": "summary",
       "text": "A student at {school}.",

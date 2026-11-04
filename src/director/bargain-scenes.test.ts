@@ -1,6 +1,8 @@
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
+import { bodyPicture } from "../bench/legislature";
+import { storyScene } from "../bench/story";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
@@ -87,6 +89,23 @@ it(`a vote trade is a vote ask for the holdout and a section bargain for the spo
         kind: "chamber",
         recordId: trade.facts!.chamber,
       });
+      // Pictured in that body's own room, the one the body scene shows, not a
+      // dwelling (director-scene-settings-chamber-office-seat).
+      if (!ask.joined) {
+        const room = bodyPicture(core, holdout, trade.facts!.chamber!);
+        expect(room, `${where}: the holdout sits on no body`).toBeTruthy();
+        const story = storyScene(
+          core,
+          director,
+          holdout,
+          ask.entry!.momentId,
+          10 * 60,
+        );
+        expect(story.place, `${where}: ${story.backdrop.file}`).toBe(room);
+        process.stdout.write(
+          `CHAMBER ${where}: vote-asked pictured in ${story.place} (${story.backdrop.file})\n`,
+        );
+      }
       const bargain = sceneFor(sponsor, "section-bargain");
       expect(
         bargain.binding,
