@@ -5,11 +5,12 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane3/victory-night-race
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T18:25:24.961Z
 ---
 
 **What.** victory-night.test.ts was red on main by draw (seed 8257473f737a957d: none of 16 places staged a night). It tried only the races open the first week it found one, filed residents who could not run or were already running, and watched only its own filers, so a resident who filed on their own and won or came second threw the draw away.
