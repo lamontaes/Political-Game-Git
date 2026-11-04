@@ -75,12 +75,15 @@ import {
   type CauseRow,
 } from "../core2/modules/campaigns";
 import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };
-import { outletsHere, PRESS_MODULE_ID } from "../core2/modules/press";
+import {
+  outletsHere,
+  PRESS_MODULE_ID,
+  townOutlet,
+} from "../core2/modules/press";
 import { closenessBetween } from "../core2/closeness";
 import { stakeOf } from "./family-stake";
 import { properName, spoken, spokenDate } from "./words";
 import { PRESS_STORY_EVENT } from "../core2/press-desk";
-import { PRESS_MODULE_ID, townOutlet } from "../core2/modules/press";
 import { giveInauguralAddress, inauguralStand } from "./inaugural-address";
 import {
   ADDRESS_KEEPS,
