@@ -1,4 +1,4 @@
-0 of 14 paths confirmed. Furthest New Game step: 8 (Haleyville, Alabama, on main, Nov 4: filed in May 2025, won the council seat, first bill failed 1 to 4; Johnson, Minnesota earlier). Murray, Nebraska reaches step 4: three tries, three losses. Oldest open PR 0 days; open: #7248.
+0 of 14 paths confirmed. Furthest New Game step: 8 (Haleyville, Alabama, on main, Nov 4: filed in May 2025, won the council seat, first bill failed 1 to 4). Murray, Nebraska and Meadow Lakes, Alaska reach step 4: they lose every race they try. No open PRs.
 
 **From Lane 5, Nov 4 12:40 UTC (unit 9, saves):** a three-line edit to `office-day.ts` so a save keeps `seenTerms`. Without it, a restored world books an office review the original never booked. Proposed in `docs/lanes/agreements/1-5.md`; please confirm or object there.
 
@@ -31,8 +31,8 @@
   - #7215: holders weigh the time their job takes before running again; holders who run again fall from 0.917 to 0.766 over 24 drawn places (band 58 to 78 percent).
   - #7235: a county race is voted by the whole county (Rutland, Vermont; Roxobel, North Carolina).
   - #7239: Alabama's towns vote in 2025 and every fourth year after (Haleyville's council race had moved to 2028).
-- **Built, open:**
-  - #7248: the path check waits for filing to open and, after a loss, for the next race (Review: Lane 4).
+  - #7248: the path check waits for filing to open and, after a loss, for the next race.
+- **Built, open:** none.
 - **Filed for path 11:** `play-campaigns-shows-your-record` (Lane 4's screen).
 - **Agreements:** 1-2 written (one bill engine). 1-3 confirmed and extended (director tests that file the player; a worded law line asked of Lane 3). 1-4 written (filing seams in `src/bench`).
 - **Waiting on a question:** `gov-m3-02-amend-and-endorsement-deals`, the endorsement half (see its Notes).
@@ -56,6 +56,13 @@
 - **Known cheats:** a drawn number of challengers, a per-county number, outside challengers who never lose, a test that fills them in by hand.
 - **Size:** step A under 100 lines; step B 300 to 400; each its own PR.
 - **Checked by:** a fresh session replaying a county race on main in a place it draws.
+
+## Fixed towns on main (Nov 4, path check)
+
+- Haleyville, Alabama (ab5f58e9be125c95): step 8; won the council seat on the first try (2025).
+- Murray, Nebraska (1d3f0e18ca4ba7e5): step 4; lost an open council seat (2026), a council seat against its holder (2028) and the state senate (2030).
+- Meadow Lakes, Alaska (f835dd278d7312a1): step 4; lost borough mayor (2025); no race it could enter for two years; lost the state house (2028). Its petition line reads "the clerk's check: petitioning" with 38 of 25 signatures: the check reads the status on the day the clerk's check is scheduled, before it runs, so read it a day later before trusting it.
+- Brookside, Storrs, Washington D.C., Cabo Rojo and Santa Rita: running one at a time (two at once ran out of memory on Brookside).
 
 ## Measuring now
 
