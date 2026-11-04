@@ -4272,10 +4272,10 @@
       }
     },
     {
-      "key": "journal.memoir-meant-friend.i-was-glad-for-them",
+      "key": "journal.memoir-meant-friend.that-made-me-glad",
       "move": "memoir-meant-friend",
       "kind": "spoken",
-      "text": "I was glad for them.",
+      "text": "That made me glad.",
       "uses": [
         {
           "move": "memoir-meant-friend",
@@ -4298,10 +4298,10 @@
       }
     },
     {
-      "key": "journal.memoir-meant-friend.i-was-happy-for-them",
+      "key": "journal.memoir-meant-friend.i-was-happy-about-that",
       "move": "memoir-meant-friend",
       "kind": "spoken",
-      "text": "I was happy for them.",
+      "text": "I was happy about that.",
       "uses": [
         {
           "move": "memoir-meant-friend",
