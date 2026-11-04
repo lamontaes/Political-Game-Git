@@ -5,9 +5,9 @@ area: core
 kind: cleanup
 priority: 1
 size: M
-status: claimed
+status: done
 claimed-by: one-map-reader
-pr:
+pr: #7273
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-04T19:54:30.468Z

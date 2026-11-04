@@ -296,6 +296,18 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.85.0
+
+_Released November 4, 2026._
+
+### Changed
+
+- **People thinking of running for an at-large board weigh the whole race, so
+  its field is no longer crowded.** Someone weighing a run for one seat of an
+  at-large race now counts everyone already running for its other seats, so a
+  three-seat selectboard race draws about as many candidates a seat as a
+  one-seat race, not twelve.
+
 ## PRE-ALPHA 0.84.0
 
 _Released November 4, 2026._
