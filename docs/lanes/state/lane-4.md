@@ -1,4 +1,4 @@
-0 of 13 played paths confirmed; 2 wait on the people system. Oldest open PR 0 days (#7233); open: #7233, #7238, #7241.
+1 of 13 played paths confirmed; 2 wait on the people system. Oldest open PR 0 days (#7233); open: #7233, #7238, #7241, #7242.
 
 # Lane 4 state: Screens
 
@@ -25,6 +25,7 @@ Owner's word, Nov 4: screens tonight, no people. No new pictures: the art on mai
   - #7233: skills, play-first learns this session's traps (for the CTO).
   - #7238: the newspaper turns pages; it carries two fit fixes that missed #7231's merge. Replay: `MENUS_PLACE="Delaware|Brookside" node src/bench/menus-no-scroll.browser.mjs` (reads every page).
   - #7241: main red, kit-only-ui (from my #7231): the Parties roster box comes from the kit. The other two guards red on main (families: executive.ts; english: other lanes' docs) are not Lane 4's.
+  - #7242: main red, families (executive.ts deep import of the filing clerk, from #7164): read through the elections entry. Left for owners: "Rockville Centre" in the Confirmer's Lane 5 proof and "Fairfield Harbour" in merge-desk.md trip the english guard.
 - **Path 6 (Clerk and Travel), seen in passing:** in Oakland, South Carolina the filing office's Travel card read "Closed now. Opens Monday, February 2, 2026 at 8:00 AM", and Go opened the counter that morning at 8:00. Not yet replayed in Brookside at night.
 - **Mock for the owner (through the CTO):** the campaign board, `docs/mocks/2026-11-04/campaign-board.html` and `.png` (path 9): the race with its standing and poll, signatures against needed and the clerk's verdict, the issues the race turns on, an inbox where each item opens its scene, and the team by role (names only until the people system). Building waits on his look; Lane 4 takes the next unit meanwhile.
 - **Issues and Budgets (unit 9):** no answer yet on the Nov 1 mocks (`play-first/mocks-issues-budgets`); only shared parts until he answers. The shared fit (#7231) already keeps Issues from scrolling; Budgets runs 13px over at 1024x768 and is left for his answer. `play-law-on-your-record-unreachable` reworks Issues, so it waits too.
@@ -105,3 +106,15 @@ Owner's word, Nov 4: screens tonight, no people. No new pictures: the art on mai
 - **Hands off:** the calendar's behavior.
 - **Known cheats:** raising a baseline count.
 - **Size:** under an hour. **Checked by:** the checker and the merge desk.
+
+## Confirmer
+
+Replays by a session that built none of this lane's work, on main. Only this section is the Confirmer's. Proof: `docs/lanes/proof/confirmer-lane4/` (README per path).
+
+- **Path 1, title: replayed, waits on the owner's look.** Main 705120be1b. White House, Lincoln and the Capitol in six lights at three sizes, no conventions, nothing past the window. Character and passersby wait on people.
+- **Path 3, loading, Storrs: replayed, waits on the owner's look.** Main 705120be1b. Inside the window at three sizes, no scroll; year counter, journal lines and counties filling in. Seen: "Storrs CDP" on the map; no headline in the three frames.
+- **Path 4, opening, Haleyville: not confirmed.** Main 705120be1b, replay ab5f58e9be125c95. Desk, colonnade, America, Congress, the governor and state leaders named over the capitol, home, Skip scene throughout. The home beat has no partner's line and draws nobody (waits on people, as this page says).
+- **Path 5, first evening: fail.** Main fb000259ca, the eight fixed towns. The room matches the house everywhere; Haleyville draws nobody at home, and Storrs and Santa Rita seat someone in a work blazer. Covered by `people-home-plates` and `people-pack-v4-pose-gaps`. Fail 1 of 3.
+- **Path 10, who you are, Santa Rita: fail.** Main 705120be1b, replay 6f539fcfdf6d96f9-5, born 1960 (no job). Why ("nobody in your household draws a wage") and the town's size show at three sizes; eight weeks brought no job offer as a scene. Covered by `world-player-jobless-no-offers`. Fail 1 of 3.
+- **Path 13, election night, Storrs: pass.** Main 705120be1b, replay storrs-1, New Game, lost Selectman 223 to 552 on November 4, 2025. Four returns pages at 1440×900, 1280×800 and 1024×768: no raw words, both governor rows inside the panel, nothing scrolls. Filed `elections-night-returns-steps-add-up` (a middle page says the rest of the town is in at 2 to 0). Proof: `docs/lanes/proof/confirmer-lane4/election-night/`.
+- **Not replayed:** 6 (no filing office in Brookside until filing opens), 7 to 9 (the owner's mocks), 11 (#7231 open), 2 and 12 (people).
