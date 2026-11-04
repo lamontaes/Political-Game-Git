@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: lane-2/dwelling-coverage
 pr: #7147
 blocked-on:

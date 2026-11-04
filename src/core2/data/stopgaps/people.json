@@ -64,7 +64,7 @@
     "kind": "missing-record",
     "file": "src/core2/press-staff.ts",
     "line": 196,
-    "whatItFakes": "A press person who lives outside the town (a station group's owner, a station news director, a national outlet's staff) is seated alone in their own household with no rent, living costs or family, as the core's identity fill-in makes them. The town's own staff are filled in from its wider population with their household.",
+    "whatItFakes": "A press person who lives outside the town (a station group's owner, a station news director, a national outlet's staff), or one the town had no jobless adult of the role's age left to fill in, is seated from a recorded identity in a household of one with no kin. Since people-press-staff-households they carry the one-person household officials get (official-living.ts: the Consumer Expenditure basket and the state's studio rent, and the savings a family keeps at their pay) and spend it each week, but no household record holds them a home, a family or a rent of their own. The town's own staff are filled in from its wider population with their household.",
     "why": "The identity fill-in (OPUS-CORE) seats a named person without a home or a budget; a press person's home and family need the population builder's household draw.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-14",

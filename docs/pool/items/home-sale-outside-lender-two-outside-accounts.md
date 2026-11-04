@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: lane-5/home-sale-outside-lender
 pr: #7148
 blocked-on:

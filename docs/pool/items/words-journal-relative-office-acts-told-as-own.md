@@ -23,3 +23,5 @@ claimed-at: 2026-10-27T19:23:18.946Z
 **Files.** src/director/journal.ts, src/director/journal.test.ts
 
 **Notes.** Found while building play-stop-22-election-win-never-shown-b (PR #6147); the after journal screenshot in that PR shows it.
+
+**Notes.** Evidence (Lane 3, Nov 4 UTC). `journal-relative-acts.test.ts` fails at seed `5912b772a81b593da085026cb674d4cbb192a2c9` on main code (Lane 3 head 3a8a08e2) with "toMatch() expects a string, got undefined": the member's own journal tells none of their bill acts (`office.introduced`/`office.voted`), so the first-person check has no line. Same failure with and without branch `lane3/journal-story`. The item is marked done; this is a regression to reopen or file as a new item.
