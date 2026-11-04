@@ -5,11 +5,12 @@ area: words
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane3/press-comment-printed
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T02:54:52.505Z
 ---
 
 **What.** The press-interview scene's endings keep story-runs, and no engine read them. The scene could also never be worded for an introduced bill: no narration fit, because the introduced fact and the outlet were never set. Path 7 asks for a reporter's story that quotes you or says you declined.
