@@ -5,11 +5,12 @@ area: people
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane-2/counted-adult-concern
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T10:50:29.054Z
 ---
 
 **What.** Bounded part of people-counted-readers-stances-from-stories: press townConcern currently sums every stance including outsiders and children over all full residents, omitting the weighted counted audience. Read the existing town resident identities and weights when interviewQuestions weighs local concern.
