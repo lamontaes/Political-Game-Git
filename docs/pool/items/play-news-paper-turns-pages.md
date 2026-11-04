@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: lane-4/paper-pages
-pr:
+pr: #7238
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-04T11:28:19.884Z
