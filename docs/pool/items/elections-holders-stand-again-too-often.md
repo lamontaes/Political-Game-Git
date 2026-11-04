@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: governing/holders-stand-again
-pr:
+pr: #7215
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-04T08:45:14.658Z
