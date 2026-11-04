@@ -477,6 +477,23 @@ function composeBinding(
       text: said.number ?? "",
       sourceRecordIds: [moment.causeId, said.billId ?? moment.causeId],
     };
+  // A vote the asked person sat for (legislature.ts): the lines asked after
+  // a vote need it, and which side they took, from their own vote record; a
+  // member the roll shows on neither side has no side.
+  if (record?.kind === "legislative-vote") {
+    facts["vote-held"] = {
+      text: said.number ?? "",
+      sourceRecordIds: [moment.causeId],
+    };
+    const ownId = `office.voted:${said.billId ?? ""}:${askedId}`;
+    const own = core.durableLog.get(ownId)?.facts?.vote;
+    // The side is in the fact's name, so the bank's lines say it in words.
+    if (own === "yes" || own === "no")
+      facts[`voted-${own}`] = {
+        text: said.number ?? "",
+        sourceRecordIds: [moment.causeId, ownId],
+      };
+  }
   // A reporter cast for a record that names no outlet speaks for the outlet
   // that employs them, by its record.
   if (!facts.outlet && !said.outletId && core.modules.has(PRESS_MODULE_ID)) {
