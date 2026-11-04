@@ -11,10 +11,8 @@ import {
   searchCorePlaces,
   corePlaceStateIdentities,
 } from "../core2/place-lookup";
-import {
-  countyGeoidsForPlace,
-  governmentUnitsForPlace,
-} from "../core2/reference/government-units";
+import { governmentUnitsForPlace } from "../core2/reference/government-units";
+import { placeCountyGeoids } from "../core2/place-map";
 import { municipiosForPlace } from "../core2/gov-rules/county-governing-body-rules";
 import { placeReferencePopulation } from "../core2/gov-rules/place-population";
 import { parameter } from "../core2/parameters";
@@ -114,7 +112,7 @@ function townCounty(sourceGeoid: string | undefined) {
   if (!sourceGeoid) return null;
   const [municipio] = municipiosForPlace(sourceGeoid);
   if (municipio) return municipio.name.replace(/ Municipio$/, "");
-  const [geoid] = countyGeoidsForPlace(sourceGeoid);
+  const [geoid] = placeCountyGeoids(sourceGeoid);
   return geoid ? (corePlaceByKey(`county:${geoid}`)?.formalName ?? null) : null;
 }
 

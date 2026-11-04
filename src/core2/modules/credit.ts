@@ -9,7 +9,7 @@
 import countyRows from "../../../data/tables/local-business-counts.json" with { type: "json" };
 import depositRows from "../../../data/tables/town-deposits.json" with { type: "json" };
 import regions from "../data/regional/regions.json" with { type: "json" };
-import { countyPopulationSharesForPlace } from "../reference/government-units";
+import { placeCountyPopulationShares } from "../place-map";
 import { corePlaceByKey } from "../place-lookup";
 import { addDays, makeIsoDate, daysBetweenText } from "../kernel/dates";
 import creditData from "../data/credit/credit.json" with { type: "json" };
@@ -124,7 +124,7 @@ export function townBankFor(input: CoreInput): TownBank | undefined {
   const geoid = place?.sourceGeoid ?? "";
   const county =
     geoid.length === "SSPPPPP".length
-      ? [...countyPopulationSharesForPlace(geoid)].sort(
+      ? [...placeCountyPopulationShares(geoid)].sort(
           (a, b) => (b[1] ?? 0) - (a[1] ?? 0),
         )[0]?.[0]
       : geoid;

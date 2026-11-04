@@ -34,9 +34,9 @@ import {
   makeIsoDate,
 } from "./kernel/dates";
 import {
-  countyLandSharesForPlace,
-  countyPopulationSharesForPlace,
-} from "./reference/government-units";
+  placeCountyLandShares,
+  placeCountyPopulationShares,
+} from "./place-map";
 import {
   HOUSEHOLD_MIX_META,
   householdMixForJurisdiction,
@@ -219,10 +219,10 @@ const GENERATED_PROVENANCE = {
 /** Geography is distinct from government: a county area need not have a county council. */
 function countyContexts(place: CorePlace): readonly CountyContext[] {
   const population = place.sourceGeoid
-    ? countyPopulationSharesForPlace(place.sourceGeoid)
+    ? placeCountyPopulationShares(place.sourceGeoid)
     : [];
   const land = place.sourceGeoid
-    ? new Map(countyLandSharesForPlace(place.sourceGeoid))
+    ? new Map(placeCountyLandShares(place.sourceGeoid))
     : new Map<string, number>();
   const rows: CountyContext[] = [];
   for (const [geoid, populationShare] of population) {

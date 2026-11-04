@@ -3,7 +3,7 @@
  * leases. Moved from the old engine's `living-world/town-rent.ts`; read by
  * the opening, births and the shelter stand-in.
  */
-import { countyGeoidsForPlace } from "./reference/government-units";
+import { placeCountyGeoids } from "./place-map";
 import {
   TOWN_RENT_COUNTIES,
   TOWN_RENT_META,
@@ -174,7 +174,7 @@ export function publishedHudRentRowFor(
   if (!place) return null;
   loadRows();
   const state = place.stateJurisdictionKey?.replace(/^US-/, "") ?? null;
-  const countiesForPlace = geoid ? countyGeoidsForPlace(geoid) : [];
+  const countiesForPlace = geoid ? placeCountyGeoids(geoid) : [];
   for (const county of countiesForPlace) {
     const whole = countyRows!.get(county);
     if (whole) return whole;
