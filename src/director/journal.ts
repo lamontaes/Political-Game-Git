@@ -1659,9 +1659,17 @@ function linkLines(
         makeIsoDate(earlier.date),
         makeIsoDate(line.date),
       );
+      // A person or a place both lines name (the player, their town) is
+      // who and where, never a cause.
       const theirs = new Map<string, string>();
       for (const id of earlier.sourceRecordIds)
-        for (const name of namesOf(core, id)) theirs.set(name, id);
+        for (const name of namesOf(core, id))
+          if (
+            !core.people.has(name as never) &&
+            !corePlaceByJurisdictionId(name as never) &&
+            !core.households.has(name)
+          )
+            theirs.set(name, id);
       const shared = line.sourceRecordIds.flatMap((id) =>
         [...namesOf(core, id)]
           .filter((name) => theirs.has(name))
