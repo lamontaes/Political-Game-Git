@@ -1,48 +1,98 @@
 {
-  "head": "9a6b9f7feb66eaf4daa163ad00d402dd59191455",
-  "replay": "13888b346fca4c81",
-  "place": "Dededo, Guam",
-  "failure": null,
-  "steps": [
-    {
-      "route": "POST /api/newlife?seed=13888b346fca4c81",
-      "status": 200,
-      "seconds": 24.061502754
-    },
-    {
-      "route": "POST /api/advance?mode=week",
-      "status": 200,
-      "seconds": 0.014246835000001738
-    },
-    {
-      "route": "POST /api/advance?mode=week",
-      "status": 200,
-      "seconds": 2.072843137
-    },
-    {
-      "route": "POST /api/advance?mode=week",
-      "status": 200,
-      "seconds": 5.410618658999996
-    },
-    {
-      "route": "POST /api/advance?mode=week",
-      "status": 200,
-      "seconds": 0.0008915080000006128
-    },
-    {
-      "route": "POST /api/resume?pauseId=player%3Aperson_9aabf7f03d0cda7d%3A16",
-      "status": 200,
-      "seconds": 0.8653934670000016
-    },
-    {
-      "route": "GET /api/scene?id=person_9aabf7f03d0cda7d",
-      "status": 200,
-      "seconds": 0.01910639000000083
-    },
-    {
-      "route": "GET /api/journal",
-      "status": 200,
-      "seconds": 0.0016997919999994337
-    }
-  ]
+  "candidate": {
+    "head": "9a6b9f7feb66eaf4daa163ad00d402dd59191455",
+    "replay": "13888b346fca4c81",
+    "place": "Dededo, Guam",
+    "failure": null,
+    "steps": [
+      {
+        "route": "POST /api/newlife?seed=13888b346fca4c81",
+        "status": 200,
+        "seconds": 24.061502754
+      },
+      {
+        "route": "POST /api/advance?mode=week",
+        "status": 200,
+        "seconds": 0.014246835000001738
+      },
+      {
+        "route": "POST /api/advance?mode=week",
+        "status": 200,
+        "seconds": 2.072843137
+      },
+      {
+        "route": "POST /api/advance?mode=week",
+        "status": 200,
+        "seconds": 5.410618658999996
+      },
+      {
+        "route": "POST /api/advance?mode=week",
+        "status": 200,
+        "seconds": 0.0008915080000006128
+      },
+      {
+        "route": "POST /api/resume?pauseId=player%3Aperson_9aabf7f03d0cda7d%3A16",
+        "status": 200,
+        "seconds": 0.8653934670000016
+      },
+      {
+        "route": "GET /api/scene?id=person_9aabf7f03d0cda7d",
+        "status": 200,
+        "seconds": 0.01910639000000083
+      },
+      {
+        "route": "GET /api/journal",
+        "status": 200,
+        "seconds": 0.0016997919999994337
+      }
+    ]
+  },
+  "integrated": {
+    "head": "a83030b21b3aee6c4e923972d87a09e64f9a1276",
+    "replay": "9fdc0f3f1579473e",
+    "place": "Slaughter Beach, Delaware",
+    "failure": null,
+    "steps": [
+      {
+        "route": "POST /api/newlife?seed=9fdc0f3f1579473e",
+        "status": 200,
+        "seconds": 5.845817601
+      },
+      {
+        "route": "POST /api/advance?mode=week",
+        "status": 200,
+        "seconds": 0.9735609650000006
+      },
+      {
+        "route": "POST /api/advance?mode=week",
+        "status": 200,
+        "seconds": 0.10043507499999942
+      },
+      {
+        "route": "POST /api/resume?pauseId=player%3Aperson_4e137e61558f7396%3A12",
+        "status": 200,
+        "seconds": 0.6315282310000002
+      },
+      {
+        "route": "POST /api/advance?mode=week",
+        "status": 200,
+        "seconds": 0.5967321430000011
+      },
+      {
+        "route": "POST /api/advance?mode=week",
+        "status": 200,
+        "seconds": 0.7214308220000003
+      },
+      {
+        "route": "GET /api/scene?id=person_4e137e61558f7396",
+        "status": 200,
+        "seconds": 0.0019398620000010852
+      },
+      {
+        "route": "GET /api/journal",
+        "status": 200,
+        "seconds": 0.001061322999999902
+      }
+    ]
+  }
 }
