@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: lane-2/law-chain-reader
-pr:
+pr: #7251
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-04T13:13:15.618Z
@@ -22,3 +22,11 @@ claimed-at: 2026-11-04T13:13:15.618Z
 **Files.** src/core2/laws-in-force.ts; src/core2/in-town-chain.test.ts; lane proof
 
 **Notes.** U2 step1 in docs/work-orders/world-governing-u2-spec-2026-11-01.md. Searched pool for local-sales-tax-average, local average, inTownChain and own jurisdiction; older seller/negative-average items are done and address different issues. No equivalent live child. 2-hour time box for this bounded reader; wider U2/U3/U4 remain in gov-every-state-and-town-governs.
+
+**Time box.** 2 hours for the bounded resolver, generated-world reader and countercheck.
+
+**You will see.** Your town's sales-tax reader keeps its own state's local rate when other governments' law rows are present; broader sessions remain unfinished.
+
+**Screenshot.** No screen change. The generated-world record proof names the law, tax reader, buyer and treasury payee.
+
+**Checked by.** A session that did not build the change, on main.
