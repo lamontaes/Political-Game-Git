@@ -23,6 +23,7 @@ import rows from "../data/news/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
 import type {
   CoreAPI,
+  CoreEventInput,
   CoreModule,
   CoreState,
   KnownFact,
@@ -37,8 +38,27 @@ import {
   reportOutcome,
   traitProbe,
 } from "../trait-decisions";
-import { VIEWS_SPEAKER_KEY, viewOf, viewOn } from "./views";
+import {
+  VIEWS_SPEAKER_KEY,
+  viewOf,
+  viewOn,
+  hearCountedNews,
+  type CountedNewsAudience,
+} from "./views";
 import { conditionQuestions, measureOfFactKey } from "../outcome-news";
+
+type CountedNewsSource = (
+  api: CoreAPI,
+  storyId: string,
+  namedReaders: number,
+) => readonly CountedNewsAudience[];
+let countedNewsSource: CountedNewsSource | undefined;
+/** The press supplies recorded audience mass; news owns delivery time. */
+export function registerCountedNewsSource(source: CountedNewsSource): void {
+  if (countedNewsSource && countedNewsSource !== source)
+    throw new Error("Counted news already has an audience source");
+  countedNewsSource = source;
+}
 
 /** The press module's id (kept here so news does not import the press). */
 const PRESS_MODULE_ID = "core2-press-v1";
@@ -719,7 +739,7 @@ export function createNewsModule(
         deliveries(api).remove(row.id);
       }
       // Today's readers of a printed story take in what it argued.
-      // stopgapId: SG-PEOPLE-counted-readers-stories (an outlet's counted followers are a count at delivery; their groups' views do not move)
+      // stopgapId: SG-PEOPLE-counted-readers-stories (condition-story direction and retained-person transfers remain unfinished)
       for (const [storyId, ids] of [...readers].sort((a, b) =>
         a[0].localeCompare(b[0]),
       )) {
@@ -731,8 +751,8 @@ export function createNewsModule(
           desiredChange: string | undefined,
           witnessIds: readonly PersonId[],
           facts: Readonly<Record<string, string>>,
-        ) =>
-          api.emit({
+        ) => {
+          const event: CoreEventInput = {
             id,
             date: api.state.date,
             kind: NEWS_READ,
@@ -750,7 +770,10 @@ export function createNewsModule(
               citation: `Story ${story.id}, read by its outlet's followers`,
               asOf: api.state.date,
             },
-          });
+          };
+          api.emit(event);
+          return event;
+        };
         // A month's move in the town's conditions argues no change of its
         // own: each reader takes each condition it reports as a reason for
         // the side their own view already holds on the question that
@@ -799,13 +822,26 @@ export function createNewsModule(
         // bring up the law in town.
         if (!story.topic || (!story.desiredChange && !story.facts.lawId))
           continue;
-        read(
+        const event = read(
           `${NEWS_READ}:${story.id}:${api.state.date}`,
           story.topic,
           story.desiredChange,
           alive,
           story.facts,
         );
+        if (story.desiredChange)
+          for (const reader of countedNewsSource?.(
+            api,
+            story.id,
+            alive.length,
+          ) ?? [])
+            hearCountedNews(
+              api,
+              reader,
+              event,
+              event.facts?.[VIEWS_SPEAKER_KEY],
+              newsKey(story.id),
+            );
       }
     },
   };

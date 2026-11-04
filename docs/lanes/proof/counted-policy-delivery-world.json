@@ -1,0 +1,78 @@
+{
+  "town": "Dufur, Oregon",
+  "placeKey": "4120900",
+  "replay": "1870fc0775be33c1",
+  "worldSeed": "3d0b5b68e2b72414f6d7d220ea68a2273bee661496666c4100df1b6437a69ef8",
+  "observedOn": "2025-02-04",
+  "groupId": "counted-news:group:jurisdiction_3f9aaaa3791c3b11:town:adults:income-1:rent:30-44:working",
+  "adults": 12,
+  "audienceAdults": 12,
+  "stance": {
+    "id": "counted-news:group:jurisdiction_3f9aaaa3791c3b11:town:adults:income-1:rent:30-44:working:us-policy-positions:housing-land-use.inclusionary-requirement",
+    "personId": "counted-news:group:jurisdiction_3f9aaaa3791c3b11:town:adults:income-1:rent:30-44:working",
+    "topic": "us-policy-positions:housing-land-use.inclusionary-requirement",
+    "desiredChange": "repeal",
+    "strength": 0.0005273672199712223,
+    "causes": [
+      {
+        "eventId": "news.read:printed:outlet:television:0:jurisdiction_3f9aaaa3791c3b11:bill-vote:bill:office:gus2025:133200:board:2025-01-21:person_d594ad49992dd77a:0:office:gus2025:133200:board:2025-02-04",
+        "date": "2025-02-04",
+        "change": 0.0006548907987230395,
+        "speakerId": "person_0485a15c17342ea5",
+        "learnedFrom": "news:printed:outlet:television:0:jurisdiction_3f9aaaa3791c3b11:bill-vote:bill:office:gus2025:133200:board:2025-01-21:person_d594ad49992dd77a:0:office:gus2025:133200:board",
+        "count": 1,
+        "total": 0.0006548907987230395
+      }
+    ],
+    "heard": {
+      "person_03c4efc8c747d9d3": 1.0349494395696253,
+      "person_0485a15c17342ea5": 0.36922572970366857,
+      "person_04ed9721b3dcc196": 0.27158617584149497,
+      "person_073494d6fe46bec3": 0.22632181320124586,
+      "person_085d1d8cb4e39f27": 0.27158617584149497
+    },
+    "groupId": "counted-news:group:jurisdiction_3f9aaaa3791c3b11:town:adults:income-1:rent:30-44:working",
+    "representedCount": 12,
+    "reachedCount": 1.2225970543163631,
+    "totalChange": 0.007858689584676474
+  },
+  "sourceStory": {
+    "id": "printed:outlet:television:0:jurisdiction_3f9aaaa3791c3b11:bill-vote:bill:office:gus2025:133200:board:2025-01-21:person_d594ad49992dd77a:0:office:gus2025:133200:board",
+    "kind": "press.printed",
+    "outletId": "organization:press:television:0:jurisdiction_3f9aaaa3791c3b11",
+    "date": "2025-02-03",
+    "placeId": "jurisdiction_3f9aaaa3791c3b11",
+    "topic": "us-policy-positions:housing-land-use.inclusionary-requirement",
+    "desiredChange": "repeal",
+    "framing": 0.10634947369849618,
+    "moodImpulse": 0.27658736842462406,
+    "facts": {
+      "billId": "bill:office:gus2025:133200:board:2025-01-21:person_d594ad49992dd77a:0",
+      "number": "2025-1",
+      "level": "county",
+      "form": "ordinance",
+      "motion": "adopt",
+      "subjects": "us-policy-positions:housing-land-use.inclusionary-requirement",
+      "chamber": "office:gus2025:133200:board",
+      "yes": "1",
+      "no": "2",
+      "sourceRecordId": "bill-vote:bill:office:gus2025:133200:board:2025-01-21:person_d594ad49992dd77a:0:office:gus2025:133200:board",
+      "printed:organization:press:television:0:jurisdiction_3f9aaaa3791c3b11:story": "printed:outlet:television:0:jurisdiction_3f9aaaa3791c3b11:bill-vote:bill:office:gus2025:133200:board:2025-01-21:person_d594ad49992dd77a:0:office:gus2025:133200:board",
+      "views:speaker": "person_0485a15c17342ea5"
+    }
+  },
+  "weightedStrength": 0.2563818869129085,
+  "concern": 0.0019893947666001976,
+  "interviewPersonId": "person_48499c45a2b075bc",
+  "questions": [
+    "us-policy-positions:housing-land-use.inclusionary-requirement",
+    "us-policy-positions:transportation-infrastructure.public-broadband",
+    "us-policy-positions:housing-land-use.right-to-counsel-in-eviction"
+  ],
+  "through": "2026-01-20",
+  "cacheFillIn": {
+    "personId": "person_a477708a2fa9d180",
+    "before": 2406,
+    "after": 2404
+  }
+}
