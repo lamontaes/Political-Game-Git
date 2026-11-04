@@ -5,9 +5,9 @@ area: director
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: lane3/chamber-office-pictures
-pr:
+pr: #7207
 blocked-on:
 lead: director
 source: added with npm run pool -- add
