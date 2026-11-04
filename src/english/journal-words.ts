@@ -307,7 +307,9 @@ export type MemoirField =
   | "remember"
   | "became"
   | "joinCause"
-  | "joinLater";
+  | "joinLater"
+  | "meantFriend"
+  | "meantRival";
 
 /**
  * A line of the journal: the event worded for whose it was (`line`, with
