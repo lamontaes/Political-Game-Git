@@ -1225,28 +1225,26 @@ function terms0(api: CoreAPI): MortgageTerms[] | undefined {
 function amortize(api: CoreAPI): void {
   const c = core(api),
     months = api.parameter("macroMonthsPerYear");
-  // The counted households' payments are one flow per holder, so the share paid is read from the month's
-  // requested and paid totals of mortgage payments; an unpaid part is not applied to the balance.
-  const totals = c.finance.totalsByKind.get("household.mortgage");
-  const seen = store(api).table("state").get("housing:mortgage-paid") as
-    { requestedMinor: number; paidMinor: number } | undefined;
-  const requested = (totals?.requestedMinor ?? 0) - (seen?.requestedMinor ?? 0);
-  const paidShare =
-    requested > 0
-      ? Math.max(
-          0,
-          Math.min(
-            1,
-            ((totals?.paidMinor ?? 0) - (seen?.paidMinor ?? 0)) / requested,
-          ),
-        )
-      : 1;
-  if (totals)
-    store(api).table("state").put({
-      id: "housing:mortgage-paid",
-      requestedMinor: totals.requestedMinor,
-      paidMinor: totals.paidMinor,
-    });
+  const residents = residentsRuntime(c);
+  const ownPayments = new Map<
+    string,
+    { month?: string; asked: number; paid: number }
+  >();
+  for (const flow of residents?.flows.values() ?? []) {
+    if (
+      flow.endedAt ||
+      flow.financeKind !== "household.mortgage" ||
+      flow.amountByContract
+    )
+      continue;
+    const payer = c.people.get(flow.payerId);
+    if (payer)
+      ownPayments.set(payer.householdId, {
+        month: flow.lastPaidMonth,
+        asked: flow.lastRequestedMinor ?? 0,
+        paid: flow.lastPaidMinor ?? 0,
+      });
+  }
   // Counted owners behind: their group's housing arrears, least income first.
   const behind = countedOwnersBehind(api);
   for (const row of store(api)
@@ -1269,6 +1267,23 @@ function amortize(api: CoreAPI): void {
         .put({ ...row, missedMonths: (row.missedMonths ?? 0) + 1 });
       continue;
     }
+    // A household's payment belongs to its own group. Other groups' unpaid
+    // bills must not reduce the principal this group actually paid.
+    const householdIndex = residents?.store.householdOf.get(row.householdId);
+    const household =
+      householdIndex === undefined
+        ? undefined
+        : residents!.store.households[householdIndex];
+    const payment =
+      ownPayments.get(row.householdId) ??
+      (household && !household.gone
+        ? residents!.housingMonth.get(household.group)
+        : undefined);
+    const paidShare = bill
+      ? 1
+      : payment?.month === c.date.slice(0, 7) && payment.asked > 0
+        ? Math.max(0, Math.min(1, payment.paid / payment.asked))
+        : 0;
     const interest = Math.round((row.balanceMinor * row.rate) / months);
     // Interest accrues in full; the balance falls only by what was paid past it (an unpaid part adds to it).
     const paidMinor = c.finance.contracts.has(row.id)
