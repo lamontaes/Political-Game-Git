@@ -1,0 +1,30 @@
+{
+  "town": "Westlake, Ohio",
+  "placeKey": "3983622",
+  "replay": "5e7657e2c76ba1bc",
+  "worldSeed": "606f949645d11a9f3f1b46a07a6086d82de32a52c65ae4e326bae78c7f45d7d5",
+  "through": "2029-01-19",
+  "personId": "person_4917a806c99ae6b7",
+  "name": "Nicholas White",
+  "stance": {
+    "id": "person_4917a806c99ae6b7:us-policy-positions:housing-land-use.inclusionary-requirement",
+    "personId": "person_4917a806c99ae6b7",
+    "topic": "us-policy-positions:housing-land-use.inclusionary-requirement",
+    "desiredChange": "enact",
+    "strength": 0.010036383474442042,
+    "causes": [
+      {
+        "eventId": "speech:remark:bill:office:gus2025:172248:board:2025-01-21:person_3a287725b150fd9a:0:person_2d614e8fcbedbb03:retold:person_4917a706c99ae504",
+        "date": "2025-01-21",
+        "change": 0.010036383474442042,
+        "speakerId": "person_4917a706c99ae504",
+        "count": 1,
+        "total": 0.010036383474442042
+      }
+    ],
+    "heard": {
+      "person_4917a706c99ae504": 1
+    }
+  },
+  "stanceOn": 0.010036383474442042
+}
