@@ -85,6 +85,19 @@ it("the day after the player's race, Journal, News and Government cite its resul
     expect(story!.lede ?? story!.headline, where).toMatch(
       race.won ? /\b(won|beat)\b/ : /\b(lost|defeated)\b/,
     );
+    // Every sentence of the story keeps who won: a lost race never says the
+    // player beat the rival, and a won race never says the rival beat them.
+    const name = core.people.get(playerId!)!;
+    const player = `${name.givenName} ${name.familyName}`;
+    const whole = [story!.headline, story!.lede, ...(story!.paragraphs ?? [])]
+      .filter(Boolean)
+      .join(" ");
+    if (race.rival)
+      expect(whole, where).not.toContain(
+        race.won
+          ? `${race.rival.name} beat ${player}`
+          : `${player} beat ${race.rival.name}`,
+      );
 
     // Journal: the race's line says how it went and stands on the count.
     const lines = composeJournal(

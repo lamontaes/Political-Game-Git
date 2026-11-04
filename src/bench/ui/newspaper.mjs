@@ -1,4 +1,4 @@
-/* global document */
+/* global document, window */
 // The newspaper: the menu type of News. The sheet is the paper itself (owner, Oct 28,
 // point 25: "the page, the type, the columns, every story on it"): a front page per
 // outlet (its masthead, the dateline, the lead story with its text and photo, the next
@@ -87,6 +87,63 @@ export function newspaperScreen({
   let opened = null;
   const paper = el("section", { className: "paper" });
   const outletPicker = el("nav", { className: "outlet-picker" });
+  // The page never scrolls (Lane 4, path 11): when the front page runs past
+  // the paper's foot, it gives way a step at a time until it fits: the lead's
+  // photo shrinks by the difference (down to a strip), the lead's body text
+  // is left to the reader (which opens the story whole), the photo goes, the
+  // lead's headline is set smaller, the briefs keep the ones that fit, and
+  // last the front page keeps the stories after the lead that fit.
+  const STRIP = 90;
+  const over = () => paper.scrollHeight - paper.clientHeight;
+  const steps = [
+    () => {
+      const image = paper.querySelector(".lead .story-image");
+      if (!image || image.offsetHeight - over() < STRIP) return false;
+      image.style.aspectRatio = "auto";
+      image.style.height = `${image.offsetHeight - over()}px`;
+      return true;
+    },
+    () => {
+      const body = paper.querySelector(".lead .story-body");
+      if (!body || body.hidden) return false;
+      body.hidden = true;
+      return true;
+    },
+    () => {
+      const image = paper.querySelector(".lead .story-image");
+      if (!image || image.hidden) return false;
+      image.hidden = true;
+      return true;
+    },
+    () => {
+      if (paper.classList.contains("tight")) return false;
+      paper.classList.add("tight");
+      return true;
+    },
+    () => {
+      const briefs = [...paper.querySelectorAll(".paper-briefs > *")].filter(
+        (node) => !node.hidden,
+      );
+      if (!briefs.length) return false;
+      briefs.at(-1).hidden = true;
+      return true;
+    },
+    // Last, a story after the lead, the latest first, never the lead.
+    () => {
+      const stories = [
+        ...paper.querySelectorAll(".paper-story:not(.lead)"),
+      ].filter((node) => !node.hidden);
+      if (!stories.length) return false;
+      stories.at(-1).hidden = true;
+      return true;
+    },
+  ];
+  const fit = () =>
+    window.requestAnimationFrame(() => {
+      if (!paper.isConnected) return;
+      // Each step is measured as it lands (reading the layout settles it).
+      while (over() > 1 && steps.some((step) => step()));
+    });
   const imageFor = (story) => {
     const url =
       story.presentation?.imageUrl ?? story.imageUrl ?? photoOf(story);
@@ -97,6 +154,7 @@ export function newspaperScreen({
       alt: story.presentation?.imageAlt ?? "",
     });
     image.onerror = () => image.remove();
+    image.onload = fit;
     return [image];
   };
   // A story's printed text: its written paragraphs, else its lede when the
@@ -252,6 +310,7 @@ export function newspaperScreen({
       ),
     );
     chooseTab(outletPicker, "outlet", chosen);
+    fit();
   };
   if (outlets.size > 1)
     for (const [key, outlet] of outlets) {
@@ -269,6 +328,9 @@ export function newspaperScreen({
       );
     }
   draw();
+  // Type that arrives late changes the page's height: it gives way again
+  // (a late photo does too, from its own load).
+  document.fonts?.ready.then(() => fit());
   return [outletPicker, paper];
 }
 

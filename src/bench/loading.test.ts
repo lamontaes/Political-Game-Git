@@ -5,7 +5,7 @@ import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { coreAPI } from "../core2/state";
 import { storiesHeard } from "../core2/modules/news";
-import type { PersonId } from "../core2/kernel/brands";
+import type { PersonId } from "../core2/types";
 import { knownCard } from "./card";
 import { loadingStory } from "./loading";
 import { buildBenchWorld } from "./world";

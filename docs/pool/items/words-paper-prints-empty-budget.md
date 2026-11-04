@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/budgets.ts, src/core2/past-news.ts, src/bench/archive-words.ts
 
 **Notes.** Filed by Lane 3, Nov 3, while finishing #7127 (it fails the same on main, so not that PR's fault). Lane 2 owns the budget row; Lane 3 owns the words. The first step is to find which one is wrong.
+
+Lane 3 (Nov 4): neither side is in Lane 3's files. `src/core2/past-news.ts:125-151` archives every row of the budgets table as `budget-adopted`, with sums that can be "0", and `src/bench/archive-words.ts` words it. The words side can't tell an empty budget from a funded one without inventing a sum. The fix is either in the budgets engine (a municipio budget starts from a sourced estimate, never $0; Lane 2) or in `past-news.ts`, which should keep no `budget-adopted` story for a row with no money (whoever owns `past-news.ts`). Put back to open for that lane.

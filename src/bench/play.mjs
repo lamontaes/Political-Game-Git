@@ -15,7 +15,7 @@ import {
 } from "./ui/talk-box.mjs";
 import { showToast, hideToast } from "./ui/toast.mjs";
 import { mountRail } from "./ui/rail.mjs";
-import { districtMap, partyLegend } from "./ui/map.mjs";
+import { districtMap, partyLegend, partyRoster } from "./ui/map.mjs";
 import { chamberHeader } from "./ui/chamber.mjs";
 import { partyBar } from "./ui/party-bar.mjs";
 import { memberCard } from "./ui/member-card.mjs";
@@ -527,6 +527,9 @@ async function refresh(scene = {}) {
   );
   if (night) {
     await electionNight(night);
+    // That night, once the returns close: the scene of your own result (the
+    // concession call or the victory), when the director staged one.
+    if (night.resultMomentId) await showStory(night.resultMomentId);
     return;
   }
   // No card notice that "a law took effect" (owner, Oct 27: "Why am I getting a
@@ -4246,24 +4249,18 @@ const sheets = {
         main: [...bodyTabs, ...view.main],
         side: view.side,
       });
-      // The panel never scrolls: once on screen, the members' pager gives up rows until what the
-      // window holds fits (a long office title or a big body takes room the rows were counted
-      // without).
-      window.requestAnimationFrame(() => {
-        const body = $("sheet-body");
-        for (const pageBox of screenNode.querySelectorAll(".members-pager")) {
-          while (
-            body.scrollHeight > body.clientHeight + 1 &&
-            pageBox.rowCount() > 1
-          )
-            pageBox.setRows(pageBox.rowCount() - 1);
-        }
-        // A big body on a short window still too tall: its seat picture gives way (the party
-        // split bar above it says the same count).
-        if (body.scrollHeight > body.clientHeight + 1)
-          for (const chart of screenNode.querySelectorAll(".seat-chart"))
-            chart.hidden = true;
-      });
+      // The panel never scrolls: the members' pager gives up rows first (`fitPagers`, here and
+      // when the sheet opens); a big body on a short window still too tall then lets its seat picture
+      // give way, a frame later (the party split bar above it says the same count).
+      fitPagers(screenNode);
+      window.requestAnimationFrame(() =>
+        window.requestAnimationFrame(() => {
+          const body = $("sheet-body");
+          if (body.scrollHeight > body.clientHeight + 1)
+            for (const chart of screenNode.querySelectorAll(".seat-chart"))
+              chart.hidden = true;
+        }),
+      );
       return screenNode;
     };
     return [await screen()];
@@ -4308,7 +4305,8 @@ const sheets = {
     // officeholders as face cards, one party at a time on the rail, paged.
     const keys = v.parties.map(({ party }) => party);
     let chosen = keys.includes(partyTab) ? partyTab : keys[0];
-    const roster = plate(null);
+    // The roster's box inside the "In office" plate under the map.
+    const roster = partyRoster();
     const drawRoster = () => {
       const seats =
         v.parties.find(({ party }) => party === chosen)?.seats ?? [];
@@ -4341,6 +4339,7 @@ const sheets = {
           },
         }),
       );
+      fitPagers(roster);
     };
     const rail = tabBar({
       attr: "party",
@@ -4358,25 +4357,27 @@ const sheets = {
     drawRoster();
     return [
       splitScreen({
-        main: m
-          ? [
-              plate(
-                null,
-                districtMap(m, { wordHolders }),
-                partyLegend(parties, seatWords),
-              ),
-            ]
-          : [],
+        // The map and, under it, each party's officeholders (path 11: under
+        // the map they have the room; beside a tray of join buttons on a
+        // 1024-wide window they were pushed past the foot).
+        main: [
+          ...(m
+            ? [
+                plate(
+                  null,
+                  districtMap(m, { wordHolders }),
+                  partyLegend(parties, seatWords),
+                ),
+              ]
+            : []),
+          ...(keys.length ? [plate(labels.inOffice, rail, roster)] : []),
+        ],
         side: [
           membership.length && {
             title: v.party?.member ? null : controls.party.member,
             nodes: joins.length
               ? [...(unregistered ? [unregistered] : []), buttonTray(...joins)]
               : membership,
-          },
-          keys.length && {
-            title: labels.inOffice,
-            nodes: [rail, roster],
           },
         ].filter(Boolean),
         className: "parties-screen",
@@ -4707,6 +4708,54 @@ async function openSheet(tab) {
   );
   show("sheet", true);
   $("game").classList.add("sheet-open");
+  fitPagers($("sheet-body"));
+}
+/**
+ * No menu scrolls (owner, Oct 29; Lane 4, path 11): once a sheet is on
+ * screen, each pager in a part of it that runs past its foot (the sheet's
+ * body, or a split screen's side or main) gives back a row at a time until
+ * the part fits or the pager holds one row. A screen counts its rows from the
+ * window; what sits above a pager (a tray of buttons, a long title) is only
+ * known once drawn.
+ */
+function fitPagers(root) {
+  // Again once late type and pictures have their size.
+  document.fonts?.ready.then(() => fitPagersNow(root));
+  for (const image of root.querySelectorAll("img"))
+    if (!image.complete)
+      image.addEventListener("load", () => fitPagersNow(root), { once: true });
+  fitPagersNow(root);
+}
+function fitPagersNow(root, waits = 30) {
+  window.requestAnimationFrame(() => {
+    // A screen fitted as it is built waits for the sheet to mount it.
+    if (!root.isConnected) {
+      if (waits > 0) fitPagersNow(root, waits - 1);
+      return;
+    }
+    const over = (node) => node && node.scrollHeight > node.clientHeight + 1;
+    for (const box of root.querySelectorAll(".pager")) {
+      if (!box.setRows) continue;
+      const part = box.closest(".split-side, .split-main");
+      while ((over(part) || over($("sheet-body"))) && box.rowCount() > 1)
+        box.setRows(box.rowCount() - 1);
+    }
+    // A side still past its foot: its list of recent votes keeps the newest
+    // that fit (at least one).
+    for (const part of root.querySelectorAll(".split-side")) {
+      const shown = () =>
+        [...part.querySelectorAll(".vote-bar")].filter((v) => !v.hidden);
+      while (over(part) && shown().length > 1) shown().at(-1).hidden = true;
+    }
+    // The sheet still past its foot: a map gives back the difference, never
+    // below a small map (Parties' map over its officeholders).
+    const body = $("sheet-body");
+    const map = root.querySelector(".gov-map");
+    if (map && over(body)) {
+      const less = body.scrollHeight - body.clientHeight;
+      map.style.height = `${Math.max(140, map.getBoundingClientRect().height - less)}px`;
+    }
+  });
 }
 // The rail over the player card: a column of round icons, News among them; it is
 // the one menu, Who you are among them, the Guide its own entry (owner, Oct 28,

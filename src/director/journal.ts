@@ -62,6 +62,7 @@ import {
 import { pastParameter } from "../core2/past-module";
 import { spanSaid } from "../english/span-words";
 import type { Moment } from "./types";
+import { tieSide } from "./purpose-scene";
 import {
   OFFICE_DAY_MODULE_ID,
   type OfficeActRow,
@@ -80,6 +81,26 @@ export interface JournalLine {
   sourceRecordIds: readonly string[];
   /** The earlier entries this one revises, when a later record changed what they meant. */
   revises?: readonly string[];
+  /** How this line follows the one told before it; the first line has none. */
+  link?: JournalLink;
+  /** The line as the event tells it, before the words joining it to the line before ("Because of that, ..."). */
+  plain?: string;
+}
+
+/**
+ * Why one line follows another (director-journal-one-story): its records
+ * name the earlier line's records or share a fact with them (the same
+ * contest, the same bill), the person's mood moved the same way, or only
+ * time passed. The joining words read it; it decides nothing.
+ */
+export interface JournalLink {
+  by: "cause" | "feeling" | "time";
+  /** The line it follows. */
+  earlierId: string;
+  /** The records that join them: the shared record or fact's records, or the two lines' own. */
+  recordIds: readonly string[];
+  /** Days from the earlier line. */
+  days: number;
 }
 
 export interface JournalChapter {
@@ -1063,7 +1084,18 @@ export function composeJournal(
     return at < zero ? rows.length : at;
   };
   const moments: JournalMoment[] = [
-    ...book.moments,
+    // A race is the person's own when its record names them as a candidate,
+    // whoever else the moment is with (Storrs, Connecticut, replay
+    // storrs-1: a father who walked doors was told as the one who lost).
+    ...book.moments.map((moment) =>
+      !moment.selfNamed &&
+      rows.some(
+        (row) => row.hasOwnLine && moment.causeKind.startsWith(row.kindPrefix),
+      ) &&
+      core.durableLog.get(moment.causeId)?.personIds.includes(personId)
+        ? { ...moment, selfNamed: true as const }
+        : moment,
+    ),
     ...officeActMoments(
       core,
       personId,
@@ -1118,6 +1150,10 @@ export function composeJournal(
   let chapterKind: string | undefined;
   const toldOnce = new Set<string>();
   const beatEntries = new Map<string, JournalLine>();
+  // Each told line's facts, and the lines an age frame already opens, for
+  // the words that join a line to the one before it.
+  const lineFacts = new Map<string, Facts>();
+  const framed = new Set<string>();
   // Every moment of the person's so far, told or not, and those a later
   // entry has already revised.
   const momentsById = new Map(moments.map((moment) => [moment.id, moment]));
@@ -1334,7 +1370,10 @@ export function composeJournal(
         sourceIds,
       );
       // A mined opening clause leads into the event.
-      if (frame) parts[zero] = framedByAge(frame, event, facts);
+      if (frame) {
+        parts[zero] = framedByAge(frame, event, facts);
+        framed.add(moment.id);
+      }
     }
     // A death in the family or a lost job is a hard time.
     if (
@@ -1447,6 +1486,31 @@ export function composeJournal(
         parts.push(hook);
       }
     }
+    // Another's turn in public life (their filing, their oath, a race they
+    // won) is told as what it meant to the person, from their tie: a friend's
+    // is gladness, a rival's is doubt; anyone else's is only the line.
+    const governing = row.turnFor === "self" || row.hasOwnLine;
+    const theirWin =
+      !row.hasOwnLine || facts.winner?.text === subjectOf(moment);
+    if (!own && governing && theirWin && parts.length === one && counterpart) {
+      const side = tieSide(core, personId, counterpart);
+      const meant = side
+        ? render(
+            {
+              part: "memoir",
+              field: side.side === "friend" ? "meantFriend" : "meantRival",
+            },
+            {},
+            `${moment.id}:meant`,
+            [side.tieId, moment.causeId],
+          )
+        : null;
+      if (meant) parts.push(meant);
+    }
+    lineFacts.set(moment.id, facts);
+    // A line that says its own time ("Today I turned eighteen.") opens on
+    // no other.
+    if (row.ownTime) framed.add(moment.id);
     const entry = {
       id: moment.id,
       date: moment.date,
@@ -1590,7 +1654,125 @@ export function composeJournal(
     });
     home.lines.sort((a, b) => a.date.localeCompare(b.date));
   }
-  return chapters.filter((row) => row.lines.length > zero);
+  const kept = chapters.filter((row) => row.lines.length > zero);
+  linkLines(core, book.momentsById, kept);
+  // A line its records say came of the one before opens on that ("Because
+  // of that, ..."); one after a month or more, on the time that passed
+  // ("Three months later, ..."). Feeling and a short wait need no words.
+  for (const line of kept.flatMap((chapter) => chapter.lines)) {
+    const link = line.link;
+    const facts = lineFacts.get(line.id);
+    if (!link || !facts || framed.has(line.id)) continue;
+    const span = spanSaid(link.days);
+    const later = link.by === "time" && span !== spanSaid(zero);
+    if (link.by !== "cause" && !later) continue;
+    const frame = render(
+      {
+        part: "memoir",
+        field: link.by === "cause" ? "joinCause" : "joinLater",
+      },
+      later ? { span: { text: span, sourceRecordIds: link.recordIds } } : {},
+      `${line.id}:join`,
+      link.recordIds,
+    );
+    if (!frame) continue;
+    const joined = framedByAge(frame, line, facts);
+    line.plain = line.text;
+    line.text = joined.text;
+    line.sourceRecordIds = joined.sourceRecordIds;
+  }
+  return kept;
+}
+
+/** The names a record carries: its own id, its people and its facts' ids. */
+function namesOf(core: Readonly<CoreState>, recordId: string): Set<string> {
+  const record = core.durableLog.get(recordId as never);
+  const names = new Set<string>([recordId]);
+  for (const value of Object.values(record?.facts ?? {}))
+    if (typeof value === "string" && value.includes(":")) names.add(value);
+  return names;
+}
+
+/** The person's mood in a moment, by the sign of its channels' sum. */
+function moodOf(moment: Moment | undefined): number {
+  const sum = (moment?.channels ?? []).reduce(
+    (total, row) => total + row.contribution,
+    zero,
+  );
+  return Math.sign(sum);
+}
+
+/**
+ * Links each line to the line told before it, across chapters, by cause,
+ * feeling or time (see JournalLink).
+ */
+function linkLines(
+  core: Readonly<CoreState>,
+  moments: ReadonlyMap<string, Moment>,
+  chapters: JournalChapter[],
+): void {
+  let before: JournalLine | undefined;
+  for (const line of chapters.flatMap((chapter) => chapter.lines)) {
+    if (before) {
+      const earlier = before;
+      const days = daysBetween(
+        makeIsoDate(earlier.date),
+        makeIsoDate(line.date),
+      );
+      // A person or a place both lines name (the player, their town) is
+      // who and where, never a cause.
+      const theirs = new Map<string, string>();
+      for (const id of earlier.sourceRecordIds)
+        for (const name of namesOf(core, id))
+          if (
+            !core.people.has(name as never) &&
+            !corePlaceByJurisdictionId(name as never) &&
+            !core.households.has(name)
+          )
+            theirs.set(name, id);
+      const shared = line.sourceRecordIds.flatMap((id) =>
+        [...namesOf(core, id)]
+          .filter((name) => theirs.has(name))
+          .flatMap((name) => [theirs.get(name)!, id]),
+      );
+      const echoed = line.momentIds.some((id) =>
+        moments
+          .get(id)
+          ?.echoes.some((echo) => earlier.momentIds.includes(echo.earlierId)),
+      );
+      const mood = moodOf(moments.get(line.momentIds[zero] ?? ""));
+      const felt =
+        mood !== zero &&
+        mood === moodOf(moments.get(earlier.momentIds[zero] ?? ""));
+      line.link =
+        shared.length || echoed
+          ? {
+              by: "cause",
+              earlierId: earlier.id,
+              recordIds: shared.length
+                ? [...new Set(shared)]
+                : [
+                    ...new Set([
+                      ...earlier.sourceRecordIds.slice(zero, one),
+                      ...line.sourceRecordIds.slice(zero, one),
+                    ]),
+                  ],
+              days,
+            }
+          : {
+              by: felt ? "feeling" : "time",
+              earlierId: earlier.id,
+              recordIds: [
+                ...new Set([
+                  ...earlier.sourceRecordIds.slice(zero, one),
+                  ...line.sourceRecordIds.slice(zero, one),
+                ]),
+              ],
+              days,
+            };
+    }
+    before = line;
+  }
 }
 
 /**

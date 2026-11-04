@@ -83,6 +83,12 @@ Every unit gets one before it starts (lane page, CTO rule). Units 1 and 2 were s
 - **Now:** a day-by-day probe from 2028-01-20 records each day's heap before and after collection and a sampling allocation profile of the heaviest day, to name the code that makes the peak.
 - **Finish line, proof, hands off, cheats, checked by:** as the steps above. **Size:** the fix's own card once the code is named.
 
+### Red main, Nov 4 09:45: builds stopped again (CTO's second note)
+
+- **Found:** three more malformed declarations on main: `director-save-restore.md` (impact none, no reason), `official-pay-return.md` (a patch with no id, section or title), `screens-loading-worth-watching.md` (a 144-character title). #7224 fixed all three in one PR; the check over the whole range since v0.79.0 (c7ae16cfd9 to main 2a5885d) prints OK with 16 pending declarations, after #7222 and #7223 too.
+- **The CTO's ruling on my proposal:** build neither; the desk runs the release check on each PR while merging and mends the note itself. Nothing for Lane 5 to build.
+- After #7224 the next blocker was the build's typecheck: `src/bench/loading.test.ts` imported `PersonId` from a module that doesn't export it (Release run 12146). #7227 fixed it (merged 10:06); the full typecheck passes locally on main with it. Confirming a build publishes: Release run 12148, in progress.
+
 ### Red main, Nov 4 07:45: builds stopped (CTO's note)
 
 - **Found:** every Release run on main since #7193 merged (06:43) fails at "Enforce declarations": runs 12112, 12114, 12115, 12116, 12117 and 12118, plus the two Release package runs (12111, 12113 cancelled). The first and the two newest logs read: `docs/release/changes/lane-2-first-minutes-proof.md: impact:none must not carry 'section' or 'title'`. The file came in with Lane 2's 3e377288ee. Newest build is still v0.78.0.
@@ -90,26 +96,29 @@ Every unit gets one before it starts (lane page, CTO rule). Units 1 and 2 were s
 - **Stopping it again without holding a merge (proposal for the CTO):** the declaration check could run in the `new game` job as a report only: it prints the release check's error into the job summary and the PR, without failing the job, so the desk sees it before merging. Or the push-mode check could set a malformed `impact: none` declaration aside with a warning instead of stopping the build, since such a file changes nothing a player sees. I have built neither; the second changes what the release check refuses, so it needs the CTO's word.
 - **Confirmed:** after #7201, Release run 12122 passed and v0.79.0 was published (07:59 UTC).
 - **A second cause right behind it:** run 12123 (#7204, Lane 4) stopped on `play-governor-races-on-screen`, an id an earlier release already consumed. #7206 gives the file its own id; `release:check` OK.
-- **Better prevention than the two above (proposal):** a workflow on main, like the pool index one, that runs the release check after each merge and, when the only failures are mechanical (an `impact: none` file with a section or title, or an id already consumed), fixes the file and pushes the fix to main. It holds no merge (ruling 2) and needs no session awake. I can build it as a unit-1 item if the CTO agrees.
+- **(Declined by the CTO, 09:42: the desk runs the check instead.)** Proposal was: a workflow on main, like the pool index one, that runs the release check after each merge and, when the only failures are mechanical (an `impact: none` file with a section or title, or an id already consumed), fixes the file and pushes the fix to main. It holds no merge (ruling 2) and needs no session awake. I can build it as a unit-1 item if the CTO agrees.
 - #7200 merged (an office to approach needs staff).
 
-### Unit 9: real save and load (waiting on Lane 3)
+### Unit 9: real save and load (in progress again)
 
 - **Finish line (path 6):** play two months, quit, reopen: Continue returns the same date and people, and the load doesn't grow with played years.
 - **Proof:** `snapshot-played.test.ts` on the played world (no field differs 45 days after a restore), and the bench's save and load route.
-- **Hands off:** `src/director` (Lane 3's), except through the agreement in `docs/lanes/agreements/3-5.md`.
+- **Hands off:** `src/director` (Lane 3's), except through `docs/lanes/agreements/3-5.md`.
 - **Known cheats:** a save file the game never uses; a load that replays every day.
 - **Size:** 17 to 27 hours. **Checked by:** a fresh session quitting and reopening in the browser.
-- Phoenix, Arizona: 55 of 75 engines uncovered; first split is day 1, the director's ledger, which lives in closures and isn't saved. Asked on #7159.
+- Lane 3 agreed and built the director's `save()`/`restore()` (merged 09:17). On `lane-5/snapshot-cover` (1bf44d035c) the measure now saves the director through v8 bytes and compares its fields: Phoenix, Arizona (seed snapshot-1), the worlds are identical right after the restore and no director field differs, but 48 of 142 fields still differ 45 days later. The first split is on day 1: in the original, `person_45670ca22bc4878f` is told two newspaper stories and weighs a claim three times; in the restored world those talks don't happen. Sent to Lane 3's state file with the ids; the core's free-time plans are saved and its caches are derived, so the talk state is the lead.
+- Nov 4 10:50: the talk split was news's own state. A teller's carried parts and refused stories weren't saved, and two caches (recent heard, heard counts) were built from the rebuilt opening before the restore. With those fixed (#7229), the person's day-1 split is gone. The next split, also on day 1, is a cause drive's strength: the `runtimes` WeakMap in `src/core2/modules/drives.ts` (Lane 2's, `core2-drives-p10-v1` uncovered) isn't saved. Asked on Lane 2's state file.
 
 ## Open PRs
 
-- None. Merged since the last update: #7200, #7201, #7206, #7210 (three declaration fixes that each stopped every build; v0.79.0 shipped after #7201).
+- None.
+- Branch `lane-5/snapshot-cover` keeps the measure (`snapshot-played.test.ts`), not in a PR: it still fails until the drives runtime is saved.
 
 ## Merged
 
 - Nov 3: #7140, #7141, #7144, #7145, #7146.
-- Nov 4: #7148, #7149, #7155, #7158, #7161, #7172 (rehire), #7176 (group quarters: Storrs 142.9 s to 93.3 s), #7177 (every-locality sweep), #7180 (eight browser checks wait for filing), #7181 (Storrs eviction case, red main), #7182 (no-dice entry for sibling names, red main), #7183 (lane state files need no release declaration), #7190 (Lane 5's part of the red guards), #7173 (skills), #7198 (a met-once contact's log kept three months).
+- Nov 4: #7148, #7149, #7155, #7158, #7161, #7172 (rehire), #7176 (group quarters: Storrs 142.9 s to 93.3 s), #7177 (every-locality sweep), #7180 (eight browser checks wait for filing), #7181 (Storrs eviction case, red main), #7182 (no-dice entry for sibling names, red main), #7183 (lane state files need no release declaration), #7190 (Lane 5's part of the red guards), #7173 (skills), #7198 (a met-once contact's log kept three months), #7200, #7201, #7206, #7210, #7221, #7224, #7225, #7227, #7229 (unit 9's restore step, 10:48).
+- Nov 4 10:45: v0.80.0 published (Mac and Windows). Release package run 60 hit a GitHub 502 creating the release; rerunning the failed job published it.
 
 ## Failed or blocked
 
@@ -134,5 +143,8 @@ Every unit gets one before it starts (lane page, CTO rule). Units 1 and 2 were s
 Replays by a session that built none of this lane's work, on main. Only this section is the Confirmer's.
 
 - **Path 1, every place opens: pass.** Main d070e3d2d1, Nov 4. `npm run all-places -- --years 0 --seed confirmer-open-1`: one drawn locality in each of the 56 opened, 0 crashed, exit 0 in 562 s. Proof: `docs/lanes/proof/confirmer-lane5-path1/`. One locality per place; the 8,242-locality sweep stays the lane's.
+  - Run again on main be9b5e649f (seed confirmer-open-2, after #7203 to #7217): 56 places, 0 crashed, exit 0; still a pass.
 - **Path 2, a year doesn't stop: pass.** Main c60a509956, Nov 4. `speed:year --years 3` (January 2025 to January 2028): Madras, Oregon (4145250, seed confirmer-madras-1) 116.9, 307.4 and 329.6 s, past May 11, 2026; Bloomingdale, Tennessee (4706640, seed confirmer-bloomingdale-1) 105.4, 165.0 and 141.5 s. Both exit 0, nothing on stderr. Proof: `docs/lanes/proof/confirmer-lane5-path2/`.
+  - Run again on main be9b5e649f, same seeds: Madras 121.2/320.5/358 s, Bloomingdale 111.3/156.8/139.9 s, both exit 0, nothing on stderr; still a pass.
+- **Path 3, inside the bar: fail.** Main 8b24caf99e, Nov 4. `speed:year --years 4`: the drawn place (Melvina, Wisconsin, seed confirmer-speed-1) stays under 120 s (worst 73.1); the fixed towns don't: Haleyville 172.0 and 305.1, Meadow Lakes 579.6, Brookside 755.5 (2028), Storrs 124.8 and 142.7, Murray 124.1, D.C. 130.6 and 165.8 (stopped after year 2); Cabo Rojo and Santa Rita not run. The lane's unit 7 owns it. Proof: `docs/lanes/proof/confirmer-lane5-path3/`. Fail 1 of 3.
 - **Path 12, merges don't collide: fail.** Nov 4, main 99d774785b. Step: the new-game check the only required one. `gh api repos/lamontaes/Political-Game-Git/branches/main/protection` lists the required checks as `validate` and `golden-path`; the `new game` job (#7141) is not among them, and every push to main prints "2 of 2 required status checks are expected". The two-PR merge half was not replayed (it needs two PRs merged, which the Confirmer doesn't do). Filed `release-main-requires-only-new-game-check` (a branch setting, the owner's one click per the merge desk page). Fail 1 of 3.

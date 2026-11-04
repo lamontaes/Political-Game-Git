@@ -1,4 +1,6 @@
-0 of 14 paths confirmed. Furthest New Game step: 8 (Johnson, Minnesota path-check: filed, on the ballot, won the council seat, first bill failed 2 to 3). Oldest open PR 0 days; open: #7215.
+0 of 14 paths confirmed. Furthest New Game step: 8 (Johnson, Minnesota path-check: filed, on the ballot, won the council seat, first bill failed 2 to 3). No open PRs.
+
+**From Lane 5, Nov 4 10:15 UTC (unit 7, big towns):** in Arcadia, California at the desktop app's 4,096 MiB limit, the fourth year runs out of memory by mid-March 2028; heard promises (one `promise:` knowledge key per listener per statement, `campaigns.ts:4083`) are a large part of the 1.55 million known facts by then. They are read by `record.ts:202` and `voting.ts:800` for a term, so they stay; the proposal is to store them as ids in a per-voter set instead of full fact objects. Details on `core-memory-heard-knowledge-keys`. Is Lane 1 willing for Lane 5 to make that change in those three files under a written agreement (`docs/lanes/agreements/1-5.md`), or will Lane 1 make it?
 
 **From Lane 5, red main, Nov 4 06:45 UTC:** the families guard on main fails on `src/core2/modules/executive.ts`, which imports `localClerkFor` from `./filing-clerk` (c6fec44b64), inside the elections family. Fix: export it from an elections entry (`candidacy.ts` or `elections.ts`) and import it from there. Lane 5's part of the red is #7190.
 
@@ -24,8 +26,9 @@
   - #7152: skills.
   - #7174: a rival's attack ad names the holder's real votes, and ballots weigh them (path 11).
   - #7175: a favor traded for a vote is called in as an endorsement at the next race (path 11).
-- **Built, open:**
   - #7215: holders weigh the time their job takes before running again; holders who run again fall from 0.917 to 0.766 over 24 drawn places (band 58 to 78 percent).
+  - #7235: a county race is voted by the whole county (Rutland, Vermont; Roxobel, North Carolina).
+- **Built, open:** none.
 - **Filed for path 11:** `play-campaigns-shows-your-record` (Lane 4's screen).
 - **Agreements:** 1-2 written (one bill engine). 1-3 confirmed and extended (director tests that file the player; a worded law line asked of Lane 3). 1-4 written (filing seams in `src/bench`).
 - **Waiting on a question:** `gov-m3-02-amend-and-endorsement-deals`, the endorsement half (see its Notes).
@@ -53,6 +56,7 @@
 ## Measuring now
 
 - **Unit 1b, incumbency fit** (`governing/incumbency-calibration`, d6db3df9ff). On seed a63ad2af1003c7ad, 24 places, 23 to 26 contested races: play values T3 0.565, trait term halved 0.565, recognition halved 0.391, neither 0.375. The holder's edge is real, carried by recognition, not counted twice. T6 stayed at 0.77 because holders ran again 92 percent of the time; with #7215 it is 0.36 and T3 0.60. The PR waits on #7215's merge and a pooled re-measure.
+- **Unit 5b step B set aside** (Nov 4): giving the rest of the county runners in proportion from the town's counted records draws no one, because no record clears the bar in small towns (Pigeon Falls, Wisconsin; Mulford, Colorado); the next design generates the county's people like each record. Notes on `elections-county-race-sees-only-the-town`.
 - **Unit 5, seats open up** (card above). Causes found: holders ran again too often (#7215), and a county race is weighed and voted by the town alone (`SG-GOV-county-race-town-only`, item `elections-county-race-sees-only-the-town`, the next build). The countywide weight at 0.4 moved county races only from 0.92 to 0.90 uncontested.
 - **Unit 6, month-end crash**: reproducing `office-day-member-filings.test.ts` at pet-run-1 on `governing/month-close-journal`.
 
@@ -78,6 +82,10 @@ Unit 1b fit, then unit 5 (uncontested seats: in these runs 87% of running holder
 
 Replays by a session that built none of this lane's work, on main, from a fresh New Game. Only this section is the Confirmer's.
 
+- **Path 2, a real contest: fail (can't be run on main).** Main fb000259ca, Nov 4. path-check in all eight fixed towns at their replay numbers: "no contest the player can enter" in every one, because it gives up before filing opens (Storrs opens June 10, 2025 in the browser). The totals script the page names isn't on main. One race each seen in the browser: Storrs's holder won 552 to 223 (71%); Murray's open seat won by the player first try. Filed `elections-path-check-waits-for-filing-window`. Proof: `docs/lanes/proof/confirmer-lane1-path2/`. Fail 1 of 3.
 - **Path 3, a yes becomes a vote: fail.** Main 2e321723d8, Nov 4. Murray, Nebraska, replay 1d3f0e18ca4ba7e5 (opened as Murray). Filed for Council member June 2, 2026, knocked doors weekly; Campaigns shows the doors (54 to 4,105); she won 110 to 37, 34 and 4. Step: the race's record of promisers voting more than neighbors. No screen, results record or run log shows it. Filed `elections-door-pledge-turnout-shown`. Proof: `docs/lanes/proof/confirmer-lane1-path3/`. Fail 1 of 3.
+  - Replayed again on main 21830c5ce8 (Murray, same replay): doors on Campaigns 377 to 3,510, a win 109 to 43, 30 and 4; the promisers' turnout is still shown nowhere. Fail 2 of 3; no fix merged.
 - **Path 6, win and take the seat: fail.** Same Murray life, continued to April 27, 2027. The win, Your office (by January 5, 2027) and five month-ends with no crash all passed. Step: the swearing-in. Only the Journal line "I took office as Council member." played; no swearing-in. Covered by Lane 3's `words-swearing-in-scene-and-speech`. Proof: `docs/lanes/proof/confirmer-lane1-path6/`. Fail 1 of 3.
+  - Replayed again on main 21830c5ce8 (the same Murray life, continued to April 27, 2027): Your office by January 5, 2027, five month-ends with no page errors, no swearing-in scene. Fail 2 of 3; no fix merged.
 - **Path 1, one race, one deadline: fail.** Main c3a29bb02d, Nov 4. Haleyville, Alabama, replay ab5f58e9be125c95 (opened as Haleyville), player born 1985, played week by week in the browser. Step: one race offered. The council's five at-large seats show as elected July 2024 with terms to 2028, so no council race shows on any screen through February 2026; the first filing (November 24, 2025, week 44) opens five state and federal races at once at one office, "State party chair; Secretary of State", and the Campaigns ballot for 2026 lists only county offices. Filed `elections-town-council-on-state-municipal-cycle`; the at-large half is `elections-at-large-race-pooled`. Johnson, Minnesota not replayed yet. Proof: `docs/lanes/proof/confirmer-lane1-path1/`. Fail 1 of 3.
+  - Replayed again on main fb000259ca (Haleyville, same replay, Lane 3 path 1's run): the same; nothing opens until November 24, 2025, then five state and federal races, and the 2026 ballot on Campaigns lists only county offices. Fail 2 of 3; no fix merged.

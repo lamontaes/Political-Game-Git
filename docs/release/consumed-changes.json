@@ -1,6 +1,46 @@
 {
   "entries": [
     {
+      "version": "0.81.0",
+      "releasedOn": "2026-11-04",
+      "revision": "e99aaf63e4d1786b3d17ac535c8ab0cc5f0ffc40",
+      "changeIds": [
+        "elections-county-race-county-votes",
+        "heard-case-shared-rule",
+        "press-local-adult-concern",
+        "screens-menus-never-scroll",
+        "screens-result-night-scene",
+        "snapshot-restore-refill-and-caches",
+        "words-journal-line-links"
+      ]
+    },
+    {
+      "version": "0.80.0",
+      "releasedOn": "2026-11-04",
+      "revision": "8b24caf99ed0e1c05ff1582994d25427a70a1fa7",
+      "changeIds": [
+        "director-save-restore",
+        "elections-holders-stand-again-too-often",
+        "loading-test-import",
+        "official-pay-return",
+        "opening-governor-named-at-capitol",
+        "play-filing-race-district-in-words",
+        "play-governor-races-own-page",
+        "play-town-moves-on-screen",
+        "play-who-you-are-says-why-no-job",
+        "screens-loading-worth-watching",
+        "screens-title-monuments",
+        "skills-probe-same-world",
+        "state-page-nov4",
+        "words-chamber-office-pictures",
+        "words-journal-own-loss",
+        "words-law-effect-scene",
+        "words-member-hears-testimony",
+        "words-race-story-keeps-who-won",
+        "zero-opening-cash"
+      ]
+    },
+    {
       "version": "0.79.0",
       "releasedOn": "2026-11-04",
       "revision": "2115da38186101ef3a622f6076cce93af5f2360f",

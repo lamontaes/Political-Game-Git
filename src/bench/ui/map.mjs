@@ -136,3 +136,8 @@ export function partyLegend(parties, wordSeats) {
     ),
   );
 }
+
+/** The box under the map that holds one party's officeholders, redrawn as the party changes. */
+export function partyRoster() {
+  return el("div", { className: "party-roster" });
+}
