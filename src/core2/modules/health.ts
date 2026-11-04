@@ -619,8 +619,12 @@ function refreshWebFactors(api: CoreAPI, data: HealthData, row: HealthRuntime) {
     const person = api.state.people.get(id);
     if (!person?.alive || row.cases.get(id)?.onsetEventId) continue;
     const monthly = pay.get(person.householdId);
+    // A group-quarters room's pay is no household's income: no fifth.
     const fifth =
-      monthly == null ? undefined : incomeBandOf(monthly * p("monthsPerYear"));
+      monthly == null ||
+      api.state.households.get(person.householdId)?.quarters !== undefined
+        ? undefined
+        : incomeBandOf(monthly * p("monthsPerYear"));
     plan.fifth = fifth;
     const age = Math.floor(exactAge(api, person.birthDate, today));
     const mine = spells?.get(id);

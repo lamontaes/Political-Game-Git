@@ -303,7 +303,7 @@
     "id": "SG-GOV-world-race-lean",
     "kind": "missing-data",
     "file": "src/core2/modules/voting.ts",
-    "line": 4511,
+    "line": 5046,
     "whatItFakes": "A race the town doesn't vote in is counted on the counted residents' engine at a coarser level (a House district's, the state's counties', a legislative district's eligible voters, voting as the town's counted residents would on each place's 2024 lean), but its candidates are each party's typical candidate (the holder stands for their party with the typical campaign) rather than people with records, and a state legislative district with no read result is the state's vote over its districts leaning to its holder's party at the typical margin.",
     "why": "Fictional candidates with records for every seat in the country aren't built (PEOPLE's who runs), and state legislative district results aren't read.",
     "addedBy": "OPUS-GOV",
@@ -804,7 +804,7 @@
     "id": "SG-GOV-delegate-race-size",
     "kind": "missing-data",
     "file": "src/core2/modules/voting.ts",
-    "line": 4405,
+    "line": 4933,
     "whatItFakes": "A territory's delegate race the town doesn't vote in is decided at its 2024 delegate race's lean with no voters counted: the race row shows no votes.",
     "why": "The Clerk's House tables the game reads hold no delegate districts outside D.C., and the territories' eligible voters are not in the data (CPS does not survey them).",
     "addedBy": "OPUS-GOV-ELECTIONS",
@@ -2133,6 +2133,18 @@
     "addedBy": "Lane 1 (world-governor-declares-emergency-in-play)",
     "addedAt": "2026-11-04",
     "replacement": "An office-screen stop the day a federally declared disaster is recorded in the player governor's state, offering declareEmergency with the hazard record and the state's power named, or leaving it to the character.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-player-favor-asked",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/campaigns.ts",
+    "line": 6000,
+    "whatItFakes": "A colleague the player owes a favor from a deal never asks the player to repay it: their campaign skips the player when it calls in favors, because the engine never answers for the player and no scene puts the ask to them.",
+    "why": "The engine does not decide for the player; the ask needs a scene the director stages from the obligation record (Lane 3) and an answer the player gives.",
+    "addedBy": "Lane 1 (campaign-favor-called-in)",
+    "addedAt": "2026-11-04",
+    "replacement": "The colleague's campaign writes a favor-asked record naming the obligation; the director stages the ask, and the player's answer endorses (settling the obligation) or refuses.",
     "status": "open"
   }
 ]

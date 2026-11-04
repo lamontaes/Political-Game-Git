@@ -36,6 +36,7 @@ import {
 import { LAWS_MODULE_ID, lawInForce, socialSecurityAges } from "./laws";
 import { publicPayFloorHourly } from "../public-pay-floor";
 import { inCustody } from "./justice";
+import { outsideLaborForce } from "../gov-rules/place-population";
 import { regionalMonth } from "./regional";
 import { ageOn, isDemoted } from "../counted-groups";
 import { webFactorFor, type Subject } from "../outcome-web-reach";
@@ -196,6 +197,22 @@ function store(api: CoreAPI) {
 const OPENING_UNEMPLOYED = "opening-unemployed";
 
 const core = (api: CoreAPI) => api.state as CoreState;
+
+/**
+ * Whether a person is out of civilian work: serving a prison term, or living
+ * in an institution or in military quarters (group quarters outside the
+ * civilian labor force), the rule the counted tier reads from a room's type.
+ */
+function outOfCivilianWork(api: CoreAPI, personId: string): boolean {
+  const c = core(api);
+  const person = c.people.get(personId);
+  if (
+    person &&
+    outsideLaborForce(c.households.get(person.householdId)?.quarters)
+  )
+    return true;
+  return inCustody(api, personId);
+}
 
 function source(api: CoreAPI, estimatedFrom: string): Source {
   return {
@@ -520,7 +537,7 @@ function startSeeking(
   reasonKey: string,
   referenceHourlyMinor: number,
 ): void {
-  if (inCustody(api, personId)) return;
+  if (outOfCivilianWork(api, personId)) return;
   const person = core(api).people.get(personId)!;
   store(api).table("seekers").put({
     id: personId,
@@ -736,6 +753,8 @@ function openCountedSeekers(api: CoreAPI): void {
     daysBetweenText(counted.born[m]!, c.date) /
     api.parameter("jobsDaysPerYear");
   for (const h of counted.liveHouseholds()) {
+    // People in custody or in the armed forces seek no civilian work.
+    if (outsideLaborForce(h.quarters)) continue;
     const adults = counted.countedMembers(h).filter((m) => {
       const age = ageAt(m);
       return age >= young && age < old;
@@ -2058,7 +2077,7 @@ export function reviewJobless(api: CoreAPI): void {
     if (
       !person.alive ||
       person.jobId ||
-      inCustody(api, person.id) ||
+      outOfCivilianWork(api, person.id) ||
       controlled(c, person.id)
     )
       continue;
@@ -2260,7 +2279,7 @@ function runWeek(api: CoreAPI): void {
     byPlace.set(row.placeId, [...(byPlace.get(row.placeId) ?? []), row]);
   const applications = new Map<string, SeekerRow[]>();
   const apply = (positionId: string, seeker: SeekerRow) => {
-    if (inCustody(api, seeker.personId)) return;
+    if (outOfCivilianWork(api, seeker.personId)) return;
     const list = applications.get(positionId);
     if (list) list.push(seeker);
     else applications.set(positionId, [seeker]);
@@ -2314,7 +2333,7 @@ function runWeek(api: CoreAPI): void {
       !nearby ||
       !person ||
       !person.alive ||
-      inCustody(api, person.id) ||
+      outOfCivilianWork(api, person.id) ||
       controlled(c, person.id)
     )
       continue;
@@ -2760,7 +2779,7 @@ function hireCounted(
   seeker: SeekerRow,
   fit: number,
 ): boolean {
-  if (inCustody(api, seeker.personId)) return false;
+  if (outOfCivilianWork(api, seeker.personId)) return false;
   const c = core(api);
   // A closed business hires no one, though its opening may still be listed
   // (a full person's hire refuses it the same way).
@@ -3184,6 +3203,8 @@ export function reviewCountedEntry(api: CoreAPI): void {
   const monthDays = p("jobsDaysPerYear") / p("macroMonthsPerYear");
   const counted = rt.store;
   for (const h of counted.liveHouseholds()) {
+    // People in custody or in the armed forces seek no civilian work.
+    if (outsideLaborForce(h.quarters)) continue;
     let days: number | undefined;
     for (const m of counted.countedMembers(h)) {
       const personId = counted.ids[m]!;
@@ -3644,7 +3665,7 @@ function hire(
   seeker: SeekerRow,
   fit: number,
 ): void {
-  if (inCustody(api, seeker.personId)) return;
+  if (outOfCivilianWork(api, seeker.personId)) return;
   const c = core(api),
     person = c.people.get(seeker.personId)!;
   const role = roleTemplate(c, position);

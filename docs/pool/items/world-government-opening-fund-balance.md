@@ -6,7 +6,7 @@ lead: m0-m2
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by:
 pr: #7164
 blocked-on:

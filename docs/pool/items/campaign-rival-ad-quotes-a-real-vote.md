@@ -5,9 +5,9 @@ area: elections
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: done
 claimed-by: governing/rival-attack-ad
-pr:
+pr: #7174
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-04T04:05:30.304Z

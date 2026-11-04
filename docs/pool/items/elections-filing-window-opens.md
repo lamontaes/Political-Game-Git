@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: governing/filing-window-opens
 pr: #7168
 blocked-on:
