@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: lane-2/mortgage-paid-balance
-pr:
+pr: #7243
 blocked-on:
 lead: m0-m2
 source: realistic-not-real audit, Oct 27 (found running src/core2/macro-mortgage-history.test.ts)
