@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: lane3/debate-not-stop
-pr:
+pr: #7260
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-04T14:07:11.142Z
