@@ -6,11 +6,12 @@ lead: governing
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: governing/two-stakes
+pr: #7167
 blocked-on:
 source: governing lead Oct 29
+claimed-at: 2026-11-04T03:10:51.478Z
 ---
 
 **What.** M3-02's test sentence says the player learns at least two members' stakes through routes the character could use. `learnStake` (src/core2/modules/legislature.ts) has a conversation route and a record route, and an aide's brief reads stakes by record (`briefOnBill`, src/core2/modules/staff.ts), but the only test that learns two stakes is legislature.test.ts, in a small population world where the test calls `learnStake` directly. In the bench world the player's talk with a colleague and the aide's brief are never checked for the stakes they reveal. Prove both routes from the player's office in the played world.

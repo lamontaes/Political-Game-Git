@@ -233,6 +233,9 @@ interface ReadSide {
   readonly deadline2026?: string | null;
   readonly signatures?: number | null;
   readonly signatureFormula?: string | null;
+  readonly feeUSD?: number | null;
+  readonly petitionInLieuOfFee?: boolean | string | null;
+  readonly feeAndPetitionBothRequired?: boolean | null;
 }
 interface ReadRequirements {
   readonly applicable?: boolean;
@@ -378,6 +381,18 @@ function petitionRule(
   const formula = side?.signatureFormula?.trim() || null;
   if (read === 0 && !formula)
     return { count: 0, basis: "none-in-law", formula: null, source };
+  // Where the law's petition is only a way around a filing fee (Minnesota's
+  // "petition in lieu of fee by ordinance"; Kansas, Michigan, Texas and
+  // others), the fee files the candidate and no petition is required: the
+  // place asks signatures only of those who choose that route (prior-rulings
+  // elections R5, "where the place requires them";
+  // elections-petition-larger-than-the-town).
+  if (
+    typeof read !== "number" &&
+    side?.feeAndPetitionBothRequired !== true &&
+    (side?.petitionInLieuOfFee === true || /in lieu/i.test(formula ?? ""))
+  )
+    return { count: 0, basis: "none-in-law", formula, source };
   const counts = readCountsFor(family, sideName);
   const mid = Math.floor(counts.length / 2);
   const median = counts.length
@@ -495,6 +510,42 @@ export function openElections(core: CoreState): void {
   }
 }
 
+/**
+ * A side's filing deadline for a contest, the one date every reader uses
+ * (filing-clerk-deadline-differs-from-rules): the state's filing law's own
+ * 2026 date for that side where it falls before the contest's first vote,
+ * else the contest's calendar deadline. A state's 2026 date that would fall
+ * on or after the first vote belongs to the races on the state's calendar,
+ * not this one.
+ */
+export function filingDeadlineFor(
+  api: CoreAPI,
+  contest: ContestRow,
+  side: FilingSide = "party",
+): string {
+  const own = filingRulesFor(api, contest, side).deadline;
+  return own && own < (contest.primaryDate ?? contest.electionDate)
+    ? own
+    : contest.filingDeadline;
+}
+
+/**
+ * A contest closes on its party side's deadline (`filingDeadlineFor`), so the
+ * clerk's line, the filing panel, Campaigns and the world's candidates read
+ * the same day; an independent's own deadline stays on its side's rules.
+ */
+function withFilingLawDeadline(api: CoreAPI, row: ContestRow): ContestRow {
+  const deadline = filingDeadlineFor(api, row, "party");
+  if (deadline === row.filingDeadline) return row;
+  return {
+    ...row,
+    filingDeadline: deadline,
+    sources: [...row.sources, filingRulesFor(api, row, "party").source].filter(
+      Boolean,
+    ),
+  };
+}
+
 /** A seat's next contest from today: its real dates, filing deadline and incumbent. */
 function contestFor(
   api: CoreAPI,
@@ -547,26 +598,8 @@ function contestFor(
   if (!dates || dates.electionDate <= api.state.date) return null;
   const family = officeFamily(office);
   noteEstimates(api, dates);
-  // Every contest opens its filing on a day (elections-filing-window-opens):
-  // the calendar's read date where it has one, else the window the place's
-  // law usually gives before the deadline, marked as an estimate with its
-  // source. A contest never stands open from the first day for want of one.
-  const opens =
-    dates.filingOpens ??
-    addDays(
-      makeIsoDate(dates.filingDeadline),
-      -electionsParameter("filingWindowDays"),
-    );
-  return {
+  const row = withFilingLawDeadline(api, {
     ...dates,
-    filingOpens: opens,
-    sources:
-      dates.filingOpens === null
-        ? [
-            ...dates.sources,
-            `filing opens ${opens}: estimated, ${electionsParameter("filingWindowDays")} days before the deadline (elections parameter filingWindowDays)`,
-          ]
-        : dates.sources,
     id: `contest:${seat.id}:${dates.electionDate}`,
     officeId: office.id,
     seatId: seat.id,
@@ -575,6 +608,24 @@ function contestFor(
     district: seat.district,
     family,
     incumbentTermId: holder?.id ?? null,
+  });
+  // Every contest opens its filing on a day (elections-filing-window-opens):
+  // the calendar's read date where it has one, else the window the place's
+  // law usually gives before its one deadline (filingDeadlineFor), marked as
+  // an estimate with its source. A contest never stands open from the first
+  // day for want of one.
+  if (row.filingOpens !== null) return row;
+  const opens = addDays(
+    makeIsoDate(row.filingDeadline),
+    -electionsParameter("filingWindowDays"),
+  );
+  return {
+    ...row,
+    filingOpens: opens,
+    sources: [
+      ...row.sources,
+      `filing opens ${opens}: estimated, ${electionsParameter("filingWindowDays")} days before the deadline (elections parameter filingWindowDays)`,
+    ],
   };
 }
 
@@ -951,7 +1002,7 @@ export function checkEligibility(
   ) as unknown as ContestRow;
   const side: FilingSide = party ? "party" : "independent";
   const rules = filingRulesFor(api, contest, side);
-  const deadline = rules.deadline ?? contest.filingDeadline;
+  const deadline = filingDeadlineFor(api, contest, side);
   const person = api.state.people.get(personId);
   if (!person) throw new Error(`No such person: ${personId}`);
   const today = api.state.date;
@@ -1254,12 +1305,11 @@ export function petitionDue(api: CoreAPI, filing: FilingRow): string {
   const contest = table(api, "contests").get(
     filing.contestId,
   ) as unknown as ContestRow;
-  const rules = filingRulesFor(
+  return filingDeadlineFor(
     api,
     contest,
     filing.party ? "party" : "independent",
   );
-  return rules.deadline ?? contest.filingDeadline;
 }
 
 /** A filing's petition, once opened. */
