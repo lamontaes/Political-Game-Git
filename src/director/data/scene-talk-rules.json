@@ -112,5 +112,10 @@
       "spread": [1020, 1080],
       "checkedAgainst": "5:00 PM, when the director's offices close (director.json settingHours: an office holds scenes to minute 1020), so a scene in an office is never told as evening. Ordinary American usage starts the evening at about 5 to 6 PM, the end of the usual working day in the American Time Use Survey."
     }
+  },
+  "concession": {
+    "about": "Which endings of the concession call (purpose concession-call, scene race-lost) mean the candidate conceded and which mean they would not concede that night. The director marks the reply record conceded yes or no; the press reads the mark and puts the concession, or the refusal, on the public record the paper prints. Ending ids only; no sentence.",
+    "conceded": ["conceded-after-fight", "conceded-after-numbers", "conceded"],
+    "notConceded": ["not-yet"]
   }
 }
