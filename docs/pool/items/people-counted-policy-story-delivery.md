@@ -5,12 +5,12 @@ area: people
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane-2/counted-policy-reach
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-11-04T12:41:33.327Z
 ---
 
 **What.** Bounded delivery part of the claimed counted-news parent: use the existing press delivery record to move counted adult groups through stanceAfterCase, save the real story cause, and let the existing press concern reader weigh that recorded strength. Full people already use the same transition.
