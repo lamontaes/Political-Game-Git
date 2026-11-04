@@ -5443,9 +5443,9 @@
     }
   },
   "experiencedKeyRetentionDays": {
-    "value": 90,
+    "value": 45,
     "tag": "TUNABLE",
-    "citation": "Owner ruling, Oct 12 (running memory stays small): how long a person keeps the bare 'I lived through this event' key after the day, once it is no longer the source of a drive they hold. Its only readers are the same-day appraisal and a drive's update; the event's own facts stay.",
+    "citation": "Owner ruling, Oct 12 (running memory stays small): how long a person keeps the bare 'I lived through this event' key after the day, once it is no longer the source of a drive they hold. Its only readers are the same-day appraisal and a drive's update; the event's own facts stay. Set near the spread's low end (the pass runs on the first of each month, so a key lives 45 to 75 days): at 90 days a large town (Arcadia, California) ran out of the desktop app's 4,096 MiB heap in its fourth year, its people holding about 140,000 of these keys after the election year.",
     "spread": {
       "low": 30,
       "high": 365,

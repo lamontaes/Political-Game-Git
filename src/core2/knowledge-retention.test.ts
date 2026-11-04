@@ -6,6 +6,8 @@ import { forgetOldExperiences } from "./knowledge-retention";
 import { restoreWorld, snapshotWorld, type WorldSnapshot } from "./snapshot";
 import { coreAPI } from "./state";
 import type { CoreState } from "./types";
+import { parameter } from "./parameters";
+import { addDays, makeIsoDate } from "./kernel/dates";
 
 const fact = (key: string, value: string, learnedAt: string) => ({
   key,
@@ -148,10 +150,15 @@ describe("forgetting old experiences", () => {
     drives.delete("late");
     core.date = "2026-03-01";
     forgetOldExperiences(core);
+    // The recent key stays only while it is younger than the window.
+    const cutoff = addDays(
+      makeIsoDate(core.date),
+      -parameter("experiencedKeyRetentionDays"),
+    );
     expect(keys(core, personId)).toEqual([
       "crime:old",
       "event:cause:experienced",
-      "event:new:experienced",
+      ...("2025-12-20" >= cutoff ? ["event:new:experienced"] : []),
     ]);
   });
 
