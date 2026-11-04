@@ -14,7 +14,7 @@ source: added with npm run pool -- add
 
 **What.** The unchanged place-prices-learned test captures every price-learning event but compares each one with its fare-free-transit fixture. In Williamsburg, Virginia, an ordinary clean-electricity law produces a legitimate learned event on February 3. All three cases then fail on that event: its law ID, hearing record and date are checked against the unrelated fixture. The same failures occur with the original production source, so this is not introduced by the adopted-income-tax reader.
 
-**Rules.** Keep every existing acceptance assertion and all legitimate learned-law events. Do not suppress starting-law news, choose a friendlier seed, narrow away failed cases or call this a passed control. Resolve the observer evidence mismatch with its owner under the no-test-loosening rule.
+**Rules.** Ask why: each learned event must be checked against its actual law, payer and heard-story records. Keep every existing acceptance assertion and all legitimate learned-law events. Do not suppress starting-law news, choose a friendlier seed, narrow away failed cases or call this a passed control. Resolve the observer evidence mismatch with its owner under the no-test-loosening rule.
 
 **Done when.** The existing full file passes on Williamsburg replay bc8a0987576fa6c8a36db1564f7fec5f with the underlying clean-electricity and transit learned events both retained and their actual source records traced. Any test change must preserve coverage for before-payment, after-payment, remembered hearing and unreceived stories, and explicitly explain why it is not a weakened assertion.
 

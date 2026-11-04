@@ -160,6 +160,8 @@ Mac builds (`release-package.yml` on main) were started after 8, 20, 26 and 34 m
 
 ## Waiting
 
+- **Release run on main (Lane 5, Nov 4 05:45 UTC), fixed.** The CTO's note: Release failed at "Enforce declarations" on every run since 01:10. Cause: the release check wanted a declaration for any file outside `docs/coordination` and `docs/pool`, so each direct push of a lane state file (`docs/lanes/state/*.md`, this page included) turned the run red. Runs 12086, 12088, 12089 and 12091 failed that way; the range in 12091 was 7497b6035b..44f14801eb, one file, `docs/lanes/state/merge-desk.md`. #7183 (merged) exempts `docs/lanes/` in `scripts/release/transition.ts` and in the workflow's ignored paths, with a test; `release:check` on that range now prints OK. Separately, #7182 (merged) gave the no-dice guard its sibling-name entry, which was red on every branch.
+
 - **#7110** (speed): handed to Lane 5. The test conflict in `campaign-day.test.ts` is not mechanical (main's new donor rule against this branch's payments wrapper).
 - **#7105's pool item** (play-m6-01-the-opening) is back to open on main after its done-on-merge run, as the order asked.
 
