@@ -62,7 +62,7 @@ it(`local races drawn by residents' own reasons are uncontested at a real rate (
       .table("contests")
       .rows() as unknown as ContestRow[]) {
       if (!LOCAL.has(contest.level) || contest.special) continue;
-      if (!results.get(contest.id)) continue;
+      if (!results.get(`result:${contest.id}`)) continue;
       const onBallot = (
         elections
           .table("filings")

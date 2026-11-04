@@ -59,7 +59,8 @@ it(`a county race counts the rest of the county's voters, a town race only the t
         (c) =>
           c.family === family &&
           !c.special &&
-          (results.get(c.id) as unknown as ResultRow | undefined)?.winnerId,
+          (results.get(`result:${c.id}`) as unknown as ResultRow | undefined)
+            ?.winnerId,
       );
     const countyRaces = decided("countyOffice");
     if (!countyRaces.length) {
@@ -67,7 +68,9 @@ it(`a county race counts the rest of the county's voters, a town race only the t
       continue;
     }
     for (const contest of countyRaces) {
-      const result = results.get(contest.id) as unknown as ResultRow;
+      const result = results.get(
+        `result:${contest.id}`,
+      ) as unknown as ResultRow;
       const row = places.get(`place:${contest.id}:${county}`) as unknown as
         { eligible: number; cast: number } | undefined;
       // The rest of the county voted, counted by its place record.
@@ -96,7 +99,7 @@ it(`a county race counts the rest of the county's voters, a town race only the t
       eligible: number;
       cast: number;
     };
-    const result = results.get(first.id) as unknown as ResultRow;
+    const result = results.get(`result:${first.id}`) as unknown as ResultRow;
     process.stdout.write(
       `COUNTY RACE ${where}: ${countyRaces.length} county contests; ${first.id} counted ${county} (${row.eligible} eligible, ${Math.round(row.cast)} cast) beside the town's ${result.namedEligible} named and ${result.countedEligible} counted voters; winner ${result.winnerId}${tried.length ? `; passed over: ${tried.join("; ")}` : ""}\n`,
     );
