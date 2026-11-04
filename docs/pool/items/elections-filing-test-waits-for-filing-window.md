@@ -5,12 +5,13 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: open
+status: claimed
 lead: governing
-claimed-by:
+claimed-by: lane-4/elections-filing-test-window
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T15:32:07.567Z
 ---
 
 **What.** src/core2/elections-filing.test.ts, 'M2-03 filing (engine)', expects openContests to be non-empty on the world's first day (line 149). Since filing opens on a set day (elections-filing-window-opens, 00f74b7542), a drawn place can have none open that day: on main 44dca16448, GOLDEN_PATH_SEED=962dfb9c9773d29ab7a7f7840258fae3ed04c1874692b74f7f561eaaa8865a8e (West Hattiesburg, Mississippi) fails with 'expected 0 to be greater than 0'. It turns golden-path M2-02 red on every PR whose draw lands there (seen on #7233, a skills-only PR). Same cause as campaigns-test-waits-for-filing-window (#7171), which fixed only campaigns.test.ts. Found by Lane 4.
