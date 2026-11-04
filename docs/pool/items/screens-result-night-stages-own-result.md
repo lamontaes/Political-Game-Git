@@ -5,11 +5,12 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane-4/result-night
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T10:59:10.502Z
 ---
 
 **What.** Lane 3 (words-venue-speeches-delivered Notes, Nov 4): the director composes the loser's concession call on the election-result moment, but the bench never stages it; the Storrs replay went from the returns to the morning-after talk. Needs from Lane 4: after the returns' Close, stage the player's election-result moment that night.
