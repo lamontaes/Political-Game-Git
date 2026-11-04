@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: lane-1/path-measure
-pr:
+pr: #7248
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-04T11:55:46.572Z

@@ -13,10 +13,10 @@ import catalog from "./data/legislature/bill-catalog.json" with { type: "json" }
 import type { CoreAPI } from "./types";
 import {
   authorityFor,
-  currentAmount,
   type Authority,
   type Provision,
 } from "./modules/legislature";
+import { billLevelJurisdiction, billValueInForce } from "./modules/laws";
 
 export type Operation =
   "raise" | "lower" | "expand" | "restrict" | "enact" | "repeal";
@@ -36,6 +36,8 @@ interface CatalogPolicy {
 
 export interface DraftablePolicy extends CatalogPolicy {
   readonly inForce: number | null;
+  readonly inForceRecordId: string | null;
+  readonly inForceUnit: string | null;
   readonly authority: Authority;
 }
 
@@ -63,6 +65,7 @@ const subjects = (
 export function billCatalog(
   api: CoreAPI,
   level: Level,
+  jurisdiction: string = billLevelJurisdiction(api, level),
 ): readonly CatalogMenu[] {
   return subjects.map((subject) => ({
     id: subject.id,
@@ -78,11 +81,15 @@ export function billCatalog(
             series: p.series,
             question: p.question,
             line: p.line,
+            unit: p.unit,
             value: 1,
           } as Provision;
+          const inForce = billValueInForce(api, provision, jurisdiction);
           return {
             ...p,
-            inForce: p.series ? currentAmount(api, p.series, level) : null,
+            inForce: inForce.value,
+            inForceRecordId: inForce.recordId,
+            inForceUnit: inForce.unit,
             authority:
               level === "city"
                 ? authorityFor(api, provision)

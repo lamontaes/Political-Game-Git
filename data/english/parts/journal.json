@@ -9852,6 +9852,58 @@
       "tag": {
         "move": "tell"
       }
+    },
+    {
+      "key": "journal.office-line-volunteer-shift.other-walked-doors-for-me",
+      "move": "office-line-volunteer-shift",
+      "kind": "spoken",
+      "text": "{other} walked {doors} doors for me.",
+      "uses": [
+        {
+          "move": "office-line-volunteer-shift",
+          "subject": "office",
+          "role": "line",
+          "choice": "other-walked-doors-for-me",
+          "journal": [
+            {
+              "kindPrefix": "event:volunteer-shift",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-journal-volunteer-named)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.office-line-volunteer-shift.other-knocked-on-doors-for-me",
+      "move": "office-line-volunteer-shift",
+      "kind": "spoken",
+      "text": "{other} knocked on {doors} doors for me.",
+      "uses": [
+        {
+          "move": "office-line-volunteer-shift",
+          "subject": "office",
+          "role": "line",
+          "choice": "other-knocked-on-doors-for-me",
+          "journal": [
+            {
+              "kindPrefix": "event:volunteer-shift",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Lane 3, words and scenes (words-journal-volunteer-named)",
+      "date": "2026-11-04",
+      "tag": {
+        "move": "tell"
+      }
     }
   ]
 }

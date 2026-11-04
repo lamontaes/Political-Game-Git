@@ -2434,10 +2434,9 @@ async function seatRows() {
                 : item.name
           }${item.allowed === false ? ` · ${controls.authority?.[item.reason] ?? ""}` : ""}`,
           // What the law in force holds, as the bill's paper cites it.
-          today: item.today
-            ? amount(item.today.value, item.today.unit)
-            : item.inForce != null
-              ? String(item.inForce)
+          today:
+            item.today?.value != null
+              ? amount(item.today.value, item.today.unit)
               : null,
           unit: item.series ? amountUnit(item.unit) : item.line ? "$" : "",
           cents: item.unit?.startsWith("minor") || Boolean(item.line),
@@ -5467,7 +5466,8 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
       const at =
         p.stage === "done" ? STEPS.length : Math.max(STEPS.indexOf(p.stage), 0);
       const within = p.total ? p.done / p.total : 0;
-      bar.style.width = `${Math.round(((at + within) / (STEPS.length + 1)) * 100)}%`;
+      // Full when the build says it is done ("Ready"), never before.
+      bar.style.width = `${Math.round((Math.min(at + within, STEPS.length) / STEPS.length) * 100)}%`;
       $("front-status").textContent =
         `${controls.loading?.[p.stage] ?? ""}${p.total ? ` ${p.done} / ${p.total}` : ""}`;
     }, 400);

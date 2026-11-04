@@ -44,7 +44,8 @@ registerWorldMapPart("core2-knowledge-retention-queue", queues, (core) => {
     for (const [key, fact] of known)
       if (key.startsWith(PREFIX) && key.endsWith(SUFFIX))
         queueKey(queue, personId, key, fact.learnedAt);
-  return queue;
+  // None to forget: the same as a world that never queued one.
+  return queue.byDay.size ? queue : undefined;
 });
 
 function queueKey(

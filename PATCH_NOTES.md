@@ -296,6 +296,33 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.83.0
+
+_Released November 4, 2026._
+
+### Fixed
+
+- **Mortgage payments reduce the paying household's own balance.** A counted
+  household that pays its mortgage in full no longer gets less principal credit
+  because unrelated households missed their payments. Its own group's payment
+  record determines what was paid.
+
+- **The map names your town as the game does, and loading reads Ready only when
+  full.** The map on the loading screen and on Parties named a census-designated
+  town as the census files do ("Storrs CDP"); it now says "Storrs". The loading
+  bar no longer says Ready while it is still short of full.
+
+- **The Journal names the person who walked doors for your campaign when you
+  know them.** A relative or a friend who knocked on doors for you is named ("My
+  father walked 33 doors for me."), never "Someone from my campaign".
+
+### Changed
+
+- **The newspaper turns pages: stories that don't fit the front page are on the
+  next one.** When the day's paper holds more than fits your window, the front
+  page keeps what fits and the rest moves to the next page, turned with the
+  arrows beside the date, so no story you heard is left out.
+
 ## PRE-ALPHA 0.82.0
 
 _Released November 4, 2026._

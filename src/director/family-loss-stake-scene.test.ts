@@ -26,8 +26,10 @@ import {
 import { filingClerkFor } from "../core2/modules/filing-clerk";
 import { resultOf } from "../core2/modules/voting";
 import { coreAPI } from "../core2/state";
+import { familyFactsOf } from "../core2/modules/people";
 import type { PersonId } from "../core2/types";
 import { stakeOf } from "./family-stake";
+import { composeJournal } from "./journal";
 import { purposeScene, replyInScene } from "./purpose-scene";
 
 // The talk at home after a lost race (scenes-from-life, household-after-the-loss):
@@ -117,6 +119,10 @@ const run = (drawSeed: string): { done: boolean; note: string } => {
   if (!mateOf) return { done: false, note: `${where}: no adult at home` };
   campaignFor(api, worked!.id);
   expect(enlistVolunteer(api, worked!.id, mateOf.id), where).toBe(true);
+  // The filer who was worked for is in the circle the world keeps private
+  // records for, as the player is (a volunteer's shift is private).
+  core.focusPersonIds.add(worked!.personId as PersonId);
+  core.focusPersonIds.add(mateOf.id as PersonId);
   campaignFor(api, gave!.id);
   const giver = core.people.get(gave!.personId as PersonId)!;
   const given = contributeOwnMoney(
@@ -131,6 +137,39 @@ const run = (drawSeed: string): { done: boolean; note: string } => {
   advanceCore(core, addDays(makeIsoDate(contest.electionDate), 2));
   const result = resultOf(api, contest.id);
   if (!result?.winnerId) return { done: false, note: `${where}: no winner` };
+  // Someone the filer knows who walked doors (a relative, or anyone known by
+  // name) is named in the filer's Journal, never "someone from my campaign"
+  // (Storrs, Connecticut, storrs-1: a father).
+  {
+    const filer = worked!.personId as PersonId;
+    const person = core.people.get(filer)!;
+    const kin = familyFactsOf(person);
+    const known = (pid: string) =>
+      kin.has(pid as PersonId) || person.knownIds.has(pid as PersonId);
+    const shifts = new Map(
+      (director.ledger.people.get(filer)?.moments ?? [])
+        .filter(
+          (moment) =>
+            moment.causeKind.startsWith("event:volunteer-shift") &&
+            moment.counterpartIds.some(known),
+        )
+        .map((moment) => [moment.id, moment.counterpartIds.find(known)!]),
+    );
+    const told = composeJournal(core, director, filer)
+      .flatMap((chapter) => chapter.lines)
+      .filter((line) => line.momentIds.some((mid) => shifts.has(mid)));
+    for (const line of told)
+      expect(
+        (line.plain ?? line.text).match(/^(Someone|A volunteer)\b/),
+        `${where}: "${line.text}" for ${shifts.get(line.momentIds[0]!)}`,
+      ).toBeNull();
+    process.stdout.write(
+      `VOLUNTEER LINES ${where}: ${told.length} lines for people ${filer} knows: ${told
+        .slice(0, 2)
+        .map((line) => `"${line.text}"`)
+        .join(" ")}\n`,
+    );
+  }
   const causeId = `election-result:${contest.id}`;
   const lines: string[] = [];
   let promised = false;

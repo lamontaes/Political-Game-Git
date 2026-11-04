@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: lane3/journal-names-helper
-pr:
+pr: #7245
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-04T12:02:03.980Z

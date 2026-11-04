@@ -1,0 +1,73 @@
+{
+  "town": "Brownville Junction, Maine",
+  "place": "2308360",
+  "replay": "d0a859c3fc33a41f",
+  "host": "4c46091479ea",
+  "baseHead": "0de6987f8294a1705249b224b6d887dec450ffe8",
+  "correctedHead": "3c39628816f3c58829e009ba58616c9ff8f20a40",
+  "baseIsControlledSource": true,
+  "baseDescription": "Same production surroundings as corrected head with only the bill reader removed; main33371378e2 plus the existing zero-opening-cash repair. Not relabeled latest main.",
+  "sourceDiff": [
+    "src/bench/legislature.ts",
+    "src/bench/play.mjs",
+    "src/core2/bill-catalog.ts",
+    "src/core2/laws-bill-values.test.ts",
+    "src/core2/laws-bill-values.ts",
+    "src/core2/modules/laws.ts",
+    "src/core2/modules/legislature.ts"
+  ],
+  "rows": [
+    {
+      "year": 1,
+      "baseSeconds": 27.3,
+      "headSeconds": 31.6,
+      "percentChange": 15.75,
+      "withinTwentyPercent": true,
+      "bothUnder120Seconds": true,
+      "baseFingerprint": "aa0515c646b310b0",
+      "headFingerprint": "aa0515c646b310b0",
+      "differingTables": [],
+      "baseRecords": 176175,
+      "headRecords": 176175
+    },
+    {
+      "year": 2,
+      "baseSeconds": 51.4,
+      "headSeconds": 55.1,
+      "percentChange": 7.2,
+      "withinTwentyPercent": true,
+      "bothUnder120Seconds": true,
+      "baseFingerprint": "fcad1e72d18d25ad",
+      "headFingerprint": "fcad1e72d18d25ad",
+      "differingTables": [],
+      "baseRecords": 305889,
+      "headRecords": 305889
+    },
+    {
+      "year": 3,
+      "baseSeconds": 43.3,
+      "headSeconds": 50.3,
+      "percentChange": 16.17,
+      "withinTwentyPercent": true,
+      "bothUnder120Seconds": true,
+      "baseFingerprint": "e3adc02bdc776f90",
+      "headFingerprint": "e3adc02bdc776f90",
+      "differingTables": [],
+      "baseRecords": 387853,
+      "headRecords": 387853
+    },
+    {
+      "year": 4,
+      "baseSeconds": 91.3,
+      "headSeconds": 94.6,
+      "percentChange": 3.61,
+      "withinTwentyPercent": true,
+      "bothUnder120Seconds": true,
+      "baseFingerprint": "bf64cba7873c538e",
+      "headFingerprint": "bf64cba7873c538e",
+      "differingTables": [],
+      "baseRecords": 554380,
+      "headRecords": 554380
+    }
+  ]
+}

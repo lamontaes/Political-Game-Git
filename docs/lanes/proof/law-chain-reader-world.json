@@ -1,0 +1,104 @@
+{
+  "town": "Goodland, Florida",
+  "placeKey": "1226775",
+  "replay": "50403585a1783cc4",
+  "worldSeed": "d08f8982e7e095ce3eadb57120d49615aba04df69f17ae86ae23f467224aaa78",
+  "through": "2026-01-20",
+  "observedOn": "2025-02-01",
+  "law": {
+    "level": "state",
+    "series": "local-sales-tax-average",
+    "tier": "general",
+    "value": 0.948,
+    "effectiveDate": "2025-01-01",
+    "endDate": "2026-01-01",
+    "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
+    "retrieved": "2026-10-23",
+    "estimate": true,
+    "unit": "percent",
+    "terms": {
+      "spreadLow": 0,
+      "spreadHigh": 2,
+      "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+    },
+    "jurisdiction": "US-FL",
+    "id": "law:US-FL:state:local-sales-tax-average:general:2025-01-01"
+  },
+  "tax": {
+    "id": "sales-tax:county:12021",
+    "placeId": "jurisdiction_fba63d499232d3e9",
+    "ratePercent": 0.8943396226415092,
+    "payeeAccountId": "cash:organization:treasury:county:12021:residual",
+    "exemptions": [
+      {
+        "classificationPrefix": "enterprise:retail",
+        "share": 0.757,
+        "lawKey": "us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+        "lawId": "law:US-FL:state:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:starting"
+      }
+    ],
+    "laws": [
+      {
+        "key": "local-sales-tax-average",
+        "lawId": "law:US-FL:state:local-sales-tax-average:general:2025-01-01"
+      }
+    ],
+    "from": "2025-01-20",
+    "source": {
+      "tag": "ESTIMATED",
+      "citation": "Sales tax in force (COUNTY OF COLLIER)",
+      "asOf": "2025-01-20",
+      "estimatedFrom": "starting-law"
+    },
+    "collectedMinor": 29273,
+    "opening": {
+      "ratePercent": 0.8943396226415092,
+      "exemptions": [
+        {
+          "classificationPrefix": "enterprise:retail",
+          "share": 0.757,
+          "lawKey": "us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+          "lawId": "law:US-FL:state:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:starting"
+        }
+      ]
+    }
+  },
+  "reach": {
+    "id": "applied|local-sales-tax-average|person_00e25bb5ef3418b0",
+    "key": "local-sales-tax-average",
+    "lawId": "law:US-FL:state:local-sales-tax-average:general:2025-01-01",
+    "targetId": "person_00e25bb5ef3418b0",
+    "target": "person",
+    "count": 1,
+    "engine": "core2-purchase-tax-v1",
+    "what": "sales-tax-paid",
+    "since": "2025-02-01",
+    "lastOn": "2025-02-01",
+    "times": 1,
+    "amountMinor": 303,
+    "endedOn": null
+  },
+  "buyer": {
+    "id": "person_00e25bb5ef3418b0",
+    "name": "Monique Ford",
+    "householdId": "household_b53a9245ed8e15b1"
+  },
+  "treasuryId": "organization:treasury:county:12021",
+  "payment": {
+    "id": "journal:2025-03-13:11131",
+    "date": "2025-03-13",
+    "source": {
+      "kind": "work-payroll",
+      "id": "work-payroll:2025-03-13:work-commitment:job:public:staff:person_0b626631d196cab8:person_621dee7d45d15fb7:3"
+    },
+    "people": [
+      {
+        "ownerId": "person_621dee7d45d15fb7",
+        "beforeMinor": 4869,
+        "afterMinor": 139279,
+        "name": "Taylor Solomon"
+      }
+    ]
+  },
+  "limit": "Actual existing tax and payment; no claim that this tax caused extra spending, or that other states now sit."
+}
