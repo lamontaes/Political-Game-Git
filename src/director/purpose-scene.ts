@@ -1292,6 +1292,14 @@ export function replyInScene(
         ? "no"
         : undefined
     : undefined;
+  // A meeting set or a matter put off owes the other a talk: who, about
+  // what and by when, for the people engine's owed-talk record to read
+  // (agreements/2-3.md).
+  const owed =
+    !!ending &&
+    (rulesFile.owedTalk.keeps.includes(ending.keeps) ||
+      rulesFile.owedTalk.endings.includes(ending.id));
+  const owedWith = scene.playerAsks ? scene.askedId : scene.askerId;
   applyCoreEvent(core, {
     id,
     date: core.date,
@@ -1312,6 +1320,16 @@ export function replyInScene(
       ...(ending ? { ending: ending.id, keeps: ending.keeps } : {}),
       ...(ending?.firmness ? { firmness: ending.firmness } : {}),
       ...(conceded ? { conceded } : {}),
+      ...(owed
+        ? {
+            owedWith,
+            owedTopic: stakeKind ?? scene.typeKey,
+            owedDueOn: addDays(
+              makeIsoDate(core.date),
+              rulesFile.owedTalk.dueDays.value,
+            ),
+          }
+        : {}),
     },
     source: {
       tag: "SOURCED",

@@ -441,7 +441,7 @@ export function registerDerivedCache(map: WeakMap<CoreState, unknown>): void {
 export function registerWorldMapPart<T>(
   id: string,
   map: WeakMap<CoreState, T>,
-  rebuild?: (core: CoreState) => T,
+  rebuild?: (core: CoreState) => T | undefined,
 ): void {
   registerSnapshotPart(id, {
     save: (core) => map.get(core),
@@ -451,7 +451,10 @@ export function registerWorldMapPart<T>(
     },
     ...(rebuild && {
       missing: (core) => {
-        map.set(core, rebuild(core));
+        // Nothing to rebuild leaves the world as one that never made the part.
+        const rebuilt = rebuild(core);
+        if (rebuilt === undefined) map.delete(core);
+        else map.set(core, rebuilt);
       },
     }),
   });
