@@ -73,6 +73,7 @@ import {
   authorityFor,
   beyondPower,
   billJurisdiction,
+  bodyJurisdiction,
   bodyOf,
   draftBill,
   executiveOf,
@@ -1411,16 +1412,9 @@ function localMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     .table("offices")
     .get(officeId) as unknown as
     { kind: string; level: OfficeLevel } | undefined;
-  const chain = lawChain(api);
   // Each body legislates for its own government: a county board for its
   // county, a township board for its township, a council for its place.
-  const own =
-    office?.kind === "county-board"
-      ? chain.levels.find((l) => l.level === "county")?.jurisdiction
-      : office?.kind === "township-board"
-        ? chain.levels.find((l) => l.level === "township")?.jurisdiction
-        : chain.levels[chain.levels.length - 1]!.jurisdiction;
-  const jurisdiction = own ?? chain.townPlaceId;
+  const jurisdiction = bodyJurisdiction(api, officeId);
   holdSession(api, {
     key: work.key,
     jurisdiction,
@@ -1438,7 +1432,7 @@ function localMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     needsChange: (question, direction) =>
       direction > 0
         ? !inForceForTown(api, question)
-        : !!own && ownRow(api, own, question) === 1,
+        : ownRow(api, jurisdiction, question) === 1,
     allowed: (question, value) =>
       levelMayDecide(api, office?.level ?? "city", question, value),
     barred: (question, direction) =>

@@ -19,6 +19,7 @@ import {
 } from "../rules/laws/law-in-force";
 import { minimumWageSettingFromFacts } from "../rules/laws/minimum-wage-setting";
 import type { LawChain, LawLevelName, LawRowInput } from "./laws-starting";
+import { governmentUnit } from "./reference/government-units";
 
 export type LawDoctrine = "floor" | "additive" | "single";
 
@@ -71,6 +72,37 @@ export function inTownChain(
   jurisdiction: string,
 ): boolean {
   return chain.levels.some((level) => level.jurisdiction === jurisdiction);
+}
+
+/** The law key of the government an office serves, including outside offices. */
+export function officeLawJurisdiction(
+  chain: Pick<LawChain, "levels">,
+  office: {
+    readonly level: LawLevelName;
+    readonly jurisdiction: string;
+    readonly coversTown?: boolean;
+  },
+): string {
+  if (office.level === "federal") return "US";
+  if (office.level === "state" || office.level === "township")
+    return office.jurisdiction;
+  const unit = governmentUnit(office.jurisdiction);
+  const city = chain.levels[chain.levels.length - 1]!.jurisdiction;
+  if (office.level === "county") {
+    const own = unit?.countyGeoid ? `county:${unit.countyGeoid}` : null;
+    if (office.coversTown === false) return own ?? office.jurisdiction;
+    if (own && inTownChain(chain, own)) return own;
+    // Some county-level bodies make city law where the chain has no county.
+    return (
+      chain.levels.find((level) => level.level === "county")?.jurisdiction ??
+      city
+    );
+  }
+  return office.coversTown !== false
+    ? city
+    : unit?.placeGeoid
+      ? `place:${unit.placeGeoid}`
+      : office.jurisdiction;
 }
 
 export function inForceOn(row: LawRowInput, date: string): boolean {
