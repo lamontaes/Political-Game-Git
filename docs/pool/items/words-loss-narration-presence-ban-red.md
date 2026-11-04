@@ -5,11 +5,12 @@ area: words
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane3/red-presence-line
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T05:43:41.182Z
 ---
 
 **What.** tests/guards/english/place-and-presence.test.ts fails on main: data/english/parts/scene-talk.json holds 'The count is in: {office}, lost by {margin}. {name}, who worked the campaign beside you, is waiting.', lifted in #7151, which says only who is there (owner, Oct 27 ban).
