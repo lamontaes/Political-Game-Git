@@ -1,4 +1,4 @@
-/* global console, document, URL */
+/* global console, document, fetch, URL, URLSearchParams */
 // The one way a browser check starts a life (play-browser-checks-open-on-the-address).
 // A new life opens on the President's address (#6568), one talk with Continue,
 // then the talk after it. A check that clicks into the room before the talk is
@@ -140,4 +140,97 @@ export async function toReplies(page) {
     );
   }
   throw new Error(`The talk offered no reply in ${MAX_STEPS} steps.`);
+}
+
+/**
+ * Files the player for the first race the records let them file for, as the
+ * filing screens do. Filing opens on a set day (elections-filing-window-opens),
+ * so when nothing is open yet the weeks go by, as the Week control plays them
+ * (each stop resumed as Continue does), until a race opens: the browser
+ * checks' form of campaigns.test.ts's wait (#7171). Reloads the page and
+ * continues the life when weeks passed, so the screens show the new date.
+ * Returns { contestId, filingId, date, weeks, tried }; contestId is null when
+ * nothing opened in `maxWeeks`.
+ */
+export async function fileWhenFilingOpens(page, { maxWeeks = 104 } = {}) {
+  const tried = [];
+  for (let weeks = 0; weeks <= maxWeeks; weeks += 1) {
+    const attempt = await page.evaluate(async () => {
+      const gov = await (await fetch("/api/government")).json();
+      const notes = [];
+      for (const { contest } of gov.contests ?? []) {
+        const r = await fetch(
+          `/api/file?${new URLSearchParams({ contestId: contest.id })}`,
+          { method: "POST" },
+        );
+        const body = await r.json().catch(() => ({}));
+        notes.push(
+          `${contest.id.slice(-40)} ${r.status} ${JSON.stringify(body).slice(0, 120)}`,
+        );
+        if (
+          r.ok &&
+          body.status !== "refused" &&
+          ["petitioning", "on-ballot"].includes(body.filing?.status ?? "")
+        )
+          return {
+            contestId: contest.id,
+            filingId: body.filing.id,
+            notes,
+            count: (gov.contests ?? []).length,
+          };
+      }
+      return { contestId: null, notes, count: (gov.contests ?? []).length };
+    });
+    if (weeks === 0) tried.push(...attempt.notes);
+    if (attempt.contestId) {
+      const date = await page.evaluate(
+        async () =>
+          (await (await fetch("/api/title")).json()).life?.date ?? null,
+      );
+      if (weeks) {
+        const title = page.waitForResponse(
+          (r) => new URL(r.url()).pathname === "/api/title",
+        );
+        await page.reload();
+        await title;
+        await page.locator("#front-continue").click();
+        await page.waitForFunction(() =>
+          document.getElementById("card-clock")?.textContent.trim(),
+        );
+      }
+      console.log(
+        `Filed for ${attempt.contestId} after ${weeks} week(s) of waiting for filing to open`,
+      );
+      return { ...attempt, date, weeks, tried };
+    }
+    if (weeks === 0)
+      tried.unshift(`${attempt.count} contests, none open on the first day`);
+    await page.evaluate(async () => {
+      let res = await fetch("/api/advance?mode=week", { method: "POST" });
+      let body = await res.json();
+      for (
+        let stops = 0;
+        res.ok &&
+        body.packet &&
+        !["complete", "choice"].includes(body.packet.kind) &&
+        stops < 50;
+        stops += 1
+      ) {
+        res = await fetch(
+          `/api/resume?${new URLSearchParams({ pauseId: body.packet.pauseId ?? "" })}`,
+          { method: "POST" },
+        );
+        body = await res.json();
+      }
+      if (!res.ok)
+        throw new Error(`A week of play failed: ${JSON.stringify(body)}`);
+    });
+  }
+  return {
+    contestId: null,
+    filingId: null,
+    date: null,
+    weeks: maxWeeks,
+    tried,
+  };
 }

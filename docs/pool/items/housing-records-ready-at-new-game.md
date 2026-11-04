@@ -9,6 +9,7 @@ status: claimed
 claimed-by: lane-2/homes-at-opening
 pr:
 blocked-on:
+lead: laws-effects
 after: housing-dwelling-records-cover-few-households
 source: added with npm run pool -- add
 claimed-at: 2026-11-04T05:01:18.375Z
