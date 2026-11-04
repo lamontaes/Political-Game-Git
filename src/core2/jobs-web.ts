@@ -191,7 +191,8 @@ export function countedFacts(
       relatives,
       p,
       group?.kind,
-      group?.incomeBand,
+      // A group-quarters room's income is no household's: no fifth.
+      group?.quarters ? undefined : group?.incomeBand,
     ),
     id: store.ids[member]!,
   };

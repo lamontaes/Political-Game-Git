@@ -5,7 +5,7 @@ area: world
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: governing/governor-emergency
 pr: #7170
 blocked-on:

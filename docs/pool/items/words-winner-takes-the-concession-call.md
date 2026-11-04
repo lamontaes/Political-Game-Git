@@ -5,12 +5,13 @@ area: words
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane3/rival-gloats
 pr:
 blocked-on:
 after: words-concession-reaches-the-paper
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T04:52:36.538Z
 ---
 
 **What.** Path 6 asks for a rival who may gloat after you lose. When the loser concedes, the press's concession record (conceded yes) now stages a phone scene, concession-taken. The winner speaks first, with lines whose bearings their traits pull (calm and polite toward gracious, cocky and smug toward glad), and the loser can wish them well, keep it short or answer back.

@@ -181,6 +181,18 @@
     "tag": "SOURCED",
     "citation": "00s PACKAGES, P8 CORE, owner decision October 9, 2026."
   },
+  "groupQuartersRoomMembers": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "Residents per group-quarters room record (a dormitory double, a two-person cell, a barracks room): the opening pairs a type's residents of the same sex in age order this many at a time. It changes only how many records exist and who is filled in together, never a count.",
+    "stopgapId": "SG-GQ-room-size",
+    "spread": {
+      "low": 1,
+      "high": 4,
+      "unit": "residents per room record",
+      "citation": "A single room to a four-person suite or barracks room; each type's sourced occupancy replaces it where one exists."
+    }
+  },
   "yearSecondsBudget": {
     "value": 120,
     "tag": "SOURCED",

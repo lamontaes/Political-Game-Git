@@ -5,7 +5,7 @@ area: elections
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: governing/rival-attack-ad
 pr: #7174
 blocked-on:
