@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: lane3/own-loss-story
-pr:
+pr: #7223
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-04T09:26:04.823Z
