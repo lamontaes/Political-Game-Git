@@ -222,6 +222,29 @@ export function lawName(series: string): string | null {
   return questionName(series) ?? storyTopicName(topic);
 }
 
+/**
+ * Which side of their tie two people stand, from its record: a rival is one
+ * whose last contact on the tie was a quarrel; a friend is nearer full
+ * closeness than none (scene-talk-rules tieSides). Null for neither, or no
+ * tie on record. Scenes and the Journal read it alike.
+ */
+export function tieSide(
+  core: Readonly<CoreState>,
+  aId: PersonId,
+  bId: PersonId,
+): { side: "friend" | "rival"; tieId: string } | null {
+  const tieId = aId < bId ? `${aId}:${bId}` : `${bId}:${aId}`;
+  const tie = core.relationships.get(tieId);
+  if (!tie) return null;
+  if ((tie.latestChange?.requestedChange ?? P.zero) < P.zero)
+    return { side: "rival", tieId };
+  if (
+    closenessBetween(core, aId, bId) >= rulesFile.tieSides.friendCloseness.value
+  )
+    return { side: "friend", tieId };
+  return null;
+}
+
 /** One purpose scene of a moment, worded from its records. */
 function composeBinding(
   core: Readonly<CoreState>,
@@ -588,18 +611,12 @@ function composeBinding(
   // (`tie-friend`) is nearer full closeness than none; a rival (`tie-rival`)
   // is one whose last contact on the tie was a quarrel. A friend and a rival
   // say different things.
-  const tieId =
-    askerId < askedId ? `${askerId}:${askedId}` : `${askedId}:${askerId}`;
-  const tie = core.relationships.get(tieId);
-  const quarrel = (tie?.latestChange?.requestedChange ?? P.zero) < P.zero;
-  if (tie && quarrel)
-    facts["tie-rival"] = { text: asker.givenName, sourceRecordIds: [tieId] };
-  else if (
-    tie &&
-    closenessBetween(core, askerId, askedId) >=
-      rulesFile.tieSides.friendCloseness.value
-  )
-    facts["tie-friend"] = { text: asker.givenName, sourceRecordIds: [tieId] };
+  const side = tieSide(core, askerId, askedId);
+  if (side)
+    facts[`tie-${side.side}`] = {
+      text: asker.givenName,
+      sourceRecordIds: [side.tieId],
+    };
   // A committee trade coming due on the floor (legislature.ts
   // recordPromises): the member promised their vote, and the lines about a
   // promised vote need it.

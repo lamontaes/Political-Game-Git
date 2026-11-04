@@ -1,5 +1,6 @@
 import { readFileSync, readdirSync } from "node:fs";
 import { coreAPI } from "../core2/state";
+import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { townDistrict, townSeats } from "../core2/modules/offices";
 import type { CoreState } from "../core2/types";
 
@@ -63,13 +64,20 @@ function path(p: Pack, feature: Feature): string {
   return parts.join("");
 }
 
+/** A shape under the name the game gives it, when it has one. */
+const withName = <T extends { name: string }>(
+  shape: T | null,
+  name: string | null | undefined,
+) => (shape && name ? { ...shape, name } : shape);
+
 /** The player's state: counties, their own districts and town, with who holds each seat. */
 export function governmentMap(core: CoreState) {
   const api = coreAPI(core);
   const town = api
     .moduleState("core2-elections-v1")
     .table("town")
-    .get("town") as { stateKey: string; geoid: string } | undefined;
+    .get("town") as
+    { stateKey: string; geoid: string; townPlaceId?: string } | undefined;
   if (!town) return null;
   const usps = town.stateKey.slice(3);
   const fips = readdirSync(GEOMETRY)
@@ -132,8 +140,15 @@ export function governmentMap(core: CoreState) {
         ...shape("state-lower", mine["state-lower"]),
         holders: holders("legislature-lower"),
       },
+      // The town by the name the game calls it ("Storrs"), not the census
+      // geometry's own ("Storrs CDP").
       place: {
-        ...shape("place", mine.place),
+        ...withName(
+          shape("place", mine.place),
+          town.townPlaceId
+            ? corePlaceByJurisdictionId(town.townPlaceId as never)?.formalName
+            : null,
+        ),
         holders: [...holders("mayor"), ...holders("municipal-council")],
       },
     },

@@ -36,3 +36,5 @@ Oct 25, 16:25 UTC (speed lead): the fix is in PR 6038 under `play-teen-has-curre
 Sent back 2026-10-25 ~21:30 UTC from PR #6038 (branch claude/play-stop-08-high-school, head b7173de4e3 with main merged in): every body screenshot is wrapped in backticks so none render as images; unwrap the image tags and it goes back in the queue; finish on that branch, merge main into it first.
 
 2026-10-26 Merger 2: implementation PR #6038 merged at 48d74a8b3939f04b92f5399b506ec51ef607b83a with local tests and fresh bench browser proof. This owner-installed-build acceptance item remains open/blocked until the owner confirms; no installed-build acceptance is claimed.
+
+Lane 4 check, Nov 4 (main b78f83fb42): New Game through the creator, Anson, Texas, age 17 (born 2007). Who you are shows School "Anson Public Schools"; Jobs and study reads "2013 You started school at Anson Public Schools. / 2019 You went on to middle school. / 2022 You went on to high school." No cut-off name and no missing high school. The school is named by its district, not "Anson High School", so this item is ready for a closing check against that one line.
