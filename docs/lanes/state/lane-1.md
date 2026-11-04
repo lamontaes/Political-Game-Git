@@ -41,6 +41,15 @@
 - **Size:** about 2 hours and under 100 changed lines if the weight is enough; if not, the rest of the county weighing a county seat (stopgap SG-GOV-wide-resident-pool), split into its own unit.
 - **Checked by:** a fresh session running the test on a seed it chooses.
 
+**Unit 5b: the county sees its own races** (`elections-county-race-sees-only-the-town`, branch `governing/county-challengers`)
+
+- **Finish line:** a county race is voted by the whole county (the town and the rest of the county, counted on the same engine) and weighed by people from the rest of the county as well as the town; county seats go uncontested at a real rate.
+- **Proof:** step A, voting: a played county contest's result counts the rest of the county by its place record id, in a test over drawn places; step B, running: a challenger who lives elsewhere in the county is filled in from the counted rest of the county and files; then the totals script over 24 places (seed a63ad2af1003c7ad) for the uncontested share (band 55 to 80) and T3, and `local-races-contested.test.ts`.
+- **Hands off:** town races, the countywide weight until step B replaces it, statewide and federal races.
+- **Known cheats:** a drawn number of challengers, a per-county number, outside challengers who never lose, a test that fills them in by hand.
+- **Size:** step A under 100 lines; step B 300 to 400; each its own PR.
+- **Checked by:** a fresh session replaying a county race on main in a place it draws.
+
 ## Measuring now
 
 - **Unit 1b, incumbency fit** (`governing/incumbency-calibration`, d6db3df9ff). On seed a63ad2af1003c7ad, 24 places, 23 to 26 contested races: play values T3 0.565, trait term halved 0.565, recognition halved 0.391, neither 0.375. The holder's edge is real, carried by recognition, not counted twice. T6 stayed at 0.77 because holders ran again 92 percent of the time; with #7215 it is 0.36 and T3 0.60. The PR waits on #7215's merge and a pooled re-measure.
