@@ -5,14 +5,14 @@ area: director
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane3/reporter-on-vote
 pr:
 blocked-on:
 source: "words-and-scenes lead, Oct 27, scene web press pass (packet the-reporter-calls-for-comment)"
 lead: director
 milestone: play-first
-claimed-at:
+claimed-at: 2026-11-04T06:16:21.599Z
 ---
 
 **What.** `press-interview` fires on an executive action, a veto override, an introduced item and a published interview, but not on a member's own vote. In local news, the vote is the call every council member gets. The packet `docs/design/scenes/from-life/the-reporter-calls-for-comment.md` (local news practice, newsroom and municipal league guides, calibration only) shows the exchange. The reporter asks why, and the official can answer on the record, send a statement, go off the record or decline. The story says which, including "did not return a call".
