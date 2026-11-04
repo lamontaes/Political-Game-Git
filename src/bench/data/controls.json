@@ -334,7 +334,17 @@
     "page": "{page} of {pages}",
     "previousPage": "Previous page",
     "nextPage": "Next page",
-    "weekdays": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+    "weekdays": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+    "key": "What the calendar shows",
+    "hide": "Hide these",
+    "show": "Show these",
+    "kinds": {
+      "birthday": "Birthdays",
+      "deadline": "Filing dates",
+      "election": "Elections",
+      "meeting": "Meetings",
+      "holiday": "Holidays"
+    }
   },
   "party": {
     "join": "Join",

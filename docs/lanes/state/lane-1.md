@@ -70,3 +70,9 @@ Unit 1b fit, then unit 5 (uncontested seats: in these runs 87% of running holder
 - **The clone is shallow.** Run `git fetch --shallow-since=<date> origin main` before merging main into an old branch.
 - **Pool commands check out main.** Commit first, and never run one while a test runs in that checkout.
 - **The stopgap register is one file per family.** A branch carrying `src/core2/data/stopgaps.json` moves its rows into `src/core2/data/stopgaps/<family>.json` when it merges main.
+
+## Confirmer
+
+Replays by a session that built none of this lane's work, on main, from a fresh New Game. Only this section is the Confirmer's.
+
+- **Path 1, one race, one deadline: fail.** Main c3a29bb02d, Nov 4. Haleyville, Alabama, replay ab5f58e9be125c95 (opened as Haleyville), player born 1985, played week by week in the browser. Step: one race offered. The council's five at-large seats show as elected July 2024 with terms to 2028, so no council race shows on any screen through February 2026; the first filing (November 24, 2025, week 44) opens five state and federal races at once at one office, "State party chair; Secretary of State", and the Campaigns ballot for 2026 lists only county offices. Filed `elections-town-council-on-state-municipal-cycle`; the at-large half is `elections-at-large-race-pooled`. Johnson, Minnesota not replayed yet. Proof: `docs/lanes/proof/confirmer-lane1-path1/`. Fail 1 of 3.

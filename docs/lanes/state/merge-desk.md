@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 85 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 88 pull requests merged. Newest state at the top of each section.
 
 ## What the owner can play now
 
@@ -31,6 +31,9 @@ New on Nov 4, from the lanes:
   - Relatives and officials at the opening have homes and pay rent, and your home exists before the first card and room appear.
   - Living siblings never share a first name.
   - A person's card tells their life as a short story.
+  - The calendar shows meetings and holidays, not just birthdays.
+  - Journal chapters open only on your own turns or a relative's.
+  - A question in everyday talk gets an answer, not just a nod.
 - **Laws and money.**
   - Unemployment benefits use the law's full wage basis.
   - The lobbying ban for officials who leave starts the day they actually leave.
@@ -71,7 +74,7 @@ New on Nov 3:
   - A pool fix (#7145).
   - A state page (#7146).
 
-## Lane PRs merged on Nov 4 (50), on the owner's word ("You may merge lane PRs that pass the new-game check")
+## Lane PRs merged on Nov 4 (53), on the owner's word ("You may merge lane PRs that pass the new-game check")
 
 Each had main merged in again, passed `npm run new-game-check` (a town drawn from all 56, a new life, four weeks) and merged pinned to that head.
 
@@ -127,6 +130,9 @@ Each had main merged in again, passed `npm run new-game-check` (a town drawn fro
 | #7192 | Lane 3's part of the red guards: the scene code keeps its numbers in data and reads press stories through the press module's entry (guards only) | Lakeview, Louisiana               | 2f87205bc844ea8a |
 | #7193 | Lane 2's first-minutes proof in eight towns, on main (built, not yet confirmed by a second session; docs only)                                   | West Hattiesburg, Mississippi     | 5e0307fe27bc0262 |
 | #7194 | Lane 4's line of the red families guard: the montage imports people through the people module's entry (guards only)                              | Rockwood, Michigan                | cbce7ff365888bef |
+| #7195 | Journal chapters open only on your own turns or a relative's, never titled after someone else                                                    | Montgomery, Alabama               | 4a388744cb946666 |
+| #7100 | The calendar shows meetings and holidays, not just birthdays (the lane fixed its families-guard defect)                                          | Tiger, Georgia                    | 6eb0470304598551 |
+| #7196 | A question in everyday talk is answered, not just acknowledged                                                                                   | Stepping Stone, Colorado          | 90f886358d4bfcb3 |
 
 Conflicts resolved mechanically: #7154 (both sides added a parameter and a stopgap row; both kept), and #7153, #7157, #7160, #7162 (Lane 2's state page: main's wording for the one edited line, both sides' log entries kept). Mac builds started after 5, 13, 18, 25, 30, 35, 40, 45 and 50 of these merges.
 
@@ -186,7 +192,6 @@ Mac builds (`release-package.yml` on main) were started after 8, 20, 26 and 34 m
 ## Lanes (all running now)
 
 - **Lane 3:** #7127: merging main in conflicts with #7188 in `src/bench/calendar.ts` (the same still-news rule written two ways); back to Lane 3.
-- **Lane 4:** #7100 (families guard: `calendar.ts` reaches two core internals; last push Nov 1).
 - **48-hour rule:** if a lane goes 48 hours without pushing to one of these, it merges on the one check and its named failure is filed.
 
 ## Owner, one click

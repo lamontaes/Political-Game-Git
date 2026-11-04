@@ -1,5 +1,8 @@
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
-import { familyFactsOf } from "../core2/modules/people";
+import { CLOSENESS, familyFactsOf } from "../core2/modules/people";
+import { federalHolidays } from "../core2/modules/office-day";
+import { nextSittingOf } from "../core2/modules/legislature";
+import { townSeats } from "../core2/modules/offices";
 import { wordArchiveStory, wordPrintedStory } from "./archive-words";
 import { coreAPI } from "../core2/state";
 import {
@@ -25,6 +28,10 @@ export interface CalendarItem {
   own: boolean;
   recordIds: string[];
 }
+
+/** The levels of the town's own governments, and the kinds of office that are bodies that meet. */
+const LOCAL_LEVELS: readonly string[] = ["city", "township", "county"];
+const BODY_KINDS: readonly string[] = ["council", "board"];
 
 const ICON_KINDS = [
   "filing-opens",
@@ -124,8 +131,25 @@ export function calendarItems(
       own: true,
       recordIds: [person.id],
     });
+  // Birthdays only for the household and close kin (owner, Nov 1: "it's just
+  // people's birthdays"): the people who live with the person, and parents,
+  // children, siblings and a partner by the closeness table's own marking of
+  // which relations are extended.
+  const close = new Set<string>([
+    ...(core.households.get(person?.householdId ?? "")?.memberIds ?? []),
+    ...[...familyFactsOf(person)]
+      .filter(
+        ([, fact]) =>
+          fact.relation === "partner" ||
+          (CLOSENESS.tieRows as Record<string, { extended: boolean }>)[
+            fact.relation
+          ]?.extended === false,
+      )
+      .map(([id]) => id),
+  ]);
+  close.delete(personId);
   const seen = new Set<string>();
-  for (const otherId of familyFactsOf(person).keys()) {
+  for (const otherId of close) {
     const other = core.people.get(otherId);
     if (!other?.alive) continue;
     if (seen.has(other.id)) continue;
@@ -148,6 +172,47 @@ export function calendarItems(
         });
     }
   }
+  // The town's public dates: each body's next meeting (the bodies' calendar
+  // engine) and the federal holidays (5 U.S.C. 6103, the office-day calendar).
+  const bodies = new Map<string, { title: string; date: string }>();
+  for (const { office } of townSeats(api)) {
+    // The town's and county's own councils and boards, not the state's offices
+    // that happen to cover the town.
+    if (
+      bodies.has(office.id) ||
+      !LOCAL_LEVELS.includes(office.level) ||
+      !BODY_KINDS.includes(office.kind)
+    )
+      continue;
+    const sitting = nextSittingOf(api, office.id);
+    if (sitting && inWindow(sitting.date))
+      bodies.set(office.id, { title: office.kind, date: sitting.date });
+  }
+  for (const [officeId, body] of bodies) {
+    const line = screenLine("calendar", "calendar.meeting.1", {
+      body: body.title,
+    });
+    if (line)
+      items.push({
+        date: body.date,
+        kind: "meeting",
+        line,
+        own: false,
+        recordIds: [officeId],
+      });
+  }
+  for (const year of [Number(from.slice(0, 4)), Number(from.slice(0, 4)) + 1])
+    for (const [date, id] of federalHolidays(year)) {
+      const line = screenLine("calendar", `calendar.holiday.${id}`, {});
+      if (inWindow(date) && line)
+        items.push({
+          date,
+          kind: "holiday",
+          line,
+          own: false,
+          recordIds: [`federal-holiday:${id}:${date}`],
+        });
+    }
   return items.sort(
     (a, b) =>
       a.date.localeCompare(b.date) ||

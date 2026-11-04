@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane-2/zero-opening-cash
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T06:49:33.637Z
 ---
 
 **What.** The opening treasury writer always copies journalSequence into the government record. A legitimate zero-dollar opening transfer has no journal entry, so that optional value is undefined and the finite-JSON guard rejects the row. On pinned main 69b9126328, the unchanged legislature project-request test fails during openBudgets on replay 75ae3c9378284205, before the bill reader runs; the complete suite has five budget failures at that same write. Preserve the zero balance and omit only the absent optional sequence.
