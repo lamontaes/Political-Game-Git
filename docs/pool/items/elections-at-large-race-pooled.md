@@ -5,11 +5,12 @@ area: elections
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: governing/at-large-pooled
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T16:08:44.662Z
 ---
 
 **What.** Each at-large seat of a town council or board is its own contest with one winner, so the player is offered only the first at-large seat's contest and files for that seat (stopgap SG-GOV-at-large-race-one-contest in src/core2/modules/elections.ts). In a real at-large election every candidate files once for the race, each voter may vote for as many candidates as there are seats, and the top finishers take the seats. Today a challenger who files for seat 1 meets that seat's holder head on and cannot win one of the other seats with the second-highest vote, which makes the race harder than the real one and wrong on the ballot the player sees.
