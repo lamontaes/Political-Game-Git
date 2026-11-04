@@ -5,6 +5,8 @@ area: laws
 kind: bug
 priority: 2
 size: S
+lead: laws-effects
+milestone: play-first
 status: claimed
 claimed-by: lane-2/body-law-jurisdiction
 pr:
@@ -22,3 +24,11 @@ claimed-at: 2026-11-04T13:33:03.532Z
 **Files.** src/core2/laws-in-force.ts; src/core2/modules/legislature.ts jurisdiction readers only; src/core2/body-jurisdiction.test.ts; lane agreement and proof
 
 **Notes.** Existing gov-every-state-and-town-governs Nov1 20:00 notes and world-governing-u2-spec-2026-11-01 section6 agree the billJurisdiction/countyOfBody seam; step2 specifies this unit. Searched pool for body jurisdiction, officeLawJurisdiction and countyOfBody; the merged draft-value reader addresses amounts, not body identity. Bound this child to step2; U2 remaining steps and U3/U4 stay with the parent. Two-hour implementation time box, serial verification follows.
+
+**Time box.** Two hours for the bounded reader and regression; serial played verification follows.
+
+**You will see.** Bills refer to the state, county, township or town their body actually governs. Other governments' sessions remain separate unfinished work.
+
+**Screenshot.** No screen edit. The ordinary-year proof names the body, roll call and law records consumed by the existing engine.
+
+**Checked by.** A session that did not build the change, on main.

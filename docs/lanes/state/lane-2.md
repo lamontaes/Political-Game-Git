@@ -18,7 +18,13 @@
 
 ## Current work and order
 
-**Current: laws-local-tax-average-own-state**, claimed on `lane-2/law-chain-reader`, mainbaacd19674. This is U2 step1 of the existing every-state-and-town plan. Build the jurisdiction reader before broader sessions, while appointment/ballot seams remain pending and the price observer is returned open.
+**Current: gov-body-law-jurisdiction**, claimed on `lane-2/body-law-jurisdiction` after handing #7251 to the desk. This is the existing U2 step2, with its historical agreed seam recorded in1-2 before source edits. No other heavy work runs until the preceding Oxnard comparison finishes.
+
+- Finish line: the body’s real office/government determines its bill jurisdiction, including outside states and a board’s own county. Preserve the existing federal, township, municipio and city fallback semantics. An ordinary all-module year names an actual body, bill, roll call and enacted law; pure edge checks and original-reader counterchecks prove isolation. New Game and four serial years within20% remain required.
+- Hands off: voting, committees, calendars, effective dates, phase-in amounts, enactment, offices/executive, core state and screens. Shared legislature scope is only bodyJurisdiction, billJurisdiction and countyOfBody, already assigned to U2; send Lane1 the diff before merge. No wider agreement inferred.
+- Known cheats: supplying a voted law, passing the played-state key for an outside body, using the first county without reading the actual board, hardcoded town/state branches, or declaring the parent done. About100 production lines plus focused tests; two-hour implementation box followed by serial verification. Checked by a nonbuilder on main.
+
+**Handed to desk, timing pending: laws-local-tax-average-own-state**, claimed on `lane-2/law-chain-reader`, mainbaacd19674. This is U2 step1 of the existing every-state-and-town plan. Build the jurisdiction reader before broader sessions, while appointment/ballot seams remain pending and the price observer is returned open.
 
 - Finish line: the existing law resolver selects only the chain state's local sales-tax average and uses one inTownChain predicate for pending phases. A pure adversarial input puts another state's row first; the correct own row still wins and outside pending laws stay out. No test-supplied row is inserted into the played world.
 - Proof: generated all-module year drawn from all56, actual sales-tax row read by the existing budget/purchase engine, named buyer and real treasury payment to a named person, plus original-lookup countercheck. Fresh New Game and four serial years against the same-host base within20%. The parent and path4 remain unfinished.
