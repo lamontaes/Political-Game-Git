@@ -23,7 +23,6 @@
 import { stableHash, pairKey } from "../kernel/ids";
 import { livedQuestion } from "../outcome-news";
 import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
-import { corePlaceByJurisdictionId } from "../place-lookup";
 import { PROFILE_FACT_KINDS, profileFor } from "../opening-profile";
 import {
   personStance,
@@ -48,6 +47,7 @@ import {
   reportOutcome,
 } from "../trait-decisions";
 import { keepsWhy } from "../why-kept";
+import { placeStateKey } from "../place-map";
 
 interface CellKey {
   n: number;
@@ -220,12 +220,6 @@ function normal(key: string): number {
   );
 }
 
-function stateOf(person: Pick<PersonState, "placeId">): string | null {
-  const place = corePlaceByJurisdictionId(person.placeId as never);
-  const key = place?.stateJurisdictionKey;
-  return key ? key.slice(key.lastIndexOf("-") + v("one")) : null;
-}
-
 function ageBand(age: number): string {
   for (const band of VIEWS_KEYS.ageBands) {
     const [low, high] = band.split("-");
@@ -241,7 +235,7 @@ export function viewCell(
   date: string,
   seed: string,
 ): { cell: CellKey; shares: Readonly<Record<string, number>>; basis: string } {
-  const state = stateOf(person);
+  const state = placeStateKey(person.placeId)?.slice("US-".length) ?? null;
   const age = ageOnDate(person.birthDate, date);
   const band = ageBand(age);
   const row = state ? VIEWS_KEYS.states[state] : undefined;
@@ -357,7 +351,7 @@ function profileFromAverage(
   const faith = fact(PROFILE_FACT_KINDS.faith, "group") ?? profile?.faith;
   if (!educ || !faith || !FAITH_IMPORTANCE[faith]) return {};
   const band = ageBand(ageOnDate(person.birthDate, date));
-  const state = stateOf(person);
+  const state = placeStateKey(person.placeId)?.slice("US-".length) ?? null;
   const row = state ? VIEWS_KEYS.states[state] : undefined;
   const educShares =
     row?.educationShares[band] ?? VIEWS_KEYS.nationalEducationShares[band];

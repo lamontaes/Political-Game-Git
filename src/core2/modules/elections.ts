@@ -34,7 +34,7 @@ import filingOffice from "../../../data/research/elections/filing-office.json" w
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
-import { corePlaceByJurisdictionId, corePlaceByKey } from "../place-lookup";
+import { corePlaceByKey } from "../place-lookup";
 import {
   electionsParameter,
   municipalFilingDeadline,
@@ -48,6 +48,7 @@ import { addDays, makeIsoDate } from "../kernel/dates";
 import { FILING_LEAD_SOURCE } from "../gov-rules/town-election-calendar";
 import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./offices";
 import { stableHash } from "../kernel/ids";
+import { placeStateKey } from "../place-map";
 
 export const ELECTIONS_MODULE_ID = "core2-elections-v1";
 
@@ -1059,8 +1060,8 @@ export function checkEligibility(
     holdsSeat ||
     (contest.level === "federal" || contest.level === "state"
       ? national
-        ? stateOfPlace(person.placeId) !== null
-        : stateOfPlace(person.placeId) === town(api).stateKey
+        ? placeStateKey(person.placeId) !== null
+        : placeStateKey(person.placeId) === town(api).stateKey
       : person.placeId === town(api).townPlaceId);
   const checks: RequirementCheck[] = [
     {
@@ -1218,13 +1219,6 @@ export function fileCandidacy(
 }
 
 /** The state a place lies in, from the place records. */
-function stateOfPlace(placeId: string): string | null {
-  const place = corePlaceByJurisdictionId(placeId as never);
-  // An official kept at the state level is placed at the state itself.
-  if (!place) return /^US-[A-Z]{2}$/.test(placeId) ? placeId : null;
-  return place.stateJurisdictionKey ?? null;
-}
-
 /** The party organization a ballot label names in the town's state, by name. */
 function partyIdFor(api: CoreAPI, label: string): string | null {
   const key = partyName(label)?.trim().toLowerCase();

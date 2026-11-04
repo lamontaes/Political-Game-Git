@@ -28,7 +28,7 @@ import { DEFAULT_BUSINESS_BOOKS_DATA } from "../business-books";
 import { stopgap } from "../stopgaps";
 import { webLevel, webReach, type Subject } from "../outcome-web-reach";
 import { baseOf } from "../outcome-web-model";
-import { stateOfPlaceKey } from "../places";
+import { placeStateKey } from "../place-map";
 import { incomeBandOf } from "./residents";
 import { registerPricesWebGaps } from "./prices-web-gaps";
 import { sha256Hex } from "../kernel/sha256";
@@ -1181,7 +1181,7 @@ function webUse(
     const placeKey = (api.state as CoreState).placeMetadata.placeKey ?? "";
     const level =
       webLevel(api, rule.placeId, RECYCLED, subject)?.level ??
-      baseOf(RECYCLED, stateOfPlaceKey(placeKey) ?? "", api.state.seed).value;
+      baseOf(RECYCLED, placeStateKey(placeKey) ?? "", api.state.seed).value;
     return { ...same, redemption: Math.min(1, Math.max(0, level / PERCENT)) };
   }
   if (rule.good === "transit-fare" && rule.kind === "price")

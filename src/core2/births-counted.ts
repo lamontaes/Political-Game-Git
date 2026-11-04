@@ -23,11 +23,7 @@ import { createStableId } from "./kernel/ids";
 import { SeededRng } from "./kernel/rng";
 import { drawCanonicalNamedIdentity } from "./person-names";
 import { generatePersonIdentity } from "./gov-rules/person-identity";
-import {
-  corePlaceByJurisdictionId,
-  corePlaceByKey,
-  coreStateName,
-} from "./place-lookup";
+import { coreStateName } from "./place-lookup";
 import { parameter } from "./parameters";
 import { bedroomsForHousehold, hudRentRowFor } from "./hud-rents";
 import type { EntityId } from "./kernel/brands";
@@ -70,6 +66,7 @@ import { lawApplied } from "./law-reach/applied";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./modules/laws";
 import type { ModuleRow } from "./module-data";
 import type { CoreAPI, PersonId, PersonInput, PlaceId, Source } from "./types";
+import { placeStateKey } from "./place-map";
 
 /** Housing statuses in a fixed order, for the counted death chance's cache key. */
 const HOUSING_STATUSES = [
@@ -143,14 +140,12 @@ export function notifyCountedDeaths(
 }
 
 /** The place's state, as the research files name it (else the world's own state). */
-function stateOf(
+function birthState(
   api: CoreAPI,
   placeId: PlaceId,
 ): { key: string; name: string } {
-  const worldKey = api.state.placeMetadata?.placeKey;
   const key =
-    corePlaceByJurisdictionId(placeId as EntityId)?.stateJurisdictionKey ??
-    (worldKey ? corePlaceByKey(worldKey)?.stateJurisdictionKey : undefined);
+    placeStateKey(placeId) ?? placeStateKey(api.state.placeMetadata?.placeKey);
   if (!key) throw new Error(`No state recorded for ${placeId}`);
   const aliases = areaNames.aliases as Record<string, string>;
   return { key, name: aliases[key] ?? coreStateName(key.slice(3))! };
@@ -407,7 +402,7 @@ export function applyCountedFlows(
   const months = p("monthsPerYear");
   const store = api.moduleState(RENEWAL_ID);
   for (const [placeId, households] of countedHouseholdsByPlace(core)) {
-    const state = stateOf(api, placeId);
+    const state = birthState(api, placeId);
     // This world's table: the published rates times its own natality factor.
     const natality = worldRateFactor(api.state.seed, "natality");
     const rates = new Map(

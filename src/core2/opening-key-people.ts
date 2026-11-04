@@ -20,9 +20,9 @@ import {
   townSeats,
 } from "./modules/offices";
 import { officialOf } from "./modules/officials";
-import { corePlaceByJurisdictionId } from "./place-lookup";
 import { coreAPI } from "./state";
 import type { CoreAPI, CoreState, PersonId } from "./types";
+import { placeStateKey } from "./place-map";
 
 export type KeyReason = (typeof keyData.reasons)[number];
 
@@ -59,14 +59,6 @@ const offices = (api: CoreAPI) =>
   api.moduleState(OFFICES_MODULE_ID).table("offices");
 
 /** The player's state, by its jurisdiction key. */
-function stateOf(core: CoreState, playerId: PersonId): string | null {
-  const player = core.people.get(playerId);
-  return player
-    ? (corePlaceByJurisdictionId(player.placeId as never)
-        ?.stateJurisdictionKey ?? null)
-    : null;
-}
-
 /** The chambers whose most powerful person is key: Congress's two and the player's state's own. */
 function chambersOf(
   api: CoreAPI,
@@ -89,9 +81,10 @@ export function keyChambersOf(
   core: CoreState,
   playerId: PersonId,
 ): readonly string[] {
-  return chambersOf(coreAPI(core), stateOf(core, playerId)).map(
-    (row) => row.id,
-  );
+  return chambersOf(
+    coreAPI(core),
+    placeStateKey(core.people.get(playerId)?.placeId),
+  ).map((row) => row.id);
 }
 
 /**
@@ -104,7 +97,7 @@ export function keyPeopleOf(
   playerId: PersonId,
 ): readonly KeyPerson[] {
   const api = coreAPI(core);
-  const state = stateOf(core, playerId);
+  const state = placeStateKey(core.people.get(playerId)?.placeId);
   const found = new Map<
     string,
     {
