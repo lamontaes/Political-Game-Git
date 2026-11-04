@@ -233,6 +233,9 @@ interface ReadSide {
   readonly deadline2026?: string | null;
   readonly signatures?: number | null;
   readonly signatureFormula?: string | null;
+  readonly feeUSD?: number | null;
+  readonly petitionInLieuOfFee?: boolean | string | null;
+  readonly feeAndPetitionBothRequired?: boolean | null;
 }
 interface ReadRequirements {
   readonly applicable?: boolean;
@@ -378,6 +381,18 @@ function petitionRule(
   const formula = side?.signatureFormula?.trim() || null;
   if (read === 0 && !formula)
     return { count: 0, basis: "none-in-law", formula: null, source };
+  // Where the law's petition is only a way around a filing fee (Minnesota's
+  // "petition in lieu of fee by ordinance"; Kansas, Michigan, Texas and
+  // others), the fee files the candidate and no petition is required: the
+  // place asks signatures only of those who choose that route (prior-rulings
+  // elections R5, "where the place requires them";
+  // elections-petition-larger-than-the-town).
+  if (
+    typeof read !== "number" &&
+    side?.feeAndPetitionBothRequired !== true &&
+    (side?.petitionInLieuOfFee === true || /in lieu/i.test(formula ?? ""))
+  )
+    return { count: 0, basis: "none-in-law", formula, source };
   const counts = readCountsFor(family, sideName);
   const mid = Math.floor(counts.length / 2);
   const median = counts.length
