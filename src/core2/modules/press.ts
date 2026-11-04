@@ -75,7 +75,6 @@ import {
   OWNER_RELATION,
   type ContractAwardRow,
 } from "./contracts";
-import { type Stance as ViewStance } from "./views";
 import {
   candidateStance,
   stanceReader,
@@ -97,7 +96,14 @@ import {
   STAFF_ROLES,
   type StaffRow,
 } from "../press-staff";
-import { stancesOf, viewOf, VIEWS_MODULE_ID } from "./views";
+import {
+  stancesOf,
+  viewOf,
+  VIEWS_MODULE_ID,
+  countedNewsGroups,
+  countedNewsConcern,
+  type Stance as ViewStance,
+} from "./views";
 import { electorateSides } from "./voting";
 import { residentCounts, residentsRuntime } from "./residents";
 import { openingEmployerCashBufferPrior } from "../opening-capital";
@@ -133,7 +139,12 @@ import {
 } from "../press-desk";
 // The press desk's own story record, read by the director through this entry.
 export { PRESS_STORY_EVENT } from "../press-desk";
-import { newsKey, storiesHeard, type Story } from "./news";
+import {
+  newsKey,
+  storiesHeard,
+  registerCountedNewsSource,
+  type Story,
+} from "./news";
 import { worldLevel } from "../world-draw";
 
 export const PRESS_MODULE_ID = "core2-press-v1";
@@ -1481,7 +1492,7 @@ export function townConcernReader(api: CoreAPI): (question: string) => number {
       stances.query("byTopic", [question]) as unknown as ViewStance[]
     ).reduce(
       (sum, row) => sum + row.strength * (adults.get(row.personId) ?? 0),
-      0,
+      countedNewsConcern(api, town, question),
     );
     return Math.min(1, strength / Math.max(1, count));
   };
@@ -4035,3 +4046,60 @@ export function attackOutlet(
   followCache.delete(api.state);
   return id;
 }
+
+/** The audience already counted by the desk, distributed across its groups. */
+registerCountedNewsSource((api, storyId, namedReaders) => {
+  const printed = printedStoryOf(api, storyId);
+  if (
+    !printed ||
+    !PLATFORM_QUESTIONS.includes(printed.topic) ||
+    printed.receivedNamed <= 0 ||
+    printed.receivedCounted <= 0 ||
+    namedReaders <= 0
+  )
+    return [];
+  const outlet = table(api, "outlets").get(printed.outletId) as unknown as
+    OutletRow | undefined;
+  if (!outlet) return [];
+  const town = lawChain(api).townPlaceId;
+  const national =
+    outlet.tier === "national"
+      ? NATIONAL.kinds.find((kind) => kind.kind === outlet.kind)
+      : undefined;
+  const own = Math.max(
+    1,
+    outletsHere(api).filter((o) => o.kind === outlet.kind).length,
+  );
+  const groups = countedNewsGroups(api).filter(
+    (group) =>
+      group.placeId === outlet.placeId || (national && group.placeId === town),
+  );
+  const followers = (count: number, byAge: ReadonlyMap<number, number>) =>
+    national
+      ? (count * national.followShare) /
+        Math.max(1, national.audienceLeans.length)
+      : [...byAge].reduce(
+          (sum, [age, mass]) =>
+            sum +
+            mass *
+              (NEWS.habits.byAge[bandOf(age)]?.[
+                HABIT[outlet.kind as LocalKind]
+              ] ?? 0),
+          0,
+        ) / own;
+  const weighted = groups.map((group) => ({
+    group,
+    followers: followers(group.count, group.byAge),
+    allFollowers: followers(group.audienceCount, group.audienceByAge),
+  }));
+  const total = weighted.reduce((sum, row) => sum + row.allFollowers, 0);
+  if (total <= 0) return [];
+  const delivered =
+    (printed.receivedCounted * namedReaders) / printed.receivedNamed;
+  return weighted
+    .filter((row) => row.followers > 0)
+    .map(({ group, followers }) => ({
+      group,
+      reached: (delivered * followers) / total,
+    }));
+});
