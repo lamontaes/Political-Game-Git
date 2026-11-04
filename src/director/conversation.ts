@@ -418,11 +418,20 @@ function recordedMoments(
   for (const id of core.logByPerson.get(personId) ?? []) {
     const row = core.durableLog.get(id as never);
     if (!row || row.date <= since || row.date > core.date) continue;
+    // Only what happened to them (the owner's Q7 happenings): a speech they
+    // heard or a vote they cast is not their news.
+    const label = `feeling:event:${row.kind}`;
+    if (
+      !(CONVERSATION_RULES.happenings?.prefixes ?? []).some((prefix) =>
+        label.startsWith(prefix),
+      )
+    )
+      continue;
     out.push({
       id: `record:${row.id}`,
       personId,
       date: row.date,
-      label: `feeling:event:${row.kind}`,
+      label,
       causeId: row.id,
       causeKind: `event:${row.kind}`,
       counterpartIds: row.personIds.filter((other) => other !== personId),
