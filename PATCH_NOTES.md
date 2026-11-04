@@ -296,6 +296,30 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.84.0
+
+_Released November 4, 2026._
+
+### Changed
+
+- **A board's at-large seats up on one day are one race, and the top finishers
+  take the seats.** Where a council, selectboard or county board elects several
+  members at large on the same day, every candidate now runs against the whole
+  field. Each voter votes for up to as many candidates as there are seats, and
+  the top finishers are seated. Running for one of three seats means finishing
+  in the top three, not beating one seat's holder head on.
+
+- **Relatives who live elsewhere have their news to tell you.** A talk with a
+  relative living in another town used to open empty. Now, when something has
+  happened to them lately, they tell you ("We're being evicted.", "Your uncle is
+  seriously ill.").
+
+- **Your grades of which reply follows which line now shape everyday talk.**
+  Grades of whether one move reads naturally after another (an answer after a
+  question, a reaction after news) only shaped speeches before. Now they also
+  decide which four replies a talk offers you first: a kind of reply graded
+  unnatural after a line is offered after the ones that read right.
+
 ## PRE-ALPHA 0.83.3
 
 _Released November 4, 2026._
