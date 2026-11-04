@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: lane3/victory-night
-pr:
+pr: #7258
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-04T13:49:19.766Z
