@@ -1,6 +1,8 @@
 # Lane 3 state
 
-2 of 11 paths confirmed. Oldest open PR 2 days (#7127, opened Nov 2). Open: #7127, #7228 (its commits merged with #7236), #7255.
+2 of 11 paths confirmed. Oldest open PR 2 days (#7127, opened Nov 2). Open: #7127, #7228 (its commits merged with #7236).
+
+**Nov 4, afternoon (all merged):** #7245 (the Journal names who walked doors for you), #7255 (owed-talk reply facts; Lane 2 can build `people-owed-talk-record`), #7258 (the night you win plays: the runner-up is the opponent; Bay Springs, Mississippi, seed e38d8df3bf438bc3:5). **Waiting producers (plan line 6):** only `separated` and `election-day` have a core event. `separated` is wired on `lane3/separated-producer`, but in-town couples never part yet (`SG-LIVES-partner-town`), so it stays a branch. Notes are on `engine-records-for-waiting-life-scenes`.
 
 
 **Path 6, Nov 4 (after the Confirmer's fail in Storrs, storrs-1):** two of the three faults are merged and wait for a replay. #7223: the race story no longer says the loser beat the winner. #7226: the Journal tells your own lost race as yours, not your father's. The third, no concession, is not in Lane 3's files: the director composes the concession call on the result night and puts it first (Villa Esperanza, Puerto Rico, seed diag:4), but the bench never stages it before the morning-after talk. **Needs from others (Lane 4):** stage the player's `election-result` moment the night of the count, after the returns close (notes on `words-venue-speeches-delivered`).
