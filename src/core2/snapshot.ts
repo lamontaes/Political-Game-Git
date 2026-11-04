@@ -407,6 +407,19 @@ export function restoreWorld(core: CoreState, snapshot: WorldSnapshot): void {
   for (const [id, part] of parts)
     if (id in savedParts) part.restore(core, savedParts[id]);
     else part.missing?.(core);
+  for (const map of derivedCaches) map.delete(core);
+}
+
+const derivedCaches: WeakMap<CoreState, unknown>[] = [];
+
+/**
+ * A cache built from the world's records and keyed by the world. A restore
+ * refills the same world object in place, so a cache filled while the world
+ * was being built would outlive its records; registered, it is cleared at the
+ * end of every restore and built again from the restored records on first read.
+ */
+export function registerDerivedCache(map: WeakMap<CoreState, unknown>): void {
+  derivedCaches.push(map);
 }
 
 /**

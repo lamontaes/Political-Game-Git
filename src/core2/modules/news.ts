@@ -30,7 +30,7 @@ import type {
   PersonState,
 } from "../types";
 import { believesClaim, claimFit } from "../heard-claims";
-import { registerWorldMapPart } from "../snapshot";
+import { registerDerivedCache, registerWorldMapPart } from "../snapshot";
 import {
   decisionLean,
   decisionTraitWeight,
@@ -293,7 +293,8 @@ const newestFirst = (a: HeardEntry, b: HeardEntry) =>
  * first read. Telling reads this instead of everything a person ever heard;
  * entries past the story life are dropped once a day, when first read.
  */
-const recentHeard = new WeakMap<object, Map<PersonId, Recent>>();
+const recentHeard = new WeakMap<CoreState, Map<PersonId, Recent>>();
+registerDerivedCache(recentHeard);
 function recentOf(api: CoreAPI): Map<PersonId, Recent> {
   let map = recentHeard.get(api.state);
   if (!map) {
@@ -382,7 +383,8 @@ function recentList(
 }
 
 /** How many stories each person has heard, rebuilt from the table when first read. */
-const heardCounts = new WeakMap<object, Map<PersonId, number>>();
+const heardCounts = new WeakMap<CoreState, Map<PersonId, number>>();
+registerDerivedCache(heardCounts);
 function countsOf(api: CoreAPI): Map<PersonId, number> {
   let map = heardCounts.get(api.state);
   if (!map) {
