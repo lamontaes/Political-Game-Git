@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: lane3/goodbye-test
-pr:
+pr: #7268
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-04T16:40:48.167Z
