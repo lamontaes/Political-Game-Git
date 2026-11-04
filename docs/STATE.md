@@ -1,20 +1,21 @@
 # State of the game
 
-One page, kept by Lane 5 (engine and release). Every line names where it comes from; a line with no source is a defect. Updated Nov 3, 2026, 22:30 UTC.
+One page, kept by Lane 5 (engine and release). Every line names where it comes from; a line with no source is a defect. Updated Nov 4, 2026, 10:30 UTC.
 
 ## What a player can do now
 
 - **Furthest step reached in play from New game:** election night and the morning after, then a loss. No played run has yet won a seat or proposed an ordinance from New game. Source: the CTO's status of Oct 28, 04:40 UTC (`docs/coordination/LEADS-2026-10-24.md`), the newest furthest-step line on record. It hasn't been measured on main since then; Lane 1's paths take that over.
 - **A new game opens and plays a month:** Nov 3, in four drawn towns (Old Forge, New York, replay number ab5f58e9be125c95; Acres Green, Colorado, 5660878e1d1a5a27; Winfield, Iowa, fb6c084e9a388aaf; Johnstown, Colorado, 2cc2572dee6151a5), with `npm run new-game-check` from #7141, on main a8ffdc7878.
-- **Oldest open pull request:** #7036, opened Nov 1 (GitHub's open list, Nov 3 22:25 UTC).
+- **Oldest open pull request:** #7110, opened Nov 2 (GitHub's open list, Nov 4 10:25 UTC; four open in all).
+- **A big town's fourth year runs out of memory in the desktop app:** Arcadia, California (0602462, seed app-heap-1) at the app's 4,096 MiB limit, on main, in March 2028 (Lane 5, `core-speed-large-town-year-heap-nightly`). #7198 moved the crash later in the year; the rest is `core-memory-heard-knowledge-keys`.
 
 ## Newest build
 
-- Version **0.75.0** (`package.json` on main; release commit 7b5c3726, "Release 0.75.0").
+- Version **0.79.0** (`package.json` on main; Release run 12122 passed and published it at 07:59 UTC, Nov 4). Release runs had failed from 06:43 on three malformed change declarations, fixed by #7201, #7206 and #7210.
 
 ## Who owns what
 
-- Five lanes since Nov 3 (`docs/lanes/README.md` and `lane-1.md` to `lane-5.md`, on branch `docs/lanes-nov3`, PR #7139, until it merges). The owner's six rulings of Nov 3 hold (`docs/coordination/OWNER-DECISIONS.md`).
+- Five lanes since Nov 3 (`docs/lanes/README.md` and `lane-1.md` to `lane-5.md` on main; each lane's state is `docs/lanes/state/`). The owner's six rulings of Nov 3 hold (`docs/coordination/OWNER-DECISIONS.md`).
 - `docs/coordination/CREW.md` describes the crew as of Nov 1 and doesn't yet show the lanes.
 
 ## The pool
