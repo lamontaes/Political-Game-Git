@@ -88,10 +88,19 @@ try {
     .locator('[data-tab="travel"]')
     .first()
     .evaluate((e) => e.click());
-  const go = page.locator("#sheet-body button", { hasText: /Go/ });
-  await go.first().waitFor();
-  for (let i = 0; i < (await go.count()); i++) {
-    await go.nth(i).click();
+  // Travel lists destinations as cards (travel.browser.mjs): a card opens
+  // its page, whose Go takes the player there; the filing office first, as
+  // its counter holds the race list (race-list-rows.browser.mjs), then the
+  // rest, until a talk opens.
+  await page.locator(".entries-tiles .entry-go").first().waitFor();
+  const filing = page.locator(".entry-go", { hasText: /Filing office/ });
+  const cards = (await filing.count()) ? filing : page.locator(".entry-go");
+  for (let i = 0; i < (await cards.count()); i++) {
+    await cards.nth(i).click();
+    await page
+      .locator("#sheet-body button", { hasText: /^\s*Go\s*$/ })
+      .first()
+      .click();
     if (
       await page
         .locator("#talk:not([hidden])")
@@ -100,6 +109,11 @@ try {
         .catch(() => false)
     )
       break;
+    await page
+      .locator('[data-tab="travel"]')
+      .first()
+      .evaluate((e) => e.click());
+    await page.locator(".entries-tiles .entry-go").first().waitFor();
   }
   await page.waitForTimeout(800);
   await rows("Talk box");

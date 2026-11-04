@@ -5,12 +5,11 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: claimed
-claimed-by: lane-5/experienced-key-window
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-11-04T07:37:26.697Z
 ---
 
 **What.** After the circle log window (#7198), Arcadia, California (0602462, seed app-heap-1) still runs out of the desktop app's 4,096 MiB heap about 11 minutes into its fourth year. The next largest table is knowledgeByPerson: 722,306 keys after the election year, about 140,000 of them bare event keys for speeches, campaign messages, shared causes and drive changes. Those keys are forgotten only after experiencedKeyRetentionDays, 90 days.
@@ -22,3 +21,5 @@ claimed-at: 2026-11-04T07:37:26.697Z
 **Files.** src/core2/data/parameters.json,src/core2/knowledge-retention.test.ts
 
 **Notes.** TODO
+
+Nov 4, 08:10 UTC (Lane 5): tried and not shipped. With experiencedKeyRetentionDays at 45 on top of #7198 (branch lane-5/experienced-key-window, b8818c6659), Arcadia at 4,096 MiB: year 2 heap 2,136 MB (2,191 without it), year 3 2,444 MB (2,436 without it), year 4 still out of memory. The bare keys are not where the memory is; the rest of knowledgeByPerson (heard promises 59,157, people met and named about 106,000, event facts) and the growth inside the 2028 election year are. Back to open; the branch stays for the record.

@@ -848,37 +848,41 @@ function electionNight(night) {
       $("backdrop").src = night.scene.backdrop.url;
       drawPeople(night.scene.people);
     }
+    // The governor races elsewhere that night have their own page after the
+    // call, two columns of rows, so all of them fit the panel at 1024x768
+    // with nothing to scroll (owner, Oct 27 audit: rows past the panel's foot
+    // could not be reached).
+    const steps = night.nation.races.length
+      ? [...night.steps, { nation: night.nation }]
+      : night.steps;
     let at = 0;
     const draw = () => {
-      const step = night.steps[at];
-      const last = at === night.steps.length - 1;
+      const step = steps[at];
+      const last = at === steps.length - 1;
       $("returns-title").textContent = night.title;
+      $("returns").classList.toggle("nation", Boolean(step.nation));
       $("returns-lines").replaceChildren(
-        ...step.lines.map((line) => prose(line.text)),
+        ...(step.nation ?? step).lines.map((line) => prose(line.text)),
       );
       $("returns-count").replaceChildren(
-        ...step.totals.map((entry) =>
-          row(
-            entry.name,
-            `${entry.votes.toLocaleString("en-US")} ${entry.votes === 1 ? labels.vote : labels.votes}`,
-          ),
-        ),
-        ...(last && night.nation.races.length
-          ? [
-              ...night.nation.lines.map((line) => prose(line.text)),
-              ...night.nation.races.map((race) =>
-                row(
-                  race.state,
-                  `${race.winnerParty} · ${labels.marginBy} ${race.marginPoints} ${labels.points}`,
-                ),
+        ...(step.nation
+          ? step.nation.races.map((race) =>
+              row(
+                race.state,
+                `${race.winnerParty} · ${labels.marginBy} ${race.marginPoints} ${labels.points}`,
               ),
-            ]
-          : []),
+            )
+          : step.totals.map((entry) =>
+              row(
+                entry.name,
+                `${entry.votes.toLocaleString("en-US")} ${entry.votes === 1 ? labels.vote : labels.votes}`,
+              ),
+            )),
       );
       $("returns-next").textContent = last ? labels.close : labels.next;
     };
     $("returns-next").onclick = async () => {
-      if (at < night.steps.length - 1) {
+      if (at < steps.length - 1) {
         at += 1;
         draw();
         return;
@@ -2922,7 +2926,11 @@ const sheets = {
               `${Number(job.hoursDaily.toFixed(1))} ${labels.daily}`,
             ),
           ]
-        : [prose(labels.noJob, "record-empty")]),
+        : [
+            prose(labels.noJob, "record-empty"),
+            // Why, from the household's records (path 10).
+            ...(me.card.noJob ? [prose(me.card.noJob.text, "job-why")] : []),
+          ]),
     );
     work.classList.add("job-plate");
     return [
