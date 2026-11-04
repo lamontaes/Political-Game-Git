@@ -35,7 +35,7 @@ Owner's word, Nov 4: screens tonight, no people. No new pictures: the art on mai
 - **Agreement 2-4, second part:** the bill draft adapter scope accepted on `lane-2/bill-values` (356db0f4df); Lane 2 makes the edit, named under "Review: Lane 4".
 - **Filed for other lanes:** `tests-election-day-no-race-to-enter` and `elections-governor-margins-twice-real` (Lane 1). Mine: `play-town-moves-news-line` (needs Words for the line), `play-opening-home-beat-draws-nobody` (waits on people).
 - **Lesson (release):** a declaration id must not already be in `docs/release/consumed-changes.json`; an old pool item's id may be (#7206 renamed mine). Check before naming the file.
-- **Agreements:** 1-4 confirmed and amended (Lane 1's controls in `src/bench`). 2-4 accepted on `lane-2/opening-home-agreement` (`openHousing` before the first card).
+- **Agreements:** 3-4 confirmed (fresh news, the Journal, scene pictures; all three already on main). 1-4 confirmed and amended (Lane 1's controls in `src/bench`). 2-4 accepted on `lane-2/opening-home-agreement` (`openHousing` before the first card).
 
 ## Gaps that wait on people or new pictures (not blocked)
 
