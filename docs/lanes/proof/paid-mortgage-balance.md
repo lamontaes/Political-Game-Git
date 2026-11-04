@@ -1,0 +1,18 @@
+# Paid mortgages use their own receipts
+
+Candidate, not Built yet. Pool: `housing-mortgage-balance-grows-while-paid`. No whole Lane 2 path is confirmed by this unit.
+
+The old housing reader applied the town-wide mortgage payment fraction to each counted loan. A fully paying group lost principal credit when unrelated groups missed bills. The replacement reads the existing group's current-month receipt. A filled-in household with an outside lender uses its personal flow's receipt; the transfer carries only its own share of the already-paid group bill. No cash transfer amount changes and unpaid interest is not clamped away.
+
+[Compact records](paid-mortgage-balance.json) retain the replays, monthly balances, journal IDs, source hashes and named Money readers.
+
+- Reported Echo, Utah4921880 / `2d3cadf85fab3908af3e4cdbe95e98d5a45108549587024e8f762e4ba336c335`: the original reader fails February6,2025 at `mortgage:household_1a9aacaaf58cb301`, expected30,635,721c but actual30,637,072c despite its group's full186,800c payment. The original full-year trace also shows the reported loan growing in two monthly observations while its group paid372,650c with zero missed months. Current main's opening balance differs from the older pool report; no old amount was substituted.
+- Corrected Echo checks35 paid mortgage months, including all12 payments of the reported `mortgage:household_1a9aa8aaf58cac35`:81,122,864c before the first payment to79,015,850c after the twelfth. Its first payment is `journal:2025-02-01:2554`; the last is `journal:2026-01-01:59462`.
+- Fresh draw Mountain City, Tennessee4750400 / `3ad3b635bcb0e07e`:3,136 paid-loan checks pass. Its first probe failed the extra premise that another group missed a payment; none did. That result is retained. The permanent test pairs the same draw with the reported Echo case, which must expose the cross-group shortfall. Every actual per-loan assertion remains in both worlds; no town was redrawn.
+- After the year, ordinary fill-in and the existing Money reader show Mark McCarty (`person_861afec130e152dc`) owing29,699,815c and Isaac Vaughan (`person_9dfbcda284f212a5`) owing9,781,682c on their actual loans. Mark's two subsequent186,800c payments reduce the balance to29,613,004c then29,525,901c. Isaac pays46,132c then only7,435c: his balance first falls to9,759,597c then legitimately rises to9,776,154c. These are actual receipt amounts, not a rate picking a person's outcome.
+
+The8 existing housing/opening-loan assertions pass(1.21s tests/11.87s command). The old edge fixture keeps every numeric assertion, its original timeout and bookkeeping; it now supplies own-group receipts through the existing counted runtime. Its first attempted collapse rejected unrelated rent contracts with arrears; the final mortgage-only fixture omits those unrelated contracts. The paired generated check passes2 tests(76.90s/86.82s). Lint and typecheck pass. Five existing history replays are running; counterchecks, fresh New Game and head timing are still pending.
+
+Baseline: unchanged source1cc8e94006, La Pica, Puerto Rico7241810 / `f43374363c5cfcab`, host4c46091479ea:45.1/99.6/108.2/123.6s. Year4 exceeds the absolute120s target. An earlier identical run completed year1 in46.6s then hit `spawnSync git EPERM` while writing its receipt; that failed log remains separate. The permitted rerun is the complete comparator. No head comparison or speed pass is claimed yet.
+
+Not explored here: foreclosure allocation within an underpaid group, full standing-contract arrears policy, old-version save migration, rich-household generation, regional job offers or the rest of path7. No law is supplied by these tests or claimed as voted proof.

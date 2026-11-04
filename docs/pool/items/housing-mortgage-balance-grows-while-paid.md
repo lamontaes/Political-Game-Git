@@ -9,7 +9,8 @@ status: open
 claimed-by:
 pr:
 blocked-on:
-lead: m0-m2
+lead: laws
+milestone: play-first
 source: realistic-not-real audit, Oct 27 (found running src/core2/macro-mortgage-history.test.ts)
 ---
 
@@ -24,3 +25,5 @@ source: realistic-not-real audit, Oct 27 (found running src/core2/macro-mortgage
 **Files.** src/core2/modules/housing.ts, src/core2/macro-mortgage-history.test.ts
 
 **Notes.** Same balances on clean main and with the per-world macro change; not caused by it.
+
+Nov4 Lane2: claimed on lane-2/mortgage-paid-balance. Echo original trace confirms paid group mortgages receive the all-town payment fraction; the named loan grows in two monthly observations while its group pays372650c in full. February6 original regression fails expected30635721 vs30637072 for another paid Echo mortgage. Narrow replacement reads the existing own-group housingMonth receipt; source checks and serial base/head proof are underway. No finance writer or state.ts changes.
