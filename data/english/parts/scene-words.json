@@ -3128,10 +3128,10 @@
       }
     },
     {
-      "key": "scene-words.lead-news-arrives-other.other-asks-you-to-sit-down-first",
+      "key": "scene-words.lead-news-arrives-other.other-has-something-to-tell-you-as-soon-as-you-re-in-the-door",
       "move": "lead-news-arrives-other",
       "kind": "spoken",
-      "text": "{other} asks you to sit down first.",
+      "text": "{other} has something to tell you as soon as you're in the door.",
       "uses": [
         {
           "move": "lead-news-arrives-other",
@@ -3142,8 +3142,8 @@
         }
       ],
       "origin": "authored",
-      "author": "Claude Opus (pool item words-scene-web-home-and-family)",
-      "date": "2026-10-27",
+      "author": "Lane 3, words and scenes (Confirmer's note, path 1)",
+      "date": "2026-11-04",
       "tag": {
         "move": "narrate"
       }
