@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: done
 claimed-by: lane3/campaign-months
-pr:
+pr: #7199
 blocked-on:
 source: "added by the owner's local Opus session from the Oct 26 playtest"
 lead: words
