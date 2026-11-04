@@ -8,10 +8,7 @@
  * world never carries another place's law.
  */
 import startingLaw from "./data/laws/starting-law.json" with { type: "json" };
-import {
-  countyGeoidsForPlace,
-  governmentUnitsForPlace,
-} from "./reference/government-units";
+import { placeCounty, placeRow, placeStateKey } from "./place-map";
 import { corePlaceByKey } from "./place-lookup";
 import { placeLocalGovernmentUnits } from "./gov-rules/local-governments";
 
@@ -85,20 +82,21 @@ const data = startingLaw as unknown as {
 export function lawChainForPlace(placeKey: string): LawChain {
   const place = corePlaceByKey(placeKey);
   if (!place) throw new Error(`Law chain needs a recorded place: ${placeKey}`);
-  const stateKey = place.stateJurisdictionKey;
+  const stateKey = placeStateKey(placeKey);
   if (!stateKey)
     throw new Error(`Law chain needs the place's state: ${placeKey}`);
   const geoid = place.sourceGeoid ?? place.key;
-  const counties = countyGeoidsForPlace(geoid);
+  // The one place map holds the county area a town sits in; a county place has none above it.
+  const row = placeRow(placeKey);
+  const county = row?.level === "town" ? placeCounty(placeKey) : null;
+  const counties = county ? [county.id.slice("county:".length)] : [];
   return {
     placeKey,
     placeName: place.displayName,
     townPlaceId: place.context.jurisdiction.id,
     stateKey,
     countyGeoids: counties,
-    incorporated: governmentUnitsForPlace(geoid).some(
-      (unit) => unit.unitType === "municipality",
-    ),
+    incorporated: row?.form === "municipality",
     levels: [
       { level: "federal", jurisdiction: "US" },
       { level: "state", jurisdiction: stateKey },

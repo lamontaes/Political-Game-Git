@@ -63,9 +63,11 @@ for (const state of corePlaceStateIdentities())
       municipiosForPlace(geoid)
         .map((unit) => unit.countyGeoid)
         .find((id): id is string => id !== null && countyIds.has(id));
-    const unit = governmentUnitsForPlace(geoid).find(
-      (u) => u.unitType !== "county",
-    );
+    // A municipality that governs the place outranks a township over it.
+    const units = governmentUnitsForPlace(geoid);
+    const unit =
+      units.find((u) => u.unitType === "municipality") ??
+      units.find((u) => u.unitType === "township");
     rows.push([
       locality.key,
       "town",

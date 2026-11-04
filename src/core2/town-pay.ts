@@ -7,7 +7,7 @@
  * until they are ported.
  */
 import { corePlaceByJurisdictionId } from "./place-lookup";
-import { countyGeoidsForPlace } from "./reference/government-units";
+import { placeCounty } from "./place-map";
 import { TOWN_JOB_SOC } from "./reference/town-job-soc";
 import {
   FEDERAL_MINIMUM_HOURLY,
@@ -89,7 +89,8 @@ export function townPayAreas(jurisdictionId: EntityId | null): string[] {
   if (!stateFips || NOT_IN_OEWS.has(stateFips)) return [];
   const areas: string[] = [];
   const county =
-    countyGeoid ?? (geoid ? countyGeoidsForPlace(geoid)[0] : undefined);
+    countyGeoid ??
+    (geoid ? placeCounty(place.key)?.id.slice("county:".length) : undefined);
   const area = county ? countyArea(county) : undefined;
   if (area) areas.push(area);
   areas.push(`S${stateFips}`, "US");
