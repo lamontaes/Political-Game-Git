@@ -1,3 +1,4 @@
+import { writeFileSync } from "node:fs";
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
@@ -6,12 +7,14 @@ import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
-import type { CoreEventInput } from "./types";
+import type { CoreEventInput, KnownFact } from "./types";
 import { coreAPI, registerModule } from "./state";
-import { enactLaw, lawChain, lawInForce } from "./modules/laws";
-import { newsKey, printStory } from "./modules/news";
-import { appliedTo } from "./law-reach/applied";
+import { enactLaw, lawChain, lawInForce, LAWS_MODULE_ID } from "./modules/laws";
+import { newsKey, printStory, type Story } from "./modules/news";
+import { appliedTo, type LawAppliedRow } from "./law-reach/applied";
 import { stancesOf, viewOf } from "./modules/views";
+import { PLACE_PRICES_MODULE_ID } from "./modules/place-prices";
+import type { LawRowInput } from "./laws-starting";
 
 // A price law's effect on a household is tied to the law only by someone who
 // heard a story about it. In a played town, fare-free transit refunds
@@ -36,6 +39,23 @@ interface Learned {
   /** The day the news engine says they heard the story, if it still keeps it. */
   readonly heardOn: string | undefined;
   readonly storyId: string | undefined;
+  readonly story: Story | undefined;
+  readonly law: LawRowInput | undefined;
+  readonly known: KnownFact | undefined;
+  readonly remembered:
+    { storyId: string; date: string; known?: KnownFact } | undefined;
+  readonly rule: { id: string; cause: string } | undefined;
+  readonly felt:
+    | {
+        payerId: string;
+        ruleId: string;
+        lawId: string;
+        key: string;
+        date: string;
+        movedMinor: number;
+      }
+    | undefined;
+  readonly reached: LawAppliedRow | undefined;
 }
 
 /**
@@ -66,8 +86,29 @@ function townWithLaw(
         .table("stories")
         .rows()
         .find((s) => newsKey(String(s.id)) === from) as unknown as
-        { id: string } | undefined;
+        Story | undefined;
+      const lawId = String(event.facts?.lawId);
+      const householdId = api.state.people.get(personId)?.householdId;
+      const prices = api.moduleState(PLACE_PRICES_MODULE_ID);
       learned.push({
+        story,
+        law: api
+          .moduleState(LAWS_MODULE_ID)
+          .table("laws")
+          .get(lawId) as unknown as LawRowInput | undefined,
+        known: api.knows(personId, from),
+        remembered: prices
+          .table("heardLaws")
+          .get(`${personId}|${lawId}`) as unknown as Learned["remembered"],
+        rule: prices
+          .table("rules")
+          .get(String(event.facts?.priceRuleId)) as unknown as Learned["rule"],
+        felt: prices
+          .table("felt")
+          .get(`${householdId}|${lawId}`) as unknown as Learned["felt"],
+        reached: householdId
+          ? appliedTo(api, householdId).find((row) => row.lawId === lawId)
+          : undefined,
         event,
         personId,
         storyId: story?.id,
@@ -137,6 +178,96 @@ function storyLawId(api: ReturnType<typeof coreAPI>, storyId?: string) {
   )?.facts?.lawId;
 }
 
+/** Validate the actual chain as it stood when this person learned it. */
+function expectActualSource(l: Learned) {
+  const { event, personId, story, law, known, rule, felt, reached } = l;
+  const at = `${where}: ${event.id}`;
+  expect(law, `${at}: actual law`).toBeDefined();
+  expect(story, `${at}: actual source story`).toBeDefined();
+  expect(event.facts?.lawId, at).toBe(law!.id);
+  expect(story!.facts.lawId, `${at}: source law`).toBe(law!.id);
+  expect(event.topic, `${at}: law's question`).toBe(law!.series);
+  expect(event.date >= law!.effectiveDate, `${at}: law is effective`).toBe(
+    true,
+  );
+  expect(event.facts?.learnedFrom, `${at}: source key`).toBe(
+    newsKey(story!.id),
+  );
+  // No event may cite a story this payer never received. An expired news
+  // hearing must be backed by the person's retained memory of that story.
+  expect(known, `${at}: payer knows the source`).toBeDefined();
+  expect(known!.key, at).toBe(newsKey(story!.id));
+  expect(
+    known!.learnedAt <= event.date,
+    `${at}: received by learning day`,
+  ).toBe(true);
+  if (l.heardOn !== undefined) expect(l.heardOn <= event.date, at).toBe(true);
+  else {
+    expect(l.remembered?.storyId, `${at}: remembered source`).toBe(story!.id);
+    expect(l.remembered?.known?.key, at).toBe(known!.key);
+    expect(l.remembered!.date <= event.date, at).toBe(true);
+  }
+  expect(rule?.id, `${at}: recorded price rule`).toBe(event.facts?.priceRuleId);
+  expect(rule?.cause, `${at}: rule cites this law`).toBe(
+    `law:${law!.series}:${law!.id}`,
+  );
+  expect(felt?.payerId, `${at}: actual payer`).toBe(personId);
+  expect(felt?.lawId, at).toBe(law!.id);
+  expect(felt?.ruleId, at).toBe(rule!.id);
+  expect(felt?.key, at).toBe(event.topic);
+  expect(felt!.date <= event.date, `${at}: paid by learning day`).toBe(true);
+  expect(String(felt?.movedMinor), at).toBe(event.facts?.movedMinor);
+  expect(felt?.movedMinor, at).not.toBe(0);
+  expect(reached?.lawId, `${at}: actual household reach`).toBe(law!.id);
+  expect(reached?.key, at).toBe(event.topic);
+  expect(reached!.since <= event.date, at).toBe(true);
+}
+
+const proofs: Record<string, unknown>[] = [];
+function inspectEvents(
+  api: ReturnType<typeof coreAPI>,
+  events: readonly Learned[],
+  lawId: string,
+  scenario: string,
+) {
+  expect(events.length, `${where}: no learned events`).toBeGreaterThan(0);
+  for (const event of events) expectActualSource(event);
+  expectStances(api, events);
+  const fixture = events.filter((l) => l.event.facts?.lawId === lawId);
+  expect(
+    fixture.length,
+    `${where}: no transit fixture learner`,
+  ).toBeGreaterThan(0);
+  // The oracle must reject both a different real law and an unreceived source.
+  expect(() =>
+    expectActualSource({ ...fixture[0]!, known: undefined }),
+  ).toThrow();
+  const natural = events.filter((l) => l.event.facts?.lawId !== lawId);
+  if (natural.length)
+    expect(() =>
+      expectActualSource({ ...natural[0]!, story: fixture[0]!.story }),
+    ).toThrow();
+  const byLaw = new Map<string, Learned>();
+  for (const event of events) byLaw.set(event.law!.id, event);
+  proofs.push({
+    scenario,
+    town: draw.name,
+    replay: process.env.PRICES_LEARNED_SEED,
+    worldSeed: api.state.seed,
+    through: api.state.date,
+    totalEvents: events.length,
+    transitEvents: fixture.length,
+    naturalEvents: natural.length,
+    witnesses: [...byLaw.values()],
+  });
+  if (process.env.PRICES_OBSERVER_PROOF)
+    writeFileSync(
+      process.env.PRICES_OBSERVER_PROOF,
+      JSON.stringify(proofs, null, 2) + "\n",
+    );
+  return fixture;
+}
+
 /** Each learner holds a stance on the law that cites how they learned of it. */
 function expectStances(
   api: ReturnType<typeof coreAPI>,
@@ -150,7 +281,9 @@ function expectStances(
   for (const { event, personId } of withView) {
     // They hold a stance on the law. Only the player's circle keeps every
     // cause; anyone else keeps the latest, which is this event or a later one.
-    const stance = stancesOf(api, personId).find((s) => s.topic === question);
+    const stance = stancesOf(api, personId).find(
+      (s) => s.topic === event.topic,
+    );
     expect(
       stance,
       `${where}: ${personId} holds no stance on the law`,
@@ -179,7 +312,8 @@ it(`a household that heard the story learns what the price law did to them (${wh
       events.length,
       `${where}: no household learned the effect`,
     ).toBeGreaterThan(0);
-    for (const l of events) {
+    const fixture = inspectEvents(api, events, lawId, "heard-before-payment");
+    for (const l of fixture) {
       // They had heard a story about this law by the day they learned; the
       // news may have forgotten it by then (it keeps a story for a month).
       expect(
@@ -212,17 +346,18 @@ it(`a payer whose household already paid ties the cost to the law the day they h
       events.length,
       `${where}: no household learned the effect`,
     ).toBeGreaterThan(0);
+    const fixture = inspectEvents(api, events, lawId, "heard-after-payment");
     // Whose household had been billed under the law before they heard.
     const billedBefore = (l: Learned) => {
       const reached = reachedHousehold(api, l.personId);
       return reached !== undefined && (l.heardOn ?? "") > reached.since;
     };
-    const late = events.filter(billedBefore);
+    const late = fixture.filter(billedBefore);
     expect(
       late.length,
       `${where}: ${events.length} learned, none heard after their household's first bill`,
     ).toBeGreaterThan(0);
-    for (const l of events) {
+    for (const l of fixture) {
       expect(l.heardOn, `${where}: ${l.event.id}`).toBeDefined();
       // Never before they heard.
       expect(
@@ -276,8 +411,9 @@ it(`a payer who heard a story the news has since forgotten still ties the first 
         events.length,
         `${at}: no household learned the effect`,
       ).toBeGreaterThan(0);
+      const fixture = inspectEvents(api, events, lawId, "forgotten-source");
       // The news no longer keeps their hearing, yet they cite the story.
-      const forgotten = events.filter((l) => l.heardOn === undefined);
+      const forgotten = fixture.filter((l) => l.heardOn === undefined);
       if (!forgotten.length) {
         tried.push(
           `${at}: ${events.length} learned, each from a story still in the news (e.g. ${events[0]!.storyId})`,
