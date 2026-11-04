@@ -4,6 +4,7 @@
 import standing from "../../data/english/parts/campaign-standing.json" with { type: "json" };
 import { renderLine, type Fact, type Variant } from "../english/bank-line";
 import { admittedParts } from "../english/bank-parts";
+import controls from "./data/controls.json" with { type: "json" };
 
 interface StandingPart {
   key: string;
@@ -66,4 +67,24 @@ export function standingLine(
       fallbackSourceId: recordId,
     })?.text ?? ""
   );
+}
+
+/**
+ * A district as the player reads it: "District 5" for the records' "05",
+ * "District 4A" for "04A"; none for a seat elected at large ("00", "0",
+ * "At-large"), which is the whole place (controls: politics.district).
+ */
+export function districtWords(district: string | null | undefined) {
+  const code = (district ?? "").trim();
+  if (!code || /^0+$/.test(code) || /^at[- ]large$/i.test(code)) return null;
+  return controls.politics.district.replace(
+    "{n}",
+    code.replace(/^0+(?=\w)/, ""),
+  );
+}
+
+/** A race's title: its office, then its district in words where it has one. */
+export function raceTitle(title: string, district: string | null | undefined) {
+  const words = districtWords(district);
+  return words ? `${title} (${words})` : title;
 }
