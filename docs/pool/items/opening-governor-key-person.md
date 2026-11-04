@@ -5,11 +5,12 @@ area: core
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: lane-4/opening-governor
+pr: #7214
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T08:40:54.814Z
 ---
 
 **What.** The owner's Oct 27 sitting, item 3, said the opening needs the national people and maybe the governor. The key-people list in src/core2/data/opening/key-people.json has no governor reason, so the state's stage of the opening points out nobody since the state legislators were removed. A governor reason would let the state's stage point out the player's governor.
