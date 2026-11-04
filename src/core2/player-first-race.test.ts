@@ -8,7 +8,7 @@
  */
 import { createHash, randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
-import stopgaps from "./data/stopgaps.json" with { type: "json" };
+import { STOPGAPS as stopgaps } from "./stopgaps";
 import { gameStartDate } from "./game-start";
 import { placeLocalGovernmentUnits } from "./gov-rules/local-governments";
 import { playerMayFileForKind } from "./modules/elections";

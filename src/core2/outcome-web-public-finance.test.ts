@@ -22,7 +22,7 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
-import stopgaps from "./data/stopgaps.json" with { type: "json" };
+import { STOPGAPS as stopgaps } from "./stopgaps";
 import unwired from "./data/outcome-web/unwired.json" with { type: "json" };
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
@@ -231,8 +231,22 @@ function play(place: ReturnType<typeof drawPlace>, requirement: boolean) {
   const named = appliedOn(api, ASSIST_WORK).filter(
     (r) => r.what === "assistance-stopped" && r.target === "person",
   );
+  // What the caller reads of this world's law rows: the series each stop's
+  // law is in. The world itself is not returned, so the shifted world is
+  // collected before the twin plays (two worlds at once ran past node's
+  // default heap).
+  const lawsTable = api.moduleState(LAWS_MODULE_ID).table("laws");
+  const stopLawSeries = new Map(
+    stopped.map((stop) => [
+      stop.lawId,
+      stop.lawId
+        ? (lawsTable.get(stop.lawId) as unknown as LawRowInput | undefined)
+            ?.series
+        : undefined,
+    ]),
+  );
   return {
-    api,
+    stopLawSeries,
     drawing,
     reachedNow,
     householdOf,
@@ -267,12 +281,11 @@ describe(`the SNAP work requirement is the benefit's, not the web's (seed ${seed
       expect(twin.named, where).toEqual([]);
       expect(twin.counted, where).toEqual([]);
       // The shifted world's stops cite a work-requirement law row and the head's own months.
-      const lawsTable = shifted.api.moduleState(LAWS_MODULE_ID).table("laws");
       const limit = 3;
       let held = 0;
       for (const stop of shifted.stopped) {
         expect(
-          (lawsTable.get(stop.lawId!) as unknown as LawRowInput).series,
+          shifted.stopLawSeries.get(stop.lawId),
           `${where}: ${stop.id} cites ${stop.lawId}`,
         ).toBe(ASSIST_WORK);
         expect(
@@ -361,13 +374,6 @@ const UNWIRED: ReadonlyArray<{
   readonly reason: string;
 }> = [
   {
-    outcome: "finance.medical-debt-in-collections",
-    links: ["coverage-to-medical-debt", "medicaid-expansion-to-medical-debt"],
-    stopgap: "SG-EW-HEALTH-medical-debt-reader",
-    reason:
-      "no engine bills medical care or sends a bill to collections; coverage.ts says an unpaid premium is never a debt",
-  },
-  {
     outcome: "gov.nondisaster-transfers",
     links: ["disaster-to-public-transfers"],
     stopgap: "SG-EFFECT-WEB-prices-nondisaster-transfers",
@@ -376,7 +382,7 @@ const UNWIRED: ReadonlyArray<{
   {
     outcome: "household.child-poverty",
     links: ["child-benefit-to-child-poverty"],
-    stopgap: null,
+    stopgap: "SG-FAMILY-child-benefit-not-paid",
     reason:
       "no child benefit is paid and no engine counts child poverty apart from the poverty measure",
   },

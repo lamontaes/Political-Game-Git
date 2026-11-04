@@ -11,7 +11,7 @@ import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import unwired from "./data/outcome-web/unwired.json" with { type: "json" };
-import stopgaps from "./data/stopgaps.json" with { type: "json" };
+import { STOPGAPS as stopgaps } from "./stopgaps";
 import { WEB_LINKS } from "./outcome-web-model";
 
 const WAITING = {
@@ -25,7 +25,6 @@ const WAITING = {
   "SG-EW-HEALTH-unsized-links": [
     "congestion-to-premature-births",
     "heat-to-deaths",
-    "education-to-mortality",
     "eviction-to-hospital-visits",
   ],
   /** The cause is the person's own history, which no record keeps. */
@@ -46,8 +45,10 @@ function sources(dir = "src/core2"): string[] {
   return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
     const path = join(dir, entry.name);
     if (entry.isDirectory())
-      return path === "src/core2/data/outcome-web" ? [] : sources(path);
-    if (path === "src/core2/data/stopgaps.json") return [];
+      return path === "src/core2/data/outcome-web" ||
+        path === "src/core2/data/stopgaps"
+        ? []
+        : sources(path);
     return /\.(ts|json)$/.test(path) && !path.endsWith(".test.ts")
       ? [path]
       : [];
@@ -97,6 +98,22 @@ describe("health links that wait, and why", () => {
           `${key}: an engine reads ${web.to}; wire it`,
         ).toEqual([]);
       });
+
+  // The medical-debt link no longer waits (health-medical-debt-record): the
+  // coverage engine's bills read its outcome where the share sent to
+  // collections is decided, it is off the unwired list, and the stopgap it
+  // waited on is resolved.
+  it("medicaid-expansion-to-medical-debt is read by the medical bills", () => {
+    const outcome = link("medicaid-expansion-to-medical-debt").to;
+    expect(readersOf(outcome)).toContain("src/core2/medical-bills.ts");
+    expect(
+      rows.find((row) => row.link === "medicaid-expansion-to-medical-debt"),
+    ).toBeUndefined();
+    const row = (stopgaps as { id: string; status?: string }[]).find(
+      (one) => one.id === "SG-EW-HEALTH-medical-debt-reader",
+    )!;
+    expect(row.status).toBe("resolved");
+  });
 
   // Break-it: the reader check trips the day an engine file names the
   // outcome, for an unsized link as for a condition-record one.

@@ -7,13 +7,15 @@
  * these outcomes, or an unsized link gets a size, this test fails and says to
  * wire the link. (Having been held while waiting for a hearing is a record the
  * justice engine keeps, so pretrial-detention-to-employment is carried by the
- * jobs engine: law-wiring-labor-web.test.ts.)
+ * jobs engine: law-wiring-labor-web.test.ts. A senior's graduation is a record
+ * the school engine keeps, so graduation-to-earnings is carried by hire pay:
+ * jobs-graduation-income.test.ts.)
  */
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import unwired from "./data/outcome-web/unwired.json" with { type: "json" };
-import stopgaps from "./data/stopgaps.json" with { type: "json" };
+import { STOPGAPS as stopgaps } from "./stopgaps";
 import { engineMeasure, WEB_LINKS } from "./outcome-web-model";
 
 const WAITING = {
@@ -25,7 +27,6 @@ const WAITING = {
   ],
   /** No researched size the game can apply (a link about zero is graded not applicable and is not listed). */
   "SG-LABOR-unsized-links": [
-    "graduation-to-earnings",
     "transit-loss-to-unemployment",
     "broadband-to-employment",
     "incentive-deal-to-industry-jobs",
@@ -54,8 +55,10 @@ function sources(dir = "src/core2"): string[] {
   return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
     const path = join(dir, entry.name);
     if (entry.isDirectory())
-      return path === "src/core2/data/outcome-web" ? [] : sources(path);
-    if (path === "src/core2/data/stopgaps.json") return [];
+      return path === "src/core2/data/outcome-web" ||
+        path === "src/core2/data/stopgaps"
+        ? []
+        : sources(path);
     return /\.(ts|json)$/.test(path) && !path.endsWith(".test.ts")
       ? [path]
       : [];

@@ -60,6 +60,7 @@ import { settleCountedEstate } from "./estates";
 import { deathWebFactor } from "./health-web";
 import type { ResidentHouseholdRecord } from "./residents";
 import { webFactorFor } from "./outcome-web-reach";
+import { housingHealthFactor } from "./housing-homeless";
 import {
   OUTCOME_WEB_MODULE_ID,
   outcomeWebFactor,
@@ -69,6 +70,16 @@ import { lawApplied } from "./law-reach/applied";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./modules/laws";
 import type { ModuleRow } from "./module-data";
 import type { CoreAPI, PersonId, PersonInput, PlaceId, Source } from "./types";
+
+/** Housing statuses in a fixed order, for the counted death chance's cache key. */
+const HOUSING_STATUSES = [
+  "housed",
+  "doubled-up",
+  "sheltered",
+  "unsheltered",
+] as const;
+/** A household housing does not weigh on: factor one, the chance's own cache slot. */
+const UNSTRAINED = Object.freeze({ factor: 1, key: 0 });
 
 /** Unit conversions only: NCHS rates are per 1,000 women; HUD figures are dollars. */
 const PER_THOUSAND = 1000,
@@ -438,11 +449,11 @@ export function applyCountedFlows(
       const at = counted?.householdOf.get(householdId);
       const weight =
         at === undefined ? 1 : counted!.weightOf(counted!.households[at]!);
-      if (at !== undefined)
-        tenureOf.set(
-          householdId,
-          counted!.households[at]!.tenure === "rent" ? "rent" : "own",
-        );
+      const tenure =
+        at === undefined ? undefined : counted!.households[at]!.tenure;
+      // A household without a home is neither (as a removed dwelling reads).
+      if (tenure !== undefined && tenure !== "none")
+        tenureOf.set(householdId, tenure === "rent" ? "rent" : "own");
       // A group-quarters room's income is no household's: no fifth (a
       // zero-income room would read as the poorest).
       const fifth =
@@ -479,6 +490,29 @@ export function applyCountedFlows(
     };
     const weightOfPerson = (person: PersonInput) =>
       weightOf.get(person.id) ?? 1;
+    // What housing weighs on each household's health this month (homelessness
+    // item 5: a household without a home, and one evicted in the last years,
+    // falls ill sooner), by the same factors a full person's strain takes.
+    const housingOf = new Map<string, { factor: number; key: number }>();
+    const housingStrain = (person: PersonInput, on: string) => {
+      if (on !== date) return UNSTRAINED;
+      let found = housingOf.get(person.householdId);
+      if (!found) {
+        const read = housingHealthFactor(api, person.householdId);
+        found =
+          read.status === "housed" && !read.evictedOn
+            ? UNSTRAINED
+            : {
+                factor: read.factor,
+                key:
+                  1 +
+                  HOUSING_STATUSES.indexOf(read.status) * 2 +
+                  (read.evictedOn ? 1 : 0),
+              };
+        housingOf.set(person.householdId, found);
+      }
+      return found;
+    };
     const start = { people: people.length, households: households.length };
     const row = {
       id: `${placeId}:${month}`,
@@ -643,7 +677,8 @@ export function applyCountedFlows(
         const share = members.reduce((n, member) => {
           const age = ageOf(member, on),
             fifth = fifthOf.get(member.id),
-            slot = age * 8 + (fifth ?? 7);
+            housing = housingStrain(member, on),
+            slot = (age * 8 + (fifth ?? 7)) * 16 + housing.key;
           let chance = chances.get(slot);
           if (chance === undefined) {
             chance = monthlyShare(
@@ -656,7 +691,8 @@ export function applyCountedFlows(
                 ) *
                   mortality *
                   worldRateFactor(api.state.seed, "mortality") *
-                  webDeaths(member, on),
+                  webDeaths(member, on) *
+                  housing.factor,
               ),
               months,
             );
@@ -685,9 +721,16 @@ export function applyCountedFlows(
             pick = key;
         if (pick === undefined) break;
         // Sorted once, the first time it is picked: picks only take from it.
+        // Those whose housing raised their chance (a household without a
+        // home, or evicted lately) fall ill first, so the strain lands on
+        // the household it weighs on, not on whoever in the cohort is next.
         const members = cohorts.get(pick)!;
         if (!sorted.has(pick)) {
-          members.sort((a, b) => compare(a.id, b.id));
+          members.sort(
+            (a, b) =>
+              housingStrain(b, on).factor - housingStrain(a, on).factor ||
+              compare(a.id, b.id),
+          );
           sorted.add(pick);
         }
         const owedNow = Object.values(debts).reduce((n, debt) => n + debt, 0);

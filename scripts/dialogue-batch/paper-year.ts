@@ -20,6 +20,7 @@ import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import { advanceCore } from "../../src/core2/life";
 import { BenchPlayer } from "../../src/bench/player";
 import { coreAPI } from "../../src/core2/state";
+import { outletsHere } from "../../src/core2/modules/press";
 import type { PersonId } from "../../src/core2/types";
 import { composeJournal } from "../../src/director/journal";
 
@@ -93,6 +94,17 @@ for (let draw = 0; draw < draws; draw += 1) {
   // The paper: stories by kind, and each sentence by how often it prints.
   const kinds = new Map<string, number>();
   const said = new Map<string, number>();
+  // One printed example of each everyday kind, as a reader sees it.
+  const EVERYDAY = [
+    "death",
+    "birthday",
+    "anniversary",
+    "retirement",
+    "letter",
+    "exposed",
+    "meetings-week",
+  ];
+  const examples = new Map<string, string>();
   // One paper's own year: what a reader of that outlet meets.
   const perPaper = new Map<string, Map<string, number>>();
   let unworded = 0;
@@ -109,6 +121,11 @@ for (let draw = 0; draw < draws; draw += 1) {
       worded.headline,
       ...(worded.paragraphs ?? (worded.lede ? [worded.lede] : [])),
     ].filter((text): text is string => !!text);
+    if (EVERYDAY.includes(kind) && !examples.has(kind))
+      examples.set(
+        kind,
+        `${worded.headline ?? ""} / ${(worded.paragraphs ?? [worded.lede ?? ""]).join(" ")}`,
+      );
     const paper = perPaper.get(story.outletId) ?? new Map<string, number>();
     perPaper.set(story.outletId, paper);
     for (const text of texts)
@@ -152,6 +169,13 @@ for (let draw = 0; draw < draws; draw += 1) {
   console.log(
     `Paper: ${printed.length} printed stories, ${unworded} unworded, ${kinds.size} kinds, ${said.size} distinct sentences, ${repeated.length} printed more than ${REPEATS} times.\n`,
   );
+  // The town's newspapers: letters to the editor are theirs alone.
+  const newspapers = outletsHere(api)
+    .filter((row) => row.tier !== "national" && row.kind === "newspaper")
+    .map((row) => core.organizations.get(row.organizationId as never)?.name);
+  console.log(
+    `Town newspapers: ${newspapers.length ? newspapers.join(", ") : "none"}.\n`,
+  );
   console.log("| Story kind | Printed |\n| --- | --- |");
   for (const [kind, count] of table(kinds))
     console.log(`| ${kind} | ${count} |`);
@@ -165,6 +189,9 @@ for (let draw = 0; draw < draws; draw += 1) {
   );
   for (const row of paperRepeats.slice(0, 15))
     console.log(`- ${row.count}x in ${row.paper}: "${row.sentence}"`);
+  console.log("\nEveryday stories, one printed example of each:\n");
+  for (const kind of EVERYDAY)
+    console.log(`- ${kind}: ${examples.get(kind) ?? "(none printed)"}`);
   console.log(
     `\nJournal: ${lines.length} lines for the player, ${lineKinds.size} kinds, ${lineRepeated.length} sentences said more than ${REPEATS} times.\n`,
   );

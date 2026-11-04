@@ -9,11 +9,15 @@
  *
  *   node --import tsx scripts/outcome-web/write-unwired.ts
  */
-import { readFileSync, writeFileSync } from "node:fs";
+import {
+  readStopgapFolder,
+  writeStopgapFolder,
+} from "../../src/core2/stopgaps-folder";
+import { writeFileSync } from "node:fs";
 import { matrix } from "./effect-matrix";
 
 const UNWIRED = "src/core2/data/outcome-web/unwired.json";
-const STOPGAPS = "src/core2/data/stopgaps.json";
+
 /** The resolution of a shared row whose every link now reaches an engine's records. */
 const REACHED =
   "Resolved: every link this row named now reaches an engine's own records or is carried by one (scripts/outcome-web/effect-matrix.ts grades it as reaching), so it is off the unwired list.";
@@ -84,7 +88,7 @@ if (process.argv[1]?.endsWith("write-unwired.ts")) {
   writeFileSync(UNWIRED, text);
   // One registry row per new shared id, pointing at its first marker line.
   const lines = text.split("\n");
-  const registry = JSON.parse(readFileSync(STOPGAPS, "utf8")) as {
+  const registry = readStopgapFolder(".") as unknown as {
     id: string;
     file?: string;
     line?: number;
@@ -169,6 +173,6 @@ if (process.argv[1]?.endsWith("write-unwired.ts")) {
     if (at >= 0) kept[at] = entry;
     else kept.push(entry);
   }
-  writeFileSync(STOPGAPS, `${JSON.stringify(kept, null, 2)}\n`);
+  writeStopgapFolder(".", kept);
   console.log(`${rows.length} unwired links, ${byId.size} shared stopgap rows`);
 }

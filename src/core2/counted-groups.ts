@@ -49,8 +49,13 @@ export const enum MemberState {
 }
 
 export type HouseholdKind = "one-adult" | "adults" | "with-children";
-/** How a household holds its home; `group` is a group-quarters room (outside the rental market). */
-export type Tenure = "rent" | "mortgage" | "other" | "group";
+/**
+ * How a counted household holds its home; "none" is a household an eviction
+ * or a foreclosure removed, without a home until it rents again (the housing
+ * engine's status row says where it stays); "group" is a group-quarters room
+ * (outside the rental market).
+ */
+export type Tenure = "rent" | "mortgage" | "other" | "none" | "group";
 export type HeadWork = "working" | "retired" | "not-working";
 
 export interface GroupKey {
@@ -509,7 +514,9 @@ export class CountedStore {
       const targets: CountedHousehold[] = [];
       let size = 0;
       for (const other of pool) {
-        if (other === h || other.gone) continue;
+        // A household without a home takes in no one's weight: it stands for
+        // the one household the housing engine removed.
+        if (other === h || other.gone || other.tenure === "none") continue;
         const n = this.countedCount(other);
         if (!n) continue;
         targets.push(other);

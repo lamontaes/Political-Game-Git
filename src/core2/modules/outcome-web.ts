@@ -100,6 +100,8 @@ const SCHOOL_MEASURED = new Set([
 ]);
 
 export { OUTCOME_WEB_MODULE_ID };
+/** The factor an engine in another family multiplies its own rate by (medical-bills.ts). */
+export { webReach, type WebReach } from "../outcome-web-reach";
 const STATE_ID = "outcome-web:state";
 const RUN_KIND = "outcome-web";
 const SETTINGS = WEB_SETTINGS;
@@ -650,9 +652,8 @@ function run(api: CoreAPI, announced = false): void {
   // No field counts the SNAP benefit's recipients into SNAP receipt, and no engine keeps food insecurity; both stay ledger numbers.
   api.stopgap("SG-WEB-snap-receipt-ledger");
   api.stopgap("SG-WEB-food-insecurity-ledger");
-  // Causes of poverty that reach no incomes yet (poverty itself is the engine's).
+  // A cause of poverty that reaches no incomes yet (poverty itself is the engine's).
   api.stopgap("SG-WEB-poverty-licensing-no-engine");
-  api.stopgap("SG-WEB-poverty-graduation-no-engine");
   api.stopgap("SG-WEB-housing-links-unsized");
   for (const placeId of placesOf(api)) {
     const row = recordMonth(api, placeId, state);

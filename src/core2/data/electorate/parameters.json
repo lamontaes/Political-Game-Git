@@ -94,7 +94,7 @@
     "appealPerShare": {
       "value": 4,
       "tag": "SOURCED",
-      "source": "How much appeal on the lean scale moves one share of the two-party vote. Each place's voters stand evenly along the lean order across a width of 2 (personLean: lean = 2 x (right share - rank)), and a voter backs the right-hand candidate when lean exceeds half the appeal gap; one unit of appeal therefore moves a quarter of the vote. Arithmetic of the engine's own lean order, not an estimate.",
+      "source": "How much appeal on the lean scale moves one share of the two-party vote. Each place's voters stand evenly along the lean order across a width of 2 (personLean: lean = 2 x (right share - rank)); on a ballot with party labels each voter (a named person, or a counted record's people whole) backs the right-hand candidate when lean exceeds half the appeal gap, so one unit of appeal moves a quarter of the vote: arithmetic of the engine's own lean order, not an estimate. On a ballot without party labels, where the voters' gaps bunch, a counted record's people divide by the logistic share exp(k a_i) / sum_j exp(k a_j) with k = 4 / appealPerShare, which moves the same quarter of the record per unit at an even race (CTO, Nov 1, 18:20 as amended at 22:10; src/core2/electorate.ts countedShareRule).",
       "spread": [4, 4]
     },
     "coarseSampleVoters": {

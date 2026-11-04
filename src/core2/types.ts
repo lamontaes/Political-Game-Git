@@ -1,3 +1,4 @@
+import type { GroupQuartersType } from "./group-quarters-types";
 import type { PurchaseTaxInput } from "./modules/purchase-tax";
 import type { MarketEntry } from "./modules/residents";
 import type { ResidentsInput } from "./residents";
@@ -228,21 +229,10 @@ export interface PublicOrganization {
   }[];
 }
 
-/**
- * The Census's seven major group-quarters types, in its P5 cell order (the
- * columns of data/research/group-quarters/census-2020-group-quarters.json,
- * compiled by scripts/research/compile-group-quarters.ts).
- */
-export const GROUP_QUARTERS_TYPES = [
-  "adultCorrectional",
-  "juvenile",
-  "nursing",
-  "otherInstitutional",
-  "college",
-  "military",
-  "otherNoninstitutional",
-] as const;
-export type GroupQuartersType = (typeof GROUP_QUARTERS_TYPES)[number];
+export {
+  GROUP_QUARTERS_TYPES,
+  type GroupQuartersType,
+} from "./group-quarters-types";
 
 export interface HouseholdInput {
   id: string;
@@ -838,7 +828,6 @@ export interface CoreState {
   quietChoiceByPerson: Map<PersonId, string>;
   logByPerson: Map<PersonId, Set<string>>;
   logByKind: Map<string, Set<string>>;
-  logByPlace: Map<PlaceId, Set<string>>;
   latestPublicViews: Map<
     string,
     { personId: PersonId; topic: string; view: string; reasonKey: string }
@@ -1307,7 +1296,18 @@ export interface CoreAPI {
     personIds: readonly [PersonId, PersonId];
     together: boolean;
     source: Source;
+    /** Who hears of it (relatives in the played town), on the emitted event. */
+    witnessIds?: readonly PersonId[];
+    /** Facts the event carries besides its link (a union's kind). */
+    facts?: Readonly<Record<string, string>>;
   }): void;
+  /**
+   * An adult who comes to exist in play (a partner met by someone living
+   * elsewhere): admitted with no cash and no job into a household that
+   * already exists at their place. Their family and known people must
+   * already be full people.
+   */
+  addPersonV1(input: PersonInput): PersonState;
   /** New hourly pay from today for a full or counted worker (e.g. a wage law). */
   rerateJob(jobId: string, hourlyMinor: number, source: Source): void;
   /**

@@ -28,9 +28,11 @@
  *   whether or not the parent is imprisoned. A term whose ended jobs include
  *   such a job cannot show the prison term's own reach, so it is passed over
  *   with the seat named.
- * - The other six links stay unread, each on SG-WEB-crime-justice-links-unread
+ * - The other five links stay unread, each on SG-WEB-crime-justice-links-unread
  *   with the reason its row gives: no recorded cause, no size the game can
  *   apply, or no engine that decides the outcome.
+ * - housing-vouchers-to-crime is graded about zero (two voucher lotteries find
+ *   no effect on arrests), so it is off the unread list and the family's row.
  */
 import { randomBytes } from "node:crypto";
 import { readFileSync } from "node:fs";
@@ -39,7 +41,7 @@ import { drawPlace } from "../../tests/golden-path/place";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { fullHouseholdIncomes } from "./counted-income-fifth";
-import stopgaps from "./data/stopgaps.json" with { type: "json" };
+import { STOPGAPS as stopgaps } from "./stopgaps";
 import unwired from "./data/outcome-web/unwired.json" with { type: "json" };
 import { gameStartDate } from "./game-start";
 import { briberyRange, dispositionDays } from "./justice-law";
@@ -70,8 +72,8 @@ const UNREAD = [
   "graduation-to-incarceration",
   "mandatory-minimums-to-incarceration",
   "mandatory-minimum-cut-to-federal-prisoners",
-  "housing-vouchers-to-crime",
 ] as const;
+const ABOUT_ZERO = "housing-vouchers-to-crime";
 const FAMILY_STOPGAP = "SG-WEB-crime-justice-links-unread";
 /**
  * Places drawn before giving up. 30 of the 56 places' bribery statutes start
@@ -389,6 +391,23 @@ describe("the crime and justice links left unread", () => {
       // The stopgap names the link and why it waits.
       expect(stopgap!.whatItFakes, key).toContain(key);
     }
+  });
+
+  it("grades housing vouchers about zero, off the list and the family's row, with the lotteries' range", () => {
+    const link = linkOf(ABOUT_ZERO) as ReturnType<typeof linkOf> & {
+      status?: string;
+      range?: [number, number];
+    };
+    expect(link.status).toBe("about-zero");
+    expect(link.size).toBe(0);
+    expect(link.range![0]).toBeLessThan(0);
+    expect(link.range![1]).toBeGreaterThan(0);
+    expect(
+      (unwired.links as { link: string }[]).some(
+        (row) => row.link === ABOUT_ZERO,
+      ),
+    ).toBe(false);
+    expect(openStopgap(FAMILY_STOPGAP)!.whatItFakes).not.toContain(ABOUT_ZERO);
   });
 });
 

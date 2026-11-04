@@ -18,7 +18,6 @@
     "emission-rules-to-particulates",
     "disaster-to-out-migration",
     "disaster-to-home-values",
-    "work-requirement-to-coverage",
     "minimum-wage-to-low-wage-jobs",
     "school-spending-to-attainment",
     "enforcement-to-hispanic-enrollment",
@@ -38,7 +37,6 @@
     "universal-childcare-to-mothers-work",
     "voter-id-to-turnout",
     "newspaper-closure-to-engagement",
-    "medicaid-expansion-to-coverage",
     "medicaid-expansion-to-mortality",
     "medicaid-expansion-to-medical-debt",
     "universal-prek-to-graduation",
@@ -101,6 +99,7 @@
     "mandatory-minimums-to-violent-crime",
     "clean-electricity-to-particulates",
     "carbon-price-to-particulates",
+    "housing-vouchers-to-graduation",
     "harm-reduction-to-overdose-deaths",
     "public-bargaining-to-earnings",
     "library-funding-to-reading",
@@ -118,6 +117,7 @@
     "fare-free-transit-to-ridership",
     "cannabis-sales-to-overdose-deaths",
     "privacy-law-to-earnings",
+    "library-materials-to-reading",
     "highway-money-for-transit-to-service",
     "defense-contracts-to-earnings",
     "transit-service-to-ridership",
@@ -198,7 +198,11 @@
     },
     "coverage-to-mortality-55-64": {
       "waitingOn": [],
-      "carriedBy": "the health engine's monthly look at each full person (refreshWebFactors in src/core2/modules/health.ts, through ownCoverageFactor in src/core2/health-own.ts), which reads the Medicaid coverage the law reach pays them (medicaidCoverageSpells in src/core2/law-reach/group-b-money.ts, one obligation record per payment) and multiplies their death hazard at 55 to 64 by this row's size per covered year, twelve months after the coverage, against the coverage they held at their first look; the place-level medicaid-expansion-to-mortality row is left out of their web factor (deathWebFactor in src/core2/health-web.ts). Counted people keep the place-level row (stopgap SG-HEALTH-own-records-counted)"
+      "carriedBy": "the health engine's monthly look at each full person (refreshWebFactors in src/core2/modules/health.ts, through ownCoverageFactor in src/core2/health-own.ts), which reads the Medicaid coverage the law reach keeps for them (medicaidCoverageSpells in src/core2/law-reach/group-b-money.ts, one coverage record per stretch) and multiplies their death hazard at 55 to 64 by this row's size per covered year, twelve months after the coverage, against the coverage they held at their first look; the place-level medicaid-expansion-to-mortality row is left out of their web factor (deathWebFactor in src/core2/health-web.ts). Counted people keep the place-level row (stopgap SG-HEALTH-own-records-counted)"
+    },
+    "work-requirement-to-coverage": {
+      "waitingOn": [],
+      "carriedBy": "the law reach's Medicaid coverage records in the town (recordCoverage in src/core2/law-reach/group-b-money.ts keeps, under the requirement's key, a coverage record by person id for each adult the expansion reaches whose coverage the requirement ends, coverage|<law key>|<person id>|<from day>, read by medicaidCoverageSpells with ENDED_BY_REQUIREMENT), which the coverage engine's monthly bills read when they price each member (plans and billMembers in src/core2/medical-bills.ts): such a member pays their own plan's share where Medicaid's would have been theirs, and the household pays that added part first under journal ids that cite the requirement (requirementMinor, payFull and payCounted). The coverage engine's employer-plan count (holdersToday in src/core2/modules/coverage.ts) does not read this link in any place, since Medicaid coverage is not an employer plan; the reach keeps coverage records only for the town's residents, so outside the town the requirement reaches no billed household (stopgap SG-GOV-REACH-B-medicaid-coverage)"
     },
     "work-requirement-to-employment": {
       "waitingOn": ["labor.employment-rate"]
@@ -304,16 +308,15 @@
       "needsSize": true
     },
     "graduation-to-earnings": {
-      "waitingOn": ["school.graduation", "labor.earnings"],
-      "needsSize": true
+      "waitingOn": [],
+      "carriedBy": "src/core2/modules/jobs.ts hirePay prices each hire from the person's own schooling on the day it is set (schoolingWeekly, then schoolingOn, which reads the senior's graduation record from graduationOf in src/core2/school-outcomes.ts): a senior who graduated in play is paid at the diploma's row of BLS weekly earnings and one who did not at the no-diploma row, times the within-role share, named and counted hires alike"
     },
     "graduation-to-incarceration": {
       "waitingOn": ["school.graduation", "justice.incarceration-risk"],
       "needsSize": true
     },
     "education-to-mortality": {
-      "waitingOn": ["school.years-completed", "health.mortality-all"],
-      "needsSize": true
+      "waitingOn": ["school.years-completed", "health.mortality-all"]
     },
     "new-apartments-to-nearby-rent": {
       "waitingOn": [],
@@ -401,6 +404,10 @@
       "waitingOn": [],
       "carriedBy": "the electorate's economy term (candidateReasons in src/core2/electorate-inputs.ts, reading nationalEconomyChange), which takes the national unemployment and inflation against the opening into the standing of the president's party's candidates, wholly for federal offices and in part down the ballot. The game keeps no approval number, so the economy's effect lands on the vote; this row has no size, so the engine's own shares (unemploymentShare and inflationShare in src/core2/data/electorate/parameters.json) stand"
     },
+    "medicaid-expansion-to-coverage": {
+      "waitingOn": [],
+      "carriedBy": "the law reach's Medicaid coverage records in the town (recordCoverage in src/core2/law-reach/group-b-money.ts keeps each covered resident's coverage, named and counted, as a coverage record by person id, coverage|<law key>|<person id>|<from day>, joined into stretches by medicaidCoverageSpells), which the coverage engine's monthly bills read when they price each member (plans and billMembers in src/core2/medical-bills.ts): a member the expansion covers pays Medicaid's 9.1 percent share of their care instead of an employer plan's or the uninsured share, and the treasuries pay Medicaid's part to the seller (payMedicaidCare). The coverage engine's employer-plan count (holdersToday in src/core2/modules/coverage.ts) does not read this link in any place, since Medicaid coverage is not an employer plan. Outside the town, where the reach keeps no coverage records, the expansion's whole effect on a billed household's money is the place-level medicaid-expansion-to-medical-debt row on the share its unpaid bills send to collections"
+    },
     "snap-work-requirement-to-participation": {
       "waitingOn": [],
       "carriedBy": "the SNAP benefit (runFoodAid in src/core2/law-reach/group-b-food-aid.ts), which reads the work-requirement law in force through assistanceTimeLimit (src/core2/law-reach/group-b.ts) and stops each head the law reaches after their own three months of benefit in 36 (timeLimitedNow in src/core2/law-reach/group-b-money.ts), named and counted households alike"
@@ -445,7 +452,7 @@
     },
     "graduation-to-poverty": {
       "waitingOn": [],
-      "carriedBy": "none yet: no engine path (stopgap SG-WEB-poverty-graduation-no-engine); the measure reads the pay once the jobs engine prices schooling"
+      "carriedBy": "src/core2/modules/jobs.ts hirePay prices each hire from the person's own schooling, their graduation record from play (schoolingOn reading graduationOf in src/core2/school-outcomes.ts), and src/core2/world-poverty.ts householdPoverty counts that pay in the household's income against its poverty line, named and counted households alike"
     },
     "crime-level-to-robbery": {
       "waitingOn": [],
@@ -460,8 +467,9 @@
       "carriedBy": "src/core2/world-poverty.ts: the measure counts income before taxes"
     },
     "licensing-reform-to-poverty": {
-      "waitingOn": [],
-      "carriedBy": "none yet: no engine path (stopgap SG-WEB-poverty-licensing-no-engine); the measure reads the pay once the jobs engine opens licensed jobs"
+      "waitingOn": [
+        "reader:household.poverty-pct:law:us-policy-positions:business-commerce.reduce-occupational-licensing"
+      ]
     },
     "income-tax-to-poverty": {
       "waitingOn": [],
@@ -489,13 +497,8 @@
     "federal-mandatory-minimums-to-crime": {
       "waitingOn": ["crime.rate-index"]
     },
-    "housing-vouchers-to-graduation": {
-      "waitingOn": [],
-      "needsSize": true
-    },
     "housing-vouchers-to-crime": {
-      "waitingOn": ["crime.rate-index"],
-      "needsSize": true
+      "waitingOn": ["crime.rate-index"]
     },
     "top-income-tax-rate-to-poverty": {
       "waitingOn": [],
@@ -510,12 +513,7 @@
       "carriedBy": "the sales tax engine, which spares the grocery share of each retail seller's sales where the exemption holds (syncSalesTax in src/core2/modules/budgets.ts), the business price review, which passes the tax change into the seller's tax-inclusive price (salesTaxPassThrough in src/core2/finance-state.ts), and the household's monthly purchases (settle in src/core2/cost-of-living.ts), which buy its everyday plan at those prices from what its members hold, so the exemption buys more of a short household's food and what it still cannot buy goes unbought, kept on its month (household-month unpaidMinor, src/core2/modules/credit.ts). The research measures food insecurity, a scale the game does not keep, so the household's own unbought spending stands for it (stopgap SG-WEB-food-insecurity-ledger)"
     },
     "congress-stock-ban-to-member-returns": {
-      "waitingOn": ["government.member-market-returns"],
-      "needsSize": true
-    },
-    "library-materials-to-reading": {
-      "waitingOn": [],
-      "needsSize": true
+      "waitingOn": ["government.member-market-returns"]
     },
     "city-anti-discrimination-to-poverty": {
       "waitingOn": [],
@@ -633,10 +631,6 @@
       "links": 2
     },
     "program.child-benefit-dollars": {
-      "owner": "OPUS-GOV",
-      "links": 2
-    },
-    "school.graduation": {
       "owner": "OPUS-GOV",
       "links": 2
     },
@@ -768,10 +762,6 @@
       "owner": "OPUS-WORLD",
       "links": 1
     },
-    "labor.earnings": {
-      "owner": "OPUS-WORLD",
-      "links": 1
-    },
     "labor.earnings-at-28": {
       "owner": "OPUS-WORLD",
       "links": 1
@@ -836,6 +826,10 @@
       "owner": "OPUS-GOV",
       "links": 1
     },
+    "reader:household.poverty-pct:law:us-policy-positions:business-commerce.reduce-occupational-licensing": {
+      "owner": "OPUS-WORLD",
+      "links": 1
+    },
     "school.absence": {
       "owner": "OPUS-GOV",
       "links": 1
@@ -849,6 +843,10 @@
       "links": 1
     },
     "school.far-below-proficient": {
+      "owner": "OPUS-GOV",
+      "links": 1
+    },
+    "school.graduation": {
       "owner": "OPUS-GOV",
       "links": 1
     },

@@ -17,7 +17,10 @@ import placePopulationTable from "../../../data/tables/place-population.json" wi
 
 import { parameter as p } from "../parameters";
 import { stopgap } from "../stopgaps";
-import { GROUP_QUARTERS_TYPES, type GroupQuartersType } from "../types";
+import {
+  GROUP_QUARTERS_TYPES,
+  type GroupQuartersType,
+} from "../group-quarters-types";
 import { worldLevel, worldOffsetShare } from "../world-draw";
 
 let table: ReadonlyMap<string, number> | null = null;

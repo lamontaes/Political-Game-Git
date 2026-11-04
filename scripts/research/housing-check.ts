@@ -284,6 +284,10 @@ function checkEvictionFilings(): void {
     at("filings"),
     at("renterHouseholds"),
   ];
+  // The test band leaves out the one state whose filing is itself the notice
+  // and is filed again and again (CTO ruling, OWNER-DECISIONS Nov 2 01:30):
+  // the research file names it in its spread, so no state is named here.
+  const outlier = evictionFilings.spread.high.key;
   const rates: number[] = [];
   for (const row of evictionFilings.rows) {
     const value = Number(row[rate]);
@@ -291,7 +295,7 @@ function checkEvictionFilings(): void {
       Math.round((10_000 * Number(row[filings])) / Number(row[renters])) / 100;
     if (computed !== value)
       fail(`eviction filings: ${row[0]} rate ${value}, computed ${computed}`);
-    rates.push(value);
+    if (row[0] !== outlier) rates.push(value);
   }
   const parameter = housingParameters.housingEvictionFilingRate;
   const low = Math.min(...rates),
@@ -300,12 +304,17 @@ function checkEvictionFilings(): void {
     fail(
       `eviction filings: housingEvictionFilingRate ${parameter.value}, national ${evictionFilings.national.rate}`,
     );
+  const band = evictionFilings.spread.withoutMaryland;
+  if (band.low.rate !== low || band.high.rate !== high)
+    fail(
+      `eviction filings: the research file's band ${band.low.rate} to ${band.high.rate}, its states ${low} to ${high}`,
+    );
   if (parameter.spread.low !== low || parameter.spread.high !== high)
     fail(
       `eviction filings: housingEvictionFilingRate spread ${parameter.spread.low} to ${parameter.spread.high}, states ${low} to ${high}`,
     );
   console.log(
-    `eviction filings: ${rates.length} state rates from ${low} to ${high}, national ${evictionFilings.national.rate}; housingEvictionFilingRate matches.`,
+    `eviction filings: ${rates.length} state rates from ${low} to ${high} (${outlier} left out by ruling), national ${evictionFilings.national.rate}; housingEvictionFilingRate matches.`,
   );
 }
 

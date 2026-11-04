@@ -228,9 +228,9 @@
     "citation": "Eviction filings per 100 renter households a year: Eviction Lab state and national eviction estimates, 2018 (Gromis et al., PNAS 2022), national row 3,656,428 filings over 46,902,048 renting households, 7.80 (data/research/housing/eviction-filings-2026.json, national). The check a played year's filings are read against (src/core2/group-quarters.test.ts); it decides no household's case.",
     "spread": {
       "low": 0.65,
-      "high": 69.58,
+      "high": 23.32,
       "unit": "filings per 100 renter households a year",
-      "citation": "The lowest and highest of the 50 states' and D.C.'s 2018 rates in the same file (spread.low, spread.high): South Dakota 0.65 and Maryland 69.58. Maryland's filing is itself the notice and a tenant who pays stays, so its landlords file month after month; without it the highest is South Carolina's 23.32 (spread.withoutMaryland, Eviction Lab supplementary information section 5.3)."
+      "citation": "The lowest and highest of the states' and D.C.'s 2018 rates in the same file, Maryland left out (spread.withoutMaryland): South Dakota 0.65 and South Carolina 23.32. Maryland's 69.58 is left out because its filing is itself the notice and a tenant who pays stays, so its landlords file month after month (Eviction Lab supplementary information section 5.3); the game does not model that law, so it is no standard for a place the game plays (CTO ruling, OWNER-DECISIONS Nov 2 01:30)."
     }
   },
   "housingHostMaxPeople": {

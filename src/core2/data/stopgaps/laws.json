@@ -1,0 +1,26 @@
+[
+  {
+    "id": "SG-LAWS-state-party-loyalty-target",
+    "kind": "estimated-calibration",
+    "file": "src/core2/modules/officials.ts",
+    "line": 1112,
+    "whatItFakes": "The state-chamber party-loyalty weight (weights.statePartyLoyalty, 1) is checked against the federal party-unity figure (about 0.90, CQ Vote Studies) because the state roll-call calibration input is not in the repository.",
+    "why": "The owner ruled on Oct 15 that his own state roll-call input may calibrate this one parameter, with nothing from it shipped or cited; a builder session does not hold that input.",
+    "addedBy": "claude/laws-party-loyalty",
+    "addedAt": "2026-10-16",
+    "replacement": "Run the owner's state roll-call input against the simulated chambers (src/core2/party-loyalty.test.ts measures them), set statePartyLoyalty and the test's target from it, and close this row.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LAWS-grocery-exemption-local-base",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/budgets.ts",
+    "line": 878,
+    "whatItFakes": "A state's grocery exemption spares groceries from every level's sales tax in the town, as if every state's local sales taxes followed the state's base. A county's or city's exemption spares only its own tax.",
+    "why": "No place data says which states let local sales taxes still reach groceries the state exempts (for example home-rule cities, or local option taxes kept on food), so the engine takes the common case of a uniform base.",
+    "addedBy": "laws-grocery-exemption-reaches-buyers",
+    "addedAt": "2026-10-28",
+    "replacement": "A per-state field in the starting-law research (data/research/laws/local-starting-law/sales-tax.json) saying whether local sales taxes follow the state's grocery exemption, sourced from each state's revenue department, read here so a state exemption spares only the levels its base covers.",
+    "status": "open"
+  }
+]
