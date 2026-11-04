@@ -220,10 +220,14 @@ function storyPhoto(story) {
 function hideNewsToast() {
   hideToast($("news-surface"));
 }
-/** The night's paper: the news engine's stories the player heard, newest first. */
+/**
+ * The night's paper: the news engine's stories the player heard, newest
+ * first, only those still news on its date (the archive keeps the rest).
+ */
 async function nightsNews(personId) {
   const rows = await api(`/api/news?id=${encodeURIComponent(personId)}`);
   const stories = rows
+    .filter((r) => r.fresh !== false)
     .filter((r) => r.headline || r.lede)
     .filter(storyHeadline);
   return { stories, outlet: stories[0]?.outlet };
