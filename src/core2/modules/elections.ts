@@ -917,11 +917,10 @@ function playerMayFileWith(
   // A district seat: only the home's own district.
   if (seat?.district)
     return seat.district === homeDistrict(api, contest.officeId, office);
-  // The at-large seats up that day are one race: the player is offered it
-  // once, as the first of those seats' contests whose filing is open. Each
-  // at-large seat keeps its own contest (one winner a seat), so the player's
-  // candidacy is for that seat.
-  // stopgapId: SG-GOV-at-large-race-one-contest
+  // The at-large seats up that day are one race (the voting engine counts
+  // them together and seats the top finishers, `atLargeGroup`): the player is
+  // offered it once, as the first of those seats' contests whose filing is
+  // open, and runs against the whole field for all of its seats.
   const atLarge = sameDay
     .filter((other) => {
       const s = offices.table("seats").get(other.seatId) as
@@ -929,7 +928,6 @@ function playerMayFileWith(
       return !s?.district && filingWindowOpen(other, api.state.date);
     })
     .sort((a, b) => a.seatId.localeCompare(b.seatId, "en", { numeric: true }));
-  if (atLarge.length > 1) api.stopgap("SG-GOV-at-large-race-one-contest");
   return atLarge[0]?.id === contest.id;
 }
 
