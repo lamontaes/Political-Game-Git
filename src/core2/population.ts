@@ -110,6 +110,7 @@ import moverRates from "../../data/research/migration/mover-rates-acs-2024.json"
 import { buildOpeningKin, OPENING_KIN } from "./opening-kin";
 import { partnerAgedHousehold, partnershipGeo } from "./opening-partnership";
 import { spacedSiblingBirths } from "./sibling-births";
+import { distinctSiblingGivenName } from "./sibling-names";
 import { openingTemperaments } from "./opening-personality";
 import { PARAMETERS, parameter as p } from "./parameters";
 import { stopgap } from "./stopgaps";
@@ -532,9 +533,17 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     );
     const people = [...drawn.people];
     const members = [...drawn.skeleton.members];
+    const siblingNames: string[] = [];
     siblings.forEach((n, i) => {
-      if (births[i] === people[n]!.birthDate) return;
-      people[n] = { ...people[n]!, birthDate: births[i]! };
+      const person = people[n]!;
+      const givenName = distinctSiblingGivenName(
+        seedWorld.seed,
+        person.stableKey,
+        { ...person, gender: person.identity?.gender },
+        siblingNames,
+      );
+      siblingNames.push(givenName);
+      people[n] = { ...person, givenName, birthDate: births[i]! };
       members[n] = {
         ...members[n]!,
         age: ageOnDate(makeIsoDate(births[i]!), startedAt),
@@ -1429,6 +1438,7 @@ function openingFamilies(input: OpeningFamilyInput): {
           ? { gender: world.people[id]!.identity!.gender }
           : {}),
         familyName: world.people[id]!.familyName,
+        givenName: world.people[id]!.givenName,
       })),
     })),
     {
@@ -1441,7 +1451,13 @@ function openingFamilies(input: OpeningFamilyInput): {
         moverRates.places[input.stateKey as keyof typeof moverRates.places] ??
         moverRates.national
       ).departurePerYearByAge,
-      name: ({ stableKey, gender, birthDate, familyName }) => {
+      name: ({
+        stableKey,
+        gender,
+        birthDate,
+        familyName,
+        takenGivenNames = [],
+      }) => {
         const key = gender as GenderIdentityKey;
         const named = drawCanonicalNamedIdentity(
           new SeededRng(world.seed).fork(stableKey).fork("name"),
@@ -1451,12 +1467,22 @@ function openingFamilies(input: OpeningFamilyInput): {
         const surname = familyName ?? named.familyName;
         return {
           familyName: surname,
-          givenName: birthCohortGivenName(world.seed, stableKey, {
-            givenName: named.givenName,
-            familyName: surname,
-            birthDate: makeIsoDate(birthDate),
-            gender: key,
-          }),
+          givenName: distinctSiblingGivenName(
+            world.seed,
+            stableKey,
+            {
+              givenName: birthCohortGivenName(world.seed, stableKey, {
+                givenName: named.givenName,
+                familyName: surname,
+                birthDate: makeIsoDate(birthDate),
+                gender: key,
+              }),
+              familyName: surname,
+              birthDate,
+              gender: key,
+            },
+            takenGivenNames,
+          ),
         };
       },
     },
