@@ -930,7 +930,9 @@ export function briefOnBill(
     .filter((id) => id !== staffer.officialId)
     .sort();
   const covered = body.slice(0, Math.round(q.quality * body.length));
-  const stakes = covered.map((id) => learnStake(api, billId, id, "record"));
+  const stakes = covered.map((id) =>
+    learnStake(api, billId, id, "record", staffer.officialId),
+  );
   const work = record(api, staffer, "brief", q, {
     billId,
     covered: covered.length,
