@@ -296,6 +296,103 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.80.0
+
+_Released November 4, 2026._
+
+### Added
+
+- **The opening's address names your governor and your state's chamber leaders
+  over your state's capitol.** When the President's address turns to the states,
+  the picture cuts to your own state's capitol and names your governor and the
+  leaders of your state's legislature.
+
+- **Who you are shows your town's population and how many moved in and out this
+  year.** The Home plate on Who you are gives your town's population and this
+  year's moves ("Population 1,376 · 2 moved in, 13 moved out this year"),
+  counted from the households that moved.
+
+- **When you have no job, Who you are says how your household gets by.** On Who
+  you are, under Jobs and study, a grown character with no job now reads why:
+  who at home earns and where ("your household lives on what Patrick Matthews
+  earns at Chang Inn"), or that nobody at home draws a wage.
+
+- **Loading a new game plays your town's story: a year counter through your
+  life, your journal writing itself, headlines and the map.** While a new game's
+  first scene is drawn, a panel plays the world that was just built: the years
+  of your life count up, each year writes its lines of your story and prints the
+  headlines you heard, and your state's map fills in county by county, your
+  districts last. A click ends it early.
+
+- **After public comment on a bill, a resident who spoke comes to you, as a
+  member, about the bill and the side they took.** When you sit on a council or
+  board and residents speak at public comment before a vote, one of them may
+  catch you afterward ("You heard what I said about Ordinance 2025-3. I'm asking
+  you to vote for it."). What you answer is kept: you can stand by your view,
+  give ground, offer to talk later, or brush them off.
+
+### Fixed
+
+- **An official who returns to an office is paid again without a crash, and
+  their earlier service stays on record.** Officials who return to an office
+  after leaving it receive a new job record, preserving their earlier service
+  history and avoiding a crash when payroll resumes.
+
+- **Races name their district in words, such as District 5, instead of a code
+  like (05), and say it once.** At the clerk's counter, on Campaigns, in
+  Government and on election night, a race's title names its district as
+  "District 5" rather than the records' "(05)", and the counter no longer
+  repeats it as "Seat 05". A seat elected at large shows no district.
+
+- **Election night shows every governor race around the country on its own page,
+  two columns that fit the window.** After your race is called, election night
+  turns to a page of the other states' governor races: each state, the winning
+  party and the margin in whole points, in two columns that fit a 1024 by 768
+  window with nothing cut off. Before, the rows were added under your race's
+  count and the ones past the panel's foot could not be seen.
+
+- **A colleague asking for your vote meets you in your body's chamber, and a
+  visit about a bill is at the office, not a living room.** Scenes the game
+  stages in a council or legislative chamber now show that body's own room, the
+  same one the body's sitting shows. Scenes at an official's office show the
+  city hall hallway or an office. Before, both showed a house.
+
+- **Your Journal tells your own lost race as yours, not a relative's.** When a
+  relative helped your campaign, the Journal could tell your loss as theirs ("My
+  father lost the race for Selectman."). It now reads who ran from the race's
+  result, so it says you lost.
+
+- **When you lose a race, the paper no longer says you beat the person who
+  won.** The race story's line about your opponent now follows the count: "Avery
+  Cooper beat Emily Carter." when you lost, "Emily Carter beat Avery Cooper."
+  only when you won.
+
+- **Keep governments with empty opening treasuries valid** A government that
+  starts with no available reserve now keeps a valid budget record without an
+  absent journal number. Its opening balance stays zero, and reopening budgets
+  does not fund it again.
+
+### Changed
+
+- **Local officeholders who hold a job weigh the time it takes when deciding to
+  run again, so more seats open up.** A council member or county officer with a
+  full-time job now weighs the hours it takes before standing for another term,
+  as anyone thinking of running does. About three in four holders run again,
+  near the real share, so more seats come open for newcomers.
+
+- **The title shows the Capitol, the White House and the Lincoln Memorial in
+  their lights, not conventions or rallies.** The title screen now turns through
+  the national monuments only: the U.S. Capitol in the morning, at midday, at
+  night and in the rain, the White House at midday and the Lincoln Memorial at
+  night. Conventions, rallies, chamber floors and the Oval Office no longer
+  appear there.
+
+- **When you work out what a law did to your household's bills, the scene says
+  which law and how much.** The scene where you connect a change in what you pay
+  to a law now names the law, by its bill's name or what it is about, and the
+  amount: "The law on electricity and the grid cost your household $4.13." or
+  "The law on transportation put $9.61 back in your household's hands."
+
 ## PRE-ALPHA 0.79.0
 
 _Released November 4, 2026._

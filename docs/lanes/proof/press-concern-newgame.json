@@ -1,0 +1,58 @@
+{
+  "head": "d524292988be225798c206d63b9f0150a52cd4e7",
+  "replay": "0a4e006def4e471c",
+  "place": "Talofofo, Guam",
+  "failure": null,
+  "personId": "person_224a1c0b0342108d",
+  "steps": [
+    {
+      "route": "POST /api/newlife?seed=0a4e006def4e471c",
+      "status": 200,
+      "seconds": 11.072074574999998
+    },
+    {
+      "route": "POST /api/advance?mode=week",
+      "status": 200,
+      "seconds": 0.01696654099999978
+    },
+    {
+      "route": "POST /api/advance?mode=week",
+      "status": 200,
+      "seconds": 1.1712626409999993
+    },
+    {
+      "route": "POST /api/advance?mode=week",
+      "status": 200,
+      "seconds": 2.270932605
+    },
+    {
+      "route": "POST /api/advance?mode=week",
+      "status": 200,
+      "seconds": 0.000779911000001448
+    },
+    {
+      "route": "POST /api/resume?pauseId=player%3Aperson_224a1c0b0342108d%3A16",
+      "status": 200,
+      "seconds": 0.5412566990000014
+    },
+    {
+      "route": "GET /api/scene?id=person_224a1c0b0342108d",
+      "status": 200,
+      "seconds": 0.01100692699999854
+    },
+    {
+      "route": "GET /api/journal",
+      "status": 200,
+      "seconds": 0.0011322189999991678
+    }
+  ],
+  "mainIntegration": {
+    "head": "829947c08e61c1f24812dee3bfdb0c9a376b0821",
+    "replay": "8be5bbc5382de8f1",
+    "place": "Ramah, New Mexico",
+    "failure": null,
+    "personId": "person_11236e4dc7044666",
+    "weeks": 4,
+    "statuses": [200, 200, 200, 200, 200, 200, 200, 200]
+  }
+}

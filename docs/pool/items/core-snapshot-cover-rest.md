@@ -5,9 +5,9 @@ area: core
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: done
 claimed-by: lane-5/snapshot-cover
-pr: #5036
+pr: #7229
 blocked-on:
 source: "core-needs-core-172 triage, Oct 15"
 claimed-at: 2026-11-04T02:10:41.786Z
