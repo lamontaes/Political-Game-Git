@@ -42,16 +42,7 @@ export function billValueInForce(
   jurisdiction: string,
 ): BillValue {
   if (subject.kind === "budget-line") {
-    const all = api.state.modules.has(BUDGETS_MODULE_ID)
-      ? governments(api)
-      : [];
-    const government =
-      all.find((row) => row.id === jurisdiction) ??
-      all.find(
-        (row) =>
-          api.state.organizations.get(row.organizationId)?.governmentFacts
-            ?.governmentKey === jurisdiction,
-      );
+    const government = governmentFor(api, jurisdiction);
     const budget = government && budgetInForce(api, government.id);
     return {
       value:
@@ -67,9 +58,13 @@ export function billValueInForce(
     subject.kind === "policy-question" ? subject.question : subject.series;
   if (!series) return { value: null, unit: null, recordId: null, row: null };
   const answer = lawInForce(api, series);
-  const at = answer.levels.findIndex(
-    (row) => row.jurisdiction === jurisdiction,
-  );
+  let at = answer.levels.findIndex((row) => row.jurisdiction === jurisdiction);
+  if (at < 0) {
+    // Offices use government-unit keys. A township key already in the law
+    // chain stays itself; county and municipal keys resolve via their treasury.
+    const government = governmentFor(api, jurisdiction);
+    at = answer.levels.findIndex((row) => row.jurisdiction === government?.id);
+  }
   if (at < 0) return { value: null, unit: null, recordId: null, row: null };
   const own = answer.levels[at]!;
   let row: LawRowInput | null = null;
@@ -86,7 +81,7 @@ export function billValueInForce(
           level.row &&
           (level.level === "federal" ||
             level.level === "state" ||
-            level.jurisdiction === jurisdiction ||
+            level.jurisdiction === own.jurisdiction ||
             own.level === "city"),
       );
     if (answer.doctrine === "floor") {
@@ -100,4 +95,17 @@ export function billValueInForce(
     recordId: row?.id ?? null,
     row,
   };
+}
+
+/** The treasury already records both its law key and its office unit key. */
+function governmentFor(api: CoreAPI, jurisdiction: string) {
+  const all = api.state.modules.has(BUDGETS_MODULE_ID) ? governments(api) : [];
+  return (
+    all.find((row) => row.id === jurisdiction) ??
+    all.find(
+      (row) =>
+        api.state.organizations.get(row.organizationId)?.governmentFacts
+          ?.governmentKey === jurisdiction,
+    )
+  );
 }

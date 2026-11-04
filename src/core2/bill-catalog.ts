@@ -37,6 +37,7 @@ interface CatalogPolicy {
 export interface DraftablePolicy extends CatalogPolicy {
   readonly inForce: number | null;
   readonly inForceRecordId: string | null;
+  readonly inForceUnit: string | null;
   readonly authority: Authority;
 }
 
@@ -87,6 +88,7 @@ export function billCatalog(
             ...p,
             inForce: inForce.value,
             inForceRecordId: inForce.recordId,
+            inForceUnit: inForce.unit,
             authority:
               level === "city"
                 ? authorityFor(api, provision)

@@ -2,6 +2,7 @@
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
+import { seatView } from "../bench/legislature";
 import { buildBenchWorld } from "../bench/world";
 import { billCatalog } from "./bill-catalog";
 import { setBookkeeping } from "./bookkeeping";
@@ -66,6 +67,7 @@ for (const place of places) {
     let budgetsChecked = 0;
     let stateChecked = 0;
     let localChecked = 0;
+    let draftCardsChecked = 0;
     for (const office of offices) {
       if (office.level === "federal") continue;
       const draft = (provisions: readonly Provision[]) =>
@@ -99,10 +101,30 @@ for (const place of places) {
         menu.topics.flatMap((topic) => topic.policies),
       );
       const taxCard = policies.find((p) => p.series === "income-tax");
+      const resident = members(api, office.id).find((term) => term.personId);
+      const screen =
+        resident &&
+        seatView(core, resident.personId!).bodies.find(
+          (body) => body.officeId === office.id,
+        );
+      if (resident) expect(screen, office.id).toBeDefined();
+      const screenItems = screen?.menus.flatMap((menu) => menu.items);
       if (level === "city") {
         expect(taxCard, jurisdiction).toBeDefined();
         expect(taxCard!.inForce, jurisdiction).toBe(paper.before.value);
         expect(taxCard!.inForceRecordId, jurisdiction).toBe(paper.before.lawId);
+        if (screenItems) {
+          const shown = screenItems.find(
+            (item) => item.series === "income-tax",
+          );
+          expect(shown, office.id).toBeDefined();
+          expect(shown!.inForce).toBe(paper.before.value);
+          expect(shown!.today?.value ?? null).toBe(paper.before.value);
+          expect(shown!.today?.recordId ?? null).toBe(paper.before.lawId);
+          if (ownTax?.value !== null && ownTax?.unit)
+            expect(shown!.today?.unit).toBe(ownTax.unit);
+          draftCardsChecked++;
+        }
       }
       process.stdout.write(
         `BILL-VALUE ${JSON.stringify({
@@ -140,6 +162,14 @@ for (const place of places) {
         expect(policy.inForceRecordId).toBe(budget.id);
         expect(section.before.value).toBe(value);
         expect(section.after.value).toBe(value + 100);
+        if (screenItems) {
+          const shown = screenItems.find((item) => item.line === policy.line);
+          expect(shown?.today, office.id).toEqual({
+            value,
+            unit: "minor",
+            recordId: budget.id,
+          });
+        }
         expect(billValueInForce(api, policy, jurisdiction).recordId).toBe(
           budget.id,
         );
@@ -179,5 +209,6 @@ for (const place of places) {
     expect(stateChecked, place.name).toBeGreaterThan(0);
     expect(localChecked, place.name).toBeGreaterThan(0);
     expect(budgetsChecked, place.name).toBeGreaterThan(0);
+    expect(draftCardsChecked, place.name).toBeGreaterThan(0);
   }, 240_000);
 }
