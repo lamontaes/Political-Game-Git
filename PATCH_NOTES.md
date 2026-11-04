@@ -296,6 +296,42 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.81.0
+
+_Released November 4, 2026._
+
+### Added
+
+- **On election night, once the returns close, your own result's scene plays:
+  the concession call when you lose.** After the returns of your race close on
+  election night, the scene the story staged for your result plays that night:
+  the call to concede when you lost, rather than skipping straight to the next
+  morning.
+
+### Improved
+
+- **Reporters weigh concern from local adults in both population tiers**
+  Reporters weigh local adults' concern when choosing interview questions,
+  including the people represented by counted households. Children and people
+  elsewhere no longer inflate local concern, and a newly heard stance is visible
+  to the next interview that day.
+
+### Fixed
+
+- **Parties, Government and News fit their windows without scrolling, down to
+  1024 by 768.** Parties now shows each party's officeholders under the map,
+  paged, instead of beside a tray of join buttons where they ran off the panel.
+  Government keeps the recent votes that fit above your mayor, and the newspaper
+  fits its front page: the lead's photo shrinks, and stories that don't fit wait
+  for another day.
+
+### Changed
+
+- **A county race is voted by the whole county, not just your town.** When you
+  run for a county seat, the people of the rest of the county vote too, beside
+  your own town's voters. Your campaign, its petition and its reach are sized to
+  the county.
+
 ## PRE-ALPHA 0.80.0
 
 _Released November 4, 2026._
