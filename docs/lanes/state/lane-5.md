@@ -75,6 +75,13 @@ Every unit gets one before it starts (lane page, CTO rule). Units 1 and 2 were s
 - **Hands off / known cheats / checked by:** as the step above.
 - **Size:** one parameter row, under 20 lines.
 
+### Red main, Nov 4 07:45: builds stopped (CTO's note)
+
+- **Found:** every Release run on main since #7193 merged (06:43) fails at "Enforce declarations": runs 12112, 12114, 12115, 12116, 12117 and 12118, plus the two Release package runs (12111, 12113 cancelled). The first and the two newest logs read: `docs/release/changes/lane-2-first-minutes-proof.md: impact:none must not carry 'section' or 'title'`. The file came in with Lane 2's 3e377288ee. Newest build is still v0.78.0.
+- **Fix:** #7201 drops the two lines; `release:check --mode pr` prints OK on it. After it merges I'll confirm that a Release run on main passes, in case another failure is behind this one.
+- **Stopping it again without holding a merge (proposal for the CTO):** the declaration check could run in the `new game` job as a report only: it prints the release check's error into the job summary and the PR, without failing the job, so the desk sees it before merging. Or the push-mode check could set a malformed `impact: none` declaration aside with a warning instead of stopping the build, since such a file changes nothing a player sees. I have built neither; the second changes what the release check refuses, so it needs the CTO's word.
+- Also open: #7200 (people no longer approach an office with no staff; public-knowledge-index.test.ts was red on clean main).
+
 ### Unit 9: real save and load (waiting on Lane 3)
 
 - **Finish line (path 6):** play two months, quit, reopen: Continue returns the same date and people, and the load doesn't grow with played years.
@@ -86,7 +93,9 @@ Every unit gets one before it starts (lane page, CTO rule). Units 1 and 2 were s
 
 ## Open PRs
 
-- None (#7198 merged).
+- #7201 (red main): the impact-none declaration that stops every build.
+- #7200: an office to approach needs staff (a test red on main).
+- Branch `lane-5/experienced-key-window` (unit 7, second cut): proof run going; PR after it.
 
 ## Merged
 
