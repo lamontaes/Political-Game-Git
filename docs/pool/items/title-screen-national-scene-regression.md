@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: lane-4/title-monuments
-pr:
+pr: #7213
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-04T08:33:35.321Z
