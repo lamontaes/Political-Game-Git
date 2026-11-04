@@ -6,13 +6,26 @@
 
 Four open PRs: housing #7147, unemployment #7153, sibling names #7157 and lobbying #7160. Parent birthdays #7143 is on main. No whole path is Built or Verified. Earlier entries below retain the work record; this paragraph is the current position. All four open units have passed New Game in another session. The merge desk reports that its session may merge only the owner's earlier November 3 list; goal authorization evidence was relayed on #7153 without merging or bypassing its permission boundary.
 
-Lobbying natural proof completed in Winchester, Massachusetts (2580545), replay e25e0b67dfb8fa1a: David Morton and Ayanna Waller were re-elected with no departure bar; living former officials Dana Mercer and Marcus Parks received the actual one-year law's expiry dates after their recorded departures. Ten resident fixture draws and both ablations pass. These are reader witnesses, not observed lobbying hires or a newly voted law. Proof: [lobbying departure](../proof/lobbying-departure.md). Independent New Game: Freeville, New York / 34311843e8c1e59e, four weeks, desk head 3c0edad7235096a8124e3966a61c0a4b95084c2f.
+Lobbying natural proof completed in Winchester, Massachusetts (2580545), replay e25e0b67dfb8fa1a: David Morton and Ayanna Waller were re-elected with no departure bar; living former officials Dana Mercer and Marcus Parks received the actual one-year law's expiry dates after their recorded departures. Ten resident fixture draws and both ablations pass. These are reader witnesses, not observed lobbying hires or a newly voted law. Proof: [lobbying departure](https://github.com/lamontaes/Political-Game-Git/blob/lane-2/lobbying-departure/docs/lanes/proof/lobbying-departure.md). Independent New Game: Freeville, New York / 34311843e8c1e59e, four weeks, desk head 3c0edad7235096a8124e3966a61c0a4b95084c2f.
 
 Timing queue stays serial. Sibling comparison passed all four years in Niarada MT / 419935957e6de373. The unemployment retry completed its controlled base in Severance CO (0869150) / c62f44a716f82f64: 108.7 / 240.8 / 196.4 / 857.0 seconds, exit 1 for the unchanged 120-second absolute target. Year four retained 2,534,245 records, heap 4,698 MiB and RSS 7,405 MiB; Lane 5 received the existing-growth evidence on #7149. Corrected year one is 115.6 seconds (+6.3%); years two through four remain pending, so no full relative pass is claimed. Next run the small queued superseded-law regressions, then lobbying timing. Do not count interrupted/crashed runs as passes. The initial Absecon Highlands payroll crash remains filed; no identical failure has occurred three times.
 
 First minutes still needs homes before the first card/scene read. Burnet TX / 6e32d4b3c4eb3d6e opens with dwelling:null. The proposed narrow Lane 2–4 agreement is published on lane-2/opening-home-agreement at dc32db4438, still pending acceptance; no shared bench edit. Lane 5 was asked to route the new bounded opening-home item and repair the payroll item's metadata. The earlier manual metadata additions were restored, after automatic review rejected a direct main push. The official pool workflow records lobbying as in-pr / #7160.
 
 Order remains First minutes and Quick fixes. While the bill-reader and opening-home agreements are pending, finish the three outstanding timing checks and inspect the next owned law-chain unit. No ownership question is treated as a machine block.
+
+## Current proof index
+
+These are pool-unit proofs. None establishes a whole played path on main.
+
+| PR | Built evidence | Independent New Game | Proof |
+| --- | --- | --- | --- |
+| #7147 housing | Norcross MN / b2; named rent payments. Four years within +3.4% in Fananganan / 974331fb899c5fa7. | Republic MO / 2a1c49dff8db9fc2, four weeks, desk head 6ad84c4e5f. | [Dwelling coverage](https://github.com/lamontaes/Political-Game-Git/blob/lane-2/dwelling-coverage/docs/lanes/proof/dwelling-coverage.md) |
+| #7153 unemployment | Severance CO / c62f44a716f82f64; Danielle Stone receives 26 payments, $13,010.92. Four-year relative timing still running. | Stockton Bend TX / 386cad3faa37935b, four weeks, desk head bbbd32e463. | [Wage basis](https://github.com/lamontaes/Political-Game-Git/blob/lane-2/unemployment-basis/docs/lanes/proof/unemployment-wage-basis.md) |
+| #7157 sibling names | Mazomanie WI / b37762f4-7895-40f5-8d83-0634db5b60cb; chosen RILEY and sibling Hailey agree across card and history. Four years within +7.7% in Niarada / 419935957e6de373. | Vera OK / 567be656347db8c8, four weeks, desk head 4d11826203. | [Sibling names](https://github.com/lamontaes/Political-Game-Git/blob/lane-2/sibling-names/docs/lanes/proof/sibling-names.md) |
+| #7160 lobbying | Winchester MA / e25e0b67dfb8fa1a; actual re-elections have no bar and living departed officials have recorded-law expiry dates. Timing pending. | Freeville NY / 34311843e8c1e59e, four weeks, desk head 3c0edad723. | [Lobbying departure](https://github.com/lamontaes/Political-Game-Git/blob/lane-2/lobbying-departure/docs/lanes/proof/lobbying-departure.md) |
+
+Parent birthdays #7143 is merged; [its proof is on main](https://github.com/lamontaes/Political-Game-Git/blob/main/docs/lanes/proof/parent-birthdays.md). The First minutes opening-home gap and all fourteen whole-path checks remain open.
 
 ## Plan and ownership
 
