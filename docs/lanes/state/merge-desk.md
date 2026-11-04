@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 151 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 152 pull requests merged. Newest state at the top of each section.
 
 ## What the owner can play now
 
@@ -86,7 +86,7 @@ New on Nov 3:
   - A pool fix (#7145).
   - A state page (#7146).
 
-## Lane PRs merged on Nov 4 (116), on the owner's word ("You may merge lane PRs that pass the new-game check")
+## Lane PRs merged on Nov 4 (117), on the owner's word ("You may merge lane PRs that pass the new-game check")
 
 Each had main merged in again, passed `npm run new-game-check` (a town drawn from all 56, a new life, four weeks) and merged pinned to that head.
 
@@ -208,6 +208,7 @@ Each had main merged in again, passed `npm run new-game-check` (a town drawn fro
 | #7259 | The Who you are screen names a school only while you are at one                                                                                                     | Le Flore, Oklahoma                   | 140712322f5732a5 |
 | #7260 | A debate no longer plays as a string of campaign stops                                                                                                              | Si'ufaga, American Samoa             | 7dd51ce1ca56416d |
 | #7261 | Campaign asks are answered in the speaker's own words                                                                                                               | Ames, Texas                          | 388a503fc8ccc7e0 |
+| #7262 | Volunteer and endorsement answers are spoken by each person on screen (agreement 3-4)                                                                               | Foster Center, Rhode Island          | 08862fee2ae54c14 |
 
 Conflicts resolved mechanically: #7154 (both sides added a parameter and a stopgap row; both kept), and #7153, #7157, #7160, #7162 (Lane 2's state page: main's wording for the one edited line, both sides' log entries kept). Mac builds started after 5, 13, 18, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 91, 96, 102, 107 and 113 of these merges.
 
