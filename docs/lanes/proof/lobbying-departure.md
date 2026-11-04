@@ -26,3 +26,11 @@ Each command uses OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14", N
 | Elliott, North Dakota (3823340)         | f241eb99da777483 | bde8ea8ff2b068cffb201dd95161b6d0759368836cdc07308a560ae4124252da | person_fd36917c7533f741 | Pass   |
 
 All ten runs passed. Each log names skipped draws, the standing law ID, its period and the fixture departure/expiry dates. The assertions also cover another seat in the same office, a different office, an interrupted return, opening re-election history and ending a stale reach row.
+
+## New Game and first natural year
+
+Source 00cb393a73 passed New Game in Burnet, Texas, replay 6e32d4b3c4eb3d6e: four weeks, scene and Journal returned 200. Log /tmp/lane-2-lobby-newgame.log. The opening inspection separately found dwelling:null, recorded for the First minutes follow-up rather than counted as a housing pass.
+
+Revere, Massachusetts (2556585), replay 7b7b49a74432ac15, world 6995c155a167457e88b03773d9709047d61494856025c0b3139df9700ea53f1c, completed one year through 2026-01-20 without an inserted law, election result or departure. Skyler Wu (person_491d10f7b1d4dd00), Brian Osborn (person_a80265ccc1f1a8cd), Brian Carson (person_3173fb0a2a53832b) and Jacqueline Barrett (person_4a7eed40343e31da) were re-elected, took their next terms on 2026-01-01 and returned no former-official bar. For Skyler, term:seat:gus2025:211226:council:0:2025-01-20 ended with “term ended”; term:seat:gus2025:211226:council:0:2026-01-01:elected continues the same person's service. The standing law is law:US-MA:state:us-policy-positions:government-operations.ban-lobbying-after-office:general:starting, with a one-year period.
+
+That run produced zero departures, so the departure assertion failed. It proves continuous re-election only; the second half remains unproven in natural play. Raw records/log: /tmp/lane-2-lobby-natural-attempt-1/. A second fresh draw is running with the assertion retained and a living former-official witness required. Calls made by the observer are reader checks, not proof that an interest group appointed or rejected a lobbyist.
