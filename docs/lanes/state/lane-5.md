@@ -113,13 +113,12 @@ Every unit gets one before it starts (lane page, CTO rule). Units 1 and 2 were s
 
 ## Open PRs
 
-- #7252: a missing part whose rebuild finds nothing stays missing (fixes `snapshot.test.ts` red by seed on main).
-- #7253: the housemates-seeded and roster-size marks are saved (Lane 1 and Lane 2 to confirm).
+- #7254 (skills): speed-work says how to find what a save misses.
 
 ## Merged
 
 - Nov 3: #7140, #7141, #7144, #7145, #7146.
-- Nov 4: #7148, #7149, #7155, #7158, #7161, #7172 (rehire), #7176 (group quarters: Storrs 142.9 s to 93.3 s), #7177 (every-locality sweep), #7180 (eight browser checks wait for filing), #7181 (Storrs eviction case, red main), #7182 (no-dice entry for sibling names, red main), #7183 (lane state files need no release declaration), #7190 (Lane 5's part of the red guards), #7173 (skills), #7198 (a met-once contact's log kept three months), #7200, #7201, #7206, #7210, #7221, #7224, #7225, #7227, #7229 (unit 9's restore step, 10:48), #7237 (drives runtime saved), #7247 (trait-lean cache reset on restore).
+- Nov 4: #7148, #7149, #7155, #7158, #7161, #7172 (rehire), #7176 (group quarters: Storrs 142.9 s to 93.3 s), #7177 (every-locality sweep), #7180 (eight browser checks wait for filing), #7181 (Storrs eviction case, red main), #7182 (no-dice entry for sibling names, red main), #7183 (lane state files need no release declaration), #7190 (Lane 5's part of the red guards), #7173 (skills), #7198 (a met-once contact's log kept three months), #7200, #7201, #7206, #7210, #7221, #7224, #7225, #7227, #7229 (unit 9's restore step, 10:48), #7237 (drives runtime saved), #7247 (trait-lean cache reset on restore), #7252 (empty retention queue on restore), #7253 (housemates-seeded and roster-size marks saved).
 - Nov 4 10:45: v0.80.0 published (Mac and Windows). Release package run 60 hit a GitHub 502 creating the release; rerunning the failed job published it.
 
 ## Failed or blocked
