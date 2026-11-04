@@ -35,7 +35,7 @@ Restoring only budgets.ts from main bf4e8386cd makes the same full-world observe
 
 The four-year comparison did not complete. On pinned main bf4e8386cd, Wolf Creek Colony, South Dakota (4672500), replay dc5525b9b709e9c4, host 4c46091479ea, years 1–3 took **86.3/198.0/188.5 seconds**. Year four crashed in official-pay.ts seat → startSalariedPost: `A salaried post needs a living person, a recorded employer and no shift hours.` This is another reproduction of the existing gov-official-pay-reseating-crashes-year-four item, not a treasury timing pass. The corrected run never started. The wrapper restored budgets.ts byte-for-byte. Base raw metadata records HEAD b58a4d66c0 and sourceMain bf4e8386cd because only this production file was temporarily replaced; this was a controlled source comparison, not a detached main checkout. The original logs/three-year receipt are retained under /tmp/lane-2-zero-opening-cash-speed-*.
 
-The salary repair merged as #7217 (db7a019177fb4a4de87b24cd3b507ef8fb024657). Its corrected Wolf Creek run on df5caffa89 completed four years at 78.0/201.8/164.1/783.2 seconds. The zero-cash branch incorporates that exact producer by ordinary merge. Production source differs from df5caffa89 only in this seven-line budgets.ts return; this completed receipt is the controlled comparison base. It is not relabeled as latest main, which has additional unrelated changes. The zero-cash comparison is pending. Independent main replay remains the checker's work.
+The salary repair merged as #7217 (db7a019177fb4a4de87b24cd3b507ef8fb024657). Its corrected Wolf Creek run on df5caffa89 completed four years at 78.0/201.8/164.1/783.2 seconds. The zero-cash branch incorporates that exact producer by ordinary merge. Production source differs from df5caffa89 only in this seven-line budgets.ts return; this completed receipt is the controlled comparison base. It is not relabeled as latest main, which has additional unrelated changes. The zero-cash comparison now completes all four years within 20 percent, with all fingerprints and table digests identical. Independent main replay remains the checker's work.
 
 ## Checotah and drawn opening regressions
 
@@ -52,3 +52,20 @@ The new opening-treasury-json.test.ts checks every government's finite opening a
 All three pass: 47.31 seconds of tests / 56.72 total. Restoring only the original writer makes Checotah fail through the unchanged JSON guard (one failed, two skipped; 10.92 / 20.44 seconds); corrected source restored byte-for-byte. Reproduce with `OPENING_TREASURY_SEED=1f67dd9fee9d631f` and the required environment, `npm exec -- vitest run src/core2/opening-treasury-json.test.ts --maxWorkers=1 --reporter=verbose`. The unchanged legislature suite's earlier 20 passing cases remain pinned to their original source.
 
 Integrated New Game passes **Big Pine Key, Florida / 769fd576a0db7190**, player person_ea79faa836e4182c, through four weeks; all new-life, advance, resume, scene and Journal requests return HTTP 200. This is unit proof, not another confirmed played path.
+
+## Completed four-year comparison
+
+Wolf Creek Colony, South Dakota (4672500), replay dc5525b9b709e9c4, host 4c46091479ea. Pinned repaired base df5caffa8908557f2c09d84bf9002e7c34e61ce1 versus zero-cash head 84acb1f3b969b3573619cde507a9a0459bab7bc3; only budgets.ts differs in production. No redraw or change to the benchmark.
+
+| Year | Base seconds | Corrected seconds | Change  | Same fingerprint and every table |
+| ---- | ------------ | ----------------- | ------- | -------------------------------- |
+| 1    | 78           | 89.2              | +14.36% | Yes, 03f95ffdaa896df8            |
+| 2    | 201.8        | 212.7             | +5.40%  | Yes, 27ee5b75b29b50a8            |
+| 3    | 164.1        | 162.3             | -1.10%  | Yes, a7f922f457c5f3c1            |
+| 4    | 783.2        | 793.2             | +1.28%  | Yes, a9eff2ac4a72c1aa            |
+
+All four years complete through January 19, 2029. Maximum slowdown is 14.36 percent. Exit 1 is solely the absolute 120-second bar in years 2–4, which both versions exceed. The first sandbox attempt completed year 1 at 84.4s then failed while recording HEAD (`spawnSync git EPERM`); its log is retained, and the unchanged command was rerun with process permission. No partial or permission-failed run is counted as a four-year pass.
+
+```sh
+OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" NODE_OPTIONS=--max-old-space-size=8192 npm run speed:year -- --seed dc5525b9b709e9c4 --years 4 --max-seconds 120 --exclusive --baseline /tmp/lane-2-official-pay-wolf-after.json --same-records --out /tmp/lane-2-zero-opening-cash-speed-head.json
+```
