@@ -5,11 +5,12 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: lane-4/title-monuments
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T08:33:35.321Z
 ---
 
 **What.** The current main title-screen test fails before and after PR #6178 because TITLE_SCENES includes lincoln-memorial while the test rejects it. Reconcile the generated title scene list with the approved screen and backdrop rulings. Preserve the unrelated shared-panel implementation and report the original failing assertion.
