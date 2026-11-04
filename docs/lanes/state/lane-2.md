@@ -184,3 +184,17 @@ Replays by a session that built none of this lane's work, on main, from a fresh 
 - **Path 1, first minutes: pass.** Main 783974f6, Nov 4 06:29 to 06:37 UTC. All eight fixed towns, each at its replay number (Haleyville ab5f58e9be125c95, Murray 1d3f0e18ca4ba7e5, Meadow Lakes f835dd278d7312a1, Brookside 4d50e1f88df997f9, Storrs storrs-1, Washington, D.C. dc-closures-a, Cabo Rojo f857db7436bf7449, Santa Rita 6f539fcfdf6d96f9-5); each printed the town it was asked for. In the browser: no sibling named Emily (the player's name) in any town; no parent younger than 15 at a child's birth (youngest seen: a grandmother at 16 in D.C., a mother at 17 in Storrs); the room matches the home on Money in every town (rented mobile home and trailer room in Haleyville, rowhouse and rowhouse room in D.C., apartments and apartment rooms in Brookside and Cabo Rojo, houses and the house living room elsewhere). No page errors, no failed requests, no day advanced. Proof: `docs/lanes/proof/confirmer-lane2-path1/` (README, room, People and Money screenshots, the cards per town).
   - Replayed again on main fb000259ca (after #7203 to #7217 merged, including the opening's key people and who stands again): the same in all eight towns, no page errors. Screens in the same scratch run; the committed proof stands.
   - Seen for the owner's look, not a fail: Cabo Rojo's 18-year-old mother of two gets the student shared-apartment room; Haleyville's mother reads "Police Chief" at "CITY OF HALEYVILLE treasury".
+- **Paths not replayed, and why** (pool on main 7898b3ea2c; a path is ready when every item its unit lists is done):
+  - 2, a vote reaches a person: `laws-end-to-end-proof`, `laws-hold-record-names-the-sponsor` open, `web-views-hear-conditions-moves-stance` blocked.
+  - 3, Congress passes a law: `gov-congress-passes-policy-laws` and two federal-questions items open.
+  - 4 and 5, other states and a sane session: `gov-every-state-and-town-governs`, `laws-session-moves-too-many-questions` open.
+  - 6, a medical bill: `health-medical-debt-record` and `world-medical-spending-categories` in PR, `people-health-conditions-begin` open.
+  - 7, money makes sense: `world-player-jobless-no-offers`, `people-estate-wealth-top-tail` open, `housing-mortgage-balance-grows-while-paid` in PR (#7243 merged part of it).
+  - 8, a layoff: `world-customers-move-between-sellers`, `world-job-turnover-far-below-jolts` open.
+  - 9, couples: `people-partnership-forms`, `people-partnership-ends`, `people-leave-parents-home`, `core-every-life-simulated` open.
+  - 10, neighbors differ: `traits-neighbors-gap-routine`, `traits-end-to-end-proof` open.
+  - 11, the crowd moves: `people-counted-readers-stances-from-stories` claimed, two items open.
+  - 12, towns keep their people: `world-town-net-moving-negative` open.
+  - 13, town life: three world items open. 14, a bribe: two corruption items open.
+- **Path 1 checked against merges after its result:** #7222 (a treasury may open with no cash), #7243 (mortgage balances paid month by month) and #7241 (the people kit) change neither names, ages nor the kind of home and room on the first evening.
+- **Units (each merged PR's own tests on main 7898b3ea2c, the replay seed from the proof table above; `docs/lanes/proof/confirmer-units/`). A unit never moves the count.** All pass: #7143 (Hebron's seed), #7147, #7153 (c62f44a716f82f64), #7157 (b37762f4-7895-40f5-8d83-0634db5b60cb), #7160 (e25e0b67dfb8fa1a), #7162 (2fa4d8f150b51d99), #7164 (fb1831bebc2a4db0), #7189 (6e32d4b3c4eb3d6e), #7217, #7222, #7243.
