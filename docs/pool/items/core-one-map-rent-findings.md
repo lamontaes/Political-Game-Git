@@ -5,11 +5,12 @@ area: docs
 kind: cleanup
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: pool-rent-findings
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-05T08:47:35.845Z
 ---
 
 **What.** Record the rent measurement, the Storrs causes and the eviction recalibration findings on the housing items.
