@@ -908,6 +908,9 @@ const sessionTable = (api: CoreAPI) =>
 export function legislativeSessionsOf(
   api: CoreAPI,
 ): readonly LegislativeSession[] {
+  // The floor readers are registered once for the process; a world that did
+  // not install this engine has no sessions.
+  if (!api.state.modules.has(WORLD_LEGISLATING_MODULE_ID)) return [];
   return sessionTable(api).rows() as unknown as LegislativeSession[];
 }
 
