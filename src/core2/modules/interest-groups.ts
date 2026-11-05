@@ -21,8 +21,10 @@ import { currentCloseness } from "../closeness";
 import { countedPersonOf } from "../counted-actor";
 import { parameter } from "../parameters";
 import { leanedYes } from "../trait-decisions";
+import { inTownChain } from "../laws-in-force";
 import { lawChain } from "./laws";
 import {
+  billJurisdiction,
   chambersOf,
   employerCosts,
   LEGISLATURE_MODULE_ID,
@@ -202,6 +204,10 @@ export function ownerJoins(
 function organize(api: CoreAPI, billId: string): void {
   if (!api.state.modules.has(INTEREST_GROUPS_MODULE_ID)) return;
   const b = bill(api, billId);
+  // The town's residents and employers organize over law that reaches them:
+  // the nation's and the town's own chain's, never another state's.
+  const government = billJurisdiction(api, b);
+  if (government !== "US" && !inTownChain(lawChain(api), government)) return;
   organizeResidents(api, b);
   for (const stake of employerStakes(api, b)) organizeEmployers(api, b, stake);
 }
