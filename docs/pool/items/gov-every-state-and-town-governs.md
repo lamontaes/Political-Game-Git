@@ -6,7 +6,7 @@ lead: laws
 kind: bug
 priority: 1
 size: L
-status: done
+status: open
 claimed-by:
 pr: #7297
 blocked-on:
