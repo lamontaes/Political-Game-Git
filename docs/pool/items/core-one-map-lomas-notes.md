@@ -5,11 +5,12 @@ area: docs
 kind: cleanup
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: pool-lomas-rent-notes
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-05T04:00:16.359Z
 ---
 
 **What.** Write the traced cause of the Lomas rent shortfall and the fix that was tried and not shipped onto the housing item's Notes.
