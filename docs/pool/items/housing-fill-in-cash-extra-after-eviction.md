@@ -20,4 +20,4 @@ source: added with npm run pool -- add
 
 **Files.** src/core2/modules/residents.ts, src/core2/housing-counted-evicted.test.ts
 
-**Notes.** TODO
+**Notes.** Resolved as a test assumption, not an engine bug (One Map, Nov 5). Trace: the household had been filled in once, returned to the counts, evicted and filled in again; its person record kept 67,052 minor of pay it had collected, and the second fill-in added exactly the group's share (348,620) on top, so 415,672 = 67,052 + 348,620. The test now asserts after = before + share (`housing-counted-evicted.test.ts`, branch `one-map-rent`). Still worth a look by the demotion owner: a demoted person record keeps collecting pay in its own account while the household is counted.
