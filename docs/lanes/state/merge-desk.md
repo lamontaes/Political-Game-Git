@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 180 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 182 pull requests merged. Newest state at the top of each section.
 
 **Stopped by the owner, Nov 4, 2:37 p.m. Eastern, at 161 merged; resumed on the owner's word at about 2:53 p.m. Eastern (relayed by the CTO). The desk merges One Map's PRs, and from Nov 5, 05:22 UTC also State Sessions' (every other state holds sessions), on the owner's approval relayed by the CTO. Lanes 1, 3, 4 and 5 are stopped and Lane 2 is off, so #7110 and #7127 stay open, and skills PRs #7233, #7254 and #7264 stay with the CTO.**
 
@@ -111,6 +111,8 @@ New on Nov 3:
 | #7287 | The place map's calendar and budget gaps are filled from statutes, and where county gaps were searched is recorded | Paradise Valley, Nevada                     | 9fb138f8f88ecefb |
 | #7291 | Records the rent findings on the two housing items (pool notes only)                                               | Cisco, Texas                                | 03aa88ca1de8c434 |
 | #7292 | The place map's gap report names every gap                                                                         | Hartland, Vermont                           | fe2842a90916fd6c |
+| #7293 | Eleven more places in the code read a place's state through the place map                                          | Brookline, Massachusetts                    | 9a7c47bf264a4c4f |
+| #7294 | Every town gets a county area; the place map's gap report is empty                                                 | Edgewater, Florida                          | ddbe99d770347def |
 
 ## State Sessions' PRs (from Nov 5)
 
