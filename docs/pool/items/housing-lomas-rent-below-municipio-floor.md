@@ -20,4 +20,6 @@ source: added with npm run pool -- add
 
 **Files.** src/core2/modules/housing.ts, src/core2/tooling/m1-05-check.ts
 
-**Notes.** TODO
+**Notes.** Cause traced (One Map, Nov 5). Each home's value is scaled by its household's income against the **owners'** own median scale (`ownerMedianScale`), but each rent is scaled against the **whole town's** median income. The sourced rent (ACS B25064) is the **renters'** median, and renters are the households left after the older, better-off ones are drawn as owners, so their median rent comes out below the municipio's. At Lomas the municipio (Canóvanas, 72029) median is $568 and the town's median rent comes out $345.
+
+Tried and not shipped: dividing each rent by the renters' median scale, as values already do for owners (branch `one-map-rent-renters`, pushed, no PR). It lifts Lomas to $535 to $544 and its rent clause passes, but it raises every town's rent by about half, and `housing-counted-evicted.test.ts` (Storrs, Connecticut) fails on seeds 6a82eee4d36f05a3 and 23a69275e4623bd5 where main passes both. Evictions and homeless counts are calibrated to today's rent levels, so the change needs the eviction and homeless calibration re-checked (and `housingRentIncomeElasticity` and `housingIncomeOffsetShare` re-read) in the same PR. That is the housing owner's call.
