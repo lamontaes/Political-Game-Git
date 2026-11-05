@@ -2134,5 +2134,17 @@
     "addedAt": "2026-11-04",
     "replacement": "The rest of the county's counted records weigh running for its seats by the same chooser, a drawn challenger filled in as a full person living elsewhere in the county (pool item elections-county-race-sees-only-the-town, step B).",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-outside-bills-no-dealing",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/legislature.ts",
+    "line": 0,
+    "whatItFakes": "Another government's bills (a state the player is not in, a county or town elsewhere) go to their markup and floor vote as filed: no sponsor works holdouts, no trade amendment or poison pill is moved.",
+    "why": "Dealing exists for the player to take part in; running it for 55 other legislatures a year is the largest part of what made a sitting year too slow (state-sessions work, Nov 5).",
+    "addedBy": "State Sessions session (claude/state-sessions-sit)",
+    "addedAt": "2026-11-05",
+    "replacement": "A coarse deal read from the members' saved positions and the sponsor's ties, written once per bill, so outside bills carry their amendments without a round per member.",
+    "status": "open"
   }
 ]

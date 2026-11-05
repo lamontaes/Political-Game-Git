@@ -4185,6 +4185,16 @@ function floorAmendments(
   const start =
     (table(api, "bills").get(bill.id) as unknown as BillRow | undefined) ??
     bill;
+  // Dealing is the sponsor working holdouts one by one, which only the player
+  // can take part in: another government's bill goes to its vote as filed.
+  // stopgapId: SG-GOV-outside-bills-no-dealing
+  if (
+    !inTownChain(lawChain(api), billJurisdiction(api, start)) &&
+    billJurisdiction(api, start) !== "US"
+  ) {
+    api.stopgap("SG-GOV-outside-bills-no-dealing");
+    return start;
+  }
   if (roll.length < 3) return start;
   const need = Math.floor(roll.length / 2) + 1;
   let current = start;
