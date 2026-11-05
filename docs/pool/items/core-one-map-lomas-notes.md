@@ -5,9 +5,9 @@ area: docs
 kind: cleanup
 priority: 3
 size: S
-status: claimed
+status: done
 claimed-by: pool-lomas-rent-notes
-pr:
+pr: #7286
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-05T04:00:16.359Z
