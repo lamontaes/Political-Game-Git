@@ -119,6 +119,8 @@ New on Nov 3:
 | #7298 | The filing tests start on the first day a contest opens in the drawn place, since filing windows are now real dates (tests only; pool item conflict joined mechanically) | Umbarger, Texas                             | 8da67bfd23e98214 |
 | #7300 | Rents sit near the real renter median for the county, and each household's rent follows the income it is actually paid (they ran 31 to 40 percent under)                 | Delaware Park, New Jersey                   | 874505f44de46093 |
 
+**Main's Mac build is red (Nov 5, run 42106943831).** One Map's #7298 imports `CoreState` from `./state`, which does not export it, so the typecheck fails in `src/core2/gov-test-clock.ts`. The fix is one line (import it from `./types`), asked for on #7298. The desk merges the fix on the new-game check when One Map opens it.
+
 ## State Sessions' PRs (from Nov 5)
 
 | PR    | What it does                                                                                                                                                                                                               | Town                             | Replay number    |
