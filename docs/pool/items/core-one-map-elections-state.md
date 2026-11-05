@@ -5,9 +5,9 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: one-map-budgets-elections
-pr:
+pr: #7280
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-04T23:55:29.679Z
