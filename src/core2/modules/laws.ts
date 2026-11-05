@@ -43,6 +43,7 @@ import {
 } from "../laws-starting";
 import {
   inForceOn,
+  inTownChain,
   LAW_SERIES,
   resolveLawInForce,
   type EnactedAuthority,
@@ -799,6 +800,13 @@ function lawTookEffect(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   const row = api.moduleState(LAWS_MODULE_ID).table("laws").get(id) as
     LawRowInput | undefined;
   if (!row || !inForceOn(row, api.state.date)) return;
+  // Another state's law is that state's own: it took effect there, and nothing
+  // in the player's town moves (the news of it is the Nation story's).
+  if (
+    row.jurisdiction !== "US" &&
+    !inTownChain(lawChain(api), row.jurisdiction)
+  )
+    return;
   // A row a later statute overrides never governs, so nothing took effect: the
   // level's law in force today is another row (a repeal enacted over a
   // scheduled rise). A territory-specific federal row can also replace the
