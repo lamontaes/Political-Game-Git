@@ -5,11 +5,12 @@ area: core
 kind: cleanup
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: one-map-speed-record
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-05T02:06:23.574Z
 ---
 
 **What.** Commit the timing report: the same place and seed, four years, before and after the place map.
