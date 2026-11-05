@@ -1,6 +1,23 @@
 {
   "entries": [
     {
+      "version": "0.85.4",
+      "releasedOn": "2026-11-05",
+      "revision": "85bef8d71c48ca6e8f0ceae46b064d75a736fb6d",
+      "changeIds": [
+        "core-fix-mac-build-test-clock-import",
+        "core-one-map-county-points",
+        "core-one-map-rent-renters",
+        "core-one-map-speed-final",
+        "core-one-map-state-reads",
+        "core-one-map-state-reads-two",
+        "state-sessions-every-legislature-sits",
+        "state-sessions-owner-ruling-generate-on-demand",
+        "state-sessions-result-only",
+        "tests-filing-starts-where-filing-opens"
+      ]
+    },
+    {
       "version": "0.85.3",
       "releasedOn": "2026-11-05",
       "revision": "e2121eb919813c317c68732d35ae9e0f5a64a5e6",

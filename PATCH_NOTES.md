@@ -296,6 +296,16 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.85.4
+
+_Released November 5, 2026._
+
+### Fixed
+
+- **Rents in your town now match the real renters median** Rents in every town
+  now follow the real median rent for renters, scaled by each household's
+  income, so rent burdens and evictions read closer to real life.
+
 ## PRE-ALPHA 0.85.3
 
 _Released November 5, 2026._
