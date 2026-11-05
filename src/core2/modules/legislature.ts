@@ -62,13 +62,14 @@ import {
   type SettledQuestion,
 } from "./laws";
 import {
+  inTownChain,
   localAuthority,
   officeLawJurisdiction,
   type EnactedAuthority,
 } from "../laws-in-force";
 import type { LawRowInput } from "../laws-starting";
 import { awaitingVacancy, OFFICES_MODULE_ID, type TermRow } from "./offices";
-import { recordVote, votesOf } from "./record";
+import { lastVoteOn, recordVote } from "./record";
 import { viewOn } from "./views";
 import { ownStance } from "../officials-roster";
 import { closenessBetween } from "../closeness";
@@ -2832,6 +2833,18 @@ function tieBreaker(api: CoreAPI, chamber: string): string | null {
   return term ? memberKey(term) : null;
 }
 
+/**
+ * The law keys whose rows are the law a government's body answers to: the
+ * player's town's own chain and the nation's for a town government, else just
+ * the government's own. Another state's law is never the town's.
+ */
+export function lawKeysOf(api: CoreAPI, jurisdiction: string): string[] {
+  const chain = lawChain(api);
+  return inTownChain(chain, jurisdiction)
+    ? [...chain.levels.map((level) => level.jurisdiction), "US"]
+    : [jurisdiction];
+}
+
 /** The series a provision changes in the law table (none for a budget line). */
 function provisionSeries(provision: Provision): string | undefined {
   if (provision.kind === "policy-question") return provision.question;
@@ -2845,8 +2858,19 @@ function provisionSeries(provision: Provision): string | undefined {
  * last law enacted on it passed and H is `settledLawDays`. A law nothing has
  * changed since the opening is fully settled.
  */
-export function settledness(api: CoreAPI, series: string | undefined): number {
-  const last = series ? lastEnactment(api, series) : null;
+export function settledness(
+  api: CoreAPI,
+  series: string | undefined,
+  /** The government whose law the change would move; every government's when absent. */
+  jurisdiction?: string,
+): number {
+  const last = series
+    ? lastEnactment(
+        api,
+        series,
+        jurisdiction ? lawKeysOf(api, jurisdiction) : undefined,
+      )
+    : null;
   if (!last) return 1;
   const age = Math.max(
     0,
@@ -2882,11 +2906,10 @@ function recordConsistency(
   for (const stance of billStances(api, bill)) {
     const series = provisionSeries(stance.provision);
     if (!series) continue;
-    const last = votesOf(api, memberId)
-      .filter((v) => v.stance.question === stance.question)
-      .at(-1);
+    const last = lastVoteOn(api, memberId, stance.question);
     if (!last) continue;
-    const freshness = (1 - settledness(api, series)) / 2;
+    const freshness =
+      (1 - settledness(api, series, billJurisdiction(api, bill))) / 2;
     sum +=
       campaignParameter("reversalReluctance") *
       freshness *
@@ -2898,7 +2921,11 @@ function recordConsistency(
 /** A bill's settledness: the least settled law any of its provisions moves. */
 function billSettledness(api: CoreAPI, bill: BillRow): number {
   return bill.provisions.reduce(
-    (least, p) => Math.min(least, settledness(api, provisionSeries(p))),
+    (least, p) =>
+      Math.min(
+        least,
+        settledness(api, provisionSeries(p), billJurisdiction(api, bill)),
+      ),
     1,
   );
 }

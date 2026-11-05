@@ -44,6 +44,11 @@ const shiftYear = (date: string, years: number): string =>
     ? `${Number(date.slice(0, 4)) + years}${date.slice(4)}`
     : date;
 
+/** Every place the calendar table holds a legislature for, in key order. */
+export function sessionPlaceKeys(): readonly string[] {
+  return Object.keys(data.places).sort();
+}
+
 /** The regular sessions a place's legislature holds in `year`; none where it doesn't meet or the place has no row. */
 export function sessionYear(
   stateKey: string,

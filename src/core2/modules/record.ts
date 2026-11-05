@@ -144,6 +144,29 @@ export function votesOf(
     .sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id));
 }
 
+/** A person's latest vote on one question (by date, then id), in one pass over their record. */
+export function lastVoteOn(
+  api: CoreAPI,
+  personId: string,
+  question: string,
+): VoteRecordRow | undefined {
+  if (!api.state.modules.has(RECORD_MODULE_ID)) return undefined;
+  let last: VoteRecordRow | undefined;
+  for (const vote of api
+    .moduleState(RECORD_MODULE_ID)
+    .table("votes")
+    .query("byPerson", [personId]) as unknown as VoteRecordRow[]) {
+    if (vote.stance.question !== question) continue;
+    if (
+      !last ||
+      vote.date.localeCompare(last.date) > 0 ||
+      (vote.date === last.date && vote.id.localeCompare(last.id) > 0)
+    )
+      last = vote;
+  }
+  return last;
+}
+
 /** Each promise an officeholder made, and whether their votes since kept it. */
 export function promisesOf(
   api: CoreAPI,

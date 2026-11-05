@@ -472,6 +472,8 @@ export function enactmentOf(
 export function lastEnactment(
   api: CoreAPI,
   series: string,
+  /** The governments whose law counts; every government's when absent. */
+  jurisdictions?: readonly string[],
 ): { passedOn: string; margin: number; value: number; lawId: string } | null {
   let latest: {
     passedOn: string;
@@ -479,7 +481,19 @@ export function lastEnactment(
     value: number;
     lawId: string;
   } | null = null;
-  for (const row of seriesRows(api, series)) {
+  const rows = jurisdictions
+    ? jurisdictions.flatMap(
+        (jurisdiction) =>
+          api
+            .moduleState(LAWS_MODULE_ID)
+            .table("laws")
+            .query("bySeries", [
+              jurisdiction,
+              series,
+            ]) as unknown as LawRowInput[],
+      )
+    : seriesRows(api, series);
+  for (const row of rows) {
     if (row.effectiveDate > api.state.date && !row.terms?.enactedBy) continue;
     const enacted = enactmentOf(api, row);
     if (!enacted || enacted.passedOn > api.state.date) continue;

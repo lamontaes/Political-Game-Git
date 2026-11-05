@@ -33,7 +33,7 @@ import geography from "../../../data/research/geography/state-reference.json" wi
 import federalAnswers from "../data/legislature/federal-answers.json" with { type: "json" };
 import congressSessions from "../data/legislature/congress-sessions.json" with { type: "json" };
 import { townConcernShare } from "./meetings";
-import { sessionYear } from "../state-session-calendar";
+import { sessionPlaceKeys, sessionYear } from "../state-session-calendar";
 import { leaderOf, presidingOfficer } from "./leadership";
 import { officialStance } from "./officials";
 import { coreAPI, registerModule } from "../state";
@@ -74,6 +74,7 @@ import {
   beyondPower,
   billJurisdiction,
   bodyJurisdiction,
+  lawKeysOf,
   bodyOf,
   draftBill,
   executiveOf,
@@ -137,8 +138,10 @@ function questionForLevel(
   api: CoreAPI,
   question: string,
   level: "federal" | "state" | "county" | "city",
+  /** The government asking; the player's own state unless an outside legislature sits. */
+  stateKey: string = lawChain(api).stateKey,
 ): boolean {
-  const state = lawChain(api).stateKey;
+  const state = stateKey;
   const kind =
     JURISDICTIONS[state.slice(state.lastIndexOf("-") + 1)]?.jurisdictionKind;
   const levels = QUESTION_SCOPES[question]?.levels ?? [];
@@ -160,9 +163,10 @@ export function levelMayDecide(
   level: OfficeLevel,
   question: string,
   value = 1,
+  stateKey?: string,
 ): boolean {
   const own = level === "township" ? "city" : level;
-  if (!questionForLevel(api, question, own)) return false;
+  if (!questionForLevel(api, question, own, stateKey)) return false;
   const provision: Provision = { kind: "policy-question", question, value };
   return own === "federal" || own === "state"
     ? !beyondPower(provision, own)
@@ -190,12 +194,9 @@ export function openWorldLegislating(core: CoreState): void {
   const api = coreAPI(core);
   // The town's council and its county board meet on their own.
   for (const office of townBodies(api)) scheduleMeeting(api, office);
-  // Congress and the state's legislature open their next session (or the one
-  // already sitting, today). Every other place's chambers are seated (the
-  // offices engine's `seatOutsideOffices`) but do not sit yet.
-  // stopgapId: SG-GOV-other-legislatures-not-sitting
-  api.stopgap("SG-GOV-other-legislatures-not-sitting");
-  for (const jurisdiction of ["US", lawChain(api).stateKey])
+  // Congress and every legislature in the session calendar open their next
+  // session (or the one already sitting, today), each on its own dates.
+  for (const jurisdiction of ["US", ...sessionPlaceKeys()])
     scheduleOpening(api, jurisdiction, core.date, true);
 }
 
@@ -385,9 +386,10 @@ function lawStanding(
   api: CoreAPI,
   question: string,
   direction: number,
+  jurisdiction: string,
 ): { settled: number; reluctance: number } {
-  const settled = settledness(api, question);
-  const last = lastEnactment(api, question);
+  const settled = settledness(api, question, jurisdiction);
+  const last = lastEnactment(api, question, lawKeysOf(api, jurisdiction));
   const reverses = last !== null && (last.value > 0 ? 1 : -1) !== direction;
   return {
     settled,
@@ -477,7 +479,7 @@ function fileChanges(
       if (!input.needsChange(question, direction)) continue;
       if (!input.allowed(question, direction)) continue;
       if (input.barred(question, direction)) continue;
-      const law = lawStanding(api, question, direction);
+      const law = lawStanding(api, question, direction, input.jurisdiction);
       let sponsor: Filer | null = null;
       let best = 0;
       let cosponsors = 0;
@@ -964,7 +966,13 @@ function openSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
           needsChange(direction, answerIn(api, jurisdiction, question, true)),
         // A legislature answers only the questions its level may (data).
         allowed: (question, value) =>
-          levelMayDecide(api, federal ? "federal" : "state", question, value),
+          levelMayDecide(
+            api,
+            federal ? "federal" : "state",
+            question,
+            value,
+            federal ? undefined : jurisdiction,
+          ),
         // A new session takes every bill up afresh.
         barred: () => false,
       })

@@ -846,7 +846,24 @@ function leaders(all: readonly Spec[]): Map<string, string> {
  * too) with their party's leader, and the executive branch with its head. Their time together is their shared years of service.
  */
 function colleagues(api: CoreAPI, added: ReadonlySet<string>): void {
-  const rows = table(api, "officials").rows() as unknown as OfficialRow[];
+  // The ties are the player's world: the nation's officials and the player's
+  // own state's. Another state's legislators are coarse members of their
+  // body with no pairwise ties until the player meets them.
+  const ownState = (
+    api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("loaded")
+      .get("town") as unknown as { stateKey: string } | undefined
+  )?.stateKey;
+  const rows = (
+    table(api, "officials").rows() as unknown as OfficialRow[]
+  ).filter(
+    (row) =>
+      row.stateKey === ownState ||
+      row.body.startsWith("US:") ||
+      row.bodyKind === "us-house" ||
+      row.bodyKind === "us-senate",
+  );
   const hours = OFFICIALS_DATA.colleagues.hoursPerSharedYear.value;
   const cap = OFFICIALS_DATA.colleagues.maxYears.value;
   const year = Number(api.state.date.slice(0, 4));
