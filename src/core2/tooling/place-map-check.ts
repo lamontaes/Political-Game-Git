@@ -55,8 +55,7 @@ for (const [slot, names] of [...gaps].sort()) {
       .map(([s, n]) => `${s} ${n}`)
       .join(", ")}.`,
     "",
-    ...names.slice(0, 40).map((n) => `- ${n}`),
-    ...(names.length > 40 ? [`- and ${names.length - 40} more`] : []),
+    ...names.map((n) => `- ${n}`),
     "",
   );
 }
