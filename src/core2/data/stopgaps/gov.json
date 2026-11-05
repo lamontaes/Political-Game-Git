@@ -2136,15 +2136,15 @@
     "status": "open"
   },
   {
-    "id": "SG-GOV-outside-bills-no-dealing",
+    "id": "SG-GOV-outside-session-result-only",
     "kind": "missing-mechanic",
-    "file": "src/core2/modules/legislature.ts",
+    "file": "src/core2/modules/world-legislating.ts",
     "line": 0,
-    "whatItFakes": "Another government's bills (a state the player is not in, a county or town elsewhere) go to their markup and floor vote as filed: no sponsor works holdouts, no trade amendment or poison pill is moved.",
-    "why": "Dealing exists for the player to take part in; running it for 55 other legislatures a year is the largest part of what made a sitting year too slow (state-sessions work, Nov 5).",
-    "addedBy": "State Sessions session (claude/state-sessions-sit)",
+    "whatItFakes": "Another government's legislature session (a state the player is not in) is simulated once, when it convenes, from its members' opening views and its executive's: a change passes when every chamber has more members for it than against it and the executive agrees (or both chambers hold two thirds); it writes one law row with the chambers' counts on a day inside the session, and no filing, bill, committee, per-member vote or event. No settledness, reluctance, sponsor, deal, lobby or press term decides it, and a member's views do not move during the session.",
+    "why": "The owner's Nov 5 ruling (OWNER-DECISIONS.md): simulate other places from the people there, keep only the result, generate the detail on demand; running every bill of 55 legislatures through the full pipeline was what slowed every year.",
+    "addedBy": "State Sessions session",
     "addedAt": "2026-11-05",
-    "replacement": "A coarse deal read from the members' saved positions and the sponsor's ties, written once per bill, so outside bills carry their amendments without a round per member.",
+    "replacement": "Add the terms that matter to a played proof, each read at the chamber's level (how fresh the law is, the executive's reluctance to reverse it), through the same counted-group rule as a full member; and build members on demand rather than at the opening (core-fill-in-hook).",
     "status": "open"
   }
 ]
