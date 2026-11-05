@@ -42,7 +42,7 @@ def stage(bg, inner, blur=False, figs=""):
 
 
 def fig(look, left, bottom, h, flip=False):
-    return f'<img class="fig" src="img/fig-look-{look}.png" style="left:{left}px;bottom:{bottom}px;height:{h}px;{"transform:scaleX(-1);" if flip else ""}" alt="">'
+    return ''  # the Oct 14 figures held props and were removed from the game (owner, Nov 5, 2026)
 
 
 def tabs(names, on):
