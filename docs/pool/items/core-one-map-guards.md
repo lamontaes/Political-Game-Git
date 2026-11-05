@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: one-map-families
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-05T01:42:33.822Z
 ---
 
 **What.** The place map was never registered in an engine family, imported rule packs across families, and held real Census names that the spelling scan flags. Register it, move the four-slot resolution into the gov-rules family, lower the baselines that shrank, and exempt the map file like the other Census place files.
