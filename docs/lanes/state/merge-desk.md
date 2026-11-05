@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 188 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 189 pull requests merged. Newest state at the top of each section.
 
 **Stopped by the owner, Nov 4, 2:37 p.m. Eastern, at 161 merged; resumed on the owner's word at about 2:53 p.m. Eastern (relayed by the CTO). The desk merges One Map's PRs, and from Nov 5, 05:22 UTC also State Sessions' (every other state holds sessions), on the owner's approval relayed by the CTO. Lanes 1, 3, 4 and 5 are stopped and Lane 2 is off, so #7110 and #7127 stay open, and skills PRs #7233, #7254 and #7264 stay with the CTO.**
 
@@ -117,6 +117,7 @@ New on Nov 3:
 | #7295 | Seven more state lookups go through the place map reader                                                                                                                 | Catalina, Arizona                           | 6285c058cfc6edf6 |
 | #7296 | The speed report names where the year slowed: State Sessions' #7290, not the place map (docs only)                                                                       | Somers, Wisconsin                           | 73506a9ae82e1e13 |
 | #7298 | The filing tests start on the first day a contest opens in the drawn place, since filing windows are now real dates (tests only; pool item conflict joined mechanically) | Umbarger, Texas                             | 8da67bfd23e98214 |
+| #7300 | Rents sit near the real renter median for the county, and each household's rent follows the income it is actually paid (they ran 31 to 40 percent under)                 | Delaware Park, New Jersey                   | 874505f44de46093 |
 
 ## State Sessions' PRs (from Nov 5)
 
