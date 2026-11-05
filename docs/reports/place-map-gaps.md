@@ -94,13 +94,11 @@ By jurisdiction: US-MA 98, US-PR 370, US-VT 154.
 - Cidra Municipio (county:72041)
 - and 582 more
 
-## county area: 712 places
+## county area: 646 places
 
-By jurisdiction: US-AL 2, US-AR 1, US-CA 10, US-CO 1, US-CT 215, US-FL 5, US-GA 1, US-IA 1, US-IL 2, US-IN 280, US-LA 4, US-MA 4, US-MN 4, US-MT 1, US-NC 1, US-NE 3, US-NM 2, US-NV 6, US-NY 1, US-OH 2, US-OK 3, US-PA 116, US-TX 9, US-UT 1, US-VA 32, US-VT 1, US-WI 4.
+By jurisdiction: US-AL 1, US-CA 10, US-CT 185, US-FL 5, US-IN 279, US-LA 3, US-MT 1, US-NC 1, US-NE 3, US-NM 2, US-NV 6, US-OH 1, US-PA 114, US-TX 2, US-VA 32, US-VT 1.
 
-- Cherokee Ridge, Alabama (0114202)
 - Fort Novosel, Alabama (0127604)
-- Diamondhead, Arkansas (0518880)
 - Campo Seco, California (0610536)
 - Douglas Flat, California (0619738)
 - El Modena, California (0622188)
@@ -111,11 +109,8 @@ By jurisdiction: US-AL 2, US-AR 1, US-CA 10, US-CO 1, US-CT 215, US-FL 5, US-GA 
 - Paloma, California (0655310)
 - Sheep Ranch, California (0671302)
 - Wilseyville, California (0685810)
-- Central, Colorado (0812900)
-- Ansonia, Connecticut (0901150)
 - Ball Pond, Connecticut (0902480)
 - Baltic, Connecticut (0902550)
-- Bantam, Connecticut (0902690)
 - Bethel, Connecticut (0904790)
 - Bethlehem Village, Connecticut (0904945)
 - Bigelow Corners, Connecticut (0904965)
@@ -124,9 +119,7 @@ By jurisdiction: US-AL 2, US-AR 1, US-CA 10, US-CO 1, US-CT 215, US-FL 5, US-GA 
 - Botsford, Connecticut (0906680)
 - Branchville, Connecticut (0907100)
 - Branford Center, Connecticut (0907345)
-- Bridgeport, Connecticut (0908000)
 - Bridgewater, Connecticut (0908140)
-- Bristol, Connecticut (0908420)
 - Broad Brook, Connecticut (0908770)
 - Brookfield Center, Connecticut (0909050)
 - Brooklyn, Connecticut (0909120)
@@ -138,4 +131,11 @@ By jurisdiction: US-AL 2, US-AR 1, US-CA 10, US-CO 1, US-CT 215, US-FL 5, US-GA 
 - Candlewood Orchards, Connecticut (0911640)
 - Candlewood Shores, Connecticut (0911780)
 - Cannondale, Connecticut (0911990)
-- and 672 more
+- Canton Valley, Connecticut (0912370)
+- Cheshire Village, Connecticut (0914200)
+- Chester Center, Connecticut (0914370)
+- Chimney Point, Connecticut (0914615)
+- Clinton, Connecticut (0915420)
+- Colchester, Connecticut (0915840)
+- Coleytown, Connecticut (0916085)
+- and 606 more
