@@ -2484,17 +2484,22 @@ export function members(api: CoreAPI, officeId: string): readonly TermRow[] {
   if (officeId === FEDERAL_HOUSE || officeId === FEDERAL_SENATE)
     return congressMembers(api, officeId);
   const offices = api.moduleState(OFFICES_MODULE_ID);
-  return (
-    offices.table("seats").query("byOffice", [officeId]) as unknown as {
-      id: string;
-    }[]
-  ).flatMap((seat) =>
+  // One query for the office's serving terms, put back in seat order.
+  const order = new Map(
     (
-      offices
-        .table("terms")
-        .query("bySeatStatus", [seat.id, "serving"]) as unknown as TermRow[]
-    ).map((term) => holderOf(api, term)),
+      offices.table("seats").query("byOffice", [officeId]) as unknown as {
+        id: string;
+      }[]
+    ).map((seat, index) => [seat.id, index] as const),
   );
+  return (
+    offices
+      .table("terms")
+      .query("byOfficeStatus", [officeId, "serving"]) as unknown as TermRow[]
+  )
+    .filter((term) => order.has(term.seatId))
+    .sort((a, b) => order.get(a.seatId)! - order.get(b.seatId)!)
+    .map((term) => holderOf(api, term));
 }
 
 /** Places whose House member does not vote on final passage (House Rule III), from data. */
