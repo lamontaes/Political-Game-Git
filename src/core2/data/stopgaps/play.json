@@ -280,7 +280,7 @@
     "kind": "missing-record",
     "file": "src/bench/play.mjs",
     "line": 3409,
-    "whatItFakes": "Politics → Government offers Legislative and Executive but no Judicial branch, though the Oct 14 mock and the owner's Oct 29 answer (judges as read-only cards) have one: no judge exists in the world as an office or a person, so the tab would be empty.",
+    "whatItFakes": "Politics → Government offers Legislative and Executive but no Judicial branch, though the owner's Oct 29 answer (judges as read-only cards) have one: no judge exists in the world as an office or a person, so the tab would be empty.",
     "why": "Courts come after early access (owner, Oct 10), and the justice engine decides cases without judges (SG-WORLD-housing-hearing-without-judge); nothing on screen may do nothing.",
     "addedBy": "CTO",
     "addedAt": "2026-10-29",

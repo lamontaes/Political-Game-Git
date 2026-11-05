@@ -1,6 +1,6 @@
 ---
 id: play-menus-money-to-mock
-title: "Money reads like the Oct 14 mock: the cash large, each month as a column, where the month went as a ring"
+title: "Money reads like the Nov 5 menu look: the cash large, each month as a column, where the month went as a ring"
 area: play
 lead: cto
 kind: bug
@@ -17,7 +17,7 @@ claimed-at: 2026-10-30T02:02:01.323Z
 
 **What.** The Money screen today is one plate holding the cash amount on an otherwise empty panel, with the months, spending, home, assets and debts as lines of label and amount. The owner asked for every menu to be redesigned like Government (Oct 29, 22:45), and the Oct 14 Money mock shows a big cash figure, six months of balances as columns, a ring of where the month went, and what you own and owe as cards. This item draws Money that way from the bank's, the ledger's and the housing engine's records, on framed plates, with nothing scrolling.
 
-**Rules.** Screen to mock: the screen follows `docs/ui/mocks/screens-2026-10-14/shots/money.png` and the shared kit parts (plate, fact plates, one chart style), never a one-off renderer. No hand-written player text: every label comes from the controls words and every figure from a record, rounded for reading. Replace, never layer: the old line-list Money screen is deleted.
+**Rules.** Screen to mock: the screen follows the Nov 5 menu look and the shared kit parts (plate, fact plates, one chart style), never a one-off renderer. No hand-written player text: every label comes from the controls words and every figure from a record, rounded for reading. Replace, never layer: the old line-list Money screen is deleted.
 
 **Done when.** In a drawn place played into its third month at 1440 by 900, named with its seed, Money shows the cash in large type, one column per month the credit engine reviewed, the household's last month as a ring with each reason's share, the home with its worth or rent, and what is owned and owed as plates, all read from `/api/bank` records, with no figure contradicting another and nothing scrolling; screenshots beside the mock land in `docs/play-first/shots/play-menus-money/`.
 
@@ -30,3 +30,5 @@ claimed-at: 2026-10-30T02:02:01.323Z
 **Files.** src/bench/play.mjs, src/bench/play.css, src/bench/ui/chart.mjs, src/bench/data/controls.json
 
 **Notes.** Filed by the CTO, Oct 30 02:20, the third screen of the menu redesign. Read: OWNER-DECISIONS Oct 29 22:45 and 23:00 (bars that count records are not the no-meter ruling); searched the pool: money screen, bank (no twin).
+
+**Menu look (owner, Nov 5).** Menu screens follow the look the owner locked on Nov 5 (dark see-through textured panel, no boxes, glowing hover, lit selection, portraits in light, data not sliders or bar graphs, no checkboxes); the CTO holds the clickable mock, and no menu is built until the owner approves its screen.

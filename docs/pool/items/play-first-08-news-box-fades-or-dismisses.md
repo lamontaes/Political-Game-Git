@@ -15,7 +15,7 @@ milestone: play-first
 claimed-at: 2026-10-27T08:31:17.944Z
 ---
 
-**What.** On the v0.22.10 release the NEWS box sat top right over the scene from the first evening until opened. The owner's read: the news box fades or can be dismissed. The Oct 14 mock makes it a toast for a story that just reached you. This item makes the toast fade after a short time and close with one click, leaving the story in News.
+**What.** On the v0.22.10 release the NEWS box sat top right over the scene from the first evening until opened. The owner's read: the news box fades or can be dismissed. The owner's design makes it a toast for a story that just reached you. This item makes the toast fade after a short time and close with one click, leaving the story in News.
 
 **Rules.** Serves LAW.md §6, News; LAW.md §10, The owner's read of the Oct 24 screenshots. This is a game, not a spreadsheet: the room is home and a toast never parks over it. Replace, never layer: the standing news box is replaced by the toast, not kept beside it.
 
@@ -35,3 +35,5 @@ Sent back 2026-10-26 14:42 UTC from PR #6100, checked branch c6f13970738fc13bedb
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md); the owner's read of its screenshots (docs/coordination/OWNER-DECISIONS.md, Oct 24). Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md). Playtest Oct 26 sitting 1 (installed v0.34.0): News toast (top right) never left; the Journal toast (bottom right, "I ran for Council member.") sat from Jan 22 into May. Owner: "there's no way to get rid of it and it doesn't leave for any reason. Same thing with a journal on the bottom right." Extend the item's done-when to the Journal toast.
 Sent back Oct 27 from PR #6100 (branch play-first/play-first-08-news-box-fades-or-dismisses): fixer branch fixer3/play-first-08-news-story (fc52e70582) holds the fix but conflicts with main in play.mjs after the screens stack landed; apply it, merge main, push.
 Merged Oct 27 in PR #6265; awaiting the owner's installed-build check
+
+**Menu look (owner, Nov 5).** Menu screens follow the look the owner locked on Nov 5 (dark see-through textured panel, no boxes, glowing hover, lit selection, portraits in light, data not sliders or bar graphs, no checkboxes); the CTO holds the clickable mock, and no menu is built until the owner approves its screen.

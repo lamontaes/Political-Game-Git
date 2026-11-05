@@ -109,7 +109,7 @@ try {
         9,
         `${at}: the nine rail icons are not all there`,
       );
-      // The rail (MOCKS:24): one column of round icons, News among them, the
+      // The rail: one column of round icons, News among them, the
       // Guide its own entry (owner, Oct 28, point 23), no Options.
       assert.deepEqual(
         read.rail.map((ring) => ring.tab),

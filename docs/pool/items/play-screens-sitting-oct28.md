@@ -13,7 +13,7 @@ source: added with npm run pool -- add
 claimed-at: 2026-10-28T17:39:05.370Z
 ---
 
-**What.** docs/coordination/playtest/2026-10-28-1.md points 1 to 7, 12 to 25 and 27 to 31, each a unit, each from the UI kit (docs/ui/kit13), each its own PR. The helper traces in the CTO session name the file and line for each point; re-derive from the kit and the mocks (docs/ui/mocks/screens-2026-10-14/shots/gov.png, issues.png; art/newspaper-mockups).
+**What.** docs/coordination/playtest/2026-10-28-1.md points 1 to 7, 12 to 25 and 27 to 31, each a unit, each from the UI kit (docs/ui/kit13), each its own PR. The helper traces in the CTO session name the file and line for each point; re-derive from the kit and the mocks (the Nov 5 menu look, issues.png; art/newspaper-mockups).
 
 **Rules.** screen-to-mock; player-screen-text; kit-only-ui guard; no English in code (labels through the screen-words bank); AGENTS.md one UI package ruling (Oct 28 02:00). Remove, do not replace, where the point says remove. No words, director or English engine edits: those are the words item.
 
@@ -22,3 +22,5 @@ claimed-at: 2026-10-28T17:39:05.370Z
 **Files.** src/bench/play.mjs,src/bench/play.html,src/bench/play.css,src/bench/ui,src/bench/data/controls.json,src/bench/government.ts,src/bench/places.ts
 
 **Notes.** lead: play-first. Filed by the CTO on the owner's go (Oct 28).
+
+**Menu look (owner, Nov 5).** Menu screens follow the look the owner locked on Nov 5 (dark see-through textured panel, no boxes, glowing hover, lit selection, portraits in light, data not sliders or bar graphs, no checkboxes); the CTO holds the clickable mock, and no menu is built until the owner approves its screen.

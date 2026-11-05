@@ -1,4 +1,4 @@
-// The journal, to its mock (MOCKS journal.png): one cream page, "My life" over the chapter's
+// The journal: one cream page, "My life" over the chapter's
 // place, then the chapter as a story in indented paragraphs. A life with more than one chapter
 // pages by chapter with arrows under the page, never a scroll (owner, Oct 29: a menu does not
 // scroll as a page). The screen hands it the chapters and the words from the controls file.
