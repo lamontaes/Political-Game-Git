@@ -296,6 +296,17 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.85.2
+
+_Released November 4, 2026._
+
+### Fixed
+
+- **Puerto Rico towns now count their municipio in credit, staff, regional and
+  population figures.** Every system that weighs a town across its counties asks
+  the one place map, which also gives a Puerto Rico town its municipio, where
+  the Census files had none.
+
 ## PRE-ALPHA 0.85.1
 
 _Released November 4, 2026._
