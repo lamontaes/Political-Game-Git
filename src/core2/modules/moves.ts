@@ -788,10 +788,8 @@ function destinationFor(
     : undefined;
   if (to && open(to))
     return { destinationId: to, destinationBasis: "county-flow", countyId: to };
-  const place = corePlaceByJurisdictionId(person.placeId as EntityId);
-  const state = place?.stateJurisdictionKey
-    ? coreStateJurisdiction(place.stateJurisdictionKey)?.id
-    : undefined;
+  const stateKey = placeStateKey(person.placeId);
+  const state = stateKey ? coreStateJurisdiction(stateKey)?.id : undefined;
   return {
     destinationId: state ?? person.placeId,
     destinationBasis: "state",

@@ -11,6 +11,7 @@
  * what the player leaves alone, the character does from their own views and
  * standing. Nothing is rolled; nothing names a place.
  */
+import { placeStateKey } from "./place-map";
 import type { CoreAPI } from "./types";
 import type { ModuleRow } from "./module-data";
 import { makeIsoDate } from "./kernel/dates";
@@ -725,7 +726,8 @@ export function travelToTown(
   if (!traveler || !api.state.people.has(traveler))
     throw new Error("No one to send");
   const place = corePlaceByKey(placeKey);
-  if (!place?.stateJurisdictionKey) throw new Error(`No town ${placeKey}`);
+  const stateKey = placeStateKey(placeKey);
+  if (!place || !stateKey) throw new Error(`No town ${placeKey}`);
   const coarse = coarsePlace(placeKey, (api.state as CoreState).seed);
   // stopgapId: SG-WORLD-coarse-place-no-payroll
   api.stopgap("SG-WORLD-coarse-place-no-payroll");
@@ -754,7 +756,7 @@ export function travelToTown(
     const drawn = drawOfficialIdentity({
       worldSeed,
       seatKey,
-      stateUsps: place.stateJurisdictionKey.slice(3),
+      stateUsps: stateKey.slice(3),
       role: "campaign-contact",
       referenceDate: api.state.date,
     });
@@ -832,7 +834,7 @@ export function travelToTown(
     facts: {
       placeKey,
       town: place.displayName,
-      state: place.stateJurisdictionKey,
+      state: stateKey,
       travelerId: traveler,
     },
   });

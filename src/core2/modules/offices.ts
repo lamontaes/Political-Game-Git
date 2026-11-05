@@ -1,3 +1,4 @@
+import { placeStateKey } from "../place-map";
 import type {
   HistoryWriter,
   PreStartModule,
@@ -659,9 +660,9 @@ export function openOffices(core: CoreState, worldSeed: string): void {
   const api = coreAPI(core);
   const placeKey = api.state.placeMetadata.placeKey;
   const place = placeKey ? corePlaceByKey(placeKey) : null;
-  if (!place?.stateJurisdictionKey)
+  const stateKey = placeStateKey(placeKey);
+  if (!place || !stateKey)
     throw new Error("Offices need the town's place and state.");
-  const stateKey = place.stateJurisdictionKey;
   const geoid = place.sourceGeoid ?? place.key;
   const date = core.date;
   // stopgapId: SG-GOV-term-end-estimate
