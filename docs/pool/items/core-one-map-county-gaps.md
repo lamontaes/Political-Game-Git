@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: one-map-county-gaps
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-05T02:32:43.809Z
 ---
 
 **What.** The place map left 712 towns with no county because the Census place-in-county files miss them. The 2025 government listing says which county area a town's own government sits in; the map builder now uses it where the Census files are empty, which places 66 of them.
