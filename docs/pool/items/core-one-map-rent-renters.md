@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: one-map-rent3
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-05T20:47:12.689Z
 ---
 
 **What.** Rents were 31 to 40 percent under the sourced renter median, and 58 percent of counted renters in Honolulu were charged the median rent on an income not yet recorded. Rent is now scaled by the renter median and by the income each counted household is paid.
