@@ -6,9 +6,9 @@ lead: laws
 kind: bug
 priority: 1
 size: L
-status: claimed
+status: done
 claimed-by: claude/state-sessions-base
-pr: #7020
+pr: #7288
 blocked-on:
 source: owner, Oct 29 voice note on the governing brief
 claimed-at: 2026-11-05T06:48:43.586Z
