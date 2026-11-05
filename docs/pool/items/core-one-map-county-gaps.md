@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: one-map-county-gaps
-pr:
+pr: #7285
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-05T02:32:43.809Z
