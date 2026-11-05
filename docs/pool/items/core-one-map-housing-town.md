@@ -5,11 +5,12 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: one-map-housing-town
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-05T01:36:32.661Z
 ---
 
 **What.** Rename housing's town builder and read its state from the place map reader; the guard's waiting list becomes empty.
