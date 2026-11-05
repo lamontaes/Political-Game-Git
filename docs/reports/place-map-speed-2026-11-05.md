@@ -18,3 +18,18 @@ In Montpelier, Vermont (about 8,000 people, same seed), years 1 to 3 compared: 1
 ## Method
 
 Place: Upper Witter Gulch, Colorado (key 0879800), seed 5a1c0de7a11ce5e1, one process at a time on a quiet machine, four years each with `npm run speed:year -- --seed 5a1c0de7a11ce5e1 --place 0879800 --years 4 --exclusive`. Before: main at a394ca8fde, just before the place map merged. After: main at 93e913ee34, with the map and every family moved onto it.
+
+## Later check the same day: where a slower year came from
+
+Same town, seed and machine, year 1 only, one run each, nothing else running:
+
+| Commit                                                | Year 1                     |
+| ----------------------------------------------------- | -------------------------- |
+| Before the place map (a394ca8fde)                     | 50.0 s                     |
+| Place map and every family moved (93e913ee34)         | 46.7 s                     |
+| After One Map's state reads (5d79411cdf)              | 44.6 s                     |
+| After State Sessions' #7290 merge branch (780abf8e39) | 116.7 s                    |
+| Main after #7290 (04ef12c915)                         | 118.2 s                    |
+| Main after #7295 (f7c9caf747), four years             | 128.4, 211.6, 150, 299.2 s |
+
+The place map and its moves made year 1 about 11 percent faster, not slower. The jump to about 117 s arrives with the State Sessions change that makes every state's legislature sit (#7290), which is not One Map's. The earlier year 2 spread (103 to 131 s) was machine noise on a commit that did not change; the 6 to 7 percent year-2 reading above is inside it. State Sessions owns the new cost.
