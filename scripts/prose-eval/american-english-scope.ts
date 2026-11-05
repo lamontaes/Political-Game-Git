@@ -63,7 +63,7 @@ export const AMERICAN_ENGLISH_EXEMPT: readonly {
   },
   {
     pattern:
-      /^src\/core2\/data\/(places\/(county-names|localities|place-lookup)|business\/nonattainment)\.json$/,
+      /^src\/core2\/data\/(places\/(county-names|localities|place-lookup|place-map)|business\/nonattainment)\.json$/,
     reason:
       "real place and county names from Census and EPA records (Centre, Harbour, Storey)",
   },

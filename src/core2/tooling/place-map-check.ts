@@ -5,7 +5,8 @@
  * filled with a national number. `--strict` exits 1 when any gap is left.
  */
 import { writeFileSync } from "node:fs";
-import { allPlaces, placeChain, placeSlots } from "../place-map";
+import { allPlaces, placeChain } from "../place-map";
+import { placeSlots } from "../gov-rules/place-slots";
 
 const gaps = new Map<string, string[]>();
 const note = (slot: string, name: string) => {
