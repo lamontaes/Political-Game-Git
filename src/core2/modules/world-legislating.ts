@@ -34,6 +34,7 @@ import federalAnswers from "../data/legislature/federal-answers.json" with { typ
 import congressSessions from "../data/legislature/congress-sessions.json" with { type: "json" };
 import { townConcernShare } from "./meetings";
 import { sessionPlaceKeys, sessionYear } from "../state-session-calendar";
+import { stateActEffectiveDate } from "../state-effective-date";
 import { leaderOf, presidingOfficer } from "./leadership";
 import { officialOf, officialStance } from "./officials";
 import { coreAPI, registerModule } from "../state";
@@ -58,6 +59,7 @@ import {
   PLATFORM_QUESTIONS,
 } from "../campaign-views";
 import {
+  enactLaw,
   lastEnactment,
   lawChain,
   LAWS_MODULE_ID,
@@ -85,6 +87,7 @@ import {
   members,
   POLICY_QUESTIONS,
   proposeAsExecutive,
+  reachesTown,
   FEDERAL_SENATE,
   LEGISLATURE_MODULE_ID,
   registerFloorDateReader,
@@ -179,7 +182,13 @@ export const WORLD_LEGISLATING_MODULE: CoreModule = {
   id: WORLD_LEGISLATING_MODULE_ID,
   state: {
     schemaVersion: 1,
-    tables: { sessions: {}, legislativeSessions: {}, nextMeetings: {} },
+    tables: {
+      sessions: {},
+      legislativeSessions: {},
+      nextMeetings: {},
+      /** Roll calls built on demand for another government's law, kept once seen. */
+      rollCalls: {},
+    },
   },
   onCalendarWork: (api, work) => onWork(api, work),
 };
@@ -716,6 +725,7 @@ function onWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind === "floor-week") floorWeek(api, work);
   if (work.kind === "session-close") closeSession(api, work);
   if (work.kind === "local-meeting") localMeeting(api, work);
+  if (work.kind === "outside-enact") outsideEnact(api, work);
 }
 
 // ---------------------------------------------------------------------------
@@ -930,6 +940,12 @@ function openSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     string,
     string,
   ];
+  // Another government's session is simulated from its people and keeps only
+  // its results (owner, Nov 5: "generate on demand").
+  if (jurisdiction !== "US" && !reachesTown(api, jurisdiction)) {
+    openOutsideSession(api, work);
+    return;
+  }
   const federal = jurisdiction === "US";
   const lower = federal
     ? houseOffice(api)
@@ -1054,6 +1070,255 @@ function openSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     source: { ...work.source, asOf: today },
     sourceRecordIds: [id],
   });
+}
+
+/**
+ * Another government's session (a state the player is not in): its members'
+ * and executive's own views decide what passes, from the people there. A
+ * change carries when every chamber has more members for it than against it
+ * and the executive agrees (or both chambers hold two thirds, which
+ * overrides). Nothing is filed, drafted or voted per member and no event is
+ * written; each result is one law row, put on a day inside the session, with
+ * its counts. The roll call is built when someone asks for it
+ * (`rollCallOf`). stopgapId: SG-GOV-outside-session-result-only
+ */
+function openOutsideSession(
+  api: CoreAPI,
+  work: Readonly<ModuleCalendarWork>,
+): void {
+  api.stopgap("SG-GOV-outside-session-result-only");
+  const [jurisdiction, conveneAt, adjournAt] = work.sourceRecordIds as [
+    string,
+    string,
+    string,
+  ];
+  const today = api.state.date;
+  const bodies = [
+    "legislature-lower",
+    "legislature-upper",
+    "legislature-unicameral",
+  ]
+    .map((kind) => chamber(api, jurisdiction, kind))
+    .filter((c): c is NonNullable<typeof c> => c !== null)
+    .filter((c) => c.members.length > 0);
+  const id = `session:${jurisdiction}:${conveneAt}`;
+  const lower = bodies[0];
+  const governor = lower ? executiveOf(api, lower.id).term : undefined;
+  const governorKey = governor ? memberKey(governor) : "";
+  const keys = bodies.map((b) => b.members.map(memberKey));
+  interface Result {
+    readonly question: string;
+    readonly direction: number;
+    readonly counts: readonly { yes: number; no: number }[];
+    readonly margin: number;
+    readonly decision: "signed" | "overridden";
+  }
+  const results: Result[] = [];
+  for (const question of PLATFORM_QUESTIONS) {
+    let best: Result | null = null;
+    for (const direction of [1, -1]) {
+      if (!needsChange(direction, answerIn(api, jurisdiction, question, true)))
+        continue;
+      if (!levelMayDecide(api, "state", question, direction, jurisdiction))
+        continue;
+      const counts = keys.map((chamberKeys) => {
+        let yes = 0;
+        let no = 0;
+        for (const key of chamberKeys) {
+          const lean = (officialStance(api, key, question) ?? 0) * direction;
+          if (lean > 0) yes += 1;
+          else if (lean < 0) no += 1;
+        }
+        return { yes, no };
+      });
+      if (!counts.length || !counts.every((c) => c.yes > c.no)) continue;
+      const governorFor = governorKey
+        ? (officialStance(api, governorKey, question) ?? 0) * direction > 0
+        : true;
+      const overrides = counts.every(
+        (c, i) => c.yes * 3 >= keys[i]!.length * 2,
+      );
+      if (!governorFor && !overrides) continue;
+      const margin = Math.min(
+        ...counts.map((c, i) => (c.yes - c.no) / keys[i]!.length),
+      );
+      if (!best || margin > best.margin)
+        best = {
+          question,
+          direction,
+          counts,
+          margin,
+          decision: governorFor ? "signed" : "overridden",
+        };
+    }
+    if (best) results.push(best);
+  }
+  results.sort(
+    (a, b) => b.margin - a.margin || a.question.localeCompare(b.question),
+  );
+  const start = conveneAt > today ? conveneAt : today;
+  const length = Math.max(1, daysBetween(start, adjournAt));
+  const calendar = api.moduleCalendar(WORLD_LEGISLATING_MODULE_ID);
+  const source = {
+    tag: "ESTIMATED" as const,
+    citation: "the session's own calendar",
+    asOf: today,
+    estimatedFrom: work.key,
+  };
+  results.forEach((r, i) => {
+    calendar.schedule({
+      key: `outside-enact:${id}:${i}`,
+      date: plusDays(
+        start,
+        Math.floor((length * (i + 1)) / (results.length + 1)),
+      ),
+      kind: "outside-enact",
+      source,
+      sourceRecordIds: [
+        id,
+        jurisdiction,
+        r.question,
+        String(r.direction),
+        r.counts.map((c) => `${c.yes}-${c.no}`).join("/"),
+        bodies.map((b) => b.id).join(","),
+        r.decision,
+        governorKey,
+        String(i + 1),
+        String(r.margin),
+      ],
+    });
+  });
+  sessionTable(api).put({
+    id,
+    jurisdiction,
+    bodyOfficeId: lower?.id ?? null,
+    conveneAt,
+    adjournAt,
+    leader: null,
+    perWeek: 0,
+    // Nothing is taken up bill by bill: no floor week is ever reached.
+    firstFloor: adjournAt,
+    filings: [],
+    bills: [],
+  } as unknown as ModuleRow);
+  calendar.schedule({
+    key: `session-close:${id}`,
+    date: adjournAt,
+    kind: "session-close",
+    source: { ...work.source, asOf: today },
+    sourceRecordIds: [id],
+  });
+}
+
+/** The day an outside result passes: the law row, with its counts, and nothing else. */
+function outsideEnact(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
+  const [
+    sessionId,
+    jurisdiction,
+    question,
+    directionText,
+    counts,
+    bodyIds,
+    decision,
+    governorKey,
+    nth,
+    margin,
+  ] = work.sourceRecordIds as [
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+  ];
+  const direction = Number(directionText);
+  // The law may have changed since the session opened: then nothing passes.
+  if (!needsChange(direction, answerIn(api, jurisdiction, question, true)))
+    return;
+  const today = api.state.date;
+  const rule = stateActEffectiveDate(jurisdiction, today, today);
+  if (!rule)
+    throw new Error(
+      `No effective-date rule for ${jurisdiction} acts (state-effective-dates.json).`,
+    );
+  const conveneAt = sessionId.slice(sessionId.lastIndexOf(":") + 1);
+  enactLaw(api, {
+    jurisdiction,
+    level: "state",
+    series: question,
+    value: direction > 0 ? 1 : 0,
+    effectiveDate: rule.date,
+    measureId: `${conveneAt.slice(0, 4)}-${nth}`,
+    citation: `${jurisdiction} legislature, session of ${conveneAt} (effective by ${rule.cite})`,
+    terms: {
+      session: sessionId,
+      chambers: counts,
+      bodies: bodyIds,
+      direction,
+      margin: Number(margin),
+      ...(governorKey ? { decidedBy: governorKey } : {}),
+      decision,
+    },
+  });
+}
+
+/**
+ * The roll call of an outside government's law, built when it is asked for
+ * and kept once seen: each chamber's members ranked by how much they favor the
+ * change, the first `yes` of them voting yes and the last `no` voting no, so
+ * the list adds up to the count the law row kept, and the sponsor is the
+ * member who favored it most. The same every time.
+ */
+export function rollCallOf(
+  api: CoreAPI,
+  lawId: string,
+  chamberIndex: number,
+): {
+  readonly chamber: string;
+  readonly yes: readonly string[];
+  readonly no: readonly string[];
+  readonly sponsor: string | null;
+} | null {
+  const cache = api.moduleState(WORLD_LEGISLATING_MODULE_ID).table("rollCalls");
+  const id = `${lawId}|${chamberIndex}`;
+  const seen = cache.get(id) as unknown as
+    | {
+        chamber: string;
+        yes: readonly string[];
+        no: readonly string[];
+        sponsor: string | null;
+      }
+    | undefined;
+  if (seen) return seen;
+  const row = api.moduleState(LAWS_MODULE_ID).table("laws").get(lawId) as
+    LawRowInput | undefined;
+  const terms = row?.terms;
+  if (!row || typeof terms?.session !== "string") return null;
+  const count = String(terms.chambers ?? "").split("/")[chamberIndex];
+  const chamberId = String(terms.bodies ?? "").split(",")[chamberIndex];
+  if (!count || !chamberId) return null;
+  const [yesCount, noCount] = count.split("-").map(Number) as [number, number];
+  const direction = Number(terms.direction) || 1;
+  const ranked = members(api, chamberId)
+    .map((term) => {
+      const key = memberKey(term);
+      return {
+        key,
+        lean: (officialStance(api, key, row.series) ?? 0) * direction,
+      };
+    })
+    .sort((a, b) => b.lean - a.lean || a.key.localeCompare(b.key));
+  const yes = ranked.slice(0, yesCount).map((m) => m.key);
+  const no = ranked
+    .slice(Math.max(yesCount, ranked.length - noCount))
+    .map((m) => m.key);
+  const built = { id, chamber: chamberId, yes, no, sponsor: yes[0] ?? null };
+  cache.put(built as unknown as ModuleRow);
+  return built;
 }
 
 function introduceBill(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {

@@ -2002,7 +2002,6 @@ export function effectiveRule(
   readonly date: string;
   readonly cite: string;
 } {
-  const chain = lawChain(api);
   const { federal, state, level } = billReach(api, bill);
   const jurisdiction = billJurisdiction(api, bill);
   const base = { jurisdiction, level, federal, state } as const;
@@ -2017,7 +2016,7 @@ export function effectiveRule(
   if (state) {
     // Counted from the session the act passed in, though signed later.
     const stateDate = stateActEffectiveDate(
-      chain.stateKey,
+      jurisdiction,
       api.state.date,
       bill.passedOn,
     );
@@ -2025,7 +2024,7 @@ export function effectiveRule(
     // fix, never a silent ordinance delay.
     if (!stateDate)
       throw new Error(
-        `No effective-date rule for ${chain.stateKey} acts (state-effective-dates.json).`,
+        `No effective-date rule for ${jurisdiction} acts (state-effective-dates.json).`,
       );
     return {
       ...base,
@@ -4201,16 +4200,6 @@ function floorAmendments(
   const start =
     (table(api, "bills").get(bill.id) as unknown as BillRow | undefined) ??
     bill;
-  // Dealing is the sponsor working holdouts one by one, which only the player
-  // can take part in: another government's bill goes to its vote as filed.
-  // stopgapId: SG-GOV-outside-bills-no-dealing
-  if (
-    !inTownChain(lawChain(api), billJurisdiction(api, start)) &&
-    billJurisdiction(api, start) !== "US"
-  ) {
-    api.stopgap("SG-GOV-outside-bills-no-dealing");
-    return start;
-  }
   if (roll.length < 3) return start;
   const need = Math.floor(roll.length / 2) + 1;
   let current = start;
