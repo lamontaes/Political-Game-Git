@@ -11,6 +11,10 @@
 
 The script's own bar (no year more than 20 percent slower) passed too. Years 2 and 4 are over two minutes on this machine both before and after, so the two-minute bar is a separate question from the map.
 
-**Earlier try in a larger town.** In Montpelier, Vermont (about 8,000 people, same seed), years 1 to 3 compared: 163.8, 410.4 and 613.6 seconds before; 160.3, 423.1 and 556.7 after. Year 4 ran out of memory on this machine both before and after, so that town's year 4 could not be compared. The small town above is why year 4 is compared at all.
+## Earlier try in a larger town
 
-**Method.** Place: Upper Witter Gulch, Colorado (key 0879800), seed 5a1c0de7a11ce5e1, one process at a time on a quiet machine, four years each with `npm run speed:year -- --seed 5a1c0de7a11ce5e1 --place 0879800 --years 4 --exclusive`. Before: main at a394ca8fde, just before the place map merged. After: main at 93e913ee34, with the map and every family moved onto it.
+In Montpelier, Vermont (about 8,000 people, same seed), years 1 to 3 compared: 163.8, 410.4 and 613.6 seconds before; 160.3, 423.1 and 556.7 after. Year 4 ran out of memory on this machine both before and after, so that town's year 4 could not be compared. The small town above is why year 4 is compared at all.
+
+## Method
+
+Place: Upper Witter Gulch, Colorado (key 0879800), seed 5a1c0de7a11ce5e1, one process at a time on a quiet machine, four years each with `npm run speed:year -- --seed 5a1c0de7a11ce5e1 --place 0879800 --years 4 --exclusive`. Before: main at a394ca8fde, just before the place map merged. After: main at 93e913ee34, with the map and every family moved onto it.
