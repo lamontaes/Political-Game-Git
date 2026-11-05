@@ -9,6 +9,7 @@ import { registerModule } from "../state";
 import { housingStatusCounts } from "../housing-homeless";
 import type { ModuleRow } from "../module-data";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
+import { corePlaceByKey } from "../place-lookup";
 
 export const HOMELESS_COUNT_MODULE_ID = "core2-homeless-count-v1";
 export const HOMELESS_COUNT_EVENT = "housing.homeless-count";
@@ -16,13 +17,14 @@ export const HOMELESS_COUNT_EVENT = "housing.homeless-count";
 const table = (api: CoreAPI) =>
   api.moduleState(HOMELESS_COUNT_MODULE_ID).table("counts");
 
-/** The town's place: the first of its visible places (the player's place). */
-function townOf(api: CoreAPI): string | undefined {
-  return [...(api.state as CoreState).visiblePlaceIds][0];
+/** The town's place id: the played town, from its place key. */
+function townPlaceId(api: CoreAPI): string | undefined {
+  const key = api.state.placeMetadata?.placeKey;
+  return key ? corePlaceByKey(key)?.context.jurisdiction.id : undefined;
 }
 
 function countMonth(api: CoreAPI): void {
-  const town = townOf(api);
+  const town = townPlaceId(api);
   if (!town) return;
   const counts = housingStatusCounts(api, town);
   const homeless = counts.sheltered + counts.unsheltered;
