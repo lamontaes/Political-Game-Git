@@ -6,9 +6,9 @@ lead: laws
 kind: bug
 priority: 1
 size: L
-status: open
+status: done
 claimed-by:
-pr: #7297
+pr: #7299
 blocked-on:
 source: owner, Oct 29 voice note on the governing brief
 claimed-at:
