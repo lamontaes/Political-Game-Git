@@ -223,7 +223,7 @@ traits = [("stubborn", "Stubborn"), ("curious", "Curious"), ("calm", "Slow to an
 th = "".join(f'<div class="medal"><span class="ring">{ic(i)}</span><span>{t}</span></div>' for i, t in traits)
 views = [("Jobs", "The plant should have warned people before cutting the shift.", 25), ("Taxes", "The grocery tax hurts families like his.", 30), ("Town", "Fix the north-side drainage before anything else.", 70)]
 vh = "".join(f'<div class="view"><b>{t}</b><span>{v}</span></div>' for t, v, _ in views)
-who = panel('<div class="who2w"><div class="portrait2" style="background-image:url(img/house-gulf-coast-raised__midday.jpg)"><img src="img/fig-look-004.png" alt=""></div>'
+who = panel('<div class="who2w"><div class="portrait2" style="background-image:url(img/house-gulf-coast-raised__midday.jpg)"></div>'
             '<div class="whob"><div class="name huge">John Spencer</div><div class="label2">18 · born April 3, 2006 · Pecan Street, Latimer</div>'
             f'<div class="medals">{th}</div>'
             + rows([("Household", "Your parents, Ruth and Earl, on Pecan Street"), ("School", "Graduated Latimer High School, May 2024"), ("Job", "Line worker, Sunflower Catfish, nights")])
