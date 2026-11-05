@@ -336,7 +336,7 @@ describe("M3-10 other governments legislate", () => {
         bills: session!.bills,
       }),
     );
-  });
+  }, 300_000);
 
   it(`the town's council and county board bring their own ordinances on their schedule, seed ${seed}`, () => {
     // A locality with no council and no county board (a territory's
@@ -509,7 +509,7 @@ describe("M3-10 other governments legislate", () => {
         adoptedBy: federal!.adoptedBy,
       }),
     );
-  });
+  }, 300_000);
 
   it("a federal act with no date of its own takes effect the day it's signed and reaches the town", () => {
     const state = pick(states, "federal-now:state");

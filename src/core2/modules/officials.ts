@@ -107,6 +107,7 @@ export const OFFICIALS_MODULE: CoreModule = {
         indexes: {
           byBody: { fields: ["body"] },
           bySeat: { fields: ["seatId"] },
+          byState: { fields: ["stateKey"] },
         },
       },
       loaded: {},
@@ -846,7 +847,21 @@ function leaders(all: readonly Spec[]): Map<string, string> {
  * too) with their party's leader, and the executive branch with its head. Their time together is their shared years of service.
  */
 function colleagues(api: CoreAPI, added: ReadonlySet<string>): void {
-  const rows = table(api, "officials").rows() as unknown as OfficialRow[];
+  const officials = table(api, "officials");
+  const addedRows = [...added]
+    .map((id) => officials.get(id) as unknown as OfficialRow | undefined)
+    .filter((row): row is OfficialRow => row !== undefined);
+  // A tie needs one of its two ends among the added, and the other end shares
+  // their body or their state. So when only state offices were added, the
+  // rows of their states hold every tie; the nation's seats, which tie across
+  // states, read the whole table.
+  const rows =
+    addedRows.length && !addedRows.some((row) => row.body.startsWith("US:"))
+      ? [...new Set(addedRows.map((row) => row.stateKey))].flatMap(
+          (state) =>
+            officials.query("byState", [state]) as unknown as OfficialRow[],
+        )
+      : (officials.rows() as unknown as OfficialRow[]);
   const hours = OFFICIALS_DATA.colleagues.hoursPerSharedYear.value;
   const cap = OFFICIALS_DATA.colleagues.maxYears.value;
   const year = Number(api.state.date.slice(0, 4));

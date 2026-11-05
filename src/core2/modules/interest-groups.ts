@@ -23,11 +23,13 @@ import { parameter } from "../parameters";
 import { leanedYes } from "../trait-decisions";
 import { lawChain } from "./laws";
 import {
+  billJurisdiction,
   chambersOf,
   employerCosts,
   LEGISLATURE_MODULE_ID,
   members,
   provisionStance,
+  reachesTown,
   registerLegislatureHooks,
   votesOn,
   type BillRow,
@@ -202,6 +204,9 @@ export function ownerJoins(
 function organize(api: CoreAPI, billId: string): void {
   if (!api.state.modules.has(INTEREST_GROUPS_MODULE_ID)) return;
   const b = bill(api, billId);
+  // The town's residents and employers organize over law that reaches them:
+  // the nation's and the town's own chain's, never another state's.
+  if (!reachesTown(api, billJurisdiction(api, b))) return;
   organizeResidents(api, b);
   for (const stake of employerStakes(api, b)) organizeEmployers(api, b, stake);
 }

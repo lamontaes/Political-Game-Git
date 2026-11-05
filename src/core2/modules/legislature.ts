@@ -62,13 +62,14 @@ import {
   type SettledQuestion,
 } from "./laws";
 import {
+  inTownChain,
   localAuthority,
   officeLawJurisdiction,
   type EnactedAuthority,
 } from "../laws-in-force";
 import type { LawRowInput } from "../laws-starting";
 import { awaitingVacancy, OFFICES_MODULE_ID, type TermRow } from "./offices";
-import { recordVote, votesOf } from "./record";
+import { lastVoteOn, recordVote } from "./record";
 import { viewOn } from "./views";
 import { ownStance } from "../officials-roster";
 import { closenessBetween } from "../closeness";
@@ -2483,17 +2484,22 @@ export function members(api: CoreAPI, officeId: string): readonly TermRow[] {
   if (officeId === FEDERAL_HOUSE || officeId === FEDERAL_SENATE)
     return congressMembers(api, officeId);
   const offices = api.moduleState(OFFICES_MODULE_ID);
-  return (
-    offices.table("seats").query("byOffice", [officeId]) as unknown as {
-      id: string;
-    }[]
-  ).flatMap((seat) =>
+  // One query for the office's serving terms, put back in seat order.
+  const order = new Map(
     (
-      offices
-        .table("terms")
-        .query("bySeatStatus", [seat.id, "serving"]) as unknown as TermRow[]
-    ).map((term) => holderOf(api, term)),
+      offices.table("seats").query("byOffice", [officeId]) as unknown as {
+        id: string;
+      }[]
+    ).map((seat, index) => [seat.id, index] as const),
   );
+  return (
+    offices
+      .table("terms")
+      .query("byOfficeStatus", [officeId, "serving"]) as unknown as TermRow[]
+  )
+    .filter((term) => order.has(term.seatId))
+    .sort((a, b) => order.get(a.seatId)! - order.get(b.seatId)!)
+    .map((term) => holderOf(api, term));
 }
 
 /** Places whose House member does not vote on final passage (House Rule III), from data. */
@@ -2832,6 +2838,23 @@ function tieBreaker(api: CoreAPI, chamber: string): string | null {
   return term ? memberKey(term) : null;
 }
 
+/** Whether a government's law reaches the player's town: the nation's, or one of the town's own chain. */
+export function reachesTown(api: CoreAPI, jurisdiction: string): boolean {
+  return jurisdiction === "US" || inTownChain(lawChain(api), jurisdiction);
+}
+
+/**
+ * The law keys whose rows are the law a government's body answers to: the
+ * player's town's own chain and the nation's for a town government, else just
+ * the government's own. Another state's law is never the town's.
+ */
+export function lawKeysOf(api: CoreAPI, jurisdiction: string): string[] {
+  const chain = lawChain(api);
+  return inTownChain(chain, jurisdiction)
+    ? [...chain.levels.map((level) => level.jurisdiction), "US"]
+    : [jurisdiction];
+}
+
 /** The series a provision changes in the law table (none for a budget line). */
 function provisionSeries(provision: Provision): string | undefined {
   if (provision.kind === "policy-question") return provision.question;
@@ -2845,8 +2868,19 @@ function provisionSeries(provision: Provision): string | undefined {
  * last law enacted on it passed and H is `settledLawDays`. A law nothing has
  * changed since the opening is fully settled.
  */
-export function settledness(api: CoreAPI, series: string | undefined): number {
-  const last = series ? lastEnactment(api, series) : null;
+export function settledness(
+  api: CoreAPI,
+  series: string | undefined,
+  /** The government whose law the change would move; every government's when absent. */
+  jurisdiction?: string,
+): number {
+  const last = series
+    ? lastEnactment(
+        api,
+        series,
+        jurisdiction ? lawKeysOf(api, jurisdiction) : undefined,
+      )
+    : null;
   if (!last) return 1;
   const age = Math.max(
     0,
@@ -2882,11 +2916,12 @@ function recordConsistency(
   for (const stance of billStances(api, bill)) {
     const series = provisionSeries(stance.provision);
     if (!series) continue;
-    const last = votesOf(api, memberId)
-      .filter((v) => v.stance.question === stance.question)
-      .at(-1);
+    // A member's earlier vote on this same bill (in committee) is not a past
+    // vote this bill undoes.
+    const last = lastVoteOn(api, memberId, stance.question, bill.id);
     if (!last) continue;
-    const freshness = (1 - settledness(api, series)) / 2;
+    const freshness =
+      (1 - settledness(api, series, billJurisdiction(api, bill))) / 2;
     sum +=
       campaignParameter("reversalReluctance") *
       freshness *
@@ -2898,7 +2933,11 @@ function recordConsistency(
 /** A bill's settledness: the least settled law any of its provisions moves. */
 function billSettledness(api: CoreAPI, bill: BillRow): number {
   return bill.provisions.reduce(
-    (least, p) => Math.min(least, settledness(api, provisionSeries(p))),
+    (least, p) =>
+      Math.min(
+        least,
+        settledness(api, provisionSeries(p), billJurisdiction(api, bill)),
+      ),
     1,
   );
 }
@@ -3701,6 +3740,10 @@ function chamberVote(
     memberPosition(api, bill.id, memberKey(member)),
   );
   const closeness = voteCloseness(positions.map((position) => position.total));
+  // The journal's and the director's vote events are the player's world's: the
+  // nation's and the town's own chain's. Another government's roll call stays
+  // on the record (the votes table) without an event per member.
+  const yoursToSee = reachesTown(api, billJurisdiction(api, bill));
   for (const [index, member] of seated.entries()) {
     const key = memberKey(member);
     const position = positions[index]!;
@@ -3726,7 +3769,7 @@ function chamberVote(
     // A member who is a full person has cast a vote of their own: a record
     // their journal and the director read. Named officials not filled in have none.
     const resident = api.state.people.get(key);
-    if (resident && (vote === "yes" || vote === "no"))
+    if (yoursToSee && resident && (vote === "yes" || vote === "no"))
       api.emit({
         id: `office.voted:${bill.id}:${key}`,
         date: api.state.date,
@@ -4158,6 +4201,16 @@ function floorAmendments(
   const start =
     (table(api, "bills").get(bill.id) as unknown as BillRow | undefined) ??
     bill;
+  // Dealing is the sponsor working holdouts one by one, which only the player
+  // can take part in: another government's bill goes to its vote as filed.
+  // stopgapId: SG-GOV-outside-bills-no-dealing
+  if (
+    !inTownChain(lawChain(api), billJurisdiction(api, start)) &&
+    billJurisdiction(api, start) !== "US"
+  ) {
+    api.stopgap("SG-GOV-outside-bills-no-dealing");
+    return start;
+  }
   if (roll.length < 3) return start;
   const need = Math.floor(roll.length / 2) + 1;
   let current = start;
