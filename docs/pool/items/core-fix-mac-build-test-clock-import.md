@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: mac-build-fix
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-05T22:06:36.806Z
 ---
 
 **What.** The Mac build typecheck failed because gov-test-clock imported CoreState from state, which does not export it. It now imports from types.
