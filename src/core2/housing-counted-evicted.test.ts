@@ -470,6 +470,12 @@ it("Storrs, Connecticut: an evicted counted household stays counted, is placed a
     .map((row) => row.removedAt ?? "")
     .sort()
     .at(-1)!;
+  // A household filled in before and returned to the counts can hold a person
+  // record that has since collected pay of its own; fill-in adds the share to
+  // what they hold, no more and no less.
+  const heldBefore = rt.store
+    .memberIdsOf(record)
+    .reduce((n, id) => n + (core.people.get(id)?.liquidMinor ?? 0), 0);
   fillInPerson(core, firstId);
   const full = core.households.get(met!);
   expect(full, where).toBeDefined();
@@ -485,7 +491,7 @@ it("Storrs, Connecticut: an evicted counted household stays counted, is placed a
       0,
     ),
     where,
-  ).toBe(cash);
+  ).toBe(heldBefore + cash);
   // The monthly review reads it from its people now, in the same place.
   let reviewed: string | undefined;
   reviewHomeless(
