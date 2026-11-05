@@ -6,10 +6,10 @@ import {
   placeCounty,
   placeParent,
   placeRow,
-  placeSlots,
   placeState,
   placesUnder,
 } from "./place-map";
+import { placeSlots } from "./gov-rules/place-slots";
 import { placeStateKeys } from "./places";
 
 describe("the one place map", () => {

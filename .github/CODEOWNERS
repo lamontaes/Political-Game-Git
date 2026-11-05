@@ -275,6 +275,7 @@
 /src/core2/calendar.ts @lamontaes
 /src/core2/game-start.ts @lamontaes
 /src/core2/places.ts @lamontaes
+/src/core2/place-map.ts @lamontaes
 /src/core2/place-lookup.ts @lamontaes
 /src/core2/coarse-place.ts @lamontaes
 /src/core2/world-settings.ts @lamontaes

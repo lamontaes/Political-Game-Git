@@ -342,7 +342,8 @@
       "entry": [
         "src/core2/modules/world.ts",
         "src/core2/life.ts",
-        "src/core2/places.ts"
+        "src/core2/places.ts",
+        "src/core2/place-map.ts"
       ],
       "paths": [
         "src/core2/modules/world.ts",
@@ -352,6 +353,7 @@
         "src/core2/calendar.ts",
         "src/core2/game-start.ts",
         "src/core2/places.ts",
+        "src/core2/place-map.ts",
         "src/core2/place-lookup.ts",
         "src/core2/coarse-place.ts",
         "src/core2/world-settings.ts",

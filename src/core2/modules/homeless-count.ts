@@ -9,7 +9,7 @@ import { registerModule } from "../state";
 import { housingStatusCounts } from "../housing-homeless";
 import type { ModuleRow } from "../module-data";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
-import { corePlaceByKey } from "../place-lookup";
+import { placeJurisdictionId } from "../place-map";
 
 export const HOMELESS_COUNT_MODULE_ID = "core2-homeless-count-v1";
 export const HOMELESS_COUNT_EVENT = "housing.homeless-count";
@@ -19,8 +19,7 @@ const table = (api: CoreAPI) =>
 
 /** The town's place id: the played town, from its place key. */
 function townPlaceId(api: CoreAPI): string | undefined {
-  const key = api.state.placeMetadata?.placeKey;
-  return key ? corePlaceByKey(key)?.context.jurisdiction.id : undefined;
+  return placeJurisdictionId(api.state.placeMetadata?.placeKey);
 }
 
 function countMonth(api: CoreAPI): void {
