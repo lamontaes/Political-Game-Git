@@ -1,6 +1,6 @@
 {
   "housingRentIncomeElasticity": {
-    "value": 0.6,
+    "value": 0.4,
     "tag": "TUNABLE",
     "citation": "Income elasticity of housing spending, about 0.3 to 0.7 (Glaeser, Gyourko and Saks 2005; Davis and Ortalo-Magne 2011).",
     "spread": {
