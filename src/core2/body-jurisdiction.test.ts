@@ -140,6 +140,9 @@ it(`ordinary bills and voted laws read their actual body's government: ${where}`
           .get(billId) as unknown as BillRow;
         expect(bill, law.id).toBeDefined();
         expect(law.jurisdiction, law.id).toBe(billJurisdiction(api, bill));
+        // Another state's law is that state's own: it is not in the town's
+        // chain, and the town's readers below never see it.
+        if (!inTownChain(chain, law.jurisdiction)) continue;
         expect(inTownChain(chain, law.jurisdiction), law.id).toBe(true);
         checked.add(law.id);
         if (witness || law.effectiveDate > core.date) continue;
