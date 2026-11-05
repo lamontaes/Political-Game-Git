@@ -9,7 +9,9 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import type { LawRowInput } from "./laws-starting";
 import { advanceCore } from "./life";
 import { lawChain, LAWS_MODULE_ID } from "./modules/laws";
-import { answerIn } from "./modules/world-legislating";
+import { memberKey, members } from "./modules/legislature";
+import { officialOf } from "./modules/officials";
+import { answerIn, filerOf } from "./modules/world-legislating";
 import { coreAPI } from "./state";
 
 const replay = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
@@ -85,6 +87,22 @@ it(`every state sits for a year and its laws are its own, not the town's: ${draw
           ).toEqual([]);
       }
     }
+    // Another state's legislator files for their own district, not the town.
+    let checked = 0;
+    for (const [state, passed] of byState) {
+      if (state === chain.stateKey) continue;
+      const body = passed[0]!.bill.bodyOfficeId;
+      for (const term of members(api, body).slice(0, 3)) {
+        const official = officialOf(api, memberKey(term));
+        expect(official, `${body} member ${memberKey(term)}`).toBeDefined();
+        expect(filerOf(api, term).home, memberKey(term)).toBe(
+          official!.districtLean,
+        );
+        checked += 1;
+      }
+      if (checked >= 30) break;
+    }
+    expect(checked).toBeGreaterThan(0);
   } finally {
     setBookkeeping(true);
   }

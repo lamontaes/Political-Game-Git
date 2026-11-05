@@ -35,7 +35,7 @@ import congressSessions from "../data/legislature/congress-sessions.json" with {
 import { townConcernShare } from "./meetings";
 import { sessionPlaceKeys, sessionYear } from "../state-session-calendar";
 import { leaderOf, presidingOfficer } from "./leadership";
-import { officialStance } from "./officials";
+import { officialOf, officialStance } from "./officials";
 import { coreAPI, registerModule } from "../state";
 import type {
   CoreAPI,
@@ -334,7 +334,7 @@ export interface SessionBill {
 /**
  * What moves a member to carry a change: their views and, at the constituent
  * weight, how their constituents lean (a town member's town, a state or
- * federal member's own seat until district views are modeled), the same
+ * federal official's own district, from their officials row), the same
  * parts their vote weighs (`legislature.ts`), plus how their traits lean
  * between filing and holding back. Read once per sitting.
  */
@@ -359,7 +359,9 @@ export function filerOf(api: CoreAPI, term: TermRow): Filer {
     term,
     key,
     lean,
-    home: person ? townLean(api) : lean,
+    // A state or federal official's constituents are their own district's;
+    // only a town member answers to the town.
+    home: officialOf(api, key)?.districtLean ?? (person ? townLean(api) : lean),
     person,
     trait: person
       ? decisionLean(
