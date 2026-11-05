@@ -296,6 +296,18 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.85.3
+
+_Released November 5, 2026._
+
+### Fixed
+
+- **Puerto Rico, Massachusetts and Vermont places now have election and budget
+  dates read from their statutes.** Puerto Rico's municipal fiscal year (ending
+  June 30) and four-year municipal elections, Massachusetts county
+  commissioners' elections and Vermont's county offices are now read from the
+  statutes, so these places no longer fall back to a missing date.
+
 ## PRE-ALPHA 0.85.2
 
 _Released November 4, 2026._
