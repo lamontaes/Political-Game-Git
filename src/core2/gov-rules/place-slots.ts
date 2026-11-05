@@ -88,7 +88,14 @@ function electionTiming(row: PlaceRow, state: PlaceRow | null): string | null {
     const unit =
       countyGovernmentUnit(row.id.slice("county:".length)) ??
       municipioUnit(row.id.slice("county:".length));
-    if (!unit) return null;
+    // A county with no active government of its own holds no county election:
+    // the local governments in its area are the state's towns, which vote on
+    // the state's municipal timing.
+    if (!unit || !unit.functionalActive)
+      return state
+        ? (resolveMunicipalElectionTiming(state.id.slice("US-".length), row.id)
+            ?.timing ?? null)
+        : null;
     const read = nextCountyElection(unit, TIMING_DATE);
     return read.status === "read" ? "county-calendar" : null;
   }
