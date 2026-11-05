@@ -9,6 +9,7 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { advanceCore } from "../life";
 import { housingStatusCounts } from "../housing-homeless";
 import { townFigures } from "../modules/housing";
+import hud from "../../../docs/research/cloud-b-outcomes-2024/homelessness-hud-2024.json" with { type: "json" };
 import { buildPlayedWorld, nextDay, playYear } from "./m1-played-year";
 
 const drawn = drawPlace(
@@ -16,7 +17,7 @@ const drawn = drawPlace(
   "rent-year",
 );
 process.env.GOLDEN_PATH_SEED = drawn.seed;
-process.env.GOLDEN_PATH_PLACE_KEY = drawn.key;
+process.env.GOLDEN_PATH_PLACE_KEY = process.env.RENT_PLACE ?? drawn.key;
 
 const world = buildPlayedWorld();
 const { api, core } = world;
@@ -29,6 +30,12 @@ const cases = api.moduleState("housing").table("cases").rows() as unknown as {
   stage: string;
 }[];
 const counts = housingStatusCounts(api, townId);
+const people =
+  counts.housed + counts["doubled-up"] + counts.sheltered + counts.unsheltered;
+const usps = String(meta.housingState ?? "");
+const realRate =
+  (hud.places as Record<string, { per10k: number }>)[`US-${usps}`]?.per10k ??
+  hud.national.per10k;
 console.log(
   JSON.stringify({
     place: String(meta.placeKey ?? ""),
@@ -37,5 +44,9 @@ console.log(
     removed: cases.filter((row) => row.stage === "removed").length,
     homeless: counts.sheltered + counts.unsheltered,
     doubledUp: counts["doubled-up"],
+    people,
+    homelessPer10k:
+      Math.round(((counts.sheltered + counts.unsheltered) / people) * 1e5) / 10,
+    hudPer10k: realRate,
   }),
 );
