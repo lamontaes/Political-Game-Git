@@ -5,11 +5,12 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: filing-fix
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-05T18:42:32.127Z
 ---
 
 **What.** Golden-path filing specs failed with no open contest to file for in places whose filing window opens after Jan 5 (38 of 56 jurisdictions). The specs now wait for the first open day, and the deadline check follows the one-deadline rule.
