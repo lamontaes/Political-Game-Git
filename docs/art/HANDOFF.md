@@ -15,16 +15,12 @@ People are built the way Reddit builds avatars: "it uses the same model, and all
 
 ## Where things are
 
-| Path (branch `claude/people-rooms-art`)                      | What                                                                                                                                                              |
-| ------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `art/people-engine/v2/wardrobe/<pose>/<figure>/`             | The parts for one pose, in that figure's box: `body.png`, `shirt-1..5.png`, `jacket-1..5.png`, `tie-1.png`, `pants-1..5.png`, `shoes-1..5.png`, `hair-1..12.png`. |
-| `art/people-engine/v2/wardrobe/<pose>/parts.json`            | The frame size, each figure's box `[x0, y0, x1, y1]` in the frame, the layer order, and the parts each figure has.                                                |
-| `art/people-engine/v2/wardrobe/outfits.json`                 | Named outfits (part numbers per layer) with their place and time tags.                                                                                            |
-| `art/people-engine/v2/wardrobe/<pose>/base.png`              | The pose's base picture: bald, plain collared shirt, slacks, dress shoes.                                                                                         |
-| `art/people-rooms/prompts/natural.js`                        | The Firefly job builders: `__natBases` (natural pose bases), `__marker`, `__keyParts` (18 parts in key green), `__hair12`.                                        |
-| `art/people-rooms/prompts/runner-strict.js`                  | The one-at-a-time runner: one fresh reference per job, 30 s apart per tab.                                                                                        |
-| `art/people-rooms/tools/`                                    | `wardrobe_parts.py` (makes a pose's parts transparent) and `stack.py` (stacks parts into dressed people for proof sheets).                                        |
-| `art/people-rooms/README.md`, `manifest.json`, `MANIFEST.md` | Plates, spots, tags and earlier deliveries.                                                                                                                       |
+| Path (branch `claude/people-rooms-art`)           | What                                                                                                                                                              |
+| ------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `art/people-engine/v2/wardrobe/<pose>/<figure>/`  | The parts for one pose, in that figure's box: `body.png`, `shirt-1..5.png`, `jacket-1..5.png`, `tie-1.png`, `pants-1..5.png`, `shoes-1..5.png`, `hair-1..12.png`. |
+| `art/people-engine/v2/wardrobe/<pose>/parts.json` | The frame size, each figure's box `[x0, y0, x1, y1]` in the frame, the layer order, and the parts each figure has.                                                |
+| `art/people-engine/v2/wardrobe/outfits.json`      | Named outfits (part numbers per layer) with their place and time tags.                                                                                            |
+| `art/people-engine/v2/wardrobe/<pose>/base.png`   | The pose's base picture: bald, plain collared shirt, slacks, dress shoes.                                                                                         |
 
 ## Stacking a person (what the game does)
 

@@ -40,7 +40,6 @@ interface PlateSpot {
 }
 interface PlateFile {
   empty: string;
-  plate: string;
   size: [number, number];
   spots: PlateSpot[];
 }
@@ -290,7 +289,7 @@ for (const scene of scenes) {
     ...kept,
   ];
   stage.spotsFrom = source;
-  stage.measuredFrom = `mannequin plate ${plate.plate} over ${plate.empty}, measured by the art session (art/people-rooms/tools/slots.py); head share ${share.toFixed(3)}`;
+  stage.measuredFrom = `spots measured over ${plate.empty}; head share ${share.toFixed(3)}`;
   occluders.places[scene] = {
     parent,
     parentSha256: createHash("sha256")
