@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 192 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 193 pull requests merged. Newest state at the top of each section.
 
 **Stopped by the owner, Nov 4, 2:37 p.m. Eastern, at 161 merged; resumed on the owner's word at about 2:53 p.m. Eastern (relayed by the CTO). The desk merges One Map's PRs, and from Nov 5, 05:22 UTC also State Sessions' (every other state holds sessions), on the owner's approval relayed by the CTO. From Nov 5, about 5:15 p.m. Eastern, also the Cleanup session's three PRs (the old art pipeline, the Oct 14 mocks, the green mannequin plates with the old mocks), on the same check; the art pipeline PR also needs `npm run build` to succeed on its merged head. Lanes 1, 3, 4 and 5 are stopped and Lane 2 is off, so #7110 and #7127 stay open, and skills PRs #7233, #7254 and #7264 stay with the CTO.**
 
@@ -120,7 +120,7 @@ New on Nov 3:
 | #7300 | Rents sit near the real renter median for the county, and each household's rent follows the income it is actually paid (they ran 31 to 40 percent under)                 | Delaware Park, New Jersey                   | 874505f44de46093 |
 | #7303 | Fixes the red Mac build: the filing test clock imports `CoreState` from `./types` (one line)                                                                             | Millersburg, Kentucky                       | 364de7a112068f58 |
 
-**Main's Mac build was red (Nov 5, run 42106943831)** after #7298 imported `CoreState` from `./state`. One Map's #7303 fixed the import and merged; a new Mac build was started on it.
+**Main's Mac build was red (Nov 5, run 42106943831)** after #7298 imported `CoreState` from `./state`. One Map's #7303 fixed the import; the Mac build on it passed and published (run 42118922460).
 
 ## Cleanup's PRs (from Nov 5)
 
@@ -128,6 +128,7 @@ New on Nov 3:
 | ----- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------- | ---------------- |
 | #7304 | Deletes the old art pipeline and every reference to it (855 files, about 644 MB); the game read none of it. `npm run build` succeeded on the merged head | Sullivan's Island, South Carolina | 6cc6165f1351ea9c |
 | #7305 | Deletes the Oct 14 screen mocks and every citation of them                                                                                               | Mariemont, Ohio                   | 86123a6ce7c55e43 |
+| #7306 | Deletes the green mannequin plates, the Oct 27 setup and the radial and Oct 5 mocks                                                                      | Horicon, Wisconsin                | dd77eefed6b5e9ec |
 
 ## State Sessions' PRs (from Nov 5)
 
