@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 186 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 187 pull requests merged. Newest state at the top of each section.
 
 **Stopped by the owner, Nov 4, 2:37 p.m. Eastern, at 161 merged; resumed on the owner's word at about 2:53 p.m. Eastern (relayed by the CTO). The desk merges One Map's PRs, and from Nov 5, 05:22 UTC also State Sessions' (every other state holds sessions), on the owner's approval relayed by the CTO. Lanes 1, 3, 4 and 5 are stopped and Lane 2 is off, so #7110 and #7127 stay open, and skills PRs #7233, #7254 and #7264 stay with the CTO.**
 
@@ -93,29 +93,30 @@ New on Nov 3:
 
 ## One Map's PRs (from Nov 4, 2:53 p.m. Eastern)
 
-| PR    | What it does                                                                                                       | Town                                        | Replay number    |
-| ----- | ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------- | ---------------- |
-| #7273 | One map of places: every place is one row, read through one reader, with a report of the gaps                      | Omaha, Arkansas                             | 98fb835e35583817 |
-| #7274 | Housing reads a town's county from the one place map, which fixes Puerto Rico's rents and home values              | Athens, Tennessee                           | 38dcb6221d4c531a |
-| #7275 | Systems read a place's state through the one place map, and a guard stops new private lookups                      | Coral Bay, U.S. Virgin Islands              | b5002ad1c0023077 |
-| #7276 | The law chain and pay areas read a town's county from the one place map                                            | Tar Heel, North Carolina                    | 54126a497639b87e |
-| #7277 | A county's limited powers are checked against its state's county authority, read from the place map                | Hatfield, Massachusetts                     | a23447044a2c2a12 |
-| #7278 | Estates, schools and election ties read the world's state from the one place map                                   | Dagu, Northern Mariana Islands              | 5f36f0ded765b269 |
-| #7279 | Every county-area lookup goes through the place map reader                                                         | Startex, South Carolina                     | 47eb0dfbcc9e9251 |
-| #7280 | Elections open the town's state from the one place map                                                             | Dayton, Wyoming                             | 211c1388817db6f4 |
-| #7281 | The candidate pool and the homeless count read the town from the one place map                                     | Charlotte Amalie, U.S. Virgin Islands       | fe9070c35c1f6c1a |
-| #7282 | Housing's town record takes its state from the one place map                                                       | Seaford, Delaware                           | 64f21ad11c6e2ebf |
-| #7283 | Fixes the two guards the place map turned red (families, English spelling)                                         | Blanchester, Ohio                           | d9a7ee1aef8a43f2 |
-| #7284 | Records how long a game year takes before and after the place map (docs only)                                      | Horsham, Pennsylvania                       | 9ddf56d9b757d43b |
-| #7285 | Towns the Census files miss are placed under their government's county                                             | Frederiksted Southeast, U.S. Virgin Islands | 2f4e46995d1f27c4 |
-| #7286 | Records the cause of the Lomas rent shortfall and the fix that was tried (pool notes only)                         | Meansville, Georgia                         | f6397063195b8353 |
-| #7287 | The place map's calendar and budget gaps are filled from statutes, and where county gaps were searched is recorded | Paradise Valley, Nevada                     | 9fb138f8f88ecefb |
-| #7291 | Records the rent findings on the two housing items (pool notes only)                                               | Cisco, Texas                                | 03aa88ca1de8c434 |
-| #7292 | The place map's gap report names every gap                                                                         | Hartland, Vermont                           | fe2842a90916fd6c |
-| #7293 | Eleven more places in the code read a place's state through the place map                                          | Brookline, Massachusetts                    | 9a7c47bf264a4c4f |
-| #7294 | Every town gets a county area; the place map's gap report is empty                                                 | Edgewater, Florida                          | ddbe99d770347def |
-| #7295 | Seven more state lookups go through the place map reader                                                           | Catalina, Arizona                           | 6285c058cfc6edf6 |
-| #7296 | The speed report names where the year slowed: State Sessions' #7290, not the place map (docs only)                 | Somers, Wisconsin                           | 73506a9ae82e1e13 |
+| PR    | What it does                                                                                                                                                             | Town                                        | Replay number    |
+| ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------- | ---------------- |
+| #7273 | One map of places: every place is one row, read through one reader, with a report of the gaps                                                                            | Omaha, Arkansas                             | 98fb835e35583817 |
+| #7274 | Housing reads a town's county from the one place map, which fixes Puerto Rico's rents and home values                                                                    | Athens, Tennessee                           | 38dcb6221d4c531a |
+| #7275 | Systems read a place's state through the one place map, and a guard stops new private lookups                                                                            | Coral Bay, U.S. Virgin Islands              | b5002ad1c0023077 |
+| #7276 | The law chain and pay areas read a town's county from the one place map                                                                                                  | Tar Heel, North Carolina                    | 54126a497639b87e |
+| #7277 | A county's limited powers are checked against its state's county authority, read from the place map                                                                      | Hatfield, Massachusetts                     | a23447044a2c2a12 |
+| #7278 | Estates, schools and election ties read the world's state from the one place map                                                                                         | Dagu, Northern Mariana Islands              | 5f36f0ded765b269 |
+| #7279 | Every county-area lookup goes through the place map reader                                                                                                               | Startex, South Carolina                     | 47eb0dfbcc9e9251 |
+| #7280 | Elections open the town's state from the one place map                                                                                                                   | Dayton, Wyoming                             | 211c1388817db6f4 |
+| #7281 | The candidate pool and the homeless count read the town from the one place map                                                                                           | Charlotte Amalie, U.S. Virgin Islands       | fe9070c35c1f6c1a |
+| #7282 | Housing's town record takes its state from the one place map                                                                                                             | Seaford, Delaware                           | 64f21ad11c6e2ebf |
+| #7283 | Fixes the two guards the place map turned red (families, English spelling)                                                                                               | Blanchester, Ohio                           | d9a7ee1aef8a43f2 |
+| #7284 | Records how long a game year takes before and after the place map (docs only)                                                                                            | Horsham, Pennsylvania                       | 9ddf56d9b757d43b |
+| #7285 | Towns the Census files miss are placed under their government's county                                                                                                   | Frederiksted Southeast, U.S. Virgin Islands | 2f4e46995d1f27c4 |
+| #7286 | Records the cause of the Lomas rent shortfall and the fix that was tried (pool notes only)                                                                               | Meansville, Georgia                         | f6397063195b8353 |
+| #7287 | The place map's calendar and budget gaps are filled from statutes, and where county gaps were searched is recorded                                                       | Paradise Valley, Nevada                     | 9fb138f8f88ecefb |
+| #7291 | Records the rent findings on the two housing items (pool notes only)                                                                                                     | Cisco, Texas                                | 03aa88ca1de8c434 |
+| #7292 | The place map's gap report names every gap                                                                                                                               | Hartland, Vermont                           | fe2842a90916fd6c |
+| #7293 | Eleven more places in the code read a place's state through the place map                                                                                                | Brookline, Massachusetts                    | 9a7c47bf264a4c4f |
+| #7294 | Every town gets a county area; the place map's gap report is empty                                                                                                       | Edgewater, Florida                          | ddbe99d770347def |
+| #7295 | Seven more state lookups go through the place map reader                                                                                                                 | Catalina, Arizona                           | 6285c058cfc6edf6 |
+| #7296 | The speed report names where the year slowed: State Sessions' #7290, not the place map (docs only)                                                                       | Somers, Wisconsin                           | 73506a9ae82e1e13 |
+| #7298 | The filing tests start on the first day a contest opens in the drawn place, since filing windows are now real dates (tests only; pool item conflict joined mechanically) | Umbarger, Texas                             | 8da67bfd23e98214 |
 
 ## State Sessions' PRs (from Nov 5)
 
