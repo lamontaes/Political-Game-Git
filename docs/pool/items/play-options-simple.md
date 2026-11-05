@@ -12,7 +12,7 @@ milestone:
 source: "astra order 1; PR #4289 branch play/options-simple"
 ---
 
-**What.** Merge main into the PR, finish the screen to the owner's mockup in docs/ui/mocks/screens-2026-10-14/, retake its full-window screenshot (1672x941).
+**What.** Merge main into the PR, finish the screen to the Nov 5 menu look, retake its full-window screenshot (1672x941).
 
 **Rules.** Mockup caveats: ignore odd borders; no immersion-breaking labels on a person card; Issues shows the law in words with history on click; each newspaper its own layout; your office absent from Politics until you hold one; Day never opens a choice list. No hand-written player text; replace, never layer.
 
@@ -21,3 +21,5 @@ source: "astra order 1; PR #4289 branch play/options-simple"
 **Files.** src/bench/*, src/bench/controls.json
 
 **Notes.** One PR per screen; gate: browser spec for the screen.
+
+**Menu look (owner, Nov 5).** Menu screens follow the look the owner locked on Nov 5 (dark see-through textured panel, no boxes, glowing hover, lit selection, portraits in light, data not sliders or bar graphs, no checkboxes); the CTO holds the clickable mock, and no menu is built until the owner approves its screen.

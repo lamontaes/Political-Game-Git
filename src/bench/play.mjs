@@ -2657,7 +2657,7 @@ const sheets = {
       (c.view && controls.leanWords?.[c.view]
         ? [{ text: controls.leanWords[c.view] }]
         : []);
-    // The Oct 14 mock on framed plates: your figure framed at the left (the
+    // On framed plates: your figure framed at the left (the
     // sheet's media slot); what you're like in plain sentences, never the
     // traits' names (owner, Oct 27); small plates for home, work, school and
     // cash; the people at home as face cards; your views as small plates.
@@ -2781,7 +2781,7 @@ const sheets = {
       asked > paid
         ? `${moneyWords(paid)} ${labels.loanPaid} · ${moneyWords(asked - paid)} ${labels.unpaid}`
         : moneyWords(paid);
-    // The Money mock (Oct 14) on framed plates: the cash in large type with
+    // Money on framed plates: the cash in large type with
     // each month's review as columns under it, where last month went as a
     // ring, and the home, what you own and what you owe as small plates
     // beside it. Every figure is a record's own; nothing scrolls.
@@ -2916,7 +2916,7 @@ const sheets = {
     ];
   },
   async jobs() {
-    // The Oct 14 mock on framed plates: your job with its workplace's
+    // On framed plates: your job with its workplace's
     // painting, its title in the name type, pay and hours; beside it the work
     // and school of your life as a timeline, from the one history every
     // card reads. Never a scroll.
@@ -3070,7 +3070,7 @@ const sheets = {
             },
           }))
         : [];
-    // The Budget mock (Oct 14) on framed plates: the government, its year and
+    // Budget on framed plates: the government, its year and
     // its total in the name type with when and how it was adopted; where the
     // money comes from and where it goes as rings with amounts (the seven
     // largest lines and the rest as one); the treasury's books beside them;
@@ -3801,8 +3801,7 @@ const sheets = {
     ];
   },
   /**
-   * Politics → Government, drawn as the Oct 14 mock (docs/ui/mocks/
-   * screens-2026-10-14/shots/gov.png; owner, Oct 29: "make it look like a real
+   * Politics → Government, drawn as a game menu (owner, Oct 29: "make it look like a real
    * game menu"). The level (Local, State, Federal) and the branch
    * (Legislative, Executive) are two rows of tabs. A lawmaking body is its
    * room's painting with its name and when it meets, its party split, its

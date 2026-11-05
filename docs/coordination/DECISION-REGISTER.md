@@ -148,7 +148,7 @@ Audited October 15, 2026 from `OWNER-DECISIONS.md`, `AGENTS.md`, `BOARD.md`, `do
 - **The title and New game (owner, Oct 14, evening):** New game, Continue, Options, Patch notes, Quit; New game opens Start a life, Custom world, New world; then name, age, birth; no seed, place search or customization on the title. Supersedes: the Oct 13 bench front with Seed, Place and Customize. Source: OWNER-DECISIONS.md.
 - **A screen's look ships only on the owner's screenshot (owner, Oct 14, afternoon).** Source: OWNER-DECISIONS.md.
 - **Who you are is a character screen (owner, Oct 14, night).** Law effects on the player sit under Politics as sentences. Source: OWNER-DECISIONS.md.
-- **Screens follow the Oct 14 mockups (owner, Oct 15) with caveats:** nothing that breaks immersion on a person card; Issues follows this register, not its mockup; Your office appears only once the player holds one; the calendar is an opaque panel; Day never opens a choice list. Source: BOARD.md, "Orders from the CTO (Oct 15, early)"; `docs/ui/mocks/screens-2026-10-14/README.md`.
+- **Screens follow the Oct 14 mockups (owner, Oct 15) with caveats:** nothing that breaks immersion on a person card; Issues follows this register, not its mockup; Your office appears only once the player holds one; the calendar is an opaque panel; Day never opens a choice list. Source: BOARD.md, "Orders from the CTO (Oct 15, early)"; `docs/ui/mocks/screens-2026-10-14/README.md`. **Superseded Nov 5:** the Oct 14 mocks were deleted at the owner's word; menu screens follow the look locked on Nov 5 (`docs/play-first/LAW.md` section 1).
 - **School names honoring presidents stay (owner, Oct 12).** Source: commit 51fd06255b.
 
 ## Art

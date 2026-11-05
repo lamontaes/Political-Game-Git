@@ -11,11 +11,11 @@ claimed-by: play-first/play-menus-calendar-shared-look
 pr: #6861
 blocked-on:
 milestone: play-first
-source: CTO, Oct 29 (every menu redesigned the way Government was; MOCKS calendar.png)
+source: CTO, Oct 29 (every menu redesigned the way Government was)
 claimed-at: 2026-10-30T02:00:00.000Z
 ---
 
-**What.** Calendar moves to its mock (`docs/ui/mocks/screens-2026-10-14/shots/calendar.png`) on the shared parts: compact day tiles with a small icon for each kind of thing on the day, the chosen day on a framed plate (weekday, date, how far off, each thing with its icon, Go to this day), and Coming up paged inside its box with the shared pager.
+**What.** Calendar moves to its mock (the Nov 5 menu look) on the shared parts: compact day tiles with a small icon for each kind of thing on the day, the chosen day on a framed plate (weekday, date, how far off, each thing with its icon, Go to this day), and Coming up paged inside its box with the shared pager.
 
 **Rules.** Screen to mock (`screen-to-mock`); replace, never layer (the old tile lines, the scrolling list and the skip icon are deleted); the menu never scrolls as a page; no hand-written player text (labels in `controls.calendar`).
 
@@ -30,3 +30,5 @@ claimed-at: 2026-10-30T02:00:00.000Z
 **Files.** src/bench/ui/calendar.mjs, src/bench/play.css, src/bench/data/controls.json, the three browser checks that read the calendar.
 
 **Notes.** Stacked on #6844 (`cto/menus-person-card`). Journal and Travel follow as their own items. The check's last leg (answering a stop after the jump, then Week) times out on the unchanged branch too; it is not from this change.
+
+**Menu look (owner, Nov 5).** Menu screens follow the look the owner locked on Nov 5 (dark see-through textured panel, no boxes, glowing hover, lit selection, portraits in light, data not sliders or bar graphs, no checkboxes); the CTO holds the clickable mock, and no menu is built until the owner approves its screen.
