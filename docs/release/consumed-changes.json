@@ -1,6 +1,25 @@
 {
   "entries": [
     {
+      "version": "0.85.3",
+      "releasedOn": "2026-11-05",
+      "revision": "e2121eb919813c317c68732d35ae9e0f5a64a5e6",
+      "changeIds": [
+        "body-law-jurisdiction",
+        "core-one-map-county-gaps",
+        "core-one-map-elections-state",
+        "core-one-map-gap-names",
+        "core-one-map-guards",
+        "core-one-map-housing-town",
+        "core-one-map-last-town-records",
+        "core-one-map-lomas-notes",
+        "core-one-map-rent-findings",
+        "core-one-map-sourced-gaps",
+        "core-one-map-speed-record",
+        "gov-every-state-and-town-governs"
+      ]
+    },
+    {
       "version": "0.85.2",
       "releasedOn": "2026-11-04",
       "revision": "ff16a3549fa605928645e539f3aec28ec3d9aff2",
