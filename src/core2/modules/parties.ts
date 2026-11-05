@@ -15,6 +15,7 @@
  * the opening and stay put while views stay put; changing parties waits on
  * PEOPLE's views engine moving someone's views (until then views don't move).
  */
+import { placeStateKey } from "../place-map";
 import calibration from "../../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import delegates from "../../../data/research/elections/house-delegates-2024.json" with { type: "json" };
 import nomination from "../../../data/research/elections/party-nomination-rules-2026.json" with { type: "json" };
@@ -212,7 +213,7 @@ export function openParties(core: CoreState): void {
     registerModule(core, PARTIES_MODULE);
   const api = coreAPI(core);
   const place = corePlaceByKey(api.state.placeMetadata.placeKey ?? "");
-  const stateKey = place!.stateJurisdictionKey!;
+  const stateKey = placeStateKey(api.state.placeMetadata.placeKey ?? "")!;
   api.moduleState(PARTIES_MODULE_ID).table("parties"); // tables exist even where elections are nonpartisan
   const rules = (
     nomination as unknown as {

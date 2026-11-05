@@ -147,9 +147,7 @@ export function townBankFor(input: CoreInput): TownBank | undefined {
   if (!(deposits > 0) || !(countyPeople > 0)) {
     // No county deposit row for this place (American Samoa has no FDIC branch): deposits per resident, estimated.
     stopgap("SG-WORLD-credit-island-deposits");
-    const perPerson = fallbackDeposits(
-      place?.stateJurisdictionKey ?? undefined,
-    );
+    const perPerson = fallbackDeposits(placeStateKey(key) ?? undefined);
     if (!perPerson) return undefined;
     deposits = perPerson * townPeople;
     countyPeople = townPeople;
@@ -175,7 +173,7 @@ export function townBankFor(input: CoreInput): TownBank | undefined {
   return {
     organizationId: `organization:bank:${placeId}`,
     placeId,
-    county: county ?? place?.stateJurisdictionKey ?? "",
+    county: county ?? placeStateKey(placeId) ?? "",
     depositsMinor,
     openingEquityMinor: Math.round(
       depositsMinor * p0("creditBankEquityShareOfDeposits"),
@@ -276,8 +274,7 @@ export function smallDollarLenderFor(
   bank: TownBank,
 ): SmallDollarLender | undefined {
   const key = input.placeMetadata?.placeKey;
-  const place = key ? corePlaceByKey(key) : null;
-  const terms = smallDollarTerms(place?.stateJurisdictionKey ?? undefined);
+  const terms = smallDollarTerms(placeStateKey(key) ?? undefined);
   if (!terms) return undefined;
   const households = townHouseholds(input, bank.placeId);
   const borrowers =

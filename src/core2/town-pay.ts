@@ -6,6 +6,7 @@
  * opening's jobs read it to set their pay; the old world's paydays read it too
  * until they are ported.
  */
+import { placeStateKey } from "./place-map";
 import { corePlaceByJurisdictionId } from "./place-lookup";
 import { placeCounty } from "./place-map";
 import { TOWN_JOB_SOC } from "./reference/town-job-soc";
@@ -252,10 +253,7 @@ export function startingStateMinimumHourly(
 export function startingMinimumHourly(
   jurisdictionId: EntityId | null,
 ): number | null {
-  const place = jurisdictionId
-    ? corePlaceByJurisdictionId(jurisdictionId)
-    : null;
-  return startingStateMinimumHourly(place?.stateJurisdictionKey ?? null);
+  return startingStateMinimumHourly(placeStateKey(jurisdictionId));
 }
 
 /** The hours a week a town job is paid for. */
