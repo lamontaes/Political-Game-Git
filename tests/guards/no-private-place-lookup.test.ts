@@ -9,10 +9,7 @@ import { describe, expect, it } from "vitest";
  * one and waits for its family's move; the list may only shrink, and each line
  * says why the file is not a place lookup yet or what moves it.
  */
-const WAITING: Readonly<Record<string, string>> = {
-  "src/core2/modules/housing.ts":
-    "townOf builds the housing town from households and the place map; moves with the households family",
-};
+const WAITING: Readonly<Record<string, string>> = {};
 const NAMES =
   /function\s+(stateOf|stateKeyOf|stateOfPlace|stateOfPlaceKey|stateOfPlaceId|townOf)\b/;
 const COUNTY_LOOKUPS =

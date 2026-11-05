@@ -10,11 +10,10 @@ import { townOutsideOf } from "../opening-outside-market";
 import { lawApplied } from "../law-reach/applied";
 import { payRentAssistance } from "../housing-assistance";
 import { governmentUnitsForState } from "../reference/government-units";
-import { placeCounty } from "../place-map";
+import { placeCounty, placeStateKey } from "../place-map";
 import {
   corePlaceByKey,
   corePlaceByJurisdictionId,
-  coreStateKeyOfJurisdictionId,
   coreStateName,
 } from "../place-lookup";
 import {
@@ -335,7 +334,7 @@ function mapCountyGeoid(placeKey: string): string | undefined {
   return placeCounty(placeKey)?.id.slice("county:".length);
 }
 
-function townOf(input: CoreInput): Town | undefined {
+function housingTownOf(input: CoreInput): Town | undefined {
   const place = input.placeMetadata?.placeKey
     ? corePlaceByKey(input.placeMetadata.placeKey)
     : null;
@@ -351,7 +350,7 @@ function townOf(input: CoreInput): Town | undefined {
     own && counts.has(own)
       ? own
       : [...counts].sort((a, b) => b[1] - a[1])[0]?.[0];
-  const usps = place?.stateJurisdictionKey?.slice("US-".length);
+  const usps = placeStateKey(place?.key)?.slice("US-".length);
   if (!placeId || !usps) return undefined;
   // A place the county shares leave out reads its state's counties as a
   // whole (the state's FIPS code with county 000: no county has that code,
@@ -566,7 +565,7 @@ export function expectedRenterHouseholds(
   homes: readonly string[],
 ): number {
   const full = homes.flatMap((id) => c.households.get(id) ?? []);
-  const town = townOf({
+  const town = housingTownOf({
     placeMetadata: c.placeMetadata,
     households: full,
   } as unknown as CoreInput);
@@ -577,7 +576,7 @@ export function expectedRenterHouseholds(
 }
 
 export function withHousing(input: CoreInput): CoreInput {
-  const town = townOf(input);
+  const town = housingTownOf(input);
   if (!town) return input;
   return withHousingAt(input, town);
 }
@@ -869,10 +868,7 @@ function openMissingHomes(api: CoreAPI): void {
   }
   for (const [placeId, households] of missing) {
     const place = corePlaceByJurisdictionId(placeId as EntityId);
-    const stateKey =
-      place?.stateJurisdictionKey ??
-      coreStateKeyOfJurisdictionId(placeId) ??
-      (/^US-[A-Z]{2}$/.test(placeId) ? placeId : undefined);
+    const stateKey = placeStateKey(placeId) ?? undefined;
     const usps =
       stateKey?.slice(3) ??
       (!c.placeMetadata?.housingTown || c.placeMetadata.housingTown === placeId
