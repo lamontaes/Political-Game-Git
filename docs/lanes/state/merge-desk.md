@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 176 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 177 pull requests merged. Newest state at the top of each section.
 
 **Stopped by the owner, Nov 4, 2:37 p.m. Eastern, at 161 merged; resumed on the owner's word at about 2:53 p.m. Eastern (relayed by the CTO). The desk merges One Map's PRs, and from Nov 5, 05:22 UTC also State Sessions' (every other state holds sessions), on the owner's approval relayed by the CTO. Lanes 1, 3, 4 and 5 are stopped and Lane 2 is off, so #7110 and #7127 stay open, and skills PRs #7233, #7254 and #7264 stay with the CTO.**
 
@@ -109,6 +109,12 @@ New on Nov 3:
 | #7285 | Towns the Census files miss are placed under their government's county                                             | Frederiksted Southeast, U.S. Virgin Islands | 2f4e46995d1f27c4 |
 | #7286 | Records the cause of the Lomas rent shortfall and the fix that was tried (pool notes only)                         | Meansville, Georgia                         | f6397063195b8353 |
 | #7287 | The place map's calendar and budget gaps are filled from statutes, and where county gaps were searched is recorded | Paradise Valley, Nevada                     | 9fb138f8f88ecefb |
+
+## State Sessions' PRs (from Nov 5)
+
+| PR    | What it does                                                                           | Town                    | Replay number    |
+| ----- | -------------------------------------------------------------------------------------- | ----------------------- | ---------------- |
+| #7288 | Step 1: the speed baseline for Colorado and Vermont, before every state holds sessions | Broeck Pointe, Kentucky | 0e9e907a2d56a797 |
 
 ## Lane PRs merged on Nov 4 (126), on the owner's word ("You may merge lane PRs that pass the new-game check")
 
