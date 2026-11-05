@@ -27,7 +27,7 @@ def hud(hover=None, toast=True, time="8:30 PM"):
     rail = "".join(
         f'<button class="rb{" hov" if k == hover else ""}"><img src="img/ic-{k}.png" alt=""><span class="tip">{t}</span></button>'
         for k, t in ICONS)
-    me = panel(f'<img class="mebust" src="img/bust-look-004.png" alt=""><div class="mewho"><div class="name">John Spencer</div>'
+    me = panel(f'<div class="mewho"><div class="name">John Spencer</div>'
                f'<div class="label2">Latimer, Mississippi</div><div class="label2">Monday, January 20, 2025</div><div class="label2">{time}</div></div>'
                f'<button class="act sm">Day</button>', "me")
     t = ""
