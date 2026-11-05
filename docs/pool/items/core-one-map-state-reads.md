@@ -5,11 +5,12 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: one-map-reads
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-05T09:46:07.079Z
 ---
 
 **What.** Eleven spots looked a place record up and took its state field. They now call the place map reader.
