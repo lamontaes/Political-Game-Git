@@ -230,8 +230,13 @@ function checkRemovals(played: ReturnType<typeof play>): {
       expect(core.people.has(person) || core.husks.has(person), at).toBe(true);
     // A member counted on the day may be filled in since (someone met them),
     // never before its eviction.
+    // A husk (the inactive tier a relative keeps while nobody has met them)
+    // has a person record without the household ever being filled in.
     for (const person of subjects)
-      if (core.people.has(person as never))
+      if (
+        core.people.has(person as never) &&
+        core.people.get(person as never)!.tier !== "husk"
+      )
         expect((rt.filledAt.get(id) ?? "") > row.removedAt!, at).toBe(true);
     for (const person of played.husksOn.get(eviction.id) ?? []) {
       husksNamed++;
@@ -353,19 +358,31 @@ it("Storrs, Connecticut: an evicted counted household stays counted, is placed a
     );
     if (!eviction) continue;
     expect(eviction.personIds, at).toContain(relativeId);
-    const moment = director.ledger.people
-      .get(watchedId)!
-      .moments.find(
-        (row) =>
-          row.label === "feeling:event:housing.eviction" &&
-          row.causeId === eviction.id,
-      );
-    expect(moment, at).toBeDefined();
-    expect(moment!.counterpartIds, at).toContain(relativeId);
-    felt++;
-    process.stdout.write(
-      `COUNTED EVICTED ${at}: ${moment!.id}, impact ${moment!.impact.toFixed(3)}\n`,
+    const book = director.ledger.people.get(watchedId)!;
+    const moment = book.moments.find(
+      (row) =>
+        row.label === "feeling:event:housing.eviction" &&
+        row.causeId === eviction.id,
     );
+    if (moment) {
+      expect(moment.counterpartIds, at).toContain(relativeId);
+      process.stdout.write(
+        `COUNTED EVICTED ${at}: ${moment.id}, impact ${moment.impact.toFixed(3)}\n`,
+      );
+    } else {
+      // The director folds a moment older than its recent window into the
+      // month's summary (owner, Oct 11), keeping the strongest: the feeling
+      // was recorded, with the relative as its counterpart, in that summary.
+      const summary = book.summaries.get(
+        `${eviction.date.slice(0, "YYYY-MM".length)}|feeling:event:housing.eviction`,
+      );
+      expect(summary, `${at}: no moment and no folded summary`).toBeDefined();
+      expect(summary!.counterpartIds, at).toContain(relativeId);
+      process.stdout.write(
+        `COUNTED EVICTED ${at}: folded into the ${summary!.month} summary (${summary!.count} feelings)\n`,
+      );
+    }
+    felt++;
   }
   expect(felt, `${where}: relatives evicted`).toBeGreaterThan(0);
   const rt = residentsRuntime(core)!;
