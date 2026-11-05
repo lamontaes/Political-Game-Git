@@ -579,9 +579,7 @@ const majorityByPlace = new Map<string, number>();
 function ageOfMajority(placeId: string): number {
   let age = majorityByPlace.get(placeId);
   if (age === undefined) {
-    const state = corePlaceByJurisdictionId(
-      placeId as EntityId,
-    )?.stateJurisdictionKey?.replace(/^US-/, "");
+    const state = placeStateKey(placeId)?.replace(/^US-/, "");
     age = (state ? MAJORITY[state]?.age : undefined) ?? USUAL_MAJORITY;
     majorityByPlace.set(placeId, age);
   }
