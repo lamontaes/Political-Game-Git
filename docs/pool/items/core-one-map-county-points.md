@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: one-map-county-points
-pr:
+pr: #7294
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-05T10:11:37.080Z
