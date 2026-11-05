@@ -10,10 +10,6 @@ import { describe, expect, it } from "vitest";
  * says why the file is not a place lookup yet or what moves it.
  */
 const WAITING: Readonly<Record<string, string>> = {
-  "src/core2/candidate-pool.ts":
-    "townOf reads the town the offices module recorded; moves with the elections family",
-  "src/core2/modules/homeless-count.ts":
-    "townOf reads the first visible place of the world; moves with the housing records family",
   "src/core2/modules/housing.ts":
     "townOf builds the housing town from households and the place map; moves with the households family",
 };
