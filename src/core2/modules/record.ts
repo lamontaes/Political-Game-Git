@@ -40,6 +40,8 @@ export interface VoteRecordRow {
   /** The measure's designation for display ("H.R. 25", "2026-001"); not a key. */
   readonly measureId: string;
   readonly stance: Stance;
+  /** The stance's question again, as the key a person's latest vote on it is found by. */
+  readonly question: string;
   readonly passed: boolean | null;
 }
 
@@ -62,7 +64,12 @@ export const RECORD_MODULE: CoreModule = {
   state: {
     schemaVersion: 1,
     tables: {
-      votes: { indexes: { byPerson: { fields: ["personId"] } } },
+      votes: {
+        indexes: {
+          byPerson: { fields: ["personId"] },
+          byPersonQuestion: { fields: ["personId", "question"] },
+        },
+      },
     },
   },
 };
@@ -87,10 +94,11 @@ export function voteRecordId(
 /** A body's vote, on the record: who, on what question, which way. */
 export function recordVote(
   api: CoreAPI,
-  vote: Omit<VoteRecordRow, "id" | "date">,
+  vote: Omit<VoteRecordRow, "id" | "date" | "question">,
 ): VoteRecordRow {
   const row: VoteRecordRow = {
     ...vote,
+    question: vote.stance.question,
     id: voteRecordId(vote.billId, vote.stance.question, vote.personId),
     date: api.state.date,
   };
@@ -155,8 +163,10 @@ export function lastVoteOn(
   for (const vote of api
     .moduleState(RECORD_MODULE_ID)
     .table("votes")
-    .query("byPerson", [personId]) as unknown as VoteRecordRow[]) {
-    if (vote.stance.question !== question) continue;
+    .query("byPersonQuestion", [
+      personId,
+      question,
+    ]) as unknown as VoteRecordRow[]) {
     if (
       !last ||
       vote.date.localeCompare(last.date) > 0 ||

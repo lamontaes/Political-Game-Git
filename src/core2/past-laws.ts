@@ -223,6 +223,7 @@ function recordVotes(
         billId: measureId,
         measureId,
         stance: { question, position: way * position },
+        question,
         passed,
       };
       votes.put(row as unknown as ModuleRow);
