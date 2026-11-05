@@ -25,7 +25,6 @@
     "scripts/release/**/*.ts",
     "scripts/runtime-text/**/*.ts",
     "scripts/source/**/*.ts",
-    "src/authoring/**/*.ts",
     "src/cli/**/*.ts",
     "src/maps/**/*.ts",
     "src/content/**/*.ts",
@@ -33,7 +32,6 @@
     "src/districts/**/*.ts",
     "src/environment/**/*.ts",
     "src/persistence/**/*.ts",
-    "src/appearance/**/*.ts",
     "src/release/**/*.ts",
     "src/core2/kernel/**/*.ts",
     "src/core2/reference/**/*.ts",
@@ -93,5 +91,5 @@
     "tests/source/**/*.ts",
     "vite.config.ts"
   ],
-  "exclude": ["src/appearance/**/*.test.ts", "src/authoring/**/*.test.ts"]
+  "exclude": []
 }

@@ -18,9 +18,6 @@ export default tseslint.config(
       "desktop/private-controller/node_modules/**",
       "desktop/node_modules/**",
       "test-results/**",
-      // External, checksum-verified private-pack snapshots. Pipeline source is
-      // checked under scripts/art-asset-factory; these original bytes stay exact.
-      "art/authoring/**",
       // Proof receipts: each squad's verbatim evidence, kept as captured.
       "docs/codex/effect-batches/**",
       "docs/codex/law-audit/**",
@@ -54,7 +51,6 @@ export default tseslint.config(
     // runs the game may read source records directly — a fact reaches the world
     // through a named one-way adapter or not at all.
     files: [
-      "src/appearance/**/*.{ts,tsx}",
       "src/player/**/*.{ts,tsx}",
       "src/ui/**/*.{ts,tsx}",
       "src/persistence/**/*.{ts,tsx}",
