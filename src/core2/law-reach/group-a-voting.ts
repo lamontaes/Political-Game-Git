@@ -15,6 +15,7 @@
  *   law returns; `barredFromVoting` for a named person.
  * - `termLimitReached` and `lobbyingBarredUntil`: an officeholder's limits.
  */
+import { placeStateKey } from "../place-map";
 import { yesLevels } from "../modules/laws";
 import {
   PHOTO_ID,
@@ -39,7 +40,6 @@ export {
 import type { CoreAPI, CoreState, PersonState, Source } from "../types";
 import felonyData from "../data/elections/felony-disenfranchisement.json" with { type: "json" };
 import { electionsParameter } from "../elections-calendar";
-import { corePlaceByKey } from "../place-lookup";
 import { campaignParameter } from "../campaign-views";
 import { incarceratedMayVote } from "../justice-law";
 import { OFFICES_MODULE_ID, type TermRow } from "../modules/offices";
@@ -499,9 +499,9 @@ export function applyElectionLaws(
  * (SG-GOV-REACH-A-convictions).
  */
 export function felonyDisenfranchisedShare(api: CoreAPI): number {
-  const stateKey = corePlaceByKey(
+  const stateKey = placeStateKey(
     String(api.state.placeMetadata.placeKey ?? ""),
-  )?.stateJurisdictionKey;
+  );
   const shares = felonyData.states as Record<string, number>;
   const own = stateKey ? shares[stateKey] : undefined;
   if (own === undefined) {
@@ -526,9 +526,9 @@ export function felonyDisenfranchisedShare(api: CoreAPI): number {
  * felony-grade, so any conviction on record counts.
  */
 export function barredFromVoting(api: CoreAPI, personId: string): boolean {
-  const stateKey = corePlaceByKey(
+  const stateKey = placeStateKey(
     String(api.state.placeMetadata.placeKey ?? ""),
-  )?.stateJurisdictionKey;
+  );
   if (incarceratedMayVote(api, stateKey ?? "").may) return false;
   if (inCustody(api, personId)) return true;
   if (!convictionsOf(api, personId).length) return false;

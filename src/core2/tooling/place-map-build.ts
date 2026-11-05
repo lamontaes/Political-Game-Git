@@ -21,6 +21,7 @@ import {
   governmentUnitsForPlace,
   municipioUnit,
 } from "../reference/government-units";
+import countyByPoint from "../data/places/place-county-by-point.json" with { type: "json" };
 import { NATIONAL_COUNTIES_ROWS } from "../reference/national-counties.generated";
 
 type Row = [string, string, string | null, string, string];
@@ -79,7 +80,14 @@ for (const state of corePlaceStateIdentities())
       // listing says which county area the place's own government sits in.
       governmentUnitsForPlace(geoid)
         .map((unit) => unit.countyGeoid)
-        .find((id): id is string => id !== null && countyIds.has(id));
+        .find((id): id is string => id !== null && countyIds.has(id)) ??
+      // Places created after the 2020 files: the county that holds the place's
+      // Census interior point (data/places/place-county-by-point.json).
+      (countyIds.has(
+        (countyByPoint.counties as Record<string, string>)[geoid] ?? "",
+      )
+        ? (countyByPoint.counties as Record<string, string>)[geoid]
+        : undefined);
     // A municipality that governs the place outranks a township over it.
     const units = governmentUnitsForPlace(geoid);
     const unit =

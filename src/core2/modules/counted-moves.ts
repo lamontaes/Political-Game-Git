@@ -13,6 +13,7 @@
  * pulled hardest. People arrive in the town the same way from every other
  * place. The regional engine reads each state's counts.
  */
+import { placeStateKey } from "../place-map";
 import { worldRateFactor } from "../world-base-rates";
 import { createStableId, stableHash } from "../kernel/ids";
 import moverRates from "../../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
@@ -22,10 +23,7 @@ import regions from "../data/regional/regions.json" with { type: "json" };
 import { scheduleTax } from "../tax-withholding";
 import { ageOn, type CountedHousehold } from "../counted-groups";
 import { openingTemperaments } from "../opening-personality";
-import {
-  corePlaceByJurisdictionId,
-  coreStateKeyOfPlaceholderId,
-} from "../place-lookup";
+import { coreStateKeyOfPlaceholderId } from "../place-lookup";
 import { stateFigures, type RegionMonth } from "../regional-model";
 import { LAWS_MODULE_ID, lawInForce } from "./laws";
 import { REGIONAL_MODULE_ID } from "./regional";
@@ -317,9 +315,7 @@ function runtimeOf(api: CoreAPI): Runtime | undefined {
   let rt = runtimes.get(core);
   if (rt) return rt;
   const town = townPlaceOf(core);
-  const key = town
-    ? corePlaceByJurisdictionId(town as never)?.stateJurisdictionKey
-    : undefined;
+  const key = town ? placeStateKey(town) : undefined;
   if (!key) return undefined;
   rt = {
     states: new Map(),
@@ -447,10 +443,9 @@ function headOf(
 
 /** The state a counted place lies in: a town's or county's record names it, and a state-level place's id is the state's own. */
 export const stateOfCountedPlace = (placeId: string) =>
-  (
-    corePlaceByJurisdictionId(placeId as never)?.stateJurisdictionKey ??
-    coreStateKeyOfPlaceholderId(placeId)
-  )?.slice("US-".length);
+  (placeStateKey(placeId) ?? coreStateKeyOfPlaceholderId(placeId))?.slice(
+    "US-".length,
+  );
 /**
  * The state a counted household lives in. The town's counted households keep
  * the place id of their governing unit, which the place lookup may not know

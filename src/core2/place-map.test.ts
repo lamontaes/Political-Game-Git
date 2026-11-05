@@ -108,4 +108,24 @@ describe("the one place map", () => {
       .map((r) => r.id);
     expect(disagree).toEqual([]);
   });
+
+  it("puts every town under a county area of its own state", () => {
+    const stranded = rows
+      .filter((r) => r.level === "town" && r.parentId?.startsWith("county:"))
+      .filter((r) => placeState(r.id)?.id !== placeState(r.parentId!)?.id)
+      .map((r) => r.id);
+    expect(stranded).toEqual([]);
+  });
+
+  it("puts every Census place under a county area (the island places with no county sit under their territory)", () => {
+    const loose = rows
+      .filter(
+        (r) =>
+          r.level === "town" &&
+          /^\d{7}$/.test(r.id) &&
+          !r.parentId?.startsWith("county:"),
+      )
+      .map((r) => r.id);
+    expect(loose).toEqual([]);
+  });
 });
