@@ -40,49 +40,48 @@ it(`every state sits for a year and its laws are its own, not the town's: ${draw
       .moduleState("core2-legislature-v1")
       .table("bills")
       .rows() as unknown as BillRow[];
-    // A law passed in play: a state's own row, dated on or after the opening.
-    const passed = laws.filter(
-      (row) =>
-        row.jurisdiction.startsWith("US-") &&
-        row.id.includes(":general:") &&
-        row.id.split(":general:")[1]!.slice(0, 10) >= start,
+    // A law passed in play starts from a bill of that state's own chamber that
+    // the governor signed or the legislature overrode; its law row is the
+    // state's own, under the state's key and the bill's number.
+    const enactedBills = bills.filter((bill) =>
+      ["enacted", "overridden"].includes(bill.status),
     );
-    const byState = new Map<string, LawRowInput[]>();
-    for (const row of passed)
-      byState.set(row.jurisdiction, [
-        ...(byState.get(row.jurisdiction) ?? []),
-        row,
-      ]);
+    const byState = new Map<string, { bill: BillRow; law: LawRowInput }[]>();
+    for (const bill of enactedBills) {
+      const state = /^office:(US-[A-Z]{2}):/.exec(bill.bodyOfficeId)?.[1];
+      if (!state) continue;
+      const law = laws.find(
+        (row) =>
+          row.jurisdiction === state && row.id.endsWith(`:${bill.number}`),
+      );
+      expect(
+        law,
+        `${bill.bodyOfficeId} ${bill.number}: no law row under ${state}`,
+      ).toBeDefined();
+      byState.set(state, [...(byState.get(state) ?? []), { bill, law: law! }]);
+    }
     expect(
       byState.size,
       `${drawn.name}, replay ${replay}: states that enacted a law`,
     ).toBeGreaterThanOrEqual(40);
-    for (const [state, rows] of byState)
-      for (const row of rows) {
-        // Its own chamber's bill, decided by the governor: enacted or
-        // overridden, never a bill from another government's body.
-        const number = row.id.slice(row.id.lastIndexOf(":") + 1);
-        const bill = bills.find(
-          (b) =>
-            b.number === number &&
-            b.bodyOfficeId.startsWith(`office:${state}:`) &&
-            ["enacted", "overridden"].includes(b.status),
-        );
-        expect(bill, `${row.id}: no enacted bill of ${state}`).toBeDefined();
-        if (state === chain.stateKey) continue;
+    for (const [state, passed] of byState) {
+      if (state === chain.stateKey) continue;
+      for (const { law } of passed) {
         // Elsewhere: that state's row moved, and none of the town's chain did.
-        const question = row.series;
         expect(
-          answerIn(api, state, question, true),
-          `${row.id}: ${state}'s own answer`,
+          answerIn(api, state, law.series, true),
+          `${law.id}: ${state}'s own answer`,
         ).not.toBeNull();
-        for (const level of chain.levels) {
-          const own = laws.filter(
-            (r) => r.jurisdiction === level.jurisdiction && r.id === row.id,
-          );
-          expect(own, `${row.id} landed in ${level.jurisdiction}`).toEqual([]);
-        }
+        for (const level of chain.levels)
+          expect(
+            laws.filter(
+              (row) =>
+                row.jurisdiction === level.jurisdiction && row.id === law.id,
+            ),
+            `${law.id} landed in ${level.jurisdiction}`,
+          ).toEqual([]);
       }
+    }
   } finally {
     setBookkeeping(true);
   }
