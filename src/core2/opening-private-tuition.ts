@@ -8,15 +8,14 @@
  * town's total; it never picks a family. A town without a private school pays
  * none here (the spending stays with the household's other costs).
  */
+import { placeStateKey } from "./place-map";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import shares from "../../data/research/people/nces-private-enrollment-share-fall-2021.json" with { type: "json" };
-import { corePlaceByJurisdictionId, corePlaceByKey } from "./place-lookup";
 import data from "./data/opening-private-tuition.json" with { type: "json" };
 import { parameter as p } from "./parameters";
 import { worldLevel, worldRate } from "./world-draw";
 import { stopgap } from "./stopgaps";
 import type { FinanceContractInput } from "./finance-types";
-import type { EntityId } from "./kernel/brands";
 import type { CoreInput, Source } from "./types";
 
 /**
@@ -29,13 +28,7 @@ export function publishedPrivateShareOf(
   placeId: string | undefined,
   worldPlaceKey: string | undefined,
 ): number {
-  const state =
-    (placeId
-      ? corePlaceByJurisdictionId(placeId as EntityId)?.stateJurisdictionKey
-      : undefined) ??
-    (worldPlaceKey
-      ? corePlaceByKey(worldPlaceKey)?.stateJurisdictionKey
-      : undefined);
+  const state = placeStateKey(placeId) ?? placeStateKey(worldPlaceKey);
   const row = (shares.states as Readonly<Record<string, { share: number }>>)[
     state ?? ""
   ];

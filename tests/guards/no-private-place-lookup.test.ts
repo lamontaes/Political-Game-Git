@@ -22,6 +22,12 @@ const COUNTY_WAITING = new Set([
   "src/core2/tooling/place-map-build.ts",
 ]);
 
+// A town's state is read with placeStateKey, never by looking the place record
+// up and taking its state field (the chain may break across lines).
+const STATE_CHAIN =
+  /corePlaceBy(Key|JurisdictionId)\s*\([^;]*?\)\s*\??\.\s*stateJurisdictionKey/;
+const STATE_CHAIN_WAITING = new Set(["src/core2/place-map.ts"]);
+
 function sources(dir: string, out: string[] = []): string[] {
   for (const name of readdirSync(dir)) {
     const path = join(dir, name);
@@ -43,5 +49,11 @@ describe("no private place lookup", () => {
       COUNTY_LOOKUPS.test(readFileSync(f, "utf8")),
     );
     expect(found.filter((f) => !COUNTY_WAITING.has(f))).toEqual([]);
+  });
+  it("reads a place's state through the place map reader, not the place record", () => {
+    const found = files.filter((f) =>
+      STATE_CHAIN.test(readFileSync(f, "utf8")),
+    );
+    expect(found.filter((f) => !STATE_CHAIN_WAITING.has(f))).toEqual([]);
   });
 });
