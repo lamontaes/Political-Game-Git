@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: one-map-families
-pr:
+pr: #7283
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-05T01:42:33.822Z
