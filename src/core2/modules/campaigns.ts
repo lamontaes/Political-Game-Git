@@ -515,7 +515,7 @@ export const CAMPAIGNS_MODULE: CoreModule = {
   onDay: (api) => {
     offersToHelp(api);
     rivalWordPassedOn(api);
-    if (api.state.date.endsWith("-01-01")) foldQuietCauses(api);
+    if (api.state.date.endsWith("-01")) foldOldCauses(api);
   },
   // The candidate's answer to an offer, said in the scene it stages; a
   // count closes a race, and its causes fold; a filing's announcement takes
@@ -5222,26 +5222,25 @@ export function foldClosedRaceCauses(api: CoreAPI, contestId: string): void {
 }
 
 /**
- * On January 1 every candidate in no race still to be counted has their
- * causes folded too: an official's service to a resident (`touchImpression`)
- * belongs to no race, and a race's count may have come before a cause did.
+ * On the first of every month the causes older than the keeping window fold
+ * for every candidate with any (an open race's too), so a race's causes do not
+ * pile up as rows until its count (Montpelier, Vermont's election year added
+ * about 330,000 cause rows a month and ran out of memory at 8 GB before the
+ * count; core-speed-large-town-year-heap-nightly). The rows folded are each
+ * voter's oldest for the candidate, in the order they were kept, so a summary
+ * plus the rows still kept add to the same sums, in the same order, that
+ * `contestStanding` reads. An official's service to a resident
+ * (`touchImpression`) belongs to no race and folds the same way.
  */
-export function foldQuietCauses(api: CoreAPI): void {
-  if (!api.state.modules.has(ELECTIONS_MODULE_ID)) return;
-  const open = new Set<string>();
-  for (const contest of elections(api, "contests").rows() as unknown as {
-    id: string;
-    electionDate: string;
-  }[])
-    if (contest.electionDate >= api.state.date)
-      for (const filing of elections(api, "filings").query("byContest", [
-        contest.id,
-      ]) as unknown as { personId: string }[])
-        open.add(filing.personId);
-  const quiet = new Set<string>();
+export function foldOldCauses(api: CoreAPI): void {
+  const cutoff = addDays(
+    makeIsoDate(api.state.date),
+    -campaignParameter("causeKeepDays"),
+  );
+  const old = new Set<string>();
   for (const row of table(api, "causes").rows() as unknown as CauseRow[])
-    if (!open.has(row.candidateId)) quiet.add(row.candidateId);
-  foldCauses(api, quiet);
+    if (row.date < cutoff) old.add(row.candidateId);
+  foldCauses(api, old, cutoff);
 }
 
 /**
@@ -5255,7 +5254,12 @@ export function foldQuietCauses(api: CoreAPI): void {
  * the warmth those visits moved stays in the summary (governing lead, Nov 1
  * 21:22; CTO's amendment 21:25).
  */
-function foldCauses(api: CoreAPI, candidateIds: Iterable<string>): void {
+function foldCauses(
+  api: CoreAPI,
+  candidateIds: Iterable<string>,
+  /** Only the causes dated before this day fold; all of them when absent. */
+  before?: string,
+): void {
   const core = api.state as CoreState;
   const causes = table(api, "causes"),
     summaries = table(api, "causeSummaries"),
@@ -5269,6 +5273,7 @@ function foldCauses(api: CoreAPI, candidateIds: Iterable<string>): void {
     for (const row of causes.query("byCandidate", [
       candidateId,
     ]) as unknown as CauseRow[]) {
+      if (before !== undefined && row.date >= before) continue;
       const rows = byVoter.get(row.voterId) ?? [];
       rows.push(row);
       byVoter.set(row.voterId, rows);

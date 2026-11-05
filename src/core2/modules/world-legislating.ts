@@ -1168,9 +1168,10 @@ function openOutsideSession(
   results.forEach((r, i) => {
     calendar.schedule({
       key: `outside-enact:${id}:${i}`,
+      // Never today: the day's work is already done.
       date: plusDays(
         start,
-        Math.floor((length * (i + 1)) / (results.length + 1)),
+        Math.max(1, Math.floor((length * (i + 1)) / (results.length + 1))),
       ),
       kind: "outside-enact",
       source,
@@ -1203,7 +1204,8 @@ function openOutsideSession(
   } as unknown as ModuleRow);
   calendar.schedule({
     key: `session-close:${id}`,
-    date: adjournAt,
+    // A one-day session closes tomorrow: today's work is done.
+    date: adjournAt > today ? adjournAt : plusDays(today, 1),
     kind: "session-close",
     source: { ...work.source, asOf: today },
     sourceRecordIds: [id],
