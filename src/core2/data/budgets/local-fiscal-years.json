@@ -1446,6 +1446,15 @@
           "name": "LINCOLN COUNTY"
         }
       ]
+    },
+    "US-PR": {
+      "county": [
+        {
+          "population": 0,
+          "end": "0630",
+          "name": "MUNICIPIOS DE PUERTO RICO (Codigo Municipal, Ley 107-2020, art. 1.019(j): the mayor reports the municipality's finances \"al 30 de junio del ano fiscal precedente\"; every municipio's fiscal year ends June 30; read from https://bvirtualogp.pr.gov/ogp/Bvirtual/leyesreferencia/PDF/107-2020.pdf)"
+        }
+      ]
     }
   },
   "national": {

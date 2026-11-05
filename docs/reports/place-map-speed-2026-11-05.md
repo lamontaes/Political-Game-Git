@@ -9,7 +9,7 @@
 | 3                 | 57.8 s  | 53.7 s  | 7 percent faster |
 | 4 (election year) | 128.3 s | 131.2 s | 2 percent slower |
 
-The script's own bar (no year more than 20 percent slower) passed too. Years 2 and 4 are over two minutes on this machine both before and after, so the two-minute bar is a separate question from the map.
+The script's own bar (no year more than 20 percent slower) passed too. Only year 4 (the election year) is over two minutes, at 128.3 s before and 131.2 s after; years 1 to 3 are under, so the two-minute bar for year 4 is a separate question from the map.
 
 ## Earlier try in a larger town
 

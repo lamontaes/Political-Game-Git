@@ -85,4 +85,14 @@ describe("the one place map", () => {
       "offices",
     ]);
   });
+
+  it("gives every place a budget and an election calendar, from sourced rows", () => {
+    const missing = rows
+      .filter((r) => {
+        const slots = placeSlots(r.id)!;
+        return !slots.budget || !slots.calendar;
+      })
+      .map((r) => r.id);
+    expect(missing).toEqual([]);
+  });
 });

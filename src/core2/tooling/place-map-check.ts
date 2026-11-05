@@ -60,6 +60,12 @@ for (const [slot, names] of [...gaps].sort()) {
     "",
   );
 }
+const LOOKED: Readonly<Record<string, string>> = {
+  "county area":
+    "Where I looked (Nov 5, 2026): the Census 2020 place-by-county files for each state with a gap (https://www2.census.gov/geo/docs/reference/codes2020/place_by_cou/). They place none of the Indiana, Pennsylvania, Virginia, California, Nevada, Florida, Louisiana, Nebraska, New Mexico, Texas, Alabama, Montana, North Carolina, Ohio or Vermont places listed here: these are statistical places created after the 2020 files (Gazetteer 2025). The 2025 government listing placed 66 more (already used). Connecticut's places match the eight old counties in the 2020 file, but the map's Connecticut county rows are the planning regions (county equivalents since 2022), and no place-to-planning-region file was found.",
+};
+for (const [slot, note] of Object.entries(LOOKED))
+  if (gaps.has(slot)) lines.push(note, "");
 if (gaps.size === 0) lines.push("No gaps.", "");
 writeFileSync(
   new URL("../../../docs/reports/place-map-gaps.md", import.meta.url),

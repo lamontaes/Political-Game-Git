@@ -57,7 +57,7 @@
         "partisan": "partisan"
       },
       "status": "SOURCED",
-      "citation": "Ala. Code \u00a7 11-3-1 (commission of probate judge and four commissioners, four-year terms); a commissioner's term runs from the seventh day after the general election",
+      "citation": "Ala. Code § 11-3-1 (commission of probate judge and four commissioners, four-year terms); a commissioner's term runs from the seventh day after the general election",
       "sourceUrls": [
         "https://us.vlex.com/vid/ala-code--11-657519965",
         "https://alison.legislature.state.al.us/files/pdf/SearchableInstruments/2025RS/PSSKVRE-1.pdf"
@@ -84,7 +84,7 @@
         "partisan": "partisan"
       },
       "status": "SOURCED",
-      "citation": "Ark. Const. amend. 55 and Ark. Code \u00a7 14-14-902: justices of the peace (quorum court) are elected every even-numbered year for two-year terms",
+      "citation": "Ark. Const. amend. 55 and Ark. Code § 14-14-902: justices of the peace (quorum court) are elected every even-numbered year for two-year terms",
       "sourceUrls": [
         "https://uaex.uada.edu/business-communities/ced-blog/posts/2026/february/what-is-a-justice-of-the-peace-in-arkansas.aspx",
         "https://en.wikipedia.org/wiki/County_government_in_Arkansas"
@@ -112,7 +112,7 @@
         "partisan": "partisan"
       },
       "status": "SOURCED",
-      "citation": "A.R.S. \u00a7 11-211: supervisors are elected at the general election at which the President is elected and take office January 1",
+      "citation": "A.R.S. § 11-211: supervisors are elected at the general election at which the President is elected and take office January 1",
       "sourceUrls": [
         "https://law.justia.com/codes/arizona/2011/title11/section11-211",
         "https://www.azleg.gov/ars/11/00211.htm"
@@ -139,7 +139,7 @@
         "partisan": "nonpartisan"
       },
       "status": "SOURCED",
-      "citation": "Cal. Gov. Code \u00a7 25000 and Elections Code: five supervisors, four-year terms, no more than three elected at one election; contests are decided at the June statewide primary unless runoff to November",
+      "citation": "Cal. Gov. Code § 25000 and Elections Code: five supervisors, four-year terms, no more than three elected at one election; contests are decided at the June statewide primary unless runoff to November",
       "sourceUrls": [
         "https://california.public.law/codes/government_code_section_25000",
         "https://oag.ca.gov/system/files/opinions/pdfs/80-708.pdf"
@@ -168,7 +168,7 @@
         "partisan": "partisan"
       },
       "status": "SOURCED",
-      "citation": "C.R.S. \u00a7 30-10-306: commissioners serve four-year terms and take office the second Tuesday in January; two or three are elected in the presidential year, the rest in the midterm",
+      "citation": "C.R.S. § 30-10-306: commissioners serve four-year terms and take office the second Tuesday in January; two or three are elected in the presidential year, the rest in the midterm",
       "sourceUrls": [
         "https://ccionline.org/download/2021_handbook/2021-Chapter-2-The-Board-of-County-Commissioners.pdf",
         "https://colorado.public.law/statutes/crs_30-10-306.5"
@@ -229,7 +229,7 @@
         "partisan": "partisan"
       },
       "status": "SOURCED",
-      "citation": "Fla. Stat. \u00a7 124.01: four-year staggered terms with about half elected every two years; a commissioner's term begins the second Tuesday after the election",
+      "citation": "Fla. Stat. § 124.01: four-year staggered terms with about half elected every two years; a commissioner's term begins the second Tuesday after the election",
       "sourceUrls": [
         "https://www.flsenate.gov/Laws/Statutes/2024/Chapter124/All"
       ],
@@ -312,7 +312,7 @@
         "partisan": "partisan"
       },
       "status": "SOURCED",
-      "citation": "Iowa Code \u00a7 331.201: supervisors serve four-year terms staggered so no more than a bare majority is elected at one general election",
+      "citation": "Iowa Code § 331.201: supervisors serve four-year terms staggered so no more than a bare majority is elected at one general election",
       "sourceUrls": ["https://www.legis.iowa.gov/docs/code/2023/331.201.pdf"],
       "termStartEstimated": true,
       "note": "Term start estimated as January 1."
@@ -338,7 +338,7 @@
         "partisan": "partisan"
       },
       "status": "ESTIMATED FROM AVERAGE",
-      "citation": "Idaho Code \u00a7\u00a7 31-702 to 31-705: three commissioners elected by district; terms are staggered; the board organizes the second Monday in January",
+      "citation": "Idaho Code §§ 31-702 to 31-705: three commissioners elected by district; terms are staggered; the board organizes the second Monday in January",
       "sourceUrls": [
         "https://legislature.idaho.gov/statutesrules/idstat/Title31/T31CH7/SECT31-704/",
         "https://law.justia.com/codes/idaho/title-31/chapter-7/"
@@ -394,7 +394,7 @@
         "partisan": "partisan"
       },
       "status": "ESTIMATED FROM AVERAGE",
-      "citation": "Ind. Code \u00a7 36-2-2: three commissioners, four-year staggered terms, elected at the general election",
+      "citation": "Ind. Code § 36-2-2: three commissioners, four-year staggered terms, elected at the general election",
       "sourceUrls": [
         "https://knoxcounty.in.gov/knox-county-commissioners",
         "https://www.vigocounty.in.gov/commissioners/"
@@ -449,7 +449,7 @@
         "partisan": "partisan"
       },
       "status": "SOURCED",
-      "citation": "KRS 67.050 and Ky. Const. \u00a7 144: magistrates sit on the fiscal court for four-year terms and are elected at the midterm general election",
+      "citation": "KRS 67.050 and Ky. Const. § 144: magistrates sit on the fiscal court for four-year terms and are elected at the midterm general election",
       "sourceUrls": [
         "https://en.wikipedia.org/wiki/List_of_current_members_of_the_Kentucky_Fiscal_Courts",
         "https://christiancountyky.gov/county-magistrates"
@@ -488,14 +488,33 @@
     },
     {
       "stateUsps": "MA",
-      "countyGovernment": "partial",
+      "countyGovernment": "full",
       "status": "SOURCED",
-      "citation": "Eight Massachusetts county governments were abolished 1997-2000; Barnstable, Bristol, Dukes, Nantucket, Norfolk and Plymouth keep county government",
+      "citation": "M.G.L. c.34 sec.4: in each county except Nantucket and Suffolk three county commissioners are elected \"for terms of four years beginning the first Wednesday of January following their election\"; c.54 sec.158: commissioners are chosen \"at the biennial state election\" (two in 1940 and every fourth year, one in 1942 and every fourth year), so seats are filled at every biennial state election; c.54 secs.159-160: sheriffs and county treasurers are chosen at the biennial state election every sixth year. Six counties keep county government (Barnstable, Bristol, Dukes, Nantucket, Norfolk, Plymouth).",
       "sourceUrls": [
-        "https://www.sec.state.ma.us/divisions/cis/government/gov-county.htm",
-        "https://boston.com/news/wickedpedia/2023/12/12/massachusetts-county-governments-abolished/"
+        "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleVI/Chapter34/Section4",
+        "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleVIII/Chapter54/Section158",
+        "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleVIII/Chapter54/Section159",
+        "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleVIII/Chapter54/Section160"
       ],
-      "note": "Counties with a retained government need their own rows; their election dates were not read in this pass, so none is estimated."
+      "note": "Read on 2026-11-05 from malegislature.gov. The state election is the Tuesday after the first Monday in November of even-numbered years; that day is the engine's general election day, and the statute pages above state the biennial election, not the weekday. Nantucket and Suffolk counties elect no commissioners (the selectmen of Nantucket and Boston's mayor and council serve), so this schedule applies to the other retained counties.",
+      "body": {
+        "termYears": 4,
+        "stagger": "staggered",
+        "cycleYears": 2,
+        "electionYearResidues": [0],
+        "election": {
+          "month": 11,
+          "weekday": 2,
+          "afterFirstMonday": true
+        },
+        "termStart": {
+          "month": 1,
+          "weekday": 3,
+          "ordinal": 1
+        },
+        "partisan": "partisan"
+      }
     },
     {
       "stateUsps": "MD",
@@ -546,7 +565,7 @@
         "partisan": "partisan"
       },
       "status": "SOURCED",
-      "citation": "30-A M.R.S. \u00a7 62: county commissioners are elected on the Tuesday after the first Monday in November of even-numbered years for four-year terms",
+      "citation": "30-A M.R.S. § 62: county commissioners are elected on the Tuesday after the first Monday in November of even-numbered years for four-year terms",
       "sourceUrls": [
         "https://legislature.maine.gov/statutes/30-A/title30-Asec62.html"
       ],
@@ -656,7 +675,7 @@
         "partisan": "partisan"
       },
       "status": "ESTIMATED FROM AVERAGE",
-      "citation": "Miss. Code \u00a7 19-3-3 and \u00a7 23-15-: five supervisors elected by district for four-year terms in the November general election of odd-numbered years before a presidential year",
+      "citation": "Miss. Code § 19-3-3 and § 23-15-: five supervisors elected by district for four-year terms in the November general election of odd-numbered years before a presidential year",
       "sourceUrls": [
         "https://leakecountyms.org/board-of-supervisors/",
         "https://legiscan.com/MS/text/HB289/2025"
@@ -711,7 +730,7 @@
         "partisan": "partisan"
       },
       "status": "SOURCED",
-      "citation": "N.C.G.S. \u00a7 153A-58 and local acts: commissioners are elected in November of even-numbered years; most counties use four-year staggered terms (91 of 100) and terms start the first Monday in December",
+      "citation": "N.C.G.S. § 153A-58 and local acts: commissioners are elected in November of even-numbered years; most counties use four-year staggered terms (91 of 100) and terms start the first Monday in December",
       "sourceUrls": [
         "https://www.ncacc.org/research-and-publications/research/county-elections/",
         "https://ncleg.gov/EnactedLegislation/Statutes/HTML/ByArticle/Chapter_153A/Article_4.html"
@@ -738,7 +757,7 @@
         "partisan": "nonpartisan"
       },
       "status": "ESTIMATED FROM AVERAGE",
-      "citation": "N.D.C.C. \u00a7\u00a7 11-11-03, 11-02-07: commissioners serve four-year staggered terms",
+      "citation": "N.D.C.C. §§ 11-11-03, 11-02-07: commissioners serve four-year staggered terms",
       "sourceUrls": [
         "https://www.burleigh.gov/commission",
         "https://attorneygeneral.nd.gov/wp-content/uploads/2023/03/81-134.pdf"
@@ -767,7 +786,7 @@
         "partisan": "partisan"
       },
       "status": "SOURCED",
-      "citation": "Neb. Rev. Stat. \u00a7\u00a7 32-528 and 32-529: commissioners and supervisors serve four-year terms, staggered by district",
+      "citation": "Neb. Rev. Stat. §§ 32-528 and 32-529: commissioners and supervisors serve four-year terms, staggered by district",
       "sourceUrls": [
         "https://ebench-dev.greeninfo.org/state/nebraska/statute/32-528",
         "https://ebench-dev.greeninfo.org/state/nebraska/statute/32-529"
@@ -951,7 +970,7 @@
         "partisan": "partisan"
       },
       "status": "SOURCED",
-      "citation": "19 O.S. \u00a7 131: districts 1 and 3 elected in November 1990 and every fourth year, district 2 in 1996 and every fourth year; terms begin the first business day in January",
+      "citation": "19 O.S. § 131: districts 1 and 3 elected in November 1990 and every fourth year, district 2 in 1996 and every fourth year; terms begin the first business day in January",
       "sourceUrls": [
         "https://law.justia.com/codes/oklahoma/title-19/section-19-131/"
       ]
@@ -1002,13 +1021,40 @@
         "partisan": "partisan"
       },
       "status": "ESTIMATED FROM AVERAGE",
-      "citation": "Pennsylvania County Code (16 P.S. \u00a7 401 et seq.): three commissioners elected at the municipal election in odd-numbered years before a presidential election for four-year terms",
+      "citation": "Pennsylvania County Code (16 P.S. § 401 et seq.): three commissioners elected at the municipal election in odd-numbered years before a presidential election for four-year terms",
       "sourceUrls": [
         "https://www.dauphincounty.gov/government/publicly-elected-officials/commissioners",
         "https://www.mychesco.com/a/tag/chester-county-commissioners"
       ],
       "termStartEstimated": true,
       "note": "Statute text not retrieved; county pages state the rule. Term start estimated as the first Monday in January."
+    },
+    {
+      "stateUsps": "PR",
+      "countyGovernment": "full",
+      "body": {
+        "termYears": 4,
+        "stagger": "concurrent",
+        "cycleYears": 4,
+        "electionYearResidues": [0],
+        "election": {
+          "month": 11,
+          "weekday": 2,
+          "afterFirstMonday": true
+        },
+        "termStart": {
+          "month": 1,
+          "day": 2
+        },
+        "partisan": "partisan"
+      },
+      "status": "SOURCED",
+      "citation": "Codigo Electoral de Puerto Rico de 2020 (Ley 58-2020), art. 9.1: \"Las Elecciones Generales se realizaran cada cuatro (4) anos, el primer martes despues del primer lunes de noviembre\"; art. 1.3(37) defines Elecciones Generales as electing the officials at the state, federal, municipal and legislative level, so a municipio's mayor and municipal legislature are elected on that day (last held November 5, 2024).",
+      "sourceUrls": [
+        "https://bvirtualogp.pr.gov/ogp/Bvirtual/leyesreferencia/PDF/58-2020.pdf"
+      ],
+      "termStartEstimated": true,
+      "note": "Puerto Rico has 78 municipios, which act as its county-level governments. The election day is read from the statute text; the term start (January 2) is the common pattern and was not found in the statute text."
     },
     {
       "stateUsps": "RI",
@@ -1038,7 +1084,7 @@
         "partisan": "partisan"
       },
       "status": "ESTIMATED FROM AVERAGE",
-      "citation": "S.C. Code \u00a7 4-9-90 and 4-9-610: council members are elected at the general election for two-year terms, or four-year staggered terms where a county adopts them by referendum",
+      "citation": "S.C. Code § 4-9-90 and 4-9-610: council members are elected at the general election for two-year terms, or four-year staggered terms where a county adopts them by referendum",
       "sourceUrls": [
         "https://www.scstatehouse.gov/sess122_2017-2018/bills/775.htm"
       ],
@@ -1066,7 +1112,7 @@
         "partisan": "partisan"
       },
       "status": "SOURCED",
-      "citation": "SDCL \u00a7 7-8-1 and 7-8-: four-year terms; even-numbered districts are elected in presidential years and the others in gubernatorial years",
+      "citation": "SDCL § 7-8-1 and 7-8-: four-year terms; even-numbered districts are elected in presidential years and the others in gubernatorial years",
       "sourceUrls": [
         "https://mylrc.sdlegislature.gov/api/Documents/77182.pdf",
         "https://www.pennco.org/government/board_of_commissioners/faqs.php"
@@ -1094,7 +1140,7 @@
         "partisan": "partisan"
       },
       "status": "SOURCED",
-      "citation": "Tenn. Code Ann. \u00a7 5-5-101: county legislative bodies are elected on the first Thursday in August of 2026 and every fourth year, terms starting September 1",
+      "citation": "Tenn. Code Ann. § 5-5-101: county legislative bodies are elected on the first Thursday in August of 2026 and every fourth year, terms starting September 1",
       "sourceUrls": [
         "https://www.ctas.tennessee.edu/eli/membership-clb",
         "https://www.ctas.tennessee.edu/eli/dates-regular-elections"
@@ -1121,7 +1167,7 @@
         "partisan": "partisan"
       },
       "status": "SOURCED",
-      "citation": "Tex. Const. art. V, \u00a7 18: four commissioners precincts, four-year terms staggered so two seats are elected every two years (precincts 2 and 4 in gubernatorial years, 1 and 3 in presidential years)",
+      "citation": "Tex. Const. art. V, § 18: four commissioners precincts, four-year terms staggered so two seats are elected every two years (precincts 2 and 4 in gubernatorial years, 1 and 3 in presidential years)",
       "sourceUrls": [
         "https://texapedia.info/commissioners-court/",
         "https://capitol.texas.gov/tlodocs/83R/billtext/html/HJ00145I.htm"
@@ -1150,7 +1196,7 @@
         "partisan": "partisan"
       },
       "status": "SOURCED",
-      "citation": "Utah Code \u00a7 17-16-6 and 17-52a-: county commissioners are elected at the general election every four years, staggered, and take office at noon the first Monday in January",
+      "citation": "Utah Code § 17-16-6 and 17-52a-: county commissioners are elected at the general election every four years, staggered, and take office at noon the first Monday in January",
       "sourceUrls": ["https://le.utah.gov/~2014/bills/hbillenr/HB0099.htm"]
     },
     {
@@ -1173,7 +1219,7 @@
         "partisan": "varies"
       },
       "status": "SOURCED",
-      "citation": "Va. Code \u00a7 24.2-218: supervisors are elected at the November general election in 1995 and every four years thereafter for four-year terms; \u00a7 24.2-219 allows biennial staggered elections",
+      "citation": "Va. Code § 24.2-218: supervisors are elected at the November general election in 1995 and every four years thereafter for four-year terms; § 24.2-219 allows biennial staggered elections",
       "sourceUrls": [
         "https://law.lis.virginia.gov/vacode/title24.2/chapter2/section24.2-218/",
         "https://vacode.org/downloads/2026/code-html/24.2-218.html"
@@ -1183,14 +1229,31 @@
     },
     {
       "stateUsps": "VT",
-      "countyGovernment": "judicial-officers-only",
+      "countyGovernment": "full",
       "status": "SOURCED",
       "citation": "Vermont counties elect two assistant judges and a sheriff, a state's attorney and a probate judge for four-year terms in the off-presidential general election; no county commission exists",
       "sourceUrls": [
         "https://vtassistantjudges.org/what-we-do/",
         "https://vtdigger.org/2026/07/28/vermont-government-offices-explained"
       ],
-      "note": "Vermont's county offices belong to CO-2, not this body calendar; sheriff terms start February 1."
+      "note": "Vermont counties have no county commission; the county offices are assistant (side) judges and the sheriff, four-year terms elected in the off-presidential general election (2022, 2026), terms starting February 1. This reading was recorded earlier from the sources above; the statute pages on legislature.vermont.gov could not be fetched on 2026-11-05 (the host refused the connection), so it has not been re-read against the statute text.",
+      "body": {
+        "termYears": 4,
+        "stagger": "concurrent",
+        "cycleYears": 4,
+        "electionYearResidues": [2],
+        "election": {
+          "month": 11,
+          "weekday": 2,
+          "afterFirstMonday": true
+        },
+        "termStart": {
+          "month": 2,
+          "day": 1
+        },
+        "partisan": "partisan"
+      },
+      "termStartEstimated": true
     },
     {
       "stateUsps": "WA",
@@ -1241,7 +1304,7 @@
         "partisan": "nonpartisan"
       },
       "status": "SOURCED",
-      "citation": "Wis. Stat. \u00a7 59.10(1)(b): supervisors serve two-year terms, are elected the first Tuesday in April and take office the third Tuesday in April; Milwaukee County serves four-year terms",
+      "citation": "Wis. Stat. § 59.10(1)(b): supervisors serve two-year terms, are elected the first Tuesday in April and take office the third Tuesday in April; Milwaukee County serves four-year terms",
       "sourceUrls": [
         "https://docs.legis.wisconsin.gov/2023/statutes/statutes/59/iii/10/3/b"
       ],
@@ -1267,7 +1330,7 @@
         "partisan": "partisan"
       },
       "status": "SOURCED",
-      "citation": "W. Va. Const. art. IX and W. Va. Code \u00a7 7-1-1: three commissioners serve six-year staggered terms with one term expiring every two years",
+      "citation": "W. Va. Const. art. IX and W. Va. Code § 7-1-1: three commissioners serve six-year staggered terms with one term expiring every two years",
       "sourceUrls": [
         "https://wirtcounty.wv.gov/countygovernmentagencies/Pages/countycommission.aspx",
         "https://www.shepherdstownchronicle.com/opinions/columns/2024/06/07/how-long-should-the-terms-of-county-commissioners-be/"
