@@ -1,6 +1,18 @@
 {
   "entries": [
     {
+      "version": "0.85.2",
+      "releasedOn": "2026-11-04",
+      "revision": "ff16a3549fa605928645e539f3aec28ec3d9aff2",
+      "changeIds": [
+        "core-one-map-counties",
+        "core-one-map-laws",
+        "core-one-map-lookups",
+        "core-one-map-state-readers",
+        "core-policy-authority-limited-cell-predicates"
+      ]
+    },
+    {
       "version": "0.85.1",
       "releasedOn": "2026-11-04",
       "revision": "1cc40c6022fb1253b70347b1f516b903ebfbfffc",
