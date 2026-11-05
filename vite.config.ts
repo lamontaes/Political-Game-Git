@@ -1,4 +1,3 @@
-import { runtimeArtBuild } from "./scripts/dev-lab/runtime-art-build";
 import { runtimeContentOrigin } from "./scripts/dev-lab/runtime-content-origin";
 import { jsonFromDisk } from "./scripts/dev-lab/json-from-disk";
 import { renameSync, rmSync } from "node:fs";
@@ -49,7 +48,6 @@ export default defineConfig({
     // Tests only: JSON is parsed at run time, not kept as module code.
     ...(process.env.VITEST ? [jsonFromDisk()] : []),
     playIsIndex(),
-    runtimeArtBuild(),
     runtimeContentOrigin(),
     sites(),
     identifiedBuild(),

@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 190 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 191 pull requests merged. Newest state at the top of each section.
 
 **Stopped by the owner, Nov 4, 2:37 p.m. Eastern, at 161 merged; resumed on the owner's word at about 2:53 p.m. Eastern (relayed by the CTO). The desk merges One Map's PRs, and from Nov 5, 05:22 UTC also State Sessions' (every other state holds sessions), on the owner's approval relayed by the CTO. From Nov 5, about 5:15 p.m. Eastern, also the Cleanup session's three PRs (the old art pipeline, the Oct 14 mocks, the green mannequin plates with the old mocks), on the same check; the art pipeline PR also needs `npm run build` to succeed on its merged head. Lanes 1, 3, 4 and 5 are stopped and Lane 2 is off, so #7110 and #7127 stay open, and skills PRs #7233, #7254 and #7264 stay with the CTO.**
 
@@ -121,6 +121,12 @@ New on Nov 3:
 | #7303 | Fixes the red Mac build: the filing test clock imports `CoreState` from `./types` (one line)                                                                             | Millersburg, Kentucky                       | 364de7a112068f58 |
 
 **Main's Mac build was red (Nov 5, run 42106943831)** after #7298 imported `CoreState` from `./state`. One Map's #7303 fixed the import and merged; a new Mac build was started on it.
+
+## Cleanup's PRs (from Nov 5)
+
+| PR    | What it does                                                                                                                                             | Town                              | Replay number    |
+| ----- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------- | ---------------- |
+| #7304 | Deletes the old art pipeline and every reference to it (855 files, about 644 MB); the game read none of it. `npm run build` succeeded on the merged head | Sullivan's Island, South Carolina | 6cc6165f1351ea9c |
 
 ## State Sessions' PRs (from Nov 5)
 

@@ -84,6 +84,20 @@ describe("the people pack", () => {
       "art/people-whole",
       "art/people-rooms/poses",
       "art/people-engine/v3",
+      // The old art pipeline, deleted Nov 5 at the owner's word.
+      "art/generated",
+      "art/references",
+      "art/qa",
+      "art/manifest",
+      "art/requests",
+      "art/intake",
+      "art/fixtures",
+      "art/pose-control-plates",
+      "art/families",
+      "art/regions",
+      "scripts/art-asset-factory",
+      "src/appearance",
+      "src/authoring",
     ]) {
       expect(existsSync(new URL(gone, ROOT)), gone).toBe(false);
       expect(

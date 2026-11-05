@@ -39,7 +39,7 @@ export const DEFAULT_APPEARANCE_RECIPE_VERSION = "appearance-recipe-v1";
 /**
  * The recipe that keeps a person's face painted in the same skin as the body
  * carrying it, declared for the lives a player starts. A person made under it
- * carries it in their save; the character components read it (src/appearance).
+ * carries it in their save.
  */
 export const COHERENT_APPEARANCE_RECIPE_VERSION = "appearance-recipe-v2";
 
