@@ -68,7 +68,7 @@ screen("play", "Play", "The scene fills the window. Your card sits bottom left, 
        stage("home-kitchen__midday", hud(hover="calendar"), figs=fig("024", 700, 120, 520) + fig("004", 980, 110, 540, True)))
 
 # 2 conversation: approved Lie scales, Say nothing as a plain button beside Leave
-conv = panel(SCALES + '<div class="convtop"><img class="cbust" src="img/bust-look-024.png" alt=""><div><div class="name big">Evelyn Spencer</div><div class="label2">sister</div></div></div>'
+conv = panel(SCALES + '<div class="convtop"><div><div class="name big">Evelyn Spencer</div><div class="label2">sister</div></div></div>'
              '<p class="speech">Hey, John. Have you talked to Brent? He said the plant is cutting the night shift.</p>'
              '<ol class="replies"><li>How about you? Are you still on days?</li><li>I saw Brent this morning. He didn\'t say anything.</li><li>Who told him that?</li><li>That would hit half the street.</li></ol>'
              '<div class="acts low"><button class="act sm">Say nothing</button><button class="act sm">Leave</button></div>', "conv")
