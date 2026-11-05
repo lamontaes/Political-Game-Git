@@ -2833,6 +2833,11 @@ function tieBreaker(api: CoreAPI, chamber: string): string | null {
   return term ? memberKey(term) : null;
 }
 
+/** Whether a government's law reaches the player's town: the nation's, or one of the town's own chain. */
+export function reachesTown(api: CoreAPI, jurisdiction: string): boolean {
+  return jurisdiction === "US" || inTownChain(lawChain(api), jurisdiction);
+}
+
 /**
  * The law keys whose rows are the law a government's body answers to: the
  * player's town's own chain and the nation's for a town government, else just
@@ -3731,9 +3736,7 @@ function chamberVote(
   // The journal's and the director's vote events are the player's world's: the
   // nation's and the town's own chain's. Another government's roll call stays
   // on the record (the votes table) without an event per member.
-  const government = billJurisdiction(api, bill);
-  const yoursToSee =
-    government === "US" || inTownChain(lawChain(api), government);
+  const yoursToSee = reachesTown(api, billJurisdiction(api, bill));
   for (const [index, member] of seated.entries()) {
     const key = memberKey(member);
     const position = positions[index]!;
