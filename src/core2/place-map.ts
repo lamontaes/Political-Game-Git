@@ -9,8 +9,9 @@
  */
 import mapData from "./data/places/place-map.json" with { type: "json" };
 import {
-  coreStateKeyOfJurisdictionId,
   corePlaceByJurisdictionId,
+  corePlaceByKey,
+  coreStateKeyOfJurisdictionId,
 } from "./place-lookup";
 import {
   countyGeoidsForPlace,
