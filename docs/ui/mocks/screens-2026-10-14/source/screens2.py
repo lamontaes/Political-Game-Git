@@ -97,12 +97,12 @@ for k, x, y, look, lab, kind, lit in nodes:
     s = 100 if k == "you" else 84
     dim = "" if kind in show else " dim"
     selc = " sel" if k == "p1" else ""
-    nh += (f'<div class="node{dim}{selc}" style="left:{x}px;top:{Y(y)}px;width:{s}px"><div class="nimg" style="width:{s}px;height:{s}px"><img class="np" src="img/bust-look-{look}.png" alt="">'
+    nh += (f'<div class="node{dim}{selc}" style="left:{x}px;top:{Y(y)}px;width:{s}px"><div class="nimg" style="width:{s}px;height:{s}px">'
            f'<img class="nf" src="img/node-{"lit" if lit else "rest"}.png" alt=""></div><div class="nl">{lab}</div></div>')
 leg = '<div class="wleg">' + "".join(f'<span><i style="background:{c}{";background:repeating-linear-gradient(90deg," + c + " 0 6px,transparent 6px 10px)" if k == "household" else ""}"></i>{k.capitalize() if k != "acquaintance" else "Know them"}</span>' for k, c in KIND.items()) + "</div>"
 webtools = ('<div class="wtools">' + tabs(["All", "Family", "Friends", "Work", "Politics"], "Politics")
             + f'<div class="search">{ic("search", "si")}<span>Find somebody</span></div></div>')
-known = ('<div class="known"><img src="img/bust-look-020.png" alt=""><div><div class="name">Ida Banks</div><div class="label2">Mayor of Latimer. You met her at the January 6 council meeting; '
+known = ('<div class="known"><div><div class="name">Ida Banks</div><div class="label2">Mayor of Latimer. You met her at the January 6 council meeting; '
          'Alderman Marcus Hill works with her.</div></div><button class="act sm">Open card</button></div>')
 web = menu("People", webtools + f'<div class="web2"><svg class="wl" viewBox="0 0 800 440">{lines}</svg>{nh}</div>{leg}{known}', 1300, 740)
 screen("people", "People: the web", "Built on the old People web. Filters along the top: picking Politics keeps those people in full color and dims the rest. Lines are colored by kind (family, household dashed, work, politics, people you know), with the legend underneath. Clicking a face lights their lines and says in words how you know them.",
@@ -116,7 +116,7 @@ pj = [("Jan 6, 2025", "Spoke against raising water rates at the Board of Alderme
       ("1984 – 2013", "Taught chemistry at Latimer High School."),
       ("1963", "Born in Latimer.")]
 tl = "".join(f'<div class="ev"><b>{d}</b><span>{t}</span></div>' for d, t in pj)
-card = panel('<div class="pc2"><div class="pchead"><img src="img/bust-look-020.png" alt=""><div><div class="name huge">Ida Banks</div><div class="label2">Mayor of Latimer · 61 · Oak Street</div>'
+card = panel('<div class="pc2"><div class="pchead"><div><div class="name huge">Ida Banks</div><div class="label2">Mayor of Latimer · 61 · Oak Street</div>'
              '<div class="chips"><span>Your mayor</span><span>Democrat</span><span>Met Jan 6</span></div></div></div>'
              '<div class="meter"><div class="mlab"><span>What she thinks of you</span><b>Warming</b></div><div class="mbar"><i style="left:58%"></i></div><div class="mends"><span>Cold</span><span>Warm</span></div></div>'
              + tabs(["Her story", "You and her", "Her record"], "Her story") + f'<div class="ptl">{tl}</div>'
@@ -128,7 +128,7 @@ screen("person", "Person card", "Taller than wide, like Skyrim's character panel
 # 5 government: chamber picture, roster, recent votes, coming up
 gov_rows = [("025", "Marcus Hill", "Ward 1", "D"), ("029", "Daniel Cho", "Ward 2", "R"), ("028", "Angela Price", "Ward 3", "D"),
             ("027", "Walter Greer", "Ward 4", "R"), ("034", "Priya Nair", "Ward 5", "I"), ("035", "Otis Freeman", "At large", "D")]
-roster = "".join(f'<div class="seat"><img src="img/bust-look-{l}.png" alt=""><div><b>{n}</b><span>{w}</span></div><em class="pty {p}">{p}</em></div>' for l, n, w, p in gov_rows)
+roster = "".join(f'<div class="seat"><div><b>{n}</b><span>{w}</span></div><em class="pty {p}">{p}</em></div>' for l, n, w, p in gov_rows)
 govbody = (tabs(["Your office", "Campaigns", "Government", "Parties", "Issues", "Budget"], "Government")
            + '<div class="scope"><span class="tab on">Local</span><span class="tab">State</span><span class="tab">Federal</span><span class="sep"></span>'
            '<span class="tab on">Legislative</span><span class="tab">Executive</span><span class="tab">Judicial</span></div>'
@@ -139,7 +139,7 @@ govbody = (tabs(["Your office", "Campaigns", "Government", "Parties", "Issues", 
            '<div class="gcol"><div class="label">Recent votes</div>' + ybar(4, 2, "Drainage bond, $1.2 million · Jan 21") + ybar(2, 4, "Water rate increase · Jan 6") + ybar(6, 0, "Pecan Street paving · Dec 17")
            + '<div class="label" style="margin-top:22px">Coming up</div><div class="agenda"><div><b>Feb 4</b><span>Budget amendment for the police department</span></div>'
            '<div><b>Feb 18</b><span>Rezoning on Highway 8 for a dollar store</span></div><div><b>Mar 7</b><span>Filing deadline for all six seats</span></div></div>'
-           '<div class="label" style="margin-top:22px">Mayor</div><div class="seat big"><img src="img/bust-look-020.png" alt=""><div><b>Ida Banks</b><span>Democrat · since July 2021</span></div></div></div></div>')
+           '<div class="label" style="margin-top:22px">Mayor</div><div class="seat big"><div><b>Ida Banks</b><span>Democrat · since July 2021</span></div></div></div></div>')
 screen("gov", "Politics: Government", "Each body opens on its chamber, its party split, its members, how its recent votes went and what's on its agenda. Clicking a member opens their card.",
        stage("council-chamber__midday", menu("Politics", govbody, 1300, 740) + hud(toast=False), blur=True))
 
