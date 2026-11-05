@@ -5,11 +5,12 @@ area: core
 kind: cleanup
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: one-map-speed-final
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-05T12:17:31.384Z
 ---
 
 **What.** A bisect of year 1 puts the jump from about 45 s to about 117 s at State Sessions' #7290, not at the place map.
