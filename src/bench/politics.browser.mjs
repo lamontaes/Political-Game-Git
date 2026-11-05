@@ -62,7 +62,7 @@ try {
     .locator('[data-tab="politics"]')
     .first()
     .evaluate((e) => e.click());
-  // Politics → Government is the Oct 14 mock (owner, Oct 29): a body's room,
+  // Politics → Government is a real game menu (owner, Oct 29): a body's room,
   // its party split, member cards, recent votes, coming up, the executive;
   // one fixed panel that never scrolls as a page.
   await page.locator(".split-screen").waitFor();

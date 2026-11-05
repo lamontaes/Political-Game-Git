@@ -17,7 +17,7 @@ claimed-at:
 
 **What.** The News toast on Inauguration Day reads "Michael Tanner won the election." (the election was in November), and the story it opens is the whole address as a list of lines, including "I was in Pennsylvania." and a side column ending "Take care." A news story should read as a news story. The owner: "This isn't news." This item makes the story read as news: a headline true on January 20 (the swearing-in, naming the President by record), a lede with who, what and when, two or three sentences of context from the world's own numbers, at most one pulled quote from the address, and no sign-off or line that states only where the speaker was.
 
-**Rules.** Serves LAW.md §6, News (front-page stories; the game paints the story, MOCKS:37) and LAW.md §7, Words that ship (words come from the English engine; "Send finished work only," OD:367). No hand-written player text. Ask why: the headline and lede cite the inauguration record. This is a game, not a spreadsheet.
+**Rules.** Serves LAW.md §6, News (front-page stories; the game paints the story) and LAW.md §7, Words that ship (words come from the English engine; "Send finished work only," OD:367). No hand-written player text. Ask why: the headline and lede cite the inauguration record. This is a game, not a spreadsheet.
 
 **Done when.** In a drawn place on the first evening, the news story's headline names the swearing-in with the President's record id, the body is a lede plus two or three sentences with at most one pulled quote from the address, no line is a sign-off or states only where someone was, and a test over the news packet (src/bench/story.ts) fails on a headline that claims an election win on inauguration day; shown by a screenshot of the story with the place and seed named.
 

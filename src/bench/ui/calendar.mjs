@@ -1,5 +1,5 @@
 /* global window, localStorage */
-// The calendar, to its mock (MOCKS calendar.png): a compact month of day tiles with a small
+// The calendar: a compact month of day tiles with a small
 // icon for each thing on the day, the chosen day on a plate of its own between, and Coming up
 // beside it paged inside its box (owner, Oct 29: a menu never scrolls as a page). The screen
 // hands it the day that is today, the dated items in words, the labels from the controls

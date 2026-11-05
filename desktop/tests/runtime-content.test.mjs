@@ -41,7 +41,7 @@ function fixture(t) {
       },
     ],
     metadata: {
-      "art/manifest/asset_manifest.json": {
+      "content/asset_manifest.json": {
         assets: [
           { asset_id: "a", final_path: "art/a.png", hash: contentHash(png) },
         ],
@@ -71,7 +71,7 @@ test("content revision reuses unchanged bytes and serves only the frozen snapsho
   assert.equal(again.id, first.id);
   assert.equal(again.changedBytes, 0);
   assert.equal(again.cacheHits, 1);
-  f.manifest.metadata["art/manifest/asset_manifest.json"].assets[0].label =
+  f.manifest.metadata["content/asset_manifest.json"].assets[0].label =
     "Revision";
   f.save();
   const next = receiveContent(f.args);
@@ -106,7 +106,7 @@ test("corrupt or partial incoming revision preserves last usable snapshot", (t) 
   const f = fixture(t),
     first = receiveContent(f.args);
   f.manifest.files[0].sha256 = "a".repeat(64);
-  f.manifest.metadata["art/manifest/asset_manifest.json"].assets[0].hash =
+  f.manifest.metadata["content/asset_manifest.json"].assets[0].hash =
     "a".repeat(64);
   f.save();
   assert.throws(() => receiveContent(f.args), /bytes do not match/);

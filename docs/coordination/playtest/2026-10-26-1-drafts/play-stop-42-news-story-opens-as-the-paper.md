@@ -17,9 +17,9 @@ claimed-at:
 
 **What.** Clicking the News toast in v0.34.0 opens a gray see-through overlay titled with the headline and holding the whole address as a bare list of lines, with a side column under it. The owner: "this is just a big gray screen with absolutely nothing on it. This isn't news." The ruling is that News opens as a front page with a layout per outlet (old broadsheet, modern daily, tabloid, town weekly), each with its own masthead and fonts. The paper layouts and masthead art already exist (paper-masthead styles in src/bench/play.css; art/ui-kit13/news/masthead-*.png), but the toast's reader (#news-reader in src/bench/play.html) does not use them. This item draws the story the toast opens in its outlet's front-page layout.
 
-**Rules.** Serves LAW.md §6, News ("The owner loved the front page idea and wants many looks," MOCKS:37; each outlet gets its own layout, REG:141). This is a game, not a spreadsheet. Replace, never layer: the plain reader is replaced by the paper layout, not kept as a second way to read a story. The text of the inauguration story is words-news-inauguration-story-reads-as-news.
+**Rules.** Serves LAW.md §6, News ("The owner loved the front page idea and wants many looks,"; each outlet gets its own layout, REG:141). This is a game, not a spreadsheet. Replace, never layer: the plain reader is replaced by the paper layout, not kept as a second way to read a story. The text of the inauguration story is words-news-inauguration-story-reads-as-news.
 
-**Done when.** In a drawn place on the first evening, clicking the news toast opens the story in one of the four paper layouts chosen by its outlet, with the masthead and a headline, and no bare line list; src/bench/news.browser.mjs asserts a paper masthead inside the story reader and fails on main, shown by a screenshot beside docs/ui/mocks/screens-2026-10-14/shots/news.png.
+**Done when.** In a drawn place on the first evening, clicking the news toast opens the story in one of the four paper layouts chosen by its outlet, with the masthead and a headline, and no bare line list; src/bench/news.browser.mjs asserts a paper masthead inside the story reader and fails on main, shown by a screenshot beside the Nov 5 menu look.
 
 **Time box.** 3 hours; if not done, push what exists, open the draft PR, write the handoff.
 

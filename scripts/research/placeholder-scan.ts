@@ -50,9 +50,6 @@ const ROOTS = ["src"];
  */
 export const NOT_MARKERS: Readonly<Record<string, string>> = {};
 
-/** Directories of test fixtures, not game values. */
-const FIXTURE_DIRS = ["src/authoring/fixtures/"];
-
 /** Files that are machine output: one very long line of data, no comments. */
 const GENERATED = /\.generated\.tsx?$/;
 
@@ -71,7 +68,6 @@ export function markerKinds(line: string): MarkerKind[] {
 /** True when a path under the repository root is scanned for markers. */
 export function isScanned(file: string): boolean {
   if (/\.test\.tsx?$/.test(file) || GENERATED.test(file)) return false;
-  if (FIXTURE_DIRS.some((dir) => file.startsWith(dir))) return false;
   return !(file in NOT_MARKERS);
 }
 
