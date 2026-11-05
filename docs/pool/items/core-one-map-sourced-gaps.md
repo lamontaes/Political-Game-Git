@@ -5,11 +5,12 @@ area: core
 kind: research
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: one-map-sources
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-05T05:39:38.399Z
 ---
 
 **What.** Source and add Puerto Rico's municipal fiscal year and four-year municipal elections, Massachusetts county commissioners' elections, and Vermont's county offices; a county with no active government hands its area to the state's towns. Report where the county-area gaps were searched.
