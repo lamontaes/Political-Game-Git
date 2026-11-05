@@ -5,9 +5,9 @@ area: core
 kind: research
 priority: 1
 size: M
-status: claimed
+status: done
 claimed-by: one-map-sources
-pr:
+pr: #7287
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-05T05:39:38.399Z
