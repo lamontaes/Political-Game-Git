@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 170 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 171 pull requests merged. Newest state at the top of each section.
 
 **Stopped by the owner, Nov 4, 2:37 p.m. Eastern, at 161 merged; resumed on the owner's word at about 2:53 p.m. Eastern (relayed by the CTO). The desk now merges only One Map's PRs. Lanes 1, 3, 4 and 5 are stopped and Lane 2 is off, so #7110 and #7127 stay open, and skills PRs #7233, #7254 and #7264 stay with the CTO.**
 
@@ -103,6 +103,7 @@ New on Nov 3:
 | #7279 | Every county-area lookup goes through the place map reader                                            | Startex, South Carolina               | 47eb0dfbcc9e9251 |
 | #7280 | Elections open the town's state from the one place map                                                | Dayton, Wyoming                       | 211c1388817db6f4 |
 | #7281 | The candidate pool and the homeless count read the town from the one place map                        | Charlotte Amalie, U.S. Virgin Islands | fe9070c35c1f6c1a |
+| #7282 | Housing's town record takes its state from the one place map                                          | Seaford, Delaware                     | 64f21ad11c6e2ebf |
 
 ## Lane PRs merged on Nov 4 (126), on the owner's word ("You may merge lane PRs that pass the new-game check")
 
