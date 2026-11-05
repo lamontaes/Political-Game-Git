@@ -3728,6 +3728,12 @@ function chamberVote(
     memberPosition(api, bill.id, memberKey(member)),
   );
   const closeness = voteCloseness(positions.map((position) => position.total));
+  // The journal's and the director's vote events are the player's world's: the
+  // nation's and the town's own chain's. Another government's roll call stays
+  // on the record (the votes table) without an event per member.
+  const government = billJurisdiction(api, bill);
+  const yoursToSee =
+    government === "US" || inTownChain(lawChain(api), government);
   for (const [index, member] of seated.entries()) {
     const key = memberKey(member);
     const position = positions[index]!;
@@ -3753,7 +3759,7 @@ function chamberVote(
     // A member who is a full person has cast a vote of their own: a record
     // their journal and the director read. Named officials not filled in have none.
     const resident = api.state.people.get(key);
-    if (resident && (vote === "yes" || vote === "no"))
+    if (yoursToSee && resident && (vote === "yes" || vote === "no"))
       api.emit({
         id: `office.voted:${bill.id}:${key}`,
         date: api.state.date,
