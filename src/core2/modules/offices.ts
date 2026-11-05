@@ -196,6 +196,7 @@ export const OFFICES_MODULE: PreStartModule = {
       terms: {
         indexes: {
           bySeatStatus: { fields: ["seatId", "status"] },
+          byOfficeStatus: { fields: ["officeId", "status"] },
           byPerson: { fields: ["personId"] },
           byStatus: { fields: ["status"] },
         },
