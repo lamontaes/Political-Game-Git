@@ -1,2 +1,24 @@
+---
+id: tests-filing-starts-where-filing-opens
+title: "Filing tests start on the day a contest opens in the drawn place"
+area: elections
+kind: bug
+priority: 1
+size: S
+status: claimed
+claimed-by: filing-fix
+pr:
+blocked-on:
+source: added with npm run pool -- add
+claimed-at: 2026-11-05T18:42:32.127Z
+---
 
-Notes (Nov 5, one-map): bisect. Open contests on Jan 5, 2026 fall from 11–34 to 0 in 38 of 56 jurisdictions (first drawn place of each) at 00f74b7542 (Nov 4, "every contest opens its filing on a read or estimated day"), not at the place map: the same 14 places give the same counts at a394ca8fde (before the map), 93e913ee34 (map) and main. Places with no open contest on day one open Jan 9 (OR, PA, TN) through Apr 25 (RI); AR, IL, NC and TX already closed 2026 filing and open for 2028 in 2027; MS opens Oct 26. A second, older cause: the M2-02 deadline check compared the House deadline to the nomination calendar's date, while 22a644d85d (#7150, Nov 3) made the filing law's own date win; New Mexico's two files disagree (calendar and FEC say Feb 3 for the party side, the filing law's U.S. House row says Mar 10). Test now follows the one-deadline rule; the data conflict is open for research (Ballotpedia and sos.nm.gov were unreachable from this session).
+**What.** Golden-path filing specs failed with no open contest to file for in places whose filing window opens after Jan 5 (38 of 56 jurisdictions). The specs now wait for the first open day, and the deadline check follows the one-deadline rule.
+
+**Rules.** One rule, all 56 places: the place's own calendar says when filing opens. No test loosened.
+
+**Done when.** elections-filing, campaigns pass in James Town WY, Ewa Villages HI and nine more drawn places; families guard green
+
+**Files.** src/core2/gov-test-clock.ts, src/core2/campaigns.test.ts, src/core2/elections-filing.test.ts, tests/guards/families-baseline.json
+
+**Notes.** TODO
