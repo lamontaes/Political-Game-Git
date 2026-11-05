@@ -2146,5 +2146,17 @@
     "addedAt": "2026-11-05",
     "replacement": "A coarse deal read from the members' saved positions and the sponsor's ties, written once per bill, so outside bills carry their amendments without a round per member.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-outside-chamber-tally",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/legislature.ts",
+    "line": 0,
+    "whatItFakes": "Another government's chamber (a state the player is not in, a county or town elsewhere) votes by a tally from each member's saved position (their own views, district, party, wing, ambition, press and state stake), with no sponsor closeness, deal, lobby, past-vote or scene term, no absence, and no record or event per member; the chamber's roll call is one public record and the law row and the executive's decision after it are real.",
+    "why": "The owner's ruling that other states only need to be simulated so the world happens around you, and the CTO's call of Nov 5 on the coarse vote; running a full per-member position for 55 legislatures a year was the largest cost of every state sitting.",
+    "addedBy": "State Sessions session (CTO call, Nov 5)",
+    "addedAt": "2026-11-05",
+    "replacement": "The same tally with the sponsor's ties and the member's past votes read once per chamber instead of once per member, if a played proof shows outside outcomes drifting from the full vote.",
+    "status": "open"
   }
 ]

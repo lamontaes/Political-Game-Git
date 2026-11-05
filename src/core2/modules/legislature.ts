@@ -3728,11 +3728,87 @@ export function missesSitting(
 }
 
 /** One chamber's vote: each member yes for a positive position, no for a negative one, abstaining with nothing either way. */
+/** The chamber's roll call as one public record: the count, never a record a member. */
+function emitChamberVote(
+  api: CoreAPI,
+  bill: BillRow,
+  officeId: string,
+  yes: number,
+  no: number,
+): void {
+  api.emit({
+    id: `bill-vote:${bill.id}:${officeId}`,
+    date: api.state.date,
+    kind: "legislative-vote",
+    personIds: members(api, officeId).flatMap((m) =>
+      m.personId ? [m.personId] : [],
+    ),
+    placeId: lawChain(api).townPlaceId,
+    source: {
+      tag: "SOURCED",
+      citation: `Vote on ${bill.number}`,
+      asOf: api.state.date,
+    },
+    publicRecord: true,
+    news: true,
+    facts: {
+      billId: bill.id,
+      number: bill.number,
+      level: billReach(api, bill).level,
+      form: bill.form.kind,
+      motion: motionOn(bill),
+      subjects: billTitle(bill)
+        .subjects.map((t) => t.key)
+        .join(","),
+      chamber: officeId,
+      yes: String(yes),
+      no: String(no),
+    },
+  });
+}
+
+/**
+ * Another government's chamber votes by a tally from each member's saved
+ * position (their views, district, party, wing, ambition, press and state
+ * stake, from their officials row): the positions decide the result, no
+ * record or event is written per member, and the law row and the executive's
+ * decision after it stay real (CTO, Nov 5: "it just needs to be simulated so
+ * the world happens around you").
+ */
+function tallyChamber(
+  api: CoreAPI,
+  bill: BillRow,
+  officeId: string,
+): { yes: number; no: number } {
+  const stances = billStances(api, bill);
+  let yes = 0;
+  let no = 0;
+  for (const term of members(api, officeId)) {
+    const official = officialOf(api, memberKey(term));
+    if (!official) continue;
+    const p = officialParts(api, official, stances);
+    const total =
+      p.views +
+      p.constituents +
+      p.party +
+      p.wing +
+      p.ambition +
+      p.press +
+      p.stateStake;
+    if (total > 0) yes += 1;
+    else if (total < 0) no += 1;
+  }
+  emitChamberVote(api, bill, officeId, yes, no);
+  return { yes, no };
+}
+
 function chamberVote(
   api: CoreAPI,
   bill: BillRow,
   officeId: string,
 ): { yes: number; no: number } {
+  if (!reachesTown(api, billJurisdiction(api, bill)))
+    return tallyChamber(api, bill, officeId);
   let yes = 0;
   let no = 0;
   const seated = members(api, officeId);
@@ -3740,10 +3816,6 @@ function chamberVote(
     memberPosition(api, bill.id, memberKey(member)),
   );
   const closeness = voteCloseness(positions.map((position) => position.total));
-  // The journal's and the director's vote events are the player's world's: the
-  // nation's and the town's own chain's. Another government's roll call stays
-  // on the record (the votes table) without an event per member.
-  const yoursToSee = reachesTown(api, billJurisdiction(api, bill));
   for (const [index, member] of seated.entries()) {
     const key = memberKey(member);
     const position = positions[index]!;
@@ -3769,7 +3841,7 @@ function chamberVote(
     // A member who is a full person has cast a vote of their own: a record
     // their journal and the director read. Named officials not filled in have none.
     const resident = api.state.people.get(key);
-    if (yoursToSee && resident && (vote === "yes" || vote === "no"))
+    if (resident && (vote === "yes" || vote === "no"))
       api.emit({
         id: `office.voted:${bill.id}:${key}`,
         date: api.state.date,
@@ -3817,35 +3889,7 @@ function chamberVote(
         });
     }
   }
-  api.emit({
-    id: `bill-vote:${bill.id}:${officeId}`,
-    date: api.state.date,
-    kind: "legislative-vote",
-    personIds: members(api, officeId).flatMap((m) =>
-      m.personId ? [m.personId] : [],
-    ),
-    placeId: lawChain(api).townPlaceId,
-    source: {
-      tag: "SOURCED",
-      citation: `Vote on ${bill.number}`,
-      asOf: api.state.date,
-    },
-    publicRecord: true,
-    news: true,
-    facts: {
-      billId: bill.id,
-      number: bill.number,
-      level: billReach(api, bill).level,
-      form: bill.form.kind,
-      motion: motionOn(bill),
-      subjects: billTitle(bill)
-        .subjects.map((t) => t.key)
-        .join(","),
-      chamber: officeId,
-      yes: String(yes),
-      no: String(no),
-    },
-  });
+  emitChamberVote(api, bill, officeId, yes, no);
   return { yes, no };
 }
 
