@@ -5,11 +5,12 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: one-map-names-all
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-05T08:48:44.698Z
 ---
 
 **What.** The gap report named the first 40 places and said and N more; it now lists every place with a gap.
