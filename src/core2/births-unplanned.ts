@@ -1,10 +1,9 @@
+import { placeStateKey } from "./place-map";
 import providerDistance from "../../data/research/people/abortion-provider-distance.json" with { type: "json" };
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { renewalParameter } from "./births-parameters";
 import { birthCircumstances, type BirthCouple } from "./births-plan";
 import { lawInForce } from "./modules/laws";
-import { corePlaceByJurisdictionId, corePlaceByKey } from "./place-lookup";
-import type { EntityId } from "./kernel/brands";
 import type { CoreAPI } from "./types";
 
 export const ABORTION_LAW_SERIES =
@@ -36,11 +35,7 @@ export function providerMiles(
 ): { miles: number; stateKey: string } {
   // A town's own households keep their governing unit's id, which the place
   // lookup may not know: they live in the world's own place's state.
-  const stateKey =
-    corePlaceByJurisdictionId(placeId as EntityId)?.stateJurisdictionKey ??
-    (worldPlaceKey
-      ? corePlaceByKey(worldPlaceKey)?.stateJurisdictionKey
-      : undefined);
+  const stateKey = placeStateKey(placeId) ?? placeStateKey(worldPlaceKey);
   const row = stateKey ? PROVIDER_PLACES[stateKey] : undefined;
   if (!stateKey || !row)
     throw new Error(`No provider distance recorded for place ${placeId}`);

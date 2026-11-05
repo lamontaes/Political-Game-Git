@@ -6,6 +6,7 @@
  * reprice it. Draws, interest and repayment move through the existing
  * conserving credit writer. Bank books are recorded monthly.
  */
+import { placeStateKey } from "../place-map";
 import countyRows from "../../../data/tables/local-business-counts.json" with { type: "json" };
 import depositRows from "../../../data/tables/town-deposits.json" with { type: "json" };
 import regions from "../data/regional/regions.json" with { type: "json" };
@@ -946,10 +947,7 @@ export const CREDIT_MODULE: CoreModule = {
       (row) => row.kind === smallDollarData.lenderKind,
     );
     const terms = smallDollarTerms(
-      core(api).placeMetadata?.placeKey
-        ? (corePlaceByKey(core(api).placeMetadata!.placeKey!)
-            ?.stateJurisdictionKey ?? undefined)
-        : undefined,
+      placeStateKey(core(api).placeMetadata?.placeKey) ?? undefined,
     );
     if (small && terms)
       store(api)

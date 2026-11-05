@@ -23,14 +23,12 @@
  * they reach the age of retiring (SG-LIVES-work-out-of-labor-force). Nothing
  * here moves money: a husk keeps no accounts (two-level population).
  */
+import { placeStateKey } from "./place-map";
 import jobRows from "./data/jobs/parameters.json" with { type: "json" };
 import epop from "../../data/research/labor/cps-2024-employment-by-age.json" with { type: "json" };
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { SeededRng } from "./kernel/rng";
-import {
-  coreStateKeyOfJurisdictionId,
-  corePlaceByJurisdictionId,
-} from "./places";
+import {} from "./places";
 import {
   findPerQuarter,
   layoffPerQuarter,
@@ -41,7 +39,6 @@ import {
 } from "./past";
 import { livesElsewhere, stateUnemployment } from "./modules/people";
 import { DEFAULT_HEALTH_DATA, severityImpulse } from "./modules/health";
-import type { EntityId } from "./kernel/brands";
 import type {
   CoreAPI,
   CoreState,
@@ -106,9 +103,7 @@ function bandOf(age: number): string | undefined {
 
 /** The state a person living elsewhere lives in, as a USPS code. */
 function uspsOf(placeId: string): string | undefined {
-  const key =
-    corePlaceByJurisdictionId(placeId as EntityId)?.stateJurisdictionKey ??
-    coreStateKeyOfJurisdictionId(placeId);
+  const key = placeStateKey(placeId);
   return key ? key.replace(/^US-/, "") : undefined;
 }
 
