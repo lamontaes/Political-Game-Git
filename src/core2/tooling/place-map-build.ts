@@ -74,6 +74,11 @@ for (const state of corePlaceStateIdentities())
       countyGeoidsForPlace(geoid).find((id) => countyIds.has(id)) ??
       municipiosForPlace(geoid)
         .map((unit) => unit.countyGeoid)
+        .find((id): id is string => id !== null && countyIds.has(id)) ??
+      // The Census place-in-county files miss a few places; the government
+      // listing says which county area the place's own government sits in.
+      governmentUnitsForPlace(geoid)
+        .map((unit) => unit.countyGeoid)
         .find((id): id is string => id !== null && countyIds.has(id));
     // A municipality that governs the place outranks a township over it.
     const units = governmentUnitsForPlace(geoid);
