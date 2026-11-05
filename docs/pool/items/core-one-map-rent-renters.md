@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: done
 claimed-by: one-map-rent3
-pr:
+pr: #7300
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-05T20:47:12.689Z
