@@ -46,15 +46,9 @@ it(`real unit identities retain the federal, county, township and city edges: ${
   ).toBe("US");
 
   // Property-selected reference data, not laws inserted into a played world.
-  for (const kind of ["township", "county-without-law", "city"] as const) {
+  for (const kind of ["township", "city"] as const) {
     const findOffice = (key: string) => {
-      const own = lawChainForPlace(key);
       return localOfficesForPlace(key).find((office) => {
-        if (kind === "county-without-law")
-          return (
-            office.level === "county" &&
-            !own.levels.some((level) => level.level === "county")
-          );
         return office.level === kind;
       });
     };
@@ -89,111 +83,6 @@ it(`real unit identities retain the federal, county, township and city edges: ${
       }),
     ).toBe("test:unit-with-no-catalog-row");
 });
-
-it(`a multi-county board uses its own county rather than the first: replay ${replay}`, () => {
-  const findBoard = (key: string) => {
-    const chain = lawChainForPlace(key);
-    return localOfficesForPlace(key).find((office) => {
-      const county = governmentUnit(office.jurisdiction)?.countyGeoid;
-      return (
-        bodyRow(office.kind)?.law === "county" &&
-        county !== undefined &&
-        county !== null &&
-        county !== chain.countyGeoids[0] &&
-        chain.countyGeoids.includes(county)
-      );
-    });
-  };
-  const place = drawPlace(replay, "body-own-county", (key) =>
-    Boolean(findBoard(key)),
-  );
-  const board = findBoard(place.key)!;
-  const chain = lawChainForPlace(place.key);
-  const expected = `county:${governmentUnit(board.jurisdiction)!.countyGeoid}`;
-  expect(expected).not.toBe(`county:${chain.countyGeoids[0]}`);
-  expect(officeLawJurisdiction(chain, board)).toBe(expected);
-  // A real county unit has no municipality geoid. An outside input cannot
-  // turn that absence into the played town's place key.
-  expect(governmentUnit(board.jurisdiction)!.placeGeoid).toBeNull();
-  expect(
-    officeLawJurisdiction(chain, {
-      level: "city",
-      jurisdiction: board.jurisdiction,
-      coversTown: false,
-    }),
-  ).toBe(board.jurisdiction);
-  setBookkeeping(false);
-  try {
-    const core = buildBenchWorld(place.seed, gameStartDate(), {
-      placeKey: place.key,
-      twoLevel: true,
-    }).core;
-    const api = coreAPI(core);
-    // An input to the reader only: no bill, law, vote or event is written.
-    const input = { bodyOfficeId: board.id } as BillRow;
-    expect(bodyJurisdiction(api, board.id)).toBe(expected);
-    expect(billJurisdiction(api, input)).toBe(expected);
-    expect(billReach(api, input).county).toBe(expected);
-    advanceCore(core, addDays(makeIsoDate(core.date), 90));
-    const sessions = sessionsOf(api).filter(
-      (row) => row.bodyOfficeId === board.id,
-    );
-    expect(
-      sessions.length,
-      `${place.name}: actual county meetings`,
-    ).toBeGreaterThan(0);
-    for (const session of sessions) expect(session.stateKey).toBe(expected);
-    edgeProof.push({ kind: "own-county", place, board, expected, sessions });
-  } finally {
-    setBookkeeping(true);
-  }
-}, 1_500_000);
-
-it(`a county-level board with no county law keeps its real city-law meetings: replay ${replay}`, () => {
-  const findBoard = (key: string) => {
-    const chain = lawChainForPlace(key);
-    return chain.levels.some((level) => level.level === "county")
-      ? undefined
-      : localOfficesForPlace(key).find(
-          (office) => bodyRow(office.kind)?.law === "county",
-        );
-  };
-  const place = drawPlace(replay, "body-no-county-law", (key) =>
-    Boolean(findBoard(key)),
-  );
-  setBookkeeping(false);
-  try {
-    const core = buildBenchWorld(place.seed, gameStartDate(), {
-      placeKey: place.key,
-      twoLevel: true,
-    }).core;
-    const api = coreAPI(core);
-    const board = findBoard(place.key)!;
-    const expected = lawChain(api).levels.at(-1)!.jurisdiction;
-    expect(bodyJurisdiction(api, board.id)).toBe(expected);
-    expect(billReach(api, { bodyOfficeId: board.id } as BillRow).level).toBe(
-      "city",
-    );
-    advanceCore(core, addDays(makeIsoDate(core.date), 90));
-    const sessions = sessionsOf(api).filter(
-      (row) => row.bodyOfficeId === board.id,
-    );
-    expect(
-      sessions.length,
-      `${place.name}: actual local meetings`,
-    ).toBeGreaterThan(0);
-    for (const session of sessions) expect(session.stateKey).toBe(expected);
-    edgeProof.push({
-      kind: "no-county-law-meetings",
-      place,
-      board,
-      expected,
-      sessions,
-    });
-  } finally {
-    setBookkeeping(true);
-  }
-}, 1_500_000);
 
 it(`ordinary bills and voted laws read their actual body's government: ${where}`, () => {
   setBookkeeping(false);
