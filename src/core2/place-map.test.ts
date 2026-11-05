@@ -10,6 +10,7 @@ import {
   placesUnder,
 } from "./place-map";
 import { placeSlots } from "./gov-rules/place-slots";
+import { corePlaceByKey } from "./place-lookup";
 import { placeStateKeys } from "./places";
 
 describe("the one place map", () => {
@@ -94,5 +95,17 @@ describe("the one place map", () => {
       })
       .map((r) => r.id);
     expect(missing).toEqual([]);
+  });
+
+  it("agrees with the place record on the state of every town and county", () => {
+    const disagree = rows
+      .filter((r) => r.level === "town" || r.level === "county")
+      .filter(
+        (r) =>
+          placeState(r.id)?.id !==
+          (corePlaceByKey(r.id)?.stateJurisdictionKey ?? undefined),
+      )
+      .map((r) => r.id);
+    expect(disagree).toEqual([]);
   });
 });
