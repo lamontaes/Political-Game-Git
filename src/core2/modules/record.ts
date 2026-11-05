@@ -157,6 +157,8 @@ export function lastVoteOn(
   api: CoreAPI,
   personId: string,
   question: string,
+  /** A measure whose own votes are not a past vote on the question (the bill being weighed). */
+  exceptBillId?: string,
 ): VoteRecordRow | undefined {
   if (!api.state.modules.has(RECORD_MODULE_ID)) return undefined;
   let last: VoteRecordRow | undefined;
@@ -167,6 +169,7 @@ export function lastVoteOn(
       personId,
       question,
     ]) as unknown as VoteRecordRow[]) {
+    if (vote.billId === exceptBillId) continue;
     if (
       !last ||
       vote.date.localeCompare(last.date) > 0 ||

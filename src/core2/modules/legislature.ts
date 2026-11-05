@@ -2911,7 +2911,9 @@ function recordConsistency(
   for (const stance of billStances(api, bill)) {
     const series = provisionSeries(stance.provision);
     if (!series) continue;
-    const last = lastVoteOn(api, memberId, stance.question);
+    // A member's earlier vote on this same bill (in committee) is not a past
+    // vote this bill undoes.
+    const last = lastVoteOn(api, memberId, stance.question, bill.id);
     if (!last) continue;
     const freshness =
       (1 - settledness(api, series, billJurisdiction(api, bill))) / 2;
