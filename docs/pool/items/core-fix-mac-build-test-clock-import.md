@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: mac-build-fix
-pr:
+pr: #7303
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-05T22:06:36.806Z
