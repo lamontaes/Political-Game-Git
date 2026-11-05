@@ -2,11 +2,6 @@
   "place": "Egan, South Dakota",
   "seed": "runtime-text-audit:0",
   "fixedSources": [
-    "src/authoring/art-request-intake.ts|CA",
-    "src/authoring/art-request-intake.ts|ME",
-    "src/authoring/art-request-intake.ts|MN",
-    "src/authoring/art-request-intake.ts|MT",
-    "src/authoring/artbench.ts|History",
     "src/connectivity/producer-links.ts|January",
     "src/connectivity/producer-links.ts|Running for office",
     "src/content/adapters/legislative-rule-packs.ts|Session",
