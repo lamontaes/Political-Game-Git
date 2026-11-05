@@ -19,6 +19,7 @@ interface BillRow {
   readonly number: string;
   readonly bodyOfficeId: string;
   readonly status: string;
+  readonly provisions: readonly { readonly kind: string }[];
 }
 
 it(`every state sits for a year and its laws are its own, not the town's: ${drawn.name} (${drawn.key}), replay ${replay}`, () => {
@@ -49,7 +50,9 @@ it(`every state sits for a year and its laws are its own, not the town's: ${draw
     const byState = new Map<string, { bill: BillRow; law: LawRowInput }[]>();
     for (const bill of enactedBills) {
       const state = /^office:(US-[A-Z]{2}):/.exec(bill.bodyOfficeId)?.[1];
-      if (!state) continue;
+      // A budget bill moves budget lines, not a policy question's law row.
+      if (!state || !bill.provisions.some((p) => p.kind === "policy-question"))
+        continue;
       const law = laws.find(
         (row) =>
           row.jurisdiction === state && row.id.endsWith(`:${bill.number}`),
