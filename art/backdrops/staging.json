@@ -1654,7 +1654,7 @@
           "id": "clerk-counter:spot:8"
         }
       ],
-      "measuredFrom": "mannequin plate art/people-rooms/plates/clerk-counter.png over art/backdrops/clerk-counter__midday.jpg, measured by the art session (art/people-rooms/tools/slots.py); head share 0.118",
+      "measuredFrom": "spots measured over art/backdrops/clerk-counter__midday.jpg; head share 0.118",
       "surfaceSlots": [
         {
           "surfaceId": "clerk-counter-notice-board",
@@ -1817,7 +1817,7 @@
           "id": "coffee-shop:spot:5"
         }
       ],
-      "measuredFrom": "mannequin plate art/people-rooms/plates/coffee-shop.png over art/backdrops/coffee-shop__midday.jpg, measured by the art session (art/people-rooms/tools/slots.py); head share 0.117",
+      "measuredFrom": "spots measured over art/backdrops/coffee-shop__midday.jpg; head share 0.117",
       "surfaceSlots": [],
       "spotsFrom": "art/people-rooms/spots/coffee-shop.json"
     },
@@ -4966,7 +4966,7 @@
           "id": "council-chamber:spot:67"
         }
       ],
-      "measuredFrom": "mannequin plate art/people-rooms/plates/council-chamber.png over art/backdrops/council-chamber__midday.jpg, measured by the art session (art/people-rooms/tools/slots.py); head share 0.096",
+      "measuredFrom": "spots measured over art/backdrops/council-chamber__midday.jpg; head share 0.096",
       "surfaceSlots": [],
       "spotsFrom": "art/people-rooms/spots/council-chamber.json"
     },
@@ -6152,7 +6152,7 @@
           "id": "debate-stage:spot:28"
         }
       ],
-      "measuredFrom": "mannequin plate art/people-rooms/plates/debate-stage.png over art/backdrops/debate-stage__midday.jpg, measured by the art session (art/people-rooms/tools/slots.py); head share 0.096",
+      "measuredFrom": "spots measured over art/backdrops/debate-stage__midday.jpg; head share 0.096",
       "surfaceSlots": [],
       "spotsFrom": "art/people-rooms/spots/debate-stage.json"
     },
@@ -6561,7 +6561,7 @@
           "id": "door-knocking-rural:spot:6"
         }
       ],
-      "measuredFrom": "mannequin plate art/people-rooms/plates/door-knocking-rural.png over art/backdrops/door-knocking-rural__midday.jpg, measured by the art session (art/people-rooms/tools/slots.py); head share 0.100",
+      "measuredFrom": "spots measured over art/backdrops/door-knocking-rural__midday.jpg; head share 0.100",
       "surfaceSlots": [],
       "spotsFrom": "art/people-rooms/spots/door-knocking-rural.json"
     },
@@ -6658,7 +6658,7 @@
           "id": "door-knocking-suburban:spot:7"
         }
       ],
-      "measuredFrom": "mannequin plate art/people-rooms/plates/door-knocking-suburban.png over art/backdrops/door-knocking-suburban__midday.jpg, measured by the art session (art/people-rooms/tools/slots.py); head share 0.112",
+      "measuredFrom": "spots measured over art/backdrops/door-knocking-suburban__midday.jpg; head share 0.112",
       "surfaceSlots": [],
       "spotsFrom": "art/people-rooms/spots/door-knocking-suburban.json"
     },
@@ -6736,7 +6736,7 @@
           "id": "door-knocking-urban:spot:5"
         }
       ],
-      "measuredFrom": "mannequin plate art/people-rooms/plates/door-knocking-urban.png over art/backdrops/door-knocking-urban__midday.jpg, measured by the art session (art/people-rooms/tools/slots.py); head share 0.110",
+      "measuredFrom": "spots measured over art/backdrops/door-knocking-urban__midday.jpg; head share 0.110",
       "surfaceSlots": [],
       "spotsFrom": "art/people-rooms/spots/door-knocking-urban.json"
     },
@@ -7058,7 +7058,7 @@
           "id": "election-night-venue:spot:21"
         }
       ],
-      "measuredFrom": "mannequin plate art/people-rooms/plates/election-night-venue.png over art/backdrops/election-night-venue__midday.jpg, measured by the art session (art/people-rooms/tools/slots.py); head share 0.111",
+      "measuredFrom": "spots measured over art/backdrops/election-night-venue__midday.jpg; head share 0.111",
       "surfaceSlots": [
         {
           "surfaceId": "election-night-venue-screen-left",
@@ -7490,7 +7490,7 @@
           "id": "governor-office:spot:5"
         }
       ],
-      "measuredFrom": "mannequin plate art/people-rooms/plates/governor-office.png over art/backdrops/governor-office__midday.jpg, measured by the art session (art/people-rooms/tools/slots.py); head share 0.103",
+      "measuredFrom": "spots measured over art/backdrops/governor-office__midday.jpg; head share 0.103",
       "surfaceSlots": [],
       "spotsFrom": "art/people-rooms/spots/governor-office.json"
     },
@@ -7641,7 +7641,7 @@
           "id": "home-kitchen:spot:5"
         }
       ],
-      "measuredFrom": "mannequin plate art/people-rooms/plates/home-kitchen.png over art/backdrops/home-kitchen__midday.jpg, measured by the art session (art/people-rooms/tools/slots.py); head share 0.112",
+      "measuredFrom": "spots measured over art/backdrops/home-kitchen__midday.jpg; head share 0.112",
       "surfaceSlots": [],
       "spotsFrom": "art/people-rooms/spots/home-kitchen.json"
     },
@@ -8903,7 +8903,7 @@
           "id": "mayor-office:spot:6"
         }
       ],
-      "measuredFrom": "mannequin plate art/people-rooms/plates/mayor-office.png over art/backdrops/mayor-office__midday.jpg, measured by the art session (art/people-rooms/tools/slots.py); head share 0.096",
+      "measuredFrom": "spots measured over art/backdrops/mayor-office__midday.jpg; head share 0.096",
       "surfaceSlots": [],
       "spotsFrom": "art/people-rooms/spots/mayor-office.json"
     },
@@ -10201,7 +10201,7 @@
           "id": "polling-place:spot:10"
         }
       ],
-      "measuredFrom": "mannequin plate art/people-rooms/plates/polling-place.png over art/backdrops/polling-place__midday.jpg, measured by the art session (art/people-rooms/tools/slots.py); head share 0.103",
+      "measuredFrom": "spots measured over art/backdrops/polling-place__midday.jpg; head share 0.103",
       "surfaceSlots": [],
       "spotsFrom": "art/people-rooms/spots/polling-place.json"
     },
@@ -11037,7 +11037,7 @@
           "id": "rally-stage:spot:20"
         }
       ],
-      "measuredFrom": "mannequin plate art/people-rooms/plates/rally-stage.png over art/backdrops/rally-stage__midday.jpg, measured by the art session (art/people-rooms/tools/slots.py); head share 0.096",
+      "measuredFrom": "spots measured over art/backdrops/rally-stage__midday.jpg; head share 0.096",
       "surfaceSlots": [],
       "spotsFrom": "art/people-rooms/spots/rally-stage.json"
     },
@@ -19052,7 +19052,7 @@
           "id": "us-capitol-exterior:spot:4"
         }
       ],
-      "measuredFrom": "mannequin plate art/people-rooms/plates/us-capitol-exterior.png over art/backdrops/us-capitol-exterior__midday.jpg, measured by the art session (art/people-rooms/tools/slots.py); head share 0.311",
+      "measuredFrom": "spots measured over art/backdrops/us-capitol-exterior__midday.jpg; head share 0.311",
       "surfaceSlots": [],
       "spotsFrom": "art/people-rooms/spots/us-capitol-exterior.json"
     },
@@ -20701,7 +20701,7 @@
           "id": "us-house-floor:spot:104"
         }
       ],
-      "measuredFrom": "mannequin plate art/people-rooms/plates/us-house-floor.png over art/backdrops/us-house-floor__midday.jpg, measured by the art session (art/people-rooms/tools/slots.py); head share 0.096",
+      "measuredFrom": "spots measured over art/backdrops/us-house-floor__midday.jpg; head share 0.096",
       "surfaceSlots": [],
       "spotsFrom": "art/people-rooms/spots/us-house-floor.json"
     },
@@ -21241,7 +21241,7 @@
           "id": "us-senate-floor:spot:32"
         }
       ],
-      "measuredFrom": "mannequin plate art/people-rooms/plates/us-senate-floor.png over art/backdrops/us-senate-floor__midday.jpg, measured by the art session (art/people-rooms/tools/slots.py); head share 0.096",
+      "measuredFrom": "spots measured over art/backdrops/us-senate-floor__midday.jpg; head share 0.096",
       "surfaceSlots": [
         {
           "surfaceId": "us-senate-floor-panel-left",
@@ -23575,7 +23575,7 @@
           "id": "national-convention-floor:spot:39"
         }
       ],
-      "measuredFrom": "mannequin plate art/people-rooms/plates/national-convention-floor.png over art/backdrops/national-convention-floor__midday.jpg, measured by the art session (art/people-rooms/tools/slots.py); head share 0.162",
+      "measuredFrom": "spots measured over art/backdrops/national-convention-floor__midday.jpg; head share 0.162",
       "surfaceSlots": [],
       "spotsFrom": "art/people-rooms/spots/national-convention-floor.json"
     },
@@ -23642,7 +23642,7 @@
           "id": "national-convention-stage:spot:3"
         }
       ],
-      "measuredFrom": "mannequin plate art/people-rooms/plates/national-convention-stage.png over art/backdrops/national-convention-stage__midday.jpg, measured by the art session (art/people-rooms/tools/slots.py); head share 0.102",
+      "measuredFrom": "spots measured over art/backdrops/national-convention-stage__midday.jpg; head share 0.102",
       "surfaceSlots": [],
       "spotsFrom": "art/people-rooms/spots/national-convention-stage.json"
     },
@@ -24081,7 +24081,7 @@
           "id": "rally-courthouse-square:spot:16"
         }
       ],
-      "measuredFrom": "mannequin plate art/people-rooms/plates/rally-courthouse-square.png over art/backdrops/rally-courthouse-square__midday.jpg, measured by the art session (art/people-rooms/tools/slots.py); head share 0.113",
+      "measuredFrom": "spots measured over art/backdrops/rally-courthouse-square__midday.jpg; head share 0.113",
       "surfaceSlots": [],
       "spotsFrom": "art/people-rooms/spots/rally-courthouse-square.json"
     },
@@ -28283,7 +28283,7 @@
           "id": "house-bedroom:spot:2"
         }
       ],
-      "measuredFrom": "mannequin plate art/people-rooms/plates/house-bedroom.png over art/backdrops/house-bedroom__midday.jpg, measured by the art session (art/people-rooms/tools/slots.py); head share 0.100",
+      "measuredFrom": "spots measured over art/backdrops/house-bedroom__midday.jpg; head share 0.100",
       "surfaceSlots": [],
       "spotsFrom": "art/people-rooms/spots/house-bedroom.json"
     },
@@ -28456,7 +28456,7 @@
           "id": "house-suburban-living:spot:4"
         }
       ],
-      "measuredFrom": "mannequin plate art/people-rooms/plates/house-suburban-living.png over art/backdrops/house-suburban-living__midday.jpg, measured by the art session (art/people-rooms/tools/slots.py); head share 0.101",
+      "measuredFrom": "spots measured over art/backdrops/house-suburban-living__midday.jpg; head share 0.101",
       "surfaceSlots": [],
       "spotsFrom": "art/people-rooms/spots/house-suburban-living.json"
     },
@@ -29660,7 +29660,7 @@
           "id": "white-house-exterior:spot:3"
         }
       ],
-      "measuredFrom": "mannequin plate art/people-rooms/plates/white-house-exterior.png over art/backdrops/white-house-exterior__midday.jpg, measured by the art session (art/people-rooms/tools/slots.py); head share 0.099",
+      "measuredFrom": "spots measured over art/backdrops/white-house-exterior__midday.jpg; head share 0.099",
       "surfaceSlots": [],
       "spotsFrom": "art/people-rooms/spots/white-house-exterior.json"
     },
@@ -35191,7 +35191,7 @@
           "id": "rally-town-square:spot:26"
         }
       ],
-      "measuredFrom": "mannequin plate art/people-rooms/plates/rally-town-square.png over art/backdrops/rally-town-square__midday.jpg, measured by the art session (art/people-rooms/tools/slots.py); head share 0.132",
+      "measuredFrom": "spots measured over art/backdrops/rally-town-square__midday.jpg; head share 0.132",
       "surfaceSlots": [],
       "spotsFrom": "art/people-rooms/spots/rally-town-square.json"
     },
@@ -37217,7 +37217,7 @@
           "id": "workforce-center:spot:9"
         }
       ],
-      "measuredFrom": "mannequin plate art/people-rooms/plates/workforce-center.png over art/backdrops/workforce-center__midday.jpg, measured by the art session (art/people-rooms/tools/slots.py); head share 0.117",
+      "measuredFrom": "spots measured over art/backdrops/workforce-center__midday.jpg; head share 0.117",
       "surfaceSlots": [],
       "spotsFrom": "art/people-rooms/spots/workforce-center.json"
     }
