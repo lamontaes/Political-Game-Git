@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: law-levels-income-tax-grant
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-06T02:22:50.058Z
 ---
 
 **What.** Income tax is added level by level and the state's grant of local authority was only read when a bill was drafted, so a withdrawal left towns' taxes in force (docs/reports/law-levels-2026-11-05.md, Part B).
