@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: done
 claimed-by: state-sessions-causes
-pr:
+pr: #7307
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-06T00:53:21.431Z
