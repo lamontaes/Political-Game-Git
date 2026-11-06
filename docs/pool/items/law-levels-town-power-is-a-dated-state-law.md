@@ -5,9 +5,9 @@ area: laws
 kind: feature
 priority: 2
 size: L
-status: claimed
+status: done
 claimed-by: law-levels-bar-catalog
-pr:
+pr: #7314
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-06T16:44:59.846Z
