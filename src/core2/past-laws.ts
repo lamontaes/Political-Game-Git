@@ -67,14 +67,19 @@ const SERIES_QUESTION = (
   }
 ).series;
 
-type Level = "federal" | "state" | "city";
+type Level = "federal" | "state" | "county" | "city";
 type CatalogPolicy = {
   question?: string;
   series?: string;
   levels: Level[];
 };
 const CATALOG_QUESTIONS: Readonly<Record<Level, readonly string[]>> = (() => {
-  const out: Record<Level, string[]> = { federal: [], state: [], city: [] };
+  const out: Record<Level, string[]> = {
+    federal: [],
+    state: [],
+    county: [],
+    city: [],
+  };
   const subjects = (
     catalog as unknown as {
       subjects: {
