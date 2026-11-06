@@ -1,6 +1,12 @@
 {
   "entries": [
     {
+      "version": "0.87.0",
+      "releasedOn": "2026-11-06",
+      "revision": "0a3ffb0fb805e300271a4856eaaf732a235e7f05",
+      "changeIds": ["law-levels-state-bar-is-a-state-law"]
+    },
+    {
       "version": "0.86.0",
       "releasedOn": "2026-11-06",
       "revision": "250b72c766445e39806545cbd29f70f8b75cf27f",
