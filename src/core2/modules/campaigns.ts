@@ -515,7 +515,7 @@ export const CAMPAIGNS_MODULE: CoreModule = {
   onDay: (api) => {
     offersToHelp(api);
     rivalWordPassedOn(api);
-    if (api.state.date.endsWith("-01")) foldOldCauses(api);
+    if (Number(api.state.date.slice(8)) % 7 === 1) foldOldCauses(api);
   },
   // The candidate's answer to an offer, said in the scene it stages; a
   // count closes a race, and its causes fold; a filing's announcement takes
@@ -5222,7 +5222,7 @@ export function foldClosedRaceCauses(api: CoreAPI, contestId: string): void {
 }
 
 /**
- * On the first of every month the causes older than the keeping window fold
+ * Every seventh day of the month the causes older than the keeping window fold
  * for every candidate with any (an open race's too), so a race's causes do not
  * pile up as rows until its count (Montpelier, Vermont's election year added
  * about 330,000 cause rows a month and ran out of memory at 8 GB before the

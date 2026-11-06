@@ -1375,10 +1375,10 @@
       "spread": [0.15, 0.5]
     },
     "causeKeepDays": {
-      "value": 30,
+      "value": 14,
       "tag": "TUNABLE",
-      "source": "Days a campaign cause stays a row before it folds into the voter's summary for that candidate. Only the sums a race's standing reads and the traced causes a voter's known fact names are read after that (the folded rows keep both); a door scene reads the day's doors and a scene about a cause is staged within the offer spacing (campaignParameter offerSpacingDays), so a month leaves them whole. Chosen so an election year in a town of about 8,000 (Montpelier, Vermont) does not keep every cause of a race as a row until its count: that was about 330,000 rows a month.",
-      "spread": [14, 90]
+      "source": "Days a campaign cause stays a row before it folds into the voter's summary for that candidate. Only the sums a race's standing reads and the traced causes a voter's known fact names are read after that (the folded rows keep both); a door scene reads the day's doors and a scene about a cause is staged within the offer spacing (campaignParameter offerSpacingDays), so two weeks leaves them whole. Chosen so an election year in a town of about 8,000 (Montpelier, Vermont) does not keep every cause of a race as a row until its count: that was about 330,000 rows a month.",
+      "spread": [7, 90]
     },
     "sessionCommitteeDays": {
       "value": 21,
