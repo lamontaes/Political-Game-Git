@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: done
 claimed-by: law-levels-state-bar
-pr:
+pr: #7311
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-06T02:44:46.234Z
