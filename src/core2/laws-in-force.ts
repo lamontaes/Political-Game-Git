@@ -252,6 +252,12 @@ export function resolveLawInForce(input: {
   readonly enactedAuthority?: readonly EnactedAuthority[];
   /** For sales tax: the state's average local rate, when the place has no local row. */
   readonly localAverage?: readonly LawRowInput[];
+  /**
+   * For the income tax: the state's grant of local income-tax authority in
+   * force on the date (a row at 1 grants, at 0 withdraws), or null when the
+   * state has no row. A town's tax is set aside while the state's row says no.
+   */
+  readonly localTaxGrant?: LawRowInput | null;
 }): LawInForceAnswer {
   const { series, chain, date, rows } = input;
   const doctrine = LAW_SERIES[series] ?? "single";
@@ -356,6 +362,15 @@ export function resolveLawInForce(input: {
           levels[index] = {
             ...l,
             setAside: "the territory's own income tax applies in its place",
+          };
+    // A town's income tax stands only while the state's grant does: when a
+    // state law takes the power away, the town's tax stops on that date.
+    if (series === "income-tax" && input.localTaxGrant?.value === 0)
+      for (const [index, l] of levels.entries())
+        if (l.row && l.level !== "federal" && l.level !== "state")
+          levels[index] = {
+            ...l,
+            setAside: "state law gives its places no income-tax power",
           };
     const applying = levels.filter(
       (l) => l.row && l.row.value !== null && !l.setAside,
