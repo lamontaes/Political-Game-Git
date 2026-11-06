@@ -535,6 +535,9 @@ export function lawInForce(
             ]) as unknown as readonly EnactedAuthority[],
         }
       : {}),
+    ...(POLICY_QUESTIONS[series]?.answers[chain.stateKey]?.preempts === true
+      ? { statePreempts: true }
+      : {}),
     ...(series === "income-tax"
       ? {
           localTaxGrant:

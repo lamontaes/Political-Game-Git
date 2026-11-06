@@ -258,6 +258,12 @@ export function resolveLawInForce(input: {
    * state has no row. A town's tax is set aside while the state's row says no.
    */
   readonly localTaxGrant?: LawRowInput | null;
+  /**
+   * For a policy question: the state bars its places from making their own
+   * rule (the research's `preempts`). A town's or county's row is then set
+   * aside, so a lower level never overrules a higher one.
+   */
+  readonly statePreempts?: boolean;
 }): LawInForceAnswer {
   const { series, chain, date, rows } = input;
   const doctrine = LAW_SERIES[series] ?? "single";
@@ -380,7 +386,14 @@ export function resolveLawInForce(input: {
       : null;
     governing = applying[applying.length - 1]?.row ?? null;
   } else {
-    const applying = [...levels].reverse().find((l) => l.row);
+    if (input.statePreempts === true)
+      for (const [index, l] of levels.entries())
+        if (l.row && l.level !== "federal" && l.level !== "state")
+          levels[index] = {
+            ...l,
+            setAside: "state law bars its places from making this rule",
+          };
+    const applying = [...levels].reverse().find((l) => l.row && !l.setAside);
     governing = applying?.row ?? null;
     value = governing?.value ?? null;
   }
