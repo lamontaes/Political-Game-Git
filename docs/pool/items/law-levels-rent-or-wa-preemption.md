@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: law-levels-rent-or-wa
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-06T02:04:51.108Z
 ---
 
 **What.** Oregon (ORS 91.225) and Washington (RCW 35.21.830) were not flagged as barring towns from rent control (docs/reports/law-levels-2026-11-05.md).
