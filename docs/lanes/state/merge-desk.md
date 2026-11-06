@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 204 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 205 pull requests merged. Newest state at the top of each section.
 
 **Stopped by the owner, Nov 4, 2:37 p.m. Eastern, at 161 merged; resumed on the owner's word at about 2:53 p.m. Eastern (relayed by the CTO). The desk merges One Map's PRs, and from Nov 5, 05:22 UTC also State Sessions' (every other state holds sessions), on the owner's approval relayed by the CTO. From Nov 5, about 5:15 p.m. Eastern, also the Cleanup session's three PRs (the old art pipeline, the Oct 14 mocks, the green mannequin plates with the old mocks), on the same check; the art pipeline PR also needs `npm run build` to succeed on its merged head. Lanes 1, 3, 4 and 5 are stopped and Lane 2 is off, so #7110 and #7127 stay open, and skills PRs #7233, #7254 and #7264 stay with the CTO.**
 
@@ -152,6 +152,7 @@ New on Nov 3:
 | #7315 | The desktop title check accepts exactly the title monuments the game lists, so a Capitol day no longer fails the Mac build (test tooling)                                                                                  | Umatac, Guam                     | 90b14ee7470da0ab |
 | #7316 | A federal mandate in force governs over the state's and the town's law on the same question                                                                                                                                | Wanamassa, New Jersey            | dcb3789f9bcc2960 |
 | #7317 | A state legislator's bill paper offers only what a state body has the power to do, the same check the draft makes                                                                                                          | Amouli, American Samoa           | 81e5293ed39cf36b |
+| #7318 | A county board's bill paper shows the county's own answers (where the state lets counties act), not the town's                                                                                                             | Demarest, New Jersey             | ba2886ebb4d08c04 |
 
 ## Lane PRs merged on Nov 4 (126), on the owner's word ("You may merge lane PRs that pass the new-game check")
 
