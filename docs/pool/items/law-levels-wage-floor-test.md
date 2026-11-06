@@ -2,7 +2,7 @@
 id: law-levels-wage-floor-test
 title: "Law levels: test that a state wage below the federal floor never applies"
 area: laws
-kind: test
+kind: cleanup
 priority: 3
 size: S
 status: claimed
@@ -10,7 +10,7 @@ claimed-by: law-levels-federal-floor-test
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-11-06T05:13:51.474Z
+claimed-at: 2026-11-06T05:14:10.814Z
 ---
 
 **What.** Done-when 5 of the law-levels job names a test that a state law below a federal floor never applies; the resolver does it but no test showed it on a drawn place.
