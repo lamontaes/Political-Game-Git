@@ -1,6 +1,16 @@
 {
   "entries": [
     {
+      "version": "0.87.2",
+      "releasedOn": "2026-11-06",
+      "revision": "654bdd78580337f7e666f6dc6f46121316f0e0ca",
+      "changeIds": [
+        "law-levels-county-body-reads-county-law",
+        "law-levels-county-menu-level",
+        "law-levels-state-menu-same-check"
+      ]
+    },
+    {
       "version": "0.87.1",
       "releasedOn": "2026-11-06",
       "revision": "06d1f71e2f0485ebbdaada36e9bce61e69315e7b",

@@ -296,6 +296,26 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.87.2
+
+_Released November 6, 2026._
+
+### Fixed
+
+- **A county board now weighs a bill against the county's own law.** A county
+  board's members used to judge a tax or wage bill against the town's rate. They
+  now judge it against the county's own, so a county's vote follows the county's
+  law.
+
+- **A county's bill paper now shows what a county may do.** A county board's
+  bill paper used to show the town's answers. It now shows the county's own:
+  where the state lets counties act, and where it does not.
+
+- **A state's bill paper now warns where the law won't let it act.** A state
+  legislator's bill paper no longer shows every policy as allowed. It now gives
+  the same answer the draft check gives, so a state sees where federal law or
+  the power catalog bars the change before drafting it.
+
 ## PRE-ALPHA 0.87.1
 
 _Released November 6, 2026._
