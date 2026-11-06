@@ -5,11 +5,12 @@ area: laws
 kind: cleanup
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: law-levels-federal-floor-test
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-06T05:14:10.814Z
 ---
 
 **What.** Done-when 5 of the law-levels job names a test that a state law below a federal floor never applies; the resolver does it but no test showed it on a drawn place.
