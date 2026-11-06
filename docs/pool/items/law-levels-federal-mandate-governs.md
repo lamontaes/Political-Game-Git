@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: federal-mandate-loaded
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-06T17:02:37.996Z
 ---
 
 **What.** The federal Medicaid work rule (operative 2027-01-01) was loaded only where a state had no answer of its own, so in the roughly 51 places that answer no it never took effect (docs/reports/law-levels-2026-11-05.md, Part B item 3).
