@@ -5,11 +5,12 @@ area: release
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: desktop-title-check
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-06T16:49:30.628Z
 ---
 
 **What.** desktop/scripts/smoke-test.mjs allowed only the old title backdrops, so the Mac build failed on us-capitol-exterior (run 42240631046) after the owner's Oct 29 DC monuments ruling.
