@@ -296,6 +296,17 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.87.1
+
+_Released November 6, 2026._
+
+### Fixed
+
+- **A federal requirement now applies in every state.** The federal work
+  requirement for Medicaid, which takes effect on January 1, 2027, now governs
+  in every state from that day. A state that answers no, or repeals its own
+  rule, can no longer set it aside.
+
 ## PRE-ALPHA 0.87.0
 
 _Released November 6, 2026._

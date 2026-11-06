@@ -1,6 +1,15 @@
 {
   "entries": [
     {
+      "version": "0.87.1",
+      "releasedOn": "2026-11-06",
+      "revision": "06d1f71e2f0485ebbdaada36e9bce61e69315e7b",
+      "changeIds": [
+        "desktop-title-check-reads-monuments",
+        "law-levels-federal-mandate-governs"
+      ]
+    },
+    {
       "version": "0.87.0",
       "releasedOn": "2026-11-06",
       "revision": "0a3ffb0fb805e300271a4856eaaf732a235e7f05",
