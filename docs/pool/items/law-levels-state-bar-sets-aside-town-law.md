@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: law-levels-state-bar
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-06T02:44:46.234Z
 ---
 
 **What.** resolveLawInForce lets the most local row win for every policy question, so a town's row stays in force where its state bars towns (docs/reports/law-levels-2026-11-05.md, Part B item 2).
