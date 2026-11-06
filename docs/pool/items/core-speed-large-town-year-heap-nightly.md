@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: state-sessions-causes
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-06T00:53:21.431Z
 ---
 
 **What.** The Every place nightly runs each place with a 3072 MB heap. On Oct 28 (run 40706056832, run seed 5a7c867eec0d34f1) Framingham, Massachusetts (place 2524960, seed 8592bf2c832a) played year 1 in 172.4 seconds and its worker then died with ERR_WORKER_OUT_OF_MEMORY; on Oct 27 (run 40512841605) place 1727644 in Illinois (seed e5fb09d48217) crashed the same way. Small towns finish two years under 2 GB, so the growth is in something that scales with the town's size or with the days played, and a player in a large town would hit it.

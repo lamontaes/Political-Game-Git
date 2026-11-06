@@ -484,7 +484,7 @@ select:focus-visible {
   );
   box-shadow: 0 0 6px rgba(214, 189, 132, 0.7);
 }
-/* Icons: gold line icons on round glass keys, a column over the player card (MOCKS:24). */
+/* Icons: gold line icons on round glass keys, a column over the player card. */
 .ring {
   position: relative;
   width: 40px;
@@ -1772,7 +1772,7 @@ body.dev .dev-ring {
   color: var(--gold);
 }
 
-/* The person card (MOCKS person.png, on framed plates, owner Oct 29): their standing
+/* The person card (on framed plates, owner Oct 29): their standing
    figure on a plate of its own at the left; at the right the name and what they are to
    you, small fact plates, how close you are, then a tab rail over one plate that holds
    their history as a timeline, their record or who they know. The card is as tall as
@@ -2975,7 +2975,7 @@ details.entry[open] {
   justify-content: flex-start;
 }
 
-/* ---- News is the paper (owner, Oct 28, point 25; MOCKS news.png, news2.png,
+/* ---- News is the paper (owner, Oct 28, point 25; the paper's looks,
    news3.png; art/newspaper-mockups). The sheet is the page: cream or white
    stock, ink, the paper's type and columns, no panel chrome. ---- */
 :root {
@@ -3230,7 +3230,7 @@ details.entry[open] {
   color: var(--paper-ink);
   text-shadow: none;
 }
-/* A modern daily (MOCKS news2.png): white stock, the name on a blue bar, sans type. */
+/* A modern daily: white stock, the name on a blue bar, sans type. */
 .paper-modern {
   font-family: var(--ui);
 }
@@ -3276,7 +3276,7 @@ details.entry[open] {
 .paper-modern .paper-briefs {
   border-top: 3px solid var(--paper-blue);
 }
-/* A tabloid (MOCKS news3.png): white stock, the name on a red banner, the
+/* A tabloid: white stock, the name on a red banner, the
    lead headline in capitals, the briefs under red rules. */
 .paper-tabloid {
   font-family: var(--ui);
@@ -3492,8 +3492,8 @@ details.entry[open] {
   margin: 0 0 6px;
 }
 
-/* ---- Politics → Government, the Oct 14 mock (owner, Oct 29: "a real game
-   menu"; docs/ui/mocks/screens-2026-10-14/shots/gov.png). One fixed panel:
+/* ---- Politics → Government, the framed-plate look (owner, Oct 29: "a real game
+   menu"). One fixed panel:
    the screen fits the sheet, and what does not fit pages inside its box
    (ui/pager.mjs), never a scroll. Kit 13 tokens only. ---- */
 /* The panel is as tall as the screen holds (the mock), never taller than the window. */
@@ -4337,7 +4337,7 @@ details.entry[open] {
   padding: 0;
 }
 
-/* ---- Money (the Oct 14 mock on framed plates): the cash large, each month's
+/* ---- Money (on framed plates): the cash large, each month's
    review as columns, where last month went as a ring with its key ---- */
 .money-figure {
   font: 900 clamp(40px, 4.4vw, 64px) / 1.05 var(--name);
@@ -4525,7 +4525,7 @@ details.entry[open] {
   background: #6f6c66;
 }
 
-/* Jobs and study (the Oct 14 mock on framed plates): the workplace's painting
+/* Jobs and study (on framed plates): the workplace's painting
    across the top of the job plate, the title in the name type. */
 .job-picture {
   width: 100%;
@@ -4577,7 +4577,7 @@ details.entry[open] {
   gap: 4px;
 }
 
-/* Budget (the Oct 14 mock on framed plates): the government, its year and total
+/* Budget (on framed plates): the government, its year and total
    in the name type; three plates in a row; the rings' keys carry amounts. */
 .plate-row {
   display: grid;

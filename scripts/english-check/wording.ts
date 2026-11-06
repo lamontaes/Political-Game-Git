@@ -145,7 +145,6 @@ export function findUnnaturalPhrasing(
  * source-data ingestion, research and command-line utilities.
  */
 const NOT_PLAYER_FACING = [
-  "src/authoring/",
   "src/cli/",
   "src/devtools/",
   "src/r1-review/",

@@ -34,5 +34,5 @@ Each line starts "Playtest Oct 26 sitting 1 (installed v0.34.0):" when pasted.
 # Seen, not filed (owner silent or no ruling)
 
 - Loading screen is a small box "Seating the government" over the title painting; the spec (docs/packages/M6-screens.md line 63: journal writing itself, a year counter with headlines, the map filling in) is far larger. Owner said nothing; CTO decides.
-- The owner's start-date frustration ("the game is just starting at January 20th, 2025"): the Oct 14 mock itself starts Monday January 20, 2025, 8:30 PM, and OD:120 says history does not start on the day you generate in. Ask him whether it is the date or the missing past.
+- The owner's start-date frustration ("the game is just starting at January 20th, 2025"): the Nov 5 menu look itself starts Monday January 20, 2025, 8:30 PM, and OD:120 says history does not start on the day you generate in. Ask him whether it is the date or the missing past.
 - English engine "graded lines not merged": they are merged (#5906, #5942, #4626) per the helper; the unmerged one is #6078.

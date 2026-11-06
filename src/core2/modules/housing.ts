@@ -34,7 +34,7 @@ import { transferCash } from "../world-transfer";
 import { countedHousingInArrears, countedPayment } from "../counted-money";
 import { COUNTED_PLACE_PREFIX, type CountedHousehold } from "../counted-groups";
 import type { FinanceContractInput } from "../finance-types";
-import type { ResidentFlowInput } from "../residents";
+import { unplacedPoolOf, type ResidentFlowInput } from "../residents";
 import { MACRO_PARAMETERS } from "./macro";
 import { formerHome } from "../housing-former-home";
 import type { ModuleRow } from "../module-data";
@@ -77,7 +77,12 @@ import {
   type CompletedRentalOffer,
   renewRentalLeases,
 } from "../housing-occupancy";
-import { regroupHousehold, residentsRuntime } from "./residents";
+import {
+  DAYS_PER_YEAR,
+  openingUnplaced,
+  regroupHousehold,
+  residentsRuntime,
+} from "./residents";
 import { LAWS_MODULE_ID, lawChain, lawInForce, webFactorFor } from "./laws";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import lawParameters from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
@@ -588,6 +593,9 @@ function withHousingAt(input: CoreInput, town: Town): CoreInput {
   const people = new Map(input.people.map((row) => [row.id, row]));
   const oldestOf = (births: readonly string[]) =>
     Math.min(...births.map((date) => Number(date.slice(0, 4))));
+  const unplaced = input.residents
+    ? openingUnplaced(input.residents, input.startedAt)
+    : undefined;
   // Full households and the wider population's, ranked together for owning.
   // Group-quarters rooms are outside the housing market: the institution
   // houses them, so they never own, rent or borrow (CTO, Nov 1).
@@ -621,7 +629,15 @@ function withHousingAt(input: CoreInput, town: Town): CoreInput {
         id: row.household.id,
         counted: true,
         memberIds: row.household.memberIds,
-        income: householdIncome(row.jobs, row.household.memberIds),
+        // What the household will be paid, as the residents' opening counts it:
+        // its recorded jobs and its share of the place's unplaced workers.
+        income:
+          householdIncome(row.jobs, row.household.memberIds) +
+          ((unplaced?.workers.get(row.household.id) ?? 0) *
+            (unplaced?.payByPool.get(
+              unplacedPoolOf(row.household.placeId, false),
+            ) ?? 0)) /
+            DAYS_PER_YEAR,
         oldest: oldestOf(row.people.map((person) => person.birthDate)),
         liquidMinor: row.people.reduce(
           (n, person) => n + person.liquidMinor,
@@ -731,10 +747,19 @@ function withHousingAt(input: CoreInput, town: Town): CoreInput {
       : { contracts: [], flows: [], terms: [] };
   leases.push(...mortgages.contracts);
   flows.push(...mortgages.flows);
+  // The sourced rent is the renters' median (ACS B25064), so each rent scales
+  // by its household's income relative to the renters' own median scale, as
+  // each home's value does for owners above.
+  const renterScales = households
+    .filter((row) => rank.get(row.id)! >= owners)
+    .map((row) => incomeScale(row.income))
+    .sort((a, b) => a - b);
+  const renterMedianScale =
+    renterScales[Math.floor(renterScales.length / 2)] || 1;
   for (const row of households) {
     if (rank.get(row.id)! < owners) continue;
     // Every renter owes rent, with or without income of its own (owner, Oct 14): a household its group's money or its own cash can't carry falls behind like any other.
-    const scale = incomeScale(row.income);
+    const scale = incomeScale(row.income) / renterMedianScale;
     const amountMinor = Math.round(medianRent * 100 * scale);
     dwellings.push([row.id, "rent", amountMinor]);
     if (!row.counted)

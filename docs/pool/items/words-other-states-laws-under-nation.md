@@ -5,12 +5,13 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: state-sessions-nation
 pr:
 blocked-on:
 after: gov-every-state-and-town-governs
 source: added with npm run pool -- add
+claimed-at: 2026-11-06T00:55:04.579Z
 ---
 
 **What.** Every state legislature now sits and enacts laws of its own, each as a law row under that state's key with its chamber votes and the governor's decision, but the press drops every record that is not the town's, its state's or the nation's (wireItem in src/core2/press-topics.ts returns null for another state), so the player never learns the country is moving. Print a short story, under a Nation heading on the News screen the player already has, when another state enacts a law, naming the state and what the law does. The story is worded by the English engine from the law row and its bill (state, question, vote, governor's decision), and the Nation outlet covers statehouses the way a national paper would, by a coverage rule in data, never a list of state names.

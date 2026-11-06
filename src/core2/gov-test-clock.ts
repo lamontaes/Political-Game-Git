@@ -7,7 +7,7 @@
 import { advanceCore } from "./life";
 import { coreAPI } from "./state";
 import { openContests, ELECTIONS_MODULE_ID } from "./modules/elections";
-import type { CoreState } from "./state";
+import type { CoreState } from "./types";
 
 export function advanceToFilingOpen(core: CoreState): string {
   const api = coreAPI(core);

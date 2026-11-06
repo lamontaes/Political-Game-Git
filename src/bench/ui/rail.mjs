@@ -40,7 +40,7 @@ const ICONS = {
 
 /**
  * The one rail part: a straight column of round icons, one per screen, in this order,
- * each opening its screen through `data-tab` the way a Menu entry does (MOCKS:24).
+ * each opening its screen through `data-tab` the way a Menu entry does.
  * `titles` names each key.
  */
 export function mountRail(host, keys, titles) {
