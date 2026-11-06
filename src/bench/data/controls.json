@@ -408,6 +408,7 @@
   },
   "news": {
     "title": "News",
+    "nation": "Nation",
     "page": "Page {page} of {pages}",
     "previousPage": "Previous page",
     "nextPage": "Next page"

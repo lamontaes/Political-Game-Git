@@ -2146,5 +2146,17 @@
     "addedAt": "2026-11-05",
     "replacement": "Add the terms that matter to a played proof, each read at the chamber's level (how fresh the law is, the executive's reluctance to reverse it), through the same counted-group rule as a full member; and build members on demand rather than at the opening (core-fill-in-hook).",
     "status": "open"
+  },
+  {
+    "id": "SG-WORDS-nation-window-not-interest",
+    "kind": "missing-mechanic",
+    "file": "src/bench/nation-news.ts",
+    "line": 0,
+    "whatItFakes": "The Nation heading on News tells every law another state passed in the last nationNewsDays, not the ones a reader would care about.",
+    "why": "Which other-state laws reach a player's attention needs an interest rule from the owner (the places the player has lived, the topics in their drives); until then a plain window over the records shows the country moving without a cap or a chance.",
+    "addedBy": "State Sessions session",
+    "addedAt": "2026-11-06",
+    "replacement": "Order or filter the Nation stories by what the player's circle, drives and past homes read (OWNER DECISIONS NEEDED: what makes a faraway law news to this player).",
+    "status": "open"
   }
 ]
