@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 197 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 198 pull requests merged. Newest state at the top of each section.
 
 **Stopped by the owner, Nov 4, 2:37 p.m. Eastern, at 161 merged; resumed on the owner's word at about 2:53 p.m. Eastern (relayed by the CTO). The desk merges One Map's PRs, and from Nov 5, 05:22 UTC also State Sessions' (every other state holds sessions), on the owner's approval relayed by the CTO. From Nov 5, about 5:15 p.m. Eastern, also the Cleanup session's three PRs (the old art pipeline, the Oct 14 mocks, the green mannequin plates with the old mocks), on the same check; the art pipeline PR also needs `npm run build` to succeed on its merged head. Lanes 1, 3, 4 and 5 are stopped and Lane 2 is off, so #7110 and #7127 stay open, and skills PRs #7233, #7254 and #7264 stay with the CTO.**
 
@@ -143,6 +143,7 @@ New on Nov 3:
 | #7308 | Gun rules: towns may make their own only in the five states with no state bar (Giffords Law Center); permit-to-carry now bars towns everywhere else                                                                        | Bonner-West Riverside, Montana   | 009ea152f645eb56 |
 | #7309 | Towns in Oregon and Washington can no longer pass local rent control (both states bar it by statute)                                                                                                                       | Cyrus, Minnesota                 | 4a5eeb7e3949f203 |
 | #7310 | A town's income tax stops on the day a state law takes away its power to levy one (before, it kept charging forever)                                                                                                       | Black Earth, Wisconsin           | 19d3a29faf172764 |
+| #7311 | Where a state bars its towns from a policy question, a town's or county's law on it never takes effect; the state's stands (before, the most local law always won)                                                         | Stillman Valley, Illinois        | 9cbe73f34540e618 |
 
 ## Lane PRs merged on Nov 4 (126), on the owner's word ("You may merge lane PRs that pass the new-game check")
 
