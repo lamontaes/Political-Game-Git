@@ -5,11 +5,12 @@ area: laws
 kind: feature
 priority: 2
 size: L
-status: open
-claimed-by:
+status: claimed
+claimed-by: law-levels-bar-catalog
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-06T16:44:59.846Z
 ---
 
 **What.** Done-when 2 of the law-levels job: policyAuthority and resolveLawInForce read the research's static preempts flag (POLICY_QUESTIONS[q].answers[state].preempts), so no state bill can grant or take away a town's power on a policy question; only minimum wage, local income tax and home rule are dated state laws today (local-minimum-wage-authority, local-income-tax-authority, broaden-local-authority).
