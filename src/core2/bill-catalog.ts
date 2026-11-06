@@ -13,10 +13,12 @@ import catalog from "./data/legislature/bill-catalog.json" with { type: "json" }
 import type { CoreAPI } from "./types";
 import {
   authorityFor,
+  beyondPower,
   type Authority,
   type Provision,
 } from "./modules/legislature";
 import { billLevelJurisdiction, billValueInForce } from "./modules/laws";
+import { policyAuthority } from "./policy-authority";
 
 export type Operation =
   "raise" | "lower" | "expand" | "restrict" | "enact" | "repeal";
@@ -90,15 +92,21 @@ export function billCatalog(
             inForce: inForce.value,
             inForceRecordId: inForce.recordId,
             inForceUnit: inForce.unit,
+            // The same check for every body, as the draft makes it: a policy
+            // question reads the power catalog and the state's laws at this
+            // level, an amount its series' levels, and only a town needs the
+            // state's grant of authority.
             authority:
               level === "city"
                 ? authorityFor(api, provision)
-                : {
-                    allowed: true,
-                    warning: "none" as const,
-                    reason: "within-own-power" as const,
-                    source: "",
-                  },
+                : p.kind === "policy-question" && p.question
+                  ? policyAuthority(api, p.question, level)
+                  : (beyondPower(provision, level) ?? {
+                      allowed: true,
+                      warning: "none" as const,
+                      reason: "within-own-power" as const,
+                      source: "",
+                    }),
           };
         }),
     })),
