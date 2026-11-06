@@ -120,6 +120,8 @@ New on Nov 3:
 | #7300 | Rents sit near the real renter median for the county, and each household's rent follows the income it is actually paid (they ran 31 to 40 percent under)                 | Delaware Park, New Jersey                   | 874505f44de46093 |
 | #7303 | Fixes the red Mac build: the filing test clock imports `CoreState` from `./types` (one line)                                                                             | Millersburg, Kentucky                       | 364de7a112068f58 |
 
+**Main's Mac build is red by calendar day (Nov 6, run 42240631046), not by a merge.** Since Nov 4 the title screen (`src/bench/title.ts`) rotates the Capitol, the White House and the Lincoln Memorial by calendar day, but the desktop smoke test's allowed list (`desktop/scripts/smoke-test.mjs`, line 181) has no `us-capitol-exterior`, so it fails on any day the Capitol shows. Every other check passed on Mac and Windows. Fix: add `us-capitol-exterior` to that list. The desk does not build; this is for the owner or the session that owns the title.
+
 **Main's Mac build was red (Nov 5, run 42106943831)** after #7298 imported `CoreState` from `./state`. One Map's #7303 fixed the import; the Mac build on it passed and published (run 42118922460).
 
 ## Cleanup's PRs (from Nov 5)
