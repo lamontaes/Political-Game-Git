@@ -19,6 +19,7 @@ import { gameStartDate } from "../core2/game-start";
 import { knownCard, personCard } from "./card";
 import { OPENING_EVENING_MINUTE, openingFrames } from "./opening";
 import { calendarItems, heardItems, newsItems } from "./calendar";
+import { nationStories } from "./nation-news";
 import {
   campaignAct,
   campaignDay,
@@ -1333,6 +1334,8 @@ export async function benchRequest(
             ...newsItems(core).filter(
               (row) => row.visibility === "public" && !seen.has(row.id),
             ),
+            // Laws other states passed lately, under the Nation heading.
+            ...nationStories(core, controls.news.nation),
           ].map((row) => {
             const facts = (row as { facts?: Record<string, unknown> }).facts;
             const names: Record<string, string> = {};
