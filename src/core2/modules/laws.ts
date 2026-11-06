@@ -535,6 +535,14 @@ export function lawInForce(
             ]) as unknown as readonly EnactedAuthority[],
         }
       : {}),
+    ...(series === "income-tax"
+      ? {
+          localTaxGrant:
+            lawInForce(api, "local-income-tax-authority", date).levels.find(
+              (l) => l.level === "state",
+            )?.row ?? null,
+        }
+      : {}),
     ...(series === "sales-tax"
       ? { localAverage: seriesRows(api, "local-sales-tax-average") }
       : {}),
