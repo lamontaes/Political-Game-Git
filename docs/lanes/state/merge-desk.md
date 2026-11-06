@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 206 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 207 pull requests merged. Newest state at the top of each section.
 
 **Stopped by the owner, Nov 4, 2:37 p.m. Eastern, at 161 merged; resumed on the owner's word at about 2:53 p.m. Eastern (relayed by the CTO). The desk merges One Map's PRs, and from Nov 5, 05:22 UTC also State Sessions' (every other state holds sessions), on the owner's approval relayed by the CTO. From Nov 5, about 5:15 p.m. Eastern, also the Cleanup session's three PRs (the old art pipeline, the Oct 14 mocks, the green mannequin plates with the old mocks), on the same check; the art pipeline PR also needs `npm run build` to succeed on its merged head. Lanes 1, 3, 4 and 5 are stopped and Lane 2 is off, so #7110 and #7127 stay open, and skills PRs #7233, #7254 and #7264 stay with the CTO.**
 
@@ -154,6 +154,7 @@ New on Nov 3:
 | #7317 | A state legislator's bill paper offers only what a state body has the power to do, the same check the draft makes                                                                                                          | Amouli, American Samoa           | 81e5293ed39cf36b |
 | #7318 | A county board's bill paper shows the county's own answers (where the state lets counties act), not the town's                                                                                                             | Demarest, New Jersey             | ba2886ebb4d08c04 |
 | #7319 | A county board weighs a tax or wage bill against the county's own law in force, not the town's rate                                                                                                                        | Newberry, Indiana                | 6ba6e1d1e627dd80 |
+| #7320 | A pool note: a job index for monthly income measured no speed gain, so it was not kept (docs only)                                                                                                                         | Blair, Wisconsin                 | 5a1846f54d144040 |
 
 ## Lane PRs merged on Nov 4 (126), on the owner's word ("You may merge lane PRs that pass the new-game check")
 
