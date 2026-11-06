@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 199 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 200 pull requests merged. Newest state at the top of each section.
 
 **Stopped by the owner, Nov 4, 2:37 p.m. Eastern, at 161 merged; resumed on the owner's word at about 2:53 p.m. Eastern (relayed by the CTO). The desk merges One Map's PRs, and from Nov 5, 05:22 UTC also State Sessions' (every other state holds sessions), on the owner's approval relayed by the CTO. From Nov 5, about 5:15 p.m. Eastern, also the Cleanup session's three PRs (the old art pipeline, the Oct 14 mocks, the green mannequin plates with the old mocks), on the same check; the art pipeline PR also needs `npm run build` to succeed on its merged head. Lanes 1, 3, 4 and 5 are stopped and Lane 2 is off, so #7110 and #7127 stay open, and skills PRs #7233, #7254 and #7264 stay with the CTO.**
 
@@ -120,6 +120,8 @@ New on Nov 3:
 | #7300 | Rents sit near the real renter median for the county, and each household's rent follows the income it is actually paid (they ran 31 to 40 percent under)                 | Delaware Park, New Jersey                   | 874505f44de46093 |
 | #7303 | Fixes the red Mac build: the filing test clock imports `CoreState` from `./types` (one line)                                                                             | Millersburg, Kentucky                       | 364de7a112068f58 |
 
+**Main's Mac build is red by calendar day (Nov 6, run 42240631046), not by a merge.** Since Nov 4 the title screen (`src/bench/title.ts`) rotates the Capitol, the White House and the Lincoln Memorial by calendar day, but the desktop smoke test's allowed list (`desktop/scripts/smoke-test.mjs`, line 181) has no `us-capitol-exterior`, so it fails on any day the Capitol shows. Every other check passed on Mac and Windows. Fix: add `us-capitol-exterior` to that list. The desk does not build; this is for the owner or the session that owns the title.
+
 **Main's Mac build was red (Nov 5, run 42106943831)** after #7298 imported `CoreState` from `./state`. One Map's #7303 fixed the import; the Mac build on it passed and published (run 42118922460).
 
 ## Cleanup's PRs (from Nov 5)
@@ -145,6 +147,7 @@ New on Nov 3:
 | #7310 | A town's income tax stops on the day a state law takes away its power to levy one (before, it kept charging forever)                                                                                                       | Black Earth, Wisconsin           | 19d3a29faf172764 |
 | #7311 | Where a state bars its towns from a policy question, a town's or county's law on it never takes effect; the state's stands (before, the most local law always won)                                                         | Stillman Valley, Illinois        | 9cbe73f34540e618 |
 | #7312 | A test shows the higher wage floor governs across federal, state and town (test only; its pool item file conflict joined mechanically)                                                                                     | Blackhawk, California            | da4350132ca932f9 |
+| #7313 | The News screen has a Nation heading: one line for each law another state passed in the last two weeks, so the player sees the country moving                                                                              | Contoocook, New Hampshire        | ca03beae1a9f2263 |
 
 ## Lane PRs merged on Nov 4 (126), on the owner's word ("You may merge lane PRs that pass the new-game check")
 

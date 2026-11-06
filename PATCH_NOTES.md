@@ -296,6 +296,17 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.86.0
+
+_Released November 6, 2026._
+
+### Added
+
+- **The News screen shows the country moving.** Under a new Nation heading, News
+  now tells the laws other states passed in the last two weeks, each in a short
+  line such as "Right to counsel in eviction in Delaware became law on February
+  4, 2025."
+
 ## PRE-ALPHA 0.85.4
 
 _Released November 5, 2026._

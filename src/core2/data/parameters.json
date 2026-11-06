@@ -5398,6 +5398,17 @@
       "citation": "Starting range; the site reasons it joins run about -1 to 1 (views, warmth, grievance), so the trait term stays a minority share of the total."
     }
   },
+  "nationNewsDays": {
+    "value": 14,
+    "tag": "TUNABLE",
+    "citation": "How many days back the Nation heading on News tells laws other states passed: a window of the newest, not a count, so a quiet fortnight is short and a busy one long. Two weeks is a news cycle; the stories are a view over the other states' law rows and keep nothing of their own (owner, Oct 28: every screen is a view of the same records; Nov 5: other places keep only the result).",
+    "spread": {
+      "low": 7,
+      "high": 30,
+      "unit": "days",
+      "citation": "A week to a month; checked against how long the News screen stays readable (about 55 places enact about 7 laws each in a year)."
+    }
+  },
   "circleDecisionDetailDays": {
     "value": 7,
     "tag": "TUNABLE",

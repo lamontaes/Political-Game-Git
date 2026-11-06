@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: done
 claimed-by: nation-story
-pr:
+pr: #7313
 blocked-on:
 after: gov-every-state-and-town-governs
 source: added with npm run pool -- add

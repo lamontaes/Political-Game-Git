@@ -1,6 +1,23 @@
 {
   "entries": [
     {
+      "version": "0.86.0",
+      "releasedOn": "2026-11-06",
+      "revision": "250b72c766445e39806545cbd29f70f8b75cf27f",
+      "changeIds": [
+        "cleanup-oct14-mocks",
+        "cleanup-old-art-pipeline",
+        "cleanup-plates-and-old-mocks",
+        "law-levels-gun-preemption-flags",
+        "law-levels-income-tax-grant",
+        "law-levels-rent-or-wa-preemption",
+        "law-levels-state-bar-sets-aside-town-law",
+        "law-levels-wage-floor-test",
+        "nation-story-laws-in-other-states",
+        "state-sessions-fold-open-race-causes"
+      ]
+    },
+    {
       "version": "0.85.4",
       "releasedOn": "2026-11-05",
       "revision": "85bef8d71c48ca6e8f0ceae46b064d75a736fb6d",
