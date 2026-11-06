@@ -177,13 +177,35 @@ async function launch() {
       quitShown: !document.getElementById("front-quit")?.hidden,
     };
   });
+  // The title shows exactly the monuments src/bench/title.ts lists, read from
+  // that list so the two cannot drift apart.
+  const monuments = [
+    ...(readFileSync(
+      path.join(
+        path.dirname(fileURLToPath(import.meta.url)),
+        "..",
+        "..",
+        "src",
+        "bench",
+        "title.ts",
+      ),
+      "utf8",
+    )
+      .match(/TITLE_MONUMENTS = \[([^\]]*)\]/)?.[1]
+      ?.matchAll(/"([a-z0-9-]+)"/g) ?? []),
+  ].map((m) => m[1]);
+  if (!monuments.length)
+    throw new Error(
+      "TITLE_MONUMENTS could not be read from src/bench/title.ts",
+    );
+  const titleBackdrop = new RegExp(
+    `^/art/backdrops/(${monuments.join("|")})__`,
+  );
   check(
     "title: the backdrop is a painted national scene",
     titleScreen.src !== "" &&
       titleScreen.painted &&
-      /^\/art\/backdrops\/(white-house-exterior|lincoln-memorial|national-convention-floor|national-convention-stage|rally-stage|rally-town-square|rally-courthouse-square|us-house-floor|us-senate-floor|debate-stage|oval-office)__/.test(
-        titleScreen.src,
-      ),
+      titleBackdrop.test(titleScreen.src),
     titleScreen.src,
   );
   check("title: no subtitle under the wordmark", !titleScreen.subtitle);
