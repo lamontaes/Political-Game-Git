@@ -386,6 +386,21 @@ export function resolveLawInForce(input: {
       : null;
     governing = applying[applying.length - 1]?.row ?? null;
   } else {
+    // A federal mandate in force governs: no state or town row below it
+    // applies, and a state's repeal cannot take it away.
+    const mandate = levels.find(
+      (l) =>
+        l.level === "federal" &&
+        l.row?.terms?.mandate === true &&
+        l.row.value === 1,
+    );
+    if (mandate)
+      for (const [index, l] of levels.entries())
+        if (l !== mandate && l.row)
+          levels[index] = {
+            ...l,
+            setAside: "federal law requires this in every state",
+          };
     if (input.statePreempts === true)
       for (const [index, l] of levels.entries())
         if (l.row && l.level !== "federal" && l.level !== "state")

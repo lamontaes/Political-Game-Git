@@ -26,6 +26,8 @@ export type StartingAnswers = Record<
       string,
       {
         preempts?: boolean;
+        /** The date a federal ("US") answer takes effect. */
+        operativeAt?: string;
         answer?: string;
         estimated?: string;
         /** The statute or rule the answer rests on, where the research names one. */
