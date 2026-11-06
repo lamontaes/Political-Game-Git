@@ -535,7 +535,7 @@ export function lawInForce(
             ]) as unknown as readonly EnactedAuthority[],
         }
       : {}),
-    ...(POLICY_QUESTIONS[series]?.answers[chain.stateKey]?.preempts === true
+    ...(POLICY_QUESTIONS[series] && localPowerBarred(api, series, date)
       ? { statePreempts: true }
       : {}),
     ...(series === "income-tax"
@@ -550,6 +550,33 @@ export function lawInForce(
       ? { localAverage: seriesRows(api, "local-sales-tax-average") }
       : {}),
   });
+}
+
+/** The series a state's bar on its places' own rule for one policy question is kept under. */
+export const LOCAL_POWER_PREFIX = "local-power:";
+
+/**
+ * Whether the town's state bars its places from making their own rule on a
+ * policy question on a date. The state's own law decides: a state bill that
+ * bars (0) or grants (1) the power is a row on `local-power:<question>`, in
+ * force from its effective date; with none, the researched starting answer
+ * (`preempts`, data/research/laws/starting-law-2026) is the law in force.
+ */
+export function localPowerBarred(
+  api: CoreAPI,
+  question: string,
+  date: string = api.state.date,
+): boolean {
+  const row = lawInForce(
+    api,
+    `${LOCAL_POWER_PREFIX}${question}`,
+    date,
+  ).levels.find((level) => level.level === "state")?.row;
+  if (row && row.value !== null) return row.value === 0;
+  return (
+    POLICY_QUESTIONS[question]?.answers[lawChain(api).stateKey]?.preempts ===
+    true
+  );
 }
 
 /** Today's answers by series, kept while the laws engine's tables are unwritten. */
