@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: law-levels-flags
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-06T02:03:57.302Z
 ---
 
 **What.** Gun questions were flagged as barring towns in all 56 places and permit-to-carry in none (docs/reports/law-levels-2026-11-05.md).
