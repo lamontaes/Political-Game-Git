@@ -296,6 +296,17 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.87.0
+
+_Released November 6, 2026._
+
+### Changed
+
+- **A state can now grant or bar its towns' own rules by law.** For each policy
+  question, a state bill can now give its cities, towns and counties the power
+  to make their own rule, or take it away. A town's rule stops on the day the
+  state bars it and returns if the state grants it again.
+
 ## PRE-ALPHA 0.86.0
 
 _Released November 6, 2026._
