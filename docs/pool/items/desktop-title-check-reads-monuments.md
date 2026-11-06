@@ -5,9 +5,9 @@ area: release
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: desktop-title-check
-pr:
+pr: #7315
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-06T16:49:30.628Z
