@@ -1648,7 +1648,14 @@ export function beyondPower(
 ): Authority | null {
   const power =
     provision.kind === "law-amount" && provision.series
-      ? seriesPowers[provision.series]
+      ? (seriesPowers[provision.series] ??
+        (provision.series.startsWith("local-power:")
+          ? {
+              levels: ["state"],
+              source:
+                "A state's law decides whether its cities, towns and counties may make their own rule on a question (data/research/laws/starting-law-2026, each question's preempts)",
+            }
+          : undefined))
       : provision.kind === "policy-question" && provision.question
         ? questionPowers[provision.question]
         : undefined;

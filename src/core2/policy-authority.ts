@@ -5,7 +5,7 @@ import territoryGrant from "../../data/research/powers-catalog/territory-grant.j
 import nacoCounties from "../../data/research/core/naco-2022-county-authority.json" with { type: "json" };
 import { placeRow } from "./place-map";
 import { POLICY_QUESTIONS } from "./policy-answers";
-import { LAWS_MODULE_ID, lawChain } from "./modules/laws";
+import { LAWS_MODULE_ID, lawChain, localPowerBarred } from "./modules/laws";
 import type { Authority } from "./modules/legislature";
 import type { CoreAPI } from "./types";
 import { lawApplied } from "./law-reach/applied";
@@ -123,8 +123,7 @@ export function policyAuthority(
   if (cell?.may === "no") return result(false, "level-lacks-power", basis);
   const local = column === "county" || column === "city";
   if (local) {
-    const answer = POLICY_QUESTIONS[question]?.answers[state];
-    if (answer?.preempts)
+    if (localPowerBarred(api, question))
       return result(
         false,
         "state-preempts-question",
@@ -136,7 +135,7 @@ export function policyAuthority(
       if (
         law.value === 0 &&
         (row.gate.noBars === "always" ||
-          POLICY_QUESTIONS[row.gate.question]?.answers[state]?.preempts)
+          localPowerBarred(api, row.gate.question))
       )
         return result(false, "state-preempts-question", law.id);
       if (law.value === 1) return result(true, "state-has-own-law", law.id);

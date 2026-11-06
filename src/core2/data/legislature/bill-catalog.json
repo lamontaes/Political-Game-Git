@@ -27,12 +27,28 @@
               "levels": ["state", "city"]
             },
             {
+              "id": "law:local-power:fare-free-transit",
+              "name": "Local power: fare free transit",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:transportation-infrastructure.fare-free-transit",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
+            },
+            {
               "id": "question:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
               "name": "mileage fee replaces fuel tax",
               "kind": "policy-question",
               "question": "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
               "operations": ["enact", "repeal"],
               "levels": ["state", "city"]
+            },
+            {
+              "id": "law:local-power:mileage-fee-replaces-fuel-tax",
+              "name": "Local power: mileage fee replaces fuel tax",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
             },
             {
               "id": "question:us-policy-positions:transportation-infrastructure.public-broadband",
@@ -43,12 +59,28 @@
               "levels": ["state", "city"]
             },
             {
+              "id": "law:local-power:public-broadband",
+              "name": "Local power: public broadband",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:transportation-infrastructure.public-broadband",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
+            },
+            {
               "id": "question:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
               "name": "shift highway funds to transit",
               "kind": "policy-question",
               "question": "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
               "operations": ["enact", "repeal"],
               "levels": ["state", "city"]
+            },
+            {
+              "id": "law:local-power:shift-highway-funds-to-transit",
+              "name": "Local power: shift highway funds to transit",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
             }
           ]
         },
@@ -114,6 +146,14 @@
               "levels": ["state", "city"]
             },
             {
+              "id": "law:local-power:expand-medicaid-eligibility",
+              "name": "Local power: expand medicaid eligibility",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:health-human-services.expand-medicaid-eligibility",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
+            },
+            {
               "id": "question:us-policy-positions:health-human-services.medicaid-work-requirement",
               "name": "medicaid work requirement",
               "kind": "policy-question",
@@ -122,12 +162,28 @@
               "levels": ["state", "city"]
             },
             {
+              "id": "law:local-power:medicaid-work-requirement",
+              "name": "Local power: medicaid work requirement",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:health-human-services.medicaid-work-requirement",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
+            },
+            {
               "id": "question:us-policy-positions:health-human-services.work-requirement-for-assistance",
               "name": "work requirement for assistance",
               "kind": "policy-question",
               "question": "us-policy-positions:health-human-services.work-requirement-for-assistance",
               "operations": ["enact", "repeal"],
               "levels": ["state", "city"]
+            },
+            {
+              "id": "law:local-power:work-requirement-for-assistance",
+              "name": "Local power: work requirement for assistance",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:health-human-services.work-requirement-for-assistance",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
             }
           ]
         },
@@ -192,6 +248,14 @@
               "question": "us-policy-positions:education.universal-preschool",
               "operations": ["enact", "repeal"],
               "levels": ["state", "city"]
+            },
+            {
+              "id": "law:local-power:universal-preschool",
+              "name": "Local power: universal preschool",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:education.universal-preschool",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
             }
           ]
         },
@@ -220,6 +284,14 @@
               "question": "us-policy-positions:education.public-funds-for-private-schooling",
               "operations": ["enact", "repeal"],
               "levels": ["state", "city"]
+            },
+            {
+              "id": "law:local-power:public-funds-for-private-schooling",
+              "name": "Local power: public funds for private schooling",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:education.public-funds-for-private-schooling",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
             }
           ]
         },
@@ -239,6 +311,14 @@
               "question": "us-policy-positions:education.raise-teacher-minimum-salary",
               "operations": ["enact", "repeal"],
               "levels": ["state", "city"]
+            },
+            {
+              "id": "law:local-power:raise-teacher-minimum-salary",
+              "name": "Local power: raise teacher minimum salary",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:education.raise-teacher-minimum-salary",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
             }
           ]
         },
@@ -352,12 +432,28 @@
               "levels": ["state", "city"]
             },
             {
+              "id": "law:local-power:adopt-income-tax",
+              "name": "Local power: adopt income tax",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:fiscal.adopt-income-tax",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
+            },
+            {
               "id": "question:us-policy-positions:fiscal.cap-property-tax-growth",
               "name": "cap property tax growth",
               "kind": "policy-question",
               "question": "us-policy-positions:fiscal.cap-property-tax-growth",
               "operations": ["enact", "repeal"],
               "levels": ["state", "city"]
+            },
+            {
+              "id": "law:local-power:cap-property-tax-growth",
+              "name": "Local power: cap property tax growth",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:fiscal.cap-property-tax-growth",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
             },
             {
               "id": "question:us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
@@ -368,12 +464,28 @@
               "levels": ["state", "city"]
             },
             {
+              "id": "law:local-power:exempt-groceries-from-sales-tax",
+              "name": "Local power: exempt groceries from sales tax",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
+            },
+            {
               "id": "question:us-policy-positions:fiscal.graduated-income-tax",
               "name": "graduated income tax",
               "kind": "policy-question",
               "question": "us-policy-positions:fiscal.graduated-income-tax",
               "operations": ["enact", "repeal"],
               "levels": ["state", "city"]
+            },
+            {
+              "id": "law:local-power:graduated-income-tax",
+              "name": "Local power: graduated income tax",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:fiscal.graduated-income-tax",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
             }
           ]
         },
@@ -393,6 +505,14 @@
               "question": "us-policy-positions:fiscal.balanced-operating-budget",
               "operations": ["enact", "repeal"],
               "levels": ["state", "city"]
+            },
+            {
+              "id": "law:local-power:balanced-operating-budget",
+              "name": "Local power: balanced operating budget",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:fiscal.balanced-operating-budget",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
             }
           ]
         },
@@ -419,12 +539,28 @@
               "levels": ["state", "city"]
             },
             {
+              "id": "law:local-power:fund-pensions-to-schedule",
+              "name": "Local power: fund pensions to schedule",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:fiscal.fund-pensions-to-schedule",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
+            },
+            {
               "id": "question:us-policy-positions:fiscal.minimum-reserve-balance",
               "name": "minimum reserve balance",
               "kind": "policy-question",
               "question": "us-policy-positions:fiscal.minimum-reserve-balance",
               "operations": ["enact", "repeal"],
               "levels": ["state", "city"]
+            },
+            {
+              "id": "law:local-power:minimum-reserve-balance",
+              "name": "Local power: minimum reserve balance",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:fiscal.minimum-reserve-balance",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
             }
           ]
         },
@@ -553,6 +689,14 @@
               "question": "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
               "operations": ["enact", "repeal"],
               "levels": ["state", "city"]
+            },
+            {
+              "id": "law:local-power:allow-multifamily-in-single-family-zones",
+              "name": "Local power: allow multifamily in single family zones",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
             }
           ]
         },
@@ -580,6 +724,14 @@
               "question": "us-policy-positions:housing-land-use.inclusionary-requirement",
               "operations": ["enact", "repeal"],
               "levels": ["state", "city"]
+            },
+            {
+              "id": "law:local-power:inclusionary-requirement",
+              "name": "Local power: inclusionary requirement",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:housing-land-use.inclusionary-requirement",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
             }
           ]
         },
@@ -596,12 +748,28 @@
               "levels": ["state", "city"]
             },
             {
+              "id": "law:local-power:rent-stabilization",
+              "name": "Local power: rent stabilization",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:housing-land-use.rent-stabilization",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
+            },
+            {
               "id": "question:us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
               "name": "right to counsel in eviction",
               "kind": "policy-question",
               "question": "us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
               "operations": ["enact", "repeal"],
               "levels": ["state", "city"]
+            },
+            {
+              "id": "law:local-power:right-to-counsel-in-eviction",
+              "name": "Local power: right to counsel in eviction",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
             }
           ]
         },
@@ -656,12 +824,28 @@
               "levels": ["state", "city"]
             },
             {
+              "id": "law:local-power:local-minimum-wage-authority",
+              "name": "Local power: local minimum wage authority",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:labor-workforce.local-minimum-wage-authority",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
+            },
+            {
               "id": "question:us-policy-positions:labor-workforce.raise-minimum-wage",
               "name": "raise minimum wage",
               "kind": "policy-question",
               "question": "us-policy-positions:labor-workforce.raise-minimum-wage",
               "operations": ["enact", "repeal"],
               "levels": ["state", "city"]
+            },
+            {
+              "id": "law:local-power:raise-minimum-wage",
+              "name": "Local power: raise minimum wage",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:labor-workforce.raise-minimum-wage",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
             }
           ]
         },
@@ -676,6 +860,14 @@
               "question": "us-policy-positions:labor-workforce.paid-family-leave",
               "operations": ["enact", "repeal"],
               "levels": ["state", "city"]
+            },
+            {
+              "id": "law:local-power:paid-family-leave",
+              "name": "Local power: paid family leave",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:labor-workforce.paid-family-leave",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
             }
           ]
         },
@@ -702,12 +894,28 @@
               "levels": ["state", "city"]
             },
             {
+              "id": "law:local-power:public-sector-collective-bargaining",
+              "name": "Local power: public sector collective bargaining",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
+            },
+            {
               "id": "question:us-policy-positions:labor-workforce.right-to-work",
               "name": "right to work",
               "kind": "policy-question",
               "question": "us-policy-positions:labor-workforce.right-to-work",
               "operations": ["enact", "repeal"],
               "levels": ["state", "city"]
+            },
+            {
+              "id": "law:local-power:right-to-work",
+              "name": "Local power: right to work",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:labor-workforce.right-to-work",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
             }
           ]
         },
@@ -743,6 +951,14 @@
               "question": "us-policy-positions:business-commerce.legalize-cannabis-sales",
               "operations": ["enact", "repeal"],
               "levels": ["state", "city"]
+            },
+            {
+              "id": "law:local-power:legalize-cannabis-sales",
+              "name": "Local power: legalize cannabis sales",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:business-commerce.legalize-cannabis-sales",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
             }
           ]
         },
@@ -772,6 +988,14 @@
               "question": "us-policy-positions:business-commerce.cap-consumer-loan-rates",
               "operations": ["enact", "repeal"],
               "levels": ["state", "city"]
+            },
+            {
+              "id": "law:local-power:cap-consumer-loan-rates",
+              "name": "Local power: cap consumer loan rates",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:business-commerce.cap-consumer-loan-rates",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
             }
           ]
         },
@@ -809,12 +1033,28 @@
               "levels": ["state", "city"]
             },
             {
+              "id": "law:local-power:ban-new-gas-hookups",
+              "name": "Local power: ban new gas hookups",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:environment-energy.ban-new-gas-hookups",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
+            },
+            {
               "id": "question:us-policy-positions:environment-energy.clean-electricity-standard",
               "name": "clean electricity standard",
               "kind": "policy-question",
               "question": "us-policy-positions:environment-energy.clean-electricity-standard",
               "operations": ["enact", "repeal"],
               "levels": ["state", "city"]
+            },
+            {
+              "id": "law:local-power:clean-electricity-standard",
+              "name": "Local power: clean electricity standard",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:environment-energy.clean-electricity-standard",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
             }
           ]
         },
@@ -844,6 +1084,14 @@
               "question": "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
               "operations": ["enact", "repeal"],
               "levels": ["state", "city"]
+            },
+            {
+              "id": "law:local-power:clean-air-plan-for-polluted-counties",
+              "name": "Local power: clean air plan for polluted counties",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
             }
           ]
         },
@@ -877,6 +1125,14 @@
               "question": "us-policy-positions:environment-energy.bottle-deposit",
               "operations": ["enact", "repeal"],
               "levels": ["state", "city"]
+            },
+            {
+              "id": "law:local-power:bottle-deposit",
+              "name": "Local power: bottle deposit",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:environment-energy.bottle-deposit",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
             }
           ]
         },
@@ -891,6 +1147,14 @@
               "question": "us-policy-positions:environment-energy.price-carbon",
               "operations": ["enact", "repeal"],
               "levels": ["state", "city"]
+            },
+            {
+              "id": "law:local-power:price-carbon",
+              "name": "Local power: price carbon",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:environment-energy.price-carbon",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
             }
           ]
         }
@@ -921,12 +1185,28 @@
               "levels": ["state", "city"]
             },
             {
+              "id": "law:local-power:civilian-oversight-of-police",
+              "name": "Local power: civilian oversight of police",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:justice-public-safety.civilian-oversight-of-police",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
+            },
+            {
               "id": "question:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement",
               "name": "partner with federal immigration enforcement",
               "kind": "policy-question",
               "question": "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement",
               "operations": ["enact", "repeal"],
               "levels": ["state", "city"]
+            },
+            {
+              "id": "law:local-power:partner-with-federal-immigration-enforcement",
+              "name": "Local power: partner with federal immigration enforcement",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
             }
           ]
         },
@@ -941,6 +1221,14 @@
               "question": "us-policy-positions:justice-public-safety.end-cash-bail",
               "operations": ["enact", "repeal"],
               "levels": ["state", "city"]
+            },
+            {
+              "id": "law:local-power:end-cash-bail",
+              "name": "Local power: end cash bail",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:justice-public-safety.end-cash-bail",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
             }
           ]
         },
@@ -968,6 +1256,14 @@
               "question": "us-policy-positions:justice-public-safety.restore-voting-after-sentence",
               "operations": ["enact", "repeal"],
               "levels": ["state", "city"]
+            },
+            {
+              "id": "law:local-power:restore-voting-after-sentence",
+              "name": "Local power: restore voting after sentence",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:justice-public-safety.restore-voting-after-sentence",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
             }
           ]
         },
@@ -982,6 +1278,14 @@
               "question": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
               "operations": ["enact", "repeal"],
               "levels": ["state", "city"]
+            },
+            {
+              "id": "law:local-power:raise-juvenile-court-age",
+              "name": "Local power: raise juvenile court age",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
             }
           ]
         },
@@ -998,12 +1302,28 @@
               "levels": ["state", "city"]
             },
             {
+              "id": "law:local-power:child-access-prevention",
+              "name": "Local power: child access prevention",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:justice-public-safety.child-access-prevention",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
+            },
+            {
               "id": "question:us-policy-positions:justice-public-safety.permit-to-carry-concealed",
               "name": "permit to carry concealed",
               "kind": "policy-question",
               "question": "us-policy-positions:justice-public-safety.permit-to-carry-concealed",
               "operations": ["enact", "repeal"],
               "levels": ["state", "city"]
+            },
+            {
+              "id": "law:local-power:permit-to-carry-concealed",
+              "name": "Local power: permit to carry concealed",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:justice-public-safety.permit-to-carry-concealed",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
             },
             {
               "id": "question:us-policy-positions:justice-public-safety.raise-handgun-purchase-age",
@@ -1014,12 +1334,28 @@
               "levels": ["state", "city"]
             },
             {
+              "id": "law:local-power:raise-handgun-purchase-age",
+              "name": "Local power: raise handgun purchase age",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:justice-public-safety.raise-handgun-purchase-age",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
+            },
+            {
               "id": "question:us-policy-positions:justice-public-safety.stand-your-ground",
               "name": "stand your ground",
               "kind": "policy-question",
               "question": "us-policy-positions:justice-public-safety.stand-your-ground",
               "operations": ["enact", "repeal"],
               "levels": ["state", "city"]
+            },
+            {
+              "id": "law:local-power:stand-your-ground",
+              "name": "Local power: stand your ground",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:justice-public-safety.stand-your-ground",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
             }
           ]
         },
@@ -1061,12 +1397,28 @@
               "levels": ["state", "city"]
             },
             {
+              "id": "law:local-power:all-mail-voting",
+              "name": "Local power: all mail voting",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:government-operations.all-mail-voting",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
+            },
+            {
               "id": "question:us-policy-positions:government-operations.automatic-voter-registration",
               "name": "automatic voter registration",
               "kind": "policy-question",
               "question": "us-policy-positions:government-operations.automatic-voter-registration",
               "operations": ["enact", "repeal"],
               "levels": ["state", "city"]
+            },
+            {
+              "id": "law:local-power:automatic-voter-registration",
+              "name": "Local power: automatic voter registration",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:government-operations.automatic-voter-registration",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
             },
             {
               "id": "question:us-policy-positions:government-operations.independent-redistricting",
@@ -1077,6 +1429,14 @@
               "levels": ["state", "city"]
             },
             {
+              "id": "law:local-power:independent-redistricting",
+              "name": "Local power: independent redistricting",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:government-operations.independent-redistricting",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
+            },
+            {
               "id": "question:us-policy-positions:government-operations.require-photo-id-to-vote",
               "name": "require photo id to vote",
               "kind": "policy-question",
@@ -1085,12 +1445,28 @@
               "levels": ["state", "city"]
             },
             {
+              "id": "law:local-power:require-photo-id-to-vote",
+              "name": "Local power: require photo id to vote",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:government-operations.require-photo-id-to-vote",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
+            },
+            {
               "id": "question:us-policy-positions:government-operations.same-day-voter-registration",
               "name": "same day voter registration",
               "kind": "policy-question",
               "question": "us-policy-positions:government-operations.same-day-voter-registration",
               "operations": ["enact", "repeal"],
               "levels": ["state", "city"]
+            },
+            {
+              "id": "law:local-power:same-day-voter-registration",
+              "name": "Local power: same day voter registration",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:government-operations.same-day-voter-registration",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
             }
           ]
         },
@@ -1110,6 +1486,14 @@
               "question": "us-policy-positions:government-operations.ban-lobbying-after-office",
               "operations": ["enact", "repeal"],
               "levels": ["state", "city"]
+            },
+            {
+              "id": "law:local-power:ban-lobbying-after-office",
+              "name": "Local power: ban lobbying after office",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:government-operations.ban-lobbying-after-office",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
             }
           ]
         },
@@ -1157,6 +1541,14 @@
               "question": "us-policy-positions:government-operations.broaden-local-authority",
               "operations": ["enact", "repeal"],
               "levels": ["state", "city"]
+            },
+            {
+              "id": "law:local-power:broaden-local-authority",
+              "name": "Local power: broaden local authority",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:government-operations.broaden-local-authority",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
             }
           ]
         },
@@ -1176,6 +1568,14 @@
               "question": "us-policy-positions:government-operations.legislative-term-limits",
               "operations": ["enact", "repeal"],
               "levels": ["state", "city"]
+            },
+            {
+              "id": "law:local-power:legislative-term-limits",
+              "name": "Local power: legislative term limits",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:government-operations.legislative-term-limits",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
             }
           ]
         }
@@ -1198,6 +1598,14 @@
               "levels": ["state", "city"]
             },
             {
+              "id": "law:local-power:ban-discrimination-in-housing-and-work",
+              "name": "Local power: ban discrimination in housing and work",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
+            },
+            {
               "id": "question:us-policy-positions:civil-family-community.dedicated-parks-funding",
               "name": "dedicated parks funding",
               "kind": "policy-question",
@@ -1206,12 +1614,28 @@
               "levels": ["state", "city"]
             },
             {
+              "id": "law:local-power:dedicated-parks-funding",
+              "name": "Local power: dedicated parks funding",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:civil-family-community.dedicated-parks-funding",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
+            },
+            {
               "id": "question:us-policy-positions:civil-family-community.restrict-abortion",
               "name": "restrict abortion",
               "kind": "policy-question",
               "question": "us-policy-positions:civil-family-community.restrict-abortion",
               "operations": ["enact", "repeal"],
               "levels": ["state", "city"]
+            },
+            {
+              "id": "law:local-power:restrict-abortion",
+              "name": "Local power: restrict abortion",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:civil-family-community.restrict-abortion",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
             }
           ]
         },
@@ -1264,12 +1688,28 @@
               "levels": ["state", "city"]
             },
             {
+              "id": "law:local-power:age-verification-for-social-media",
+              "name": "Local power: age verification for social media",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:technology-privacy.age-verification-for-social-media",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
+            },
+            {
               "id": "question:us-policy-positions:technology-privacy.restrict-government-facial-recognition",
               "name": "restrict government facial recognition",
               "kind": "policy-question",
               "question": "us-policy-positions:technology-privacy.restrict-government-facial-recognition",
               "operations": ["enact", "repeal"],
               "levels": ["state", "city"]
+            },
+            {
+              "id": "law:local-power:restrict-government-facial-recognition",
+              "name": "Local power: restrict government facial recognition",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:technology-privacy.restrict-government-facial-recognition",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
             }
           ]
         },
@@ -1289,6 +1729,14 @@
               "question": "us-policy-positions:technology-privacy.consumer-data-privacy-law",
               "operations": ["enact", "repeal"],
               "levels": ["state", "city"]
+            },
+            {
+              "id": "law:local-power:consumer-data-privacy-law",
+              "name": "Local power: consumer data privacy law",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:technology-privacy.consumer-data-privacy-law",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
             }
           ]
         },
@@ -1339,6 +1787,14 @@
               "question": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
               "operations": ["enact", "repeal"],
               "levels": ["state", "city"]
+            },
+            {
+              "id": "law:local-power:limit-groundwater-withdrawal",
+              "name": "Local power: limit groundwater withdrawal",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
             }
           ]
         },
@@ -1358,6 +1814,14 @@
               "question": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
               "operations": ["enact", "repeal"],
               "levels": ["state", "city"]
+            },
+            {
+              "id": "law:local-power:protect-farmland-from-development",
+              "name": "Local power: protect farmland from development",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
             }
           ]
         },

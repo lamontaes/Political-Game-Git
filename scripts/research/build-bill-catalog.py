@@ -146,6 +146,14 @@ def main():
             "id": f"question:{key}", "name": slug.replace("-", " "), "kind": "policy-question", "question": key,
             "operations": ["enact", "repeal"], "levels": ["federal"] if federal else ["state", "city"],
         })
+        if not federal:
+            # A state's bar on its places' own rule for this question, as a
+            # dated state law like the grant of local income-tax power: raised
+            # to 1 it grants, lowered to 0 it bars (laws.ts localPowerBarred).
+            subjects[subject]["topics"][topic]["policies"].append({
+                "id": f"law:local-power:{slug}", "name": f"Local power: {slug.replace('-', ' ')}", "kind": "law-amount",
+                "series": f"local-power:{key}", "operations": ["raise", "lower"], "levels": ["state"],
+            })
     out = []
     for key, name, topics in SUBJECTS:
         s = subjects[key]
