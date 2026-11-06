@@ -1397,6 +1397,8 @@ export function provisionStance(
   api: CoreAPI,
   provision: Provision,
   level: LawLevel = "city",
+  /** The jurisdiction whose law the amount is read from: a county board's own, not the town's. */
+  jurisdiction?: string,
 ): { question: string; position: number } | null {
   if (provision.kind === "policy-question" && provision.question)
     return {
@@ -1424,7 +1426,7 @@ export function provisionStance(
         };
   const map = provision.series ? seriesQuestion[provision.series] : undefined;
   if (!map || !provision.series) return null;
-  const current = currentAmount(api, provision.series, level);
+  const current = currentAmount(api, provision.series, level, jurisdiction);
   const direction = current === null ? 1 : Math.sign(provision.value - current);
   return direction === 0
     ? null
@@ -1443,11 +1445,12 @@ export function currentAmount(
   api: CoreAPI,
   series: string,
   level: LawLevel = "city",
+  jurisdiction?: string,
 ): number | null {
   return billValueInForce(
     api,
     { kind: "law-amount", series },
-    billLevelJurisdiction(api, level),
+    jurisdiction ?? billLevelJurisdiction(api, level),
   ).value;
 }
 
@@ -1480,7 +1483,12 @@ function billStances(
     { question: string; position: number; provision: Provision; on: string }
   >();
   for (const provision of bill.provisions) {
-    const stance = provisionStance(api, provision, level);
+    const stance = provisionStance(
+      api,
+      provision,
+      level,
+      billJurisdiction(api, bill),
+    );
     if (!stance) continue;
     const on = provision.effectiveDate ?? "";
     const seen = last.get(stance.question);
@@ -4010,7 +4018,14 @@ function committeeStage(
   // (the speech engine moves each by the witness's standing with them), and
   // the committee then votes on where its members stand after hearing it.
   const question = bill.provisions
-    .map((p) => provisionStance(api, p, billLevel(api, bill)))
+    .map((p) =>
+      provisionStance(
+        api,
+        p,
+        billLevel(api, bill),
+        billJurisdiction(api, bill),
+      ),
+    )
     .find((row) => row !== null);
   if (heard && question && api.state.modules.has(SPEECH_MODULE_ID)) {
     const room = roster.flatMap((t) =>
@@ -4144,7 +4159,12 @@ function ownSections(
   const level = billLevel(api, bill);
   const touched = new Set(
     bill.provisions.flatMap((p) => {
-      const stance = provisionStance(api, p, level);
+      const stance = provisionStance(
+        api,
+        p,
+        level,
+        billJurisdiction(api, bill),
+      );
       return stance ? [stance.question] : [];
     }),
   );
