@@ -5,9 +5,9 @@ area: laws
 kind: cleanup
 priority: 3
 size: S
-status: claimed
+status: done
 claimed-by: law-levels-federal-floor-test
-pr:
+pr: #7312
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-06T05:14:10.814Z
