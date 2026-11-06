@@ -5,22 +5,32 @@
       "note": "A permitless-carry state answers no.",
       "answers": {
         "US-AK": {
-          "answer": "no"
+          "answer": "no",
+          "preempts": true,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-AL": {
-          "answer": "no"
+          "answer": "no",
+          "preempts": true,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-AR": {
-          "answer": "no"
+          "answer": "no",
+          "preempts": true,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-AS": {
           "answer": "yes",
           "cite": "A.S.C.A. § 46.4203(a)(1)",
           "source": "https://asbar.org/code-annotated/46-4203-unlawful-use-of-weapons/",
-          "note": "American Samoa makes it a felony to carry a firearm concealed on the person, with exemptions only for officers, prison staff and soldiers, and it separately requires an arms license, so there is no permitless carry."
+          "note": "American Samoa makes it a felony to carry a firearm concealed on the person, with exemptions only for officers, prison staff and soldiers, and it separately requires an arms license, so there is no permitless carry.",
+          "preempts": true,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-AZ": {
-          "answer": "no"
+          "answer": "no",
+          "preempts": true,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-CA": {
           "answer": "yes"
@@ -29,160 +39,258 @@
           "answer": "yes"
         },
         "US-CT": {
-          "answer": "yes"
+          "answer": "yes",
+          "preempts": false,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-DC": {
-          "answer": "yes"
+          "answer": "yes",
+          "preempts": true,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-DE": {
-          "answer": "yes"
+          "answer": "yes",
+          "preempts": true,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-FL": {
-          "answer": "no"
+          "answer": "no",
+          "preempts": true,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-GA": {
-          "answer": "no"
+          "answer": "no",
+          "preempts": true,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-GU": {
           "answer": "yes",
           "cite": "10 GCA §§ 60109, 60109.1",
           "source": "https://col.guamcourts.gov/sites/default/files/10gc060.pdf",
-          "note": "Guam law forbids carrying a concealed firearm without a license from the Guam Police Department (a shall-issue license under 10 GCA § 60109.1), and it has no permitless-carry law."
+          "note": "Guam law forbids carrying a concealed firearm without a license from the Guam Police Department (a shall-issue license under 10 GCA § 60109.1), and it has no permitless-carry law.",
+          "preempts": true,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-HI": {
-          "answer": "yes"
+          "answer": "yes",
+          "preempts": false,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-IA": {
-          "answer": "no"
+          "answer": "no",
+          "preempts": true,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-ID": {
-          "answer": "no"
+          "answer": "no",
+          "preempts": true,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-IL": {
-          "answer": "yes"
+          "answer": "yes",
+          "preempts": true,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-IN": {
-          "answer": "no"
+          "answer": "no",
+          "preempts": true,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-KS": {
-          "answer": "no"
+          "answer": "no",
+          "preempts": true,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-KY": {
-          "answer": "no"
+          "answer": "no",
+          "preempts": true,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-LA": {
-          "answer": "no"
+          "answer": "no",
+          "preempts": true,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-MA": {
-          "answer": "yes"
+          "answer": "yes",
+          "preempts": false,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-MD": {
-          "answer": "yes"
+          "answer": "yes",
+          "preempts": true,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-ME": {
-          "answer": "no"
+          "answer": "no",
+          "preempts": true,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-MI": {
-          "answer": "yes"
+          "answer": "yes",
+          "preempts": true,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-MN": {
-          "answer": "yes"
+          "answer": "yes",
+          "preempts": true,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-MO": {
-          "answer": "no"
+          "answer": "no",
+          "preempts": true,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-MP": {
           "answer": "yes",
           "cite": "6 CMC §§ 10205, 10101(h)",
           "source": "https://cnmilaw.gov/docs/cmc_section/T6/10205.pdf",
-          "note": "Commonwealth law bars carrying any firearm in public except in listed cases (home, range, hunting, lawful transport in a locked case) and defines a concealed firearm, so there is no permitless concealed carry."
+          "note": "Commonwealth law bars carrying any firearm in public except in listed cases (home, range, hunting, lawful transport in a locked case) and defines a concealed firearm, so there is no permitless concealed carry.",
+          "preempts": true,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-MS": {
-          "answer": "no"
+          "answer": "no",
+          "preempts": true,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-MT": {
-          "answer": "no"
+          "answer": "no",
+          "preempts": true,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-NC": {
-          "answer": "yes"
+          "answer": "yes",
+          "preempts": true,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-ND": {
-          "answer": "no"
+          "answer": "no",
+          "preempts": true,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-NE": {
-          "answer": "no"
+          "answer": "no",
+          "preempts": true,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-NH": {
-          "answer": "no"
+          "answer": "no",
+          "preempts": true,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-NJ": {
-          "answer": "yes"
+          "answer": "yes",
+          "preempts": false,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-NM": {
-          "answer": "yes"
+          "answer": "yes",
+          "preempts": true,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-NV": {
-          "answer": "yes"
+          "answer": "yes",
+          "preempts": true,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-NY": {
-          "answer": "yes"
+          "answer": "yes",
+          "preempts": false,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-OH": {
-          "answer": "no"
+          "answer": "no",
+          "preempts": true,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-OK": {
-          "answer": "no"
+          "answer": "no",
+          "preempts": true,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-OR": {
-          "answer": "yes"
+          "answer": "yes",
+          "preempts": true,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-PA": {
-          "answer": "yes"
+          "answer": "yes",
+          "preempts": true,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-PR": {
-          "answer": "yes"
+          "answer": "yes",
+          "preempts": true,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-RI": {
-          "answer": "yes"
+          "answer": "yes",
+          "preempts": true,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-SC": {
-          "answer": "no"
+          "answer": "no",
+          "preempts": true,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-SD": {
-          "answer": "no"
+          "answer": "no",
+          "preempts": true,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-TN": {
-          "answer": "no"
+          "answer": "no",
+          "preempts": true,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-TX": {
-          "answer": "no"
+          "answer": "no",
+          "preempts": true,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-UT": {
-          "answer": "no"
+          "answer": "no",
+          "preempts": true,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-VA": {
-          "answer": "yes"
+          "answer": "yes",
+          "preempts": true,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-VI": {
           "answer": "yes",
           "cite": "14 V.I.C. § 2253(a)",
           "source": "https://storage.courtlistener.com/pdf/2024/03/27/heath_v._people_of_the_virgin_islands.pdf",
-          "note": "The V.I. Supreme Court in Heath v. People (2024) upheld convictions under 14 V.I.C. § 2253(a) for possessing firearms without a license, and the VIPD Firearms License Division still requires a license, so there is no permitless carry."
+          "note": "The V.I. Supreme Court in Heath v. People (2024) upheld convictions under 14 V.I.C. § 2253(a) for possessing firearms without a license, and the VIPD Firearms License Division still requires a license, so there is no permitless carry.",
+          "preempts": true,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-VT": {
-          "answer": "no"
+          "answer": "no",
+          "preempts": true,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-WA": {
-          "answer": "yes"
+          "answer": "yes",
+          "preempts": true,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-WI": {
-          "answer": "yes"
+          "answer": "yes",
+          "preempts": true,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-WV": {
-          "answer": "no"
+          "answer": "no",
+          "preempts": true,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         },
         "US-WY": {
-          "answer": "no"
+          "answer": "no",
+          "preempts": true,
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/"
         }
       }
     },
@@ -2194,9 +2302,11 @@
         },
         "US-CT": {
           "answer": "no",
-          "preempts": true,
+          "preempts": false,
           "source": "https://giffords.org/lawcenter/gun-laws/policy-areas/guns-in-public/stand-your-ground/",
-          "note": "No stand-your-ground statute, and no court ruling that removes the duty to retreat in public (the state is on neither of Giffords Law Center's lists)."
+          "note": "No stand-your-ground statute, and no court ruling that removes the duty to retreat in public (the state is on neither of Giffords Law Center's lists).",
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/",
+          "preemptionNote": "Giffords Law Center, Preemption of Local Laws: this state has no statute barring local gun rules (the five are CT, HI, MA, NJ and NY)."
         },
         "US-DE": {
           "answer": "no",
@@ -2220,9 +2330,11 @@
         },
         "US-HI": {
           "answer": "no",
-          "preempts": true,
+          "preempts": false,
           "source": "https://giffords.org/lawcenter/gun-laws/policy-areas/guns-in-public/stand-your-ground/",
-          "note": "No stand-your-ground statute, and no court ruling that removes the duty to retreat in public (the state is on neither of Giffords Law Center's lists)."
+          "note": "No stand-your-ground statute, and no court ruling that removes the duty to retreat in public (the state is on neither of Giffords Law Center's lists).",
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/",
+          "preemptionNote": "Giffords Law Center, Preemption of Local Laws: this state has no statute barring local gun rules (the five are CT, HI, MA, NJ and NY)."
         },
         "US-ID": {
           "answer": "yes",
@@ -2287,9 +2399,11 @@
         },
         "US-MA": {
           "answer": "no",
-          "preempts": true,
+          "preempts": false,
           "source": "https://giffords.org/lawcenter/gun-laws/policy-areas/guns-in-public/stand-your-ground/",
-          "note": "No stand-your-ground statute, and no court ruling that removes the duty to retreat in public (the state is on neither of Giffords Law Center's lists)."
+          "note": "No stand-your-ground statute, and no court ruling that removes the duty to retreat in public (the state is on neither of Giffords Law Center's lists).",
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/",
+          "preemptionNote": "Giffords Law Center, Preemption of Local Laws: this state has no statute barring local gun rules (the five are CT, HI, MA, NJ and NY)."
         },
         "US-MI": {
           "answer": "yes",
@@ -2347,9 +2461,11 @@
         },
         "US-NJ": {
           "answer": "no",
-          "preempts": true,
+          "preempts": false,
           "source": "https://giffords.org/lawcenter/gun-laws/policy-areas/guns-in-public/stand-your-ground/",
-          "note": "No stand-your-ground statute, and no court ruling that removes the duty to retreat in public (the state is on neither of Giffords Law Center's lists)."
+          "note": "No stand-your-ground statute, and no court ruling that removes the duty to retreat in public (the state is on neither of Giffords Law Center's lists).",
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/",
+          "preemptionNote": "Giffords Law Center, Preemption of Local Laws: this state has no statute barring local gun rules (the five are CT, HI, MA, NJ and NY)."
         },
         "US-NM": {
           "answer": "no",
@@ -2360,9 +2476,11 @@
         },
         "US-NY": {
           "answer": "no",
-          "preempts": true,
+          "preempts": false,
           "source": "https://giffords.org/lawcenter/gun-laws/policy-areas/guns-in-public/stand-your-ground/",
-          "note": "No stand-your-ground statute, and no court ruling that removes the duty to retreat in public (the state is on neither of Giffords Law Center's lists)."
+          "note": "No stand-your-ground statute, and no court ruling that removes the duty to retreat in public (the state is on neither of Giffords Law Center's lists).",
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/",
+          "preemptionNote": "Giffords Law Center, Preemption of Local Laws: this state has no statute barring local gun rules (the five are CT, HI, MA, NJ and NY)."
         },
         "US-NC": {
           "answer": "yes",
@@ -2571,10 +2689,12 @@
         },
         "US-CT": {
           "answer": "yes",
-          "preempts": true,
+          "preempts": false,
           "cite": "Conn. Gen. Stat. §§ 29-37i, 52-571g, 53a-217a",
           "source": "https://giffords.org/lawcenter/gun-laws/policy-areas/child-consumer-safety/child-access-prevention/",
-          "note": "Guns must be locked or kept on the person, and an owner is strictly liable in a civil suit when a child under 18 gets one and causes harm."
+          "note": "Guns must be locked or kept on the person, and an owner is strictly liable in a civil suit when a child under 18 gets one and causes harm.",
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/",
+          "preemptionNote": "Giffords Law Center, Preemption of Local Laws: this state has no statute barring local gun rules (the five are CT, HI, MA, NJ and NY)."
         },
         "US-DE": {
           "answer": "yes",
@@ -2598,10 +2718,12 @@
         },
         "US-HI": {
           "answer": "yes",
-          "preempts": true,
+          "preempts": false,
           "cite": "Haw. Rev. Stat. §§ 134-10.5, 707-714.5",
           "source": "https://giffords.org/lawcenter/gun-laws/policy-areas/child-consumer-safety/child-access-prevention/",
-          "note": "Guns must be locked or kept on the person, and an owner is criminally liable when a minor gets one."
+          "note": "Guns must be locked or kept on the person, and an owner is criminally liable when a minor gets one.",
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/",
+          "preemptionNote": "Giffords Law Center, Preemption of Local Laws: this state has no statute barring local gun rules (the five are CT, HI, MA, NJ and NY)."
         },
         "US-ID": {
           "answer": "no",
@@ -2667,10 +2789,12 @@
         },
         "US-MA": {
           "answer": "yes",
-          "preempts": true,
+          "preempts": false,
           "cite": "Mass. Gen. Laws ch. 140, § 131L",
           "source": "https://giffords.org/lawcenter/gun-laws/policy-areas/child-consumer-safety/child-access-prevention/",
-          "note": "Every gun must be locked or fitted with a lock when not under the owner's control, and a violation is evidence of recklessness in a civil or criminal case."
+          "note": "Every gun must be locked or fitted with a lock when not under the owner's control, and a violation is evidence of recklessness in a civil or criminal case.",
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/",
+          "preemptionNote": "Giffords Law Center, Preemption of Local Laws: this state has no statute barring local gun rules (the five are CT, HI, MA, NJ and NY)."
         },
         "US-MI": {
           "answer": "no",
@@ -2726,10 +2850,12 @@
         },
         "US-NJ": {
           "answer": "yes",
-          "preempts": true,
+          "preempts": false,
           "cite": "N.J. Stat. § 2C:58-15",
           "source": "https://giffords.org/lawcenter/gun-laws/policy-areas/child-consumer-safety/child-access-prevention/",
-          "note": "An owner is criminally liable when a child under 16 gets a gun that was not stored securely, even if no one is hurt."
+          "note": "An owner is criminally liable when a child under 16 gets a gun that was not stored securely, even if no one is hurt.",
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/",
+          "preemptionNote": "Giffords Law Center, Preemption of Local Laws: this state has no statute barring local gun rules (the five are CT, HI, MA, NJ and NY)."
         },
         "US-NM": {
           "answer": "no",
@@ -2740,10 +2866,12 @@
         },
         "US-NY": {
           "answer": "yes",
-          "preempts": true,
+          "preempts": false,
           "cite": "N.Y. Penal Law §§ 265.45, 265.50",
           "source": "https://giffords.org/lawcenter/gun-laws/policy-areas/child-consumer-safety/child-access-prevention/",
-          "note": "A gun must be locked in a safe or fitted with a lock when a minor or a barred person lives in the home (since 9/1/2022), and an older rule covers children under 16."
+          "note": "A gun must be locked in a safe or fitted with a lock when a minor or a barred person lives in the home (since 9/1/2022), and an older rule covers children under 16.",
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/",
+          "preemptionNote": "Giffords Law Center, Preemption of Local Laws: this state has no statute barring local gun rules (the five are CT, HI, MA, NJ and NY)."
         },
         "US-NC": {
           "answer": "no",
@@ -2943,10 +3071,12 @@
         },
         "US-CT": {
           "answer": "yes",
-          "preempts": true,
+          "preempts": false,
           "cite": "Conn. Gen. Stat. § 29-34(b)",
           "source": "https://giffords.org/lawcenter/gun-laws/policy-areas/who-can-have-a-gun/minimum-age/",
-          "note": "State law sets 21 as the age to buy a handgun from any seller, above the federal 18 for private sales."
+          "note": "State law sets 21 as the age to buy a handgun from any seller, above the federal 18 for private sales.",
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/",
+          "preemptionNote": "Giffords Law Center, Preemption of Local Laws: this state has no statute barring local gun rules (the five are CT, HI, MA, NJ and NY)."
         },
         "US-DE": {
           "answer": "yes",
@@ -2970,10 +3100,12 @@
         },
         "US-HI": {
           "answer": "yes",
-          "preempts": true,
+          "preempts": false,
           "cite": "Haw. Rev. Stat. § 134-2",
           "source": "https://giffords.org/lawcenter/gun-laws/policy-areas/who-can-have-a-gun/minimum-age/",
-          "note": "State law sets 21 as the age to buy a handgun from any seller, above the federal 18 for private sales."
+          "note": "State law sets 21 as the age to buy a handgun from any seller, above the federal 18 for private sales.",
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/",
+          "preemptionNote": "Giffords Law Center, Preemption of Local Laws: this state has no statute barring local gun rules (the five are CT, HI, MA, NJ and NY)."
         },
         "US-ID": {
           "answer": "no",
@@ -3033,10 +3165,12 @@
         },
         "US-MA": {
           "answer": "yes",
-          "preempts": true,
+          "preempts": false,
           "cite": "Mass. Gen. Laws ch. 140, §§ 129B, 131",
           "source": "https://giffords.org/lawcenter/gun-laws/policy-areas/who-can-have-a-gun/minimum-age/",
-          "note": "State law sets 21 as the age to buy a handgun from any seller, above the federal 18 for private sales."
+          "note": "State law sets 21 as the age to buy a handgun from any seller, above the federal 18 for private sales.",
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/",
+          "preemptionNote": "Giffords Law Center, Preemption of Local Laws: this state has no statute barring local gun rules (the five are CT, HI, MA, NJ and NY)."
         },
         "US-MI": {
           "answer": "no",
@@ -3089,10 +3223,12 @@
         },
         "US-NJ": {
           "answer": "yes",
-          "preempts": true,
+          "preempts": false,
           "cite": "N.J. Stat. § 2C:58-3.3(c)",
           "source": "https://giffords.org/lawcenter/gun-laws/policy-areas/who-can-have-a-gun/minimum-age/",
-          "note": "State law sets 21 as the age to buy a handgun from any seller, above the federal 18 for private sales."
+          "note": "State law sets 21 as the age to buy a handgun from any seller, above the federal 18 for private sales.",
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/",
+          "preemptionNote": "Giffords Law Center, Preemption of Local Laws: this state has no statute barring local gun rules (the five are CT, HI, MA, NJ and NY)."
         },
         "US-NM": {
           "answer": "no",
@@ -3102,10 +3238,12 @@
         },
         "US-NY": {
           "answer": "yes",
-          "preempts": true,
+          "preempts": false,
           "cite": "N.Y. Penal Law § 400.00(1)(a)",
           "source": "https://giffords.org/lawcenter/gun-laws/policy-areas/who-can-have-a-gun/minimum-age/",
-          "note": "State law sets 21 as the age to buy a handgun from any seller, above the federal 18 for private sales."
+          "note": "State law sets 21 as the age to buy a handgun from any seller, above the federal 18 for private sales.",
+          "preemptionSource": "https://giffords.org/lawcenter/gun-laws/policy-areas/other-laws-policies/preemption-of-local-laws/",
+          "preemptionNote": "Giffords Law Center, Preemption of Local Laws: this state has no statute barring local gun rules (the five are CT, HI, MA, NJ and NY)."
         },
         "US-NC": {
           "answer": "no",
