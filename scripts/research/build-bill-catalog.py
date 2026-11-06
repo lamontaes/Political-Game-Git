@@ -92,14 +92,14 @@ BUDGET_LINES = {
 }
 
 SERIES = {
-    "minimum-wage": ("labor", "Wages and working hours", "Minimum wage", "minor/hour", ["federal", "state", "city"]),
-    "income-tax": ("taxes-finance", "Taxes", "Income tax rate", "percent", ["city"]),
-    "sales-tax": ("taxes-finance", "Taxes", "Sales tax rate", "percent", ["city"]),
+    "minimum-wage": ("labor", "Wages and working hours", "Minimum wage", "minor/hour", ["federal", "state", "county", "city"]),
+    "income-tax": ("taxes-finance", "Taxes", "Income tax rate", "percent", ["county", "city"]),
+    "sales-tax": ("taxes-finance", "Taxes", "Sales tax rate", "percent", ["county", "city"]),
     # Each government sets its own employees' pay floor (CTO ruling, Oct 14, 2026).
-    "public-pay-floor": ("government", "Agencies and public employment", "Public pay floor", "dollars/year", ["federal", "state", "city"]),
+    "public-pay-floor": ("government", "Agencies and public employment", "Public pay floor", "dollars/year", ["federal", "state", "county", "city"]),
     # The other amounts the starting law holds, at the levels series-powers.json
     # gives each (a local level is "city" here).
-    "property-tax": ("taxes-finance", "Taxes", "Property tax rate", "percent of home value per year", ["state", "city"]),
+    "property-tax": ("taxes-finance", "Taxes", "Property tax rate", "percent of home value per year", ["state", "county", "city"]),
     "corporate-income-tax": ("taxes-finance", "Taxes", "Corporate income tax rate", "percent-flat", ["federal", "state"]),
     "estate-tax": ("taxes-finance", "Taxes", "Estate tax rate", "percent-top-rate", ["federal", "state"]),
     "inheritance-tax": ("taxes-finance", "Taxes", "Inheritance tax rate", "percent-top-rate", ["state"]),
@@ -127,7 +127,7 @@ def main():
     for line, (subject, topic) in BUDGET_LINES.items():
         subjects[subject]["topics"][topic]["policies"].append({
             "id": f"budget:{line}", "name": f"Spending: {line}", "kind": "budget-line", "line": line,
-            "operations": ["expand", "restrict"], "levels": ["state", "city"],
+            "operations": ["expand", "restrict"], "levels": ["state", "county", "city"],
         })
     questions = []
     for path in sorted(glob.glob(str(ROOT / "data/research/laws/starting-law-2026/*.json"))):
@@ -144,7 +144,7 @@ def main():
         federal = key.startswith("us-federal-positions")
         subjects[subject]["topics"][topic]["policies"].append({
             "id": f"question:{key}", "name": slug.replace("-", " "), "kind": "policy-question", "question": key,
-            "operations": ["enact", "repeal"], "levels": ["federal"] if federal else ["state", "city"],
+            "operations": ["enact", "repeal"], "levels": ["federal"] if federal else ["state", "county", "city"],
         })
         if not federal:
             # A state's bar on its places' own rule for this question, as a

@@ -22,7 +22,7 @@ import { policyAuthority } from "./policy-authority";
 
 export type Operation =
   "raise" | "lower" | "expand" | "restrict" | "enact" | "repeal";
-type Level = "federal" | "state" | "city";
+type Level = "federal" | "state" | "county" | "city";
 
 interface CatalogPolicy {
   readonly id: string;
@@ -67,7 +67,10 @@ const subjects = (
 export function billCatalog(
   api: CoreAPI,
   level: Level,
-  jurisdiction: string = billLevelJurisdiction(api, level),
+  jurisdiction: string = billLevelJurisdiction(
+    api,
+    level === "county" ? "city" : level,
+  ),
 ): readonly CatalogMenu[] {
   return subjects.map((subject) => ({
     id: subject.id,
@@ -97,8 +100,12 @@ export function billCatalog(
             // level, an amount its series' levels, and only a town needs the
             // state's grant of authority.
             authority:
-              level === "city"
-                ? authorityFor(api, provision)
+              level === "city" || level === "county"
+                ? level === "county" &&
+                  p.kind === "policy-question" &&
+                  p.question
+                  ? policyAuthority(api, p.question, "county")
+                  : authorityFor(api, provision)
                 : p.kind === "policy-question" && p.question
                   ? policyAuthority(api, p.question, level)
                   : (beyondPower(provision, level) ?? {

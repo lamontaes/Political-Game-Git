@@ -38,3 +38,31 @@ it(`a state body's menu shows the power catalog's answer for each policy questio
     setBookkeeping(true);
   }
 }, 600_000);
+
+it(`a county body's menu shows the county column's answer, not the city's: ${drawn.name} (${drawn.key}), replay ${replay}`, () => {
+  setBookkeeping(false);
+  try {
+    const world = buildBenchWorld(drawn.seed, gameStartDate(), {
+      placeKey: drawn.key,
+      twoLevel: true,
+    });
+    const api = coreAPI(world.core);
+    let checked = 0;
+    for (const menu of billCatalog(api, "county"))
+      for (const topic of menu.topics)
+        for (const policy of topic.policies)
+          if (policy.kind === "policy-question" && policy.question) {
+            const expected = policyAuthority(api, policy.question, "county");
+            expect(policy.levels, policy.id).toContain("county");
+            expect(policy.authority.allowed, policy.id).toBe(expected.allowed);
+            expect(policy.authority.reason, policy.id).toBe(expected.reason);
+            checked++;
+          }
+    expect(
+      checked,
+      "county-level policy questions on the menu",
+    ).toBeGreaterThan(20);
+  } finally {
+    setBookkeeping(true);
+  }
+}, 600_000);
