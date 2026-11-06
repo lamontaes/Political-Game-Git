@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: law-levels-county-rows
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-06T17:36:30.374Z
 ---
 
 **What.** billLevel folded a county body into the town, so provisionStance read the amount in force from the town's jurisdiction instead of the county's (docs/reports/law-levels-2026-11-05.md, Part B item 5).
