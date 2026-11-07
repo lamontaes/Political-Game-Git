@@ -544,6 +544,24 @@ export function lawInForce(
   series: string,
   date: string = api.state.date,
 ): LawInForceAnswer {
+  if (tableTraceOn() || date !== api.state.date)
+    return readLawInForce(api, series, date);
+  const writes = api.moduleState(LAWS_MODULE_ID).writes;
+  let kept = todaysLaw.get(api.state);
+  if (!kept || kept.writes !== writes || kept.date !== date)
+    todaysLaw.set(api.state, (kept = { writes, date, answers: new Map() }));
+  let answer = kept.answers.get(series);
+  if (!answer)
+    kept.answers.set(series, (answer = readLawInForce(api, series, date)));
+  return answer;
+}
+
+/** The sole uncached path, also used for history and traced reads. */
+function readLawInForce(
+  api: CoreAPI,
+  series: string,
+  date: string,
+): LawInForceAnswer {
   const chain = lawChain(api);
   // Only a wage floor reads the state's grant of local authority, and only
   // the sales tax its state's average local rate: no other law reads them.
@@ -596,11 +614,14 @@ export function localPowerBarred(
   question: string,
   date: string = api.state.date,
 ): boolean {
-  const row = lawInForce(
-    api,
-    `${LOCAL_POWER_PREFIX}${question}`,
-    date,
-  ).levels.find((level) => level.level === "state")?.row;
+  const series = `${LOCAL_POWER_PREFIX}${question}`;
+  // Most questions have no grant/bar act yet. An empty series cannot change
+  // the researched starting rule; do not build an empty answer for each read.
+  const row = seriesRows(api, series).length
+    ? lawInForce(api, series, date).levels.find(
+        (level) => level.level === "state",
+      )?.row
+    : undefined;
   if (row && row.value !== null) return row.value === 0;
   return (
     POLICY_QUESTIONS[question]?.answers[lawChain(api).stateKey]?.preempts ===
@@ -625,15 +646,7 @@ export function lawInForceToday(
   api: CoreAPI,
   series: string,
 ): LawInForceAnswer {
-  if (tableTraceOn()) return lawInForce(api, series);
-  const writes = api.moduleState(LAWS_MODULE_ID).writes,
-    date = api.state.date;
-  let kept = todaysLaw.get(api.state);
-  if (!kept || kept.writes !== writes || kept.date !== date)
-    todaysLaw.set(api.state, (kept = { writes, date, answers: new Map() }));
-  let answer = kept.answers.get(series);
-  if (!answer) kept.answers.set(series, (answer = lawInForce(api, series)));
-  return answer;
+  return lawInForce(api, series);
 }
 
 /**

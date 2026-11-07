@@ -60,6 +60,7 @@ it(`a later act can advance or repeal a pending law: ${place.name}, replay ${rep
     ).toBeNull();
     const repeal = write(0, opening, "reader-later-repeal");
     expect(federal(later)?.id).toBe(repeal.id);
+    expect(federal(opening)?.id).toBe(repeal.id);
     expect(lawInForce(api, question, later).governing?.id).toBe(
       starting.governing?.id,
     );

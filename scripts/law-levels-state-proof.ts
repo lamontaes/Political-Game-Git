@@ -3,7 +3,8 @@
  * A losing vote is a reported unsuccessful draw, not a forced outcome.
  */
 import { randomBytes } from "node:crypto";
-import { writeFileSync } from "node:fs";
+import { mkdirSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
 import { drawPlace } from "../scripts/core2-year/place";
 import { benchRequest, benchWorld, serialize } from "../src/bench/handler";
 import { townSeats } from "../src/core2/modules/offices";
@@ -32,7 +33,9 @@ async function main() {
   const replay = process.argv[2] ?? randomBytes(8).toString("hex");
   const place = drawPlace(replay, "played-law-reversals");
   console.log(JSON.stringify({ replay, place }));
-  if (process.argv.includes("--serve")) await import("../src/bench/server");
+  const screenshotDir = process.env.LAW_PROOF_SCREENSHOTS;
+  if (process.argv.includes("--serve") || screenshotDir)
+    await import("../src/bench/server");
   const request = async (path: string) => {
     const r = await benchRequest(
       "POST",
@@ -128,6 +131,67 @@ async function main() {
         `/api/desk?${new URLSearchParams({ billId: bill.id, how: "sign" })}`,
       );
       result = billOf(api, bill.id);
+    }
+    if (
+      screenshotDir &&
+      body === state?.id &&
+      proof.length >= 2 &&
+      result.status === "enacted"
+    ) {
+      // Read the native enacted paper before its effective date, while the
+      // preceding law still governs. Restore the executive before time moves.
+      await request(`/api/play?id=${encodeURIComponent(memberKey(sponsor))}`);
+      const { chromium } = await import("playwright");
+      const browser = await chromium.launch({ headless: true });
+      try {
+        const page = await browser.newPage({
+          viewport: { width: 1600, height: 1800 },
+        });
+        await page.goto("http://localhost:3000/play");
+        await page.getByTestId("continue").click();
+        await page.locator("#game").waitFor({ state: "visible" });
+        await page
+          .getByRole("button", { name: "Politics", exact: true })
+          .click();
+        await page.locator("#sheet-tabs [data-tab=office]").click();
+        await page.locator(".office-screen").waitFor({ state: "visible" });
+        const drafts = page.getByRole("button", {
+          name: "Drafts",
+          exact: true,
+        });
+        if (await drafts.isVisible()) await drafts.click();
+        if (proof.length === 3)
+          await page
+            .getByRole("button", { name: "Next page", exact: true })
+            .click();
+        await page
+          .getByRole("button", { name: "Read the bill", exact: true })
+          .nth(proof.length === 2 ? 1 : 0)
+          .click();
+        await page
+          .getByRole("button", { name: "Back to your seat", exact: true })
+          .waitFor({ state: "visible" });
+        await page
+          .getByRole("heading", {
+            name: billPaper(core, bill.id).spoken,
+            exact: true,
+          })
+          .waitFor({ state: "visible" });
+        mkdirSync(screenshotDir, { recursive: true });
+        await page.screenshot({
+          path: join(
+            screenshotDir,
+            proof.length === 2 ? "ban-paper.png" : "restore-paper.png",
+          ),
+          fullPage: true,
+        });
+      } finally {
+        await browser.close();
+      }
+      if (executive)
+        await request(
+          `/api/play?id=${encodeURIComponent(memberKey(executive))}`,
+        );
     }
     const rows = api
       .moduleState(LAWS_MODULE_ID)
