@@ -1,6 +1,12 @@
 {
   "entries": [
     {
+      "version": "0.87.3",
+      "releasedOn": "2026-11-07",
+      "revision": "dfe839ce65642e3db6500a2d0e3525adf81443dd",
+      "changeIds": ["law-levels-catalog-existing-powers"]
+    },
+    {
       "version": "0.87.2",
       "releasedOn": "2026-11-06",
       "revision": "654bdd78580337f7e666f6dc6f46121316f0e0ca",

@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 207 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 208 pull requests merged. Newest state at the top of each section.
 
 **Stopped by the owner, Nov 4, 2:37 p.m. Eastern, at 161 merged; resumed on the owner's word at about 2:53 p.m. Eastern (relayed by the CTO). The desk merges One Map's PRs, and from Nov 5, 05:22 UTC also State Sessions' (every other state holds sessions), on the owner's approval relayed by the CTO. From Nov 5, about 5:15 p.m. Eastern, also the Cleanup session's three PRs (the old art pipeline, the Oct 14 mocks, the green mannequin plates with the old mocks), on the same check; the art pipeline PR also needs `npm run build` to succeed on its merged head. From Nov 7, 2:30 p.m. Eastern (CTO), also Astra's PRs (a Codex builder on Congress and law reversals; branches `astra/`, line 2 `Session: Astra (Codex)`), on the same check. Lanes 1, 3, 4 and 5 are stopped and Lane 2 is off, so #7110 and #7127 stay open, and skills PRs #7233, #7254 and #7264 stay with the CTO.**
 
@@ -131,6 +131,12 @@ New on Nov 3:
 | #7304 | Deletes the old art pipeline and every reference to it (855 files, about 644 MB); the game read none of it. `npm run build` succeeded on the merged head | Sullivan's Island, South Carolina | 6cc6165f1351ea9c |
 | #7305 | Deletes the Oct 14 screen mocks and every citation of them                                                                                               | Mariemont, Ohio                   | 86123a6ce7c55e43 |
 | #7306 | Deletes the green mannequin plates, the Oct 27 setup and the radial and Oct 5 mocks                                                                      | Horicon, Wisconsin                | dd77eefed6b5e9ec |
+
+## Astra's PRs (from Nov 7)
+
+| PR    | What it does                                                                                                                                                                                  | Town             | Replay number    |
+| ----- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- | ---------------- |
+| #7321 | Congress can draft and repeal the Medicaid and assistance work requirements; Congress and state legislatures can change their own income tax; state sales tax appears on the state bill paper | Camden, Delaware | c9838e2836a5a9f1 |
 
 ## State Sessions' PRs (from Nov 5)
 

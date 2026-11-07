@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: astra/repeal-coverage
-pr:
+pr: #7321
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-07T19:41:16.956Z

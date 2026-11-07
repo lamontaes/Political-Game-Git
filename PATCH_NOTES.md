@@ -296,6 +296,18 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.87.3
+
+_Released November 7, 2026._
+
+### Fixed
+
+- **Tax and work-requirement bills appear for the governments that can pass
+  them** Congress and state legislatures can draft changes to their own income
+  tax, and states can change their sales tax. Congress can draft enactment and
+  repeal of the Medicaid and assistance work requirements. The bill catalog now
+  follows the same recorded powers as the drafting check.
+
 ## PRE-ALPHA 0.87.2
 
 _Released November 6, 2026._
