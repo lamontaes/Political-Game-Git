@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: astra/opening-income-tax-reversal
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-07T23:18:33.217Z
 ---
 
 **What.** The income-tax adoption handler appears to return without removing an opening tax when no previous adoption wrote a lawRowId. Prove the path in an unchosen generated game and make repeal and restoration use the existing tax writer and exact prior schedule.
