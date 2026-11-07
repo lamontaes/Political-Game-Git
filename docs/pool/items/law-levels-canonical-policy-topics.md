@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: astra/canonical-law-topics
 pr: #7335
 blocked-on:
