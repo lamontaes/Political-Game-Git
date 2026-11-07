@@ -312,12 +312,26 @@ export function resolveLawInForce(input: {
   );
   if (federalForState) {
     const index = levels.findIndex((l) => l.level === "federal");
-    levels[index] = {
-      ...levels[index]!,
-      jurisdiction: chain.stateKey,
-      row: federalForState,
-    };
+    const general = levels[index]!.row;
+    const sameAct =
+      general?.terms?.enactedByBill !== undefined &&
+      general.terms.enactedByBill === federalForState.terms?.enactedByBill;
+    // Research keeps the state's particular federal amount. An explicit
+    // nationwide amount enacted later replaces it under the same act-order
+    // rule as every other law. A specific section of that same act remains
+    // its exception, regardless of the order the sections were written.
+    const laterGeneralAct =
+      general?.terms?.enactedBy !== undefined &&
+      !sameAct &&
+      lawRowIsLater(general, federalForState);
+    if (!laterGeneralAct)
+      levels[index] = {
+        ...levels[index]!,
+        jurisdiction: chain.stateKey,
+        row: federalForState,
+      };
   }
+
   if (series === "sales-tax" && input.localAverage) {
     const hasLocal = levels.some(
       (l) => (l.level === "city" || l.level === "county") && l.row,
