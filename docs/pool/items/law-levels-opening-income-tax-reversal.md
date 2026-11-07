@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: astra/opening-income-tax-reversal
 pr: #7337
 blocked-on:
