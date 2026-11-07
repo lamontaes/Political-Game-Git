@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: astra/federal-bill-baseline
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-07T21:49:17.853Z
 ---
 
 **What.** The law reader represents a state-specific federal amount with the target state jurisdiction. billValueInForce searches only for US when Congress drafts, so the existing Medicaid-match law is shown as no baseline. Read the federal level for the federal body.
