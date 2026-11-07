@@ -46,6 +46,7 @@ import {
   inTownChain,
   LAW_SERIES,
   resolveLawInForce,
+  lawRowIsLater,
   type EnactedAuthority,
   type LawInForceAnswer,
 } from "../laws-in-force";
@@ -692,10 +693,11 @@ export function questionSettled(
   value: number,
   /** A bill whose own rows don't count: the act being written reads the law as it stood before it. */
   exceptBill?: string,
+  /** The section's resolved date: moving a pending law earlier changes it. */
+  effectiveDate?: string,
 ): SettledQuestion | null {
   const today = api.state.date;
   let latest: LawRowInput | null = null;
-  const order = (r: LawRowInput) => Number(r.terms?.enactedSequence ?? 0);
   for (const row of api
     .moduleState(LAWS_MODULE_ID)
     .table("laws")
@@ -703,15 +705,16 @@ export function questionSettled(
     if (row.endDate !== null && row.endDate <= today) continue;
     if (exceptBill !== undefined && row.terms?.enactedByBill === exceptBill)
       continue;
-    if (
-      !latest ||
-      row.effectiveDate > latest.effectiveDate ||
-      (row.effectiveDate === latest.effectiveDate && order(row) > order(latest))
-    )
-      latest = row;
+    if (!latest || lawRowIsLater(row, latest)) latest = row;
   }
   if (!latest) return null;
   const same = (latest.value === 1) === value > 0;
+  if (
+    latest.effectiveDate > today &&
+    effectiveDate !== undefined &&
+    effectiveDate < latest.effectiveDate
+  )
+    return null;
   if (latest.effectiveDate > today)
     return {
       lawId: latest.id,
