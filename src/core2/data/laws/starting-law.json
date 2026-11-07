@@ -396,23 +396,6 @@
         "note": "No state tax; boroughs/cities levy local sales taxes; TF max local 7.85%."
       },
       {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 1.82,
-        "effectiveDate": "2026-01-01",
-        "endDate": null,
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
-        "retrieved": "2026-10-12",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 7.85,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
-      },
-      {
         "level": "federal",
         "series": "snap-maximum",
         "tier": "general",
@@ -673,23 +656,6 @@
         "terms": { "kind": "general sales and use tax" }
       },
       {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 1.821,
-        "effectiveDate": "2025-01-01",
-        "endDate": "2026-01-01",
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
-        "retrieved": "2026-10-23",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 7.85,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
-      },
-      {
         "level": "federal",
         "series": "snap-maximum",
         "tier": "rural-1",
@@ -908,23 +874,6 @@
         "terms": { "kind": "general sales and use tax" }
       },
       {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 5.46,
-        "effectiveDate": "2026-01-01",
-        "endDate": null,
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
-        "retrieved": "2026-10-12",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 11.0,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
-      },
-      {
         "level": "federal",
         "series": "snap-maximum",
         "tier": "general",
@@ -1092,23 +1041,6 @@
         "estimate": false,
         "unit": "percent",
         "terms": { "kind": "general sales and use tax" }
-      },
-      {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 5.427,
-        "effectiveDate": "2025-01-01",
-        "endDate": "2026-01-01",
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
-        "retrieved": "2026-10-23",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 8.0,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
       },
       {
         "level": "federal",
@@ -1306,23 +1238,6 @@
         "note": "State grocery tax eliminated 2026-01-01 (food base change, not general rate)."
       },
       {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 2.96,
-        "effectiveDate": "2026-01-01",
-        "endDate": null,
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
-        "retrieved": "2026-10-12",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 6.125,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
-      },
-      {
         "level": "federal",
         "series": "snap-maximum",
         "tier": "general",
@@ -1488,23 +1403,6 @@
         "estimate": false,
         "unit": "percent",
         "terms": { "kind": "general sales and use tax" }
-      },
-      {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 2.96,
-        "effectiveDate": "2025-01-01",
-        "endDate": "2026-01-01",
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
-        "retrieved": "2026-10-23",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 6.125,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
       },
       {
         "level": "federal",
@@ -2355,23 +2253,6 @@
         "terms": { "kind": "general sales and use tax" }
       },
       {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 2.92,
-        "effectiveDate": "2026-01-01",
-        "endDate": null,
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
-        "retrieved": "2026-10-12",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 5.3,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
-      },
-      {
         "level": "federal",
         "series": "snap-maximum",
         "tier": "general",
@@ -2531,23 +2412,6 @@
         "estimate": false,
         "unit": "percent",
         "terms": { "kind": "general sales and use tax" }
-      },
-      {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 2.814,
-        "effectiveDate": "2025-01-01",
-        "endDate": "2026-01-01",
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
-        "retrieved": "2026-10-23",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 5.3,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
       },
       {
         "level": "federal",
@@ -2758,23 +2622,6 @@
         "note": "stateRate includes mandatory 1.25% statewide local add-on (6.0% state proper)."
       },
       {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 1.74,
-        "effectiveDate": "2026-01-01",
-        "endDate": null,
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
-        "retrieved": "2026-10-12",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 5.25,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
-      },
-      {
         "level": "federal",
         "series": "snap-maximum",
         "tier": "general",
@@ -2958,23 +2805,6 @@
         "terms": { "kind": "general sales and use tax" }
       },
       {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 1.552,
-        "effectiveDate": "2025-01-01",
-        "endDate": "2026-01-01",
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
-        "retrieved": "2026-10-23",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 4.75,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
-      },
-      {
         "level": "federal",
         "series": "snap-maximum",
         "tier": "general",
@@ -3149,23 +2979,6 @@
         "terms": { "kind": "general sales and use tax" }
       },
       {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 4.99,
-        "effectiveDate": "2026-01-01",
-        "endDate": null,
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
-        "retrieved": "2026-10-12",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 9.1,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
-      },
-      {
         "level": "federal",
         "series": "snap-maximum",
         "tier": "general",
@@ -3325,23 +3138,6 @@
         "estimate": false,
         "unit": "percent",
         "terms": { "kind": "general sales and use tax" }
-      },
-      {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 4.957,
-        "effectiveDate": "2025-01-01",
-        "endDate": "2026-01-01",
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
-        "retrieved": "2026-10-23",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 8.3,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
       },
       {
         "level": "federal",
@@ -4700,23 +4496,6 @@
         "terms": { "kind": "general sales and use tax" }
       },
       {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 0.98,
-        "effectiveDate": "2026-01-01",
-        "endDate": null,
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
-        "retrieved": "2026-10-12",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 2.0,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
-      },
-      {
         "level": "federal",
         "series": "snap-maximum",
         "tier": "general",
@@ -4869,23 +4648,6 @@
         "estimate": false,
         "unit": "percent",
         "terms": { "kind": "general sales and use tax" }
-      },
-      {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 0.948,
-        "effectiveDate": "2025-01-01",
-        "endDate": "2026-01-01",
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
-        "retrieved": "2026-10-23",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 2.0,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
       },
       {
         "level": "federal",
@@ -5066,23 +4828,6 @@
         "terms": { "kind": "general sales and use tax" }
       },
       {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 3.49,
-        "effectiveDate": "2026-01-01",
-        "endDate": null,
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
-        "retrieved": "2026-10-12",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 5.0,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
-      },
-      {
         "level": "federal",
         "series": "snap-maximum",
         "tier": "general",
@@ -5242,23 +4987,6 @@
         "estimate": false,
         "unit": "percent",
         "terms": { "kind": "general sales and use tax" }
-      },
-      {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 3.418,
-        "effectiveDate": "2025-01-01",
-        "endDate": "2026-01-01",
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
-        "retrieved": "2026-10-23",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 5.0,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
       },
       {
         "level": "federal",
@@ -5744,23 +5472,6 @@
         "note": "General excise tax on sellers (broad base incl. B2B services), commonly passed on; county surcharge 0.5% all counties."
       },
       {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 0.5,
-        "effectiveDate": "2026-01-01",
-        "endDate": null,
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
-        "retrieved": "2026-10-12",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 0.5,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
-      },
-      {
         "level": "federal",
         "series": "snap-maximum",
         "tier": "general",
@@ -5948,23 +5659,6 @@
         "terms": { "kind": "general excise tax" }
       },
       {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 0.5,
-        "effectiveDate": "2025-01-01",
-        "endDate": "2026-01-01",
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
-        "retrieved": "2026-10-23",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 0.5,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
-      },
-      {
         "level": "federal",
         "series": "snap-maximum",
         "tier": "general",
@@ -6145,23 +5839,6 @@
         "terms": { "kind": "general sales and use tax" }
       },
       {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 0.94,
-        "effectiveDate": "2026-01-01",
-        "endDate": null,
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
-        "retrieved": "2026-10-12",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 2.0,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
-      },
-      {
         "level": "federal",
         "series": "snap-maximum",
         "tier": "general",
@@ -6321,23 +5998,6 @@
         "estimate": false,
         "unit": "percent",
         "terms": { "kind": "general sales and use tax" }
-      },
-      {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 0.942,
-        "effectiveDate": "2025-01-01",
-        "endDate": "2026-01-01",
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
-        "retrieved": "2026-10-23",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 2.0,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
       },
       {
         "level": "federal",
@@ -6514,23 +6174,6 @@
         "terms": { "kind": "general sales and use tax" }
       },
       {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 0.03,
-        "effectiveDate": "2026-01-01",
-        "endDate": null,
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
-        "retrieved": "2026-10-12",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 3.0,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
-      },
-      {
         "level": "federal",
         "series": "snap-maximum",
         "tier": "general",
@@ -6690,23 +6333,6 @@
         "estimate": false,
         "unit": "percent",
         "terms": { "kind": "general sales and use tax" }
-      },
-      {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 0.027,
-        "effectiveDate": "2025-01-01",
-        "endDate": "2026-01-01",
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
-        "retrieved": "2026-10-23",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 3.0,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
       },
       {
         "level": "federal",
@@ -6894,23 +6520,6 @@
         "note": "State 1% grocery tax repealed 2026-01-01; locals may impose their own grocery tax."
       },
       {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 2.71,
-        "effectiveDate": "2026-01-01",
-        "endDate": null,
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
-        "retrieved": "2026-10-12",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 4.75,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
-      },
-      {
         "level": "federal",
         "series": "snap-maximum",
         "tier": "general",
@@ -7070,23 +6679,6 @@
         "estimate": false,
         "unit": "percent",
         "terms": { "kind": "general sales and use tax" }
-      },
-      {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 2.64,
-        "effectiveDate": "2025-01-01",
-        "endDate": "2026-01-01",
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
-        "retrieved": "2026-10-23",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 4.75,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
       },
       {
         "level": "federal",
@@ -7610,23 +7202,6 @@
         "terms": { "kind": "general sales and use tax" }
       },
       {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 2.19,
-        "effectiveDate": "2026-01-01",
-        "endDate": null,
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
-        "retrieved": "2026-10-12",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 4.25,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
-      },
-      {
         "level": "federal",
         "series": "snap-maximum",
         "tier": "general",
@@ -7792,23 +7367,6 @@
         "estimate": false,
         "unit": "percent",
         "terms": { "kind": "general sales and use tax" }
-      },
-      {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 2.273,
-        "effectiveDate": "2025-01-01",
-        "endDate": "2026-01-01",
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
-        "retrieved": "2026-10-23",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 4.25,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
       },
       {
         "level": "federal",
@@ -8337,23 +7895,6 @@
         "terms": { "kind": "general sales and use tax" }
       },
       {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 5.11,
-        "effectiveDate": "2026-01-01",
-        "endDate": null,
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
-        "retrieved": "2026-10-12",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 7.0,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
-      },
-      {
         "level": "federal",
         "series": "snap-maximum",
         "tier": "general",
@@ -8513,23 +8054,6 @@
         "estimate": false,
         "unit": "percent",
         "terms": { "kind": "general sales and use tax" }
-      },
-      {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 5.116,
-        "effectiveDate": "2025-01-01",
-        "endDate": "2026-01-01",
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
-        "retrieved": "2026-10-23",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 7.0,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
       },
       {
         "level": "federal",
@@ -10234,23 +9758,6 @@
         "note": "State rate 6.875%."
       },
       {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 1.26,
-        "effectiveDate": "2026-01-01",
-        "endDate": null,
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
-        "retrieved": "2026-10-12",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 3.0,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
-      },
-      {
         "level": "federal",
         "series": "snap-maximum",
         "tier": "general",
@@ -10420,23 +9927,6 @@
         "estimate": false,
         "unit": "percent",
         "terms": { "kind": "general sales and use tax" }
-      },
-      {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 1.25,
-        "effectiveDate": "2025-01-01",
-        "endDate": "2026-01-01",
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
-        "retrieved": "2026-10-23",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 3.0,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
       },
       {
         "level": "federal",
@@ -10626,23 +10116,6 @@
         "note": "State rate 4.225%."
       },
       {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 4.22,
-        "effectiveDate": "2026-01-01",
-        "endDate": null,
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
-        "retrieved": "2026-10-12",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 5.763,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
-      },
-      {
         "level": "federal",
         "series": "snap-maximum",
         "tier": "general",
@@ -10818,23 +10291,6 @@
         "estimate": false,
         "unit": "percent",
         "terms": { "kind": "general sales and use tax" }
-      },
-      {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 4.185,
-        "effectiveDate": "2025-01-01",
-        "endDate": "2026-01-01",
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
-        "retrieved": "2026-10-23",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 5.875,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
       },
       {
         "level": "federal",
@@ -11154,23 +10610,6 @@
         "terms": { "kind": "general sales and use tax" }
       },
       {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 0.06,
-        "effectiveDate": "2026-01-01",
-        "endDate": null,
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
-        "retrieved": "2026-10-12",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 1.0,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
-      },
-      {
         "level": "federal",
         "series": "snap-maximum",
         "tier": "general",
@@ -11330,23 +10769,6 @@
         "estimate": false,
         "unit": "percent",
         "terms": { "kind": "general sales and use tax" }
-      },
-      {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 0.062,
-        "effectiveDate": "2025-01-01",
-        "endDate": "2026-01-01",
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
-        "retrieved": "2026-10-23",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 1.0,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
       },
       {
         "level": "federal",
@@ -11887,23 +11309,6 @@
         "terms": { "kind": "general sales and use tax" }
       },
       {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 2.25,
-        "effectiveDate": "2026-01-01",
-        "endDate": null,
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
-        "retrieved": "2026-10-12",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 2.75,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
-      },
-      {
         "level": "federal",
         "series": "snap-maximum",
         "tier": "general",
@@ -12063,23 +11468,6 @@
         "estimate": false,
         "unit": "percent",
         "terms": { "kind": "general sales and use tax" }
-      },
-      {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 2.246,
-        "effectiveDate": "2025-01-01",
-        "endDate": "2026-01-01",
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
-        "retrieved": "2026-10-23",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 2.75,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
       },
       {
         "level": "federal",
@@ -12269,23 +11657,6 @@
         "terms": { "kind": "general sales and use tax" }
       },
       {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 2.09,
-        "effectiveDate": "2026-01-01",
-        "endDate": null,
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
-        "retrieved": "2026-10-12",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 3.75,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
-      },
-      {
         "level": "federal",
         "series": "snap-maximum",
         "tier": "general",
@@ -12451,23 +11822,6 @@
         "estimate": false,
         "unit": "percent",
         "terms": { "kind": "general sales and use tax" }
-      },
-      {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 2.05,
-        "effectiveDate": "2025-01-01",
-        "endDate": "2026-01-01",
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
-        "retrieved": "2026-10-23",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 3.5,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
       },
       {
         "level": "federal",
@@ -12747,23 +12101,6 @@
         "terms": { "kind": "general sales and use tax" }
       },
       {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 1.48,
-        "effectiveDate": "2026-01-01",
-        "endDate": null,
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
-        "retrieved": "2026-10-12",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 2.0,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
-      },
-      {
         "level": "federal",
         "series": "snap-maximum",
         "tier": "general",
@@ -12933,23 +12270,6 @@
         "estimate": false,
         "unit": "percent",
         "terms": { "kind": "general sales and use tax" }
-      },
-      {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 1.472,
-        "effectiveDate": "2025-01-01",
-        "endDate": "2026-01-01",
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
-        "retrieved": "2026-10-23",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 2.0,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
       },
       {
         "level": "federal",
@@ -13910,23 +13230,6 @@
         "note": "Gross receipts tax on sellers (broad base); rate reverts to 5.125% on a July 1 if FY revenue falls below 95% of prior year (2026-2029)."
       },
       {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 2.79,
-        "effectiveDate": "2026-01-01",
-        "endDate": null,
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
-        "retrieved": "2026-10-12",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 4.5625,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
-      },
-      {
         "level": "federal",
         "series": "snap-maximum",
         "tier": "general",
@@ -14102,23 +13405,6 @@
         "terms": { "kind": "gross receipts tax" }
       },
       {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 2.752,
-        "effectiveDate": "2025-01-01",
-        "endDate": "2026-01-01",
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
-        "retrieved": "2026-10-23",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 4.563,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
-      },
-      {
         "level": "federal",
         "series": "snap-maximum",
         "tier": "general",
@@ -14277,23 +13563,6 @@
         "terms": { "kind": "general sales and use tax" }
       },
       {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 1.39,
-        "effectiveDate": "2026-01-01",
-        "endDate": null,
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
-        "retrieved": "2026-10-12",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 1.525,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
-      },
-      {
         "level": "federal",
         "series": "snap-maximum",
         "tier": "general",
@@ -14446,23 +13715,6 @@
         "estimate": false,
         "unit": "percent",
         "terms": { "kind": "general sales and use tax" }
-      },
-      {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 1.386,
-        "effectiveDate": "2025-01-01",
-        "endDate": "2026-01-01",
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
-        "retrieved": "2026-10-23",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 1.53,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
       },
       {
         "level": "federal",
@@ -14716,23 +13968,6 @@
         "terms": { "kind": "general sales and use tax" }
       },
       {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 4.54,
-        "effectiveDate": "2026-01-01",
-        "endDate": null,
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
-        "retrieved": "2026-10-12",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 4.875,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
-      },
-      {
         "level": "federal",
         "series": "snap-maximum",
         "tier": "general",
@@ -14912,23 +14147,6 @@
         "estimate": false,
         "unit": "percent",
         "terms": { "kind": "general sales and use tax" }
-      },
-      {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 4.532,
-        "effectiveDate": "2025-01-01",
-        "endDate": "2026-01-01",
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
-        "retrieved": "2026-10-23",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 4.875,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
       },
       {
         "level": "federal",
@@ -15125,23 +14343,6 @@
         "terms": { "kind": "general sales and use tax" }
       },
       {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 1.54,
-        "effectiveDate": "2026-01-01",
-        "endDate": null,
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
-        "retrieved": "2026-10-12",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 2.25,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
-      },
-      {
         "level": "federal",
         "series": "snap-maximum",
         "tier": "general",
@@ -15307,23 +14508,6 @@
         "estimate": false,
         "unit": "percent",
         "terms": { "kind": "general sales and use tax" }
-      },
-      {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 1.483,
-        "effectiveDate": "2025-01-01",
-        "endDate": "2026-01-01",
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
-        "retrieved": "2026-10-23",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 2.25,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
       },
       {
         "level": "federal",
@@ -15508,23 +14692,6 @@
         "terms": { "kind": "general sales and use tax" }
       },
       {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 4.56,
-        "effectiveDate": "2026-01-01",
-        "endDate": null,
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
-        "retrieved": "2026-10-12",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 7.0,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
-      },
-      {
         "level": "federal",
         "series": "snap-maximum",
         "tier": "general",
@@ -15698,23 +14865,6 @@
         "estimate": false,
         "unit": "percent",
         "terms": { "kind": "general sales and use tax" }
-      },
-      {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 4.505,
-        "effectiveDate": "2025-01-01",
-        "endDate": "2026-01-01",
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
-        "retrieved": "2026-10-23",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 7.0,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
       },
       {
         "level": "federal",
@@ -16425,23 +15575,6 @@
         "terms": { "kind": "general sales and use tax" }
       },
       {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 0.34,
-        "effectiveDate": "2026-01-01",
-        "endDate": null,
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
-        "retrieved": "2026-10-12",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 2.0,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
-      },
-      {
         "level": "federal",
         "series": "snap-maximum",
         "tier": "general",
@@ -16601,23 +15734,6 @@
         "estimate": false,
         "unit": "percent",
         "terms": { "kind": "general sales and use tax" }
-      },
-      {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 0.341,
-        "effectiveDate": "2025-01-01",
-        "endDate": "2026-01-01",
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
-        "retrieved": "2026-10-23",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 2.0,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
       },
       {
         "level": "federal",
@@ -16809,23 +15925,6 @@
         "unit": "percent",
         "terms": { "kind": "sales and use tax (IVU)" },
         "note": "Caller's hint '10.5% incl 1% municipal' is not what sources say: commonwealth IVU 10.5% plus municipal IVU 1% = 11.5% total. Unprocessed food and prescription drugs exempt."
-      },
-      {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 1.0,
-        "effectiveDate": "2026-01-01",
-        "endDate": null,
-        "source": "https://trykintsugi.com/sales-tax-guides/usa/puerto-rico",
-        "retrieved": "2026-10-12",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 1.0,
-          "spreadHigh": 1.0,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
       },
       {
         "level": "state",
@@ -17425,23 +16524,6 @@
         "terms": { "kind": "general sales and use tax" }
       },
       {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 1.49,
-        "effectiveDate": "2026-01-01",
-        "endDate": null,
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
-        "retrieved": "2026-10-12",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 3.0,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
-      },
-      {
         "level": "federal",
         "series": "snap-maximum",
         "tier": "general",
@@ -17611,23 +16693,6 @@
         "terms": { "kind": "general sales and use tax" }
       },
       {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 1.499,
-        "effectiveDate": "2025-01-01",
-        "endDate": "2026-01-01",
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
-        "retrieved": "2026-10-23",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 3.0,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
-      },
-      {
         "level": "federal",
         "series": "snap-maximum",
         "tier": "general",
@@ -17786,23 +16851,6 @@
         "note": "Broad base incl. many services; municipalities may also levy gross receipts taxes."
       },
       {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 1.91,
-        "effectiveDate": "2026-01-01",
-        "endDate": null,
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
-        "retrieved": "2026-10-12",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 4.5,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
-      },
-      {
         "level": "federal",
         "series": "snap-maximum",
         "tier": "general",
@@ -17955,23 +17003,6 @@
         "estimate": false,
         "unit": "percent",
         "terms": { "kind": "general sales and use tax" }
-      },
-      {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 1.914,
-        "effectiveDate": "2025-01-01",
-        "endDate": "2026-01-01",
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
-        "retrieved": "2026-10-23",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 4.5,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
       },
       {
         "level": "federal",
@@ -18129,23 +17160,6 @@
         "terms": { "kind": "general sales and use tax" }
       },
       {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 2.61,
-        "effectiveDate": "2026-01-01",
-        "endDate": null,
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
-        "retrieved": "2026-10-12",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 2.75,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
-      },
-      {
         "level": "federal",
         "series": "snap-maximum",
         "tier": "general",
@@ -18298,23 +17312,6 @@
         "estimate": false,
         "unit": "percent",
         "terms": { "kind": "general sales and use tax" }
-      },
-      {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 2.556,
-        "effectiveDate": "2025-01-01",
-        "endDate": "2026-01-01",
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
-        "retrieved": "2026-10-23",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 2.75,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
       },
       {
         "level": "federal",
@@ -18475,23 +17472,6 @@
         "terms": { "kind": "general sales and use tax" }
       },
       {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 1.95,
-        "effectiveDate": "2026-01-01",
-        "endDate": null,
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
-        "retrieved": "2026-10-12",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 2.0,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
-      },
-      {
         "level": "federal",
         "series": "snap-maximum",
         "tier": "general",
@@ -18644,23 +17624,6 @@
         "estimate": false,
         "unit": "percent",
         "terms": { "kind": "general sales and use tax" }
-      },
-      {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 1.951,
-        "effectiveDate": "2025-01-01",
-        "endDate": "2026-01-01",
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
-        "retrieved": "2026-10-23",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 2.0,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
       },
       {
         "level": "federal",
@@ -18842,23 +17805,6 @@
         "note": "stateRate includes mandatory 1.25% statewide local add-on (4.85% state proper)."
       },
       {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 1.32,
-        "effectiveDate": "2026-01-01",
-        "endDate": null,
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
-        "retrieved": "2026-10-12",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 4.7,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
-      },
-      {
         "level": "federal",
         "series": "snap-maximum",
         "tier": "general",
@@ -19018,23 +17964,6 @@
         "estimate": false,
         "unit": "percent",
         "terms": { "kind": "general sales and use tax" }
-      },
-      {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 1.219,
-        "effectiveDate": "2025-01-01",
-        "endDate": "2026-01-01",
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
-        "retrieved": "2026-10-23",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 4.2,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
       },
       {
         "level": "federal",
@@ -19255,23 +18184,6 @@
         "note": "stateRate includes mandatory 1% statewide local add-on (4.3% state proper); regional add-ons in Hampton Roads, Northern Virginia, Central Virginia and others."
       },
       {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 0.47,
-        "effectiveDate": "2026-01-01",
-        "endDate": null,
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
-        "retrieved": "2026-10-12",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 2.7,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
-      },
-      {
         "level": "federal",
         "series": "snap-maximum",
         "tier": "general",
@@ -19441,23 +18353,6 @@
         "estimate": false,
         "unit": "percent",
         "terms": { "kind": "general sales and use tax" }
-      },
-      {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 0.471,
-        "effectiveDate": "2025-01-01",
-        "endDate": "2026-01-01",
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
-        "retrieved": "2026-10-23",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 2.7,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
       },
       {
         "level": "federal",
@@ -20005,23 +18900,6 @@
         "terms": { "kind": "general sales and use tax" }
       },
       {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 0.39,
-        "effectiveDate": "2026-01-01",
-        "endDate": null,
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
-        "retrieved": "2026-10-12",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 1.0,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
-      },
-      {
         "level": "federal",
         "series": "snap-maximum",
         "tier": "general",
@@ -20191,23 +19069,6 @@
         "estimate": false,
         "unit": "percent",
         "terms": { "kind": "general sales and use tax" }
-      },
-      {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 0.366,
-        "effectiveDate": "2025-01-01",
-        "endDate": "2026-01-01",
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
-        "retrieved": "2026-10-23",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 1.0,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
       },
       {
         "level": "federal",
@@ -20390,23 +19251,6 @@
         "terms": { "kind": "general sales and use tax" }
       },
       {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 3.01,
-        "effectiveDate": "2026-01-01",
-        "endDate": null,
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
-        "retrieved": "2026-10-12",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 4.1,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
-      },
-      {
         "level": "federal",
         "series": "snap-maximum",
         "tier": "general",
@@ -20560,23 +19404,6 @@
         "estimate": false,
         "unit": "percent",
         "terms": { "kind": "general sales and use tax" }
-      },
-      {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 2.929,
-        "effectiveDate": "2025-01-01",
-        "endDate": "2026-01-01",
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
-        "retrieved": "2026-10-23",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 4.1,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
       },
       {
         "level": "federal",
@@ -20762,23 +19589,6 @@
         "terms": { "kind": "general sales and use tax" }
       },
       {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 0.72,
-        "effectiveDate": "2026-01-01",
-        "endDate": null,
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
-        "retrieved": "2026-10-12",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 2.9,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
-      },
-      {
         "level": "federal",
         "series": "snap-maximum",
         "tier": "general",
@@ -20948,23 +19758,6 @@
         "estimate": false,
         "unit": "percent",
         "terms": { "kind": "general sales and use tax" }
-      },
-      {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 0.702,
-        "effectiveDate": "2025-01-01",
-        "endDate": "2026-01-01",
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
-        "retrieved": "2026-10-23",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 2.9,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
       },
       {
         "level": "federal",
@@ -21164,23 +19957,6 @@
         "terms": { "kind": "general sales and use tax" }
       },
       {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 0.59,
-        "effectiveDate": "2026-01-01",
-        "endDate": null,
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
-        "retrieved": "2026-10-12",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 1.0,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
-      },
-      {
         "level": "federal",
         "series": "snap-maximum",
         "tier": "general",
@@ -21354,23 +20130,6 @@
         "terms": { "kind": "general sales and use tax" }
       },
       {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 0.569,
-        "effectiveDate": "2025-01-01",
-        "endDate": "2026-01-01",
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
-        "retrieved": "2026-10-23",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 1.0,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
-      },
-      {
         "level": "federal",
         "series": "snap-maximum",
         "tier": "general",
@@ -21529,23 +20288,6 @@
         "terms": { "kind": "general sales and use tax" }
       },
       {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 1.56,
-        "effectiveDate": "2026-01-01",
-        "endDate": null,
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
-        "retrieved": "2026-10-12",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 3.0,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
-      },
-      {
         "level": "federal",
         "series": "snap-maximum",
         "tier": "general",
@@ -21698,23 +20440,6 @@
         "estimate": false,
         "unit": "percent",
         "terms": { "kind": "general sales and use tax" }
-      },
-      {
-        "level": "state",
-        "series": "local-sales-tax-average",
-        "tier": "general",
-        "value": 1.441,
-        "effectiveDate": "2025-01-01",
-        "endDate": "2026-01-01",
-        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
-        "retrieved": "2026-10-23",
-        "estimate": true,
-        "unit": "percent",
-        "terms": {
-          "spreadLow": 0.0,
-          "spreadHigh": 2.0,
-          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
-        }
       },
       {
         "level": "federal",
@@ -26896,6 +25621,1359 @@
           "includes": "every local level together"
         },
         "note": "San Juan"
+      }
+    ]
+  },
+  "calibrations": {
+    "US-AK": [
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 1.82,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+        "retrieved": "2026-10-12",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 7.85,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      },
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 1.821,
+        "effectiveDate": "2025-01-01",
+        "endDate": "2026-01-01",
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
+        "retrieved": "2026-10-23",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 7.85,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      }
+    ],
+    "US-AL": [
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 5.46,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+        "retrieved": "2026-10-12",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 11.0,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      },
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 5.427,
+        "effectiveDate": "2025-01-01",
+        "endDate": "2026-01-01",
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
+        "retrieved": "2026-10-23",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 8.0,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      }
+    ],
+    "US-AR": [
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 2.96,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+        "retrieved": "2026-10-12",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 6.125,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      },
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 2.96,
+        "effectiveDate": "2025-01-01",
+        "endDate": "2026-01-01",
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
+        "retrieved": "2026-10-23",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 6.125,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      }
+    ],
+    "US-AZ": [
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 2.92,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+        "retrieved": "2026-10-12",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 5.3,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      },
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 2.814,
+        "effectiveDate": "2025-01-01",
+        "endDate": "2026-01-01",
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
+        "retrieved": "2026-10-23",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 5.3,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      }
+    ],
+    "US-CA": [
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 1.74,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+        "retrieved": "2026-10-12",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 5.25,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      },
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 1.552,
+        "effectiveDate": "2025-01-01",
+        "endDate": "2026-01-01",
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
+        "retrieved": "2026-10-23",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 4.75,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      }
+    ],
+    "US-CO": [
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 4.99,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+        "retrieved": "2026-10-12",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 9.1,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      },
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 4.957,
+        "effectiveDate": "2025-01-01",
+        "endDate": "2026-01-01",
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
+        "retrieved": "2026-10-23",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 8.3,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      }
+    ],
+    "US-FL": [
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 0.98,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+        "retrieved": "2026-10-12",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 2.0,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      },
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 0.948,
+        "effectiveDate": "2025-01-01",
+        "endDate": "2026-01-01",
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
+        "retrieved": "2026-10-23",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 2.0,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      }
+    ],
+    "US-GA": [
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 3.49,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+        "retrieved": "2026-10-12",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 5.0,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      },
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 3.418,
+        "effectiveDate": "2025-01-01",
+        "endDate": "2026-01-01",
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
+        "retrieved": "2026-10-23",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 5.0,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      }
+    ],
+    "US-HI": [
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 0.5,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+        "retrieved": "2026-10-12",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 0.5,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      },
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 0.5,
+        "effectiveDate": "2025-01-01",
+        "endDate": "2026-01-01",
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
+        "retrieved": "2026-10-23",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 0.5,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      }
+    ],
+    "US-IA": [
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 0.94,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+        "retrieved": "2026-10-12",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 2.0,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      },
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 0.942,
+        "effectiveDate": "2025-01-01",
+        "endDate": "2026-01-01",
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
+        "retrieved": "2026-10-23",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 2.0,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      }
+    ],
+    "US-ID": [
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 0.03,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+        "retrieved": "2026-10-12",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 3.0,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      },
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 0.027,
+        "effectiveDate": "2025-01-01",
+        "endDate": "2026-01-01",
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
+        "retrieved": "2026-10-23",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 3.0,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      }
+    ],
+    "US-IL": [
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 2.71,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+        "retrieved": "2026-10-12",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 4.75,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      },
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 2.64,
+        "effectiveDate": "2025-01-01",
+        "endDate": "2026-01-01",
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
+        "retrieved": "2026-10-23",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 4.75,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      }
+    ],
+    "US-KS": [
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 2.19,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+        "retrieved": "2026-10-12",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 4.25,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      },
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 2.273,
+        "effectiveDate": "2025-01-01",
+        "endDate": "2026-01-01",
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
+        "retrieved": "2026-10-23",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 4.25,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      }
+    ],
+    "US-LA": [
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 5.11,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+        "retrieved": "2026-10-12",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 7.0,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      },
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 5.116,
+        "effectiveDate": "2025-01-01",
+        "endDate": "2026-01-01",
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
+        "retrieved": "2026-10-23",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 7.0,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      }
+    ],
+    "US-MN": [
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 1.26,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+        "retrieved": "2026-10-12",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 3.0,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      },
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 1.25,
+        "effectiveDate": "2025-01-01",
+        "endDate": "2026-01-01",
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
+        "retrieved": "2026-10-23",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 3.0,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      }
+    ],
+    "US-MO": [
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 4.22,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+        "retrieved": "2026-10-12",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 5.763,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      },
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 4.185,
+        "effectiveDate": "2025-01-01",
+        "endDate": "2026-01-01",
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
+        "retrieved": "2026-10-23",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 5.875,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      }
+    ],
+    "US-MS": [
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 0.06,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+        "retrieved": "2026-10-12",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 1.0,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      },
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 0.062,
+        "effectiveDate": "2025-01-01",
+        "endDate": "2026-01-01",
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
+        "retrieved": "2026-10-23",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 1.0,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      }
+    ],
+    "US-NC": [
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 2.25,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+        "retrieved": "2026-10-12",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 2.75,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      },
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 2.246,
+        "effectiveDate": "2025-01-01",
+        "endDate": "2026-01-01",
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
+        "retrieved": "2026-10-23",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 2.75,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      }
+    ],
+    "US-ND": [
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 2.09,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+        "retrieved": "2026-10-12",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 3.75,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      },
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 2.05,
+        "effectiveDate": "2025-01-01",
+        "endDate": "2026-01-01",
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
+        "retrieved": "2026-10-23",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 3.5,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      }
+    ],
+    "US-NE": [
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 1.48,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+        "retrieved": "2026-10-12",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 2.0,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      },
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 1.472,
+        "effectiveDate": "2025-01-01",
+        "endDate": "2026-01-01",
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
+        "retrieved": "2026-10-23",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 2.0,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      }
+    ],
+    "US-NM": [
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 2.79,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+        "retrieved": "2026-10-12",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 4.5625,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      },
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 2.752,
+        "effectiveDate": "2025-01-01",
+        "endDate": "2026-01-01",
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
+        "retrieved": "2026-10-23",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 4.563,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      }
+    ],
+    "US-NV": [
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 1.39,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+        "retrieved": "2026-10-12",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 1.525,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      },
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 1.386,
+        "effectiveDate": "2025-01-01",
+        "endDate": "2026-01-01",
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
+        "retrieved": "2026-10-23",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 1.53,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      }
+    ],
+    "US-NY": [
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 4.54,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+        "retrieved": "2026-10-12",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 4.875,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      },
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 4.532,
+        "effectiveDate": "2025-01-01",
+        "endDate": "2026-01-01",
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
+        "retrieved": "2026-10-23",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 4.875,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      }
+    ],
+    "US-OH": [
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 1.54,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+        "retrieved": "2026-10-12",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 2.25,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      },
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 1.483,
+        "effectiveDate": "2025-01-01",
+        "endDate": "2026-01-01",
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
+        "retrieved": "2026-10-23",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 2.25,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      }
+    ],
+    "US-OK": [
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 4.56,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+        "retrieved": "2026-10-12",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 7.0,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      },
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 4.505,
+        "effectiveDate": "2025-01-01",
+        "endDate": "2026-01-01",
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
+        "retrieved": "2026-10-23",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 7.0,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      }
+    ],
+    "US-PA": [
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 0.34,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+        "retrieved": "2026-10-12",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 2.0,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      },
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 0.341,
+        "effectiveDate": "2025-01-01",
+        "endDate": "2026-01-01",
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
+        "retrieved": "2026-10-23",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 2.0,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      }
+    ],
+    "US-PR": [
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 1.0,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://trykintsugi.com/sales-tax-guides/usa/puerto-rico",
+        "retrieved": "2026-10-12",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 1.0,
+          "spreadHigh": 1.0,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      }
+    ],
+    "US-SC": [
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 1.49,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+        "retrieved": "2026-10-12",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 3.0,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      },
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 1.499,
+        "effectiveDate": "2025-01-01",
+        "endDate": "2026-01-01",
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
+        "retrieved": "2026-10-23",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 3.0,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      }
+    ],
+    "US-SD": [
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 1.91,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+        "retrieved": "2026-10-12",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 4.5,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      },
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 1.914,
+        "effectiveDate": "2025-01-01",
+        "endDate": "2026-01-01",
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
+        "retrieved": "2026-10-23",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 4.5,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      }
+    ],
+    "US-TN": [
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 2.61,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+        "retrieved": "2026-10-12",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 2.75,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      },
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 2.556,
+        "effectiveDate": "2025-01-01",
+        "endDate": "2026-01-01",
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
+        "retrieved": "2026-10-23",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 2.75,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      }
+    ],
+    "US-TX": [
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 1.95,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+        "retrieved": "2026-10-12",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 2.0,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      },
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 1.951,
+        "effectiveDate": "2025-01-01",
+        "endDate": "2026-01-01",
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
+        "retrieved": "2026-10-23",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 2.0,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      }
+    ],
+    "US-UT": [
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 1.32,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+        "retrieved": "2026-10-12",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 4.7,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      },
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 1.219,
+        "effectiveDate": "2025-01-01",
+        "endDate": "2026-01-01",
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
+        "retrieved": "2026-10-23",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 4.2,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      }
+    ],
+    "US-VA": [
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 0.47,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+        "retrieved": "2026-10-12",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 2.7,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      },
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 0.471,
+        "effectiveDate": "2025-01-01",
+        "endDate": "2026-01-01",
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
+        "retrieved": "2026-10-23",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 2.7,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      }
+    ],
+    "US-VT": [
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 0.39,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+        "retrieved": "2026-10-12",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 1.0,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      },
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 0.366,
+        "effectiveDate": "2025-01-01",
+        "endDate": "2026-01-01",
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
+        "retrieved": "2026-10-23",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 1.0,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      }
+    ],
+    "US-WA": [
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 3.01,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+        "retrieved": "2026-10-12",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 4.1,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      },
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 2.929,
+        "effectiveDate": "2025-01-01",
+        "endDate": "2026-01-01",
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
+        "retrieved": "2026-10-23",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 4.1,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      }
+    ],
+    "US-WI": [
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 0.72,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+        "retrieved": "2026-10-12",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 2.9,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      },
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 0.702,
+        "effectiveDate": "2025-01-01",
+        "endDate": "2026-01-01",
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
+        "retrieved": "2026-10-23",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 2.9,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      }
+    ],
+    "US-WV": [
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 0.59,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+        "retrieved": "2026-10-12",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 1.0,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      },
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 0.569,
+        "effectiveDate": "2025-01-01",
+        "endDate": "2026-01-01",
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
+        "retrieved": "2026-10-23",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 1.0,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      }
+    ],
+    "US-WY": [
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 1.56,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates/",
+        "retrieved": "2026-10-12",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 3.0,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
+      },
+      {
+        "level": "state",
+        "series": "local-sales-tax-average",
+        "tier": "general",
+        "value": 1.441,
+        "effectiveDate": "2025-01-01",
+        "endDate": "2026-01-01",
+        "source": "https://taxfoundation.org/data/all/state/sales-tax-rates-2025/",
+        "retrieved": "2026-10-23",
+        "estimate": true,
+        "unit": "percent",
+        "terms": {
+          "spreadLow": 0.0,
+          "spreadHigh": 2.0,
+          "appliesAs": "the state's average local rate: this place's own rate is not sampled"
+        }
       }
     ]
   },

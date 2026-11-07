@@ -52,6 +52,7 @@ import type { ModuleCalendarWork } from "../module-calendar";
 import { campaignParameter, personLean, personStance } from "../campaign-views";
 import {
   enactLaw,
+  calibrationRows,
   lastEnactment,
   lawChain,
   lawInForce,
@@ -1547,17 +1548,16 @@ export function authorityFor(api: CoreAPI, provision: Provision): Authority {
     // The state's grant of local income-tax authority is the row in force
     // today (a later row withdraws what an earlier one granted, by a state
     // bill from the catalog's law:local-income-tax-authority); a local sales
-    // tax needs only that the state records one.
+    // tax reads the same research's recorded local authority. Its average
+    // rate is a calibration fact, not a statute to be enacted or repealed.
     const rows =
       provision.series === "income-tax"
         ? lawInForce(api, "local-income-tax-authority")
             .levels.filter((l) => l.level === "state" && l.row)
             .map((l) => l.row!)
-        : (
-            laws.query("bySeriesOnly", [
-              "local-sales-tax-average",
-            ]) as unknown as LawRowInput[]
-          ).filter((r) => r.jurisdiction === chain.stateKey);
+        : calibrationRows(api, "local-sales-tax-average").filter(
+            (r) => r.jurisdiction === chain.stateKey,
+          );
     const allowed =
       provision.series === "income-tax"
         ? rows.some((r) => r.value === 1)
