@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: astra/social-security-age-bills
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-07T20:54:17.949Z
 ---
 
 **What.** Three federal Social Security age rows exist in every opening world, but their bill controls are missing. Congress cannot reach those laws from the catalog even though 42 U.S.C. 1304 expressly reserves amendment and repeal to Congress. Add the three numeric age controls, sourced federal authority and bill wording through the existing law-amount path.
