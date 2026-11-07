@@ -92,6 +92,10 @@
       "levels": ["state"]
     },
     "us-policy-positions:health-human-services.medicaid-work-requirement": {
+      "federalPreemption": {
+        "whenValue": 1,
+        "source": "P.L. 119-21, §71119; 42 U.S.C. §1396a(xx)(1): the state shall require community engagement for applicable individuals. https://www.congress.gov/119/plaws/publ21/PLAW-119publ21.pdf"
+      },
       "dial": "medicaid",
       "levels": ["federal", "state"],
       "why": "Federal law requires it of expansion adults from 2027 (the starting law's federal row), and a state may also impose one."

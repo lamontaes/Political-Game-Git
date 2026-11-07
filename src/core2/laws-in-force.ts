@@ -13,6 +13,7 @@
  * - additive (income and sales tax): every level's tax applies together.
  * - single (property tax, benefit amounts): one level sets it.
  */
+import questionPowers from "../../data/research/powers-catalog/question-powers.json" with { type: "json" };
 import {
   lawInForceFromCandidates,
   type LawCandidate,
@@ -22,6 +23,17 @@ import type { LawChain, LawLevelName, LawRowInput } from "./laws-starting";
 import { governmentUnit } from "./reference/government-units";
 
 export type LawDoctrine = "floor" | "additive" | "single";
+
+// Federal authority alone does not establish preemption. Each conflicting
+// value and its statutory basis are explicit in the shared question data.
+const QUESTION_POWERS = questionPowers.questions as Readonly<
+  Record<
+    string,
+    {
+      federalPreemption?: { whenValue: number; source: string };
+    }
+  >
+>;
 
 export const LAW_SERIES: Readonly<Record<string, LawDoctrine>> = {
   "minimum-wage": "floor",
@@ -163,7 +175,12 @@ function levelRow(
         row.terms?.enactedBy !== undefined &&
         inForceOn(row, date),
     )
-    .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate))[0];
+    .sort(
+      (a, b) =>
+        b.effectiveDate.localeCompare(a.effectiveDate) ||
+        Number(b.terms?.enactedSequence ?? 0) -
+          Number(a.terms?.enactedSequence ?? 0),
+    )[0];
   return enacted ?? best;
 }
 
@@ -386,14 +403,14 @@ export function resolveLawInForce(input: {
       : null;
     governing = applying[applying.length - 1]?.row ?? null;
   } else {
-    // A federal mandate in force governs: no state or town row below it
-    // applies, and a state's repeal cannot take it away.
-    const mandate = levels.find(
-      (l) =>
-        l.level === "federal" &&
-        l.row?.terms?.mandate === true &&
-        l.row.value === 1,
-    );
+    // The same sourced rule governs opening and enacted federal law. A
+    // repeal ceases to preempt, so the lower level's existing answer returns.
+    const preemption = QUESTION_POWERS[series]?.federalPreemption;
+    const mandate =
+      preemption &&
+      levels.find(
+        (l) => l.level === "federal" && l.row?.value === preemption.whenValue,
+      );
     if (mandate)
       for (const [index, l] of levels.entries())
         if (l !== mandate && l.row)
