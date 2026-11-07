@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: astra/starting-law-repeal-audit
 pr: #7330
 blocked-on:
