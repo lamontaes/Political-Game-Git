@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: astra/congress-wage-question
-pr:
+pr: #7334
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-07T22:31:46.044Z
