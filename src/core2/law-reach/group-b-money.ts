@@ -1525,6 +1525,8 @@ interface TaxRow {
   readonly undone: boolean;
   /** This row flattened a starting schedule, rather than adopting a new tax. */
   readonly flattened?: boolean;
+  /** This row removed an existing tax, rather than undoing a new adoption. */
+  readonly removed?: boolean;
 }
 
 function levelRow(api: CoreAPI, level: string): LawRowInput | null {
@@ -1596,37 +1598,50 @@ export function incomeTaxAct(
   const hasTax = !!current && (current.value ?? 0) > 0;
   const scope = input.level === "state" ? "state" : "local";
   if (!input.enacting) {
-    // Repeated reviews leave the flattened schedule (or a later independent act) alone.
-    if (prior?.flattened && !prior.undone) return prior;
-    if (prior?.undone && !prior.flattened) return prior;
+    // Repeated reviews leave the replacement (or a later independent act) alone.
+    if ((prior?.flattened || prior?.removed) && !prior.undone) return prior;
+    if (prior?.undone && !prior.flattened && !prior.removed) return prior;
     if (!prior || prior.undone || !prior.lawRowId) {
-      if (!input.graduated || !hasTax || !graduatedTax(current))
+      if (!hasTax || (input.graduated && !graduatedTax(current)))
         return prior ?? null;
-      // stopgapId: SG-GOV-REACH-B-flat-tax-replacement — the catalog's binary
-      // question carries no enacted replacement rate or deduction rules.
-      api.stopgap("SG-GOV-REACH-B-flat-tax-replacement");
-      const flat = enact(
-        reachParameter(
-          scope === "state"
-            ? "stateFlatIncomeTaxPercent"
-            : "localFlatIncomeTaxPercent",
-        ),
-        "percent-flat",
-        undefined,
-        "flatten",
-      );
+      // Repealing adoption removes the existing tax, including one already
+      // in force at the opening. Its own terms survive for exact restoration;
+      // the withholding reader scales every retained bracket to zero.
+      let replacement: LawRowInput;
+      if (!input.graduated) {
+        replacement = enact(
+          0,
+          current!.unit ?? "percent",
+          current!.terms as Record<string, unknown> | undefined,
+          "remove",
+        );
+      } else {
+        // stopgapId: SG-GOV-REACH-B-flat-tax-replacement — the catalog's binary
+        // question carries no enacted replacement rate or deduction rules.
+        api.stopgap("SG-GOV-REACH-B-flat-tax-replacement");
+        replacement = enact(
+          reachParameter(
+            scope === "state"
+              ? "stateFlatIncomeTaxPercent"
+              : "localFlatIncomeTaxPercent",
+          ),
+          "percent-flat",
+          undefined,
+          "flatten",
+        );
+      }
       const row: TaxRow = {
         id,
         key: input.key,
         level: input.level,
-        lawRowId: flat.id,
+        lawRowId: replacement.id,
         prior: {
           value: current!.value,
           unit: current!.unit ?? null,
           terms: current!.terms as Record<string, unknown>,
         },
         undone: false,
-        flattened: true,
+        ...(input.graduated ? { flattened: true } : { removed: true }),
       };
       putRow(api, "taken", row);
       return row;
@@ -1642,7 +1657,7 @@ export function incomeTaxAct(
     putRow(api, "taken", row);
     return row;
   }
-  if (prior?.flattened) {
+  if (prior?.flattened || prior?.removed) {
     // Restore once, only while the replacement is still our own law row.
     if (prior.undone) return prior;
     if (current?.id === prior.lawRowId)
