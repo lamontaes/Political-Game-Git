@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: astra/federal-amount-replacement
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-07T21:41:59.000Z
 ---
 
 **What.** resolveLawInForce unconditionally prefers a state-specific federal amount over a nationwide federal row. A later Congress Medicaid-match bill therefore cannot replace that starting amount. Apply the existing act-order rule to the federal candidates.
