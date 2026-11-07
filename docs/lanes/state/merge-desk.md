@@ -120,6 +120,8 @@ New on Nov 3:
 | #7300 | Rents sit near the real renter median for the county, and each household's rent follows the income it is actually paid (they ran 31 to 40 percent under)                 | Delaware Park, New Jersey                   | 874505f44de46093 |
 | #7303 | Fixes the red Mac build: the filing test clock imports `CoreState` from `./types` (one line)                                                                             | Millersburg, Kentucky                       | 364de7a112068f58 |
 
+**Main's Mac build is red (Nov 7, run 42415963886).** Astra's #7325 added `stateLaw` in `src/core2/policy-authority.ts`, which returns a row that can be `null` where the function says it cannot, so the typecheck fails at line 54. The fix is one line (`?? undefined`), asked for on #7325. The desk merges the fix on the new-game check when Astra opens it.
+
 **Main's Mac build was red by calendar day (Nov 6, run 42240631046), not by a merge:** the desktop smoke test did not allow the title's Capitol picture. State Sessions' #7315 makes the check read the game's own list of title monuments; a new Mac build was started on it.
 
 **Main's Mac build was red (Nov 5, run 42106943831)** after #7298 imported `CoreState` from `./state`. One Map's #7303 fixed the import; the Mac build on it passed and published (run 42118922460).
