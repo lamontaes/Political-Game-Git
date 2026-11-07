@@ -5,11 +5,12 @@ area: laws
 kind: research
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: astra/congress-reversal-proof
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-07T21:31:04.238Z
 ---
 
 **What.** Record Congress passing a Medicaid work requirement and later repealing it through the existing bill, vote, executive and clock engines. Show the original state answer returning.
