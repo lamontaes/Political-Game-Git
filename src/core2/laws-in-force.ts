@@ -276,6 +276,8 @@ export function resolveLawInForce(input: {
   readonly chain: LawChain;
   readonly date: string;
   readonly rows: readonly LawRowInput[];
+  /** Survey fallback, used only when no actual law supplies the amount. */
+  readonly calibrationRows?: readonly LawRowInput[];
   readonly authorityRows?: readonly LawRowInput[];
   readonly enactedAuthority?: readonly EnactedAuthority[];
   /** For sales tax: the state's average local rate, when the place has no local row. */
@@ -331,6 +333,20 @@ export function resolveLawInForce(input: {
         row: federalForState,
       };
   }
+
+  // A combined survey amount is not one government's statute. It supplies
+  // the initial estimate only until an actual dated law supplies this series.
+  if (!levels.some((l) => l.row) && input.calibrationRows)
+    for (const [index, l] of levels.entries()) {
+      const estimate = levelRow(
+        input.calibrationRows,
+        l.jurisdiction,
+        l.level,
+        chain,
+        date,
+      );
+      if (estimate) levels[index] = { ...l, row: estimate };
+    }
 
   if (series === "sales-tax" && input.localAverage) {
     const hasLocal = levels.some(

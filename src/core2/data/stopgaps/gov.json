@@ -2158,5 +2158,17 @@
     "addedAt": "2026-11-06",
     "replacement": "Order or filter the Nation stories by what the player's circle, drives and past homes read (OWNER DECISIONS NEEDED: what makes a faraway law news to this player).",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-property-tax-aggregate-calibration",
+    "kind": "assumed-data",
+    "file": "src/core2/laws-starting.ts",
+    "line": 164,
+    "whatItFakes": "A sourced survey ratio of all property taxes paid to home value stands in for researched individual statutory levies. The shared reader uses it only until an actual property-tax amount supplies the series; it cannot reconstruct the separate levies from that aggregate.",
+    "why": "The ACS source reports combined taxes across all taxing bodies, not a county statute. Classifying the estimate as calibration repairs the false law record but does not provide each levy rate.",
+    "addedBy": "Astra (Codex)",
+    "addedAt": "2026-11-07",
+    "replacement": "Source each applicable levy and its taxing body, assessment base and effective dates; combine actual levies through the existing resolver and tax engine.",
+    "status": "open"
   }
 ]

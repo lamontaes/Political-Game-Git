@@ -47,7 +47,7 @@ export interface StartingLawRow {
   readonly note?: string;
 }
 
-/** A starting-law row placed in a world: jurisdiction and a stable id added. */
+/** A dated resolver input (law or calibration): jurisdiction and a stable id added. */
 export interface LawRowInput extends StartingLawRow {
   readonly id: string;
   readonly jurisdiction: string;
@@ -128,13 +128,20 @@ export function lawRowId(
 export function startingCalibrationRows(
   chain: LawChain,
 ): readonly LawRowInput[] {
-  return chain.levels.flatMap(({ jurisdiction }) =>
+  const rows = chain.levels.flatMap(({ jurisdiction }) =>
     (data.calibrations[jurisdiction] ?? []).map((row) => ({
       ...row,
       jurisdiction,
       id: `estimate:${lawRowId(jurisdiction, row).slice("law:".length)}`,
     })),
   );
+  return [
+    ...rows,
+    ...propertyTaxRows(chain).map((row) => ({
+      ...row,
+      id: `estimate:${row.id.slice("law:".length)}`,
+    })),
+  ];
 }
 
 /** Every starting-law row for the jurisdictions in a place's chain. */
@@ -143,7 +150,6 @@ export function startingLawRows(chain: LawChain): readonly LawRowInput[] {
   for (const { jurisdiction } of chain.levels)
     for (const row of data.jurisdictions[jurisdiction] ?? [])
       rows.push({ ...row, jurisdiction, id: lawRowId(jurisdiction, row) });
-  rows.push(...propertyTaxRows(chain));
   return rows;
 }
 
@@ -153,6 +159,7 @@ export function startingLawRows(chain: LawChain): readonly LawRowInput[] {
  * American Community Survey; the state figure where the county is not
  * published, with the state's middle half of county rates as its spread.
  */
+// stopgapId: SG-GOV-property-tax-aggregate-calibration
 function propertyTaxRows(chain: LawChain): readonly LawRowInput[] {
   const table = data.propertyTax;
   const state = table.states[chain.stateKey];
