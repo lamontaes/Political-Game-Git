@@ -38,6 +38,7 @@ import wageHistory from "../../../data/research/laws/minimum-wage-history-2000-2
 import {
   lawChainForPlace,
   startingLawRows,
+  startingCalibrationRows,
   type LawChain,
   type LawRowInput,
 } from "../laws-starting";
@@ -128,6 +129,10 @@ export const LAWS_MODULE: PreStartModule = {
           bySeriesOnly: { fields: ["series"] },
         },
       },
+      /** Sourced calibration facts, never statutes or scheduled enactments. */
+      calibrations: {
+        indexes: { bySeriesOnly: { fields: ["series"] } },
+      },
       chain: {},
       /** Laws passed in play (M3 writes them); empty at the opening. */
       enactments: {
@@ -177,6 +182,8 @@ export function openLaws(core: CoreState): LawChain {
         sourceRecordIds: [row.id],
       });
   }
+  for (const row of startingCalibrationRows(chain))
+    state.table("calibrations").put(row as unknown as ModuleRow);
   // The minimum wage's dated changes since 2000, before the starting rows
   // (owner's history ruling; OPUS-WEB reads the law at past dates).
   for (const row of minimumWageHistoryRows(chain.stateKey, [
@@ -190,16 +197,18 @@ export function openLaws(core: CoreState): LawChain {
       state.table("laws").put(row as unknown as ModuleRow);
   // A law whose first recorded phase starts after the start date is in force
   // on day one at that phase's terms, as an estimate (never unknown).
-  const carried = rowsCarriedToStart(
-    [...state.table("laws").rows()] as unknown as LawRowInput[],
-    today,
-  );
-  if (carried.length) {
-    // stopgapId: SG-GOV-start-law-carried-back
-    api.stopgap("SG-GOV-start-law-carried-back");
-    for (const row of carried)
-      if (!state.table("laws").get(row.id))
-        state.table("laws").put(row as unknown as ModuleRow);
+  for (const tableName of ["laws", "calibrations"] as const) {
+    const target = state.table(tableName);
+    const carried = rowsCarriedToStart(
+      [...target.rows()] as unknown as LawRowInput[],
+      today,
+    );
+    if (carried.length) {
+      // stopgapId: SG-GOV-start-law-carried-back
+      api.stopgap("SG-GOV-start-law-carried-back");
+      for (const row of carried)
+        if (!target.get(row.id)) target.put(row as unknown as ModuleRow);
+    }
   }
   // The state's researched answers to the policy questions are its law in
   // force at the opening (audit 3; BOARD "next" item 4).
@@ -538,6 +547,17 @@ export function lastEnactment(
   return latest;
 }
 
+/** Calibration facts consumed by a law reader; these are not enacted laws. */
+export function calibrationRows(
+  api: CoreAPI,
+  series: string,
+): readonly LawRowInput[] {
+  return api
+    .moduleState(LAWS_MODULE_ID)
+    .table("calibrations")
+    .query("bySeriesOnly", [series]) as unknown as LawRowInput[];
+}
+
 /** The law on a series for the town, on a date (today by default), at every level. */
 export function lawInForce(
   api: CoreAPI,
@@ -594,7 +614,7 @@ function readLawInForce(
         }
       : {}),
     ...(series === "sales-tax"
-      ? { localAverage: seriesRows(api, "local-sales-tax-average") }
+      ? { localAverage: calibrationRows(api, "local-sales-tax-average") }
       : {}),
   });
 }
