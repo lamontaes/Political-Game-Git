@@ -121,6 +121,8 @@ SERIES = {
     "snap-maximum": ("assistance", "Food assistance", "SNAP maximum benefit", "USD/month"),
     "federal-unemployment-tax": ("assistance", "Unemployment benefits", "Federal unemployment tax rate", "percent-of-wages"),
     "state-unemployment-tax": ("assistance", "Unemployment benefits", "State unemployment tax rate", "percent-of-wages"),
+    # 26 USC 3304(a)(19) expressly reserves amendment or repeal.
+    "unemployment-insurance": ("assistance", "Unemployment benefits", "Unemployment insurance program", "program"),
     "unemployment-weekly-maximum": ("assistance", "Unemployment benefits", "Unemployment weekly maximum", "USD/week"),
     # A state's grant of its towns' power to tax income: raised to 1 it
     # grants, lowered to 0 it withdraws (no unit; the Words row words each).

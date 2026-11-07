@@ -637,6 +637,15 @@
               "levels": ["state"]
             },
             {
+              "id": "law:unemployment-insurance",
+              "name": "Unemployment insurance program",
+              "kind": "law-amount",
+              "series": "unemployment-insurance",
+              "unit": "program",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
+            },
+            {
               "id": "law:unemployment-weekly-maximum",
               "name": "Unemployment weekly maximum",
               "kind": "law-amount",
