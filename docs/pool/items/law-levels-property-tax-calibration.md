@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: astra/property-tax-calibration
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-07T22:22:23.982Z
 ---
 
 **What.** The strict reversal audit draws Mill Plain CT and finds a county property-tax law for planning region 09120 with no legislative body. The producer documents this as ACS median taxes divided by home value across every taxing level, not a county statute. Store it as calibration in the existing laws module and retain the same tax fallback through the shared resolver.
