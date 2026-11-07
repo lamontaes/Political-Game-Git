@@ -5,7 +5,13 @@ import territoryGrant from "../../data/research/powers-catalog/territory-grant.j
 import nacoCounties from "../../data/research/core/naco-2022-county-authority.json" with { type: "json" };
 import { placeRow } from "./place-map";
 import { POLICY_QUESTIONS } from "./policy-answers";
-import { LAWS_MODULE_ID, lawChain, localPowerBarred } from "./modules/laws";
+import {
+  LAWS_MODULE_ID,
+  lawChain,
+  lawInForce,
+  LOCAL_POWER_PREFIX,
+  localPowerBarred,
+} from "./modules/laws";
 import type { Authority } from "./modules/legislature";
 import type { CoreAPI } from "./types";
 import { lawApplied } from "./law-reach/applied";
@@ -45,22 +51,9 @@ const HOME_RULE =
 
 /** Current recorded law, not the opening answer once the state has changed it. */
 function stateLaw(api: CoreAPI, question: string): LawRowInput | undefined {
-  return (
-    api
-      .moduleState(LAWS_MODULE_ID)
-      .table("laws")
-      .query("bySeries", [
-        lawChain(api).stateKey,
-        question,
-      ]) as unknown as LawRowInput[]
-  )
-    .filter(
-      (row) =>
-        row.effectiveDate <= api.state.date &&
-        (!row.endDate || row.endDate > api.state.date),
-    )
-    .sort((a, b) => a.effectiveDate.localeCompare(b.effectiveDate))
-    .at(-1);
+  return lawInForce(api, question).levels.find(
+    (level) => level.level === "state",
+  )?.row;
 }
 
 /** A recorded unknown blocks introduction; it is never silently treated as a grant. */
@@ -123,11 +116,12 @@ export function policyAuthority(
   if (cell?.may === "no") return result(false, "level-lacks-power", basis);
   const local = column === "county" || column === "city";
   if (local) {
+    const specificGrant = stateLaw(api, `${LOCAL_POWER_PREFIX}${question}`);
     if (localPowerBarred(api, question))
       return result(
         false,
         "state-preempts-question",
-        stateLaw(api, question)?.id ?? source,
+        specificGrant?.id ?? stateLaw(api, question)?.id ?? source,
       );
     if (row.gate) {
       const law = stateLaw(api, row.gate.question);
@@ -140,6 +134,10 @@ export function policyAuthority(
         return result(false, "state-preempts-question", law.id);
       if (law.value === 1) return result(true, "state-has-own-law", law.id);
     }
+    // A specific legislative grant supplies this power independently of the
+    // general home-rule grant, after the question's separate statutory gate.
+    if (specificGrant?.value === 1)
+      return result(true, "state-has-own-law", specificGrant.id);
     if (
       cell?.may === "UNKNOWN" ||
       (cell?.may === "varies by state" && cell.status === "game-profile")
