@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: astra/unemployment-program-reversal
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-07T22:11:55.242Z
 ---
 
 **What.** The starting-law audit finds no state bill for unemployment-insurance. Add the program control through the existing catalog and bill writer, retaining the existing program terms when its availability changes.
