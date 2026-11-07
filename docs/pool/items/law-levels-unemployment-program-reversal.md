@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: astra/unemployment-program-reversal
 pr: #7332
 blocked-on:
