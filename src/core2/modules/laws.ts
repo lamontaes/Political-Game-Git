@@ -21,7 +21,7 @@ import type { CoreAPI, CoreState, Source } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
 import { tableTraceOn } from "../module-state";
-import { POLICY_QUESTIONS } from "../policy-answers";
+import { POLICY_QUESTIONS, POLICY_SERIES_BY_LEVEL } from "../policy-answers";
 import { raiseToFloor } from "../wage-floor";
 import {
   holdPublicPay,
@@ -586,11 +586,21 @@ function readLawInForce(
   // Only a wage floor reads the state's grant of local authority, and only
   // the sales tax its state's average local rate: no other law reads them.
   const floor = LAW_SERIES[series] === "floor";
+  const aliases = POLICY_SERIES_BY_LEVEL[series];
+  const ownRows = seriesRows(api, series);
+  const rows = aliases
+    ? [
+        ...ownRows.filter((row) => !aliases[row.level]),
+        ...Object.entries(aliases).flatMap(([level, canonical]) =>
+          seriesRows(api, canonical).filter((row) => row.level === level),
+        ),
+      ]
+    : ownRows;
   return resolveLawInForce({
     series,
     chain,
     date,
-    rows: seriesRows(api, series),
+    rows,
     ...(floor
       ? {
           authorityRows: seriesRows(api, "local-minimum-wage-authority"),
