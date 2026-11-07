@@ -103,7 +103,12 @@
     "us-policy-positions:health-human-services.work-requirement-for-assistance": {
       "dial": "food-aid",
       "levels": ["federal", "state", "county"],
-      "why": "Federal food-aid work rules answer it nationwide (the starting law's federal row)."
+      "why": "Federal SNAP work rules answer it in participating jurisdictions (the starting law's federal row); separate territorial nutrition-assistance programs are outside that rule.",
+      "federalPreemption": {
+        "whenValue": 1,
+        "excludedStateKeys": ["US-PR", "US-AS", "US-MP"],
+        "source": "7 U.S.C. §2015(d), (o), as amended by P.L. 119-21 §10102: SNAP work conditions for covered individuals, subject to statutory exemptions and waivers. 7 U.S.C. §2012(r) defines the participating States as the fifty states, D.C., Guam and the U.S. Virgin Islands (and qualifying tribal reservations). This rule does not govern separate territorial nutrition-assistance programs. https://www.law.cornell.edu/uscode/text/7/2015 ; https://www.law.cornell.edu/uscode/text/7/2012"
+      }
     },
     "us-policy-positions:health-human-services.fund-behavioral-health-crisis-response": {
       "dial": "public-health",

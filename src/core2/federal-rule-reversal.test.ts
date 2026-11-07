@@ -1,6 +1,7 @@
 // @vitest-environment node
 /** Reader proof only: legislative votes and bill-paper screenshots are separate acceptance work. */
 import { randomBytes } from "node:crypto";
+import powers from "../../data/research/powers-catalog/question-powers.json";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
@@ -104,6 +105,60 @@ it(`the law reader applies federal enactment and restores the lower law after re
     expect(
       lawInForce(api, question, pending!.effectiveDate).governing?.id,
     ).toBe(before.governing!.id);
+
+    // The other opening federal mandate must survive the move to shared data.
+    // A state cannot repeal SNAP's federal work conditions where SNAP applies.
+    const assistance =
+      "us-policy-positions:health-human-services.work-requirement-for-assistance";
+    const snapRule = powers.questions[assistance].federalPreemption;
+    expect(snapRule.excludedStateKeys).toEqual(["US-PR", "US-AS", "US-MP"]);
+    const stateAssistance = enactLaw(api, {
+      jurisdiction: lawChain(api).stateKey,
+      level: "state",
+      series: assistance,
+      value: 0,
+      effectiveDate: enactedDate,
+      measureId: "reader-proof-state-assistance",
+      citation: "Reader test: state removes its own work condition",
+    });
+    const snapDate = "2025-11-01" > enactedDate ? "2025-11-01" : enactedDate;
+    const snap = lawInForce(api, assistance, snapDate);
+    const excluded = snapRule.excludedStateKeys.includes(
+      lawChain(api).stateKey,
+    );
+    expect(snap.governing?.level).toBe(excluded ? "state" : "federal");
+    expect(snap.value).toBe(excluded ? 0 : 1);
+    // Scope edge cases reuse the drawn world's rows and vary only the chain;
+    // these fixtures prove statutory coverage, not a played territorial vote.
+    const snapRows = api
+      .moduleState(LAWS_MODULE_ID)
+      .table("laws")
+      .rows()
+      .filter((r) => r.series === assistance) as unknown as LawRowInput[];
+    for (const stateKey of snapRule.excludedStateKeys) {
+      const scoped = resolveLawInForce({
+        series: assistance,
+        chain: { ...lawChain(api), stateKey },
+        rows: snapRows,
+        date: snapDate,
+      });
+      expect(scoped.governing?.id).toBe(stateAssistance.id);
+      expect(
+        scoped.levels.find((l) => l.level === "federal")?.setAside,
+      ).toBeDefined();
+    }
+    enactLaw(api, {
+      jurisdiction: "US",
+      level: "federal",
+      series: assistance,
+      value: 0,
+      effectiveDate: snapDate,
+      measureId: "reader-proof-snap-repeal",
+      citation: "Reader test: Congress removes its work condition",
+    });
+    expect(lawInForce(api, assistance, snapDate).governing?.id).toBe(
+      stateAssistance.id,
+    );
 
     // Negative fixture: an arbitrary federal row and old marker are not a
     // source of preemption. No such bill is claimed to have passed in play.
