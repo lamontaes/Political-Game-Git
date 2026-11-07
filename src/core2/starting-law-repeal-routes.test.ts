@@ -38,12 +38,17 @@ it(`every active opening law has a reversal bill: ${place.name}, replay ${replay
       .rows() as unknown as LawRowInput[];
     // Enumerate every series actually stored in this game, not a handpicked
     // list of laws or a declaration that some hard-to-repeal law is exempt.
-    const active = new Set(
+    const selected = new Set(
       [...new Set(opening.map((row) => row.series))].flatMap((series) =>
         lawInForce(api, series)
           .levels.filter((level) => level.row && !level.setAside)
           .map((level) => level.row!.id),
       ),
+    );
+    // Readers may also return calibration facts. Audit every stored law
+    // selected by the resolver, rather than counting non-law reader inputs.
+    const active = new Set(
+      opening.filter((row) => selected.has(row.id)).map((row) => row.id),
     );
     const bodies = new Map(
       townSeats(api)
