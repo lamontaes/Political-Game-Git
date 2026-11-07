@@ -459,11 +459,38 @@ export function lawChain(api: CoreAPI): LawChain {
   return chain as unknown as LawChain;
 }
 
-function seriesRows(api: CoreAPI, series: string): readonly LawRowInput[] {
-  return api
-    .moduleState(LAWS_MODULE_ID)
-    .table("laws")
-    .query("bySeriesOnly", [series]) as unknown as readonly LawRowInput[];
+function seriesRows(
+  api: CoreAPI,
+  series: string,
+  jurisdiction?: string,
+): readonly LawRowInput[] {
+  const table = api.moduleState(LAWS_MODULE_ID).table("laws");
+  return (jurisdiction === undefined
+    ? table.query("bySeriesOnly", [series])
+    : table.query("bySeries", [
+        jurisdiction,
+        series,
+      ])) as unknown as readonly LawRowInput[];
+}
+
+/** The same canonical policy rows for current law, pending acts and legislative history. */
+export function lawRows(
+  api: CoreAPI,
+  series: string,
+  jurisdiction?: string,
+): readonly LawRowInput[] {
+  const aliases = POLICY_SERIES_BY_LEVEL[series];
+  const ownRows = seriesRows(api, series, jurisdiction);
+  return aliases
+    ? [
+        ...ownRows.filter((row) => !aliases[row.level]),
+        ...Object.entries(aliases).flatMap(([level, canonical]) =>
+          seriesRows(api, canonical, jurisdiction).filter(
+            (row) => row.level === level,
+          ),
+        ),
+      ]
+    : ownRows;
 }
 
 /**
@@ -521,17 +548,10 @@ export function lastEnactment(
     lawId: string;
   } | null = null;
   const rows = jurisdictions
-    ? jurisdictions.flatMap(
-        (jurisdiction) =>
-          api
-            .moduleState(LAWS_MODULE_ID)
-            .table("laws")
-            .query("bySeries", [
-              jurisdiction,
-              series,
-            ]) as unknown as LawRowInput[],
+    ? jurisdictions.flatMap((jurisdiction) =>
+        lawRows(api, series, jurisdiction),
       )
-    : seriesRows(api, series);
+    : lawRows(api, series);
   for (const row of rows) {
     if (row.effectiveDate > api.state.date && !row.terms?.enactedBy) continue;
     const enacted = enactmentOf(api, row);
@@ -586,16 +606,7 @@ function readLawInForce(
   // Only a wage floor reads the state's grant of local authority, and only
   // the sales tax its state's average local rate: no other law reads them.
   const floor = LAW_SERIES[series] === "floor";
-  const aliases = POLICY_SERIES_BY_LEVEL[series];
-  const ownRows = seriesRows(api, series);
-  const rows = aliases
-    ? [
-        ...ownRows.filter((row) => !aliases[row.level]),
-        ...Object.entries(aliases).flatMap(([level, canonical]) =>
-          seriesRows(api, canonical).filter((row) => row.level === level),
-        ),
-      ]
-    : ownRows;
+  const rows = lawRows(api, series);
   return resolveLawInForce({
     series,
     chain,
@@ -744,10 +755,7 @@ export function questionSettled(
 ): SettledQuestion | null {
   const today = api.state.date;
   let latest: LawRowInput | null = null;
-  for (const row of api
-    .moduleState(LAWS_MODULE_ID)
-    .table("laws")
-    .query("bySeries", [jurisdiction, question]) as unknown as LawRowInput[]) {
+  for (const row of lawRows(api, question, jurisdiction)) {
     if (row.endDate !== null && row.endDate <= today) continue;
     if (exceptBill !== undefined && row.terms?.enactedByBill === exceptBill)
       continue;
