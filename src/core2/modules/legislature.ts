@@ -36,7 +36,7 @@ import committeeDayData from "../data/legislature/committee-day.json" with { typ
 import replyMoves from "../data/legislature/vote-replies.json" with { type: "json" };
 import ties from "../../../data/research/elections/tie-rules-2026.json" with { type: "json" };
 import provisionQuestions from "../../../data/research/legislature/provision-questions.json" with { type: "json" };
-import { POLICY_QUESTIONS } from "../policy-answers";
+import { POLICY_QUESTIONS, policySeriesAtLevel } from "../policy-answers";
 import { registerModule } from "../state";
 import type {
   ActionDefinition,
@@ -5524,6 +5524,7 @@ function enact(
         });
     }
     if (provision.kind === "policy-question" && provision.question) {
+      const question = policySeriesAtLevel(provision.question, level);
       // A section that only repeats what is already law at this level (in
       // force, or passed earlier and waiting on its date) changes nothing: it
       // writes no new law and the act records the row it repeats. A bill's
@@ -5532,7 +5533,7 @@ function enact(
       const settled = questionSettled(
         api,
         jurisdiction,
-        provision.question,
+        question,
         provision.value,
         bill.id,
         effectiveDate,
@@ -5548,7 +5549,7 @@ function enact(
       enactLaw(api, {
         jurisdiction,
         level,
-        series: provision.question,
+        series: question,
         value: provision.value > 0 ? 1 : 0,
         effectiveDate,
         measureId: bill.number,

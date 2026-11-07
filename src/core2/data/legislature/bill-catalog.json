@@ -873,7 +873,7 @@
               "kind": "policy-question",
               "question": "us-policy-positions:labor-workforce.raise-minimum-wage",
               "operations": ["enact", "repeal"],
-              "levels": ["state"]
+              "levels": ["federal", "state"]
             },
             {
               "id": "law:local-power:raise-minimum-wage",

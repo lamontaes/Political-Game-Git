@@ -224,8 +224,15 @@
     },
     "us-policy-positions:labor-workforce.raise-minimum-wage": {
       "dial": "minimum-wage",
-      "levels": ["state"],
-      "why": "It asks about the state minimum wage. A city's own wage floor is a question the catalog does not ask yet."
+      "levels": ["federal", "state"],
+      "seriesByLevel": {
+        "federal": "us-federal-positions:labor-commerce.raise-federal-minimum-wage"
+      },
+      "source": [
+        "https://www.law.cornell.edu/uscode/text/29/206",
+        "https://www.law.cornell.edu/uscode/text/29/218"
+      ],
+      "why": "29 U.S.C. 206(a) sets the federal minimum wage; 218(a) preserves higher state and municipal floors. Congress uses the existing federal wage question's record and producer, so its two catalog names cannot create independent competing wage rules. The state's existing scope is unchanged."
     },
     "us-policy-positions:labor-workforce.local-minimum-wage-authority": {
       "dial": "local-preemption",
