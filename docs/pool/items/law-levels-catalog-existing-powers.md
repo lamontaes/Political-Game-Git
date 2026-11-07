@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: astra/repeal-coverage
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-07T19:41:16.956Z
 ---
 
 **What.** The bill catalog hides federal and state income tax and state sales tax despite the existing authority data allowing those bodies to amend them. It also assigns every state policy question the same three levels, hiding Congress from two work requirements. Generate those catalog levels from the existing authority records so the bill paper exposes the same powers the draft validator uses.
