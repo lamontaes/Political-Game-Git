@@ -5,11 +5,12 @@ area: laws
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: astra/federal-cannabis-scope
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-07T23:48:30.344Z
 ---
 
 **What.** Congress has authority over cannabis commerce, but the catalog only allows state bills. Add the federal prohibition as a separate starting answer and let Congress repeal or restore it through the existing bill engine. Keep state retail permission independent, including when federal law permits sales but state law does not.
