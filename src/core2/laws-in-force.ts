@@ -13,6 +13,7 @@
  * - additive (income and sales tax): every level's tax applies together.
  * - single (property tax, benefit amounts): one level sets it.
  */
+import questionPowers from "../../data/research/powers-catalog/question-powers.json" with { type: "json" };
 import {
   lawInForceFromCandidates,
   type LawCandidate,
@@ -22,6 +23,21 @@ import type { LawChain, LawLevelName, LawRowInput } from "./laws-starting";
 import { governmentUnit } from "./reference/government-units";
 
 export type LawDoctrine = "floor" | "additive" | "single";
+
+// Federal authority alone does not establish preemption. Each conflicting
+// value and its statutory basis are explicit in the shared question data.
+const QUESTION_POWERS = questionPowers.questions as Readonly<
+  Record<
+    string,
+    {
+      federalPreemption?: {
+        whenValue: number;
+        source: string;
+        excludedStateKeys?: readonly string[];
+      };
+    }
+  >
+>;
 
 export const LAW_SERIES: Readonly<Record<string, LawDoctrine>> = {
   "minimum-wage": "floor",
@@ -132,10 +148,22 @@ function levelRow(
   date: string,
 ): LawRowInput | null {
   let best: LawRowInput | null = null;
+  let enacted: LawRowInput | null = null;
   let bestFit = 0;
   for (const row of rows) {
     if (row.jurisdiction !== jurisdiction || row.level !== level) continue;
     if (!inForceOn(row, date)) continue;
+    // An act replaces the opening phases, including later dated phases.
+    // Find the latest act in this pass without allocating and sorting rows.
+    if (
+      row.terms?.enactedBy !== undefined &&
+      (!enacted ||
+        row.effectiveDate > enacted.effectiveDate ||
+        (row.effectiveDate === enacted.effectiveDate &&
+          Number(row.terms.enactedSequence ?? 0) >
+            Number(enacted.terms?.enactedSequence ?? 0)))
+    )
+      enacted = row;
     // A county ordinance that covers only unincorporated areas skips a city.
     if (chain.incorporated && row.terms?.coversUnincorporatedOnly === true)
       continue;
@@ -151,19 +179,6 @@ function levelRow(
       bestFit = fit;
     }
   }
-  // A statute enacted in play amends the level's law outright: from its
-  // effective date it replaces any older row, tiered or not, and it stands
-  // against a row the data dated later (the seed is not a prewritten future
-  // that ignores what the town decided); only a later enactment replaces it.
-  const enacted = rows
-    .filter(
-      (row) =>
-        row.jurisdiction === jurisdiction &&
-        row.level === level &&
-        row.terms?.enactedBy !== undefined &&
-        inForceOn(row, date),
-    )
-    .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate))[0];
   return enacted ?? best;
 }
 
@@ -386,14 +401,25 @@ export function resolveLawInForce(input: {
       : null;
     governing = applying[applying.length - 1]?.row ?? null;
   } else {
-    // A federal mandate in force governs: no state or town row below it
-    // applies, and a state's repeal cannot take it away.
-    const mandate = levels.find(
-      (l) =>
-        l.level === "federal" &&
-        l.row?.terms?.mandate === true &&
-        l.row.value === 1,
-    );
+    // The same sourced rule governs opening and enacted federal law. A
+    // repeal ceases to preempt, so the lower level's existing answer returns.
+    const preemption = QUESTION_POWERS[series]?.federalPreemption;
+    if (preemption?.excludedStateKeys?.includes(chain.stateKey))
+      for (const [index, l] of levels.entries())
+        if (l.level === "federal" && l.row)
+          levels[index] = {
+            ...l,
+            setAside:
+              "this federal requirement does not cover the jurisdiction",
+          };
+    const mandate =
+      preemption &&
+      levels.find(
+        (l) =>
+          l.level === "federal" &&
+          !l.setAside &&
+          l.row?.value === preemption.whenValue,
+      );
     if (mandate)
       for (const [index, l] of levels.entries())
         if (l !== mandate && l.row)

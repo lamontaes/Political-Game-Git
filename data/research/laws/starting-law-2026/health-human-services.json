@@ -623,14 +623,14 @@
     },
     "us-policy-positions:health-human-services.work-requirement-for-assistance": {
       "source": "Public Law 119-21 (the 2025 budget reconciliation law), per KFF and CHCS summaries: SNAP work rules widened (ages 55 to 64; parents of children 14 and older) from Nov. 1, 2025. Georgia's Pathways since July 1, 2023 applies to Medicaid, not food or income assistance, and is under the Medicaid question.",
-      "note": "The federal law answers yes for every place.",
+      "note": "The federal SNAP law answers yes in participating jurisdictions; question-powers.json records the statutory territorial scope.",
       "answers": {
         "US": {
           "answer": "yes",
           "operativeAt": "2025-11-01",
-          "cite": "P.L. 119-21, §10101",
+          "cite": "P.L. 119-21, §10102",
           "source": "https://www.congress.gov/119/plaws/publ21/PLAW-119publ21.pdf",
-          "note": "Federal SNAP general work standard: at least 80 hours per month under P.L. 119-21 §10101; program coverage and exemptions are not reduced to a single numeric term here.",
+          "note": "Federal SNAP general work standard: at least 80 hours per month under P.L. 119-21 §10102; program coverage and exemptions are not reduced to a single numeric term here.",
           "lawTerms": [
             {
               "questionKey": "us-policy-positions:health-human-services.work-requirement-for-assistance",

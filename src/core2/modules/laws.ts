@@ -248,9 +248,9 @@ export function openLaws(core: CoreState): LawChain {
     };
     if (!state.table("laws").get(row.id))
       state.table("laws").put(row as unknown as ModuleRow);
-    // A federal statute the research says applies in every place ("US") and
-    // takes effect on a date is always loaded, beside the state's own answer,
-    // as a mandate: once it is in force no state or town row governs below it.
+    // A dated federal answer is loaded beside the state's own law. Whether
+    // it preempts is decided only by resolveLawInForce from the sourced
+    // question rule, equally for starting laws and later enactments.
     const mandate = entry.answers.US;
     if (
       federal &&
@@ -271,10 +271,7 @@ export function openLaws(core: CoreState): LawChain {
         source: entry.source ?? "data/research/laws/starting-law-2026",
         retrieved: ANSWERS_AS_OF,
         estimate: false,
-        terms: {
-          mandate: true,
-          ...(mandate.cite ? { cite: mandate.cite } : {}),
-        },
+        ...(mandate.cite ? { terms: { cite: mandate.cite } } : {}),
       };
       if (!state.table("laws").get(mandateRow.id))
         state.table("laws").put(mandateRow as unknown as ModuleRow);
