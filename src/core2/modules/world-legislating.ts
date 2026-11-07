@@ -61,12 +61,14 @@ import {
 import {
   enactLaw,
   lastEnactment,
+  lawRows,
   lawChain,
   LAWS_MODULE_ID,
   questionSettled,
   type SettledQuestion,
 } from "./laws";
 import type { LawRowInput } from "../laws-starting";
+import { policySeriesAtLevel } from "../policy-answers";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import type { OfficeLevel } from "../offices-local";
 import { partySide } from "../appointments";
@@ -238,18 +240,13 @@ export function answerIn(
   /** Count acts already enacted that haven't taken effect yet. */
   enacted = false,
 ): number | null {
-  const rows = (
-    api
-      .moduleState(LAWS_MODULE_ID)
-      .table("laws")
-      .query("bySeries", [stateKey, question]) as unknown as LawRowInput[]
-  )
+  const rows = lawRows(api, question, stateKey)
     .filter((r) => enacted || r.effectiveDate <= api.state.date)
     .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate));
   if (rows[0]) return rows[0].value === 1 ? 1 : -1;
   const answer =
     stateKey === "US"
-      ? FEDERAL_ANSWERS[question]?.answer
+      ? FEDERAL_ANSWERS[policySeriesAtLevel(question, "federal")]?.answer
       : POLICY_QUESTIONS[question]?.answers[stateKey]?.answer;
   return answer === "yes" ? 1 : answer === "no" ? -1 : null;
 }
@@ -308,12 +305,9 @@ function ownRow(
   jurisdiction: string,
   question: string,
 ): number | null {
-  const row = [
-    ...(api
-      .moduleState(LAWS_MODULE_ID)
-      .table("laws")
-      .query("bySeries", [jurisdiction, question]) as unknown as LawRowInput[]),
-  ].sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate))[0];
+  const row = [...lawRows(api, question, jurisdiction)].sort((a, b) =>
+    b.effectiveDate.localeCompare(a.effectiveDate),
+  )[0];
   return row ? (row.value === 1 ? 1 : -1) : null;
 }
 
