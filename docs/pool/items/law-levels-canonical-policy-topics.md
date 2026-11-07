@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: astra/canonical-law-topics
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-07T22:55:36.134Z
 ---
 
 **What.** The shared minimum-wage question and its legacy federal name map to one law record, but the law-level topic predicate still offers both as separate agenda/platform decisions. The combined main year check gains 435 vote rows in year one and misses the 5 percent bar in years 1, 3 and 4. Keep aliases available for manual drafting while enumerating only the canonical decision in the shared law-level filter.
