@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 214 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 215 pull requests merged. Newest state at the top of each section.
 
 **Stopped by the owner, Nov 4, 2:37 p.m. Eastern, at 161 merged; resumed on the owner's word at about 2:53 p.m. Eastern (relayed by the CTO). The desk merges One Map's PRs, and from Nov 5, 05:22 UTC also State Sessions' (every other state holds sessions), on the owner's approval relayed by the CTO. From Nov 5, about 5:15 p.m. Eastern, also the Cleanup session's three PRs (the old art pipeline, the Oct 14 mocks, the green mannequin plates with the old mocks), on the same check; the art pipeline PR also needs `npm run build` to succeed on its merged head. From Nov 7, 2:30 p.m. Eastern (CTO), also Astra's PRs (a Codex builder on Congress and law reversals; branches `astra/`, line 2 `Session: Astra (Codex)`), on the same check. Lanes 1, 3, 4 and 5 are stopped and Lane 2 is off, so #7110 and #7127 stay open, and skills PRs #7233, #7254 and #7264 stay with the CTO.**
 
@@ -120,6 +120,8 @@ New on Nov 3:
 | #7300 | Rents sit near the real renter median for the county, and each household's rent follows the income it is actually paid (they ran 31 to 40 percent under)                 | Delaware Park, New Jersey                   | 874505f44de46093 |
 | #7303 | Fixes the red Mac build: the filing test clock imports `CoreState` from `./types` (one line)                                                                             | Millersburg, Kentucky                       | 364de7a112068f58 |
 
+**Main's Mac build is red (Nov 7, run 42415963886).** Astra's #7325 added `stateLaw` in `src/core2/policy-authority.ts`, which returns a row that can be `null` where the function says it cannot, so the typecheck fails at line 54. The fix is one line (`?? undefined`), asked for on #7325. The desk merges the fix on the new-game check when Astra opens it.
+
 **Main's Mac build was red by calendar day (Nov 6, run 42240631046), not by a merge:** the desktop smoke test did not allow the title's Capitol picture. State Sessions' #7315 makes the check read the game's own list of title monuments; a new Mac build was started on it.
 
 **Main's Mac build was red (Nov 5, run 42106943831)** after #7298 imported `CoreState` from `./state`. One Map's #7303 fixed the import; the Mac build on it passed and published (run 42118922460).
@@ -142,6 +144,7 @@ New on Nov 3:
 | #7324 | Congress can draft changes to the three Social Security age laws (earliest claim, full retirement, end of delayed credits)                                                                                                          | South Greensburg, Pennsylvania | d5de7c6daf0d1f6c |
 | #7325 | A state's specific grant lets a town draft that policy even with general home rule off; withdrawing or restoring the grant changes what the town may draft                                                                          | Carlisle, South Carolina       | db866d1713a83ebb |
 | #7326 | A played proof: Congress passes the Medicaid work requirement, repeals it in a later bill, and the state's original answer returns (docs and proof only; the desk removed a section and title from its `impact: none` release note) | Weston, Vermont                | 53c26f457c2b2248 |
+| #7328 | A nationwide amount Congress sets now replaces an older state-specific federal amount (before, the state's opening amount always came back)                                                                                         | Anon Raices, Puerto Rico       | c6469714558dc907 |
 
 ## State Sessions' PRs (from Nov 5)
 
