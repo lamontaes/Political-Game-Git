@@ -59,7 +59,7 @@ def optional(name):
 
 
 def row(jurisdiction, level, series, value, effective, end, source, estimate,
-        tier="general", unit=None, terms=None, note=None, retrieved=RETRIEVED):
+        tier="general", unit=None, terms=None, note=None, retrieved=RETRIEVED, calibration=False):
     out = {
         "jurisdiction": jurisdiction,
         "level": level,
@@ -72,6 +72,8 @@ def row(jurisdiction, level, series, value, effective, end, source, estimate,
         "retrieved": retrieved,
         "estimate": bool(estimate),
     }
+    if calibration:
+        out["calibration"] = True
     if unit:
         out["unit"] = unit
     if terms is not None:
@@ -331,7 +333,7 @@ def sales_taxes(rows):
                         note=place.get("note")))
         if place.get("localAllowed") and place.get("avgLocalRate") is not None:
             rows.append(row(state, "state", "local-sales-tax-average", place["avgLocalRate"], "2026-01-01",
-                            FOREVER, place.get("avgLocalRateSource", source), True, unit="percent",
+                            FOREVER, place.get("avgLocalRateSource", source), True, unit="percent", calibration=True,
                             terms={"spreadLow": place.get("localRateMin"), "spreadHigh": place.get("localRateMax"),
                                    "appliesAs": "the state's average local rate: this place's own rate is not sampled"}))
         for sample in place.get("samples", []):
@@ -463,7 +465,7 @@ def start_phases(rows):
                         retrieved=sales["retrievedOn"]))
         if later.get(state, {}).get("localAllowed") and later[state].get("avgLocalRate") is not None:
             rows.append(row(state, "state", "local-sales-tax-average", place["avgLocalRate"], "2025-01-01",
-                            FOREVER, sales["sourceUrl"], True, unit="percent",
+                            FOREVER, sales["sourceUrl"], True, unit="percent", calibration=True,
                             terms={"spreadLow": later[state].get("localRateMin"), "spreadHigh": place["maxLocalRate"],
                                    "appliesAs": "the state's average local rate: this place's own rate is not sampled"},
                             retrieved=sales["retrievedOn"]))
@@ -546,14 +548,17 @@ def main():
     start_phases(rows)
     rows = dated(rows)
     by_jurisdiction = {}
+    calibrations = {}
     for item in rows:
         key = item.pop("jurisdiction")
-        by_jurisdiction.setdefault(key, []).append(item)
+        target = calibrations if item.pop("calibration", False) else by_jurisdiction
+        target.setdefault(key, []).append(item)
     document = {
         "id": "starting-law-in-force-2026",
         "about": "Law in force at every level for each place, from the sourced research files. Built by scripts/research/build-starting-law.py; edit the research, not this file.",
         "built": RETRIEVED,
         "jurisdictions": dict(sorted(by_jurisdiction.items())),
+        "calibrations": dict(sorted(calibrations.items())),
         "propertyTax": property_taxes(),
     }
     OUT.parent.mkdir(parents=True, exist_ok=True)
