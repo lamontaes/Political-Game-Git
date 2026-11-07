@@ -986,7 +986,7 @@
               "kind": "policy-question",
               "question": "us-policy-positions:business-commerce.legalize-cannabis-sales",
               "operations": ["enact", "repeal"],
-              "levels": ["state"]
+              "levels": ["federal", "state"]
             },
             {
               "id": "law:local-power:legalize-cannabis-sales",

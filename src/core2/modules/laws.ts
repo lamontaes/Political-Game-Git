@@ -258,7 +258,7 @@ export function openLaws(core: CoreState): LawChain {
     };
     if (!state.table("laws").get(row.id))
       state.table("laws").put(row as unknown as ModuleRow);
-    // A dated federal answer is loaded beside the state's own law. Whether
+    // A federal answer is loaded beside the state's own law. Whether
     // it preempts is decided only by resolveLawInForce from the sourced
     // question rule, equally for starting laws and later enactments.
     const mandate = entry.answers.US;
@@ -266,8 +266,7 @@ export function openLaws(core: CoreState): LawChain {
       federal &&
       !isFederal &&
       level !== federal &&
-      (mandate?.answer === "yes" || mandate?.answer === "no") &&
-      mandate.operativeAt
+      (mandate?.answer === "yes" || mandate?.answer === "no")
     ) {
       const mandateRow: LawRowInput = {
         id: `law:${federal.jurisdiction}:federal:${question}:general:mandate`,
@@ -276,7 +275,9 @@ export function openLaws(core: CoreState): LawChain {
         series: question,
         tier: "general",
         value: mandate.answer === "yes" ? 1 : 0,
-        effectiveDate: mandate.operativeAt,
+        effectiveDate:
+          mandate.operativeAt ??
+          (today < ANSWERS_AS_OF ? today : ANSWERS_AS_OF),
         endDate: null,
         source: entry.source ?? "data/research/laws/starting-law-2026",
         retrieved: ANSWERS_AS_OF,
