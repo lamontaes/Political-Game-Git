@@ -2,6 +2,7 @@
 id: law-levels-federal-cannabis-scope
 title: "Congress can change federal cannabis law while state retail licensing remains separate"
 area: laws
+lead: laws
 kind: wiring
 priority: 2
 size: S
@@ -9,7 +10,7 @@ status: claimed
 claimed-by: astra/federal-cannabis-scope
 pr:
 blocked-on:
-source: added with npm run pool -- add
+source: Owner Nov 7 law-levels order; Astra
 claimed-at: 2026-11-07T23:48:30.344Z
 ---
 
