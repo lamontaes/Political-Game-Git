@@ -64,6 +64,7 @@ engine can look it up and obey it.
 - The 2020 Census redistricting (PL 94-171) state files are Latin-1, not the UTF-8 their technical documentation names; read them as Latin-1 or place names break (Nov 1, the group-quarters research). The Census API now needs a key; the bulk files under www2.census.gov do not.
 
 - For legal authority, read the operative subsection, exceptions and amendment/repeal reservations before accepting an audit's exemption. Federal approval or funding conditions do not by themselves require every state to run a program. For example, 26 U.S.C. §3304(a)(19) expressly reserves legislative amendment and repeal; it cannot support a declaration that unemployment insurance is unrepealable. Record a missing bill route as missing, with the fetched statutory text, rather than disguising it as a legal prohibition.
+- When an exhaustive law audit finds a row with no legislating body, inspect the source and producer before adding authority. A county survey's combined tax burden is not a county statute, and a statistical local-rate average is not state law. Correct that classification at the producer and keep the same sourced fallback through the shared reader; never hide a statistical row left in the law table with an audit exclusion.
 
 ## Recording it
 
