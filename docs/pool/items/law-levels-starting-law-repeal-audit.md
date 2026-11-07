@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: astra/starting-law-repeal-audit
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-07T21:56:27.016Z
 ---
 
 **What.** Add the owner-requested generated-world test that walks every active starting law row and names a body with an authorized bill route to reverse it. Existing catalog audits hide the missing unemployment-insurance route behind an incorrect claim that states cannot repeal it.
