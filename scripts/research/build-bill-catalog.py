@@ -23,6 +23,14 @@ import pathlib
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 OUT = ROOT / "src/core2/data/legislature/bill-catalog.json"
+SERIES_POWERS = json.loads((ROOT / "src/core2/data/legislature/series-powers.json").read_text())["series"]
+QUESTION_POWERS = json.loads((ROOT / "data/research/powers-catalog/question-powers.json").read_text())["questions"]
+
+
+def catalog_levels(levels):
+    """The authority table calls county and city powers 'local'."""
+    return [expanded for level in levels for expanded in (["county", "city"] if level == "local" else [level])]
+
 
 SUBJECTS = [
     ("infrastructure", "Infrastructure", ["Transportation", "Water and wastewater", "Flood control and drainage", "Waste collection and disposal", "Public buildings and facilities", "Digital infrastructure"]),
@@ -92,37 +100,37 @@ BUDGET_LINES = {
 }
 
 SERIES = {
-    "minimum-wage": ("labor", "Wages and working hours", "Minimum wage", "minor/hour", ["federal", "state", "county", "city"]),
-    "income-tax": ("taxes-finance", "Taxes", "Income tax rate", "percent", ["county", "city"]),
-    "sales-tax": ("taxes-finance", "Taxes", "Sales tax rate", "percent", ["county", "city"]),
+    "minimum-wage": ("labor", "Wages and working hours", "Minimum wage", "minor/hour"),
+    "income-tax": ("taxes-finance", "Taxes", "Income tax rate", "percent"),
+    "sales-tax": ("taxes-finance", "Taxes", "Sales tax rate", "percent"),
     # Each government sets its own employees' pay floor (CTO ruling, Oct 14, 2026).
-    "public-pay-floor": ("government", "Agencies and public employment", "Public pay floor", "dollars/year", ["federal", "state", "county", "city"]),
+    "public-pay-floor": ("government", "Agencies and public employment", "Public pay floor", "dollars/year"),
     # The other amounts the starting law holds, at the levels series-powers.json
-    # gives each (a local level is "city" here).
-    "property-tax": ("taxes-finance", "Taxes", "Property tax rate", "percent of home value per year", ["state", "county", "city"]),
-    "corporate-income-tax": ("taxes-finance", "Taxes", "Corporate income tax rate", "percent-flat", ["federal", "state"]),
-    "estate-tax": ("taxes-finance", "Taxes", "Estate tax rate", "percent-top-rate", ["federal", "state"]),
-    "inheritance-tax": ("taxes-finance", "Taxes", "Inheritance tax rate", "percent-top-rate", ["state"]),
-    "social-security-tax": ("assistance", "Retirement and survivor benefits", "Social Security tax rate", "percent-of-wages", ["federal"]),
-    "medicare-tax": ("healthcare", "Coverage and insurance", "Medicare tax rate", "percent-of-wages", ["federal"]),
-    "medicaid-match": ("healthcare", "Coverage and insurance", "Medicaid federal match", "percent", ["federal"]),
-    "snap-maximum": ("assistance", "Food assistance", "SNAP maximum benefit", "USD/month", ["federal"]),
-    "federal-unemployment-tax": ("assistance", "Unemployment benefits", "Federal unemployment tax rate", "percent-of-wages", ["federal"]),
-    "state-unemployment-tax": ("assistance", "Unemployment benefits", "State unemployment tax rate", "percent-of-wages", ["state"]),
-    "unemployment-weekly-maximum": ("assistance", "Unemployment benefits", "Unemployment weekly maximum", "USD/week", ["state"]),
+    # gives each (local expands to county and city in the catalog).
+    "property-tax": ("taxes-finance", "Taxes", "Property tax rate", "percent of home value per year"),
+    "corporate-income-tax": ("taxes-finance", "Taxes", "Corporate income tax rate", "percent-flat"),
+    "estate-tax": ("taxes-finance", "Taxes", "Estate tax rate", "percent-top-rate"),
+    "inheritance-tax": ("taxes-finance", "Taxes", "Inheritance tax rate", "percent-top-rate"),
+    "social-security-tax": ("assistance", "Retirement and survivor benefits", "Social Security tax rate", "percent-of-wages"),
+    "medicare-tax": ("healthcare", "Coverage and insurance", "Medicare tax rate", "percent-of-wages"),
+    "medicaid-match": ("healthcare", "Coverage and insurance", "Medicaid federal match", "percent"),
+    "snap-maximum": ("assistance", "Food assistance", "SNAP maximum benefit", "USD/month"),
+    "federal-unemployment-tax": ("assistance", "Unemployment benefits", "Federal unemployment tax rate", "percent-of-wages"),
+    "state-unemployment-tax": ("assistance", "Unemployment benefits", "State unemployment tax rate", "percent-of-wages"),
+    "unemployment-weekly-maximum": ("assistance", "Unemployment benefits", "Unemployment weekly maximum", "USD/week"),
     # A state's grant of its towns' power to tax income: raised to 1 it
     # grants, lowered to 0 it withdraws (no unit; the Words row words each).
-    "local-income-tax-authority": ("taxes-finance", "Taxes", "Local income tax authority", None, ["state"]),
+    "local-income-tax-authority": ("taxes-finance", "Taxes", "Local income tax authority", None),
 }
 
 
 def main():
     subjects = {key: {"id": key, "name": name, "topics": {t: {"name": t, "policies": []} for t in topics}} for key, name, topics in SUBJECTS}
-    for series, (subject, topic, name, unit, levels) in SERIES.items():
+    for series, (subject, topic, name, unit) in SERIES.items():
         subjects[subject]["topics"][topic]["policies"].append({
             "id": f"law:{series}", "name": name, "kind": "law-amount", "series": series,
             **({"unit": unit} if unit else {}),
-            "operations": ["raise", "lower"], "levels": levels,
+            "operations": ["raise", "lower"], "levels": catalog_levels(SERIES_POWERS[series]["levels"]),
         })
     for line, (subject, topic) in BUDGET_LINES.items():
         subjects[subject]["topics"][topic]["policies"].append({
@@ -144,7 +152,7 @@ def main():
         federal = key.startswith("us-federal-positions")
         subjects[subject]["topics"][topic]["policies"].append({
             "id": f"question:{key}", "name": slug.replace("-", " "), "kind": "policy-question", "question": key,
-            "operations": ["enact", "repeal"], "levels": ["federal"] if federal else ["state", "county", "city"],
+            "operations": ["enact", "repeal"], "levels": QUESTION_POWERS[key]["levels"],
         })
         if not federal:
             # A state's bar on its places' own rule for this question, as a
