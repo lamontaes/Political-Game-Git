@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 211 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 212 pull requests merged. Newest state at the top of each section.
 
 **Stopped by the owner, Nov 4, 2:37 p.m. Eastern, at 161 merged; resumed on the owner's word at about 2:53 p.m. Eastern (relayed by the CTO). The desk merges One Map's PRs, and from Nov 5, 05:22 UTC also State Sessions' (every other state holds sessions), on the owner's approval relayed by the CTO. From Nov 5, about 5:15 p.m. Eastern, also the Cleanup session's three PRs (the old art pipeline, the Oct 14 mocks, the green mannequin plates with the old mocks), on the same check; the art pipeline PR also needs `npm run build` to succeed on its merged head. From Nov 7, 2:30 p.m. Eastern (CTO), also Astra's PRs (a Codex builder on Congress and law reversals; branches `astra/`, line 2 `Session: Astra (Codex)`), on the same check. Lanes 1, 3, 4 and 5 are stopped and Lane 2 is off, so #7110 and #7127 stay open, and skills PRs #7233, #7254 and #7264 stay with the CTO.**
 
@@ -140,6 +140,7 @@ New on Nov 3:
 | #7322 | A federal Medicaid work requirement Congress passes governs like the opening one, and its repeal restores the state's answer; acts on the same day follow enactment order                     | Winchendon, Massachusetts      | 0e55e0863a5087f4 |
 | #7323 | A passed bill can bring a pending rule into force earlier, and a later repeal outlasts an older act's scheduled phase                                                                         | Monte Verde, Puerto Rico       | 99c7c74262e3b7df |
 | #7324 | Congress can draft changes to the three Social Security age laws (earliest claim, full retirement, end of delayed credits)                                                                    | South Greensburg, Pennsylvania | d5de7c6daf0d1f6c |
+| #7325 | A state's specific grant lets a town draft that policy even with general home rule off; withdrawing or restoring the grant changes what the town may draft                                    | Carlisle, South Carolina       | db866d1713a83ebb |
 
 ## State Sessions' PRs (from Nov 5)
 
