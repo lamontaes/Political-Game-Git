@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: astra/sales-tax-calibration
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-07T22:02:17.656Z
 ---
 
 **What.** The generated local-sales-tax-average is a statistical fallback but is loaded into the active-law table and scheduled as a statute. Split calibration rows at the existing producer, keep them in the existing laws module as sourced estimates, and make the current tax and authority readers consume that classification.
