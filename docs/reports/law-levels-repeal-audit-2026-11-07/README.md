@@ -20,3 +20,7 @@ OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" NODE_OPTIONS=--max-o
 ```
 
 Do not merge this draft while the assertion fails. Repair the missing routes in bounded changes, incorporate them here, then run ten fresh draws without weakening the assertion. Federal reach and exact authority/source work remain separate unfinished parts of the owner goal.
+
+## Fresh-draw follow-up, Nov 7
+
+After the sales-tax calibration split (#7331) and unemployment-program route (#7332), the original Redstone Arsenal replay passes: 81 active law rows and 81 authorized drafts. Five fresh draws also pass, including American Samoa and Guam (drafting coverage only; establishment of a territorial unemployment program still needs explicit terms). The sixth, Mill Plain, Connecticut, replay `ab5328363fd3c139`, fails on `law:county:09120:county:property-tax:general:2026-01-01:from-start`: the planning region has no county legislative body. The producer labels this ACS ratio as a statistical estimate of all taxing levels combined, not a county statute. `law-levels-property-tax-calibration` corrects that classification at the producer; no exclusion is added to this audit. This PR remains draft until all ten fresh draws pass.
