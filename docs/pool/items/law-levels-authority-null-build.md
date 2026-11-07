@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: astra/authority-null-build
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-07T23:21:04.723Z
 ---
 
 **What.** The main Mac build reports TS2322 at policy-authority.ts:54 after #7325: stateLaw promises LawRowInput or undefined but a level row can be null. The merge desk requested this separate repair in #7335.
