@@ -1,6 +1,6 @@
 ---
 id: law-levels-canonical-policy-topics
-title: "Offer one simulated decision for canonical law aliases"
+title: "Read canonical policy laws before proposing a change"
 area: laws
 kind: bug
 priority: 2
@@ -13,12 +13,12 @@ source: added with npm run pool -- add
 claimed-at: 2026-11-07T22:55:36.134Z
 ---
 
-**What.** The shared minimum-wage question and its legacy federal name map to one law record, but the law-level topic predicate still offers both as separate agenda/platform decisions. The combined main year check gains 435 vote rows in year one and misses the 5 percent bar in years 1, 3 and 4. Keep aliases available for manual drafting while enumerating only the canonical decision in the shared law-level filter.
+**What.** The background legislature reads the shared federal wage question as unknown although its bill writer uses the existing canonical federal record. Reuse the law reader’s alias mapping for own-government answers, pending-law checks and enactment history.
 
-**Rules.** Use the existing policySeriesAtLevel data mapping. Change only the shared law-topic predicate in world-legislating, not campaigns, electorate, views, wage effects or state/local bars. No outcome thresholds or vote preferences change. No replay medians or weakened speed bar.
+**Rules.** One data-driven law reader. Preserve the legitimate shared federal platform option, state scope, all preferences and thresholds. Do not edit campaigns, electorate, views, wage effects or state/local bars.
 
-**Done when.** An unchosen generated-world regression finds no duplicate canonical federal topics, both wage catalog names remain authorized and read one record, and state scope is unchanged. Break-it, ten fresh draws and new game pass. Replay four exclusive years on the same main baseline after the fix; report every year against 5 percent.
+**Done when.** A generated-world regression proves shared and canonical opening answers agree; future acts are visible to enacted-law reads and settlement/history checks, then current reads at their effective date; the state answer remains unchanged. Both catalog labels remain authorized. Break-it, ten fresh draws and new game pass. Replay four exclusive years on the same baseline and report each against 5 percent; a failing speed result remains open work.
 
-**Files.** src/core2/modules/world-legislating.ts,src/core2/canonical-policy-topics.test.ts
+**Files.** src/core2/modules/laws.ts, src/core2/modules/world-legislating.ts, src/core2/canonical-policy-topics.test.ts
 
-**Notes.** Astra follow-up to 7334. Two-hour unit, no helpers. Failed combined head f3d06182ae9b9c42916725c2acfb598d2219b887, Hidden Springs ID replay 4656597f8770bfac: 85.7,162.3,99.9,189.6 seconds versus 81.2,156.2,92.5,174.8. Extra votes are a finding, not yet a proved explanation for the full timing change.
+**Notes.** Astra, Nov 7: the original duplicate-topic hypothesis was refuted before implementation. Kagman IV MP replay 3ee6a8edb7eae942 has only the shared wage platform question, not the legacy federal name. No topic is removed. The same draw exposes shared federal answer null versus canonical -1. Failed main speed head f3d06182ae9b9c42916725c2acfb598d2219b887, Hidden Springs ID replay 4656597f8770bfac: 85.7,162.3,99.9,189.6 seconds versus 81.2,156.2,92.5,174.8. Extra 435 votes are an observation, not a proved explanation of timing. Two-hour unit, no helpers.
