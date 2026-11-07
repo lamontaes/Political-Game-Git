@@ -652,6 +652,33 @@
           "supported": true,
           "policies": [
             {
+              "id": "law:social-security-earliest-claim-age",
+              "name": "Social Security earliest claim age",
+              "kind": "law-amount",
+              "series": "social-security-earliest-claim-age",
+              "unit": "years",
+              "operations": ["raise", "lower"],
+              "levels": ["federal"]
+            },
+            {
+              "id": "law:social-security-full-retirement-age",
+              "name": "Social Security full retirement age",
+              "kind": "law-amount",
+              "series": "social-security-full-retirement-age",
+              "unit": "years",
+              "operations": ["raise", "lower"],
+              "levels": ["federal"]
+            },
+            {
+              "id": "law:social-security-delayed-credit-age",
+              "name": "Social Security delayed credit age",
+              "kind": "law-amount",
+              "series": "social-security-delayed-credit-age",
+              "unit": "years",
+              "operations": ["raise", "lower"],
+              "levels": ["federal"]
+            },
+            {
               "id": "law:social-security-tax",
               "name": "Social Security tax rate",
               "kind": "law-amount",

@@ -68,6 +68,18 @@
     "local-income-tax-authority": {
       "levels": ["state"],
       "source": "State law decides whether its cities, towns and counties may tax income; 16 states allow it (data/research/laws/local-starting-law/local-income-tax.json)"
+    },
+    "social-security-earliest-claim-age": {
+      "levels": ["federal"],
+      "source": "42 U.S.C. § 402(a)(2); 42 U.S.C. § 1304 reserves alteration, amendment and repeal of Social Security provisions to Congress."
+    },
+    "social-security-full-retirement-age": {
+      "levels": ["federal"],
+      "source": "42 U.S.C. § 416(l); 42 U.S.C. § 1304 reserves alteration, amendment and repeal of Social Security provisions to Congress."
+    },
+    "social-security-delayed-credit-age": {
+      "levels": ["federal"],
+      "source": "42 U.S.C. § 402(w)(2)(A); 42 U.S.C. § 1304 reserves alteration, amendment and repeal of Social Security provisions to Congress."
     }
   },
   "questions": {
