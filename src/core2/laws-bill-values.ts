@@ -60,6 +60,10 @@ export function billValueInForce(
   if (!series) return { value: null, unit: null, recordId: null, row: null };
   const answer = lawInForce(api, series);
   let at = answer.levels.findIndex((row) => row.jurisdiction === jurisdiction);
+  // A federal law may carry a particular state's matching rate. That state
+  // is the law's target; Congress still drafts against the federal level.
+  if (at < 0 && jurisdiction === billLevelJurisdiction(api, "federal"))
+    at = answer.levels.findIndex((row) => row.level === "federal");
   if (at < 0) {
     // Offices use government-unit keys. A township key already in the law
     // chain stays itself; county and municipal keys resolve via their treasury.
