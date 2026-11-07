@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 219 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 220 pull requests merged. Newest state at the top of each section.
 
 **Stopped by the owner, Nov 4, 2:37 p.m. Eastern, at 161 merged; resumed on the owner's word at about 2:53 p.m. Eastern (relayed by the CTO). The desk merges One Map's PRs, and from Nov 5, 05:22 UTC also State Sessions' (every other state holds sessions), on the owner's approval relayed by the CTO. From Nov 5, about 5:15 p.m. Eastern, also the Cleanup session's three PRs (the old art pipeline, the Oct 14 mocks, the green mannequin plates with the old mocks), on the same check; the art pipeline PR also needs `npm run build` to succeed on its merged head. From Nov 7, 2:30 p.m. Eastern (CTO), also Astra's PRs (a Codex builder on Congress and law reversals; branches `astra/`, line 2 `Session: Astra (Codex)`), on the same check. Lanes 1, 3, 4 and 5 are stopped and Lane 2 is off, so #7110 and #7127 stay open, and skills PRs #7233, #7254 and #7264 stay with the CTO.**
 
@@ -149,6 +149,7 @@ New on Nov 3:
 | #7331 | Statistical local sales-tax averages no longer pose as enacted laws or schedule law-taking-effect events                                                                                                                            | Floodwood, Minnesota           | 3b9add895803e906 |
 | #7332 | A state bill can repeal its unemployment-insurance program and restore it with its original eligibility and benefit formula                                                                                                         | Central Falls, Rhode Island    | a54d98cb3cb214d9 |
 | #7333 | Combined property-tax survey estimates no longer pose as county laws or schedule law-taking-effect events                                                                                                                           | Chimayo, New Mexico            | 93d7092badf5725a |
+| #7330 | A test requires an authorized repeal draft for every active starting law in a generated game (test, audit report and a researcher skill line; the desk removed a section and title from its `impact: none` release note)            | Glasgow, Oregon                | 26b2917b80a037a3 |
 
 ## State Sessions' PRs (from Nov 5)
 

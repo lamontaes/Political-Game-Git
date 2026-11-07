@@ -67,8 +67,6 @@ export const NOT_A_LAW: Readonly<Record<string, string>> = {
 const CHANGED_BY: Readonly<Record<string, string>> = {
   "local-minimum-wage-authority":
     "question us-policy-positions:labor-workforce.local-minimum-wage-authority writes this series (group-a-wages.ts localWageAuthority)",
-  "unemployment-insurance":
-    "every state must run the program (26 U.S.C. 3304); bodies change it through unemployment-weekly-maximum and state-unemployment-tax",
 };
 
 /** Every law: the bill catalog's policies, then each starting-law series no bill names. */

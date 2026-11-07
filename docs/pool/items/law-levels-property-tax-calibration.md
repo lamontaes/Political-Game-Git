@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: astra/property-tax-calibration
 pr: #7333
 blocked-on:
