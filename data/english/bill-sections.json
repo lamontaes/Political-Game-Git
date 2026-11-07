@@ -472,6 +472,30 @@
       "purpose": "decide whether local governments may tax income",
       "grant": "each city, town and county may levy a tax on income, at a rate its governing body sets by ordinance",
       "withdraw": "no city, town or county shall levy a tax on income, and any such tax in force shall end"
+    },
+    "social-security-earliest-claim-age": {
+      "subject": "the earliest age to claim Social Security retirement benefits",
+      "purpose": "set the earliest age to claim Social Security retirement benefits",
+      "raise": "the earliest age to claim Social Security retirement benefits shall be raised from {before} to {value}",
+      "lower": "the earliest age to claim Social Security retirement benefits shall be lowered from {before} to {value}",
+      "raiseTo": "the earliest age to claim Social Security retirement benefits shall be raised to {value}",
+      "lowerTo": "the earliest age to claim Social Security retirement benefits shall be lowered to {value}"
+    },
+    "social-security-full-retirement-age": {
+      "subject": "the age for full Social Security retirement benefits",
+      "purpose": "set the age for full Social Security retirement benefits",
+      "raise": "the age for full Social Security retirement benefits shall be raised from {before} to {value}",
+      "lower": "the age for full Social Security retirement benefits shall be lowered from {before} to {value}",
+      "raiseTo": "the age for full Social Security retirement benefits shall be raised to {value}",
+      "lowerTo": "the age for full Social Security retirement benefits shall be lowered to {value}"
+    },
+    "social-security-delayed-credit-age": {
+      "subject": "the age when Social Security delayed retirement credits stop",
+      "purpose": "set the age when Social Security delayed retirement credits stop",
+      "raise": "the age when Social Security delayed retirement credits stop shall be raised from {before} to {value}",
+      "lower": "the age when Social Security delayed retirement credits stop shall be lowered from {before} to {value}",
+      "raiseTo": "the age when Social Security delayed retirement credits stop shall be raised to {value}",
+      "lowerTo": "the age when Social Security delayed retirement credits stop shall be lowered to {value}"
     }
   },
   "units": {
@@ -479,7 +503,8 @@
     "minor/hour": "{dollars} an hour",
     "dollars/year": "{dollars} a year",
     "USD/month": "{dollars} a month",
-    "USD/week": "{dollars} a week"
+    "USD/week": "{dollars} a week",
+    "years": "{value} years"
   },
   "cited": "{clause}, amending {statute}"
 }
