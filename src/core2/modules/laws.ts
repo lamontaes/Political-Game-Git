@@ -616,6 +616,9 @@ function readLawInForce(
     ...(series === "sales-tax"
       ? { localAverage: calibrationRows(api, "local-sales-tax-average") }
       : {}),
+    ...(series === "property-tax"
+      ? { calibrationRows: calibrationRows(api, series) }
+      : {}),
   });
 }
 
