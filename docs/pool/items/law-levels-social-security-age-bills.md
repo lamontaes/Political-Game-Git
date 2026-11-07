@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: astra/social-security-age-bills
-pr:
+pr: #7324
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-07T20:54:17.949Z
