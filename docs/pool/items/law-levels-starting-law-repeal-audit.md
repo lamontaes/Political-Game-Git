@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: astra/starting-law-repeal-audit
-pr:
+pr: #7330
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-07T21:56:27.016Z
