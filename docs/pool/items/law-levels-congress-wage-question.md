@@ -5,12 +5,12 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: astra/congress-wage-question
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-11-07T22:31:46.044Z
 ---
 
 **What.** The common raise-minimum-wage question is state-only in question-powers even though the shared wage engine is parameterized by level and Congress enacts the federal floor. Add Congress to that question with primary statutory evidence.
