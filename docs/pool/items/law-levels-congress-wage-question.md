@@ -22,3 +22,5 @@ claimed-at:
 **Files.** data/research/powers-catalog/question-powers.json,src/core2/data/legislature/bill-catalog.json,src/core2/congress-wage-question.test.ts
 
 **Notes.** Astra bounded federal reach item. Two-hour unit, no helpers. Does not claim remaining policy questions are sourced or enabled.
+
+Astra finding, Nov 7: no implementation pushed. The shared wage handler explicitly filters out federal rows, and the legacy federal question has its own held-wage record. Enabling only catalog data would silently do nothing; removing only the filter risks two controls restoring over each other. A correct next step must unify those aliases through the existing wage engine while preserving State Sessions bars. Returned open while fixing the fresh strict-audit failure in Mill Plain CT (replay ab5328363fd3c139): a statistical property-tax estimate is stored as county law with no county body. Branch astra/congress-wage-question has no implementation.
