@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: astra/scheduled-law-reversal
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-07T20:30:43.004Z
 ---
 
 **What.** The played Hamburg probe passed a town bill effective January 22, but enactment discarded its section as restates-pending because an earlier bill was scheduled for February 20. The law reader also ranks enacted rows by effective date before enactment order, so an older pending phase can undo a later repeal. Make later acts replace older acts while retaining the dated phases within each act.
