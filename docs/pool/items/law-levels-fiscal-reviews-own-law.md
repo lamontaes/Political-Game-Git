@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: astra/fiscal-reviews-own-law
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-07T23:58:04.936Z
 ---
 
 **What.** Treasury fiscal reviews use one active record per question even when several governments have that rule. The last government to repeal can remain the review target because another level still says yes, reviving the repealed budget movement. Read each government current fiscal law through the existing shared resolver and standing-law handler instead of using that cross-level active pointer.
