@@ -132,7 +132,6 @@ export function unemploymentTerms(api: CoreAPI): UnemploymentTerms {
   const row = lawInForce(api, "unemployment-insurance").governing;
   const t = row?.terms as
     | {
-        hasProgram?: boolean;
         waitingWeek?: boolean;
         maxWeeks?: number | null;
         weeklyBenefitFraction?: number | null;
@@ -145,7 +144,9 @@ export function unemploymentTerms(api: CoreAPI): UnemploymentTerms {
     | undefined;
   const maximumAnswer = lawInForce(api, "unemployment-weekly-maximum");
   const maximum = maximumAnswer.value;
-  if (!row || !t || t.hasProgram !== true) return NO_PROGRAM(asOf);
+  // The enacted amount is availability. The starting research also carries
+  // a hasProgram field, but retaining its formula must not override repeal.
+  if (!row || !t || row.value !== 1) return NO_PROGRAM(asOf);
   if (typeof t.maxWeeks !== "number" || maximum === null)
     return NO_PROGRAM(asOf);
   const minor = api.parameter("minorPerDollar");

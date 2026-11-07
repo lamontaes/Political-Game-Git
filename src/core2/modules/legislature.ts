@@ -1645,7 +1645,10 @@ function costOf(api: CoreAPI, provisions: readonly Provision[]) {
 
 const { series: seriesPowers, questions: questionPowers } =
   powers as unknown as {
-    series: Record<string, { levels: string[]; source: string }>;
+    series: Record<
+      string,
+      { levels: string[]; source: string; retainTerms?: boolean }
+    >;
     questions: Record<string, { levels: string[]; source: string }>;
   };
 
@@ -5469,12 +5472,11 @@ function enact(
     // could take effect writes nothing: no row, no calendar entry.
     if (effectiveDate === null) continue;
     if (provision.kind === "law-amount" && provision.series) {
-      const shaped = shapedRate(
+      const current =
         lawInForce(api, provision.series).levels.find(
           (l) => l.jurisdiction === jurisdiction,
-        )?.row ?? null,
-        provision,
-      );
+        )?.row ?? null;
+      const shaped = shapedRate(current, provision);
       enactLaw(api, {
         jurisdiction,
         level,
@@ -5491,6 +5493,11 @@ function enact(
         // The bill itself, not only its number: numbers repeat across bodies
         // and sessions, and a recall or the record finds the bill by this.
         terms: {
+          // A program's on/off amount changes availability; its formula and
+          // eligibility terms remain available when the body restores it.
+          ...(seriesPowers[provision.series]?.retainTerms
+            ? current?.terms
+            : {}),
           ...(shaped?.terms ?? {}),
           ...(terms ?? {}),
           enactedByBill: bill.id,

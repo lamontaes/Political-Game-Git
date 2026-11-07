@@ -31,7 +31,8 @@
     },
     "unemployment-insurance": {
       "levels": ["state"],
-      "source": "State unemployment insurance law under 26 U.S.C. § 3304"
+      "retainTerms": true,
+      "source": "26 U.S.C. § 3304(a)(19): rights, privileges, or immunities subject to the power of the legislature to amend or repeal such law at any time; https://www.law.cornell.edu/uscode/text/26/3304"
     },
     "social-security-tax": {
       "levels": ["federal"],
