@@ -296,6 +296,23 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.87.5
+
+_Released November 7, 2026._
+
+### Fixed
+
+- **Later acts can change a pending law** A bill that moves a pending rule's
+  effective date earlier now writes that change into law. A later repeal also
+  remains in force when an older act's scheduled phase arrives. Dated phases
+  within the same act still follow their effective dates.
+
+- **Congress can change Social Security retirement ages** Congress's bill
+  catalog now includes the earliest claiming age, full retirement age and age
+  when delayed retirement credits stop. Their federal authority cites the Social
+  Security Act, and bill papers name each age in years. State and local bills
+  cannot change these federal benefit rules.
+
 ## PRE-ALPHA 0.87.4
 
 _Released November 7, 2026._
