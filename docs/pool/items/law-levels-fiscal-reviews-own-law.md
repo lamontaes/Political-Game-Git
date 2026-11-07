@@ -2,6 +2,7 @@
 id: law-levels-fiscal-reviews-own-law
 title: "Treasury reviews each government fiscal rule without reviving another level repeal"
 area: laws
+lead: laws
 kind: bug
 priority: 2
 size: S
@@ -9,7 +10,7 @@ status: claimed
 claimed-by: astra/fiscal-reviews-own-law
 pr:
 blocked-on:
-source: added with npm run pool -- add
+source: Owner Nov 7 law-levels order; Astra
 claimed-at: 2026-11-07T23:58:04.936Z
 ---
 
