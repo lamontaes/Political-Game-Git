@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: astra/opening-income-tax-reversal
-pr:
+pr: #7337
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-07T23:18:33.217Z
