@@ -296,6 +296,56 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.87.6
+
+_Released November 7, 2026._
+
+### Fixed
+
+- **Fix the missing state-law return type in the build** A missing state-law row
+  now returns the optional value declared by the authority reader, fixing the
+  TypeScript build error without changing a body's powers.
+
+- **Read the existing federal law before proposing a wage change** Congress now
+  reads the same federal wage law when proposing a change, checking whether a
+  bill repeats a pending act, and weighing recent enactments. The shared and
+  legacy bill questions remain available and use one law record.
+
+- **Let Congress use the shared minimum-wage question** Congress can enact and
+  repeal the shared minimum-wage question. It uses the existing federal wage
+  record, so both catalog names show the same rule and cannot create competing
+  wage changes. Higher state and local floors remain effective.
+
+- **Congress can replace a starting federal amount for a state** A later
+  nationwide federal amount now replaces the state's older federal rate. A
+  specific exception in the same act keeps its priority, and a later act can
+  replace either. Starting state-specific federal rates remain in force until
+  amended.
+
+- **Congress drafts against the current federal rate for the state** Congress's
+  drafting catalog now shows the current Medicaid matching rate and its source
+  even when the federal law gives the played state a particular rate.
+
+- **Treat combined property-tax estimates as calibration facts** Survey
+  estimates of all property taxes on a home no longer appear as county statutes
+  or generate law-taking-effect events. The existing reader keeps the same
+  sourced amount until an actual property-tax law replaces the fallback.
+
+- **Treat average local tax rates as calibration facts** Statistical local
+  sales-tax averages no longer appear as statutes or generate law-taking-effect
+  events. The tax reader keeps the same dated, sourced fallback amounts until a
+  real local tax rule supplies the rate.
+
+- **Specific state grants let towns draft their own rules** A state's specific
+  grant now lets a town draft that policy even without general home rule.
+  Withdrawing and restoring the grant changes drafting authority and cites the
+  actual state act. Separate statutory restrictions still apply.
+
+- **Let state bills repeal and restore unemployment insurance** A state bill can
+  turn an existing unemployment-insurance program off or restore it without
+  losing its benefit formula and eligibility terms. New claims read the
+  program's enacted value; already filed claims retain their recorded awards.
+
 ## PRE-ALPHA 0.87.5
 
 _Released November 7, 2026._

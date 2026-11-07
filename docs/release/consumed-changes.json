@@ -1,6 +1,24 @@
 {
   "entries": [
     {
+      "version": "0.87.6",
+      "releasedOn": "2026-11-07",
+      "revision": "914aeb8e3bf99f1de3ac65df299d331c2163c6b0",
+      "changeIds": [
+        "law-levels-authority-null-build",
+        "law-levels-canonical-policy-topics",
+        "law-levels-congress-wage-question",
+        "law-levels-federal-amount-replacement",
+        "law-levels-federal-bill-baseline",
+        "law-levels-played-congress-reversal",
+        "law-levels-property-tax-calibration",
+        "law-levels-sales-tax-calibration",
+        "law-levels-specific-local-grants",
+        "law-levels-starting-law-repeal-audit",
+        "law-levels-unemployment-program-reversal"
+      ]
+    },
+    {
       "version": "0.87.5",
       "releasedOn": "2026-11-07",
       "revision": "e1c0cfbee98819cad8b04125904eb998ad54abcc",
