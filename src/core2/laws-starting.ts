@@ -76,6 +76,7 @@ interface PropertyTaxTable {
 
 const data = startingLaw as unknown as {
   jurisdictions: Readonly<Record<string, readonly StartingLawRow[]>>;
+  calibrations: Readonly<Record<string, readonly StartingLawRow[]>>;
   propertyTax: PropertyTaxTable;
 };
 
@@ -121,6 +122,19 @@ export function lawRowId(
   row: Pick<StartingLawRow, "series" | "tier" | "effectiveDate" | "level">,
 ): string {
   return `law:${jurisdiction}:${row.level}:${row.series}:${row.tier}:${row.effectiveDate}`;
+}
+
+/** Sourced fallback estimates, kept separately from statutes and ordinances. */
+export function startingCalibrationRows(
+  chain: LawChain,
+): readonly LawRowInput[] {
+  return chain.levels.flatMap(({ jurisdiction }) =>
+    (data.calibrations[jurisdiction] ?? []).map((row) => ({
+      ...row,
+      jurisdiction,
+      id: `estimate:${lawRowId(jurisdiction, row).slice("law:".length)}`,
+    })),
+  );
 }
 
 /** Every starting-law row for the jurisdictions in a place's chain. */
