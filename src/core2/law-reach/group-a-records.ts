@@ -82,6 +82,8 @@ export interface ReachSpec {
 export interface PolicySpec {
   readonly source: string;
   readonly mechanic: string;
+  /** Governments whose permission creates these particular record effects. */
+  readonly effectLevels?: readonly string[];
   readonly stopgapId?: string;
   readonly reaches: readonly ReachSpec[];
 }

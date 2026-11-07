@@ -211,8 +211,13 @@
     },
     "us-policy-positions:business-commerce.legalize-cannabis-sales": {
       "dial": "marijuana",
-      "levels": ["state"],
-      "why": "Whether adults may buy cannabis is state law. A town can only refuse stores the state allows, which is a different question."
+      "levels": ["federal", "state"],
+      "why": "Congress regulates cannabis commerce under 21 U.S.C. 841(a) and Gonzales v. Raich, 545 U.S. 1, 22 (2005). State retail licensing remains independent: 21 U.S.C. 903 disclaims field preemption and requires a positive conflict. Federal decriminalization here removes the federal prohibition; it does not confer a state retail license. Town store exclusions remain a different question.",
+      "sources": [
+        "https://www.law.cornell.edu/uscode/text/21/841",
+        "https://www.law.cornell.edu/uscode/text/21/903",
+        "https://tile.loc.gov/storage-services/service/ll/usrep/usrep545/usrep545001/usrep545001.pdf"
+      ]
     },
     "us-policy-positions:business-commerce.cap-development-incentives": {
       "dial": "business-incentives",
