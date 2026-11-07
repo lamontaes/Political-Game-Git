@@ -50,3 +50,9 @@ Name the few people it reached by record id. Most people are untouched; say so.
 - Speed: measure a game year before and after with `npm run speed:year`, on the same base and machine, one process at a time. No change makes a year more than 20% slower. A year must run under two minutes.
 - Every dollar balances; the golden-path suite must stay green.
 - Answer why for every number you report (see `ask-why`).
+
+## Native bench papers after a scripted route
+
+Keep the route and bench server in the same ESM module context: a temporary `.ts` script outside this module-type repository can load a second CommonJS handler, leaving the browser with an empty world even though the script has a life. Use an in-repository script or an external `.mts` script, and verify `/api/title` before clicking Continue. To read a sponsored bill through Your office, select its sponsor from the played town's actual seats; the page lists that member's own bills. A single office page may already be open with its tab hidden. Record when historical papers are reopened: their estimate can read today's law while the roll call and decision remain historical.
+
+The pool CLI temporarily checks out `origin/main` in its working directory to publish a claim or status. Finish that command before running a test, browser proof or benchmark in the same worktree; a concurrent runner can otherwise see main's files instead of the candidate.

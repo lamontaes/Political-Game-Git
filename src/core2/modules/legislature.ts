@@ -5528,6 +5528,7 @@ function enact(
         provision.question,
         provision.value,
         bill.id,
+        effectiveDate,
       );
       if (
         settled &&
