@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: astra/sales-tax-calibration
-pr:
+pr: #7331
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-07T22:02:17.656Z
