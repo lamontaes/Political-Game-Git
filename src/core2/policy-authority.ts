@@ -51,9 +51,10 @@ const HOME_RULE =
 
 /** Current recorded law, not the opening answer once the state has changed it. */
 function stateLaw(api: CoreAPI, question: string): LawRowInput | undefined {
-  return lawInForce(api, question).levels.find(
-    (level) => level.level === "state",
-  )?.row;
+  return (
+    lawInForce(api, question).levels.find((level) => level.level === "state")
+      ?.row ?? undefined
+  );
 }
 
 /** A recorded unknown blocks introduction; it is never silently treated as a grant. */
