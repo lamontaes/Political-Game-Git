@@ -7,6 +7,7 @@ import { buildBenchWorld } from "../bench/world";
 import { billCatalog, provisionFor } from "./bill-catalog";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
+import { inForceOn, lawRowIsLater } from "./laws-in-force";
 import {
   bodyJurisdiction,
   bodyReach,
@@ -36,20 +37,35 @@ it(`every active opening law has a reversal bill: ${place.name}, replay ${replay
       .moduleState(LAWS_MODULE_ID)
       .table("laws")
       .rows() as unknown as LawRowInput[];
-    // Enumerate every series actually stored in this game, not a handpicked
-    // list of laws or a declaration that some hard-to-repeal law is exempt.
-    const selected = new Set(
-      [...new Set(opening.map((row) => row.series))].flatMap((series) =>
-        lawInForce(api, series)
-          .levels.filter((level) => level.row && !level.setAside)
-          .map((level) => level.row!.id),
+    // Every current dated tier in the loaded jurisdiction chain, including
+    // industry-specific wages and regional benefit amounts. The default
+    // reader selects one tier, which alone cannot exhaust the stored laws.
+    const answers = new Map(
+      [...new Set(opening.map((row) => row.series))].map(
+        (series) => [series, lawInForce(api, series)] as const,
       ),
     );
-    // Readers may also return calibration facts. Audit every stored law
-    // selected by the resolver, rather than counting non-law reader inputs.
-    const active = new Set(
-      opening.filter((row) => selected.has(row.id)).map((row) => row.id),
-    );
+    const current = new Map<string, LawRowInput>();
+    for (const row of opening) {
+      if (!inForceOn(row, api.state.date)) continue;
+      const level = answers
+        .get(row.series)!
+        .levels.find(
+          (level) =>
+            level.level === row.level &&
+            level.jurisdiction === row.jurisdiction,
+        );
+      if (level?.setAside) continue;
+      const key = JSON.stringify([
+        row.jurisdiction,
+        row.level,
+        row.series,
+        row.tier,
+      ]);
+      const prior = current.get(key);
+      if (!prior || lawRowIsLater(row, prior)) current.set(key, row);
+    }
+    const active = new Set([...current.values()].map((row) => row.id));
     const bodies = new Map(
       townSeats(api)
         .filter(

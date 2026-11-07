@@ -1,671 +1,832 @@
 {
-  "place": "Redstone Arsenal, Alabama",
-  "placeKey": "0163912",
-  "replay": "2ee24a776e9e4f03",
-  "worldSeed": "8f865de9038a34f11fdb41f9c093d2a7e25f7c0ff092f4a4d97786721f29bbe5",
-  "active": 82,
-  "routes": [
-    {
-      "lawId": "law:US:federal:minimum-wage:general:2009-07-24",
-      "body": "federal:us-house",
-      "jurisdiction": "US",
-      "policy": "law:minimum-wage",
-      "operation": "lower",
-      "billId": "bill:federal:us-house:2025-01-20:official:seat:US-AK:us-house:00:0"
-    },
-    {
-      "lawId": "law:US:federal:medicare-tax:general:2013-01-01",
-      "body": "federal:us-house",
-      "jurisdiction": "US",
-      "policy": "law:medicare-tax",
-      "operation": "lower",
-      "billId": "bill:federal:us-house:2025-01-20:official:seat:US-AK:us-house:00:1"
-    },
-    {
-      "lawId": "law:US:federal:federal-unemployment-tax:general:2011-07-01",
-      "body": "federal:us-house",
-      "jurisdiction": "US",
-      "policy": "law:federal-unemployment-tax",
-      "operation": "lower",
-      "billId": "bill:federal:us-house:2025-01-20:official:seat:US-AK:us-house:00:2"
-    },
-    {
-      "lawId": "law:US:federal:corporate-income-tax:general:2018-01-01",
-      "body": "federal:us-house",
-      "jurisdiction": "US",
-      "policy": "law:corporate-income-tax",
-      "operation": "lower",
-      "billId": "bill:federal:us-house:2025-01-20:official:seat:US-AK:us-house:00:3"
-    },
-    {
-      "lawId": "law:US:federal:estate-tax:general:2025-01-01",
-      "body": "federal:us-house",
-      "jurisdiction": "US",
-      "policy": "law:estate-tax",
-      "operation": "lower",
-      "billId": "bill:federal:us-house:2025-01-20:official:seat:US-AK:us-house:00:4"
-    },
-    {
-      "lawId": "law:US:federal:public-pay-floor:general:1985-02-19",
-      "body": "federal:us-house",
-      "jurisdiction": "US",
-      "policy": "law:public-pay-floor",
-      "operation": "raise",
-      "billId": "bill:federal:us-house:2025-01-20:official:seat:US-AK:us-house:00:5"
-    },
-    {
-      "lawId": "law:US:federal:income-tax:general:2025-01-01",
-      "body": "federal:us-house",
-      "jurisdiction": "US",
-      "policy": "law:income-tax",
-      "operation": "lower",
-      "billId": "bill:federal:us-house:2025-01-20:official:seat:US-AK:us-house:00:6"
-    },
-    {
-      "lawId": "law:US:federal:social-security-tax:general:2025-01-01",
-      "body": "federal:us-house",
-      "jurisdiction": "US",
-      "policy": "law:social-security-tax",
-      "operation": "lower",
-      "billId": "bill:federal:us-house:2025-01-20:official:seat:US-AK:us-house:00:7"
-    },
-    {
-      "lawId": "law:US-AL:state:local-minimum-wage-authority:general:2016-02-25",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:labor-workforce.local-minimum-wage-authority",
-      "operation": "enact",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:8"
-    },
-    {
-      "lawId": "law:US-AL:state:state-unemployment-tax:general:2025-01-01",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "law:state-unemployment-tax",
-      "operation": "lower",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:9"
-    },
-    {
-      "lawId": "law:US-AL:state:income-tax:general:2025-01-01",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "law:income-tax",
-      "operation": "lower",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:10"
-    },
-    {
-      "lawId": "law:US-AL:state:sales-tax:general:2025-01-01",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "law:sales-tax",
-      "operation": "lower",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:11"
-    },
-    {
-      "lawId": "law:US-AL:federal:snap-maximum:general:2024-10-01",
-      "body": "federal:us-house",
-      "jurisdiction": "US",
-      "policy": "law:snap-maximum",
-      "operation": "lower",
-      "billId": "bill:federal:us-house:2025-01-20:official:seat:US-AK:us-house:00:12"
-    },
-    {
-      "lawId": "law:US-AL:federal:medicaid-match:general:2024-10-01",
-      "body": "federal:us-house",
-      "jurisdiction": "US",
-      "policy": "law:medicaid-match",
-      "operation": "lower",
-      "billId": "bill:federal:us-house:2025-01-20:official:seat:US-AK:us-house:00:13"
-    },
-    {
-      "lawId": "law:US-AL:state:unemployment-weekly-maximum:general:2025-01-01",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "law:unemployment-weekly-maximum",
-      "operation": "lower",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:14"
-    },
-    {
-      "lawId": "law:US:federal:social-security-full-retirement-age:general:starting",
-      "body": "federal:us-house",
-      "jurisdiction": "US",
-      "policy": "law:social-security-full-retirement-age",
-      "operation": "lower",
-      "billId": "bill:federal:us-house:2025-01-20:official:seat:US-AK:us-house:00:15"
-    },
-    {
-      "lawId": "law:US:federal:social-security-earliest-claim-age:general:starting",
-      "body": "federal:us-house",
-      "jurisdiction": "US",
-      "policy": "law:social-security-earliest-claim-age",
-      "operation": "lower",
-      "billId": "bill:federal:us-house:2025-01-20:official:seat:US-AK:us-house:00:16"
-    },
-    {
-      "lawId": "law:US:federal:social-security-delayed-credit-age:general:starting",
-      "body": "federal:us-house",
-      "jurisdiction": "US",
-      "policy": "law:social-security-delayed-credit-age",
-      "operation": "lower",
-      "billId": "bill:federal:us-house:2025-01-20:official:seat:US-AK:us-house:00:17"
-    },
-    {
-      "lawId": "law:US-AL:state:corporate-income-tax:general:2026-01-01:from-start",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "law:corporate-income-tax",
-      "operation": "lower",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:18"
-    },
-    {
-      "lawId": "law:US-AL:state:local-income-tax-authority:general:2026-01-01:from-start",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "law:local-income-tax-authority",
-      "operation": "lower",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:19"
-    },
-    {
-      "lawId": "law:county:01089:county:property-tax:general:2026-01-01:from-start",
-      "body": "office:gus2025:160531:board",
-      "jurisdiction": "county:01089",
-      "policy": "law:property-tax",
-      "operation": "lower",
-      "billId": "bill:office:gus2025:160531:board:2025-01-20:person_282a9aa4c3ac2b18:20"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
-      "operation": "enact",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:21"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
-      "operation": "enact",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:22"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:business-commerce.legalize-cannabis-sales:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:business-commerce.legalize-cannabis-sales",
-      "operation": "enact",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:23"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:business-commerce.cap-consumer-loan-rates:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:business-commerce.cap-consumer-loan-rates",
-      "operation": "enact",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:24"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:civil-family-community.restrict-abortion:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:civil-family-community.restrict-abortion",
-      "operation": "repeal",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:25"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work",
-      "operation": "enact",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:26"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:civil-family-community.dedicated-parks-funding",
-      "operation": "repeal",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:27"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:education.universal-preschool:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:education.universal-preschool",
-      "operation": "enact",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:28"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:education.public-funds-for-private-schooling:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:education.public-funds-for-private-schooling",
-      "operation": "repeal",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:29"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:education.raise-teacher-minimum-salary:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:education.raise-teacher-minimum-salary",
-      "operation": "repeal",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:30"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:environment-energy.ban-new-gas-hookups:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:environment-energy.ban-new-gas-hookups",
-      "operation": "enact",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:31"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:environment-energy.bottle-deposit:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:environment-energy.bottle-deposit",
-      "operation": "enact",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:32"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:environment-energy.clean-electricity-standard:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:environment-energy.clean-electricity-standard",
-      "operation": "enact",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:33"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:environment-energy.price-carbon:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:environment-energy.price-carbon",
-      "operation": "enact",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:34"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
-      "operation": "enact",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:35"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:fiscal.adopt-income-tax:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:fiscal.adopt-income-tax",
-      "operation": "repeal",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:36"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:fiscal.graduated-income-tax:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:fiscal.graduated-income-tax",
-      "operation": "repeal",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:37"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:fiscal.balanced-operating-budget:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:fiscal.balanced-operating-budget",
-      "operation": "repeal",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:38"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
-      "operation": "enact",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:39"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:fiscal.fund-pensions-to-schedule:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:fiscal.fund-pensions-to-schedule",
-      "operation": "repeal",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:40"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:fiscal.cap-property-tax-growth:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:fiscal.cap-property-tax-growth",
-      "operation": "enact",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:41"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:fiscal.minimum-reserve-balance:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:fiscal.minimum-reserve-balance",
-      "operation": "repeal",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:42"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:government-operations.require-photo-id-to-vote:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:government-operations.require-photo-id-to-vote",
-      "operation": "repeal",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:43"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:government-operations.automatic-voter-registration:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:government-operations.automatic-voter-registration",
-      "operation": "enact",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:44"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:government-operations.legislative-term-limits:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:government-operations.legislative-term-limits",
-      "operation": "enact",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:45"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:government-operations.independent-redistricting:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:government-operations.independent-redistricting",
-      "operation": "enact",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:46"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:government-operations.broaden-local-authority:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:government-operations.broaden-local-authority",
-      "operation": "enact",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:47"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:government-operations.ban-lobbying-after-office:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:government-operations.ban-lobbying-after-office",
-      "operation": "repeal",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:48"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:government-operations.same-day-voter-registration:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:government-operations.same-day-voter-registration",
-      "operation": "enact",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:49"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:government-operations.all-mail-voting:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:government-operations.all-mail-voting",
-      "operation": "enact",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:50"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:health-human-services.expand-medicaid-eligibility:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:health-human-services.expand-medicaid-eligibility",
-      "operation": "enact",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:51"
-    },
-    {
-      "lawId": "law:US:federal:us-policy-positions:health-human-services.work-requirement-for-assistance:general:starting",
-      "body": "federal:us-house",
-      "jurisdiction": "US",
-      "policy": "question:us-policy-positions:health-human-services.work-requirement-for-assistance",
-      "operation": "repeal",
-      "billId": "bill:federal:us-house:2025-01-20:official:seat:US-AK:us-house:00:52"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:health-human-services.medicaid-work-requirement:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:health-human-services.medicaid-work-requirement",
-      "operation": "enact",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:53"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:housing-land-use.rent-stabilization:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:housing-land-use.rent-stabilization",
-      "operation": "enact",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:54"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:housing-land-use.right-to-counsel-in-eviction:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
-      "operation": "enact",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:55"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
-      "operation": "enact",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:56"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:housing-land-use.inclusionary-requirement:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:housing-land-use.inclusionary-requirement",
-      "operation": "enact",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:57"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:justice-public-safety.permit-to-carry-concealed:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:justice-public-safety.permit-to-carry-concealed",
-      "operation": "enact",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:58"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:justice-public-safety.end-cash-bail:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:justice-public-safety.end-cash-bail",
-      "operation": "enact",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:59"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:justice-public-safety.restore-voting-after-sentence",
-      "operation": "enact",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:60"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:justice-public-safety.raise-juvenile-court-age:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:justice-public-safety.raise-juvenile-court-age",
-      "operation": "repeal",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:61"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:justice-public-safety.civilian-oversight-of-police:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:justice-public-safety.civilian-oversight-of-police",
-      "operation": "enact",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:62"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:justice-public-safety.stand-your-ground:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:justice-public-safety.stand-your-ground",
-      "operation": "repeal",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:63"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:justice-public-safety.child-access-prevention:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:justice-public-safety.child-access-prevention",
-      "operation": "enact",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:64"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:justice-public-safety.raise-handgun-purchase-age:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:justice-public-safety.raise-handgun-purchase-age",
-      "operation": "enact",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:65"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement",
-      "operation": "enact",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:66"
-    },
-    {
-      "lawId": "law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:starting",
-      "body": "federal:us-house",
-      "jurisdiction": "US",
-      "policy": "question:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
-      "operation": "enact",
-      "billId": "bill:federal:us-house:2025-01-20:official:seat:US-AK:us-house:00:67"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:labor-workforce.right-to-work:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:labor-workforce.right-to-work",
-      "operation": "repeal",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:68"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:labor-workforce.paid-family-leave:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:labor-workforce.paid-family-leave",
-      "operation": "enact",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:69"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:labor-workforce.raise-minimum-wage",
-      "operation": "enact",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:70"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:labor-workforce.local-minimum-wage-authority",
-      "operation": "enact",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:71"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:labor-workforce.public-sector-collective-bargaining",
-      "operation": "enact",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:72"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:technology-privacy.consumer-data-privacy-law",
-      "operation": "enact",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:73"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:technology-privacy.restrict-government-facial-recognition",
-      "operation": "repeal",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:74"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:technology-privacy.age-verification-for-social-media:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:technology-privacy.age-verification-for-social-media",
-      "operation": "enact",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:75"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:transportation-infrastructure.public-broadband:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:transportation-infrastructure.public-broadband",
-      "operation": "enact",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:76"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
-      "operation": "enact",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:77"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
-      "operation": "enact",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:78"
-    },
-    {
-      "lawId": "law:US-AL:state:us-policy-positions:transportation-infrastructure.fare-free-transit:general:starting",
-      "body": "office:US-AL:legislature-upper",
-      "jurisdiction": "US-AL",
-      "policy": "question:us-policy-positions:transportation-infrastructure.fare-free-transit",
-      "operation": "enact",
-      "billId": "bill:office:US-AL:legislature-upper:2025-01-20:official:term:seat:US-AL:upper:009:0:2025-01-20:79"
-    }
-  ],
-  "missing": [
-    {
-      "lawId": "law:US-AL:state:local-sales-tax-average:general:2025-01-01",
-      "series": "local-sales-tax-average",
-      "level": "state",
-      "jurisdiction": "US-AL",
-      "candidateBodies": [
-        "office:US-AL:legislature-upper",
-        "office:US-AL:legislature-lower"
-      ]
-    },
-    {
-      "lawId": "law:US-AL:state:unemployment-insurance:general:2026-01-01:from-start",
-      "series": "unemployment-insurance",
-      "level": "state",
-      "jurisdiction": "US-AL",
-      "candidateBodies": [
-        "office:US-AL:legislature-upper",
-        "office:US-AL:legislature-lower"
-      ]
+  "coverageExample": {
+    "place": "Leloaloa, American Samoa",
+    "placeKey": "territory:AS:leloaloa",
+    "replay": "c4c8bc63e3d8fcd2",
+    "worldSeed": "68ff517350a4830eec0fa964d3fea7a6295e15be065462de727eea0d5e7b690b",
+    "active": 91,
+    "routes": [
+      {
+        "lawId": "law:US:federal:minimum-wage:general:2009-07-24",
+        "body": "federal:us-house",
+        "jurisdiction": "US",
+        "policy": "law:minimum-wage",
+        "operation": "lower",
+        "billId": "bill:federal:us-house:2025-01-20:official:seat:US-AK:us-house:00:0"
+      },
+      {
+        "lawId": "law:US:federal:medicare-tax:general:2013-01-01",
+        "body": "federal:us-house",
+        "jurisdiction": "US",
+        "policy": "law:medicare-tax",
+        "operation": "lower",
+        "billId": "bill:federal:us-house:2025-01-20:official:seat:US-AK:us-house:00:1"
+      },
+      {
+        "lawId": "law:US:federal:federal-unemployment-tax:general:2011-07-01",
+        "body": "federal:us-house",
+        "jurisdiction": "US",
+        "policy": "law:federal-unemployment-tax",
+        "operation": "lower",
+        "billId": "bill:federal:us-house:2025-01-20:official:seat:US-AK:us-house:00:2"
+      },
+      {
+        "lawId": "law:US:federal:estate-tax:general:2025-01-01",
+        "body": "federal:us-house",
+        "jurisdiction": "US",
+        "policy": "law:estate-tax",
+        "operation": "lower",
+        "billId": "bill:federal:us-house:2025-01-20:official:seat:US-AK:us-house:00:3"
+      },
+      {
+        "lawId": "law:US:federal:public-pay-floor:general:1985-02-19",
+        "body": "federal:us-house",
+        "jurisdiction": "US",
+        "policy": "law:public-pay-floor",
+        "operation": "raise",
+        "billId": "bill:federal:us-house:2025-01-20:official:seat:US-AK:us-house:00:4"
+      },
+      {
+        "lawId": "law:US:federal:social-security-tax:general:2025-01-01",
+        "body": "federal:us-house",
+        "jurisdiction": "US",
+        "policy": "law:social-security-tax",
+        "operation": "lower",
+        "billId": "bill:federal:us-house:2025-01-20:official:seat:US-AK:us-house:00:5"
+      },
+      {
+        "lawId": "law:US-AS:federal:minimum-wage:bottling-brewing-dairy:2024-09-30",
+        "body": "federal:us-house",
+        "jurisdiction": "US",
+        "policy": "law:minimum-wage",
+        "operation": "lower",
+        "billId": "bill:federal:us-house:2025-01-20:official:seat:US-AK:us-house:00:6"
+      },
+      {
+        "lawId": "law:US-AS:federal:minimum-wage:construction:2024-09-30",
+        "body": "federal:us-house",
+        "jurisdiction": "US",
+        "policy": "law:minimum-wage",
+        "operation": "lower",
+        "billId": "bill:federal:us-house:2025-01-20:official:seat:US-AK:us-house:00:7"
+      },
+      {
+        "lawId": "law:US-AS:federal:minimum-wage:finance-insurance:2024-09-30",
+        "body": "federal:us-house",
+        "jurisdiction": "US",
+        "policy": "law:minimum-wage",
+        "operation": "lower",
+        "billId": "bill:federal:us-house:2025-01-20:official:seat:US-AK:us-house:00:8"
+      },
+      {
+        "lawId": "law:US-AS:federal:minimum-wage:fish-canning-processing:2024-09-30",
+        "body": "federal:us-house",
+        "jurisdiction": "US",
+        "policy": "law:minimum-wage",
+        "operation": "lower",
+        "billId": "bill:federal:us-house:2025-01-20:official:seat:US-AK:us-house:00:9"
+      },
+      {
+        "lawId": "law:US-AS:federal:minimum-wage:garment-manufacturing:2024-09-30",
+        "body": "federal:us-house",
+        "jurisdiction": "US",
+        "policy": "law:minimum-wage",
+        "operation": "lower",
+        "billId": "bill:federal:us-house:2025-01-20:official:seat:US-AK:us-house:00:10"
+      },
+      {
+        "lawId": "law:US-AS:federal:minimum-wage:government-employees:2024-09-30",
+        "body": "federal:us-house",
+        "jurisdiction": "US",
+        "policy": "law:minimum-wage",
+        "operation": "lower",
+        "billId": "bill:federal:us-house:2025-01-20:official:seat:US-AK:us-house:00:11"
+      },
+      {
+        "lawId": "law:US-AS:federal:minimum-wage:hotel:2024-09-30",
+        "body": "federal:us-house",
+        "jurisdiction": "US",
+        "policy": "law:minimum-wage",
+        "operation": "lower",
+        "billId": "bill:federal:us-house:2025-01-20:official:seat:US-AK:us-house:00:12"
+      },
+      {
+        "lawId": "law:US-AS:federal:minimum-wage:petroleum-marketing:2024-09-30",
+        "body": "federal:us-house",
+        "jurisdiction": "US",
+        "policy": "law:minimum-wage",
+        "operation": "lower",
+        "billId": "bill:federal:us-house:2025-01-20:official:seat:US-AK:us-house:00:13"
+      },
+      {
+        "lawId": "law:US-AS:federal:minimum-wage:printing:2024-09-30",
+        "body": "federal:us-house",
+        "jurisdiction": "US",
+        "policy": "law:minimum-wage",
+        "operation": "lower",
+        "billId": "bill:federal:us-house:2025-01-20:official:seat:US-AK:us-house:00:14"
+      },
+      {
+        "lawId": "law:US-AS:federal:minimum-wage:private-hospitals-educational:2024-09-30",
+        "body": "federal:us-house",
+        "jurisdiction": "US",
+        "policy": "law:minimum-wage",
+        "operation": "lower",
+        "billId": "bill:federal:us-house:2025-01-20:official:seat:US-AK:us-house:00:15"
+      },
+      {
+        "lawId": "law:US-AS:federal:minimum-wage:publishing:2024-09-30",
+        "body": "federal:us-house",
+        "jurisdiction": "US",
+        "policy": "law:minimum-wage",
+        "operation": "lower",
+        "billId": "bill:federal:us-house:2025-01-20:official:seat:US-AK:us-house:00:16"
+      },
+      {
+        "lawId": "law:US-AS:federal:minimum-wage:retail-wholesale-warehousing:2024-09-30",
+        "body": "federal:us-house",
+        "jurisdiction": "US",
+        "policy": "law:minimum-wage",
+        "operation": "lower",
+        "billId": "bill:federal:us-house:2025-01-20:official:seat:US-AK:us-house:00:17"
+      },
+      {
+        "lawId": "law:US-AS:federal:minimum-wage:ship-maintenance:2024-09-30",
+        "body": "federal:us-house",
+        "jurisdiction": "US",
+        "policy": "law:minimum-wage",
+        "operation": "lower",
+        "billId": "bill:federal:us-house:2025-01-20:official:seat:US-AK:us-house:00:18"
+      },
+      {
+        "lawId": "law:US-AS:federal:minimum-wage:shipping-a-stevedoring-lighterage-agency:2024-09-30",
+        "body": "federal:us-house",
+        "jurisdiction": "US",
+        "policy": "law:minimum-wage",
+        "operation": "lower",
+        "billId": "bill:federal:us-house:2025-01-20:official:seat:US-AK:us-house:00:19"
+      },
+      {
+        "lawId": "law:US-AS:federal:minimum-wage:shipping-b-unloading-fish:2024-09-30",
+        "body": "federal:us-house",
+        "jurisdiction": "US",
+        "policy": "law:minimum-wage",
+        "operation": "lower",
+        "billId": "bill:federal:us-house:2025-01-20:official:seat:US-AK:us-house:00:20"
+      },
+      {
+        "lawId": "law:US-AS:federal:minimum-wage:shipping-c-all-other:2024-09-30",
+        "body": "federal:us-house",
+        "jurisdiction": "US",
+        "policy": "law:minimum-wage",
+        "operation": "lower",
+        "billId": "bill:federal:us-house:2025-01-20:official:seat:US-AK:us-house:00:21"
+      },
+      {
+        "lawId": "law:US-AS:federal:minimum-wage:tour-travel-services:2024-09-30",
+        "body": "federal:us-house",
+        "jurisdiction": "US",
+        "policy": "law:minimum-wage",
+        "operation": "lower",
+        "billId": "bill:federal:us-house:2025-01-20:official:seat:US-AK:us-house:00:22"
+      },
+      {
+        "lawId": "law:US-AS:federal:minimum-wage:general:2024-09-30",
+        "body": "federal:us-house",
+        "jurisdiction": "US",
+        "policy": "law:minimum-wage",
+        "operation": "lower",
+        "billId": "bill:federal:us-house:2025-01-20:official:seat:US-AK:us-house:00:23"
+      },
+      {
+        "lawId": "law:US-AS:state:local-minimum-wage-authority:general:2000-01-01",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:labor-workforce.local-minimum-wage-authority",
+        "operation": "enact",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:24"
+      },
+      {
+        "lawId": "law:US-AS:state:unemployment-insurance:general:2000-01-01",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "law:unemployment-insurance",
+        "operation": "raise",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:25"
+      },
+      {
+        "lawId": "law:US-AS:federal:medicaid-match:general:2024-10-01",
+        "body": "federal:us-house",
+        "jurisdiction": "US",
+        "policy": "law:medicaid-match",
+        "operation": "lower",
+        "billId": "bill:federal:us-house:2025-01-20:official:seat:US-AK:us-house:00:26"
+      },
+      {
+        "lawId": "law:US:federal:social-security-full-retirement-age:general:starting",
+        "body": "federal:us-house",
+        "jurisdiction": "US",
+        "policy": "law:social-security-full-retirement-age",
+        "operation": "lower",
+        "billId": "bill:federal:us-house:2025-01-20:official:seat:US-AK:us-house:00:27"
+      },
+      {
+        "lawId": "law:US:federal:social-security-earliest-claim-age:general:starting",
+        "body": "federal:us-house",
+        "jurisdiction": "US",
+        "policy": "law:social-security-earliest-claim-age",
+        "operation": "lower",
+        "billId": "bill:federal:us-house:2025-01-20:official:seat:US-AK:us-house:00:28"
+      },
+      {
+        "lawId": "law:US:federal:social-security-delayed-credit-age:general:starting",
+        "body": "federal:us-house",
+        "jurisdiction": "US",
+        "policy": "law:social-security-delayed-credit-age",
+        "operation": "lower",
+        "billId": "bill:federal:us-house:2025-01-20:official:seat:US-AK:us-house:00:29"
+      },
+      {
+        "lawId": "law:US-AS:state:income-tax:general:2026-01-01:from-start",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "law:income-tax",
+        "operation": "lower",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:30"
+      },
+      {
+        "lawId": "law:US-AS:state:corporate-income-tax:general:2026-01-01:from-start",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "law:corporate-income-tax",
+        "operation": "lower",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:31"
+      },
+      {
+        "lawId": "law:US-AS:state:sales-tax:general:2026-01-01:from-start",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "law:sales-tax",
+        "operation": "raise",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:32"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+        "operation": "enact",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:33"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+        "operation": "repeal",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:34"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:business-commerce.legalize-cannabis-sales:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:business-commerce.legalize-cannabis-sales",
+        "operation": "repeal",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:35"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:business-commerce.cap-consumer-loan-rates:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:business-commerce.cap-consumer-loan-rates",
+        "operation": "repeal",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:36"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:civil-family-community.restrict-abortion:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:civil-family-community.restrict-abortion",
+        "operation": "repeal",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:37"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work",
+        "operation": "enact",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:38"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:civil-family-community.dedicated-parks-funding",
+        "operation": "enact",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:39"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:education.universal-preschool:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:education.universal-preschool",
+        "operation": "enact",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:40"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:education.public-funds-for-private-schooling:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:education.public-funds-for-private-schooling",
+        "operation": "enact",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:41"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:education.raise-teacher-minimum-salary:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:education.raise-teacher-minimum-salary",
+        "operation": "repeal",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:42"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:environment-energy.ban-new-gas-hookups:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:environment-energy.ban-new-gas-hookups",
+        "operation": "enact",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:43"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:environment-energy.bottle-deposit:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:environment-energy.bottle-deposit",
+        "operation": "enact",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:44"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:environment-energy.clean-electricity-standard:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:environment-energy.clean-electricity-standard",
+        "operation": "repeal",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:45"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:environment-energy.price-carbon:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:environment-energy.price-carbon",
+        "operation": "enact",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:46"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+        "operation": "enact",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:47"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:fiscal.adopt-income-tax:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:fiscal.adopt-income-tax",
+        "operation": "repeal",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:48"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:fiscal.graduated-income-tax:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:fiscal.graduated-income-tax",
+        "operation": "repeal",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:49"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:fiscal.balanced-operating-budget:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:fiscal.balanced-operating-budget",
+        "operation": "repeal",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:50"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+        "operation": "enact",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:51"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:fiscal.fund-pensions-to-schedule:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:fiscal.fund-pensions-to-schedule",
+        "operation": "repeal",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:52"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:fiscal.cap-property-tax-growth:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:fiscal.cap-property-tax-growth",
+        "operation": "enact",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:53"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:fiscal.minimum-reserve-balance:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:fiscal.minimum-reserve-balance",
+        "operation": "repeal",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:54"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:government-operations.require-photo-id-to-vote:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:government-operations.require-photo-id-to-vote",
+        "operation": "enact",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:55"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:government-operations.automatic-voter-registration:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:government-operations.automatic-voter-registration",
+        "operation": "enact",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:56"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:government-operations.legislative-term-limits:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:government-operations.legislative-term-limits",
+        "operation": "enact",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:57"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:government-operations.independent-redistricting:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:government-operations.independent-redistricting",
+        "operation": "enact",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:58"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:government-operations.broaden-local-authority:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:government-operations.broaden-local-authority",
+        "operation": "enact",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:59"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:government-operations.ban-lobbying-after-office:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:government-operations.ban-lobbying-after-office",
+        "operation": "enact",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:60"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:government-operations.same-day-voter-registration:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:government-operations.same-day-voter-registration",
+        "operation": "enact",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:61"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:government-operations.all-mail-voting:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:government-operations.all-mail-voting",
+        "operation": "enact",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:62"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:health-human-services.expand-medicaid-eligibility:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:health-human-services.expand-medicaid-eligibility",
+        "operation": "enact",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:63"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:health-human-services.medicaid-work-requirement:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:health-human-services.medicaid-work-requirement",
+        "operation": "enact",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:64"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:housing-land-use.rent-stabilization:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:housing-land-use.rent-stabilization",
+        "operation": "enact",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:65"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:housing-land-use.right-to-counsel-in-eviction:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:housing-land-use.right-to-counsel-in-eviction",
+        "operation": "enact",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:66"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+        "operation": "enact",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:67"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:housing-land-use.inclusionary-requirement:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:housing-land-use.inclusionary-requirement",
+        "operation": "enact",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:68"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:justice-public-safety.permit-to-carry-concealed:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:justice-public-safety.permit-to-carry-concealed",
+        "operation": "repeal",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:69"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:justice-public-safety.end-cash-bail:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:justice-public-safety.end-cash-bail",
+        "operation": "enact",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:70"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:justice-public-safety.restore-voting-after-sentence",
+        "operation": "repeal",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:71"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:justice-public-safety.raise-juvenile-court-age:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+        "operation": "repeal",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:72"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:justice-public-safety.civilian-oversight-of-police:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:justice-public-safety.civilian-oversight-of-police",
+        "operation": "enact",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:73"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:justice-public-safety.stand-your-ground:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:justice-public-safety.stand-your-ground",
+        "operation": "enact",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:74"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:justice-public-safety.child-access-prevention:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:justice-public-safety.child-access-prevention",
+        "operation": "enact",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:75"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:justice-public-safety.raise-handgun-purchase-age:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:justice-public-safety.raise-handgun-purchase-age",
+        "operation": "repeal",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:76"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement",
+        "operation": "enact",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:77"
+      },
+      {
+        "lawId": "law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:starting",
+        "body": "federal:us-house",
+        "jurisdiction": "US",
+        "policy": "question:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+        "operation": "enact",
+        "billId": "bill:federal:us-house:2025-01-20:official:seat:US-AK:us-house:00:78"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:labor-workforce.right-to-work:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:labor-workforce.right-to-work",
+        "operation": "repeal",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:79"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:labor-workforce.paid-family-leave:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:labor-workforce.paid-family-leave",
+        "operation": "enact",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:80"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:labor-workforce.raise-minimum-wage",
+        "operation": "enact",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:81"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:labor-workforce.local-minimum-wage-authority",
+        "operation": "enact",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:82"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+        "operation": "repeal",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:83"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:technology-privacy.consumer-data-privacy-law",
+        "operation": "enact",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:84"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:technology-privacy.restrict-government-facial-recognition",
+        "operation": "enact",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:85"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:technology-privacy.age-verification-for-social-media:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:technology-privacy.age-verification-for-social-media",
+        "operation": "enact",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:86"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:transportation-infrastructure.public-broadband:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:transportation-infrastructure.public-broadband",
+        "operation": "repeal",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:87"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+        "operation": "enact",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:88"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+        "operation": "repeal",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:89"
+      },
+      {
+        "lawId": "law:US-AS:state:us-policy-positions:transportation-infrastructure.fare-free-transit:general:starting",
+        "body": "office:US-AS:legislature-upper",
+        "jurisdiction": "US-AS",
+        "policy": "question:us-policy-positions:transportation-infrastructure.fare-free-transit",
+        "operation": "enact",
+        "billId": "bill:office:US-AS:legislature-upper:2025-01-20:official:term:seat:US-AS:upper:At-large:17:2025-01-20:90"
+      }
+    ],
+    "missing": []
+  },
+  "freshDraws": [
+    {
+      "place": "Black Canyon City, Arizona",
+      "placeKey": "0406610",
+      "replay": "21a38bd22f234b24",
+      "worldSeed": "ec498ddc9c40a658b380277f427d7e32db71f96121405243dc4f1893f245f0bf",
+      "active": 81,
+      "missing": [],
+      "drafts": 81
+    },
+    {
+      "place": "Ashton, Idaho",
+      "placeKey": "1603610",
+      "replay": "6eec63f00dcf3e53",
+      "worldSeed": "392ece4726edfa045d7061782cabc98fc968474cbacd9db5e1d13ab644956ca2",
+      "active": 81,
+      "missing": [],
+      "drafts": 81
+    },
+    {
+      "place": "Westcliffe, Colorado",
+      "placeKey": "0883450",
+      "replay": "de642eb9d80c9a6b",
+      "worldSeed": "2eeee6aeb3186cfe1f331439727975835e292ce97c85704a45a6cf7a32a0c9a4",
+      "active": 81,
+      "missing": [],
+      "drafts": 81
+    },
+    {
+      "place": "Berthoud, Colorado",
+      "placeKey": "0806255",
+      "replay": "1dac634bc12fea58",
+      "worldSeed": "6477a43e1dfcb664ef4b9ab98faad463adecda73f7c2cc69f04531b54b7c3584",
+      "active": 81,
+      "missing": [],
+      "drafts": 81
+    },
+    {
+      "place": "Proctor, Vermont",
+      "placeKey": "5057246",
+      "replay": "83a8b50bec782916",
+      "worldSeed": "366edaeb6b557bed44f3a8d395b2d2c023377950ff9d765b1a2e9c83b5372823",
+      "active": 82,
+      "missing": [],
+      "drafts": 82
+    },
+    {
+      "place": "Table Rock, Wyoming",
+      "placeKey": "5675355",
+      "replay": "6dff458c00b5b764",
+      "worldSeed": "cdbdc9d7f4935bdf06ffc7b9990961e035cbd728f48bff97e667979004dba3e9",
+      "active": 80,
+      "missing": [],
+      "drafts": 80
+    },
+    {
+      "place": "Bodfish, California",
+      "placeKey": "0607274",
+      "replay": "a8e525b16c6df47c",
+      "worldSeed": "7a7544f5b19b743a684f8f38a3ec7f022239656424975a1073168d85395e696e",
+      "active": 81,
+      "missing": [],
+      "drafts": 81
+    },
+    {
+      "place": "Medford, Minnesota",
+      "placeKey": "2741426",
+      "replay": "a7a6b32cc7597969",
+      "worldSeed": "e71f22b13ec3016637f46051d94d2d49210d085dacb12c1754682da6a4b40302",
+      "active": 82,
+      "missing": [],
+      "drafts": 82
+    },
+    {
+      "place": "Loomis, Nebraska",
+      "placeKey": "3129085",
+      "replay": "94cee3c2f8f28bd8",
+      "worldSeed": "81f5c4e82d1c628739ecd098a1b9682d18a01d3a0947d8af74c1a48aa9bcb18c",
+      "active": 82,
+      "missing": [],
+      "drafts": 82
+    },
+    {
+      "place": "Equality, Alabama",
+      "placeKey": "0124280",
+      "replay": "588df3f6d0f3855d",
+      "worldSeed": "4572d87921bf142e2a853da42012d2210b069c14090e750b51e57553e080f079",
+      "active": 80,
+      "missing": [],
+      "drafts": 80
     }
   ]
 }
