@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: astra/federal-rule-reversal
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-07T19:46:41.627Z
 ---
 
 **What.** The opening Medicaid mandate is marked specially, but the same requirement passed by Congress does not retain that precedence. A state answer can therefore defeat a newly enacted federal requirement. Put the sourced federal requirement precedence in the shared question data and have the one law resolver apply it equally to opening and enacted rows, releasing lower-level laws when Congress repeals the requirement.
