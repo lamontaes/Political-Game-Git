@@ -111,6 +111,10 @@ SERIES = {
     "corporate-income-tax": ("taxes-finance", "Taxes", "Corporate income tax rate", "percent-flat"),
     "estate-tax": ("taxes-finance", "Taxes", "Estate tax rate", "percent-top-rate"),
     "inheritance-tax": ("taxes-finance", "Taxes", "Inheritance tax rate", "percent-top-rate"),
+    # Federal age statutes; 42 U.S.C. 1304 reserves amendment to Congress.
+    "social-security-earliest-claim-age": ("assistance", "Retirement and survivor benefits", "Social Security earliest claim age", "years"),
+    "social-security-full-retirement-age": ("assistance", "Retirement and survivor benefits", "Social Security full retirement age", "years"),
+    "social-security-delayed-credit-age": ("assistance", "Retirement and survivor benefits", "Social Security delayed credit age", "years"),
     "social-security-tax": ("assistance", "Retirement and survivor benefits", "Social Security tax rate", "percent-of-wages"),
     "medicare-tax": ("healthcare", "Coverage and insurance", "Medicare tax rate", "percent-of-wages"),
     "medicaid-match": ("healthcare", "Coverage and insurance", "Medicaid federal match", "percent"),
