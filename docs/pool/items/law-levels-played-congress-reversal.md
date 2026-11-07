@@ -5,9 +5,9 @@ area: laws
 kind: research
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: astra/congress-reversal-proof
-pr:
+pr: #7326
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-07T21:31:04.238Z
