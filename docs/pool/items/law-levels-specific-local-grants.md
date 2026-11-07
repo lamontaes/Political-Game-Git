@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: astra/specific-local-grants
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-07T21:24:43.077Z
 ---
 
 **What.** The state can enact a specific local-power grant, but the drafting authority reader can still reject the town because its general home-rule answer is no. A specific grant should supply that power while the independent statutory gates remain enforced. Read the grant as current law and name its record when granting or barring the power; remove the authority reader's separate date-sort selection.
