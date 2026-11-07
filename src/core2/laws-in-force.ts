@@ -140,6 +140,23 @@ function tierFits(row: LawRowInput, chain: LawChain): number {
   return row.tier === "general" ? 1 : 0;
 }
 
+/** Later acts replace older acts; the phases inside one bill follow their dates. */
+export function lawRowIsLater(row: LawRowInput, prior: LawRowInput): boolean {
+  const enacted = row.terms?.enactedBy !== undefined;
+  const priorEnacted = prior.terms?.enactedBy !== undefined;
+  if (enacted !== priorEnacted) return enacted;
+  const order = Number(row.terms?.enactedSequence ?? 0);
+  const priorOrder = Number(prior.terms?.enactedSequence ?? 0);
+  const sameBill =
+    row.terms?.enactedByBill !== undefined &&
+    row.terms.enactedByBill === prior.terms?.enactedByBill;
+  if (enacted && !sameBill && order !== priorOrder) return order > priorOrder;
+  return (
+    row.effectiveDate > prior.effectiveDate ||
+    (row.effectiveDate === prior.effectiveDate && order > priorOrder)
+  );
+}
+
 function levelRow(
   rows: readonly LawRowInput[],
   jurisdiction: string,
@@ -157,11 +174,7 @@ function levelRow(
     // Find the latest act in this pass without allocating and sorting rows.
     if (
       row.terms?.enactedBy !== undefined &&
-      (!enacted ||
-        row.effectiveDate > enacted.effectiveDate ||
-        (row.effectiveDate === enacted.effectiveDate &&
-          Number(row.terms.enactedSequence ?? 0) >
-            Number(enacted.terms?.enactedSequence ?? 0)))
+      (!enacted || lawRowIsLater(row, enacted))
     )
       enacted = row;
     // A county ordinance that covers only unincorporated areas skips a city.
