@@ -296,6 +296,20 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.87.4
+
+_Released November 7, 2026._
+
+### Fixed
+
+- **Federal Medicaid requirements can take effect and be repealed** A Medicaid
+  work requirement enacted by Congress now governs under the same rule as the
+  starting federal law. Repealing it restores the applicable state or local
+  rule. When two acts take effect on the same day, the later enactment governs.
+  The same sourced precedence rule preserves federal SNAP work conditions in
+  participating jurisdictions, without applying them to territories with
+  separate nutrition-assistance programs.
+
 ## PRE-ALPHA 0.87.3
 
 _Released November 7, 2026._

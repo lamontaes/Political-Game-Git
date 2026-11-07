@@ -1,6 +1,12 @@
 {
   "entries": [
     {
+      "version": "0.87.4",
+      "releasedOn": "2026-11-07",
+      "revision": "573600386d0ba7b4383825f0cce56d29a4eab9ea",
+      "changeIds": ["law-levels-federal-rule-reversal"]
+    },
+    {
       "version": "0.87.3",
       "releasedOn": "2026-11-07",
       "revision": "dfe839ce65642e3db6500a2d0e3525adf81443dd",
