@@ -1,6 +1,12 @@
 {
   "entries": [
     {
+      "version": "0.87.7",
+      "releasedOn": "2026-11-07",
+      "revision": "5f437878b3a3eaa89999fe38bf447cdaea1601dc",
+      "changeIds": ["law-levels-opening-income-tax-reversal"]
+    },
+    {
       "version": "0.87.6",
       "releasedOn": "2026-11-07",
       "revision": "914aeb8e3bf99f1de3ac65df299d331c2163c6b0",

@@ -296,6 +296,17 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.87.7
+
+_Released November 7, 2026._
+
+### Fixed
+
+- **Repeal and restore an income tax already in force** Repealing an existing
+  income tax now stops its withholding even when the tax was already present at
+  the start of the game. Restoring it returns the prior rates, brackets and
+  deductions. Routine reviews leave a later independent tax act intact.
+
 ## PRE-ALPHA 0.87.6
 
 _Released November 7, 2026._
