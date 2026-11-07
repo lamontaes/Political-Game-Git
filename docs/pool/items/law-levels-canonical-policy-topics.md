@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: astra/canonical-law-topics
-pr:
+pr: #7335
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-07T22:55:36.134Z
