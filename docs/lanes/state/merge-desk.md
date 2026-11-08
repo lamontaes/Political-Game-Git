@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 229 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 230 pull requests merged. Newest state at the top of each section.
 
 **Stopped by the owner, Nov 4, 2:37 p.m. Eastern, at 161 merged; resumed on the owner's word at about 2:53 p.m. Eastern (relayed by the CTO). The desk merges One Map's PRs, and from Nov 5, 05:22 UTC also State Sessions' (every other state holds sessions), on the owner's approval relayed by the CTO. From Nov 5, about 5:15 p.m. Eastern, also the Cleanup session's three PRs (the old art pipeline, the Oct 14 mocks, the green mannequin plates with the old mocks), on the same check; the art pipeline PR also needs `npm run build` to succeed on its merged head. From Nov 7, 2:30 p.m. Eastern (CTO), also Astra's PRs (a Codex builder on Congress and law reversals; branches `astra/`, line 2 `Session: Astra (Codex)`), on the same check. Lanes 1, 3, 4 and 5 are stopped and Lane 2 is off, so #7110 and #7127 stay open, and skills PRs #7233, #7254 and #7264 stay with the CTO.**
 
@@ -184,6 +184,7 @@ New on Nov 3:
 | #7340 | The News screen's Nation heading tells the other-state laws that matter to this reader: from the states that reach the most people and from states where their family and friends live                                     | Mosheim, Tennessee               | 8f8ad52c0464fec1 |
 | #7341 | A pool note corrects a speed item: Montpelier's memory growth depends on the run's path, not the SNAP rule first blamed (docs only)                                                                                        | Vaitogi, American Samoa          | b11ce583ad049390 |
 | #7342 | Montana's and North Dakota's bars on a local minimum wage now come from their statutes; no town's wage changes, since towns there were already barred                                                                      | Faleniu, American Samoa          | 3b69e8184aca686e |
+| #7343 | A pool note: the sanctuary question covers only 287(g) agreements, so a second question is needed (docs only)                                                                                                              | Amouli, American Samoa           | 115ed8f71957f5c0 |
 
 ## Lane PRs merged on Nov 4 (126), on the owner's word ("You may merge lane PRs that pass the new-game check")
 
