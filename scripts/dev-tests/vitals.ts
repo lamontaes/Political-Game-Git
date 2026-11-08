@@ -30,6 +30,11 @@ import {
   crimeMonths,
   type CrimeMonth,
 } from "../../src/core2/modules/crime";
+import {
+  COVERAGE_MODULE_ID,
+  coverageOf,
+  type CountedCoverageRow,
+} from "../../src/core2/modules/coverage";
 import { townMetrics } from "../../src/core2/modules/world-metrics";
 import type { CoreState } from "../../src/core2/types";
 
@@ -57,6 +62,8 @@ export interface Vitals {
   turnoutDate: string | null;
   /** Victimizations in the last twelve months per 1,000 residents (the crime engine's monthly records, all kinds); null before a year is recorded. */
   victimizationsPer1000: number | null;
+  /** Residents holding a recorded employer plan, over all residents, as a percent. The engine records employer and Medicare plans only (no Medicaid, marketplace or CHIP record exists), so one minus this is an upper bound on the uninsured, not the uninsured rate. */
+  employerPlanSharePct: number | null;
   /** Of those, reported to police a year per 1,000 residents. */
   reportedCrimesPer1000: number | null;
   countedDeaths: number;
@@ -175,6 +182,27 @@ export function vitals(core: CoreState): Vitals {
       };
     }
   }
+  // Recorded employer plans: each full resident's own record, and each
+  // counted household's covered people times the real households it stands for.
+  let employer: number | null = null;
+  if (core.modules.has(COVERAGE_MODULE_ID) && rt) {
+    const api = coreAPI(core);
+    const store = rt.store;
+    let held = fullAlive.filter(
+      (p) => coverageOf(api, p.id)?.plan === "employer",
+    ).length;
+    for (const row of api
+      .moduleState(COVERAGE_MODULE_ID)
+      .table("countedCoverage")
+      .rows() as unknown as CountedCoverageRow[]) {
+      if (row.to !== null) continue;
+      const at = store.householdOf.get(row.householdId);
+      if (at === undefined) continue;
+      held += row.covered * store.weightOf(store.households[at]!);
+    }
+    const everyone = sum("people") + fullAlive.length;
+    employer = everyone > 0 ? Math.round((1000 * held) / everyone) / 10 : null;
+  }
   const fullWorkers = fullAlive.filter((p) => p.jobId).length;
   // The full people are a separate tier from the counted households.
   const adults = sum("adults") + fullAlive.length;
@@ -200,6 +228,7 @@ export function vitals(core: CoreState): Vitals {
     turnoutPct: turnout?.pct ?? null,
     turnoutDate: turnout?.date ?? null,
     victimizationsPer1000: crime?.victims ?? null,
+    employerPlanSharePct: employer,
     reportedCrimesPer1000: crime?.reported ?? null,
     countedBirths: counted.births,
     countedDeaths: counted.deaths,
