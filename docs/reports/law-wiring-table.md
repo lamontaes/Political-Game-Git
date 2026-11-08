@@ -25,7 +25,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | Local power: medicaid work requirement                    | healthcare         | n/a    | yes    | n/a   | n/a     | n/a   | n/a | n/a     | n/a    | n/a       | wired   | none                                |
 | work requirement for assistance                           | healthcare         | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired   | Your office                         |
 | Local power: work requirement for assistance              | healthcare         | n/a    | yes    | n/a   | n/a     | n/a   | n/a | n/a     | n/a    | n/a       | wired   | none                                |
-| Spending: healthAndHospitals                              | healthcare         | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired   | Budgets, Your office, News          |
+| Spending: health and hospitals                            | healthcare         | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired   | Budgets, Your office, News          |
 | Spending: Federal health programs                         | healthcare         | yes    | yes    | yes   | yes     | yes   | NO  | yes     | yes    | yes       | partly  | none                                |
 | medicare drug price negotiation                           | healthcare         | yes    | yes    | NO    | yes     | yes   | yes | yes     | NO     | NO        | partly  | none                                |
 | universal preschool                                       | education          | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired   | Issues, Your office, Calendar, News |
@@ -35,7 +35,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | Local power: public funds for private schooling           | education          | n/a    | yes    | n/a   | n/a     | n/a   | n/a | n/a     | n/a    | n/a       | wired   | none                                |
 | raise teacher minimum salary                              | education          | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired   | Issues, Your office                 |
 | Local power: raise teacher minimum salary                 | education          | n/a    | yes    | n/a   | n/a     | n/a   | n/a | n/a     | n/a    | n/a       | wired   | none                                |
-| Spending: higherEducation                                 | education          | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired   | Budgets, Your office, News          |
+| Spending: higher education                                | education          | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired   | Budgets, Your office, News          |
 | Spending: Federal education programs                      | education          | yes    | yes    | yes   | yes     | yes   | NO  | yes     | yes    | yes       | partly  | none                                |
 | forgive student loans                                     | education          | yes    | yes    | NO    | NO      | part  | NO  | yes     | NO     | NO        | partly  | none                                |
 | Income tax rate                                           | taxes-finance      | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired   | Issues, Calendar, Your office       |
@@ -61,7 +61,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | minimum reserve balance                                   | taxes-finance      | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired   | Issues, Your office, Calendar, News |
 | Local power: minimum reserve balance                      | taxes-finance      | n/a    | yes    | n/a   | yes     | n/a   | n/a | yes     | n/a    | n/a       | wired   | none                                |
 | SNAP maximum benefit                                      | assistance         | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired   | Issues, Calendar, Your office       |
-| Spending: welfareAndMedicaid                              | assistance         | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired   | Budgets, Your office, News          |
+| Spending: welfare and Medicaid                            | assistance         | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired   | Budgets, Your office, News          |
 | Spending: Income security programs                        | assistance         | yes    | yes    | yes   | yes     | yes   | NO  | yes     | yes    | yes       | partly  | none                                |
 | Federal unemployment tax rate                             | assistance         | yes    | yes    | yes   | yes     | yes   | n/a | yes     | yes    | yes       | wired   | Your office                         |
 | State unemployment tax rate                               | assistance         | yes    | yes    | yes   | yes     | yes   | n/a | yes     | yes    | yes       | wired   | Your office                         |
@@ -106,7 +106,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | limit power plant carbon                                  | energy-environment | yes    | yes    | NO    | NO      | NO    | yes | yes     | NO     | NO        | partly  | none                                |
 | clean air plan for polluted counties                      | energy-environment | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired   | Issues, Your office, Calendar, News |
 | Local power: clean air plan for polluted counties         | energy-environment | n/a    | yes    | n/a   | n/a     | n/a   | n/a | n/a     | n/a    | n/a       | wired   | none                                |
-| Spending: naturalResources                                | energy-environment | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired   | Budgets, Your office, News          |
+| Spending: natural resources                               | energy-environment | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired   | Budgets, Your office, News          |
 | bottle deposit                                            | energy-environment | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired   | Issues, Your office, Calendar, News |
 | Local power: bottle deposit                               | energy-environment | n/a    | yes    | n/a   | n/a     | n/a   | n/a | n/a     | n/a    | n/a       | wired   | none                                |
 | price carbon                                              | energy-environment | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired   | Issues, Your office, Calendar, News |
@@ -144,10 +144,10 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | Local power: require photo id to vote                     | government         | n/a    | yes    | n/a   | n/a     | n/a   | n/a | n/a     | n/a    | n/a       | wired   | none                                |
 | same day voter registration                               | government         | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired   | Issues, Your office, News           |
 | Local power: same day voter registration                  | government         | n/a    | yes    | n/a   | n/a     | n/a   | n/a | n/a     | n/a    | n/a       | wired   | none                                |
-| State campaign contribution limit: governor               | government         | part   | yes    | NO    | NO      | NO    | NO  | NO      | NO     | NO        | partly  | none                                |
-| State campaign contribution limit: stateSenate            | government         | part   | yes    | NO    | NO      | NO    | NO  | NO      | NO     | NO        | partly  | none                                |
-| State campaign contribution limit: stateHouse             | government         | part   | yes    | NO    | NO      | NO    | NO  | NO      | NO     | NO        | partly  | none                                |
-| State campaign contribution limit: local                  | government         | part   | yes    | NO    | NO      | NO    | NO  | NO      | NO     | NO        | partly  | none                                |
+| State campaign contribution limit for governor            | government         | part   | yes    | NO    | NO      | NO    | NO  | yes     | NO     | NO        | partly  | none                                |
+| State campaign contribution limit for state senate        | government         | part   | yes    | NO    | NO      | NO    | NO  | yes     | NO     | NO        | partly  | none                                |
+| State campaign contribution limit for state house         | government         | part   | yes    | NO    | NO      | NO    | NO  | yes     | NO     | NO        | partly  | none                                |
+| State campaign contribution limit for local office        | government         | part   | yes    | NO    | NO      | NO    | NO  | yes     | NO     | NO        | partly  | none                                |
 | Federal campaign contribution limit                       | government         | yes    | yes    | NO    | NO      | part  | NO  | yes     | NO     | NO        | partly  | none                                |
 | ban congressional stock trading                           | government         | yes    | yes    | NO    | NO      | part  | n/a | yes     | NO     | NO        | partly  | none                                |
 | ban lobbying after office                                 | government         | yes    | yes    | n/a   | yes     | n/a   | yes | yes     | yes    | yes       | wired   | Issues, Your office, Calendar, News |
@@ -872,49 +872,45 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 - repeal: A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law.
 - allPlaces: A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law.
 
-**State campaign contribution limit: governor** (`state-contribution-limit-governor`)
+**State campaign contribution limit for governor** (`state-contribution-limit-governor`)
 
 - exists: no starting row in US-AK, US-AL, US-AS, US-IA, US-IN, US-MP, US-MS, US-ND, US-NE, US-OR, US-PA, US-TX...
-- reach: not run
-- systems: not run
-- money: not run
-- web: not run
-- knowing: not run
-- repeal: not run
-- allPlaces: not run
+- reach: no law-reach row: nothing records who it applies to
+- systems: no engine reads it (only lawmaking, news or the outcome web, if anything)
+- money: no money flow: nobody pays or receives anything because of it
+- web: no researched outcome-web link starts from this law
+- repeal: nothing reached, so nothing to stop
+- allPlaces: reaches nobody anywhere
 
-**State campaign contribution limit: stateSenate** (`state-contribution-limit-state-senate`)
+**State campaign contribution limit for state senate** (`state-contribution-limit-state-senate`)
 
 - exists: no starting row in US-AK, US-AL, US-AS, US-IA, US-IN, US-MP, US-MS, US-ND, US-NE, US-OR, US-PA, US-TX...
-- reach: not run
-- systems: not run
-- money: not run
-- web: not run
-- knowing: not run
-- repeal: not run
-- allPlaces: not run
+- reach: no law-reach row: nothing records who it applies to
+- systems: no engine reads it (only lawmaking, news or the outcome web, if anything)
+- money: no money flow: nobody pays or receives anything because of it
+- web: no researched outcome-web link starts from this law
+- repeal: nothing reached, so nothing to stop
+- allPlaces: reaches nobody anywhere
 
-**State campaign contribution limit: stateHouse** (`state-contribution-limit-state-house`)
+**State campaign contribution limit for state house** (`state-contribution-limit-state-house`)
 
 - exists: no starting row in US-AK, US-AL, US-AS, US-GU, US-IA, US-IN, US-MP, US-MS, US-ND, US-NE, US-OR, US-PA...
-- reach: not run
-- systems: not run
-- money: not run
-- web: not run
-- knowing: not run
-- repeal: not run
-- allPlaces: not run
+- reach: no law-reach row: nothing records who it applies to
+- systems: no engine reads it (only lawmaking, news or the outcome web, if anything)
+- money: no money flow: nobody pays or receives anything because of it
+- web: no researched outcome-web link starts from this law
+- repeal: nothing reached, so nothing to stop
+- allPlaces: reaches nobody anywhere
 
-**State campaign contribution limit: local** (`state-contribution-limit-local`)
+**State campaign contribution limit for local office** (`state-contribution-limit-local`)
 
 - exists: no starting row in US-AK, US-AL, US-AS, US-CO, US-IA, US-IN, US-ME, US-MN, US-MP, US-MS, US-ND, US-NE...
-- reach: not run
-- systems: not run
-- money: not run
-- web: not run
-- knowing: not run
-- repeal: not run
-- allPlaces: not run
+- reach: no law-reach row: nothing records who it applies to
+- systems: no engine reads it (only lawmaking, news or the outcome web, if anything)
+- money: no money flow: nobody pays or receives anything because of it
+- web: no researched outcome-web link starts from this law
+- repeal: nothing reached, so nothing to stop
+- allPlaces: reaches nobody anywhere
 
 **Federal campaign contribution limit** (`federal-campaign-contribution-limit`)
 

@@ -56,6 +56,12 @@
       "state": "US-UT"
     },
     {
+      "seed": "f4da8023d325aacb1ede812d485abb57c439fc53622fa9c9ef3c720fdf141870",
+      "key": "5054325",
+      "name": "Peacham, Vermont",
+      "state": "US-VT"
+    },
+    {
       "seed": "9268ffe9da331539be44c8148fa2d9523716ae6839dc355e58aa21e460230056",
       "key": "2745772",
       "name": "New Munich, Minnesota",
@@ -217,9 +223,9 @@
         "n/a": 75
       },
       "knowing": {
-        "wired": 124,
+        "wired": 128,
         "partial": 0,
-        "missing": 4,
+        "missing": 0,
         "stopgap": 0,
         "n/a": 50
       },
@@ -1599,7 +1605,7 @@
     },
     {
       "key": "budget-line:healthAndHospitals",
-      "name": "Spending: healthAndHospitals",
+      "name": "Spending: health and hospitals",
       "kind": "budget-line",
       "family": "healthcare",
       "reachGroup": "B",
@@ -2330,7 +2336,7 @@
     },
     {
       "key": "budget-line:higherEducation",
-      "name": "Spending: higherEducation",
+      "name": "Spending: higher education",
       "kind": "budget-line",
       "family": "education",
       "reachGroup": "B",
@@ -4306,7 +4312,7 @@
     },
     {
       "key": "budget-line:welfareAndMedicaid",
-      "name": "Spending: welfareAndMedicaid",
+      "name": "Spending: welfare and Medicaid",
       "kind": "budget-line",
       "family": "assistance",
       "reachGroup": "B",
@@ -7585,7 +7591,7 @@
     },
     {
       "key": "budget-line:naturalResources",
-      "name": "Spending: naturalResources",
+      "name": "Spending: natural resources",
       "kind": "budget-line",
       "family": "energy-environment",
       "reachGroup": "B",
@@ -10340,7 +10346,7 @@
     },
     {
       "key": "state-contribution-limit-governor",
-      "name": "State campaign contribution limit: governor",
+      "name": "State campaign contribution limit for governor",
       "kind": "amount",
       "family": "government",
       "reachGroup": null,
@@ -10349,7 +10355,7 @@
       "links": {
         "exists": {
           "status": "partial",
-          "evidence": "42/56 places (state 42); src/core2/data/laws/starting-law.json jurisdictions",
+          "evidence": "42/56 places (state 42); src/core2/data/laws/starting-law.json jurisdictions; drawn place row law:US-VT:state:state-contribution-limit-governor:general:2025-01-01",
           "why": "no starting row in US-AK, US-AL, US-AS, US-IA, US-IN, US-MP, US-MS, US-ND, US-NE, US-OR, US-PA, US-TX..."
         },
         "change": {
@@ -10359,47 +10365,53 @@
         },
         "reach": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "Peacham, Vermont, US-VT (seed 5b7f20c9e1a43d68): state-contribution-limit-governor 4480 -> 4928 at state (law:US-VT:state:state-contribution-limit-governor:general:2025-01-21:law-wiring-d24ec12c) effective 2025-01-21",
+          "why": "no law-reach row: nothing records who it applies to"
         },
         "systems": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "table trace: no engine read the law's rows in the run",
+          "why": "no engine reads it (only lawmaking, news or the outcome web, if anything)"
         },
         "money": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "journal trace: no post differs from the control world",
+          "why": "no money flow: nobody pays or receives anything because of it"
         },
         "web": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "data/research/outcome-web/links.json",
+          "why": "no researched outcome-web link starts from this law"
         },
         "knowing": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "Peacham, Vermont, US-VT (seed 5b7f20c9e1a43d68): 70 people heard (person_268117cb5f71fce9:printed:outlet:cable:0:national:law-took-effect:law:US-VT:state:state-contribution-limit-governor:general:2025-01-21:law-wiring-d24ec12c)",
+          "why": ""
         },
         "repeal": {
           "status": "missing",
           "evidence": "",
-          "why": "not run"
+          "why": "nothing reached, so nothing to stop"
         },
         "allPlaces": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "Peacham, Vermont, US-VT (seed 5b7f20c9e1a43d68)",
+          "why": "reaches nobody anywhere"
         }
       },
       "screens": [],
-      "runs": [],
+      "runs": [
+        {
+          "place": "Peacham, Vermont, US-VT (seed 5b7f20c9e1a43d68)",
+          "change": "state-contribution-limit-governor 4480 -> 4928 at state (law:US-VT:state:state-contribution-limit-governor:general:2025-01-21:law-wiring-d24ec12c) effective 2025-01-21",
+          "inForceAtOpening": false
+        }
+      ],
       "errors": []
     },
     {
       "key": "state-contribution-limit-state-senate",
-      "name": "State campaign contribution limit: stateSenate",
+      "name": "State campaign contribution limit for state senate",
       "kind": "amount",
       "family": "government",
       "reachGroup": null,
@@ -10408,7 +10420,7 @@
       "links": {
         "exists": {
           "status": "partial",
-          "evidence": "42/56 places (state 42); src/core2/data/laws/starting-law.json jurisdictions",
+          "evidence": "42/56 places (state 42); src/core2/data/laws/starting-law.json jurisdictions; drawn place row law:US-VT:state:state-contribution-limit-state-senate:general:2025-01-01",
           "why": "no starting row in US-AK, US-AL, US-AS, US-IA, US-IN, US-MP, US-MS, US-ND, US-NE, US-OR, US-PA, US-TX..."
         },
         "change": {
@@ -10418,47 +10430,53 @@
         },
         "reach": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "Peacham, Vermont, US-VT (seed 5b7f20c9e1a43d68): state-contribution-limit-state-senate 1680 -> 1848 at state (law:US-VT:state:state-contribution-limit-state-senate:general:2025-01-21:law-wiring-85f760cd) effective 2025-01-21",
+          "why": "no law-reach row: nothing records who it applies to"
         },
         "systems": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "table trace: no engine read the law's rows in the run",
+          "why": "no engine reads it (only lawmaking, news or the outcome web, if anything)"
         },
         "money": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "journal trace: no post differs from the control world",
+          "why": "no money flow: nobody pays or receives anything because of it"
         },
         "web": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "data/research/outcome-web/links.json",
+          "why": "no researched outcome-web link starts from this law"
         },
         "knowing": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "Peacham, Vermont, US-VT (seed 5b7f20c9e1a43d68): 70 people heard (person_268117cb5f71fce9:printed:outlet:cable:0:national:law-took-effect:law:US-VT:state:state-contribution-limit-state-senate:general:2025-01-21:law-wiring-85f760cd)",
+          "why": ""
         },
         "repeal": {
           "status": "missing",
           "evidence": "",
-          "why": "not run"
+          "why": "nothing reached, so nothing to stop"
         },
         "allPlaces": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "Peacham, Vermont, US-VT (seed 5b7f20c9e1a43d68)",
+          "why": "reaches nobody anywhere"
         }
       },
       "screens": [],
-      "runs": [],
+      "runs": [
+        {
+          "place": "Peacham, Vermont, US-VT (seed 5b7f20c9e1a43d68)",
+          "change": "state-contribution-limit-state-senate 1680 -> 1848 at state (law:US-VT:state:state-contribution-limit-state-senate:general:2025-01-21:law-wiring-85f760cd) effective 2025-01-21",
+          "inForceAtOpening": false
+        }
+      ],
       "errors": []
     },
     {
       "key": "state-contribution-limit-state-house",
-      "name": "State campaign contribution limit: stateHouse",
+      "name": "State campaign contribution limit for state house",
       "kind": "amount",
       "family": "government",
       "reachGroup": null,
@@ -10467,7 +10485,7 @@
       "links": {
         "exists": {
           "status": "partial",
-          "evidence": "40/56 places (state 40); src/core2/data/laws/starting-law.json jurisdictions",
+          "evidence": "40/56 places (state 40); src/core2/data/laws/starting-law.json jurisdictions; drawn place row law:US-VT:state:state-contribution-limit-state-house:general:2025-01-01",
           "why": "no starting row in US-AK, US-AL, US-AS, US-GU, US-IA, US-IN, US-MP, US-MS, US-ND, US-NE, US-OR, US-PA..."
         },
         "change": {
@@ -10477,47 +10495,53 @@
         },
         "reach": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "Peacham, Vermont, US-VT (seed 5b7f20c9e1a43d68): state-contribution-limit-state-house 1120 -> 1232 at state (law:US-VT:state:state-contribution-limit-state-house:general:2025-01-21:law-wiring-741c0246) effective 2025-01-21",
+          "why": "no law-reach row: nothing records who it applies to"
         },
         "systems": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "table trace: no engine read the law's rows in the run",
+          "why": "no engine reads it (only lawmaking, news or the outcome web, if anything)"
         },
         "money": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "journal trace: no post differs from the control world",
+          "why": "no money flow: nobody pays or receives anything because of it"
         },
         "web": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "data/research/outcome-web/links.json",
+          "why": "no researched outcome-web link starts from this law"
         },
         "knowing": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "Peacham, Vermont, US-VT (seed 5b7f20c9e1a43d68): 70 people heard (person_268117cb5f71fce9:printed:outlet:cable:0:national:law-took-effect:law:US-VT:state:state-contribution-limit-state-house:general:2025-01-21:law-wiring-741c0246)",
+          "why": ""
         },
         "repeal": {
           "status": "missing",
           "evidence": "",
-          "why": "not run"
+          "why": "nothing reached, so nothing to stop"
         },
         "allPlaces": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "Peacham, Vermont, US-VT (seed 5b7f20c9e1a43d68)",
+          "why": "reaches nobody anywhere"
         }
       },
       "screens": [],
-      "runs": [],
+      "runs": [
+        {
+          "place": "Peacham, Vermont, US-VT (seed 5b7f20c9e1a43d68)",
+          "change": "state-contribution-limit-state-house 1120 -> 1232 at state (law:US-VT:state:state-contribution-limit-state-house:general:2025-01-21:law-wiring-741c0246) effective 2025-01-21",
+          "inForceAtOpening": false
+        }
+      ],
       "errors": []
     },
     {
       "key": "state-contribution-limit-local",
-      "name": "State campaign contribution limit: local",
+      "name": "State campaign contribution limit for local office",
       "kind": "amount",
       "family": "government",
       "reachGroup": null,
@@ -10526,7 +10550,7 @@
       "links": {
         "exists": {
           "status": "partial",
-          "evidence": "34/56 places (state 34); src/core2/data/laws/starting-law.json jurisdictions",
+          "evidence": "34/56 places (state 34); src/core2/data/laws/starting-law.json jurisdictions; drawn place row law:US-VT:state:state-contribution-limit-local:general:2025-01-01",
           "why": "no starting row in US-AK, US-AL, US-AS, US-CO, US-IA, US-IN, US-ME, US-MN, US-MP, US-MS, US-ND, US-NE..."
         },
         "change": {
@@ -10536,42 +10560,48 @@
         },
         "reach": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "Peacham, Vermont, US-VT (seed 5b7f20c9e1a43d68): state-contribution-limit-local 1120 -> 1232 at state (law:US-VT:state:state-contribution-limit-local:general:2025-01-21:law-wiring-5f05fd0d) effective 2025-01-21",
+          "why": "no law-reach row: nothing records who it applies to"
         },
         "systems": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "table trace: no engine read the law's rows in the run",
+          "why": "no engine reads it (only lawmaking, news or the outcome web, if anything)"
         },
         "money": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "journal trace: no post differs from the control world",
+          "why": "no money flow: nobody pays or receives anything because of it"
         },
         "web": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "data/research/outcome-web/links.json",
+          "why": "no researched outcome-web link starts from this law"
         },
         "knowing": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "Peacham, Vermont, US-VT (seed 5b7f20c9e1a43d68): 70 people heard (person_268117cb5f71fce9:printed:outlet:cable:0:national:law-took-effect:law:US-VT:state:state-contribution-limit-local:general:2025-01-21:law-wiring-5f05fd0d)",
+          "why": ""
         },
         "repeal": {
           "status": "missing",
           "evidence": "",
-          "why": "not run"
+          "why": "nothing reached, so nothing to stop"
         },
         "allPlaces": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "Peacham, Vermont, US-VT (seed 5b7f20c9e1a43d68)",
+          "why": "reaches nobody anywhere"
         }
       },
       "screens": [],
-      "runs": [],
+      "runs": [
+        {
+          "place": "Peacham, Vermont, US-VT (seed 5b7f20c9e1a43d68)",
+          "change": "state-contribution-limit-local 1120 -> 1232 at state (law:US-VT:state:state-contribution-limit-local:general:2025-01-21:law-wiring-5f05fd0d) effective 2025-01-21",
+          "inForceAtOpening": false
+        }
+      ],
       "errors": []
     },
     {
