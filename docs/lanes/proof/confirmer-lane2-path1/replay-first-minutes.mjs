@@ -50,7 +50,6 @@ try {
   const years = await page.locator("#cr-year option").allInnerTexts();
   const year = years.find((y) => y.trim() === "2006") ?? years[1];
   await page.locator("#cr-year").selectOption({ label: year });
-  await page.locator("#cr-character-next").click();
   await page.locator("#cr-states .item").first().waitFor();
   await page.locator("#cr-state-search").fill(stateName);
   await page

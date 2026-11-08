@@ -5,7 +5,6 @@
 // The screen hands it the map view (/api/map) and the parties with their seat
 // counts; nothing here reads a record.
 /* global document, requestAnimationFrame */
-import { el } from "./dom.mjs";
 
 const NS = "http://www.w3.org/2000/svg";
 
@@ -120,24 +119,3 @@ export function districtMap(view, { wordHolders }) {
 }
 /** The most counties a map names on itself; more are named by hover. */
 const MAP_LABELS_MOST = 8;
-
-/** The legend under the map: a swatch per party and its seats, in the party's color. */
-export function partyLegend(parties, wordSeats) {
-  return el(
-    "ul",
-    { className: "map-legend" },
-    ...parties.map(({ party, seats }) =>
-      el(
-        "li",
-        { className: partyClass(party) },
-        el("span", { className: "map-swatch" }),
-        el("span", { textContent: `${party} · ${wordSeats(seats)}` }),
-      ),
-    ),
-  );
-}
-
-/** The box under the map that holds one party's officeholders, redrawn as the party changes. */
-export function partyRoster() {
-  return el("div", { className: "party-roster" });
-}

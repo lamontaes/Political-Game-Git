@@ -992,10 +992,43 @@ input[type="range"]::-moz-range-thumb {
   color: var(--text-2);
 }
 /* The creator (the Oct 12 SetupScreen's steps). */
-#front:has(#cr-character:not([hidden])),
-#front:has(#cr-place:not([hidden])),
-#front:has(#cr-look:not([hidden])) {
-  width: 420px;
+#front:has(#cr-screen:not([hidden])) {
+  width: min(1180px, 94vw);
+}
+#cr-screen {
+  grid-template-columns: 250px minmax(0, 1fr) minmax(0, 1fr);
+  gap: 22px;
+}
+#cr-figure {
+  align-items: center;
+}
+#cr-figure .portraits {
+  gap: 8px;
+}
+#cr-figure .portrait {
+  height: 170px;
+}
+#cr-figure .strip-name {
+  text-align: center;
+}
+#cr-screen .secbody {
+  padding-bottom: 8px;
+}
+#cr-screen .choice-list {
+  max-height: 150px;
+}
+#cr-screen .acts {
+  justify-content: flex-end;
+}
+#cr-place-summary-name {
+  margin: 0 0 4px;
+}
+#cr-place-summary-name:empty {
+  display: none;
+}
+#cr-place.missing #cr-place-summary-name::before,
+#cr-screen .sec:has(.missing) .sechead {
+  color: var(--red);
 }
 .summary {
   display: flex;
@@ -2364,132 +2397,6 @@ body:not(.dev) .dev-only {
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   }
 }
-/* Relationships are shown only when the player's records contain them. */
-#sheet-body:has(.relationship-web) {
-  max-width: none;
-}
-.people-toolbar,
-.people-filters,
-.people-selection {
-  display: flex;
-  gap: 16px;
-  align-items: center;
-}
-.people-toolbar {
-  justify-content: space-between;
-}
-.people-search {
-  width: min(340px, 60%);
-}
-.people-filters {
-  margin: 16px 0;
-}
-.relationship-web {
-  position: relative;
-  height: min(50vh, 470px);
-  min-height: 280px;
-}
-.people-lines {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-}
-/* The People map as the owner liked it (Oct 28: the earlier web): a round
-   face in a ring colored by kind, and lines you can see, in the same color. */
-.people-node,
-.people-key span {
-  --kind: rgba(200, 185, 151, 0.6);
-}
-.people-node.family,
-.people-key .family {
-  --kind: rgba(194, 155, 72, 0.9);
-}
-.people-node.household,
-.people-key .household {
-  --kind: rgba(200, 185, 151, 0.8);
-}
-.people-node.friends,
-.people-key .friends {
-  --kind: rgba(132, 176, 128, 0.85);
-}
-.people-node.work,
-.people-key .work {
-  --kind: rgba(140, 170, 190, 0.85);
-}
-.people-node.politics,
-.people-key .politics {
-  --kind: rgba(176, 120, 96, 0.9);
-}
-.people-edge {
-  stroke: rgba(200, 185, 151, 0.45);
-  stroke-width: 1.5px;
-  vector-effect: non-scaling-stroke;
-}
-.people-edge.family {
-  stroke: rgba(194, 155, 72, 0.85);
-}
-.people-edge.household {
-  stroke: rgba(200, 185, 151, 0.7);
-  stroke-dasharray: 4 3;
-}
-.people-edge.friends {
-  stroke: rgba(132, 176, 128, 0.8);
-}
-.people-edge.work {
-  stroke: rgba(140, 170, 190, 0.8);
-}
-.people-edge.politics {
-  stroke: rgba(176, 120, 96, 0.85);
-}
-.people-edge.selected {
-  stroke-width: 3px;
-}
-.people-node.dim,
-.people-edge.dim {
-  opacity: 0.32;
-}
-/* The face's center sits on the point; names hang below, or above for the
-   people in the top half. */
-#sheet-body .people-node {
-  position: absolute;
-  transform: translate(-50%, -30px);
-  width: 155px;
-  display: grid;
-  justify-items: center;
-  gap: 3px;
-  background: none;
-  border: none;
-  box-shadow: none;
-  padding: 0;
-  margin: 0;
-}
-#sheet-body .people-node.above {
-  transform: translate(-50%, calc(-100% + 30px));
-}
-.people-node.above > :first-child {
-  order: 9;
-}
-.people-node::after {
-  display: none;
-}
-.people-node b {
-  font: 500 13px var(--ui);
-}
-.people-node span {
-  font: 12px var(--ui);
-  color: var(--text-2);
-}
-.people-node b,
-.people-node span,
-.people-node em,
-.people-center b {
-  text-shadow:
-    0 0 3px var(--iron),
-    0 0 3px var(--iron);
-}
-.people-node img,
-.people-center img,
 .headshot {
   box-sizing: border-box;
   width: 60px;
@@ -2500,68 +2407,96 @@ body:not(.dev) .dev-only {
   object-position: center top;
   background: var(--iron);
 }
-.people-center img,
-.people-center .headshot {
-  width: 72px;
-  height: 72px;
-  border-color: var(--gold);
-}
 /* The headshot's figure is placed inside the round frame by play.mjs. */
 .headshot {
   display: block;
   background-repeat: no-repeat;
 }
-.people-node.selected img,
-.people-node.selected .headshot {
-  border-width: 4px;
-  border-color: var(--gold);
+/* People: the roster of everyone you know at the left, grouped, and the selected person's
+   card beside it (owner, Nov 7: the person card, "perfect"; the mock's pl-people). */
+#sheet-body:has(.people-screen) {
+  max-width: none;
 }
-.people-node.selected b {
+.people-screen {
+  display: grid;
+  grid-template-columns: 270px 1fr;
+  gap: 22px;
+  align-items: start;
+}
+.people-roster {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-family: var(--ui);
+}
+.people-roster .sechead {
+  margin: 0 0 6px;
+  padding: 8px 12px;
+  font:
+    700 15px "Cinzel",
+    "Playfair Display",
+    Georgia,
+    serif;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #f2e6c9;
+  background: linear-gradient(
+    90deg,
+    rgba(196, 160, 90, 0.32),
+    rgba(196, 160, 90, 0)
+  );
+}
+.people-roster .group {
+  margin: 10px 0 2px 12px;
+  font: 700 11.5px var(--ui);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
   color: var(--gold);
 }
-.people-center {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  display: grid;
-  justify-items: center;
-  gap: 8px;
-  font: 15px var(--name);
-}
-.people-selection {
-  min-height: 44px;
-  justify-content: center;
-}
-.people-key {
+.people-roster .person,
+#sheet-body .people-roster .person {
   display: flex;
-  justify-content: center;
-  gap: 22px;
-  font: 11px var(--ui);
-  color: var(--text-2);
-  margin: 12px 0;
-}
-.people-key span::before {
-  content: "";
-  display: inline-block;
-  width: 22px;
-  margin-right: 7px;
-  vertical-align: middle;
-  border-top: 2px solid var(--kind);
-}
-.people-key .household::before {
-  border-top-style: dashed;
-}
-/* The list of everyone you know: face cards across the area, paged. */
-.relationship-web.people-list {
-  height: auto;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  width: 100%;
+  margin: 0;
+  padding: 6px 12px;
+  background: none;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  text-align: left;
+  color: #f2e6c9;
+  font: inherit;
   min-height: 0;
+  cursor: pointer;
 }
-.people-list .member-card.on {
-  border-color: rgba(214, 189, 132, 0.8);
-  box-shadow:
-    0 0 0 1px rgba(214, 189, 132, 0.35),
-    0 0 12px rgba(214, 189, 132, 0.2);
+.people-roster .person b {
+  font: 600 15px var(--ui);
+}
+.people-roster .person span {
+  font: 13px var(--ui);
+  color: var(--muted, #c4bbab);
+}
+.people-roster .person:hover,
+#sheet-body .people-roster .person:hover,
+#sheet-body .people-roster .person:focus-visible {
+  background: rgba(214, 189, 132, 0.12);
+  box-shadow: 0 0 10px rgba(214, 189, 132, 0.2);
+}
+#sheet-body .people-roster .person[aria-pressed="true"] {
+  background: linear-gradient(
+    90deg,
+    rgba(196, 160, 90, 0.34),
+    rgba(196, 160, 90, 0.08)
+  );
+}
+.people-pane .strip-screen {
+  grid-template-columns: 1fr;
+}
+.people-pane .strip-screen:has(.mxbust) {
+  grid-template-columns: 300px 1fr;
 }
 /* Politics layouts retain the existing Kit 13 panel frame. */
 #sheet-body:has(.government-picker, .entries-rows, .screen-grid) {
@@ -2731,18 +2666,9 @@ details.entry[open] {
   .paper-masthead h2 {
     font-size: 30px;
   }
-  #sheet-body .people-node {
-    width: 115px;
-  }
-  .people-node b {
-    font-size: 11px;
-  }
-  .people-key {
-    gap: 10px;
-  }
 }
 
-#sheet-body:has(.entries-cards, .entries-tiles) {
+#sheet-body:has(.entries-cards) {
   max-width: 1200px;
 }
 .entries-cards {
@@ -2772,22 +2698,8 @@ details.entry[open] {
   text-align: left;
 }
 .entries-cards .entry h3,
-.entries-tiles .entry h3 {
-  font: 600 16px/1.2 var(--ui);
-  color: var(--text-strong);
-  margin: 0 0 4px;
-}
 .entries-cards .entry p,
-.entries-tiles .entry p {
-  font: 14px/1.3 var(--ui);
-  color: var(--text-2);
-  margin: 0 0 2px;
-}
 .entries-cards .entry .entry-note,
-.entries-tiles .entry .entry-note {
-  color: var(--gold);
-  font-size: 13px;
-}
 .entry-picture {
   width: 100%;
   aspect-ratio: 5 / 2;
@@ -3269,23 +3181,6 @@ details.entry[open] {
 .gov-map .yours.place {
   fill: var(--gold);
   fill-opacity: 1;
-}
-.map-legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 22px;
-  margin: 0 0 20px;
-  padding: 0;
-  list-style: none;
-  font: 15px var(--ui);
-}
-.map-swatch {
-  display: inline-block;
-  width: 12px;
-  height: 12px;
-  margin-right: 8px;
-  background: var(--party, var(--text-3));
-  vertical-align: -1px;
 }
 /* The parties' colors, by the party's name on the record. */
 .party-democratic {
@@ -3905,9 +3800,6 @@ details.entry[open] {
 #sheet-body .record-actions > button {
   margin: 0;
 }
-.tab-rail.people-filters {
-  gap: 3px;
-}
 /* The timeline: a gold line down the left, a round brass icon on it per record, and a
    small card with the year over the sentence; the pager's arrows name each chapter by
    its years. */
@@ -4022,44 +3914,129 @@ details.entry[open] {
   min-height: 0;
 }
 
-/* Travel, to its mock: three large pictured tiles across, two rows to a page, the room's
-   picture with a people mark on its corner, the place's name and who is there under it. */
-.entries-tiles {
-  margin-top: 12px;
+/* Travel, to its mock (pl-travel): groups of picture tiles at the left, the chosen
+   place's picture, hours, who is there and what you can do at the right. */
+#sheet-body:has(.travel-screen) {
+  max-width: none;
 }
-#sheet-body .entries-tiles .pager-grid .entry-go {
-  padding: 0;
-  height: 100%;
-  overflow: hidden;
+.travel-screen {
+  width: 100%;
+  min-width: min(1180px, 88vw);
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+  gap: 26px;
+  align-items: start;
+  font-family: var(--ui);
 }
-.entry-art {
+.travel-group {
+  margin: 12px 0 6px;
+  font: 700 12px var(--ui);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.travel-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+#sheet-body .travel-tile {
   position: relative;
-}
-.entries-tiles .entry-picture {
-  aspect-ratio: 2 / 1;
-  height: auto;
-}
-.entry-badge {
-  position: absolute;
-  right: 8px;
-  bottom: 8px;
-  width: 34px;
-  height: 34px;
-  padding: 6px;
-  box-sizing: border-box;
-  border-radius: 50%;
-  background: rgba(24, 22, 20, 0.92);
-  border: 1px solid var(--brass);
-  fill: none;
-  stroke: var(--gold);
-  stroke-width: 1.7;
-  stroke-linecap: round;
-}
-#sheet-body .entries-tiles .entry {
-  background: none;
-  border: none;
-  box-shadow: none;
+  height: 104px;
   padding: 0;
+  overflow: hidden;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  background: rgba(0, 0, 0, 0.3);
+  text-align: left;
+}
+.travel-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.travel-tile b {
+  position: absolute;
+  left: 10px;
+  bottom: 8px;
+  right: 10px;
+  font: 600 15px var(--ui);
+  color: #fff7e2;
+  text-shadow: 0 1px 4px #000;
+}
+.travel-tile::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(transparent 45%, rgba(0, 0, 0, 0.6));
+}
+#sheet-body .travel-tile:hover,
+#sheet-body .travel-tile:focus-visible,
+#sheet-body .travel-tile[aria-pressed="true"] {
+  border-color: rgba(214, 189, 132, 0.85);
+  box-shadow: 0 0 14px rgba(214, 189, 132, 0.35);
+}
+.travel-detail.strip-screen {
+  width: auto;
+  min-width: 0;
+  box-sizing: border-box;
+  align-items: stretch;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.travel-hero {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 5 / 2;
+  overflow: hidden;
+  border-radius: 2px;
+}
+.travel-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(transparent 40%, rgba(0, 0, 0, 0.65));
+}
+.travel-hero h2,
+#sheet-body .travel-hero h2 {
+  position: absolute;
+  z-index: 1;
+  left: 16px;
+  bottom: 10px;
+  margin: 0;
+  font:
+    600 26px/1.1 "Playfair Display",
+    Georgia,
+    serif;
+  text-transform: none;
+  letter-spacing: 0;
+  color: #fff7e2;
+  text-shadow: 0 1px 4px #000;
+}
+.travel-facts {
+  font: 15px var(--ui);
+  color: #f2e6c9;
+}
+.travel-facts span {
+  display: block;
+  font: 700 11px var(--ui);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+.travel-does {
+  margin: 0;
+  padding: 0 0 0 18px;
+  font: 15px var(--ui);
+  color: #f2e6c9;
+}
+#sheet-body .travel-go {
+  white-space: normal;
+  text-align: left;
+  align-self: flex-start;
 }
 
 /* ---- Money (on framed plates): the cash large, each month's
@@ -4149,53 +4126,97 @@ details.entry[open] {
   color: var(--text-2);
 }
 
-/* The Guide and Patch notes: cards on a plate, the chosen card's article
-   beside them, reading inside its own box. */
-.pick-cards .entry {
-  height: 100%;
+/* The Guide, to its mock (pl-guide): the words in a list, the chosen word's article in strips. */
+#sheet-body:has(.guide-screen) {
+  max-width: none;
+}
+.guide-screen {
+  width: 940px;
+  max-width: 100%;
+  font-family: var(--ui);
+}
+.guide-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.guide-body {
+  display: grid;
+  grid-template-columns: 290px minmax(0, 1fr);
+  gap: 26px;
+  align-items: start;
+}
+.guide-roster .sechead {
+  margin: 0 0 6px;
+  padding: 8px 12px;
+  font:
+    700 15px "Cinzel",
+    "Playfair Display",
+    Georgia,
+    serif;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #f2e6c9;
+  background: linear-gradient(
+    90deg,
+    rgba(196, 160, 90, 0.32),
+    rgba(196, 160, 90, 0)
+  );
+}
+#sheet-body .guide-roster .term-row {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 6px 12px;
+  background: none;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  text-align: left;
+  font: 600 15px var(--ui);
+  color: #f2e6c9;
   min-height: 0;
-  overflow: hidden;
 }
-.pick-cards .entry h3 {
-  font: 700 15px/1.2 var(--name);
-  color: var(--gold);
-  margin: 0 0 3px;
+#sheet-body .guide-roster .term-row:hover,
+#sheet-body .guide-roster .term-row:focus-visible {
+  background: rgba(214, 189, 132, 0.12);
+  box-shadow: 0 0 10px rgba(214, 189, 132, 0.2);
 }
-.pick-cards .entry span {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  font: 13px/1.3 var(--ui);
-  color: var(--text-2);
+#sheet-body .guide-roster .term-row[aria-pressed="true"] {
+  background: linear-gradient(
+    90deg,
+    rgba(196, 160, 90, 0.34),
+    rgba(196, 160, 90, 0.08)
+  );
 }
-#sheet-body .pick-cards .entry.on {
-  border-color: rgba(214, 189, 132, 0.8);
-  box-shadow:
-    0 0 0 1px rgba(214, 189, 132, 0.35),
-    0 0 12px rgba(214, 189, 132, 0.2);
+.guide-article.strip-screen {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: auto;
+  min-width: 0;
 }
-.pick-article .heading {
-  font: 800 clamp(20px, 2vw, 28px) / 1.15 var(--name);
-  margin: 0 0 8px;
+#sheet-body .guide-term {
+  margin: 0;
+  font:
+    600 38px/1.1 "Playfair Display",
+    Georgia,
+    serif;
+  text-transform: none;
+  letter-spacing: 0.3px;
+  color: #f2e6c9;
 }
-.guide-short {
-  font: 500 16px/1.4 var(--speech);
-  color: var(--text-strong);
-  margin: 0 0 10px;
+.guide-related {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
-.article-text {
-  font: 400 15px/1.45 var(--speech);
-  color: var(--text);
-  margin: 0 0 10px;
+.guide-none {
+  color: #c4bbab;
+  font: 15px var(--ui);
 }
-.pick-article {
-  max-height: calc(100vh - 250px);
-  overflow-y: auto;
-}
-.pick-article .chips {
-  margin: 0 0 8px;
-}
+
 /* Patch notes: the release's name is its picker; its changes one card a
    row, the chosen change wider beside them in the reading type. */
 .patch-notes .split-body {
@@ -4225,37 +4246,12 @@ select.release-pick {
 .note-cards .entry span {
   display: none;
 }
-.patch-notes .pick-article .heading {
-  font: 700 19px/1.3 var(--speech);
-  color: var(--text-strong);
-}
 .member-line b {
   font-weight: inherit;
 }
 
-/* Politics → Your office on plates: a rail of tabs, one page of plates at a time, so the
-   panel fits and never scrolls as a page (owner, Oct 29). */
-.office-screen {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  min-height: 0;
-}
-.office-body {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  min-height: 0;
-}
-.office-body .fact-plates {
-  margin: 0;
-}
 .office-paged .pager-grid > * {
   align-self: center;
-}
-.office-bills .plate {
-  height: 100%;
-  overflow: hidden;
 }
 
 /* A short window gives the budgets ring less room. */
@@ -5172,4 +5168,311 @@ select.release-pick {
 }
 .news-story.lead .news-text {
   column-count: 2;
+}
+
+/* The roster screens (Elections, to pl-elections): a titled list grouped under small
+   headings at the left, the chosen entry's page at the right. */
+#sheet-body:has(.roster-screen) {
+  max-width: none;
+}
+.roster-screen {
+  width: 1000px;
+  max-width: 100%;
+  display: grid;
+  grid-template-columns: 290px minmax(0, 1fr);
+  gap: 26px;
+  align-items: start;
+  font-family: var(--ui);
+}
+.roster .sechead {
+  margin: 0 0 6px;
+  padding: 8px 12px;
+  font:
+    700 15px "Cinzel",
+    "Playfair Display",
+    Georgia,
+    serif;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #f2e6c9;
+  background: linear-gradient(
+    90deg,
+    rgba(196, 160, 90, 0.32),
+    rgba(196, 160, 90, 0)
+  );
+}
+.roster-group {
+  align-self: end;
+  padding: 0 12px 2px;
+  font: 700 11.5px var(--ui);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+#sheet-body .roster .roster-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  width: 100%;
+  margin: 0;
+  padding: 6px 12px;
+  background: none;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  text-align: left;
+  color: #f2e6c9;
+  min-height: 0;
+}
+.roster-row b {
+  font: 600 15px var(--ui);
+}
+.roster-row span {
+  font: 13px var(--ui);
+  color: #c4bbab;
+}
+#sheet-body .roster .roster-row:hover,
+#sheet-body .roster .roster-row:focus-visible {
+  background: rgba(214, 189, 132, 0.12);
+  box-shadow: 0 0 10px rgba(214, 189, 132, 0.2);
+}
+#sheet-body .roster .roster-row[aria-pressed="true"] {
+  background: linear-gradient(
+    90deg,
+    rgba(196, 160, 90, 0.34),
+    rgba(196, 160, 90, 0.08)
+  );
+}
+#sheet-body .roster-title {
+  margin: 0 0 10px;
+  font:
+    600 32px/1.1 "Playfair Display",
+    Georgia,
+    serif;
+  text-transform: none;
+  letter-spacing: 0;
+  color: #f2e6c9;
+}
+.roster-title span {
+  margin-left: 12px;
+  font: 500 15px var(--ui);
+  color: var(--gold2, #e6cd93);
+}
+.roster-cols {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+}
+.roster-side {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.candidate {
+  margin-bottom: 10px;
+}
+.roster-page.strip-screen {
+  display: block;
+  width: auto;
+  min-width: 0;
+}
+.roster-row b {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.roster-row span {
+  white-space: nowrap;
+}
+
+/* Issues (pl-issues): subjects, then a subject's laws, then the law's page. */
+.issues-screen,
+.issues-laws {
+  width: auto;
+  max-width: 100%;
+}
+.issues-screen {
+  width: 1180px;
+  grid-template-columns: 250px minmax(0, 1fr);
+}
+.issues-laws {
+  grid-template-columns: 270px minmax(0, 1fr);
+}
+.issues-screen .roster-row span {
+  min-width: 1.5em;
+  text-align: right;
+}
+
+/* Your office (pl-office): my seat, my desk and the budget and deals in three columns. */
+#sheet-body:has(.office-board) {
+  max-width: none;
+}
+.strip-board.office-board {
+  width: 1080px;
+  max-width: 100%;
+}
+.office-board .board-cols {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr) minmax(0, 1fr);
+}
+.desk-bill {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+
+/* The ballot (pl-ballot), election night (pl-night) and election morning (pl-eday), over the
+   room's picture. */
+#ballot,
+#returns {
+  top: 6vh;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  transform: translateX(-50%);
+  width: min(1180px, calc(100vw - 2 * var(--gutter)));
+}
+.ballot-paper {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 28px;
+  font-family: var(--ui);
+}
+.ballot-sheet {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  font-family: "Courier Prime", monospace;
+}
+.ballot-race {
+  margin: 14px 0 2px;
+  font:
+    700 15px "Courier Prime",
+    monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #f2e6c9;
+}
+#ballot .ballot-sheet .ballot-choice {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  padding: 4px 6px;
+  background: none;
+  border: none;
+  box-shadow: none;
+  color: #f2e6c9;
+  font:
+    600 15px "Courier Prime",
+    monospace;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.ballot-choice .oval {
+  width: 28px;
+  height: 16px;
+  border: 1.5px solid #d6bd84;
+  border-radius: 50%;
+}
+.ballot-choice[aria-pressed="true"] .oval {
+  background: #d6bd84;
+}
+#ballot .ballot-choice:hover,
+#ballot .ballot-choice:focus-visible {
+  background: rgba(214, 189, 132, 0.14);
+}
+.ballot-person {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 12px;
+  margin-bottom: 14px;
+  align-items: start;
+}
+.ballot-person b {
+  font:
+    600 20px "Playfair Display",
+    Georgia,
+    serif;
+  color: #f2e6c9;
+}
+.night-board.strip-screen {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: auto;
+}
+.night-title {
+  margin: 0;
+  font:
+    600 34px "Playfair Display",
+    Georgia,
+    serif;
+  text-transform: none;
+  letter-spacing: 0;
+  color: #f2e6c9;
+}
+.night-cols {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 22px;
+  align-items: start;
+}
+#returns.nation .night-cols .dotrows {
+  columns: 2;
+}
+/* Election morning: the narrator's lines in italics, the choices numbered, in one dark box at
+   the foot of the picture. */
+#election-day {
+  top: auto;
+  left: 50%;
+  right: auto;
+  bottom: 6vh;
+  transform: translateX(-50%);
+  width: min(1160px, calc(100vw - 2 * var(--gutter)));
+  background: rgba(14, 12, 10, 0.94);
+  border: none;
+}
+#election-day-lines p {
+  font: italic 18px/1.5 var(--speech);
+  color: #f2e6c9;
+}
+#election-day-acts {
+  counter-reset: choice;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+#election-day-acts .action {
+  counter-increment: choice;
+  text-align: left;
+  background: none;
+  border: none;
+  box-shadow: none;
+  font: 16px var(--ui);
+  color: #f2e6c9;
+}
+#election-day-acts .action::before {
+  content: counter(choice) ".";
+  display: inline-block;
+  width: 2em;
+  color: #d6bd84;
+  font-weight: 700;
+}
+#election-day-acts .action:hover,
+#election-day-acts .action:focus-visible {
+  background: rgba(214, 189, 132, 0.14);
+}
+.ballot-know.strip-screen {
+  display: block;
+  width: auto;
+}
+
+.guide-article .sec {
+  width: 100%;
 }

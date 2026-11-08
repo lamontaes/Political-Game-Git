@@ -18,7 +18,7 @@ const script = read("../../src/bench/play.mjs");
 
 const front = html.slice(
   html.indexOf('<section id="front"'),
-  html.indexOf("</section>", html.indexOf('<section id="front"')),
+  html.indexOf('id="front-status"', html.indexOf('<section id="front"')),
 );
 
 test("the title asks for its scenes", () => {
@@ -73,7 +73,6 @@ test("the title menu and the creator follow the Oct 12 build", () => {
     "start-birth-day",
     "start-birth-year",
     "creator-randomize-birthday",
-    "creator-summary-character",
     "state-search",
     "state-choices",
     "creator-change-state",

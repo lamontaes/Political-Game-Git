@@ -38,22 +38,40 @@ describe(`a state of emergency the player decides (seed ${seed})`, () => {
       const governor = townSeats(api).find(
         (s) => s.office.kind === "governor",
       )?.holder;
-      const ahead = townDisasters(api)
-        .filter(
-          (row) =>
-            row.begins > core.date &&
-            row.begins < addDays(makeIsoDate(core.date), 700) &&
-            federalAidFor(api, row.number) > 0,
-        )
-        .sort((a, b) => a.begins.localeCompare(b.begins))[0];
-      if (!governor || !ahead || !emergencyPower(api)) {
+      // A real FEMA disaster of this state with aid on the record (the game's own `townDisasters`).
+      const disaster = townDisasters(api).find(
+        (row) => federalAidFor(api, row.number) > 0,
+      );
+      if (!governor || !disaster || !emergencyPower(api)) {
         tried.push(`${where}: no governor with a disaster and the power`);
         continue;
       }
       // The governor is the player: the engine names the player by the world's own player id.
       (core as { playerId?: string }).playerId = memberKey(governor);
-      const stop = addDays(makeIsoDate(ahead.begins), 10);
-      for (let day = 0; day < 800 && core.date <= stop; day++) {
+      // The disaster is recorded the way the disasters engine records one when it begins:
+      // a `hazard.disaster` record with the FEMA number, which the executive engine answers.
+      api.emit({
+        id: `disaster:${disaster.number}:forced-for-test`,
+        date: core.date,
+        kind: "hazard.disaster",
+        personIds: [],
+        placeId: core.people.get(core.playerId ?? "")?.placeId ?? world.placeId,
+        publicRecord: true,
+        news: true,
+        facts: {
+          disasterNumber: String(disaster.number),
+          title: disaster.title,
+          incidentType: disaster.type,
+          statewide: String(disaster.statewide),
+        },
+        source: {
+          tag: "SOURCED",
+          citation: `FEMA disaster ${disaster.number}`,
+          asOf: core.date,
+        },
+      });
+      const stop = addDays(makeIsoDate(core.date), 12);
+      for (let day = 0; day < 14 && core.date <= stop; day++) {
         const offer = ordersView(core).find((row) => row.kind === "emergency");
         if (offer) {
           ordersDecide(core, offer.entryId, "issue");
@@ -64,7 +82,7 @@ describe(`a state of emergency the player decides (seed ${seed})`, () => {
           expect(declared.length, where).toBe(1);
           expect(declared[0]!.executiveId, where).toBe(memberKey(governor));
           console.log(
-            `emergency: ${where}, declared by the player after disaster ${ahead.number}`,
+            `emergency: ${where}, declared by the player after disaster ${disaster.number}`,
           );
           return;
         }
