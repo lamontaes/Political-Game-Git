@@ -875,8 +875,9 @@ export class DevMode {
   forceLayoff(personId: string) {
     const person = personOrFillIn(this.core, personId);
     if (!person) throw new Error("No such person.");
-    if (!person.jobId) throw new Error("They have no job to lose.");
-    const out = layOffWorker(this.api, person.jobId);
+    const jobId = person.jobId;
+    if (!jobId) throw new Error("They have no job to lose.");
+    const out = layOffWorker(this.api, jobId);
     if (out === null)
       throw new Error("Their job is not on a business's staff.");
     if (out === "worked-today")
@@ -884,7 +885,7 @@ export class DevMode {
     if (out === "over")
       throw new Error("The job stands for more than one: a counted worker.");
     return {
-      mark: this.mark("layoff", [personId], { personId, jobId: person.jobId }),
+      mark: this.mark("layoff", [personId], { personId, jobId }),
       layoff: out,
     };
   }
