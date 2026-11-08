@@ -34,7 +34,13 @@ const KIN_TIER = "husk";
 /** Each place's school district, found once per world (a cache). */
 const schools = new WeakMap<object, Map<string, string | undefined>>();
 
-/** The school a child of a place attends: its public school district, else the place's schools as the place itself. */
+/**
+ * The school a child of a place attends: its public school district, else the
+ * place's schools as the place itself. A place has one district and every
+ * child of it attends it; there are no attendance zones, buildings, private
+ * schools, school choice or homeschooling.
+ * stopgapId: SG-P15-school-assignment
+ */
 export function schoolOfPlace(
   core: Readonly<CoreState>,
   placeId: string,
