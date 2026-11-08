@@ -1,3 +1,4 @@
+import { promoteHusk as promoteHuskOfficial } from "./husk-promoters";
 import { refreshOfficeStaff } from "./civic-inputs";
 import { initialPersonState } from "./person-state";
 import {
@@ -12,6 +13,7 @@ import {
   keptDecision,
   queueCircleEntry,
   queueDecisionDetail,
+  queueRelationshipDetail,
 } from "./decision-detail";
 export { condenseCircleDecisions } from "./decision-detail";
 import { queueExperience } from "./knowledge-retention";
@@ -1289,6 +1291,14 @@ export function coreAPI(core: CoreState): CoreAPI {
       row.lastContactDate = at;
       row.latestChange = latestChange;
       core.relationships.set(id, row);
+      // A circle member's full decision is condensed on the log's schedule.
+      if (
+        latestChange?.decision?.scores &&
+        actorId !== core.playerId &&
+        !core.observer &&
+        !isExplicitlyControlledPersonV1(core, actorId)
+      )
+        queueRelationshipDetail(core, at, id);
       // Ties are only ever added here, never removed: tiedTo in
       // modules/people.ts reads a person's set of the same size as the same
       // ties. Anything that removes a tie must also drop that kept copy.
@@ -2252,6 +2262,10 @@ export function personOrFillIn(
   personId: PersonId,
 ): PersonState | undefined {
   const full = core.people.get(personId);
+  if (!full && core.husks.has(personId)) {
+    const promoted = promoteHuskOfficial(core, personId);
+    if (promoted) return promoted;
+  }
   // Someone returned to the counts comes back as the same person.
   if (full && !isDemoted(full)) return full;
   if (!residentFacts(core, personId)) return full;

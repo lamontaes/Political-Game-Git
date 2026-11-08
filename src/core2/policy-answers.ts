@@ -27,6 +27,16 @@ export type StartingAnswers = Record<
       string,
       {
         preempts?: boolean;
+        /**
+         * The state's statute gives its places this power by name, so they may
+         * legislate on the question although the state grants no general home
+         * rule. Needs `localGrantCite`; `localGrantLevels` narrows it to the
+         * levels the statute names (both when absent). A `local-power:` law row
+         * enacted in play overrides it.
+         */
+        localGrant?: boolean;
+        localGrantCite?: string;
+        localGrantLevels?: readonly string[];
         /** The date a federal ("US") answer takes effect. */
         operativeAt?: string;
         answer?: string;
