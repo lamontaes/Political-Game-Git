@@ -59,6 +59,8 @@ import {
   deskDecide,
   floorDecide,
   floorView,
+  ordersDecide,
+  ordersView,
   deskView,
   meetingAdjourn,
   meetingItem,
@@ -1073,6 +1075,20 @@ export async function benchRequest(
           url.searchParams.get("how") ?? "",
         );
         send(200, floorView(requireCore()));
+        return;
+      }
+      // Orders the governor's staff brings for signature, and the player's decision on each.
+      if (request.method === "GET" && url.pathname === "/api/orders") {
+        send(200, player?.personId ? ordersView(requireCore()) : []);
+        return;
+      }
+      if (request.method === "POST" && url.pathname === "/api/orders") {
+        ordersDecide(
+          requireCore(),
+          url.searchParams.get("entryId") ?? "",
+          url.searchParams.get("how") ?? "",
+        );
+        send(200, ordersView(requireCore()));
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/office") {
