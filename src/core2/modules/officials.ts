@@ -26,7 +26,15 @@ import senateClasses from "../../../data/research/offices/senate-classes-2026.js
 import tenure from "../data/offices/tenure.json" with { type: "json" };
 import stateResearchJson from "../../../data/research/offices/state-offices.json" with { type: "json" };
 import { coreAPI, fillInIdentity, registerModule } from "../state";
-import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
+import { registerHuskPromoter } from "../husk-promoters";
+import type { RecordedIdentity } from "../state";
+import type {
+  CoreAPI,
+  CoreModule,
+  CoreState,
+  PersonState,
+  Source,
+} from "../types";
 import { makeIsoDate } from "../kernel/dates";
 import { openingTemperaments } from "../opening-personality";
 import type { ModuleRow } from "../module-data";
@@ -96,6 +104,16 @@ export interface OfficialRow {
   readonly ended: string | null;
   /** False for a nominee the confirming bodies passed over: considered, never seated. */
   readonly seated?: false;
+  /**
+   * For another state's official (not the player's state, not federal): the
+   * identity they are built from when something opens them. Until then they
+   * are a recorded husk, not a full person (owner, Nov 5: simulate from the
+   * people there, keep only the result, generate on demand).
+   */
+  readonly husk?: {
+    readonly identity: Omit<RecordedIdentity, "source">;
+    readonly asOf: string;
+  };
 }
 
 export const OFFICIALS_MODULE: CoreModule = {
@@ -720,7 +738,7 @@ function seatAll(
       ...(roster ? { caucus: roster } : {}),
       temperament: temperamentOf(api.state as CoreState, personId, identity),
     });
-    fillInIdentity(api.state as CoreState, {
+    const recorded: Omit<RecordedIdentity, "source"> = {
       id: personId,
       givenName: identity.givenName,
       familyName: identity.familyName,
@@ -735,8 +753,17 @@ function seatAll(
         : {}),
       traits: drawn.traits,
       tier: OFFICIALS_DATA.tier,
-      source: source(api.state.date),
-    });
+    };
+    // Another state's official is a recorded husk until something opens
+    // them (`promoteOutsideOfficial`); the row below holds what they are
+    // built from. The player's state and the nation's seats are full people.
+    const husk = isOutsideState(api, spec.stateKey, spec.body, spec.bodyKind);
+    if (husk) recordHusk(api.state as CoreState, recorded, api.state.date);
+    else
+      fillInIdentity(api.state as CoreState, {
+        ...recorded,
+        source: source(api.state.date),
+      });
     if (spec.term)
       api
         .moduleState(OFFICES_MODULE_ID)
@@ -767,16 +794,81 @@ function seatAll(
       nextElectionYear: spec.nextElectionYear,
       termYears: spec.termYears,
       ended: null,
+      ...(husk ? { husk: { identity: recorded, asOf: api.state.date } } : {}),
     };
     table(api, "officials").put(row as unknown as ModuleRow);
   }
+  // Ties are built for the people seated (a husk makes none until opened).
   colleagues(
     api,
     new Set(
-      all.map((s) => (s.term ? `official:${s.term.id}` : `official:${s.key}`)),
+      all
+        .filter((s) => !isOutsideState(api, s.stateKey, s.body, s.bodyKind))
+        .map((s) => (s.term ? `official:${s.term.id}` : `official:${s.key}`)),
     ),
   );
 }
+
+/**
+ * A seat in another state's legislature: not the player's state, not a seat
+ * of the nation, and not an executive (a governor ties to their state's
+ * delegation in Congress, so governors and executives stay people).
+ */
+function isOutsideState(
+  api: CoreAPI,
+  stateKey: string,
+  body: string,
+  bodyKind: BodyKind,
+): boolean {
+  if (bodyKind !== "legislature" || body.startsWith("US:")) return false;
+  const town = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("loaded")
+    .get("town") as unknown as { stateKey: string } | undefined;
+  return town !== undefined && stateKey !== town.stateKey;
+}
+
+/** Record an official as a husk (name, birth, place) until something opens them. */
+function recordHusk(
+  core: CoreState,
+  identity: Omit<RecordedIdentity, "source">,
+  asOf: string,
+): void {
+  if (core.people.has(identity.id) || core.husks.has(identity.id)) return;
+  core.husks.set(identity.id, {
+    id: identity.id,
+    givenName: identity.givenName,
+    familyName: identity.familyName,
+    placeId: identity.placeId,
+    looks: {},
+    said: [],
+    birthDate: identity.birthDate,
+    familyIds: [],
+    source: source(asOf),
+  } as never);
+}
+
+/**
+ * Build the person behind another state's official when something opens them
+ * (a click, a meeting): the same identity and traits the seat was drawn with,
+ * so the same person every time.
+ */
+function promoteOutsideOfficial(
+  core: CoreState,
+  personId: string,
+): PersonState | undefined {
+  const api = coreAPI(core);
+  if (!core.modules.has(OFFICIALS_MODULE_ID)) return undefined;
+  const row = officialOf(api, personId);
+  if (!row?.husk) return undefined;
+  const person = fillInIdentity(core, {
+    ...row.husk.identity,
+    source: source(row.husk.asOf),
+  });
+  colleagues(api, new Set([personId]));
+  return person;
+}
+registerHuskPromoter(promoteOutsideOfficial);
 
 function officialIdentity(api: CoreAPI, seed: string, spec: Spec) {
   const drawn = drawOfficialIdentity({
@@ -848,6 +940,7 @@ function leaders(all: readonly Spec[]): Map<string, string> {
  */
 function colleagues(api: CoreAPI, added: ReadonlySet<string>): void {
   const officials = table(api, "officials");
+  if (added.size === 0) return;
   const addedRows = [...added]
     .map((id) => officials.get(id) as unknown as OfficialRow | undefined)
     .filter((row): row is OfficialRow => row !== undefined);
@@ -867,6 +960,8 @@ function colleagues(api: CoreAPI, added: ReadonlySet<string>): void {
   const year = Number(api.state.date.slice(0, 4));
   const tie = (a: OfficialRow, b: OfficialRow, cause: string) => {
     if (a.id === b.id || (!added.has(a.id) && !added.has(b.id))) return;
+    // A husk makes no tie until it is opened.
+    if (!api.state.people.has(a.id) || !api.state.people.has(b.id)) return;
     const since = Math.max(
       Number(a.serviceStart.slice(0, 4)),
       Number(b.serviceStart.slice(0, 4)),

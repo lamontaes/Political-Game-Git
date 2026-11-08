@@ -1,3 +1,4 @@
+import { promoteHusk as promoteHuskOfficial } from "./husk-promoters";
 import { refreshOfficeStaff } from "./civic-inputs";
 import { initialPersonState } from "./person-state";
 import {
@@ -2254,6 +2255,10 @@ export function personOrFillIn(
   personId: PersonId,
 ): PersonState | undefined {
   const full = core.people.get(personId);
+  if (!full && core.husks.has(personId)) {
+    const promoted = promoteHuskOfficial(core, personId);
+    if (promoted) return promoted;
+  }
   // Someone returned to the counts comes back as the same person.
   if (full && !isDemoted(full)) return full;
   if (!residentFacts(core, personId)) return full;
