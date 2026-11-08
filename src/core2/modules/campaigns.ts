@@ -5926,7 +5926,7 @@ export function rivalDay(
     : null;
   const target = petition?.needed ? signaturesToGather(petition.needed) : 0;
   const shortfall = target
-    ? Math.max(0, target - petition!.signers.length) / target
+    ? Math.max(0, target - petition!.signed) / target
     : 0;
   const home = candidate.placeId === town;
   const campaign = campaignFor(api, filingId);
