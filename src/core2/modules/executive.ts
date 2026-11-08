@@ -355,7 +355,7 @@ const hasRecord = (record: ReturnType<typeof postRecord>) =>
  * number of years): years in the post's field, years of any work, schooling.
  */
 export function appointmentQualification(
-  person: Readonly<PersonState>,
+  person: Readonly<Pick<PersonState, "traits">>,
   record: ReturnType<typeof postRecord>,
 ): number {
   const temperament =
@@ -398,7 +398,12 @@ export function appointmentQualification(
  * or the player, ranked by the appointer's reasons (alignment, qualification,
  * acquaintance). Nothing is written.
  */
-function townPostInput(api: CoreAPI, spec: PostSpec, chosenId?: string) {
+function townPostInput(
+  api: CoreAPI,
+  spec: PostSpec,
+  chosenId?: string,
+  drawn = false,
+) {
   const appointer = townAppointer(api, spec.appointedBy);
   const date = api.state.date;
   const town = lawChain(api).townPlaceId;
@@ -448,22 +453,50 @@ function townPostInput(api: CoreAPI, spec: PostSpec, chosenId?: string) {
   );
   const shown = adults.filter((p) => hasRecord(records.get(p.id)!));
   const pool = shown.length ? shown : adults;
+  // The whole town can supply a head: three residents of the wider population drawn for the post
+  // (as for a cabinet), scored by the one rule; only the one named is admitted and filled in.
+  const noRecord = {
+    relatedYears: 0,
+    workYears: 0,
+    schooling: undefined,
+    recordIds: [] as string[],
+  };
+  const residents = drawn
+    ? [0, 1, 2].flatMap((n) => {
+        const record = drawnAdult(
+          api,
+          `town:${town}:${spec.key}:${date}:${n}`,
+          CABINET_AGE,
+        );
+        const resident = record?.people[0];
+        return record && resident ? [{ record, resident }] : [];
+      })
+    : [];
   return {
+    drawnRecords: new Map(residents.map((r) => [r.resident.id, r.record])),
     appointer,
     appointerSide: appointerLean,
     weighing: appointerWeighing(
       api.state as CoreState,
       appointer?.personId ?? undefined,
     ),
-    candidates: pool.map((p) => ({
-      id: p.id,
-      lean: personLean(api.state.people, p, 0),
-      qualification: appointmentQualification(p, records.get(p.id)!),
-      qualificationRecords: records.get(p.id)!.recordIds,
-      known:
-        !!appointer?.personId &&
-        relationships.has(pairKey(appointer.personId, p.id)),
-    })),
+    candidates: [
+      ...pool.map((p) => ({
+        id: p.id,
+        lean: personLean(api.state.people, p, 0),
+        qualification: appointmentQualification(p, records.get(p.id)!),
+        qualificationRecords: records.get(p.id)!.recordIds,
+        known:
+          !!appointer?.personId &&
+          relationships.has(pairKey(appointer.personId, p.id)),
+      })),
+      ...residents.map(({ resident }) => ({
+        id: resident.id,
+        lean: leanOf(api, resident.id, resident),
+        qualification: appointmentQualification(resident, noRecord),
+        known: false,
+      })),
+    ],
   };
 }
 
@@ -501,7 +534,7 @@ function fillTownPost(
 ): AppointmentRow | null {
   const date = api.state.date;
   const town = lawChain(api).townPlaceId;
-  const input = townPostInput(api, spec, chosenId);
+  const input = townPostInput(api, spec, chosenId, !chosenId);
   const appointer = input.appointer;
   if (!input.candidates.length) return null;
   const appointment = nominateAndConfirm({
@@ -515,12 +548,19 @@ function fillTownPost(
     tolerance: campaignParameter("confirmationTolerance"),
   });
   if (!appointment.nomineeId) return null;
+  // A head drawn from the wider population is admitted and filled in only now that they are named.
+  const drawnRecord = input.drawnRecords.get(appointment.nomineeId);
+  let holderId = appointment.nomineeId;
+  if (drawnRecord) {
+    admitCountedHousehold(api.state as CoreState, drawnRecord);
+    holderId = personOrFillIn(api.state as CoreState, holderId)?.id ?? holderId;
+  }
   const row: AppointmentRow = {
     id: `appointment:town:${spec.key}`,
     government: town,
     post: spec.key,
     title: spec.title,
-    holderId: appointment.nomineeId,
+    holderId,
     identity: null,
     appointedBy: appointer ? memberKey(appointer) : spec.appointedBy,
     confirmation: appointment.confirmation,
