@@ -10049,6 +10049,56 @@
       }
     },
     {
+      "key": "scene-talk.close-warn.my-offer-won-t-sit-on-the-table-forever",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "My offer won't sit on the table forever.",
+      "uses": [
+        {
+          "key": "favor-asked",
+          "move": "warn",
+          "outcome": "open",
+          "purpose": "bribe-offer",
+          "role": "asker",
+          "step": "close",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "warn",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.i-d-hate-for-somebody-else-to-get-this-call-first",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I'd hate for somebody else to get this call first.",
+      "uses": [
+        {
+          "key": "favor-asked",
+          "move": "warn",
+          "outcome": "open",
+          "purpose": "bribe-offer",
+          "role": "asker",
+          "step": "close",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "warn",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.close-press.i-ll-call-you-before-the-vote",
       "move": "close-press",
       "kind": "spoken",
@@ -11268,6 +11318,56 @@
       }
     },
     {
+      "key": "scene-talk.follow-threaten.remember-who-paid-for-the-signs",
+      "move": "follow-threaten",
+      "kind": "spoken",
+      "text": "Remember who paid for the signs.",
+      "uses": [
+        {
+          "key": "favor-asked",
+          "move": "threaten",
+          "purpose": "donor-ask",
+          "requiresFacts": ["share"],
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "threaten",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-threaten.i-didn-t-give-that-much-to-be-ignored",
+      "move": "follow-threaten",
+      "kind": "spoken",
+      "text": "I didn't give that much to be ignored.",
+      "uses": [
+        {
+          "key": "favor-asked",
+          "move": "threaten",
+          "purpose": "donor-ask",
+          "requiresFacts": ["share"],
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "threaten",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.close-warn.i-won-t-forget-this",
       "move": "close-warn",
       "kind": "spoken",
@@ -11329,6 +11429,54 @@
       "tag": {
         "move": "warn",
         "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.remember-this-when-you-ask-me-for-the-next-check",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Remember this when you ask me for the next check.",
+      "uses": [
+        {
+          "key": "favor-asked",
+          "move": "warn",
+          "purpose": "donor-ask",
+          "role": "asker",
+          "step": "close",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "warn",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.don-t-expect-the-next-one-to-come-easy",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Don't expect the next one to come easy.",
+      "uses": [
+        {
+          "key": "favor-asked",
+          "move": "warn",
+          "purpose": "donor-ask",
+          "role": "asker",
+          "step": "close",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "warn",
+        "key": "favor-asked"
       }
     },
     {
@@ -11672,6 +11820,56 @@
       }
     },
     {
+      "key": "scene-talk.narrate-narrate.name-gave-money-to-your-campaign-now-name-wants-to-talk-about-what-that-bought",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} gave {money} to your campaign. Now {name} wants to talk about what that bought.",
+      "uses": [
+        {
+          "key": "favor-asked",
+          "move": "narrate",
+          "purpose": "donor-ask",
+          "requiresFacts": ["share"],
+          "role": "narrator",
+          "step": "narrate",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-one-of-the-people-who-paid-for-your-race-money-of-it-and-arrives-with-a",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is one of the people who paid for your race, {money} of it, and arrives with a request.",
+      "uses": [
+        {
+          "key": "favor-asked",
+          "move": "narrate",
+          "purpose": "donor-ask",
+          "requiresFacts": ["share"],
+          "role": "narrator",
+          "step": "narrate",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.state-request.you-know-how-much-i-put-into-your-campaign-i-need-you-on-bill",
       "move": "state-request",
       "kind": "spoken",
@@ -11691,6 +11889,56 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-stood-behind-you-when-it-counted-now-i-need-you-on-bill",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I stood behind you when it counted. Now I need you on {bill}.",
+      "uses": [
+        {
+          "key": "favor-asked",
+          "move": "request",
+          "purpose": "donor-ask",
+          "requiresFacts": ["share"],
+          "role": "asker",
+          "step": "state",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-don-t-ask-for-much-bill-is-the-one-thing-i-m-asking-for",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I don't ask for much. {bill} is the one thing I'm asking for.",
+      "uses": [
+        {
+          "key": "favor-asked",
+          "move": "request",
+          "purpose": "donor-ask",
+          "requiresFacts": ["share"],
+          "role": "asker",
+          "step": "state",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
       "tag": {
         "move": "request",
         "key": "favor-asked"
@@ -11746,6 +11994,56 @@
       }
     },
     {
+      "key": "scene-talk.reply-agree.fine-a-meeting-nothing-more-call-my-office",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Fine. A meeting, nothing more. Call my office.",
+      "uses": [
+        {
+          "after": "scene-talk.state-request.i-d-like-a-meeting-about-bill-just-a-meeting",
+          "key": "favor-asked",
+          "move": "agree",
+          "purpose": "donor-ask",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.that-i-can-do-let-s-find-a-time",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "That I can do. Let's find a time.",
+      "uses": [
+        {
+          "after": "scene-talk.state-request.i-d-like-a-meeting-about-bill-just-a-meeting",
+          "key": "favor-asked",
+          "move": "agree",
+          "purpose": "donor-ask",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.reply-bargain.i-ll-listen-i-won-t-promise-anything",
       "move": "reply-bargain",
       "kind": "spoken",
@@ -11764,6 +12062,54 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
+      "tag": {
+        "move": "bargain",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.i-ll-look-at-it-if-you-ll-look-at-my-side-too",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "I'll look at it if you'll look at my side too.",
+      "uses": [
+        {
+          "key": "favor-asked",
+          "move": "bargain",
+          "purpose": "donor-ask",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "bargain",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.show-me-what-you-can-live-with-and-we-ll-talk",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "Show me what you can live with, and we'll talk.",
+      "uses": [
+        {
+          "key": "favor-asked",
+          "move": "bargain",
+          "purpose": "donor-ask",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
       "tag": {
         "move": "bargain",
         "key": "favor-asked"
@@ -12191,6 +12537,54 @@
       }
     },
     {
+      "key": "scene-talk.reply-lie.i-raised-it-with-leadership-last-week-they-re-listening",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "I raised it with leadership last week. They're listening.",
+      "uses": [
+        {
+          "key": "favor-asked",
+          "move": "lie",
+          "purpose": "donor-ask",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "lie",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.i-ve-got-people-working-on-it-already",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "I've got people working on it already.",
+      "uses": [
+        {
+          "key": "favor-asked",
+          "move": "lie",
+          "purpose": "donor-ask",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "lie",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.reply-lie.i-m-seriously-thinking-about-it",
       "move": "reply-lie",
       "kind": "spoken",
@@ -12509,6 +12903,58 @@
       }
     },
     {
+      "key": "scene-talk.follow-confront.source-says-nobody-has-heard-a-word-from-you-on-it",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "{source} says nobody has heard a word from you on it.",
+      "uses": [
+        {
+          "after": "lie",
+          "key": "favor-asked",
+          "move": "confront",
+          "purpose": "donor-ask",
+          "requiresFacts": ["knows-truth"],
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "confront",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.i-checked-with-source-nothing-has-moved",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "I checked with {source}. Nothing has moved.",
+      "uses": [
+        {
+          "after": "lie",
+          "key": "favor-asked",
+          "move": "confront",
+          "purpose": "donor-ask",
+          "requiresFacts": ["knows-truth"],
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "confront",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.follow-confront.source-says-you-ve-already-turned-it-down",
       "move": "follow-confront",
       "kind": "spoken",
@@ -12817,6 +13263,56 @@
       }
     },
     {
+      "key": "scene-talk.follow-thank.that-s-what-i-wanted-to-hear-thanks",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That's what I wanted to hear. Thanks.",
+      "uses": [
+        {
+          "after": "lie",
+          "key": "favor-asked",
+          "move": "thank",
+          "purpose": "donor-ask",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.glad-to-hear-it-i-ll-let-my-people-know",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Glad to hear it. I'll let my people know.",
+      "uses": [
+        {
+          "after": "lie",
+          "key": "favor-asked",
+          "move": "thank",
+          "purpose": "donor-ask",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.follow-thank.then-i-ll-put-that-in-the-story",
       "move": "follow-thank",
       "kind": "spoken",
@@ -12998,6 +13494,56 @@
       }
     },
     {
+      "key": "scene-talk.reply-deflect.i-d-check-who-s-talking-before-i-believed-it",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I'd check who's talking before I believed it.",
+      "uses": [
+        {
+          "after": "confront",
+          "key": "favor-asked",
+          "move": "deflect",
+          "purpose": "donor-ask",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deflect",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.that-s-not-the-whole-story",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "That's not the whole story.",
+      "uses": [
+        {
+          "after": "confront",
+          "key": "favor-asked",
+          "move": "deflect",
+          "purpose": "donor-ask",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deflect",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.reply-lie.then-source-has-it-wrong",
       "move": "reply-lie",
       "kind": "spoken",
@@ -13093,6 +13639,56 @@
       "tag": {
         "move": "lie",
         "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.source-wasn-t-in-the-room",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "{source} wasn't in the room.",
+      "uses": [
+        {
+          "after": "confront",
+          "key": "favor-asked",
+          "move": "lie",
+          "purpose": "donor-ask",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "lie",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.whatever-source-told-you-it-isn-t-what-i-said",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "Whatever {source} told you, it isn't what I said.",
+      "uses": [
+        {
+          "after": "confront",
+          "key": "favor-asked",
+          "move": "lie",
+          "purpose": "donor-ask",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "lie",
+        "key": "favor-asked"
       }
     },
     {
@@ -13839,6 +14435,56 @@
       }
     },
     {
+      "key": "scene-talk.follow-accept.i-understand-i-ll-look-elsewhere",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I understand. I'll look elsewhere.",
+      "uses": [
+        {
+          "after": "scene-talk.reply-refuse.i-m-sorry-i-just-can-t",
+          "key": "favor-asked",
+          "move": "accept",
+          "purpose": "donor-ask",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.that-s-disappointing-but-i-ll-live",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That's disappointing, but I'll live.",
+      "uses": [
+        {
+          "after": "scene-talk.reply-refuse.i-m-sorry-i-just-can-t",
+          "key": "favor-asked",
+          "move": "accept",
+          "purpose": "donor-ask",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.follow-press.the-party-doesn-t-ask-twice",
       "move": "follow-press",
       "kind": "spoken",
@@ -13892,6 +14538,56 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.that-means-a-lot-thank-you",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That means a lot. Thank you.",
+      "uses": [
+        {
+          "after": "scene-talk.reply-relent.okay-for-you-i-ll-do-it",
+          "key": "favor-asked",
+          "move": "thank",
+          "purpose": "donor-ask",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.i-won-t-forget-it-thank-you",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I won't forget it. Thank you.",
+      "uses": [
+        {
+          "after": "scene-talk.reply-relent.okay-for-you-i-ll-do-it",
+          "key": "favor-asked",
+          "move": "thank",
+          "purpose": "donor-ask",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
       "tag": {
         "move": "thank",
         "key": "favor-asked"
@@ -13957,6 +14653,56 @@
       }
     },
     {
+      "key": "scene-talk.follow-thank.glad-you-came-around",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Glad you came around.",
+      "uses": [
+        {
+          "after": "scene-talk.reply-relent.all-right-you-win-i-m-in",
+          "key": "favor-asked",
+          "move": "thank",
+          "purpose": "donor-ask",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-i-know-what-that-cost-you",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. I know what that cost you.",
+      "uses": [
+        {
+          "after": "scene-talk.reply-relent.all-right-you-win-i-m-in",
+          "key": "favor-asked",
+          "move": "thank",
+          "purpose": "donor-ask",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.follow-accept.that-s-all-i-m-asking",
       "move": "follow-accept",
       "kind": "spoken",
@@ -13993,6 +14739,56 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.that-s-fair-i-ll-send-you-the-details",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That's fair. I'll send you the details.",
+      "uses": [
+        {
+          "after": "scene-talk.reply-bargain.i-ll-listen-i-won-t-promise-anything",
+          "key": "favor-asked",
+          "move": "accept",
+          "purpose": "donor-ask",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.that-s-more-than-i-expected",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That's more than I expected.",
+      "uses": [
+        {
+          "after": "scene-talk.reply-bargain.i-ll-listen-i-won-t-promise-anything",
+          "key": "favor-asked",
+          "move": "accept",
+          "purpose": "donor-ask",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
       "tag": {
         "move": "accept",
         "key": "favor-asked"
@@ -16044,6 +16840,56 @@
       }
     },
     {
+      "key": "scene-talk.reply-leave.nothing-i-can-get-into-excuse-me",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Nothing I can get into. Excuse me.",
+      "uses": [
+        {
+          "after": "scene-talk.follow-press.what-changed",
+          "key": "favor-asked",
+          "move": "leave",
+          "purpose": "donor-ask",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.that-s-all-i-m-going-to-say-about-it",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "That's all I'm going to say about it.",
+      "uses": [
+        {
+          "after": "scene-talk.follow-press.what-changed",
+          "key": "favor-asked",
+          "move": "leave",
+          "purpose": "donor-ask",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.follow-accept.okay-i-can-work-with-that",
       "move": "follow-accept",
       "kind": "spoken",
@@ -17604,6 +18450,54 @@
       }
     },
     {
+      "key": "scene-talk.reply-stall.let-me-see-the-numbers-first",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Let me see the numbers first.",
+      "uses": [
+        {
+          "key": "favor-asked",
+          "move": "stall",
+          "purpose": "donor-ask",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "stall",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.give-me-a-few-days-i-need-to-count-noses",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Give me a few days. I need to count noses.",
+      "uses": [
+        {
+          "key": "favor-asked",
+          "move": "stall",
+          "purpose": "donor-ask",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "stall",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.follow-thank.that-s-all-i-wanted-to-hear",
       "move": "follow-thank",
       "kind": "spoken",
@@ -18514,6 +19408,58 @@
       }
     },
     {
+      "key": "scene-talk.follow-ask.wrong-about-what-exactly",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Wrong about what, exactly?",
+      "uses": [
+        {
+          "after": "scene-talk.reply-lie.then-source-has-it-wrong",
+          "key": "favor-asked",
+          "move": "ask",
+          "purpose": "donor-ask",
+          "requiresFacts": ["knows-truth"],
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.did-you-raise-it-or-didn-t-you",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Did you raise it or didn't you?",
+      "uses": [
+        {
+          "after": "scene-talk.reply-lie.then-source-has-it-wrong",
+          "key": "favor-asked",
+          "move": "ask",
+          "purpose": "donor-ask",
+          "requiresFacts": ["knows-truth"],
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.reply-confront.ask-source-what-they-had-for-lunch-with-my-opponent",
       "move": "reply-confront",
       "kind": "spoken",
@@ -18590,6 +19536,56 @@
       "tag": {
         "move": "confront",
         "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.ask-source-who-they-re-working-for",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Ask {source} who they're working for.",
+      "uses": [
+        {
+          "after": "scene-talk.follow-ask.why-is-source-wrong",
+          "key": "favor-asked",
+          "move": "confront",
+          "purpose": "donor-ask",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "confront",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.i-d-look-hard-at-source-s-reasons",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "I'd look hard at {source}'s reasons.",
+      "uses": [
+        {
+          "after": "scene-talk.follow-ask.why-is-source-wrong",
+          "key": "favor-asked",
+          "move": "confront",
+          "purpose": "donor-ask",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "confront",
+        "key": "favor-asked"
       }
     },
     {
@@ -18672,6 +19668,56 @@
       }
     },
     {
+      "key": "scene-talk.reply-leave.i-m-not-discussing-this",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'm not discussing this.",
+      "uses": [
+        {
+          "after": "scene-talk.follow-ask.why-is-source-wrong",
+          "key": "favor-asked",
+          "move": "leave",
+          "purpose": "donor-ask",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.that-s-enough-of-that",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "That's enough of that.",
+      "uses": [
+        {
+          "after": "scene-talk.follow-ask.why-is-source-wrong",
+          "key": "favor-asked",
+          "move": "leave",
+          "purpose": "donor-ask",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.follow-accept.i-ll-put-that-in",
       "move": "follow-accept",
       "kind": "spoken",
@@ -18748,6 +19794,56 @@
       "tag": {
         "move": "accept",
         "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-ll-ask-them-then",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I'll ask them, then.",
+      "uses": [
+        {
+          "after": "scene-talk.reply-confront.ask-source-what-they-had-for-lunch-with-my-opponent",
+          "key": "favor-asked",
+          "move": "accept",
+          "purpose": "donor-ask",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.noted",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Noted.",
+      "uses": [
+        {
+          "after": "scene-talk.reply-confront.ask-source-what-they-had-for-lunch-with-my-opponent",
+          "key": "favor-asked",
+          "move": "accept",
+          "purpose": "donor-ask",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
       }
     },
     {
@@ -19282,6 +20378,54 @@
       }
     },
     {
+      "key": "scene-talk.reply-offer.my-staff-can-set-aside-time-for-you",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "My staff can set aside time for you.",
+      "uses": [
+        {
+          "key": "favor-asked",
+          "move": "offer",
+          "purpose": "donor-ask",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "offer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-offer.send-me-a-memo-and-i-ll-read-it-myself",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "Send me a memo and I'll read it myself.",
+      "uses": [
+        {
+          "key": "favor-asked",
+          "move": "offer",
+          "purpose": "donor-ask",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "offer",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.reply-decline.i-can-t-promise-how-i-ll-vote-i-can-promise-you-a-hearing",
       "move": "reply-decline",
       "kind": "spoken",
@@ -19300,6 +20444,54 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-can-t-say-yes-today-i-won-t-say-no-without-hearing-you-out",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I can't say yes today. I won't say no without hearing you out.",
+      "uses": [
+        {
+          "key": "favor-asked",
+          "move": "decline",
+          "purpose": "donor-ask",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "decline",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-m-not-in-a-position-to-commit-bring-me-your-best-argument",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'm not in a position to commit. Bring me your best argument.",
+      "uses": [
+        {
+          "key": "favor-asked",
+          "move": "decline",
+          "purpose": "donor-ask",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
       "tag": {
         "move": "decline",
         "key": "favor-asked"
@@ -19349,6 +20541,56 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.that-works-i-ll-call-your-staff",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That works. I'll call your staff.",
+      "uses": [
+        {
+          "after": "offer",
+          "key": "favor-asked",
+          "move": "accept",
+          "purpose": "donor-ask",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.fine-thank-you-for-making-time",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fine. Thank you for making time.",
+      "uses": [
+        {
+          "after": "offer",
+          "key": "favor-asked",
+          "move": "accept",
+          "purpose": "donor-ask",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
       "tag": {
         "move": "accept",
         "key": "favor-asked"
@@ -20502,6 +21744,56 @@
       }
     },
     {
+      "key": "scene-talk.reply-answer.since-the-amendments-came-in",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Since the amendments came in.",
+      "uses": [
+        {
+          "after": "scene-talk.follow-ask.since-when",
+          "key": "favor-asked",
+          "move": "answer",
+          "purpose": "donor-ask",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.since-i-started-counting-who-it-helps",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Since I started counting who it helps.",
+      "uses": [
+        {
+          "after": "scene-talk.follow-ask.since-when",
+          "key": "favor-asked",
+          "move": "answer",
+          "purpose": "donor-ask",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.close-thank.got-it-thanks",
       "move": "close-thank",
       "kind": "spoken",
@@ -20736,6 +22028,56 @@
       }
     },
     {
+      "key": "scene-talk.follow-press.i-ve-waited-long-enough-name-a-day",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I've waited long enough. Name a day.",
+      "uses": [
+        {
+          "after": "scene-talk.reply-deflect.that-s-not-a-conversation-for-today",
+          "key": "favor-asked",
+          "move": "press",
+          "purpose": "donor-ask",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.you-keep-saying-that-what-changes-by-next-week",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "You keep saying that. What changes by next week?",
+      "uses": [
+        {
+          "after": "scene-talk.reply-deflect.that-s-not-a-conversation-for-today",
+          "key": "favor-asked",
+          "move": "press",
+          "purpose": "donor-ask",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.follow-press.that-s-not-a-no",
       "move": "follow-press",
       "kind": "spoken",
@@ -20803,6 +22145,56 @@
       "tag": {
         "move": "press",
         "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.that-s-not-a-yes-either",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "That's not a yes either.",
+      "uses": [
+        {
+          "after": "deflect",
+          "key": "favor-asked",
+          "move": "press",
+          "purpose": "donor-ask",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.you-didn-t-answer-me",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "You didn't answer me.",
+      "uses": [
+        {
+          "after": "deflect",
+          "key": "favor-asked",
+          "move": "press",
+          "purpose": "donor-ask",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
       }
     },
     {
@@ -20876,6 +22268,56 @@
       }
     },
     {
+      "key": "scene-talk.follow-plea.then-tell-me-what-s-true",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Then tell me what's true.",
+      "uses": [
+        {
+          "after": "scene-talk.reply-deflect.people-say-a-lot-of-things",
+          "key": "favor-asked",
+          "move": "plea",
+          "purpose": "donor-ask",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "plea",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.give-me-something-i-can-believe",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Give me something I can believe.",
+      "uses": [
+        {
+          "after": "scene-talk.reply-deflect.people-say-a-lot-of-things",
+          "key": "favor-asked",
+          "move": "plea",
+          "purpose": "donor-ask",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "plea",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.follow-press.personal-how",
       "move": "follow-press",
       "kind": "spoken",
@@ -20926,6 +22368,56 @@
       }
     },
     {
+      "key": "scene-talk.follow-confront.try-what-i-asked-you-a-plain-question",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "Try what? I asked you a plain question.",
+      "uses": [
+        {
+          "after": "scene-talk.reply-confront.don-t-try-that-with-me",
+          "key": "favor-asked",
+          "move": "confront",
+          "purpose": "donor-ask",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "confront",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.i-m-being-straight-with-you",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "I'm being straight with you.",
+      "uses": [
+        {
+          "after": "scene-talk.reply-confront.don-t-try-that-with-me",
+          "key": "favor-asked",
+          "move": "confront",
+          "purpose": "donor-ask",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "confront",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.follow-confront.i-m-telling-you-how-it-looks-from-where-i-sit",
       "move": "follow-confront",
       "kind": "spoken",
@@ -20945,6 +22437,56 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
+      "tag": {
+        "move": "confront",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.take-it-however-you-want-i-m-only-describing-the-weather",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "Take it however you want. I'm only describing the weather.",
+      "uses": [
+        {
+          "after": "scene-talk.reply-confront.are-you-threatening-me",
+          "key": "favor-asked",
+          "move": "confront",
+          "purpose": "donor-ask",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "confront",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.no-i-m-telling-you-what-people-will-say",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "No. I'm telling you what people will say.",
+      "uses": [
+        {
+          "after": "scene-talk.reply-confront.are-you-threatening-me",
+          "key": "favor-asked",
+          "move": "confront",
+          "purpose": "donor-ask",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
       "tag": {
         "move": "confront",
         "key": "favor-asked"
@@ -20976,6 +22518,56 @@
       }
     },
     {
+      "key": "scene-talk.reply-apologize.i-m-sorry-that-came-out-wrong",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I'm sorry. That came out wrong.",
+      "uses": [
+        {
+          "after": "confront",
+          "key": "favor-asked",
+          "move": "apologize",
+          "purpose": "donor-ask",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "apologize",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.i-shouldn-t-have-put-it-that-way",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I shouldn't have put it that way.",
+      "uses": [
+        {
+          "after": "confront",
+          "key": "favor-asked",
+          "move": "apologize",
+          "purpose": "donor-ask",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "apologize",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.follow-accept.i-know-neither-did-i",
       "move": "follow-accept",
       "kind": "spoken",
@@ -20995,6 +22587,56 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.apology-accepted-let-s-start-over",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Apology accepted. Let's start over.",
+      "uses": [
+        {
+          "after": "scene-talk.reply-apologize.i-didn-t-mean-it-like-that",
+          "key": "favor-asked",
+          "move": "accept",
+          "purpose": "donor-ask",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.no-harm-done",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "No harm done.",
+      "uses": [
+        {
+          "after": "scene-talk.reply-apologize.i-didn-t-mean-it-like-that",
+          "key": "favor-asked",
+          "move": "accept",
+          "purpose": "donor-ask",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
       "tag": {
         "move": "accept",
         "key": "favor-asked"
@@ -84764,6 +86406,56 @@
       }
     },
     {
+      "key": "scene-talk.close-thank.thank-you-that-means-a-lot-to-this-campaign",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you. That means a lot to this campaign.",
+      "uses": [
+        {
+          "key": "vote-wanted",
+          "move": "thank",
+          "outcome": "resolved",
+          "purpose": "ask-support",
+          "role": "asker",
+          "step": "close",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.you-just-made-my-week-thank-you",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "You just made my week. Thank you.",
+      "uses": [
+        {
+          "key": "vote-wanted",
+          "move": "thank",
+          "outcome": "resolved",
+          "purpose": "ask-support",
+          "role": "asker",
+          "step": "close",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "vote-wanted"
+      }
+    },
+    {
       "key": "scene-talk.close-promise.i-ll-keep-my-word-you-ll-see",
       "move": "close-promise",
       "kind": "spoken",
@@ -84783,6 +86475,56 @@
       "origin": "authored",
       "author": "Words session (pool item words-scene-for-unstaged-big-moments)",
       "date": "2026-10-26",
+      "tag": {
+        "move": "promise",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.you-won-t-regret-this-i-ll-earn-it",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "You won't regret this. I'll earn it.",
+      "uses": [
+        {
+          "key": "vote-wanted",
+          "move": "promise",
+          "outcome": "resolved",
+          "purpose": "ask-support",
+          "role": "asker",
+          "step": "close",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "promise",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-work-for-every-vote-yours-included",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll work for every vote, yours included.",
+      "uses": [
+        {
+          "key": "vote-wanted",
+          "move": "promise",
+          "outcome": "resolved",
+          "purpose": "ask-support",
+          "role": "asker",
+          "step": "close",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
       "tag": {
         "move": "promise",
         "key": "vote-wanted"
@@ -84814,6 +86556,56 @@
       }
     },
     {
+      "key": "scene-talk.close-accept.i-respect-that-thanks-for-the-straight-answer",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "I respect that. Thanks for the straight answer.",
+      "uses": [
+        {
+          "key": "vote-wanted",
+          "move": "accept",
+          "outcome": "refused",
+          "purpose": "ask-support",
+          "role": "asker",
+          "step": "close",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.fair-enough-i-ll-keep-working",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Fair enough. I'll keep working.",
+      "uses": [
+        {
+          "key": "vote-wanted",
+          "move": "accept",
+          "outcome": "refused",
+          "purpose": "ask-support",
+          "role": "asker",
+          "step": "close",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "vote-wanted"
+      }
+    },
+    {
       "key": "scene-talk.close-warn.i-ll-be-on-the-ballot-either-way",
       "move": "close-warn",
       "kind": "spoken",
@@ -84833,6 +86625,56 @@
       "origin": "authored",
       "author": "Words session (pool item words-scene-for-unstaged-big-moments)",
       "date": "2026-10-26",
+      "tag": {
+        "move": "warn",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.then-i-ll-have-to-earn-it-from-your-neighbors",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Then I'll have to earn it from your neighbors.",
+      "uses": [
+        {
+          "key": "vote-wanted",
+          "move": "warn",
+          "outcome": "refused",
+          "purpose": "ask-support",
+          "role": "asker",
+          "step": "close",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "warn",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.that-s-your-call-i-ll-keep-going-door-to-door",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "That's your call. I'll keep going door to door.",
+      "uses": [
+        {
+          "key": "vote-wanted",
+          "move": "warn",
+          "outcome": "refused",
+          "purpose": "ask-support",
+          "role": "asker",
+          "step": "close",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
       "tag": {
         "move": "warn",
         "key": "vote-wanted"
@@ -84864,6 +86706,56 @@
       }
     },
     {
+      "key": "scene-talk.close-press.take-a-few-days-i-ll-check-back",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Take a few days. I'll check back.",
+      "uses": [
+        {
+          "key": "vote-wanted",
+          "move": "press",
+          "outcome": "open",
+          "purpose": "ask-support",
+          "role": "asker",
+          "step": "close",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.no-rush-but-the-clock-is-running",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "No rush, but the clock is running.",
+      "uses": [
+        {
+          "key": "vote-wanted",
+          "move": "press",
+          "outcome": "open",
+          "purpose": "ask-support",
+          "role": "asker",
+          "step": "close",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "vote-wanted"
+      }
+    },
+    {
       "key": "scene-talk.close-warn.don-t-wait-too-long-the-race-is-close",
       "move": "close-warn",
       "kind": "spoken",
@@ -84883,6 +86775,56 @@
       "origin": "authored",
       "author": "Words session (pool item words-scene-for-unstaged-big-moments)",
       "date": "2026-10-26",
+      "tag": {
+        "move": "warn",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.decide-soon-please-this-could-come-down-to-a-few-hundred-votes",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Decide soon, please. This could come down to a few hundred votes.",
+      "uses": [
+        {
+          "key": "vote-wanted",
+          "move": "warn",
+          "outcome": "open",
+          "purpose": "ask-support",
+          "role": "asker",
+          "step": "close",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "warn",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.i-d-hate-for-it-to-be-close-and-know-i-didn-t-ask-you-twice",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I'd hate for it to be close and know I didn't ask you twice.",
+      "uses": [
+        {
+          "key": "vote-wanted",
+          "move": "warn",
+          "outcome": "open",
+          "purpose": "ask-support",
+          "role": "asker",
+          "step": "close",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
       "tag": {
         "move": "warn",
         "key": "vote-wanted"
@@ -84915,6 +86857,58 @@
       }
     },
     {
+      "key": "scene-talk.close-accept.no-problem-thanks-for-the-time",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "No problem. Thanks for the time.",
+      "uses": [
+        {
+          "after": "leave",
+          "key": "vote-wanted",
+          "move": "accept",
+          "outcome": "open",
+          "purpose": "ask-support",
+          "role": "asker",
+          "step": "close",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.safe-travels-thanks-for-stopping-by",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Safe travels. Thanks for stopping by.",
+      "uses": [
+        {
+          "after": "leave",
+          "key": "vote-wanted",
+          "move": "accept",
+          "outcome": "open",
+          "purpose": "ask-support",
+          "role": "asker",
+          "step": "close",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "vote-wanted"
+      }
+    },
+    {
       "key": "scene-talk.close-accept.of-course-take-care",
       "move": "close-accept",
       "kind": "spoken",
@@ -84934,6 +86928,56 @@
       "origin": "authored",
       "author": "Words session (pool item words-scene-for-unstaged-big-moments)",
       "date": "2026-10-26",
+      "tag": {
+        "move": "accept",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.sure-thing-have-a-good-one",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Sure thing. Have a good one.",
+      "uses": [
+        {
+          "after": "leave",
+          "key": "vote-wanted",
+          "move": "accept",
+          "purpose": "ask-support",
+          "role": "asker",
+          "step": "close",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.all-right-thanks-for-listening",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "All right. Thanks for listening.",
+      "uses": [
+        {
+          "after": "leave",
+          "key": "vote-wanted",
+          "move": "accept",
+          "purpose": "ask-support",
+          "role": "asker",
+          "step": "close",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
       "tag": {
         "move": "accept",
         "key": "vote-wanted"
@@ -89133,6 +91177,56 @@
       }
     },
     {
+      "key": "scene-talk.narrate-narrate.name-has-been-working-the-members-on-bill-now-it-s-your-turn-in-a-room-with-the",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has been working the members on {bill}. Now it's your turn, in a room with the door shut.",
+      "uses": [
+        {
+          "key": "favor-asked",
+          "move": "narrate",
+          "purpose": "bribe-offer",
+          "requiresFacts": ["favor-vote", "bill"],
+          "role": "narrator",
+          "step": "narrate",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.bill-comes-up-soon-and-name-has-a-reason-to-want-you-on-the-right-side-of-it-nam",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{bill} comes up soon, and {name} has a reason to want you on the right side of it. {name} asks to see you where no one can hear.",
+      "uses": [
+        {
+          "key": "favor-asked",
+          "move": "narrate",
+          "purpose": "bribe-offer",
+          "requiresFacts": ["favor-vote", "bill"],
+          "role": "narrator",
+          "step": "narrate",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.narrate-narrate.the-job-went-out-for-bids-and-name-bid-on-it-now-name-wants-a-word-wit",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -89152,6 +91246,56 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-asks-for-a-minute-in-private-it-s-about-the-contract-and-it-isn-t-about-the",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} asks for a minute in private. It's about the contract, and it isn't about the paperwork.",
+      "uses": [
+        {
+          "key": "favor-asked",
+          "move": "narrate",
+          "purpose": "bribe-offer",
+          "requiresFacts": ["favor-contract"],
+          "role": "narrator",
+          "step": "narrate",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-waiting-outside-your-office-the-contract-is-all-name-has-talked-about-fo",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is waiting outside your office. The contract is all {name} has talked about for weeks.",
+      "uses": [
+        {
+          "key": "favor-asked",
+          "move": "narrate",
+          "purpose": "bribe-offer",
+          "requiresFacts": ["favor-contract"],
+          "role": "narrator",
+          "step": "narrate",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
       "tag": {
         "move": "narrate",
         "key": "favor-asked"
@@ -90346,6 +92490,56 @@
       }
     },
     {
+      "key": "scene-talk.reply-refuse.i-ve-heard-that-line-before-it-didn-t-sound-right-then-either",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I've heard that line before. It didn't sound right then, either.",
+      "uses": [
+        {
+          "after": "press",
+          "key": "favor-asked",
+          "move": "refuse",
+          "purpose": "bribe-offer",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.if-everybody-does-it-they-can-do-it-without-me",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "If everybody does it, they can do it without me.",
+      "uses": [
+        {
+          "after": "press",
+          "key": "favor-asked",
+          "move": "refuse",
+          "purpose": "bribe-offer",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.reply-refuse.say-that-to-whoever-asks-then-i-d-rather-lose-friends",
       "move": "reply-refuse",
       "kind": "spoken",
@@ -90371,6 +92565,81 @@
       }
     },
     {
+      "key": "scene-talk.reply-refuse.i-ve-been-threatened-by-better-take-it-back",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I've been threatened by better. Take it back.",
+      "uses": [
+        {
+          "after": "threaten",
+          "key": "favor-asked",
+          "move": "refuse",
+          "purpose": "bribe-offer",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.try-i-m-still-not-taking-it",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Try. I'm still not taking it.",
+      "uses": [
+        {
+          "after": "threaten",
+          "key": "favor-asked",
+          "move": "refuse",
+          "purpose": "bribe-offer",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.you-can-t-scare-me-into-taking-money",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "You can't scare me into taking money.",
+      "uses": [
+        {
+          "after": "threaten",
+          "key": "favor-asked",
+          "move": "refuse",
+          "purpose": "bribe-offer",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.reply-refuse.a-thank-you-doesn-t-weigh-that-much-take-it-back",
       "move": "reply-refuse",
       "kind": "spoken",
@@ -90390,6 +92659,56 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.call-it-a-thank-you-if-you-like-i-m-not-keeping-it",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Call it a thank-you if you like. I'm not keeping it.",
+      "uses": [
+        {
+          "after": "deflect",
+          "key": "favor-asked",
+          "move": "refuse",
+          "purpose": "bribe-offer",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.a-thank-you-is-a-card-this-is-not-a-card",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "A thank-you is a card. This is not a card.",
+      "uses": [
+        {
+          "after": "deflect",
+          "key": "favor-asked",
+          "move": "refuse",
+          "purpose": "bribe-offer",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
       "tag": {
         "move": "refuse",
         "key": "favor-asked"
@@ -90430,6 +92749,56 @@
       }
     },
     {
+      "key": "scene-talk.reply-accept.all-right-you-made-your-point-leave-it-on-the-desk",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "All right. You made your point. Leave it on the desk.",
+      "uses": [
+        {
+          "after": "press",
+          "key": "favor-asked",
+          "move": "accept",
+          "purpose": "bribe-offer",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-accept.everybody-does-it-you-say-then-nobody-will-notice",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "Everybody does it, you say. Then nobody will notice.",
+      "uses": [
+        {
+          "after": "press",
+          "key": "favor-asked",
+          "move": "accept",
+          "purpose": "bribe-offer",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.reply-accept.all-right-i-ll-keep-it-don-t-come-here-again",
       "move": "reply-accept",
       "kind": "spoken",
@@ -90464,6 +92833,56 @@
       }
     },
     {
+      "key": "scene-talk.reply-accept.you-ve-made-yourself-clear-i-ll-keep-it",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "You've made yourself clear. I'll keep it.",
+      "uses": [
+        {
+          "after": "threaten",
+          "key": "favor-asked",
+          "move": "accept",
+          "purpose": "bribe-offer",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-accept.nobody-needs-to-threaten-anybody-i-ll-take-it",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "Nobody needs to threaten anybody. I'll take it.",
+      "uses": [
+        {
+          "after": "threaten",
+          "key": "favor-asked",
+          "move": "accept",
+          "purpose": "bribe-offer",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.reply-confront.you-ve-said-enough-i-m-reporting-this-today",
       "move": "reply-confront",
       "kind": "spoken",
@@ -90492,6 +92911,56 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
+      "tag": {
+        "move": "confront",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.i-gave-you-a-way-out-now-i-m-making-the-call",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "I gave you a way out. Now I'm making the call.",
+      "uses": [
+        {
+          "after": "press",
+          "key": "favor-asked",
+          "move": "confront",
+          "purpose": "bribe-offer",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "confront",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.keep-talking-it-makes-my-report-easier",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Keep talking. It makes my report easier.",
+      "uses": [
+        {
+          "after": "press",
+          "key": "favor-asked",
+          "move": "confront",
+          "purpose": "bribe-offer",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
       "tag": {
         "move": "confront",
         "key": "favor-asked"
@@ -90548,6 +93017,56 @@
       }
     },
     {
+      "key": "scene-talk.reply-confront.that-s-a-second-thing-i-m-putting-in-my-report",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "That's a second thing I'm putting in my report.",
+      "uses": [
+        {
+          "after": "threaten",
+          "key": "favor-asked",
+          "move": "confront",
+          "purpose": "bribe-offer",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "confront",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.say-that-again-in-front-of-the-ethics-office",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Say that again in front of the ethics office.",
+      "uses": [
+        {
+          "after": "threaten",
+          "key": "favor-asked",
+          "move": "confront",
+          "purpose": "bribe-offer",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "confront",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.reply-confront.don-t-you-know-what-that-was-i-m-reporting-it",
       "move": "reply-confront",
       "kind": "spoken",
@@ -90567,6 +93086,56 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
+      "tag": {
+        "move": "confront",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.then-you-won-t-mind-explaining-it-to-the-ethics-office",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Then you won't mind explaining it to the ethics office.",
+      "uses": [
+        {
+          "after": "deflect",
+          "key": "favor-asked",
+          "move": "confront",
+          "purpose": "bribe-offer",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "confront",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.nobody-says-thank-you-like-this-i-m-reporting-it",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Nobody says thank you like this. I'm reporting it.",
+      "uses": [
+        {
+          "after": "deflect",
+          "key": "favor-asked",
+          "move": "confront",
+          "purpose": "bribe-offer",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
       "tag": {
         "move": "confront",
         "key": "favor-asked"
@@ -90607,6 +93176,56 @@
       }
     },
     {
+      "key": "scene-talk.reply-leave.i-won-t-listen-to-any-more-of-this-take-it-and-go",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I won't listen to any more of this. Take it and go.",
+      "uses": [
+        {
+          "after": "press",
+          "key": "favor-asked",
+          "move": "leave",
+          "purpose": "bribe-offer",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.go-i-mean-it",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Go. I mean it.",
+      "uses": [
+        {
+          "after": "press",
+          "key": "favor-asked",
+          "move": "leave",
+          "purpose": "bribe-offer",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.reply-leave.this-conversation-is-over",
       "move": "reply-leave",
       "kind": "spoken",
@@ -90641,6 +93260,56 @@
       }
     },
     {
+      "key": "scene-talk.reply-leave.we-re-finished-please-go",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "We're finished. Please go.",
+      "uses": [
+        {
+          "after": "threaten",
+          "key": "favor-asked",
+          "move": "leave",
+          "purpose": "bribe-offer",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.show-yourself-out",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Show yourself out.",
+      "uses": [
+        {
+          "after": "threaten",
+          "key": "favor-asked",
+          "move": "leave",
+          "purpose": "bribe-offer",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.reply-leave.i-m-not-having-this-conversation",
       "move": "reply-leave",
       "kind": "spoken",
@@ -90666,6 +93335,56 @@
       }
     },
     {
+      "key": "scene-talk.reply-leave.thank-me-some-other-way-i-have-to-go",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Thank me some other way. I have to go.",
+      "uses": [
+        {
+          "after": "deflect",
+          "key": "favor-asked",
+          "move": "leave",
+          "purpose": "bribe-offer",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-won-t-stand-here-and-pretend-this-is-anything-else",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I won't stand here and pretend this is anything else.",
+      "uses": [
+        {
+          "after": "deflect",
+          "key": "favor-asked",
+          "move": "leave",
+          "purpose": "bribe-offer",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.reply-refuse.no-i-thought-about-it-take-it-back",
       "move": "reply-refuse",
       "kind": "spoken",
@@ -90685,6 +93404,56 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-gave-it-real-thought-the-answer-is-no",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I gave it real thought. The answer is no.",
+      "uses": [
+        {
+          "after": "stall",
+          "key": "favor-asked",
+          "move": "refuse",
+          "purpose": "bribe-offer",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.still-no-i-d-rather-you-hear-it-from-me-than-from-someone-else",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Still no. I'd rather you hear it from me than from someone else.",
+      "uses": [
+        {
+          "after": "stall",
+          "key": "favor-asked",
+          "move": "refuse",
+          "purpose": "bribe-offer",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
       "tag": {
         "move": "refuse",
         "key": "favor-asked"
@@ -90818,6 +93587,56 @@
       }
     },
     {
+      "key": "scene-talk.reply-confess.you-re-right-and-i-m-sorry-i-never-meant-any-of-it",
+      "move": "reply-confess",
+      "kind": "spoken",
+      "text": "You're right, and I'm sorry. I never meant any of it.",
+      "uses": [
+        {
+          "after": "confront",
+          "key": "favor-asked",
+          "move": "confess",
+          "purpose": "bribe-offer",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "confess",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confess.i-let-it-ride-that-was-wrong-of-me",
+      "move": "reply-confess",
+      "kind": "spoken",
+      "text": "I let it ride. That was wrong of me.",
+      "uses": [
+        {
+          "after": "confront",
+          "key": "favor-asked",
+          "move": "confess",
+          "purpose": "bribe-offer",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "confess",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.reply-deflect.think-what-you-like",
       "move": "reply-deflect",
       "kind": "spoken",
@@ -90837,6 +93656,56 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
+      "tag": {
+        "move": "deflect",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.believe-whoever-you-want",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Believe whoever you want.",
+      "uses": [
+        {
+          "after": "confront",
+          "key": "favor-asked",
+          "move": "deflect",
+          "purpose": "bribe-offer",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deflect",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.who-told-you-that-doesn-t-change-what-i-do-next",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Who told you that doesn't change what I do next.",
+      "uses": [
+        {
+          "after": "confront",
+          "key": "favor-asked",
+          "move": "deflect",
+          "purpose": "bribe-offer",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
       "tag": {
         "move": "deflect",
         "key": "favor-asked"
@@ -90868,6 +93737,56 @@
       }
     },
     {
+      "key": "scene-talk.reply-lie.whoever-said-that-wasn-t-in-the-room",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "Whoever said that wasn't in the room.",
+      "uses": [
+        {
+          "after": "confront",
+          "key": "favor-asked",
+          "move": "lie",
+          "purpose": "bribe-offer",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "lie",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.i-never-said-any-such-thing",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "I never said any such thing.",
+      "uses": [
+        {
+          "after": "confront",
+          "key": "favor-asked",
+          "move": "lie",
+          "purpose": "bribe-offer",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "lie",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.follow-ask.then-why-did-you-let-me-say-all-that",
       "move": "follow-ask",
       "kind": "spoken",
@@ -90887,6 +93806,56 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.you-let-me-think-we-understood-each-other-why",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "You let me think we understood each other. Why?",
+      "uses": [
+        {
+          "after": "confess",
+          "key": "favor-asked",
+          "move": "ask",
+          "purpose": "bribe-offer",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.did-it-ever-cross-your-mind-to-just-tell-me-no",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Did it ever cross your mind to just tell me no?",
+      "uses": [
+        {
+          "after": "confess",
+          "key": "favor-asked",
+          "move": "ask",
+          "purpose": "bribe-offer",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
       "tag": {
         "move": "ask",
         "key": "favor-asked"
@@ -90918,6 +93887,56 @@
       }
     },
     {
+      "key": "scene-talk.follow-accept.fine-i-ll-take-it-back-and-you-forget-i-came",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fine. I'll take it back, and you forget I came.",
+      "uses": [
+        {
+          "after": "confess",
+          "key": "favor-asked",
+          "move": "accept",
+          "purpose": "bribe-offer",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.all-right-neither-of-us-says-a-word-about-this",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "All right. Neither of us says a word about this.",
+      "uses": [
+        {
+          "after": "confess",
+          "key": "favor-asked",
+          "move": "accept",
+          "purpose": "bribe-offer",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.follow-press.don-t-play-games-with-me",
       "move": "follow-press",
       "kind": "spoken",
@@ -90937,6 +93956,56 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.don-t-dodge-me-yes-or-no",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Don't dodge me. Yes or no?",
+      "uses": [
+        {
+          "after": "deflect",
+          "key": "favor-asked",
+          "move": "press",
+          "purpose": "bribe-offer",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.that-isn-t-an-answer-and-you-know-it",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "That isn't an answer, and you know it.",
+      "uses": [
+        {
+          "after": "deflect",
+          "key": "favor-asked",
+          "move": "press",
+          "purpose": "bribe-offer",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
       "tag": {
         "move": "press",
         "key": "favor-asked"
@@ -90968,6 +94037,56 @@
       }
     },
     {
+      "key": "scene-talk.close-thank.good-you-won-t-regret-this",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Good. You won't regret this.",
+      "uses": [
+        {
+          "key": "favor-asked",
+          "move": "thank",
+          "outcome": "resolved",
+          "purpose": "bribe-offer",
+          "role": "asker",
+          "step": "close",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.i-appreciate-it-more-than-i-can-say",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I appreciate it more than I can say.",
+      "uses": [
+        {
+          "key": "favor-asked",
+          "move": "thank",
+          "outcome": "resolved",
+          "purpose": "bribe-offer",
+          "role": "asker",
+          "step": "close",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.close-promise.you-ll-hear-from-me-when-it-s-done",
       "move": "close-promise",
       "kind": "spoken",
@@ -90993,6 +94112,56 @@
       }
     },
     {
+      "key": "scene-talk.close-promise.i-ll-be-in-touch-keep-an-eye-on-the-news",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll be in touch. Keep an eye on the news.",
+      "uses": [
+        {
+          "key": "favor-asked",
+          "move": "promise",
+          "outcome": "resolved",
+          "purpose": "bribe-offer",
+          "role": "asker",
+          "step": "close",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.when-it-s-finished-you-ll-know-i-ll-see-to-it",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "When it's finished, you'll know. I'll see to it.",
+      "uses": [
+        {
+          "key": "favor-asked",
+          "move": "promise",
+          "outcome": "resolved",
+          "purpose": "bribe-offer",
+          "role": "asker",
+          "step": "close",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.close-accept.then-i-ll-leave-it-at-that",
       "move": "close-accept",
       "kind": "spoken",
@@ -91012,6 +94181,56 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.fine-i-ll-find-another-way",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Fine. I'll find another way.",
+      "uses": [
+        {
+          "key": "favor-asked",
+          "move": "accept",
+          "outcome": "refused",
+          "purpose": "bribe-offer",
+          "role": "asker",
+          "step": "close",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.understood-i-won-t-bring-it-up-again",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Understood. I won't bring it up again.",
+      "uses": [
+        {
+          "key": "favor-asked",
+          "move": "accept",
+          "outcome": "refused",
+          "purpose": "bribe-offer",
+          "role": "asker",
+          "step": "close",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
       "tag": {
         "move": "accept",
         "key": "favor-asked"
@@ -91062,6 +94281,56 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.sleep-on-it-you-know-where-to-find-me",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Sleep on it. You know where to find me.",
+      "uses": [
+        {
+          "key": "favor-asked",
+          "move": "press",
+          "outcome": "open",
+          "purpose": "bribe-offer",
+          "role": "asker",
+          "step": "close",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.i-ll-check-back-with-you-take-your-time-but-not-too-much-of-it",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "I'll check back with you. Take your time, but not too much of it.",
+      "uses": [
+        {
+          "key": "favor-asked",
+          "move": "press",
+          "outcome": "open",
+          "purpose": "bribe-offer",
+          "role": "asker",
+          "step": "close",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
       "tag": {
         "move": "press",
         "key": "favor-asked"
@@ -131976,6 +135245,56 @@
       }
     },
     {
+      "key": "scene-talk.state-threaten.bill-is-going-to-cost-me-and-i-remember-who-stood-by-me-first-think-about-that",
+      "move": "state-threaten",
+      "kind": "spoken",
+      "text": "{bill} is going to cost me, and I remember who stood by me, {first}. Think about that.",
+      "uses": [
+        {
+          "key": "threat",
+          "move": "threaten",
+          "purpose": "bribe-pressed",
+          "requiresFacts": ["favor-vote", "bill"],
+          "role": "asker",
+          "step": "state",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "threaten",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-threaten.i-don-t-ask-twice-first-bill-is-the-reason-i-m-here",
+      "move": "state-threaten",
+      "kind": "spoken",
+      "text": "I don't ask twice, {first}. {bill} is the reason I'm here.",
+      "uses": [
+        {
+          "key": "threat",
+          "move": "threaten",
+          "purpose": "bribe-pressed",
+          "requiresFacts": ["favor-vote", "bill"],
+          "role": "asker",
+          "step": "state",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "threaten",
+        "key": "threat"
+      }
+    },
+    {
       "key": "scene-talk.state-threaten.that-contract-was-mine-think-about-who-you-want-against-you-in",
       "move": "state-threaten",
       "kind": "spoken",
@@ -131994,6 +135313,56 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "threaten",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-threaten.i-ve-bid-on-this-town-s-work-for-years-first-don-t-make-me-remember-this",
+      "move": "state-threaten",
+      "kind": "spoken",
+      "text": "I've bid on this town's work for years, {first}. Don't make me remember this.",
+      "uses": [
+        {
+          "key": "threat",
+          "move": "threaten",
+          "purpose": "bribe-pressed",
+          "requiresFacts": ["favor-contract"],
+          "role": "asker",
+          "step": "state",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "threaten",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-threaten.that-contract-was-supposed-to-be-mine-first-people-who-cross-me-run-short-of-fri",
+      "move": "state-threaten",
+      "kind": "spoken",
+      "text": "That contract was supposed to be mine, {first}. People who cross me run short of friends.",
+      "uses": [
+        {
+          "key": "threat",
+          "move": "threaten",
+          "purpose": "bribe-pressed",
+          "requiresFacts": ["favor-contract"],
+          "role": "asker",
+          "step": "state",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
       "date": "2026-11-08",
       "tag": {
         "move": "threaten",
@@ -132155,6 +135524,54 @@
       ],
       "origin": "authored",
       "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-ve-said-all-i-m-going-to-say",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I've said all I'm going to say.",
+      "uses": [
+        {
+          "key": "threat",
+          "move": "leave",
+          "purpose": "bribe-pressed",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.enough-please-leave",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Enough. Please leave.",
+      "uses": [
+        {
+          "key": "threat",
+          "move": "leave",
+          "purpose": "bribe-pressed",
+          "role": "asked",
+          "step": "reply",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
       "date": "2026-11-08",
       "tag": {
         "move": "leave",
@@ -132330,6 +135747,54 @@
       }
     },
     {
+      "key": "scene-talk.follow-deflect.have-it-your-way-forget-i-said-anything",
+      "move": "follow-deflect",
+      "kind": "spoken",
+      "text": "Have it your way. Forget I said anything.",
+      "uses": [
+        {
+          "key": "threat",
+          "move": "deflect",
+          "purpose": "bribe-pressed",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deflect",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-deflect.i-was-only-thinking-out-loud",
+      "move": "follow-deflect",
+      "kind": "spoken",
+      "text": "I was only thinking out loud.",
+      "uses": [
+        {
+          "key": "threat",
+          "move": "deflect",
+          "purpose": "bribe-pressed",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deflect",
+        "key": "threat"
+      }
+    },
+    {
       "key": "scene-talk.follow-press.you-cant-ignore-me-forever-first",
       "move": "follow-press",
       "kind": "spoken",
@@ -132402,6 +135867,54 @@
       }
     },
     {
+      "key": "scene-talk.close-accept.then-we-re-finished-here",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Then we're finished here.",
+      "uses": [
+        {
+          "key": "threat",
+          "move": "accept",
+          "purpose": "bribe-pressed",
+          "role": "asker",
+          "step": "close",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.then-i-ll-show-myself-out",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Then I'll show myself out.",
+      "uses": [
+        {
+          "key": "threat",
+          "move": "accept",
+          "purpose": "bribe-pressed",
+          "role": "asker",
+          "step": "close",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
       "key": "scene-talk.close-warn.remember-i-asked-nicely",
       "move": "close-warn",
       "kind": "spoken",
@@ -132426,6 +135939,54 @@
       }
     },
     {
+      "key": "scene-talk.close-warn.don-t-say-i-never-gave-you-a-chance",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Don't say I never gave you a chance.",
+      "uses": [
+        {
+          "key": "threat",
+          "move": "warn",
+          "purpose": "bribe-pressed",
+          "role": "asker",
+          "step": "close",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "warn",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.think-hard-about-who-calls-you-next",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Think hard about who calls you next.",
+      "uses": [
+        {
+          "key": "threat",
+          "move": "warn",
+          "purpose": "bribe-pressed",
+          "role": "asker",
+          "step": "close",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "warn",
+        "key": "threat"
+      }
+    },
+    {
       "key": "scene-talk.close-thank.then-we-understand-each-other",
       "move": "close-thank",
       "kind": "spoken",
@@ -132443,6 +136004,54 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.good-i-m-glad-we-got-there",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Good. I'm glad we got there.",
+      "uses": [
+        {
+          "key": "threat",
+          "move": "thank",
+          "purpose": "bribe-pressed",
+          "role": "asker",
+          "step": "close",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.glad-we-agree",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Glad we agree.",
+      "uses": [
+        {
+          "key": "threat",
+          "move": "thank",
+          "purpose": "bribe-pressed",
+          "role": "asker",
+          "step": "close",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
       "date": "2026-11-08",
       "tag": {
         "move": "thank",
@@ -133995,6 +137604,54 @@
       }
     },
     {
+      "key": "scene-talk.follow-thank.thanks-i-ll-keep-that-in-mind",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thanks. I'll keep that in mind.",
+      "uses": [
+        {
+          "key": "colleague-word",
+          "move": "thank",
+          "purpose": "hallway-word",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.appreciate-you-telling-me-straight",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Appreciate you telling me straight.",
+      "uses": [
+        {
+          "key": "colleague-word",
+          "move": "thank",
+          "purpose": "hallway-word",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "colleague-word"
+      }
+    },
+    {
       "key": "scene-talk.follow-press.and-when-it-counts-colleague",
       "move": "follow-press",
       "kind": "spoken",
@@ -134012,6 +137669,54 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.easy-to-say-in-a-hallway-i-ll-be-watching-the-board",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Easy to say in a hallway. I'll be watching the board.",
+      "uses": [
+        {
+          "key": "colleague-word",
+          "move": "press",
+          "purpose": "hallway-word",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.and-if-it-comes-down-to-one-vote",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "And if it comes down to one vote?",
+      "uses": [
+        {
+          "key": "colleague-word",
+          "move": "press",
+          "purpose": "hallway-word",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
       "date": "2026-11-08",
       "tag": {
         "move": "press",
@@ -134043,6 +137748,58 @@
       }
     },
     {
+      "key": "scene-talk.follow-accept.all-right-i-got-you-another-time",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "All right, I got you. Another time.",
+      "uses": [
+        {
+          "key": "colleague-word",
+          "move": "accept",
+          "purpose": "hallway-word",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "owner-voice",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "source": {
+        "document": "docs/coordination/voice-notes/2026-11-08-0950-relayed-by-cto.md",
+        "date": "2026-11-08"
+      },
+      "tag": {
+        "move": "accept",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.okay-i-won-t-push",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Okay. I won't push.",
+      "uses": [
+        {
+          "key": "colleague-word",
+          "move": "accept",
+          "purpose": "hallway-word",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "colleague-word"
+      }
+    },
+    {
       "key": "scene-talk.open-greet.quick-question-reporter",
       "move": "open-greet",
       "kind": "spoken",
@@ -134060,6 +137817,54 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "greet",
+        "key": "reporter-word"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.can-i-grab-you-for-a-second",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Can I grab you for a second?",
+      "uses": [
+        {
+          "key": "reporter-word",
+          "move": "greet",
+          "purpose": "hallway-word",
+          "role": "asker",
+          "step": "open",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "greet",
+        "key": "reporter-word"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.excuse-me-one-question",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Excuse me. One question.",
+      "uses": [
+        {
+          "key": "reporter-word",
+          "move": "greet",
+          "purpose": "hallway-word",
+          "role": "asker",
+          "step": "open",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
       "date": "2026-11-08",
       "tag": {
         "move": "greet",
@@ -134283,6 +138088,54 @@
       }
     },
     {
+      "key": "scene-talk.follow-thank.thanks-for-stopping",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thanks for stopping.",
+      "uses": [
+        {
+          "key": "reporter-word",
+          "move": "thank",
+          "purpose": "hallway-word",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "reporter-word"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.appreciate-it-that-clears-it-up",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Appreciate it. That clears it up.",
+      "uses": [
+        {
+          "key": "reporter-word",
+          "move": "thank",
+          "purpose": "hallway-word",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "reporter-word"
+      }
+    },
+    {
       "key": "scene-talk.follow-press.can-i-quote-you-reporter",
       "move": "follow-press",
       "kind": "spoken",
@@ -134300,6 +138153,54 @@
       "bearing": "braced",
       "origin": "authored",
       "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "reporter-word"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.is-that-on-the-record",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Is that on the record?",
+      "uses": [
+        {
+          "key": "reporter-word",
+          "move": "press",
+          "purpose": "hallway-word",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "reporter-word"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.can-i-put-your-name-on-that",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Can I put your name on that?",
+      "uses": [
+        {
+          "key": "reporter-word",
+          "move": "press",
+          "purpose": "hallway-word",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
       "date": "2026-11-08",
       "tag": {
         "move": "press",
@@ -134331,6 +138232,54 @@
       }
     },
     {
+      "key": "scene-talk.follow-accept.all-right-i-ll-note-that-you-passed",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "All right. I'll note that you passed.",
+      "uses": [
+        {
+          "key": "reporter-word",
+          "move": "accept",
+          "purpose": "hallway-word",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "reporter-word"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.no-problem-i-ll-try-you-again-later",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "No problem. I'll try you again later.",
+      "uses": [
+        {
+          "key": "reporter-word",
+          "move": "accept",
+          "purpose": "hallway-word",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "reporter-word"
+      }
+    },
+    {
       "key": "scene-talk.open-greet.a-word-lobbyist",
       "move": "open-greet",
       "kind": "spoken",
@@ -134348,6 +138297,54 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "greet",
+        "key": "lobbyist-word"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.do-you-have-a-minute-i-ll-be-quick",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Do you have a minute? I'll be quick.",
+      "uses": [
+        {
+          "key": "lobbyist-word",
+          "move": "greet",
+          "purpose": "hallway-word",
+          "role": "asker",
+          "step": "open",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "greet",
+        "key": "lobbyist-word"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.glad-i-caught-you-a-word",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Glad I caught you. A word?",
+      "uses": [
+        {
+          "key": "lobbyist-word",
+          "move": "greet",
+          "purpose": "hallway-word",
+          "role": "asker",
+          "step": "open",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
       "date": "2026-11-08",
       "tag": {
         "move": "greet",
@@ -134547,6 +138544,54 @@
       }
     },
     {
+      "key": "scene-talk.follow-thank.thank-you-that-s-useful-to-hear",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. That's useful to hear.",
+      "uses": [
+        {
+          "key": "lobbyist-word",
+          "move": "thank",
+          "purpose": "hallway-word",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "lobbyist-word"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.i-appreciate-your-time",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I appreciate your time.",
+      "uses": [
+        {
+          "key": "lobbyist-word",
+          "move": "thank",
+          "purpose": "hallway-word",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "lobbyist-word"
+      }
+    },
+    {
       "key": "scene-talk.follow-press.were-counting-on-you-lobbyist",
       "move": "follow-press",
       "kind": "spoken",
@@ -134571,6 +138616,54 @@
       }
     },
     {
+      "key": "scene-talk.follow-press.a-lot-of-people-are-counting-on-this-one",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "A lot of people are counting on this one.",
+      "uses": [
+        {
+          "key": "lobbyist-word",
+          "move": "press",
+          "purpose": "hallway-word",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "lobbyist-word"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.our-members-are-watching-how-you-vote",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Our members are watching how you vote.",
+      "uses": [
+        {
+          "key": "lobbyist-word",
+          "move": "press",
+          "purpose": "hallway-word",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "lobbyist-word"
+      }
+    },
+    {
       "key": "scene-talk.follow-accept.understood-lobbyist",
       "move": "follow-accept",
       "kind": "spoken",
@@ -134588,6 +138681,54 @@
       "bearing": "calm",
       "origin": "authored",
       "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "lobbyist-word"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-hear-you-thanks-for-being-straight-with-me",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I hear you. Thanks for being straight with me.",
+      "uses": [
+        {
+          "key": "lobbyist-word",
+          "move": "accept",
+          "purpose": "hallway-word",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "lobbyist-word"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.fair-i-ll-take-it-back-to-my-people",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fair. I'll take it back to my people.",
+      "uses": [
+        {
+          "key": "lobbyist-word",
+          "move": "accept",
+          "purpose": "hallway-word",
+          "role": "asker",
+          "step": "follow",
+          "subject": "scene"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
       "date": "2026-11-08",
       "tag": {
         "move": "accept",
