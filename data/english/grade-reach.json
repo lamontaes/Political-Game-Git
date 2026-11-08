@@ -1093,6 +1093,8 @@
     "scene-talk.reply-ask.are-you-staying-on-with-whoever-s-next": "ask|curious|private",
     "scene-talk.reply-ask.first-tell-me-what-you-re-hoping-for-here-and-how-long-you-think-it-wi": "ask|curious|private",
     "scene-talk.reply-ask.give-up-my-seat-why-would-i-do-that": "ask|guarded|floor",
+    "scene-talk.reply-ask.good-evening-members-self-place-who-asked-for-bill-id-like-an": "ask|curious|town-hall",
+    "scene-talk.reply-ask.good-evening-self-place-has-anyone-checked-what-bill-costs-the-people": "ask|curious|town-hall",
     "scene-talk.reply-ask.have-you-talked-to-anyone-else-about-it": "ask|curious|town-hall",
     "scene-talk.reply-ask.how-did-we-get-that-far-behind": "ask|none|private",
     "scene-talk.reply-ask.how-long-have-we-been-short": "ask|none|private",

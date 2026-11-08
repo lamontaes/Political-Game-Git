@@ -134929,6 +134929,198 @@
         "move": "stall",
         "key": "routine"
       }
+    },
+    {
+      "key": "scene-talk.reply-tell.good-evening-members-self-place-im-here-because-this-bill-changes-my",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Good evening, members. {self}, {place}. I'm here because this bill changes my street. I ask you to hear from the people it affects before you vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "hearing-testify",
+          "key": "routine"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.good-evening-self-place-bill-will-cost-my-family-more-than-it",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Good evening. {self}, {place}. {bill} will cost my family more than it says. I ask you to vote no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "hearing-testify",
+          "key": "routine"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.members-good-evening-self-place-i-support-bill-and-i-ask-you",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Members, good evening. {self}, {place}. I support {bill}, and I ask you to pass it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "hearing-testify",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.good-evening-members-self-place-ive-lived-here-a-long-time-and",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Good evening, members. {self}, {place}. I've lived here a long time, and I ask you to take this to the people first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "hearing-testify",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.good-evening-members-self-place-who-asked-for-bill-id-like-an",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Good evening, members. {self}, {place}. Who asked for {bill}? I'd like an answer before you vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "hearing-testify",
+          "key": "routine"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.good-evening-self-place-has-anyone-checked-what-bill-costs-the-people",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Good evening. {self}, {place}. Has anyone checked what {bill} costs the people on my block? I ask you to find out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "hearing-testify",
+          "key": "routine"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.good-evening-members-self-place-i-think-this-was-decided-before-tonight",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Good evening, members. {self}, {place}. I think this was decided before tonight, and I ask you to prove me wrong.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "hearing-testify",
+          "key": "routine"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.good-evening-self-place-i-came-to-speak-and-i-ask-you",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Good evening. {self}, {place}. I came to speak, and I ask you to listen as if the vote were still open.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "hearing-testify",
+          "key": "routine"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
     }
   ]
 }

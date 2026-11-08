@@ -13,7 +13,7 @@ A line is shaped by the kind of scene it belongs to. Speeches run about 18 words
 | On the floor (votes, bills, hearings, vetoes)    | 1027  | 8.6         | 8             | 4%                   | 7%             | 64%               | 59%   | 41%     |
 | In the hallway (donors, lobbyists, party, staff) | 628   | 9.1         | 8             | 8%                   | 13%            | 57%               | 60%   | 51%     |
 | With the press (interviews, scandals, debates)   | 531   | 8.0         | 8             | 3%                   | 12%            | 60%               | 47%   | 38%     |
-| With residents (town hall, protests, rallies)    | 738   | 8.4         | 8             | 4%                   | 9%             | 57%               | 54%   | 40%     |
+| With residents (town hall, protests, rallies)    | 746   | 8.5         | 8             | 4%                   | 9%             | 56%               | 55%   | 41%     |
 | Around an election (filing, concessions, rivals) | 1030  | 9.6         | 8             | 3%                   | 10%            | 55%               | 47%   | 47%     |
 
 ## What it shows
@@ -25,6 +25,8 @@ The owner asked that the English work differently for different kinds of scenes.
 A hallway word, a floor exchange, a press answer and a resident's question read alike in length and manner. A real hallway word is shorter and quieter than a floor exchange, which is more formal (Madam Chair, I yield, the gentleman from). The next step is to give each spoken kind its own devices from the register cards, and to grade by kind so the owner's grades shape them. The register cards' own measured corpora give targets. In ordinary talk about 45 percent of turns are three words or fewer (Santa Barbara Corpus). The hallway has 8 percent, up from 2 percent before tonight's 37 short hallway lines. The floor opens by thanking the chair in 82 percent of turns (Pennsylvania Legislative Journal), a form the banks do not yet have. A press briefing question runs 14 words in the middle and an answer 17. Public comment at a hearing now counts with residents, not the floor.
 
 In the press kind, 12 of 531 lines use a set evasion of the briefing formulas (2.3%); the briefing card measures 24 percent of substantive answers.
+
+In a hearing's public comment, 8 of 61 replies greet the body first (13%) and 7 end on an ask (11%); the council-comment card measures 80 percent greeting the body and 60 percent ending on an ask.
 
 ## How this was made
 
