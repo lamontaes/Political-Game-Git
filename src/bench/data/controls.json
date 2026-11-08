@@ -332,7 +332,8 @@
     }
   },
   "devPerson": {
-    "title": "Health",
+    "title": "Dev mode",
+    "decide": "Make them decide",
     "fallIll": "Falls seriously ill",
     "layOff": "Laid off by their employer",
     "laidOff": "Laid off",
