@@ -59,6 +59,7 @@ import {
 const roundedMoney = (minor) => moneyWords(minor, { rounded: true });
 import { peopleWeb } from "./ui/people-web.mjs";
 import { billPaper } from "./ui/bill-paper.mjs";
+import { billStageSections } from "./ui/bill-stage.mjs";
 import { meetingItem } from "./ui/meeting-item.mjs";
 import { draftCard } from "./ui/draft-card.mjs";
 import { bold, line, prose, heading, labeled, smallText } from "./ui/text.mjs";
@@ -2298,9 +2299,11 @@ function billEstimate(paper, section) {
  */
 async function openBillPaper(billId, show, back, backLabel) {
   const paper = await api(`/api/bill?billId=${encodeURIComponent(billId)}`);
+  const stage = await api(
+    `/api/bill/stage?billId=${encodeURIComponent(billId)}`,
+  );
   const words = controls.bill ?? {};
   const floor = controls.floor ?? {};
-  const meet = controls.meeting ?? {};
   const backButton = makeButton({
     className: "action",
     textContent: backLabel ?? words.back ?? "",
@@ -2329,19 +2332,61 @@ async function openBillPaper(billId, show, back, backLabel) {
           (count) =>
             `${count.chamber}: ${count.yes} ${floor.for ?? ""}, ${count.no} ${floor.against ?? ""}, ${count.undecided} ${floor.undecided ?? ""}`,
         ),
-        ...(paper.votes.length
-          ? [
-              `${floor.voted ?? ""}: ${paper.tally.yes} ${floor.yes ?? ""}, ${paper.tally.no} ${floor.no ?? ""}`,
-              paper.votes
-                .map((x) => `${x.name} · ${meet[x.vote] ?? ""}`)
-                .join(" · "),
-            ]
-          : []),
         paper.decision
           ? `${words.decided ?? ""}: ${floor.status?.[paper.decision.status] ?? ""}${paper.decision.passedOn ? ` · ${dateWords(paper.decision.passedOn)}` : ""}`
           : null,
       ],
     }),
+    // Where the bill is: the committee's record, what members told you, the floor and
+    // the override, each member by name (ui/bill-stage.mjs).
+    ...billStageSections(
+      stage,
+      controls.billStage ?? {},
+      (person) => showPerson({ personId: person.personId }),
+      async (how) => {
+        await api(
+          `/api/bill/vote?${new URLSearchParams({ billId, vote: how })}`,
+          "POST",
+        );
+        await openBillPaper(billId, show, back, backLabel);
+      },
+      {
+        onMove: async (index, direction) => {
+          await api(
+            `/api/bill/amend?${new URLSearchParams({ billId, index, direction })}`,
+            "POST",
+          );
+          await openBillPaper(billId, show, back, backLabel);
+        },
+        onCall: async (item) => {
+          await api(
+            `/api/bill/amendment-vote?${new URLSearchParams({ amendmentId: item.id })}`,
+            "POST",
+          );
+          await openBillPaper(billId, show, back, backLabel);
+        },
+        estimate: (item) =>
+          [
+            item.estimateAfter.workersRaised > 0
+              ? `${item.estimateAfter.workersRaised} ${words.workers ?? ""}`
+              : null,
+            item.estimateAfter.annualPayMinor > 0
+              ? moneyWords(item.estimateAfter.annualPayMinor)
+              : null,
+          ]
+            .filter(Boolean)
+            .join(" · "),
+      },
+      {
+        onDecide: async (how) => {
+          await api(
+            `/api/desk?${new URLSearchParams({ billId, how })}`,
+            "POST",
+          );
+          await openBillPaper(billId, show, back, backLabel);
+        },
+      },
+    ),
   );
 }
 
