@@ -3379,6 +3379,47 @@ const sheets = {
       }),
     ];
   },
+  /**
+   * The title's Saved games. The game keeps one life, the one Continue opens,
+   * and saves to more slots wait for early-access preparation (OWNER-DECISIONS:
+   * "Saves don't matter" until the versioned save format). The screen lists
+   * what exists and says so.
+   */
+  async saves() {
+    await controlsReady;
+    const words = controls.saves;
+    const life = titleLife;
+    const rows = life
+      ? [
+          pager({
+            items: [
+              {
+                title: life.name,
+                lede: life.placeName,
+                label: life.name,
+                onSelect: () => {
+                  closeSheet();
+                  $("front-continue").click();
+                },
+                data: { life: life.personId },
+              },
+            ],
+            render: listEntry,
+            rows: 1,
+            columns: 1,
+            rowHeight: 58,
+            gap: 8,
+            words: {
+              page: controls.politics.page,
+              previous: controls.politics.previousPage,
+              next: controls.politics.nextPage,
+            },
+            className: "pick-cards save-cards",
+          }),
+        ]
+      : [prose(words.none, "saves-none")];
+    return [plate(null, ...rows, prose(words.later, "saves-later"))];
+  },
   async options() {
     await controlsReady;
     const labels = controls.options;
@@ -4906,6 +4947,7 @@ function worldSettings() {
   return Object.keys(settings).length ? settings : undefined;
 }
 $("front-options").addEventListener("click", () => openSheet("options"));
+$("front-saves").addEventListener("click", () => openSheet("saves"));
 $("front-patch-notes").addEventListener("click", () => openSheet("patchNotes"));
 // The bench's developer controls sit behind one faint ring, off by default.
 $("dev-toggle").addEventListener("click", () => {
