@@ -296,6 +296,17 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.89.0
+
+_Released November 8, 2026._
+
+### Changed
+
+- **The You screen follows the approved look** The You screen now shows your
+  name over a bust, with "Who I am" and "What I'm like" written in your own
+  voice and the people closest to you as names that open their cards. Sections
+  sit under gold-edged header strips.
+
 ## PRE-ALPHA 0.88.4
 
 _Released November 8, 2026._
