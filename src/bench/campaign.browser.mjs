@@ -1,6 +1,7 @@
 /* global process, URL, URLSearchParams, console, document */
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
+import { chooseTrailAct } from "./trail-act.mjs";
 import { fileWhenFilingOpens } from "./start-life.mjs";
 import { openCampaignTrail } from "./campaign-trail.mjs";
 const browser = await chromium.launch({
@@ -50,16 +51,16 @@ try {
     .evaluate((e) => e.click());
   await page
     .locator("#sheet-tabs")
-    .getByRole("button", { name: "Campaigns", exact: true })
+    .getByRole("button", { name: "Campaign", exact: true })
     .click();
-  await page.locator(".row.campaign").first().waitFor();
+  await page.locator(".campaign-board").first().waitFor();
   const body = await page.locator("#sheet-body").innerText();
   assert.ok(!body.includes("undefined"));
-  // The Campaigns tab shows standing and results only: no act button on it.
+  // The Campaign tab shows standing and results only: its one button goes out onto the trail.
   assert.equal(
-    await page.locator(".row.campaign button").count(),
-    0,
-    "the Campaigns tab has no act buttons",
+    await page.locator(".campaign-board button").count(),
+    1,
+    "the Campaign tab has only the way out to the trail",
   );
   await page.screenshot({
     path: "docs/reports/campaign-controls-2026-10-20/campaigns.png",
@@ -67,9 +68,9 @@ try {
   // The acts wait on the campaign trail in Travel, one control per outing.
   await openCampaignTrail(page);
   const controls = await page
-    .locator("#sheet-body.place-view button")
+    .locator(".travel-tile")
     .evaluateAll((nodes) => nodes.map((n) => n.textContent.trim()));
-  console.log("Buttons:", controls.join(" | "));
+  console.log("Trail:", controls.join(" | "));
   const outings = [
     "Knock on doors",
     "Hold an event",
@@ -93,10 +94,8 @@ try {
   });
   // Taking an interview and an event runs the engine's own act; each answers with its own record.
   for (const name of ["Ask for an interview", "Hold an event"]) {
-    const button = page
-      .locator("#sheet-body.place-view button", { hasText: name })
-      .first();
-    if (await button.isDisabled()) {
+    const button = await chooseTrailAct(page, name);
+    if (!(await button.count())) {
       console.log(`${name}: not available today (the records say so)`);
       continue;
     }

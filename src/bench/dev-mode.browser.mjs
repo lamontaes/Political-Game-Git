@@ -67,6 +67,12 @@ try {
     await page.locator(".dev-scene .option-status").textContent(),
     /Begun for/,
   );
+  // Watch and the golden path, on the Calendar beside Run until.
+  await page.locator(".dev-watch").waitFor();
+  assert.ok(
+    (await page.locator(".dev-watch table").count()) >= 3,
+    "the watch and path tables are on the calendar",
+  );
   await shot("run-until");
   await closeSheet();
 
@@ -84,6 +90,35 @@ try {
       .querySelector("#person-facts")
       ?.textContent.includes("Seriously ill"),
   );
+  // Their records, and the trace behind one: the person view and the trace have a home here.
+  if ((await page.locator(".dev-record-ids .id").count()) > 0) {
+    await page.locator(".dev-record-ids .id").first().click();
+    await page.locator(".dev-trace h4").waitFor();
+  }
+  // Lay them off through their employer (or be told they worked today), from their card.
+  if ((await page.locator('[data-testid="dev-layoff"]').count()) > 0) {
+    await page.locator('[data-testid="dev-layoff"]').click();
+    await page.waitForFunction(() =>
+      /Laid off|worked today|no job|staff/.test(
+        document.querySelector("#person-facts .option-status")?.textContent ??
+          "",
+      ),
+    );
+  }
+  // Follow them, from their card.
+  await page
+    .getByRole("button", { name: /^(Follow|Stop following)$/ })
+    .first()
+    .waitFor();
+  // What the game offers them today: a pick is their next decision.
+  if ((await page.locator('[data-testid="dev-offer"]').count()) > 0) {
+    await page.locator('[data-testid="dev-offer"]').first().click();
+    await page.waitForFunction(() =>
+      document
+        .querySelector("#person-facts")
+        ?.textContent.includes("Picked for their next decision"),
+    );
+  }
   await shot("person");
   await page.evaluate(() => document.getElementById("person-close").click());
 
@@ -105,6 +140,19 @@ try {
         document.querySelector(".dev-bills .option-status")?.textContent ?? "",
       ),
     );
+    // A yes-or-no law is answered Yes or No and repealed by a bill; members can sign a discharge petition.
+    await page
+      .locator('select[aria-label="Law"]')
+      .selectOption({
+        value: "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+      });
+    await page.locator('select[aria-label="Answer"]').waitFor();
+    await page.locator('[data-testid="dev-repeal"]').waitFor();
+    await page.locator('[data-testid="dev-petition"]').waitFor();
+    // The official's answer is picked: takes.
+    await page
+      .locator('select[aria-label="Official\'s answer"]')
+      .selectOption({ value: "takes" });
     await page.locator('[data-testid="dev-bribe"]').click();
     await page.waitForFunction(
       () => document.querySelector(".dev-bribe .option-status")?.textContent,

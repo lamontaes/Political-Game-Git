@@ -5269,6 +5269,102 @@
       }
     },
     {
+      "key": "bribe-pressed",
+      "note": "The person whose bribe the official turned down comes back (the corruption engine's refusal record and their own reasons to press; no roll). The pressure runs from veiled to open by their temper in the bank's bearings. The official can hold the line, say they will report it, or put the talk off; what they say strains the tie.",
+      "purpose": "bribe-pressed",
+      "asker": "offerer",
+      "asked": "you",
+      "stakes": ["money", "favor", "record"],
+      "roles": [
+        {
+          "key": "offerer",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["threaten", "press", "plea", "accept", "warn"],
+          "wants": ["self-interest"],
+          "bearing": "braced"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["refuse", "confront", "deflect", "leave"],
+          "wants": ["play-safe"],
+          "bearing": "guarded"
+        }
+      ],
+      "setting": ["office", "venue"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:corruption.bribe-pressed",
+            "counterpart": "some"
+          },
+          "causeEngine": "corruption",
+          "causeRecord": "corruption.bribe-pressed",
+          "bind": {
+            "offerer": "counterpart",
+            "you": "subject"
+          },
+          "opener": "offerer"
+        }
+      ],
+      "tag": {
+        "key": "threat",
+        "endpoint": "money",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
+      "key": "office-doubt",
+      "note": "A strike or protest against the town's term, and someone who lives with the official asks the question the crowd raised: is the job worth it? (the public-action engine's civic record, the day after; the cast is the official's own household). The official can say why, say it looks worse than it is, promise time at home, or put the talk off.",
+      "purpose": "office-doubt",
+      "asker": "relative",
+      "asked": "you",
+      "stakes": ["office", "home"],
+      "roles": [
+        {
+          "key": "relative",
+          "fill": "household",
+          "count": "one",
+          "moves": ["ask", "press", "accept", "thank", "warn"],
+          "wants": ["change"],
+          "bearing": "hurt"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["tell", "comfort", "promise", "deflect", "leave"],
+          "wants": ["keep-same"],
+          "bearing": "calm"
+        }
+      ],
+      "setting": ["home"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "circumstance:office-doubt"
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "civic.protest",
+          "bind": {
+            "relative": "counterpart",
+            "you": "subject"
+          },
+          "opener": "relative",
+          "setting": ["home"]
+        }
+      ],
+      "tag": {
+        "key": "threat",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
       "key": "interview-invite",
       "note": "An outlet covering the race asks a candidate to sit for an interview: the press engine's interview-invited record names the candidate, the reporter who asks (the outlet's reporter closest to them) and the outlet. The reporter calls. A yes is read by the press engine as sitting for it, answered from the candidate's own filed platform; a no is a refusal on the record the outlet's people may take as a snub; anything else leaves it open.",
       "roles": [

@@ -6,6 +6,14 @@ import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
 import { statusLine } from "./fields.mjs";
 import { stripSection } from "./strips.mjs";
+import { followBar } from "./dev-view.mjs";
+
+async function get(path) {
+  const response = await fetch(`/api/dev/${path}`);
+  const value = await response.json();
+  if (!response.ok) throw new Error(value.error);
+  return value;
+}
 
 async function post(path, input) {
   const response = await fetch(`/api/dev/${path}`, {
@@ -18,7 +26,8 @@ async function post(path, input) {
 }
 
 /** The section. `labels` is controls.devPerson; `onDone()` refreshes the game's screens. */
-export function devPersonSection({ personId, labels, onDone }) {
+export async function devPersonSection({ personId, labels, onDone }) {
+  const offered = await get(`offers?personId=${encodeURIComponent(personId)}`);
   const result = statusLine();
   const button = (label, testid, work) => {
     const node = makeButton({ className: "action" }, label);
@@ -40,12 +49,28 @@ export function devPersonSection({ personId, labels, onDone }) {
   return stripSection(
     7,
     labels.title,
+    // Follow them: from then on each act of theirs keeps every option's reasons. It decides
+    // nothing and spends no time; someone in the player's circle is already kept.
+    followBar({
+      load: () => get(`following?personId=${encodeURIComponent(personId)}`),
+      onToggle: async (view, draw) => {
+        draw(
+          await post(view.status === "dev-mode" ? "unfollow" : "follow", {
+            personId,
+          }),
+        );
+      },
+    }),
     el(
       "div",
       { className: "dev-bills-row" },
       button(labels.fallIll, "dev-ill", async () => {
         await post("illness", { personId });
         return labels.ill;
+      }),
+      button(labels.layOff, "dev-layoff", async () => {
+        await post("layoff", { personId });
+        return labels.laidOff;
       }),
       button(labels.runUntilDies, "dev-until-dies", async () => {
         const ran = await post("run-until", {
@@ -59,5 +84,33 @@ export function devPersonSection({ personId, labels, onDone }) {
       }),
     ),
     result,
+    // What the game offers them today, and only that: a pick is the choice they make at their next
+    // decision, through the same chooser, and shows here as picked until it is made.
+    ...offered.offers.map((offer) => {
+      const node = makeButton(
+        { className: "action" },
+        [offer.actionId, offer.targetName].filter(Boolean).join(" · "),
+      );
+      node.dataset.testid = "dev-offer";
+      if (offer.key === offered.pending) node.classList.add("on");
+      node.addEventListener("click", async () => {
+        node.disabled = true;
+        try {
+          await post("choose", { personId, key: offer.key });
+          for (const other of node.parentNode.querySelectorAll(
+            '[data-testid="dev-offer"].on',
+          ))
+            other.classList.remove("on");
+          node.classList.add("on");
+          // A pick changes nothing on any screen until the person decides, so nothing is redrawn.
+          result.textContent = labels.picked;
+        } catch (error) {
+          result.textContent = error.message;
+        } finally {
+          node.disabled = false;
+        }
+      });
+      return node;
+    }),
   );
 }
