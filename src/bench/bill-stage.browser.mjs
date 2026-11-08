@@ -80,6 +80,25 @@ try {
     else if (!(await page.locator("#week").isDisabled())) break;
     await page.waitForTimeout(800);
   }
+  // Control binds when the clock next advances: play a day, then clear what the day brings.
+  await page.locator("#week").click();
+  for (let i = 0; i < 20; i += 1) {
+    const replies = page.locator("#talk-choices .reply");
+    if ((await replies.count()) > 0 && (await replies.first().isVisible()))
+      await replies.first().click();
+    else if (await visible("talk-next"))
+      await page.locator("#talk-next").click();
+    else if (await visible("talk-leave"))
+      await page.locator("#talk-leave").click();
+    else if (await visible("continue")) await page.locator("#continue").click();
+    else if (!(await page.locator("#week").isDisabled())) break;
+    await page.waitForTimeout(800);
+  }
+  // The player has worked beside their colleagues for a while (dev mode records the hours of contact), so the
+  // colleagues who back a bill and know them sign on when they introduce it.
+  await page.evaluate(() =>
+    fetch("/api/dev/work-beside-colleagues", { method: "POST" }),
+  );
   // The draft card: the issue, what is in force today and the new amount.
   await page
     .locator('#rings [data-tab="politics"]')
@@ -145,6 +164,51 @@ try {
   const billId = new URL((await asked).url()).searchParams.get("billId");
   assert.ok(billId, "the paper names its bill");
   await page.locator(".bill-doc").waitFor();
+  // The paper's civic terms are marked wherever they appear (the inline glossary): each opens its definition.
+  const terms = await page.evaluate(() =>
+    [...document.querySelectorAll(".bill-doc [data-term-key]")].map((n) =>
+      n.getAttribute("data-term-key"),
+    ),
+  );
+  console.log("paper terms:", JSON.stringify(terms));
+  assert.ok(terms.length > 0, "the paper marks its civic terms");
+  // Colleagues tell the player where they stand (dev mode records it as a conversation does); the paper
+  // then carries what members told the player and the aide's estimate, in words and marked as able to be wrong.
+  const told = await page.evaluate(async (id) => {
+    await fetch("/api/dev/learn-stakes", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ billId: id }),
+    });
+    const v = await (
+      await fetch(`/api/bill/stage?billId=${encodeURIComponent(id)}`)
+    ).json();
+    return { aide: v.aide, told: v.told.length, cosponsors: v.cosponsors };
+  }, billId);
+  console.log("after colleagues told the player:", JSON.stringify(told));
+  assert.ok(
+    told.cosponsors.length > 0,
+    "colleagues signed on beside the player",
+  );
+  assert.ok(told.told > 0, "colleagues told the player where they stand");
+  // Back, and open the paper again: it now says what the aide expects.
+  await page.locator("#sheet-body button.action").first().click();
+  await page.waitForTimeout(800);
+  await page
+    .locator("#sheet-body button", { hasText: /Read the bill/ })
+    .first()
+    .click();
+  await page.locator(".bill-doc").waitFor();
+  const paperAfter = await page.locator("#sheet-body").innerText();
+  console.log("aide on the paper:", /aide/i.test(paperAfter));
+  assert.match(paperAfter, /Cosponsors/, "the paper names its cosponsors");
+  assert.match(paperAfter, /aide/i, "the paper carries the aide's estimate");
+  assert.match(
+    paperAfter,
+    /can be wrong/i,
+    "the estimate says it can be wrong",
+  );
+  if (SHOTS) await page.screenshot({ path: `${SHOTS}/bill-paper-aide.png` });
   // Staff redraft: ask for section 1, see it struck and inserted, keep the staff's version.
   await page
     .getByRole("button", { name: "Ask staff to redraft section 1" })
