@@ -1031,6 +1031,14 @@
               "levels": ["state"]
             },
             {
+              "id": "question:us-policy-positions:labor-workforce.ban-the-box-public-hiring",
+              "name": "ban the box in public hiring",
+              "kind": "policy-question",
+              "question": "us-policy-positions:labor-workforce.ban-the-box-public-hiring",
+              "operations": ["enact", "repeal"],
+              "levels": ["state"]
+            },
+            {
               "id": "question:us-policy-positions:labor-workforce.right-to-work",
               "name": "right to work",
               "kind": "policy-question",

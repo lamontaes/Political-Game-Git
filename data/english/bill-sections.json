@@ -180,6 +180,11 @@
       "purpose": "let public employees bargain together over pay and conditions",
       "enact": "public employees shall have the right to bargain together over their pay and working conditions"
     },
+    "labor-workforce.ban-the-box-public-hiring": {
+      "subject": "criminal records on state job applications",
+      "purpose": "bar state agencies from asking about criminal records on a first job application",
+      "enact": "a state agency shall not ask about an applicant's criminal record on a first job application"
+    },
     "labor-workforce.right-to-work": {
       "subject": "workers who do not join a union",
       "purpose": "bar contracts that make workers pay a union to hold a job",
