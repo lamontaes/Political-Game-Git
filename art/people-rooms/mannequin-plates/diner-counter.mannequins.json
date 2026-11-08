@@ -1,0 +1,65 @@
+{
+  "scene": "diner-counter",
+  "size": [
+    1672,
+    941
+  ],
+  "backdrop": "diner-counter__midday.jpg",
+  "backdrops": [],
+  "spots": [
+    {
+      "id": "diner-counter-0",
+      "pose": "walk",
+      "seat": "none",
+      "facing": 45,
+      "head": {
+        "top": 269,
+        "x": 900.0,
+        "width": 74
+      },
+      "box": [
+        824,
+        269,
+        976,
+        900
+      ],
+      "feet": 899
+    },
+    {
+      "id": "diner-counter-1",
+      "pose": "stand",
+      "seat": "none",
+      "facing": -45,
+      "head": {
+        "top": 301,
+        "x": 930.0,
+        "width": 51
+      },
+      "box": [
+        877,
+        301,
+        983,
+        740
+      ],
+      "feet": 739
+    },
+    {
+      "id": "diner-counter-2",
+      "pose": "stand",
+      "seat": "none",
+      "facing": 0,
+      "head": {
+        "top": 322,
+        "x": 920.0,
+        "width": 37
+      },
+      "box": [
+        882,
+        322,
+        958,
+        640
+      ],
+      "feet": 639
+    }
+  ]
+}

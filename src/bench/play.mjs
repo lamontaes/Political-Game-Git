@@ -15,7 +15,6 @@ import {
 } from "./ui/talk-box.mjs";
 import { showToast, hideToast } from "./ui/toast.mjs";
 import { mountRail } from "./ui/rail.mjs";
-import { districtMap } from "./ui/map.mjs";
 import { chamberHeader } from "./ui/chamber.mjs";
 import { memberCard } from "./ui/member-card.mjs";
 import { dateList } from "./ui/date-list.mjs";
@@ -50,6 +49,7 @@ import { listRow, factRow, noteLine } from "./ui/list-row.mjs";
 import { fillArtwork, picture as pictureFrame } from "./ui/picture.mjs";
 import { select, optionsOf, numberBox } from "./ui/fields.mjs";
 import { lookRow } from "./ui/look-row.mjs";
+import { fitUiScale, uiScale, viewHeight, viewWidth } from "./ui/dom.mjs";
 import { termWord } from "./ui/term.mjs";
 import { watchTerms } from "./ui/term-mark.mjs";
 import { recordScreen } from "./ui/screen.mjs";
@@ -177,6 +177,8 @@ function row(label, value) {
  * the dock instead, so no reply sits under the card.
  */
 function clearDock() {
+  // Measured in the real window, placed in the scaled one.
+  const k = uiScale();
   const game = $("game").getBoundingClientRect();
   const dock = $("dock").getBoundingClientRect();
   const width = Math.max(
@@ -184,10 +186,12 @@ function clearDock() {
       (box) => box.offsetWidth,
     ),
   );
-  const left = game.left + (game.width - width) / 2;
+  const left = game.left / k + (game.width / k - width) / 2;
   $("game").style.setProperty(
     "--chat-bottom",
-    left < dock.right + 8 ? `${Math.ceil(game.bottom - dock.top + 8)}px` : "",
+    left < dock.right / k + 8
+      ? `${Math.ceil((game.bottom - dock.top) / k + 8)}px`
+      : "",
   );
 }
 // A box shown or resized, or the card widened, sets it again.
@@ -395,11 +399,18 @@ function showTipAt(node, { term, short, key }) {
   $("tip-short").textContent = short;
   $("tip-learned").hidden = !key;
   show("tip", true);
-  const box = node.getBoundingClientRect();
+  // The box is measured in the real window; the tip is placed in the scaled one.
+  const rect = node.getBoundingClientRect();
+  const k = uiScale();
+  const box = {
+    left: rect.left / k,
+    top: rect.top / k,
+    bottom: rect.bottom / k,
+  };
   const tip = $("tip");
-  tip.style.left = `${Math.min(box.left, window.innerWidth - tip.offsetWidth - 16)}px`;
+  tip.style.left = `${Math.min(box.left, viewWidth() - tip.offsetWidth - 16)}px`;
   tip.style.top =
-    box.bottom + tip.offsetHeight + 12 < window.innerHeight
+    box.bottom + tip.offsetHeight + 12 < viewHeight()
       ? `${box.bottom + 6}px`
       : `${box.top - tip.offsetHeight - 6}px`;
 }
@@ -1453,13 +1464,20 @@ function renderFiling(value) {
     );
     return;
   }
-  // At the counter you can walk out; silence there is not an answer.
-  talkControls({ silent: false, leave: true });
   fillTalk({ lines: spokenLines(lines) });
   // No form at the counter (owner, Oct 28, point 31: the rules panel was a
   // dev menu): filing carries the party the player is tied to, from the
   // record; the platform is SG-SCREENS-filing-platform-from-views.
   const choose = async (choice) => {
+    // "All right." is the way out: it walks out as Leave does, never a reply
+    // that only clears itself (C13).
+    if (choice.action.kind === "done") {
+      await post(
+        `/api/filing/choose?${new URLSearchParams({ key: choice.key })}`,
+      );
+      $("talk-leave").click();
+      return;
+    }
     const params = new URLSearchParams({ key: choice.key });
     if (choice.action.kind === "file" && value.overlay?.party)
       params.set("party", value.overlay.party);
@@ -1494,6 +1512,14 @@ function renderFiling(value) {
   const choices = value.visit.choices
     .filter((choice) => choice.action.kind !== "pick" || picks.has(choice))
     .slice(0, 4);
+  // At the counter you can walk out where that is a real choice: not beside
+  // a lone "All right." that already ends the visit. Silence is not an answer.
+  talkControls({
+    silent: false,
+    leave: !(
+      choices.length > 0 && choices.every((c) => c.action.kind === "done")
+    ),
+  });
   const buttons = replies(choices, choose);
   choices.forEach((choice, i) => {
     if (choice.action.kind !== "pick") return;
@@ -1904,11 +1930,6 @@ async function campaignParts() {
       ...travelScreen({
         entries,
         labels: { whoIsThere: "", whatICanDo: T.groupAsk },
-        words: {
-          page: controls.politics.page,
-          previous: controls.politics.previousPage,
-          next: controls.politics.nextPage,
-        },
       }),
       ...(campaignResult ? [line(campaignResult)] : []),
       ...campaignLines.map((text) => line(text)),
@@ -2286,6 +2307,18 @@ async function personCardNode(
     ...(sharedLines.length
       ? [stripSection(5, labels.betweenUs, ...sharedLines)]
       : []),
+    // Their life from the records, oldest first, as the card has told it since
+    // #6772 and #7090: the card is sent the story and draws it (owner's
+    // playtest, Nov 8).
+    ...(c.history?.length
+      ? [
+          stripSection(
+            5,
+            capital(heading("lifeStory", "lifeStoryThey")),
+            lifeTimeline(c.history, 3),
+          ),
+        ]
+      : []),
   ];
   const secondColumn = [
     ...(people
@@ -2367,6 +2400,8 @@ async function visit(organizationId) {
   $("backdrop").src = v.backdrop.url;
   drawPeople(v.people, (p) => talkTo(p.personId));
   $("card-place").textContent = v.name;
+  // The visit's hour moved the clock: the card shows the new time.
+  if (v.packet) renderPacket(v.packet);
 }
 
 // ---- Play someone else: the one you leave finishes their day ----
@@ -2390,11 +2425,6 @@ async function officeParts() {
   if (!v.jobs.length) return { seat: [], budget: [], deals: [] };
   const words = controls.officeStops ?? {};
   const labels = controls.officeScreen ?? {};
-  const pageWords = {
-    page: controls.politics.page,
-    previous: controls.politics.previousPage,
-    next: controls.politics.nextPage,
-  };
   const paged = (items, { rows, columns, rowHeight, className }) =>
     pager({
       items,
@@ -2403,7 +2433,6 @@ async function officeParts() {
       columns,
       rowHeight,
       gap: 8,
-      words: pageWords,
       className,
     });
   const seat = [
@@ -2576,18 +2605,21 @@ function billEstimate(paper, section) {
   else if (est.line && est.ofMinor != null && est.lineAmountMinor != null)
     compare = {
       todayLabel: words.today ?? "",
-      today: moneyWords(est.ofMinor),
+      today: roundedMoney(est.ofMinor),
       newLabel: words.proposed ?? "",
-      proposed: moneyWords(est.ofMinor + est.lineAmountMinor),
+      proposed: roundedMoney(est.ofMinor + est.lineAmountMinor),
     };
   else if (after) lines.push(`${words.to ?? ""} ${after}`);
+  // The two cells above carry the amounts; the line is then only named.
   if (est.line)
     lines.push(
       [
         `${words.line ?? ""}: ${policyLabel(`budget-line:${est.line}`)}`,
-        est.lineAmountMinor != null ? moneyWords(est.lineAmountMinor) : null,
-        est.ofMinor != null
-          ? `${words.from ?? ""} ${moneyWords(est.ofMinor)}`
+        !compare && est.lineAmountMinor != null
+          ? roundedMoney(est.lineAmountMinor)
+          : null,
+        !compare && est.ofMinor != null
+          ? `${words.from ?? ""} ${roundedMoney(est.ofMinor)}`
           : null,
       ]
         .filter(Boolean)
@@ -2598,8 +2630,9 @@ function billEstimate(paper, section) {
       paper.estimate.workers > 0
         ? `${paper.estimate.workers} ${words.workers ?? ""}`
         : null,
-      paper.estimate.payMinor > 0 ? moneyWords(paper.estimate.payMinor) : null,
-      paper.estimate.note,
+      paper.estimate.payMinor > 0
+        ? roundedMoney(paper.estimate.payMinor)
+        : null,
     ]
       .filter(Boolean)
       .join(" · "),
@@ -2644,7 +2677,7 @@ async function openBillPaper(billId, show, back, backLabel) {
           ? `${floor.takenUp ?? ""} ${dateWords(paper.floorDate)}`
           : null,
         paper.decision
-          ? `${words.decided ?? ""}: ${floor.status?.[paper.decision.status] ?? ""}${paper.decision.passedOn ? ` · ${dateWords(paper.decision.passedOn)}` : ""}`
+          ? `${words.decided ?? ""}: ${floor.status?.[paper.decision.status] ?? ""}${paper.decision.decidedOn ? ` · ${dateWords(paper.decision.decidedOn)}` : ""}`
           : null,
       ],
     }),
@@ -2938,11 +2971,6 @@ async function seatRows() {
                         columns: 1,
                         rowHeight: 110,
                         gap: 10,
-                        words: {
-                          page: controls.politics.page,
-                          previous: controls.politics.previousPage,
-                          next: controls.politics.nextPage,
-                        },
                       })
                     : deskList(...desk),
                 ),
@@ -2967,7 +2995,7 @@ async function ownHistory() {
   );
   return card.history ?? [];
 }
-/** History lines down a timeline of `rows` a page, paged by years. */
+/** History lines down a timeline `rows` tall, scrolling inside its box. */
 function lifeTimeline(lines, rows) {
   return timeline({
     entries: lines.map((h) => ({
@@ -2977,10 +3005,6 @@ function lifeTimeline(lines, rows) {
       recordId: h.recordId,
     })),
     rows,
-    words: {
-      previous: controls.person.earlier,
-      next: controls.person.later,
-    },
   });
 }
 function portraitUrl() {
@@ -3274,10 +3298,7 @@ const sheets = {
     return [
       plate(
         null,
-        lifeTimeline(
-          life,
-          Math.max(3, Math.floor((window.innerHeight - 300) / 64)),
-        ),
+        lifeTimeline(life, Math.max(3, Math.floor((viewHeight() - 300) / 64))),
       ),
     ];
   },
@@ -3291,12 +3312,7 @@ const sheets = {
         chapters,
         labels: controls.journal,
         yearOf: (iso) => iso.slice(0, 4),
-        rows: Math.max(4, Math.floor((window.innerHeight - 360) / 54)),
-        words: {
-          page: controls.politics.page,
-          previous: controls.politics.previousPage,
-          next: controls.politics.nextPage,
-        },
+        rows: Math.max(4, Math.floor((viewHeight() - 360) / 54)),
       }),
     ];
   },
@@ -3396,8 +3412,14 @@ const sheets = {
     const books = gov.books;
     const prior = gov.prior;
     const lastOf = (lines, key) => lines?.find((r) => r.line === key)?.minor;
+    // A line the government spends nothing on is not listed (P29): a budget
+    // reads like a real one. The line open stays, so a pick always shows.
+    const spending = latest.spending.filter((r) => r.minor !== 0);
     const opened =
-      latest.spending.find((r) => r.line === budgetLine) ?? latest.spending[0];
+      spending.find((r) => r.line === budgetLine) ??
+      latest.spending.find((r) => r.line === budgetLine) ??
+      spending[0] ??
+      latest.spending[0];
     const lastYear = (minor) =>
       minor === undefined ? "" : `${words.lastYear} ${roundedMoney(minor)}`;
     const stepButtons = steps(opened).map((step) => {
@@ -3428,7 +3450,7 @@ const sheets = {
               1,
               words.departments,
               pager({
-                items: latest.spending.map((r) =>
+                items: spending.map((r) =>
                   departmentRow({
                     name: r.name ?? r.line,
                     amount: roundedMoney(r.minor),
@@ -3440,15 +3462,10 @@ const sheets = {
                   }),
                 ),
                 render: (node) => node,
-                rows: Math.max(4, Math.floor((window.innerHeight - 380) / 56)),
+                rows: Math.max(4, Math.floor((viewHeight() - 380) / 56)),
                 columns: 1,
                 rowHeight: 52,
                 gap: 2,
-                words: {
-                  page: controls.politics.page,
-                  previous: controls.politics.previousPage,
-                  next: controls.politics.nextPage,
-                },
                 className: "bsdepts",
               }),
             ),
@@ -3603,11 +3620,6 @@ const sheets = {
         labels,
         date: today(),
         headlineOf: storyHeadline,
-        words: {
-          page: controls.politics.page,
-          previous: controls.politics.previousPage,
-          next: controls.politics.nextPage,
-        },
       }),
     ];
   },
@@ -3621,11 +3633,6 @@ const sheets = {
       terms,
       query: guideQuery,
       labels: controls.guide,
-      words: {
-        page: controls.politics.page,
-        previous: controls.politics.previousPage,
-        next: controls.politics.nextPage,
-      },
       onSearch: async (text) => {
         guideQuery = text;
         const found = await api(`/api/guide?q=${encodeURIComponent(text)}`);
@@ -3647,12 +3654,7 @@ const sheets = {
     return [
       patchNotesScreen({
         title: labels.builds,
-        rows: Math.max(4, Math.floor((window.innerHeight - 340) / 54)),
-        words: {
-          page: controls.politics.page,
-          previous: controls.politics.previousPage,
-          next: controls.politics.nextPage,
-        },
+        rows: Math.max(4, Math.floor((viewHeight() - 340) / 54)),
         builds: releases.map((r) => ({
           name: r.version,
           // The release file says "Released November 8, 2026."; the list shows "Nov 8".
@@ -3787,8 +3789,10 @@ const sheets = {
               testid: `options-stop-${group}`,
               on: () => kinds.every((kind) => allowed.has(kind)),
               set: async (wanted) => {
-                for (const kind of kinds)
-                  wanted ? allowed.add(kind) : allowed.delete(kind);
+                for (const kind of kinds) {
+                  if (wanted) allowed.add(kind);
+                  else allowed.delete(kind);
+                }
                 const every = allowed.size === filter.kinds.length;
                 const saved = await post(
                   `/api/scene-filter?id=${encodeURIComponent(me.id)}&kinds=${every ? "all" : [...allowed].join(",")}`,
@@ -3928,11 +3932,6 @@ const sheets = {
     };
     return travelScreen({
       labels,
-      words: {
-        page: controls.politics.page,
-        previous: controls.politics.previousPage,
-        next: controls.politics.nextPage,
-      },
       entries: destinations.map((p) => ({
         group: groupOf(p),
         title: p.name,
@@ -3972,11 +3971,6 @@ const sheets = {
     return rosterScreen({
       title: controls.campaignBoard.title,
       className: "campaign-screen",
-      words: {
-        page: controls.politics.page,
-        previous: controls.politics.previousPage,
-        next: controls.politics.nextPage,
-      },
       groups: [
         {
           entries: parts.map((part) => ({
@@ -4014,7 +4008,6 @@ const sheets = {
                 name: f.name ?? "",
                 line: f.party ?? "",
                 party: f.party,
-                badge: f.party ? f.party.charAt(0) : null,
                 face: f.face,
                 onOpen: () => {
                   closeSheet();
@@ -4094,6 +4087,17 @@ const sheets = {
               2,
               labels.dates,
               dateList([
+                ...(race.filingOpens && race.filingOpens > me.date
+                  ? [
+                      {
+                        when: dateWords(race.filingOpens, {
+                          month: "short",
+                          year: me.date,
+                        }),
+                        text: labels.filingOpens,
+                      },
+                    ]
+                  : []),
                 ...(race.filingClosed
                   ? []
                   : [
@@ -4150,11 +4154,6 @@ const sheets = {
       title: labels.title,
       groups,
       className: "elections-screen",
-      words: {
-        page: controls.politics.page,
-        previous: controls.politics.previousPage,
-        next: controls.politics.nextPage,
-      },
       render: async (entry) => racePage(entry.race),
     });
   },
@@ -4264,7 +4263,6 @@ const sheets = {
           name: m.name,
           line,
           party: m.party,
-          badge: m.party ? m.party.charAt(0) : null,
           face: m.face,
           onOpen: open(m.cardId, m.face),
         },
@@ -4280,15 +4278,7 @@ const sheets = {
     // How many rows of cards fit under the room's picture in this window:
     // the panel never scrolls, so a short window pages sooner.
     const rowsFor = (taken, most) =>
-      Math.max(
-        1,
-        Math.min(most, Math.floor((window.innerHeight - taken) / 72)),
-      );
-    const pageWords = {
-      page: labels.page,
-      previous: labels.previousPage,
-      next: labels.nextPage,
-    };
+      Math.max(1, Math.min(most, Math.floor((viewHeight() - taken) / 72)));
     // When a body meets, as its rule says it: "every Tuesday", "the 1st and
     // 3rd Tuesday of the month".
     const scheduleWords = (rule) => {
@@ -4443,7 +4433,6 @@ const sheets = {
               columns: 2,
               rowHeight: 64,
               gap: 8,
-              words: pageWords,
               className: "members-pager",
             }),
           ),
@@ -4719,11 +4708,6 @@ const sheets = {
     const party = v.party;
     const mine = party?.member?.name;
     const keys = v.parties.map((p) => p.party);
-    const pagerWords = {
-      page: labels.page,
-      previous: labels.previousPage,
-      next: labels.nextPage,
-    };
     // One party's page: who holds office for it (cards, paged), and where the player stands
     // with it (registered, or Join).
     const partyPage = (name) => {
@@ -4751,7 +4735,6 @@ const sheets = {
                     name: s.name,
                     line: s.title,
                     party: name,
-                    badge: name.charAt(0),
                     face: s.face,
                     onOpen: () => {
                       closeSheet();
@@ -4763,12 +4746,11 @@ const sheets = {
                   }),
                 rows: Math.max(
                   1,
-                  Math.min(5, Math.floor((window.innerHeight - 420) / 72)),
+                  Math.min(5, Math.floor((viewHeight() - 420) / 72)),
                 ),
                 columns: 2,
                 rowHeight: 64,
                 gap: 8,
-                words: pagerWords,
               })
             : prose(labels.noHolders ?? "", "record-empty"),
         ),
@@ -4787,12 +4769,10 @@ const sheets = {
           entries: keys.map((name) => ({
             key: name,
             label: name,
-            aside: name === mine ? controls.party.mine : "",
             name,
           })),
         },
       ],
-      words: pagerWords,
       render: async (entry) => {
         partyTab = entry.name;
         return partyPage(entry.name);
@@ -4829,11 +4809,21 @@ const sheets = {
       series.includes(":")
         ? series.split(":")[1].split(".")[0]
         : (labels.issueGroupOf?.[series] ?? "fiscal");
+    // An additive tax (income) is one law per level, each at its own rate:
+    // the list names each level's rate, never their sum as one rate.
     const valueText = (law) =>
       law.text ??
-      (law.value !== null && law.value !== undefined
-        ? lawText(law, law.value, law.unit)
-        : null);
+      (law.additive
+        ? law.levels
+            .filter((l) => l.row && l.row.value !== null && !l.setAside)
+            .map(
+              (l) =>
+                `${setBy(l.level)} ${lawText(law, l.row.value, l.row.unit)}`,
+            )
+            .join(" · ") || null
+        : law.value !== null && law.value !== undefined
+          ? lawText(law, law.value, law.unit)
+          : null);
     // One law's page: what is in force at each level and since when, the statute, the
     // measure that enacted it, what is coming, what changed and how members voted.
     const lawPage = async (law) => {
@@ -4914,16 +4904,10 @@ const sheets = {
       (a, b) => order.indexOf(a) - order.indexOf(b),
     );
     if (!keys.length) return [prose(labels.noIssues, "record-empty")];
-    const pageWords = {
-      page: labels.page,
-      previous: labels.previousPage,
-      next: labels.nextPage,
-    };
     return rosterScreen({
       title: labels.subjects,
       className: "issues-screen",
       chosenKey: keys.includes(issueSubject) ? issueSubject : keys[0],
-      words: pageWords,
       groups: [
         {
           entries: keys.map((key) => ({
@@ -4940,7 +4924,6 @@ const sheets = {
         return rosterScreen({
           title: entry.label,
           className: "issues-laws",
-          words: pageWords,
           groups: [
             {
               entries: laws.map((law) => ({
@@ -5112,14 +5095,6 @@ function fitPagersNow(root, waits = 30) {
         [...part.querySelectorAll(".vote-rows .dl")].filter((v) => !v.hidden);
       while (over(part) && shown().length > 1) shown().at(-1).hidden = true;
     }
-    // The sheet still past its foot: a map gives back the difference, never
-    // below a small map (Parties' map over its officeholders).
-    const body = $("sheet-body");
-    const map = root.querySelector(".gov-map");
-    if (map && over(body)) {
-      const less = body.scrollHeight - body.clientHeight;
-      map.style.height = `${Math.max(140, map.getBoundingClientRect().height - less)}px`;
-    }
   });
 }
 // The rail over the player card: a column of round icons, News among them; it is
@@ -5163,6 +5138,9 @@ document.addEventListener("fullscreenchange", () => {
   const checkbox = document.querySelector('[data-testid="options-fullscreen"]');
   if (checkbox) checkbox.checked = Boolean(document.fullscreenElement);
 });
+
+fitUiScale();
+window.addEventListener("resize", fitUiScale);
 
 // ---- New life ----
 // The title screen: a national scene or event, full window, that moves on with
@@ -5256,27 +5234,86 @@ const drawSeed = () =>
 void drawSeed();
 $("seed-random").addEventListener("click", () => void drawSeed());
 /** What the player changed from real data; nothing means a real world. */
+// The world's settings, as the approved world screen draws them: a row of arrows over
+// the figure each step means (owner, Nov 8: "the figure itself in each control"). The
+// chosen step of each row is kept here; the server reads the settings it makes.
+const worldStep = {};
+function worldWords(row, value) {
+  const w = controls.worldSettings;
+  const words = (template, n) => template.replace("{n}", String(n));
+  if (row.id === "population")
+    return value === null ? w.real : words(w.people, count(value));
+  if (row.id === "lean")
+    return value === 0
+      ? w.even
+      : words(value < 0 ? w.left : w.right, Math.round(Math.abs(value) * 100));
+  if (value === 1) return w.usual;
+  const percent = Math.round(Math.abs(value - 1) * 100);
+  return words(value > 1 ? w.more : w.less, percent);
+}
+const usualStep = (row) =>
+  row.values.findIndex(
+    (v) => v === null || v === 1 || (row.id === "lean" && v === 0),
+  );
+function count(n) {
+  return new Intl.NumberFormat("en-US").format(n);
+}
+function drawWorldRows() {
+  const holder = $("world-rows");
+  if (!controls.worldSettings || !holder) return;
+  holder.replaceChildren(
+    ...controls.worldSettings.rows.map((row) => {
+      worldStep[row.id] ??= usualStep(row);
+      const at = worldStep[row.id];
+      return lookRow(
+        {
+          id: `world-${row.id}`,
+          label: row.label,
+          value: worldWords(row, row.values[at]),
+        },
+        {
+          onMove: (_id, by) => {
+            worldStep[row.id] = Math.max(
+              0,
+              Math.min(row.values.length - 1, at + by),
+            );
+            drawWorldRows();
+          },
+          arrowLabel: (by, r) =>
+            controls.creator[by < 0 ? "previous" : "next"].replace(
+              "{row}",
+              r.label.toLowerCase(),
+            ),
+        },
+      );
+    }),
+  );
+}
 function worldSettings() {
-  const read = (id) => {
-    const text = $(id).value.trim();
-    return text === "" ? undefined : Number(text);
-  };
-  const economy = Object.fromEntries(
-    [
-      ["wages", read("set-wages")],
-      ["householdCash", read("set-cash")],
-      ["outsideDemand", read("set-demand")],
-    ].filter(([, v]) => v !== undefined),
-  );
-  const politics = Object.fromEntries(
-    [
-      ["leanShift", read("set-lean")],
-      ["turnout", read("set-turnout")],
-    ].filter(([, v]) => v !== undefined),
-  );
+  const chosen = {};
+  for (const row of controls.worldSettings.rows) {
+    const value = row.values[worldStep[row.id] ?? usualStep(row)];
+    if (value !== null && value !== 1 && !(row.id === "lean" && value === 0))
+      chosen[row.id] = value;
+  }
+  const pick = (ids) =>
+    Object.fromEntries(
+      ids
+        .filter(([, id]) => chosen[id] !== undefined)
+        .map(([key, id]) => [key, chosen[id]]),
+    );
+  const economy = pick([
+    ["wages", "wages"],
+    ["householdCash", "cash"],
+    ["outsideDemand", "demand"],
+  ]);
+  const politics = pick([
+    ["leanShift", "lean"],
+    ["turnout", "turnout"],
+  ]);
   const settings = {
-    ...(read("set-population") !== undefined
-      ? { population: read("set-population") }
+    ...(chosen.population !== undefined
+      ? { population: chosen.population }
       : {}),
     ...(Object.keys(economy).length ? { economy } : {}),
     ...(Object.keys(politics).length ? { politics } : {}),
@@ -5458,7 +5495,10 @@ async function openCreator() {
   if (setup.gender) void openLook();
 }
 $("new-life").addEventListener("click", () => frontPanel("front-new"));
-$("new-advanced").addEventListener("click", () => frontPanel("front-advanced"));
+$("new-advanced").addEventListener("click", () => {
+  drawWorldRows();
+  frontPanel("front-advanced");
+});
 $("new-start").addEventListener("click", () => void openCreator());
 $("new-world").addEventListener("click", () => startLife({ custom: true }));
 $("advanced-build").addEventListener(
@@ -5584,15 +5624,31 @@ function showLook(view) {
   $("cr-portrait-work").src = `/api/portrait?recipe=${recipe}&dress=work`;
   $("cr-rows").replaceChildren(
     ...view.rows.map((row) =>
-      lookRow(row, {
-        onPick: (id, swatch) => void pickColor(id, swatch),
-        onMove: (id, by) => void moveLook(id, by),
-        arrowLabel: (by, r) =>
-          controls.creator[by < 0 ? "previous" : "next"].replace(
-            "{row}",
-            r.label.toLowerCase(),
-          ),
-      }),
+      lookRow(
+        // A color steps with arrows like every other look (the Nov 8 creator mock: "arrows
+        // like The Political Process"); its swatch dot stays beside the name.
+        row.swatches
+          ? {
+              ...row,
+              swatches: undefined,
+              swatch: row.swatches.find((x) => x.chosen)?.color,
+            }
+          : row,
+        {
+          onMove: (id, by) => {
+            const colors = row.swatches;
+            if (!colors) return void moveLook(id, by);
+            const here = colors.findIndex((x) => x.chosen);
+            const next = colors[(here + by + colors.length) % colors.length];
+            void pickColor(id, next.id);
+          },
+          arrowLabel: (by, r) =>
+            controls.creator[by < 0 ? "previous" : "next"].replace(
+              "{row}",
+              r.label.toLowerCase(),
+            ),
+        },
+      ),
     ),
   );
   $("cr-reset").disabled =
@@ -5723,6 +5779,7 @@ async function offerPlayAs(life) {
   $("pick-detail").replaceChildren();
   draw();
   show("front-status", false);
+  document.querySelector("#front .progress").hidden = true;
   frontPanel("front-pick");
   for (const id of placeControls) $(id).disabled = false;
 }
@@ -5756,17 +5813,8 @@ function playLoadingStory(story) {
   const panel = $("loading-story");
   const years = story?.years ?? [];
   if (!years.length) return Promise.resolve();
-  const map = $("loading-map");
   const journal = $("loading-journal");
   journal.replaceChildren();
-  map.replaceChildren(
-    ...(story.map
-      ? [districtMap(story.map, { wordHolders: (d) => d.name })]
-      : []),
-  );
-  const counties = [...map.querySelectorAll(".county")];
-  const yours = [...map.querySelectorAll(".yours")];
-  for (const node of [...counties, ...yours]) node.classList.add("unfilled");
   show("loading-story", true);
   // About six seconds in all, at most seven tenths of a second a year.
   const step = Math.min(700, 6000 / years.length);
@@ -5777,8 +5825,6 @@ function playLoadingStory(story) {
     const finish = () => {
       window.clearTimeout(timer);
       panel.removeEventListener("click", finish);
-      for (const node of [...counties, ...yours])
-        node.classList.remove("unfilled");
       $("loading-year").textContent = String(years.at(-1).year);
       resolve();
     };
@@ -5798,13 +5844,6 @@ function playLoadingStory(story) {
         ...year.lines.map((row) => prose(row.text, "loading-line")),
         ...year.headlines.map((row) => prose(row.headline, "loading-headline")),
       );
-      // The map fills in as the years pass: its share of the counties, then
-      // your districts with the last year.
-      const share = Math.ceil(((at + 1) / years.length) * counties.length);
-      for (const node of counties.slice(0, share))
-        node.classList.remove("unfilled");
-      if (at === years.length - 1)
-        for (const node of yours) node.classList.remove("unfilled");
       at += 1;
       timer = window.setTimeout(next, step);
     };
@@ -5817,6 +5856,9 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
   // The loading card: the panel holds only the progress over the scene.
   frontPanel(null);
   show("front-status", true);
+  const bar = document.querySelector("#front .progress");
+  bar.hidden = false;
+  bar.firstElementChild.style.width = "0";
   try {
     const settings = custom ? worldSettings() : undefined;
     // Outside Custom world, a fresh seed draws the world.
@@ -5824,6 +5866,16 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
       ? $("seed").value
       : setup.seed || (await api("/api/seed")).seed;
     // Real progress through every step, from the server's build.
+    // The server builds the world in six steps; a step is named while it runs and the bar
+    // fills one sixth for each step finished.
+    const STEPS = [
+      "people",
+      "past",
+      "economy",
+      "core",
+      "government",
+      "opening",
+    ];
     // A poll still in flight when the build ends leaves the line alone.
     let built = false;
     // The world's story plays once the world exists (playLoadingStory).
@@ -5836,8 +5888,10 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
       const p = await api("/api/newlife/progress").catch(() => undefined);
       if (p?.story) playStory();
       if (!p || built) return;
-      // The step in plain words; no bar and no counts (owner, Oct 27: "There is a weird little
-      // bar at the end"; the Nov 8 loading mock).
+      // The step in plain words, and a bar that shows how many steps are done; no counts.
+      const at =
+        p.stage === "done" ? STEPS.length : Math.max(STEPS.indexOf(p.stage), 0);
+      bar.firstElementChild.style.width = `${Math.round((at / STEPS.length) * 100)}%`;
       $("front-status").textContent = controls.loading?.[p.stage] ?? "";
     }, 400);
     let life;
@@ -5848,7 +5902,14 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
     } finally {
       clearInterval(poll);
       built = true;
+      // Built: the bar is full and no "Ready" line is left behind.
+      bar.firstElementChild.style.width = "100%";
+      $("front-status").textContent = "";
     }
+    // The loading card is named for the place the world is built around (fr-loading).
+    const loadingTitle = document.querySelector("#front > .title");
+    if (loadingTitle && life.placeName)
+      loadingTitle.textContent = life.placeName;
     // The story plays to its end (or a click) before the life opens.
     await playStory();
     show("loading-story", false);
@@ -5883,6 +5944,7 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
     if (life.sceneMomentId) await showStory(life.sceneMomentId);
     showNewsSurface(news);
   } catch (error) {
+    bar.hidden = true;
     $("front-status").textContent = error.message;
     for (const id of placeControls) $(id).disabled = false;
     frontPanel(person ? "cr-screen" : "front-new");
