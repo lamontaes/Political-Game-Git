@@ -5,7 +5,7 @@
 // override margin for a veto. Words are control names and record data only.
 import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
-import { select, numberBox, statusLine } from "./fields.mjs";
+import { select, numberBox, statusLine, checkboxSetting } from "./fields.mjs";
 
 /** The bill last introduced here: kept across the sheet's redraws, which a refresh causes. */
 let lastBillId = null;
@@ -91,6 +91,10 @@ export async function devBillsPanel({ labels, onDone }) {
     value: 10,
     label: labels.overrideMargin,
   });
+  // Members sign a discharge petition before the committee meets: it matters only where a committee
+  // does not report the bill and the chamber's rule lets its members take the bill from it.
+  const petition = checkboxSetting({ label: labels.petition, checked: false });
+  petition.box.dataset.testid = "dev-petition";
   const result = statusLine();
   result.textContent = lastResult;
   const act = (button, work) =>
@@ -148,11 +152,20 @@ export async function devBillsPanel({ labels, onDone }) {
         margin: sign * Number(margin.value),
         sign: executive,
         overrideMargin: Number(overrideMargin.value),
+        discharge: petition.box.checked,
       });
       return [
         out.bill.number,
         out.bill.status,
         ...out.tallies.map((t) => `${t.yes}–${t.no}`),
+        ...out.committees
+          .filter((c) => c.discharge)
+          .map((c) =>
+            [
+              c.discharge.discharged ? labels.discharged : labels.notDischarged,
+              `${c.discharge.signers.length}/${c.discharge.needed}`,
+            ].join(" "),
+          ),
         ...out.committees
           .filter((c) => !c.reported)
           .map((c) =>
@@ -196,6 +209,7 @@ export async function devBillsPanel({ labels, onDone }) {
       pass,
       defeat,
     ),
+    petition.line,
     result,
   );
   return { section, bodies, billId: () => lastBillId };

@@ -40,6 +40,7 @@ import {
   bodyRow,
   castMemberVote,
   chambersOf,
+  signDischarge,
   committeeMemberKeys,
   committeeRecords,
   draftBill,
@@ -753,7 +754,12 @@ export class DevMode {
   decideAt(
     billId: string,
     margin: number,
-    options: { sign?: boolean; overrideMargin?: number } = {},
+    options: {
+      sign?: boolean;
+      overrideMargin?: number;
+      /** Every member signs a discharge petition for the bill before the committee meets. */
+      discharge?: boolean;
+    } = {},
   ) {
     const api = this.api;
     const table = api.moduleState(LEGISLATURE_MODULE_ID).table("bills");
@@ -803,6 +809,10 @@ export class DevMode {
       executive.term !== undefined &&
       (executive.office?.kind !== "mayor" || mayorVeto(api).veto);
     for (const chamber of chambers) tallies.push(vote(chamber, margin, false));
+    if (options.discharge)
+      for (const chamber of chambers)
+        for (const term of members(api, chamber))
+          signDischarge(api, billId, memberKey(term), true);
     if (veto && options.overrideMargin !== undefined)
       for (const chamber of chambers)
         vote(chamber, options.overrideMargin, true);
@@ -820,6 +830,7 @@ export class DevMode {
       chair: c.chairId,
       chairPosition: c.chairReasons.position.total,
       chairTrait: c.chairReasons.hearingTrait,
+      discharge: c.discharge ?? null,
     }));
     return {
       mark: this.mark("decide", [billId], {

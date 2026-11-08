@@ -8,7 +8,7 @@
 // Takes about ten minutes. LOAN_CAP_SEED and LOAN_CAP_PLACE name another world to replay.
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
-import { startLife } from "./start-life.mjs";
+import { playOpening } from "./start-life.mjs";
 
 const SEED =
   process.env.LOAN_CAP_SEED ??
@@ -25,18 +25,34 @@ const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
 page.setDefaultTimeout(60000);
 const errors = [];
 page.on("pageerror", (e) => errors.push(e.message));
-await page.route("**/api/newlife?*", (route) => {
-  const url = new URL(route.request().url());
-  url.searchParams.set("seed", SEED);
-  url.searchParams.set("placeKey", PLACE);
-  route.continue({ url: url.toString() });
-});
 const RINGS = { Calendar: 2, Politics: 4 };
 const dock = (name) => page.locator("#dock button").nth(RINGS[name]);
 const closeSheet = () => page.locator("#sheet-close").click();
 
 try {
-  const { seed, placeName } = await startLife(page, { fresh: true });
+  // A new life in the named world: the page loads first, then the new-life call is steered to the
+  // place and seed (steering it before the page loads stops the title from answering).
+  await page.goto("http://localhost:3000/play");
+  await page.locator("#new-life").waitFor();
+  await page.route("**/api/newlife?*", (route) => {
+    const url = new URL(route.request().url());
+    url.searchParams.set("seed", SEED);
+    url.searchParams.set("placeKey", PLACE);
+    route.continue({ url: url.toString() });
+  });
+  const made = page.waitForResponse(
+    (r) => new URL(r.url()).pathname === "/api/newlife",
+    { timeout: 600_000 },
+  );
+  await page.locator("#new-life").click();
+  await page.locator("#new-advanced").click();
+  await page.locator("#new-world").click();
+  const response = await made;
+  assert.equal(response.status(), 200, await response.text());
+  const body = await response.json();
+  const seed = new URL(response.url()).searchParams.get("seed");
+  const placeName = body.placeName;
+  await playOpening(page, body.sceneMomentId ?? null);
   console.log(`LOAN CAP BROWSER: ${placeName}, seed ${seed}`);
   assert.equal(seed, SEED, "the world is the one named");
 
