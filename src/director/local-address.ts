@@ -391,6 +391,11 @@ export function recordLocalAddress(
       [ADDRESS_FACT.kind]: DATA.levels[level].subject,
       [ADDRESS_FACT.style]: story.addressKind,
       [ADDRESS_FACT.opening]: story.sentences[P.zero]!.text,
+      [ADDRESS_FACT.remembered]: (
+        story.sentences.find((row) => row.level === "congress") ??
+        story.sentences.find((row) => row.level === "country") ??
+        story.sentences[P.zero]!
+      ).text,
       [ADDRESS_FACT.text]: story.text,
       [ADDRESS_FACT.parts]: story.parts.join(ADDRESS_PART_BREAK),
     },
