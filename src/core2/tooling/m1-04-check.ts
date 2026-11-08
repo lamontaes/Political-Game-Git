@@ -2,26 +2,24 @@
  * M1-04 golden-path check, jobs, in a played world. Uses GOLDEN_PATH_SEED and
  * GOLDEN_PATH_PLACE_KEY from the runner. The drawn place is built as the
  * player gets it (`buildBenchWorld`, every module installed) and plays one
- * game year, read at the end of each month. The town's year-average monthly
- * rates are checked against the real ones for its state (BLS JOLTS monthly
- * rates, seasonally adjusted, 2001-2019: the 5th to 95th percentile of the
- * monthly rate, data/research/jobs/series/turnover.json) and its
- * unemployment against the lowest and highest rate its state recorded
- * (BLS LAUS, src/core2/data/regional/regions.json). Passes when:
- * (1) the town's unemployment is inside its state's recorded range;
- * (2) hiring is inside the state's JOLTS hires range;
- * (3) quitting is inside the state's JOLTS quits range;
- * (4) layoffs (layoffs and closures) are inside the state's JOLTS layoffs range;
- * (5) every job change on record names a reason from the jobs reasons table
- *     and who decided it, a decider that is a record in the world.
- * Rates are changes on record in the town's employers per hundred jobs at
- * the town's employers, each record counted as the people it stands for (a
- * counted worker's household weight). A counted worker who leaves keeps no
- * change record (owner, Oct 14, ruling 3, src/core2/modules/jobs.ts
- * noteCountedLeavers), so what is measured is the record. Exits nonzero naming each failed clause.
+ * game year, read at the end of each month. Real rates are not targets (owner,
+ * Nov 8): the check does not compare the town's unemployment or its hires,
+ * quits and layoffs with its state's recorded ranges; it asks why they are
+ * what they are, by record. Passes when:
+ * (1) every person out of work and looking in the town has a reason from the
+ *     jobs reasons table, and a named person let go has the layoff on record;
+ * (2) every hire, quit and layoff at the town's employers names its reason and
+ *     who decided it (a decider that is a record in the world), counted as
+ *     the people it stands for;
+ * (3) every layoff names the cause that decided it: the turnover pull, the
+ *     employer's demand and books (target staff, observed staff, losses), or
+ *     a closure.
+ * The town's unemployment and the rates of hires, quits and layoffs per
+ * hundred jobs are printed with their counts, never tested against a band. A counted
+ * worker who leaves keeps no change record (owner, Oct 14, ruling 3,
+ * src/core2/modules/jobs.ts noteCountedLeavers), so what is measured is the
+ * record. Exits nonzero naming each failed clause.
  */
-import regionsData from "../data/regional/regions.json" with { type: "json" };
-import turnover from "../../../data/research/jobs/series/turnover.json" with { type: "json" };
 import jobsData from "../data/jobs/jobs.json" with { type: "json" };
 import { residentsRuntime } from "../modules/residents";
 import { countedHeadsOf, countedJobHeads } from "../residents-economy";
@@ -84,6 +82,7 @@ type Change = {
   reasonKey?: string;
   decidedBy?: string;
   heads?: number;
+  values?: Record<string, number>;
 };
 const changes = jobs.table("changes").rows() as unknown as Change[];
 const inTown = changes.filter(
@@ -137,65 +136,19 @@ const monthlyRate = (series: number[]) =>
 const mean = (series: number[]) =>
   series.reduce((sum, value) => sum + value, 0) / series.length;
 
-// The town's state, from its region.
-const regionId = (
-  api.moduleState("regional").table("places").get(townId) as unknown as
-    { regionId: string } | undefined
-)?.regionId;
-const fips = regionId?.split(":")[1];
-const stateRates = (
-  turnover.states as unknown as Record<
-    string,
-    Record<"hires" | "quits" | "layoffs", { p05: number; p95: number }>
-  >
-)[fips ?? ""];
-if (!fips || !stateRates)
-  failures.push(`no JOLTS state rates for the town's region ${regionId}`);
-const lausSeries =
-  (
-    regionsData.series.stateUnemploymentPct as Record<
-      string,
-      Record<string, number>
-    >
-  )[fips ?? ""] ?? {};
-const lausValues = Object.values(lausSeries);
-const lausMonths = Object.keys(lausSeries).sort();
-const lausRange = lausValues.length
-  ? ([Math.min(...lausValues), Math.max(...lausValues)] as const)
-  : undefined;
-if (!lausRange) failures.push(`no recorded unemployment for state ${fips}`);
-
 const result: Record<string, unknown> = {};
 const unemploymentMean = mean(unemploymentPct);
-if (
-  lausRange &&
-  !(unemploymentMean >= lausRange[0] && unemploymentMean <= lausRange[1])
-)
-  failures.push(
-    `unemployment: the town's year average ${unemploymentMean.toFixed(2)}% is outside its state's recorded range [${lausRange[0]}, ${lausRange[1]}]% (LAUS ${lausMonths[0]} to ${lausMonths.at(-1)})`,
-  );
 for (const [name, series] of Object.entries(counts) as [
   "hires" | "quits" | "layoffs",
   number[],
 ][]) {
-  const rate = mean(monthlyRate(series));
   result[name] = {
     changesOnRecord: series.reduce((sum, n) => sum + n, 0),
-    meanMonthlyRatePerHundredJobs: Number(rate.toFixed(3)),
-    stateRange: stateRates
-      ? [stateRates[name].p05, stateRates[name].p95]
-      : null,
+    meanMonthlyRatePerHundredJobs: Number(mean(monthlyRate(series)).toFixed(3)),
   };
-  if (
-    stateRates &&
-    !(rate >= stateRates[name].p05 && rate <= stateRates[name].p95)
-  )
-    failures.push(
-      `${name}: the town's year-average monthly rate ${rate.toFixed(3)} per hundred jobs is outside its state's JOLTS range [${stateRates[name].p05}, ${stateRates[name].p95}] (${turnover.window.split(";")[0]})`,
-    );
 }
 
-// (5) Every job change on record has a reason and a decider.
+// (2) Every job change on record has a reason and a decider.
 const reasons = new Set(Object.values(jobsData.reasons));
 const counted = residentsRuntime(core);
 const knownDecider = (id: string) =>
@@ -220,21 +173,78 @@ for (const row of changes) {
       );
   }
 }
+// (1) Every person out of work and looking has a recorded reason.
+type SeekerRow = {
+  personId: string;
+  placeId: string;
+  employed?: boolean;
+  reasonKey?: string;
+};
+let seekersWithoutCause = 0,
+  letGoWithoutLayoff = 0;
+const seekerRows = [
+  ...(jobs.table("seekers").rows() as unknown as SeekerRow[]),
+  ...(jobs.table("countedSeekers").rows() as unknown as SeekerRow[]),
+].filter((row) => !row.employed && row.placeId === townId);
+for (const row of seekerRows) {
+  if (!row.reasonKey || !reasons.has(row.reasonKey)) {
+    seekersWithoutCause += 1;
+    if (seekersWithoutCause <= 5)
+      failures.push(
+        `${row.personId} is out of work with no known reason (${row.reasonKey ?? "none"})`,
+      );
+  } else if (
+    row.reasonKey === jobsData.reasons.layoff &&
+    core.people.has(row.personId as never) &&
+    !changes.some(
+      (change) =>
+        change.personId === row.personId &&
+        (change.kind === "layoff" ||
+          change.kind === "staff-shed" ||
+          change.kind === "closure"),
+    )
+  ) {
+    letGoWithoutLayoff += 1;
+    if (letGoWithoutLayoff <= 5)
+      failures.push(
+        `${row.personId} was let go but no layoff is on record for them`,
+      );
+  }
+}
+// (3) Every layoff names the cause that decided it.
+const causeValues = [
+  "turnoverPull",
+  "target",
+  "projected",
+  "observedStaff",
+  "salesStaff",
+  "lossMonths",
+  "demand",
+];
+let layoffsWithoutCause = 0;
+for (const row of inTown) {
+  if (row.kind !== "layoff" && row.kind !== "staff-shed") continue;
+  if (!causeValues.some((key) => row.values?.[key] !== undefined)) {
+    layoffsWithoutCause += 1;
+    if (layoffsWithoutCause <= 5)
+      failures.push(`${row.id}: a layoff that names no cause`);
+  }
+}
 console.log(
   JSON.stringify({
     place: world.placeName,
     placeId: townId,
     seed: world.seed,
     start: world.start,
-    state: fips,
-    jolts: `${turnover.window.split(";")[0]}; BLS JOLTS jt.data.1.AllItems`,
     townJobsAtOpening: openingEmployment,
     townJobsAtMonthEnds: employedAt.slice(1),
     unemploymentPctAtMonthEnds: unemploymentPct.map((n) =>
       Number(n.toFixed(2)),
     ),
     unemploymentMean: Number(unemploymentMean.toFixed(2)),
-    unemploymentStateRange: lausRange,
+    seekersOutOfWorkInTown: seekerRows.length,
+    seekersWithoutCause,
+    layoffsWithoutCause,
     ...result,
     changesOnRecordInTown: inTown.length,
     changesOnRecordInWorld: changes.length,
