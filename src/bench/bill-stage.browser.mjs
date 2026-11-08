@@ -197,6 +197,18 @@ try {
     floor.every((text) => /\d/.test(text) && text.length > 10),
     "each chamber names its counts and members",
   );
+  // Following: the Bills tab lists the bill with where it stands and how your members voted.
+  await page
+    .locator("#sheet-tabs")
+    .getByRole("button", { name: "Bills", exact: true })
+    .click();
+  await page.locator(".sec .sechead").first().waitFor();
+  const followed = await page.evaluate(() =>
+    [...document.querySelectorAll("#sheet-body .sec")].map((n) => n.innerText),
+  );
+  console.log("followed bills:", followed.slice(0, 3));
+  assert.ok(followed.length > 0, "the Bills tab lists a bill");
+  if (SHOTS) await page.screenshot({ path: `${SHOTS}/bills-following.png` });
   assert.deepEqual(errors, [], "page errors");
   console.log("ok: the paper shows the floor result by name");
 } finally {

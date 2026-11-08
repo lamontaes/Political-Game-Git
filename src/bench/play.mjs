@@ -3829,6 +3829,62 @@ const sheets = {
    * inside its box, never a scroll (owner, Oct 29). Every card opens the
    * person's card, where you act (owner, Oct 29: see and jump).
    */
+  // Bills before your state's chambers and Congress, followed from home: where each is, how
+  // your own members voted, whether it reaches your place; a card opens the bill's paper.
+  async bills() {
+    const words = controls.billFollow ?? {};
+    const status = controls.floor?.status ?? {};
+    const list = await api("/api/bills/following");
+    const body = (...nodes) => $("sheet-body").replaceChildren(...nodes);
+    const open = (item) =>
+      openBillPaper(item.id, body, () => openSheet("bills"), words.back);
+    return [
+      stripScreen({
+        name: controls.titles.bills,
+        role: "",
+        face: null,
+        columns: [
+          list.length
+            ? list.map((item, at) => {
+                const button = makeButton({
+                  className: "action",
+                  textContent: words.open,
+                });
+                button.addEventListener("click", () => open(item));
+                return stripSection(
+                  1 + (at % 5),
+                  `${item.number} · ${item.title}`,
+                  line(
+                    [
+                      status[item.status],
+                      ...item.floor.map(
+                        (f) => `${f.chamberTitle}: ${f.result}`,
+                      ),
+                      item.reachesYou ? words.reaches : null,
+                    ]
+                      .filter(Boolean)
+                      .join(" · "),
+                  ),
+                  ...(item.mine.length
+                    ? [
+                        line(
+                          `${words.yourMembers}: ${item.mine
+                            .map(
+                              (m) =>
+                                `${m.name} ${controls.billStage?.[m.vote === "yes" ? "yes" : m.vote === "no" ? "no" : "abstain"] ?? ""}`,
+                            )
+                            .join(", ")}`,
+                        ),
+                      ]
+                    : []),
+                  button,
+                );
+              })
+            : [stripSection(1, controls.titles.bills, prose(words.empty))],
+        ],
+      }),
+    ];
+  },
   async government() {
     const labels = controls.politics;
     const [{ states }, gov] = await Promise.all([
@@ -4631,6 +4687,7 @@ const groups = {
     "campaigns",
     "parties",
     "issues",
+    "bills",
     "budgets",
   ],
   who: ["who", "jobs", "history"],

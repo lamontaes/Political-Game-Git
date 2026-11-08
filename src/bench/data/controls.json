@@ -792,7 +792,8 @@
     "guide": "Guide",
     "handoff": "Carry on as",
     "news": "News",
-    "history": "Your life"
+    "history": "Your life",
+    "bills": "Bills"
   },
   "billStage": {
     "committee": "In committee",
@@ -846,5 +847,12 @@
       "reply": "What was said to them"
     },
     "showAll": "Show all"
+  },
+  "billFollow": {
+    "open": "Read the bill",
+    "back": "Back to the bills",
+    "reaches": "Reaches your town",
+    "yourMembers": "Your members",
+    "empty": "No bill is before your state or Congress yet."
   }
 }
