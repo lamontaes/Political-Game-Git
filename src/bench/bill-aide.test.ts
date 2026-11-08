@@ -6,6 +6,7 @@ import { learnStake, memberKey, members } from "../core2/modules/legislature";
 import { coreAPI } from "../core2/state";
 import { billStage } from "./bill-stage";
 import { seatAct, seatView } from "./legislature";
+import { BenchPlayer } from "./player";
 import { buildBenchWorld } from "./world";
 
 // Before the vote the player sees what colleagues told them and their aide's estimate, in words and marked as
@@ -40,6 +41,22 @@ describe(`the aide's estimate on the paper (seed ${seed})`, () => {
         continue;
       }
       const sponsor = memberKey(seated[0]!);
+      // The sponsor is the player: the game keeps what colleagues tell the player and who they deal with.
+      if (!world.core.people.has(sponsor)) {
+        tried.push(`${where}: the sponsor is a counted member`);
+        continue;
+      }
+      const player = new BenchPlayer(world.core, world.director);
+      player.select(sponsor);
+      const first = world.core.date;
+      for (let guard = 0; guard < 50 && world.core.date <= first; guard++) {
+        const packet = player.packet;
+        if (packet?.kind === "stop")
+          player.resume({ kind: "stop", pauseId: packet.pauseId });
+        else if (packet?.kind === "choice")
+          player.resume({ kind: "own-choice", pauseId: packet.pauseId });
+        else player.advance("day");
+      }
       const wage = seatView(world.core, sponsor).amounts.find(
         (a) => a.series === "minimum-wage",
       );
