@@ -3097,6 +3097,16 @@ const sheets = {
                   ),
                 ]
               : []),
+            // Where the player places themselves politically: the views engine's own label.
+            ...(c.view
+              ? [
+                  stripSection(
+                    2,
+                    labels.views,
+                    introText(c.view.charAt(0).toUpperCase() + c.view.slice(1)),
+                  ),
+                ]
+              : []),
             ...(c.traitLines?.length
               ? [
                   stripSection(
