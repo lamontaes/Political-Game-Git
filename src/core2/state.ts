@@ -2475,7 +2475,9 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
               other.id,
               id,
               "family",
-              api.parameter("relationInitial"),
+              openingClosenessHours(core, other.id, id),
+              undefined,
+              { cause: OPENING_FAMILY_CAUSE },
             );
         }
   for (const actor of admitted) {
@@ -2495,7 +2497,9 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
             actor.id,
             id,
             "family",
-            api.parameter("relationInitial"),
+            openingClosenessHours(core, actor.id, id),
+            undefined,
+            { cause: OPENING_FAMILY_CAUSE },
           );
       }
     openOpeningPeerTies(core, api, actor);
