@@ -85,10 +85,13 @@ const LAWS = [...new Set(FAMILY.map(seriesOf))];
 const LAW_LINKS = WEB_LINKS.filter(
   (row) => isLaw(row.from) && LAWS.includes(seriesOf(row)),
 );
+// A link an engine carries (carriedBy) is read from that engine's records, and
+// the web does not also run it.
 const MUST_RUN = FAMILY.filter(
   (row) =>
+    !row.carriedBy &&
     `${monthsAfter(gameStartDate(), row.lagMonths + 1).slice(0, 8)}05` <=
-    addDays(makeIsoDate(gameStartDate()), DAYS),
+      addDays(makeIsoDate(gameStartDate()), DAYS),
 );
 
 /** The same day `months` later, past the 28th read as the 28th, as the web reads a lag. */

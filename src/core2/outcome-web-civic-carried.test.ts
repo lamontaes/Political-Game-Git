@@ -44,7 +44,7 @@ describe("votes, approval and press links and the engines that decide them", () 
       /const scandal = scandalTerm\(api, voter\.id, entry\.id, lean\);/,
     );
     // It enters the appeal each vote is chosen from.
-    expect(voting).toMatch(/parts\.ballot \+\s+scandal,/);
+    expect(voting).toMatch(/parts\.ballot \+\s+scandal \+\s+parts\.pledge,/);
     // Counted voters take it at the share of named adults it reached.
     expect(voting).toMatch(/scandal: scandalAppeal\(api, f\.personId, named\)/);
     const parameters = JSON.parse(
@@ -66,14 +66,15 @@ describe("votes, approval and press links and the engines that decide them", () 
     const inputs = read("src/core2/electorate-inputs.ts");
     expect(inputs).toMatch(/export function nationalEconomyChange\(/);
     expect(inputs).toMatch(/national: nationalEconomyChange\(api\)/);
+    // The president's party is held to the tide against the president.
     expect(inputs).toMatch(
-      /const economy = candidate\.presidentsParty\s+\?\s+-\(/,
+      /const economy = candidate\.presidentsParty\s+\?\s+-tide\.economy/,
     );
     expect(inputs).toMatch(
-      /p\("unemploymentShare"\) \* conditions\.national\.unemploymentChange/,
+      /p\("unemploymentShare"\) \* national\.unemploymentChange/,
     );
     expect(inputs).toMatch(
-      /p\("inflationShare"\) \* conditions\.national\.inflationChange/,
+      /p\("inflationShare"\) \* national\.inflationChange/,
     );
   });
 

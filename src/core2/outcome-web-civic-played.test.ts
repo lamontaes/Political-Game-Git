@@ -67,13 +67,20 @@ function play(drawSeed: string) {
         (row) => row.electionDate,
       ),
     );
+  // The witness is a race whose ballots the world kept: another state's
+  // special election is decided as a result alone, with no ballots to follow.
   const witness = () =>
-    (results.rows() as unknown as Result[]).find((row) =>
-      (row.electorateReasons ?? []).some((r) => r.economy !== 0),
+    (results.rows() as unknown as Result[]).find(
+      (row) =>
+        (row.electorateReasons ?? []).some((r) => r.economy !== 0) &&
+        (ballots.rows() as unknown as Ballot[]).some(
+          (b) => b.contestId === row.contestId,
+        ),
     );
   /** The national economy's change the electorate read, on each election day. */
   const economyOn = new Map<string, ReturnType<typeof nationalEconomyChange>>();
   let day = makeIsoDate(core.date);
+  let seenResults = (results.rows() as unknown as Result[]).length;
   const ballots = api.moduleState(VOTING_MODULE_ID).table("ballots");
   const scandalBallot = () =>
     (ballots.rows() as unknown as Ballot[]).some(
@@ -90,6 +97,13 @@ function play(drawSeed: string) {
     }
     advanceCore(core, next);
     if (voting) setBookkeeping(false);
+    // A race decided on a day no contest named in advance (a special election
+    // for a seat that fell vacant) reads the economy the same way.
+    const decided = (results.rows() as unknown as Result[]).length;
+    if (decided > seenResults) {
+      seenResults = decided;
+      if (!economyOn.has(next)) economyOn.set(next, nationalEconomyChange(api));
+    }
     day = next;
   }
   // The corruption engine's chain, for the report: bribes taken, those told
