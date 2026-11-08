@@ -5,11 +5,12 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: officials-on-demand
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-08T01:44:46.323Z
 ---
 
 **What.** At the opening every other state's chambers are seated as named officials (the offices engine seats the seats, the officials engine names each holder the first time a chamber is read), which costs about 7 seconds and tens of thousands of records in a country's first year. The owner ruled on Nov 5 that those legislators are not built at the opening if nothing needs them yet, and are named and built on demand, because a named person is a real person once named. Another government's session now needs only each seat's party and district lean and an opening view, so the draw of a member's ideal and signature can run from the seat's data without creating the person, and the person is filled in only when the player opens that member, a roll call, a story or a scene.
