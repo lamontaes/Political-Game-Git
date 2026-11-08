@@ -2628,6 +2628,17 @@
           "note": "No county is designated nonattainment for fine (PM-2.5) or coarse (PM-10) particulates in the EPA Green Book as of 9/30/2026."
         }
       }
+    },
+    "us-federal-positions:energy-environment.limit-power-plant-carbon": {
+      "source": "https://www.davispolk.com/insights/client-update/epa-repeals-power-plant-greenhouse-gas-rule-and-proposes-eliminating-all",
+      "note": "The question asks whether federal law limits power plant carbon. Clean Air Act sec. 111 (42 U.S.C. 7411) gives EPA the authority, and EPA repealed most of its 2024 power plant rules on September 14, 2026 (91 Fed. Reg. 58,954, effective November 16, 2026): \"Emission guidelines for existing coal-fired steam generating units are repealed in their entirety\". Congress has set no limit by statute, so the answer is no.",
+      "answers": {
+        "US": {
+          "answer": "no",
+          "source": "https://www.davispolk.com/insights/client-update/epa-repeals-power-plant-greenhouse-gas-rule-and-proposes-eliminating-all",
+          "cite": "42 U.S.C. 7411"
+        }
+      }
     }
   }
 }

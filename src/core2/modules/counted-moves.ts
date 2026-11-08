@@ -25,7 +25,7 @@ import { ageOn, type CountedHousehold } from "../counted-groups";
 import { openingTemperaments } from "../opening-personality";
 import { coreStateKeyOfPlaceholderId } from "../place-lookup";
 import { stateFigures, type RegionMonth } from "../regional-model";
-import { LAWS_MODULE_ID, lawInForce } from "./laws";
+import { LAWS_MODULE_ID, lawInForce, stateLawInForce } from "./laws";
 import { REGIONAL_MODULE_ID } from "./regional";
 import { webFactorFor, type Subject } from "../outcome-web-reach";
 import {
@@ -122,7 +122,7 @@ export interface MoveRecord {
   readonly reasons: Readonly<Record<string, number>>;
 }
 
-interface Runtime {
+export interface Runtime {
   states: Map<string, CoarsePlace>;
   townState: string;
   /** People due to leave, by group and destination state. */
@@ -183,36 +183,44 @@ function priceLevel(fips: string): number {
   return year ? rpp[year]! : 100;
 }
 
-/** Yearly state income tax on wages in dollars: the town's state from the law in force, others from the 2026 table. */
+/** Yearly state income tax on wages in dollars: each state's law in force (the same rule for every state), the 2026 table only where the research gives that state no income tax row. */
 function stateIncomeTax(
   api: CoreAPI,
   rt: Runtime,
   usps: string,
   wages: number,
 ): number {
-  if (usps === rt.townState && api.state.modules.has(LAWS_MODULE_ID)) {
-    let tax = 0;
-    for (const level of lawInForce(api, "income-tax").levels) {
-      if (level.level !== "state" || level.setAside || !level.row) continue;
-      const row = level.row;
-      const single = (
-        row.terms?.schedules as
-          | Record<
-              string,
-              {
-                standardDeduction?: number | null;
-                brackets: { over: number; rate: number }[];
-              }
-            >
-          | undefined
-      )?.single;
-      tax += single
-        ? scheduleTax(single, wages)
-        : row.unit === "percent-flat" || row.unit === "percent"
-          ? (wages * (row.value ?? 0)) / 100
-          : 0;
+  if (api.state.modules.has(LAWS_MODULE_ID)) {
+    const answer =
+      usps === rt.townState
+        ? lawInForce(api, "income-tax")
+        : stateLawInForce(api, `US-${usps}`, "income-tax");
+    const rows = answer.levels.filter(
+      (level) => level.level === "state" && !level.setAside && level.row,
+    );
+    if (rows.length) {
+      let tax = 0;
+      for (const level of rows) {
+        const row = level.row!;
+        const single = (
+          row.terms?.schedules as
+            | Record<
+                string,
+                {
+                  standardDeduction?: number | null;
+                  brackets: { over: number; rate: number }[];
+                }
+              >
+            | undefined
+        )?.single;
+        tax += single
+          ? scheduleTax(single, wages)
+          : row.unit === "percent-flat" || row.unit === "percent"
+            ? (wages * (row.value ?? 0)) / 100
+            : 0;
+      }
+      return tax;
     }
-    return tax;
   }
   const row = TAX[`US-${usps}`];
   if (!row || row.wageIncomeTax === "none") return 0;
@@ -310,7 +318,7 @@ function openCoarse(core: CoreState, rt: Runtime): void {
     home.people = home.people.map((v) => (v * (total - counted)) / total);
 }
 
-function runtimeOf(api: CoreAPI): Runtime | undefined {
+export function runtimeOf(api: CoreAPI): Runtime | undefined {
   const core = api.state as CoreState;
   let rt = runtimes.get(core);
   if (rt) return rt;

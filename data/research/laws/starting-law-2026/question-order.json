@@ -57,5 +57,9 @@
   "us-policy-positions:government-operations.all-mail-voting",
   "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement",
   "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
-  "us-federal-positions:labor-commerce.raise-federal-minimum-wage"
+  "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+  "us-federal-positions:trade.raise-tariffs",
+  "us-federal-positions:housing.vouchers-for-every-eligible-family",
+  "us-federal-positions:energy-environment.limit-power-plant-carbon",
+  "us-federal-positions:health.medicare-drug-price-negotiation"
 ]

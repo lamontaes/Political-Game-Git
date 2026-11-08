@@ -12,7 +12,10 @@ import { setFastForward } from "../../src/core2/fast-forward";
 import { gameStartDate } from "../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import { advanceCore } from "../../src/core2/life";
+import { coreAPI } from "../../src/core2/state";
 import { moduleTableSizes } from "../../src/core2/module-state";
+import { VOTING_MODULE_ID } from "../../src/core2/modules/voting";
+import { ELECTIONS_MODULE_ID } from "../../src/core2/modules/elections";
 import { drawPlace } from "../core2-year/place";
 
 const args = process.argv.slice(2);
@@ -52,4 +55,45 @@ for (let y = 1; y <= years; y += 1) {
     `year ${y}: ${seconds} s, ${core.date}, ${alive} alive of ${core.people.size} full people`,
   );
 }
-if (out) writeFileSync(out, JSON.stringify({ seed, placeKey, fast, rows }));
+const api = coreAPI(world.core);
+const table = (module: string, name: string) =>
+  api.moduleState(module).table(name);
+const races = (
+  table(VOTING_MODULE_ID, "results").rows() as unknown as {
+    id: string;
+    contestId: string;
+    date: string;
+    totals: Record<string, number>;
+    electorate: number;
+    winnerId: string | null;
+  }[]
+).map((r) => {
+  const contest = table(ELECTIONS_MODULE_ID, "contests").get(
+    r.contestId,
+  ) as unknown as { title: string; level: string; family: string } | undefined;
+  const votes = Object.values(r.totals).sort((a, b) => b - a);
+  const cast = votes.reduce((a, b) => a + b, 0);
+  const filing = r.winnerId
+    ? (table(ELECTIONS_MODULE_ID, "filings").get(r.winnerId) as unknown as
+        { party?: string } | undefined)
+    : undefined;
+  return {
+    date: r.date,
+    title: contest?.title,
+    level: contest?.level,
+    family: contest?.family,
+    winnerId: r.winnerId,
+    top: Object.entries(r.totals)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 2)
+      .map(([id, v]) => [id, Number((v / (cast || 1)).toFixed(3))]),
+    margin: cast
+      ? Number((((votes[0] ?? 0) - (votes[1] ?? 0)) / cast).toFixed(3))
+      : null,
+    winnerParty: filing?.party ?? null,
+    candidates: votes.length,
+  };
+});
+for (const r of races) console.log(JSON.stringify(r));
+if (out)
+  writeFileSync(out, JSON.stringify({ seed, placeKey, fast, rows, races }));

@@ -3264,6 +3264,28 @@
             "speaker": "counterpart",
             "audience": "household"
           }
+        },
+        {
+          "match": {
+            "label": "cause:event:governor.address",
+            "causeFacts": [{ "key": "address:speaker", "is": "other" }]
+          },
+          "causeEngine": "local-address",
+          "causeRecord": "governor.address",
+          "setting": ["home"],
+          "said": "speaker",
+          "bind": { "speaker": "counterpart", "audience": "household" }
+        },
+        {
+          "match": {
+            "label": "cause:event:mayor.address",
+            "causeFacts": [{ "key": "address:speaker", "is": "other" }]
+          },
+          "causeEngine": "local-address",
+          "causeRecord": "mayor.address",
+          "setting": ["home"],
+          "said": "speaker",
+          "bind": { "speaker": "counterpart", "audience": "household" }
         }
       ],
       "tag": {
@@ -4023,7 +4045,10 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "bribe-offer",
+          "match": {
+            "label": "cause:event:corruption.bribe-offered",
+            "counterpart": "some"
+          },
           "causeEngine": "corruption",
           "causeRecord": "corruption.bribe-offered",
           "bind": {

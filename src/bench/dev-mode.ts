@@ -16,6 +16,8 @@ import { parameter } from "../core2/parameters";
 import { coreAPI, personOrFillIn } from "../core2/state";
 import { advanceCore, availableActs, type Controller } from "../core2/life";
 import {
+  considerBribe,
+  CORRUPTION_MODULE_ID,
   enactLaw,
   lawChain,
   lawInForce,
@@ -27,10 +29,6 @@ import { POLICY_QUESTIONS } from "../core2/policy-answers";
 import { POLICIES as REACH_A_POLICIES } from "../core2/law-reach/group-a-records";
 import { GROUP_B_KEYS } from "../core2/law-reach/group-b";
 import { jobsAt } from "../core2/law-reach/group-b-money";
-import {
-  considerBribe,
-  CORRUPTION_MODULE_ID,
-} from "../core2/modules/corruption";
 import {
   PUBLIC_EMPLOYER_CLASSES,
   PUBLIC_PAY_FLOOR,
@@ -681,12 +679,15 @@ export class DevMode {
     if (!lawSeriesCatalog(this.api).includes(input.series))
       throw new Error(`Unknown law series: ${input.series}`);
     if (!Number.isFinite(input.value)) throw new Error("A bill needs a value.");
-    const provision: Provision = {
-      kind: "law-amount",
-      series: input.series,
-      value: input.value,
-      ...(input.unit ? { unit: input.unit } : {}),
-    };
+    // A policy question (a yes or no the law answers) is a section of its own kind.
+    const provision: Provision = POLICY_QUESTIONS[input.series]
+      ? { kind: "policy-question", question: input.series, value: input.value }
+      : {
+          kind: "law-amount",
+          series: input.series,
+          value: input.value,
+          ...(input.unit ? { unit: input.unit } : {}),
+        };
     const bill = draftBill(this.api, {
       bodyOfficeId: input.bodyOfficeId,
       sponsorId: input.sponsorId,
@@ -883,7 +884,13 @@ export class DevMode {
    * Runs the world day by day until `days` have passed or the chosen event's records appear, whichever
    * comes first, never past `cap` days. Says why it stopped and the record ids that stopped it.
    */
-  runUntil(input: { days?: number; event?: RunEvent; cap?: number }) {
+  runUntil(input: {
+    days?: number;
+    event?: RunEvent;
+    cap?: number;
+    /** Law series or questions whose bills the members vote down each day, through castMemberVote. */
+    defeat?: readonly string[];
+  }) {
     const cap = Math.max(1, Math.min(input.cap ?? 366, 3660));
     const limit = Math.min(input.days ?? cap, cap);
     const kinds = input.event ? RUN_EVENTS[input.event] : undefined;
@@ -908,7 +915,9 @@ export class DevMode {
     let days = 0;
     let reason: "days" | "event" | "cap" = "days";
     let records: string[] = [];
+    const defeated = new Set<string>();
     while (days < limit) {
+      if (input.defeat?.length) this.voteDown(input.defeat, defeated);
       this.advance(addDays(makeIsoDate(this.core.date), 1));
       days += 1;
       if (input.event === "scene" && sceneCount() > sceneBefore) {
@@ -933,7 +942,29 @@ export class DevMode {
       reason,
       event: input.event ?? null,
       records: records.slice(0, 20),
+      defeated: [...defeated],
     };
+  }
+
+  /** Every member of every chamber votes no, through castMemberVote, on each open bill that changes one of these laws. */
+  private voteDown(series: readonly string[], done: Set<string>) {
+    if (!has(this.core, LEGISLATURE_MODULE_ID)) return;
+    const api = this.api;
+    const bills = api.moduleState(LEGISLATURE_MODULE_ID).table("bills");
+    for (const bill of bills.rows() as unknown as BillRow[]) {
+      if (bill.status !== "drafted" || done.has(bill.id)) continue;
+      if (
+        !bill.provisions.some((p) =>
+          series.includes(p.question ?? p.series ?? ""),
+        )
+      )
+        continue;
+      for (const chamber of chambersOf(api, bill))
+        for (const term of members(api, chamber))
+          castMemberVote(api, bill.id, memberKey(term), "no");
+      done.add(bill.id);
+      this.mark("vote-down", [bill.id], { billId: bill.id });
+    }
   }
 
   // 4. Trace --------------------------------------------------------------

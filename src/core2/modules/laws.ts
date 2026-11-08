@@ -610,6 +610,51 @@ export function lawInForce(
   return answer;
 }
 
+/** The starting law of each state outside the town's chain, read once from the research. */
+const outsideStartingRows = new Map<string, readonly LawRowInput[]>();
+
+/**
+ * The law on a series in any state, on a date, by the same rule as the
+ * town's (`resolveLawInForce`): the research's starting law for the state and
+ * the nation, with every act the laws table holds for them. A state outside
+ * the town's chain has no copy of its starting law in the table, so it is read
+ * from the research here. The town's own state reads the table as always.
+ */
+export function stateLawInForce(
+  api: CoreAPI,
+  stateKey: string,
+  series: string,
+  date: string = api.state.date,
+): LawInForceAnswer {
+  if (stateKey === lawChain(api).stateKey) return lawInForce(api, series, date);
+  const chain: LawChain = {
+    placeKey: "",
+    placeName: stateKey,
+    townPlaceId: "",
+    stateKey,
+    countyGeoids: [],
+    incorporated: false,
+    levels: [
+      { level: "federal", jurisdiction: "US" },
+      { level: "state", jurisdiction: stateKey },
+    ],
+  };
+  let starting = outsideStartingRows.get(stateKey);
+  if (!starting)
+    outsideStartingRows.set(stateKey, (starting = startingLawRows(chain)));
+  const enacted = seriesRows(api, series).filter(
+    (row) =>
+      row.jurisdiction === stateKey ||
+      (row.level === "federal" && row.jurisdiction === "US"),
+  );
+  return resolveLawInForce({
+    series,
+    chain,
+    date,
+    rows: [...starting.filter((row) => row.series === series), ...enacted],
+  });
+}
+
 /** The sole uncached path, also used for history and traced reads. */
 function readLawInForce(
   api: CoreAPI,
@@ -1044,3 +1089,7 @@ export function recordPublicPay(api: CoreAPI, source: Source): void {
     });
   }
 }
+
+// The bribe a dev control forces runs through the corruption engine, which is in this family: its
+// entry carries the way in, so a caller outside the family imports one entry, not the file.
+export { considerBribe, CORRUPTION_MODULE_ID } from "./corruption";
