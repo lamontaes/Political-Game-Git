@@ -78,7 +78,13 @@ import {
   openBenchFilingVisit,
   type BenchFilingVisit,
 } from "./filing";
-import { backdropFile, backdropPath, benchScene } from "./scene";
+import {
+  backdropFile,
+  backdropPath,
+  benchScene,
+  faceOf,
+  scenePlace,
+} from "./scene";
 import { occluderPath } from "./occluders";
 import { DevMode } from "./dev-mode";
 import { TITLE_ROTATE_SECONDS, titleRotation } from "./title";
@@ -732,6 +738,19 @@ export async function benchRequest(
         url.pathname === "/api/advanced/officeholders"
       ) {
         send(200, officeholders(requireCore()));
+        return;
+      }
+      if (
+        request.method === "GET" &&
+        url.pathname === "/api/advanced/officeholder-face"
+      ) {
+        const core = requireCore();
+        const id = url.searchParams.get("id") ?? "";
+        send(200, {
+          face: core.people.has(id)
+            ? faceOf(core, id, scenePlace(core, id).place)
+            : null,
+        });
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/goto") {
