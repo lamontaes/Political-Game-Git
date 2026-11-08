@@ -4186,6 +4186,107 @@
         }
       ]
     },
+    "lobby-remembers": {
+      "state": "warn",
+      "replies": ["tell", "comfort", "refuse", "deflect"],
+      "follow": {
+        "tell": ["accept", "press"],
+        "comfort": ["accept", "press"],
+        "refuse": ["threaten", "press"],
+        "deflect": ["press"]
+      },
+      "again": {
+        "press": ["tell", "comfort", "refuse", "leave"],
+        "threaten": ["tell", "comfort", "refuse", "leave"]
+      },
+      "endings": [
+        {
+          "id": "stood-firm",
+          "label": "You stood by your vote",
+          "keeps": "none",
+          "when": {
+            "reply": ["tell"]
+          }
+        },
+        {
+          "id": "smoothed-over",
+          "label": "You smoothed it over",
+          "keeps": "promise",
+          "when": {
+            "anyReply": ["comfort"]
+          }
+        },
+        {
+          "id": "told-off",
+          "label": "You told them no",
+          "keeps": "relationship-strained",
+          "when": {
+            "anyReply": ["refuse"]
+          }
+        },
+        {
+          "id": "brushed-aside",
+          "label": "You brushed it aside",
+          "keeps": "relationship-strained",
+          "when": {
+            "reply": ["deflect", "leave"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
+    "bribe-pressed": {
+      "state": "threaten",
+      "replies": ["refuse", "confront", "deflect", "leave"],
+      "follow": {
+        "refuse": ["threaten", "accept"],
+        "confront": ["plea", "deflect"],
+        "deflect": ["press"]
+      },
+      "again": {
+        "threaten": ["refuse", "confront", "deflect", "leave"],
+        "press": ["refuse", "confront", "deflect", "leave"],
+        "plea": ["refuse", "confront", "deflect", "leave"],
+        "deflect": ["refuse", "confront", "leave"]
+      },
+      "endings": [
+        {
+          "id": "held-the-line",
+          "label": "You held the line",
+          "keeps": "relationship-strained",
+          "when": {
+            "anyReply": ["refuse"]
+          }
+        },
+        {
+          "id": "said-you-would-report",
+          "label": "You said you would report it",
+          "keeps": "relationship-strained",
+          "when": {
+            "anyReply": ["confront"]
+          }
+        },
+        {
+          "id": "brushed-off",
+          "label": "You brushed it off",
+          "keeps": "none",
+          "when": {
+            "reply": ["deflect", "leave"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
     "swearing-in": {
       "state": "request",
       "replies": ["agree", "promise", "thank", "ask"],
