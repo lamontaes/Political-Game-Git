@@ -333,7 +333,6 @@ describe("read-only authoritative finance observables", () => {
       arrearsMinor: p("zero"),
       unpaidMinor: attendance.earnedMinor,
       legacyEarnedMinor: p("zero"),
-      legacyDiscretionaryEarnedMinor: p("zero"),
     });
     expect(core.finance.paidIncomeByPlaceMonth.size).toBe(p("zero"));
     advanceDate(core, period.dueAt);
@@ -347,7 +346,6 @@ describe("read-only authoritative finance observables", () => {
       arrearsMinor: p("zero"),
       unpaidMinor: p("zero"),
       legacyEarnedMinor: p("zero"),
-      legacyDiscretionaryEarnedMinor: p("zero"),
     });
     expect(paid).toBe(attendance.earnedMinor);
     expect(paid).toBeGreaterThan(p("zero"));

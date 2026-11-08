@@ -250,7 +250,6 @@ class SavedLookup {
   private readonly financeKinds: Row | undefined;
   private readonly financeRelated: Row | undefined;
   private readonly actKind: string;
-  private readonly legacyKind: string;
   constructor(private readonly core: Readonly<CoreState>) {
     const r = this.reads,
       data = record(r.field(core, "data"));
@@ -276,7 +275,6 @@ class SavedLookup {
         ? undefined
         : record(r.field(record(cash), "relatedKinds"));
     this.actKind = text(r.field(data, "cashActSourceKind"));
-    this.legacyKind = text(r.field(data, "legacyWorkJournalSourceKind"));
   }
   private kind(
     owner: Row | undefined,
@@ -1245,8 +1243,8 @@ class SavedLookup {
       const owner = record(workSource),
         mode = text(r.field(owner, "mode")),
         refs: SavedRecordRefV1[] = [],
-        kind = mode === "legacy" ? this.legacyKind : workResultKind;
-      if (mode !== "legacy" && mode !== "scheduled")
+        kind = workResultKind;
+      if (mode !== "scheduled")
         throw new Error("Saved cash-work mode is malformed.");
       if (
         text(r.field(owner, "id")) !== id ||
@@ -1261,16 +1259,7 @@ class SavedLookup {
           this.explicitRefs(refs, [detach(r, reference)]);
       }
       this.appendRef(refs, this.actKind, r.field(owner, "selectionId"));
-      add(
-        this.row(
-          r.field(owner, "result"),
-          id,
-          kind,
-          mode === "legacy" ? "key" : "decision",
-          [],
-          refs,
-        ),
-      );
+      add(this.row(r.field(owner, "result"), id, kind, "decision", [], refs));
     }
     const payrollSource = this.get(this.work, "payrollCashSources", id);
     if (payrollSource !== undefined) {
