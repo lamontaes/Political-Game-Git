@@ -218,8 +218,10 @@ try {
     .locator("#talk-choices button", { has: page.locator(".reply-facts") })
     .first()
     .click();
+  // The reply that files is the one reply without a race's facts under it, whatever the
+  // clerk's words are: the bank's wording is not the check's business.
   const file = page.locator("#talk-choices button", {
-    hasText: /file for this office/i,
+    hasNot: page.locator(".reply-facts"),
   });
   await file.first().waitFor();
   const filed = page.waitForResponse(
