@@ -1,3 +1,4 @@
+import { buildBenchWorld } from "./world";
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -10,7 +11,6 @@ import { nominationDecide, nominationsView } from "./office";
 import { addDays } from "../core2/office-day-federal-calendar";
 import { leavePostOpen } from "../core2/office-day-federal-president";
 import { BenchPlayer } from "./player";
-import { buildBenchWorld } from "./world";
 
 // The president the player plays is held on a vacant cabinet post and names someone from the people the
 // post could go to; the Senate's vote is set for a later sitting day. A place drawn from all 56 on a
@@ -109,8 +109,17 @@ describe(`the president names a cabinet secretary (seed ${seed})`, () => {
             ),
             where,
           ).toBe(true);
+          // Each department runs under a named acting head: a person drawn from the wider
+          // population for that post and day, filled in because they are named, all different.
+          const acting = cabinetOf(api).map((c) => c.actingId);
+          expect(acting.every(Boolean), where).toBe(true);
+          expect(new Set(acting).size, where).toBe(acting.length);
+          for (const id of acting) {
+            const who = core.people.get(id!);
+            expect(who?.alive, `${where}: ${id} is a living person`).toBe(true);
+          }
           console.log(
-            `left open: ${where}, ${posts.length} posts left open, hold cleared on ${core.date}`,
+            `left open: ${where}, ${posts.length} posts left open, hold cleared on ${core.date}; acting heads ${acting.length}, first ${core.people.get(acting[0]!)?.name ? JSON.stringify(core.people.get(acting[0]!)?.name) : acting[0]}`,
           );
           return;
         }
