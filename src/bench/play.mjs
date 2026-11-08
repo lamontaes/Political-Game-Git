@@ -20,12 +20,10 @@ import { chamberHeader } from "./ui/chamber.mjs";
 import { memberCard } from "./ui/member-card.mjs";
 import { dateList } from "./ui/date-list.mjs";
 import { pager } from "./ui/pager.mjs";
-import { officeScreen } from "./ui/office-screen.mjs";
 import { splitScreen } from "./ui/split-screen.mjs";
 import { makeTab, tabBar, chooseTab } from "./ui/tab.mjs";
-import { plate, factPlates } from "./ui/plate.mjs";
+import { plate } from "./ui/plate.mjs";
 import { timeline } from "./ui/timeline.mjs";
-import { makeCard } from "./ui/card.mjs";
 import { townRow } from "./ui/town-row.mjs";
 import { debateCard, speechCard } from "./ui/campaign-acts.mjs";
 import { devBribePanel } from "./ui/dev-bribe.mjs";
@@ -44,12 +42,11 @@ import {
 } from "./ui/dev-setting.mjs";
 import { listRow, factRow, noteLine } from "./ui/list-row.mjs";
 import { fillArtwork, picture as pictureFrame } from "./ui/picture.mjs";
-import { select, searchBox, optionsOf, numberBox } from "./ui/fields.mjs";
+import { select, optionsOf, numberBox } from "./ui/fields.mjs";
 import { lookRow } from "./ui/look-row.mjs";
 import { termWord } from "./ui/term.mjs";
 import { watchTerms } from "./ui/term-mark.mjs";
 import { recordScreen } from "./ui/screen.mjs";
-import { listEntry } from "./ui/list-screen.mjs";
 import { roomPeople, clockLines } from "./ui/room.mjs";
 import { calendarScreen } from "./ui/calendar.mjs";
 import {
@@ -62,6 +59,8 @@ import {
 /** A government's sum in a readable unit ("$5.2 trillion", "$48,300"). */
 const roundedMoney = (minor) => moneyWords(minor, { rounded: true });
 import { newsBoard } from "./ui/news-board.mjs";
+import { ballotPaper } from "./ui/ballot-paper.mjs";
+import { electionNight as electionNightScreen } from "./ui/election-night.mjs";
 import { el } from "./ui/dom.mjs";
 import { rosterScreen } from "./ui/roster-screen.mjs";
 import { guideScreen } from "./ui/guide-screen.mjs";
@@ -71,7 +70,7 @@ import { billPaper } from "./ui/bill-paper.mjs";
 import { billStageSections } from "./ui/bill-stage.mjs";
 import { meetingItem } from "./ui/meeting-item.mjs";
 import { draftCard } from "./ui/draft-card.mjs";
-import { bold, line, prose, heading, labeled, smallText } from "./ui/text.mjs";
+import { line, prose, heading, labeled, smallText } from "./ui/text.mjs";
 import {
   engraveMasthead,
   readerBody,
@@ -963,42 +962,27 @@ function electionNight(night) {
       : night.steps;
     let at = 0;
     const draw = () => {
-      const step = steps[at];
-      const last = at === steps.length - 1;
-      $("returns-title").textContent = night.title;
-      $("returns").classList.toggle("nation", Boolean(step.nation));
-      $("returns-lines").replaceChildren(
-        ...(step.nation ?? step).lines.map((line) => prose(line.text)),
+      $("returns").replaceChildren(
+        electionNightScreen({
+          title: night.title,
+          step: steps[at],
+          labels,
+          last: at === steps.length - 1,
+          onNext: async () => {
+            if (at < steps.length - 1) {
+              at += 1;
+              draw();
+              return;
+            }
+            await post(
+              `/api/election-night/watched?${new URLSearchParams({ id: me.id, contestId: night.contestId })}`,
+            );
+            show("returns", false);
+            $("game").classList.remove("cinema");
+            resolve();
+          },
+        }),
       );
-      $("returns-count").replaceChildren(
-        ...(step.nation
-          ? step.nation.races.map((race) =>
-              row(
-                race.state,
-                `${race.winnerParty} · ${labels.marginBy} ${race.marginPoints} ${labels.points}`,
-              ),
-            )
-          : step.totals.map((entry) =>
-              row(
-                entry.name,
-                `${entry.votes.toLocaleString("en-US")} ${entry.votes === 1 ? labels.vote : labels.votes}`,
-              ),
-            )),
-      );
-      $("returns-next").textContent = last ? labels.close : labels.next;
-    };
-    $("returns-next").onclick = async () => {
-      if (at < steps.length - 1) {
-        at += 1;
-        draw();
-        return;
-      }
-      await post(
-        `/api/election-night/watched?${new URLSearchParams({ id: me.id, contestId: night.contestId })}`,
-      );
-      show("returns", false);
-      $("game").classList.remove("cinema");
-      resolve();
     };
     $("game").classList.add("cinema");
     draw();
@@ -1013,49 +997,43 @@ function electionNight(night) {
 // are control names. The voting engine counts what is marked.
 function atThePolls(scene) {
   return new Promise((resolve) => {
+    const labels = {
+      ...controls.polling,
+      know: controls.polling?.know,
+      forRace: controls.polling?.forRace,
+    };
     const draw = (value) => {
       scene = value;
       $("backdrop").src = scene.backdrop.url;
       drawPeople(scene.people);
-      $("ballot-races").replaceChildren(
-        ...scene.contests.map((contest) => {
-          const mark = (candidateId) => async () => {
+      $("ballot").replaceChildren(
+        ballotPaper({
+          contests: scene.contests,
+          labels: { ...labels, blank: controls.polling?.leaveBlank },
+          onMark: async (contestId, candidateId) => {
             const result = await post(
               `/api/polling-place/mark?${new URLSearchParams({
-                contestId: contest.id,
+                contestId,
                 candidateId: candidateId ?? "",
               })}`,
             );
             if (result.pollingPlace) draw(result.pollingPlace);
             else finish();
-          };
-          const chosen = contest.marked;
-          const button = (text, candidateId) => {
-            const node = makeButton({
-              className: "action",
-              textContent: text,
-            });
-            if (chosen) {
-              node.disabled = true;
-              if (chosen.candidateId === candidateId)
-                node.classList.add("primary");
-            } else node.addEventListener("click", mark(candidateId));
-            return node;
-          };
-          return makeCard(
-            "race",
-            {},
-            heading(contest.title),
-            buttonRow(
-              ...contest.candidates.map((candidate) =>
-                button(
-                  [candidate.name, candidate.party].filter(Boolean).join(" · "),
-                  candidate.personId,
-                ),
-              ),
-              button(controls.polling?.leaveBlank ?? "", null),
-            ),
-          );
+          },
+          know: (personId) =>
+            api(
+              `/api/known?${new URLSearchParams({ id: me.id, other: personId })}`,
+            )
+              .then((c) => ({
+                name: c.name,
+                face: c.face,
+                summary: c.summary,
+              }))
+              .catch(() => null),
+          onLeave: async () => {
+            await post("/api/polling-place/leave");
+            finish();
+          },
         }),
       );
     };
@@ -1063,11 +1041,6 @@ function atThePolls(scene) {
       show("ballot", false);
       $("game").classList.remove("cinema");
       resolve();
-    };
-    $("ballot-leave").textContent = controls.polling?.leave ?? "";
-    $("ballot-leave").onclick = async () => {
-      await post("/api/polling-place/leave");
-      finish();
     };
     $("game").classList.add("cinema");
     draw(scene);
@@ -1616,139 +1589,204 @@ async function campaignParts() {
       );
       return b;
     };
-    // The acts are scenes you go to, never buttons on the tab (owner, Oct 20):
-    // they wait on the campaign trail in Travel; the tab keeps standing and results.
-    const trail = [
-      buttonRow(
-        ...(outings ?? []).map((choice) => {
-          // A grayed outing says why, from the records.
-          const why = choice.why
-            ? (controls.campaignUnavailable[choice.why.key] ?? "")
-                .replace("{price}", moneyWords(choice.why.priceMinor ?? 0))
-                .replace("{cash}", moneyWords(choice.why.cashMinor ?? 0))
-            : "";
-          const b = makeButton({
-            textContent: `${controls.campaignOutings[choice.outing]} · ${choice.hours} ${controls.campaignOutings.hours}${why ? ` · ${why}` : ""}`,
-            disabled: !choice.available,
-            title: why,
-          });
-          b.addEventListener("click", () =>
-            goOut(choice.outing, choice.outletId),
-          );
-          return b;
-        }),
-      ),
-      // stopgapId: SG-PLAY-campaign-acts-buttons
-      buttonRow(
-        button(controls.campaignActs.volunteer, "volunteer"),
-        button(controls.campaignActs.endorsement, "endorsement"),
-        button(controls.campaignActs.ad, "ad", { amountMinor: "5000" }),
-        button(controls.campaignActs.poll, "poll", {
-          sampleSize: String(pollSample),
-        }),
-      ),
-      // Mail to the town's households: the player sets what to spend.
-      (() => {
-        const dollarsOut = numberBox({
-          value: 50,
-          min: 0,
-          step: 1,
-          label: controls.campaignContribute.dollars,
-        });
-        const send = button(controls.campaignActs.mail, "mail", () => ({
-          amountMinor: String(Math.round(Number(dollarsOut.value) * 100)),
-        }));
-        send.dataset.testid = "campaign-mail";
-        return buttonRow(dollarsOut, send);
-      })(),
-      // The player's own money into the campaign: the amount is theirs to set.
-      (() => {
-        const dollarsIn = numberBox({
-          value: 0,
-          min: 0,
-          step: 1,
-          label: controls.campaignContribute.dollars,
-        });
-        const give = makeButton({
-          textContent: controls.campaignContribute.give,
-        });
-        give.addEventListener("click", () =>
-          act("contribute", {
-            amountMinor: String(Math.round(Number(dollarsIn.value) * 100)),
+    // The acts are scenes you go to: each is a place on the trail (the mock's pl-trail), its
+    // hours and why it is out of reach, and Go. Money, the speech and debates open their own
+    // controls beside the list.
+    const T = controls.campaignBoard;
+    const go = (onClick) => ({ label: T.go, onClick });
+    const entries = [
+      ...(outings ?? []).map((choice) => {
+        const why = choice.why
+          ? (controls.campaignUnavailable[choice.why.key] ?? "")
+              .replace("{price}", moneyWords(choice.why.priceMinor ?? 0))
+              .replace("{cash}", moneyWords(choice.why.cashMinor ?? 0))
+          : "";
+        return {
+          group: T.groupOut,
+          title: controls.campaignOutings[choice.outing],
+          load: async () => ({
+            facts: [
+              {
+                label: T.howLong,
+                value: `${choice.hours} ${controls.campaignOutings.hours}`,
+              },
+            ],
+            does: why ? [why] : [],
           }),
-        );
-        return buttonRow(dollarsIn, give);
-      })(),
-      speechCard({
-        words: controls.speech,
-        state: speechState,
-        venue,
-        onBegin: async () => {
-          speechState = await post("/api/campaign/speech/begin");
-          reopenTrail(filing.id);
+          ...(choice.available
+            ? { go: go(() => goOut(choice.outing, choice.outletId)) }
+            : {}),
+        };
+      }),
+      ...[
+        ["volunteer", undefined],
+        ["endorsement", undefined],
+        ["ad", { amountMinor: "5000" }],
+        ["poll", { sampleSize: String(pollSample) }],
+      ].map(([kind, extra]) => ({
+        group: T.groupAsk,
+        title: controls.campaignActs[kind],
+        load: async () => ({}),
+        // stopgapId: SG-PLAY-campaign-acts-buttons
+        go: go(() => act(kind, extra)),
+      })),
+      {
+        group: T.groupMoney,
+        title: controls.campaignActs.mail,
+        load: async () => {
+          const dollarsOut = numberBox({
+            value: 50,
+            min: 0,
+            step: 1,
+            label: controls.campaignContribute.dollars,
+          });
+          const send = button(controls.campaignActs.mail, "mail", () => ({
+            amountMinor: String(Math.round(Number(dollarsOut.value) * 100)),
+          }));
+          send.dataset.testid = "campaign-mail";
+          return { nodes: [buttonRow(dollarsOut, send)] };
         },
-        onPick: async (choice) => {
-          speechState = await post(
-            `/api/campaign/speech/pick?${new URLSearchParams({ key: choice.key })}`,
+      },
+      {
+        group: T.groupMoney,
+        title: controls.campaignContribute.give,
+        load: async () => {
+          const dollarsIn = numberBox({
+            value: 0,
+            min: 0,
+            step: 1,
+            label: controls.campaignContribute.dollars,
+          });
+          const give = makeButton({
+            textContent: controls.campaignContribute.give,
+          });
+          give.addEventListener("click", () =>
+            act("contribute", {
+              amountMinor: String(Math.round(Number(dollarsIn.value) * 100)),
+            }),
           );
-          reopenTrail(filing.id);
+          return { nodes: [buttonRow(dollarsIn, give)] };
         },
-        onGive: async () => {
-          const result = await post(
-            `/api/campaign/speech/give?${new URLSearchParams({ filingId: filing.id, venue: venue.value })}`,
-          );
-          speechState = null;
-          campaignResult = `${result.reached} · +${result.warmer} · −${result.cooler} · ${result.retold} ${controls.speech.retold}`;
-          // A speech is seen where it was given, with the people it reached.
-          closeSheet();
-          $("backdrop").src = result.scene.backdrop.url;
-          drawPeople(result.scene.people);
-          $("card-why").textContent = campaignResult;
+      },
+      {
+        group: T.groupSpeak,
+        title: T.speech,
+        load: async () => ({
+          nodes: [
+            speechCard({
+              words: controls.speech,
+              state: speechState,
+              venue,
+              onBegin: async () => {
+                speechState = await post("/api/campaign/speech/begin");
+                reopenTrail(filing.id);
+              },
+              onPick: async (choice) => {
+                speechState = await post(
+                  `/api/campaign/speech/pick?${new URLSearchParams({ key: choice.key })}`,
+                );
+                reopenTrail(filing.id);
+              },
+              onGive: async () => {
+                const result = await post(
+                  `/api/campaign/speech/give?${new URLSearchParams({ filingId: filing.id, venue: venue.value })}`,
+                );
+                speechState = null;
+                campaignResult = `${result.reached} · +${result.warmer} · −${result.cooler} · ${result.retold} ${controls.speech.retold}`;
+                // A speech is seen where it was given, with the people it reached.
+                closeSheet();
+                $("backdrop").src = result.scene.backdrop.url;
+                drawPeople(result.scene.people);
+                $("card-why").textContent = campaignResult;
+              },
+            }),
+          ],
+        }),
+      },
+      // A debate the outlet invited the candidates to: one position (or a pass) on each question it asks.
+      ...(debates ?? []).map((debate) => ({
+        group: T.groupSpeak,
+        title: controls.debate.title ?? T.debate,
+        load: async () => ({
+          nodes: [
+            debateCard({
+              words: controls.debate,
+              debate,
+              questionLabel: policyLabel,
+              onAnswer: async (answers) => {
+                await post(
+                  `/api/campaign/debate?${new URLSearchParams({
+                    debateId: debate.id,
+                    answers: JSON.stringify(answers),
+                  })}`,
+                );
+                reopenTrail(filing.id);
+              },
+            }),
+          ],
+        }),
+      })),
+    ];
+    const trail = [
+      ...travelScreen({
+        entries,
+        labels: { whoIsThere: "", whatICanDo: T.groupAsk },
+        words: {
+          page: controls.politics.page,
+          previous: controls.politics.previousPage,
+          next: controls.politics.nextPage,
         },
       }),
-      // A debate the outlet invited the candidates to: one position (or a pass) on each question it asks.
-      ...(debates ?? []).map((debate) =>
-        debateCard({
-          words: controls.debate,
-          debate,
-          questionLabel: policyLabel,
-          onAnswer: async (answers) => {
-            await post(
-              `/api/campaign/debate?${new URLSearchParams({
-                debateId: debate.id,
-                answers: JSON.stringify(answers),
-              })}`,
-            );
-            reopenTrail(filing.id);
-          },
-        }),
-      ),
-      campaignResult ? line(campaignResult) : "",
+      ...(campaignResult ? [line(campaignResult)] : []),
       ...campaignLines.map((text) => line(text)),
     ];
-    const tab = listRow(
-      "campaign",
-      {},
-      bold(
+    // The campaign board (the mock's pl-campaign): where the race stands in sentences the
+    // English engine wrote, the money, and the way out onto the trail.
+    const part = { filing, contest, trail };
+    const labelsC = controls.campaignBoard ?? {};
+    const out = makeButton({ textContent: labelsC.trail });
+    out.addEventListener("click", () => trailView(part));
+    part.tab = stripBoard({
+      className: "campaign-board",
+      columns: [
         [
-          contest?.title,
-          contest ? dateWords(contest.electionDate) : null,
-          controls.filing?.status?.[filing.status] ?? "",
-        ]
-          .filter(Boolean)
-          .join(" · "),
-      ),
-      `${controls.campaignResults.raised.replace("{amount}", moneyWords(campaign.raisedMinor))} · ${controls.campaignResults.spent.replace("{amount}", moneyWords(campaign.spentMinor))} · ${volunteerCount(campaign.volunteers)} · ${controls.campaignResults.doors.replace("{n}", campaign.doors)}${
-        // The endorsements given, from the campaign's endorsement records.
-        campaign.endorsements
-          ? ` · ${(campaign.endorsements === 1 ? controls.campaignEndorsements.one : controls.campaignEndorsements.other).replace("{n}", String(campaign.endorsements))}`
-          : ""
-      }`,
-      // Where the race stands, in plain sentences from the English engine.
-      bold(controls.raceStanding.title),
-      ...(standing ?? []).map((text) => listRow("", { textContent: text })),
-    );
-    parts.push({ filing, contest, tab, trail });
+          stripSection(
+            1,
+            controls.raceStanding.title,
+            ...(standing ?? []).map((text) => introText(text)),
+          ),
+        ],
+        [
+          stripSection(
+            2,
+            labelsC.money,
+            el("p", {
+              className: "money-figure",
+              textContent: moneyWords(campaign.raisedMinor),
+            }),
+            dotRows([
+              {
+                label: labelsC.raised,
+                value: moneyWords(campaign.raisedMinor),
+              },
+              { label: labelsC.spent, value: moneyWords(campaign.spentMinor) },
+              { label: labelsC.volunteers, value: String(campaign.volunteers) },
+              { label: labelsC.doors, value: String(campaign.doors) },
+              ...(campaign.endorsements
+                ? [
+                    {
+                      label: labelsC.endorsements,
+                      value: String(campaign.endorsements),
+                    },
+                  ]
+                : []),
+            ]),
+          ),
+        ],
+        [buttonTray(out)],
+      ],
+    });
+    parts.push(part);
   }
   return parts;
 }
@@ -1758,20 +1796,7 @@ async function campaignParts() {
  * interview, forum, calls, donor meeting, speech and debate start their scenes.
  */
 function trailView(part) {
-  $("sheet-body").replaceChildren(
-    ...recordScreen({
-      heading: {
-        name: controls.travel.trail,
-        meta: [
-          part.contest?.title,
-          part.contest ? dateWords(part.contest.electionDate) : null,
-        ]
-          .filter(Boolean)
-          .join(" · "),
-      },
-      sections: [{ items: part.trail.map((node) => ({ node })) }],
-    }),
-  );
+  $("sheet-body").replaceChildren(...part.trail);
   $("sheet-body").classList.add("place-view");
 }
 /** Back to the trail after an act that stays on the screen (a poll, an ad, a speech's next step). */
@@ -2172,25 +2197,30 @@ async function officeParts() {
     });
   const seat = [
     ...v.jobs.map((job) =>
-      factPlates(
-        [
-          { title: labels.office, value: job.title },
-          {
-            title: labels.pay,
-            value: `${moneyWords(job.annualMinor)} ${words.aYear ?? ""}`,
-          },
-          job.nextMeeting && {
-            title: labels.nextMeeting,
-            value: dateWords(job.nextMeeting),
-          },
-        ].filter(Boolean),
+      stripSection(
+        1,
+        labels.mySeat,
+        dotRows(
+          [
+            { label: labels.office, value: job.title },
+            {
+              label: labels.pay,
+              value: `${moneyWords(job.annualMinor)} ${words.aYear ?? ""}`,
+            },
+            job.nextMeeting && {
+              label: labels.nextMeeting,
+              value: dateWords(job.nextMeeting),
+            },
+          ].filter(Boolean),
+        ),
       ),
     ),
     // An open town post you appoint: the people it could go to, best first; left on the
     // official's own choice, the first stands.
     ...(v.heads?.length
       ? [
-          plate(
+          stripSection(
+            2,
             labels.heads,
             paged(
               v.heads.map((head) =>
@@ -2222,7 +2252,8 @@ async function officeParts() {
       : []),
     ...(v.acts.length
       ? [
-          plate(
+          stripSection(
+            3,
             labels.acts,
             paged(
               v.acts.map((a) =>
@@ -2240,7 +2271,8 @@ async function officeParts() {
   // The budget you may send now: the change to each line, in steps of its amount.
   const budget = v.budget
     ? [
-        plate(
+        stripSection(
+          1,
           controls.budgetEditor.title,
           paged(
             v.budget.lines.map((row) =>
@@ -2270,7 +2302,8 @@ async function officeParts() {
     : [];
   // The deal to offer each colleague who votes on a bill of yours when you talk to them.
   const deals = (v.deals ?? []).map((bill) =>
-    plate(
+    stripSection(
+      2,
       `${bill.number} · ${controls.deals.title}`,
       paged(
         bill.colleagues.map((colleague) =>
@@ -2502,7 +2535,6 @@ async function openBillPaper(billId, show, back, backLabel) {
 let seatResult = "";
 let seatText = [];
 // The tab of Your office the player last used.
-let officeTab = "seat";
 async function seatRows() {
   const v = await api(`/api/seat?id=${encodeURIComponent(me.id)}`);
   const parts = await officeParts();
@@ -2510,7 +2542,6 @@ async function seatRows() {
   const act = async (params) => {
     const r = await post(`/api/seat/act?${new URLSearchParams(params)}`);
     seatText = r.text ?? [];
-    officeTab = "draft";
     seatResult = r.number
       ? `${r.number} · ${controls.floor.status[r.status] ?? ""}${r.floorDate ? ` · ${controls.floor.takenUp} ${dateWords(r.floorDate)}` : ""}${
           r.authority?.some((a) => !a.allowed)
@@ -2586,7 +2617,8 @@ async function seatRows() {
       },
     });
     draftNodes.push(
-      plate(
+      stripSection(
+        2,
         body.title,
         line(body.members.map((m) => m.name).join(" · ")),
         draftBlock,
@@ -2595,11 +2627,26 @@ async function seatRows() {
   }
   const floor = controls.floor;
   const labels = controls.officeScreen ?? {};
-  // A bill of yours on its plate: its standing, the day it is taken up, each chamber's count
-  // the day before, how the vote came out, and the paper that opens to read it.
-  const billPlates = v.bills.map(({ bill, votes, tally, floorDate }) =>
-    plate(
-      `${bill.number} · ${floor.status[bill.status] ?? ""}`,
+  // Your bills, each with its standing, the day it is taken up, how the vote came out and
+  // the paper that opens to read it (the mock's "On my desk").
+  const desk = v.bills.map(({ bill, votes, tally, floorDate }) => {
+    const open = makeButton({
+      className: "action",
+      textContent: controls.bill?.open ?? "",
+    });
+    open.addEventListener("click", () =>
+      openBillPaper(
+        bill.id,
+        (...nodes) => $("sheet-body").replaceChildren(...nodes),
+        () => openSheet("office"),
+      ),
+    );
+    return el(
+      "div",
+      { className: "desk-bill" },
+      el("b", {
+        textContent: `${bill.number} · ${floor.status[bill.status] ?? ""}`,
+      }),
       ...(floorDate
         ? [line(`${floor.takenUp} ${dateWords(floorDate)}`, "floor-date")]
         : []),
@@ -2611,63 +2658,49 @@ async function seatRows() {
             ),
           ]
         : []),
-      // The paper holds the sections, the estimate and the votes: the plate opens it.
-      (() => {
-        const open = makeButton({
-          className: "action",
-          textContent: controls.bill?.open ?? "",
-        });
-        open.addEventListener("click", () =>
-          openBillPaper(
-            bill.id,
-            (...nodes) => $("sheet-body").replaceChildren(...nodes),
-            () => openSheet("office"),
-          ),
-        );
-        return open;
-      })(),
-    ),
-  );
+      open,
+    );
+  });
   const left = (v.incompatibilities ?? []).map((l) =>
     line(`${l.date} · ${l.left} → ${l.took} · ${l.law}`),
   );
   const result = seatResult
     ? [plate(null, line(seatResult), ...seatText.map((t) => line(t)))]
     : [];
-  const draftTab = [
-    ...result,
-    ...draftNodes,
-    ...(billPlates.length
-      ? [
-          pager({
-            items: billPlates,
-            render: (node) => node,
-            rows: 1,
-            columns: 2,
-            rowHeight: 170,
-            gap: 12,
-            words: {
-              page: controls.politics.page,
-              previous: controls.politics.previousPage,
-              next: controls.politics.nextPage,
-            },
-            className: "office-bills",
-          }),
-        ]
-      : []),
-    ...(left.length ? [plate(labels.left, ...left)] : []),
-  ];
   return [
-    officeScreen({
-      active: officeTab,
-      onTab: (key) => {
-        officeTab = key;
-      },
-      tabs: [
-        { key: "seat", label: labels.seat, nodes: parts.seat },
-        { key: "draft", label: labels.draft, nodes: draftTab },
-        { key: "budget", label: labels.budget, nodes: parts.budget },
-        { key: "deals", label: labels.deals, nodes: parts.deals },
+    stripBoard({
+      className: "office-board",
+      columns: [
+        parts.seat,
+        [
+          ...result,
+          ...(desk.length
+            ? [
+                stripSection(
+                  1,
+                  labels.onMyDesk,
+                  desk.length > 3
+                    ? pager({
+                        items: desk,
+                        render: (node) => node,
+                        rows: 3,
+                        columns: 1,
+                        rowHeight: 110,
+                        gap: 10,
+                        words: {
+                          page: controls.politics.page,
+                          previous: controls.politics.previousPage,
+                          next: controls.politics.nextPage,
+                        },
+                      })
+                    : el("div", { className: "desk" }, ...desk),
+                ),
+              ]
+            : []),
+          ...draftNodes,
+          ...(left.length ? [stripSection(3, labels.left, ...left)] : []),
+        ],
+        [...parts.budget, ...parts.deals],
       ],
     }),
   ];
@@ -3559,7 +3592,7 @@ const sheets = {
             showPerson({ personId: k.personId });
           },
         })),
-        ...p.presentNames
+        ...(p.presentNames ?? [])
           .filter((name) => !known.has(name))
           .map((name) => ({ name })),
       ]);
@@ -3612,6 +3645,32 @@ const sheets = {
    * The player's own filed campaign stays above it (screens-campaign-board
    * is the one board that replaces those rows).
    */
+  /** The campaign board of each filed race (the Campaign tab; one filed race shows its board). */
+  async campaign() {
+    const parts = await campaignParts();
+    if (!parts.length) return [];
+    if (parts.length === 1) return [parts[0].tab];
+    return rosterScreen({
+      title: controls.campaignBoard.title,
+      className: "campaign-screen",
+      words: {
+        page: controls.politics.page,
+        previous: controls.politics.previousPage,
+        next: controls.politics.nextPage,
+      },
+      groups: [
+        {
+          entries: parts.map((part) => ({
+            key: part.filing.id,
+            label: part.contest?.title ?? part.filing.id,
+            data: { campaign: part.filing.id },
+            part,
+          })),
+        },
+      ],
+      render: async (entry) => [entry.part.tab],
+    });
+  },
   async campaigns() {
     const [v, ballot] = await Promise.all([
       api(`/api/government?id=${encodeURIComponent(me.id)}`),
@@ -3709,8 +3768,6 @@ const sheets = {
         ),
       ];
     };
-    // The player's own filed campaigns lead the list; each opens its board.
-    const own = v.filings.length ? await campaignParts() : [];
     const byDate = new Map();
     for (const race of ballot.races) {
       const day = byDate.get(race.electionDate) ?? [];
@@ -3718,19 +3775,6 @@ const sheets = {
       byDate.set(race.electionDate, day);
     }
     const groups = [
-      ...(own.length
-        ? [
-            {
-              title: labels.yourCampaign,
-              entries: own.map((part) => ({
-                key: part.filing.id,
-                label: part.contest?.title ?? part.filing.id,
-                data: { campaign: part.filing.id },
-                part,
-              })),
-            },
-          ]
-        : []),
       ...[...byDate.entries()]
         .sort(([a], [b]) => a.localeCompare(b))
         .map(([day, races]) => ({
@@ -3757,8 +3801,7 @@ const sheets = {
         previous: controls.politics.previousPage,
         next: controls.politics.nextPage,
       },
-      render: async (entry) =>
-        entry.part ? [entry.part.tab] : racePage(entry.race),
+      render: async (entry) => racePage(entry.race),
     });
   },
   /**
@@ -4556,6 +4599,7 @@ const groups = {
     "government",
     "office",
     "campaigns",
+    "campaign",
     "parties",
     "issues",
     "bills",
@@ -4596,6 +4640,7 @@ async function openSheet(tab) {
           (name !== "office" || holdsOffice) &&
           // Budgets wait until they are the player's business: an office, a
           // filing, or the age to vote.
+          (name !== "campaign" || politics.filings.length > 0) &&
           (name !== "budgets" ||
             holdsOffice ||
             politics.filings.length > 0 ||
@@ -4626,6 +4671,7 @@ async function openSheet(tab) {
       tab === "budgets" ||
       tab === "journal" ||
       tab === "money" ||
+      tab === "campaign" ||
       tab === "calendar" ||
       tab === "news",
   );

@@ -285,7 +285,9 @@
   },
   "polling": {
     "leaveBlank": "Leave blank",
-    "leave": "Leave"
+    "leave": "Leave",
+    "forRace": "For {title}",
+    "know": "What I know about them"
   },
   "meeting": {
     "yes": "Yes",
@@ -359,7 +361,9 @@
     "nextMeeting": "Next meeting",
     "heads": "Posts you name",
     "acts": "What you have done",
-    "left": "Laws that gave way"
+    "left": "Laws that gave way",
+    "mySeat": "My seat",
+    "onMyDesk": "On my desk"
   },
   "officeStops": {
     "aYear": "a year",
@@ -692,7 +696,10 @@
     "vote": "vote",
     "votes": "votes",
     "marginBy": "by",
-    "points": "points"
+    "points": "points",
+    "count": "The count",
+    "nation": "Elsewhere",
+    "call": "The call"
   },
   "money": {
     "cash": "Cash available",
@@ -743,7 +750,6 @@
     "noBallot": "No local election is on the calendar",
     "dates": "Dates",
     "electionDay": "Election day",
-    "yourCampaign": "Your campaign",
     "whoIsRunning": "Who's running"
   },
   "grade": {
@@ -838,7 +844,8 @@
     "handoff": "Carry on as",
     "news": "News",
     "history": "Your life",
-    "bills": "Bills"
+    "bills": "Bills",
+    "campaign": "Campaign"
   },
   "billStage": {
     "committee": "In committee",
@@ -913,5 +920,23 @@
     "cr-character": "Start a life",
     "cr-place": "Where you're from",
     "cr-look": "How you look"
+  },
+  "campaignBoard": {
+    "title": "Campaign",
+    "money": "The money",
+    "trail": "Go out on the trail",
+    "raised": "Raised",
+    "spent": "Spent",
+    "volunteers": "Volunteers",
+    "doors": "Doors knocked",
+    "endorsements": "Endorsements",
+    "go": "Go",
+    "howLong": "How long",
+    "groupOut": "Out and about",
+    "groupAsk": "Ask",
+    "groupMoney": "Money",
+    "groupSpeak": "Speak",
+    "debate": "Debate",
+    "speech": "Give a speech"
   }
 }
