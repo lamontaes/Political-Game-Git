@@ -1455,27 +1455,53 @@ function newcomers(
   origin: string,
   source: Source,
 ): ResidentHouseholdRecord {
+  return drawHousehold(
+    api,
+    `${api.state.date}:${rt.serial}`,
+    residents,
+    template,
+    origin,
+    source,
+  );
+}
+
+/**
+ * New people drawn like a counted household: new identities, names and
+ * temperaments seeded from the world's seed and `salt` (the same salt, the
+ * same people). Arrivals (`newcomers`) draw whole households; `drawnResident`
+ * draws one member.
+ */
+function drawHousehold(
+  api: CoreAPI,
+  /** What makes these people this one draw. */
+  salt: string,
+  residents: ResidentsRuntime,
+  template: CountedHousehold,
+  origin: string,
+  source: Source,
+  /** Draw only this member of the template (a lone adult), not the household. */
+  only?: number,
+): ResidentHouseholdRecord {
   const core = api.state as CoreState;
   const store = residents.store;
-  const date = api.state.date as IsoDate;
-  const members = store.countedMembers(template);
+  const members = only === undefined ? store.countedMembers(template) : [only];
   const householdId = createStableId(
     "household",
-    `${core.seed}:${COUNTED_MOVES_MODULE_ID}:${template.id}:${date}:${rt.serial}`,
+    `${core.seed}:${COUNTED_MOVES_MODULE_ID}:${template.id}:${salt}`,
   );
   const ids = members.map((m) =>
     createStableId(
       "person",
-      `${core.seed}:${COUNTED_MOVES_MODULE_ID}:${store.ids[m]}:${date}:${rt.serial}`,
+      `${core.seed}:${COUNTED_MOVES_MODULE_ID}:${store.ids[m]}:${salt}`,
     ),
   );
   // Names come from the place's own counted people (generation is seeded).
-  const pickName = (salt: string, gender: string | undefined) => {
+  const pickName = (key: string, gender: string | undefined) => {
     const n = store.memberCount;
     for (let i = 0; i < 64; i++) {
       const m =
         Number.parseInt(
-          stableHash(`${core.seed}:${salt}:${i}`).slice(0, 8),
+          stableHash(`${core.seed}:${key}:${i}`).slice(0, 8),
           16,
         ) % n;
       if (!gender || store.text(store.genderIx[m]!) === gender) return m;
@@ -1530,6 +1556,48 @@ function newcomers(
     workCommitments: [],
     contracts: [],
   };
+}
+
+/**
+ * One person drawn like a counted resident of a place: a lone member of a
+ * counted household there, with a new identity, name and temperament seeded
+ * from the world's seed and `salt` (the same salt, the same person). Nothing
+ * is stored until the record is admitted (`admitCountedHousehold`). Callers
+ * that need a person from the wider population, who is not one of the
+ * counted records themselves, draw here.
+ */
+export function drawnResident(
+  api: CoreAPI,
+  templateHouseholdId: string,
+  templateMemberId: string,
+  salt: string,
+): ResidentHouseholdRecord | null {
+  const residents = residentsRuntime(api.state as CoreState);
+  if (!residents) return null;
+  const store = residents.store;
+  const ix = store.householdOf.get(templateHouseholdId);
+  if (ix === undefined) return null;
+  const template = store.households[ix]!;
+  const memberIx = store
+    .countedMembers(template)
+    .find((m) => store.ids[m] === templateMemberId);
+  if (memberIx === undefined) return null;
+  const source: Source = {
+    tag: "ESTIMATED",
+    asOf: api.state.date,
+    citation:
+      "Drawn from the place's counted people: a member of a household there, with a new identity and a temperament drawn from the opening's temperament model.",
+    estimatedFrom: `A seeded draw (${salt}) like the counted household ${templateHouseholdId}.`,
+  };
+  return drawHousehold(
+    api,
+    salt,
+    residents,
+    template,
+    "the wider population",
+    source,
+    memberIx,
+  );
 }
 
 /** Each state's or territory's people this month, as the counts hold them (both tiers' counted people). */

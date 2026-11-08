@@ -13,12 +13,15 @@ import { coreAPI } from "../../src/core2/state";
 import { townSeats } from "../../src/core2/modules/offices";
 import { bodyOf, chambersOf, draftBill, castMemberVote, holdVote, executiveDecision, members, memberKey } from "../../src/core2/modules/legislature";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
+import { setFastForward } from "../../src/core2/fast-forward";
 import { advanceCore } from "../../src/core2/life";
 import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import type { CoreState } from "../../src/core2/types";
 import { vitals } from "./vitals";
 
 setBookkeeping(false);
+// CORE2_FAST_FORWARD=1: campaign stride (development only, SG-SPEED-fast-forward-campaigns).
+setFastForward(process.env.CORE2_FAST_FORWARD === "1");
 const [seed = "tw1", level = "state", pick = "", yearsArg = "3"] = process.argv.slice(2);
 const years = Number(yearsArg);
 const skippedDraws: string[] = [];

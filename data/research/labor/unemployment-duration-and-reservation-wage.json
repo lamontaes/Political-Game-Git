@@ -1,0 +1,94 @@
+{
+  "retrievedOn": "2026-11-08",
+  "fetchFailures": [
+    "web.archive.org (connection reset via curl; WebFetch refuses host)",
+    "www.bls.gov (403 / DNS not allowed in WebFetch)",
+    "api.bls.gov v1 (daily threshold reached: REQUEST_NOT_PROCESSED)",
+    "download.bls.gov (403)",
+    "FRED has no age-by-duration series (LNU03008277.. LNU03008300 and LNU03008637.. do not exist)"
+  ],
+  "a_weeksUnemployedAllAges": {
+    "source": "FRED CSV, https://fred.stlouisfed.org/graph/fredgraph.csv?id=UEMPMEAN and ?id=UEMPMED (monthly, seasonally adjusted, fetched 2026-11-08)",
+    "latestRows": {
+      "UEMPMEAN 2026-10-01": 27.1,
+      "UEMPMED 2026-10-01": 11.9,
+      "UEMPMEAN 2026-09-01": 24.8,
+      "UEMPMED 2026-09-01": 11.5
+    },
+    "calendar2025_simple_average_of_available_months": {
+      "meanWeeks": 23.1,
+      "medianWeeks": 10.1,
+      "months": 11,
+      "note": "computed by me from CSV; Oct 2025 missing (shutdown)"
+    },
+    "durationBuckets_thousands_latest_2026-10": {
+      "under5wk": 2170,
+      "5to14wk": 1737,
+      "15to26wk": 1242,
+      "27wkPlus": 1963,
+      "series": "UEMPLT5,UEMP5TO14,UEMP15T26,UEMP27OV"
+    }
+  },
+  "a_byAgeBand": {
+    "status": "PARTIAL, NOT from a fetched page: only two bands came as WebSearch snippet text of BLS 2025 annual table cpsaat31 (no fetch possible). Treat as unverified until the page is read.",
+    "url": "https://www.bls.gov/cps/cpsaat31.htm",
+    "retrieved": "2026-11-08 (search snippet)",
+    "quotedSnippet": "2025: 65 years and over 174 thousand unemployed, mean 29.8 weeks, median 11.0; 55 to 64: 367 thousand, mean 25.0, median 11.1. Snippet caveat: October 2025 data not collected due to shutdown.",
+    "values": {
+      "55-64": {
+        "mean": 25.0,
+        "median": 11.1
+      },
+      "65+": {
+        "mean": 29.8,
+        "median": 11.0
+      }
+    },
+    "notFound": ["16-24", "25-34", "35-44", "45-54"]
+  },
+  "b_durationDependenceJobFindingRate": {
+    "notFound": "No quoted weekly job-finding rate by weeks unemployed obtained from a fetched page. Krueger-Mueller note (p.~Section 6) that duration does not predict acceptance conditional on reservation wage: 'unemployment duration do not predict job acceptance conditional on the reservation wage' (Table 9 col 5)."
+  },
+  "c_reservationWage": {
+    "source": "Krueger & Mueller, 'A Contribution to the Empirics of Reservation Wages', IZA DP 7957 (Feb 2014), fetched https://docs.iza.org/dp7957.pdf 2026-11-08; published AEJ: Economic Policy 8(1):142-79 (2016)",
+    "reservationToPreviousWageRatio": {
+      "Table2_allDurations_crossSection_firstWeek": 0.99,
+      "Table2_longitudinal": 0.99,
+      "byDuration_longitudinal": {
+        "<5wk": 1.0,
+        "5-9": 1.0,
+        "10-14": 1.0,
+        "15-19": 0.99,
+        "20-24": 0.99,
+        "25-49": 0.98,
+        "50+": 0.97
+      },
+      "byDuration_crossSection": {
+        "<5wk": 1.04,
+        "5-9": 1.02,
+        "10-14": 1.01,
+        "15-19": 1.0,
+        "20-24": 1.06,
+        "25-49": 0.95,
+        "50+": 0.94
+      },
+      "quote": "Across all durations, the reservation wage ratio is essentially equal to the previous wage, on average, in both samples.",
+      "logRatioFirstInterview": "the mean of the log of the ratio is 0.07 and the standard deviation is 0.37 (Sec 4, p.11)"
+    },
+    "declineWithDuration": "point estimates ranging from 0.05 to 0.14 percent per week of unemployment (abstract/intro)",
+    "acceptanceVsGap": {
+      "quote": "workers are 24 percentage points more likely to accept an offer that equals or exceeds the reservation wage than one that is below it, and 13 percentage points more likely to reject an offer that is below the reservation wage (Section 6, Table 8/9)",
+      "fullTime": "30 percentage points",
+      "otherFacts": "61.6 percent of job offers accepted, 16.6 rejected; 44 percent accepted a job below stated reservation wage; about 13% of offers pay exactly the reservation wage"
+    },
+    "elasticityNotFound": "No continuous elasticity of acceptance to the offer/reservation gap is reported; paper gives a discrete jump (above). UI-benefit elasticity of job-finding hazard 0.84-0.97 noted in Sec 8 but is a different elasticity.",
+    "nyFedSCE": {
+      "status": "WebSearch snippet only, page not fetched",
+      "quote": "The average reservation wage increased to $81,147 from $78,645 in July 2023, series high $81,822 in March 2024",
+      "urls": [
+        "https://libertystreeteconomics.newyorkfed.org/2022/12/sce-labor-market-survey-shows-average-reservation-wage-continues-upward-trend"
+      ],
+      "asShareOfPreviousWage": "notFound"
+    }
+  }
+}

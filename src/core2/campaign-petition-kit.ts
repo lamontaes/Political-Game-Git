@@ -31,7 +31,7 @@ export function gatherSignatures(
   if (!ids.length) return null;
   const short = (id: string) => {
     const held = petitionOf(api, id)!;
-    return petitionCirculating(api, id) && held.signers.length < held.needed;
+    return petitionCirculating(api, id) && held.signed < held.needed;
   };
   while (ids.some(short)) {
     for (const id of ids.filter(short)) {

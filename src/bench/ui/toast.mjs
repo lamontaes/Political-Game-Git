@@ -3,26 +3,33 @@
 // `.toast` panel at a screen corner that holds for `seconds`, fades over its last second
 // and goes, and goes at once on its close control (a `[data-close]` slot, see panel.mjs).
 const timers = new Map();
-// While a scene or talk is on screen a toast waits, and shows once the scene ends (owner, Nov 7:
+// While a scene, a talk, a meeting or a desk decision is on screen a toast waits, and shows once the scene ends (owner, Nov 7:
 // "News pop-ups wait until the scene ends"): its seconds start when it shows, never before.
 const waiting = new Map();
 let watching = false;
-const sceneOpen = () => {
-  const talk = document.getElementById("talk");
-  return Boolean(talk && !talk.hidden);
-};
+// The panels a scene or a held decision takes the stage with: the talk, the meeting, the desk
+// (also the floor vote, nominations and orders), election day, its returns and the ballot.
+const SCENES = ["talk", "meeting", "desk", "election-day", "returns", "ballot"];
+const scenePanels = () =>
+  SCENES.map((id) => document.getElementById(id)).filter(Boolean);
+const sceneOpen = () => scenePanels().some((panel) => !panel.hidden);
 function watchScene() {
   if (watching) return;
-  const talk = document.getElementById("talk");
-  if (!talk) return;
+  const panels = scenePanels();
+  if (!panels.length) return;
   watching = true;
-  new MutationObserver(() => {
+  const observer = new MutationObserver(() => {
     if (sceneOpen()) return;
     for (const [node, [seconds, onGone]] of [...waiting]) {
       waiting.delete(node);
       showToast(node, seconds, onGone);
     }
-  }).observe(talk, { attributes: true, attributeFilter: ["hidden"] });
+  });
+  for (const panel of panels)
+    observer.observe(panel, {
+      attributes: true,
+      attributeFilter: ["hidden"],
+    });
 }
 
 export function hideToast(node) {
