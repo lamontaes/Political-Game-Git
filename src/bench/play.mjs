@@ -27,14 +27,14 @@ import { officeScreen } from "./ui/office-screen.mjs";
 import { splitScreen } from "./ui/split-screen.mjs";
 import { section } from "./ui/section.mjs";
 import { makeTab, tabBar, chooseTab } from "./ui/tab.mjs";
-import { plate, factPlates, chips, plateRow } from "./ui/plate.mjs";
+import { plate, factPlates, chips } from "./ui/plate.mjs";
 import { timeline } from "./ui/timeline.mjs";
 import { makeCard } from "./ui/card.mjs";
 import { townRow } from "./ui/town-row.mjs";
 import { debateCard, speechCard } from "./ui/campaign-acts.mjs";
 import { listRow, personRow, factRow, noteLine } from "./ui/list-row.mjs";
 import { fillArtwork, picture as pictureFrame } from "./ui/picture.mjs";
-import { barChart, columnChart, donutChart } from "./ui/chart.mjs";
+import { columnChart, donutChart } from "./ui/chart.mjs";
 import {
   select,
   searchBox,
@@ -79,6 +79,9 @@ import {
   introText,
   peopleSentence,
   dotRows,
+  stripBoard,
+  typedRow,
+  departmentRow,
 } from "./ui/strips.mjs";
 mountPanelHeads();
 mountCloseButtons();
@@ -349,6 +352,7 @@ async function renderCard() {
 // The Guide's search, kept so an underlined term opens straight to it.
 // The government whose budget the Budgets tab shows, once the player picks one.
 let budgetGovernment;
+let budgetLine;
 // The level and the other state the Government tab shows, once the player picks them.
 let governmentLevel;
 let governmentState = "";
@@ -2912,21 +2916,24 @@ const sheets = {
       .find(Boolean);
     const chosen =
       view.governments.find((g) => g.id === budgetGovernment) ?? town;
-    const pick = select({
-      options: view.governments.map((g) => ({ value: g.id, label: g.name })),
-      value: chosen?.id,
-      label: labels.budget,
-      onChange: (id) => {
-        budgetGovernment = id;
-        void openSheet("budgets");
-      },
-    });
     const gov = chosen ?? view.governments[0];
-    if (!gov?.latest) return [splitScreen({ controls: [pick] })];
+    const tabs = tabBar({
+      attr: "gov",
+      active: gov?.id,
+      tabs: view.governments
+        .filter((g) => g.latest)
+        .map((g) => ({
+          key: g.id,
+          label: g.name,
+          onSelect: () => {
+            budgetGovernment = g.id;
+            budgetLine = undefined;
+            void openSheet("budgets");
+          },
+        })),
+    });
+    if (!gov?.latest) return [stripBoard({ tabs, columns: [[]] })];
     const latest = gov.latest;
-    // What the treasury actually took in and paid out, from its journal,
-    // beside the plan: a treasury gone wrong shows here.
-    const books = gov.books;
     // The executive steps a spending line's priority up or down.
     const steps = (record) =>
       gov.youAreExecutive
@@ -2945,88 +2952,126 @@ const sheets = {
             },
           }))
         : [];
-    // Budget on framed plates: the government, its year and
-    // its total in the name type with when and how it was adopted; where the
-    // money comes from and where it goes as rings with amounts (the seven
-    // largest lines and the rest as one); the treasury's books beside them;
-    // and an executive's own spending priorities to step up or down.
-    const largest = (lines) => {
-      const sorted = [...lines].sort((a, b) => b.minor - a.minor);
-      const rest = sorted.slice(7).reduce((n, r) => n + r.minor, 0);
-      return [
-        ...sorted
-          .slice(0, 7)
-          .map((r) => ({ label: r.name ?? r.line, value: r.minor })),
-        ...(rest > 0 ? [{ label: labels.otherLines, value: rest }] : []),
-      ];
-    };
-    const ring = (title, lines, total) =>
-      plate(
-        title,
-        donutChart(largest(lines), roundedMoney(total), title, roundedMoney),
-      );
-    const overBudget = books && books.paidOutMinor > latest.spendingMinor;
+    // The approved Budgets screen (owner, Nov 7, item 56; the mock's bud-strips): the
+    // governments as tabs, the fiscal year typed at the right, the departments, the open
+    // department as a typed page, the town's money, and who wrote it. The game keeps
+    // budget lines by category rather than departments, so each spending line is a
+    // department; Last year comes from the government's previous budget; a head, an
+    // "Asked" figure and the executive's bust wait on pool items gov-budget-departments-
+    // with-named-heads and gov-budget-asked-versus-adopted.
+    const words = controls.budgetStrips;
+    const books = gov.books;
+    const prior = gov.prior;
+    const lastOf = (lines, key) => lines?.find((r) => r.line === key)?.minor;
+    const opened =
+      latest.spending.find((r) => r.line === budgetLine) ?? latest.spending[0];
+    const lastYear = (minor) =>
+      minor === undefined ? "" : `${words.lastYear} ${roundedMoney(minor)}`;
+    const stepButtons = steps(opened).map((step) => {
+      const button = makeButton({
+        className: "action small",
+        textContent: step.glyph,
+        title: step.title,
+      });
+      button.setAttribute("aria-label", step.label);
+      button.onclick = async () => {
+        button.disabled = true;
+        try {
+          await step.onClick();
+        } finally {
+          button.disabled = false;
+        }
+      };
+      return button;
+    });
+    const balance = latest.balanceMinor;
     return [
-      splitScreen({
-        controls: [pick],
-        main: [
-          line(
-            `${gov.name} · ${labels.fiscalYear} ${latest.fiscalYear} · ${roundedMoney(latest.spendingMinor)}`,
-            "budget-title",
-          ),
-          prose(
-            [
-              `${labels.adopted} ${dateWords(latest.adoptedOn)}`,
-              latest.adoptedBy,
-            ]
-              .filter(Boolean)
-              .join(", "),
-            "budget-adopted",
-          ),
-          plateRow(
-            ring(labels.comesFrom, latest.revenue, latest.revenueMinor),
-            ring(labels.goesTo, latest.spending, latest.spendingMinor),
-            plate(
-              labels.books,
-              ...[
-                [labels.balance, latest.balanceMinor],
-                ...(books
-                  ? [
-                      [labels.takenIn, books.takenInMinor],
-                      [labels.paidOut, books.paidOutMinor],
-                      [labels.cashOnHand, books.cashMinor],
-                    ]
-                  : []),
-              ].map(([label, value]) => row(label, roundedMoney(value))),
-              prose(
-                books
-                  ? `${labels.booksSince} ${dateWords(books.since)}`
-                  : labels.noBooks,
-                "small",
+      stripBoard({
+        tabs,
+        fiscal: `${words.fiscalYear} ${latest.fiscalYear}`,
+        columns: [
+          [
+            stripSection(
+              1,
+              words.departments,
+              pager({
+                items: latest.spending.map((r) =>
+                  departmentRow({
+                    name: r.name ?? r.line,
+                    amount: roundedMoney(r.minor),
+                    selected: r.line === opened.line,
+                    onSelect: () => {
+                      budgetLine = r.line;
+                      void openSheet("budgets");
+                    },
+                  }),
+                ),
+                render: (node) => node,
+                rows: Math.max(4, Math.floor((window.innerHeight - 380) / 56)),
+                columns: 1,
+                rowHeight: 52,
+                gap: 2,
+                words: {
+                  page: controls.politics.page,
+                  previous: controls.politics.previousPage,
+                  next: controls.politics.nextPage,
+                },
+                className: "bsdepts",
+              }),
+            ),
+          ],
+          [
+            stripSection(
+              2,
+              opened.name ?? opened.line,
+              typedRow(
+                opened.name ?? opened.line,
+                roundedMoney(opened.minor),
+                lastYear(lastOf(prior?.spending, opened.line)),
               ),
-              ...(overBudget
-                ? [prose(labels.overBudget, "record-warning")]
+              ...(stepButtons.length ? [buttonTray(...stepButtons)] : []),
+            ),
+          ],
+          [
+            stripSection(
+              3,
+              gov.name,
+              typedRow(
+                words.comingIn,
+                roundedMoney(latest.revenueMinor),
+                lastYear(prior?.revenueMinor),
+              ),
+              typedRow(
+                words.goingOut,
+                roundedMoney(latest.spendingMinor),
+                lastYear(prior?.spendingMinor),
+              ),
+              typedRow(
+                words.balance,
+                `${roundedMoney(Math.abs(balance))} ${balance < 0 ? words.short : words.ahead}`,
+              ),
+              ...(books
+                ? [typedRow(words.savings, roundedMoney(books.cashMinor))]
                 : []),
             ),
-          ),
-          ...(gov.youAreExecutive
-            ? [
-                plate(
-                  labels.priorities,
-                  barChart(
-                    latest.spending.map((r) => ({
-                      label: r.name ?? r.line,
-                      value: r.minor,
-                      steps: steps(r),
-                    })),
-                    labels.priorities,
-                    roundedMoney,
+            ...(latest.adoptedOn
+              ? [
+                  stripSection(
+                    5,
+                    words.whoWrote,
+                    introText(
+                      [
+                        `${labels.adopted} ${dateWords(latest.adoptedOn)}`,
+                        latest.adoptedBy,
+                      ]
+                        .filter(Boolean)
+                        .join(", "),
+                    ),
                   ),
-                ),
-              ]
-            : []),
+                ]
+              : []),
+          ],
         ],
-        className: "budget-screen",
       }),
     ];
   },
@@ -4588,7 +4633,10 @@ async function openSheet(tab) {
   );
   const character = groupOf(tab) === "who";
   // You carries its own bust (the approved strip screen); Jobs and Your life keep the side figure.
-  $("sheet").classList.toggle("strip-sheet", tab === "who");
+  $("sheet").classList.toggle(
+    "strip-sheet",
+    tab === "who" || tab === "budgets",
+  );
   $("sheet").classList.toggle("character-sheet", character && tab !== "who");
   // News is the paper itself: the sheet is the page, its masthead the title
   // (owner, Oct 28, point 25).
