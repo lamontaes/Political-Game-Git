@@ -6,6 +6,7 @@ kind: bug
 priority: 3
 size: M
 status: open
+lead: money
 claimed-by:
 pr:
 blocked-on:

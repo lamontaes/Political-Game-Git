@@ -42,6 +42,7 @@ import { openSuccession } from "../core2/modules/succession";
 import { openExecutive } from "../core2/modules/executive";
 import { openInterestGroups } from "../core2/modules/interest-groups";
 import { openPublicAction } from "../core2/modules/public-action";
+import { openFederalCourts } from "../core2/modules/federal-courts";
 import { openNationalEvents } from "../core2/modules/national-events";
 import { openWorldLegislating } from "../core2/modules/world-legislating";
 import { openBallotMeasures } from "../core2/modules/ballot-measures";
@@ -545,6 +546,8 @@ function* benchWorldStages(
   openJustice(core);
   // Ordinary crime, courts, jail, firearm laws and fire service.
   openPublicSafety(core);
+  // The federal courts as a national flow and stock, from the Commission and the Bureau.
+  openFederalCourts(core);
   // The world has a past (OPUS-CORE): prior elections, voting records, law
   // histories, the year's news and what the public knows, before day one.
   openThePast(core, seed);
