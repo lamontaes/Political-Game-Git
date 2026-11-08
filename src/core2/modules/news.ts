@@ -16,6 +16,7 @@
  * Each story's deliveries are scheduled once, when it is recorded, and read by
  * date, so no day scans the whole town.
  */
+import { countedNewsSourceOf, heardListeners } from "./news-listeners";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import type { IsoDate } from "../kernel/brands";
 import { corePlaceByJurisdictionId } from "../place-lookup";
@@ -38,27 +39,8 @@ import {
   reportOutcome,
   traitProbe,
 } from "../trait-decisions";
-import {
-  VIEWS_SPEAKER_KEY,
-  viewOf,
-  viewOn,
-  hearCountedNews,
-  type CountedNewsAudience,
-} from "./views";
+import { VIEWS_SPEAKER_KEY, viewOf, viewOn, hearCountedNews } from "./views";
 import { conditionQuestions, measureOfFactKey } from "../outcome-news";
-
-type CountedNewsSource = (
-  api: CoreAPI,
-  storyId: string,
-  namedReaders: number,
-) => readonly CountedNewsAudience[];
-let countedNewsSource: CountedNewsSource | undefined;
-/** The press supplies recorded audience mass; news owns delivery time. */
-export function registerCountedNewsSource(source: CountedNewsSource): void {
-  if (countedNewsSource && countedNewsSource !== source)
-    throw new Error("Counted news already has an audience source");
-  countedNewsSource = source;
-}
 
 /** The press module's id (kept here so news does not import the press). */
 const PRESS_MODULE_ID = "core2-press-v1";
@@ -193,16 +175,6 @@ const deliveries = (api: CoreAPI) =>
   api.moduleState(NEWS_MODULE_ID).table("deliveries");
 const heard = (api: CoreAPI) => api.moduleState(NEWS_MODULE_ID).table("heard");
 
-/**
- * Engines that act the moment a person hears a story: the price engine ties
- * a price change the person's household already paid to the law the story
- * names. A listener returns at once for a story it does not concern.
- */
-type HeardListener = (api: CoreAPI, personId: PersonId, story: Story) => void;
-const heardListeners: HeardListener[] = [];
-export function onStoryHeard(listener: HeardListener): void {
-  if (!heardListeners.includes(listener)) heardListeners.push(listener);
-}
 const delivered = (api: CoreAPI) =>
   api.moduleState(NEWS_MODULE_ID).table("delivered");
 
@@ -830,7 +802,7 @@ export function createNewsModule(
           story.facts,
         );
         if (story.desiredChange)
-          for (const reader of countedNewsSource?.(
+          for (const reader of countedNewsSourceOf()?.(
             api,
             story.id,
             alive.length,
