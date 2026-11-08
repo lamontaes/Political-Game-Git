@@ -2,6 +2,7 @@ import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "../core2/game-start";
+import { orderableBy } from "../core2/modules/executive";
 import { townSeats } from "../core2/modules/offices";
 import { heldFederal, releaseFederal } from "../core2/office-day-federal";
 import { resultsOf } from "../core2/office-day-state";
@@ -21,7 +22,7 @@ const seed =
 describe(`an executive order the player decides (seed ${seed})`, () => {
   it("stops the governor for the order and records their decision as theirs", () => {
     const tried: string[] = [];
-    for (let attempt = 0; attempt < 10; attempt += 1) {
+    for (let attempt = 0; attempt < 40; attempt += 1) {
       const place = drawPlace(`${seed}:${attempt}`, "orders");
       const world = buildBenchWorld(place.seed, gameStartDate(), {
         twoLevel: true,
@@ -36,9 +37,14 @@ describe(`an executive order the player decides (seed ${seed})`, () => {
         tried.push(`${where}: no governor to play`);
         continue;
       }
+      // Only some states let a governor restore voting rights by order.
+      if (!orderableBy(api).includes("restore-voting-after-sentence")) {
+        tried.push(`${where}: no order a governor may issue here`);
+        continue;
+      }
       const player = new BenchPlayer(core, world.director);
       player.select(governor);
-      for (let guard = 0; guard < 150; guard++) {
+      for (let guard = 0; guard < 200; guard++) {
         if (player.pollingPlace) player.leavePolls();
         const orders = ordersView(core);
         if (orders.length) {
@@ -63,7 +69,7 @@ describe(`an executive order the player decides (seed ${seed})`, () => {
           player.resume({ kind: "own-choice", pauseId: packet.pauseId });
         else player.advance("day");
       }
-      tried.push(`${where}: no order brought in 150 days`);
+      tried.push(`${where}: no order brought in 200 days`);
     }
     throw new Error(
       `no drawn place brought the governor an order (seed ${seed}): ${tried.join("; ")}`,
