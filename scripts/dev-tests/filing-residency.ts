@@ -36,7 +36,8 @@ const w = buildBenchWorld(seed, gameStartDate(), {
 });
 const core: any = w.core;
 const months = Number(process.env.MONTHS ?? 0);
-if (months) advanceCore(core, addDays(makeIsoDate(core.date), Math.round(months * 30.4)));
+if (months)
+  advanceCore(core, addDays(makeIsoDate(core.date), Math.round(months * 30.4)));
 const api = coreAPI(core);
 const player = core.people.get(core.playerId);
 const townRow = api
@@ -122,4 +123,17 @@ if (other) {
       );
     }
   }
+}
+
+// The race page the player sees with that address: does it offer filing, or say why not.
+import { localRaces } from "../../src/bench/government";
+for (const race of (localRaces(core) as any).races ?? []) {
+  console.log(
+    "race page",
+    race.title,
+    "playerMayFile",
+    race.playerMayFile,
+    "cannotFile",
+    JSON.stringify(race.cannotFile),
+  );
 }
