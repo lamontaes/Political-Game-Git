@@ -96,7 +96,7 @@ describe("a relative's marriage or split is news at home", () => {
       const scene = composeScene(core, director, playerId!, entry!);
       expect(scene, `${where}: ${kind} does not compose`).toBeTruthy();
       process.stdout.write(
-        `KIN UNION ${where} ${kind}: ${JSON.stringify({ lead: (scene as any)?.narration ?? (scene as any)?.lead, line: (scene as any)?.openingLine ?? (scene as any)?.lines }).slice(0, 500)}\n`,
+        `KIN UNION ${where} ${kind}: ${JSON.stringify(scene!.narration.map((row) => row.text)).slice(0, 500)}\n`,
       );
     }
   }, 300_000);
