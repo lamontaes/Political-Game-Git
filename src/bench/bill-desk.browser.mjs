@@ -54,7 +54,7 @@ try {
     await page.locator("#front-pick:not([hidden])").waitFor();
     names = await page.locator("#pick-list button").allInnerTexts();
     at = names.findIndex((t) =>
-      new RegExp(process.env.BENCH_ROLE ?? "^mayor", "i").test(t),
+      new RegExp(process.env.BENCH_ROLE ?? "· Mayor", "i").test(t),
     );
     if (at < 0)
       console.log(
