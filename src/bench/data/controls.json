@@ -658,6 +658,10 @@
   "patchNotes": {
     "release": "Release"
   },
+  "saves": {
+    "none": "No life is saved yet. Start a new life and it will be kept here.",
+    "later": "Your life is kept as you play. More saved lives, and saving to a slot of your own, arrive with early access."
+  },
   "campaignActs": {
     "volunteer": "Volunteers",
     "endorsement": "Endorsements",
@@ -728,6 +732,7 @@
     "travel": "Travel",
     "options": "Options",
     "patchNotes": "Patch notes",
+    "saves": "Saved games",
     "guide": "Guide",
     "handoff": "Carry on as",
     "news": "News",
