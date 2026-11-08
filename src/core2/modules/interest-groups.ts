@@ -147,6 +147,8 @@ const table = (api: CoreAPI, name: string) =>
   api.moduleState(INTEREST_GROUPS_MODULE_ID).table(name);
 
 export function openInterestGroups(core: CoreState): void {
+  // Registered here, not at import: the legislature module is still loading when this file is.
+  registerHearingWitnessProvider(hearingWitnesses);
   if (!core.modules.has(INTEREST_GROUPS_MODULE_ID))
     registerModule(core, INTEREST_GROUPS_MODULE);
   registerLegislatureHooks({
@@ -891,7 +893,11 @@ registerStanceListener(reviewMember);
 
 // A hearing on a question hears the residents the interest groups' records show on each side of
 // it, alternating sides: a for-witness, then an against-witness (the stake is the side, as a code).
-registerHearingWitnessProvider((api, _bill, question) => {
+function hearingWitnesses(
+  api: CoreAPI,
+  _bill: BillRow,
+  question: string,
+): readonly { personId: string; stake: string }[] {
   const sides = groupsHere(api)
     .filter((group) => group.interest === question)
     .map((group) => ({
@@ -907,7 +913,7 @@ registerHearingWitnessProvider((api, _bill, question) => {
       if (row.people[at])
         out.push({ personId: row.people[at]!, stake: row.side });
   return out;
-});
+}
 
 export function groupsHere(api: CoreAPI): readonly GroupRow[] {
   return table(api, "groups").rows() as unknown as GroupRow[];
