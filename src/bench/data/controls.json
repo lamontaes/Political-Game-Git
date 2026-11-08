@@ -855,7 +855,11 @@
     "whoWrote": "Who wrote it",
     "adoptedBy": "Adopted by",
     "fiscalYear": "Fiscal year",
-    "asked": "Asked"
+    "asked": "Asked",
+    "sinceLastYear": "Since last year",
+    "increased": "Up {amount} ({pct})",
+    "decreased": "Down {amount} ({pct})",
+    "unchanged": "No change"
   },
   "saves": {
     "none": "No life is saved yet.",

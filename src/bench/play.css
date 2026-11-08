@@ -5325,3 +5325,22 @@ body.color-blind .meeting-member.vote-no {
 body.color-blind .meeting-member.vote-abstain {
   outline: 3px dotted var(--signal-none);
 }
+
+/* A history line on the dark panel: a thin gold line and a dot for the latest year. */
+.trend-line {
+  display: block;
+  width: 100%;
+  max-width: 340px;
+  height: auto;
+  margin: 6px 0 4px;
+}
+.trend-path {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.trend-dot {
+  fill: var(--gold);
+}

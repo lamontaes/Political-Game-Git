@@ -72,6 +72,7 @@ import { rosterScreen } from "./ui/roster-screen.mjs";
 import { guideScreen } from "./ui/guide-screen.mjs";
 import { travelScreen } from "./ui/travel-screen.mjs";
 import { billPaper } from "./ui/bill-paper.mjs";
+import { trendLine } from "./ui/trend-line.mjs";
 import { billStageSections } from "./ui/bill-stage.mjs";
 import { meetingItem } from "./ui/meeting-item.mjs";
 import { draftCard } from "./ui/draft-card.mjs";
@@ -3398,6 +3399,30 @@ const sheets = {
     const lastOf = (lines, key) => lines?.find((r) => r.line === key)?.minor;
     const opened =
       latest.spending.find((r) => r.line === budgetLine) ?? latest.spending[0];
+    // "Since last year ... up by ..." from the record's own change, and its history as a line
+    // (Nation's budgetView: changeMinor, changePct, history oldest first); never computed here.
+    const pctFormat = new Intl.NumberFormat("en-US", {
+      style: "percent",
+      maximumFractionDigits: 1,
+    });
+    const sinceLast = (record) => {
+      if (record?.changeMinor === undefined || record.changeMinor === null)
+        return [];
+      const how =
+        record.changeMinor === 0
+          ? words.unchanged
+          : (record.changeMinor > 0 ? words.increased : words.decreased)
+              .replace("{amount}", roundedMoney(Math.abs(record.changeMinor)))
+              .replace(
+                "{pct}",
+                pctFormat.format(Math.abs(record.changePct ?? 0) / 100),
+              );
+      return [typedRow(words.sinceLastYear, how)];
+    };
+    const history = (record) => {
+      const line = trendLine(record?.history);
+      return line ? [line] : [];
+    };
     // Last year is a row of its own with the figure on the same line, never a note under.
     const lastYear = (minor) =>
       minor === undefined
@@ -3462,6 +3487,8 @@ const sheets = {
               opened.name ?? opened.line,
               typedRow(opened.name ?? opened.line, roundedMoney(opened.minor)),
               ...lastYear(lastOf(prior?.spending, opened.line)),
+              ...sinceLast(opened),
+              ...history(opened),
               ...(opened.askedMinor !== undefined
                 ? [typedRow(words.asked, roundedMoney(opened.askedMinor))]
                 : []),
