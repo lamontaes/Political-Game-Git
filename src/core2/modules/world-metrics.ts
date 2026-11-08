@@ -34,6 +34,8 @@ export function townMetrics(api: CoreAPI) {
     string,
     {
       employed: number;
+      /** Residents who hold a job, wherever it is: the labor force the unemployment rate stands on. */
+      residentsEmployed: number;
       unemployed: number;
       hourly: number[];
       open: number;
@@ -53,6 +55,7 @@ export function townMetrics(api: CoreAPI) {
         placeId,
         (row = {
           employed: 0,
+          residentsEmployed: 0,
           unemployed: 0,
           hourly: [],
           open: 0,
@@ -90,6 +93,7 @@ export function townMetrics(api: CoreAPI) {
     const person = c.people.get(job.personId);
     const home = person ? c.households.get(person.householdId) : undefined;
     earn(home?.placeId, home?.id, job.wageDailyMinor);
+    if (home?.placeId) at(home.placeId).residentsEmployed += 1;
   }
   for (const [jobId, flow] of rt?.wageFlowByJob ?? []) {
     const job = rt!.jobs.get(jobId);
@@ -108,6 +112,7 @@ export function townMetrics(api: CoreAPI) {
       home?.id,
       job.wageDailyMinor,
     );
+    if (home && !home.gone) at(home.placeId).residentsEmployed += 1;
   }
   // Eviction orders (judgments) in the month before this one, by where the household lives.
   const lastMonth = addDays(makeIsoDate(`${month}-01`), -1).slice(
@@ -176,10 +181,13 @@ export function townMetrics(api: CoreAPI) {
         placeId,
         date: c.date,
         employed: row.employed,
+        residentsEmployed: row.residentsEmployed,
         unemployed: row.unemployed,
         unemploymentRate:
-          row.employed + row.unemployed > 0
-            ? row.unemployed / (row.employed + row.unemployed)
+          // Residents who are out of work over residents in the labor force:
+          // jobs at the town's firms held by commuters are not its residents.
+          row.residentsEmployed + row.unemployed > 0
+            ? row.unemployed / (row.residentsEmployed + row.unemployed)
             : 0,
         medianHourlyMinor: median(row.hourly),
         businessesOpen: row.open,

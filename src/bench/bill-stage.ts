@@ -8,10 +8,15 @@ import { composeBill } from "../english/bill-sections";
 import {
   amendmentsOn,
   billForm,
+  billJurisdiction,
   billOf,
+  bodyOf,
+  bodyRow,
+  reachesTown,
   castMemberVote,
   executiveLean,
   moveAmendment,
+  reviseBill,
   voteAmendment,
   chambersOf,
   committeeRecords,
@@ -26,7 +31,8 @@ import {
 import { snapshotExplicitControlV1 } from "../core2/player-control-state-v1";
 import type { CoreState } from "../core2/types";
 import { screenLine } from "../english/screen-words";
-import { personName } from "./legislature";
+import { billPaper, personName } from "./legislature";
+import { townSeats } from "../core2/modules/offices";
 import { deskWaiting } from "../core2/modules/office-day";
 
 const LEGISLATURE = "core2-legislature-v1";
@@ -65,8 +71,18 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
     .get(billId) as unknown as BillRow | undefined;
   if (!bill) throw new Error("That bill is not before any body.");
   const offices = api.moduleState(OFFICES).table("offices");
+  // A body's own name (the House of Representatives, a council), else its office's title.
   const title = (id: string) =>
-    (offices.get(id) as { title?: string } | undefined)?.title ?? "";
+    bodyOf(api, id)?.bodyName ??
+    (offices.get(id) as { title?: string } | undefined)?.title ??
+    "";
+  const you =
+    asId ?? snapshotExplicitControlV1(core).personId ?? core.playerId ?? "";
+  // The player's own name leads a roll, so a long roll still shows where they voted.
+  const youFirst = <T extends { memberId: string }>(rows: T[]): T[] => [
+    ...rows.filter((r) => r.memberId === you),
+    ...rows.filter((r) => r.memberId !== you),
+  ];
   const named = (row: { memberId: string; vote: string }): NamedVote => ({
     memberId: row.memberId,
     personId: core.people.has(row.memberId) ? row.memberId : null,
@@ -93,8 +109,10 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
       })
       .filter((entry) => entry.cast.length > 0)
       .map(({ chamber, cast }) => {
-        const yes = cast.filter((row) => row.vote === "yes").map(named);
-        const no = cast.filter((row) => row.vote === "no").map(named);
+        const yes = youFirst(
+          cast.filter((row) => row.vote === "yes").map(named),
+        );
+        const no = youFirst(cast.filter((row) => row.vote === "no").map(named));
         // The result in words from the English engine's bank, by the roll call's own counts.
         const carried = yes.length > no.length;
         const key = carried
@@ -132,7 +150,6 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
     witnesses: record.witnesses.map((w) => ({
       personId: w.personId,
       name: personName(core, w.personId),
-      personId: core.people.has(w.personId) ? w.personId : null,
       stake: w.stake,
     })),
     votes: record.votes.map(named),
@@ -296,6 +313,8 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
       sits,
       /** The player may still choose before the floor votes. */
       mayChoose: sits && open,
+      /** The bill is the player's own and still on paper: staff may redraft its sections. */
+      mayRedraft: bill.sponsorId === player && open,
       chosen: chosen ?? null,
     },
     sponsor: personName(core, bill.sponsorId),
@@ -377,4 +396,125 @@ export function callAmendmentVote(
   const api = coreAPI(core);
   const row = voteAmendment(api, amendmentId);
   return billStage(core, row.billId, asId);
+}
+
+/**
+ * Bills before the state's chambers and Congress, for following from home: where each is,
+ * how the player's own members (the state and federal officials who hold the seats that
+ * cover the player's place) voted on it, and whether it reaches the player's place.
+ * Read from the one stage view; nothing is counted here.
+ */
+export function followedBills(core: CoreState, asId?: string) {
+  if (!core.modules.has(LEGISLATURE)) return [];
+  const api = coreAPI(core);
+  // A bill of a legislature's chamber (a state's or Congress's), by the body table.
+  const higher = (officeId: string) =>
+    officeId.startsWith("federal:") ||
+    bodyRow(bodyOf(api, officeId)?.kind ?? "")?.legislature !== undefined;
+  const mine = new Set(
+    townSeats(api).flatMap(({ office, holder }) =>
+      holder &&
+      (office.kind.startsWith("legislature-") || office.kind.startsWith("us-"))
+        ? [memberKey(holder)]
+        : [],
+    ),
+  );
+  const rows = api
+    .moduleState(LEGISLATURE)
+    .table("bills")
+    .rows() as unknown as BillRow[];
+  return rows
+    .filter((bill) => higher(bill.bodyOfficeId))
+    .sort(
+      (a, b) =>
+        b.introduced.localeCompare(a.introduced) || a.id.localeCompare(b.id),
+    )
+    .map((bill) => {
+      const stage = billStage(core, bill.id, asId);
+      return {
+        id: bill.id,
+        number: bill.number,
+        title: billPaper(core, bill.id).title,
+        sponsor: stage.sponsor,
+        stage: stage.stage,
+        status: stage.status,
+        floor: stage.floor.map((c) => ({
+          chamberTitle: c.chamberTitle,
+          result: c.result,
+        })),
+        mine: [...stage.floor, ...stage.override].flatMap((c) =>
+          [...c.yes, ...c.no, ...c.other]
+            .filter((v) => mine.has(v.memberId))
+            .map((v) => ({ ...v, chamberTitle: c.chamberTitle })),
+        ),
+        reachesYou: reachesTown(api, billJurisdiction(api, bill)),
+      };
+    });
+}
+
+/**
+ * The staff's redraft of one section (the clerk's or the town attorney's): the amount that
+ * splits the difference between the law in force and the bill's, shown as the clause struck
+ * and the clause inserted with the estimate of the bill as it would read. Nothing changes
+ * until the sponsor keeps it (`keepStaffRedraft`); the paper stays the one record of the bill.
+ */
+export function staffRedraft(
+  core: CoreState,
+  billId: string,
+  index: number,
+  asId?: string,
+) {
+  const player =
+    asId ?? snapshotExplicitControlV1(core).personId ?? core.playerId;
+  if (!player) throw new Error("Choose a resident first.");
+  const api = coreAPI(core);
+  const bill = billOf(api, billId);
+  if (bill.sponsorId !== player || bill.status !== "drafted")
+    throw new Error("Only the sponsor of a bill still on paper asks staff.");
+  const section = bill.provisions[index];
+  const today = billForm(api, bill).sections[index]?.before.value;
+  if (!section || section.kind === "policy-question" || today == null)
+    throw new Error("That section has no amount to redraft.");
+  const value = Math.round(((today + section.value) / 2) * 100) / 100;
+  if (value === section.value)
+    throw new Error("Staff would change nothing in that section.");
+  const inserted: Provision = { ...section, value };
+  const text = (provisions: readonly Provision[]) => {
+    const copy: BillRow = { ...bill, provisions };
+    const form = billForm(api, copy);
+    return (
+      composeBill({
+        ...copy,
+        effective: form.effectiveSection,
+        before: form.sections.map((row) => row.before),
+      })?.sections[index] ?? null
+    );
+  };
+  return {
+    index,
+    struck: text(bill.provisions),
+    inserted: text(bill.provisions.map((p, i) => (i === index ? inserted : p))),
+    value,
+  };
+}
+
+/** The sponsor keeps the staff's redraft: the section is replaced on the paper. */
+export function keepStaffRedraft(
+  core: CoreState,
+  billId: string,
+  index: number,
+  asId?: string,
+) {
+  const redraft = staffRedraft(core, billId, index, asId);
+  const api = coreAPI(core);
+  const section = billOf(api, billId).provisions[index]!;
+  reviseBill(api, billId, {
+    replace: index,
+    with: { ...section, value: redraft.value },
+  });
+  return billStage(
+    core,
+    billId,
+    asId ?? snapshotExplicitControlV1(core).personId ?? core.playerId,
+  );
 }

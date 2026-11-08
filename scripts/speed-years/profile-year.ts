@@ -23,7 +23,10 @@ const out = option("out", "profile.cpuprofile");
 const drawn = drawPlace(seed, "speed-year");
 const placeKey = option("place", drawn.key);
 setBookkeeping(false);
-const world = buildBenchWorld(drawn.seed, gameStartDate(), { twoLevel: true, placeKey });
+const world = buildBenchWorld(drawn.seed, gameStartDate(), {
+  twoLevel: true,
+  placeKey,
+});
 const session = new Session();
 session.connect();
 for (let y = 1; y <= year; y += 1) {
@@ -35,7 +38,9 @@ for (let y = 1; y <= year; y += 1) {
   }
   const began = performance.now();
   advanceCore(world.core, target);
-  console.log(`year ${y}: ${((performance.now() - began) / 1000).toFixed(1)} s`);
+  console.log(
+    `year ${y}: ${((performance.now() - began) / 1000).toFixed(1)} s`,
+  );
   if (y === year) {
     const { profile } = await session.post("Profiler.stop");
     writeFileSync(out, JSON.stringify(profile));
