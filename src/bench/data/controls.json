@@ -242,6 +242,17 @@
     "person": "Person",
     "trace": "Trace"
   },
+  "devCampaign": {
+    "title": "Campaign set-up",
+    "campaign": "Campaign",
+    "person": "Person",
+    "donorsGive": "Donors give",
+    "raised": "Raised",
+    "noneGave": "No one gave",
+    "saysYes": "Says yes to volunteering",
+    "saysNo": "Says no to volunteering",
+    "nobody": "No one to ask"
+  },
   "devScene": {
     "title": "Scenes",
     "type": "Situation",
@@ -291,6 +302,7 @@
       "death": "A person dies",
       "job-lost": "A job is lost",
       "scene": "A scene fires",
+      "may-file": "I may file for a seat",
       "law-takes-effect": "A law takes effect"
     },
     "reasons": {
