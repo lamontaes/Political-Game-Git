@@ -7099,7 +7099,7 @@
     "value": 0.9,
     "tag": "ESTIMATED",
     "citation": "CPS mean weeks unemployed about 17 at 3.7% unemployment (2019) and about 40 at 9% (2011).",
-    "estimatedFrom": "ln(40/17)/ln(9/3.7) is about 0.96, held a little lower because the 2011 duration also reflects the length of the recession: how finding work slows as unemployment rises against its mean.",
+    "estimatedFrom": "ln(40/17)/ln(9/3.7) is about 0.96, held a little lower because the 2011 duration also reflects the length of the recession: how finding work slows as unemployment rises against its mean. This one elasticity is the whole market-tightness input of the find: job openings per unemployed worker are a function of the unemployment rate (the Beveridge curve, the matching function's reduced form), so a separate openings term would repeat it. FRED carries JOLTS job openings only by Census region and nationally (JTS00NEJOR, JTS00MWJOR, JTS00SOJOR, JTS00WEJOR, JTSJOR), and the world simulates its own later months, so no real openings series exists to read past the opening. A true second input needs regional employers with postings (Jobs and economy and the Coordinator, Nov 8, 2026).",
     "spread": {
       "low": 0.4,
       "high": 1.0,
