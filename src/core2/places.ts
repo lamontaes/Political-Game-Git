@@ -160,3 +160,4 @@ export {
   corePlaceByKey,
   coreStateKeyOfJurisdictionId,
 } from "./place-lookup";
+export { corePlaceStateIdentities } from "./place-lookup";

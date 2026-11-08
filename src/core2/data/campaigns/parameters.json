@@ -378,6 +378,12 @@
       "source": "How much the district's lean on the questions weighs beside the member's own views. Checked against dyadic representation studies (Miller and Stokes 1963; Bafumi and Herron 2010).",
       "spread": [0.2, 1]
     },
+    "cosponsorsMax": {
+      "value": 4,
+      "tag": "TUNABLE",
+      "source": "How many members sign on beside a sponsor: the few closest to them who back the bill. Checked against the median cosponsor count on U.S. House bills (about 5 to 10 for bills that pass) scaled down to the members the sponsor knows; the spread is what the played year's bill papers show.",
+      "spread": [2, 8]
+    },
     "pillCandidates": {
       "value": 3,
       "tag": "TUNABLE",
@@ -408,6 +414,12 @@
       "tag": "ESTIMATED",
       "source": "Councils of up to about nine members usually work as a committee of the whole rather than through standing committees (National League of Cities, city council committee practice; ICMA 2018 survey: median council size 6).",
       "spread": [7, 13]
+    },
+    "overrideWindowDays": {
+      "value": 14,
+      "tag": "ESTIMATED",
+      "source": "A legislature takes up a veto message at its next sitting, which for a body meeting weekly or monthly is within about two weeks; a state's own constitutional window for reconsidering a veto runs longer. No dataset in the repository measures it.",
+      "spread": [7, 30]
     },
     "committeeLeadDays": {
       "value": 7,
@@ -558,6 +570,12 @@
       "tag": "TUNABLE",
       "source": "How many days after it passed a law counts as half settled: a change to it then reads as neither a fresh reversal nor a change to settled law. Members with a taste for change back changing long-standing law and resist undoing what the body just did. Legislatures rarely revisit an act within its first year; reversal is mostly a matter of a new majority after an election (Maltzman and Shipan 2008, American Journal of Political Science 52(2):252-267, on the durability of enacted law). Spread 180 to 730.",
       "spread": [180, 730]
+    },
+    "neighborLawWeight": {
+      "value": 0.3,
+      "tag": "TUNABLE",
+      "source": "How much the law of the states that border a state adds to a state legislator's reason to carry the same change: the share of bordering states with the law minus the share without, from -1 to 1, times this, beside the member's views (about -1 to 1) and the district's lean (constituentWeight). States are more likely to adopt a policy the more of their neighbors already have it (Berry and Berry 1990, American Political Science Review 84(2):395-415, lottery adoption; Shipan and Volden 2008, American Journal of Political Science 52(4):840-857, on how neighbor adoption spreads local policy). No study reports the size against a member's own views; checked so that a state whose neighbors all have a law files for it more often than one whose neighbors all lack it, and no change is filed on this alone (the weight stays below the reluctance to undo a fresh law).",
+      "spread": [0.1, 0.6]
     },
     "reversalReluctance": {
       "value": 0.5,
@@ -1397,6 +1415,20 @@
       "tag": "TUNABLE",
       "source": "How many times the leaders halve the change a failing budget's opponents object to most before dropping it: appropriations are settled by splitting differences line by line (topline deals, then conference) far more often than by striking a line outright (CRS, The Appropriations Process: A Brief Overview, R47106). Three halvings leave an eighth of the change.",
       "spread": [1, 5]
+    },
+    "localBudgetAmendmentsPerMeeting": {
+      "value": 1,
+      "tag": "ESTIMATED",
+      "source": "How many budget-line amendments a local body's regular meeting takes up. Council and county board agendas carry a budget adjustment or transfer item at some meetings, rarely several; one item a meeting is an upper estimate, since most meetings carry none (the line gaps close once amended).",
+      "stopgapId": "SG-LAWS-local-line-filing-threshold",
+      "spread": [1, 3]
+    },
+    "budgetAmendmentMinShare": {
+      "value": 0.01,
+      "tag": "ESTIMATED",
+      "source": "The share of a budget line a member's wanted change must reach before they file an amendment to reopen it mid-year: below it, a member waits for the next budget. A council's agenda has room for a handful of items, and a change of under a percent of a line is not worth one. Estimated from the dollar thresholds local codes set for budget amendments (commonly a few thousand dollars on lines of hundreds of thousands); no table of them was found.",
+      "stopgapId": "SG-LAWS-local-line-filing-threshold",
+      "spread": [0.005, 0.03]
     },
     "budgetFullStanceShare": {
       "value": 0.1,

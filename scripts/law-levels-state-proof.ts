@@ -6,6 +6,7 @@ import { randomBytes } from "node:crypto";
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { drawPlace } from "../scripts/core2-year/place";
+import { lawChainForPlace } from "../src/core2/laws-starting";
 import { benchRequest, benchWorld, serialize } from "../src/bench/handler";
 import { townSeats } from "../src/core2/modules/offices";
 import { coreAPI } from "../src/core2/state";
@@ -31,7 +32,11 @@ import { snapshotExplicitControlV1 } from "../src/core2/player-control-state-v1"
 import { billPaper } from "../src/bench/legislature";
 async function main() {
   const replay = process.argv[2] ?? randomBytes(8).toString("hex");
-  const place = drawPlace(replay, "played-law-reversals");
+  const place = drawPlace(
+    replay,
+    "played-law-reversals",
+    (key) => lawChainForPlace(key).incorporated,
+  );
   console.log(JSON.stringify({ replay, place }));
   const screenshotDir = process.env.LAW_PROOF_SCREENSHOTS;
   if (process.argv.includes("--serve") || screenshotDir)
@@ -142,7 +147,12 @@ async function main() {
       // preceding law still governs. Restore the executive before time moves.
       await request(`/api/play?id=${encodeURIComponent(memberKey(sponsor))}`);
       const { chromium } = await import("playwright");
-      const browser = await chromium.launch({ headless: true });
+      const browser = await chromium.launch({
+        headless: true,
+        ...(process.env.PW_CHROMIUM
+          ? { executablePath: process.env.PW_CHROMIUM }
+          : {}),
+      });
       try {
         const page = await browser.newPage({
           viewport: { width: 1600, height: 1800 },

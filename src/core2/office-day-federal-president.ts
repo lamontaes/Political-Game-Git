@@ -101,7 +101,15 @@ export interface CabinetRow {
   readonly postId: string;
   readonly holderId: string | null;
   /** The nomination before the Senate, or the last one it decided. */
-  readonly status: "vacant" | "nominated" | "confirmed" | "rejected";
+  readonly status:
+    | "vacant"
+    | "nominated"
+    | "confirmed"
+    | "rejected"
+    /** Left open by the president for now: the department runs under an acting head (SG-OFFICE-FED-acting-head). */
+    | "acting";
+  /** The last day an acting head may serve (5 U.S.C. 3346(a)(1), 210 days): the post is open again after it. */
+  readonly actingUntil?: string;
   readonly nomineeId: string | null;
   readonly nominatedOn: string | null;
   /** The Senate sitting day its vote falls on. */
@@ -208,6 +216,72 @@ function candidateFrom(
   };
 }
 
+/** The vacant cabinet posts and the people each could go to, best first by the president's own reasons. */
+export function nominationsOpen(
+  api: CoreAPI,
+  presidentId: string,
+): readonly {
+  readonly postId: string;
+  readonly title: string;
+  readonly candidates: readonly { id: string; total: number }[];
+}[] {
+  if (!isPresident(api, presidentId)) return [];
+  const pool = nominationCandidates(api, presidentId);
+  // With no one to nominate a post is still on the list: the president can leave it open.
+  const ranked = !pool.length
+    ? []
+    : nominateAndConfirm({
+        seatKey: "cabinet:US:view",
+        appointerSide: partySide(federalSeatOf(api, presidentId)?.term.party),
+        weighing: appointerWeighing(api.state as CoreState, presidentId),
+        candidates: pool,
+        confirmingBody: null,
+      }).reasons;
+  return cabinetOf(api)
+    .filter((row) => open(row, api.state.date))
+    .map((row) => ({
+      postId: row.postId,
+      title:
+        CABINET.posts.find((p) => p.id === row.postId)?.title ?? row.postId,
+      candidates: ranked.map((r) => ({ id: r.candidateId, total: r.total })),
+    }));
+}
+
+/**
+ * The president leaves a cabinet post open for now (or has no one to nominate): as in law, the post
+ * stays vacant and the department runs under an acting head. The hold clears once no post is waiting.
+ */
+export function leavePostOpen(
+  api: CoreAPI,
+  presidentId: string,
+  postId: string,
+): void {
+  mustBePresident(api, presidentId);
+  const post = CABINET.posts.find((p) => p.id === postId);
+  if (!post) throw new Error(`No cabinet post ${postId}`);
+  const current = cabinetOf(api).find((c) => c.postId === postId)!;
+  if (!open(current, api.state.date))
+    throw new Error(`${postId} is ${current.status}`);
+  // stopgapId: SG-OFFICE-FED-acting-head
+  api.stopgap("SG-OFFICE-FED-acting-head");
+  cabinetTable(api).put({
+    ...current,
+    status: "acting",
+    actingUntil: addDays(api.state.date, federalParameter("actingServiceDays")),
+    date: api.state.date,
+  } satisfies CabinetRow as unknown as ModuleRow);
+  officeHost.keep(api, {
+    personId: presidentId,
+    kind: "nominate",
+    how: "did",
+    recordId: `cabinet:US:${postId}:${api.state.date}`,
+    position: null,
+    detail: `${post.title} left open`,
+  });
+  if (!cabinetOf(api).some((c) => open(c, api.state.date)))
+    releaseFederal(api, NOMINATIONS);
+}
+
 /**
  * Nominate a cabinet secretary. With `nomineeId` the player chose them;
  * without, the character takes the candidate the appointments engine ranks
@@ -274,13 +348,17 @@ export function nominate(
     position: ranked.reasons[0]?.alignment ?? null,
     detail: `${chosen} (vote ${voteOn}, of ${ranked.reasons.length})`,
   });
-  if (!cabinetOf(api).some(open)) releaseFederal(api, NOMINATIONS);
+  if (!cabinetOf(api).some((c) => open(c, api.state.date)))
+    releaseFederal(api, NOMINATIONS);
   return chosen;
 }
 
 export const NOMINATIONS = "federal-nominations";
-const open = (c: CabinetRow) =>
-  c.status === "vacant" || c.status === "rejected";
+const open = (c: CabinetRow, today: string) =>
+  c.status === "vacant" ||
+  c.status === "rejected" ||
+  // An acting head's service ends 210 days after the vacancy: the post is the president's to fill again.
+  (c.status === "acting" && (c.actingUntil ?? "") <= today);
 
 /** Everyone now nominated or serving in the cabinet. */
 const nominated = (api: CoreAPI) =>
@@ -632,7 +710,7 @@ addFederalDayPart((api, personId) => {
   const stops = stopsOf(api, personId);
   if (isWeekday(date) && !federalHoliday(date))
     dailyBrief(api, personId, "own-choice");
-  if (cabinetOf(api).some(open)) {
+  if (cabinetOf(api).some((c) => open(c, api.state.date))) {
     if (stops.nomination)
       holdFederal(
         api,
@@ -642,7 +720,12 @@ addFederalDayPart((api, personId) => {
       );
     else
       for (const post of cabinetOf(api))
-        if (open(post)) nominate(api, personId, post.postId);
+        if (open(post, api.state.date)) {
+          // No one to nominate: the post stays open under an acting head.
+          if (nominationCandidates(api, personId).length)
+            nominate(api, personId, post.postId);
+          else leavePostOpen(api, personId, post.postId);
+        }
   }
   const year = (d: string) => Number(d.slice(0, 4));
   if (

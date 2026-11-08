@@ -8,13 +8,17 @@
  * Read-only views spend no game time and write nothing. Words come from the
  * English engine; this returns record data and ids only.
  */
+import billCatalogData from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
 import { moneySince, watchMoney } from "../core2/tooling/money-watch";
 import { bookkeeping } from "../core2/bookkeeping";
 import { journalCheckCounts } from "../core2/journal";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { parameter } from "../core2/parameters";
 import { coreAPI, personOrFillIn } from "../core2/state";
 import { advanceCore, availableActs, type Controller } from "../core2/life";
 import {
+  considerBribe,
+  CORRUPTION_MODULE_ID,
   enactLaw,
   lawChain,
   lawInForce,
@@ -32,10 +36,24 @@ import {
   PUBLIC_PAY_FLOOR_UNIT,
 } from "../core2/public-pay-floor";
 import {
+  bodyOf,
+  bodyRow,
   castMemberVote,
+  chambersOf,
+  signDischarge,
+  castChairHearing,
+  committeeMemberKeys,
+  committeeRecords,
+  draftBill,
   executiveDecision,
+  executiveOf,
+  FEDERAL_HOUSE,
+  FEDERAL_SENATE,
   holdVote,
+  type BillRow,
+  type Provision,
   LEGISLATURE_MODULE_ID,
+  mayorVeto,
   members,
   memberKey,
 } from "../core2/modules/legislature";
@@ -43,7 +61,12 @@ import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { metricsPanel } from "../core2/modules/world-panels";
 import { nationalPanel } from "../core2/modules/macro";
 import { residentsRuntime } from "../core2/modules/residents";
-import { healthReport } from "../core2/modules/health";
+import { layOffWorker } from "../core2/modules/jobs";
+import {
+  beginSeriousIllness,
+  HEALTH_MODULE,
+  healthReport,
+} from "../core2/modules/health";
 import { snapshotExplicitControlV1 } from "../core2/player-control-state-v1";
 import type { CoreAPI, CoreState } from "../core2/types";
 import type { Director } from "../director/ledger";
@@ -52,8 +75,27 @@ import { budgetView } from "./budget";
 import { decisionPanels, type WhyPanel } from "./dev-why";
 import { newsItems } from "./calendar";
 import experiments from "./data/dev-experiments.json" with { type: "json" };
+import { SITUATION_LIBRARY } from "../director/scheduling";
 
 /** The mark every dev-mode write carries. */
+/** The events a run can stop on, each as the record kinds the game logs when it happens. */
+export const RUN_EVENTS = {
+  "bill-passes": ["bill-presented"],
+  "bill-fails": ["bill-failed"],
+  election: ["election-result"],
+  death: ["life.death"],
+  "law-takes-effect": ["law-took-effect"],
+  "job-lost": ["work.job-lost"],
+  scene: [],
+} as const;
+export type RunEvent = keyof typeof RUN_EVENTS;
+
+/** The way a dev control brings about a cause record kind through the game's own code. */
+const SCENE_RECIPES: Readonly<Record<string, string>> = {
+  "life.death": "death",
+  "work.job-lost": "layoff",
+};
+
 export const DEV_MODE = "dev-mode";
 /** The core record kind each dev-mode change leaves. */
 export const DEV_MODE_RECORD = "dev-mode-change";
@@ -170,9 +212,31 @@ export function devModeMarks(core: CoreState): readonly string[] {
   return out;
 }
 
+/** Every law series and question the bill paper offers a body to pass, from the one catalog the bill paper reads. */
+const BILL_CATALOG_SERIES: readonly string[] = (
+  billCatalogData as unknown as {
+    subjects: {
+      topics: {
+        policies: { kind: string; series?: string; question?: string }[];
+      }[];
+    }[];
+  }
+).subjects.flatMap((subject) =>
+  subject.topics.flatMap((topic) =>
+    topic.policies.flatMap((policy) =>
+      policy.kind === "law-amount" && policy.series
+        ? [policy.series]
+        : policy.kind === "policy-question" && policy.question
+          ? [policy.question]
+          : [],
+    ),
+  ),
+);
+
 /** Every law series the law data knows: in force here, or in a catalog. */
 export function lawSeriesCatalog(api: CoreAPI): readonly string[] {
   const out = new Set<string>([
+    ...BILL_CATALOG_SERIES,
     ...Object.keys(LAW_SERIES),
     PUBLIC_PAY_FLOOR,
     ...Object.keys(POLICY_QUESTIONS),
@@ -329,6 +393,8 @@ export class DevMode {
     return {
       date,
       levels: chain.levels,
+      /** The series that are a yes or no the law answers, which a bill answers with 1 or 0. */
+      questions: Object.keys(POLICY_QUESTIONS),
       series: lawSeriesCatalog(api).map((series) => {
         const answer = LAW_SERIES[series]
           ? lawInForce(api, series, date)
@@ -611,6 +677,402 @@ export class DevMode {
     );
   }
 
+  /** Every body that makes law in this world: its office, level and members. */
+  lawmakingBodies() {
+    if (!has(this.core, LEGISLATURE_MODULE_ID)) return [];
+    const api = this.api;
+    const offices = api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("offices")
+      .rows() as unknown as { id: string; kind: string }[];
+    const ids = [
+      ...offices.filter((o) => bodyRow(o.kind)).map((o) => o.id),
+      FEDERAL_HOUSE,
+      FEDERAL_SENATE,
+    ];
+    return [...new Set(ids)].flatMap((id) => {
+      const office = bodyOf(api, id);
+      if (!office) return [];
+      const roster = members(api, id);
+      return [
+        {
+          id,
+          kind: office.kind,
+          level: bodyRow(office.kind)?.level ?? null,
+          name: office.bodyName ?? office.governmentName,
+          members: roster.map((term) => ({
+            key: memberKey(term),
+            personId: term.personId,
+            givenName: term.identity.givenName,
+            familyName: term.identity.familyName,
+            party: term.party,
+          })),
+        },
+      ];
+    });
+  }
+
+  /** A member introduces a bill at a body: the game's own draftBill, one law-amount section. */
+  introduce(input: {
+    bodyOfficeId: string;
+    sponsorId: string;
+    series: string;
+    value: number;
+    unit?: string;
+  }) {
+    if (!lawSeriesCatalog(this.api).includes(input.series))
+      throw new Error(`Unknown law series: ${input.series}`);
+    if (!Number.isFinite(input.value)) throw new Error("A bill needs a value.");
+    // A policy question (a yes or no the law answers) is a section of its own kind.
+    const provision: Provision = POLICY_QUESTIONS[input.series]
+      ? { kind: "policy-question", question: input.series, value: input.value }
+      : {
+          kind: "law-amount",
+          series: input.series,
+          value: input.value,
+          ...(input.unit ? { unit: input.unit } : {}),
+        };
+    const bill = draftBill(this.api, {
+      bodyOfficeId: input.bodyOfficeId,
+      sponsorId: input.sponsorId,
+      provisions: [provision],
+    });
+    return {
+      mark: this.mark("introduce", [bill.id], {
+        billId: bill.id,
+        sponsorId: input.sponsorId,
+      }),
+      bill,
+    };
+  }
+
+  /**
+   * Every member of every chamber the bill passes through votes (each through castMemberVote),
+   * `margin` more yes than no votes in each chamber (negative to defeat it), then the body holds
+   * its vote. `sign` has the executive sign (true) or veto (false) through executiveDecision;
+   * left out, the executive decides as the game does. `overrideMargin` is the same for the vote
+   * to override a veto. A chamber's committee is the game's own: its chair may hold the bill
+   * unheard, which `held` reports.
+   */
+  decideAt(
+    billId: string,
+    margin: number,
+    options: {
+      sign?: boolean;
+      overrideMargin?: number;
+      /** Every member signs a discharge petition for the bill before the committee meets. */
+      discharge?: boolean;
+      /** The chair of each committee is cast to hear the bill, through the committee's own hearing decision. */
+      chairHears?: boolean;
+    } = {},
+  ) {
+    const api = this.api;
+    const table = api.moduleState(LEGISLATURE_MODULE_ID).table("bills");
+    const bill = table.get(billId) as unknown as BillRow | undefined;
+    if (!bill) throw new Error("No such bill.");
+    const tallies: { chamber: string; yes: number; no: number }[] = [];
+    // The yes votes go first to the members who sit on the bill's committee in that chamber (where
+    // it has one), then to the most senior: a bill the chamber backs is backed in its committee
+    // too, and every stage votes through the members' own votes at the one margin.
+    const bySeniority = (
+      roster: ReturnType<typeof members>,
+      seated: ReadonlySet<string>,
+    ) =>
+      [...roster].sort(
+        (a, b) =>
+          Number(seated.has(memberKey(b))) - Number(seated.has(memberKey(a))) ||
+          (a.serviceStart ?? a.startDate).localeCompare(
+            b.serviceStart ?? b.startDate,
+          ) ||
+          memberKey(a).localeCompare(memberKey(b)),
+      );
+    const vote = (chamber: string, wanted: number, override: boolean) => {
+      const roster = bySeniority(
+        members(api, chamber),
+        new Set(committeeMemberKeys(api, billId, chamber)),
+      );
+      const yes = Math.max(
+        0,
+        Math.min(roster.length, Math.round((roster.length + wanted) / 2)),
+      );
+      roster.forEach((term, index) =>
+        castMemberVote(
+          api,
+          billId,
+          memberKey(term),
+          index < yes ? "yes" : "no",
+          override,
+        ),
+      );
+      return { chamber, yes, no: roster.length - yes };
+    };
+    const chambers = chambersOf(api, bill);
+    // Whether this body has an executive with a veto: a county board, or a mayor where the state
+    // gives none, signs nothing and vetoes nothing, so a sign, veto or override changes nothing there.
+    const executive = executiveOf(api, bill.bodyOfficeId);
+    const veto =
+      executive.term !== undefined &&
+      (executive.office?.kind !== "mayor" || mayorVeto(api).veto);
+    for (const chamber of chambers) tallies.push(vote(chamber, margin, false));
+    if (options.chairHears)
+      for (const chamber of chambers)
+        castChairHearing(api, billId, chamber, true);
+    if (options.discharge)
+      for (const chamber of chambers)
+        for (const term of members(api, chamber))
+          signDischarge(api, billId, memberKey(term), true);
+    if (veto && options.overrideMargin !== undefined)
+      for (const chamber of chambers)
+        vote(chamber, options.overrideMargin, true);
+    if (veto && options.sign !== undefined)
+      executiveDecision(api, billId, options.sign);
+    const held = holdVote(api, billId);
+    const records = committeeRecords(api, billId).map((c) => ({
+      chamber: c.chamber,
+      heard: c.heard,
+      chairPicked: c.chairPicked === true,
+      yes: c.yes,
+      no: c.no,
+      reported: c.reported,
+      // Who chairs it and why they heard the bill or held it: the chair's own position on it and what
+      // their temperament adds, as the committee recorded them (heard when the sum is not below zero).
+      chair: c.chairId,
+      chairPosition: c.chairReasons.position.total,
+      chairTrait: c.chairReasons.hearingTrait,
+      discharge: c.discharge ?? null,
+      // Why it did not reach the floor, in the record's own terms: lost its vote, left unheard with
+      // no discharge route in the chamber's data, or left unheard with a petition short of its count.
+      why: c.reported
+        ? null
+        : c.heard
+          ? ("lost" as const)
+          : c.discharge
+            ? ("petition-short" as const)
+            : ("unheard-no-route" as const),
+    }));
+    return {
+      mark: this.mark("decide", [billId], {
+        billId,
+        margin: String(margin),
+        ...(options.sign !== undefined ? { sign: String(options.sign) } : {}),
+        ...(options.overrideMargin !== undefined
+          ? { overrideMargin: String(options.overrideMargin) }
+          : {}),
+      }),
+      tallies,
+      veto,
+      committees: records,
+      /** Chambers whose committee never reported the bill: the chair held it unheard, or it lost its vote. */
+      held: records.filter((c) => !c.reported).map((c) => c.chamber),
+      bill: held,
+    };
+  }
+
+  /**
+   * A person falls seriously ill through the health module's own onset: tomorrow the onset is
+   * heard and the module sets the death date from their age and severity, then the death, the
+   * estate, the vacancy rule, the news and the funeral scene follow on their own days. Run until
+   * "A person dies" to get there.
+   */
+  forceIllness(personId: string) {
+    if (!has(this.core, HEALTH_MODULE.id))
+      throw new Error("This world has no health module.");
+    if (!beginSeriousIllness(this.api, personId))
+      throw new Error(
+        "No illness: the person is gone or has no health record.",
+      );
+    return { mark: this.mark("illness", [personId], { personId }) };
+  }
+
+  /**
+   * A named person's job ends through their employer's own layoff (the jobs engine's separation): the
+   * record of why, the work.job-lost event, the state claim and the news follow as for any layoff. A
+   * worker who played today's day is let go the next day, which this says.
+   */
+  forceLayoff(personId: string) {
+    const person = personOrFillIn(this.core, personId);
+    if (!person) throw new Error("No such person.");
+    const jobId = person.jobId;
+    if (!jobId) throw new Error("They have no job to lose.");
+    const out = layOffWorker(this.api, jobId);
+    if (out === null)
+      throw new Error("Their job is not on a business's staff.");
+    if (out === "worked-today")
+      throw new Error("They worked today: lay them off tomorrow.");
+    if (out === "over")
+      throw new Error("The job stands for more than one: a counted worker.");
+    return {
+      mark: this.mark("layoff", [personId], { personId, jobId }),
+      layoff: out,
+    };
+  }
+
+  /**
+   * Every situation type the director stages, with the cause record kinds it waits on and the way a
+   * dev control can bring that cause about through the game's own code (a `recipe`), or none where no
+   * game code exists to attach to.
+   */
+  scenes() {
+    const types = SITUATION_LIBRARY.types;
+    return types.map((type) => {
+      // The record kinds the type waits on that an engine writes; a type with only a producer that
+      // does not exist yet (`awaitingProducer`) or no cause record has none, and so no way in.
+      const causeRecords = [
+        ...new Set(type.causes.flatMap((c) => c.causeRecord ?? [])),
+      ];
+      const waiting = type.causes.flatMap((c) => c.awaitingProducer ?? []);
+      // `death` and `layoff` bring the cause about through an engine's own function; `wait` runs the
+      // world until an engine writes the record naming the player, as it does on its own schedule.
+      const recipe =
+        causeRecords.map((kind) => SCENE_RECIPES[kind]).find(Boolean) ??
+        (causeRecords.length ? "wait" : null);
+      return { key: type.key, causeRecords, waiting, recipe };
+    });
+  }
+
+  /**
+   * Brings about the cause of a situation type through the game's own code, so the director stages
+   * it as it would any moment: today, a death a person in the player's circle will hear of (the
+   * health module's illness, then Run until they die and Run until a scene fires). Where the type
+   * has no recipe there is no game code to attach to, and this says so.
+   */
+  forceScene(input: { typeKey: string; personId?: string }) {
+    const scene = this.scenes().find((row) => row.key === input.typeKey);
+    if (!scene) throw new Error("No such situation type.");
+    if (!scene.recipe)
+      throw new Error(
+        "No game code to attach to: no engine writes this scene's cause yet.",
+      );
+    const player = this.core.playerId
+      ? this.core.people.get(this.core.playerId)
+      : undefined;
+    if (scene.recipe === "wait") {
+      // The cause is a record an engine writes on its own schedule: run the world until one names the
+      // player, and the director stages the scene from it the ordinary way.
+      if (!player) throw new Error("There is no player to run the world for.");
+      const ran = this.runUntil({
+        kind: scene.causeRecords[0],
+        person: player.id,
+        cap: 366,
+      });
+      return {
+        recipe: scene.recipe,
+        personId: player.id,
+        causeRecords: scene.causeRecords,
+        ran,
+      };
+    }
+    const circle = player
+      ? [...player.familyIds, ...player.knownIds].filter(
+          (id) => id !== player.id && this.core.people.get(id)?.alive,
+        )
+      : [];
+    // A layoff is the player's own where they have a job, else a worker in their circle's.
+    const personId =
+      input.personId ??
+      (scene.recipe === "layoff"
+        ? [player?.id, ...circle].find(
+            (id) => id && this.core.people.get(id)?.jobId,
+          )
+        : circle[0]);
+    if (!personId)
+      throw new Error("No one in the player's circle to bring it about for.");
+    const out =
+      scene.recipe === "layoff"
+        ? this.forceLayoff(personId)
+        : this.forceIllness(personId);
+    return {
+      ...out,
+      recipe: scene.recipe,
+      personId,
+      causeRecords: scene.causeRecords,
+    };
+  }
+
+  /**
+   * The small-dollar lender's loans as the credit engine wrote them: what was asked, what was lent,
+   * and the outcome web's factor with the month and links it read where the lender quoted (a cap in
+   * force past its lag shows as a factor below one). Reads only.
+   */
+  smallDollarLoans() {
+    if (!has(this.core, "credit")) return [];
+    return (
+      this.api.moduleState("credit").table("loans").rows() as unknown as {
+        id: string;
+        kind: string;
+        askedMinor?: number;
+        principalMinor?: number;
+        annualRate?: number;
+        webFactor?: number;
+        webLinks?: string[];
+        webRecordId?: string;
+      }[]
+    )
+      .filter((loan) => loan.kind === "small-dollar")
+      .map((loan) => ({
+        id: loan.id,
+        askedMinor: loan.askedMinor ?? null,
+        principalMinor: loan.principalMinor ?? null,
+        annualRate: loan.annualRate ?? null,
+        webFactor: loan.webFactor ?? null,
+        webLinks: loan.webLinks ?? [],
+        webRecordId: loan.webRecordId ?? null,
+      }));
+  }
+
+  /** The wealthiest living people in the world: who might want a favor enough to pay for it. */
+  wealthiest(count = 12) {
+    return [...this.core.people.values()]
+      .filter((p) => p.alive && p.liquidMinor > 0)
+      .sort((a, b) => b.liquidMinor - a.liquidMinor)
+      .slice(0, count)
+      .map((p) => ({
+        personId: p.id,
+        name: `${p.givenName} ${p.familyName}`,
+        liquidMinor: p.liquidMinor,
+      }));
+  }
+
+  /**
+   * Someone wants a favor from an official (a pending vote, a permit, a contract: any record id)
+   * and offers a bribe through the game's own considerBribe: the offerer decides whether to
+   * offer and the official whether to take it, each as the engine decides, and the money moves
+   * only if it is taken. Says what happened and the reasons the engine kept.
+   */
+  forceBribe(input: {
+    offererId: string;
+    officialId: string;
+    subjectId: string;
+    stakeMinor: number;
+    /** "takes" or "refuses" picks the official's answer (the offer is made); left out, the engine decides. */
+    answer?: "takes" | "refuses";
+  }) {
+    if (!has(this.core, CORRUPTION_MODULE_ID))
+      throw new Error("This world has no corruption module.");
+    const offerer = this.core.people.get(input.offererId);
+    const before = offerer?.liquidMinor ?? 0;
+    const record = considerBribe(this.api, {
+      offererId: input.offererId,
+      officialId: input.officialId,
+      stakeMinor: input.stakeMinor,
+      subjectId: input.subjectId,
+      ...(input.answer
+        ? { pick: { offer: true, take: input.answer === "takes" } }
+        : {}),
+    });
+    if (!record)
+      throw new Error("No bribe: the offerer has no money or someone is gone.");
+    return {
+      mark: this.mark("bribe", [record.id], {
+        offererId: input.offererId,
+        officialId: input.officialId,
+        subjectId: input.subjectId,
+      }),
+      record,
+      moved: before - (offerer?.liquidMinor ?? 0),
+    };
+  }
+
   /** Cast a member's vote on a bill before the vote is held. */
   vote(billId: string, memberId: string, vote: "yes" | "no" | "abstain") {
     castMemberVote(this.api, billId, memberId, vote);
@@ -674,6 +1136,113 @@ export class DevMode {
     return { from, to: this.core.date, ms: Date.now() - started };
   }
 
+  /**
+   * Runs the world day by day until `days` have passed or the chosen event's records appear, whichever
+   * comes first, never past `cap` days. Says why it stopped and the record ids that stopped it.
+   */
+  runUntil(input: {
+    days?: number;
+    event?: RunEvent;
+    /** Or any record kind an engine writes (the cause of a scene). */
+    kind?: string;
+    cap?: number;
+    /** Law series or questions whose bills the members vote down each day, through castMemberVote. */
+    defeat?: readonly string[];
+    /** Stop only on an event that names this person (their death, their job loss). */
+    person?: string;
+  }) {
+    const cap = Math.max(1, Math.min(input.cap ?? 366, 3660));
+    const limit = Math.min(input.days ?? cap, cap);
+    const kinds = input.kind
+      ? [input.kind]
+      : input.event
+        ? RUN_EVENTS[input.event]
+        : undefined;
+    if (input.event && !kinds && input.event !== "scene")
+      throw new Error("Unknown event.");
+    const count = () =>
+      (kinds ?? []).reduce(
+        (n, kind) => n + (this.core.logByKind.get(kind)?.size ?? 0),
+        0,
+      );
+    const sceneCount = () =>
+      this.director?.ledger.people.get(this.player?.personId ?? "")?.moments
+        .length ?? 0;
+    const seen = new Set(
+      (kinds ?? []).flatMap((kind) => [
+        ...(this.core.logByKind.get(kind) ?? []),
+      ]),
+    );
+    const sceneBefore = sceneCount();
+    const before = count();
+    const from = this.core.date;
+    let days = 0;
+    let reason: "days" | "event" | "cap" = "days";
+    let records: string[] = [];
+    const defeated = new Set<string>();
+    while (days < limit) {
+      if (input.defeat?.length) this.voteDown(input.defeat, defeated);
+      this.advance(addDays(makeIsoDate(this.core.date), 1));
+      days += 1;
+      if (input.event === "scene" && sceneCount() > sceneBefore) {
+        reason = "event";
+        break;
+      }
+      if (kinds && count() > before) {
+        const fresh = kinds
+          .flatMap((kind) => [...(this.core.logByKind.get(kind) ?? [])])
+          .filter(
+            (id) =>
+              !seen.has(id) &&
+              (!input.person ||
+                this.core.durableLog.get(id)?.personIds.includes(input.person)),
+          );
+        // Another person's event is passed over; this run waits for the one asked for.
+        if (!fresh.length) {
+          for (const id of kinds.flatMap((kind) => [
+            ...(this.core.logByKind.get(kind) ?? []),
+          ]))
+            seen.add(id);
+          continue;
+        }
+        reason = "event";
+        records = fresh;
+        break;
+      }
+    }
+    if (reason === "days" && (input.event || input.kind)) reason = "cap";
+    return {
+      from,
+      to: this.core.date,
+      days,
+      reason,
+      event: input.event ?? null,
+      records: records.slice(0, 20),
+      defeated: [...defeated],
+    };
+  }
+
+  /** Every member of every chamber votes no, through castMemberVote, on each open bill that changes one of these laws. */
+  private voteDown(series: readonly string[], done: Set<string>) {
+    if (!has(this.core, LEGISLATURE_MODULE_ID)) return;
+    const api = this.api;
+    const bills = api.moduleState(LEGISLATURE_MODULE_ID).table("bills");
+    for (const bill of bills.rows() as unknown as BillRow[]) {
+      if (bill.status !== "drafted" || done.has(bill.id)) continue;
+      if (
+        !bill.provisions.some((p) =>
+          series.includes(p.question ?? p.series ?? ""),
+        )
+      )
+        continue;
+      for (const chamber of chambersOf(api, bill))
+        for (const term of members(api, chamber))
+          castMemberVote(api, bill.id, memberKey(term), "no");
+      done.add(bill.id);
+      this.mark("vote-down", [bill.id], { billId: bill.id });
+    }
+  }
+
   // 4. Trace --------------------------------------------------------------
 
   /** A record's causes as the core's saved-trace resolver (and the director) know them. */
@@ -686,6 +1255,50 @@ export class DevMode {
       ...this.player.trace(id),
       record: this.core.durableLog.get(id) ?? law ?? null,
     };
+  }
+
+  /**
+   * What a person remembers: each event they lived through that their knowledge still holds, when
+   * they learned it and when the monthly pass forgets it (the first of a month once its retention
+   * window is past). The player keeps everything; a held drive keeps its source event.
+   */
+  memory(personId: string) {
+    const core = this.core;
+    const known = core.knowledgeByPerson.get(personId);
+    if (!personOrFillIn(core, personId)) throw new Error("No such person.");
+    const retention = parameter(
+      "experiencedKeyRetentionDays",
+      core.data.parameters,
+    );
+    const held = new Set(
+      [...(core.people.get(personId)?.drives.values() ?? [])].map(
+        (drive) => drive.sourceEventId,
+      ),
+    );
+    const fadesOn = (learnedAt: string) => {
+      let day = addDays(makeIsoDate(learnedAt), retention + 1);
+      while (!day.endsWith("-01")) day = addDays(makeIsoDate(day), 1);
+      return day;
+    };
+    const rows = [];
+    for (const [key, fact] of known ?? [])
+      if (key.startsWith("event:") && key.endsWith(":experienced"))
+        rows.push({
+          eventId: fact.value,
+          kind: core.durableLog.get(fact.value)?.kind ?? null,
+          learnedAt: fact.learnedAt,
+          fadesOn:
+            personId === core.playerId || held.has(fact.value)
+              ? null
+              : fadesOn(fact.learnedAt),
+          keptBy:
+            personId === core.playerId
+              ? "player"
+              : held.has(fact.value)
+                ? "drive"
+                : null,
+        });
+    return rows.sort((a, b) => b.learnedAt.localeCompare(a.learnedAt));
   }
 
   /** A person's records: money, job, views, drives, health, relationships and the director's ledger. */

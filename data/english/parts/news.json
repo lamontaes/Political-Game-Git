@@ -11946,6 +11946,602 @@
         "move": "deliver-news",
         "key": "news-received"
       }
+    },
+    {
+      "key": "news.public-action.number-residents-of-place-protested-issue-on-date",
+      "move": "public-action",
+      "kind": "written",
+      "text": "{number} residents of {place} protested {issue} on {date}.",
+      "uses": [
+        {
+          "move": "public-action",
+          "subject": "news",
+          "role": "public-action",
+          "choice": "lede",
+          "requiresFacts": ["protest", "issue", "several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.public-action.residents-of-place-protested-issue-on-date",
+      "move": "public-action",
+      "kind": "written",
+      "text": "Residents of {place} protested {issue} on {date}.",
+      "uses": [
+        {
+          "move": "public-action",
+          "subject": "news",
+          "role": "public-action",
+          "choice": "lede",
+          "requiresFacts": ["protest", "issue"],
+          "excludesFacts": ["several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.public-action.number-workers-in-place-walked-out-on-date-over",
+      "move": "public-action",
+      "kind": "written",
+      "text": "{number} workers in {place} walked out on {date} over {issue}.",
+      "uses": [
+        {
+          "move": "public-action",
+          "subject": "news",
+          "role": "public-action",
+          "choice": "lede",
+          "requiresFacts": ["strike", "issue", "several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.public-action.workers-in-place-walked-out-on-date-over-issue",
+      "move": "public-action",
+      "kind": "written",
+      "text": "Workers in {place} walked out on {date} over {issue}.",
+      "uses": [
+        {
+          "move": "public-action",
+          "subject": "news",
+          "role": "public-action",
+          "choice": "lede",
+          "requiresFacts": ["strike", "issue"],
+          "excludesFacts": ["several"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.local-address.name-gave-the-states-yearly-address-to-the-legislature",
+      "move": "local-address",
+      "kind": "written",
+      "text": "{name} gave the state's yearly address to the legislature on {date}.",
+      "uses": [
+        {
+          "move": "local-address",
+          "subject": "news",
+          "role": "local-address",
+          "choice": "lede",
+          "requiresFacts": ["state"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.local-address.name-gave-the-towns-yearly-address-to-the-council",
+      "move": "local-address",
+      "kind": "written",
+      "text": "{name} gave the town's yearly address to the council on {date}.",
+      "uses": [
+        {
+          "move": "local-address",
+          "subject": "news",
+          "role": "local-address",
+          "choice": "lede",
+          "requiresFacts": ["town"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.local-address-style.name-spoke-of-lost-confidence-and-took-a-share",
+      "move": "local-address-style",
+      "kind": "written",
+      "text": "{name} spoke of lost confidence and took a share of the blame.",
+      "uses": [
+        {
+          "move": "local-address-style",
+          "subject": "news",
+          "role": "local-address-style",
+          "choice": "context",
+          "requiresFacts": ["style-crisis"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.local-address-style.name-blamed-those-who-let-things-slide-and-promised",
+      "move": "local-address-style",
+      "kind": "written",
+      "text": "{name} blamed those who let things slide and promised a fight.",
+      "uses": [
+        {
+          "move": "local-address-style",
+          "subject": "news",
+          "role": "local-address-style",
+          "choice": "context",
+          "requiresFacts": ["style-combative"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.local-address-style.name-struck-a-hopeful-note-about-the-year-ahead",
+      "move": "local-address-style",
+      "kind": "written",
+      "text": "{name} struck a hopeful note about the year ahead.",
+      "uses": [
+        {
+          "move": "local-address-style",
+          "subject": "news",
+          "role": "local-address-style",
+          "choice": "context",
+          "requiresFacts": ["style-hopeful"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.local-address-style.name-took-credit-for-a-year-that-went-well",
+      "move": "local-address-style",
+      "kind": "written",
+      "text": "{name} took credit for a year that went well.",
+      "uses": [
+        {
+          "move": "local-address-style",
+          "subject": "news",
+          "role": "local-address-style",
+          "choice": "context",
+          "requiresFacts": ["style-victory"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.local-address-style.name-opened-with-the-dead-and-promised-to-stay",
+      "move": "local-address-style",
+      "kind": "written",
+      "text": "{name} opened with the dead and promised to stay for the rebuilding.",
+      "uses": [
+        {
+          "move": "local-address-style",
+          "subject": "news",
+          "role": "local-address-style",
+          "choice": "context",
+          "requiresFacts": ["style-mourning"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.local-address-style.name-laid-out-what-they-will-ask-of-the",
+      "move": "local-address-style",
+      "kind": "written",
+      "text": "{name} laid out what they will ask of the body that makes the law.",
+      "uses": [
+        {
+          "move": "local-address-style",
+          "subject": "news",
+          "role": "local-address-style",
+          "choice": "context",
+          "requiresFacts": ["style-policy"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.local-address-quote.name-said-quote",
+      "move": "local-address-quote",
+      "kind": "written",
+      "text": "{name} said: \"{quote}\"",
+      "uses": [
+        {
+          "move": "local-address-quote",
+          "subject": "news",
+          "role": "local-address-quote",
+          "choice": "context",
+          "requiresFacts": ["quote"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.local-address-quote.in-the-address-name-said-quote",
+      "move": "local-address-quote",
+      "kind": "written",
+      "text": "In the address, {name} said: \"{quote}\"",
+      "uses": [
+        {
+          "move": "local-address-quote",
+          "subject": "news",
+          "role": "local-address-quote",
+          "choice": "context",
+          "requiresFacts": ["quote"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.public-action.number-people-in-place-gathered-on-date-to-mark-a",
+      "move": "public-action",
+      "kind": "written",
+      "text": "{number} people in {place} gathered on {date} to mark a good year for {area}.",
+      "uses": [
+        {
+          "move": "public-action",
+          "subject": "news",
+          "role": "public-action",
+          "choice": "lede",
+          "requiresFacts": ["rally", "several", "area"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.public-action.a-crowd-of-number-turned-out-in-place-on-date",
+      "move": "public-action",
+      "kind": "written",
+      "text": "A crowd of {number} turned out in {place} on {date}, glad of how it has gone with {area}.",
+      "uses": [
+        {
+          "move": "public-action",
+          "subject": "news",
+          "role": "public-action",
+          "choice": "lede",
+          "requiresFacts": ["rally", "several", "area"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.public-action.people-in-place-gathered-on-date-to-mark-a-good",
+      "move": "public-action",
+      "kind": "written",
+      "text": "People in {place} gathered on {date} to mark a good year for {area}.",
+      "uses": [
+        {
+          "move": "public-action",
+          "subject": "news",
+          "role": "public-action",
+          "choice": "lede",
+          "requiresFacts": ["rally", "area"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.public-action.residents-of-place-turned-out-on-date-glad-of-how",
+      "move": "public-action",
+      "kind": "written",
+      "text": "Residents of {place} turned out on {date}, glad of how it has gone with {area}.",
+      "uses": [
+        {
+          "move": "public-action",
+          "subject": "news",
+          "role": "public-action",
+          "choice": "lede",
+          "requiresFacts": ["rally", "area"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.exposed.records-show-name-offered-a-public-official-money-for-a",
+      "move": "exposed",
+      "kind": "written",
+      "text": "Records show {name} offered a public official money for a favor, and the official turned it down.",
+      "uses": [
+        {
+          "move": "exposed",
+          "subject": "news",
+          "role": "exposed",
+          "choice": "lede",
+          "requiresFacts": ["offered"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.exposed.an-official-told-the-paper-that-name-offered-a-bribe",
+      "move": "exposed",
+      "kind": "written",
+      "text": "An official told the paper that {name} offered a bribe, records show.",
+      "uses": [
+        {
+          "move": "exposed",
+          "subject": "news",
+          "role": "exposed",
+          "choice": "lede",
+          "requiresFacts": ["offered"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.exposed.name-the-office-offered-a-bribe-to-a-public-official",
+      "move": "exposed",
+      "kind": "written",
+      "text": "{name}, the {office}, offered a bribe to a public official, records show.",
+      "uses": [
+        {
+          "move": "exposed",
+          "subject": "news",
+          "role": "exposed",
+          "choice": "lede",
+          "requiresFacts": ["offered", "office"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.address-response.name-answered-opponents-address-and-objected-to-issue",
+      "move": "address-response",
+      "kind": "written",
+      "text": "{name} answered {opponent}'s address and objected to {issue}.",
+      "uses": [
+        {
+          "move": "address-response",
+          "subject": "news",
+          "role": "address-response",
+          "choice": "lede",
+          "requiresFacts": ["opponent", "issue"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.address-response.in-reply-to-opponents-address-name-said-the-state-should",
+      "move": "address-response",
+      "kind": "written",
+      "text": "In reply to {opponent}'s address, {name} said the state should not take up {issue}.",
+      "uses": [
+        {
+          "move": "address-response",
+          "subject": "news",
+          "role": "address-response",
+          "choice": "lede",
+          "requiresFacts": ["opponent", "issue"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.address-response.name-spoke-against-opponents-call-for-issue",
+      "move": "address-response",
+      "kind": "written",
+      "text": "{name} spoke against {opponent}'s call for {issue}.",
+      "uses": [
+        {
+          "move": "address-response",
+          "subject": "news",
+          "role": "address-response",
+          "choice": "lede",
+          "requiresFacts": ["opponent", "issue"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.floor-debate.name-spoke-for-designation-and-opponent-against-it-before-the",
+      "move": "floor-debate",
+      "kind": "written",
+      "text": "{name} spoke for {designation} and {opponent} against it before the vote.",
+      "uses": [
+        {
+          "move": "floor-debate",
+          "subject": "news",
+          "role": "floor-debate",
+          "choice": "lede",
+          "requiresFacts": ["opponent", "designation"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.floor-debate.before-the-roll-on-designation-name-rose-in-its-favor",
+      "move": "floor-debate",
+      "kind": "written",
+      "text": "Before the roll on {designation}, {name} rose in its favor and {opponent} rose against it.",
+      "uses": [
+        {
+          "move": "floor-debate",
+          "subject": "news",
+          "role": "floor-debate",
+          "choice": "lede",
+          "requiresFacts": ["opponent", "designation"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.floor-debate.the-floor-heard-name-for-designation-and-opponent-against-it",
+      "move": "floor-debate",
+      "kind": "written",
+      "text": "The floor heard {name} for {designation} and {opponent} against it.",
+      "uses": [
+        {
+          "move": "floor-debate",
+          "subject": "news",
+          "role": "floor-debate",
+          "choice": "lede",
+          "requiresFacts": ["opponent", "designation"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
     }
   ]
 }

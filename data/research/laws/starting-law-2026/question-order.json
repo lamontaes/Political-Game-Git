@@ -57,5 +57,17 @@
   "us-policy-positions:government-operations.all-mail-voting",
   "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement",
   "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
-  "us-federal-positions:labor-commerce.raise-federal-minimum-wage"
+  "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+  "us-federal-positions:trade.raise-tariffs",
+  "us-federal-positions:housing.vouchers-for-every-eligible-family",
+  "us-federal-positions:energy-environment.limit-power-plant-carbon",
+  "us-federal-positions:health.medicare-drug-price-negotiation",
+  "us-federal-positions:budget.pay-for-a-higher-debt-limit",
+  "us-federal-positions:immigration.admit-more-immigrants",
+  "us-federal-positions:education.forgive-student-loans",
+  "us-federal-positions:emergencies.states-share-disaster-costs",
+  "us-federal-positions:science-communications.national-data-privacy",
+  "us-federal-positions:territories-culture.statehood-for-dc",
+  "us-federal-positions:justice-rights.reduce-mandatory-minimums",
+  "us-federal-positions:government.ban-congressional-stock-trading"
 ]

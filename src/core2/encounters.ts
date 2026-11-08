@@ -42,7 +42,27 @@ export function meetAtVisit(
   return met;
 }
 
-/** The group's other members, met on joining it. */
+/**
+ * How many of a group's or workplace's other people one comes to know by name:
+ * a power law of its size, never more than the others in it (no dice).
+ */
+export function knownAmong(api: CoreAPI, others: number): number {
+  const size = others + api.parameter("one");
+  return Math.min(
+    others,
+    api.parameter("groupKnownCap"),
+    Math.ceil(
+      api.parameter("groupKnownScale") *
+        size ** api.parameter("groupKnownExponent"),
+    ),
+  );
+}
+
+/**
+ * The group's other members, met on joining it: the ones who joined nearest
+ * the same time (they sit through the same meetings), up to how many people
+ * a group that size lets one know (`knownAmong`).
+ */
 export function meetAtJoin(
   api: CoreAPI,
   personId: string,
@@ -57,11 +77,27 @@ export function meetAtJoin(
     api.state.organizations.get(organizationId)?.placeId ??
     person.placeId;
   let met = api.parameter("zero");
-  for (const row of api.state.memberships.values()) {
-    if (row.organizationId !== organizationId || row.personId === personId)
-      continue;
+  const mine = api.state.memberships.get(`${personId}:${organizationId}`);
+  const others = [...api.state.memberships.values()].filter(
+    (row) => row.organizationId === organizationId && row.personId !== personId,
+  );
+  let room = knownAmong(api, others.length);
+  const joined = (at: string) => Date.parse(at);
+  const anchor = joined(mine?.joinedAt ?? api.state.date);
+  others.sort(
+    (a, b) =>
+      Math.abs(joined(a.joinedAt) - anchor) -
+        Math.abs(joined(b.joinedAt) - anchor) ||
+      (a.personId < b.personId ? -1 : a.personId > b.personId ? 1 : 0),
+  );
+  for (const row of others) {
+    if (room <= api.parameter("zero")) break;
     const member = api.state.people.get(row.personId);
-    if (!member?.alive || person.knownIds.has(member.id)) continue;
+    if (!member?.alive) continue;
+    if (person.knownIds.has(member.id)) {
+      room -= api.parameter("one");
+      continue;
+    }
     if (
       api.meet(personId, member.id, {
         placeId: place,
@@ -69,8 +105,10 @@ export function meetAtJoin(
         cause: data.causes.metInGroup,
         hours,
       })
-    )
+    ) {
       met += api.parameter("one");
+      room -= api.parameter("one");
+    }
   }
   return met;
 }
@@ -90,10 +128,17 @@ export function meetAtWork(
   const place =
     api.state.organizations.get(organizationId)?.placeId ?? person.placeId;
   let met = api.parameter("zero");
+  // The caller lists coworkers nearest first (same role, then the rest); a
+  // hire comes to know as many as a workplace that size lets one.
+  let room = knownAmong(api, coworkerIds.length);
   for (const id of coworkerIds) {
+    if (room <= api.parameter("zero")) break;
     const coworker = api.state.people.get(id);
-    if (id === personId || !coworker?.alive || person.knownIds.has(id))
+    if (id === personId || !coworker?.alive) continue;
+    if (person.knownIds.has(id)) {
+      room -= api.parameter("one");
       continue;
+    }
     if (
       api.meet(personId, id, {
         placeId: place,
@@ -101,8 +146,10 @@ export function meetAtWork(
         cause: data.causes.metAtWork,
         hours,
       })
-    )
+    ) {
       met += api.parameter("one");
+      room -= api.parameter("one");
+    }
   }
   return met;
 }

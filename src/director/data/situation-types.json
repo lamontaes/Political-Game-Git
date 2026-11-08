@@ -376,6 +376,32 @@
         },
         {
           "match": {
+            "label": "feeling:event:family.partnered",
+            "counterpart": "some"
+          },
+          "bind": {
+            "receiver": "subject",
+            "about": "counterpart",
+            "bearer": "household"
+          },
+          "opener": "bearer",
+          "opening": "tell"
+        },
+        {
+          "match": {
+            "label": "feeling:event:family.separated",
+            "counterpart": "some"
+          },
+          "bind": {
+            "receiver": "subject",
+            "about": "counterpart",
+            "bearer": "household"
+          },
+          "opener": "bearer",
+          "opening": "tell"
+        },
+        {
+          "match": {
             "label": "money:job-ended",
             "counterpart": "none"
           },
@@ -3264,6 +3290,28 @@
             "speaker": "counterpart",
             "audience": "household"
           }
+        },
+        {
+          "match": {
+            "label": "cause:event:governor.address",
+            "causeFacts": [{ "key": "address:speaker", "is": "other" }]
+          },
+          "causeEngine": "local-address",
+          "causeRecord": "governor.address",
+          "setting": ["home"],
+          "said": "speaker",
+          "bind": { "speaker": "counterpart", "audience": "household" }
+        },
+        {
+          "match": {
+            "label": "cause:event:mayor.address",
+            "causeFacts": [{ "key": "address:speaker", "is": "other" }]
+          },
+          "causeEngine": "local-address",
+          "causeRecord": "mayor.address",
+          "setting": ["home"],
+          "said": "speaker",
+          "bind": { "speaker": "counterpart", "audience": "household" }
         }
       ],
       "tag": {
@@ -4023,7 +4071,10 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "bribe-offer",
+          "match": {
+            "label": "cause:event:corruption.bribe-offered",
+            "counterpart": "some"
+          },
           "causeEngine": "corruption",
           "causeRecord": "corruption.bribe-offered",
           "bind": {
@@ -5009,6 +5060,67 @@
       "stakes": ["opponent", "office", "race"]
     },
     {
+      "key": "action-confront",
+      "note": "A strike or protest in the town forms and the town's own officials are at its edge: someone in it stands up to the official about what it is over (the public-action engine's civic record names the demand and the people in it). The talk is the town hall's, since it is the same exchange: a person with a demand, an official who answers it, and a reading of how the answer sits with the person's stand.",
+      "purpose": "town-hall-question",
+      "asker": "protester",
+      "asked": "you",
+      "stakes": ["issue", "answer", "town"],
+      "roles": [
+        {
+          "key": "protester",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["ask", "press", "plea", "disagree", "thank", "accept"],
+          "wants": ["change"],
+          "bearing": "braced"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["answer", "relent", "offer", "deflect", "lie", "leave"],
+          "wants": ["keep-same"],
+          "bearing": "calm"
+        }
+      ],
+      "setting": ["public"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:civic.protest",
+            "counterpart": "some"
+          },
+          "causeEngine": "public-action",
+          "causeRecord": "civic.protest",
+          "bind": {
+            "protester": "counterpart",
+            "you": "subject"
+          },
+          "opener": "protester"
+        },
+        {
+          "match": {
+            "label": "cause:event:civic.strike",
+            "counterpart": "some"
+          },
+          "causeEngine": "public-action",
+          "causeRecord": "civic.strike",
+          "bind": {
+            "protester": "counterpart",
+            "you": "subject"
+          },
+          "opener": "protester"
+        }
+      ],
+      "tag": {
+        "key": "favor-asked",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
       "key": "town-hall-question",
       "purpose": "town-hall-question",
       "asker": "resident",
@@ -5056,6 +5168,259 @@
       ],
       "tag": {
         "key": "favor-asked",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
+      "key": "rally-word",
+      "note": "A rally in the town forms because the term reads well in an area, and the town's own officials are at its edge: someone in it asks the official to say a few words (the public-action engine's civic record names the area and the people in it). It has no demand, so nothing is pressed; the official can speak, thank them, promise to keep it up or let the crowd have the day.",
+      "purpose": "rally-word",
+      "asker": "neighbor",
+      "asked": "you",
+      "stakes": ["town", "thanks"],
+      "roles": [
+        {
+          "key": "neighbor",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["request", "thank", "accept", "press", "warn"],
+          "wants": ["engage"],
+          "bearing": "eager"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["agree", "thank", "promise", "deflect", "leave"],
+          "wants": ["engage", "play-safe"],
+          "bearing": "calm"
+        }
+      ],
+      "setting": ["public"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:civic.rally",
+            "counterpart": "some"
+          },
+          "causeEngine": "public-action",
+          "causeRecord": "civic.rally",
+          "bind": {
+            "neighbor": "counterpart",
+            "you": "subject"
+          },
+          "opener": "neighbor"
+        }
+      ],
+      "tag": {
+        "key": "honor",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
+      "key": "lobby-remembers",
+      "note": "A group's lobbyist made its case to the player on a bill, and the player voted the other way (the interest-group engine's lobbying meeting against the member's own vote record). Two days later the lobbyist finds them: the group remembers. How it is said, in a hint or out loud, comes from the lobbyist's own temper in the bank's bearings; nothing is rolled.",
+      "purpose": "lobby-remembers",
+      "asker": "lobbyist",
+      "asked": "you",
+      "stakes": ["vote", "group"],
+      "roles": [
+        {
+          "key": "lobbyist",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["warn", "press", "accept", "threaten"],
+          "wants": ["change"],
+          "bearing": "guarded"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["tell", "comfort", "refuse", "deflect", "leave"],
+          "wants": ["keep-same"],
+          "bearing": "calm"
+        }
+      ],
+      "setting": ["seat", "venue"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "circumstance:lobby-remembers"
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "office.voted",
+          "bind": {
+            "lobbyist": "counterpart",
+            "you": "subject"
+          },
+          "opener": "lobbyist",
+          "setting": ["seat", "venue"]
+        }
+      ],
+      "tag": {
+        "key": "threat",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
+      "key": "bribe-pressed",
+      "note": "The person whose bribe the official turned down comes back (the corruption engine's refusal record and their own reasons to press; no roll). The pressure runs from veiled to open by their temper in the bank's bearings. The official can hold the line, say they will report it, or put the talk off; what they say strains the tie.",
+      "purpose": "bribe-pressed",
+      "asker": "offerer",
+      "asked": "you",
+      "stakes": ["money", "favor", "record"],
+      "roles": [
+        {
+          "key": "offerer",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["threaten", "press", "plea", "accept", "warn"],
+          "wants": ["self-interest"],
+          "bearing": "braced"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["refuse", "confront", "deflect", "leave"],
+          "wants": ["play-safe"],
+          "bearing": "guarded"
+        }
+      ],
+      "setting": ["office", "venue"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:corruption.bribe-pressed",
+            "counterpart": "some"
+          },
+          "causeEngine": "corruption",
+          "causeRecord": "corruption.bribe-pressed",
+          "bind": {
+            "offerer": "counterpart",
+            "you": "subject"
+          },
+          "opener": "offerer"
+        }
+      ],
+      "tag": {
+        "key": "threat",
+        "endpoint": "money",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
+      "key": "office-doubt",
+      "note": "A strike or protest against the town's term, and someone who lives with the official asks the question the crowd raised: is the job worth it? (the public-action engine's civic record, the day after; the cast is the official's own household). The official can say why, say it looks worse than it is, promise time at home, or put the talk off.",
+      "purpose": "office-doubt",
+      "asker": "relative",
+      "asked": "you",
+      "stakes": ["office", "home"],
+      "roles": [
+        {
+          "key": "relative",
+          "fill": "household",
+          "count": "one",
+          "moves": ["ask", "press", "accept", "thank", "warn"],
+          "wants": ["change"],
+          "bearing": "hurt"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["tell", "comfort", "promise", "deflect", "leave"],
+          "wants": ["keep-same"],
+          "bearing": "calm"
+        }
+      ],
+      "setting": ["home"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "circumstance:office-doubt"
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "civic.protest",
+          "bind": {
+            "relative": "counterpart",
+            "you": "subject"
+          },
+          "opener": "relative",
+          "setting": ["home"]
+        }
+      ],
+      "tag": {
+        "key": "threat",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
+      "key": "floor-debate",
+      "note": "The floor before the roll (the legislature's floor-debate record: the sponsor, or the member leaning furthest for the bill, and the member leaning furthest against, each recognized by the chair). The speaker addresses the chair; the player, a member of the body, can stand with them, say they disagree, ask them to yield for a question or say nothing.",
+      "purpose": "floor-debate",
+      "asker": "speaker",
+      "asked": "you",
+      "stakes": ["bill", "vote"],
+      "roles": [
+        {
+          "key": "speaker",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["tell", "press", "answer", "thank", "accept"],
+          "wants": ["speak-out"],
+          "bearing": "calm"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["agree", "disagree", "ask", "deflect", "leave"],
+          "wants": ["engage"],
+          "bearing": "calm"
+        }
+      ],
+      "setting": ["seat", "venue"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "circumstance:floor-debate-for"
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "floor-debate",
+          "bind": {
+            "speaker": "counterpart",
+            "you": "subject"
+          },
+          "opener": "speaker",
+          "setting": ["seat", "venue"]
+        },
+        {
+          "match": {
+            "label": "circumstance:floor-debate-against"
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "floor-debate",
+          "bind": {
+            "speaker": "counterpart",
+            "you": "subject"
+          },
+          "opener": "speaker",
+          "setting": ["seat", "venue"]
+        }
+      ],
+      "tag": {
+        "key": "honor",
         "endpoint": "political",
         "registers": ["scene-talk", "scene-words"]
       }

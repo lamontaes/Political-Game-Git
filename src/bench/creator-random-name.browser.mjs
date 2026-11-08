@@ -22,12 +22,18 @@ try {
   await ready;
   await page.locator("#new-life").click();
   await page.locator("#new-start").click();
-  await page.locator("#cr-character:not([hidden])").waitFor();
+  await page.locator("#cr-screen:not([hidden])").waitFor();
   const random = page.locator("#cr-random-name");
-  assert.ok(await random.isDisabled(), "the random name works before a gender");
-  const waiting = (await random.innerText()).trim();
-  console.log(`Before a gender: "${waiting}" (disabled)`);
-  assert.match(waiting, /gender/i, "the button does not say what it waits for");
+  // Before a gender, the button is not grayed and says nothing about it: pressing it flashes the
+  // gender field as missing and draws no name (the Nov 8 creator mock).
+  assert.ok(!(await random.isDisabled()), "the random name is grayed out");
+  assert.doesNotMatch((await random.innerText()).trim(), /gender/i);
+  await random.click();
+  assert.ok(
+    await page.locator("#cr-screen .group.missing").count(),
+    "the gender field did not flash as missing",
+  );
+  assert.equal(await page.locator("#cr-given").inputValue(), "");
   if (shots)
     await page.screenshot({ path: `${shots}/before-gender-1440x900.png` });
   for (const gender of ["female", "male"]) {

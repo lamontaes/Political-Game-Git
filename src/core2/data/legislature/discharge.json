@@ -1,0 +1,11 @@
+{
+  "about": "Where a chamber lets its members take a bill from a committee that will not report it, and how many must sign. A chamber not listed has no such rule in the data yet (the states' rules are not researched).",
+  "tag": "SOURCED",
+  "source": "Rules of the House of Representatives, rule XV, clause 2: a motion to discharge a committee is entered on the petition of a majority of the Members, 218 of 435 (U.S. House of Representatives, Rules of the House, 119th Congress).",
+  "rows": [
+    {
+      "chamberId": "federal:us-house",
+      "signatures": 218
+    }
+  ]
+}

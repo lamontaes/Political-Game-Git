@@ -3987,6 +3987,166 @@
       "tag": {
         "move": "narrate"
       }
+    },
+    {
+      "key": "scene-words.lead-floor-vote-any.the-chair-calls-the-roll",
+      "move": "lead-floor-vote-any",
+      "kind": "spoken",
+      "text": "The chair calls the roll.",
+      "uses": [
+        {
+          "move": "lead-floor-vote-any",
+          "subject": "lead",
+          "role": "floor-vote",
+          "choice": "any"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-floor-vote-any.the-chair-puts-the-question-and-the-clerk-begins-the",
+      "move": "lead-floor-vote-any",
+      "kind": "spoken",
+      "text": "The chair puts the question, and the clerk begins the roll.",
+      "uses": [
+        {
+          "move": "lead-floor-vote-any",
+          "subject": "lead",
+          "role": "floor-vote",
+          "choice": "any"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-floor-vote-any.the-clerk-reads-the-bill-and-the-chair-calls-for",
+      "move": "lead-floor-vote-any",
+      "kind": "spoken",
+      "text": "The clerk reads the bill, and the chair calls for the vote.",
+      "uses": [
+        {
+          "move": "lead-floor-vote-any",
+          "subject": "lead",
+          "role": "floor-vote",
+          "choice": "any"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-floor-vote-any.the-chair-asks-for-the-vote",
+      "move": "lead-floor-vote-any",
+      "kind": "spoken",
+      "text": "The chair asks for the vote.",
+      "uses": [
+        {
+          "move": "lead-floor-vote-any",
+          "subject": "lead",
+          "role": "floor-vote",
+          "choice": "any"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-floor-vote-any.no-one-else-seeks-the-floor-the-chair-puts-the",
+      "move": "lead-floor-vote-any",
+      "kind": "spoken",
+      "text": "No one else seeks the floor. The chair puts the question.",
+      "uses": [
+        {
+          "move": "lead-floor-vote-any",
+          "subject": "lead",
+          "role": "floor-vote",
+          "choice": "any"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-floor-vote-any.the-roll-is-called-one-name-at-a-time",
+      "move": "lead-floor-vote-any",
+      "kind": "spoken",
+      "text": "The roll is called, one name at a time.",
+      "uses": [
+        {
+          "move": "lead-floor-vote-any",
+          "subject": "lead",
+          "role": "floor-vote",
+          "choice": "any"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-floor-vote-any.the-chair-puts-the-question-to-the-body",
+      "move": "lead-floor-vote-any",
+      "kind": "spoken",
+      "text": "The chair puts the question to the body.",
+      "uses": [
+        {
+          "move": "lead-floor-vote-any",
+          "subject": "lead",
+          "role": "floor-vote",
+          "choice": "any"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-floor-vote-any.debate-is-closed-the-chair-calls-the-roll",
+      "move": "lead-floor-vote-any",
+      "kind": "spoken",
+      "text": "Debate is closed. The chair calls the roll.",
+      "uses": [
+        {
+          "move": "lead-floor-vote-any",
+          "subject": "lead",
+          "role": "floor-vote",
+          "choice": "any"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
     }
   ]
 }

@@ -62,19 +62,6 @@ export function numberBox({
   });
 }
 
-/** A labeled checkbox line; the checkbox is returned too, for screens that set it. */
-export function checkboxSetting({ label, checked, testid }) {
-  const box = el("input", { type: "checkbox", checked: Boolean(checked) });
-  if (testid) box.dataset.testid = testid;
-  const line = el(
-    "label",
-    { className: "option-setting" },
-    el("span", { textContent: label }),
-    box,
-  );
-  return { line, box };
-}
-
 /** The choices of a select the page already holds ({ value, label, selected? }). */
 export function optionsOf(items) {
   return items.map((o) =>

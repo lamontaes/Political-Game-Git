@@ -4,7 +4,9 @@
 // right, each a header strip of its own depth under a broken gold outline.
 // Every screen of that look builds from these parts, never its own markup.
 import { el } from "./dom.mjs";
+import { pager } from "./pager.mjs";
 import { partyClass as partyClassOf } from "./map.mjs";
+import { makeButton } from "./button.mjs";
 
 /**
  * A section: its header strip (`depth` 1 to 5 sets how deep the strip's
@@ -130,7 +132,11 @@ export function peopleSentence(people) {
   const line = el("p", { className: "hispeople" });
   people.forEach((person, at) => {
     if (at) line.append(", ");
-    line.append(nameLink(person.name, person.onOpen));
+    line.append(
+      person.onOpen
+        ? nameLink(person.name, person.onOpen)
+        : el("span", { className: "nm", textContent: person.name }),
+    );
     if (person.relation) line.append(` (${person.relation.toLowerCase()})`);
   });
   return line;
@@ -158,21 +164,21 @@ export function dotRows(rows) {
  * strip sections (the approved Budgets screen, bud-strips). `fiscal` is typed in
  * Courier Prime capitals at the right of the tabs.
  */
-export function stripBoard({ tabs, fiscal, columns }) {
+export function stripBoard({ tabs, fiscal, columns, className = "" }) {
   return el(
     "div",
-    { className: "strip-screen strip-board strips ol-g" },
+    { className: `strip-screen strip-board strips ol-g ${className}` },
     el(
       "div",
       { className: "board-top" },
-      tabs,
+      ...(tabs ? [tabs] : []),
       ...(fiscal
         ? [el("span", { className: "bfy", textContent: fiscal })]
         : []),
     ),
     el(
       "div",
-      { className: "board-cols" },
+      { className: `board-cols${columns.length === 2 ? " two" : ""}` },
       ...columns.map((sections) =>
         el("div", { className: "mx3col" }, ...sections),
       ),
@@ -282,3 +288,221 @@ export function voteRows(rows) {
     ...rows.map((row) => typedRow(row.title, row.result, row.when)),
   );
 }
+
+/** A saved life as a strip: its name over a bust, the game's date and the Load button. */
+export function savedLifeRow({ name, face, date, load }) {
+  return el(
+    "div",
+    { className: "strip-screen strip-wrap strips ol-g saves-row" },
+    stripSection(
+      1,
+      name,
+      bust(face, name, 300),
+      el("p", { className: "save-date", textContent: date }),
+      el("div", { className: "acts" }, load),
+    ),
+  );
+}
+
+/** One setting: its small-capitals label over its toggle. */
+export function settingRow(label, control) {
+  return el(
+    "div",
+    { className: "setting" },
+    el("span", { className: "setting-label", textContent: label }),
+    control,
+  );
+}
+
+/** The options board: columns of strips, each { title, rows } with its controls in order. */
+export function optionsBoard({ columns }) {
+  return stripBoard({
+    columns: columns.map((sections, column) =>
+      sections.map((section, at) =>
+        stripSection(
+          Math.min(column + at + 1, 5),
+          section.title,
+          ...section.rows,
+        ),
+      ),
+    ),
+  });
+}
+
+/** The Quit to title button, alone on its row. */
+export function quitButton(label, onQuit) {
+  const button = makeButton({ className: "action", textContent: label });
+  button.dataset.testid = "quit-to-title";
+  button.addEventListener("click", onQuit);
+  return el("div", { className: "acts" }, button);
+}
+
+/**
+ * The patch notes screen: the builds in one strip, the chosen build's notes in a strip per
+ * heading. `builds`: [{ name, when, groups: [{ heading, notes: [text] }] }], newest first.
+ */
+export function patchNotesScreen({ builds, title, words, rows }) {
+  const holder = el("div");
+  let chosen = builds[0];
+  const draw = () =>
+    holder.replaceChildren(
+      stripBoard({
+        columns: [
+          [
+            stripSection(
+              1,
+              title,
+              pager({
+                items: builds.map((build) =>
+                  departmentRow({
+                    name: build.name,
+                    amount: build.when,
+                    selected: build === chosen,
+                    onSelect: () => {
+                      chosen = build;
+                      draw();
+                    },
+                  }),
+                ),
+                render: (node) => node,
+                rows,
+                columns: 1,
+                rowHeight: 52,
+                gap: 2,
+                words,
+                className: "bsdepts",
+              }),
+            ),
+          ],
+          (chosen?.groups ?? []).map((group, at) =>
+            stripSection(
+              Math.min(at + 2, 5),
+              group.heading,
+              ...group.notes.map((note) => introText(note)),
+            ),
+          ),
+        ],
+      }),
+    );
+  draw();
+  return holder;
+}
+
+/**
+ * The journal as the Nov 8 play mock draws it (pl-journal): "My story" lists the chapters,
+ * newest last and chosen, each with its years; the chosen chapter is its title over two
+ * columns of prose with a drop cap. `chapters`: [{ title, from, through, lines: [{ text }] }].
+ */
+export function journalScreen({ chapters, labels, yearOf, rows, words }) {
+  const holder = el("div");
+  let chosen = chapters.at(-1);
+  const yearsOf = (chapter) => {
+    const from = yearOf(chapter.from);
+    const through = yearOf(chapter.through);
+    return from === through ? from : `${from} to ${through}`;
+  };
+  const draw = () =>
+    holder.replaceChildren(
+      stripBoard({
+        columns: [
+          [
+            stripSection(
+              1,
+              labels.title,
+              chapters.length
+                ? pager({
+                    items: chapters.map((chapter) =>
+                      departmentRow({
+                        name: chapter.title,
+                        amount: yearsOf(chapter),
+                        selected: chapter === chosen,
+                        onSelect: () => {
+                          chosen = chapter;
+                          draw();
+                        },
+                      }),
+                    ),
+                    render: (node) => node,
+                    rows,
+                    columns: 1,
+                    rowHeight: 52,
+                    gap: 2,
+                    words,
+                    className: "bsdepts",
+                  })
+                : el("p", { className: "intro", textContent: labels.empty }),
+            ),
+          ],
+          chosen
+            ? [
+                stripSection(
+                  2,
+                  chosen.title,
+                  el(
+                    "div",
+                    { className: "journal-text" },
+                    ...chosen.lines.map((line) =>
+                      el("p", { className: "intro", textContent: line.text }),
+                    ),
+                  ),
+                ),
+              ]
+            : [],
+        ],
+      }),
+    );
+  draw();
+  return holder;
+}
+
+/**
+ * The money board: columns of strips, each { title, figure?, rows: [{ label, value }] }, the
+ * rows typed with dot leaders and the figure, when there is one, in large type above them.
+ */
+export function moneyBoard({ columns }) {
+  return stripBoard({
+    columns: columns.map((sections, column) =>
+      sections.map((section, at) =>
+        stripSection(
+          Math.min(column + at + 1, 5),
+          section.title,
+          ...(section.figure
+            ? [
+                el("p", {
+                  className: "money-figure",
+                  textContent: section.figure,
+                }),
+              ]
+            : []),
+          dotRows(section.rows),
+        ),
+      ),
+    ),
+  });
+}
+
+/** The campaign board's raised figure, big. */
+export const moneyFigure = (text) =>
+  el("p", { className: "money-figure", textContent: text });
+
+/** On my desk: a list of papers, one paper a block, its title bold. */
+export const deskList = (...nodes) =>
+  el("div", { className: "desk" }, ...nodes);
+export const deskBill = (...nodes) =>
+  el("div", { className: "desk-bill" }, ...nodes);
+export const deskTitle = (text) => el("b", { textContent: text });
+
+/** A race, party or law page: its title (with a date or other small word after it) over its columns. */
+export const rosterTitle = (text, small) =>
+  el(
+    "h2",
+    { className: "roster-title" },
+    text,
+    ...(small ? [el("span", { textContent: small })] : []),
+  );
+export const rosterCols = (...nodes) =>
+  el("div", { className: "roster-cols" }, ...nodes);
+export const rosterSide = (...nodes) =>
+  el("div", { className: "roster-side" }, ...nodes);
+export const candidate = (...nodes) =>
+  el("div", { className: "candidate" }, ...nodes);
