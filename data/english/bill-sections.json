@@ -345,6 +345,21 @@
       "purpose": "protect working farmland from development",
       "enact": "working farmland shall not be developed except as this measure allows"
     },
+    "trade.raise-tariffs": {
+      "subject": "higher tariffs",
+      "purpose": "set higher tariffs on imported goods",
+      "enact": "a duty shall be charged on imported goods at the rates set here"
+    },
+    "housing.vouchers-for-every-eligible-family": {
+      "subject": "a housing voucher for every eligible family",
+      "purpose": "guarantee a housing voucher to every family that qualifies",
+      "enact": "every eligible family shall receive a housing voucher"
+    },
+    "energy-environment.limit-power-plant-carbon": {
+      "subject": "limits on power plant carbon",
+      "purpose": "limit the carbon that power plants release",
+      "enact": "power plants shall not release more carbon than the limit set here"
+    },
     "health.medicare-drug-price-negotiation": {
       "subject": "Medicare drug price negotiation",
       "purpose": "let Medicare negotiate the prices of the drugs it pays for",

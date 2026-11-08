@@ -1038,6 +1038,17 @@
           "note": "Payday loans are legal at about 316% APR (CRL), though installment loans are capped at 36% on the first $1,000 (NCLC)."
         }
       }
+    },
+    "us-federal-positions:trade.raise-tariffs": {
+      "source": "https://www.law.cornell.edu/uscode/text/19/2411",
+      "note": "The question asks whether Congress raises tariffs by statute. Tariffs rest on delegated authority (Section 232, 19 U.S.C. 1862; Section 301, 19 U.S.C. 2411(c)(1)); Learning Resources, Inc. v. Trump (Feb. 20, 2026) held that IEEPA confers no tariff power. No act of Congress set the current rates, so the answer is no.",
+      "answers": {
+        "US": {
+          "answer": "no",
+          "source": "https://www.law.cornell.edu/uscode/text/19/2411",
+          "cite": "19 U.S.C. 1862; 19 U.S.C. 2411(c)(1)"
+        }
+      }
     }
   }
 }
