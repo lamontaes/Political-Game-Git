@@ -442,6 +442,14 @@ function reasonsFrom(
   };
 }
 
+/** What staying out is worth against running: a wide race (a state's whole pool) has its own bar. */
+function stayOutPull(api: CoreAPI, contest: OpenContest): number {
+  return c(
+    api,
+    contest.wideScope ? "candidacyWideStayOutPull" : "candidacyStayOutPull",
+  );
+}
+
 function action(id: string, running: boolean): ActionDefinition {
   return {
     id,
@@ -1031,7 +1039,7 @@ function countedScreen(
     };
     countedBases.set(api.state, held);
   }
-  const bar = c(api, "candidacyStayOutPull");
+  const bar = stayOutPull(api, open);
   // The most an incumbent's record can add to the cached pull.
   const record = open.incumbentId
     ? c(api, "candidacyRecordGapWeight")
@@ -1664,7 +1672,7 @@ export const candidacyModule: CoreModule = {
                 (sum, value) => sum + value,
                 api.parameter("zero"),
               )
-            : c(api, "candidacyStayOutPull"),
+            : stayOutPull(api, contest),
         sourceIds: [...contest.sourceIds, actor.id],
       };
     },

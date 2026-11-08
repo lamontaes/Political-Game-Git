@@ -16,5 +16,23 @@
     "tag": "SOURCED",
     "citation": "91.3 percent of U.S. House races in 2024 were contested by both the Democratic and the Republican parties (Ballotpedia, Annual Congressional Competitiveness Report, 2024).",
     "spread": [0.85, 0.95]
+  },
+  "stateLegislativeOpenSeatShare": {
+    "value": 0.166,
+    "tag": "SOURCED",
+    "citation": "962 of the 5,807 state legislative seats up for election on November 5, 2024 were open, 16.6 percent (Ballotpedia, Annual State Legislative Competitiveness Report, Vol. 14, 2024; https://ballotpedia.org/Open_seats_in_state_legislative_elections,_2024). Open seats were at their second-lowest point in eight election cycles (Ballotpedia News, Aug. 21, 2024).",
+    "spread": [0.14, 0.22]
+  },
+  "largestCitiesMayoralCandidatesPerElection": {
+    "value": 5.7,
+    "tag": "SOURCED",
+    "citation": "Cities among the 100 largest whose 2026 filing deadlines had passed averaged 5.7 mayoral candidates each, the third-lowest since 2020; the 2020 to 2025 average at that point in the year was 6.1 (Ballotpedia News, 'A look at competitiveness in the 2026 mayoral elections', April 15, 2026; https://news.ballotpedia.org/2026/04/15/a-look-at-competitiveness-in-the-2026-mayoral-elections/).",
+    "spread": [5.4, 6.1]
+  },
+  "allSeatsUncontestedShare2025": {
+    "value": 0.29,
+    "tag": "SOURCED",
+    "citation": "An average of 29 percent of seats nationwide were uncontested in the 2025 general election, where a race is uncontested when the candidates who filed number no more than the seats on the ballot (Ballotpedia, Election results, 2025: Uncontested races by state; https://ballotpedia.org/Election_results,_2025:_Uncontested_races_by_state). 30 percent were uncontested in the 2020 general election (Ballotpedia News).",
+    "spread": [0.29, 0.3]
   }
 }

@@ -229,5 +229,12 @@
     "tag": "TUNABLE",
     "citation": "How strongly the national tide moves the decision to run for a partisan seat: the share of the two-party vote the president's party is expected to lose this cycle (the national economy and the midterm penalty, the same figure the count reads: tideAgainstPresident) times this weight, a pull toward running for people outside the president's party and away for people in it. Strategic politicians run when conditions favor their party (Jacobson and Kernell 1983, Strategy and Choice in Congressional Elections; Jacobson 2004, The Politics of Congressional Elections), and the 2018 midterm drew a record number of challengers against the president's party (Ballotpedia, 'Candidates and elections in 2018: filing statistics'). At the midterm swing of 0.025 the pull is 1.5, which clears a stay-out bar the open-seat weight already puts within half a point for the most drawn residents. Spread 20 to 80.",
     "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyWideStayOutPull": {
+    "value": 3.5,
+    "tag": "ESTIMATED",
+    "citation": "The pull of staying out for a wide race (a statewide or congressional seat, whose candidates come from a state's whole pool of people with standing), against which running is weighed. Local seats keep candidacyStayOutPull, fit on town seats. Calibrated so the people who file for a U.S. House seat average near Ballotpedia's 4.1 primary candidates per seat (1,773 candidates over 435 seats in 2024; Annual Congressional Competitiveness Report, 2024; src/core2/data/candidacy/benchmarks.json usHousePrimaryCandidatesPerSeat). Each person already running lowers the next one's pull by candidacyFieldWeight, so the field limits itself. Spread 3.2 to 3.9.",
+    "estimatedFrom": "Ballotpedia 2024 House primary counts over 435 seats, drawn places 2 years each (scripts/dev-tests/elections.ts, filedMean); spread 3.2 to 3.9",
+    "stopgapId": "SG-P15-candidacy-weights"
   }
 }
