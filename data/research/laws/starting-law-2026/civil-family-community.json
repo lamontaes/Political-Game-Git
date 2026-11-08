@@ -984,6 +984,17 @@
           "estimated": "ESTIMATED FROM AVERAGE: 41 of the 56 places start at no, the most common answer. This place's own law was not found to dedicate a tax or share to parks in Research 1's reads of state constitutions and statutes or in the Trust for Public Land's LandVote records of passed state measures in force in 2026."
         }
       }
+    },
+    "us-federal-positions:immigration.admit-more-immigrants": {
+      "source": "https://www.law.cornell.edu/uscode/text/8/1151",
+      "note": "The question asks whether Congress admits more immigrants. The worldwide levels are fixed by statute (8 U.S.C. 1151(c)(1)(A): family-sponsored 480,000 less a computed number; 1151(d)(1): employment-based 140,000 plus a computed number) and have not been raised, so the answer is no.",
+      "answers": {
+        "US": {
+          "answer": "no",
+          "source": "https://www.law.cornell.edu/uscode/text/8/1151",
+          "cite": "8 U.S.C. 1151(c)(1)(A), (d)(1)"
+        }
+      }
     }
   }
 }

@@ -38,7 +38,7 @@ try {
       document.getElementById("sheet-close").click();
       document.querySelector('#rings [data-tab="news"]').click();
     });
-    await page.locator("#sheet-body .paper").waitFor();
+    await page.locator("#sheet-body .news-board").waitFor();
     await page.waitForTimeout(1500);
     const tabs = await page.evaluate(
       () => document.getElementById("sheet-tabs").children.length,

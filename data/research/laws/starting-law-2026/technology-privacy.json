@@ -1102,6 +1102,17 @@
           "note": "Weak: not on the complete list of state social media age-verification laws (Wikipedia, 'Online age verification laws in the United States', fetched 9/28/2026); no such law found in force on 1/1/2026."
         }
       }
+    },
+    "us-federal-positions:science-communications.national-data-privacy": {
+      "source": "https://www.law.cornell.edu/uscode/text/15/6502",
+      "note": "The question asks whether Congress enacts a national data privacy law. There is no comprehensive federal statute, only sector laws such as COPPA (15 U.S.C. 6502(a)(1)), so the answer is no.",
+      "answers": {
+        "US": {
+          "answer": "no",
+          "source": "https://www.law.cornell.edu/uscode/text/15/6502",
+          "cite": "15 U.S.C. 6502(a)(1)"
+        }
+      }
     }
   }
 }
