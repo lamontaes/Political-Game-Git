@@ -822,7 +822,8 @@
     "guide": "Guide",
     "handoff": "Carry on as",
     "news": "News",
-    "history": "Your life"
+    "history": "Your life",
+    "bills": "Bills"
   },
   "billStage": {
     "committee": "In committee",
@@ -874,6 +875,18 @@
       "consistency": "Their last vote on it",
       "bribe": "A payment taken",
       "reply": "What was said to them"
-    }
+    },
+    "showAll": "Show all",
+    "staff": "Staff",
+    "askStaff": "Ask staff to redraft section",
+    "keepStaffs": "Keep staff's",
+    "keepMine": "Keep mine"
+  },
+  "billFollow": {
+    "open": "Read the bill",
+    "back": "Back to the bills",
+    "reaches": "Reaches your town",
+    "yourMembers": "Your members",
+    "empty": "No bill is before your state or Congress yet."
   }
 }
