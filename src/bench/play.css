@@ -1527,20 +1527,9 @@ body:not(.dev) .dev-only {
 
 /* Calendar, to its mock: a compact month of day tiles with small icons, the chosen day on
    a plate between, Coming up paged inside its box beside them. Nothing scrolls. */
-#sheet-body:has(.calendar-layout) {
+#sheet-body:has(.calendar-board) {
   max-width: none;
   display: flex;
-}
-.calendar-layout {
-  flex: 1;
-  display: grid;
-  grid-template-columns: minmax(0, 1.45fr) minmax(250px, 0.95fr) minmax(
-      250px,
-      0.9fr
-    );
-  gap: 26px;
-  min-height: 0;
-  align-items: start;
 }
 .calendar-month,
 .calendar-day,
@@ -1550,7 +1539,7 @@ body:not(.dev) .dev-only {
   min-height: 0;
   min-width: 0;
 }
-.calendar-layout h3 {
+.calendar-board h3 {
   font: 600 20px var(--name);
   color: var(--gold);
   margin: 0;
@@ -4372,13 +4361,6 @@ select.release-pick {
 
 /* The calendar's kinds, each its own color, named and hidden by the key above the month
    (owner, Nov 1: "color code those things ... and be able to hide them"). */
-.calendar-layout {
-  --kind-birthday: #e0a090;
-  --kind-deadline: #d6bd84;
-  --kind-election: #7fa3d6;
-  --kind-meeting: #8fc79a;
-  --kind-holiday: #c4a0d8;
-}
 .calendar-key {
   grid-column: 1 / -1;
   display: flex;
@@ -4422,16 +4404,16 @@ select.release-pick {
 .kind-holiday {
   --kind-color: var(--kind-holiday);
 }
-.calendar-layout .day-icon[class*="kind-"] {
+.calendar-board .day-icon[class*="kind-"] {
   border-radius: 50%;
   background: var(--kind-color);
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
   filter: none;
 }
-.calendar-layout .calendar-entry[class*="kind-"] {
+.calendar-board .calendar-entry[class*="kind-"] {
   border-left: 3px solid var(--kind-color);
 }
-.calendar-layout .calendar-entry[class*="kind-"] .when {
+.calendar-board .calendar-entry[class*="kind-"] .when {
   color: var(--kind-color);
 }
 
@@ -5121,6 +5103,30 @@ select.release-pick {
   display: none;
 }
 
+<<<<<<< HEAD
+/* Calendar (Nov 8 play mock, pl-calendar): the month, then Today and Coming up, on strips. */
+.strip-board .board-cols {
+  width: 100%;
+}
+.calendar-board .board-cols,
+.calendar-board .board-cols.two {
+  grid-template-columns: minmax(0, 1.6fr) minmax(300px, 1fr);
+}
+.calendar-board .calendar-day,
+.calendar-board .calendar-side {
+  display: block;
+  margin-bottom: 14px;
+}
+.calendar-board {
+  flex: 1;
+}
+.calendar-board {
+  --kind-birthday: #e0a090;
+  --kind-deadline: #d6bd84;
+  --kind-election: #7fa3d6;
+  --kind-meeting: #8fc79a;
+  --kind-holiday: #c4a0d8;
+=======
 /* Journal (Nov 8 play mock, pl-journal): two columns of prose with a drop cap. */
 .journal-text {
   column-count: 2;
@@ -5151,4 +5157,5 @@ select.release-pick {
   font-family: "Courier Prime", monospace;
   font-size: 15px;
   text-transform: none;
+>>>>>>> origin/main
 }

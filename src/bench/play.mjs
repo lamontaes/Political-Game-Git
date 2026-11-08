@@ -4825,7 +4825,11 @@ async function openSheet(tab) {
   // You carries its own bust (the approved strip screen); Jobs and Your life keep the side figure.
   $("sheet").classList.toggle(
     "strip-sheet",
-    tab === "who" || tab === "budgets" || tab === "journal" || tab === "money",
+    tab === "who" ||
+      tab === "budgets" ||
+      tab === "journal" ||
+      tab === "money" ||
+      tab === "calendar",
   );
   $("sheet").classList.toggle("character-sheet", character && tab !== "who");
   // News is the paper itself: the sheet is the page, its masthead the title
