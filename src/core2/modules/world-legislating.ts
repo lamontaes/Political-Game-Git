@@ -1354,9 +1354,10 @@ function openOutsideSession(
         r.counts.map((c) => `${c.yes}-${c.no}`).join("/"),
         bodies.map((b) => b.id).join(","),
         r.decision,
-        governorKey,
         String(i + 1),
         String(r.margin),
+        // The governor's key is the last record, left out when no one holds the office.
+        ...(governorKey ? [governorKey] : []),
       ],
     });
   });
@@ -1393,9 +1394,9 @@ function outsideEnact(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     counts,
     bodyIds,
     decision,
-    governorKey,
     nth,
     margin,
+    governorKey,
   ] = work.sourceRecordIds as [
     string,
     string,
@@ -1406,7 +1407,7 @@ function outsideEnact(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     string,
     string,
     string,
-    string,
+    string | undefined,
   ];
   const direction = Number(directionText);
   // The law may have changed since the session opened: then nothing passes.
