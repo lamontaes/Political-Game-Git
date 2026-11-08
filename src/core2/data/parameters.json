@@ -5409,6 +5409,50 @@
       "citation": "A week to a month; checked against how long the News screen stays readable (about 55 places enact about 7 laws each in a year)."
     }
   },
+  "nationNewsReachBar": {
+    "value": 0.025,
+    "tag": "TUNABLE",
+    "citation": "How far a law passed in another state must reach to be told under the Nation heading on News: the state's share of the nation's people, times one plus the reader's ties to that state (nationNewsFamilyTie, nationNewsWorkTie, nationNewsNeighborTie). 0.025 is a state of about 8.4 million people, so only the ten largest states clear it on size alone and any other state needs a tie. Population from the Census Bureau's 2020 base (src/core2/data/places/state-reach.json).",
+    "spread": {
+      "low": 0.01,
+      "high": 0.05,
+      "unit": "share of the nation",
+      "citation": "Checked against how many other-state laws the News screen shows a reader in a played year: a few large states and the reader's own ties, not every state's every law."
+    }
+  },
+  "nationNewsFamilyTie": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "What a reader's family living in a state adds to how newsworthy a law there is to them, as a multiple of its reach.",
+    "spread": {
+      "low": 1,
+      "high": 6,
+      "unit": "multiple",
+      "citation": "Checked against how many other-state laws the News screen shows a reader in a played year: a few large states and the reader's own ties, not every state's every law."
+    }
+  },
+  "nationNewsWorkTie": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "What a reader's work in a state adds to how newsworthy a law there is to them, as a multiple of its reach.",
+    "spread": {
+      "low": 1,
+      "high": 6,
+      "unit": "multiple",
+      "citation": "Checked against how many other-state laws the News screen shows a reader in a played year: a few large states and the reader's own ties, not every state's every law."
+    }
+  },
+  "nationNewsNeighborTie": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "What living next to a state adds to how newsworthy a law there is, as a multiple of its reach: its news crosses the border.",
+    "spread": {
+      "low": 0.5,
+      "high": 3,
+      "unit": "multiple",
+      "citation": "Checked against how many other-state laws the News screen shows a reader in a played year: a few large states and the reader's own ties, not every state's every law."
+    }
+  },
   "circleDecisionDetailDays": {
     "value": 7,
     "tag": "TUNABLE",
