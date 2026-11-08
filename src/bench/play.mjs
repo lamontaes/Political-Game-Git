@@ -45,7 +45,6 @@ import { select, searchBox, optionsOf, numberBox } from "./ui/fields.mjs";
 import { lookRow } from "./ui/look-row.mjs";
 import { termWord } from "./ui/term.mjs";
 import { watchTerms } from "./ui/term-mark.mjs";
-import { journalPage } from "./ui/journal-page.mjs";
 import { recordScreen } from "./ui/screen.mjs";
 import { listScreen, listEntry } from "./ui/list-screen.mjs";
 import { roomPeople, clockLines } from "./ui/room.mjs";
@@ -83,6 +82,7 @@ import {
   stripBoard,
   typedRow,
   departmentRow,
+  journalScreen,
   settingRow,
   quitButton,
   optionsBoard,
@@ -3023,10 +3023,16 @@ const sheets = {
     // part of it (owner, Oct 27: "written like a story, not individual sections... from
     // birth"; "remove all those subheadings").
     return [
-      journalPage({
+      journalScreen({
         chapters,
         labels: controls.journal,
         yearOf: (iso) => iso.slice(0, 4),
+        rows: Math.max(4, Math.floor((window.innerHeight - 360) / 54)),
+        words: {
+          page: controls.politics.page,
+          previous: controls.politics.previousPage,
+          next: controls.politics.nextPage,
+        },
       }),
     ];
   },
@@ -4848,7 +4854,7 @@ async function openSheet(tab) {
   // You carries its own bust (the approved strip screen); Jobs and Your life keep the side figure.
   $("sheet").classList.toggle(
     "strip-sheet",
-    tab === "who" || tab === "budgets",
+    tab === "who" || tab === "budgets" || tab === "journal",
   );
   $("sheet").classList.toggle("character-sheet", character && tab !== "who");
   // News is the paper itself: the sheet is the page, its masthead the title

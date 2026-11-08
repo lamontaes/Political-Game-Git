@@ -383,3 +383,70 @@ export function patchNotesScreen({ builds, title, words, rows }) {
   draw();
   return holder;
 }
+
+/**
+ * The journal as the Nov 8 play mock draws it (pl-journal): "My story" lists the chapters,
+ * newest last and chosen, each with its years; the chosen chapter is its title over two
+ * columns of prose with a drop cap. `chapters`: [{ title, from, through, lines: [{ text }] }].
+ */
+export function journalScreen({ chapters, labels, yearOf, rows, words }) {
+  const holder = el("div");
+  let chosen = chapters.at(-1);
+  const yearsOf = (chapter) => {
+    const from = yearOf(chapter.from);
+    const through = yearOf(chapter.through);
+    return from === through ? from : `${from} to ${through}`;
+  };
+  const draw = () =>
+    holder.replaceChildren(
+      stripBoard({
+        columns: [
+          [
+            stripSection(
+              1,
+              labels.title,
+              chapters.length
+                ? pager({
+                    items: chapters.map((chapter) =>
+                      departmentRow({
+                        name: chapter.title,
+                        amount: yearsOf(chapter),
+                        selected: chapter === chosen,
+                        onSelect: () => {
+                          chosen = chapter;
+                          draw();
+                        },
+                      }),
+                    ),
+                    render: (node) => node,
+                    rows,
+                    columns: 1,
+                    rowHeight: 52,
+                    gap: 2,
+                    words,
+                    className: "bsdepts",
+                  })
+                : el("p", { className: "intro", textContent: labels.empty }),
+            ),
+          ],
+          chosen
+            ? [
+                stripSection(
+                  2,
+                  chosen.title,
+                  el(
+                    "div",
+                    { className: "journal-text" },
+                    ...chosen.lines.map((line) =>
+                      el("p", { className: "intro", textContent: line.text }),
+                    ),
+                  ),
+                ),
+              ]
+            : [],
+        ],
+      }),
+    );
+  draw();
+  return holder;
+}
