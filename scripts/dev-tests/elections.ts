@@ -39,4 +39,11 @@ if (seats) {
   const held = new Set(terms.filter((t) => t.status === "serving").map((t) => t.seatId));
   const empty = seats.filter((s) => !held.has(s.id));
   console.log(`seats ${seats.length} without holder ${empty.length}`);
+  const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
+  const vac = (api.moduleState(OFFICES_MODULE_ID).table("vacancies").rows() as any[]);
+  for (const s of empty.slice(0, 12)) {
+    const o = offices.get(s.officeId) as any;
+    const v = vac.filter((x) => x.seatId === s.id).map((x) => `${x.status}/${x.rule?.method ?? ""}`).join(",");
+    console.log(`  vacant ${s.id} ${o?.level}/${o?.kind} vacancies[${v}]`);
+  }
 }
