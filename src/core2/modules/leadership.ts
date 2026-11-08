@@ -195,10 +195,8 @@ function leanFor(api: CoreAPI, t: TermRow): number {
   const key = memberKey(t);
   const known = leans?.get(key);
   if (known !== undefined) return known;
-  // A named official not yet filled in leans by their party (as `leanOf`).
-  const lean = api.state.people.has(key)
-    ? leanOf(api, key)
-    : partySide(t.party) * campaignParameter("identityLeanScale");
+  // Every member leans by the one rule (`leanOf`: a person's, an official's own); no party line stands in.
+  const lean = leanOf(api, key);
   leans?.set(key, lean);
   return lean;
 }

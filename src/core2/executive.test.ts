@@ -5,41 +5,36 @@
  * the governor and confirmed by the senate; a mayor vetoes only where the
  * state gives the office a veto; and a governor's order reaches the law.
  */
+import { buildBenchWorld } from "../bench/world";
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
-import { buildPopulation } from "./population";
-import { advanceCore, createLifeCore } from "./life";
+import { gameStartDate } from "./game-start";
+import { advanceCore } from "./life";
 import { coreAPI } from "./state";
-import { lawChain, openLaws } from "./modules/laws";
-import { OFFICES_MODULE_ID, openOffices, townSeats } from "./modules/offices";
-import { openElections } from "./modules/elections";
-import { openCampaigns } from "./modules/campaigns";
-import { openRecord } from "./modules/record";
+import { lawChain } from "./modules/laws";
+import { OFFICES_MODULE_ID, townSeats } from "./modules/offices";
 import {
   FEDERAL_SENATE,
   bodyOf,
   mayorVeto,
   members,
-  openLegislature,
 } from "./modules/legislature";
-import { ageOnDate } from "./kernel/dates";
+import { addDays, ageOnDate, makeIsoDate } from "./kernel/dates";
 import {
   appoint,
   appointmentQualification,
   appointmentsIn,
   headCandidates,
   issueOrder,
-  openExecutive,
   orderableBy,
   townForm,
 } from "./modules/executive";
 import { answerIn } from "./modules/world-legislating";
-import { governments, openBudgets } from "./modules/budgets";
+import { governments } from "./modules/budgets";
 import { postPayCapDaily } from "./budgets-treasury";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
-const START = "2026-01-05";
 const seed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`executive:${Date.now()}`).digest("hex");
@@ -56,22 +51,11 @@ function world(states: readonly string[], salt: string) {
     }),
   ].sort((a, b) => a.key.localeCompare(b.key));
   const key = pick(places, `${salt}:place`).key;
-  const core = createLifeCore(
-    buildPopulation({
-      seed,
-      placeKey: key,
-      startedAt: START,
-      minimumPeople: 250,
-    }),
-  );
-  openLaws(core);
-  openOffices(core, seed);
-  openElections(core);
-  openCampaigns(core);
-  openRecord(core);
-  openLegislature(core);
-  openBudgets(core);
-  openExecutive(core, seed);
+  // The played world, so the wider population exists for a governor's cabinet to be drawn from.
+  const { core } = buildBenchWorld(seed, gameStartDate(), {
+    twoLevel: true,
+    placeKey: key,
+  });
   return {
     core,
     api: coreAPI(core),
@@ -294,14 +278,14 @@ describe("the executive's desk", () => {
       executiveId: `official:${governor.id}`,
       order: "restore-voting-after-sentence",
     });
-    advanceCore(core, "2026-01-08");
+    advanceCore(core, addDays(makeIsoDate(core.date), 3));
     expect(answerIn(api, state, question), where).toBe(1);
     issueOrder(api, {
       executiveId: `official:${governor.id}`,
       order: "restore-voting-after-sentence",
       revoke: true,
     });
-    advanceCore(core, "2026-01-10");
+    advanceCore(core, addDays(makeIsoDate(core.date), 2));
     expect(answerIn(api, state, question), where).toBe(-1);
   }, 300_000);
 
