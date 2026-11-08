@@ -3,6 +3,7 @@
   "register": "scene-talk",
   "description": "Scenes with a purpose (owner, Oct 15, evening): the narrator's setup, the asker's opening and statement of purpose, the player's four replies with their stakes, the asker's answer and the close. Authored to calibrated patterns from ordinary American political and family talk (the text rule, Oct 15); no one's text is copied. Each piece serves every scene with its step and move: each use names the purpose it serves, so a line never leaks into a scene it does not fit; a follow that answers one reply names that reply's piece or move in `after`. A piece's bearing is the manner of its wording; the speaker's traits pull toward the bearings they favor. The director's exchange engine (src/director/scene-talk.ts) arranges the pieces by src/director/data/purpose-arcs.json.",
   "slots": {
+    "area": "A policy area, said after 'with' or 'about', from the town's term read.",
     "stand": "The stand the speaker takes in an address, as a verb phrase after 'to' (\"raise the minimum wage\"), from the speaker's recorded views.",
     "signatures": "The signatures a filing's petition needs, as a number, from the petition record.",
     "due": "The last day a petition's signatures may be handed in, as people say it, from the petition record.",
@@ -137478,10 +137479,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.i-will-thank-you",
+      "key": "scene-talk.follow-accept.i-will-thank-you-for-saying-so",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "I will. Thank you.",
+      "text": "I will. Thank you for saying so.",
       "uses": [
         {
           "subject": "scene",
@@ -137972,10 +137973,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.suit-yourself",
+      "key": "scene-talk.follow-press.suit-yourself-it-s-your-call",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Suit yourself.",
+      "text": "Suit yourself. It's your call.",
       "uses": [
         {
           "subject": "scene",
@@ -138047,10 +138048,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.i-d-like-that-thank-you",
+      "key": "scene-talk.follow-thank.i-d-like-that-thank-you-for-the-offer",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "I'd like that. Thank you.",
+      "text": "I'd like that. Thank you for the offer.",
       "uses": [
         {
           "subject": "scene",
@@ -141573,10 +141574,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.then-we-understand-each-other",
+      "key": "scene-talk.follow-accept.then-we-understand-each-other-good",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Then we understand each other.",
+      "text": "Then we understand each other. Good.",
       "uses": [
         {
           "subject": "scene",
@@ -142674,10 +142675,10 @@
       }
     },
     {
-      "key": "scene-talk.close-thank.then-we-understand-each-other",
+      "key": "scene-talk.close-thank.then-we-understand-each-other-take-care",
       "move": "close-thank",
       "kind": "spoken",
-      "text": "Then we understand each other.",
+      "text": "Then we understand each other. Take care.",
       "uses": [
         {
           "subject": "scene",
@@ -143907,10 +143908,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.thank-you-chair-i-yield-the-floor",
+      "key": "scene-talk.follow-accept.thank-you-chair-i-yield-the-floor-back",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Thank you, Chair. I yield the floor.",
+      "text": "Thank you, Chair. I yield the floor back.",
       "uses": [
         {
           "subject": "scene",
@@ -144027,10 +144028,10 @@
       }
     },
     {
-      "key": "scene-talk.open-greet.walk-with-me-colleague",
+      "key": "scene-talk.open-greet.walk-with-me-a-minute",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "Walk with me.",
+      "text": "Walk with me a minute.",
       "uses": [
         {
           "subject": "scene",
@@ -144171,10 +144172,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.im-with-you-colleague",
+      "key": "scene-talk.reply-promise.i-m-with-you-you-can-count-on-it",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "I'm with you.",
+      "text": "I'm with you. You can count on it.",
       "uses": [
         {
           "subject": "scene",
@@ -144195,10 +144196,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.count-me-in-colleague",
+      "key": "scene-talk.reply-promise.count-me-in-just-tell-me-when",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "Count me in.",
+      "text": "Count me in. Just tell me when.",
       "uses": [
         {
           "subject": "scene",
@@ -144411,10 +144412,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.fair-enough-colleague",
+      "key": "scene-talk.follow-accept.fair-enough-i-ll-think-it-over",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Fair enough.",
+      "text": "Fair enough. I'll think it over.",
       "uses": [
         {
           "subject": "scene",
@@ -144703,10 +144704,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-refuse.no-comment-reporter",
+      "key": "scene-talk.reply-refuse.no-comment-not-on-this-one",
       "move": "reply-refuse",
       "kind": "spoken",
-      "text": "No comment.",
+      "text": "No comment. Not on this one.",
       "uses": [
         {
           "subject": "scene",
@@ -145159,10 +145160,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-refuse.not-today-lobbyist",
+      "key": "scene-talk.reply-refuse.not-today-call-my-office",
       "move": "reply-refuse",
       "kind": "spoken",
-      "text": "Not today.",
+      "text": "Not today. Call my office.",
       "uses": [
         {
           "subject": "scene",
@@ -145351,10 +145352,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.understood-lobbyist",
+      "key": "scene-talk.follow-accept.understood-i-ll-keep-that-in-mind",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Understood.",
+      "text": "Understood. I'll keep that in mind.",
       "uses": [
         {
           "subject": "scene",
@@ -150219,7 +150220,7 @@
     {"key": "scene-talk.reply-refuse.ill-vote-the-way-my-district-needs-not-the-way-either-of", "move": "reply-refuse", "kind": "spoken", "text": "I'll vote the way my district needs, not the way either of you asks.", "uses": [{"subject": "scene", "step": "reply", "move": "refuse", "role": "asked", "purpose": "hallway-word", "key": "governor-answer-word"}], "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "refuse", "key": "governor-answer-word"}},
     {"key": "scene-talk.reply-refuse.no-not-on-the-day-of-the-speech", "move": "reply-refuse", "kind": "spoken", "text": "No. Not on the day of the speech.", "uses": [{"subject": "scene", "step": "reply", "move": "refuse", "role": "asked", "purpose": "hallway-word", "key": "governor-answer-word"}], "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "refuse", "key": "governor-answer-word"}},
     {"key": "scene-talk.reply-leave.i-have-to-get-to-my-next-meeting", "move": "reply-leave", "kind": "spoken", "text": "I have to get to my next meeting.", "uses": [{"subject": "scene", "step": "reply", "move": "leave", "role": "asked", "purpose": "hallway-word", "key": "governor-answer-word"}], "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "leave", "key": "governor-answer-word"}},
-    {"key": "scene-talk.reply-leave.lets-pick-this-up-another-time", "move": "reply-leave", "kind": "spoken", "text": "Let's pick this up another time.", "uses": [{"subject": "scene", "step": "reply", "move": "leave", "role": "asked", "purpose": "hallway-word", "key": "governor-answer-word"}], "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "leave", "key": "governor-answer-word"}},
+    {"key": "scene-talk.reply-leave.let-s-pick-this-up-another-time-when-it-s-quieter", "move": "reply-leave", "kind": "spoken", "text": "Let's pick this up another time, when it's quieter.", "uses": [{"subject": "scene", "step": "reply", "move": "leave", "role": "asked", "purpose": "hallway-word", "key": "governor-answer-word"}], "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "leave", "key": "governor-answer-word"}},
     {"key": "scene-talk.follow-thank.thank-you-first-thats-all-im-asking-for-a-fair-look", "move": "follow-thank", "kind": "spoken", "text": "Thank you, {first}. That's all I'm asking for: a fair look.", "uses": [{"subject": "scene", "step": "follow", "move": "thank", "role": "asker", "purpose": "hallway-word", "key": "governor-answer-word"}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "thank", "key": "governor-answer-word"}},
     {"key": "scene-talk.follow-thank.good-it-means-a-lot-to-hear-that", "move": "follow-thank", "kind": "spoken", "text": "Good. It means a lot to hear that.", "uses": [{"subject": "scene", "step": "follow", "move": "thank", "role": "asker", "purpose": "hallway-word", "key": "governor-answer-word"}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "thank", "key": "governor-answer-word"}},
     {"key": "scene-talk.follow-thank.i-appreciate-your-honesty-even-where-we-differ", "move": "follow-thank", "kind": "spoken", "text": "I appreciate your honesty, even where we differ.", "uses": [{"subject": "scene", "step": "follow", "move": "thank", "role": "asker", "purpose": "hallway-word", "key": "governor-answer-word"}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "thank", "key": "governor-answer-word"}},
