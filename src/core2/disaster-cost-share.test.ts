@@ -1,21 +1,72 @@
 // @vitest-environment node
 /** A law having states share disaster costs lowers the federal public assistance a declaration pays the town's governments. */
-import { randomBytes } from "node:crypto";
+import { createHash, randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
-import { drawPlace } from "../../scripts/core2-year/place";
+import corpus from "../../data/source/places/corpus.json" with { type: "json" };
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
+import assistance from "./data/disasters/assistance.json" with { type: "json" };
+import declarations from "./data/disasters/declarations.json" with { type: "json" };
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
-import { advanceCore, createLifeCore } from "./life";
-import { disasterAssistancePaid, townDisasters } from "./modules/disasters";
+import { advanceCore } from "./life";
+import { disasterAssistancePaid } from "./modules/disasters";
 import { enactLaw, lawChain } from "./modules/laws";
+import {
+  countyGeoidsForPlace,
+  governmentUnitsForPlace,
+} from "./reference/government-units";
 import { coreAPI } from "./state";
-import { generatedOpening } from "./tooling/generated-world";
 
 const QUESTION = "us-federal-positions:emergencies.states-share-disaster-costs";
 const replay = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
-const DRAWS = 60;
+const TRIES = 4;
+
+interface Candidate {
+  key: string;
+  name: string;
+  state: string;
+  disaster: number;
+}
+
+/** Towns whose county has FEMA public assistance obligated for a disaster declared in the world's first year, read from the records. */
+function candidates(): Candidate[] {
+  const byCounty = declarations.byCounty as unknown as Record<
+    string,
+    [string, string, number, number, number][]
+  >;
+  const pa = assistance.byCountyDisaster as Record<string, { county: number }>;
+  const counties = new Map<string, number>();
+  for (const [county, rows] of Object.entries(byCounty))
+    for (const [, declared, , , number] of rows)
+      if (
+        declared >= "2025-01-25" &&
+        declared <= "2025-12-31" &&
+        (pa[`${county}|${number}`]?.county ?? 0) > 0
+      )
+        counties.set(county, number);
+  const places = ((corpus as unknown as { places?: unknown }).places ??
+    corpus) as { geoid: string; sourceName: string; stateUsps: string }[];
+  const out: Candidate[] = [];
+  for (const p of places) {
+    if (!p.geoid) continue;
+    const county = countyGeoidsForPlace(p.geoid);
+    if (county.length !== 1 || !counties.has(county[0]!)) continue;
+    if (
+      !governmentUnitsForPlace(p.geoid).some(
+        (u) => u.unitType === "municipality",
+      )
+    )
+      continue;
+    out.push({
+      key: p.geoid,
+      name: p.sourceName,
+      state: p.stateUsps,
+      disaster: counties.get(county[0]!)!,
+    });
+  }
+  return out;
+}
 
 it(
   `states sharing disaster costs cuts the federal assistance a declaration pays (replay ${replay})`,
@@ -23,24 +74,25 @@ it(
   () => {
     const bookkeeping = setBookkeeping(false);
     try {
-      for (let draw = 0; draw < DRAWS; draw += 1) {
-        const place = drawPlace(`${replay}:${draw}`, "disaster-cost-share");
-        // A cheap opening screens for a disaster beginning in the first year.
-        const screen = createLifeCore(
-          generatedOpening(place, {
-            twoLevel: true,
-            settings: { population: 1500 },
-          }),
-        );
-        const opened = screen.date;
-        const end = addDays(makeIsoDate(opened), 365);
-        const due = townDisasters(coreAPI(screen)).filter(
-          (d) => d.begins > opened && d.begins <= end,
-        );
-        if (!due.length) continue;
+      const pool = candidates();
+      expect(pool.length).toBeGreaterThan(0);
+      const tried: string[] = [];
+      for (let draw = 0; draw < TRIES; draw += 1) {
+        const index =
+          Number.parseInt(
+            createHash("sha256")
+              .update(`${replay}:${draw}`)
+              .digest("hex")
+              .slice(0, 8),
+            16,
+          ) % pool.length;
+        const picked = pool[index]!;
+        const seed = createHash("sha256")
+          .update(`${replay}:world:${picked.key}`)
+          .digest("hex");
         const build = () =>
-          buildBenchWorld(place.seed, gameStartDate(), {
-            placeKey: place.key,
+          buildBenchWorld(seed, gameStartDate(), {
+            placeKey: picked.key,
             twoLevel: true,
           }).core;
         const lawWorld = build();
@@ -58,6 +110,7 @@ it(
           measureId: "disaster-cost-share-test",
           citation: "Test: states share disaster costs",
         });
+        const end = addDays(makeIsoDate(lawWorld.date), 365);
         advanceCore(lawWorld, end);
         advanceCore(control, end);
         const sum = (core: typeof control) =>
@@ -67,15 +120,20 @@ it(
           );
         const withLaw = sum(lawWorld),
           without = sum(control);
-        if (!without) continue;
+        if (!without) {
+          tried.push(
+            `${picked.name}, ${picked.state} (${picked.key}): no assistance paid`,
+          );
+          continue;
+        }
         process.stdout.write(
-          `DISASTER-SHARE ${place.name}, ${place.state} (${place.key}, seed ${place.seed}): federal public assistance ${without} cents without the law, ${withLaw} with it (${((100 * withLaw) / without).toFixed(1)}%), disaster ${due[0]!.number}\n`,
+          `DISASTER-SHARE ${picked.name}, ${picked.state} (${picked.key}, seed ${seed}): federal public assistance ${without} cents without the law, ${withLaw} with it (${((100 * withLaw) / without).toFixed(1)}%), disaster ${picked.disaster}\n`,
         );
         expect(withLaw / without).toBeCloseTo(0.5 / 0.75, 2);
         return;
       }
       throw new Error(
-        `No drawn place paid public assistance in ${DRAWS} draws`,
+        `No candidate town paid public assistance: ${tried.join("; ")}`,
       );
     } finally {
       setBookkeeping(bookkeeping);
