@@ -483,7 +483,8 @@
     "nation": "Nation",
     "page": "Page {page} of {pages}",
     "previousPage": "Previous page",
-    "nextPage": "Next page"
+    "nextPage": "Next page",
+    "briefs": "Briefs"
   },
   "jobs": {
     "work": "Work",
