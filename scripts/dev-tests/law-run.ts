@@ -14,7 +14,7 @@ import { billCatalog, provisionFor } from "../../src/core2/bill-catalog";
 import { coreAPI } from "../../src/core2/state";
 import { townSeats } from "../../src/core2/modules/offices";
 import {
-  bodyOf, draftBill, castMemberVote, holdVote, executiveDecision, members, memberKey, billOf,
+  bodyOf, chambersOf, draftBill, castMemberVote, holdVote, executiveDecision, members, memberKey, billOf,
 } from "../../src/core2/modules/legislature";
 import { lawChain, lawInForce, LAWS_MODULE_ID } from "../../src/core2/modules/laws";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
@@ -66,7 +66,7 @@ function pass(core: CoreState, bodyId: string, sponsor: string, policyId: string
   const api = coreAPI(core);
   const bill = draftBill(api, { bodyOfficeId: bodyId, sponsorId: sponsor,
     provisions: [provisionFor({ policyId, operation: op as never, ...(amount !== undefined ? { amount } : {}) })] });
-  for (const m of members(api, bodyId)) castMemberVote(api, bill.id, memberKey(m), "yes");
+  for (const ch of chambersOf(api, bill)) for (const m of members(api, ch)) castMemberVote(api, bill.id, memberKey(m), "yes");
   let b = holdVote(api, bill.id);
   const trail = [b.status];
   if (b.status === "awaiting-signature") { b = executiveDecision(api, bill.id, true); trail.push(b.status); }
