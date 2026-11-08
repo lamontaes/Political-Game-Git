@@ -1206,39 +1206,37 @@ function askForSuccessor(api: CoreAPI, contest: ContestRow): void {
   const rules = filingRulesFor(api, contest, "party");
   const committed = committedOn(api, contest.electionDate, contest.id);
   const asked = askedToday(api);
-  const prospects = [...api.state.people.values()]
+  // Those who weighed the seat at filing and stayed out, by the pull their
+  // own decision recorded (their reasons before any ask), the closest to the
+  // holder first among equals.
+  const weighedRow = api
+    .moduleState(CANDIDACY_MODULE_ID)
+    .table("weighed")
+    .get(contest.id) as unknown as WeighedContest | undefined;
+  const prospects = (weighedRow?.askedIds ?? [])
+    .map((id) => api.state.people.get(id))
     .filter(
-      (person) =>
-        person.alive &&
+      (person): person is PersonState =>
+        !!person?.alive &&
         person.id !== holderId &&
         person.placeId === town.townPlaceId &&
         !asked.has(person.id) &&
         !committed.has(person.id) &&
         !isExplicitlyControlledPersonV1(api.state, person.id) &&
-        ageOnDate(person.birthDate, date) >= rules.minimumAge &&
-        !checkEligibility(api, person.id, contest.id, null).some(
-          (check) => !check.met,
-        ),
+        ageOnDate(person.birthDate, date) >= rules.minimumAge,
     )
-    // The holder asks whoever seems most drawn to the seat (their own
-    // reasons for running, before any ask), the closest first among equals.
     .map((person) => ({
       person,
       pull: Object.values(
-        candidacyReasons(api, person, {
-          contestId: contest.id,
-          officeName: contest.title,
-          filingDeadline: rules.deadline ?? contest.filingDeadline,
-          sourceIds: [contest.id],
-        }),
-      ).reduce((a, b) => a + b, 0),
-      closeness: closenessBetween(api.state, person.id, holderId),
+        decisionOf(api, contest.id, person.id)?.reasons ?? {},
+      ).reduce((x, y) => x + y, 0),
     }))
-    .sort(
-      (a, b) =>
-        b.pull - a.pull ||
-        b.closeness - a.closeness ||
-        a.person.id.localeCompare(b.person.id),
+    .sort((x, y) => y.pull - x.pull || x.person.id.localeCompare(y.person.id))
+    .filter(
+      ({ person }) =>
+        !checkEligibility(api, person.id, contest.id, null).some(
+          (check) => !check.met,
+        ),
     )
     .slice(0, c(api, "candidacyPartyAskTries"));
   for (const { person } of prospects) {
