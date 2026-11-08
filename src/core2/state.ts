@@ -12,6 +12,7 @@ import {
   keptDecision,
   queueCircleEntry,
   queueDecisionDetail,
+  queueRelationshipDetail,
 } from "./decision-detail";
 export { condenseCircleDecisions } from "./decision-detail";
 import { queueExperience } from "./knowledge-retention";
@@ -491,7 +492,6 @@ export function createCore(
   }
   for (const actor of core.people.values()) {
     assertKnownIdSources(core, actor);
-    api.stopgap("SG-P8-opening-family-closeness");
     if (!core.households.get(actor.householdId)?.memberIds.includes(actor.id))
       throw new Error(`Person has no consistent household: ${actor.id}`);
     for (const id of actor.familyIds) {
@@ -1286,11 +1286,18 @@ export function coreAPI(core: CoreState): CoreAPI {
         row.kind !== storedKind
       )
         throw new Error("Stale relationship change basis.");
-      api.stopgap("SG-P8-relationship-closeness-update");
       row.level = nextLevel;
       row.lastContactDate = at;
       row.latestChange = latestChange;
       core.relationships.set(id, row);
+      // A circle member's full decision is condensed on the log's schedule.
+      if (
+        latestChange?.decision?.scores &&
+        actorId !== core.playerId &&
+        !core.observer &&
+        !isExplicitlyControlledPersonV1(core, actorId)
+      )
+        queueRelationshipDetail(core, at, id);
       // Ties are only ever added here, never removed: tiedTo in
       // modules/people.ts reads a person's set of the same size as the same
       // ties. Anything that removes a tie must also drop that kept copy.

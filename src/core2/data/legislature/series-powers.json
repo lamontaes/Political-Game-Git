@@ -319,6 +319,10 @@
     "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit": {
       "levels": ["federal", "state"],
       "source": "23 U.S.C. flexible funding; state transportation budgets"
+    },
+    "us-policy-positions:labor-workforce.ban-the-box-public-hiring": {
+      "levels": ["state"],
+      "source": "State statutes and governors' executive orders on state-agency hiring (NELP Ban the Box guide, October 2021; data/research/executive/ban-the-box-public-hiring-2025-01.json)"
     }
   },
   "questionsAbout": "Which levels of government may answer each policy question, ESTIMATED by OPUS-GOV from where such laws are enacted in practice (the cited statutes; NCSL and NLC surveys). A local body also needs the state not to have preempted it (authorityFor). A level not listed has no power to pass the question."
