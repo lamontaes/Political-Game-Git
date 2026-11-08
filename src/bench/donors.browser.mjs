@@ -17,11 +17,8 @@ const page = await browser.newPage({ viewport: { width: 1672, height: 941 } });
 page.setDefaultTimeout(30000);
 const errors = [];
 page.on("pageerror", (e) => errors.push(e.message));
-const dollarsIn = (text) =>
-  Number(
-    (text.match(/\$([\d,]+(?:\.\d\d)?) raised/) ?? [])[1]?.replace(/,/g, "") ??
-      NaN,
-  );
+// The campaign board's money is the large figure: what the campaign has raised.
+const dollarsIn = (text) => Number(text.replace(/[^0-9.]/g, ""));
 try {
   const ready = page.waitForResponse((r) => r.url().endsWith("/api/title"));
   await page.goto(`${base}/play`);
@@ -63,7 +60,7 @@ try {
     .click();
   await page.locator(".campaign-board").first().waitFor();
   const raisedBefore = dollarsIn(
-    await page.locator(".campaign-board").first().innerText(),
+    await page.locator(".campaign-board .money-figure").first().innerText(),
   );
   console.log("Raised before:", raisedBefore);
   await page.screenshot({ path: `${out}/${mode}-1-campaigns.png` });
@@ -114,7 +111,7 @@ try {
       .click();
     await page.locator(".campaign-board").first().waitFor();
     const raisedAfter = dollarsIn(
-      await page.locator(".campaign-board").first().innerText(),
+      await page.locator(".campaign-board .money-figure").first().innerText(),
     );
     if (Number.isNaN(raisedAfter))
       console.log(
@@ -136,7 +133,12 @@ try {
     } else {
       console.log(
         "Before: the screen after the call reads:",
-        (await page.locator(".campaign-board").first().innerText()).slice(0, 300),
+        (
+          await page
+            .locator(".campaign-board .money-figure")
+            .first()
+            .innerText()
+        ).slice(0, 300),
       );
     }
   }
