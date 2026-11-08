@@ -35,6 +35,21 @@ for (let year = 1; year <= Number(yearsText); year += 1) {
     degree.set(row.actorId, (degree.get(row.actorId) ?? 0) + 1);
     degree.set(row.otherId, (degree.get(row.otherId) ?? 0) + 1);
   }
+  const logKind = new Map<string, number>();
+  const logVis = new Map<string, number>();
+  for (const row of world.core.durableLog.values()) {
+    logKind.set(row.kind, (logKind.get(row.kind) ?? 0) + 1);
+    const vis = `${row.visibility ?? "-"}${row.publicRecord ? "+pub" : ""}${row.news ? "+news" : ""}`;
+    logVis.set(vis, (logVis.get(vis) ?? 0) + 1);
+  }
+  console.log(
+    JSON.stringify({
+      year,
+      log: world.core.durableLog.size,
+      logKind: [...logKind].sort((a, b) => b[1] - a[1]).slice(0, 15),
+      logVis: [...logVis],
+    }),
+  );
   const top = (m: Map<string, number>, n = 12) =>
     [...m].sort((a, b) => b[1] - a[1]).slice(0, n);
   const d = [...degree.values()].sort((a, b) => a - b);
