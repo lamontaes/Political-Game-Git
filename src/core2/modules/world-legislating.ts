@@ -27,6 +27,7 @@
  * each member's. The session's filings, hearings and votes are counted
  * together on its floor day.
  */
+import type { GovernmentLevel } from "../government-level";
 import { townLean } from "./campaigns";
 import questionScopes from "../../../data/research/powers-catalog/question-powers.json" with { type: "json" };
 import geography from "../../../data/research/geography/state-reference.json" with { type: "json" };
@@ -149,7 +150,7 @@ const JURISDICTIONS = geography.places as Readonly<
 function questionForLevel(
   api: CoreAPI,
   question: string,
-  level: "federal" | "state" | "county" | "city",
+  level: GovernmentLevel,
   /** The government asking; the player's own state unless an outside legislature sits. */
   stateKey: string = lawChain(api).stateKey,
 ): boolean {

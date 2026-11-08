@@ -348,6 +348,21 @@
       "everyParameter": "directorCircumstanceHallwayEveryDays"
     },
     {
+      "id": "run-doubt",
+      "recordKinds": ["election-result"],
+      "playerNamed": true,
+      "afterDays": 3,
+      "place": "home",
+      "pool": ["own-household"],
+      "where": "pool",
+      "player": "lost-again",
+      "cast": "a few days after the player lost another race, someone they live with asks whether another run is worth it",
+      "typeKey": "run-doubt",
+      "outcome": "scene.reply",
+      "impactParameter": "directorCircumstanceRaceImpact",
+      "everyParameter": "directorCircumstanceStreetEveryDays"
+    },
+    {
       "id": "held-known-visit",
       "recordKinds": ["justice.held-before-trial"],
       "place": "venue",

@@ -41,6 +41,11 @@ import {
   restoreDevMode,
   setDevMode,
 } from "./ui/dev-setting.mjs";
+import {
+  colorBlindOn,
+  restoreColorBlind,
+  setColorBlind,
+} from "./ui/palette-setting.mjs";
 import { listRow, factRow, noteLine } from "./ui/list-row.mjs";
 import { fillArtwork, picture as pictureFrame } from "./ui/picture.mjs";
 import { select, optionsOf, numberBox } from "./ui/fields.mjs";
@@ -84,6 +89,7 @@ import {
   perkList,
   introText,
   peopleSentence,
+  nameLink,
   dotRows,
   stripBoard,
   typedRow,
@@ -542,15 +548,6 @@ function renderPacket(value) {
   $("day").disabled = $("week").disabled = busy || open;
   show("continue", packet?.kind === "stop");
   if (packet) setClock(packet.at);
-  $("card-why").textContent = endedBy(packet);
-}
-
-/** What stopped the clock, from the stop's own records. */
-function endedBy(value) {
-  const words = controls.endedBy ?? {};
-  if (value?.kind !== "stop") return "";
-  const module = value.stop.modules[0];
-  return module ? (words[module.reasonKey] ?? "") : "";
 }
 
 /** The newest line of the journal, bottom right. */
@@ -637,8 +634,15 @@ async function act(path) {
       else if (
         office.reasonKey === "office-day.executive-order" ||
         office.reasonKey === "office-day.emergency" ||
+        office.reasonKey === "office-day.state-of-the-state" ||
+        office.reasonKey === "office-day.own-hearing" ||
         office.reasonKey === "office-day.appointment" ||
         office.reasonKey === "office-day.budget-proposal"
+      )
+        await atOrders();
+      else if (
+        office.reasonKey === "office-day-federal.budget-request" ||
+        office.reasonKey === "office-day-federal.joint-address"
       )
         await atOrders();
       else if (office.reasonKey === "office-day-federal.nomination")
@@ -988,25 +992,40 @@ function atOrders() {
                 )
               : [];
           const kindWords = (how) =>
-            item.kind === "emergency"
-              ? words[`emergency-${how}`]
-              : item.kind === "post"
-                ? words[`post-${how}`]
-                : item.kind === "budget"
-                  ? words[`budget-${how}`]
-                  : how === "issue" && item.revoke
-                    ? words.revoke
-                    : words[how];
+            item.kind === "request" || item.kind === "joint"
+              ? words[`${item.kind}-${how}`]
+              : item.kind === "hearing"
+                ? words[`hearing-${how}`]
+                : item.kind === "address"
+                  ? words[`address-${how}`]
+                  : item.kind === "emergency"
+                    ? words[`emergency-${how}`]
+                    : item.kind === "post"
+                      ? words[`post-${how}`]
+                      : item.kind === "budget"
+                        ? words[`budget-${how}`]
+                        : how === "issue" && item.revoke
+                          ? words.revoke
+                          : words[how];
           return plate(
-            item.kind === "emergency"
-              ? words.emergency
-              : item.kind === "budget"
-                ? words.budget
-                : (item.name ?? ""),
+            item.kind === "request" || item.kind === "joint"
+              ? words[item.kind]
+              : item.kind === "hearing"
+                ? words.hearing
+                : item.kind === "address"
+                  ? words.address
+                  : item.kind === "emergency"
+                    ? words.emergency
+                    : item.kind === "budget"
+                      ? words.budget
+                      : (item.name ?? ""),
             ...picker,
             ...lines,
             buttonRow(
-              ...["issue", "decline"].map((how) => {
+              ...(item.kind === "address"
+                ? ["issue"]
+                : ["issue", "decline"]
+              ).map((how) => {
                 const b = makeButton({
                   className: "action",
                   textContent: kindWords(how),
@@ -1708,7 +1727,6 @@ async function campaignParts() {
       if (result.scene) {
         $("backdrop").src = result.scene.backdrop.url;
         drawPeople(result.scene.people);
-        $("card-why").textContent = campaignResult;
       }
       if (moment) await showStory(moment.recordId);
       if (!result.scene && !moment) reopenTrail(filing.id);
@@ -1757,7 +1775,6 @@ async function campaignParts() {
         closeSheet();
         $("backdrop").src = result.scene.backdrop.url;
         drawPeople(result.scene.people);
-        $("card-why").textContent = campaignResult;
         return;
       }
       reopenTrail(filing.id);
@@ -1883,7 +1900,6 @@ async function campaignParts() {
                 closeSheet();
                 $("backdrop").src = result.scene.backdrop.url;
                 drawPeople(result.scene.people);
-                $("card-why").textContent = campaignResult;
               },
             }),
           ],
@@ -2217,6 +2233,37 @@ async function personCardNode(
           : labels.sharedWords[s.kind],
       ),
     );
+  // How close you are and why that last changed, read from the tie's own record
+  // (the card's tie row: its closeness and its latestChange); a person with no
+  // tie to you has neither line.
+  const closeness = Number.isFinite(person.level)
+    ? labels.closenessWords[
+        Math.min(
+          labels.closenessWords.length - 1,
+          Math.floor(Math.max(0, person.level) * labels.closenessWords.length),
+        )
+      ]
+    : null;
+  const change = person.latestChange;
+  const changeLine = change
+    ? introText(
+        [
+          labels.tieChange[
+            change.after > change.before
+              ? "closer"
+              : change.after < change.before
+                ? "apart"
+                : "same"
+          ],
+          labels.tieCauses[change.cause],
+          dateWords(change.date),
+        ]
+          .filter(Boolean)
+          .join(" · "),
+      )
+    : null;
+  if (closeness) sharedLines.unshift(introText(closeness));
+  if (changeLine) sharedLines.push(changeLine);
   // Their public record, from the past module's public tier: a fact the record does not hold is left out.
   const recordRows = known
     ? [
@@ -3051,6 +3098,16 @@ const sheets = {
                   ),
                 ]
               : []),
+            // Where the player places themselves politically: the views engine's own label.
+            ...(c.view
+              ? [
+                  stripSection(
+                    2,
+                    labels.views,
+                    introText(c.view.charAt(0).toUpperCase() + c.view.slice(1)),
+                  ),
+                ]
+              : []),
             ...(c.traitLines?.length
               ? [
                   stripSection(
@@ -3361,8 +3418,8 @@ const sheets = {
     // governments as tabs, the fiscal year typed at the right, the departments, the open
     // department as a typed page, the town's money, and who wrote it. The game keeps
     // budget lines by category rather than departments, so each spending line is a
-    // department; Last year comes from the government's previous budget; a head, an
-    // "Asked" figure and the executive's bust wait on pool items gov-budget-departments-
+    // department; Last year comes from the government's previous budget; "Asked" is the line
+    // before this year's budget bill (lineBeforeBill); a head and the executive's bust wait on pool items gov-budget-departments-
     // with-named-heads and gov-budget-asked-versus-adopted.
     const words = controls.budgetStrips;
     const books = gov.books;
@@ -3434,6 +3491,9 @@ const sheets = {
                 roundedMoney(opened.minor),
                 lastYear(lastOf(prior?.spending, opened.line)),
               ),
+              ...(opened.askedMinor !== undefined
+                ? [typedRow(words.asked, roundedMoney(opened.askedMinor))]
+                : []),
               ...(stepButtons.length ? [buttonTray(...stepButtons)] : []),
             ),
           ],
@@ -3660,8 +3720,10 @@ const sheets = {
   /**
    * Options as the Nov 8 front mock draws it (fr-options): a strip for Seeing (Full screen
    * as On and Off toggles), a strip for Leave (Quit to title) and a strip for Dev mode, lit
-   * toggles and never checkboxes. Color-blind mode, which scenes may stop the day and Save
-   * now are in the mock but are not settings the game keeps yet, so they are not drawn.
+   * toggles and never checkboxes, and a strip for which scenes may stop the day (the
+   * director's own record, by group). Color-blind colors are one global setting
+   * (palette-setting.mjs). Save now is in the mock but is not a setting the game keeps yet,
+   * so it is not drawn.
    */
   async options() {
     await controlsReady;
@@ -3705,11 +3767,56 @@ const sheets = {
           ),
         ]
       : [];
+    seeing.push(
+      settingRow(
+        labels.colorBlind,
+        toggle({
+          attr: "palette",
+          testid: "options-color-blind",
+          on: colorBlindOn,
+          set: setColorBlind,
+        }),
+      ),
+    );
+    // Which kinds of scene may stop the day: the director's own record of the
+    // player's setting (/api/scene-filter), one On/Off per group of kinds.
+    const filter = me
+      ? await api(`/api/scene-filter?id=${encodeURIComponent(me.id)}`)
+      : null;
+    const groups = new Map();
+    for (const [kind, group] of Object.entries(filter?.groups ?? {}))
+      if (group && labels.sceneGroups[group])
+        groups.set(group, [...(groups.get(group) ?? []), kind]);
+    let allowed = new Set(filter?.allowed ?? filter?.kinds ?? []);
+    const stopping = filter
+      ? [...groups].map(([group, kinds]) =>
+          settingRow(
+            labels.sceneGroups[group],
+            toggle({
+              attr: "stop",
+              testid: `options-stop-${group}`,
+              on: () => kinds.every((kind) => allowed.has(kind)),
+              set: async (wanted) => {
+                for (const kind of kinds)
+                  wanted ? allowed.add(kind) : allowed.delete(kind);
+                const every = allowed.size === filter.kinds.length;
+                const saved = await post(
+                  `/api/scene-filter?id=${encodeURIComponent(me.id)}&kinds=${every ? "all" : [...allowed].join(",")}`,
+                );
+                allowed = new Set(saved.allowed ?? saved.kinds);
+              },
+            }),
+          ),
+        )
+      : [];
     return [
       optionsBoard({
         columns: [
           [
             ...(seeing.length ? [{ title: labels.seeing, rows: seeing }] : []),
+            ...(stopping.length
+              ? [{ title: labels.sceneStop, rows: stopping }]
+              : []),
             {
               title: labels.leave,
               rows: [
@@ -3963,7 +4070,11 @@ const sheets = {
                         label: dateWords(race.lastTime.date, {
                           year: me.date,
                         }),
-                        value: race.lastTime.winner,
+                        value: race.lastTime.winnerId
+                          ? nameLink(race.lastTime.winner, () =>
+                              showPerson({ personId: race.lastTime.winnerId }),
+                            )
+                          : race.lastTime.winner,
                       },
                       {
                         label: labels.share,
@@ -4087,13 +4198,15 @@ const sheets = {
                   ),
                   ...(item.mine.length
                     ? [
-                        line(
-                          `${words.yourMembers}: ${item.mine
-                            .map(
-                              (m) =>
-                                `${m.name} ${controls.billStage?.[m.vote === "yes" ? "yes" : m.vote === "no" ? "no" : "abstain"] ?? ""}`,
-                            )
-                            .join(", ")}`,
+                        introText(
+                          `${words.yourMembers}: `,
+                          ...item.mine.flatMap((m, i) => [
+                            ...(i ? [", "] : []),
+                            nameLink(m.name, () =>
+                              showPerson({ personId: m.memberId }),
+                            ),
+                            ` ${controls.billStage?.[m.vote === "yes" ? "yes" : m.vote === "no" ? "no" : "abstain"] ?? ""}`,
+                          ]),
                         ),
                       ]
                     : []),
@@ -5151,6 +5264,7 @@ onDevMode((dev) => {
   else gapButton.remove();
 });
 restoreDevMode();
+restoreColorBlind();
 if (devModeOn()) $("talk-silent").before(gapButton);
 // New game: Custom world (the world's settings, then the creator), Start a
 // life (the creator) or New world (straight in, a random person and place).
