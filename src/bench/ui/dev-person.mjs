@@ -68,6 +68,10 @@ export async function devPersonSection({ personId, labels, onDone }) {
         await post("illness", { personId });
         return labels.ill;
       }),
+      button(labels.layOff, "dev-layoff", async () => {
+        await post("layoff", { personId });
+        return labels.laidOff;
+      }),
       button(labels.runUntilDies, "dev-until-dies", async () => {
         const ran = await post("run-until", {
           event: "death",

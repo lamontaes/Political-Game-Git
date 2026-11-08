@@ -218,6 +218,9 @@ export async function handleDev(
       );
       return true;
     }
+    case "GET loans":
+      send(200, mode.smallDollarLoans());
+      return true;
     case "GET scenes":
       send(200, mode.scenes());
       return true;
@@ -231,6 +234,11 @@ export async function handleDev(
             typeof input.personId === "string" ? input.personId : undefined,
         }),
       );
+      return true;
+    }
+    case "POST layoff": {
+      const input = await body(request);
+      send(200, mode.forceLayoff(String(input.personId)));
       return true;
     }
     case "POST illness": {
@@ -250,6 +258,10 @@ export async function handleDev(
           officialId: String(input.officialId),
           subjectId: String(input.subjectId),
           stakeMinor: Number(input.stakeMinor),
+          answer:
+            input.answer === "takes" || input.answer === "refuses"
+              ? input.answer
+              : undefined,
         }),
       );
       return true;
@@ -260,6 +272,8 @@ export async function handleDev(
         200,
         mode.decideAt(String(input.billId), Number(input.margin), {
           sign: typeof input.sign === "boolean" ? input.sign : undefined,
+          discharge: input.discharge === true,
+          chairHears: input.chairHears === true,
           overrideMargin:
             input.overrideMargin === undefined
               ? undefined
@@ -277,6 +291,7 @@ export async function handleDev(
           event: input.event as RunEvent | undefined,
           cap: input.cap === undefined ? undefined : Number(input.cap),
           person: typeof input.person === "string" ? input.person : undefined,
+          kind: typeof input.kind === "string" ? input.kind : undefined,
           defeat: Array.isArray(input.defeat)
             ? input.defeat.map(String)
             : undefined,

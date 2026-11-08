@@ -1,6 +1,6 @@
 import { coreAPI } from "../core2/state";
 import type { CoreState } from "../core2/types";
-import { casesOpenFor, handleCase } from "../core2/modules/constituent-cases";
+import { casesOpenFor, handleCase } from "../core2/modules/offices";
 
 /**
  * The cases residents brought the player's office, soonest deadline first: who, what the

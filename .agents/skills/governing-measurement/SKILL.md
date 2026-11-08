@@ -89,6 +89,15 @@ Use this when the speed lead asks who reads a table before folding it. Answer fr
 
 When a played proof shows an engine's reaction never happening (Nov 1: an incumbent who never stepped up), write a scratch test that logs, each day, the reading the engine decides on, which branch blocked it, and the numbers on both sides. Then weigh the alternative records it could read in a table against those numbers before you change the engine. Reject the ones that never fire, or that fire for the wrong reason. Delete the scratch test afterward.
 
+## Field sizes, empty races and ended terms (Elections, Nov 8)
+
+- **Replay:** `npx tsx scripts/dev-tests/elections.ts <seed> <years>` prints, by office level, how many contests drew nobody, one candidate or more, and the most who filed before primaries thinned the ballot. `county-zero.ts` shows why one county race drew nobody, `pull-spread.ts` shows how close the people who stayed out came to the stay-out bar, `unfilled-term.ts <seed> <officeId>` shows why an ended term has no successor.
+- **The general ballot hides the field.** Primaries thin a field to two or three, so count filings (`filedMax`) as well as ballots before saying fields are small.
+- **"Seats without holder" in a replay** are mostly other states' seats awaiting a special election under that state's vacancy rule. Read the vacancy rows before calling one a defect.
+- **A race with no candidate** is usually a holder who stood down in a town whose adults are a small part of the electorate (county seats). Check the incumbent's decision row, then the ask step (`askForSuccessor`) before touching the bar.
+- **The golden-path test for one seed:** `GOLDEN_PATH_SEED=<seed> node --expose-gc --max-old-space-size=8192 --import tsx --test tests/golden-path/played-world.node-test.ts`; without `--expose-gc` it fails at once. Its exit code is 1 on main too (goal rows not reached), so read the BROKEN lines, not the exit.
+- **Timing a year:** run alone on the machine, one year of the same place, three times, and take the median; two runs beside a test run differ by 10 percent.
+
 ## Stop condition
 
 Done when every count you report names its places, seeds and branch head; every version of an ablation played the same places; and the result is in the status block or the item's Notes, not only in a message.
