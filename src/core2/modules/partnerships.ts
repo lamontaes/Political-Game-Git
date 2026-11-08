@@ -54,6 +54,8 @@ import {
 } from "../gov-rules/person-identity";
 import { birthCohortGivenName } from "../gov-rules/given-name-cohorts";
 import { livesElsewhere } from "./moves";
+import { reviewMentorship } from "./mentorship";
+import { rescueOnset } from "./rescue";
 import {
   BIRTHDAY_KIND,
   birthdayGathering,
@@ -432,6 +434,7 @@ function review(api: CoreAPI): void {
   reviewTown(api);
   reviewKinContact(api);
   scheduleBirthdays(api);
+  reviewMentorship(api);
 }
 
 /** Where a couple in town stands on the way to a wedding. */
@@ -924,11 +927,15 @@ export const partnershipsModule: CoreModule = {
   id: PARTNERSHIPS_MODULE_ID,
   state: {
     schemaVersion: 1,
-    tables: { state: {}, pulls: {}, couples: {}, contacts: {} },
+    tables: { state: {}, pulls: {}, couples: {}, contacts: {}, jobsSeen: {} },
   },
   // A death ends the person's pull, so the table holds only the living.
-  eventKinds: ["life.death", "scene.reply"],
+  eventKinds: ["life.death", "scene.reply", "health.serious-illness"],
   onEvent(api, event) {
+    if (event.kind === "health.serious-illness") {
+      rescueOnset(api, event);
+      return;
+    }
     if (event.kind === "scene.reply") {
       answerProposal(api, event);
       return;

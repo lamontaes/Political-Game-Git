@@ -1607,12 +1607,23 @@
           "bearing": "anxious"
         }
       ],
-      "setting": ["venue", "public"],
+      "setting": ["home"],
       "timing": "at-cause",
-      "causes": [],
-      "awaiting": [
-        "record:incident-with-someone-present",
-        "record:acute-health-episode"
+      "causes": [
+        {
+          "match": {
+            "label": "feeling:event:health.rescued",
+            "selfNamed": true,
+            "counterpart": "some"
+          },
+          "causeEngine": "partnerships",
+          "causeRecord": "health.rescued",
+          "bind": {
+            "rescuer": "counterpart",
+            "in-danger": "subject",
+            "bystanders": "household"
+          }
+        }
       ],
       "tag": {
         "key": "threat",
@@ -1835,7 +1846,13 @@
           "opener": "adviser"
         },
         {
-          "awaitingProducer": "relationship:mentorship:*:formed",
+          "match": {
+            "label": "feeling:event:work.mentorship-formed",
+            "selfNamed": true,
+            "counterpart": "some"
+          },
+          "causeEngine": "partnerships",
+          "causeRecord": "work.mentorship-formed",
           "bind": {
             "deciding": "subject",
             "adviser": "counterpart"

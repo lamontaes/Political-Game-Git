@@ -96,6 +96,30 @@
     "status": "open"
   },
   {
+    "id": "SG-LIVES-mentorship-model",
+    "kind": "partial-model",
+    "file": "src/core2/modules/mentorship.ts",
+    "line": 17,
+    "whatItFakes": "A new hire's mentor is the eldest coworker at least mentorAgeGapYears older; the pair's traits, the work they share and whether the mentor wants to are not weighed. Hires are read from jobs the monthly review has not seen, since the jobs engine writes no hire record.",
+    "why": "No mentorship or hire event exists in the new core; the jobs engine records a hire only as the job itself.",
+    "addedBy": "Lives (night crew, Nov 8)",
+    "addedAt": "2026-11-08",
+    "replacement": "A hire event from the jobs engine, and a trait decision for taking someone on, weighed against the month's typical.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LIVES-rescue-acute",
+    "kind": "partial-model",
+    "file": "src/core2/modules/rescue.ts",
+    "line": 23,
+    "whatItFakes": "Every serious illness onset is treated as a sudden episode a housemate meets; slow illnesses (a diagnosis after months) are not told apart, and a visitor or a stranger present is not considered.",
+    "why": "The health engine's onset record carries no acuity or place of onset.",
+    "addedBy": "Lives (night crew, Nov 8)",
+    "addedAt": "2026-11-08",
+    "replacement": "An acuity and a place on the health onset record (condition rows), so only sudden episodes are rescued, by whoever is present there.",
+    "status": "open"
+  },
+  {
     "id": "SG-LIVES-abroad-arrivals-no-pull",
     "kind": "partial-model",
     "file": "src/core2/modules/counted-moves.ts",

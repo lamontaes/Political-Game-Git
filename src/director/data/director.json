@@ -1196,6 +1196,18 @@
       "minDaysApart": 30
     },
     {
+      "eventKind": "work.mentorship-formed",
+      "channel": "feeling",
+      "impactParameter": "directorKinContactImpact",
+      "scaleFact": "seniority",
+      "minDaysApart": 30
+    },
+    {
+      "eventKind": "health.rescued",
+      "channel": "feeling",
+      "impactParameter": "directorEvictionImpact"
+    },
+    {
       "eventKind": "family.contact",
       "channel": "feeling",
       "impactParameter": "directorKinContactImpact",
