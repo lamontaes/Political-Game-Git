@@ -61,6 +61,9 @@ import {
 import { holderOf } from "./modules/officials";
 import {
   billOf,
+  castMemberVote,
+  chambersOf,
+  floorAgendaOn,
   hasSitting,
   committeeHearingsOn,
   leanOf,
@@ -116,6 +119,8 @@ const controlled = (api: CoreAPI) =>
 registerStopKinds([
   { kind: "own-hearing", byDefault: true },
   { kind: "state-of-the-state", byDefault: true },
+  // A vote on the floor of the player's own chamber: the engine never votes for the player.
+  { kind: "state-floor-vote", byDefault: true },
 ]);
 
 // ---------------------------------------------------------------- data
@@ -1268,7 +1273,89 @@ function computerGovernorsDay(api: CoreAPI): void {
 
 /** Seat the day's entries for a player just seated in a state office (the dev start, or taking office). */
 export function startStateDay(api: CoreAPI): void {
+  releaseClosedFloorHolds(api);
   scheduleTomorrow(api);
+  holdForFloorVotes(api);
+}
+
+interface FloorHoldRow {
+  readonly id: string;
+  readonly billId: string;
+  readonly date: string;
+}
+
+const floorHoldId = (billId: string, date: string) =>
+  `state-floor:${billId}:${date}`;
+
+/** The evening before a floor day: each bill on tomorrow's floor that the player votes holds them. */
+function holdForFloorVotes(api: CoreAPI): void {
+  const playerId = controlled(api);
+  if (!playerId) return;
+  const office = stateOfficeOf(api, playerId);
+  if (office?.role !== "legislator") return;
+  if (!stopsOf(api, playerId)["state-floor-vote"]) return;
+  const tomorrow = addDays(makeIsoDate(api.state.date), 1);
+  const choices = api.moduleState(LEGISLATURE_MODULE_ID).table("choices");
+  for (const bill of floorAgendaOn(api, tomorrow)) {
+    const sits = chambersOf(api, bill).some((chamber) =>
+      members(api, chamber).some((term) => memberKey(term) === playerId),
+    );
+    const id = floorHoldId(bill.id, tomorrow);
+    if (
+      !sits ||
+      table(api, "floorHolds").get(id) ||
+      choices.get(`${bill.id}|${playerId}`)
+    )
+      continue;
+    const held = holdPlayerAt(api, {
+      recordId: id,
+      date: tomorrow,
+      minuteOfDay: stateDayParameter("holdMinute"),
+      reasonKey: "office-day-state.floor-vote",
+      source: { tag: "SOURCED", citation: bill.id, asOf: api.state.date },
+    });
+    if (held)
+      table(api, "floorHolds").put({
+        id,
+        billId: bill.id,
+        date: tomorrow,
+      } as unknown as ModuleRow);
+  }
+}
+
+/** The holds a floor day has passed are released with it. */
+function releaseClosedFloorHolds(api: CoreAPI): void {
+  for (const row of table(
+    api,
+    "floorHolds",
+  ).rows() as unknown as FloorHoldRow[])
+    if (row.date <= api.state.date) {
+      releaseHold(api, row.id);
+      table(api, "floorHolds").remove(row.id);
+    }
+}
+
+/** The bills holding the state legislator's clock for their own floor vote. */
+export function stateFloorHolds(api: CoreAPI): readonly string[] {
+  return (table(api, "floorHolds").rows() as unknown as FloorHoldRow[])
+    .map((row) => row.billId)
+    .sort();
+}
+
+/** The player votes on a bill on tomorrow's floor (or leaves it to the character). */
+export function voteOnStateFloor(
+  api: CoreAPI,
+  personId: string,
+  billId: string,
+  vote: "yes" | "no" | "abstain" | "own",
+): void {
+  const row = (
+    table(api, "floorHolds").rows() as unknown as FloorHoldRow[]
+  ).find((held) => held.billId === billId);
+  if (!row) throw new Error("No floor vote on that bill is holding you.");
+  if (vote !== "own") castMemberVote(api, billId, personId, vote);
+  releaseHold(api, row.id);
+  table(api, "floorHolds").remove(row.id);
 }
 
 export const OFFICE_DAY_STATE_MODULE: CoreModule = {
@@ -1279,6 +1366,8 @@ export const OFFICE_DAY_STATE_MODULE: CoreModule = {
       entries: { indexes: { byHolder: { fields: ["holderId"] } } },
       results: { indexes: { byHolder: { fields: ["holderId"] } } },
       attendance: {},
+      /** A bill on tomorrow's floor that holds the player for their own vote. */
+      floorHolds: {},
       leaderRequests: { indexes: { byBill: { fields: ["billId"] } } },
       perDiem: { indexes: { byPerson: { fields: ["personId"] } } },
     },
@@ -1370,7 +1459,7 @@ registerOfficeActs({
     liveToday(api);
     computerGovernorsDay(api);
   },
-  onAfterDay: scheduleTomorrow,
+  onAfterDay: startStateDay,
 });
 
 export function openOfficeDayState(core: CoreState): void {

@@ -98,7 +98,7 @@ export type Where = "washington" | "district";
 
 /** What the federal day adds to what may stop the player (the engine's own `own-bill-vote` and `desk` are used as they are). */
 registerStopKinds([
-  { kind: "floor-vote", byDefault: false },
+  { kind: "floor-vote", byDefault: true },
   { kind: "whip-ask", byDefault: false },
   { kind: "joint-address", byDefault: true },
   { kind: "budget-request", byDefault: true },
