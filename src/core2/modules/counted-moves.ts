@@ -1178,7 +1178,7 @@ function month(api: CoreAPI): void {
   // 3. Whole households arrive as their people come due.
   arrivals(api, rt, residents, placePeople, agedHere, source, jobless);
   // Institutions fill the rooms their residents left (deaths, fill-ins).
-  // admitToRooms(api, rt, residents, source);
+  admitToRooms(api, rt, residents, source);
 
   // 4. Each state's people this month, for the regional engine.
   const monthKey = date.slice(0, 7);
