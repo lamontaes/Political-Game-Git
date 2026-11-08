@@ -2178,7 +2178,7 @@
     "kind": "missing-mechanic",
     "file": "src/core2/modules/legislature.ts",
     "line": 4041,
-    "whatItFakes": "A discharge petition is counted on the day the committee meets on the bill. The House rule makes members wait until the bill has been in committee thirty legislative days, and only the House has a row: no state's discharge rule is in the data.",
+    "whatItFakes": "A discharge petition is counted on the day the committee meets on the bill. The House rule makes members wait until the bill has been in committee thirty legislative days, and other chambers have waits and filing rules of their own; none is modeled. Twelve chambers have a row (the U.S. House and eleven state chambers whose rule was read from its source); the other chambers' rules are NOT FOUND or are floor votes rather than petitions (data/research/legislature/discharge-rules-2026-11.json).",
     "why": "The game's committee meets once on a bill, on a day, and has no calendar of legislative days to count a wait against; the states' rules have not been researched.",
     "addedBy": "claude/dev-mode-discharge",
     "addedAt": "2026-11-08",
