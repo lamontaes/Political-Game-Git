@@ -14,7 +14,7 @@ A line is shaped by the kind of scene it belongs to. Speeches run about 18 words
 | In the hallway (donors, lobbyists, party, staff) | 628   | 9.1         | 8             | 8%                   | 13%            | 57%               | 60%   | 51%     |
 | With the press (interviews, scandals, debates)   | 531   | 8.0         | 8             | 3%                   | 12%            | 60%               | 47%   | 38%     |
 | With residents (town hall, protests, rallies)    | 746   | 8.5         | 8             | 4%                   | 9%             | 56%               | 55%   | 41%     |
-| Around an election (filing, concessions, rivals) | 1030  | 9.6         | 8             | 3%                   | 10%            | 55%               | 47%   | 47%     |
+| Around an election (filing, concessions, rivals) | 1051  | 9.6         | 8             | 3%                   | 10%            | 55%               | 47%   | 46%     |
 
 ## What it shows
 

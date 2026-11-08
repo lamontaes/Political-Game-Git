@@ -33,6 +33,7 @@ import { devPersonSection } from "./ui/dev-person.mjs";
 import { devMemorySection } from "./ui/dev-memory.mjs";
 import { devWatchSections } from "./ui/dev-watch.mjs";
 import { devScenePanel } from "./ui/dev-scene.mjs";
+import { devCampaignPanel } from "./ui/dev-campaign.mjs";
 import { devRunPanel } from "./ui/dev-run.mjs";
 import {
   devModeOn,
@@ -83,6 +84,7 @@ import {
   perkList,
   introText,
   peopleSentence,
+  nameLink,
   dotRows,
   stripBoard,
   typedRow,
@@ -636,8 +638,15 @@ async function act(path) {
       else if (
         office.reasonKey === "office-day.executive-order" ||
         office.reasonKey === "office-day.emergency" ||
+        office.reasonKey === "office-day.state-of-the-state" ||
+        office.reasonKey === "office-day.own-hearing" ||
         office.reasonKey === "office-day.appointment" ||
         office.reasonKey === "office-day.budget-proposal"
+      )
+        await atOrders();
+      else if (
+        office.reasonKey === "office-day-federal.budget-request" ||
+        office.reasonKey === "office-day-federal.joint-address"
       )
         await atOrders();
       else if (office.reasonKey === "office-day-federal.nomination")
@@ -899,7 +908,7 @@ function atNominations() {
                     },
                   }),
                 ]
-              : [el("p", { textContent: words.nobody ?? "" })]),
+              : [introText(words.nobody ?? "")]),
             buttonRow(
               ...["nominate", "leave"]
                 .filter((how) => how === "leave" || entry.candidates.length)
@@ -987,25 +996,40 @@ function atOrders() {
                 )
               : [];
           const kindWords = (how) =>
-            item.kind === "emergency"
-              ? words[`emergency-${how}`]
-              : item.kind === "post"
-                ? words[`post-${how}`]
-                : item.kind === "budget"
-                  ? words[`budget-${how}`]
-                  : how === "issue" && item.revoke
-                    ? words.revoke
-                    : words[how];
+            item.kind === "request" || item.kind === "joint"
+              ? words[`${item.kind}-${how}`]
+              : item.kind === "hearing"
+                ? words[`hearing-${how}`]
+                : item.kind === "address"
+                  ? words[`address-${how}`]
+                  : item.kind === "emergency"
+                    ? words[`emergency-${how}`]
+                    : item.kind === "post"
+                      ? words[`post-${how}`]
+                      : item.kind === "budget"
+                        ? words[`budget-${how}`]
+                        : how === "issue" && item.revoke
+                          ? words.revoke
+                          : words[how];
           return plate(
-            item.kind === "emergency"
-              ? words.emergency
-              : item.kind === "budget"
-                ? words.budget
-                : (item.name ?? ""),
+            item.kind === "request" || item.kind === "joint"
+              ? words[item.kind]
+              : item.kind === "hearing"
+                ? words.hearing
+                : item.kind === "address"
+                  ? words.address
+                  : item.kind === "emergency"
+                    ? words.emergency
+                    : item.kind === "budget"
+                      ? words.budget
+                      : (item.name ?? ""),
             ...picker,
             ...lines,
             buttonRow(
-              ...["issue", "decline"].map((how) => {
+              ...(item.kind === "address"
+                ? ["issue"]
+                : ["issue", "decline"]
+              ).map((how) => {
                 const b = makeButton({
                   className: "action",
                   textContent: kindWords(how),
@@ -2215,6 +2239,37 @@ async function personCardNode(
           : labels.sharedWords[s.kind],
       ),
     );
+  // How close you are and why that last changed, read from the tie's own record
+  // (the card's tie row: its closeness and its latestChange); a person with no
+  // tie to you has neither line.
+  const closeness = Number.isFinite(person.level)
+    ? labels.closenessWords[
+        Math.min(
+          labels.closenessWords.length - 1,
+          Math.floor(Math.max(0, person.level) * labels.closenessWords.length),
+        )
+      ]
+    : null;
+  const change = person.latestChange;
+  const changeLine = change
+    ? introText(
+        [
+          labels.tieChange[
+            change.after > change.before
+              ? "closer"
+              : change.after < change.before
+                ? "apart"
+                : "same"
+          ],
+          labels.tieCauses[change.cause],
+          dateWords(change.date),
+        ]
+          .filter(Boolean)
+          .join(" · "),
+      )
+    : null;
+  if (closeness) sharedLines.unshift(introText(closeness));
+  if (changeLine) sharedLines.push(changeLine);
   // Their public record, from the past module's public tier: a fact the record does not hold is left out.
   const recordRows = known
     ? [
@@ -3513,6 +3568,14 @@ const sheets = {
             }),
           ]
         : []),
+      ...(devModeOn()
+        ? [
+            await devCampaignPanel({
+              labels: controls.devCampaign,
+              onDone: () => refresh(),
+            }),
+          ].filter(Boolean)
+        : []),
     ];
   },
   async news() {
@@ -3951,7 +4014,11 @@ const sheets = {
                         label: dateWords(race.lastTime.date, {
                           year: me.date,
                         }),
-                        value: race.lastTime.winner,
+                        value: race.lastTime.winnerId
+                          ? nameLink(race.lastTime.winner, () =>
+                              showPerson({ personId: race.lastTime.winnerId }),
+                            )
+                          : race.lastTime.winner,
                       },
                       {
                         label: labels.share,
@@ -4075,13 +4142,15 @@ const sheets = {
                   ),
                   ...(item.mine.length
                     ? [
-                        line(
-                          `${words.yourMembers}: ${item.mine
-                            .map(
-                              (m) =>
-                                `${m.name} ${controls.billStage?.[m.vote === "yes" ? "yes" : m.vote === "no" ? "no" : "abstain"] ?? ""}`,
-                            )
-                            .join(", ")}`,
+                        introText(
+                          `${words.yourMembers}: `,
+                          ...item.mine.flatMap((m, i) => [
+                            ...(i ? [", "] : []),
+                            nameLink(m.name, () =>
+                              showPerson({ personId: m.memberId }),
+                            ),
+                            ` ${controls.billStage?.[m.vote === "yes" ? "yes" : m.vote === "no" ? "no" : "abstain"] ?? ""}`,
+                          ]),
                         ),
                       ]
                     : []),
