@@ -445,13 +445,14 @@ export function ordersView(core: CoreState) {
   const person = controlledPerson(api);
   // The president's holds that stop the day: the budget request and the joint address, each the
   // president's to make or to leave to their own rule.
-  const held = person
-    ? heldFederal(api).flatMap((key) =>
-        key === BUDGET_REQUEST
-          ? [{ entryId: key, kind: "request" as const }]
-          : key === JOINT_ADDRESS
-            ? [{ entryId: key, kind: "joint" as const }]
-            : [],
+  const held: { entryId: string; kind: "request" | "joint" }[] = person
+    ? heldFederal(api).flatMap<{ entryId: string; kind: "request" | "joint" }>(
+        (key) =>
+          key === BUDGET_REQUEST
+            ? [{ entryId: key, kind: "request" as const }]
+            : key === JOINT_ADDRESS
+              ? [{ entryId: key, kind: "joint" as const }]
+              : [],
       )
     : [];
   if (held.length)
