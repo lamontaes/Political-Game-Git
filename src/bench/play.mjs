@@ -4769,7 +4769,6 @@ const sheets = {
           entries: keys.map((name) => ({
             key: name,
             label: name,
-            aside: name === mine ? controls.party.mine : "",
             name,
           })),
         },

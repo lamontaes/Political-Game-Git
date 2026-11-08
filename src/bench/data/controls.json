@@ -580,8 +580,7 @@
     "join": "Join",
     "member": "Your party",
     "registered": "Registered {party} since {date}",
-    "me": "Me",
-    "mine": "Mine"
+    "me": "Me"
   },
   "leanWords": {
     "veryLiberal": "Very liberal",
