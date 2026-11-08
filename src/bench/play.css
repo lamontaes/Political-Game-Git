@@ -5248,3 +5248,15 @@ select.release-pick {
   letter-spacing: 0.4px;
   color: var(--muted);
 }
+
+/* The title menu as the Nov 8 front mock draws it (fr-title): no wordmark over it, the
+   items in plain type, and Continue first when a life exists. */
+#front:has(#front-main:not([hidden])) > .title,
+#front:has(#front-main:not([hidden])) > .title-rule {
+  display: none;
+}
+#front-main .item b {
+  font: 600 17px var(--ui);
+  letter-spacing: 0;
+  text-transform: none;
+}
