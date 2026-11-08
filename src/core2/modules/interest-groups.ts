@@ -840,6 +840,10 @@ function joinSide(
   api.join(personId, `organization:${groupId}`);
 }
 
+/** The id of the group that stands for a question in a town (the demand side). */
+export const movementGroupId = (town: string, question: string) =>
+  groupIdFor(town, question, 1);
+
 /**
  * A crowd that keeps coming back over the same grievance becomes a standing
  * residents' group (owner, Nov 8: "can you start a movement?"): the same group
@@ -857,6 +861,8 @@ export function foundMovement(
     readonly memberIds: readonly string[];
     readonly formedOver: string;
     readonly citation: string;
+    /** The member who decided to found it, who speaks for it. */
+    readonly organizerId?: string;
   },
 ): GroupRow | null {
   if (!api.state.modules.has(INTEREST_GROUPS_MODULE_ID)) return null;
@@ -889,11 +895,15 @@ export function foundMovement(
     api.state.people.get(existing.lobbyistId)?.alive &&
     lobbyingBarredUntil(api, existing.lobbyistId) === null
       ? existing.lobbyistId
-      : (members.find(
-          (id) =>
-            api.state.people.get(id)?.alive &&
-            lobbyingBarredUntil(api, id) === null,
-        ) ?? null);
+      : input.organizerId &&
+          members.includes(input.organizerId) &&
+          lobbyingBarredUntil(api, input.organizerId) === null
+        ? input.organizerId
+        : (members.find(
+            (id) =>
+              api.state.people.get(id)?.alive &&
+              lobbyingBarredUntil(api, id) === null,
+          ) ?? null);
   const row = {
     id: groupId,
     organizationId,

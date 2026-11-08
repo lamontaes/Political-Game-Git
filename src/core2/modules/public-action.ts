@@ -28,7 +28,14 @@ import { countedPersonOf } from "../counted-actor";
 import { residentsRuntime } from "./residents";
 import { registerModule } from "../state";
 import { addDays, makeIsoDate } from "../kernel/dates";
-import { foundMovement, groupDraw, joinsGroup } from "./interest-groups";
+import {
+  INTEREST_GROUPS_MODULE_ID,
+  foundMovement,
+  groupDraw,
+  joinsGroup,
+  movementGroupId,
+} from "./interest-groups";
+import { leanedYes } from "../trait-decisions";
 import { makeCase } from "./speech";
 import { townSeats } from "./offices";
 import { currentCloseness } from "../closeness";
@@ -470,14 +477,11 @@ function monthlyRun(api: CoreAPI): void {
             asOf: core.date,
           },
         });
-      // A grievance that keeps drawing people over the same demand is a
-      // movement: the crowd becomes a standing residents' group the
-      // interest-group engine lobbies the next bill on its question with.
-      if (
-        stock.side === "grievance" &&
-        rule.question &&
-        row.months >= PAR.movementMonths.value
-      )
+      // A grievance that keeps drawing people can become a movement: one of
+      // the crowd decides to found a standing group when the turnout, the
+      // weight of the grievance and their own ties carry it (`organizerOf`);
+      // the interest-group engine then lobbies the next bill on its question.
+      if (stock.side === "grievance" && rule.question)
         standMovement(api, row, rule.question, participants);
       // A friend in it asks the player to come. A rally has no demand, so the
       // invitation names none (its topic is the area), and joining one presses
@@ -507,8 +511,60 @@ function monthlyRun(api: CoreAPI): void {
 }
 
 /**
- * The crowd is a standing group now (interest-groups.ts foundMovement), and
- * the first time it is, the town hears: a public record the paper tells.
+ * Who in the crowd decides to found the group, if anyone does: each person who
+ * turned out weighs the grievance's weight (the town's organizing in the
+ * area), the size of the crowd and their own ties to the others (an
+ * organizer's capacity is the people who follow them) against the bar, with
+ * their temperament added by the interest-groups lobbyist decision (to speak
+ * out and engage, or stay quiet). The strongest case among those who say yes
+ * founds it, ties to the lowest id. No roll: a fierce, large, well-tied crowd
+ * founds a group in weeks, and a weak one never does.
+ */
+export function organizerOf(
+  api: CoreAPI,
+  action: ActionRow,
+  participants: readonly string[],
+): string | undefined {
+  const core = api.state as CoreState;
+  const crowd = new Set(participants);
+  const turnout = Math.log1p(participants.length + action.countedParticipants);
+  let best: { id: string; case: number } | undefined;
+  for (const id of [...participants].sort()) {
+    const person = core.people.get(id as never);
+    if (!person?.alive) continue;
+    let ties = 0;
+    for (const key of core.relationshipsByPerson.get(id as never) ?? []) {
+      const tie = core.relationships.get(key);
+      if (!tie) continue;
+      const other = tie.actorId === id ? tie.otherId : tie.actorId;
+      if (crowd.has(other)) ties += currentCloseness(core, tie);
+    }
+    const reasons =
+      PAR.movementLevelWeight.value * action.level +
+      PAR.movementTurnoutWeight.value * turnout +
+      PAR.movementTieWeight.value * Math.min(1, ties) -
+      PAR.movementBar.value;
+    if (
+      leanedYes(
+        core,
+        person,
+        "interest-groups.lobbyist",
+        "serve",
+        "decline",
+        reasons,
+      ) &&
+      (!best || reasons > best.case)
+    )
+      best = { id, case: reasons };
+  }
+  return best?.id;
+}
+
+/**
+ * The crowd's organizer founds a standing group (interest-groups.ts
+ * foundMovement) when there is one; the first time it stands, the town hears:
+ * a public record the paper tells. A group already standing on the question
+ * takes the crowd's new people without a new decision.
  */
 function standMovement(
   api: CoreAPI,
@@ -517,14 +573,26 @@ function standMovement(
   participants: readonly string[],
 ): void {
   const core = api.state as CoreState;
+  if (!core.modules.has(INTEREST_GROUPS_MODULE_ID)) return;
+  const standing = api
+    .moduleState(INTEREST_GROUPS_MODULE_ID)
+    .table("groups")
+    .get(movementGroupId(action.placeId, question));
+  const organizerId = standing
+    ? undefined
+    : organizerOf(api, action, participants);
+  if (!standing && !organizerId) return;
   const group = foundMovement(api, {
     town: action.placeId,
     question,
     memberIds: participants,
     formedOver: action.id,
+    ...(organizerId ? { organizerId } : {}),
     citation: `A ${action.kind} over ${action.area} that kept turning out people (${action.id}) became a standing group.`,
   });
-  if (!group) return;
+  // A group that already stood (a bill's losers formed it) takes the crowd in
+  // without a founding to report.
+  if (!group || standing) return;
   const id = `civic.movement:${group.id}`;
   if (core.eventIds.has(id)) return;
   api.emit({
@@ -542,11 +610,12 @@ function standMovement(
       groupId: group.id,
       area: action.area,
       question,
+      organizerId: group.lobbyistId ?? "",
       size: String(group.memberPersonIds!.length),
     },
     source: {
       tag: "SOURCED",
-      citation: `The ${action.kind} over ${action.area} kept drawing people for ${action.months} months; they stand as a group (${group.id}).`,
+      citation: `The ${action.kind} over ${action.area} kept drawing people for ${action.months} months; one of them decided to found a group (${group.id}).`,
       asOf: core.date,
     },
   });

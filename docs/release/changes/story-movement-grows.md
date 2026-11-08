@@ -3,4 +3,4 @@ id: story-movement-grows
 impact: minor
 ---
 
-A protest or strike that keeps drawing people over the same demand for three months becomes a standing group of neighbors that lobbies the next bill on that question, and the paper tells it.
+One of the people who keep turning out over a grievance can decide to found a standing group of neighbors, when the crowd, the grievance and their own ties carry it, and the group lobbies the next bill on that question; the paper tells it.

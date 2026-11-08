@@ -12544,10 +12544,10 @@
       }
     },
     {
-      "key": "news.public-action.after-months-of-turning-out-over-issue-number-neighbors-in",
+      "key": "news.public-action.number-neighbors-in-place-who-turned-out-over-issue-have",
       "move": "public-action",
       "kind": "written",
-      "text": "After months of turning out over {issue}, {number} neighbors in {place} have formed a standing group.",
+      "text": "{number} neighbors in {place} who turned out over {issue} have formed a standing group.",
       "uses": [
         {
           "move": "public-action",
@@ -12566,10 +12566,10 @@
       }
     },
     {
-      "key": "news.public-action.neighbors-in-place-who-kept-turning-out-over-issue-have",
+      "key": "news.public-action.neighbors-in-place-who-turned-out-over-issue-have-formed",
       "move": "public-action",
       "kind": "written",
-      "text": "Neighbors in {place} who kept turning out over {issue} have formed a standing group.",
+      "text": "Neighbors in {place} who turned out over {issue} have formed a standing group.",
       "uses": [
         {
           "move": "public-action",
