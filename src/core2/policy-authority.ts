@@ -1,4 +1,5 @@
 /** Policy authority from the shared research catalog and current state laws. */
+import type { GovernmentLevel } from "./government-level";
 import catalog from "../../data/research/powers-catalog/catalog.json" with { type: "json" };
 import mapping from "../../data/research/powers-catalog/question-powers.json" with { type: "json" };
 import territoryGrant from "../../data/research/powers-catalog/territory-grant.json" with { type: "json" };
@@ -18,7 +19,7 @@ import { lawApplied } from "./law-reach/applied";
 import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";
 import type { LawRowInput } from "./laws-starting";
 
-export type PolicyLevel = "federal" | "state" | "county" | "city";
+export type PolicyLevel = GovernmentLevel;
 type Column = PolicyLevel | "dc" | "territory";
 interface Cell {
   may: string;
