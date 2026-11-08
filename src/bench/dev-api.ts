@@ -240,6 +240,22 @@ export async function handleDev(
       );
       return true;
     }
+    case "GET wealthiest":
+      send(200, mode.wealthiest());
+      return true;
+    case "POST bribe": {
+      const input = await body(request);
+      send(
+        200,
+        mode.forceBribe({
+          offererId: String(input.offererId),
+          officialId: String(input.officialId),
+          subjectId: String(input.subjectId),
+          stakeMinor: Number(input.stakeMinor),
+        }),
+      );
+      return true;
+    }
     case "POST decide": {
       const input = await body(request);
       send(

@@ -28,6 +28,10 @@ import { POLICIES as REACH_A_POLICIES } from "../core2/law-reach/group-a-records
 import { GROUP_B_KEYS } from "../core2/law-reach/group-b";
 import { jobsAt } from "../core2/law-reach/group-b-money";
 import {
+  considerBribe,
+  CORRUPTION_MODULE_ID,
+} from "../core2/modules/corruption";
+import {
   PUBLIC_EMPLOYER_CLASSES,
   PUBLIC_PAY_FLOOR,
   PUBLIC_PAY_FLOOR_UNIT,
@@ -761,6 +765,54 @@ export class DevMode {
           )?.heard === false,
       ),
       bill: held,
+    };
+  }
+
+  /** The wealthiest living people in the world: who might want a favor enough to pay for it. */
+  wealthiest(count = 12) {
+    return [...this.core.people.values()]
+      .filter((p) => p.alive && p.liquidMinor > 0)
+      .sort((a, b) => b.liquidMinor - a.liquidMinor)
+      .slice(0, count)
+      .map((p) => ({
+        personId: p.id,
+        name: `${p.givenName} ${p.familyName}`,
+        liquidMinor: p.liquidMinor,
+      }));
+  }
+
+  /**
+   * Someone wants a favor from an official (a pending vote, a permit, a contract: any record id)
+   * and offers a bribe through the game's own considerBribe: the offerer decides whether to
+   * offer and the official whether to take it, each as the engine decides, and the money moves
+   * only if it is taken. Says what happened and the reasons the engine kept.
+   */
+  forceBribe(input: {
+    offererId: string;
+    officialId: string;
+    subjectId: string;
+    stakeMinor: number;
+  }) {
+    if (!has(this.core, CORRUPTION_MODULE_ID))
+      throw new Error("This world has no corruption module.");
+    const offerer = this.core.people.get(input.offererId);
+    const before = offerer?.liquidMinor ?? 0;
+    const record = considerBribe(this.api, {
+      offererId: input.offererId,
+      officialId: input.officialId,
+      stakeMinor: input.stakeMinor,
+      subjectId: input.subjectId,
+    });
+    if (!record)
+      throw new Error("No bribe: the offerer has no money or someone is gone.");
+    return {
+      mark: this.mark("bribe", [record.id], {
+        offererId: input.offererId,
+        officialId: input.officialId,
+        subjectId: input.subjectId,
+      }),
+      record,
+      moved: before - (offerer?.liquidMinor ?? 0),
     };
   }
 

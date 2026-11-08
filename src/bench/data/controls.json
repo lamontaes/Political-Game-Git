@@ -179,6 +179,18 @@
     "held": "Held in committee",
     "noBill": "Introduce a bill first."
   },
+  "devBribe": {
+    "title": "Bribe",
+    "offerer": "Offerer",
+    "official": "Official",
+    "stake": "Stake",
+    "offer": "Offer",
+    "offered": "Offered",
+    "declined": "Not offered",
+    "taken": "Taken",
+    "refused": "Refused",
+    "noBill": "Introduce a bill first."
+  },
   "devMemory": {
     "title": "Remembers",
     "kept": {
