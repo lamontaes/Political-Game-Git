@@ -153,7 +153,14 @@ describe(`the voting engine weighs the economy and scandals in a played race (se
       const moved = result.electorateReasons!.filter((r) => r.economy !== 0);
       // The term is the country's approval of the president against its mean,
       // read from the national-opinion engine's latest row on election day.
-      const economy = run.economyOn.get(result.date);
+      const economy = (
+        api
+          .moduleState("national-opinion")
+          .table("approval")
+          .get(`approval:${result.date.slice(0, 7)}`) as unknown as
+          | ReturnType<typeof latestApproval>
+          | undefined
+      ) ?? run.economyOn.get(result.date);
       expect(
         economy,
         `${where}: the economy read on ${result.date}`,
