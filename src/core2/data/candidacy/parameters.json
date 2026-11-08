@@ -223,5 +223,18 @@
     "tag": "TUNABLE",
     "citation": "Encouragement from people close to a would-be candidate is among the strongest pushes toward running (Lawless and Fox 2010, It Still Takes a Candidate, Cambridge University Press, ch. 5, the recruitment finding the party-ask pull reads); a relative's answer after a loss is read the same way, at half the party's strength because it is one person's word, raised by how close they are. Spread 0.25 to 1.",
     "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyWaveWeight": {
+    "value": 60,
+    "tag": "TUNABLE",
+    "citation": "How strongly the national tide moves the decision to run for a partisan seat: the share of the two-party vote the president's party is expected to lose this cycle (the national economy and the midterm penalty, the same figure the count reads: tideAgainstPresident) times this weight, a pull toward running for people outside the president's party and away for people in it. Strategic politicians run when conditions favor their party (Jacobson and Kernell 1983, Strategy and Choice in Congressional Elections; Jacobson 2004, The Politics of Congressional Elections), and the 2018 midterm drew a record number of challengers against the president's party (Ballotpedia, 'Candidates and elections in 2018: filing statistics'). At the midterm swing of 0.025 the pull is 1.5, which clears a stay-out bar the open-seat weight already puts within half a point for the most drawn residents. Spread 20 to 80.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyWideStayOutPull": {
+    "value": 3.2,
+    "tag": "ESTIMATED",
+    "citation": "The pull of staying out for a wide race (a statewide or congressional seat, whose candidates come from a state's whole pool of people with standing), against which running is weighed. Local seats keep candidacyStayOutPull, fit on town seats, where the cost of a campaign is a town's. A wide seat's pool is already people with standing (candidacyStandingWeight, ambition, means), so the same bar left the strongest residents' pulls for governor at 3.0 to 3.6 and almost no one entered; 3.2 is our estimate of the lower cost-to-reward bar a state-wide pool faces. It was checked, not steered, against Ballotpedia's 2024 House primaries (1,773 candidates over 435 seats, about 4.1 a seat, by state from 2.3 to 10.9; src/core2/data/candidacy/benchmarks.json): in three drawn places the House filings averaged 3.0, within that by-state range. Per the owner's Nov 8 rule, real ranges are checked against and never steered to; a small or large field passes when the world's records (pulls, the pool, an incumbent's strength) explain it. Each person already running lowers the next one's pull by candidacyFieldWeight, so the field limits itself. Spread 3.0 to 3.6.",
+    "estimatedFrom": "Our own estimate of a state-wide pool's bar, checked against Ballotpedia's 2024 House primary counts; spread 3.0 to 3.6",
+    "stopgapId": "SG-P15-candidacy-weights"
   }
 }

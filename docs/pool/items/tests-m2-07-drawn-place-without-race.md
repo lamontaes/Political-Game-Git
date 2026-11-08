@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: done
+status: open
 claimed-by: claude/tests-m2-07-race-draw
 pr: #6135
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-26T02:57:09.395Z
 **Files.** src/core2/voting.test.ts
 
 **Notes.** Found Oct 26 by the traits lead while diagnosing #5979's golden-path red.
+
+Nov 8, merge desk: it fails again on main at 757242caa6. Waikoloa Village, Hawaii (place key 1576600, seed 67c6696d488be63625780c83a2553abb64a3aaf1df2ea0e0a9ccbb0136e6adcc): no open local or state race in any of the nine places tried (1576600, 2539152, 1150000, 3731360, 0937770, 2880160, 4001400, 4454460, 1150000); 1150000 is tried twice. It is the same on #7455's head, so it is not that PR's. Reopened.

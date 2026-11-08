@@ -622,7 +622,9 @@ function resolveSetting(
         ? { kind, recordId: job.organizationId }
         : undefined;
     }
+    case "letter":
     case "phone":
+      // A letter, like a call, is between two people; its record is the cause.
       return peopleBound > one ? { kind, recordId: moment.causeId } : undefined;
     case "public":
       return { kind, recordId: subject.placeId };

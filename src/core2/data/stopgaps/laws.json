@@ -60,12 +60,23 @@
     "status": "open"
   },
   {
+    "id": "SG-LAWS-local-line-filing-threshold",
+    "file": "src/core2/modules/world-legislating.ts",
+    "line": 709,
+    "whatItFakes": "How big a gap between a member's wanted budget line and the line in force must be before they file a mid-year amendment (1 percent of the line, spread 0.5 to 3 percent, budgetAmendmentMinShare) is an estimate; no table of local amendment thresholds was found. Real councils also take up contracts, appointments and rezonings that no record here carries.",
+    "why": "The research names how often local bodies amend budgets mid-year but not a size below which members do not bother.",
+    "addedBy": "night:laws-and-effects",
+    "addedAt": "2026-11-08",
+    "replacement": "Thresholds from sampled local budget-amendment codes and agendas.",
+    "status": "open"
+  },
+  {
     "id": "SG-LAWS-disaster-share-size",
     "kind": "estimated-calibration",
     "file": "src/core2/modules/disasters.ts",
     "line": 255,
-    "whatItFakes": "The federal share of public assistance once Congress has states share disaster costs is an estimate (50 percent, spread 25 to 75 percent, disasterFederalShareWhenStatesShare); no published bill or rule sets it. The cut applies to the federal public assistance the declaration pays the county and town governments.",
-    "why": "The research names the law and today's 75 percent floor but no replacement share.",
+    "whatItFakes": "The federal share of public assistance once Congress has states share disaster costs is the 50 percent FEMA's head said was coming (May 15, 2025, Reuters), spread 25 to 75 percent (disasterFederalShareWhenStatesShare); no enacted bill sets it. The cut applies to the federal public assistance the declaration pays the county and town governments.",
+    "why": "Only the administration's stated plan names the replacement share; no bill or rule has set it.",
     "addedBy": "night:laws-and-effects",
     "addedAt": "2026-11-08",
     "replacement": "The share from the first enacted or introduced text, with the state's own cost taken up by the state government's budget.",

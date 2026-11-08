@@ -168,8 +168,11 @@ so a push to `main` cannot take its place in the queue either.
   tip instead, and only while none of them has changed since the validated
   parent. `package.json`, the lockfile, `PATCH_NOTES.md` and the ledger change
   only in a release, so a second release in between shows up as a change and
-  this one stands down. Its declarations stay unconsumed, and the next push
-  event picks them up. Nothing is half-published, because publication is that
+  this one stands down. Its declarations stay unconsumed, and the next package
+  run (every two hours or on request) picks them up. A declaration the release
+  consumes that was reworded on `main` after validation does not stop the
+  release: it is deleted as validated, and the reworded text is not in that
+  release's notes. Nothing is half-published, because publication is that
   single push.
 - **What a release validates.** The validated candidate is the tree at the
   merge that triggered the run. Merges that land during the build are in the

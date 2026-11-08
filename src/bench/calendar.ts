@@ -1,7 +1,7 @@
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { CLOSENESS, familyFactsOf } from "../core2/modules/people";
-import { federalHolidays } from "../core2/modules/office-day";
-import { nextSittingOf } from "../core2/modules/legislature";
+import { bodyOf, nextSittingOf } from "../core2/modules/legislature";
+import { federalHolidays, officeHost } from "../core2/modules/office-day";
 import { townSeats } from "../core2/modules/offices";
 import { wordArchiveStory, wordPrintedStory } from "./archive-words";
 import { coreAPI } from "../core2/state";
@@ -187,6 +187,18 @@ export function calendarItems(
     const sitting = nextSittingOf(api, office.id);
     if (sitting && inWindow(sitting.date))
       bodies.set(office.id, { title: office.kind, date: sitting.date });
+  }
+  // The bodies the person sits on, at any level (a legislature, Congress): the next day each sits.
+  for (const officeId of officeHost.officesOf(api, personId)) {
+    if (bodies.has(officeId)) continue;
+    const body = bodyOf(api, officeId);
+    const sitting = nextSittingOf(api, officeId);
+    // The body the person sits on is shown whenever it next sits: a legislature that meets every other year is a date more than a year off.
+    if (body && sitting && sitting.date >= from)
+      bodies.set(officeId, {
+        title: body.bodyName ?? body.kind,
+        date: sitting.date,
+      });
   }
   for (const [officeId, body] of bodies) {
     const line = screenLine("calendar", "calendar.meeting.1", {

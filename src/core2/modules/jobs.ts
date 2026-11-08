@@ -4151,9 +4151,16 @@ function hire(
   }
   const pay = hirePay(api, position, person.id);
   const startsAt = addDays(makeIsoDate(api.state.date), 1);
-  const coworkerIds = fullJobs(api, position.organizationId).map(
-    (row) => row.personId,
-  );
+  // Nearest first: people in the same role work beside the hire, then the
+  // rest of the staff by id (`meetAtWork` meets as many as the staff's size lets one know).
+  const coworkerIds = fullJobs(api, position.organizationId)
+    .sort(
+      (a, b) =>
+        Number(b.title === position.title) -
+          Number(a.title === position.title) ||
+        (a.personId < b.personId ? -1 : a.personId > b.personId ? 1 : 0),
+    )
+    .map((row) => row.personId);
   const jobId = `job:${position.id}:${person.id}`,
     commitmentId = `work-commitment:${jobId}`;
   const jobSource = source(
