@@ -295,16 +295,26 @@ function playerJoins(api: CoreAPI, event: { facts?: Record<string, string> }) {
     });
 }
 
-/** The officials holding the town's seats, at every level that covers it. */
-function officialsOfTown(api: CoreAPI): string[] {
+/** The officials holding the town's seats, at every level that covers it (or only the town's own). */
+function officialsOfTown(api: CoreAPI, localOnly = false): string[] {
   return [
     ...new Set(
       townSeats(api).flatMap((row) =>
-        row.holder?.personId ? [row.holder.personId] : [],
+        row.holder?.personId &&
+        (!localOnly || LOCAL_LEVELS.has(row.office.level))
+          ? [row.holder.personId]
+          : [],
       ),
     ),
   ].sort();
 }
+
+/** The levels of government that sit in the town and see its streets: their holders hear a protest when it forms. */
+const LOCAL_LEVELS: ReadonlySet<string> = new Set([
+  "city",
+  "county",
+  "township",
+]);
 
 function monthlyRun(api: CoreAPI): void {
   const core = api.state as CoreState;
@@ -372,7 +382,10 @@ function monthlyRun(api: CoreAPI): void {
           date: core.date,
           kind: `civic.${kind}`,
           personIds: participants,
-          witnessIds: participants,
+          // The town's own officials see it form, and so can be confronted by it.
+          witnessIds: [
+            ...new Set([...participants, ...officialsOfTown(api, true)]),
+          ],
           placeId,
           publicRecord: true,
           news: true,
@@ -381,6 +394,7 @@ function monthlyRun(api: CoreAPI): void {
             actionId: id,
             area: stock.area,
             side: stock.side,
+            question: rule.question ?? "",
             size: String(participants.length),
           },
           source: {
@@ -389,7 +403,8 @@ function monthlyRun(api: CoreAPI): void {
             asOf: core.date,
           },
         });
-      if (!open) inviteThePlayer(api, row, rule.question);
+      // Only an action with a demand can be put to the player in words.
+      if (!open && rule.question) inviteThePlayer(api, row, rule.question);
       // A grievance presses its demand on the town's officials; a rally has none.
       if (stock.side === "grievance" && rule.question) {
         const lead = participants[0]!;
