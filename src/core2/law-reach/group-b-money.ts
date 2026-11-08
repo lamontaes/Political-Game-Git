@@ -10,6 +10,7 @@ import {
   appliedOn,
   appliedTo,
   lawApplied,
+  lawNoLongerApplies,
   lawReachRuns,
   type AppliedTarget,
 } from "./applied";
@@ -1256,6 +1257,7 @@ export function moveBudget(
   const prior = getRow<MoveRow>(api, "taken", id);
   const stamp = `${input.lawId}#${api.state.date}`;
   if (!input.inForce) {
+    lawNoLongerApplies(api, input.key, gov.id);
     if (!prior || prior.undone || prior.budgetId !== budget.id)
       return prior ?? null;
     for (const [line, delta] of Object.entries(prior.moves))
@@ -1428,6 +1430,12 @@ export function holdReserve(
   const accounts = api.accounts();
   const main = accounts.main(gov.organizationId);
   const accountId = `reserve:${gov.organizationId}`;
+  if (!input.inForce) {
+    lawNoLongerApplies(api, input.key, gov.id);
+    // Reading a government with no reserve rule must not create an account.
+    if (!core.cashJournal.accounts.has(accountId))
+      return { held: 0, target: 0 };
+  }
   if (!core.cashJournal.accounts.has(accountId))
     accounts.open({
       id: accountId,
