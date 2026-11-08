@@ -863,6 +863,7 @@
   "budgetAdopted": {
     "by": "By",
     "vote": "Vote",
+    "chambers": ["First chamber", "Second chamber", "Third chamber"],
     "bill": "Bill",
     "tally": "{yes} yes, {no} no",
     "halved": "Cut in half",
