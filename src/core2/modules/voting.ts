@@ -4987,7 +4987,6 @@ function racesIn(api: CoreAPI, year: number): readonly Race[] {
     ) {
       // stopgapId: SG-GOV-outside-nonpartisan-race (another place's statewide office elected without party labels is not raced; its holder serves past the term's end)
       api.stopgap("SG-GOV-outside-nonpartisan-race");
-      continue;
     }
     if (executive) {
       // stopgapId: SG-GOV-outside-ticket-raced-alone (a statewide officer the law elects on the governor's ticket is raced on its own seat)
