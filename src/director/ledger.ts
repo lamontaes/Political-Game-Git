@@ -12,6 +12,7 @@
  * draws by chance.
  */
 import { recordYearlyAddress } from "./yearly-address";
+import { recordLocalAddresses } from "./local-address";
 import { SCHOOL_STARTED, preStartHistory } from "../core2/past";
 import { addDays, daysBetween, makeIsoDate } from "../core2/kernel/dates";
 import { appraiseEvent } from "../core2/emotion";
@@ -1833,7 +1834,10 @@ export function createDirector(
     eventKinds: data.eventKinds,
     onDay(api) {
       // The President's address to Congress, on the day the calendar sets it.
-      if (started) recordYearlyAddress(api.state);
+      if (started) {
+        recordYearlyAddress(api.state);
+        recordLocalAddresses(api.state);
+      }
     },
     onEvent(api, event, learnedBy) {
       if (!started) return;
