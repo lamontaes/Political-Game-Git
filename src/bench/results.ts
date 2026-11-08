@@ -138,6 +138,10 @@ export function electionResults(core: CoreState, playerId: string) {
       ballot: ballot && {
         voted: ballot.voted,
         choice: ballot.choice ? name(ballot.choice) : null,
+        // At large: everyone the player's ballot picked, in order.
+        choices: (ballot.choices ?? (ballot.choice ? [ballot.choice] : [])).map(
+          (id) => name(id),
+        ),
         turnoutReasons: ballot.turnoutReasons,
       },
     });
