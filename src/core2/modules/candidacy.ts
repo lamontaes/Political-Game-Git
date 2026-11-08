@@ -59,6 +59,8 @@ import {
   type FilingRow,
   type OfficeFamily,
   atLargeGroup,
+  livesInTownCounty,
+  townCountyPlaceId,
 } from "./elections";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import {
@@ -866,7 +868,9 @@ export function weighContest(
   // county officeholder from outside the town still holds the county's seat.
   const weighs = (p: PersonState) =>
     p.alive &&
-    (p.placeId === town.townPlaceId ||
+    ((contest.family === "countyOffice"
+      ? livesInTownCounty(api, p)
+      : p.placeId === town.townPlaceId) ||
       pool.has(p.id) ||
       p.id === incumbentId) &&
     !appointed.has(p.id) &&
@@ -994,7 +998,7 @@ function committedOn(
 /** Each counted adult's pull to run apart from the seat itself, cached for the year. */
 const countedBases = new WeakMap<
   object,
-  { year: string; rows: { voter: CountedVoter; base: number }[] }
+  Map<string, { year: string; rows: { voter: CountedVoter; base: number }[] }>
 >();
 
 /**
@@ -1009,14 +1013,25 @@ function countedScreen(
   minimumAge: number,
 ): { weighed: number; drawn: PersonId[] } {
   const year = api.state.date.slice(0, 4);
-  let held = countedBases.get(api.state);
+  // A countywide seat is weighed by the town's counted adults and by the rest
+  // of the county's (the counted residents of its county place): each scope
+  // keeps its own pulls for the year.
+  const county = open.countywide ? townCountyPlaceId(api) : null;
+  const scope = county ? "county" : "town";
+  const scopes = countedBases.get(api.state) ?? new Map();
+  countedBases.set(api.state, scopes);
+  let held = scopes.get(scope);
   if (!held || held.year !== year) {
     // Counted residents of adult correctional rooms may be drawn to run.
     // stopgapId: SG-GQ-counted-prisoners-vote
     held = {
       year,
       rows: countedResidents(api.state as CoreState)
-        .filter((voter) => voter.placeId === townPlaceId)
+        .filter(
+          (voter) =>
+            voter.placeId === townPlaceId ||
+            (county !== null && voter.placeId === county),
+        )
         .map((voter) => {
           // The pull apart from the seat: an open town seat with no one
           // running yet, which bounds every seat's pull from above but for
@@ -1037,7 +1052,7 @@ function countedScreen(
           (a, b) => b.base - a.base || a.voter.id.localeCompare(b.voter.id),
         ),
     };
-    countedBases.set(api.state, held);
+    scopes.set(scope, held);
   }
   const bar = stayOutPull(api, open);
   // The most an incumbent's record can add to the cached pull.

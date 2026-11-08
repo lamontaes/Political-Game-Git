@@ -122,6 +122,56 @@ if (seats) {
     );
 }
 
+// Why a race drew one candidate or none (the owner's Nov 8 rule: a small field passes when the records explain it).
+// Explained: no one who weighed the seat had a pull above the stay-out bar; unexplained: someone did and still did not file.
+{
+  const decisions = api
+    .moduleState(CANDIDACY_MODULE_ID)
+    .table("decisions")
+    .rows() as any[];
+  const byContest = new Map<string, any[]>();
+  for (const d of decisions)
+    (
+      byContest.get(d.contestId) ??
+      byContest.set(d.contestId, []).get(d.contestId)!
+    ).push(d);
+  const tally: Record<string, [number, number, number]> = {};
+  for (const c of api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("contests")
+    .rows() as any[]) {
+    if (!results.some((r) => r.contestId === c.id)) continue;
+    const filedHere = filedBy.get(c.id) ?? 0;
+    if (filedHere > 1) continue;
+    const ds = (byContest.get(c.id) ?? []).filter((d) => d.scores?.length);
+    const wide =
+      c.level !== "city" &&
+      c.family !== "municipalOffice" &&
+      c.family !== "countyOffice";
+    const bar = wide ? 3.2 : 3.94;
+    const top = ds.reduce(
+      (m, d) =>
+        Math.max(
+          m,
+          Object.values(d.reasons as Record<string, number>).reduce(
+            (a, b) => a + b,
+            0,
+          ),
+        ),
+      -Infinity,
+    );
+    const k = `${c.level}/${c.family}`;
+    const row = (tally[k] ??= [0, 0, 0]);
+    row[0] += 1;
+    if (top <= bar) row[1] += 1;
+    else row[2] += 1;
+  }
+  for (const [k, [n, explained, other]] of Object.entries(tally).sort())
+    console.log(
+      `small field ${k.padEnd(30)} ${n} races with at most one filer: ${explained} explained (no weigher's pull cleared the bar), ${other} to look into`,
+    );
+}
+
 console.log(
   `Ballotpedia (to check against, never to steer to; a field passes when the records explain it): state legislative uncontested ${benchmarks.stateLegislativeUncontestedShare.value}, House primary candidates per seat ${benchmarks.usHousePrimaryCandidatesPerSeat.value}, House races contested by both parties ${benchmarks.usHouseContestedByBothParties.value}, state legislative seats open ${benchmarks.stateLegislativeOpenSeatShare.value}, largest cities' mayoral candidates ${benchmarks.largestCitiesMayoralCandidatesPerElection.value}, all seats uncontested ${benchmarks.allSeatsUncontestedShare2025.value}`,
 );

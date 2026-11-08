@@ -740,6 +740,39 @@ function town(api: CoreAPI) {
   };
 }
 
+const countyOf = new WeakMap<object, string | null>();
+/**
+ * The place of the played town's county: where the rest of the county's
+ * people (the counted residents outside the town) live. Read from the town's
+ * own residents, whose county it is; null for a town with no county on record.
+ */
+export function townCountyPlaceId(api: CoreAPI): string | null {
+  const held = countyOf.get(api.state);
+  if (held !== undefined) return held;
+  const { townPlaceId } = town(api);
+  let found: string | null = null;
+  for (const person of api.state.people.values())
+    if (person.placeId === townPlaceId && person.countyId) {
+      found = person.countyId;
+      break;
+    }
+  countyOf.set(api.state, found);
+  return found;
+}
+
+/** Whether someone lives in the played town's county, in the town or in the rest of it. */
+export function livesInTownCounty(
+  api: CoreAPI,
+  person: Readonly<{ placeId: string; countyId?: string }>,
+): boolean {
+  const county = townCountyPlaceId(api);
+  return (
+    person.placeId === town(api).townPlaceId ||
+    (county !== null &&
+      (person.placeId === county || person.countyId === county))
+  );
+}
+
 /**
  * The contests of a body's at-large seats held on one contest's day, in
  * seat order: the same office, the same election day, seats without a
@@ -1062,7 +1095,9 @@ export function checkEligibility(
       ? national
         ? placeStateKey(person.placeId) !== null
         : placeStateKey(person.placeId) === town(api).stateKey
-      : person.placeId === town(api).townPlaceId);
+      : contest.family === "countyOffice"
+        ? livesInTownCounty(api, person)
+        : person.placeId === town(api).townPlaceId);
   const checks: RequirementCheck[] = [
     {
       rule: "filing-deadline",
