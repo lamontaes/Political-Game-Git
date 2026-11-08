@@ -3335,6 +3335,20 @@
           "sceneKey": "lobbyist-word",
           "opener": "other",
           "setting": ["seat", "venue"]
+        },
+        {
+          "match": {
+            "label": "circumstance:governor-answer-hallway"
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "governor.response",
+          "bind": {
+            "other": "counterpart",
+            "you": "subject"
+          },
+          "sceneKey": "governor-answer-word",
+          "opener": "other",
+          "setting": ["seat", "venue"]
         }
       ],
       "tag": {
@@ -5544,6 +5558,54 @@
       ],
       "tag": {
         "key": "honor",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
+      "key": "run-doubt",
+      "note": "The player lost a race and has lost others before (the elections module's filings against the count's own records). A few days later someone who lives with them asks whether another run is worth it. The player can say why they run, say they will be fine, promise one more try or put the talk off.",
+      "purpose": "run-doubt",
+      "asker": "relative",
+      "asked": "you",
+      "stakes": ["race", "home"],
+      "roles": [
+        {
+          "key": "relative",
+          "fill": "household",
+          "count": "one",
+          "moves": ["ask", "press", "accept", "thank", "warn"],
+          "wants": ["change"],
+          "bearing": "tender"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["tell", "comfort", "promise", "deflect", "leave"],
+          "wants": ["keep-same"],
+          "bearing": "calm"
+        }
+      ],
+      "setting": ["home"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "circumstance:run-doubt"
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "election-result",
+          "bind": {
+            "relative": "counterpart",
+            "you": "subject"
+          },
+          "opener": "relative",
+          "setting": ["home"]
+        }
+      ],
+      "tag": {
+        "key": "threat",
         "endpoint": "political",
         "registers": ["scene-talk", "scene-words"]
       }
