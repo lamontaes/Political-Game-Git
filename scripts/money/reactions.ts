@@ -5,6 +5,7 @@ import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { gameStartDate } from "../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import { advanceCore } from "../../src/core2/life";
+import { placeTermRead, termReadPlaces } from "../../src/core2/term-read";
 import { townMetrics } from "../../src/core2/modules/world-metrics";
 import { coreAPI } from "../../src/core2/state";
 import { drawPlace } from "../core2-year/place";
@@ -35,11 +36,19 @@ for (let q = 1; q <= years * 4; q++) {
       if (c.kind === "layoff") layoffs += c.heads ?? 1;
       if (c.kind === "hire") hires += c.heads ?? 1;
     }
+  const place = termReadPlaces(api)[0];
+  const read = place ? placeTermRead(api, place, gameStartDate()) : [];
+  const slide = (a: string) =>
+    read.find((r) => r.area === a)?.slide.toFixed(2) ?? "-";
+  const actions = api
+    .moduleState("core2-public-action-v1")
+    .table("actions")
+    .rows() as any[];
   const t = townMetrics(api) as any[];
   const town = t.find((r) => r.businessesOpen > 0) ?? t[0];
   console.log(
     world.core.date,
     `nat U ${m.unemploymentPct.toFixed(1)} gap ${m.outputGapPct.toFixed(2)}`,
-    `town U ${(town.unemploymentRate * 100).toFixed(1)} unemployed ${town.unemployed} employed ${town.employed} open ${town.businessesOpen} closed ${town.businessesClosedThisMonth} layoffs/qtr ${layoffs} hires/qtr ${hires} medHourly ${(town.medianHourlyMinor / 100).toFixed(2)}`,
+    `town U ${(town.unemploymentRate * 100).toFixed(1)} unemployed ${town.unemployed} employed ${town.employed} open ${town.businessesOpen} closed ${town.businessesClosedThisMonth} layoffs/qtr ${layoffs} hires/qtr ${hires} termRead jobs ${slide("jobs")} pay ${slide("pay")} prices ${slide("prices")} actions ${actions.length} medHourly ${(town.medianHourlyMinor / 100).toFixed(2)}`,
   );
 }
