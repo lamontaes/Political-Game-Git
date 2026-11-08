@@ -194,6 +194,11 @@
     "refused": "Refused",
     "noBill": "Introduce a bill first."
   },
+  "devRecords": {
+    "title": "Records",
+    "person": "Person",
+    "trace": "Trace"
+  },
   "devScene": {
     "title": "Scenes",
     "type": "Situation",
@@ -206,6 +211,7 @@
     "fallIll": "Falls seriously ill",
     "runUntilDies": "Run until they die",
     "ill": "Seriously ill",
+    "picked": "Picked for their next decision",
     "reasons": {
       "days": "Days passed",
       "event": "Died",
