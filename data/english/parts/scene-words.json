@@ -4197,6 +4197,216 @@
       "tag": {
         "move": "narrate"
       }
+    },
+    {
+      "key": "scene-words.lead-gathering-missing-alone.one-chair-stays-pushed-in-nobody-sits-there-and-nobody-moves-it",
+      "move": "lead-gathering-missing-alone",
+      "kind": "spoken",
+      "text": "One chair stays pushed in. Nobody sits there, and nobody moves it.",
+      "uses": [
+        {
+          "move": "lead-gathering-missing-alone",
+          "subject": "lead",
+          "role": "gathering-missing",
+          "choice": "alone"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-gathering-missing-alone.you-cut-one-more-slice-than-there-are-people-here-nobody-says-anything",
+      "move": "lead-gathering-missing-alone",
+      "kind": "spoken",
+      "text": "You cut one more slice than there are people here. Nobody says anything about it.",
+      "uses": [
+        {
+          "move": "lead-gathering-missing-alone",
+          "subject": "lead",
+          "role": "gathering-missing",
+          "choice": "alone"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-gathering-missing-alone.the-phone-lies-face-up-beside-the-cake-every-so-often-someone-glances-",
+      "move": "lead-gathering-missing-alone",
+      "kind": "spoken",
+      "text": "The phone lies face up beside the cake. Every so often someone glances at it.",
+      "uses": [
+        {
+          "move": "lead-gathering-missing-alone",
+          "subject": "lead",
+          "role": "gathering-missing",
+          "choice": "alone"
+        }
+      ],
+      "bearing": "tired",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-gathering-missing-other.a-card-signed-by-other-is-propped-against-the-cake-stand-everyone-has-",
+      "move": "lead-gathering-missing-other",
+      "kind": "spoken",
+      "text": "A card signed by {other} is propped against the cake stand. Everyone has already read it.",
+      "uses": [
+        {
+          "move": "lead-gathering-missing-other",
+          "subject": "lead",
+          "role": "gathering-missing",
+          "choice": "other"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-gathering-missing-other.you-set-out-the-plates-and-count-them-twice-other-would-have-made-one-",
+      "move": "lead-gathering-missing-other",
+      "kind": "spoken",
+      "text": "You set out the plates and count them twice. {other} would have made one more.",
+      "uses": [
+        {
+          "move": "lead-gathering-missing-other",
+          "subject": "lead",
+          "role": "gathering-missing",
+          "choice": "other"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-gathering-missing-other.someone-lights-the-candles-and-starts-to-say-other-s-name-then-just-ha",
+      "move": "lead-gathering-missing-other",
+      "kind": "spoken",
+      "text": "Someone lights the candles and starts to say {other}'s name, then just hands over the matches.",
+      "uses": [
+        {
+          "move": "lead-gathering-missing-other",
+          "subject": "lead",
+          "role": "gathering-missing",
+          "choice": "other"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-gathering-missing-alone.they-sing-anyway-a-little-quieter-than-usual-the-phone-stays-dark-thro",
+      "move": "lead-gathering-missing-alone",
+      "kind": "spoken",
+      "text": "They sing anyway, a little quieter than usual. The phone stays dark through the birthday song.",
+      "uses": [
+        {
+          "move": "lead-gathering-missing-alone",
+          "subject": "lead",
+          "role": "gathering-missing",
+          "choice": "alone"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-gathering-missing-other.someone-makes-a-joke-and-stops-halfway-the-way-you-stop-when-you-expec",
+      "move": "lead-gathering-missing-other",
+      "kind": "spoken",
+      "text": "Someone makes a joke and stops halfway, the way you stop when you expect {other} to answer.",
+      "uses": [
+        {
+          "move": "lead-gathering-missing-other",
+          "subject": "lead",
+          "role": "gathering-missing",
+          "choice": "other"
+        }
+      ],
+      "bearing": "tired",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-gathering-missing-other.you-wrap-a-piece-of-cake-and-set-it-aside-for-other-nobody-asks-why",
+      "move": "lead-gathering-missing-other",
+      "kind": "spoken",
+      "text": "You wrap a piece of cake and set it aside for {other}. Nobody asks why.",
+      "uses": [
+        {
+          "move": "lead-gathering-missing-other",
+          "subject": "lead",
+          "role": "gathering-missing",
+          "choice": "other"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-gathering-missing-alone.you-lift-your-cup-toward-the-empty-chair-the-others-lift-theirs",
+      "move": "lead-gathering-missing-alone",
+      "kind": "spoken",
+      "text": "You lift your cup toward the empty chair. The others lift theirs.",
+      "uses": [
+        {
+          "move": "lead-gathering-missing-alone",
+          "subject": "lead",
+          "role": "gathering-missing",
+          "choice": "alone"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
     }
   ]
 }

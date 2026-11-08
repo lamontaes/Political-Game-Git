@@ -54,7 +54,12 @@ import {
 } from "../gov-rules/person-identity";
 import { birthCohortGivenName } from "../gov-rules/given-name-cohorts";
 import { livesElsewhere } from "./moves";
-import { reviewKinContact } from "./kin-contact";
+import {
+  BIRTHDAY_KIND,
+  birthdayGathering,
+  reviewKinContact,
+  scheduleBirthdays,
+} from "./kin-contact";
 import { declareSnapshotCovered } from "../snapshot";
 import type {
   CoreAPI,
@@ -426,6 +431,7 @@ function review(api: CoreAPI): void {
   }
   reviewTown(api);
   reviewKinContact(api);
+  scheduleBirthdays(api);
 }
 
 /** Where a couple in town stands on the way to a wedding. */
@@ -935,6 +941,10 @@ export const partnershipsModule: CoreModule = {
     schedule(api);
   },
   onCalendarWork(api, work) {
+    if (work.kind === BIRTHDAY_KIND) {
+      birthdayGathering(api, work.key);
+      return;
+    }
     if (work.kind !== REVIEW_KIND) return;
     review(api);
     schedule(api);

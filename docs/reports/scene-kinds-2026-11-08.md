@@ -1,6 +1,6 @@
 # Scene kinds, Nov 8, 2026
 
-The game has 92 kinds of scene. 7 of them cannot start yet (date, proposal, breakup and letter were struck on Nov 8 by the Lives session: the town now partners and parts, and a played-year proof is in the PR), because nothing in the world writes the record they wait for. The rest start from records the engines already keep. The table says what starts each kind, where it is played, who is in it and how many wordings can say it.
+The game has 92 kinds of scene. 6 of them cannot start yet (date, proposal, breakup, letter and gathering-missing were struck on Nov 8 by the Lives session: the town now partners and parts, and a played-year proof is in the PR), because nothing in the world writes the record they wait for. The rest start from records the engines already keep. The table says what starts each kind, where it is played, who is in it and how many wordings can say it.
 
 ## Every kind
 
@@ -19,7 +19,7 @@ The game has 92 kinds of scene. 7 of them cannot start yet (date, proposal, brea
 | celebration | - | WAITS: married; money:job-started; money:job-started / awaiting record:birthday-gathering | home, venue | effective-date | honoree, host, guests | 1 |  |
 | diploma-home | diploma-home | circumstance:graduation-home via circumstance | home | at-cause | proud, graduate | 43 |  |
 | no-diploma-home | no-diploma-home | circumstance:no-graduation-home via circumstance | home | at-cause | worried, senior | 41 |  |
-| gathering-missing | - | NO CAUSE / awaiting record:birthday-gathering, record:holiday-calendar | home | effective-date | household, absent | 0 | dead |
+| gathering-missing | - | NO CAUSE / awaiting record:birthday-gathering, record:holiday-calendar | home | effective-date | household, absent | 0 | |
 | funeral | funeral-cause | feeling:event:life.death | venue | effective-date | mourners, family, deceased | 25 |  |
 | first-meeting | - | circumstance:new-coworker via circumstance / awaiting record:new-neighbor | public, venue | at-cause | newcomer, met, introducer | 4 |  |
 | first-day | first-day-ropes | WAITS: school-started; money:job-started | school, workplace | effective-date | newcomer, authority, peers | 101 |  |
