@@ -1049,6 +1049,36 @@ export function fundFederalStanding(api: CoreAPI, todayMinor = 0): void {
   if (short > 0) borrowFederal(api, gov, outside, short);
 }
 
+/**
+ * How far the economy's tax base has moved since a budget's year began: the
+ * nation's payroll jobs times hourly earnings (the wage bill) in the last
+ * completed month over the same in the month the budget took effect. A tax's
+ * installment is its plan times this, so receipts rise and fall with jobs and
+ * pay, not with the plan alone. One when there is no macro record yet.
+ * (SG-GOV-outside-revenue-base-national: the nation's wage bill stands for
+ * every government's base until the states' own bases are read from the
+ * regional rows.)
+ */
+export function taxBaseIndex(
+  api: CoreAPI,
+  budgetStartsOn: string,
+  lastMonth: string,
+): number {
+  if (!(api.state as CoreState).modules.has("macro")) return 1;
+  api.stopgap("SG-GOV-outside-revenue-base-national");
+  const months = api.moduleState("macro").table("months");
+  const row = (month: string) =>
+    months.get(`macro-month:${month}`) as unknown as
+      { payrollJobsThousands: number; hourlyEarnings: number } | undefined;
+  const base = row(budgetStartsOn.slice(0, 7));
+  const now = row(lastMonth);
+  if (!base || !now) return 1;
+  return (
+    (now.payrollJobsThousands * now.hourlyEarnings) /
+    (base.payrollJobsThousands * base.hourlyEarnings)
+  );
+}
+
 /** The month's close for every treasury: revenue in, then each budget line out, top down. */
 export function closeTreasuries(api: CoreAPI, source: Source): void {
   const outside = outsideAccountOf(api);
@@ -1103,7 +1133,11 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
       if (annual <= 0 || !rule.dueMonths.includes(dueMonth)) continue;
       // What the town's own payers already paid on this line comes off the
       // installment, the rest carrying to the next one.
-      const installment = Math.round(annual / rule.dueMonths.length);
+      // The plan's installment moved by the economy's tax base since the budget year began.
+      const installment = Math.round(
+        (annual / rule.dueMonths.length) *
+          taxBaseIndex(api, budget.startsOn, lastMonth),
+      );
       const townId = `${gov.id}:${line}`;
       const townPaid =
         (

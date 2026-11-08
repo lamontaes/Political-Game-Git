@@ -1019,6 +1019,18 @@
     "status": "open"
   },
   {
+    "id": "SG-GOV-outside-revenue-base-national",
+    "kind": "estimated-behavior",
+    "file": "src/core2/budgets-treasury.ts",
+    "line": 1062,
+    "whatItFakes": "A named-payer tax line's installment is the plan's installment moved by the nation's wage bill (payroll jobs times hourly earnings) since the budget year began, for every government alike: a state's receipts follow the nation's wage bill, not its own.",
+    "why": "The states' own jobs and pay are in the regional rows, which the treasuries do not read yet; the nation's wage bill is the nearest base the budgets can read now.",
+    "addedBy": "Money",
+    "addedAt": "2026-11-08",
+    "replacement": "Each government's installment moved by its own base: the state's jobs and pay from the regional rows for income and sales taxes, output for corporate taxes, house prices for property taxes (gov-outside-revenue-real-payers, with Nation's other-states rows).",
+    "status": "open"
+  },
+  {
     "id": "SG-GOV-service-charges-by-living-cost",
     "kind": "faked-mechanic",
     "file": "src/core2/budgets-service-charges.ts",
