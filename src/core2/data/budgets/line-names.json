@@ -1,5 +1,5 @@
 {
-  "about": "The name each budget line key carries on the budgets screen, taken from the line's own item label in the source table it comes from (Census state and local finance Table 1 for state and local lines, the OMB Historical Tables for federal ones). A line the project groups from several Census items is named by those items. The screen reads `name`; `source` says which item.",
+  "about": "The name each budget line key carries on the budgets screen, in plain words a player reads (the project's own wording, not the source table's category label; `source` names the item it covers) (Census state and local finance Table 1 for state and local lines, the OMB Historical Tables for federal ones). A line the project groups from several Census items is named by those items. The screen reads `name`; `source` says which item.",
   "lines": {
     "individualIncomeTax": {
       "name": "Individual income tax",
@@ -26,23 +26,23 @@
       "source": "U.S. Census Bureau, State and Local Government Finances by Level of Government and by State: 2022, Table 1: Taxes, Motor vehicle license; Other taxes"
     },
     "chargesAndFees": {
-      "name": "Current charges",
+      "name": "Fees and charges",
       "source": "U.S. Census Bureau, State and Local Government Finances by Level of Government and by State: 2022, Table 1: Current charges"
     },
     "miscellaneous": {
-      "name": "Miscellaneous general revenue",
+      "name": "Other revenue",
       "source": "U.S. Census Bureau, State and Local Government Finances by Level of Government and by State: 2022, Table 1: Miscellaneous general revenue"
     },
     "federalAid": {
-      "name": "From federal government",
+      "name": "Aid from the federal government",
       "source": "U.S. Census Bureau, State and Local Government Finances by Level of Government and by State: 2022, Table 1: From Federal Government"
     },
     "intergovernmental": {
-      "name": "Intergovernmental revenue",
+      "name": "Aid from other governments",
       "source": "U.S. Census Bureau, State and Local Government Finances by Level of Government and by State: 2022, Table 1: Intergovernmental revenue"
     },
     "payrollTaxes": {
-      "name": "Social insurance and retirement receipts",
+      "name": "Payroll and retirement taxes",
       "source": "Office of Management and Budget, Historical Tables (fiscal 2025): receipts by source, Social insurance and retirement receipts"
     },
     "customsDuties": {
@@ -58,7 +58,7 @@
       "source": "Office of Management and Budget, Historical Tables (fiscal 2025): receipts by source, Estate and gift taxes"
     },
     "miscellaneousReceipts": {
-      "name": "Miscellaneous receipts",
+      "name": "Other receipts",
       "source": "Office of Management and Budget, Historical Tables (fiscal 2025): receipts by source, Miscellaneous receipts"
     },
     "schools": {
@@ -70,7 +70,7 @@
       "source": "U.S. Census Bureau, State and Local Government Finances by Level of Government and by State: 2022, Table 1: Education, Higher education"
     },
     "welfareAndMedicaid": {
-      "name": "Public welfare",
+      "name": "Welfare and Medicaid",
       "source": "U.S. Census Bureau, State and Local Government Finances by Level of Government and by State: 2022, Table 1: Public welfare"
     },
     "healthAndHospitals": {
@@ -90,7 +90,7 @@
       "source": "U.S. Census Bureau, State and Local Government Finances by Level of Government and by State: 2022, Table 1: Fire protection"
     },
     "corrections": {
-      "name": "Correction",
+      "name": "Corrections",
       "source": "U.S. Census Bureau, State and Local Government Finances by Level of Government and by State: 2022, Table 1: Correction"
     },
     "parks": {
@@ -110,7 +110,7 @@
       "source": "U.S. Census Bureau, State and Local Government Finances by Level of Government and by State: 2022, Table 1: Financial administration; Judicial and legal; General public buildings; Other governmental administration"
     },
     "interest": {
-      "name": "Interest on general debt",
+      "name": "Interest on debt",
       "source": "U.S. Census Bureau, State and Local Government Finances by Level of Government and by State: 2022, Table 1: Interest on general debt"
     },
     "otherPrograms": {
@@ -118,7 +118,7 @@
       "source": "U.S. Census Bureau, State and Local Government Finances by Level of Government and by State: 2022, Table 1: Other and unallocable; OMB outlays by function, remaining functions"
     },
     "localAid": {
-      "name": "Intergovernmental expenditure",
+      "name": "Aid to other governments",
       "source": "U.S. Census Bureau, State and Local Government Finances by Level of Government and by State: 2022, Table 1: Intergovernmental expenditure"
     },
     "agriculture": {

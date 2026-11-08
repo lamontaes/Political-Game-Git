@@ -2071,6 +2071,8 @@ export function takeResidentHousehold(
       memberIds: people.map((row) => row.id),
       source: h.source,
       ...(h.quarters ? { quarters: h.quarters } : {}),
+      ...(h.since ? { since: h.since } : {}),
+      ...(h.employment ? { employment: h.employment } : {}),
     },
     people,
     jobs: [...h.jobs],
