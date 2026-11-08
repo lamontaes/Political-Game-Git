@@ -79,7 +79,16 @@ try {
     names[at],
   );
   for (let i = 0; i < 20; i += 1) {
-    if (await visible("talk-next")) await page.locator("#talk-next").click();
+    // A colleague asks for your vote the evening before: put them down as undecided (the reply that
+    // leaves the vote the player's own), else take the first reply.
+    const replies = page.locator("#talk-choices .reply");
+    if ((await replies.count()) > 0 && (await replies.first().isVisible())) {
+      const undecided = replies.filter({ hasText: /undecided/i });
+      await (
+        (await undecided.count()) ? undecided.first() : replies.first()
+      ).click();
+    } else if (await visible("talk-next"))
+      await page.locator("#talk-next").click();
     else if (await visible("continue")) await page.locator("#continue").click();
     else if (!(await page.locator("#week").isDisabled())) break;
     await page.waitForTimeout(800);
@@ -91,7 +100,16 @@ try {
       held = true;
       break;
     }
-    if (await visible("talk-next")) await page.locator("#talk-next").click();
+    // A colleague asks for your vote the evening before: put them down as undecided (the reply that
+    // leaves the vote the player's own), else take the first reply.
+    const replies = page.locator("#talk-choices .reply");
+    if ((await replies.count()) > 0 && (await replies.first().isVisible())) {
+      const undecided = replies.filter({ hasText: /undecided/i });
+      await (
+        (await undecided.count()) ? undecided.first() : replies.first()
+      ).click();
+    } else if (await visible("talk-next"))
+      await page.locator("#talk-next").click();
     else if (await visible("continue")) await page.locator("#continue").click();
     else if (!(await page.locator("#week").isDisabled()))
       await page.locator("#week").click();
