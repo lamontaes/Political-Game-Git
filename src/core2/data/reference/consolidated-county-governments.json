@@ -1,0 +1,35 @@
+{
+  "about": "County areas whose general-purpose government the Census Bureau's 2025 Government Units listing carries as a municipality that is coextensive with the county (a consolidated city-county or unified government), so it has no county-type unit and no matched Census place. Each governs its whole county area and is the county's local body (a place inside it that has no government of its own answers to it). Read from the listing in src/core2/reference/government-units.generated.ts (U.S. Census Bureau, Census of Governments, 2025 Government Units listing): the six municipality units with no matched place in a county that has no county unit, outside Massachusetts, where the one such unit (the City of Easthampton) is a town whose place did not match and the state has no county governments.",
+  "units": [
+    {
+      "publisherId": "108124",
+      "countyGeoid": "30093",
+      "name": "CITY AND COUNTY OF BUTTE-SILVER BOW"
+    },
+    {
+      "publisherId": "161834",
+      "countyGeoid": "13059",
+      "name": "UNIFIED GOVERNMENT OF ATHENS-CLARKE COUNTY"
+    },
+    {
+      "publisherId": "164742",
+      "countyGeoid": "20071",
+      "name": "UNIFIED GOVERNMENT OF GREELEY COUNTY"
+    },
+    {
+      "publisherId": "165866",
+      "countyGeoid": "21111",
+      "name": "METRO GOVERNMENT OF LOUISVILLE-JEFFERSON COUNTY"
+    },
+    {
+      "publisherId": "175728",
+      "countyGeoid": "47037",
+      "name": "METROPOLITAN GOVERNMENT OF NASHVILLE-DAVIDSON COUNTY"
+    },
+    {
+      "publisherId": "183701",
+      "countyGeoid": "15003",
+      "name": "CITY AND COUNTY OF HONOLULU"
+    }
+  ]
+}
