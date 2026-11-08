@@ -82,6 +82,10 @@ const RESEARCH = research as unknown as {
 const ORDERABLE: Readonly<Record<string, string>> = {
   "restore-voting-after-sentence":
     "us-policy-positions:justice-public-safety.restore-voting-after-sentence",
+  // Governors recognize public-employee unions by order where precedent exists (AZ, IN, KS, KY, MO, VA;
+  // data/research/executive/executive-powers-2026.json canOrder); elsewhere it is set by statute.
+  "public-employee-collective-bargaining-recognition":
+    "us-policy-positions:labor-workforce.public-sector-collective-bargaining",
 };
 
 /** The policy question an executive order answers, by the order's key (for a screen to name it). */
