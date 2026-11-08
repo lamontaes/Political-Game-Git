@@ -1269,10 +1269,6 @@ function openOutsideSession(
   const lower = bodies[0];
   const governor = lower ? executiveOf(api, lower.id).term : undefined;
   const governorKey = governor ? memberKey(governor) : "";
-  if (!governorKey)
-    process.stderr.write(
-      `NOGOV jurisdiction ${jurisdiction} date ${today} lower ${lower?.id ?? "none"}\n`,
-    );
   const keys = bodies.map((b) => b.members.map(memberKey));
   interface Result {
     readonly question: string;
