@@ -896,7 +896,7 @@ export function actOn(
       // their own.
       chosen = choice ?? { kind: "budget", changes: {} };
       if (chosen.kind !== "budget") throw new Error("Choose budget changes.");
-      if (gov && choice && !choice.byRule) {
+      if (gov && choice && !chosen.byRule) {
         setBudgetPriorities(api, {
           governmentId: gov.id,
           setBy: entry.holderId,
