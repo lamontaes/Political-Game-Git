@@ -5,11 +5,12 @@ area: laws
 kind: research
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: law-levels-wage-mt-nd
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-08T00:37:28.155Z
 ---
 
 **What.** The research's statute list showed Montana and North Dakota as not barring a local minimum wage (an estimate) while the authority list barred them (docs/reports/law-levels-2026-11-05.md).
