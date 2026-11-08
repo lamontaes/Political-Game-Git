@@ -24,6 +24,9 @@ interface Research {
     {
       rule?: string;
       urls?: string[];
+      url?: string;
+      serviceDays?: number;
+      quote?: string;
       perState?: {
         state: string;
         rule?: string;
@@ -60,12 +63,27 @@ for (const order of research.orders) {
 }
 for (const [kind, rule] of Object.entries(research.vacancy)) {
   if (!rule.rule) problems.push(`vacancy ${kind}: no rule`);
-  if (!rule.urls?.length && !rule.perState?.length)
+  if (!rule.urls?.length && !rule.perState?.length && !rule.url)
     problems.push(`vacancy ${kind}: no URL`);
   for (const entry of rule.perState ?? [])
     if (!entry.citation || !entry.url)
       problems.push(`vacancy ${kind} / ${entry.state}: no citation or URL`);
 }
+// The game's acting-service limit must be the researched one: the parameter the federal
+// day reads (actingServiceDays) is checked against the fetched text of 5 U.S.C. 3346(a)(1).
+const acting = research.vacancy.federalActing;
+const parameter = JSON.parse(
+  readFileSync("src/core2/data/office-day/federal-parameters.json", "utf8"),
+).parameters.actingServiceDays?.value;
+if (
+  !acting?.serviceDays ||
+  !acting.quote?.includes(`${acting.serviceDays} days`)
+)
+  problems.push("vacancy federalActing: service days not in its quote");
+else if (parameter !== acting.serviceDays)
+  problems.push(
+    `federal-parameters actingServiceDays is ${parameter}, the research says ${acting.serviceDays}`,
+  );
 if (!Array.isArray(research.notFound)) problems.push("notFound is not listed");
 
 console.log(
