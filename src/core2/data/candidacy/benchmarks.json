@@ -34,5 +34,71 @@
     "tag": "SOURCED",
     "citation": "An average of 29 percent of seats nationwide were uncontested in the 2025 general election, where a race is uncontested when the candidates who filed number no more than the seats on the ballot (Ballotpedia, Election results, 2025: Uncontested races by state; https://ballotpedia.org/Election_results,_2025:_Uncontested_races_by_state). 30 percent were uncontested in the 2020 general election (Ballotpedia News).",
     "spread": [0.29, 0.3]
+  },
+  "usHouseNoMajorPartyCompetitionShare": {
+    "value": 0.087,
+    "tag": "SOURCED",
+    "citation": "In 2024, 38 of 435 U.S. House races (8.7%) lacked major party competition (Ballotpedia, U.S. House elections without a Democratic or Republican candidate, 2024; https://ballotpedia.org/U.S._House_elections_without_a_Democratic_or_Republican_candidate,_2024). Read from a search result's text, not the opened page (ballotpedia.org refused direct fetches from the session, Nov 8, 2026).",
+    "spread": [0.07, 0.09]
+  },
+  "allLocalAndStateOfficesUncontestedShare2024": {
+    "value": 0.645,
+    "tag": "SOURCED",
+    "citation": "26,218 (64.5%) of the races Ballotpedia covers across all levels were uncontested and 14,428 (35.5%) contested in 2024 (Ballotpedia, Analysis of uncontested elections, 2024; https://ballotpedia.org/Analysis_of_uncontested_elections,_2024). Read from a search result's text, not the opened page (ballotpedia.org refused direct fetches from the session, Nov 8, 2026).",
+    "spread": [0.6, 0.7]
+  },
+  "schoolBoardUncontestedShare2024": {
+    "value": 0.49,
+    "tag": "SOURCED",
+    "citation": "School board races had the lowest uncontested rate of the office types, 49 percent of 6,995 covered (Ballotpedia, Analysis of uncontested elections, 2024). 62 percent of 7,139 in 2020 (BallotReady, Nothing to lose: uncontested races in 2020; https://organizations.ballotready.org/research/nothing-to-lose-uncontested-races-in-2020-and-their-implications). Read from a search result's text, not the opened page (ballotpedia.org refused direct fetches from the session, Nov 8, 2026).",
+    "spread": [0.49, 0.62]
+  },
+  "largestCitiesMayorUncontestedShare2024": {
+    "value": 0.049,
+    "tag": "SOURCED",
+    "citation": "Only 2 of 41 mayoral races in the 100 largest cities were uncontested (4.9%) in 2024; 19.8 percent of council seats there were uncontested (65 of 328); 68.7 percent of council incumbents sought re-election and 13.6 percent were defeated, 2014 to 2021 (Ballotpedia, United States mayoral elections, 2025; https://ballotpedia.org/United_States_mayoral_elections,_2025). Read from a search result's text, not the opened page (ballotpedia.org refused direct fetches from the session, Nov 8, 2026).",
+    "spread": [0.02, 0.1]
+  },
+  "largestCitiesCouncilUncontestedShare2024": {
+    "value": 0.198,
+    "tag": "SOURCED",
+    "citation": "19.8 percent of council seats in the 100 largest cities were uncontested (65 of 328) in 2024 (Ballotpedia, United States mayoral elections, 2025). Read from a search result's text, not the opened page (ballotpedia.org refused direct fetches from the session, Nov 8, 2026).",
+    "spread": [0.1, 0.25]
+  },
+  "smallTownMayorUncontestedShare": {
+    "value": 0.79,
+    "tag": "ESTIMATED",
+    "citation": "79 percent of mayoral elections in small towns were uncontested against 15 percent in the biggest cities (study of mayoral elections in six states, 2000 to 2016, Rice University; https://phys.org/news/2017-05-mayoral-elections-states-unopposed.html). Read from a search result's text, not the opened page (ballotpedia.org refused direct fetches from the session, Nov 8, 2026).",
+    "estimatedFrom": "six-state study of mayoral elections, 2000 to 2016; spread 0.5 to 0.8 by town size"
+  },
+  "usHouseIncumbentsInContestedPrimaryShare": {
+    "value": 0.523,
+    "tag": "SOURCED",
+    "citation": "190 of 363 U.S. House incumbents (52.3%) faced a primary challenger in 2024, the second-highest since 2014; the 2014 to 2024 average was 51.0 percent (Ballotpedia News, Aug. 5, 2024; https://news.ballotpedia.org/2024/08/05/number-of-contested-u-s-house-incumbents-number-of-contested-legislative-primaries-%e1%98%81/). Read from a search result's text, not the opened page (ballotpedia.org refused direct fetches from the session, Nov 8, 2026).",
+    "spread": [0.4, 0.55]
+  },
+  "stateLegislativeIncumbentsUncontestedInGeneralShare": {
+    "value": 0.35,
+    "tag": "SOURCED",
+    "citation": "1,626 incumbents were uncontested in the 2024 general election, 35 percent of all incumbents who ran; 35 percent is also the average since 2010 (Ballotpedia, State legislative incumbents without general election challengers, 2024; https://ballotpedia.org/State_legislative_incumbents_without_general_election_challengers,_2024). Read from a search result's text, not the opened page (ballotpedia.org refused direct fetches from the session, Nov 8, 2026).",
+    "spread": [0.3, 0.4]
+  },
+  "stateLegislativeIncumbentsLostPrimaryShare": {
+    "value": 0.035,
+    "tag": "SOURCED",
+    "citation": "169 incumbents lost to primary challengers in 2024, 3.5 percent of incumbents who ran for re-election (Ballotpedia, State legislative elections, 2024; https://ballotpedia.org/State_legislative_elections,_2024). Read from a search result's text, not the opened page (ballotpedia.org refused direct fetches from the session, Nov 8, 2026).",
+    "spread": [0.02, 0.05]
+  },
+  "stateLegislativeVacancyBySpecialElectionStates": {
+    "value": 25,
+    "tag": "SOURCED",
+    "citation": "25 states fill legislative vacancies by special election, 22 by appointment and 3 by a hybrid; the appointer is the governor, a party, a chamber or a county board (Ballotpedia, How vacancies are filled in state legislatures, 2019; https://www.ballotpedia.org/How_vacancies_are_filled_in_state_legislatures). NCSL counts 25 states and 4 territories by special election and 23 states by appointment (https://www.ncsl.org/elections-and-campaigns/filling-legislative-vacancies). Read from a search result's text, not the opened page (ballotpedia.org refused direct fetches from the session, Nov 8, 2026).",
+    "spread": [22, 25]
+  },
+  "nobodyFilesRules": {
+    "value": 0,
+    "tag": "ESTIMATED",
+    "citation": "No single multistate summary of what happens when nobody files was found. Examples: Washington strikes the office from the ballot and the incumbent holds over until a successor is elected (RCW 29A.24.201, https://lawfilesext.leg.wa.gov/law/RCW/RCW%20%2029A%20TITLE/RCW%20%2029A.%2024%20%20CHAPTER/RCW%20%2029A.%2024%20.201.htm); South Carolina holds the election and a write-in can win (Attorney General opinion, https://www.scag.gov/wp-content/uploads/2014/04/00148019.pdf); Illinois and Maine examples appoint or hold a special election (local news). The rule is state law, so the game reads it from place data (src/core2/data/offices/holdover.json), not from this number. Read from a search result's text, not the opened page (ballotpedia.org refused direct fetches from the session, Nov 8, 2026).",
+    "estimatedFrom": "state-by-state examples; value unused, kept as the record of the search"
   }
 }
