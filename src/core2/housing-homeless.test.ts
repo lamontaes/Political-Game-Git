@@ -165,6 +165,38 @@ describe("where an evicted household goes", () => {
     ).toBe(true);
   });
 
+  it("a relative's town takes everyone but the player: the player's household stays and is never moved without their choice", () => {
+    const awayPlace = "place:homeless-fixture-away";
+    const run = (playerId: string | undefined) => {
+      const base = input(
+        "TX",
+        [{ id: "tenant", family: ["aunt"] }],
+        [
+          {
+            ...person("aunt", "household:aunt", 1_000_000_000, ["tenant"]),
+            placeId: awayPlace,
+          },
+        ],
+      );
+      const core = createLifeCore(
+        {
+          ...base,
+          ...(playerId ? { playerId } : {}),
+          households: base.households.map((home) =>
+            home.id === "household:aunt"
+              ? { ...home, placeId: awayPlace }
+              : home,
+          ),
+        },
+        { data: worldCoreData(), modules: [HOUSING_MODULE] },
+      );
+      advanceCore(core, "2021-08-31");
+      return core.people.get("tenant")!.placeId;
+    };
+    expect(run(undefined)).toBe(awayPlace);
+    expect(run("tenant")).toBe(place);
+  });
+
   it("else to a shelter bed while the place has one (HUD's state rate times its people), else to the street", () => {
     // The world's own year-round beds per 10,000 for New York (the published
     // rate moved once by the fixture's seed): the smallest place whose people
