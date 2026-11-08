@@ -342,7 +342,8 @@ function playerJoins(api: CoreAPI, event: { facts?: Record<string, string> }) {
     playerTouched: true,
   } as unknown as ModuleRow);
   const rule = RULES[action.area]!;
-  if (rule.question)
+  // A rally has no demand to press: the player only stood with it.
+  if (rule.question && action.side === "grievance")
     makeCase(api, {
       id: `case:${action.id}:${api.state.date}:player`,
       speakerId: playerId!,
@@ -469,8 +470,15 @@ function monthlyRun(api: CoreAPI): void {
             asOf: core.date,
           },
         });
-      // Only an action with a demand can be put to the player in words.
-      if (!open && rule.question) inviteThePlayer(api, row, rule.question);
+      // A friend in it asks the player to come. A rally has no demand, so the
+      // invitation names none (its topic is the area), and joining one presses
+      // no one (`playerJoins`).
+      if (!open)
+        inviteThePlayer(
+          api,
+          row,
+          stock.side === "grievance" ? rule.question : undefined,
+        );
       // A grievance presses its demand on the town's officials; a rally has none.
       if (stock.side === "grievance" && rule.question) {
         const lead = participants[0];
