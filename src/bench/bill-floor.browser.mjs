@@ -28,10 +28,14 @@ const visible = (id) =>
     .isVisible()
     .catch(() => false);
 try {
-  if (process.env.BENCH_SEED)
+  if (process.env.BENCH_SEED || process.env.BENCH_PLACEKEY)
     await page.route("**/api/newlife*", (route) => {
       const url = new URL(route.request().url());
-      url.searchParams.set("seed", process.env.BENCH_SEED);
+      if (process.env.BENCH_SEED)
+        url.searchParams.set("seed", process.env.BENCH_SEED);
+      // A place named by its key (Westway, Texas, 4878016): the state sits January to June.
+      if (process.env.BENCH_PLACEKEY)
+        url.searchParams.set("placeKey", process.env.BENCH_PLACEKEY);
       return route.continue({ url: url.toString() });
     });
   // A place can have no body to step in as (a seat of one executive); take a new draw and name it.
@@ -90,6 +94,8 @@ try {
       ).click();
     } else if (await visible("talk-next"))
       await page.locator("#talk-next").click();
+    else if (await visible("talk-leave"))
+      await page.locator("#talk-leave").click();
     else if (await visible("continue")) await page.locator("#continue").click();
     else if (!(await page.locator("#week").isDisabled())) break;
     await page.waitForTimeout(800);
@@ -111,6 +117,8 @@ try {
       ).click();
     } else if (await visible("talk-next"))
       await page.locator("#talk-next").click();
+    else if (await visible("talk-leave"))
+      await page.locator("#talk-leave").click();
     else if (await visible("continue")) await page.locator("#continue").click();
     else if (!(await page.locator("#week").isDisabled()))
       await page.locator("#week").click();
