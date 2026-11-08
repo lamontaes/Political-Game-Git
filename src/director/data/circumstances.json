@@ -403,6 +403,20 @@
       "everyParameter": "directorCircumstanceStreetEveryDays"
     },
     {
+      "id": "governor-answer-hallway",
+      "recordKinds": ["governor.response"],
+      "afterDays": 1,
+      "place": "seat",
+      "pool": ["named"],
+      "where": "pool",
+      "player": "heard-it",
+      "cast": "the day after the governor's address, the other party's leader who answered it from the floor, when the player heard the answer",
+      "typeKey": "hallway",
+      "outcome": "conversation.told",
+      "impactParameter": "directorCircumstanceHallwayImpact",
+      "everyParameter": "directorCircumstanceHallwayEveryDays"
+    },
+    {
       "id": "lobbyist-hallway",
       "recordKinds": ["case.made"],
       "recordIdPrefix": "case:lobby:",
