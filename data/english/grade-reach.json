@@ -92,6 +92,13 @@
     "conversation.farewell-leave-home.i-m-here-if-you-need-me": "farewell|tender|private",
     "conversation.farewell-leave-home.let-me-know-if-you-need-anything": "farewell|tender|private",
     "conversation.farewell-leave-home.thanks-for-listening": "farewell|tender|private",
+    "conversation.greet-open-hello.good-to-see-you": "greet|tender|private",
+    "conversation.greet-open-hello.good-to-see-you-name": "greet|tender|private",
+    "conversation.greet-open-hello.hello-name": "greet|tender|private",
+    "conversation.greet-open-hello.hi-name": "greet|tender|private",
+    "conversation.greet-open-hello.its-good-to-see-you": "greet|tender|private",
+    "conversation.greet-open-hello.its-nice-to-see-you": "greet|tender|private",
+    "conversation.greet-open-hello.nice-to-see-you": "greet|tender|private",
     "conversation.home-answer-turn.you-too": "ask|none|private",
     "conversation.home-new-answer-turn.where-do-you-live": "ask|none|private",
     "conversation.home-new-ask-where.where-are-you-from": "ask|none|private",
@@ -206,6 +213,7 @@
     "journal.election-other-result.other-won-the-race": "tell|none|narration",
     "journal.family-line-born.named-came-along": "tell|none|narration",
     "journal.family-line-born.named-was-born": "tell|none|narration",
+    "journal.family-line-born.relation-was-born": "tell|none|narration",
     "journal.family-line-born.we-welcomed-named": "tell|none|narration",
     "journal.family-line-married.i-got-married": "tell|none|narration",
     "journal.family-line-married.we-got-married": "tell|none|narration",
@@ -495,6 +503,7 @@
     "opening-speech.salutation.plain-sta-chair-female-madam-speaker-thank-you-for-having-me-and-to-everyone-watchi": "salutation|none|public",
     "opening-speech.salutation.plain-sta-chair-male-mr-speaker-members-of-congress-folks-at-home": "salutation|none|public",
     "opening-speech.salutation.plain-sta-chair-male-mr-speaker-thank-you-for-having-me-and-to-everyone-watching-": "salutation|none|public",
+    "opening-speech.salutation.plain-sta-thank-you-very-much": "greet|none|public",
     "opening-speech.salutation.polished-ina-fellow-citizens-thank-you-for-being-here": "salutation|none|public",
     "opening-speech.salutation.polished-ina-my-fellow-americans-we-have-come-together-to-do-something-or": "salutation|none|public",
     "opening-speech.salutation.polished-sta-chair-female-madam-speaker-members-of-congress-and-my-fellow-citizens-at-": "salutation|none|public",
@@ -940,11 +949,16 @@
     "scene-talk.narrate-narrate.you-sent-bill-over-now-name-from-outlet-has-the-numbers-and-wants-your": "narrate|guarded|press",
     "scene-talk.narrate-narrate.you-signed-bill-before-lunch-name-of-outlet-was-waiting-at-the-bottom-": "narrate|guarded|press",
     "scene-talk.narrate-narrate.you-ve-just-signed-bill-name-from-outlet-has-a-notebook-out-before-you": "narrate|guarded|press",
+    "scene-talk.open-call-to-order.good-afternoon": "call-to-order|none|town-hall",
     "scene-talk.open-greet.before-you-decide-can-i-say-what-i-came-to-say": "greet|calm|floor",
     "scene-talk.open-greet.can-i-talk-to-you": "greet|calm|floor",
+    "scene-talk.open-greet.can-you-sit-with-me-i-d-like-to-say-this-while-we-re-both-sitting-down": "greet|tender|private",
+    "scene-talk.open-greet.come-here": "greet|tender|private",
     "scene-talk.open-greet.do-you-have-a-minute": "greet|calm|floor",
     "scene-talk.open-greet.do-you-have-a-moment-for-a-couple-of-questions": "greet|calm|press",
     "scene-talk.open-greet.do-you-have-ten-minutes-this-isn-t-a-call-to-make-in-a-hallway": "greet|calm|floor",
+    "scene-talk.open-greet.don-t-make-that-face-i-m-not-dead-yet": "greet|tender|private",
+    "scene-talk.open-greet.figured-you-could-use-one-more-of-these": "greet|tender|private",
     "scene-talk.open-greet.got-a-second": "greet|calm|floor",
     "scene-talk.open-greet.got-five-minutes-before-you-go-home": "greet|calm|floor",
     "scene-talk.open-greet.have-you-got-a-few-minutes": "greet|calm|floor",
@@ -952,12 +966,20 @@
     "scene-talk.open-greet.have-you-got-five-minutes-before-you-decide": "greet|calm|floor",
     "scene-talk.open-greet.hello-first-this-is-name-with-outlet": "greet|calm|press",
     "scene-talk.open-greet.hello-is-this-the-first-who-s-running-for-office": "greet|curious|press",
+    "scene-talk.open-greet.hey-come-sit-down": "greet|tender|private",
+    "scene-talk.open-greet.hey-sit-down-a-minute": "greet|tender|private",
+    "scene-talk.open-greet.hey-you-it-s-good-to-be-here-with-family": "greet|tender|private",
+    "scene-talk.open-greet.i-didn-t-want-to-leave-without-saying-it": "greet|tender|private",
+    "scene-talk.open-greet.i-didn-t-want-today-to-go-by-without-saying-something": "greet|tender|private",
+    "scene-talk.open-greet.i-hope-it-s-all-right-that-i-came-by": "greet|tender|private",
     "scene-talk.open-greet.i-m-on-deadline-so-i-ll-be-quick": "greet|calm|press",
     "scene-talk.open-greet.i-need-ten-minutes-and-i-ll-be-quick-about-it": "greet|calm|floor",
+    "scene-talk.open-greet.i-saved-you-a-plate": "greet|tender|private",
     "scene-talk.open-greet.i-won-t-take-long": "greet|nervous|floor",
     "scene-talk.open-greet.is-now-a-bad-time": "greet|nervous|floor",
     "scene-talk.open-greet.is-this-first-name-with-outlet": "greet|calm|press",
     "scene-talk.open-greet.mind-if-i-ask-you-a-few-things": "greet|curious|press",
+    "scene-talk.open-greet.morning-i-didn-t-know-if-you-d-be-up": "greet|tender|private",
     "scene-talk.open-greet.one-question-and-i-m-gone": "greet|calm|press",
     "scene-talk.open-greet.quick-one-before-you-go": "greet|calm|press",
     "scene-talk.open-greet.sorry-this-one-can-t-wait-for-morning": "greet|calm|floor",
@@ -965,6 +987,8 @@
     "scene-talk.open-greet.sorry-to-catch-you-between-meetings": "greet|nervous|floor",
     "scene-talk.open-greet.sorry-to-come-in-like-this-it-can-t-wait-for-the-next-staff-meeting": "greet|nervous|floor",
     "scene-talk.open-greet.sorry-to-interrupt-your-evening": "greet|calm|floor",
+    "scene-talk.open-greet.there-you-are-come-here": "greet|tender|private",
+    "scene-talk.open-greet.there-you-are-sit-down-you-re-making-me-tired-standing-up": "greet|tender|private",
     "scene-talk.open-greet.this-isn-t-a-call-i-like-making": "greet|calm|press",
     "scene-talk.open-greet.this-one-s-waiting-on-you": "greet|calm|floor",
     "scene-talk.open-greet.title-a-minute-for-outlet": "greet|calm|press",
@@ -988,6 +1012,7 @@
     "scene-talk.reply-agree.all-right-i-ll-put-bill-on-the-next-agenda": "agree|calm|floor",
     "scene-talk.reply-agree.all-right-i-ll-raise-it-with-chair-before-the-next-meeting": "agree|calm|floor",
     "scene-talk.reply-agree.all-right-i-ll-sign-it": "agree|calm|floor",
+    "scene-talk.reply-agree.all-right-it-s-yours-to-run": "agree|none|election",
     "scene-talk.reply-agree.all-right-yes": "agree|glad|floor",
     "scene-talk.reply-agree.all-right-your-amendment-goes-in": "agree|calm|floor",
     "scene-talk.reply-agree.count-me-in": "agree|glad|floor",
@@ -1000,12 +1025,16 @@
     "scene-talk.reply-agree.fine-section-section-comes-out": "agree|calm|floor",
     "scene-talk.reply-agree.give-me-a-pen": "agree|glad|floor",
     "scene-talk.reply-agree.give-me-the-pen": "agree|calm|floor",
+    "scene-talk.reply-agree.i-do": "agree|none|election",
+    "scene-talk.reply-agree.i-do-i-m-ready": "agree|none|election",
     "scene-talk.reply-agree.i-ll-carry-it": "agree|glad|floor",
     "scene-talk.reply-agree.i-ll-sign-it": "agree|calm|floor",
     "scene-talk.reply-agree.i-ll-talk-to-chair-this-week": "agree|calm|floor",
     "scene-talk.reply-agree.i-ll-veto-it": "agree|calm|floor",
     "scene-talk.reply-agree.i-m-with-you-on-bill": "agree|calm|floor",
     "scene-talk.reply-agree.i-slept-on-worse-fine-yes": "agree|glad|floor",
+    "scene-talk.reply-agree.i-will-support-the-constitution-and-the-laws-and-faithfully-carry-out-th": "agree|none|election",
+    "scene-talk.reply-agree.i-will-support-the-constitution-and-the-laws-and-i-will-serve-as-office": "agree|none|election",
     "scene-talk.reply-agree.if-nothing-changed-hand-it-here": "agree|calm|floor",
     "scene-talk.reply-agree.it-passed-i-ll-sign-it": "agree|calm|floor",
     "scene-talk.reply-agree.let-s-get-it-done": "agree|calm|floor",
@@ -1036,6 +1065,7 @@
     "scene-talk.reply-agree.then-yes": "agree|calm|floor",
     "scene-talk.reply-agree.they-ll-live-pen": "agree|calm|floor",
     "scene-talk.reply-agree.when-you-put-it-like-that-yes": "agree|glad|floor",
+    "scene-talk.reply-agree.yes-i-d-rather-it-was-you-than-anyone": "agree|none|election",
     "scene-talk.reply-agree.yes-tell-the-executive-yes": "agree|glad|floor",
     "scene-talk.reply-agree.yes-you-can-count-on-me": "agree|glad|floor",
     "scene-talk.reply-agree.you-have-my-vote": "agree|calm|floor",
@@ -1343,6 +1373,8 @@
     "scene-talk.reply-thank.good-to-know-thanks-for-the-warning": "thank|glad|private",
     "scene-talk.reply-thank.good-to-see-a-face-i-know": "thank|glad|private",
     "scene-talk.reply-thank.i-couldn-t-have-done-it-without-you": "thank|glad|private",
+    "scene-talk.reply-thank.thank-you-all": "thank|none|town-hall",
+    "scene-talk.reply-thank.thank-you-chair": "thank|none|town-hall",
     "scene-talk.reply-thank.thank-you-that-helps-more-than-you-know": "thank|glad|private",
     "scene-talk.reply-thank.thanks-i-ll-take-all-the-help-i-can-get": "thank|glad|private",
     "scene-talk.reply-thank.thanks-i-m-still-getting-used-to-it": "thank|glad|private",
@@ -1350,6 +1382,14 @@
     "scene-talk.reply-thank.you-stood-by-me-the-whole-way-i-won-t-forget-it": "thank|glad|private",
     "scene-talk.reply-threaten.and-i-ll-remember-who-threatened-me-on-the-floor": "threaten|braced|floor",
     "scene-talk.reply-threaten.then-don-t-come-to-me-when-your-bill-s-up": "threaten|braced|floor",
+    "scene-talk.state-accept-terms.all-right": "agree|none|election",
+    "scene-talk.state-accept-terms.got-it": "agree|none|election",
+    "scene-talk.state-accept-terms.i-see": "agree|none|election",
+    "scene-talk.state-accept-terms.i-understand": "agree|none|election",
+    "scene-talk.state-accept-terms.okay": "agree|none|election",
+    "scene-talk.state-accept-terms.okay-thank-you": "agree|none|election",
+    "scene-talk.state-accept-terms.thanks": "agree|none|election",
+    "scene-talk.state-accept-terms.that-makes-sense": "agree|none|election",
     "scene-talk.state-ask.are-you-a-yes-or-a-no-on-bill": "ask|curious|press",
     "scene-talk.state-ask.bill-will-be-in-the-paper-you-voted-against-it-why": "ask|curious|press",
     "scene-talk.state-ask.bill-will-be-in-the-paper-you-voted-for-it-why": "ask|curious|press",
@@ -1440,7 +1480,13 @@
     "scene-words.cause-money:job-started-self.you-got-a-job-at-employer": "deliver-news|none|narration",
     "scene-words.cause-money:job-started-self.you-start-at-employer": "deliver-news|none|narration",
     "scene-words.cause-money:job-started-started.you-got-a-job": "deliver-news|none|narration",
-    "scene-words.cause-shared-other.you-and-other-are-on-the-same-side-of-an": "deliver-news|none|narration"
+    "scene-words.cause-shared-other.you-and-other-are-on-the-same-side-of-an": "deliver-news|none|narration",
+    "speech-stages.stage-opener.good-to-see-you-all": "greet|none|public",
+    "speech-stages.stage-opener.i-m-glad-to-be-here": "greet|none|public",
+    "speech-stages.stage-opener.it-s-good-to-be-in-place": "greet|none|public",
+    "speech-stages.stage-opener.it-s-great-to-be-here": "greet|none|public",
+    "speech-stages.stage-opener.thank-you-all-for-being-here": "greet|none|public",
+    "speech-stages.stage-opener.thank-you-all-for-coming": "greet|none|public"
   },
   "groups": {
     "accept|calm|floor": {
@@ -1484,6 +1530,12 @@
       "net": -1,
       "graded": {
         "scene-talk.reply-agree.i-ll-carry-it": -1
+      }
+    },
+    "agree|none|election": {
+      "net": 1,
+      "graded": {
+        "scene-talk.state-accept-terms.all-right": 1
       }
     },
     "answer|braced|floor": {
@@ -1582,6 +1634,12 @@
         "scene-talk.reply-boast.not-bad-for-a-first-run-right": 1
       }
     },
+    "call-to-order|none|town-hall": {
+      "net": 1,
+      "graded": {
+        "scene-talk.open-call-to-order.good-afternoon": 1
+      }
+    },
     "confront|braced|private": {
       "net": -1,
       "graded": {
@@ -1652,6 +1710,19 @@
       "graded": {
         "scene-talk.open-greet.is-now-a-bad-time": 1,
         "scene-talk.open-greet.sorry-to-bother-you": 1
+      }
+    },
+    "greet|none|public": {
+      "net": 2,
+      "graded": {
+        "opening-speech.salutation.plain-sta-thank-you-very-much": 1,
+        "speech-stages.stage-opener.thank-you-all-for-being-here": 1
+      }
+    },
+    "greet|tender|private": {
+      "net": 1,
+      "graded": {
+        "conversation.greet-open-hello.good-to-see-you": 1
       }
     },
     "leave|calm|floor": {
@@ -1769,10 +1840,11 @@
       }
     },
     "tell|none|narration": {
-      "net": -16,
+      "net": -15,
       "graded": {
         "journal.death-line-funeral.relation-was-age": -2,
         "journal.election-line-own-result.it-was-close": -1,
+        "journal.family-line-born.relation-was-born": 1,
         "journal.home-line-moved.i-came-to-place": -1,
         "journal.home-line-moved.i-moved-back-to-place": -1,
         "journal.law-backdrop-took-effect.the-bill-passed": -2,
@@ -1796,6 +1868,13 @@
       "net": 1,
       "graded": {
         "scene-talk.reply-thank.i-couldn-t-have-done-it-without-you": 1
+      }
+    },
+    "thank|none|town-hall": {
+      "net": 2,
+      "graded": {
+        "scene-talk.reply-thank.thank-you-all": 1,
+        "scene-talk.reply-thank.thank-you-chair": 1
       }
     },
     "threaten|braced|floor": {

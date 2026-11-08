@@ -130090,6 +130090,14 @@
           "move": "accept",
           "role": "asker",
           "purpose": "talk"
+        },
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "call-to-order",
+          "role": "asker",
+          "purpose": "hearing-testify",
+          "key": "routine"
         }
       ],
       "transcriptsUsing": 2389,
@@ -155349,6 +155357,91 @@
         "move": "warn",
         "key": "threat"
       }
+    },
+    {
+      "key": "scene-talk.reply-thank.thank-you-chair",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thank you, Chair.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "hearing-testify",
+          "key": "routine"
+        }
+      ],
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-05-07",
+        "granule": "CHRG-119hhrg60318",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg60318"
+      },
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      },
+      "restoredFrom": "hearing.thanks.thank-you-chair",
+      "restoredOn": "2026-11-08"
+    },
+    {
+      "key": "scene-talk.reply-thank.thank-you-all",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thank you all.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "hearing-testify",
+          "key": "routine"
+        }
+      ],
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-07-07",
+        "granule": "CHRG-119hhrg61782",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg61782"
+      },
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      },
+      "restoredFrom": "bank:hearing.thanks.thank-you-all",
+      "restoredOn": "2026-11-08"
+    },
+    {
+      "key": "scene-talk.open-call-to-order.good-afternoon",
+      "move": "open-call-to-order",
+      "kind": "spoken",
+      "text": "Good afternoon.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "call-to-order",
+          "role": "asker",
+          "purpose": "hearing-testify",
+          "key": "routine",
+          "excludesFacts": ["morning", "evening"]
+        }
+      ],
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-11-19",
+        "granule": "CHRG-119hhrg62607",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg62607"
+      },
+      "tag": {
+        "move": "call-to-order",
+        "key": "routine"
+      },
+      "restoredFrom": "bank:hearing.chair-procedure.good-afternoon",
+      "restoredOn": "2026-11-08"
     }
   ]
 }

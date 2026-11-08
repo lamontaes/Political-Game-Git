@@ -1,0 +1,282 @@
+{
+  "restoredOn": "2026-11-08",
+  "rows": [
+    {
+      "oldKey": "journal.family-line-born.relation-was-born",
+      "bank": "journal",
+      "how": "same-key",
+      "piece": {
+        "key": "journal.family-line-born.relation-was-born",
+        "move": "family-line-born",
+        "kind": "spoken",
+        "text": "{relation} was born.",
+        "uses": [
+          {
+            "move": "family-line-born",
+            "subject": "family",
+            "role": "line",
+            "choice": "born",
+            "journal": [
+              {
+                "kindPrefix": "family:child",
+                "field": "line"
+              }
+            ]
+          }
+        ],
+        "transcriptsUsing": 9,
+        "bySource": {
+          "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
+          "dcpd": 2,
+          "house": 1,
+          "nasa2": 1,
+          "nps": 3,
+          "wpa": 1
+        },
+        "source": {
+          "document": "Remarks at the National Republican Congressional Committee Annual Fundraising Dinner",
+          "date": "2026-03-25",
+          "granule": "DCPD-202600207",
+          "url": "https://www.govinfo.gov/content/pkg/DCPD-202600207/html/DCPD-202600207.htm",
+          "license": "U.S. government work, public domain (17 U.S.C. 105)"
+        },
+        "tag": {
+          "move": "tell",
+          "key": "arrival"
+        },
+        "restoredOn": "2026-11-08"
+      },
+      "grade": {
+        "by": "owner (spoken, Oct 14, 2026, evening)",
+        "line": "My daughter was born.",
+        "note": "Fine; a little anticlimactic. A start. (batch 9 item 0)",
+        "batch": "batch-9"
+      }
+    },
+    {
+      "oldKey": "address.hearing-open.thank-you-all-for-being-here",
+      "bank": "speech-stages",
+      "how": "new-key",
+      "piece": {
+        "key": "speech-stages.stage-opener.thank-you-all-for-being-here",
+        "move": "stage-opener",
+        "kind": "spoken",
+        "text": "Thank you all for being here.",
+        "uses": [
+          {
+            "move": "stage-opener",
+            "subject": "stage",
+            "role": "opener",
+            "choice": "opener"
+          }
+        ],
+        "source": {
+          "document": "Remarks at the Republican National Committee Midterm Convention in Dallas, Texas",
+          "date": "2026-09-09",
+          "granule": "DCPD-202600590",
+          "url": "https://www.govinfo.gov/content/pkg/DCPD-202600590/html/DCPD-202600590.htm",
+          "license": "U.S. government work, public domain (17 U.S.C. 105)"
+        },
+        "tag": {
+          "move": "greet"
+        },
+        "restoredFrom": "address.hearing-open.thank-you-all-for-being-here",
+        "restoredOn": "2026-11-08"
+      },
+      "grade": {
+        "by": "owner (spoken, Oct 14, 2026, evening)",
+        "line": "Thank you all for being here.",
+        "note": "Fine. (batch 9 item 55)",
+        "batch": "batch-9"
+      }
+    },
+    {
+      "oldKey": "opening-speech.state-of-the-union-salutation.thank-you-very-much",
+      "bank": "opening-speech",
+      "how": "new-key",
+      "piece": {
+        "key": "opening-speech.salutation.plain-sta-thank-you-very-much",
+        "move": "salutation",
+        "kind": "spoken",
+        "text": "Thank you very much.",
+        "uses": [
+          {
+            "move": "salutation",
+            "subject": "state-of-the-union",
+            "role": "salutation",
+            "choice": "salutation"
+          }
+        ],
+        "voice": "plain",
+        "source": {
+          "document": "Remarks and an Exchange With Reporters Prior to Departure From Joint Base Andrews, Maryland",
+          "date": "2026-09-11",
+          "granule": "DCPD-202600596",
+          "url": "https://www.govinfo.gov/app/details/DCPD-202600596",
+          "license": "U.S. government work, public domain (17 U.S.C. 105)"
+        },
+        "tag": {
+          "move": "greet"
+        },
+        "restoredFrom": "opening-speech.state-of-the-union-salutation.thank-you-very-much",
+        "restoredOn": "2026-11-08"
+      },
+      "grade": {
+        "by": "owner (voice notes, Oct 15, evening), recorded in docs/coordination/OWNER-DECISIONS.md",
+        "line": "Thank you very much.",
+        "note": "Oct 15, evening: batch 11 grading rulings: \"Thank you very much\" over \"Thank you so much\" in a speech",
+        "batch": "voice-notes-batches-11-19"
+      }
+    },
+    {
+      "oldKey": "hearing.thanks.thank-you-chair",
+      "bank": "scene-talk",
+      "how": "new-key",
+      "piece": {
+        "key": "scene-talk.reply-thank.thank-you-chair",
+        "move": "reply-thank",
+        "kind": "spoken",
+        "text": "Thank you, Chair.",
+        "uses": [
+          {
+            "subject": "scene",
+            "step": "reply",
+            "move": "thank",
+            "role": "asked",
+            "purpose": "hearing-testify",
+            "key": "routine"
+          }
+        ],
+        "source": {
+          "document": "Congressional hearing transcript",
+          "date": "2025-05-07",
+          "granule": "CHRG-119hhrg60318",
+          "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg60318"
+        },
+        "tag": {
+          "move": "thank",
+          "key": "routine"
+        },
+        "restoredFrom": "hearing.thanks.thank-you-chair",
+        "restoredOn": "2026-11-08"
+      },
+      "grade": {
+        "by": "owner (spoken, Oct 14, 2026, evening)",
+        "line": "Thank you, Chair.",
+        "note": "Good. One \"Madam Chair\" and one \"Mr. Chairman\" per batch is enough for calibration. (batch 9 item 39)",
+        "batch": "batch-9"
+      }
+    },
+    {
+      "oldKey": "bank:hearing.thanks.thank-you-all",
+      "bank": "scene-talk",
+      "how": "new-key",
+      "piece": {
+        "key": "scene-talk.reply-thank.thank-you-all",
+        "move": "reply-thank",
+        "kind": "spoken",
+        "text": "Thank you all.",
+        "uses": [
+          {
+            "subject": "scene",
+            "step": "reply",
+            "move": "thank",
+            "role": "asked",
+            "purpose": "hearing-testify",
+            "key": "routine"
+          }
+        ],
+        "source": {
+          "document": "Congressional hearing transcript",
+          "date": "2025-07-07",
+          "granule": "CHRG-119hhrg61782",
+          "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg61782"
+        },
+        "tag": {
+          "move": "thank",
+          "key": "routine"
+        },
+        "restoredFrom": "bank:hearing.thanks.thank-you-all",
+        "restoredOn": "2026-11-08"
+      },
+      "grade": {
+        "by": "owner (docket Grade tab, batch 1, Oct 8, 2026)",
+        "line": "Thank you all.",
+        "note": "Graded good with no note. (batch 1 item 14)",
+        "batch": "batch-1"
+      }
+    },
+    {
+      "oldKey": "bank:hearing.chair-procedure.good-afternoon",
+      "bank": "scene-talk",
+      "how": "new-key",
+      "piece": {
+        "key": "scene-talk.open-call-to-order.good-afternoon",
+        "move": "open-call-to-order",
+        "kind": "spoken",
+        "text": "Good afternoon.",
+        "uses": [
+          {
+            "subject": "scene",
+            "step": "open",
+            "move": "call-to-order",
+            "role": "asker",
+            "purpose": "hearing-testify",
+            "key": "routine",
+            "excludesFacts": ["morning", "evening"]
+          }
+        ],
+        "source": {
+          "document": "Congressional hearing transcript",
+          "date": "2025-11-19",
+          "granule": "CHRG-119hhrg62607",
+          "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg62607"
+        },
+        "tag": {
+          "move": "call-to-order",
+          "key": "routine"
+        },
+        "restoredFrom": "bank:hearing.chair-procedure.good-afternoon",
+        "restoredOn": "2026-11-08"
+      },
+      "grade": {
+        "by": "owner (docket Grade tab, batch 1, Oct 8, 2026)",
+        "line": "Good afternoon.",
+        "note": "Graded good with no note. (batch 1 item 66)",
+        "batch": "batch-1"
+      }
+    },
+    {
+      "oldKey": "hearing.chair-procedure.all-right",
+      "bank": "scene-talk",
+      "how": "add-use",
+      "target": "scene-talk.state-accept-terms.all-right",
+      "use": {
+        "subject": "scene",
+        "step": "open",
+        "move": "call-to-order",
+        "role": "asker",
+        "purpose": "hearing-testify",
+        "key": "routine"
+      },
+      "grade": {
+        "by": "owner (spoken, Oct 14, 2026, evening)",
+        "line": "All right.",
+        "note": "Acceptable phrases; nothing to judge; each should appear once in a batch. (batch 9 item 38)",
+        "batch": "batch-9"
+      }
+    },
+    {
+      "oldKey": "bank:talk-choice.greet.good-to-see-you",
+      "bank": "conversation",
+      "how": "alias",
+      "target": "conversation.greet-open-hello.good-to-see-you",
+      "grade": {
+        "by": "owner (docket Grade tab, batch 2, Oct 8, 2026)",
+        "line": "Good to see you.",
+        "note": "Graded good in batch 2 item 1, a greeting offered after \"Hi, José. How are you?\" (his words: \"can say good to see you or hi Jose, how are you?\"). The conversation bank already has this exact line as a greeting.",
+        "batch": "batch-2"
+      }
+    }
+  ]
+}

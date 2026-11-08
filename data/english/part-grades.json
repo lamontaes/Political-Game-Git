@@ -8,6 +8,7 @@
     "batch-9-relayed",
     "batch-13",
     "batch-22",
+    "restored-liked-lines",
     "voice-notes-batches-11-19",
     "voice-notes-oct15-28"
   ],
@@ -223,6 +224,14 @@
     "conversation.farewell-leave-bye.talk-to-you-soon": {
       "good": 0,
       "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "conversation.greet-open-hello.good-to-see-you": {
+      "good": 1,
+      "bad": 0,
       "fix": 0,
       "sharedGood": 0,
       "sharedBad": 0,
@@ -772,6 +781,14 @@
       "sharedBad": 0,
       "sharedFix": 0
     },
+    "opening-speech.salutation.plain-sta-thank-you-very-much": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
     "opening-speech.state-of-the-union-salutation.thank-you-very-much": {
       "good": 1,
       "bad": 0,
@@ -981,6 +998,14 @@
       "sharedFix": 0
     },
     "scene-talk.narrate-narrate.there-s-a-knock-at-your-door-it-s-name-a-reporter-for-outlet": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "scene-talk.open-call-to-order.good-afternoon": {
       "good": 1,
       "bad": 0,
       "fix": 0,
@@ -1276,6 +1301,30 @@
       "sharedBad": 0,
       "sharedFix": 0
     },
+    "scene-talk.reply-thank.thank-you-all": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "scene-talk.reply-thank.thank-you-chair": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "scene-talk.state-accept-terms.all-right": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
     "scene-talk.state-ask.can-you-tell-me-how-you-ll-vote-on-bill": {
       "good": 1,
       "bad": 0,
@@ -1341,6 +1390,14 @@
       "sharedFix": 0
     },
     "scene-words.cause-convicted-self.you-have-been-convicted": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "speech-stages.stage-opener.thank-you-all-for-being-here": {
       "good": 1,
       "bad": 0,
       "fix": 0,
