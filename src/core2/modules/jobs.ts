@@ -59,6 +59,7 @@ import {
   residentPerson,
   residentsRuntime,
   startRegionalWork,
+  stopRegionalWork,
 } from "./residents";
 import { PROFILE_FACT_KINDS, profileFor } from "../opening-profile";
 import { collegeOf, graduationOf } from "../school-outcomes";
@@ -1983,8 +1984,64 @@ function reviewTurnover(api: CoreAPI): void {
     }
     pulls.remove(job.id);
   }
+  // Counted people working in the wider region face the same pull; the full people there hold commuter jobs (outside account), read as any job.
+  for (const row of store(api).table("regional").rows() as unknown as {
+    id: string;
+    personId: string;
+    placeId: string;
+    hourlyMinor: number;
+  }[]) {
+    const key = `regional:${row.personId}`;
+    const birth = born(row.personId);
+    if (!birth) continue;
+    const age = daysBetweenText(birth, c.date) / p("jobsDaysPerYear");
+    const held =
+      (pulls.get(key) as { pull?: number } | undefined)?.pull ??
+      new SeededRng(api.state.seed).fork(`town-turnover:${key}`).next();
+    const pull =
+      held +
+      layoffPerQuarter(
+        api,
+        regionalConditions(api, row.placeId).rise,
+        p("zero"),
+        workAgeFactor(api, age),
+      ) *
+        month;
+    if (pull < p("one") || !stopRegionalWork(c, row.personId)) {
+      pulls.put({ id: key, pull } as never);
+      continue;
+    }
+    pulls.remove(key);
+    store(api).table("regional").remove(row.personId);
+    const outside = townOutsideOf(c.organizations.values(), row.placeId);
+    store(api)
+      .table("countedSeekers")
+      .put({
+        id: row.personId,
+        isSeeker: true,
+        personId: row.personId,
+        placeId: row.placeId,
+        since: c.date,
+        reasonKey: jobsData.reasons.layoff,
+        referenceHourlyMinor: row.hourlyMinor,
+      } as never);
+    record(api, {
+      personId: row.personId,
+      organizationId: outside?.id ?? row.placeId,
+      jobId: `job:regional:${c.date}:${row.personId}`,
+      kind: "layoff",
+      reasonKey: jobsData.reasons.layoff,
+      decidedBy: outside?.id ?? row.placeId,
+      values: { turnoverPull: pull, regional: 1, counted: 1 },
+    });
+  }
   // A job that ended another way keeps no pull.
-  const live = new Set(jobs.map((job) => job.id));
+  const live = new Set([
+    ...jobs.map((job) => job.id),
+    ...(store(api).table("regional").rows() as unknown as { id: string }[]).map(
+      (row) => `regional:${row.id}`,
+    ),
+  ]);
   for (const row of pulls.rows() as unknown as { id: string }[])
     if (!live.has(row.id)) pulls.remove(row.id);
 }
@@ -2074,6 +2131,16 @@ function hireRegional(api: CoreAPI, seeker: SeekerRow): void {
   stopgap("SG-LABOR-regional-job-town-roles");
   const jobId = startRegionalWork(c, seeker.personId, hourlyMinor);
   if (!jobId) return;
+  if (counted)
+    store(api)
+      .table("regional")
+      .put({
+        id: seeker.personId,
+        personId: seeker.personId,
+        placeId: seeker.placeId,
+        hourlyMinor,
+        since: c.date,
+      } as never);
   store(api).table("seekers").remove(seeker.personId);
   store(api).table("countedSeekers").remove(seeker.personId);
   endSpell(api, seeker.personId);
@@ -4204,6 +4271,8 @@ export const JOBS_MODULE: CoreModule = {
       elsewhere: {},
       // Each town worker's pull toward being let go (the JOLTS layoff pull), by job.
       turnover: {},
+      // Counted people working in the wider region (their place's unplaced workers), by person.
+      regional: {},
       spells: { indexes: { open: { fields: ["personId", "open"] } } },
       claims: {
         indexes: {
