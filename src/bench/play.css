@@ -1271,8 +1271,7 @@ body:not(.dev) .dev-only {
 .me .name {
   font-size: 16px;
 }
-#card-place:empty,
-#card-why:empty {
+#card-place:empty {
   display: none;
 }
 .me .time {
@@ -1290,9 +1289,6 @@ body:not(.dev) .dev-only {
 }
 .me .time .action:last-child {
   margin-right: 0;
-}
-#card-why {
-  margin-bottom: 4px;
 }
 #rings {
   display: flex;
@@ -2134,23 +2130,6 @@ body:not(.dev) .dev-only {
 .meeting-result strong {
   font: 700 17px var(--ui);
   color: var(--gold);
-}
-.meeting-tally {
-  display: flex;
-  height: 10px;
-  margin: 0 0 10px;
-  border-radius: 5px;
-  overflow: hidden;
-  background: rgba(255, 255, 255, 0.08);
-}
-.meeting-tally .tally-yes {
-  background: #5aa36b;
-}
-.meeting-tally .tally-no {
-  background: #c4524f;
-}
-.meeting-tally .tally-abstain {
-  background: #8c8c8c;
 }
 .meeting-remarks {
   margin: 0 0 8px;
@@ -5359,10 +5338,7 @@ select.release-pick {
 }
 /* New game: the two choices read in the title's own type, not small capitals (fr-new). */
 #front-new .item b {
-  font:
-    700 24px "Playfair Display",
-    Georgia,
-    serif;
+  font: 700 24px "Playfair Display", Georgia, serif;
   letter-spacing: 0.01em;
   text-transform: none;
 }
