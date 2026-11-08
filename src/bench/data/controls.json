@@ -222,6 +222,7 @@
       "bill-fails": "A bill fails",
       "election": "An election is held",
       "death": "A person dies",
+      "job-lost": "A job is lost",
       "scene": "A scene fires",
       "law-takes-effect": "A law takes effect"
     },
