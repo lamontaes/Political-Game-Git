@@ -3566,10 +3566,6 @@ details.entry[open] {
 .bill-compare-cell.new {
   border-color: var(--gold);
 }
-.bill-compare-arrow {
-  color: var(--gold);
-  font-size: 22px;
-}
 
 /* ---- Framed plates, trays and the timeline (owner, Oct 29, 22:45) ----
    Content never sits on the bare panel: every group sits on a framed plate (a soft
