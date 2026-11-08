@@ -1882,13 +1882,32 @@ body:not(.dev) .dev-only {
   text-underline-offset: 3px;
   cursor: help;
 }
+/* The glossary card in the menu look: a dark soft surface under the word, no brass edge, the
+   term in small capitals over its one-line meaning, Mark as learned a lit button. */
 #tip {
   z-index: 9;
   width: 300px;
-  padding: 10px 14px 12px;
+  padding: 12px 16px 14px;
+  background: linear-gradient(rgba(34, 32, 29, 0.97), rgba(20, 19, 17, 0.97));
+  border: 0;
+  border-radius: 4px;
+  box-shadow:
+    0 0 0 1px rgba(226, 191, 110, 0.18),
+    0 8px 22px rgba(0, 0, 0, 0.55),
+    0 0 18px rgba(226, 191, 110, 0.12);
+}
+#tip::before,
+#tip::after {
+  display: none;
+}
+#tip .label {
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--gold);
 }
 #tip .prose {
-  margin: 5px 0 8px;
+  margin: 6px 0 10px;
+  font: 400 15px/1.45 var(--speech);
 }
 
 /* ---- Opening (director/opening-story, owner Oct 14, 2026) ----
@@ -3888,22 +3907,16 @@ details.entry[open] {
   position: relative;
   margin: 0 0 14px;
   padding: 13px 16px 15px;
-  /* The corners are background layers, not an overlay, so a plate in a
-     column layout draws them on itself wherever its columns fall. */
+  /* A plate is a soft inset surface: no brass corners and no hard edge (owner, Nov 5 and
+     Nov 7: the panel's corners are the only corner ornaments anywhere). */
   background:
-    url("/ui/kit13/corner-tl.svg") left top / 11px 11px no-repeat border-box,
-    url("/ui/kit13/corner-tr.svg") right top / 11px 11px no-repeat border-box,
-    url("/ui/kit13/corner-bl.svg") left bottom / 11px 11px no-repeat border-box,
-    url("/ui/kit13/corner-br.svg") right bottom / 11px 11px no-repeat border-box,
     url("/ui/kit13/button-grain.svg") 0 0 / 96px 64px,
-    linear-gradient(172deg, rgba(72, 66, 58, 0.42), rgba(26, 25, 24, 0.66) 72%);
-  border: 1px solid rgba(156, 131, 80, 0.55);
+    linear-gradient(172deg, rgba(72, 66, 58, 0.3), rgba(26, 25, 24, 0.5) 72%);
+  border: 0;
   border-radius: 3px;
   box-shadow:
-    0 0 0 1px rgba(0, 0, 0, 0.5),
-    inset 0 1px 0 rgba(255, 240, 199, 0.07),
     inset 0 0 28px rgba(0, 0, 0, 0.42),
-    0 3px 8px rgba(0, 0, 0, 0.3);
+    0 2px 8px rgba(0, 0, 0, 0.22);
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
 }
@@ -5291,4 +5304,38 @@ select.release-pick {
   grid-template-columns: 1.4fr 1fr 1fr;
   gap: 8px;
   padding: 2px 0;
+}
+
+/* The rail's names (owner, Nov 8): a ring's name lights beside it after a quarter second of
+   hover or focus, in the menu look, and a dot marks what is unread. */
+.ring[data-name]::before {
+  content: attr(data-name);
+  position: absolute;
+  left: calc(100% + 10px);
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 5px 12px;
+  white-space: nowrap;
+  font: 600 14px var(--ui);
+  color: #f2e6c9;
+  background: linear-gradient(rgba(34, 32, 29, 0.97), rgba(20, 19, 17, 0.97));
+  border-radius: 3px;
+  box-shadow:
+    0 0 0 1px rgba(226, 191, 110, 0.18),
+    0 4px 12px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.14s ease 0s;
+  z-index: 8;
+}
+.ring[data-name]:hover::before,
+.ring[data-name]:focus-visible::before {
+  opacity: 1;
+  transition-delay: 0.25s;
+}
+/* In a scene or a talk the player card and the menu buttons are gone, never dimmed (owner,
+   Nov 7); the talk box takes the stage. */
+#game:has(#talk:not([hidden])) #rings,
+#game:has(#talk:not([hidden])) #card {
+  display: none;
 }
