@@ -189,10 +189,11 @@
     "why": "The treasury pays the awarded firm by the month and nothing tracks the work itself: there is no schedule, milestone or completion record for a road, park, housing or school work.",
     "addedBy": "claude/political-game-pool-yucp92-yy",
     "addedAt": "2026-10-20",
-    "replacement": "A project record with a start, a cost, milestones the contractor's payments fund and a completion date the funded work reaches, which the office day reads for the ribbon.",
-    "status": "resolved",
-    "resolvedAt": "2026-10-28",
-    "resolution": "Resolved Oct 28: the disasters engine gives each disaster a severity from the homes FEMA found damaged per resident (SG-WEB-disaster-severity-damage-proxy stands for the death toll the research used), the outcome web reads it as disaster.severe, and the moves engine's pull to leave reads the out-migration link's factor (law-wiring-disasters-web.test.ts)."
+    "replacement": "A project record with a start, a cost, milestones the contractor's payments fund and a completion date the funded work reaches, which the office day reads for the ribbon. Until then the finish date is the day the next fiscal year's budget takes over (projects.ts finishedProjects), and the award carries no contract amount to test the payments against.",
+    "status": "open",
+    "reopenedAt": "2026-11-08",
+    "reopenedBy": "night:laws-and-effects",
+    "reopenedWhy": "The Oct 28 resolution text describes the disasters engine's severity (SG-WEB-disaster-severity-damage-proxy), not this stopgap; the code in finishedProjects still stands in for a completion record."
   },
   {
     "id": "SG-OFFICE-FED-acting-head",
