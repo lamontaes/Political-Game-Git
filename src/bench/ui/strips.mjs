@@ -4,6 +4,7 @@
 // right, each a header strip of its own depth under a broken gold outline.
 // Every screen of that look builds from these parts, never its own markup.
 import { el } from "./dom.mjs";
+import { partyClass as partyClassOf } from "./map.mjs";
 
 /**
  * A section: its header strip (`depth` 1 to 5 sets how deep the strip's
@@ -28,19 +29,23 @@ const COLUMN_PX = 320;
  * is the card's face record (the figure's url and size, and its head
  * [top, middle, width] in the figure's pixels).
  */
-export function bust(face, alt) {
+export function bust(face, alt, column = COLUMN_PX) {
   if (!face) return el("div", { className: "mxglow" });
   const [top, middle, width] = face.head;
-  const k = HEAD_PX / width;
+  const scale = column / COLUMN_PX;
+  const k = (HEAD_PX * scale) / width;
   const image = el("img", { src: face.url, alt });
   Object.assign(image.style, {
     height: `${Math.round(face.height * k)}px`,
-    left: `${Math.round(COLUMN_PX / 2 - middle * k)}px`,
-    top: `${Math.round(12 - top * k)}px`,
+    left: `${Math.round(column / 2 - middle * k)}px`,
+    top: `${Math.round(12 * scale - top * k)}px`,
   });
   const frame = el("div", { className: "mxbust" }, image);
-  frame.style.height = `${Math.round(12 + BUST_BELOW_HEAD * HEAD_PX)}px`;
-  return el("div", { className: "mxglow" }, frame);
+  frame.style.height = `${Math.round(12 * scale + BUST_BELOW_HEAD * HEAD_PX * scale)}px`;
+  frame.style.width = `${column}px`;
+  const glow = el("div", { className: "mxglow" }, frame);
+  glow.style.width = `${column}px`;
+  return glow;
 }
 
 /**
@@ -210,4 +215,70 @@ export function departmentRow({ name, amount, head, selected, onSelect }) {
     }
   });
   return row;
+}
+
+/**
+ * A leader: a bust at the left, the name big beside it, the party and post under
+ * it, then a line (the mock's mayor and governor). `onOpen` opens their card.
+ */
+export function leaderBlock({ face, name, party, post, line, onOpen }) {
+  const nameNode = nameLink(name, onOpen);
+  nameNode.className = "leader-name pick";
+  return el(
+    "div",
+    { className: "leader" },
+    bust(face, name, 200),
+    el(
+      "div",
+      { className: "leader-text" },
+      nameNode,
+      el(
+        "p",
+        { className: "leader-post" },
+        ...(party
+          ? [
+              el("span", { className: "leader-party", textContent: party }),
+              " · ",
+            ]
+          : []),
+        post,
+      ),
+      ...(line ? [el("p", { className: "intro", textContent: line })] : []),
+    ),
+  );
+}
+
+/** Seats as big numbers, each in its party's color: `parts` are { party, seats, label }. */
+export function seatNumbers(parts, vacant) {
+  return el(
+    "div",
+    { className: "seat-numbers" },
+    ...parts.map((part) =>
+      el(
+        "div",
+        { className: `seat-number ${partyClassOf(part.party)}` },
+        el("b", { textContent: String(part.seats) }),
+        el("span", { textContent: part.label }),
+      ),
+    ),
+    ...(vacant
+      ? [
+          el(
+            "div",
+            { className: "seat-number party-none" },
+            el("b", { textContent: String(vacant.count) }),
+            el("span", { textContent: vacant.label }),
+          ),
+        ]
+      : []),
+  );
+}
+
+/** Roll calls in type: the title, the result and the count, the date under it. */
+export function voteRows(rows) {
+  return el(
+    "div",
+    { className: "vote-rows" },
+    ...rows.map((row) => typedRow(row.title, row.result, row.when)),
+  );
 }
