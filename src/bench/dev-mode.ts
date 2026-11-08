@@ -8,6 +8,7 @@
  * Read-only views spend no game time and write nothing. Words come from the
  * English engine; this returns record data and ids only.
  */
+import billCatalogData from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
 import { moneySince, watchMoney } from "../core2/tooling/money-watch";
 import { bookkeeping } from "../core2/bookkeeping";
 import { journalCheckCounts } from "../core2/journal";
@@ -196,9 +197,31 @@ export function devModeMarks(core: CoreState): readonly string[] {
   return out;
 }
 
+/** Every law series and question the bill paper offers a body to pass, from the one catalog the bill paper reads. */
+const BILL_CATALOG_SERIES: readonly string[] = (
+  billCatalogData as unknown as {
+    subjects: {
+      topics: {
+        policies: { kind: string; series?: string; question?: string }[];
+      }[];
+    }[];
+  }
+).subjects.flatMap((subject) =>
+  subject.topics.flatMap((topic) =>
+    topic.policies.flatMap((policy) =>
+      policy.kind === "law-amount" && policy.series
+        ? [policy.series]
+        : policy.kind === "policy-question" && policy.question
+          ? [policy.question]
+          : [],
+    ),
+  ),
+);
+
 /** Every law series the law data knows: in force here, or in a catalog. */
 export function lawSeriesCatalog(api: CoreAPI): readonly string[] {
   const out = new Set<string>([
+    ...BILL_CATALOG_SERIES,
     ...Object.keys(LAW_SERIES),
     PUBLIC_PAY_FLOOR,
     ...Object.keys(POLICY_QUESTIONS),
