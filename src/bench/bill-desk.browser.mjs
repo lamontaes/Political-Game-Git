@@ -110,9 +110,14 @@ try {
         b.level !== "state" && b.level !== "federal" && b.members.length > 0,
     );
     const tried = [];
-    for (let i = 0; i < 24; i += 1) {
+    for (
+      let i = 0;
+      i < Math.min(series.length * councils.length, 120);
+      i += 1
+    ) {
       const council = councils[i % councils.length];
-      const row = series[i % series.length];
+      const pick = Math.floor(i / councils.length);
+      const row = series[pick % series.length];
       const intro = await post("introduce", {
         bodyOfficeId: council.id,
         sponsorId: council.members[0].key,
