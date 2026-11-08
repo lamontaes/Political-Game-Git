@@ -50,7 +50,7 @@ async function toCounter() {
   await openNavigationTab("travel");
   const office = page.locator(".travel-tile[data-filing]").first();
   await office.waitFor();
-  const name = await office.locator("h3").innerText();
+  const name = await office.getAttribute("data-place");
   await office.click();
   await page.locator('[data-testid="place-go"]').waitFor();
   await page.locator('[data-testid="place-go"]').click();
@@ -60,6 +60,30 @@ async function toCounter() {
   if (await next.isVisible().catch(() => false)) await next.click();
   await page.locator("#talk-choices button").first().waitFor();
   return name;
+}
+// The place's filing opens on its own date: advance dev mode a month at a time until the
+// government's contests name an office that takes filings (up to fourteen months).
+async function openFiling() {
+  for (let month = 0; month < 14; month += 1) {
+    const me = (await (await page.request.get(`${base}/api/title`)).json()).life
+      .personId;
+    const government = await (
+      await page.request.get(
+        `${base}/api/government?id=${encodeURIComponent(me)}`,
+      )
+    ).json();
+    if (government.contests?.length) break;
+    const moved = await page.request.post(`${base}/api/dev/advance`, {
+      data: { step: "month" },
+      timeout: 600000,
+    });
+    assert.equal(moved.status(), 200, "dev mode did not advance");
+  }
+  await page.reload();
+  await page.locator("#front-continue").click();
+  await page.waitForFunction(() =>
+    document.getElementById("card-name").textContent.trim(),
+  );
 }
 try {
   const ready = page.waitForResponse((r) => r.url().endsWith("/api/title"));
@@ -85,7 +109,28 @@ try {
   await page.waitForFunction(() =>
     document.getElementById("card-name").textContent.trim(),
   );
+  // A 17-year-old cannot file, so the life that goes to the counter is a grown
+  // resident of the same world (a 17-year-old has no contests, so no filing tile).
+  const person = JSON.stringify({
+    givenName: "Pat",
+    familyName: "Candidate",
+    gender: "nonbinary",
+    birthYear: 1980,
+    birthMonth: 6,
+    birthDay: 15,
+  });
+  const adult = await page.request.post(
+    `${base}/api/newlife?${new URLSearchParams({ ...world, person })}`,
+    { timeout: 600000 },
+  );
+  assert.equal(adult.status(), 200);
+  await page.reload();
+  await page.locator("#front-continue").click();
+  await page.waitForFunction(() =>
+    document.getElementById("card-name").textContent.trim(),
+  );
   console.log("Place:", await page.locator("#card-place").innerText());
+  await openFiling();
   console.log("Office:", await toCounter());
   // No panel beside the counter: the Open races menu and the rules panel are gone.
   const panels = await page.evaluate(() => ({
@@ -138,26 +183,7 @@ try {
   });
   await page.locator("#talk-leave").click();
   await page.locator("#talk").waitFor({ state: "hidden", timeout: 10000 });
-  // A grown resident of the same world joins a party and files: the filing
-  // keeps that party with no form at the counter.
-  const person = JSON.stringify({
-    givenName: "Pat",
-    familyName: "Candidate",
-    gender: "nonbinary",
-    birthYear: 1980,
-    birthMonth: 6,
-    birthDay: 15,
-  });
-  const adult = await page.request.post(
-    `${base}/api/newlife?${new URLSearchParams({ ...world, person })}`,
-    { timeout: 600000 },
-  );
-  assert.equal(adult.status(), 200);
-  await page.reload();
-  await page.locator("#front-continue").click();
-  await page.waitForFunction(() =>
-    document.getElementById("card-name").textContent.trim(),
-  );
+  // The grown resident joins a party and files: the filing keeps that party with no form at the counter.
   // Join a party on Politics, as a player does. Three honest cases: parties
   // on offer (join the first), already a member (that party), or no party in
   // this place (run as an independent).
