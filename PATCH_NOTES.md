@@ -296,6 +296,16 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.88.2
+
+_Released November 8, 2026._
+
+### Fixed
+
+- **Income-tax rates can return after being set to zero** Setting a graduated
+  income-tax rate to zero now preserves its bracket schedule. A later bill
+  restoring the rate collects the tax again from named and counted workers.
+
 ## PRE-ALPHA 0.88.1
 
 _Released November 8, 2026._
