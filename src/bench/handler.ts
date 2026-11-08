@@ -45,6 +45,12 @@ import {
 import { wordOwnResult } from "./archive-words";
 import { billPaper, seatAct, seatView } from "./legislature";
 import {
+  billStage,
+  callAmendmentVote,
+  chooseOwnVote,
+  moveOwnAmendment,
+} from "./bill-stage";
+import {
   deskDecide,
   deskView,
   meetingAdjourn,
@@ -844,6 +850,59 @@ export async function benchRequest(
         send(
           200,
           billPaper(requireCore(), url.searchParams.get("billId") ?? ""),
+        );
+        return;
+      }
+      // Where a bill is: its committee record, what members told you, the floor and override by name.
+      if (request.method === "GET" && url.pathname === "/api/bill/stage") {
+        send(
+          200,
+          billStage(
+            requireCore(),
+            url.searchParams.get("billId") ?? "",
+            player?.personId,
+          ),
+        );
+        return;
+      }
+      // An amendment on a bill's section, and the body's vote on it.
+      if (request.method === "POST" && url.pathname === "/api/bill/amend") {
+        send(
+          200,
+          moveOwnAmendment(
+            requireCore(),
+            url.searchParams.get("billId") ?? "",
+            Number(url.searchParams.get("index")),
+            url.searchParams.get("direction") ?? "",
+            player?.personId,
+          ),
+        );
+        return;
+      }
+      if (
+        request.method === "POST" &&
+        url.pathname === "/api/bill/amendment-vote"
+      ) {
+        send(
+          200,
+          callAmendmentVote(
+            requireCore(),
+            url.searchParams.get("amendmentId") ?? "",
+            player?.personId,
+          ),
+        );
+        return;
+      }
+      // The player's own vote on a bill before its floor day (the member's own choice).
+      if (request.method === "POST" && url.pathname === "/api/bill/vote") {
+        send(
+          200,
+          chooseOwnVote(
+            requireCore(),
+            url.searchParams.get("billId") ?? "",
+            url.searchParams.get("vote") ?? "",
+            player?.personId,
+          ),
         );
         return;
       }

@@ -385,18 +385,6 @@ select:focus-visible {
   min-width: 120px;
   font-weight: 500;
 }
-.action.primary.active::before,
-.action.primary[aria-pressed="true"]::before,
-.action.primary:active:not(:disabled)::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 22px;
-  height: 22px;
-  background: url("/ui/kit13/primary-corner.svg") no-repeat 0 0 / 100% 100%;
-  pointer-events: none;
-}
 .acts {
   display: flex;
   flex-wrap: wrap;
@@ -901,17 +889,7 @@ input[type="range"]::-moz-range-thumb {
   white-space: nowrap;
   padding: 6px 6px;
 }
-/* A picked button keeps its box: the brass corner shows, nothing resizes. */
-.action[aria-pressed="true"]::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 22px;
-  height: 22px;
-  background: url("/ui/kit13/primary-corner.svg") no-repeat 0 0 / 100% 100%;
-  pointer-events: none;
-}
+/* A picked button is a lit brass fill: no corner mark on any control (owner, Nov 5). */
 .action[aria-pressed="true"] {
   border-color: var(--gold);
 }
@@ -1227,26 +1205,9 @@ input[type="range"]::-moz-range-thumb {
   }
 }
 
-/* Developer and debug controls: one faint ring, off unless switched on. */
+/* Developer and debug controls: shown only while dev mode is on in Options. */
 body:not(.dev) .dev-only {
   display: none !important;
-}
-.dev-ring {
-  position: absolute;
-  right: 2px;
-  top: 2px;
-  width: 20px;
-  height: 20px;
-  opacity: 0.28;
-  z-index: 8;
-}
-.dev-ring svg {
-  width: 11px;
-  height: 11px;
-}
-.dev-ring:hover,
-body.dev .dev-ring {
-  opacity: 0.85;
 }
 
 /* ---- The play HUD: the player card, bottom left (the only place the date and time appear) ---- */
@@ -2673,29 +2634,6 @@ select.government-state {
 .record-section .row.own-race {
   color: var(--gold);
 }
-.record-chart {
-  margin: 20px 0;
-}
-.record-chart-line {
-  display: grid;
-  grid-template-columns: minmax(130px, 1fr) minmax(80px, 2fr) auto;
-  gap: 16px;
-  align-items: center;
-  margin: 16px 0;
-  font: 14px var(--ui);
-}
-.record-track {
-  height: 9px;
-  background: rgba(255, 255, 255, 0.06);
-}
-.record-bar {
-  display: block;
-  height: 100%;
-  background: linear-gradient(90deg, var(--brass), var(--gold));
-}
-.record-chart-line strong {
-  font-weight: 500;
-}
 #sheet-body .member-name {
   background: none;
   box-shadow: none;
@@ -2830,13 +2768,6 @@ details.entry[open] {
   }
   .people-key {
     gap: 10px;
-  }
-  .record-chart-line {
-    grid-template-columns: 1fr auto;
-  }
-  .record-track {
-    grid-row: 2;
-    grid-column: 1 / -1;
   }
 }
 
@@ -3690,67 +3621,11 @@ details.entry[open] {
 }
 
 /* The party split: one bar, each party's share in its color. */
-.party-bar {
-  flex: none;
-  display: flex;
-  height: 26px;
-  border: 1px solid var(--brass-lo);
-  border-radius: 2px;
-  overflow: hidden;
-  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.45);
-}
-.party-bar-part {
-  display: flex;
-  align-items: center;
-  min-width: 24px;
-  padding: 0 10px;
-  background: linear-gradient(
-    color-mix(in srgb, var(--party, #6f6c66) 88%, #fff 12%),
-    color-mix(in srgb, var(--party, #6f6c66) 72%, #000 28%)
-  );
-  border-right: 1px solid rgba(0, 0, 0, 0.5);
-  overflow: hidden;
-}
-.party-bar-part:last-child {
-  border-right: 0;
-}
-.party-bar-part.vacant {
-  background: repeating-linear-gradient(
-    135deg,
-    #3b3b3f 0 6px,
-    #2c2c30 6px 12px
-  );
-}
-.party-bar-label {
-  font: 600 12px var(--ui);
-  color: #fff;
-  white-space: nowrap;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.6);
-}
 .party-none {
   --party: #6f6c66;
 }
 
 /* A big chamber's seats, a half circle of dots by party. */
-.seat-chart {
-  flex: none;
-  display: flex;
-  justify-content: center;
-  height: 132px;
-}
-.seat-chart-svg {
-  height: 100%;
-  width: auto;
-}
-.seat-chart-svg .seat {
-  fill: var(--party, #6f6c66);
-  stroke: rgba(0, 0, 0, 0.55);
-  stroke-width: 0.6;
-}
-.seat-chart-svg .seat.own {
-  stroke: var(--gold);
-  stroke-width: 2;
-}
 
 /* A member as a card: face, name, seat, party badge; opens their card. */
 #sheet-body .member-card {
@@ -3875,64 +3750,6 @@ details.entry[open] {
 }
 
 /* A roll call: its name and date over a yes and no bar. */
-.vote-bar {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-.vote-bar-head {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-  min-width: 0;
-}
-.vote-bar-title {
-  font: 500 14px/1.25 var(--ui);
-  color: var(--text-strong);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  min-width: 0;
-}
-.vote-bar-when {
-  flex: none;
-  font: 400 12.5px var(--ui);
-  color: var(--text-2);
-}
-.vote-bar-outcome {
-  flex: none;
-  margin-left: auto;
-  font: 600 10.5px var(--ui);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-.vote-bar-outcome.passed {
-  color: #9cc27f;
-}
-.vote-bar-outcome.failed {
-  color: #d88a7d;
-}
-.vote-bar-track {
-  display: flex;
-  height: 22px;
-  border: 1px solid var(--brass-lo);
-  border-radius: 2px;
-  overflow: hidden;
-}
-.vote-bar-part {
-  display: flex;
-  align-items: center;
-  min-width: 46px;
-  padding: 0 8px;
-}
-.vote-bar-part.yes {
-  background: linear-gradient(#6a8a4b, #4c6934);
-}
-.vote-bar-part.no {
-  justify-content: flex-end;
-  background: linear-gradient(#97473c, #6e2d26);
-  border-left: 1px solid rgba(0, 0, 0, 0.5);
-}
 .vote-bar-label {
   font: 600 11.5px var(--ui);
   color: #fff;
@@ -4600,15 +4417,6 @@ details.entry[open] {
 
 /* Budget (on framed plates): the government, its year and total
    in the name type; three plates in a row; the rings' keys carry amounts. */
-.plate-row {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
-  align-items: stretch;
-}
-.plate-row > .plate {
-  margin: 0;
-}
 .budget-title {
   font: 800 clamp(18px, 1.8vw, 24px) / 1.2 var(--name);
   color: var(--text-strong);
@@ -4616,13 +4424,6 @@ details.entry[open] {
 .budget-adopted {
   margin: -6px 0 2px;
   color: var(--text-2);
-}
-.budget-screen .donut-chart {
-  grid-template-columns: 1fr;
-  justify-items: center;
-}
-.budget-screen .donut-key {
-  width: 100%;
 }
 
 /* The Guide and Patch notes: cards on a plate, the chosen card's article
@@ -5263,4 +5064,231 @@ select.release-pick {
 }
 .strip-screen .mx3cols.one {
   grid-template-columns: minmax(0, 640px);
+}
+
+/* The budget board (approved Budgets screen, bud-strips). */
+.strip-board {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.strip-board .board-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+.strip-board .bfy {
+  font:
+    400 15px "Courier Prime",
+    monospace;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.strip-board .board-cols {
+  display: grid;
+  grid-template-columns: 1fr 1.7fr 1fr;
+  gap: 18px;
+  align-items: start;
+}
+.strip-screen .bsdepts {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.strip-screen .bsdept {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  padding: 7px 12px;
+  border-radius: 2px;
+  cursor: pointer;
+  font: 400 16px var(--f-ui);
+  color: #f2e6c9;
+}
+.strip-screen .bsdept b {
+  font-weight: 600;
+}
+.strip-screen .bsdept em {
+  font-style: normal;
+  font-variant-numeric: lining-nums tabular-nums;
+  color: #f6dfae;
+}
+.strip-screen .bsdept span {
+  grid-column: 1 / -1;
+  font-size: 14px;
+  color: var(--muted);
+}
+.strip-screen .bsdept.sel,
+.strip-screen .bsdept:hover,
+.strip-screen .bsdept:focus-visible {
+  background: rgba(214, 189, 132, 0.14);
+}
+.strip-screen .dotrow.typed {
+  font-family: "Courier Prime", monospace;
+  font-size: 16px;
+  text-transform: none;
+}
+.strip-screen .dotrow.typed .dotlabel {
+  font-weight: 700;
+}
+.strip-screen .bmsub {
+  margin: 0 0 8px;
+  font:
+    400 14px "Courier Prime",
+    monospace;
+  color: var(--muted);
+}
+.strip-screen .dotrow.typed .dotlabel {
+  white-space: nowrap;
+}
+.strip-screen .dotrow.typed .dotvalue {
+  white-space: nowrap;
+}
+.strip-board {
+  width: 100%;
+}
+.strip-board .board-cols {
+  grid-template-columns: minmax(300px, 1fr) minmax(0, 1.5fr) minmax(280px, 1fr);
+}
+.strip-screen .bsdept {
+  height: 50px;
+  align-content: center;
+}
+.strip-screen .bsdept b {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+.strip-screen .bsdept em {
+  white-space: nowrap;
+}
+#game.in-play #sheet.fits.strip-sheet {
+  width: calc(100vw - 122px - var(--gutter));
+  max-width: 1320px;
+}
+.strip-screen .dotrow.typed .dotlabel {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.strip-board .board-cols {
+  grid-template-columns: minmax(280px, 1fr) minmax(0, 1.6fr) minmax(300px, 1fr);
+}
+
+/* Government as strip sections (approved build, gov-local, gov-state, gov-federal). */
+.strip-screen.strip-wrap {
+  display: block;
+  width: 100%;
+}
+.strip-wrap .sec {
+  margin-bottom: 14px;
+}
+.strip-wrap .leader {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+}
+.strip-wrap .leader .leader-name {
+  font:
+    600 34px/1.1 "Playfair Display",
+    Georgia,
+    serif;
+  color: #f2e6c9;
+}
+.strip-wrap .leader-post {
+  margin: 4px 0 6px;
+  font: 500 15px var(--f-ui);
+  color: var(--muted);
+}
+.strip-wrap .leader-party {
+  font-weight: 600;
+  color: var(--party, var(--gold2));
+}
+.seat-numbers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 32px;
+}
+.seat-number {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.seat-number b {
+  font: 600 44px/1 var(--f-ui);
+  font-variant-numeric: lining-nums tabular-nums;
+  color: var(--party, #d9d2c2);
+}
+.seat-number span {
+  font: 500 15px var(--f-ui);
+  letter-spacing: 0.4px;
+  color: var(--muted);
+}
+
+/* The title menu as the Nov 8 front mock draws it (fr-title): no wordmark over it, the
+   items in plain type, and Continue first when a life exists. */
+#front:has(#front-main:not([hidden])) > .title,
+#front:has(#front-main:not([hidden])) > .title-rule {
+  display: none;
+}
+#front-main .item b {
+  font: 600 17px var(--ui);
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* Saved games (Nov 8 front mock, fr-saves): a strip per life, centered. */
+.saves-row .sec {
+  max-width: 340px;
+}
+.saves-row .secbody {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.saves-row .save-date {
+  margin: 0;
+  font: 500 16px var(--f-ui);
+  color: #f2e6c9;
+}
+
+/* Options (Nov 8 front mock, fr-options): a label over its On and Off toggles. */
+.strip-screen .setting {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.strip-screen .setting-label {
+  font: 600 13px var(--f-ui);
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--gold2);
+}
+.strip-board .board-cols:has(.setting) {
+  grid-template-columns: minmax(280px, 1fr) minmax(220px, 0.6fr);
+}
+
+/* Patch notes (Nov 8 front mock, fr-notes): builds at the left, the notes in strips. */
+.strip-board .board-cols.two {
+  grid-template-columns: minmax(240px, 300px) minmax(0, 1fr);
+}
+#game #sheet.options-sheet.strip-sheet {
+  width: min(1280px, calc(100vw - 2 * var(--gutter)));
+}
+#game #sheet.options-sheet.strip-sheet,
+#game #sheet.options-sheet.strip-sheet.fits {
+  width: min(1280px, calc(100vw - 2 * var(--gutter))) !important;
+  max-width: none !important;
+}
+
+/* Dev mode's memory rows: the record kind, the day learned, the day it fades. */
+.dev-memory-row {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 8px;
+  padding: 2px 0;
 }

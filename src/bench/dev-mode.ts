@@ -12,6 +12,7 @@ import { moneySince, watchMoney } from "../core2/tooling/money-watch";
 import { bookkeeping } from "../core2/bookkeeping";
 import { journalCheckCounts } from "../core2/journal";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { parameter } from "../core2/parameters";
 import { coreAPI, personOrFillIn } from "../core2/state";
 import { advanceCore, availableActs, type Controller } from "../core2/life";
 import {
@@ -27,14 +28,26 @@ import { POLICIES as REACH_A_POLICIES } from "../core2/law-reach/group-a-records
 import { GROUP_B_KEYS } from "../core2/law-reach/group-b";
 import { jobsAt } from "../core2/law-reach/group-b-money";
 import {
+  considerBribe,
+  CORRUPTION_MODULE_ID,
+} from "../core2/modules/corruption";
+import {
   PUBLIC_EMPLOYER_CLASSES,
   PUBLIC_PAY_FLOOR,
   PUBLIC_PAY_FLOOR_UNIT,
 } from "../core2/public-pay-floor";
 import {
+  bodyOf,
+  bodyRow,
   castMemberVote,
+  chambersOf,
+  draftBill,
   executiveDecision,
+  FEDERAL_HOUSE,
+  FEDERAL_SENATE,
   holdVote,
+  type BillRow,
+  type Provision,
   LEGISLATURE_MODULE_ID,
   members,
   memberKey,
@@ -54,6 +67,17 @@ import { newsItems } from "./calendar";
 import experiments from "./data/dev-experiments.json" with { type: "json" };
 
 /** The mark every dev-mode write carries. */
+/** The events a run can stop on, each as the record kinds the game logs when it happens. */
+export const RUN_EVENTS = {
+  "bill-passes": ["bill-presented"],
+  "bill-fails": ["bill-failed"],
+  election: ["election-result"],
+  death: ["life.death"],
+  "law-takes-effect": ["law-took-effect"],
+  scene: [],
+} as const;
+export type RunEvent = keyof typeof RUN_EVENTS;
+
 export const DEV_MODE = "dev-mode";
 /** The core record kind each dev-mode change leaves. */
 export const DEV_MODE_RECORD = "dev-mode-change";
@@ -611,6 +635,187 @@ export class DevMode {
     );
   }
 
+  /** Every body that makes law in this world: its office, level and members. */
+  lawmakingBodies() {
+    if (!has(this.core, LEGISLATURE_MODULE_ID)) return [];
+    const api = this.api;
+    const offices = api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("offices")
+      .rows() as unknown as { id: string; kind: string }[];
+    const ids = [
+      ...offices.filter((o) => bodyRow(o.kind)).map((o) => o.id),
+      FEDERAL_HOUSE,
+      FEDERAL_SENATE,
+    ];
+    return [...new Set(ids)].flatMap((id) => {
+      const office = bodyOf(api, id);
+      if (!office) return [];
+      const roster = members(api, id);
+      return [
+        {
+          id,
+          kind: office.kind,
+          level: bodyRow(office.kind)?.level ?? null,
+          name: office.bodyName ?? office.governmentName,
+          members: roster.map((term) => ({
+            key: memberKey(term),
+            personId: term.personId,
+            givenName: term.identity.givenName,
+            familyName: term.identity.familyName,
+            party: term.party,
+          })),
+        },
+      ];
+    });
+  }
+
+  /** A member introduces a bill at a body: the game's own draftBill, one law-amount section. */
+  introduce(input: {
+    bodyOfficeId: string;
+    sponsorId: string;
+    series: string;
+    value: number;
+    unit?: string;
+  }) {
+    if (!lawSeriesCatalog(this.api).includes(input.series))
+      throw new Error(`Unknown law series: ${input.series}`);
+    if (!Number.isFinite(input.value)) throw new Error("A bill needs a value.");
+    const provision: Provision = {
+      kind: "law-amount",
+      series: input.series,
+      value: input.value,
+      ...(input.unit ? { unit: input.unit } : {}),
+    };
+    const bill = draftBill(this.api, {
+      bodyOfficeId: input.bodyOfficeId,
+      sponsorId: input.sponsorId,
+      provisions: [provision],
+    });
+    return {
+      mark: this.mark("introduce", [bill.id], {
+        billId: bill.id,
+        sponsorId: input.sponsorId,
+      }),
+      bill,
+    };
+  }
+
+  /**
+   * Every member of every chamber the bill passes through votes (each through castMemberVote),
+   * `margin` more yes than no votes in each chamber (negative to defeat it), then the body holds
+   * its vote. `sign` has the executive sign (true) or veto (false) through executiveDecision;
+   * left out, the executive decides as the game does. `overrideMargin` is the same for the vote
+   * to override a veto. A chamber's committee is the game's own: its chair may hold the bill
+   * unheard, which `held` reports.
+   */
+  decideAt(
+    billId: string,
+    margin: number,
+    options: { sign?: boolean; overrideMargin?: number } = {},
+  ) {
+    const api = this.api;
+    const table = api.moduleState(LEGISLATURE_MODULE_ID).table("bills");
+    const bill = table.get(billId) as unknown as BillRow | undefined;
+    if (!bill) throw new Error("No such bill.");
+    const tallies: { chamber: string; yes: number; no: number }[] = [];
+    const vote = (chamber: string, wanted: number, override: boolean) => {
+      const roster = members(api, chamber);
+      const yes = Math.max(
+        0,
+        Math.min(roster.length, Math.round((roster.length + wanted) / 2)),
+      );
+      roster.forEach((term, index) =>
+        castMemberVote(
+          api,
+          billId,
+          memberKey(term),
+          index < yes ? "yes" : "no",
+          override,
+        ),
+      );
+      return { chamber, yes, no: roster.length - yes };
+    };
+    const chambers = chambersOf(api, bill);
+    for (const chamber of chambers) tallies.push(vote(chamber, margin, false));
+    if (options.overrideMargin !== undefined)
+      for (const chamber of chambers)
+        vote(chamber, options.overrideMargin, true);
+    if (options.sign !== undefined)
+      executiveDecision(api, billId, options.sign);
+    const held = holdVote(api, billId);
+    const committees = api
+      .moduleState(LEGISLATURE_MODULE_ID)
+      .table("committees");
+    return {
+      mark: this.mark("decide", [billId], {
+        billId,
+        margin: String(margin),
+        ...(options.sign !== undefined ? { sign: String(options.sign) } : {}),
+        ...(options.overrideMargin !== undefined
+          ? { overrideMargin: String(options.overrideMargin) }
+          : {}),
+      }),
+      tallies,
+      held: chambers.filter(
+        (chamber) =>
+          (
+            committees.get(`committee:${billId}:${chamber}`) as
+              { heard: boolean } | undefined
+          )?.heard === false,
+      ),
+      bill: held,
+    };
+  }
+
+  /** The wealthiest living people in the world: who might want a favor enough to pay for it. */
+  wealthiest(count = 12) {
+    return [...this.core.people.values()]
+      .filter((p) => p.alive && p.liquidMinor > 0)
+      .sort((a, b) => b.liquidMinor - a.liquidMinor)
+      .slice(0, count)
+      .map((p) => ({
+        personId: p.id,
+        name: `${p.givenName} ${p.familyName}`,
+        liquidMinor: p.liquidMinor,
+      }));
+  }
+
+  /**
+   * Someone wants a favor from an official (a pending vote, a permit, a contract: any record id)
+   * and offers a bribe through the game's own considerBribe: the offerer decides whether to
+   * offer and the official whether to take it, each as the engine decides, and the money moves
+   * only if it is taken. Says what happened and the reasons the engine kept.
+   */
+  forceBribe(input: {
+    offererId: string;
+    officialId: string;
+    subjectId: string;
+    stakeMinor: number;
+  }) {
+    if (!has(this.core, CORRUPTION_MODULE_ID))
+      throw new Error("This world has no corruption module.");
+    const offerer = this.core.people.get(input.offererId);
+    const before = offerer?.liquidMinor ?? 0;
+    const record = considerBribe(this.api, {
+      offererId: input.offererId,
+      officialId: input.officialId,
+      stakeMinor: input.stakeMinor,
+      subjectId: input.subjectId,
+    });
+    if (!record)
+      throw new Error("No bribe: the offerer has no money or someone is gone.");
+    return {
+      mark: this.mark("bribe", [record.id], {
+        offererId: input.offererId,
+        officialId: input.officialId,
+        subjectId: input.subjectId,
+      }),
+      record,
+      moved: before - (offerer?.liquidMinor ?? 0),
+    };
+  }
+
   /** Cast a member's vote on a bill before the vote is held. */
   vote(billId: string, memberId: string, vote: "yes" | "no" | "abstain") {
     castMemberVote(this.api, billId, memberId, vote);
@@ -674,6 +879,63 @@ export class DevMode {
     return { from, to: this.core.date, ms: Date.now() - started };
   }
 
+  /**
+   * Runs the world day by day until `days` have passed or the chosen event's records appear, whichever
+   * comes first, never past `cap` days. Says why it stopped and the record ids that stopped it.
+   */
+  runUntil(input: { days?: number; event?: RunEvent; cap?: number }) {
+    const cap = Math.max(1, Math.min(input.cap ?? 366, 3660));
+    const limit = Math.min(input.days ?? cap, cap);
+    const kinds = input.event ? RUN_EVENTS[input.event] : undefined;
+    if (input.event && !kinds && input.event !== "scene")
+      throw new Error("Unknown event.");
+    const count = () =>
+      (kinds ?? []).reduce(
+        (n, kind) => n + (this.core.logByKind.get(kind)?.size ?? 0),
+        0,
+      );
+    const sceneCount = () =>
+      this.director?.ledger.people.get(this.player?.personId ?? "")?.moments
+        .length ?? 0;
+    const seen = new Set(
+      (kinds ?? []).flatMap((kind) => [
+        ...(this.core.logByKind.get(kind) ?? []),
+      ]),
+    );
+    const sceneBefore = sceneCount();
+    const before = count();
+    const from = this.core.date;
+    let days = 0;
+    let reason: "days" | "event" | "cap" = "days";
+    let records: string[] = [];
+    while (days < limit) {
+      this.advance(addDays(makeIsoDate(this.core.date), 1));
+      days += 1;
+      if (input.event === "scene" && sceneCount() > sceneBefore) {
+        reason = "event";
+        break;
+      }
+      if (kinds && count() > before) {
+        reason = "event";
+        records = kinds.flatMap((kind) =>
+          [...(this.core.logByKind.get(kind) ?? [])].filter(
+            (id) => !seen.has(id),
+          ),
+        );
+        break;
+      }
+    }
+    if (reason === "days" && input.event) reason = "cap";
+    return {
+      from,
+      to: this.core.date,
+      days,
+      reason,
+      event: input.event ?? null,
+      records: records.slice(0, 20),
+    };
+  }
+
   // 4. Trace --------------------------------------------------------------
 
   /** A record's causes as the core's saved-trace resolver (and the director) know them. */
@@ -686,6 +948,50 @@ export class DevMode {
       ...this.player.trace(id),
       record: this.core.durableLog.get(id) ?? law ?? null,
     };
+  }
+
+  /**
+   * What a person remembers: each event they lived through that their knowledge still holds, when
+   * they learned it and when the monthly pass forgets it (the first of a month once its retention
+   * window is past). The player keeps everything; a held drive keeps its source event.
+   */
+  memory(personId: string) {
+    const core = this.core;
+    const known = core.knowledgeByPerson.get(personId);
+    if (!personOrFillIn(core, personId)) throw new Error("No such person.");
+    const retention = parameter(
+      "experiencedKeyRetentionDays",
+      core.data.parameters,
+    );
+    const held = new Set(
+      [...(core.people.get(personId)?.drives.values() ?? [])].map(
+        (drive) => drive.sourceEventId,
+      ),
+    );
+    const fadesOn = (learnedAt: string) => {
+      let day = addDays(makeIsoDate(learnedAt), retention + 1);
+      while (!day.endsWith("-01")) day = addDays(makeIsoDate(day), 1);
+      return day;
+    };
+    const rows = [];
+    for (const [key, fact] of known ?? [])
+      if (key.startsWith("event:") && key.endsWith(":experienced"))
+        rows.push({
+          eventId: fact.value,
+          kind: core.durableLog.get(fact.value)?.kind ?? null,
+          learnedAt: fact.learnedAt,
+          fadesOn:
+            personId === core.playerId || held.has(fact.value)
+              ? null
+              : fadesOn(fact.learnedAt),
+          keptBy:
+            personId === core.playerId
+              ? "player"
+              : held.has(fact.value)
+                ? "drive"
+                : null,
+        });
+    return rows.sort((a, b) => b.learnedAt.localeCompare(a.learnedAt));
   }
 
   /** A person's records: money, job, views, drives, health, relationships and the director's ledger. */

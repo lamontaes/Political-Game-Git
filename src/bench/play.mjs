@@ -17,34 +17,34 @@ import { showToast, hideToast } from "./ui/toast.mjs";
 import { mountRail } from "./ui/rail.mjs";
 import { districtMap, partyLegend, partyRoster } from "./ui/map.mjs";
 import { chamberHeader } from "./ui/chamber.mjs";
-import { partyBar } from "./ui/party-bar.mjs";
 import { memberCard } from "./ui/member-card.mjs";
-import { seatChart } from "./ui/seat-chart.mjs";
-import { voteBar } from "./ui/vote-bar.mjs";
 import { dateList } from "./ui/date-list.mjs";
 import { pager } from "./ui/pager.mjs";
 import { officeScreen } from "./ui/office-screen.mjs";
 import { splitScreen } from "./ui/split-screen.mjs";
-import { section } from "./ui/section.mjs";
 import { makeTab, tabBar, chooseTab } from "./ui/tab.mjs";
-import { plate, factPlates, chips, plateRow } from "./ui/plate.mjs";
+import { plate, factPlates } from "./ui/plate.mjs";
 import { timeline } from "./ui/timeline.mjs";
 import { makeCard } from "./ui/card.mjs";
 import { townRow } from "./ui/town-row.mjs";
 import { debateCard, speechCard } from "./ui/campaign-acts.mjs";
+import { devBribePanel } from "./ui/dev-bribe.mjs";
+import { devBillsPanel } from "./ui/dev-bills.mjs";
+import { devMemorySection } from "./ui/dev-memory.mjs";
+import { devRunPanel } from "./ui/dev-run.mjs";
+import {
+  devModeOn,
+  onDevMode,
+  restoreDevMode,
+  setDevMode,
+} from "./ui/dev-setting.mjs";
 import { listRow, personRow, factRow, noteLine } from "./ui/list-row.mjs";
 import { fillArtwork, picture as pictureFrame } from "./ui/picture.mjs";
-import { barChart, columnChart, donutChart } from "./ui/chart.mjs";
-import {
-  select,
-  searchBox,
-  checkboxSetting,
-  optionsOf,
-  statusLine,
-  numberBox,
-} from "./ui/fields.mjs";
+import { columnChart, donutChart } from "./ui/chart.mjs";
+import { select, searchBox, optionsOf, numberBox } from "./ui/fields.mjs";
 import { lookRow } from "./ui/look-row.mjs";
 import { termWord } from "./ui/term.mjs";
+import { watchTerms } from "./ui/term-mark.mjs";
 import { journalPage } from "./ui/journal-page.mjs";
 import { recordScreen } from "./ui/screen.mjs";
 import { listScreen, listEntry } from "./ui/list-screen.mjs";
@@ -61,6 +61,7 @@ import {
 const roundedMoney = (minor) => moneyWords(minor, { rounded: true });
 import { peopleWeb } from "./ui/people-web.mjs";
 import { billPaper } from "./ui/bill-paper.mjs";
+import { billStageSections } from "./ui/bill-stage.mjs";
 import { meetingItem } from "./ui/meeting-item.mjs";
 import { draftCard } from "./ui/draft-card.mjs";
 import { bold, line, prose, heading, labeled, smallText } from "./ui/text.mjs";
@@ -79,6 +80,17 @@ import {
   introText,
   peopleSentence,
   dotRows,
+  stripBoard,
+  typedRow,
+  departmentRow,
+  settingRow,
+  quitButton,
+  optionsBoard,
+  patchNotesScreen,
+  savedLifeRow,
+  leaderBlock,
+  seatNumbers,
+  voteRows,
 } from "./ui/strips.mjs";
 mountPanelHeads();
 mountCloseButtons();
@@ -349,6 +361,7 @@ async function renderCard() {
 // The Guide's search, kept so an underlined term opens straight to it.
 // The government whose budget the Budgets tab shows, once the player picks one.
 let budgetGovernment;
+let budgetLine;
 // The level and the other state the Government tab shows, once the player picks them.
 let governmentLevel;
 let governmentState = "";
@@ -363,6 +376,21 @@ let guideQuery = "";
 let guideTerms = new Map();
 api("/api/guide?q=").then((rows) => {
   guideTerms = new Map(rows.map((row) => [row.term.toLowerCase(), row]));
+  // Every civic term in player text is underlined until learned, wherever it appears.
+  watchTerms(document.getElementById("game"), {
+    terms: guideTerms,
+    learned,
+    hooks: {
+      onHover: (node, key) => showTip(node, key),
+      onLeave: hideTipSoon,
+      onClose: () => show("tip", false),
+      onOpen: (text) => {
+        show("tip", false);
+        guideQuery = text;
+        openSheet("guide");
+      },
+    },
+  });
 });
 // Terms the player marked as learned lose their underline (kept in the Guide).
 const LEARNED_KEY = "ocd-learned-terms";
@@ -410,11 +438,28 @@ $("tip-learned").addEventListener("click", () => {
   } catch {
     // Without storage the underline returns next session.
   }
-  for (const node of document.querySelectorAll(".term"))
-    if (node.textContent.trim().toLowerCase() === tipTerm.key)
+  // Learned everywhere: every underline of the term, under any plural, goes at once.
+  for (const node of document.querySelectorAll(
+    `[data-term-key="${tipTerm.key}"], .term`,
+  ))
+    if (
+      node.dataset.termKey === tipTerm.key ||
+      node.textContent.trim().toLowerCase() === tipTerm.key
+    )
       node.classList.remove("term");
   show("tip", false);
 });
+/** The Guide's reset: every term the player marked learned is underlined again. */
+function resetLearned() {
+  learned.clear();
+  try {
+    localStorage.removeItem(LEARNED_KEY);
+  } catch {
+    // Without storage there is nothing kept to clear.
+  }
+  for (const node of document.querySelectorAll("[data-term-key]"))
+    node.classList.add("term");
+}
 /**
  * A label shown on screen, underlined when the whole label is a Guide term
  * (never a search through prose): hover shows its definition, and clicking
@@ -497,7 +542,7 @@ function endedBy(value) {
   const words = controls.endedBy ?? {};
   if (value?.kind !== "stop") return "";
   const module = value.stop.modules[0];
-  return module ? (words[module.reasonKey] ?? words.moment ?? "") : "";
+  return module ? (words[module.reasonKey] ?? "") : "";
 }
 
 /** The newest line of the journal, bottom right. */
@@ -1301,21 +1346,12 @@ function partyRows(party) {
   if (party.member) {
     const m = party.member;
     // What the line stands on: the registration (the tie's own record, with
-    // the day it began) and the fit (the player's recorded views against the
-    // party's platform), each said as what it compares (owner, Nov 1: "Views
-    // fit close. How do you know?").
-    const fit =
-      m.agreement === null
-        ? ""
-        : ((words.fit ?? []).find((band) => m.agreement >= band.atLeast)
-            ?.label ?? "");
     const line = row(
       words.member,
       [
         words.registered
           .replace("{party}", m.name)
           .replace("{date}", dateWords(m.since)),
-        ...(fit ? [words.fitLine.replace("{fit}", fit)] : []),
       ].join(" · "),
     );
     // The tie's record, for the checks that read it.
@@ -1977,6 +2013,16 @@ async function showPerson(person) {
       ? [stripSection(4, labels.publicRecordTitle, dotRows(recordRows))]
       : []),
   ];
+  // Dev mode: what they remember, a section only while dev mode is on.
+  const memory = devModeOn()
+    ? await devMemorySection({
+        personId: person.personId,
+        labels: controls.devMemory,
+        dateOf: (iso) => dateWords(iso),
+      })
+    : null;
+  if (memory) secondColumn.push(memory);
+  if (request !== personRequest) return;
   $("person-facts").replaceChildren(
     stripScreen({
       name: c.name,
@@ -2255,9 +2301,11 @@ function billEstimate(paper, section) {
  */
 async function openBillPaper(billId, show, back, backLabel) {
   const paper = await api(`/api/bill?billId=${encodeURIComponent(billId)}`);
+  const stage = await api(
+    `/api/bill/stage?billId=${encodeURIComponent(billId)}`,
+  );
   const words = controls.bill ?? {};
   const floor = controls.floor ?? {};
-  const meet = controls.meeting ?? {};
   const backButton = makeButton({
     className: "action",
     textContent: backLabel ?? words.back ?? "",
@@ -2286,19 +2334,61 @@ async function openBillPaper(billId, show, back, backLabel) {
           (count) =>
             `${count.chamber}: ${count.yes} ${floor.for ?? ""}, ${count.no} ${floor.against ?? ""}, ${count.undecided} ${floor.undecided ?? ""}`,
         ),
-        ...(paper.votes.length
-          ? [
-              `${floor.voted ?? ""}: ${paper.tally.yes} ${floor.yes ?? ""}, ${paper.tally.no} ${floor.no ?? ""}`,
-              paper.votes
-                .map((x) => `${x.name} · ${meet[x.vote] ?? ""}`)
-                .join(" · "),
-            ]
-          : []),
         paper.decision
           ? `${words.decided ?? ""}: ${floor.status?.[paper.decision.status] ?? ""}${paper.decision.passedOn ? ` · ${dateWords(paper.decision.passedOn)}` : ""}`
           : null,
       ],
     }),
+    // Where the bill is: the committee's record, what members told you, the floor and
+    // the override, each member by name (ui/bill-stage.mjs).
+    ...billStageSections(
+      stage,
+      controls.billStage ?? {},
+      (person) => showPerson({ personId: person.personId }),
+      async (how) => {
+        await api(
+          `/api/bill/vote?${new URLSearchParams({ billId, vote: how })}`,
+          "POST",
+        );
+        await openBillPaper(billId, show, back, backLabel);
+      },
+      {
+        onMove: async (index, direction) => {
+          await api(
+            `/api/bill/amend?${new URLSearchParams({ billId, index, direction })}`,
+            "POST",
+          );
+          await openBillPaper(billId, show, back, backLabel);
+        },
+        onCall: async (item) => {
+          await api(
+            `/api/bill/amendment-vote?${new URLSearchParams({ amendmentId: item.id })}`,
+            "POST",
+          );
+          await openBillPaper(billId, show, back, backLabel);
+        },
+        estimate: (item) =>
+          [
+            item.estimateAfter.workersRaised > 0
+              ? `${item.estimateAfter.workersRaised} ${words.workers ?? ""}`
+              : null,
+            item.estimateAfter.annualPayMinor > 0
+              ? moneyWords(item.estimateAfter.annualPayMinor)
+              : null,
+          ]
+            .filter(Boolean)
+            .join(" · "),
+      },
+      {
+        onDecide: async (how) => {
+          await api(
+            `/api/desk?${new URLSearchParams({ billId, how })}`,
+            "POST",
+          );
+          await openBillPaper(billId, show, back, backLabel);
+        },
+      },
+    ),
   );
 }
 
@@ -2912,21 +3002,24 @@ const sheets = {
       .find(Boolean);
     const chosen =
       view.governments.find((g) => g.id === budgetGovernment) ?? town;
-    const pick = select({
-      options: view.governments.map((g) => ({ value: g.id, label: g.name })),
-      value: chosen?.id,
-      label: labels.budget,
-      onChange: (id) => {
-        budgetGovernment = id;
-        void openSheet("budgets");
-      },
-    });
     const gov = chosen ?? view.governments[0];
-    if (!gov?.latest) return [splitScreen({ controls: [pick] })];
+    const tabs = tabBar({
+      attr: "gov",
+      active: gov?.id,
+      tabs: view.governments
+        .filter((g) => g.latest)
+        .map((g) => ({
+          key: g.id,
+          label: g.name,
+          onSelect: () => {
+            budgetGovernment = g.id;
+            budgetLine = undefined;
+            void openSheet("budgets");
+          },
+        })),
+    });
+    if (!gov?.latest) return [stripBoard({ tabs, columns: [[]] })];
     const latest = gov.latest;
-    // What the treasury actually took in and paid out, from its journal,
-    // beside the plan: a treasury gone wrong shows here.
-    const books = gov.books;
     // The executive steps a spending line's priority up or down.
     const steps = (record) =>
       gov.youAreExecutive
@@ -2945,88 +3038,126 @@ const sheets = {
             },
           }))
         : [];
-    // Budget on framed plates: the government, its year and
-    // its total in the name type with when and how it was adopted; where the
-    // money comes from and where it goes as rings with amounts (the seven
-    // largest lines and the rest as one); the treasury's books beside them;
-    // and an executive's own spending priorities to step up or down.
-    const largest = (lines) => {
-      const sorted = [...lines].sort((a, b) => b.minor - a.minor);
-      const rest = sorted.slice(7).reduce((n, r) => n + r.minor, 0);
-      return [
-        ...sorted
-          .slice(0, 7)
-          .map((r) => ({ label: r.name ?? r.line, value: r.minor })),
-        ...(rest > 0 ? [{ label: labels.otherLines, value: rest }] : []),
-      ];
-    };
-    const ring = (title, lines, total) =>
-      plate(
-        title,
-        donutChart(largest(lines), roundedMoney(total), title, roundedMoney),
-      );
-    const overBudget = books && books.paidOutMinor > latest.spendingMinor;
+    // The approved Budgets screen (owner, Nov 7, item 56; the mock's bud-strips): the
+    // governments as tabs, the fiscal year typed at the right, the departments, the open
+    // department as a typed page, the town's money, and who wrote it. The game keeps
+    // budget lines by category rather than departments, so each spending line is a
+    // department; Last year comes from the government's previous budget; a head, an
+    // "Asked" figure and the executive's bust wait on pool items gov-budget-departments-
+    // with-named-heads and gov-budget-asked-versus-adopted.
+    const words = controls.budgetStrips;
+    const books = gov.books;
+    const prior = gov.prior;
+    const lastOf = (lines, key) => lines?.find((r) => r.line === key)?.minor;
+    const opened =
+      latest.spending.find((r) => r.line === budgetLine) ?? latest.spending[0];
+    const lastYear = (minor) =>
+      minor === undefined ? "" : `${words.lastYear} ${roundedMoney(minor)}`;
+    const stepButtons = steps(opened).map((step) => {
+      const button = makeButton({
+        className: "action small",
+        textContent: step.glyph,
+        title: step.title,
+      });
+      button.setAttribute("aria-label", step.label);
+      button.onclick = async () => {
+        button.disabled = true;
+        try {
+          await step.onClick();
+        } finally {
+          button.disabled = false;
+        }
+      };
+      return button;
+    });
+    const balance = latest.balanceMinor;
     return [
-      splitScreen({
-        controls: [pick],
-        main: [
-          line(
-            `${gov.name} · ${labels.fiscalYear} ${latest.fiscalYear} · ${roundedMoney(latest.spendingMinor)}`,
-            "budget-title",
-          ),
-          prose(
-            [
-              `${labels.adopted} ${dateWords(latest.adoptedOn)}`,
-              latest.adoptedBy,
-            ]
-              .filter(Boolean)
-              .join(", "),
-            "budget-adopted",
-          ),
-          plateRow(
-            ring(labels.comesFrom, latest.revenue, latest.revenueMinor),
-            ring(labels.goesTo, latest.spending, latest.spendingMinor),
-            plate(
-              labels.books,
-              ...[
-                [labels.balance, latest.balanceMinor],
-                ...(books
-                  ? [
-                      [labels.takenIn, books.takenInMinor],
-                      [labels.paidOut, books.paidOutMinor],
-                      [labels.cashOnHand, books.cashMinor],
-                    ]
-                  : []),
-              ].map(([label, value]) => row(label, roundedMoney(value))),
-              prose(
-                books
-                  ? `${labels.booksSince} ${dateWords(books.since)}`
-                  : labels.noBooks,
-                "small",
+      stripBoard({
+        tabs,
+        fiscal: `${words.fiscalYear} ${latest.fiscalYear}`,
+        columns: [
+          [
+            stripSection(
+              1,
+              words.departments,
+              pager({
+                items: latest.spending.map((r) =>
+                  departmentRow({
+                    name: r.name ?? r.line,
+                    amount: roundedMoney(r.minor),
+                    selected: r.line === opened.line,
+                    onSelect: () => {
+                      budgetLine = r.line;
+                      void openSheet("budgets");
+                    },
+                  }),
+                ),
+                render: (node) => node,
+                rows: Math.max(4, Math.floor((window.innerHeight - 380) / 56)),
+                columns: 1,
+                rowHeight: 52,
+                gap: 2,
+                words: {
+                  page: controls.politics.page,
+                  previous: controls.politics.previousPage,
+                  next: controls.politics.nextPage,
+                },
+                className: "bsdepts",
+              }),
+            ),
+          ],
+          [
+            stripSection(
+              2,
+              opened.name ?? opened.line,
+              typedRow(
+                opened.name ?? opened.line,
+                roundedMoney(opened.minor),
+                lastYear(lastOf(prior?.spending, opened.line)),
               ),
-              ...(overBudget
-                ? [prose(labels.overBudget, "record-warning")]
+              ...(stepButtons.length ? [buttonTray(...stepButtons)] : []),
+            ),
+          ],
+          [
+            stripSection(
+              3,
+              gov.name,
+              typedRow(
+                words.comingIn,
+                roundedMoney(latest.revenueMinor),
+                lastYear(prior?.revenueMinor),
+              ),
+              typedRow(
+                words.goingOut,
+                roundedMoney(latest.spendingMinor),
+                lastYear(prior?.spendingMinor),
+              ),
+              typedRow(
+                words.balance,
+                `${roundedMoney(Math.abs(balance))} ${balance < 0 ? words.short : words.ahead}`,
+              ),
+              ...(books
+                ? [typedRow(words.savings, roundedMoney(books.cashMinor))]
                 : []),
             ),
-          ),
-          ...(gov.youAreExecutive
-            ? [
-                plate(
-                  labels.priorities,
-                  barChart(
-                    latest.spending.map((r) => ({
-                      label: r.name ?? r.line,
-                      value: r.minor,
-                      steps: steps(r),
-                    })),
-                    labels.priorities,
-                    roundedMoney,
+            ...(latest.adoptedOn
+              ? [
+                  stripSection(
+                    5,
+                    words.whoWrote,
+                    introText(
+                      [
+                        `${labels.adopted} ${dateWords(latest.adoptedOn)}`,
+                        latest.adoptedBy,
+                      ]
+                        .filter(Boolean)
+                        .join(", "),
+                    ),
                   ),
-                ),
-              ]
-            : []),
+                ]
+              : []),
+          ],
         ],
-        className: "budget-screen",
       }),
     ];
   },
@@ -3048,6 +3179,7 @@ const sheets = {
           act(`/api/advance?mode=calendar&date=${day}`);
         },
       }),
+      devRunPanel({ labels: controls.devRun, onDone: () => refresh() }),
     ];
   },
   async news() {
@@ -3160,7 +3292,14 @@ const sheets = {
     drawArticle();
     return [
       splitScreen({
-        controls: [search],
+        controls: [
+          search,
+          makeButton({
+            className: "action small",
+            textContent: controls.guide.resetLearned,
+            onclick: resetLearned,
+          }),
+        ],
         main: [cards],
         side: [{ title: null, nodes: [article] }],
         className: "guide-screen",
@@ -3168,184 +3307,153 @@ const sheets = {
     ];
   },
   /**
-   * The title's Patch notes: the release machinery's file, one release at a
-   * time, newest first (owner, Oct 28: "No reason anymore; get them in"). As
-   * the Guide: the release's changes as headline cards on a plate, the chosen
-   * change in full beside them, never a wall to scroll (owner, Oct 29).
+   * The title's Patch notes, as the Nov 8 front mock draws it (fr-notes): the builds in a
+   * strip at the left, newest first, and the chosen build's changes in a strip per heading
+   * (Changed, Improved, Fixed), each note's text under it. The release machinery's file is
+   * the only source; no card per note, no chips.
    */
   async patchNotes() {
     const { releases } = await api("/api/patch-notes");
-    let release = releases[0];
-    let chosen = 0;
-    const notesOf = (r) =>
-      (r?.groups ?? []).flatMap((group) =>
-        group.notes.map((note) => ({ ...note, group: group.heading })),
-      );
-    const cards = plate(null);
-    const article = plate(null);
-    article.classList.add("pick-article");
-    const drawArticle = () => {
-      const note = notesOf(release)[chosen];
-      // The chosen card is marked, as a chosen tab is.
-      for (const card of cards.querySelectorAll("[data-note]"))
-        card.classList.toggle("on", Number(card.dataset.note) === chosen);
-      article.replaceChildren(
-        ...(note
-          ? [
-              chips([{ text: note.group }]),
-              ...(note.title ? [heading(note.title, "h3")] : []),
-              prose(note.text, "article-text"),
-            ]
-          : []),
-      );
-    };
-    // The release's name is its own picker, newest first.
-    const which = select({
-      options: releases.map((r) => ({ value: r.version, label: r.title })),
-      value: release?.version,
-      label: controls.patchNotes?.release,
-      className: "release-pick",
-      onChange: (version) => {
-        release = releases.find((r) => r.version === version) ?? release;
-        chosen = 0;
-        drawCards();
-        drawArticle();
-      },
-    });
-    const drawCards = () => {
-      cards.replaceChildren(
-        which,
-        ...(release?.released ? [prose(release.released, "release-date")] : []),
-        pager({
-          items: notesOf(release).map((note, at) => ({
-            title: note.title ?? note.text,
-            lede: note.title ? note.text : "",
-            label: note.title ?? note.text,
-            onSelect: () => {
-              chosen = at;
-              drawArticle();
-            },
-            data: { note: String(at) },
-          })),
-          render: listEntry,
-          rows: Math.max(
-            3,
-            Math.min(8, Math.floor((window.innerHeight - 340) / 66)),
-          ),
-          columns: 1,
-          rowHeight: 58,
-          gap: 8,
-          words: {
-            page: controls.politics.page,
-            previous: controls.politics.previousPage,
-            next: controls.politics.nextPage,
-          },
-          className: "pick-cards note-cards",
-        }),
-      );
-    };
-    drawCards();
-    drawArticle();
+    const labels = controls.patchNotes ?? {};
     return [
-      splitScreen({
-        main: [cards],
-        side: [{ title: null, nodes: [article] }],
-        className: "patch-notes",
+      patchNotesScreen({
+        title: labels.builds,
+        rows: Math.max(4, Math.floor((window.innerHeight - 340) / 54)),
+        words: {
+          page: controls.politics.page,
+          previous: controls.politics.previousPage,
+          next: controls.politics.nextPage,
+        },
+        builds: releases.map((r) => ({
+          name: r.version,
+          // The release file says "Released November 8, 2026."; the list shows "Nov 8".
+          when: (() => {
+            const day = new Date(
+              String(r.released ?? "")
+                .replace(/^Released\s+/i, "")
+                .replace(/\.$/, ""),
+            );
+            return Number.isNaN(day.getTime())
+              ? ""
+              : day.toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric",
+                });
+          })(),
+          groups: (r.groups ?? []).map((group) => ({
+            heading: group.heading,
+            notes: group.notes.map((note) =>
+              [note.title, note.text].filter(Boolean).join(". "),
+            ),
+          })),
+        })),
       }),
     ];
   },
   /**
-   * The title's Saved games. The game keeps one life, the one Continue opens,
-   * and saves to more slots wait for early-access preparation (OWNER-DECISIONS:
-   * "Saves don't matter" until the versioned save format). The screen lists
-   * what exists and says so.
+   * The title's Saved games, as the Nov 8 front mock draws it (fr-saves): one strip per saved
+   * life, its name over a bust, the game's date and Load. The game keeps one life, the one
+   * Continue opens; more slots and Delete wait for the versioned save format in
+   * early-access preparation (OWNER-DECISIONS: "Saves don't matter" until then), so there
+   * is no Delete here: a control with no effect is a defect.
    */
   async saves() {
     await controlsReady;
     const words = controls.saves;
     const life = titleLife;
-    const rows = life
-      ? [
-          pager({
-            items: [
-              {
-                title: life.name,
-                lede: life.placeName,
-                label: life.name,
-                onSelect: () => {
-                  closeSheet();
-                  $("front-continue").click();
-                },
-                data: { life: life.personId },
-              },
-            ],
-            render: listEntry,
-            rows: 1,
-            columns: 1,
-            rowHeight: 58,
-            gap: 8,
-            words: {
-              page: controls.politics.page,
-              previous: controls.politics.previousPage,
-              next: controls.politics.nextPage,
-            },
-            className: "pick-cards save-cards",
-          }),
-        ]
-      : [prose(words.none, "saves-none")];
-    return [plate(null, ...rows, prose(words.later, "saves-later"))];
+    if (!life) return [plate(null, prose(words.none, "saves-none"))];
+    return [
+      savedLifeRow({
+        name: life.name,
+        face: life.face,
+        date: dateWords(life.date),
+        load: makeButton({
+          className: "action",
+          textContent: words.load,
+          onclick: () => {
+            closeSheet();
+            $("front-continue").click();
+          },
+        }),
+      }),
+    ];
   },
+  /**
+   * Options as the Nov 8 front mock draws it (fr-options): a strip for Seeing (Full screen
+   * as On and Off toggles), a strip for Leave (Quit to title) and a strip for Dev mode, lit
+   * toggles and never checkboxes. Color-blind mode, which scenes may stop the day and Save
+   * now are in the mock but are not settings the game keeps yet, so they are not drawn.
+   */
   async options() {
     await controlsReady;
     const labels = controls.options;
-    let fullScreen;
-    if (document.fullscreenEnabled) {
-      const { line, box } = checkboxSetting({
-        label: labels.fullScreen,
-        checked: document.fullscreenElement,
-        testid: "options-fullscreen",
+    const toggle = ({ attr, on, set, testid }) => {
+      const bar = tabBar({
+        attr,
+        active: on() ? "on" : "off",
+        tabs: ["on", "off"].map((key) => ({
+          key,
+          label: labels[key],
+          onSelect: async () => {
+            await set(key === "on");
+            chooseTab(bar, attr, on() ? "on" : "off");
+          },
+        })),
       });
-      const status = statusLine();
-      box.addEventListener("change", async () => {
-        box.disabled = true;
-        status.textContent = "";
-        try {
-          if (box.checked) await document.documentElement.requestFullscreen();
-          else await document.exitFullscreen();
-        } catch {
-          status.textContent = labels.fullScreenUnavailable;
-        } finally {
-          box.checked = Boolean(document.fullscreenElement);
-          box.disabled = false;
-        }
-      });
-      fullScreen = [{ node: line }, { node: status }];
-    }
-    return recordScreen({
-      sections: [
-        {
-          items: [
-            { fact: [labels.version, await displayVersion()] },
-            ...(fullScreen ?? []),
+      for (const tab of bar.querySelectorAll(".tab"))
+        tab.dataset.testid = `${testid}-${tab.dataset[attr]}`;
+      return bar;
+    };
+    const seeing = document.fullscreenEnabled
+      ? [
+          settingRow(
+            labels.fullScreen,
+            toggle({
+              attr: "full",
+              testid: "options-fullscreen",
+              on: () => Boolean(document.fullscreenElement),
+              set: async (wanted) => {
+                try {
+                  if (wanted)
+                    await document.documentElement.requestFullscreen();
+                  else if (document.fullscreenElement)
+                    await document.exitFullscreen();
+                } catch {
+                  // The browser refused; the toggle shows the state it is in.
+                }
+              },
+            }),
+          ),
+        ]
+      : [];
+    return [
+      optionsBoard({
+        columns: [
+          [
+            ...(seeing.length ? [{ title: labels.seeing, rows: seeing }] : []),
             {
-              actions: [
-                // Dev mode, for a developer's session only.
-                {
-                  label: labels.devMode,
-                  className: "dev-only",
-                  onClick: () => window.open("/dev"),
-                },
-                {
-                  label: labels.quitToTitle,
-                  testid: "quit-to-title",
-                  onClick: () => window.location.reload(),
-                },
+              title: labels.leave,
+              rows: [
+                quitButton(labels.quitToTitle, () => window.location.reload()),
               ],
             },
           ],
-        },
-      ],
-    });
+          [
+            {
+              title: labels.devMode,
+              rows: [
+                toggle({
+                  attr: "dev",
+                  testid: "options-dev-mode",
+                  on: devModeOn,
+                  set: setDevMode,
+                }),
+              ],
+            },
+          ],
+        ],
+      }),
+    ];
   },
   async travel() {
     const [places, government] = await Promise.all([
@@ -3443,10 +3551,7 @@ const sheets = {
       // here. And then it's just a list of people's names."); the clerk asks
       // which race at the counter.
       const doHere = p.filing
-        ? [
-            { text: labels.filingDoes },
-            ...(opensLine ? [{ text: opensLine }] : []),
-          ]
+        ? [...(opensLine ? [{ text: opensLine }] : [])]
         : reasonLine(p)
           ? reasonLine(p)
               .split(" · ")
@@ -3530,8 +3635,7 @@ const sheets = {
           .map((p) => ({
             title: p.name,
             picture: p.presentation?.imageUrl,
-            lines: [hereLine(p)],
-            note: reasonLine(p),
+            lines: [],
             badge: Boolean(p.trail) || p.filing || p.presentCount > 0,
             label: p.name,
             onSelect: () => showPlace(p),
@@ -3754,7 +3858,7 @@ const sheets = {
           ? labels.atLarge
           : ""
         : /^\d+$/.test(district)
-          ? fill(body.level === "city" ? labels.ward : labels.district, {
+          ? fill(labels.district, {
               n: Number(district),
             })
           : district;
@@ -3829,56 +3933,41 @@ const sheets = {
       );
     const voteList = (votes) =>
       votes.length
-        ? votes.map((v) =>
-            voteBar({
-              title: v.title,
-              when: short(v.date),
-              yes: v.yes,
-              no: v.no,
-              yesLabel: fill(labels.yesCount, { n: v.yes }),
-              noLabel: fill(labels.noCount, { n: v.no }),
-              passed: v.passed,
-              outcome: v.passed ? labels.passed : labels.failed,
-            }),
-          )
+        ? [
+            voteRows(
+              votes.map((v) => ({
+                title: v.title,
+                result: `${v.passed ? labels.passed : labels.failed} · ${fill(labels.yesCount, { n: v.yes })}, ${fill(labels.noCount, { n: v.no })}`,
+                when: short(v.date),
+              })),
+            ),
+          ]
         : [dateList([], labels.noVotes)];
-    // The party split, largest first, nonpartisan bodies as one gray bar.
+    // The party split, largest first, as big numbers in the party's color; a nonpartisan body as one.
     const splitBar = (body) => {
       const total = fill(labels.seatsTotal, { n: body.seats });
-      const vacant = body.vacant
-        ? fill(labels.vacantCount, { n: body.vacant })
-        : "";
       const held = body.members.length;
       const parts = body.parties.length
         ? body.parties.map((p) => ({
             party: p.party,
             seats: p.seats,
-            label: fill(labels.partyCount, {
-              n: p.seats,
-              party:
-                (p.seats === 1 ? labels.partySingular : labels.partyPlural)?.[
-                  p.party
-                ] ?? p.party,
-            }),
+            label:
+              (p.seats === 1 ? labels.partySingular : labels.partyPlural)?.[
+                p.party
+              ] ?? p.party,
           }))
-        : [
-            {
-              party: null,
-              seats: held,
-              label: `${labels.nonpartisan} · ${total}`,
-            },
-          ];
+        : [{ party: null, seats: held, label: labels.nonpartisan }];
       const unlisted = held - parts.reduce((sum, p) => sum + p.seats, 0);
-      return partyBar(
+      return seatNumbers(
         unlisted > 0 && body.parties.length
-          ? [
-              ...parts,
-              { party: null, seats: unlisted, label: String(unlisted) },
-            ]
+          ? [...parts, { party: null, seats: unlisted, label: total }]
           : parts,
-        body.seats,
-        total,
-        vacant,
+        body.vacant
+          ? {
+              count: body.vacant,
+              label: fill(labels.vacantCount, { n: body.vacant }),
+            }
+          : null,
       );
     };
     const lawmakingView = (body, executive, level, stateKey) => {
@@ -3930,56 +4019,58 @@ const sheets = {
               .map((m) => card(body, m, seatWords(body, m.district))),
           ]
         : body.members.map((m) => card(body, m, seatWords(body, m.district)));
-      const chart = big
-        ? [
-            seatChart(
-              [...body.members]
-                .sort((a, b) => (a.party ?? "~").localeCompare(b.party ?? "~"))
-                .map((m) => ({
-                  party: m.party,
-                  own: m.own,
-                  label: [m.name, m.party].filter(Boolean).join(", "),
-                })),
-              fill(labels.seatChart, { n: body.seats }),
-            ),
-          ]
-        : [];
       // The level's chief executive beside its lawmakers, where it has one.
       const chief = executive.find((e) => e.chief);
       return {
         main: [
           header,
-          splitBar(body),
-          ...chart,
-          pager({
-            items: people,
-            render: (node) => node,
-            rows: big ? rowsFor(650, 3) : rowsFor(560, 4),
-            columns: 2,
-            rowHeight: 64,
-            gap: 8,
-            words: pageWords,
-            className: "members-pager",
-          }),
+          stripSection(1, labels.seats, splitBar(body)),
+          stripSection(
+            2,
+            labels.members,
+            pager({
+              items: people,
+              render: (node) => node,
+              rows: big ? rowsFor(700, 3) : rowsFor(620, 4),
+              columns: 2,
+              rowHeight: 64,
+              gap: 8,
+              words: pageWords,
+              className: "members-pager",
+            }),
+          ),
         ],
         side: [
-          { title: labels.recentVotes, nodes: voteList(body.recentVotes) },
-          { title: labels.comingUp, nodes: [comingList(body.comingUp)] },
-          ...(chief?.members[0]
-            ? [
-                {
-                  title: chief.title,
-                  nodes: [
-                    card(
-                      chief,
-                      chief.members[0],
-                      sinceLine(chief.members[0]),
-                      true,
+          {
+            title: null,
+            nodes: [
+              stripSection(
+                3,
+                labels.recentVotes,
+                ...voteList(body.recentVotes),
+              ),
+              stripSection(4, labels.comingUp, comingList(body.comingUp)),
+              ...(chief?.members[0]
+                ? [
+                    stripSection(
+                      5,
+                      chief.title,
+                      leaderBlock({
+                        face: chief.members[0].face,
+                        name: chief.members[0].name,
+                        party: chief.members[0].party,
+                        post: chief.title,
+                        line: sinceLine(chief.members[0]),
+                        onOpen: open(
+                          chief.members[0].cardId,
+                          chief.members[0].face,
+                        ),
+                      }),
                     ),
-                  ],
-                },
-              ]
-            : []),
+                  ]
+                : []),
+            ],
+          },
         ],
       };
     };
@@ -3989,6 +4080,15 @@ const sheets = {
       const chief = executive.find((e) => e.chief) ?? executive[0];
       const officers = executive.filter((e) => e !== chief);
       const head = chief?.members[0];
+      const runs = peopleSentence(
+        officers.flatMap((o) =>
+          o.members.map((m) => ({
+            name: m.name,
+            relation: o.title,
+            onOpen: open(m.cardId, m.face),
+          })),
+        ),
+      );
       return {
         main: chief
           ? [
@@ -4000,8 +4100,24 @@ const sheets = {
                 // the filter names (owner, Oct 28, point 16).
                 line: level === "local" ? chief.government : null,
               }),
-              ...(head ? [card(chief, head, sinceLine(head), true)] : []),
-              section(
+              ...(head
+                ? [
+                    stripSection(
+                      1,
+                      chief.title,
+                      leaderBlock({
+                        face: head.face,
+                        name: head.name,
+                        party: head.party,
+                        post: chief.title,
+                        line: sinceLine(head),
+                        onOpen: open(head.cardId, head.face),
+                      }),
+                    ),
+                  ]
+                : []),
+              stripSection(
+                3,
                 labels.comingUp,
                 comingList(
                   executive
@@ -4012,29 +4128,22 @@ const sheets = {
               ),
             ]
           : [],
-        side: [
-          ...(officers.length
-            ? [
-                {
-                  title: labels.officers,
-                  nodes: [
-                    pager({
-                      items: officers.flatMap((o) =>
-                        o.members.map((m) => card(o, m, o.title)),
-                      ),
-                      render: (node) => node,
-                      rows: rowsFor(450, 4),
-                      columns: 1,
-                      rowHeight: 64,
-                      gap: 8,
-                      words: pageWords,
-                      className: "members-pager",
+        side: runs
+          ? [
+              {
+                title: null,
+                nodes: [
+                  stripSection(
+                    2,
+                    fill(labels.whoRuns, {
+                      name: chief?.government ?? chief?.title ?? "",
                     }),
-                  ],
-                },
-              ]
-            : []),
-        ],
+                    runs,
+                  ),
+                ],
+              },
+            ]
+          : [],
       };
     };
     // The chosen level, branch, state and body, kept while the sheet is open.
@@ -4156,7 +4265,7 @@ const sheets = {
           ? executiveView(v.executive, level)
           : lawmakingView(body, v.executive, level, v.state.key);
       const screenNode = splitScreen({
-        className: "government-screen",
+        className: "government-screen strip-screen strip-wrap strips ol-g",
         controls: [
           levels,
           stateFilter,
@@ -4166,20 +4275,29 @@ const sheets = {
         side: view.side,
       });
       // The panel never scrolls: the members' pager gives up rows first (`fitPagers`, here and
-      // when the sheet opens); a big body on a short window still too tall then lets its seat picture
-      // give way, a frame later (the party split bar above it says the same count).
+      // when the sheet opens).
       fitPagers(screenNode);
-      window.requestAnimationFrame(() =>
-        window.requestAnimationFrame(() => {
-          const body = $("sheet-body");
-          if (body.scrollHeight > body.clientHeight + 1)
-            for (const chart of screenNode.querySelectorAll(".seat-chart"))
-              chart.hidden = true;
-        }),
-      );
       return screenNode;
     };
-    return [await screen()];
+    const devBills = devModeOn()
+      ? await devBillsPanel({
+          labels: controls.devBills,
+          onDone: () => refresh(),
+        })
+      : null;
+    const devBribe = devBills
+      ? await devBribePanel({
+          labels: controls.devBribe,
+          bodies: devBills.bodies,
+          billId: devBills.billId,
+          onDone: () => refresh(),
+        })
+      : null;
+    return [
+      await screen(),
+      ...(devBills ? [devBills.section] : []),
+      ...(devBribe ? [devBribe] : []),
+    ];
   },
   /**
    * Parties, illustrated: the state's map with the player's districts and
@@ -4588,7 +4706,10 @@ async function openSheet(tab) {
   );
   const character = groupOf(tab) === "who";
   // You carries its own bust (the approved strip screen); Jobs and Your life keep the side figure.
-  $("sheet").classList.toggle("strip-sheet", tab === "who");
+  $("sheet").classList.toggle(
+    "strip-sheet",
+    tab === "who" || tab === "budgets",
+  );
   $("sheet").classList.toggle("character-sheet", character && tab !== "who");
   // News is the paper itself: the sheet is the page, its masthead the title
   // (owner, Oct 28, point 25).
@@ -4662,7 +4783,7 @@ function fitPagersNow(root, waits = 30) {
     // that fit (at least one).
     for (const part of root.querySelectorAll(".split-side")) {
       const shown = () =>
-        [...part.querySelectorAll(".vote-bar")].filter((v) => !v.hidden);
+        [...part.querySelectorAll(".vote-rows .dl")].filter((v) => !v.hidden);
       while (over(part) && shown().length > 1) shown().at(-1).hidden = true;
     }
     // The sheet still past its foot: a map gives back the difference, never
@@ -4753,11 +4874,16 @@ api("/api/title").then((title) => {
   if (title.scenes?.length > 1) rotateTitle(title.scenes, title.rotateSeconds);
   titleLife = title.life;
   $("front-continue").disabled = !titleLife;
+  // The mock (fr-title) offers Continue only for a life that exists, by that person's name.
+  $("front-continue").hidden = !titleLife;
+  void controlsReady.then(() => {
+    $("front-continue").querySelector(".continue-text b").textContent = (
+      controls.title?.continueAs ?? ""
+    ).replace("{name}", titleLife?.name ?? "");
+  });
   // The life's own face: the look the creator saved, as every other view of the player reads it.
   setFace("front-continue-bust", titleLife?.face);
 });
-// The build version, bottom right of the title (#4014).
-void displayVersion().then((v) => ($("title-version").textContent = v));
 $("front-continue").addEventListener("click", async () => {
   const life = titleLife;
   if (!life) return;
@@ -4826,12 +4952,13 @@ function worldSettings() {
 $("front-options").addEventListener("click", () => openSheet("options"));
 $("front-saves").addEventListener("click", () => openSheet("saves"));
 $("front-patch-notes").addEventListener("click", () => openSheet("patchNotes"));
-// The bench's developer controls sit behind one faint ring, off by default.
-$("dev-toggle").addEventListener("click", () => {
-  const dev = document.body.classList.toggle("dev");
+// Dev mode is a setting in Options, off by default; its controls show while it is on.
+onDevMode((dev) => {
   if (dev) $("talk-silent").before(gapButton);
   else gapButton.remove();
 });
+restoreDevMode();
+if (devModeOn()) $("talk-silent").before(gapButton);
 // New game: Custom world (the world's settings, then the creator), Start a
 // life (the creator) or New world (straight in, a random person and place).
 const FRONT_PANELS = [
@@ -4901,28 +5028,17 @@ async function fillYears(keepYear) {
     years[0],
   );
   $("cr-year").value = String(nearest.year);
-  derivedAge();
 }
 function chosenAge() {
   return /\(age (\d+)\)/.exec(
     $("cr-year").selectedOptions[0]?.textContent ?? "",
   )?.[1];
 }
-function derivedAge() {
-  const age = chosenAge();
-  $("cr-derived-age").textContent =
-    age && setup.start
-      ? (controls.creator?.ageLine ?? "")
-          .replace("{age}", age)
-          .replace("{date}", dateWords(setup.start))
-      : "";
-}
 $("cr-month").addEventListener("change", async () => {
   fillDays();
   await fillYears();
 });
 $("cr-day").addEventListener("change", () => fillYears());
-$("cr-year").addEventListener("change", derivedAge);
 /** A filled field drops its missing mark and the line at the bottom. */
 function filledIn() {
   for (const group of document.querySelectorAll("#cr-character .missing"))
@@ -4931,21 +5047,8 @@ function filledIn() {
 }
 for (const id of ["cr-given", "cr-family"])
   $(id).addEventListener("input", filledIn);
-/**
- * The random name waits for a gender (owner, Nov 1: "Randomized name shouldn't
- * work until you choose a gender"): a name is drawn for the chosen gender, and
- * the button says what it waits for until then.
- */
-function nameWaitsForGender() {
-  const waiting = !setup.gender;
-  $("cr-random-name").disabled = waiting;
-  $("cr-random-name").textContent = waiting
-    ? controls.creator.nameWaitsForGender
-    : controls.creator.randomName;
-}
 function pickGender(g) {
   setup.gender = g;
-  nameWaitsForGender();
   filledIn();
   for (const b of document.querySelectorAll("[data-gender]")) {
     const on = b.dataset.gender === g;
@@ -4955,6 +5058,15 @@ function pickGender(g) {
 for (const b of document.querySelectorAll("[data-gender]"))
   b.addEventListener("click", () => pickGender(b.dataset.gender));
 $("cr-random-name").addEventListener("click", async () => {
+  // A name is drawn for a gender (owner, Nov 1); with none chosen yet the gender field flashes
+  // as missing instead of the button saying what it waits for (the Nov 8 creator mock).
+  if (!setup.gender) {
+    document
+      .querySelector("[data-gender]")
+      ?.closest(".group")
+      ?.classList.add("missing");
+    return;
+  }
   setup.nameDraws++;
   const name = await api(
     `/api/creator/name?${new URLSearchParams({ seed: setup.seed, draw: setup.nameDraws, gender: setup.gender ?? "" })}`,
@@ -4981,7 +5093,6 @@ async function openCreator() {
   $("cr-route-name").textContent = $("new-start").textContent.trim();
   if (!$("cr-year").options.length) await randomBirthday();
   await controlsReady;
-  nameWaitsForGender();
   frontPanel("cr-character");
 }
 $("new-life").addEventListener("click", () => frontPanel("front-new"));

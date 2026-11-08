@@ -296,6 +296,40 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.93.0
+
+_Released November 8, 2026._
+
+### Changed
+
+- **Dev mode is a setting in Options** Dev mode is now a checkbox in Options
+  (Esc), off by default, with its state shown and remembered. The faint ring in
+  the corner is gone.
+
+## PRE-ALPHA 0.92.0
+
+_Released November 8, 2026._
+
+### Changed
+
+- **The Government screen follows the approved look** Government now sets each
+  part on a gold-edged header strip: a body's seats as large numbers in each
+  party's color, its recent votes typed out with the result and count, and the
+  executive as a bust with the name large and the party and post under it. The
+  party bar, the seat picture and the colored vote bars are gone.
+
+## PRE-ALPHA 0.91.0
+
+_Released November 8, 2026._
+
+### Changed
+
+- **The Budgets screen follows the approved look** Budgets now shows each
+  government as a tab, its spending lines as a list of departments, the open one
+  as a typed page, and the government's money (coming in, going out, balance,
+  savings) with last year beside each figure where a prior budget is kept. The
+  ring charts are gone.
+
 ## PRE-ALPHA 0.90.0
 
 _Released November 8, 2026._
