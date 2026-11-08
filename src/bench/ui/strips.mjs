@@ -450,3 +450,29 @@ export function journalScreen({ chapters, labels, yearOf, rows, words }) {
   draw();
   return holder;
 }
+
+/**
+ * The money board: columns of strips, each { title, figure?, rows: [{ label, value }] }, the
+ * rows typed with dot leaders and the figure, when there is one, in large type above them.
+ */
+export function moneyBoard({ columns }) {
+  return stripBoard({
+    columns: columns.map((sections, column) =>
+      sections.map((section, at) =>
+        stripSection(
+          Math.min(column + at + 1, 5),
+          section.title,
+          ...(section.figure
+            ? [
+                el("p", {
+                  className: "money-figure",
+                  textContent: section.figure,
+                }),
+              ]
+            : []),
+          dotRows(section.rows),
+        ),
+      ),
+    ),
+  });
+}
