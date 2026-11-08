@@ -104,8 +104,8 @@ interface TownPayers {
   readonly people: ReadonlySet<string>;
   /** The counted households' residents accounts, with how many dwellings each pays for. */
   readonly counted: ReadonlyMap<string, number>;
-  /** Firms that pay outside costs. */
-  readonly firms: ReadonlySet<string>;
+  /** Firms that pay outside costs, with how many payments a month they make (a weekly flow makes four and a third). */
+  readonly firms: ReadonlyMap<string, number>;
   readonly dwellings: number;
 }
 
@@ -122,7 +122,7 @@ export function townPayers(api: CoreAPI, townPlaceId: string): TownPayers {
   }
   const counted = new Map<string, number>();
   const rt = residentsRuntime(core);
-  const firms = new Set<string>();
+  const firms = new Map<string, number>();
   if (rt) {
     const store = rt.store;
     let homes = 0;
@@ -134,7 +134,13 @@ export function townPayers(api: CoreAPI, townPlaceId: string): TownPayers {
     }
     for (const flow of rt.flows.values()) {
       if (flow.endedAt || flow.placeId !== townPlaceId) continue;
-      if (flow.kind === "outside-costs") firms.add(flow.payerId);
+      if (flow.kind === "outside-costs")
+        firms.set(
+          flow.payerId,
+          flow.cadence.kind === "days"
+            ? 365 / 12 / flow.cadence.every
+            : 1 / flow.cadence.every,
+        );
       if (
         flow.kind === "purchase" &&
         flow.payerId === flow.residentsId &&
@@ -251,7 +257,9 @@ export function syncServiceCharges(api: CoreAPI): void {
     if (payers.people.has(payerId)) return row.sewerPerDwellingMinor;
     const homes = payers.counted.get(payerId);
     if (homes) return homes * row.sewerPerDwellingMinor;
-    if (payers.firms.has(payerId)) return row.sewerPerFirmMinor;
+    const perMonth = payers.firms.get(payerId);
+    // A firm pays its month's charge across its payments, whatever their cadence.
+    if (perMonth) return row.sewerPerFirmMinor / perMonth;
     return 0;
   };
   const sharesOf = (
