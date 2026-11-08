@@ -189,7 +189,7 @@ try {
     if (!(await page.locator("#ballot:not([hidden])").isVisible())) break;
     const marked = await page.evaluate(() => {
       const open = document.querySelector(
-        "#ballot-races .acts button:not([disabled])",
+        "#ballot .ballot-choice:not([disabled])",
       );
       if (open) {
         open.click();

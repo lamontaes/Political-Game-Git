@@ -5361,3 +5361,147 @@ select.release-pick {
   gap: 4px;
   margin-bottom: 10px;
 }
+
+/* The ballot (pl-ballot), election night (pl-night) and election morning (pl-eday), over the
+   room's picture. */
+#ballot,
+#returns {
+  top: 6vh;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  transform: translateX(-50%);
+  width: min(1180px, calc(100vw - 2 * var(--gutter)));
+}
+.ballot-paper {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 28px;
+  font-family: var(--ui);
+}
+.ballot-sheet {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  font-family: "Courier Prime", monospace;
+}
+.ballot-race {
+  margin: 14px 0 2px;
+  font:
+    700 15px "Courier Prime",
+    monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #f2e6c9;
+}
+#ballot .ballot-sheet .ballot-choice {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  padding: 4px 6px;
+  background: none;
+  border: none;
+  box-shadow: none;
+  color: #f2e6c9;
+  font:
+    600 15px "Courier Prime",
+    monospace;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.ballot-choice .oval {
+  width: 28px;
+  height: 16px;
+  border: 1.5px solid #d6bd84;
+  border-radius: 50%;
+}
+.ballot-choice[aria-pressed="true"] .oval {
+  background: #d6bd84;
+}
+#ballot .ballot-choice:hover,
+#ballot .ballot-choice:focus-visible {
+  background: rgba(214, 189, 132, 0.14);
+}
+.ballot-person {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 12px;
+  margin-bottom: 14px;
+  align-items: start;
+}
+.ballot-person b {
+  font:
+    600 20px "Playfair Display",
+    Georgia,
+    serif;
+  color: #f2e6c9;
+}
+.night-board.strip-screen {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: auto;
+}
+.night-title {
+  margin: 0;
+  font:
+    600 34px "Playfair Display",
+    Georgia,
+    serif;
+  text-transform: none;
+  letter-spacing: 0;
+  color: #f2e6c9;
+}
+.night-cols {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 22px;
+  align-items: start;
+}
+#returns.nation .night-cols .dotrows {
+  columns: 2;
+}
+/* Election morning: the narrator's lines in italics, the choices numbered, in one dark box at
+   the foot of the picture. */
+#election-day {
+  top: auto;
+  left: 50%;
+  right: auto;
+  bottom: 6vh;
+  transform: translateX(-50%);
+  width: min(1160px, calc(100vw - 2 * var(--gutter)));
+  background: rgba(14, 12, 10, 0.94);
+  border: none;
+}
+#election-day-lines p {
+  font: italic 18px/1.5 var(--speech);
+  color: #f2e6c9;
+}
+#election-day-acts {
+  counter-reset: choice;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+#election-day-acts .action {
+  counter-increment: choice;
+  text-align: left;
+  background: none;
+  border: none;
+  box-shadow: none;
+  font: 16px var(--ui);
+  color: #f2e6c9;
+}
+#election-day-acts .action::before {
+  content: counter(choice) ".";
+  display: inline-block;
+  width: 2em;
+  color: #d6bd84;
+  font-weight: 700;
+}
+#election-day-acts .action:hover,
+#election-day-acts .action:focus-visible {
+  background: rgba(214, 189, 132, 0.14);
+}

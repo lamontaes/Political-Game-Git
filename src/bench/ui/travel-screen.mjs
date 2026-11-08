@@ -104,14 +104,18 @@ export function travelScreen({ entries, labels, words }) {
     if (!entry) return;
     const info = (await entry.load?.()) ?? {};
     if (mine !== request) return;
+    // Labeled facts under the picture (Open now; how long; who is coming).
     const facts = el("div", { className: "travel-facts" });
-    if (info.open)
+    const list =
+      info.facts ??
+      (info.open ? [{ label: info.openLabel, value: info.open }] : []);
+    for (const fact of list)
       facts.append(
         el(
           "div",
           {},
-          el("span", { textContent: info.openLabel }),
-          el("b", { textContent: info.open }),
+          el("span", { textContent: fact.label }),
+          el("b", { textContent: fact.value }),
         ),
       );
     detail.append(
@@ -123,7 +127,7 @@ export function travelScreen({ entries, labels, words }) {
           : []),
         el("h2", { textContent: entry.title }),
       ),
-      ...(info.open ? [facts] : []),
+      ...(list.length ? [facts] : []),
       ...(info.who ? [stripSection(3, labels.whoIsThere, info.who)] : []),
       ...(info.does?.length
         ? [
@@ -139,6 +143,7 @@ export function travelScreen({ entries, labels, words }) {
           ]
         : []),
     );
+    for (const node of info.nodes ?? []) detail.append(node);
     if (entry.go) {
       const go = makeButton({
         className: "travel-go",

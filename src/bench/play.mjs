@@ -24,7 +24,6 @@ import { splitScreen } from "./ui/split-screen.mjs";
 import { makeTab, tabBar, chooseTab } from "./ui/tab.mjs";
 import { plate } from "./ui/plate.mjs";
 import { timeline } from "./ui/timeline.mjs";
-import { makeCard } from "./ui/card.mjs";
 import { townRow } from "./ui/town-row.mjs";
 import { debateCard, speechCard } from "./ui/campaign-acts.mjs";
 import { devBribePanel } from "./ui/dev-bribe.mjs";
@@ -57,6 +56,8 @@ import {
 /** A government's sum in a readable unit ("$5.2 trillion", "$48,300"). */
 const roundedMoney = (minor) => moneyWords(minor, { rounded: true });
 import { newsBoard } from "./ui/news-board.mjs";
+import { ballotPaper } from "./ui/ballot-paper.mjs";
+import { electionNight as electionNightScreen } from "./ui/election-night.mjs";
 import { el } from "./ui/dom.mjs";
 import { rosterScreen } from "./ui/roster-screen.mjs";
 import { travelScreen } from "./ui/travel-screen.mjs";
@@ -956,42 +957,27 @@ function electionNight(night) {
       : night.steps;
     let at = 0;
     const draw = () => {
-      const step = steps[at];
-      const last = at === steps.length - 1;
-      $("returns-title").textContent = night.title;
-      $("returns").classList.toggle("nation", Boolean(step.nation));
-      $("returns-lines").replaceChildren(
-        ...(step.nation ?? step).lines.map((line) => prose(line.text)),
+      $("returns").replaceChildren(
+        electionNightScreen({
+          title: night.title,
+          step: steps[at],
+          labels,
+          last: at === steps.length - 1,
+          onNext: async () => {
+            if (at < steps.length - 1) {
+              at += 1;
+              draw();
+              return;
+            }
+            await post(
+              `/api/election-night/watched?${new URLSearchParams({ id: me.id, contestId: night.contestId })}`,
+            );
+            show("returns", false);
+            $("game").classList.remove("cinema");
+            resolve();
+          },
+        }),
       );
-      $("returns-count").replaceChildren(
-        ...(step.nation
-          ? step.nation.races.map((race) =>
-              row(
-                race.state,
-                `${race.winnerParty} · ${labels.marginBy} ${race.marginPoints} ${labels.points}`,
-              ),
-            )
-          : step.totals.map((entry) =>
-              row(
-                entry.name,
-                `${entry.votes.toLocaleString("en-US")} ${entry.votes === 1 ? labels.vote : labels.votes}`,
-              ),
-            )),
-      );
-      $("returns-next").textContent = last ? labels.close : labels.next;
-    };
-    $("returns-next").onclick = async () => {
-      if (at < steps.length - 1) {
-        at += 1;
-        draw();
-        return;
-      }
-      await post(
-        `/api/election-night/watched?${new URLSearchParams({ id: me.id, contestId: night.contestId })}`,
-      );
-      show("returns", false);
-      $("game").classList.remove("cinema");
-      resolve();
     };
     $("game").classList.add("cinema");
     draw();
@@ -1006,49 +992,43 @@ function electionNight(night) {
 // are control names. The voting engine counts what is marked.
 function atThePolls(scene) {
   return new Promise((resolve) => {
+    const labels = {
+      ...controls.polling,
+      know: controls.polling?.know,
+      forRace: controls.polling?.forRace,
+    };
     const draw = (value) => {
       scene = value;
       $("backdrop").src = scene.backdrop.url;
       drawPeople(scene.people);
-      $("ballot-races").replaceChildren(
-        ...scene.contests.map((contest) => {
-          const mark = (candidateId) => async () => {
+      $("ballot").replaceChildren(
+        ballotPaper({
+          contests: scene.contests,
+          labels: { ...labels, blank: controls.polling?.leaveBlank },
+          onMark: async (contestId, candidateId) => {
             const result = await post(
               `/api/polling-place/mark?${new URLSearchParams({
-                contestId: contest.id,
+                contestId,
                 candidateId: candidateId ?? "",
               })}`,
             );
             if (result.pollingPlace) draw(result.pollingPlace);
             else finish();
-          };
-          const chosen = contest.marked;
-          const button = (text, candidateId) => {
-            const node = makeButton({
-              className: "action",
-              textContent: text,
-            });
-            if (chosen) {
-              node.disabled = true;
-              if (chosen.candidateId === candidateId)
-                node.classList.add("primary");
-            } else node.addEventListener("click", mark(candidateId));
-            return node;
-          };
-          return makeCard(
-            "race",
-            {},
-            heading(contest.title),
-            buttonRow(
-              ...contest.candidates.map((candidate) =>
-                button(
-                  [candidate.name, candidate.party].filter(Boolean).join(" · "),
-                  candidate.personId,
-                ),
-              ),
-              button(controls.polling?.leaveBlank ?? "", null),
-            ),
-          );
+          },
+          know: (personId) =>
+            api(
+              `/api/known?${new URLSearchParams({ id: me.id, other: personId })}`,
+            )
+              .then((c) => ({
+                name: c.name,
+                face: c.face,
+                summary: c.summary,
+              }))
+              .catch(() => null),
+          onLeave: async () => {
+            await post("/api/polling-place/leave");
+            finish();
+          },
         }),
       );
     };
@@ -1056,11 +1036,6 @@ function atThePolls(scene) {
       show("ballot", false);
       $("game").classList.remove("cinema");
       resolve();
-    };
-    $("ballot-leave").textContent = controls.polling?.leave ?? "";
-    $("ballot-leave").onclick = async () => {
-      await post("/api/polling-place/leave");
-      finish();
     };
     $("game").classList.add("cinema");
     draw(scene);
@@ -1609,114 +1584,155 @@ async function campaignParts() {
       );
       return b;
     };
-    // The acts are scenes you go to, never buttons on the tab (owner, Oct 20):
-    // they wait on the campaign trail in Travel; the tab keeps standing and results.
-    const trail = [
-      buttonRow(
-        ...(outings ?? []).map((choice) => {
-          // A grayed outing says why, from the records.
-          const why = choice.why
-            ? (controls.campaignUnavailable[choice.why.key] ?? "")
-                .replace("{price}", moneyWords(choice.why.priceMinor ?? 0))
-                .replace("{cash}", moneyWords(choice.why.cashMinor ?? 0))
-            : "";
-          const b = makeButton({
-            textContent: `${controls.campaignOutings[choice.outing]} · ${choice.hours} ${controls.campaignOutings.hours}${why ? ` · ${why}` : ""}`,
-            disabled: !choice.available,
-            title: why,
-          });
-          b.addEventListener("click", () =>
-            goOut(choice.outing, choice.outletId),
-          );
-          return b;
-        }),
-      ),
-      // stopgapId: SG-PLAY-campaign-acts-buttons
-      buttonRow(
-        button(controls.campaignActs.volunteer, "volunteer"),
-        button(controls.campaignActs.endorsement, "endorsement"),
-        button(controls.campaignActs.ad, "ad", { amountMinor: "5000" }),
-        button(controls.campaignActs.poll, "poll", {
-          sampleSize: String(pollSample),
-        }),
-      ),
-      // Mail to the town's households: the player sets what to spend.
-      (() => {
-        const dollarsOut = numberBox({
-          value: 50,
-          min: 0,
-          step: 1,
-          label: controls.campaignContribute.dollars,
-        });
-        const send = button(controls.campaignActs.mail, "mail", () => ({
-          amountMinor: String(Math.round(Number(dollarsOut.value) * 100)),
-        }));
-        send.dataset.testid = "campaign-mail";
-        return buttonRow(dollarsOut, send);
-      })(),
-      // The player's own money into the campaign: the amount is theirs to set.
-      (() => {
-        const dollarsIn = numberBox({
-          value: 0,
-          min: 0,
-          step: 1,
-          label: controls.campaignContribute.dollars,
-        });
-        const give = makeButton({
-          textContent: controls.campaignContribute.give,
-        });
-        give.addEventListener("click", () =>
-          act("contribute", {
-            amountMinor: String(Math.round(Number(dollarsIn.value) * 100)),
+    // The acts are scenes you go to: each is a place on the trail (the mock's pl-trail), its
+    // hours and why it is out of reach, and Go. Money, the speech and debates open their own
+    // controls beside the list.
+    const T = controls.campaignBoard;
+    const go = (onClick) => ({ label: T.go, onClick });
+    const entries = [
+      ...(outings ?? []).map((choice) => {
+        const why = choice.why
+          ? (controls.campaignUnavailable[choice.why.key] ?? "")
+              .replace("{price}", moneyWords(choice.why.priceMinor ?? 0))
+              .replace("{cash}", moneyWords(choice.why.cashMinor ?? 0))
+          : "";
+        return {
+          group: T.groupOut,
+          title: controls.campaignOutings[choice.outing],
+          load: async () => ({
+            facts: [
+              {
+                label: T.howLong,
+                value: `${choice.hours} ${controls.campaignOutings.hours}`,
+              },
+            ],
+            does: why ? [why] : [],
           }),
-        );
-        return buttonRow(dollarsIn, give);
-      })(),
-      speechCard({
-        words: controls.speech,
-        state: speechState,
-        venue,
-        onBegin: async () => {
-          speechState = await post("/api/campaign/speech/begin");
-          reopenTrail(filing.id);
+          ...(choice.available
+            ? { go: go(() => goOut(choice.outing, choice.outletId)) }
+            : {}),
+        };
+      }),
+      ...[
+        ["volunteer", undefined],
+        ["endorsement", undefined],
+        ["ad", { amountMinor: "5000" }],
+        ["poll", { sampleSize: String(pollSample) }],
+      ].map(([kind, extra]) => ({
+        group: T.groupAsk,
+        title: controls.campaignActs[kind],
+        load: async () => ({}),
+        // stopgapId: SG-PLAY-campaign-acts-buttons
+        go: go(() => act(kind, extra)),
+      })),
+      {
+        group: T.groupMoney,
+        title: controls.campaignActs.mail,
+        load: async () => {
+          const dollarsOut = numberBox({
+            value: 50,
+            min: 0,
+            step: 1,
+            label: controls.campaignContribute.dollars,
+          });
+          const send = button(controls.campaignActs.mail, "mail", () => ({
+            amountMinor: String(Math.round(Number(dollarsOut.value) * 100)),
+          }));
+          send.dataset.testid = "campaign-mail";
+          return { nodes: [buttonRow(dollarsOut, send)] };
         },
-        onPick: async (choice) => {
-          speechState = await post(
-            `/api/campaign/speech/pick?${new URLSearchParams({ key: choice.key })}`,
+      },
+      {
+        group: T.groupMoney,
+        title: controls.campaignContribute.give,
+        load: async () => {
+          const dollarsIn = numberBox({
+            value: 0,
+            min: 0,
+            step: 1,
+            label: controls.campaignContribute.dollars,
+          });
+          const give = makeButton({
+            textContent: controls.campaignContribute.give,
+          });
+          give.addEventListener("click", () =>
+            act("contribute", {
+              amountMinor: String(Math.round(Number(dollarsIn.value) * 100)),
+            }),
           );
-          reopenTrail(filing.id);
+          return { nodes: [buttonRow(dollarsIn, give)] };
         },
-        onGive: async () => {
-          const result = await post(
-            `/api/campaign/speech/give?${new URLSearchParams({ filingId: filing.id, venue: venue.value })}`,
-          );
-          speechState = null;
-          campaignResult = `${result.reached} · +${result.warmer} · −${result.cooler} · ${result.retold} ${controls.speech.retold}`;
-          // A speech is seen where it was given, with the people it reached.
-          closeSheet();
-          $("backdrop").src = result.scene.backdrop.url;
-          drawPeople(result.scene.people);
-          $("card-why").textContent = campaignResult;
+      },
+      {
+        group: T.groupSpeak,
+        title: T.speech,
+        load: async () => ({
+          nodes: [
+            speechCard({
+              words: controls.speech,
+              state: speechState,
+              venue,
+              onBegin: async () => {
+                speechState = await post("/api/campaign/speech/begin");
+                reopenTrail(filing.id);
+              },
+              onPick: async (choice) => {
+                speechState = await post(
+                  `/api/campaign/speech/pick?${new URLSearchParams({ key: choice.key })}`,
+                );
+                reopenTrail(filing.id);
+              },
+              onGive: async () => {
+                const result = await post(
+                  `/api/campaign/speech/give?${new URLSearchParams({ filingId: filing.id, venue: venue.value })}`,
+                );
+                speechState = null;
+                campaignResult = `${result.reached} · +${result.warmer} · −${result.cooler} · ${result.retold} ${controls.speech.retold}`;
+                // A speech is seen where it was given, with the people it reached.
+                closeSheet();
+                $("backdrop").src = result.scene.backdrop.url;
+                drawPeople(result.scene.people);
+                $("card-why").textContent = campaignResult;
+              },
+            }),
+          ],
+        }),
+      },
+      // A debate the outlet invited the candidates to: one position (or a pass) on each question it asks.
+      ...(debates ?? []).map((debate) => ({
+        group: T.groupSpeak,
+        title: controls.debate.title ?? T.debate,
+        load: async () => ({
+          nodes: [
+            debateCard({
+              words: controls.debate,
+              debate,
+              questionLabel: policyLabel,
+              onAnswer: async (answers) => {
+                await post(
+                  `/api/campaign/debate?${new URLSearchParams({
+                    debateId: debate.id,
+                    answers: JSON.stringify(answers),
+                  })}`,
+                );
+                reopenTrail(filing.id);
+              },
+            }),
+          ],
+        }),
+      })),
+    ];
+    const trail = [
+      ...travelScreen({
+        entries,
+        labels: { whoIsThere: "", whatICanDo: T.groupAsk },
+        words: {
+          page: controls.politics.page,
+          previous: controls.politics.previousPage,
+          next: controls.politics.nextPage,
         },
       }),
-      // A debate the outlet invited the candidates to: one position (or a pass) on each question it asks.
-      ...(debates ?? []).map((debate) =>
-        debateCard({
-          words: controls.debate,
-          debate,
-          questionLabel: policyLabel,
-          onAnswer: async (answers) => {
-            await post(
-              `/api/campaign/debate?${new URLSearchParams({
-                debateId: debate.id,
-                answers: JSON.stringify(answers),
-              })}`,
-            );
-            reopenTrail(filing.id);
-          },
-        }),
-      ),
-      campaignResult ? line(campaignResult) : "",
+      ...(campaignResult ? [line(campaignResult)] : []),
       ...campaignLines.map((text) => line(text)),
     ];
     // The campaign board (the mock's pl-campaign): where the race stands in sentences the
@@ -1775,20 +1791,7 @@ async function campaignParts() {
  * interview, forum, calls, donor meeting, speech and debate start their scenes.
  */
 function trailView(part) {
-  $("sheet-body").replaceChildren(
-    ...recordScreen({
-      heading: {
-        name: controls.travel.trail,
-        meta: [
-          part.contest?.title,
-          part.contest ? dateWords(part.contest.electionDate) : null,
-        ]
-          .filter(Boolean)
-          .join(" · "),
-      },
-      sections: [{ items: part.trail.map((node) => ({ node })) }],
-    }),
-  );
+  $("sheet-body").replaceChildren(...part.trail);
   $("sheet-body").classList.add("place-view");
 }
 /** Back to the trail after an act that stays on the screen (a poll, an ad, a speech's next step). */

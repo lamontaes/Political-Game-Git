@@ -233,7 +233,9 @@
   },
   "polling": {
     "leaveBlank": "Leave blank",
-    "leave": "Leave"
+    "leave": "Leave",
+    "forRace": "For {title}",
+    "know": "What I know about them"
   },
   "meeting": {
     "yes": "Yes",
@@ -640,7 +642,10 @@
     "vote": "vote",
     "votes": "votes",
     "marginBy": "by",
-    "points": "points"
+    "points": "points",
+    "count": "The count",
+    "nation": "Elsewhere",
+    "call": "The call"
   },
   "money": {
     "cash": "Cash available",
@@ -866,6 +871,14 @@
     "spent": "Spent",
     "volunteers": "Volunteers",
     "doors": "Doors knocked",
-    "endorsements": "Endorsements"
+    "endorsements": "Endorsements",
+    "go": "Go",
+    "howLong": "How long",
+    "groupOut": "Out and about",
+    "groupAsk": "Ask",
+    "groupMoney": "Money",
+    "groupSpeak": "Speak",
+    "debate": "Debate",
+    "speech": "Give a speech"
   }
 }
