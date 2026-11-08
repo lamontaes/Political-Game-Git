@@ -439,7 +439,15 @@ export function decideSchoolOutcome(
       startYear,
       date,
       measure,
-      value: total ? (passedAll / total) * 100 : base,
+      // A cohort too small to measure reads the place's expected rate (its
+      // base times the web's factors), never a count of none passing.
+      value: total
+        ? ((total < api.parameter("schoolMeasureMinimumStudents")
+            ? expectedAll
+            : passedAll) /
+            total) *
+          100
+        : base,
       students: total,
       passed: passedAll,
       expected: expectedAll,
