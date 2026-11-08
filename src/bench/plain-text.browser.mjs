@@ -136,7 +136,14 @@ try {
     for (let i = 0; i < (await go.count()) && !opened; i++) {
       await go.nth(i).click();
       const placeGo = page.locator('[data-testid="place-go"]');
-      if (await placeGo.isVisible().catch(() => false)) await placeGo.click();
+      // The place card draws after its tile is chosen (it loads what the place offers first).
+      if (
+        await placeGo.waitFor({ timeout: 5000 }).then(
+          () => true,
+          () => false,
+        )
+      )
+        await placeGo.click();
       opened = await page
         .locator("#talk:not([hidden])")
         .waitFor({ timeout: 5000 })
