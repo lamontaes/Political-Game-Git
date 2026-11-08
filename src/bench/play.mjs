@@ -543,15 +543,6 @@ function renderPacket(value) {
   $("day").disabled = $("week").disabled = busy || open;
   show("continue", packet?.kind === "stop");
   if (packet) setClock(packet.at);
-  $("card-why").textContent = endedBy(packet);
-}
-
-/** What stopped the clock, from the stop's own records. */
-function endedBy(value) {
-  const words = controls.endedBy ?? {};
-  if (value?.kind !== "stop") return "";
-  const module = value.stop.modules[0];
-  return module ? (words[module.reasonKey] ?? "") : "";
 }
 
 /** The newest line of the journal, bottom right. */
@@ -1730,7 +1721,6 @@ async function campaignParts() {
       if (result.scene) {
         $("backdrop").src = result.scene.backdrop.url;
         drawPeople(result.scene.people);
-        $("card-why").textContent = campaignResult;
       }
       if (moment) await showStory(moment.recordId);
       if (!result.scene && !moment) reopenTrail(filing.id);
@@ -1779,7 +1769,6 @@ async function campaignParts() {
         closeSheet();
         $("backdrop").src = result.scene.backdrop.url;
         drawPeople(result.scene.people);
-        $("card-why").textContent = campaignResult;
         return;
       }
       reopenTrail(filing.id);
@@ -1905,7 +1894,6 @@ async function campaignParts() {
                 closeSheet();
                 $("backdrop").src = result.scene.backdrop.url;
                 drawPeople(result.scene.people);
-                $("card-why").textContent = campaignResult;
               },
             }),
           ],
