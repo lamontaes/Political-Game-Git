@@ -94,6 +94,34 @@ if (seats) {
   }
 }
 
+// Incumbent challenge rate by level: of the contests where the seat's holder filed again, how many drew a general-election opponent.
+{
+  const terms = api.moduleState(OFFICES_MODULE_ID).table("terms");
+  const ran: Record<string, [number, number]> = {};
+  for (const r of results) {
+    const c = api
+      .moduleState(ELECTIONS_MODULE_ID)
+      .table("contests")
+      .get(r.contestId) as any;
+    if (!c?.incumbentTermId || c.special) continue;
+    const holder = (terms.get(c.incumbentTermId) as any)?.personId;
+    const fs = filings.filter((f) => f.contestId === c.id);
+    if (
+      !holder ||
+      !fs.some((f) => f.personId === holder && f.status !== "withdrawn")
+    )
+      continue;
+    const k = `${c.level}/${c.family}`;
+    const row = (ran[k] ??= [0, 0]);
+    row[0] += 1;
+    if (Object.keys(r.totals ?? {}).length > 1) row[1] += 1;
+  }
+  for (const [k, [n, challenged]] of Object.entries(ran).sort())
+    console.log(
+      `incumbents again ${k.padEnd(30)} ran ${n} drew a general opponent ${challenged}`,
+    );
+}
+
 console.log(
   `Ballotpedia: state legislative uncontested ${benchmarks.stateLegislativeUncontestedShare.value}, House primary candidates per seat ${benchmarks.usHousePrimaryCandidatesPerSeat.value}, House races contested by both parties ${benchmarks.usHouseContestedByBothParties.value}, state legislative seats open ${benchmarks.stateLegislativeOpenSeatShare.value}, largest cities' mayoral candidates ${benchmarks.largestCitiesMayoralCandidatesPerElection.value}, all seats uncontested ${benchmarks.allSeatsUncontestedShare2025.value}`,
 );
