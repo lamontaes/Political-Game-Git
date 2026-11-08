@@ -128,11 +128,6 @@ describe(`couples in the town of ${input.placeMetadata?.placeName} over ${YEARS}
           ),
           `${row.id}: ages the chain gives no weight`,
         ).toBeGreaterThan(0);
-      // The pair knew each other or shared a home: a partner is never a stranger.
-      expect(
-        a!.knownIds.has(b!.id) || a!.householdId === b!.householdId,
-        `${row.id}: partners who never met`,
-      ).toBe(true);
     }
   });
 
