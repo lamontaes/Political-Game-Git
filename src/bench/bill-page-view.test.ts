@@ -4,7 +4,6 @@ import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "../core2/game-start";
 import {
-  billOf,
   castMemberVote,
   holdVote,
   memberKey,
@@ -73,8 +72,6 @@ describe(`the bill page's view (seed ${seed})`, () => {
         castMemberVote(api, bill.id, memberKey(member), "yes");
       holdVote(api, bill.id);
       const page = billPageView(world.core, bill.id, sponsor);
-      if (process.env.BPV_DEBUG)
-        console.log("row:", JSON.stringify({ status: billOf(api, bill.id).status, passedOn: billOf(api, bill.id).passedOn, failedOn: billOf(api, bill.id).failedOn, date: world.core.date }));
       expect(page.name.length, draw.name).toBeGreaterThan(0);
       expect(page.sponsor.name.length, draw.name).toBeGreaterThan(0);
       expect(page.stageDate, `${draw.name}: the stage's day`).toBeTruthy();
