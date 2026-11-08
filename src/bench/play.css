@@ -128,6 +128,17 @@ body {
   color: var(--text);
   font: 400 14.5px/1.4 var(--ui);
   overflow: hidden;
+  /* A game, not a web page: clicking a title never selects it (C17). */
+  user-select: none;
+  -webkit-user-select: none;
+}
+/* Only what is typed into stays selectable. */
+input,
+textarea,
+select,
+[contenteditable] {
+  user-select: text;
+  -webkit-user-select: text;
 }
 p,
 h1,
@@ -976,6 +987,22 @@ input[type="range"]::-moz-range-thumb {
 }
 #new-life b {
   color: #fff;
+}
+/* The loading bar: a plain track and a gold fill that stays inside it, one sixth for each
+   step the world builds in (owner, Nov 8; the Oct 28 stray piece was the old fill's
+   overhang past the frame). */
+.progress {
+  height: 6px;
+  margin: 14px 0 8px;
+  background: rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+}
+.progress span {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, var(--brass-lo), var(--gold));
+  transition: width 0.5s ease-out;
 }
 #front-status:empty {
   display: none;
@@ -2030,33 +2057,10 @@ body:not(.dev) .dev-only {
   font: 400 13.5px var(--ui);
   color: var(--text-2);
 }
-.coach {
-  box-shadow:
-    0 0 0 1px var(--iron),
-    0 0 12px rgba(255, 255, 255, 0.55),
-    0 0 24px rgba(214, 189, 132, 0.45) !important;
-  animation: coach 1.6s ease-in-out infinite;
-}
-@keyframes coach {
-  50% {
-    box-shadow:
-      0 0 0 1px var(--iron),
-      0 0 4px rgba(255, 255, 255, 0.3),
-      0 0 10px rgba(214, 189, 132, 0.2);
-  }
-}
 @media (max-width: 900px) {
   #news-reader {
     inset: var(--gutter);
     grid-template-columns: 1fr;
-  }
-}
-
-/* Reduced motion (owner's UI brief, Sept 27, 2026): the first choices'
-   glow holds still. */
-@media (prefers-reduced-motion: reduce) {
-  .coach {
-    animation: none;
   }
 }
 
@@ -2685,7 +2689,7 @@ details.entry[open] {
   border-color: var(--gold);
 }
 @media (max-width: 1100px) {
-  }
+}
 
 /* A line marked as a gap shows it took (play-mark-gap). */
 #talk-gap.marked {
@@ -3588,10 +3592,6 @@ details.entry[open] {
 }
 .bill-compare-cell.new {
   border-color: var(--gold);
-}
-.bill-compare-arrow {
-  color: var(--gold);
-  font-size: 22px;
 }
 
 /* ---- Framed plates, trays and the timeline (owner, Oct 29, 22:45) ----
