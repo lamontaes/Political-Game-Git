@@ -6,9 +6,9 @@ lead: laws
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: astra/fiscal-reviews-own-law
-pr:
+pr: #7339
 blocked-on:
 source: Owner Nov 7 law-levels order; Astra
 claimed-at: 2026-11-07T23:58:04.936Z
