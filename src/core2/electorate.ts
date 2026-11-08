@@ -29,7 +29,12 @@ import {
   type CountedStore,
   isDemoted,
 } from "./counted-groups";
-import { VIEWS_KEYS, VIEWS_MODULE_ID, viewOf } from "./modules/views";
+import {
+  countedLean,
+  VIEWS_KEYS,
+  VIEWS_MODULE_ID,
+  viewOf,
+} from "./modules/views";
 import viewsData from "./data/views/views.json" with { type: "json" };
 import { coreAPI } from "./state";
 import { reportOutcome } from "./trait-decisions";
@@ -304,13 +309,9 @@ export function registerElectorate(core: CoreState): void {
       for (const row of countedResidents(core)) counted.set(row.id, row);
     const row = counted.get(person.id);
     if (!row) return 0;
-    const cell = surveyCell(
-      row.placeId,
-      row.birthDate,
-      core.startedAt,
-      townStateKey(core),
-    );
-    return cell.mean + cell.sd * z;
+    // One formula for both tiers: the lean the views engine gives the record
+    // (the one it keeps when they are filled in), not a survey-cell stand-in.
+    return countedLean(api, row);
   });
 }
 
