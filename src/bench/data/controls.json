@@ -477,7 +477,10 @@
     "today": "In force today",
     "proposed": "The bill makes it",
     "newAmount": "The new amount",
-    "none": "Not set"
+    "none": "Not set",
+    "figures": "Budget lines",
+    "thisYear": "This year",
+    "lastYear": "Last year"
   },
   "advanced": {
     "none": "No one holds an office that matches",

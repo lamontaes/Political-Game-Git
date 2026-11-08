@@ -72,6 +72,7 @@ import { rosterScreen } from "./ui/roster-screen.mjs";
 import { guideScreen } from "./ui/guide-screen.mjs";
 import { travelScreen } from "./ui/travel-screen.mjs";
 import { billPaper } from "./ui/bill-paper.mjs";
+import { billFigures } from "./ui/bill-figures.mjs";
 import { billStageSections } from "./ui/bill-stage.mjs";
 import { meetingItem } from "./ui/meeting-item.mjs";
 import { draftCard } from "./ui/draft-card.mjs";
@@ -2617,6 +2618,7 @@ async function openBillPaper(billId, show, back, backLabel) {
   const stage = await api(
     `/api/bill/stage?billId=${encodeURIComponent(billId)}`,
   );
+  const view = await api(`/api/bill/page?billId=${encodeURIComponent(billId)}`);
   const words = controls.bill ?? {};
   const floor = controls.floor ?? {};
   const backButton = makeButton({
@@ -2647,6 +2649,13 @@ async function openBillPaper(billId, show, back, backLabel) {
           ? `${words.decided ?? ""}: ${floor.status?.[paper.decision.status] ?? ""}${paper.decision.decidedOn ? ` · ${dateWords(paper.decision.decidedOn)}` : ""}`
           : null,
       ],
+    }),
+    // The budget lines the bill sets, this year beside last year's.
+    ...billFigures({
+      view,
+      textOf: (index) => paper.sections[index]?.text ?? paper.title,
+      money: (minor) => moneyWords(minor),
+      words,
     }),
     // Where the bill is: the committee's record, what members told you, the floor and
     // the override, each member by name (ui/bill-stage.mjs).
