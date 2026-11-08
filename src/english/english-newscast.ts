@@ -296,6 +296,11 @@ export const STORY_KINDS = {
     headline: ["public-action"],
     lede: ["public-action"],
   },
+  // The other side's answer to a governor's address.
+  "address-response": {
+    headline: ["address-response"],
+    lede: ["address-response"],
+  },
   "local-address": {
     headline: ["local-address"],
     lede: ["local-address"],

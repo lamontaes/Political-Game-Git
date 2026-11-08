@@ -7882,6 +7882,50 @@
         "move": "headline",
         "key": "news-received"
       }
+    },
+    {
+      "key": "headlines.address-response.name-answers-opponents-address",
+      "move": "address-response",
+      "kind": "written",
+      "text": "{name} answers {opponent}'s address",
+      "uses": [
+        {
+          "move": "address-response",
+          "subject": "headline",
+          "role": "address-response",
+          "choice": "headline",
+          "requiresFacts": ["opponent", "issue"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.address-response.name-objects-to-opponents-plan-for-issue",
+      "move": "address-response",
+      "kind": "written",
+      "text": "{name} objects to {opponent}'s plan for {issue}",
+      "uses": [
+        {
+          "move": "address-response",
+          "subject": "headline",
+          "role": "address-response",
+          "choice": "headline",
+          "requiresFacts": ["opponent", "issue"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
     }
   ]
 }

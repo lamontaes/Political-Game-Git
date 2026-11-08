@@ -2956,6 +2956,19 @@ const publicAction =
     );
   };
 
+/** The other side's answer to a governor's address (director/address-response.ts): who answered, whom, and the ask they objected to. */
+const addressResponse: Builder = (read, f) =>
+  story(
+    "address-response",
+    {
+      ...read.who(f.responderId, "name", false),
+      ...read.who(f.governorId, "opponent", false),
+      ...(f.question ? read.issue(f.question) : {}),
+    },
+    ["name", "opponent", "issue"],
+    f.responderId,
+  );
+
 /** A governor's or mayor's yearly address, told by its kind and one line they said. */
 const localAddress =
   (level: "state" | "town"): Builder =>
@@ -3208,6 +3221,7 @@ const BUILDERS: Readonly<Record<string, Builder>> = {
   "president.address": address,
   "governor.address": localAddress("state"),
   "mayor.address": localAddress("town"),
+  "governor.response": addressResponse,
   "civic.protest": publicAction("protest"),
   "civic.strike": publicAction("strike"),
   "civic.rally": publicAction("rally"),
