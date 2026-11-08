@@ -326,6 +326,9 @@
   "advanced": {
     "none": "No one holds an office that matches"
   },
+  "title": {
+    "continueAs": "Continue as {name}"
+  },
   "levels": {
     "local": "Local",
     "state": "State",
