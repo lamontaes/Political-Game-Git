@@ -5276,3 +5276,20 @@ select.release-pick {
   font: 500 16px var(--f-ui);
   color: #f2e6c9;
 }
+
+/* Options (Nov 8 front mock, fr-options): a label over its On and Off toggles. */
+.strip-screen .setting {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.strip-screen .setting-label {
+  font: 600 13px var(--f-ui);
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--gold2);
+}
+.strip-board .board-cols:has(.setting) {
+  grid-template-columns: minmax(280px, 1fr) minmax(220px, 0.6fr);
+}
