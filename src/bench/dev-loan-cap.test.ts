@@ -14,6 +14,7 @@ import { buildBenchWorld } from "./world";
 import { gameStartDate } from "../core2/game-start";
 import { coreAPI } from "../core2/state";
 import { lawInForce } from "../core2/modules/laws";
+import smallDollar from "../core2/data/credit/small-dollar.json";
 import { smallDollarTerms } from "../core2/modules/credit";
 import { BenchPlayer } from "./player";
 import { DevMode } from "./dev-mode";
@@ -43,10 +44,10 @@ describe(`the loan cap through dev mode (seed ${seed})`, () => {
           placeKey: drawn.key,
         });
         const api = coreAPI(world.core);
-        const lenders = (
-          api.moduleState("credit").table("lenders").rows() as Row[]
-        ).length;
-        if (!lenders) {
+        const lenders = [...world.core.organizations.values()].filter(
+          (o) => o.kind === smallDollar.lenderKind,
+        );
+        if (!lenders.length) {
           tried.push(`${drawn.name}: no lender`);
           continue;
         }
