@@ -190,6 +190,21 @@ export async function handleDev(
       send(200, mode.holdVote(String(input.billId)));
       return true;
     }
+    case "POST work-beside-colleagues": {
+      send(200, mode.workBesideColleagues());
+      return true;
+    }
+    case "POST learn-stakes": {
+      const input = await body(request);
+      send(
+        200,
+        mode.learnStakes(
+          String(input.billId),
+          input.memberId ? String(input.memberId) : undefined,
+        ),
+      );
+      return true;
+    }
     case "POST sign": {
       const input = await body(request);
       send(200, mode.sign(String(input.billId), input.sign === true));
@@ -246,6 +261,26 @@ export async function handleDev(
       send(200, mode.forceIllness(String(input.personId)));
       return true;
     }
+    case "GET campaign-setup":
+      send(200, mode.campaignSetup());
+      return true;
+    case "POST raise-money": {
+      const input = await body(request);
+      send(200, mode.raiseMoney(String(input.filingId)));
+      return true;
+    }
+    case "POST volunteer-cast": {
+      const input = await body(request);
+      send(
+        200,
+        mode.volunteerCast(
+          String(input.filingId),
+          String(input.personId),
+          input.yes !== false,
+        ),
+      );
+      return true;
+    }
     case "GET wealthiest":
       send(200, mode.wealthiest());
       return true;
@@ -292,6 +327,7 @@ export async function handleDev(
           cap: input.cap === undefined ? undefined : Number(input.cap),
           person: typeof input.person === "string" ? input.person : undefined,
           kind: typeof input.kind === "string" ? input.kind : undefined,
+          scene: typeof input.scene === "string" ? input.scene : undefined,
           defeat: Array.isArray(input.defeat)
             ? input.defeat.map(String)
             : undefined,

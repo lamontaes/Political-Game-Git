@@ -253,6 +253,52 @@ function bodyOfRecord(
   return bill?.bodyOfficeId;
 }
 
+/** Whether the player filed in the contest and someone else won it. */
+function ranAndLost(
+  core: Readonly<CoreState>,
+  playerId: PersonId,
+  contestId: string | undefined,
+  winnerId: string | undefined,
+): boolean {
+  if (!contestId || !winnerId || winnerId === playerId) return false;
+  if (!core.modules.has(ELECTIONS_MODULE_ID)) return false;
+  return (
+    coreAPI(core as CoreState)
+      .moduleState(ELECTIONS_MODULE_ID)
+      .table("filings")
+      .query("byPerson", [playerId]) as unknown as { contestId: string }[]
+  ).some((filing) => filing.contestId === contestId);
+}
+
+/**
+ * How many contests the player filed in and lost on an earlier day than the
+ * count at hand (the count's record names someone else). The races settled
+ * on the same ballot are one election, not a habit of losing.
+ */
+export function earlierLosses(
+  core: Readonly<CoreState>,
+  playerId: PersonId,
+  contestId: string | undefined,
+): number {
+  if (!core.modules.has(ELECTIONS_MODULE_ID)) return zero;
+  const settled = core.durableLog.get(`election-result:${contestId}` as never);
+  if (!settled) return zero;
+  const beforeDate = settled.date;
+  return (
+    coreAPI(core as CoreState)
+      .moduleState(ELECTIONS_MODULE_ID)
+      .table("filings")
+      .query("byPerson", [playerId]) as unknown as { contestId: string }[]
+  ).filter((filing) => {
+    if (filing.contestId === contestId) return false;
+    const result = core.durableLog.get(
+      `election-result:${filing.contestId}` as never,
+    );
+    const winner = result?.facts?.winnerId;
+    return !!winner && winner !== playerId && result.date < beforeDate;
+  }).length;
+}
+
 function playerHolds(
   rule: string,
   core: Readonly<CoreState>,
@@ -300,6 +346,17 @@ function playerHolds(
           .query("byPerson", [playerId]) as unknown as { contestId: string }[]
       ).some((filing) => filing.contestId === contestId);
     }
+    case "lost-again":
+      // The player ran in the contest the record settled, lost it, and has
+      // lost another before.
+      return (
+        ranAndLost(
+          core,
+          playerId,
+          record.facts.contestId,
+          record.facts.winnerId,
+        ) && earlierLosses(core, playerId, record.facts.contestId) > zero
+      );
     case "named-in-it":
       // The record is the player's own (their school year's end).
       return record.personIds.includes(playerId);
