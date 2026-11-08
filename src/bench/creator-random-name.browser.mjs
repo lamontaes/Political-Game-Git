@@ -22,7 +22,7 @@ try {
   await ready;
   await page.locator("#new-life").click();
   await page.locator("#new-start").click();
-  await page.locator("#cr-character:not([hidden])").waitFor();
+  await page.locator("#cr-screen:not([hidden])").waitFor();
   const random = page.locator("#cr-random-name");
   // Before a gender, the button is not grayed and says nothing about it: pressing it flashes the
   // gender field as missing and draws no name (the Nov 8 creator mock).
@@ -30,7 +30,7 @@ try {
   assert.doesNotMatch((await random.innerText()).trim(), /gender/i);
   await random.click();
   assert.ok(
-    await page.locator("#cr-character .group.missing").count(),
+    await page.locator("#cr-screen .group.missing").count(),
     "the gender field did not flash as missing",
   );
   assert.equal(await page.locator("#cr-given").inputValue(), "");

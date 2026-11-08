@@ -586,6 +586,13 @@ function composeBinding(
       text: said.number ?? "",
       sourceRecordIds: [moment.causeId],
     };
+  // The floor before the roll (legislature.ts recordFloorDebate): which side
+  // the speaker rose for, and the bill.
+  if (record?.kind === "floor-debate")
+    facts[said.forId === askerId ? "speaks-for" : "speaks-against"] = {
+      text: said.number ?? "",
+      sourceRecordIds: [moment.causeId, askerId],
+    };
   // A reporter cast for a record that names no outlet speaks for the outlet
   // that employs them, by its record.
   if (!facts.outlet && !said.outletId && core.modules.has(PRESS_MODULE_ID)) {

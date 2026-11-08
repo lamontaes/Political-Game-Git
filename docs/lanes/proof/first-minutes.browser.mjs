@@ -52,7 +52,6 @@ try {
         ),
       );
       await page.locator("#cr-year").selectOption("2007");
-      await page.locator("#cr-character-next").click();
       await page.locator(`[data-testid="state-${state}"]`).click();
       const wait = page.waitForResponse(
         (r) =>
@@ -64,7 +63,7 @@ try {
       const ix = found.findIndex((t) => t.key === key);
       assert(ix >= 0, `${name} ${key} is offered`);
       await page.locator("#cr-towns .town").nth(ix).click();
-      await page.locator("#cr-look:not([hidden])").waitFor();
+      await page.locator("#cr-screen:not([hidden])").waitFor();
       const actualTown = await page
         .locator("#cr-place-summary-name")
         .innerText();
