@@ -89,7 +89,12 @@ function specialRace(salt: string, accept: (stateKey: string) => boolean) {
     expect(vacancy.status, where).toBe("awaiting-election");
     const day = vacancy.electionDate!;
     advanceCore(core, addDays(makeIsoDate(day), 2));
-    const race = racesOf(api).find((row) => row.id.endsWith(":special"));
+    // This vacancy's race: a natural death elsewhere in the world has its own.
+    const race = racesOf(api).find(
+      (row) =>
+        row.id.startsWith(`race:${target.seat.id}:`) &&
+        row.id.endsWith(":special"),
+    );
     expect(race, `${where}: a counted special race`).toBeDefined();
     const row = api
       .moduleState(VOTING_MODULE_ID)
@@ -142,3 +147,34 @@ it(`a vacancy outside the town is filled where the state has no third party, fro
     (stateKey) => !stateParties(stateKey).some((p) => partySide(p.name) === 0),
   );
 }, 3_600_000);
+
+// Named regression (Dev Tester, Nov 8; the every-place nightly's Seats check
+// failed in 11 of 56 places since Nov 4): a seat emptied by a death has no
+// serving holder, so its special race had no side and an even count named no
+// winner; the vacancy stayed awaiting-election for a year. The seat now keeps
+// its last holder's side. Dresser, Indiana, world seed 752c9787ea19, a year
+// and a month in: Rhode Island's lower seat 057 (vacant since 2025-04-06).
+it("a seat emptied by a death is filled by its special race, Dresser, Indiana, seed 752c9787ea19", () => {
+  setBookkeeping(false);
+  const { core } = buildBenchWorld("752c9787ea19", gameStartDate(), {
+    twoLevel: true,
+    placeKey: "1818658",
+  });
+  advanceCore(core, addDays(makeIsoDate(core.date), 400));
+  const api = coreAPI(core);
+  const stale = (
+    api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("vacancies")
+      .rows() as unknown as VacancyRow[]
+  ).filter(
+    (row) =>
+      row.status === "awaiting-election" &&
+      row.electionDate &&
+      row.electionDate < addDays(makeIsoDate(core.date), -5),
+  );
+  expect(
+    stale.map((row) => `${row.seatId} awaiting since ${row.since}`),
+    "special elections past their day, still unfilled",
+  ).toEqual([]);
+}, 600_000);

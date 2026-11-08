@@ -62,6 +62,7 @@ import { keyChambersOf } from "../core2/opening-key-people";
 import { LEADERSHIP_MODULE_ID, organize } from "../core2/modules/leadership";
 import { markWordsStopgap } from "./stopgaps";
 import { P } from "../core2/parameters";
+import { daysBetweenText } from "../core2/kernel/dates";
 import { TERM_AREAS, countryTermRead, type AreaRead } from "../core2/term-read";
 import {
   addressSituation,
@@ -135,9 +136,6 @@ const KIND_DATA = kindData as unknown as {
   kinds: Readonly<Record<AddressKind, { topics: number; tone?: number }>>;
 };
 const N = DATA.numbers;
-
-const MS_PER_DAY = 86_400_000;
-const DAYS_PER_YEAR = 365;
 
 /** The offices engine's public record of the taking of office on Inauguration Day. */
 const INAUGURATION_EVENT = "inauguration";
@@ -294,7 +292,7 @@ function countryFacts(core: CoreState, sinceDate: string): Country {
   const api = coreAPI(core);
   const areas = countryTermRead(api, sinceDate);
   if (!months)
-    return { facts: {}, movement: {}, macroSlide: 0, areas, macroIds: [] };
+    return { facts: {}, movement: {}, macroSlide: P.zero, areas, macroIds: [] };
   const { now, before } = months;
   const ids = [now.id, ...(before ? [before.id] : [])];
   const facts: Facts = {};
@@ -309,7 +307,8 @@ function countryFacts(core: CoreState, sinceDate: string): Country {
         api.parameter("macroCpiOverPceWedgePct"),
   );
   claim("prices-up", now.inflationPct > P.zero);
-  if (!before) return { facts, movement, macroSlide: 0, areas, macroIds: ids };
+  if (!before)
+    return { facts, movement, macroSlide: P.zero, areas, macroIds: ids };
   claim("unemployment-down", now.unemploymentPct < before.unemploymentPct);
   claim("unemployment-up", now.unemploymentPct > before.unemploymentPct);
   claim("inflation-down", now.inflationPct < before.inflationPct);
@@ -376,7 +375,7 @@ function countryFacts(core: CoreState, sinceDate: string): Country {
     facts,
     movement,
     macroSlide:
-      better + worse > P.zero ? (better - worse) / (better + worse) : 0,
+      better + worse > P.zero ? (better - worse) / (better + worse) : P.zero,
     areas,
     macroIds: ids,
   };
@@ -679,8 +678,8 @@ function planAddress(
     president,
     situation,
     // A President in their first year takes no lap for a record they did not make.
-    (Date.parse(core.date) - Date.parse(official.serviceStart)) / MS_PER_DAY <
-      DAYS_PER_YEAR
+    daysBetweenText(official.serviceStart, core.date) <
+      api.parameter("daysPerMeanYear")
       ? ["victory"]
       : [],
   );

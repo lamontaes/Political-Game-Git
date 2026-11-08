@@ -559,6 +559,12 @@
       "source": "How many days after it passed a law counts as half settled: a change to it then reads as neither a fresh reversal nor a change to settled law. Members with a taste for change back changing long-standing law and resist undoing what the body just did. Legislatures rarely revisit an act within its first year; reversal is mostly a matter of a new majority after an election (Maltzman and Shipan 2008, American Journal of Political Science 52(2):252-267, on the durability of enacted law). Spread 180 to 730.",
       "spread": [180, 730]
     },
+    "neighborLawWeight": {
+      "value": 0.3,
+      "tag": "TUNABLE",
+      "source": "How much the law of the states that border a state adds to a state legislator's reason to carry the same change: the share of bordering states with the law minus the share without, from -1 to 1, times this, beside the member's views (about -1 to 1) and the district's lean (constituentWeight). States are more likely to adopt a policy the more of their neighbors already have it (Berry and Berry 1990, American Political Science Review 84(2):395-415, lottery adoption; Shipan and Volden 2008, American Journal of Political Science 52(4):840-857, on how neighbor adoption spreads local policy). No study reports the size against a member's own views; checked so that a state whose neighbors all have a law files for it more often than one whose neighbors all lack it, and no change is filed on this alone (the weight stays below the reluctance to undo a fresh law).",
+      "spread": [0.1, 0.6]
+    },
     "reversalReluctance": {
       "value": 0.5,
       "tag": "TUNABLE",

@@ -34,5 +34,17 @@
     "addedAt": "2026-11-03",
     "replacement": "Supply the missing structured periods through researched starting-law and voted bill provisions; remove the fallback when every applicable ban carries one.",
     "status": "open"
+  },
+  {
+    "id": "SG-LAWS-neighbor-law-starting",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/world-legislating.ts",
+    "line": 440,
+    "whatItFakes": "A bordering state's law on a question, which weighs on a state legislator's reason to carry the same change (neighborLawWeight), is that state's researched starting law, not its law in force: only the town's state legislates in a played world, so no other state's own acts are recorded and a neighbor never changes its law.",
+    "why": "Other states keep only coarse results; their legislatures do not sit in the played world.",
+    "addedBy": "night:laws-and-effects",
+    "addedAt": "2026-11-08",
+    "replacement": "Read each bordering state's law in force from the laws a coarse state legislature enacts for it, so a neighbor's change reaches its neighbors the next session.",
+    "status": "open"
   }
 ]
