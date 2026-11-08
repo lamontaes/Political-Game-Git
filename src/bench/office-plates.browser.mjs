@@ -89,7 +89,7 @@ try {
     .locator("#sheet-tabs")
     .getByRole("button", { name: "Your office" })
     .click();
-  await page.locator(".office-screen").waitFor();
+  await page.locator(".office-board").waitFor();
   const scrolls = () =>
     page.evaluate(() => {
       const body = document.getElementById("sheet-body");
