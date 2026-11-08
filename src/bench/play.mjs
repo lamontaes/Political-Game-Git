@@ -519,6 +519,7 @@ const controlsReady = api("/api/controls").then((value) => {
       el.dataset.label
         .split(".")
         .reduce((node, key) => node?.[key], controls) ?? "";
+  $("hour").textContent = controls.time?.hour ?? "";
   $("week").textContent = controls.time?.week ?? "";
   return value;
 });
@@ -526,7 +527,7 @@ const controlsReady = api("/api/controls").then((value) => {
 function renderPacket(value) {
   packet = value ?? packet;
   const open = packet?.kind === "stop";
-  $("day").disabled = $("week").disabled = busy || open;
+  $("hour").disabled = $("day").disabled = $("week").disabled = busy || open;
   show("continue", packet?.kind === "stop");
   if (packet) setClock(packet.at);
 }
@@ -1240,6 +1241,13 @@ for (const mode of ["day", "week"])
     hideNewsToast();
     return act(`/api/advance?mode=${mode}`);
   });
+// Hour lets an hour go by where the player stands (the clock's own wait, /api/wait):
+// the people at a place are those there at that hour, so waiting is how a player
+// lets the shift change. A scene the director fires stops it there, as with Day.
+$("hour").addEventListener("click", () => {
+  hideNewsToast();
+  return act("/api/wait?hours=1");
+});
 // Stories News held when it was last open: a dot on the rail's News icon until it is read.
 // The first count a life is opened with is already read: a reload starts with
 // nothing unread, and only what arrives after it lights the dot (P12).
