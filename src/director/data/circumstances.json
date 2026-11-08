@@ -289,6 +289,21 @@
       "everyParameter": "directorCircumstanceStreetEveryDays"
     },
     {
+      "id": "lobby-remembers",
+      "recordKinds": ["office.voted"],
+      "playerNamed": true,
+      "afterDays": 2,
+      "place": "seat",
+      "pool": ["lobbied-against"],
+      "where": "pool",
+      "player": "named-in-it",
+      "cast": "two days after the player voted against the way of a group that lobbied them on the bill, the group's lobbyist, who remembers",
+      "typeKey": "lobby-remembers",
+      "outcome": "scene.reply",
+      "impactParameter": "directorCircumstanceHallwayImpact",
+      "everyParameter": "directorCircumstanceHallwayEveryDays"
+    },
+    {
       "id": "held-known-visit",
       "recordKinds": ["justice.held-before-trial"],
       "place": "venue",
