@@ -81,6 +81,11 @@ import {
   tideAgainstPresident,
 } from "../electorate-inputs";
 import { partySide } from "../appointments";
+import { basePlaces } from "../race-places";
+import { drawnResident } from "./counted-moves";
+import { admitCountedHousehold } from "./residents";
+import type { ResidentHouseholdRecord } from "../residents";
+import { stableHash } from "../kernel/ids";
 import { revolvingDoorFor } from "../law-reach/group-a-voting";
 import { fillInPerson } from "../state";
 import { campaignParameter } from "../campaign-views";
@@ -96,6 +101,8 @@ export interface OpenContest {
   filingDeadline: string;
   /** The seat's government is the county's: a countywide campaign. */
   countywide?: boolean;
+  /** A countywide seat's eligible voters, which the county's drawn tail is sized from. */
+  countyAdults?: number;
   /** Who holds the seat now, if anyone (GOV's term record). */
   incumbentId?: PersonId;
   /** How many have already decided to run for it. */
@@ -844,7 +851,12 @@ export function weighContest(
     contestId: contest.id,
     officeName: contest.title,
     filingDeadline: rules.deadline ?? contest.filingDeadline,
-    ...(contest.family === "countyOffice" ? { countywide: true } : {}),
+    ...(contest.family === "countyOffice"
+      ? {
+          countywide: true,
+          countyAdults: basePlaces(api, contest).places[0]?.eligible ?? 0,
+        }
+      : {}),
     ...(incumbentId ? { incumbentId } : {}),
     ...(scope ? { poolFacts: facts, wideScope: scope } : {}),
     sourceIds: [contest.id, ...(incumbent ? [incumbent.id] : [])],
@@ -927,6 +939,11 @@ export function weighContest(
     countedWeighed = screen.weighed;
     for (const id of screen.drawn) {
       if (committed.has(id)) continue;
+      // A person of the county's drawn tail joins the counts the day they are
+      // drawn to run, then is filled in like any counted resident.
+      const tail = screen.records.get(id);
+      if (tail && !api.state.people.has(id))
+        admitCountedHousehold(api.state as CoreState, tail, 1);
       fillInPerson(api.state as CoreState, id);
       filledInIds.push(id);
     }
@@ -1011,7 +1028,15 @@ function committedOn(
 /** Each counted adult's pull to run apart from the seat itself, cached for the year. */
 const countedBases = new WeakMap<
   object,
-  Map<string, { year: string; rows: { voter: CountedVoter; base: number }[] }>
+  Map<
+    string,
+    {
+      year: string;
+      rows: { voter: CountedVoter; base: number }[];
+      /** The county's drawn tail: people not yet in the counts, admitted only if they file. */
+      tail: Map<PersonId, ResidentHouseholdRecord>;
+    }
+  >
 >();
 
 /**
@@ -1024,7 +1049,11 @@ function countedScreen(
   open: OpenContest,
   townPlaceId: string,
   minimumAge: number,
-): { weighed: number; drawn: PersonId[] } {
+): {
+  weighed: number;
+  drawn: PersonId[];
+  records: ReadonlyMap<PersonId, ResidentHouseholdRecord>;
+} {
   const year = api.state.date.slice(0, 4);
   // A countywide seat is weighed by the town's counted adults and by the rest
   // of the county's (the counted residents of its county place): each scope
@@ -1037,33 +1066,82 @@ function countedScreen(
   if (!held || held.year !== year) {
     // Counted residents of adult correctional rooms may be drawn to run.
     // stopgapId: SG-GQ-counted-prisoners-vote
+    const baseOf = (voter: CountedVoter) => {
+      // The pull apart from the seat: an open town seat with no one
+      // running yet, which bounds every seat's pull from above but for
+      // the incumbent's record, which only a seat with one can add.
+      const reasons = countedCandidacyReasons(api, voter, {
+        contestId: open.contestId,
+        officeName: open.officeName,
+        filingDeadline: open.filingDeadline,
+        sourceIds: open.sourceIds,
+      });
+      // A seat's own law (a revolving-door law) only lowers the pull,
+      // so it is left out of the bound.
+      let base = -(reasons.afterOffice ?? api.parameter("zero"));
+      for (const value of Object.values(reasons)) base += value;
+      return { voter, base };
+    };
+    const living = countedResidents(api.state as CoreState).filter(
+      (voter) =>
+        voter.placeId === townPlaceId ||
+        (county !== null && voter.placeId === county),
+    );
+    // Counted residents of adult correctional rooms may be drawn to run.
+    // stopgapId: SG-GQ-counted-prisoners-vote
+    const rows = living.map(baseOf);
+    // The county's own people are many more than its counted records: a
+    // seeded sample of them, each drawn like a counted adult of the county
+    // with a new temperament, weighs the seat too.
+    // stopgapId: SG-GOV-county-race-town-only
+    const tail = new Map<PersonId, ResidentHouseholdRecord>();
+    if (county !== null && open.countyAdults) {
+      const adultBorn = `${Number(api.state.date.slice(0, 4)) - minimumAge}${api.state.date.slice(4)}`;
+      const templates = living.filter(
+        (voter) => voter.placeId === county && voter.birthDate <= adultBorn,
+      );
+      const size = Math.min(
+        c(api, "candidacyCountyTailSample"),
+        Math.max(0, open.countyAdults - templates.length),
+      );
+      for (let i = 0; templates.length && i < size; i++) {
+        const template =
+          templates[
+            Number.parseInt(
+              stableHash(
+                `${api.state.seed}:county-tail:${county}:${year}:${i}`,
+              ).slice(0, 8),
+              16,
+            ) % templates.length
+          ]!;
+        const record = drawnResident(
+          api,
+          template.householdId,
+          template.id,
+          `county-tail:${county}:${year}:${i}`,
+        );
+        const drawn = record?.people[0];
+        if (!record || !drawn) continue;
+        const voter: CountedVoter = {
+          id: drawn.id,
+          birthDate: drawn.birthDate,
+          placeId: county,
+          householdId: record.household.id,
+          traits: drawn.traits,
+          weeklyMinutes: template.weeklyMinutes,
+          hourlyMinor: template.hourlyMinor,
+          weight: 1,
+        };
+        tail.set(drawn.id, record);
+        rows.push(baseOf(voter));
+      }
+    }
     held = {
       year,
-      rows: countedResidents(api.state as CoreState)
-        .filter(
-          (voter) =>
-            voter.placeId === townPlaceId ||
-            (county !== null && voter.placeId === county),
-        )
-        .map((voter) => {
-          // The pull apart from the seat: an open town seat with no one
-          // running yet, which bounds every seat's pull from above but for
-          // the incumbent's record, which only a seat with one can add.
-          const reasons = countedCandidacyReasons(api, voter, {
-            contestId: open.contestId,
-            officeName: open.officeName,
-            filingDeadline: open.filingDeadline,
-            sourceIds: open.sourceIds,
-          });
-          // A seat's own law (a revolving-door law) only lowers the pull,
-          // so it is left out of the bound.
-          let base = -(reasons.afterOffice ?? api.parameter("zero"));
-          for (const value of Object.values(reasons)) base += value;
-          return { voter, base };
-        })
-        .sort(
-          (a, b) => b.base - a.base || a.voter.id.localeCompare(b.voter.id),
-        ),
+      rows: rows.sort(
+        (a, b) => b.base - a.base || a.voter.id.localeCompare(b.voter.id),
+      ),
+      tail,
     };
     scopes.set(scope, held);
   }
@@ -1084,7 +1162,7 @@ function countedScreen(
   );
   const here = (voter: CountedVoter) =>
     voter.birthDate <= bornBy &&
-    counted.has(voter.id) &&
+    (counted.has(voter.id) || held.tail.has(voter.id)) &&
     !api.state.people.has(voter.id);
   for (const { voter } of held.rows) if (here(voter)) weighed += voter.weight;
   const drawn: PersonId[] = [];
@@ -1097,7 +1175,7 @@ function countedScreen(
     for (const value of Object.values(reasons)) pull += value;
     if (pull > bar) drawn.push(voter.id);
   }
-  return { weighed, drawn };
+  return { weighed, drawn, records: held.tail };
 }
 
 /**

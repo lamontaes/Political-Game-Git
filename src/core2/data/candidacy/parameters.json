@@ -255,5 +255,12 @@
     "tag": "TUNABLE",
     "citation": "How much of the gap between the person's real odds and certainty an overconfident person (an enterprising, risk-taking one: the officials engine's ambition formula) fills with hope, 0 to 1. People overestimate their own chances, the more so the bolder they are (Moore and Healy 2008, The trouble with overconfidence, Psychological Review 115(2):502-517). A long shot who files anyway comes from here. Spread 0.25 to 0.75.",
     "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyCountyTailSample": {
+    "value": 600,
+    "tag": "ESTIMATED",
+    "citation": "How many people drawn like the county's counted residents weigh a county seat each year, at most (fewer where the county's eligible voters are fewer). The county's counted store holds the county's people at their own count, a few dozen to a few hundred, so a county of tens of thousands is stood for by a seeded sample of it: each drawn from a counted household there with a new identity and a temperament from the opening's temperament model (counted-moves drawnResident), weighed by the same reasons as any resident, and admitted to the counted store, then filled in, only if they file. Bounded by cost, not by a source: a sample of 600 drawn once a year costs well under a tenth of a second.",
+    "estimatedFrom": "A compute budget; spread 200 to 2000",
+    "stopgapId": "SG-GOV-county-race-town-only"
   }
 }
