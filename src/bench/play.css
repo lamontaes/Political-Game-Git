@@ -128,6 +128,17 @@ body {
   color: var(--text);
   font: 400 14.5px/1.4 var(--ui);
   overflow: hidden;
+  /* A game, not a web page: clicking a title never selects it (C17). */
+  user-select: none;
+  -webkit-user-select: none;
+}
+/* Only what is typed into stays selectable. */
+input,
+textarea,
+select,
+[contenteditable] {
+  user-select: text;
+  -webkit-user-select: text;
 }
 p,
 h1,
