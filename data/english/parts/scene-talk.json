@@ -130283,6 +130283,839 @@
         "move": "press",
         "key": "favor-asked"
       }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.number-people-have-come-out-and-the-mood-is-good-name-makes",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{number} people have come out, and the mood is good. {name} makes room for you at the front.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "rally-word",
+          "key": "honor",
+          "requiresFacts": ["rally", "area", "number"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.there-is-no-anger-in-this-crowd-they-have-come-out-about",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "There is no anger in this crowd. They have come out about {area}, and {name} walks over to you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "rally-word",
+          "key": "honor",
+          "requiresFacts": ["rally", "area"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.a-crowd-has-gathered-and-it-is-in-good-spirits-name-works",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "A crowd has gathered and it is in good spirits. {name} works through it to reach you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "rally-word",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.word-got-around-that-things-have-gone-well-with-area-name-is",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "Word got around that things have gone well with {area}. {name} is waiting for you at the edge of the crowd.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "rally-word",
+          "key": "honor",
+          "requiresFacts": ["rally", "area"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.things-have-gone-well-here-first-and-we-wanted-to-say-so",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Things have gone well here, {first}, and we wanted to say so. Will you say a few words?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "rally-word",
+          "key": "honor"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "request",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.things-have-gone-well-with-area-first-and-we-wanted-to-say",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Things have gone well with {area}, {first}, and we wanted to say so. Will you say a few words?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "rally-word",
+          "key": "honor",
+          "requiresFacts": ["rally", "area"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "request",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.we-came-out-because-things-are-better-with-area-would-you-speak",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "We came out because things are better with {area}. Would you speak to us, {first}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "rally-word",
+          "key": "honor",
+          "requiresFacts": ["rally", "area"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "request",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.people-wanted-to-mark-how-it-has-gone-with-area-come-and",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "People wanted to mark how it has gone with {area}. Come and say a few words with us, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "rally-word",
+          "key": "honor",
+          "requiresFacts": ["rally", "area"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "request",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.its-better-with-area-though-not-for-everyone-come-and-say-a",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "It's better with {area}, though not for everyone. Come and say a few words anyway, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "rally-word",
+          "key": "honor",
+          "requiresFacts": ["rally", "area"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "request",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.happy-to-thank-you-for-asking-me",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Happy to. Thank you for asking me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "rally-word",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "agree",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.of-course-ill-keep-it-short",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Of course. I'll keep it short.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "rally-word",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "agree",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.lead-the-way-id-like-to-say-something",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Lead the way. I'd like to say something.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "rally-word",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "agree",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.thank-you-for-coming-out-it-means-a-lot-to-see-this",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thank you for coming out. It means a lot to see this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "rally-word",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-thank.thank-you-all-i-didnt-expect-a-crowd",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thank you all. I didn't expect a crowd.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "rally-word",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.ill-keep-it-going-you-have-my-word-i-wont-take-my",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll keep it going. You have my word I won't take my eye off {area}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "rally-word",
+          "key": "honor",
+          "requiresFacts": ["area"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "promise",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.thank-you-ill-keep-working-to-make-it-last",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Thank you. I'll keep working to make it last.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "rally-word",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "promise",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.better-doesnt-mean-done-ill-keep-at-it",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Better doesn't mean done. I'll keep at it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "rally-word",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "promise",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.this-is-your-day-id-rather-listen",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "This is your day. I'd rather listen.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "rally-word",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deflect",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.you-did-this-not-me-ill-stay-at-the-back",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "You did this, not me. I'll stay at the back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "rally-word",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deflect",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-have-to-go-thank-you-all-for-this",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I have to go. Thank you all for this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "rally-word",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "leave",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-people-will-be-glad-to-hear-from-you",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. People will be glad to hear from you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "rally-word",
+          "key": "honor"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.go-on-then-theyre-waiting",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Go on, then. They're waiting.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "rally-word",
+          "key": "honor"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-say-it-plainly-they-like-that",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. Say it plainly, they like that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "rally-word",
+          "key": "honor"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.fine-keep-it-short",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Fine. Keep it short.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "rally-word",
+          "key": "honor"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.it-means-a-lot-that-you-came",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "It means a lot that you came.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "rally-word",
+          "key": "honor"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-well-take-that-and-thank-you-for-stopping",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then we'll take that, and thank you for stopping.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "rally-word",
+          "key": "honor"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.fair-enough-enjoy-it-with-us",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fair enough. Enjoy it with us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "rally-word",
+          "key": "honor"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.all-right-that-will-do",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "All right. That will do.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "rally-word",
+          "key": "honor"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.dont-leave-it-at-that-tell-us-what-comes-next",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Don't leave it at that. Tell us what comes next.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "rally-word",
+          "key": "honor"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.then-tell-us-it-will-last-not-just-that-youre-glad",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Then tell us it will last, not just that you're glad.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "rally-word",
+          "key": "honor"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.wed-like-to-hear-more-than-thanks-first",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "We'd like to hear more than thanks, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "rally-word",
+          "key": "honor"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-for-coming-out-and-for-what-you-said",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you for coming out, and for what you said.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "rally-word",
+          "key": "honor"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.were-glad-you-came-good-luck",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "We're glad you came. Good luck.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "rally-word",
+          "key": "honor"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.that-was-good-of-you-we-wont-keep-you",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "That was good of you. We won't keep you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "rally-word",
+          "key": "honor"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.well-be-watching-though-keep-it-up",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "We'll be watching, though. Keep it up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "rally-word",
+          "key": "honor"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "warn",
+        "key": "honor"
+      }
     }
   ]
 }
