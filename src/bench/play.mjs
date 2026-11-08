@@ -550,8 +550,14 @@ async function renderJournalNote() {
   $("journal-line").textContent = line;
   // A new line is a toast: it holds, fades and goes, or goes at once on its close.
   if (!line) hideToast($("journal-note"));
-  else if (line !== shownJournalLine)
+  else if (line !== shownJournalLine) {
     showToast($("journal-note"), controls.opening?.newsToastSeconds ?? 8);
+    // A new line since the Journal was last open: a dot on its icon until it is read.
+    if (shownJournalLine && openTab !== "journal")
+      document
+        .querySelector('#rings [data-tab="journal"]')
+        ?.classList.add("unread");
+  }
   shownJournalLine = line;
 }
 async function refresh(scene = {}) {
@@ -4791,6 +4797,10 @@ async function openSheet(tab) {
   if (groupOf(tab) === "people") coachUsed("people-tab");
   openTab = tab;
   if (tab === "news") markNews(true);
+  if (tab === "journal")
+    document
+      .querySelector('#rings [data-tab="journal"]')
+      ?.classList.remove("unread");
   show("tip", false);
   const group = groupOf(tab);
   const politics =
