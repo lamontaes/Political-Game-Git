@@ -1,6 +1,8 @@
 ---
 id: legislation-bill-stage
-impact: none
+impact: minor
 ---
 
-Adds the read-only bill stage view (committee record, what members told the player, floor and override results by name) that the bill screens will read; no screen shows it yet.
+### Improved
+
+A bill's paper now shows where it stands: what the committee heard and how each member voted, what members have told you, and the floor result with the names of everyone who voted yes and no. Each name opens that person's card. The long paragraph of every member's vote is gone.

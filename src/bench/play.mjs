@@ -57,6 +57,7 @@ import {
 const roundedMoney = (minor) => moneyWords(minor, { rounded: true });
 import { peopleWeb } from "./ui/people-web.mjs";
 import { billPaper } from "./ui/bill-paper.mjs";
+import { billStageSections } from "./ui/bill-stage.mjs";
 import { meetingItem } from "./ui/meeting-item.mjs";
 import { draftCard } from "./ui/draft-card.mjs";
 import { bold, line, prose, heading, labeled, smallText } from "./ui/text.mjs";
@@ -2258,9 +2259,11 @@ function billEstimate(paper, section) {
  */
 async function openBillPaper(billId, show, back, backLabel) {
   const paper = await api(`/api/bill?billId=${encodeURIComponent(billId)}`);
+  const stage = await api(
+    `/api/bill/stage?billId=${encodeURIComponent(billId)}`,
+  );
   const words = controls.bill ?? {};
   const floor = controls.floor ?? {};
-  const meet = controls.meeting ?? {};
   const backButton = makeButton({
     className: "action",
     textContent: backLabel ?? words.back ?? "",
@@ -2289,19 +2292,16 @@ async function openBillPaper(billId, show, back, backLabel) {
           (count) =>
             `${count.chamber}: ${count.yes} ${floor.for ?? ""}, ${count.no} ${floor.against ?? ""}, ${count.undecided} ${floor.undecided ?? ""}`,
         ),
-        ...(paper.votes.length
-          ? [
-              `${floor.voted ?? ""}: ${paper.tally.yes} ${floor.yes ?? ""}, ${paper.tally.no} ${floor.no ?? ""}`,
-              paper.votes
-                .map((x) => `${x.name} · ${meet[x.vote] ?? ""}`)
-                .join(" · "),
-            ]
-          : []),
         paper.decision
           ? `${words.decided ?? ""}: ${floor.status?.[paper.decision.status] ?? ""}${paper.decision.passedOn ? ` · ${dateWords(paper.decision.passedOn)}` : ""}`
           : null,
       ],
     }),
+    // Where the bill is: the committee's record, what members told you, the floor and
+    // the override, each member by name (ui/bill-stage.mjs).
+    ...billStageSections(stage, controls.billStage ?? {}, (person) =>
+      showPerson({ personId: person.personId }),
+    ),
   );
 }
 

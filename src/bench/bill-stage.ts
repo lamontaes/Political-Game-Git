@@ -32,6 +32,8 @@ export type BillStageCode =
 
 export interface NamedVote {
   readonly memberId: string;
+  /** The person's id when the member is a full person whose card opens; null for a counted official. */
+  readonly personId: string | null;
   readonly name: string;
   readonly vote: string;
 }
@@ -53,6 +55,7 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
     (offices.get(id) as { title?: string } | undefined)?.title ?? "";
   const named = (row: { memberId: string; vote: string }): NamedVote => ({
     memberId: row.memberId,
+    personId: core.people.has(row.memberId) ? row.memberId : null,
     name: personName(core, row.memberId),
     vote: row.vote,
   });
@@ -102,9 +105,11 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
     witnesses: record.witnesses.map((w) => ({
       personId: w.personId,
       name: personName(core, w.personId),
+      personId: core.people.has(w.personId) ? w.personId : null,
       stake: w.stake,
     })),
     votes: record.votes.map(named),
+    members: record.memberIds.length,
     yes: record.yes,
     no: record.no,
   }));
@@ -120,6 +125,7 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
     latest.set(stake.memberId, stake);
   const told = [...latest.values()].map((stake) => ({
     memberId: stake.memberId,
+    personId: core.people.has(stake.memberId) ? stake.memberId : null,
     name: personName(core, stake.memberId),
     route: stake.route,
     date: stake.date,

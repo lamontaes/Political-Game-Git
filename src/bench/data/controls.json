@@ -437,7 +437,6 @@
     "seats": "Seats",
     "members": "Members",
     "whoRuns": "Who runs {name}",
-    "seats": "Seats",
     "seat": "seat",
     "yourMembers": "Your members",
     "leaders": "Leaders",
@@ -552,7 +551,6 @@
     "partyCount": "{n} {party}",
     "nonpartisan": "Nonpartisan",
     "vacantCount": "{n} vacant",
-    "members": "Members",
     "officers": "Officers",
     "page": "{page} of {pages}",
     "previousPage": "Previous page",
@@ -764,5 +762,22 @@
     "handoff": "Carry on as",
     "news": "News",
     "history": "Your life"
+  },
+  "billStage": {
+    "committee": "In committee",
+    "chair": "Chaired by",
+    "heardFrom": "Heard from",
+    "held": "The chair held it and did not hear it",
+    "votedFor": "For",
+    "votedAgainst": "Against",
+    "told": "What members have told you",
+    "toldFor": "Leaning for",
+    "toldAgainst": "Leaning against",
+    "toldOpen": "Not yet said",
+    "floor": "The floor",
+    "yes": "Yes",
+    "no": "No",
+    "override": "The vote to override the veto",
+    "nobody": "No one"
   }
 }
