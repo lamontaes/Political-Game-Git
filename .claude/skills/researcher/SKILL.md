@@ -61,6 +61,25 @@ engine can look it up and obey it.
   ESTIMATED with that reason, never left out.
 - Unusable: a figure with no year, no unit, or no public page; a number you
   recall but cannot point at; a source whose terms you cannot read.
+- A blocked or refusing site is never a reason to stop (owner, Nov 8: "Those
+  government sites are not the only place that data is carried. You have
+  access to literally the entire internet."). Take the same figure from where
+  else it is published: FRED (most BLS, BEA and Census series, a CSV per
+  series), www2.census.gov and IPUMS, the BLS API at api.bls.gov, the Internet
+  Archive's copy of the page (web.archive.org/web/2026/<url>), a paper's data
+  appendix (NBER, SSRN, PubMed Central), trackers such as Ballotpedia, NCSL,
+  Pew, KFF and the Tax Foundation, or reporting that quotes the official
+  number. Cite where you took it. Fetch with Bash `curl` through the proxy:
+  WebFetch resolves names on its own path and can report ENOTFOUND for sites
+  the proxy reaches (Nov 8: law.cornell.edu and uscode.house.gov). Never change
+  a User-Agent or otherwise dodge a site's refusal; go to another source.
+- A builder hands research to a background sub-agent and keeps building
+  (owner, Nov 8: "have them use subagents to do the research so they continue
+  building"). The brief names the exact figure, places and years, the sources
+  to try, and the output: the number, the URL, the quoted line, and SOURCED or
+  ESTIMATED with its spread. A research sub-agent only fetches and reads, so
+  it needs no copy of the repository (`helper-checkout`). Wire the result when
+  it returns.
 - The 2020 Census redistricting (PL 94-171) state files are Latin-1, not the UTF-8 their technical documentation names; read them as Latin-1 or place names break (Nov 1, the group-quarters research). The Census API now needs a key; the bulk files under www2.census.gov do not.
 
 - For legal authority, read the operative subsection, exceptions and amendment/repeal reservations before accepting an audit's exemption. Federal approval or funding conditions do not by themselves require every state to run a program. For example, 26 U.S.C. §3304(a)(19) expressly reserves legislative amendment and repeal; it cannot support a declaration that unemployment insurance is unrepealable. Record a missing bill route as missing, with the fetched statutory text, rather than disguising it as a legal prohibition.
