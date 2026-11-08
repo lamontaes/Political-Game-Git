@@ -5,11 +5,12 @@ area: laws
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: astra/opening-reversal-effects
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-08T02:02:45.005Z
 ---
 
 **What.** The exhaustive opening-law audit currently stops at authorized drafts. Follow each route through the production signature and law-effect path in the same randomly generated world; detect routes whose writer leaves the old answer in force. Fix concrete shared writer/reader gaps found without bypassing authority or weakening the audit.
