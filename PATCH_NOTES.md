@@ -296,6 +296,18 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.87.8
+
+_Released November 8, 2026._
+
+### Fixed
+
+- **Congress can change federal cannabis law independently of state licenses**
+  Congress can remove or restore the federal prohibition on adult-use cannabis
+  sales. State retail permission remains separate: removing the federal
+  prohibition does not grant a state license, and restoring it does not erase
+  the state's own law.
+
 ## PRE-ALPHA 0.87.7
 
 _Released November 7, 2026._
