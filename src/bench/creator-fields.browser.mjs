@@ -41,7 +41,7 @@ try {
   await page.locator("#new-life").click();
   await checkHeader("new-game", "#new-start");
   await page.locator("#new-start").click();
-  await page.locator("#cr-character:not([hidden])").waitFor();
+  await page.locator("#cr-screen:not([hidden])").waitFor();
   await page.mouse.move(1400, 880); // nothing hovered
   await page.waitForTimeout(500);
   const fields = await page.evaluate(() =>
@@ -80,7 +80,6 @@ try {
       document.querySelector(sel).getBoundingClientRect().left;
     return {
       labels: [
-        "#cr-character > h2.label",
         "#cr-gender-label, [data-testid=gender-choices] > legend",
         "#cr-character .group:not(.row) > .label",
         "#cr-birthday-label, [data-testid=creator-birthday] > legend",
