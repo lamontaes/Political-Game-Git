@@ -30,13 +30,25 @@ it("the country's disasters are generated from recorded rates and happen on thei
   api.subscribeEvents("nation-test", ["national.disaster"], (_api, event) => {
     emitted.add(event.id);
   });
+  let onWire = 0;
   let day = makeIsoDate(world.core.date);
   const end = addDays(day, 100);
   while (day < end) {
     day = addDays(day, 1);
     advanceCore(world.core, day);
+    // The day a national disaster happens, the national press has it on the
+    // wire at the nation level (the wire drops old items, so it is read now).
+    for (const e of nationalEvents(api).filter((row) => row.date === day)) {
+      const item = api
+        .moduleState(PRESS_MODULE_ID)
+        .table("wire")
+        .get(e.id) as unknown as { level: string } | undefined;
+      expect(item?.level, `${place.name}: ${e.id} on the wire`).toBe("nation");
+      onWire += 1;
+    }
   }
   const where = `${place.name}, seed ${seed}`;
+  expect(onWire, `${where}: disasters seen on the wire`).toBeGreaterThan(0);
   const events = nationalEvents(api);
   expect(
     events.length,
@@ -60,14 +72,6 @@ it("the country's disasters are generated from recorded rates and happen on thei
       `${where}: ${e.id} is a recorded disaster on its real day`,
     ).toBe(true);
     expect(e.counties).toBeGreaterThan(0);
-    // The national press has it on the wire at the nation level.
-    if (e.date <= day) {
-      const item = api
-        .moduleState(PRESS_MODULE_ID)
-        .table("wire")
-        .get(e.id) as unknown as { level: string } | undefined;
-      expect(item?.level, `${where}: ${e.id} on the wire`).toBe("nation");
-    }
     // One that has begun by the end of the run was emitted for its state.
     expect(emitted.has(e.id), e.id).toBe(e.date <= day);
   }
