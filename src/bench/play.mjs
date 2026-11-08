@@ -62,7 +62,6 @@ import { newsBoard } from "./ui/news-board.mjs";
 import { peopleScreen } from "./ui/people-screen.mjs";
 import { ballotPaper } from "./ui/ballot-paper.mjs";
 import { electionNight as electionNightScreen } from "./ui/election-night.mjs";
-import { el } from "./ui/dom.mjs";
 import { rosterScreen } from "./ui/roster-screen.mjs";
 import { guideScreen } from "./ui/guide-screen.mjs";
 import { travelScreen } from "./ui/travel-screen.mjs";
@@ -98,6 +97,14 @@ import {
   leaderBlock,
   seatNumbers,
   voteRows,
+  moneyFigure,
+  deskBill,
+  deskTitle,
+  deskList,
+  candidate,
+  rosterTitle,
+  rosterCols,
+  rosterSide,
 } from "./ui/strips.mjs";
 import { playAsList, playAsDetail } from "./ui/play-as.mjs";
 mountPanelHeads();
@@ -1905,10 +1912,7 @@ async function campaignParts() {
           stripSection(
             2,
             labelsC.money,
-            el("p", {
-              className: "money-figure",
-              textContent: moneyWords(campaign.raisedMinor),
-            }),
+            moneyFigure(moneyWords(campaign.raisedMinor)),
             dotRows([
               {
                 label: labelsC.raised,
@@ -2796,12 +2800,8 @@ async function seatRows() {
         () => openSheet("office"),
       ),
     );
-    return el(
-      "div",
-      { className: "desk-bill" },
-      el("b", {
-        textContent: `${bill.number} · ${floor.status[bill.status] ?? ""}`,
-      }),
+    return deskBill(
+      deskTitle(`${bill.number} · ${floor.status[bill.status] ?? ""}`),
       ...(floorDate
         ? [line(`${floor.takenUp} ${dateWords(floorDate)}`, "floor-date")]
         : []),
@@ -2844,9 +2844,7 @@ async function seatRows() {
               });
               return b;
             };
-            return el(
-              "div",
-              { className: "desk-bill" },
+            return deskBill(
               peopleSentence([
                 {
                   name: c.name,
@@ -2894,7 +2892,7 @@ async function seatRows() {
                           next: controls.politics.nextPage,
                         },
                       })
-                    : el("div", { className: "desk" }, ...desk),
+                    : deskList(...desk),
                 ),
               ]
             : []),
@@ -3872,9 +3870,7 @@ const sheets = {
     const racePage = (race) => {
       const candidates = race.filers.length
         ? race.filers.map((f) =>
-            el(
-              "div",
-              { className: "candidate" },
+            candidate(
               memberCard({
                 name: f.name ?? "",
                 line: f.party ?? "",
@@ -3906,21 +3902,13 @@ const sheets = {
         openFiling(race.filedWith, race.contestId),
       );
       return [
-        el(
-          "h2",
-          { className: "roster-title" },
+        rosterTitle(
           race.title,
-          el("span", {
-            textContent: dateWords(race.electionDate, { year: me.date }),
-          }),
+          dateWords(race.electionDate, { year: me.date }),
         ),
-        el(
-          "div",
-          { className: "roster-cols" },
+        rosterCols(
           stripSection(1, labels.whoIsRunning, ...candidates),
-          el(
-            "div",
-            { className: "roster-side" },
+          rosterSide(
             ...(race.lastTime
               ? [
                   stripSection(
@@ -4573,7 +4561,7 @@ const sheets = {
               )
             : [];
       return [
-        el("h2", { className: "roster-title", textContent: name }),
+        rosterTitle(name),
         stripSection(
           1,
           labels.inOffice,
@@ -4723,10 +4711,7 @@ const sheets = {
         row(vote.name, controls.meeting?.[vote.vote] ?? ""),
       );
       return [
-        el("h2", {
-          className: "roster-title",
-          textContent: policyLabel(law.series),
-        }),
+        rosterTitle(policyLabel(law.series)),
         stripSection(1, labels.inForce, ...inForce, ...statutes),
         ...(measures.length ? [buttonTray(...measures)] : []),
         ...(coming.length ? [stripSection(2, labels.coming, ...coming)] : []),
@@ -5188,8 +5173,6 @@ const setup = {
 function dateOrValue(value) {
   return /^\d{4}-\d{2}-\d{2}$/.test(String(value)) ? dateWords(value) : value;
 }
-const genderName = (g) =>
-  document.querySelector(`[data-gender="${g}"]`)?.textContent ?? "";
 $("cr-month").replaceChildren(
   ...optionsOf(MONTH_NAMES.map((name, i) => ({ value: i + 1, label: name }))),
 );
@@ -5222,11 +5205,6 @@ async function fillYears(keepYear) {
     years[0],
   );
   $("cr-year").value = String(nearest.year);
-}
-function chosenAge() {
-  return /\(age (\d+)\)/.exec(
-    $("cr-year").selectedOptions[0]?.textContent ?? "",
-  )?.[1];
 }
 $("cr-month").addEventListener("change", async () => {
   fillDays();

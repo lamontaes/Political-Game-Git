@@ -18,7 +18,7 @@ import {
   type Provision,
 } from "./modules/legislature";
 import { billLevelJurisdiction, billValueInForce } from "./modules/laws";
-import { policyAuthority } from "./policy-authority";
+import { policyAuthority } from "./modules/laws";
 
 export type Operation =
   "raise" | "lower" | "expand" | "restrict" | "enact" | "repeal";

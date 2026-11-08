@@ -32,9 +32,15 @@ import questionScopes from "../../../data/research/powers-catalog/question-power
 import geography from "../../../data/research/geography/state-reference.json" with { type: "json" };
 import federalAnswers from "../data/legislature/federal-answers.json" with { type: "json" };
 import congressSessions from "../data/legislature/congress-sessions.json" with { type: "json" };
+import {
+  budgetsOf,
+  fiscalYearOf,
+  governments,
+  lineChangedInYear,
+} from "./budgets";
 import { townConcernShare } from "./meetings";
 import { sessionPlaceKeys, sessionYear } from "../state-session-calendar";
-import { stateActEffectiveDate } from "../state-effective-date";
+import { stateActEffectiveDate } from "./laws";
 import { leaderOf, presidingOfficer } from "./leadership";
 import { officialOf, officialStance } from "./officials";
 import { coreAPI, registerModule } from "../state";
@@ -45,7 +51,7 @@ import type {
   PersonState,
   Source,
 } from "../types";
-import { nextMeeting } from "../office-day-calendar";
+import { nextMeeting } from "./offices";
 import {
   addDays,
   makeIsoDate,
@@ -57,7 +63,7 @@ import {
   campaignParameter,
   personStance,
   PLATFORM_QUESTIONS,
-} from "../campaign-views";
+} from "./elections";
 import {
   enactLaw,
   lastEnactment,
@@ -67,13 +73,13 @@ import {
   questionSettled,
   type SettledQuestion,
 } from "./laws";
-import type { LawRowInput } from "../laws-starting";
-import { policySeriesAtLevel } from "../policy-answers";
+import type { LawRowInput } from "./laws";
+import { policySeriesAtLevel } from "./laws";
 import stateReach from "../data/places/state-reach.json" with { type: "json" };
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
-import type { OfficeLevel } from "../offices-local";
-import { partySide } from "../appointments";
-import { decisionLean, termOfLean } from "../trait-decisions";
+import type { OfficeLevel } from "./offices";
+import { partySide } from "./offices";
+import { decisionLean, termOfLean } from "./people";
 import {
   authorityFor,
   beyondPower,
@@ -483,6 +489,12 @@ interface Filed {
   readonly leaderReason: number;
   /** The bill a member filed at the executive's request. */
   readonly drafted?: BillRow;
+  /** A change to one line of the government's budget, in place of a yes-or-no question. */
+  readonly line?: {
+    readonly name: string;
+    readonly deltaMinor: number;
+    readonly of: number;
+  };
 }
 
 /**
@@ -509,6 +521,8 @@ function fileChanges(
     readonly allowed: (question: string, value: number) => boolean;
     /** A change the body turned down recently enough that its rules bar it again. */
     readonly barred: (question: string, direction: number) => boolean;
+    /** A body that votes its own government's budget also takes up amendments to its lines. */
+    readonly lines?: boolean;
   },
 ): Filed[] {
   const filers = input.filers.map((t) => filerOf(api, t));
@@ -587,6 +601,8 @@ function fileChanges(
       });
     }
   }
+  if (input.lines)
+    filed.push(...fileLines(api, input.jurisdiction, filers, input.barred));
   // The floor leader's calendar: the most backed first, a change weighing
   // more as more of the town's residents live with what it touches; then the
   // leader's own reasons.
@@ -594,7 +610,8 @@ function fileChanges(
   const backing = new Map(
     filed.map((f) => [
       f,
-      f.cosponsors * (1 + weight * townConcernShare(api, f.question)),
+      f.cosponsors *
+        (f.line ? 1 : 1 + weight * townConcernShare(api, f.question)),
     ]),
   );
   filed.sort(
@@ -604,6 +621,93 @@ function fileChanges(
       a.question.localeCompare(b.question),
   );
   return filed;
+}
+
+/**
+ * The amendments members file to the lines of their own government's budget
+ * in force: each member wants a line moved by their stance on it (at a full
+ * stance, the budget-full-stance share of the line, the scale the budget vote
+ * weighs) from where the year's budget started, and files for the gap between
+ * that and what the laws have already changed; members wanting the same
+ * direction join one bill, the most moved sponsoring it at their own size.
+ * A gap under the amendment threshold is not worth the agenda time.
+ * stopgapId: SG-LAWS-local-line-filing-threshold
+ */
+function fileLines(
+  api: CoreAPI,
+  governmentId: string,
+  filers: readonly Filer[],
+  barred: (question: string, direction: number) => boolean,
+): Filed[] {
+  const gov = governments(api).find((g) => g.id === governmentId);
+  if (!gov) return [];
+  const fy = fiscalYearOf(api.state.date, gov.fiscalYearStart);
+  const budget = budgetsOf(api, gov.id).find((b) => b.fiscalYear === fy);
+  if (!budget) return [];
+  const scale = campaignParameter("budgetFullStanceShare");
+  const minimum = campaignParameter("budgetAmendmentMinShare");
+  const all: { filed: Filed; weight: number }[] = [];
+  for (const [name, now] of Object.entries(budget.spendingMinor)) {
+    const changed = lineChangedInYear(api, gov.id, fy, name);
+    const base = now - changed;
+    if (!(base > 0)) continue;
+    const question = `budget-line:${name}`;
+    for (const direction of [1, -1]) {
+      // A change the body just turned down is not filed again at once.
+      if (barred(question, direction)) continue;
+      let sponsor: Filer | null = null;
+      let best = 0;
+      let wanted = 0;
+      let cosponsors = 0;
+      for (const member of filers) {
+        const stance = Math.max(
+          -1,
+          Math.min(
+            1,
+            member.stance(question) +
+              campaignParameter("constituentWeight") *
+                personStance(member.home, question),
+          ),
+        );
+        const gap = (base * scale * stance - changed) * direction;
+        const reason = gap / base - minimum;
+        if (reason <= 0) continue;
+        cosponsors += 1;
+        if (
+          reason > best ||
+          (reason === best && sponsor && member.key < sponsor.key)
+        ) {
+          best = reason;
+          sponsor = member;
+          wanted = Math.round(gap * direction);
+        }
+      }
+      if (!sponsor || wanted === 0) continue;
+      all.push({
+        weight: cosponsors * (Math.abs(wanted) / base),
+        filed: {
+          question,
+          direction,
+          sponsor,
+          cosponsors,
+          leaderReason: 0,
+          line: { name, deltaMinor: wanted, of: base },
+        },
+      });
+    }
+  }
+  // A meeting's agenda takes up only so many budget amendments: the ones the
+  // most members back, by the size of the change they want.
+  all.sort(
+    (a, b) =>
+      b.weight - a.weight || a.filed.question.localeCompare(b.filed.question),
+  );
+  const taken = all.slice(
+    0,
+    Math.round(campaignParameter("localBudgetAmendmentsPerMeeting")),
+  );
+  if (taken.length) api.stopgap("SG-LAWS-local-line-filing-threshold");
+  return taken.map((t) => t.filed);
 }
 
 /**
@@ -636,6 +740,7 @@ function holdSession(
     readonly barred: (question: string, direction: number) => boolean;
     /** The meeting these filings wait for: filed now, voted when it closes. */
     readonly holdFor?: string;
+    readonly lines?: boolean;
   },
 ): void {
   const leaderKey = input.leader ? memberKey(input.leader) : null;
@@ -649,13 +754,22 @@ function holdSession(
       draftBill(api, {
         bodyOfficeId: input.body!.id,
         sponsorId: item.sponsor.key,
-        provisions: [
-          {
-            kind: "policy-question",
-            question: item.question,
-            value: item.direction,
-          },
-        ],
+        provisions: item.line
+          ? [
+              {
+                kind: "budget-line",
+                line: item.line.name,
+                value: item.line.deltaMinor,
+                of: item.line.of,
+              },
+            ]
+          : [
+              {
+                kind: "policy-question",
+                question: item.question,
+                value: item.direction,
+              },
+            ],
       });
     const reached = index < floorTime;
     // An earlier bill this sitting may have made this one's law already.
@@ -1738,6 +1852,7 @@ function localMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     filers: body.members,
     leader,
     ...(hold ? { holdFor: meetingDate } : {}),
+    lines: true,
     // One regular meeting: its agenda time at a policy ordinance's hearing
     // and debate.
     floorDays: 1,

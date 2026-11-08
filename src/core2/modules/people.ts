@@ -672,3 +672,11 @@ export const PEOPLE_MODULE: PreStartModule = {
     "tie-fading": (api, actor, offer) => tiePull(api, actor, offer.targetId),
   },
 };
+
+// Re-exported so other engine families import through this entry, not the file (families guard).
+export { currentCloseness } from "../closeness";
+export { decisionKinds } from "../trait-decisions";
+export { decisionLean, termOfLean } from "../trait-decisions";
+export type { CashJournalPosting } from "../journal";
+export { makeCase } from "./speech";
+export { areaQuestion } from "./public-action";

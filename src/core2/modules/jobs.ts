@@ -11,6 +11,7 @@
  */
 import type { ModuleTable } from "../module-state";
 import { addDays, daysBetweenText, makeIsoDate } from "../kernel/dates";
+import { SeededRng } from "../kernel/rng";
 import { chooseAct, decisionFromScores, scoreOffers } from "../choice";
 import jobsData from "../data/jobs/jobs.json" with { type: "json" };
 import ageUnemployment from "../data/jobs/age-unemployment.json" with { type: "json" };
@@ -57,13 +58,25 @@ import {
   residentFacts,
   residentPerson,
   residentsRuntime,
+  startRegionalWork,
+  stopRegionalWork,
 } from "./residents";
 import { PROFILE_FACT_KINDS, profileFor } from "../opening-profile";
 import { collegeOf, graduationOf } from "../school-outcomes";
 import { SCHOOL_MODULE_ID } from "../school-measures";
 import { claimRetirementNow } from "./retirement-claims";
 import { MOVED_AWAY_EVENT } from "./moves";
-import { reviewWorkElsewhere } from "../jobs-elsewhere";
+import { regionalConditions, reviewWorkElsewhere } from "../jobs-elsewhere";
+import { livesElsewhere } from "./people";
+import {
+  findPerQuarter,
+  layoffPerQuarter,
+  workAgeFactor,
+  workLeans,
+} from "../past";
+import { townOutsideOf } from "../opening-outside-market";
+import { townJobRate, townPayPercentile } from "../town-pay";
+import type { EntityId } from "../kernel/brands";
 import { endClaim, fileClaim, payClaims } from "../jobs-benefits";
 import { meetAtWork } from "../encounters";
 import { lawApplied } from "../law-reach/applied";
@@ -159,6 +172,8 @@ interface SeekerRow {
   referenceHourlyMinor: number;
   /** The chooser's reasons for the decision that made them a seeker, each as a number with their sum. */
   reasons?: Record<string, number>;
+  /** The pull toward finding work in the wider labor market, built a month at a time; a job is found at one whole. */
+  regionalPull?: number;
 }
 interface EmployerRow {
   id: string;
@@ -637,6 +652,14 @@ export function bandRatio(index: number, seed: string): number {
   );
 }
 
+/** The fraction of a place's expected seekers the opening has rounded away so far, by place. */
+const owedAtOpening = new WeakMap<CoreState, Map<string, number>>();
+function openingOwed(c: CoreState): Map<string, number> {
+  let owed = owedAtOpening.get(c);
+  if (!owed) owedAtOpening.set(c, (owed = new Map()));
+  return owed;
+}
+
 /**
  * The seekers each age band holds in each place: a band's jobs held times its
  * rate over one minus its rate, the place's rate scaled by the band's ratio.
@@ -660,10 +683,17 @@ function bandQuotas(
     ]);
   }
   const quotas = new Map<string, number>();
-  for (const rows of byPlace.values()) {
+  const owed = openingOwed(core(api));
+  for (const [placeId, rows] of byPlace) {
+    // The named and the counted are two calls on one place's rate: the
+    // fraction one call rounds away is carried into the next, so together
+    // they hold the place's whole expected count (2.6% of 102 workers is
+    // three seekers, not one and one).
+    const exact = rows.reduce((sum, row) => sum + row.exact, 0);
+    const whole = Math.round(exact + (owed.get(placeId) ?? 0));
+    owed.set(placeId, exact + (owed.get(placeId) ?? 0) - whole);
     let left =
-      Math.round(rows.reduce((sum, row) => sum + row.exact, 0)) -
-      rows.reduce((sum, row) => sum + Math.floor(row.exact), 0);
+      whole - rows.reduce((sum, row) => sum + Math.floor(row.exact), 0);
     for (const row of rows) quotas.set(row.key, Math.floor(row.exact));
     for (const row of [...rows].sort(
       (a, b) => (b.exact % 1) - (a.exact % 1) || a.key.localeCompare(b.key),
@@ -674,6 +704,49 @@ function bandQuotas(
     }
   }
   return quotas;
+}
+
+/**
+ * Who among a place's jobless counted adults the opening makes seekers: each age band takes
+ * as many as its quota, the neediest first; a band with fewer jobless adults
+ * than its quota (a town whose workers are mostly middle-aged and whose
+ * jobless are young) hands the rest to the place's other jobless adults, in
+ * the same order, so the place keeps the seekers its rate implies.
+ */
+function pickSeekers<T>(
+  candidates: readonly T[],
+  keyOf: (row: T) => string,
+  order: (a: T, b: T) => number,
+  quotas: ReadonlyMap<string, number>,
+): T[] {
+  const placeOf = (key: string) => key.split("|")[0]!;
+  const picked: T[] = [];
+  const taken = new Set<T>();
+  const left = new Map<string, number>();
+  for (const [key, quota] of quotas)
+    left.set(placeOf(key), (left.get(placeOf(key)) ?? 0) + quota);
+  for (const key of [...new Set(candidates.map(keyOf))].sort()) {
+    const take = [...candidates]
+      .filter((row) => keyOf(row) === key)
+      .sort(order)
+      .slice(0, quotas.get(key) ?? 0);
+    for (const row of take) {
+      picked.push(row);
+      taken.add(row);
+    }
+    left.set(placeOf(key), (left.get(placeOf(key)) ?? 0) - take.length);
+  }
+  for (const [placeId, more] of [...left].sort(([a], [b]) =>
+    a.localeCompare(b),
+  ))
+    if (more > 0)
+      picked.push(
+        ...candidates
+          .filter((row) => placeOf(keyOf(row)) === placeId && !taken.has(row))
+          .sort(order)
+          .slice(0, more),
+      );
+  return picked;
 }
 
 /**
@@ -703,6 +776,7 @@ function openSeekers(api: CoreAPI): void {
       person.alive &&
       !person.jobId &&
       !controlled(c, person.id) &&
+      !livesElsewhere(c, person) &&
       age >= young &&
       age < old &&
       c.households.has(person.householdId)
@@ -778,26 +852,22 @@ function openCountedSeekers(api: CoreAPI): void {
   // against the jobs its counted workers hold: the same rule as the named
   // people, times the count.
   const quotas = bandQuotas(api, workingBy);
-  for (const key of [
-    ...new Set(candidates.map((row) => `${row.placeId}|${row.band}`)),
-  ].sort()) {
-    candidates
-      .filter((row) => `${row.placeId}|${row.band}` === key)
-      .sort((a, b) => a.share - b.share || a.personId.localeCompare(b.personId))
-      .slice(0, quotas.get(key) ?? 0)
-      .forEach((row) =>
-        store(api).table("countedSeekers").put({
-          id: row.personId,
-          isSeeker: true,
-          personId: row.personId,
-          placeId: row.placeId,
-          employed: false,
-          since: c.date,
-          reasonKey: OPENING_UNEMPLOYED,
-          referenceHourlyMinor: 0,
-        }),
-      );
-  }
+  for (const row of pickSeekers(
+    candidates,
+    (row) => `${row.placeId}|${row.band}`,
+    (a, b) => a.share - b.share || a.personId.localeCompare(b.personId),
+    quotas,
+  ))
+    store(api).table("countedSeekers").put({
+      id: row.personId,
+      isSeeker: true,
+      personId: row.personId,
+      placeId: row.placeId,
+      employed: false,
+      since: c.date,
+      reasonKey: OPENING_UNEMPLOYED,
+      referenceHourlyMinor: 0,
+    });
 }
 
 /** A job's role: its occupation, or its title where it has none. */
@@ -847,6 +917,54 @@ export function rolesByDeficit(
     }))
     .sort((a, b) => b.deficit - a.deficit || a.role.localeCompare(b.role))
     .map((row) => row.role);
+}
+
+/**
+ * A place's own unemployment against its region's, as a pull on starting to
+ * look for work: where the town sits below its state's rate (the labor-market
+ * statistics' rate for the region) more of the jobless start looking, where it
+ * sits above fewer do, so a place drifts toward its state's rate with no step
+ * at any threshold. The town's rate is its seekers over its seekers and jobs
+ * held, named and counted (one read per place a day).
+ */
+const townRates = new WeakMap<
+  CoreState,
+  { date: string; byPlace: Map<string, { seekers: number; jobs: number }> }
+>();
+function entryRateFeedback(api: CoreAPI, placeId: string): number {
+  const c = core(api);
+  let cache = townRates.get(c);
+  if (!cache || cache.date !== c.date) {
+    const byPlace = new Map<string, { seekers: number; jobs: number }>();
+    const row = (id: string) => {
+      let r = byPlace.get(id);
+      if (!r) byPlace.set(id, (r = { seekers: 0, jobs: 0 }));
+      return r;
+    };
+    for (const name of ["seekers", "countedSeekers"] as const)
+      for (const seeker of store(api)
+        .table(name)
+        .rows() as unknown as SeekerRow[])
+        if (!seeker.employed) row(seeker.placeId).seekers += 1;
+    for (const job of c.jobs.values()) {
+      const where = c.people.get(job.personId)?.placeId;
+      if (job.endsAt === undefined && where) row(where).jobs += 1;
+    }
+    for (const job of residentsRuntime(c)?.jobs.values() ?? [])
+      if (job.endsAt === undefined) {
+        const where = c.organizations.get(job.organizationId)?.placeId;
+        if (where) row(where).jobs += 1;
+      }
+    townRates.set(c, (cache = { date: c.date, byPlace }));
+  }
+  const town = cache.byPlace.get(placeId);
+  if (!town || town.seekers + town.jobs <= 0) return 0;
+  const ownRate =
+    (api.parameter("macroHundred") * town.seekers) / (town.seekers + town.jobs);
+  const regionRate =
+    unemploymentGap(api, placeId) +
+    api.parameter("macroNaturalUnemploymentPct");
+  return api.parameter("jobsEntryRateFeedback") * (regionRate - ownRate);
 }
 
 /**
@@ -1827,7 +1945,328 @@ function reviewWorkers(api: CoreAPI): void {
   reviewJobless(api);
   reviewCountedWorkers(api, going);
   reviewCountedEntry(api);
+  reviewRegionalFinds(api);
+  reviewTurnover(api);
   raisePay(api);
+}
+
+/**
+ * A town resident out of work finds work in the wider labor market by the
+ * rule the lives elsewhere use (src/core2/jobs-elsewhere.ts): the CPS spell
+ * out of work, moved by their state's unemployment this month and, for a full
+ * person, their traits' lean to apply (`workLeans`); a pull builds a month at a
+ * time and the job is found when it reaches one whole, never by a roll. The
+ * job is a regional one: the place's outside market is its employer, the role
+ * and pay come from the nearest role of the town's own to what the person was
+ * paid (SG-LABOR-regional-job-town-roles), and the person still answers the
+ * offer by the same reasons as any hire.
+ */
+function reviewRegionalFinds(api: CoreAPI): void {
+  const c = core(api),
+    p = (key: string) => api.parameter(key);
+  const month =
+    p("daysPerMeanYear") / p("monthsPerYear") / p("pastWorkDaysPerQuarter");
+  const found: SeekerRow[] = [];
+  for (const table of ["seekers", "countedSeekers"] as const) {
+    for (const seeker of store(api)
+      .table(table)
+      .query("all", [true]) as unknown as SeekerRow[]) {
+      if (seeker.employed) continue;
+      const person = c.people.get(seeker.personId);
+      if (person && isDemoted(person)) continue;
+      const lean =
+        person && !isCounted(api, person.id)
+          ? workLeans(c, person).applyLean
+          : p("zero");
+      const at = regionalConditions(api, seeker.placeId);
+      const pull =
+        (seeker.regionalPull ?? p("zero")) +
+        findPerQuarter(api, at.meanOverNow, lean) * month;
+      if (pull >= p("one")) found.push(seeker);
+      else
+        store(api)
+          .table(table)
+          .put({ ...seeker, regionalPull: pull } as never);
+    }
+  }
+  for (const seeker of found) hireRegional(api, seeker);
+}
+
+/** The private employers' live jobs the turnover pull reads, named and counted, by id. */
+function turnoverJobs(api: CoreAPI): JobInput[] {
+  const c = core(api);
+  const jobs: JobInput[] = [];
+  const consider = (job: JobInput) => {
+    if (job.endsAt !== undefined) return;
+    const org = c.organizations.get(job.organizationId);
+    // The private employers the jobs engine reviews: public posts end by resigning or the budget, outside employers by their own rule.
+    if (org?.kind !== "employer" || org.publicPayAuthority || org.outsideFlow)
+      return;
+    jobs.push(job);
+  };
+  for (const job of c.jobs.values()) consider(job);
+  for (const job of residentsRuntime(c)?.jobs.values() ?? []) consider(job);
+  return jobs.sort((a, b) => a.id.localeCompare(b.id));
+}
+
+/**
+ * The town's workers are let go at the rate working people are everywhere
+ * (JOLTS layoffs and discharges, about 1.2% of employment a month), by the
+ * rule the lives elsewhere use (`layoffPerQuarter`): the quarterly pull moved
+ * by the rise in their state's unemployment, their age and, for a named
+ * person, their traits' lean in the employer's own decision. A pull builds a
+ * month at a time and the employer lets the worker go when it reaches one
+ * whole, never by a roll; the firm then refills the job from the people
+ * looking, as it does any leaver's. Without this the town has the finding of
+ * work (`reviewRegionalFinds`) and no losing of it, and its out-of-work count
+ * drains to nothing.
+ */
+function reviewTurnover(api: CoreAPI): void {
+  const c = core(api),
+    p = (key: string) => api.parameter(key);
+  const month =
+    p("daysPerMeanYear") / p("monthsPerYear") / p("pastWorkDaysPerQuarter");
+  const pulls = store(api).table("turnover");
+  const jobs = turnoverJobs(api);
+  const born = (personId: string) =>
+    c.people.get(personId)?.birthDate ?? residentFacts(c, personId)?.birthDate;
+  const placeOf = (job: JobInput) =>
+    c.organizations.get(job.organizationId)?.placeId ?? "";
+  for (const job of jobs) {
+    const person = c.people.get(job.personId);
+    if (
+      person &&
+      (!person.alive ||
+        inCustody(api, person.id) ||
+        controlled(c, person.id) ||
+        c.organizations.get(job.organizationId) === undefined)
+    )
+      continue;
+    const birth = born(job.personId);
+    if (!birth) continue;
+    const age = daysBetweenText(birth, c.date) / p("jobsDaysPerYear");
+    const lean =
+      person && !isCounted(api, person.id)
+        ? workLeans(c, person).layoffLean
+        : p("zero");
+    const at = regionalConditions(api, placeOf(job));
+    // A job with no pull yet (day one, or a new hire) stands somewhere along
+    // it from the worker's own seeded line, as the lives elsewhere seed theirs
+    // (generation of who exists, no roll): starting every new job at zero
+    // would let the layoffs die out as the first workers are replaced.
+    const held =
+      (pulls.get(job.id) as { pull?: number } | undefined)?.pull ??
+      new SeededRng(api.state.seed).fork(`town-turnover:${job.id}`).next();
+    const pull =
+      held +
+      layoffPerQuarter(api, at.rise, lean, workAgeFactor(api, age)) * month;
+    if (pull < p("one")) {
+      pulls.put({ id: job.id, pull } as never);
+      continue;
+    }
+    const staff = currentJobs(api, job.organizationId);
+    const laid = layOff(
+      api,
+      job.organizationId,
+      staff.filter((row) => row.id === job.id),
+      headsOf(c, job),
+      { turnoverPull: pull },
+    );
+    // A worker the employer could not let go today keeps the pull and is weighed at the next review.
+    if (laid === "over" || laid === undefined) {
+      pulls.put({ id: job.id, pull } as never);
+      continue;
+    }
+    pulls.remove(job.id);
+  }
+  // Counted people working in the wider region face the same pull; the full people there hold commuter jobs (outside account), read as any job.
+  for (const row of store(api).table("regional").rows() as unknown as {
+    id: string;
+    personId: string;
+    placeId: string;
+    hourlyMinor: number;
+  }[]) {
+    const key = `regional:${row.personId}`;
+    const birth = born(row.personId);
+    if (!birth) continue;
+    const age = daysBetweenText(birth, c.date) / p("jobsDaysPerYear");
+    const held =
+      (pulls.get(key) as { pull?: number } | undefined)?.pull ??
+      new SeededRng(api.state.seed).fork(`town-turnover:${key}`).next();
+    const pull =
+      held +
+      layoffPerQuarter(
+        api,
+        regionalConditions(api, row.placeId).rise,
+        p("zero"),
+        workAgeFactor(api, age),
+      ) *
+        month;
+    if (pull < p("one") || !stopRegionalWork(c, row.personId)) {
+      pulls.put({ id: key, pull } as never);
+      continue;
+    }
+    pulls.remove(key);
+    store(api).table("regional").remove(row.personId);
+    const outside = townOutsideOf(c.organizations.values(), row.placeId);
+    store(api)
+      .table("countedSeekers")
+      .put({
+        id: row.personId,
+        isSeeker: true,
+        personId: row.personId,
+        placeId: row.placeId,
+        since: c.date,
+        reasonKey: jobsData.reasons.layoff,
+        referenceHourlyMinor: row.hourlyMinor,
+      } as never);
+    record(api, {
+      personId: row.personId,
+      organizationId: outside?.id ?? row.placeId,
+      jobId: `job:regional:${c.date}:${row.personId}`,
+      kind: "layoff",
+      reasonKey: jobsData.reasons.layoff,
+      decidedBy: outside?.id ?? row.placeId,
+      values: { turnoverPull: pull, regional: 1, counted: 1 },
+    });
+  }
+  // A job that ended another way keeps no pull.
+  const live = new Set([
+    ...jobs.map((job) => job.id),
+    ...(store(api).table("regional").rows() as unknown as { id: string }[]).map(
+      (row) => `regional:${row.id}`,
+    ),
+  ]);
+  for (const row of pulls.rows() as unknown as { id: string }[])
+    if (!live.has(row.id)) pulls.remove(row.id);
+}
+
+/** The town's own role nearest in pay to what the seeker earned (the median where they earned nothing yet), as the regional job's pattern. */
+function regionalTemplate(
+  api: CoreAPI,
+  placeId: string,
+  referenceHourlyMinor: number,
+): JobInput | undefined {
+  const c = core(api);
+  const rows: JobInput[] = [];
+  const consider = (job: JobInput) => {
+    if (job.endsAt !== undefined || !((job.hourlyMinor ?? 0) > 0)) return;
+    const org = c.organizations.get(job.organizationId);
+    if (
+      org?.placeId !== placeId ||
+      org.kind !== "employer" ||
+      org.publicPayAuthority ||
+      org.outsideFlow
+    )
+      return;
+    rows.push(job);
+  };
+  for (const job of c.jobs.values()) consider(job);
+  for (const job of residentsRuntime(c)?.jobs.values() ?? []) consider(job);
+  if (!rows.length) return undefined;
+  rows.sort(
+    (a, b) =>
+      (a.hourlyMinor ?? 0) - (b.hourlyMinor ?? 0) || a.id.localeCompare(b.id),
+  );
+  const target =
+    referenceHourlyMinor > 0
+      ? referenceHourlyMinor
+      : rows[Math.floor(rows.length / 2)]!.hourlyMinor!;
+  return rows.reduce((best, row) =>
+    Math.abs((row.hourlyMinor ?? 0) - target) <
+    Math.abs((best.hourlyMinor ?? 0) - target)
+      ? row
+      : best,
+  );
+}
+
+function hireRegional(api: CoreAPI, seeker: SeekerRow): void {
+  const c = core(api),
+    p = (key: string) => api.parameter(key);
+  const outside = townOutsideOf(c.organizations.values(), seeker.placeId);
+  const template = regionalTemplate(
+    api,
+    seeker.placeId,
+    seeker.referenceHourlyMinor,
+  );
+  if (!outside || !template) return;
+  // The pay a new hire in their kind of work gets in the region: BLS OEWS
+  // (the metro or state area the place is in) at the starting percentile, as
+  // the opening prices its jobs, moved with the place's pay level since.
+  const oews = template.occupationClassification
+    ? townJobRate(
+        template.occupationClassification,
+        seeker.placeId as EntityId,
+        townPayPercentile(p("zero"), c.seed),
+        undefined,
+        c.seed,
+      )
+    : null;
+  if (!oews)
+    // stopgapId: SG-LABOR-regional-job-town-roles (no OEWS wage covers the occupation: the town's nearest role sets the pay)
+    stopgap("SG-LABOR-regional-job-town-roles");
+  const hourlyMinor = Math.max(
+    wageFloor(api),
+    oews
+      ? Math.round(oews.hourlyMinor * payLevel(api, seeker.placeId))
+      : payFor(api, template.organizationId, template),
+  );
+  const counted = isCounted(api, seeker.personId);
+  const person = c.people.get(seeker.personId);
+  // The person answers as they would any offer: their traits, the pay against what they were paid, their need to work.
+  const accepts = counted
+    ? leanedByKinds(
+        c,
+        { id: seeker.personId, traits: traitsOf(api, seeker.personId) },
+        "jobs.counted-accept",
+        jobsData.actions.accept.actKinds,
+        jobsData.actions.decline.actKinds,
+        acceptScore(p, hourlyMinor, seeker.referenceHourlyMinor, false),
+      )
+    : !!person &&
+      !controlled(c, person.id) &&
+      chooseAct(c, person.id, [
+        offer("decline", seeker.id, {}),
+        offer("accept", seeker.id, {
+          baseline: p("jobsAcceptBaseline"),
+          switchCost: 0,
+          pay:
+            p("jobsApplyPayWeight") *
+            (seeker.referenceHourlyMinor > 0
+              ? hourlyMinor / seeker.referenceHourlyMinor - 1
+              : 0),
+          needWork: p("jobsUnemployedNeedWeight"),
+        }),
+      ]).selected!.definition.id === jobsData.actions.accept.id;
+  if (!accepts) return;
+  const jobId = startRegionalWork(c, seeker.personId, hourlyMinor);
+  if (!jobId) return;
+  if (counted)
+    store(api)
+      .table("regional")
+      .put({
+        id: seeker.personId,
+        personId: seeker.personId,
+        placeId: seeker.placeId,
+        hourlyMinor,
+        since: c.date,
+      } as never);
+  store(api).table("seekers").remove(seeker.personId);
+  store(api).table("countedSeekers").remove(seeker.personId);
+  endSpell(api, seeker.personId);
+  record(api, {
+    personId: seeker.personId,
+    organizationId: outside.id,
+    jobId: counted ? `job:regional:${c.date}:${seeker.personId}` : jobId,
+    kind: "hire",
+    reasonKey: jobsData.reasons.hired,
+    decidedBy: outside.id,
+    values: {
+      hourlyMinor,
+      regional: 1,
+      ...(counted ? { counted: 1 } : {}),
+    },
+  });
 }
 
 /** The place's pay level against the opening: national hourly earnings times its region's pay. */
@@ -2082,7 +2521,9 @@ export function reviewJobless(api: CoreAPI): void {
       !person.alive ||
       person.jobId ||
       outOfCivilianWork(api, person.id) ||
-      controlled(c, person.id)
+      controlled(c, person.id) ||
+      // Those living in another place work by the lives-elsewhere review.
+      livesElsewhere(c, person)
     )
       continue;
     // Someone already looking is weighed again below, as a counted seeker is.
@@ -2115,6 +2556,7 @@ export function reviewJobless(api: CoreAPI): void {
         unemployment:
           -p("jobsUnemploymentEntryWeight") *
           unemploymentGap(api, person.placeId),
+        rateFeedback: entryRateFeedback(api, person.placeId),
       }),
     ]);
     settleEntryChoice(
@@ -3244,6 +3686,7 @@ export function reviewCountedEntry(api: CoreAPI): void {
             p("jobsUnemployedNeedWeight") / (p("one") + days / monthDays),
           unemployment:
             -p("jobsUnemploymentEntryWeight") * unemploymentGap(api, placeId),
+          rateFeedback: entryRateFeedback(api, placeId),
         }),
       ]);
       settleEntryChoice(
@@ -3969,6 +4412,10 @@ export const JOBS_MODULE: CoreModule = {
       countedSeekers: { indexes: { all: { fields: ["isSeeker"] } } },
       // The working lives of people living elsewhere (src/core2/jobs-elsewhere.ts).
       elsewhere: {},
+      // Each town worker's pull toward being let go (the JOLTS layoff pull), by job.
+      turnover: {},
+      // Counted people working in the wider region (their place's unplaced workers), by person.
+      regional: {},
       spells: { indexes: { open: { fields: ["personId", "open"] } } },
       claims: {
         indexes: {

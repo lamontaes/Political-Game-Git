@@ -646,9 +646,12 @@ function ownVote(api: CoreAPI, billId: string): void {
   // (the level's floor-vote stop): the character does not cast it for them a week early, on the
   // committee's day, when the floor is still ahead.
   const level = bodyReach(api, bill.bodyOfficeId);
-  const stops = stopsOf(api, player);
+  const stops = api.state.modules.has(OFFICE_DAY_MODULE_ID)
+    ? stopsOf(api, player)
+    : null;
   const floorDay = floorDateOf(api, billId);
   if (
+    stops &&
     floorDay !== null &&
     floorDay > api.state.date &&
     ((level === "state" && stops["state-floor-vote"]) ||
@@ -710,9 +713,12 @@ registerMeetingHold(holdsMemberFilings, placeFiled);
 // The floor's agenda for a date includes what a town body's meeting that day
 // takes up (the evening-before ask reads it).
 registerMeetingAgendaReader((api, date) =>
-  (table(api, "meetings").rows() as unknown as MeetingRow[])
-    .filter((row) => row.date === date && row.status !== "adjourned")
-    .flatMap((row) => agendaFor(api, row.officeId, date)),
+  // A world without the office day has no town meetings to read.
+  !api.state.modules.has(OFFICE_DAY_MODULE_ID)
+    ? []
+    : (table(api, "meetings").rows() as unknown as MeetingRow[])
+        .filter((row) => row.date === date && row.status !== "adjourned")
+        .flatMap((row) => agendaFor(api, row.officeId, date)),
 );
 
 const sits = (personId: string) => (term: TermRow) =>
@@ -1137,3 +1143,19 @@ function gaveInYear(
     (row) => row.kind === kind && row.date.startsWith(year),
   );
 }
+
+// Re-exported so other engine families import through this entry, not the file (families guard).
+export {
+  controlledPerson,
+  heldFederal,
+  leaveVoteToCharacter,
+  voteOnFloor,
+} from "../office-day-federal";
+export {
+  OFFICE_DAY_STATE_MODULE_ID,
+  stateFloorHolds,
+  voteOnStateFloor,
+} from "../office-day-state";
+export { appointGovernor, doEntry, waitingEntries } from "../office-day-state";
+export { budgetProposalDue } from "../office-day-acts";
+export { jointAddress } from "../office-day-federal-calendar";

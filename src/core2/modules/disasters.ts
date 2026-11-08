@@ -31,8 +31,6 @@ export const DISASTERS_MODULE_ID = "core2-disasters-v1";
 const STOPGAP = "SG-CORE-disasters-from-records";
 const STATES_SHARE_DISASTER_COSTS =
   "us-federal-positions:emergencies.states-share-disaster-costs";
-/** The federal share of eligible public assistance costs under the Stafford Act (42 U.S.C. 5172(b)(1)). */
-const STATUTORY_SHARE = 0.75;
 const BUILDER_CLASSIFICATION = "enterprise:construction";
 
 /** A government's name reduced to its place name: "Liberty, City of" → "liberty". */
@@ -258,7 +256,8 @@ function declare(api: CoreAPI, rt: Runtime, disaster: Disaster): void {
     lawInForce(api, STATES_SHARE_DISASTER_COSTS).value === 1;
   if (sharing) api.stopgap("SG-LAWS-disaster-share-size");
   const federalShare = sharing
-    ? api.parameter("disasterFederalShareWhenStatesShare") / STATUTORY_SHARE
+    ? api.parameter("disasterFederalShareWhenStatesShare") /
+      api.parameter("disasterStatutoryFederalShare")
     : 1;
   const pay = (orgId: string | undefined, paying: number, who: string) => {
     const cents = Math.round(paying * federalShare);
