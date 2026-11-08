@@ -29,6 +29,8 @@ export interface MacroMonth {
   energyCapacityPct: number;
   /** The unemployment rate the economy has come to treat as normal, percent: it drifts toward the rate people have lived at (hysteresis), so it has no fixed resting point. */
   naturalUnemploymentPct: number;
+  /** The real interest rate the economy has come to treat as neutral, percent: it follows the real long-term rate people have lived with (the 10-year yield less inflation), so it has no fixed resting point. */
+  neutralRealRatePct: number;
   /** The inflation rate people expect, percent: it follows the inflation they have experienced, so inflation has no fixed anchor. */
   expectedInflationPct: number;
   /** This world's business cycle: the years from one peak to the next its accelerator swings through. */
@@ -172,6 +174,12 @@ export function publishedMonths(
       p("macroInflationAnchorPct"),
       p("macroInflationExpectationMonths"),
     );
+    const neutral = drift(
+      before?.neutralRealRatePct,
+      before ? before.treasury10Pct - before.inflationPct : undefined,
+      p("macroNeutralRealRatePct"),
+      p("macroNeutralRateMonths"),
+    );
     const gapNow =
       -p("macroOkunOutputPerUnemploymentPoint") * (unemployment - natural);
     months.push({
@@ -186,6 +194,7 @@ export function publishedMonths(
       realOutput: realOutputAt(month, p),
       outputGapPct: gapNow,
       naturalUnemploymentPct: natural,
+      neutralRealRatePct: neutral,
       expectedInflationPct: expected,
       policyRatePct: policy,
       primeRatePct: policy + p("macroPrimeSpreadPct"),
@@ -427,7 +436,7 @@ export function stepMacroMonth(
     omega * omega * previous.outputGapPct -
     omega *
       p("macroRealRateEffectOnGap") *
-      (realRateLagPct - p("macroNeutralRealRatePct")) +
+      (realRateLagPct - previous.neutralRealRatePct) +
     town / months;
   const outputGapPct = previous.outputGapPct + gapChange;
   const naturalUnemploymentPct = drift(
@@ -487,6 +496,12 @@ export function stepMacroMonth(
     energyCapacityPct,
     realRateLagPct,
     naturalUnemploymentPct,
+    neutralRealRatePct: drift(
+      previous.neutralRealRatePct,
+      previous.treasury10Pct - previous.inflationPct,
+      previous.neutralRealRatePct,
+      p("macroNeutralRateMonths"),
+    ),
     expectedInflationPct: anchor,
     cyclePeriodYears: previous.cyclePeriodYears,
     cycleCapacityPct: previous.cycleCapacityPct,
