@@ -93,7 +93,7 @@
     "stopgapId": "SG-P15-candidacy-weights"
   },
   "candidacyOpenSeatWeight": {
-    "value": 0.5,
+    "value": 1.0,
     "tag": "TUNABLE",
     "citation": "The pull of a seat no incumbent holds. Open seats draw more and stronger candidates than seats an incumbent defends (Gaddie and Bullock 2000, Elections to Open Seats in the U.S. House; Jacobson and Kernell 1983). Checked by open local seats drawing at least one named resident in drawn towns without crowding them. Set at the low end so one open seat in a town of about a thousand adults still draws only a handful. Spread 0.5 to 1.5.",
     "stopgapId": "SG-P15-candidacy-weights"
@@ -225,9 +225,9 @@
     "stopgapId": "SG-P15-candidacy-weights"
   },
   "candidacyWaveWeight": {
-    "value": 40,
+    "value": 60,
     "tag": "TUNABLE",
-    "citation": "How strongly the national tide moves the decision to run for a partisan seat: the share of the two-party vote the president's party is expected to lose this cycle (the national economy and the midterm penalty, the same figure the count reads: tideAgainstPresident) times this weight, a pull toward running for people outside the president's party and away for people in it. Strategic politicians run when conditions favor their party (Jacobson and Kernell 1983, Strategy and Choice in Congressional Elections; Jacobson 2004, The Politics of Congressional Elections), and the 2018 midterm drew a record number of challengers against the president's party (Ballotpedia, 'Candidates and elections in 2018: filing statistics'). At the midterm swing of 0.025 the pull is 1.0, which clears a stay-out bar the open-seat weight already puts within half a point for the most drawn residents. Spread 20 to 80.",
+    "citation": "How strongly the national tide moves the decision to run for a partisan seat: the share of the two-party vote the president's party is expected to lose this cycle (the national economy and the midterm penalty, the same figure the count reads: tideAgainstPresident) times this weight, a pull toward running for people outside the president's party and away for people in it. Strategic politicians run when conditions favor their party (Jacobson and Kernell 1983, Strategy and Choice in Congressional Elections; Jacobson 2004, The Politics of Congressional Elections), and the 2018 midterm drew a record number of challengers against the president's party (Ballotpedia, 'Candidates and elections in 2018: filing statistics'). At the midterm swing of 0.025 the pull is 1.5, which clears a stay-out bar the open-seat weight already puts within half a point for the most drawn residents. Spread 20 to 80.",
     "stopgapId": "SG-P15-candidacy-weights"
   }
 }
