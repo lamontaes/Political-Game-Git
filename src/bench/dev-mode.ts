@@ -8,6 +8,7 @@
  * Read-only views spend no game time and write nothing. Words come from the
  * English engine; this returns record data and ids only.
  */
+import type { GovernmentLevel } from "../core2/government-level";
 import billCatalogData from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
 import { moneySince, watchMoney } from "../core2/tooling/money-watch";
 import { bookkeeping } from "../core2/bookkeeping";
@@ -111,7 +112,7 @@ export const DEV_MODE = "dev-mode";
 /** The core record kind each dev-mode change leaves. */
 export const DEV_MODE_RECORD = "dev-mode-change";
 
-export type LawLevel = "federal" | "state" | "county" | "city";
+export type LawLevel = GovernmentLevel;
 
 /** One step of a change set: the same controls the page offers. */
 export type DevStep = {
