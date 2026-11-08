@@ -15,7 +15,6 @@ import {
 } from "./ui/talk-box.mjs";
 import { showToast, hideToast } from "./ui/toast.mjs";
 import { mountRail } from "./ui/rail.mjs";
-import { districtMap } from "./ui/map.mjs";
 import { chamberHeader } from "./ui/chamber.mjs";
 import { memberCard } from "./ui/member-card.mjs";
 import { dateList } from "./ui/date-list.mjs";
@@ -120,6 +119,9 @@ mountSpeakers();
 const $ = (id) => document.getElementById(id);
 let me;
 let packet;
+// The game's date is the clock's, the packet's; me.date is only the day the
+// screen loaded (P15, C10: the News kept the opening day).
+const today = () => packet?.at?.date ?? me.date;
 let talk;
 let openTab;
 let busy = false;
@@ -276,17 +278,11 @@ function showNewsSurface(news) {
     controls.opening?.closeNews ?? "",
   );
   $("news-surface-open").onclick = () => {
-    coachUsed("news-surface");
     hideNewsToast();
     openNewsReader(news);
   };
-  $("news-surface-close").onclick = () => {
-    coachUsed("news-surface");
-    hideNewsToast();
-  };
-  showToast($("news-surface"), controls.opening?.newsToastSeconds ?? 8, () =>
-    coachUsed("news-surface"),
-  );
+  $("news-surface-close").onclick = hideNewsToast;
+  showToast($("news-surface"), controls.opening?.newsToastSeconds ?? 8);
 }
 function openNewsReader(news) {
   const [lead, ...rest] = news.stories;
@@ -297,7 +293,7 @@ function openNewsReader(news) {
   };
   $("news-reader-masthead").textContent = outlet.name ?? controls.news.title;
   engraveMasthead($("news-reader-masthead"), outlet);
-  $("news-reader-date").textContent = dateWords(me.date, { weekday: true });
+  $("news-reader-date").textContent = dateWords(today(), { weekday: true });
   $("news-reader").className = `panel paper paper-${
     ["broadsheet", "modern", "tabloid", "weekly"].includes(outlet.layout)
       ? outlet.layout
@@ -314,33 +310,6 @@ $("news-reader-close").addEventListener("click", () =>
   show("news-reader", false),
 );
 
-/**
- * The first choices, pointed out one at a time: the news, the people you
- * know, then living the day. Each glows until it is used; nothing to read.
- */
-const COACH_ORDER = ["news-surface", "people-tab", "day"];
-const coachDone = new Set();
-const coachNode = (id) =>
-  id === "people-tab"
-    ? document.querySelector('#rings [data-tab="people"]')
-    : $(id);
-/** Glows the first choice not yet used; each clears however it is used. */
-function coachRender() {
-  for (const id of COACH_ORDER) coachNode(id)?.classList.remove("coach");
-  const next = COACH_ORDER.find((id) => {
-    const node = coachNode(id);
-    return !coachDone.has(id) && node && !node.hidden;
-  });
-  if (next) coachNode(next).classList.add("coach");
-}
-function coachUsed(...ids) {
-  for (const id of ids) coachDone.add(id);
-  coachRender();
-}
-function coachFirstChoices() {
-  coachDone.clear();
-  coachRender();
-}
 // Escape opens only options and quit (M6 work order), the opening included.
 document.addEventListener("keydown", (event) => {
   if (event.key !== "Escape") return;
@@ -369,7 +338,7 @@ async function renderCard() {
   me.names = { ...me.names, [me.id]: card.name };
   $("card-name").textContent = card.name;
   $("card-place").textContent = me.placeName;
-  setClock(packet?.at ?? { date: me.date, minuteOfDay: me.minuteOfDay ?? 0 });
+  setClock(packet?.at ?? { date: today(), minuteOfDay: me.minuteOfDay ?? 0 });
 }
 
 // The Guide's search, kept so an underlined term opens straight to it.
@@ -1255,13 +1224,14 @@ function atThePolls(scene) {
 // runs it to that day. A scene the director fires stops any of them there.
 for (const mode of ["day", "week"])
   $(mode).addEventListener("click", () => {
-    // Living on puts the evening's paper away and ends the first-choice glow.
+    // Living on puts the evening's paper away.
     hideNewsToast();
-    coachUsed(...COACH_ORDER);
     return act(`/api/advance?mode=${mode}`);
   });
 // Stories News held when it was last open: a dot on the rail's News icon until it is read.
-let seenNews = 0;
+// The first count a life is opened with is already read: a reload starts with
+// nothing unread, and only what arrives after it lights the dot (P12).
+let seenNews;
 async function newsCount() {
   const rows = await api(`/api/news?id=${encodeURIComponent(me.id)}`);
   // Every row News lists (its public records), the same rows its screen draws.
@@ -1269,7 +1239,7 @@ async function newsCount() {
 }
 async function markNews(read) {
   const count = await newsCount();
-  if (read) seenNews = count;
+  if (read || seenNews === undefined) seenNews = count;
   document
     .querySelector('#rings [data-tab="news"]')
     ?.classList.toggle("unread", count > seenNews);
@@ -1482,13 +1452,20 @@ function renderFiling(value) {
     );
     return;
   }
-  // At the counter you can walk out; silence there is not an answer.
-  talkControls({ silent: false, leave: true });
   fillTalk({ lines: spokenLines(lines) });
   // No form at the counter (owner, Oct 28, point 31: the rules panel was a
   // dev menu): filing carries the party the player is tied to, from the
   // record; the platform is SG-SCREENS-filing-platform-from-views.
   const choose = async (choice) => {
+    // "All right." is the way out: it walks out as Leave does, never a reply
+    // that only clears itself (C13).
+    if (choice.action.kind === "done") {
+      await post(
+        `/api/filing/choose?${new URLSearchParams({ key: choice.key })}`,
+      );
+      $("talk-leave").click();
+      return;
+    }
     const params = new URLSearchParams({ key: choice.key });
     if (choice.action.kind === "file" && value.overlay?.party)
       params.set("party", value.overlay.party);
@@ -1523,6 +1500,14 @@ function renderFiling(value) {
   const choices = value.visit.choices
     .filter((choice) => choice.action.kind !== "pick" || picks.has(choice))
     .slice(0, 4);
+  // At the counter you can walk out where that is a real choice: not beside
+  // a lone "All right." that already ends the visit. Silence is not an answer.
+  talkControls({
+    silent: false,
+    leave: !(
+      choices.length > 0 && choices.every((c) => c.action.kind === "done")
+    ),
+  });
   const buttons = replies(choices, choose);
   choices.forEach((choice, i) => {
     if (choice.action.kind !== "pick") return;
@@ -2605,18 +2590,21 @@ function billEstimate(paper, section) {
   else if (est.line && est.ofMinor != null && est.lineAmountMinor != null)
     compare = {
       todayLabel: words.today ?? "",
-      today: moneyWords(est.ofMinor),
+      today: roundedMoney(est.ofMinor),
       newLabel: words.proposed ?? "",
-      proposed: moneyWords(est.ofMinor + est.lineAmountMinor),
+      proposed: roundedMoney(est.ofMinor + est.lineAmountMinor),
     };
   else if (after) lines.push(`${words.to ?? ""} ${after}`);
+  // The two cells above carry the amounts; the line is then only named.
   if (est.line)
     lines.push(
       [
         `${words.line ?? ""}: ${policyLabel(`budget-line:${est.line}`)}`,
-        est.lineAmountMinor != null ? moneyWords(est.lineAmountMinor) : null,
-        est.ofMinor != null
-          ? `${words.from ?? ""} ${moneyWords(est.ofMinor)}`
+        !compare && est.lineAmountMinor != null
+          ? roundedMoney(est.lineAmountMinor)
+          : null,
+        !compare && est.ofMinor != null
+          ? `${words.from ?? ""} ${roundedMoney(est.ofMinor)}`
           : null,
       ]
         .filter(Boolean)
@@ -2627,8 +2615,9 @@ function billEstimate(paper, section) {
       paper.estimate.workers > 0
         ? `${paper.estimate.workers} ${words.workers ?? ""}`
         : null,
-      paper.estimate.payMinor > 0 ? moneyWords(paper.estimate.payMinor) : null,
-      paper.estimate.note,
+      paper.estimate.payMinor > 0
+        ? roundedMoney(paper.estimate.payMinor)
+        : null,
     ]
       .filter(Boolean)
       .join(" · "),
@@ -2673,7 +2662,7 @@ async function openBillPaper(billId, show, back, backLabel) {
           ? `${floor.takenUp ?? ""} ${dateWords(paper.floorDate)}`
           : null,
         paper.decision
-          ? `${words.decided ?? ""}: ${floor.status?.[paper.decision.status] ?? ""}${paper.decision.passedOn ? ` · ${dateWords(paper.decision.passedOn)}` : ""}`
+          ? `${words.decided ?? ""}: ${floor.status?.[paper.decision.status] ?? ""}${paper.decision.decidedOn ? ` · ${dateWords(paper.decision.decidedOn)}` : ""}`
           : null,
       ],
     }),
@@ -3425,8 +3414,14 @@ const sheets = {
     const books = gov.books;
     const prior = gov.prior;
     const lastOf = (lines, key) => lines?.find((r) => r.line === key)?.minor;
+    // A line the government spends nothing on is not listed (P29): a budget
+    // reads like a real one. The line open stays, so a pick always shows.
+    const spending = latest.spending.filter((r) => r.minor !== 0);
     const opened =
-      latest.spending.find((r) => r.line === budgetLine) ?? latest.spending[0];
+      spending.find((r) => r.line === budgetLine) ??
+      latest.spending.find((r) => r.line === budgetLine) ??
+      spending[0] ??
+      latest.spending[0];
     const lastYear = (minor) =>
       minor === undefined ? "" : `${words.lastYear} ${roundedMoney(minor)}`;
     const stepButtons = steps(opened).map((step) => {
@@ -3457,7 +3452,7 @@ const sheets = {
               1,
               words.departments,
               pager({
-                items: latest.spending.map((r) =>
+                items: spending.map((r) =>
                   departmentRow({
                     name: r.name ?? r.line,
                     amount: roundedMoney(r.minor),
@@ -3630,7 +3625,7 @@ const sheets = {
       newsBoard({
         outlets,
         labels,
-        date: me.date,
+        date: today(),
         headlineOf: storyHeadline,
         words: {
           page: controls.politics.page,
@@ -3816,8 +3811,10 @@ const sheets = {
               testid: `options-stop-${group}`,
               on: () => kinds.every((kind) => allowed.has(kind)),
               set: async (wanted) => {
-                for (const kind of kinds)
-                  wanted ? allowed.add(kind) : allowed.delete(kind);
+                for (const kind of kinds) {
+                  if (wanted) allowed.add(kind);
+                  else allowed.delete(kind);
+                }
                 const every = allowed.size === filter.kinds.length;
                 const saved = await post(
                   `/api/scene-filter?id=${encodeURIComponent(me.id)}&kinds=${every ? "all" : [...allowed].join(",")}`,
@@ -4063,6 +4060,22 @@ const sheets = {
         race.playerMayFile &&
         !filed.has(race.contestId) &&
         race.filedWith;
+      // A race the player may run for in kind but cannot file for today
+      // says why, from the eligibility rule's own record, and offers no filing.
+      const cannotFile =
+        race.playerMayFile && !filed.has(race.contestId) && race.cannotFile
+          ? race.cannotFile
+          : null;
+      const cannotFileWords = cannotFile
+        ? (cannotFile.rule === "minimum-age"
+            ? labels.cantFileAge
+            : cannotFile.rule === "residency"
+              ? labels.cantFileResidency
+              : labels.cantFile
+          )
+            .replace("{required}", cannotFile.required)
+            .replace("{actual}", cannotFile.actual)
+        : null;
       const fileButton = makeButton({ textContent: labels.fileForIt });
       fileButton.dataset.testid = "file-for-it";
       fileButton.addEventListener("click", () =>
@@ -4071,7 +4084,7 @@ const sheets = {
       return [
         rosterTitle(
           race.title,
-          dateWords(race.electionDate, { year: me.date }),
+          dateWords(race.electionDate, { year: today() }),
         ),
         rosterCols(
           // A candidate's name opens their card; there is no rally to go to
@@ -4086,7 +4099,7 @@ const sheets = {
                     dotRows([
                       {
                         label: dateWords(race.lastTime.date, {
-                          year: me.date,
+                          year: today(),
                         }),
                         value: race.lastTime.winnerId
                           ? nameLink(race.lastTime.winner, () =>
@@ -4106,13 +4119,24 @@ const sheets = {
               2,
               labels.dates,
               dateList([
+                ...(race.filingOpens && race.filingOpens > me.date
+                  ? [
+                      {
+                        when: dateWords(race.filingOpens, {
+                          month: "short",
+                          year: me.date,
+                        }),
+                        text: labels.filingOpens,
+                      },
+                    ]
+                  : []),
                 ...(race.filingClosed
                   ? []
                   : [
                       {
                         when: dateWords(race.filingDeadline, {
                           month: "short",
-                          year: me.date,
+                          year: today(),
                         }),
                         text: labels.filingCloses,
                       },
@@ -4120,13 +4144,16 @@ const sheets = {
                 {
                   when: dateWords(race.electionDate, {
                     month: "short",
-                    year: me.date,
+                    year: today(),
                   }),
                   text: labels.electionDay,
                 },
               ]),
             ),
-            ...(mayFile ? [buttonTray(fileButton)] : []),
+            ...(mayFile && !cannotFile ? [buttonTray(fileButton)] : []),
+            ...(cannotFileWords
+              ? [prose(cannotFileWords, "record-empty")]
+              : []),
           ),
         ),
       ];
@@ -4141,7 +4168,7 @@ const sheets = {
       ...[...byDate.entries()]
         .sort(([a], [b]) => a.localeCompare(b))
         .map(([day, races]) => ({
-          title: dateWords(day, { year: me.date }),
+          title: dateWords(day, { year: today() }),
           entries: races.map((race) => ({
             key: race.contestId,
             label: race.title,
@@ -4247,7 +4274,7 @@ const sheets = {
         (t, [k, v]) => t.replaceAll(`{${k}}`, String(v)),
         text ?? "",
       );
-    const short = (iso) => dateWords(iso, { month: "short", year: me.date });
+    const short = (iso) => dateWords(iso, { month: "short", year: today() });
     const open = (cardId, face) => () => {
       closeSheet();
       showPerson({ personId: cardId, figureUrl: face?.url });
@@ -4836,11 +4863,21 @@ const sheets = {
       series.includes(":")
         ? series.split(":")[1].split(".")[0]
         : (labels.issueGroupOf?.[series] ?? "fiscal");
+    // An additive tax (income) is one law per level, each at its own rate:
+    // the list names each level's rate, never their sum as one rate.
     const valueText = (law) =>
       law.text ??
-      (law.value !== null && law.value !== undefined
-        ? lawText(law, law.value, law.unit)
-        : null);
+      (law.additive
+        ? law.levels
+            .filter((l) => l.row && l.row.value !== null && !l.setAside)
+            .map(
+              (l) =>
+                `${setBy(l.level)} ${lawText(law, l.row.value, l.row.unit)}`,
+            )
+            .join(" · ") || null
+        : law.value !== null && law.value !== undefined
+          ? lawText(law, law.value, law.unit)
+          : null);
     // One law's page: what is in force at each level and since when, the statute, the
     // measure that enacted it, what is coming, what changed and how members voted.
     const lawPage = async (law) => {
@@ -4984,7 +5021,6 @@ const groupOf = (tab) =>
 async function openSheet(tab) {
   await controlsReady;
   if (tab === "politics") tab = "government";
-  if (groupOf(tab) === "people") coachUsed("people-tab");
   openTab = tab;
   if (tab === "news") markNews(true);
   if (tab === "journal")
@@ -5119,14 +5155,6 @@ function fitPagersNow(root, waits = 30) {
       const shown = () =>
         [...part.querySelectorAll(".vote-rows .dl")].filter((v) => !v.hidden);
       while (over(part) && shown().length > 1) shown().at(-1).hidden = true;
-    }
-    // The sheet still past its foot: a map gives back the difference, never
-    // below a small map (Parties' map over its officeholders).
-    const body = $("sheet-body");
-    const map = root.querySelector(".gov-map");
-    if (map && over(body)) {
-      const less = body.scrollHeight - body.clientHeight;
-      map.style.height = `${Math.max(140, map.getBoundingClientRect().height - less)}px`;
     }
   });
 }
@@ -5264,27 +5292,86 @@ const drawSeed = () =>
 void drawSeed();
 $("seed-random").addEventListener("click", () => void drawSeed());
 /** What the player changed from real data; nothing means a real world. */
+// The world's settings, as the approved world screen draws them: a row of arrows over
+// the figure each step means (owner, Nov 8: "the figure itself in each control"). The
+// chosen step of each row is kept here; the server reads the settings it makes.
+const worldStep = {};
+function worldWords(row, value) {
+  const w = controls.worldSettings;
+  const words = (template, n) => template.replace("{n}", String(n));
+  if (row.id === "population")
+    return value === null ? w.real : words(w.people, count(value));
+  if (row.id === "lean")
+    return value === 0
+      ? w.even
+      : words(value < 0 ? w.left : w.right, Math.round(Math.abs(value) * 100));
+  if (value === 1) return w.usual;
+  const percent = Math.round(Math.abs(value - 1) * 100);
+  return words(value > 1 ? w.more : w.less, percent);
+}
+const usualStep = (row) =>
+  row.values.findIndex(
+    (v) => v === null || v === 1 || (row.id === "lean" && v === 0),
+  );
+function count(n) {
+  return new Intl.NumberFormat("en-US").format(n);
+}
+function drawWorldRows() {
+  const holder = $("world-rows");
+  if (!controls.worldSettings || !holder) return;
+  holder.replaceChildren(
+    ...controls.worldSettings.rows.map((row) => {
+      worldStep[row.id] ??= usualStep(row);
+      const at = worldStep[row.id];
+      return lookRow(
+        {
+          id: `world-${row.id}`,
+          label: row.label,
+          value: worldWords(row, row.values[at]),
+        },
+        {
+          onMove: (_id, by) => {
+            worldStep[row.id] = Math.max(
+              0,
+              Math.min(row.values.length - 1, at + by),
+            );
+            drawWorldRows();
+          },
+          arrowLabel: (by, r) =>
+            controls.creator[by < 0 ? "previous" : "next"].replace(
+              "{row}",
+              r.label.toLowerCase(),
+            ),
+        },
+      );
+    }),
+  );
+}
 function worldSettings() {
-  const read = (id) => {
-    const text = $(id).value.trim();
-    return text === "" ? undefined : Number(text);
-  };
-  const economy = Object.fromEntries(
-    [
-      ["wages", read("set-wages")],
-      ["householdCash", read("set-cash")],
-      ["outsideDemand", read("set-demand")],
-    ].filter(([, v]) => v !== undefined),
-  );
-  const politics = Object.fromEntries(
-    [
-      ["leanShift", read("set-lean")],
-      ["turnout", read("set-turnout")],
-    ].filter(([, v]) => v !== undefined),
-  );
+  const chosen = {};
+  for (const row of controls.worldSettings.rows) {
+    const value = row.values[worldStep[row.id] ?? usualStep(row)];
+    if (value !== null && value !== 1 && !(row.id === "lean" && value === 0))
+      chosen[row.id] = value;
+  }
+  const pick = (ids) =>
+    Object.fromEntries(
+      ids
+        .filter(([, id]) => chosen[id] !== undefined)
+        .map(([key, id]) => [key, chosen[id]]),
+    );
+  const economy = pick([
+    ["wages", "wages"],
+    ["householdCash", "cash"],
+    ["outsideDemand", "demand"],
+  ]);
+  const politics = pick([
+    ["leanShift", "lean"],
+    ["turnout", "turnout"],
+  ]);
   const settings = {
-    ...(read("set-population") !== undefined
-      ? { population: read("set-population") }
+    ...(chosen.population !== undefined
+      ? { population: chosen.population }
       : {}),
     ...(Object.keys(economy).length ? { economy } : {}),
     ...(Object.keys(politics).length ? { politics } : {}),
@@ -5466,7 +5553,10 @@ async function openCreator() {
   if (setup.gender) void openLook();
 }
 $("new-life").addEventListener("click", () => frontPanel("front-new"));
-$("new-advanced").addEventListener("click", () => frontPanel("front-advanced"));
+$("new-advanced").addEventListener("click", () => {
+  drawWorldRows();
+  frontPanel("front-advanced");
+});
 $("new-start").addEventListener("click", () => void openCreator());
 $("new-world").addEventListener("click", () => startLife({ custom: true }));
 $("advanced-build").addEventListener(
@@ -5731,6 +5821,7 @@ async function offerPlayAs(life) {
   $("pick-detail").replaceChildren();
   draw();
   show("front-status", false);
+  document.querySelector("#front .progress").hidden = true;
   frontPanel("front-pick");
   for (const id of placeControls) $(id).disabled = false;
 }
@@ -5764,17 +5855,8 @@ function playLoadingStory(story) {
   const panel = $("loading-story");
   const years = story?.years ?? [];
   if (!years.length) return Promise.resolve();
-  const map = $("loading-map");
   const journal = $("loading-journal");
   journal.replaceChildren();
-  map.replaceChildren(
-    ...(story.map
-      ? [districtMap(story.map, { wordHolders: (d) => d.name })]
-      : []),
-  );
-  const counties = [...map.querySelectorAll(".county")];
-  const yours = [...map.querySelectorAll(".yours")];
-  for (const node of [...counties, ...yours]) node.classList.add("unfilled");
   show("loading-story", true);
   // About six seconds in all, at most seven tenths of a second a year.
   const step = Math.min(700, 6000 / years.length);
@@ -5785,8 +5867,6 @@ function playLoadingStory(story) {
     const finish = () => {
       window.clearTimeout(timer);
       panel.removeEventListener("click", finish);
-      for (const node of [...counties, ...yours])
-        node.classList.remove("unfilled");
       $("loading-year").textContent = String(years.at(-1).year);
       resolve();
     };
@@ -5806,13 +5886,6 @@ function playLoadingStory(story) {
         ...year.lines.map((row) => prose(row.text, "loading-line")),
         ...year.headlines.map((row) => prose(row.headline, "loading-headline")),
       );
-      // The map fills in as the years pass: its share of the counties, then
-      // your districts with the last year.
-      const share = Math.ceil(((at + 1) / years.length) * counties.length);
-      for (const node of counties.slice(0, share))
-        node.classList.remove("unfilled");
-      if (at === years.length - 1)
-        for (const node of yours) node.classList.remove("unfilled");
       at += 1;
       timer = window.setTimeout(next, step);
     };
@@ -5825,6 +5898,9 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
   // The loading card: the panel holds only the progress over the scene.
   frontPanel(null);
   show("front-status", true);
+  const bar = document.querySelector("#front .progress");
+  bar.hidden = false;
+  bar.firstElementChild.style.width = "0";
   try {
     const settings = custom ? worldSettings() : undefined;
     // Outside Custom world, a fresh seed draws the world.
@@ -5832,6 +5908,16 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
       ? $("seed").value
       : setup.seed || (await api("/api/seed")).seed;
     // Real progress through every step, from the server's build.
+    // The server builds the world in six steps; a step is named while it runs and the bar
+    // fills one sixth for each step finished.
+    const STEPS = [
+      "people",
+      "past",
+      "economy",
+      "core",
+      "government",
+      "opening",
+    ];
     // A poll still in flight when the build ends leaves the line alone.
     let built = false;
     // The world's story plays once the world exists (playLoadingStory).
@@ -5844,8 +5930,10 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
       const p = await api("/api/newlife/progress").catch(() => undefined);
       if (p?.story) playStory();
       if (!p || built) return;
-      // The step in plain words; no bar and no counts (owner, Oct 27: "There is a weird little
-      // bar at the end"; the Nov 8 loading mock).
+      // The step in plain words, and a bar that shows how many steps are done; no counts.
+      const at =
+        p.stage === "done" ? STEPS.length : Math.max(STEPS.indexOf(p.stage), 0);
+      bar.firstElementChild.style.width = `${Math.round((at / STEPS.length) * 100)}%`;
       $("front-status").textContent = controls.loading?.[p.stage] ?? "";
     }, 400);
     let life;
@@ -5856,7 +5944,14 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
     } finally {
       clearInterval(poll);
       built = true;
+      // Built: the bar is full and no "Ready" line is left behind.
+      bar.firstElementChild.style.width = "100%";
+      $("front-status").textContent = "";
     }
+    // The loading card is named for the place the world is built around (fr-loading).
+    const loadingTitle = document.querySelector("#front > .title");
+    if (loadingTitle && life.placeName)
+      loadingTitle.textContent = life.placeName;
     // The story plays to its end (or a click) before the life opens.
     await playStory();
     show("loading-story", false);
@@ -5883,12 +5978,15 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
     $("game").classList.add("in-play");
     renderPacket(life.packet);
     await refresh({ keepBackdrop: Boolean(life.sceneMomentId) });
-    showNewsSurface(await nightsNews(life.personId));
+    const news = await nightsNews(life.personId);
     // The scene the director staged for the evening (the address) plays first
-    // and sets the one backdrop the opening loads.
+    // and sets the one backdrop the opening loads. The night's news pops up
+    // after it opens, so it waits until the speech ends (C5; owner, Nov 7:
+    // "News pop-ups wait until the scene ends").
     if (life.sceneMomentId) await showStory(life.sceneMomentId);
-    coachFirstChoices();
+    showNewsSurface(news);
   } catch (error) {
+    bar.hidden = true;
     $("front-status").textContent = error.message;
     for (const id of placeControls) $(id).disabled = false;
     frontPanel(person ? "cr-screen" : "front-new");

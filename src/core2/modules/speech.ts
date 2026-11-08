@@ -24,7 +24,7 @@ import type {
 } from "../types";
 import { engagementOf, NATIONAL_ENGAGEMENT } from "../electorate";
 import { believesClaim, claimFit } from "../heard-claims";
-import { decisionKinds } from "../trait-decisions";
+import { decisionKinds } from "../trait-decision-table";
 import { stanceRow, VIEWS_SPEAKER_KEY } from "./views";
 
 export const SPEECH_MODULE_ID = "speech";
