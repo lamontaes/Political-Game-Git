@@ -5,6 +5,7 @@
 // moves by the yeses. Usage: SEED=<seed> node src/bench/endorsement-meeting.browser.mjs [screenshot-dir]
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
+import { chooseTrailAct } from "./trail-act.mjs";
 import { fileWhenFilingOpens } from "./start-life.mjs";
 import { openCampaignTrail } from "./campaign-trail.mjs";
 
@@ -52,9 +53,7 @@ try {
   const ask = page.waitForResponse(
     (r) => new URL(r.url()).pathname === "/api/campaign/act",
   );
-  await page
-    .locator("#sheet-body.place-view button", { hasText: /^Endorsements$/ })
-    .click();
+  await (await chooseTrailAct(page, /^Endorsements$/)).click();
   const result = await (await ask).json();
   const asked = result.answers;
   console.log(
