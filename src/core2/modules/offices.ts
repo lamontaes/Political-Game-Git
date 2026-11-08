@@ -83,6 +83,12 @@ import { researchedHolderParty } from "../offices-holder-parties";
 
 export const OFFICES_MODULE_ID = "core2-offices-v1";
 
+// The family's entry for a statewide executive's term limit (read from the state's constitution research).
+export {
+  executiveTermLimit,
+  termLimitReachedBy,
+} from "../executive-term-limits";
+
 export interface TermRow {
   readonly id: string;
   readonly seatId: string;
