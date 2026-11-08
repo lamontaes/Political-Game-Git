@@ -279,11 +279,33 @@
       ],
       "setting": ["home"],
       "timing": "effective-date",
-      "causes": [],
-      "awaiting": [
-        "record:release-from-jail",
-        "record:homecoming",
-        "record:moving-back"
+      "causes": [
+        {
+          "match": {
+            "label": "feeling:event:justice.released",
+            "counterpart": "none"
+          },
+          "causeEngine": "justice",
+          "causeRecord": "justice.released",
+          "bind": {
+            "returning": "subject",
+            "waiting": "kin"
+          },
+          "opener": "waiting"
+        },
+        {
+          "match": {
+            "label": "feeling:event:justice.released",
+            "counterpart": "some"
+          },
+          "causeEngine": "justice",
+          "causeRecord": "justice.released",
+          "bind": {
+            "waiting": "subject",
+            "returning": "counterpart"
+          },
+          "opener": "returning"
+        }
       ],
       "tag": {
         "key": "arrival",

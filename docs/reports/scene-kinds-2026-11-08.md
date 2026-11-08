@@ -1,6 +1,6 @@
 # Scene kinds, Nov 8, 2026
 
-The game has 97 kinds of scene. 3 of them cannot start yet, because nothing in the world writes the record they wait for. The rest start from records the engines already keep. The table says what starts each kind, where it is played, who is in it and how many wordings can say it.
+The game has 97 kinds of scene. 2 of them cannot start yet, because nothing in the world writes the record they wait for. The rest start from records the engines already keep. The table says what starts each kind, where it is played, who is in it and how many wordings can say it.
 
 ## What changed for the player tonight
 
@@ -16,7 +16,7 @@ A bribe offered to you is now your choice to take, hand back or report, and a re
 |---|---|---|---|---|---|---|---|
 | concession-taken | concession-taken | cause:event:concession via press | phone | at-cause | winner, you | 45 |  |
 | departure | - | feeling:event:justice.imprisoned; circumstance:moved-away-farewell via circumstance / awaiting record:deployment | home | effective-date | leaving, staying, others | 0 |  |
-| return | - | NO CAUSE / awaiting record:release-from-jail, record:homecoming, record:moving-back | home | effective-date | returning, waiting | 0 | dead |
+| return | - | feeling:event:justice.released via justice; feeling:event:justice.released via justice | home | effective-date | returning, waiting | 10 |  |
 | news-arrives | - | feeling:event:housing.eviction; feeling:event:housing.eviction; feeling:event:housing.eviction; feeling:event:life.death; feeling:event:family.partnered; feeling:event:family.separated; money:job-ended; feeling:event:justice.imprisoned; money:job-ended; feeling:event:health.serious-illness; circumstance:price-moved-street via circumstance; circumstance:story-read-home via circumstance; circumstance:national-news-work via circumstance; circumstance:death-known-street via circumstance; circumstance:rent-news-street via circumstance; circumstance:national-news-street via circumstance / awaiting record:diagnosis-disclosed, record:acceptance, record:result | home, phone | at-cause | bearer, receiver, about | 4 |  |
 | race-told | race-told | circumstance:race-result-known via circumstance | public, home, phone | at-cause | bearer, you, about | 92 |  |
 | letter | - | feeling:event:family.contact via partnerships | letter | at-cause | writer, reader | 10 |  |
@@ -114,7 +114,7 @@ A bribe offered to you is now your choice to take, hand back or report, and a re
 
 ## Kinds that cannot start
 
-The kinds that cannot start are return, accusation, polling-place. Most wait on the lives of the player and the people around them: a date, a proposal, a breakup, a letter, a return. The others wait on an incident or a suspicion that no engine records.
+The kinds that cannot start are accusation, polling-place. Most wait on the lives of the player and the people around them: a date, a proposal, a breakup, a letter, a return. The others wait on an incident or a suspicion that no engine records.
 
 ## How this was made
 
