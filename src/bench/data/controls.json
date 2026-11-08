@@ -974,6 +974,9 @@
     "emergency": "State of emergency",
     "emergency-issue": "Declare it",
     "emergency-decline": "Let it pass",
+    "budget": "The state budget",
+    "budget-issue": "Send the budget",
+    "budget-decline": "Leave it to my staff",
     "post-own": "Decided for me",
     "post-issue": "Name them",
     "post-decline": "Leave it open"

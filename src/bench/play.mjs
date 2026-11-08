@@ -636,7 +636,8 @@ async function act(path) {
       else if (
         office.reasonKey === "office-day.executive-order" ||
         office.reasonKey === "office-day.emergency" ||
-        office.reasonKey === "office-day.appointment"
+        office.reasonKey === "office-day.appointment" ||
+        office.reasonKey === "office-day.budget-proposal"
       )
         await atOrders();
       else if (
@@ -895,17 +896,48 @@ function atOrders() {
                   }),
                 ]
               : [];
+          // The state budget: the change to each line, in steps of its amount, as the office panel's editor sets it.
+          const lines =
+            item.kind === "budget"
+              ? item.lines.map((row) =>
+                  labeled(
+                    `${row.name} ${moneyWords(row.amountMinor)}`,
+                    select({
+                      options: [-20, -10, 0, 10, 20].map((pct) => {
+                        const minor = Math.round((row.amountMinor * pct) / 100);
+                        return {
+                          value: minor,
+                          label: controls.budgetEditor[String(pct)],
+                          selected: row.changeMinor === minor,
+                        };
+                      }),
+                      onChange: async (changeMinor) => {
+                        await post(
+                          `/api/office/budget-line?${new URLSearchParams({ line: row.line, changeMinor })}`,
+                        );
+                      },
+                    }),
+                  ),
+                )
+              : [];
           const kindWords = (how) =>
             item.kind === "emergency"
               ? words[`emergency-${how}`]
               : item.kind === "post"
                 ? words[`post-${how}`]
-                : how === "issue" && item.revoke
-                  ? words.revoke
-                  : words[how];
+                : item.kind === "budget"
+                  ? words[`budget-${how}`]
+                  : how === "issue" && item.revoke
+                    ? words.revoke
+                    : words[how];
           return plate(
-            item.kind === "emergency" ? words.emergency : (item.name ?? ""),
+            item.kind === "emergency"
+              ? words.emergency
+              : item.kind === "budget"
+                ? words.budget
+                : (item.name ?? ""),
             ...picker,
+            ...lines,
             buttonRow(
               ...["issue", "decline"].map((how) => {
                 const b = makeButton({
