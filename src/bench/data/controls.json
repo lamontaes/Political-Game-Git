@@ -694,7 +694,8 @@
   },
   "guide": {
     "search": "Search",
-    "none": "No term matches that."
+    "none": "No term matches that.",
+    "resetLearned": "Underline learned terms again"
   },
   "patchNotes": {
     "release": "Release",
