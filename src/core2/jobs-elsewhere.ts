@@ -372,7 +372,7 @@ export function reviewWorkElsewhere(api: CoreAPI): void {
         }
       } else {
         row.findPull +=
-          findPerQuarter(api, at.meanOverNow, leans.applyLean) * month;
+          findPerQuarter(api, at.meanOverNow, leans.applyLean, age) * month;
         if (row.findPull >= p("one")) {
           row.status = "employed";
           row.since = core.date;

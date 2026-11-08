@@ -419,31 +419,6 @@ function availableSource(
     throw new Error("Attendance owning Source is undated or unavailable.");
 }
 
-/**
- * A person's legacy cash mode (calendar-average pay, `work-cash.ts`) belongs to
- * the job it paid and ends with it (work-legacy-pay-mode-blocks-rehire): it bars
- * payroll enrollment for that same job, or while that job is still held, but a
- * worker whose legacy-paid job has ended can be hired into a payroll job.
- */
-function legacyModeHolds(
-  batch: AttendanceBatch,
-  owner: { personId: string; jobId: string },
-  at: string,
-): boolean {
-  const r = batch.reads,
-    work = r.field(batch.core, "work"),
-    legacy = r.mapGet(
-      r.field(work, "latestLegacyCashResultByPerson"),
-      owner.personId,
-    );
-  if (!legacy) return false;
-  const jobId = r.field(legacy, "jobId");
-  if (jobId === owner.jobId) return true;
-  const job = r.mapGet(r.field(batch.core, "jobs"), jobId) as
-    { endsAt?: string } | undefined;
-  return job !== undefined && (job.endsAt === undefined || job.endsAt > at);
-}
-
 function basis(
   batch: AttendanceBatch,
   commitmentId: string,
@@ -596,8 +571,7 @@ export function admitWorkPayrollCalendar(
       r.mapHas(byCommitment, commitmentId) ||
       r.mapHas(byJob, owner.jobId) ||
       r.mapHas(r.field(work, "lastResultByJob"), owner.jobId) ||
-      r.mapHas(r.field(work, "lastAttendanceByJob"), owner.jobId) ||
-      legacyModeHolds(batch, owner, at)
+      r.mapHas(r.field(work, "lastAttendanceByJob"), owner.jobId)
     )
       throw new Error(
         "Payroll enrollment is duplicate or follows an already settled work mode.",

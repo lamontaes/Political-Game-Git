@@ -120,6 +120,9 @@ mountSpeakers();
 const $ = (id) => document.getElementById(id);
 let me;
 let packet;
+// The game's date is the clock's, the packet's; me.date is only the day the
+// screen loaded (P15, C10: the News kept the opening day).
+const today = () => packet?.at?.date ?? me.date;
 let talk;
 let openTab;
 let busy = false;
@@ -276,17 +279,11 @@ function showNewsSurface(news) {
     controls.opening?.closeNews ?? "",
   );
   $("news-surface-open").onclick = () => {
-    coachUsed("news-surface");
     hideNewsToast();
     openNewsReader(news);
   };
-  $("news-surface-close").onclick = () => {
-    coachUsed("news-surface");
-    hideNewsToast();
-  };
-  showToast($("news-surface"), controls.opening?.newsToastSeconds ?? 8, () =>
-    coachUsed("news-surface"),
-  );
+  $("news-surface-close").onclick = hideNewsToast;
+  showToast($("news-surface"), controls.opening?.newsToastSeconds ?? 8);
 }
 function openNewsReader(news) {
   const [lead, ...rest] = news.stories;
@@ -297,7 +294,7 @@ function openNewsReader(news) {
   };
   $("news-reader-masthead").textContent = outlet.name ?? controls.news.title;
   engraveMasthead($("news-reader-masthead"), outlet);
-  $("news-reader-date").textContent = dateWords(me.date, { weekday: true });
+  $("news-reader-date").textContent = dateWords(today(), { weekday: true });
   $("news-reader").className = `panel paper paper-${
     ["broadsheet", "modern", "tabloid", "weekly"].includes(outlet.layout)
       ? outlet.layout
@@ -314,33 +311,6 @@ $("news-reader-close").addEventListener("click", () =>
   show("news-reader", false),
 );
 
-/**
- * The first choices, pointed out one at a time: the news, the people you
- * know, then living the day. Each glows until it is used; nothing to read.
- */
-const COACH_ORDER = ["news-surface", "people-tab", "day"];
-const coachDone = new Set();
-const coachNode = (id) =>
-  id === "people-tab"
-    ? document.querySelector('#rings [data-tab="people"]')
-    : $(id);
-/** Glows the first choice not yet used; each clears however it is used. */
-function coachRender() {
-  for (const id of COACH_ORDER) coachNode(id)?.classList.remove("coach");
-  const next = COACH_ORDER.find((id) => {
-    const node = coachNode(id);
-    return !coachDone.has(id) && node && !node.hidden;
-  });
-  if (next) coachNode(next).classList.add("coach");
-}
-function coachUsed(...ids) {
-  for (const id of ids) coachDone.add(id);
-  coachRender();
-}
-function coachFirstChoices() {
-  coachDone.clear();
-  coachRender();
-}
 // Escape opens only options and quit (M6 work order), the opening included.
 document.addEventListener("keydown", (event) => {
   if (event.key !== "Escape") return;
@@ -369,7 +339,7 @@ async function renderCard() {
   me.names = { ...me.names, [me.id]: card.name };
   $("card-name").textContent = card.name;
   $("card-place").textContent = me.placeName;
-  setClock(packet?.at ?? { date: me.date, minuteOfDay: me.minuteOfDay ?? 0 });
+  setClock(packet?.at ?? { date: today(), minuteOfDay: me.minuteOfDay ?? 0 });
 }
 
 // The Guide's search, kept so an underlined term opens straight to it.
@@ -1255,13 +1225,14 @@ function atThePolls(scene) {
 // runs it to that day. A scene the director fires stops any of them there.
 for (const mode of ["day", "week"])
   $(mode).addEventListener("click", () => {
-    // Living on puts the evening's paper away and ends the first-choice glow.
+    // Living on puts the evening's paper away.
     hideNewsToast();
-    coachUsed(...COACH_ORDER);
     return act(`/api/advance?mode=${mode}`);
   });
 // Stories News held when it was last open: a dot on the rail's News icon until it is read.
-let seenNews = 0;
+// The first count a life is opened with is already read: a reload starts with
+// nothing unread, and only what arrives after it lights the dot (P12).
+let seenNews;
 async function newsCount() {
   const rows = await api(`/api/news?id=${encodeURIComponent(me.id)}`);
   // Every row News lists (its public records), the same rows its screen draws.
@@ -1269,7 +1240,7 @@ async function newsCount() {
 }
 async function markNews(read) {
   const count = await newsCount();
-  if (read) seenNews = count;
+  if (read || seenNews === undefined) seenNews = count;
   document
     .querySelector('#rings [data-tab="news"]')
     ?.classList.toggle("unread", count > seenNews);
@@ -3630,7 +3601,7 @@ const sheets = {
       newsBoard({
         outlets,
         labels,
-        date: me.date,
+        date: today(),
         headlineOf: storyHeadline,
         words: {
           page: controls.politics.page,
@@ -4088,7 +4059,7 @@ const sheets = {
       return [
         rosterTitle(
           race.title,
-          dateWords(race.electionDate, { year: me.date }),
+          dateWords(race.electionDate, { year: today() }),
         ),
         rosterCols(
           // A candidate's name opens their card; there is no rally to go to
@@ -4103,7 +4074,7 @@ const sheets = {
                     dotRows([
                       {
                         label: dateWords(race.lastTime.date, {
-                          year: me.date,
+                          year: today(),
                         }),
                         value: race.lastTime.winnerId
                           ? nameLink(race.lastTime.winner, () =>
@@ -4129,7 +4100,7 @@ const sheets = {
                       {
                         when: dateWords(race.filingDeadline, {
                           month: "short",
-                          year: me.date,
+                          year: today(),
                         }),
                         text: labels.filingCloses,
                       },
@@ -4137,7 +4108,7 @@ const sheets = {
                 {
                   when: dateWords(race.electionDate, {
                     month: "short",
-                    year: me.date,
+                    year: today(),
                   }),
                   text: labels.electionDay,
                 },
@@ -4161,7 +4132,7 @@ const sheets = {
       ...[...byDate.entries()]
         .sort(([a], [b]) => a.localeCompare(b))
         .map(([day, races]) => ({
-          title: dateWords(day, { year: me.date }),
+          title: dateWords(day, { year: today() }),
           entries: races.map((race) => ({
             key: race.contestId,
             label: race.title,
@@ -4267,7 +4238,7 @@ const sheets = {
         (t, [k, v]) => t.replaceAll(`{${k}}`, String(v)),
         text ?? "",
       );
-    const short = (iso) => dateWords(iso, { month: "short", year: me.date });
+    const short = (iso) => dateWords(iso, { month: "short", year: today() });
     const open = (cardId, face) => () => {
       closeSheet();
       showPerson({ personId: cardId, figureUrl: face?.url });
@@ -5006,7 +4977,6 @@ const groupOf = (tab) =>
 async function openSheet(tab) {
   await controlsReady;
   if (tab === "politics") tab = "government";
-  if (groupOf(tab) === "people") coachUsed("people-tab");
   openTab = tab;
   if (tab === "news") markNews(true);
   if (tab === "journal")
@@ -5215,12 +5185,20 @@ function rotateTitle(scenes, seconds) {
       next.classList.add("fading");
       setTimeout(() => {
         if (!onTitleMenu()) return next.classList.remove("fading");
+        // One picture, one fade: both layers drift on the same clock, so the
+        // base takes the new picture underneath and the top layer clears at once
+        // (no second fade, no restarted zoom; owner, Nov 8 P1).
         const back = $("backdrop");
+        const clear = () => {
+          back.onload = null;
+          next.style.transition = "none";
+          next.classList.remove("fading");
+          void next.offsetWidth;
+          next.style.transition = "";
+        };
+        back.onload = clear;
         back.src = next.src;
-        back.style.animation = "none";
-        void back.offsetWidth;
-        back.style.animation = "";
-        next.classList.remove("fading");
+        if (back.complete) clear();
       }, 3100);
     };
   }, seconds * 1000);
@@ -5897,11 +5875,13 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
     $("game").classList.add("in-play");
     renderPacket(life.packet);
     await refresh({ keepBackdrop: Boolean(life.sceneMomentId) });
-    showNewsSurface(await nightsNews(life.personId));
+    const news = await nightsNews(life.personId);
     // The scene the director staged for the evening (the address) plays first
-    // and sets the one backdrop the opening loads.
+    // and sets the one backdrop the opening loads. The night's news pops up
+    // after it opens, so it waits until the speech ends (C5; owner, Nov 7:
+    // "News pop-ups wait until the scene ends").
     if (life.sceneMomentId) await showStory(life.sceneMomentId);
-    coachFirstChoices();
+    showNewsSurface(news);
   } catch (error) {
     $("front-status").textContent = error.message;
     for (const id of placeControls) $(id).disabled = false;
