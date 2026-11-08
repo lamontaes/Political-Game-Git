@@ -531,8 +531,18 @@ class Reader {
     if (!officeId) return null;
     const office = this.table(OFFICES_MODULE_ID, "offices")?.get(
       officeId,
-    ) as unknown as { bodyName?: string } | undefined;
-    return office?.bodyName ?? null;
+    ) as unknown as { bodyName?: string; jurisdiction?: string } | undefined;
+    const name = office?.bodyName ?? null;
+    if (!name) return null;
+    // A state's chamber is named with its state ("Connecticut House of Representatives"): the
+    // record's body name alone ("House of Representatives") does not say which one voted.
+    const usps = /^US-([A-Z]{2})$/.exec(office?.jurisdiction ?? "")?.[1];
+    const state = usps ? coreStateName(usps) : null;
+    return state &&
+      !name.includes(state) &&
+      !/^(Legislature|United States)\b/.test(name)
+      ? `${state} ${name}`
+      : name;
   }
   /**
    * The town's own name ("Stockport"), or a state's ("Ohio") by its key. A
