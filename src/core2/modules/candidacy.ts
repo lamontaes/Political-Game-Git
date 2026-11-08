@@ -1218,14 +1218,24 @@ function askForSuccessor(api: CoreAPI, contest: ContestRow): void {
           (check) => !check.met,
         ),
     )
+    // The holder asks whoever seems most drawn to the seat (their own
+    // reasons for running, before any ask), the closest first among equals.
     .map((person) => ({
       person,
+      pull: Object.values(
+        candidacyReasons(api, person, {
+          contestId: contest.id,
+          officeName: contest.title,
+          filingDeadline: rules.deadline ?? contest.filingDeadline,
+          sourceIds: [contest.id],
+        }),
+      ).reduce((a, b) => a + b, 0),
       closeness: closenessBetween(api.state, person.id, holderId),
     }))
     .sort(
       (a, b) =>
+        b.pull - a.pull ||
         b.closeness - a.closeness ||
-        b.person.knownIds.size - a.person.knownIds.size ||
         a.person.id.localeCompare(b.person.id),
     )
     .slice(0, c(api, "candidacyPartyAskTries"));
