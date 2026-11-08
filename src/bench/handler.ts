@@ -47,6 +47,8 @@ import { billPaper, seatAct, seatView } from "./legislature";
 import {
   billStage,
   callAmendmentVote,
+  callOverrideVote,
+  chooseOverrideVote,
   chooseOwnVote,
   followedBills,
   keepStaffRedraft,
@@ -923,6 +925,33 @@ export async function benchRequest(
           callAmendmentVote(
             requireCore(),
             url.searchParams.get("amendmentId") ?? "",
+            player?.personId,
+          ),
+        );
+        return;
+      }
+      // The override of a veto: the player's own vote, and the body taking the message up.
+      if (request.method === "POST" && url.pathname === "/api/bill/override") {
+        send(
+          200,
+          chooseOverrideVote(
+            requireCore(),
+            url.searchParams.get("billId") ?? "",
+            url.searchParams.get("vote") ?? "",
+            player?.personId,
+          ),
+        );
+        return;
+      }
+      if (
+        request.method === "POST" &&
+        url.pathname === "/api/bill/override-call"
+      ) {
+        send(
+          200,
+          callOverrideVote(
+            requireCore(),
+            url.searchParams.get("billId") ?? "",
             player?.personId,
           ),
         );

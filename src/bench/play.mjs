@@ -2446,6 +2446,22 @@ async function openBillPaper(billId, show, back, backLabel) {
         },
         estimate: () => "",
       },
+      {
+        onVote: async (how) => {
+          await api(
+            `/api/bill/override?${new URLSearchParams({ billId, vote: how })}`,
+            "POST",
+          );
+          await openBillPaper(billId, show, back, backLabel);
+        },
+        onCall: async () => {
+          await api(
+            `/api/bill/override-call?${new URLSearchParams({ billId })}`,
+            "POST",
+          );
+          await openBillPaper(billId, show, back, backLabel);
+        },
+      },
     ),
   );
 }
