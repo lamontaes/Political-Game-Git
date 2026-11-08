@@ -20,6 +20,10 @@ const shot = (name) =>
 
 /** The dock's menu buttons, in order: the calendar is third and politics fifth. */
 const RINGS = { Calendar: 2, Politics: 4 };
+const expect_enabled = () =>
+  page.waitForFunction(
+    () => !document.querySelector('[data-testid="dev-scene"]')?.disabled,
+  );
 const closeSheet = () => page.locator("#sheet-close").click();
 const dock = (name) => page.locator("#dock button").nth(RINGS[name]);
 
@@ -67,6 +71,37 @@ try {
     await page.locator(".dev-scene .option-status").textContent(),
     /Begun for/,
   );
+  // A layoff; and a kind no engine writes the cause of says so (the kinds the world runs until they
+  // happen take up to a year of days and are proved in dev-scene.test.ts).
+  for (const [match, expected] of [
+    ["work.job-lost", /Begun for|worked today|staff|job|No one in the player/],
+    ["No engine writes its cause yet", /no engine writes/i],
+  ]) {
+    const value = await page
+      .locator('.dev-scene select option:text-matches("' + match + '")')
+      .first()
+      .getAttribute("value");
+    await expect_enabled();
+    const before = await page
+      .locator(".dev-scene .option-status")
+      .textContent();
+    // Picked and pressed in one step: the sheet may still be redrawing from the last press.
+    await page.evaluate((picked) => {
+      const select = document.querySelector(".dev-scene select");
+      select.value = picked;
+      document.querySelector('[data-testid="dev-scene"]').click();
+    }, value);
+    await page.waitForFunction(
+      (text) =>
+        document.querySelector(".dev-scene .option-status")?.textContent !==
+        text,
+      before,
+    );
+    assert.match(
+      await page.locator(".dev-scene .option-status").textContent(),
+      expected,
+    );
+  }
   // Watch and the golden path, on the Calendar beside Run until.
   await page.locator(".dev-watch").waitFor();
   assert.ok(
@@ -141,11 +176,9 @@ try {
       ),
     );
     // A yes-or-no law is answered Yes or No and repealed by a bill; members can sign a discharge petition.
-    await page
-      .locator('select[aria-label="Law"]')
-      .selectOption({
-        value: "us-policy-positions:business-commerce.cap-consumer-loan-rates",
-      });
+    await page.locator('select[aria-label="Law"]').selectOption({
+      value: "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+    });
     await page.locator('select[aria-label="Answer"]').waitFor();
     await page.locator('[data-testid="dev-repeal"]').waitFor();
     await page.locator('[data-testid="dev-petition"]').waitFor();
