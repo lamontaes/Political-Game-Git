@@ -66,6 +66,7 @@ import {
   billOf,
   castMemberVote,
   chambersOf,
+  holdFloorDebate,
   floorAgendaOn,
   hasSitting,
   committeeHearingsOn,
@@ -1381,12 +1382,17 @@ function holdForFloorVotes(api: CoreAPI): void {
       reasonKey: "office-day-state.floor-vote",
       source: { tag: "SOURCED", citation: bill.id, asOf: api.state.date },
     });
-    if (held)
+    if (held) {
       table(api, "floorHolds").put({
         id,
         billId: bill.id,
         date: tomorrow,
       } as unknown as ModuleRow);
+      // The floor speaks before the roll: for and against, heard before the player votes.
+      for (const chamber of chambersOf(api, bill))
+        if (members(api, chamber).some((term) => memberKey(term) === playerId))
+          holdFloorDebate(api, bill.id, chamber);
+    }
   }
 }
 

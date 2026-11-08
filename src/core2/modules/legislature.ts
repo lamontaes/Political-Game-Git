@@ -3762,13 +3762,20 @@ export function missesSitting(
  * member key. A public record the director stages for the members in the
  * room and the press can tell.
  */
-function recordFloorDebate(
+export function recordFloorDebate(
   api: CoreAPI,
   bill: BillRow,
   officeId: string,
   seated: readonly TermRow[],
   positions: readonly { total: number }[],
 ): void {
+  // Said once per bill and chamber: the player's floor day holds them for the debate, and the roll finds it done.
+  if (
+    (api.state as CoreState).durableLog.get(
+      `floor-debate:${bill.id}:${officeId}`,
+    )
+  )
+    return;
   const room = seated
     .map((member, index) => ({
       key: memberKey(member),
@@ -3806,6 +3813,28 @@ function recordFloorDebate(
       againstId: againstRow.key,
     },
   });
+}
+
+/**
+ * The floor before the roll, said on the evening a member of this chamber is held for their vote
+ * (the debate Story's `recordFloorDebate` records, owned by the Story session), so the player hears
+ * it before they vote; the roll's own call then finds it done.
+ */
+export function holdFloorDebate(
+  api: CoreAPI,
+  billId: string,
+  officeId: string,
+): void {
+  const bill = billOf(api, billId);
+  if (!bill || !reachesTown(api, billJurisdiction(api, bill))) return;
+  const seated = members(api, officeId);
+  recordFloorDebate(
+    api,
+    bill,
+    officeId,
+    seated,
+    seated.map((member) => memberPosition(api, bill.id, memberKey(member))),
+  );
 }
 
 /** One chamber's vote: each member yes for a positive position, no for a negative one, abstaining with nothing either way. */
