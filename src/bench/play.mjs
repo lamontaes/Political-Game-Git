@@ -2312,6 +2312,18 @@ async function personCardNode(
     ...(sharedLines.length
       ? [stripSection(5, labels.betweenUs, ...sharedLines)]
       : []),
+    // Their life from the records, oldest first, as the card has told it since
+    // #6772 and #7090: the card is sent the story and draws it (owner's
+    // playtest, Nov 8).
+    ...(c.history?.length
+      ? [
+          stripSection(
+            5,
+            capital(heading("lifeStory", "lifeStoryThey")),
+            lifeTimeline(c.history, 3),
+          ),
+        ]
+      : []),
   ];
   const secondColumn = [
     ...(people
@@ -4049,7 +4061,6 @@ const sheets = {
                 name: f.name ?? "",
                 line: f.party ?? "",
                 party: f.party,
-                badge: f.party ? f.party.charAt(0) : null,
                 face: f.face,
                 onOpen: () => {
                   closeSheet();
@@ -4310,7 +4321,6 @@ const sheets = {
           name: m.name,
           line,
           party: m.party,
-          badge: m.party ? m.party.charAt(0) : null,
           face: m.face,
           onOpen: open(m.cardId, m.face),
         },
@@ -4794,7 +4804,6 @@ const sheets = {
                     name: s.name,
                     line: s.title,
                     party: name,
-                    badge: name.charAt(0),
                     face: s.face,
                     onOpen: () => {
                       closeSheet();
