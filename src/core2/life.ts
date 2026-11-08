@@ -297,28 +297,10 @@ export function availableActs(
   if (core.data.discretionaryIneligibleTiersV1?.includes(actor.tier)) return [];
   const api = coreAPI(core);
   const offers: ActOffer[] = [];
-  // The same for every offer: the person's free hours today, and whether
-  // they hold a current commitment at their own job (computed once, not per
-  // offer).
+  // The same for every offer: the person's free hours today (computed once,
+  // not per offer).
   const freeHours = discretionaryHours(api, actor.id);
   const zero = api.parameter("zero");
-  let atOwnJob: boolean | undefined;
-  const holdsOwnJob = () => {
-    if (atOwnJob === undefined) {
-      atOwnJob = false;
-      for (const id of core.work.commitmentsByPerson.get(actor.id) ?? []) {
-        const row = core.work.commitments.get(id)!;
-        if (
-          row.jobId === actor.jobId &&
-          (row.endsAt === undefined || row.endsAt >= core.date)
-        ) {
-          atOwnJob = true;
-          break;
-        }
-      }
-    }
-    return atOwnJob;
-  };
   // One round of offers: the providers share what they work out for
   // this person today (nothing they read changes while the offers are made).
   const round: OfferRound = new Map();
@@ -332,13 +314,9 @@ export function availableActs(
       throw new Error(
         `Unregistered available-act provider: ${definition.targetKind}`,
       );
-    const excludedAtWork =
-      core.data.work?.discretionaryExclusions.includes(definition.effect) ??
-      false;
     const override =
       core.data.work?.discretionaryDurationParameters?.[definition.effect];
     for (const offer of provide(api, actor, definition, round)) {
-      if (excludedAtWork && holdsOwnJob()) continue;
       offer.effortHours = override
         ? api.parameter(override)
         : api.parameter(definition.effortParameter);

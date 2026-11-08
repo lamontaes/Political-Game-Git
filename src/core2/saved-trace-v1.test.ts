@@ -480,36 +480,6 @@ describe("saved trace v1: actual saved-record queries, unexecuted by author", ()
       });
       expect(trace).not.toHaveProperty("reasonKey");
     }
-    const opening = input();
-    opening.workCommitments = [];
-    opening.workPayrollCalendars = [];
-    const legacy = createCore(opening, { data, observer: true });
-    advanceDate(legacy, "2021-01-02");
-    const offer = {
-        definition: legacy.data.actions.find((row) => row.id === "work-shift")!,
-        targetId: "job",
-        availableHours: p("hoursPerDay"),
-        effortHours: p("one"),
-      },
-      decision = chooseAct(legacy, "worker", [offer]),
-      row = coreAPI(legacy).settleLegacyWorkResult({
-        personId: "worker",
-        date: legacy.date,
-        days: p("one"),
-        offer: decision.selected!,
-        decision,
-      }),
-      trace = resolveSavedTraceV1(legacy, row.sourceActId);
-    expect(legacy.work.cashActSelections.has(row.sourceActId)).toBe(true);
-    expect(legacy.durableLog.has(row.sourceActId)).toBe(true);
-    expect(trace).toMatchObject({
-      status: "saved",
-      recordKind: "person.acted",
-      scoresStatus: "saved",
-      reasonKey: decision.reasonKey,
-      scores: decision.scores,
-    });
-    expect(ref(trace, row.id)?.status).toBe("resolved-saved-record");
   });
   it("13 returns actual admitted commitment and calendar links with their genuine original basis IDs", () => {
     const core = fresh(),

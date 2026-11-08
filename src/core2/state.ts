@@ -104,7 +104,6 @@ import {
   releaseCashJournalSource,
 } from "./journal-state";
 import { cashJournalHost } from "./cash-host";
-import { settleLegacyWorkResultJournal } from "./work-cash";
 import { admitPublicPayAuthority } from "./public-work-pay";
 import type { CashJournalSourceRef } from "./journal";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
@@ -1116,9 +1115,6 @@ export function coreAPI(core: CoreState): CoreAPI {
     },
     settleWorkResult(row) {
       return settleWorkResult(core, api, row);
-    },
-    settleLegacyWorkResult(row) {
-      return settleLegacyWorkResultJournal(core, api, row);
     },
     recordActivityTime(personId, category, minutes, source) {
       recordActivityTime(core, api, personId, category, minutes, source);
