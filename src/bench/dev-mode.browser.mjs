@@ -34,7 +34,7 @@ try {
     "dev mode is off by default",
   );
   await dock("Calendar").click();
-  await page.locator(".calendar-layout").waitFor();
+  await page.locator(".calendar-board").waitFor();
   assert.equal(await page.locator(".dev-run").isVisible(), false);
   await closeSheet();
 
@@ -96,7 +96,7 @@ try {
   await page.getByRole("button", { name: "Off", exact: true }).last().click();
   await page.keyboard.press("Escape");
   await dock("Calendar").click();
-  await page.locator(".calendar-layout").waitFor();
+  await page.locator(".calendar-board").waitFor();
   assert.equal(await page.locator(".dev-run").isVisible(), false);
 
   assert.deepEqual(errors, []);

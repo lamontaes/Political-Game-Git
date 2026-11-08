@@ -24,8 +24,7 @@ const list = (box) =>
       first: rows[0]?.textContent.trim().split("\n")[0] ?? "",
       strays: [...document.querySelectorAll("#cr-place button")]
         .filter((b) => /^\s*(continue|back)\s*$/i.test(b.textContent ?? ""))
-        .filter((b) => b.id !== "cr-place-back" && b.id !== "cr-place-next")
-        .length,
+        .filter((b) => b.id !== "cr-place-next").length,
     };
   }, box);
 try {

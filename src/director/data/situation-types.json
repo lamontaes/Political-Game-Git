@@ -376,6 +376,32 @@
         },
         {
           "match": {
+            "label": "feeling:event:family.partnered",
+            "counterpart": "some"
+          },
+          "bind": {
+            "receiver": "subject",
+            "about": "counterpart",
+            "bearer": "household"
+          },
+          "opener": "bearer",
+          "opening": "tell"
+        },
+        {
+          "match": {
+            "label": "feeling:event:family.separated",
+            "counterpart": "some"
+          },
+          "bind": {
+            "receiver": "subject",
+            "about": "counterpart",
+            "bearer": "household"
+          },
+          "opener": "bearer",
+          "opening": "tell"
+        },
+        {
+          "match": {
             "label": "money:job-ended",
             "counterpart": "none"
           },

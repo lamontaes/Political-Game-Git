@@ -11,9 +11,12 @@ import {
   billJurisdiction,
   billOf,
   bodyOf,
+  holdOverride,
+  overridePending,
   bodyRow,
   reachesTown,
   castMemberVote,
+  estimateOfProvisions,
   executiveLean,
   moveAmendment,
   reviseBill,
@@ -315,6 +318,16 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
       mayChoose: sits && open,
       /** The bill is the player's own and still on paper: staff may redraft its sections. */
       mayRedraft: bill.sponsorId === player && open,
+      /** The veto message waits for the player's override vote: their chosen vote on it, else null. */
+      overridePending: sits && overridePending(api, bill.id),
+      overrideChosen:
+        (
+          api
+            .moduleState(LEGISLATURE)
+            .table("choices")
+            .get(`${bill.id}|${player}|override`) as
+            { vote: "yes" | "no" | "abstain" } | undefined
+        )?.vote ?? null,
       chosen: chosen ?? null,
     },
     sponsor: personName(core, bill.sponsorId),
@@ -495,6 +508,12 @@ export function staffRedraft(
     struck: text(bill.provisions),
     inserted: text(bill.provisions.map((p, i) => (i === index ? inserted : p))),
     value,
+    // The estimate as drafted and as staff's version would read: the note recalculates.
+    estimateBefore: bill.costEstimate,
+    estimateAfter: estimateOfProvisions(
+      api,
+      bill.provisions.map((p, i) => (i === index ? inserted : p)),
+    ),
   };
 }
 
@@ -512,6 +531,38 @@ export function keepStaffRedraft(
     replace: index,
     with: { ...section, value: redraft.value },
   });
+  return billStage(
+    core,
+    billId,
+    asId ?? snapshotExplicitControlV1(core).personId ?? core.playerId,
+  );
+}
+
+/** The player's own vote on overriding a veto, kept until the body takes the veto message up. */
+export function chooseOverrideVote(
+  core: CoreState,
+  billId: string,
+  vote: string,
+  asId?: string,
+) {
+  if (vote !== "yes" && vote !== "no" && vote !== "abstain")
+    throw new Error("Vote yes, no or abstain.");
+  const player =
+    asId ?? snapshotExplicitControlV1(core).personId ?? core.playerId;
+  if (!player) throw new Error("Choose a resident first.");
+  if (!billStage(core, billId, player).yours.overridePending)
+    throw new Error("No override vote is waiting on you for that bill.");
+  castMemberVote(coreAPI(core), billId, player, vote, true);
+  return billStage(core, billId, player);
+}
+
+/** The body takes up the veto message now: the override is voted, the player's choice counting. */
+export function callOverrideVote(
+  core: CoreState,
+  billId: string,
+  asId?: string,
+) {
+  holdOverride(coreAPI(core), billId);
   return billStage(
     core,
     billId,

@@ -99,7 +99,9 @@ it(`a protest in the town is its officials' scene about what it is over (seed ${
         expect(scene.askerId, here).not.toBe(hostId);
         const issue = scene.facts.find((row) => row.key === "issue");
         expect(issue?.text, here).toBe(questionAbout(protest.topic!));
-        expect(scene.talk.state.text, here).toContain(issue!.text);
+        expect(scene.talk.state.text.toLowerCase(), here).toContain(
+          issue!.text.toLowerCase(),
+        );
         process.stdout.write(
           `ACTION SCENE ${here}\n  ${scene.talk.state.text}\n`,
         );

@@ -41,37 +41,33 @@ try {
     .locator('#rings [data-tab="journal"]')
     .first()
     .evaluate((e) => e.click());
-  await page.locator(".journal-page").waitFor();
-  assert.equal(await page.locator(".journal-page h2").innerText(), "My life");
-  assert.match(
-    await page.locator(".journal-chapter").innerText(),
-    /^Chapter \w+ ·/,
+  // The Nov 8 play mock (pl-journal): "My story" lists the chapters, the chosen chapter is
+  // its title over the story in prose.
+  await page.locator(".journal-text").waitFor();
+  assert.equal(
+    await page.locator("#sheet-body .sechead").first().innerText(),
+    "My story",
   );
   assert.ok(
-    (await page.locator(".journal-page p:not(.journal-chapter)").count()) > 0,
-    "the page tells the story",
+    (await page.locator(".journal-text .intro").count()) > 0,
+    "the chapter tells the story",
   );
-  // Nothing scrolls as a page: the page and its pager sit inside the sheet body.
-  const fit = await page.evaluate(() => {
+  // Nothing scrolls as a page.
+  const scrolls = await page.evaluate(() => {
     const body = document.getElementById("sheet-body");
-    const paper = document.querySelector(".journal-page");
-    return {
-      scrolls: body.scrollHeight > body.clientHeight + 1,
-      inside: paper.scrollHeight <= paper.clientHeight + 1,
-    };
+    return body.scrollHeight > body.clientHeight + 1;
   });
-  assert.equal(fit.scrolls, false, "the sheet body scrolls");
-  assert.equal(fit.inside, true, "the chapter overflows its page");
+  assert.equal(scrolls, false, "the sheet body scrolls");
   if (shots) await page.screenshot({ path: `${shots}/journal.png` });
-  const chapters = await page.locator(".journal-pager:visible").count();
-  if (chapters) {
-    const first = await page.locator(".journal-page").innerText();
-    await page.getByRole("button", { name: "Earlier chapter" }).click();
-    assert.notEqual(await page.locator(".journal-page").innerText(), first);
+  const chapters = page.locator("#sheet-body .bsdept");
+  if ((await chapters.count()) > 1) {
+    const first = await page.locator(".journal-text").innerText();
+    await chapters.first().click();
+    assert.notEqual(await page.locator(".journal-text").innerText(), first);
     if (shots) await page.screenshot({ path: `${shots}/journal-earlier.png` });
   }
   assert.deepEqual(errors, []);
-  console.log("PASS the journal is one page of story, paged by chapter");
+  console.log("PASS the journal lists its chapters and tells the chosen one");
 } finally {
   await browser.close();
 }

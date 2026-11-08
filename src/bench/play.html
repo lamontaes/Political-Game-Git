@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Our Civic Duty</title>
     <link rel="stylesheet" href="play.css" />
-    <link rel="preload" as="image" href="/ui/kit13/progress-frame.svg" />
   </head>
   <body>
     <main id="game">
@@ -71,8 +70,8 @@
       </section>
 
       <section id="front" class="panel menu" data-testid="title-menu">
+        <span data-close="front-close" data-testid="front-close"></span>
         <h1 class="title">Our Civic Duty</h1>
-        <hr class="title-rule" />
         <!-- The title menu as the Oct 12 title had it (TitleScreen.tsx, 29be9982f5^). -->
         <div id="front-main">
           <button
@@ -149,14 +148,6 @@
             data-testid="advanced"
           >
             <b>Advanced</b>
-          </button>
-          <button
-            id="new-back"
-            class="item"
-            type="button"
-            data-testid="new-game-back"
-          >
-            <b>Back</b>
           </button>
         </div>
         <!-- Advanced: the one dev-mode start (owner, Oct 26): the world's settings, then anyone to play as. -->
@@ -239,9 +230,6 @@
           /></label>
 
           <div class="acts">
-            <button id="advanced-back" class="action small" type="button">
-              Back
-            </button>
             <button
               id="new-world"
               class="action small"
@@ -270,11 +258,7 @@
             placeholder="Search officeholders"
           />
           <div id="pick-list" class="pick-list"></div>
-          <div class="acts">
-            <button id="pick-back" class="action small" type="button">
-              Back
-            </button>
-          </div>
+          <div class="acts"></div>
         </div>
         <!-- The creator, step by step as the Oct 12 SetupScreen had it. -->
         <div id="cr-character" data-testid="creator-stage-character" hidden>
@@ -372,9 +356,6 @@
             </button>
           </div>
           <div class="acts">
-            <button id="cr-character-back" class="action small" type="button">
-              Back
-            </button>
             <button
               id="cr-character-next"
               class="action primary small"
@@ -437,9 +418,6 @@
             ></div>
           </div>
           <div class="acts">
-            <button id="cr-place-back" class="action small" type="button">
-              Back
-            </button>
             <button
               id="cr-place-random"
               class="action small"
@@ -497,9 +475,6 @@
             </button>
           </div>
           <div class="acts">
-            <button id="cr-look-back" class="action small" type="button">
-              Back
-            </button>
             <button
               id="cr-begin"
               class="action primary small"
@@ -510,7 +485,6 @@
             </button>
           </div>
         </div>
-        <div class="progress" hidden><span></span></div>
         <p
           id="front-status"
           class="when"

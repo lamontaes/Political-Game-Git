@@ -62,6 +62,13 @@ CATEGORY_SUBJECT = {
     "fiscal": "taxes-finance",
     # Federal questions (us-federal-positions) use short category names.
     "trade": "foreign-trade",
+    "budget": "taxes-finance",
+    "immigration": "immigration",
+    "emergencies": "justice",
+    "science-communications": "technology",
+    "territories-culture": "government",
+    "justice-rights": "justice",
+    "government": "government",
     "energy-environment": "energy-environment",
     "housing": "housing",
     "health": "healthcare",
@@ -77,6 +84,8 @@ CATEGORY_SUBJECT = {
 
 # Topic placement by words in the question key; the subject's first topic otherwise.
 TOPIC_WORDS = [
+    ("debt-limit", "Debt and borrowing"), ("admit-more", "Entry and visas"), ("forgive", "Student aid"), ("states-share-disaster", "Emergency management and disaster recovery"),
+    ("national-data-privacy", "Data protection"), ("statehood", "Constitutional and institutional reform"), ("mandatory-minimum", "Criminal law and sentencing"), ("stock-trading", "Ethics and conflicts"),
     ("tariff", "Trade and customs"), ("voucher", "Affordable and public housing"), ("power-plant", "Air and emissions"),
     ("minimum-wage", "Wages and working hours"), ("paid-family-leave", "Paid and unpaid leave"),
     ("collective-bargaining", "Unions and collective bargaining"), ("right-to-work", "Unions and collective bargaining"),
@@ -142,6 +151,11 @@ SERIES = {
     "social-security-tax": ("assistance", "Retirement and survivor benefits", "Social Security tax rate", "percent-of-wages"),
     "medicare-tax": ("healthcare", "Coverage and insurance", "Medicare tax rate", "percent-of-wages"),
     "medicaid-match": ("healthcare", "Coverage and insurance", "Medicaid federal match", "percent"),
+    "state-contribution-limit-governor": ("government", "Campaign finance", "State campaign contribution limit: governor", "USD/election"),
+    "state-contribution-limit-state-senate": ("government", "Campaign finance", "State campaign contribution limit: stateSenate", "USD/election"),
+    "state-contribution-limit-state-house": ("government", "Campaign finance", "State campaign contribution limit: stateHouse", "USD/election"),
+    "state-contribution-limit-local": ("government", "Campaign finance", "State campaign contribution limit: local", "USD/election"),
+    "federal-campaign-contribution-limit": ("government", "Campaign finance", "Federal campaign contribution limit", "USD/election"),
     "snap-maximum": ("assistance", "Food assistance", "SNAP maximum benefit", "USD/month"),
     "federal-unemployment-tax": ("assistance", "Unemployment benefits", "Federal unemployment tax rate", "percent-of-wages"),
     "state-unemployment-tax": ("assistance", "Unemployment benefits", "State unemployment tax rate", "percent-of-wages"),
