@@ -65,6 +65,7 @@ import { holderOf } from "./modules/officials";
 import {
   billOf,
   castMemberVote,
+  castOwnPositionVote,
   chambersOf,
   holdFloorDebate,
   floorAgendaOn,
@@ -72,7 +73,6 @@ import {
   committeeHearingsOn,
   leanOf,
   memberKey,
-  memberPosition,
   members,
   scheduleVote,
   LEGISLATURE_MODULE_ID,
@@ -1432,15 +1432,8 @@ export function voteOnStateFloor(
   ).find((held) => held.billId === billId);
   if (!row) throw new Error("No floor vote on that bill is holding you.");
   // Left to the character, the vote is cast the way the character decides it for any member: from their own position.
-  if (vote === "own") {
-    const position = memberPosition(api, billId, personId).total;
-    castMemberVote(
-      api,
-      billId,
-      personId,
-      position > 0 ? "yes" : position < 0 ? "no" : "abstain",
-    );
-  } else castMemberVote(api, billId, personId, vote);
+  if (vote === "own") castOwnPositionVote(api, billId, personId);
+  else castMemberVote(api, billId, personId, vote);
   releaseHold(api, row.id);
   table(api, "floorHolds").remove(row.id);
 }
