@@ -2,8 +2,8 @@
  * The labor engine reads the outcome web's factors: pay follows the web's
  * wage and earnings factors, the pull to be at work follows the participation
  * outcomes of mothers, married women and people near retirement. The
- * low-wage factor reaches no employer yet (SG-LABOR-low-wage-unreviewed), so
- * nothing here claims it moves staff. Played in the bench world in
+ * low-wage jobs are a measure only: a higher wage floor reaches staffing
+ * through the employer's own payroll and prices (minimum-wage-twin.ts). Played in the bench world in
  * a place drawn from all 56 on a seed nobody chose; the twin world is the same
  * world with the web's month row shifted where the engine reads it.
  */

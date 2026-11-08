@@ -62,3 +62,28 @@ A producer is a read of an event an engine already records, never a new mechanic
 ## 6. Count what was removed
 
 The PR body names the `awaitingProducer` rows replaced, the twin types, arcs and pieces deleted, and the scenes that still wait, with the engine and pool item each one waits on.
+
+## 7. Adding a whole scene kind from a record (what Nov 8 taught)
+
+The recipe, in the order that worked (the rally, the doubt at home and the lobbyist who remembers): a circumstance row or a cause on the type, the situation type, the purpose arc, the bank pieces, the facts block in `purpose-scene.ts`, one test in a drawn place.
+
+- **Setting.** A type for a body's seat takes `["seat","venue"]` as hallway does; `["seat"]` alone stages nothing and no error says so.
+- **A cast from two records.** A circumstance pool (`poolOf` in `circumstance.ts`) may read a second engine's table against the trigger record (the lobbyist's meetings against a member's `office.voted`); a record that does not name the player never reaches the pool.
+- **Pieces.** The scene-talk and tree tests compose every purpose from a generic fixture, so every purpose needs at least one narration and one ask with no required facts, and at least one reply of each follow move; a tree needs depth 2, so a reply the asker cannot let rest (a deflect) must draw a press.
+- **Narration** may not carry "today", "tonight", "yesterday" or "this ...". A piece key is its move and text, so two pieces with the same words collide even under different facts.
+- **Area and issue words.** Say an area after "with" or "about", never "on" ("safety on our streets"), and never as a verb's subject ("our schools has").
+- **After a bank change** run `apply-grades.ts`; when main moved the reach file, take main's and regenerate it, never merge it by hand.
+- **A threat's cost** (money, an endorsement) is the interest-group engine's to read; until it does, register the stopgap and say so.
+- **Read the PR's own state right before every push to its branch.** A push to a PR that merged a minute earlier is stranded (Nov 8, twice: a floor-debate export that missed #7529's merge, and a first push the desk's own commit bounced). Check merged or open, and pull the desk's commits in, then push.
+
+## 8. Giving a kind several arcs (owner, Nov 8: "you could get 30 different scenes within there")
+
+One kind of scene can play several arcs, its **variants**, and the records pick which one. There is one engine (`src/director/arc-variant.ts`) and one data file (`src/director/data/arc-variants.json`); a new family is a row of data, never a new code path.
+
+- **A family** is a purpose in `purpose-arcs.json` (`bribe-offer`). Its variants are rows: a `purpose` id for the bank (`bribe-offer.small`; the plain row keeps the family's own id and arc), a `base`, `terms` (a named read, a weight, `low` for one minus the read), `pull` (personality facets whose mean on the asker multiplies the score by one plus the pull) and the `arc` (state, replies, follow, again, endings: moves only).
+- **A read** looks at the records in one of four ways: `record` (a number on a module row that a fact of the cause record names), `history` (how many earlier records of some kinds name both people), `strain` (how hard pressed the asker is for money), `setting` (where it is set). A new read is a data row of those kinds; add a way of looking only when none fits.
+- **Reads use what stays true while the scene is open** (the kept record, the tie as the engine kept it, what happened before the cause's day). The first choice for a cause stands, so the tree the player sees is the tree a reply is matched against.
+- **Weights are hand set**: sample the reads over a drawn world's offers (`scratch` script: `considerBribe` with dev mode's `pick`, then `chooseVariant`) and set base and weights so every variant wins somewhere. The registered stopgap is `SG-STORY-arc-variant-weights`.
+- **Ending ids the engines read keep their meaning in every variant** (`took-it`, `put-off`, `left-there`, `said-you-would-report`); any other id is a refusal to the corruption engine. Put a `reply` ending before an `anyReply` one when the last thing the player said should win.
+- **Pieces.** A piece written for the variant (`uses.purpose: "bribe-offer.small"`) beats the family's whatever facts either needs; once the variant's own lines are said on a branch the family's serve, so write only what makes the variant differ. A variant needs two lines for each move it offers at the root or its tree stays one deep; add `close` pieces when the family's close would clash.
+- **Per-cause keys.** The scene's word picks are keyed on its cause (`SceneTalkCast.causeId`), and a type whose scene is about one record's decision is `eachCause: true`, so two records between the same two people are two scenes. Never key a scene on its kind and its people alone.

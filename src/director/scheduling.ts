@@ -297,6 +297,9 @@ export function speechOccasion(
   const [head, first, , act] = causeId.split(":");
   if (head !== "speech" || !first) return undefined;
   if (!core.people.has(first as never)) return first;
+  // A debate's answers are broadcast, not given in a room: the debate is its
+  // own occasion, never a campaign stop (words-debate-answers-not-campaign-stops).
+  if (act === "debate") return "debate";
   return act === "attack" ? "press" : "campaign";
 }
 
@@ -619,7 +622,9 @@ function resolveSetting(
         ? { kind, recordId: job.organizationId }
         : undefined;
     }
+    case "letter":
     case "phone":
+      // A letter, like a call, is between two people; its record is the cause.
       return peopleBound > one ? { kind, recordId: moment.causeId } : undefined;
     case "public":
       return { kind, recordId: subject.placeId };

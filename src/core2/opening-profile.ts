@@ -6,9 +6,9 @@
  * Each draw is keyed to the person and their home, never to who else was
  * built, so a person filled in later gets the same profile.
  */
+import { placeStateKey } from "./place-map";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { stableHash } from "./kernel/ids";
-import { corePlaceByJurisdictionId } from "./place-lookup";
 import profileJson from "./data/profile/parameters.json" with { type: "json" };
 import keysJson from "./data/views/ces-2024-views.json" with { type: "json" };
 import { parameter } from "./parameters";
@@ -103,8 +103,7 @@ export function profileFor(
   stopgap(DATA.stopgapId);
   const age = ageOnDate(person.birthDate, startedAt);
   if (age < d("minimumAdultAge")) return null;
-  const place = corePlaceByJurisdictionId(person.placeId as never);
-  const key = place?.stateJurisdictionKey;
+  const key = placeStateKey(person.placeId);
   const state = key
     ? KEYS.states[key.slice(key.lastIndexOf("-") + p("one"))]
     : undefined;

@@ -81,6 +81,16 @@ When a session builds work that runs for many people (relatives elsewhere, the c
 - Everything it writes is bounded: folded or dropped once no reader needs it, or a 100-year save grows without limit.
 - Measured with `speed:year` on main and the branch, one process at a time, alternating twice before quoting a percentage: `--out` gives each year's seconds, heap and records per table, and `--proof-out` names every table that differs, each of which the PR explains.
 - When a unit's people send news into the town, the proof differs in hundreds of tables, because relatives hear it and act. Ask the unit's session for an ablation: the feature running with its events silenced, against the feature switched off. If those two differ only in the unit's own tables, every other difference is news reaching people, and the unit is clean on speed. If not, compare two worlds day by day to find the first difference. On Nov 1, lives unit 4's first difference was a new partner counted as a resident of their state, which moved a household's arrival day.
+- An inclusive profile share is not a saving. Nov 8: two cuts aimed at 7 s of a small town's year 1 (floor amendments in other states' chambers, and the per-bill values every legislator reads) left the year unchanged on a quiet machine (Dickey, North Dakota, seed n8g7: 40.0 s before, 41.6 s after; 40.4 s with amendments skipped, 41.1 to 42.4 s). The work moved to the next reader of the same positions. Time a cut with three alternating pairs before building it into a PR, and drop it if the median does not move.
+- Count first, then cut the volume: a birthday rebuilding a whole counted news group (1,241 of 1,691 rebuilds in Smackover's year 1) and a candidate holding an event here every day (1,134 a year) were the two cuts that paid, and both were found by counting calls, not by reading the profile.
+
+## Read one election year (Nov 8, Speed)
+
+- `node --import tsx scripts/speed-years/profile-year.ts --place <key> --seed <s> --year 4 --out <file>` profiles only that year of the `speed:year` world (earlier years run unprofiled); `--fast 1` profiles it in fast-forward. Read the file by inclusive time per function and per file, then by the callees of the one biggest engine.
+- Before cutting code, count the volume (temporary counters in a scratch copy, never committed): Upper Witter Gulch's election year held 1,134 town halls at about 240 microseconds a listener, so the cost was how many events, not how fast each ran. A cut of the volume by a realistic rule (a district candidate's events reach a town in proportion to its share of the race's voters, with no dice) took year 4 from 151.7 to 88.5 s.
+- To compare a cut against base in one place and seed, keep the switch in a sparse worktree (`git worktree add --no-checkout`, cone sparse-checkout of `src scripts data docs/release tooling`, `node_modules` symlinked) and read it from an environment variable there; the branch itself stays clean. Run base and cut one after the other, never at once.
+- `scripts/speed-years/fast-forward.ts` runs the world with fast-forward on or off and lists each race the town votes in (office, winner, top two shares). Races in the voting results table whose contest is not in the town's contests are other places' races.
+- A single slowdown reading is not a finding. Re-time it alternating against the base (three pairs, median) and profile both before anyone acts on it: on Nov 8 a +10% reading of a monthly pass in year 1 (Dickey, North Dakota, seed n8g7) did not reproduce on current main (40.3 s before, 39.9 s after), and the profile showed the pass costing nothing in year 1.
 
 ## Long saves
 
@@ -92,6 +102,14 @@ When a session builds work that runs for many people (relatives elsewhere, the c
   - A cache keyed by records inside the world (a person, a traits object), which the restore refills in place, registers its reset with `registerRestoreReset`.
   - To find which one, patch `globalThis.WeakMap` in the probe before anything else is imported. Record where each map was made and which keys it set before the restore, clear chosen ones after, and halve the set. Clearing every map breaks the world, because module state and the cash host live in maps too.
   - When the split is a record that exists in only one world, wrap that world's Map `set` to print the stack that first writes the key.
+
+## Memory: find the cause before the fold
+
+- Count the growing table by kind and by the cause of its latest change in the world `speed:year` plays, before believing a brief's cause or building a fold. On Nov 8 the brief blamed "coworker" ties made when a hire meets every coworker; Montpelier, Vermont (key 5046000, seed mont1) showed the `coworker` kind flat at about 18,300 and year 2's growth in `met-in-group` ties (22,978), made by `meetAtJoin` meeting every member of every group joined. `met-at-work` made 114.
+- Fixing a cause can shrink tables that never looked related. The player's circle is the people the player's people know, so capping who a join introduces (`knownAmong`, a power law of the group's size) also cut Montpelier's `durableLog` at year 2 from 82,667 to 38,637, and the election year's heap from 7.7 GB at year 4 to 2.8 GB.
+- A log count taken in January includes the circle rows from the November election that `circleActRetentionMonths` (3) has not dropped yet. Compare the same month across years, and read heap after a collection, not the row count alone.
+
+- `npm run speed:year` draws a new place from its seed each run, and a place's size moves a year by two to three times (Nov 8: the same code read 41 to 118 seconds in year 1 across six runs). To compare a branch with main, pass the same `--seed <s>` to both, one process alone, and name the place and seed. A table read that scans every row of a monthly-growing table inside a per-race or per-person call (`rows()` in a hot function) is a cost; keep the latest id on the state row and `get` it.
 
 ## Stop condition
 

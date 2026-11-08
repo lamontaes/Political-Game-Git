@@ -21,7 +21,7 @@ import { electorateParameter } from "./electorate-inputs";
 import { interestOf, turnoutRule } from "./turnout";
 import type { ElectoratePlace } from "./electorate-places";
 import { bookkeeping } from "./bookkeeping";
-import { stateOfPlaceKey } from "./places";
+import { placeStateKey } from "./place-map";
 import { residentsRuntime } from "./modules/residents";
 import {
   type CountedHousehold,
@@ -29,7 +29,6 @@ import {
   isDemoted,
 } from "./counted-groups";
 import { VIEWS_KEYS, VIEWS_MODULE_ID, viewOf } from "./modules/views";
-import { corePlaceByJurisdictionId } from "./place-lookup";
 import viewsData from "./data/views/views.json" with { type: "json" };
 import { coreAPI } from "./state";
 import { reportOutcome } from "./trait-decisions";
@@ -55,7 +54,7 @@ const cache = new WeakMap<CoreState, { date: string; rows: CountedVoter[] }>();
 
 /** The state key of the world's own town ("US-MA"), the home of its counted people. */
 function townStateKey(core: CoreState): string {
-  return stateOfPlaceKey(core.placeMetadata?.placeKey ?? "") ?? "";
+  return placeStateKey(core.placeMetadata?.placeKey ?? "") ?? "";
 }
 
 /** A counted resident's survey cell (see `surveyCell`): their state's, falling back to the nation's where the survey has no state sample. */
@@ -307,8 +306,6 @@ const cells = new Map<
   string,
   { mean: number; sd: number; engagement?: number }
 >();
-/** Each place id's state key from the place lookup, which reads only static tables. */
-const placeStateKey = new Map<string, string | null | undefined>();
 /** Each age's survey band. */
 const bandByAge = new Map<number, string>();
 /**
@@ -324,12 +321,7 @@ function surveyCell(
 ): { mean: number; sd: number; engagement?: number } {
   // The town's own counted households keep their governing unit's place id,
   // which the place lookup may not know: they are the town's people, in its state.
-  if (!placeStateKey.has(placeId))
-    placeStateKey.set(
-      placeId,
-      corePlaceByJurisdictionId(placeId as never)?.stateJurisdictionKey,
-    );
-  const key = placeStateKey.get(placeId) ?? townState;
+  const key = placeStateKey(placeId) ?? townState;
   const state = key ? key.slice(key.lastIndexOf("-") + 1) : "";
   const age =
     Number(date.slice(0, 4)) -
@@ -588,6 +580,74 @@ export function countedChoice(
   return ranked.length > 1 && ranked[0]![1].total > ranked[1]![1].total
     ? ranked[0]![0]
     : null;
+}
+
+/**
+ * Whom a voter votes for where a ballot elects `seats` candidates at once (an
+ * at-large race): the same choice rule as one seat (`countedChoice`), taken
+ * to the first `seats` places. A candidate is chosen where they rank above
+ * everyone left out; where a tie straddles the last place, those tied are
+ * left out and the voter leaves that vote blank. With no more candidates
+ * than seats, each candidate the voter is not against is chosen.
+ */
+export function countedChoices(
+  appeal: Readonly<Record<string, { readonly total: number }>>,
+  seats: number,
+): readonly string[] {
+  if (seats <= 1) {
+    const one = countedChoice(appeal);
+    return one ? [one] : [];
+  }
+  const ranked = Object.entries(appeal).sort(
+    (a, b) => b[1].total - a[1].total || a[0].localeCompare(b[0]),
+  );
+  if (ranked.length <= seats)
+    return ranked.filter(([, a]) => a.total >= 0).map(([id]) => id);
+  const cut = ranked[seats]![1].total;
+  return ranked
+    .slice(0, seats)
+    .filter(([, a]) => a.total > cut)
+    .map(([id]) => id);
+}
+
+/**
+ * How a counted record's people, each voting for up to `seats` candidates,
+ * divide their votes: each candidate's part of the record is their one-seat
+ * share (`countedShareRule`'s) scaled by the one factor that gives the
+ * record `seats` votes a person, none above the whole record (a candidate
+ * every one of its people would choose takes all of it, and the rest spread
+ * over the others by their shares). With one seat it is the share itself.
+ * Parts sum to `seats` (or to every candidate's whole where there are no
+ * more candidates than seats).
+ */
+export function blockShares(
+  shares: Readonly<Record<string, number>>,
+  seats: number,
+): Readonly<Record<string, number>> {
+  const ids = Object.keys(shares);
+  if (seats <= 1 || !ids.length) return shares;
+  if (ids.length <= seats) {
+    const all: Record<string, number> = {};
+    for (const id of ids) if (shares[id]! > 0) all[id] = 1;
+    return all;
+  }
+  // Fill from the largest share: those the scale would take past the whole
+  // record are held at it, and the scale is found for the rest.
+  const order = [...ids].sort(
+    (a, b) => shares[b]! - shares[a]! || a.localeCompare(b),
+  );
+  let capped = 0;
+  let rest = order.reduce((n, id) => n + shares[id]!, 0);
+  let scale = rest > 0 ? seats / rest : 0;
+  while (capped < order.length && shares[order[capped]!]! * scale >= 1) {
+    rest -= shares[order[capped]!]!;
+    capped += 1;
+    scale = rest > 0 ? (seats - capped) / rest : 0;
+  }
+  const parts: Record<string, number> = {};
+  for (const [n, id] of order.entries())
+    parts[id] = n < capped ? 1 : shares[id]! * scale;
+  return parts;
 }
 
 /**
@@ -873,6 +933,8 @@ export function countPlaces(
     readonly cut: number;
     readonly open: boolean;
   },
+  /** Seats the ballot elects at once (an at-large race): each voter votes for up to this many. */
+  seats = 1,
 ): {
   readonly votes: Readonly<Record<string, number>>;
   readonly cast: number;
@@ -880,7 +942,11 @@ export function countPlaces(
 } {
   const { voters, placement } = coarseSample(sample);
   const rule = turnoutRule();
-  const shares = countedShareRule(field);
+  const one = countedShareRule(field);
+  const shares =
+    seats > 1
+      ? (appeal: Parameters<typeof one>[0]) => blockShares(one(appeal), seats)
+      : one;
   const totals: Record<string, number> = {};
   const results: PlaceResult[] = [];
   let cast = 0;

@@ -9,7 +9,11 @@ import { familyFactsOf } from "../core2/modules/people";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
-import { CAMPAIGNS_MODULE_ID, campaignFor } from "../core2/modules/campaigns";
+import {
+  CAMPAIGNS_MODULE_ID,
+  campaignFor,
+  rivalFiling,
+} from "../core2/modules/campaigns";
 import {
   fileCandidacy,
   openContests,
@@ -17,6 +21,7 @@ import {
 } from "../core2/modules/elections";
 import { filingClerkFor } from "../core2/modules/filing-clerk";
 import { coreAPI } from "../core2/state";
+import talkRules from "./data/scene-talk-rules.json";
 import type { CoreState, PersonId } from "../core2/types";
 import { stakeOf } from "./family-stake";
 import { composeJournal } from "./journal";
@@ -71,8 +76,13 @@ const play = (drawSeed: string): Found | string => {
       )
       .sort((a, b) => a.id.localeCompare(b.id))
       .slice(0, 12);
+    // One filer to a household: a relative running in the same race is a
+    // rival, never someone the filer can ask for help.
+    const homes = new Set<string>();
     for (const person of town) {
       if (filings.length >= 6) break;
+      if (homes.has(person.householdId)) continue;
+      homes.add(person.householdId);
       director.watch(core, person.id);
       const result = fileCandidacy(api, {
         personId: person.id,
@@ -120,6 +130,9 @@ it("stages the filing talk only for a relative with a stake, and records what th
     const { core, director, where } = found;
     for (const { filing } of found.filings) {
       const filer = filing.personId as PersonId;
+      // Each filer answers as the player would: the world keeps their
+      // private records (a scene reply) as it keeps the player's.
+      core.focusPersonIds.add(filer);
       const here = `${where}: ${filing.id}`;
       const entry = entryOf(found, filing);
       expect(entry, `${here} fired no moment`).toBeTruthy();
@@ -210,10 +223,23 @@ it("stages the filing talk only for a relative with a stake, and records what th
           const before = core.modules.has(CAMPAIGNS_MODULE_ID)
             ? [...campaignFor(coreAPI(core), filing.id).volunteerIds]
             : [];
-          const id = replyInScene(core, director, filer, entry!, path);
+          const id = replyInScene(core, director, filer, entry!, path, {
+            typeKey: "family-filing",
+          });
           expect(id, here).toBeTruthy();
           const after = [...campaignFor(coreAPI(core), filing.id).volunteerIds];
-          if (answered?.move === "promise") {
+          // A relative running in the same race is a rival filer, whom the
+          // campaign never counts (enlistVolunteer).
+          const rival = !!rivalFiling(
+            coreAPI(core),
+            campaignFor(coreAPI(core), filing.id),
+            scene.askerId,
+          );
+          if (answered?.move === "promise" && rival)
+            expect(after, `${here}: a rival filer counted`).not.toContain(
+              scene.askerId,
+            );
+          else if (answered?.move === "promise") {
             expect(before, here).not.toContain(scene.askerId);
             expect(after, `${here}: said yes, not counted`).toContain(
               scene.askerId,
@@ -242,7 +268,9 @@ it("stages the filing talk only for a relative with a stake, and records what th
           });
           if (ended && ended.length > 1) {
             const before = closenessBetween(core, scene.askedId, scene.askerId);
-            const id = replyInScene(core, director, filer, entry!, ended);
+            const id = replyInScene(core, director, filer, entry!, ended, {
+              typeKey: "family-filing",
+            });
             const facts = core.durableLog.get(id!)?.facts;
             expect(facts?.keeps, here).toBe("relationship-strained");
             expect(
@@ -270,9 +298,32 @@ it("stages the filing talk only for a relative with a stake, and records what th
           }
         }
         if (root.line.move === "deflect" && !sawPutOff) {
+          // Played to its end: the put-off ending when the talk has one.
+          const toEnd =
+            paths(scene.talk.tree).find((full) => {
+              if (full[0] !== path[0]) return false;
+              let node: TreeNode | null = scene.talk.tree;
+              for (const i of full) node = node?.replies[i]?.next ?? null;
+              return talkRules.owedTalk.endings.includes(
+                node?.end?.ending?.id ?? "",
+              );
+            }) ?? path;
           const before = closenessBetween(core, scene.askedId, scene.askerId);
-          const id = replyInScene(core, director, filer, entry!, path);
+          const id = replyInScene(core, director, filer, entry!, toEnd, {
+            typeKey: "family-filing",
+          });
           expect(id, here).toBeTruthy();
+          // A matter put off owes the relative a talk: the reply's record
+          // says with whom, about what and by when (agreements/2-3.md).
+          const kept = core.durableLog.get(id as never)?.facts;
+          if (talkRules.owedTalk.endings.includes(String(kept?.ending))) {
+            expect(kept.owedWith, here).toBe(scene.askerId);
+            expect(String(kept.owedDueOn) > core.date, here).toBe(true);
+            expect(kept.owedTopic, here).toBeTruthy();
+            notes.push(
+              `${here}: owed talk with ${String(kept.owedWith)} about ${String(kept.owedTopic)} due ${String(kept.owedDueOn)} (${id})`,
+            );
+          }
           const after = closenessBetween(core, scene.askedId, scene.askerId);
           expect(
             after,

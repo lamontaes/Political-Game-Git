@@ -29,6 +29,16 @@ export const ALLOWED_PHRASES: readonly {
     reason: "a real party name, if one is ever quoted",
   },
   {
+    pattern: /\bRockville Centre\b/g,
+    reason:
+      "a real village (Rockville Centre, New York), named where a lane's proof log lists the towns the game drew",
+  },
+  {
+    pattern: /\bFairfield Harbour\b/g,
+    reason:
+      "a real town (Fairfield Harbour, North Carolina), named where the merge desk records the town a check drew",
+  },
+  {
     pattern: /\bArmour, South Dakota\b/g,
     reason:
       "a real town (Armour, South Dakota), named in a pool item's calibration evidence",
@@ -198,7 +208,7 @@ export const KNOWN_HITS: Readonly<Record<string, number>> = {
   "data/research/programs/roadmap-r6-medicare-ssa-2026.json": 1,
   "data/research/stand-in-figures-2026-10-12.json": 2,
   "data/research/stopgaps-oct19/C-government-law.json": 2,
-  "data/research/stopgaps-oct19/census/census-SG-P15-partnership-model-places.json": 7,
+  "data/research/stopgaps-oct19/census/census-SG-P15-partnership-model-places.json": 6,
   "data/research/trait-effect-sizes.json": 7,
   "src/core2/opening-economy.ts": 1,
   "src/core2/opening-work.ts": 1,

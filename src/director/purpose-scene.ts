@@ -35,6 +35,7 @@ import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { billNameFor, spokenDesignation } from "../english/bill-names";
+import { areaName } from "../english/area-names";
 import { questionAbout } from "../english/question-names";
 import {
   questionName,
@@ -64,6 +65,10 @@ import {
   type TreeReply,
 } from "./scene-talk";
 import type { Fact } from "../english/scene-talk-words";
+import { chooseVariant, type VariantChoice } from "./arc-variant";
+
+/** The public-action engine's record of a rally forming (`civic.rally`). */
+const RALLY_EVENT = "civic.rally";
 import {
   ELECTIONS_MODULE_ID,
   ballot,
@@ -121,6 +126,12 @@ export interface PurposeScene {
   };
   /** What the exchange may say, each with the records it came from. */
   facts: { key: string; text: string; recordIds: string[] }[];
+  /**
+   * Which of the kind's arcs the records gave this scene (arc-variant.ts), with
+   * every variant's score and the records the reads came from; absent for a
+   * kind with one arc.
+   */
+  variant?: VariantChoice;
   talk: SceneTalk;
 }
 
@@ -467,6 +478,46 @@ function composeBinding(
       };
     }
   }
+  // A strike or protest in the town (public-action.ts): what it is over.
+  // stopgapId: SG-WORDS-action-confront-town-hall-lines. The
+  // official has given no answer yet, so the exchange opens as a town hall
+  // does when the host declined to answer: the protester wants to hear where
+  // they stand.
+  if (said.actionId && said.question && record?.kind !== RALLY_EVENT) {
+    const issue = questionAbout(said.question);
+    if (issue) {
+      facts.issue = {
+        text: issue,
+        sourceRecordIds: [said.actionId, moment.causeId],
+      };
+      facts["host-declined"] = {
+        text: "host-declined",
+        sourceRecordIds: [said.actionId, askedId, askerId],
+      };
+      // The crowd, said in the talk's own words: how many, and whether it is a
+      // protest in the street or workers who walked out.
+      const flag = record?.kind === "civic.strike" ? "strike" : "protest";
+      facts[flag] = { text: "yes", sourceRecordIds: [said.actionId] };
+      if (said.size)
+        facts.number = {
+          text: said.size,
+          sourceRecordIds: [said.actionId],
+        };
+    }
+  }
+  // A rally in the town (public-action.ts): the area the term read well in,
+  // and how many came. It has no demand, so there is no issue to answer.
+  if (said.actionId && record?.kind === RALLY_EVENT) {
+    const area = said.area ? areaName(said.area) : null;
+    if (area)
+      facts.area = {
+        text: area,
+        sourceRecordIds: [said.actionId, moment.causeId],
+      };
+    facts.rally = { text: "yes", sourceRecordIds: [said.actionId] };
+    if (said.size)
+      facts.number = { text: said.size, sourceRecordIds: [said.actionId] };
+  }
   // What an offer asks in return (a vote, a contract): the lines about that favor need it.
   if (said.favor)
     facts[`favor-${said.favor}`] = {
@@ -532,6 +583,23 @@ function composeBinding(
         sourceRecordIds: [moment.causeId, ownId],
       };
   }
+  // A member's own vote (legislature.ts): the lines a group's lobbyist says
+  // about it need which side the member took.
+  if (
+    record?.kind === "office.voted" &&
+    (said.vote === "yes" || said.vote === "no")
+  )
+    facts[`voted-${said.vote}`] = {
+      text: said.number ?? "",
+      sourceRecordIds: [moment.causeId],
+    };
+  // The floor before the roll (legislature.ts recordFloorDebate): which side
+  // the speaker rose for, and the bill.
+  if (record?.kind === "floor-debate")
+    facts[said.forId === askerId ? "speaks-for" : "speaks-against"] = {
+      text: said.number ?? "",
+      sourceRecordIds: [moment.causeId, askerId],
+    };
   // A reporter cast for a record that names no outlet speaks for the outlet
   // that employs them, by its record.
   if (!facts.outlet && !said.outletId && core.modules.has(PRESS_MODULE_ID)) {
@@ -688,6 +756,27 @@ function composeBinding(
       text: `${winner.givenName} ${winner.familyName}`,
       sourceRecordIds: [moment.causeId, winner.id],
     };
+  // In a race the asked won, the opponent is the runner-up on the count.
+  if (winner?.id === askedId && !facts.opponent && said.totals) {
+    let totals: Record<string, number> = {};
+    try {
+      totals = JSON.parse(said.totals) as Record<string, number>;
+    } catch {
+      totals = {};
+    }
+    const runnerUp = Object.entries(totals)
+      .filter(([id]) => id !== askedId && core.people.has(id as PersonId))
+      .sort(
+        ([aId, aVotes], [bId, bVotes]) =>
+          bVotes - aVotes || aId.localeCompare(bId),
+      )[P.zero]?.[P.zero];
+    const other = runnerUp ? core.people.get(runnerUp as PersonId) : undefined;
+    if (other)
+      facts.opponent = {
+        text: `${other.givenName} ${other.familyName}`,
+        sourceRecordIds: [moment.causeId, other.id],
+      };
+  }
   // A race's result for the asked (the morning after): the lines for a
   // winner and for the one who lost differ.
   if (said.winnerId && said.contestId)
@@ -856,11 +945,29 @@ function composeBinding(
     };
     facts.first = { text: asker.givenName, sourceRecordIds: [askerId] };
   }
+  // The kind's own arc, or the variant of it the records give this cause.
+  const variant = type.purpose
+    ? chooseVariant(core, {
+        family: type.purpose,
+        askerId,
+        askedId,
+        cause: {
+          id: moment.causeId,
+          date: record?.date ?? moment.date,
+          facts: said,
+        },
+        setting: binding.setting.kind,
+      })
+    : null;
+  const played =
+    variant && variant.purpose !== type.purpose
+      ? { ...type, purpose: variant.purpose, family: type.purpose }
+      : type;
   const result = composeSceneTalk(
     core,
     director,
-    { askerId, askedId },
-    type,
+    { askerId, askedId, causeId: moment.causeId },
+    played,
     facts,
     standing ? { standing } : {},
     wording,
@@ -886,6 +993,7 @@ function composeBinding(
         text: fact.text,
         recordIds: [...fact.sourceRecordIds],
       })),
+      ...(variant ? { variant } : {}),
       talk: result.talk,
     },
   };
@@ -1292,6 +1400,14 @@ export function replyInScene(
         ? "no"
         : undefined
     : undefined;
+  // A meeting set or a matter put off owes the other a talk: who, about
+  // what and by when, for the people engine's owed-talk record to read
+  // (agreements/2-3.md).
+  const owed =
+    !!ending &&
+    (rulesFile.owedTalk.keeps.includes(ending.keeps) ||
+      rulesFile.owedTalk.endings.includes(ending.id));
+  const owedWith = scene.playerAsks ? scene.askedId : scene.askerId;
   applyCoreEvent(core, {
     id,
     date: core.date,
@@ -1303,6 +1419,7 @@ export function replyInScene(
     facts: {
       typeKey: scene.typeKey,
       causeId: scene.cause.id,
+      ...(scene.variant ? { variant: scene.variant.variant } : {}),
       move: theirs ?? line.move,
       ...(theirs ? { asked: line.move } : {}),
       line: line.text,
@@ -1312,6 +1429,16 @@ export function replyInScene(
       ...(ending ? { ending: ending.id, keeps: ending.keeps } : {}),
       ...(ending?.firmness ? { firmness: ending.firmness } : {}),
       ...(conceded ? { conceded } : {}),
+      ...(owed
+        ? {
+            owedWith,
+            owedTopic: stakeKind ?? scene.typeKey,
+            owedDueOn: addDays(
+              makeIsoDate(core.date),
+              rulesFile.owedTalk.dueDays.value,
+            ),
+          }
+        : {}),
     },
     source: {
       tag: "SOURCED",

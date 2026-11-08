@@ -23,6 +23,9 @@ it("a grown player with no job is told why, from the household's records", () =>
       playerBirthDate: birth,
     });
     const card = personCard(core, playerId!);
+    // A grown player is at no school now, though they went to some
+    // (Confirmer, Nov 4: a 39-year-old's plate named their old school).
+    expect(card.schoolNow, `${where}: a school at 35`).toBeNull();
     if (card.job) {
       expect(card.noJob, `${where}: a job and a reason`).toBeNull();
       continue;

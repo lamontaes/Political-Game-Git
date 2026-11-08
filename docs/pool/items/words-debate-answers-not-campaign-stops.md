@@ -5,11 +5,12 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: lane3/debate-not-stop
+pr: #7260
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-04T14:07:11.142Z
 ---
 
 **What.** On a debate day each candidate gets several campaign-stop scenes, one for each answer they gave, because the debate's answers are speech records the views engine reads, and the campaign-stop scene fires from any speech heard with the candidate as speaker. A campaign stop casts a volunteer and a crowd in the room, but a broadcast debate has neither, so these scenes put the wrong people in the wrong place. In Hainesburg, New Jersey (seed 8806321be2a3f9ab165d26019d4e7493d181cc7c, second draw), both governor candidates had four campaign-stop scenes on October 27, the day of debate:debate:contest:seat:US-NJ:governor:2025-11-04. The fix keeps the campaign-stop scene to speeches given face to face, as the campaign's own events are, and leaves a debate to its own scene.

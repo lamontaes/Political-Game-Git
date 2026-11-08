@@ -5,7 +5,9 @@
  * county government is said to have none. Ported from the old engine's
  * `nationwide-world/local-governments.ts`; the world writers stay behind.
  */
+import { placeCountyGeoids } from "../place-map";
 import {
+  consolidatedMunicipalityForCounty,
   countyGovernmentUnit,
   countyGovernmentUnitsForPlace,
   governmentUnitJurisdictionId,
@@ -151,11 +153,29 @@ export function placeLocalGovernmentUnits(
       countyReason: null,
       countyShares: null,
     };
-  if (municipal.length === 0)
+  if (municipal.length === 0) {
+    // A place with no government of its own inside a consolidated city-county
+    // answers to that government.
+    const consolidated = place.sourceGeoid
+      ? placeCountyGeoids(place.sourceGeoid)
+          .map((geoid) => consolidatedMunicipalityForCounty(geoid))
+          .find((unit) => unit !== null)
+      : null;
+    if (consolidated)
+      return {
+        placeScope: "locality",
+        municipal: [consolidated],
+        counties: [],
+        townships: [],
+        countyStatus: "no-county-government",
+        countyReason: `No separate ${term.singular} government serves this place; the consolidated government does.`,
+        countyShares: null,
+      };
     return {
       ...none("locality", "not-established", countyRelationEmpty(term)),
       townships,
     };
+  }
   const counties = new Map<string, GovernmentUnitIdentity>();
   for (const unit of municipal) {
     const county = unit.countyGeoid

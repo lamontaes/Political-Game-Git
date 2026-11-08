@@ -1,0 +1,26 @@
+---
+id: law-levels-income-rate-zero-restoration
+title: "An income-tax rate can return after zero without losing its bracket schedule"
+area: laws
+kind: bug
+priority: 2
+size: S
+status: done
+claimed-by: astra/income-rate-zero-restoration
+pr: #7347
+blocked-on:
+source: added with npm run pool -- add
+claimed-at: 2026-11-08T01:20:45.196Z
+---
+
+**What.** The numeric income-tax bill writer scales every retained bracket to zero when a bill sets the top rate to zero. A later bill restoring a positive rate sees an all-zero schedule and keeps collecting zero. Preserve the schedule needed for restoration while the existing withholding reader applies a zero active rate, so an income tax can be repealed and passed again through the amount route.
+
+**Rules.** One engine per mechanic: use shapedRate and the existing withholding reader at each level. Preserve real schedules and deductions; do not invent replacement brackets, bypass legislative authority, or change protected campaigns, electorate, views or wage bars.
+
+**Done when.** In a buildBenchWorld drawn place with a printed replay, a real bill draft and production signature/effective-date path sets an active graduated income-tax rate to zero and restores it. Named and counted withholding returns to its prior amount, other levels remain unchanged, the old writer fails the regression, and ten fresh draws plus a new game pass.
+
+**Files.** src/core2/modules/legislature.ts,src/core2/income-rate-zero-restoration.test.ts
+
+**Notes.** Astra Nov 8: shapedRate computes scale=provision.value/top, so zero destroys all bracket rates and the later top=0 branch uses scale=1. The withholding reader already handles a zero rate with retained nonzero brackets (done item laws-zero-top-rate-retains-withholding, PR 6193). This is distinct from opening policy adoption repeal/restoration in PR 7337. Read source and prior pool items; no implementation yet.
+
+Astra implementation: retain the existing bracket proportions when a bill sets the active rate to zero; the unchanged withholding reader applies zero. Paia HI replay b0153ccf2417acea passes two federal 37-to-zero-to-37 cycles through draft/signature/effect and actual named journal withholding plus the counted payroll reader. Named tax 1,361,400 minor and counted tax 54,456,000 minor (40 workers) return exactly; other income-tax levels remain unchanged. Old writer fails because it destroys the retained schedule. Ten fresh draws pass; all ten exercised federal schedules, so no territory-power certification is claimed. New-game check passes Camanche North Shore CA 26a4d83e38b89811 for four weeks.

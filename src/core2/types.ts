@@ -21,11 +21,7 @@ import type {
   WorkPayrollLedger,
   WorkEarnedPayPeriod,
 } from "./work-pay-period";
-import type {
-  LegacyWorkCashInput,
-  LegacyWorkCashResult,
-  WorkCashSourceState,
-} from "./work-cash";
+import type { WorkCashSourceState } from "./work-cash";
 import type { Parameter } from "./parameters";
 import type { EventAppraisal } from "./emotion";
 import type { BusinessBooksData } from "./business-books";
@@ -625,15 +621,6 @@ export interface WorkTotals {
   workedDays: number;
   missedDays: number;
 }
-/** Actual legacy discretionary paid-work completions; separate from scheduled job totals.
- * Shortfall is a cumulative unretried remainder, never a scheduled arrears stock.
- */
-export interface LegacyDiscretionaryWageTotals {
-  earnedMinor: number;
-  paidMinor: number;
-  shortfallMinor: number;
-  completedReceiptCount: number;
-}
 export interface ActivityTimeTotal {
   ageReferenceId: string;
   category: string;
@@ -645,6 +632,11 @@ export interface WorkRuntime {
   payChanges: Map<
     string,
     readonly { date: IsoDate; hourlyMinor: number; source: Source }[]
+  >;
+  /** Dated changes to a job's hours by job (rehourJob), newest last. */
+  hourChanges: Map<
+    string,
+    readonly { date: IsoDate; hoursDaily: number; source: Source }[]
   >;
   payrollCalendars: Map<string, WorkPayrollCalendarInput>;
   payrollCalendarByCommitment: Map<string, string>;
@@ -664,9 +656,6 @@ export interface WorkRuntime {
   /** Only current or player-visible canonical cash sources and selected acts. */
   cashActSelections: Map<string, CashActSelection>;
   cashSources: Map<string, WorkCashSourceState>;
-  latestLegacyCashResultByPerson: Map<PersonId, LegacyWorkCashResult>;
-  /** Cumulative actual conserving legacy completions, including zero-line completion. */
-  legacyDiscretionaryWages: LegacyDiscretionaryWageTotals;
   commitments: Map<string, WorkCommitmentInput>;
   commitmentsByPerson: Map<PersonId, Set<string>>;
   /** Period then residue indexes only jobs with an intersecting date segment. */
@@ -727,7 +716,6 @@ export interface WorkData {
   sleepReserveParameter: string;
   commitmentUrgencyParameter: string;
   routineRetentionWeeksParameter: string;
-  discretionaryExclusions: readonly string[];
   discretionaryDurationParameters?: Readonly<Record<string, string>>;
   activityAgeRows: readonly {
     id: string;
@@ -885,7 +873,6 @@ export interface CoreData {
   version: string;
   workCashModuleId: string;
   cashActSourceKind: string;
-  legacyWorkJournalSourceKind: string;
   work?: WorkData;
   businessBooks?: BusinessBooksData;
   finance?: FinancePolicyData;
@@ -1163,7 +1150,6 @@ export interface CoreAPI {
   recordWorkAttendance(input: WorkAttendanceInput): WorkAttendanceResult;
   settleWorkPayroll(commitmentId: string): WorkPayrollJournalReceipt;
   settleWorkResult(input: WorkResultInput): WorkResult;
-  settleLegacyWorkResult(input: LegacyWorkCashInput): LegacyWorkCashResult;
   recordActivityTime(
     personId: PersonId,
     category: string,
@@ -1310,6 +1296,8 @@ export interface CoreAPI {
   addPersonV1(input: PersonInput): PersonState;
   /** New hourly pay from today for a full or counted worker (e.g. a wage law). */
   rerateJob(jobId: string, hourlyMinor: number, source: Source): void;
+  /** New daily hours for a job from today: its shifts shrink or grow in proportion, open pay periods keep what was earned, and the next payday pays the new hours. */
+  rehourJob(jobId: string, hoursDaily: number, source: Source): void;
   /**
    * v19: a public pay authority draws its wages from a government's cash
    * (its treasury) on each payday; what the treasury can't cover, the

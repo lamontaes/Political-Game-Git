@@ -19,6 +19,7 @@
  * strongest yes voter, the signer the executive who held office then, and
  * each phase points at the one it amends.
  */
+import type { GovernmentLevel } from "./government-level";
 import provisionQuestions from "../../data/research/legislature/provision-questions.json" with { type: "json" };
 import catalog from "./data/legislature/bill-catalog.json" with { type: "json" };
 import { POLICY_QUESTIONS } from "./policy-answers";
@@ -67,14 +68,19 @@ const SERIES_QUESTION = (
   }
 ).series;
 
-type Level = "federal" | "state" | "city";
+type Level = GovernmentLevel;
 type CatalogPolicy = {
   question?: string;
   series?: string;
   levels: Level[];
 };
 const CATALOG_QUESTIONS: Readonly<Record<Level, readonly string[]>> = (() => {
-  const out: Record<Level, string[]> = { federal: [], state: [], city: [] };
+  const out: Record<Level, string[]> = {
+    federal: [],
+    state: [],
+    county: [],
+    city: [],
+  };
   const subjects = (
     catalog as unknown as {
       subjects: {
@@ -223,6 +229,7 @@ function recordVotes(
         billId: measureId,
         measureId,
         stance: { question, position: way * position },
+        question,
         passed,
       };
       votes.put(row as unknown as ModuleRow);

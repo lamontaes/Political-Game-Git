@@ -1,5 +1,7 @@
 # Lane 5 state
 
+**Stopped by the owner, Nov 4 19:45 UTC.** Unfinished: unit 9's next save fix (a save keeps each relative's bereavements, which a Phoenix save made Oct 7, 2025 lost) is on branch `lane-5/cover-rest` at 61299c0622, without its proof run or PR. The locality sweep stopped at 2,687 of 8,242, none failed (results in `docs/lanes/proof/lane5-every-locality/first-2687.jsonl`). No PR is open.
+
 2 of 12 played paths confirmed. Oldest open PR 0 days (#7173, Nov 4).
 
 ## Unit cards
@@ -35,7 +37,8 @@ Every unit gets one before it starts (lane page, CTO rule). Units 1 and 2 were s
 - **Hands off:** fixing a crash in another lane's engine (file it to that lane instead).
 - **Known cheats:** skipping a town that fails; a catch that hides a crash.
 - **Size:** mostly machine time, about 30 hours of sweep. **Checked by:** a fresh session rerunning a sample of the sweep's towns.
-- Sweep: 986 of 8,242 opened, none failed. Paused at 05:32 for unit 7's run (one heavy process at a time); it resumes where it stopped.
+- Sweep, Nov 4 19:05: **2,687 of 8,242 opened (Alabama through Everett, Georgia), none failed.** Stopped here. This session's tool runs a background job for at most two hours, and it asks that a job which hit that limit not be restarted again. The other 5,555 need about 28 hours of machine time.
+- **Needs from others (CTO):** a session or machine that can run long jobs, to finish the sweep. Command: `OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" NODE_OPTIONS=--max-old-space-size=8192 npm run opening:every-locality -- --out <file>`. It resumes from `<file>`, and a copy of this run's results goes up as `docs/lanes/proof/lane5-every-locality/first-2687.jsonl`, so the runner starts at town 2,688.
 
 ### Unit 7: big towns and election years (in progress)
 
@@ -137,7 +140,7 @@ Every unit gets one before it starts (lane page, CTO rule). Units 1 and 2 were s
 ## Next
 
 - Unit 7: finish Arcadia and Chamblee at 4,096 MiB; file or fix what grows in the election year (Nov 1 note: durableLog, foldedCauses, doors).
-- Unit 4: resume the sweep after unit 7's run.
+- Unit 4: the sweep needs a long-run machine (asked of the CTO above). Unit 9 goes on meanwhile: every engine covered, and the bench's save and load route.
 
 ## Confirmer
 
@@ -149,3 +152,14 @@ Replays by a session that built none of this lane's work, on main. Only this sec
   - Run again on main be9b5e649f, same seeds: Madras 121.2/320.5/358 s, Bloomingdale 111.3/156.8/139.9 s, both exit 0, nothing on stderr; still a pass.
 - **Path 3, inside the bar: fail.** Main 8b24caf99e, Nov 4. `speed:year --years 4`: the drawn place (Melvina, Wisconsin, seed confirmer-speed-1) stays under 120 s (worst 73.1); the fixed towns don't: Haleyville 172.0 and 305.1, Meadow Lakes 579.6, Brookside 755.5 (2028), Storrs 124.8 and 142.7, Murray 124.1, D.C. 130.6 and 165.8 (stopped after year 2); Cabo Rojo and Santa Rita not run. The lane's unit 7 owns it. Proof: `docs/lanes/proof/confirmer-lane5-path3/`. Fail 1 of 3.
 - **Path 12, merges don't collide: fail.** Nov 4, main 99d774785b. Step: the new-game check the only required one. `gh api repos/lamontaes/Political-Game-Git/branches/main/protection` lists the required checks as `validate` and `golden-path`; the `new game` job (#7141) is not among them, and every push to main prints "2 of 2 required status checks are expected". The two-PR merge half was not replayed (it needs two PRs merged, which the Confirmer doesn't do). Filed `release-main-requires-only-new-game-check` (a branch setting, the owner's one click per the merge desk page). Fail 1 of 3.
+- **Paths not replayed, and why** (pool on main aa6bd01914; a path is ready when every item its unit lists is done):
+  - 4, big towns: `core-speed-world-races-election-month`, `core-m7-01-speed-and-memory` open; Arcadia's out-of-memory filed (`core-speed-large-town-year-heap-nightly`).
+  - 5, long saves: `core-long-run-tables-grow-with-history`, `core-long-run-election-and-term-rows` open.
+  - 6, quit and come back: `core-m7-02-saves-that-last` blocked.
+  - 7, screen checks see: `play-browser-checks-open-on-the-address` claimed, two test items open.
+  - 8, by-draw sweep: six items open.
+  - 9, money balances: no unit lists it yet; the lane's money check is not on its work list.
+  - 10, a build ships: `release-audit-07-08-duplicate-pool-and-owner-notes` open, `release-m7-04-updates-and-bug-reports` blocked.
+  - 11, the record is true: five items of unit 2 open.
+  - Paths 1, 2, 3 and 12 have results above (3 was run though unit 7 is open).
+- **Units (merged PRs' own tests on main fa89daee38, stopped part way by the owner's Nov 4 stop; a unit never moves the count).** Pass: #7252, #7247. The rest were not run.

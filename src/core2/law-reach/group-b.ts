@@ -32,6 +32,7 @@ import {
   lawChain,
   lawInForce,
   LAWS_MODULE_ID,
+  LOCAL_POWER_PREFIX,
   recordPublicPay,
   yesLevels,
 } from "../modules/laws";
@@ -135,6 +136,10 @@ const data = reach as unknown as {
   policies: Record<string, PolicyDef>;
   budgetLines: Record<string, LineDef>;
 };
+
+const TREASURY_RULE_KEYS = Object.keys(data.policies).filter(
+  (key) => data.policies[key]!.reviewedByTreasury,
+);
 
 /** Every key group B registers a handler for: policies, then budget lines. */
 export const GROUP_B_KEYS: readonly string[] = [
@@ -512,12 +517,9 @@ function runPolicy(
     case "compliance-cost":
       return; // The business engine reads the law when it charges a nonattainment county's emitters.
     case "assistance-time-limit":
-      // The welfare line's benefit reads this law when it picks who is paid;
-      // run that line again now so a change takes hold today.
+      // 7 USC 2015(o) limits SNAP participation. A change reruns food aid,
+      // not the unrelated cash assistance paid from a welfare budget line.
       for (const row of rowsOf<ActiveRow>(api, "active")) {
-        if (row.id === "budget-line:welfareAndMedicaid")
-          runBudgetLine(api, "welfareAndMedicaid", row.lawId);
-        // So does the baseline food benefit.
         if (row.id === FOOD_AID_ACTIVE) payFoodAid(api);
       }
       return;
@@ -657,6 +659,12 @@ function finish(
     placeId: lawChain(api).townPlaceId,
     reach: inForce ? reachNow : null,
   });
+  // Fiscal rules are read from each government's current law at the close.
+  // One saved question pointer cannot represent several governments' acts.
+  if (def.reviewedByTreasury) {
+    setActive(api, null, key);
+    return;
+  }
   setActive(
     api,
     inForce
@@ -756,7 +764,6 @@ function runBudgetLine(api: CoreAPI, line: string, lawId: string): void {
       service,
       heads: selected,
       modeledShare: share,
-      timeLimit: assistanceTimeLimit(api, facts, chain.stateKey),
     });
   }
   if (def.roadCondition && api.state.modules.has(PLACE_PRICES_MODULE_ID)) {
@@ -874,9 +881,24 @@ function runBenefitPrograms(api: CoreAPI): void {
  * applied to the budget it then pays from.
  */
 function reviewFiscalRules(api: CoreAPI): void {
+  if (!api.state.modules.has(LAWS_MODULE_ID)) return;
   forgetTownFacts(api);
-  for (const row of rowsOf<ActiveRow>(api, "active"))
-    if (data.policies[row.id]?.reviewedByTreasury) rerunPolicy(api, row);
+  for (const key of TREASURY_RULE_KEYS) reviewFiscalRule(api, key);
+}
+
+/** Each government's current answer, including a repeal or a preempted act. */
+function reviewFiscalRule(api: CoreAPI, key: string): void {
+  for (const level of lawInForce(api, key).levels) {
+    if (!level.row) continue;
+    const inForce = level.row.value === 1 && !level.setAside;
+    runPolicy(api, key, {
+      lawId: level.row.id,
+      level: level.level,
+      inForce,
+      enacting: inForce,
+      value: level.row.value,
+    });
+  }
 }
 
 let registered = false;
@@ -887,6 +909,11 @@ export function registerGroupB(): void {
   setReachReview(review);
   registerMonthlyProgram(runBenefitPrograms);
   registerTreasuryRule(reviewFiscalRules);
+  for (const key of TREASURY_RULE_KEYS)
+    registerPolicyHandler(`${LOCAL_POWER_PREFIX}${key}`, (api) => {
+      forgetTownFacts(api);
+      reviewFiscalRule(api, key);
+    });
   registerPolicyHandler("snap-maximum", (api) => {
     forgetTownFacts(api);
     setActive(
@@ -904,6 +931,10 @@ export function registerGroupB(): void {
   for (const key of Object.keys(data.policies))
     registerPolicyHandler(key, (api, change) => {
       forgetTownFacts(api);
+      if (data.policies[key]!.reviewedByTreasury) {
+        reviewFiscalRule(api, key);
+        return;
+      }
       const row = lawRow(api, change.lawId);
       const enacting = key.includes(":")
         ? row?.value === 1

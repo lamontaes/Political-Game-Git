@@ -14,7 +14,7 @@
  * themselves read the web's factor for it through `outcomeWebFactor`.
  */
 import { addDays, makeIsoDate } from "../kernel/dates";
-import regions from "../data/regional/regions.json" with { type: "json" };
+import { placeStateKey } from "../place-map";
 import {
   baseOf,
   CALIBRATED_AT,
@@ -43,10 +43,12 @@ import { townMetrics, WORLD_METRICS_MODULE_ID } from "./world-metrics";
 import { schoolMeasure } from "../school-measures";
 import { propertyTaxRateInForce } from "../housing-property-tax";
 import { schoolsLineAboveBase } from "../school-budget-line";
-import { lawInForce, LAWS_MODULE_ID } from "./laws";
+import { inTownChain } from "../laws-in-force";
+import { lawChain, lawInForce, LAWS_MODULE_ID } from "./laws";
 import {
   budgetLineAddedPct,
   defenseBoostPct,
+  federalDeficitChangePct,
   GOV_MEASURES,
   govMeasure,
   govMeasureRecord,
@@ -149,16 +151,6 @@ const monthRow = (api: CoreAPI, placeId: string, month: string) =>
   store(api).table("months").get(`web:${placeId}:${month}`) as
     WebMonth | undefined;
 
-/** The town's state, "US-XX", from its place key (a census GEOID starts with the state's code). */
-function stateKeyOf(core: Readonly<CoreState>): string {
-  const geoid = core.placeMetadata.placeKey ?? "";
-  const states = regions.states as Record<string, { usps: string }>;
-  const usps =
-    states[geoid.slice(0, "SS".length)]?.usps ??
-    core.placeMetadata.housingState;
-  return usps ? `US-${usps}` : "";
-}
-
 /**
  * The places the web keeps: the town (the player's place, or where most
  * households live) and every place the economy records businesses in.
@@ -222,8 +214,17 @@ export function lawValue(
     effectiveDate: string;
   }[];
   const latest = new Map<string, { value: unknown; effectiveDate: string }>();
+  // The town's law is its own chain's: a law another state's legislature
+  // passed is that state's, not the town's.
+  const chain = open ? lawChain(api) : null;
   for (const row of rows) {
     if (row.effectiveDate > date) continue;
+    if (
+      chain &&
+      row.jurisdiction !== "US" &&
+      !inTownChain(chain, row.jurisdiction)
+    )
+      continue;
     const held = latest.get(row.jurisdiction);
     if (!held || row.effectiveDate >= held.effectiveDate)
       latest.set(row.jurisdiction, row);
@@ -282,8 +283,14 @@ const ENGINE_READERS: Readonly<
   // state draws; the web keeps one state key, the town's.
   "defense-boost-pct": (api, placeId) =>
     api.state.placeMetadata?.housingTown === placeId
-      ? defenseBoostPct(api, stateKeyOf(api.state as CoreState))
+      ? defenseBoostPct(
+          api,
+          placeStateKey(api.state.placeMetadata.placeKey) ?? "",
+        )
       : null,
+  // The federal budget row in force against its base: the deficit's change in
+  // points of what the nation produces (the nation's, read once for every place).
+  "federal-deficit-change": (api) => federalDeficitChangePct(api),
   // The corporate rate in force is the town's state law; other places keep
   // their own. A state with no corporate income tax reads zero.
   "state-corporate-rate": (api, placeId) => {
@@ -685,6 +692,8 @@ function schedule(api: CoreAPI): void {
 /** Record a law-took-effect event (the laws module's own rows win where it is open). */
 function recordLaw(api: CoreAPI, event: Readonly<CoreEventInput>): void {
   const facts = event.facts ?? {};
+  // Another state's act is a national event; the web reads the town's laws.
+  if (String(event.placeId).startsWith("national:")) return;
   if (!facts.series) return;
   store(api)
     .table("laws")
@@ -728,7 +737,7 @@ export const OUTCOME_WEB_MODULE: CoreModule = {
         id: STATE_ID,
         openedAt: core.date,
         openingMonth: core.date.slice(0, "YYYY-MM".length),
-        stateKey: stateKeyOf(core),
+        stateKey: placeStateKey(core.placeMetadata.placeKey) ?? "",
       });
     run(api);
     schedule(api);

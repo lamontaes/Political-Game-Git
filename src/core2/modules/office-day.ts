@@ -28,8 +28,8 @@ import type { ModuleCalendarWork } from "../module-calendar";
 import { lawChain } from "./laws";
 import { signUpToSpeak } from "./meetings";
 import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./offices";
-import { BUDGETS_MODULE_ID, governments, withholdPay } from "./budgets";
-import { notePublicPay } from "../budgets-treasury";
+import { governments } from "./budgets";
+import { payOfficialPaycheck } from "./official-pay";
 import { startPublicJob } from "../public-payroll";
 import { seatPay } from "../office-day-pay";
 import {
@@ -45,15 +45,17 @@ import {
 } from "../office-day-registry";
 import {
   billOf,
+  bodyReach,
   castMemberVote,
+  castOwnPositionVote,
   chambersOf,
   executiveDecision,
+  floorDateOf,
   executiveItemVeto,
   executiveLean,
   holdVote,
   LEGISLATURE_MODULE_ID,
   memberKey,
-  memberPosition,
   members,
   registerLegislatureHooks,
   registerMeetingAgendaReader,
@@ -640,9 +642,23 @@ function ownVote(api: CoreAPI, billId: string): void {
     .table("choices")
     .get(`${billId}|${player}`);
   if (chosen) return;
-  const position = memberPosition(api, billId, player).total;
-  const vote = position > 0 ? "yes" : position < 0 ? "no" : "abstain";
-  castMemberVote(api, billId, player, vote);
+  // A member of a legislature is held the evening before the floor vote for their own vote
+  // (the level's floor-vote stop): the character does not cast it for them a week early, on the
+  // committee's day, when the floor is still ahead.
+  const level = bodyReach(api, bill.bodyOfficeId);
+  const stops = api.state.modules.has(OFFICE_DAY_MODULE_ID)
+    ? stopsOf(api, player)
+    : null;
+  const floorDay = floorDateOf(api, billId);
+  if (
+    stops &&
+    floorDay !== null &&
+    floorDay > api.state.date &&
+    ((level === "state" && stops["state-floor-vote"]) ||
+      (level === "federal" && stops["floor-vote"]))
+  )
+    return;
+  const { position, vote } = castOwnPositionVote(api, billId, player);
   keepAct(api, {
     personId: player,
     kind: "vote",
@@ -695,9 +711,12 @@ registerMeetingHold(holdsMemberFilings, placeFiled);
 // The floor's agenda for a date includes what a town body's meeting that day
 // takes up (the evening-before ask reads it).
 registerMeetingAgendaReader((api, date) =>
-  (table(api, "meetings").rows() as unknown as MeetingRow[])
-    .filter((row) => row.date === date && row.status !== "adjourned")
-    .flatMap((row) => agendaFor(api, row.officeId, date)),
+  // A world without the office day has no town meetings to read.
+  !api.state.modules.has(OFFICE_DAY_MODULE_ID)
+    ? []
+    : (table(api, "meetings").rows() as unknown as MeetingRow[])
+        .filter((row) => row.date === date && row.status !== "adjourned")
+        .flatMap((row) => agendaFor(api, row.officeId, date)),
 );
 
 const sits = (personId: string) => (term: TermRow) =>
@@ -914,6 +933,8 @@ export interface OfficeJobRow {
   readonly paidFrom: string;
   readonly endedOn: string | null;
   readonly citation: string;
+  /** Stipend earned that the treasury could not cover yet; paid first on the next payday it can. */
+  readonly owedMinor?: number;
   /** The last stipend paid, for the record. */
   readonly lastPaid?: { readonly on: string; readonly amountMinor: number };
 }
@@ -1003,7 +1024,6 @@ export function reviewOfficeJobs(api: CoreAPI): void {
  * law in force takes out of any pay.
  */
 function payStipends(api: CoreAPI): void {
-  const accounts = api.accounts();
   const today = api.state.date;
   for (const raw of table(api, "officeJobs").rows()) {
     const row = raw as unknown as OfficeJobRow;
@@ -1015,52 +1035,40 @@ function payStipends(api: CoreAPI): void {
         86_400_000,
     );
     let lastPaid = row.lastPaid;
-    if (days > 0 && api.state.people.get(row.personId)?.alive) {
-      const amountMinor = Math.round((row.annualMinor * days) / 365);
-      if (amountMinor > 0) {
-        const receipt = accounts.transfer({
-          id: `stipend:${row.id}:${today}`,
-          from: accounts.main(row.payerId),
-          to: accounts.main(row.personId),
-          amountMinor,
-          reasonKey: "office.stipend",
-          partial: true,
-          source: {
-            tag: "ESTIMATED",
-            asOf: today,
-            citation: `${days} days as ${row.title}. ${row.citation}`,
-            estimatedFrom: "local-office-pay-2026.json",
-          },
-        });
-        lastPaid = { on: today, amountMinor: receipt.paidMinor };
-        if (receipt.paidMinor > 0) {
-          notePublicPay(api, {
-            id: receipt.id,
-            organizationId: row.payerId,
-            jobId: `office:${row.seatId}`,
-            personId: row.personId,
-            paidMinor: receipt.paidMinor,
-          });
-        }
-        if (receipt.paidMinor > 0 && api.state.modules.has(BUDGETS_MODULE_ID)) {
-          // The taxes out of the stipend, on the year's pay with the holder's
-          // own job (the Social Security wage base counts both).
-          withholdPay(api, {
-            id: receipt.id,
-            personId: row.personId,
-            paidMinor: receipt.paidMinor,
-            fromAt: row.paidFrom,
-            throughAt: addDays(makeIsoDate(through), -1),
-          });
-        }
-      }
+    let owedMinor = 0;
+    const dueMinor =
+      Math.round((row.annualMinor * Math.max(days, 0)) / 365) +
+      (row.owedMinor ?? 0);
+    if (dueMinor > 0) {
+      // The same paycheck an official's salary is: what the treasury holds is
+      // paid, its line notes the spending, the law's taxes come out (on the
+      // year's pay with the holder's own job), and the rest is owed.
+      const paid = payOfficialPaycheck(api, {
+        id: `stipend:${row.id}:${today}`,
+        payerId: row.payerId,
+        personId: row.personId,
+        dueMinor,
+        reasonKey: "office.stipend",
+        source: {
+          tag: "ESTIMATED",
+          asOf: today,
+          citation: `${days} days as ${row.title}. ${row.citation}`,
+          estimatedFrom: "local-office-pay-2026.json",
+        },
+        jobId: `office:${row.seatId}`,
+        fromAt: row.paidFrom,
+        throughAt: addDays(makeIsoDate(through), -1),
+      });
+      lastPaid = { on: today, amountMinor: paid.paidMinor };
+      owedMinor = paid.owedMinor;
     }
-    if (row.endedOn && row.endedOn <= today)
+    if (row.endedOn && row.endedOn <= today && owedMinor === 0)
       table(api, "officeJobs").remove(row.id);
     else
       table(api, "officeJobs").put({
         ...row,
         paidFrom: through,
+        owedMinor,
         ...(lastPaid ? { lastPaid } : {}),
       } as unknown as ModuleRow);
   }
@@ -1122,3 +1130,34 @@ function gaveInYear(
     (row) => row.kind === kind && row.date.startsWith(year),
   );
 }
+
+// Re-exported so other engine families import through this entry, not the file (families guard).
+export {
+  controlledPerson,
+  heldFederal,
+  leaveVoteToCharacter,
+  voteOnFloor,
+} from "../office-day-federal";
+export {
+  OFFICE_DAY_STATE_MODULE_ID,
+  stateFloorHolds,
+  voteOnStateFloor,
+} from "../office-day-state";
+export {
+  actOn,
+  appointGovernor,
+  doEntry,
+  stopKindOf,
+  waitingEntries,
+} from "../office-day-state";
+export { budgetProposalDue } from "../office-day-acts";
+export { jointAddress } from "../office-day-federal-calendar";
+export {
+  BUDGET_REQUEST,
+  deliverAddress,
+  JOINT_ADDRESS,
+  leavePostOpen,
+  nominate,
+  nominationsOpen,
+  requestBudget,
+} from "../office-day-federal-president";

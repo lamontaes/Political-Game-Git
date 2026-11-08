@@ -62,7 +62,7 @@ try {
     .locator('#rings [data-tab="calendar"]')
     .first()
     .evaluate((e) => e.click());
-  await page.locator(".calendar-layout").waitFor();
+  await page.locator(".calendar-board").waitFor();
   for (let i = 0; i < 3; i += 1)
     await page.getByRole("button", { name: "Next month", exact: true }).click();
   await page.locator(".month .day:not(.past)").last().click();

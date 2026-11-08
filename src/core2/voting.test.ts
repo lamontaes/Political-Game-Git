@@ -21,6 +21,7 @@ import {
   type TermRow,
 } from "./modules/offices";
 import {
+  atLargeGroup,
   ELECTIONS_MODULE_ID,
   ballot,
   fileCandidacy,
@@ -177,6 +178,14 @@ describe("M2-07 elections", () => {
         return;
       }
       const candidates = ballot(api, contest!.id).map((f) => f.personId);
+      // A candidate backs themselves in the whole race: at large, the race is
+      // every seat of the group (voting.ts counts a filing for any of them), so
+      // a voter who filed for a sibling seat is a candidate here too.
+      const raceCandidates = new Set(
+        atLargeGroup(api, contest!).flatMap((seat) =>
+          ballot(api, seat.id).map((f) => f.personId),
+        ),
+      );
       // Every candidate, resident or official, has a name to show.
       for (const id of candidates)
         expect(candidateIdentity(api, id)?.familyName, id).toBeTruthy();
@@ -201,13 +210,13 @@ describe("M2-07 elections", () => {
       const cast = ballots.filter((b) => b.voted);
       expect(cast.length).toBe(result.namedTurnout);
       expect(
-        cast.filter((b) => b.choice !== null && !candidates.includes(b.voterId))
+        cast.filter((b) => b.choice !== null && !raceCandidates.has(b.voterId))
           .length,
         `${place}: no noncandidate choice checked against its reasons`,
       ).toBeGreaterThan(0);
       for (const b of cast.filter((x) => x.choice !== null)) {
         // A candidate in the race backs themselves.
-        if (candidates.includes(b.voterId)) {
+        if (raceCandidates.has(b.voterId)) {
           expect(b.choice).toBe(b.voterId);
           continue;
         }
@@ -227,7 +236,17 @@ describe("M2-07 elections", () => {
       );
       expect(exitTotal).toBe(result.namedTurnout);
       const chose = Object.values(result.namedVotes).reduce((a, c) => a + c, 0);
-      expect(chose).toBe(cast.filter((b) => b.choice !== null).length);
+      // At large a voter votes for up to as many candidates as the race has
+      // seats (Logansport, Louisiana, 3 seats): the ballot keeps every one,
+      // the first as `choice`. The count adds exactly the ballots' picks, and
+      // no voter picked more than the race has seats.
+      const seatsOpen = atLargeGroup(api, contest!).length;
+      const picks = (b: BallotRow) => b.choices ?? (b.choice ? [b.choice] : []);
+      for (const b of cast)
+        expect(picks(b).length, `${place}: ${b.voterId}`).toBeLessThanOrEqual(
+          seatsOpen,
+        );
+      expect(chose).toBe(cast.reduce((n, b) => n + picks(b).length, 0));
       expect(
         Object.values(result.totals).reduce((a, c) => a + c, 0),
       ).toBeGreaterThanOrEqual(chose);

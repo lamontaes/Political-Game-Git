@@ -16,7 +16,7 @@ Two months of work left more than 5,000 files here. Most are history. This page 
 | `reports/`                                                                                           | Dated reports; the newest on a subject wins. Wiring matrices: `reports/law-wiring-*`, `reports/effect-web-*`, `reports/trait-wiring-*`. |
 | `release/README.md`, `release/changes/`                                                              | Release declarations.                                                                                                                   |
 | `grading/`                                                                                           | English-engine grading batches.                                                                                                         |
-| `ui/kit13/`, `ui/mocks/screens-2026-10-14/`                                                          | The approved look and the screens.                                                                                                      |
+| `ui/kit13/`                                                                                          | The approved look.                                                                                                                      |
 | `packages/M6-screens.md`, `packages/M7-early-access.md`                                              | Screen order and the early-access checklist.                                                                                            |
 
 ## Reference

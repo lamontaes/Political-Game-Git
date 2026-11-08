@@ -48,7 +48,7 @@ try {
     .locator('[data-tab="calendar"]')
     .first()
     .evaluate((e) => e.click());
-  await page.locator(".calendar-layout").waitFor();
+  await page.locator(".calendar-board").waitFor();
   const month = await page.locator(".calendar-heading h3").innerText();
   await page.getByRole("button", { name: "Next month", exact: true }).click();
   assert.notEqual(
@@ -61,7 +61,7 @@ try {
   assert.equal(await page.locator(".calendar-heading h3").innerText(), month);
   // It opens on today, with Coming up beside the month.
   assert.ok(await page.locator(".month .day.today.selected").count());
-  assert.ok((await page.locator(".calendar-side-head").innerText()).trim());
+  assert.ok((await page.locator(".calendar-side .sechead").innerText()).trim());
   // Every line says who and what in words, once; no law rows naming nothing;
   // the player's own dates come first (owner, Oct 27).
   const lines = await page
@@ -102,24 +102,43 @@ try {
     path: `${process.env.SHOTS ?? "."}/calendar-today.png`,
   });
   // More than birthdays (owner, Nov 1): the town's meetings and the holidays
-  // stand with the family's birthdays, each kind in its own color with a key,
+  // stand with the family's birthdays, each kind named in a key (never a color),
   // and a kind can be hidden and shown again.
   const kinds = await page
-    .locator(".calendar-key .key-kind")
+    .locator(".calendar-key .key-chip")
     .evaluateAll((nodes) => nodes.map((n) => n.dataset.kind));
   console.log("Kinds:", kinds.join(", "));
   assert.ok(kinds.includes("holiday"), "no holidays on the calendar");
   assert.ok(kinds.includes("birthday"), "no birthdays on the calendar");
   assert.ok(kinds.length >= 3, `only ${kinds.join(", ")}`);
-  const colors = await page
-    .locator(".calendar-key .key-kind")
+  // The owner's ruling (Nov 8: no colored dots and stripes per kind): no per-kind
+  // color class or color anywhere, and each kind is still named in the key's words.
+  assert.equal(
+    await page.locator('[class*="kind-"]').count(),
+    0,
+    "a calendar element still carries a per-kind color class",
+  );
+  const chips = await page
+    .locator(".calendar-key .key-chip")
+    .evaluateAll((nodes) => nodes.map((n) => n.textContent.trim()));
+  assert.ok(
+    chips.every(Boolean) && new Set(chips).size === chips.length,
+    "a kind in the key has no name of its own",
+  );
+  const stripes = await page
+    .locator(".calendar-pager .calendar-entry")
     .evaluateAll((nodes) =>
-      nodes.map((n) => getComputedStyle(n, "::before").backgroundColor),
+      nodes.map((n) => getComputedStyle(n).borderLeftWidth),
     );
-  assert.equal(new Set(colors).size, colors.length, "two kinds share a color");
+  assert.ok(
+    stripes.every((width) => width === "0px"),
+    "an entry still has a colored stripe",
+  );
   const rowsOf = (kind) =>
-    page.locator(`.calendar-pager .calendar-entry .day-icon.kind-${kind}`);
-  const marks = (kind) => page.locator(`.month .day-icon.kind-${kind}`);
+    page.locator(
+      `.calendar-pager .calendar-entry .day-icon[data-kind="${kind}"]`,
+    );
+  const marks = (kind) => page.locator(`.month .day-icon[data-kind="${kind}"]`);
   const before =
     (await rowsOf("holiday").count()) + (await marks("holiday").count());
   assert.ok(before > 0, "no holiday is shown");
@@ -154,7 +173,7 @@ try {
     .locator(".month .day.selected")
     .getAttribute("data-date");
   assert.ok(
-    (await page.locator(".calendar-day h3").innerText()).includes(
+    (await page.locator(".calendar-day .sechead").innerText()).includes(
       String(Number(farDate.slice(-2))),
     ),
     "the day's date heads its plate",

@@ -23,9 +23,28 @@ import { staffing } from "./group-a-staffing";
 import { votingLaw } from "./group-a-voting";
 import { rightToWork } from "./group-a-union";
 import { publicBargaining } from "./group-a-bargaining";
+import { yesLevels } from "../modules/laws";
 
-const records: PolicyHandler = (api, change) =>
-  applyRecords(api, change.key, change.lawId, change.inForce);
+const records: PolicyHandler = (api, change) => {
+  const levels = POLICIES[change.key]?.effectLevels;
+  if (!levels) {
+    applyRecords(api, change.key, change.lawId, change.inForce);
+    return;
+  }
+  // A federal criminal-law change does not issue or revoke state licenses.
+  // The relevant levels are data; the shared resolver still decides whether
+  // any of their laws have been set aside by actual preemption.
+  if (!levels.includes(change.level)) return;
+  const permission = yesLevels(api, change.key).find((l) =>
+    levels.includes(l.level),
+  );
+  applyRecords(
+    api,
+    change.key,
+    permission?.lawId ?? change.lawId,
+    !!permission,
+  );
+};
 // The voting file imports the elections, budgets and voting engines, which
 // load this registry back through law reach; read its handler when a law
 // takes effect, not when this file loads, so no import order leaves it unset.

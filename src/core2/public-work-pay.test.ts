@@ -424,7 +424,7 @@ describe("retained canonical un-enrolled public cash-writer guards", () => {
 });
 
 // Additive explicit control retention fixtures. SOURCE ONLY; UNEXECUTED.
-describe("explicitly controlled per-shift/legacy work-source retention", () => {
+describe("explicitly controlled per-shift work-source retention", () => {
   it("retains an actual un-enrolled public scheduled payment without changing outside authority or cash", () => {
     // Raw supplied per-shift calendar route; no generated payday enrollment is invented.
     const core = createCore(input(true), { modules: [WORK_MODULE] });
@@ -456,72 +456,6 @@ describe("explicitly controlled per-shift/legacy work-source retention", () => {
       core.cashJournal.sourceProviders.get(row.kind)!({
         kind: row.kind,
         id: row.id,
-      })!.retainFull,
-    ).toBe(true);
-    expect(core.playerId).toBeUndefined();
-    expect(core.focusPersonIds.size).toBe(p("zero"));
-  });
-  it("keeps earlier controlled legacy payment Sources and journals across later occurrences without changing finite pay", () => {
-    const original = input(false),
-      supplied = {
-        ...original,
-        workCommitments: [],
-        workPayrollCalendars: [],
-        organizations: original.organizations.map((row) => ({
-          ...row,
-          outsideFlow: undefined,
-          publicPayAuthority: undefined,
-          governmentFacts: undefined,
-          liquidMinor: p("minorPerDollar") * p("two"),
-        })),
-      },
-      core = createCore(supplied, { modules: [WORK_MODULE] }),
-      api = coreAPI(core);
-    ensureWorkCashModule(core);
-    ensureFinanceCashModule(core);
-    advanceDate(core, nextDay);
-    const token = registerControlledPersonV1(core, personId),
-      occurrence = () => {
-        const offer = {
-            definition: core.data.actions.find(
-              (row) => row.id === "work-shift",
-            )!,
-            targetId: jobId,
-            availableHours:
-              p("hoursPerDay") - p(core.data.work!.sleepReserveParameter),
-            effortHours: p("one"),
-          },
-          decision = chooseAct(core, personId, [offer]);
-        return api.settleLegacyWorkResult({
-          personId,
-          offer,
-          date: core.date,
-          days: p("one"),
-          decision,
-        });
-      },
-      first = occurrence();
-    advanceDate(core, "2021-01-03");
-    const second = occurrence();
-    expect(first.paidMinor).toBe(p("minorPerDollar"));
-    expect(second.paidMinor).toBe(p("minorPerDollar"));
-    expect(core.organizations.get(employerId)!.liquidMinor).toBe(p("zero"));
-    expect(core.work.cashSources.has(first.id)).toBe(true);
-    expect(core.work.cashSources.has(second.id)).toBe(true);
-    for (const id of [first.id, second.id]) {
-      const row = core.work.cashSources.get(id)!,
-        journalId = core.cashJournal.requiredBySource.get(row.kind)!.get(id)!;
-      expect(
-        core.cashJournal.detailedReceipts.get(journalId)!.sourceRef.id,
-      ).toBe(id);
-    }
-    retireControlledPersonV1(core, token);
-    expect(
-      core.cashJournal.sourceProviders.get(
-        core.data.legacyWorkJournalSourceKind,
-      )!({
-        kind: core.data.legacyWorkJournalSourceKind,
-        id: first.id,
       })!.retainFull,
     ).toBe(true);
     expect(core.playerId).toBeUndefined();

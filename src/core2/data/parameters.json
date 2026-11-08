@@ -3973,6 +3973,37 @@
     },
     "stopgapId": "SG-P15-partnership-model"
   },
+  "groupKnownScale": {
+    "value": 4.5,
+    "tag": "ESTIMATED",
+    "citation": "How many people one knows by name in a group or workplace of N people grows slower than N: known(N) = scale * N^exponent, capped at groupKnownCap and at N - 1. Anchors: Jacobs and Watts, 'A Large-Scale Comparative Study of Informal Social Networks in Firms', Management Science 67(9), 2021 (65 U.S. firms, 1.4 million users: average contacts grow with firm size and run near 27 in a mid-size firm); a survey of 3,000 U.S. full-time workers (Olivet Nazarene University, 2019) found five friends at work on average; Dunbar's limit of about 150 stable ties.",
+    "estimatedFrom": "A power law through those anchors (about 15 known at 20 people, 28 at 100, 54 at 500). The source papers were not fetched in full, so the scale and exponent are an estimate with the spread below.",
+    "spread": {
+      "low": 3,
+      "high": 7,
+      "unit": "people known in a group of 10, before the power law's exponent",
+      "citation": "Five work friends (Olivet Nazarene University, 2019) to the near-27 average contacts in a mid-size firm (Jacobs and Watts, 2021)."
+    },
+    "stopgapId": "SG-P15-encounters"
+  },
+  "groupKnownExponent": {
+    "value": 0.4,
+    "tag": "ESTIMATED",
+    "citation": "Exponent of the people-known power law (see groupKnownScale); Jacobs and Watts (2021) report that firm size shapes average degree sublinearly.",
+    "estimatedFrom": "Fitted by eye through the anchors named at groupKnownScale.",
+    "spread": {
+      "low": 0.3,
+      "high": 0.5,
+      "unit": "exponent",
+      "citation": "Range that keeps 100 people at 18 to 45 known."
+    },
+    "stopgapId": "SG-P15-encounters"
+  },
+  "groupKnownCap": {
+    "value": 150,
+    "tag": "SOURCED",
+    "citation": "Dunbar, R. I. M. (1993), 'Coevolution of neocortical size, group size and language in humans', Behavioral and Brain Sciences 16(4): about 150 stable relationships; Dunbar says under about 500 people colleagues tend also to be friends (NPR transcript, https://www.npr.org/transcripts/136723316)."
+  },
   "openingCoworkerGroupSize": {
     "value": 8,
     "tag": "TUNABLE",
@@ -5396,6 +5427,61 @@
       "high": 1,
       "unit": "score per unit of scaled trait lean",
       "citation": "Starting range; the site reasons it joins run about -1 to 1 (views, warmth, grievance), so the trait term stays a minority share of the total."
+    }
+  },
+  "nationNewsDays": {
+    "value": 14,
+    "tag": "TUNABLE",
+    "citation": "How many days back the Nation heading on News tells laws other states passed: a window of the newest, not a count, so a quiet fortnight is short and a busy one long. Two weeks is a news cycle; the stories are a view over the other states' law rows and keep nothing of their own (owner, Oct 28: every screen is a view of the same records; Nov 5: other places keep only the result).",
+    "spread": {
+      "low": 7,
+      "high": 30,
+      "unit": "days",
+      "citation": "A week to a month; checked against how long the News screen stays readable (about 55 places enact about 7 laws each in a year)."
+    }
+  },
+  "nationNewsReachBar": {
+    "value": 0.025,
+    "tag": "TUNABLE",
+    "citation": "How far a law passed in another state must reach to be told under the Nation heading on News: the state's share of the nation's people, times one plus the reader's ties to that state (nationNewsFamilyTie, nationNewsWorkTie, nationNewsNeighborTie). 0.025 is a state of about 8.4 million people, so only the ten largest states clear it on size alone and any other state needs a tie. Population from the Census Bureau's 2020 base (src/core2/data/places/state-reach.json).",
+    "spread": {
+      "low": 0.01,
+      "high": 0.05,
+      "unit": "share of the nation",
+      "citation": "Checked against how many other-state laws the News screen shows a reader in a played year: a few large states and the reader's own ties, not every state's every law."
+    }
+  },
+  "nationNewsFamilyTie": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "What a reader's family living in a state adds to how newsworthy a law there is to them, as a multiple of its reach.",
+    "spread": {
+      "low": 1,
+      "high": 6,
+      "unit": "multiple",
+      "citation": "Checked against how many other-state laws the News screen shows a reader in a played year: a few large states and the reader's own ties, not every state's every law."
+    }
+  },
+  "nationNewsWorkTie": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "What a reader's work in a state adds to how newsworthy a law there is to them, as a multiple of its reach.",
+    "spread": {
+      "low": 1,
+      "high": 6,
+      "unit": "multiple",
+      "citation": "Checked against how many other-state laws the News screen shows a reader in a played year: a few large states and the reader's own ties, not every state's every law."
+    }
+  },
+  "nationNewsNeighborTie": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "What living next to a state adds to how newsworthy a law there is, as a multiple of its reach: its news crosses the border.",
+    "spread": {
+      "low": 0.5,
+      "high": 3,
+      "unit": "multiple",
+      "citation": "Checked against how many other-state laws the News screen shows a reader in a played year: a few large states and the reader's own ties, not every state's every law."
     }
   },
   "circleDecisionDetailDays": {
@@ -6848,6 +6934,36 @@
       "citation": "The BLS OEWS wage tables publish the 10th, 25th, 50th, 75th and 90th percentiles; the player's own town starts a worker at the 25th and moves toward the 75th with tenure, so the median sits inside that range."
     }
   },
+  "schoolMeasureMinimumStudents": {
+    "value": 20,
+    "tag": "ESTIMATED",
+    "citation": "The fewest students a school measure (math, reading, graduation) stands on before it reports the place's own count rather than an estimate from the place's rate: states set a minimum group size for reporting results under the Every Student Succeeds Act, 28 states between 11 and 25 students and 8 at 26 or more, up to 30 (All4Ed, N-Size in ESSA State Plans, https://all4ed.org/wp-content/uploads/2018/11/N-Size-in-ESSA-State-Plans.pdf; Ohio's April 2026 amendment request uses 15). Below it, a count of 0 passing is noise, not a finding, so the measure reads the expected rate.",
+    "estimatedFrom": "The middle of the states' range, 10 to 30 students; the 2018 fact sheet is not current and no single state is the town's.",
+    "spread": {
+      "low": 10,
+      "high": 30,
+      "unit": "students",
+      "citation": "States' minimum n-size for reporting, All4Ed 2018: from 10 to 30 students."
+    }
+  },
+  "disasterStatutoryFederalShare": {
+    "value": 0.75,
+    "tag": "SOURCED",
+    "citation": "The federal share of eligible public assistance costs under a major disaster declaration is not less than 75 percent (Stafford Act, 42 U.S.C. 5172(b)(1))."
+  },
+  "disasterFederalShareWhenStatesShare": {
+    "value": 0.5,
+    "tag": "SOURCED",
+    "citation": "The federal share of eligible public assistance costs once the states share more of disaster costs. Today the federal share is not less than 75 percent (Stafford Act, 42 U.S.C. 5172(b)(1) and 5170b(b)). FEMA's head said the cost share would move to 50 percent federal, 50 percent state: \"It's 75/25 right now, but 50/50's coming\" (David Richardson, FEMA staff town hall, May 15, 2025, as reported by Reuters in Insurance Journal, https://www.insurancejournal.com/news/national/2025/05/15/823980.htm). The FEMA Review Council later recommended a 50 percent federal floor. No enacted bill sets it, so the stated plan is the size.",
+    "estimatedFrom": "The administration's stated 50/50 plan; replace it from the first enacted text.",
+    "stopgapId": "SG-LAWS-disaster-share-size",
+    "spread": {
+      "low": 0.25,
+      "high": 0.75,
+      "unit": "federal share of eligible costs",
+      "citation": "From a quarter of costs (the federal government pays far less) to today's 75 percent (no change)."
+    }
+  },
   "schoolStandingAttendanceWeight": {
     "value": 1,
     "tag": "TUNABLE",
@@ -6989,6 +7105,30 @@
       "high": 1.0,
       "unit": "elasticity",
       "citation": "CPS duration of unemployment, 2001-2019."
+    }
+  },
+  "pastWorkFindAgeReferenceYears": {
+    "value": 40,
+    "tag": "ESTIMATED",
+    "citation": "BLS CPS duration of unemployment by age: the all-ages mean about 23 weeks (FRED UEMPMEAN, 2025 average of 11 months retrieved Nov 8, 2026) sits near the 35-44 band; nobody is modeled as finding work faster for being young.",
+    "estimatedFrom": "The reference age is the one at which the all-ages mean duration applies; the 25-54 bands are not on file (SG-LABOR-find-age-estimated: BLS cpsaat31 to replace).",
+    "spread": {
+      "low": 35,
+      "high": 45,
+      "unit": "years of age",
+      "citation": "CPS duration of unemployment, 2025."
+    }
+  },
+  "pastWorkFindAgeElasticity": {
+    "value": 0.4,
+    "tag": "ESTIMATED",
+    "citation": "BLS CPS 2025 annual table cpsaat31 as quoted in a search snippet (unverified): mean weeks unemployed 25.0 at 55-64 and 29.8 at 65 and over, against 23.1 all ages (FRED UEMPMEAN, 2025).",
+    "estimatedFrom": "ln(25.0/23.1)/ln(59.5/40) is about 0.2 and ln(29.8/23.1)/ln(70/40) is about 0.45; 0.4 is taken between them, held wide. Duration itself is not penalized: Krueger and Mueller (2016, IZA DP 7957, Table 9) find unemployment duration does not predict acceptance once the reservation wage is controlled.",
+    "spread": {
+      "low": 0.1,
+      "high": 1,
+      "unit": "elasticity",
+      "citation": "CPS duration of unemployment by age, 2025 (snippet; replace with cpsaat31)."
     }
   },
   "pastWorkTraitSpread": {
@@ -7874,6 +8014,284 @@
     "spread": {
       "status": "unmeasured",
       "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "partnerDatingMonths": {
+    "value": 10,
+    "tag": "TUNABLE",
+    "citation": "Months a dating couple in the played town stay in separate homes before one moves in, at a typical couple's lean. Owner-unreviewed stopgap length (SG-LIVES-partner-stage-lengths), tuned so about half of first unions begin with living together, as NSFG reports for women's first unions (Copen, Daniels, Vespa and Mosher 2012, NHSR 49).",
+    "spread": {
+      "low": 4,
+      "high": 24,
+      "unit": "months",
+      "citation": "Checked against the chain's yearly union count in src/core2/partnerships.test.ts: the stage lengths move when a couple moves in and marries, never how many couples form (the chain's pace sets that)."
+    }
+  },
+  "partnerLivingTogetherMonths": {
+    "value": 20,
+    "tag": "TUNABLE",
+    "citation": "Months a couple living together wait before one asks the other to marry, at a typical couple's lean (SG-LIVES-partner-stage-lengths).",
+    "spread": {
+      "low": 8,
+      "high": 48,
+      "unit": "months",
+      "citation": "Checked against the chain's yearly union count in src/core2/partnerships.test.ts: the stage lengths move when a couple moves in and marries, never how many couples form (the chain's pace sets that)."
+    }
+  },
+  "partnerEngagedMonths": {
+    "value": 6,
+    "tag": "TUNABLE",
+    "citation": "Months between a proposal accepted and the wedding, at a typical couple's lean (SG-LIVES-partner-stage-lengths).",
+    "spread": {
+      "low": 3,
+      "high": 18,
+      "unit": "months",
+      "citation": "Checked against the chain's yearly union count in src/core2/partnerships.test.ts: the stage lengths move when a couple moves in and marries, never how many couples form (the chain's pace sets that)."
+    }
+  },
+  "partnerProposalLapseMonths": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "Months a proposal to the player waits for their answer in the proposal scene before it lapses back to living together, unanswered (SG-LIVES-partner-stage-lengths).",
+    "spread": {
+      "low": 1,
+      "high": 6,
+      "unit": "months",
+      "citation": "Not a rate: a wait for the player's own choice; checked against how soon scenes stage after their record in the played year."
+    }
+  },
+  "kinContactsPerYearAtFull": {
+    "value": 12,
+    "tag": "TUNABLE",
+    "citation": "Contacts a year (a letter, a call, a message) from a relative living elsewhere to a town resident at full closeness; a tie writes in proportion to its closeness. Stand-in for the GSS frequencies of seeing parents, siblings and relatives behind the opening closeness (data/closeness.json).",
+    "spread": {
+      "low": 4,
+      "high": 26,
+      "unit": "contacts per year at full closeness",
+      "citation": "Checked against the played year's count of family.contact records against the opening's visits-per-year stand-ins (CLOSENESS.visitsPerYearByCategory, 1 to 30 a month)."
+    }
+  },
+  "kinContactHours": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Hours of time together one letter or call from a relative elsewhere counts as on their tie (SG-LIVES-kin-contact-traits).",
+    "spread": {
+      "low": 0.1,
+      "high": 1,
+      "unit": "hours",
+      "citation": "The hours a short call takes; closeness fades by half-life, so the effect is read in the played year's tie levels."
+    }
+  },
+  "federalStayShareDrug": {
+    "value": 0.515,
+    "tag": "TUNABLE",
+    "role": "coefficient",
+    "citation": "Derived by scripts/justice/derive-federal-stay-share.ts from the Bureau of Prisons stock by offense (data/research/justice/bop-federal-offenses-2026.json) and the Sentencing Commission's fiscal 2025 prison admissions and mean sentences (data/research/justice/ussc-federal-sentencing-fy2025.json): stock x 12 / (admissions x mean months). The share of the sentence imposed that people in the group spend in custody, below the 85.2 percent statutory good-time ceiling (18 U.S.C. 3624(b)); the federal case stream calibrates against the stock, so this is the value it starts from and is checked against the Bureau's table.",
+    "spread": {
+      "low": 0.258,
+      "high": 1.03,
+      "unit": "share of sentence served",
+      "citation": "Half to double: the admissions are one year's and the Bureau's offense table counts everyone it has offense data for."
+    }
+  },
+  "federalStayShareWeapons": {
+    "value": 0.928,
+    "tag": "TUNABLE",
+    "role": "coefficient",
+    "citation": "Derived by scripts/justice/derive-federal-stay-share.ts from the Bureau of Prisons stock by offense (data/research/justice/bop-federal-offenses-2026.json) and the Sentencing Commission's fiscal 2025 prison admissions and mean sentences (data/research/justice/ussc-federal-sentencing-fy2025.json): stock x 12 / (admissions x mean months). The share of the sentence imposed that people in the group spend in custody, below the 85.2 percent statutory good-time ceiling (18 U.S.C. 3624(b)); the federal case stream calibrates against the stock, so this is the value it starts from and is checked against the Bureau's table. Category mismatch: The Bureau's weapons, explosives and arson stock includes firearm counts from cases the Commission files under another primary offense, so the stock is larger than the firearms flow alone explains.",
+    "spread": {
+      "low": 0.464,
+      "high": 1.856,
+      "unit": "share of sentence served",
+      "citation": "Half to double: the admissions are one year's and the Bureau's offense table counts everyone it has offense data for."
+    }
+  },
+  "federalStayShareImmigration": {
+    "value": 0.336,
+    "tag": "TUNABLE",
+    "role": "coefficient",
+    "citation": "Derived by scripts/justice/derive-federal-stay-share.ts from the Bureau of Prisons stock by offense (data/research/justice/bop-federal-offenses-2026.json) and the Sentencing Commission's fiscal 2025 prison admissions and mean sentences (data/research/justice/ussc-federal-sentencing-fy2025.json): stock x 12 / (admissions x mean months). The share of the sentence imposed that people in the group spend in custody, below the 85.2 percent statutory good-time ceiling (18 U.S.C. 3624(b)); the federal case stream calibrates against the stock, so this is the value it starts from and is checked against the Bureau's table.",
+    "spread": {
+      "low": 0.168,
+      "high": 0.672,
+      "unit": "share of sentence served",
+      "citation": "Half to double: the admissions are one year's and the Bureau's offense table counts everyone it has offense data for."
+    }
+  },
+  "federalStayShareSexOffenses": {
+    "value": 0.497,
+    "tag": "TUNABLE",
+    "role": "coefficient",
+    "citation": "Derived by scripts/justice/derive-federal-stay-share.ts from the Bureau of Prisons stock by offense (data/research/justice/bop-federal-offenses-2026.json) and the Sentencing Commission's fiscal 2025 prison admissions and mean sentences (data/research/justice/ussc-federal-sentencing-fy2025.json): stock x 12 / (admissions x mean months). The share of the sentence imposed that people in the group spend in custody, below the 85.2 percent statutory good-time ceiling (18 U.S.C. 3624(b)); the federal case stream calibrates against the stock, so this is the value it starts from and is checked against the Bureau's table.",
+    "spread": {
+      "low": 0.249,
+      "high": 0.994,
+      "unit": "share of sentence served",
+      "citation": "Half to double: the admissions are one year's and the Bureau's offense table counts everyone it has offense data for."
+    }
+  },
+  "federalStayShareFraud": {
+    "value": 0.787,
+    "tag": "TUNABLE",
+    "role": "coefficient",
+    "citation": "Derived by scripts/justice/derive-federal-stay-share.ts from the Bureau of Prisons stock by offense (data/research/justice/bop-federal-offenses-2026.json) and the Sentencing Commission's fiscal 2025 prison admissions and mean sentences (data/research/justice/ussc-federal-sentencing-fy2025.json): stock x 12 / (admissions x mean months). The share of the sentence imposed that people in the group spend in custody, below the 85.2 percent statutory good-time ceiling (18 U.S.C. 3624(b)); the federal case stream calibrates against the stock, so this is the value it starts from and is checked against the Bureau's table.",
+    "spread": {
+      "low": 0.394,
+      "high": 1.574,
+      "unit": "share of sentence served",
+      "citation": "Half to double: the admissions are one year's and the Bureau's offense table counts everyone it has offense data for."
+    }
+  },
+  "federalStayShareRobbery": {
+    "value": 0.295,
+    "tag": "TUNABLE",
+    "role": "coefficient",
+    "citation": "Derived by scripts/justice/derive-federal-stay-share.ts from the Bureau of Prisons stock by offense (data/research/justice/bop-federal-offenses-2026.json) and the Sentencing Commission's fiscal 2025 prison admissions and mean sentences (data/research/justice/ussc-federal-sentencing-fy2025.json): stock x 12 / (admissions x mean months). The share of the sentence imposed that people in the group spend in custody, below the 85.2 percent statutory good-time ceiling (18 U.S.C. 3624(b)); the federal case stream calibrates against the stock, so this is the value it starts from and is checked against the Bureau's table.",
+    "spread": {
+      "low": 0.148,
+      "high": 0.59,
+      "unit": "share of sentence served",
+      "citation": "Half to double: the admissions are one year's and the Bureau's offense table counts everyone it has offense data for."
+    }
+  },
+  "mentorAgeGapYears": {
+    "value": 10,
+    "tag": "TUNABLE",
+    "citation": "Years older a coworker must be to take a new hire under their wing (SG-LIVES-mentorship-model).",
+    "spread": {
+      "low": 7,
+      "high": 15,
+      "unit": "years",
+      "citation": "Checked against how many hires in a played year get a mentor next to the hires the jobs engine records."
+    }
+  },
+  "mentorFirstHours": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "Hours together a mentor's first sit-down with a new hire counts as on their coworker tie (SG-LIVES-mentorship-model).",
+    "spread": {
+      "low": 0.5,
+      "high": 8,
+      "unit": "hours",
+      "citation": "A first-week sit-down; closeness fades by half-life so the effect is read in the played year."
+    }
+  },
+  "rescueHours": {
+    "value": 6,
+    "tag": "TUNABLE",
+    "citation": "Hours together a rescue at the start of an illness counts as on the tie between the sufferer and the one who stayed with them (SG-LIVES-rescue-acute).",
+    "spread": {
+      "low": 2,
+      "high": 24,
+      "unit": "hours",
+      "citation": "A night in a hospital waiting room against a call and a ride; closeness fades by half-life so the effect is read in the played year."
+    }
+  },
+  "quarrelStrainHours": {
+    "value": 4,
+    "tag": "TUNABLE",
+    "citation": "Hours of time together a money quarrel takes off the tie between the borrower and the housemate wronged by their missed payment (SG-LIVES-quarrel-model).",
+    "spread": {
+      "low": 1,
+      "high": 16,
+      "unit": "hours",
+      "citation": "A bad evening against a week of silence; closeness fades by half-life so the effect is read in the played year."
+    }
+  },
+  "studentLoanHolderShare": {
+    "value": 0.218,
+    "tag": "SOURCED",
+    "role": "opening",
+    "citation": "Derived by scripts/credit/derive-student-loan-seed.ts from data/research/credit/student-loan-debt-2026.json: the share of families with education debt, Federal Reserve Survey of Consumer Finances 2022, Table 4 (21.8 percent). The survey is 2022; the engine marks any 2026 adjustment ESTIMATED."
+  },
+  "studentLoanMedianBalanceUsd": {
+    "value": 24500,
+    "tag": "SOURCED",
+    "role": "opening",
+    "citation": "Derived by scripts/credit/derive-student-loan-seed.ts from data/research/credit/student-loan-debt-2026.json: the median balance among families holding education debt, Survey of Consumer Finances 2022, Table 4 (2022 dollars)."
+  },
+  "studentLoanMeanBalanceUsd": {
+    "value": 46600,
+    "tag": "SOURCED",
+    "role": "opening",
+    "citation": "Derived by scripts/credit/derive-student-loan-seed.ts from data/research/credit/student-loan-debt-2026.json: the mean balance among families holding education debt, Survey of Consumer Finances 2022, Table 4 (2022 dollars)."
+  },
+  "studentLoanBalanceShare18to29": {
+    "value": 0.1862,
+    "tag": "ESTIMATED",
+    "role": "opening",
+    "citation": "Derived by scripts/credit/derive-student-loan-seed.ts from data/research/credit/student-loan-debt-2026.json: this age band's share of the student-loan balances in the New York Fed's Household Debt and Credit Report for 2026Q2 (page 21 data), each band over the sum of the bands.",
+    "estimatedFrom": "Each age row over the sum of the age rows; the published national total is slightly larger because a few borrowers' birth years are unknown.",
+    "spread": {
+      "low": 0.149,
+      "high": 0.223,
+      "unit": "share of balances",
+      "citation": "Plus or minus a fifth: one quarter's balances by age, with unknown birth years left out."
+    }
+  },
+  "studentLoanBalanceShare30to39": {
+    "value": 0.3178,
+    "tag": "ESTIMATED",
+    "role": "opening",
+    "citation": "Derived by scripts/credit/derive-student-loan-seed.ts from data/research/credit/student-loan-debt-2026.json: this age band's share of the student-loan balances in the New York Fed's Household Debt and Credit Report for 2026Q2 (page 21 data), each band over the sum of the bands.",
+    "estimatedFrom": "Each age row over the sum of the age rows; the published national total is slightly larger because a few borrowers' birth years are unknown.",
+    "spread": {
+      "low": 0.254,
+      "high": 0.381,
+      "unit": "share of balances",
+      "citation": "Plus or minus a fifth: one quarter's balances by age, with unknown birth years left out."
+    }
+  },
+  "studentLoanBalanceShare40to49": {
+    "value": 0.233,
+    "tag": "ESTIMATED",
+    "role": "opening",
+    "citation": "Derived by scripts/credit/derive-student-loan-seed.ts from data/research/credit/student-loan-debt-2026.json: this age band's share of the student-loan balances in the New York Fed's Household Debt and Credit Report for 2026Q2 (page 21 data), each band over the sum of the bands.",
+    "estimatedFrom": "Each age row over the sum of the age rows; the published national total is slightly larger because a few borrowers' birth years are unknown.",
+    "spread": {
+      "low": 0.186,
+      "high": 0.28,
+      "unit": "share of balances",
+      "citation": "Plus or minus a fifth: one quarter's balances by age, with unknown birth years left out."
+    }
+  },
+  "studentLoanBalanceShare50to59": {
+    "value": 0.1582,
+    "tag": "ESTIMATED",
+    "role": "opening",
+    "citation": "Derived by scripts/credit/derive-student-loan-seed.ts from data/research/credit/student-loan-debt-2026.json: this age band's share of the student-loan balances in the New York Fed's Household Debt and Credit Report for 2026Q2 (page 21 data), each band over the sum of the bands.",
+    "estimatedFrom": "Each age row over the sum of the age rows; the published national total is slightly larger because a few borrowers' birth years are unknown.",
+    "spread": {
+      "low": 0.127,
+      "high": 0.19,
+      "unit": "share of balances",
+      "citation": "Plus or minus a fifth: one quarter's balances by age, with unknown birth years left out."
+    }
+  },
+  "studentLoanBalanceShare60to69": {
+    "value": 0.0786,
+    "tag": "ESTIMATED",
+    "role": "opening",
+    "citation": "Derived by scripts/credit/derive-student-loan-seed.ts from data/research/credit/student-loan-debt-2026.json: this age band's share of the student-loan balances in the New York Fed's Household Debt and Credit Report for 2026Q2 (page 21 data), each band over the sum of the bands.",
+    "estimatedFrom": "Each age row over the sum of the age rows; the published national total is slightly larger because a few borrowers' birth years are unknown.",
+    "spread": {
+      "low": 0.063,
+      "high": 0.094,
+      "unit": "share of balances",
+      "citation": "Plus or minus a fifth: one quarter's balances by age, with unknown birth years left out."
+    }
+  },
+  "studentLoanBalanceShare70plus": {
+    "value": 0.0261,
+    "tag": "ESTIMATED",
+    "role": "opening",
+    "citation": "Derived by scripts/credit/derive-student-loan-seed.ts from data/research/credit/student-loan-debt-2026.json: this age band's share of the student-loan balances in the New York Fed's Household Debt and Credit Report for 2026Q2 (page 21 data), each band over the sum of the bands.",
+    "estimatedFrom": "Each age row over the sum of the age rows; the published national total is slightly larger because a few borrowers' birth years are unknown.",
+    "spread": {
+      "low": 0.021,
+      "high": 0.031,
+      "unit": "share of balances",
+      "citation": "Plus or minus a fifth: one quarter's balances by age, with unknown birth years left out."
     }
   }
 }

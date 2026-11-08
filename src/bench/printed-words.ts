@@ -48,6 +48,8 @@ import {
 import type { StoryKind } from "../english/english-newscast";
 import { joinList } from "../english/bill-names";
 import { storyTopicName } from "../english/policy-names";
+import { causeGroupName } from "../english/group-names";
+import { areaName } from "../english/area-names";
 import { lineName } from "./budget";
 import { policyNames } from "./words";
 import { placeLabel } from "../director/journal";
@@ -253,7 +255,13 @@ export function printedFacts(
     story,
     sourceId,
     kind,
-    source?.personIds ?? [],
+    // A household event the log doesn't keep (a home bought in a place the
+    // player can't see) still names its household as the story's topic: its
+    // members are who the story is about.
+    source?.personIds ??
+      (story.topic ? core.households.get(story.topic as EntityId) : undefined)
+        ?.memberIds ??
+      [],
     happened,
   );
   const built = BUILDERS[kind]?.(read, facts) ?? null;
@@ -497,10 +505,18 @@ class Reader {
     ) as unknown as { title?: string } | undefined;
     return contest?.title ?? null;
   }
-  /** An organization's name; null where its record keeps none but its key. */
+  /**
+   * An organization's name; a founded cause group, which keeps only its key,
+   * is named by the English engine from its topic. Null where there is neither.
+   */
   organization(id: string | undefined): string | null {
-    const name = id ? this.core.organizations.get(id as EntityId)?.name : null;
-    return name && !/[:_]/.test(name) ? name : null;
+    const org = id ? this.core.organizations.get(id as EntityId) : undefined;
+    if (!org) return null;
+    if (/[:_]/.test(org.name))
+      return org.kind === "cause-group" && org.topic
+        ? causeGroupName(org.id, org.topic)
+        : null;
+    return org.name || null;
   }
   /** An outlet's name, from its organization. */
   outlet(id: string | undefined): string | null {
@@ -1673,6 +1689,7 @@ const exposed: Builder = (read, f) => {
       ...read.who(id, "name", false),
       ...(office ? { office: read.fact(office) } : {}),
       ...(acts.includes("bribe-taken") ? { bribe: read.yes() } : {}),
+      ...(acts.includes("bribe-offered") ? { offered: read.yes() } : {}),
       ...(conflict && firm
         ? { firm: read.fact(firm, f.organizationId ?? "") }
         : {}),
@@ -1706,11 +1723,16 @@ const TIMES: readonly (string | undefined)[] = [
 ];
 
 /**
- * A recorded bribe that someone who learned of it took to the press (the
- * corruption engine reports only bribes): told as the exposure it is.
+ * A recorded bribe that someone who learned of it took to the press, or an
+ * offer an official turned down and told the press of: told as the exposure
+ * it is.
  */
 const scandalReported: Builder = (read, f) =>
-  exposed(read, { ...f, crime: "bribe-taken" });
+  exposed(read, {
+    ...f,
+    // An official told the press of an offer they turned down: the offer is the story.
+    crime: f.attempt ? "bribe-offered" : "bribe-taken",
+  });
 
 /** An appointment to a public post. */
 const appointed: Builder = (read, f) => {
@@ -2923,6 +2945,83 @@ const address: Builder = (read, f) => {
 };
 
 /**
+ * A strike, protest or rally in the town (src/core2/modules/public-action.ts):
+ * where, when, how many and what it was over, from the record the engine kept.
+ * A protest or strike with no named demand is not told.
+ */
+const publicAction =
+  (kind: "protest" | "strike" | "rally" | "movement"): Builder =>
+  (read, f) => {
+    const place = read.place();
+    if (!place) return null;
+    // A protest or strike is told by its demand, a rally by the area that went well.
+    const issue = kind !== "rally" && f.question ? read.issue(f.question) : {};
+    const area = kind === "rally" && f.area ? areaName(f.area) : null;
+    return story(
+      "public-action",
+      {
+        place: read.fact(place, f.actionId ?? ""),
+        date: read.date(),
+        ...(f.size ? { number: read.fact(f.size, f.actionId ?? "") } : {}),
+        ...issue,
+        ...(area ? { area: read.fact(area, f.actionId ?? "") } : {}),
+        [kind]: read.fact("yes", f.actionId ?? ""),
+      },
+      kind === "rally" ? ["place", "area"] : ["place", "issue"],
+    );
+  };
+
+/** The other side's answer to a governor's address (director/address-response.ts): who answered, whom, and the ask they objected to. */
+const addressResponse: Builder = (read, f) =>
+  story(
+    "address-response",
+    {
+      ...read.who(f.responderId, "name", false),
+      ...read.who(f.governorId, "opponent", false),
+      ...(f.question ? read.issue(f.question) : {}),
+    },
+    ["name", "opponent", "issue"],
+    f.responderId,
+  );
+
+/** The floor before a roll call (legislature.ts recordFloorDebate): who spoke for the bill and who against. */
+const floorDebate: Builder = (read, f) => {
+  const bill = read.billFacts(f.billId, f.number);
+  return story(
+    "floor-debate",
+    {
+      ...read.who(f.forId, "name", false),
+      ...read.who(f.againstId, "opponent", false),
+      ...(bill.designation ? { designation: bill.designation } : {}),
+    },
+    ["name", "opponent", "designation"],
+    f.forId,
+  );
+};
+
+/** A governor's or mayor's yearly address, told by its kind and one line they said. */
+const localAddress =
+  (level: "state" | "town"): Builder =>
+  (read, f) => {
+    const id = f["address:speaker"];
+    const style = f["address:style"];
+    return story(
+      "local-address",
+      {
+        ...read.who(id, "name", false),
+        date: read.date(),
+        [level]: read.yes(),
+        ...(style ? { [`style-${style}`]: read.yes() } : {}),
+        ...(f["address:remembered"]
+          ? { quote: read.fact(f["address:remembered"], id ?? "") }
+          : {}),
+      },
+      ["name"],
+      id,
+    );
+  };
+
+/**
  * The stories the press archived from the year before day one, told from the
  * record each was kept from: the same facts the paper's stories in play are
  * told with, so an archived story has the body a printed one has.
@@ -3150,6 +3249,14 @@ const BUILDERS: Readonly<Record<string, Builder>> = {
   "person-birth": birth,
   "life.death": death,
   "president.address": address,
+  "governor.address": localAddress("state"),
+  "mayor.address": localAddress("town"),
+  "governor.response": addressResponse,
+  "floor-debate": floorDebate,
+  "civic.protest": publicAction("protest"),
+  "civic.strike": publicAction("strike"),
+  "civic.rally": publicAction("rally"),
+  "civic.movement": publicAction("movement"),
   "estate.settled": estate,
   "carry-asked": carry,
   "campaign-endorsed": endorsement,

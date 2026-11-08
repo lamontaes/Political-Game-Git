@@ -9,14 +9,11 @@ import type { PreStartModule } from "../past-module";
 import { townOutsideOf } from "../opening-outside-market";
 import { lawApplied } from "../law-reach/applied";
 import { payRentAssistance } from "../housing-assistance";
-import {
-  countyPopulationSharesForPlace,
-  governmentUnitsForState,
-} from "../reference/government-units";
+import { governmentUnitsForState } from "../reference/government-units";
+import { placeCounty, placeStateKey } from "../place-map";
 import {
   corePlaceByKey,
   corePlaceByJurisdictionId,
-  coreStateKeyOfJurisdictionId,
   coreStateName,
 } from "../place-lookup";
 import {
@@ -37,7 +34,7 @@ import { transferCash } from "../world-transfer";
 import { countedHousingInArrears, countedPayment } from "../counted-money";
 import { COUNTED_PLACE_PREFIX, type CountedHousehold } from "../counted-groups";
 import type { FinanceContractInput } from "../finance-types";
-import type { ResidentFlowInput } from "../residents";
+import { unplacedPoolOf, type ResidentFlowInput } from "../residents";
 import { MACRO_PARAMETERS } from "./macro";
 import { formerHome } from "../housing-former-home";
 import type { ModuleRow } from "../module-data";
@@ -80,7 +77,12 @@ import {
   type CompletedRentalOffer,
   renewRentalLeases,
 } from "../housing-occupancy";
-import { regroupHousehold, residentsRuntime } from "./residents";
+import {
+  DAYS_PER_YEAR,
+  openingUnplaced,
+  regroupHousehold,
+  residentsRuntime,
+} from "./residents";
 import { LAWS_MODULE_ID, lawChain, lawInForce, webFactorFor } from "./laws";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import lawParameters from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
@@ -332,19 +334,18 @@ interface Town {
   placeId: string;
 }
 
-function townOf(input: CoreInput): Town | undefined {
+/** The five-digit county area of a place, from the one place map. */
+function mapCountyGeoid(placeKey: string): string | undefined {
+  return placeCounty(placeKey)?.id.slice("county:".length);
+}
+
+function housingTownOf(input: CoreInput): Town | undefined {
   const place = input.placeMetadata?.placeKey
     ? corePlaceByKey(input.placeMetadata.placeKey)
     : null;
   const geoid = place?.sourceGeoid ?? "";
-  const county =
-    geoid.length === "SSPPPPP".length
-      ? [...countyPopulationSharesForPlace(geoid)].sort(
-          (a, b) => (b[1] ?? 0) - (a[1] ?? 0),
-        )[0]?.[0]
-      : geoid.length === "SSCCC".length
-        ? geoid
-        : undefined;
+  // The one place map says which county area the place sits in.
+  const county = place ? mapCountyGeoid(place.key) : undefined;
   const counts = new Map<string, number>();
   for (const row of input.households)
     counts.set(row.placeId, (counts.get(row.placeId) ?? 0) + 1);
@@ -354,7 +355,7 @@ function townOf(input: CoreInput): Town | undefined {
     own && counts.has(own)
       ? own
       : [...counts].sort((a, b) => b[1] - a[1])[0]?.[0];
-  const usps = place?.stateJurisdictionKey?.slice("US-".length);
+  const usps = placeStateKey(place?.key)?.slice("US-".length);
   if (!placeId || !usps) return undefined;
   // A place the county shares leave out reads its state's counties as a
   // whole (the state's FIPS code with county 000: no county has that code,
@@ -569,7 +570,7 @@ export function expectedRenterHouseholds(
   homes: readonly string[],
 ): number {
   const full = homes.flatMap((id) => c.households.get(id) ?? []);
-  const town = townOf({
+  const town = housingTownOf({
     placeMetadata: c.placeMetadata,
     households: full,
   } as unknown as CoreInput);
@@ -580,7 +581,7 @@ export function expectedRenterHouseholds(
 }
 
 export function withHousing(input: CoreInput): CoreInput {
-  const town = townOf(input);
+  const town = housingTownOf(input);
   if (!town) return input;
   return withHousingAt(input, town);
 }
@@ -592,6 +593,9 @@ function withHousingAt(input: CoreInput, town: Town): CoreInput {
   const people = new Map(input.people.map((row) => [row.id, row]));
   const oldestOf = (births: readonly string[]) =>
     Math.min(...births.map((date) => Number(date.slice(0, 4))));
+  const unplaced = input.residents
+    ? openingUnplaced(input.residents, input.startedAt)
+    : undefined;
   // Full households and the wider population's, ranked together for owning.
   // Group-quarters rooms are outside the housing market: the institution
   // houses them, so they never own, rent or borrow (CTO, Nov 1).
@@ -625,7 +629,15 @@ function withHousingAt(input: CoreInput, town: Town): CoreInput {
         id: row.household.id,
         counted: true,
         memberIds: row.household.memberIds,
-        income: householdIncome(row.jobs, row.household.memberIds),
+        // What the household will be paid, as the residents' opening counts it:
+        // its recorded jobs and its share of the place's unplaced workers.
+        income:
+          householdIncome(row.jobs, row.household.memberIds) +
+          ((unplaced?.workers.get(row.household.id) ?? 0) *
+            (unplaced?.payByPool.get(
+              unplacedPoolOf(row.household.placeId, false),
+            ) ?? 0)) /
+            DAYS_PER_YEAR,
         oldest: oldestOf(row.people.map((person) => person.birthDate)),
         liquidMinor: row.people.reduce(
           (n, person) => n + person.liquidMinor,
@@ -735,10 +747,19 @@ function withHousingAt(input: CoreInput, town: Town): CoreInput {
       : { contracts: [], flows: [], terms: [] };
   leases.push(...mortgages.contracts);
   flows.push(...mortgages.flows);
+  // The sourced rent is the renters' median (ACS B25064), so each rent scales
+  // by its household's income relative to the renters' own median scale, as
+  // each home's value does for owners above.
+  const renterScales = households
+    .filter((row) => rank.get(row.id)! >= owners)
+    .map((row) => incomeScale(row.income))
+    .sort((a, b) => a - b);
+  const renterMedianScale =
+    renterScales[Math.floor(renterScales.length / 2)] || 1;
   for (const row of households) {
     if (rank.get(row.id)! < owners) continue;
     // Every renter owes rent, with or without income of its own (owner, Oct 14): a household its group's money or its own cash can't carry falls behind like any other.
-    const scale = incomeScale(row.income);
+    const scale = incomeScale(row.income) / renterMedianScale;
     const amountMinor = Math.round(medianRent * 100 * scale);
     dwellings.push([row.id, "rent", amountMinor]);
     if (!row.counted)
@@ -872,10 +893,7 @@ function openMissingHomes(api: CoreAPI): void {
   }
   for (const [placeId, households] of missing) {
     const place = corePlaceByJurisdictionId(placeId as EntityId);
-    const stateKey =
-      place?.stateJurisdictionKey ??
-      coreStateKeyOfJurisdictionId(placeId) ??
-      (/^US-[A-Z]{2}$/.test(placeId) ? placeId : undefined);
+    const stateKey = placeStateKey(placeId) ?? undefined;
     const usps =
       stateKey?.slice(3) ??
       (!c.placeMetadata?.housingTown || c.placeMetadata.housingTown === placeId
@@ -887,14 +905,8 @@ function openMissingHomes(api: CoreAPI): void {
           ?.countyGeoid
       : undefined;
     const county =
-      geoid.length === 5
-        ? geoid
-        : ([...countyPopulationSharesForPlace(geoid)].sort(
-            (a, b) => (b[1] ?? 0) - (a[1] ?? 0),
-          )[0]?.[0] ??
-          (stateCounty
-            ? `${stateCounty.slice(0, 2)}000`
-            : `${NATION}:${usps}`));
+      (place ? mapCountyGeoid(place.key) : undefined) ??
+      (stateCounty ? `${stateCounty.slice(0, 2)}000` : `${NATION}:${usps}`);
     const memberIds = new Set(households.flatMap((row) => row.memberIds));
     const input: CoreInput = {
       seed: c.seed,
@@ -2773,6 +2785,7 @@ export const HOUSING_MODULE: PreStartModule = {
       owedAtNoticeMinor: number;
       [key: string]: unknown;
     }[]) {
+      api.stopgap("SG-WORLD-housing-fill-in-arrears");
       api.carryStandingArrears(lease, row.owedAtNoticeMinor, row.noticeAt);
       // The household settles part of it now, from its own cash and traits:
       // what its members hold beyond a month's living, times how far their

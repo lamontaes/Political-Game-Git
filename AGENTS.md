@@ -100,14 +100,18 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `civic-reports`: reports and PR bodies for the owner
 - `cto`: the CTO role
 - `crew-messages`: how sessions message each other, and processes as skills
+- `dev-tester`: proving laws, bodies and drifting worlds with scripts/dev-tests, and its traps
 - `governing-measurement`: path-check runners, the re-election totals and ablation, records per race or per person
 - `heavy-runs`: long, memory-heavy runs that survive memory, restarts and moved branches
 - `helper-checkout`: helpers work in sparse copies of the repository
+- `labor-market-proof`: proving a jobs, wage or firm-demand change in a played town, inflow and outflow
 - `lead-session`: running a lead line
+- `legislation-screens`: building and proving a bill screen from the one stage view
 - `lives`: lives outside the played town run through the town's engines
 - `look-first`: the search before building, fixing, filing or asking
 - `merge-audit`: auditing merged PRs
 - `merger`: merging and validating PRs
+- `money-economy`: the national economy and the dollar: cycles, outside money, household income, and proving them
 - `play-first`: one item of the play-first lane; the screenshot and browser check
 - `people-pack`: drawing people from the pack, on mannequin plates
 - `played-world-proof`: proving a feature in a played year
@@ -122,7 +126,9 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `screen-to-mock`: screens follow the mocks and the shared controls
 - `session-start`: the pool worker loop
 - `skill-lessons`: the skills learn from each day
+- `slim-down`: removing dead and duplicate code with no behavior change
 - `speed-work`: timing a year, proving a cut changes nothing, folding what grows
+- `term-read`: reading a term by policy area, the kind of an address and the town's strikes, protests and rallies
 - `trace-audit`: the 56-place trace audit
 - `wiring-audit`: auditing a family of mechanics end to end
 - `words-engine`: the English engine and the director

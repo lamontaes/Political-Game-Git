@@ -33,12 +33,17 @@ import {
   type GovernmentRow,
 } from "./modules/budgets";
 import { appliedOn, lawApplied, lawNoLongerApplies } from "./law-reach/applied";
-import { LAWS_MODULE_ID, lawChain, webReach } from "./modules/laws";
+import { LAWS_MODULE_ID, lawChain, lawInForce, webReach } from "./modules/laws";
 import { rerateCountedRetirement, residentsRuntime } from "./modules/residents";
 import { countedJobHeads, countedJobsOf } from "./residents-economy";
 import { setRecipientIncomeAmount } from "./finance-state";
 import { retirementClaims } from "./modules/retirement-claims";
-import { newsKey, storiesHeard, type Story } from "./modules/news";
+import {
+  NEWS_MODULE_ID,
+  newsKey,
+  storiesHeard,
+  type Story,
+} from "./modules/news";
 
 type Tagged = { value: number; tag: string; source: string; spread?: number[] };
 const DATA = spendingData as unknown as {
@@ -924,19 +929,80 @@ function standingDue(api: CoreAPI, account: string, date: string): number {
 }
 
 /**
+ * The statutory debt limit in this world's debt held by the public: the
+ * public-held debt at the last record plus the room the limit leaves over the
+ * total debt then (P.L. 119-21 sec. 72001: $41.1 trillion), moved by the same
+ * factor that sized this world's opening debt.
+ */
+function debtLimitMinor(holders: readonly DebtRow[]): number {
+  const budget = federalBudget as unknown as {
+    debtHeldByPublic: Record<string, number>;
+    totalPublicDebt: Record<string, number>;
+    debtLimit: number;
+  };
+  const held = budget.debtHeldByPublic[DEBT.balanceAsOf] ?? 0;
+  const lastDate = Object.keys(budget.totalPublicDebt).sort().pop()!;
+  const room = budget.debtLimit - budget.totalPublicDebt[lastDate]!;
+  const opening = holders.reduce(
+    (n, h) => n + h.balanceMinor - h.borrowedMinor + h.repaidMinor,
+    0,
+  );
+  const factor = held > 0 ? opening / (held * 100) : 1;
+  return Math.round(
+    ((budget.debtHeldByPublic[lastDate] ?? held) + room) * 100 * factor,
+  );
+}
+
+/** The statutory debt limit in this world's public-held debt, in minor units, for tests and screens. */
+export function federalDebtLimit(api: CoreAPI): number {
+  return debtLimitMinor(federalDebtOf(api));
+}
+
+const PAY_FOR_DEBT_LIMIT =
+  "us-federal-positions:budget.pay-for-a-higher-debt-limit";
+
+/**
  * The U.S. Treasury borrows an amount from the groups that hold its debt, in
- * their shares, into its account; returns what each group lent.
+ * their shares, into its account; returns what each group lent. Where
+ * Congress has made a higher debt limit something to pay for, the statutory
+ * limit holds and the Treasury borrows no more than the room under it; the
+ * month's payments are then prorated by the close (the same rule as any
+ * treasury short of cash). Otherwise the limit is raised whenever it binds.
+ * stopgapId: SG-LAWS-debt-limit-binding
  */
 function borrowFederal(
   api: CoreAPI,
   gov: GovernmentRow,
   outside: string,
-  amountMinor: number,
+  wantedMinor: number,
 ): Record<string, number> {
   const accounts = api.accounts();
   const date = api.state.date;
   const lent: Record<string, number> = {};
   const holders = federalDebtOf(api);
+  let amountMinor = wantedMinor;
+  const limitLaw = api.state.modules.has(LAWS_MODULE_ID)
+    ? lawInForce(api, PAY_FOR_DEBT_LIMIT)
+    : null;
+  if (limitLaw?.value === 1) {
+    api.stopgap("SG-LAWS-debt-limit-binding");
+    const owed = holders.reduce((n, h) => n + h.balanceMinor, 0);
+    amountMinor = Math.max(
+      0,
+      Math.min(wantedMinor, debtLimitMinor(holders) - owed),
+    );
+    // The law reached the U.S. Treasury: its borrowing is held to the room under the limit.
+    if (limitLaw.governing)
+      lawApplied(api, {
+        key: PAY_FOR_DEBT_LIMIT,
+        lawId: limitLaw.governing.id,
+        targetId: gov.organizationId,
+        target: "organization",
+        engine: BUDGETS_MODULE_ID,
+        what: "borrowing-held-to-the-debt-limit",
+        amountMinor: amountMinor - wantedMinor,
+      });
+  }
   const wanted = splitBy(amountMinor, holderShares(api));
   holders.forEach((holder, i) => {
     if (wanted[i]! <= 0) return;
@@ -1453,9 +1519,56 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
       paymentIds,
     } satisfies TreasuryMonthRow as unknown as ModuleRow);
   }
+  sweepReserves(api, govs, budgets, outside, date, source);
   endLineLaws(api, lineLawKeys, lineLawRows);
   applySocialSecurityLevel(api);
   attributeLanded(api);
+}
+
+/**
+ * What a state or local treasury holds above its reserve is invested outside
+ * the town (trust funds, securities), as real governments do with a surplus,
+ * so a Census year that ran a surplus does not pile up in the account month
+ * after month (SG-GOV-reserve-sweep). The federal treasury borrows instead.
+ */
+function sweepReserves(
+  api: CoreAPI,
+  govs: readonly GovernmentRow[],
+  budgets: ReadonlyMap<string, BudgetRow | undefined>,
+  outside: string,
+  date: string,
+  source: Source,
+): void {
+  const accounts = api.accounts();
+  for (const gov of govs) {
+    const budget = budgets.get(gov.id);
+    if (!budget || gov.level === "federal") continue;
+    const yearly = Object.values(budget.spendingMinor).reduce(
+      (a, v) => a + v,
+      0,
+    );
+    const main = accounts.main(gov.organizationId);
+    const keep =
+      (yearly / treasuryParameter("monthsPerYear")) *
+        treasuryParameter("reserveMonthsOfSpending") +
+      payrollReserve(api, gov);
+    const excess = Math.floor(accounts.balance(main) - keep);
+    if (excess <= 0) continue;
+    const receipt = accounts.transfer({
+      id: `reserve-sweep:${gov.id}:${date}`,
+      from: main,
+      to: accounts.main(outside),
+      amountMinor: excess,
+      reasonKey: "reserve-sweep",
+      source,
+    });
+    table(api, "reserveSweeps").put({
+      id: receipt.id,
+      governmentId: gov.id,
+      date,
+      amountMinor: receipt.paidMinor,
+    } as unknown as ModuleRow);
+  }
 }
 
 interface LandedRow {
@@ -1468,6 +1581,57 @@ interface LandedRow {
   readonly series: string;
   readonly share: number;
   readonly learnedFrom?: string;
+}
+
+/**
+ * A change in the tax taken from someone's pay lands on them: their take-home
+ * pay is smaller or larger by `share` of what it was, and they feel it. The
+ * same event and the same learning as an award's change (`attributeLanded`):
+ * they tie it to the law that did it only if they heard of it.
+ */
+export function landTaxChange(
+  api: CoreAPI,
+  input: {
+    readonly personId: string;
+    readonly obligationId: string;
+    readonly lawId: string;
+    readonly series: string;
+    /** The change in take-home pay as a share of the earlier take-home pay (negative: they keep less). */
+    readonly share: number;
+  },
+): void {
+  const person = api.state.people.get(input.personId);
+  if (!person?.alive || input.share === 0) return;
+  const scale = treasuryParameter("benefitChangeImpulseScale");
+  const id = `event:law.effect-landed:${api.state.date}:${input.obligationId}`;
+  api.emit({
+    id,
+    date: api.state.date,
+    kind: "law.effect-landed",
+    personIds: [input.personId],
+    placeId: person.placeId,
+    moodImpulse: scale * input.share,
+    stressImpulse: scale * Math.max(0, -input.share),
+    facts: { obligationId: input.obligationId, lawId: input.lawId },
+    publicRecord: false,
+    source: {
+      tag: "SOURCED",
+      citation: "The tax withheld from their pay changed with a law",
+      asOf: api.state.date,
+    },
+  });
+  const row: LandedRow = {
+    id,
+    personId: input.personId,
+    obligationId: input.obligationId,
+    date: api.state.date,
+    measureId: input.lawId,
+    lawId: input.lawId,
+    series: input.series,
+    share: input.share,
+  };
+  table(api, "landed").put(row as unknown as ModuleRow);
+  attribute(api, row);
 }
 
 /**
@@ -1535,7 +1699,9 @@ function landOn(
  * story; until then they only felt the change.
  */
 function attribute(api: CoreAPI, row: LandedRow): void {
-  if (row.learnedFrom || !row.series) return;
+  // A world with no news has no stories to learn from.
+  if (row.learnedFrom || !row.series || !api.state.modules.has(NEWS_MODULE_ID))
+    return;
   const story = storiesHeard(api, row.personId).find(
     (s) =>
       (row.lawId && s.facts.lawId === row.lawId) ||

@@ -27,6 +27,7 @@ import f_living from "./data/stopgaps/living.json" with { type: "json" };
 import f_loc from "./data/stopgaps/loc.json" with { type: "json" };
 import f_m1 from "./data/stopgaps/m1.json" with { type: "json" };
 import f_meetings from "./data/stopgaps/meetings.json" with { type: "json" };
+import f_nation from "./data/stopgaps/nation.json" with { type: "json" };
 import f_office from "./data/stopgaps/office.json" with { type: "json" };
 import f_officials from "./data/stopgaps/officials.json" with { type: "json" };
 import f_p10 from "./data/stopgaps/p10.json" with { type: "json" };
@@ -39,6 +40,7 @@ import f_pw3 from "./data/stopgaps/pw3.json" with { type: "json" };
 import f_pw8 from "./data/stopgaps/pw8.json" with { type: "json" };
 import f_school from "./data/stopgaps/school.json" with { type: "json" };
 import f_screens from "./data/stopgaps/screens.json" with { type: "json" };
+import f_speed from "./data/stopgaps/speed.json" with { type: "json" };
 import f_state from "./data/stopgaps/state.json" with { type: "json" };
 import f_traits from "./data/stopgaps/traits.json" with { type: "json" };
 import f_web from "./data/stopgaps/web.json" with { type: "json" };
@@ -71,6 +73,7 @@ export const STOPGAP_FAMILIES: Record<string, readonly unknown[]> = {
   "loc.json": f_loc,
   "m1.json": f_m1,
   "meetings.json": f_meetings,
+  "nation.json": f_nation,
   "office.json": f_office,
   "officials.json": f_officials,
   "p10.json": f_p10,
@@ -83,6 +86,7 @@ export const STOPGAP_FAMILIES: Record<string, readonly unknown[]> = {
   "pw8.json": f_pw8,
   "school.json": f_school,
   "screens.json": f_screens,
+  "speed.json": f_speed,
   "state.json": f_state,
   "traits.json": f_traits,
   "web.json": f_web,

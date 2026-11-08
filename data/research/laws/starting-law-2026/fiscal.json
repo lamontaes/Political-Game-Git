@@ -4,6 +4,11 @@
       "source": "data/research/money/state-income-tax-2026.json (2026 brackets): the 9 states with no tax on wages answer no.",
       "note": "",
       "answers": {
+        "US": {
+          "answer": "yes",
+          "source": "https://www.law.cornell.edu/uscode/text/26/1",
+          "cite": "26 U.S.C. 1(a)-(d), (j)"
+        },
         "US-AK": {
           "answer": "no"
         },
@@ -3595,7 +3600,7 @@
         "US-KS": {
           "answer": "yes",
           "preempts": true,
-          "cite": "Kan. Stat. § 74-4920",
+          "cite": "Kan. Stat. § 74-4920 (KPERS employer contributions); K.S.A. 12-5002(a) for a city's own police and fire plans: \"no city may maintain or fund any local police or fire pension plan except in accordance with the minimum funding standards prescribed in this section\" (https://www.ksrevisor.gov/statutes/chapters/ch12/012_050_0002.html)",
           "source": "https://www.ksrevisor.gov/statutes/chapters/ch74/074_049_0020.html",
           "note": "KPERS certifies an actuarial employer rate each year, but statute caps each year's increase (now 1.2 percent of pay), and lawmakers set fixed rates in several recent years.",
           "lawTerms": [
@@ -4650,9 +4655,9 @@
         },
         "US-KS": {
           "answer": "yes",
-          "preempts": true,
+          "preempts": false,
           "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
-          "note": "By statute, the enacted budget must leave an unspent State General Fund balance of 7.5% of expenditures, and the Budget Stabilization Fund receives a share of revenue above the consensus estimate (NASBO 2021)."
+          "note": "By statute, the enacted budget must leave an unspent State General Fund balance of 7.5% of expenditures, and the Budget Stabilization Fund receives a share of revenue above the consensus estimate (NASBO 2021). This is the state's own reserve rule; no statute was found that sets a minimum fund balance for a county or city, so places are not barred."
         },
         "US-KY": {
           "answer": "yes",
@@ -4842,9 +4847,9 @@
         },
         "US-TN": {
           "answer": "yes",
-          "preempts": true,
+          "preempts": false,
           "source": "https://higherlogicdownload.s3.amazonaws.com/NASBO/9d2d2db1-c943-4f1b-b750-0fca152d64c2/UploadedImages/Budget%20Processess/NASBO_2021_Budget_Processes_in_the_States_S.pdf",
-          "note": "By statute, 10% of state tax revenue growth allocated to the General and Education Funds must be set aside in the Reserve for Revenue Fluctuations, which is capped at 8% (NASBO 2021)."
+          "note": "By statute, 10% of state tax revenue growth allocated to the General and Education Funds must be set aside in the Reserve for Revenue Fluctuations, which is capped at 8% (NASBO 2021). This is the state's own reserve rule; no statute was found that sets a minimum fund balance for a county or city, so places are not barred."
         },
         "US-TX": {
           "answer": "yes",
@@ -4907,6 +4912,17 @@
           "cite": "Wyo. Stat. § 9-2-1012(e)",
           "source": "https://wyoleg.gov/statutes/compress/title09.pdf",
           "note": "The Governor must recommend a General Fund reserve of at least 5% of estimated receipts, and any unappropriated General Fund balance above that reserve at the end of each biennium must be transferred to the Legislative Stabilization Reserve Account."
+        }
+      }
+    },
+    "us-federal-positions:budget.pay-for-a-higher-debt-limit": {
+      "source": "https://www.govinfo.gov/content/pkg/PLAW-119publ21/html/PLAW-119publ21.htm",
+      "note": "The question asks whether Congress pays for a higher debt limit. P.L. 119-21 sec. 72001 raised the limit by $5,000,000,000,000 with no offset, so the answer is no.",
+      "answers": {
+        "US": {
+          "answer": "no",
+          "source": "https://www.govinfo.gov/content/pkg/PLAW-119publ21/html/PLAW-119publ21.htm",
+          "cite": "31 U.S.C. 3101(b); P.L. 119-21 sec. 72001"
         }
       }
     }

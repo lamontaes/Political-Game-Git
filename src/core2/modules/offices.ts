@@ -1,3 +1,4 @@
+import { placeStateKey } from "../place-map";
 import type {
   HistoryWriter,
   PreStartModule,
@@ -196,6 +197,7 @@ export const OFFICES_MODULE: PreStartModule = {
       terms: {
         indexes: {
           bySeatStatus: { fields: ["seatId", "status"] },
+          byOfficeStatus: { fields: ["officeId", "status"] },
           byPerson: { fields: ["personId"] },
           byStatus: { fields: ["status"] },
         },
@@ -659,9 +661,9 @@ export function openOffices(core: CoreState, worldSeed: string): void {
   const api = coreAPI(core);
   const placeKey = api.state.placeMetadata.placeKey;
   const place = placeKey ? corePlaceByKey(placeKey) : null;
-  if (!place?.stateJurisdictionKey)
+  const stateKey = placeStateKey(placeKey);
+  if (!place || !stateKey)
     throw new Error("Offices need the town's place and state.");
-  const stateKey = place.stateJurisdictionKey;
   const geoid = place.sourceGeoid ?? place.key;
   const date = core.date;
   // stopgapId: SG-GOV-term-end-estimate
@@ -1872,3 +1874,9 @@ function officesCalendarWork(
     status: "filled",
   } as unknown as ModuleRow);
 }
+
+// Re-exported so other engine families import through this entry, not the file (families guard).
+export { casesOpenFor, handleCase } from "./constituent-cases";
+export type { OfficeLevel } from "../offices-local";
+export { partySide } from "../appointments";
+export { nextMeeting } from "../office-day-calendar";

@@ -126,5 +126,16 @@
     "about": "Which endings of the concession call (purpose concession-call, scene race-lost) mean the candidate conceded and which mean they would not concede that night. The director marks the reply record conceded yes or no; the press reads the mark and puts the concession, or the refusal, on the public record the paper prints. Ending ids only; no sentence.",
     "conceded": ["conceded-after-fight", "conceded-after-numbers", "conceded"],
     "notConceded": ["not-yet"]
+  },
+  "owedTalk": {
+    "about": "A reply whose ending sets a meeting (keeps meeting-set) or puts a matter off (ending put-off, or not-yet in the filing talk) owes the other person a talk: the reply's record carries who it is owed to, its topic and the day it falls due, for the people engine's owed-talk record (agreements/2-3.md, people-owed-talk-record) and the director's scene when it comes due (scene-owed-talk-comes-due). Ending ids and keeps only; no sentence.",
+    "keeps": ["meeting-set"],
+    "endings": ["put-off", "not-yet"],
+    "dueDays": {
+      "value": 7,
+      "tag": "TUNABLE",
+      "spread": [3, 14],
+      "checkedAgainst": "'We'll talk later' or 'let's meet' in ordinary American usage means within about a week; a week falls between the next few days and the next pay period. Checked against the played-world test: the due day lands after the scene and before the next month's scenes."
+    }
   }
 }

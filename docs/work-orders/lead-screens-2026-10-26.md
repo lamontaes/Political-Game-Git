@@ -4,7 +4,7 @@ Current as of 2026-10-26, 19:50 UTC (screens lead). Channel section: `## Screens
 
 **Owner, Oct 26:** "There's a bunch of independent UI things... This all needs to be unified... a UI.js or something... too much duplication." `src/bench/play.mjs` is 4,950 lines with 22 menu screens and about 15 scene renderers sharing three helpers; 24 open PRs edit it.
 
-**Specific:** move each shared control out of `src/bench/play.mjs`, `play.css` and `play.html` into `src/bench/ui/`, one module per part, and replace every existing copy in the same PR (Replace, never layer). Look and behavior do not change except where an item below says so. Served by LAW.md section 1 and MOCKS:24 (menu column, toast), MOCKS:25 (conversation), MOCKS:26 (people tabs).
+**Specific:** move each shared control out of `src/bench/play.mjs`, `play.css` and `play.html` into `src/bench/ui/`, one module per part, and replace every existing copy in the same PR (Replace, never layer). Look and behavior do not change except where an item below says so. Served by LAW.md section 1 (menu column, toast, conversation, people tabs).
 **Attainable:** no stopgap needed; each part is a refactor onto the Kit 13 tokens already in `play.css`. Nothing waits on another role. Models: Opus lead, no helpers.
 **Realistic:** one part per PR, 3 hours each (toasts 2). Whoever else edits `play.mjs` conflicts; I merge main before every push and post the head in the channel.
 
@@ -29,4 +29,4 @@ Parts 8 and 9 move up if a part before them is blocked for over an hour; the ord
 
 ## Every PR
 
-Line 1 `Pool item: <id>`, then `Lead: screens`, a `Screen text checked:` line (screens opened, place and seed; `player-screen-text`), the mock line served (MOCKS:NN or LAW 1), before and after screenshots at 1440x900 from a drawn place with place and seed, the count of copies removed, and a release declaration in `docs/release/changes/`. Gate: typecheck, eslint and prettier on changed files, `release:check --mode pr`, `pool --check`, the changed-file browser checks. Never merge my own PR; never force-push. Stop: when usage runs out, items go back to `open` with one note, one last status block.
+Line 1 `Pool item: <id>`, then `Lead: screens`, a `Screen text checked:` line (screens opened, place and seed; `player-screen-text`), the LAW 1 line served, before and after screenshots at 1440x900 from a drawn place with place and seed, the count of copies removed, and a release declaration in `docs/release/changes/`. Gate: typecheck, eslint and prettier on changed files, `release:check --mode pr`, `pool --check`, the changed-file browser checks. Never merge my own PR; never force-push. Stop: when usage runs out, items go back to `open` with one note, one last status block.

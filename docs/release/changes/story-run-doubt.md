@@ -1,0 +1,8 @@
+---
+id: story-run-doubt
+impact: minor
+section: Added
+title: After a second loss, someone at home asks whether running again is worth it.
+---
+
+When you lose another race after losing before, someone who lives with you asks a few days later whether running again is worth it; you can say why, say you'll be fine, promise one more try or put it off.

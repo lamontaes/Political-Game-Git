@@ -1,21 +1,23 @@
 # The play-first lane's law
 
-Current as of 2026-10-24, 20:30 UTC (the acting CTO's lane PR; OWNER-DECISIONS.md, DECISION-REGISTER.md, prior-rulings/ and the Oct 14 mocks as on main at that hour)
+Current as of 2026-10-24, 20:30 UTC (the acting CTO's lane PR; OWNER-DECISIONS.md, DECISION-REGISTER.md, prior-rulings/ as on main at that hour)
 
 Every ruling the owner made about the game as it is played, in his words or the recorded words, with the date and the line it comes from. The lane does not argue with this file. When an item's text and a line here disagree, this file wins and the agent writes the disagreement in its handoff line. A new ruling is added here only after it is in `docs/coordination/OWNER-DECISIONS.md`; nobody writes a ruling here first.
 
-Sources are cited as `file:line` on main at the time above: `OD` is `docs/coordination/OWNER-DECISIONS.md`, `REG` is `docs/coordination/DECISION-REGISTER.md`, `MOCKS` is `docs/ui/mocks/screens-2026-10-14/README.md`, `PR-screens`, `PR-people`, `PR-opening` and `PR-words` are the digests in `docs/coordination/prior-rulings/`.
+Sources are cited as `file:line` on main at the time above: `OD` is `docs/coordination/OWNER-DECISIONS.md`, `REG` is `docs/coordination/DECISION-REGISTER.md`, `PR-screens`, `PR-people`, `PR-opening` and `PR-words` are the digests in `docs/coordination/prior-rulings/`.
 
 ## 1. Screens and menus
 
 - "A screen's look ships only on the owner's screenshot ... No change to how a screen looks (the title, a panel, edges, a backdrop, a control added to a screen) merges without the owner approving a full-window screenshot in the PR body." (owner, Oct 14, afternoon; OD:211)
 - "The title and New game, as settled ... The menu is New game, Continue, Options, Patch notes, Quit. New game opens the choice: Start a life, Custom world, New world. Then the creator: name, age, birth. No seed field, no place search and no customization on the title itself." (owner, Oct 14, evening; OD:215)
 - "World setup: a custom start lives in dev mode; a normal game has little preparation (RimWorld's amount at most)." (owner, Oct 14; OD:142)
-- Politics: Government: "Each body: chamber picture, party split bar, members with party, recent votes as yes/no bars, what's coming up, the executive." (owner, Oct 14, mocks pass 2, "good"; MOCKS:28)
-- Politics: Issues: "Law cards grouped by subject, like Democracy 4 and Crusader Kings 3: icon, the law in force in large type, a marker between the two extremes, who can change it, since when. The owner rejected a plain list ("like an Excel sheet")." (owner, Oct 14; MOCKS:29)
-- The play screen: "Scene fills the window. The menu is a straight column of round icons, bottom left, above the player card; the name shows on hover. No radial menu. The toast (top right) is the pop-up when a story reaches you." (owner, Oct 14; MOCKS:24)
-- "Charts: Not a screen of its own. One chart style (donuts, bars, this year against last) used anywhere numbers are compared: budget, money, votes." (owner, Oct 14; MOCKS:30)
-- "Screens follow the Oct 14 mockups (owner, Oct 15) with caveats: nothing that breaks immersion on a person card; Issues follows this register, not its mockup; Your office appears only once the player holds one; the calendar is an opaque panel; Day never opens a choice list." (owner, Oct 15; REG:149)
+- Politics: Government: the Oct 14 line asking for a party split bar and yes/no vote bars is replaced by the owner's Nov 5-7 rulings: no bars; data shows as numbers and words; sections sit on section strips. Government (Local, State, Federal) was approved Nov 7 ("These are acceptable."); see `docs/mocks/2026-11-07-approved/README.md`.
+- Politics: Issues: "Law cards grouped by subject, like Democracy 4 and Crusader Kings 3: icon, the law in force in large type, who can change it, since when; no slider or marker between extremes (owner, Nov 5: "Those are too video game-like. I like data being shown"). The owner rejected a plain list ("like an Excel sheet")." (owner, Oct 14)
+- The play screen: "Scene fills the window. The menu is a straight column of round icons, bottom left, above the player card; the name shows on hover. No radial menu. The toast (top right) is the pop-up when a story reaches you." (owner, Oct 14)
+- Charts: the Oct 14 line asking for one chart style of donuts and bars is replaced by the owner's Nov 5-7 rulings: no bars, donuts or other charts; data shows as numbers and words, this year beside last; sections sit on section strips. See `docs/mocks/2026-11-07-approved/README.md` (his words are items 33 to 58 of its `RULINGS-nov5.md`).
+- Menu look (owner, Nov 5): menu screens follow the look the owner locked on Nov 5 (dark see-through textured panel, no boxes, glowing hover, lit selection, portraits in light, data not sliders or bar graphs, no checkboxes); the CTO holds the clickable mock, and no menu is built until the owner approves its screen.
+- The Oct 14 mocks were deleted at the owner's word, Nov 5, "Delete them all now".
+- Still standing from the Oct 15 ruling (REG:149): nothing that breaks immersion on a person card; Your office appears only once the player holds one; the calendar is an opaque panel; Day never opens a choice list.
 - "The menu structure ... the scene is home; menus are overlays that pause time with the room's people still visible. Bottom left: the player card, with the vertical icon rail above it (names on hover): Journal, Calendar, Money, Politics, News, People, Travel. ... Options (settings, guide, quit to title) moves off the rail to the Esc key and the title screen. ... Politics: Government, Issues, Budgets, Parties, plus Your office only while you hold a seat and Campaigns only once you've filed. Alerts: a toast for news that just reached you, a dot on a rail icon for something unread, a scene when something needs you; no pop-up lists. Actions start from people, places and scenes, not menu lists." (owner, Oct 20, from the menu study; OD:76)
 - "Who you are is a character screen ... Portrait, name, age, birthday, home and family, school or work, traits and views in words, money in one line, like any game's character screen. Law effects on the player belong under Politics, written as sentences, never as keys with "undefined"." (owner, Oct 14, night; OD:248)
 - "The Politics screen's list of legislators ... keep everyone, behind a division filter: federal, state, local, with the ability to change which city and state you are looking at." (owner, Oct 16; OD:373)
@@ -31,7 +33,7 @@ Sources are cited as `file:line` on main at the time above: `OD` is `docs/coordi
 - "Plain poses first (owner, Oct 13). Figures in plain poses with empty hands; the simulation decides what they are doing." (owner, Oct 13; REG:154)
 - "Every figure in a scene must be drawn from that person's own appearance record." (Sept 29, 11:15 a.m., after the owner's playtest; PR-people:38)
 - "Appearance selection uses direct arrows/gallery and color swatches, with immediate safe preview for a new unsaved character. Small person cards use headshots; full records show the same saved full-body person in a suitable stable pose." (owner, Sept 19; PR-screens:105)
-- People: "Built on the old People web ... Clicking a face lights their lines and says in one sentence how you know them. No side info panel." (owner, Oct 14; MOCKS:26)
+- People: "Built on the old People web ... Clicking a face lights their lines and says in one sentence how you know them. No side info panel." (owner, Oct 14)
 - From the Oct 24 read (section 10): the v1 figures ("the ones with the airplane") are completely removed; the Codex v2 set may be used, else people stand generated-in; people in the house need a reason to be there; no "X is with you"; "Noah Chan is with you" is removed; the person in the people web is the one you made. (owner, Oct 24; OD:24)
 - "Introduce people before they speak. The narrator says who someone is and why they are here". (owner, Oct 15, night; OD:345)
 
@@ -69,14 +71,14 @@ Sources are cited as `file:line` on main at the time above: `OD` is `docs/coordi
 - "The player's own context: parents, their relationship, siblings, where the family came from and a few remembered moments are kept facts the journal and dossier render from day one." (owner, Oct 14; OD:122)
 - "The journal is a dramatized story, not a list of facts. It reads like a memoir: "When I was seven my dad died; I had no idea how much that would shape my life." School years are not entries unless something happened in them. ... Running, winning, losing, deciding to run are entries. ... No entry is a lone event with no story around it." (owner, Oct 14, morning; OD:186)
 - "Journal lines carry their subject. "My father was elected mayor" (the office), "My daughter Jane was born" (the name), and "Little did I know" needs what." (owner, Oct 15, evening; OD:309)
-- Journal mock: "Approved as is ("solid")." (owner, Oct 14; MOCKS:32)
+- Journal: "Approved as is ("solid")." (owner, Oct 14)
 - From the Oct 24 read: "People's histories are simulated and the journal runs from day one." (owner, Oct 24; OD:24)
 
 ## 6. News
 
-- News: "The owner loved the front page idea and wants many looks. Four here: old broadsheet, modern color daily, tabloid, town weekly. Each paper gets its own fonts and layout. The game paints the photo of the actual story". (owner, Oct 14; MOCKS:37)
+- News: "The owner loved the front page idea and wants many looks. Four here: old broadsheet, modern color daily, tabloid, town weekly. Each paper gets its own fonts and layout. The game paints the photo of the actual story". (owner, Oct 14)
 - "Each outlet gets its own newspaper layout (owner caveat, Oct 15)." (REG:141)
-- "News you overhear: TV or radio speaks like anyone else: a small card in the conversation text style with a tiny radio/TV icon, the station, and the line." (owner, Oct 14; MOCKS:38)
+- "News you overhear: TV or radio speaks like anyone else: a small card in the conversation text style with a tiny radio/TV icon, the station, and the line." (owner, Oct 14)
 - "Not every small world update needs a pop-up." (register; REG:750)
 - From the Oct 24 read: "The news box fades or can be dismissed." (owner, Oct 24; OD:24)
 
@@ -130,6 +132,6 @@ Sources are cited as `file:line` on main at the time above: `OD` is `docs/coordi
 
 - **Budgets.** The Oct 20 menu lists Budgets under Politics at all times (OD:76); the Oct 24 read says "No budgets for a 17-year-old" (OD:24). **Ruled (owner, Oct 24, "go ahead"; newest wins):** Budgets is hidden until it is relevant to the player: they hold office, have filed, or are of age to vote. The Oct 20 "always shown" line is superseded (item `play-first-14-budgets-hidden-until-relevant`).
 - **Custom world on New game.** Oct 14 lists Start a life, Custom world, New world (OD:215) and puts a custom start in dev mode (OD:142); Oct 24 says Start a life goes first and the two world modes are combined or explained (OD:24). **Ruled (owner, Oct 24, "go ahead"):** one button, Start a life; the world modes (custom, watch) live under one Advanced link beneath it; the Oct 14 dev-mode custom start stands for the custom world (item `play-stop-13-start-a-life-or-new-world`).
-- **Issues.** REG:149 says "Issues follows this register, not its mockup"; MOCKS:29 records the owner rejecting a plain list. **Ruled (owner, Oct 24, "go ahead"):** law cards per the mock, not a plain list; the register's list line is superseded (item `play-first-12-politics-screen-to-mock-b`).
+- **Issues.** REG:149 says "Issues follows this register, not a mockup"; the owner rejected a plain list. **Ruled (owner, Oct 24, "go ahead"):** law cards, not a plain list; the register's list line is superseded (item `play-first-12-politics-screen-to-mock-b`).
 - **Populations on the town list.** The Oct 24 read asks for "the populations shown are the simulated ones" (OD:24); a town opens at its real Census size (OD:95). Both hold: the list shows the count the world opens with, from the one source the world builds from.
 - **State legislators on Politics.** The Oct 16 ruling keeps every legislator behind a division filter (OD:373); `play-stop-05`'s done-when asks for one per chamber. OD:373 wins: the player's own come first, everyone stays behind the filter.

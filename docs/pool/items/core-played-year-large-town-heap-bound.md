@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** tests/golden-path/played-world.node-test.ts, src/core2/state.ts, src/core2/modules/residents.ts
 
 **Notes.** Found by the Words session on Oct 24 when PR 5914's golden-path-year drew Sandy, Utah; reproduced locally on that branch and on clean main with the same seed, both 2,343 MB. Related: core-bench-world-large-town-heap (building a 30,000-person town on the default heap).
+
+Nov 4 (Lane 1, evidence): the fixed town Brookside, Delaware (replay 4d50e1f88df997f9, `node --import tsx src/bench/path-check.ts` on main 80dd12c83a with NODE_OPTIONS=--max-old-space-size=8192) ran out of its 8 GB heap after 74 minutes (Mark-Compact 7,496 MB to 7,465 MB, 'Ineffective mark-compacts near heap limit'), before printing its place; run alone, twice. The other seven fixed towns ran to the end in 87 to 2,270 seconds.

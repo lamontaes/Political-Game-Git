@@ -39,10 +39,13 @@ import { stableHash, pairKey } from "./kernel/ids";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import {
   appointStatePost,
+  statePostsToFill,
   appointmentsIn,
   clemencyAuthority,
   GOVERNOR_DECIDES_CLEMENCY,
+  answerEmergencyOffer,
   issueOrder,
+  pendingEmergencyOffers,
   pendingGovernorOrders,
 } from "./modules/executive";
 import {
@@ -61,6 +64,11 @@ import {
 import { holderOf } from "./modules/officials";
 import {
   billOf,
+  castMemberVote,
+  castOwnPositionVote,
+  chambersOf,
+  holdFloorDebate,
+  floorAgendaOn,
   hasSitting,
   committeeHearingsOn,
   leanOf,
@@ -116,6 +124,16 @@ const controlled = (api: CoreAPI) =>
 registerStopKinds([
   { kind: "own-hearing", byDefault: true },
   { kind: "state-of-the-state", byDefault: true },
+  // A vote on the floor of the player's own chamber: the engine never votes for the player.
+  { kind: "state-floor-vote", byDefault: true },
+  // An order the governor's staff brings for signature: issued or set aside by the player, not the character.
+  { kind: "executive-order", byDefault: true },
+  // A disaster the governor may declare a state of emergency for: the player's to answer, never the character's.
+  { kind: "emergency", byDefault: true },
+  // A cabinet post that stands open: the governor the player plays names who fills it.
+  { kind: "appointment", byDefault: true },
+  // The state budget the governor sends the legislature: the player writes the lines, the character does not.
+  { kind: "budget-proposal", byDefault: true },
 ]);
 
 // ---------------------------------------------------------------- data
@@ -267,6 +285,8 @@ export type StateEntryKind =
   | "interim-committee"
   | "state-of-the-state"
   | "executive-order"
+  | "emergency"
+  | "appointment"
   | "budget-proposal"
   | "legislative-leaders"
   | "clemency";
@@ -418,6 +438,19 @@ export function stateDay(
     return out;
   }
   // The governor.
+  // A disaster in the state the governor may declare an emergency for (the player's to answer).
+  for (const offer of pendingEmergencyOffers(api, office.personId))
+    add("emergency", offer.id, {
+      tag: "SOURCED",
+      citation: `Disaster ${offer.hazardRecordId}: the state's emergency powers`,
+    });
+  // The first open cabinet post: the governor names who fills it (one at a time).
+  const open = statePostsToFill(api, office.personId)[0];
+  if (workday && open)
+    add("appointment", open.key, {
+      tag: "SOURCED",
+      citation: `Cabinet post ${open.key}: the governor appoints, the chamber confirms`,
+    });
   if (workday)
     for (const order of pendingGovernorOrders(api, office.personId))
       add("executive-order", order.order, {
@@ -506,6 +539,10 @@ export function stopKindOf(api: CoreAPI, entry: StateDayEntry): string | null {
     return roster?.chairId === entry.holderId ? "own-hearing" : null;
   }
   if (entry.kind === "state-of-the-state") return "state-of-the-state";
+  if (entry.kind === "executive-order") return "executive-order";
+  if (entry.kind === "emergency") return "emergency";
+  if (entry.kind === "appointment") return "appointment";
+  if (entry.kind === "budget-proposal") return "budget-proposal";
   return null;
 }
 
@@ -518,8 +555,21 @@ const splitCommittee = (subject: string): [string, string] => {
 
 /** What the player chose for an entry; left out, the character chooses. */
 export type StateChoice =
-  | { readonly kind: "order"; readonly revoke: boolean }
+  | {
+      readonly kind: "order";
+      readonly revoke: boolean;
+      /** False sets the order aside: the player declines it. */
+      readonly issue?: boolean;
+    }
   | { readonly kind: "attend"; readonly attend: boolean }
+  | { readonly kind: "emergency"; readonly declare: boolean }
+  /** The person named to an open cabinet post; left out, the governor's own first choice stands. */
+  | {
+      readonly kind: "appointment";
+      readonly personId?: string;
+      /** True leaves the post open for now; it comes back to the desk tomorrow. */
+      readonly leave?: boolean;
+    }
   | { readonly kind: "clemency"; readonly grant: boolean }
   | {
       readonly kind: "office-hours";
@@ -536,6 +586,8 @@ export type StateChoice =
   | {
       readonly kind: "budget";
       readonly changes: Readonly<Record<string, number>>;
+      /** True leaves the budget to the governor's own rule, as the character would send it. */
+      readonly byRule?: boolean;
     };
 
 /** What an entry came to: who chose, what, and the records it wrote. */
@@ -745,6 +797,32 @@ export function actOn(
         }
       break;
     }
+    case "emergency": {
+      // The character declares where the law gives the power, as the engine does for any governor;
+      // the player may let it pass.
+      chosen = choice ?? { kind: "emergency", declare: true };
+      if (chosen.kind !== "emergency")
+        throw new Error("Choose whether to declare the emergency.");
+      const declared = answerEmergencyOffer(api, entry.subject, chosen.declare);
+      if (declared.emergencyId) recordIds.push(declared.emergencyId);
+      reasons["authority"] = "state-emergency-power";
+      break;
+    }
+    case "appointment": {
+      chosen = choice ?? { kind: "appointment" };
+      if (chosen.kind !== "appointment")
+        throw new Error("Choose who fills the post.");
+      const row = chosen.leave
+        ? null
+        : appointStatePost(api, {
+            executiveId: entry.holderId,
+            post: entry.subject,
+            ...(chosen.personId ? { personId: chosen.personId } : {}),
+          });
+      if (row) recordIds.push(row.id);
+      reasons["authority"] = "state-cabinet-appointment";
+      break;
+    }
     case "executive-order": {
       const own = pendingGovernorOrders(api, entry.holderId).find(
         (row) => row.order === entry.subject,
@@ -752,7 +830,7 @@ export function actOn(
       chosen = choice ?? { kind: "order", revoke: own?.revoke ?? false };
       if (chosen.kind !== "order")
         throw new Error("Choose whether to revoke the order.");
-      if (choice || own)
+      if ((choice && chosen.issue !== false) || (!choice && own))
         recordIds.push(
           issueOrder(api, {
             executiveId: entry.holderId,
@@ -818,7 +896,7 @@ export function actOn(
       // their own.
       chosen = choice ?? { kind: "budget", changes: {} };
       if (chosen.kind !== "budget") throw new Error("Choose budget changes.");
-      if (gov && choice) {
+      if (gov && choice && !chosen.byRule) {
         setBudgetPriorities(api, {
           governmentId: gov.id,
           setBy: entry.holderId,
@@ -1268,7 +1346,96 @@ function computerGovernorsDay(api: CoreAPI): void {
 
 /** Seat the day's entries for a player just seated in a state office (the dev start, or taking office). */
 export function startStateDay(api: CoreAPI): void {
+  releaseClosedFloorHolds(api);
   scheduleTomorrow(api);
+  holdForFloorVotes(api);
+}
+
+interface FloorHoldRow {
+  readonly id: string;
+  readonly billId: string;
+  readonly date: string;
+}
+
+const floorHoldId = (billId: string, date: string) =>
+  `state-floor:${billId}:${date}`;
+
+/** The evening before a floor day: each bill on tomorrow's floor that the player votes holds them. */
+function holdForFloorVotes(api: CoreAPI): void {
+  const playerId = controlled(api);
+  if (!playerId) return;
+  const office = stateOfficeOf(api, playerId);
+  if (office?.role !== "legislator") return;
+  if (!stopsOf(api, playerId)["state-floor-vote"]) return;
+  const tomorrow = addDays(makeIsoDate(api.state.date), 1);
+  const choices = api.moduleState(LEGISLATURE_MODULE_ID).table("choices");
+  for (const bill of floorAgendaOn(api, tomorrow)) {
+    const sits = chambersOf(api, bill).some((chamber) =>
+      members(api, chamber).some((term) => memberKey(term) === playerId),
+    );
+    const id = floorHoldId(bill.id, tomorrow);
+    if (
+      !sits ||
+      table(api, "floorHolds").get(id) ||
+      choices.get(`${bill.id}|${playerId}`)
+    )
+      continue;
+    const held = holdPlayerAt(api, {
+      recordId: id,
+      date: tomorrow,
+      minuteOfDay: stateDayParameter("holdMinute"),
+      reasonKey: "office-day-state.floor-vote",
+      source: { tag: "SOURCED", citation: bill.id, asOf: api.state.date },
+    });
+    if (held) {
+      table(api, "floorHolds").put({
+        id,
+        billId: bill.id,
+        date: tomorrow,
+      } as unknown as ModuleRow);
+      // The floor speaks before the roll: for and against, heard before the player votes.
+      for (const chamber of chambersOf(api, bill))
+        if (members(api, chamber).some((term) => memberKey(term) === playerId))
+          holdFloorDebate(api, bill.id, chamber);
+    }
+  }
+}
+
+/** The holds a floor day has passed are released with it. */
+function releaseClosedFloorHolds(api: CoreAPI): void {
+  for (const row of table(
+    api,
+    "floorHolds",
+  ).rows() as unknown as FloorHoldRow[])
+    if (row.date <= api.state.date) {
+      releaseHold(api, row.id);
+      table(api, "floorHolds").remove(row.id);
+    }
+}
+
+/** The bills holding the state legislator's clock for their own floor vote. */
+export function stateFloorHolds(api: CoreAPI): readonly string[] {
+  return (table(api, "floorHolds").rows() as unknown as FloorHoldRow[])
+    .map((row) => row.billId)
+    .sort();
+}
+
+/** The player votes on a bill on tomorrow's floor (or leaves it to the character). */
+export function voteOnStateFloor(
+  api: CoreAPI,
+  personId: string,
+  billId: string,
+  vote: "yes" | "no" | "abstain" | "own",
+): void {
+  const row = (
+    table(api, "floorHolds").rows() as unknown as FloorHoldRow[]
+  ).find((held) => held.billId === billId);
+  if (!row) throw new Error("No floor vote on that bill is holding you.");
+  // Left to the character, the vote is cast the way the character decides it for any member: from their own position.
+  if (vote === "own") castOwnPositionVote(api, billId, personId);
+  else castMemberVote(api, billId, personId, vote);
+  releaseHold(api, row.id);
+  table(api, "floorHolds").remove(row.id);
 }
 
 export const OFFICE_DAY_STATE_MODULE: CoreModule = {
@@ -1279,6 +1446,8 @@ export const OFFICE_DAY_STATE_MODULE: CoreModule = {
       entries: { indexes: { byHolder: { fields: ["holderId"] } } },
       results: { indexes: { byHolder: { fields: ["holderId"] } } },
       attendance: {},
+      /** A bill on tomorrow's floor that holds the player for their own vote. */
+      floorHolds: {},
       leaderRequests: { indexes: { byBill: { fields: ["billId"] } } },
       perDiem: { indexes: { byPerson: { fields: ["personId"] } } },
     },
@@ -1370,7 +1539,7 @@ registerOfficeActs({
     liveToday(api);
     computerGovernorsDay(api);
   },
-  onAfterDay: scheduleTomorrow,
+  onAfterDay: startStateDay,
 });
 
 export function openOfficeDayState(core: CoreState): void {
@@ -1502,7 +1671,9 @@ export function appointGovernor(api: CoreAPI, post: string, personId?: string) {
       row?.id ??
       `nomination:${lawChain(api).stateKey}:${post}:${personId ?? "own-choice"}:${api.state.date}`,
     position: null,
-    detail: row ? row.holderId : "not-appointed",
+    detail: row
+      ? `${row.identity ? `${row.identity.givenName} ${row.identity.familyName}` : row.holderId}${row.confirmation ? `; ${row.confirmation.yes} to ${row.confirmation.no}` : ""}`
+      : "not-appointed",
   });
   return row;
 }

@@ -1,0 +1,135 @@
+{
+  "about": "Where a chamber lets its members take a bill from a committee that will not report it, and how many must sign: a majority of the members, or a fraction of them (rule). A chamber not listed has no such rule in the data: either its rule was not found (see data/research/legislature/discharge-rules-2026-11.json) or it is not a petition of members.",
+  "tag": "SOURCED",
+  "source": "Each row cites its own rule text (citation, url); the researched file lists every chamber read and every one NOT FOUND.",
+  "rows": [
+    {
+      "chamberId": "federal:us-house",
+      "rule": {
+        "kind": "majority"
+      },
+      "threshold": "218 signatures (majority of 435); floor adoption by simple majority",
+      "citation": "House Rule XV, clause 2",
+      "url": "https://www.everycrsreport.com/reports/R45920.html",
+      "derivedBy": "scripts/research/build-discharge-rows.ts"
+    },
+    {
+      "chamberId": "office:US-AZ:legislature-lower",
+      "rule": {
+        "kind": "share",
+        "numerator": 3,
+        "denominator": 5
+      },
+      "threshold": "Three-fifths of members (36 of 60)",
+      "citation": "House Rule 35",
+      "url": "https://www.azhouse.gov/alispdfs/AdoptedRulesofthe57thLegislature_ConformingChanges.pdf",
+      "derivedBy": "scripts/research/build-discharge-rows.ts"
+    },
+    {
+      "chamberId": "office:US-KS:legislature-lower",
+      "rule": {
+        "kind": "share",
+        "numerator": 14,
+        "denominator": 25
+      },
+      "threshold": "70 votes of 125 (56 percent)",
+      "citation": "House rules (number NOT FOUND)",
+      "url": "https://en.wikipedia.org/wiki/Discharge_petition",
+      "derivedBy": "scripts/research/build-discharge-rows.ts"
+    },
+    {
+      "chamberId": "office:US-MA:legislature-lower",
+      "rule": {
+        "kind": "majority"
+      },
+      "threshold": "Motion: majority of members present and voting. Petition: majority of members elected (81 of 160)",
+      "citation": "House Rule 28(1), 28(2), 28(6)",
+      "url": "https://malegislature.gov/Laws/Rules/House",
+      "derivedBy": "scripts/research/build-discharge-rows.ts"
+    },
+    {
+      "chamberId": "office:US-NE:legislature-unicameral",
+      "rule": {
+        "kind": "majority"
+      },
+      "threshold": "Majority of elected members (25 of 49)",
+      "citation": "Rule 3, Sec. 20(b)",
+      "url": "https://nebraskalegislature.gov/FloorDocs/Current/PDF/Rules/RuleBook.pdf",
+      "derivedBy": "scripts/research/build-discharge-rows.ts"
+    },
+    {
+      "chamberId": "office:US-NC:legislature-lower",
+      "rule": {
+        "kind": "majority"
+      },
+      "threshold": "61 signatures (majority of 120); adoption vote on the motion not stated in the rule text",
+      "citation": "House Rule 39 (2025 rules, H563)",
+      "url": "https://www.ncleg.gov/Sessions/2025/Bills/House/HTML/H563v3.html",
+      "derivedBy": "scripts/research/build-discharge-rows.ts"
+    },
+    {
+      "chamberId": "office:US-NC:legislature-upper",
+      "rule": {
+        "kind": "share",
+        "numerator": 2,
+        "denominator": 3
+      },
+      "threshold": "Petition signed by two-thirds of the Senate membership (34 of 50); motion adopted by two-thirds of membership; recall by majority of members present and voting",
+      "citation": "Senate Rule 47(a)-(b) (2025 rules, S1)",
+      "url": "https://www.ncleg.gov/Sessions/2025/Bills/Senate/HTML/S1v2.html",
+      "derivedBy": "scripts/research/build-discharge-rows.ts"
+    },
+    {
+      "chamberId": "office:US-OH:legislature-lower",
+      "rule": {
+        "kind": "majority"
+      },
+      "threshold": "Majority of House members (50 of 99)",
+      "citation": "House Rule 89 (per LSC guide)",
+      "url": "https://lsc.ohio.gov/assets/organizations/legislative-service-commission/files/appendix-e-committee-and-floor-action-guides-10021985.pdf",
+      "derivedBy": "scripts/research/build-discharge-rows.ts"
+    },
+    {
+      "chamberId": "office:US-OH:legislature-upper",
+      "rule": {
+        "kind": "majority"
+      },
+      "threshold": "Majority of Senate members (17 of 33)",
+      "citation": "Senate Rule 32 (per LSC guide)",
+      "url": "https://lsc.ohio.gov/assets/organizations/legislative-service-commission/files/appendix-e-committee-and-floor-action-guides-10021985.pdf",
+      "derivedBy": "scripts/research/build-discharge-rows.ts"
+    },
+    {
+      "chamberId": "office:US-OK:legislature-upper",
+      "rule": {
+        "kind": "share",
+        "numerator": 2,
+        "denominator": 3
+      },
+      "threshold": "Two-thirds vote of the members of the Senate (32 of 48)",
+      "citation": "Senate Rule 7-9 (60th Legislature)",
+      "url": "https://oksenate.gov/senate-rules",
+      "derivedBy": "scripts/research/build-discharge-rows.ts"
+    },
+    {
+      "chamberId": "office:US-PA:legislature-upper",
+      "rule": {
+        "kind": "majority"
+      },
+      "threshold": "Majority of all members elected to the Senate; within 10 legislative days of reference only by unanimous consent",
+      "citation": "Senate Rule 14(j) (subsection j, 'Discharging committees', directly before Rule 15)",
+      "url": "https://www.pasen.gov/rules.cfm",
+      "derivedBy": "scripts/research/build-discharge-rows.ts"
+    },
+    {
+      "chamberId": "office:US-RI:legislature-upper",
+      "rule": {
+        "kind": "majority"
+      },
+      "threshold": "Majority of all senators elected (after 30 legislative days in committee)",
+      "citation": "Senate Rule 6.10 (2017 rules; 2018 S2680 proposed to replace it)",
+      "url": "https://webserver.rilegislature.gov/BillText18/SenateText18/S2680.htm",
+      "derivedBy": "scripts/research/build-discharge-rows.ts"
+    }
+  ]
+}

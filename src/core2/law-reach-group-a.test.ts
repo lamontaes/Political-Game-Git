@@ -5,6 +5,7 @@
  * real for named people, organizations, officeholders or counted groups
  * through the engine that owns it; a repeal ends it.
  */
+import type { GovernmentLevel } from "./government-level";
 import { createHash } from "node:crypto";
 import { beforeAll, describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
@@ -151,7 +152,7 @@ function jurisdictionOf(level: string): string {
 function enactLawId(key: string, level: string, value: number): string {
   return enactLaw(api, {
     jurisdiction: jurisdictionOf(level),
-    level: level as "federal" | "state" | "county" | "city",
+    level: level as GovernmentLevel,
     series: key,
     value,
     effectiveDate: api.state.date,
@@ -165,7 +166,7 @@ function enact(key: string, level: string, value: number, days = 2): string {
   const measureId = `test:${key}:${value}:${api.state.date}`;
   enactLaw(api, {
     jurisdiction: jurisdictionOf(level),
-    level: level as "federal" | "state" | "county" | "city",
+    level: level as GovernmentLevel,
     series: key,
     value,
     effectiveDate: after(api.state.date, 1),
@@ -183,6 +184,9 @@ function levelFor(key: string): string {
     key.endsWith("broaden-local-authority") ||
     key.endsWith("paid-family-leave")
   )
+    return "state";
+  // Where the state bars its places from the rule, only the state can make it.
+  if (POLICY_QUESTIONS[key]?.answers[lawChain(api).stateKey]?.preempts)
     return "state";
   return "city";
 }
@@ -598,7 +602,7 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
       "us-policy-positions:civil-family-community.dedicated-parks-funding";
     const gov = cityGov();
     const share = reachParameter("parksDedicatedShare");
-    enact(key, "city", 1);
+    enact(key, levelFor(key), 1);
     const first = budgetToday(api, gov)!;
     // The treasury's first close pays the levy's share of the line under the law's own payment, and records whom it reached.
     advanceCore(core, after(api.state.date, 35));
@@ -640,7 +644,7 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
     expect(next.spendingMinor.parks, where).toBe(
       adopted + Math.round(adopted * share),
     );
-    enact(key, "city", 0);
+    enact(key, levelFor(key), 0);
     expect(budgetToday(api, gov)!.spendingMinor.parks ?? 0, where).toBe(
       adopted,
     );

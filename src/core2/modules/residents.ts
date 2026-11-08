@@ -101,7 +101,7 @@ import {
   workersByGroup,
 } from "../counted-money";
 
-const DAYS_PER_YEAR = 365;
+export const DAYS_PER_YEAR = 365;
 
 export const RESIDENTS_MODULE_ID = "core2-residents-v1";
 // Outside buyers pay first, so a day's receipts can meet that day's payroll.
@@ -343,12 +343,39 @@ export function householdIncome(
   );
 }
 
-/** What one of a counted household's unplaced workers earns a year: its place's pool's rate. */
-export function unplacedPayPerWorker(
+/** What one of a counted household's unplaced workers earns a year at the opening's pay: its place's pool's rate. The pool's flow is paid indexed to the place's pay level, so this is the base the flow's amount is kept in. */
+export function unplacedPayPerWorkerBase(
   rt: ResidentsRuntime,
   h: CountedHousehold,
 ): number {
   return rt.unplacedPerWorker.get(unplacedPoolOf(h.placeId, !!h.quarters)) ?? 0;
+}
+
+const levelReads = new WeakMap<
+  CoreState,
+  { date: string; byPlace: Map<string, number> }
+>();
+
+/**
+ * What one of a counted household's unplaced workers earns a year now: the
+ * pool's rate at the opening times the place's pay level (the pool's flow is
+ * paid indexed the same way), so the household's income, and every figure
+ * that reads it, follows wages. One read of a place's level a day.
+ */
+export function unplacedPayPerWorker(
+  rt: ResidentsRuntime,
+  h: CountedHousehold,
+): number {
+  const base = unplacedPayPerWorkerBase(rt, h);
+  const core = rt.api?.state as CoreState | undefined;
+  if (!core || base === 0) return base;
+  let cache = levelReads.get(core);
+  if (!cache || cache.date !== core.date)
+    levelReads.set(core, (cache = { date: core.date, byPlace: new Map() }));
+  let level = cache.byPlace.get(h.placeId);
+  if (level === undefined)
+    cache.byPlace.set(h.placeId, (level = payLevel(core, h.placeId)));
+  return base * level;
 }
 
 /** What keys a counted household to its group today. */
@@ -461,24 +488,6 @@ export function householdCashReader(
 }
 
 /** Working-age counted members without a recorded job. */
-function jobless(
-  store: CountedStore,
-  h: CountedHousehold,
-  date: string,
-): number {
-  const from = countedParameter("countedWorkingAgeFrom"),
-    below = countedParameter("countedWorkingAgeBelow");
-  const working = new Set(
-    h.jobs.filter((job) => job.endsAt === undefined).map((job) => job.personId),
-  );
-  let n = 0;
-  for (const m of store.countedMembers(h)) {
-    const age = ageOn(store.born[m]!, date);
-    if (age >= from && age < below && !working.has(store.ids[m]!)) n++;
-  }
-  return n;
-}
-
 export const DISTRICT_STOPGAP = "SG-CORE-district-placement";
 
 /** The town's districts and their people (state House, else state Senate), by GEOID. */
@@ -541,6 +550,80 @@ export function townPlaceOf(core: CoreState): PlaceId | undefined {
 }
 
 /**
+ * The place's unplaced workers shared by its counted households (the
+ * opening's employment target less recorded jobs, shared by working-age
+ * members without a job, a record counting for as many households as its
+ * weight says) and what one such worker is paid a year, by pool. The one
+ * computation the counted households' incomes and housing's rents both read.
+ */
+export function openingUnplaced(
+  input: Pick<ResidentsInput, "households" | "flows" | "weights">,
+  date: string,
+): { workers: Map<string, number>; payByPool: Map<string, number> } {
+  const pools = new Map<string, { workers: number; yearMinor: number }>();
+  for (const row of input.flows) {
+    if (row.financeKind !== "work.unplaced-residents") continue;
+    const perYear =
+      row.cadence.kind === "days"
+        ? DAYS_PER_YEAR / row.cadence.every
+        : 12 / row.cadence.every;
+    const pool = unplacedPoolOf(row.placeId, !!row.quarters);
+    const prior = pools.get(pool) ?? { workers: 0, yearMinor: 0 };
+    pools.set(pool, {
+      workers: prior.workers + (row.unplacedWorkers ?? 0),
+      yearMinor: prior.yearMinor + row.amountMinor * perYear,
+    });
+  }
+  const from = countedParameter("countedWorkingAgeFrom"),
+    below = countedParameter("countedWorkingAgeBelow");
+  const open = new Map<string, number>();
+  const eligible = new Map<string, number>();
+  for (const record of input.households) {
+    const quarters = !!record.household.quarters;
+    // Residents of institutions and military quarters seek no civilian work.
+    let n = 0;
+    if (!outsideLaborForce(record.household.quarters)) {
+      const working = new Set(
+        record.jobs
+          .filter((job) => job.endsAt === undefined)
+          .map((job) => job.personId),
+      );
+      for (const person of record.people) {
+        const age = ageOn(person.birthDate, date);
+        if (age >= from && age < below && !working.has(person.id)) n++;
+      }
+    }
+    open.set(record.household.id, n);
+    const key = unplacedPoolOf(record.household.placeId, quarters);
+    eligible.set(
+      key,
+      (eligible.get(key) ?? 0) +
+        n * (input.weights?.[record.household.placeId] ?? 1),
+    );
+  }
+  const workers = new Map<string, number>();
+  const payByPool = new Map<string, number>();
+  for (const [key, row] of pools) {
+    const pool = eligible.get(key) ?? 0;
+    const placed = row.workers > 0 ? Math.min(row.workers, pool) : pool;
+    if (placed > 0) payByPool.set(key, row.yearMinor / placed);
+    const share = pool > 0 ? placed / pool : 0;
+    for (const record of input.households)
+      if (
+        unplacedPoolOf(
+          record.household.placeId,
+          !!record.household.quarters,
+        ) === key
+      )
+        workers.set(
+          record.household.id,
+          open.get(record.household.id)! * share,
+        );
+  }
+  return { workers, payByPool };
+}
+
+/**
  * Pack the opening's counted households into groups: each person's identity
  * into the member columns, each household's tenure (its rent or mortgage in
  * the flows), recorded pay and awards, and its share of the place's unplaced
@@ -558,25 +641,12 @@ function packOpening(
   const owners = new Map<string, string>();
   const renters = new Set<string>(),
     mortgaged = new Set<string>();
-  const unplaced = new Map<string, { workers: number; yearMinor: number }>();
-  for (const row of input.flows) {
+  for (const row of input.flows)
     if (row.id.startsWith("rent:")) renters.add(row.id.slice("rent:".length));
+  for (const row of input.flows)
     for (const key of Object.keys(row.amountByContract ?? {}))
       if (key.startsWith("mortgage:"))
         mortgaged.add(key.slice("mortgage:".length));
-    if (row.financeKind === "work.unplaced-residents") {
-      const perYear =
-        row.cadence.kind === "days"
-          ? DAYS_PER_YEAR / row.cadence.every
-          : 12 / row.cadence.every;
-      const pool = unplacedPoolOf(row.placeId, !!row.quarters);
-      const prior = unplaced.get(pool) ?? { workers: 0, yearMinor: 0 };
-      unplaced.set(pool, {
-        workers: prior.workers + (row.unplacedWorkers ?? 0),
-        yearMinor: prior.yearMinor + row.amountMinor * perYear,
-      });
-    }
-  }
   store.addTraitNames(input.households.flatMap((record) => record.people));
   const households: CountedHousehold[] = [];
   for (const record of input.households) {
@@ -608,25 +678,9 @@ function packOpening(
   }
   // The place's unplaced workers, shared by its working-age members without a
   // job: its households' pool by its households, its rooms' by its rooms.
-  const eligible = new Map<string, number>();
-  const open = new Map<number, number>();
-  for (const h of households) {
-    // Residents of institutions and military quarters seek no civilian work.
-    const n = outsideLaborForce(h.quarters) ? 0 : jobless(store, h, date);
-    open.set(h.index, n);
-    // A record stands for as many households as its weight says.
-    const key = unplacedPoolOf(h.placeId, !!h.quarters);
-    eligible.set(key, (eligible.get(key) ?? 0) + n * store.weightOf(h));
-  }
-  for (const [key, row] of unplaced) {
-    const pool = eligible.get(key) ?? 0;
-    const workers = row.workers > 0 ? Math.min(row.workers, pool) : pool;
-    if (workers > 0) rt.unplacedPerWorker.set(key, row.yearMinor / workers);
-    const share = pool > 0 ? workers / pool : 0;
-    for (const h of households)
-      if (unplacedPoolOf(h.placeId, !!h.quarters) === key)
-        h.unplacedWorkers = open.get(h.index)! * share;
-  }
+  const shared = openingUnplaced(input, date);
+  for (const [key, pay] of shared.payByPool) rt.unplacedPerWorker.set(key, pay);
+  for (const h of households) h.unplacedWorkers = shared.workers.get(h.id) ?? 0;
   placeInDistricts(core, rt, households);
   for (const h of households) regroupHousehold(rt, h, date);
   store.openingMembers = store.memberCount;
@@ -3413,6 +3467,83 @@ function startCommuterJob(
 }
 
 /**
+ * A town resident finds work in the wider labor market (the jobs engine's
+ * regional find, src/core2/jobs-elsewhere.ts). A full person starts a job with
+ * the place's outside account as employer, at `hourlyMinor` over the standard
+ * commuter week, paid on the place's unplaced workers' payday (the same
+ * commuter job a filled-in household's unplaced worker has). A counted person
+ * joins the place's unplaced workers: their household's workers and the pool's
+ * pay grow by the record's weight times the pool's pay per worker. Returns the
+ * job's id for a full person, `counted` for a counted one, and undefined where
+ * the place has no unplaced pool to take them.
+ */
+export function startRegionalWork(
+  core: CoreState,
+  personId: string,
+  hourlyMinor: number,
+): string | undefined {
+  const rt = runtimes.get(core);
+  if (!rt) return undefined;
+  const m = rt.store.countedMember(personId);
+  if (m !== undefined) {
+    const h = rt.store.households[rt.store.household[m]!]!;
+    const base = unplacedFlowOf(rt, h.placeId, !!h.quarters);
+    const perWorker = unplacedPayPerWorkerBase(rt, h);
+    if (!base || !(perWorker > 0)) return undefined;
+    const perYear =
+      base.cadence.kind === "days"
+        ? DAYS_PER_YEAR / base.cadence.every
+        : 12 / base.cadence.every;
+    const workers = rt.store.weightOf(h);
+    base.amountMinor += Math.round((workers * perWorker) / perYear);
+    h.unplacedWorkers += workers;
+    regroupHousehold(rt, h, core.date);
+    return "counted";
+  }
+  const person = core.people.get(personId);
+  if (!person) return undefined;
+  const unplaced = unplacedFlowOf(rt, person.placeId, false);
+  if (!unplaced || unplaced.cadence.kind !== "days") return undefined;
+  const api = rt.api ?? coreAPI(core);
+  const weekHours =
+    countedParameter("countedCommuterWorkdayHours") *
+    countedParameter("countedCommuterWorkdaysPerWeek");
+  const amount = Math.round(
+    (hourlyMinor * weekHours * unplaced.cadence.every) /
+      api.parameter("daysPerWeek"),
+  );
+  if (!startCommuterJob(core, rt, personId, unplaced, amount)) return undefined;
+  return commuterJobId(personId, addDays(makeIsoDate(core.date), 1));
+}
+
+/**
+ * A counted person's regional work ends (`startRegionalWork` reversed): their
+ * household's unplaced workers and the pool's pay shrink by the record's
+ * weight times the pool's pay per worker. False where there is nothing to end.
+ */
+export function stopRegionalWork(core: CoreState, personId: string): boolean {
+  const rt = runtimes.get(core);
+  const m = rt?.store.countedMember(personId);
+  if (!rt || m === undefined) return false;
+  const h = rt.store.households[rt.store.household[m]!]!;
+  const base = unplacedFlowOf(rt, h.placeId, !!h.quarters);
+  const perWorker = unplacedPayPerWorkerBase(rt, h);
+  const workers = Math.min(rt.store.weightOf(h), h.unplacedWorkers);
+  if (!base || !(perWorker > 0) || !(workers > 0)) return false;
+  const perYear =
+    base.cadence.kind === "days"
+      ? DAYS_PER_YEAR / base.cadence.every
+      : 12 / base.cadence.every;
+  base.amountMinor = Math.max(
+    0,
+    base.amountMinor - Math.round((workers * perWorker) / perYear),
+  );
+  h.unplacedWorkers -= workers;
+  regroupHousehold(rt, h, core.date);
+  return true;
+}
+
+/**
  * A household returning to the counts brings its commuter's pay back to its
  * place's unplaced workers' flow, and its share of those workers with it
  * (`amountMinor` is what the job paid for each of that flow's periods).
@@ -3443,7 +3574,7 @@ export function returnCommuterPay(
     base.cadence.kind === "days"
       ? DAYS_PER_YEAR / base.cadence.every
       : 12 / base.cadence.every;
-  const perWorker = unplacedPayPerWorker(rt, h);
+  const perWorker = unplacedPayPerWorkerBase(rt, h);
   h.unplacedWorkers = perWorker > 0 ? (amountMinor * perYear) / perWorker : 0;
   regroupHousehold(rt, h, core.date);
 }

@@ -17,20 +17,18 @@ try {
   await page.locator("#front-options").click();
   const sheet = page.locator("#sheet");
   await sheet.waitFor();
-  assert.equal(await sheet.locator('input[type="checkbox"]').count(), 1);
+  // Toggles are lit buttons, never checkboxes (owner, Nov 5; the Nov 8 Options mock).
+  assert.equal(await sheet.locator('input[type="checkbox"]').count(), 0);
   assert.equal(
     await sheet.getByText("Skip opening", { exact: true }).count(),
     0,
   );
-  const fullScreen = page.getByTestId("options-fullscreen");
-  await fullScreen.check();
+  await page.getByTestId("options-fullscreen-on").click();
   await page.waitForFunction(() => Boolean(document.fullscreenElement));
-  // External exit (Escape/native window controls) must update the checkbox.
+  // External exit (Escape/native window controls) must update the lit toggle on the next open.
   await page.evaluate(() => document.exitFullscreen());
-  await page.waitForFunction(
-    () => !document.querySelector('[data-testid="options-fullscreen"]').checked,
-  );
-  await sheet.getByRole("button", { name: "Continue", exact: true }).click();
+  await page.waitForFunction(() => !document.fullscreenElement);
+  await page.locator("#sheet-close").click();
   await sheet.waitFor({ state: "hidden" });
   console.log(
     "PASS title Options, Continue, fullscreen entry and external exit",
@@ -69,7 +67,7 @@ try {
     await sheet.getByText("Skip opening", { exact: true }).count(),
     0,
   );
-  assert.equal(await sheet.locator('input[type="checkbox"]').count(), 1);
+  assert.equal(await sheet.locator('input[type="checkbox"]').count(), 0);
   const box = await sheet.boundingBox();
   assert.ok(
     box &&
@@ -84,7 +82,7 @@ try {
   );
   await page.evaluate(() => document.fonts.ready);
   if (process.argv[2]) await page.screenshot({ path: process.argv[2] });
-  await sheet.getByRole("button", { name: "Continue", exact: true }).click();
+  await page.locator("#sheet-close").click();
   assert.equal(await page.locator("#card-clock").textContent(), clock);
   await page.keyboard.press("Escape");
   await page.getByTestId("quit-to-title").click();

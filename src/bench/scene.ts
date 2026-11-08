@@ -12,7 +12,6 @@ import type { CoreState, PersonState } from "../core2/types";
 import { coreAPI, fillInPerson } from "../core2/state";
 import { residentsRuntime } from "../core2/modules/residents";
 import { HOUSING_MODULE_ID, dwellingKind } from "../core2/modules/housing";
-import { realLocalities } from "../core2/places";
 import type { PlayerPacketV1 } from "../core2/player-v1";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 import figureRules from "./data/whole-figures.json" with { type: "json" };
@@ -28,6 +27,7 @@ import {
 } from "./whole-figures";
 import { drawAhead, type PackFigure } from "./people-pack";
 import { depthOf, plateFor, plates, type PlateSpot } from "./mannequin-plates";
+import { placeStateKey } from "../core2/place-map";
 
 type Occupation = Parameters<typeof workplacePlaceFor>[0];
 
@@ -134,7 +134,8 @@ const COURTHOUSES = scenePlaces.courthouseByState as unknown as Record<
 >;
 /** The county courthouse in its state's usual style. */
 function courthouseOf(core: CoreState): string | null {
-  const state = stateOf(core.placeMetadata?.placeKey ?? "");
+  const state =
+    placeStateKey(core.placeMetadata?.placeKey)?.slice("US-".length) ?? "";
   const style = Object.entries(COURTHOUSES).find(
     ([place, states]) =>
       place !== "about" && place !== "default" && states.includes(state),
@@ -190,19 +191,6 @@ function workplaceOf(core: CoreState, person: PersonState): string {
 }
 
 /** The place's state (USPS code), from the core's place records. */
-const states = new Map<string, string>();
-function stateOf(placeKey: string): string {
-  let usps = states.get(placeKey);
-  if (usps === undefined) {
-    usps =
-      realLocalities()
-        .find((row) => row.key === placeKey)
-        ?.stateJurisdictionKey?.slice("US-".length) ?? "";
-    states.set(placeKey, usps);
-  }
-  return usps;
-}
-
 type Room = "living" | "kitchen" | "bedroom";
 type Third = "low" | "middle" | "high";
 interface DwellingPictures {
@@ -303,7 +291,8 @@ const REGIONS = scenePlaces.regionalVariants as unknown as Record<
 >;
 /** The town's regional rebuilds of a place (region-new-england, region-alaska), from its state. stopgapId: SG-PLAY-region-states */
 function regionVariants(core: CoreState): string[] {
-  const state = stateOf(core.placeMetadata?.placeKey ?? "");
+  const state =
+    placeStateKey(core.placeMetadata?.placeKey)?.slice("US-".length) ?? "";
   return Object.entries(REGIONS)
     .filter(
       ([variant, states]) => variant !== "about" && states.includes(state),
@@ -390,7 +379,8 @@ export function homeOf(
   if (residence) return residence;
   const age = person ? ageOnDate(person.birthDate, core.date) : 30;
   const living = () => {
-    const state = stateOf(core.placeMetadata?.placeKey ?? "");
+    const state =
+      placeStateKey(core.placeMetadata?.placeKey)?.slice("US-".length) ?? "";
     const regional = Object.entries(
       scenePlaces.regionalHouses as unknown as Record<
         string,

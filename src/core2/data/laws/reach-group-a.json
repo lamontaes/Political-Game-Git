@@ -216,7 +216,8 @@
           "enforcer": "the cannabis control board",
           "penalty": "fines for selling without a license"
         }
-      ]
+      ],
+      "effectLevels": ["state"]
     },
     "us-policy-positions:business-commerce.cap-consumer-loan-rates": {
       "source": "Military Lending Act (10 U.S.C. 987) and state rate caps of 36% a year (National Consumer Law Center, State Rate Caps, 2024).",
