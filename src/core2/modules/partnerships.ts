@@ -486,7 +486,7 @@ function ownsHome(api: CoreAPI, householdId: string): boolean {
 }
 
 /** Whether these people can leave their household now: it keeps an adult, and an owned home is not left empty. */
-function canLeave(
+export function canLeave(
   api: CoreAPI,
   mover: Readonly<PersonState>,
   adultAge: number,
@@ -495,13 +495,17 @@ function canLeave(
   // The player's household changes only by their choice, never by the
   // engine's move-in or split (owner's playtest, Nov 8).
   if (mover.id === core.playerId) return false;
-  const staying = (core.households.get(mover.householdId)?.memberIds ?? [])
+  // The household writer's own rule (`changeHouseholdV1`): whoever is left on
+  // its books, the dead included, must hold a living adult, or nobody is left
+  // and an owned home is not given up. A household whose only other members
+  // are dead children cannot be left (Ripley, Tennessee, year 4).
+  const left = (core.households.get(mover.householdId)?.memberIds ?? [])
     .filter((id) => id !== mover.id)
-    .map((id) => core.people.get(id))
-    .filter((row): row is PersonState => !!row?.alive);
-  if (!staying.length) return !ownsHome(api, mover.householdId);
-  return staying.some(
+    .map((id) => core.people.get(id));
+  if (!left.length) return !ownsHome(api, mover.householdId);
+  return left.some(
     (row) =>
+      row?.alive &&
       ageOnDate(makeIsoDate(row.birthDate), makeIsoDate(core.date)) >= adultAge,
   );
 }
