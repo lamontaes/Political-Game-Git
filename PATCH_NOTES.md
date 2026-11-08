@@ -296,6 +296,18 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.91.0
+
+_Released November 8, 2026._
+
+### Changed
+
+- **The Budgets screen follows the approved look** Budgets now shows each
+  government as a tab, its spending lines as a list of departments, the open one
+  as a typed page, and the government's money (coming in, going out, balance,
+  savings) with last year beside each figure where a prior budget is kept. The
+  ring charts are gone.
+
 ## PRE-ALPHA 0.90.0
 
 _Released November 8, 2026._
