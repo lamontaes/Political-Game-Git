@@ -196,6 +196,16 @@ STATE_CONTRIBUTION_SERIES = {
 }
 
 
+def child_care(rows):
+    """Each state's CCDF initial income eligibility limit for a family of three (dollars a month)."""
+    data = load(RESEARCH / "laws/ccdf-income-limits-2025.json")
+    for state, item in sorted(data["rows"].items()):
+        rows.append(row(state, "state", "child-care-income-limit", item["monthlyDollarsFamilyOf3"],
+                        "2025-01-01", FOREVER, item["source"], bool(item["estimate"]),
+                        unit="USD/month", terms={"pctSMI": item["pctSMI"], "familySize": 3},
+                        note=item.get("note"), retrieved="2026-11-08"))
+
+
 def business_taxes(rows):
     """Taxes a business pays on wages and profit (data/research/money/business-taxes-2026.json)."""
     taxes = load(RESEARCH / "money/business-taxes-2026.json")
@@ -572,6 +582,7 @@ def main():
     payroll_taxes(rows)
     business_taxes(rows)
     campaign_finance(rows)
+    child_care(rows)
     death_taxes(rows)
     income_taxes(rows)
     sales_taxes(rows)
