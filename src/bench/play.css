@@ -5274,3 +5274,21 @@ select.release-pick {
 .roster-row span {
   white-space: nowrap;
 }
+
+/* Issues (pl-issues): subjects, then a subject's laws, then the law's page. */
+.issues-screen,
+.issues-laws {
+  width: auto;
+  max-width: 100%;
+}
+.issues-screen {
+  width: 1180px;
+  grid-template-columns: 250px minmax(0, 1fr);
+}
+.issues-laws {
+  grid-template-columns: 270px minmax(0, 1fr);
+}
+.issues-screen .roster-row span {
+  min-width: 1.5em;
+  text-align: right;
+}
