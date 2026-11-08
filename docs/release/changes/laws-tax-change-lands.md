@@ -1,8 +1,0 @@
----
-id: laws-tax-change-lands
-impact: minor
-section: Changed
-title: A tax change is felt by the people it reaches
----
-
-When a new law changes the tax withheld from a person's pay, the change lands on them as a felt loss, and they tie it to the law if they have heard about it.

@@ -181,7 +181,7 @@ describe("labor links whose cause nothing in the game produces", () => {
     expect(category.policies).toEqual([]);
   });
 
-  it("no engine reads the law that admits more immigrants or admits people from abroad", () => {
+  it("only counted moves reads the law that admits more immigrants, and no engine reads the web's dial for it", () => {
     const question = link("more-immigration-to-workforce").from.replace(
       /^law:/,
       "",
@@ -189,9 +189,12 @@ describe("labor links whose cause nothing in the game produces", () => {
     expect(question).toBe(
       "us-federal-positions:immigration.admit-more-immigrants",
     );
-    // No starting row, handler or reader names the question or its dial.
-    expect(naming(question)).toEqual([]);
-    expect(naming("immigration-admission")).toEqual([]);
+    // The law is read where people from abroad arrive (the researched extra
+    // admissions); the web link's own dial, and so its labor effect, is not.
+    const engines = (text: string) =>
+      naming(text).filter((path) => path.endsWith(".ts"));
+    expect(engines(question)).toEqual(["src/core2/modules/counted-moves.ts"]);
+    expect(engines("immigration-admission")).toEqual([]);
   });
 
   it("the transit and broadband causes are the web's own ledgers, each moved by one law's link and recorded by no engine", () => {

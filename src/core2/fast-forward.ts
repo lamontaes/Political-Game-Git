@@ -3,15 +3,18 @@
  * fine with it simulating everything as long as it makes sense in the end.
  * Like, I would love if 20 years only took 5 seconds"). On, the engines that
  * spend their time on each person's evening (a candidate's town halls,
- * speeches, door-to-door rounds and ads) stand aside, and the race is decided
- * by what the voters already hold: their leans, parties, the incumbent's
- * record and the impressions earlier days left. Everything else runs as in
- * play. Off in play and in every test unless one turns it on.
+ * speeches, door-to-door rounds and ads) take their turns a few times less
+ * often, so a race is still decided by the impressions the campaign leaves
+ * but costs less. Everything else runs as in play. (Skipping campaign turns
+ * outright was tried on Nov 8: no votes were tallied, so no one won.) Off in play and in every test unless one turns it on.
  *
  * Registered stopgap: SG-SPEED-fast-forward-campaigns (see
  * src/core2/data/stopgaps/speed.json).
  */
 let enabled = false;
+
+/** How many times as far apart a campaign's turns are in fast-forward (coarser time, as distant things update less often). */
+export const FAST_FORWARD_STRIDE = 4;
 
 export function fastForward(): boolean {
   return enabled;
