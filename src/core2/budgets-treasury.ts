@@ -33,7 +33,7 @@ import {
   type GovernmentRow,
 } from "./modules/budgets";
 import { appliedOn, lawApplied, lawNoLongerApplies } from "./law-reach/applied";
-import { LAWS_MODULE_ID, lawChain, webReach } from "./modules/laws";
+import { LAWS_MODULE_ID, lawChain, lawInForce, webReach } from "./modules/laws";
 import { rerateCountedRetirement, residentsRuntime } from "./modules/residents";
 import { countedJobHeads, countedJobsOf } from "./residents-economy";
 import { setRecipientIncomeAmount } from "./finance-state";
@@ -929,19 +929,69 @@ function standingDue(api: CoreAPI, account: string, date: string): number {
 }
 
 /**
+ * The statutory debt limit in this world's debt held by the public: the
+ * public-held debt at the last record plus the room the limit leaves over the
+ * total debt then (P.L. 119-21 sec. 72001: $41.1 trillion), moved by the same
+ * factor that sized this world's opening debt.
+ */
+function debtLimitMinor(holders: readonly DebtRow[]): number {
+  const budget = federalBudget as unknown as {
+    debtHeldByPublic: Record<string, number>;
+    totalPublicDebt: Record<string, number>;
+    debtLimit: number;
+  };
+  const held = budget.debtHeldByPublic[DEBT.balanceAsOf] ?? 0;
+  const lastDate = Object.keys(budget.totalPublicDebt).sort().pop()!;
+  const room = budget.debtLimit - budget.totalPublicDebt[lastDate]!;
+  const opening = holders.reduce(
+    (n, h) => n + h.balanceMinor - h.borrowedMinor + h.repaidMinor,
+    0,
+  );
+  const factor = held > 0 ? opening / (held * 100) : 1;
+  return Math.round(
+    ((budget.debtHeldByPublic[lastDate] ?? held) + room) * 100 * factor,
+  );
+}
+
+/** The statutory debt limit in this world's public-held debt, in minor units, for tests and screens. */
+export function federalDebtLimit(api: CoreAPI): number {
+  return debtLimitMinor(federalDebtOf(api));
+}
+
+const PAY_FOR_DEBT_LIMIT =
+  "us-federal-positions:budget.pay-for-a-higher-debt-limit";
+
+/**
  * The U.S. Treasury borrows an amount from the groups that hold its debt, in
- * their shares, into its account; returns what each group lent.
+ * their shares, into its account; returns what each group lent. Where
+ * Congress has made a higher debt limit something to pay for, the statutory
+ * limit holds and the Treasury borrows no more than the room under it; the
+ * month's payments are then prorated by the close (the same rule as any
+ * treasury short of cash). Otherwise the limit is raised whenever it binds.
+ * stopgapId: SG-LAWS-debt-limit-binding
  */
 function borrowFederal(
   api: CoreAPI,
   gov: GovernmentRow,
   outside: string,
-  amountMinor: number,
+  wantedMinor: number,
 ): Record<string, number> {
   const accounts = api.accounts();
   const date = api.state.date;
   const lent: Record<string, number> = {};
   const holders = federalDebtOf(api);
+  let amountMinor = wantedMinor;
+  if (
+    api.state.modules.has(LAWS_MODULE_ID) &&
+    lawInForce(api, PAY_FOR_DEBT_LIMIT).value === 1
+  ) {
+    api.stopgap("SG-LAWS-debt-limit-binding");
+    const owed = holders.reduce((n, h) => n + h.balanceMinor, 0);
+    amountMinor = Math.max(
+      0,
+      Math.min(wantedMinor, debtLimitMinor(holders) - owed),
+    );
+  }
   const wanted = splitBy(amountMinor, holderShares(api));
   holders.forEach((holder, i) => {
     if (wanted[i]! <= 0) return;
