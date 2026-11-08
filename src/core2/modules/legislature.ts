@@ -318,6 +318,8 @@ export const LEGISLATURE_MODULE: CoreModule = {
       bills: {},
       votes: { indexes: { byBill: { fields: ["billId"] } } },
       committees: {},
+      /** Amendments moved on a bill before its floor vote, each with its own estimate and roll call. */
+      amendments: { indexes: { byBill: { fields: ["billId"] } } },
       counters: {},
       obligations: {},
       choices: {},
@@ -5968,6 +5970,148 @@ export function floorCountOf(
     no: rows.filter((row) => row.vote === "no").length,
     carried: bill?.status !== "failed" || later,
   };
+}
+
+/**
+ * An amendment moved on a drafted bill: one section replaced by another, with the
+ * estimate of the bill as it would read and the roll call of the body on it. It is
+ * its own record (the bill is changed only when the body adopts it), so the paper
+ * can show the strike and the insert, the estimate and the vote by name.
+ */
+export interface AmendmentRow {
+  readonly id: string;
+  readonly billId: string;
+  readonly movedBy: string;
+  readonly date: string;
+  /** The section struck (its index in the bill) and the one inserted in its place. */
+  readonly index: number;
+  readonly struck: Provision;
+  readonly inserted: Provision;
+  /** The bill's estimate as drafted and as it would read with the amendment. */
+  readonly estimateBefore: BillRow["costEstimate"];
+  readonly estimateAfter: BillRow["costEstimate"];
+  readonly status: "moved" | "adopted" | "rejected";
+  /** Each member's vote once the body has voted, with the reasons' totals. */
+  readonly votes?: readonly {
+    readonly memberId: string;
+    readonly vote: "yes" | "no" | "abstain";
+    readonly before: number;
+    readonly after: number;
+  }[];
+}
+
+/** Move an amendment that replaces one section of a drafted bill. */
+export function moveAmendment(
+  api: CoreAPI,
+  input: {
+    readonly billId: string;
+    readonly movedBy: string;
+    readonly index: number;
+    readonly with: Provision;
+  },
+): AmendmentRow {
+  const bill = billOf(api, input.billId);
+  if (!bill) throw new Error(`No such bill: ${input.billId}`);
+  if (bill.status !== "drafted")
+    throw new Error(`Bill ${bill.number} is ${bill.status}, past amending.`);
+  const struck = bill.provisions[input.index];
+  if (!struck)
+    throw new Error(`Bill ${bill.number} has no section ${input.index + 1}.`);
+  const after = bill.provisions.map((p, i) =>
+    i === input.index ? input.with : p,
+  );
+  const count = amendmentsOn(api, bill.id).length;
+  const row: AmendmentRow = {
+    id: `amendment:${bill.id}:${count}`,
+    billId: bill.id,
+    movedBy: input.movedBy,
+    date: api.state.date,
+    index: input.index,
+    struck,
+    inserted: input.with,
+    estimateBefore: bill.costEstimate,
+    estimateAfter: costOf(api, after),
+    status: "moved",
+  };
+  table(api, "amendments").put(row as unknown as ModuleRow);
+  return row;
+}
+
+export function amendmentsOn(
+  api: CoreAPI,
+  billId: string,
+): readonly AmendmentRow[] {
+  return (
+    table(api, "amendments").query("byBill", [
+      billId,
+    ]) as unknown as AmendmentRow[]
+  )
+    .slice()
+    .sort((a, b) => a.id.localeCompare(b.id, "en", { numeric: true }));
+}
+
+/**
+ * The body votes an amendment: each member weighs the bill as it would read against
+ * the bill as drafted, and votes for it when it leaves them better disposed toward
+ * the bill (their reasons, never a roll). A member who chose their vote (the player,
+ * `castMemberVote` on the id `<bill>|<member>|<amendment id>`) votes as they chose.
+ * A majority of those voting adopts it, and the bill is rewritten on its paper.
+ */
+export function voteAmendment(api: CoreAPI, amendmentId: string): AmendmentRow {
+  const row = table(api, "amendments").get(amendmentId) as unknown as
+    AmendmentRow | undefined;
+  if (!row) throw new Error(`No such amendment: ${amendmentId}`);
+  if (row.status !== "moved") return row;
+  const bill = billOf(api, row.billId);
+  const amended: BillRow = {
+    ...bill,
+    provisions: bill.provisions.map((p, i) =>
+      i === row.index ? row.inserted : p,
+    ),
+    costEstimate: row.estimateAfter,
+  };
+  const votes: NonNullable<AmendmentRow["votes"]>[number][] = [];
+  // Whether the amendment makes the change from the law in force larger (1) or smaller (-1).
+  const today = billForm(api, bill).sections[row.index]?.before.value;
+  const sizeShift =
+    today == null
+      ? 0
+      : Math.sign(
+          Math.abs(row.inserted.value - today) -
+            Math.abs(row.struck.value - today),
+        );
+  for (const chamber of chambersOf(api, bill).slice(0, 1))
+    for (const member of members(api, chamber)) {
+      const key = memberKey(member);
+      const before = positionOn(api, bill, key).total;
+      const after = positionOn(api, amended, key).total;
+      const chosen = (
+        table(api, "choices").get(`${bill.id}|${key}|${row.id}`) as unknown as
+          { vote: "yes" | "no" | "abstain" } | undefined
+      )?.vote;
+      // Where their position moves on the bill as amended decides it. A section's size
+      // does not move a stance on its own question, so a member's lean on the bill
+      // decides a change of size: one who backs the bill wants the larger change, one
+      // against it the smaller (the compromise a member against it will take).
+      const lean =
+        after !== before
+          ? Math.sign(after - before)
+          : sizeShift * Math.sign(before);
+      const vote = chosen ?? (lean > 0 ? "yes" : lean < 0 ? "no" : "abstain");
+      votes.push({ memberId: key, vote, before, after });
+    }
+  const yes = votes.filter((v) => v.vote === "yes").length;
+  const no = votes.filter((v) => v.vote === "no").length;
+  const adopted = yes > no;
+  if (adopted)
+    reviseBill(api, bill.id, { replace: row.index, with: row.inserted });
+  const done: AmendmentRow = {
+    ...row,
+    status: adopted ? "adopted" : "rejected",
+    votes,
+  };
+  table(api, "amendments").put(done as unknown as ModuleRow);
+  return done;
 }
 
 export type { PersonState };

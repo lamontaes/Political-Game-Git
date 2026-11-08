@@ -141,7 +141,7 @@ async function launch() {
       (await page.getByTestId("title-options").isVisible()),
   );
   // The title is a full-window national scene with the menu over it: the
-  // backdrop has a picture, the build version in the corner, and no place field on the front.
+  // backdrop has a picture, no build version, and no place field on the front.
   const titleScreen = await page.evaluate(async () => {
     const backdrop = document.getElementById("backdrop");
     // The title's scene is chosen by the play server, so its picture arrives
@@ -157,9 +157,7 @@ async function launch() {
     return {
       src: backdrop.getAttribute("src") ?? "",
       painted: backdrop.naturalWidth > 0,
-      version: /\d+\.\d+\.\d+/.test(
-        document.getElementById("title-version")?.textContent ?? "",
-      ),
+      version: Boolean(document.getElementById("title-version")),
       placeShown: Boolean(place && place.offsetParent !== null),
       seedShown: Boolean(document.getElementById("seed")?.offsetParent),
       patchNotes: document.getElementById("front-patch-notes")?.disabled,
@@ -229,7 +227,8 @@ async function launch() {
     titleScreen.continueShown && titleScreen.continueDisabled === true,
   );
   check("title: Quit is offered on the desktop", titleScreen.quitShown);
-  check("title: the build version shows on the title", titleScreen.version);
+  // No version string on the title (owner, Nov 8); the window title names the version.
+  check("title: no build version on the title", !titleScreen.version);
   if (screenshot) {
     await page.screenshot({ path: path.resolve(screenshot), fullPage: true });
   }
