@@ -1,6 +1,12 @@
 {
   "entries": [
     {
+      "version": "0.90.0",
+      "releasedOn": "2026-11-08",
+      "revision": "54a741886d8bbfa228b757d395ec2dfceceb6678",
+      "changeIds": ["fixer-screen-person-card"]
+    },
+    {
       "version": "0.89.0",
       "releasedOn": "2026-11-08",
       "revision": "b12c2028a8971c174c7d3135e20a25523b7cb7ae",
