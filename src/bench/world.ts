@@ -44,7 +44,10 @@ import { openInterestGroups } from "../core2/modules/interest-groups";
 import { openPublicAction } from "../core2/modules/public-action";
 import { openFederalCourts } from "../core2/modules/federal-courts";
 import { openNationalEvents } from "../core2/modules/national-events";
-import { openWorldLegislating } from "../core2/modules/world-legislating";
+import {
+  openSittingSessions,
+  openWorldLegislating,
+} from "../core2/modules/world-legislating";
 import { openBallotMeasures } from "../core2/modules/ballot-measures";
 import { openRecalls } from "../core2/modules/recalls";
 import { openPress } from "../core2/modules/press";
@@ -583,6 +586,8 @@ function* benchWorldStages(
   const preStart = defaultPreStart(core);
   if (preStart)
     runPreStart(core, preStartWindow(core, preStart.from, preStart.step));
+  // Sessions already sitting take up their work at the opening, so their bills are filed on day one.
+  openSittingSessions(core);
   // Last, so everyone the opening seated has a health coverage record on day one
   // (people who arrive later get theirs on the next 1st); the household pays its premium.
   openCoverage(core);
