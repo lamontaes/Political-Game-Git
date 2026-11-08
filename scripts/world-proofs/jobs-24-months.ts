@@ -94,3 +94,8 @@ console.log(
     .map((row) => row.id)
     .join(", ")}`,
 );
+// Hours cuts: the jobs whose hours the employers changed (core.work.hourChanges), the record that hours moved before staff.
+const hourRows = [...world.core.work.hourChanges.values()].flat();
+console.log(
+  `jobs with an hours change ${world.core.work.hourChanges.size}; changes ${hourRows.length}; first: ${[...world.core.work.hourChanges.keys()].slice(0, 3).join(", ")}`,
+);
