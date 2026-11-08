@@ -7,9 +7,10 @@
  * with, and a destination's weight was its share of the nation's people, not
  * the arrivals the American Community Survey finds in it. Where people go is
  * now a gravity model fitted to the survey's own departures and arrivals by
- * state, through the same pull as before. Named regression worlds (a small
- * drawn place has too few people to hold a percent bound: Loomis, SD, 116 to
- * 112).
+ * state, through the same pull as before. Named regression worlds. The checks
+ * ask whether the world's own records (births, deaths, moves) explain each
+ * year's change, never whether it stays inside a range (owner, Nov 8: real
+ * ranges are not targets).
  */
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -20,6 +21,7 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { countedMoves, countedStatePeople } from "./modules/counted-moves";
 import { enactLaw, lawChain } from "./modules/laws";
+import { RENEWAL_MODULE_ID } from "./modules/renewal";
 import { residentsRuntime, townPlaceOf } from "./modules/residents";
 import { coreAPI } from "./state";
 import type { CoreState } from "./types";
@@ -35,27 +37,110 @@ function townPeople(core: CoreState): number {
   return n;
 }
 
+/**
+ * A year's change in the town's people and what the world recorded for it:
+ * the counted tier's births and deaths (the renewal engine's running totals),
+ * the counted moves in and out, and the full people's own births and deaths.
+ * What none of those records explains is `unexplained`.
+ */
+interface YearChange {
+  readonly line: string;
+  readonly change: number;
+  readonly explained: number;
+  readonly unexplained: number;
+  readonly pct: number;
+}
+
+function carryTotals(core: CoreState) {
+  let born = 0,
+    died = 0;
+  for (const row of coreAPI(core)
+    .moduleState(RENEWAL_MODULE_ID)
+    .table("countedCarry")
+    .rows() as unknown as { born?: number; died?: number }[]) {
+    born += row.born ?? 0;
+    died += row.died ?? 0;
+  }
+  return { born, died };
+}
+
+function fullEvents(core: CoreState, from: string) {
+  const town = townPlaceOf(core);
+  let born = 0,
+    died = 0;
+  for (const event of core.durableLog.values()) {
+    if (event.date < from || event.placeId !== town) continue;
+    if (event.kind === "person-birth") born += 1;
+    if (event.kind === "life.death") died += 1;
+  }
+  return { born, died };
+}
+
 function yearsOf(worldSeed: string, key: string, years: number) {
   setBookkeeping(false);
   const { core } = buildBenchWorld(worldSeed, gameStartDate(), {
     twoLevel: true,
     placeKey: key,
   });
-  const changes: { pct: number; line: string }[] = [];
+  const changes: YearChange[] = [];
   let before = townPeople(core);
+  let carry = carryTotals(core);
+  let seen = countedMoves(coreAPI(core)).length;
+  let from = core.date;
   for (let year = 1; year <= years; year++) {
     advanceCore(core, addDays(makeIsoDate(core.date), 365));
     const after = townPeople(core);
+    const now = carryTotals(core);
+    const moves = countedMoves(coreAPI(core)).slice(seen);
+    const full = fullEvents(core, from);
+    const into = moves
+      .filter((row) => row.direction === "in")
+      .reduce((n, row) => n + row.people, 0);
+    const out = moves
+      .filter((row) => row.direction === "out")
+      .reduce((n, row) => n + row.people, 0);
+    const explained =
+      now.born -
+      carry.born -
+      (now.died - carry.died) +
+      into -
+      out +
+      full.born -
+      full.died;
     changes.push({
+      line: `year ${year}: ${Math.round(before)} to ${Math.round(after)}; counted births ${Math.round(now.born - carry.born)}, deaths ${Math.round(now.died - carry.died)}, moves in ${Math.round(into)}, out ${Math.round(out)}, full births ${full.born}, deaths ${full.died}`,
+      change: after - before,
+      explained,
+      unexplained: after - before - explained,
       pct: (100 * (after - before)) / before,
-      line: `year ${year}: ${Math.round(before)} to ${Math.round(after)}`,
     });
     before = after;
+    carry = now;
+    seen += moves.length;
+    from = core.date;
   }
   return { core, changes };
 }
 
-it("a wholly counted jurisdiction keeps its people within 1.5 percent a year for three years, with no one sent to a rest of state it does not have (Washington, D.C., world seed 03dcde00232799ad5a2d214a30f002cd0307b7fb75772dac9043e2952235cf4e)", () => {
+/**
+ * Owner, Nov 8: real ranges are not targets. A place's people may rise or fall
+ * by whatever its causes bring; a year fails only when its change is not
+ * explained by the births, deaths and moves the world recorded. The
+ * accounting identity is exact up to people filled in between tiers and a
+ * few full people's moves, so the unexplained part may not exceed half a
+ * percent of the start.
+ */
+function expectExplained(changes: readonly YearChange[], where: string) {
+  for (const row of changes) {
+    const before = row.change / (row.pct / 100);
+    expect(
+      Math.abs(row.unexplained),
+      `${where}: ${row.line}; change ${row.change}, explained ${row.explained}`,
+    ).toBeLessThanOrEqual(Math.max(5, before * 0.005));
+  }
+}
+
+it("a wholly counted jurisdiction's people change only by what the world recorded for three years, with no one sent to a rest of state it does not have (Washington, D.C., world seed 03dcde00232799ad5a2d214a30f002cd0307b7fb75772dac9043e2952235cf4e)", () => {
   const { core, changes } = yearsOf(
     "03dcde00232799ad5a2d214a30f002cd0307b7fb75772dac9043e2952235cf4e",
     "1150000",
@@ -66,25 +151,15 @@ it("a wholly counted jurisdiction keeps its people within 1.5 percent a year for
       row.direction === "out" && String(row.toPlace).endsWith(":rest-of-state"),
   );
   expect(toRest.length, "moves out to a rest of state with no people").toBe(0);
-  for (const change of changes)
-    expect(Math.abs(change.pct), change.line).toBeLessThanOrEqual(1.5);
+  expectExplained(changes, "Washington, D.C.");
 }, 3_600_000);
 
-it("a small territory keeps its people within 1.5 percent a year (Futiga, American Samoa, drawn from the seed dpA)", () => {
+it("a small territory's people change only by what the world recorded (Futiga, American Samoa, drawn from the seed dpA)", () => {
   const place = drawPlace("dpA", "drift-played");
   const { changes } = yearsOf(place.seed, place.key, 1);
-  for (const change of changes)
-    expect(
-      Math.abs(change.pct),
-      `${place.name}: ${change.line}`,
-    ).toBeLessThanOrEqual(1.5);
+  expectExplained(changes, place.name);
 }, 3_600_000);
 
-// A baseline inflow from abroad (owner research order, Nov 8): the ACS "moved
-// from abroad" line sets how many people a place takes in from outside the
-// country each year, in the survey's age mix, apart from arrivals from other
-// states. Washington, D.C. (1.30 percent of its people a year) is the place
-// where it shows most.
 it("a place takes in people from abroad at the ACS rate, as moves with their cause (Washington, D.C., world seed 03dcde00232799ad5a2d214a30f002cd0307b7fb75772dac9043e2952235cf4e)", () => {
   const seed =
     "03dcde00232799ad5a2d214a30f002cd0307b7fb75772dac9043e2952235cf4e";
