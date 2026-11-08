@@ -112,7 +112,7 @@
     "why": "No per-person pay by calendar quarter is read by the claim engine; named workers' paydays are in the cash journal (work-payroll-cash.ts) and counted workers' in their group's perDayMinorByJob history, but the claim does not sum them yet.",
     "addedBy": "night:laws-and-effects",
     "addedAt": "2026-11-08",
-    "replacement": "fileClaim sums the person's recorded payday receipts by calendar quarter, takes the state's basis quarters from the law row (weeklyBenefitBasisQuarters), and applies the state's fraction, max and min; counted workers read their group's perDayMinorByJob history. Proved on a claim after an hours cut (Jobs #7781, api.rehourJob).",
+    "replacement": "(The base-period read is built against core.work.payByQuarter, Money's fold; named workers use it once the fold is written, and everyone else, counted groups included, stays on the last pay.) fileClaim sums the person's recorded payday receipts by calendar quarter, takes the state's basis quarters from the law row (weeklyBenefitBasisQuarters), and applies the state's fraction, max and min; counted workers read their group's perDayMinorByJob history. Proved on a claim after an hours cut (Jobs #7781, api.rehourJob).",
     "status": "open"
   }
 ]
