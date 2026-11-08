@@ -8024,5 +8024,38 @@
       "unit": "months",
       "citation": "Checked against the chain's yearly union count in src/core2/partnerships.test.ts: the stage lengths move when a couple moves in and marries, never how many couples form (the chain's pace sets that)."
     }
+  },
+  "partnerProposalLapseMonths": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "Months a proposal to the player waits for their answer in the proposal scene before it lapses back to living together, unanswered (SG-LIVES-partner-stage-lengths).",
+    "spread": {
+      "low": 1,
+      "high": 6,
+      "unit": "months",
+      "citation": "Not a rate: a wait for the player's own choice; checked against how soon scenes stage after their record in the played year."
+    }
+  },
+  "kinContactsPerYearAtFull": {
+    "value": 12,
+    "tag": "TUNABLE",
+    "citation": "Contacts a year (a letter, a call, a message) from a relative living elsewhere to a town resident at full closeness; a tie writes in proportion to its closeness. Stand-in for the GSS frequencies of seeing parents, siblings and relatives behind the opening closeness (data/closeness.json).",
+    "spread": {
+      "low": 4,
+      "high": 26,
+      "unit": "contacts per year at full closeness",
+      "citation": "Checked against the played year's count of family.contact records against the opening's visits-per-year stand-ins (CLOSENESS.visitsPerYearByCategory, 1 to 30 a month)."
+    }
+  },
+  "kinContactHours": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Hours of time together one letter or call from a relative elsewhere counts as on their tie (SG-LIVES-kin-contact-traits).",
+    "spread": {
+      "low": 0.1,
+      "high": 1,
+      "unit": "hours",
+      "citation": "The hours a short call takes; closeness fades by half-life, so the effect is read in the played year's tie levels."
+    }
   }
 }
