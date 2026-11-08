@@ -967,7 +967,9 @@
   },
   "nominations": {
     "own": "Decided for me",
-    "nominate": "Nominate"
+    "nominate": "Nominate",
+    "leave": "Leave it open",
+    "nobody": "No one is available to nominate"
   },
   "orders": {
     "issue": "Issue the order",

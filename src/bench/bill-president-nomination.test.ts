@@ -7,6 +7,7 @@ import { cabinetOf, NOMINATIONS } from "../core2/office-day-federal-president";
 import { OFFICES_MODULE_ID, type TermRow } from "../core2/modules/offices";
 import { coreAPI } from "../core2/state";
 import { nominationDecide, nominationsView } from "./office";
+import { leavePostOpen } from "../core2/office-day-federal-president";
 import { BenchPlayer } from "./player";
 import { buildBenchWorld } from "./world";
 
@@ -56,6 +57,52 @@ describe(`the president names a cabinet secretary (seed ${seed})`, () => {
           expect(row.voteOn! > core.date, where).toBe(true);
           console.log(
             `president nomination: ${where}, ${post.title} to ${nominee.name}, Senate vote ${row.voteOn}`,
+          );
+          return;
+        }
+        player.resume({ kind: "stop", pauseId: packet.pauseId });
+      } else if (packet?.kind === "choice")
+        player.resume({ kind: "own-choice", pauseId: packet.pauseId });
+      else player.advance("day");
+    }
+    throw new Error(`the president was never held on a cabinet post: ${where}`);
+  }, 900_000);
+
+  it("lets the president leave every post open: the hold clears and the day goes on", () => {
+    const place = drawPlace(seed, "president-leave-open");
+    const world = buildBenchWorld(place.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    const core = world.core;
+    const api = coreAPI(core);
+    const where = `${place.name} (${place.key}), seed ${place.seed}`;
+    const president = (
+      api
+        .moduleState(OFFICES_MODULE_ID)
+        .table("terms")
+        .query("bySeatStatus", [
+          "seat:US:president",
+          "serving",
+        ]) as unknown as TermRow[]
+    )[0]?.personId;
+    const player = new BenchPlayer(core, world.director);
+    player.select(president!);
+    for (let guard = 0; guard < 60; guard++) {
+      const packet = player.packet;
+      if (packet?.kind === "stop") {
+        if (heldFederal(api).includes(NOMINATIONS)) {
+          const posts = nominationsView(core);
+          expect(posts.length, where).toBeGreaterThan(0);
+          for (const post of posts) leavePostOpen(api, president!, post.post);
+          expect(heldFederal(api), where).not.toContain(NOMINATIONS);
+          expect(
+            cabinetOf(api).every((c) => c.status === "acting"),
+            where,
+          ).toBe(true);
+          expect(nominationsView(core), where).toEqual([]);
+          console.log(
+            `left open: ${where}, ${posts.length} posts left open, hold cleared on ${core.date}`,
           );
           return;
         }

@@ -101,7 +101,13 @@ export interface CabinetRow {
   readonly postId: string;
   readonly holderId: string | null;
   /** The nomination before the Senate, or the last one it decided. */
-  readonly status: "vacant" | "nominated" | "confirmed" | "rejected";
+  readonly status:
+    | "vacant"
+    | "nominated"
+    | "confirmed"
+    | "rejected"
+    /** Left open by the president for now: the department runs under an acting head (SG-OFFICE-FED-acting-head). */
+    | "acting";
   readonly nomineeId: string | null;
   readonly nominatedOn: string | null;
   /** The Senate sitting day its vote falls on. */
@@ -219,14 +225,16 @@ export function nominationsOpen(
 }[] {
   if (!isPresident(api, presidentId)) return [];
   const pool = nominationCandidates(api, presidentId);
-  if (!pool.length) return [];
-  const ranked = nominateAndConfirm({
-    seatKey: "cabinet:US:view",
-    appointerSide: partySide(federalSeatOf(api, presidentId)?.term.party),
-    weighing: appointerWeighing(api.state as CoreState, presidentId),
-    candidates: pool,
-    confirmingBody: null,
-  }).reasons;
+  // With no one to nominate a post is still on the list: the president can leave it open.
+  const ranked = !pool.length
+    ? []
+    : nominateAndConfirm({
+        seatKey: "cabinet:US:view",
+        appointerSide: partySide(federalSeatOf(api, presidentId)?.term.party),
+        weighing: appointerWeighing(api.state as CoreState, presidentId),
+        candidates: pool,
+        confirmingBody: null,
+      }).reasons;
   return cabinetOf(api)
     .filter(open)
     .map((row) => ({
@@ -235,6 +243,38 @@ export function nominationsOpen(
         CABINET.posts.find((p) => p.id === row.postId)?.title ?? row.postId,
       candidates: ranked.map((r) => ({ id: r.candidateId, total: r.total })),
     }));
+}
+
+/**
+ * The president leaves a cabinet post open for now (or has no one to nominate): as in law, the post
+ * stays vacant and the department runs under an acting head. The hold clears once no post is waiting.
+ */
+export function leavePostOpen(
+  api: CoreAPI,
+  presidentId: string,
+  postId: string,
+): void {
+  mustBePresident(api, presidentId);
+  const post = CABINET.posts.find((p) => p.id === postId);
+  if (!post) throw new Error(`No cabinet post ${postId}`);
+  const current = cabinetOf(api).find((c) => c.postId === postId)!;
+  if (!open(current)) throw new Error(`${postId} is ${current.status}`);
+  // stopgapId: SG-OFFICE-FED-acting-head
+  api.stopgap("SG-OFFICE-FED-acting-head");
+  cabinetTable(api).put({
+    ...current,
+    status: "acting",
+    date: api.state.date,
+  } satisfies CabinetRow as unknown as ModuleRow);
+  officeHost.keep(api, {
+    personId: presidentId,
+    kind: "nominate",
+    how: "did",
+    recordId: `cabinet:US:${postId}:${api.state.date}`,
+    position: null,
+    detail: `${post.title} left open`,
+  });
+  if (!cabinetOf(api).some(open)) releaseFederal(api, NOMINATIONS);
 }
 
 /**
@@ -671,7 +711,12 @@ addFederalDayPart((api, personId) => {
       );
     else
       for (const post of cabinetOf(api))
-        if (open(post)) nominate(api, personId, post.postId);
+        if (open(post)) {
+          // No one to nominate: the post stays open under an acting head.
+          if (nominationCandidates(api, personId).length)
+            nominate(api, personId, post.postId);
+          else leavePostOpen(api, personId, post.postId);
+        }
   }
   const year = (d: string) => Number(d.slice(0, 4));
   if (

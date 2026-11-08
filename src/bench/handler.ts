@@ -1104,6 +1104,7 @@ export async function benchRequest(
           requireCore(),
           url.searchParams.get("post") ?? "",
           url.searchParams.get("nomineeId") ?? undefined,
+          url.searchParams.get("how") === "leave",
         );
         send(200, nominationsView(requireCore()));
         return;

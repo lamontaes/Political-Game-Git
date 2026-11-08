@@ -7,6 +7,7 @@
 import { billTitleOf } from "../english/bill-names";
 import { coreAPI } from "../core2/state";
 import {
+  leavePostOpen,
   nominate,
   nominationsOpen,
 } from "../core2/office-day-federal-president";
@@ -545,9 +546,11 @@ export function nominationDecide(
   core: CoreState,
   post: string,
   nomineeId?: string,
+  leave = false,
 ) {
   const api = coreAPI(core);
   const person = controlledPerson(api);
   if (!person) throw new Error("Choose a resident first.");
-  nominate(api, person, post, nomineeId || undefined);
+  if (leave) leavePostOpen(api, person, post);
+  else nominate(api, person, post, nomineeId || undefined);
 }

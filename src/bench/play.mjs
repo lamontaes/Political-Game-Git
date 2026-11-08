@@ -875,36 +875,46 @@ function atNominations() {
           let nominee = "";
           return plate(
             entry.title,
-            select({
-              options: [
-                { value: "", label: words.own ?? "" },
-                ...entry.candidates.map((c) => ({
-                  value: c.id,
-                  label: c.job ? `${c.name} · ${c.job}` : c.name,
-                })),
-              ],
-              onChange: (value) => {
-                nominee = value;
-              },
-            }),
+            // With no one to nominate the post can only be left open.
+            ...(entry.candidates.length
+              ? [
+                  select({
+                    options: [
+                      { value: "", label: words.own ?? "" },
+                      ...entry.candidates.map((c) => ({
+                        value: c.id,
+                        label: c.job ? `${c.name} · ${c.job}` : c.name,
+                      })),
+                    ],
+                    onChange: (value) => {
+                      nominee = value;
+                    },
+                  }),
+                ]
+              : [el("p", { textContent: words.nobody ?? "" })]),
             buttonRow(
-              (() => {
-                const b = makeButton({
-                  className: "action",
-                  textContent: words.nominate ?? "",
-                });
-                b.addEventListener("click", async () =>
-                  draw(
-                    await post(
-                      `/api/nominations?${new URLSearchParams({
-                        post: entry.post,
-                        ...(nominee ? { nomineeId: nominee } : {}),
-                      })}`,
+              ...["nominate", "leave"]
+                .filter((how) => how === "leave" || entry.candidates.length)
+                .map((how) => {
+                  const b = makeButton({
+                    className: "action",
+                    textContent: words[how] ?? "",
+                  });
+                  b.addEventListener("click", async () =>
+                    draw(
+                      await post(
+                        `/api/nominations?${new URLSearchParams({
+                          post: entry.post,
+                          ...(how === "leave" ? { how } : {}),
+                          ...(how === "nominate" && nominee
+                            ? { nomineeId: nominee }
+                            : {}),
+                        })}`,
+                      ),
                     ),
-                  ),
-                );
-                return b;
-              })(),
+                  );
+                  return b;
+                }),
             ),
           );
         }),

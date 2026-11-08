@@ -193,5 +193,17 @@
     "status": "resolved",
     "resolvedAt": "2026-10-28",
     "resolution": "Resolved Oct 28: the disasters engine gives each disaster a severity from the homes FEMA found damaged per resident (SG-WEB-disaster-severity-damage-proxy stands for the death toll the research used), the outcome web reads it as disaster.severe, and the moves engine's pull to leave reads the out-migration link's factor (law-wiring-disasters-web.test.ts)."
+  },
+  {
+    "id": "SG-OFFICE-FED-acting-head",
+    "kind": "missing-engine",
+    "file": "src/core2/office-day-federal-president.ts",
+    "line": 0,
+    "whatItFakes": "A cabinet post the president leaves open (or cannot fill) is marked acting; no acting official is named and the department's work is not handed to a deputy.",
+    "why": "The game keeps no deputy or line-of-succession record for a department, so there is no one to name as acting head.",
+    "addedBy": "Legislation",
+    "addedAt": "2026-11-08",
+    "replacement": "Name the department's deputy or next in line as acting head from a succession record, and pay and credit them as the acting official.",
+    "status": "open"
   }
 ]
