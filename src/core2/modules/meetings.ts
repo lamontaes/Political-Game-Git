@@ -77,7 +77,7 @@ import {
 } from "./press";
 import { closenessBetween } from "../closeness";
 import { personLean, questionAxis, type Stance } from "../campaign-views";
-import { agreementWith, viewOn } from "./views";
+import { agreementWith, countedLean, viewOn } from "./views";
 import { POLICY_QUESTIONS } from "../policy-answers";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
 
@@ -407,6 +407,9 @@ export function commentSpeakers(
  * and say so; the room is a public record.
  */
 function publicComment(api: CoreAPI, billId: string): void {
+  /** The counted resident's record by id, as the views store reads it. */
+  const countedVoter = (id: string) =>
+    countedResidents(api.state as CoreState).find((v) => v.id === id)!;
   if (!api.state.modules.has(MEETINGS_MODULE_ID)) return;
   const bill = billOf(api, billId);
   const stance = billQuestion(api, bill);
@@ -459,10 +462,9 @@ function publicComment(api: CoreAPI, billId: string): void {
         audienceIds: [...new Set(room)]
           .filter((id) => id !== r.personId)
           .sort(),
+        // The lean the views store keeps for a counted resident (its one rule), not a second formula.
         ...(record
-          ? {
-              countedSpeakerLean: personLean(api.state.people, record, 0),
-            }
+          ? { countedSpeakerLean: countedLean(api, countedVoter(record.id)) }
           : {}),
       });
     }
