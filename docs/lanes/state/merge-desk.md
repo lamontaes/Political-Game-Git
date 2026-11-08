@@ -120,6 +120,8 @@ New on Nov 3:
 | #7300 | Rents sit near the real renter median for the county, and each household's rent follows the income it is actually paid (they ran 31 to 40 percent under)                 | Delaware Park, New Jersey                   | 874505f44de46093 |
 | #7303 | Fixes the red Mac build: the filing test clock imports `CoreState` from `./types` (one line)                                                                             | Millersburg, Kentucky                       | 364de7a112068f58 |
 
+**Main's Mac build is red (Nov 8, run 42439722717)** on one check: the Fixer's #7355 made Saved games on the title open a sheet, and the desktop smoke test (`desktop/scripts/smoke-test.mjs`, lines 223-224) still expects it disabled. Windows failed only that check. Asked of the Fixer on #7355; the desk merges the fix on the new-game check.
+
 **Main's Mac build was red (Nov 7, run 42415963886)** on a typecheck error from Astra's #7325. Astra's #7336 fixed it; main typechecks with no errors, and a new Mac build was started.
 
 **Main's Mac build was red by calendar day (Nov 6, run 42240631046), not by a merge:** the desktop smoke test did not allow the title's Capitol picture. State Sessions' #7315 makes the check read the game's own list of title monuments; a new Mac build was started on it.
