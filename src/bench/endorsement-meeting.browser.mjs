@@ -78,10 +78,9 @@ try {
   for (const [at, answer] of asked.entries()) {
     assert.equal(said[at].text, answer.line, `ask ${at + 1}`);
     assert.equal(said[at].who, answer.name, `who ${at + 1}`);
-    assert.ok(
-      !/undefined|\{/.test(answer.line) && answer.line.includes(answer.name),
-      answer.line,
-    );
+    // The name is the speaker label above the line, not part of it
+    // (campaign-asks-spoken.test.ts keeps the family name out of the line).
+    assert.ok(!/undefined|\{/.test(answer.line), answer.line);
   }
   assert.match(
     said.at(-1).text,

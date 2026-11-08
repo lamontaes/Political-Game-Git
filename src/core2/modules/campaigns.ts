@@ -13,7 +13,7 @@
  * Views come from a stand-in until OPUS-PEOPLE's views engine lands
  * (`campaign-views.ts`, SG-GOV-views-stand-in).
  */
-import { fastForward } from "../fast-forward";
+import { FAST_FORWARD_STRIDE, fastForward } from "../fast-forward";
 import { townOutsideOf } from "../opening-outside-market";
 import { candidateIdentity } from "../candidate-identity";
 import {
@@ -188,6 +188,8 @@ export interface CampaignRow {
   }[];
   /** The share of an event the town has been owed but not yet had (`heldInTown`), 0 up to one. */
   readonly townEventCredit?: number;
+  /** The same for the interviews the town's outlets ask of the candidate (`interviewHeldInTown`). */
+  readonly townInterviewCredit?: number;
   /** Money set aside toward an event's venue and a poll, not yet paid. */
   readonly eventFundMinor?: number;
   readonly pollFundMinor?: number;
@@ -2564,17 +2566,30 @@ function townShareOfRace(api: CoreAPI, contestId: string): number {
  * town race (share one) holds every event. (Speed, Nov 8: a House candidate
  * held about a town hall a day in a town of 600.)
  */
-function heldInTown(api: CoreAPI, filingId: string): boolean {
+function heldInTown(
+  api: CoreAPI,
+  filingId: string,
+  credit: "townEventCredit" | "townInterviewCredit" = "townEventCredit",
+): boolean {
   const campaign = campaignFor(api, filingId);
   const share = townShareOfRace(api, campaign.contestId);
   if (share >= 1) return true;
-  const owed = (campaign.townEventCredit ?? 0) + share;
+  const owed = (campaign[credit] ?? 0) + share;
   const held = owed >= 1;
   save(api, {
     ...campaign,
-    townEventCredit: held ? owed - 1 : owed,
+    [credit]: held ? owed - 1 : owed,
   });
   return held;
+}
+
+/**
+ * Whether an interview a town outlet would ask of a candidate is held: the
+ * town's outlets interview a candidate for an office the town is only part of
+ * in proportion to the town's share of the race, as events are (`heldInTown`).
+ */
+export function interviewHeldInTown(api: CoreAPI, filingId: string): boolean {
+  return heldInTown(api, filingId, "townInterviewCredit");
 }
 
 /**
@@ -4354,7 +4369,12 @@ export function runAd(
   )
     ? campaign.raisedMinor - campaign.spentMinor
     : 0;
-  const amount = Math.min(input.amountMinor, available);
+  // A campaign for an office the town is only part of spreads its ad money
+  // over the whole district, so this town's outlet sells it the town's share.
+  const amount = Math.floor(
+    Math.min(input.amountMinor, available) *
+      townShareOfRace(api, campaign.contestId),
+  );
   void account;
   if (amount <= 0) return [];
   const sold = adAudience(api, amount);
@@ -5485,9 +5505,15 @@ export function sendMail(
   )
     ? campaign.raisedMinor - campaign.spentMinor
     : 0;
+  // The mail a district campaign sends is spread over the district: the
+  // town gets its share of the pieces.
   const pieces = Math.min(
     list.length,
-    Math.floor(Math.min(amountMinor, available) / perPiece),
+    Math.floor(
+      (Math.min(amountMinor, available) *
+        townShareOfRace(api, campaign.contestId)) /
+        perPiece,
+    ),
   );
   if (pieces <= 0) return [];
   spend(api, filingId, {
@@ -6387,8 +6413,6 @@ function campaignWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       races.remove(race.id);
       continue;
     }
-    // stopgapId: SG-SPEED-fast-forward-campaigns (a development switch: no turns, no doors)
-    if (fastForward()) continue;
     // A campaign works harder as election day nears: far out its people
     // turn to it now and then, in the last weeks every few days. While its
     // petitions circulate, the nearer day is the filing deadline.
@@ -6400,8 +6424,11 @@ function campaignWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         ? contest.filingDeadline
         : race.electionDate;
     const daysLeft = daysBetween(date, toward);
+    // stopgapId: SG-SPEED-fast-forward-campaigns (a development switch: a coarser calendar, turns less often)
     const every =
-      turnDays * (1 + daysLeft / campaignParameter("campaignRampDays"));
+      turnDays *
+      (fastForward() ? FAST_FORWARD_STRIDE : 1) *
+      (1 + daysLeft / campaignParameter("campaignRampDays"));
     if (race.lastTurn && daysBetween(race.lastTurn, date) < every) continue;
     races.put({ ...race, lastTurn: date } as unknown as ModuleRow);
     // The town's organizations weigh the race first, so the volunteers they
