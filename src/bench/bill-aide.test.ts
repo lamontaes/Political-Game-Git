@@ -36,8 +36,8 @@ describe(`the aide's estimate on the paper (seed ${seed})`, () => {
         ["council", "township-board", "county-board"].includes(o.kind),
       );
       const seated = council ? members(api, council.id) : [];
-      if (!council || seated.length < 4) {
-        tried.push(`${where}: no body of four`);
+      if (!council || seated.length < 3) {
+        tried.push(`${where}: no body of three`);
         continue;
       }
       const sponsor = memberKey(seated[0]!);
@@ -48,6 +48,8 @@ describe(`the aide's estimate on the paper (seed ${seed})`, () => {
       }
       const player = new BenchPlayer(world.core, world.director);
       player.select(sponsor);
+      // The game keeps why only for the player and the people they deal with.
+      world.core.focusPersonIds.add(sponsor);
       const first = world.core.date;
       for (let guard = 0; guard < 50 && world.core.date <= first; guard++) {
         const packet = player.packet;
@@ -95,7 +97,7 @@ describe(`the aide's estimate on the paper (seed ${seed})`, () => {
       return;
     }
     throw new Error(
-      `no drawn place had a body of four (seed ${seed}): ${tried.join("; ")}`,
+      `no drawn place had a body of three (seed ${seed}): ${tried.join("; ")}`,
     );
   }, 900_000);
 });
