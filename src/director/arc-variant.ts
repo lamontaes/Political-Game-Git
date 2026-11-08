@@ -207,6 +207,15 @@ function readOf(
 ): number {
   if (spec.kind === "setting")
     return input.setting === spec.is ? P.one : P.zero;
+  if (spec.kind === "strain") {
+    // The corruption engine's own shape for money pressure, over a year.
+    const asker = core.people.get(input.askerId);
+    if (!asker) return P.zero;
+    const year =
+      asker.livingCostDailyMinor *
+      parameter("daysPerMeanYear", core.data.parameters);
+    return clamp(year / (year + asker.liquidMinor + P.one));
+  }
   if (spec.kind === "history") {
     const own = input.cause.facts[spec.exceptSameFact];
     let count = P.zero;

@@ -93,6 +93,15 @@ try {
   let held = false;
   for (let day = 0; day < 400 && !held; day += 1) {
     if (await visible("desk")) {
+      // The State of the State holds the governor first: give the address, then the days go on.
+      const address = page.locator("#desk-items .action", {
+        hasText: /^Give the address$/,
+      });
+      if (await address.count()) {
+        await address.first().click();
+        await page.waitForTimeout(1500);
+        continue;
+      }
       held = true;
       break;
     }
