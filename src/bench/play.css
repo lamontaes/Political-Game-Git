@@ -5508,3 +5508,24 @@ select.release-pick {
 .guide-article .sec {
   width: 100%;
 }
+
+/* Advanced: the world's start and settings in strips (the Nov 8 front mock, fr-world). */
+#front:has(#front-advanced:not([hidden])) {
+  width: min(900px, 94vw);
+}
+#front-advanced {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 22px;
+}
+#front-advanced .field input {
+  width: 190px;
+}
+#front-advanced .secbody {
+  padding-bottom: 8px;
+}
+#front-advanced .seed-row input {
+  width: 120px;
+}
+#front-advanced .seed-row button {
+  white-space: nowrap;
+}
