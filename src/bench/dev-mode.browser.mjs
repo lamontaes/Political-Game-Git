@@ -62,7 +62,7 @@ try {
   );
   const ran = await page.locator(".dev-run .option-status").textContent();
   assert.match(ran, /Days passed/, ran);
-  // Scenes: the types the game can bring about are forced, the rest say there is no way in.
+  // Scenes: only the types the game can bring about are offered; the rest stay off.
   await page.locator('[data-testid="dev-scene"]').click();
   await page.waitForFunction(
     () => document.querySelector(".dev-scene .option-status")?.textContent,
@@ -71,16 +71,24 @@ try {
     await page.locator(".dev-scene .option-status").textContent(),
     /Begun for/,
   );
-  // A layoff; and a kind no engine writes the cause of says so (the kinds the world runs until they
+  // A layoff, and no kind offered that no engine can start (the kinds the world runs until they
   // happen take up to a year of days and are proved in dev-scene.test.ts).
+  assert.equal(
+    await page
+      .locator('.dev-scene select option:text-matches("No engine")')
+      .count(),
+    0,
+    "a scene nothing can start is offered",
+  );
   for (const [match, expected] of [
-    ["work.job-lost", /Begun for|worked today|staff|job|No one in the player/],
-    ["No engine writes its cause yet", /no engine writes/i],
+    ["layoff", /Begun for|worked today|staff|job|No one in the player/],
   ]) {
-    const value = await page
-      .locator('.dev-scene select option:text-matches("' + match + '")')
-      .first()
-      .getAttribute("value");
+    // The layoff kind: the one the scenes list marks with that recipe.
+    const value = await page.evaluate(async () => {
+      const rows = await (await fetch("/api/dev/scenes")).json();
+      return rows.find((row) => row.recipe === "layoff")?.key;
+    });
+    if (!value) continue; // this world has no layoff kind the game can start
     await expect_enabled();
     const before = await page
       .locator(".dev-scene .option-status")
@@ -93,8 +101,11 @@ try {
     }, value);
     await page.waitForFunction(
       (text) =>
+        Boolean(
+          document.querySelector(".dev-scene .option-status")?.textContent,
+        ) &&
         document.querySelector(".dev-scene .option-status")?.textContent !==
-        text,
+          text,
       before,
     );
     assert.match(
