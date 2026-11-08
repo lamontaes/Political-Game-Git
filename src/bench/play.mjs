@@ -5594,7 +5594,6 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
   // The loading card: the panel holds only the progress over the scene.
   frontPanel(null);
   show("front-status", true);
-  document.querySelector("#front .progress").hidden = false;
   try {
     const settings = custom ? worldSettings() : undefined;
     // Outside Custom world, a fresh seed draws the world.
@@ -5602,16 +5601,6 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
       ? $("seed").value
       : setup.seed || (await api("/api/seed")).seed;
     // Real progress through every step, from the server's build.
-    const bar = document.querySelector("#front .progress span");
-    bar.classList.add("steady");
-    const STEPS = [
-      "people",
-      "past",
-      "economy",
-      "core",
-      "government",
-      "opening",
-    ];
     // A poll still in flight when the build ends leaves the line alone.
     let built = false;
     // The world's story plays once the world exists (playLoadingStory).
@@ -5624,13 +5613,9 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
       const p = await api("/api/newlife/progress").catch(() => undefined);
       if (p?.story) playStory();
       if (!p || built) return;
-      const at =
-        p.stage === "done" ? STEPS.length : Math.max(STEPS.indexOf(p.stage), 0);
-      const within = p.total ? p.done / p.total : 0;
-      // Full when the build says it is done ("Ready"), never before.
-      bar.style.width = `${Math.round((Math.min(at + within, STEPS.length) / STEPS.length) * 100)}%`;
-      $("front-status").textContent =
-        `${controls.loading?.[p.stage] ?? ""}${p.total ? ` ${p.done} / ${p.total}` : ""}`;
+      // The step in plain words; no bar and no counts (owner, Oct 27: "There is a weird little
+      // bar at the end"; the Nov 8 loading mock).
+      $("front-status").textContent = controls.loading?.[p.stage] ?? "";
     }, 400);
     let life;
     try {
