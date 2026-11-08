@@ -2198,6 +2198,18 @@
     "status": "open"
   },
   {
+    "id": "SG-NATION-outside-budget-lines",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/outside-budgets.ts",
+    "line": 1,
+    "whatItFakes": "Another state's budget is its Census base moved by one factor, the state's jobs times pay since the opening, applied to every line alike; no legislature's acts, tax laws in force, federal aid, reserves or treasury move any line, and no money is paid.",
+    "why": "Only the town's chain has treasuries and a budget process; the other states' legislatures pass acts as results (world-legislating) and no budget bill yet.",
+    "addedBy": "Nation",
+    "addedAt": "2026-11-08",
+    "replacement": "Each line moved by the state's laws in force (rates, exemptions), its enacted budget changes (enacted rows), federal aid and its revenue, built when the state is opened; ballot measures and the legislature's budget act as results.",
+    "status": "open"
+  },
+  {
     "id": "SG-NATION-disaster-damage-from-causes",
     "kind": "missing-mechanic",
     "file": "src/core2/modules/national-events.ts",
