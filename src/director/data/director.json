@@ -553,6 +553,12 @@
         "ref": "P15-MEMORY-SIZE-FLAT-YEAR"
       }
     },
+    "directorPublicActionImpact": {
+      "value": 0.18,
+      "tag": "ESTIMATED",
+      "citation": "A strike or protest in the town an official answers to, sized as the Social Readjustment Rating Scale's 'Change in social activities', 18 life-change units divided by 100 (Holmes and Rahe 1967), the nearest item to a crowd the official has to face; below the interrupt line (0.5), so it reaches their journal and stages the confrontation without stopping play on its own.",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.1 to 0.3"
+    },
     "directorFilingImpact": {
       "value": 0.28,
       "tag": "ESTIMATED",
@@ -1099,6 +1105,16 @@
       "eventKind": "president.address",
       "channel": "cause",
       "impactParameter": "directorElectionResultImpact"
+    },
+    {
+      "eventKind": "civic.strike",
+      "channel": "cause",
+      "impactParameter": "directorPublicActionImpact"
+    },
+    {
+      "eventKind": "civic.protest",
+      "channel": "cause",
+      "impactParameter": "directorPublicActionImpact"
     },
     {
       "eventKind": "town-hall",
