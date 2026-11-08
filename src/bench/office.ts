@@ -10,7 +10,7 @@ import {
   leavePostOpen,
   nominate,
   nominationsOpen,
-} from "../core2/office-day-federal-president";
+} from "../core2/modules/office-day";
 import {
   controlledPerson,
   heldFederal,
