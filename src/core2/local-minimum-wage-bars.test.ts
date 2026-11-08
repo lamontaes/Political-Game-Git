@@ -21,3 +21,15 @@ for (const [state, cite] of [
     expect(row.source).toMatch(cite);
     expect(authorityAnswers[state]?.preempts, "the authority list").toBe(true);
   });
+
+// Nevada, Vermont and New Hampshire: no express statute, but towns hold only
+// the powers granted (Dillon's Rule) and none grants a wage power, so both
+// lists bar a local minimum wage, as an estimate.
+for (const state of ["US-NV", "US-VT", "US-NH"] as const)
+  it(`${state} bars local minimum wages by Dillon's Rule in both lists, as an estimate`, () => {
+    const row = statutes.statePreemption.find((r) => r.stateKey === state)!;
+    expect(row.preempts).toBe(true);
+    expect(row.estimate).toBe(true);
+    expect(row.note).toMatch(/Dillon/);
+    expect(authorityAnswers[state]?.preempts, "the authority list").toBe(true);
+  });

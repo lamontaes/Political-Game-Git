@@ -390,3 +390,45 @@ export function defenseBoostPct(
     recordId: budget.id,
   };
 }
+
+/** What the nation produces in a year, in cents: each state's fiscal 2024 output per resident times its residents (BEA SAGDP1 2024; USAspending's population). */
+const NATIONAL_GDP_MINOR = Math.round(
+  Object.values(
+    defenseContracts.places as unknown as Readonly<
+      Record<string, { population2024: number; gdpPerResident: number }>
+    >,
+  ).reduce((sum, p) => sum + p.population2024 * p.gdpPerResident, 0) * 100,
+);
+
+/**
+ * How far the federal deficit stands from its base, as percentage points of
+ * what the nation produces (`federal.deficit-change-pct-of-gdp`): the federal
+ * budget row in force (receipts less outlays summed over its lines) against
+ * the base row for the same fiscal year, the Treasury's statement. A budget
+ * Congress leaves at its base reads zero; one that spends more or taxes less
+ * reads positive. Null where the federal budget is not recorded. The record
+ * is the federal budget row the lines stand on.
+ */
+export function federalDeficitChangePct(
+  api: CoreAPI,
+): { value: number; recordId: string | null } | null {
+  if (!api.state.modules.has(BUDGETS_MODULE_ID)) return null;
+  const date = api.state.date;
+  const us = governments(api).find((gov) => gov.level === "federal");
+  const budget = us
+    ? [...budgetsOf(api, us.id)]
+        .filter((row) => row.startsOn <= date)
+        .sort((a, b) => a.startsOn.localeCompare(b.startsOn))
+        .at(-1)
+    : undefined;
+  if (!us || !budget) return null;
+  const total = (side: Readonly<Record<string, number>>) =>
+    Object.values(side).reduce((sum, v) => sum + v, 0);
+  const base = baseBudget(api, us, budget.fiscalYear);
+  const deficit = (row: typeof budget) =>
+    total(row.spendingMinor) - total(row.revenueMinor);
+  return {
+    value: ((deficit(budget) - deficit(base)) / NATIONAL_GDP_MINOR) * 100,
+    recordId: budget.id,
+  };
+}

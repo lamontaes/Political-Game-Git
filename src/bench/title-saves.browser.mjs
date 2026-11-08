@@ -1,4 +1,4 @@
-/* global process, console, document */
+/* global process, console, document, fetch */
 // Saved games on the title, in a real browser on the bench (npm run bench):
 // the item is live and opens a sheet that says what is kept and what is not
 // built yet; it never does nothing (screen-to-mock: nothing on screen does nothing).
@@ -26,7 +26,23 @@ try {
   }));
   console.log(`${read.title}: ${read.text.replace(/\s+/g, " ")}`);
   assert.equal(read.title, "Saved games");
-  assert.match(read.text, /early access/i, "it says why there is only one");
+  // The one life in progress is a strip with its name, its date and Load; with none, one plain line.
+  const life = await page.locator("#front-continue").isEnabled();
+  if (life) {
+    assert.equal(await page.locator("#sheet .saves-row .sechead").count(), 1);
+    assert.equal(
+      await page.locator("#sheet .saves-row .action").innerText(),
+      "Load",
+    );
+    // A life made without the creator has no saved face yet; the bust follows the title's own record.
+    const face = await page.evaluate(
+      async () => (await (await fetch("/api/title")).json()).life?.face,
+    );
+    assert.equal(
+      await page.locator("#sheet .saves-row .mxbust img").count(),
+      face ? 1 : 0,
+    );
+  } else assert.ok(await page.locator("#sheet .saves-none").count());
   if (process.env.SHOT) await page.screenshot({ path: process.env.SHOT });
   assert.deepEqual(errors, [], errors.join("; "));
 } finally {

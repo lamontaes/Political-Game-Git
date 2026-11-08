@@ -28,6 +28,13 @@ import { timeline } from "./ui/timeline.mjs";
 import { makeCard } from "./ui/card.mjs";
 import { townRow } from "./ui/town-row.mjs";
 import { debateCard, speechCard } from "./ui/campaign-acts.mjs";
+import { devRunPanel } from "./ui/dev-run.mjs";
+import {
+  devModeOn,
+  onDevMode,
+  restoreDevMode,
+  setDevMode,
+} from "./ui/dev-setting.mjs";
 import { listRow, personRow, factRow, noteLine } from "./ui/list-row.mjs";
 import { fillArtwork, picture as pictureFrame } from "./ui/picture.mjs";
 import { columnChart, donutChart } from "./ui/chart.mjs";
@@ -41,6 +48,7 @@ import {
 } from "./ui/fields.mjs";
 import { lookRow } from "./ui/look-row.mjs";
 import { termWord } from "./ui/term.mjs";
+import { watchTerms } from "./ui/term-mark.mjs";
 import { journalPage } from "./ui/journal-page.mjs";
 import { recordScreen } from "./ui/screen.mjs";
 import { listScreen, listEntry } from "./ui/list-screen.mjs";
@@ -78,6 +86,7 @@ import {
   stripBoard,
   typedRow,
   departmentRow,
+  savedLifeRow,
   leaderBlock,
   seatNumbers,
   voteRows,
@@ -366,6 +375,20 @@ let guideQuery = "";
 let guideTerms = new Map();
 api("/api/guide?q=").then((rows) => {
   guideTerms = new Map(rows.map((row) => [row.term.toLowerCase(), row]));
+  // Every civic term in player text is underlined until learned, wherever it appears.
+  watchTerms(document.getElementById("game"), {
+    terms: guideTerms,
+    learned,
+    hooks: {
+      onHover: (node, key) => showTip(node, key),
+      onLeave: hideTipSoon,
+      onOpen: (text) => {
+        show("tip", false);
+        guideQuery = text;
+        openSheet("guide");
+      },
+    },
+  });
 });
 // Terms the player marked as learned lose their underline (kept in the Guide).
 const LEARNED_KEY = "ocd-learned-terms";
@@ -3092,6 +3115,7 @@ const sheets = {
           act(`/api/advance?mode=calendar&date=${day}`);
         },
       }),
+      devRunPanel({ labels: controls.devRun, onDone: () => refresh() }),
     ];
   },
   async news() {
@@ -3299,45 +3323,32 @@ const sheets = {
     ];
   },
   /**
-   * The title's Saved games. The game keeps one life, the one Continue opens,
-   * and saves to more slots wait for early-access preparation (OWNER-DECISIONS:
-   * "Saves don't matter" until the versioned save format). The screen lists
-   * what exists and says so.
+   * The title's Saved games, as the Nov 8 front mock draws it (fr-saves): one strip per saved
+   * life, its name over a bust, the game's date and Load. The game keeps one life, the one
+   * Continue opens; more slots and Delete wait for the versioned save format in
+   * early-access preparation (OWNER-DECISIONS: "Saves don't matter" until then), so there
+   * is no Delete here: a control with no effect is a defect.
    */
   async saves() {
     await controlsReady;
     const words = controls.saves;
     const life = titleLife;
-    const rows = life
-      ? [
-          pager({
-            items: [
-              {
-                title: life.name,
-                lede: life.placeName,
-                label: life.name,
-                onSelect: () => {
-                  closeSheet();
-                  $("front-continue").click();
-                },
-                data: { life: life.personId },
-              },
-            ],
-            render: listEntry,
-            rows: 1,
-            columns: 1,
-            rowHeight: 58,
-            gap: 8,
-            words: {
-              page: controls.politics.page,
-              previous: controls.politics.previousPage,
-              next: controls.politics.nextPage,
-            },
-            className: "pick-cards save-cards",
-          }),
-        ]
-      : [prose(words.none, "saves-none")];
-    return [plate(null, ...rows, prose(words.later, "saves-later"))];
+    if (!life) return [plate(null, prose(words.none, "saves-none"))];
+    return [
+      savedLifeRow({
+        name: life.name,
+        face: life.face,
+        date: dateWords(life.date),
+        load: makeButton({
+          className: "action",
+          textContent: words.load,
+          onclick: () => {
+            closeSheet();
+            $("front-continue").click();
+          },
+        }),
+      }),
+    ];
   },
   async options() {
     await controlsReady;
@@ -3365,20 +3376,23 @@ const sheets = {
       });
       fullScreen = [{ node: line }, { node: status }];
     }
+    const devSetting = checkboxSetting({
+      label: labels.devMode,
+      checked: devModeOn(),
+      testid: "options-dev-mode",
+    });
+    devSetting.box.addEventListener("change", () =>
+      setDevMode(devSetting.box.checked),
+    );
     return recordScreen({
       sections: [
         {
           items: [
             { fact: [labels.version, await displayVersion()] },
             ...(fullScreen ?? []),
+            { node: devSetting.line },
             {
               actions: [
-                // Dev mode, for a developer's session only.
-                {
-                  label: labels.devMode,
-                  className: "dev-only",
-                  onClick: () => window.open("/dev"),
-                },
                 {
                   label: labels.quitToTitle,
                   testid: "quit-to-title",
@@ -4796,6 +4810,13 @@ api("/api/title").then((title) => {
   if (title.scenes?.length > 1) rotateTitle(title.scenes, title.rotateSeconds);
   titleLife = title.life;
   $("front-continue").disabled = !titleLife;
+  // The mock (fr-title) offers Continue only for a life that exists, by that person's name.
+  $("front-continue").hidden = !titleLife;
+  void controlsReady.then(() => {
+    $("front-continue").querySelector(".continue-text b").textContent = (
+      controls.title?.continueAs ?? ""
+    ).replace("{name}", titleLife?.name ?? "");
+  });
   // The life's own face: the look the creator saved, as every other view of the player reads it.
   setFace("front-continue-bust", titleLife?.face);
 });
@@ -4869,12 +4890,13 @@ function worldSettings() {
 $("front-options").addEventListener("click", () => openSheet("options"));
 $("front-saves").addEventListener("click", () => openSheet("saves"));
 $("front-patch-notes").addEventListener("click", () => openSheet("patchNotes"));
-// The bench's developer controls sit behind one faint ring, off by default.
-$("dev-toggle").addEventListener("click", () => {
-  const dev = document.body.classList.toggle("dev");
+// Dev mode is a setting in Options, off by default; its controls show while it is on.
+onDevMode((dev) => {
   if (dev) $("talk-silent").before(gapButton);
   else gapButton.remove();
 });
+restoreDevMode();
+if (devModeOn()) $("talk-silent").before(gapButton);
 // New game: Custom world (the world's settings, then the creator), Start a
 // life (the creator) or New world (straight in, a random person and place).
 const FRONT_PANELS = [
