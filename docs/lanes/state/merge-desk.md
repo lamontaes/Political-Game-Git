@@ -120,7 +120,7 @@ New on Nov 3:
 | #7300 | Rents sit near the real renter median for the county, and each household's rent follows the income it is actually paid (they ran 31 to 40 percent under)                 | Delaware Park, New Jersey                   | 874505f44de46093 |
 | #7303 | Fixes the red Mac build: the filing test clock imports `CoreState` from `./types` (one line)                                                                             | Millersburg, Kentucky                       | 364de7a112068f58 |
 
-**Main's Mac build was red (Nov 8, run 42439722717)** on the Saved games check after #7355. The Fixer's #7356 updated the smoke test; a new Mac build was started on it.
+**Main's Mac build was red (Nov 8, run 42439722717)** on the Saved games check after #7355. The Fixer's #7356 updated the smoke test; the build after #7357 passed and published (run 42443647255). (The build right after #7356 reused the older candidate, since #7356 had only an `impact: none` note.)
 
 **Main's Mac build was red (Nov 7, run 42415963886)** on a typecheck error from Astra's #7325. Astra's #7336 fixed it; main typechecks with no errors, and a new Mac build was started.
 
