@@ -507,7 +507,7 @@ const ROUTES: readonly Route[] = [
   },
   {
     match: ({ request, url }) =>
-      request.method === "GET" && NEWSPAPER_ART.exec(url.pathname),
+      request.method === "GET" && NEWSPAPER_ART.test(url.pathname),
     run: async ({ response, url }) => {
       const newspaper = NEWSPAPER_ART.exec(url.pathname)!;
       // The newspaper art: engraved mastheads and front-page photos, cut
@@ -976,6 +976,13 @@ const ROUTES: readonly Route[] = [
       );
       send(200, {
         kinds: SITUATION_LIBRARY.types.map((row) => row.key),
+        // Each kind's group (its tag's endpoint), for the Options screen.
+        groups: Object.fromEntries(
+          SITUATION_LIBRARY.types.map((row) => [
+            row.key,
+            (row as unknown as { tag?: { endpoint?: string } }).tag?.endpoint,
+          ]),
+        ),
         allowed: filter?.allowedKinds ?? null,
         ...(filter ? { recordId: filter.id } : {}),
       });

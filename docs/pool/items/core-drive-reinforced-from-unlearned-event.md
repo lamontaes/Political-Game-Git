@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/drives.ts
 
 **Notes.** TODO
+
+Dev Mode, Nov 8: the same throw (via jobs.ts reviewTurnover -> layOff -> emit work.job-lost -> drives respond) in Deenwood, Georgia (seed abc123), a world run roughly a year past its start by src/bench/dev-scene.test.ts with bookkeeping on; reproduces from the natural layoff review, not from a dev control.
