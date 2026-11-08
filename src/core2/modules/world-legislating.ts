@@ -424,8 +424,8 @@ const BORDERS = (
  * share with the law the change would make, less the share with the law it
  * would unmake, from -1 to 1 (0 for a body that is not a state's, or a
  * question the neighbors' research does not answer). A neighbor's law is its
- * researched starting law: only the town's state legislates in a played
- * world, so no neighbor's own acts are recorded.
+ * latest act in force (the outside legislatures pass results in play,
+ * `outsideEnact`), else its researched starting law (`answerIn`).
  */
 export function neighborPull(
   api: CoreAPI,
@@ -436,17 +436,16 @@ export function neighborPull(
   const neighbors = (
     BORDERS[jurisdiction.replace(/^US-/, "")]?.borders ?? []
   ).map((usps) => `US-${usps}`);
-  const answers = POLICY_QUESTIONS[question]?.answers;
-  if (!neighbors.length || !answers) return 0;
+  if (!neighbors.length || !POLICY_QUESTIONS[question]) return 0;
   let net = 0,
     counted = 0;
   for (const state of neighbors) {
-    const answer = answers[state]?.answer;
-    if (answer !== "yes" && answer !== "no") continue;
+    const answer = answerIn(api, state, question);
+    if (answer === null) continue;
     // stopgapId: SG-LAWS-neighbor-law-starting
     api.stopgap("SG-LAWS-neighbor-law-starting");
     counted += 1;
-    net += (answer === "yes" ? 1 : -1) * direction;
+    net += answer * direction;
   }
   return counted ? net / counted : 0;
 }
