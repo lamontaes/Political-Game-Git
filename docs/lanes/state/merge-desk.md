@@ -565,7 +565,7 @@ Mac builds (`release-package.yml` on main) were started after 8, 20, 26 and 34 m
 
 **Left for the CTO:** #7370 (Legislation's `legislation-screens` skill) #7389 (Story's `term-read` skill) #7393 (Speed's `speed-work` lines) and #7410 (Dev Mode's `wiring-audit` line) are skills PRs; skills PRs stay with the CTO. #7421 (the Coordinator's `crew-messages` line) and #7428 (the Dev Tester's `dev-tester` skill) and #7479 (Story's `scene-producers` recipe) too.
 
-**Waiting on the CTO's word:** #7424, #7432 and #7440 come from a "Jobs and economy" session on `jobs/` branches, #7450 from a "Lives" session on a `lives/` branch, #7455 from a `memory/` branch and #7513 from an "Elections" session on an `elections/` branch; the Nov 8 list named none of these, so the desk merges them once the CTO adds those prefixes. Fixer 2 (`fixer2/`) was added at 6:25 a.m.
+**Waiting on the CTO's word:** #7424, #7432 and #7440 come from a "Jobs and economy" session on `jobs/` branches, #7450 from a "Lives" session on a `lives/` branch, #7455 from a `memory/` branch and #7513 and #7519 from an "Elections" session on `elections/` branches; the Nov 8 list named none of these, so the desk merges them once the CTO adds those prefixes. Fixer 2 (`fixer2/`) was added at 6:25 a.m.
 
 ## How the desk ran
 
