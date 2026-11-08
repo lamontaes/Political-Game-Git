@@ -323,12 +323,14 @@
     },
     "retailChoicePriceShare": {
       "value": -0.07,
+      "role": "coefficient",
       "tag": "SOURCED",
       "source": "Su (2015), 'Have customers benefited from electricity retail competition?', Journal of Regulatory Economics 47(2):146-182; working paper https://sites.ualberta.ca/~econwps/2012/wp2012-21.pdf: 'In the uniform impact model (panel A), residential customers experience a price reduction of 7%' (state panel, 1990-2011); commercial and industrial customers see no significant effect. Hill (Arizona State University) finds the cut comes from rate freezes and cuts legislated with restructuring, not from competition itself.",
       "spread": [-0.09, 0]
     },
     "retailChoiceFadeYears": {
       "value": 5,
+      "role": "coefficient",
       "tag": "SOURCED",
       "source": "Su (2015): the short-run effect over the five-year transition window is 1.14 to 1.31 cents per kilowatt-hour and significant, the long-run effect 0.53 to 0.72 cents and not significant at 10 percent; the abstract says the benefit 'is transitory and disappears in the long run'.",
       "spread": [3, 8]
