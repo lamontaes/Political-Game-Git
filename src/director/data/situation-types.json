@@ -4103,6 +4103,7 @@
     },
     {
       "key": "bribe-offer",
+      "eachCause": true,
       "purpose": "bribe-offer",
       "asker": "offerer",
       "asked": "you",
@@ -5337,6 +5338,7 @@
     },
     {
       "key": "bribe-pressed",
+      "eachCause": true,
       "note": "The person whose bribe the official turned down comes back (the corruption engine's refusal record and their own reasons to press; no roll). The pressure runs from veiled to open by their temper in the bank's bearings. The official can hold the line, say they will report it, or put the talk off; what they say strains the tie.",
       "purpose": "bribe-pressed",
       "asker": "offerer",
