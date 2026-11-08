@@ -38,7 +38,12 @@ import { rerateCountedRetirement, residentsRuntime } from "./modules/residents";
 import { countedJobHeads, countedJobsOf } from "./residents-economy";
 import { setRecipientIncomeAmount } from "./finance-state";
 import { retirementClaims } from "./modules/retirement-claims";
-import { newsKey, storiesHeard, type Story } from "./modules/news";
+import {
+  NEWS_MODULE_ID,
+  newsKey,
+  storiesHeard,
+  type Story,
+} from "./modules/news";
 
 type Tagged = { value: number; tag: string; source: string; spread?: number[] };
 const DATA = spendingData as unknown as {
@@ -1471,6 +1476,57 @@ interface LandedRow {
 }
 
 /**
+ * A change in the tax taken from someone's pay lands on them: their take-home
+ * pay is smaller or larger by `share` of what it was, and they feel it. The
+ * same event and the same learning as an award's change (`attributeLanded`):
+ * they tie it to the law that did it only if they heard of it.
+ */
+export function landTaxChange(
+  api: CoreAPI,
+  input: {
+    readonly personId: string;
+    readonly obligationId: string;
+    readonly lawId: string;
+    readonly series: string;
+    /** The change in take-home pay as a share of the earlier take-home pay (negative: they keep less). */
+    readonly share: number;
+  },
+): void {
+  const person = api.state.people.get(input.personId);
+  if (!person?.alive || input.share === 0) return;
+  const scale = treasuryParameter("benefitChangeImpulseScale");
+  const id = `event:law.effect-landed:${api.state.date}:${input.obligationId}`;
+  api.emit({
+    id,
+    date: api.state.date,
+    kind: "law.effect-landed",
+    personIds: [input.personId],
+    placeId: person.placeId,
+    moodImpulse: scale * input.share,
+    stressImpulse: scale * Math.max(0, -input.share),
+    facts: { obligationId: input.obligationId, lawId: input.lawId },
+    publicRecord: false,
+    source: {
+      tag: "SOURCED",
+      citation: "The tax withheld from their pay changed with a law",
+      asOf: api.state.date,
+    },
+  });
+  const row: LandedRow = {
+    id,
+    personId: input.personId,
+    obligationId: input.obligationId,
+    date: api.state.date,
+    measureId: input.lawId,
+    lawId: input.lawId,
+    series: input.series,
+    share: input.share,
+  };
+  table(api, "landed").put(row as unknown as ModuleRow);
+  attribute(api, row);
+}
+
+/**
  * A change to someone's award lands on them: their next payment is smaller
  * or larger, and they feel it, by the share of the award it moved. Nothing
  * here says why. Whether they tie it to the law that did it is what they
@@ -1535,7 +1591,9 @@ function landOn(
  * story; until then they only felt the change.
  */
 function attribute(api: CoreAPI, row: LandedRow): void {
-  if (row.learnedFrom || !row.series) return;
+  // A world with no news has no stories to learn from.
+  if (row.learnedFrom || !row.series || !api.state.modules.has(NEWS_MODULE_ID))
+    return;
   const story = storiesHeard(api, row.personId).find(
     (s) =>
       (row.lawId && s.facts.lawId === row.lawId) ||
