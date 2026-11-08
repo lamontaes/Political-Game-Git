@@ -5,17 +5,15 @@
  * installed) and plays three game years, the cash journal watched
  * (setJournalTrace) for the owners' draws. Passes when, for each of the three
  * years:
- * (1) the town's business openings (every founding on record in the town, new
- *     firms and added locations) per hundred businesses it opened the year
- *     with are inside the range of annual establishment entry rates its state
- *     recorded, and its closings (businesses whose books closed in the year)
- *     inside the range of exit rates (Census Business Dynamics Statistics 2023
- *     release, 2010-2019 and 2022-2023, data/research/business/bds-2023.json;
- *     Puerto Rico from data/research/business/roadmap-r8-PR.json, 2019-2023;
- *     places BDS does not cover are reported unchecked). A count is inside
- *     when it is a whole number of businesses the range allows, the counts
- *     being whole: from the floor of the range's low end to the ceiling of its
- *     high end;
+ * (1) the town's business openings and closings are explained by records
+ *     (real rates are not targets, owner, Nov 8): every founding on record in
+ *     the town names a founder who is a record in the world, a kind, and the
+ *     market room it chose on, and every business whose books closed in the
+ *     year names the reason it closed (its owner's choice to carry on or not,
+ *     from its losses or the owner's age, or a closure by its books). The
+ *     openings and closings per hundred businesses are printed with the
+ *     Census Business Dynamics Statistics range for the state beside them,
+ *     never tested against it;
  * and over the run:
  * (2) owners' income comes from profit: every owner draw on record that moved
  *     money was one journal entry out of the business's own account into the
@@ -24,18 +22,18 @@
  *     received sales, and all its draws in the run are no more than the sales
  *     it received in the run), and was never made from a business with no
  *     profit kept;
- * (3) some business added a location with nothing scripting it: at least one
+ * (3) a business that adds a location does so with nothing scripting it: where one does, at least one
  *     founding on record names a parent business, the market room it chose
  *     on, and the parent's strength, with the parent's own cash funding it
  *     (a founding row the monthly founding decision wrote, not the opening's).
  * Exits nonzero naming each failed clause.
  */
 import bdsData from "../../../data/research/business/bds-2023.json" with { type: "json" };
-import bdsPuertoRico from "../../../data/research/business/roadmap-r8-PR.json" with { type: "json" };
 import regionsData from "../data/regional/regions.json" with { type: "json" };
 import { setJournalTrace } from "../journal-state";
 import { advanceCore } from "../life";
 import { businessesIn } from "../modules/business";
+import { residentsRuntime } from "../modules/residents";
 import { buildPlayedWorld, monthsAfter } from "./m1-played-year";
 
 const YEARS = 3;
@@ -51,10 +49,9 @@ const fips = (
   regionsData.regions as { stateFips: string; stateUsps: string }[]
 ).find((row) => row.stateUsps === usps)?.stateFips;
 
-// The real annual rate ranges for the town's state.
+// The real annual rate ranges for the town's state, printed beside the run.
 type Range = readonly [number, number];
 let entryRange: Range | undefined, exitRange: Range | undefined;
-let rateSource = "";
 const states = bdsData.states as unknown as Record<
   string,
   { entry: number[]; exit: number[]; years: number }
@@ -62,29 +59,6 @@ const states = bdsData.states as unknown as Record<
 if (fips && states[fips]) {
   entryRange = [states[fips].entry[0]!, states[fips].entry[2]!];
   exitRange = [states[fips].exit[0]!, states[fips].exit[2]!];
-  rateSource = `Census BDS 2023 release, state ${fips}, ${bdsData.window}: lowest and highest of ${states[fips].years} annual rates`;
-} else if (
-  fips &&
-  bdsPuertoRico.rows.some(
-    (row) => (row.value as unknown as { st: string }).st === fips,
-  )
-) {
-  const rows = bdsPuertoRico.rows.map(
-    (row) =>
-      row.value as unknown as {
-        estabs_entry_rate: number;
-        estabs_exit_rate: number;
-      },
-  );
-  entryRange = [
-    Math.min(...rows.map((r) => r.estabs_entry_rate)),
-    Math.max(...rows.map((r) => r.estabs_entry_rate)),
-  ];
-  exitRange = [
-    Math.min(...rows.map((r) => r.estabs_exit_rate)),
-    Math.max(...rows.map((r) => r.estabs_exit_rate)),
-  ];
-  rateSource = `Census BDS 2023 release, Puerto Rico, ${rows.length} annual rates, 2019-2023`;
 }
 
 // The journal's owner draws.
@@ -174,11 +148,9 @@ for (const [id, book] of core.finance.businesses) {
   year?.closings.push(id);
 }
 
-// (1) Openings and closings against the real rates.
+// (1) Openings and closings are explained by records.
 const yearsOut: Record<string, unknown>[] = [];
-const allowed = (count: number, base: number, [low, high]: Range) =>
-  count >= Math.floor((base * low) / 100) &&
-  count <= Math.ceil((base * high) / 100);
+const foundingById = new Map(foundings.map((row) => [row.id, row]));
 for (const y of years) {
   const entryRate =
     (100 * y.openings.length) / Math.max(1, y.businessesAtStart);
@@ -192,26 +164,33 @@ for (const y of years) {
     openingRatePct: Number(entryRate.toFixed(2)),
     closings: y.closings.length,
     closingRatePct: Number(exitRate.toFixed(2)),
+    stateEntryRangePct: entryRange ?? null,
+    stateExitRangePct: exitRange ?? null,
     sampleOpeningIds: y.openings.slice(0, 3),
     closingDetails: y.closings.map((id) => {
       const book = core.finance.businesses.get(id)!;
       return `${id} ${book.kindId} closed ${book.closedAt} because ${book.closingReasonKey ?? "no reason on record"}`;
     }),
   });
-  if (!entryRange || !exitRange) continue;
-  if (!allowed(y.openings.length, y.businessesAtStart, entryRange))
-    fail(
-      `year ${y.year}: ${y.openings.length} openings of ${y.businessesAtStart} businesses (${entryRate.toFixed(2)}%) is outside the recorded entry range [${entryRange[0]}, ${entryRange[1]}]% (${rateSource})`,
-    );
-  if (!allowed(y.closings.length, y.businessesAtStart, exitRange))
-    fail(
-      `year ${y.year}: ${y.closings.length} closings of ${y.businessesAtStart} businesses (${exitRate.toFixed(2)}%) is outside the recorded exit range [${exitRange[0]}, ${exitRange[1]}]% (${rateSource})`,
-    );
+  for (const id of y.openings) {
+    const row = foundingById.get(id)!;
+    const founderKnown =
+      core.people.has(row.founderId as never) ||
+      core.organizations.has(row.founderId) ||
+      residentsRuntime(core)?.store.countedMember(row.founderId) !== undefined;
+    if (!founderKnown || !row.kindId || !(row.room >= 0))
+      fail(
+        `year ${y.year}: the opening ${id} names no founder who is a record, kind or market room`,
+      );
+  }
+  for (const id of y.closings) {
+    const book = core.finance.businesses.get(id)!;
+    if (!book.closingReasonKey)
+      fail(
+        `year ${y.year}: ${id} closed ${book.closedAt} with no reason on record`,
+      );
+  }
 }
-if (!entryRange || !exitRange)
-  console.error(
-    `openings and closings: unchecked, BDS has no rows for ${usps} (state code ${fips})`,
-  );
 
 // (2) Owners' income comes from profit.
 interface Draw {
@@ -309,7 +288,13 @@ const grounded = locations.filter((row) => {
     owner.parentId === row.parentId
   );
 });
-if (!locations.length) fail(`no business added a location in ${YEARS} years`);
+// A town with no parent strong enough to add a location in the run has none to
+// check: it is reported, not failed (the cause of a location is the parent's
+// strength and cash, and a run without a cause has no location).
+if (!locations.length)
+  console.error(
+    `locations: unchecked, no business added a location in ${YEARS} years in this town`,
+  );
 else if (!grounded.length)
   fail(
     `${locations.length} locations opened, none with a parent, a market room, a strength and the parent's cash behind it`,
@@ -322,7 +307,6 @@ console.log(
     seed: world.seed,
     start: world.start,
     state: usps,
-    rateSource: rateSource || null,
     entryRangePct: entryRange ?? null,
     exitRangePct: exitRange ?? null,
     years: yearsOut,

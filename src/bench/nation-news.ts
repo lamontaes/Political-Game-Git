@@ -16,7 +16,7 @@ import reach from "../core2/data/places/state-reach.json" with { type: "json" };
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
 import { parameter } from "../core2/parameters";
-import { corePlaceStateIdentities } from "../core2/places";
+import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { placeStateKey } from "../core2/place-map";
 import { coreAPI } from "../core2/state";
 import type { CoreState } from "../core2/types";
