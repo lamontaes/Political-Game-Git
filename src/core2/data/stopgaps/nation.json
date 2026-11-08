@@ -34,5 +34,17 @@
     "addedAt": "2026-11-08",
     "replacement": "Real FEMA disasters on their real dates while the world's dates fall inside the record (through Oct 9, 2026); after that a hazard calendar generated once at world creation from each county's recorded per-hazard monthly rates (a GENERATION entry), later fed by the world's own conditions (heat, drought).",
     "status": "open"
+  },
+  {
+    "id": "SG-NATION-cabinet-news-unworded",
+    "kind": "missing-text",
+    "file": "src/core2/press-topics.ts",
+    "line": 172,
+    "whatItFakes": "The press does not print a cabinet nomination, confirmation or rejection: no news bank piece tells it, so the unplayed President's cabinet (and a played President's) never reaches the paper.",
+    "why": "The English engine has no bank for cabinet-nominated, cabinet-confirmed or cabinet-rejected; printing them unworded fails the printed-words test (they appeared for the first time when the unplayed President began to nominate).",
+    "addedBy": "Nation",
+    "addedAt": "2026-11-08",
+    "replacement": "Bank pieces for the three cabinet kinds (the civic-prose process, Words and Story), and a builder in printed-words.ts, then this case is deleted.",
+    "status": "open"
   }
 ]

@@ -169,6 +169,12 @@ export function wireItem(
     // paper's election story reads it), not as a story of its own.
     case "concession":
       return null;
+    // A cabinet nomination or vote has no bank piece in the English engine
+    // yet, so the press does not print it (stopgap SG-NATION-cabinet-news-unworded).
+    case "cabinet-nominated":
+    case "cabinet-confirmed":
+    case "cabinet-rejected":
+      return null;
     case "law-took-effect": {
       const topic = facts.series ?? event.kind;
       // A policy law at 0, or an amount set to nothing, ends what stood.
