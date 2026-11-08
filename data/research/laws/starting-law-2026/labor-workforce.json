@@ -1773,11 +1773,7 @@
           },
           "regionalTerms": [
             {
-              "workplaceKeys": [
-                "county:36059",
-                "county:36103",
-                "county:36119"
-              ],
+              "workplaceKeys": ["county:36059", "county:36103", "county:36119"],
               "operativeAt": "2026-01-01",
               "lawTerms": [
                 {
@@ -3303,7 +3299,7 @@
         "US-AR": {
           "answer": "no",
           "source": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncomparison-of-criminal-records-in-licensing-and-employment/",
-          "note": "\"Arkansas has no fair employment law that would generally restrict how employers consider a conviction record\" Not on NELP's 2021 list of 37 states; CCRC page does not mention application-stage inquiries for Arkansas; lower confidence."
+          "note": "\"Arkansas has no fair employment law that would generally restrict how employers consider a conviction record\" Not on NELP's 2021 list of 37 states; CCRC page does not mention application-stage inquiries for Arkansas; lower confidence. Spot-checked Nov 8, 2026: a search for an Arkansas statute or state executive order found none; the only Arkansas hits were local public-employer ordinances (Pulaski County, Pine Bluff), which are not the state's own agencies; one vendor page cited an executive order number that belongs to Missouri (EO 16-04). Still lower confidence: the Arkansas governor's order archive was not read."
         },
         "US-AS": {
           "answer": "no",
@@ -3501,10 +3497,9 @@
         },
         "US-NH": {
           "answer": "yes",
-          "cite": "HB 253 (2020), effective Sept 22 2020",
-          "source": "https://www.nelp.org/app/uploads/2021/10/Ban-the-Box-Fair-Chance-State-and-Local-Guide-Oct-2021.pdf",
-          "note": "Basis: statute. \"prohibits state government employers from asking about arrest or conviction history on job applications, instead requiring them to wait until an interview\" CONFLICT: CCRC's (2025) NH profile says there are 'no limits on application-stage inquiries'. NELP names HB 253; unresolved, verify against RSA text.",
-          "estimated": "ESTIMATED: the last dated source is the NELP guide of October 2021, carried forward to January 2025 (no dated source covers the change in between)."
+          "cite": "N.H. RSA 275-H:2 (HB 253, 2020, chapter 31, in force September 22, 2020)",
+          "source": "https://legiscan.com/NH/text/HB253/id/2117589",
+          "note": "In force on the January 20, 2025 start: HB 253 (2020) bars state departments and agencies from asking about criminal records on applications, with exceptions for positions that require automatic disqualification under law. Repealed after the start: the 2025 RSA index marks chapter 275-H repealed by 2025, 141:342, II, effective July 1, 2025 (the 2025 budget law); the game's law table does not model that later repeal. Sources conflict on the date: one vendor guide says a 2024 repeal (2024, 259:3, VI, of RSA 21-I:58), unverified. The official gc.nh.gov pages returned no reply to curl, so this rests on search-result excerpts of the RSA index and the bill text, not on the statute page itself."
         },
         "US-NJ": {
           "answer": "yes",
