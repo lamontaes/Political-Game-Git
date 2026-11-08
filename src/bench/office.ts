@@ -23,6 +23,12 @@ import {
   voteOnStateFloor,
 } from "../core2/modules/office-day";
 import {
+  BUDGET_REQUEST,
+  deliverAddress,
+  JOINT_ADDRESS,
+  requestBudget,
+} from "../core2/modules/office-day";
+import {
   appointGovernor,
   actOn,
   doEntry,
@@ -437,6 +443,24 @@ export function colleagueDeal(
 export function ordersView(core: CoreState) {
   const api = coreAPI(core);
   const person = controlledPerson(api);
+  // The president's holds that stop the day: the budget request and the joint address, each the
+  // president's to make or to leave to their own rule.
+  const held = person
+    ? heldFederal(api).flatMap((key) =>
+        key === BUDGET_REQUEST
+          ? [{ entryId: key, kind: "request" as const }]
+          : key === JOINT_ADDRESS
+            ? [{ entryId: key, kind: "joint" as const }]
+            : [],
+      )
+    : [];
+  if (held.length)
+    return held.map((item) => ({
+      ...item,
+      order: item.entryId,
+      name: null,
+      revoke: false,
+    }));
   if (!person || !api.state.modules.has(OFFICE_DAY_STATE_MODULE_ID)) return [];
   const names = policyNames();
   const brought = pendingGovernorOrders(api, person);
@@ -531,6 +555,15 @@ export function ordersDecide(
   if (!person) throw new Error("Choose a resident first.");
   if (how !== "issue" && how !== "decline")
     throw new Error("Issue it or set it aside.");
+  if (entryId === BUDGET_REQUEST || entryId === JOINT_ADDRESS) {
+    if (!heldFederal(api).includes(entryId))
+      throw new Error("Nothing is waiting on you.");
+    // The president makes the request or gives the address by their own rule (their
+    // prepared answers are read on the day itself); either clears the hold.
+    if (entryId === BUDGET_REQUEST) requestBudget(api, person);
+    else deliverAddress(api, person);
+    return;
+  }
   const entry = waitingEntries(api, person).find((row) => row.id === entryId);
   if (!entry) throw new Error("Nothing is waiting on you.");
   if (entry.kind === "budget-proposal") {

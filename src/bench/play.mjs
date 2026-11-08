@@ -642,6 +642,11 @@ async function act(path) {
         office.reasonKey === "office-day.budget-proposal"
       )
         await atOrders();
+      else if (
+        office.reasonKey === "office-day-federal.budget-request" ||
+        office.reasonKey === "office-day-federal.joint-address"
+      )
+        await atOrders();
       else if (office.reasonKey === "office-day-federal.nomination")
         await atNominations();
       else if (
@@ -989,29 +994,33 @@ function atOrders() {
                 )
               : [];
           const kindWords = (how) =>
-            item.kind === "hearing"
-              ? words[`hearing-${how}`]
-              : item.kind === "address"
-                ? words[`address-${how}`]
-                : item.kind === "emergency"
-                  ? words[`emergency-${how}`]
-                  : item.kind === "post"
-                    ? words[`post-${how}`]
-                    : item.kind === "budget"
-                      ? words[`budget-${how}`]
-                      : how === "issue" && item.revoke
-                        ? words.revoke
-                        : words[how];
+            item.kind === "request" || item.kind === "joint"
+              ? words[`${item.kind}-${how}`]
+              : item.kind === "hearing"
+                ? words[`hearing-${how}`]
+                : item.kind === "address"
+                  ? words[`address-${how}`]
+                  : item.kind === "emergency"
+                    ? words[`emergency-${how}`]
+                    : item.kind === "post"
+                      ? words[`post-${how}`]
+                      : item.kind === "budget"
+                        ? words[`budget-${how}`]
+                        : how === "issue" && item.revoke
+                          ? words.revoke
+                          : words[how];
           return plate(
-            item.kind === "hearing"
-              ? words.hearing
-              : item.kind === "address"
-                ? words.address
-                : item.kind === "emergency"
-                  ? words.emergency
-                  : item.kind === "budget"
-                    ? words.budget
-                    : (item.name ?? ""),
+            item.kind === "request" || item.kind === "joint"
+              ? words[item.kind]
+              : item.kind === "hearing"
+                ? words.hearing
+                : item.kind === "address"
+                  ? words.address
+                  : item.kind === "emergency"
+                    ? words.emergency
+                    : item.kind === "budget"
+                      ? words.budget
+                      : (item.name ?? ""),
             ...picker,
             ...lines,
             buttonRow(

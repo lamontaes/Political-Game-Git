@@ -1166,7 +1166,11 @@ export {
 export { budgetProposalDue } from "../office-day-acts";
 export { jointAddress } from "../office-day-federal-calendar";
 export {
+  BUDGET_REQUEST,
+  deliverAddress,
+  JOINT_ADDRESS,
   leavePostOpen,
   nominate,
   nominationsOpen,
+  requestBudget,
 } from "../office-day-federal-president";
