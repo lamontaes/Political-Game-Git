@@ -3752,6 +3752,62 @@ export function missesSitting(
   return decision.selected?.definition.id !== "sitting-attend";
 }
 
+/**
+ * The floor before the roll (owner, Nov 8: members speak in session, for and
+ * against, recognized by the chair): the sponsor speaks for the bill if they
+ * sit in this chamber, else the member whose position leans furthest for it;
+ * the member whose position leans furthest against speaks against. Only a
+ * full person who is alive can rise, and only if their position leans their
+ * way at all, so a bill nobody opposes has no one against. Ties go to the
+ * member key. A public record the director stages for the members in the
+ * room and the press can tell.
+ */
+function recordFloorDebate(
+  api: CoreAPI,
+  bill: BillRow,
+  officeId: string,
+  seated: readonly TermRow[],
+  positions: readonly { total: number }[],
+): void {
+  const room = seated
+    .map((member, index) => ({
+      key: memberKey(member),
+      total: positions[index]!.total,
+    }))
+    .filter((row) => api.state.people.get(row.key)?.alive === true);
+  const lean = (sign: number) =>
+    room
+      .filter((row) => row.total * sign > 0)
+      .sort(
+        (a, b) => b.total * sign - a.total * sign || a.key.localeCompare(b.key),
+      )[0];
+  const sponsor = room.find((row) => row.key === bill.sponsorId);
+  const forRow = sponsor ?? lean(1);
+  const againstRow = lean(-1);
+  if (!forRow || !againstRow || forRow.key === againstRow.key) return;
+  api.emit({
+    id: `floor-debate:${bill.id}:${officeId}`,
+    date: api.state.date,
+    kind: "floor-debate",
+    personIds: [forRow.key, againstRow.key],
+    witnessIds: room.map((row) => row.key),
+    placeId: lawChain(api).townPlaceId,
+    source: {
+      tag: "SOURCED",
+      citation: `The floor before the roll on ${bill.number}: the sponsor, or the member leaning furthest for it, and the member leaning furthest against.`,
+      asOf: api.state.date,
+    },
+    publicRecord: true,
+    facts: {
+      billId: bill.id,
+      number: bill.number,
+      chamber: officeId,
+      forId: forRow.key,
+      againstId: againstRow.key,
+    },
+  });
+}
+
 /** One chamber's vote: each member yes for a positive position, no for a negative one, abstaining with nothing either way. */
 function chamberVote(
   api: CoreAPI,
@@ -3769,6 +3825,7 @@ function chamberVote(
   // nation's and the town's own chain's. Another government's roll call stays
   // on the record (the votes table) without an event per member.
   const yoursToSee = reachesTown(api, billJurisdiction(api, bill));
+  if (yoursToSee) recordFloorDebate(api, bill, officeId, seated, positions);
   for (const [index, member] of seated.entries()) {
     const key = memberKey(member);
     const position = positions[index]!;

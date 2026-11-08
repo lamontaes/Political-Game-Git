@@ -82,6 +82,10 @@ const RESEARCH = research as unknown as {
 const ORDERABLE: Readonly<Record<string, string>> = {
   "restore-voting-after-sentence":
     "us-policy-positions:justice-public-safety.restore-voting-after-sentence",
+  // Governors recognize public-employee unions by order where precedent exists (AZ, IN, KS, KY, MO, VA;
+  // data/research/executive/executive-powers-2026.json canOrder); elsewhere it is set by statute.
+  "public-employee-collective-bargaining-recognition":
+    "us-policy-positions:labor-workforce.public-sector-collective-bargaining",
 };
 
 /** The policy question an executive order answers, by the order's key (for a screen to name it). */
@@ -959,25 +963,17 @@ export function appointmentsIn(
     .sort((a, b) => a.id.localeCompare(b.id));
 }
 
-/** A governor chooses a named person for a post the place gives them power to fill. */
-export function appointStatePost(
+/** The governor's candidates for a state post and the chamber that confirms them, as the engine weighs them. */
+function stateNominationInput(
   api: CoreAPI,
   input: {
     readonly executiveId: string;
     readonly post: string;
     readonly personId?: string;
   },
-): AppointmentRow | null {
+  spec: { readonly key: string; readonly confirmedBy: string },
+) {
   const state = lawChain(api).stateKey;
-  const governor = townSeats(api).find(
-    (s) => s.office.kind === "governor",
-  )?.holder;
-  if (!governor || memberKey(governor) !== input.executiveId)
-    throw new Error("Only the sitting governor can appoint a state post.");
-  const spec = RESEARCH.places[state]?.cabinet?.positions?.find(
-    (p) => p.key === input.post && /governor/.test(p.appointedBy),
-  );
-  if (!spec) throw new Error("This post is not appointed by the governor.");
   const offices = api.moduleState(OFFICES_MODULE_ID);
   const holding = new Set(
     appointmentsIn(api, state)
@@ -1018,7 +1014,7 @@ export function appointStatePost(
   const confirmation = /senate|legislature/.test(spec.confirmedBy);
   if (confirmation && !senate)
     throw new Error("No confirming chamber is recorded.");
-  const appointment = nominateAndConfirm({
+  return {
     seatKey: `cabinet:${state}:${spec.key}`,
     appointerSide: leanOf(api, input.executiveId),
     weighing: appointerWeighing(api.state as CoreState, input.executiveId),
@@ -1041,7 +1037,69 @@ export function appointStatePost(
         }
       : null,
     tolerance: campaignParameter("confirmationTolerance"),
-  });
+  };
+}
+
+/** The state posts the sitting governor appoints that stand open. */
+export function statePostsToFill(
+  api: CoreAPI,
+  personId: string,
+): readonly { readonly key: string; readonly title: string }[] {
+  const state = lawChain(api).stateKey;
+  const governor = townSeats(api).find(
+    (s) => s.office.kind === "governor",
+  )?.holder;
+  if (!governor || memberKey(governor) !== personId) return [];
+  // A post stands open when no one holds it or its holder died.
+  const held = new Set(
+    appointmentsIn(api, state)
+      .filter((row) => api.state.people.get(row.holderId)?.alive)
+      .map((row) => row.post),
+  );
+  return (RESEARCH.places[state]?.cabinet?.positions ?? [])
+    .filter((p) => /governor/.test(p.appointedBy) && !held.has(p.key))
+    .map((p) => ({ key: p.key, title: p.title }));
+}
+
+/** The people a state post could go to, best first by the governor's own reasons. */
+export function stateCandidates(
+  api: CoreAPI,
+  executiveId: string,
+  post: string,
+): readonly NominationReasons[] {
+  const spec = RESEARCH.places[
+    lawChain(api).stateKey
+  ]?.cabinet?.positions?.find(
+    (p) => p.key === post && /governor/.test(p.appointedBy),
+  );
+  if (!spec) return [];
+  const input = stateNominationInput(api, { executiveId, post }, spec);
+  if (!input.candidates.length) return [];
+  return nominateAndConfirm({ ...input, confirmingBody: null }).reasons;
+}
+
+/** A governor chooses a named person for a post the place gives them power to fill. */
+export function appointStatePost(
+  api: CoreAPI,
+  input: {
+    readonly executiveId: string;
+    readonly post: string;
+    readonly personId?: string;
+  },
+): AppointmentRow | null {
+  const state = lawChain(api).stateKey;
+  const governor = townSeats(api).find(
+    (s) => s.office.kind === "governor",
+  )?.holder;
+  if (!governor || memberKey(governor) !== input.executiveId)
+    throw new Error("Only the sitting governor can appoint a state post.");
+  const spec = RESEARCH.places[state]?.cabinet?.positions?.find(
+    (p) => p.key === input.post && /governor/.test(p.appointedBy),
+  );
+  if (!spec) throw new Error("This post is not appointed by the governor.");
+  const appointment = nominateAndConfirm(
+    stateNominationInput(api, input, spec),
+  );
   const nominationId = `nomination:${state}:${spec.key}:${input.personId ?? "own-choice"}:${api.state.date}`;
   table(api, "nominations").put({
     id: nominationId,
