@@ -82,7 +82,11 @@ const races = (
     title: contest?.title,
     level: contest?.level,
     family: contest?.family,
-    turnout: r.electorate ? Number((cast / r.electorate).toFixed(3)) : null,
+    winnerId: r.winnerId,
+    top: Object.entries(r.totals)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 2)
+      .map(([id, v]) => [id, Number((v / (cast || 1)).toFixed(3))]),
     margin: cast
       ? Number((((votes[0] ?? 0) - (votes[1] ?? 0)) / cast).toFixed(3))
       : null,
