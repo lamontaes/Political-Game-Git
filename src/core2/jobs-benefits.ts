@@ -262,6 +262,11 @@ export function fileClaim(
   lost?: CoreEventInput,
 ): ClaimRow | undefined {
   const c = api.state as CoreState;
+  // One open claim a person: a second layoff while a claim is paying files
+  // nothing new (two claims paid the same person on one day and reused a
+  // payment id; Montpelier, Vermont, seed mont1, August 18, 2031).
+  if ((table.query("byPerson", [job.personId, true]) as unknown[]).length > 0)
+    return undefined;
   const full = c.people.get(job.personId);
   const placeId = (full ?? residentFacts(c, job.personId))?.placeId;
   if (!placeId) return undefined;

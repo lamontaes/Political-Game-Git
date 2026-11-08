@@ -16,7 +16,7 @@ import { coreAPI } from "./state";
 
 const seed = process.env.NATION_SEED ?? randomBytes(8).toString("hex");
 
-it("disasters FEMA declared elsewhere become national events", () => {
+it("the country's disasters are generated from recorded rates and happen on their day", () => {
   const place = drawPlace(seed, "national-events");
   const world = buildBenchWorld(place.seed, gameStartDate(), {
     twoLevel: true,
@@ -33,7 +33,7 @@ it("disasters FEMA declared elsewhere become national events", () => {
   const events = nationalEvents(api);
   expect(
     events.length,
-    `${where}: disasters began in 100 days`,
+    `${where}: disasters were generated for 100 days`,
   ).toBeGreaterThan(0);
   const states = new Set(events.map((e) => e.stateKey));
   expect(

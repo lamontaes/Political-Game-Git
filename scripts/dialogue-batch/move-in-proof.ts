@@ -35,8 +35,20 @@ registerModule(core, {
           .table("dwellings")
           .get(`dwelling:${host!.householdId}`)
       : undefined;
+    const handed = [...core.finance.contracts.values()]
+      .filter((c) =>
+        (c.payerHandovers ?? []).some(
+          (h) => h.on === core.date && h.from === mover!.id,
+        ),
+      )
+      .map((c) => {
+        const h = (c.payerHandovers ?? []).find(
+          (x) => x.on === core.date && x.from === mover!.id,
+        )!;
+        return `${c.id} ${h.outcome} payers=${c.payerIds.join("+")}${c.endedAt ? " ended" : ""}`;
+      });
     rows.push(
-      `${event.id}: ${mover!.givenName} (cash ${mover!.liquidMinor}) joined ${host!.givenName}'s household ${home.id} (${home.memberIds.length} members now), dwelling ${JSON.stringify(dw ? { tenure: (dw as { tenure?: string }).tenure } : null)}, mover.householdId===host ${mover!.householdId === host!.householdId}`,
+      `${event.id}: ${mover!.givenName} (cash ${mover!.liquidMinor}) joined ${host!.givenName}'s household ${home.id} (${home.memberIds.length} members now), dwelling ${JSON.stringify(dw ? { tenure: (dw as { tenure?: string }).tenure } : null)}, mover.householdId===host ${mover!.householdId === host!.householdId}; mover's old obligations: ${handed.join(" | ") || "none"}`,
     );
   },
 });

@@ -43,7 +43,7 @@ import {
   leanedYes,
 } from "../trait-decisions";
 import type { ModuleCalendarWork } from "../module-calendar";
-import { addDays, makeIsoDate } from "../kernel/dates";
+import { addDays, ageInYears, makeIsoDate } from "../kernel/dates";
 
 export const PARTIES_MODULE_ID = "core2-parties-v1";
 
@@ -515,9 +515,7 @@ export interface PartyMeetingRow {
 }
 
 const ageOn = (p: Readonly<Pick<PersonState, "birthDate">>, date: string) =>
-  Number(date.slice(0, 4)) -
-  Number(p.birthDate.slice(0, 4)) -
-  (date.slice(5) < p.birthDate.slice(5) ? 1 : 0);
+  ageInYears(p.birthDate, date);
 
 /** The party's next local committee meeting. */
 function scheduleMeeting(api: CoreAPI, from: string): void {

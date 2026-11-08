@@ -159,6 +159,7 @@ Then message the merger for the PR's parity (`CREW.md`) with the PR number and h
 - **A pool item set `in-pr` without `pr:` fails `pool --check`.** Set `pr: #N` yourself; other items in the `--check` output belong to other sessions and do not count.
 - **A stacked PR gets its own head gate and says what it carries.** Gate the diff against main, name the base PR's commit that the branch includes, and say which merges first.
 - **When a builder or lead pushes to a branch you hold, gate the newest head and say so.** Fetch before every comment; a lead's push mid-gate (as on #7032 and #7082) means rechecking only what that commit touches.
+- **A builder whose PR touches types runs `npm run typecheck` once before opening it** (Nov 8: three typecheck reds in one day, one from a `flatMap` whose callback returned two shapes; name the element type with `flatMap<{...}>`). The builder rule is to run only its own tests, but one typecheck at the end is the exception, because a red typecheck blocks every other session.
 - **When the CTO asks for a queue comment,** post on each waiting PR: gate started or not, the head, what is done and what is left, so another checker can pick it up from the record.
 
 ## Stop condition
