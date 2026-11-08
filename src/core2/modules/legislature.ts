@@ -3761,7 +3761,7 @@ export function missesSitting(
  * member key. A public record the director stages for the members in the
  * room and the press can tell.
  */
-function recordFloorDebate(
+export function recordFloorDebate(
   api: CoreAPI,
   bill: BillRow,
   officeId: string,
@@ -3784,8 +3784,12 @@ function recordFloorDebate(
   const forRow = sponsor ?? lean(1);
   const againstRow = lean(-1);
   if (!forRow || !againstRow || forRow.key === againstRow.key) return;
+  // One record per bill and chamber, however many times the floor opens it
+  // (the player's stop before the roll, then the roll itself).
+  const id = `floor-debate:${bill.id}:${officeId}`;
+  if (api.state.eventIds.has(id)) return;
   api.emit({
-    id: `floor-debate:${bill.id}:${officeId}`,
+    id,
     date: api.state.date,
     kind: "floor-debate",
     personIds: [forRow.key, againstRow.key],
