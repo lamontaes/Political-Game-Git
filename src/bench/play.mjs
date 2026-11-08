@@ -1453,13 +1453,20 @@ function renderFiling(value) {
     );
     return;
   }
-  // At the counter you can walk out; silence there is not an answer.
-  talkControls({ silent: false, leave: true });
   fillTalk({ lines: spokenLines(lines) });
   // No form at the counter (owner, Oct 28, point 31: the rules panel was a
   // dev menu): filing carries the party the player is tied to, from the
   // record; the platform is SG-SCREENS-filing-platform-from-views.
   const choose = async (choice) => {
+    // "All right." is the way out: it walks out as Leave does, never a reply
+    // that only clears itself (C13).
+    if (choice.action.kind === "done") {
+      await post(
+        `/api/filing/choose?${new URLSearchParams({ key: choice.key })}`,
+      );
+      $("talk-leave").click();
+      return;
+    }
     const params = new URLSearchParams({ key: choice.key });
     if (choice.action.kind === "file" && value.overlay?.party)
       params.set("party", value.overlay.party);
@@ -1494,6 +1501,14 @@ function renderFiling(value) {
   const choices = value.visit.choices
     .filter((choice) => choice.action.kind !== "pick" || picks.has(choice))
     .slice(0, 4);
+  // At the counter you can walk out where that is a real choice: not beside
+  // a lone "All right." that already ends the visit. Silence is not an answer.
+  talkControls({
+    silent: false,
+    leave: !(
+      choices.length > 0 && choices.every((c) => c.action.kind === "done")
+    ),
+  });
   const buttons = replies(choices, choose);
   choices.forEach((choice, i) => {
     if (choice.action.kind !== "pick") return;
@@ -2576,18 +2591,21 @@ function billEstimate(paper, section) {
   else if (est.line && est.ofMinor != null && est.lineAmountMinor != null)
     compare = {
       todayLabel: words.today ?? "",
-      today: moneyWords(est.ofMinor),
+      today: roundedMoney(est.ofMinor),
       newLabel: words.proposed ?? "",
-      proposed: moneyWords(est.ofMinor + est.lineAmountMinor),
+      proposed: roundedMoney(est.ofMinor + est.lineAmountMinor),
     };
   else if (after) lines.push(`${words.to ?? ""} ${after}`);
+  // The two cells above carry the amounts; the line is then only named.
   if (est.line)
     lines.push(
       [
         `${words.line ?? ""}: ${policyLabel(`budget-line:${est.line}`)}`,
-        est.lineAmountMinor != null ? moneyWords(est.lineAmountMinor) : null,
-        est.ofMinor != null
-          ? `${words.from ?? ""} ${moneyWords(est.ofMinor)}`
+        !compare && est.lineAmountMinor != null
+          ? roundedMoney(est.lineAmountMinor)
+          : null,
+        !compare && est.ofMinor != null
+          ? `${words.from ?? ""} ${roundedMoney(est.ofMinor)}`
           : null,
       ]
         .filter(Boolean)
@@ -2598,8 +2616,9 @@ function billEstimate(paper, section) {
       paper.estimate.workers > 0
         ? `${paper.estimate.workers} ${words.workers ?? ""}`
         : null,
-      paper.estimate.payMinor > 0 ? moneyWords(paper.estimate.payMinor) : null,
-      paper.estimate.note,
+      paper.estimate.payMinor > 0
+        ? roundedMoney(paper.estimate.payMinor)
+        : null,
     ]
       .filter(Boolean)
       .join(" · "),
@@ -5723,6 +5742,7 @@ async function offerPlayAs(life) {
   $("pick-detail").replaceChildren();
   draw();
   show("front-status", false);
+  document.querySelector("#front .progress").hidden = true;
   frontPanel("front-pick");
   for (const id of placeControls) $(id).disabled = false;
 }
@@ -5817,6 +5837,9 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
   // The loading card: the panel holds only the progress over the scene.
   frontPanel(null);
   show("front-status", true);
+  const bar = document.querySelector("#front .progress");
+  bar.hidden = false;
+  bar.firstElementChild.style.width = "0";
   try {
     const settings = custom ? worldSettings() : undefined;
     // Outside Custom world, a fresh seed draws the world.
@@ -5824,6 +5847,16 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
       ? $("seed").value
       : setup.seed || (await api("/api/seed")).seed;
     // Real progress through every step, from the server's build.
+    // The server builds the world in six steps; a step is named while it runs and the bar
+    // fills one sixth for each step finished.
+    const STEPS = [
+      "people",
+      "past",
+      "economy",
+      "core",
+      "government",
+      "opening",
+    ];
     // A poll still in flight when the build ends leaves the line alone.
     let built = false;
     // The world's story plays once the world exists (playLoadingStory).
@@ -5836,8 +5869,10 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
       const p = await api("/api/newlife/progress").catch(() => undefined);
       if (p?.story) playStory();
       if (!p || built) return;
-      // The step in plain words; no bar and no counts (owner, Oct 27: "There is a weird little
-      // bar at the end"; the Nov 8 loading mock).
+      // The step in plain words, and a bar that shows how many steps are done; no counts.
+      const at =
+        p.stage === "done" ? STEPS.length : Math.max(STEPS.indexOf(p.stage), 0);
+      bar.firstElementChild.style.width = `${Math.round((at / STEPS.length) * 100)}%`;
       $("front-status").textContent = controls.loading?.[p.stage] ?? "";
     }, 400);
     let life;
@@ -5848,6 +5883,9 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
     } finally {
       clearInterval(poll);
       built = true;
+      // Built: the bar is full and no "Ready" line is left behind.
+      bar.firstElementChild.style.width = "100%";
+      $("front-status").textContent = "";
     }
     // The story plays to its end (or a click) before the life opens.
     await playStory();
@@ -5883,6 +5921,7 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
     if (life.sceneMomentId) await showStory(life.sceneMomentId);
     showNewsSurface(news);
   } catch (error) {
+    bar.hidden = true;
     $("front-status").textContent = error.message;
     for (const id of placeControls) $(id).disabled = false;
     frontPanel(person ? "cr-screen" : "front-new");
