@@ -102,14 +102,23 @@ for (const p of policies) {
     rec.lawBefore = before && { id: before.id, level: before.level, value: before.value };
     rec.lawAfter = after && { id: after.id, level: after.level, value: after.value, eff: after.effectiveDate };
     rec.changed = !!after && (!before || before.id !== after.id || before.value !== after.value);
-    run(core, DAYS);
+    // The law's own date: a bill takes effect on the state's rule (often the next July 1), so run to it plus the month.
+    const seriesName = p.kind === "budget-line" ? `budget-line:${p.line}` : series;
+    const eff = seriesName ? (api.moduleState(LAWS_MODULE_ID).table("laws").rows() as unknown as { series: string; effectiveDate: string; measureId?: string }[])
+      .filter((x) => x.series === seriesName && x.effectiveDate > core.date).map((x) => x.effectiveDate).sort().pop() : undefined;
+    const need = eff ? Math.round((Date.parse(eff) - Date.parse(core.date)) / 864e5) + 30 : 0;
+    const horizon = Math.min(Math.max(DAYS, need), 420);
+    rec.effectiveOn = eff ?? null; rec.daysRun = horizon;
+    run(core, horizon);
     const afterLag = series ? lawInForce(api, p.kind === "budget-line" ? `budget-line:${p.line}` : series).governing : null;
     rec.lawAfterLag = afterLag && { id: afterLag.id, level: afterLag.level, value: afterLag.value, eff: afterLag.effectiveDate };
     rec.inForceAfterLag = !!afterLag && (!before || before.id !== afterLag.id || before.value !== afterLag.value);
     const t = totals(core);
-    rec.cashDeltaMinor = t.cash - ctlAfterPass.cash; rec.orgCashDeltaMinor = t.orgCash - ctlAfterPass.orgCash;
-    rec.alive = t.alive - ctlAfterPass.alive; rec.employed = t.employed - ctlAfterPass.employed;
-    rec.kindDiff = diffKinds(t.kinds, ctlAfterPass.kinds);
+    if (horizon === DAYS) {
+      rec.cashDeltaMinor = t.cash - ctlAfterPass.cash; rec.orgCashDeltaMinor = t.orgCash - ctlAfterPass.orgCash;
+      rec.alive = t.alive - ctlAfterPass.alive; rec.employed = t.employed - ctlAfterPass.employed;
+      rec.kindDiff = diffKinds(t.kinds, ctlAfterPass.kinds);
+    }
     rec.citing = citing(core, afterLag?.id ?? "", r.billId);
     // repeal
     if (r.status === "enacted" && p.operations.some((o) => ["repeal", "lower", "restrict"].includes(o))) {
@@ -117,9 +126,13 @@ for (const p of policies) {
       const ramount = p.kind === "policy-question" ? undefined : before ? before.value : 0;
       const rr = pass(core, seat.office.id, seat.holder!.personId!, p.id, rop, ramount);
       rec.repeal = rr.trail;
-      const re = series ? lawInForce(api, p.kind === "budget-line" ? `budget-line:${p.line}` : series).governing : null;
+      const eff2 = seriesName ? (api.moduleState(LAWS_MODULE_ID).table("laws").rows() as unknown as { series: string; effectiveDate: string }[])
+        .filter((x) => x.series === seriesName && x.effectiveDate > core.date).map((x) => x.effectiveDate).sort().pop() : undefined;
+      const need2 = eff2 ? Math.round((Date.parse(eff2) - Date.parse(core.date)) / 864e5) + 30 : 0;
+      run(core, Math.min(Math.max(DAYS, need2), 420));
+      const re = series ? lawInForce(api, seriesName!).governing : null;
       rec.lawAfterRepeal = re && { id: re.id, level: re.level, value: re.value };
-      run(core, DAYS);
+      rec.repealUnwound = !!re && !!afterLag && (re.id !== afterLag.id || re.value !== afterLag.value);
       const t2 = totals(core);
       rec.cashDeltaAfterRepealMinor = t2.cash - ctlAfterRepeal.cash;
     }
