@@ -3417,8 +3417,8 @@ const sheets = {
     // governments as tabs, the fiscal year typed at the right, the departments, the open
     // department as a typed page, the town's money, and who wrote it. The game keeps
     // budget lines by category rather than departments, so each spending line is a
-    // department; Last year comes from the government's previous budget; a head, an
-    // "Asked" figure and the executive's bust wait on pool items gov-budget-departments-
+    // department; Last year comes from the government's previous budget; "Asked" is the line
+    // before this year's budget bill (lineBeforeBill); a head and the executive's bust wait on pool items gov-budget-departments-
     // with-named-heads and gov-budget-asked-versus-adopted.
     const words = controls.budgetStrips;
     const books = gov.books;
@@ -3490,6 +3490,9 @@ const sheets = {
                 roundedMoney(opened.minor),
                 lastYear(lastOf(prior?.spending, opened.line)),
               ),
+              ...(opened.askedMinor !== undefined
+                ? [typedRow(words.asked, roundedMoney(opened.askedMinor))]
+                : []),
               ...(stepButtons.length ? [buttonTray(...stepButtons)] : []),
             ),
           ],
