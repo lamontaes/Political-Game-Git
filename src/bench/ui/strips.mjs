@@ -147,3 +147,72 @@ export function dotRows(rows) {
     ),
   );
 }
+
+/**
+ * The budget board: a row of tabs and a fiscal-year line over three columns of
+ * strip sections (the approved Budgets screen, bud-strips). `fiscal` is typed in
+ * Courier Prime capitals at the right of the tabs.
+ */
+export function stripBoard({ tabs, fiscal, columns }) {
+  return el(
+    "div",
+    { className: "strip-screen strip-board strips ol-g" },
+    el(
+      "div",
+      { className: "board-top" },
+      tabs,
+      ...(fiscal
+        ? [el("span", { className: "bfy", textContent: fiscal })]
+        : []),
+    ),
+    el(
+      "div",
+      { className: "board-cols" },
+      ...columns.map((sections) =>
+        el("div", { className: "mx3col" }, ...sections),
+      ),
+    ),
+  );
+}
+
+/** One typed row with a leader and, under it, a smaller line: the money rows of a budget page. */
+export function typedRow(label, value, note) {
+  return el(
+    "div",
+    { className: "dl" },
+    el(
+      "div",
+      { className: "dotrow typed" },
+      el("span", { className: "dotlabel", textContent: label }),
+      el("span", { className: "dotleader" }),
+      el("span", { className: "dotvalue", textContent: value }),
+    ),
+    ...(note ? [el("p", { className: "bmsub", textContent: note })] : []),
+  );
+}
+
+/** A department in the list: its name and amount, and who heads it when the record says. */
+export function departmentRow({ name, amount, head, selected, onSelect }) {
+  const row = el(
+    "div",
+    { className: `bsdept pick${selected ? " sel" : ""}` },
+    el("b", { textContent: name }),
+    el("em", { textContent: amount }),
+    ...(head ? [el("span", { textContent: head })] : []),
+  );
+  row.tabIndex = 0;
+  row.setAttribute("role", "button");
+  row.addEventListener("click", onSelect);
+  row.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      onSelect();
+    }
+  });
+  return row;
+}
+
+/** The list the department rows sit in. */
+export function departmentList(...rows) {
+  return el("div", { className: "bsdepts" }, ...rows);
+}

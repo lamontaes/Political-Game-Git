@@ -669,6 +669,19 @@
   "patchNotes": {
     "release": "Release"
   },
+  "budgetStrips": {
+    "departments": "Departments",
+    "comingIn": "Coming in",
+    "goingOut": "Going out",
+    "balance": "Balance",
+    "short": "short",
+    "ahead": "ahead",
+    "savings": "Savings",
+    "lastYear": "Last year",
+    "whoWrote": "Who wrote it",
+    "adoptedBy": "Adopted by",
+    "fiscalYear": "Fiscal year"
+  },
   "saves": {
     "none": "No life is saved yet. Start a new life and it will be kept here.",
     "later": "Your life is kept as you play. More saved lives, and saving to a slot of your own, arrive with early access."

@@ -2673,29 +2673,6 @@ select.government-state {
 .record-section .row.own-race {
   color: var(--gold);
 }
-.record-chart {
-  margin: 20px 0;
-}
-.record-chart-line {
-  display: grid;
-  grid-template-columns: minmax(130px, 1fr) minmax(80px, 2fr) auto;
-  gap: 16px;
-  align-items: center;
-  margin: 16px 0;
-  font: 14px var(--ui);
-}
-.record-track {
-  height: 9px;
-  background: rgba(255, 255, 255, 0.06);
-}
-.record-bar {
-  display: block;
-  height: 100%;
-  background: linear-gradient(90deg, var(--brass), var(--gold));
-}
-.record-chart-line strong {
-  font-weight: 500;
-}
 #sheet-body .member-name {
   background: none;
   box-shadow: none;
@@ -2830,13 +2807,6 @@ details.entry[open] {
   }
   .people-key {
     gap: 10px;
-  }
-  .record-chart-line {
-    grid-template-columns: 1fr auto;
-  }
-  .record-track {
-    grid-row: 2;
-    grid-column: 1 / -1;
   }
 }
 
@@ -4600,15 +4570,6 @@ details.entry[open] {
 
 /* Budget (on framed plates): the government, its year and total
    in the name type; three plates in a row; the rings' keys carry amounts. */
-.plate-row {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
-  align-items: stretch;
-}
-.plate-row > .plate {
-  margin: 0;
-}
 .budget-title {
   font: 800 clamp(18px, 1.8vw, 24px) / 1.2 var(--name);
   color: var(--text-strong);
@@ -4616,13 +4577,6 @@ details.entry[open] {
 .budget-adopted {
   margin: -6px 0 2px;
   color: var(--text-2);
-}
-.budget-screen .donut-chart {
-  grid-template-columns: 1fr;
-  justify-items: center;
-}
-.budget-screen .donut-key {
-  width: 100%;
 }
 
 /* The Guide and Patch notes: cards on a plate, the chosen card's article
@@ -5263,4 +5217,78 @@ select.release-pick {
 }
 .strip-screen .mx3cols.one {
   grid-template-columns: minmax(0, 640px);
+}
+
+/* The budget board (approved Budgets screen, bud-strips). */
+.strip-board {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.strip-board .board-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+.strip-board .bfy {
+  font:
+    400 15px "Courier Prime",
+    monospace;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.strip-board .board-cols {
+  display: grid;
+  grid-template-columns: 1fr 1.7fr 1fr;
+  gap: 18px;
+  align-items: start;
+}
+.strip-screen .bsdepts {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.strip-screen .bsdept {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  padding: 7px 12px;
+  border-radius: 2px;
+  cursor: pointer;
+  font: 400 16px var(--f-ui);
+  color: #f2e6c9;
+}
+.strip-screen .bsdept b {
+  font-weight: 600;
+}
+.strip-screen .bsdept em {
+  font-style: normal;
+  font-variant-numeric: lining-nums tabular-nums;
+  color: #f6dfae;
+}
+.strip-screen .bsdept span {
+  grid-column: 1 / -1;
+  font-size: 14px;
+  color: var(--muted);
+}
+.strip-screen .bsdept.sel,
+.strip-screen .bsdept:hover,
+.strip-screen .bsdept:focus-visible {
+  background: rgba(214, 189, 132, 0.14);
+}
+.strip-screen .dotrow.typed {
+  font-family: "Courier Prime", monospace;
+  font-size: 16px;
+  text-transform: none;
+}
+.strip-screen .dotrow.typed .dotlabel {
+  font-weight: 700;
+}
+.strip-screen .bmsub {
+  margin: 0 0 8px;
+  font:
+    400 14px "Courier Prime",
+    monospace;
+  color: var(--muted);
 }
