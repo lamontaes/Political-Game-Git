@@ -860,6 +860,29 @@
     "decreased": "Down {amount} ({pct})",
     "unchanged": "No change"
   },
+  "budgetAdopted": {
+    "by": "By",
+    "vote": "Vote",
+    "bill": "Bill",
+    "tally": "{yes} yes, {no} no",
+    "halved": "Cut in half",
+    "halvedTimes": "Cut in half {n} times",
+    "dropped": "Dropped",
+    "changedSince": "Changes since",
+    "carriedLabel": "Last year's lines",
+    "carried": {
+      "vetoed": "Carried forward after a veto",
+      "rejected": "Carried forward after the body said no"
+    },
+    "kinds": {
+      "base": "The opening books",
+      "opening": "The opening books",
+      "requests": "The departments' requests",
+      "enacted": "Enacted",
+      "published": "Published",
+      "rule": "The standing rule"
+    }
+  },
   "saves": {
     "none": "No life is saved yet.",
     "load": "Load"

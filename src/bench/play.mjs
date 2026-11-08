@@ -73,6 +73,7 @@ import { guideScreen } from "./ui/guide-screen.mjs";
 import { travelScreen } from "./ui/travel-screen.mjs";
 import { billPaper } from "./ui/bill-paper.mjs";
 import { trendLine } from "./ui/trend-line.mjs";
+import { adoptedRows } from "./ui/budget-adopted.mjs";
 import { billStageSections } from "./ui/bill-stage.mjs";
 import { meetingItem } from "./ui/meeting-item.mjs";
 import { draftCard } from "./ui/draft-card.mjs";
@@ -3468,6 +3469,14 @@ const sheets = {
       return button;
     });
     const balance = latest.balanceMinor;
+    // The bill the budget was adopted by, called by its name (the paper's title), never its number.
+    const adoptedBillName = latest.adoptedBy?.bill
+      ? await api(
+          `/api/bill?billId=${encodeURIComponent(latest.adoptedBy.bill.id)}`,
+        )
+          .then((paper) => paper.title)
+          .catch(() => "")
+      : "";
     return [
       stripBoard({
         tabs,
@@ -3564,9 +3573,15 @@ const sheets = {
                     words.whoWrote,
                     // `latest.adoptedBy` is the adoption record (body, tallies, bill, amendments);
                     // Screens words it from the record with the Budgets labels.
-                    introText(
-                      `${labels.adopted} ${dateWords(latest.adoptedOn)}`,
-                    ),
+                    typedRow(labels.adopted, dateWords(latest.adoptedOn)),
+                    ...adoptedRows({
+                      adoption: latest.adoptedBy,
+                      lineName: (line) =>
+                        latest.spending.find((r) => r.line === line)?.name ??
+                        line,
+                      billName: adoptedBillName,
+                      words: controls.budgetAdopted,
+                    }),
                   ),
                 ]
               : []),
