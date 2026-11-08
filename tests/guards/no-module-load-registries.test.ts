@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join, relative, sep } from "node:path";
 import { describe, expect, it } from "vitest";
 import ts from "typescript";
@@ -193,6 +193,8 @@ describe("no handler registry or handler list is built while a module loads", ()
   it("no source, script or fixture file builds one at load", () => {
     const violations: string[] = [];
     for (const root of SCANNED_ROOTS) {
+      // A root with no folder (no fixtures kept) has nothing to scan.
+      if (!existsSync(join(REPO_ROOT, root))) continue;
       for (const file of sourceFiles(join(REPO_ROOT, root))) {
         const text = readFileSync(file, "utf8");
         // Cheap pre-filter: only files that name a builder or a handler pair.
