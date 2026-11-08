@@ -140,6 +140,10 @@ try {
   const morning = page.locator("#election-day:not([hidden])");
   for (let day = 0; day < 12; day += 1) {
     if (await morning.isVisible().catch(() => false)) break;
+    // A scene on the way (a neighbor cutting the line) is lived through: its Continue, then Leave.
+    const nextLine = page.locator("#talk-next:visible");
+    for (let line = 0; line < 12 && (await nextLine.count()); line += 1)
+      await nextLine.first().click({ timeout: 5000 }).catch(() => {});
     const talk = page.locator("#talk-leave");
     if (await talk.isVisible().catch(() => false))
       await talk.click({ timeout: 5000 }).catch(() => {});
