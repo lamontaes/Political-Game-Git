@@ -3250,6 +3250,39 @@
           "note": "Tried: NCSL's table of all-mail elections covers the 50 states and D.C. only; the territory's own election code could not be read."
         }
       }
+    },
+    "us-federal-positions:emergencies.states-share-disaster-costs": {
+      "source": "https://www.law.cornell.edu/uscode/text/42/5172",
+      "note": "The question asks whether states bear more of disaster costs. The Stafford Act sets the federal share at not less than 75 percent (42 U.S.C. 5172(b)(1); 42 U.S.C. 5170b(b)), so the answer is no.",
+      "answers": {
+        "US": {
+          "answer": "no",
+          "source": "https://www.law.cornell.edu/uscode/text/42/5172",
+          "cite": "42 U.S.C. 5172(b)(1); 42 U.S.C. 5170b(b)"
+        }
+      }
+    },
+    "us-federal-positions:territories-culture.statehood-for-dc": {
+      "source": "https://www.law.cornell.edu/constitution/articlei",
+      "note": "The question asks whether Congress grants D.C. statehood. U.S. Const. art. I, sec. 8, cl. 17 gives Congress exclusive legislation over the District and D.C. is not a state, so the answer is no.",
+      "answers": {
+        "US": {
+          "answer": "no",
+          "source": "https://www.law.cornell.edu/constitution/articlei",
+          "cite": "U.S. Const. art. I, sec. 8, cl. 17"
+        }
+      }
+    },
+    "us-federal-positions:government.ban-congressional-stock-trading": {
+      "source": "https://www.law.cornell.edu/uscode/text/5/13105",
+      "note": "The question asks whether Congress bans members' stock trading. There is no ban, only the STOCK Act's reporting rule (5 U.S.C. 13105(l)), so the answer is no.",
+      "answers": {
+        "US": {
+          "answer": "no",
+          "source": "https://www.law.cornell.edu/uscode/text/5/13105",
+          "cite": "5 U.S.C. 13105(l)"
+        }
+      }
     }
   }
 }
