@@ -133136,6 +133136,577 @@
       }
     },
     {
+      "key": "scene-talk.narrate-narrate.the-chair-recognizes-name",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The chair recognizes {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "floor-debate",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.no-one-else-seeks-the-floor-name-is-recognized",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "No one else seeks the floor. {name} is recognized.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "floor-debate",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-chair-recognizes-name-on-bill",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The chair recognizes {name} on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.thank-you-chair-i-rise-in-support-of-bill",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Thank you, Chair. I rise in support of {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["speaks-for", "bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.thank-you-chair-bill-deserves-a-yes-and-ill-say-why",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Thank you, Chair. {bill} deserves a yes, and I'll say why.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["speaks-for", "bill"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.thank-you-chair-i-rise-to-speak-against-bill",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Thank you, Chair. I rise to speak against {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["speaks-against", "bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.thank-you-chair-i-cannot-support-bill-and-ill-say-why",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Thank you, Chair. I cannot support {bill}, and I'll say why.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["speaks-against", "bill"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.thank-you-chair-i-ask-the-body-to-hear-me-on-this",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Thank you, Chair. I ask the body to hear me on this bill.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.chair-i-stand-with-the-member-on-this",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Chair, I stand with the member on this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "floor-debate",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "agree",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.thank-you-chair-ill-be-voting-with-the-member",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Thank you, Chair. I'll be voting with the member.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "floor-debate",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "agree",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-disagree.chair-i-respectfully-disagree-with-the-member",
+      "move": "reply-disagree",
+      "kind": "spoken",
+      "text": "Chair, I respectfully disagree with the member.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "disagree",
+          "role": "asked",
+          "purpose": "floor-debate",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "disagree",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-disagree.thank-you-chair-i-cant-go-along-with-that",
+      "move": "reply-disagree",
+      "kind": "spoken",
+      "text": "Thank you, Chair. I can't go along with that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "disagree",
+          "role": "asked",
+          "purpose": "floor-debate",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "disagree",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.will-the-member-yield-for-a-question",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Will the member yield for a question?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "floor-debate",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.chair-i-have-nothing-to-add",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Chair, I have nothing to add.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "floor-debate",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deflect",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.thank-you-chair-ill-hear-the-rest-from-my-seat",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Thank you, Chair. I'll hear the rest from my seat.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "floor-debate",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "leave",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-chair-i-appreciate-my-colleagues-support",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you, Chair. I appreciate my colleague's support.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-chair-i-yield-the-floor",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you, Chair. I yield the floor.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.thank-you-chair-i-ask-my-colleague-to-reconsider",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Thank you, Chair. I ask my colleague to reconsider.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.thank-you-chair-id-ask-the-member-to-look-at-the-bill",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Thank you, Chair. I'd ask the member to look at the bill once more.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.thank-you-chair-ill-yield-for-the-question",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Thank you, Chair. I'll yield for the question.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.thank-you-chair-i-yield-the-floor",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Thank you, Chair. I yield the floor.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-chair-i-yield-back-the-balance-of-my-time",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you, Chair. I yield back the balance of my time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.thank-you-chair-that-is-all-i-have",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Thank you, Chair. That is all I have.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.chair-i-hope-the-body-will-remember-this-when-the-roll-is",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Chair, I hope the body will remember this when the roll is called.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "warn",
+        "key": "honor"
+      }
+    },
+    {
       "key": "scene-talk.open-greet.got-a-minute-colleague",
       "move": "open-greet",
       "kind": "spoken",

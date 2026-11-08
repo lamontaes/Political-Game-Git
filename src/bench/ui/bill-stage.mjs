@@ -289,6 +289,7 @@ export function billStageSections(
       stripSection(
         2,
         `${words.committee}: ${record.chamberTitle} · ${record.committee}`,
+        el("p", { textContent: `${words.referred} ${record.committee}` }),
         el("p", { textContent: `${words.chair} ${record.chair}` }),
         record.heard
           ? labeledNames(
@@ -299,6 +300,20 @@ export function billStageSections(
               words,
             )
           : el("p", { textContent: words.held }),
+        ...(record.markup?.length
+          ? [
+              el("b", { textContent: words.markup }),
+              ...record.markup.map((item) =>
+                el(
+                  "p",
+                  { className: "stage-insert" },
+                  el("ins", {
+                    textContent: `${item.name} · ${words[item.kind === "pill" ? "markupPill" : "markupTrade"]} · ${item.inserted ?? ""}`,
+                  }),
+                ),
+              ),
+            ]
+          : []),
         labeledNames(
           words.votedFor,
           record.votes.filter((v) => v.vote === "yes"),

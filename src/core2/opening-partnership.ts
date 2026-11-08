@@ -164,6 +164,16 @@ function spouseGapWeight(
   return (gap(age, other) + gap(other, age)) / p("two");
 }
 
+/** How likely a couple of these two ages is, by the CPS spouse age gap (zero past the gaps it records). */
+export function partnerAgeLikelihood(
+  age: number,
+  sex: Sex | undefined,
+  other: number,
+  otherSex: Sex | undefined,
+): number {
+  return spouseGapWeight(age, sex, other, otherSex);
+}
+
 /** The place's rows, else its state's, else the nation's. */
 export function partnershipGeo(placeGeoid?: string | null): {
   key: string;
