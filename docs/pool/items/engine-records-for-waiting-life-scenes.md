@@ -5,9 +5,9 @@ area: people
 kind: feature
 priority: 2
 size: L
-status: open
+status: done
 claimed-by:
-pr:
+pr: #7569
 blocked-on:
 lead: laws-effects
 source: added with npm run pool -- add

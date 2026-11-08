@@ -519,7 +519,10 @@ export const CAMPAIGNS_MODULE: CoreModule = {
   onDay: (api) => {
     offersToHelp(api);
     rivalWordPassedOn(api);
-    if (Number(api.state.date.slice(8)) % 7 === 1) foldOldCauses(api);
+    if (Number(api.state.date.slice(8)) % 7 === 1) {
+      foldOldCauses(api);
+      dropOldFoldedCauses(api);
+    }
   },
   // The candidate's answer to an offer, said in the scene it stages; a
   // count closes a race, and its causes fold; a filing's announcement takes
@@ -5326,6 +5329,28 @@ export function foldClosedRaceCauses(api: CoreAPI, contestId: string): void {
     contestId,
   ]) as unknown as { personId: string }[];
   foldCauses(api, new Set(filings.map((f) => f.personId)));
+}
+
+/**
+ * A folded cause kept for the trace goes once it is older than
+ * `circleActRetentionMonths`, the window the circle's routine acts already
+ * keep (`decision-detail.ts`; CTO, Nov 8: a folded cause keeps its own row
+ * only for the player's circle and people in focus, and only while someone
+ * can ask why). Readers: dev mode's `findRecord` and a fact's `sourceId`
+ * lookup in the why view; a fact older than the window names a source the
+ * trace no longer finds, as for any circle act past its window. The player's
+ * own rows stay. The campaign summary row already counts every folded cause.
+ */
+export function dropOldFoldedCauses(api: CoreAPI): void {
+  const folded = table(api, "foldedCauses");
+  const cutoff = new Date(`${api.state.date}T00:00:00Z`);
+  cutoff.setUTCMonth(
+    cutoff.getUTCMonth() - api.parameter("circleActRetentionMonths"),
+  );
+  const before = cutoff.toISOString().slice(0, 10);
+  const player = api.state.playerId;
+  for (const row of folded.rows() as unknown as CauseRow[])
+    if (row.date < before && row.voterId !== player) folded.remove(row.id);
 }
 
 /**
