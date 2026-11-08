@@ -3440,6 +3440,56 @@ function startCommuterJob(
 }
 
 /**
+ * A town resident finds work in the wider labor market (the jobs engine's
+ * regional find, src/core2/jobs-elsewhere.ts). A full person starts a job with
+ * the place's outside account as employer, at `hourlyMinor` over the standard
+ * commuter week, paid on the place's unplaced workers' payday (the same
+ * commuter job a filled-in household's unplaced worker has). A counted person
+ * joins the place's unplaced workers: their household's workers and the pool's
+ * pay grow by the record's weight times the pool's pay per worker. Returns the
+ * job's id for a full person, `counted` for a counted one, and undefined where
+ * the place has no unplaced pool to take them.
+ */
+export function startRegionalWork(
+  core: CoreState,
+  personId: string,
+  hourlyMinor: number,
+): string | undefined {
+  const rt = runtimes.get(core);
+  if (!rt) return undefined;
+  const m = rt.store.countedMember(personId);
+  if (m !== undefined) {
+    const h = rt.store.households[rt.store.household[m]!]!;
+    const base = unplacedFlowOf(rt, h.placeId, !!h.quarters);
+    const perWorker = unplacedPayPerWorker(rt, h);
+    if (!base || !(perWorker > 0)) return undefined;
+    const perYear =
+      base.cadence.kind === "days"
+        ? DAYS_PER_YEAR / base.cadence.every
+        : 12 / base.cadence.every;
+    const workers = rt.store.weightOf(h);
+    base.amountMinor += Math.round((workers * perWorker) / perYear);
+    h.unplacedWorkers += workers;
+    regroupHousehold(rt, h, core.date);
+    return "counted";
+  }
+  const person = core.people.get(personId);
+  if (!person) return undefined;
+  const unplaced = unplacedFlowOf(rt, person.placeId, false);
+  if (!unplaced || unplaced.cadence.kind !== "days") return undefined;
+  const api = rt.api ?? coreAPI(core);
+  const weekHours =
+    countedParameter("countedCommuterWorkdayHours") *
+    countedParameter("countedCommuterWorkdaysPerWeek");
+  const amount = Math.round(
+    (hourlyMinor * weekHours * unplaced.cadence.every) /
+      api.parameter("daysPerWeek"),
+  );
+  if (!startCommuterJob(core, rt, personId, unplaced, amount)) return undefined;
+  return commuterJobId(personId, addDays(makeIsoDate(core.date), 1));
+}
+
+/**
  * A household returning to the counts brings its commuter's pay back to its
  * place's unplaced workers' flow, and its share of those workers with it
  * (`amountMinor` is what the job paid for each of that flow's periods).
