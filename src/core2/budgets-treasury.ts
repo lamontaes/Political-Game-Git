@@ -1508,9 +1508,56 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
       paymentIds,
     } satisfies TreasuryMonthRow as unknown as ModuleRow);
   }
+  sweepReserves(api, govs, budgets, outside, date, source);
   endLineLaws(api, lineLawKeys, lineLawRows);
   applySocialSecurityLevel(api);
   attributeLanded(api);
+}
+
+/**
+ * What a state or local treasury holds above its reserve is invested outside
+ * the town (trust funds, securities), as real governments do with a surplus,
+ * so a Census year that ran a surplus does not pile up in the account month
+ * after month (SG-GOV-reserve-sweep). The federal treasury borrows instead.
+ */
+function sweepReserves(
+  api: CoreAPI,
+  govs: readonly GovernmentRow[],
+  budgets: ReadonlyMap<string, BudgetRow | undefined>,
+  outside: string,
+  date: string,
+  source: Source,
+): void {
+  const accounts = api.accounts();
+  for (const gov of govs) {
+    const budget = budgets.get(gov.id);
+    if (!budget || gov.level === "federal") continue;
+    const yearly = Object.values(budget.spendingMinor).reduce(
+      (a, v) => a + v,
+      0,
+    );
+    const main = accounts.main(gov.organizationId);
+    const keep =
+      (yearly / treasuryParameter("monthsPerYear")) *
+        treasuryParameter("reserveMonthsOfSpending") +
+      payrollReserve(api, gov);
+    const excess = Math.floor(accounts.balance(main) - keep);
+    if (excess <= 0) continue;
+    const receipt = accounts.transfer({
+      id: `reserve-sweep:${gov.id}:${date}`,
+      from: main,
+      to: accounts.main(outside),
+      amountMinor: excess,
+      reasonKey: "reserve-sweep",
+      source,
+    });
+    table(api, "reserveSweeps").put({
+      id: receipt.id,
+      governmentId: gov.id,
+      date,
+      amountMinor: receipt.paidMinor,
+    } as unknown as ModuleRow);
+  }
 }
 
 interface LandedRow {

@@ -284,6 +284,19 @@ export function billStageSections(
         ),
       ),
     );
+  // The members who signed on beside the sponsor.
+  if (stage.cosponsors?.length)
+    sections.push(
+      stripSection(
+        2,
+        words.cosponsors,
+        el(
+          "div",
+          { className: "stage-row" },
+          nameSentence(stage.cosponsors, onOpen, words),
+        ),
+      ),
+    );
   stage.committees.forEach((record) => {
     sections.push(
       stripSection(
@@ -331,6 +344,16 @@ export function billStageSections(
       ),
     );
   });
+  // The aide's estimate: marked as an estimate, in words, never a count.
+  if (stage.aide && stage.aide.heard > 0)
+    sections.push(
+      stripSection(
+        3,
+        words.aide,
+        el("p", { textContent: words[`aide-${stage.aide.outlook}`] }),
+        el("p", { className: "stage-note", textContent: words.aideCaveat }),
+      ),
+    );
   if (stage.told.length) {
     const side = (name) => stage.told.filter((t) => t.side === name);
     sections.push(

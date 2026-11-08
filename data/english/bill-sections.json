@@ -180,6 +180,11 @@
       "purpose": "let public employees bargain together over pay and conditions",
       "enact": "public employees shall have the right to bargain together over their pay and working conditions"
     },
+    "labor-workforce.ban-the-box-public-hiring": {
+      "subject": "criminal records on state job applications",
+      "purpose": "bar state agencies from asking about criminal records on a first job application",
+      "enact": "a state agency shall not ask about an applicant's criminal record on a first job application"
+    },
     "labor-workforce.right-to-work": {
       "subject": "workers who do not join a union",
       "purpose": "bar contracts that make workers pay a union to hold a job",
@@ -199,6 +204,11 @@
       "subject": "new gas hookups in buildings",
       "purpose": "bar new natural gas hookups in buildings",
       "enact": "a new building shall not be connected to the natural gas system"
+    },
+    "environment-energy.allow-retail-electric-choice": {
+      "subject": "retail electric choice",
+      "purpose": "let households buy their electricity from a competitive supplier",
+      "enact": "residential customers may buy electricity from a competitive supplier"
     },
     "environment-energy.clean-electricity-standard": {
       "subject": "clean electricity",
@@ -378,7 +388,7 @@
     "education.forgive-student-loans": {
       "subject": "forgiveness of student loans",
       "purpose": "forgive federal student loans",
-      "enact": "federal student loan balances shall be cancelled as set here"
+      "enact": "federal student loan balances shall be canceled as set here"
     },
     "emergencies.states-share-disaster-costs": {
       "subject": "states sharing disaster costs",

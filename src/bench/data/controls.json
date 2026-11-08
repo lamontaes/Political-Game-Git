@@ -181,6 +181,8 @@
     "defeat": "Defeat",
     "held": "Held by the chair",
     "petition": "Members sign a discharge petition",
+    "chairHears": "Chair hears the bill",
+    "noRoute": "Chair left it unheard, no discharge route here",
     "discharged": "Discharged",
     "notDischarged": "Not discharged",
     "lost": "Lost in committee",
@@ -240,6 +242,17 @@
     "person": "Person",
     "trace": "Trace"
   },
+  "devCampaign": {
+    "title": "Campaign set-up",
+    "campaign": "Campaign",
+    "person": "Person",
+    "donorsGive": "Donors give",
+    "raised": "Raised",
+    "noneGave": "No one gave",
+    "saysYes": "Says yes to volunteering",
+    "saysNo": "Says no to volunteering",
+    "nobody": "No one to ask"
+  },
   "devScene": {
     "title": "Scenes",
     "type": "Situation",
@@ -289,6 +302,7 @@
       "death": "A person dies",
       "job-lost": "A job is lost",
       "scene": "A scene fires",
+      "may-file": "I may file for a seat",
       "law-takes-effect": "A law takes effect"
     },
     "reasons": {
@@ -873,6 +887,12 @@
   },
   "billStage": {
     "committee": "In committee",
+    "aide": "Your aide's estimate",
+    "aide-pass": "Your aide expects it to pass.",
+    "aide-fail": "Your aide expects it to fail.",
+    "aide-close": "Your aide calls it too close to call.",
+    "aideCaveat": "An estimate from what members have told you. It can be wrong.",
+    "cosponsors": "Cosponsors",
     "referred": "Referred to",
     "chair": "Chaired by",
     "markup": "Changes in markup",
@@ -965,6 +985,12 @@
     "debate": "Debate",
     "speech": "Give a speech"
   },
+  "nominations": {
+    "own": "Decided for me",
+    "nominate": "Nominate",
+    "leave": "Leave it open",
+    "nobody": "No one is available to nominate"
+  },
   "orders": {
     "issue": "Issue the order",
     "revoke": "Revoke the order",
@@ -972,6 +998,9 @@
     "emergency": "State of emergency",
     "emergency-issue": "Declare it",
     "emergency-decline": "Let it pass",
+    "budget": "The state budget",
+    "budget-issue": "Send the budget",
+    "budget-decline": "Leave it to my staff",
     "post-own": "Decided for me",
     "post-issue": "Name them",
     "post-decline": "Leave it open"

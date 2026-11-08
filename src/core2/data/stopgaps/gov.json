@@ -1494,7 +1494,7 @@
     "why": "Only the 144 compiled municipal governments carry a charter reading; every other town's charter is unread. Narrowed Oct 19: the compiled readers now carry the body name. Narrowed again: a town of a listed kind takes its state's usual body, so only the few consolidated governments listed by bare name keep the generic name.",
     "addedBy": "SESSION-C",
     "addedAt": "2026-10-15",
-    "replacement": "Carry each charter’s collective body name into the municipal reading and replace the default.",
+    "replacement": "Carry each charter\u2019s collective body name into the municipal reading and replace the default.",
     "status": "open"
   },
   {
@@ -1506,7 +1506,7 @@
     "why": "The repository has no per-place dual-office compilation; the previous engine vacated every prior office without reading any law. Research endpoint returned a web application firewall block.",
     "addedBy": "SESSION-C",
     "addedAt": "2026-10-15",
-    "replacement": "Source each place’s prohibitions and exceptions, replacing the estimated pairs in the same reader.",
+    "replacement": "Source each place\u2019s prohibitions and exceptions, replacing the estimated pairs in the same reader.",
     "status": "open"
   },
   {
@@ -2181,6 +2181,18 @@
     "addedBy": "claude/dev-mode-discharge",
     "addedAt": "2026-11-08",
     "replacement": "A legislative-day count per body, and one data row per state with a discharge rule, sourced from the state's own rules; the petition then opens only after the wait.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-reserve-sweep",
+    "kind": "faked-mechanic",
+    "file": "src/core2/data/outside-flows.json",
+    "line": 0,
+    "whatItFakes": "At each monthly close a state or local treasury sends what it holds above its reserve (reserveMonthsOfSpending of yearly spending) to the town's outside account, as investment in trust funds and securities elsewhere.",
+    "why": "The Census year the budget lines come from ran surpluses (pension and reserve deposits, federal relief) and nothing in the game spends or invests them, so the treasury piled up about $10 billion a year in a state and the outside account ran the same amount negative.",
+    "addedBy": "Money",
+    "addedAt": "2026-11-08",
+    "replacement": "Trust funds and bond holders as real accounts with their own deposits, benefits and earnings (insurance-trust revenue and expenditure lines).",
     "status": "open"
   }
 ]

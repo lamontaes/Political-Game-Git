@@ -323,6 +323,8 @@ export const BUDGETS_MODULE: PreStartModule = {
       outsideRevenue: {
         indexes: { byGovernment: { fields: ["governmentId"] } },
       },
+      /** What a treasury held above its reserve and invested outside the town at a close (SG-GOV-reserve-sweep). */
+      reserveSweeps: {},
       /** The part of each spending line that left the town, by the group it paid. */
       spendingPayments: {
         indexes: { byGovernment: { fields: ["governmentId"] } },
@@ -2118,6 +2120,17 @@ export function taxPaymentsOf(
 
 export function governments(api: CoreAPI): readonly GovernmentRow[] {
   return table(api, "governments").rows() as unknown as GovernmentRow[];
+}
+/** What the laws have added to a government's line in a fiscal year so far, in minor units (negative for a cut). */
+export function lineChangedInYear(
+  api: CoreAPI,
+  governmentId: string,
+  fy: number,
+  line: string,
+): number {
+  const row = table(api, "enacted").get(governmentId) as unknown as
+    { byYear?: Record<string, Record<string, number>> } | undefined;
+  return row?.byYear?.[String(fy)]?.[line] ?? 0;
 }
 export function budgetsOf(
   api: CoreAPI,

@@ -541,6 +541,18 @@
     "status": "open"
   },
   {
+    "id": "SG-LIVES-director-kin-contact-impact",
+    "kind": "estimated-parameter",
+    "file": "src/director/data/director.json",
+    "line": 1,
+    "whatItFakes": "How much a letter from a relative elsewhere weighs, so that a close tie's letter ranks among the year's top moments.",
+    "why": "No scale item sizes a letter; the Holmes and Rahe 'change in family get-togethers' (15 units) ranks below every other moment of the year and never stages. Sized by rank in the played year (New Castle, Kentucky, seed lives-letter-a: ranks 2 to 6 of the year's moments).",
+    "addedBy": "Lives (night crew, Nov 8)",
+    "addedAt": "2026-11-08",
+    "replacement": "A measured weight of family contact in the life-change literature, or the people engine's own appraisal of the contact.",
+    "status": "open"
+  },
+  {
     "id": "SG-WORDS-lobby-remembers-writeback",
     "kind": "missing-data",
     "file": "src/director/circumstance.ts",
@@ -550,6 +562,18 @@
     "addedBy": "Story session",
     "addedAt": "2026-11-08",
     "replacement": "The interest-group engine reads the member's vote against its meeting and the kept tie when it decides endorsements and gifts; the scene then cites that decision.",
+    "status": "open"
+  },
+  {
+    "id": "SG-STORY-arc-variant-weights",
+    "kind": "uncalibrated-tunable",
+    "file": "src/director/data/arc-variants.json",
+    "line": 1,
+    "whatItFakes": "How much each read of the records (the size of a bribe against the official's year, the tie, the offerer's need, earlier refusals and pressure, where the scene is set) counts toward each variant of a scene, and how much each variant's facets pull the asker to it.",
+    "why": "The mechanism is data and the reads are real records, but the weights are set by hand against the spread of reads in drawn places (Nov 8, Story session) so that every variant wins somewhere in play; no study sizes how much a small gift or a repeated ask differs in the way people go about it. They stay TUNABLE against play and the owner's voice notes.",
+    "addedBy": "Story session",
+    "addedAt": "2026-11-08",
+    "replacement": "Weights fitted to how often real bribe approaches are small, large, from a friend, repeated or desperate (the corruption literature's cases), checked against the played years, or read straight from the corruption engine's own reasons once it keeps one for each.",
     "status": "open"
   }
 ]

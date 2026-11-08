@@ -19,16 +19,27 @@
  * that parts splits: the one who did not keep the home starts one of their
  * own at the same place. Nothing moves money and nobody is filled in.
  *
- * Partnering in the played town (moving in together, households, rent) and
- * the counted population's partnerships are their own units
- * (SG-LIVES-partner-town, SG-LIVES-partner-counted).
+ * The town's full people go through the same monthly review (owner, Nov 8,
+ * 2026): a single adult's pull builds by the same chain; when it reaches one
+ * they partner with a single adult they know (closeness, the CPS age gap),
+ * else a partner from the wider population, and the couple climbs stages with
+ * their own dates: dating in separate homes, moving in together (the one with
+ * less cash moves into the other's household, so the lease, the share of the
+ * everyday spending and the payers follow through `changeHouseholdV1`), a
+ * proposal (`family.engaged`), the wedding (`family.married`), and, by the
+ * same NSFG curve as anyone, parting (`family.separated`, the one with less
+ * cash starting a household of their own). Traits move how soon each step
+ * comes, never whether the rate holds. The counted population's partnerships
+ * are their own unit (SG-LIVES-partner-counted).
  */
 import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
 import { createStableId } from "../kernel/ids";
 import { SeededRng } from "../kernel/rng";
 import { decisionLean, decisionTraitWeight } from "../trait-decisions";
+import { closenessBetween } from "../closeness";
 import {
   partnerAgeFor,
+  partnerAgeLikelihood,
   partneringPerYear,
   partnershipGeo,
   separatingPerYear,
@@ -43,9 +54,19 @@ import {
 } from "../gov-rules/person-identity";
 import { birthCohortGivenName } from "../gov-rules/given-name-cohorts";
 import { livesElsewhere } from "./moves";
+import { reviewMentorship } from "./mentorship";
+import { rescueOnset } from "./rescue";
+import { quarrelOverMoney } from "./quarrel";
+import {
+  BIRTHDAY_KIND,
+  birthdayGathering,
+  reviewKinContact,
+  scheduleBirthdays,
+} from "./kin-contact";
 import { declareSnapshotCovered } from "../snapshot";
 import type {
   CoreAPI,
+  CoreEventInput,
   CoreModule,
   CoreState,
   IsoDate,
@@ -63,7 +84,7 @@ const REVIEW_KIND = "partnerships-review";
 const STATE_ROW = "partnerships:state";
 const SAME_SEX_STOPGAP = "SG-LIVES-partner-same-sex";
 const COHABITING_STOPGAP = "SG-LIVES-partner-cohabiting";
-const TOWN_STOPGAP = "SG-LIVES-partner-town";
+const STAGES_STOPGAP = "SG-LIVES-partner-stage-lengths";
 const COUNTED_STOPGAP = "SG-LIVES-partner-counted";
 
 interface PullRow {
@@ -237,11 +258,32 @@ function part(
   });
 }
 
+function partnerFactorOf(api: CoreAPI, person: Readonly<PersonState>): number {
+  const core = api.state as CoreState;
+  return Math.exp(
+    decisionTraitWeight(core, PARTNER_DECISION) *
+      decisionLean(core, person, PARTNER_DECISION, "partner", "stay-single"),
+  );
+}
+
+function partFactorOf(
+  api: CoreAPI,
+  person: Readonly<PersonState>,
+  partner: Readonly<PersonState>,
+): number {
+  const core = api.state as CoreState;
+  return Math.exp(
+    (decisionTraitWeight(core, PART_DECISION) *
+      (decisionLean(core, person, PART_DECISION, "part", "stay-together") +
+        decisionLean(core, partner, PART_DECISION, "part", "stay-together"))) /
+      api.parameter("two"),
+  );
+}
+
 /** One month: every adult living elsewhere builds their pull, and a pull that reaches one whole makes the change. */
 function review(api: CoreAPI): void {
   const core = api.state as CoreState;
   const p = (key: string) => api.parameter(key);
-  api.stopgap(TOWN_STOPGAP);
   api.stopgap(COUNTED_STOPGAP);
   const adultAge = p("votingAge");
   const people = [...core.people.values()]
@@ -252,6 +294,10 @@ function review(api: CoreAPI): void {
           adultAge,
     )
     .sort((a, b) => a.id.localeCompare(b.id));
+  const links = new Map<PersonId, ReturnType<typeof partnerLinkOf>>();
+  for (const link of core.familyLinks.values())
+    if (link.kind === "partner")
+      for (const id of link.personIds) links.set(id, link);
   const geo = partnershipGeo(core.placeMetadata?.placeKey);
   const month = p("one") / p("monthsPerYear");
   // Traits decide who partners or parts sooner, not how many: each trait
@@ -261,32 +307,17 @@ function review(api: CoreAPI): void {
   // toward partnering, which averages below zero, ran every draw 9 to 19%
   // under the chain (CTO, Nov 1).
   const partnerFactor = (person: Readonly<PersonState>) =>
-    Math.exp(
-      decisionTraitWeight(core, PARTNER_DECISION) *
-        decisionLean(core, person, PARTNER_DECISION, "partner", "stay-single"),
-    );
+    partnerFactorOf(api, person);
   const partFactor = (
     person: Readonly<PersonState>,
     partner: Readonly<PersonState>,
-  ) =>
-    Math.exp(
-      (decisionTraitWeight(core, PART_DECISION) *
-        (decisionLean(core, person, PART_DECISION, "part", "stay-together") +
-          decisionLean(
-            core,
-            partner,
-            PART_DECISION,
-            "part",
-            "stay-together",
-          ))) /
-        p("two"),
-    );
+  ) => partFactorOf(api, person, partner);
   const typical = {
     partner: [p("zero"), p("zero")],
     part: [p("zero"), p("zero")],
   };
   for (const person of people) {
-    const link = partnerLinkOf(core, person.id);
+    const link = links.get(person.id);
     if (!link) {
       typical.partner[0]! += partnerFactor(person);
       typical.partner[1]! += p("one");
@@ -313,7 +344,7 @@ function review(api: CoreAPI): void {
     if (done.has(person.id) || !person.alive) continue;
     const sex = sexOf(person);
     if (!sex) continue;
-    const link = partnerLinkOf(core, person.id);
+    const link = links.get(person.id);
     const partner = link
       ? core.people.get(link.personIds.find((id) => id !== person.id)!)
       : undefined;
@@ -401,6 +432,475 @@ function review(api: CoreAPI): void {
       .table("pulls")
       .put(row as never);
   }
+  reviewTown(api);
+  reviewKinContact(api);
+  scheduleBirthdays(api);
+  reviewMentorship(api);
+}
+
+/** Where a couple in town stands on the way to a wedding. */
+type Stage = "dating" | "living-together" | "proposed" | "engaged" | "married";
+
+interface CoupleRow {
+  /** The partner link's id. */
+  id: string;
+  stage: Stage;
+  /** The date this stage began. */
+  since: IsoDate;
+  /** Built up so far toward the next stage. */
+  progress: number;
+}
+
+export const FAMILY_ENGAGED = "family.engaged";
+export const FAMILY_MARRIED = "family.married";
+export const FAMILY_MOVED_IN = "family.moved-in";
+
+const NEXT_STAGE: Record<
+  Exclude<Stage, "married" | "proposed">,
+  [Stage, string]
+> = {
+  dating: ["living-together", "partnerDatingMonths"],
+  "living-together": ["engaged", "partnerLivingTogetherMonths"],
+  engaged: ["married", "partnerEngagedMonths"],
+};
+
+function isTownPerson(core: CoreState, row: Readonly<PersonState>): boolean {
+  return row.alive && row.tier !== "husk";
+}
+
+function ownsHome(api: CoreAPI, householdId: string): boolean {
+  const core = api.state as CoreState;
+  if (!core.modules.has("housing")) return false;
+  const row = api
+    .moduleState("housing")
+    .table("dwellings")
+    .get(`dwelling:${householdId}`) as { tenure?: string } | undefined;
+  return row?.tenure === "own";
+}
+
+/** Whether these people can leave their household now: it keeps an adult, and an owned home is not left empty. */
+function canLeave(
+  api: CoreAPI,
+  mover: Readonly<PersonState>,
+  adultAge: number,
+): boolean {
+  const core = api.state as CoreState;
+  const staying = (core.households.get(mover.householdId)?.memberIds ?? [])
+    .filter((id) => id !== mover.id)
+    .map((id) => core.people.get(id))
+    .filter((row): row is PersonState => !!row?.alive);
+  if (!staying.length) return !ownsHome(api, mover.householdId);
+  return staying.some(
+    (row) =>
+      ageOnDate(makeIsoDate(row.birthDate), makeIsoDate(core.date)) >= adultAge,
+  );
+}
+
+/** The couple's row, made from their records the first time (an opening couple under one roof is married). */
+function coupleOf(
+  api: CoreAPI,
+  link: { id: string; personIds: readonly [PersonId, PersonId] },
+): CoupleRow {
+  const core = api.state as CoreState;
+  const held = store(api).table("couples").get(link.id) as unknown as
+    CoupleRow | undefined;
+  if (held) return { ...held };
+  const [a, b] = link.personIds.map((id) => core.people.get(id)!);
+  return {
+    id: link.id,
+    stage: a!.householdId === b!.householdId ? "married" : "dating",
+    since: unionStart(core, link, api),
+    progress: api.parameter("zero"),
+  };
+}
+
+/** The single adult in town this person knows best who fits them in age, else nobody. */
+function knownSingle(
+  api: CoreAPI,
+  person: Readonly<PersonState>,
+  sex: Sex,
+  singles: ReadonlySet<PersonId>,
+): PersonState | undefined {
+  const core = api.state as CoreState;
+  const today = makeIsoDate(core.date);
+  const age = ageOnDate(makeIsoDate(person.birthDate), today);
+  let best: { row: PersonState; score: number } | undefined;
+  for (const id of [...person.knownIds].sort()) {
+    if (!singles.has(id) || person.familyIds.has(id)) continue;
+    const other = core.people.get(id);
+    if (
+      !other ||
+      other.placeId !== person.placeId ||
+      other.householdId === person.householdId ||
+      sexOf(other) === undefined ||
+      sexOf(other) === sex
+    )
+      continue;
+    const fit = partnerAgeLikelihood(
+      age,
+      sex,
+      ageOnDate(makeIsoDate(other.birthDate), today),
+      sexOf(other),
+    );
+    const score = fit * closenessBetween(core, person.id, id);
+    if (score > (best?.score ?? api.parameter("zero")))
+      best = { row: other, score };
+  }
+  return best?.row;
+}
+
+/** One of the couple moves into the other's household: the one with less cash goes, the lease and the spending share follow. */
+function moveIn(
+  api: CoreAPI,
+  a: Readonly<PersonState>,
+  b: Readonly<PersonState>,
+): boolean {
+  const core = api.state as CoreState;
+  if (a.householdId === b.householdId) return true;
+  const adultAge = api.parameter("votingAge");
+  const [mover, host]: [PersonState, PersonState] =
+    a.liquidMinor < b.liquidMinor ||
+    (a.liquidMinor === b.liquidMinor && a.id > b.id)
+      ? [a, b]
+      : [b, a];
+  const order: [PersonState, PersonState] | undefined = canLeave(
+    api,
+    mover,
+    adultAge,
+  )
+    ? [mover, host]
+    : canLeave(api, host, adultAge)
+      ? [host, mover]
+      : undefined;
+  if (!order) return false;
+  api.changeHouseholdV1({
+    personIds: [order[0].id],
+    householdId: order[1].householdId,
+    source: source(
+      api,
+      `${order[0].givenName} moved in with ${order[1].givenName}.`,
+    ),
+  });
+  const ids: PersonId[] = [order[0].id, order[1].id];
+  api.emit({
+    id: `${FAMILY_MOVED_IN}:${ids.slice().sort().join(":")}:${core.date}`,
+    date: core.date,
+    kind: FAMILY_MOVED_IN,
+    personIds: ids,
+    placeId: order[1].placeId,
+    publicRecord: false,
+    source: source(
+      api,
+      `${order[0].givenName} moved in with ${order[1].givenName}.`,
+    ),
+    witnessIds: witnessesOf(core, ids),
+  });
+  return true;
+}
+
+/** A couple in town parts: the link ends and, under one roof, the one with less cash starts a household of their own. */
+function partInTown(
+  api: CoreAPI,
+  a: Readonly<PersonState>,
+  b: Readonly<PersonState>,
+  stage: Stage,
+): void {
+  const core = api.state as CoreState;
+  const ids: [PersonId, PersonId] = [a.id, b.id];
+  api.setPartnersV1({
+    personIds: ids,
+    together: false,
+    source: source(api, `${a.givenName} and ${b.givenName} parted.`),
+    witnessIds: witnessesOf(core, ids),
+    facts: {
+      [UNION_FACT]: stage,
+      ended: stage === "married" ? "divorce" : "breakup",
+    },
+  });
+  if (a.householdId !== b.householdId) return;
+  const adultAge = api.parameter("votingAge");
+  const leaver =
+    a.liquidMinor < b.liquidMinor ||
+    (a.liquidMinor === b.liquidMinor && a.birthDate > b.birthDate)
+      ? a
+      : b;
+  const keeper = leaver === a ? b : a;
+  const goes = canLeave(api, leaver, adultAge) ? leaver : keeper;
+  if (!canLeave(api, goes, adultAge)) return;
+  api.changeHouseholdV1({
+    personIds: [goes.id],
+    householdId: `${goes.householdId}:parted:${goes.id}:${core.date}`,
+    source: source(api, `${goes.givenName} moved out.`),
+  });
+}
+
+/** One month among the town's full people: singles meet, couples climb their stages or part. */
+function reviewTown(api: CoreAPI): void {
+  const core = api.state as CoreState;
+  const p = (key: string) => api.parameter(key);
+  const today = makeIsoDate(core.date);
+  const adultAge = p("votingAge");
+  const geo = partnershipGeo(core.placeMetadata?.placeKey);
+  const month = p("one") / p("monthsPerYear");
+  const people = [...core.people.values()]
+    .filter(
+      (row) =>
+        isTownPerson(core, row) &&
+        ageOnDate(makeIsoDate(row.birthDate), today) >= adultAge,
+    )
+    .sort((a, b) => a.id.localeCompare(b.id));
+  // One pass over the links, and each person's factor weighed once a month.
+  const linkOf = new Map<PersonId, ReturnType<typeof partnerLinkOf>>();
+  for (const link of core.familyLinks.values())
+    if (link.kind === "partner")
+      for (const id of link.personIds) linkOf.set(id, link);
+  const partnerFactors = new Map<PersonId, number>();
+  const partnerFactorOfCached = (person: Readonly<PersonState>) => {
+    let held = partnerFactors.get(person.id);
+    if (held === undefined) {
+      held = partnerFactorOf(api, person);
+      partnerFactors.set(person.id, held);
+    }
+    return held;
+  };
+  const singles = new Set<PersonId>();
+  const couples: {
+    link: { id: string; personIds: readonly [PersonId, PersonId] };
+    a: PersonState;
+    b: PersonState;
+  }[] = [];
+  const seen = new Set<string>();
+  const sum = { partner: [p("zero"), p("zero")], part: [p("zero"), p("zero")] };
+  for (const person of people) {
+    const link = linkOf.get(person.id);
+    if (!link) {
+      if (sexOf(person)) {
+        singles.add(person.id);
+        sum.partner[0]! += partnerFactorOfCached(person);
+        sum.partner[1]! += p("one");
+      }
+      continue;
+    }
+    if (seen.has(link.id)) continue;
+    seen.add(link.id);
+    const a = core.people.get(link.personIds[0])!;
+    const b = core.people.get(link.personIds[1])!;
+    if (!isTownPerson(core, a) || !isTownPerson(core, b)) continue;
+    couples.push({ link, a, b });
+    sum.part[0]! += partFactorOf(api, a, b);
+    sum.part[1]! += p("one");
+  }
+  const typicalPartner =
+    sum.partner[1]! > p("zero") ? sum.partner[0]! / sum.partner[1]! : p("one");
+  const typicalPart =
+    sum.part[1]! > p("zero") ? sum.part[0]! / sum.part[1]! : p("one");
+  const pulls = store(api).table("pulls");
+  const rowFor = (id: PersonId, toward: PullRow["toward"]): PullRow => {
+    const held = pulls.get(id) as unknown as PullRow | undefined;
+    return held && held.toward === toward
+      ? { ...held }
+      : {
+          id,
+          toward,
+          value: held
+            ? p("zero")
+            : new SeededRng(core.seed).fork(`partnerships:${id}`).next(),
+        };
+  };
+  const reset = (id: PersonId, toward: PullRow["toward"]) =>
+    pulls.put({ id, toward, value: p("zero") } as never);
+  const done = new Set<PersonId>();
+  for (const person of people) {
+    if (!singles.has(person.id) || done.has(person.id)) continue;
+    const sex = sexOf(person)!;
+    const row = rowFor(person.id, "partner");
+    row.value +=
+      partneringPerYear(
+        geo,
+        sex,
+        ageOnDate(makeIsoDate(person.birthDate), today),
+      ) *
+      month *
+      (partnerFactorOfCached(person) / typicalPartner);
+    if (row.value >= p("one")) {
+      const known = knownSingle(api, person, sex, singles);
+      if (known && !done.has(known.id)) {
+        api.setPartnersV1({
+          personIds: [person.id, known.id],
+          together: true,
+          source: source(
+            api,
+            `${person.givenName} and ${known.givenName} started dating.`,
+          ),
+          witnessIds: witnessesOf(core, [person.id, known.id]),
+          facts: { [UNION_FACT]: "dating" },
+        });
+        const link = linkOf.get(person.id) ?? partnerLinkOf(core, person.id)!;
+        store(api)
+          .table("couples")
+          .put({
+            id: link.id,
+            stage: "dating",
+            since: core.date,
+            progress: p("zero"),
+          } as never);
+        for (const id of [person.id, known.id]) {
+          reset(id, "part");
+          done.add(id);
+        }
+        continue;
+      }
+      if (!known) {
+        // Nobody they know fits: the partner comes from the wider
+        // population, already sharing the home by the time the record sees
+        // them (SG-LIVES-partner-stage-lengths).
+        const met = meetPartner(api, person, sex);
+        if (met) {
+          api.stopgap(COHABITING_STOPGAP);
+          api.setPartnersV1({
+            personIds: [person.id, met.id],
+            together: true,
+            source: source(
+              api,
+              `${person.givenName} and ${met.givenName} moved in together.`,
+            ),
+            witnessIds: witnessesOf(core, [person.id, met.id]),
+            facts: { [UNION_FACT]: "living-together" },
+          });
+          const link = linkOf.get(person.id) ?? partnerLinkOf(core, person.id)!;
+          store(api)
+            .table("couples")
+            .put({
+              id: link.id,
+              stage: "living-together",
+              since: core.date,
+              progress: p("zero"),
+            } as never);
+          for (const id of [person.id, met.id]) reset(id, "part");
+          done.add(person.id);
+          continue;
+        }
+      }
+      row.value = p("one");
+    }
+    pulls.put(row as never);
+  }
+  api.stopgap(STAGES_STOPGAP);
+  for (const { link, a, b } of couples) {
+    if (!a.alive || !b.alive || !linkOf.has(a.id)) continue;
+    const couple = coupleOf(api, link);
+    const lower = a.id.localeCompare(b.id) < 0 ? a : b;
+    const row = rowFor(lower.id, "part");
+    const years = Math.max(
+      p("zero"),
+      Math.floor(ageOnDate(unionStart(core, link, api), today)),
+    );
+    row.value +=
+      separatingPerYear(years) *
+      month *
+      (partFactorOf(api, a, b) / typicalPart);
+    if (row.value >= p("one")) {
+      partInTown(api, a, b, couple.stage);
+      store(api).table("couples").remove(link.id);
+      for (const id of [a.id, b.id]) reset(id, "partner");
+      continue;
+    }
+    pulls.put(row as never);
+    if (couple.stage === "married") {
+      store(api)
+        .table("couples")
+        .put(couple as never);
+      continue;
+    }
+    if (couple.stage === "proposed") {
+      // The player was asked and has not answered: a question left a couple
+      // of months lapses back to living together, unanswered.
+      if (
+        ageOnDate(makeIsoDate(couple.since), today) * p("monthsPerYear") >=
+        p("partnerProposalLapseMonths")
+      ) {
+        couple.stage = "living-together";
+        couple.since = core.date;
+        couple.progress = p("zero");
+      }
+      store(api)
+        .table("couples")
+        .put(couple as never);
+      continue;
+    }
+    const [next, months] = NEXT_STAGE[couple.stage];
+    couple.progress +=
+      (p("one") / p(months)) *
+      (Math.sqrt(partnerFactorOfCached(a) * partnerFactorOfCached(b)) /
+        typicalPartner);
+    if (couple.progress >= p("one")) {
+      const ok = next === "living-together" ? moveIn(api, a, b) : true;
+      if (ok) {
+        // A proposal to the player waits on their answer (the proposal scene's
+        // reply); everyone else's is settled by the engine.
+        const asked =
+          next === "engaged" &&
+          (a.id === core.playerId || b.id === core.playerId);
+        couple.stage = asked ? "proposed" : next;
+        couple.since = core.date;
+        couple.progress = p("zero");
+        const ids = [a.id, b.id];
+        if (next === "engaged" || next === "married")
+          api.emit({
+            id: `${next === "engaged" ? FAMILY_ENGAGED : FAMILY_MARRIED}:${link.id}`,
+            date: core.date,
+            kind: next === "engaged" ? FAMILY_ENGAGED : FAMILY_MARRIED,
+            personIds: ids,
+            placeId: a.placeId,
+            publicRecord: false,
+            source: source(
+              api,
+              next === "engaged"
+                ? `${a.givenName} and ${b.givenName} got engaged.`
+                : `${a.givenName} and ${b.givenName} married.`,
+            ),
+            witnessIds: witnessesOf(core, ids),
+            facts: { [UNION_FACT]: asked ? "proposed" : next, linkId: link.id },
+          });
+      } else couple.progress = p("one");
+    }
+    store(api)
+      .table("couples")
+      .put(couple as never);
+  }
+}
+
+/**
+ * The player's answer to a proposal (the proposal scene's reply, ending the
+ * talk): yes makes them engaged; turned down, the couple goes back to living
+ * together and starts over; asking for time puts the question half a stage
+ * off; a reply that did not end the talk waits for its ending.
+ */
+function answerProposal(api: CoreAPI, event: CoreEventInput): void {
+  const facts = event.facts ?? {};
+  if (facts.typeKey !== "proposal" || !facts.ending) return;
+  const prefix = `${FAMILY_ENGAGED}:`;
+  const causeId = facts.causeId ?? "";
+  if (!causeId.startsWith(prefix)) return;
+  const linkId = causeId.slice(prefix.length);
+  const held = store(api).table("couples").get(linkId) as unknown as
+    CoupleRow | undefined;
+  if (held?.stage !== "proposed") return;
+  const core = api.state as CoreState;
+  const zero = api.parameter("zero");
+  const answered: CoupleRow =
+    facts.ending === "said-yes"
+      ? { ...held, stage: "engaged", since: core.date, progress: zero }
+      : {
+          ...held,
+          stage: "living-together",
+          since: core.date,
+          progress:
+            facts.ending === "turned-down" ? zero : api.parameter("half"),
+        };
+  store(api)
+    .table("couples")
+    .put(answered as never);
 }
 
 function nextFirst(date: string): string {
@@ -426,10 +926,30 @@ function schedule(api: CoreAPI): void {
 
 export const partnershipsModule: CoreModule = {
   id: PARTNERSHIPS_MODULE_ID,
-  state: { schemaVersion: 1, tables: { state: {}, pulls: {} } },
+  state: {
+    schemaVersion: 1,
+    tables: { state: {}, pulls: {}, couples: {}, contacts: {}, jobsSeen: {} },
+  },
   // A death ends the person's pull, so the table holds only the living.
-  eventKinds: ["life.death"],
+  eventKinds: [
+    "life.death",
+    "scene.reply",
+    "health.serious-illness",
+    "credit.payment-missed",
+  ],
   onEvent(api, event) {
+    if (event.kind === "credit.payment-missed") {
+      quarrelOverMoney(api, event);
+      return;
+    }
+    if (event.kind === "health.serious-illness") {
+      rescueOnset(api, event);
+      return;
+    }
+    if (event.kind === "scene.reply") {
+      answerProposal(api, event);
+      return;
+    }
     for (const id of event.personIds) store(api).table("pulls").remove(id);
   },
   onDay(api) {
@@ -438,6 +958,10 @@ export const partnershipsModule: CoreModule = {
     schedule(api);
   },
   onCalendarWork(api, work) {
+    if (work.kind === BIRTHDAY_KIND) {
+      birthdayGathering(api, work.key);
+      return;
+    }
     if (work.kind !== REVIEW_KIND) return;
     review(api);
     schedule(api);

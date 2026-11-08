@@ -52,6 +52,18 @@ function snapshot(label: string) {
   const commuters = [...core.jobs.values()].filter(
     (job) => job.endsAt === undefined && job.id.startsWith("job:commuter:"),
   ).length;
+  const changes = (
+    api.moduleState(JOBS_MODULE_ID).table("changes").rows() as unknown as {
+      id: string;
+      kind: string;
+      values?: Record<string, number>;
+    }[]
+  ).filter((row) => row.id.startsWith(`job-change:${core.date.slice(0, 7)}`));
+  const count = (test: (row: (typeof changes)[number]) => boolean) =>
+    changes.filter(test).length;
+  console.log(
+    `${label} layoffs ${count((r) => r.kind === "layoff")} (turnover ${count((r) => r.kind === "layoff" && !!r.values?.turnoverPull)}) hires ${count((r) => r.kind === "hire")} (regional ${count((r) => r.kind === "hire" && !!r.values?.regional)})`,
+  );
   console.log(
     `${label} unemployed ${unemployed} of ${force} (${((100 * unemployed) / force).toFixed(1)}%) openPositions ${open.length} commuterJobs ${commuters}`,
   );

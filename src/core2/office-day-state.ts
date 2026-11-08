@@ -132,6 +132,8 @@ registerStopKinds([
   { kind: "emergency", byDefault: true },
   // A cabinet post that stands open: the governor the player plays names who fills it.
   { kind: "appointment", byDefault: true },
+  // The state budget the governor sends the legislature: the player writes the lines, the character does not.
+  { kind: "budget-proposal", byDefault: true },
 ]);
 
 // ---------------------------------------------------------------- data
@@ -540,6 +542,7 @@ export function stopKindOf(api: CoreAPI, entry: StateDayEntry): string | null {
   if (entry.kind === "executive-order") return "executive-order";
   if (entry.kind === "emergency") return "emergency";
   if (entry.kind === "appointment") return "appointment";
+  if (entry.kind === "budget-proposal") return "budget-proposal";
   return null;
 }
 
@@ -583,6 +586,8 @@ export type StateChoice =
   | {
       readonly kind: "budget";
       readonly changes: Readonly<Record<string, number>>;
+      /** True leaves the budget to the governor's own rule, as the character would send it. */
+      readonly byRule?: boolean;
     };
 
 /** What an entry came to: who chose, what, and the records it wrote. */
@@ -891,7 +896,7 @@ export function actOn(
       // their own.
       chosen = choice ?? { kind: "budget", changes: {} };
       if (chosen.kind !== "budget") throw new Error("Choose budget changes.");
-      if (gov && choice) {
+      if (gov && choice && !chosen.byRule) {
         setBudgetPriorities(api, {
           governmentId: gov.id,
           setBy: entry.holderId,

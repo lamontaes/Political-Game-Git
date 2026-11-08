@@ -18,8 +18,24 @@
       "reason": "Raw Census 2022 shares of local spending by type of government; scripts/research/export-public-budget-bases.py measures each place's county and city base rows from it into data/research/money/public-budget-bases.json, which the budgets engine reads."
     },
     {
+      "file": "data/research/campaigns/ban-the-box-support-yougov-2022.json",
+      "reason": "Raw poll evidence (YouGov Daily Question, September 16, 2022, with crossbreaks): the figures the policy-support row for ban-the-box in public hiring uses are copied from it with their citation; the game does not read the file."
+    },
+    {
       "file": "data/research/campaigns/federal-questions-2026.json",
       "reason": "Raw research result for the federal questions (law in force, latest Senate floor vote, town reader and 60-vote verdict each; plan unit C2 of gov-congress-passes-policy-laws); unit C3 copies the chosen questions' rows into the game's own stance and law data, and the game never reads this file."
+    },
+    {
+      "file": "data/research/executive/ban-the-box-outcomes-2026-11.json",
+      "reason": "Raw research evidence on the measured effects of ban the box (26 sourced findings); the outcome-web link for the question will cite it. The game does not read the file."
+    },
+    {
+      "file": "data/research/executive/orders-and-vacancies-2026-11.json",
+      "reason": "Raw research evidence on which orders governors issue alone, their legal limits and vacancy rules, for the Laws pool item laws-order-question-rows. The game does not read the file."
+    },
+    {
+      "file": "data/research/executive/orders-and-vacancies-2026-11.json",
+      "reason": "Raw research evidence on which orders governors issue alone, their legal limits and vacancy rules, for the Laws pool item laws-order-question-rows. The game does not read the file."
     },
     {
       "file": "data/research/housing/acs-2024-owner-mortgage-age.json",
@@ -40,6 +56,10 @@
     {
       "file": "data/research/legislative-procedure/item-veto.json",
       "reason": "Raw source the game does not read directly: source cited by src/core2/data/office-day/state-parameters.json. Its only direct reader was the old engine, deleted Oct 28, 2026."
+    },
+    {
+      "file": "data/research/legislature/discharge-rules-2026-11.json",
+      "reason": "Raw research evidence on how each legislature discharges a bill from committee (12 of 56 places read from primary sources), for the legislature engine's discharge rule; the game does not read the file yet."
     },
     {
       "file": "data/research/local-government/governing-body-seat-qualification.json",
