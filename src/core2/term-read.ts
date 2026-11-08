@@ -140,6 +140,21 @@ export function placeTermRead(
   return reads;
 }
 
+/** Every place the web keeps rows for, in order. */
+export function termReadPlaces(api: CoreAPI): string[] {
+  if (!(api.state as CoreState).modules.has(OUTCOME_WEB_MODULE_ID)) return [];
+  return [
+    ...new Set(
+      (
+        api
+          .moduleState(OUTCOME_WEB_MODULE_ID)
+          .table("months")
+          .rows() as unknown as WebRow[]
+      ).map((row) => row.placeId),
+    ),
+  ].sort();
+}
+
 /**
  * The country's term read: each area's mean slide over the places the web
  * keeps (the player's town and every place the economy records). Other
@@ -148,16 +163,9 @@ export function placeTermRead(
  */
 export function countryTermRead(api: CoreAPI, sinceDate: string): AreaRead[] {
   if (!(api.state as CoreState).modules.has(OUTCOME_WEB_MODULE_ID)) return [];
-  const places = new Set(
-    (
-      api
-        .moduleState(OUTCOME_WEB_MODULE_ID)
-        .table("months")
-        .rows() as unknown as WebRow[]
-    ).map((row) => row.placeId),
-  );
+  const places = termReadPlaces(api);
   const byArea = new Map<string, AreaRead[]>();
-  for (const placeId of [...places].sort())
+  for (const placeId of places)
     for (const read of placeTermRead(api, placeId, sinceDate)) {
       const list = byArea.get(read.area) ?? [];
       list.push(read);
