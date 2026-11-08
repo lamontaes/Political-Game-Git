@@ -4833,6 +4833,7 @@ async function openSheet(tab) {
       tab === "budgets" ||
       tab === "journal" ||
       tab === "money" ||
+      tab === "calendar" ||
       tab === "news",
   );
   $("sheet").classList.toggle("character-sheet", character && tab !== "who");
