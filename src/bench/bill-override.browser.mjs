@@ -97,22 +97,38 @@ try {
       return { status: r.status, value: await r.json() };
     };
     const bodies = await (await fetch("/api/dev/lawmaking-bodies")).json();
-    const chamber = bodies.find(
+    const chambers = bodies.filter(
       (b) => b.level === "state" && b.members.length > 0,
     );
-    if (!chamber) return { error: "no state chamber" };
-    const sponsor = chamber.members[0].key;
-    const intro = await post("introduce", {
-      bodyOfficeId: chamber.id,
-      sponsorId: sponsor,
-      series: "minimum-wage",
-      value: 1700,
-      unit: "minor/hour",
-    });
-    if (intro.status !== 200) return { error: JSON.stringify(intro.value) };
-    const billId = intro.value.mark?.facts?.billId ?? intro.value.billId;
-    const decided = await post("decide", { billId, margin: 6, sign: false });
-    return { chamber: chamber.name, billId, status: decided.status };
+    if (!chambers.length) return { error: "no state chamber" };
+    // A chamber's committee can hold a bill before the floor: try bills until one is vetoed and
+    // waits on the player's own override vote.
+    const tried = [];
+    for (let i = 0; i < 8; i += 1) {
+      const chamber = chambers[i % chambers.length];
+      const intro = await post("introduce", {
+        bodyOfficeId: chamber.id,
+        sponsorId: chamber.members[i % chamber.members.length].key,
+        series: "minimum-wage",
+        value: 1700 + i * 25,
+        unit: "minor/hour",
+      });
+      if (intro.status !== 200) {
+        tried.push(`introduce ${intro.status}`);
+        continue;
+      }
+      const billId = intro.value.mark?.facts?.billId ?? intro.value.billId;
+      await post("decide", { billId, margin: 6, sign: false });
+      const stage = await (
+        await fetch(`/api/bill/stage?billId=${encodeURIComponent(billId)}`)
+      ).json();
+      tried.push(`${chamber.name} ${stage.status}`);
+      if (stage.yours.overridePending)
+        return { chamber: chamber.name, billId, number: stage.number, tried };
+    }
+    return {
+      error: `no vetoed bill waited on the player: ${tried.join("; ")}`,
+    };
   });
   console.log("dev mode:", result);
   assert.ok(!result.error, `dev mode introduced and decided: ${result.error}`);
@@ -127,9 +143,8 @@ try {
     .first()
     .waitFor();
   await page
-    .locator("#sheet-body")
+    .locator("#sheet-body .sec", { hasText: `${result.number} ·` })
     .getByRole("button", { name: "Read the bill" })
-    .first()
     .click();
   // The veto message waits for the player's own vote on overriding it.
   await page.getByText("Override the veto", { exact: true }).waitFor();
