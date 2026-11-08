@@ -517,12 +517,9 @@ function runPolicy(
     case "compliance-cost":
       return; // The business engine reads the law when it charges a nonattainment county's emitters.
     case "assistance-time-limit":
-      // The welfare line's benefit reads this law when it picks who is paid;
-      // run that line again now so a change takes hold today.
+      // 7 USC 2015(o) limits SNAP participation. A change reruns food aid,
+      // not the unrelated cash assistance paid from a welfare budget line.
       for (const row of rowsOf<ActiveRow>(api, "active")) {
-        if (row.id === "budget-line:welfareAndMedicaid")
-          runBudgetLine(api, "welfareAndMedicaid", row.lawId);
-        // So does the baseline food benefit.
         if (row.id === FOOD_AID_ACTIVE) payFoodAid(api);
       }
       return;
@@ -767,7 +764,6 @@ function runBudgetLine(api: CoreAPI, line: string, lawId: string): void {
       service,
       heads: selected,
       modeledShare: share,
-      timeLimit: assistanceTimeLimit(api, facts, chain.stateKey),
     });
   }
   if (def.roadCondition && api.state.modules.has(PLACE_PRICES_MODULE_ID)) {
