@@ -24,37 +24,56 @@ const where = `${world.place.displayName} (seed ${seed})`;
 describe(`dev scenes: ${where}`, () => {
   it(
     "lists every type, forces the one the game can bring about and refuses the rest",
-    { timeout: 120_000 },
+    { timeout: 280_000 },
     () => {
       const scenes = dev.scenes();
-      const forceable = scenes.filter((row) => row.recipe);
-      const refused = scenes.filter((row) => !row.recipe);
+      const by = (recipe: string | null) =>
+        scenes.filter((row) => row.recipe === recipe);
       process.stderr.write(
-        `${where}: ${scenes.length} types, forceable: ${forceable.map((r) => r.key).join(", ")}; ${refused.length} with no way in\n`,
+        `${where}: ${scenes.length} types: ${by("death").length} death, ${by("layoff").length} layoff, ${by("wait").length} run-until-it-happens, ${by(null).length} no engine writes the cause\n`,
       );
       expect(scenes.length, where).toBeGreaterThan(50);
-      expect(forceable.length, where).toBeGreaterThan(0);
-      expect(() => dev.forceScene({ typeKey: refused[0]!.key })).toThrow(
+      expect(by("death").length, where).toBeGreaterThan(0);
+      expect(by("layoff").length, where).toBeGreaterThan(0);
+      expect(by("wait").length, where).toBeGreaterThan(20);
+      // A type no engine writes a cause for says so.
+      expect(() => dev.forceScene({ typeKey: by(null)[0]!.key })).toThrow(
         /No game code/,
       );
       dev.advance(addDays(makeIsoDate(world.core.date), 1));
-      const out = dev.forceScene({ typeKey: forceable[0]!.key });
-      expect(out.personId, where).toBeTruthy();
-      expect(out.recipe, where).toBe("death");
-      // The illness is the health module's: its onset is heard the next day, as it would for anyone.
+      // A death: the health module's illness, its onset heard the next day.
+      const death = dev.forceScene({ typeKey: by("death")[0]!.key });
+      expect(death.recipe, where).toBe("death");
       dev.advance(addDays(makeIsoDate(world.core.date), 2));
       const onset = [...world.core.durableLog.values()].filter(
         (row) =>
-          row.personIds.includes(out.personId) &&
+          row.personIds.includes(death.personId) &&
           /illness|onset/i.test(row.kind),
-      );
-      process.stderr.write(
-        `${where}: ${out.personId} ill; onset records ${onset.map((r) => r.id).join(", ")}\n`,
       );
       expect(
         onset.length,
         `${where}: the onset is on the record`,
       ).toBeGreaterThan(0);
+      // A layoff: the jobs engine's separation, or the engine's own refusal (worked today).
+      let layoff: string;
+      try {
+        layoff = String(
+          dev.forceScene({ typeKey: by("layoff")[0]!.key }).personId,
+        );
+      } catch (error) {
+        layoff = (error as Error).message;
+        expect(layoff, where).toMatch(/worked today|No one|no job|staff/i);
+      }
+      // A cause an engine writes on its own schedule: the world runs until one names the player.
+      const wait = by("wait").find((row) =>
+        row.causeRecords.includes("news.read"),
+      );
+      expect(wait, `${where}: a news-read type`).toBeDefined();
+      const waited = dev.forceScene({ typeKey: wait!.key });
+      expect(waited.recipe, where).toBe("wait");
+      process.stderr.write(
+        `${where}: death ${death.personId}; layoff ${layoff}; ${wait!.key} ${waited.ran?.reason} after ${waited.ran?.days} days ${waited.ran?.records.join(", ")}\n`,
+      );
     },
   );
 });

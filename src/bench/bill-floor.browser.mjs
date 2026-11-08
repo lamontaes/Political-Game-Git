@@ -149,6 +149,13 @@ try {
     .innerText()
     .catch(() => "");
   console.log("after the vote:", after.slice(0, 200));
+  // The vote is cast: the bill that was held is no longer on the floor list.
+  const first = bills.split("\n").find((line) => line.trim());
+  const still = await page.evaluate(async () =>
+    (await (await fetch("/api/floor")).json()).map((b) => b.title ?? b.name),
+  );
+  console.log("still held after the vote:", JSON.stringify(still));
+  assert.ok(!still.includes(first), "the voted bill is off the floor list");
   assert.deepEqual(errors, [], "page errors");
   console.log("ok: the state floor day held the player and they voted No");
 } finally {
