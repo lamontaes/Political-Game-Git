@@ -50,6 +50,7 @@ import {
   FEDERAL_HOUSE,
   FEDERAL_SENATE,
   holdVote,
+  learnStake,
   type BillRow,
   type Provision,
   LEGISLATURE_MODULE_ID,
@@ -1077,6 +1078,30 @@ export class DevMode {
   vote(billId: string, memberId: string, vote: "yes" | "no" | "abstain") {
     castMemberVote(this.api, billId, memberId, vote);
     return this.mark("vote", [billId], { billId, memberId, vote });
+  }
+
+  /**
+   * What colleagues tell the player about a bill: each member of the player's chamber (or one member) tells
+   * them where they stand, as a conversation records it (`learnStake`), so the aide's estimate and the paper's
+   * "what members told you" have something to read. The sponsor is the one who learns.
+   */
+  learnStakes(billId: string, memberId?: string) {
+    const bill = this.api
+      .moduleState(LEGISLATURE_MODULE_ID)
+      .table("bills")
+      .get(billId) as unknown as BillRow | undefined;
+    if (!bill) throw new Error(`No bill ${billId}.`);
+    const told = (
+      memberId
+        ? [memberId]
+        : members(this.api, bill.bodyOfficeId).map((term) => memberKey(term))
+    ).filter((key) => key !== bill.sponsorId);
+    for (const key of told)
+      learnStake(this.api, billId, key, "conversation", bill.sponsorId);
+    return this.mark("learn-stakes", [billId], {
+      billId,
+      members: String(told.length),
+    });
   }
 
   /** The body holds its vote today. */

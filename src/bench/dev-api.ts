@@ -190,6 +190,17 @@ export async function handleDev(
       send(200, mode.holdVote(String(input.billId)));
       return true;
     }
+    case "POST learn-stakes": {
+      const input = await body(request);
+      send(
+        200,
+        mode.learnStakes(
+          String(input.billId),
+          input.memberId ? String(input.memberId) : undefined,
+        ),
+      );
+      return true;
+    }
     case "POST sign": {
       const input = await body(request);
       send(200, mode.sign(String(input.billId), input.sign === true));
