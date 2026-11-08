@@ -15,11 +15,14 @@ Older rulings that still stand: no line is written by hand (Oct 6: the English e
 
 ## Found on main (Nov 8, CTO's read of the code)
 
-- `src/director/data/situation-types.json` has 91 situation types, all scheduled through `scheduleMoment` (`src/director/scheduling.ts`). 16 can't fire or only partly: nine causes wait on a record nothing writes (celebration, first-day, date, breakup twice, advice twice, polling-place, bribe-offer), and seven types have no cause at all (return, letter, apology, gathering-missing, proposal, rescue, accusation). Example: `proposal` waits on `record:couple-next-stage`, which no engine writes, so no one has ever proposed in play.
+- `src/director/data/situation-types.json` has 91 situation types, all scheduled through `scheduleMoment` (`src/director/scheduling.ts`). Twelve can't start at all: seven have no cause (return, letter, apology, gathering-missing, proposal, rescue, accusation) and five wait on a record nothing writes (date, breakup, mentor, polling-place, bribe-offer); nine waiting causes remain in all. Example: `proposal` waits on `record:couple-next-stage`, which no engine writes, so no one has ever proposed in play. The last count of what fires in a played year (Oct 29) found 24 of 85 types, mostly losses and floor votes; most office scenes never played (signing, veto, appointment, recall, scandal, bill-carry). Rerun that count on main first.
+- A bribe offer to the player's seat is decided automatically from the player's traits, so the player never gets the scene.
 - Political scenes that exist include floor-vote, bill-signed, veto, public-hearing, testimony-heard, constituent-stop, office-hours, budget-cut, section-bargain, bill-held-chair/member, recall, scandal, press-interview, town-hall-question, debate-sitting, campaign-stop, door-ask, donor-ask, swearing-in, address. There is no strike, walkout, protest, rally or movement.
+- Nothing records how an official's term is going, by area or overall (the code says no record of the president's approval exists), though the world measures schools, health, crime and jobs for every place every month. Only six measures ever reach the paper (jobs, four kinds of crime, rent). There are no strikes, walkouts, protests or union actions: unions are a membership rate and dues; teachers exist as public-school employees.
+- The English engine picks lines by purpose, move and facts, weighted by traits and grades, but every scene uses one register (a reporter, a floor whip and a mother are one "private talk" class for grades); register cards for the floor, press briefing, town hall and family exist and only speeches use them.
 - Systems scenes could react to: `src/core2/modules/` interest-groups (groups form only from a bill's fiscal losers and lobby), disasters, constituent-cases, recalls, press, outcome-web, world-metrics (jobs, unemployment, pay, prices, rent by place each month), school, justice, executive, staff, meetings, corruption. Nothing reads how an official's term is going by policy area.
 - The address varies its order and length by the President's traits (PR "address: what it leads with, its order and its length come from the President's traits"), but its topics are the economy and its news is good.
-- Oct 29 to Nov 4 the words lanes merged 142 PRs; most corrected lines in scenes that already played, about 1 in 5 repaired tests. The CTO's compiled record of his wants, what was built and what the code can do is `docs/coordination/night-2026-11-08/story-record.md` (added to this folder when it's ready; read it then).
+- Oct 29 to Nov 4 the words lanes merged 142 PRs; most corrected lines in scenes that already played, about 1 in 5 repaired tests. The CTO's compiled record of his wants (his words kept apart from others' write-ups), what was built and what the code can do is `docs/coordination/night-2026-11-08/story-record.md`; read it before you start.
 
 ## Done when, each shown in a played game (through dev mode's force-scene and run-until as they land), with place, seed and a screenshot
 
@@ -32,6 +35,12 @@ Older rulings that still stand: no line is written by hand (Oct 6: the English e
 7. **The words change by kind of scene:** a speech, a hallway word, a news story and a journal line each have their own register and shape.
 
 Order: 1 and 2 first (the owner played the address this morning, and 2 ties scenes to effects), then 3, then 4 to 7.
+
+## Calls already made (don't wait on them)
+
+- **New mechanics are approved.** The owner asked for them tonight ("you might get a strike"; "can you start a movement?"). Story builds the term record and the world's reactions (strikes, walkouts, protests, rallies, movements) as engines in `src/core2` by the usual rules: one engine per mechanic, the level is a parameter, every step from records, no dice picking outcomes. Extend `interest-groups.ts` where it fits.
+- **One English engine, a register per kind of scene.** The owner: "the English can work different for different kinds of scenes." Use the existing register cards for each kind (floor, press, town hall, family, speech, hallway, news, journal), and a grade reaches only lines of its own kind. This answers the "one bank or one per register" question Lane 3 left open.
+- **The player gets the choice** wherever the world offers the player something (a bribe, an endorsement, a deal); a trait decides only for people the player isn't.
 
 ## Files
 
