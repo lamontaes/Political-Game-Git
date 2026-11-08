@@ -13,7 +13,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "./world";
 import { gameStartDate } from "../core2/game-start";
 import { coreAPI } from "../core2/state";
-import { lawInForce } from "../core2/modules/laws";
+import { lawInForce, LAWS_MODULE_ID } from "../core2/modules/laws";
 import smallDollar from "../core2/data/credit/small-dollar.json";
 import { smallDollarTerms } from "../core2/modules/credit";
 import { BenchPlayer } from "./player";
@@ -22,8 +22,8 @@ import { DevMode } from "./dev-mode";
 const seed = process.env.DEV_LOAN_SEED ?? randomBytes(8).toString("hex");
 const CAP = "us-policy-positions:business-commerce.cap-consumer-loan-rates";
 const STATE_LINK = "loan-rate-cap-to-high-cost-borrowing";
-/** Past the links' twelve-month lag, with the lender's quotes reading it the month after. */
-const DAYS = 590;
+/** Past the cap's effective date and the links' twelve-month lag, with the lender's quotes reading it the month after. */
+const DAYS = 800;
 
 type Row = Record<string, unknown>;
 
@@ -81,7 +81,21 @@ describe(`the loan cap through dev mode (seed ${seed})`, () => {
           tried.push(`${where}: bill ${decided.bill.status}`);
           continue;
         }
-        expect(lawInForce(api, CAP).value, where).toBe(1);
+        // Enacted through the bill; the law row says when it takes effect (the state's rule).
+        const rows = (
+          api
+            .moduleState(LAWS_MODULE_ID)
+            .table("laws")
+            .query("bySeriesOnly", [CAP]) as unknown as {
+            id: string;
+            effectiveDate: string;
+            value: unknown;
+          }[]
+        ).filter((row) => row.id.includes(bill.id));
+        expect(rows.length, `${where}: the bill's law row`).toBeGreaterThan(0);
+        process.stderr.write(
+          `${where}: law row ${rows[0]!.id} takes effect ${rows[0]!.effectiveDate}\n`,
+        );
         // Thirteen months and more, the members voting down any repeal.
         const ran = dev.runUntil({ days: DAYS, cap: DAYS, defeat: [CAP] });
         expect(ran.days, where).toBe(DAYS);
