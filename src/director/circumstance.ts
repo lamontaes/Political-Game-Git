@@ -19,7 +19,7 @@
 import {
   INTEREST_GROUPS_MODULE_ID,
   meetingsOn,
-} from "../core2/modules/interest-groups";
+} from "../core2/modules/elections";
 import { LEGISLATURE_MODULE_ID } from "../core2/modules/legislature";
 import { NEWS_MODULE_ID, storyOfReadEvent } from "../core2/modules/news";
 import { PRESS_MODULE_ID, outletsHere } from "../core2/modules/press";
