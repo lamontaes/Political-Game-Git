@@ -85,13 +85,11 @@ export function openBallotMeasures(core: CoreState): void {
   if (!core.modules.has(BALLOT_MEASURES_MODULE_ID))
     registerModule(core, BALLOT_MEASURES_MODULE);
   const api = coreAPI(core);
-  const stateKey = lawChain(api).stateKey;
+  // Every state's real measures go on its ballot: the town's own state is
+  // counted with the town's people; another state is counted by its lean
+  // bands alone (the rest-of-the-state count below), as a result.
   for (const m of realMeasures)
-    if (
-      m.stateKey === stateKey &&
-      m.electionDate > core.date &&
-      !table(api, "measures").get(m.id)
-    )
+    if (m.electionDate > core.date && !table(api, "measures").get(m.id))
       putOnBallot(api, {
         id: m.id,
         stateKey: m.stateKey,
@@ -161,10 +159,13 @@ function countMeasure(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   const date = api.state.date;
   const adultAge = api.parameter("votingAge");
   const direction = measure.yesMeans === "enact" ? 1 : -1;
-  const { townPlaceId } = lawChain(api);
+  const { townPlaceId, stateKey: homeState } = lawChain(api);
+  const home = measure.stateKey === homeState;
   const named = { yes: 0, no: 0, blank: 0 };
   let voted = 0;
-  const adults = [...api.state.people.values()]
+  // Another state's measure has no named voters here: its state is counted
+  // whole by its lean bands (the people of the town are not its electorate).
+  const adults = (home ? [...api.state.people.values()] : [])
     .filter(
       (p) => p.alive && p.placeId === townPlaceId && ageOn(p, date) >= adultAge,
     )
@@ -288,7 +289,8 @@ function countMeasure(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     date,
     kind: "ballot-measure-result",
     personIds: [],
-    placeId: townPlaceId,
+    // Another state's result is national news, like its acts.
+    placeId: home ? townPlaceId : `national:${measure.stateKey}`,
     source: {
       tag: "SOURCED",
       citation: `Count of ${measure.title}`,
