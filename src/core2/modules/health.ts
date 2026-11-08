@@ -56,6 +56,8 @@ import { stableHash } from "../kernel/ids";
 import { parameter } from "../parameters";
 import { countedIllnessOf, endCountedIllness } from "../counted-illness";
 import { isDemoted } from "../counted-groups";
+import { huskIdentityOf } from "../husk-promoters";
+import { personOrFillIn } from "../state";
 import { declareSnapshotCovered, registerWorldMapPart } from "../snapshot";
 import type { EntityId } from "../kernel/brands";
 import type {
@@ -172,6 +174,8 @@ interface HealthRuntime {
   initialized: boolean;
   /** People count at the last look; a change means newcomers to admit. */
   seenPeople: number;
+  /** How many husks the last pass read, so a day that adds none costs one comparison. */
+  seenHusks: number;
   cases: Map<PersonId, HealthCase>;
   onsetsByDate: Map<IsoDate, Set<PersonId>>;
   deathsByDate: Map<IsoDate, Set<PersonId>>;
@@ -233,6 +237,7 @@ function runtime(state: Readonly<CoreState>): HealthRuntime {
     row = {
       initialized: false,
       seenPeople: zero,
+      seenHusks: zero,
       cases: new Map(),
       onsetsByDate: new Map(),
       deathsByDate: new Map(),
@@ -853,6 +858,40 @@ function admitNewcomers(api: CoreAPI, data: HealthData, row: HealthRuntime) {
 }
 
 /**
+ * Another state's legislators are husks until something opens them
+ * (`husk-promoters.ts`); they still get the health record a person gets, from
+ * the same model and seeded by the world and the person, so their illness and
+ * death are booked on the same days and the person is built on the day it
+ * begins (`onDay`). Only a husk an engine can name (an official) is booked: a
+ * relative in the counts dies by the counted flows.
+ */
+function admitHusks(api: CoreAPI, data: HealthData, row: HealthRuntime) {
+  const core = api.state as CoreState;
+  if (core.husks.size === row.seenHusks) return;
+  row.seenHusks = core.husks.size;
+  const today = makeIsoDate(api.state.date);
+  for (const id of core.husks.keys()) {
+    if (row.conditionsByPerson.has(id)) continue;
+    const who = huskIdentityOf(core, id);
+    if (!who) continue;
+    const stand = {
+      id,
+      birthDate: who.birthDate,
+      traits: who.traits,
+    } as unknown as PersonState;
+    api.stopgap(data.stopgapId);
+    assignPerson(
+      api,
+      data,
+      row,
+      stand,
+      lateConditions(api, data, stand, exactAge(api, who.birthDate, today)),
+      today,
+    );
+  }
+}
+
+/**
  * Give one person who just became full (a fill-in, a birth, a move in) their
  * health record now, from the same model and seeded by the world and the
  * person, so it is the same whenever they are filled in. Fill-in calls this;
@@ -1012,13 +1051,17 @@ export function createHealthModule(
       const row = runtime(api.state);
       if (!row.initialized) initialize(api, data, row);
       else admitNewcomers(api, data, row);
+      if (row.initialized) admitHusks(api, data, row);
       if (row.initialized) {
         refreshWebFactors(api, data, row);
         refreshYouthCannabis(api, data, row);
       }
       const date = makeIsoDate(api.state.date);
       for (const id of [...(row.onsetsByDate.get(date) ?? [])].sort()) {
-        const person = api.state.people.get(id);
+        // A husk whose illness begins is opened: the person is built now.
+        const person =
+          api.state.people.get(id) ??
+          personOrFillIn(api.state as CoreState, id);
         const found = row.cases.get(id);
         // Someone back in the counts is counted: the counted flows decide
         // their illness and death, by the same life-table share, and their
