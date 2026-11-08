@@ -308,7 +308,14 @@
     "fullScreen": "Full screen",
     "fullScreenUnavailable": "Full screen is unavailable.",
     "devMode": "Dev mode",
-    "quitToTitle": "Quit to title"
+    "quitToTitle": "Quit to title",
+    "sceneStop": "Scenes that may stop the day",
+    "sceneGroups": {
+      "political": "Politics",
+      "personal": "People close to you",
+      "bill": "Bills",
+      "money": "Money"
+    }
   },
   "polling": {
     "leaveBlank": "Leave blank",
