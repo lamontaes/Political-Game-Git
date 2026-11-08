@@ -56,7 +56,7 @@ import { stableHash } from "../kernel/ids";
 import { parameter } from "../parameters";
 import { countedIllnessOf, endCountedIllness } from "../counted-illness";
 import { isDemoted } from "../counted-groups";
-import { huskIdentityOf } from "../husk-promoters";
+import { huskIdentityOf, huskIncomeOf } from "../husk-promoters";
 import { personOrFillIn } from "../state";
 import { declareSnapshotCovered, registerWorldMapPart } from "../snapshot";
 import type { EntityId } from "../kernel/brands";
@@ -816,23 +816,50 @@ export function youthCannabisRecordOf(
 
 function initialize(api: CoreAPI, data: HealthData, row: HealthRuntime) {
   api.stopgap(data.stopgapId);
+  const p = (key: string) => api.parameter(key);
   const start = makeIsoDate(api.state.startedAt);
   const pay = householdMonthlyPay(api);
   const alive = [...api.state.people.values()].filter((person) => person.alive);
   setTraitNorms(api, data, row, alive);
+  // Another state's legislators are husks, but their conditions are ranked in
+  // their cell by their seat's pay with everyone else's, as they were when they
+  // were people (`admitHusks` books the rest of them as they appear).
+  const core = api.state as CoreState;
+  const members = [
+    ...alive.map((who) => ({
+      who: who as Readonly<PersonState>,
+      monthly: pay.get(who.householdId) ?? null,
+    })),
+    ...[...core.husks.keys()].flatMap((id) => {
+      const who = huskIdentityOf(core, id);
+      if (!who) return [];
+      const income = huskIncomeOf(core, id);
+      return [
+        {
+          who: {
+            id,
+            birthDate: who.birthDate,
+            placeId: who.placeId,
+            traits: who.traits,
+          } as unknown as Readonly<PersonState>,
+          monthly: income === undefined ? null : income / p("monthsPerYear"),
+        },
+      ];
+    }),
+  ];
   const assignments = startingConditionAssignments(
-    alive.map((person) => ({
-      personId: person.id as EntityId,
-      placeKey: person.placeId,
-      age: exactAge(api, person.birthDate, start),
+    members.map(({ who, monthly }) => ({
+      personId: who.id as EntityId,
+      placeKey: who.placeId,
+      age: exactAge(api, who.birthDate, start),
       category: data.calibrationCategory,
-      monthlyHouseholdIncomeMinor: pay.get(person.householdId) ?? null,
-      conscientiousness: conscientiousness(data, person),
+      monthlyHouseholdIncomeMinor: monthly,
+      conscientiousness: conscientiousness(data, who),
     })),
     behaviorSlopes(api, data),
     worldRateFactor(api.state.seed, "conditions"),
   );
-  for (const person of alive)
+  for (const { who: person } of members)
     assignPerson(
       api,
       data,
