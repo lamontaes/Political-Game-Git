@@ -96,6 +96,7 @@ When a played proof shows an engine's reaction never happening (Nov 1: an incumb
 - **"Seats without holder" in a replay** are mostly other states' seats awaiting a special election under that state's vacancy rule. Read the vacancy rows before calling one a defect.
 - **A race with no candidate** is usually a holder who stood down in a town whose adults are a small part of the electorate (county seats). Check the incumbent's decision row, then the ask step (`askForSuccessor`) before touching the bar.
 - **The golden-path test for one seed:** `GOLDEN_PATH_SEED=<seed> node --expose-gc --max-old-space-size=8192 --import tsx --test tests/golden-path/played-world.node-test.ts`; without `--expose-gc` it fails at once. Its exit code is 1 on main too (goal rows not reached), so read the BROKEN lines, not the exit.
+- **Ranges are checked against, never steered to (owner, Nov 8, 9:50 a.m. voice note, via the CTO).** Ballotpedia's uncontested shares and field sizes (the "8 to 15 in a wave") tell you whether to look for a cause. A small field passes when the records explain it: pulls below the bar, a small pool, an incumbent's strength. It fails only when nothing in the world caused it. Never set a weight so a replay lands on a published number; write each check as "which record explains this field" and name the record ids.
 - **Timing a year:** run alone on the machine, one year of the same place, three times, and take the median; two runs beside a test run differ by 10 percent.
 
 ## Stop condition
