@@ -8,7 +8,7 @@
  * a counted person is filled in, the health engine reads that row so their
  * record matches the group (`giveHealthRecord`).
  */
-import { remainingDaysAfterOnset } from "./death-causes";
+import { remainingDaysAfterOnset } from "./death-cause";
 import type { ModuleRow } from "./module-data";
 import type { CoreAPI, IsoDate, PersonId, PlaceId } from "./types";
 
