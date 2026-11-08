@@ -31,7 +31,7 @@ import {
   type BillRow,
   type Provision,
 } from "../core2/modules/legislature";
-import { snapshotExplicitControlV1 } from "../core2/player-control-state-v1";
+import { snapshotExplicitControlV1 } from "../core2/life";
 import type { CoreState } from "../core2/types";
 import { screenLine } from "../english/screen-words";
 import { billPaper, personName } from "./legislature";
@@ -354,6 +354,10 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
     sponsor: personName(core, bill.sponsorId),
     committees,
     told,
+    cosponsors: (bill.cosponsors ?? []).map((key) => ({
+      personId: core.people.has(key) ? key : null,
+      name: personName(core, key),
+    })),
     floor,
     override,
   };

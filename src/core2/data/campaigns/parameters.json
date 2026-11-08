@@ -378,6 +378,12 @@
       "source": "How much the district's lean on the questions weighs beside the member's own views. Checked against dyadic representation studies (Miller and Stokes 1963; Bafumi and Herron 2010).",
       "spread": [0.2, 1]
     },
+    "cosponsorsMax": {
+      "value": 4,
+      "tag": "TUNABLE",
+      "source": "How many members sign on beside a sponsor: the few closest to them who back the bill. Checked against the median cosponsor count on U.S. House bills (about 5 to 10 for bills that pass) scaled down to the members the sponsor knows; the spread is what the played year's bill papers show.",
+      "spread": [2, 8]
+    },
     "pillCandidates": {
       "value": 3,
       "tag": "TUNABLE",
