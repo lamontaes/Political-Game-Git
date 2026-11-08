@@ -104,27 +104,42 @@ try {
     // A chamber's committee can hold a bill before the floor: try bills until one is vetoed and
     // waits on the player's own override vote.
     const tried = [];
+    // Many series, since a committee chair hears some questions and holds others.
+    const laws = await (await fetch("/api/dev/laws")).json();
+    const series = laws.series.filter(
+      (row) => typeof row.combined === "number" && row.combined > 0,
+    );
+    // Chambers the player sits in (learned from the first bills); later bills go only there.
+    const mine = new Set();
     for (let i = 0; i < 40; i += 1) {
-      const chamber = chambers[i % chambers.length];
+      const pool = mine.size
+        ? chambers.filter((c) => mine.has(c.id))
+        : chambers;
+      const chamber = pool[i % pool.length];
       const intro = await post("introduce", {
         bodyOfficeId: chamber.id,
         sponsorId: chamber.members[(i * 7) % chamber.members.length].key,
-        series: "minimum-wage",
-        value: 1700 + i * 25,
-        unit: "minor/hour",
+        series: series[i % series.length].series,
+        value: Math.round(series[i % series.length].combined * 120) / 100,
+        unit: series[i % series.length].levels.find((l) => l.row)?.row.unit,
       });
       if (intro.status !== 200) {
         tried.push(`introduce ${intro.status}`);
         continue;
       }
       const billId = intro.value.mark?.facts?.billId ?? intro.value.billId;
-      await post("decide", { billId, margin: 6, sign: false });
+      await post("decide", {
+        billId,
+        margin: [6, 14, 22][i % 3],
+        sign: false,
+      });
       const stage = await (
         await fetch(`/api/bill/stage?billId=${encodeURIComponent(billId)}`)
       ).json();
       tried.push(
         `${chamber.name} ${stage.status} sits ${stage.yours.sits} pending ${stage.yours.overridePending} chosen ${stage.yours.overrideChosen}`,
       );
+      if (stage.yours.sits) mine.add(chamber.id);
       if (stage.yours.overridePending)
         return { chamber: chamber.name, billId, number: stage.number, tried };
     }
