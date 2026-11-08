@@ -166,6 +166,12 @@
       "repealName": "Public Employee Bargaining Repeal",
       "repealPurpose": "an end to collective bargaining for public employees"
     },
+    "us-policy-positions:labor-workforce.ban-the-box-public-hiring": {
+      "name": "Fair Chance Hiring",
+      "purpose": "a ban on asking about criminal records on state job applications",
+      "repealName": "Fair Chance Hiring Repeal",
+      "repealPurpose": "an end to the ban on asking about criminal records on state job applications"
+    },
     "us-policy-positions:labor-workforce.right-to-work": {
       "name": "Right to Work",
       "purpose": "a ban on requiring union dues as a condition of a job",
