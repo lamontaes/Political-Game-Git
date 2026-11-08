@@ -9904,6 +9904,47 @@
       "tag": {
         "move": "tell"
       }
+    },
+    {
+      "key": "journal.family-line-born.relation-was-born",
+      "move": "family-line-born",
+      "kind": "spoken",
+      "text": "{relation} was born.",
+      "uses": [
+        {
+          "move": "family-line-born",
+          "subject": "family",
+          "role": "line",
+          "choice": "born",
+          "journal": [
+            {
+              "kindPrefix": "family:child",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 9,
+      "bySource": {
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
+        "dcpd": 2,
+        "house": 1,
+        "nasa2": 1,
+        "nps": 3,
+        "wpa": 1
+      },
+      "source": {
+        "document": "Remarks at the National Republican Congressional Committee Annual Fundraising Dinner",
+        "date": "2026-03-25",
+        "granule": "DCPD-202600207",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600207/html/DCPD-202600207.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
+      },
+      "restoredOn": "2026-11-08"
     }
   ]
 }

@@ -31,6 +31,7 @@
  * src/core2/federal-stay-share.test.ts checks they equal what this gives.
  */
 import { readFileSync, writeFileSync } from "node:fs";
+import groups from "../../src/core2/data/justice/federal-groups.json" with { type: "json" };
 
 const BOP = "data/research/justice/bop-federal-offenses-2026.json";
 const USSC = "data/research/justice/ussc-federal-sentencing-fy2025.json";
@@ -44,24 +45,12 @@ interface Ussc {
 }
 
 /** Each group: the BOP categories that make its stock, the USSC offenses that make its flow. */
-export const GROUPS = {
-  Drug: { bop: ["drug"], ussc: ["drug-trafficking"] },
-  Weapons: { bop: ["weapons-explosives-arson"], ussc: ["firearms"] },
-  Immigration: { bop: ["immigration"], ussc: ["immigration"] },
-  SexOffenses: {
-    bop: ["sex-offenses"],
-    ussc: ["child-pornography", "sexual-abuse", "obscenity-other-sex"],
-  },
-  Fraud: {
-    bop: [
-      "extortion-fraud-bribery",
-      "burglary-larceny-property",
-      "banking-insurance-counterfeit-embezzlement",
-    ],
-    ussc: ["fraud-theft-embezzlement", "money-laundering"],
-  },
-  Robbery: { bop: ["robbery"], ussc: ["robbery"] },
-} as const;
+export const GROUPS = groups as unknown as Readonly<
+  Record<
+    "Drug" | "Weapons" | "Immigration" | "SexOffenses" | "Fraud" | "Robbery",
+    { readonly bop: readonly string[]; readonly ussc: readonly string[] }
+  >
+>;
 
 /**
  * Groups whose two sources do not count the same cases, so the derived share is

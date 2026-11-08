@@ -1,0 +1,82 @@
+{
+  "schema": "english-parts/1",
+  "register": "legislation",
+  "description": "Bill title and clause wording the owner graded good that no bill text reads yet. Restored Nov 8, 2026 from the legislation bank deleted in c704062e. Registered stopgap SG-WORDS-legislation-no-reader.",
+  "slots": {
+    "act": "The full short title of an act, in quotation marks.",
+    "purpose": "What the bill does, in a verb phrase.",
+    "provision": "The section of law being changed, such as section 12 of an act."
+  },
+  "maxWords": 20,
+  "parts": [
+    {
+      "key": "legislation.clause.provision-is-repealed",
+      "move": "clause",
+      "kind": "written",
+      "text": "{provision} is repealed.",
+      "billsUsing": 2,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-05-19",
+        "granule": "BILLS-119hr3485ih",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr3485ih"
+      },
+      "tag": { "move": "provision", "key": "routine" },
+      "restoredOn": "2026-11-08"
+    },
+    {
+      "key": "legislation.long-title.to-provide-for-purpose-and-for-other-purposes",
+      "move": "long-title",
+      "kind": "written",
+      "text": "To provide for {purpose}, and for other purposes.",
+      "billsUsing": 2,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-02-05",
+        "granule": "BILLS-119hr1036ih",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr1036ih"
+      },
+      "tag": {
+        "move": "title",
+        "key": "routine"
+      },
+      "restoredOn": "2026-11-08"
+    },
+    {
+      "key": "legislation.short-title.this-act-may-be-cited-as-the-act",
+      "move": "short-title",
+      "kind": "written",
+      "text": "This Act may be cited as the {act}.",
+      "billsUsing": 104,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-02-05",
+        "granule": "BILLS-119hr1011ih",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr1011ih"
+      },
+      "tag": {
+        "move": "title",
+        "key": "routine"
+      },
+      "restoredOn": "2026-11-08"
+    },
+    {
+      "key": "legislation.short-title.this-title-may-be-cited-as-the",
+      "move": "short-title",
+      "kind": "written",
+      "text": "This title may be cited as the {act}.",
+      "billsUsing": 2,
+      "source": {
+        "document": "Congressional bill text",
+        "date": "2025-03-27",
+        "granule": "BILLS-119hr2444ih",
+        "url": "https://www.govinfo.gov/app/details/BILLS-119hr2444ih"
+      },
+      "tag": {
+        "move": "title",
+        "key": "routine"
+      },
+      "restoredOn": "2026-11-08"
+    }
+  ]
+}

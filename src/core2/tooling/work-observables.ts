@@ -265,7 +265,7 @@ export function summarizeWorkObservables(
           ? paidWorkHoursPerResidentDiaryDay - referenceValue
           : null,
       comparisonStatus: !core.data.work
-        ? "scheduled-work-observable-disabled; legacy discretionary paid-work duration is uninstrumented"
+        ? "scheduled-work-observable-disabled"
         : referenceValue === undefined
           ? "no-reference-for-bin"
           : config.crosswalkStatus,
@@ -274,8 +274,8 @@ export function summarizeWorkObservables(
   const payrollStocks = payrollStockObservables(core);
   let plannedMinutes = zero,
     attendedMinutes = zero,
-    requestedMinor = payrollStocks.legacyDiscretionaryEarnedMinor,
-    paidMinor = payrollStocks.legacyDiscretionaryPaidMinor,
+    requestedMinor = zero,
+    paidMinor = zero,
     attendedDatedSegments = zero,
     absentDatedSegments = zero;
   for (const total of core.work.totalsByJob.values()) {

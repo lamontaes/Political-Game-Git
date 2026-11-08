@@ -168,7 +168,9 @@ describe(
               ) - api.publicPayShortfallMinor(authorityId);
           }
         expect(cash(gov.organizationId), gov.id).toBe(
-          (received.get(`cash:${gov.organizationId}:residual`) ?? 0) +
+          // The cash it opened with (a treasury's seeded balance, from the outside account).
+          (gov.openingCash?.minor ?? 0) +
+            (received.get(`cash:${gov.organizationId}:residual`) ?? 0) +
             (salesTax.get(`sales-tax:${gov.id}`)?.collectedMinor ?? 0) +
             outsideRevenueOf(api, gov.id) +
             taxPaymentsOf(api, gov.id).reduce((n, p) => n + p.amountMinor, 0) +
