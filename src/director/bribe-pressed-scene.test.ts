@@ -112,13 +112,24 @@ it(`an offerer who presses after a refusal is a scene for the player (seed ${see
     );
     if (result?.kind !== "composed") return;
     const { scene } = result;
-    expect(scene.purpose, where).toBe("bribe-pressed");
+    // The scene plays whichever of the kind's arcs the records give it
+    // (arc-variant.ts); the kind's own arc is the plain one.
+    expect(scene.variant?.family, where).toBe("bribe-pressed");
+    expect(scene.purpose, where).toBe(scene.variant!.purpose);
     const crime = core.durableLog.get(moment.causeId);
     expect(scene.askerId, where).toBe(crime!.personIds[0]);
     const root = scene.talk.tree.replies.map((reply) => reply.line);
-    expect(new Set(root.map((row) => row.move)), where).toEqual(
-      new Set(["refuse", "confront", "deflect", "leave"]),
-    );
+    expect(root.length, where).toBeGreaterThanOrEqual(3);
+    // The official can always hold the line or say they will report it.
+    for (const move of ["refuse", "confront"])
+      expect(
+        root.map((row) => row.move),
+        where,
+      ).toContain(move);
+    expect(
+      scene.talk.endingCounts["said-you-would-report"],
+      where,
+    ).toBeGreaterThan(0);
     for (const row of [scene.talk.state, ...root])
       expect(row.text, where).not.toMatch(
         /\d{4}-\d{2}-\d{2}|\b[a-z]+[-.:][a-z-]+:|\{|\}|undefined|\d{5,}/,

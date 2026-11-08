@@ -8,13 +8,13 @@ A line is shaped by the kind of scene it belongs to. Speeches run about 18 words
 | ------------------------------------------------ | ----- | ----------- | ------------- | -------------------- | -------------- | ----------------- | ----- | ------- |
 | Speeches (opening address, speech stages)        | 717   | 17.7        | 18            | 1%                   | 0%             | 36%               | 51%   | 26%     |
 | News, headlines and newscasts                    | 992   | 6.5         | 6             | 13%                  | 1%             | 4%                | 1%    | 1%      |
-| Journal, scene narration and labels              | 861   | 6.2         | 6             | 17%                  | 1%             | 10%               | 28%   | 25%     |
-| Private talk (family, friends, work, school)     | 2288  | 7.9         | 7             | 16%                  | 14%            | 51%               | 50%   | 38%     |
+| Journal, scene narration and labels              | 881   | 6.5         | 6             | 17%                  | 1%             | 9%                | 27%   | 26%     |
+| Private talk (family, friends, work, school)     | 2499  | 8.2         | 7             | 15%                  | 13%            | 52%               | 52%   | 40%     |
 | On the floor (votes, bills, hearings, vetoes)    | 1030  | 8.6         | 8             | 4%                   | 7%             | 64%               | 59%   | 41%     |
-| In the hallway (donors, lobbyists, party, staff) | 814   | 8.9         | 8             | 6%                   | 12%            | 57%               | 61%   | 49%     |
+| In the hallway (donors, lobbyists, party, staff) | 856   | 9.1         | 8             | 6%                   | 12%            | 57%               | 61%   | 50%     |
 | With the press (interviews, scandals, debates)   | 603   | 8.2         | 8             | 2%                   | 12%            | 61%               | 50%   | 40%     |
 | With residents (town hall, protests, rallies)    | 795   | 8.6         | 8             | 4%                   | 9%             | 56%               | 54%   | 42%     |
-| Around an election (filing, concessions, rivals) | 1075  | 9.6         | 8             | 3%                   | 10%            | 56%               | 48%   | 47%     |
+| Around an election (filing, concessions, rivals) | 1096  | 9.5         | 8             | 3%                   | 10%            | 56%               | 48%   | 47%     |
 
 ## What it shows
 
