@@ -296,6 +296,11 @@ export const STORY_KINDS = {
     headline: ["public-action"],
     lede: ["public-action"],
   },
+  // The floor before a roll call: who spoke for the bill and who against.
+  "floor-debate": {
+    headline: ["floor-debate"],
+    lede: ["floor-debate"],
+  },
   "local-address": {
     headline: ["local-address"],
     lede: ["local-address"],
