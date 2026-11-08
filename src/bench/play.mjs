@@ -99,6 +99,7 @@ import {
   seatNumbers,
   voteRows,
 } from "./ui/strips.mjs";
+import { playAsList, playAsDetail } from "./ui/play-as.mjs";
 mountPanelHeads();
 mountCloseButtons();
 mountSpeakers();
@@ -626,6 +627,11 @@ async function act(path) {
       if (office.reasonKey === "office-day.meeting") await inMeeting();
       else if (office.reasonKey === "office-day.desk") await atDesk();
       else if (
+        office.reasonKey === "office-day.executive-order" ||
+        office.reasonKey === "office-day.emergency"
+      )
+        await atOrders();
+      else if (
         office.reasonKey === "office-day-federal.floor-vote" ||
         office.reasonKey === "office-day-state.floor-vote"
       )
@@ -851,6 +857,50 @@ function atFloor() {
     };
     show("desk", true);
     api("/api/floor").then(draw);
+  });
+}
+
+// The orders the governor's staff brings for signature hold the clock: each is issued (or revoked) or set aside by the player.
+function atOrders() {
+  return new Promise((resolve) => {
+    const words = controls.orders ?? {};
+    const draw = (orders) => {
+      if (!orders.length) return finish();
+      $("desk-items").replaceChildren(
+        ...orders.map((item) =>
+          plate(
+            item.kind === "emergency" ? words.emergency : (item.name ?? ""),
+            buttonRow(
+              ...["issue", "decline"].map((how) => {
+                const b = makeButton({
+                  className: "action",
+                  textContent:
+                    item.kind === "emergency"
+                      ? words[`emergency-${how}`]
+                      : how === "issue" && item.revoke
+                        ? words.revoke
+                        : words[how],
+                });
+                b.addEventListener("click", async () =>
+                  draw(
+                    await post(
+                      `/api/orders?${new URLSearchParams({ entryId: item.entryId, how })}`,
+                    ),
+                  ),
+                );
+                return b;
+              }),
+            ),
+          ),
+        ),
+      );
+    };
+    const finish = () => {
+      show("desk", false);
+      resolve();
+    };
+    show("desk", true);
+    api("/api/orders").then(draw);
   });
 }
 
@@ -2676,6 +2726,52 @@ async function seatRows() {
   const result = seatResult
     ? [plate(null, line(seatResult), ...seatText.map((t) => line(t)))]
     : [];
+  // Office hours: the residents' cases the cases engine opened for this official, each with the
+  // two answers the engine offers; a decision runs the engine's own `handleCase`.
+  const caseWords = controls.officeCases ?? {};
+  const open = await api(
+    `/api/office/cases?id=${encodeURIComponent(me.id)}`,
+  ).catch(() => []);
+  const cases = open.length
+    ? [
+        stripSection(
+          1,
+          labels.officeHours,
+          ...open.map((c) => {
+            const answer = (decision, text) => {
+              const b = makeButton({ textContent: text });
+              b.addEventListener("click", async () => {
+                await post(
+                  `/api/office/case?${new URLSearchParams({ caseId: c.id, decision })}`,
+                );
+                openSheet("office");
+              });
+              return b;
+            };
+            return el(
+              "div",
+              { className: "desk-bill" },
+              peopleSentence([
+                {
+                  name: c.name,
+                  onOpen: () => {
+                    closeSheet();
+                    showPerson({ personId: c.personId });
+                  },
+                },
+              ]),
+              line(
+                `${caseWords.problems?.[c.problem] ?? ""} · ${caseWords.by} ${dateWords(c.respondBy)}`,
+              ),
+              buttonRow(
+                answer("help", caseWords.help),
+                answer("decline", caseWords.decline),
+              ),
+            );
+          }),
+        ),
+      ]
+    : [];
   return [
     stripBoard({
       className: "office-board",
@@ -2709,7 +2805,7 @@ async function seatRows() {
           ...draftNodes,
           ...(left.length ? [stripSection(3, labels.left, ...left)] : []),
         ],
-        [...parts.budget, ...parts.deals],
+        [...cases, ...parts.budget, ...parts.deals],
       ],
     }),
   ];
@@ -3729,6 +3825,26 @@ const sheets = {
           el(
             "div",
             { className: "roster-side" },
+            ...(race.lastTime
+              ? [
+                  stripSection(
+                    3,
+                    labels.lastTime,
+                    dotRows([
+                      {
+                        label: dateWords(race.lastTime.date, {
+                          year: me.date,
+                        }),
+                        value: race.lastTime.winner,
+                      },
+                      {
+                        label: labels.share,
+                        value: `${race.lastTime.sharePercent} ${labels.percent}`,
+                      },
+                    ]),
+                  ),
+                ]
+              : []),
             stripSection(
               2,
               labels.dates,
@@ -5311,6 +5427,23 @@ async function offerPlayAs(life) {
   const holders = await api("/api/advanced/officeholders");
   const labels = controls.advanced;
   const list = $("pick-list");
+  let chosen = null;
+  const choose = async (holder) => {
+    chosen = holder;
+    draw();
+    const { face } = await api(
+      `/api/advanced/officeholder-face?id=${encodeURIComponent(holder.personId)}`,
+    );
+    if (chosen !== holder) return;
+    $("pick-detail").replaceChildren(
+      playAsDetail(holder, {
+        face,
+        labels,
+        levels: controls.levels,
+        onPlay: () => void enterAs(life, holder.personId),
+      }),
+    );
+  };
   const draw = () => {
     const found = holders.filter((h) =>
       `${h.name} ${h.title} ${h.government}`
@@ -5318,25 +5451,21 @@ async function offerPlayAs(life) {
         .includes($("pick-search").value.trim().toLowerCase()),
     );
     list.replaceChildren(
-      ...found.slice(0, 60).map((h) => {
-        const b = makeButton({
-          textContent: `${h.name} · ${h.title}${h.government ? `, ${h.government.toLowerCase().replace(/\b[a-z]/g, (c) => c.toUpperCase())}` : ""}${h.party ? ` · ${h.party}` : ""}`,
-        });
-        b.dataset.record = h.termId;
-        b.addEventListener("click", () => void enterAs(life, h.personId));
-        return b;
+      ...playAsList(found.slice(0, 200), {
+        levels: controls.levels,
+        selected: chosen?.personId,
+        onSelect: (holder) => void choose(holder),
       }),
       ...(found.length === 0 ? [noteLine(labels.none)] : []),
     );
   };
   $("pick-search").oninput = draw;
+  $("pick-detail").replaceChildren();
   draw();
   show("front-status", false);
   frontPanel("front-pick");
   for (const id of placeControls) $(id).disabled = false;
 }
-
-/** Steps into one officeholder from today, with no opening address. */
 async function enterAs(life, personId) {
   frontPanel(null);
   const value = await post(`/api/play?id=${encodeURIComponent(personId)}`);

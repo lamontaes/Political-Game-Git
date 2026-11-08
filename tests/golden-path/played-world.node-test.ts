@@ -824,10 +824,14 @@ function playWorld(seed: string) {
   const dwellings = rowsOf(core, "housing", "dwellings");
   // A former home (evicted, foreclosed or sold) keeps the last rent or value
   // of how the household held it (src/core2/housing-former-home.ts).
-  const unpriced = dwellings.filter((d) =>
-    d.tenure === "rent" || d.formerTenure === "rent"
-      ? !Number(d.rentMinor)
-      : !Number(d.valueMinor),
+  // A group-quarters room (a cell, a barracks bed, a dormitory double) is the
+  // institution's, held by no household's rent or value, so it has neither.
+  const unpriced = dwellings.filter(
+    (d) =>
+      d.tenure !== "group" &&
+      (d.tenure === "rent" || d.formerTenure === "rent"
+        ? !Number(d.rentMinor)
+        : !Number(d.valueMinor)),
   );
   const renters = dwellings.filter((d) => d.tenure === "rent");
   // A rented home is required only where the records expect a renter

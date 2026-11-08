@@ -2108,8 +2108,8 @@
     "why": "The engine never answers for the player (the desk rule); the office screen's offer is the play-first lane's (agreement 1-4).",
     "addedBy": "Lane 1 (world-governor-declares-emergency-in-play)",
     "addedAt": "2026-11-04",
-    "replacement": "An office-screen stop the day a federally declared disaster is recorded in the player governor's state, offering declareEmergency with the hazard record and the state's power named, or leaving it to the character.",
-    "status": "open"
+    "replacement": "Resolved Nov 8 (Legislation): the disaster waits as an offer (`emergencyOffers`), the state day brings it to the governor as an `emergency` entry that holds the player, and the player declares through declareEmergency or lets it pass. Was: an office-screen stop the day a federally declared disaster is recorded in the player governor's state, offering declareEmergency with the hazard record and the state's power named, or leaving it to the character.",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-player-favor-asked",
