@@ -944,6 +944,7 @@
     "amendBill": "Amend a section",
     "lower": "Lower section",
     "raise": "Raise section",
+    "reverse": "Reverse section",
     "callVote": "Call the vote on it",
     "adopted": "Adopted",
     "rejected": "Rejected",

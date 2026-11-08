@@ -57,21 +57,6 @@
   ],
   "actions": [
     {
-      "id": "work-shift",
-      "actKinds": ["follow-rules", "self-interest", "commit"],
-      "goalKinds": ["earn"],
-      "need": "money",
-      "effortParameter": "workHours",
-      "effectParameter": "one",
-      "targetKind": "job",
-      "effect": "paid-work",
-      "stopgapId": "SG-P8-life-utility",
-      "emotion": {
-        "moodMultiplierParameter": "one",
-        "stressMultiplierParameter": "negativeOne"
-      }
-    },
-    {
       "id": "rest",
       "actKinds": ["play-safe", "withdraw"],
       "goalKinds": ["recover"],
@@ -272,6 +257,5 @@
   ],
   "openingTier": "weekly",
   "cashActSourceKind": "life.selected-act",
-  "legacyWorkJournalSourceKind": "life.legacy-work-result",
   "workCashModuleId": "core2-work-cash"
 }

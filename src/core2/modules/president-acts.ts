@@ -12,13 +12,15 @@
  * (SG-OFFICE-FED-presidential-orders, SG-OFFICE-FED-pardons): the executive
  * engine has no federal orders and the justice engine no federal convictions.
  */
+// The federal day first: the president file registers a part of it on load.
+import { OFFICE_DAY_FEDERAL_MODULE_ID } from "../office-day-federal";
 import {
   cabinetOf,
   confirmGivenVotes,
   nominate,
 } from "../office-day-federal-president";
-import { OFFICE_DAY_FEDERAL_MODULE_ID } from "../office-day-federal";
 import { OFFICES_MODULE_ID } from "./offices";
+import { isExplicitlyControlledPersonV1 } from "../player-control-state-v1";
 import { registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 
@@ -53,8 +55,14 @@ export const PRESIDENT_ACTS_MODULE: CoreModule = {
     )
       return;
     const president = sittingPresident(api);
-    // The player president chooses their own nominees and calls their own votes.
-    if (!president || president === core.playerId) return;
+    // A played president (the player's character, bound the first day it is played)
+    // chooses their own nominees and calls their own votes.
+    if (
+      !president ||
+      president === core.playerId ||
+      isExplicitlyControlledPersonV1(core, president)
+    )
+      return;
     if (!core.people.get(president)?.alive) return;
     for (const row of cabinetOf(api)) {
       if (row.status !== "vacant" && row.status !== "rejected") continue;
