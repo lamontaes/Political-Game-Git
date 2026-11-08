@@ -45,6 +45,7 @@ import {
 import { wordOwnResult } from "./archive-words";
 import { billPaper, seatAct, seatView } from "./legislature";
 import {
+  billPageView,
   billStage,
   callAmendmentVote,
   callOverrideVote,
@@ -1042,6 +1043,22 @@ const ROUTES: readonly Route[] = [
       send(
         200,
         billStage(
+          requireCore(),
+          url.searchParams.get("billId") ?? "",
+          state.player?.personId,
+        ),
+      );
+      return;
+    },
+  },
+  // What the bill's page is built from: name, stage and day, sponsor, sections, tallies and reach.
+  {
+    match: ({ request, url }) =>
+      request.method === "GET" && url.pathname === "/api/bill/page",
+    run: async ({ url, send }) => {
+      send(
+        200,
+        billPageView(
           requireCore(),
           url.searchParams.get("billId") ?? "",
           state.player?.personId,

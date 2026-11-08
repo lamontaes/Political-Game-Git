@@ -10,6 +10,7 @@ import {
   billForm,
   billJurisdiction,
   billOf,
+  billReach,
   bodyOf,
   holdOverride,
   overridePending,
@@ -640,4 +641,92 @@ export function callOverrideVote(
     billId,
     asId ?? snapshotExplicitControlV1(core).personId ?? core.playerId,
   );
+}
+
+/**
+ * What the bill's page is built from, one object and nothing for the screen to compute: its name,
+ * the stage and the day of it, its sponsor, each section with its label key, its amount, the law
+ * in force before it and (for a budget line) last year's amount, and the government level, the
+ * tally at each stage it has passed, and where it reaches. Money is in minor units; the screen
+ * words it (`moneySaid`) and the labels (the banks).
+ */
+export function billPageView(core: CoreState, billId: string, asId?: string) {
+  const api = coreAPI(core);
+  const bill = billOf(api, billId);
+  const stage = billStage(core, billId, asId);
+  const paper = billPaper(core, billId);
+  const form = billForm(api, bill);
+  const reach = billReach(api, bill);
+  const minorUnit = (unit: string | null | undefined) =>
+    typeof unit === "string" && unit.startsWith("minor");
+  const sections = bill.provisions.map((provision, index) => {
+    const before = form.sections[index]?.before;
+    const budgetLine = provision.kind === "budget-line";
+    return {
+      index,
+      kind: provision.kind,
+      // The catalog policy, question or budget line the section names: the key for its label.
+      labelKey:
+        provision.policyId ??
+        provision.question ??
+        provision.series ??
+        provision.line ??
+        null,
+      // A budget line carries the amount it sets (its change added to what it changes), else the value.
+      amountMinor:
+        budgetLine || minorUnit(provision.unit)
+          ? budgetLine && provision.of !== undefined
+            ? provision.of + provision.value
+            : provision.value
+          : null,
+      // The law in force today for a rate or an amount in minor units.
+      inForceMinor:
+        before && minorUnit(before.unit) && typeof before.value === "number"
+          ? before.value
+          : null,
+      // A budget line's amount in the budget it changes (last year's), where one is recorded.
+      lastYearMinor: budgetLine ? (provision.of ?? null) : null,
+      level: reach.level,
+    };
+  });
+  const tallies = [
+    ...stage.committees.map((c) => ({
+      stage: "committee" as const,
+      chamber: c.chamber,
+      date: c.date,
+      yes: c.yes,
+      no: c.no,
+    })),
+    ...stage.floor.map((c) => ({
+      stage: "floor" as const,
+      chamber: c.chamber,
+      date: paper.floorDate ?? null,
+      yes: c.yes.length,
+      no: c.no.length,
+    })),
+    ...stage.override.map((c) => ({
+      stage: "override" as const,
+      chamber: c.chamber,
+      date: null as string | null,
+      yes: c.yes.length,
+      no: c.no.length,
+    })),
+  ];
+  return {
+    id: bill.id,
+    number: bill.number,
+    name: paper.title,
+    level: reach.level,
+    stage: stage.stage,
+    // The day of the stage the bill is at: the day it was decided, else the day the floor takes it up.
+    stageDate:
+      paper.decision?.decidedOn ?? paper.floorDate ?? paper.agendaDate ?? null,
+    sponsor: { id: bill.sponsorId, name: paper.sponsor },
+    sections,
+    tallies,
+    reach: {
+      level: reach.level,
+      reachesYou: reachesTown(api, billJurisdiction(api, bill)),
+    },
+  };
 }
