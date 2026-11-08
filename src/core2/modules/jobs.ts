@@ -67,6 +67,7 @@ import { SCHOOL_MODULE_ID } from "../school-measures";
 import { claimRetirementNow } from "./retirement-claims";
 import { MOVED_AWAY_EVENT } from "./moves";
 import { regionalConditions, reviewWorkElsewhere } from "../jobs-elsewhere";
+import { livesElsewhere } from "./people";
 import {
   findPerQuarter,
   layoffPerQuarter,
@@ -730,6 +731,7 @@ function openSeekers(api: CoreAPI): void {
       person.alive &&
       !person.jobId &&
       !controlled(c, person.id) &&
+      !livesElsewhere(c, person) &&
       age >= young &&
       age < old &&
       c.households.has(person.householdId)
@@ -2411,7 +2413,9 @@ export function reviewJobless(api: CoreAPI): void {
       !person.alive ||
       person.jobId ||
       outOfCivilianWork(api, person.id) ||
-      controlled(c, person.id)
+      controlled(c, person.id) ||
+      // Those living in another place work by the lives-elsewhere review.
+      livesElsewhere(c, person)
     )
       continue;
     // Someone already looking is weighed again below, as a counted seeker is.
