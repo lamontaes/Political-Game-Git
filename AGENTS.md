@@ -104,6 +104,7 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `heavy-runs`: long, memory-heavy runs that survive memory, restarts and moved branches
 - `helper-checkout`: helpers work in sparse copies of the repository
 - `lead-session`: running a lead line
+- `legislation-screens`: building and proving a bill screen from the one stage view
 - `lives`: lives outside the played town run through the town's engines
 - `look-first`: the search before building, fixing, filing or asking
 - `merge-audit`: auditing merged PRs
