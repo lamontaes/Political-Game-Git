@@ -21,12 +21,22 @@ try {
   await page.locator("#cr-states button").first().click();
   await page.locator("#cr-towns button").first().click();
   await page.locator("#cr-screen:not([hidden])").waitFor();
-  const swatch = (row, id) =>
-    page.locator(`[data-testid=engine-appearance-${row}] [data-swatch=${id}]`);
-  if (await swatch("skin", "ebony").count()) {
-    await swatch("skin", "ebony").click();
-    await swatch("shirt-color", "red").click();
-  }
+  // A color steps with arrows: press the next arrow until the row names the color.
+  const choose = async (row, name) => {
+    const line = page.locator(`[data-testid=engine-appearance-${row}]`);
+    for (let i = 0; i < 16; i += 1) {
+      if (
+        (await line.locator(".look-value").innerText())
+          .toLowerCase()
+          .includes(name)
+      )
+        return true;
+      await line.getByRole("button").last().click();
+      await page.waitForTimeout(250);
+    }
+    return false;
+  };
+  if (await choose("skin", "ebony")) await choose("shirt-color", "red");
   await page.waitForTimeout(500);
   await page.locator("#cr-begin").click();
   await page.locator("#card:not([hidden])").waitFor({ timeout: 300000 });
