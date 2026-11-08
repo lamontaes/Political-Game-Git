@@ -992,10 +992,43 @@ input[type="range"]::-moz-range-thumb {
   color: var(--text-2);
 }
 /* The creator (the Oct 12 SetupScreen's steps). */
-#front:has(#cr-character:not([hidden])),
-#front:has(#cr-place:not([hidden])),
-#front:has(#cr-look:not([hidden])) {
-  width: 420px;
+#front:has(#cr-screen:not([hidden])) {
+  width: min(1180px, 94vw);
+}
+#cr-screen {
+  grid-template-columns: 250px minmax(0, 1fr) minmax(0, 1fr);
+  gap: 22px;
+}
+#cr-figure {
+  align-items: center;
+}
+#cr-figure .portraits {
+  gap: 8px;
+}
+#cr-figure .portrait {
+  height: 170px;
+}
+#cr-figure .strip-name {
+  text-align: center;
+}
+#cr-screen .secbody {
+  padding-bottom: 8px;
+}
+#cr-screen .choice-list {
+  max-height: 150px;
+}
+#cr-screen .acts {
+  justify-content: flex-end;
+}
+#cr-place-summary-name {
+  margin: 0 0 4px;
+}
+#cr-place-summary-name:empty {
+  display: none;
+}
+#cr-place.missing #cr-place-summary-name::before,
+#cr-screen .sec:has(.missing) .sechead {
+  color: var(--red);
 }
 .summary {
   display: flex;
