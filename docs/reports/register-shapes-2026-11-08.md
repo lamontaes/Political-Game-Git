@@ -7,10 +7,10 @@ A line is shaped by the kind of scene it belongs to. Speeches run about 18 words
 | Kind of line                                     | Lines | Words, mean | Words, middle | Three words or fewer | Ask a question | Use a contraction | Say I | Say you |
 | ------------------------------------------------ | ----- | ----------- | ------------- | -------------------- | -------------- | ----------------- | ----- | ------- |
 | Speeches (opening address, speech stages)        | 717   | 17.7        | 18            | 1%                   | 0%             | 36%               | 51%   | 26%     |
-| News, headlines and newscasts                    | 978   | 6.5         | 6             | 13%                  | 1%             | 4%                | 1%    | 1%      |
+| News, headlines and newscasts                    | 988   | 6.5         | 6             | 13%                  | 1%             | 4%                | 1%    | 1%      |
 | Journal, scene narration and labels              | 841   | 5.9         | 5             | 18%                  | 1%             | 10%               | 28%   | 25%     |
 | Private talk (family, friends, work, school)     | 2056  | 7.2         | 6             | 17%                  | 15%            | 49%               | 48%   | 36%     |
-| On the floor (votes, bills, hearings, vetoes)    | 1003  | 8.6         | 8             | 4%                   | 8%             | 65%               | 58%   | 40%     |
+| On the floor (votes, bills, hearings, vetoes)    | 1027  | 8.6         | 8             | 4%                   | 7%             | 64%               | 59%   | 41%     |
 | In the hallway (donors, lobbyists, party, staff) | 628   | 9.1         | 8             | 8%                   | 13%            | 57%               | 60%   | 51%     |
 | With the press (interviews, scandals, debates)   | 517   | 8.0         | 8             | 3%                   | 12%            | 60%               | 47%   | 39%     |
 | With residents (town hall, protests, rallies)    | 738   | 8.4         | 8             | 4%                   | 9%             | 57%               | 54%   | 40%     |
