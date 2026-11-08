@@ -50,6 +50,7 @@ import { openRecalls } from "../core2/modules/recalls";
 import { openPress } from "../core2/modules/press";
 import { openMeetings } from "../core2/modules/meetings";
 import { officeDayData, openOfficeDay } from "../core2/office-day-levels";
+import { openPresidentActs } from "../core2/modules/president-acts";
 import { openCases } from "../core2/modules/constituent-cases";
 import { openJustice } from "../core2/modules/justice";
 import { openPublicSafety } from "../core2/modules/public-safety";
@@ -539,6 +540,8 @@ function* benchWorldStages(
   // calendar, the meeting as a scene, the player's chosen stops and the
   // character's own votes and desk decisions when the player does not stop.
   openOfficeDay(core, seed);
+  // The President nominates and the Senate confirms when nobody plays the President.
+  openPresidentActs(core);
   // Prosecutors, trials and prisons: reads the corruption engine's records.
   openJustice(core);
   // Ordinary crime, courts, jail, firearm laws and fire service.
