@@ -30,6 +30,7 @@ import { townRow } from "./ui/town-row.mjs";
 import { debateCard, speechCard } from "./ui/campaign-acts.mjs";
 import { devBribePanel } from "./ui/dev-bribe.mjs";
 import { devBillsPanel } from "./ui/dev-bills.mjs";
+import { devPersonSection } from "./ui/dev-person.mjs";
 import { devMemorySection } from "./ui/dev-memory.mjs";
 import { devRunPanel } from "./ui/dev-run.mjs";
 import {
@@ -2073,6 +2074,14 @@ async function showPerson(person) {
       })
     : null;
   if (memory) secondColumn.push(memory);
+  if (devModeOn())
+    secondColumn.push(
+      devPersonSection({
+        personId: person.personId,
+        labels: controls.devPerson,
+        onDone: () => refresh(),
+      }),
+    );
   if (request !== personRequest) return;
   $("person-facts").replaceChildren(
     stripScreen({

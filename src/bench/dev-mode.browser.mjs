@@ -61,6 +61,23 @@ try {
   await shot("run-until");
   await closeSheet();
 
+  // A person's card, opened from a member of government: what they remember, and the health controls.
+  await dock("Politics").click();
+  await page.locator("#sheet-body .member-card").first().click();
+  await page.locator('[data-testid="dev-ill"]').waitFor();
+  assert.ok(
+    (await page.locator(".dev-memory-row").count()) >= 0,
+    "the card is open",
+  );
+  await page.locator('[data-testid="dev-ill"]').click();
+  await page.waitForFunction(() =>
+    document
+      .querySelector("#person-facts")
+      ?.textContent.includes("Seriously ill"),
+  );
+  await shot("person");
+  await page.evaluate(() => document.getElementById("person-close").click());
+
   // Bills and Bribe on the Government tab.
   await dock("Politics").click();
   await page.locator('[data-testid="dev-introduce"]').waitFor();

@@ -59,7 +59,11 @@ import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { metricsPanel } from "../core2/modules/world-panels";
 import { nationalPanel } from "../core2/modules/macro";
 import { residentsRuntime } from "../core2/modules/residents";
-import { healthReport } from "../core2/modules/health";
+import {
+  beginSeriousIllness,
+  HEALTH_MODULE,
+  healthReport,
+} from "../core2/modules/health";
 import { snapshotExplicitControlV1 } from "../core2/player-control-state-v1";
 import type { CoreAPI, CoreState } from "../core2/types";
 import type { Director } from "../director/ledger";
@@ -77,6 +81,7 @@ export const RUN_EVENTS = {
   election: ["election-result"],
   death: ["life.death"],
   "law-takes-effect": ["law-took-effect"],
+  "job-lost": ["work.job-lost"],
   scene: [],
 } as const;
 export type RunEvent = keyof typeof RUN_EVENTS;
@@ -821,6 +826,22 @@ export class DevMode {
     };
   }
 
+  /**
+   * A person falls seriously ill through the health module's own onset: tomorrow the onset is
+   * heard and the module sets the death date from their age and severity, then the death, the
+   * estate, the vacancy rule, the news and the funeral scene follow on their own days. Run until
+   * "A person dies" to get there.
+   */
+  forceIllness(personId: string) {
+    if (!has(this.core, HEALTH_MODULE.id))
+      throw new Error("This world has no health module.");
+    if (!beginSeriousIllness(this.api, personId))
+      throw new Error(
+        "No illness: the person is gone or has no health record.",
+      );
+    return { mark: this.mark("illness", [personId], { personId }) };
+  }
+
   /** The wealthiest living people in the world: who might want a favor enough to pay for it. */
   wealthiest(count = 12) {
     return [...this.core.people.values()]
@@ -942,6 +963,8 @@ export class DevMode {
     cap?: number;
     /** Law series or questions whose bills the members vote down each day, through castMemberVote. */
     defeat?: readonly string[];
+    /** Stop only on an event that names this person (their death, their job loss). */
+    person?: string;
   }) {
     const cap = Math.max(1, Math.min(input.cap ?? 366, 3660));
     const limit = Math.min(input.days ?? cap, cap);
@@ -977,12 +1000,24 @@ export class DevMode {
         break;
       }
       if (kinds && count() > before) {
+        const fresh = kinds
+          .flatMap((kind) => [...(this.core.logByKind.get(kind) ?? [])])
+          .filter(
+            (id) =>
+              !seen.has(id) &&
+              (!input.person ||
+                this.core.durableLog.get(id)?.personIds.includes(input.person)),
+          );
+        // Another person's event is passed over; this run waits for the one asked for.
+        if (!fresh.length) {
+          for (const id of kinds.flatMap((kind) => [
+            ...(this.core.logByKind.get(kind) ?? []),
+          ]))
+            seen.add(id);
+          continue;
+        }
         reason = "event";
-        records = kinds.flatMap((kind) =>
-          [...(this.core.logByKind.get(kind) ?? [])].filter(
-            (id) => !seen.has(id),
-          ),
-        );
+        records = fresh;
         break;
       }
     }

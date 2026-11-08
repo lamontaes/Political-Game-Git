@@ -192,6 +192,17 @@
     "refused": "Refused",
     "noBill": "Introduce a bill first."
   },
+  "devPerson": {
+    "title": "Health",
+    "fallIll": "Falls seriously ill",
+    "runUntilDies": "Run until they die",
+    "ill": "Seriously ill",
+    "reasons": {
+      "days": "Days passed",
+      "event": "Died",
+      "cap": "Cap reached"
+    }
+  },
   "devMemory": {
     "title": "Remembers",
     "kept": {
