@@ -1,6 +1,41 @@
 {
   "entries": [
     {
+      "version": "0.90.0",
+      "releasedOn": "2026-11-08",
+      "revision": "54a741886d8bbfa228b757d395ec2dfceceb6678",
+      "changeIds": ["fixer-screen-person-card"]
+    },
+    {
+      "version": "0.89.0",
+      "releasedOn": "2026-11-08",
+      "revision": "b12c2028a8971c174c7d3135e20a25523b7cb7ae",
+      "changeIds": [
+        "approved-menu-mocks-nov7",
+        "fixer-screen-you",
+        "fixer-smoke-saved-games-enabled"
+      ]
+    },
+    {
+      "version": "0.88.4",
+      "releasedOn": "2026-11-08",
+      "revision": "3dc849d9d12be13dc1804a62180a9ab24fd9d53f",
+      "changeIds": [
+        "fixer-title-saved-games",
+        "law-levels-opening-reversal-effects"
+      ]
+    },
+    {
+      "version": "0.88.3",
+      "releasedOn": "2026-11-08",
+      "revision": "e2cb82957e84e323111340715c61ca01bc29c332",
+      "changeIds": [
+        "law-levels-federal-income-tax-adoption",
+        "law-levels-opening-source-provenance",
+        "pool-officials-pay-note"
+      ]
+    },
+    {
       "version": "0.88.2",
       "releasedOn": "2026-11-08",
       "revision": "20a2ef0988a1c29d995da78cf985f1ef87dc98ec",

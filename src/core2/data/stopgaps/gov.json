@@ -2148,6 +2148,18 @@
     "status": "open"
   },
   {
+    "id": "SG-GOV-outside-officials-counted",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/official-pay.ts",
+    "line": 0,
+    "whatItFakes": "An official of another state (not federal, not the player's own state) has no pay row, post, living cost or paycheck until the player knows them or they are in focus (the people keepsWhy keeps a why for); they are paid from the payday after, with no back pay, so their account starts at the savings a family at their pay keeps, not at what a year of paychecks would have left.",
+    "why": "The CTO's Nov 7 ruling for the owner's Nov 5 rule (simulate from the people there, keep only the result, build detail on demand): paying 7,500 other-state officials person by person cost 10.9 percent of a country's first year and about 90,000 records, with nobody asking about them.",
+    "addedBy": "State Sessions session",
+    "addedAt": "2026-11-08",
+    "replacement": "Name and seat the other states' officials only when something asks for them (pool item gov-outside-officials-built-on-demand), so an official met later comes with a past that matches the seat's pay and years served.",
+    "status": "open"
+  },
+  {
     "id": "SG-WORDS-nation-window-not-interest",
     "kind": "missing-mechanic",
     "file": "src/bench/nation-news.ts",

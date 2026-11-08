@@ -82,8 +82,8 @@ try {
   console.log(`card: ${card.name}`);
   assert.equal(card.name, name, "the card is not the person clicked");
   assert.doesNotMatch(card.text, /official:|term:|undefined|null/);
-  // Their figure stands in the card's media slot (the same figure as the row's face).
-  const figure = page.locator("#person-media img");
+  // Their bust stands on the card (the same figure as the row's face).
+  const figure = page.locator("#person .mxbust img");
   await figure.waitFor();
   await figure.evaluate(
     (img) =>

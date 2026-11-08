@@ -5,9 +5,9 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: done
 claimed-by: officials-on-demand
-pr:
+pr: #7359
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-08T01:44:46.323Z
