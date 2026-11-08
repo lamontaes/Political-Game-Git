@@ -5057,7 +5057,6 @@ select.release-pick {
   display: none;
 }
 
-<<<<<<< HEAD
 /* Calendar (Nov 8 play mock, pl-calendar): the month, then Today and Coming up, on strips. */
 .strip-board .board-cols {
   width: 100%;
@@ -5080,7 +5079,8 @@ select.release-pick {
   --kind-election: #7fa3d6;
   --kind-meeting: #8fc79a;
   --kind-holiday: #c4a0d8;
-=======
+}
+
 /* Journal (Nov 8 play mock, pl-journal): two columns of prose with a drop cap. */
 .journal-text {
   column-count: 2;
@@ -5111,7 +5111,6 @@ select.release-pick {
   font-family: "Courier Prime", monospace;
   font-size: 15px;
   text-transform: none;
->>>>>>> origin/main
 }
 
 /* News (Nov 8 play mock, pl-news): type on the dark panel, columns, a Briefs strip. */
