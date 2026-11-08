@@ -773,34 +773,10 @@
     "newAmount": "The new amount"
   },
   "journal": {
-    "title": "My life",
+    "title": "My story",
     "empty": "Nothing is written here yet.",
-    "chapter": "Chapter {n}",
-    "numbers": [
-      "one",
-      "two",
-      "three",
-      "four",
-      "five",
-      "six",
-      "seven",
-      "eight",
-      "nine",
-      "ten",
-      "eleven",
-      "twelve",
-      "thirteen",
-      "fourteen",
-      "fifteen",
-      "sixteen",
-      "seventeen",
-      "eighteen",
-      "nineteen",
-      "twenty"
-    ],
-    "previous": "Earlier chapter",
-    "next": "Later chapter",
-    "page": "{page} of {pages}"
+    "previous": "Earlier chapters",
+    "next": "Later chapters"
   },
   "titles": {
     "people": "People",
