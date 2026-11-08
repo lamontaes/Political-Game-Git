@@ -14,10 +14,11 @@ const over = JSON.parse(process.env.OVER ?? "{}") as Record<string, number>;
 const p = (key: string) => over[key] ?? parameter(key, data.parameters);
 const worlds = Number(process.argv[2] ?? 20);
 const years = Number(process.argv[3] ?? 37);
+const depths: number[] = [];
+const depths: number[] = [];
 let totalEpisodes = 0,
   recessionMonths = 0,
-  months = 0,
-  depths: number[] = [];
+  months = 0;
 for (let w = 0; w < worlds; w++) {
   const seed = `money-${w}`;
   const rows = historyMonths("2026-11-08", seed, p);
@@ -46,7 +47,10 @@ for (let w = 0; w < worlds; w++) {
     if (us[k]! - lo >= 1.5) {
       recessionMonths++;
       peak = Math.max(peak, us[k]! - lo);
-      if (!inRec) (eps++, (inRec = true));
+      if (!inRec) {
+        eps++;
+        inRec = true;
+      }
     } else if (us[k]! - lo < 0.5) {
       if (inRec) depths.push(peak);
       peak = 0;

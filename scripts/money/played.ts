@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any -- development tooling reading untyped record rows */
 /**
  * A played world for N years with the national economy printed by year, so a
  * cycle can be seen reaching a drawn town. Development tooling:

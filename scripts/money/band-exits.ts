@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any -- development tooling reading untyped record rows */
 import { macroCoreData } from "../../src/core2/modules/macro";
 import {
   checkBands,
