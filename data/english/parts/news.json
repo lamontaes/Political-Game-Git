@@ -12038,51 +12038,6 @@
       }
     },
     {
-      "key": "news.public-action.number-people-in-place-gathered-on-date-to-say",
-      "move": "public-action",
-      "kind": "written",
-      "text": "{number} people in {place} gathered on {date} to say the town is doing well.",
-      "uses": [
-        {
-          "move": "public-action",
-          "subject": "news",
-          "role": "public-action",
-          "choice": "lede",
-          "requiresFacts": ["rally", "several"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "news.public-action.people-in-place-gathered-on-date-to-say-the",
-      "move": "public-action",
-      "kind": "written",
-      "text": "People in {place} gathered on {date} to say the town is doing well.",
-      "uses": [
-        {
-          "move": "public-action",
-          "subject": "news",
-          "role": "public-action",
-          "choice": "lede",
-          "requiresFacts": ["rally"],
-          "excludesFacts": ["several"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "news.local-address.name-gave-the-states-yearly-address-to-the-legislature",
       "move": "local-address",
       "kind": "written",
@@ -12292,6 +12247,94 @@
           "role": "local-address-quote",
           "choice": "context",
           "requiresFacts": ["quote"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.public-action.number-people-in-place-gathered-on-date-to-mark-a",
+      "move": "public-action",
+      "kind": "written",
+      "text": "{number} people in {place} gathered on {date} to mark a good year for {area}.",
+      "uses": [
+        {
+          "move": "public-action",
+          "subject": "news",
+          "role": "public-action",
+          "choice": "lede",
+          "requiresFacts": ["rally", "several", "area"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.public-action.a-crowd-of-number-turned-out-in-place-on-date",
+      "move": "public-action",
+      "kind": "written",
+      "text": "A crowd of {number} turned out in {place} on {date}, glad of how it has gone with {area}.",
+      "uses": [
+        {
+          "move": "public-action",
+          "subject": "news",
+          "role": "public-action",
+          "choice": "lede",
+          "requiresFacts": ["rally", "several", "area"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.public-action.people-in-place-gathered-on-date-to-mark-a-good",
+      "move": "public-action",
+      "kind": "written",
+      "text": "People in {place} gathered on {date} to mark a good year for {area}.",
+      "uses": [
+        {
+          "move": "public-action",
+          "subject": "news",
+          "role": "public-action",
+          "choice": "lede",
+          "requiresFacts": ["rally", "area"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.public-action.residents-of-place-turned-out-on-date-glad-of-how",
+      "move": "public-action",
+      "kind": "written",
+      "text": "Residents of {place} turned out on {date}, glad of how it has gone with {area}.",
+      "uses": [
+        {
+          "move": "public-action",
+          "subject": "news",
+          "role": "public-action",
+          "choice": "lede",
+          "requiresFacts": ["rally", "area"]
         }
       ],
       "origin": "authored",
