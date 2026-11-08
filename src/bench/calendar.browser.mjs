@@ -48,7 +48,7 @@ try {
     .locator('[data-tab="calendar"]')
     .first()
     .evaluate((e) => e.click());
-  await page.locator(".calendar-layout").waitFor();
+  await page.locator(".calendar-board").waitFor();
   const month = await page.locator(".calendar-heading h3").innerText();
   await page.getByRole("button", { name: "Next month", exact: true }).click();
   assert.notEqual(
@@ -61,7 +61,7 @@ try {
   assert.equal(await page.locator(".calendar-heading h3").innerText(), month);
   // It opens on today, with Coming up beside the month.
   assert.ok(await page.locator(".month .day.today.selected").count());
-  assert.ok((await page.locator(".calendar-side-head").innerText()).trim());
+  assert.ok((await page.locator(".calendar-side .sechead").innerText()).trim());
   // Every line says who and what in words, once; no law rows naming nothing;
   // the player's own dates come first (owner, Oct 27).
   const lines = await page
@@ -154,7 +154,7 @@ try {
     .locator(".month .day.selected")
     .getAttribute("data-date");
   assert.ok(
-    (await page.locator(".calendar-day h3").innerText()).includes(
+    (await page.locator(".calendar-day .sechead").innerText()).includes(
       String(Number(farDate.slice(-2))),
     ),
     "the day's date heads its plate",

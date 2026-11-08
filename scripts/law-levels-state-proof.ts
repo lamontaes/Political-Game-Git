@@ -147,7 +147,12 @@ async function main() {
       // preceding law still governs. Restore the executive before time moves.
       await request(`/api/play?id=${encodeURIComponent(memberKey(sponsor))}`);
       const { chromium } = await import("playwright");
-      const browser = await chromium.launch({ headless: true });
+      const browser = await chromium.launch({
+        headless: true,
+        ...(process.env.PW_CHROMIUM
+          ? { executablePath: process.env.PW_CHROMIUM }
+          : {}),
+      });
       try {
         const page = await browser.newPage({
           viewport: { width: 1600, height: 1800 },

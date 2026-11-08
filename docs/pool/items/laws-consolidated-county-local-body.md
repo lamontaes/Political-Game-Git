@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: done
 claimed-by: laws/consolidated-county-body
-pr:
+pr: #7430
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-08T09:04:51.598Z

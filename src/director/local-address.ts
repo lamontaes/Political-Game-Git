@@ -14,9 +14,13 @@
 import { placeStateKey } from "../core2/place-map";
 import { townSeats } from "../core2/modules/offices";
 import { officialsIn, type OfficialRow } from "../core2/modules/officials";
-import { OUTCOME_WEB_MODULE_ID } from "../core2/outcome-web-model";
+import { OUTCOME_WEB_MODULE_ID } from "../core2/modules/outcome-web";
 import { P } from "../core2/parameters";
-import { TERM_AREAS, placeTermRead, type AreaRead } from "../core2/term-read";
+import {
+  TERM_AREAS,
+  placeTermRead,
+  type AreaRead,
+} from "../core2/modules/laws";
 import { daysBetweenText } from "../core2/kernel/dates";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId, PersonState } from "../core2/types";
@@ -38,6 +42,7 @@ import {
   type Facts,
   type OpeningSentence,
 } from "./opening-story";
+import { recordAddressResponse } from "./address-response";
 import { openingMove } from "../english/english-opening-speech";
 import type { OpeningSpeechKind } from "../english/english-opening-speech";
 import kindData from "./data/address-kinds.json" with { type: "json" };
@@ -69,6 +74,8 @@ export interface LocalStory {
   readonly sentences: readonly OpeningSentence[];
   readonly text: string;
   readonly parts: readonly string[];
+  /** The questions the speaker asked for (their level's, not yet law). */
+  readonly asks: readonly string[];
 }
 
 /** The day of a year a level's address is given. */
@@ -180,7 +187,7 @@ function planLocal(
   level: LocalLevel,
   speaker: PersonState,
   spoken: Speaker,
-): { blocks: Block[]; addressKind: AddressKind } {
+): { blocks: Block[]; addressKind: AddressKind; asks: string[] } {
   const api = coreAPI(core);
   const spec = DATA.levels[level];
   const voice = voiceOf(speaker);
@@ -314,6 +321,7 @@ function planLocal(
         (block.key.startsWith("ask-") ? P.one + P.one : P.one + P.one + P.one),
     })),
     addressKind,
+    asks: asks.map((stand) => stand.question),
   };
 }
 
@@ -337,6 +345,7 @@ export function composeLocalAddress(
     level,
     date: core.date,
     addressKind: plan.addressKind,
+    asks: plan.asks,
     speakerId: speaker.id,
     sentences,
     text: sentences.map((row) => row.text).join(" "),
@@ -400,6 +409,11 @@ export function recordLocalAddress(
       [ADDRESS_FACT.parts]: story.parts.join(ADDRESS_PART_BREAK),
     },
   });
+  // The other side answers a governor the same day.
+  if (level === "state") {
+    const spoken = speakerOf(core, level);
+    if (spoken?.official) recordAddressResponse(core, story, spoken.official);
+  }
   return story;
 }
 
