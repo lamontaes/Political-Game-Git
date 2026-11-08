@@ -43,7 +43,8 @@ import { townMetrics, WORLD_METRICS_MODULE_ID } from "./world-metrics";
 import { schoolMeasure } from "../school-measures";
 import { propertyTaxRateInForce } from "../housing-property-tax";
 import { schoolsLineAboveBase } from "../school-budget-line";
-import { lawInForce, LAWS_MODULE_ID } from "./laws";
+import { inTownChain } from "../laws-in-force";
+import { lawChain, lawInForce, LAWS_MODULE_ID } from "./laws";
 import {
   budgetLineAddedPct,
   defenseBoostPct,
@@ -213,8 +214,17 @@ export function lawValue(
     effectiveDate: string;
   }[];
   const latest = new Map<string, { value: unknown; effectiveDate: string }>();
+  // The town's law is its own chain's: a law another state's legislature
+  // passed is that state's, not the town's.
+  const chain = open ? lawChain(api) : null;
   for (const row of rows) {
     if (row.effectiveDate > date) continue;
+    if (
+      chain &&
+      row.jurisdiction !== "US" &&
+      !inTownChain(chain, row.jurisdiction)
+    )
+      continue;
     const held = latest.get(row.jurisdiction);
     if (!held || row.effectiveDate >= held.effectiveDate)
       latest.set(row.jurisdiction, row);
@@ -682,6 +692,8 @@ function schedule(api: CoreAPI): void {
 /** Record a law-took-effect event (the laws module's own rows win where it is open). */
 function recordLaw(api: CoreAPI, event: Readonly<CoreEventInput>): void {
   const facts = event.facts ?? {};
+  // Another state's act is a national event; the web reads the town's laws.
+  if (String(event.placeId).startsWith("national:")) return;
   if (!facts.series) return;
   store(api)
     .table("laws")
