@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/bench/ad-buy.browser.mjs,src/bench/plain-text.browser.mjs,src/bench/volunteer-shift.browser.mjs,src/bench/campaign-trail.mjs,src/bench/trail-act.mjs
 
 **Notes.** Fixer 2, Nov 8: found while finishing the screens. See also tests-plain-text-no-travel-filing-place. Dev mode needs a route for money, a filing seat and a volunteer's willingness.
+
+Dev Mode, Nov 8: dev mode now has Donors give, a "may file" run-until and a volunteer cast (branch devmode/campaign-setup). ad-buy passes (Buckeye AZ, Washington DC, Corozal PR). plain-text now gets through both counters (the card Go button and the clerk lead-in were races in the check) and stops at its assertion that the clerk reply offers a choice starting "File": the English bank voices it "Let us do it. Where do I sign?". volunteer-shift sets up 8 of 9 volunteers saying yes and stops at its assertion that every yes line contains the person name: bank lines such as "Count me in. I can give you Saturdays." never do. Both assertions are stale against the bank, which the item forbids changing; they need the check author or Words to rule.
