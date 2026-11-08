@@ -674,8 +674,18 @@
         },
         {
           "name": "Child-care assistance",
-          "supported": false,
-          "policies": []
+          "supported": true,
+          "policies": [
+            {
+              "id": "law:child-care-income-limit",
+              "name": "Child care income limit (family of three)",
+              "kind": "law-amount",
+              "series": "child-care-income-limit",
+              "unit": "USD/month",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
+            }
+          ]
         },
         {
           "name": "Disability support",

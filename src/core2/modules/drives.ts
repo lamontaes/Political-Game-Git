@@ -769,11 +769,12 @@ export function respond(
   const p = (key: string) => api.parameter(key);
   // A person still in the wider population responds by the same rule, from
   // their counted record (the shared chooser reads them the same way).
-  const counted = !api.state.people.has(actorId);
-  const actor = counted
+  let counted = !api.state.people.has(actorId);
+  const first = counted
     ? countedActor(api, actorId)
     : api.state.people.get(actorId);
-  if (!actor?.alive) return [];
+  if (!first?.alive) return [];
+  let actor: Readonly<PersonState> = first;
   const out: FormationTrace[] = [];
   const params = parameterValues(api.state.data.parameters);
   for (const rule of data.eventRules) {
@@ -990,6 +991,19 @@ export function respond(
       )!.urgency;
       const identity = driveIdentity(data, kind, actor, event, api);
       trace.driveId = identity.id;
+      // Naming the one responsible fills them in with their household (an owner who lets a relative go): a counted
+      // actor filled in just now is a full person, and they lived through the event as its subject.
+      if (counted && api.state.people.has(actor.id)) {
+        counted = false;
+        actor = api.state.people.get(actor.id)!;
+        api.observe(actor.id, {
+          key: `event:${event.id}:experienced`,
+          value: event.id,
+          learnedAt: event.date,
+          sourceId: event.id,
+          access: "perceived",
+        });
+      }
       const holders = counted ? runtime.countedByPerson : runtime.byPerson;
       let mine = holders.get(actor.id);
       if (!mine) holders.set(actor.id, (mine = new Map()));

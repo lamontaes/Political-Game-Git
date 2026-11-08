@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** No dice. Find the cause by file and line: how many counted households hold a countedCoverage row against how many hold a job with an employer plan, and what the covered field counts. Real ranges are not targets (owner, Nov 8): fail only when nothing in the world explains the value.
 
-**Done when.** The cause is named by file and line; the share of residents on an employer plan is explained by the world (employment, employer size and pay) or fixed, in two random places that name their seed; the vital-statistics reader reports it.
+**Done when.** The cause is named by file and line; the share of residents on an employer plan is explained by the world (employment, employer size and pay) or fixed, in two random places that name their seed; the vital-statistics reader reports it. It is checked in a played world, with the reader's output quoted by record id.
 
 **Files.** src/core2/modules/coverage.ts, scripts/dev-tests/vitals.ts
 

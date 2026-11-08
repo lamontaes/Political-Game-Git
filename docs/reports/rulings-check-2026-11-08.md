@@ -1,6 +1,6 @@
 # Your rulings since Nov 7, checked against the code
 
-Checked at 10:15 a.m. Nov 8, against main as it stood (about 15:10 UTC). Six read-only checks read the code, and I confirmed the biggest claims myself. Your words are in your voice notes, saved word for word in `docs/coordination/voice-notes/` (this morning's are in #7586).
+Six checks read the game's code against your rulings since Nov 7, and I confirmed the biggest claims myself. The table below says, area by area, how many rulings are done, partly done and not done, and the sections after it name each one. Your words themselves are saved word for word in your voice notes.
 
 ## The short version
 
@@ -127,3 +127,7 @@ Checked at 10:15 a.m. Nov 8, against main as it stood (about 15:10 UTC). Six rea
 | Small fixes on the other account at about 90% usage              | Small fixes session starting there                                     | Done   |
 | People are busts for early access                                | Menus mostly busts; the creator and two screens still use full figures | Partly |
 | Fix what testing finds, don't just report                        | Several reports still waiting (see Laws)                               | Partly |
+
+## How it was checked
+
+The checks ran at 10:15 a.m. on Nov 8 against main as it stood (about 15:10 UTC). Each was read-only. Your voice notes are in `docs/coordination/voice-notes/`; this morning's are in #7586.
