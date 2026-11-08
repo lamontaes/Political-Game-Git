@@ -12,6 +12,7 @@ import {
   termLimitReached,
 } from "./law-reach/group-a-voting";
 import { appliedOn } from "./law-reach/applied";
+import { executiveTermLimit } from "./executive-term-limits";
 import { advanceCore } from "./life";
 import { enactLaw, lawChain } from "./modules/laws";
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
@@ -80,6 +81,60 @@ it(
       expect(termLimitReached(api, person, officeId)).toBe(false);
       process.stdout.write(
         `GOV-LIMIT ${place.name} (${place.key}, seed ${place.seed}): limit of one term barred the governor, the repeal let them file\n`,
+      );
+    } finally {
+      setBookkeeping(bookkeeping);
+    }
+  },
+);
+
+it(
+  `another statewide executive keeps its constitution's term limit: ${place.name}, replay ${replay}`,
+  { timeout: 900_000 },
+  () => {
+    const bookkeeping = setBookkeeping(false);
+    try {
+      const world = buildBenchWorld(place.seed, gameStartDate(), {
+        placeKey: place.key,
+        twoLevel: true,
+      });
+      const api = coreAPI(world.core);
+      const state = lawChain(api).levels.find((l) => l.level === "state")!;
+      const offices = api.moduleState(OFFICES_MODULE_ID);
+      let checked = 0;
+      for (const kind of [
+        "lieutenant-governor",
+        "attorney-general",
+        "secretary-of-state",
+        "treasurer",
+        "auditor",
+      ]) {
+        const limit = executiveTermLimit(state.jurisdiction, kind);
+        const officeId = `office:${state.jurisdiction}:${kind}`;
+        if (limit.kind === "none" || !offices.table("offices").get(officeId))
+          continue;
+        const sitting = (
+          offices
+            .table("terms")
+            .query("bySeatStatus", [
+              `seat:${state.jurisdiction}:${kind}`,
+              "serving",
+            ]) as unknown as TermRow[]
+        )[0];
+        if (!sitting) continue;
+        const person = world.playerId!;
+        for (let n = 0; n < limit.terms; n += 1)
+          offices.table("terms").put({
+            ...sitting,
+            id: `${sitting.id}:limit-test:${n}`,
+            personId: person,
+            startDate: api.state.date,
+          } as never);
+        expect(termLimitReached(api, person, officeId), kind).toBe(true);
+        checked += 1;
+      }
+      process.stdout.write(
+        `EXEC-LIMIT ${place.name} (${place.key}, seed ${place.seed}): ${checked} statewide offices barred at their limit\n`,
       );
     } finally {
       setBookkeeping(bookkeeping);

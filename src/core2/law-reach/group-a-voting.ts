@@ -17,6 +17,10 @@
  */
 import { placeStateKey } from "../place-map";
 import { lawInForce, yesLevels } from "../modules/laws";
+import {
+  executiveTermLimit,
+  termLimitReachedBy,
+} from "../executive-term-limits";
 const EXECUTIVE_TERM_LIMIT = "executive-term-limit";
 import {
   PHOTO_ID,
@@ -565,6 +569,13 @@ export function termLimitReached(
     { kind?: string; level?: string; jurisdiction?: string } | undefined;
   if (office?.level === "state" && office.kind === "governor")
     return governorLimitReached(api, personId, officeId);
+  // Another statewide executive (lieutenant governor, attorney general...)
+  // keeps the limit its state's constitution gives, from the office research.
+  if (office?.level === "state" && office.jurisdiction && office.kind) {
+    const limit = executiveTermLimit(office.jurisdiction, office.kind);
+    if (limit.kind !== "none")
+      return termLimitReachedBy(limit, governorTerms(api, personId, officeId));
+  }
   if (!inForce(api, TERM_LIMITS)) return false;
   const legislative = selectorGroup("legislators").some((k) =>
     (office?.kind ?? "").startsWith(k),
