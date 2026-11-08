@@ -41,6 +41,7 @@ import { openSuccession } from "../core2/modules/succession";
 import { openExecutive } from "../core2/modules/executive";
 import { openInterestGroups } from "../core2/modules/interest-groups";
 import { openPublicAction } from "../core2/modules/public-action";
+import { openNationalEvents } from "../core2/modules/national-events";
 import { openWorldLegislating } from "../core2/modules/world-legislating";
 import { openBallotMeasures } from "../core2/modules/ballot-measures";
 import { openRecalls } from "../core2/modules/recalls";
@@ -528,6 +529,8 @@ function* benchWorldStages(
   openCases(core);
   // The town's strikes, protests and rallies, from how its term reads by area.
   openPublicAction(core);
+  // What happens in the rest of the country, as results (disasters from FEMA's record).
+  openNationalEvents(core);
   // The officeholder's day (OFFICE-LOCAL): each local body's own meeting
   // calendar, the meeting as a scene, the player's chosen stops and the
   // character's own votes and desk decisions when the player does not stop.

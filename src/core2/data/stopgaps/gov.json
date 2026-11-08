@@ -2182,5 +2182,17 @@
     "addedAt": "2026-11-08",
     "replacement": "A legislative-day count per body, and one data row per state with a discharge rule, sourced from the state's own rules; the petition then opens only after the wait.",
     "status": "open"
+  },
+  {
+    "id": "SG-NATION-disasters-from-records",
+    "kind": "missing-data",
+    "file": "src/core2/modules/national-events.ts",
+    "line": 1,
+    "whatItFakes": "Disasters elsewhere in the country happen only where FEMA's declarations record says one began; a world past the end of the records has none, and no hazard (storm, flood, fire) record causes one.",
+    "why": "No hazard model keeps weather, river, fuel or fault conditions by county that a disaster could follow from; the record is the only cause available.",
+    "addedBy": "Nation",
+    "addedAt": "2026-11-08",
+    "replacement": "A hazard model by county (flood, storm, fire and quake exposure) from which disasters follow with detail built on open, checked against the FEMA yearly counts.",
+    "status": "open"
   }
 ]
