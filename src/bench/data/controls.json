@@ -935,6 +935,14 @@
     "debate": "Debate",
     "speech": "Give a speech"
   },
+  "orders": {
+    "issue": "Issue the order",
+    "revoke": "Revoke the order",
+    "decline": "Set it aside",
+    "emergency": "State of emergency",
+    "emergency-issue": "Declare it",
+    "emergency-decline": "Let it pass"
+  },
   "officeCases": {
     "help": "Help",
     "decline": "Turn away",
