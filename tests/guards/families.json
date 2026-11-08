@@ -325,6 +325,9 @@
         "src/core2/sibling-names.ts",
         "src/core2/modules/partnerships.ts",
         "src/core2/modules/kin-contact.ts",
+        "src/core2/modules/mentorship.ts",
+        "src/core2/modules/rescue.ts",
+        "src/core2/modules/quarrel.ts",
         "src/core2/modules/public-action.ts"
       ]
     },

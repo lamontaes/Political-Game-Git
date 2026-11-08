@@ -920,54 +920,6 @@ export function rolesByDeficit(
 }
 
 /**
- * A place's own unemployment against its region's, as a pull on starting to
- * look for work: where the town sits below its state's rate (the labor-market
- * statistics' rate for the region) more of the jobless start looking, where it
- * sits above fewer do, so a place drifts toward its state's rate with no step
- * at any threshold. The town's rate is its seekers over its seekers and jobs
- * held, named and counted (one read per place a day).
- */
-const townRates = new WeakMap<
-  CoreState,
-  { date: string; byPlace: Map<string, { seekers: number; jobs: number }> }
->();
-function entryRateFeedback(api: CoreAPI, placeId: string): number {
-  const c = core(api);
-  let cache = townRates.get(c);
-  if (!cache || cache.date !== c.date) {
-    const byPlace = new Map<string, { seekers: number; jobs: number }>();
-    const row = (id: string) => {
-      let r = byPlace.get(id);
-      if (!r) byPlace.set(id, (r = { seekers: 0, jobs: 0 }));
-      return r;
-    };
-    for (const name of ["seekers", "countedSeekers"] as const)
-      for (const seeker of store(api)
-        .table(name)
-        .rows() as unknown as SeekerRow[])
-        if (!seeker.employed) row(seeker.placeId).seekers += 1;
-    for (const job of c.jobs.values()) {
-      const where = c.people.get(job.personId)?.placeId;
-      if (job.endsAt === undefined && where) row(where).jobs += 1;
-    }
-    for (const job of residentsRuntime(c)?.jobs.values() ?? [])
-      if (job.endsAt === undefined) {
-        const where = c.organizations.get(job.organizationId)?.placeId;
-        if (where) row(where).jobs += 1;
-      }
-    townRates.set(c, (cache = { date: c.date, byPlace }));
-  }
-  const town = cache.byPlace.get(placeId);
-  if (!town || town.seekers + town.jobs <= 0) return 0;
-  const ownRate =
-    (api.parameter("macroHundred") * town.seekers) / (town.seekers + town.jobs);
-  const regionRate =
-    unemploymentGap(api, placeId) +
-    api.parameter("macroNaturalUnemploymentPct");
-  return api.parameter("jobsEntryRateFeedback") * (regionRate - ownRate);
-}
-
-/**
  * How far a place's unemployment rate sits above the natural rate, in points,
  * read from the latest month of the regional series (the nation's where the
  * place has no region; 0 where no economy runs). One read per place a day.
@@ -2521,11 +2473,18 @@ export function reviewJobless(api: CoreAPI): void {
       !person.alive ||
       person.jobId ||
       outOfCivilianWork(api, person.id) ||
-      controlled(c, person.id) ||
-      // Those living in another place work by the lives-elsewhere review.
-      livesElsewhere(c, person)
+      controlled(c, person.id)
     )
       continue;
+    // Those living in another place work by the lives-elsewhere review: a
+    // search row kept from when they lived here ends with the move.
+    if (livesElsewhere(c, person)) {
+      if (store(api).table("seekers").get(person.id)) {
+        store(api).table("seekers").remove(person.id);
+        endSpell(api, person.id);
+      }
+      continue;
+    }
     // Someone already looking is weighed again below, as a counted seeker is.
     const seeking = store(api).table("seekers").get(person.id) as
       SeekerRow | undefined;
@@ -2556,7 +2515,6 @@ export function reviewJobless(api: CoreAPI): void {
         unemployment:
           -p("jobsUnemploymentEntryWeight") *
           unemploymentGap(api, person.placeId),
-        rateFeedback: entryRateFeedback(api, person.placeId),
       }),
     ]);
     settleEntryChoice(
@@ -3686,7 +3644,6 @@ export function reviewCountedEntry(api: CoreAPI): void {
             p("jobsUnemployedNeedWeight") / (p("one") + days / monthDays),
           unemployment:
             -p("jobsUnemploymentEntryWeight") * unemploymentGap(api, placeId),
-          rateFeedback: entryRateFeedback(api, placeId),
         }),
       ]);
       settleEntryChoice(

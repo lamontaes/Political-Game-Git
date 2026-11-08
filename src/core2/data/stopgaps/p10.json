@@ -149,6 +149,8 @@
     "addedBy": "OPUS-DRIVES",
     "addedAt": "2026-10-09",
     "replacement": "An English-engine naming bank for associations reading topic and place.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedAt": "2026-11-08",
+    "resolution": "The record keeps its structured key; the name a player reads is made by the English engine (src/english/group-names.ts, data/english/group-names.json) from the group's topic, read by printed-words.ts organization()."
   }
 ]
