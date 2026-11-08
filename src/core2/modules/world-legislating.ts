@@ -51,7 +51,7 @@ import type {
   PersonState,
   Source,
 } from "../types";
-import { nextMeeting } from "./office-day";
+import { nextMeeting } from "./offices";
 import {
   addDays,
   makeIsoDate,

@@ -1879,3 +1879,4 @@ function officesCalendarWork(
 export { casesOpenFor, handleCase } from "./constituent-cases";
 export type { OfficeLevel } from "../offices-local";
 export { partySide } from "../appointments";
+export { nextMeeting } from "../office-day-calendar";

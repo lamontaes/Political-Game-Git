@@ -1152,5 +1152,4 @@ export {
 } from "../office-day-state";
 export { appointGovernor, doEntry, waitingEntries } from "../office-day-state";
 export { budgetProposalDue } from "../office-day-acts";
-export { nextMeeting } from "../office-day-calendar";
 export { jointAddress } from "../office-day-federal-calendar";
