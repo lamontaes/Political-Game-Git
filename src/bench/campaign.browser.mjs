@@ -50,7 +50,7 @@ try {
     .evaluate((e) => e.click());
   await page
     .locator("#sheet-tabs")
-    .getByRole("button", { name: "Campaigns", exact: true })
+    .getByRole("button", { name: "Elections", exact: true })
     .click();
   await page.locator(".row.campaign").first().waitFor();
   const body = await page.locator("#sheet-body").innerText();

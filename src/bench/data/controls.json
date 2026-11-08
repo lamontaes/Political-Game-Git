@@ -463,26 +463,8 @@
     "join": "Join",
     "member": "Your party",
     "registered": "Registered {party} since {date}",
-    "notRegistered": "You are not registered with a party. Joining one lets you file under its name.",
-    "agreement": "Views fit",
-    "fit": [
-      {
-        "atLeast": 0.6,
-        "label": "Close"
-      },
-      {
-        "atLeast": 0.2,
-        "label": "Mostly"
-      },
-      {
-        "atLeast": -0.2,
-        "label": "Mixed"
-      },
-      {
-        "atLeast": -1,
-        "label": "Far apart"
-      }
-    ]
+    "me": "Me",
+    "mine": "Mine"
   },
   "leanWords": {
     "veryLiberal": "Very liberal",
@@ -682,7 +664,8 @@
     "books": "The books",
     "otherLines": "Other",
     "fiscalYear": "fiscal year",
-    "priorities": "Your priorities"
+    "priorities": "Your priorities",
+    "partiesTitle": "Parties"
   },
   "results": {
     "you": "You",
@@ -746,7 +729,7 @@
     "worth": "Worth"
   },
   "localRaces": {
-    "title": "On the ballot",
+    "title": "On my ballot",
     "unopposed": "Unopposed",
     "noFilers": "No one has filed",
     "running": "{n} running",
@@ -756,7 +739,8 @@
     "noBallot": "No local election is on the calendar",
     "dates": "Dates",
     "electionDay": "Election day",
-    "yourCampaign": "Your campaign"
+    "yourCampaign": "Your campaign",
+    "whoIsRunning": "Who's running"
   },
   "grade": {
     "good": "Good",
@@ -772,7 +756,11 @@
   "guide": {
     "search": "Search",
     "none": "No term matches that.",
-    "resetLearned": "Underline learned terms again"
+    "resetLearned": "Underline learned terms again",
+    "title": "Words",
+    "whatItIs": "What it is",
+    "here": "Here",
+    "related": "Related"
   },
   "patchNotes": {
     "release": "Release",
@@ -833,7 +821,7 @@
     "politics": "Politics",
     "government": "Government",
     "office": "Your office",
-    "campaigns": "Campaigns",
+    "campaigns": "Elections",
     "parties": "Parties",
     "issues": "Issues",
     "calendar": "Calendar",

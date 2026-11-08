@@ -15,7 +15,7 @@ import {
 } from "./ui/talk-box.mjs";
 import { showToast, hideToast } from "./ui/toast.mjs";
 import { mountRail } from "./ui/rail.mjs";
-import { districtMap, partyLegend, partyRoster } from "./ui/map.mjs";
+import { districtMap } from "./ui/map.mjs";
 import { chamberHeader } from "./ui/chamber.mjs";
 import { memberCard } from "./ui/member-card.mjs";
 import { dateList } from "./ui/date-list.mjs";
@@ -62,6 +62,9 @@ import {
 /** A government's sum in a readable unit ("$5.2 trillion", "$48,300"). */
 const roundedMoney = (minor) => moneyWords(minor, { rounded: true });
 import { newsBoard } from "./ui/news-board.mjs";
+import { el } from "./ui/dom.mjs";
+import { rosterScreen } from "./ui/roster-screen.mjs";
+import { guideScreen } from "./ui/guide-screen.mjs";
 import { travelScreen } from "./ui/travel-screen.mjs";
 import { peopleWeb } from "./ui/people-web.mjs";
 import { billPaper } from "./ui/bill-paper.mjs";
@@ -1421,6 +1424,7 @@ function partyRows(party) {
     });
     b.addEventListener("click", async () => {
       await post(`/api/party/join?${new URLSearchParams({ partyId: p.id })}`);
+      partyTab = p.name;
       // Back to Parties, where joining happens, to show the new membership.
       openSheet("parties");
     });
@@ -1774,10 +1778,6 @@ async function reopenTrail(filingId) {
   await openSheet("travel");
   const part = (await campaignParts()).find((p) => p.filing.id === filingId);
   if (part) trailView(part);
-}
-/** The tab's rows: each filed campaign's standing and results. */
-async function campaignRows() {
-  return (await campaignParts()).map((part) => part.tab);
 }
 
 // ---- A big moment, staged when it stops the clock ----
@@ -3310,92 +3310,24 @@ const sheets = {
   // two across, and the chosen term's article beside them; the search narrows
   // the cards as it is typed.
   async guide() {
-    let terms = await api(`/api/guide?q=${encodeURIComponent(guideQuery)}`);
-    let chosen = terms[0]?.key;
-    const cards = plate(null);
-    const article = plate(null);
-    article.classList.add("pick-article");
-    const drawArticle = () => {
-      const t = terms.find((term) => term.key === chosen) ?? terms[0];
-      // The chosen card is marked, as a chosen tab is.
-      for (const card of cards.querySelectorAll("[data-term]"))
-        card.classList.toggle("on", card.dataset.term === t?.key);
-      article.replaceChildren(
-        ...(t
-          ? [
-              heading(t.term, "h3"),
-              prose(t.short, "guide-short"),
-              ...[t.explanation, t.contextNote]
-                .filter(Boolean)
-                .map((text) => prose(text, "article-text")),
-            ]
-          : []),
-      );
-    };
-    const drawCards = () => {
-      cards.replaceChildren(
-        terms.length
-          ? pager({
-              items: terms.map((t) => ({
-                title: t.term,
-                lede: t.short,
-                label: t.term,
-                onSelect: () => {
-                  chosen = t.key;
-                  drawArticle();
-                },
-                data: { term: t.key },
-              })),
-              render: listEntry,
-              rows: Math.max(
-                3,
-                Math.min(8, Math.floor((window.innerHeight - 300) / 76)),
-              ),
-              columns: 2,
-              rowHeight: 68,
-              gap: 8,
-              words: {
-                page: controls.politics.page,
-                previous: controls.politics.previousPage,
-                next: controls.politics.nextPage,
-              },
-              className: "pick-cards",
-            })
-          : prose(controls.guide.none ?? "", "record-empty"),
-      );
-    };
-    const search = searchBox({
-      value: guideQuery,
-      placeholder: controls.guide.search,
-      onInput: async (text) => {
+    const terms = await api(`/api/guide?q=${encodeURIComponent(guideQuery)}`);
+    return guideScreen({
+      terms,
+      query: guideQuery,
+      labels: controls.guide,
+      words: {
+        page: controls.politics.page,
+        previous: controls.politics.previousPage,
+        next: controls.politics.nextPage,
+      },
+      onSearch: async (text) => {
         guideQuery = text;
         const found = await api(`/api/guide?q=${encodeURIComponent(text)}`);
         // A slower answer to an older query never replaces a newer one.
-        if (text !== guideQuery) return;
-        terms = found;
-        if (!terms.some((t) => t.key === chosen)) chosen = terms[0]?.key;
-        drawCards();
-        drawArticle();
+        return text === guideQuery ? found : null;
       },
+      onReset: resetLearned,
     });
-    search.setAttribute("aria-label", controls.guide.search ?? "");
-    drawCards();
-    drawArticle();
-    return [
-      splitScreen({
-        controls: [
-          search,
-          makeButton({
-            className: "action small",
-            textContent: controls.guide.resetLearned,
-            onclick: resetLearned,
-          }),
-        ],
-        main: [cards],
-        side: [{ title: null, nodes: [article] }],
-        className: "guide-screen",
-      }),
-    ];
   },
   /**
    * The title's Patch notes, as the Nov 8 front mock draws it (fr-notes): the builds in a
@@ -3687,151 +3619,146 @@ const sheets = {
     const labels = controls.localRaces;
     const stance = voteWords();
     const filed = new Set(v.filings.map((f) => f.contestId));
-    const fileForIt = (race) => {
-      const b = makeButton({ textContent: labels.fileForIt });
-      b.dataset.testid = "file-for-it";
-      b.addEventListener("click", () =>
-        openFiling(race.filedWith, race.contestId),
-      );
-      return buttonTray(b);
-    };
     const status = (race) =>
       filed.has(race.contestId)
         ? labels.youFiled
         : race.filers.length
           ? labels.running.replace("{n}", race.filers.length)
           : labels.noFilers;
-    // One race's page: who is running as face cards with where they stand,
-    // the race's dates beside them, and File for it in its tray.
-    const showRace = (race) => {
-      $("sheet").classList.remove("fits");
-      $("sheet-body").replaceChildren(
-        splitScreen({
-          controls: [heading(race.title, "h2")],
-          main: [
-            plate(
-              race.filers.length ? status(race) : null,
-              ...(race.filers.length
-                ? race.filers.map((f) =>
-                    plate(
-                      null,
-                      memberCard({
-                        name: f.name ?? "",
-                        line: f.party ?? "",
-                        party: f.party,
-                        badge: f.party ? f.party.charAt(0) : null,
-                        face: f.face,
-                        onOpen: () => {
-                          closeSheet();
-                          showPerson({
-                            personId: f.cardId,
-                            figureUrl: f.face?.url,
-                          });
-                        },
-                      }),
-                      ...f.stances.map((st) =>
-                        row(
-                          policyLabel(st.question),
-                          st.position > 0
-                            ? (stance.for ?? "")
-                            : (stance.against ?? ""),
-                        ),
-                      ),
-                    ),
-                  )
-                : [prose(labels.noFilers, "record-empty")]),
-              // Only a race the player may run for (owner, Oct 29: six
-              // offices; the row's playerMayFile, government.ts).
-              ...(race.filingOpen &&
-              race.playerMayFile &&
-              !filed.has(race.contestId) &&
-              race.filedWith
-                ? [fileForIt(race)]
-                : []),
+    // One race's page: its title and date, who is running (face, party, where they stand),
+    // its dates, and File for it when the player may.
+    const racePage = (race) => {
+      const candidates = race.filers.length
+        ? race.filers.map((f) =>
+            el(
+              "div",
+              { className: "candidate" },
+              memberCard({
+                name: f.name ?? "",
+                line: f.party ?? "",
+                party: f.party,
+                badge: f.party ? f.party.charAt(0) : null,
+                face: f.face,
+                onOpen: () => {
+                  closeSheet();
+                  showPerson({ personId: f.cardId, figureUrl: f.face?.url });
+                },
+              }),
+              ...f.stances.map((st) =>
+                row(
+                  policyLabel(st.question),
+                  st.position > 0 ? (stance.for ?? "") : (stance.against ?? ""),
+                ),
+              ),
             ),
-          ],
-          side: [
-            {
-              title: labels.dates,
-              nodes: [
-                dateList([
-                  ...(race.filingClosed
-                    ? []
-                    : [
-                        {
-                          when: dateWords(race.filingDeadline, {
-                            month: "short",
-                            year: me.date,
-                          }),
-                          text: labels.filingCloses,
-                        },
-                      ]),
-                  {
-                    when: dateWords(race.electionDate, {
-                      month: "short",
-                      year: me.date,
-                    }),
-                    text: labels.electionDay,
-                  },
-                ]),
-              ],
-            },
-          ],
-          className: "race-page",
-        }),
+          )
+        : [prose(labels.noFilers, "record-empty")];
+      const mayFile =
+        race.filingOpen &&
+        race.playerMayFile &&
+        !filed.has(race.contestId) &&
+        race.filedWith;
+      const fileButton = makeButton({ textContent: labels.fileForIt });
+      fileButton.dataset.testid = "file-for-it";
+      fileButton.addEventListener("click", () =>
+        openFiling(race.filedWith, race.contestId),
       );
-    };
-    // The coming ballot as race cards on a plate, paged to fit the window;
-    // each opens its race (owner, Oct 29: every menu like Government).
-    const races = ballot.races.map((race) => ({
-      title: race.title,
-      value: status(race),
-      lede: dateWords(race.electionDate),
-      note: race.filingClosed
-        ? null
-        : `${labels.filingCloses} ${dateWords(race.filingDeadline)}`,
-      label: race.title,
-      onSelect: () => showRace(race),
-      data: { contest: race.contestId },
-    }));
-    const own = v.filings.length ? await campaignRows() : [];
-    return [
-      splitScreen({
-        main: [
-          ...(own.length ? [plate(labels.yourCampaign, ...own)] : []),
-          plate(
-            labels.title,
-            ...(races.length
-              ? [
-                  pager({
-                    items: races,
-                    render: listEntry,
-                    rows: Math.max(
-                      1,
-                      Math.min(
-                        4,
-                        Math.floor(
-                          (window.innerHeight - (own.length ? 580 : 400)) / 118,
-                        ),
-                      ),
-                    ),
-                    columns: 3,
-                    rowHeight: 108,
-                    gap: 10,
-                    words: {
-                      page: controls.politics.page,
-                      previous: controls.politics.previousPage,
-                      next: controls.politics.nextPage,
-                    },
-                    className: "race-cards",
+      return [
+        el(
+          "h2",
+          { className: "roster-title" },
+          race.title,
+          el("span", {
+            textContent: dateWords(race.electionDate, { year: me.date }),
+          }),
+        ),
+        el(
+          "div",
+          { className: "roster-cols" },
+          stripSection(1, labels.whoIsRunning, ...candidates),
+          el(
+            "div",
+            { className: "roster-side" },
+            stripSection(
+              2,
+              labels.dates,
+              dateList([
+                ...(race.filingClosed
+                  ? []
+                  : [
+                      {
+                        when: dateWords(race.filingDeadline, {
+                          month: "short",
+                          year: me.date,
+                        }),
+                        text: labels.filingCloses,
+                      },
+                    ]),
+                {
+                  when: dateWords(race.electionDate, {
+                    month: "short",
+                    year: me.date,
                   }),
-                ]
-              : [prose(labels.noBallot, "record-empty")]),
+                  text: labels.electionDay,
+                },
+              ]),
+            ),
+            ...(mayFile ? [buttonTray(fileButton)] : []),
           ),
-        ],
-        className: "campaigns-screen",
-      }),
+        ),
+      ];
+    };
+    // The player's own filed campaigns lead the list; each opens its board.
+    const own = v.filings.length ? await campaignParts() : [];
+    const byDate = new Map();
+    for (const race of ballot.races) {
+      const day = byDate.get(race.electionDate) ?? [];
+      day.push(race);
+      byDate.set(race.electionDate, day);
+    }
+    const groups = [
+      ...(own.length
+        ? [
+            {
+              title: labels.yourCampaign,
+              entries: own.map((part) => ({
+                key: part.filing.id,
+                label: part.contest?.title ?? part.filing.id,
+                data: { campaign: part.filing.id },
+                part,
+              })),
+            },
+          ]
+        : []),
+      ...[...byDate.entries()]
+        .sort(([a], [b]) => a.localeCompare(b))
+        .map(([day, races]) => ({
+          title: dateWords(day, { year: me.date }),
+          entries: races.map((race) => ({
+            key: race.contestId,
+            label: race.title,
+            aside:
+              race.filers.length || filed.has(race.contestId)
+                ? status(race)
+                : "",
+            data: { contest: race.contestId },
+            race,
+          })),
+        })),
     ];
+    if (!groups.length) return [prose(labels.noBallot, "record-empty")];
+    return rosterScreen({
+      title: labels.title,
+      groups,
+      className: "elections-screen",
+      words: {
+        page: controls.politics.page,
+        previous: controls.politics.previousPage,
+        next: controls.politics.nextPage,
+      },
+      render: async (entry) =>
+        entry.part ? [entry.part.tab] : racePage(entry.race),
+    });
   },
   /**
    * Politics → Government, drawn as a game menu (owner, Oct 29: "make it look like a real
@@ -4375,117 +4302,90 @@ const sheets = {
    * 28, point 20: the map that once existed, brought back).
    */
   async parties() {
-    const [v, m] = await Promise.all([
-      api(`/api/government?id=${encodeURIComponent(me.id)}`),
-      api("/api/map"),
-    ]);
+    const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);
     const labels = controls.politics;
-    const seatWords = (n) =>
-      `${n} ${n === 1 ? labels.seat : labels.seats.toLowerCase()}`;
-    // A district's hover title: its name and who holds it, by party; a
-    // district with no holder on record is its name alone.
-    const wordHolders = (district) =>
-      district.holders.length
-        ? `${district.name}: ${district.holders
-            .map((h) => (h.party ? `${h.name}, ${h.party}` : h.name))
-            .join("; ")}`
-        : district.name;
-    const parties = v.parties.map(({ party, seats }) => ({
-      party,
-      seats: seats.length,
-    }));
-    // The party the player belongs to, with how their views fit it, or the
-    // parties they could join (moved here from Government, which now draws
-    // the mock; never joined: files unaffiliated), the join buttons in a tray.
-    const membership = v.party ? partyRows(v.party) : [];
-    const joins = membership.filter((node) => node.tagName === "BUTTON");
-    // No tie on record: not registered, said so (never a party by default).
-    const unregistered =
-      v.party && !v.party.member
-        ? prose(controls.party.notRegistered, "record-empty")
-        : null;
-    // The map and its key on a plate; beside it your party, then each party's
-    // officeholders as face cards, one party at a time on the rail, paged.
-    const keys = v.parties.map(({ party }) => party);
-    let chosen = keys.includes(partyTab) ? partyTab : keys[0];
-    // The roster's box inside the "In office" plate under the map.
-    const roster = partyRoster();
-    const drawRoster = () => {
-      const seats =
-        v.parties.find(({ party }) => party === chosen)?.seats ?? [];
-      roster.replaceChildren(
-        pager({
-          items: seats,
-          render: (s) =>
-            memberCard({
-              name: s.name,
-              line: s.title,
-              party: chosen,
-              badge: chosen ? chosen.charAt(0) : null,
-              face: s.face,
-              onOpen: () => {
-                closeSheet();
-                showPerson({ personId: s.cardId, figureUrl: s.face?.url });
-              },
-            }),
-          rows: Math.max(
-            1,
-            Math.min(5, Math.floor((window.innerHeight - 600) / 72)),
-          ),
-          columns: 2,
-          rowHeight: 64,
-          gap: 8,
-          words: {
-            page: labels.page,
-            previous: labels.previousPage,
-            next: labels.nextPage,
-          },
-        }),
-      );
-      fitPagers(roster);
+    const party = v.party;
+    const mine = party?.member?.name;
+    const keys = v.parties.map((p) => p.party);
+    const pagerWords = {
+      page: labels.page,
+      previous: labels.previousPage,
+      next: labels.nextPage,
     };
-    const rail = tabBar({
-      attr: "party",
-      active: chosen,
-      tabs: keys.map((key) => ({
-        key,
-        label: key,
-        onSelect: () => {
-          partyTab = chosen = key;
-          chooseTab(rail, "party", key);
-          drawRoster();
-        },
-      })),
-    });
-    drawRoster();
-    return [
-      splitScreen({
-        // The map and, under it, each party's officeholders (path 11: under
-        // the map they have the room; beside a tray of join buttons on a
-        // 1024-wide window they were pushed past the foot).
-        main: [
-          ...(m
-            ? [
-                plate(
-                  null,
-                  districtMap(m, { wordHolders }),
-                  partyLegend(parties, seatWords),
+    // One party's page: who holds office for it (cards, paged), and where the player stands
+    // with it (registered, or Join).
+    const partyPage = (name) => {
+      const seats = v.parties.find((p) => p.party === name)?.seats ?? [];
+      const meNodes = !party
+        ? []
+        : mine === name
+          ? partyRows(party)
+          : !mine
+            ? partyRows(party).filter(
+                (node, at) =>
+                  node.tagName === "BUTTON" && party.parties[at]?.name === name,
+              )
+            : [];
+      return [
+        el("h2", { className: "roster-title", textContent: name }),
+        stripSection(
+          1,
+          labels.inOffice,
+          seats.length
+            ? pager({
+                items: seats,
+                render: (s) =>
+                  memberCard({
+                    name: s.name,
+                    line: s.title,
+                    party: name,
+                    badge: name.charAt(0),
+                    face: s.face,
+                    onOpen: () => {
+                      closeSheet();
+                      showPerson({
+                        personId: s.cardId,
+                        figureUrl: s.face?.url,
+                      });
+                    },
+                  }),
+                rows: Math.max(
+                  1,
+                  Math.min(5, Math.floor((window.innerHeight - 420) / 72)),
                 ),
-              ]
-            : []),
-          ...(keys.length ? [plate(labels.inOffice, rail, roster)] : []),
-        ],
-        side: [
-          membership.length && {
-            title: v.party?.member ? null : controls.party.member,
-            nodes: joins.length
-              ? [...(unregistered ? [unregistered] : []), buttonTray(...joins)]
-              : membership,
-          },
-        ].filter(Boolean),
-        className: "parties-screen",
-      }),
-    ];
+                columns: 2,
+                rowHeight: 64,
+                gap: 8,
+                words: pagerWords,
+              })
+            : prose(labels.noHolders ?? "", "record-empty"),
+        ),
+        ...(meNodes.length
+          ? [stripSection(2, controls.party.me, ...meNodes)]
+          : []),
+      ];
+    };
+    if (!keys.length) return [prose(labels.noParties ?? "", "record-empty")];
+    return rosterScreen({
+      title: labels.partiesTitle,
+      className: "parties-screen",
+      chosenKey: keys.includes(partyTab) ? partyTab : mine,
+      groups: [
+        {
+          entries: keys.map((name) => ({
+            key: name,
+            label: name,
+            aside: name === mine ? controls.party.mine : "",
+            name,
+          })),
+        },
+      ],
+      words: pagerWords,
+      render: async (entry) => {
+        partyTab = entry.name;
+        return partyPage(entry.name);
+      },
+    });
   },
   /**
    * Issues: the law in force here as cards by subject (owner, Oct 28, point
