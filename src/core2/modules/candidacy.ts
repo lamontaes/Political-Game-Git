@@ -5,6 +5,7 @@ import {
   raceScope,
   poolFactsFor,
   appointedHolders,
+  ambitionOf,
   type PoolFacts,
   type RaceScope,
 } from "../candidate-pool";
@@ -405,8 +406,9 @@ function reasonsFrom(
   const zero = api.parameter("zero");
   const one = api.parameter("one");
   const two = api.parameter("two");
-  // Personality enters once, through the chooser's trait term on the two
-  // options' act kinds; no second temperament term here.
+  // Personality enters through the chooser's trait term on the two options'
+  // act kinds and, for their own read of their chance, through the hope an
+  // enterprising, risk-taking person adds to it (below).
   const hours = person.workHoursDaily / c(api, "candidacyFullShiftHours");
   const age = ageOnDate(person.birthDate, api.state.date);
   const distance =
@@ -417,7 +419,18 @@ function reasonsFrom(
     one,
     person.known / c(api, "candidacyStandingCircle"),
   );
+  // Their own read of their chance: the odds they would have (their standing
+  // against a sitting incumbent's, shared with everyone already running)
+  // and the hope an enterprising, risk-taking person adds to them. A long
+  // shot who files anyway is realistic (owner, Nov 8).
+  const odds =
+    (standing *
+      (contest.incumbentId ? c(api, "candidacyChallengerOdds") : one)) /
+    (one + (contest.runners ?? zero));
+  const hope =
+    Math.min(one, ambitionOf(person)) * c(api, "candidacyOverconfidenceShare");
   return {
+    chance: c(api, "candidacyChanceWeight") * (odds + hope * (one - odds)),
     engagement: c(api, "candidacyEngagementWeight") * person.engagement,
     cause: c(api, "candidacyCauseWeight") * person.cause,
     time: -c(api, "candidacyTimeWeight") * Math.min(one, hours),
