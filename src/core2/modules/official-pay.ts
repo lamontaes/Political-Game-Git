@@ -23,8 +23,7 @@ import salaries from "../../../data/research/offices/official-salaries-2026.json
 import { coreAPI, registerModule } from "../state";
 import { BUDGETS_MODULE_ID, governments, withholdPay } from "./budgets";
 import { notePublicPay, outsideAccountOf } from "../budgets-treasury";
-import { OFFICIALS_MODULE_ID, officialOf, type OfficialRow } from "./officials";
-import { registerHuskIncome } from "../husk-promoters";
+import { OFFICIALS_MODULE_ID, type OfficialRow } from "./officials";
 import {
   addDays,
   daysBetween,
@@ -397,11 +396,6 @@ export function payPostFromOutside(
   } satisfies PayRow as unknown as ModuleRow);
   return true;
 }
-
-registerHuskIncome((core, personId) => {
-  const row = officialOf(coreAPI(core), personId);
-  return row?.husk ? officialSalary(row)?.annualMinor : undefined;
-});
 
 /** Seat new officials, and end the post of anyone whose term ended. */
 function review(api: CoreAPI): void {
