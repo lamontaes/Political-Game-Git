@@ -161,6 +161,24 @@
     "later": "Later years",
     "seat": "Seat held"
   },
+  "devBills": {
+    "title": "Bills",
+    "body": "Body",
+    "sponsor": "Sponsor",
+    "series": "Law",
+    "value": "Value",
+    "margin": "Margin",
+    "overrideMargin": "Override margin",
+    "executive": "Executive",
+    "executiveGame": "Decides as usual",
+    "sign": "Signs",
+    "veto": "Vetoes",
+    "introduce": "Introduce",
+    "pass": "Pass",
+    "defeat": "Defeat",
+    "held": "Held in committee",
+    "noBill": "Introduce a bill first."
+  },
   "devMemory": {
     "title": "Remembers",
     "kept": {

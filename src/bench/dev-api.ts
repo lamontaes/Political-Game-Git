@@ -223,6 +223,37 @@ export async function handleDev(
       send(200, mode.advance(to));
       return true;
     }
+    case "GET lawmaking-bodies":
+      send(200, mode.lawmakingBodies());
+      return true;
+    case "POST introduce": {
+      const input = await body(request);
+      send(
+        200,
+        mode.introduce({
+          bodyOfficeId: String(input.bodyOfficeId),
+          sponsorId: String(input.sponsorId),
+          series: String(input.series),
+          value: Number(input.value),
+          unit: input.unit === undefined ? undefined : String(input.unit),
+        }),
+      );
+      return true;
+    }
+    case "POST decide": {
+      const input = await body(request);
+      send(
+        200,
+        mode.decideAt(String(input.billId), Number(input.margin), {
+          sign: typeof input.sign === "boolean" ? input.sign : undefined,
+          overrideMargin:
+            input.overrideMargin === undefined
+              ? undefined
+              : Number(input.overrideMargin),
+        }),
+      );
+      return true;
+    }
     case "POST run-until": {
       const input = await body(request);
       send(
