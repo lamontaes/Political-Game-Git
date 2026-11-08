@@ -3987,6 +3987,1006 @@
       "tag": {
         "move": "narrate"
       }
+    },
+    {
+      "key": "scene-words.lead-floor-vote-any.the-chair-calls-the-roll",
+      "move": "lead-floor-vote-any",
+      "kind": "spoken",
+      "text": "The chair calls the roll.",
+      "uses": [
+        {
+          "move": "lead-floor-vote-any",
+          "subject": "lead",
+          "role": "floor-vote",
+          "choice": "any"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-floor-vote-any.the-chair-puts-the-question-and-the-clerk-begins-the",
+      "move": "lead-floor-vote-any",
+      "kind": "spoken",
+      "text": "The chair puts the question, and the clerk begins the roll.",
+      "uses": [
+        {
+          "move": "lead-floor-vote-any",
+          "subject": "lead",
+          "role": "floor-vote",
+          "choice": "any"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-floor-vote-any.the-clerk-reads-the-bill-and-the-chair-calls-for",
+      "move": "lead-floor-vote-any",
+      "kind": "spoken",
+      "text": "The clerk reads the bill, and the chair calls for the vote.",
+      "uses": [
+        {
+          "move": "lead-floor-vote-any",
+          "subject": "lead",
+          "role": "floor-vote",
+          "choice": "any"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-floor-vote-any.the-chair-asks-for-the-vote",
+      "move": "lead-floor-vote-any",
+      "kind": "spoken",
+      "text": "The chair asks for the vote.",
+      "uses": [
+        {
+          "move": "lead-floor-vote-any",
+          "subject": "lead",
+          "role": "floor-vote",
+          "choice": "any"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-floor-vote-any.no-one-else-seeks-the-floor-the-chair-puts-the",
+      "move": "lead-floor-vote-any",
+      "kind": "spoken",
+      "text": "No one else seeks the floor. The chair puts the question.",
+      "uses": [
+        {
+          "move": "lead-floor-vote-any",
+          "subject": "lead",
+          "role": "floor-vote",
+          "choice": "any"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-floor-vote-any.the-roll-is-called-one-name-at-a-time",
+      "move": "lead-floor-vote-any",
+      "kind": "spoken",
+      "text": "The roll is called, one name at a time.",
+      "uses": [
+        {
+          "move": "lead-floor-vote-any",
+          "subject": "lead",
+          "role": "floor-vote",
+          "choice": "any"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-floor-vote-any.the-chair-puts-the-question-to-the-body",
+      "move": "lead-floor-vote-any",
+      "kind": "spoken",
+      "text": "The chair puts the question to the body.",
+      "uses": [
+        {
+          "move": "lead-floor-vote-any",
+          "subject": "lead",
+          "role": "floor-vote",
+          "choice": "any"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-floor-vote-any.debate-is-closed-the-chair-calls-the-roll",
+      "move": "lead-floor-vote-any",
+      "kind": "spoken",
+      "text": "Debate is closed. The chair calls the roll.",
+      "uses": [
+        {
+          "move": "lead-floor-vote-any",
+          "subject": "lead",
+          "role": "floor-vote",
+          "choice": "any"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-letter-other.other-s-handwriting-leans-hard-to-the-right-same-as-always-you-read-th",
+      "move": "lead-letter-other",
+      "kind": "spoken",
+      "text": "{other}'s handwriting leans hard to the right, same as always. You read the first line twice before going on.",
+      "uses": [
+        {
+          "move": "lead-letter-other",
+          "subject": "lead",
+          "role": "letter",
+          "choice": "other"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-letter-other.the-stamp-in-the-corner-is-a-little-crooked-it-looks-like-other-presse",
+      "move": "lead-letter-other",
+      "kind": "spoken",
+      "text": "The stamp in the corner is a little crooked. It looks like {other} pressed it down in a hurry.",
+      "uses": [
+        {
+          "move": "lead-letter-other",
+          "subject": "lead",
+          "role": "letter",
+          "choice": "other"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-letter-other.the-envelope-smells-faintly-of-cedar-you-hold-it-close-for-a-moment-be",
+      "move": "lead-letter-other",
+      "kind": "spoken",
+      "text": "The envelope smells faintly of cedar. You hold it close for a moment before you open it.",
+      "uses": [
+        {
+          "move": "lead-letter-other",
+          "subject": "lead",
+          "role": "letter",
+          "choice": "other"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-letter-other.a-photo-is-tucked-in-with-the-pages-you-hold-it-by-the-edges-and-look-",
+      "move": "lead-letter-other",
+      "kind": "spoken",
+      "text": "A photo is tucked in with the pages. You hold it by the edges and look at it for a long while.",
+      "uses": [
+        {
+          "move": "lead-letter-other",
+          "subject": "lead",
+          "role": "letter",
+          "choice": "other"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-letter-other.other-filled-both-sides-of-the-paper-and-kept-writing-up-the-margin-th",
+      "move": "lead-letter-other",
+      "kind": "spoken",
+      "text": "{other} filled both sides of the paper and kept writing up the margin. They clearly had plenty to say.",
+      "uses": [
+        {
+          "move": "lead-letter-other",
+          "subject": "lead",
+          "role": "letter",
+          "choice": "other"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-letter-other.the-letter-was-pushed-under-your-door-you-know-other-s-hand-before-you",
+      "move": "lead-letter-other",
+      "kind": "spoken",
+      "text": "The letter was pushed under your door. You know {other}'s hand before you turn it over.",
+      "uses": [
+        {
+          "move": "lead-letter-other",
+          "subject": "lead",
+          "role": "letter",
+          "choice": "other"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-letter-other.some-lines-are-pressed-deep-into-the-paper-as-if-other-went-over-them-",
+      "move": "lead-letter-other",
+      "kind": "spoken",
+      "text": "Some lines are pressed deep into the paper, as if {other} went over them twice. You slow down.",
+      "uses": [
+        {
+          "move": "lead-letter-other",
+          "subject": "lead",
+          "role": "letter",
+          "choice": "other"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-letter-other.the-card-has-a-bent-corner-other-drew-a-small-star-beside-the-signatur",
+      "move": "lead-letter-other",
+      "kind": "spoken",
+      "text": "The card has a bent corner. {other} drew a small star beside the signature.",
+      "uses": [
+        {
+          "move": "lead-letter-other",
+          "subject": "lead",
+          "role": "letter",
+          "choice": "other"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-letter-other.one-line-near-the-end-is-crossed-out-and-written-again-you-wonder-what",
+      "move": "lead-letter-other",
+      "kind": "spoken",
+      "text": "One line near the end is crossed out and written again. You wonder what {other} first meant to say.",
+      "uses": [
+        {
+          "move": "lead-letter-other",
+          "subject": "lead",
+          "role": "letter",
+          "choice": "other"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-letter-other.other-left-a-little-blank-space-at-the-bottom-of-the-page-as-if-leavin",
+      "move": "lead-letter-other",
+      "kind": "spoken",
+      "text": "{other} left a little blank space at the bottom of the page, as if leaving room for your answer.",
+      "uses": [
+        {
+          "move": "lead-letter-other",
+          "subject": "lead",
+          "role": "letter",
+          "choice": "other"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-gathering-missing-alone.one-chair-stays-pushed-in-nobody-sits-there-and-nobody-moves-it",
+      "move": "lead-gathering-missing-alone",
+      "kind": "spoken",
+      "text": "One chair stays pushed in. Nobody sits there, and nobody moves it.",
+      "uses": [
+        {
+          "move": "lead-gathering-missing-alone",
+          "subject": "lead",
+          "role": "gathering-missing",
+          "choice": "alone"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-gathering-missing-alone.you-cut-one-more-slice-than-there-are-people-here-nobody-says-anything",
+      "move": "lead-gathering-missing-alone",
+      "kind": "spoken",
+      "text": "You cut one more slice than there are people here. Nobody says anything about it.",
+      "uses": [
+        {
+          "move": "lead-gathering-missing-alone",
+          "subject": "lead",
+          "role": "gathering-missing",
+          "choice": "alone"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-gathering-missing-alone.the-phone-lies-face-up-beside-the-cake-every-so-often-someone-glances-",
+      "move": "lead-gathering-missing-alone",
+      "kind": "spoken",
+      "text": "The phone lies face up beside the cake. Every so often someone glances at it.",
+      "uses": [
+        {
+          "move": "lead-gathering-missing-alone",
+          "subject": "lead",
+          "role": "gathering-missing",
+          "choice": "alone"
+        }
+      ],
+      "bearing": "tired",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-gathering-missing-other.a-card-signed-by-other-is-propped-against-the-cake-stand-everyone-has-",
+      "move": "lead-gathering-missing-other",
+      "kind": "spoken",
+      "text": "A card signed by {other} is propped against the cake stand. Everyone has already read it.",
+      "uses": [
+        {
+          "move": "lead-gathering-missing-other",
+          "subject": "lead",
+          "role": "gathering-missing",
+          "choice": "other"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-gathering-missing-other.you-set-out-the-plates-and-count-them-twice-other-would-have-made-one-",
+      "move": "lead-gathering-missing-other",
+      "kind": "spoken",
+      "text": "You set out the plates and count them twice. {other} would have made one more.",
+      "uses": [
+        {
+          "move": "lead-gathering-missing-other",
+          "subject": "lead",
+          "role": "gathering-missing",
+          "choice": "other"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-gathering-missing-other.someone-lights-the-candles-and-starts-to-say-other-s-name-then-just-ha",
+      "move": "lead-gathering-missing-other",
+      "kind": "spoken",
+      "text": "Someone lights the candles and starts to say {other}'s name, then just hands over the matches.",
+      "uses": [
+        {
+          "move": "lead-gathering-missing-other",
+          "subject": "lead",
+          "role": "gathering-missing",
+          "choice": "other"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-gathering-missing-alone.they-sing-anyway-a-little-quieter-than-usual-the-phone-stays-dark-thro",
+      "move": "lead-gathering-missing-alone",
+      "kind": "spoken",
+      "text": "They sing anyway, a little quieter than usual. The phone stays dark through the birthday song.",
+      "uses": [
+        {
+          "move": "lead-gathering-missing-alone",
+          "subject": "lead",
+          "role": "gathering-missing",
+          "choice": "alone"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-gathering-missing-other.someone-makes-a-joke-and-stops-halfway-the-way-you-stop-when-you-expec",
+      "move": "lead-gathering-missing-other",
+      "kind": "spoken",
+      "text": "Someone makes a joke and stops halfway, the way you stop when you expect {other} to answer.",
+      "uses": [
+        {
+          "move": "lead-gathering-missing-other",
+          "subject": "lead",
+          "role": "gathering-missing",
+          "choice": "other"
+        }
+      ],
+      "bearing": "tired",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-gathering-missing-other.you-wrap-a-piece-of-cake-and-set-it-aside-for-other-nobody-asks-why",
+      "move": "lead-gathering-missing-other",
+      "kind": "spoken",
+      "text": "You wrap a piece of cake and set it aside for {other}. Nobody asks why.",
+      "uses": [
+        {
+          "move": "lead-gathering-missing-other",
+          "subject": "lead",
+          "role": "gathering-missing",
+          "choice": "other"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-gathering-missing-alone.you-lift-your-cup-toward-the-empty-chair-the-others-lift-theirs",
+      "move": "lead-gathering-missing-alone",
+      "kind": "spoken",
+      "text": "You lift your cup toward the empty chair. The others lift theirs.",
+      "uses": [
+        {
+          "move": "lead-gathering-missing-alone",
+          "subject": "lead",
+          "role": "gathering-missing",
+          "choice": "alone"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-rescue-other.your-legs-stop-holding-you-and-the-cup-slips-from-your-hand-other-is-b",
+      "move": "lead-rescue-other",
+      "kind": "spoken",
+      "text": "Your legs stop holding you, and the cup slips from your hand. {other} is beside you before it hits the floor.",
+      "uses": [
+        {
+          "move": "lead-rescue-other",
+          "subject": "lead",
+          "role": "rescue",
+          "choice": "other"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-rescue-other.other-slides-a-hand-under-your-head-and-says-your-name-twice-you-hear-",
+      "move": "lead-rescue-other",
+      "kind": "spoken",
+      "text": "{other} slides a hand under your head and says your name twice. You hear it, and you answer.",
+      "uses": [
+        {
+          "move": "lead-rescue-other",
+          "subject": "lead",
+          "role": "rescue",
+          "choice": "other"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-rescue-other.the-pain-in-your-chest-tightens-other-tells-you-to-breathe-slowly-with",
+      "move": "lead-rescue-other",
+      "kind": "spoken",
+      "text": "The pain in your chest tightens. {other} tells you to breathe slowly with them and counts it out loud.",
+      "uses": [
+        {
+          "move": "lead-rescue-other",
+          "subject": "lead",
+          "role": "rescue",
+          "choice": "other"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-rescue-other.other-holds-the-phone-to-an-ear-and-gives-the-address-in-a-level-voice",
+      "move": "lead-rescue-other",
+      "kind": "spoken",
+      "text": "{other} holds the phone to an ear and gives the address in a level voice. The other hand stays on your shoulder.",
+      "uses": [
+        {
+          "move": "lead-rescue-other",
+          "subject": "lead",
+          "role": "rescue",
+          "choice": "other"
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-rescue-other.breathing-comes-hard-other-loosens-your-collar-and-tells-you-help-is-a",
+      "move": "lead-rescue-other",
+      "kind": "spoken",
+      "text": "Breathing comes hard. {other} loosens your collar and tells you help is already on the way.",
+      "uses": [
+        {
+          "move": "lead-rescue-other",
+          "subject": "lead",
+          "role": "rescue",
+          "choice": "other"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-rescue-other.other-pulls-a-coat-over-you-and-stays-down-on-the-floor-beside-you-you",
+      "move": "lead-rescue-other",
+      "kind": "spoken",
+      "text": "{other} pulls a coat over you and stays down on the floor beside you. You are shaking, but you hear everything.",
+      "uses": [
+        {
+          "move": "lead-rescue-other",
+          "subject": "lead",
+          "role": "rescue",
+          "choice": "other"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-rescue-other.you-try-to-sit-up-other-says-no-gently-and-keeps-you-lying-still",
+      "move": "lead-rescue-other",
+      "kind": "spoken",
+      "text": "You try to sit up. {other} says no, gently, and keeps you lying still.",
+      "uses": [
+        {
+          "move": "lead-rescue-other",
+          "subject": "lead",
+          "role": "rescue",
+          "choice": "other"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-rescue-other.other-stays-on-the-line-and-answers-each-question-without-hurrying-you",
+      "move": "lead-rescue-other",
+      "kind": "spoken",
+      "text": "{other} stays on the line and answers each question without hurrying. You watch their face while they talk.",
+      "uses": [
+        {
+          "move": "lead-rescue-other",
+          "subject": "lead",
+          "role": "rescue",
+          "choice": "other"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-rescue-other.when-the-crew-comes-in-other-steps-back-only-far-enough-to-let-them-wo",
+      "move": "lead-rescue-other",
+      "kind": "spoken",
+      "text": "When the crew comes in, {other} steps back only far enough to let them work. A hand stays on your ankle.",
+      "uses": [
+        {
+          "move": "lead-rescue-other",
+          "subject": "lead",
+          "role": "rescue",
+          "choice": "other"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-rescue-other.other-sits-close-and-holds-your-hand-the-whole-way-to-the-hospital-you",
+      "move": "lead-rescue-other",
+      "kind": "spoken",
+      "text": "{other} sits close and holds your hand the whole way to the hospital. You are tired and scared, and you are not alone.",
+      "uses": [
+        {
+          "move": "lead-rescue-other",
+          "subject": "lead",
+          "role": "rescue",
+          "choice": "other"
+        }
+      ],
+      "bearing": "relieved",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-return-other.the-door-opens-before-anyone-knocks-other-stands-there-with-one-hand-s",
+      "move": "lead-return-other",
+      "kind": "spoken",
+      "text": "The door opens before anyone knocks. {other} stands there with one hand still on the knob.",
+      "uses": [
+        {
+          "move": "lead-return-other",
+          "subject": "lead",
+          "role": "return",
+          "choice": "other"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-return-other.a-light-was-left-on-past-the-doorway-it-shows-the-bag-on-the-step-with",
+      "move": "lead-return-other",
+      "kind": "spoken",
+      "text": "A light was left on past the doorway. It shows the bag on the step, with the paper tag still tied to the handle.",
+      "uses": [
+        {
+          "move": "lead-return-other",
+          "subject": "lead",
+          "role": "return",
+          "choice": "other"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-return-other.other-looks-at-the-coat-too-big-in-the-shoulders-and-says-nothing-abou",
+      "move": "lead-return-other",
+      "kind": "spoken",
+      "text": "{other} looks at the coat, too big in the shoulders, and says nothing about it. The door stays open a little longer.",
+      "uses": [
+        {
+          "move": "lead-return-other",
+          "subject": "lead",
+          "role": "return",
+          "choice": "other"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-return-other.the-smell-of-a-meal-kept-warm-reaches-the-door-neither-of-you-mentions",
+      "move": "lead-return-other",
+      "kind": "spoken",
+      "text": "The smell of a meal kept warm reaches the door. Neither of you mentions it.",
+      "uses": [
+        {
+          "move": "lead-return-other",
+          "subject": "lead",
+          "role": "return",
+          "choice": "other"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-return-other.the-key-still-fits-it-turns-easily-and-other-is-standing-close-enough-",
+      "move": "lead-return-other",
+      "kind": "spoken",
+      "text": "The key still fits. It turns easily, and {other} is standing close enough to hear it.",
+      "uses": [
+        {
+          "move": "lead-return-other",
+          "subject": "lead",
+          "role": "return",
+          "choice": "other"
+        }
+      ],
+      "bearing": "relieved",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-return-other.other-takes-a-breath-and-steps-back-from-the-doorway-there-is-room-to-",
+      "move": "lead-return-other",
+      "kind": "spoken",
+      "text": "{other} takes a breath and steps back from the doorway. There is room to come in, and no one uses it yet.",
+      "uses": [
+        {
+          "move": "lead-return-other",
+          "subject": "lead",
+          "role": "return",
+          "choice": "other"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-return-other.other-reaches-for-the-bag-with-the-prison-issue-tag-on-it-nobody-says-",
+      "move": "lead-return-other",
+      "kind": "spoken",
+      "text": "{other} reaches for the bag with the prison-issue tag on it. Nobody says anything about the tag.",
+      "uses": [
+        {
+          "move": "lead-return-other",
+          "subject": "lead",
+          "role": "return",
+          "choice": "other"
+        }
+      ],
+      "bearing": "tired",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-return-other.your-hands-don-t-know-where-to-go-other-reaches-out-first-and-the-coat",
+      "move": "lead-return-other",
+      "kind": "spoken",
+      "text": "Your hands don't know where to go. {other} reaches out first, and the coat sleeve is cold from outside.",
+      "uses": [
+        {
+          "move": "lead-return-other",
+          "subject": "lead",
+          "role": "return",
+          "choice": "other"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-return-other.other-says-your-name-once-quietly-the-light-they-left-on-is-the-only-o",
+      "move": "lead-return-other",
+      "kind": "spoken",
+      "text": "{other} says your name once, quietly. The light they left on is the only one in the doorway.",
+      "uses": [
+        {
+          "move": "lead-return-other",
+          "subject": "lead",
+          "role": "return",
+          "choice": "other"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-return-other.the-welcome-mat-is-the-same-one-other-nudges-it-straight-with-a-foot-t",
+      "move": "lead-return-other",
+      "kind": "spoken",
+      "text": "The welcome mat is the same one. {other} nudges it straight with a foot, then gives up and just looks at you.",
+      "uses": [
+        {
+          "move": "lead-return-other",
+          "subject": "lead",
+          "role": "return",
+          "choice": "other"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
     }
   ]
 }

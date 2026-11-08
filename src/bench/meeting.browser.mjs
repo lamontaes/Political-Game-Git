@@ -1,7 +1,7 @@
 /* global process, URL, console, document, Event */
 // The meeting panel (owner, Oct 29: "the UI is terrible"): a member of a body drafts a bill,
 // plays on to the meeting, and the panel shows the body's title, every member as a face,
-// and after a vote the result with its tally bar and each member's ring by how they voted.
+// and after a vote the result with its tally in words and each member's ring by how they voted.
 // Builds a world with the Advanced start (a place drawn from the seed) and steps in as a
 // member of a body. BENCH_SEED replays a world; SHOTS_DIR saves the screens.
 // Run against a fresh bench: node src/bench/meeting.browser.mjs
@@ -48,6 +48,7 @@ try {
   );
   assert.ok(at >= 0, "no member of a body to step in as");
   await page.locator("#pick-list button").nth(at).click();
+  await page.locator("#pick-play").click();
   await page.waitForFunction(() =>
     document.getElementById("card-name").textContent.trim(),
   );
@@ -75,8 +76,7 @@ try {
     .locator("#sheet-tabs")
     .getByRole("button", { name: "Your office" })
     .click();
-  // The drafts are on their own tab of Your office.
-  await page.locator('.office-tabs [data-office="draft"]').click();
+  // Your office is one strip board; the draft card is on it, not on a tab of its own.
   await page.locator("#sheet-body select").waitFor();
   const picked = await page.evaluate(() => {
     const select = document.querySelector("#sheet-body select");
@@ -137,7 +137,7 @@ try {
     const item = document.querySelector("#meeting-items .meeting-item");
     return {
       result: item.querySelector(".meeting-result")?.textContent.trim() ?? "",
-      tally: Boolean(item.querySelector(".meeting-tally span")),
+      bar: Boolean(item.querySelector(".meeting-tally")),
       ringed: item.querySelectorAll(
         ".meeting-member.vote-yes, .meeting-member.vote-no, .meeting-member.vote-abstain",
       ).length,
@@ -146,7 +146,10 @@ try {
   });
   console.log("after the vote:", after);
   assert.ok(after.result, "no result after the vote");
-  assert.ok(after.tally, "no tally bar after the vote");
+  // The owner's ruling (Nov 8: no sliders, bars, checkboxes or chevrons): the tally is told
+  // in words in the result line, never drawn as a bar.
+  assert.ok(!after.bar, "the tally is drawn as a bar");
+  assert.match(after.result, /\d/, "the result does not state the count");
   assert.equal(
     after.ringed,
     after.members,
@@ -154,7 +157,7 @@ try {
   );
   assert.deepEqual(errors, [], "page errors");
   console.log(
-    "ok: the meeting shows its members, then the tally and the result",
+    "ok: the meeting shows its members, then the tally in words and the result",
   );
 } finally {
   await browser.close();

@@ -11,7 +11,7 @@ import {
   type PartGradeLedger,
 } from "../../src/english/english-grades";
 import { renderLine } from "../../src/english/bank-line";
-import { buildReach } from "../../src/english/grade-reach";
+import { buildReach, groupKey } from "../../src/english/grade-reach";
 import { readPieces, REACH_FILE } from "./apply-grades";
 
 const pieces = readPieces();
@@ -30,6 +30,33 @@ describe("a grade reaches the pieces that share its pattern, voice and register"
   it("the shipped reach file is what the banks and the ledger give", () => {
     const built = buildReach(pieces, PART_GRADES, classes);
     expect(JSON.parse(readFileSync(REACH_FILE, "utf8"))).toEqual(built);
+  });
+
+  it("scene talk has one register: a floor line, a hallway word, a press answer and a town-hall reply of the same move and bearing share a group", () => {
+    const sceneClasses = CALIBRATION.sceneClasses!;
+    const purposeOf = new Map<string, string>();
+    for (const part of JSON.parse(
+      readFileSync("data/english/parts/scene-talk.json", "utf8"),
+    ).parts as { key: string; uses: { purpose?: string }[] }[]) {
+      const purpose = part.uses.find(
+        (use) => use.purpose && use.purpose !== "*",
+      )?.purpose;
+      if (purpose) purposeOf.set(part.key, purpose);
+    }
+    const kindsByGroup = new Map<string, Set<string>>();
+    for (const [key, piece] of pieces) {
+      if (piece.bank !== "scene-talk") continue;
+      const group = groupKey(piece, classes);
+      expect(group.endsWith(`|${classes["scene-talk"]}`), key).toBe(true);
+      const purpose = purposeOf.get(key);
+      const kind = (purpose && sceneClasses[purpose]) || "private";
+      kindsByGroup.set(group, (kindsByGroup.get(group) ?? new Set()).add(kind));
+    }
+    // A group holds lines of several kinds of scene, so a grade on one reaches the others.
+    const widest = Math.max(
+      ...[...kindsByGroup.values()].map((set) => set.size),
+    );
+    expect(widest).toBeGreaterThanOrEqual(4);
   });
 
   // Across banks: a grade said in one bank moves the same pattern in another

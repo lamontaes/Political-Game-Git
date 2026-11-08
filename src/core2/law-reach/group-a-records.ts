@@ -6,6 +6,7 @@
  * gets a legal reach record; counted groups get one row
  * with their count. A repeal ends every open row the same day.
  */
+import { ageInYears } from "../kernel/dates";
 import reach from "../data/laws/reach-group-a.json" with { type: "json" };
 import parameters from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
 import publicPayFloor from "../data/laws/public-pay-floor.json" with { type: "json" };
@@ -82,6 +83,8 @@ export interface ReachSpec {
 export interface PolicySpec {
   readonly source: string;
   readonly mechanic: string;
+  /** Governments whose permission creates these particular record effects. */
+  readonly effectLevels?: readonly string[];
   readonly stopgapId?: string;
   readonly reaches: readonly ReachSpec[];
 }
@@ -242,10 +245,7 @@ export function putMechanic(api: CoreAPI, row: MechanicRow): void {
 
 // --- reading the law and the town's records -----------------------------------
 
-const ageOn = (birthDate: string, date: string) =>
-  Number(date.slice(0, 4)) -
-  Number(birthDate.slice(0, 4)) -
-  (date.slice(5) < birthDate.slice(5) ? 1 : 0);
+const ageOn = (birthDate: string, date: string) => ageInYears(birthDate, date);
 export { ageOn };
 
 export const tomorrow = (date: string) =>

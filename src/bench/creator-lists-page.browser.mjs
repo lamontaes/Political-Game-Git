@@ -22,10 +22,9 @@ const list = (box) =>
       scrolls: node.scrollHeight > node.clientHeight + 2,
       rows: rows.length,
       first: rows[0]?.textContent.trim().split("\n")[0] ?? "",
-      strays: [...document.querySelectorAll("#cr-place button")]
+      strays: [...document.querySelectorAll("#cr-screen button")]
         .filter((b) => /^\s*(continue|back)\s*$/i.test(b.textContent ?? ""))
-        .filter((b) => b.id !== "cr-place-back" && b.id !== "cr-place-next")
-        .length,
+        .filter((b) => b.id !== "cr-place-next").length,
     };
   }, box);
 try {
@@ -34,12 +33,11 @@ try {
   await ready;
   await page.locator("#new-life").click();
   await page.locator("#new-start").click();
-  await page.locator("#cr-character:not([hidden])").waitFor();
+  await page.locator("#cr-screen:not([hidden])").waitFor();
   await page.locator("[data-gender=female]").click();
   await page.locator("#cr-random-name").click();
   await page.locator("#cr-given:not([value=''])").waitFor();
-  await page.locator("#cr-character-next").click();
-  await page.locator("#cr-place:not([hidden])").waitFor();
+  await page.locator("#cr-screen:not([hidden])").waitFor();
   await page.locator("#cr-states button").first().waitFor();
   await page.waitForTimeout(600);
   const states = await list("cr-states");

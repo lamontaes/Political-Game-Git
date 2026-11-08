@@ -1,6 +1,6 @@
 /**
- * Politics → Government, one level at a time (owner, Oct 29: drawn as the
- * Oct 14 mock, docs/ui/mocks/screens-2026-10-14/shots/gov.png). For a level
+ * Politics → Government, one level at a time (owner, Oct 29: drawn as a
+ * real game menu). For a level
  * (local, state, federal) and a state, each lawmaking body the screen draws
  * and each executive office, read from the records: the body's room, its
  * members with their party and seat, how the parties split it, its recent
@@ -184,6 +184,8 @@ export function recentVotesOf(api: Api, officeId: string) {
         billId,
         date,
         number: bill?.number ?? null,
+        // A bill the legislature still holds has a paper to open; a past measure has none.
+        openable: Boolean(bill),
         title: bill
           ? (billTitleOf(bill)?.title ?? null)
           : (names[question] ?? null),

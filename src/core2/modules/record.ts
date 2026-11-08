@@ -40,6 +40,8 @@ export interface VoteRecordRow {
   /** The measure's designation for display ("H.R. 25", "2026-001"); not a key. */
   readonly measureId: string;
   readonly stance: Stance;
+  /** The stance's question again, as the key a person's latest vote on it is found by. */
+  readonly question: string;
   readonly passed: boolean | null;
 }
 
@@ -62,7 +64,12 @@ export const RECORD_MODULE: CoreModule = {
   state: {
     schemaVersion: 1,
     tables: {
-      votes: { indexes: { byPerson: { fields: ["personId"] } } },
+      votes: {
+        indexes: {
+          byPerson: { fields: ["personId"] },
+          byPersonQuestion: { fields: ["personId", "question"] },
+        },
+      },
     },
   },
 };
@@ -87,10 +94,11 @@ export function voteRecordId(
 /** A body's vote, on the record: who, on what question, which way. */
 export function recordVote(
   api: CoreAPI,
-  vote: Omit<VoteRecordRow, "id" | "date">,
+  vote: Omit<VoteRecordRow, "id" | "date" | "question">,
 ): VoteRecordRow {
   const row: VoteRecordRow = {
     ...vote,
+    question: vote.stance.question,
     id: voteRecordId(vote.billId, vote.stance.question, vote.personId),
     date: api.state.date,
   };
@@ -142,6 +150,34 @@ export function votesOf(
   )
     .slice()
     .sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id));
+}
+
+/** A person's latest vote on one question (by date, then id), in one pass over their record. */
+export function lastVoteOn(
+  api: CoreAPI,
+  personId: string,
+  question: string,
+  /** A measure whose own votes are not a past vote on the question (the bill being weighed). */
+  exceptBillId?: string,
+): VoteRecordRow | undefined {
+  if (!api.state.modules.has(RECORD_MODULE_ID)) return undefined;
+  let last: VoteRecordRow | undefined;
+  for (const vote of api
+    .moduleState(RECORD_MODULE_ID)
+    .table("votes")
+    .query("byPersonQuestion", [
+      personId,
+      question,
+    ]) as unknown as VoteRecordRow[]) {
+    if (vote.billId === exceptBillId) continue;
+    if (
+      !last ||
+      vote.date.localeCompare(last.date) > 0 ||
+      (vote.date === last.date && vote.id.localeCompare(last.id) > 0)
+    )
+      last = vote;
+  }
+  return last;
 }
 
 /** Each promise an officeholder made, and whether their votes since kept it. */

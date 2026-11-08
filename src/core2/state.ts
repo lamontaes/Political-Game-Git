@@ -1,3 +1,4 @@
+import { promoteHusk as promoteHuskOfficial } from "./husk-promoters";
 import { refreshOfficeStaff } from "./civic-inputs";
 import { initialPersonState } from "./person-state";
 import {
@@ -12,6 +13,7 @@ import {
   keptDecision,
   queueCircleEntry,
   queueDecisionDetail,
+  queueRelationshipDetail,
 } from "./decision-detail";
 export { condenseCircleDecisions } from "./decision-detail";
 import { queueExperience } from "./knowledge-retention";
@@ -27,7 +29,7 @@ import {
   residentPerson,
   takeResidentHousehold,
 } from "./modules/residents";
-import { rerateCountedJobs } from "./residents-economy";
+import { rehourCountedJobs, rerateCountedJobs } from "./residents-economy";
 import { endPurchaseTax, setPurchaseTax } from "./modules/purchase-tax";
 import { openingTemperaments } from "./opening-personality";
 import { forgetTraitLean } from "./choice";
@@ -47,6 +49,7 @@ import {
   settleWorkResult,
   recordActivityTime,
   recordDiscretionaryTime,
+  rehourNamedJob,
 } from "./work-state";
 import {
   admitWorkAttendanceOwner,
@@ -102,7 +105,6 @@ import {
   releaseCashJournalSource,
 } from "./journal-state";
 import { cashJournalHost } from "./cash-host";
-import { settleLegacyWorkResultJournal } from "./work-cash";
 import { admitPublicPayAuthority } from "./public-work-pay";
 import type { CashJournalSourceRef } from "./journal";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
@@ -491,7 +493,6 @@ export function createCore(
   }
   for (const actor of core.people.values()) {
     assertKnownIdSources(core, actor);
-    api.stopgap("SG-P8-opening-family-closeness");
     if (!core.households.get(actor.householdId)?.memberIds.includes(actor.id))
       throw new Error(`Person has no consistent household: ${actor.id}`);
     for (const id of actor.familyIds) {
@@ -1116,9 +1117,6 @@ export function coreAPI(core: CoreState): CoreAPI {
     settleWorkResult(row) {
       return settleWorkResult(core, api, row);
     },
-    settleLegacyWorkResult(row) {
-      return settleLegacyWorkResultJournal(core, api, row);
-    },
     recordActivityTime(personId, category, minutes, source) {
       recordActivityTime(core, api, personId, category, minutes, source);
     },
@@ -1286,11 +1284,18 @@ export function coreAPI(core: CoreState): CoreAPI {
         row.kind !== storedKind
       )
         throw new Error("Stale relationship change basis.");
-      api.stopgap("SG-P8-relationship-closeness-update");
       row.level = nextLevel;
       row.lastContactDate = at;
       row.latestChange = latestChange;
       core.relationships.set(id, row);
+      // A circle member's full decision is condensed on the log's schedule.
+      if (
+        (latestChange?.decision as { scores?: unknown } | undefined)?.scores &&
+        actorId !== core.playerId &&
+        !core.observer &&
+        !isExplicitlyControlledPersonV1(core, actorId)
+      )
+        queueRelationshipDetail(core, at, id);
       // Ties are only ever added here, never removed: tiedTo in
       // modules/people.ts reads a person's set of the same size as the same
       // ties. Anything that removes a tie must also drop that kept copy.
@@ -1983,6 +1988,18 @@ export function coreAPI(core: CoreState): CoreAPI {
           access: "self",
         });
     },
+    rehourJob(jobId, hoursDaily, source) {
+      if (!Number.isFinite(hoursDaily) || hoursDaily <= 0)
+        throw new Error("New daily hours must be positive.");
+      makeIsoDate(source.asOf);
+      if (source.asOf > core.date)
+        throw new Error("An hours change cannot cite a later source.");
+      if (!core.jobs.has(jobId)) {
+        if (rehourCountedJobs(core, new Map([[jobId, hoursDaily]])) > 0) return;
+        throw new Error(`No recorded job to change the hours of: ${jobId}`);
+      }
+      rehourNamedJob(core, api, jobId, hoursDaily, source);
+    },
     addOrganization(row) {
       if (
         core.organizations.has(row.id) ||
@@ -2254,6 +2271,10 @@ export function personOrFillIn(
   personId: PersonId,
 ): PersonState | undefined {
   const full = core.people.get(personId);
+  if (!full && core.husks.has(personId)) {
+    const promoted = promoteHuskOfficial(core, personId);
+    if (promoted) return promoted;
+  }
   // Someone returned to the counts comes back as the same person.
   if (full && !isDemoted(full)) return full;
   if (!residentFacts(core, personId)) return full;

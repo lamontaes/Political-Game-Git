@@ -23,6 +23,37 @@ import {
   type LawEntry,
 } from "./catalog";
 
+/** The months a reader says, for the dates a report writes in prose. */
+const MONTHS = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+/**
+ * Dates in the report's prose the way an American reader says them ("November
+ * 8, 2026"). A date inside a record id (joined to it by a colon, a dash or a
+ * letter) stays as the record writes it, so every id still finds its record;
+ * the matrix JSON keeps every date raw.
+ */
+function forReaders(text: string): string {
+  return text.replace(
+    /(?<![\w:/-])(\d{4})-(\d{2})-(\d{2})(?![\w:-])/g,
+    (whole, year: string, month: string, day: string) => {
+      const name = MONTHS[Number(month) - 1];
+      return name ? `${name} ${Number(day)}, ${year}` : whole;
+    },
+  );
+}
+
 type Status = "wired" | "partial" | "missing" | "stopgap" | "n/a";
 interface Link {
   status: Status;
@@ -1297,7 +1328,7 @@ function main(): void {
     "docs/reports/law-wiring-matrix.json",
     `${JSON.stringify(out, null, 1)}\n`,
   );
-  writeFileSync("docs/reports/law-wiring-table.md", table(rows));
+  writeFileSync("docs/reports/law-wiring-table.md", forReaders(table(rows)));
   console.log(JSON.stringify(out.summary, null, 1));
 }
 

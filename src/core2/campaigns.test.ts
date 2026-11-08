@@ -8,6 +8,7 @@
  */
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
+import { advanceToFilingOpen } from "./gov-test-clock";
 import { govReport } from "./gov-test-report";
 import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
@@ -96,8 +97,7 @@ function fileAndQualify(
     ? filing
     : null;
 }
-
-describe("M2-05 and M2-06 campaigning and polls", () => {
+describe("M2-05 and M2-06 campaigning and polls", { timeout: 180_000 }, () => {
   it("every activity moves specific people with a recorded cause; a rival campaigns; polls report what people said", () => {
     const place = process.env.GOLDEN_PATH_PLACE_KEY ?? randomPlace().key;
     const core = createLifeCore(
@@ -111,6 +111,7 @@ describe("M2-05 and M2-06 campaigning and polls", () => {
     openOffices(core, seed);
     openElections(core);
     openCampaigns(core);
+    advanceToFilingOpen(core);
     const api = coreAPI(core);
     const adults = [...core.people.values()]
       .filter(
@@ -281,6 +282,7 @@ describe("M2-05 and M2-06 campaigning and polls", () => {
       openOffices(core, drawSeed);
       openElections(core);
       openCampaigns(core);
+      advanceToFilingOpen(core);
       const api = coreAPI(core);
       const adults = [...core.people.values()]
         .filter((p) => year(p) >= 35)
@@ -358,6 +360,8 @@ describe("M2-05 and M2-06 campaigning and polls", () => {
           : drawn.label;
     const { place, drawSeed, core, api, filing, willing } = drawn;
     expect(filing, `no open contest to file for in ${where}`).not.toBeNull();
+    // The day the world stands on once a contest is open (the start day where one already is).
+    const openedOn = core.date;
     const candidateId = filing!.personId;
     const campaign = drawn.campaign!;
     const goes = drawn.goes!;
@@ -474,7 +478,7 @@ describe("M2-05 and M2-06 campaigning and polls", () => {
       expect(event?.personIds).toContain(shift.volunteerId);
       expect(event?.facts?.doorsKnocked).toBe(String(shift.doorsKnocked));
       expect(event?.facts?.firstShift).toBe("true");
-      expect(held.shiftNotedOn?.[shift.volunteerId]).toBe(START);
+      expect(held.shiftNotedOn?.[shift.volunteerId]).toBe(openedOn);
     }
     const byCandidate = causes.query("byCandidate", [
       candidateId,
@@ -487,7 +491,7 @@ describe("M2-05 and M2-06 campaigning and polls", () => {
     expect(volunteerShifts(api, filing!.id, walked)).toEqual([]);
     // The next day they may walk again, but an evening is kept as an event
     // at most once a week: only the one who stayed home has a first to note.
-    const nextDay = addDays(makeIsoDate(START), 1);
+    const nextDay = addDays(makeIsoDate(openedOn), 1);
     core.date = nextDay;
     const again = volunteerShifts(api, filing!.id);
     const noted = events.filter((e) => e.date === nextDay);
@@ -503,7 +507,7 @@ describe("M2-05 and M2-06 campaigning and polls", () => {
     // A week on, an evening of the two noted on the first day is noted again
     // (the one at work has their evening shift that day again).
     const weekOn = addDays(
-      makeIsoDate(START),
+      makeIsoDate(openedOn),
       campaignParameter("volunteerShiftEventDays"),
     );
     core.date = weekOn;

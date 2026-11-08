@@ -1,3 +1,4 @@
+import { lastTimeOf } from "./last-time";
 import { raceTitle } from "./race-words";
 import { properName } from "../director/words";
 import { ageOnDate } from "../core2/kernel/dates";
@@ -260,6 +261,14 @@ export function governmentView(core: CoreState, personId: string) {
       })),
       pending: row.pending,
     })),
+    // Whether the person serves in any office at all, the town's or not (a member of Congress
+    // from another district): the Your office tab opens for them (legislation, item 7).
+    holdsOffice: (
+      api
+        .moduleState("core2-offices-v1")
+        .table("terms")
+        .query("byPerson", [personId]) as unknown as { status: string }[]
+    ).some((term) => term.status === "serving"),
     seats: seats.map(({ office, seat, holder }) => ({
       officeId: office.id,
       title: office.title,
@@ -443,6 +452,8 @@ export function localRaces(core: CoreState) {
         // Whether the player may run for it (the offices the player runs
         // for, player-offices.json): the screen offers to file only then.
         playerMayFile: playerMayFileFor(api, contest.id),
+        // The last election for the seat, from its holder's term record.
+        lastTime: lastTimeOf(api, contest.id),
         filers,
       };
     })

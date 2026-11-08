@@ -62,7 +62,6 @@
     "tariffs-to-prices",
     "housing-vouchers-to-homelessness",
     "retirement-age-to-older-work",
-    "drug-negotiation-to-out-of-pocket",
     "federal-loan-cap-to-high-cost-loans",
     "universal-prek-to-math-proficiency",
     "universal-prek-to-reading-proficiency",
@@ -121,6 +120,7 @@
     "highway-money-for-transit-to-service",
     "defense-contracts-to-earnings",
     "transit-service-to-ridership",
+    "federal-deficit-to-borrowing-cost",
     "mileage-fee-to-vehicle-miles",
     "fix-it-first-to-poor-roads",
     "highways-spending-to-poor-roads",
@@ -260,8 +260,8 @@
       "needsSize": true
     },
     "class-size-to-scores": {
-      "waitingOn": ["school.class-size-k3", "school.test-scores"],
-      "needsSize": true
+      "waitingOn": [],
+      "carriedBy": "the school engine's math and reading tests (decideSchoolOutcome in src/core2/school-outcomes.ts), which read the district's pupil-teacher ratio from its records (pupilTeacherRatio: the tested cohort over all grades at the public share, over the district's teacher jobs) and move each eighth grader's expected share of clearing the proficiency line by the normal-density change of the shift in standard deviations (classSizeShiftSd: pupils fewer than the ratio the world opened on, as a share of the 8.5-pupil gap between small and regular classes, times this row's size, of which grade 8 keeps the researched quarter), so the web does not also run it"
     },
     "prek-to-graduation": {
       "waitingOn": [],
@@ -442,6 +442,10 @@
       "waitingOn": [],
       "carriedBy": "src/core2/law-reach/group-a-wages.ts writes the wage row that src/core2/modules/jobs.ts wageFloor applies"
     },
+    "drug-negotiation-to-out-of-pocket": {
+      "waitingOn": [],
+      "carriedBy": "the medical bills' monthly pass (billMembers in src/core2/medical-bills.ts), which reads the federal Medicare drug price negotiation law in force (lawInForce) and multiplies each Medicare member's bill by one plus this row's size, so the cause is decided from the law itself and the web does not also run it"
+    },
     "student-debt-relief-to-finances": {
       "waitingOn": ["finance.past-due-debt"],
       "needsSize": true
@@ -530,9 +534,6 @@
     "farm-payments-cut-to-land-values": {
       "waitingOn": ["federal.farm-payments-cut-pct-of-land-value"]
     },
-    "federal-deficit-to-borrowing-cost": {
-      "waitingOn": ["federal.deficit-change-pct-of-gdp"]
-    },
     "federal-rail-expansion-to-riders": {
       "waitingOn": ["federal.rail-expansion-pct"]
     },
@@ -602,10 +603,6 @@
       "owner": "OPUS-PEOPLE",
       "links": 3
     },
-    "school.test-scores": {
-      "owner": "OPUS-GOV",
-      "links": 3
-    },
     "business.incentive-deal": {
       "owner": "OPUS-WORLD",
       "links": 2
@@ -631,6 +628,10 @@
       "links": 2
     },
     "program.child-benefit-dollars": {
+      "owner": "OPUS-GOV",
+      "links": 2
+    },
+    "school.test-scores": {
       "owner": "OPUS-GOV",
       "links": 2
     },
@@ -680,10 +681,6 @@
     },
     "family.same-sex-marriages": {
       "owner": "OPUS-PEOPLE",
-      "links": 1
-    },
-    "federal.deficit-change-pct-of-gdp": {
-      "owner": "OPUS-GOV",
       "links": 1
     },
     "federal.farm-payments-cut-pct-of-land-value": {
@@ -835,10 +832,6 @@
       "links": 1
     },
     "school.ac-share": {
-      "owner": "OPUS-GOV",
-      "links": 1
-    },
-    "school.class-size-k3": {
       "owner": "OPUS-GOV",
       "links": 1
     },

@@ -1,0 +1,964 @@
+{
+  "seed": "1c0de0b5e5d9a417",
+  "place": {
+    "seed": "9e0221bdb8059f0be3311d498bfc36db09b3e63bd50e680ca65d13fd5e959552",
+    "key": "2530630",
+    "name": "Holland, Massachusetts",
+    "state": "US-MA"
+  },
+  "window": 365,
+  "after": 31,
+  "results": [
+    {
+      "key": "local-power:us-policy-positions:fiscal.adopt-income-tax",
+      "kind": "amount",
+      "family": "taxes-finance",
+      "inForceAtOpening": false,
+      "change": "local-power:us-policy-positions:fiscal.adopt-income-tax 0 -> 1 at state (law:US-MA:state:local-power:us-policy-positions:fiscal.adopt-income-tax:general:2025-01-21:law-wiring-facedb3a) effective 2025-01-21",
+      "lawIds": [
+        "law:US-MA:state:local-power:us-policy-positions:fiscal.adopt-income-tax:general:2025-01-21:law-wiring-facedb3a",
+        "law:US-MA:state:local-power:us-policy-positions:fiscal.adopt-income-tax:general:2026-01-22:law-wiring-facedb3a-undo"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "inPlay": [],
+      "applied": {
+        "rows": 0,
+        "withAmount": 0,
+        "sample": []
+      },
+      "readers": {
+        "src/core2/tax-applied.ts:33": 1020,
+        "src/core2/life.ts:573": 5
+      },
+      "openingRow": null,
+      "money": {
+        "direct": [],
+        "diff": [],
+        "diffKinds": 0,
+        "cited": [],
+        "controlCited": [],
+        "own": {
+          "targets": 0,
+          "among": "reached",
+          "pairs": [],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 124,
+        "sample": [
+          "person_025bd9be62810161:printed:outlet:cable:1:national:law-took-effect:law:US-MA:state:local-power:us-policy-positions:fiscal.adopt-income-tax:general:2025-01-21:law-wiring-facedb3a",
+          "person_ed816e0d90d01e8a:printed:outlet:cable:1:national:law-took-effect:law:US-MA:state:local-power:us-policy-positions:fiscal.adopt-income-tax:general:2025-01-21:law-wiring-facedb3a",
+          "person:press:outlet:newspaper:2:jurisdiction_841a5f12f49c059a:owner:0:printed:outlet:cable:1:national:law-took-effect:law:US-MA:state:local-power:us-policy-positions:fiscal.adopt-income-tax:general:2025-01-21:law-wiring-facedb3a"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 91
+    },
+    {
+      "key": "local-power:us-policy-positions:fiscal.cap-property-tax-growth",
+      "kind": "amount",
+      "family": "taxes-finance",
+      "inForceAtOpening": false,
+      "change": "local-power:us-policy-positions:fiscal.cap-property-tax-growth 0 -> 1 at state (law:US-MA:state:local-power:us-policy-positions:fiscal.cap-property-tax-growth:general:2025-01-21:law-wiring-3fe4de6a) effective 2025-01-21",
+      "lawIds": [
+        "law:US-MA:state:local-power:us-policy-positions:fiscal.cap-property-tax-growth:general:2025-01-21:law-wiring-3fe4de6a",
+        "law:US-MA:state:local-power:us-policy-positions:fiscal.cap-property-tax-growth:general:2026-01-22:law-wiring-3fe4de6a-undo"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "inPlay": [],
+      "applied": {
+        "rows": 0,
+        "withAmount": 0,
+        "sample": []
+      },
+      "readers": {
+        "src/core2/modules/budgets.ts:1043": 2187,
+        "src/core2/life.ts:573": 20
+      },
+      "openingRow": null,
+      "money": {
+        "direct": [],
+        "diff": [],
+        "diffKinds": 0,
+        "cited": [],
+        "controlCited": [],
+        "own": {
+          "targets": 0,
+          "among": "reached",
+          "pairs": [],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 124,
+        "sample": [
+          "person_025bd9be62810161:printed:outlet:cable:1:national:law-took-effect:law:US-MA:state:local-power:us-policy-positions:fiscal.cap-property-tax-growth:general:2025-01-21:law-wiring-3fe4de6a",
+          "person_ed816e0d90d01e8a:printed:outlet:cable:1:national:law-took-effect:law:US-MA:state:local-power:us-policy-positions:fiscal.cap-property-tax-growth:general:2025-01-21:law-wiring-3fe4de6a",
+          "person:press:outlet:newspaper:2:jurisdiction_841a5f12f49c059a:owner:0:printed:outlet:cable:1:national:law-took-effect:law:US-MA:state:local-power:us-policy-positions:fiscal.cap-property-tax-growth:general:2025-01-21:law-wiring-3fe4de6a"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 92
+    },
+    {
+      "key": "local-power:us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+      "kind": "amount",
+      "family": "taxes-finance",
+      "inForceAtOpening": false,
+      "change": "local-power:us-policy-positions:fiscal.exempt-groceries-from-sales-tax 0 -> 1 at state (law:US-MA:state:local-power:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:2025-01-21:law-wiring-8f971a03) effective 2025-01-21",
+      "lawIds": [
+        "law:US-MA:state:local-power:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:2025-01-21:law-wiring-8f971a03",
+        "law:US-MA:state:local-power:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:2026-01-22:law-wiring-8f971a03-undo"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "inPlay": [],
+      "applied": {
+        "rows": 0,
+        "withAmount": 0,
+        "sample": []
+      },
+      "readers": {
+        "src/core2/policy-authority.ts:55": 42,
+        "src/core2/policy-authority.ts:121": 42,
+        "src/core2/law-reach/group-b.ts:241 <- src/core2/life.ts:573": 36,
+        "src/core2/life.ts:573": 5,
+        "src/core2/modules/budgets.ts:977": 3
+      },
+      "openingRow": null,
+      "money": {
+        "direct": [],
+        "diff": [],
+        "diffKinds": 0,
+        "cited": [],
+        "controlCited": [],
+        "own": {
+          "targets": 0,
+          "among": "reached",
+          "pairs": [],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 124,
+        "sample": [
+          "person_025bd9be62810161:printed:outlet:cable:1:national:law-took-effect:law:US-MA:state:local-power:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:2025-01-21:law-wiring-8f971a03",
+          "person_ed816e0d90d01e8a:printed:outlet:cable:1:national:law-took-effect:law:US-MA:state:local-power:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:2025-01-21:law-wiring-8f971a03",
+          "person:press:outlet:newspaper:2:jurisdiction_841a5f12f49c059a:owner:0:printed:outlet:cable:1:national:law-took-effect:law:US-MA:state:local-power:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:2025-01-21:law-wiring-8f971a03"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 89
+    },
+    {
+      "key": "local-power:us-policy-positions:fiscal.graduated-income-tax",
+      "kind": "amount",
+      "family": "taxes-finance",
+      "inForceAtOpening": false,
+      "change": "local-power:us-policy-positions:fiscal.graduated-income-tax 0 -> 1 at state (law:US-MA:state:local-power:us-policy-positions:fiscal.graduated-income-tax:general:2025-01-21:law-wiring-f809bd6d) effective 2025-01-21",
+      "lawIds": [
+        "law:US-MA:state:local-power:us-policy-positions:fiscal.graduated-income-tax:general:2025-01-21:law-wiring-f809bd6d",
+        "law:US-MA:state:local-power:us-policy-positions:fiscal.graduated-income-tax:general:2026-01-22:law-wiring-f809bd6d-undo"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "inPlay": [],
+      "applied": {
+        "rows": 0,
+        "withAmount": 0,
+        "sample": []
+      },
+      "readers": {
+        "src/core2/tax-applied.ts:33": 1020,
+        "src/core2/life.ts:573": 5
+      },
+      "openingRow": null,
+      "money": {
+        "direct": [],
+        "diff": [],
+        "diffKinds": 0,
+        "cited": [],
+        "controlCited": [],
+        "own": {
+          "targets": 0,
+          "among": "reached",
+          "pairs": [],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 124,
+        "sample": [
+          "person_025bd9be62810161:printed:outlet:cable:1:national:law-took-effect:law:US-MA:state:local-power:us-policy-positions:fiscal.graduated-income-tax:general:2025-01-21:law-wiring-f809bd6d",
+          "person_ed816e0d90d01e8a:printed:outlet:cable:1:national:law-took-effect:law:US-MA:state:local-power:us-policy-positions:fiscal.graduated-income-tax:general:2025-01-21:law-wiring-f809bd6d",
+          "person:press:outlet:newspaper:2:jurisdiction_841a5f12f49c059a:owner:0:printed:outlet:cable:1:national:law-took-effect:law:US-MA:state:local-power:us-policy-positions:fiscal.graduated-income-tax:general:2025-01-21:law-wiring-f809bd6d"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 92
+    },
+    {
+      "key": "local-power:us-policy-positions:fiscal.balanced-operating-budget",
+      "kind": "amount",
+      "family": "taxes-finance",
+      "inForceAtOpening": false,
+      "change": "local-power:us-policy-positions:fiscal.balanced-operating-budget 0 -> 1 at state (law:US-MA:state:local-power:us-policy-positions:fiscal.balanced-operating-budget:general:2025-01-21:law-wiring-65306639) effective 2025-01-21",
+      "lawIds": [
+        "law:US-MA:state:local-power:us-policy-positions:fiscal.balanced-operating-budget:general:2025-01-21:law-wiring-65306639",
+        "law:US-MA:state:local-power:us-policy-positions:fiscal.balanced-operating-budget:general:2026-01-22:law-wiring-65306639-undo"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "inPlay": [],
+      "applied": {
+        "rows": 0,
+        "withAmount": 0,
+        "sample": []
+      },
+      "readers": {
+        "src/core2/policy-authority.ts:55": 42,
+        "src/core2/policy-authority.ts:121": 42,
+        "src/core2/law-reach/group-b.ts:891 <- src/core2/budgets-treasury.ts:990": 36,
+        "src/core2/life.ts:573": 5,
+        "src/core2/law-reach/group-b.ts:891 <- src/core2/life.ts:573": 2
+      },
+      "openingRow": null,
+      "money": {
+        "direct": [],
+        "diff": [],
+        "diffKinds": 0,
+        "cited": [],
+        "controlCited": [],
+        "own": {
+          "targets": 0,
+          "among": "reached",
+          "pairs": [],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 124,
+        "sample": [
+          "person_025bd9be62810161:printed:outlet:cable:1:national:law-took-effect:law:US-MA:state:local-power:us-policy-positions:fiscal.balanced-operating-budget:general:2025-01-21:law-wiring-65306639",
+          "person_ed816e0d90d01e8a:printed:outlet:cable:1:national:law-took-effect:law:US-MA:state:local-power:us-policy-positions:fiscal.balanced-operating-budget:general:2025-01-21:law-wiring-65306639",
+          "person:press:outlet:newspaper:2:jurisdiction_841a5f12f49c059a:owner:0:printed:outlet:cable:1:national:law-took-effect:law:US-MA:state:local-power:us-policy-positions:fiscal.balanced-operating-budget:general:2025-01-21:law-wiring-65306639"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 90
+    },
+    {
+      "key": "local-power:us-policy-positions:fiscal.fund-pensions-to-schedule",
+      "kind": "amount",
+      "family": "taxes-finance",
+      "inForceAtOpening": false,
+      "change": "local-power:us-policy-positions:fiscal.fund-pensions-to-schedule 0 -> 1 at state (law:US-MA:state:local-power:us-policy-positions:fiscal.fund-pensions-to-schedule:general:2025-01-21:law-wiring-0d31d79d) effective 2025-01-21",
+      "lawIds": [
+        "law:US-MA:state:local-power:us-policy-positions:fiscal.fund-pensions-to-schedule:general:2025-01-21:law-wiring-0d31d79d",
+        "law:US-MA:state:local-power:us-policy-positions:fiscal.fund-pensions-to-schedule:general:2026-01-22:law-wiring-0d31d79d-undo"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "inPlay": [],
+      "applied": {
+        "rows": 0,
+        "withAmount": 0,
+        "sample": []
+      },
+      "readers": {
+        "src/core2/policy-authority.ts:121": 57,
+        "src/core2/policy-authority.ts:55": 51,
+        "src/core2/law-reach/group-b.ts:891 <- src/core2/budgets-treasury.ts:990": 36,
+        "src/core2/life.ts:573": 30,
+        "src/core2/law-reach/group-b.ts:891 <- src/core2/life.ts:573": 7
+      },
+      "openingRow": null,
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1341",
+            "treatment": 7599647110,
+            "control": 7710464145,
+            "ids": [
+              "journal:2025-01-21:820",
+              "journal:2025-01-21:821",
+              "journal:2025-01-21:822"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1323",
+            "treatment": 2144200008,
+            "control": 2052986174,
+            "ids": [
+              "journal:2025-02-01:2546",
+              "journal:2025-02-01:2547",
+              "journal:2025-02-01:2548"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 1968062778,
+            "control": 2029926272,
+            "ids": [
+              "journal:2025-01-21:873",
+              "journal:2025-02-01:1167",
+              "journal:2025-02-01:1169"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:671",
+            "treatment": 15598720859,
+            "control": 15636180676,
+            "ids": [
+              "journal:2025-01-25:891",
+              "journal:2025-01-25:893",
+              "journal:2025-01-25:895"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+            "treatment": 2540473712,
+            "control": 2572857974,
+            "ids": [
+              "journal:2025-01-21:848",
+              "journal:2025-01-21:849",
+              "journal:2025-01-21:850"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 662077085,
+            "control": 631628483,
+            "ids": [
+              "journal:2025-01-27:950",
+              "journal:2025-01-27:954",
+              "journal:2025-01-30:1012"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:793",
+            "treatment": 2740573072,
+            "control": 2766994801,
+            "ids": [
+              "journal:2025-02-01:2512",
+              "journal:2025-02-01:2513",
+              "journal:2025-02-01:2514"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/business.ts:2037",
+            "treatment": 40127912,
+            "control": 63358180,
+            "ids": [
+              "journal:2025-02-01:1182",
+              "journal:2025-03-01:8660",
+              "journal:2025-03-01:8661"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1908",
+            "treatment": 2807047739,
+            "control": 2798491105,
+            "ids": [
+              "journal:2025-01-27:951",
+              "journal:2025-01-27:955",
+              "journal:2025-01-30:1013"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+            "treatment": 1625244483,
+            "control": 1633203689,
+            "ids": [
+              "journal:2025-02-01:1187",
+              "journal:2025-02-01:1188",
+              "journal:2025-02-01:1189"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/moves.ts:923",
+            "treatment": 171901488,
+            "control": 177477454,
+            "ids": [
+              "journal:2025-03-19:16839",
+              "journal:2025-05-29:35008",
+              "journal:2025-05-30:35027"
+            ]
+          },
+          {
+            "kind": "employer-taxes:profit @ src/core2/modules/employer-taxes.ts:337",
+            "treatment": 98950677,
+            "control": 94318058,
+            "ids": [
+              "journal:2025-07-01:49741",
+              "journal:2025-07-01:49742",
+              "journal:2025-07-01:49765"
+            ]
+          }
+        ],
+        "diffKinds": 43,
+        "cited": [],
+        "controlCited": [],
+        "own": {
+          "targets": 0,
+          "among": "reached",
+          "pairs": [],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 135,
+        "sample": [
+          "person_025bd9be62810161:printed:outlet:cable:1:national:law-took-effect:law:US-MA:state:local-power:us-policy-positions:fiscal.fund-pensions-to-schedule:general:2025-01-21:law-wiring-0d31d79d",
+          "person_ed816e0d90d01e8a:printed:outlet:cable:1:national:law-took-effect:law:US-MA:state:local-power:us-policy-positions:fiscal.fund-pensions-to-schedule:general:2025-01-21:law-wiring-0d31d79d",
+          "person:press:outlet:newspaper:2:jurisdiction_841a5f12f49c059a:owner:0:printed:outlet:cable:1:national:law-took-effect:law:US-MA:state:local-power:us-policy-positions:fiscal.fund-pensions-to-schedule:general:2025-01-21:law-wiring-0d31d79d"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 91
+    },
+    {
+      "key": "local-power:us-policy-positions:fiscal.minimum-reserve-balance",
+      "kind": "amount",
+      "family": "taxes-finance",
+      "inForceAtOpening": false,
+      "change": "local-power:us-policy-positions:fiscal.minimum-reserve-balance 0 -> 1 at state (law:US-MA:state:local-power:us-policy-positions:fiscal.minimum-reserve-balance:general:2025-01-21:law-wiring-d55ba3a7) effective 2025-01-21",
+      "lawIds": [
+        "law:US-MA:state:local-power:us-policy-positions:fiscal.minimum-reserve-balance:general:2025-01-21:law-wiring-d55ba3a7",
+        "law:US-MA:state:local-power:us-policy-positions:fiscal.minimum-reserve-balance:general:2026-01-22:law-wiring-d55ba3a7-undo"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "inPlay": [],
+      "applied": {
+        "rows": 0,
+        "withAmount": 0,
+        "sample": []
+      },
+      "readers": {
+        "src/core2/policy-authority.ts:55": 42,
+        "src/core2/policy-authority.ts:121": 42,
+        "src/core2/law-reach/group-b.ts:891 <- src/core2/budgets-treasury.ts:990": 36,
+        "src/core2/life.ts:573": 5,
+        "src/core2/law-reach/group-b.ts:891 <- src/core2/life.ts:573": 2
+      },
+      "openingRow": null,
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/law-reach/group-b-money.ts:1490 <- src/core2/life.ts:573",
+            "treatment": 9869,
+            "control": 0,
+            "ids": ["journal:2025-01-21:811"]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/law-reach/group-b-money.ts:1490 <- src/core2/budgets-treasury.ts:990",
+            "treatment": 6602774,
+            "control": 6612643,
+            "ids": ["journal:2025-06-01:34387", "journal:2025-07-01:43557"]
+          }
+        ],
+        "diffKinds": 2,
+        "cited": [],
+        "controlCited": [],
+        "own": {
+          "targets": 0,
+          "among": "reached",
+          "pairs": [],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 124,
+        "sample": [
+          "person_025bd9be62810161:printed:outlet:cable:1:national:law-took-effect:law:US-MA:state:local-power:us-policy-positions:fiscal.minimum-reserve-balance:general:2025-01-21:law-wiring-d55ba3a7",
+          "person_ed816e0d90d01e8a:printed:outlet:cable:1:national:law-took-effect:law:US-MA:state:local-power:us-policy-positions:fiscal.minimum-reserve-balance:general:2025-01-21:law-wiring-d55ba3a7",
+          "person:press:outlet:newspaper:2:jurisdiction_841a5f12f49c059a:owner:0:printed:outlet:cable:1:national:law-took-effect:law:US-MA:state:local-power:us-policy-positions:fiscal.minimum-reserve-balance:general:2025-01-21:law-wiring-d55ba3a7"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 85
+    }
+  ]
+}

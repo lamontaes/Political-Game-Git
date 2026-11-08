@@ -3,8 +3,10 @@
 // outlet with the player at it, then what the buy cost and how many it reached. Usage: SEED=<seed> node src/bench/ad-buy.browser.mjs [screenshot-dir]
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
+import { chooseTrailAct } from "./trail-act.mjs";
 import { fileWhenFilingOpens } from "./start-life.mjs";
 import { openCampaignTrail } from "./campaign-trail.mjs";
+import { devModeOn, devDonorsGive } from "./dev-setup.mjs";
 
 const shots = process.argv[2];
 const base = `http://localhost:${process.env.BENCH_PORT ?? 3000}`;
@@ -52,9 +54,7 @@ try {
     const ask = page.waitForResponse(
       (r) => new URL(r.url()).pathname === "/api/campaign/act",
     );
-    await page
-      .locator("#sheet-body.place-view button", { hasText: /^Ad$/ })
-      .evaluate((e) => e.click());
+    await (await chooseTrailAct(page, /^Ad$/)).click();
     const result = await (await ask).json();
     await page.locator("#talk:visible").waitFor();
     await page.waitForTimeout(900);
@@ -67,14 +67,14 @@ try {
   assert.equal(none.result.spentMinor, 0);
   assert.equal(none.text, none.result.line);
   assert.match(none.text, /no money|No ad time/);
-  // The player puts money in, then buys: the line names the cost and the reach.
+  // Money comes in from the donors, the campaign day's own raise-money choice (dev mode, on the Calendar).
   await openCampaignTrail(page);
-  const put = await page.request.post(
-    `${base}/api/campaign/act?${new URLSearchParams({ filingId: filed, kind: "contribute", amountMinor: "100000" })}`,
-  );
-  assert.equal(put.status(), 200);
+  await devModeOn(page);
+  const gave = await devDonorsGive(page);
+  assert.ok(gave.raisedMinor > 0, "no donor gave the campaign anything");
   // Leave the card and come back, so it shows what the campaign holds now.
   await page.locator('#rings [data-tab="calendar"]').click();
+  await page.locator(".calendar-board").waitFor();
   await openCampaignTrail(page);
   const bought = await buy();
   assert.ok(bought.result.spentMinor > 0, "the buy spent nothing");

@@ -7,15 +7,13 @@
  * county areas, the township over it where one governs, and the place itself; only those jurisdictions' rows load, so a
  * world never carries another place's law.
  */
+import type { GovernmentLevelWithTownship } from "./government-level";
 import startingLaw from "./data/laws/starting-law.json" with { type: "json" };
-import {
-  countyGeoidsForPlace,
-  governmentUnitsForPlace,
-} from "./reference/government-units";
+import { placeCounty, placeRow, placeStateKey } from "./place-map";
 import { corePlaceByKey } from "./place-lookup";
 import { placeLocalGovernmentUnits } from "./gov-rules/local-governments";
 
-export type LawLevelName = "federal" | "state" | "county" | "township" | "city";
+export type LawLevelName = GovernmentLevelWithTownship;
 
 export interface LawChainLevel {
   readonly level: LawLevelName;
@@ -50,7 +48,7 @@ export interface StartingLawRow {
   readonly note?: string;
 }
 
-/** A starting-law row placed in a world: jurisdiction and a stable id added. */
+/** A dated resolver input (law or calibration): jurisdiction and a stable id added. */
 export interface LawRowInput extends StartingLawRow {
   readonly id: string;
   readonly jurisdiction: string;
@@ -79,26 +77,28 @@ interface PropertyTaxTable {
 
 const data = startingLaw as unknown as {
   jurisdictions: Readonly<Record<string, readonly StartingLawRow[]>>;
+  calibrations: Readonly<Record<string, readonly StartingLawRow[]>>;
   propertyTax: PropertyTaxTable;
 };
 
 export function lawChainForPlace(placeKey: string): LawChain {
   const place = corePlaceByKey(placeKey);
   if (!place) throw new Error(`Law chain needs a recorded place: ${placeKey}`);
-  const stateKey = place.stateJurisdictionKey;
+  const stateKey = placeStateKey(placeKey);
   if (!stateKey)
     throw new Error(`Law chain needs the place's state: ${placeKey}`);
   const geoid = place.sourceGeoid ?? place.key;
-  const counties = countyGeoidsForPlace(geoid);
+  // The one place map holds the county area a town sits in; a county place has none above it.
+  const row = placeRow(placeKey);
+  const county = row?.level === "town" ? placeCounty(placeKey) : null;
+  const counties = county ? [county.id.slice("county:".length)] : [];
   return {
     placeKey,
     placeName: place.displayName,
     townPlaceId: place.context.jurisdiction.id,
     stateKey,
     countyGeoids: counties,
-    incorporated: governmentUnitsForPlace(geoid).some(
-      (unit) => unit.unitType === "municipality",
-    ),
+    incorporated: row?.form === "municipality",
     levels: [
       { level: "federal", jurisdiction: "US" },
       { level: "state", jurisdiction: stateKey },
@@ -125,13 +125,32 @@ export function lawRowId(
   return `law:${jurisdiction}:${row.level}:${row.series}:${row.tier}:${row.effectiveDate}`;
 }
 
+/** Sourced fallback estimates, kept separately from statutes and ordinances. */
+export function startingCalibrationRows(
+  chain: LawChain,
+): readonly LawRowInput[] {
+  const rows = chain.levels.flatMap(({ jurisdiction }) =>
+    (data.calibrations[jurisdiction] ?? []).map((row) => ({
+      ...row,
+      jurisdiction,
+      id: `estimate:${lawRowId(jurisdiction, row).slice("law:".length)}`,
+    })),
+  );
+  return [
+    ...rows,
+    ...propertyTaxRows(chain).map((row) => ({
+      ...row,
+      id: `estimate:${row.id.slice("law:".length)}`,
+    })),
+  ];
+}
+
 /** Every starting-law row for the jurisdictions in a place's chain. */
 export function startingLawRows(chain: LawChain): readonly LawRowInput[] {
   const rows: LawRowInput[] = [];
   for (const { jurisdiction } of chain.levels)
     for (const row of data.jurisdictions[jurisdiction] ?? [])
       rows.push({ ...row, jurisdiction, id: lawRowId(jurisdiction, row) });
-  rows.push(...propertyTaxRows(chain));
   return rows;
 }
 
@@ -141,6 +160,7 @@ export function startingLawRows(chain: LawChain): readonly LawRowInput[] {
  * American Community Survey; the state figure where the county is not
  * published, with the state's middle half of county rates as its spread.
  */
+// stopgapId: SG-GOV-property-tax-aggregate-calibration
 function propertyTaxRows(chain: LawChain): readonly LawRowInput[] {
   const table = data.propertyTax;
   const state = table.states[chain.stateKey];

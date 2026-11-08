@@ -1,0 +1,14 @@
+{
+  "about": "How the term read's areas are said in a speech or a story (data/english, read by src/english/area-names.ts): a noun phrase that reads after 'about' or 'on'. A hand-authored name for each area the term read keeps (src/core2/data/term-read/areas.json).",
+  "names": {
+    "jobs": "jobs",
+    "pay": "pay",
+    "prices": "prices",
+    "rent": "rent",
+    "crime": "safety on our streets",
+    "schools": "our schools",
+    "health": "health care",
+    "roads": "our roads",
+    "environment": "the air and the water"
+  }
+}

@@ -167,6 +167,9 @@ export function personCard(core: CoreState, personId: string) {
     // What they're like, in plain sentences from their strongest leanings
     // (owner, Oct 27), never the traits' names.
     sketch: personSketch(person.traits),
+    // The same leanings in the You screen's own voice, each with its label and
+    // how strong it runs (shown only on the player's own screen).
+    traitLines: sketchRows(person.traits, "-first", {}, PEOPLE_TRAITS.length),
     // Where they place themselves politically, as the views engine's label.
     view: core.modules.has(VIEWS_MODULE_ID)
       ? (viewOf(coreAPI(core), personId)?.label ?? null)
@@ -418,7 +421,7 @@ const inSentence = (title: string) =>
 /** Who a card's story is about, and the form its sentences take. */
 interface Teller {
   /** Said of someone (third person), in the they form, or to the player of their own life. */
-  readonly form: "third" | "they" | "you";
+  readonly form: "third" | "they" | "you" | "first";
   /** Their full name, said in the story's first sentence. */
   readonly name: string;
   /** Their recorded pronouns, for the third-person form. */
@@ -639,7 +642,8 @@ function summaryOf(
     readonly before?: { kind: string; state: string } | null;
   },
 ): string[] {
-  const you = teller.form === "you" ? ".you" : "";
+  const you =
+    teller.form === "you" ? ".you" : teller.form === "first" ? ".first" : "";
   const line = (key: string, slots: Record<string, string>) =>
     screenLine("person-history", `person-history.summary.${key}${you}`, slots);
   const role = now.office
@@ -750,27 +754,46 @@ function personSketch(
 ): string {
   const third = pronouns === undefined ? null : pronounWords(pronouns);
   const voice = pronouns === undefined ? "" : third ? "-third" : "-they";
-  const facts = third ?? {};
-  const said = PEOPLE_TRAITS.flatMap((trait) => {
+  const said = sketchRows(traits, voice, third ?? {}).map((row) => row.line);
+  return said.length
+    ? said.join(" ")
+    : (screenLine(
+        "person-sketch",
+        `person-sketch.balanced.1${voice}`,
+        third ?? {},
+      ) ?? "");
+}
+
+/**
+ * The leanings a person is said to have, strongest first, each as the pole's
+ * own label, how strong it runs and its sentence in the given voice ("" the
+ * player's second person, "-first" the You screen's own voice).
+ */
+function sketchRows(
+  traits: Readonly<Record<string, number>>,
+  voice: string,
+  facts: Readonly<Record<string, string | number>>,
+  limit = SKETCH_SENTENCES,
+): { label: string; strength: "strong" | "mild"; line: string }[] {
+  return PEOPLE_TRAITS.flatMap((trait) => {
     const value = traits[`${PEOPLE_MIND_VERSION}:${trait}`];
     if (value === undefined || Math.abs(value) < SKETCH_SAID) return [];
     const shape = TRAIT_SHAPES[trait];
-    const pole = value < 0 ? shape.low.key : shape.high.key;
-    const strength = Math.abs(value) >= SKETCH_STRONG ? "strong" : "mild";
+    const side = value < 0 ? shape.low : shape.high;
+    const strength: "strong" | "mild" =
+      Math.abs(value) >= SKETCH_STRONG ? "strong" : "mild";
     const line = screenLine(
       "person-sketch",
-      `person-sketch.${pole}.${strength}${voice}`,
+      `person-sketch.${side.key}.${strength}${voice}`,
       facts,
     );
-    return line ? [{ line, weight: Math.abs(value) }] : [];
+    return line
+      ? [{ label: side.label, strength, line, weight: Math.abs(value) }]
+      : [];
   })
     .sort((a, b) => b.weight - a.weight)
-    .slice(0, SKETCH_SENTENCES)
-    .map((row) => row.line);
-  return said.length
-    ? said.join(" ")
-    : (screenLine("person-sketch", `person-sketch.balanced.1${voice}`, facts) ??
-        "");
+    .slice(0, limit)
+    .map(({ label, strength, line }) => ({ label, strength, line }));
 }
 
 interface TermLike {
@@ -1076,24 +1099,30 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
               : "",
         }
       : null;
+  const summaryNow = {
+    office: run,
+    // Their work, as the story already tells it of anyone.
+    work: job
+      ? {
+          title: job.title,
+          employer: core.organizations.get(job.organizationId)?.name ?? null,
+        }
+      : null,
+    school: school?.name ?? null,
+    place: homePlace,
+    born: { year: other.birthDate.slice(0, 4), place: bornIn },
+    before: priorOffice,
+  };
   return {
     personId: otherId,
     name,
     // Who they are now and where they come from, under the name.
-    summary: summaryOf(teller, {
-      office: run,
-      // Their work, as the story already tells it of anyone.
-      work: job
-        ? {
-            title: job.title,
-            employer: core.organizations.get(job.organizationId)?.name ?? null,
-          }
-        : null,
-      school: school?.name ?? null,
-      place: homePlace,
-      born: { year: other.birthDate.slice(0, 4), place: bornIn },
-      before: priorOffice,
-    }),
+    summary: summaryOf(teller, summaryNow),
+    // The player's own lines in their own voice, for the You screen.
+    summaryFirst:
+      teller.form === "you"
+        ? summaryOf({ ...teller, form: "first" }, summaryNow)
+        : [],
     relation,
     // The family fact the relation is read from, the one scenes cite.
     relationRecordId: kin?.factId ?? null,
@@ -1117,6 +1146,19 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
       family || housemate || tie
         ? personSketch(other.traits, other.looks?.pronouns ?? "they-them")
         : null,
+    // The same leanings one by one, each by the pole's own label and no strength: how the
+    // viewer sees them (the approved person card), only for someone the viewer knows.
+    traitLines:
+      family || housemate || tie
+        ? sketchRows(
+            other.traits,
+            teller.words ? "-third" : "-they",
+            teller.words ?? {},
+            PEOPLE_TRAITS.length,
+          ).map(({ label, line }) => ({ label, line }))
+        : [],
+    // Their pronouns as words, for the headings on their card (she, her, Her); null for they.
+    pronouns: teller.words,
     work:
       (family || housemate || coworker) && job
         ? {

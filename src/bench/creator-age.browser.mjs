@@ -17,7 +17,7 @@ try {
   await ready;
   await page.locator("#new-life").click();
   await page.locator("#new-start").click();
-  await page.locator("#cr-character:not([hidden])").waitFor();
+  await page.locator("#cr-screen:not([hidden])").waitFor();
   const read = () =>
     page.locator('[data-testid="creator-derived-age"]').innerText();
   const check = async (name) => {

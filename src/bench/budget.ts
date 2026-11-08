@@ -3,11 +3,13 @@ import {
   budgetPriorities,
   budgetsOf,
   governments,
+  lineBeforeBill,
   setBudgetPriorities,
   withholdingOf,
 } from "../core2/modules/budgets";
 import type { TermRow } from "../core2/modules/offices";
 import { gameStartDate } from "../core2/game-start";
+import { facePlace, holderFace } from "./government";
 import type { CoreState } from "../core2/types";
 import { properName } from "../director/words";
 import lineNames from "../core2/data/budgets/line-names.json" with { type: "json" };
@@ -69,9 +71,17 @@ export function booksOf(core: CoreState, organizationId: string) {
  * screen reads (revenue, spending and the balance between them), so no screen
  * adds the lines up itself.
  */
-function totaled(budget: ReturnType<typeof budgetsOf>[number]) {
+function totaled(
+  budget: ReturnType<typeof budgetsOf>[number],
+  askedMinor?: (line: string) => number,
+) {
   const revenue = sorted(budget.revenueMinor);
-  const spending = sorted(budget.spendingMinor);
+  // What each line stood at before this year's budget bill changed it: what the departments
+  // asked for, beside what was adopted.
+  const spending = sorted(budget.spendingMinor).map((row) => ({
+    ...row,
+    ...(askedMinor ? { askedMinor: askedMinor(row.line) } : {}),
+  }));
   const sum = (lines: readonly { minor: number }[]) =>
     lines.reduce((total, row) => total + row.minor, 0);
   return {
@@ -84,6 +94,39 @@ function totaled(budget: ReturnType<typeof budgetsOf>[number]) {
     spendingMinor: sum(spending),
     balanceMinor: sum(revenue) - sum(spending),
   };
+}
+
+/**
+ * The government's chief executive (mayor, county executive, governor, President) as the
+ * offices record holds them: a name, the card to open and the bust. Null where the seat is
+ * vacant or the government has none.
+ */
+function chiefOf(core: CoreState, governmentId: string, viewerId: string) {
+  const offices = coreAPI(core).moduleState(OFFICES);
+  for (const row of offices.table("terms").rows() as unknown as TermRow[]) {
+    if (row.status !== "serving") continue;
+    const office = offices.table("offices").get(row.officeId) as
+      { kind: string; jurisdiction: string; title?: string } | undefined;
+    if (
+      !office ||
+      !EXECUTIVES.test(office.kind) ||
+      governmentId !== office.jurisdiction
+    )
+      continue;
+    const { cardId, face } = holderFace(
+      core,
+      { id: row.id, personId: row.personId },
+      facePlace(core, viewerId),
+    );
+    return {
+      name: `${row.identity.givenName} ${row.identity.familyName}`,
+      title: office.title ?? null,
+      party: row.party,
+      cardId,
+      face,
+    };
+  }
+  return null;
 }
 
 /** Every government over the town, its latest budget, and the player's taxes. */
@@ -101,17 +144,26 @@ export function budgetView(core: CoreState, personId: string) {
     }
   return {
     governments: governments(api).map((gov) => {
-      const latest = [...budgetsOf(api, gov.id)].sort(
+      const years = [...budgetsOf(api, gov.id)].sort(
         (a, b) => b.fiscalYear - a.fiscalYear,
-      )[0];
+      );
+      const latest = years[0];
+      // The year before, when the government kept one: "Last year" beside each line.
+      const prior = years[1];
       return {
         ...gov,
+        executive: chiefOf(core, gov.id, personId),
         // Some federal files hold names in capitals only.
         name: properName(gov.name),
         youAreExecutive: [...executive].some((j) => gov.id.includes(j)),
         priorities: budgetPriorities(api, gov.id),
         books: booksOf(core, gov.organizationId),
-        latest: latest && totaled(latest),
+        latest:
+          latest &&
+          totaled(latest, (line) =>
+            lineBeforeBill(api, gov, latest.fiscalYear, line),
+          ),
+        prior: prior && totaled(prior),
       };
     }),
     withholding: {

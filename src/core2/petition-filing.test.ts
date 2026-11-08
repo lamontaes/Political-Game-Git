@@ -38,6 +38,7 @@ import {
   fileCandidacy,
   filingRequirements,
   petitionOf,
+  petitionSigners,
   type ContestRow,
   type FilingRow,
   type PetitionRow,
@@ -190,23 +191,25 @@ describe("filing is a petition", () => {
       );
       const mine = petitionOf(api, filing.id)!;
       expect(mine.check, `${where}: the clerk never checked`).toBeDefined();
-      const vias = new Set(mine.signers.map((s) => s.via));
+      const vias = new Set(petitionSigners(api, filing.id).map((s) => s.via));
       expect(vias.has("door"), `${where}: no signature at a door`).toBe(true);
       for (const p of petitions) {
         if (!p.check) continue;
         const f = filings.get(p.filingId)!;
-        const signers = new Set(p.signers.map((s) => s.personId));
+        const signed = petitionSigners(api, p.filingId);
+        const signers = new Set(signed.map((s) => s.personId));
         expect(signers.size, `${where}: ${p.id} signed twice`).toBe(
-          p.signers.length,
+          signed.length,
         );
+        expect(p.signed, `${where}: ${p.id} count`).toBe(signed.length);
         expect(signers.has(p.personId), where).toBe(false);
         expect(p.check.valid + p.check.struckIds.length, where).toBe(
-          p.signers.length,
+          signed.length,
         );
         expect(f.status, `${where}: ${p.id}`).toBe(
           p.check.valid >= p.needed ? "on-ballot" : "short",
         );
-        for (const s of p.signers) {
+        for (const s of signed) {
           const signer = core.people.get(s.personId);
           if (signer)
             expect(
@@ -257,7 +260,7 @@ describe("filing is a petition", () => {
         `${where}: ${contest.id}; ${petitions.length} petitions checked on ${mine.check!.on}: ${petitions
           .map(
             (p) =>
-              `${p.id} ${p.signers.length}/${p.needed} ${filings.get(p.filingId)?.status}`,
+              `${p.id} ${p.signed}/${p.needed} ${filings.get(p.filingId)?.status}`,
           )
           .join("; ")}\n`,
       );

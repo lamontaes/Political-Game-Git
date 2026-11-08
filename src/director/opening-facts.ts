@@ -8,7 +8,11 @@ export const ADDRESS_FACT = {
   /** The offices engine's inauguration record the address was given at. */
   inauguration: "address:inauguration",
   president: "address:president",
+  /** Whoever gave the address: the President, a governor or a mayor. */
+  speaker: "address:speaker",
   kind: "address:kind",
+  /** The kind it took (crisis, combative, hopeful, victory, mourning, policy): what the world and the speaker gave it to say. */
+  style: "address:style",
   opening: "address:opening",
   remembered: "address:remembered",
   text: "address:text",

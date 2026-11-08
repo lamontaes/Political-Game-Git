@@ -29,3 +29,36 @@ L2 #7217 exit 0 61s
 L2 #7222 exit 0 50s
 L2 #7243 exit 0 116s
 ALLDONE
+
+Rerun on main:
+main d6f72cf7c9 lanes: Confirmer replays Lane 1 path 1's petition half in Johnson, Minnesota
+L1 #7142 exit 0 193s
+L1 #7085 exit 0 131s
+L1 #7135 exit 0 127s
+L1 #7150 exit 0 243s
+L1 #7156 exit 0 505s
+L1 #7163 exit 1 275s
+L1 #7165 exit 1 245s
+L1 #7166 exit 0 75s
+L1 #7167 exit 0 56s
+L1 #7154 exit 0 16s
+L1 #7168 exit 0 27s
+L1 #7169 exit 0 46s
+L1 #7170 exit 0 369s
+L1 #7171 exit 0 53s
+L1 #7174 exit 0 34s
+L1 #7175 exit 0 95s
+L1 #7215 exit 0 19s
+L1 #7239 exit 0 24s
+L2 #7143 exit 0 20s
+L2 #7147 exit 0 31s
+L2 #7153 exit 0 14s
+L2 #7157 exit 0 37s
+L2 #7160 exit 0 26s
+L2 #7162 exit 0 107s
+L2 #7164 exit 0 79s
+L2 #7189 exit 0 58s
+L2 #7217 exit 0 32s
+L2 #7222 exit 0 51s
+L2 #7243 exit 0 125s
+ALLDONE

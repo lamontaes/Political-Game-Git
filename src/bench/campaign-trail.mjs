@@ -18,28 +18,30 @@ async function settle(page) {
 /** Open Travel, then the campaign trail's card. */
 export async function openCampaignTrail(page) {
   await settle(page);
-  // An act that stays on the screen returns to the trail's own card: already here.
-  if (
-    await page
-      .locator("#sheet-body.place-view .screen-heading", {
-        hasText: "The campaign trail",
-      })
-      .count()
-  )
-    return;
-  if (!(await page.locator('.ring[data-tab="travel"]:visible').count()))
-    await page.locator('#rings [data-tab="calendar"]').click();
-  // Travel's list may already be open (a ring press would close it).
-  const tile = page
-    .locator("#sheet-body .entry", { hasText: "The campaign trail" })
+  // Either the trail's own card is already up (an act that stays on the screen returns to it, and a
+  // press of another ring may not have taken it down yet) or Travel's list, which holds its tile. The
+  // sheet redraws between the two, so the check waits for whichever shows rather than counting at once.
+  const own = page.locator(
+    "#sheet-body.place-view .travel-screen .travel-tile",
+    { hasText: "Knock on doors" },
+  );
+  const entry = page
+    .locator("#sheet-body .travel-tile", { hasText: "The campaign trail" })
     .first();
-  if (!(await tile.count()))
+  const shown = own.or(entry).first();
+  await shown.waitFor({ timeout: 3000 }).catch(() => {});
+  if (!(await shown.count())) {
+    // Travel is closed: open it (from the calendar's ring where Travel's own is not on show).
+    if (!(await page.locator('.ring[data-tab="travel"]:visible').count()))
+      await page.locator('#rings [data-tab="calendar"]').click();
     await page.locator('.ring[data-tab="travel"]').click();
-  await tile.waitFor();
-  await tile.click();
-  await page.locator("#sheet-body.place-view").waitFor();
+    await shown.waitFor();
+  }
+  if (await own.count()) return;
+  await entry.click();
+  await own.first().waitFor();
 }
-/** The trail's controls (buttons), by their words. */
+/** The trail's acts (tiles), by their words. */
 export function trailButtons(page) {
-  return page.locator("#sheet-body.place-view button");
+  return page.locator("#sheet-body.place-view .travel-tile");
 }

@@ -20,6 +20,7 @@
  * a vote, the voting engine's rule for an incumbent who does not file).
  * Nothing is rolled; nothing names a place.
  */
+import { dayParts, worldParts } from "./office-day-federal-parts";
 import { registerModule } from "./state";
 import type {
   ActionDefinition,
@@ -38,9 +39,15 @@ import {
   FEDERAL_HOUSE,
   FEDERAL_SENATE,
   LEGISLATURE_MODULE_ID,
+  billOf,
   castMemberVote,
+  castOwnPositionVote,
+  chambersOf,
   floorAgendaOn,
+  holdFloorDebate,
+  memberKey,
   memberPosition,
+  members,
 } from "./modules/legislature";
 import {
   clearPrepared,
@@ -98,7 +105,7 @@ export type Where = "washington" | "district";
 
 /** What the federal day adds to what may stop the player (the engine's own `own-bill-vote` and `desk` are used as they are). */
 registerStopKinds([
-  { kind: "floor-vote", byDefault: false },
+  { kind: "floor-vote", byDefault: true },
   { kind: "whip-ask", byDefault: false },
   { kind: "joint-address", byDefault: true },
   { kind: "budget-request", byDefault: true },
@@ -359,13 +366,20 @@ function eveOfVotes(api: CoreAPI, personId: string): void {
         api.moduleState(LEGISLATURE_MODULE_ID).table("bills").get(billId) as
           { sponsorId?: string } | undefined
       )?.sponsorId === personId;
-    if (stops[own ? "own-bill-vote" : "floor-vote"])
+    if (stops[own ? "own-bill-vote" : "floor-vote"]) {
       holdFederal(
         api,
         floorHold(billId),
         "office-day-federal.floor-vote",
         billId,
       );
+      // The floor speaks before the roll: for and against, heard before the player votes.
+      const bill = billOf(api, billId);
+      if (bill)
+        for (const chamber of chambersOf(api, bill))
+          if (members(api, chamber).some((t) => memberKey(t) === personId))
+            holdFloorDebate(api, billId, chamber);
+    }
   }
 }
 
@@ -393,6 +407,11 @@ export function voteOnFloor(
 
 /** The player leaves a held vote to the character: the floor casts it by the engine's own rule. */
 export function leaveVoteToCharacter(api: CoreAPI, billId: string): void {
+  // The character votes as it does for any member, from its own position on the bill.
+  const personId = controlledPerson(api);
+  if (personId && !chose(api, billId, personId)) {
+    castOwnPositionVote(api, billId, personId);
+  }
   releaseFederal(api, floorHold(billId));
 }
 
@@ -741,21 +760,10 @@ addFederalActs({
 
 // ---- The day ---------------------------------------------------------------------
 
-type DayPart = (api: CoreAPI, personId: string) => void;
-const dayParts: DayPart[] = [];
-
-/** A federal part adds what it does each day for the controlled holder (the president's duties). */
-export function addFederalDayPart(part: DayPart): void {
-  if (!dayParts.includes(part)) dayParts.push(part);
-}
-
-type WorldPart = (api: CoreAPI) => void;
-const worldParts: WorldPart[] = [];
-
-/** A federal part adds what happens each day whoever the player controls (the Senate's votes on nominations). */
-export function addFederalWorldPart(part: WorldPart): void {
-  if (!worldParts.includes(part)) worldParts.push(part);
-}
+export {
+  addFederalDayPart,
+  addFederalWorldPart,
+} from "./office-day-federal-parts";
 
 /** Each day: what happens whoever the player is, then the day of the federal officeholder the player controls. */
 function federalDay(api: CoreAPI): void {

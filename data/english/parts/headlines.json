@@ -7596,6 +7596,424 @@
         "move": "headline",
         "key": "news-received"
       }
+    },
+    {
+      "key": "headlines.public-action.residents-protest-issue-in-place",
+      "move": "public-action",
+      "kind": "written",
+      "text": "Residents protest {issue} in {place}",
+      "uses": [
+        {
+          "move": "public-action",
+          "subject": "headline",
+          "role": "public-action",
+          "choice": "headline",
+          "requiresFacts": ["protest", "issue"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.public-action.protesters-press-place-officials-on-issue",
+      "move": "public-action",
+      "kind": "written",
+      "text": "Protesters press {place} officials on {issue}",
+      "uses": [
+        {
+          "move": "public-action",
+          "subject": "headline",
+          "role": "public-action",
+          "choice": "headline",
+          "requiresFacts": ["protest", "issue"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.public-action.workers-walk-out-in-place-over-issue",
+      "move": "public-action",
+      "kind": "written",
+      "text": "Workers walk out in {place} over {issue}",
+      "uses": [
+        {
+          "move": "public-action",
+          "subject": "headline",
+          "role": "public-action",
+          "choice": "headline",
+          "requiresFacts": ["strike", "issue"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.public-action.walkout-in-place-over-issue",
+      "move": "public-action",
+      "kind": "written",
+      "text": "Walkout in {place} over {issue}",
+      "uses": [
+        {
+          "move": "public-action",
+          "subject": "headline",
+          "role": "public-action",
+          "choice": "headline",
+          "requiresFacts": ["strike", "issue"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.local-address.name-gives-the-states-yearly-address",
+      "move": "local-address",
+      "kind": "written",
+      "text": "{name} gives the state's yearly address",
+      "uses": [
+        {
+          "move": "local-address",
+          "subject": "headline",
+          "role": "local-address",
+          "choice": "headline",
+          "requiresFacts": ["state"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.local-address.name-addresses-the-legislature",
+      "move": "local-address",
+      "kind": "written",
+      "text": "{name} addresses the legislature",
+      "uses": [
+        {
+          "move": "local-address",
+          "subject": "headline",
+          "role": "local-address",
+          "choice": "headline",
+          "requiresFacts": ["state"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.local-address.name-gives-the-towns-yearly-address",
+      "move": "local-address",
+      "kind": "written",
+      "text": "{name} gives the town's yearly address",
+      "uses": [
+        {
+          "move": "local-address",
+          "subject": "headline",
+          "role": "local-address",
+          "choice": "headline",
+          "requiresFacts": ["town"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.local-address.name-addresses-the-council",
+      "move": "local-address",
+      "kind": "written",
+      "text": "{name} addresses the council",
+      "uses": [
+        {
+          "move": "local-address",
+          "subject": "headline",
+          "role": "local-address",
+          "choice": "headline",
+          "requiresFacts": ["town"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.public-action.place-gathers-to-mark-a-good-year-for-area",
+      "move": "public-action",
+      "kind": "written",
+      "text": "{place} gathers to mark a good year for {area}",
+      "uses": [
+        {
+          "move": "public-action",
+          "subject": "headline",
+          "role": "public-action",
+          "choice": "headline",
+          "requiresFacts": ["rally", "area"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.public-action.neighbors-in-place-turn-out-glad-of-how-area-has",
+      "move": "public-action",
+      "kind": "written",
+      "text": "Neighbors in {place} turn out, glad of how {area} has gone",
+      "uses": [
+        {
+          "move": "public-action",
+          "subject": "headline",
+          "role": "public-action",
+          "choice": "headline",
+          "requiresFacts": ["rally", "area"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.public-action.place-rallies-behind-a-good-year-for-area",
+      "move": "public-action",
+      "kind": "written",
+      "text": "{place} rallies behind a good year for {area}",
+      "uses": [
+        {
+          "move": "public-action",
+          "subject": "headline",
+          "role": "public-action",
+          "choice": "headline",
+          "requiresFacts": ["rally", "area"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.exposed.name-offered-an-official-a-bribe-records-show",
+      "move": "exposed",
+      "kind": "written",
+      "text": "{name} offered an official a bribe, records show",
+      "uses": [
+        {
+          "move": "exposed",
+          "subject": "headline",
+          "role": "exposed",
+          "choice": "headline",
+          "requiresFacts": ["offered"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.exposed.records-tie-name-to-a-bribe-offer",
+      "move": "exposed",
+      "kind": "written",
+      "text": "Records tie {name} to a bribe offer",
+      "uses": [
+        {
+          "move": "exposed",
+          "subject": "headline",
+          "role": "exposed",
+          "choice": "headline",
+          "requiresFacts": ["offered"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.address-response.name-answers-opponents-address",
+      "move": "address-response",
+      "kind": "written",
+      "text": "{name} answers {opponent}'s address",
+      "uses": [
+        {
+          "move": "address-response",
+          "subject": "headline",
+          "role": "address-response",
+          "choice": "headline",
+          "requiresFacts": ["opponent", "issue"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.address-response.name-objects-to-opponents-plan-for-issue",
+      "move": "address-response",
+      "kind": "written",
+      "text": "{name} objects to {opponent}'s plan for {issue}",
+      "uses": [
+        {
+          "move": "address-response",
+          "subject": "headline",
+          "role": "address-response",
+          "choice": "headline",
+          "requiresFacts": ["opponent", "issue"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.floor-debate.name-and-opponent-split-on-designation",
+      "move": "floor-debate",
+      "kind": "written",
+      "text": "{name} and {opponent} split on {designation}",
+      "uses": [
+        {
+          "move": "floor-debate",
+          "subject": "headline",
+          "role": "floor-debate",
+          "choice": "headline",
+          "requiresFacts": ["opponent", "designation"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.floor-debate.designation-name-for-opponent-against",
+      "move": "floor-debate",
+      "kind": "written",
+      "text": "{designation}: {name} for, {opponent} against",
+      "uses": [
+        {
+          "move": "floor-debate",
+          "subject": "headline",
+          "role": "floor-debate",
+          "choice": "headline",
+          "requiresFacts": ["opponent", "designation"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.public-action.neighbors-in-place-form-a-standing-group-over-issue",
+      "move": "public-action",
+      "kind": "written",
+      "text": "Neighbors in {place} form a standing group over {issue}",
+      "uses": [
+        {
+          "move": "public-action",
+          "subject": "headline",
+          "role": "public-action",
+          "choice": "headline",
+          "requiresFacts": ["movement", "issue"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.public-action.a-crowd-over-issue-becomes-a-group-in-place",
+      "move": "public-action",
+      "kind": "written",
+      "text": "A crowd over {issue} becomes a group in {place}",
+      "uses": [
+        {
+          "move": "public-action",
+          "subject": "headline",
+          "role": "public-action",
+          "choice": "headline",
+          "requiresFacts": ["movement", "issue"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
     }
   ]
 }

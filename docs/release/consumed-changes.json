@@ -1,6 +1,473 @@
 {
   "entries": [
     {
+      "version": "0.94.0",
+      "releasedOn": "2026-11-08",
+      "revision": "69580ab1097184ffefbc777b00d579d512261be4",
+      "changeIds": [
+        "devmode-bills",
+        "devmode-bribe",
+        "devmode-browser-check",
+        "devmode-chair-hears",
+        "devmode-chair-report",
+        "devmode-committee-pass",
+        "devmode-delete-dev-page",
+        "devmode-discharge",
+        "devmode-families-entry",
+        "devmode-force-illness",
+        "devmode-force-scene",
+        "devmode-layoff",
+        "devmode-loan-cap-proof",
+        "devmode-memory",
+        "devmode-person-offers",
+        "devmode-person-trace",
+        "devmode-policy-pick",
+        "devmode-run-until",
+        "devmode-scene-recipes",
+        "devmode-watch-follow",
+        "elections-skill-lines",
+        "fixer-advanced-strips",
+        "fixer-creator-one-screen",
+        "fixer-css-conflict-fix",
+        "fixer-front-no-back",
+        "fixer-glossary-american",
+        "fixer-glossary-inline-help",
+        "fixer-glossary-offices-keyboard",
+        "fixer-guards-english-registry",
+        "fixer-guards-families",
+        "fixer-guards-kit-markup",
+        "fixer-guards-no-dice",
+        "fixer-loading-no-bar",
+        "fixer-menu-look-sweep",
+        "fixer-no-subtexts-sweep",
+        "fixer-play-as-strips",
+        "fixer-popups-held",
+        "fixer-release-version-check",
+        "fixer-report-lead",
+        "fixer-screen-calendar",
+        "fixer-screen-journal",
+        "fixer-screen-money",
+        "fixer-screen-news",
+        "fixer-screen-options",
+        "fixer-screen-patch-notes",
+        "fixer-screen-saved-games",
+        "fixer-screen-title",
+        "fixer-screens-pass",
+        "fixer-typecheck-by-rule",
+        "fixer2-campaign",
+        "fixer2-check-selectors",
+        "fixer2-eday-check",
+        "fixer2-elections",
+        "fixer2-guide",
+        "fixer2-issues",
+        "fixer2-last-time",
+        "fixer2-office",
+        "fixer2-office-hours",
+        "fixer2-parties",
+        "fixer2-people",
+        "fixer2-politics-check",
+        "fixer2-start-life-polling",
+        "fixer2-trail",
+        "fixer2-travel",
+        "front-progress-hidden-null",
+        "laws-city-tax-reach-proof",
+        "laws-consolidated-county-filing",
+        "laws-consolidated-county-local-body",
+        "laws-consolidated-matched-places",
+        "laws-dev-mode-catalog-series",
+        "laws-disaster-cost-share",
+        "laws-disaster-share-sourced",
+        "laws-federal-budget-lines-bill-paper",
+        "laws-federal-contribution-limit",
+        "laws-federal-data-privacy-reader",
+        "laws-federal-positions-on-the-bill-paper",
+        "laws-federal-routes-eight-questions",
+        "laws-local-body-budget-lines",
+        "laws-medicare-drug-negotiation-bills",
+        "laws-neighbor-filings-played-proof",
+        "laws-other-states-income-tax-law-in-force",
+        "laws-renter-housing-pull",
+        "laws-school-small-cohort-estimate",
+        "laws-state-contribution-limits",
+        "laws-state-neighbor-law-pull",
+        "laws-tax-change-lands",
+        "laws-town-ban-vote-screenshots",
+        "laws-unemployment-resident-labor-force",
+        "legislation-aide-estimate",
+        "legislation-bill-amendments-desk",
+        "legislation-bill-stage-check-selectors",
+        "legislation-browser-checks",
+        "legislation-budget-stop",
+        "legislation-cabinet-posts",
+        "legislation-cabinet-stop",
+        "legislation-calendar-bodies",
+        "legislation-committee-markup",
+        "legislation-cosponsors",
+        "legislation-debate-first",
+        "legislation-executive-orders",
+        "legislation-hearing-witnesses",
+        "legislation-mayors-desk",
+        "legislation-no-counts-before-vote",
+        "legislation-orders-research",
+        "legislation-own-vote-stops",
+        "legislation-president-nominations",
+        "legislation-recalls-office-day-guard",
+        "legislation-skill-bill-screens",
+        "legislation-skill-screens-lines",
+        "legislation-staff-redraft",
+        "lives-birthday-gatherings",
+        "lives-couple-scenes",
+        "lives-kin-letters",
+        "lives-skill-town-couples",
+        "lives-town-couples",
+        "memory-group-known-cap",
+        "memory-skill-lines",
+        "pool-montpelier-door-cut-note",
+        "pool-montpelier-writer-count-note",
+        "regional-finds",
+        "skill-generated-reports",
+        "skill-labor-market-proof",
+        "skills-crew-messages-goal-length",
+        "speed-bar-120-5pct",
+        "speed-counted-news-ages",
+        "speed-fast-forward",
+        "speed-lessons-notes",
+        "speed-moves-husk-job",
+        "speed-one-register",
+        "speed-profile-year",
+        "speed-reports-check",
+        "speed-skill-notes",
+        "speed-town-share-events",
+        "state-sessions-final-report",
+        "story-action-scenes",
+        "story-address-kinds",
+        "story-address-reply-moves",
+        "story-address-response",
+        "story-bribe-offer-player",
+        "story-bribe-pressed",
+        "story-bribe-refused",
+        "story-bribe-reported",
+        "story-counted-strike",
+        "story-fix-director-literals",
+        "story-floor-debate",
+        "story-kin-union-news",
+        "story-lobby-remembers",
+        "story-local-addresses",
+        "story-movement-grows",
+        "story-news-civic",
+        "story-office-doubt",
+        "story-press-evasions",
+        "story-protest-register",
+        "story-public-action",
+        "story-rally-news-area",
+        "story-rally-no-demand",
+        "story-rally-word",
+        "story-register-reach",
+        "story-register-shapes",
+        "story-report-top",
+        "story-scene-kinds-lead",
+        "story-scene-kinds-table",
+        "story-skill-scene-recipe",
+        "story-skill-term-read",
+        "story-speech-world",
+        "story-spoken-shapes",
+        "tester-ballot-all-choices",
+        "tester-bop-federal-offenses",
+        "tester-election-fields",
+        "tester-forced-causes",
+        "tester-forced-causes-2",
+        "tester-grants-na",
+        "tester-housing-group-rooms",
+        "tester-law-harness",
+        "tester-law-table-dates",
+        "tester-m207-multi-seat",
+        "tester-moves-balance",
+        "tester-moves-gravity",
+        "tester-red-counted-moves",
+        "tester-scripts-2",
+        "tester-scripts-3",
+        "tester-seats-last-holder-side",
+        "tester-skill-dev-tester",
+        "tester-stopgap-generator",
+        "tester-wiring-regen",
+        "town-turnover",
+        "trade-area-demand"
+      ]
+    },
+    {
+      "version": "0.93.0",
+      "releasedOn": "2026-11-08",
+      "revision": "05169c0f17dd1068d8dbf0ff0fa535f2897456c3",
+      "changeIds": [
+        "devmode-options-setting",
+        "gov-trace-summary-for-strangers",
+        "law-levels-wage-lists-reconciled",
+        "laws-federal-deficit-borrowing-cost",
+        "laws-proof-incorporated-town",
+        "legislation-bill-stage"
+      ]
+    },
+    {
+      "version": "0.92.0",
+      "releasedOn": "2026-11-08",
+      "revision": "e688017ed9bb0706cad5333fa05c6a99e53fcc94",
+      "changeIds": ["fixer-screen-government"]
+    },
+    {
+      "version": "0.91.0",
+      "releasedOn": "2026-11-08",
+      "revision": "3e73c4c87479cf6070908f07d8604fbfb445197e",
+      "changeIds": [
+        "fixer-screen-budgets",
+        "gov-outside-officials-counted",
+        "pool-montpelier-circle-cut-note",
+        "pool-montpelier-year4-note"
+      ]
+    },
+    {
+      "version": "0.90.0",
+      "releasedOn": "2026-11-08",
+      "revision": "54a741886d8bbfa228b757d395ec2dfceceb6678",
+      "changeIds": ["fixer-screen-person-card"]
+    },
+    {
+      "version": "0.89.0",
+      "releasedOn": "2026-11-08",
+      "revision": "b12c2028a8971c174c7d3135e20a25523b7cb7ae",
+      "changeIds": [
+        "approved-menu-mocks-nov7",
+        "fixer-screen-you",
+        "fixer-smoke-saved-games-enabled"
+      ]
+    },
+    {
+      "version": "0.88.4",
+      "releasedOn": "2026-11-08",
+      "revision": "3dc849d9d12be13dc1804a62180a9ab24fd9d53f",
+      "changeIds": [
+        "fixer-title-saved-games",
+        "law-levels-opening-reversal-effects"
+      ]
+    },
+    {
+      "version": "0.88.3",
+      "releasedOn": "2026-11-08",
+      "revision": "e2cb82957e84e323111340715c61ca01bc29c332",
+      "changeIds": [
+        "law-levels-federal-income-tax-adoption",
+        "law-levels-opening-source-provenance",
+        "pool-officials-pay-note"
+      ]
+    },
+    {
+      "version": "0.88.2",
+      "releasedOn": "2026-11-08",
+      "revision": "20a2ef0988a1c29d995da78cf985f1ef87dc98ec",
+      "changeIds": [
+        "law-levels-income-rate-zero-restoration",
+        "pool-law-effects-growth",
+        "pool-officials-notes"
+      ]
+    },
+    {
+      "version": "0.88.1",
+      "releasedOn": "2026-11-08",
+      "revision": "74626c996a0a0b4f348e3c3752d373cbc157a456",
+      "changeIds": [
+        "law-levels-snap-cash-assistance-scope",
+        "law-levels-wage-mt-nd-statutes",
+        "pool-rally-group-measured"
+      ]
+    },
+    {
+      "version": "0.88.0",
+      "releasedOn": "2026-11-08",
+      "revision": "20bc2b2c6294dbcb90cc0e07ea4af6c75bcc6630",
+      "changeIds": [
+        "law-levels-fiscal-reviews-own-law",
+        "nation-news-by-reach-and-ties"
+      ]
+    },
+    {
+      "version": "0.87.8",
+      "releasedOn": "2026-11-08",
+      "revision": "7a6da73a970ea14c4d32a587589b8a4dd027b6fb",
+      "changeIds": ["law-levels-federal-cannabis-scope"]
+    },
+    {
+      "version": "0.87.7",
+      "releasedOn": "2026-11-07",
+      "revision": "5f437878b3a3eaa89999fe38bf447cdaea1601dc",
+      "changeIds": ["law-levels-opening-income-tax-reversal"]
+    },
+    {
+      "version": "0.87.6",
+      "releasedOn": "2026-11-07",
+      "revision": "914aeb8e3bf99f1de3ac65df299d331c2163c6b0",
+      "changeIds": [
+        "law-levels-authority-null-build",
+        "law-levels-canonical-policy-topics",
+        "law-levels-congress-wage-question",
+        "law-levels-federal-amount-replacement",
+        "law-levels-federal-bill-baseline",
+        "law-levels-played-congress-reversal",
+        "law-levels-property-tax-calibration",
+        "law-levels-sales-tax-calibration",
+        "law-levels-specific-local-grants",
+        "law-levels-starting-law-repeal-audit",
+        "law-levels-unemployment-program-reversal"
+      ]
+    },
+    {
+      "version": "0.87.5",
+      "releasedOn": "2026-11-07",
+      "revision": "e1c0cfbee98819cad8b04125904eb998ad54abcc",
+      "changeIds": [
+        "law-levels-pending-law-reversal",
+        "law-levels-social-security-age-bills"
+      ]
+    },
+    {
+      "version": "0.87.4",
+      "releasedOn": "2026-11-07",
+      "revision": "573600386d0ba7b4383825f0cce56d29a4eab9ea",
+      "changeIds": ["law-levels-federal-rule-reversal"]
+    },
+    {
+      "version": "0.87.3",
+      "releasedOn": "2026-11-07",
+      "revision": "dfe839ce65642e3db6500a2d0e3525adf81443dd",
+      "changeIds": ["law-levels-catalog-existing-powers"]
+    },
+    {
+      "version": "0.87.2",
+      "releasedOn": "2026-11-06",
+      "revision": "654bdd78580337f7e666f6dc6f46121316f0e0ca",
+      "changeIds": [
+        "law-levels-county-body-reads-county-law",
+        "law-levels-county-menu-level",
+        "law-levels-state-menu-same-check"
+      ]
+    },
+    {
+      "version": "0.87.1",
+      "releasedOn": "2026-11-06",
+      "revision": "06d1f71e2f0485ebbdaada36e9bce61e69315e7b",
+      "changeIds": [
+        "desktop-title-check-reads-monuments",
+        "law-levels-federal-mandate-governs"
+      ]
+    },
+    {
+      "version": "0.87.0",
+      "releasedOn": "2026-11-06",
+      "revision": "0a3ffb0fb805e300271a4856eaaf732a235e7f05",
+      "changeIds": ["law-levels-state-bar-is-a-state-law"]
+    },
+    {
+      "version": "0.86.0",
+      "releasedOn": "2026-11-06",
+      "revision": "250b72c766445e39806545cbd29f70f8b75cf27f",
+      "changeIds": [
+        "cleanup-oct14-mocks",
+        "cleanup-old-art-pipeline",
+        "cleanup-plates-and-old-mocks",
+        "law-levels-gun-preemption-flags",
+        "law-levels-income-tax-grant",
+        "law-levels-rent-or-wa-preemption",
+        "law-levels-state-bar-sets-aside-town-law",
+        "law-levels-wage-floor-test",
+        "nation-story-laws-in-other-states",
+        "state-sessions-fold-open-race-causes"
+      ]
+    },
+    {
+      "version": "0.85.4",
+      "releasedOn": "2026-11-05",
+      "revision": "85bef8d71c48ca6e8f0ceae46b064d75a736fb6d",
+      "changeIds": [
+        "core-fix-mac-build-test-clock-import",
+        "core-one-map-county-points",
+        "core-one-map-rent-renters",
+        "core-one-map-speed-final",
+        "core-one-map-state-reads",
+        "core-one-map-state-reads-two",
+        "state-sessions-every-legislature-sits",
+        "state-sessions-owner-ruling-generate-on-demand",
+        "state-sessions-result-only",
+        "tests-filing-starts-where-filing-opens"
+      ]
+    },
+    {
+      "version": "0.85.3",
+      "releasedOn": "2026-11-05",
+      "revision": "e2121eb919813c317c68732d35ae9e0f5a64a5e6",
+      "changeIds": [
+        "body-law-jurisdiction",
+        "core-one-map-county-gaps",
+        "core-one-map-elections-state",
+        "core-one-map-gap-names",
+        "core-one-map-guards",
+        "core-one-map-housing-town",
+        "core-one-map-last-town-records",
+        "core-one-map-lomas-notes",
+        "core-one-map-rent-findings",
+        "core-one-map-sourced-gaps",
+        "core-one-map-speed-record",
+        "gov-every-state-and-town-governs"
+      ]
+    },
+    {
+      "version": "0.85.2",
+      "releasedOn": "2026-11-04",
+      "revision": "ff16a3549fa605928645e539f3aec28ec3d9aff2",
+      "changeIds": [
+        "core-one-map-counties",
+        "core-one-map-laws",
+        "core-one-map-lookups",
+        "core-one-map-state-readers",
+        "core-policy-authority-limited-cell-predicates"
+      ]
+    },
+    {
+      "version": "0.85.1",
+      "releasedOn": "2026-11-04",
+      "revision": "1cc40c6022fb1253b70347b1f516b903ebfbfffc",
+      "changeIds": [
+        "core-one-map-reader",
+        "housing-territory-rent-value-national"
+      ]
+    },
+    {
+      "version": "0.85.0",
+      "releasedOn": "2026-11-04",
+      "revision": "d9593c3446908f4690316af3e39f3abb1f76eb3e",
+      "changeIds": ["candidacy-at-large-race-weighed-once"]
+    },
+    {
+      "version": "0.84.0",
+      "releasedOn": "2026-11-04",
+      "revision": "dac040731694e88f4a15dd7eb620d5f1c3afe77c",
+      "changeIds": [
+        "elections-at-large-race-pooled",
+        "play-path-check-prints-shares",
+        "words-talk-relatives-elsewhere-news",
+        "words-talk-replies-follow-grades"
+      ]
+    },
+    {
+      "version": "0.83.3",
+      "releasedOn": "2026-11-04",
+      "revision": "1c2c6c01f4845db81b9c08c2156f38a9c0f05300",
+      "changeIds": [
+        "screens-campaign-asks-spoken",
+        "screens-no-old-school",
+        "words-campaign-asks-spoken",
+        "words-debate-answers-not-campaign-stops",
+        "words-purpose-scene-runner-up-numbers"
+      ]
+    },
+    {
       "version": "0.83.2",
       "releasedOn": "2026-11-04",
       "revision": "a2222834687bad41b1e6067a8d3ac2cda0ce5506",

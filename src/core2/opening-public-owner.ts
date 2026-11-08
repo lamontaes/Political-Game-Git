@@ -3,9 +3,9 @@ import { makeIsoDate } from "./kernel/dates";
 import {
   governmentUnit,
   governmentUnitJurisdictionId,
-  countyGeoidsForPlace,
   PLACE_COUNTY_RELATIONS_META,
 } from "./reference/government-units";
+import { placeCountyGeoids } from "./place-map";
 import { createStableId } from "./kernel/ids";
 import { corePlaceByJurisdictionId } from "./place-lookup";
 import type { EntityId } from "./kernel/brands";
@@ -280,7 +280,7 @@ function recordedCountyPlaceCoverage(
       !place?.sourceGeoid ||
       !validGeography ||
       relationDate > input.startedAt ||
-      !countyGeoidsForPlace(place.sourceGeoid).includes(countyGeoid)
+      !placeCountyGeoids(place.sourceGeoid).includes(countyGeoid)
     )
       return {
         gaps: [

@@ -920,6 +920,78 @@
       "author": "Words, scenes and the director (words-person-history-tells-a-story)",
       "date": "2026-11-01",
       "kind": "written"
+    },
+    {
+      "key": "person-history.summary.office.run.first",
+      "move": "summary",
+      "text": "I've served as {office} since {year}, reelected each time.",
+      "origin": "authored",
+      "author": "Claude Sonnet (Fixer, the approved You screen)",
+      "date": "2026-11-08",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.summary.office.one.first",
+      "move": "summary",
+      "text": "I've served as {office} since {year}.",
+      "origin": "authored",
+      "author": "Claude Sonnet (Fixer, the approved You screen)",
+      "date": "2026-11-08",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.summary.work.title.first",
+      "move": "summary",
+      "text": "I work as {title} at {employer}.",
+      "origin": "authored",
+      "author": "Claude Sonnet (Fixer, the approved You screen)",
+      "date": "2026-11-08",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.summary.work.employer.first",
+      "move": "summary",
+      "text": "I work at {employer}.",
+      "origin": "authored",
+      "author": "Claude Sonnet (Fixer, the approved You screen)",
+      "date": "2026-11-08",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.summary.school.first",
+      "move": "summary",
+      "text": "I'm a student at {school}.",
+      "origin": "authored",
+      "author": "Claude Sonnet (Fixer, the approved You screen)",
+      "date": "2026-11-08",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.summary.place.first",
+      "move": "summary",
+      "text": "I live in {place}.",
+      "origin": "authored",
+      "author": "Claude Sonnet (Fixer, the approved You screen)",
+      "date": "2026-11-08",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.summary.born.place.first",
+      "move": "summary",
+      "text": "I was born in {place} in {year}.",
+      "origin": "authored",
+      "author": "Claude Sonnet (Fixer, the approved You screen)",
+      "date": "2026-11-08",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.summary.born.year.first",
+      "move": "summary",
+      "text": "I was born in {year}.",
+      "origin": "authored",
+      "author": "Claude Sonnet (Fixer, the approved You screen)",
+      "date": "2026-11-08",
+      "kind": "written"
     }
   ]
 }

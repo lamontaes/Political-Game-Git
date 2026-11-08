@@ -130,11 +130,7 @@ export function validateContentManifest(m) {
       throw new Error(`Missing declared dependency: ${v}`);
   };
   for (const [name, record] of Object.entries(m.metadata)) {
-    if (
-      !/^art\/(?:manifest\/[A-Za-z0-9_-]+\.json|authoring\/[A-Za-z0-9_-]+\/(?:pose-)?pack\.json)$/.test(
-        name,
-      )
-    )
+    if (!/^content\/[A-Za-z0-9_-]+\.json$/.test(name))
       throw new Error("Unsupported metadata entry");
     if (!record || typeof record !== "object" || Array.isArray(record))
       throw new Error("Invalid metadata record");

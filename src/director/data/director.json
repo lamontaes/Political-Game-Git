@@ -553,6 +553,49 @@
         "ref": "P15-MEMORY-SIZE-FLAT-YEAR"
       }
     },
+    "directorBribeOfferImpact": {
+      "value": 0.63,
+      "tag": "ESTIMATED",
+      "citation": "An offer of money for a favor, put to the official it is meant for. It is sized as the Social Readjustment Rating Scale's 'Jail term', 63 life-change units divided by 100 (Holmes and Rahe 1967): what taking it puts at stake. It sits over the interrupt line (0.5), so the player's day stops for it and the answer is theirs.",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.5 to 0.7"
+    },
+    "directorPublicActionImpact": {
+      "value": 0.18,
+      "tag": "ESTIMATED",
+      "citation": "A strike or protest in the town an official answers to, sized as the Social Readjustment Rating Scale's 'Change in social activities', 18 life-change units divided by 100 (Holmes and Rahe 1967), the nearest item to a crowd the official has to face; below the interrupt line (0.5), so it reaches their journal and stages the confrontation without stopping play on its own.",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.1 to 0.3"
+    },
+    "directorKinContactImpact": {
+      "value": 0.6,
+      "tag": "TUNABLE",
+      "stopgapId": "SG-LIVES-director-kin-contact-impact",
+      "checkRange": { "ref": "LIVES-KIN-CONTACT-RANK" },
+      "citation": "Word from a relative living elsewhere at full closeness, scaled by the tie's closeness on the record (scaleFact), a small event that is told at home and never stops the day (SG-LIVES-kin-contact-traits).",
+      "spread": {
+        "low": 0.3,
+        "high": 0.8,
+        "unit": "impact",
+        "citation": "Checked against how many letters a played year stages next to the other kin scenes (scripts/dialogue-batch/scene-year.ts)."
+      }
+    },
+    "directorOwnMarriageImpact": {
+      "value": 0.5,
+      "tag": "ESTIMATED",
+      "citation": "One's own wedding, sized like the Social Readjustment Rating Scale's 'Marriage' (50 life-change units divided by 100, Holmes and Rahe 1967). A record reaches the people it names fully and others by the tie, so a relative hearing of it still sits under this.",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.4 to 0.5"
+    },
+    "directorOwnSeparationImpact": {
+      "value": 0.65,
+      "tag": "ESTIMATED",
+      "citation": "One's own separation from a partner, sized like the Social Readjustment Rating Scale's 'Marital separation' (65 life-change units divided by 100, Holmes and Rahe 1967), the same scale directorKinUnionImpact reads for a relative's.",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.5 to 0.65"
+    },
+    "directorKinUnionImpact": {
+      "value": 0.29,
+      "tag": "ESTIMATED",
+      "citation": "A relative marrying or parting, sized like a close relative leaving home (the Social Readjustment Rating Scale's 'Son or daughter leaving home', 29 life-change units divided by 100, Holmes and Rahe 1967): the scale rates one's own marriage (50) and separation (65), and this is another person's, reaching those tied to them by how much they matter. It sits under the interrupt line (0.5), so it is told at home and does not stop the day.",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.2 to 0.4"
+    },
     "directorFilingImpact": {
       "value": 0.28,
       "tag": "ESTIMATED",
@@ -1096,9 +1139,97 @@
       "impactParameter": "directorPublicCommentImpact"
     },
     {
+      "eventKind": "governor.address",
+      "channel": "cause",
+      "impactParameter": "directorElectionResultImpact"
+    },
+    {
+      "eventKind": "mayor.address",
+      "channel": "cause",
+      "impactParameter": "directorElectionResultImpact"
+    },
+    {
       "eventKind": "president.address",
       "channel": "cause",
       "impactParameter": "directorElectionResultImpact"
+    },
+    {
+      "eventKind": "corruption.bribe-offered",
+      "channel": "cause",
+      "impactParameter": "directorBribeOfferImpact"
+    },
+    {
+      "eventKind": "corruption.bribe-pressed",
+      "channel": "cause",
+      "impactParameter": "directorBribeOfferImpact"
+    },
+    {
+      "eventKind": "civic.strike",
+      "channel": "cause",
+      "impactParameter": "directorPublicActionImpact"
+    },
+    {
+      "eventKind": "civic.protest",
+      "channel": "cause",
+      "impactParameter": "directorPublicActionImpact"
+    },
+    {
+      "eventKind": "civic.rally",
+      "channel": "cause",
+      "impactParameter": "directorPublicActionImpact"
+    },
+    {
+      "eventKind": "family.partnered",
+      "channel": "feeling",
+      "impactParameter": "directorKinUnionImpact"
+    },
+    {
+      "eventKind": "family.separated",
+      "channel": "feeling",
+      "impactParameter": "directorOwnSeparationImpact"
+    },
+    {
+      "eventKind": "family.gathering-missed",
+      "channel": "feeling",
+      "impactParameter": "directorKinContactImpact",
+      "scaleFact": "closeness",
+      "minDaysApart": 30
+    },
+    {
+      "eventKind": "work.mentorship-formed",
+      "channel": "feeling",
+      "impactParameter": "directorKinContactImpact",
+      "scaleFact": "seniority",
+      "minDaysApart": 30
+    },
+    {
+      "eventKind": "health.rescued",
+      "channel": "feeling",
+      "impactParameter": "directorEvictionImpact"
+    },
+    {
+      "eventKind": "family.quarrel",
+      "channel": "feeling",
+      "impactParameter": "directorKinContactImpact",
+      "scaleFact": "closeness",
+      "minDaysApart": 30
+    },
+    {
+      "eventKind": "family.contact",
+      "channel": "feeling",
+      "impactParameter": "directorKinContactImpact",
+      "scaleFact": "closeness",
+      "minDaysApart": 30
+    },
+    {
+      "eventKind": "family.engaged",
+      "channel": "feeling",
+      "impactParameter": "directorKinUnionImpact"
+    },
+    {
+      "eventKind": "family.married",
+      "channel": "feeling",
+      "impactParameter": "directorOwnMarriageImpact"
     },
     {
       "eventKind": "town-hall",
@@ -1155,6 +1286,11 @@
       "channel": "feeling",
       "impactParameter": "directorBirthImpact",
       "counterpartFact": "childId"
+    },
+    {
+      "eventKind": "justice.accused",
+      "channel": "feeling",
+      "impactParameter": "directorChargedImpact"
     },
     {
       "eventKind": "justice.charged",

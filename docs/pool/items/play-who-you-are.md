@@ -13,7 +13,7 @@ source: "astra order 1; PR #4291 branch play/who-you-are"
 claimed-at: 2026-10-16T03:14:35.085Z
 ---
 
-**What.** PR #4291 (branch play/who-you-are) turns 'Who you are' into a character screen: the player's figure, name, age, home, work, family and traits he can read, in the Kit 13 look. It was sent back on 2026-10-15 for code conflicts with main in `src/bench/play.mjs` and `src/bench/data/controls.json`. Merge main, finish the screen to the owner's mockup in `docs/ui/mocks/screens-2026-10-14/` (README.md, shots/, page/), and retake the screenshot. The player would notice a proper character sheet, with 'Her story' and 'Your record' limited to what the records say in the engine's words.
+**What.** PR #4291 (branch play/who-you-are) turns 'Who you are' into a character screen: the player's figure, name, age, home, work, family and traits he can read, in the Kit 13 look. It was sent back on 2026-10-15 for code conflicts with main in `src/bench/play.mjs` and `src/bench/data/controls.json`. Merge main, finish the screen to the Nov 5 menu look (README.md, shots/, page/), and retake the screenshot. The player would notice a proper character sheet, with 'Her story' and 'Your record' limited to what the records say in the engine's words.
 
 **Rules.** No hand-written player text: every label, row and sentence is a record worded by the English engine or a control name from `src/bench/data/controls.json`; no raw ids, no 'undefined' and nothing immersion-breaking on a person card; Replace, never layer: the old look of this screen and the generic `row(label, value)` printer it used are deleted in the same change, and the PR body counts what was removed; An effect is a read, not a record: the screen shows only records an engine wrote, and a read-only screen spends no game time and creates no facts; This is a game, not a spreadsheet: the screen adds no form or paperwork; it only presents the golden path, with Day advancing time and never opening a choice list; Estimate, never UNKNOWN: a fact the player cannot yet know is shown as an estimate with its source, never UNKNOWN; One model, two tiers: the player is a full person; his household and circle read from their own records.
 
@@ -23,3 +23,5 @@ claimed-at: 2026-10-16T03:14:35.085Z
 
 **Notes.** One PR per screen; gate: browser spec for the screen.
 Sent back 2026-10-15 from PR #4291 (branch play/who-you-are): code conflict with main in src/bench/play.mjs, src/bench/data/controls.json, play.mjs; finish on that branch, merge main into it first.
+
+**Menu look (owner, Nov 5).** Menu screens follow the look the owner locked on Nov 5 (dark see-through textured panel, no boxes, glowing hover, lit selection, portraits in light, data not sliders or bar graphs, no checkboxes); the CTO holds the clickable mock, and no menu is built until the owner approves its screen.

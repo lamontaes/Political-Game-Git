@@ -208,6 +208,23 @@ if (w.core.date <= eighteenth) liveUntil(addDays(makeIsoDate(eighteenth), 1));
 const lives = new Set<string>([me]);
 const stillMe = () => lives.add(player.personId ?? me);
 
+/** Each candidate's share of the race's votes, the player's marked: how close the race was. */
+function shares(
+  result:
+    { readonly totals: Readonly<Record<string, number>> } | null | undefined,
+): string {
+  const totals = Object.entries(result?.totals ?? {});
+  const all = totals.reduce((n, [, v]) => n + v, 0);
+  if (!all) return "";
+  return ` (${totals
+    .sort((a, b) => b[1] - a[1])
+    .map(
+      ([id, v]) =>
+        `${id === me ? "player" : id} ${((100 * v) / all).toFixed(1)}%`,
+    )
+    .join(", ")})`;
+}
+
 /** Steps 3 to 5 once: file for a contest the player can enter, campaign, live to the election and read it. */
 function stand(): { held: boolean; takesOffice: string | null } {
   // Step 3: walk into the office that takes filings for a contest you can
@@ -302,7 +319,7 @@ function stand(): { held: boolean; takesOffice: string | null } {
       if (
         !petition ||
         !petitionCirculating(api, filing.id) ||
-        petition.signers.length >= signaturesToGather(petition.needed)
+        petition.signed >= signaturesToGather(petition.needed)
       )
         break;
       liveUntil(addDays(makeIsoDate(w.core.date), 1));
@@ -312,7 +329,7 @@ function stand(): { held: boolean; takesOffice: string | null } {
     if (petition) {
       liveUntil(addDays(makeIsoDate(petition.due), 1));
       log.push(
-        `petition: ${petition.signers.length} of ${petition.needed} signatures by ${petition.due}; the clerk's check: ${governmentView(w.core, me).filings.find((row) => row.id === filing.id)?.status ?? "none"}`,
+        `petition: ${petition.signed} of ${petition.needed} signatures by ${petition.due}; the clerk's check: ${governmentView(w.core, me).filings.find((row) => row.id === filing.id)?.status ?? "none"}`,
       );
     }
   }
@@ -375,7 +392,7 @@ function stand(): { held: boolean; takesOffice: string | null } {
   const result = resultOf(coreAPI(w.core), enterable.contest.id);
   const won = result?.winnerId === me;
   log.push(
-    `election night ${day}: ${races.length} races, ${won ? "the player won" : "the player did not win"}`,
+    `election night ${day}: ${races.length} races, ${won ? "the player won" : "the player did not win"}${shares(result)}`,
   );
   stillMe();
   return { held: won, takesOffice: won ? (result?.takesOffice ?? null) : null };

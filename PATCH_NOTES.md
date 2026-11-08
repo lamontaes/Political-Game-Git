@@ -296,6 +296,958 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.94.0
+
+_Released November 8, 2026._
+
+### Added
+
+- **A race on the ballot says who won the seat last time** On the Elections tab,
+  a race for a seat someone won at an election says when that was, who won and
+  their share of the vote.
+
+- **Your office shows the residents' cases, and you answer them** Your office
+  now has an Office hours column: the residents who brought your office a case,
+  and Help or Turn away for each, which the game carries out.
+
+- **Congress can expand or cut the federal budget lines** Congress's bill paper
+  now offers the federal budget lines (defense, veterans, foreign aid, farm
+  programs, transportation, education, community development, income security,
+  Medicare, health, Social Security) to expand or cut.
+
+- **Congress can change the federal limit on a gift to a candidate** The federal
+  limit on a gift to a candidate ($3,500 an election) is now a law Congress can
+  raise or lower from the bill paper, and campaigns follow it.
+
+- **A national data privacy law costs the town's businesses** A national data
+  privacy law passed by Congress now costs the town's employing businesses a
+  share of their other costs each month, once, and ends when it is repealed.
+
+- **Congress can enact tariffs, housing vouchers for every eligible family and a
+  power plant carbon limit** Congress's bill paper now offers higher tariffs, a
+  housing voucher for every eligible family and a limit on power plant carbon,
+  each with its researched effects.
+
+- **Congress can act on eight more federal questions** Congress's bill paper now
+  offers eight more federal questions (the debt limit, immigration levels,
+  student loan forgiveness, the disaster cost share, national data privacy, D.C.
+  statehood, federal mandatory minimums and a ban on members trading stock),
+  each starting as cited law in force.
+
+- **Councils and county boards amend their budget lines through the year.** Town
+  councils and county boards now take up amendments to their own budget lines
+  through the year, not only the yearly budget and yes-or-no ordinances: members
+  file for the lines they want moved, some pass and some fail, and a passed one
+  changes what that part of the government spends.
+
+- **Each state's contribution limits are law its legislature can change** Each
+  state's limit on a gift to a candidate (governor, state senate, state house,
+  local) is now a state law the legislature can raise or lower, and campaigns
+  follow it.
+
+- **Your aide's estimate of the vote** Before a vote on a bill, the paper gives
+  your aide's estimate in words: whether the bill looks set to pass, set to
+  fail, or too close to call. It comes only from what colleagues have told you,
+  and it is marked as an estimate that can be wrong. There is no count.
+
+- **Your vote, amendments and the executive's desk on a bill's paper** On a
+  bill's paper you can choose your own vote before the floor takes it up, and
+  the floor result reads in words ("Adopted, 4 to 2.") above the names of
+  everyone who voted each way. You can amend a section, lowering it to split the
+  difference with the law in force or raising it. The amendment shows as a
+  struck clause and the clause that replaces it, with its own estimate; the body
+  votes it member by member, and the bill is rewritten only if it is adopted.
+  When a passed bill waits on your desk as an executive, its paper offers Sign
+  it and Veto it, and once decided it names who signed or vetoed it and the
+  reasons that weighed.
+
+- **The governor sends the state budget** As governor, the day the state budget
+  is due your desk stops with each line and the change you want to it. Send it,
+  or leave it to your staff's own rule.
+
+- **A governor names open cabinet posts** When one of your cabinet members dies,
+  the post stands open in the office panel with the people it could go to, best
+  first. Name one and the state chamber's confirmation vote is on the
+  appointment. Governors can also recognize public-employee unions by executive
+  order in the states where governors have done so.
+
+- **Your desk stops for an open cabinet post** As governor, when a cabinet post
+  stands open the day stops at your desk with the people it could go to. Pick
+  one and the chamber's vote follows, leave it to your staff's first choice, or
+  leave the post open until tomorrow.
+
+- **Your calendar names when your own chamber sits** The calendar now lists the
+  next day the bodies you sit on meet, at any level: your legislature or
+  Congress as well as your council or county board.
+
+- **A bill's paper shows its committee and what markup added** A bill's paper
+  now says which committee the bill was referred to, and lists what the
+  committee's markup added: each section traded for a member's vote or slipped
+  in to sink the bill, with the member's name.
+
+- **Colleagues sign on to your bill** When you introduce a bill, the colleagues
+  who back it and know you sign on beside you, a few at most. Their names are on
+  the bill's paper.
+
+- **As governor you decide a state of emergency yourself.** When a disaster is
+  recorded in your state, the game stops you the evening before and the orders
+  panel offers a state of emergency, which you declare or let pass. Before, the
+  engine declared it for you. An executive order your staff brings, such as
+  restoring voting rights after a sentence, is also yours to issue, revoke or
+  set aside.
+
+- **The president names cabinet secretaries from a screen** As president, when a
+  cabinet post is open the day stops with the people it could go to, best first.
+  Name one and the Senate votes on a later sitting day, or leave it to your own
+  first choice.
+
+- **Staff redrafts, a Bills tab and your own vote in Congress** On your own
+  bill, you can ask staff to redraft a section: it is shown as the clause struck
+  and the clause inserted, and you keep the staff's version or your own. A new
+  Bills tab under Politics follows bills before your state's chambers and
+  Congress, with where each stands and how your own members voted. The bill
+  paper no longer prints how many members are for, against and undecided before
+  a vote; it shows what members have told you. As a member of Congress you now
+  stop for the vote on a bill on tomorrow's floor: you read the bill and vote
+  Yes, No or Abstain, or leave it to your character, instead of the vote being
+  cast for you.
+
+- **A protest in your town can put you on the spot.** When people in your town
+  organize a protest or a strike over rent, wages, health or the air, an
+  official who answers to the town is confronted by someone in it, and a friend
+  in it can ask you to come along. Saying yes puts you in it, and your case goes
+  to the town's officials.
+
+- **The other party answers the governor's State of the State.** When a governor
+  gives the State of the State, the other party's legislative leader answers on
+  the first thing the governor asked for that they oppose, the paper tells it,
+  and the governor is pressed on it.
+
+- **The person whose bribe you handed back can come back and press** After you
+  hand a bribe back, the person who offered it may come back and press you, in a
+  hint or out loud depending on their temper; you can hold the line, say you
+  will report it, or brush them off.
+
+- **Saying you will report a bribe can put the briber in the paper.** If you
+  tell the person pressing you after a refused bribe that you will report it,
+  the paper runs the offer as a story about them.
+
+- **Members speak for and against a bill before the floor vote.** Before a floor
+  vote, the member who rose for the bill and the member who rose against it
+  speak, addressing the chair, and you can stand with them, disagree, ask them
+  to yield or say nothing; the paper tells who spoke for and who against.
+
+- **You hear when a relative marries or splits up.** When a relative who lives
+  away marries or parts from a partner, someone at home tells you about it in a
+  scene, instead of it passing without a word.
+
+- **A lobbyist remembers how you voted** When you vote against the way of a
+  group whose lobbyist made its case to you, the lobbyist finds you two days
+  later and tells you the group remembers, in a hint or out loud depending on
+  their temper.
+
+- **Governors and mayors give a yearly address too.** Your state's governor
+  gives a State of the State each January and your town's mayor a State of the
+  City each February. Each picks a kind (a candid reckoning, a railing, a
+  hopeful lift, a victory lap, words for the dead or a policy push) from how the
+  state or town is doing and who is speaking, tells its bad news as well as its
+  good, and asks the legislature or council for what they believe in.
+
+- **A crowd over a grievance can grow into a standing neighborhood group.** One
+  of the people who keep turning out over a grievance can decide to found a
+  standing group of neighbors, when the crowd, the grievance and their own ties
+  carry it, and the group lobbies the next bill on that question; the paper
+  tells it.
+
+- **The paper now covers protests, rallies, walkouts and your governor's and
+  mayor's addresses.** A protest or walkout in your town is a story with a
+  headline, the number of people and what it was over, and so is a rally. The
+  governor's and the mayor's yearly addresses are covered too, with how the
+  speaker framed the year and a line they said.
+
+- **A crowd against the town's term brings doubt about the job home.** The day
+  after a crowd forms against the town's term, someone who lives with a sitting
+  official asks whether the job is worth it, and the official can say why, play
+  it down, promise time at home or put the talk off.
+
+- **Towns now protest, rally and walk out depending on how the term is going.**
+  When a town's schools, rents, jobs, health or air slide over a term, the
+  people they touch begin to organize: neighbors who know each other pull each
+  other in, and the longer it goes the bigger it grows. A term that goes well
+  draws rallies instead. People in a protest press the town's officials on the
+  issue, and the officials' views move by who is asking.
+
+- **A rally is the town officials' scene** When the town's term reads well in an
+  area and a rally forms, the officials at its edge now get a scene: someone in
+  the crowd asks them to say a few words, and they can speak, thank the crowd,
+  promise to keep it going or let the crowd have the day.
+
+- **Your speeches can start from what is going wrong in your town.** When you
+  build a speech, one of the choices at its core is now the area of your town
+  that has moved most since the term began: rents, jobs, schools, health care,
+  the air and the water. If it has gone badly you can say so and take the remedy
+  as your stand; if it has improved you can say that too.
+
+### Improved
+
+- **Committee hearings hear residents on every bill** A committee hearing on a
+  bill that is not a wage bill now hears the residents who have taken a side on
+  its question, one side and then the other, and each is named on the bill's
+  paper.
+
+- **Addresses now sound like the year the country had.** The President's address
+  picks a kind from how the country is doing and who is speaking: a candid
+  reckoning in a bad year, a railing against whoever let it slide, a hopeful
+  lift in a fair one, a victory lap after a good one, or words for the dead
+  after a disaster. It tells the bad news as well as the good, including
+  schools, crime, health, rent, roads and the environment, and it gives an
+  address to Congress each year, not only the first.
+
+- **A school staff strike now counts the whole staff, not only the few you know
+  by name.** When a town's schools slide, the school staff walk out together:
+  the people you know by name and the wider staff of the town's schools, each
+  deciding the same way.
+
+- **A protest at your door now sounds like a protest.** When people in a protest
+  or a walkout stand before you as an official, the scene opens on the crowd or
+  the picket line and the protester speaks for it, instead of using the words of
+  a town hall question.
+
+- **A rally in the paper names what went well** A rally in the paper now says
+  what went well, such as schools or safety on the streets, instead of only that
+  the town is doing well.
+
+### Fixed
+
+- **Civic terms are underlined wherever they appear** A civic term such as veto,
+  presentment or quorum is now underlined inside any sentence on screen, not
+  only when it is a whole label. Hovering shows its short definition with a Mark
+  as learned button, and a click opens the Guide at that term.
+
+- **Side-by-side pass: news, calendar, journal and New game** Law names in the
+  news no longer show code words (state house, state senate, health and
+  hospitals, higher education, welfare and Medicaid, natural resources). A
+  single newspaper no longer repeats its name as a tab. The calendar month is a
+  ruled sheet, not a grid of boxes. Long journal chapter names wrap instead of
+  being cut. New game's two choices read in the title's type.
+
+- **Starting a game from Advanced works again** Starting a new game from the
+  Advanced screen threw an error after the world was built and never reached the
+  choice of who to play; the loading screen's old progress bar was gone but two
+  lines still tried to hide it.
+
+- **A consolidated city-county is its county's local government** A player in a
+  consolidated city-county such as Honolulu, Nashville or Louisville now has a
+  county board, an executive and the county offices as their local government.
+
+- **A place inside a consolidated city-county answers to that government** A
+  place with no government of its own inside a consolidated city-county such as
+  Terrebonne or East Baton Rouge now answers to that government's council and
+  mayor.
+
+- **A tiny class no longer scores zero** A school measure for a class too small
+  to measure now reads the place's expected rate instead of zero.
+
+- **A town's unemployment rate counts its own residents** A town's unemployment
+  rate now counts residents out of work against residents in the labor force,
+  instead of against every job at the town's firms.
+
+- **As a legislator you are stopped to cast your own floor vote.** As a state
+  legislator or member of Congress, the game now stops you the evening before a
+  floor day for each bill on your chamber's agenda, and the vote on record is
+  the one you cast. Before, your vote was cast for you on the committee's day, a
+  week early, so the floor-vote stop never came.
+
+- **A relative living elsewhere who moves away no longer stops a long game**
+  Someone recorded only at their state's level who held a job and moved to
+  another place made the game stop with an error in a long run. They now leave
+  the job as anyone who moves away does.
+
+- **An at-large ballot shows every choice on election night** In a council race
+  with several seats, the election-night results screen showed your ballot as
+  one name though you picked up to three. It now lists everyone you picked, in
+  order.
+
+- **A city that is a whole state no longer empties itself into a place that does
+  not exist** In a place where the counted households are the entire state, such
+  as Washington, D.C., people were leaving for a "rest of the state" that has no
+  people, so the city lost 7.1 percent of its residents in one year. It now
+  loses 3.6 percent; a smaller loss to other states remains and is being
+  calibrated.
+
+- **People move to where the survey finds newcomers** Where people move to
+  between states now follows the American Community Survey's arrivals and
+  departures for each state, through the same pulls as before. A small, dense
+  place such as Washington, D.C. no longer loses a few percent of its residents
+  a year (it fell 7.1 percent; it now changes by under 1 percent), and a small
+  territory such as American Samoa no longer drains away.
+
+- **Seats emptied by a death are filled again** A legislative seat left empty by
+  a death now keeps its last holder's party as its side, so its special election
+  always names a winner. Before, an even count named no one and the seat stayed
+  empty for a year.
+
+- **Small-town firms keep their staff because their trade area is counted** A
+  small town's shops, restaurants and offices sell to people beyond the town, as
+  they do in real life. Their sales now meet their books at the opening, so they
+  no longer lay workers off toward half their receipts and the town's
+  out-of-work count no longer climbs month after month.
+
+### Changed
+
+- **Dev mode introduces and passes bills at any body** With dev mode on, the
+  Government tab has a Bills panel: pick any body and member, introduce a bill,
+  then pass or defeat it at a margin you choose, with the executive signing,
+  vetoing or deciding as usual and a margin for overriding a veto. Members vote
+  through the game's own vote.
+
+- **Dev mode can force a bribe offer** With dev mode on, the Government tab has
+  a Bribe panel: pick one of the wealthiest residents, an official and the
+  pending bill, and the offer runs through the game's own bribe code, each side
+  deciding as the game does.
+
+- **Dev mode proves the consumer loan cap reaches the lender** Dev mode can
+  introduce bills on a yes-or-no policy question, such as the consumer loan rate
+  cap, and have the members vote down any repeal while the world runs. A run in
+  a town with a lender shows the lender reading the cap, so the law counts as
+  fully wired.
+
+- **Dev mode shows what a person remembers** With dev mode on, a person's card
+  has a Remembers section: each event they lived through, the day they learned
+  it and the day it fades, or what keeps it.
+
+- **Dev mode can run the world until an event** With dev mode on, the Calendar
+  offers Run until: a number of days or an event (a bill passes or fails, an
+  election, a death, a scene, a law taking effect), with a cap, and shows why it
+  stopped.
+
+- **Advanced shows the world's start and settings in strips** Advanced now
+  groups its settings under When it starts, The world and This world, with plain
+  labels (no multiplication signs) and "Usual" showing what an empty setting
+  means.
+
+- **Start a life is one screen** Start a life is now one screen: who you are,
+  where you're from and how you look sit side by side, with your figure beside
+  them. Begin my life names whatever is still missing (gender, name or place)
+  and marks it.
+
+- **The front's panels have a close X and no Back buttons** New game, Advanced,
+  Play as and the creator's three steps now share one close X that steps out one
+  level, in place of a Back button on each. Each panel is named for what it is
+  (New game, Advanced, Start a life) instead of carrying the game's name, and
+  the gold rule under the heading is gone.
+
+- **Glossary uses American wording for council seats** The four council-seat
+  entries in the glossary now say "a person elected to" the body instead of "an
+  elected member of" it.
+
+- **Glossary help covers offices and works from the keyboard** Office names such
+  as mayor, alderman, trustee, selectman, governor and lieutenant governor are
+  now Guide terms, underlined in any text with their plurals. The card opens
+  after the pointer rests about a quarter second, or at once when you tab to a
+  term, and Escape closes it. Mark as learned removes the underline everywhere,
+  and the Guide has a button to underline learned terms again.
+
+- **Loading shows the town's story with no bar and no counts** While a new life
+  loads, the card names the step in plain words and the town's story plays; the
+  progress bar and the "done of total" counts are gone.
+
+- **Glossary card, plates, rail names and scene menus follow the menu look** The
+  glossary card is a soft dark surface with the term over its meaning and a lit
+  Mark as learned button. Plates in menus lose their brass corners and hard
+  edge. A rail icon shows its name after a quarter second of hover or focus, and
+  the Journal icon gets a dot when a new line has been written. While a talk or
+  scene is on screen, the rail and the player card are gone.
+
+- **Explaining lines under headings and controls are gone** Removed the lines
+  that explained or captioned a control: the filing sentence and each card's
+  reason line on Travel, the fit line under a party membership, "Something needs
+  you" over Day and Week, the age line and the waiting-for-a-gender button text
+  in the creator, and the version number on the title. City seats now read as
+  districts, never wards, and pressed buttons are a lit fill with no corner
+  mark.
+
+- **Play as lists officeholders by body, with a bust** Advanced, Play as now
+  groups the people who hold an office by the body they sit in. Choosing one
+  shows their bust, office and party, and a Play as button steps in.
+
+- **Pop-ups wait until a scene ends** A news or journal pop-up asked for while a
+  talk or scene is on screen now waits and shows when the scene ends, with its
+  full time on screen. A click on its close still removes it at once.
+
+- **The Calendar follows the approved look** The Calendar now sets the month,
+  the chosen day and Coming up on header strips, with the day's own heading
+  ("Monday, January 20") over what is on it. The color key still hides and shows
+  each kind.
+
+- **The Journal follows the approved look** The Journal lists your chapters in a
+  "My story" strip, with the years each covers, and tells the chosen chapter
+  under its title in two columns of prose with a drop cap. The cream page, its
+  rule and the chapter pager are gone.
+
+- **Money follows the approved look** Money now shows your cash in large type
+  over each month's balance, last month's spending, what comes out of your pay,
+  what you own and what you owe, as typed rows with dot leaders under header
+  strips. The ring and column charts are gone.
+
+- **News follows the approved look** News is now set on the dark panel instead
+  of a cream sheet: the outlets as tabs, the paper's name and the day, the lead
+  story in two columns, the other stories beside it and the briefs in a strip
+  that pages. Clicking a headline swaps that story into the lead.
+
+- **Options follows the approved look** Options now sets Full screen and Dev
+  mode as lit On and Off toggles under header strips (Seeing, Dev mode), with
+  Quit to title under Leave. The checkboxes and the version line are gone.
+
+- **Patch notes follows the approved look** Patch notes now lists the builds in
+  a strip, newest first with the day each was released, and sets the chosen
+  build's changes under a header strip per heading (Changed, Improved, Fixed),
+  with no card per note.
+
+- **Saved games follows the approved look** Saved games now shows each saved
+  life as a strip with its name, the game's date and Load, in place of the plain
+  list and its explaining line.
+
+- **The title menu follows the approved look** The title menu opens with
+  Continue as your character's name when a life exists (and shows no Continue
+  when none does), then New game, Saved games, Options and Patch notes, in plain
+  type with no wordmark over it.
+
+- **Campaign is its own tab with the race, the money and the way to the trail**
+  Once you have filed, a Campaign tab shows where the race stands, the money
+  raised and spent, your volunteers and doors, and a button out onto the trail.
+
+- **Elections is a ballot list with the chosen race beside it** The Elections
+  tab lists the races on your ballot by election day; the race you pick shows
+  who is running, with their faces and where they stand, and the dates.
+
+- **The Guide is a word list with the chosen word's article beside it** The
+  Guide lists the civic words at the left; the word you pick shows what it is,
+  what it means here and the words it is tied to.
+
+- **Issues is subjects, their laws and the chosen law's page** Issues lists the
+  subjects with how many laws each holds; a subject shows its laws with the law
+  now in force, and the law you pick shows who sets it, since when, what is
+  coming, what changed and how members voted.
+
+- **Your office is one board of your seat, your desk and your budget** Your
+  office shows your seat and pay, the bills on your desk with their standing,
+  and your budget and deals on one board instead of four tabs.
+
+- **Parties is a list of parties with the chosen party's page beside it** The
+  Parties tab lists the parties, with yours marked Mine; the party you pick
+  shows who holds office for it and where you stand with it. The map is gone.
+
+- **People is a grouped list with the person's card beside it** People shows
+  everyone you know in a list grouped by home, family, friends, work and town,
+  with the selected person's card beside it.
+
+- **The campaign trail, the ballot and election night follow the play mocks**
+  The campaign trail is a list of places and acts with hours and Go, the ballot
+  is a paper with ovals and what you know about each candidate, and election
+  night shows the count and the call in strips.
+
+- **Travel shows grouped place pictures with the chosen place beside them**
+  Travel shows your town's places as pictures in groups, and the place you pick
+  shows its picture, whether it is open, who is there and a Go button beside
+  them.
+
+- **A disaster cost-share law lowers federal disaster aid.** If Congress has
+  states share disaster costs, the federal public assistance a disaster
+  declaration pays the county and town governments falls from 75 percent of
+  eligible costs to an estimated 50 percent.
+
+- **Medicare drug price negotiation is in force and lowers members' bills**
+  Medicare's drug price negotiation is now a law in force at the start. It
+  lowers what Medicare members' medical bills ask, and Congress can repeal it
+  from the bill paper.
+
+- **People weighing a move see other states' income tax laws** People weighing a
+  move now read every state's income tax from the law in force, so a state that
+  repeals or changes its income tax draws or loses people.
+
+- **Renters are drawn more to states where housing is cheap.** Households that
+  rent now weigh a state's housing prices more than owners do when counted
+  movers choose where to go, so a renter is drawn more to states where housing
+  is cheap (BEA's housing price index).
+
+- **Laws spread between neighboring states** A state legislator is now likelier
+  to carry a change that more of the bordering states already have, so laws
+  spread between neighbors.
+
+- **A tax change is felt by the people it reaches** When a new law changes the
+  tax withheld from a person's pay, the change lands on them as a felt loss, and
+  they tie it to the law if they have heard about it.
+
+- **The floor speaks before you vote** When a bill on tomorrow's floor holds you
+  for your vote, the members who speak for and against it have already spoken,
+  so you hear the debate before you cast your vote, not after.
+
+- **No exact counts before a vote** The bill paper and Your office no longer
+  print how many members are for, against and undecided before a vote; they show
+  what members have told you.
+
+- **A birthday table notices who is missing** When a birthday is kept at home
+  and a close relative who lives far away is not there, you get a short scene
+  about the empty chair.
+
+- **Dates, proposals, weddings and breakups play out as scenes** When you or
+  someone close to you starts dating, gets engaged, marries or splits up, you
+  now get a scene: a first date with a few real questions, a proposal you can
+  accept, put off or turn down, a wedding day, and a breakup where you can ask
+  why, take it, apologize or push back.
+
+- **Relatives far away write to you** Relatives who live elsewhere now write to
+  you in proportion to how close you still are, and the letter shows up as a
+  scene. Each letter counts as time together, so a tie that gets letters fades
+  more slowly.
+
+- **People in your town date, move in together, marry and split up** People in
+  your town now meet, date, move in together, get engaged, marry and split up on
+  their own, the way people elsewhere already did. A couple who move in share
+  one home and its costs, and the one with less cash is the one who moves.
+
+- **Joining a group or a job introduces you to the people you would really know
+  there.** Joining a group or starting a job now introduces you to the people
+  you would really come to know there, not every member or coworker, so big
+  groups no longer fill your contacts.
+
+- **Residents out of work find regional jobs, and the opening counts the
+  region's rate** A resident who is out of work no longer waits for a job in
+  their own town. Like people who live elsewhere, they find work in the wider
+  region at a pace that follows their state's unemployment and their own traits,
+  and the job pays through the same payroll as a commute. The opening also
+  counts the region's whole expected number of job seekers instead of rounding
+  away a fraction twice.
+
+- **Candidates for district and statewide offices no longer hold an event in a
+  small town nearly every day** A candidate for an office the town is only part
+  of now spends their evenings across the whole district, so a town sees events
+  in proportion to its share of the race's voters. Races decided in the town
+  itself are unchanged.
+
+- **A bribe offered to you is yours to answer.** When someone offers an official
+  money for a vote or a contract and the official is you, the offer now arrives
+  as a scene: you take it, hand it back, stall or say you will report it.
+  Nothing is decided by your traits behind your back, and the money moves only
+  if you take it.
+
+- **Reporters hear the stock lines real briefings use.** When a reporter presses
+  you, your put-offs and stalls now include the stock lines real briefings use
+  ("I'm not going to get ahead of the vote." "It's too early to say."). A
+  speaker at a hearing's public comment can now greet the members first and
+  close on an ask, as real council comment does.
+
+- **Hallway talk comes in short, indirect words.** Hallway words now include
+  short, indirect replies and answers ("Not here." "Fair enough."), and a
+  hearing's public comment is graded with residents, not the floor. A vote on
+  the floor now opens with the chair calling the roll in one of eight forms, not
+  the one line "A vote has been called."
+
+- **Town workers are let go at the national turnover rate, so out-of-work counts
+  rise and fall** People who work in town now lose jobs at the pace working
+  people do everywhere (about one in eighty each month, moved by their state's
+  unemployment and their age), so a town's out-of-work count moves up and down
+  instead of sinking to nothing once residents can find regional work.
+
+## PRE-ALPHA 0.93.0
+
+_Released November 8, 2026._
+
+### Changed
+
+- **Dev mode is a setting in Options** Dev mode is now a checkbox in Options
+  (Esc), off by default, with its state shown and remembered. The faint ring in
+  the corner is gone.
+
+## PRE-ALPHA 0.92.0
+
+_Released November 8, 2026._
+
+### Changed
+
+- **The Government screen follows the approved look** Government now sets each
+  part on a gold-edged header strip: a body's seats as large numbers in each
+  party's color, its recent votes typed out with the result and count, and the
+  executive as a bust with the name large and the party and post under it. The
+  party bar, the seat picture and the colored vote bars are gone.
+
+## PRE-ALPHA 0.91.0
+
+_Released November 8, 2026._
+
+### Changed
+
+- **The Budgets screen follows the approved look** Budgets now shows each
+  government as a tab, its spending lines as a list of departments, the open one
+  as a typed page, and the government's money (coming in, going out, balance,
+  savings) with last year beside each figure where a prior budget is kept. The
+  ring charts are gone.
+
+## PRE-ALPHA 0.90.0
+
+_Released November 8, 2026._
+
+### Changed
+
+- **The person card follows the approved look** A person's card now shows their
+  name over a bust, with who they are, how you see them, what is between you,
+  their people and their public record under gold-edged header strips. The
+  timeline and the side figure are gone.
+
+## PRE-ALPHA 0.89.0
+
+_Released November 8, 2026._
+
+### Changed
+
+- **The You screen follows the approved look** The You screen now shows your
+  name over a bust, with "Who I am" and "What I'm like" written in your own
+  voice and the people closest to you as names that open their cards. Sections
+  sit under gold-edged header strips.
+
+## PRE-ALPHA 0.88.4
+
+_Released November 8, 2026._
+
+### Fixed
+
+- **Saved games on the title screen opens** Saved games on the title screen no
+  longer does nothing. It opens a sheet that shows the life in progress, with a
+  way to continue it, and says that more saved lives arrive with early access.
+
+- **Reserve laws can be repealed and restored on the same day** Repealing and
+  restoring a reserve requirement no longer reuses an earlier cash-transfer ID.
+  The opening-law audit now follows every authorized reversal through signature
+  and effect, then restores its original answer.
+
+## PRE-ALPHA 0.88.3
+
+_Released November 8, 2026._
+
+### Fixed
+
+- **Congress can repeal and restore its income tax** Congress can repeal and
+  restore the federal income-tax adoption law through the shared bill system.
+  Restoring a tax set to zero uses that government's recorded schedule,
+  preserving state taxes and existing territorial exclusions.
+
+- **Opening laws retain their jurisdiction's legal sources** Opening policy laws
+  now keep the source recorded for their own jurisdiction. Federal policy rows
+  also retain the researched legal terms shown with the law.
+
+## PRE-ALPHA 0.88.2
+
+_Released November 8, 2026._
+
+### Fixed
+
+- **Income-tax rates can return after being set to zero** Setting a graduated
+  income-tax rate to zero now preserves its bracket schedule. A later bill
+  restoring the rate collects the tax again from named and counted workers.
+
+## PRE-ALPHA 0.88.1
+
+_Released November 8, 2026._
+
+### Fixed
+
+- **SNAP work rules apply only to food assistance** Passing or repealing a SNAP
+  work rule no longer stops unrelated cash assistance from a welfare budget.
+  Cash-benefit months also no longer consume a household's SNAP allowance.
+
+## PRE-ALPHA 0.88.0
+
+_Released November 8, 2026._
+
+### Improved
+
+- **News tells the far-off laws that matter to you.** The Nation heading on News
+  no longer lists every law other states passed. It now tells the ones that
+  reach the most people, and those from states where your family lives or works
+  or that border yours.
+
+### Fixed
+
+- **Treasury reviews keep each government's fiscal repeal in force** A treasury
+  review no longer revives a repealed fiscal rule because another government
+  still has that rule. Each government's current law now supplies its own
+  budget, pension-funding and reserve review. A state bar on a local fiscal rule
+  now stops its budget effect; withdrawing the bar restores the existing local
+  act.
+
+## PRE-ALPHA 0.87.8
+
+_Released November 8, 2026._
+
+### Fixed
+
+- **Congress can change federal cannabis law independently of state licenses**
+  Congress can remove or restore the federal prohibition on adult-use cannabis
+  sales. State retail permission remains separate: removing the federal
+  prohibition does not grant a state license, and restoring it does not erase
+  the state's own law.
+
+## PRE-ALPHA 0.87.7
+
+_Released November 7, 2026._
+
+### Fixed
+
+- **Repeal and restore an income tax already in force** Repealing an existing
+  income tax now stops its withholding even when the tax was already present at
+  the start of the game. Restoring it returns the prior rates, brackets and
+  deductions. Routine reviews leave a later independent tax act intact.
+
+## PRE-ALPHA 0.87.6
+
+_Released November 7, 2026._
+
+### Fixed
+
+- **Fix the missing state-law return type in the build** A missing state-law row
+  now returns the optional value declared by the authority reader, fixing the
+  TypeScript build error without changing a body's powers.
+
+- **Read the existing federal law before proposing a wage change** Congress now
+  reads the same federal wage law when proposing a change, checking whether a
+  bill repeats a pending act, and weighing recent enactments. The shared and
+  legacy bill questions remain available and use one law record.
+
+- **Let Congress use the shared minimum-wage question** Congress can enact and
+  repeal the shared minimum-wage question. It uses the existing federal wage
+  record, so both catalog names show the same rule and cannot create competing
+  wage changes. Higher state and local floors remain effective.
+
+- **Congress can replace a starting federal amount for a state** A later
+  nationwide federal amount now replaces the state's older federal rate. A
+  specific exception in the same act keeps its priority, and a later act can
+  replace either. Starting state-specific federal rates remain in force until
+  amended.
+
+- **Congress drafts against the current federal rate for the state** Congress's
+  drafting catalog now shows the current Medicaid matching rate and its source
+  even when the federal law gives the played state a particular rate.
+
+- **Treat combined property-tax estimates as calibration facts** Survey
+  estimates of all property taxes on a home no longer appear as county statutes
+  or generate law-taking-effect events. The existing reader keeps the same
+  sourced amount until an actual property-tax law replaces the fallback.
+
+- **Treat average local tax rates as calibration facts** Statistical local
+  sales-tax averages no longer appear as statutes or generate law-taking-effect
+  events. The tax reader keeps the same dated, sourced fallback amounts until a
+  real local tax rule supplies the rate.
+
+- **Specific state grants let towns draft their own rules** A state's specific
+  grant now lets a town draft that policy even without general home rule.
+  Withdrawing and restoring the grant changes drafting authority and cites the
+  actual state act. Separate statutory restrictions still apply.
+
+- **Let state bills repeal and restore unemployment insurance** A state bill can
+  turn an existing unemployment-insurance program off or restore it without
+  losing its benefit formula and eligibility terms. New claims read the
+  program's enacted value; already filed claims retain their recorded awards.
+
+## PRE-ALPHA 0.87.5
+
+_Released November 7, 2026._
+
+### Fixed
+
+- **Later acts can change a pending law** A bill that moves a pending rule's
+  effective date earlier now writes that change into law. A later repeal also
+  remains in force when an older act's scheduled phase arrives. Dated phases
+  within the same act still follow their effective dates.
+
+- **Congress can change Social Security retirement ages** Congress's bill
+  catalog now includes the earliest claiming age, full retirement age and age
+  when delayed retirement credits stop. Their federal authority cites the Social
+  Security Act, and bill papers name each age in years. State and local bills
+  cannot change these federal benefit rules.
+
+## PRE-ALPHA 0.87.4
+
+_Released November 7, 2026._
+
+### Fixed
+
+- **Federal Medicaid requirements can take effect and be repealed** A Medicaid
+  work requirement enacted by Congress now governs under the same rule as the
+  starting federal law. Repealing it restores the applicable state or local
+  rule. When two acts take effect on the same day, the later enactment governs.
+  The same sourced precedence rule preserves federal SNAP work conditions in
+  participating jurisdictions, without applying them to territories with
+  separate nutrition-assistance programs.
+
+## PRE-ALPHA 0.87.3
+
+_Released November 7, 2026._
+
+### Fixed
+
+- **Tax and work-requirement bills appear for the governments that can pass
+  them** Congress and state legislatures can draft changes to their own income
+  tax, and states can change their sales tax. Congress can draft enactment and
+  repeal of the Medicaid and assistance work requirements. The bill catalog now
+  follows the same recorded powers as the drafting check.
+
+## PRE-ALPHA 0.87.2
+
+_Released November 6, 2026._
+
+### Fixed
+
+- **A county board now weighs a bill against the county's own law.** A county
+  board's members used to judge a tax or wage bill against the town's rate. They
+  now judge it against the county's own, so a county's vote follows the county's
+  law.
+
+- **A county's bill paper now shows what a county may do.** A county board's
+  bill paper used to show the town's answers. It now shows the county's own:
+  where the state lets counties act, and where it does not.
+
+- **A state's bill paper now warns where the law won't let it act.** A state
+  legislator's bill paper no longer shows every policy as allowed. It now gives
+  the same answer the draft check gives, so a state sees where federal law or
+  the power catalog bars the change before drafting it.
+
+## PRE-ALPHA 0.87.1
+
+_Released November 6, 2026._
+
+### Fixed
+
+- **A federal requirement now applies in every state.** The federal work
+  requirement for Medicaid, which takes effect on January 1, 2027, now governs
+  in every state from that day. A state that answers no, or repeals its own
+  rule, can no longer set it aside.
+
+## PRE-ALPHA 0.87.0
+
+_Released November 6, 2026._
+
+### Changed
+
+- **A state can now grant or bar its towns' own rules by law.** For each policy
+  question, a state bill can now give its cities, towns and counties the power
+  to make their own rule, or take it away. A town's rule stops on the day the
+  state bars it and returns if the state grants it again.
+
+## PRE-ALPHA 0.86.0
+
+_Released November 6, 2026._
+
+### Added
+
+- **The News screen shows the country moving.** Under a new Nation heading, News
+  now tells the laws other states passed in the last two weeks, each in a short
+  line such as "Right to counsel in eviction in Delaware became law on February
+  4, 2025."
+
+## PRE-ALPHA 0.85.4
+
+_Released November 5, 2026._
+
+### Fixed
+
+- **Rents in your town now match the real renters median** Rents in every town
+  now follow the real median rent for renters, scaled by each household's
+  income, so rent burdens and evictions read closer to real life.
+
+## PRE-ALPHA 0.85.3
+
+_Released November 5, 2026._
+
+### Fixed
+
+- **Puerto Rico, Massachusetts and Vermont places now have election and budget
+  dates read from their statutes.** Puerto Rico's municipal fiscal year (ending
+  June 30) and four-year municipal elections, Massachusetts county
+  commissioners' elections and Vermont's county offices are now read from the
+  statutes, so these places no longer fall back to a missing date.
+
+## PRE-ALPHA 0.85.2
+
+_Released November 4, 2026._
+
+### Fixed
+
+- **Puerto Rico towns now count their municipio in credit, staff, regional and
+  population figures.** Every system that weighs a town across its counties asks
+  the one place map, which also gives a Puerto Rico town its municipio, where
+  the Census files had none.
+
+## PRE-ALPHA 0.85.1
+
+_Released November 4, 2026._
+
+### Fixed
+
+- **Puerto Rico towns read their own municipio rent and home value instead of
+  national numbers.** A Puerto Rico town now finds its municipio through the one
+  place map, so rent and home value come from that municipio, not the national
+  medians.
+
+## PRE-ALPHA 0.85.0
+
+_Released November 4, 2026._
+
+### Changed
+
+- **People thinking of running for an at-large board weigh the whole race, so
+  its field is no longer crowded.** Someone weighing a run for one seat of an
+  at-large race now counts everyone already running for its other seats, so a
+  three-seat selectboard race draws about as many candidates a seat as a
+  one-seat race, not twelve.
+
+## PRE-ALPHA 0.84.0
+
+_Released November 4, 2026._
+
+### Changed
+
+- **A board's at-large seats up on one day are one race, and the top finishers
+  take the seats.** Where a council, selectboard or county board elects several
+  members at large on the same day, every candidate now runs against the whole
+  field. Each voter votes for up to as many candidates as there are seats, and
+  the top finishers are seated. Running for one of three seats means finishing
+  in the top three, not beating one seat's holder head on.
+
+- **Relatives who live elsewhere have their news to tell you.** A talk with a
+  relative living in another town used to open empty. Now, when something has
+  happened to them lately, they tell you ("We're being evicted.", "Your uncle is
+  seriously ill.").
+
+- **Your grades of which reply follows which line now shape everyday talk.**
+  Grades of whether one move reads naturally after another (an answer after a
+  question, a reaction after news) only shaped speeches before. Now they also
+  decide which four replies a talk offers you first: a kind of reply graded
+  unnatural after a line is offered after the ones that read right.
+
+## PRE-ALPHA 0.83.3
+
+_Released November 4, 2026._
+
+### Fixed
+
+- **Who you are names a school only while you are at one.** A grown player's Who
+  you are no longer shows the school they went to as a child as if they were
+  still there; the school plate shows only while you are of school age.
+
+- **A debate no longer plays as a string of campaign stops.** Each answer a
+  candidate gave in a debate used to stage its own campaign-stop scene, with a
+  volunteer and a crowd the broadcast never had. A debate is now its own
+  occasion; a town hall or speech still plays as a campaign stop.
+
+### Changed
+
+- **People answer your volunteer and endorsement asks in their own words.** When
+  you ask people you know to volunteer or to endorse you, each one now answers
+  in a spoken line of their own, worded by their character and by how close they
+  are to you, with their name shown as the speaker. The old narrated answers
+  ("Wendy Ford signs on to help the campaign.") are gone.
+
 ## PRE-ALPHA 0.83.2
 
 _Released November 4, 2026._

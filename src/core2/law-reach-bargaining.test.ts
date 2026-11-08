@@ -5,6 +5,7 @@
  * line, followed to a named worker's pay change and the contract record; a
  * repeal stops the next contract.
  */
+import type { GovernmentLevel } from "./government-level";
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
@@ -74,7 +75,7 @@ function setLaw(api: CoreAPI, level: string, value: 0 | 1, tag: string): void {
   const row = lawChain(api).levels.find((l) => l.level === level)!;
   enactLaw(api, {
     jurisdiction: row.jurisdiction,
-    level: level as "federal" | "state" | "county" | "city",
+    level: level as GovernmentLevel,
     series: KEY,
     value,
     effectiveDate: addDays(makeIsoDate(api.state.date), 1),

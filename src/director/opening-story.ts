@@ -62,6 +62,18 @@ import { keyChambersOf } from "../core2/opening-key-people";
 import { LEADERSHIP_MODULE_ID, organize } from "../core2/modules/leadership";
 import { markWordsStopgap } from "./stopgaps";
 import { P } from "../core2/parameters";
+import { daysBetweenText } from "../core2/kernel/dates";
+import {
+  TERM_AREAS,
+  countryTermRead,
+  type AreaRead,
+} from "../core2/modules/laws";
+import {
+  addressSituation,
+  chooseAddressKind,
+  type AddressKind,
+} from "./address-kind";
+import kindData from "./data/address-kinds.json" with { type: "json" };
 
 export interface OpeningSentence {
   readonly level: OpeningLevel;
@@ -82,6 +94,8 @@ export interface OpeningStory {
   readonly id: string;
   readonly date: string;
   readonly speechKind: OpeningSpeechKind;
+  /** The kind of address it is (crisis, combative, hopeful, victory, mourning, policy), picked from the world and the President. */
+  readonly addressKind: AddressKind;
   readonly president: {
     readonly id: PersonId;
     readonly name: string;
@@ -122,6 +136,9 @@ interface OpeningData {
   speechTitles: Readonly<Record<OpeningSpeechKind, string>>;
 }
 const DATA = openingData as unknown as OpeningData;
+const KIND_DATA = kindData as unknown as {
+  kinds: Readonly<Record<AddressKind, { topics: number; tone?: number }>>;
+};
 const N = DATA.numbers;
 
 /** The offices engine's public record of the taking of office on Inauguration Day. */
@@ -130,9 +147,9 @@ const INAUGURATION_EVENT = "inauguration";
 /** The kind of public event the address is recorded as. */
 export const OPENING_ADDRESS_EVENT = "president.address";
 
-type Facts = Record<string, GroundedEnglishFact>;
+export type Facts = Record<string, GroundedEnglishFact>;
 
-const fact = (text: string, ...ids: string[]): GroundedEnglishFact => ({
+export const fact = (text: string, ...ids: string[]): GroundedEnglishFact => ({
   text,
   sourceRecordIds: ids as EntityId[],
 });
@@ -200,6 +217,10 @@ function macroMonths(core: CoreState): {
  * none of that real data in there"; Nov 1: "I don't like where this part of
  * the speech where it just laces statistics").
  */
+/** The areas of the term read the address can tell besides work and prices, which the macro months already tell. */
+const AREA_TOPICS = TERM_AREAS.filter(
+  (area) => !["jobs", "pay", "prices"].includes(area),
+);
 const TOPIC_CLAIMS: Readonly<Record<string, readonly string[]>> = {
   unemployment: ["unemployment-up", "unemployment-down"],
   inflation: ["inflation-up", "inflation-down", "prices-up"],
@@ -207,6 +228,12 @@ const TOPIC_CLAIMS: Readonly<Record<string, readonly string[]>> = {
   wages: ["wages-ahead-of-prices", "wages-behind-prices"],
   mortgage: ["mortgage-up", "mortgage-down"],
   jobs: ["jobs-up"],
+  // The areas of the term read (src/core2/term-read.ts): each a claim of
+  // better or worse since the term began, so bad news in schools, crime,
+  // health or rent is told as well as good.
+  ...Object.fromEntries(
+    AREA_TOPICS.map((area) => [area, [`${area}-worse`, `${area}-better`]]),
+  ),
 };
 
 /** The claims that make a subject good news for the year. */
@@ -217,6 +244,7 @@ const GOOD_CLAIMS: Readonly<Record<string, readonly string[]>> = {
   wages: ["wages-ahead-of-prices"],
   mortgage: ["mortgage-down"],
   jobs: ["jobs-up"],
+  ...Object.fromEntries(AREA_TOPICS.map((area) => [area, [`${area}-better`]])),
 };
 
 /** What an address leads with after the greeting. */
@@ -249,6 +277,12 @@ interface Country {
   readonly facts: Facts;
   /** How far each number moved over the year, to choose the ones worth telling. */
   readonly movement: Readonly<Record<string, number>>;
+  /** The year in the macro months: measures better minus worse over both, from -1 to 1. */
+  readonly macroSlide: number;
+  /** The term read by area from the outcome web, and the rows it cites. */
+  readonly areas: readonly AreaRead[];
+  /** The macro months the year was read from. */
+  readonly macroIds: readonly string[];
 }
 
 /**
@@ -257,11 +291,13 @@ interface Country {
  * cited by the months it compares. No figure is a fact: the address tells
  * the year in words.
  */
-function countryFacts(core: CoreState): Country {
+function countryFacts(core: CoreState, sinceDate: string): Country {
   const months = macroMonths(core);
-  if (!months) return { facts: {}, movement: {} };
-  const { now, before } = months;
   const api = coreAPI(core);
+  const areas = countryTermRead(api, sinceDate);
+  if (!months)
+    return { facts: {}, movement: {}, macroSlide: P.zero, areas, macroIds: [] };
+  const { now, before } = months;
   const ids = [now.id, ...(before ? [before.id] : [])];
   const facts: Facts = {};
   const movement: Record<string, number> = {};
@@ -275,7 +311,8 @@ function countryFacts(core: CoreState): Country {
         api.parameter("macroCpiOverPceWedgePct"),
   );
   claim("prices-up", now.inflationPct > P.zero);
-  if (!before) return { facts, movement };
+  if (!before)
+    return { facts, movement, macroSlide: P.zero, areas, macroIds: ids };
   claim("unemployment-down", now.unemploymentPct < before.unemploymentPct);
   claim("unemployment-up", now.unemploymentPct > before.unemploymentPct);
   claim("inflation-down", now.inflationPct < before.inflationPct);
@@ -306,26 +343,50 @@ function countryFacts(core: CoreState): Country {
     claim("jobs-up", true);
     movement.jobs = added / N.jobsPerSeriesUnit / N.jobsPerMillion;
   }
+  // The areas of the term, each a claim of better or worse since the term
+  // began, citing the web rows it compared; how far it moved is its weight.
+  let betterAreas = P.zero,
+    worseAreas = P.zero;
+  for (const read of areas) {
+    if (!AREA_TOPICS.includes(read.area)) continue;
+    facts[`${read.area}-${read.slide >= P.zero ? "better" : "worse"}`] = fact(
+      "yes",
+      ...read.sourceRecordIds,
+    );
+    movement[read.area] = Math.abs(read.slide) * N.percentPerRatio;
+    betterAreas += Math.max(P.zero, read.slide);
+    worseAreas += Math.max(P.zero, -read.slide);
+  }
   // The year in a word: more of the measures better than worse, or the
-  // reverse, or neither. Each is a count of the claims above, never a roll.
-  const better = [
-    "unemployment-down",
-    "inflation-down",
-    "wages-up",
-    "growth-up",
-    "jobs-up",
-  ].filter((key) => facts[key]).length;
+  // reverse, or neither. Each is a count of the claims above, with the areas
+  // of the term counted by how far they moved, never a roll.
+  const better =
+    [
+      "unemployment-down",
+      "inflation-down",
+      "wages-up",
+      "growth-up",
+      "jobs-up",
+    ].filter((key) => facts[key]).length + betterAreas;
   const worse =
     ["unemployment-up", "inflation-up"].filter((key) => facts[key]).length +
-    ["wages-up", "growth-up", "jobs-up"].filter((key) => !facts[key]).length;
+    ["wages-up", "growth-up", "jobs-up"].filter((key) => !facts[key]).length +
+    worseAreas;
   claim("mood-better", better > worse);
   claim("mood-hard", worse > better);
   claim("mood-mixed", worse === better);
-  return { facts, movement };
+  return {
+    facts,
+    movement,
+    macroSlide:
+      better + worse > P.zero ? (better - worse) / (better + worse) : P.zero,
+    areas,
+    macroIds: ids,
+  };
 }
 
 /** One policy question the President has a view on, at a level that may act on it, with the law in force there. */
-interface Stand {
+export interface Stand {
   readonly question: string;
   /** Positive for a President who wants it, negative for one who does not. */
   readonly stance: number;
@@ -368,30 +429,43 @@ function lawOn(
  * say different things.
  */
 function presidentStands(api: CoreAPI, official: OfficialRow): Stand[] {
+  return standsAt(api, official, "federal", "US");
+}
+
+/**
+ * Every question an official holds a view on that their level of government
+ * may answer and the world has a law for, with the law in force in the
+ * jurisdiction. The one reader the President's address and a governor's or
+ * mayor's share.
+ */
+export function standsAt(
+  api: CoreAPI,
+  official: OfficialRow,
+  level: PolicyLevel,
+  jurisdiction: string | null,
+): Stand[] {
   const own = new Set(official.signature.map((row) => row.question));
-  const at = (level: PolicyLevel, jurisdiction: string | null) =>
-    NAMED_QUESTIONS.flatMap((question): Stand[] => {
-      const stance = ownStance(official.ideal, official.signature, question);
-      if (stance === P.zero || !jurisdiction) return [];
-      const power = policyAuthority(api, question, level);
-      const law = power.allowed ? lawOn(api, question, jurisdiction) : null;
-      return law
-        ? [
-            {
-              question,
-              stance,
-              signature: own.has(question),
-              power: power.source,
-              law,
-            },
-          ]
-        : [];
-    });
-  return at("federal", "US");
+  return NAMED_QUESTIONS.flatMap((question): Stand[] => {
+    const stance = ownStance(official.ideal, official.signature, question);
+    if (stance === P.zero || !jurisdiction) return [];
+    const power = policyAuthority(api, question, level);
+    const law = power.allowed ? lawOn(api, question, jurisdiction) : null;
+    return law
+      ? [
+          {
+            question,
+            stance,
+            signature: own.has(question),
+            power: power.source,
+            law,
+          },
+        ]
+      : [];
+  });
 }
 
 /** The ones they want: their own signature issues first, then by how strongly they hold them. */
-function wantedOf(stands: readonly Stand[]): Stand[] {
+export function wantedOf(stands: readonly Stand[]): Stand[] {
   return stands
     .filter((row) => row.stance > P.zero)
     .sort(
@@ -403,7 +477,7 @@ function wantedOf(stands: readonly Stand[]): Stand[] {
 }
 
 /** The ones they oppose, strongest first. */
-function opposedOf(stands: readonly Stand[]): Stand[] {
+export function opposedOf(stands: readonly Stand[]): Stand[] {
   return stands
     .filter((row) => row.stance < P.zero)
     .sort(
@@ -412,7 +486,11 @@ function opposedOf(stands: readonly Stand[]): Stand[] {
 }
 
 /** The facts a stand is spoken with: its names, the President's side and the law. */
-function standFacts(stand: Stand, official: OfficialRow, rank: string): Facts {
+export function standFacts(
+  stand: Stand,
+  official: OfficialRow,
+  rank: string,
+): Facts {
   // The ask cites the powers record and the law it read (ask why).
   const asked = [
     official.id,
@@ -437,7 +515,7 @@ function standFacts(stand: Stand, official: OfficialRow, rank: string): Facts {
 }
 
 /** The President's manner of speaking, from their recorded traits. */
-function voiceOf(president: PersonState): SpeechVoice {
+export function voiceOf(president: PersonState): SpeechVoice {
   const sum = (keys: readonly string[]) =>
     keys.reduce(
       (total, key) => total + (president.traits[key] ?? P.zero),
@@ -461,7 +539,7 @@ function chairStage(core: CoreState): string {
 }
 
 /** One part of the address: where the camera is, the facts it is said with, its moves. */
-interface Block {
+export interface Block {
   readonly key: string;
   readonly level: OpeningLevel;
   /**
@@ -551,14 +629,10 @@ function planAddress(
   president: PersonState,
   official: OfficialRow,
   kind: OpeningSpeechKind,
-): Block[] {
+): { blocks: Block[]; addressKind: AddressKind } {
   const api = coreAPI(core);
   const voice = voiceOf(president);
-  const move = (
-    role: string,
-    options: { topic?: string; required?: boolean } = {},
-  ) => openingMove(kind, voice, role, options);
-  const country = countryFacts(core);
+  const country = countryFacts(core, official.serviceStart);
   const stands = presidentStands(api, official);
   // Congress hears only what it may answer and federal law does not have yet.
   const open = stands.filter((row) => !row.law.inForce);
@@ -594,6 +668,50 @@ function planAddress(
     if (topic) taken.add(topic);
     return topic;
   };
+
+  // The kind of address this is (owner, Nov 8): picked from the term read by
+  // area, the economy's year, a recent disaster and this President's
+  // priorities and temperament, then said in that kind's own pieces.
+  const situation = addressSituation(core, {
+    macroSlide: country.macroSlide,
+    areas: country.areas,
+    priorities: priorities.length,
+    prioritiesMax: par.prioritiesMax.value,
+  });
+  const addressKind = chooseAddressKind(
+    president,
+    situation,
+    // A President in their first year takes no lap for a record they did not make.
+    daysBetweenText(official.serviceStart, core.date) <
+      api.parameter("daysPerMeanYear")
+      ? ["victory"]
+      : [],
+  );
+  country.facts[`kind-${addressKind}`] = fact(
+    "yes",
+    ...new Set([
+      ...country.macroIds,
+      ...country.areas.flatMap((read) => read.sourceRecordIds),
+      ...(situation.griefId ? [situation.griefId] : []),
+      official.id,
+    ]),
+  );
+  const move = (
+    role: string,
+    options: { topic?: string; required?: boolean } = {},
+  ) => openingMove(kind, voice, role, { ...options, addressKind });
+  // A kind with pieces of its own says its turn in every year, not only a hard one.
+  const KINDS_WITH_TURN: readonly AddressKind[] = [
+    "combative",
+    "crisis",
+    "hopeful",
+    "mourning",
+    "victory",
+  ];
+  const topicCount = Math.max(
+    par.storyTopics.value,
+    KIND_DATA.kinds[addressKind].topics,
+  );
 
   // Blocks before their part is set: a block that `joins` is said in the
   // same paragraph as the block before it.
@@ -639,28 +757,44 @@ function planAddress(
   // so the word for the year is borne out by what follows it.
   const good = (topic: string) =>
     (GOOD_CLAIMS[topic] ?? []).some((key) => country.facts[key]);
-  const lean = country.facts["mood-better"]
-    ? P.one
-    : country.facts["mood-hard"]
-      ? -P.one
-      : P.zero;
+  // A kind that tells hard news (a reckoning, a railing) leads with what went
+  // wrong and tells no good news beside it while there is bad; a kind that
+  // tells good news (hopeful, a victory lap) leads with what went right; the
+  // rest follow the year's mood.
+  const kindTone = KIND_DATA.kinds[addressKind].tone;
+  const lean =
+    kindTone ??
+    (country.facts["mood-better"]
+      ? P.one
+      : country.facts["mood-hard"]
+        ? -P.one
+        : P.zero);
   const toneFirst = (topic: string) => (good(topic) ? lean : -lean);
-  const ordered = Object.keys(TOPIC_CLAIMS)
-    .filter(
-      (topic) => topic !== "unemployment" && held(topic) && !taken.has(topic),
-    )
+  const candidates = Object.keys(TOPIC_CLAIMS).filter(
+    (topic) => topic !== "unemployment" && held(topic) && !taken.has(topic),
+  );
+  const badToTell =
+    kindTone !== undefined &&
+    kindTone < P.zero &&
+    (candidates.some((topic) => !good(topic)) ||
+      !!country.facts["unemployment-up"]);
+  const ordered = candidates
+    .filter((topic) => !badToTell || !good(topic))
     .sort(
       (a, b) =>
         toneFirst(b) - toneFirst(a) ||
         (country.movement[b] ?? P.zero) - (country.movement[a] ?? P.zero) ||
         a.localeCompare(b),
     )
-    .slice(P.zero, par.storyTopics.value);
+    .slice(P.zero, topicCount);
   // Work is always told: first, or last when it got harder to find, so the
   // pledge that follows answers it. Worse news on work turns against a
   // better year ("But work has grown harder to find") only when good news
   // is said just before it.
-  const jobless = held("unemployment") ? ["unemployment"] : [];
+  const jobless =
+    held("unemployment") && !(badToTell && good("unemployment"))
+      ? ["unemployment"]
+      : [];
   const workWorse = !!country.facts["unemployment-up"];
   const told = workWorse ? [...ordered, ...jobless] : [...jobless, ...ordered];
   const before = ordered.at(-P.one);
@@ -687,8 +821,10 @@ function planAddress(
     moves: [
       move("story-open"),
       ...told.map((topic) => move("story-says", { topic })),
-      ...(country.facts["mood-hard"] ? [move("story-turn")] : []),
-      move("pledge", pledgeOptions(country.facts)),
+      ...(country.facts["mood-hard"] || KINDS_WITH_TURN.includes(addressKind)
+        ? [move("story-turn")]
+        : []),
+      move("pledge", pledgeOptions(country.facts, country.areas)),
     ],
   };
   const home = (president.pastFacts ?? []).find(
@@ -825,7 +961,7 @@ function planAddress(
   );
   // The salutation opens the first paragraph with whatever follows it.
   let part = -P.one;
-  return blocks.map((block, at) => {
+  const numbered = blocks.map((block, at) => {
     if (
       !block.joins &&
       !(at > P.zero && blocks[at - P.one]!.key === "salutation")
@@ -835,17 +971,25 @@ function planAddress(
     void joins;
     return { ...rest, part };
   });
+  return { blocks: numbered, addressKind };
 }
 
 /**
  * What the pledge answers: the worst of the year's numbers when one went the
  * wrong way (the most specific wins), else the year as a whole.
  */
-function pledgeOptions(facts: Facts): { topic?: string } {
+function pledgeOptions(
+  facts: Facts,
+  areas: readonly AreaRead[],
+): { topic?: string } {
   if (facts["unemployment-up"]) return { topic: "unemployment" };
   if (facts["wages-behind-prices"]) return { topic: "wages" };
   if (facts["inflation-up"]) return { topic: "inflation" };
-  return {};
+  // Otherwise the area of the term that fell furthest, when one fell.
+  const worst = areas
+    .filter((read) => AREA_TOPICS.includes(read.area) && read.slide < P.zero)
+    .sort((a, b) => a.slide - b.slide || a.area.localeCompare(b.area))[P.zero];
+  return worst ? { topic: worst.area } : {};
 }
 
 /** The party fact a President's creed is said with, by the party's name. */
@@ -860,6 +1004,23 @@ function composeAddressOf(
   president: PersonState,
   official: OfficialRow,
   kind: OpeningSpeechKind,
+): { sentences: OpeningSentence[]; addressKind: AddressKind } | null {
+  const plan = planAddress(core, president, official, kind);
+  const sentences = composeBlocks(core, president, plan.blocks);
+  return sentences ? { sentences, addressKind: plan.addressKind } : null;
+}
+
+/**
+ * Say a plan's blocks in the speaker's own voice: the English engine writes
+ * every sentence, their recorded traits pull each pick, and no piece is used
+ * twice while another can say the line. Null when a required block cannot be
+ * said. The one writer of every address (the President's, a governor's, a
+ * mayor's).
+ */
+export function composeBlocks(
+  core: CoreState,
+  president: PersonState,
+  blocks: readonly Block[],
 ): OpeningSentence[] | null {
   const stage = chairStage(core);
   // The addresses the President has given: each speech the speech module
@@ -873,7 +1034,7 @@ function composeAddressOf(
   const sentences: OpeningSentence[] = [];
   // Pieces already said, so no wording is used twice while another can say it.
   const said: string[] = [];
-  for (const block of planAddress(core, president, official, kind)) {
+  for (const block of blocks) {
     const moves = block.moves.filter((row): row is OpeningMove => !!row);
     const base = packet(
       `opening:${core.date}:${president.id}/${block.key}`,
@@ -952,8 +1113,9 @@ export function composeOpeningStory(
   )
     ? "inaugural"
     : "state-of-the-union";
-  const sentences = composeAddressOf(core, president, official, kind);
-  if (!sentences?.length) return null;
+  const composed = composeAddressOf(core, president, official, kind);
+  if (!composed?.sentences.length) return null;
+  const { sentences, addressKind } = composed;
   const pastFact = (kindKey: string) =>
     (president.pastFacts ?? []).find((row) => row.kind === kindKey);
   const home = pastFact(PRESIDENT_FACT.homeState);
@@ -972,6 +1134,7 @@ export function composeOpeningStory(
     id,
     date: core.date,
     speechKind: kind,
+    addressKind,
     president: {
       id: president.id,
       name: fullName(president),
@@ -1052,7 +1215,9 @@ export function recordOpeningStory(
         ? { [ADDRESS_FACT.inauguration]: `${INAUGURATION_EVENT}:${core.date}` }
         : {}),
       [ADDRESS_FACT.president]: story.president.id,
+      [ADDRESS_FACT.speaker]: story.president.id,
       [ADDRESS_FACT.kind]: story.speechKind,
+      [ADDRESS_FACT.style]: story.addressKind,
       [ADDRESS_FACT.opening]: story.address.openingLine.text,
       [ADDRESS_FACT.remembered]: story.address.rememberedLine.text,
       [ADDRESS_FACT.text]: story.address.text,

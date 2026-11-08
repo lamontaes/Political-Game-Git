@@ -1,5 +1,7 @@
 1 of 13 played paths confirmed; 2 wait on the people system. Oldest open PR 0 days (#7233); open: #7233.
 
+**Stopped by the owner, Nov 4, 2:37 p.m. Eastern (relayed by the CTO at 19:41 UTC; Lane 4 read it on main at 19:45).** Open: #7233 (skills; red only on main's filing test). Unfinished, pushed without PRs because this session's GitHub token is invalid: `lane-4/budgets-fit-1024` (bd6d8e1487, path 11's Budgets fit, menus check passes in Meadow Lakes and Burnet) and `lane-4/elections-filing-test-window` (1d6f5c02fb, the filing test #7233 needs). No unpushed work.
+
 # Lane 4 state: Screens
 
 Owner's word, Nov 4: screens tonight, no people. No new pictures: the art on main only.
@@ -7,6 +9,10 @@ Owner's word, Nov 4: screens tonight, no people. No new pictures: the art on mai
 ## Blocked: GitHub access (Nov 4)
 
 `gh auth status` reports "The token in GH_TOKEN is invalid", and the GitHub MCP connection fails ("Authorization header is badly formatted"). Git fetch and push still work, so this file stays current, but Lane 4 can't read or comment on PRs (#7233) until GitHub is reconnected. Step 0's trial pushed earlier: 91239f0848 on `trial/lane-4`.
+
+Path 11 (Budgets ran 13 px over at 1024x768, Confirmer): fixed on `lane-4/budgets-fit-1024` (bd6d8e1487); the ring's picture now sizes with its box on a short window, and menus-no-scroll asserts Budgets too. Passes in Meadow Lakes, Alaska and Burnet, Texas. PR waits on GitHub access. The Confirmer's note that #7100 and #7231 are open is stale: both merged (37df53002d and the #7231 merge), so the Calendar's hideable kinds and the one fit for every sheet are on main.
+
+#7233 (skills only): main merged in at c2c5bff0b9. Its golden-path red is main's, not the PR's (the head differs from main only in three markdown files): M2-02 fails at West Hattiesburg, Mississippi (seed 962dfb9c…) because elections-filing.test.ts expects an open race on the first day; filed as `elections-filing-test-waits-for-filing-window` (lead governing); fix built and pushed on `lane-4/elections-filing-test-window` (1d6f5c02fb), PR waiting on GitHub access. Lane 2's Money medical scope accepted on `lane-2/body-law-jurisdiction` (4b8b510795).
 
 ## Ready for the Confirmer (Nov 4)
 
@@ -130,8 +136,14 @@ Replays by a session that built none of this lane's work, on main. Only this sec
 
 - **Path 1, title: replayed, waits on the owner's look.** Main 705120be1b. White House, Lincoln and the Capitol in six lights at three sizes, no conventions, nothing past the window. Character and passersby wait on people.
 - **Path 3, loading, Storrs: replayed, waits on the owner's look.** Main 705120be1b. Inside the window at three sizes, no scroll; year counter, journal lines and counties filling in. Seen: "Storrs CDP" on the map; no headline in the three frames.
+  - Run again after #7244 on main 881bea2820: the map now says "Storrs", not "Storrs CDP"; inside the window at three sizes, no scroll (`loading/loading-1440-after-7244.jpg`). Still waits on the owner's look.
 - **Path 4, opening, Haleyville: not confirmed.** Main 705120be1b, replay ab5f58e9be125c95. Desk, colonnade, America, Congress, the governor and state leaders named over the capitol, home, Skip scene throughout. The home beat has no partner's line and draws nobody (waits on people, as this page says).
 - **Path 5, first evening: fail.** Main fb000259ca, the eight fixed towns. The room matches the house everywhere; Haleyville draws nobody at home, and Storrs and Santa Rita seat someone in a work blazer. Covered by `people-home-plates` and `people-pack-v4-pose-gaps`. Fail 1 of 3.
 - **Path 10, who you are, Santa Rita: fail.** Main 705120be1b, replay 6f539fcfdf6d96f9-5, born 1960 (no job). Why ("nobody in your household draws a wage") and the town's size show at three sizes; eight weeks brought no job offer as a scene. Covered by `world-player-jobless-no-offers`. Fail 1 of 3.
 - **Path 13, election night, Storrs: pass.** Main 705120be1b, replay storrs-1, New Game, lost Selectman 223 to 552 on November 4, 2025. Four returns pages at 1440×900, 1280×800 and 1024×768: no raw words, both governor rows inside the panel, nothing scrolls. Filed `elections-night-returns-steps-add-up` (a middle page says the rest of the town is in at 2 to 0). Proof: `docs/lanes/proof/confirmer-lane4/election-night/`.
-- **Not replayed:** 6 (no filing office in Brookside until filing opens), 7 to 9 (the owner's mocks), 11 (#7231 open), 2 and 12 (people).
+- **Path 6, clerk and Travel, Brookside: fail (can't be reached on main).** Main aa6bd01914, replay 4d50e1f88df997f9, the lane's own helper (`office-hours.browser.mjs`, jump to May 16, 2026). The jump stops at each talk, twice answers "Answer the open choice or stop first.", and after a school-hall talk on June 11, 2025 the next request gets no answer in 10 minutes. Filed `play-calendar-jump-hangs-brookside-2025`. Proof: `docs/lanes/proof/confirmer-lane4/clerk-brookside/`. Fail 1 of 3.
+- **Path 7, Issues, Meadow Lakes: fail.** Main 0ae8ff517b, New Game, replay f835dd278d7312a1. Issues lists the laws in force by category ("Adopt income tax · No · State law since 2024"); opening one shows only "In force · State law · No · since July 1, 2024": no bill page, budget effect, polls or your position. Covered by `play-issues-law-page-and-what-shows` (waits on the owner's answer on the mocks). Proof: `docs/lanes/proof/confirmer-lane4/issues-budgets-board/`.
+- **Path 8, Budgets: fail.** Same life. The Borough of Matanuska-Susitna's fiscal 2024 budget, adopted July 1, 2024, with where it comes from and where it goes; no last year beside it, and at 1024×768 it scrolls (569 against 556 px). Covered by `play-prior-budgets-on-screen` and `play-budgets-every-government-political-process-style`.
+- **Path 9, campaign board, Murray: fail.** Main 516a0f9070, New Game, replay 1d3f0e18ca4ba7e5, after filing (Lane 3 path 4's replay). Your campaign shows money, volunteers, doors and who has heard from you, and a poll's price; no poll result, no signatures against needed or clerk's verdict (Murray asks none), no inbox and no team. Covered by `screens-campaign-board` (waits on the owner's look at the mock).
+- **Path 11, menus: fail.** Main 0ae8ff517b, Meadow Lakes. Budgets scrolls at 1024×768 (569 against 556 px; `issues-budgets-board/meadow-budgets-1024.jpg`), so not every menu fits; Issues fits at both sizes. The Calendar's kinds you can hide are #7100 and the one fit for every sheet is #7231, both still open. Fail 1 of 3.
+- **Not replayed:** 2 and 12 (people).

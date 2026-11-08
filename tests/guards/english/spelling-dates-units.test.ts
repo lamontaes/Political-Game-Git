@@ -129,7 +129,7 @@ describe("the project is written in American English", () => {
       "CLAUDE.md",
       "PATCH_NOTES.md",
       "src/core2/modules/people.ts",
-      "art/requests/asset-requests.json",
+      "docs/research/requests/age-of-majority-by-state.json",
       ".agents/skills/civic-prose/SKILL.md",
       ".claude/skills/civic-prose/SKILL.md",
       "docs/decisions/DECISION-LOG.md",
@@ -207,7 +207,7 @@ describe("the sweep bites", () => {
         `${text}\nexport const probe = "Conference is not modelled.";\n`,
     },
     {
-      file: "art/requests/asset-requests.json",
+      file: "docs/research/requests/age-of-majority-by-state.json",
       inject: (text) => text.replace(/": "([^"]* [^"]*)"/, '": "$1 in grey"'),
     },
     {

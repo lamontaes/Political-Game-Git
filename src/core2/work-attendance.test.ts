@@ -131,7 +131,6 @@ function money(core: CoreState) {
     },
     cashSources: core.work.cashSources,
     cashSelections: core.work.cashActSelections,
-    legacy: core.work.latestLegacyCashResultByPerson,
     oldResults: core.work.lastResultByJob,
   });
 }

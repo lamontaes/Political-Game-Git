@@ -269,9 +269,16 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          # The title screen shows `v` and the number (displayVersion).
-          grep -rqF "v${NEXT_VERSION}" dist/client/assets || {
-            echo "::error::The built client does not carry version ${NEXT_VERSION}."
+          # The title carries no version (owner, Nov 8); the player sees the version in
+          # Patch notes, which the game reads from PATCH_NOTES.md. The newest release on
+          # that screen, and the package the build stamps, must be the new version.
+          shown="$(node --import tsx -e 'import { readFileSync } from "node:fs"; import { patchNoteReleases } from "./src/bench/patch-notes.ts"; process.stdout.write(patchNoteReleases(readFileSync("PATCH_NOTES.md", "utf8"))[0]?.version ?? "")')"
+          [[ "$shown" == "${NEXT_VERSION}" ]] || {
+            echo "::error::Patch notes show ${shown:-no release} as the newest, not ${NEXT_VERSION}."
+            exit 1
+          }
+          [[ "$(jq -er '.version' package.json)" == "${NEXT_VERSION}" ]] || {
+            echo "::error::package.json does not carry version ${NEXT_VERSION}."
             exit 1
           }
 
@@ -426,7 +433,7 @@ jobs:
           # delta touches only release metadata, so when main has moved the
           # same delta is laid onto main's new tip, provided every file it
           # touches is still byte-identical to the validated parent. Anything
-          # else is left for the next push, whose run releases what is pending.
+          # else is left for the next package run, which releases what is pending.
           for attempt in 1 2 3 4 5; do
             remote_head="$(git ls-remote origin refs/heads/main | awk '{print $1}')"
             if [[ "$remote_head" == "$SOURCE_SHA" ]]; then
@@ -437,7 +444,17 @@ jobs:
               while IFS=$'\t' read -r status path; do
                 if [[ "$(git rev-parse -q --verify "${SOURCE_SHA}:${path}" || true)" != \
                       "$(git rev-parse -q --verify "${main_tip}:${path}" || true)" ]]; then
-                  echo "::warning::main changed $path after the candidate was validated. Nothing was published; the next push releases what is pending."
+                  # A consumed declaration that was reworded after validation is
+                  # still consumed: the release deletes it, and what was
+                  # validated (its text at the validated parent) is what the
+                  # patch notes carry. Only a file the release rewrites (version,
+                  # lockfile, patch notes, ledger) changing means another release
+                  # landed, and this one stands down.
+                  if [[ "$status" == "D" && "$path" == docs/release/changes/*.md ]]; then
+                    echo "::warning::main reworded $path after the candidate was validated; the release consumes it as validated and the reworded text is not in this release's notes."
+                    continue
+                  fi
+                  echo "::warning::main changed $path after the candidate was validated. Nothing was published; the next two-hourly or requested package run releases what is pending."
                   exit 0
                 fi
               done < "$delta"
@@ -473,7 +490,7 @@ jobs:
             fi
             echo "main moved during publication (attempt $attempt); laying the release onto the new tip."
           done
-          echo "::warning::main kept moving through five attempts. Nothing was published; the next push releases what is pending."
+          echo "::warning::main kept moving through five attempts. Nothing was published; the next package run releases what is pending."
           exit 0
 
       # The publish ledger. release-package.yml packages the newest record,

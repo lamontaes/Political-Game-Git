@@ -1,10 +1,12 @@
 {
   "schema": "english-parts/1",
   "register": "bill-paper",
-  "description": "Lines a bill's paper carries beside its text, worded from the bill's own records: the warning the body's lawyer gives on a power the authority row marks disputed (governing phase B, gov-m3-01-city-attorney-warning-on-the-bill). Said of the body, never of the player, so it fits any bill.",
+  "description": "Lines a bill's paper carries beside its text, worded from the bill's own records: the warning the body's lawyer gives on a power the authority row marks disputed (governing phase B, gov-m3-01-city-attorney-warning-on-the-bill). Said of the body, never of the player, so it fits any bill. Also the result of a floor vote, worded from the roll call's own counts (legislation, Nov 8).",
   "slots": {
     "lawyer": "The body's lawyer by the title the records give, in lower case: city attorney, county attorney, town counsel.",
-    "body": "The body that would pass the bill, as the paper names it, without its article: council, County Board of Commissioners, House of Representatives. A full name may end in s, so no line makes it possessive."
+    "body": "The body that would pass the bill, as the paper names it, without its article: council, County Board of Commissioners, House of Representatives. A full name may end in s, so no line makes it possessive.",
+    "yes": "The yes votes the roll call counted, as a number.",
+    "no": "The no votes the roll call counted, as a number."
   },
   "maxWords": 16,
   "parts": [
@@ -24,6 +26,33 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-30",
+      "kind": "written"
+    },
+    {
+      "key": "bill-paper.result.adopted",
+      "move": "result",
+      "text": "Adopted, {yes} to {no}.",
+      "origin": "authored",
+      "author": "Legislation session",
+      "date": "2026-11-08",
+      "kind": "written"
+    },
+    {
+      "key": "bill-paper.result.passed",
+      "move": "result",
+      "text": "Passed, {yes} to {no}.",
+      "origin": "authored",
+      "author": "Legislation session",
+      "date": "2026-11-08",
+      "kind": "written"
+    },
+    {
+      "key": "bill-paper.result.defeated",
+      "move": "result",
+      "text": "Defeated, {no} to {yes}.",
+      "origin": "authored",
+      "author": "Legislation session",
+      "date": "2026-11-08",
       "kind": "written"
     }
   ]

@@ -34,7 +34,7 @@ import filingOffice from "../../../data/research/elections/filing-office.json" w
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
-import { corePlaceByJurisdictionId, corePlaceByKey } from "../place-lookup";
+import { corePlaceByKey } from "../place-lookup";
 import {
   electionsParameter,
   municipalFilingDeadline,
@@ -48,6 +48,7 @@ import { addDays, makeIsoDate } from "../kernel/dates";
 import { FILING_LEAD_SOURCE } from "../gov-rules/town-election-calendar";
 import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./offices";
 import { stableHash } from "../kernel/ids";
+import { placeStateKey } from "../place-map";
 
 export const ELECTIONS_MODULE_ID = "core2-elections-v1";
 
@@ -139,7 +140,8 @@ export interface PetitionRow {
   readonly opened: string;
   /** The last day to hand the petition in. */
   readonly due: string;
-  readonly signers: readonly PetitionSigner[];
+  /** How many have signed; each signature is its own row (`petitionSigners`), so a signature costs one write however long the petition is. */
+  readonly signed: number;
   /** The clerk's check: the day, the signatures that stood and those struck. */
   readonly check?: {
     readonly on: string;
@@ -210,6 +212,10 @@ export const ELECTIONS_MODULE: CoreModule = {
       // the clerk's check (`openPetition`, `signPetition`).
       petitions: {
         indexes: { byContest: { fields: ["contestId"] } },
+      },
+      // One row a signature (`signPetition`), read by `petitionSigners`.
+      petitionSignatures: {
+        indexes: { byFiling: { fields: ["filingId"] } },
       },
       town: {},
       // How the law settled an exact tie: a lot, or a deciding body's votes.
@@ -495,8 +501,8 @@ export function openElections(core: CoreState): void {
   registerElectorate(core);
   const api = coreAPI(core);
   const place = corePlaceByKey(api.state.placeMetadata.placeKey ?? "");
-  if (!place?.stateJurisdictionKey) throw new Error("Elections need the town.");
-  const stateKey = place.stateJurisdictionKey;
+  const stateKey = placeStateKey(place?.key);
+  if (!place || !stateKey) throw new Error("Elections need the town.");
   const geoid = place.sourceGeoid ?? place.key;
   table(api, "town").put({
     id: "town",
@@ -739,6 +745,34 @@ function town(api: CoreAPI) {
   };
 }
 
+/**
+ * The contests of a body's at-large seats held on one contest's day, in
+ * seat order: the same office, the same election day, seats without a
+ * district, no special election and no primary. One contest alone where the
+ * seat isn't at large or is up by itself.
+ */
+export function atLargeGroup(
+  api: CoreAPI,
+  contest: ContestRow,
+): readonly ContestRow[] {
+  const seatsTable = api.moduleState(OFFICES_MODULE_ID).table("seats");
+  const atLarge = (row: ContestRow) =>
+    !row.special &&
+    !row.primaryDate &&
+    !(seatsTable.get(row.seatId) as { district?: string | null } | undefined)
+      ?.district;
+  if (!atLarge(contest)) return [contest];
+  const group = (
+    api
+      .moduleState(ELECTIONS_MODULE_ID)
+      .table("contests")
+      .query("byOffice", [contest.officeId]) as unknown as ContestRow[]
+  )
+    .filter((row) => row.electionDate === contest.electionDate && atLarge(row))
+    .sort((a, b) => a.seatId.localeCompare(b.seatId, "en", { numeric: true }));
+  return group.length > 1 ? group : [contest];
+}
+
 /** Contests whose filing is open today, soonest deadline first. */
 export function openContests(api: CoreAPI): readonly ContestRow[] {
   const today = api.state.date;
@@ -917,11 +951,10 @@ function playerMayFileWith(
   // A district seat: only the home's own district.
   if (seat?.district)
     return seat.district === homeDistrict(api, contest.officeId, office);
-  // The at-large seats up that day are one race: the player is offered it
-  // once, as the first of those seats' contests whose filing is open. Each
-  // at-large seat keeps its own contest (one winner a seat), so the player's
-  // candidacy is for that seat.
-  // stopgapId: SG-GOV-at-large-race-one-contest
+  // The at-large seats up that day are one race (the voting engine counts
+  // them together and seats the top finishers, `atLargeGroup`): the player is
+  // offered it once, as the first of those seats' contests whose filing is
+  // open, and runs against the whole field for all of its seats.
   const atLarge = sameDay
     .filter((other) => {
       const s = offices.table("seats").get(other.seatId) as
@@ -929,7 +962,6 @@ function playerMayFileWith(
       return !s?.district && filingWindowOpen(other, api.state.date);
     })
     .sort((a, b) => a.seatId.localeCompare(b.seatId, "en", { numeric: true }));
-  if (atLarge.length > 1) api.stopgap("SG-GOV-at-large-race-one-contest");
   return atLarge[0]?.id === contest.id;
 }
 
@@ -1033,8 +1065,8 @@ export function checkEligibility(
     holdsSeat ||
     (contest.level === "federal" || contest.level === "state"
       ? national
-        ? stateOfPlace(person.placeId) !== null
-        : stateOfPlace(person.placeId) === town(api).stateKey
+        ? placeStateKey(person.placeId) !== null
+        : placeStateKey(person.placeId) === town(api).stateKey
       : person.placeId === town(api).townPlaceId);
   const checks: RequirementCheck[] = [
     {
@@ -1192,13 +1224,6 @@ export function fileCandidacy(
 }
 
 /** The state a place lies in, from the place records. */
-function stateOfPlace(placeId: string): string | null {
-  const place = corePlaceByJurisdictionId(placeId as never);
-  // An official kept at the state level is placed at the state itself.
-  if (!place) return /^US-[A-Z]{2}$/.test(placeId) ? placeId : null;
-  return place.stateJurisdictionKey ?? null;
-}
-
 /** The party organization a ballot label names in the town's state, by name. */
 function partyIdFor(api: CoreAPI, label: string): string | null {
   const key = partyName(label)?.trim().toLowerCase();
@@ -1335,7 +1360,7 @@ export function openPetition(
     needed: input.needed,
     opened: filing.filedOn,
     due: petitionDue(api, filing),
-    signers: [],
+    signed: 0,
   };
   table(api, "petitions").put(row as unknown as ModuleRow);
   return row;
@@ -1368,10 +1393,18 @@ export function signPetition(
   if (!petitionCirculating(api, filingId)) return false;
   const petition = petitionOf(api, filingId)!;
   if (personId === petition.personId) return false;
-  if (petition.signers.some((s) => s.personId === personId)) return false;
+  const signatureId = `${filingId}:${personId}`;
+  if (table(api, "petitionSignatures").get(signatureId)) return false;
+  table(api, "petitionSignatures").put({
+    id: signatureId,
+    filingId,
+    personId,
+    on: api.state.date,
+    via,
+  } as unknown as ModuleRow);
   table(api, "petitions").put({
     ...petition,
-    signers: [...petition.signers, { personId, on: api.state.date, via }],
+    signed: petition.signed + 1,
   } as unknown as ModuleRow);
   return true;
 }
@@ -1381,9 +1414,19 @@ export function petitionSignerIds(
   api: CoreAPI,
   filingId: string,
 ): ReadonlySet<string> {
-  return new Set(
-    (petitionOf(api, filingId)?.signers ?? []).map((s) => s.personId),
-  );
+  return new Set(petitionSigners(api, filingId).map((s) => s.personId));
+}
+
+/** The signatures on a filing's petition, in the order they were given. */
+export function petitionSigners(
+  api: CoreAPI,
+  filingId: string,
+): readonly PetitionSigner[] {
+  return (
+    table(api, "petitionSignatures").query("byFiling", [
+      filingId,
+    ]) as unknown as (PetitionSigner & { filingId: string })[]
+  ).map(({ personId, on, via }) => ({ personId, on, via }));
 }
 
 /** The kind of the public record of a clerk's petition check. */
@@ -1435,7 +1478,7 @@ export function keepPetitionCheck(
       contestId: contest.id,
       office: contest.title,
       status,
-      signatures: String(petition.signers.length),
+      signatures: String(petition.signed),
       valid: String(check.valid),
       needed: String(petition.needed),
       filedWith: filing.filedWith,
@@ -1494,3 +1537,13 @@ export function incumbentOf(api: CoreAPI, contestId: string): TermRow | null {
         .get(contest.incumbentTermId) as unknown as TermRow)
     : null;
 }
+
+// Re-exported so other engine families import through this entry, not the file (families guard).
+export {
+  campaignParameter,
+  personStance,
+  PLATFORM_QUESTIONS,
+} from "../campaign-views";
+export { INTEREST_GROUPS_MODULE_ID, meetingsOn } from "./interest-groups";
+export { groupDraw, joinsGroup } from "./interest-groups";
+export { foundMovement, movementGroupId } from "./interest-groups";

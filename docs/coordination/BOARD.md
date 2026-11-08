@@ -6,7 +6,7 @@ The board says who is building what today and how work moves. Only the CTO write
 
 ## Orders from the CTO (Oct 15, early; read at the start of every turn)
 
-**PLAY (screens).** The owner's menu mockups are on main at `docs/ui/mocks/screens-2026-10-14/` (`README.md`, `shots/` for the 19 screens, `page/` to view in a browser). Build the screens to that look and feel, in the register's order (`docs/coordination/DECISION-REGISTER.md`, "Politics opens as a compact hub"), with the owner's caveats:
+**PLAY (screens).** The Oct 14 mockups were deleted at the owner's word, Nov 5; menu screens follow the look the owner locked on Nov 5 (dark see-through textured panel, no boxes, glowing hover, lit selection, portraits in light, data not sliders or bar graphs, no checkboxes); the CTO holds the clickable mock, and no menu is built until the owner approves its screen. Build the screens in the register's order (`docs/coordination/DECISION-REGISTER.md`, "Politics opens as a compact hub"), with the owner's caveats:
 
 1. Ignore the thick or odd borders in the shots; they are regeneration artifacts, not the design.
 2. Nothing that breaks immersion. No "what she thinks of you", no "Your mayor", no "Met Jan 6" style labels on a person card. A card shows the record as the person would be known: name, relation or office, where they live, their work, how you know them.

@@ -44,10 +44,23 @@ try {
     .locator('[data-tab="who"]')
     .first()
     .evaluate((e) => e.click());
-  await page.locator(".screen-heading").waitFor();
-  assert.equal(await page.locator(".screen-heading .name").innerText(), name);
+  // The approved You screen (owner, Nov 7; docs/mocks/2026-11-07-approved, you-ol-g):
+  // the name over a bust, sections as header strips, first person throughout.
+  await page.locator(".strip-screen .strip-name").waitFor();
+  assert.equal(
+    await page.locator(".strip-screen .strip-name").innerText(),
+    name,
+  );
   assert.equal(await page.locator(".screen-backdrop").count(), 0);
-  assert.equal(await page.locator(".screen-portrait").count(), 1);
+  assert.equal(await page.locator(".strip-screen .mxbust img").count(), 1);
+  const heads = await page.locator(".strip-screen .sechead").allInnerTexts();
+  assert.ok(heads.length >= 1, "no section strips");
+  assert.ok(
+    !(await page.locator("#sheet-body").innerText()).match(
+      /\bYou (are|have|live|work)\b/,
+    ),
+    "a sentence on You is not in the first person",
+  );
   assert.ok(
     !(await page.locator("#sheet-body").innerText()).includes("undefined"),
   );
@@ -58,7 +71,7 @@ try {
   await page.screenshot({
     path: process.argv[2] ?? "test-results/character.png",
   });
-  const first = page.locator(".record-person").first();
+  const first = page.locator(".strip-screen .hispeople .nm").first();
   if (await first.count()) {
     const familyName = await first.innerText();
     await first.click();
@@ -89,7 +102,7 @@ try {
     .locator('[data-tab="who"]')
     .first()
     .evaluate((e) => e.click());
-  await page.locator(".screen-heading").waitFor();
+  await page.locator(".strip-screen .strip-name").waitFor();
   assert.equal(await page.locator("#sheet-media img").count(), 0);
   await page.setViewportSize({ width: 1024, height: 768 });
   await page.waitForTimeout(100);

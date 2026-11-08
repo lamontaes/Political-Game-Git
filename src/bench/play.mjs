@@ -1,4 +1,4 @@
-/* global document, fetch, URLSearchParams, setTimeout, setInterval, clearInterval, window, localStorage, ResizeObserver, Image, __RELEASE_VERSION__ */
+/* global document, fetch, URLSearchParams, setTimeout, setInterval, clearInterval, window, localStorage, ResizeObserver, Image */
 // The game screen on the new core: one scene, the player card, the menus.
 // Words on screen are record data, engine text and control names only.
 import { makeButton, buttonRow, buttonTray } from "./ui/button.mjs";
@@ -15,39 +15,44 @@ import {
 } from "./ui/talk-box.mjs";
 import { showToast, hideToast } from "./ui/toast.mjs";
 import { mountRail } from "./ui/rail.mjs";
-import { districtMap, partyLegend, partyRoster } from "./ui/map.mjs";
+import { districtMap } from "./ui/map.mjs";
 import { chamberHeader } from "./ui/chamber.mjs";
-import { partyBar } from "./ui/party-bar.mjs";
 import { memberCard } from "./ui/member-card.mjs";
-import { seatChart } from "./ui/seat-chart.mjs";
-import { voteBar } from "./ui/vote-bar.mjs";
 import { dateList } from "./ui/date-list.mjs";
 import { pager } from "./ui/pager.mjs";
-import { officeScreen } from "./ui/office-screen.mjs";
 import { splitScreen } from "./ui/split-screen.mjs";
-import { section } from "./ui/section.mjs";
 import { makeTab, tabBar, chooseTab } from "./ui/tab.mjs";
-import { plate, factPlates, chips, plateRow } from "./ui/plate.mjs";
+import { plate } from "./ui/plate.mjs";
 import { timeline } from "./ui/timeline.mjs";
-import { makeCard } from "./ui/card.mjs";
 import { townRow } from "./ui/town-row.mjs";
 import { debateCard, speechCard } from "./ui/campaign-acts.mjs";
-import { listRow, personRow, factRow, noteLine } from "./ui/list-row.mjs";
-import { fillArtwork, picture as pictureFrame } from "./ui/picture.mjs";
-import { barChart, columnChart, donutChart } from "./ui/chart.mjs";
+import { devBribePanel } from "./ui/dev-bribe.mjs";
+import { devBillsPanel } from "./ui/dev-bills.mjs";
+import { devRecordsSection } from "./ui/dev-records.mjs";
+import { devPersonSection } from "./ui/dev-person.mjs";
+import { devMemorySection } from "./ui/dev-memory.mjs";
+import { devWatchSections } from "./ui/dev-watch.mjs";
+import { devScenePanel } from "./ui/dev-scene.mjs";
+import { devCampaignPanel } from "./ui/dev-campaign.mjs";
+import { devRunPanel } from "./ui/dev-run.mjs";
 import {
-  select,
-  searchBox,
-  checkboxSetting,
-  optionsOf,
-  statusLine,
-  numberBox,
-} from "./ui/fields.mjs";
+  devModeOn,
+  onDevMode,
+  restoreDevMode,
+  setDevMode,
+} from "./ui/dev-setting.mjs";
+import {
+  colorBlindOn,
+  restoreColorBlind,
+  setColorBlind,
+} from "./ui/palette-setting.mjs";
+import { listRow, factRow, noteLine } from "./ui/list-row.mjs";
+import { fillArtwork, picture as pictureFrame } from "./ui/picture.mjs";
+import { select, optionsOf, numberBox } from "./ui/fields.mjs";
 import { lookRow } from "./ui/look-row.mjs";
 import { termWord } from "./ui/term.mjs";
-import { journalPage } from "./ui/journal-page.mjs";
+import { watchTerms } from "./ui/term-mark.mjs";
 import { recordScreen } from "./ui/screen.mjs";
-import { listScreen, listEntry } from "./ui/list-screen.mjs";
 import { roomPeople, clockLines } from "./ui/room.mjs";
 import { calendarScreen } from "./ui/calendar.mjs";
 import {
@@ -59,25 +64,65 @@ import {
 } from "../english/plain-words.mjs";
 /** A government's sum in a readable unit ("$5.2 trillion", "$48,300"). */
 const roundedMoney = (minor) => moneyWords(minor, { rounded: true });
-import { peopleWeb } from "./ui/people-web.mjs";
+import { newsBoard } from "./ui/news-board.mjs";
+import { peopleScreen } from "./ui/people-screen.mjs";
+import { ballotPaper } from "./ui/ballot-paper.mjs";
+import { electionNight as electionNightScreen } from "./ui/election-night.mjs";
+import { rosterScreen } from "./ui/roster-screen.mjs";
+import { guideScreen } from "./ui/guide-screen.mjs";
+import { travelScreen } from "./ui/travel-screen.mjs";
 import { billPaper } from "./ui/bill-paper.mjs";
+import { billStageSections } from "./ui/bill-stage.mjs";
 import { meetingItem } from "./ui/meeting-item.mjs";
 import { draftCard } from "./ui/draft-card.mjs";
-import { bold, line, prose, heading, labeled, smallText } from "./ui/text.mjs";
+import { line, prose, heading, labeled, smallText } from "./ui/text.mjs";
 import {
-  newspaperScreen,
   engraveMasthead,
   readerBody,
   readerMore,
   sameFor,
 } from "./ui/newspaper.mjs";
 import { show, mountCloseButtons, mountPanelHeads } from "./ui/panel.mjs";
+import {
+  stripScreen,
+  stripSection,
+  perkList,
+  introText,
+  peopleSentence,
+  nameLink,
+  dotRows,
+  stripBoard,
+  typedRow,
+  departmentRow,
+  journalScreen,
+  moneyBoard,
+  settingRow,
+  quitButton,
+  optionsBoard,
+  patchNotesScreen,
+  savedLifeRow,
+  leaderBlock,
+  seatNumbers,
+  voteRows,
+  moneyFigure,
+  deskBill,
+  deskTitle,
+  deskList,
+  candidate,
+  rosterTitle,
+  rosterCols,
+  rosterSide,
+} from "./ui/strips.mjs";
+import { playAsList, playAsDetail } from "./ui/play-as.mjs";
 mountPanelHeads();
 mountCloseButtons();
 mountSpeakers();
 const $ = (id) => document.getElementById(id);
 let me;
 let packet;
+// The game's date is the clock's, the packet's; me.date is only the day the
+// screen loaded (P15, C10: the News kept the opening day).
+const today = () => packet?.at?.date ?? me.date;
 let talk;
 let openTab;
 let busy = false;
@@ -87,14 +132,6 @@ async function api(path, method = "GET") {
   const value = await response.json();
   if (!response.ok) throw new Error(value.error);
   return value;
-}
-/** `v` and the release number: the bundler's define when built, else the server's. */
-async function displayVersion() {
-  const number =
-    typeof __RELEASE_VERSION__ === "string"
-      ? __RELEASE_VERSION__
-      : (await api("/api/version")).version;
-  return `v${number}`;
 }
 const post = (path) => api(path, "POST");
 /** The player card's date, and the time under it: the only place either appears. */
@@ -242,17 +279,11 @@ function showNewsSurface(news) {
     controls.opening?.closeNews ?? "",
   );
   $("news-surface-open").onclick = () => {
-    coachUsed("news-surface");
     hideNewsToast();
     openNewsReader(news);
   };
-  $("news-surface-close").onclick = () => {
-    coachUsed("news-surface");
-    hideNewsToast();
-  };
-  showToast($("news-surface"), controls.opening?.newsToastSeconds ?? 8, () =>
-    coachUsed("news-surface"),
-  );
+  $("news-surface-close").onclick = hideNewsToast;
+  showToast($("news-surface"), controls.opening?.newsToastSeconds ?? 8);
 }
 function openNewsReader(news) {
   const [lead, ...rest] = news.stories;
@@ -263,7 +294,7 @@ function openNewsReader(news) {
   };
   $("news-reader-masthead").textContent = outlet.name ?? controls.news.title;
   engraveMasthead($("news-reader-masthead"), outlet);
-  $("news-reader-date").textContent = dateWords(me.date, { weekday: true });
+  $("news-reader-date").textContent = dateWords(today(), { weekday: true });
   $("news-reader").className = `panel paper paper-${
     ["broadsheet", "modern", "tabloid", "weekly"].includes(outlet.layout)
       ? outlet.layout
@@ -280,33 +311,6 @@ $("news-reader-close").addEventListener("click", () =>
   show("news-reader", false),
 );
 
-/**
- * The first choices, pointed out one at a time: the news, the people you
- * know, then living the day. Each glows until it is used; nothing to read.
- */
-const COACH_ORDER = ["news-surface", "people-tab", "day"];
-const coachDone = new Set();
-const coachNode = (id) =>
-  id === "people-tab"
-    ? document.querySelector('#rings [data-tab="people"]')
-    : $(id);
-/** Glows the first choice not yet used; each clears however it is used. */
-function coachRender() {
-  for (const id of COACH_ORDER) coachNode(id)?.classList.remove("coach");
-  const next = COACH_ORDER.find((id) => {
-    const node = coachNode(id);
-    return !coachDone.has(id) && node && !node.hidden;
-  });
-  if (next) coachNode(next).classList.add("coach");
-}
-function coachUsed(...ids) {
-  for (const id of ids) coachDone.add(id);
-  coachRender();
-}
-function coachFirstChoices() {
-  coachDone.clear();
-  coachRender();
-}
 // Escape opens only options and quit (M6 work order), the opening included.
 document.addEventListener("keydown", (event) => {
   if (event.key !== "Escape") return;
@@ -335,12 +339,13 @@ async function renderCard() {
   me.names = { ...me.names, [me.id]: card.name };
   $("card-name").textContent = card.name;
   $("card-place").textContent = me.placeName;
-  setClock(packet?.at ?? { date: me.date, minuteOfDay: me.minuteOfDay ?? 0 });
+  setClock(packet?.at ?? { date: today(), minuteOfDay: me.minuteOfDay ?? 0 });
 }
 
 // The Guide's search, kept so an underlined term opens straight to it.
 // The government whose budget the Budgets tab shows, once the player picks one.
 let budgetGovernment;
+let budgetLine;
 // The level and the other state the Government tab shows, once the player picks them.
 let governmentLevel;
 let governmentState = "";
@@ -355,6 +360,21 @@ let guideQuery = "";
 let guideTerms = new Map();
 api("/api/guide?q=").then((rows) => {
   guideTerms = new Map(rows.map((row) => [row.term.toLowerCase(), row]));
+  // Every civic term in player text is underlined until learned, wherever it appears.
+  watchTerms(document.getElementById("game"), {
+    terms: guideTerms,
+    learned,
+    hooks: {
+      onHover: (node, key) => showTip(node, key),
+      onLeave: hideTipSoon,
+      onClose: () => show("tip", false),
+      onOpen: (text) => {
+        show("tip", false);
+        guideQuery = text;
+        openSheet("guide");
+      },
+    },
+  });
 });
 // Terms the player marked as learned lose their underline (kept in the Guide).
 const LEARNED_KEY = "ocd-learned-terms";
@@ -402,11 +422,28 @@ $("tip-learned").addEventListener("click", () => {
   } catch {
     // Without storage the underline returns next session.
   }
-  for (const node of document.querySelectorAll(".term"))
-    if (node.textContent.trim().toLowerCase() === tipTerm.key)
+  // Learned everywhere: every underline of the term, under any plural, goes at once.
+  for (const node of document.querySelectorAll(
+    `[data-term-key="${tipTerm.key}"], .term`,
+  ))
+    if (
+      node.dataset.termKey === tipTerm.key ||
+      node.textContent.trim().toLowerCase() === tipTerm.key
+    )
       node.classList.remove("term");
   show("tip", false);
 });
+/** The Guide's reset: every term the player marked learned is underlined again. */
+function resetLearned() {
+  learned.clear();
+  try {
+    localStorage.removeItem(LEARNED_KEY);
+  } catch {
+    // Without storage there is nothing kept to clear.
+  }
+  for (const node of document.querySelectorAll("[data-term-key]"))
+    node.classList.add("term");
+}
 /**
  * A label shown on screen, underlined when the whole label is a Guide term
  * (never a search through prose): hover shows its definition, and clicking
@@ -481,15 +518,6 @@ function renderPacket(value) {
   $("day").disabled = $("week").disabled = busy || open;
   show("continue", packet?.kind === "stop");
   if (packet) setClock(packet.at);
-  $("card-why").textContent = endedBy(packet);
-}
-
-/** What stopped the clock, from the stop's own records. */
-function endedBy(value) {
-  const words = controls.endedBy ?? {};
-  if (value?.kind !== "stop") return "";
-  const module = value.stop.modules[0];
-  return module ? (words[module.reasonKey] ?? words.moment ?? "") : "";
 }
 
 /** The newest line of the journal, bottom right. */
@@ -505,8 +533,14 @@ async function renderJournalNote() {
   $("journal-line").textContent = line;
   // A new line is a toast: it holds, fades and goes, or goes at once on its close.
   if (!line) hideToast($("journal-note"));
-  else if (line !== shownJournalLine)
+  else if (line !== shownJournalLine) {
     showToast($("journal-note"), controls.opening?.newsToastSeconds ?? 8);
+    // A new line since the Journal was last open: a dot on its icon until it is read.
+    if (shownJournalLine && openTab !== "journal")
+      document
+        .querySelector('#rings [data-tab="journal"]')
+        ?.classList.add("unread");
+  }
   shownJournalLine = line;
 }
 async function refresh(scene = {}) {
@@ -538,16 +572,6 @@ async function refresh(scene = {}) {
   if (openTab) await openSheet(openTab);
 }
 
-/** Once a menu is on screen, apply each step in turn until the panel no longer scrolls. */
-function fitToPanel(steps) {
-  window.requestAnimationFrame(() => {
-    const body = $("sheet-body");
-    for (const step of steps) {
-      if (body.scrollHeight <= body.clientHeight + 1) return;
-      step();
-    }
-  });
-}
 async function act(path) {
   if (busy) return;
   busy = true;
@@ -577,6 +601,27 @@ async function act(path) {
     if (office) {
       if (office.reasonKey === "office-day.meeting") await inMeeting();
       else if (office.reasonKey === "office-day.desk") await atDesk();
+      else if (
+        office.reasonKey === "office-day.executive-order" ||
+        office.reasonKey === "office-day.emergency" ||
+        office.reasonKey === "office-day.state-of-the-state" ||
+        office.reasonKey === "office-day.own-hearing" ||
+        office.reasonKey === "office-day.appointment" ||
+        office.reasonKey === "office-day.budget-proposal"
+      )
+        await atOrders();
+      else if (
+        office.reasonKey === "office-day-federal.budget-request" ||
+        office.reasonKey === "office-day-federal.joint-address"
+      )
+        await atOrders();
+      else if (office.reasonKey === "office-day-federal.nomination")
+        await atNominations();
+      else if (
+        office.reasonKey === "office-day-federal.floor-vote" ||
+        office.reasonKey === "office-day-state.floor-vote"
+      )
+        await atFloor();
       busy = false;
       return act(
         `/api/resume?${new URLSearchParams({ kind: "stop", pauseId: result.packet.pauseId })}`,
@@ -753,6 +798,237 @@ function atDesk() {
   });
 }
 
+// The floor vote that holds a member of Congress's clock: each bill on tomorrow's floor with
+// the paper to read and Yes, No, Abstain or Decide for me (the engine never votes for the player).
+function atFloor() {
+  return new Promise((resolve) => {
+    const words = controls.meeting ?? {};
+    const draw = (bills) => {
+      if (!bills.length) return finish();
+      $("desk-items").replaceChildren(
+        ...bills.map((item) =>
+          billBlock(
+            item,
+            [],
+            [
+              ["yes", "no", "abstain", "own"].map((how) => {
+                const b = makeButton({
+                  className: "action",
+                  textContent: words[how] ?? how,
+                });
+                b.addEventListener("click", async () =>
+                  draw(
+                    await post(
+                      `/api/floor?${new URLSearchParams({ billId: item.billId, how })}`,
+                    ),
+                  ),
+                );
+                return b;
+              }),
+            ],
+            (billId) =>
+              openBillPaper(
+                billId,
+                (...nodes) => $("desk-items").replaceChildren(...nodes),
+                () => api("/api/floor").then(draw),
+                controls.bill?.backDesk,
+              ),
+          ),
+        ),
+      );
+    };
+    const finish = () => {
+      show("desk", false);
+      resolve();
+    };
+    show("desk", true);
+    api("/api/floor").then(draw);
+  });
+}
+
+// The orders the governor's staff brings for signature hold the clock: each is issued (or revoked) or set aside by the player.
+/** The president's open cabinet posts: who each could go to, best first, then the Senate's vote. */
+function atNominations() {
+  return new Promise((resolve) => {
+    const words = controls.nominations ?? {};
+    const draw = (posts) => {
+      if (!posts.length) return finish();
+      $("desk-items").replaceChildren(
+        ...posts.map((entry) => {
+          let nominee = "";
+          return plate(
+            entry.title,
+            // With no one to nominate the post can only be left open.
+            ...(entry.candidates.length
+              ? [
+                  select({
+                    options: [
+                      { value: "", label: words.own ?? "" },
+                      ...entry.candidates.map((c) => ({
+                        value: c.id,
+                        label: c.job ? `${c.name} · ${c.job}` : c.name,
+                      })),
+                    ],
+                    onChange: (value) => {
+                      nominee = value;
+                    },
+                  }),
+                ]
+              : [introText(words.nobody ?? "")]),
+            buttonRow(
+              ...["nominate", "leave"]
+                .filter((how) => how === "leave" || entry.candidates.length)
+                .map((how) => {
+                  const b = makeButton({
+                    className: "action",
+                    textContent: words[how] ?? "",
+                  });
+                  b.addEventListener("click", async () =>
+                    draw(
+                      await post(
+                        `/api/nominations?${new URLSearchParams({
+                          post: entry.post,
+                          ...(how === "leave" ? { how } : {}),
+                          ...(how === "nominate" && nominee
+                            ? { nomineeId: nominee }
+                            : {}),
+                        })}`,
+                      ),
+                    ),
+                  );
+                  return b;
+                }),
+            ),
+          );
+        }),
+      );
+    };
+    const finish = () => {
+      show("desk", false);
+      resolve();
+    };
+    show("desk", true);
+    api("/api/nominations").then(draw);
+  });
+}
+function atOrders() {
+  return new Promise((resolve) => {
+    const words = controls.orders ?? {};
+    const draw = (orders) => {
+      if (!orders.length) return finish();
+      $("desk-items").replaceChildren(
+        ...orders.map((item) => {
+          // An open cabinet post: the people it could go to, best first; left alone, the first stands.
+          let nominee = "";
+          const picker =
+            item.kind === "post"
+              ? [
+                  select({
+                    options: [
+                      { value: "", label: words["post-own"] ?? "" },
+                      ...item.candidates.map((c) => ({
+                        value: c.id,
+                        label: c.job ? `${c.name} · ${c.job}` : c.name,
+                      })),
+                    ],
+                    onChange: (value) => {
+                      nominee = value;
+                    },
+                  }),
+                ]
+              : [];
+          // The state budget: the change to each line, in steps of its amount, as the office panel's editor sets it.
+          const lines =
+            item.kind === "budget"
+              ? item.lines.map((row) =>
+                  labeled(
+                    `${row.name} ${moneyWords(row.amountMinor)}`,
+                    select({
+                      options: [-20, -10, 0, 10, 20].map((pct) => {
+                        const minor = Math.round((row.amountMinor * pct) / 100);
+                        return {
+                          value: minor,
+                          label: controls.budgetEditor[String(pct)],
+                          selected: row.changeMinor === minor,
+                        };
+                      }),
+                      onChange: async (changeMinor) => {
+                        await post(
+                          `/api/office/budget-line?${new URLSearchParams({ line: row.line, changeMinor })}`,
+                        );
+                      },
+                    }),
+                  ),
+                )
+              : [];
+          const kindWords = (how) =>
+            item.kind === "request" || item.kind === "joint"
+              ? words[`${item.kind}-${how}`]
+              : item.kind === "hearing"
+                ? words[`hearing-${how}`]
+                : item.kind === "address"
+                  ? words[`address-${how}`]
+                  : item.kind === "emergency"
+                    ? words[`emergency-${how}`]
+                    : item.kind === "post"
+                      ? words[`post-${how}`]
+                      : item.kind === "budget"
+                        ? words[`budget-${how}`]
+                        : how === "issue" && item.revoke
+                          ? words.revoke
+                          : words[how];
+          return plate(
+            item.kind === "request" || item.kind === "joint"
+              ? words[item.kind]
+              : item.kind === "hearing"
+                ? words.hearing
+                : item.kind === "address"
+                  ? words.address
+                  : item.kind === "emergency"
+                    ? words.emergency
+                    : item.kind === "budget"
+                      ? words.budget
+                      : (item.name ?? ""),
+            ...picker,
+            ...lines,
+            buttonRow(
+              ...(item.kind === "address"
+                ? ["issue"]
+                : ["issue", "decline"]
+              ).map((how) => {
+                const b = makeButton({
+                  className: "action",
+                  textContent: kindWords(how),
+                });
+                b.addEventListener("click", async () =>
+                  draw(
+                    await post(
+                      `/api/orders?${new URLSearchParams({
+                        entryId: item.entryId,
+                        how,
+                        ...(item.kind === "post" && nominee
+                          ? { nomineeId: nominee }
+                          : {}),
+                      })}`,
+                    ),
+                  ),
+                );
+                return b;
+              }),
+            ),
+          );
+        }),
+      );
+    };
+    const finish = () => {
+      show("desk", false);
+      resolve();
+    };
+    show("desk", true);
+    api("/api/orders").then(draw);
+  });
+}
+
 // ---- Election morning (owner, Oct 26, 2026: going to vote is a choice) ----
 // The narrator's morning from the election-day bank, a canvass for a
 // candidate before the polls close, then Go vote (the ballot at the polls)
@@ -860,42 +1136,27 @@ function electionNight(night) {
       : night.steps;
     let at = 0;
     const draw = () => {
-      const step = steps[at];
-      const last = at === steps.length - 1;
-      $("returns-title").textContent = night.title;
-      $("returns").classList.toggle("nation", Boolean(step.nation));
-      $("returns-lines").replaceChildren(
-        ...(step.nation ?? step).lines.map((line) => prose(line.text)),
+      $("returns").replaceChildren(
+        electionNightScreen({
+          title: night.title,
+          step: steps[at],
+          labels,
+          last: at === steps.length - 1,
+          onNext: async () => {
+            if (at < steps.length - 1) {
+              at += 1;
+              draw();
+              return;
+            }
+            await post(
+              `/api/election-night/watched?${new URLSearchParams({ id: me.id, contestId: night.contestId })}`,
+            );
+            show("returns", false);
+            $("game").classList.remove("cinema");
+            resolve();
+          },
+        }),
       );
-      $("returns-count").replaceChildren(
-        ...(step.nation
-          ? step.nation.races.map((race) =>
-              row(
-                race.state,
-                `${race.winnerParty} · ${labels.marginBy} ${race.marginPoints} ${labels.points}`,
-              ),
-            )
-          : step.totals.map((entry) =>
-              row(
-                entry.name,
-                `${entry.votes.toLocaleString("en-US")} ${entry.votes === 1 ? labels.vote : labels.votes}`,
-              ),
-            )),
-      );
-      $("returns-next").textContent = last ? labels.close : labels.next;
-    };
-    $("returns-next").onclick = async () => {
-      if (at < steps.length - 1) {
-        at += 1;
-        draw();
-        return;
-      }
-      await post(
-        `/api/election-night/watched?${new URLSearchParams({ id: me.id, contestId: night.contestId })}`,
-      );
-      show("returns", false);
-      $("game").classList.remove("cinema");
-      resolve();
     };
     $("game").classList.add("cinema");
     draw();
@@ -910,49 +1171,43 @@ function electionNight(night) {
 // are control names. The voting engine counts what is marked.
 function atThePolls(scene) {
   return new Promise((resolve) => {
+    const labels = {
+      ...controls.polling,
+      know: controls.polling?.know,
+      forRace: controls.polling?.forRace,
+    };
     const draw = (value) => {
       scene = value;
       $("backdrop").src = scene.backdrop.url;
       drawPeople(scene.people);
-      $("ballot-races").replaceChildren(
-        ...scene.contests.map((contest) => {
-          const mark = (candidateId) => async () => {
+      $("ballot").replaceChildren(
+        ballotPaper({
+          contests: scene.contests,
+          labels: { ...labels, blank: controls.polling?.leaveBlank },
+          onMark: async (contestId, candidateId) => {
             const result = await post(
               `/api/polling-place/mark?${new URLSearchParams({
-                contestId: contest.id,
+                contestId,
                 candidateId: candidateId ?? "",
               })}`,
             );
             if (result.pollingPlace) draw(result.pollingPlace);
             else finish();
-          };
-          const chosen = contest.marked;
-          const button = (text, candidateId) => {
-            const node = makeButton({
-              className: "action",
-              textContent: text,
-            });
-            if (chosen) {
-              node.disabled = true;
-              if (chosen.candidateId === candidateId)
-                node.classList.add("primary");
-            } else node.addEventListener("click", mark(candidateId));
-            return node;
-          };
-          return makeCard(
-            "race",
-            {},
-            heading(contest.title),
-            buttonRow(
-              ...contest.candidates.map((candidate) =>
-                button(
-                  [candidate.name, candidate.party].filter(Boolean).join(" · "),
-                  candidate.personId,
-                ),
-              ),
-              button(controls.polling?.leaveBlank ?? "", null),
-            ),
-          );
+          },
+          know: (personId) =>
+            api(
+              `/api/known?${new URLSearchParams({ id: me.id, other: personId })}`,
+            )
+              .then((c) => ({
+                name: c.name,
+                face: c.face,
+                summary: c.summary,
+              }))
+              .catch(() => null),
+          onLeave: async () => {
+            await post("/api/polling-place/leave");
+            finish();
+          },
         }),
       );
     };
@@ -960,11 +1215,6 @@ function atThePolls(scene) {
       show("ballot", false);
       $("game").classList.remove("cinema");
       resolve();
-    };
-    $("ballot-leave").textContent = controls.polling?.leave ?? "";
-    $("ballot-leave").onclick = async () => {
-      await post("/api/polling-place/leave");
-      finish();
     };
     $("game").classList.add("cinema");
     draw(scene);
@@ -975,13 +1225,14 @@ function atThePolls(scene) {
 // runs it to that day. A scene the director fires stops any of them there.
 for (const mode of ["day", "week"])
   $(mode).addEventListener("click", () => {
-    // Living on puts the evening's paper away and ends the first-choice glow.
+    // Living on puts the evening's paper away.
     hideNewsToast();
-    coachUsed(...COACH_ORDER);
     return act(`/api/advance?mode=${mode}`);
   });
 // Stories News held when it was last open: a dot on the rail's News icon until it is read.
-let seenNews = 0;
+// The first count a life is opened with is already read: a reload starts with
+// nothing unread, and only what arrives after it lights the dot (P12).
+let seenNews;
 async function newsCount() {
   const rows = await api(`/api/news?id=${encodeURIComponent(me.id)}`);
   // Every row News lists (its public records), the same rows its screen draws.
@@ -989,7 +1240,7 @@ async function newsCount() {
 }
 async function markNews(read) {
   const count = await newsCount();
-  if (read) seenNews = count;
+  if (read || seenNews === undefined) seenNews = count;
   document
     .querySelector('#rings [data-tab="news"]')
     ?.classList.toggle("unread", count > seenNews);
@@ -1215,7 +1466,8 @@ function renderFiling(value) {
     renderFiling(await post(`/api/filing/choose?${params}`));
   };
   // Each race told apart before the pick: its seat, its election day and
-  // who holds the seat now, from the contest's records.
+  // who holds the seat now, from the contest's records. It says nothing of what the
+  // office does (SG-SCREENS-office-hover-prose: no office-duties bank yet).
   const counter = controls.filing;
   const factsOf = (choice) => {
     const seat = value.seats?.[choice.action.contestId];
@@ -1303,21 +1555,12 @@ function partyRows(party) {
   if (party.member) {
     const m = party.member;
     // What the line stands on: the registration (the tie's own record, with
-    // the day it began) and the fit (the player's recorded views against the
-    // party's platform), each said as what it compares (owner, Nov 1: "Views
-    // fit close. How do you know?").
-    const fit =
-      m.agreement === null
-        ? ""
-        : ((words.fit ?? []).find((band) => m.agreement >= band.atLeast)
-            ?.label ?? "");
     const line = row(
       words.member,
       [
         words.registered
           .replace("{party}", m.name)
           .replace("{date}", dateWords(m.since)),
-        ...(fit ? [words.fitLine.replace("{fit}", fit)] : []),
       ].join(" · "),
     );
     // The tie's record, for the checks that read it.
@@ -1331,6 +1574,7 @@ function partyRows(party) {
     });
     b.addEventListener("click", async () => {
       await post(`/api/party/join?${new URLSearchParams({ partyId: p.id })}`);
+      partyTab = p.name;
       // Back to Parties, where joining happens, to show the new membership.
       openSheet("parties");
     });
@@ -1454,7 +1698,6 @@ async function campaignParts() {
       if (result.scene) {
         $("backdrop").src = result.scene.backdrop.url;
         drawPeople(result.scene.people);
-        $("card-why").textContent = campaignResult;
       }
       if (moment) await showStory(moment.recordId);
       if (!result.scene && !moment) reopenTrail(filing.id);
@@ -1503,7 +1746,6 @@ async function campaignParts() {
         closeSheet();
         $("backdrop").src = result.scene.backdrop.url;
         drawPeople(result.scene.people);
-        $("card-why").textContent = campaignResult;
         return;
       }
       reopenTrail(filing.id);
@@ -1521,139 +1763,200 @@ async function campaignParts() {
       );
       return b;
     };
-    // The acts are scenes you go to, never buttons on the tab (owner, Oct 20):
-    // they wait on the campaign trail in Travel; the tab keeps standing and results.
-    const trail = [
-      buttonRow(
-        ...(outings ?? []).map((choice) => {
-          // A grayed outing says why, from the records.
-          const why = choice.why
-            ? (controls.campaignUnavailable[choice.why.key] ?? "")
-                .replace("{price}", moneyWords(choice.why.priceMinor ?? 0))
-                .replace("{cash}", moneyWords(choice.why.cashMinor ?? 0))
-            : "";
-          const b = makeButton({
-            textContent: `${controls.campaignOutings[choice.outing]} · ${choice.hours} ${controls.campaignOutings.hours}${why ? ` · ${why}` : ""}`,
-            disabled: !choice.available,
-            title: why,
-          });
-          b.addEventListener("click", () =>
-            goOut(choice.outing, choice.outletId),
-          );
-          return b;
-        }),
-      ),
-      // stopgapId: SG-PLAY-campaign-acts-buttons
-      buttonRow(
-        button(controls.campaignActs.volunteer, "volunteer"),
-        button(controls.campaignActs.endorsement, "endorsement"),
-        button(controls.campaignActs.ad, "ad", { amountMinor: "5000" }),
-        button(controls.campaignActs.poll, "poll", {
-          sampleSize: String(pollSample),
-        }),
-      ),
-      // Mail to the town's households: the player sets what to spend.
-      (() => {
-        const dollarsOut = numberBox({
-          value: 50,
-          min: 0,
-          step: 1,
-          label: controls.campaignContribute.dollars,
-        });
-        const send = button(controls.campaignActs.mail, "mail", () => ({
-          amountMinor: String(Math.round(Number(dollarsOut.value) * 100)),
-        }));
-        send.dataset.testid = "campaign-mail";
-        return buttonRow(dollarsOut, send);
-      })(),
-      // The player's own money into the campaign: the amount is theirs to set.
-      (() => {
-        const dollarsIn = numberBox({
-          value: 0,
-          min: 0,
-          step: 1,
-          label: controls.campaignContribute.dollars,
-        });
-        const give = makeButton({
-          textContent: controls.campaignContribute.give,
-        });
-        give.addEventListener("click", () =>
-          act("contribute", {
-            amountMinor: String(Math.round(Number(dollarsIn.value) * 100)),
+    // The acts are scenes you go to: each is a place on the trail (the mock's pl-trail), its
+    // hours and why it is out of reach, and Go. Money, the speech and debates open their own
+    // controls beside the list.
+    const T = controls.campaignBoard;
+    const go = (onClick) => ({ label: T.go, onClick });
+    const entries = [
+      ...(outings ?? []).map((choice) => {
+        const why = choice.why
+          ? (controls.campaignUnavailable[choice.why.key] ?? "")
+              .replace("{price}", moneyWords(choice.why.priceMinor ?? 0))
+              .replace("{cash}", moneyWords(choice.why.cashMinor ?? 0))
+          : "";
+        return {
+          group: T.groupOut,
+          title: controls.campaignOutings[choice.outing],
+          load: async () => ({
+            facts: [
+              {
+                label: T.howLong,
+                value: `${choice.hours} ${controls.campaignOutings.hours}`,
+              },
+            ],
+            does: why ? [why] : [],
           }),
-        );
-        return buttonRow(dollarsIn, give);
-      })(),
-      speechCard({
-        words: controls.speech,
-        state: speechState,
-        venue,
-        onBegin: async () => {
-          speechState = await post("/api/campaign/speech/begin");
-          reopenTrail(filing.id);
+          ...(choice.available
+            ? { go: go(() => goOut(choice.outing, choice.outletId)) }
+            : {}),
+        };
+      }),
+      ...[
+        ["volunteer", undefined],
+        ["endorsement", undefined],
+        ["ad", { amountMinor: "5000" }],
+        ["poll", { sampleSize: String(pollSample) }],
+      ].map(([kind, extra]) => ({
+        group: T.groupAsk,
+        title: controls.campaignActs[kind],
+        load: async () => ({}),
+        // stopgapId: SG-PLAY-campaign-acts-buttons
+        go: go(() => act(kind, extra)),
+      })),
+      {
+        group: T.groupMoney,
+        title: controls.campaignActs.mail,
+        load: async () => {
+          const dollarsOut = numberBox({
+            value: 50,
+            min: 0,
+            step: 1,
+            label: controls.campaignContribute.dollars,
+          });
+          const send = button(controls.campaignActs.mail, "mail", () => ({
+            amountMinor: String(Math.round(Number(dollarsOut.value) * 100)),
+          }));
+          send.dataset.testid = "campaign-mail";
+          return { nodes: [buttonRow(dollarsOut, send)] };
         },
-        onPick: async (choice) => {
-          speechState = await post(
-            `/api/campaign/speech/pick?${new URLSearchParams({ key: choice.key })}`,
+      },
+      {
+        group: T.groupMoney,
+        title: controls.campaignContribute.give,
+        load: async () => {
+          const dollarsIn = numberBox({
+            value: 0,
+            min: 0,
+            step: 1,
+            label: controls.campaignContribute.dollars,
+          });
+          const give = makeButton({
+            textContent: controls.campaignContribute.give,
+          });
+          give.addEventListener("click", () =>
+            act("contribute", {
+              amountMinor: String(Math.round(Number(dollarsIn.value) * 100)),
+            }),
           );
-          reopenTrail(filing.id);
+          return { nodes: [buttonRow(dollarsIn, give)] };
         },
-        onGive: async () => {
-          const result = await post(
-            `/api/campaign/speech/give?${new URLSearchParams({ filingId: filing.id, venue: venue.value })}`,
-          );
-          speechState = null;
-          campaignResult = `${result.reached} · +${result.warmer} · −${result.cooler} · ${result.retold} ${controls.speech.retold}`;
-          // A speech is seen where it was given, with the people it reached.
-          closeSheet();
-          $("backdrop").src = result.scene.backdrop.url;
-          drawPeople(result.scene.people);
-          $("card-why").textContent = campaignResult;
+      },
+      {
+        group: T.groupSpeak,
+        title: T.speech,
+        load: async () => ({
+          nodes: [
+            speechCard({
+              words: controls.speech,
+              state: speechState,
+              venue,
+              onBegin: async () => {
+                speechState = await post("/api/campaign/speech/begin");
+                reopenTrail(filing.id);
+              },
+              onPick: async (choice) => {
+                speechState = await post(
+                  `/api/campaign/speech/pick?${new URLSearchParams({ key: choice.key })}`,
+                );
+                reopenTrail(filing.id);
+              },
+              onGive: async () => {
+                const result = await post(
+                  `/api/campaign/speech/give?${new URLSearchParams({ filingId: filing.id, venue: venue.value })}`,
+                );
+                speechState = null;
+                campaignResult = `${result.reached} · +${result.warmer} · −${result.cooler} · ${result.retold} ${controls.speech.retold}`;
+                // A speech is seen where it was given, with the people it reached.
+                closeSheet();
+                $("backdrop").src = result.scene.backdrop.url;
+                drawPeople(result.scene.people);
+              },
+            }),
+          ],
+        }),
+      },
+      // A debate the outlet invited the candidates to: one position (or a pass) on each question it asks.
+      ...(debates ?? []).map((debate) => ({
+        group: T.groupSpeak,
+        title: controls.debate.title ?? T.debate,
+        load: async () => ({
+          nodes: [
+            debateCard({
+              words: controls.debate,
+              debate,
+              questionLabel: policyLabel,
+              onAnswer: async (answers) => {
+                await post(
+                  `/api/campaign/debate?${new URLSearchParams({
+                    debateId: debate.id,
+                    answers: JSON.stringify(answers),
+                  })}`,
+                );
+                reopenTrail(filing.id);
+              },
+            }),
+          ],
+        }),
+      })),
+    ];
+    const trail = [
+      ...travelScreen({
+        entries,
+        labels: { whoIsThere: "", whatICanDo: T.groupAsk },
+        words: {
+          page: controls.politics.page,
+          previous: controls.politics.previousPage,
+          next: controls.politics.nextPage,
         },
       }),
-      // A debate the outlet invited the candidates to: one position (or a pass) on each question it asks.
-      ...(debates ?? []).map((debate) =>
-        debateCard({
-          words: controls.debate,
-          debate,
-          questionLabel: policyLabel,
-          onAnswer: async (answers) => {
-            await post(
-              `/api/campaign/debate?${new URLSearchParams({
-                debateId: debate.id,
-                answers: JSON.stringify(answers),
-              })}`,
-            );
-            reopenTrail(filing.id);
-          },
-        }),
-      ),
-      campaignResult ? line(campaignResult) : "",
+      ...(campaignResult ? [line(campaignResult)] : []),
       ...campaignLines.map((text) => line(text)),
     ];
-    const tab = listRow(
-      "campaign",
-      {},
-      bold(
+    // The campaign board (the mock's pl-campaign): where the race stands in sentences the
+    // English engine wrote, the money, and the way out onto the trail.
+    const part = { filing, contest, trail };
+    const labelsC = controls.campaignBoard ?? {};
+    const out = makeButton({ textContent: labelsC.trail });
+    out.addEventListener("click", () => trailView(part));
+    part.tab = stripBoard({
+      className: "campaign-board",
+      columns: [
         [
-          contest?.title,
-          contest ? dateWords(contest.electionDate) : null,
-          controls.filing?.status?.[filing.status] ?? "",
-        ]
-          .filter(Boolean)
-          .join(" · "),
-      ),
-      `${controls.campaignResults.raised.replace("{amount}", moneyWords(campaign.raisedMinor))} · ${controls.campaignResults.spent.replace("{amount}", moneyWords(campaign.spentMinor))} · ${volunteerCount(campaign.volunteers)} · ${controls.campaignResults.doors.replace("{n}", campaign.doors)}${
-        // The endorsements given, from the campaign's endorsement records.
-        campaign.endorsements
-          ? ` · ${(campaign.endorsements === 1 ? controls.campaignEndorsements.one : controls.campaignEndorsements.other).replace("{n}", String(campaign.endorsements))}`
-          : ""
-      }`,
-      // Where the race stands, in plain sentences from the English engine.
-      bold(controls.raceStanding.title),
-      ...(standing ?? []).map((text) => listRow("", { textContent: text })),
-    );
-    parts.push({ filing, contest, tab, trail });
+          stripSection(
+            1,
+            controls.raceStanding.title,
+            ...(standing ?? []).map((text) => introText(text)),
+          ),
+        ],
+        [
+          stripSection(
+            2,
+            labelsC.money,
+            moneyFigure(moneyWords(campaign.raisedMinor)),
+            dotRows([
+              {
+                label: labelsC.raised,
+                value: moneyWords(campaign.raisedMinor),
+              },
+              { label: labelsC.spent, value: moneyWords(campaign.spentMinor) },
+              { label: labelsC.volunteers, value: String(campaign.volunteers) },
+              { label: labelsC.doors, value: String(campaign.doors) },
+              ...(campaign.endorsements
+                ? [
+                    {
+                      label: labelsC.endorsements,
+                      value: String(campaign.endorsements),
+                    },
+                  ]
+                : []),
+            ]),
+          ),
+        ],
+        [buttonTray(out)],
+      ],
+    });
+    parts.push(part);
   }
   return parts;
 }
@@ -1663,20 +1966,7 @@ async function campaignParts() {
  * interview, forum, calls, donor meeting, speech and debate start their scenes.
  */
 function trailView(part) {
-  $("sheet-body").replaceChildren(
-    ...recordScreen({
-      heading: {
-        name: controls.travel.trail,
-        meta: [
-          part.contest?.title,
-          part.contest ? dateWords(part.contest.electionDate) : null,
-        ]
-          .filter(Boolean)
-          .join(" · "),
-      },
-      sections: [{ items: part.trail.map((node) => ({ node })) }],
-    }),
-  );
+  $("sheet-body").replaceChildren(...part.trail);
   $("sheet-body").classList.add("place-view");
 }
 /** Back to the trail after an act that stays on the screen (a poll, an ad, a speech's next step). */
@@ -1684,10 +1974,6 @@ async function reopenTrail(filingId) {
   await openSheet("travel");
   const part = (await campaignParts()).find((p) => p.filing.id === filingId);
   if (part) trailView(part);
-}
-/** The tab's rows: each filed campaign's standing and results. */
-async function campaignRows() {
-  return (await campaignParts()).map((part) => part.tab);
 }
 
 // ---- A big moment, staged when it stops the clock ----
@@ -1878,189 +2164,182 @@ function closePerson() {
   $("game").classList.remove("person-open");
   personOpener?.focus();
 }
-async function showPerson(person) {
-  const request = ++personRequest;
-  const opener = document.activeElement;
+/**
+ * The approved person card's strip screen for one person, built from their known record
+ * (owner, Nov 7, item 54, "perfect"). Shown in its own panel by showPerson and inside the
+ * People screen beside the roster. Returns null when the person is gone.
+ */
+async function personCardNode(
+  person,
+  stillWanted = () => true,
+  openOther = (other) => showPerson(other),
+) {
   const c = await api(
     `/api/known?${new URLSearchParams({ id: me.id, other: person.personId })}`,
   );
   await controlsReady;
-  if (request !== personRequest) return;
-  personOpener = opener;
-  closeSheet();
+  if (!stillWanted()) return null;
   const labels = controls.person;
-  // Only this person's supplied artwork. Null deliberately leaves a clear slot.
-  fillArtwork($("person-media"), {
-    portraitUrl:
-      c.presentation?.portraitUrl !== undefined
-        ? c.presentation.portraitUrl
-        : (c.figureUrl ?? person.figureUrl),
-    backgroundUrl: c.presentation?.backgroundUrl,
-    name: c.name,
-  });
-  $("person-name").textContent = c.name;
-  $("person-role").textContent = [
-    c.relation && c.relation.charAt(0).toUpperCase() + c.relation.slice(1),
+  const known = c.publicKnowledge;
+  const stance = voteWords();
+  const pronoun = c.pronouns;
+  const fill = (text) =>
+    text.replace(/\{(\w+)\}/g, (_all, slot) => pronoun?.[slot] ?? "");
+  const heading = (key, theyKey) =>
+    pronoun ? fill(labels[key]) : labels[theyKey ?? key];
+  const capital = (text) => text.charAt(0).toUpperCase() + text.slice(1);
+  const role = [
+    c.relation && capital(c.relation),
+    known?.party,
     c.age !== null && c.age !== undefined ? `${labels.age} ${c.age}` : null,
   ]
     .filter((part) => part !== null && part !== undefined && part !== "")
     .join(" · ");
-  // Who they are now and where they come from, worded from their records.
-  $("person-summary").textContent = (c.summary ?? []).join(" ");
-  // What the public knows of a figure (the past module's public tier): read
-  // from the record, shown beside the tie if there is one.
-  const known = c.publicKnowledge;
-  const stance = voteWords();
-  // The card as the mock draws it, on framed plates (owner, Oct 29): what
-  // they are to you as chips, what they are like, small plates for their
-  // work, seats, home and school, then a tab rail over one plate: their
-  // history as a timeline, or their record. How they feel about you is never
-  // a meter or a mark (owner, Oct 29; OCD-LIFE-008, "never a visible
-  // meter"): it shows in what they do and what happened between you.
-  const together = [
-    ...(known?.party ? [{ text: known.party }] : []),
-    // What the two share, by the records the director's scenes read too. A
-    // tie with no name to give (living in the same home) is the words alone.
-    ...(c.shared ?? [])
-      .filter((s) => labels.sharedWords?.[s.kind])
-      .map((s) => ({
-        text: s.name
+  const sharedLines = (c.shared ?? [])
+    .filter((s) => labels.sharedWords?.[s.kind])
+    .map((s) =>
+      introText(
+        s.name
           ? `${labels.sharedWords[s.kind]} · ${s.name}`
           : labels.sharedWords[s.kind],
-        record: s.recordId,
-      })),
-  ];
-  // The seats they reached before the start, one plate per office from the
-  // first year they held it (each term is its own record).
-  const seats = [];
-  for (const s of c.seats ?? []) {
-    const held = seats.find((seat) => seat.office === s.office);
-    if (held) held.year = Math.min(held.year, s.year);
-    else if (s.office) seats.push({ ...s });
-  }
-  const facts = [
-    c.work && {
-      title: labels.work,
-      value: c.work.title ?? "",
-      note: c.work.employer ?? "",
-    },
-    ...seats.map((s) => ({
-      title: labels.seat,
-      value: s.office,
-      note: `${labels.since} ${s.year}`,
-      record: s.recordId,
-    })),
-    c.placeName && { title: labels.place, value: c.placeName },
-    c.school && { title: labels.school, value: c.school.name },
-  ].filter(Boolean);
-  // Their record: what the public knows of them, then the people they know
-  // in office, closest first, from their ties.
-  const record = [
-    known &&
-      section(
-        labels.publicRecordTitle,
-        // A fact the record does not hold (a named official's votes) is
-        // left out, never shown blank.
-        ...[
-          ["since", dateOrValue(known.serviceStart)],
-          ["votes", known.votesOnRecord],
-          ["sponsored", known.lawsSponsored],
-          ["signed", known.lawsSigned],
-        ]
-          .filter(([, value]) => value !== null && value !== undefined)
-          .map(([key, value]) => row(labels.publicRecord[key], value)),
-        ...known.positions.map((p) =>
-          row(
-            policyLabel(p.question),
-            p.position > 0 ? (stance.for ?? "") : (stance.against ?? ""),
-          ),
-        ),
       ),
-    c.colleagues &&
-      section(
-        labels.knows,
-        c.colleagues.length
-          ? factPlates(
-              c.colleagues.map((k) => ({
-                title: k.office,
-                value: k.name,
-                // How they know them; plain acquaintance goes unsaid.
-                note:
-                  k.level < 0
-                    ? labels.rival
-                    : k.kind === "contact"
-                      ? ""
-                      : (labels.tieWords?.[k.kind] ?? ""),
-                record: k.recordId,
-              })),
-            )
-          : prose(labels.noColleagues),
-      ),
-  ].filter((node) => node && node.childElementCount > 1);
-  // Their history from the records, oldest first (owner, Oct 28), down a
-  // timeline that pages by chapter of years to fill the plate, never a
-  // scroll (owner, Oct 29).
-  const tabs = [
-    c.history?.length && {
-      key: "history",
-      draw: (room) => [
-        timeline({
-          entries: c.history.map((h) => ({
-            year: h.date.slice(0, 4),
-            text: h.text,
-            kind: h.kind,
-            recordId: h.recordId,
-          })),
-          rows: Math.max(2, Math.floor((room + 6) / 64)),
-          words: { previous: labels.earlier, next: labels.later },
-        }),
-      ],
-    },
-    record.length && { key: "record", draw: () => record },
-  ].filter(Boolean);
-  // One tab alone is named on its plate instead of a rail of one.
-  const single = tabs.length === 1;
-  const body = plate(single ? labels[tabs[0].key] : null);
-  body.classList.add("person-tab");
-  const title = body.firstElementChild;
-  let chosen = tabs[0]?.key;
-  const rail = single
-    ? null
-    : tabBar({
-        attr: "personTab",
-        active: chosen,
-        tabs: tabs.map((tab) => ({
-          key: tab.key,
-          label: labels[tab.key],
-          onSelect: () => {
-            chosen = tab.key;
-            drawTab();
-          },
-        })),
-      });
-  function drawTab() {
-    // The room the plate has, less its padding, title and the pager's arrows.
-    const room = body.clientHeight - 64 - (title ? title.offsetHeight + 9 : 0);
-    body.replaceChildren(
-      ...(title ? [title] : []),
-      ...(tabs.find((tab) => tab.key === chosen)?.draw(room) ?? []),
     );
-    if (rail) chooseTab(rail, "personTab", chosen);
-  }
-  $("person-facts").replaceChildren(
-    ...(together.length ? [chips(together)] : []),
-    ...(c.sketch ? [prose(c.sketch, "screen-lede")] : []),
-    ...(facts.length ? [factPlates(facts)] : []),
-    ...(rail ? [rail] : []),
-    ...(tabs.length ? [body] : []),
+  // How close you are and why that last changed, read from the tie's own record
+  // (the card's tie row: its closeness and its latestChange); a person with no
+  // tie to you has neither line.
+  const closeness = Number.isFinite(person.level)
+    ? labels.closenessWords[
+        Math.min(
+          labels.closenessWords.length - 1,
+          Math.floor(Math.max(0, person.level) * labels.closenessWords.length),
+        )
+      ]
+    : null;
+  const change = person.latestChange;
+  const changeLine = change
+    ? introText(
+        [
+          labels.tieChange[
+            change.after > change.before
+              ? "closer"
+              : change.after < change.before
+                ? "apart"
+                : "same"
+          ],
+          labels.tieCauses[change.cause],
+          dateWords(change.date),
+        ]
+          .filter(Boolean)
+          .join(" · "),
+      )
+    : null;
+  if (closeness) sharedLines.unshift(introText(closeness));
+  if (changeLine) sharedLines.push(changeLine);
+  // Their public record, from the past module's public tier: a fact the record does not hold is left out.
+  const recordRows = known
+    ? [
+        ["since", dateOrValue(known.serviceStart)],
+        ["votes", known.votesOnRecord],
+        ["sponsored", known.lawsSponsored],
+        ["signed", known.lawsSigned],
+      ]
+        .filter(([, value]) => value !== null && value !== undefined)
+        .map(([key, value]) => ({
+          label: labels.publicRecord[key],
+          value: String(value),
+        }))
+        .concat(
+          known.positions.map((p) => ({
+            label: policyLabel(p.question),
+            value: p.position > 0 ? (stance.for ?? "") : (stance.against ?? ""),
+          })),
+        )
+    : [];
+  const people = peopleSentence(
+    (c.colleagues ?? []).map((k) => ({
+      name: k.name,
+      relation: k.office,
+      onOpen: () => openOther({ personId: k.personId }),
+    })),
   );
-  for (const button of document.querySelectorAll("[data-person-label]"))
-    button.textContent = labels[button.dataset.personLabel];
+  const firstColumn = [
+    ...(c.summary?.length
+      ? [
+          stripSection(
+            1,
+            heading("whoIs", "whoAre"),
+            introText(c.summary.join(" ")),
+          ),
+        ]
+      : []),
+    ...(c.traitLines?.length
+      ? [
+          stripSection(
+            2,
+            heading("howISee"),
+            perkList(
+              c.traitLines.map((t) => ({ name: t.label, line: t.line })),
+            ),
+          ),
+        ]
+      : []),
+    ...(sharedLines.length
+      ? [stripSection(5, labels.betweenUs, ...sharedLines)]
+      : []),
+  ];
+  const secondColumn = [
+    ...(people
+      ? [stripSection(3, capital(heading("herPeople", "theirPeople")), people)]
+      : []),
+    ...(recordRows.length
+      ? [stripSection(4, labels.publicRecordTitle, dotRows(recordRows))]
+      : []),
+  ];
+  // Dev mode: what they remember, a section only while dev mode is on.
+  const memory = devModeOn()
+    ? await devMemorySection({
+        personId: person.personId,
+        labels: controls.devMemory,
+        dateOf: (iso) => dateWords(iso),
+      })
+    : null;
+  if (memory) secondColumn.push(memory);
+  if (devModeOn())
+    secondColumn.push(
+      await devRecordsSection({
+        personId: person.personId,
+        labels: controls.devRecords,
+      }),
+      await devPersonSection({
+        personId: person.personId,
+        labels: controls.devPerson,
+        onDone: () => refresh(),
+      }),
+    );
+  if (!stillWanted()) return null;
+  return {
+    name: c.name,
+    node: stripScreen({
+      name: c.name,
+      role,
+      face: c.face ?? null,
+      columns: secondColumn.length
+        ? [firstColumn, secondColumn]
+        : [firstColumn],
+    }),
+  };
+}
+async function showPerson(person) {
+  const request = ++personRequest;
+  const opener = document.activeElement;
+  const card = await personCardNode(person, () => request === personRequest);
+  if (!card) return;
+  personOpener = opener;
+  closeSheet();
+  $("person-name").textContent = card.name;
+  $("person-facts").replaceChildren(card.node);
   show("person", true);
   $("game").classList.add("person-open");
-  // The timeline counts its rows from the plate's height, so it draws once
-  // the card is open.
-  if (tabs.length) drawTab();
   $("person-close").focus();
 }
 $("person-close").addEventListener("click", closePerson);
@@ -2129,25 +2408,30 @@ async function officeParts() {
     });
   const seat = [
     ...v.jobs.map((job) =>
-      factPlates(
-        [
-          { title: labels.office, value: job.title },
-          {
-            title: labels.pay,
-            value: `${moneyWords(job.annualMinor)} ${words.aYear ?? ""}`,
-          },
-          job.nextMeeting && {
-            title: labels.nextMeeting,
-            value: dateWords(job.nextMeeting),
-          },
-        ].filter(Boolean),
+      stripSection(
+        1,
+        labels.mySeat,
+        dotRows(
+          [
+            { label: labels.office, value: job.title },
+            {
+              label: labels.pay,
+              value: `${moneyWords(job.annualMinor)} ${words.aYear ?? ""}`,
+            },
+            job.nextMeeting && {
+              label: labels.nextMeeting,
+              value: dateWords(job.nextMeeting),
+            },
+          ].filter(Boolean),
+        ),
       ),
     ),
     // An open town post you appoint: the people it could go to, best first; left on the
     // official's own choice, the first stands.
     ...(v.heads?.length
       ? [
-          plate(
+          stripSection(
+            2,
             labels.heads,
             paged(
               v.heads.map((head) =>
@@ -2179,7 +2463,8 @@ async function officeParts() {
       : []),
     ...(v.acts.length
       ? [
-          plate(
+          stripSection(
+            3,
             labels.acts,
             paged(
               v.acts.map((a) =>
@@ -2197,7 +2482,8 @@ async function officeParts() {
   // The budget you may send now: the change to each line, in steps of its amount.
   const budget = v.budget
     ? [
-        plate(
+        stripSection(
+          1,
           controls.budgetEditor.title,
           paged(
             v.budget.lines.map((row) =>
@@ -2227,7 +2513,8 @@ async function officeParts() {
     : [];
   // The deal to offer each colleague who votes on a bill of yours when you talk to them.
   const deals = (v.deals ?? []).map((bill) =>
-    plate(
+    stripSection(
+      2,
       `${bill.number} · ${controls.deals.title}`,
       paged(
         bill.colleagues.map((colleague) =>
@@ -2327,9 +2614,11 @@ function billEstimate(paper, section) {
  */
 async function openBillPaper(billId, show, back, backLabel) {
   const paper = await api(`/api/bill?billId=${encodeURIComponent(billId)}`);
+  const stage = await api(
+    `/api/bill/stage?billId=${encodeURIComponent(billId)}`,
+  );
   const words = controls.bill ?? {};
   const floor = controls.floor ?? {};
-  const meet = controls.meeting ?? {};
   const backButton = makeButton({
     className: "action",
     textContent: backLabel ?? words.back ?? "",
@@ -2354,23 +2643,99 @@ async function openBillPaper(billId, show, back, backLabel) {
         paper.floorDate
           ? `${floor.takenUp ?? ""} ${dateWords(paper.floorDate)}`
           : null,
-        ...paper.whip.map(
-          (count) =>
-            `${count.chamber}: ${count.yes} ${floor.for ?? ""}, ${count.no} ${floor.against ?? ""}, ${count.undecided} ${floor.undecided ?? ""}`,
-        ),
-        ...(paper.votes.length
-          ? [
-              `${floor.voted ?? ""}: ${paper.tally.yes} ${floor.yes ?? ""}, ${paper.tally.no} ${floor.no ?? ""}`,
-              paper.votes
-                .map((x) => `${x.name} · ${meet[x.vote] ?? ""}`)
-                .join(" · "),
-            ]
-          : []),
         paper.decision
           ? `${words.decided ?? ""}: ${floor.status?.[paper.decision.status] ?? ""}${paper.decision.passedOn ? ` · ${dateWords(paper.decision.passedOn)}` : ""}`
           : null,
       ],
     }),
+    // Where the bill is: the committee's record, what members told you, the floor and
+    // the override, each member by name (ui/bill-stage.mjs).
+    ...billStageSections(
+      stage,
+      controls.billStage ?? {},
+      (person) => showPerson({ personId: person.personId }),
+      async (how) => {
+        await api(
+          `/api/bill/vote?${new URLSearchParams({ billId, vote: how })}`,
+          "POST",
+        );
+        await openBillPaper(billId, show, back, backLabel);
+      },
+      {
+        onMove: async (index, direction) => {
+          await api(
+            `/api/bill/amend?${new URLSearchParams({ billId, index, direction })}`,
+            "POST",
+          );
+          await openBillPaper(billId, show, back, backLabel);
+        },
+        onCall: async (item) => {
+          await api(
+            `/api/bill/amendment-vote?${new URLSearchParams({ amendmentId: item.id })}`,
+            "POST",
+          );
+          await openBillPaper(billId, show, back, backLabel);
+        },
+        estimate: (item) =>
+          [
+            item.estimateAfter.workersRaised > 0
+              ? `${item.estimateAfter.workersRaised} ${words.workers ?? ""}`
+              : null,
+            item.estimateAfter.annualPayMinor > 0
+              ? moneyWords(item.estimateAfter.annualPayMinor)
+              : null,
+          ]
+            .filter(Boolean)
+            .join(" · "),
+      },
+      {
+        onDecide: async (how) => {
+          await api(
+            `/api/desk?${new URLSearchParams({ billId, how })}`,
+            "POST",
+          );
+          await openBillPaper(billId, show, back, backLabel);
+        },
+      },
+      {
+        onAsk: (index) =>
+          api(`/api/bill/redraft?${new URLSearchParams({ billId, index })}`),
+        onKeep: async (index) => {
+          await api(
+            `/api/bill/redraft?${new URLSearchParams({ billId, index })}`,
+            "POST",
+          );
+          await openBillPaper(billId, show, back, backLabel);
+        },
+        estimate: (redraft) =>
+          [
+            redraft.estimateAfter.workersRaised > 0
+              ? `${redraft.estimateAfter.workersRaised} ${controls.bill?.workers ?? ""}`
+              : null,
+            redraft.estimateAfter.annualPayMinor > 0
+              ? moneyWords(redraft.estimateAfter.annualPayMinor)
+              : null,
+          ]
+            .filter(Boolean)
+            .join(" · "),
+      },
+      {
+        onVote: async (how) => {
+          await api(
+            `/api/bill/override?${new URLSearchParams({ billId, vote: how })}`,
+            "POST",
+          );
+          await openBillPaper(billId, show, back, backLabel);
+        },
+        onCall: async () => {
+          await api(
+            `/api/bill/override-call?${new URLSearchParams({ billId })}`,
+            "POST",
+          );
+          await openBillPaper(billId, show, back, backLabel);
+        },
+      },
+    ),
   );
 }
 
@@ -2381,7 +2746,6 @@ async function openBillPaper(billId, show, back, backLabel) {
 let seatResult = "";
 let seatText = [];
 // The tab of Your office the player last used.
-let officeTab = "seat";
 async function seatRows() {
   const v = await api(`/api/seat?id=${encodeURIComponent(me.id)}`);
   const parts = await officeParts();
@@ -2389,7 +2753,6 @@ async function seatRows() {
   const act = async (params) => {
     const r = await post(`/api/seat/act?${new URLSearchParams(params)}`);
     seatText = r.text ?? [];
-    officeTab = "draft";
     seatResult = r.number
       ? `${r.number} · ${controls.floor.status[r.status] ?? ""}${r.floorDate ? ` · ${controls.floor.takenUp} ${dateWords(r.floorDate)}` : ""}${
           r.authority?.some((a) => !a.allowed)
@@ -2465,7 +2828,8 @@ async function seatRows() {
       },
     });
     draftNodes.push(
-      plate(
+      stripSection(
+        2,
         body.title,
         line(body.members.map((m) => m.name).join(" · ")),
         draftBlock,
@@ -2474,21 +2838,24 @@ async function seatRows() {
   }
   const floor = controls.floor;
   const labels = controls.officeScreen ?? {};
-  // A bill of yours on its plate: its standing, the day it is taken up, each chamber's count
-  // the day before, how the vote came out, and the paper that opens to read it.
-  const billPlates = v.bills.map(({ bill, votes, tally, floorDate, whip }) =>
-    plate(
-      `${bill.number} · ${floor.status[bill.status] ?? ""}`,
+  // Your bills, each with its standing, the day it is taken up, how the vote came out and
+  // the paper that opens to read it (the mock's "On my desk").
+  const desk = v.bills.map(({ bill, votes, tally, floorDate }) => {
+    const open = makeButton({
+      className: "action",
+      textContent: controls.bill?.open ?? "",
+    });
+    open.addEventListener("click", () =>
+      openBillPaper(
+        bill.id,
+        (...nodes) => $("sheet-body").replaceChildren(...nodes),
+        () => openSheet("office"),
+      ),
+    );
+    return deskBill(
+      deskTitle(`${bill.number} · ${floor.status[bill.status] ?? ""}`),
       ...(floorDate
         ? [line(`${floor.takenUp} ${dateWords(floorDate)}`, "floor-date")]
-        : []),
-      ...(bill.status === "drafted"
-        ? whip.map((count) =>
-            line(
-              `${count.chamber}: ${count.yes} ${floor.for}, ${count.no} ${floor.against}, ${count.undecided} ${floor.undecided}`,
-              "floor-whip",
-            ),
-          )
         : []),
       ...(votes.length
         ? [
@@ -2498,63 +2865,93 @@ async function seatRows() {
             ),
           ]
         : []),
-      // The paper holds the sections, the estimate and the votes: the plate opens it.
-      (() => {
-        const open = makeButton({
-          className: "action",
-          textContent: controls.bill?.open ?? "",
-        });
-        open.addEventListener("click", () =>
-          openBillPaper(
-            bill.id,
-            (...nodes) => $("sheet-body").replaceChildren(...nodes),
-            () => openSheet("office"),
-          ),
-        );
-        return open;
-      })(),
-    ),
-  );
+      open,
+    );
+  });
   const left = (v.incompatibilities ?? []).map((l) =>
     line(`${l.date} · ${l.left} → ${l.took} · ${l.law}`),
   );
   const result = seatResult
     ? [plate(null, line(seatResult), ...seatText.map((t) => line(t)))]
     : [];
-  const draftTab = [
-    ...result,
-    ...draftNodes,
-    ...(billPlates.length
-      ? [
-          pager({
-            items: billPlates,
-            render: (node) => node,
-            rows: 1,
-            columns: 2,
-            rowHeight: 170,
-            gap: 12,
-            words: {
-              page: controls.politics.page,
-              previous: controls.politics.previousPage,
-              next: controls.politics.nextPage,
-            },
-            className: "office-bills",
+  // Office hours: the residents' cases the cases engine opened for this official, each with the
+  // two answers the engine offers; a decision runs the engine's own `handleCase`.
+  const caseWords = controls.officeCases ?? {};
+  const open = await api(
+    `/api/office/cases?id=${encodeURIComponent(me.id)}`,
+  ).catch(() => []);
+  const cases = open.length
+    ? [
+        stripSection(
+          1,
+          labels.officeHours,
+          ...open.map((c) => {
+            const answer = (decision, text) => {
+              const b = makeButton({ textContent: text });
+              b.addEventListener("click", async () => {
+                await post(
+                  `/api/office/case?${new URLSearchParams({ caseId: c.id, decision })}`,
+                );
+                openSheet("office");
+              });
+              return b;
+            };
+            return deskBill(
+              peopleSentence([
+                {
+                  name: c.name,
+                  onOpen: () => {
+                    closeSheet();
+                    showPerson({ personId: c.personId });
+                  },
+                },
+              ]),
+              line(
+                `${caseWords.problems?.[c.problem] ?? ""} · ${caseWords.by} ${dateWords(c.respondBy)}`,
+              ),
+              buttonRow(
+                answer("help", caseWords.help),
+                answer("decline", caseWords.decline),
+              ),
+            );
           }),
-        ]
-      : []),
-    ...(left.length ? [plate(labels.left, ...left)] : []),
-  ];
+        ),
+      ]
+    : [];
   return [
-    officeScreen({
-      active: officeTab,
-      onTab: (key) => {
-        officeTab = key;
-      },
-      tabs: [
-        { key: "seat", label: labels.seat, nodes: parts.seat },
-        { key: "draft", label: labels.draft, nodes: draftTab },
-        { key: "budget", label: labels.budget, nodes: parts.budget },
-        { key: "deals", label: labels.deals, nodes: parts.deals },
+    stripBoard({
+      className: "office-board",
+      columns: [
+        parts.seat,
+        [
+          ...result,
+          ...(desk.length
+            ? [
+                stripSection(
+                  1,
+                  labels.onMyDesk,
+                  desk.length > 3
+                    ? pager({
+                        items: desk,
+                        render: (node) => node,
+                        rows: 3,
+                        columns: 1,
+                        rowHeight: 110,
+                        gap: 10,
+                        words: {
+                          page: controls.politics.page,
+                          previous: controls.politics.previousPage,
+                          next: controls.politics.nextPage,
+                        },
+                      })
+                    : deskList(...desk),
+                ),
+              ]
+            : []),
+          ...draftNodes,
+          ...(left.length ? [stripSection(3, labels.left, ...left)] : []),
+        ],
+        [...cases, ...parts.budget, ...parts.deals],
       ],
     }),
   ];
@@ -2621,149 +3018,87 @@ const sheets = {
         ],
       });
     }
-    const people = [...records.values()];
-    return peopleWeb({
-      people,
+    return peopleScreen({
+      people: [...records.values()],
       household,
-      self: {
-        name: me.card.name,
-        face: me.card.face,
-        // The saved look, as the card and Who you are read it: not whatever room's figure.
-        figureUrl: portraitUrl(),
-      },
-      inRoom: new Set((me.scene?.people ?? []).map((p) => p.personId)),
       labels,
-      pageWords: {
-        page: controls.politics.page,
-        previous: controls.politics.previousPage,
-        next: controls.politics.nextPage,
-      },
-      onCard: (person) => {
-        closeSheet();
-        showPerson(person);
-      },
-      onTalk: (person) => {
-        closeSheet();
-        talkTo(person.personId);
-      },
+      card: (person, stillWanted, openOther) =>
+        personCardNode(person, stillWanted, openOther),
     });
   },
+  /**
+   * You, as the owner approved it on Nov 7 (item 53; the mock's you-ol-g): your
+   * name and role over a bust, "Who I am" and "What I'm like" in the first
+   * person from your own records, and the people you're closest to as names
+   * that open their cards. "What people say about me" waits for a record of
+   * what people say about a person (stopgap in the PR body).
+   */
   async who() {
     const c = me.card;
     const labels = controls.who ?? {};
-    const born = dateWords(c.birthDate);
-    const views =
-      c.views ??
-      (c.view && controls.leanWords?.[c.view]
-        ? [{ text: controls.leanWords[c.view] }]
-        : []);
-    // The Oct 14 mock on framed plates: your figure framed at the left (the
-    // sheet's media slot); what you're like in plain sentences, never the
-    // traits' names (owner, Oct 27); small plates for home, work, school and
-    // cash; the people at home as face cards; your views as small plates.
-    // A school only while they are at one (never a grown player's old school).
-    const school = c.schoolNow ?? null;
-    const members = (c.home?.members ?? []).map((member) =>
-      memberCard({
+    const known = await api(
+      `/api/known?${new URLSearchParams({ id: me.id, other: me.id })}`,
+    ).catch(() => ({ summaryFirst: [] }));
+    const strengthWord = { strong: labels.strong, mild: labels.mild };
+    const peopleLine = peopleSentence(
+      (c.home?.members ?? []).map((member) => ({
         name: member.name,
-        line: member.relation
-          ? member.relation.charAt(0).toUpperCase() + member.relation.slice(1)
-          : "",
-        face: member.face,
+        relation: member.relation,
         onOpen: () => {
           closeSheet();
           showPerson(member);
         },
-      }),
+      })),
     );
-    const drawn = recordScreen({
-      heading: {
+    const role = c.job
+      ? [c.job.title, c.job.employer].filter(Boolean).join(", ")
+      : `${labels.age} ${c.age}`;
+    return [
+      stripScreen({
         name: c.name,
-        meta: `${labels.age} ${c.age} · ${labels.born} ${born}`,
-      },
-      lede: c.sketch,
-      sections: [
-        {
-          items: [
-            {
-              node: factPlates(
-                [
-                  {
-                    title: c.age < 18 ? labels.householdHome : labels.home,
-                    value: c.home?.placeName ?? me.placeName,
-                    // The town's size and this year's moves (path 10).
-                    note: c.town
-                      ? [
-                          labels.townPeople.replace(
-                            "{n}",
-                            c.town.population.toLocaleString("en-US"),
-                          ),
-                          labels.townMoves
-                            .replace(
-                              "{in}",
-                              c.town.arrivals.toLocaleString("en-US"),
-                            )
-                            .replace(
-                              "{out}",
-                              c.town.departures.toLocaleString("en-US"),
-                            ),
-                        ].join(" · ")
-                      : "",
-                  },
-                  c.job && {
-                    title: labels.work,
-                    value: c.job.title,
-                    note: c.job.employer ?? "",
-                  },
-                  school && { title: labels.school, value: school.name },
-                  {
-                    title: labels.money,
-                    value: roundedMoney(c.liquidMinor),
-                  },
-                ].filter(Boolean),
-              ),
-            },
+        role,
+        face: c.face ?? null,
+        columns: [
+          [
+            ...(known.summaryFirst?.length
+              ? [
+                  stripSection(
+                    1,
+                    labels.whoIAm,
+                    introText(known.summaryFirst.join(" ")),
+                  ),
+                ]
+              : []),
+            // Where the player places themselves politically: the views engine's own label.
+            ...(c.view
+              ? [
+                  stripSection(
+                    2,
+                    labels.views,
+                    introText(c.view.charAt(0).toUpperCase() + c.view.slice(1)),
+                  ),
+                ]
+              : []),
+            ...(c.traitLines?.length
+              ? [
+                  stripSection(
+                    2,
+                    labels.whatImLike,
+                    perkList(
+                      c.traitLines.map((row) => ({
+                        name: row.label,
+                        strength: strengthWord[row.strength],
+                        line: row.line,
+                      })),
+                    ),
+                  ),
+                ]
+              : []),
           ],
-        },
-        members.length && {
-          title: labels.family,
-          items: [
-            {
-              node: pager({
-                items: members,
-                render: (card) => card,
-                rows: window.innerHeight >= 800 ? 2 : 1,
-                columns: 3,
-                rowHeight: 64,
-                gap: 8,
-                words: {
-                  page: controls.politics.page,
-                  previous: controls.politics.previousPage,
-                  next: controls.politics.nextPage,
-                },
-              }),
-            },
-          ],
-        },
-        views.length && {
-          title: labels.views,
-          items: [
-            {
-              views: views.map((v) => ({
-                label: v.label !== labels.views ? v.label : undefined,
-                text: v.text,
-              })),
-            },
-          ],
-        },
-      ].filter(Boolean),
-    });
-    // A short window: tighter plates, then a shorter lede, until the panel holds it without a scroll.
-    fitToPanel([
-      () => $("sheet-body").classList.add("compact"),
-      () => $("sheet-body").classList.add("tight"),
-    ]);
-    return drawn;
+          peopleLine ? [stripSection(3, labels.myPeople, peopleLine)] : [],
+        ],
+      }),
+    ];
   },
   async money() {
     const [budget, bank] = await Promise.all([
@@ -2781,10 +3116,11 @@ const sheets = {
       asked > paid
         ? `${moneyWords(paid)} ${labels.loanPaid} · ${moneyWords(asked - paid)} ${labels.unpaid}`
         : moneyWords(paid);
-    // The Money mock (Oct 14) on framed plates: the cash in large type with
-    // each month's review as columns under it, where last month went as a
-    // ring, and the home, what you own and what you owe as small plates
-    // beside it. Every figure is a record's own; nothing scrolls.
+    // Money as the Nov 8 play mock draws it (pl-money): strips of typed rows with dot leaders,
+    // never charts. My money (the cash in large type, then each month's balance), what went
+    // out last month, what I own and what I owe, and what comes out of my pay. Every figure
+    // is a record's own; a ledger line per day and the campaign's money (in the mock) wait on
+    // records the bank does not serve yet.
     const shortMonth = (date) =>
       (MONTH_NAMES[Number(String(date).slice(5, 7)) - 1] ?? "").slice(0, 3);
     const months = [...(bank?.cash?.months ?? [])].reverse();
@@ -2807,116 +3143,86 @@ const sheets = {
     const shared = (me.card.home?.members ?? []).length > 0;
     const homeValue = bank?.assets?.find((a) => a.kind === "home")?.valueMinor;
     const owned = (bank?.assets ?? []).filter((a) => a.kind !== "home");
-    const unpaid = spent.filter((part) => part.unpaid > 0);
-    const cash = plate(
-      bank?.name ? `${labels.cash} · ${bank.name}` : labels.cash,
-      line(roundedMoney(me.card.liquidMinor), "money-figure"),
-      ...(months.length
-        ? [
-            columnChart(
-              months.map((m) => ({
-                label: shortMonth(m.date),
-                value: m.cashMinor,
-              })),
-              shared ? labels.householdCashByMonth : labels.cashByMonth,
-              roundedMoney,
-            ),
-          ]
-        : []),
-    );
-    cash.classList.add("money-cash");
-    const home = dwelling && {
-      title: me.card.age < 18 ? labels.householdHome : labels.home,
-      nodes: [
-        ...(dwelling.presentation?.imageUrl
-          ? [
-              pictureFrame({
-                src: dwelling.presentation.imageUrl,
-                className: "money-home-picture",
-              }),
-            ]
-          : []),
-        factPlates([
-          {
-            title: dwelling.tenure === "own" ? labels.owned : labels.rented,
-            value: words(dwelling.kind ?? ""),
-            // A home you own is worth its value; one you rent costs its rent.
-            note:
-              dwelling.tenure === "own" && homeValue
-                ? `${labels.worth} ${roundedMoney(homeValue)}`
-                : dwelling.rentMinor !== undefined
-                  ? `${labels.rent} ${roundedMoney(dwelling.rentMinor)} ${labels.monthly}`
-                  : "",
-          },
-        ]),
-      ],
+    const homeRow = dwelling && {
+      label: dwelling.tenure === "own" ? labels.owned : labels.rented,
+      value:
+        dwelling.tenure === "own" && homeValue
+          ? roundedMoney(homeValue)
+          : dwelling.rentMinor !== undefined
+            ? `${roundedMoney(dwelling.rentMinor)} ${labels.monthly}`
+            : words(dwelling.kind ?? ""),
     };
+    const ownRows = [
+      ...(homeRow ? [homeRow] : []),
+      ...owned.map((asset) => ({
+        label:
+          asset.kind === "savings" && bank.name
+            ? `${labels.assetKinds.savings} · ${bank.name}`
+            : labels.assetKinds[asset.kind],
+        value: roundedMoney(asset.valueMinor),
+      })),
+    ];
+    const debtRows = (bank?.debts ?? []).map((debt) => ({
+      label: named(labels.debtKinds, debt.kind),
+      value:
+        debt.pastDueMinor > 0
+          ? `${roundedMoney(debt.owedMinor)} · ${roundedMoney(debt.pastDueMinor)} ${labels.pastDue}`
+          : roundedMoney(debt.owedMinor),
+    }));
     return [
-      splitScreen({
-        main: [
-          cash,
-          ...(home ? [plate(home.title, ...home.nodes)] : []),
-          ...(deductions.length
-            ? [
-                plate(
-                  labels.deductions,
-                  ...deductions.map(([name, value]) =>
-                    row(words(name), moneyWords(value)),
-                  ),
-                ),
-              ]
-            : []),
-        ],
-        side: [
-          spent.length && {
-            title: `${shared ? labels.householdLastMonth : labels.lastMonth} · ${roundedMoney(spentTotal)}`,
-            nodes: [
-              donutChart(spent, roundedMoney(spentTotal), labels.lastMonth),
-              // A bill left unpaid is said, never folded into the ring.
-              ...unpaid.map((part) =>
-                row(
-                  part.label,
-                  owedWords(part.value, part.value + part.unpaid),
-                ),
-              ),
-            ],
-          },
-          owned.length && {
-            title: labels.assets,
-            nodes: [
-              factPlates(
-                owned.map((asset) => ({
-                  title:
-                    asset.kind === "savings"
-                      ? `${labels.assetKinds.savings} · ${bank.name}`
-                      : labels.assetKinds[asset.kind],
-                  value: roundedMoney(asset.valueMinor),
-                })),
-              ),
-            ],
-          },
-          bank?.debts?.length && {
-            title: labels.debts,
-            nodes: [
-              factPlates(
-                bank.debts.map((debt) => ({
-                  title: named(labels.debtKinds, debt.kind),
-                  value: roundedMoney(debt.owedMinor),
-                  note:
-                    debt.pastDueMinor > 0
-                      ? `${roundedMoney(debt.pastDueMinor)} ${labels.pastDue}`
-                      : "",
-                })),
-              ),
-            ],
-          },
-        ].filter(Boolean),
-        className: "money-screen",
+      moneyBoard({
+        columns: [
+          [
+            {
+              title: bank?.name ? `${labels.cash} · ${bank.name}` : labels.cash,
+              figure: roundedMoney(me.card.liquidMinor),
+              rows: months.map((m) => ({
+                label: shortMonth(m.date),
+                value: roundedMoney(m.cashMinor),
+              })),
+            },
+          ],
+          [
+            ...(spent.length
+              ? [
+                  {
+                    title: `${shared ? labels.householdLastMonth : labels.lastMonth} · ${roundedMoney(spentTotal)}`,
+                    rows: spent.map((part) => ({
+                      label: part.label,
+                      value:
+                        part.unpaid > 0
+                          ? owedWords(part.value, part.value + part.unpaid)
+                          : roundedMoney(part.value),
+                    })),
+                  },
+                ]
+              : []),
+            ...(deductions.length
+              ? [
+                  {
+                    title: labels.deductions,
+                    rows: deductions.map(([name, value]) => ({
+                      label: words(name),
+                      value: moneyWords(value),
+                    })),
+                  },
+                ]
+              : []),
+          ],
+          [
+            ...(ownRows.length
+              ? [{ title: labels.assets, rows: ownRows }]
+              : []),
+            ...(debtRows.length
+              ? [{ title: labels.debts, rows: debtRows }]
+              : []),
+          ],
+        ].filter((column) => column.length),
       }),
     ];
   },
   async jobs() {
-    // The Oct 14 mock on framed plates: your job with its workplace's
+    // On framed plates: your job with its workplace's
     // painting, its title in the name type, pay and hours; beside it the work
     // and school of your life as a timeline, from the one history every
     // card reads. Never a scroll.
@@ -2981,10 +3287,16 @@ const sheets = {
     // part of it (owner, Oct 27: "written like a story, not individual sections... from
     // birth"; "remove all those subheadings").
     return [
-      journalPage({
+      journalScreen({
         chapters,
         labels: controls.journal,
         yearOf: (iso) => iso.slice(0, 4),
+        rows: Math.max(4, Math.floor((window.innerHeight - 360) / 54)),
+        words: {
+          page: controls.politics.page,
+          previous: controls.politics.previousPage,
+          next: controls.politics.nextPage,
+        },
       }),
     ];
   },
@@ -3037,21 +3349,24 @@ const sheets = {
       .find(Boolean);
     const chosen =
       view.governments.find((g) => g.id === budgetGovernment) ?? town;
-    const pick = select({
-      options: view.governments.map((g) => ({ value: g.id, label: g.name })),
-      value: chosen?.id,
-      label: labels.budget,
-      onChange: (id) => {
-        budgetGovernment = id;
-        void openSheet("budgets");
-      },
-    });
     const gov = chosen ?? view.governments[0];
-    if (!gov?.latest) return [splitScreen({ controls: [pick] })];
+    const tabs = tabBar({
+      attr: "gov",
+      active: gov?.id,
+      tabs: view.governments
+        .filter((g) => g.latest)
+        .map((g) => ({
+          key: g.id,
+          label: g.name,
+          onSelect: () => {
+            budgetGovernment = g.id;
+            budgetLine = undefined;
+            void openSheet("budgets");
+          },
+        })),
+    });
+    if (!gov?.latest) return [stripBoard({ tabs, columns: [[]] })];
     const latest = gov.latest;
-    // What the treasury actually took in and paid out, from its journal,
-    // beside the plan: a treasury gone wrong shows here.
-    const books = gov.books;
     // The executive steps a spending line's priority up or down.
     const steps = (record) =>
       gov.youAreExecutive
@@ -3070,88 +3385,148 @@ const sheets = {
             },
           }))
         : [];
-    // The Budget mock (Oct 14) on framed plates: the government, its year and
-    // its total in the name type with when and how it was adopted; where the
-    // money comes from and where it goes as rings with amounts (the seven
-    // largest lines and the rest as one); the treasury's books beside them;
-    // and an executive's own spending priorities to step up or down.
-    const largest = (lines) => {
-      const sorted = [...lines].sort((a, b) => b.minor - a.minor);
-      const rest = sorted.slice(7).reduce((n, r) => n + r.minor, 0);
-      return [
-        ...sorted
-          .slice(0, 7)
-          .map((r) => ({ label: r.name ?? r.line, value: r.minor })),
-        ...(rest > 0 ? [{ label: labels.otherLines, value: rest }] : []),
-      ];
-    };
-    const ring = (title, lines, total) =>
-      plate(
-        title,
-        donutChart(largest(lines), roundedMoney(total), title, roundedMoney),
-      );
-    const overBudget = books && books.paidOutMinor > latest.spendingMinor;
+    // The approved Budgets screen (owner, Nov 7, item 56; the mock's bud-strips): the
+    // governments as tabs, the fiscal year typed at the right, the departments, the open
+    // department as a typed page, the town's money, and who wrote it. The game keeps
+    // budget lines by category rather than departments, so each spending line is a
+    // department; Last year comes from the government's previous budget; "Asked" is the line
+    // before this year's budget bill (lineBeforeBill); the executive's bust is the offices
+    // record's chief executive; a head waits on pool item gov-budget-departments-with-named-heads.
+    const words = controls.budgetStrips;
+    const books = gov.books;
+    const prior = gov.prior;
+    const lastOf = (lines, key) => lines?.find((r) => r.line === key)?.minor;
+    const opened =
+      latest.spending.find((r) => r.line === budgetLine) ?? latest.spending[0];
+    const lastYear = (minor) =>
+      minor === undefined ? "" : `${words.lastYear} ${roundedMoney(minor)}`;
+    const stepButtons = steps(opened).map((step) => {
+      const button = makeButton({
+        className: "action small",
+        textContent: step.glyph,
+        title: step.title,
+      });
+      button.setAttribute("aria-label", step.label);
+      button.onclick = async () => {
+        button.disabled = true;
+        try {
+          await step.onClick();
+        } finally {
+          button.disabled = false;
+        }
+      };
+      return button;
+    });
+    const balance = latest.balanceMinor;
     return [
-      splitScreen({
-        controls: [pick],
-        main: [
-          line(
-            `${gov.name} · ${labels.fiscalYear} ${latest.fiscalYear} · ${roundedMoney(latest.spendingMinor)}`,
-            "budget-title",
-          ),
-          prose(
-            [
-              `${labels.adopted} ${dateWords(latest.adoptedOn)}`,
-              latest.adoptedBy,
-            ]
-              .filter(Boolean)
-              .join(", "),
-            "budget-adopted",
-          ),
-          plateRow(
-            ring(labels.comesFrom, latest.revenue, latest.revenueMinor),
-            ring(labels.goesTo, latest.spending, latest.spendingMinor),
-            plate(
-              labels.books,
-              ...[
-                [labels.balance, latest.balanceMinor],
-                ...(books
-                  ? [
-                      [labels.takenIn, books.takenInMinor],
-                      [labels.paidOut, books.paidOutMinor],
-                      [labels.cashOnHand, books.cashMinor],
-                    ]
-                  : []),
-              ].map(([label, value]) => row(label, roundedMoney(value))),
-              prose(
-                books
-                  ? `${labels.booksSince} ${dateWords(books.since)}`
-                  : labels.noBooks,
-                "small",
+      stripBoard({
+        tabs,
+        fiscal: `${words.fiscalYear} ${latest.fiscalYear}`,
+        columns: [
+          [
+            stripSection(
+              1,
+              words.departments,
+              pager({
+                items: latest.spending.map((r) =>
+                  departmentRow({
+                    name: r.name ?? r.line,
+                    amount: roundedMoney(r.minor),
+                    selected: r.line === opened.line,
+                    onSelect: () => {
+                      budgetLine = r.line;
+                      void openSheet("budgets");
+                    },
+                  }),
+                ),
+                render: (node) => node,
+                rows: Math.max(4, Math.floor((window.innerHeight - 380) / 56)),
+                columns: 1,
+                rowHeight: 52,
+                gap: 2,
+                words: {
+                  page: controls.politics.page,
+                  previous: controls.politics.previousPage,
+                  next: controls.politics.nextPage,
+                },
+                className: "bsdepts",
+              }),
+            ),
+          ],
+          [
+            stripSection(
+              2,
+              opened.name ?? opened.line,
+              typedRow(
+                opened.name ?? opened.line,
+                roundedMoney(opened.minor),
+                lastYear(lastOf(prior?.spending, opened.line)),
               ),
-              ...(overBudget
-                ? [prose(labels.overBudget, "record-warning")]
+              ...(opened.askedMinor !== undefined
+                ? [typedRow(words.asked, roundedMoney(opened.askedMinor))]
+                : []),
+              ...(stepButtons.length ? [buttonTray(...stepButtons)] : []),
+            ),
+          ],
+          [
+            stripSection(
+              3,
+              gov.name,
+              typedRow(
+                words.comingIn,
+                roundedMoney(latest.revenueMinor),
+                lastYear(prior?.revenueMinor),
+              ),
+              typedRow(
+                words.goingOut,
+                roundedMoney(latest.spendingMinor),
+                lastYear(prior?.spendingMinor),
+              ),
+              typedRow(
+                words.balance,
+                `${roundedMoney(Math.abs(balance))} ${balance < 0 ? words.short : words.ahead}`,
+              ),
+              ...(books
+                ? [typedRow(words.savings, roundedMoney(books.cashMinor))]
                 : []),
             ),
-          ),
-          ...(gov.youAreExecutive
-            ? [
-                plate(
-                  labels.priorities,
-                  barChart(
-                    latest.spending.map((r) => ({
-                      label: r.name ?? r.line,
-                      value: r.minor,
-                      steps: steps(r),
-                    })),
-                    labels.priorities,
-                    roundedMoney,
+            ...(gov.executive?.title
+              ? [
+                  stripSection(
+                    4,
+                    gov.executive.title,
+                    leaderBlock({
+                      face: gov.executive.face,
+                      name: gov.executive.name,
+                      party: gov.executive.party,
+                      post: gov.executive.title,
+                      onOpen: () =>
+                        showPerson({
+                          personId: gov.executive.cardId,
+                          figureUrl: gov.executive.face?.url,
+                        }),
+                    }),
                   ),
-                ),
-              ]
-            : []),
+                ]
+              : []),
+            ...(latest.adoptedOn
+              ? [
+                  stripSection(
+                    5,
+                    words.whoWrote,
+                    introText(
+                      [
+                        `${labels.adopted} ${dateWords(latest.adoptedOn)}`,
+                        latest.adoptedBy,
+                      ]
+                        .filter(Boolean)
+                        .join(", "),
+                    ),
+                  ),
+                ]
+              : []),
+          ],
         ],
-        className: "budget-screen",
       }),
     ];
   },
@@ -3173,6 +3548,31 @@ const sheets = {
           act(`/api/advance?mode=calendar&date=${day}`);
         },
       }),
+      devRunPanel({ labels: controls.devRun, onDone: () => refresh() }),
+      ...(devModeOn()
+        ? [
+            await devWatchSections({
+              labels: controls.devWatch,
+              playerId: me.id,
+            }),
+          ]
+        : []),
+      ...(devModeOn()
+        ? [
+            await devScenePanel({
+              labels: controls.devScene,
+              onDone: () => refresh(),
+            }),
+          ]
+        : []),
+      ...(devModeOn()
+        ? [
+            await devCampaignPanel({
+              labels: controls.devCampaign,
+              onDone: () => refresh(),
+            }),
+          ].filter(Boolean)
+        : []),
     ];
   },
   async news() {
@@ -3198,12 +3598,16 @@ const sheets = {
         stories: [],
       });
     return [
-      ...newspaperScreen({
+      newsBoard({
         outlets,
         labels,
-        date: me.date,
+        date: today(),
         headlineOf: storyHeadline,
-        photoOf: storyPhoto,
+        words: {
+          page: controls.politics.page,
+          previous: controls.politics.previousPage,
+          next: controls.politics.nextPage,
+        },
       }),
     ];
   },
@@ -3212,224 +3616,220 @@ const sheets = {
   // two across, and the chosen term's article beside them; the search narrows
   // the cards as it is typed.
   async guide() {
-    let terms = await api(`/api/guide?q=${encodeURIComponent(guideQuery)}`);
-    let chosen = terms[0]?.key;
-    const cards = plate(null);
-    const article = plate(null);
-    article.classList.add("pick-article");
-    const drawArticle = () => {
-      const t = terms.find((term) => term.key === chosen) ?? terms[0];
-      // The chosen card is marked, as a chosen tab is.
-      for (const card of cards.querySelectorAll("[data-term]"))
-        card.classList.toggle("on", card.dataset.term === t?.key);
-      article.replaceChildren(
-        ...(t
-          ? [
-              heading(t.term, "h3"),
-              prose(t.short, "guide-short"),
-              ...[t.explanation, t.contextNote]
-                .filter(Boolean)
-                .map((text) => prose(text, "article-text")),
-            ]
-          : []),
-      );
-    };
-    const drawCards = () => {
-      cards.replaceChildren(
-        terms.length
-          ? pager({
-              items: terms.map((t) => ({
-                title: t.term,
-                lede: t.short,
-                label: t.term,
-                onSelect: () => {
-                  chosen = t.key;
-                  drawArticle();
-                },
-                data: { term: t.key },
-              })),
-              render: listEntry,
-              rows: Math.max(
-                3,
-                Math.min(8, Math.floor((window.innerHeight - 300) / 76)),
-              ),
-              columns: 2,
-              rowHeight: 68,
-              gap: 8,
-              words: {
-                page: controls.politics.page,
-                previous: controls.politics.previousPage,
-                next: controls.politics.nextPage,
-              },
-              className: "pick-cards",
-            })
-          : prose(controls.guide.none ?? "", "record-empty"),
-      );
-    };
-    const search = searchBox({
-      value: guideQuery,
-      placeholder: controls.guide.search,
-      onInput: async (text) => {
+    const terms = await api(`/api/guide?q=${encodeURIComponent(guideQuery)}`);
+    return guideScreen({
+      terms,
+      query: guideQuery,
+      labels: controls.guide,
+      words: {
+        page: controls.politics.page,
+        previous: controls.politics.previousPage,
+        next: controls.politics.nextPage,
+      },
+      onSearch: async (text) => {
         guideQuery = text;
         const found = await api(`/api/guide?q=${encodeURIComponent(text)}`);
         // A slower answer to an older query never replaces a newer one.
-        if (text !== guideQuery) return;
-        terms = found;
-        if (!terms.some((t) => t.key === chosen)) chosen = terms[0]?.key;
-        drawCards();
-        drawArticle();
+        return text === guideQuery ? found : null;
       },
+      onReset: resetLearned,
     });
-    search.setAttribute("aria-label", controls.guide.search ?? "");
-    drawCards();
-    drawArticle();
+  },
+  /**
+   * The title's Patch notes, as the Nov 8 front mock draws it (fr-notes): the builds in a
+   * strip at the left, newest first, and the chosen build's changes in a strip per heading
+   * (Changed, Improved, Fixed), each note's text under it. The release machinery's file is
+   * the only source; no card per note, no chips.
+   */
+  async patchNotes() {
+    const { releases } = await api("/api/patch-notes");
+    const labels = controls.patchNotes ?? {};
     return [
-      splitScreen({
-        controls: [search],
-        main: [cards],
-        side: [{ title: null, nodes: [article] }],
-        className: "guide-screen",
+      patchNotesScreen({
+        title: labels.builds,
+        rows: Math.max(4, Math.floor((window.innerHeight - 340) / 54)),
+        words: {
+          page: controls.politics.page,
+          previous: controls.politics.previousPage,
+          next: controls.politics.nextPage,
+        },
+        builds: releases.map((r) => ({
+          name: r.version,
+          // The release file says "Released November 8, 2026."; the list shows "Nov 8".
+          when: (() => {
+            const day = new Date(
+              String(r.released ?? "")
+                .replace(/^Released\s+/i, "")
+                .replace(/\.$/, ""),
+            );
+            return Number.isNaN(day.getTime())
+              ? ""
+              : day.toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric",
+                });
+          })(),
+          groups: (r.groups ?? []).map((group) => ({
+            heading: group.heading,
+            notes: group.notes.map((note) =>
+              [note.title, note.text].filter(Boolean).join(". "),
+            ),
+          })),
+        })),
       }),
     ];
   },
   /**
-   * The title's Patch notes: the release machinery's file, one release at a
-   * time, newest first (owner, Oct 28: "No reason anymore; get them in"). As
-   * the Guide: the release's changes as headline cards on a plate, the chosen
-   * change in full beside them, never a wall to scroll (owner, Oct 29).
+   * The title's Saved games, as the Nov 8 front mock draws it (fr-saves): one strip per saved
+   * life, its name over a bust, the game's date and Load. The game keeps one life, the one
+   * Continue opens; more slots and Delete wait for the versioned save format in
+   * early-access preparation (OWNER-DECISIONS: "Saves don't matter" until then), so there
+   * is no Delete here: a control with no effect is a defect.
    */
-  async patchNotes() {
-    const { releases } = await api("/api/patch-notes");
-    let release = releases[0];
-    let chosen = 0;
-    const notesOf = (r) =>
-      (r?.groups ?? []).flatMap((group) =>
-        group.notes.map((note) => ({ ...note, group: group.heading })),
-      );
-    const cards = plate(null);
-    const article = plate(null);
-    article.classList.add("pick-article");
-    const drawArticle = () => {
-      const note = notesOf(release)[chosen];
-      // The chosen card is marked, as a chosen tab is.
-      for (const card of cards.querySelectorAll("[data-note]"))
-        card.classList.toggle("on", Number(card.dataset.note) === chosen);
-      article.replaceChildren(
-        ...(note
-          ? [
-              chips([{ text: note.group }]),
-              ...(note.title ? [heading(note.title, "h3")] : []),
-              prose(note.text, "article-text"),
-            ]
-          : []),
-      );
-    };
-    // The release's name is its own picker, newest first.
-    const which = select({
-      options: releases.map((r) => ({ value: r.version, label: r.title })),
-      value: release?.version,
-      label: controls.patchNotes?.release,
-      className: "release-pick",
-      onChange: (version) => {
-        release = releases.find((r) => r.version === version) ?? release;
-        chosen = 0;
-        drawCards();
-        drawArticle();
-      },
-    });
-    const drawCards = () => {
-      cards.replaceChildren(
-        which,
-        ...(release?.released ? [prose(release.released, "release-date")] : []),
-        pager({
-          items: notesOf(release).map((note, at) => ({
-            title: note.title ?? note.text,
-            lede: note.title ? note.text : "",
-            label: note.title ?? note.text,
-            onSelect: () => {
-              chosen = at;
-              drawArticle();
-            },
-            data: { note: String(at) },
-          })),
-          render: listEntry,
-          rows: Math.max(
-            3,
-            Math.min(8, Math.floor((window.innerHeight - 340) / 66)),
-          ),
-          columns: 1,
-          rowHeight: 58,
-          gap: 8,
-          words: {
-            page: controls.politics.page,
-            previous: controls.politics.previousPage,
-            next: controls.politics.nextPage,
-          },
-          className: "pick-cards note-cards",
-        }),
-      );
-    };
-    drawCards();
-    drawArticle();
+  async saves() {
+    await controlsReady;
+    const words = controls.saves;
+    const life = titleLife;
+    if (!life) return [plate(null, prose(words.none, "saves-none"))];
     return [
-      splitScreen({
-        main: [cards],
-        side: [{ title: null, nodes: [article] }],
-        className: "patch-notes",
+      savedLifeRow({
+        name: life.name,
+        face: life.face,
+        date: dateWords(life.date),
+        load: makeButton({
+          className: "action",
+          textContent: words.load,
+          onclick: () => {
+            closeSheet();
+            $("front-continue").click();
+          },
+        }),
       }),
     ];
   },
+  /**
+   * Options as the Nov 8 front mock draws it (fr-options): a strip for Seeing (Full screen
+   * as On and Off toggles), a strip for Leave (Quit to title) and a strip for Dev mode, lit
+   * toggles and never checkboxes, and a strip for which scenes may stop the day (the
+   * director's own record, by group). Color-blind colors are one global setting
+   * (palette-setting.mjs). Save now is in the mock but is not a setting the game keeps yet,
+   * so it is not drawn.
+   */
   async options() {
     await controlsReady;
     const labels = controls.options;
-    let fullScreen;
-    if (document.fullscreenEnabled) {
-      const { line, box } = checkboxSetting({
-        label: labels.fullScreen,
-        checked: document.fullscreenElement,
-        testid: "options-fullscreen",
+    const toggle = ({ attr, on, set, testid }) => {
+      const bar = tabBar({
+        attr,
+        active: on() ? "on" : "off",
+        tabs: ["on", "off"].map((key) => ({
+          key,
+          label: labels[key],
+          onSelect: async () => {
+            await set(key === "on");
+            chooseTab(bar, attr, on() ? "on" : "off");
+          },
+        })),
       });
-      const status = statusLine();
-      box.addEventListener("change", async () => {
-        box.disabled = true;
-        status.textContent = "";
-        try {
-          if (box.checked) await document.documentElement.requestFullscreen();
-          else await document.exitFullscreen();
-        } catch {
-          status.textContent = labels.fullScreenUnavailable;
-        } finally {
-          box.checked = Boolean(document.fullscreenElement);
-          box.disabled = false;
-        }
-      });
-      fullScreen = [{ node: line }, { node: status }];
-    }
-    return recordScreen({
-      sections: [
-        {
-          items: [
-            { fact: [labels.version, await displayVersion()] },
-            ...(fullScreen ?? []),
+      for (const tab of bar.querySelectorAll(".tab"))
+        tab.dataset.testid = `${testid}-${tab.dataset[attr]}`;
+      return bar;
+    };
+    const seeing = document.fullscreenEnabled
+      ? [
+          settingRow(
+            labels.fullScreen,
+            toggle({
+              attr: "full",
+              testid: "options-fullscreen",
+              on: () => Boolean(document.fullscreenElement),
+              set: async (wanted) => {
+                try {
+                  if (wanted)
+                    await document.documentElement.requestFullscreen();
+                  else if (document.fullscreenElement)
+                    await document.exitFullscreen();
+                } catch {
+                  // The browser refused; the toggle shows the state it is in.
+                }
+              },
+            }),
+          ),
+        ]
+      : [];
+    seeing.push(
+      settingRow(
+        labels.colorBlind,
+        toggle({
+          attr: "palette",
+          testid: "options-color-blind",
+          on: colorBlindOn,
+          set: setColorBlind,
+        }),
+      ),
+    );
+    // Which kinds of scene may stop the day: the director's own record of the
+    // player's setting (/api/scene-filter), one On/Off per group of kinds.
+    const filter = me
+      ? await api(`/api/scene-filter?id=${encodeURIComponent(me.id)}`)
+      : null;
+    const groups = new Map();
+    for (const [kind, group] of Object.entries(filter?.groups ?? {}))
+      if (group && labels.sceneGroups[group])
+        groups.set(group, [...(groups.get(group) ?? []), kind]);
+    let allowed = new Set(filter?.allowed ?? filter?.kinds ?? []);
+    const stopping = filter
+      ? [...groups].map(([group, kinds]) =>
+          settingRow(
+            labels.sceneGroups[group],
+            toggle({
+              attr: "stop",
+              testid: `options-stop-${group}`,
+              on: () => kinds.every((kind) => allowed.has(kind)),
+              set: async (wanted) => {
+                for (const kind of kinds)
+                  wanted ? allowed.add(kind) : allowed.delete(kind);
+                const every = allowed.size === filter.kinds.length;
+                const saved = await post(
+                  `/api/scene-filter?id=${encodeURIComponent(me.id)}&kinds=${every ? "all" : [...allowed].join(",")}`,
+                );
+                allowed = new Set(saved.allowed ?? saved.kinds);
+              },
+            }),
+          ),
+        )
+      : [];
+    return [
+      optionsBoard({
+        columns: [
+          [
+            ...(seeing.length ? [{ title: labels.seeing, rows: seeing }] : []),
+            ...(stopping.length
+              ? [{ title: labels.sceneStop, rows: stopping }]
+              : []),
             {
-              actions: [
-                // Dev mode, for a developer's session only.
-                {
-                  label: labels.devMode,
-                  className: "dev-only",
-                  onClick: () => window.open("/dev"),
-                },
-                {
-                  label: labels.quitToTitle,
-                  testid: "quit-to-title",
-                  onClick: () => window.location.reload(),
-                },
+              title: labels.leave,
+              rows: [
+                quitButton(labels.quitToTitle, () => window.location.reload()),
               ],
             },
           ],
-        },
-      ],
-    });
+          [
+            {
+              title: labels.devMode,
+              rows: [
+                toggle({
+                  attr: "dev",
+                  testid: "options-dev-mode",
+                  on: devModeOn,
+                  set: setDevMode,
+                }),
+              ],
+            },
+          ],
+        ],
+      }),
+    ];
   },
   async travel() {
     const [places, government] = await Promise.all([
@@ -3479,158 +3879,76 @@ const sheets = {
       organizationId: part.filing.id,
     }));
     const destinations = [...trails, ...counters, ...places];
-    // Why each card is listed, from the player's own record: where they work,
-    // what they can do there, where they serve, where they file. Never what
-    // someone they know does there (owner, Oct 28, point 27: "things do not
-    // pop up because someone the player knows does them").
-    const OWN = new Set(["work", "action", "serve"]);
-    const reasonLine = (p) =>
-      p.trail
-        ? ""
-        : p.filing
-          ? labels.reasons.filing
-          : p.reasons
-              .filter((r) => OWN.has(r.kind))
-              .map((r) =>
-                r.kind === "action"
-                  ? `${labels.reasons.action} ${(controls.actions?.[r.recordId] ?? "").toLowerCase()}`
-                  : labels.reasons[r.kind],
-              )
-              .join(" · ");
-    // Open while someone works there now, by their own hours; else closed.
-    const hereLine = (p) =>
-      p.trail
-        ? (p.trail.contest?.title ?? "")
-        : p.filing
-          ? labels.filing
-          : p.presentCount
-            ? `${labels.open} · ${p.presentNames.join(", ")}`
-            : labels.closed;
-    // A card opens the place's own view: its picture, what you do there, who
-    // works there, then Go (owner, Oct 28, point 28).
-    const showPlace = async (p) => {
-      if (p.trail) return trailView(p.trail);
-      // An office keeps its clerk's hours: the card says when it next opens.
+    // What you can do at a place is the core's own offers for it: bare action names.
+    const doHere = (p) =>
+      p.trail || p.filing
+        ? []
+        : p.reasons
+            .filter((r) => r.kind === "action")
+            .map((r) => controls.actions?.[r.recordId] ?? "")
+            .filter(Boolean);
+    const town = me.placeName.split(",")[0];
+    const groupOf = (p) =>
+      p.trail ? labels.groupTrail : p.filing ? labels.groupFiling : town;
+    // A place's detail loads when it is chosen: an office keeps its clerk's hours.
+    const detailOf = (p) => async () => {
       const hours = p.filing
         ? await api(
             `/api/filing/hours?filedWith=${encodeURIComponent(p.filedWith)}`,
           )
         : {};
-      const picture = p.presentation?.imageUrl;
       const opensLine = hours.opens
         ? labels.opensAt
             .replace("{day}", dateWords(hours.opens.date, { weekday: true }))
             .replace("{time}", timeWords(hours.opens.minuteOfDay))
         : "";
-      // A filing office says what you do there in a sentence, never a list of
-      // seats by their holders' names (owner, Nov 1: "It says what you do
-      // here. And then it's just a list of people's names."); the clerk asks
-      // which race at the counter.
-      const doHere = p.filing
-        ? [
-            { text: labels.filingDoes },
-            ...(opensLine ? [{ text: opensLine }] : []),
-          ]
-        : reasonLine(p)
-          ? reasonLine(p)
-              .split(" · ")
-              .map((text) => ({ text }))
-          : [];
-      // The counter's role, from the office's record ("(counter: director)").
-      const role = p.filing
-        ? (p.filedWith.match(/\(counter: ([^)]*)\)/)?.[1] ?? "")
-        : "";
       const known = new Set((p.known ?? []).map((k) => k.name));
-      const people = p.filing
-        ? role
-          ? [{ text: words(role) }]
-          : []
-        : [
-            ...(p.known ?? []).map((k) => ({
-              node: personRow({
-                name: k.name,
-                onOpen: () => {
-                  closeSheet();
-                  showPerson({ personId: k.personId });
-                },
-              }),
-            })),
-            ...p.presentNames
-              .filter((name) => !known.has(name))
-              .map((name) => ({ text: name })),
-            ...(p.staff
-              ? [{ text: `${p.staff} ${labels.staff}`, tone: "small" }]
-              : []),
-          ];
-      const go = {
-        actions: [
-          {
-            label: labels.go,
-            testid: "place-go",
-            onClick: () =>
-              p.filing ? openFiling(p.filedWith) : visit(p.organizationId),
+      const who = peopleSentence([
+        ...(p.known ?? []).map((k) => ({
+          name: k.name,
+          onOpen: () => {
+            closeSheet();
+            showPerson({ personId: k.personId });
           },
-        ],
+        })),
+        ...(p.presentNames ?? [])
+          .filter((name) => !known.has(name))
+          .map((name) => ({ name })),
+      ]);
+      return {
+        openLabel: labels.openLabel,
+        open: p.filing
+          ? opensLine || labels.filing
+          : p.presentCount
+            ? labels.open
+            : labels.closed,
+        who,
+        does: doHere(p),
       };
-      $("sheet-body").replaceChildren(
-        ...recordScreen({
-          heading: { name: p.name, meta: hereLine(p) },
-          // Go sits under the picture, in view whatever the office takes: an
-          // office with fifteen races runs past the window, and the sheet's
-          // own page-turner then turns the races, never the way in.
-          sections: [
-            { items: [picture ? { picture } : null, go] },
-            ...(doHere.length
-              ? [{ title: labels.whatYouDo, items: doHere }]
-              : []),
-            ...(people.length
-              ? [{ title: labels.whoWorks, items: people }]
-              : []),
-          ],
-        }),
-      );
-      $("sheet-body").classList.add("place-view");
     };
-    return listScreen({
-      search: { placeholder: labels.search },
-      layout: "tiles",
-      pages: {
-        rows: 2,
-        columns: 3,
-        // Two rows of tiles that fit the window: short windows take shorter tiles.
-        rowHeight: window.innerHeight >= 860 ? 262 : 214,
-        gap: 14,
-        words: {
-          page: controls.politics.page,
-          previous: controls.politics.previousPage,
-          next: controls.politics.nextPage,
-        },
+    return travelScreen({
+      labels,
+      words: {
+        page: controls.politics.page,
+        previous: controls.politics.previousPage,
+        next: controls.politics.nextPage,
       },
-      entries: (query) =>
-        destinations
-          .filter((p) =>
-            p.name.toLowerCase().includes(query.trim().toLowerCase()),
-          )
-          .map((p) => ({
-            title: p.name,
-            picture: p.presentation?.imageUrl,
-            lines: [hereLine(p)],
-            note: reasonLine(p),
-            badge: Boolean(p.trail) || p.filing || p.presentCount > 0,
-            label: p.name,
-            onSelect: () => showPlace(p),
-            // The record behind the reason, for the specs; never shown as text.
-            data: {
-              reason: (p.trail
-                ? [p.trail.filing.id]
-                : p.filing
-                  ? [p.filedWith]
-                  : p.reasons.length
-                    ? p.reasons.map((r) => r.recordId)
-                    : [p.organizationId]
-              ).join(" "),
-            },
-          })),
+      entries: destinations.map((p) => ({
+        group: groupOf(p),
+        title: p.name,
+        filing: Boolean(p.filing),
+        picture: p.presentation?.imageUrl,
+        ...(p.trail
+          ? { onOpen: () => trailView(p.trail) }
+          : {
+              load: detailOf(p),
+              go: {
+                label: `${labels.go} ${p.name}`,
+                onClick: () =>
+                  p.filing ? openFiling(p.filedWith) : visit(p.organizationId),
+              },
+            }),
+      })),
     });
   },
   async politics() {
@@ -3646,6 +3964,32 @@ const sheets = {
    * The player's own filed campaign stays above it (screens-campaign-board
    * is the one board that replaces those rows).
    */
+  /** The campaign board of each filed race (the Campaign tab; one filed race shows its board). */
+  async campaign() {
+    const parts = await campaignParts();
+    if (!parts.length) return [];
+    if (parts.length === 1) return [parts[0].tab];
+    return rosterScreen({
+      title: controls.campaignBoard.title,
+      className: "campaign-screen",
+      words: {
+        page: controls.politics.page,
+        previous: controls.politics.previousPage,
+        next: controls.politics.nextPage,
+      },
+      groups: [
+        {
+          entries: parts.map((part) => ({
+            key: part.filing.id,
+            label: part.contest?.title ?? part.filing.id,
+            data: { campaign: part.filing.id },
+            part,
+          })),
+        },
+      ],
+      render: async (entry) => [entry.part.tab],
+    });
+  },
   async campaigns() {
     const [v, ballot] = await Promise.all([
       api(`/api/government?id=${encodeURIComponent(me.id)}`),
@@ -3654,155 +3998,149 @@ const sheets = {
     const labels = controls.localRaces;
     const stance = voteWords();
     const filed = new Set(v.filings.map((f) => f.contestId));
-    const fileForIt = (race) => {
-      const b = makeButton({ textContent: labels.fileForIt });
-      b.dataset.testid = "file-for-it";
-      b.addEventListener("click", () =>
-        openFiling(race.filedWith, race.contestId),
-      );
-      return buttonTray(b);
-    };
     const status = (race) =>
       filed.has(race.contestId)
         ? labels.youFiled
         : race.filers.length
           ? labels.running.replace("{n}", race.filers.length)
           : labels.noFilers;
-    // One race's page: who is running as face cards with where they stand,
-    // the race's dates beside them, and File for it in its tray.
-    const showRace = (race) => {
-      $("sheet").classList.remove("fits");
-      $("sheet-body").replaceChildren(
-        splitScreen({
-          controls: [heading(race.title, "h2")],
-          main: [
-            plate(
-              race.filers.length ? status(race) : null,
-              ...(race.filers.length
-                ? race.filers.map((f) =>
-                    plate(
-                      null,
-                      memberCard({
-                        name: f.name ?? "",
-                        line: f.party ?? "",
-                        party: f.party,
-                        badge: f.party ? f.party.charAt(0) : null,
-                        face: f.face,
-                        onOpen: () => {
-                          closeSheet();
-                          showPerson({
-                            personId: f.cardId,
-                            figureUrl: f.face?.url,
-                          });
-                        },
-                      }),
-                      ...f.stances.map((st) =>
-                        row(
-                          policyLabel(st.question),
-                          st.position > 0
-                            ? (stance.for ?? "")
-                            : (stance.against ?? ""),
-                        ),
-                      ),
-                    ),
-                  )
-                : [prose(labels.noFilers, "record-empty")]),
-              // Only a race the player may run for (owner, Oct 29: six
-              // offices; the row's playerMayFile, government.ts).
-              ...(race.filingOpen &&
-              race.playerMayFile &&
-              !filed.has(race.contestId) &&
-              race.filedWith
-                ? [fileForIt(race)]
-                : []),
+    // One race's page: its title and date, who is running (face, party, where they stand),
+    // its dates, and File for it when the player may.
+    const racePage = (race) => {
+      const candidates = race.filers.length
+        ? race.filers.map((f) =>
+            candidate(
+              memberCard({
+                name: f.name ?? "",
+                line: f.party ?? "",
+                party: f.party,
+                badge: f.party ? f.party.charAt(0) : null,
+                face: f.face,
+                onOpen: () => {
+                  closeSheet();
+                  showPerson({ personId: f.cardId, figureUrl: f.face?.url });
+                },
+              }),
+              ...f.stances.map((st) =>
+                row(
+                  policyLabel(st.question),
+                  st.position > 0 ? (stance.for ?? "") : (stance.against ?? ""),
+                ),
+              ),
             ),
-          ],
-          side: [
-            {
-              title: labels.dates,
-              nodes: [
-                dateList([
-                  ...(race.filingClosed
-                    ? []
-                    : [
-                        {
-                          when: dateWords(race.filingDeadline, {
-                            month: "short",
-                            year: me.date,
-                          }),
-                          text: labels.filingCloses,
-                        },
-                      ]),
-                  {
-                    when: dateWords(race.electionDate, {
-                      month: "short",
-                      year: me.date,
-                    }),
-                    text: labels.electionDay,
-                  },
-                ]),
-              ],
-            },
-          ],
-          className: "race-page",
-        }),
+          )
+        : [prose(labels.noFilers, "record-empty")];
+      const mayFile =
+        race.filingOpen &&
+        race.playerMayFile &&
+        !filed.has(race.contestId) &&
+        race.filedWith;
+      const fileButton = makeButton({ textContent: labels.fileForIt });
+      fileButton.dataset.testid = "file-for-it";
+      fileButton.addEventListener("click", () =>
+        openFiling(race.filedWith, race.contestId),
       );
-    };
-    // The coming ballot as race cards on a plate, paged to fit the window;
-    // each opens its race (owner, Oct 29: every menu like Government).
-    const races = ballot.races.map((race) => ({
-      title: race.title,
-      value: status(race),
-      lede: dateWords(race.electionDate),
-      note: race.filingClosed
-        ? null
-        : `${labels.filingCloses} ${dateWords(race.filingDeadline)}`,
-      label: race.title,
-      onSelect: () => showRace(race),
-      data: { contest: race.contestId },
-    }));
-    const own = v.filings.length ? await campaignRows() : [];
-    return [
-      splitScreen({
-        main: [
-          ...(own.length ? [plate(labels.yourCampaign, ...own)] : []),
-          plate(
-            labels.title,
-            ...(races.length
+      return [
+        rosterTitle(
+          race.title,
+          dateWords(race.electionDate, { year: today() }),
+        ),
+        rosterCols(
+          // A candidate's name opens their card; there is no rally to go to
+          // (SG-SCREENS-candidate-rally: no engine keeps a rally as a place and a time).
+          stripSection(1, labels.whoIsRunning, ...candidates),
+          rosterSide(
+            ...(race.lastTime
               ? [
-                  pager({
-                    items: races,
-                    render: listEntry,
-                    rows: Math.max(
-                      1,
-                      Math.min(
-                        4,
-                        Math.floor(
-                          (window.innerHeight - (own.length ? 580 : 400)) / 118,
-                        ),
-                      ),
-                    ),
-                    columns: 3,
-                    rowHeight: 108,
-                    gap: 10,
-                    words: {
-                      page: controls.politics.page,
-                      previous: controls.politics.previousPage,
-                      next: controls.politics.nextPage,
-                    },
-                    className: "race-cards",
-                  }),
+                  stripSection(
+                    3,
+                    labels.lastTime,
+                    dotRows([
+                      {
+                        label: dateWords(race.lastTime.date, {
+                          year: today(),
+                        }),
+                        value: race.lastTime.winnerId
+                          ? nameLink(race.lastTime.winner, () =>
+                              showPerson({ personId: race.lastTime.winnerId }),
+                            )
+                          : race.lastTime.winner,
+                      },
+                      {
+                        label: labels.share,
+                        value: `${race.lastTime.sharePercent} ${labels.percent}`,
+                      },
+                    ]),
+                  ),
                 ]
-              : [prose(labels.noBallot, "record-empty")]),
+              : []),
+            stripSection(
+              2,
+              labels.dates,
+              dateList([
+                ...(race.filingClosed
+                  ? []
+                  : [
+                      {
+                        when: dateWords(race.filingDeadline, {
+                          month: "short",
+                          year: today(),
+                        }),
+                        text: labels.filingCloses,
+                      },
+                    ]),
+                {
+                  when: dateWords(race.electionDate, {
+                    month: "short",
+                    year: today(),
+                  }),
+                  text: labels.electionDay,
+                },
+              ]),
+            ),
+            ...(mayFile ? [buttonTray(fileButton)] : []),
           ),
-        ],
-        className: "campaigns-screen",
-      }),
+        ),
+      ];
+    };
+    const byDate = new Map();
+    for (const race of ballot.races) {
+      const day = byDate.get(race.electionDate) ?? [];
+      day.push(race);
+      byDate.set(race.electionDate, day);
+    }
+    const groups = [
+      ...[...byDate.entries()]
+        .sort(([a], [b]) => a.localeCompare(b))
+        .map(([day, races]) => ({
+          title: dateWords(day, { year: today() }),
+          entries: races.map((race) => ({
+            key: race.contestId,
+            label: race.title,
+            aside:
+              race.filers.length || filed.has(race.contestId)
+                ? status(race)
+                : "",
+            data: { contest: race.contestId },
+            race,
+          })),
+        })),
     ];
+    if (!groups.length) return [prose(labels.noBallot, "record-empty")];
+    return rosterScreen({
+      title: labels.title,
+      groups,
+      className: "elections-screen",
+      words: {
+        page: controls.politics.page,
+        previous: controls.politics.previousPage,
+        next: controls.politics.nextPage,
+      },
+      render: async (entry) => racePage(entry.race),
+    });
   },
   /**
-   * Politics → Government, drawn as the Oct 14 mock (docs/ui/mocks/
-   * screens-2026-10-14/shots/gov.png; owner, Oct 29: "make it look like a real
+   * Politics → Government, drawn as a game menu (owner, Oct 29: "make it look like a real
    * game menu"). The level (Local, State, Federal) and the branch
    * (Legislative, Executive) are two rows of tabs. A lawmaking body is its
    * room's painting with its name and when it meets, its party split, its
@@ -3812,6 +4150,64 @@ const sheets = {
    * inside its box, never a scroll (owner, Oct 29). Every card opens the
    * person's card, where you act (owner, Oct 29: see and jump).
    */
+  // Bills before your state's chambers and Congress, followed from home: where each is, how
+  // your own members voted, whether it reaches your place; a card opens the bill's paper.
+  async bills() {
+    const words = controls.billFollow ?? {};
+    const status = controls.floor?.status ?? {};
+    const list = await api("/api/bills/following");
+    const body = (...nodes) => $("sheet-body").replaceChildren(...nodes);
+    const open = (item) =>
+      openBillPaper(item.id, body, () => openSheet("bills"), words.back);
+    return [
+      stripScreen({
+        name: controls.titles.bills,
+        role: "",
+        face: null,
+        columns: [
+          list.length
+            ? list.map((item, at) => {
+                const button = makeButton({
+                  className: "action",
+                  textContent: words.open,
+                });
+                button.addEventListener("click", () => open(item));
+                return stripSection(
+                  1 + (at % 5),
+                  `${item.number} · ${item.title}`,
+                  line(
+                    [
+                      status[item.status],
+                      ...item.floor.map(
+                        (f) => `${f.chamberTitle}: ${f.result}`,
+                      ),
+                      item.reachesYou ? words.reaches : null,
+                    ]
+                      .filter(Boolean)
+                      .join(" · "),
+                  ),
+                  ...(item.mine.length
+                    ? [
+                        introText(
+                          `${words.yourMembers}: `,
+                          ...item.mine.flatMap((m, i) => [
+                            ...(i ? [", "] : []),
+                            nameLink(m.name, () =>
+                              showPerson({ personId: m.memberId }),
+                            ),
+                            ` ${controls.billStage?.[m.vote === "yes" ? "yes" : m.vote === "no" ? "no" : "abstain"] ?? ""}`,
+                          ]),
+                        ),
+                      ]
+                    : []),
+                  button,
+                );
+              })
+            : [stripSection(1, controls.titles.bills, prose(words.empty))],
+        ],
+      }),
+    ];
+  },
   async government() {
     const labels = controls.politics;
     const [{ states }, gov] = await Promise.all([
@@ -3823,7 +4219,7 @@ const sheets = {
         (t, [k, v]) => t.replaceAll(`{${k}}`, String(v)),
         text ?? "",
       );
-    const short = (iso) => dateWords(iso, { month: "short", year: me.date });
+    const short = (iso) => dateWords(iso, { month: "short", year: today() });
     const open = (cardId, face) => () => {
       closeSheet();
       showPerson({ personId: cardId, figureUrl: face?.url });
@@ -3839,7 +4235,7 @@ const sheets = {
           ? labels.atLarge
           : ""
         : /^\d+$/.test(district)
-          ? fill(body.level === "city" ? labels.ward : labels.district, {
+          ? fill(labels.district, {
               n: Number(district),
             })
           : district;
@@ -3914,56 +4310,53 @@ const sheets = {
       );
     const voteList = (votes) =>
       votes.length
-        ? votes.map((v) =>
-            voteBar({
-              title: v.title,
-              when: short(v.date),
-              yes: v.yes,
-              no: v.no,
-              yesLabel: fill(labels.yesCount, { n: v.yes }),
-              noLabel: fill(labels.noCount, { n: v.no }),
-              passed: v.passed,
-              outcome: v.passed ? labels.passed : labels.failed,
-            }),
-          )
+        ? [
+            voteRows(
+              votes.map((v) => ({
+                title: v.title,
+                result: `${v.passed ? labels.passed : labels.failed} · ${fill(labels.yesCount, { n: v.yes })}, ${fill(labels.noCount, { n: v.no })}`,
+                when: short(v.date),
+                ...(v.openable
+                  ? {
+                      onOpen: () =>
+                        openBillPaper(
+                          v.billId,
+                          (...nodes) =>
+                            $("sheet-body").replaceChildren(...nodes),
+                          () => openSheet("government"),
+                          labels.backToGovernment,
+                        ),
+                    }
+                  : {}),
+              })),
+            ),
+          ]
         : [dateList([], labels.noVotes)];
-    // The party split, largest first, nonpartisan bodies as one gray bar.
+    // The party split, largest first, as big numbers in the party's color; a nonpartisan body as one.
     const splitBar = (body) => {
       const total = fill(labels.seatsTotal, { n: body.seats });
-      const vacant = body.vacant
-        ? fill(labels.vacantCount, { n: body.vacant })
-        : "";
       const held = body.members.length;
       const parts = body.parties.length
         ? body.parties.map((p) => ({
             party: p.party,
             seats: p.seats,
-            label: fill(labels.partyCount, {
-              n: p.seats,
-              party:
-                (p.seats === 1 ? labels.partySingular : labels.partyPlural)?.[
-                  p.party
-                ] ?? p.party,
-            }),
+            label:
+              (p.seats === 1 ? labels.partySingular : labels.partyPlural)?.[
+                p.party
+              ] ?? p.party,
           }))
-        : [
-            {
-              party: null,
-              seats: held,
-              label: `${labels.nonpartisan} · ${total}`,
-            },
-          ];
+        : [{ party: null, seats: held, label: labels.nonpartisan }];
       const unlisted = held - parts.reduce((sum, p) => sum + p.seats, 0);
-      return partyBar(
+      return seatNumbers(
         unlisted > 0 && body.parties.length
-          ? [
-              ...parts,
-              { party: null, seats: unlisted, label: String(unlisted) },
-            ]
+          ? [...parts, { party: null, seats: unlisted, label: total }]
           : parts,
-        body.seats,
-        total,
-        vacant,
+        body.vacant
+          ? {
+              count: body.vacant,
+              label: fill(labels.vacantCount, { n: body.vacant }),
+            }
+          : null,
       );
     };
     const lawmakingView = (body, executive, level, stateKey) => {
@@ -4015,56 +4408,58 @@ const sheets = {
               .map((m) => card(body, m, seatWords(body, m.district))),
           ]
         : body.members.map((m) => card(body, m, seatWords(body, m.district)));
-      const chart = big
-        ? [
-            seatChart(
-              [...body.members]
-                .sort((a, b) => (a.party ?? "~").localeCompare(b.party ?? "~"))
-                .map((m) => ({
-                  party: m.party,
-                  own: m.own,
-                  label: [m.name, m.party].filter(Boolean).join(", "),
-                })),
-              fill(labels.seatChart, { n: body.seats }),
-            ),
-          ]
-        : [];
       // The level's chief executive beside its lawmakers, where it has one.
       const chief = executive.find((e) => e.chief);
       return {
         main: [
           header,
-          splitBar(body),
-          ...chart,
-          pager({
-            items: people,
-            render: (node) => node,
-            rows: big ? rowsFor(650, 3) : rowsFor(560, 4),
-            columns: 2,
-            rowHeight: 64,
-            gap: 8,
-            words: pageWords,
-            className: "members-pager",
-          }),
+          stripSection(1, labels.seats, splitBar(body)),
+          stripSection(
+            2,
+            labels.members,
+            pager({
+              items: people,
+              render: (node) => node,
+              rows: big ? rowsFor(700, 3) : rowsFor(620, 4),
+              columns: 2,
+              rowHeight: 64,
+              gap: 8,
+              words: pageWords,
+              className: "members-pager",
+            }),
+          ),
         ],
         side: [
-          { title: labels.recentVotes, nodes: voteList(body.recentVotes) },
-          { title: labels.comingUp, nodes: [comingList(body.comingUp)] },
-          ...(chief?.members[0]
-            ? [
-                {
-                  title: chief.title,
-                  nodes: [
-                    card(
-                      chief,
-                      chief.members[0],
-                      sinceLine(chief.members[0]),
-                      true,
+          {
+            title: null,
+            nodes: [
+              stripSection(
+                3,
+                labels.recentVotes,
+                ...voteList(body.recentVotes),
+              ),
+              stripSection(4, labels.comingUp, comingList(body.comingUp)),
+              ...(chief?.members[0]
+                ? [
+                    stripSection(
+                      5,
+                      chief.title,
+                      leaderBlock({
+                        face: chief.members[0].face,
+                        name: chief.members[0].name,
+                        party: chief.members[0].party,
+                        post: chief.title,
+                        line: sinceLine(chief.members[0]),
+                        onOpen: open(
+                          chief.members[0].cardId,
+                          chief.members[0].face,
+                        ),
+                      }),
                     ),
-                  ],
-                },
-              ]
-            : []),
+                  ]
+                : []),
+            ],
+          },
         ],
       };
     };
@@ -4074,6 +4469,15 @@ const sheets = {
       const chief = executive.find((e) => e.chief) ?? executive[0];
       const officers = executive.filter((e) => e !== chief);
       const head = chief?.members[0];
+      const runs = peopleSentence(
+        officers.flatMap((o) =>
+          o.members.map((m) => ({
+            name: m.name,
+            relation: o.title,
+            onOpen: open(m.cardId, m.face),
+          })),
+        ),
+      );
       return {
         main: chief
           ? [
@@ -4085,8 +4489,24 @@ const sheets = {
                 // the filter names (owner, Oct 28, point 16).
                 line: level === "local" ? chief.government : null,
               }),
-              ...(head ? [card(chief, head, sinceLine(head), true)] : []),
-              section(
+              ...(head
+                ? [
+                    stripSection(
+                      1,
+                      chief.title,
+                      leaderBlock({
+                        face: head.face,
+                        name: head.name,
+                        party: head.party,
+                        post: chief.title,
+                        line: sinceLine(head),
+                        onOpen: open(head.cardId, head.face),
+                      }),
+                    ),
+                  ]
+                : []),
+              stripSection(
+                3,
                 labels.comingUp,
                 comingList(
                   executive
@@ -4097,29 +4517,22 @@ const sheets = {
               ),
             ]
           : [],
-        side: [
-          ...(officers.length
-            ? [
-                {
-                  title: labels.officers,
-                  nodes: [
-                    pager({
-                      items: officers.flatMap((o) =>
-                        o.members.map((m) => card(o, m, o.title)),
-                      ),
-                      render: (node) => node,
-                      rows: rowsFor(450, 4),
-                      columns: 1,
-                      rowHeight: 64,
-                      gap: 8,
-                      words: pageWords,
-                      className: "members-pager",
+        side: runs
+          ? [
+              {
+                title: null,
+                nodes: [
+                  stripSection(
+                    2,
+                    fill(labels.whoRuns, {
+                      name: chief?.government ?? chief?.title ?? "",
                     }),
-                  ],
-                },
-              ]
-            : []),
-        ],
+                    runs,
+                  ),
+                ],
+              },
+            ]
+          : [],
       };
     };
     // The chosen level, branch, state and body, kept while the sheet is open.
@@ -4241,7 +4654,7 @@ const sheets = {
           ? executiveView(v.executive, level)
           : lawmakingView(body, v.executive, level, v.state.key);
       const screenNode = splitScreen({
-        className: "government-screen",
+        className: "government-screen strip-screen strip-wrap strips ol-g",
         controls: [
           levels,
           stateFilter,
@@ -4251,20 +4664,29 @@ const sheets = {
         side: view.side,
       });
       // The panel never scrolls: the members' pager gives up rows first (`fitPagers`, here and
-      // when the sheet opens); a big body on a short window still too tall then lets its seat picture
-      // give way, a frame later (the party split bar above it says the same count).
+      // when the sheet opens).
       fitPagers(screenNode);
-      window.requestAnimationFrame(() =>
-        window.requestAnimationFrame(() => {
-          const body = $("sheet-body");
-          if (body.scrollHeight > body.clientHeight + 1)
-            for (const chart of screenNode.querySelectorAll(".seat-chart"))
-              chart.hidden = true;
-        }),
-      );
       return screenNode;
     };
-    return [await screen()];
+    const devBills = devModeOn()
+      ? await devBillsPanel({
+          labels: controls.devBills,
+          onDone: () => refresh(),
+        })
+      : null;
+    const devBribe = devBills
+      ? await devBribePanel({
+          labels: controls.devBribe,
+          bodies: devBills.bodies,
+          billId: devBills.billId,
+          onDone: () => refresh(),
+        })
+      : null;
+    return [
+      await screen(),
+      ...(devBills ? [devBills.section] : []),
+      ...(devBribe ? [devBribe] : []),
+    ];
   },
   /**
    * Parties, illustrated: the state's map with the player's districts and
@@ -4273,117 +4695,90 @@ const sheets = {
    * 28, point 20: the map that once existed, brought back).
    */
   async parties() {
-    const [v, m] = await Promise.all([
-      api(`/api/government?id=${encodeURIComponent(me.id)}`),
-      api("/api/map"),
-    ]);
+    const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);
     const labels = controls.politics;
-    const seatWords = (n) =>
-      `${n} ${n === 1 ? labels.seat : labels.seats.toLowerCase()}`;
-    // A district's hover title: its name and who holds it, by party; a
-    // district with no holder on record is its name alone.
-    const wordHolders = (district) =>
-      district.holders.length
-        ? `${district.name}: ${district.holders
-            .map((h) => (h.party ? `${h.name}, ${h.party}` : h.name))
-            .join("; ")}`
-        : district.name;
-    const parties = v.parties.map(({ party, seats }) => ({
-      party,
-      seats: seats.length,
-    }));
-    // The party the player belongs to, with how their views fit it, or the
-    // parties they could join (moved here from Government, which now draws
-    // the mock; never joined: files unaffiliated), the join buttons in a tray.
-    const membership = v.party ? partyRows(v.party) : [];
-    const joins = membership.filter((node) => node.tagName === "BUTTON");
-    // No tie on record: not registered, said so (never a party by default).
-    const unregistered =
-      v.party && !v.party.member
-        ? prose(controls.party.notRegistered, "record-empty")
-        : null;
-    // The map and its key on a plate; beside it your party, then each party's
-    // officeholders as face cards, one party at a time on the rail, paged.
-    const keys = v.parties.map(({ party }) => party);
-    let chosen = keys.includes(partyTab) ? partyTab : keys[0];
-    // The roster's box inside the "In office" plate under the map.
-    const roster = partyRoster();
-    const drawRoster = () => {
-      const seats =
-        v.parties.find(({ party }) => party === chosen)?.seats ?? [];
-      roster.replaceChildren(
-        pager({
-          items: seats,
-          render: (s) =>
-            memberCard({
-              name: s.name,
-              line: s.title,
-              party: chosen,
-              badge: chosen ? chosen.charAt(0) : null,
-              face: s.face,
-              onOpen: () => {
-                closeSheet();
-                showPerson({ personId: s.cardId, figureUrl: s.face?.url });
-              },
-            }),
-          rows: Math.max(
-            1,
-            Math.min(5, Math.floor((window.innerHeight - 600) / 72)),
-          ),
-          columns: 2,
-          rowHeight: 64,
-          gap: 8,
-          words: {
-            page: labels.page,
-            previous: labels.previousPage,
-            next: labels.nextPage,
-          },
-        }),
-      );
-      fitPagers(roster);
+    const party = v.party;
+    const mine = party?.member?.name;
+    const keys = v.parties.map((p) => p.party);
+    const pagerWords = {
+      page: labels.page,
+      previous: labels.previousPage,
+      next: labels.nextPage,
     };
-    const rail = tabBar({
-      attr: "party",
-      active: chosen,
-      tabs: keys.map((key) => ({
-        key,
-        label: key,
-        onSelect: () => {
-          partyTab = chosen = key;
-          chooseTab(rail, "party", key);
-          drawRoster();
-        },
-      })),
-    });
-    drawRoster();
-    return [
-      splitScreen({
-        // The map and, under it, each party's officeholders (path 11: under
-        // the map they have the room; beside a tray of join buttons on a
-        // 1024-wide window they were pushed past the foot).
-        main: [
-          ...(m
-            ? [
-                plate(
-                  null,
-                  districtMap(m, { wordHolders }),
-                  partyLegend(parties, seatWords),
+    // One party's page: who holds office for it (cards, paged), and where the player stands
+    // with it (registered, or Join).
+    const partyPage = (name) => {
+      const seats = v.parties.find((p) => p.party === name)?.seats ?? [];
+      const meNodes = !party
+        ? []
+        : mine === name
+          ? partyRows(party)
+          : !mine
+            ? partyRows(party).filter(
+                (node, at) =>
+                  node.tagName === "BUTTON" && party.parties[at]?.name === name,
+              )
+            : [];
+      return [
+        rosterTitle(name),
+        stripSection(
+          1,
+          labels.inOffice,
+          seats.length
+            ? pager({
+                items: seats,
+                render: (s) =>
+                  memberCard({
+                    name: s.name,
+                    line: s.title,
+                    party: name,
+                    badge: name.charAt(0),
+                    face: s.face,
+                    onOpen: () => {
+                      closeSheet();
+                      showPerson({
+                        personId: s.cardId,
+                        figureUrl: s.face?.url,
+                      });
+                    },
+                  }),
+                rows: Math.max(
+                  1,
+                  Math.min(5, Math.floor((window.innerHeight - 420) / 72)),
                 ),
-              ]
-            : []),
-          ...(keys.length ? [plate(labels.inOffice, rail, roster)] : []),
-        ],
-        side: [
-          membership.length && {
-            title: v.party?.member ? null : controls.party.member,
-            nodes: joins.length
-              ? [...(unregistered ? [unregistered] : []), buttonTray(...joins)]
-              : membership,
-          },
-        ].filter(Boolean),
-        className: "parties-screen",
-      }),
-    ];
+                columns: 2,
+                rowHeight: 64,
+                gap: 8,
+                words: pagerWords,
+              })
+            : prose(labels.noHolders ?? "", "record-empty"),
+        ),
+        ...(meNodes.length
+          ? [stripSection(2, controls.party.me, ...meNodes)]
+          : []),
+      ];
+    };
+    if (!keys.length) return [prose(labels.noParties ?? "", "record-empty")];
+    return rosterScreen({
+      title: labels.partiesTitle,
+      className: "parties-screen",
+      chosenKey: keys.includes(partyTab) ? partyTab : mine,
+      groups: [
+        {
+          entries: keys.map((name) => ({
+            key: name,
+            label: name,
+            aside: name === mine ? controls.party.mine : "",
+            name,
+          })),
+        },
+      ],
+      words: pagerWords,
+      render: async (entry) => {
+        partyTab = entry.name;
+        return partyPage(entry.name);
+      },
+    });
   },
   /**
    * Issues: the law in force here as cards by subject (owner, Oct 28, point
@@ -4415,30 +4810,22 @@ const sheets = {
       series.includes(":")
         ? series.split(":")[1].split(".")[0]
         : (labels.issueGroupOf?.[series] ?? "fiscal");
-    const governingLevel = (law) =>
-      law.governing?.level ?? law.levels.find((l) => l.row)?.level ?? null;
-    const governingRow = (law) =>
-      law.levels.find((l) => l.level === governingLevel(law))?.row ??
-      law.governing;
     const valueText = (law) =>
       law.text ??
       (law.value !== null && law.value !== undefined
         ? lawText(law, law.value, law.unit)
         : null);
-    // The law's own screen.
-    // One law's page: what is in force at each level on plates, what passed
-    // it, and beside it what is coming, what changed and how members voted.
-    const showLaw = async (law) => {
-      const level = governingLevel(law);
+    // One law's page: what is in force at each level and since when, the statute, the
+    // measure that enacted it, what is coming, what changed and how members voted.
+    const lawPage = async (law) => {
       const inForce = law.levels
         .filter((l) => l.row)
-        .map((l) => ({
-          title: setBy(l.level),
-          value: lawText(law, l.row.value, l.row.unit),
-          note: l.row.effectiveDate
-            ? `${labels.since} ${dateWords(l.row.effectiveDate)}`
-            : "",
-        }));
+        .flatMap((l) => [
+          row(setBy(l.level), lawText(law, l.row.value, l.row.unit)),
+          ...(l.row.effectiveDate
+            ? [row(labels.since, dateWords(l.row.effectiveDate))]
+            : []),
+        ]);
       const statutes = law.levels
         .filter((l) => l.row?.terms?.cite)
         .map((l) => row(labels.statute, l.row.terms.cite));
@@ -4458,7 +4845,7 @@ const sheets = {
                       openBillPaper(
                         billId,
                         (...nodes) => $("sheet-body").replaceChildren(...nodes),
-                        () => showLaw(law),
+                        () => openSheet("issues"),
                       ),
                   })
                 : null;
@@ -4467,8 +4854,8 @@ const sheets = {
       ).filter(Boolean);
       const coming = law.pending.map((pending) =>
         row(
-          `${setBy(pending.level)} · ${dateWords(pending.effectiveDate)}`,
-          lawText(law, pending.value, pending.unit),
+          setBy(pending.level),
+          `${lawText(law, pending.value, pending.unit)} · ${dateWords(pending.effectiveDate)}`,
         ),
       );
       const changed = [...changes.took, ...changes.ahead]
@@ -4482,132 +4869,74 @@ const sheets = {
       const votes = (law.votes ?? []).map((vote) =>
         row(vote.name, controls.meeting?.[vote.vote] ?? ""),
       );
-      if (openTab !== "issues") return;
-      const side = [
-        coming.length && { title: labels.coming, nodes: coming },
-        changed.length && { title: labels.changed, nodes: changed },
-        votes.length && { title: labels.votes, nodes: votes },
-      ].filter(Boolean);
-      // A law with nothing beside it reads in a panel that ends at its plate.
-      $("sheet").classList.toggle("fits", !side.length);
-      $("sheet-body").replaceChildren(
-        splitScreen({
-          controls: [heading(policyLabel(law.series), "h2")],
-          main: [
-            plate(
-              labels.inForce,
-              factPlates(inForce),
-              ...statutes,
-              ...(measures.length ? [buttonTray(...measures)] : []),
-            ),
-          ],
-          side,
-          className: `law-page${level ? ` ${level}` : ""}`,
-        }),
-      );
+      return [
+        rosterTitle(policyLabel(law.series)),
+        stripSection(1, labels.inForce, ...inForce, ...statutes),
+        ...(measures.length ? [buttonTray(...measures)] : []),
+        ...(coming.length ? [stripSection(2, labels.coming, ...coming)] : []),
+        ...(changed.length
+          ? [stripSection(3, labels.changed, ...changed)]
+          : []),
+        ...(votes.length ? [stripSection(4, labels.votes, ...votes)] : []),
+      ];
     };
-    // The cards, by subject, narrowed by the search.
-    const card = (law) => {
-      const level = governingLevel(law);
-      const row = governingRow(law);
-      return {
-        title: policyLabel(law.series),
-        value: valueText(law),
-        lines: [
-          level
-            ? `${setBy(level)}${row?.effectiveDate ? ` ${labels.since} ${row.effectiveDate.slice(0, 4)}` : ""}`
-            : null,
-        ],
-        label: policyLabel(law.series),
-        onSelect: () => void showLaw(law),
-        data: { series: law.series },
-      };
-    };
-    // The cards of one subject at a time, chosen on the rail, paged inside
-    // a plate to fit the window; the panel never scrolls (owner, Oct 29). A
-    // search narrows the subjects and their cards as it is typed.
+    // Subjects at the left with how many laws each holds; a subject's laws beside it with
+    // the law now in force; the chosen law's page at the right (the Nov 8 mock).
     const order = Object.keys(labels.issueGroups ?? {});
     const byName = (a, b) =>
       policyLabel(a.series).localeCompare(policyLabel(b.series));
-    const columns = Math.max(
-      3,
-      Math.min(5, Math.floor((window.innerWidth - 240) / 230)),
+    const subjects = new Map();
+    for (const law of v.law) {
+      const key = groupOf(law.series);
+      if (!subjects.has(key)) subjects.set(key, []);
+      subjects.get(key).push(law);
+    }
+    const keys = [...subjects.keys()].sort(
+      (a, b) => order.indexOf(a) - order.indexOf(b),
     );
-    const rows = Math.max(
-      2,
-      Math.min(5, Math.floor((window.innerHeight - 400) / 122)),
-    );
+    if (!keys.length) return [prose(labels.noIssues, "record-empty")];
     const pageWords = {
       page: labels.page,
       previous: labels.previousPage,
       next: labels.nextPage,
     };
-    let query = "";
-    let rail = tabBar({ tabs: [] });
-    const cards = plate(null);
-    cards.classList.add("issue-plate");
-    const draw = () => {
-      const groups = new Map();
-      for (const law of v.law) {
-        if (
-          !policyLabel(law.series).toLowerCase().includes(query.toLowerCase())
-        )
-          continue;
-        const key = groupOf(law.series);
-        if (!groups.has(key)) groups.set(key, []);
-        groups.get(key).push(law);
-      }
-      const keys = [...groups.keys()].sort(
-        (a, b) => order.indexOf(a) - order.indexOf(b),
-      );
-      const subject = keys.includes(issueSubject) ? issueSubject : keys[0];
-      const next = tabBar({
-        attr: "subject",
-        className: "issue-subjects",
-        active: subject,
-        tabs: keys.map((key) => ({
-          key,
-          label: labels.issueGroups?.[key] ?? words(key),
-          onSelect: () => {
-            issueSubject = key;
-            draw();
-          },
-        })),
-      });
-      rail.replaceWith(next);
-      rail = next;
-      cards.replaceChildren(
-        subject
-          ? pager({
-              items: [...groups.get(subject)].sort(byName).map(card),
-              render: listEntry,
-              rows,
-              columns,
-              rowHeight: 112,
-              gap: 10,
-              words: pageWords,
-              className: "issue-cards",
-            })
-          : prose(labels.noIssues),
-      );
-    };
-    const search = searchBox({
-      value: query,
-      placeholder: labels.searchIssues,
-      onInput: (text) => {
-        query = text;
-        draw();
+    return rosterScreen({
+      title: labels.subjects,
+      className: "issues-screen",
+      chosenKey: keys.includes(issueSubject) ? issueSubject : keys[0],
+      words: pageWords,
+      groups: [
+        {
+          entries: keys.map((key) => ({
+            key,
+            label: labels.issueGroups?.[key] ?? words(key),
+            aside: String(subjects.get(key).length),
+            subject: key,
+          })),
+        },
+      ],
+      render: async (entry) => {
+        issueSubject = entry.subject;
+        const laws = [...subjects.get(entry.subject)].sort(byName);
+        return rosterScreen({
+          title: entry.label,
+          className: "issues-laws",
+          words: pageWords,
+          groups: [
+            {
+              entries: laws.map((law) => ({
+                key: law.series,
+                label: policyLabel(law.series),
+                aside: valueText(law) ?? "",
+                data: { series: law.series },
+                law,
+              })),
+            },
+          ],
+          render: (lawEntry) => lawPage(lawEntry.law),
+        });
       },
     });
-    search.setAttribute("aria-label", labels.searchIssues ?? "");
-    draw();
-    return [
-      splitScreen({
-        controls: [rail, search],
-        main: [cards],
-        className: "issues-screen",
-      }),
-    ];
   },
 };
 // Screens shown as tabs across the top of one menu screen.
@@ -4616,8 +4945,10 @@ const groups = {
     "government",
     "office",
     "campaigns",
+    "campaign",
     "parties",
     "issues",
+    "bills",
     "budgets",
   ],
   who: ["who", "jobs", "history"],
@@ -4627,9 +4958,12 @@ const groupOf = (tab) =>
 async function openSheet(tab) {
   await controlsReady;
   if (tab === "politics") tab = "government";
-  if (groupOf(tab) === "people") coachUsed("people-tab");
   openTab = tab;
   if (tab === "news") markNews(true);
+  if (tab === "journal")
+    document
+      .querySelector('#rings [data-tab="journal"]')
+      ?.classList.remove("unread");
   show("tip", false);
   const group = groupOf(tab);
   const politics =
@@ -4638,7 +4972,9 @@ async function openSheet(tab) {
       : { seats: [], filings: [], ofVotingAge: false };
   // A slower request for an earlier sheet must not put its tabs over the one opened since.
   if (openTab !== tab) return;
-  const holdsOffice = politics.seats.some((s) => s.holder?.personId === me.id);
+  const holdsOffice =
+    politics.holdsOffice ||
+    politics.seats.some((s) => s.holder?.personId === me.id);
   for (const b of document.querySelectorAll("[data-tab]"))
     b.classList.toggle("active", b.dataset.tab === group);
   $("sheet-title").textContent = controls.titles[group];
@@ -4649,6 +4985,7 @@ async function openSheet(tab) {
           (name !== "office" || holdsOffice) &&
           // Budgets wait until they are the player's business: an office, a
           // filing, or the age to vote.
+          (name !== "campaign" || politics.filings.length > 0) &&
           (name !== "budgets" ||
             holdsOffice ||
             politics.filings.length > 0 ||
@@ -4672,11 +5009,19 @@ async function openSheet(tab) {
     tab === "options" || !$("front").hidden,
   );
   const character = groupOf(tab) === "who";
-  $("sheet").classList.toggle("character-sheet", character);
-  // News is the paper itself: the sheet is the page, its masthead the title
-  // (owner, Oct 28, point 25).
-  $("sheet").classList.toggle("paper-sheet", tab === "news");
-  $("sheet-media").hidden = !character;
+  // You carries its own bust (the approved strip screen); Jobs and Your life keep the side figure.
+  $("sheet").classList.toggle(
+    "strip-sheet",
+    tab === "who" ||
+      tab === "budgets" ||
+      tab === "journal" ||
+      tab === "money" ||
+      tab === "campaign" ||
+      tab === "calendar" ||
+      tab === "news",
+  );
+  $("sheet").classList.toggle("character-sheet", character && tab !== "who");
+  $("sheet-media").hidden = !character || tab === "who";
   fillArtwork(
     $("sheet-media"),
     character
@@ -4703,7 +5048,7 @@ async function openSheet(tab) {
   $("sheet").classList.toggle(
     "fits",
     !["calendar", "people", "news"].includes(tab) &&
-      !character &&
+      (!character || tab === "who") &&
       !$("sheet-body").classList.contains("cols") &&
       !$("sheet-body").querySelector(".screen-grid, .split-screen"),
   );
@@ -4745,7 +5090,7 @@ function fitPagersNow(root, waits = 30) {
     // that fit (at least one).
     for (const part of root.querySelectorAll(".split-side")) {
       const shown = () =>
-        [...part.querySelectorAll(".vote-bar")].filter((v) => !v.hidden);
+        [...part.querySelectorAll(".vote-rows .dl")].filter((v) => !v.hidden);
       while (over(part) && shown().length > 1) shown().at(-1).hidden = true;
     }
     // The sheet still past its foot: a map gives back the difference, never
@@ -4821,12 +5166,20 @@ function rotateTitle(scenes, seconds) {
       next.classList.add("fading");
       setTimeout(() => {
         if (!onTitleMenu()) return next.classList.remove("fading");
+        // One picture, one fade: both layers drift on the same clock, so the
+        // base takes the new picture underneath and the top layer clears at once
+        // (no second fade, no restarted zoom; owner, Nov 8 P1).
         const back = $("backdrop");
+        const clear = () => {
+          back.onload = null;
+          next.style.transition = "none";
+          next.classList.remove("fading");
+          void next.offsetWidth;
+          next.style.transition = "";
+        };
+        back.onload = clear;
         back.src = next.src;
-        back.style.animation = "none";
-        void back.offsetWidth;
-        back.style.animation = "";
-        next.classList.remove("fading");
+        if (back.complete) clear();
       }, 3100);
     };
   }, seconds * 1000);
@@ -4836,11 +5189,16 @@ api("/api/title").then((title) => {
   if (title.scenes?.length > 1) rotateTitle(title.scenes, title.rotateSeconds);
   titleLife = title.life;
   $("front-continue").disabled = !titleLife;
+  // The mock (fr-title) offers Continue only for a life that exists, by that person's name.
+  $("front-continue").hidden = !titleLife;
+  void controlsReady.then(() => {
+    $("front-continue").querySelector(".continue-text b").textContent = (
+      controls.title?.continueAs ?? ""
+    ).replace("{name}", titleLife?.name ?? "");
+  });
   // The life's own face: the look the creator saved, as every other view of the player reads it.
   setFace("front-continue-bust", titleLife?.face);
 });
-// The build version, bottom right of the title (#4014).
-void displayVersion().then((v) => ($("title-version").textContent = v));
 $("front-continue").addEventListener("click", async () => {
   const life = titleLife;
   if (!life) return;
@@ -4907,13 +5265,16 @@ function worldSettings() {
   return Object.keys(settings).length ? settings : undefined;
 }
 $("front-options").addEventListener("click", () => openSheet("options"));
+$("front-saves").addEventListener("click", () => openSheet("saves"));
 $("front-patch-notes").addEventListener("click", () => openSheet("patchNotes"));
-// The bench's developer controls sit behind one faint ring, off by default.
-$("dev-toggle").addEventListener("click", () => {
-  const dev = document.body.classList.toggle("dev");
+// Dev mode is a setting in Options, off by default; its controls show while it is on.
+onDevMode((dev) => {
   if (dev) $("talk-silent").before(gapButton);
   else gapButton.remove();
 });
+restoreDevMode();
+restoreColorBlind();
+if (devModeOn()) $("talk-silent").before(gapButton);
 // New game: Custom world (the world's settings, then the creator), Start a
 // life (the creator) or New world (straight in, a random person and place).
 const FRONT_PANELS = [
@@ -4921,12 +5282,42 @@ const FRONT_PANELS = [
   "front-new",
   "front-advanced",
   "front-pick",
-  "cr-character",
-  "cr-place",
-  "cr-look",
+  "cr-screen",
 ];
+/**
+ * Where the close X on the front takes you from each panel: one level out. There is no Back
+ * button on any menu (owner, Oct 28: "Remove every Continue and Back from every menu").
+ */
+const FRONT_OUT = {
+  "front-new": () => frontPanel("front-main"),
+  "front-advanced": () => frontPanel("front-new"),
+  "front-pick": () => frontPanel("front-advanced"),
+  "cr-screen": () => {
+    // After a state is picked, out returns to the states (owner, Oct 28, point 5), then out of
+    // the creator.
+    if (setup.state) {
+      setup.state = null;
+      setup.town = null;
+      $("cr-place-summary-name").textContent = "";
+      void showStates();
+      return;
+    }
+    frontPanel("front-new");
+  },
+};
+document.getElementById("front-close")?.addEventListener("click", () => {
+  const here = FRONT_PANELS.find((id) => !document.getElementById(id).hidden);
+  FRONT_OUT[here]?.();
+});
+show("front-close", false);
 function frontPanel(name) {
   for (const id of FRONT_PANELS) show(id, id === name);
+  // The close X is on every front panel but the title menu itself.
+  show("front-close", name !== "front-main" && name !== null);
+  // Each panel is named for what it is (the Nov 8 front mock), not by the game's name.
+  const title = document.querySelector("#front > .title");
+  if (title && controls.frontTitles?.[name])
+    title.textContent = controls.frontTitles[name];
   // The loading card (no panel) sits in the top-left corner (owner, Oct 14).
   $("front").classList.toggle("loading", name === null);
 }
@@ -4949,8 +5340,6 @@ const setup = {
 function dateOrValue(value) {
   return /^\d{4}-\d{2}-\d{2}$/.test(String(value)) ? dateWords(value) : value;
 }
-const genderName = (g) =>
-  document.querySelector(`[data-gender="${g}"]`)?.textContent ?? "";
 $("cr-month").replaceChildren(
   ...optionsOf(MONTH_NAMES.map((name, i) => ({ value: i + 1, label: name }))),
 );
@@ -4983,66 +5372,49 @@ async function fillYears(keepYear) {
     years[0],
   );
   $("cr-year").value = String(nearest.year);
-  derivedAge();
-}
-function chosenAge() {
-  return /\(age (\d+)\)/.exec(
-    $("cr-year").selectedOptions[0]?.textContent ?? "",
-  )?.[1];
-}
-function derivedAge() {
-  const age = chosenAge();
-  $("cr-derived-age").textContent =
-    age && setup.start
-      ? (controls.creator?.ageLine ?? "")
-          .replace("{age}", age)
-          .replace("{date}", dateWords(setup.start))
-      : "";
 }
 $("cr-month").addEventListener("change", async () => {
   fillDays();
   await fillYears();
 });
 $("cr-day").addEventListener("change", () => fillYears());
-$("cr-year").addEventListener("change", derivedAge);
 /** A filled field drops its missing mark and the line at the bottom. */
 function filledIn() {
-  for (const group of document.querySelectorAll("#cr-character .missing"))
+  for (const group of document.querySelectorAll("#cr-screen .missing"))
     group.classList.remove("missing");
   $("front-status").textContent = "";
 }
 for (const id of ["cr-given", "cr-family"])
   $(id).addEventListener("input", filledIn);
-/**
- * The random name waits for a gender (owner, Nov 1: "Randomized name shouldn't
- * work until you choose a gender"): a name is drawn for the chosen gender, and
- * the button says what it waits for until then.
- */
-function nameWaitsForGender() {
-  const waiting = !setup.gender;
-  $("cr-random-name").disabled = waiting;
-  $("cr-random-name").textContent = waiting
-    ? controls.creator.nameWaitsForGender
-    : controls.creator.randomName;
-}
 function pickGender(g) {
   setup.gender = g;
-  nameWaitsForGender();
   filledIn();
   for (const b of document.querySelectorAll("[data-gender]")) {
     const on = b.dataset.gender === g;
     b.setAttribute("aria-pressed", String(on));
   }
+  void openLook();
 }
 for (const b of document.querySelectorAll("[data-gender]"))
   b.addEventListener("click", () => pickGender(b.dataset.gender));
 $("cr-random-name").addEventListener("click", async () => {
+  // A name is drawn for a gender (owner, Nov 1); with none chosen yet the gender field flashes
+  // as missing instead of the button saying what it waits for (the Nov 8 creator mock).
+  if (!setup.gender) {
+    document
+      .querySelector("[data-gender]")
+      ?.closest(".group")
+      ?.classList.add("missing");
+    return;
+  }
   setup.nameDraws++;
   const name = await api(
     `/api/creator/name?${new URLSearchParams({ seed: setup.seed, draw: setup.nameDraws, gender: setup.gender ?? "" })}`,
   );
   $("cr-given").value = name.givenName;
   $("cr-family").value = name.familyName;
+  filledIn();
+  nameFigure();
 });
 async function randomBirthday() {
   setup.birthdayDraws++;
@@ -5060,69 +5432,42 @@ $("cr-random-birthday").addEventListener("click", () => void randomBirthday());
 async function openCreator() {
   // The seed Advanced holds, drawn when the page loads, draws the world.
   setup.seed = $("seed").value || (await api("/api/seed")).seed;
-  $("cr-route-name").textContent = $("new-start").textContent.trim();
   if (!$("cr-year").options.length) await randomBirthday();
   await controlsReady;
-  nameWaitsForGender();
-  frontPanel("cr-character");
+  frontPanel("cr-screen");
+  void showStates();
+  if (setup.gender) void openLook();
 }
 $("new-life").addEventListener("click", () => frontPanel("front-new"));
-$("new-back").addEventListener("click", () => frontPanel("front-main"));
 $("new-advanced").addEventListener("click", () => frontPanel("front-advanced"));
 $("new-start").addEventListener("click", () => void openCreator());
 $("new-world").addEventListener("click", () => startLife({ custom: true }));
-$("advanced-back").addEventListener("click", () => frontPanel("front-new"));
 $("advanced-build").addEventListener(
   "click",
   () => void startLife({ custom: true, pick: true }),
 );
-$("pick-back").addEventListener("click", () => frontPanel("front-advanced"));
-$("cr-route").addEventListener("click", () => frontPanel("front-new"));
-$("cr-character-back").addEventListener("click", () => frontPanel("front-new"));
-$("cr-character-next").addEventListener("click", () => {
+// Begin names what is still missing and marks it, until it is filled (owner, Oct 28: "It
+// should flash red, or say what is missing at the bottom").
+function missingForBegin() {
   const given = $("cr-given").value.trim();
   const family = $("cr-family").value.trim();
-  // A field left empty is named at the bottom and its group marked until it
-  // is filled (owner, Oct 28: "It should flash red, or say what is missing
-  // at the bottom").
-  const missing = !setup.gender
-    ? { group: "gender-choices", text: controls.creator.missingGender }
-    : !given || !family
-      ? { group: "creator-name", text: controls.creator.missingName }
-      : null;
-  if (missing) {
-    $("front-status").textContent = missing.text;
-    document
-      .querySelector(`[data-testid="${missing.group}"]`)
-      .classList.add("missing");
-    return;
-  }
-  $("front-status").textContent = "";
-  $("cr-summary-name").textContent = `${given} ${family}`;
-  $("cr-summary-age").textContent =
-    `${controls.creator.summaryAge.replace("{age}", chosenAge())} · ${genderName(setup.gender)}`;
-  const pad = (n) => String(n).padStart(2, "0");
-  $("cr-summary-born").textContent = controls.creator.summaryBorn.replace(
-    "{date}",
-    dateWords(
-      `${$("cr-year").value}-${pad($("cr-month").value)}-${pad($("cr-day").value)}`,
-    ),
-  );
-  frontPanel("cr-place");
-  void showStates();
-});
-$("cr-summary").addEventListener("click", () => frontPanel("cr-character"));
-$("cr-place-back").addEventListener("click", () => {
-  // After a state is picked, Back returns to the states, not to the name
-  // and birthday (owner, Oct 28, point 5).
-  if (setup.state) {
-    setup.state = null;
-    setup.town = null;
-    void showStates();
-    return;
-  }
-  frontPanel("cr-character");
-});
+  if (!setup.gender)
+    return { group: "gender-choices", text: controls.creator.missingGender };
+  if (!given || !family)
+    return { group: "creator-name", text: controls.creator.missingName };
+  if (!setup.town)
+    return {
+      group: "creator-stage-place",
+      text: controls.creator.missingPlace,
+    };
+  return null;
+}
+function nameFigure() {
+  $("cr-figure-name").textContent =
+    `${$("cr-given").value.trim()} ${$("cr-family").value.trim()}`.trim();
+}
+for (const id of ["cr-given", "cr-family"])
+  $(id).addEventListener("input", nameFigure);
 
 // Where are you from: a state, then a city or town with its population.
 let states = [];
@@ -5178,7 +5523,8 @@ async function listTowns() {
         (n) => count.format(n),
         (town) => {
           setup.town = town;
-          void openLook();
+          showPlaceName();
+          filledIn();
         },
       ),
     ),
@@ -5196,7 +5542,9 @@ $("cr-place-random").addEventListener("click", async () => {
   setup.state = state;
   setup.town = town;
   $("cr-state-name").textContent = state.name;
-  await openLook();
+  showPlaceName();
+  filledIn();
+  await showStates();
 });
 
 // A row of color swatches: each a button named for its color, the chosen one marked.
@@ -5252,14 +5600,15 @@ async function openLook() {
         `/api/creator/appearance?${lookQuery({ recipe: JSON.stringify(setup.recipe) })}`,
       ),
     );
-  // The place chosen or drawn, named over the look; Change returns to the states.
+}
+/** The place chosen or drawn, named at the top of Where I'm from. */
+function showPlaceName() {
   // A town record's name may already carry its state ("Pewaukee, Wisconsin").
   $("cr-place-summary-name").textContent = setup.town.name.includes(
     setup.state.name,
   )
     ? setup.town.name
     : `${setup.town.name}, ${setup.state.name}`;
-  frontPanel("cr-look");
 }
 async function moveLook(row, by) {
   const view = await post(
@@ -5290,13 +5639,16 @@ $("cr-undo").addEventListener("click", () => {
   const last = setup.previous.pop();
   if (last) void setLook(last, false);
 });
-for (const id of ["cr-look-back", "cr-place-summary"])
-  $(id).addEventListener("click", () => {
-    frontPanel("cr-place");
-    void showStates();
-  });
-$("cr-begin").addEventListener("click", () =>
-  startLife({
+$("cr-begin").addEventListener("click", () => {
+  const missing = missingForBegin();
+  if (missing) {
+    $("front-status").textContent = missing.text;
+    document
+      .querySelector(`[data-testid="${missing.group}"]`)
+      .classList.add("missing");
+    return;
+  }
+  void startLife({
     placeKey: setup.town.key,
     person: {
       givenName: $("cr-given").value.trim(),
@@ -5307,8 +5659,8 @@ $("cr-begin").addEventListener("click", () =>
       birthDay: Number($("cr-day").value),
       recipe: setup.recipe,
     },
-  }),
-);
+  });
+});
 const placeControls = ["new-world", "advanced-build", "cr-begin"];
 
 /** Advanced start: everyone who holds an office in the built world, to play as. */
@@ -5316,6 +5668,23 @@ async function offerPlayAs(life) {
   const holders = await api("/api/advanced/officeholders");
   const labels = controls.advanced;
   const list = $("pick-list");
+  let chosen = null;
+  const choose = async (holder) => {
+    chosen = holder;
+    draw();
+    const { face } = await api(
+      `/api/advanced/officeholder-face?id=${encodeURIComponent(holder.personId)}`,
+    );
+    if (chosen !== holder) return;
+    $("pick-detail").replaceChildren(
+      playAsDetail(holder, {
+        face,
+        labels,
+        levels: controls.levels,
+        onPlay: () => void enterAs(life, holder.personId),
+      }),
+    );
+  };
   const draw = () => {
     const found = holders.filter((h) =>
       `${h.name} ${h.title} ${h.government}`
@@ -5323,26 +5692,21 @@ async function offerPlayAs(life) {
         .includes($("pick-search").value.trim().toLowerCase()),
     );
     list.replaceChildren(
-      ...found.slice(0, 60).map((h) => {
-        const b = makeButton({
-          textContent: `${h.name} · ${h.title}${h.government ? `, ${h.government.toLowerCase().replace(/\b[a-z]/g, (c) => c.toUpperCase())}` : ""}${h.party ? ` · ${h.party}` : ""}`,
-        });
-        b.dataset.record = h.termId;
-        b.addEventListener("click", () => void enterAs(life, h.personId));
-        return b;
+      ...playAsList(found.slice(0, 200), {
+        levels: controls.levels,
+        selected: chosen?.personId,
+        onSelect: (holder) => void choose(holder),
       }),
       ...(found.length === 0 ? [noteLine(labels.none)] : []),
     );
   };
   $("pick-search").oninput = draw;
+  $("pick-detail").replaceChildren();
   draw();
   show("front-status", false);
-  document.querySelector("#front .progress").hidden = true;
   frontPanel("front-pick");
   for (const id of placeControls) $(id).disabled = false;
 }
-
-/** Steps into one officeholder from today, with no opening address. */
 async function enterAs(life, personId) {
   frontPanel(null);
   const value = await post(`/api/play?id=${encodeURIComponent(personId)}`);
@@ -5434,7 +5798,6 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
   // The loading card: the panel holds only the progress over the scene.
   frontPanel(null);
   show("front-status", true);
-  document.querySelector("#front .progress").hidden = false;
   try {
     const settings = custom ? worldSettings() : undefined;
     // Outside Custom world, a fresh seed draws the world.
@@ -5442,16 +5805,6 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
       ? $("seed").value
       : setup.seed || (await api("/api/seed")).seed;
     // Real progress through every step, from the server's build.
-    const bar = document.querySelector("#front .progress span");
-    bar.classList.add("steady");
-    const STEPS = [
-      "people",
-      "past",
-      "economy",
-      "core",
-      "government",
-      "opening",
-    ];
     // A poll still in flight when the build ends leaves the line alone.
     let built = false;
     // The world's story plays once the world exists (playLoadingStory).
@@ -5464,13 +5817,9 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
       const p = await api("/api/newlife/progress").catch(() => undefined);
       if (p?.story) playStory();
       if (!p || built) return;
-      const at =
-        p.stage === "done" ? STEPS.length : Math.max(STEPS.indexOf(p.stage), 0);
-      const within = p.total ? p.done / p.total : 0;
-      // Full when the build says it is done ("Ready"), never before.
-      bar.style.width = `${Math.round((Math.min(at + within, STEPS.length) / STEPS.length) * 100)}%`;
-      $("front-status").textContent =
-        `${controls.loading?.[p.stage] ?? ""}${p.total ? ` ${p.done} / ${p.total}` : ""}`;
+      // The step in plain words; no bar and no counts (owner, Oct 27: "There is a weird little
+      // bar at the end"; the Nov 8 loading mock).
+      $("front-status").textContent = controls.loading?.[p.stage] ?? "";
     }, 400);
     let life;
     try {
@@ -5507,16 +5856,16 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
     $("game").classList.add("in-play");
     renderPacket(life.packet);
     await refresh({ keepBackdrop: Boolean(life.sceneMomentId) });
-    showNewsSurface(await nightsNews(life.personId));
+    const news = await nightsNews(life.personId);
     // The scene the director staged for the evening (the address) plays first
-    // and sets the one backdrop the opening loads.
+    // and sets the one backdrop the opening loads. The night's news pops up
+    // after it opens, so it waits until the speech ends (C5; owner, Nov 7:
+    // "News pop-ups wait until the scene ends").
     if (life.sceneMomentId) await showStory(life.sceneMomentId);
-    coachFirstChoices();
+    showNewsSurface(news);
   } catch (error) {
     $("front-status").textContent = error.message;
     for (const id of placeControls) $(id).disabled = false;
-    frontPanel(person ? "cr-look" : "front-new");
-  } finally {
-    document.querySelector("#front .progress").hidden = true;
+    frontPanel(person ? "cr-screen" : "front-new");
   }
 }

@@ -3,7 +3,7 @@
  * every module (`buildBenchWorld`), advanced day by day (`advanceCore`) with
  * the debug bookkeeping off, as play runs it. Development tooling.
  *
- *   npm run speed:year -- [--seed <s>] [--place <key>] [--years 4] [--max-seconds 300]
+ *   npm run speed:year -- [--seed <s>] [--place <key>] [--years 4] [--max-seconds 120]
  *     [--exclusive] [--out <receipt.json>] [--baseline <main receipt.json>]
  *     [--same-records] [--proof-out <proof.json>]
  *
@@ -15,7 +15,7 @@
  * `--years 100`, shows whether a save grows), and exits 1 when a year runs over
  * `--max-seconds` (the game's own limit is 120 seconds a year).
  * `--out` writes a receipt (`compare.ts`'s `SpeedReceipt`); `--baseline` reads
- * another and exits 1 when a year is more than 20% slower (`compareYears`),
+ * another and exits 1 when a year is more than 5% slower (`compareYears`),
  * as the local gate asks; with `--same-records` it also exits 1 when a year's
  * records differ (dev mode's records proof, `src/bench/dev-proof.ts`), naming
  * each differing table. `--proof-out` writes the last year's proof with every
@@ -46,7 +46,7 @@ const option = (name: string, fallback: string) => {
 const seed = option("seed", randomBytes(8).toString("hex"));
 // Four years, so every check holds an election year (CTO, Oct 30 03:18).
 const years = Number(option("years", "4"));
-const maxSeconds = Number(option("max-seconds", "300"));
+const maxSeconds = Number(option("max-seconds", "120"));
 const drawn = drawPlace(seed, "speed-year");
 const placeKey = option("place", drawn.key);
 // A named key is reported by its own name, not the seed's drawn place.
