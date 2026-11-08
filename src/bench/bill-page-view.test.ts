@@ -6,12 +6,15 @@ import { gameStartDate } from "../core2/game-start";
 import {
   castMemberVote,
   holdVote,
+  LEGISLATURE_MODULE_ID,
   memberKey,
   members,
+  type BillRow,
 } from "../core2/modules/legislature";
 import { coreAPI } from "../core2/state";
 import { billPageView } from "./bill-stage";
 import { seatAct, seatView } from "./legislature";
+import { BenchPlayer } from "./player";
 
 // The bill page's one object: the name, the stage and its day, the sponsor, each section's label
 // key, amount, law in force and level, the tally at each stage and where it reaches. A place drawn
@@ -164,4 +167,67 @@ describe(`the bill page's view (seed ${seed})`, () => {
       `no drawn place had a council that may set highways (seed ${seed})`,
     );
   }, 900_000);
+
+  it("gives a budget bill each line's change from last year and the bill's total change", () => {
+    const tried: string[] = [];
+    for (let i = 0; i < 16; i += 1) {
+      const draw = drawPlace(`${seed}:budget:${i}`, "bill-page-budget");
+      const world = buildBenchWorld(draw.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: draw.key,
+      });
+      const api = coreAPI(world.core);
+      const player = new BenchPlayer(world.core, world.director);
+      const resident = [...world.core.people.keys()][0] as string;
+      player.select(resident);
+      // A few days in, the filings the bodies make at the start of play are on the books.
+      for (let day = 0; day < 4; day += 1) {
+        const packet = player.packet;
+        if (packet?.kind === "choice")
+          player.resume({ kind: "own-choice", pauseId: packet.pauseId });
+        else if (packet?.kind === "stop")
+          player.resume({ kind: "stop", pauseId: packet.pauseId });
+        else player.advance("day");
+      }
+      const bill = (
+        api
+          .moduleState(LEGISLATURE_MODULE_ID)
+          .table("bills")
+          .rows() as unknown as BillRow[]
+      ).find((b) =>
+        b.provisions.some(
+          (p) => p.kind === "budget-line" && p.of !== undefined,
+        ),
+      );
+      if (!bill) {
+        tried.push(`${draw.name}: no budget bill by ${world.core.date}`);
+        continue;
+      }
+      const page = billPageView(world.core, bill.id, resident);
+      const lines = page.sections.filter((x) => x.kind === "budget-line");
+      for (const section of lines) {
+        const provision = bill.provisions[section.index]!;
+        if (provision.of === undefined) continue;
+        expect(section.lastYearMinor, draw.name).toBe(provision.of);
+        expect(section.changeMinor, `${draw.name}: ${section.labelKey}`).toBe(
+          provision.value,
+        );
+        if (provision.of)
+          expect(section.changePct!, draw.name).toBeCloseTo(
+            (provision.value / provision.of) * 100,
+            6,
+          );
+      }
+      expect(page.totalChangeMinor, draw.name).toBe(
+        lines.reduce((sum, x) => sum + (x.changeMinor ?? 0), 0),
+      );
+      console.log(
+        `bill-page budget: ${draw.name} (${draw.key}, seed ${draw.seed}) ${bill.number} on ${world.core.date}: ${lines.length} line(s), total change ${page.totalChangeMinor} minor\n`,
+      );
+      return;
+    }
+    throw new Error(
+      `no drawn place had a budget bill in its first days (seed ${seed}): ${tried.join("; ")}`,
+    );
+  }, 1_800_000);
 });
