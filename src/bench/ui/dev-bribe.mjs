@@ -43,6 +43,16 @@ export async function devBribePanel({ labels, bodies, billId, onDone }) {
     options: officials,
   });
   const stake = numberBox({ value: 500000, min: 1, label: labels.stake });
+  // The official's answer: as the engine decides, or picked.
+  const answer = select({
+    label: labels.answer,
+    value: "",
+    options: [
+      { value: "", label: labels.asEngine },
+      { value: "takes", label: labels.takes },
+      { value: "refuses", label: labels.refuses },
+    ],
+  });
   const result = statusLine();
   result.textContent = lastResult;
   const offer = makeButton({ className: "action" }, labels.offer);
@@ -58,6 +68,7 @@ export async function devBribePanel({ labels, bodies, billId, onDone }) {
         officialId: official.value,
         subjectId,
         stakeMinor: Number(stake.value) * 100,
+        answer: answer.value || undefined,
       });
       lastResult = [
         out.record.offered ? labels.offered : labels.declined,
@@ -81,7 +92,7 @@ export async function devBribePanel({ labels, bodies, billId, onDone }) {
     { className: "dev-only dev-bribe" },
     el("h3", { textContent: labels.title }),
     el("div", { className: "dev-bills-row" }, offerer, official),
-    el("div", { className: "dev-bills-row" }, stake, offer),
+    el("div", { className: "dev-bills-row" }, stake, answer, offer),
     result,
   );
 }

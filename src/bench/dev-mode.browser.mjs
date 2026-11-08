@@ -95,6 +95,16 @@ try {
     await page.locator(".dev-record-ids .id").first().click();
     await page.locator(".dev-trace h4").waitFor();
   }
+  // Lay them off through their employer (or be told they worked today), from their card.
+  if ((await page.locator('[data-testid="dev-layoff"]').count()) > 0) {
+    await page.locator('[data-testid="dev-layoff"]').click();
+    await page.waitForFunction(() =>
+      /Laid off|worked today|no job|staff/.test(
+        document.querySelector("#person-facts .option-status")?.textContent ??
+          "",
+      ),
+    );
+  }
   // Follow them, from their card.
   await page
     .getByRole("button", { name: /^(Follow|Stop following)$/ })
@@ -130,6 +140,19 @@ try {
         document.querySelector(".dev-bills .option-status")?.textContent ?? "",
       ),
     );
+    // A yes-or-no law is answered Yes or No and repealed by a bill; members can sign a discharge petition.
+    await page
+      .locator('select[aria-label="Law"]')
+      .selectOption({
+        value: "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+      });
+    await page.locator('select[aria-label="Answer"]').waitFor();
+    await page.locator('[data-testid="dev-repeal"]').waitFor();
+    await page.locator('[data-testid="dev-petition"]').waitFor();
+    // The official's answer is picked: takes.
+    await page
+      .locator('select[aria-label="Official\'s answer"]')
+      .selectOption({ value: "takes" });
     await page.locator('[data-testid="dev-bribe"]').click();
     await page.waitForFunction(
       () => document.querySelector(".dev-bribe .option-status")?.textContent,
