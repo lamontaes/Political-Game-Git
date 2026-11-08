@@ -1879,4 +1879,3 @@ function officesCalendarWork(
 export { casesOpenFor, handleCase } from "./constituent-cases";
 export type { OfficeLevel } from "../offices-local";
 export { partySide } from "../appointments";
-export { TERM_AREAS, placeTermRead, type AreaRead } from "../term-read";

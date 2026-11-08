@@ -1104,3 +1104,7 @@ export { considerBribe, CORRUPTION_MODULE_ID } from "./corruption";
 export { policyAuthority } from "../policy-authority";
 export { stateActEffectiveDate } from "../state-effective-date";
 export { policySeriesAtLevel } from "../policy-answers";
+export type { LawRowInput } from "../laws-starting";
+export { TERM_AREAS, placeTermRead, type AreaRead } from "../term-read";
+export { termReadPlaces } from "../term-read";
+export { countryTermRead } from "../term-read";

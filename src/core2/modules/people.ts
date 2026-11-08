@@ -679,3 +679,4 @@ export { decisionKinds } from "../trait-decisions";
 export { decisionLean, termOfLean } from "../trait-decisions";
 export type { CashJournalPosting } from "../journal";
 export { makeCase } from "./speech";
+export { areaQuestion } from "./public-action";

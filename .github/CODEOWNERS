@@ -99,7 +99,6 @@
 /src/core2/outside-governments.ts @lamontaes
 /src/core2/government-jurisdictions.ts @lamontaes
 /src/core2/gov-rules/** @lamontaes
-/src/core2/term-read.ts @lamontaes
 
 # Budgets, taxes and public money (budgets)
 /src/core2/modules/budgets.ts @lamontaes
@@ -144,6 +143,7 @@
 /src/core2/outcome-web-*.ts @lamontaes
 /src/core2/health-web.ts @lamontaes
 /src/core2/jobs-web.ts @lamontaes
+/src/core2/term-read.ts @lamontaes
 
 # Jobs, businesses and the economy (jobs-businesses)
 /src/core2/modules/jobs.ts @lamontaes

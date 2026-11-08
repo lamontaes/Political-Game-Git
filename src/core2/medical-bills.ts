@@ -91,7 +91,7 @@ import {
 } from "./modules/laws";
 import { webReach, type WebReach } from "./modules/outcome-web";
 import { householdIncome, residentsRuntime } from "./modules/residents";
-import { WEB_LINKS } from "./modules/outcome-web";
+import { WEB_LINKS } from "./modules/laws";
 import { parameter, type Parameter } from "./parameters";
 import {
   livingCostsRegionForState,

@@ -125,8 +125,7 @@
         "src/core2/central-bank-*.ts",
         "src/core2/outside-governments.ts",
         "src/core2/government-jurisdictions.ts",
-        "src/core2/gov-rules/**",
-        "src/core2/term-read.ts"
+        "src/core2/gov-rules/**"
       ]
     },
     {
@@ -184,7 +183,8 @@
         "src/core2/public-safety.ts",
         "src/core2/outcome-web-*.ts",
         "src/core2/health-web.ts",
-        "src/core2/jobs-web.ts"
+        "src/core2/jobs-web.ts",
+        "src/core2/term-read.ts"
       ]
     },
     {
