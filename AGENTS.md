@@ -103,6 +103,7 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `governing-measurement`: path-check runners, the re-election totals and ablation, records per race or per person
 - `heavy-runs`: long, memory-heavy runs that survive memory, restarts and moved branches
 - `helper-checkout`: helpers work in sparse copies of the repository
+- `labor-market-proof`: proving a jobs, wage or firm-demand change in a played town, inflow and outflow
 - `lead-session`: running a lead line
 - `lives`: lives outside the played town run through the town's engines
 - `look-first`: the search before building, fixing, filing or asking
