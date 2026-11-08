@@ -261,3 +261,17 @@ function weightsOf(
   spread(moved("federal", mix.federal), [["post-office", 1]]);
   return weights;
 }
+
+/**
+ * A county's private employment by two-digit sector (Census 2023 County
+ * Business Patterns), a withheld cell counting nothing; empty where the
+ * county is not in the file.
+ */
+export function countySectorEmployment(
+  countyGeoid: string,
+): ReadonlyMap<string, number> {
+  const out = new Map<Sector, number>();
+  const cells = counties().get(countyGeoid);
+  if (cells) addSectors(out, cells, 1);
+  return out;
+}
