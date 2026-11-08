@@ -231,6 +231,29 @@ try {
       await page.waitForTimeout(2000);
       continue;
     }
+    // A second morning for a household member who may vote: Go vote, mark each race for its
+    // first candidate, as a voter might.
+    const vote = page.getByRole("button", { name: "Go vote", exact: true });
+    if (await vote.isVisible().catch(() => false)) {
+      await vote.click({ timeout: 5000 }).catch(() => {});
+      await page
+        .locator("#ballot:not([hidden])")
+        .waitFor()
+        .catch(() => {});
+      await shot("eday-3b-ballot-household");
+      for (let mark = 0; mark < 12; mark += 1) {
+        const open = page.locator("#ballot .ballot-choice:not([disabled])");
+        if (!(await open.count())) break;
+        await open
+          .first()
+          .click({ timeout: 5000 })
+          .catch(() => {});
+        await page.waitForTimeout(800);
+      }
+      if (await page.locator("#ballot:not([hidden])").isVisible())
+        await page.locator("#ballot-leave").click();
+      continue;
+    }
     const talk = page.locator("#talk-leave");
     // A control can hide between the look and the click (a panel opens):
     // each click waits briefly and the loop looks again.
