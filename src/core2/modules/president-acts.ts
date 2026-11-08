@@ -12,12 +12,13 @@
  * (SG-OFFICE-FED-presidential-orders, SG-OFFICE-FED-pardons): the executive
  * engine has no federal orders and the justice engine no federal convictions.
  */
+// The federal day first: the president file registers a part of it on load.
+import { OFFICE_DAY_FEDERAL_MODULE_ID } from "../office-day-federal";
 import {
   cabinetOf,
   confirmGivenVotes,
   nominate,
 } from "../office-day-federal-president";
-import { OFFICE_DAY_FEDERAL_MODULE_ID } from "../office-day-federal";
 import { OFFICES_MODULE_ID } from "./offices";
 import { isExplicitlyControlledPersonV1 } from "../player-control-state-v1";
 import { registerModule } from "../state";
