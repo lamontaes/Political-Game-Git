@@ -128270,7 +128270,7 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["signatures"]
+          "requiresFacts": ["signatures", "repeat-filing"]
         }
       ],
       "bearing": "calm",
@@ -128295,7 +128295,7 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["signatures"]
+          "requiresFacts": ["signatures", "repeat-filing"]
         }
       ],
       "bearing": "calm",
@@ -128320,7 +128320,7 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["signatures"]
+          "requiresFacts": ["signatures", "repeat-filing"]
         }
       ],
       "bearing": "calm",
@@ -128345,7 +128345,7 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["signatures"]
+          "requiresFacts": ["signatures", "repeat-filing"]
         }
       ],
       "bearing": "calm",
@@ -128370,7 +128370,7 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["one-signature"]
+          "requiresFacts": ["one-signature", "repeat-filing"]
         }
       ],
       "bearing": "calm",
@@ -128395,7 +128395,7 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["no-petition"]
+          "requiresFacts": ["no-petition", "repeat-filing"]
         }
       ],
       "bearing": "calm",
@@ -128420,7 +128420,7 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["no-petition"]
+          "requiresFacts": ["no-petition", "repeat-filing"]
         }
       ],
       "bearing": "calm",
@@ -136677,6 +136677,31 @@
       "origin": "authored",
       "author": "Words, scenes and the director (play-first-filing-campaign-tutorial)",
       "date": "2026-11-02",
+      "tag": {
+        "move": "answer",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.get-your-one-signature-today-and-that-part-s-done-then-it-s-the-voters-knock-on-2",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Get your one signature today and that part's done. Then it's the voters. Knock on doors, ask everyone you know for money, and spend it on mailers or a poll. And talk to the reporters before they talk about you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["first-filing", "one-signature"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (play-first-filing-campaign-tutorial); the no-newspaper variant filled in by Elections, Nov 8",
+      "date": "2026-11-08",
       "tag": {
         "move": "answer",
         "key": "filed"
