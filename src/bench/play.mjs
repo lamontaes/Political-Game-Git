@@ -15,7 +15,6 @@ import {
 } from "./ui/talk-box.mjs";
 import { showToast, hideToast } from "./ui/toast.mjs";
 import { mountRail } from "./ui/rail.mjs";
-import { districtMap } from "./ui/map.mjs";
 import { chamberHeader } from "./ui/chamber.mjs";
 import { memberCard } from "./ui/member-card.mjs";
 import { dateList } from "./ui/date-list.mjs";
@@ -5131,14 +5130,6 @@ function fitPagersNow(root, waits = 30) {
         [...part.querySelectorAll(".vote-rows .dl")].filter((v) => !v.hidden);
       while (over(part) && shown().length > 1) shown().at(-1).hidden = true;
     }
-    // The sheet still past its foot: a map gives back the difference, never
-    // below a small map (Parties' map over its officeholders).
-    const body = $("sheet-body");
-    const map = root.querySelector(".gov-map");
-    if (map && over(body)) {
-      const less = body.scrollHeight - body.clientHeight;
-      map.style.height = `${Math.max(140, map.getBoundingClientRect().height - less)}px`;
-    }
   });
 }
 // The rail over the player card: a column of round icons, News among them; it is
@@ -5776,17 +5767,8 @@ function playLoadingStory(story) {
   const panel = $("loading-story");
   const years = story?.years ?? [];
   if (!years.length) return Promise.resolve();
-  const map = $("loading-map");
   const journal = $("loading-journal");
   journal.replaceChildren();
-  map.replaceChildren(
-    ...(story.map
-      ? [districtMap(story.map, { wordHolders: (d) => d.name })]
-      : []),
-  );
-  const counties = [...map.querySelectorAll(".county")];
-  const yours = [...map.querySelectorAll(".yours")];
-  for (const node of [...counties, ...yours]) node.classList.add("unfilled");
   show("loading-story", true);
   // About six seconds in all, at most seven tenths of a second a year.
   const step = Math.min(700, 6000 / years.length);
@@ -5797,8 +5779,6 @@ function playLoadingStory(story) {
     const finish = () => {
       window.clearTimeout(timer);
       panel.removeEventListener("click", finish);
-      for (const node of [...counties, ...yours])
-        node.classList.remove("unfilled");
       $("loading-year").textContent = String(years.at(-1).year);
       resolve();
     };
@@ -5818,13 +5798,6 @@ function playLoadingStory(story) {
         ...year.lines.map((row) => prose(row.text, "loading-line")),
         ...year.headlines.map((row) => prose(row.headline, "loading-headline")),
       );
-      // The map fills in as the years pass: its share of the counties, then
-      // your districts with the last year.
-      const share = Math.ceil(((at + 1) / years.length) * counties.length);
-      for (const node of counties.slice(0, share))
-        node.classList.remove("unfilled");
-      if (at === years.length - 1)
-        for (const node of yours) node.classList.remove("unfilled");
       at += 1;
       timer = window.setTimeout(next, step);
     };
