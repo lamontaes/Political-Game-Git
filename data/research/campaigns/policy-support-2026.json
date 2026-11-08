@@ -488,6 +488,15 @@
       "url": "https://t4america.org/",
       "estimate": true,
       "basis": "Estimated from transport spending preferences"
+    },
+    "us-policy-positions:labor-workforce.ban-the-box-public-hiring": {
+      "support": 0.47,
+      "democrats": 0.56,
+      "republicans": 0.43,
+      "poll": "YouGov Daily Question, September 16, 2022, 7,275 U.S. adults: 47% support and 35% oppose prohibiting employers from asking about criminal-conviction history before a job offer; Democrats 56% support, Republicans 43%",
+      "url": "https://today.yougov.com/topics/politics/survey-results/daily/2022/09/16/0d1e1/3",
+      "estimate": true,
+      "basis": "All-employer wording used for the state-agency question; no poll of public employers was found (data/research/campaigns/ban-the-box-support-yougov-2022.json)"
     }
   }
 }

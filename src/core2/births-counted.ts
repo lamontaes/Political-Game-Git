@@ -218,6 +218,9 @@ const monthlyShare = (perYear: number, months: number) =>
 
 interface Carry {
   births: number;
+  /** Real people born and dead in the place's counted tier since the opening (kept in play: the vital statistics read them). */
+  born: number;
+  died: number;
   /** Each cohort's expected deaths not yet realized, by `deathCohort` key. */
   deaths: Record<string, number>;
   /**
@@ -426,6 +429,8 @@ export function applyCountedFlows(
     // Stored rows are read-only; work on a copy.
     const carry: Carry = {
       births: Number(carryRow?.births ?? 0),
+      born: Number(carryRow?.born ?? 0),
+      died: Number(carryRow?.died ?? 0),
       deaths: { ...((carryRow?.deaths as Record<string, number>) ?? {}) },
     };
     // Every counted person here, household by household (filled in below).
@@ -611,6 +616,7 @@ export function applyCountedFlows(
       row.deathCauses[died.cause] =
         (row.deathCauses[died.cause] ?? 0) + weightOfPerson(person);
       row.causeOf[person.id] = died.cause;
+      carry.died += weightOfPerson(person);
       // Who lived with them and outlives them, still in the counts.
       const survivors = (byHousehold.get(person.householdId) ?? [])
         .filter((other) => other.id !== person.id && !dead.has(other.id))
@@ -906,6 +912,7 @@ export function applyCountedFlows(
       }
       const partner = partnerOf(found, mother, date);
       carry.births -= Number(pregnancy.stands);
+      carry.born += Number(pregnancy.stands);
       const baby = countedNewborn(api, found, mother, date);
       addCountedPerson(core, mother.householdId, baby);
       row.births.push(baby.id);
@@ -990,6 +997,7 @@ export function applyCountedFlows(
       const stands = weightOfPerson(woman);
       if (carry.births < stands) continue;
       carry.births -= stands;
+      carry.born += stands;
       const baby = countedNewborn(api, record, woman, date);
       addCountedPerson(core, woman.householdId, baby);
       row.births.push(baby.id);
