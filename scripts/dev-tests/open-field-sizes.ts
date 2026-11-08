@@ -5,6 +5,7 @@ import { buildBenchWorld } from "../../src/bench/world";
 import { gameStartDate } from "../../src/core2/game-start";
 import { ELECTIONS_MODULE_ID } from "../../src/core2/modules/elections";
 import { VOTING_MODULE_ID } from "../../src/core2/modules/voting";
+import { CANDIDACY_MODULE_ID } from "../../src/core2/modules/candidacy";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { coreAPI } from "../../src/core2/state";
 import { advanceCore } from "../../src/core2/life";
@@ -30,6 +31,16 @@ const filings = api
   .table("filings")
   .rows() as any[];
 const results = api.moduleState(VOTING_MODULE_ID).table("results");
+const decisions = api
+  .moduleState(CANDIDACY_MODULE_ID)
+  .table("decisions")
+  .rows() as any[];
+// A seat is open when its holder weighed standing again and chose to stand down.
+const standDown = new Set(
+  decisions
+    .filter((d) => d.reasons?.standAgain !== undefined && !d.run)
+    .map((d) => d.contestId),
+);
 console.log("place", place.name ?? place.key, "seed", seed, "years", years);
 const rows: Record<string, number[][]> = {};
 for (const c of contests) {
@@ -39,7 +50,7 @@ for (const c of contests) {
     (f) => f.contestId === c.id && f.status !== "short",
   ).length;
   const left = Object.keys(r.totals).length;
-  const kind = `${c.level}/${c.family} ${c.incumbentTermId ? "held" : "open"}`;
+  const kind = `${c.level}/${c.family} ${standDown.has(c.id) ? "open (holder stood down)" : c.incumbentTermId ? "held" : "open (no holder)"}`;
   (rows[kind] ??= []).push([filed, left]);
 }
 for (const [kind, v] of Object.entries(rows).sort()) {
