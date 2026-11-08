@@ -1,0 +1,735 @@
+src/bench/nation-news.ts	12	not yet	* away from a state is not yet a tie: the person keeps no record of where
+src/bench/party.browser.mjs	20	not yet	// Only someone of voting age who belongs to no party yet can join one: up
+src/bench/play.html	188	PLACEHOLDER	placeholder="Real"
+src/bench/play.html	198	PLACEHOLDER	placeholder="Usual"
+src/bench/play.html	208	PLACEHOLDER	placeholder="Usual"
+src/bench/play.html	218	PLACEHOLDER	placeholder="Usual"
+src/bench/play.html	228	PLACEHOLDER	placeholder="Even"
+src/bench/play.html	238	PLACEHOLDER	placeholder="Usual"
+src/bench/play.html	274	PLACEHOLDER	placeholder="Search officeholders"
+src/bench/path-check.ts	112	not yet	return { open: false, why: `${holder}, ${decided}, no filing yet` };
+src/bench/path-check.ts	537	until...comes	// a time, up to five months, until its law exists.
+src/bench/progress.ts	173	not yet	status: entryEvidence ? "reachable now" : "not in the new core yet",
+src/bench/progress.ts	182	not yet	status: contactEvidence ? "reachable now" : "not in the new core yet",
+src/bench/progress.ts	219	not yet	status: "not in the new core yet",
+src/bench/progress.ts	228	not yet	? { label, status: "not in the new core yet", missingModule }
+src/bench/dev-mode.ts	919	not yet	// does not exist yet (`awaitingProducer`) or no cause record has none, and so no way in.
+src/bench/m1-11-check.ts	132	stand-in	// No runtime yet: `perceived` is unset and the list is a stand-in.
+src/bench/m1-11-check.ts	132	not yet	// No runtime yet: `perceived` is unset and the list is a stand-in.
+src/bench/play.mjs	320	not yet	/** Glows the first choice not yet used; each clears however it is used. */
+src/bench/play.mjs	3014	stopgap	* what people say about a person (stopgap in the PR body).
+src/bench/play.mjs	3093	not yet	// records the bank does not serve yet.
+src/bench/play.mjs	4428	not yet	// SG-PLAY-government-judicial-no-judges: no Judicial branch yet, since no
+src/bench/creator-missing.browser.mjs	33	not yet	// No gender yet: Begin says so and marks the gender row.
+src/bench/verify.mjs	60	not yet	value.progress.world.every((x) => x.status === "not in the new core yet"),
+src/bench/verify.mjs	233	fixture	// actual answered screen days rather than injecting a trace fixture.
+src/bench/verify.mjs	262	not yet	"No scores saved yet.",
+src/bench/patch-notes.ts	6	not yet	* unreleased ones the next release consumes) are not a release yet and stay
+src/bench/dev-why.ts	210	not yet	label: "profit earned, not yet drawn",
+src/bench/dev-why.ts	375	not yet	// the year has no index left, yet is still followed.
+src/bench/scene.ts	567	not yet	* not filled in yet. The one reader of a workplace's staff for scenes and
+src/bench/filing.ts	316	stopgap	* weekday hours (`data/office-hours.json`), a stopgap that every office has
+src/bench/filing.browser.mjs	22	not yet	// for a life that has lived no moment yet, the morning after the world's day,
+src/bench/play.css	521	not yet	/* A story the player has not read yet: a dot on the News icon. */
+src/bench/play.css	707	PLACEHOLDER	input::placeholder {
+src/bench/title-saves.browser.mjs	37	not yet	// A life made without the creator has no saved face yet; the bust follows the title's own record.
+src/bench/m0-check.ts	315	not yet	(row.status === "not in the new core yet" && row.missingModule),
+src/bench/m0-check.ts	327	not yet	row.status === "not in the new core yet"
+src/bench/handler.ts	1834	until...comes	// speed until the core's two-level population and speed work land.
+src/bench/government.ts	294	not yet	// Who won the seat's last race and has not taken office yet.
+src/bench/issues-levels.browser.mjs	124	stand-in	// A stand-in row from another series (a state's average local sales tax
+src/bench/world.ts	437	stand-in	// flows, and the core's stand-in owner payouts come off. People it adds
+src/bench/HANDOFF.md	10	fixture	| M0-02 | Seven controlled days; 11 saved acts, each matched to its issued pause/offer answered on screen. 19,911 other acts continued. Unissued answers were rejected without record changes. The adapt
+src/bench/ui/guide-screen.mjs	110	PLACEHOLDER	placeholder: labels.search,
+src/bench/ui/fields.mjs	6	PLACEHOLDER	export function searchBox({ value = "", placeholder, onInput }) {
+src/bench/ui/fields.mjs	7	PLACEHOLDER	const box = el("input", { type: "search", value, placeholder });
+src/bench/ui/talk-box.mjs	62	PLACEHOLDER	placeholder: labels.note,
+src/bench/data/controls.json	134	not yet	"noColleagues": "Knows no one in office yet",
+src/bench/data/controls.json	819	not yet	"none": "No life is saved yet.",
+src/bench/data/controls.json	896	not yet	"toldOpen": "Not yet said",
+src/bench/data/scene-places.json	318	stand-in	"about": "Where a person serving in one of these offices lives (core2-offices-v1 terms), by room, in place of their dwelling. Names before the stand-ins are pictures still to be painted (the residence
+src/districts/query.ts	102	until...comes	* stays unknown until an address or other grounded location exists.
+src/director/civic-roles.ts	66	stopgap	import { markWordsStopgap } from "./stopgaps";
+src/director/scheduling.ts	646	not yet	// A letter needs records the new core does not keep yet.
+src/director/purpose-scene.ts	372	not yet	// An ask to carry a bill the member turned down has no number yet: the
+src/director/purpose-scene.ts	476	not yet	// official has given no answer yet, so the exchange opens as a town hall
+src/director/stopgaps.ts	1	stopgap	import registry from "./data/stopgaps.json" with { type: "json" };
+src/director/stopgaps.ts	2	stopgap	import type { StopgapEntry } from "../core2/stopgaps";
+src/director/stopgaps.ts	4	stopgap	/** The director's own stopgap registry; open rows block release like the core's. */
+src/director/stopgaps.ts	5	stopgap	export const DIRECTOR_STOPGAPS = registry as readonly StopgapEntry[];
+src/director/stopgaps.ts	8	stopgap	/** Marks a stopgap as hit in the director's ledger; never touches core state. */
+src/director/stopgaps.ts	9	stopgap	export function directorStopgap(id: string, hits: Set<string>): StopgapEntry {
+src/director/stopgaps.ts	17	stopgap	rows: readonly StopgapEntry[] = DIRECTOR_STOPGAPS,
+src/director/stopgaps.ts	23	stopgap	* The word banks' stopgaps, fired when a hand-written bank writes a line in
+src/director/scene-talk.ts	104	not yet	/** The player's second ask after a "not yet" or a no, and what it weighs. */
+src/director/scene-talk.ts	763	not yet	// if they already lean for it, not yet if a favor would carry them, no
+src/director/scene-talk.ts	861	not yet	// A yes is thanked; a not yet or a no is asked again, or let go.
+src/director/types.ts	24	stopgap	stopgapId?: string;
+src/director/ledger.ts	57	stopgap	import { directorStopgap } from "./stopgaps";
+src/director/ledger.ts	239	stopgap	if (row.stopgapId) directorStopgap(row.stopgapId, ledger.stopgapHits);
+src/director/ledger.ts	1953	stopgap	ledger.stopgapHits.clear();
+src/director/ledger.ts	1954	stopgap	for (const hit of fromLedger.stopgapHits) ledger.stopgapHits.add(hit);
+src/director/swearing-in.ts	109	not yet	* seat's record ended that day. A named official not yet filled in is known by
+src/director/conversation.ts	1842	not yet	/** The other person's own subject of a kind, not yet said, that the banks can word. */
+src/director/conversation.ts	2866	not yet	/** How many wordings of a parting word are tried to find one not yet said in the talk. */
+src/director/opening-story.ts	63	stopgap	import { markWordsStopgap } from "./stopgaps";
+src/director/opening-story.ts	637	not yet	// Congress hears only what it may answer and federal law does not have yet.
+src/director/local-address.ts	77	not yet	/** The questions the speaker asked for (their level's, not yet law). */
+src/director/journal.ts	3	PLACEHOLDER	coreStateKeyOfPlaceholderId,
+src/director/journal.ts	265	PLACEHOLDER	const state = coreStateKeyOfPlaceholderId(placeId);
+src/director/reach.ts	5	not yet	* records. A type that did not says whether its producer is not built yet,
+src/director/tooling/director-year.ts	33	stopgap	import { openDirectorStopgapCount } from "../stopgaps";
+src/director/tooling/director-year.ts	337	stopgap	directorStopgapHits: [...result.director.ledger.stopgapHits].sort(),
+src/director/data/purpose-arcs.json	78	not yet	"note": "Where the player does the asking: the one asked answers yes if they already lean for it, not yet if a favor would carry them, no otherwise; a plea or a trade carries them where the favor woul
+src/director/data/purpose-arcs.json	3270	not yet	"label": "Not yet decided",
+src/director/data/purpose-arcs.json	3316	not yet	"label": "Not yet decided",
+src/director/data/purpose-arcs.json	4533	not yet	"label": "Not yet",
+src/director/data/purpose-arcs.json	4685	not yet	"note": "The fallback for any situation with no purpose yet. One arc per situation key; pieces whose use names purpose \"*\" and the key serve it, and an authored purpose always wins.",
+src/director/data/situation-types.json	3	not yet	"note": "Story director situation library on the new core (docs/design/director-on-core2.md). Ported from data/content/situation-types.json and draft pull request 3914. Structure only: no type holds a
+src/director/data/director.json	20	stand-in	"citation": "Smallest adult row ('Minor violations of the law'): 11 units on the 1967 Holmes and Rahe scale, 22.14 in the 2021 replication (Wallace and others 2023). The floor and the interrupt line m
+src/director/data/director.json	99	stand-in	"citation": "No source gives this weight; personality traits did not consistently moderate responses to major life events in the British Household Panel Survey, so a large tilt is argued against and 0
+src/director/data/director.json	114	stand-in	"citation": "Same evidence and limits as the sociability tilt; the sign (risk-avoiders weigh a loss more) is the standard loss-aversion direction (data/research/stand-in-figures-2026-10-12.json)."
+src/director/data/director.json	190	stand-in	"citation": "Not in the October 8, 2026 calibration, which had no partner row. Scaled from the parent and child anchor (0.5) by the ratio of a spouse's death to a close family member's on the 1967 sca
+src/director/data/director.json	722	not yet	"estimatedFrom": "The size of the parting-word bank in data/english/parts: a handful of wordings per register, so four tries reach one not yet said; spread 2 to 8"
+src/director/data/director.json	826	not yet	"citation": "A judgment band for how a journal says a race went, to be checked against published margin-of-victory analyses of U.S. elections (Ballotpedia's state legislative ones bucket races at 10 p
+src/director/data/director.json	841	not yet	"citation": "A judgment band for how a journal says a race went, to be checked against published margin-of-victory analyses of U.S. elections (Ballotpedia's state legislative ones bucket races at 10 p
+src/director/data/conversation-rules.json	4	not yet	"about": "Owner, Oct 15, evening (batch 12 rejected): nobody opens a talk with 'Do you remember <school>?' or 'Did you work at <employer>?'. A shared school or workplace is raised only when something 
+src/director/data/conversation-rules.json	234	for now	"about": "Owner, Oct 15, evening (batch 11 grading): a family talk is a personal scene only, since the family has little involvement in play for now. Between relatives, work, school, where each is fro
+src/director/data/opening-story.json	2	not yet	"about": "What the opening story reads that no record names yet: the numbers' rounding and the titles of each kind of address.",
+src/core2/appearance.ts	30	fixture	* content and the byte fixtures in `world.test.ts` have to be re-blessed to
+src/core2/appearance.ts	31	fixture	* absorb it. Those fixtures exist precisely to stop that.
+src/core2/state.ts	116	stopgap	import { recordStopgapsIn, stopgap } from "./stopgaps";
+src/core2/state.ts	151	fixture	/** Part1b boundary only; legacy writer/fixture hosts keep their existing contracts. */
+src/core2/state.ts	321	stopgap	)?.facts?.stopgapId;
+src/core2/state.ts	858	stopgap	recordStopgapsIn(core.stopgapHits);
+src/core2/state.ts	862	stopgap	// then kept with the stopgap it names, which every read still records.
+src/core2/state.ts	2277	not yet	// A member born or married into the household while it was in the counts has no full record yet: they are admitted below, as in a first fill-in.
+src/core2/hud-rents.ts	4	stand-in	* the opening, births and the shelter stand-in.
+src/core2/past-school.ts	26	stopgap	import { stopgap } from "./stopgaps";
+src/core2/past-school.ts	56	not yet	// No district record yet (a world opened without the core's public-school
+src/core2/player-v1.md	50	fixture	The corrected attendance-copy boundary passed all 94 focused attendance, trace, and pay-period cases. All five static checks passed. The earlier composition passed 173 of 179 cases; its six unchanged 
+src/core2/knowledge-retention.ts	13	not yet	* days. The monthly pass walks the queue's days, skips those not yet due and
+src/core2/resting-stress.ts	18	stopgap	import { stopgap } from "./stopgaps";
+src/core2/past-work.ts	47	stopgap	import { stopgap } from "./stopgaps";
+src/core2/player-control-state-v1.ts	259	stopgap	if (term.stopgapId !== undefined) text(term.stopgapId);
+src/core2/residents-economy.ts	63	not yet	* An employer with no counted workers yet (a new business) gets a wage flow
+src/core2/opening-payroll-calendar.ts	147	stopgap	(!row.estimatedFrom?.trim() || !row.stopgapId?.trim())) ||
+src/core2/opening-payroll-calendar.ts	150	stopgap	!row.stopgapId?.trim() ||
+src/core2/opening-payroll-calendar.ts	182	stopgap	!data.stopgapId.trim() ||
+src/core2/opening-payroll-calendar.ts	855	stopgap	estimatedFrom: `${scope} ${data.unmeasuredConventions} No pre-opening earned pay, actual attendance, payment, appropriation, owner capital, deficit rescue or legal compliance is inferred. Model employ
+src/core2/school-honors.ts	81	stopgap	readonly stopgaps: readonly string[];
+src/core2/births-counted.ts	219	not yet	/** Each cohort's expected deaths not yet realized, by `deathCohort` key. */
+src/core2/births-counted.ts	658	not yet	// Looking back before the opening, someone born since was not yet there to fall ill.
+src/core2/births-counted.ts	784	not yet	// began in the months before the opening and have not yet run out.
+src/core2/shared-history.ts	11	stopgap	import { stopgap } from "./stopgaps";
+src/core2/emotion.ts	3	stopgap	import { stopgap } from "./stopgaps";
+src/core2/emotion.ts	25	stopgap	stopgapId?: string;
+src/core2/medical-bills.ts	214	stopgap	* or a central-bank governor) is not billed (stopgap
+src/core2/opening-draft.ts	28	fixture	/** The old world's generator stamp for a fixture-lineage world, kept so ids match. */
+src/core2/opening-draft.ts	269	fixture	/** The same world id the old engine gave a fixture world of this seed. */
+src/core2/opening-employment.ts	42	stopgap	import { stopgap } from "./stopgaps";
+src/core2/opening-employment.ts	68	stand-in	* generator's stand-in for a founding nobody recorded, not a bound.
+src/core2/jobs-web.ts	24	stopgap	import { stopgap } from "./stopgaps";
+src/core2/opening-customers.ts	775	stopgap	`opening-customers:missing-source-owned-product-buyer-price-qualification:${organization.id}:${organization.classification}:${missing.stopgapId}`,
+src/core2/opening-customers.ts	1636	stopgap	`A source-qualified fictional prior authorization and appropriation by ${buyer.name}. Census public-building expenditure/population context and separately registered custodial/coverage fractions. A li
+src/core2/player-v1.ts	482	stopgap	if (intent.offer.definition.stopgapId)
+src/core2/jobs-benefits.ts	235	not yet	// Savings and expected time to a new job are not weighed yet, so temperament sorts who skips.
+src/core2/offices-state.ts	27	stopgap	import { stopgap } from "./stopgaps";
+src/core2/board-appointer.ts	96	not yet	// Seeded candidates are not yet anyone's acquaintance.
+src/core2/parameters.ts	4	stopgap	/** All numeric rows, including mod rows, carry their source and any stopgap. */
+src/core2/parameters.ts	13	stopgap	stopgapId?: string;
+src/core2/condition-pack.ts	227	PLACEHOLDER	// PLACEHOLDER(research: chronic-condition-income-gradients): the 2026 pack
+src/core2/condition-pack.ts	375	PLACEHOLDER	? `${CONDITION_PACK_KEY}: ${condition.label}, ${grade.key}, recorded at age ${Math.floor(age)}, multiplies mortality strain by ${weight.toFixed(2)} (PLACEHOLDER).`
+src/core2/outside-governments.ts	5	stopgap	* the journal. Stopgap
+src/core2/stopgaps.ts	1	stopgap	import { STOPGAP_FAMILIES } from "./stopgap-families";
+src/core2/stopgaps.ts	3	stopgap	export interface StopgapEntry {
+src/core2/stopgaps.ts	16	stopgap	/** The one register: every family file under data/stopgaps/, in file-name order. */
+src/core2/stopgaps.ts	17	stopgap	export const STOPGAPS = Object.keys(STOPGAP_FAMILIES)
+src/core2/stopgaps.ts	20	stopgap	(file) => STOPGAP_FAMILIES[file] as readonly StopgapEntry[],
+src/core2/stopgaps.ts	21	stopgap	) as readonly StopgapEntry[];
+src/core2/stopgaps.ts	22	stopgap	const byId = new Map(STOPGAPS.map((row) => [row.id, row]));
+src/core2/stopgaps.ts	36	stopgap	): StopgapEntry {
+src/core2/stopgaps.ts	39	stopgap	if (row.status === "open") (context?.stopgapHits ?? running)?.add(id);
+src/core2/stopgaps.ts	46	stopgap	return [...context.stopgapHits].sort().map((id) => ({
+src/core2/stopgaps.ts	53	stopgap	rows: readonly StopgapEntry[] = STOPGAPS,
+src/core2/budgets-treasury.ts	588	not yet	/** What a treasury has paid suppliers outside the town on its lines since its last close (`chargeLine`), not yet in a month's record. */
+src/core2/public-safety.ts	708	not yet	* The opening month's row: no line has changed yet, so the town's police
+src/core2/campaign-views.ts	2	stand-in	* What a voter thinks of a platform: the stand-in for individual views.
+src/core2/campaign-views.ts	5	stand-in	* question, formed from their life. Until it does (SG-GOV-views-stand-in), a
+src/core2/death-causes.ts	66	PLACEHOLDER	* PLACEHOLDER(research: how-long-a-serious-illness-lasts-by-age). How many
+src/core2/death-causes.ts	81	PLACEHOLDER	* PLACEHOLDER(research: causes-of-death-by-age). The share of the remaining
+src/core2/housing-shelter.ts	2	stand-in	* Shelter is paid once. The core's stand-in living cost (SG-CORE-outside-
+src/core2/opening-partnership.ts	27	stopgap	import { stopgap } from "./stopgaps";
+src/core2/stopgaps-folder.ts	1	stopgap	// The stopgap register's files on disk, for tools that read or write it under a
+src/core2/stopgaps-folder.ts	3	stopgap	// The game itself reads the register through src/core2/stopgaps.ts.
+src/core2/stopgaps-folder.ts	8	stopgap	export const STOPGAP_FOLDER = "src/core2/data/stopgaps";
+src/core2/stopgaps-folder.ts	11	stopgap	export function stopgapFamilyFile(id: string): string {
+src/core2/stopgaps-folder.ts	19	stopgap	const folder = join(root, STOPGAP_FOLDER);
+src/core2/stopgaps-folder.ts	49	stopgap	const file = stopgapFamilyFile(entry.id);
+src/core2/stopgaps-folder.ts	54	stopgap	join(root, STOPGAP_FOLDER, file),
+src/core2/office-day-federal-president.ts	109	for now	/** Left open by the president for now: the department runs under an acting head (SG-OFFICE-FED-acting-head). */
+src/core2/office-day-federal-president.ts	251	for now	* The president leaves a cabinet post open for now (or has no one to nominate): as in law, the post
+src/core2/opening-department-pay.ts	17	stopgap	import { stopgap } from "./stopgaps";
+src/core2/opening-personality.ts	21	stopgap	import { stopgap } from "./stopgaps";
+src/core2/press-conflict.ts	4	stand-in	* index is not a bar. The only reader is the stand-in that seats a vacant
+src/core2/closeness.ts	14	stopgap	import { stopgap } from "./stopgaps";
+src/core2/closeness.ts	320	not yet	// A husk (someone not yet filled in) carries no traits: their time counts as recorded.
+src/core2/estates.ts	42	PLACEHOLDER	import { coreStateKeyOfPlaceholderId } from "./place-lookup";
+src/core2/estates.ts	163	PLACEHOLDER	const placeholder = coreStateKeyOfPlaceholderId(placeId);
+src/core2/estates.ts	164	PLACEHOLDER	if (placeholder && !placeRow(placeId)) return placeholder;
+src/core2/office-day-acts.ts	565	not yet	* those that have not had the official on yet. The
+src/core2/office-day-acts.ts	570	not yet	// The outlets that have not had them on yet, widest reach first.
+src/core2/README.md	15	stopgap	5. Any shortcut gets a marker in the code and a row in its family file under `data/stopgaps/`.
+src/core2/types.ts	312	stopgap	stopgapId?: string;
+src/core2/types.ts	323	stopgap	stopgapId?: string;
+src/core2/types.ts	722	stopgap	stopgapId?: string;
+src/core2/types.ts	875	stopgap	stopgapId?: string;
+src/core2/types.ts	914	stopgap	stopgapId?: string;
+src/core2/types.ts	920	stopgap	stopgapId?: string;
+src/core2/outcome-web-model.ts	14	PLACEHOLDER	import ledger from "../../data/research/outcome-web/placeholder-ledger.json" with { type: "json" };
+src/core2/fast-forward.ts	12	stopgap	* src/core2/data/stopgaps/speed.json).
+src/core2/opening-finance.ts	27	stopgap	import { stopgap } from "./stopgaps";
+src/core2/opening-finance.ts	893	stopgap	estimatedFrom: `BLS Consumer Expenditure Survey spending for the household's region and size, capped by its members' living-cost plans, at the town's sellers of each kind in shares by their capacity. 
+src/core2/opening-finance.ts	1156	stopgap	estimatedFrom: `Reference input-cost/revenue ratio from source sales-sensitive cost fraction ${kind.salesCostShareParameter}; suppressed-cost estimated flag is ${String(kind.salesCostEstimated)}. At s
+src/core2/opening-finance.ts	1183	stopgap	"opening-finance:monthly-aggregation-due-phase-category-crosswalk-and-capacity-share-are-open-stopgaps",
+src/core2/opening-private-tuition.ts	17	stopgap	import { stopgap } from "./stopgaps";
+src/core2/cost-of-living.ts	17	not yet	* will cost by their next such day (the rent or mortgage payments not yet made,
+src/core2/housing-construction.ts	24	stopgap	import { stopgap } from "./stopgaps";
+src/core2/opening-capital.ts	19	stopgap	import { stopgap } from "./stopgaps";
+src/core2/opening-capital.ts	153	stopgap	row.stopgapId !== data.stopgapId ||
+src/core2/opening-capital.ts	177	stopgap	tail.stopgapId !== data.spreadStopgapId ||
+src/core2/population.ts	127	stopgap	import { stopgap } from "./stopgaps";
+src/core2/school-outcomes.ts	246	not yet	// one with no attendance record yet, attends as the same place's full
+src/core2/school-outcomes.ts	536	not yet	// stopgapId: SG-SCHOOL-college-stock-ledger (the share of adults with a degree stays the outcome web's ledger; the degrees decided here are its yearly flow and are not yet summed into it)
+src/core2/opening-income.ts	17	stopgap	import { stopgap } from "./stopgaps";
+src/core2/opening-income.ts	516	stopgap	evidence.stopgapId !== marker.id
+src/core2/regional-model.ts	6	stopgap	import { stopgap } from "./stopgaps";
+src/core2/births-people.ts	123	stopgap	"P15 ID-seeded inherited temperament; existing personality mapping stopgap applies to infancy.",
+src/core2/trait-decisions.ts	14	stopgap	import { stopgap } from "./stopgaps";
+src/core2/trait-decisions.ts	545	not yet	* person and not yet let go: the part of their stress those events raised
+src/core2/trait-decisions.ts	553	stopgap	* in (registered stopgap).
+src/core2/place-lookup.ts	9	PLACEHOLDER	* registered placeholder list of territory villages, the authored hometown
+src/core2/place-lookup.ts	40	PLACEHOLDER	readonly status: "placeholder" | "candidate" | "approved" | "superseded";
+src/core2/place-lookup.ts	189	PLACEHOLDER	const slug = `state-${pack.jurisdictionKey.toLowerCase()}-placeholder`;
+src/core2/place-lookup.ts	203	PLACEHOLDER	kind: "state-placeholder",
+src/core2/place-lookup.ts	209	PLACEHOLDER	status: "placeholder",
+src/core2/place-lookup.ts	431	PLACEHOLDER	let stateKeyByPlaceholderId: ReadonlyMap<string, string> | null = null;
+src/core2/place-lookup.ts	439	PLACEHOLDER	export function coreStateKeyOfPlaceholderId(
+src/core2/place-lookup.ts	442	PLACEHOLDER	stateKeyByPlaceholderId ??= new Map(
+src/core2/place-lookup.ts	446	PLACEHOLDER	`definition:state-us-${usps.toLowerCase()}-placeholder`,
+src/core2/place-lookup.ts	451	PLACEHOLDER	return stateKeyByPlaceholderId.get(jurisdictionId) ?? null;
+src/core2/place-lookup.ts	458	PLACEHOLDER	* `coreStateJurisdiction` returns, or the wider population's placeholder),
+src/core2/place-lookup.ts	473	PLACEHOLDER	coreStateKeyOfPlaceholderId(jurisdictionId)
+src/core2/place-lookup.ts	518	PLACEHOLDER	* state place's own record, else a placeholder record with the state's name,
+src/core2/place-lookup.ts	536	PLACEHOLDER	const slug = `state-${key.toLowerCase()}-placeholder`;
+src/core2/place-lookup.ts	542	PLACEHOLDER	kind: "state-placeholder",
+src/core2/place-lookup.ts	548	PLACEHOLDER	status: "placeholder",
+src/core2/places.ts	7	PLACEHOLDER	* only), a registered placeholder list of villages for the four territories
+src/core2/term-read.ts	122	not yet	// A measure the engines have not read yet is no reading, never a zero
+src/core2/civic-inputs.ts	6	stopgap	import { stopgap } from "./stopgaps";
+src/core2/civic-inputs.ts	222	stopgap	if (existing.facts?.stopgapId === marker.id && !existing.staff?.length)
+src/core2/membership-dues.ts	12	stopgap	import { stopgap } from "./stopgaps";
+src/core2/opening-kin.ts	30	stopgap	import { stopgap } from "./stopgaps";
+src/core2/opening-public-owner.ts	14	stopgap	import { stopgap } from "./stopgaps";
+src/core2/opening-public-owner.ts	185	stopgap	[`${factPrefix}stopgapId`]: OPENING_PUBLIC_OWNER_HISTORY_STOPGAP,
+src/core2/office-day-state.ts	570	for now	/** True leaves the post open for now; it comes back to the desk tomorrow. */
+src/core2/stopgap-families.ts	2	stopgap	// pull requests that each register a stopgap touch different files
+src/core2/stopgap-families.ts	3	stopgap	// (tooling-stopgaps-register-per-family). An entry goes in the file named by
+src/core2/stopgap-families.ts	7	stopgap	import f_bench from "./data/stopgaps/bench.json" with { type: "json" };
+src/core2/stopgap-families.ts	8	stopgap	import f_campaign from "./data/stopgaps/campaign.json" with { type: "json" };
+src/core2/stopgap-families.ts	9	stopgap	import f_core from "./data/stopgaps/core.json" with { type: "json" };
+src/core2/stopgap-families.ts	10	stopgap	import f_dir from "./data/stopgaps/dir.json" with { type: "json" };
+src/core2/stopgap-families.ts	11	stopgap	import f_director from "./data/stopgaps/director.json" with { type: "json" };
+src/core2/stopgap-families.ts	12	stopgap	import f_effect from "./data/stopgaps/effect.json" with { type: "json" };
+src/core2/stopgap-families.ts	13	stopgap	import f_ew from "./data/stopgaps/ew.json" with { type: "json" };
+src/core2/stopgap-families.ts	14	stopgap	import f_family from "./data/stopgaps/family.json" with { type: "json" };
+src/core2/stopgap-families.ts	15	stopgap	import f_fixer from "./data/stopgaps/fixer.json" with { type: "json" };
+src/core2/stopgap-families.ts	16	stopgap	import f_gov from "./data/stopgaps/gov.json" with { type: "json" };
+src/core2/stopgap-families.ts	17	stopgap	import f_gq from "./data/stopgaps/gq.json" with { type: "json" };
+src/core2/stopgap-families.ts	18	stopgap	import f_health from "./data/stopgaps/health.json" with { type: "json" };
+src/core2/stopgap-families.ts	19	stopgap	import f_hist from "./data/stopgaps/hist.json" with { type: "json" };
+src/core2/stopgap-families.ts	20	stopgap	import f_justice from "./data/stopgaps/justice.json" with { type: "json" };
+src/core2/stopgap-families.ts	21	stopgap	import f_labor from "./data/stopgaps/labor.json" with { type: "json" };
+src/core2/stopgap-families.ts	22	stopgap	import f_law from "./data/stopgaps/law.json" with { type: "json" };
+src/core2/stopgap-families.ts	23	stopgap	import f_laws from "./data/stopgaps/laws.json" with { type: "json" };
+src/core2/stopgap-families.ts	24	stopgap	import f_legislature from "./data/stopgaps/legislature.json" with { type: "json" };
+src/core2/stopgap-families.ts	25	stopgap	import f_lives from "./data/stopgaps/lives.json" with { type: "json" };
+src/core2/stopgap-families.ts	26	stopgap	import f_living from "./data/stopgaps/living.json" with { type: "json" };
+src/core2/stopgap-families.ts	27	stopgap	import f_loc from "./data/stopgaps/loc.json" with { type: "json" };
+src/core2/stopgap-families.ts	28	stopgap	import f_m1 from "./data/stopgaps/m1.json" with { type: "json" };
+src/core2/stopgap-families.ts	29	stopgap	import f_meetings from "./data/stopgaps/meetings.json" with { type: "json" };
+src/core2/stopgap-families.ts	30	stopgap	import f_office from "./data/stopgaps/office.json" with { type: "json" };
+src/core2/stopgap-families.ts	31	stopgap	import f_officials from "./data/stopgaps/officials.json" with { type: "json" };
+src/core2/stopgap-families.ts	32	stopgap	import f_p10 from "./data/stopgaps/p10.json" with { type: "json" };
+src/core2/stopgap-families.ts	33	stopgap	import f_p15 from "./data/stopgaps/p15.json" with { type: "json" };
+src/core2/stopgap-families.ts	34	stopgap	import f_p8 from "./data/stopgaps/p8.json" with { type: "json" };
+src/core2/stopgap-families.ts	35	stopgap	import f_people from "./data/stopgaps/people.json" with { type: "json" };
+src/core2/stopgap-families.ts	36	stopgap	import f_play from "./data/stopgaps/play.json" with { type: "json" };
+src/core2/stopgap-families.ts	37	stopgap	import f_pool from "./data/stopgaps/pool.json" with { type: "json" };
+src/core2/stopgap-families.ts	38	stopgap	import f_pw3 from "./data/stopgaps/pw3.json" with { type: "json" };
+src/core2/stopgap-families.ts	39	stopgap	import f_pw8 from "./data/stopgaps/pw8.json" with { type: "json" };
+src/core2/stopgap-families.ts	40	stopgap	import f_school from "./data/stopgaps/school.json" with { type: "json" };
+src/core2/stopgap-families.ts	41	stopgap	import f_screens from "./data/stopgaps/screens.json" with { type: "json" };
+src/core2/stopgap-families.ts	42	stopgap	import f_speed from "./data/stopgaps/speed.json" with { type: "json" };
+src/core2/stopgap-families.ts	43	stopgap	import f_state from "./data/stopgaps/state.json" with { type: "json" };
+src/core2/stopgap-families.ts	44	stopgap	import f_traits from "./data/stopgaps/traits.json" with { type: "json" };
+src/core2/stopgap-families.ts	45	stopgap	import f_web from "./data/stopgaps/web.json" with { type: "json" };
+src/core2/stopgap-families.ts	46	stopgap	import f_wire from "./data/stopgaps/wire.json" with { type: "json" };
+src/core2/stopgap-families.ts	47	stopgap	import f_words from "./data/stopgaps/words.json" with { type: "json" };
+src/core2/stopgap-families.ts	48	stopgap	import f_world from "./data/stopgaps/world.json" with { type: "json" };
+src/core2/stopgap-families.ts	51	stopgap	export const STOPGAP_FAMILIES: Record<string, readonly unknown[]> = {
+src/core2/outcome-news.ts	22	stopgap	readonly stopgapId?: string;
+src/core2/justice-law.ts	24	stopgap	/** A justice parameter, marking its stopgap when it carries one. */
+src/core2/justice-law.ts	33	stand-in	/** The office that prosecutes, or a stand-in id where the data names none. */
+src/core2/justice-law.ts	65	stand-in	* the states with no county prosecutor), else a stand-in office.
+src/core2/justice-law.ts	102	stand-in	// stopgapId: SG-GOV-justice-prosecutor-stand-in
+src/core2/justice-law.ts	103	stand-in	api.stopgap("SG-GOV-justice-prosecutor-stand-in");
+src/core2/justice-law.ts	115	stand-in	estimatedFrom: "SG-GOV-justice-prosecutor-stand-in",
+src/core2/ballot-order.ts	52	not yet	/** The rule is read from a secondary source, not yet the statute itself. */
+src/core2/housing-mortgages.ts	18	stopgap	import { stopgap } from "./stopgaps";
+src/core2/past-module.ts	29	stopgap	/** A past parameter's value, registering its stopgap when it carries one. */
+src/core2/housing-foreclosure.ts	20	stopgap	import { stopgap } from "./stopgaps";
+src/core2/health-displacement.ts	59	stopgap	// A counted worker is no full person: the counted tier is a stopgap.
+src/core2/past-moves.ts	23	stopgap	import { stopgap } from "./stopgaps";
+src/core2/business-books.ts	156	stopgap	const stopgapIds = [...data.stopgapIds, row.stopgapId];
+src/core2/business-books.ts	158	stopgap	? { gap: data.reasons.outsideBusinessScope, stopgapIds }
+src/core2/business-books.ts	159	stopgap	: { kind: kindById(data, row.kindId), stopgapIds };
+src/core2/past-elections.ts	416	not yet	// named but not people of the world yet.
+src/core2/personality-catalogue.ts	37	not yet	* what happens to people, and changes no outcome yet.
+src/core2/residents.ts	14	stopgap	import { stopgap } from "./stopgaps";
+src/core2/opening-profile.ts	15	stopgap	import { stopgap } from "./stopgaps";
+src/core2/health-web.ts	104	stopgap	/** The health links no engine reads yet, each named by its registered stopgap. */
+src/core2/health-web.ts	104	not yet	/** The health links no engine reads yet, each named by its registered stopgap. */
+src/core2/counted-groups.ts	12	stopgap	* these columns on demand (`personInput`, `householdView`): the stopgap
+src/core2/counted-groups.ts	15	stopgap	import { stopgap } from "./stopgaps";
+src/core2/housing-homeless.ts	22	stopgap	import { stopgap } from "./stopgaps";
+src/core2/housing-homeless.ts	377	PLACEHOLDER	// (its full record waits at the counted placeholder place), and only
+src/core2/opening-income-funding.ts	6	stopgap	import { stopgap } from "./stopgaps";
+src/core2/campaign-day.ts	89	not yet	/** Households whose door the campaign has not knocked yet. */
+src/core2/campaign-stances.ts	372	for now	* votes and job bear on the question) is left out for now. Positions never
+src/core2/money-traits-kit.ts	53	fixture	citation: "Technical fixture records.",
+src/core2/money-traits-kit.ts	54	fixture	estimatedFrom: "Trait test fixture only.",
+src/core2/money-traits-kit.ts	56	fixture	const place = "place:trait-fixture";
+src/core2/money-traits-kit.ts	64	fixture	familyName: "Fixture",
+src/core2/election-ties.ts	259	not yet	// A member the world has not seated as a person yet becomes one the
+src/core2/housing-prices.ts	12	stopgap	import { stopgap } from "./stopgaps";
+src/core2/session-law-audit.ts	29	not yet	/** It points against an act of the same session that had not taken effect yet. */
+src/core2/tooling/tripwires.ts	1	stopgap	import { STOPGAP_FOLDER, readStopgapFolder } from "../stopgaps-folder";
+src/core2/tooling/tripwires.ts	13	stopgap	type StopgapEntry,
+src/core2/tooling/tripwires.ts	14	stopgap	} from "../stopgaps";
+src/core2/tooling/tripwires.ts	16	stopgap	export { assertReleaseReady } from "../stopgaps";
+src/core2/tooling/tripwires.ts	17	stopgap	export type { StopgapEntry } from "../stopgaps";
+src/core2/tooling/tripwires.ts	45	stopgap	readonly entries: readonly StopgapEntry[];
+src/core2/tooling/tripwires.ts	96	stopgap	const STOPGAP_FIELDS = new Set([
+src/core2/tooling/tripwires.ts	114	stopgap	"stopgapId",
+src/core2/tooling/tripwires.ts	118	stopgap	/** Counts open rows in the array-form stopgap registry. */
+src/core2/tooling/tripwires.ts	131	stopgap	write(`Open stopgap count: ${count}`);
+src/core2/tooling/tripwires.ts	146	stopgap	const registryPath = join(root, STOPGAP_FOLDER);
+src/core2/tooling/tripwires.ts	154	stopgap	code: "stopgap-registry-unreadable",
+src/core2/tooling/tripwires.ts	156	stopgap	message: `Could not read the stopgap registry: ${errorMessage(error)}.`,
+src/core2/tooling/tripwires.ts	205	stopgap	// Stopgap markers beside code outside the core (the bench, the desktop
+src/core2/tooling/tripwires.ts	239	stopgap	...scratch.filter((row) => row.code === "malformed-stopgap-marker"),
+src/core2/tooling/tripwires.ts	295	stopgap	/** Runs the source audit; open stopgaps block only an explicit release check. */
+src/core2/tooling/tripwires.ts	348	stopgap	code: "stopgap-registry-shape",
+src/core2/tooling/tripwires.ts	349	stopgap	message: "The stopgap registry must be an array of entries.",
+src/core2/tooling/tripwires.ts	355	stopgap	const entries: StopgapEntry[] = [];
+src/core2/tooling/tripwires.ts	360	stopgap	code: "stopgap-entry-shape",
+src/core2/tooling/tripwires.ts	361	stopgap	message: `Stopgap row ${index + 1} must be an object.`,
+src/core2/tooling/tripwires.ts	380	stopgap	(field) => !STOPGAP_FIELDS.has(field),
+src/core2/tooling/tripwires.ts	384	stopgap	code: "stopgap-entry-fields",
+src/core2/tooling/tripwires.ts	385	stopgap	message: `Stopgap row ${index + 1} needs nonempty ${missing.join(", ")}.`,
+src/core2/tooling/tripwires.ts	391	stopgap	code: "stopgap-entry-fields",
+src/core2/tooling/tripwires.ts	392	stopgap	message: `Stopgap row ${index + 1} has unsupported fields ${unknown.join(", ")}.`,
+src/core2/tooling/tripwires.ts	397	stopgap	if (!STOPGAP_ID.test(id)) {
+src/core2/tooling/tripwires.ts	399	stopgap	code: "stopgap-entry-id",
+src/core2/tooling/tripwires.ts	406	stopgap	code: "stopgap-entry-duplicate",
+src/core2/tooling/tripwires.ts	407	stopgap	message: `Stopgap ID ${id} appears more than once in the registry.`,
+src/core2/tooling/tripwires.ts	415	stopgap	code: "stopgap-entry-line",
+src/core2/tooling/tripwires.ts	416	stopgap	message: `Stopgap ${id} needs a positive source line number.`,
+src/core2/tooling/tripwires.ts	423	stopgap	code: "stopgap-entry-status",
+src/core2/tooling/tripwires.ts	424	stopgap	message: `Stopgap ${id} status must be open or resolved.`,
+src/core2/tooling/tripwires.ts	451	stopgap	// A marker may name its stopgap through a constant of the same file
+src/core2/tooling/tripwires.ts	453	stopgap	const stopgapConstants = new Map<string, string>();
+src/core2/tooling/tripwires.ts	461	stopgap	if (value !== undefined && STOPGAP_ID.test(value))
+src/core2/tooling/tripwires.ts	462	stopgap	stopgapConstants.set(node.name.text, value);
+src/core2/tooling/tripwires.ts	473	stopgap	if (match && STOPGAP_ID.test(match[1]!))
+src/core2/tooling/tripwires.ts	498	stopgap	? stopgapConstants.get(argument.text)
+src/core2/tooling/tripwires.ts	502	stopgap	"malformed-stopgap-marker",
+src/core2/tooling/tripwires.ts	504	stopgap	"A stopgap lookup needs an ID argument.",
+src/core2/tooling/tripwires.ts	506	stopgap	} else if (id !== undefined && !STOPGAP_ID.test(id)) {
+src/core2/tooling/tripwires.ts	508	stopgap	"malformed-stopgap-marker",
+src/core2/tooling/tripwires.ts	510	stopgap	"A literal stopgap marker must use a registered SG ID shape.",
+src/core2/tooling/tripwires.ts	522	stopgap	propertyName(node.name) === "stopgapId"
+src/core2/tooling/tripwires.ts	525	stopgap	if (id !== undefined && !STOPGAP_ID.test(id)) {
+src/core2/tooling/tripwires.ts	527	stopgap	"malformed-stopgap-marker",
+src/core2/tooling/tripwires.ts	529	stopgap	"A literal stopgapId marker must use a registered SG ID shape.",
+src/core2/tooling/tripwires.ts	847	stopgap	(typeof row.stopgapId !== "string" || !STOPGAP_ID.test(row.stopgapId))
+src/core2/tooling/tripwires.ts	850	stopgap	code: "parameter-estimate-stopgap",
+src/core2/tooling/tripwires.ts	852	stopgap	message: `Estimated parameter ${name} needs a registered stopgapId marker.`,
+src/core2/tooling/tripwires.ts	987	fixture	"fixtures",
+src/core2/tooling/tripwires.ts	1007	stopgap	// The stopgap register's family files are the register, not P8 data.
+src/core2/tooling/tripwires.ts	1008	stopgap	if (fullPath !== join(directory, "stopgaps")) visit(fullPath);
+src/core2/tooling/tripwires.ts	1039	stopgap	if (key.value !== "stopgapId" || sourceText[colon] !== ":") {
+src/core2/tooling/tripwires.ts	1049	stopgap	if (!value || !STOPGAP_ID.test(value.value)) {
+src/core2/tooling/tripwires.ts	1051	stopgap	code: "malformed-stopgap-marker",
+src/core2/tooling/tripwires.ts	1054	stopgap	message: "A stopgapId data marker must be a literal SG ID.",
+src/core2/tooling/tripwires.ts	1062	stopgap	for (const list of sourceText.matchAll(/"stopgapIds"\s*:\s*\[([^\]]*)\]/g)) {
+src/core2/tooling/tripwires.ts	1139	stopgap	/** Where stopgap markers are read: the core, the bench and the desktop shell. */
+src/core2/tooling/tripwires.ts	1144	stopgap	entries: readonly StopgapEntry[],
+src/core2/tooling/tripwires.ts	1161	stopgap	message: `Source marker ${marker.id} has no stopgap registry entry.`,
+src/core2/tooling/tripwires.ts	1178	stopgap	code: "stale-stopgap-entry",
+src/core2/tooling/tripwires.ts	1181	stopgap	message: `Stopgap registry entry ${entry.id} has no source marker at its recorded location.`,
+src/core2/tooling/tripwires.ts	1190	stopgap	code: "stopgap-location-mismatch",
+src/core2/tooling/tripwires.ts	1201	stopgap	(ts.isIdentifier(expression) && expression.text === "stopgap") ||
+src/core2/tooling/tripwires.ts	1203	stopgap	expression.name.text === "stopgap")
+src/core2/tooling/calibration-targets.json	17	stopgap	"engineReferenceContract": "A TUNABLE may carry only checkRange: { ref: \"P9-GENERIC-ID\" | \"EMPIRICAL-GENERIC-ID\" }. The simulation ignores this developer-only pointer. P9 trajectories keep their p
+src/core2/tooling/calibration-targets.json	890	stopgap	"proposal": "Keep TUNABLE/unmeasured and its associated stopgap open. Compare correctly denominated observable receipts before any coefficient search; do not copy target means into a person or force a
+src/core2/tooling/calibration-targets.json	905	stopgap	"proposal": "Keep TUNABLE/unmeasured and its associated stopgap open. Compare correctly denominated observable receipts before any coefficient search; do not copy target means into a person or force a
+src/core2/tooling/calibration-targets.json	920	stopgap	"proposal": "Keep TUNABLE/unmeasured and its associated stopgap open. Compare correctly denominated observable receipts before any coefficient search; do not copy target means into a person or force a
+src/core2/tooling/calibration-targets.json	935	stopgap	"proposal": "Keep TUNABLE/unmeasured and its associated stopgap open. Compare correctly denominated observable receipts before any coefficient search; do not copy target means into a person or force a
+src/core2/tooling/calibration-targets.json	950	stopgap	"proposal": "Keep TUNABLE/unmeasured and its associated stopgap open. Compare correctly denominated observable receipts before any coefficient search; do not copy target means into a person or force a
+src/core2/tooling/calibration-targets.json	965	stopgap	"proposal": "Keep TUNABLE/unmeasured and its associated stopgap open. Compare correctly denominated observable receipts before any coefficient search; do not copy target means into a person or force a
+src/core2/tooling/calibration-targets.json	980	stopgap	"proposal": "Keep TUNABLE/unmeasured and its associated stopgap open. Compare correctly denominated observable receipts before any coefficient search; do not copy target means into a person or force a
+src/core2/tooling/calibration-targets.json	1070	fixture	"reviewNote": "Finite-cash API settlement and the once-per-borrower repayment pool are implemented and covered by controlled writer fixtures. No observed firm loan/cash-repayment distribution, identif
+src/core2/tooling/calibration-targets.json	1961	stopgap	"note": "No deletion is included in the candidate patch; this is a separate owner decision, and current tag/stopgap status is preserved.",
+src/core2/tooling/calibration-targets.json	1979	fixture	"scope": "developer-only target catalog; no fixture value or biography metadata enters P8 data or core parameters",
+src/core2/tooling/calibration-targets.json	3517	PLACEHOLDER	"evaluation": "The run command writes a receipt and evaluation. Score only the 35 decision/outcome steps as model-result targets. For each such step require Evaluation step.reproduced=true, all checks
+src/core2/tooling/calibration-targets.json	3518	until...comes	"routeStatus": "The CLI/evaluator is executable, but no P8 module currently exports the required createReplayCore adapter. Running against the existing old-core adapter does not validate the new P8 en
+src/core2/tooling/calibration-targets.json	6818	stopgap	"cleanup": "Row and matching open stopgap removed; no production reader existed."
+src/core2/tooling/calibration-targets.json	6823	stopgap	"cleanup": "Row and matching open stopgap removed; no production reader existed."
+src/core2/tooling/calibration-targets.json	6828	stopgap	"cleanup": "Row and matching open stopgap removed; no production reader existed."
+src/core2/tooling/calibration-targets.json	6833	stopgap	"cleanup": "Row and matching open stopgap removed; no production reader existed."
+src/core2/tooling/calibration-targets.json	6838	stopgap	"cleanup": "Row and matching open stopgap removed; no production reader existed. Former test-only stimuli are retained only in src/core2/tooling/fixtures/event-inputs.json with synthetic developer-fix
+src/core2/tooling/calibration-targets.json	6838	fixture	"cleanup": "Row and matching open stopgap removed; no production reader existed. Former test-only stimuli are retained only in src/core2/tooling/fixtures/event-inputs.json with synthetic developer-fix
+src/core2/tooling/calibration-targets.json	6843	stopgap	"cleanup": "Row and matching open stopgap removed; no production reader existed. Former test-only stimuli are retained only in src/core2/tooling/fixtures/event-inputs.json with synthetic developer-fix
+src/core2/tooling/calibration-targets.json	6843	fixture	"cleanup": "Row and matching open stopgap removed; no production reader existed. Former test-only stimuli are retained only in src/core2/tooling/fixtures/event-inputs.json with synthetic developer-fix
+src/core2/tooling/m1-06-check.ts	388	not yet	* short bills whose loan has not billed again yet.
+src/core2/tooling/calibration-guard.ts	283	fixture	* Catalog and parameter JSON are passed as data so this stays easy to fixture.
+src/core2/tooling/generated-world.ts	59	not yet	// The town's public school district, staffed from workers not yet placed;
+src/core2/tooling/macro-proof.ts	53	stand-in	if (facilities.some((facility) => facility.id.startsWith("facility:stand-in:")))
+src/core2/tooling/measure.ts	15	stopgap	import { developerBanners } from "../stopgaps";
+src/core2/tooling/measure.ts	137	stopgap	stopgaps: string[];
+src/core2/tooling/measure.ts	723	stopgap	stopgaps: developerBanners(core).map((row) => row.id),
+src/core2/law-reach/group-b.ts	12	stopgap	* the record is the law side and the policy's registered stopgap names the
+src/core2/law-reach/group-b.ts	113	stopgap	readonly stopgapId?: string;
+src/core2/law-reach/group-b.ts	132	stopgap	readonly stopgapId?: string;
+src/core2/law-reach/group-b-food-aid.ts	12	stopgap	* eligibility and the elderly and disabled rules are not modeled (stopgap
+src/core2/law-reach/group-b-money.ts	1001	stopgap	* account, times their weights. Repeal ends it (stopgap
+src/core2/law-reach/group-b-money.ts	1116	stopgap	* voucher follows the contract, not an enrollment (stopgap
+src/core2/law-reach/group-a-voting.ts	498	until...comes	* take the national share until conviction records exist
+src/core2/law-reach/group-a-records.ts	87	stopgap	readonly stopgapId?: string;
+src/core2/law-reach/group-a-staffing.ts	325	not yet	// Cut back: openings not yet filled are withdrawn first, then the people
+src/core2/gov-rules/township-governing-body-rules.ts	32	not yet	* enlarged its board by its own vote or charter is not read yet.
+src/core2/gov-rules/names-data.ts	1126	fixture	source: "Political Game Stage 6.5 Synthetic Demonstration Fixture",
+src/core2/gov-rules/county-governing-body-rules.ts	29	not yet	* California, Ohio, Missouri or Washington) is not read yet, so it takes its
+src/core2/gov-rules/county-governing-body-rules.ts	42	not yet	*   record does not yet say which, so none is asserted here.
+src/core2/gov-rules/local-chief-executive-rules.ts	42	not yet	* race; the council's choice is not built yet.
+src/core2/gov-rules/place-population.ts	19	stopgap	import { stopgap } from "../stopgaps";
+src/core2/gov-rules/municipal-ballot-rules.ts	21	not yet	* A town's own charter can displace all of this, and no charter is read yet.
+src/core2/modules/prices-web-gaps.ts	3	stopgap	* engine can carry yet. Each marker below is a registered stopgap that names
+src/core2/modules/credit.ts	21	stopgap	import { stopgap } from "../stopgaps";
+src/core2/modules/drives.ts	472	not yet	/** Whether a person is still in the wider population (counted, not yet filled in). */
+src/core2/modules/drives.ts	1557	stopgap	estimatedFrom: data.stopgapId,
+src/core2/modules/drives.ts	1603	stand-in	* counted residents' account. Stopgap SG-CORE-counted-giving-stand-in: a
+src/core2/modules/drives.ts	1656	stand-in	api.stopgap("SG-CORE-counted-giving-stand-in");
+src/core2/modules/drives.ts	1987	not yet	// The lowest id among the living relatives and acquaintances not yet
+src/core2/modules/counted-moves.ts	27	PLACEHOLDER	import { coreStateKeyOfPlaceholderId } from "../place-lookup";
+src/core2/modules/counted-moves.ts	494	PLACEHOLDER	(placeStateKey(placeId) ?? coreStateKeyOfPlaceholderId(placeId))?.slice(
+src/core2/modules/counted-moves.ts	680	not yet	// An institution admits and discharges its residents (not built yet):
+src/core2/modules/news.ts	96	not yet	/** A teller who has not yet been counted owes half a story, so an even teller tells one at once. */
+src/core2/modules/crime.ts	22	stopgap	* No offender, police or court is modeled here: see the stopgaps
+src/core2/modules/projects.ts	101	not yet	* open: finished within the window and not yet cut.
+src/core2/modules/world-legislating.ts	309	not yet	/** A jurisdiction's own latest enacted row on a question, whether or not it has taken effect yet. */
+src/core2/modules/world-legislating.ts	1594	not yet	/** Empty for a filing not yet introduced. */
+src/core2/modules/world-legislating.ts	1602	not yet	* filings (one not yet introduced comes in on its filing day), then the
+src/core2/modules/candidacy.ts	754	not yet	// county votes in it but no one from there runs yet.
+src/core2/modules/place-prices.ts	28	stopgap	import { stopgap } from "../stopgaps";
+src/core2/modules/place-prices.ts	449	not yet	// Each household switches as the subscribing share of one, not by its own choice yet.
+src/core2/modules/office-day.ts	327	not yet	* not yet posted; returns that meeting's date. A bill already placed keeps
+src/core2/modules/offices.ts	28	stand-in	* a full person by CORE's fill-in (stand-in until then:
+src/core2/modules/offices.ts	35	stand-in	* election is put on the calendar (stand-in until M2's elections:
+src/core2/modules/offices.ts	91	not yet	/** A town resident's person id, or null for a named official not yet filled in. */
+src/core2/modules/offices.ts	251	not yet	* does not cover it, yet both are the town's).
+src/core2/modules/offices.ts	446	stand-in	// The stand-in that seats a vacant office without an election does not
+src/core2/modules/offices.ts	1442	stand-in	* A vacancy filled by appointment (or by the stand-in for a special election)
+src/core2/modules/offices.ts	1616	stand-in	// (filing, residents deciding to run, the vote); else a stand-in.
+src/core2/modules/offices.ts	1651	stand-in	/** The first engine that takes the seat opens its race; none leaves the stand-in. */
+src/core2/modules/offices.ts	1865	stand-in	appointedBy: "the special election (stand-in)",
+src/core2/modules/executive.ts	138	stopgap	* decides for themselves: the engine never declares for them (stopgap
+src/core2/modules/executive.ts	174	not yet	// in January 2025, and not yet one of the town's adults.
+src/core2/modules/budgets.ts	420	stopgap	/** A row that is an estimate carries the stopgap that replaces it. */
+src/core2/modules/budgets.ts	421	stopgap	readonly stopgapId?: string;
+src/core2/modules/budgets.ts	847	stopgap	const stopgapId = baseRowsOf(chain.stateKey)[gov.base]?.stopgapId;
+src/core2/modules/legislature.ts	2820	not yet	* at the shared weight; a named official not filled in yet adds nothing.
+src/core2/modules/legislature.ts	3282	not yet	// stopgapId: SG-GOV-carry-ask-no-screen (the held ask has no bench screen yet)
+src/core2/modules/legislature.ts	5710	not yet	* an earlier step's amount). Budget lines do not read a date yet
+src/core2/modules/legislature.ts	5847	not yet	// A budget section's own date is not read yet: the line is amended
+src/core2/modules/kin-contact.ts	59	stand-in	"Closeness of the tie times one contact a month at full closeness (kinContactsPerYearAtFull), a tunable stand-in for the GSS visit frequencies behind the opening closeness.",
+src/core2/modules/contracts.ts	101	not yet	* relative or housemate, own it. A member who is a named official not yet
+src/core2/modules/voting.ts	1857	stand-in	* filled in to run for the party (SG-GOV-who-runs-stand-in).
+src/core2/modules/voting.ts	1892	stand-in	// stopgapId: SG-GOV-who-runs-stand-in
+src/core2/modules/voting.ts	1893	stand-in	api.stopgap("SG-GOV-who-runs-stand-in");
+src/core2/modules/voting.ts	2205	not yet	// applied by the officials, not modeled yet); a sole name has no one to eliminate.
+src/core2/modules/voting.ts	2606	not yet	// reach read it; a place with none on record has no building yet.
+src/core2/modules/voting.ts	4329	stand-in	* stand-in fill.
+src/core2/modules/voting.ts	4352	stand-in	// engine's stand-in fills the seat (SG-GOV-territory-legislature-race).
+src/core2/modules/voting.ts	4362	not yet	// (the calendar takes only a day not yet run).
+src/core2/modules/voting.ts	5067	not yet	// place at its 2024 delegate race's lean, its size not yet read.
+src/core2/modules/voting.ts	5292	not yet	// day not yet run).
+src/core2/modules/elections.ts	1364	not yet	/** Whether a filing's petition is out and has not been checked yet. */
+src/core2/modules/elections.ts	1476	not yet	* Point a contest not yet held at the term serving on its seat now: a holder
+src/core2/modules/business.ts	23	stopgap	import { stopgap } from "../stopgaps";
+src/core2/modules/business.ts	94	not yet	/** Profit earned and not yet drawn; the most an owner can take. */
+src/core2/modules/business.ts	321	not yet	// Supplier bills accrued on its sales are owed already, though not yet billed.
+src/core2/modules/business.ts	1229	not yet	// pumping records and crop-specific responses are not present yet.
+src/core2/modules/business.ts	1945	stopgap	// The wider population weighs it by the same reasons, as summed pulls (stopgap), until filled in.
+src/core2/modules/employer-taxes.ts	128	not yet	/** What an employer owes the treasury and could not pay yet. */
+src/core2/modules/employer-taxes.ts	177	stopgap	* premises, which the books don't record, is not (registered stopgap).
+src/core2/modules/press.ts	3461	not yet	* they join the desk. Off-town staff have no modeled payroll yet, so a death
+src/core2/modules/jobs.ts	21	stopgap	import { stopgap } from "../stopgaps";
+src/core2/modules/jobs.ts	1849	not yet	// stopgapId: SG-WORLD-jobs-quit-rate-uncalibrated (quits under the shared chooser not yet checked against JOLTS)
+src/core2/modules/jobs.ts	2053	not yet	// A job with no pull yet (day one, or a new hire) stands somewhere along
+src/core2/modules/jobs.ts	2385	not yet	* month's lumpy bills do not decide it. A business with no trading month yet
+src/core2/modules/jobs.ts	2535	stopgap	// Without the two-level population, only people who have worked in this world are in its labor market (see the opening-seekers stopgap).
+src/core2/modules/jobs.ts	2700	not yet	/** The first index in a ranking not yet taken, each time it is asked. */
+src/core2/modules/outcome-web.ts	647	stopgap	// Kept outcomes hold at their base apart from their causes; see the stopgap.
+src/core2/modules/outcome-web.ts	652	not yet	// A cause of poverty that reaches no incomes yet (poverty itself is the engine's).
+src/core2/modules/campaigns.ts	13	stand-in	* Views come from a stand-in until OPUS-PEOPLE's views engine lands
+src/core2/modules/campaigns.ts	13	until...comes	* Views come from a stand-in until OPUS-PEOPLE's views engine lands
+src/core2/modules/campaigns.ts	14	stand-in	* (`campaign-views.ts`, SG-GOV-views-stand-in).
+src/core2/modules/campaigns.ts	179	not yet	/** Counted adults (not yet full people) its doors, mail and ads reached. */
+src/core2/modules/campaigns.ts	189	not yet	/** The share of an event the town has been owed but not yet had (`heldInTown`), 0 up to one. */
+src/core2/modules/campaigns.ts	191	not yet	/** Money set aside toward an event's venue and a poll, not yet paid. */
+src/core2/modules/campaigns.ts	564	stand-in	/** Register the module and note the town's starting lean (stand-in for views). */
+src/core2/modules/campaigns.ts	581	stand-in	// stopgapId: SG-GOV-views-stand-in
+src/core2/modules/campaigns.ts	582	stand-in	api.stopgap("SG-GOV-views-stand-in");
+src/core2/modules/campaigns.ts	669	not yet	// A state or federal candidate may not be a full person yet.
+src/core2/modules/campaigns.ts	787	for now	* candidate is the one the resident would vote for now, kept as their word
+src/core2/modules/campaigns.ts	806	for now	// for now, after the visit (their own appeal, an earlier word at a door
+src/core2/modules/campaigns.ts	1177	not yet	* alike, those not yet walked first. At each door the most willing adult home
+src/core2/modules/campaigns.ts	1183	not yet	* campaign's. `cursor` keeps where the doors not yet walked start in the
+src/core2/modules/campaigns.ts	1510	not yet	* Knock on doors for some hours: the montage. Households not yet visited, in
+src/core2/modules/campaigns.ts	1641	stand-in	* a registered stand-in seller where the town has none.
+src/core2/modules/campaigns.ts	1666	stand-in	/** A stand-in seller where the town has no business of the kind (registered). */
+src/core2/modules/campaigns.ts	1688	stand-in	citation: `Stand-in seller of campaign ${purchase} where the town records no business of the kind`,
+src/core2/modules/renewal.ts	418	not yet	// Due on its own date, or tomorrow when the counts had not yet run it.
+src/core2/modules/ballot-measures.ts	234	stand-in	// stopgapId: SG-GOV-measure-groups-stand-in
+src/core2/modules/ballot-measures.ts	235	stand-in	api.stopgap("SG-GOV-measure-groups-stand-in");
+src/core2/modules/laws.ts	309	not yet	* a starting answer and a bill-paper route but no engine reads them yet: the
+src/core2/modules/laws.ts	727	not yet	// Most questions have no grant/bar act yet. An empty series cannot change
+src/core2/modules/leadership.ts	198	not yet	// A named official not yet filled in leans by their party (as `leanOf`).
+src/core2/modules/disasters.ts	388	for now	// Households repair what they can pay for now.
+src/core2/modules/meetings.ts	650	not yet	// not come yet (public comment reads them, `commentSpeakers`).
+src/core2/modules/interest-groups.ts	459	stand-in	* (until the group hires a lobbyist: SG-GOV-group-lobbyist-stand-in).
+src/core2/modules/interest-groups.ts	467	stand-in	// stopgapId: SG-GOV-group-lobbyist-stand-in
+src/core2/modules/interest-groups.ts	468	stand-in	api.stopgap("SG-GOV-group-lobbyist-stand-in");
+src/core2/modules/interest-groups.ts	783	not yet	* or no group yet). The group's stake in the person is their friends in it.
+src/core2/modules/health.ts	925	not yet	* no record is given one first. False where the person is gone or the module has no data yet.
+src/core2/modules/housing.ts	30	stopgap	import { stopgap } from "../stopgaps";
+src/core2/modules/housing.ts	492	not yet	// Prisons, bases and other institutions have no record in town yet.
+src/core2/modules/housing.ts	779	stopgap	// The wider population's cash is pooled by place: its rent is paid from the pool, with no per-household arrears (stopgap).
+src/core2/modules/housing.ts	1337	stopgap	// One ownerless landlord until rentals have owners (businesses growing); see the stopgap.
+src/core2/modules/housing.ts	1772	stopgap	// One ownerless landlord serves notice; its patience is its reasons, not an owner's yet (see the stopgap).
+src/core2/modules/housing.ts	1772	not yet	// One ownerless landlord serves notice; its patience is its reasons, not an owner's yet (see the stopgap).
+src/core2/modules/housing.ts	1965	until...comes	// Evictions without courts (owner, Oct 14, OWNER-DECISIONS.md): the hearing is a dated step of the statute that follows its conditions (rent owed, notice given); there is no judge or court scene unti
+src/core2/modules/justice.ts	280	not yet	/** A person's calibrated trait term between two options of a justice decision, or none for someone not a person yet. */
+src/core2/modules/justice.ts	598	not yet	* open investigations and its charged cases not yet decided, read when it
+src/core2/modules/justice.ts	1394	stand-in	// The stand-in prosecutor is named for its state.
+src/core2/modules/justice.ts	1563	not yet	* date: a prison term not yet ended, or a probation term not yet run out.
+src/core2/modules/retirement-claims.ts	2	stand-in	* Retirement claims during play (stand-in SG-CORE-retirement-claims-in-play,
+src/core2/modules/staff.ts	482	stopgap	* calendar cadence of people outside the town (registered stopgap).
+src/core2/modules/staff.ts	662	not yet	/** How well a new hire would do the work, from their traits alone (no tasks done yet). */
+src/core2/modules/staff.ts	760	not yet	// The first of the official's aides who died or left the post and has no successor yet.
+src/core2/modules/official-pay.ts	89	not yet	/** Pay earned that the treasury could not cover yet; paid first on the next payday it can. */
+src/core2/modules/moves.ts	417	not yet	// Their own children not yet of age where they live, living with them.
+src/core2/modules/moves.ts	765	stopgap	// town's people are its residents and counts (stopgap).
+src/core2/modules/moves.ts	933	stopgap	estimatedFrom: STOPGAP,
+src/core2/modules/moves.ts	956	stopgap	estimatedFrom: STOPGAP,
+src/core2/modules/moves.ts	1069	stopgap	estimatedFrom: STOPGAP,
+src/core2/modules/moves.ts	1347	stopgap	// go; when only some go, it stays together (registered stopgap) and a grown
+src/core2/modules/moves.ts	1462	stopgap	estimatedFrom: STOPGAP,
+src/core2/modules/moves.ts	1504	stopgap	estimatedFrom: STOPGAP,
+src/core2/modules/residents.ts	77	stopgap	import { stopgap } from "../stopgaps";
+src/core2/modules/residents.ts	910	not yet	/** A firm's supplier bills accrued and not yet paid (net-30), and who they're owed to. */
+src/core2/modules/residents.ts	927	not yet	/** What a business owes its outside suppliers for costs accrued on its sales but not yet billed or paid (net-30 terms). */
+src/core2/modules/residents.ts	1060	until...comes	// day until paid (like rent), so cash that arrives after the 1st still pays it.
+src/core2/modules/residents.ts	2013	not yet	// whose groups hold no money yet.
+src/core2/modules/residents.ts	3004	not yet	/** A household that moved in joins the counts (no job or contracts yet). */
+src/core2/modules/residents.ts	3044	not yet	* places with the home's purchases, mortgage and rent, and no job yet.
+src/core2/modules/school.ts	351	not yet	// The player's compulsory pull on a school day not yet attended.
+src/core2/modules/public-action.ts	175	not yet	/** The people the jobs engine records as looking for work and not yet employed. */
+src/core2/modules/recalls.ts	348	not yet	// stopgapId: SG-GOV-recall-signature-groups (registered voters, and votes with no record yet, are sized from the real averages)
+src/core2/modules/parties.ts	705	not yet	* The parties' monthly meeting in town. Adults with no tie yet (come of age,
+src/core2/data/business-books.json	495	stopgap	"stopgapIds": [
+src/core2/data/parameters.json	157	fixture	"citation": "Technical population fixture size for complete-household test coverage, not a simulated population-rate parameter."
+src/core2/data/parameters.json	162	fixture	"citation": "Technical fixture increment for the full-household admission test, not a behavioral parameter."
+src/core2/data/parameters.json	1027	stopgap	"estimatedFrom": "Largest generated peer group, set between the elementary self-contained class (19.1) and the high-school departmentalized class (21.0), the classes of the first and last school stage
+src/core2/data/parameters.json	2038	PLACEHOLDER	"citation": "Old town-finances DEFAULT_PRICE_ELASTICITY is explicitly PLACEHOLDER; not a common measured elasticity for every industry.",
+src/core2/data/parameters.json	2126	not yet	"checkedAgainst": "Measured once over three generated openings (seeds claim-a/b/c, 3,694 retirees): mean claim age 64.08 (SSA 63.4–65.0), 20% at 62 (SSA 2021 about 25%); claiming at 70 (SSA about 8%) 
+src/core2/data/parameters.json	4845	fixture	"citation": "In the fixture a scale of 1.9 gives 70.9% and 2.2 gives 60.1% of the bereaved carrying on against the 61.6 to 69.8% band; replaying 341 recorded bereaved responses from played years, the 
+src/core2/data/parameters.json	4975	fixture	"citation": "In the same fixture a fit of 1.3 gives 4.4% and 1.8 gives 14.6% of laid-off adults a grudge; replaying 377 recorded layoff responses from played years, 1.3 gives 2.7% and 1.9 gives 14.9%:
+src/core2/data/parameters.json	5242	not yet	"checkedAgainst": "Measured once over three generated openings (seeds claim-a/b/c, 3,694 retirees): mean claim age 64.08 (SSA 63.4–65.0), 20% at 62 (SSA 2021 about 25%); claiming at 70 (SSA about 8%) 
+src/core2/data/parameters.json	5257	not yet	"checkedAgainst": "Measured once over three generated openings (seeds claim-a/b/c, 3,694 retirees): mean claim age 64.08 (SSA 63.4–65.0), 20% at 62 (SSA 2021 about 25%); claiming at 70 (SSA about 8%) 
+src/core2/data/parameters.json	6894	stand-in	"citation": "BLS Current Population Survey 2023, Table 46: full-time wage and salary workers lose 1.7% of scheduled hours to absence (lost worktime rate), illness or injury being about two thirds of a
+src/core2/data/parameters.json	6900	stopgap	"citation": "The 1.2% to 2.5% lost-worktime band of data/research/stopgaps-oct19/A-people-behavior-1.json."
+src/core2/data/parameters.json	7688	PLACEHOLDER	"citation": "Ported unchanged from the old engine's upbringing projection (src/core2/opening-upbringing.ts), where it was a PLACEHOLDER weight until the child-development research is read; siblings at
+src/core2/data/parameters.json	7699	PLACEHOLDER	"citation": "Ported unchanged from the old engine's upbringing projection (src/core2/opening-upbringing.ts), where it was a PLACEHOLDER weight until the child-development research is read; the weight 
+src/core2/data/parameters.json	7710	PLACEHOLDER	"citation": "Ported unchanged from the old engine's upbringing projection (src/core2/opening-upbringing.ts), where it was a PLACEHOLDER weight until the child-development research is read; subtracted 
+src/core2/data/parameters.json	7721	PLACEHOLDER	"citation": "Ported unchanged from the old engine's upbringing projection (src/core2/opening-upbringing.ts), where it was a PLACEHOLDER weight until the child-development research is read; how much a 
+src/core2/data/parameters.json	7732	PLACEHOLDER	"citation": "Ported unchanged from the old engine's upbringing projection (src/core2/opening-upbringing.ts), where it was a PLACEHOLDER weight until the child-development research is read; how much a 
+src/core2/data/parameters.json	7743	PLACEHOLDER	"citation": "Ported unchanged from the old engine's upbringing projection (src/core2/opening-upbringing.ts), where it was a PLACEHOLDER weight until the child-development research is read; the weight 
+src/core2/data/parameters.json	7754	PLACEHOLDER	"citation": "Ported unchanged from the old engine's upbringing projection (src/core2/opening-upbringing.ts), where it was a PLACEHOLDER weight until the child-development research is read; subtracted 
+src/core2/data/parameters.json	7765	PLACEHOLDER	"citation": "Ported unchanged from the old engine's upbringing projection (src/core2/opening-upbringing.ts), where it was a PLACEHOLDER weight until the child-development research is read; the weight 
+src/core2/data/parameters.json	7776	PLACEHOLDER	"citation": "Ported unchanged from the old engine's upbringing projection (src/core2/opening-upbringing.ts), where it was a PLACEHOLDER weight until the child-development research is read; subtracted 
+src/core2/data/parameters.json	7787	PLACEHOLDER	"citation": "Ported unchanged from the old engine's upbringing projection (src/core2/opening-upbringing.ts), where it was a PLACEHOLDER weight until the child-development research is read; caregivers 
+src/core2/data/parameters.json	7798	PLACEHOLDER	"citation": "Ported unchanged from the old engine's upbringing projection (src/core2/opening-upbringing.ts), where it was a PLACEHOLDER weight until the child-development research is read; the weight 
+src/core2/data/parameters.json	7809	PLACEHOLDER	"citation": "Ported unchanged from the old engine's upbringing projection (src/core2/opening-upbringing.ts), where it was a PLACEHOLDER weight until the child-development research is read; the weight 
+src/core2/data/parameters.json	7820	PLACEHOLDER	"citation": "Ported unchanged from the old engine's upbringing projection (src/core2/opening-upbringing.ts), where it was a PLACEHOLDER weight until the child-development research is read; under this 
+src/core2/data/parameters.json	8042	stand-in	"citation": "Contacts a year (a letter, a call, a message) from a relative living elsewhere to a town resident at full closeness; a tie writes in proportion to its closeness. Stand-in for the GSS freq
+src/core2/data/parameters.json	8047	stand-in	"citation": "Checked against the played year's count of family.contact records against the opening's visits-per-year stand-ins (CLOSENESS.visitsPerYearByCategory, 1 to 30 a month)."
+src/core2/data/closeness.json	7	stand-in	"citation": "Stand-in visit counts for the GSS answer categories, an assumption registered with SG-P15-closeness-model: almost daily as five a week, once or twice (or several times) a week as two a we
+src/core2/data/health.json	37	not yet	"Injury, sudden illness and births have no core2 producer yet.",
+src/core2/data/opening-finance.json	13	stopgap	"stopgapIds": [
+src/core2/data/opening-finance.json	97	stopgap	"citation": "Actual generated Supply Company/warehouse/sales-representative organization classification can supply a provisional opening trade-input budget to actual stores/restaurants. IRS source sal
+src/core2/data/drives.json	725	not yet	"Producers for work.job-lost, housing.eviction, crime.victimized, injustice.witnessed, speech.heard and law.effect-landed do not exist in core2 yet; their formation rules are data rows waiting on thos
+src/core2/data/opening-customers.json	569	stopgap	"stopgapIds": [
+src/core2/data/outside-flows.json	3	stand-in	"about": "Every way money may cross between the town and the outside world in a played year, and the record that matches it (money stress audit defect 3). A journal entry touching an outside account m
+src/core2/data/outcome-web/unwired.json	2	stopgap	"about": "Every researched outcome-web link whose effect does not yet reach an engine's own records, with the reason and the open stopgap that carries it. Generated by scripts/outcome-web/write-unwire
+src/core2/data/outcome-web/unwired.json	2	not yet	"about": "Every researched outcome-web link whose effect does not yet reach an engine's own records, with the reason and the open stopgap that carries it. Generated by scripts/outcome-web/write-unwire
+src/core2/data/officials/officials.json	229	until...comes	"source": "A state-chamber member feels the party's pressure at this multiple of a member of Congress's. One means the same weight. Eight chambers drawn in eight places (Oct 16) gave a mean party unit
+src/core2/data/places/place-lookup.json	1	PLACEHOLDER	{"source": "src/simulation state-reference, legislation-scenarios, demo-jurisdiction-context, legislature-rule-packs, national-counties.generated, seats-of-government.generated at port time (written o
+src/core2/data/laws/starting-law.json	1	not yet	{"id":"starting-law-in-force-2026","about":"Law in force at every level for each place, from the sourced research files. Built by scripts/research/build-starting-law.py; edit the research, not this fi
+src/core2/data/laws/reach-group-a.json	2	stopgap	"about": "Law reach, group A (labor, business, housing, justice, rights, technology and government menus): what each catalog policy does once it's law, through the engine that owns the thing it change
+src/core2/data/laws/outcome-research-gaps.json	2	stopgap	"about": "Laws that have no researched outcome-web link in data/research/outcome-web/links.json, neither from the law itself nor from a measure an engine sets from it, and the outcome the research wou
+src/core2/data/laws/reach-group-b.json	2	stopgap	"about": "What each group B catalog policy does once it's law (audit item 13): who it reaches (a selector over named people's and counted residents' records, and employers by classification), the effe
+src/core2/data/laws/property-tax-caps.json	2	not yet	"about": "Statutory limits on yearly growth of a home's assessed value, by state, read by the property tax bill when the catalog law capping property-tax growth is in force. A state absent here has no
+src/core2/data/renewal/parameters.json	236	not yet	"citation": "PW-8: when partners have no relationship record yet, their closeness is estimated at the closeness model's midpoint (level 0.5, src/core2/closeness.ts levelFromHours), never zero.",
+src/core2/data/macro/parameters.json	216	stand-in	"citation": "Freddie Mac PMMS 30-year fixed less the 10-year Treasury, monthly May 2019 to September 2026: mean 2.22 points (min 1.34, max 2.96; 2025 mean 2.31). The CTO's stand-in research (data/rese
+src/core2/data/macro/history.json	13	not yet	"estimatedFrom": "FHFA calls the index \"a version of Freddie Mac's 30-year\" survey \"that adjusts for differences between the two\", says \"It is not a replacement for PMMS\" and that it \"is intend
+src/core2/data/offices/incompatibility.json	12	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	18	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	24	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	30	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	36	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	42	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	48	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	54	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	60	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	66	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	72	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	78	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	84	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	90	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	96	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	102	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	108	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	114	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	120	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	126	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	132	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	138	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	144	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	150	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	156	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	162	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	168	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	174	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	180	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	186	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	192	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	198	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	204	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	210	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	216	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	222	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	228	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	234	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	240	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	246	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	252	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	258	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	264	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	270	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	276	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	282	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	288	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	294	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	300	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	306	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	312	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	318	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	324	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	330	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	336	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/offices/incompatibility.json	342	stand-in	"citation": "Conservative common-law incompatibility stand-in; jurisdiction-specific dual-office exceptions have not been compiled. This is a game estimate, not a claim about this constitution.",
+src/core2/data/budgets/revenue-payers.json	2	stand-in	"about": "Who pays each revenue line no flow in the town pays, and when. A line here is paid by a named group of payers (a counted group at the coarser level: businesses, importers, estates, vehicle o
+src/core2/data/candidacy/parameters.json	104	fixture	"citation": "How strongly an incumbent's record against one's own views (0 to 1: the average, over the incumbent's recorded votes, of how strongly one's current view opposes each) pulls one to challen
+src/core2/data/legislature/bill-forms.json	21	not yet	"source": "Most municipal clerks number ordinances by the year and their order of introduction (Baltimore City Council 'Council Bill 25-0001'; International Institute of Municipal Clerks, records-numb
+src/core2/data/legislature/committees.json	2	not yet	"about": "The standing committees a legislative body refers bills to, by the subject of a bill's first section. Each committee lists the catalog topics (the part after 'us-policy-positions:'), law ser
+src/core2/data/campaigns/parameters.json	9	stand-in	"stopgapId": "SG-GOV-views-stand-in"
+src/core2/data/campaigns/parameters.json	16	stand-in	"stopgapId": "SG-GOV-views-stand-in"
+src/core2/data/campaigns/parameters.json	23	stand-in	"stopgapId": "SG-GOV-views-stand-in"
+src/core2/data/campaigns/parameters.json	30	stand-in	"stopgapId": "SG-GOV-views-stand-in"
+src/core2/data/campaigns/parameters.json	37	stand-in	"stopgapId": "SG-GOV-views-stand-in"
+src/core2/data/campaigns/parameters.json	408	not yet	"source": "A named official not filled in yet leans this far toward their seat's party: state legislators' ideal points sit well inside their party's side (Shor and McCarty 2011, state legislative ide
+src/core2/data/campaigns/parameters.json	823	stand-in	"source": "Off-cycle city election turnout against a presidential year's: big-city mayoral turnout runs about 0.39 of presidential turnout off cycle, 0.72 on midterm dates and 0.91 on presidential dat
+src/core2/data/campaigns/parameters.json	1183	stand-in	"source": "Two thirds is the modal override rule, counted against all members of the body rather than those voting (New York City Charter: 34 of 51; Iowa Code 380.6(2); U.S. Const. art. I, sec. 7 coun
+src/core2/data/campaigns/parameters.json	1550	not yet	"source": "Where a volunteer's pull sits, before personality, against the bar for an evening of doors on a day the campaign works: the same reasons as an ask to volunteer (warmth, closeness, family, a
+src/core2/data/campaigns/parameters.json	1556	not yet	"source": "How far a volunteer's pull past the shift's bar (volunteerShiftThreshold) slides the share of the campaign's working days they give an evening of doors (a logistic step, the same scale door
+src/core2/data/regional/territories.json	6	stand-in	"citation": "CTO stand-in research (data/research/stand-in-figures-2026-10-12.json): Guam Dept. of Labor (3.4%, Mar 2026); VI Dept. of Labor (3.2-3.8%, 2024-2025); 2020 Island Areas Census, American S
+src/core2/data/jobs/employer-callback-gaps.json	2	not yet	"about": "Employer callback gaps from field experiments: how much less often an employer contacts an applicant of a group than an otherwise identical applicant of the reference group. A sourced table 
+src/core2/data/jobs/parameters.json	240	for now	"citation": "How long an employed person keeps looking before giving up for now; on-the-job search spells are short (Faberman, Mueller, Sahin and Topa 2022, Survey of Consumer Expectations job search 
+src/core2/data/jobs/parameters.json	245	for now	"citation": "How long an employed person keeps looking before giving up for now; on-the-job search spells are short (Faberman, Mueller, Sahin and Topa 2022, Survey of Consumer Expectations job search 
+src/core2/data/office-day/state-line-item-veto.json	341	until...comes	"restrictionNote": "Administration includes branches not separately identified in current budget rows; block the mixed line until branch-specific appropriations exist."
+src/core2/data/school/outcomes.json	109	stopgap	"stopgaps": {
+src/core2/data/school/honors.json	41	stopgap	"stopgaps": []
+src/core2/data/school/honors.json	100	stopgap	"stopgaps": [
+src/core2/data/school/honors.json	106	stopgap	"stopgaps": {
+src/core2/data/elections/term-starts.json	7	not yet	"estimatedFrom": "Most state and local terms begin in early January after the November election (state constitutions and charters); the exact day varies by state and is not yet read.",
+src/core2/data/elections/electoral-votes.json	2	for now	"about": "Electoral votes by state for the 2024 and 2028 presidential elections: each state's House seats under the 2020 apportionment plus two, and three for the District of Columbia (U.S. Const. art
+src/core2/data/term-read/areas.json	14	not yet	"note": "The fewest months of web rows an area is read over; a term shorter than this is not read yet (the web writes one row a month)."
+src/core2/kernel/dates.ts	569	not yet	// Not yet the anniversary day -- unless the target month has no such day,
+src/english/english-newscast.ts	9	stand-in	* Stand-in: the engine has no register card for a newscast, so spoken lines
+src/english/mined/scene-bank.ts	8	not yet	* sentences. A row no record words yet is left empty, and the director leaves
+data/english/parts/scene-talk.json	7069	for now	"text": "No. We say nothing for now.",
+data/english/parts/scene-talk.json	11526	not yet	"text": "We're close, but not there yet. We need {needed}.",
+data/english/parts/scene-talk.json	16804	not yet	"text": "I'm not there yet.",
+data/english/parts/scene-talk.json	34344	not yet	"text": "Not yet. Let me read the numbers myself.",
+data/english/parts/scene-talk.json	38244	not yet	"text": "Let's not talk about that yet. Did you eat anything today?",
+data/english/parts/scene-talk.json	43885	not yet	"text": "Not yet. If {opponent} calls while you're on stage, I'll take a message.",
+data/english/parts/scene-talk.json	49151	not yet	"text": "Blue ink. I'm not worried yet.",
+data/english/parts/scene-talk.json	49903	not yet	"text": "Don't make that face. I'm not dead yet.",
+data/english/parts/scene-talk.json	54849	for now	"text": "I don't know yet. Maybe that's fine for now.",
+data/english/parts/scene-talk.json	56863	not yet	"text": "Not yet. I'm sorry.",
+data/english/parts/scene-talk.json	57954	not yet	"text": "Then you don't have the seat either. Not yet.",
+data/english/parts/scene-talk.json	58029	not yet	"text": "Not yet. I'm not ready.",
+data/english/parts/scene-talk.json	58307	not yet	"text": "Not yet. You're the first person I've asked outside the house.",
+data/english/parts/scene-talk.json	67839	not yet	"text": "Close, then. Not there yet.",
+data/english/parts/scene-talk.json	72675	not yet	"text": "Not yet. Two people have asked for the packet.",
+data/english/parts/scene-talk.json	81842	for now	"text": "No. Let it go for now.",
+data/english/parts/scene-talk.json	84329	not yet	"text": "I'm not sold yet.",
+data/english/parts/scene-talk.json	85655	not yet	"text": "Not yet. I'll say it when the count is certified, and not before.",
+data/english/parts/scene-talk.json	86530	for now	"text": "Then that's where we leave it for now.",
+data/english/parts/scene-talk.json	88001	until...comes	"key": "scene-talk.narrate-narrate.name-waits-until-the-room-thins-out-then-comes-over-to-you",
+data/english/parts/scene-talk.json	88004	until...comes	"text": "{name} waits until the room thins out, then comes over to you.",
+data/english/parts/scene-talk.json	95842	for now	"text": "Thanks, but I've got it covered for now.",
+data/english/parts/scene-talk.json	97442	for now	"text": "Just the name for now. We'll hear more.",
+data/english/parts/scene-talk.json	104437	for now	"text": "That's enough for now. We'll finish this later.",
+data/english/parts/scene-talk.json	104857	not yet	"text": "I'm not sure yet. I'll tell you when I know, and I'll try not to be a burden.",
+data/english/parts/scene-talk.json	109531	for now	"text": "I'd rather keep that to myself for now. I hope you understand.",
+data/english/parts/scene-talk.json	122361	for now	"text": "I'd rather run it myself for now.",
+data/english/parts/scene-talk.json	129917	not yet	"text": "I can't put my name to it. Not yet.",
+data/english/parts/scene-talk.json	132832	for now	"text": "Can we leave it for now? I'm worn out.",
+data/english/parts/conversation.json	7336	not yet	"text": "Not yet.",
+data/english/parts/conversation.json	12646	not yet	"text": "No, not yet.",
+data/english/parts/conversation.json	13159	not yet	"text": "Not yet, no.",
+data/english/parts/conversation.json	17575	for now	"text": "Let's leave it there for now.",
+data/english/parts/conversation.json	21805	not yet	"text": "No position yet.",
+data/english/parts/news.json	7602	for now	"text": "The bill stays in committee for now.",
+data/english/parts/news.json	7646	for now	"text": "For now, the bill stops in committee.",
+data/english/parts/campaign-standing.json	698	not yet	"text": "{name} has no reason yet to give to your campaign.",
+data/english/parts/campaign-standing.json	719	for now	"text": "{name} would rather keep the money for now.",
+data/english/counts/everyday.json	12	not yet	"coverage": "All 60 recordings, mostly face-to-face conversation among family and friends, with some service encounters, classroom talk and a few monologues; not yet split by setting.",
+desktop/scripts/stage.mjs	96	fixture	const fixtureIndex = args.indexOf("--fixture-version");
+desktop/scripts/stage.mjs	100	fixture	`Fixture version must be a prerelease of the canonical ${packageJson.version}.`,
+desktop/scripts/package.mjs	6	PLACEHOLDER	* version is a fixed placeholder). A clean source tree stays clean before
