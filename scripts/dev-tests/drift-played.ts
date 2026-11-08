@@ -10,10 +10,13 @@ import { drawPlace } from "../core2-year/place";
 import { buildBenchWorld } from "../../src/bench/world";
 import { gameStartDate } from "../../src/core2/game-start";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
+import { setFastForward } from "../../src/core2/fast-forward";
 import { advanceCore } from "../../src/core2/life";
 import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import { vitals } from "./vitals";
 setBookkeeping(false);
+// CORE2_FAST_FORWARD=1: campaign stride (development only, SG-SPEED-fast-forward-campaigns).
+setFastForward(process.env.CORE2_FAST_FORWARD === "1");
 const [seed = "dp1", yearsArg = "20"] = process.argv.slice(2);
 const place = drawPlace(seed, "drift-played");
 const w = buildBenchWorld(place.seed, gameStartDate(), { twoLevel: true, placeKey: place.key });
