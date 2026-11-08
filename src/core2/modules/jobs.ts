@@ -936,7 +936,6 @@ function open(api: CoreAPI): void {
   }
   openCountedSeekers(api);
   openSeekers(api);
-  openTurnover(api);
   store(api).table("state").put({ id: "jobs:state", openedAt: c.date });
   scheduleReview(api);
   scheduleWeek(api);
@@ -1915,23 +1914,6 @@ function turnoverJobs(api: CoreAPI): JobInput[] {
 }
 
 /**
- * Day one: where each worker stands along the pull toward being let go, as
- * the lives elsewhere seed theirs (generation of who exists, from the worker's
- * own seeded line: nobody's line is a draw of what they do), so a month's
- * pulls reach one whole for the share JOLTS says, not for everyone at once.
- */
-function openTurnover(api: CoreAPI): void {
-  const pulls = store(api).table("turnover");
-  for (const job of turnoverJobs(api))
-    pulls.put({
-      id: job.id,
-      pull: new SeededRng(api.state.seed)
-        .fork(`town-turnover:${job.personId}`)
-        .next(),
-    } as never);
-}
-
-/**
  * The town's workers are let go at the rate working people are everywhere
  * (JOLTS layoffs and discharges, about 1.2% of employment a month), by the
  * rule the lives elsewhere use (`layoffPerQuarter`): the quarterly pull moved
@@ -1972,9 +1954,15 @@ function reviewTurnover(api: CoreAPI): void {
         ? workLeans(c, person).layoffLean
         : p("zero");
     const at = regionalConditions(api, placeOf(job));
-    const held = (pulls.get(job.id) as { pull?: number } | undefined)?.pull;
+    // A job with no pull yet (day one, or a new hire) stands somewhere along
+    // it from the worker's own seeded line, as the lives elsewhere seed theirs
+    // (generation of who exists, no roll): starting every new job at zero
+    // would let the layoffs die out as the first workers are replaced.
+    const held =
+      (pulls.get(job.id) as { pull?: number } | undefined)?.pull ??
+      new SeededRng(api.state.seed).fork(`town-turnover:${job.id}`).next();
     const pull =
-      (held ?? p("zero")) +
+      held +
       layoffPerQuarter(api, at.rise, lean, workAgeFactor(api, age)) * month;
     if (pull < p("one")) {
       pulls.put({ id: job.id, pull } as never);
