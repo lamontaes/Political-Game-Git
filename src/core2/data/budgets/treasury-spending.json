@@ -64,7 +64,6 @@
       "state:agriculture": "naturalResources",
       "state:public-safety": "police",
       "state:education": "schools",
-      "state:commerce": "communityAndRegionalDevelopment",
       "town:public-works": "highways",
       "town:planning": "housing",
       "job:public-schools:": "schools"
