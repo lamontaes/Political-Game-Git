@@ -677,7 +677,12 @@
     "campaign-standing": "narration",
     "person-sketch": "narration",
     "person-history": "narration",
-    "bill-paper": "narration"
+    "bill-paper": "narration",
+    "address": "public",
+    "hearing": "town-hall",
+    "legislation": "narration",
+    "minutes": "narration",
+    "notice": "narration"
   },
   "sceneClasses": {
     "confirm-vote": "floor",

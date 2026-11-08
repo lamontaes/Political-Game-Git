@@ -46,6 +46,8 @@ export interface FigurePerson {
   id: string;
   birthDate: string;
   gender?: string;
+  /** Where the person's family comes from (their record's `looks.origin`). */
+  origin?: string;
   official: boolean;
   /** The seed of the person's own appearance record, where they have one. */
   seed?: string;
@@ -63,6 +65,12 @@ function mixed(text: string): number {
   return h >>> 0;
 }
 
+/** Each origin's skin tones in the pack, lightest third 0 to darkest 2 (a registered stopgap: the pack paints three tones per sex). */
+const ORIGIN_TONES: Readonly<Record<string, readonly number[]>> =
+  rules.originTones;
+const luminance = ([r, g, b]: readonly number[]) =>
+  0.2126 * r! + 0.7152 * g! + 0.0722 * b!;
+
 /** The pack's word for a recorded gender. */
 const PACK_SEX: Readonly<Record<string, string>> = rules.packSex;
 
@@ -76,7 +84,20 @@ export function packPersonOf(who: FigurePerson): PackPerson | null {
   if (chosen) return chosen;
   const sex = who.gender ? PACK_SEX[who.gender] : undefined;
   const fits = packPeople().filter((row) => !sex || row.sex === sex);
-  const from = fits.length ? fits : packPeople();
+  // Their family's origin narrows the pack to the skin tones it paints for
+  // it (the lightest third of the sex's people is tone 0), so a family looks
+  // related; no origin leaves every person open (SG-PEOPLE-origin-skin-tones).
+  // stopgapId: SG-PEOPLE-origin-skin-tones
+  const tones = who.origin ? ORIGIN_TONES[who.origin] : undefined;
+  const bySkin = [...fits].sort(
+    (a, b) => luminance(b.skin) - luminance(a.skin) || a.id.localeCompare(b.id),
+  );
+  const toned = tones
+    ? bySkin.filter((_, rank) =>
+        tones.includes(Math.min(2, Math.floor((rank * 3) / bySkin.length))),
+      )
+    : fits;
+  const from = toned.length ? toned : fits.length ? fits : packPeople();
   if (!from.length) return null;
   return from[mixed(`${who.seed ?? who.id}:person`) % from.length]!;
 }

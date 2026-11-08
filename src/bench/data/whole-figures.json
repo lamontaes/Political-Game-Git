@@ -107,5 +107,12 @@
       "briefing": "standing",
       "debate": "podium"
     }
+  },
+  "originTones": {
+    "white": [0, 1],
+    "hispanic": [1],
+    "black": [2],
+    "asian": [0, 1],
+    "other": [0, 1, 2]
   }
 }
