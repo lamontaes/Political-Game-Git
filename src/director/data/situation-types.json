@@ -2098,6 +2098,7 @@
           "opening": "greet"
         }
       ],
+      "stagedBy": "src/director/polling-place.ts",
       "awaiting": ["record:polling-place"],
       "tag": {
         "key": "routine",
