@@ -246,6 +246,26 @@ export async function handleDev(
       send(200, mode.forceIllness(String(input.personId)));
       return true;
     }
+    case "GET campaign-setup":
+      send(200, mode.campaignSetup());
+      return true;
+    case "POST raise-money": {
+      const input = await body(request);
+      send(200, mode.raiseMoney(String(input.filingId)));
+      return true;
+    }
+    case "POST volunteer-cast": {
+      const input = await body(request);
+      send(
+        200,
+        mode.volunteerCast(
+          String(input.filingId),
+          String(input.personId),
+          input.yes !== false,
+        ),
+      );
+      return true;
+    }
     case "GET wealthiest":
       send(200, mode.wealthiest());
       return true;

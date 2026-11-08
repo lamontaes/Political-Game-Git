@@ -6,6 +6,7 @@
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
 import { playOpening } from "./start-life.mjs";
+import { devModeOn, devRunUntilMayFile } from "./dev-setup.mjs";
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
 });
@@ -148,6 +149,10 @@ try {
     await page.waitForTimeout(600);
     await read(`Talk box, race picked (${who})`, "#talk");
   };
+  // A seat the player may file for has its window open: the world runs until one does (dev mode, on the Calendar).
+  await devModeOn(page);
+  const opened = await devRunUntilMayFile(page);
+  assert.equal(opened.reason, "event", "no seat opened its filing window");
   await counter("seventeen");
   await page.locator("#talk-leave").click();
   // A grown resident of the same world files, so the clerk's reply and
@@ -171,6 +176,8 @@ try {
     document.getElementById("card-name").textContent.trim(),
   );
   console.log("Place:", await page.locator("#card-place").innerText());
+  await devModeOn(page);
+  await devRunUntilMayFile(page);
   await counter("grown");
   const choices = page.locator("#talk-choices button");
   const labels = await choices.allInnerTexts();

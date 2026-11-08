@@ -58,6 +58,13 @@ import {
   memberKey,
 } from "../core2/modules/legislature";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
+import { playerContests } from "../core2/modules/elections";
+import {
+  campaignFor,
+  castVolunteer,
+  volunteerReason,
+} from "../core2/modules/campaigns";
+import { campaignDay, campaignView } from "./campaign";
 import { metricsPanel } from "../core2/modules/world-panels";
 import { nationalPanel } from "../core2/modules/macro";
 import { residentsRuntime } from "../core2/modules/residents";
@@ -87,6 +94,8 @@ export const RUN_EVENTS = {
   "law-takes-effect": ["law-took-effect"],
   "job-lost": ["work.job-lost"],
   scene: [],
+  /** A seat the player qualifies for opens its filing window (the game's own `playerContests`). */
+  "may-file": [],
 } as const;
 export type RunEvent = keyof typeof RUN_EVENTS;
 
@@ -1020,6 +1029,95 @@ export class DevMode {
       }));
   }
 
+  /**
+   * The player's campaigns and the people the volunteer ask reaches (those the player knows), with each
+   * person's own reasons to say yes as the campaign engine reads them. Reads only.
+   */
+  campaignSetup() {
+    const playerId = this.core.playerId;
+    if (!playerId) return [];
+    const api = this.api;
+    const player = this.core.people.get(playerId);
+    return campaignView(this.core, playerId).campaigns.map((row) => ({
+      filingId: row.filing.id,
+      title: row.contest?.title ?? "",
+      raisedMinor: row.campaign.raisedMinor,
+      spentMinor: row.campaign.spentMinor,
+      volunteers: row.campaign.volunteers,
+      people: [...(player?.knownIds ?? [])].sort().flatMap((id) => {
+        const person = this.core.people.get(id);
+        return person?.alive
+          ? [
+              {
+                personId: id,
+                name: `${person.givenName} ${person.familyName}`,
+                reason: volunteerReason(
+                  api,
+                  campaignFor(api, row.filing.id),
+                  person,
+                ),
+              },
+            ]
+          : [];
+      }),
+    }));
+  }
+
+  /**
+   * Donors give: the player takes the campaign day's "raise money" choice (calls to donors) through the
+   * game's own campaign code, so each donor decides to give or not by their own warmth and means and every
+   * gift writes the donation record and the journal entries a gift writes. A day with no gift passes and the
+   * calls are made again, up to a fortnight; the result names each donor who gave and why the rest did not.
+   */
+  raiseMoney(filingId: string) {
+    const playerId = this.core.playerId;
+    if (!playerId) throw new Error("There is no player.");
+    const api = this.api;
+    const before = campaignFor(api, filingId).raisedMinor;
+    const from = this.core.date;
+    const calls: { personId: string; givenMinor: number; why: string }[] = [];
+    let days = 0;
+    for (; days < 14; days += 1) {
+      try {
+        const out = campaignDay(this.core, playerId, {
+          filingId,
+          kind: "raise-money",
+        });
+        calls.push(
+          ...out.calls.map((c) => ({
+            personId: c.personId,
+            givenMinor: c.givenMinor,
+            why: c.why,
+          })),
+        );
+      } catch {
+        // The day's hours are spent: the next day's calls are made.
+      }
+      if (campaignFor(api, filingId).raisedMinor > before) break;
+      this.advance(addDays(makeIsoDate(this.core.date), 1));
+    }
+    const raisedMinor = campaignFor(api, filingId).raisedMinor - before;
+    return {
+      mark: this.mark("raise-money", [filingId], { filingId, from }),
+      raisedMinor,
+      days,
+      gave: calls.filter((c) => c.givenMinor > 0),
+      asked: calls.length,
+    };
+  }
+
+  /** A person says yes (or no) when the campaign asks them to volunteer: a decision cast for them, read by the campaign's own ask. */
+  volunteerCast(filingId: string, personId: string, yes: boolean) {
+    if (campaignFor(this.api, filingId).candidateId !== this.core.playerId)
+      throw new Error("That is not your campaign.");
+    castVolunteer(this.api, filingId, personId, yes);
+    return this.mark("volunteer-cast", [personId], {
+      filingId,
+      personId,
+      yes: String(yes),
+    });
+  }
+
   /** The wealthiest living people in the world: who might want a favor enough to pay for it. */
   wealthiest(count = 12) {
     return [...this.core.people.values()]
@@ -1158,8 +1256,14 @@ export class DevMode {
       : input.event
         ? RUN_EVENTS[input.event]
         : undefined;
-    if (input.event && !kinds && input.event !== "scene")
+    if (
+      input.event &&
+      !kinds &&
+      input.event !== "scene" &&
+      input.event !== "may-file"
+    )
       throw new Error("Unknown event.");
+    const mayFile = () => playerContests(this.api).length > 0;
     const count = () =>
       (kinds ?? []).reduce(
         (n, kind) => n + (this.core.logByKind.get(kind)?.size ?? 0),
@@ -1180,10 +1284,26 @@ export class DevMode {
     let reason: "days" | "event" | "cap" = "days";
     let records: string[] = [];
     const defeated = new Set<string>();
+    // A window already open stops the run before it begins: the seat is there to file for.
+    if (input.event === "may-file" && mayFile())
+      return {
+        from,
+        to: this.core.date,
+        days: 0,
+        reason: "event" as const,
+        event: input.event,
+        records: playerContests(this.api).map((c) => c.id),
+        defeated: [] as string[],
+      };
     while (days < limit) {
       if (input.defeat?.length) this.voteDown(input.defeat, defeated);
       this.advance(addDays(makeIsoDate(this.core.date), 1));
       days += 1;
+      if (input.event === "may-file" && mayFile()) {
+        reason = "event";
+        records = playerContests(this.api).map((c) => c.id);
+        break;
+      }
       if (input.event === "scene" && sceneCount() > sceneBefore) {
         reason = "event";
         break;
