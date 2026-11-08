@@ -697,7 +697,6 @@
     "noBallot": "No local election is on the calendar",
     "dates": "Dates",
     "electionDay": "Election day",
-    "yourCampaign": "Your campaign",
     "whoIsRunning": "Who's running"
   },
   "grade": {
@@ -788,7 +787,8 @@
     "handoff": "Carry on as",
     "news": "News",
     "history": "Your life",
-    "bills": "Bills"
+    "bills": "Bills",
+    "campaign": "Campaign"
   },
   "billStage": {
     "committee": "In committee",
@@ -863,5 +863,15 @@
     "cr-character": "Start a life",
     "cr-place": "Where you're from",
     "cr-look": "How you look"
+  },
+  "campaignBoard": {
+    "title": "Campaign",
+    "money": "The money",
+    "trail": "Go out on the trail",
+    "raised": "Raised",
+    "spent": "Spent",
+    "volunteers": "Volunteers",
+    "doors": "Doors knocked",
+    "endorsements": "Endorsements"
   }
 }

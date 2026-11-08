@@ -64,7 +64,7 @@ import { billPaper } from "./ui/bill-paper.mjs";
 import { billStageSections } from "./ui/bill-stage.mjs";
 import { meetingItem } from "./ui/meeting-item.mjs";
 import { draftCard } from "./ui/draft-card.mjs";
-import { bold, line, prose, heading, labeled, smallText } from "./ui/text.mjs";
+import { line, prose, heading, labeled, smallText } from "./ui/text.mjs";
 import {
   engraveMasthead,
   readerBody,
@@ -1718,29 +1718,53 @@ async function campaignParts() {
       campaignResult ? line(campaignResult) : "",
       ...campaignLines.map((text) => line(text)),
     ];
-    const tab = listRow(
-      "campaign",
-      {},
-      bold(
+    // The campaign board (the mock's pl-campaign): where the race stands in sentences the
+    // English engine wrote, the money, and the way out onto the trail.
+    const part = { filing, contest, trail };
+    const labelsC = controls.campaignBoard ?? {};
+    const out = makeButton({ textContent: labelsC.trail });
+    out.addEventListener("click", () => trailView(part));
+    part.tab = stripBoard({
+      className: "campaign-board",
+      columns: [
         [
-          contest?.title,
-          contest ? dateWords(contest.electionDate) : null,
-          controls.filing?.status?.[filing.status] ?? "",
-        ]
-          .filter(Boolean)
-          .join(" · "),
-      ),
-      `${controls.campaignResults.raised.replace("{amount}", moneyWords(campaign.raisedMinor))} · ${controls.campaignResults.spent.replace("{amount}", moneyWords(campaign.spentMinor))} · ${volunteerCount(campaign.volunteers)} · ${controls.campaignResults.doors.replace("{n}", campaign.doors)}${
-        // The endorsements given, from the campaign's endorsement records.
-        campaign.endorsements
-          ? ` · ${(campaign.endorsements === 1 ? controls.campaignEndorsements.one : controls.campaignEndorsements.other).replace("{n}", String(campaign.endorsements))}`
-          : ""
-      }`,
-      // Where the race stands, in plain sentences from the English engine.
-      bold(controls.raceStanding.title),
-      ...(standing ?? []).map((text) => listRow("", { textContent: text })),
-    );
-    parts.push({ filing, contest, tab, trail });
+          stripSection(
+            1,
+            controls.raceStanding.title,
+            ...(standing ?? []).map((text) => introText(text)),
+          ),
+        ],
+        [
+          stripSection(
+            2,
+            labelsC.money,
+            el("p", {
+              className: "money-figure",
+              textContent: moneyWords(campaign.raisedMinor),
+            }),
+            dotRows([
+              {
+                label: labelsC.raised,
+                value: moneyWords(campaign.raisedMinor),
+              },
+              { label: labelsC.spent, value: moneyWords(campaign.spentMinor) },
+              { label: labelsC.volunteers, value: String(campaign.volunteers) },
+              { label: labelsC.doors, value: String(campaign.doors) },
+              ...(campaign.endorsements
+                ? [
+                    {
+                      label: labelsC.endorsements,
+                      value: String(campaign.endorsements),
+                    },
+                  ]
+                : []),
+            ]),
+          ),
+        ],
+        [buttonTray(out)],
+      ],
+    });
+    parts.push(part);
   }
   return parts;
 }
@@ -3730,6 +3754,32 @@ const sheets = {
    * The player's own filed campaign stays above it (screens-campaign-board
    * is the one board that replaces those rows).
    */
+  /** The campaign board of each filed race (the Campaign tab; one filed race shows its board). */
+  async campaign() {
+    const parts = await campaignParts();
+    if (!parts.length) return [];
+    if (parts.length === 1) return [parts[0].tab];
+    return rosterScreen({
+      title: controls.campaignBoard.title,
+      className: "campaign-screen",
+      words: {
+        page: controls.politics.page,
+        previous: controls.politics.previousPage,
+        next: controls.politics.nextPage,
+      },
+      groups: [
+        {
+          entries: parts.map((part) => ({
+            key: part.filing.id,
+            label: part.contest?.title ?? part.filing.id,
+            data: { campaign: part.filing.id },
+            part,
+          })),
+        },
+      ],
+      render: async (entry) => [entry.part.tab],
+    });
+  },
   async campaigns() {
     const [v, ballot] = await Promise.all([
       api(`/api/government?id=${encodeURIComponent(me.id)}`),
@@ -3827,8 +3877,6 @@ const sheets = {
         ),
       ];
     };
-    // The player's own filed campaigns lead the list; each opens its board.
-    const own = v.filings.length ? await campaignParts() : [];
     const byDate = new Map();
     for (const race of ballot.races) {
       const day = byDate.get(race.electionDate) ?? [];
@@ -3836,19 +3884,6 @@ const sheets = {
       byDate.set(race.electionDate, day);
     }
     const groups = [
-      ...(own.length
-        ? [
-            {
-              title: labels.yourCampaign,
-              entries: own.map((part) => ({
-                key: part.filing.id,
-                label: part.contest?.title ?? part.filing.id,
-                data: { campaign: part.filing.id },
-                part,
-              })),
-            },
-          ]
-        : []),
       ...[...byDate.entries()]
         .sort(([a], [b]) => a.localeCompare(b))
         .map(([day, races]) => ({
@@ -3875,8 +3910,7 @@ const sheets = {
         previous: controls.politics.previousPage,
         next: controls.politics.nextPage,
       },
-      render: async (entry) =>
-        entry.part ? [entry.part.tab] : racePage(entry.race),
+      render: async (entry) => racePage(entry.race),
     });
   },
   /**
@@ -4674,6 +4708,7 @@ const groups = {
     "government",
     "office",
     "campaigns",
+    "campaign",
     "parties",
     "issues",
     "bills",
@@ -4714,6 +4749,7 @@ async function openSheet(tab) {
           (name !== "office" || holdsOffice) &&
           // Budgets wait until they are the player's business: an office, a
           // filing, or the age to vote.
+          (name !== "campaign" || politics.filings.length > 0) &&
           (name !== "budgets" ||
             holdsOffice ||
             politics.filings.length > 0 ||
@@ -4744,6 +4780,7 @@ async function openSheet(tab) {
       tab === "budgets" ||
       tab === "journal" ||
       tab === "money" ||
+      tab === "campaign" ||
       tab === "calendar" ||
       tab === "news",
   );
