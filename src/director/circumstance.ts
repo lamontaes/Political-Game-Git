@@ -270,13 +270,20 @@ function ranAndLost(
   ).some((filing) => filing.contestId === contestId);
 }
 
-/** How many other contests the player filed in and lost (the count's record names someone else). */
+/**
+ * How many contests the player filed in and lost on an earlier day than the
+ * count at hand (the count's record names someone else). The races settled
+ * on the same ballot are one election, not a habit of losing.
+ */
 export function earlierLosses(
   core: Readonly<CoreState>,
   playerId: PersonId,
   contestId: string | undefined,
 ): number {
   if (!core.modules.has(ELECTIONS_MODULE_ID)) return zero;
+  const settled = core.durableLog.get(`election-result:${contestId}` as never);
+  if (!settled) return zero;
+  const beforeDate = settled.date;
   return (
     coreAPI(core as CoreState)
       .moduleState(ELECTIONS_MODULE_ID)
@@ -284,10 +291,11 @@ export function earlierLosses(
       .query("byPerson", [playerId]) as unknown as { contestId: string }[]
   ).filter((filing) => {
     if (filing.contestId === contestId) return false;
-    const winner = core.durableLog.get(
+    const result = core.durableLog.get(
       `election-result:${filing.contestId}` as never,
-    )?.facts?.winnerId;
-    return !!winner && winner !== playerId;
+    );
+    const winner = result?.facts?.winnerId;
+    return !!winner && winner !== playerId && result.date < beforeDate;
   }).length;
 }
 

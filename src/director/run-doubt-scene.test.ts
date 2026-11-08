@@ -96,10 +96,12 @@ it(`a second lost race brings the question home (seed ${seed})`, () => {
                 offerId: packet.offers[P.zero]!.offerId,
               });
     };
-    // One loss: no scene (nothing earlier to be tired of).
+    // One loss, and another race lost on the same ballot: one election, not a
+    // habit of losing, so no scene.
     contest(1, rival.id);
+    contest(4, rival.id);
     step(6);
-    expect(doubts().length, `${where}: one loss`).toBe(0);
+    expect(doubts().length, `${where}: two races lost on one ballot`).toBe(0);
     // A second loss: the question comes home.
     step(30);
     contest(2, rival.id);
