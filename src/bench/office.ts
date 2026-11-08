@@ -11,17 +11,17 @@ import {
   heldFederal,
   leaveVoteToCharacter,
   voteOnFloor,
-} from "../core2/office-day-federal";
+} from "../core2/modules/office-day";
 import {
   OFFICE_DAY_STATE_MODULE_ID,
   stateFloorHolds,
   voteOnStateFloor,
-} from "../core2/office-day-state";
+} from "../core2/modules/office-day";
 import {
   appointGovernor,
   doEntry,
   waitingEntries,
-} from "../core2/office-day-state";
+} from "../core2/modules/office-day";
 import {
   orderQuestionOf,
   pendingGovernorOrders,
@@ -60,7 +60,7 @@ import {
   stateCandidates,
   statePostsToFill,
 } from "../core2/modules/executive";
-import { budgetProposalDue } from "../core2/office-day-acts";
+import { budgetProposalDue } from "../core2/modules/office-day";
 import { budgetsOf, governments } from "../core2/modules/budgets";
 import { lineName } from "./budget";
 

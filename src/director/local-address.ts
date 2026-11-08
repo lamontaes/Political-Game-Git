@@ -14,9 +14,13 @@
 import { placeStateKey } from "../core2/place-map";
 import { townSeats } from "../core2/modules/offices";
 import { officialsIn, type OfficialRow } from "../core2/modules/officials";
-import { OUTCOME_WEB_MODULE_ID } from "../core2/outcome-web-model";
+import { OUTCOME_WEB_MODULE_ID } from "../core2/modules/outcome-web";
 import { P } from "../core2/parameters";
-import { TERM_AREAS, placeTermRead, type AreaRead } from "../core2/term-read";
+import {
+  TERM_AREAS,
+  placeTermRead,
+  type AreaRead,
+} from "../core2/modules/laws";
 import { daysBetweenText } from "../core2/kernel/dates";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId, PersonState } from "../core2/types";
