@@ -32,7 +32,8 @@ describe(`a bill at every level (seed ${seed})`, () => {
     it(`the state's chambers and Congress, place ${turn}`, () => {
       const lines: string[] = [];
       let levels = 0;
-      for (let attempt = 0; attempt < 6 && levels < 2; attempt += 1) {
+      let sawCongress = false;
+      for (let attempt = 0; attempt < 6 && !sawCongress; attempt += 1) {
         const draw = drawPlace(`${seed}:${turn}:${attempt}`, "bill-levels");
         const world = buildBenchWorld(draw.seed, gameStartDate(), {
           twoLevel: true,
@@ -86,6 +87,7 @@ describe(`a bill at every level (seed ${seed})`, () => {
                 expect(v.name.length, v.memberId).toBeGreaterThan(0);
             }
             levels += 1;
+            if (body === FEDERAL_HOUSE) sawCongress = true;
             lines.push(
               `${draw.name} (${draw.key}, seed ${draw.seed}) ${body.startsWith("federal") ? "Congress" : body}: ${stage.floor
                 .map((c) => `${c.chamber} ${c.result}`)
@@ -100,6 +102,9 @@ describe(`a bill at every level (seed ${seed})`, () => {
       console.log(lines.join("\n"));
       expect(levels, "a bill voted at the state or Congress").toBeGreaterThan(
         0,
+      );
+      expect(sawCongress, "a bill voted in both chambers of Congress").toBe(
+        true,
       );
     }, 600_000);
 });
