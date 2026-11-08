@@ -50,16 +50,16 @@ try {
     .evaluate((e) => e.click());
   await page
     .locator("#sheet-tabs")
-    .getByRole("button", { name: "Elections", exact: true })
+    .getByRole("button", { name: "Campaign", exact: true })
     .click();
-  await page.locator(".row.campaign").first().waitFor();
+  await page.locator(".campaign-board").first().waitFor();
   const body = await page.locator("#sheet-body").innerText();
   assert.ok(!body.includes("undefined"));
-  // The Campaigns tab shows standing and results only: no act button on it.
+  // The Campaign tab shows standing and results only: its one button goes out onto the trail.
   assert.equal(
-    await page.locator(".row.campaign button").count(),
-    0,
-    "the Campaigns tab has no act buttons",
+    await page.locator(".campaign-board button").count(),
+    1,
+    "the Campaign tab has only the way out to the trail",
   );
   await page.screenshot({
     path: "docs/reports/campaign-controls-2026-10-20/campaigns.png",
