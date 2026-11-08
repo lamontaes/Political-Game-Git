@@ -158,7 +158,31 @@
     "publicRecordTitle": "Public record",
     "earlier": "Earlier years",
     "later": "Later years",
-    "seat": "Seat held"
+    "seat": "Seat held",
+    "closenessWords": [
+      "You barely know each other",
+      "You know each other",
+      "You are friendly",
+      "You are close",
+      "You are very close"
+    ],
+    "tieChange": {
+      "closer": "Grew closer",
+      "apart": "Drifted apart",
+      "same": "Last in touch"
+    },
+    "tieCauses": {
+      "visit": "a visit",
+      "care": "care in a hard time",
+      "met-on-visit": "meeting on a visit",
+      "met-in-group": "meeting in a group",
+      "met-at-work": "working together",
+      "home-time": "time at home together",
+      "opening-home": "sharing a home",
+      "opening-family": "being family",
+      "chosen-act": "something one of you chose to do",
+      "recorded-relationship-update": "time together"
+    }
   },
   "devBills": {
     "title": "Bills",
