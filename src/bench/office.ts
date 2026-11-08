@@ -7,6 +7,11 @@
 import { billTitleOf } from "../english/bill-names";
 import { coreAPI } from "../core2/state";
 import {
+  leavePostOpen,
+  nominate,
+  nominationsOpen,
+} from "../core2/office-day-federal-president";
+import {
   controlledPerson,
   heldFederal,
   leaveVoteToCharacter,
@@ -41,6 +46,7 @@ import {
 import { remarksOn } from "../core2/modules/meetings";
 import {
   adjourn,
+  clearPrepared,
   decideDesk,
   deskWaiting,
   leaveDeskToCharacter,
@@ -314,7 +320,13 @@ export function nameHeadPick(
 /** The budget the official may send now, with each line and the change set to send with it. */
 function budgetToSend(core: CoreState, personId: string) {
   const api = coreAPI(core);
-  const due = budgetProposalDue(api, officeHost, personId);
+  // A governor's state budget waits as an entry on their desk the day it is due.
+  const stateEntry = waitingEntries(api, personId).find(
+    (entry) => entry.kind === "budget-proposal",
+  );
+  const due = stateEntry
+    ? { governmentId: stateEntry.subject, fiscalYearStarts: stateEntry.date }
+    : budgetProposalDue(api, officeHost, personId);
   if (!due) return null;
   const gov = governments(api).find((g) => g.id === due.governmentId);
   const latest = gov
@@ -431,48 +443,59 @@ export function ordersView(core: CoreState) {
       (entry) =>
         entry.kind === "executive-order" ||
         entry.kind === "emergency" ||
-        entry.kind === "appointment",
+        entry.kind === "appointment" ||
+        entry.kind === "budget-proposal",
     )
     .map((entry) =>
-      entry.kind === "appointment"
+      entry.kind === "budget-proposal"
         ? {
             entryId: entry.id,
-            kind: "post" as const,
+            kind: "budget" as const,
             order: entry.subject,
-            name:
-              statePostsToFill(api, person).find((p) => p.key === entry.subject)
-                ?.title ?? null,
+            name: null,
             revoke: false,
-            candidates: stateCandidates(api, person, entry.subject)
-              .slice(0, 8)
-              .map((reasons) => {
-                const who = core.people.get(reasons.candidateId);
-                const job = who?.jobId ? core.jobs.get(who.jobId) : undefined;
-                return {
-                  id: reasons.candidateId,
-                  name: personName(core, reasons.candidateId),
-                  job: job && job.endsAt === undefined ? job.title : null,
-                };
-              }),
+            lines: budgetToSend(core, person)?.lines ?? [],
           }
-        : entry.kind === "emergency"
+        : entry.kind === "appointment"
           ? {
               entryId: entry.id,
-              kind: "emergency" as const,
+              kind: "post" as const,
               order: entry.subject,
-              name: null,
+              name:
+                statePostsToFill(api, person).find(
+                  (p) => p.key === entry.subject,
+                )?.title ?? null,
               revoke: false,
+              candidates: stateCandidates(api, person, entry.subject)
+                .slice(0, 8)
+                .map((reasons) => {
+                  const who = core.people.get(reasons.candidateId);
+                  const job = who?.jobId ? core.jobs.get(who.jobId) : undefined;
+                  return {
+                    id: reasons.candidateId,
+                    name: personName(core, reasons.candidateId),
+                    job: job && job.endsAt === undefined ? job.title : null,
+                  };
+                }),
             }
-          : {
-              entryId: entry.id,
-              kind: "order" as const,
-              order: entry.subject,
-              // The order's own question, worded by the bill catalog's name for it.
-              name: names[orderQuestionOf(entry.subject) ?? ""] ?? null,
-              revoke:
-                brought.find((row) => row.order === entry.subject)?.revoke ??
-                false,
-            },
+          : entry.kind === "emergency"
+            ? {
+                entryId: entry.id,
+                kind: "emergency" as const,
+                order: entry.subject,
+                name: null,
+                revoke: false,
+              }
+            : {
+                entryId: entry.id,
+                kind: "order" as const,
+                order: entry.subject,
+                // The order's own question, worded by the bill catalog's name for it.
+                name: names[orderQuestionOf(entry.subject) ?? ""] ?? null,
+                revoke:
+                  brought.find((row) => row.order === entry.subject)?.revoke ??
+                  false,
+              },
     );
 }
 
@@ -490,6 +513,23 @@ export function ordersDecide(
     throw new Error("Issue it or set it aside.");
   const entry = waitingEntries(api, person).find((row) => row.id === entryId);
   if (!entry) throw new Error("Nothing is waiting on you.");
+  if (entry.kind === "budget-proposal") {
+    // Send the lines the player set, or leave the budget to the governor's own rule.
+    const changes =
+      how === "issue"
+        ? (officeHost.prepared(api, person, "propose-budget")?.budget
+            ?.changes ?? {})
+        : undefined;
+    if (changes) clearPrepared(api, person, "propose-budget");
+    doEntry(
+      api,
+      entryId,
+      changes
+        ? { kind: "budget", changes }
+        : { kind: "budget", changes: {}, byRule: true },
+    );
+    return;
+  }
   if (entry.kind === "appointment") {
     if (how === "issue" && nomineeId)
       if (
@@ -514,4 +554,38 @@ export function ordersDecide(
       (row) => row.order === entry.subject,
     )?.revoke ?? false;
   doEntry(api, entryId, { kind: "order", revoke, issue: how === "issue" });
+}
+
+/** The president's open cabinet posts, each with the people it could go to, best first. */
+export function nominationsView(core: CoreState) {
+  const api = coreAPI(core);
+  const person = controlledPerson(api);
+  if (!person) return [];
+  return nominationsOpen(api, person).map((post) => ({
+    post: post.postId,
+    title: post.title,
+    candidates: post.candidates.slice(0, 8).map((c) => {
+      const who = core.people.get(c.id);
+      const job = who?.jobId ? core.jobs.get(who.jobId) : undefined;
+      return {
+        id: c.id,
+        name: personName(core, c.id),
+        job: job && job.endsAt === undefined ? job.title : null,
+      };
+    }),
+  }));
+}
+
+/** The president names someone to an open post (left unnamed, the president's own first choice), for the Senate to vote on. */
+export function nominationDecide(
+  core: CoreState,
+  post: string,
+  nomineeId?: string,
+  leave = false,
+) {
+  const api = coreAPI(core);
+  const person = controlledPerson(api);
+  if (!person) throw new Error("Choose a resident first.");
+  if (leave) leavePostOpen(api, person, post);
+  else nominate(api, person, post, nomineeId || undefined);
 }
