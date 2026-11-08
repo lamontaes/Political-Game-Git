@@ -1,5 +1,5 @@
 /* global process, console, document */
-// The creator's Continue with a field missing, in a real browser on the bench
+// The creator's Begin with a field missing, in a real browser on the bench
 // (npm run bench): it names what is missing at the bottom and marks the field
 // until it is filled; it never does nothing (owner, Oct 28 sitting, point 3).
 import assert from "node:assert/strict";
@@ -15,12 +15,10 @@ page.on("pageerror", (e) => errors.push(e.message));
 const state = () =>
   page.evaluate(() => ({
     status: document.getElementById("front-status").textContent,
-    marked: [...document.querySelectorAll("#cr-character .missing")].map(
+    marked: [...document.querySelectorAll("#cr-screen .missing")].map(
       (n) => n.dataset.testid,
     ),
-    stage: ["cr-character", "cr-place"].find(
-      (id) => !document.getElementById(id).hidden,
-    ),
+    stage: document.getElementById("cr-screen").hidden ? "away" : "creator",
   }));
 try {
   const ready = page.waitForResponse((r) => r.url().endsWith("/api/title"));
@@ -28,27 +26,27 @@ try {
   await ready;
   await page.locator("#new-life").click();
   await page.locator("#new-start").click();
-  await page.locator("#cr-character:not([hidden])").waitFor();
+  await page.locator("#cr-screen:not([hidden])").waitFor();
   // The random name waits for a gender, so the names are typed here.
   await page.locator("#cr-given").fill("Pat");
   await page.locator("#cr-family").fill("Candidate");
-  // No gender yet: Continue says so and marks the gender row.
-  await page.locator("#cr-character-next").click();
+  // No gender yet: Begin says so and marks the gender row.
+  await page.locator("#cr-begin").click();
   let seen = await state();
   console.log(`no gender: "${seen.status}" marks ${seen.marked.join(",")}`);
-  assert.equal(seen.stage, "cr-character", "went on without a gender");
+  assert.equal(seen.stage, "creator", "went on without a gender");
   assert.ok(seen.status.length > 0, "nothing said at the bottom");
   assert.deepEqual(seen.marked, ["gender-choices"]);
   await page.locator("[data-gender=female]").click();
   seen = await state();
   assert.equal(seen.status, "", "the line stays after the field is filled");
   assert.deepEqual(seen.marked, [], "the mark stays after the field is filled");
-  // A name cleared: Continue names the name.
+  // A name cleared: Begin names the name.
   await page.locator("#cr-family").fill("");
-  await page.locator("#cr-character-next").click();
+  await page.locator("#cr-begin").click();
   seen = await state();
   console.log(`no name: "${seen.status}" marks ${seen.marked.join(",")}`);
-  assert.equal(seen.stage, "cr-character", "went on without a last name");
+  assert.equal(seen.stage, "creator", "went on without a last name");
   assert.ok(seen.status.length > 0, "nothing said at the bottom");
   assert.deepEqual(seen.marked, ["creator-name"]);
   if (process.env.SHOT_DIR)
@@ -58,10 +56,15 @@ try {
   await page.locator("#cr-family").fill("Reyes");
   seen = await state();
   assert.deepEqual(seen.marked, [], "the mark stays after typing");
-  await page.locator("#cr-character-next").click();
-  await page.locator("#cr-place:not([hidden])").waitFor();
+  // Everything but the place: Begin names the place and marks it.
+  await page.locator("#cr-begin").click();
+  seen = await state();
+  console.log(`no place: "${seen.status}" marks ${seen.marked.join(",")}`);
+  assert.equal(seen.stage, "creator", "went on without a place");
+  assert.ok(seen.status.length > 0, "nothing said at the bottom");
+  assert.deepEqual(seen.marked, ["creator-stage-place"]);
   assert.deepEqual(errors, [], "page errors");
-  console.log("ok: Continue says what is missing, then goes on");
+  console.log("ok: Begin says what is missing");
 } finally {
   await browser.close();
 }

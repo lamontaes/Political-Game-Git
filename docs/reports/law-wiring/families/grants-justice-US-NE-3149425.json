@@ -1,0 +1,159 @@
+{
+  "seed": "5e27b0c4196fd3a8",
+  "place": {
+    "seed": "a4e2c7a01cbd38db5b12d694a8610e04cd0edfde084d015590666753e6fdc2b3",
+    "key": "3149425",
+    "name": "Uehling, Nebraska",
+    "state": "US-NE"
+  },
+  "window": 365,
+  "after": 31,
+  "results": [
+    {
+      "key": "local-power:us-policy-positions:justice-public-safety.end-cash-bail",
+      "kind": "amount",
+      "family": "justice",
+      "inForceAtOpening": false,
+      "change": "local-power:us-policy-positions:justice-public-safety.end-cash-bail 0 -> 1 at state (law:US-NE:state:local-power:us-policy-positions:justice-public-safety.end-cash-bail:general:2025-01-21:law-wiring-b17f7094) effective 2025-01-21",
+      "lawIds": [
+        "law:US-NE:state:local-power:us-policy-positions:justice-public-safety.end-cash-bail:general:2025-01-21:law-wiring-b17f7094",
+        "law:US-NE:state:local-power:us-policy-positions:justice-public-safety.end-cash-bail:general:2026-01-22:law-wiring-b17f7094-undo"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "inPlay": [],
+      "applied": {
+        "rows": 0,
+        "withAmount": 0,
+        "sample": []
+      },
+      "readers": {
+        "src/core2/public-safety.ts:153": 36,
+        "src/core2/life.ts:573": 5
+      },
+      "openingRow": null,
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "campaigns:donation @ src/core2/modules/campaigns.ts:3630",
+            "treatment": 4062700,
+            "control": 4062900,
+            "ids": [
+              "journal:2026-01-03:73497",
+              "journal:2026-01-03:73499",
+              "journal:2026-01-03:73500"
+            ]
+          },
+          {
+            "kind": "drive-donation @ src/core2/modules/drives.ts:1565",
+            "treatment": 172133,
+            "control": 172134,
+            "ids": [
+              "journal:2025-03-17:11446",
+              "journal:2025-03-17:11447",
+              "journal:2025-03-17:11448"
+            ]
+          },
+          {
+            "kind": "campaigns:ad-buy @ src/core2/modules/campaigns.ts:3630",
+            "treatment": 248257,
+            "control": 248256,
+            "ids": [
+              "journal:2025-07-01:32878",
+              "journal:2025-09-01:45594",
+              "journal:2025-09-01:45595"
+            ]
+          }
+        ],
+        "diffKinds": 3,
+        "cited": [],
+        "controlCited": [],
+        "own": {
+          "targets": 0,
+          "among": "reached",
+          "pairs": [],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 72,
+        "sample": [
+          "person_e02fea68a64aaf0b:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:local-power:us-policy-positions:justice-public-safety.end-cash-bail:general:2025-01-21:law-wiring-b17f7094",
+          "person_014872ba8397579a:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:local-power:us-policy-positions:justice-public-safety.end-cash-bail:general:2025-01-21:law-wiring-b17f7094",
+          "person_e02fe968a64aad58:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:local-power:us-policy-positions:justice-public-safety.end-cash-bail:general:2025-01-21:law-wiring-b17f7094"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 153
+    }
+  ]
+}

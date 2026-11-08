@@ -80,6 +80,10 @@ describe(`a bill's stage (seed ${seed})`, () => {
       // paper is rewritten and the bill is still on paper.
       const redraft = staffRedraft(world.core, bill.id, 0, sponsor);
       expect(redraft.struck).not.toBe(redraft.inserted);
+      // The estimate recalculates with the staff's version: a lower floor reaches no more workers.
+      expect(redraft.estimateAfter.workersRaised).toBeLessThanOrEqual(
+        redraft.estimateBefore.workersRaised,
+      );
       expect(redraft.value).toBe(
         Math.round(
           (((wage?.current ?? 0) + (wage?.current ?? 0) + 200) / 2) * 100,

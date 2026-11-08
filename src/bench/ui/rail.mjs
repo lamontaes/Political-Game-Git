@@ -48,7 +48,7 @@ export function mountRail(host, keys, titles) {
     ...keys.map((key) => {
       const ring = makeButton({ className: "ring" });
       ring.dataset.tab = key;
-      ring.title = titles[key];
+      ring.dataset.name = titles[key];
       ring.setAttribute("aria-label", titles[key]);
       ring.innerHTML = `<svg viewBox="0 0 24 24">${ICONS[key].join("")}</svg>`;
       return ring;
