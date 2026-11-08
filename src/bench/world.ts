@@ -73,7 +73,7 @@ import {
   checkSettings as checkWorldSettings,
   scaleOutsideSales,
   type WorldSettings,
-} from "../core2/world-settings";
+} from "../core2/life";
 
 export interface BenchResident {
   id: string;

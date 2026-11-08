@@ -41,6 +41,7 @@ import {
   castMemberVote,
   chambersOf,
   signDischarge,
+  castChairHearing,
   committeeMemberKeys,
   committeeRecords,
   draftBill,
@@ -761,6 +762,8 @@ export class DevMode {
       overrideMargin?: number;
       /** Every member signs a discharge petition for the bill before the committee meets. */
       discharge?: boolean;
+      /** The chair of each committee is cast to hear the bill, through the committee's own hearing decision. */
+      chairHears?: boolean;
     } = {},
   ) {
     const api = this.api;
@@ -811,6 +814,9 @@ export class DevMode {
       executive.term !== undefined &&
       (executive.office?.kind !== "mayor" || mayorVeto(api).veto);
     for (const chamber of chambers) tallies.push(vote(chamber, margin, false));
+    if (options.chairHears)
+      for (const chamber of chambers)
+        castChairHearing(api, billId, chamber, true);
     if (options.discharge)
       for (const chamber of chambers)
         for (const term of members(api, chamber))
@@ -824,6 +830,7 @@ export class DevMode {
     const records = committeeRecords(api, billId).map((c) => ({
       chamber: c.chamber,
       heard: c.heard,
+      chairPicked: c.chairPicked === true,
       yes: c.yes,
       no: c.no,
       reported: c.reported,
@@ -833,6 +840,15 @@ export class DevMode {
       chairPosition: c.chairReasons.position.total,
       chairTrait: c.chairReasons.hearingTrait,
       discharge: c.discharge ?? null,
+      // Why it did not reach the floor, in the record's own terms: lost its vote, left unheard with
+      // no discharge route in the chamber's data, or left unheard with a petition short of its count.
+      why: c.reported
+        ? null
+        : c.heard
+          ? ("lost" as const)
+          : c.discharge
+            ? ("petition-short" as const)
+            : ("unheard-no-route" as const),
     }));
     return {
       mark: this.mark("decide", [billId], {
