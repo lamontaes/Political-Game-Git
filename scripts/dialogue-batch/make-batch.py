@@ -25,12 +25,12 @@ for slot,context in PICK:
     ps=sorted(slots.get(slot,[]),key=lambda p:hashlib.sha1(p['key'].encode()).hexdigest())[:3]
     if len(ps)<3: print('SHORT',slot,len(ps),file=sys.stderr); continue
     out.append((context,ps))
+n=sum(len(ps) for _,ps in out)
 lines=["# A small batch to grade, Nov 8, 2026","",f"{n} lines from tonight's new scenes, three to a moment, each moment described. Say good, fix (with what to change) or bad for any of them, as you did in the earlier batches. Your grade on a line now reaches every line like it in the whole game: the same move, in the same voice and register, wherever it plays. You do not have to grade them all; a few is enough.","","Each line says what it is, so you can grade by voice. A line with {name} or {office} in braces gets the real name or office in play.",""]
 for i,(context,ps) in enumerate(out,1):
     lines.append(f"## {i}. {context}")
     lines.append("")
     for j,p in enumerate(ps,1):
-        n+=1
         lines.append(f"{i}.{j}  {p['text']}")
         keys.append((f"{i}.{j}",p['key']))
     lines.append("")
