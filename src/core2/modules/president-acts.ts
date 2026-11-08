@@ -44,7 +44,7 @@ function sittingPresident(api: CoreAPI): string | null {
 
 export const PRESIDENT_ACTS_MODULE: CoreModule = {
   id: PRESIDENT_ACTS_MODULE_ID,
-  state: { schemaVersion: 1, tables: {} },
+  state: { schemaVersion: 1, tables: { state: {} } },
   onDay(api) {
     const core = api.state as CoreState;
     if (
