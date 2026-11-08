@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: astra/death-tax-restoration
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-08T02:24:35.938Z
 ---
 
 **What.** The death-tax branch of shapedRate scales schedule rates to zero and cannot recover them when a later bill raises the top rate. The death-tax reader also selects rows by date and lexical id instead of the shared law-in-force ordering. Preserve the real schedule basis through zero and use the one resolver so same-day enacted acts govern in order.
