@@ -2136,6 +2136,22 @@ body:not(.dev) .dev-only {
 .meeting-member.you {
   box-shadow: 0 0 0 2px var(--gold);
 }
+.meeting-tally {
+  display: flex;
+  height: 8px;
+  margin-top: 6px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.meeting-tally .tally-yes {
+  background: var(--signal-yes);
+}
+.meeting-tally .tally-no {
+  background: var(--signal-no);
+}
+.meeting-tally .tally-abstain {
+  background: var(--signal-none);
+}
 .meeting-member.vote-yes {
   box-shadow: 0 0 0 3px var(--signal-yes);
 }

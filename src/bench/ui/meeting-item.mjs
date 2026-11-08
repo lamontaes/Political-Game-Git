@@ -15,6 +15,22 @@ export function tallyOf(votes) {
   return counts;
 }
 
+/** The count as a bar: one segment per kind, as wide as its share of the votes, in the vote's signal color. */
+function tallyBar(counts, words) {
+  const total = KINDS.reduce((sum, kind) => sum + counts[kind], 0);
+  return el(
+    "div",
+    { className: "meeting-tally", role: "img" },
+    ...KINDS.filter((kind) => counts[kind]).map((kind) =>
+      el("span", {
+        className: `tally-${kind}`,
+        style: `flex-grow: ${counts[kind] / total}`,
+        title: `${counts[kind]} ${(words[kind] ?? "").toLowerCase()}`,
+      }),
+    ),
+  );
+}
+
 /** The members as faces: a ring by the vote they cast on this item, their name and vote on hover. */
 function memberStrip(members, votes, words) {
   const cast = new Map(votes.map((v) => [v.memberKey, v.vote]));
@@ -72,6 +88,7 @@ export function meetingItem({ item, members = [], words, floor, rows = [] }) {
               )
               .join(", "),
           }),
+          tallyBar(counts, words),
         )
       : "",
     item.remarks.length
