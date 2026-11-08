@@ -1495,7 +1495,8 @@ function renderFiling(value) {
     renderFiling(await post(`/api/filing/choose?${params}`));
   };
   // Each race told apart before the pick: its seat, its election day and
-  // who holds the seat now, from the contest's records.
+  // who holds the seat now, from the contest's records. It says nothing of what the
+  // office does (SG-SCREENS-office-hover-prose: no office-duties bank yet).
   const counter = controls.filing;
   const factsOf = (choice) => {
     const seat = value.seats?.[choice.action.contestId];
@@ -3417,9 +3418,9 @@ const sheets = {
     // governments as tabs, the fiscal year typed at the right, the departments, the open
     // department as a typed page, the town's money, and who wrote it. The game keeps
     // budget lines by category rather than departments, so each spending line is a
-    // department; Last year comes from the government's previous budget; a head, an
-    // "Asked" figure and the executive's bust wait on pool items gov-budget-departments-
-    // with-named-heads and gov-budget-asked-versus-adopted.
+    // department; Last year comes from the government's previous budget; "Asked" is the line
+    // before this year's budget bill (lineBeforeBill); the executive's bust is the offices
+    // record's chief executive; a head waits on pool item gov-budget-departments-with-named-heads.
     const words = controls.budgetStrips;
     const books = gov.books;
     const prior = gov.prior;
@@ -3490,6 +3491,9 @@ const sheets = {
                 roundedMoney(opened.minor),
                 lastYear(lastOf(prior?.spending, opened.line)),
               ),
+              ...(opened.askedMinor !== undefined
+                ? [typedRow(words.asked, roundedMoney(opened.askedMinor))]
+                : []),
               ...(stepButtons.length ? [buttonTray(...stepButtons)] : []),
             ),
           ],
@@ -3515,6 +3519,25 @@ const sheets = {
                 ? [typedRow(words.savings, roundedMoney(books.cashMinor))]
                 : []),
             ),
+            ...(gov.executive?.title
+              ? [
+                  stripSection(
+                    4,
+                    gov.executive.title,
+                    leaderBlock({
+                      face: gov.executive.face,
+                      name: gov.executive.name,
+                      party: gov.executive.party,
+                      post: gov.executive.title,
+                      onOpen: () =>
+                        showPerson({
+                          personId: gov.executive.cardId,
+                          figureUrl: gov.executive.face?.url,
+                        }),
+                    }),
+                  ),
+                ]
+              : []),
             ...(latest.adoptedOn
               ? [
                   stripSection(
@@ -4052,6 +4075,8 @@ const sheets = {
           dateWords(race.electionDate, { year: me.date }),
         ),
         rosterCols(
+          // A candidate's name opens their card; there is no rally to go to
+          // (SG-SCREENS-candidate-rally: no engine keeps a rally as a place and a time).
           stripSection(1, labels.whoIsRunning, ...candidates),
           rosterSide(
             ...(race.lastTime
@@ -4320,6 +4345,18 @@ const sheets = {
                 title: v.title,
                 result: `${v.passed ? labels.passed : labels.failed} · ${fill(labels.yesCount, { n: v.yes })}, ${fill(labels.noCount, { n: v.no })}`,
                 when: short(v.date),
+                ...(v.openable
+                  ? {
+                      onOpen: () =>
+                        openBillPaper(
+                          v.billId,
+                          (...nodes) =>
+                            $("sheet-body").replaceChildren(...nodes),
+                          () => openSheet("government"),
+                          labels.backToGovernment,
+                        ),
+                    }
+                  : {}),
               })),
             ),
           ]

@@ -19,6 +19,7 @@
  * strongest yes voter, the signer the executive who held office then, and
  * each phase points at the one it amends.
  */
+import type { GovernmentLevel } from "./government-level";
 import provisionQuestions from "../../data/research/legislature/provision-questions.json" with { type: "json" };
 import catalog from "./data/legislature/bill-catalog.json" with { type: "json" };
 import { POLICY_QUESTIONS } from "./policy-answers";
@@ -67,7 +68,7 @@ const SERIES_QUESTION = (
   }
 ).series;
 
-type Level = "federal" | "state" | "county" | "city";
+type Level = GovernmentLevel;
 type CatalogPolicy = {
   question?: string;
   series?: string;
