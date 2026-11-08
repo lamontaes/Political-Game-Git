@@ -238,8 +238,17 @@
         },
         {
           "name": "Medicines and medical products",
-          "supported": false,
-          "policies": []
+          "supported": true,
+          "policies": [
+            {
+              "id": "question:us-federal-positions:health.medicare-drug-price-negotiation",
+              "name": "medicare drug price negotiation",
+              "kind": "policy-question",
+              "question": "us-federal-positions:health.medicare-drug-price-negotiation",
+              "operations": ["enact", "repeal"],
+              "levels": ["federal"]
+            }
+          ]
         },
         {
           "name": "Reproductive health",

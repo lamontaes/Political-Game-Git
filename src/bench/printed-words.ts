@@ -2923,6 +2923,52 @@ const address: Builder = (read, f) => {
 };
 
 /**
+ * A strike, protest or rally in the town (src/core2/modules/public-action.ts):
+ * where, when, how many and what it was over, from the record the engine kept.
+ * A protest or strike with no named demand is not told.
+ */
+const publicAction =
+  (kind: "protest" | "strike" | "rally"): Builder =>
+  (read, f) => {
+    const place = read.place();
+    if (!place) return null;
+    const issue = f.question ? read.issue(f.question) : {};
+    return story(
+      "public-action",
+      {
+        place: read.fact(place, f.actionId ?? ""),
+        date: read.date(),
+        ...(f.size ? { number: read.fact(f.size, f.actionId ?? "") } : {}),
+        ...issue,
+        [kind]: read.fact("yes", f.actionId ?? ""),
+      },
+      kind === "rally" ? ["place"] : ["place", "issue"],
+    );
+  };
+
+/** A governor's or mayor's yearly address, told by its kind and one line they said. */
+const localAddress =
+  (level: "state" | "town"): Builder =>
+  (read, f) => {
+    const id = f["address:speaker"];
+    const style = f["address:style"];
+    return story(
+      "local-address",
+      {
+        ...read.who(id, "name", false),
+        date: read.date(),
+        [level]: read.yes(),
+        ...(style ? { [`style-${style}`]: read.yes() } : {}),
+        ...(f["address:remembered"]
+          ? { quote: read.fact(f["address:remembered"], id ?? "") }
+          : {}),
+      },
+      ["name"],
+      id,
+    );
+  };
+
+/**
  * The stories the press archived from the year before day one, told from the
  * record each was kept from: the same facts the paper's stories in play are
  * told with, so an archived story has the body a printed one has.
@@ -3150,6 +3196,11 @@ const BUILDERS: Readonly<Record<string, Builder>> = {
   "person-birth": birth,
   "life.death": death,
   "president.address": address,
+  "governor.address": localAddress("state"),
+  "mayor.address": localAddress("town"),
+  "civic.protest": publicAction("protest"),
+  "civic.strike": publicAction("strike"),
+  "civic.rally": publicAction("rally"),
   "estate.settled": estate,
   "carry-asked": carry,
   "campaign-endorsed": endorsement,

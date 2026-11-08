@@ -359,6 +359,11 @@
       "subject": "limits on power plant carbon",
       "purpose": "limit the carbon that power plants release",
       "enact": "power plants shall not release more carbon than the limit set here"
+    },
+    "health.medicare-drug-price-negotiation": {
+      "subject": "Medicare drug price negotiation",
+      "purpose": "let Medicare negotiate the prices of the drugs it pays for",
+      "enact": "the Secretary shall negotiate the prices Medicare pays for the drugs it covers most"
     }
   },
   "amounts": {
