@@ -180,10 +180,18 @@ try {
   await page.locator(".stage-vote button", { hasText: /^Yes$/ }).last().click();
   await page.getByRole("button", { name: "Take up the veto message" }).click();
   // The body voted it: the override result is on the paper by name.
-  await page.locator(".stage-chamber").nth(1).waitFor();
-  const results = await page.evaluate(() =>
-    [...document.querySelectorAll(".stage-chamber")].map((n) => n.innerText),
-  );
+  // The override is its own roll call on the paper, under its own heading.
+  await page
+    .getByText("The vote to override the veto", { exact: true })
+    .waitFor();
+  const results = await page.evaluate(() => {
+    const heading = [...document.querySelectorAll(".sechead")].find(
+      (n) => n.textContent === "The vote to override the veto",
+    );
+    return [...heading.parentElement.querySelectorAll(".stage-chamber")].map(
+      (n) => n.innerText,
+    );
+  });
   console.log("results:", results);
   if (SHOTS) await page.screenshot({ path: `${SHOTS}/override-done.png` });
   assert.ok(
