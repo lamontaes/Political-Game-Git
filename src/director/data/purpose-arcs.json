@@ -4386,6 +4386,51 @@
         }
       ]
     },
+    "run-doubt": {
+      "state": "ask",
+      "replies": ["tell", "comfort", "promise", "deflect"],
+      "follow": {
+        "tell": ["accept", "press"],
+        "comfort": ["accept", "press"],
+        "promise": ["thank", "press"],
+        "deflect": ["press"]
+      },
+      "again": {
+        "press": ["tell", "promise", "comfort", "leave"]
+      },
+      "endings": [
+        {
+          "id": "talked-it-over",
+          "label": "You talked it over",
+          "keeps": "none",
+          "when": {
+            "anyReply": ["tell", "comfort"]
+          }
+        },
+        {
+          "id": "one-more-try",
+          "label": "You promised one more try",
+          "keeps": "promise",
+          "when": {
+            "anyReply": ["promise"]
+          }
+        },
+        {
+          "id": "put-off",
+          "label": "You put the talk off",
+          "keeps": "relationship-strained",
+          "when": {
+            "reply": ["deflect", "leave"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
     "swearing-in": {
       "state": "request",
       "replies": ["agree", "promise", "thank", "ask"],
