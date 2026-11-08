@@ -1,6 +1,5 @@
 {
   "steering": {
-    "src/core2/births-check.ts": 1,
     "src/core2/central-bank-board.ts": 1,
     "src/core2/finance-state.ts": 1,
     "src/core2/health-own.ts": 1,
@@ -19,7 +18,8 @@
     "src/core2/data/budgets/treasury-spending.json": 13,
     "src/core2/data/business/parameters.json": 39,
     "src/core2/data/campaigns/parameters.json": 269,
-    "src/core2/data/candidacy/parameters.json": 34,
+    "src/core2/data/candidacy/benchmarks.json": 17,
+    "src/core2/data/candidacy/parameters.json": 36,
     "src/core2/data/contracts/parameters.json": 4,
     "src/core2/data/corruption/parameters.json": 14,
     "src/core2/data/counted/parameters.json": 19,
@@ -66,11 +66,11 @@
     "src/core2/data/views/views.json": 22
   },
   "owners": {
-    "src/core2/births-check.ts": "Lives",
     "src/core2/central-bank-board.ts": "Money",
     "src/core2/data/budgets/treasury-spending.json": "Money",
     "src/core2/data/business/parameters.json": "Laws",
     "src/core2/data/campaigns/parameters.json": "Laws",
+    "src/core2/data/candidacy/benchmarks.json": "Laws",
     "src/core2/data/candidacy/parameters.json": "Laws",
     "src/core2/data/contracts/parameters.json": "Laws",
     "src/core2/data/corruption/parameters.json": "Laws",
