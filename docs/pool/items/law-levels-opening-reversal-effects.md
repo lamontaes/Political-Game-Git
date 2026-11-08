@@ -5,7 +5,7 @@ area: laws
 kind: wiring
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: astra/opening-reversal-effects
 pr: #7353
 blocked-on:
