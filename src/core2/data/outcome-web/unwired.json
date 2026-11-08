@@ -98,12 +98,6 @@
       "stopgapId": "SG-LABOR-person-exposure"
     },
     {
-      "link": "class-size-to-scores",
-      "outcome": "school.test-scores",
-      "reason": "no measure: the web does not keep school.test-scores and no engine produces it; its research gives no size the game can apply, so the web does not run it",
-      "stopgapId": "SG-SCHOOL-links-not-running"
-    },
-    {
       "link": "neighborhood-years-to-adult-outcomes",
       "outcome": "labor.adult-earnings",
       "reason": "no measure: the web does not keep labor.adult-earnings and no engine produces it; it needs each person's own exposure record, which no engine keeps",

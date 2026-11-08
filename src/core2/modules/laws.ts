@@ -1016,12 +1016,39 @@ function lawTookEffect(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     LawRowInput | undefined;
   if (!row || !inForceOn(row, api.state.date)) return;
   // Another state's law is that state's own: it took effect there, and nothing
-  // in the player's town moves (the news of it is the Nation story's).
+  // in the player's town moves. It is a national event all the same: one
+  // public record the national press and opinion read (placeId national:<state>),
+  // with who passed it and what it does as facts; the act's detail stays in the
+  // law row and is read on open.
   if (
     row.jurisdiction !== "US" &&
     !inTownChain(lawChain(api), row.jurisdiction)
-  )
+  ) {
+    api.emit({
+      id: `law-took-effect:${row.id}`,
+      date: api.state.date,
+      kind: "law-took-effect",
+      personIds: [],
+      placeId: `national:${row.jurisdiction}`,
+      source: work.source,
+      publicRecord: true,
+      news: true,
+      facts: {
+        lawId: row.id,
+        series: row.series,
+        level: row.level,
+        jurisdiction: row.jurisdiction,
+        tier: row.tier,
+        value: String(row.value),
+        unit: row.unit ?? "",
+        change: "new",
+        ...(row.terms?.enactedBy
+          ? { enactedBy: String(row.terms.enactedBy) }
+          : {}),
+      },
+    });
     return;
+  }
   // A row a later statute overrides never governs, so nothing took effect: the
   // level's law in force today is another row (a repeal enacted over a
   // scheduled rise). A territory-specific federal row can also replace the
