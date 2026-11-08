@@ -1,6 +1,6 @@
 import { readFileSync, readdirSync } from "node:fs";
 import { coreAPI } from "../core2/state";
-import { corePlaceByJurisdictionId } from "../core2/places";
+import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { townDistrict, townSeats } from "../core2/modules/offices";
 import type { CoreState } from "../core2/types";
 

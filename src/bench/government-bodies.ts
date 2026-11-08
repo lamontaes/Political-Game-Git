@@ -184,6 +184,8 @@ export function recentVotesOf(api: Api, officeId: string) {
         billId,
         date,
         number: bill?.number ?? null,
+        // A bill the legislature still holds has a paper to open; a past measure has none.
+        openable: Boolean(bill),
         title: bill
           ? (billTitleOf(bill)?.title ?? null)
           : (names[question] ?? null),
