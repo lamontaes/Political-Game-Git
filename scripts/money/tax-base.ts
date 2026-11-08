@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any -- development tooling reading untyped record rows */
-/** Each named-payer tax installment against its plan, by year: npx tsx scripts/money/tax-base.ts <seed> <placeKey> [years] */
+/** Each named-payer tax installment's base index, by year: npx tsx scripts/money/tax-base.ts <seed> <placeKey> [years] */
 import { buildBenchWorld } from "../../src/bench/world";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { gameStartDate } from "../../src/core2/game-start";
@@ -23,20 +23,11 @@ for (let y = 1; y <= years; y++) {
     .moduleState("core2-budgets-v1")
     .table("taxPayments")
     .rows() as any[];
-  const byYear = rows.filter((r) =>
+  const inYear = rows.filter((r) =>
     String(r.date).startsWith(String(2025 + y)),
   );
-  let paid = 0,
-    plan = 0;
-  for (const r of byYear) {
-    paid += r.amountMinor + (r.townPaidMinor ?? 0);
-    plan += r.installmentMinor;
-  }
-  const macro = api
-    .moduleState("macro")
-    .table("state")
-    .get("macro:state") as any;
+  const idx = inYear.map((r) => r.baseIndex ?? 1);
   console.log(
-    `year ${y} (${2025 + y}): ${byYear.length} installments, paid+town ${paid}, plan ${plan}, ratio ${(paid / plan).toFixed(4)}`,
+    `year ${y} (${2025 + y}): ${inYear.length} installments, base index min ${Math.min(...idx).toFixed(4)} max ${Math.max(...idx).toFixed(4)}, installments total ${inYear.reduce((n, r) => n + r.installmentMinor, 0)}`,
   );
 }

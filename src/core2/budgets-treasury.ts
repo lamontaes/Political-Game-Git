@@ -1134,9 +1134,9 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
       // What the town's own payers already paid on this line comes off the
       // installment, the rest carrying to the next one.
       // The plan's installment moved by the economy's tax base since the budget year began.
+      const baseIndex = taxBaseIndex(api, budget.startsOn, lastMonth);
       const installment = Math.round(
-        (annual / rule.dueMonths.length) *
-          taxBaseIndex(api, budget.startsOn, lastMonth),
+        (annual / rule.dueMonths.length) * baseIndex,
       );
       const townId = `${gov.id}:${line}`;
       const townPaid =
@@ -1167,6 +1167,7 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
         date,
         amountMinor: receipt.paidMinor,
         installmentMinor: installment,
+        baseIndex,
         townPaidMinor: credited,
       } as unknown as ModuleRow);
     }
