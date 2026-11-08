@@ -110,5 +110,17 @@
     "addedAt": "2026-10-20",
     "replacement": "The jobs engine applies the low-wage factor to every organization whose jobs labor.low-wage-jobs counts, at the moment it sets that organization's staffing, shown in a low-wage-only twin by employer id.",
     "status": "open"
+  },
+  {
+    "id": "SG-LABOR-regional-job-town-roles",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/jobs.ts",
+    "line": 1,
+    "whatItFakes": "A town resident who finds work in the wider labor market takes a regional job whose role and pay are the town's own nearest role to what they were paid (moved by the region's pay level), not a wage from an occupational table for their metro area.",
+    "why": "The repository holds no BLS OES wage-by-occupation-and-area table; the town's roles carry real pay for the place, and the regional job is paid from the place's outside account through the same payroll.",
+    "addedBy": "jobs-and-economy",
+    "addedAt": "2026-11-08",
+    "replacement": "BLS OES (May 2024) median hourly wage by SOC occupation for the person's metro area or the state's nonmetropolitan area, read for the occupation of their last job.",
+    "status": "open"
   }
 ]
