@@ -19,6 +19,14 @@ export interface MacroMonth {
   primeRatePct: number;
   treasury10Pct: number;
   mortgage30Pct: number;
+  /** The output gap's change over the month, points: the momentum the investment accelerator carries into the next month. */
+  outputGapChangePct: number;
+  /** The real policy rate as spending has felt it: the policy rate less inflation, smoothed over the transmission lag. */
+  realRateLagPct: number;
+  /** This world's business cycle: the years from one peak to the next its accelerator swings through. */
+  cyclePeriodYears: number;
+  /** This world's capacity ceiling: how far the gap swings before capacity and credit limits turn the boom back, gap points. */
+  cycleCapacityPct: number;
   /** The town's own paid-income growth that entered this month, annual percent; absent when no comparable paid-income history exists. */
   townIncomeGrowthPct?: number;
   /** The nation's payroll-income growth the town was assumed to share, annual percent. */
@@ -125,6 +133,7 @@ export function publishedMonths(
   const sinceCoarse =
     (openingYear - p("macroHistoryFirstYear")) * p("macroMonthsPerYear") +
     openingPart;
+  let lagged: number | undefined;
   for (
     let back = Math.max(p("macroHistoryMonths"), sinceCoarse) - p("one");
     back >= p("zero");
@@ -140,6 +149,11 @@ export function publishedMonths(
     );
     const unemployment = field(byMonth, month, "unemploymentPct", p);
     const policy = field(byMonth, month, "policyRatePct", p);
+    const inflation = (price / yearEarlier - p("one")) * p("macroHundred");
+    lagged = smoothedRealRate(lagged, policy - inflation, p);
+    const gapNow =
+      -p("macroOkunOutputPerUnemploymentPoint") *
+      (unemployment - p("macroNaturalUnemploymentPct"));
     months.push({
       id: `macro-month:${month}`,
       month,
@@ -157,9 +171,38 @@ export function publishedMonths(
       primeRatePct: policy + p("macroPrimeSpreadPct"),
       treasury10Pct: field(byMonth, month, "treasury10Pct", p),
       mortgage30Pct: mortgageAt(byMonth, month, p),
+      outputGapChangePct: smoothedChange(months.at(-p("one")), gapNow, p),
+      realRateLagPct: lagged,
+      cyclePeriodYears: p("macroCyclePeriodYears"),
+      cycleCapacityPct: p("macroCycleCapacityPct"),
     });
   }
   return months;
+}
+
+/** The gap's momentum as spending has felt it: the month's change averaged over the last few months, so one noisy print does not set the swing. */
+function smoothedChange(
+  before: { outputGapPct: number; outputGapChangePct: number } | undefined,
+  gapNow: number,
+  p: MacroParameter,
+): number {
+  if (!before) return p("zero");
+  return (
+    before.outputGapChangePct +
+    (gapNow - before.outputGapPct - before.outputGapChangePct) /
+      p("macroMomentumMonths")
+  );
+}
+
+/** The real rate spending has felt: an exponential average over the transmission lag, starting from the first month's own rate. */
+function smoothedRealRate(
+  before: number | undefined,
+  real: number,
+  p: MacroParameter,
+): number {
+  return before === undefined
+    ? real
+    : before + (real - before) / p("macroRateTransmissionMonths");
 }
 
 /** How far one world's past ran from the published series, drawn once from its seed at Start. */
@@ -175,6 +218,8 @@ export interface MacroWorldOffsets {
   jobsLevelShare: number;
   wageLevelShare: number;
   outputLevelShare: number;
+  cyclePeriodYears: number;
+  cycleCapacityPct: number;
 }
 
 export function macroWorldOffsets(
@@ -202,6 +247,12 @@ export function macroWorldOffsets(
     jobsLevelShare: at("jobs-level", "macroWorldLevelSpreadShare"),
     wageLevelShare: at("wage-level", "macroWorldLevelSpreadShare"),
     outputLevelShare: at("output-level", "macroWorldLevelSpreadShare"),
+    cyclePeriodYears:
+      p("macroCyclePeriodYears") +
+      at("cycle-period", "macroWorldCyclePeriodSpreadYears"),
+    cycleCapacityPct:
+      p("macroCycleCapacityPct") *
+      (p("one") + at("cycle-capacity", "macroWorldCycleCapacitySpreadShare")),
   };
 }
 
@@ -232,6 +283,8 @@ export function historyMonths(
     (one + level) *
     (one + growthPoints / hundred) ** (monthsFrom(month) / months);
   const floor = p("macroPolicyLowerBoundPct");
+  let lagged: number | undefined;
+  let before: { outputGapPct: number; outputGapChangePct: number } | undefined;
   return published.map((row) => {
     const unemploymentPct = Math.max(
       p("macroWorldUnemploymentLowestPct"),
@@ -241,8 +294,23 @@ export function historyMonths(
       floor,
       row.policyRatePct + o.policyRatePoints,
     );
+    const inflationPct =
+      ((one + row.inflationPct / hundred) *
+        (one + o.inflationPoints / hundred) -
+        one) *
+      hundred;
+    lagged = smoothedRealRate(lagged, policyRatePct - inflationPct, p);
+    const outputGapPct =
+      -p("macroOkunOutputPerUnemploymentPoint") *
+      (unemploymentPct - p("macroNaturalUnemploymentPct"));
+    const outputGapChangePct = smoothedChange(before, outputGapPct, p);
+    before = { outputGapPct, outputGapChangePct };
     return {
       ...row,
+      outputGapChangePct,
+      realRateLagPct: lagged,
+      cyclePeriodYears: o.cyclePeriodYears,
+      cycleCapacityPct: o.cycleCapacityPct,
       unemploymentPct,
       priceIndex:
         row.priceIndex * grown(row.month, o.priceLevelShare, o.inflationPoints),
@@ -303,10 +371,28 @@ export function stepMacroMonth(
         (townIncomeGrowthPct -
           p("macroTrendGrowthPct") -
           p("macroInflationAnchorPct"));
-  const outputGapPct =
-    p("macroOutputGapPersistence") * previous.outputGapPct -
-    p("macroRealRateEffectOnGap") * (realRate - p("macroNeutralRealRatePct")) +
+  // The business cycle: an investment accelerator held by a capacity ceiling
+  // (Kaldor 1940; Hicks 1950; van der Pol). Spending that is growing pulls
+  // more investment (momentum feeds on itself while the gap is inside the
+  // ceiling), the swing's own size pushes it back (capacity, credit and
+  // inventories run out, more steeply the further out it is), and the real
+  // rate spending has felt leans against it. Nothing is scheduled: the
+  // swing's length comes from the world's accelerator, its depth from the
+  // ceiling, and the rate and the town's income move both.
+  const omega = (2 * Math.PI) / (previous.cyclePeriodYears * months);
+  const capacity = previous.cycleCapacityPct;
+  const realRateLagPct = smoothedRealRate(previous.realRateLagPct, realRate, p);
+  const gapChange =
+    previous.outputGapChangePct +
+    p("macroAcceleratorPerMonth") *
+      (p("one") - (previous.outputGapPct / capacity) ** p("two")) *
+      previous.outputGapChangePct -
+    omega * omega * previous.outputGapPct -
+    omega *
+      p("macroRealRateEffectOnGap") *
+      (realRateLagPct - p("macroNeutralRealRatePct")) +
     town / months;
+  const outputGapPct = previous.outputGapPct + gapChange;
   const unemploymentPct =
     p("macroNaturalUnemploymentPct") -
     outputGapPct / p("macroOkunOutputPerUnemploymentPoint");
@@ -338,6 +424,10 @@ export function stepMacroMonth(
     hourlyEarnings:
       previous.hourlyEarnings *
       (one + wageGrowthPct / hundred) ** (one / months),
+    outputGapChangePct: gapChange,
+    realRateLagPct,
+    cyclePeriodYears: previous.cyclePeriodYears,
+    cycleCapacityPct: previous.cycleCapacityPct,
     realOutput:
       previous.realOutput *
       (one + p("macroTrendGrowthPct") / hundred) ** (one / months) *
