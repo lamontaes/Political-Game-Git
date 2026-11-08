@@ -5250,27 +5250,86 @@ const drawSeed = () =>
 void drawSeed();
 $("seed-random").addEventListener("click", () => void drawSeed());
 /** What the player changed from real data; nothing means a real world. */
+// The world's settings, as the approved world screen draws them: a row of arrows over
+// the figure each step means (owner, Nov 8: "the figure itself in each control"). The
+// chosen step of each row is kept here; the server reads the settings it makes.
+const worldStep = {};
+function worldWords(row, value) {
+  const w = controls.worldSettings;
+  const words = (template, n) => template.replace("{n}", String(n));
+  if (row.id === "population")
+    return value === null ? w.real : words(w.people, count(value));
+  if (row.id === "lean")
+    return value === 0
+      ? w.even
+      : words(value < 0 ? w.left : w.right, Math.round(Math.abs(value) * 100));
+  if (value === 1) return w.usual;
+  const percent = Math.round(Math.abs(value - 1) * 100);
+  return words(value > 1 ? w.more : w.less, percent);
+}
+const usualStep = (row) =>
+  row.values.findIndex(
+    (v) => v === null || v === 1 || (row.id === "lean" && v === 0),
+  );
+function count(n) {
+  return new Intl.NumberFormat("en-US").format(n);
+}
+function drawWorldRows() {
+  const holder = $("world-rows");
+  if (!controls.worldSettings || !holder) return;
+  holder.replaceChildren(
+    ...controls.worldSettings.rows.map((row) => {
+      worldStep[row.id] ??= usualStep(row);
+      const at = worldStep[row.id];
+      return lookRow(
+        {
+          id: `world-${row.id}`,
+          label: row.label,
+          value: worldWords(row, row.values[at]),
+        },
+        {
+          onMove: (_id, by) => {
+            worldStep[row.id] = Math.max(
+              0,
+              Math.min(row.values.length - 1, at + by),
+            );
+            drawWorldRows();
+          },
+          arrowLabel: (by, r) =>
+            controls.creator[by < 0 ? "previous" : "next"].replace(
+              "{row}",
+              r.label.toLowerCase(),
+            ),
+        },
+      );
+    }),
+  );
+}
 function worldSettings() {
-  const read = (id) => {
-    const text = $(id).value.trim();
-    return text === "" ? undefined : Number(text);
-  };
-  const economy = Object.fromEntries(
-    [
-      ["wages", read("set-wages")],
-      ["householdCash", read("set-cash")],
-      ["outsideDemand", read("set-demand")],
-    ].filter(([, v]) => v !== undefined),
-  );
-  const politics = Object.fromEntries(
-    [
-      ["leanShift", read("set-lean")],
-      ["turnout", read("set-turnout")],
-    ].filter(([, v]) => v !== undefined),
-  );
+  const chosen = {};
+  for (const row of controls.worldSettings.rows) {
+    const value = row.values[worldStep[row.id] ?? usualStep(row)];
+    if (value !== null && value !== 1 && !(row.id === "lean" && value === 0))
+      chosen[row.id] = value;
+  }
+  const pick = (ids) =>
+    Object.fromEntries(
+      ids
+        .filter(([, id]) => chosen[id] !== undefined)
+        .map(([key, id]) => [key, chosen[id]]),
+    );
+  const economy = pick([
+    ["wages", "wages"],
+    ["householdCash", "cash"],
+    ["outsideDemand", "demand"],
+  ]);
+  const politics = pick([
+    ["leanShift", "lean"],
+    ["turnout", "turnout"],
+  ]);
   const settings = {
-    ...(read("set-population") !== undefined
-      ? { population: read("set-population") }
+    ...(chosen.population !== undefined
+      ? { population: chosen.population }
       : {}),
     ...(Object.keys(economy).length ? { economy } : {}),
     ...(Object.keys(politics).length ? { politics } : {}),
@@ -5452,7 +5511,10 @@ async function openCreator() {
   if (setup.gender) void openLook();
 }
 $("new-life").addEventListener("click", () => frontPanel("front-new"));
-$("new-advanced").addEventListener("click", () => frontPanel("front-advanced"));
+$("new-advanced").addEventListener("click", () => {
+  drawWorldRows();
+  frontPanel("front-advanced");
+});
 $("new-start").addEventListener("click", () => void openCreator());
 $("new-world").addEventListener("click", () => startLife({ custom: true }));
 $("advanced-build").addEventListener(
