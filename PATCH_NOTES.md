@@ -296,6 +296,16 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.88.1
+
+_Released November 8, 2026._
+
+### Fixed
+
+- **SNAP work rules apply only to food assistance** Passing or repealing a SNAP
+  work rule no longer stops unrelated cash assistance from a welfare budget.
+  Cash-benefit months also no longer consume a household's SNAP allowance.
+
 ## PRE-ALPHA 0.88.0
 
 _Released November 8, 2026._
