@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: astra/opening-law-sources
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-08T01:28:53.697Z
 ---
 
 **What.** openLaws uses the question-level entry.source for every jurisdiction, dropping the answer-specific source string. Its parallel federal row also drops lawTerms. Preserve each researched jurisdiction source and federal legal terms in the one opening-law loader so the law paper and authority proof can identify the actual statute.
