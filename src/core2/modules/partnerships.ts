@@ -284,6 +284,10 @@ function review(api: CoreAPI): void {
           adultAge,
     )
     .sort((a, b) => a.id.localeCompare(b.id));
+  const links = new Map<PersonId, ReturnType<typeof partnerLinkOf>>();
+  for (const link of core.familyLinks.values())
+    if (link.kind === "partner")
+      for (const id of link.personIds) links.set(id, link);
   const geo = partnershipGeo(core.placeMetadata?.placeKey);
   const month = p("one") / p("monthsPerYear");
   // Traits decide who partners or parts sooner, not how many: each trait
@@ -303,7 +307,7 @@ function review(api: CoreAPI): void {
     part: [p("zero"), p("zero")],
   };
   for (const person of people) {
-    const link = partnerLinkOf(core, person.id);
+    const link = links.get(person.id);
     if (!link) {
       typical.partner[0]! += partnerFactor(person);
       typical.partner[1]! += p("one");
@@ -330,7 +334,7 @@ function review(api: CoreAPI): void {
     if (done.has(person.id) || !person.alive) continue;
     const sex = sexOf(person);
     if (!sex) continue;
-    const link = partnerLinkOf(core, person.id);
+    const link = links.get(person.id);
     const partner = link
       ? core.people.get(link.personIds.find((id) => id !== person.id)!)
       : undefined;
@@ -629,6 +633,20 @@ function reviewTown(api: CoreAPI): void {
         ageOnDate(makeIsoDate(row.birthDate), today) >= adultAge,
     )
     .sort((a, b) => a.id.localeCompare(b.id));
+  // One pass over the links, and each person's factor weighed once a month.
+  const linkOf = new Map<PersonId, ReturnType<typeof partnerLinkOf>>();
+  for (const link of core.familyLinks.values())
+    if (link.kind === "partner")
+      for (const id of link.personIds) linkOf.set(id, link);
+  const partnerFactors = new Map<PersonId, number>();
+  const partnerFactorOfCached = (person: Readonly<PersonState>) => {
+    let held = partnerFactors.get(person.id);
+    if (held === undefined) {
+      held = partnerFactorOf(api, person);
+      partnerFactors.set(person.id, held);
+    }
+    return held;
+  };
   const singles = new Set<PersonId>();
   const couples: {
     link: { id: string; personIds: readonly [PersonId, PersonId] };
@@ -638,11 +656,11 @@ function reviewTown(api: CoreAPI): void {
   const seen = new Set<string>();
   const sum = { partner: [p("zero"), p("zero")], part: [p("zero"), p("zero")] };
   for (const person of people) {
-    const link = partnerLinkOf(core, person.id);
+    const link = linkOf.get(person.id);
     if (!link) {
       if (sexOf(person)) {
         singles.add(person.id);
-        sum.partner[0]! += partnerFactorOf(api, person);
+        sum.partner[0]! += partnerFactorOfCached(person);
         sum.partner[1]! += p("one");
       }
       continue;
@@ -687,7 +705,7 @@ function reviewTown(api: CoreAPI): void {
         ageOnDate(makeIsoDate(person.birthDate), today),
       ) *
       month *
-      (partnerFactorOf(api, person) / typicalPartner);
+      (partnerFactorOfCached(person) / typicalPartner);
     if (row.value >= p("one")) {
       const known = knownSingle(api, person, sex, singles);
       if (known && !done.has(known.id)) {
@@ -701,7 +719,7 @@ function reviewTown(api: CoreAPI): void {
           witnessIds: witnessesOf(core, [person.id, known.id]),
           facts: { [UNION_FACT]: "dating" },
         });
-        const link = partnerLinkOf(core, person.id)!;
+        const link = linkOf.get(person.id) ?? partnerLinkOf(core, person.id)!;
         store(api)
           .table("couples")
           .put({
@@ -733,7 +751,7 @@ function reviewTown(api: CoreAPI): void {
             witnessIds: witnessesOf(core, [person.id, met.id]),
             facts: { [UNION_FACT]: "living-together" },
           });
-          const link = partnerLinkOf(core, person.id)!;
+          const link = linkOf.get(person.id) ?? partnerLinkOf(core, person.id)!;
           store(api)
             .table("couples")
             .put({
@@ -753,7 +771,7 @@ function reviewTown(api: CoreAPI): void {
   }
   api.stopgap(STAGES_STOPGAP);
   for (const { link, a, b } of couples) {
-    if (!a.alive || !b.alive || !partnerLinkOf(core, a.id)) continue;
+    if (!a.alive || !b.alive || !linkOf.has(a.id)) continue;
     const couple = coupleOf(api, link);
     const lower = a.id.localeCompare(b.id) < 0 ? a : b;
     const row = rowFor(lower.id, "part");
@@ -781,7 +799,7 @@ function reviewTown(api: CoreAPI): void {
     const [next, months] = NEXT_STAGE[couple.stage];
     couple.progress +=
       (p("one") / p(months)) *
-      (Math.sqrt(partnerFactorOf(api, a) * partnerFactorOf(api, b)) /
+      (Math.sqrt(partnerFactorOfCached(a) * partnerFactorOfCached(b)) /
         typicalPartner);
     if (couple.progress >= p("one")) {
       const ok = next === "living-together" ? moveIn(api, a, b) : true;
