@@ -51,4 +51,35 @@ describe(`dev bribe: ${where}`, () => {
     );
     expect(outcomes.size, where).toBeGreaterThan(1);
   });
+
+  it("a picked answer decides at the engine's own point and is kept beside what the engine said", () => {
+    const [offerer] = dev.wealthiest(1);
+    const official = [...world.core.people.values()].find(
+      (p) => p.alive && p.id !== offerer!.personId && p.liquidMinor < 100_000,
+    )!;
+    const base = {
+      offererId: offerer!.personId,
+      officialId: official.id,
+      stakeMinor: 50_000_000,
+    };
+    const takes = dev.forceBribe({
+      ...base,
+      subjectId: "bill:dev-pick-takes",
+      answer: "takes",
+    });
+    expect(takes.record.offered, where).toBe(true);
+    expect(takes.record.taken, where).toBe(true);
+    expect(takes.moved, where).toBeGreaterThan(0);
+    expect(takes.record.reasons.take?.picked, where).toBe(1);
+    expect(takes.record.reasons.take?.engineSaid, where).toBeDefined();
+    const refuses = dev.forceBribe({
+      ...base,
+      subjectId: "bill:dev-pick-refuses",
+      answer: "refuses",
+    });
+    expect(refuses.record.offered, where).toBe(true);
+    expect(refuses.record.taken, where).toBe(false);
+    expect(refuses.moved, where).toBe(0);
+    expect(refuses.record.reasons.take?.picked, where).toBe(-1);
+  });
 });
