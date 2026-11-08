@@ -21,6 +21,7 @@ import {
   type TermRow,
 } from "./modules/offices";
 import {
+  atLargeGroup,
   ELECTIONS_MODULE_ID,
   ballot,
   fileCandidacy,
@@ -227,7 +228,17 @@ describe("M2-07 elections", () => {
       );
       expect(exitTotal).toBe(result.namedTurnout);
       const chose = Object.values(result.namedVotes).reduce((a, c) => a + c, 0);
-      expect(chose).toBe(cast.filter((b) => b.choice !== null).length);
+      // At large a voter votes for up to as many candidates as the race has
+      // seats (the ballot keeps the first): one race seat is one vote each,
+      // an n-seat race (Logansport, Louisiana, 3 seats) up to n.
+      const choosers = cast.filter((b) => b.choice !== null).length;
+      const seatsOpen = atLargeGroup(api, contest!).length;
+      expect(chose, `${place}: ${seatsOpen} seat(s)`).toBeGreaterThanOrEqual(
+        choosers,
+      );
+      expect(chose, `${place}: ${seatsOpen} seat(s)`).toBeLessThanOrEqual(
+        choosers * seatsOpen,
+      );
       expect(
         Object.values(result.totals).reduce((a, c) => a + c, 0),
       ).toBeGreaterThanOrEqual(chose);
