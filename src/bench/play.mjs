@@ -2673,6 +2673,11 @@ async function openBillPaper(billId, show, back, backLabel) {
       view,
       textOf: (index) => paper.sections[index]?.text ?? paper.title,
       money: (minor) => moneyWords(minor),
+      percent: (value) =>
+        new Intl.NumberFormat("en-US", {
+          style: "percent",
+          maximumFractionDigits: 1,
+        }).format(value / 100),
       words,
     }),
     // Where the bill is: the committee's record, what members told you, the floor and

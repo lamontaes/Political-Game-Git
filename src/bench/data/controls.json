@@ -479,7 +479,12 @@
     "none": "Not set",
     "figures": "Budget lines",
     "thisYear": "This year",
-    "lastYear": "Last year"
+    "lastYear": "Last year",
+    "sinceLastYear": "Since last year",
+    "totalChange": "Total change",
+    "increased": "Up {amount} ({pct})",
+    "decreased": "Down {amount} ({pct})",
+    "unchanged": "No change"
   },
   "advanced": {
     "none": "No one holds an office that matches",

@@ -5308,3 +5308,9 @@ body.color-blind .meeting-member.vote-no {
 body.color-blind .meeting-member.vote-abstain {
   outline: 3px dotted var(--signal-none);
 }
+
+/* The bill page's budget lines fill the paper's column. */
+.strip-screen.bill-figures {
+  display: block;
+  margin: 8px 0;
+}
