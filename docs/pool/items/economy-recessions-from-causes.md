@@ -6,6 +6,7 @@ kind: feature
 priority: 2
 size: L
 status: open
+lead: money
 claimed-by:
 pr:
 blocked-on:
