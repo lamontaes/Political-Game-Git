@@ -16,6 +16,8 @@ import { parameter } from "../core2/parameters";
 import { coreAPI, personOrFillIn } from "../core2/state";
 import { advanceCore, availableActs, type Controller } from "../core2/life";
 import {
+  considerBribe,
+  CORRUPTION_MODULE_ID,
   enactLaw,
   lawChain,
   lawInForce,
@@ -677,12 +679,15 @@ export class DevMode {
     if (!lawSeriesCatalog(this.api).includes(input.series))
       throw new Error(`Unknown law series: ${input.series}`);
     if (!Number.isFinite(input.value)) throw new Error("A bill needs a value.");
-    const provision: Provision = {
-      kind: "law-amount",
-      series: input.series,
-      value: input.value,
-      ...(input.unit ? { unit: input.unit } : {}),
-    };
+    // A policy question (a yes or no the law answers) is a section of its own kind.
+    const provision: Provision = POLICY_QUESTIONS[input.series]
+      ? { kind: "policy-question", question: input.series, value: input.value }
+      : {
+          kind: "law-amount",
+          series: input.series,
+          value: input.value,
+          ...(input.unit ? { unit: input.unit } : {}),
+        };
     const bill = draftBill(this.api, {
       bodyOfficeId: input.bodyOfficeId,
       sponsorId: input.sponsorId,
@@ -764,6 +769,54 @@ export class DevMode {
     };
   }
 
+  /** The wealthiest living people in the world: who might want a favor enough to pay for it. */
+  wealthiest(count = 12) {
+    return [...this.core.people.values()]
+      .filter((p) => p.alive && p.liquidMinor > 0)
+      .sort((a, b) => b.liquidMinor - a.liquidMinor)
+      .slice(0, count)
+      .map((p) => ({
+        personId: p.id,
+        name: `${p.givenName} ${p.familyName}`,
+        liquidMinor: p.liquidMinor,
+      }));
+  }
+
+  /**
+   * Someone wants a favor from an official (a pending vote, a permit, a contract: any record id)
+   * and offers a bribe through the game's own considerBribe: the offerer decides whether to
+   * offer and the official whether to take it, each as the engine decides, and the money moves
+   * only if it is taken. Says what happened and the reasons the engine kept.
+   */
+  forceBribe(input: {
+    offererId: string;
+    officialId: string;
+    subjectId: string;
+    stakeMinor: number;
+  }) {
+    if (!has(this.core, CORRUPTION_MODULE_ID))
+      throw new Error("This world has no corruption module.");
+    const offerer = this.core.people.get(input.offererId);
+    const before = offerer?.liquidMinor ?? 0;
+    const record = considerBribe(this.api, {
+      offererId: input.offererId,
+      officialId: input.officialId,
+      stakeMinor: input.stakeMinor,
+      subjectId: input.subjectId,
+    });
+    if (!record)
+      throw new Error("No bribe: the offerer has no money or someone is gone.");
+    return {
+      mark: this.mark("bribe", [record.id], {
+        offererId: input.offererId,
+        officialId: input.officialId,
+        subjectId: input.subjectId,
+      }),
+      record,
+      moved: before - (offerer?.liquidMinor ?? 0),
+    };
+  }
+
   /** Cast a member's vote on a bill before the vote is held. */
   vote(billId: string, memberId: string, vote: "yes" | "no" | "abstain") {
     castMemberVote(this.api, billId, memberId, vote);
@@ -831,7 +884,13 @@ export class DevMode {
    * Runs the world day by day until `days` have passed or the chosen event's records appear, whichever
    * comes first, never past `cap` days. Says why it stopped and the record ids that stopped it.
    */
-  runUntil(input: { days?: number; event?: RunEvent; cap?: number }) {
+  runUntil(input: {
+    days?: number;
+    event?: RunEvent;
+    cap?: number;
+    /** Law series or questions whose bills the members vote down each day, through castMemberVote. */
+    defeat?: readonly string[];
+  }) {
     const cap = Math.max(1, Math.min(input.cap ?? 366, 3660));
     const limit = Math.min(input.days ?? cap, cap);
     const kinds = input.event ? RUN_EVENTS[input.event] : undefined;
@@ -856,7 +915,9 @@ export class DevMode {
     let days = 0;
     let reason: "days" | "event" | "cap" = "days";
     let records: string[] = [];
+    const defeated = new Set<string>();
     while (days < limit) {
+      if (input.defeat?.length) this.voteDown(input.defeat, defeated);
       this.advance(addDays(makeIsoDate(this.core.date), 1));
       days += 1;
       if (input.event === "scene" && sceneCount() > sceneBefore) {
@@ -881,7 +942,29 @@ export class DevMode {
       reason,
       event: input.event ?? null,
       records: records.slice(0, 20),
+      defeated: [...defeated],
     };
+  }
+
+  /** Every member of every chamber votes no, through castMemberVote, on each open bill that changes one of these laws. */
+  private voteDown(series: readonly string[], done: Set<string>) {
+    if (!has(this.core, LEGISLATURE_MODULE_ID)) return;
+    const api = this.api;
+    const bills = api.moduleState(LEGISLATURE_MODULE_ID).table("bills");
+    for (const bill of bills.rows() as unknown as BillRow[]) {
+      if (bill.status !== "drafted" || done.has(bill.id)) continue;
+      if (
+        !bill.provisions.some((p) =>
+          series.includes(p.question ?? p.series ?? ""),
+        )
+      )
+        continue;
+      for (const chamber of chambersOf(api, bill))
+        for (const term of members(api, chamber))
+          castMemberVote(api, bill.id, memberKey(term), "no");
+      done.add(bill.id);
+      this.mark("vote-down", [bill.id], { billId: bill.id });
+    }
   }
 
   // 4. Trace --------------------------------------------------------------

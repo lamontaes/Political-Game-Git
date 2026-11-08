@@ -49,7 +49,11 @@ try {
     await page.locator("#front-pick:not([hidden])").waitFor();
     names = await page.locator("#pick-list button").allInnerTexts();
     at = names.findIndex((t) =>
-      /council|commissioner|alderm|trustee|supervisor|selectm/i.test(t),
+      new RegExp(
+        process.env.BENCH_ROLE ??
+          "council|commissioner|alderm|trustee|supervisor|selectm",
+        "i",
+      ).test(t),
     );
     if (at < 0)
       console.log(
@@ -86,7 +90,10 @@ try {
     .getByRole("button", { name: "Your office" })
     .click();
   // The drafts are on their own tab of Your office.
-  await page.locator('.office-tabs [data-office="draft"]').click();
+  // One page needs no tab bar (a member of Congress has the drafts page only).
+  await page.locator(".office-screen").waitFor();
+  const draftTab = page.locator('.office-tabs [data-office="draft"]');
+  if (await draftTab.isVisible()) await draftTab.click();
   await page.locator(".draft-card select").waitFor();
   if (SHOTS) await page.screenshot({ path: `${SHOTS}/draft-card.png` });
   const chosen = await page.evaluate(() => {
@@ -129,6 +136,15 @@ try {
   const billId = new URL((await asked).url()).searchParams.get("billId");
   assert.ok(billId, "the paper names its bill");
   await page.locator(".bill-doc").waitFor();
+  // Staff redraft: ask for section 1, see it struck and inserted, keep the staff's version.
+  await page
+    .getByRole("button", { name: "Ask staff to redraft section 1" })
+    .click();
+  await page.locator(".stage-redraft ins").waitFor();
+  const redrafted = await page.locator(".stage-redraft ins").innerText();
+  console.log("staff redraft:", redrafted);
+  await page.getByRole("button", { name: "Keep staff's" }).click();
+  await page.locator(".stage-vote").first().waitFor();
   // An amendment: lower section 1 (the difference split with the law in force), then the body votes it.
   await page
     .locator(".stage-vote button", { hasText: /^Lower section 1$/ })
@@ -191,6 +207,23 @@ try {
     floor.every((text) => /\d/.test(text) && text.length > 10),
     "each chamber names its counts and members",
   );
+  // Following: the Bills tab lists the bill with where it stands and how your members voted.
+  await page
+    .locator("#sheet-tabs")
+    .getByRole("button", { name: "Bills", exact: true })
+    .click();
+  // A bill before the state or Congress lists with a Read the bill control; a world with none says so.
+  await page
+    .locator("#sheet-body")
+    .getByText(/Read the bill|No bill is before your state or Congress yet\./)
+    .first()
+    .waitFor();
+  const followed = await page.evaluate(() =>
+    [...document.querySelectorAll("#sheet-body .sec")].map((n) => n.innerText),
+  );
+  console.log("followed bills:", followed.slice(0, 3));
+  assert.ok(followed.length > 0, "the Bills tab lists a bill");
+  if (SHOTS) await page.screenshot({ path: `${SHOTS}/bills-following.png` });
   assert.deepEqual(errors, [], "page errors");
   console.log("ok: the paper shows the floor result by name");
 } finally {
