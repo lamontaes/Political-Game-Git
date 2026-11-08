@@ -167,6 +167,8 @@
     "whoAre": "Who they are",
     "howISee": "How I see {object}",
     "betweenUs": "Between us",
+    "lifeStory": "{possessive} story",
+    "lifeStoryThey": "Their story",
     "herPeople": "{possessive} people",
     "theirPeople": "Their people",
     "age": "Age",
