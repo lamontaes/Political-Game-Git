@@ -103,5 +103,16 @@
     "addedAt": "2026-11-08",
     "replacement": "A state-by-state price effect from the restructuring acts' own rate freezes and cuts, with the supplier market (shopping share) as the competition term.",
     "status": "open"
+  },
+  {
+    "id": "SG-LAWS-ui-base-period-last-pay",
+    "file": "src/core2/jobs-benefits.ts",
+    "line": 282,
+    "whatItFakes": "A claim's weekly benefit is the state's share of the lost job's weekly pay as it stood on the last day, times the weeks it ran (capped by the weekly maximum). Real state law computes it from base-period wages, usually the highest quarter of the first four of the last five completed quarters, so an hours cut shortly before a layoff barely moves it.",
+    "why": "No per-person pay by calendar quarter is read by the claim engine; named workers' paydays are in the cash journal (work-payroll-cash.ts) and counted workers' in their group's perDayMinorByJob history, but the claim does not sum them yet.",
+    "addedBy": "night:laws-and-effects",
+    "addedAt": "2026-11-08",
+    "replacement": "fileClaim sums the person's recorded payday receipts by calendar quarter, takes the state's basis quarters from the law row (weeklyBenefitBasisQuarters), and applies the state's fraction, max and min; counted workers read their group's perDayMinorByJob history. Proved on a claim after an hours cut (Jobs #7781, api.rehourJob).",
+    "status": "open"
   }
 ]

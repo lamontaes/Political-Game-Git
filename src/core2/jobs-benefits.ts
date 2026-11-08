@@ -278,6 +278,8 @@ export function fileClaim(
   if (!payee) return undefined;
   const terms = unemploymentTerms(api);
   if (!terms.hasProgram) return undefined;
+  // stopgapId: SG-LAWS-ui-base-period-last-pay (the benefit reads the lost job's pay on the last day, not base-period wages by quarter)
+  api.stopgap("SG-LAWS-ui-base-period-last-pay");
   const weeklyPay = job.wageDailyMinor * DAYS_PER_WEEK;
   // Base-period earnings: the lost job's pay over the weeks of the last year it ran.
   const basePeriodWeeks = Math.min(
