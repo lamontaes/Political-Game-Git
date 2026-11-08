@@ -111,6 +111,7 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `look-first`: the search before building, fixing, filing or asking
 - `merge-audit`: auditing merged PRs
 - `merger`: merging and validating PRs
+- `money-economy`: the national economy and the dollar: cycles, outside money, household income, and proving them
 - `play-first`: one item of the play-first lane; the screenshot and browser check
 - `people-pack`: drawing people from the pack, on mannequin plates
 - `played-world-proof`: proving a feature in a played year
