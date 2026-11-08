@@ -279,11 +279,33 @@
       ],
       "setting": ["home"],
       "timing": "effective-date",
-      "causes": [],
-      "awaiting": [
-        "record:release-from-jail",
-        "record:homecoming",
-        "record:moving-back"
+      "causes": [
+        {
+          "match": {
+            "label": "feeling:event:justice.released",
+            "counterpart": "none"
+          },
+          "causeEngine": "justice",
+          "causeRecord": "justice.released",
+          "bind": {
+            "returning": "subject",
+            "waiting": "kin"
+          },
+          "opener": "waiting"
+        },
+        {
+          "match": {
+            "label": "feeling:event:justice.released",
+            "counterpart": "some"
+          },
+          "causeEngine": "justice",
+          "causeRecord": "justice.released",
+          "bind": {
+            "waiting": "subject",
+            "returning": "counterpart"
+          },
+          "opener": "returning"
+        }
       ],
       "tag": {
         "key": "arrival",
@@ -749,8 +771,23 @@
       ],
       "setting": ["home", "other-home", "public"],
       "timing": "next-together",
-      "causes": [],
-      "awaiting": ["record:decision-to-concede"],
+      "causes": [
+        {
+          "match": {
+            "label": "feeling:event:family.quarrel",
+            "selfNamed": true,
+            "counterpart": "some",
+            "causeFacts": [{ "key": "owes", "is": "subject" }]
+          },
+          "causeEngine": "partnerships",
+          "causeRecord": "family.quarrel",
+          "bind": {
+            "apologizing": "subject",
+            "wronged": "counterpart"
+          },
+          "opener": "wronged"
+        }
+      ],
       "aftermath": {
         "agree": {
           "kind": "support:apology-accepted",
@@ -1607,12 +1644,23 @@
           "bearing": "anxious"
         }
       ],
-      "setting": ["venue", "public"],
+      "setting": ["home"],
       "timing": "at-cause",
-      "causes": [],
-      "awaiting": [
-        "record:incident-with-someone-present",
-        "record:acute-health-episode"
+      "causes": [
+        {
+          "match": {
+            "label": "feeling:event:health.rescued",
+            "selfNamed": true,
+            "counterpart": "some"
+          },
+          "causeEngine": "partnerships",
+          "causeRecord": "health.rescued",
+          "bind": {
+            "rescuer": "counterpart",
+            "in-danger": "subject",
+            "bystanders": "household"
+          }
+        }
       ],
       "tag": {
         "key": "threat",
@@ -1835,7 +1883,13 @@
           "opener": "adviser"
         },
         {
-          "awaitingProducer": "relationship:mentorship:*:formed",
+          "match": {
+            "label": "feeling:event:work.mentorship-formed",
+            "selfNamed": true,
+            "counterpart": "some"
+          },
+          "causeEngine": "partnerships",
+          "causeRecord": "work.mentorship-formed",
           "bind": {
             "deciding": "subject",
             "adviser": "counterpart"
@@ -3279,6 +3333,20 @@
             "you": "subject"
           },
           "sceneKey": "lobbyist-word",
+          "opener": "other",
+          "setting": ["seat", "venue"]
+        },
+        {
+          "match": {
+            "label": "circumstance:governor-answer-hallway"
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "governor.response",
+          "bind": {
+            "other": "counterpart",
+            "you": "subject"
+          },
+          "sceneKey": "governor-answer-word",
           "opener": "other",
           "setting": ["seat", "venue"]
         }
@@ -5490,6 +5558,54 @@
       ],
       "tag": {
         "key": "honor",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
+      "key": "run-doubt",
+      "note": "The player lost a race and has lost others before (the elections module's filings against the count's own records). A few days later someone who lives with them asks whether another run is worth it. The player can say why they run, say they will be fine, promise one more try or put the talk off.",
+      "purpose": "run-doubt",
+      "asker": "relative",
+      "asked": "you",
+      "stakes": ["race", "home"],
+      "roles": [
+        {
+          "key": "relative",
+          "fill": "household",
+          "count": "one",
+          "moves": ["ask", "press", "accept", "thank", "warn"],
+          "wants": ["change"],
+          "bearing": "tender"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["tell", "comfort", "promise", "deflect", "leave"],
+          "wants": ["keep-same"],
+          "bearing": "calm"
+        }
+      ],
+      "setting": ["home"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "circumstance:run-doubt"
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "election-result",
+          "bind": {
+            "relative": "counterpart",
+            "you": "subject"
+          },
+          "opener": "relative",
+          "setting": ["home"]
+        }
+      ],
+      "tag": {
+        "key": "threat",
         "endpoint": "political",
         "registers": ["scene-talk", "scene-words"]
       }

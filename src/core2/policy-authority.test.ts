@@ -34,11 +34,24 @@ beforeAll(() => {
 
 describe("recorded policy powers", () => {
   it("does not give Congress a question reserved to state law", () => {
-    const result = policyAuthority(
-      api,
-      "us-policy-positions:fiscal.adopt-income-tax",
-      "federal",
-    );
+    // A question the catalog reserves to the states and below: none names the
+    // federal level (the income tax is concurrent since Congress was given the
+    // power to repeal and restore its own).
+    const reserved = Object.entries(
+      (
+        mapping as unknown as {
+          questions: Record<string, { levels: string[] }>;
+        }
+      ).questions,
+    )
+      .filter(([, row]) => row.levels.length && !row.levels.includes("federal"))
+      .map(([question]) => question)
+      .sort()[0]!;
+    expect(
+      reserved,
+      "the catalog reserves some question to the states",
+    ).toBeDefined();
+    const result = policyAuthority(api, reserved, "federal");
     expect(result.allowed).toBe(false);
     expect(result.reason).toBe("level-lacks-power");
     expect(result.source).toContain("question-powers.json");
