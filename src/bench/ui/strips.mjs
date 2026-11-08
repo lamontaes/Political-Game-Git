@@ -132,7 +132,11 @@ export function peopleSentence(people) {
   const line = el("p", { className: "hispeople" });
   people.forEach((person, at) => {
     if (at) line.append(", ");
-    line.append(nameLink(person.name, person.onOpen));
+    line.append(
+      person.onOpen
+        ? nameLink(person.name, person.onOpen)
+        : el("span", { className: "nm", textContent: person.name }),
+    );
     if (person.relation) line.append(` (${person.relation.toLowerCase()})`);
   });
   return line;
@@ -160,10 +164,10 @@ export function dotRows(rows) {
  * strip sections (the approved Budgets screen, bud-strips). `fiscal` is typed in
  * Courier Prime capitals at the right of the tabs.
  */
-export function stripBoard({ tabs, fiscal, columns }) {
+export function stripBoard({ tabs, fiscal, columns, className = "" }) {
   return el(
     "div",
-    { className: "strip-screen strip-board strips ol-g" },
+    { className: `strip-screen strip-board strips ol-g ${className}` },
     el(
       "div",
       { className: "board-top" },
@@ -476,3 +480,29 @@ export function moneyBoard({ columns }) {
     ),
   });
 }
+
+/** The campaign board's raised figure, big. */
+export const moneyFigure = (text) =>
+  el("p", { className: "money-figure", textContent: text });
+
+/** On my desk: a list of papers, one paper a block, its title bold. */
+export const deskList = (...nodes) =>
+  el("div", { className: "desk" }, ...nodes);
+export const deskBill = (...nodes) =>
+  el("div", { className: "desk-bill" }, ...nodes);
+export const deskTitle = (text) => el("b", { textContent: text });
+
+/** A race, party or law page: its title (with a date or other small word after it) over its columns. */
+export const rosterTitle = (text, small) =>
+  el(
+    "h2",
+    { className: "roster-title" },
+    text,
+    ...(small ? [el("span", { textContent: small })] : []),
+  );
+export const rosterCols = (...nodes) =>
+  el("div", { className: "roster-cols" }, ...nodes);
+export const rosterSide = (...nodes) =>
+  el("div", { className: "roster-side" }, ...nodes);
+export const candidate = (...nodes) =>
+  el("div", { className: "candidate" }, ...nodes);

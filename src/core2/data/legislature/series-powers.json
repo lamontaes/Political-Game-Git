@@ -81,6 +81,26 @@
     "social-security-delayed-credit-age": {
       "levels": ["federal"],
       "source": "42 U.S.C. § 402(w)(2)(A); 42 U.S.C. § 1304 reserves alteration, amendment and repeal of Social Security provisions to Congress."
+    },
+    "federal-campaign-contribution-limit": {
+      "levels": ["federal"],
+      "source": "52 U.S.C. § 30116(a)(1)(A)"
+    },
+    "state-contribution-limit-governor": {
+      "levels": ["state"],
+      "source": "each state's campaign finance statute (NCSL, State Limits on Contributions to Candidates, 2025-2026)"
+    },
+    "state-contribution-limit-state-senate": {
+      "levels": ["state"],
+      "source": "each state's campaign finance statute (NCSL, State Limits on Contributions to Candidates, 2025-2026)"
+    },
+    "state-contribution-limit-state-house": {
+      "levels": ["state"],
+      "source": "each state's campaign finance statute (NCSL, State Limits on Contributions to Candidates, 2025-2026)"
+    },
+    "state-contribution-limit-local": {
+      "levels": ["state"],
+      "source": "each state's campaign finance statute (NCSL, State Limits on Contributions to Candidates, 2025-2026)"
     }
   },
   "questions": {
