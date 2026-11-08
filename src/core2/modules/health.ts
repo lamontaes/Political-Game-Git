@@ -918,6 +918,37 @@ function carryCountedIllness(
   index(row.deathsByDate, deathDate, personId);
 }
 
+/**
+ * Starts a serious illness for one person, the way the module does on any onset day: tomorrow the
+ * onset is heard, its remaining days come from the person's age and severity, and the death, the
+ * estate, the vacancy rule and the news follow on that day by the module's own loop. A person with
+ * no record is given one first. False where the person is gone or the module has no data yet.
+ */
+export function beginSeriousIllness(
+  api: CoreAPI,
+  personId: PersonId,
+  data: HealthData = DEFAULT_HEALTH_DATA,
+): boolean {
+  const row = runtime(api.state);
+  const person = api.state.people.get(personId);
+  if (!row.initialized || !person?.alive) return false;
+  giveHealthRecord(api, personId, data);
+  const found = row.cases.get(personId);
+  // An illness that has begun runs its course.
+  if (found?.onsetEventId) return true;
+  if (found) row.onsetsByDate.get(found.onsetDate)?.delete(personId);
+  const due = addDays(makeIsoDate(api.state.date), api.parameter("one"));
+  row.cases.set(personId, {
+    personId,
+    conditions: row.conditionsByPerson.get(personId) ?? [],
+    ...(found?.conditionKey ? { conditionKey: found.conditionKey } : {}),
+    severity: found?.severity ?? api.parameter("one"),
+    onsetDate: due,
+  });
+  index(row.onsetsByDate, due, personId);
+  return true;
+}
+
 function hearers(api: CoreAPI, person: Readonly<PersonState>, wide: boolean) {
   const out = new Set<PersonId>();
   const add = (id: PersonId) => {
