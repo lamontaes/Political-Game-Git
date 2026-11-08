@@ -13,7 +13,7 @@
  * Views come from a stand-in until OPUS-PEOPLE's views engine lands
  * (`campaign-views.ts`, SG-GOV-views-stand-in).
  */
-import { fastForward } from "../fast-forward";
+import { FAST_FORWARD_STRIDE, fastForward } from "../fast-forward";
 import { townOutsideOf } from "../opening-outside-market";
 import { candidateIdentity } from "../candidate-identity";
 import {
@@ -6329,8 +6329,6 @@ function campaignWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       races.remove(race.id);
       continue;
     }
-    // stopgapId: SG-SPEED-fast-forward-campaigns (a development switch: no turns, no doors)
-    if (fastForward()) continue;
     // A campaign works harder as election day nears: far out its people
     // turn to it now and then, in the last weeks every few days. While its
     // petitions circulate, the nearer day is the filing deadline.
@@ -6342,8 +6340,11 @@ function campaignWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         ? contest.filingDeadline
         : race.electionDate;
     const daysLeft = daysBetween(date, toward);
+    // stopgapId: SG-SPEED-fast-forward-campaigns (a development switch: a coarser calendar, turns less often)
     const every =
-      turnDays * (1 + daysLeft / campaignParameter("campaignRampDays"));
+      turnDays *
+      (fastForward() ? FAST_FORWARD_STRIDE : 1) *
+      (1 + daysLeft / campaignParameter("campaignRampDays"));
     if (race.lastTurn && daysBetween(race.lastTurn, date) < every) continue;
     races.put({ ...race, lastTurn: date } as unknown as ModuleRow);
     // The town's organizations weigh the race first, so the volunteers they
