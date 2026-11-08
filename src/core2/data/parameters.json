@@ -7955,5 +7955,38 @@
       "status": "unmeasured",
       "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
     }
+  },
+  "partnerDatingMonths": {
+    "value": 10,
+    "tag": "TUNABLE",
+    "citation": "Months a dating couple in the played town stay in separate homes before one moves in, at a typical couple's lean. Owner-unreviewed stopgap length (SG-LIVES-partner-stage-lengths), tuned so about half of first unions begin with living together, as NSFG reports for women's first unions (Copen, Daniels, Vespa and Mosher 2012, NHSR 49).",
+    "spread": {
+      "low": 4,
+      "high": 24,
+      "unit": "months",
+      "citation": "Checked against the chain's yearly union count in src/core2/partnerships.test.ts: the stage lengths move when a couple moves in and marries, never how many couples form (the chain's pace sets that)."
+    }
+  },
+  "partnerLivingTogetherMonths": {
+    "value": 20,
+    "tag": "TUNABLE",
+    "citation": "Months a couple living together wait before one asks the other to marry, at a typical couple's lean (SG-LIVES-partner-stage-lengths).",
+    "spread": {
+      "low": 8,
+      "high": 48,
+      "unit": "months",
+      "citation": "Checked against the chain's yearly union count in src/core2/partnerships.test.ts: the stage lengths move when a couple moves in and marries, never how many couples form (the chain's pace sets that)."
+    }
+  },
+  "partnerEngagedMonths": {
+    "value": 6,
+    "tag": "TUNABLE",
+    "citation": "Months between a proposal accepted and the wedding, at a typical couple's lean (SG-LIVES-partner-stage-lengths).",
+    "spread": {
+      "low": 3,
+      "high": 18,
+      "unit": "months",
+      "citation": "Checked against the chain's yearly union count in src/core2/partnerships.test.ts: the stage lengths move when a couple moves in and marries, never how many couples form (the chain's pace sets that)."
+    }
   }
 }
