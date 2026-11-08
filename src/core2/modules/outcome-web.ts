@@ -682,6 +682,8 @@ function schedule(api: CoreAPI): void {
 /** Record a law-took-effect event (the laws module's own rows win where it is open). */
 function recordLaw(api: CoreAPI, event: Readonly<CoreEventInput>): void {
   const facts = event.facts ?? {};
+  // Another state's act is a national event; the web reads the town's laws.
+  if (String(event.placeId).startsWith("national:")) return;
   if (!facts.series) return;
   store(api)
     .table("laws")
