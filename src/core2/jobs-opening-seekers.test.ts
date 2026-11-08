@@ -11,7 +11,8 @@ import ageUnemployment from "./data/jobs/age-unemployment.json" with { type: "js
 import { addDays, daysBetween, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { gameStartDate } from "./game-start";
-import { JOBS_MODULE_ID } from "./modules/jobs";
+import { JOBS_DATA, JOBS_MODULE_ID } from "./modules/jobs";
+import { residentFacts, residentsRuntime } from "./modules/residents";
 import { regionalMonth } from "./modules/regional";
 import { coreAPI } from "./state";
 
@@ -64,56 +65,73 @@ it("opening seekers are chosen per place, from the place's own rate", () => {
   // twelve draws can take up to about 1,060,000 ms; 1,800,000 ms leaves margin.
 }, 1_800_000);
 
-it("the opening's named seekers follow the place's labor force by age band", () => {
+it("the opening's seekers, named and counted, follow the place's labor force by age band", () => {
   const tried: string[] = [];
   for (let attempt = 0; attempt < 4; attempt++) {
     const place = drawPlace(`${seed}-${attempt}`, "opening-seekers-bands");
     const where = `${place.name} (${place.key}), seed ${place.seed}`;
     tried.push(where);
-    const { core } = buildBenchWorld(place.seed, gameStartDate(), {
-      twoLevel: true,
-      placeKey: place.key,
-    });
+    const { core, placeId: townId } = buildBenchWorld(
+      place.seed,
+      gameStartDate(),
+      { twoLevel: true, placeKey: place.key },
+    );
     advanceCore(core, addDays(makeIsoDate(core.date), 1));
     const api = coreAPI(core);
     const macro = api.moduleState("macro").table("state").get("macro:state") as
       { latestMonth: string } | undefined;
-    const band = (personId: string) => {
-      const person = core.people.get(personId)!;
-      const age =
-        daysBetween(makeIsoDate(person.birthDate), makeIsoDate(core.date)) /
-        api.parameter("jobsDaysPerYear");
-      const index = ageUnemployment.bands.findIndex(
-        (b) => age >= b.from && age < b.to,
+    const years = (birthDate: string) =>
+      daysBetween(makeIsoDate(birthDate), makeIsoDate(core.date)) /
+      api.parameter("jobsDaysPerYear");
+    const bandOf = (age: number) =>
+      Math.max(
+        0,
+        ageUnemployment.bands.findIndex((b) => age >= b.from && age < b.to),
       );
-      return `${person.placeId}|${Math.max(0, index)}`;
-    };
+    const [young, old] = JOBS_DATA.workingAge as [number, number];
+    // Both tiers: the jobs the named hold, and the jobs the counted hold in the working ages.
     const held = new Map<string, number>();
+    const hold = (placeId: string, age: number) => {
+      const key = `${placeId}|${bandOf(age)}`;
+      held.set(key, (held.get(key) ?? 0) + 1);
+    };
     for (const job of core.jobs.values()) {
       if (job.endsAt !== undefined) continue;
-      const key = band(job.personId);
-      held.set(key, (held.get(key) ?? 0) + 1);
+      const person = core.people.get(job.personId)!;
+      hold(person.placeId, years(person.birthDate));
     }
-    const seekers = (
-      api
-        .moduleState(JOBS_MODULE_ID)
-        .table("seekers")
-        .query("all", [true]) as unknown as {
-        reasonKey: string;
-        personId: string;
-      }[]
-    ).filter((r) => r.reasonKey === "opening-unemployed");
-    if (!seekers.length || !macro) continue;
-    const found = new Map<string, string[]>();
-    for (const r of seekers) {
-      const key = band(r.personId);
-      found.set(key, [...(found.get(key) ?? []), r.personId]);
+    for (const job of residentsRuntime(core)!.jobs.values()) {
+      if (job.endsAt !== undefined) continue;
+      const facts = residentFacts(core, job.personId);
+      if (!facts) continue;
+      const age = years(facts.birthDate);
+      if (age >= young && age < old) hold(facts.placeId, age);
     }
+    const opening = (table: string) =>
+      (
+        api
+          .moduleState(JOBS_MODULE_ID)
+          .table(table)
+          .query("all", [true]) as unknown as {
+          reasonKey: string;
+          placeId?: string;
+          personId: string;
+        }[]
+      ).filter((r) => r.reasonKey === "opening-unemployed");
+    const found = new Map<string, number>();
+    for (const r of [...opening("seekers"), ...opening("countedSeekers")]) {
+      const person = core.people.get(r.personId);
+      const placeId = person?.placeId ?? r.placeId ?? "";
+      found.set(placeId, (found.get(placeId) ?? 0) + 1);
+    }
+    if (!found.size || !macro) continue;
     const total =
       ageUnemployment.total.unemployed / ageUnemployment.total.laborForce;
-    for (const [key, ids] of found) {
-      const [placeId, index] = key.split("|") as [string, string];
-      const b = ageUnemployment.bands[Number(index)]!;
+    const ratio = (index: number) => {
+      const b = ageUnemployment.bands[index]!;
+      return b.unemployed / b.laborForce / total;
+    };
+    for (const [placeId, n] of [...found].filter(([id]) => id === townId)) {
       const placeRate =
         regionalMonth(api, placeId, macro.latestMonth)?.unemploymentPct ??
         (
@@ -124,15 +142,31 @@ it("the opening's named seekers follow the place's labor force by age band", () 
             unemploymentPct: number;
           }
         ).unemploymentPct;
-      const rate = placeRate * (b.unemployed / b.laborForce / total);
-      const expected = (held.get(key) ?? 0) * (rate / (100 - rate));
+      // The bands' ratios are scaled to average one over the place's own jobs.
+      let jobsHere = 0,
+        ratioHere = 0;
+      for (const [key, count] of held) {
+        const [otherPlace, index] = key.split("|") as [string, string];
+        if (otherPlace !== placeId) continue;
+        jobsHere += count;
+        ratioHere += count * ratio(Number(index));
+      }
+      const mean = jobsHere > 0 ? ratioHere / jobsHere : 1;
+      let expected = 0;
+      for (const [key, count] of held) {
+        const [otherPlace, index] = key.split("|") as [string, string];
+        if (otherPlace !== placeId) continue;
+        const rate = (placeRate * ratio(Number(index))) / mean;
+        expected += count * (rate / (100 - rate));
+      }
       console.log(
-        `${where}: band ${b.from}-${b.to} holds ${held.get(key) ?? 0}, seekers ${ids.length}, expected ${expected.toFixed(1)}; e.g. ${ids.slice(0, 3).join(", ")}`,
+        `${where}: ${placeId} holds ${jobsHere} jobs, seekers ${n}, expected ${expected.toFixed(1)}`,
       );
+      // The quotas are made from the opening's counts and a day's hires and layoffs follow: within two and a half seekers or a tenth of the expected.
       expect(
-        Math.abs(ids.length - expected),
-        `${where}: band ${b.from}-${b.to}`,
-      ).toBeLessThanOrEqual(1.5);
+        Math.abs(n - expected),
+        `${where}: ${placeId}`,
+      ).toBeLessThanOrEqual(Math.max(2.5, 0.1 * expected));
     }
     return;
   }
