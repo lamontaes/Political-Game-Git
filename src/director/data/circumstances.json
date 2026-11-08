@@ -318,6 +318,36 @@
       "everyParameter": "directorCircumstanceStreetEveryDays"
     },
     {
+      "id": "floor-debate-for",
+      "recordKinds": ["floor-debate"],
+      "lived": true,
+      "before": true,
+      "place": "seat",
+      "pool": ["fact:forId"],
+      "where": "pool",
+      "player": "same-body",
+      "cast": "the member who rises in session for the bill before the roll, when the player sits in the body",
+      "typeKey": "floor-debate",
+      "outcome": "scene.reply",
+      "impactParameter": "directorCircumstanceHallwayImpact",
+      "everyParameter": "directorCircumstanceHallwayEveryDays"
+    },
+    {
+      "id": "floor-debate-against",
+      "recordKinds": ["floor-debate"],
+      "lived": true,
+      "before": true,
+      "place": "seat",
+      "pool": ["fact:againstId"],
+      "where": "pool",
+      "player": "same-body",
+      "cast": "the member who rises in session against the bill before the roll, when the player sits in the body",
+      "typeKey": "floor-debate",
+      "outcome": "scene.reply",
+      "impactParameter": "directorCircumstanceHallwayImpact",
+      "everyParameter": "directorCircumstanceHallwayEveryDays"
+    },
+    {
       "id": "held-known-visit",
       "recordKinds": ["justice.held-before-trial"],
       "place": "venue",
