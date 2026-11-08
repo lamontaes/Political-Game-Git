@@ -12412,6 +12412,72 @@
       }
     },
     {
+      "key": "news.address-response.name-answered-opponents-address-and-objected-to-issue",
+      "move": "address-response",
+      "kind": "written",
+      "text": "{name} answered {opponent}'s address and objected to {issue}.",
+      "uses": [
+        {
+          "move": "address-response",
+          "subject": "news",
+          "role": "address-response",
+          "choice": "lede",
+          "requiresFacts": ["opponent", "issue"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.address-response.in-reply-to-opponents-address-name-said-the-state-should",
+      "move": "address-response",
+      "kind": "written",
+      "text": "In reply to {opponent}'s address, {name} said the state should not take up {issue}.",
+      "uses": [
+        {
+          "move": "address-response",
+          "subject": "news",
+          "role": "address-response",
+          "choice": "lede",
+          "requiresFacts": ["opponent", "issue"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.address-response.name-spoke-against-opponents-call-for-issue",
+      "move": "address-response",
+      "kind": "written",
+      "text": "{name} spoke against {opponent}'s call for {issue}.",
+      "uses": [
+        {
+          "move": "address-response",
+          "subject": "news",
+          "role": "address-response",
+          "choice": "lede",
+          "requiresFacts": ["opponent", "issue"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "news.floor-debate.name-spoke-for-designation-and-opponent-against-it-before-the",
       "move": "floor-debate",
       "kind": "written",
