@@ -20,6 +20,7 @@
  * electors for the presidency. Every count, here or there, is kept by one
  * writer (`keepCount`) and seated by the one term writer (`seatWinner`).
  */
+import { ageInYears } from "../kernel/dates";
 import senateClasses from "../../../data/research/offices/senate-classes-2026.json" with { type: "json" };
 import contingentData from "../data/elections/contingent-election.json" with { type: "json" };
 import electorsData from "../data/elections/electoral-votes.json" with { type: "json" };
@@ -424,9 +425,7 @@ function table(api: CoreAPI, name: string) {
   return api.moduleState(VOTING_MODULE_ID).table(name);
 }
 const ageOn = (p: Readonly<Pick<PersonState, "birthDate">>, date: string) =>
-  Number(date.slice(0, 4)) -
-  Number(p.birthDate.slice(0, 4)) -
-  (date.slice(5) < p.birthDate.slice(5) ? 1 : 0);
+  ageInYears(p.birthDate, date);
 
 /** Put every contest's election day and the winner's first day on the calendar. */
 export function openVoting(core: CoreState): void {
@@ -4148,6 +4147,8 @@ export interface RaceRow {
   readonly winnerParty: string;
   readonly seatedOn: string;
   readonly leanSource: string;
+  /** An office whose ballot carries no party labels. */
+  readonly nonpartisan?: boolean;
   /** The race's count, kept by the one count writer (`resultOf`). */
   readonly resultId: string;
 }
@@ -4275,6 +4276,8 @@ interface Race {
   readonly incumbentParty: string | null;
   readonly leanSource: string;
   readonly seatedOn: string;
+  /** The office's ballot carries no party labels: the count's side decides, the seated holder has no party. */
+  readonly nonpartisan?: boolean;
   readonly offices?: {
     readonly seatId: string;
     readonly officeId: string;
@@ -4979,7 +4982,9 @@ function racesIn(api: CoreAPI, year: number): readonly Race[] {
         continue;
       }
     }
-    // An office elected without party labels is not a partisan count.
+    // An office elected without party labels is counted by the places' lean,
+    // and its winner takes the seat with no party.
+    let nonpartisan = false;
     if (
       executive &&
       researchedHolderParty(office.jurisdiction, seat.id, "elected")?.party ===
@@ -4987,13 +4992,16 @@ function racesIn(api: CoreAPI, year: number): readonly Race[] {
     ) {
       // stopgapId: SG-GOV-outside-nonpartisan-race (another place's statewide office elected without party labels is not raced; its holder serves past the term's end)
       api.stopgap("SG-GOV-outside-nonpartisan-race");
-      continue;
+      nonpartisan = true;
     }
     if (executive) {
       // stopgapId: SG-GOV-outside-ticket-raced-alone (a statewide officer the law elects on the governor's ticket is raced on its own seat)
       api.stopgap("SG-GOV-outside-ticket-raced-alone");
     }
-    races.push(seatRace(api, seat, office, year));
+    races.push({
+      ...seatRace(api, seat, office, year),
+      ...(nonpartisan ? { nonpartisan: true } : {}),
+    });
   }
   if (races.length) {
     // stopgapId: SG-GOV-outside-seat-records-unfolded (each raced state seat's ended terms, race rows and counts are kept forever; nothing folds the ones play no longer reads)
@@ -5277,6 +5285,7 @@ function decide(
     seatedOn: race.seatedOn,
     leanSource: race.leanSource,
     resultId: result.id,
+    ...(race.nonpartisan ? { nonpartisan: true } : {}),
   };
   table(api, "races").put({
     ...row,
@@ -5329,7 +5338,24 @@ function seatRaceWinner(api: CoreAPI, raceId: string): void {
   const serving = offices
     .table("terms")
     .query("bySeatStatus", [race.seatId, "serving"]) as unknown as TermRow[];
-  const reelected = serving[0] && serving[0].party === race.winnerParty;
+  // A nonpartisan seat's holder has no party to compare: the one the places'
+  // lean carried last time is re-elected when the lean carries the same side.
+  const lastRace = race.nonpartisan
+    ? (table(api, "races").rows() as unknown as RaceRow[])
+        .filter(
+          (row) =>
+            row.seatId === race.seatId &&
+            row.id !== raceId &&
+            row.date < race.date,
+        )
+        .sort((a, b) => a.date.localeCompare(b.date))
+        .at(-1)
+    : undefined;
+  const reelected =
+    serving[0] &&
+    (race.nonpartisan
+      ? lastRace?.winnerParty === race.winnerParty
+      : serving[0].party === race.winnerParty);
   const loaded = offices.table("loaded").get("town") as unknown as {
     worldSeed: string;
   };
@@ -5368,7 +5394,7 @@ function seatRaceWinner(api: CoreAPI, raceId: string): void {
     officeId: race.offices.officeId,
     personId,
     identity,
-    party: race.winnerParty,
+    party: race.nonpartisan ? null : race.winnerParty,
     // A special election's winner serves what was left of the term.
     endDate: race.special
       ? race.special.termEnd
