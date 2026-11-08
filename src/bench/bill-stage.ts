@@ -16,6 +16,7 @@ import {
   bodyRow,
   reachesTown,
   castMemberVote,
+  estimateOfProvisions,
   executiveLean,
   moveAmendment,
   reviseBill,
@@ -507,6 +508,12 @@ export function staffRedraft(
     struck: text(bill.provisions),
     inserted: text(bill.provisions.map((p, i) => (i === index ? inserted : p))),
     value,
+    // The estimate as drafted and as staff's version would read: the note recalculates.
+    estimateBefore: bill.costEstimate,
+    estimateAfter: estimateOfProvisions(
+      api,
+      bill.provisions.map((p, i) => (i === index ? inserted : p)),
+    ),
   };
 }
 

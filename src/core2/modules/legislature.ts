@@ -6075,6 +6075,14 @@ export interface AmendmentRow {
   }[];
 }
 
+/** The estimate of a bill's provisions as they would read (the clerk's or budget office's note), for a screen that previews a change. */
+export function estimateOfProvisions(
+  api: CoreAPI,
+  provisions: readonly Provision[],
+): BillRow["costEstimate"] {
+  return costOf(api, provisions);
+}
+
 /** Move an amendment that replaces one section of a drafted bill. */
 export function moveAmendment(
   api: CoreAPI,

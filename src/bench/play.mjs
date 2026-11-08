@@ -2447,7 +2447,17 @@ async function openBillPaper(billId, show, back, backLabel) {
           );
           await openBillPaper(billId, show, back, backLabel);
         },
-        estimate: () => "",
+        estimate: (redraft) =>
+          [
+            redraft.estimateAfter.workersRaised > 0
+              ? `${redraft.estimateAfter.workersRaised} ${controls.bill?.workers ?? ""}`
+              : null,
+            redraft.estimateAfter.annualPayMinor > 0
+              ? moneyWords(redraft.estimateAfter.annualPayMinor)
+              : null,
+          ]
+            .filter(Boolean)
+            .join(" · "),
       },
       {
         onVote: async (how) => {
