@@ -3,6 +3,7 @@ import {
   budgetPriorities,
   budgetsOf,
   governments,
+  lineBeforeBill,
   setBudgetPriorities,
   withholdingOf,
 } from "../core2/modules/budgets";
@@ -70,9 +71,17 @@ export function booksOf(core: CoreState, organizationId: string) {
  * screen reads (revenue, spending and the balance between them), so no screen
  * adds the lines up itself.
  */
-function totaled(budget: ReturnType<typeof budgetsOf>[number]) {
+function totaled(
+  budget: ReturnType<typeof budgetsOf>[number],
+  askedMinor?: (line: string) => number,
+) {
   const revenue = sorted(budget.revenueMinor);
-  const spending = sorted(budget.spendingMinor);
+  // What each line stood at before this year's budget bill changed it: what the departments
+  // asked for, beside what was adopted.
+  const spending = sorted(budget.spendingMinor).map((row) => ({
+    ...row,
+    ...(askedMinor ? { askedMinor: askedMinor(row.line) } : {}),
+  }));
   const sum = (lines: readonly { minor: number }[]) =>
     lines.reduce((total, row) => total + row.minor, 0);
   return {
@@ -149,7 +158,11 @@ export function budgetView(core: CoreState, personId: string) {
         youAreExecutive: [...executive].some((j) => gov.id.includes(j)),
         priorities: budgetPriorities(api, gov.id),
         books: booksOf(core, gov.organizationId),
-        latest: latest && totaled(latest),
+        latest:
+          latest &&
+          totaled(latest, (line) =>
+            lineBeforeBill(api, gov, latest.fiscalYear, line),
+          ),
         prior: prior && totaled(prior),
       };
     }),

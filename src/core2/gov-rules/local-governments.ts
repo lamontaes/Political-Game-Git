@@ -5,9 +5,9 @@
  * county government is said to have none. Ported from the old engine's
  * `nationwide-world/local-governments.ts`; the world writers stay behind.
  */
+import { placeCountyGeoids } from "../place-map";
 import {
   consolidatedMunicipalityForCounty,
-  countyGeoidsForPlace,
   countyGovernmentUnit,
   countyGovernmentUnitsForPlace,
   governmentUnitJurisdictionId,
@@ -157,7 +157,7 @@ export function placeLocalGovernmentUnits(
     // A place with no government of its own inside a consolidated city-county
     // answers to that government.
     const consolidated = place.sourceGeoid
-      ? countyGeoidsForPlace(place.sourceGeoid)
+      ? placeCountyGeoids(place.sourceGeoid)
           .map((geoid) => consolidatedMunicipalityForCounty(geoid))
           .find((unit) => unit !== null)
       : null;

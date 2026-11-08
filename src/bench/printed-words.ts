@@ -48,6 +48,7 @@ import {
 import type { StoryKind } from "../english/english-newscast";
 import { joinList } from "../english/bill-names";
 import { storyTopicName } from "../english/policy-names";
+import { causeGroupName } from "../english/group-names";
 import { areaName } from "../english/area-names";
 import { lineName } from "./budget";
 import { policyNames } from "./words";
@@ -254,7 +255,13 @@ export function printedFacts(
     story,
     sourceId,
     kind,
-    source?.personIds ?? [],
+    // A household event the log doesn't keep (a home bought in a place the
+    // player can't see) still names its household as the story's topic: its
+    // members are who the story is about.
+    source?.personIds ??
+      (story.topic ? core.households.get(story.topic as EntityId) : undefined)
+        ?.memberIds ??
+      [],
     happened,
   );
   const built = BUILDERS[kind]?.(read, facts) ?? null;
@@ -498,10 +505,18 @@ class Reader {
     ) as unknown as { title?: string } | undefined;
     return contest?.title ?? null;
   }
-  /** An organization's name; null where its record keeps none but its key. */
+  /**
+   * An organization's name; a founded cause group, which keeps only its key,
+   * is named by the English engine from its topic. Null where there is neither.
+   */
   organization(id: string | undefined): string | null {
-    const name = id ? this.core.organizations.get(id as EntityId)?.name : null;
-    return name && !/[:_]/.test(name) ? name : null;
+    const org = id ? this.core.organizations.get(id as EntityId) : undefined;
+    if (!org) return null;
+    if (/[:_]/.test(org.name))
+      return org.kind === "cause-group" && org.topic
+        ? causeGroupName(org.id, org.topic)
+        : null;
+    return org.name || null;
   }
   /** An outlet's name, from its organization. */
   outlet(id: string | undefined): string | null {

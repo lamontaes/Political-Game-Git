@@ -185,17 +185,6 @@
       "citation": "CPS labor force flows, 1990-2019."
     }
   },
-  "jobsEntryRateFeedback": {
-    "value": 0.05,
-    "tag": "TUNABLE",
-    "citation": "How strongly a place's own unemployment against its region's moves the pull to start looking, per percentage point: below the region's rate more start looking, above it fewer, so each place drifts toward its region's rate (BLS LAUS). Checked on four drawn places over 24 months against their states' rates.",
-    "spread": {
-      "low": 0.05,
-      "high": 0.8,
-      "unit": "score per point",
-      "citation": "From a pull too weak to move a 100-worker town in a year to one that swings a 700-worker town by several points a month (the 24-month runs of Nov 8, 2026)."
-    }
-  },
   "jobsEarliestRetirementAge": {
     "value": 62,
     "tag": "SOURCED",
