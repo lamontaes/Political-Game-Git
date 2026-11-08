@@ -194,6 +194,11 @@
     "refused": "Refused",
     "noBill": "Introduce a bill first."
   },
+  "devRecords": {
+    "title": "Records",
+    "person": "Person",
+    "trace": "Trace"
+  },
   "devScene": {
     "title": "Scenes",
     "type": "Situation",
