@@ -38,10 +38,8 @@ describe(`a state of emergency the player decides (seed ${seed})`, () => {
       const governor = townSeats(api).find(
         (s) => s.office.kind === "governor",
       )?.holder;
-      // A real FEMA disaster of this state with aid on the record (the game's own `townDisasters`).
-      const disaster = townDisasters(api).find(
-        (row) => federalAidFor(api, row.number) > 0,
-      );
+      // A real FEMA disaster of the town's county (the game's own `townDisasters`); the declaration needs the disaster, not aid.
+      const disaster = townDisasters(api)[0];
       if (!governor || !disaster || !emergencyPower(api)) {
         tried.push(
           `${where}: governor ${!!governor} disasters ${townDisasters(api).length} withAid ${townDisasters(api).filter((r) => federalAidFor(api, r.number) > 0).length} power ${!!emergencyPower(api)}`,
