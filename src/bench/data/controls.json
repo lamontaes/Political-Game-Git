@@ -890,5 +890,13 @@
     "reaches": "Reaches your town",
     "yourMembers": "Your members",
     "empty": "No bill is before your state or Congress yet."
+  },
+  "frontTitles": {
+    "front-new": "New game",
+    "front-advanced": "Advanced",
+    "front-pick": "Play as",
+    "cr-character": "Start a life",
+    "cr-place": "Where you're from",
+    "cr-look": "How you look"
   }
 }

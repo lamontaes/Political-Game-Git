@@ -40,7 +40,7 @@ try {
   await page.locator("#cr-towns button").first().waitFor();
   let seen = await stage();
   assert.deepEqual(seen, { panel: "cr-place", states: false, towns: true });
-  await page.locator("#cr-place-back").click();
+  await page.locator("#front-close").click();
   await page.locator("#cr-state-pick:not([hidden])").waitFor();
   seen = await stage();
   console.log(
@@ -55,7 +55,7 @@ try {
     await page.screenshot({
       path: `${process.env.SHOT_DIR}/05-back-to-the-states.png`,
     });
-  await page.locator("#cr-place-back").click();
+  await page.locator("#front-close").click();
   await page.locator("#cr-character:not([hidden])").waitFor();
   seen = await stage();
   assert.equal(seen.panel, "cr-character", "Back from the states");
