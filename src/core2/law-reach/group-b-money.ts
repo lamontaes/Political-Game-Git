@@ -26,7 +26,8 @@ import {
   type BudgetRow,
   type GovernmentRow,
 } from "../modules/budgets";
-import { enactLaw, lawChain, lawInForce } from "../modules/laws";
+import { enactLaw, lawChain, lawInForce, lawRows } from "../modules/laws";
+import { lawRowIsLater } from "../laws-in-force";
 import {
   countedJob,
   residentsRuntime,
@@ -1513,6 +1514,7 @@ export function holdReserve(
 }
 
 interface TaxRow {
+  readonly policyLawId?: string;
   readonly id: string;
   readonly key: string;
   readonly level: string;
@@ -1632,6 +1634,7 @@ export function incomeTaxAct(
       }
       const row: TaxRow = {
         id,
+        policyLawId: input.lawId,
         key: input.key,
         level: input.level,
         lawRowId: replacement.id,
@@ -1653,9 +1656,56 @@ export function incomeTaxAct(
         prior.prior?.terms ?? undefined,
         "repeal",
       );
-    const row = { ...prior, undone: true };
+    const row = { ...prior, policyLawId: input.lawId, undone: true };
     putRow(api, "taken", row);
     return row;
+  }
+  // A fresh adoption can restore a tax separately set to zero by an amount
+  // bill. Read this level's actual enacted history, never another level's
+  // default schedule. A standing review of the same policy cannot undo a
+  // later rate bill.
+  if (
+    !input.graduated &&
+    !hasTax &&
+    prior?.policyLawId !== input.lawId &&
+    (!prior || prior.undone || (!prior.flattened && !prior.removed))
+  ) {
+    let basis: LawRowInput | undefined;
+    for (const row of lawRows(api, "income-tax", at.jurisdiction)) {
+      if (
+        row.level !== at.level ||
+        row.tier !== "general" ||
+        row.effectiveDate > api.state.date ||
+        !(Number(row.value) > 0)
+      )
+        continue;
+      if (!basis || lawRowIsLater(row, basis)) basis = row;
+    }
+    if (basis) {
+      const restored = enact(
+        basis.value!,
+        basis.unit ?? "percent",
+        basis.terms as Record<string, unknown> | undefined,
+        "adopt",
+      );
+      const row: TaxRow = {
+        id,
+        key: input.key,
+        level: input.level,
+        policyLawId: input.lawId,
+        lawRowId: restored.id,
+        undone: false,
+        prior: current
+          ? {
+              value: current.value,
+              unit: current.unit ?? null,
+              terms: (current.terms as Record<string, unknown>) ?? null,
+            }
+          : null,
+      };
+      putRow(api, "taken", row);
+      return row;
+    }
   }
   if (prior?.flattened || prior?.removed) {
     // Restore once, only while the replacement is still our own law row.
@@ -1667,7 +1717,7 @@ export function incomeTaxAct(
         prior.prior?.terms ?? undefined,
         "restore",
       );
-    const row = { ...prior, undone: true };
+    const row = { ...prior, policyLawId: input.lawId, undone: true };
     putRow(api, "taken", row);
     return row;
   }
@@ -1696,6 +1746,7 @@ export function incomeTaxAct(
   }
   const row: TaxRow = {
     id,
+    policyLawId: input.lawId,
     key: input.key,
     level: input.level,
     lawRowId: written?.id ?? null,
