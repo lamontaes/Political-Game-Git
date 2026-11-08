@@ -164,6 +164,27 @@
     "later": "Later years",
     "seat": "Seat held"
   },
+  "devRun": {
+    "title": "Run until",
+    "days": "Days",
+    "cap": "Cap",
+    "event": "Event",
+    "noEvent": "No event",
+    "run": "Run",
+    "events": {
+      "bill-passes": "A bill passes",
+      "bill-fails": "A bill fails",
+      "election": "An election is held",
+      "death": "A person dies",
+      "scene": "A scene fires",
+      "law-takes-effect": "A law takes effect"
+    },
+    "reasons": {
+      "days": "Days passed",
+      "event": "Event happened",
+      "cap": "Cap reached"
+    }
+  },
   "options": {
     "version": "Version",
     "fullScreen": "Full screen",
@@ -689,8 +710,8 @@
     "fiscalYear": "Fiscal year"
   },
   "saves": {
-    "none": "No life is saved yet. Start a new life and it will be kept here.",
-    "later": "Your life is kept as you play. More saved lives, and saving to a slot of your own, arrive with early access."
+    "none": "No life is saved yet.",
+    "load": "Load"
   },
   "campaignActs": {
     "volunteer": "Volunteers",

@@ -5260,3 +5260,19 @@ select.release-pick {
   letter-spacing: 0;
   text-transform: none;
 }
+
+/* Saved games (Nov 8 front mock, fr-saves): a strip per life, centered. */
+.saves-row .sec {
+  max-width: 340px;
+}
+.saves-row .secbody {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.saves-row .save-date {
+  margin: 0;
+  font: 500 16px var(--f-ui);
+  color: #f2e6c9;
+}
