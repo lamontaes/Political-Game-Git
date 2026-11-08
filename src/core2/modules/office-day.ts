@@ -47,6 +47,7 @@ import {
   billOf,
   bodyReach,
   castMemberVote,
+  castOwnPositionVote,
   chambersOf,
   executiveDecision,
   floorDateOf,
@@ -55,7 +56,6 @@ import {
   holdVote,
   LEGISLATURE_MODULE_ID,
   memberKey,
-  memberPosition,
   members,
   registerLegislatureHooks,
   registerMeetingAgendaReader,
@@ -658,9 +658,7 @@ function ownVote(api: CoreAPI, billId: string): void {
       (level === "federal" && stops["floor-vote"]))
   )
     return;
-  const position = memberPosition(api, billId, player).total;
-  const vote = position > 0 ? "yes" : position < 0 ? "no" : "abstain";
-  castMemberVote(api, billId, player, vote);
+  const { position, vote } = castOwnPositionVote(api, billId, player);
   keepAct(api, {
     personId: player,
     kind: "vote",
@@ -1159,3 +1157,8 @@ export {
 export { appointGovernor, doEntry, waitingEntries } from "../office-day-state";
 export { budgetProposalDue } from "../office-day-acts";
 export { jointAddress } from "../office-day-federal-calendar";
+export {
+  leavePostOpen,
+  nominate,
+  nominationsOpen,
+} from "../office-day-federal-president";

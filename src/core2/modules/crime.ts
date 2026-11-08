@@ -22,6 +22,7 @@
  * No offender, police or court is modeled here: see the stopgaps
  * SG-CORE-crime-offenders and SG-CORE-crime-arrests.
  */
+import { ageInYears } from "../kernel/dates";
 import data from "../data/crime/victimization.json" with { type: "json" };
 import { registerModule } from "../state";
 import { residentsRuntime, incomeBandOf } from "./residents";
@@ -95,10 +96,7 @@ const table = (api: CoreAPI, name: string) =>
   api.moduleState(CRIME_MODULE_ID).table(name);
 const core = (api: CoreAPI) => api.state as CoreState;
 
-const ageOn = (birthDate: string, date: string) =>
-  Number(date.slice(0, 4)) -
-  Number(birthDate.slice(0, 4)) -
-  (date.slice(5) < birthDate.slice(5) ? 1 : 0);
+const ageOn = (birthDate: string, date: string) => ageInYears(birthDate, date);
 
 const HOUSEHOLD = data.householdExposure;
 const PERSON = data.personExposure;
