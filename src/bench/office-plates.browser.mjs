@@ -112,17 +112,18 @@ try {
     assert.equal(await scrolls(), false, "the drafts tab scrolls");
     if (SHOTS) await page.screenshot({ path: `${SHOTS}/drafts.png` });
   } else console.log("no body to draft in for this seat");
-  // The budget lines, when the player sends a budget (an executive's seat).
-  const budget = page.locator('.office-tabs [data-office="budget"]');
+  // The budget lines, when the player sends a budget (an executive's seat): a section of the board with a choice per line.
+  const budget = page
+    .locator(".office-board section", { hasText: "Budget lines to send" })
+    .first();
   if (await budget.count()) {
-    await budget.click();
     assert.ok(
-      await page.locator(".office-body .plate select").count(),
-      "the budget lines sit on a plate",
+      await budget.locator("select").count(),
+      "the budget lines sit on the board with a choice each",
     );
-    assert.equal(await scrolls(), false, "the budget tab scrolls");
+    assert.equal(await scrolls(), false, "the budget section scrolls");
     if (SHOTS) await page.screenshot({ path: `${SHOTS}/budget.png` });
-  }
+  } else console.log("no budget to send for this seat today");
   assert.deepEqual(errors, [], "page errors");
   console.log("ok: Your office is one board and never scrolls");
 } finally {
