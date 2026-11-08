@@ -5,6 +5,14 @@ st=json.load(open(R+'src/director/data/situation-types.json'))['types']
 talk=json.load(open(R+'data/english/parts/scene-talk.json'))['parts']
 words=json.load(open(R+'data/english/parts/scene-words.json'))['parts']
 arcs=json.load(open(R+'src/director/data/purpose-arcs.json'))['purposes']
+# A kind the director stages from its own producer, not from a moment's cause: the producer's data
+# file names it (polling-place.json, staged on the eve of an election by stagePollingVisits).
+staged={}
+for f in os.listdir(R+'src/director/data'):
+    if f.endswith('.json'):
+        try: d=json.load(open(R+'src/director/data/'+f))
+        except ValueError: continue
+        if isinstance(d,dict) and isinstance(d.get('situationKey'),str): staged[d['situationKey']]=f[:-5]
 tp=collections.Counter()
 for p in talk:
     seen=set()
@@ -23,8 +31,9 @@ rows=[]
 for t in st:
     cs=t.get('causes') or []
     trig='; '.join(cause(c) for c in cs) if cs else 'NO CAUSE'
-    if t.get('awaiting'): trig+=' | awaiting '+', '.join(t['awaiting'])
-    dead = (not cs) or all(c.get('awaitingProducer') for c in cs)
+    if t['key'] in staged: trig='director producer: '+staged[t['key']]+'.ts stages it on the eve of the election'
+    elif t.get('awaiting'): trig+=' | awaiting '+', '.join(t['awaiting'])
+    dead = t['key'] not in staged and ((not cs) or all(c.get('awaitingProducer') for c in cs))
     purpose=t.get('purpose','')
     n=(tp[purpose] if purpose else 0)+lead[t['key']]
     rows.append((t['key'],purpose or '-',trig,', '.join(t.get('setting',[])),t.get('timing',''),', '.join(r['key'] for r in t['roles']),n,'dead' if dead else ''))

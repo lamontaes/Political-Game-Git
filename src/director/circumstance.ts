@@ -381,6 +381,31 @@ function poolOf(
       named: record.personIds.includes(id),
     }));
   }
+  if (source === "known-officeholders") {
+    // stopgapId: SG-WORDS-mentor-is-officeholder
+    // The people the first person the record names knows who have held a seat
+    // for a year or more (the officeholder the party's ask sends them to for
+    // advice). Nobody on the offices engine's rows, and no one is cast.
+    const first = core.people.get(record.personIds[zero] ?? ("" as PersonId));
+    if (!first || !core.modules.has(OFFICES_MODULE_ID)) return [];
+    const terms = coreAPI(core as CoreState)
+      .moduleState(OFFICES_MODULE_ID)
+      .table("terms");
+    const heldSince = addDays(
+      makeIsoDate(record.dueOn ?? core.date),
+      -Math.round(P.daysPerMeanYear),
+    );
+    return [...first.knownIds]
+      .sort()
+      .filter((id) =>
+        (terms.query("byPerson", [id]) as unknown as TermRow[]).some(
+          (term) =>
+            term.status === "serving" &&
+            (term.serviceStart ?? term.startDate) <= heldSince,
+        ),
+      )
+      .map((id) => ({ id, named: false }));
+  }
   if (source === "classmates")
     // The others at the player's school that year.
     return classmatesOf(core, playerId).map((id) => ({ id, named: false }));

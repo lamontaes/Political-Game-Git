@@ -563,5 +563,53 @@
     "addedAt": "2026-11-08",
     "replacement": "The interest-group engine reads the member's vote against its meeting and the kept tie when it decides endorsements and gifts; the scene then cites that decision.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORDS-mentor-is-officeholder",
+    "kind": "missing-data",
+    "file": "src/director/circumstance.ts",
+    "line": 1,
+    "whatItFakes": "The adviser in the advice scene (the day after a party's chair asks the player to run) is any officeholder the player knows who has held a seat for a year or more. The world records no mentorship between two people, so the one who weighs in is chosen by what they hold and how close the player is to them, not by a tie that says they mentored the player.",
+    "why": "The mentorship relationship is not an engine's record yet (nothing writes relationship:mentorship in a played year); the party's ask is the real cause and the known officeholders are real people the records name.",
+    "addedBy": "Story session",
+    "addedAt": "2026-11-08",
+    "replacement": "A relationship engine row for a mentor, written when an officeholder takes an interest in a newcomer; the circumstance reads it instead of the seat held.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-debate-offence",
+    "kind": "missing-data",
+    "file": "src/director/data/circumstances.json",
+    "line": 1,
+    "whatItFakes": "The apology owed after a floor debate is put by the member who argued the other side of the bill with the player, whatever was said. No record keeps how sharp either speech was or whether it named the other member, so every debate between two members leaves one of them owed a word, and the scene's lines (a council clash) fit the sharp ones best.",
+    "why": "The legislature records who rose for and against, not the speeches; the speech engine does not word floor speeches yet.",
+    "addedBy": "Story session",
+    "addedAt": "2026-11-08",
+    "replacement": "The floor debate keeps each speaker's speech with its tone and whom it named; the circumstance fires only where one named the other.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-bribe-accuser-anyone-close",
+    "kind": "missing-data",
+    "file": "src/director/data/circumstances.json",
+    "line": 1,
+    "whatItFakes": "The accusation after the press carries a taken bribe is put by the person with the highest tie and sociability among the official's family, household and acquaintances. The press records who reads a story, but not who among the official's circle did, nor what each of them has at stake, so the one who asks is the closest, not the one with a reason.",
+    "why": "The corruption engine records the report (scandal.reported) and the news engine records readers per story, but the two are not joined to the official's circle.",
+    "addedBy": "Story session",
+    "addedAt": "2026-11-08",
+    "replacement": "The circumstance casts from the news.read records of the story the report became, then by stake.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-return-generic-talk",
+    "kind": "missing-data",
+    "file": "src/director/data/situation-types.json",
+    "line": 1,
+    "whatItFakes": "The return (a person released from prison comes home to kin) plays with the conversation engine's arrival talk and four narration lines; it has no purpose arc of its own, so what the person says about the time away, and what the household says back, is the generic arrival talk.",
+    "why": "Nothing in the world keeps how long a person was away beyond the sentence's custody months, or what they come back to (job, home, the household's money); the arc needs those facts to be said.",
+    "addedBy": "Story session",
+    "addedAt": "2026-11-08",
+    "replacement": "A return purpose arc with pieces that read the custody months and the household's records, authored with civic-prose.",
+    "status": "open"
   }
 ]
