@@ -385,18 +385,6 @@ select:focus-visible {
   min-width: 120px;
   font-weight: 500;
 }
-.action.primary.active::before,
-.action.primary[aria-pressed="true"]::before,
-.action.primary:active:not(:disabled)::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 22px;
-  height: 22px;
-  background: url("/ui/kit13/primary-corner.svg") no-repeat 0 0 / 100% 100%;
-  pointer-events: none;
-}
 .acts {
   display: flex;
   flex-wrap: wrap;
@@ -901,17 +889,7 @@ input[type="range"]::-moz-range-thumb {
   white-space: nowrap;
   padding: 6px 6px;
 }
-/* A picked button keeps its box: the brass corner shows, nothing resizes. */
-.action[aria-pressed="true"]::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 22px;
-  height: 22px;
-  background: url("/ui/kit13/primary-corner.svg") no-repeat 0 0 / 100% 100%;
-  pointer-events: none;
-}
+/* A picked button is a lit brass fill: no corner mark on any control (owner, Nov 5). */
 .action[aria-pressed="true"] {
   border-color: var(--gold);
 }
