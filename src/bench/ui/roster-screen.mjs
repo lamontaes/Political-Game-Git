@@ -1,9 +1,8 @@
-/* global window */
 // The roster screen: a titled list at the left, grouped under small headings, and the chosen
 // entry's page at the right (the People, Guide and Elections look of the Nov 8 play mocks).
 // A screen hands it the groups and a `render(entry)` that returns the page's nodes; the
 // list pages inside its box, never a scroll.
-import { el } from "./dom.mjs";
+import { el, viewHeight } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
 import { pager } from "./pager.mjs";
 
@@ -58,10 +57,7 @@ export function rosterScreen({
     pager({
       items,
       render: rowOf,
-      rows: Math.max(
-        6,
-        Math.min(14, Math.floor((window.innerHeight - 330) / 36)),
-      ),
+      rows: Math.max(6, Math.min(14, Math.floor((viewHeight() - 330) / 36))),
       columns: 1,
       rowHeight: 34,
       gap: 2,

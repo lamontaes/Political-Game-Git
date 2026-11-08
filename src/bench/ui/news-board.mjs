@@ -88,7 +88,10 @@ export function newsBoard({ outlets, labels, date, headlineOf }) {
       el(
         "header",
         { className: "news-masthead" },
-        el("h2", { textContent: outlet.name ?? labels.title }),
+        // A paper with no name of its own (or the sheet's own) would repeat the title.
+        ...(outlet.name && outlet.name !== labels.title
+          ? [el("h2", { textContent: outlet.name })]
+          : []),
         el("span", {
           textContent: dateWords(date, { weekday: true }),
         }),
