@@ -40,6 +40,7 @@ import {
   bodyRow,
   castMemberVote,
   chambersOf,
+  signDischarge,
   committeeMemberKeys,
   committeeRecords,
   draftBill,
@@ -59,6 +60,7 @@ import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { metricsPanel } from "../core2/modules/world-panels";
 import { nationalPanel } from "../core2/modules/macro";
 import { residentsRuntime } from "../core2/modules/residents";
+import { layOffWorker } from "../core2/modules/jobs";
 import {
   beginSeriousIllness,
   HEALTH_MODULE,
@@ -389,6 +391,8 @@ export class DevMode {
     return {
       date,
       levels: chain.levels,
+      /** The series that are a yes or no the law answers, which a bill answers with 1 or 0. */
+      questions: Object.keys(POLICY_QUESTIONS),
       series: lawSeriesCatalog(api).map((series) => {
         const answer = LAW_SERIES[series]
           ? lawInForce(api, series, date)
@@ -751,7 +755,12 @@ export class DevMode {
   decideAt(
     billId: string,
     margin: number,
-    options: { sign?: boolean; overrideMargin?: number } = {},
+    options: {
+      sign?: boolean;
+      overrideMargin?: number;
+      /** Every member signs a discharge petition for the bill before the committee meets. */
+      discharge?: boolean;
+    } = {},
   ) {
     const api = this.api;
     const table = api.moduleState(LEGISLATURE_MODULE_ID).table("bills");
@@ -801,6 +810,10 @@ export class DevMode {
       executive.term !== undefined &&
       (executive.office?.kind !== "mayor" || mayorVeto(api).veto);
     for (const chamber of chambers) tallies.push(vote(chamber, margin, false));
+    if (options.discharge)
+      for (const chamber of chambers)
+        for (const term of members(api, chamber))
+          signDischarge(api, billId, memberKey(term), true);
     if (veto && options.overrideMargin !== undefined)
       for (const chamber of chambers)
         vote(chamber, options.overrideMargin, true);
@@ -818,6 +831,7 @@ export class DevMode {
       chair: c.chairId,
       chairPosition: c.chairReasons.position.total,
       chairTrait: c.chairReasons.hearingTrait,
+      discharge: c.discharge ?? null,
     }));
     return {
       mark: this.mark("decide", [billId], {
@@ -851,6 +865,29 @@ export class DevMode {
         "No illness: the person is gone or has no health record.",
       );
     return { mark: this.mark("illness", [personId], { personId }) };
+  }
+
+  /**
+   * A named person's job ends through their employer's own layoff (the jobs engine's separation): the
+   * record of why, the work.job-lost event, the state claim and the news follow as for any layoff. A
+   * worker who played today's day is let go the next day, which this says.
+   */
+  forceLayoff(personId: string) {
+    const person = personOrFillIn(this.core, personId);
+    if (!person) throw new Error("No such person.");
+    const jobId = person.jobId;
+    if (!jobId) throw new Error("They have no job to lose.");
+    const out = layOffWorker(this.api, jobId);
+    if (out === null)
+      throw new Error("Their job is not on a business's staff.");
+    if (out === "worked-today")
+      throw new Error("They worked today: lay them off tomorrow.");
+    if (out === "over")
+      throw new Error("The job stands for more than one: a counted worker.");
+    return {
+      mark: this.mark("layoff", [personId], { personId, jobId }),
+      layoff: out,
+    };
   }
 
   /**
@@ -905,6 +942,37 @@ export class DevMode {
     };
   }
 
+  /**
+   * The small-dollar lender's loans as the credit engine wrote them: what was asked, what was lent,
+   * and the outcome web's factor with the month and links it read where the lender quoted (a cap in
+   * force past its lag shows as a factor below one). Reads only.
+   */
+  smallDollarLoans() {
+    if (!has(this.core, "credit")) return [];
+    return (
+      this.api.moduleState("credit").table("loans").rows() as unknown as {
+        id: string;
+        kind: string;
+        askedMinor?: number;
+        principalMinor?: number;
+        annualRate?: number;
+        webFactor?: number;
+        webLinks?: string[];
+        webRecordId?: string;
+      }[]
+    )
+      .filter((loan) => loan.kind === "small-dollar")
+      .map((loan) => ({
+        id: loan.id,
+        askedMinor: loan.askedMinor ?? null,
+        principalMinor: loan.principalMinor ?? null,
+        annualRate: loan.annualRate ?? null,
+        webFactor: loan.webFactor ?? null,
+        webLinks: loan.webLinks ?? [],
+        webRecordId: loan.webRecordId ?? null,
+      }));
+  }
+
   /** The wealthiest living people in the world: who might want a favor enough to pay for it. */
   wealthiest(count = 12) {
     return [...this.core.people.values()]
@@ -929,6 +997,8 @@ export class DevMode {
     officialId: string;
     subjectId: string;
     stakeMinor: number;
+    /** "takes" or "refuses" picks the official's answer (the offer is made); left out, the engine decides. */
+    answer?: "takes" | "refuses";
   }) {
     if (!has(this.core, CORRUPTION_MODULE_ID))
       throw new Error("This world has no corruption module.");
@@ -939,6 +1009,9 @@ export class DevMode {
       officialId: input.officialId,
       stakeMinor: input.stakeMinor,
       subjectId: input.subjectId,
+      ...(input.answer
+        ? { pick: { offer: true, take: input.answer === "takes" } }
+        : {}),
     });
     if (!record)
       throw new Error("No bribe: the offerer has no money or someone is gone.");

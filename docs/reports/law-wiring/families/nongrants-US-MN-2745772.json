@@ -1,0 +1,3725 @@
+{
+  "seed": "7a3c19e2d4b6f805",
+  "place": {
+    "seed": "9268ffe9da331539be44c8148fa2d9523716ae6839dc355e58aa21e460230056",
+    "key": "2745772",
+    "name": "New Munich, Minnesota",
+    "state": "US-MN"
+  },
+  "window": 365,
+  "after": 31,
+  "results": [
+    {
+      "key": "budget-line:transportation",
+      "kind": "budget-line",
+      "family": "infrastructure",
+      "inForceAtOpening": false,
+      "change": "place:2745772 transportation 0 -> 10000000 by law-wiring-3d0937ae",
+      "lawIds": ["law-wiring-3d0937ae"],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": [
+          "applied|budget-line:transportation|jurisdiction_16b3bfd4091db759"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": [
+          "applied|budget-line:transportation|jurisdiction_16b3bfd4091db759"
+        ]
+      },
+      "inPlay": [],
+      "applied": {
+        "rows": 1,
+        "withAmount": 1,
+        "sample": [
+          "applied|budget-line:transportation|jurisdiction_16b3bfd4091db759"
+        ]
+      },
+      "readers": {},
+      "openingRow": null,
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+            "treatment": 685387046326272,
+            "control": 685387036325668,
+            "ids": [
+              "journal:2025-02-01:1085",
+              "journal:2025-02-01:1086",
+              "journal:2025-02-01:1087"
+            ]
+          }
+        ],
+        "diffKinds": 1,
+        "cited": [
+          {
+            "token": "budget-line:transportation",
+            "gross": 15089040039392,
+            "ids": [
+              "journal:2025-02-01:1120",
+              "journal:2025-02-01:1121",
+              "journal:2025-02-01:1122"
+            ],
+            "control": 15089030038788
+          },
+          {
+            "token": "law-wiring-3d0937ae",
+            "gross": 20001208,
+            "ids": [
+              "journal:2025-02-01:1435",
+              "journal:2025-02-01:1435",
+              "journal:2025-02-01:1436"
+            ]
+          }
+        ],
+        "controlCited": [],
+        "lines": [
+          {
+            "government": "place:2745772",
+            "line": "transportation",
+            "moved": 10000000,
+            "treatment": 10000604,
+            "control": 0,
+            "ids": [
+              "journal:2025-02-01:1435",
+              "journal:2025-02-01:1436",
+              "journal:2025-02-01:1437"
+            ]
+          }
+        ],
+        "own": {
+          "targets": 1,
+          "among": "paid",
+          "pairs": [
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+              "way": "in",
+              "targets": 1,
+              "moved": 833941,
+              "earliest": "2026-01-01",
+              "sample": [
+                {
+                  "target": "jurisdiction_16b3bfd4091db759",
+                  "row": "applied|budget-line:transportation|jurisdiction_16b3bfd4091db759",
+                  "date": "2026-01-01",
+                  "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+                  "way": "in",
+                  "treatment": 56821570022127,
+                  "control": 56821569188186,
+                  "journal": "journal:2026-01-01:93577"
+                }
+              ]
+            }
+          ],
+          "paid": 1,
+          "pick": "accounts.transfer @ src/core2/budgets-treasury.ts:1248|in",
+          "sample": [
+            {
+              "target": "jurisdiction_16b3bfd4091db759",
+              "row": "applied|budget-line:transportation|jurisdiction_16b3bfd4091db759",
+              "date": "2026-01-01",
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+              "way": "in",
+              "treatment": 56821570022127,
+              "control": 56821569188186,
+              "journal": "journal:2026-01-01:93577"
+            }
+          ],
+          "near": [
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+              "way": "in",
+              "targets": 1,
+              "first": {
+                "target": "jurisdiction_16b3bfd4091db759",
+                "row": "applied|budget-line:transportation|jurisdiction_16b3bfd4091db759",
+                "date": "2026-01-01",
+                "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+                "way": "in",
+                "treatment": 56821570022127,
+                "control": 56821569188186,
+                "journal": "journal:2026-01-01:93577"
+              }
+            }
+          ]
+        }
+      },
+      "web": {
+        "links": [],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 93,
+        "sample": [
+          "person_0af0d3e06ac8527e:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:transportation:law-wiring-3d0937ae",
+          "person_08155d00064491bf:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:transportation:law-wiring-3d0937ae",
+          "person_11f8a33a381d6571:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:transportation:law-wiring-3d0937ae"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": [
+          "applied|budget-line:transportation|jurisdiction_16b3bfd4091db759"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 76
+    },
+    {
+      "key": "budget-line:medicare",
+      "kind": "budget-line",
+      "family": "healthcare",
+      "inForceAtOpening": false,
+      "change": "place:2745772 medicare 0 -> 10000000 by law-wiring-ef0c4cf9",
+      "lawIds": ["law-wiring-ef0c4cf9"],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": ["applied|budget-line:medicare|jurisdiction_16b3bfd4091db759"]
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": ["applied|budget-line:medicare|jurisdiction_16b3bfd4091db759"]
+      },
+      "inPlay": [],
+      "applied": {
+        "rows": 1,
+        "withAmount": 1,
+        "sample": ["applied|budget-line:medicare|jurisdiction_16b3bfd4091db759"]
+      },
+      "readers": {},
+      "openingRow": null,
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+            "treatment": 685387046321105,
+            "control": 685387036325668,
+            "ids": [
+              "journal:2025-02-01:1085",
+              "journal:2025-02-01:1086",
+              "journal:2025-02-01:1087"
+            ]
+          }
+        ],
+        "diffKinds": 1,
+        "cited": [
+          {
+            "token": "budget-line:medicare",
+            "gross": 96314546359993,
+            "ids": [
+              "journal:2025-02-01:1089",
+              "journal:2025-02-01:1090",
+              "journal:2025-02-01:1435"
+            ],
+            "control": 96314536364556
+          },
+          {
+            "token": "law-wiring-ef0c4cf9",
+            "gross": 19990874,
+            "ids": [
+              "journal:2025-02-01:1435",
+              "journal:2025-02-01:1435",
+              "journal:2025-02-01:1436"
+            ]
+          }
+        ],
+        "controlCited": [],
+        "lines": [
+          {
+            "government": "place:2745772",
+            "line": "medicare",
+            "moved": 10000000,
+            "treatment": 9995437,
+            "control": 0,
+            "ids": [
+              "journal:2025-02-01:1435",
+              "journal:2025-02-01:1436",
+              "journal:2025-03-01:9049"
+            ]
+          }
+        ],
+        "own": {
+          "targets": 1,
+          "among": "paid",
+          "pairs": [
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+              "way": "in",
+              "targets": 1,
+              "moved": 833333,
+              "earliest": "2025-02-01",
+              "sample": [
+                {
+                  "target": "jurisdiction_16b3bfd4091db759",
+                  "row": "applied|budget-line:medicare|jurisdiction_16b3bfd4091db759",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+                  "way": "in",
+                  "treatment": 56954387754206,
+                  "control": 56954386920873,
+                  "journal": "journal:2025-02-01:1088"
+                }
+              ]
+            }
+          ],
+          "paid": 1,
+          "pick": "accounts.transfer @ src/core2/budgets-treasury.ts:1248|in",
+          "sample": [
+            {
+              "target": "jurisdiction_16b3bfd4091db759",
+              "row": "applied|budget-line:medicare|jurisdiction_16b3bfd4091db759",
+              "date": "2025-02-01",
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+              "way": "in",
+              "treatment": 56954387754206,
+              "control": 56954386920873,
+              "journal": "journal:2025-02-01:1088"
+            }
+          ],
+          "near": [
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+              "way": "in",
+              "targets": 1,
+              "first": {
+                "target": "jurisdiction_16b3bfd4091db759",
+                "row": "applied|budget-line:medicare|jurisdiction_16b3bfd4091db759",
+                "date": "2025-02-01",
+                "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+                "way": "in",
+                "treatment": 56954387754206,
+                "control": 56954386920873,
+                "journal": "journal:2025-02-01:1088"
+              }
+            }
+          ]
+        }
+      },
+      "web": {
+        "links": [],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 170,
+        "sample": [
+          "person_0af0d3e06ac8527e:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:medicare:law-wiring-ef0c4cf9",
+          "person_08155d00064491bf:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:medicare:law-wiring-ef0c4cf9",
+          "person_11f8a33a381d6571:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:medicare:law-wiring-ef0c4cf9"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 75
+    },
+    {
+      "key": "budget-line:health",
+      "kind": "budget-line",
+      "family": "healthcare",
+      "inForceAtOpening": false,
+      "change": "place:2745772 health 0 -> 10000000 by law-wiring-da7d48f9",
+      "lawIds": ["law-wiring-da7d48f9"],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": ["applied|budget-line:health|jurisdiction_16b3bfd4091db759"]
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": ["applied|budget-line:health|jurisdiction_16b3bfd4091db759"]
+      },
+      "inPlay": [],
+      "applied": {
+        "rows": 1,
+        "withAmount": 1,
+        "sample": ["applied|budget-line:health|jurisdiction_16b3bfd4091db759"]
+      },
+      "readers": {},
+      "openingRow": null,
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+            "treatment": 685387046321713,
+            "control": 685387036325668,
+            "ids": [
+              "journal:2025-02-01:1085",
+              "journal:2025-02-01:1086",
+              "journal:2025-02-01:1087"
+            ]
+          }
+        ],
+        "diffKinds": 1,
+        "cited": [
+          {
+            "token": "budget-line:health",
+            "gross": 98545379468546,
+            "ids": [
+              "journal:2025-02-01:1091",
+              "journal:2025-02-01:1092",
+              "journal:2025-02-01:1093"
+            ],
+            "control": 98545369472501
+          },
+          {
+            "token": "law-wiring-da7d48f9",
+            "gross": 19992090,
+            "ids": [
+              "journal:2025-02-01:1435",
+              "journal:2025-02-01:1435",
+              "journal:2025-02-01:1436"
+            ]
+          }
+        ],
+        "controlCited": [],
+        "lines": [
+          {
+            "government": "place:2745772",
+            "line": "health",
+            "moved": 10000000,
+            "treatment": 9996045,
+            "control": 0,
+            "ids": [
+              "journal:2025-02-01:1435",
+              "journal:2025-02-01:1436",
+              "journal:2025-02-01:1437"
+            ]
+          }
+        ],
+        "own": {
+          "targets": 1,
+          "among": "paid",
+          "pairs": [
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+              "way": "in",
+              "targets": 1,
+              "moved": 833333,
+              "earliest": "2025-02-01",
+              "sample": [
+                {
+                  "target": "jurisdiction_16b3bfd4091db759",
+                  "row": "applied|budget-line:health|jurisdiction_16b3bfd4091db759",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+                  "way": "in",
+                  "treatment": 56954387754206,
+                  "control": 56954386920873,
+                  "journal": "journal:2025-02-01:1088"
+                }
+              ]
+            }
+          ],
+          "paid": 1,
+          "pick": "accounts.transfer @ src/core2/budgets-treasury.ts:1248|in",
+          "sample": [
+            {
+              "target": "jurisdiction_16b3bfd4091db759",
+              "row": "applied|budget-line:health|jurisdiction_16b3bfd4091db759",
+              "date": "2025-02-01",
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+              "way": "in",
+              "treatment": 56954387754206,
+              "control": 56954386920873,
+              "journal": "journal:2025-02-01:1088"
+            }
+          ],
+          "near": [
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+              "way": "in",
+              "targets": 1,
+              "first": {
+                "target": "jurisdiction_16b3bfd4091db759",
+                "row": "applied|budget-line:health|jurisdiction_16b3bfd4091db759",
+                "date": "2025-02-01",
+                "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+                "way": "in",
+                "treatment": 56954387754206,
+                "control": 56954386920873,
+                "journal": "journal:2025-02-01:1088"
+              }
+            }
+          ]
+        }
+      },
+      "web": {
+        "links": [],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 90,
+        "sample": [
+          "person_0af0d3e06ac8527e:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:health:law-wiring-da7d48f9",
+          "person_08155d00064491bf:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:health:law-wiring-da7d48f9",
+          "person_11f8a33a381d6571:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:health:law-wiring-da7d48f9"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 73
+    },
+    {
+      "key": "us-federal-positions:health.medicare-drug-price-negotiation",
+      "kind": "question",
+      "family": "healthcare",
+      "inForceAtOpening": true,
+      "change": "repealed at federal effective 2025-01-21; then enacted again at federal effective 2026-01-22",
+      "lawIds": [
+        "law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:starting",
+        "law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:2025-01-21:law-wiring-786e7fef",
+        "law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:2026-01-22:law-wiring-786e7fef-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "inPlay": [],
+      "applied": {
+        "rows": 0,
+        "withAmount": 0,
+        "sample": []
+      },
+      "readers": {
+        "src/core2/modules/outcome-web.ts:207": 82,
+        "src/core2/medical-bills.ts:486": 24,
+        "src/core2/modules/legislature.ts:4224": 9,
+        "src/core2/life.ts:573": 5
+      },
+      "openingRow": "law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:starting",
+      "money": {
+        "direct": [
+          {
+            "kind": "accounts.transfer @ src/core2/medical-bills.ts:599",
+            "treatment": 20438923,
+            "control": 20143606,
+            "ids": [
+              "journal:2025-02-01:6067",
+              "journal:2025-02-01:6068",
+              "journal:2025-02-01:6069"
+            ]
+          }
+        ],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:793",
+            "treatment": 564469563,
+            "control": 562471162,
+            "ids": [
+              "journal:2025-02-01:3545",
+              "journal:2025-02-01:3546",
+              "journal:2025-02-01:3547"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/medical-bills.ts:599",
+            "treatment": 20438923,
+            "control": 20143606,
+            "ids": [
+              "journal:2025-02-01:6067",
+              "journal:2025-02-01:6068",
+              "journal:2025-02-01:6069"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+            "treatment": 841945185,
+            "control": 842069125,
+            "ids": [
+              "journal:2025-01-21:851",
+              "journal:2025-01-21:852",
+              "journal:2025-01-21:853"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:2952",
+            "treatment": 82427232,
+            "control": 82447609,
+            "ids": [
+              "journal:2025-03-01:11818",
+              "journal:2025-03-01:11819",
+              "journal:2025-03-01:11820"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:352",
+            "treatment": 98310432,
+            "control": 98322569,
+            "ids": [
+              "journal:2025-02-01:1866",
+              "journal:2025-02-01:1869",
+              "journal:2025-02-01:1872"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1323",
+            "treatment": 1732412312,
+            "control": 1732423193,
+            "ids": [
+              "journal:2025-02-01:3568",
+              "journal:2025-02-01:3569",
+              "journal:2025-02-01:3570"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1916",
+            "treatment": 7837299,
+            "control": 7846407,
+            "ids": [
+              "journal:2025-02-04:7011",
+              "journal:2025-02-04:7012",
+              "journal:2025-02-04:7013"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:318",
+            "treatment": 4455034,
+            "control": 4461274,
+            "ids": [
+              "journal:2025-10-01:69196",
+              "journal:2025-10-01:69197",
+              "journal:2025-10-01:69198"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+            "treatment": 826824021,
+            "control": 826829407,
+            "ids": [
+              "journal:2025-02-01:1526",
+              "journal:2025-02-01:1527",
+              "journal:2025-02-01:1528"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1341",
+            "treatment": 3079458935,
+            "control": 3079461367,
+            "ids": [
+              "journal:2025-01-21:823",
+              "journal:2025-01-21:824",
+              "journal:2025-01-21:825"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:341",
+            "treatment": 37761760,
+            "control": 37763032,
+            "ids": [
+              "journal:2025-02-01:1867",
+              "journal:2025-02-01:1868",
+              "journal:2025-02-01:1870"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1052",
+            "treatment": 82319115086735,
+            "control": 82319115085998,
+            "ids": [
+              "journal:2025-02-01:1073",
+              "journal:2025-02-01:1074",
+              "journal:2025-02-01:1075"
+            ]
+          }
+        ],
+        "diffKinds": 25,
+        "cited": [],
+        "controlCited": [],
+        "own": {
+          "targets": 0,
+          "among": "reached",
+          "pairs": [],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "drug-negotiation-to-out-of-pocket",
+            "status": "built",
+            "to": "health.drug-out-of-pocket"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 122,
+        "sample": [
+          "person_08155d00064491bf:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:2025-01-21:law-wiring-786e7fef",
+          "person_11f8a33a381d6571:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:2025-01-21:law-wiring-786e7fef",
+          "person:press:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:owner:0:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:2025-01-21:law-wiring-786e7fef"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 74
+    },
+    {
+      "key": "budget-line:education",
+      "kind": "budget-line",
+      "family": "education",
+      "inForceAtOpening": false,
+      "change": "place:2745772 education 0 -> 10000000 by law-wiring-9a12adfe",
+      "lawIds": ["law-wiring-9a12adfe"],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": [
+          "applied|budget-line:education|jurisdiction_16b3bfd4091db759"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": [
+          "applied|budget-line:education|jurisdiction_16b3bfd4091db759"
+        ]
+      },
+      "inPlay": [],
+      "applied": {
+        "rows": 1,
+        "withAmount": 1,
+        "sample": [
+          "applied|budget-line:education|jurisdiction_16b3bfd4091db759"
+        ]
+      },
+      "readers": {},
+      "openingRow": null,
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+            "treatment": 685387046321409,
+            "control": 685387036325668,
+            "ids": [
+              "journal:2025-02-01:1085",
+              "journal:2025-02-01:1086",
+              "journal:2025-02-01:1087"
+            ]
+          }
+        ],
+        "diffKinds": 1,
+        "cited": [
+          {
+            "token": "budget-line:education",
+            "gross": 6603553238121,
+            "ids": [
+              "journal:2025-02-01:1123",
+              "journal:2025-02-01:1124",
+              "journal:2025-02-01:1125"
+            ],
+            "control": 6603543242380
+          },
+          {
+            "token": "law-wiring-9a12adfe",
+            "gross": 19991482,
+            "ids": [
+              "journal:2025-02-01:1435",
+              "journal:2025-02-01:1435",
+              "journal:2025-02-01:1436"
+            ]
+          }
+        ],
+        "controlCited": [],
+        "lines": [
+          {
+            "government": "place:2745772",
+            "line": "education",
+            "moved": 10000000,
+            "treatment": 9995741,
+            "control": 0,
+            "ids": [
+              "journal:2025-02-01:1435",
+              "journal:2025-02-01:1436",
+              "journal:2025-02-01:1437"
+            ]
+          }
+        ],
+        "own": {
+          "targets": 1,
+          "among": "paid",
+          "pairs": [
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+              "way": "in",
+              "targets": 1,
+              "moved": 833333,
+              "earliest": "2025-02-01",
+              "sample": [
+                {
+                  "target": "jurisdiction_16b3bfd4091db759",
+                  "row": "applied|budget-line:education|jurisdiction_16b3bfd4091db759",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+                  "way": "in",
+                  "treatment": 56954387754206,
+                  "control": 56954386920873,
+                  "journal": "journal:2025-02-01:1088"
+                }
+              ]
+            }
+          ],
+          "paid": 1,
+          "pick": "accounts.transfer @ src/core2/budgets-treasury.ts:1248|in",
+          "sample": [
+            {
+              "target": "jurisdiction_16b3bfd4091db759",
+              "row": "applied|budget-line:education|jurisdiction_16b3bfd4091db759",
+              "date": "2025-02-01",
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+              "way": "in",
+              "treatment": 56954387754206,
+              "control": 56954386920873,
+              "journal": "journal:2025-02-01:1088"
+            }
+          ],
+          "near": [
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+              "way": "in",
+              "targets": 1,
+              "first": {
+                "target": "jurisdiction_16b3bfd4091db759",
+                "row": "applied|budget-line:education|jurisdiction_16b3bfd4091db759",
+                "date": "2025-02-01",
+                "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+                "way": "in",
+                "treatment": 56954387754206,
+                "control": 56954386920873,
+                "journal": "journal:2025-02-01:1088"
+              }
+            }
+          ]
+        }
+      },
+      "web": {
+        "links": [],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 90,
+        "sample": [
+          "person_0af0d3e06ac8527e:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:education:law-wiring-9a12adfe",
+          "person_08155d00064491bf:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:education:law-wiring-9a12adfe",
+          "person_11f8a33a381d6571:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:education:law-wiring-9a12adfe"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 80
+    },
+    {
+      "key": "budget-line:incomeSecurity",
+      "kind": "budget-line",
+      "family": "assistance",
+      "inForceAtOpening": false,
+      "change": "place:2745772 incomeSecurity 0 -> 10000000 by law-wiring-0f392aa2",
+      "lawIds": ["law-wiring-0f392aa2"],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": [
+          "applied|budget-line:incomeSecurity|jurisdiction_16b3bfd4091db759"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": [
+          "applied|budget-line:incomeSecurity|jurisdiction_16b3bfd4091db759"
+        ]
+      },
+      "inPlay": [],
+      "applied": {
+        "rows": 1,
+        "withAmount": 1,
+        "sample": [
+          "applied|budget-line:incomeSecurity|jurisdiction_16b3bfd4091db759"
+        ]
+      },
+      "readers": {},
+      "openingRow": null,
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+            "treatment": 685387046318522,
+            "control": 685387036325668,
+            "ids": [
+              "journal:2025-02-01:1085",
+              "journal:2025-02-01:1086",
+              "journal:2025-02-01:1087"
+            ]
+          }
+        ],
+        "diffKinds": 1,
+        "cited": [
+          {
+            "token": "budget-line:incomeSecurity",
+            "gross": 67104914828222,
+            "ids": [
+              "journal:2025-02-01:1094",
+              "journal:2025-02-01:1095",
+              "journal:2025-02-01:1096"
+            ],
+            "control": 67104904835368
+          },
+          {
+            "token": "law-wiring-0f392aa2",
+            "gross": 19985708,
+            "ids": [
+              "journal:2025-02-01:1435",
+              "journal:2025-02-01:1435",
+              "journal:2025-02-01:1436"
+            ]
+          }
+        ],
+        "controlCited": [],
+        "lines": [
+          {
+            "government": "place:2745772",
+            "line": "incomeSecurity",
+            "moved": 10000000,
+            "treatment": 9992854,
+            "control": 0,
+            "ids": [
+              "journal:2025-02-01:1435",
+              "journal:2025-02-01:1436",
+              "journal:2025-02-01:1437"
+            ]
+          }
+        ],
+        "own": {
+          "targets": 1,
+          "among": "paid",
+          "pairs": [
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+              "way": "in",
+              "targets": 1,
+              "moved": 833333,
+              "earliest": "2025-02-01",
+              "sample": [
+                {
+                  "target": "jurisdiction_16b3bfd4091db759",
+                  "row": "applied|budget-line:incomeSecurity|jurisdiction_16b3bfd4091db759",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+                  "way": "in",
+                  "treatment": 56954387754206,
+                  "control": 56954386920873,
+                  "journal": "journal:2025-02-01:1088"
+                }
+              ]
+            }
+          ],
+          "paid": 1,
+          "pick": "accounts.transfer @ src/core2/budgets-treasury.ts:1248|in",
+          "sample": [
+            {
+              "target": "jurisdiction_16b3bfd4091db759",
+              "row": "applied|budget-line:incomeSecurity|jurisdiction_16b3bfd4091db759",
+              "date": "2025-02-01",
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+              "way": "in",
+              "treatment": 56954387754206,
+              "control": 56954386920873,
+              "journal": "journal:2025-02-01:1088"
+            }
+          ],
+          "near": [
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+              "way": "in",
+              "targets": 1,
+              "first": {
+                "target": "jurisdiction_16b3bfd4091db759",
+                "row": "applied|budget-line:incomeSecurity|jurisdiction_16b3bfd4091db759",
+                "date": "2025-02-01",
+                "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+                "way": "in",
+                "treatment": 56954387754206,
+                "control": 56954386920873,
+                "journal": "journal:2025-02-01:1088"
+              }
+            }
+          ]
+        }
+      },
+      "web": {
+        "links": [],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 149,
+        "sample": [
+          "person_0af0d3e06ac8527e:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:incomeSecurity:law-wiring-0f392aa2",
+          "person_08155d00064491bf:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:incomeSecurity:law-wiring-0f392aa2",
+          "person_11f8a33a381d6571:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:incomeSecurity:law-wiring-0f392aa2"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 72
+    },
+    {
+      "key": "social-security-earliest-claim-age",
+      "kind": "amount",
+      "family": "assistance",
+      "inForceAtOpening": false,
+      "change": "social-security-earliest-claim-age 62 -> 68 at federal (law:US:federal:social-security-earliest-claim-age:general:2025-01-21:law-wiring-3d351f82) effective 2025-01-21",
+      "lawIds": [
+        "law:US:federal:social-security-earliest-claim-age:general:2025-01-21:law-wiring-3d351f82",
+        "law:US:federal:social-security-earliest-claim-age:general:starting",
+        "law:US:federal:social-security-earliest-claim-age:general:2026-01-22:law-wiring-3d351f82-undo"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "inPlay": [],
+      "applied": {
+        "rows": 0,
+        "withAmount": 0,
+        "sample": []
+      },
+      "readers": {
+        "src/core2/modules/retirement-claims.ts:97": 17225,
+        "src/core2/modules/jobs.ts:2953": 24,
+        "src/core2/life.ts:573": 5
+      },
+      "openingRow": "law:US:federal:social-security-earliest-claim-age:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:578",
+            "treatment": 182332013,
+            "control": 145839911,
+            "ids": [
+              "journal:2025-01-21:818",
+              "journal:2025-01-21:819",
+              "journal:2025-01-21:820"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1341",
+            "treatment": 3046674609,
+            "control": 3079461367,
+            "ids": [
+              "journal:2025-01-21:823",
+              "journal:2025-01-21:824",
+              "journal:2025-01-21:825"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1323",
+            "treatment": 1762674300,
+            "control": 1732423193,
+            "ids": [
+              "journal:2025-02-01:3568",
+              "journal:2025-02-01:3569",
+              "journal:2025-02-01:3570"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:671",
+            "treatment": 4393470972,
+            "control": 4406981474,
+            "ids": [
+              "journal:2025-01-25:930",
+              "journal:2025-01-25:932",
+              "journal:2025-01-26:942"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+            "treatment": 832662656,
+            "control": 842069125,
+            "ids": [
+              "journal:2025-01-21:851",
+              "journal:2025-01-21:852",
+              "journal:2025-01-21:853"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 771104228,
+            "control": 767537896,
+            "ids": [
+              "journal:2025-01-21:888",
+              "journal:2025-01-21:889",
+              "journal:2025-01-21:890"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 709655402,
+            "control": 711642459,
+            "ids": [
+              "journal:2025-01-26:934",
+              "journal:2025-01-26:938",
+              "journal:2025-01-29:1016"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/business.ts:2037",
+            "treatment": 10149081,
+            "control": 8626691,
+            "ids": [
+              "journal:2025-02-01:1521",
+              "journal:2025-03-01:9155",
+              "journal:2025-04-01:17766"
+            ]
+          },
+          {
+            "kind": "employer-taxes:profit @ src/core2/modules/employer-taxes.ts:337",
+            "treatment": 39268530,
+            "control": 38107341,
+            "ids": [
+              "journal:2025-07-01:48426",
+              "journal:2025-07-01:48427",
+              "journal:2025-07-01:48428"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:918",
+            "treatment": 38882158,
+            "control": 39943534,
+            "ids": [
+              "journal:2025-02-01:6034",
+              "journal:2025-02-01:6035",
+              "journal:2025-02-01:6036"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1052",
+            "treatment": 82319116103768,
+            "control": 82319115085998,
+            "ids": [
+              "journal:2025-02-01:1073",
+              "journal:2025-02-01:1074",
+              "journal:2025-02-01:1075"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1916",
+            "treatment": 7075333,
+            "control": 7846407,
+            "ids": [
+              "journal:2025-02-04:6992",
+              "journal:2025-02-04:6993",
+              "journal:2025-02-04:6994"
+            ]
+          }
+        ],
+        "diffKinds": 38,
+        "cited": [],
+        "controlCited": [],
+        "own": {
+          "targets": 0,
+          "among": "reached",
+          "pairs": [],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 122,
+        "sample": [
+          "person_08155d00064491bf:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-earliest-claim-age:general:2025-01-21:law-wiring-3d351f82",
+          "person_11f8a33a381d6571:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-earliest-claim-age:general:2025-01-21:law-wiring-3d351f82",
+          "person:press:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:owner:0:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-earliest-claim-age:general:2025-01-21:law-wiring-3d351f82"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 73
+    },
+    {
+      "key": "social-security-full-retirement-age",
+      "kind": "amount",
+      "family": "assistance",
+      "inForceAtOpening": false,
+      "change": "social-security-full-retirement-age 67 -> 74 at federal (law:US:federal:social-security-full-retirement-age:general:2025-01-21:law-wiring-2e0ccc5c) effective 2025-01-21",
+      "lawIds": [
+        "law:US:federal:social-security-full-retirement-age:general:2025-01-21:law-wiring-2e0ccc5c",
+        "law:US:federal:social-security-full-retirement-age:general:starting",
+        "law:US:federal:social-security-full-retirement-age:general:2026-01-22:law-wiring-2e0ccc5c-undo"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "inPlay": [],
+      "applied": {
+        "rows": 0,
+        "withAmount": 0,
+        "sample": []
+      },
+      "readers": {
+        "src/core2/modules/retirement-claims.ts:97": 17358,
+        "src/core2/modules/jobs.ts:2953": 24,
+        "src/core2/life.ts:573": 5
+      },
+      "openingRow": "law:US:federal:social-security-full-retirement-age:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:578",
+            "treatment": 137931807,
+            "control": 145839911,
+            "ids": [
+              "journal:2025-01-21:818",
+              "journal:2025-01-21:819",
+              "journal:2025-01-21:820"
+            ]
+          }
+        ],
+        "diffKinds": 1,
+        "cited": [],
+        "controlCited": [],
+        "own": {
+          "targets": 0,
+          "among": "reached",
+          "pairs": [],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 122,
+        "sample": [
+          "person_08155d00064491bf:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-full-retirement-age:general:2025-01-21:law-wiring-2e0ccc5c",
+          "person_11f8a33a381d6571:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-full-retirement-age:general:2025-01-21:law-wiring-2e0ccc5c",
+          "person:press:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:owner:0:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-full-retirement-age:general:2025-01-21:law-wiring-2e0ccc5c"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 73
+    },
+    {
+      "key": "social-security-delayed-credit-age",
+      "kind": "amount",
+      "family": "assistance",
+      "inForceAtOpening": false,
+      "change": "social-security-delayed-credit-age 70 -> 77 at federal (law:US:federal:social-security-delayed-credit-age:general:2025-01-21:law-wiring-72cfb761) effective 2025-01-21",
+      "lawIds": [
+        "law:US:federal:social-security-delayed-credit-age:general:2025-01-21:law-wiring-72cfb761",
+        "law:US:federal:social-security-delayed-credit-age:general:starting",
+        "law:US:federal:social-security-delayed-credit-age:general:2026-01-22:law-wiring-72cfb761-undo"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "inPlay": [],
+      "applied": {
+        "rows": 0,
+        "withAmount": 0,
+        "sample": []
+      },
+      "readers": {
+        "src/core2/modules/retirement-claims.ts:97": 17358,
+        "src/core2/modules/jobs.ts:2953": 24,
+        "src/core2/life.ts:573": 5
+      },
+      "openingRow": "law:US:federal:social-security-delayed-credit-age:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [],
+        "diffKinds": 0,
+        "cited": [],
+        "controlCited": [],
+        "own": {
+          "targets": 0,
+          "among": "reached",
+          "pairs": [],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 122,
+        "sample": [
+          "person_08155d00064491bf:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-delayed-credit-age:general:2025-01-21:law-wiring-72cfb761",
+          "person_11f8a33a381d6571:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-delayed-credit-age:general:2025-01-21:law-wiring-72cfb761",
+          "person:press:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:owner:0:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-delayed-credit-age:general:2025-01-21:law-wiring-72cfb761"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 72
+    },
+    {
+      "key": "budget-line:socialSecurity",
+      "kind": "budget-line",
+      "family": "assistance",
+      "inForceAtOpening": false,
+      "change": "place:2745772 socialSecurity 0 -> 10000000 by law-wiring-47206d50",
+      "lawIds": ["law-wiring-47206d50"],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": [
+          "applied|budget-line:socialSecurity|jurisdiction_16b3bfd4091db759"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": [
+          "applied|budget-line:socialSecurity|jurisdiction_16b3bfd4091db759"
+        ]
+      },
+      "inPlay": [],
+      "applied": {
+        "rows": 1,
+        "withAmount": 1,
+        "sample": [
+          "applied|budget-line:socialSecurity|jurisdiction_16b3bfd4091db759"
+        ]
+      },
+      "readers": {},
+      "openingRow": null,
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+            "treatment": 685387046325664,
+            "control": 685387036325668,
+            "ids": [
+              "journal:2025-02-01:1085",
+              "journal:2025-02-01:1086",
+              "journal:2025-02-01:1087"
+            ]
+          }
+        ],
+        "diffKinds": 1,
+        "cited": [
+          {
+            "token": "budget-line:socialSecurity",
+            "gross": 148896542927028,
+            "ids": [
+              "journal:2025-02-01:1088",
+              "journal:2025-02-01:1435",
+              "journal:2025-03-01:8706"
+            ],
+            "control": 148896532927032
+          },
+          {
+            "token": "law-wiring-47206d50",
+            "gross": 19999992,
+            "ids": [
+              "journal:2025-02-01:1435",
+              "journal:2025-02-01:1435",
+              "journal:2025-03-01:9048"
+            ]
+          }
+        ],
+        "controlCited": [],
+        "lines": [
+          {
+            "government": "place:2745772",
+            "line": "socialSecurity",
+            "moved": 10000000,
+            "treatment": 9999996,
+            "control": 0,
+            "ids": [
+              "journal:2025-02-01:1435",
+              "journal:2025-03-01:9048",
+              "journal:2025-04-01:17669"
+            ]
+          }
+        ],
+        "own": {
+          "targets": 1,
+          "among": "paid",
+          "pairs": [
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+              "way": "in",
+              "targets": 1,
+              "moved": 833333,
+              "earliest": "2025-02-01",
+              "sample": [
+                {
+                  "target": "jurisdiction_16b3bfd4091db759",
+                  "row": "applied|budget-line:socialSecurity|jurisdiction_16b3bfd4091db759",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+                  "way": "in",
+                  "treatment": 56954387754206,
+                  "control": 56954386920873,
+                  "journal": "journal:2025-02-01:1088"
+                }
+              ]
+            }
+          ],
+          "paid": 1,
+          "pick": "accounts.transfer @ src/core2/budgets-treasury.ts:1248|in",
+          "sample": [
+            {
+              "target": "jurisdiction_16b3bfd4091db759",
+              "row": "applied|budget-line:socialSecurity|jurisdiction_16b3bfd4091db759",
+              "date": "2025-02-01",
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+              "way": "in",
+              "treatment": 56954387754206,
+              "control": 56954386920873,
+              "journal": "journal:2025-02-01:1088"
+            }
+          ],
+          "near": [
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+              "way": "in",
+              "targets": 1,
+              "first": {
+                "target": "jurisdiction_16b3bfd4091db759",
+                "row": "applied|budget-line:socialSecurity|jurisdiction_16b3bfd4091db759",
+                "date": "2025-02-01",
+                "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+                "way": "in",
+                "treatment": 56954387754206,
+                "control": 56954386920873,
+                "journal": "journal:2025-02-01:1088"
+              }
+            }
+          ]
+        }
+      },
+      "web": {
+        "links": [],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 93,
+        "sample": [
+          "person_0af0d3e06ac8527e:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:socialSecurity:law-wiring-47206d50",
+          "person_08155d00064491bf:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:socialSecurity:law-wiring-47206d50",
+          "person_11f8a33a381d6571:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:socialSecurity:law-wiring-47206d50"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 71
+    },
+    {
+      "key": "us-federal-positions:housing.vouchers-for-every-eligible-family",
+      "kind": "question",
+      "family": "housing",
+      "inForceAtOpening": false,
+      "change": "enacted at federal (law:US:federal:us-federal-positions:housing.vouchers-for-every-eligible-family:general:2025-01-21:law-wiring-45ece489) effective 2025-01-21; then repealed at federal effective 2026-01-22",
+      "lawIds": [
+        "law:US:federal:us-federal-positions:housing.vouchers-for-every-eligible-family:general:2025-01-21:law-wiring-45ece489",
+        "law:US:federal:us-federal-positions:housing.vouchers-for-every-eligible-family:general:2026-01-22:law-wiring-45ece489-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "inPlay": [],
+      "applied": {
+        "rows": 0,
+        "withAmount": 0,
+        "sample": []
+      },
+      "readers": {
+        "src/core2/modules/outcome-web.ts:207": 410,
+        "src/core2/modules/legislature.ts:4224": 9,
+        "src/core2/life.ts:573": 5
+      },
+      "openingRow": "law:US:federal:us-federal-positions:housing.vouchers-for-every-eligible-family:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [],
+        "diffKinds": 0,
+        "cited": [],
+        "controlCited": [],
+        "own": {
+          "targets": 0,
+          "among": "reached",
+          "pairs": [],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "housing-vouchers-to-homelessness",
+            "status": "built",
+            "to": "housing.homelessness"
+          },
+          {
+            "key": "housing-vouchers-to-graduation",
+            "status": "built",
+            "to": "school.graduation-pct"
+          },
+          {
+            "key": "housing-vouchers-to-crime",
+            "status": "about-zero",
+            "to": "crime.rate-index"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [
+          {
+            "id": "web:jurisdiction_16b3bfd4091db759:2025-01",
+            "month": "2025-01",
+            "link": "housing-vouchers-to-homelessness",
+            "from": "law:us-federal-positions:housing.vouchers-for-every-eligible-family",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_16b3bfd4091db759:2025-01",
+            "month": "2025-01",
+            "link": "housing-vouchers-to-graduation",
+            "from": "law:us-federal-positions:housing.vouchers-for-every-eligible-family",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_16b3bfd4091db759:2025-02",
+            "month": "2025-02",
+            "link": "housing-vouchers-to-homelessness",
+            "from": "law:us-federal-positions:housing.vouchers-for-every-eligible-family",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_16b3bfd4091db759:2025-02",
+            "month": "2025-02",
+            "link": "housing-vouchers-to-graduation",
+            "from": "law:us-federal-positions:housing.vouchers-for-every-eligible-family",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_16b3bfd4091db759:2025-03",
+            "month": "2025-03",
+            "link": "housing-vouchers-to-homelessness",
+            "from": "law:us-federal-positions:housing.vouchers-for-every-eligible-family",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_16b3bfd4091db759:2025-03",
+            "month": "2025-03",
+            "link": "housing-vouchers-to-graduation",
+            "from": "law:us-federal-positions:housing.vouchers-for-every-eligible-family",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_16b3bfd4091db759:2025-04",
+            "month": "2025-04",
+            "link": "housing-vouchers-to-homelessness",
+            "from": "law:us-federal-positions:housing.vouchers-for-every-eligible-family",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_16b3bfd4091db759:2025-04",
+            "month": "2025-04",
+            "link": "housing-vouchers-to-graduation",
+            "from": "law:us-federal-positions:housing.vouchers-for-every-eligible-family",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_16b3bfd4091db759:2025-05",
+            "month": "2025-05",
+            "link": "housing-vouchers-to-homelessness",
+            "from": "law:us-federal-positions:housing.vouchers-for-every-eligible-family",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_16b3bfd4091db759:2025-05",
+            "month": "2025-05",
+            "link": "housing-vouchers-to-graduation",
+            "from": "law:us-federal-positions:housing.vouchers-for-every-eligible-family",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_16b3bfd4091db759:2025-06",
+            "month": "2025-06",
+            "link": "housing-vouchers-to-homelessness",
+            "from": "law:us-federal-positions:housing.vouchers-for-every-eligible-family",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_16b3bfd4091db759:2025-06",
+            "month": "2025-06",
+            "link": "housing-vouchers-to-graduation",
+            "from": "law:us-federal-positions:housing.vouchers-for-every-eligible-family",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          }
+        ],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 122,
+        "sample": [
+          "person_08155d00064491bf:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:housing.vouchers-for-every-eligible-family:general:2025-01-21:law-wiring-45ece489",
+          "person_11f8a33a381d6571:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:housing.vouchers-for-every-eligible-family:general:2025-01-21:law-wiring-45ece489",
+          "person:press:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:owner:0:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:housing.vouchers-for-every-eligible-family:general:2025-01-21:law-wiring-45ece489"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 74
+    },
+    {
+      "key": "budget-line:communityAndRegionalDevelopment",
+      "kind": "budget-line",
+      "family": "housing",
+      "inForceAtOpening": false,
+      "change": "place:2745772 communityAndRegionalDevelopment 0 -> 10000000 by law-wiring-978899e0",
+      "lawIds": ["law-wiring-978899e0"],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": [
+          "applied|budget-line:communityAndRegionalDevelopment|jurisdiction_16b3bfd4091db759"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": [
+          "applied|budget-line:communityAndRegionalDevelopment|jurisdiction_16b3bfd4091db759"
+        ]
+      },
+      "inPlay": [],
+      "applied": {
+        "rows": 1,
+        "withAmount": 1,
+        "sample": [
+          "applied|budget-line:communityAndRegionalDevelopment|jurisdiction_16b3bfd4091db759"
+        ]
+      },
+      "readers": {},
+      "openingRow": null,
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+            "treatment": 685387046317762,
+            "control": 685387036325668,
+            "ids": [
+              "journal:2025-02-01:1085",
+              "journal:2025-02-01:1086",
+              "journal:2025-02-01:1087"
+            ]
+          }
+        ],
+        "diffKinds": 1,
+        "cited": [
+          {
+            "token": "budget-line:communityAndRegionalDevelopment",
+            "gross": 8037618542538,
+            "ids": [
+              "journal:2025-02-01:1117",
+              "journal:2025-02-01:1118",
+              "journal:2025-02-01:1119"
+            ],
+            "control": 8037608550444
+          },
+          {
+            "token": "law-wiring-978899e0",
+            "gross": 19984188,
+            "ids": [
+              "journal:2025-02-01:1435",
+              "journal:2025-02-01:1435",
+              "journal:2025-02-01:1436"
+            ]
+          }
+        ],
+        "controlCited": [],
+        "lines": [
+          {
+            "government": "place:2745772",
+            "line": "communityAndRegionalDevelopment",
+            "moved": 10000000,
+            "treatment": 9992094,
+            "control": 0,
+            "ids": [
+              "journal:2025-02-01:1435",
+              "journal:2025-02-01:1436",
+              "journal:2025-02-01:1437"
+            ]
+          }
+        ],
+        "own": {
+          "targets": 1,
+          "among": "paid",
+          "pairs": [
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+              "way": "in",
+              "targets": 1,
+              "moved": 833333,
+              "earliest": "2025-02-01",
+              "sample": [
+                {
+                  "target": "jurisdiction_16b3bfd4091db759",
+                  "row": "applied|budget-line:communityAndRegionalDevelopment|jurisdiction_16b3bfd4091db759",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+                  "way": "in",
+                  "treatment": 56954387754206,
+                  "control": 56954386920873,
+                  "journal": "journal:2025-02-01:1088"
+                }
+              ]
+            }
+          ],
+          "paid": 1,
+          "pick": "accounts.transfer @ src/core2/budgets-treasury.ts:1248|in",
+          "sample": [
+            {
+              "target": "jurisdiction_16b3bfd4091db759",
+              "row": "applied|budget-line:communityAndRegionalDevelopment|jurisdiction_16b3bfd4091db759",
+              "date": "2025-02-01",
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+              "way": "in",
+              "treatment": 56954387754206,
+              "control": 56954386920873,
+              "journal": "journal:2025-02-01:1088"
+            }
+          ],
+          "near": [
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+              "way": "in",
+              "targets": 1,
+              "first": {
+                "target": "jurisdiction_16b3bfd4091db759",
+                "row": "applied|budget-line:communityAndRegionalDevelopment|jurisdiction_16b3bfd4091db759",
+                "date": "2025-02-01",
+                "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+                "way": "in",
+                "treatment": 56954387754206,
+                "control": 56954386920873,
+                "journal": "journal:2025-02-01:1088"
+              }
+            }
+          ]
+        }
+      },
+      "web": {
+        "links": [],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 139,
+        "sample": [
+          "person_0af0d3e06ac8527e:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:communityAndRegionalDevelopment:law-wiring-978899e0",
+          "person_08155d00064491bf:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:communityAndRegionalDevelopment:law-wiring-978899e0",
+          "person_11f8a33a381d6571:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:communityAndRegionalDevelopment:law-wiring-978899e0"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 78
+    },
+    {
+      "key": "us-federal-positions:energy-environment.limit-power-plant-carbon",
+      "kind": "question",
+      "family": "energy-environment",
+      "inForceAtOpening": false,
+      "change": "enacted at federal (law:US:federal:us-federal-positions:energy-environment.limit-power-plant-carbon:general:2025-01-21:law-wiring-c0357c70) effective 2025-01-21; then repealed at federal effective 2026-01-22",
+      "lawIds": [
+        "law:US:federal:us-federal-positions:energy-environment.limit-power-plant-carbon:general:2025-01-21:law-wiring-c0357c70",
+        "law:US:federal:us-federal-positions:energy-environment.limit-power-plant-carbon:general:2026-01-22:law-wiring-c0357c70-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "inPlay": [],
+      "applied": {
+        "rows": 0,
+        "withAmount": 0,
+        "sample": []
+      },
+      "readers": {
+        "src/core2/modules/outcome-web.ts:207": 410,
+        "src/core2/modules/legislature.ts:4224": 9,
+        "src/core2/life.ts:573": 5
+      },
+      "openingRow": "law:US:federal:us-federal-positions:energy-environment.limit-power-plant-carbon:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [],
+        "diffKinds": 0,
+        "cited": [],
+        "controlCited": [],
+        "own": {
+          "targets": 0,
+          "among": "reached",
+          "pairs": [],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "power-plant-carbon-to-emissions",
+            "status": "built",
+            "to": "env.emissions"
+          },
+          {
+            "key": "power-plant-carbon-to-particulates",
+            "status": "built",
+            "to": "env.particulates"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [
+          {
+            "id": "web:jurisdiction_16b3bfd4091db759:2025-01",
+            "month": "2025-01",
+            "link": "power-plant-carbon-to-emissions",
+            "from": "law:us-federal-positions:energy-environment.limit-power-plant-carbon",
+            "lagMonths": 24,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_16b3bfd4091db759:2025-01",
+            "month": "2025-01",
+            "link": "power-plant-carbon-to-particulates",
+            "from": "law:us-federal-positions:energy-environment.limit-power-plant-carbon",
+            "lagMonths": 72,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_16b3bfd4091db759:2025-02",
+            "month": "2025-02",
+            "link": "power-plant-carbon-to-emissions",
+            "from": "law:us-federal-positions:energy-environment.limit-power-plant-carbon",
+            "lagMonths": 24,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_16b3bfd4091db759:2025-02",
+            "month": "2025-02",
+            "link": "power-plant-carbon-to-particulates",
+            "from": "law:us-federal-positions:energy-environment.limit-power-plant-carbon",
+            "lagMonths": 72,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_16b3bfd4091db759:2025-03",
+            "month": "2025-03",
+            "link": "power-plant-carbon-to-emissions",
+            "from": "law:us-federal-positions:energy-environment.limit-power-plant-carbon",
+            "lagMonths": 24,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_16b3bfd4091db759:2025-03",
+            "month": "2025-03",
+            "link": "power-plant-carbon-to-particulates",
+            "from": "law:us-federal-positions:energy-environment.limit-power-plant-carbon",
+            "lagMonths": 72,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_16b3bfd4091db759:2025-04",
+            "month": "2025-04",
+            "link": "power-plant-carbon-to-emissions",
+            "from": "law:us-federal-positions:energy-environment.limit-power-plant-carbon",
+            "lagMonths": 24,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_16b3bfd4091db759:2025-04",
+            "month": "2025-04",
+            "link": "power-plant-carbon-to-particulates",
+            "from": "law:us-federal-positions:energy-environment.limit-power-plant-carbon",
+            "lagMonths": 72,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_16b3bfd4091db759:2025-05",
+            "month": "2025-05",
+            "link": "power-plant-carbon-to-emissions",
+            "from": "law:us-federal-positions:energy-environment.limit-power-plant-carbon",
+            "lagMonths": 24,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_16b3bfd4091db759:2025-05",
+            "month": "2025-05",
+            "link": "power-plant-carbon-to-particulates",
+            "from": "law:us-federal-positions:energy-environment.limit-power-plant-carbon",
+            "lagMonths": 72,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_16b3bfd4091db759:2025-06",
+            "month": "2025-06",
+            "link": "power-plant-carbon-to-emissions",
+            "from": "law:us-federal-positions:energy-environment.limit-power-plant-carbon",
+            "lagMonths": 24,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_16b3bfd4091db759:2025-06",
+            "month": "2025-06",
+            "link": "power-plant-carbon-to-particulates",
+            "from": "law:us-federal-positions:energy-environment.limit-power-plant-carbon",
+            "lagMonths": 72,
+            "treated": 1,
+            "control": 0
+          }
+        ],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 122,
+        "sample": [
+          "person_08155d00064491bf:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:energy-environment.limit-power-plant-carbon:general:2025-01-21:law-wiring-c0357c70",
+          "person_11f8a33a381d6571:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:energy-environment.limit-power-plant-carbon:general:2025-01-21:law-wiring-c0357c70",
+          "person:press:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:owner:0:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:energy-environment.limit-power-plant-carbon:general:2025-01-21:law-wiring-c0357c70"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 73
+    },
+    {
+      "key": "budget-line:agriculture",
+      "kind": "budget-line",
+      "family": "agriculture",
+      "inForceAtOpening": false,
+      "change": "place:2745772 agriculture 0 -> 10000000 by law-wiring-bd747f33",
+      "lawIds": ["law-wiring-bd747f33"],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": [
+          "applied|budget-line:agriculture|jurisdiction_16b3bfd4091db759"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": [
+          "applied|budget-line:agriculture|jurisdiction_16b3bfd4091db759"
+        ]
+      },
+      "inPlay": [],
+      "applied": {
+        "rows": 1,
+        "withAmount": 1,
+        "sample": [
+          "applied|budget-line:agriculture|jurisdiction_16b3bfd4091db759"
+        ]
+      },
+      "readers": {},
+      "openingRow": null,
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+            "treatment": 685387046326272,
+            "control": 685387036325668,
+            "ids": [
+              "journal:2025-02-01:1085",
+              "journal:2025-02-01:1086",
+              "journal:2025-02-01:1087"
+            ]
+          }
+        ],
+        "diffKinds": 1,
+        "cited": [
+          {
+            "token": "budget-line:agriculture",
+            "gross": 5178704904704,
+            "ids": [
+              "journal:2025-02-01:1114",
+              "journal:2025-02-01:1115",
+              "journal:2025-02-01:1116"
+            ],
+            "control": 5178694904100
+          },
+          {
+            "token": "law-wiring-bd747f33",
+            "gross": 20001208,
+            "ids": [
+              "journal:2025-02-01:1435",
+              "journal:2025-02-01:1435",
+              "journal:2025-02-01:1436"
+            ]
+          }
+        ],
+        "controlCited": [],
+        "lines": [
+          {
+            "government": "place:2745772",
+            "line": "agriculture",
+            "moved": 10000000,
+            "treatment": 10000604,
+            "control": 0,
+            "ids": [
+              "journal:2025-02-01:1435",
+              "journal:2025-02-01:1436",
+              "journal:2025-02-01:1437"
+            ]
+          }
+        ],
+        "own": {
+          "targets": 1,
+          "among": "paid",
+          "pairs": [
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+              "way": "in",
+              "targets": 1,
+              "moved": 833941,
+              "earliest": "2026-01-01",
+              "sample": [
+                {
+                  "target": "jurisdiction_16b3bfd4091db759",
+                  "row": "applied|budget-line:agriculture|jurisdiction_16b3bfd4091db759",
+                  "date": "2026-01-01",
+                  "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+                  "way": "in",
+                  "treatment": 56821570022127,
+                  "control": 56821569188186,
+                  "journal": "journal:2026-01-01:93577"
+                }
+              ]
+            }
+          ],
+          "paid": 1,
+          "pick": "accounts.transfer @ src/core2/budgets-treasury.ts:1248|in",
+          "sample": [
+            {
+              "target": "jurisdiction_16b3bfd4091db759",
+              "row": "applied|budget-line:agriculture|jurisdiction_16b3bfd4091db759",
+              "date": "2026-01-01",
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+              "way": "in",
+              "treatment": 56821570022127,
+              "control": 56821569188186,
+              "journal": "journal:2026-01-01:93577"
+            }
+          ],
+          "near": [
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+              "way": "in",
+              "targets": 1,
+              "first": {
+                "target": "jurisdiction_16b3bfd4091db759",
+                "row": "applied|budget-line:agriculture|jurisdiction_16b3bfd4091db759",
+                "date": "2026-01-01",
+                "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+                "way": "in",
+                "treatment": 56821570022127,
+                "control": 56821569188186,
+                "journal": "journal:2026-01-01:93577"
+              }
+            }
+          ]
+        }
+      },
+      "web": {
+        "links": [],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 93,
+        "sample": [
+          "person_0af0d3e06ac8527e:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:agriculture:law-wiring-bd747f33",
+          "person_08155d00064491bf:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:agriculture:law-wiring-bd747f33",
+          "person_11f8a33a381d6571:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:agriculture:law-wiring-bd747f33"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": [
+          "applied|budget-line:agriculture|jurisdiction_16b3bfd4091db759"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 77
+    },
+    {
+      "key": "budget-line:nationalDefense",
+      "kind": "budget-line",
+      "family": "defense-veterans",
+      "inForceAtOpening": false,
+      "change": "place:2745772 nationalDefense 0 -> 10000000 by law-wiring-0a08fddd",
+      "lawIds": ["law-wiring-0a08fddd"],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": [
+          "applied|budget-line:nationalDefense|jurisdiction_16b3bfd4091db759"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": [
+          "applied|budget-line:nationalDefense|jurisdiction_16b3bfd4091db759"
+        ]
+      },
+      "inPlay": [],
+      "applied": {
+        "rows": 1,
+        "withAmount": 1,
+        "sample": [
+          "applied|budget-line:nationalDefense|jurisdiction_16b3bfd4091db759"
+        ]
+      },
+      "readers": {},
+      "openingRow": null,
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+            "treatment": 685387046335694,
+            "control": 685387036325668,
+            "ids": [
+              "journal:2025-02-01:1085",
+              "journal:2025-02-01:1086",
+              "journal:2025-02-01:1087"
+            ]
+          }
+        ],
+        "diffKinds": 1,
+        "cited": [
+          {
+            "token": "budget-line:nationalDefense",
+            "gross": 88548687438146,
+            "ids": [
+              "journal:2025-02-01:1097",
+              "journal:2025-02-01:1098",
+              "journal:2025-02-01:1435"
+            ],
+            "control": 88548677428120
+          },
+          {
+            "token": "law-wiring-0a08fddd",
+            "gross": 20020052,
+            "ids": [
+              "journal:2025-02-01:1435",
+              "journal:2025-02-01:1435",
+              "journal:2025-02-01:1436"
+            ]
+          }
+        ],
+        "controlCited": [],
+        "lines": [
+          {
+            "government": "place:2745772",
+            "line": "nationalDefense",
+            "moved": 10000000,
+            "treatment": 10010026,
+            "control": 0,
+            "ids": [
+              "journal:2025-02-01:1435",
+              "journal:2025-02-01:1436",
+              "journal:2025-03-01:9049"
+            ]
+          }
+        ],
+        "own": {
+          "targets": 1,
+          "among": "paid",
+          "pairs": [
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+              "way": "in",
+              "targets": 1,
+              "moved": 843363,
+              "earliest": "2026-01-01",
+              "sample": [
+                {
+                  "target": "jurisdiction_16b3bfd4091db759",
+                  "row": "applied|budget-line:nationalDefense|jurisdiction_16b3bfd4091db759",
+                  "date": "2026-01-01",
+                  "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+                  "way": "in",
+                  "treatment": 56821570031549,
+                  "control": 56821569188186,
+                  "journal": "journal:2026-01-01:93566"
+                }
+              ]
+            }
+          ],
+          "paid": 1,
+          "pick": "accounts.transfer @ src/core2/budgets-treasury.ts:1248|in",
+          "sample": [
+            {
+              "target": "jurisdiction_16b3bfd4091db759",
+              "row": "applied|budget-line:nationalDefense|jurisdiction_16b3bfd4091db759",
+              "date": "2026-01-01",
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+              "way": "in",
+              "treatment": 56821570031549,
+              "control": 56821569188186,
+              "journal": "journal:2026-01-01:93566"
+            }
+          ],
+          "near": [
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+              "way": "in",
+              "targets": 1,
+              "first": {
+                "target": "jurisdiction_16b3bfd4091db759",
+                "row": "applied|budget-line:nationalDefense|jurisdiction_16b3bfd4091db759",
+                "date": "2026-01-01",
+                "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+                "way": "in",
+                "treatment": 56821570031549,
+                "control": 56821569188186,
+                "journal": "journal:2026-01-01:93566"
+              }
+            }
+          ]
+        }
+      },
+      "web": {
+        "links": [],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 165,
+        "sample": [
+          "person_0af0d3e06ac8527e:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:nationalDefense:law-wiring-0a08fddd",
+          "person_08155d00064491bf:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:nationalDefense:law-wiring-0a08fddd",
+          "person_11f8a33a381d6571:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:nationalDefense:law-wiring-0a08fddd"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": [
+          "applied|budget-line:nationalDefense|jurisdiction_16b3bfd4091db759"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 73
+    },
+    {
+      "key": "budget-line:veterans",
+      "kind": "budget-line",
+      "family": "defense-veterans",
+      "inForceAtOpening": false,
+      "change": "place:2745772 veterans 0 -> 10000000 by law-wiring-8285a4e0",
+      "lawIds": ["law-wiring-8285a4e0"],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": ["applied|budget-line:veterans|jurisdiction_16b3bfd4091db759"]
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": ["applied|budget-line:veterans|jurisdiction_16b3bfd4091db759"]
+      },
+      "inPlay": [],
+      "applied": {
+        "rows": 1,
+        "withAmount": 1,
+        "sample": ["applied|budget-line:veterans|jurisdiction_16b3bfd4091db759"]
+      },
+      "readers": {},
+      "openingRow": null,
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+            "treatment": 685387046325664,
+            "control": 685387036325668,
+            "ids": [
+              "journal:2025-02-01:1085",
+              "journal:2025-02-01:1086",
+              "journal:2025-02-01:1087"
+            ]
+          }
+        ],
+        "diffKinds": 1,
+        "cited": [
+          {
+            "token": "budget-line:veterans",
+            "gross": 36572089527852,
+            "ids": [
+              "journal:2025-02-01:1099",
+              "journal:2025-02-01:1100",
+              "journal:2025-02-01:1101"
+            ],
+            "control": 36572079527856
+          },
+          {
+            "token": "law-wiring-8285a4e0",
+            "gross": 19999992,
+            "ids": [
+              "journal:2025-02-01:1435",
+              "journal:2025-02-01:1435",
+              "journal:2025-02-01:1436"
+            ]
+          }
+        ],
+        "controlCited": [],
+        "lines": [
+          {
+            "government": "place:2745772",
+            "line": "veterans",
+            "moved": 10000000,
+            "treatment": 9999996,
+            "control": 0,
+            "ids": [
+              "journal:2025-02-01:1435",
+              "journal:2025-02-01:1436",
+              "journal:2025-02-01:1437"
+            ]
+          }
+        ],
+        "own": {
+          "targets": 1,
+          "among": "paid",
+          "pairs": [
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+              "way": "in",
+              "targets": 1,
+              "moved": 833333,
+              "earliest": "2025-02-01",
+              "sample": [
+                {
+                  "target": "jurisdiction_16b3bfd4091db759",
+                  "row": "applied|budget-line:veterans|jurisdiction_16b3bfd4091db759",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+                  "way": "in",
+                  "treatment": 56954387754206,
+                  "control": 56954386920873,
+                  "journal": "journal:2025-02-01:1088"
+                }
+              ]
+            }
+          ],
+          "paid": 1,
+          "pick": "accounts.transfer @ src/core2/budgets-treasury.ts:1248|in",
+          "sample": [
+            {
+              "target": "jurisdiction_16b3bfd4091db759",
+              "row": "applied|budget-line:veterans|jurisdiction_16b3bfd4091db759",
+              "date": "2025-02-01",
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+              "way": "in",
+              "treatment": 56954387754206,
+              "control": 56954386920873,
+              "journal": "journal:2025-02-01:1088"
+            }
+          ],
+          "near": [
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+              "way": "in",
+              "targets": 1,
+              "first": {
+                "target": "jurisdiction_16b3bfd4091db759",
+                "row": "applied|budget-line:veterans|jurisdiction_16b3bfd4091db759",
+                "date": "2025-02-01",
+                "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+                "way": "in",
+                "treatment": 56954387754206,
+                "control": 56954386920873,
+                "journal": "journal:2025-02-01:1088"
+              }
+            }
+          ]
+        }
+      },
+      "web": {
+        "links": [],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 93,
+        "sample": [
+          "person_0af0d3e06ac8527e:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:veterans:law-wiring-8285a4e0",
+          "person_08155d00064491bf:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:veterans:law-wiring-8285a4e0",
+          "person_11f8a33a381d6571:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:veterans:law-wiring-8285a4e0"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 78
+    },
+    {
+      "key": "budget-line:internationalAffairs",
+      "kind": "budget-line",
+      "family": "foreign-trade",
+      "inForceAtOpening": false,
+      "change": "place:2745772 internationalAffairs 0 -> 10000000 by law-wiring-66ac72d7",
+      "lawIds": ["law-wiring-66ac72d7"],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": [
+          "applied|budget-line:internationalAffairs|jurisdiction_16b3bfd4091db759"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": [
+          "applied|budget-line:internationalAffairs|jurisdiction_16b3bfd4091db759"
+        ]
+      },
+      "inPlay": [],
+      "applied": {
+        "rows": 1,
+        "withAmount": 1,
+        "sample": [
+          "applied|budget-line:internationalAffairs|jurisdiction_16b3bfd4091db759"
+        ]
+      },
+      "readers": {},
+      "openingRow": null,
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+            "treatment": 685387046319130,
+            "control": 685387036325668,
+            "ids": [
+              "journal:2025-02-01:1085",
+              "journal:2025-02-01:1086",
+              "journal:2025-02-01:1087"
+            ]
+          }
+        ],
+        "diffKinds": 1,
+        "cited": [
+          {
+            "token": "budget-line:internationalAffairs",
+            "gross": 4647289593114,
+            "ids": [
+              "journal:2025-02-01:1112",
+              "journal:2025-02-01:1113",
+              "journal:2025-02-01:1435"
+            ],
+            "control": 4647279599652
+          },
+          {
+            "token": "law-wiring-66ac72d7",
+            "gross": 19986924,
+            "ids": [
+              "journal:2025-02-01:1435",
+              "journal:2025-02-01:1435",
+              "journal:2025-02-01:1436"
+            ]
+          }
+        ],
+        "controlCited": [],
+        "lines": [
+          {
+            "government": "place:2745772",
+            "line": "internationalAffairs",
+            "moved": 10000000,
+            "treatment": 9993462,
+            "control": 0,
+            "ids": [
+              "journal:2025-02-01:1435",
+              "journal:2025-02-01:1436",
+              "journal:2025-03-01:9049"
+            ]
+          }
+        ],
+        "own": {
+          "targets": 1,
+          "among": "paid",
+          "pairs": [
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+              "way": "in",
+              "targets": 1,
+              "moved": 833333,
+              "earliest": "2025-02-01",
+              "sample": [
+                {
+                  "target": "jurisdiction_16b3bfd4091db759",
+                  "row": "applied|budget-line:internationalAffairs|jurisdiction_16b3bfd4091db759",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+                  "way": "in",
+                  "treatment": 56954387754206,
+                  "control": 56954386920873,
+                  "journal": "journal:2025-02-01:1088"
+                }
+              ]
+            }
+          ],
+          "paid": 1,
+          "pick": "accounts.transfer @ src/core2/budgets-treasury.ts:1248|in",
+          "sample": [
+            {
+              "target": "jurisdiction_16b3bfd4091db759",
+              "row": "applied|budget-line:internationalAffairs|jurisdiction_16b3bfd4091db759",
+              "date": "2025-02-01",
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+              "way": "in",
+              "treatment": 56954387754206,
+              "control": 56954386920873,
+              "journal": "journal:2025-02-01:1088"
+            }
+          ],
+          "near": [
+            {
+              "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+              "way": "in",
+              "targets": 1,
+              "first": {
+                "target": "jurisdiction_16b3bfd4091db759",
+                "row": "applied|budget-line:internationalAffairs|jurisdiction_16b3bfd4091db759",
+                "date": "2025-02-01",
+                "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1248",
+                "way": "in",
+                "treatment": 56954387754206,
+                "control": 56954386920873,
+                "journal": "journal:2025-02-01:1088"
+              }
+            }
+          ]
+        }
+      },
+      "web": {
+        "links": [],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 90,
+        "sample": [
+          "person_0af0d3e06ac8527e:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:internationalAffairs:law-wiring-66ac72d7",
+          "person_08155d00064491bf:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:internationalAffairs:law-wiring-66ac72d7",
+          "person_11f8a33a381d6571:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:internationalAffairs:law-wiring-66ac72d7"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 82
+    },
+    {
+      "key": "us-federal-positions:trade.raise-tariffs",
+      "kind": "question",
+      "family": "foreign-trade",
+      "inForceAtOpening": false,
+      "change": "enacted at federal (law:US:federal:us-federal-positions:trade.raise-tariffs:general:2025-01-21:law-wiring-495529d9) effective 2025-01-21; then repealed at federal effective 2026-01-22",
+      "lawIds": [
+        "law:US:federal:us-federal-positions:trade.raise-tariffs:general:2025-01-21:law-wiring-495529d9",
+        "law:US:federal:us-federal-positions:trade.raise-tariffs:general:2026-01-22:law-wiring-495529d9-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "inPlay": [],
+      "applied": {
+        "rows": 0,
+        "withAmount": 0,
+        "sample": []
+      },
+      "readers": {
+        "src/core2/modules/outcome-web.ts:207": 246,
+        "src/core2/modules/legislature.ts:4224": 9,
+        "src/core2/life.ts:573": 5
+      },
+      "openingRow": "law:US:federal:us-federal-positions:trade.raise-tariffs:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [],
+        "diffKinds": 0,
+        "cited": [],
+        "controlCited": [],
+        "own": {
+          "targets": 0,
+          "among": "reached",
+          "pairs": [],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "tariffs-to-prices",
+            "status": "built",
+            "to": "household.prices"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [
+          {
+            "id": "web:jurisdiction_16b3bfd4091db759:2025-01",
+            "month": "2025-01",
+            "link": "tariffs-to-prices",
+            "from": "law:us-federal-positions:trade.raise-tariffs",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_16b3bfd4091db759:2025-02",
+            "month": "2025-02",
+            "link": "tariffs-to-prices",
+            "from": "law:us-federal-positions:trade.raise-tariffs",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_16b3bfd4091db759:2025-03",
+            "month": "2025-03",
+            "link": "tariffs-to-prices",
+            "from": "law:us-federal-positions:trade.raise-tariffs",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_16b3bfd4091db759:2025-04",
+            "month": "2025-04",
+            "link": "tariffs-to-prices",
+            "from": "law:us-federal-positions:trade.raise-tariffs",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_16b3bfd4091db759:2025-05",
+            "month": "2025-05",
+            "link": "tariffs-to-prices",
+            "from": "law:us-federal-positions:trade.raise-tariffs",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_16b3bfd4091db759:2025-06",
+            "month": "2025-06",
+            "link": "tariffs-to-prices",
+            "from": "law:us-federal-positions:trade.raise-tariffs",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_16b3bfd4091db759:2025-07",
+            "month": "2025-07",
+            "link": "tariffs-to-prices",
+            "from": "law:us-federal-positions:trade.raise-tariffs",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_16b3bfd4091db759:2025-08",
+            "month": "2025-08",
+            "link": "tariffs-to-prices",
+            "from": "law:us-federal-positions:trade.raise-tariffs",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_16b3bfd4091db759:2025-09",
+            "month": "2025-09",
+            "link": "tariffs-to-prices",
+            "from": "law:us-federal-positions:trade.raise-tariffs",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_16b3bfd4091db759:2025-10",
+            "month": "2025-10",
+            "link": "tariffs-to-prices",
+            "from": "law:us-federal-positions:trade.raise-tariffs",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_16b3bfd4091db759:2025-11",
+            "month": "2025-11",
+            "link": "tariffs-to-prices",
+            "from": "law:us-federal-positions:trade.raise-tariffs",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_16b3bfd4091db759:2025-12",
+            "month": "2025-12",
+            "link": "tariffs-to-prices",
+            "from": "law:us-federal-positions:trade.raise-tariffs",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          }
+        ],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 122,
+        "sample": [
+          "person_08155d00064491bf:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:trade.raise-tariffs:general:2025-01-21:law-wiring-495529d9",
+          "person_11f8a33a381d6571:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:trade.raise-tariffs:general:2025-01-21:law-wiring-495529d9",
+          "person:press:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:owner:0:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:trade.raise-tariffs:general:2025-01-21:law-wiring-495529d9"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 79
+    }
+  ]
+}

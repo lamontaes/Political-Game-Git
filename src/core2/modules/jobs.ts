@@ -1497,6 +1497,8 @@ export function layOff(
   budget: number,
   values: Readonly<Record<string, number>>,
   tradingId?: string,
+  /** A chosen worker goes instead of the one the business values least (dev mode); the record keeps the pick. */
+  pickJobId?: string,
 ): { heads: number; id?: string } | "over" | undefined {
   const c = core(api);
   const valued = new Map(
@@ -1508,7 +1510,9 @@ export function layOff(
     )[0];
   const keep = (job: JobInput) =>
     valued.get(job)!.tenure + valued.get(job)!.work;
-  const job = least(keep);
+  const job =
+    (pickJobId ? staff.find((j) => j.id === pickJobId) : undefined) ??
+    least(keep);
   if (!job) return;
   // Whether how they work, not tenure alone, decided who goes: the record keeps
   // it as a reason.
@@ -3913,6 +3917,35 @@ export function layOffCounted(api: CoreAPI, jobId: string): boolean {
     values: { hourlyMinor: job.hourlyMinor ?? 0, counted: 1 },
   });
   return true;
+}
+
+/**
+ * A named worker's job ends through the business's own layoff: the same separation, record, work.job-lost
+ * event, state claim and seeker row as when its review lets someone go, with the worker picked in place
+ * of the one it values least and the pick kept in the record's values. Null where the job is not on a
+ * staff; "worked-today" where the worker played their day (the same choice is made the next day).
+ */
+export function layOffWorker(
+  api: CoreAPI,
+  jobId: string,
+): { heads: number; id?: string } | "over" | "worked-today" | null {
+  if (!api.state.modules.has(JOBS_MODULE_ID)) return null;
+  const c = core(api);
+  const job = c.jobs.get(jobId) ?? residentsRuntime(c)?.jobs.get(jobId);
+  if (!job) return null;
+  const staff = currentJobs(api, job.organizationId);
+  if (!staff.some((row) => row.id === jobId)) return null;
+  return (
+    layOff(
+      api,
+      job.organizationId,
+      staff,
+      headsOf(c, job),
+      { picked: 1 },
+      undefined,
+      jobId,
+    ) ?? "worked-today"
+  );
 }
 
 export const JOBS_MODULE: CoreModule = {

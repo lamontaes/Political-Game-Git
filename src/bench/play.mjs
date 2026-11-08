@@ -627,6 +627,11 @@ async function act(path) {
       if (office.reasonKey === "office-day.meeting") await inMeeting();
       else if (office.reasonKey === "office-day.desk") await atDesk();
       else if (
+        office.reasonKey === "office-day.executive-order" ||
+        office.reasonKey === "office-day.emergency"
+      )
+        await atOrders();
+      else if (
         office.reasonKey === "office-day-federal.floor-vote" ||
         office.reasonKey === "office-day-state.floor-vote"
       )
@@ -852,6 +857,50 @@ function atFloor() {
     };
     show("desk", true);
     api("/api/floor").then(draw);
+  });
+}
+
+// The orders the governor's staff brings for signature hold the clock: each is issued (or revoked) or set aside by the player.
+function atOrders() {
+  return new Promise((resolve) => {
+    const words = controls.orders ?? {};
+    const draw = (orders) => {
+      if (!orders.length) return finish();
+      $("desk-items").replaceChildren(
+        ...orders.map((item) =>
+          plate(
+            item.kind === "emergency" ? words.emergency : (item.name ?? ""),
+            buttonRow(
+              ...["issue", "decline"].map((how) => {
+                const b = makeButton({
+                  className: "action",
+                  textContent:
+                    item.kind === "emergency"
+                      ? words[`emergency-${how}`]
+                      : how === "issue" && item.revoke
+                        ? words.revoke
+                        : words[how],
+                });
+                b.addEventListener("click", async () =>
+                  draw(
+                    await post(
+                      `/api/orders?${new URLSearchParams({ entryId: item.entryId, how })}`,
+                    ),
+                  ),
+                );
+                return b;
+              }),
+            ),
+          ),
+        ),
+      );
+    };
+    const finish = () => {
+      show("desk", false);
+      resolve();
+    };
+    show("desk", true);
+    api("/api/orders").then(draw);
   });
 }
 
@@ -3776,6 +3825,26 @@ const sheets = {
           el(
             "div",
             { className: "roster-side" },
+            ...(race.lastTime
+              ? [
+                  stripSection(
+                    3,
+                    labels.lastTime,
+                    dotRows([
+                      {
+                        label: dateWords(race.lastTime.date, {
+                          year: me.date,
+                        }),
+                        value: race.lastTime.winner,
+                      },
+                      {
+                        label: labels.share,
+                        value: `${race.lastTime.sharePercent} ${labels.percent}`,
+                      },
+                    ]),
+                  ),
+                ]
+              : []),
             stripSection(
               2,
               labels.dates,
