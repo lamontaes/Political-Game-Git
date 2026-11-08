@@ -27,6 +27,13 @@ registerWorldMapPart("core2-decision-detail-drop-queue", dropQueues);
 const entryQueues = new WeakMap<CoreState, [string, string][]>();
 registerWorldMapPart("core2-decision-detail-entry-queue", entryQueues);
 
+/** Circle relationships whose latest change keeps a full decision, to condense on the log's schedule. */
+const relationshipQueues = new WeakMap<CoreState, [string, string][]>();
+registerWorldMapPart(
+  "core2-decision-detail-relationship-queue",
+  relationshipQueues,
+);
+
 /** The player's own routine acts and weighed choices, with their full scores, to condense once a year old. */
 const playerQueues = new WeakMap<CoreState, [string, string][]>();
 registerWorldMapPart("core2-decision-detail-player-queue", playerQueues);
@@ -93,6 +100,68 @@ export function queueCircleEntry(
   queue.push([date, id]);
 }
 
+/** A relationship whose latest change holds a circle member's full decision (`relationship` in state.ts). */
+export function queueRelationshipDetail(
+  core: CoreState,
+  date: string,
+  id: string,
+): void {
+  let queue = relationshipQueues.get(core);
+  if (!queue) relationshipQueues.set(core, (queue = []));
+  queue.push([date, id]);
+}
+
+/**
+ * The tie's latest change keeps the circle member's decision with every
+ * option's score for the detail window, as their log entry does, then only
+ * what the "why" view names (`condenseDecision`). A tie changed since keeps
+ * the newer change's own queue entry. The debug observer keeps everything.
+ */
+function condenseRelationshipDecisions(core: CoreState): void {
+  const queue = relationshipQueues.get(core);
+  if (!queue?.length || core.observer) return;
+  const before = daysAgo(
+    core,
+    parameter("circleDecisionDetailDays", core.data.parameters),
+  );
+  let done = 0;
+  while (done < queue.length && queue[done]![0] < before) {
+    const [date, id] = queue[done]!;
+    done++;
+    const row = core.relationships.get(id);
+    const change = row?.latestChange;
+    const decision = change?.decision;
+    if (
+      !row ||
+      !change ||
+      !decision?.scores ||
+      change.date !== date ||
+      decision.actorId === core.playerId
+    )
+      continue;
+    const compact = (decision as { compactChoice?: unknown }).compactChoice;
+    const kept: Record<string, unknown> = {};
+    for (const [key, value] of Object.entries({
+      actorId: decision.actorId,
+      date: decision.date,
+      reasonKey: decision.reasonKey,
+      selectedReasons: decision.selectedReasons,
+      ...(compact !== undefined
+        ? { compactChoice: compact }
+        : { selected: decision.selected }),
+    }))
+      if (value !== undefined) kept[key] = value;
+    core.relationships.set(id, {
+      ...row,
+      latestChange: {
+        ...change,
+        decision: kept as unknown as DecisionResult,
+      },
+    });
+  }
+  if (done) queue.splice(0, done);
+}
+
 export function queueDecisionDetail(
   core: CoreState,
   date: string,
@@ -153,6 +222,7 @@ export function condenseCircleDecisions(core: CoreState): void {
   if (core.date.endsWith("-01")) foldOldCashJournalDetail(core);
   forgetOldExperiences(core);
   condensePlayerDecisions(core);
+  condenseRelationshipDecisions(core);
   const queue = queues.get(core);
   if (!queue?.length) {
     dropOldCircleActs(core, dropQueues);
