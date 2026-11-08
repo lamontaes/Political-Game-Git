@@ -2308,6 +2308,21 @@ async function personCardNode(
           ),
         ]
       : []),
+    // Where they place themselves politically, once the player has learned it; until then the
+    // card says so (the world still holds the real view).
+    ...(c.view || c.viewUnknown
+      ? [
+          stripSection(
+            2,
+            controls.who.views,
+            introText(
+              c.view
+                ? c.view.charAt(0).toUpperCase() + c.view.slice(1)
+                : controls.who.viewUnknown,
+            ),
+          ),
+        ]
+      : []),
     ...(sharedLines.length
       ? [stripSection(5, labels.betweenUs, ...sharedLines)]
       : []),
