@@ -602,10 +602,23 @@ describe(`a counted payroll short of cash draws its employer's credit line (seed
       const where = `${drawn.name} (${drawn.key}), seed ${drawn.seed}, base ${seed}:${attempt}`;
       const build = () => {
         setBookkeeping(false);
-        return buildBenchWorld(drawn.seed, gameStartDate(), {
+        const built = buildBenchWorld(drawn.seed, gameStartDate(), {
           twoLevel: true,
           placeKey: drawn.key,
         }).core;
+        // The town's firms sell to their books (the trade area, opening-outside-market.ts), so
+        // a counted payroll is rarely short of cash on its own. This test is of the draw, so it
+        // starts the firms that pay counted wages with no cash: an edge case set up by hand.
+        for (const flow of residentsRuntime(built)!.flows.values()) {
+          const employer = built.organizations.get(flow.payerId);
+          if (
+            flow.kind === "wages" &&
+            built.finance.businesses.has(flow.payerId) &&
+            employer
+          )
+            (employer as { liquidMinor: number }).liquidMinor = 0;
+        }
+        return built;
       };
       // First pass: the year, day by day, noting each payday a line paid.
       const core = build();

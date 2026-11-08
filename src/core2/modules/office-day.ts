@@ -1159,3 +1159,8 @@ export {
 export { appointGovernor, doEntry, waitingEntries } from "../office-day-state";
 export { budgetProposalDue } from "../office-day-acts";
 export { jointAddress } from "../office-day-federal-calendar";
+export {
+  leavePostOpen,
+  nominate,
+  nominationsOpen,
+} from "../office-day-federal-president";
