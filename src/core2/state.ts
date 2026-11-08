@@ -111,6 +111,7 @@ import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { moveLivingShare } from "./cost-of-living";
 import { CORE_API_VERSION, CORE_SCHEMA_VERSION, DEFAULT_DATA } from "./data";
 import { parameter, parameterValues } from "./parameters";
+import { openingTiesOf } from "./opening-ties";
 import {
   isExplicitlyControlledPersonV1,
   prepareControlledActTraceV1,
@@ -1290,7 +1291,7 @@ export function coreAPI(core: CoreState): CoreAPI {
       core.relationships.set(id, row);
       // A circle member's full decision is condensed on the log's schedule.
       if (
-        latestChange?.decision?.scores &&
+        (latestChange?.decision as { scores?: unknown } | undefined)?.scores &&
         actorId !== core.playerId &&
         !core.observer &&
         !isExplicitlyControlledPersonV1(core, actorId)
@@ -2374,10 +2375,15 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
     const active = recorded
       ? countedJob(core, recorded.id) !== undefined
       : false;
+    // Neighbors and county coworkers they know from their years in place.
+    const ties = openingTiesOf(core, row, home);
     admitted.push(
       admitPerson(core, {
         ...row,
         liquidMinor: 0,
+        ...(ties.length
+          ? { knownIds: [...new Set([...row.knownIds, ...ties])] }
+          : {}),
         ...(active ? {} : { jobId: undefined }),
       }),
     );

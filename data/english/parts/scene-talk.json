@@ -74,6 +74,7 @@
     "number": "A count from the record.",
     "reached": "How many people talked with the candidate, from the canvass record.",
     "required": "What a filing rule requires (an age, a residence), from the eligibility rule.",
+    "actual": "What a filing rule finds in the person's records (an age, the place they live), from the eligibility rule.",
     "trail": "The runner-up's votes there, from the count.",
     "body": "The place's own council or board, as its office record names it: City Council, Board of Selectmen.",
     "given": "What the candidate gave their own campaign, as people round it, from the campaign's gift record."
@@ -129820,10 +129821,10 @@
       }
     },
     {
-      "key": "scene-talk.state-rule-residency.you-have-to-file-your-papers-with-where-in-the-county-where-you-live",
+      "key": "scene-talk.state-rule-residency.you-can-only-file-for-office-if-you-live-in-required-and-your-address-has-you-in-actual",
       "move": "state-rule-residency",
       "kind": "spoken",
-      "text": "You have to file your papers with {where} in the county where you live.",
+      "text": "You can only file for {office} if you live in {required}, and your address has you in {actual}.",
       "uses": [
         {
           "subject": "scene",
