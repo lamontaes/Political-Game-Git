@@ -3,13 +3,19 @@ import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "../core2/game-start";
 import {
+  billOf,
   holdVote,
   learnStake,
   memberKey,
   members,
 } from "../core2/modules/legislature";
 import { coreAPI } from "../core2/state";
-import { billStage } from "./bill-stage";
+import {
+  billStage,
+  chooseOwnVote,
+  keepStaffRedraft,
+  staffRedraft,
+} from "./bill-stage";
 import { seatAct, seatView } from "./legislature";
 import { buildBenchWorld } from "./world";
 
@@ -70,15 +76,47 @@ describe(`a bill's stage (seed ${seed})`, () => {
         expect(told.name.length).toBeGreaterThan(0);
       }
 
+      // Staff redraft the section to split the difference with the law in force; kept, the
+      // paper is rewritten and the bill is still on paper.
+      const redraft = staffRedraft(world.core, bill.id, 0, sponsor);
+      expect(redraft.struck).not.toBe(redraft.inserted);
+      expect(redraft.value).toBe(
+        Math.round(
+          (((wage?.current ?? 0) + (wage?.current ?? 0) + 200) / 2) * 100,
+        ) / 100,
+      );
+      const kept = keepStaffRedraft(world.core, bill.id, 0, sponsor);
+      expect(kept.status).toBe("drafted");
+      expect(billOf(api, bill.id).provisions[0]!.value).toBe(redraft.value);
+      // The sponsor sits on the body, so they may choose their own vote before the floor.
+      const chosen = chooseOwnVote(world.core, bill.id, "no", sponsor);
+      expect(chosen.yours.chosen).toBe("no");
       holdVote(api, bill.id);
       const after = billStage(world.core, bill.id);
       expect(after.floor.length, "the floor voted").toBeGreaterThan(0);
       for (const chamber of after.floor) {
         expect(chamber.yes.length + chamber.no.length).toBeGreaterThan(0);
+        expect(chamber.result, "the result in words").toMatch(
+          new RegExp(
+            `^(Adopted|Passed), ${chamber.yes.length} to ${chamber.no.length}\\.$|^Defeated, ${chamber.no.length} to ${chamber.yes.length}\\.$`,
+          ),
+        );
         for (const v of [...chamber.yes, ...chamber.no])
           expect(v.name.length, v.memberId).toBeGreaterThan(0);
       }
       expect(after.stage).not.toBe("drafted");
+      // A bill the executive signed or vetoed names them and the reasons the record kept.
+      if (after.status === "signed" || after.status === "vetoed") {
+        expect(after.desk.decided.length).toBe(1);
+        expect(after.desk.decided[0]!.name.length).toBeGreaterThan(0);
+        expect(after.desk.decided[0]!.vote).toBe(
+          after.status === "signed" ? "sign" : "veto",
+        );
+      }
+      expect(
+        after.floor.flatMap((c) => c.no).some((v) => v.memberId === sponsor),
+        "the sponsor's own chosen No is on the floor result",
+      ).toBe(true);
       console.log(
         `bill stage: ${draw.name} (${draw.key}, seed ${draw.seed}) ${bill.id} -> ${after.stage}, floor ${after.floor
           .map((c) => `${c.yes.length}-${c.no.length}`)

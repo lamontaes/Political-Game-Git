@@ -467,6 +467,24 @@ function composeBinding(
       };
     }
   }
+  // A strike or protest in the town (public-action.ts): what it is over.
+  // stopgapId: SG-WORDS-action-confront-town-hall-lines. The
+  // official has given no answer yet, so the exchange opens as a town hall
+  // does when the host declined to answer: the protester wants to hear where
+  // they stand.
+  if (said.actionId && said.question) {
+    const issue = questionAbout(said.question);
+    if (issue) {
+      facts.issue = {
+        text: issue,
+        sourceRecordIds: [said.actionId, moment.causeId],
+      };
+      facts["host-declined"] = {
+        text: "host-declined",
+        sourceRecordIds: [said.actionId, askedId, askerId],
+      };
+    }
+  }
   // What an offer asks in return (a vote, a contract): the lines about that favor need it.
   if (said.favor)
     facts[`favor-${said.favor}`] = {

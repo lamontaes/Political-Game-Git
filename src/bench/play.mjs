@@ -28,6 +28,8 @@ import { timeline } from "./ui/timeline.mjs";
 import { makeCard } from "./ui/card.mjs";
 import { townRow } from "./ui/town-row.mjs";
 import { debateCard, speechCard } from "./ui/campaign-acts.mjs";
+import { devBribePanel } from "./ui/dev-bribe.mjs";
+import { devBillsPanel } from "./ui/dev-bills.mjs";
 import { devMemorySection } from "./ui/dev-memory.mjs";
 import { devRunPanel } from "./ui/dev-run.mjs";
 import {
@@ -59,6 +61,7 @@ import {
 const roundedMoney = (minor) => moneyWords(minor, { rounded: true });
 import { peopleWeb } from "./ui/people-web.mjs";
 import { billPaper } from "./ui/bill-paper.mjs";
+import { billStageSections } from "./ui/bill-stage.mjs";
 import { meetingItem } from "./ui/meeting-item.mjs";
 import { draftCard } from "./ui/draft-card.mjs";
 import { bold, line, prose, heading, labeled, smallText } from "./ui/text.mjs";
@@ -2298,9 +2301,11 @@ function billEstimate(paper, section) {
  */
 async function openBillPaper(billId, show, back, backLabel) {
   const paper = await api(`/api/bill?billId=${encodeURIComponent(billId)}`);
+  const stage = await api(
+    `/api/bill/stage?billId=${encodeURIComponent(billId)}`,
+  );
   const words = controls.bill ?? {};
   const floor = controls.floor ?? {};
-  const meet = controls.meeting ?? {};
   const backButton = makeButton({
     className: "action",
     textContent: backLabel ?? words.back ?? "",
@@ -2325,23 +2330,73 @@ async function openBillPaper(billId, show, back, backLabel) {
         paper.floorDate
           ? `${floor.takenUp ?? ""} ${dateWords(paper.floorDate)}`
           : null,
-        ...paper.whip.map(
-          (count) =>
-            `${count.chamber}: ${count.yes} ${floor.for ?? ""}, ${count.no} ${floor.against ?? ""}, ${count.undecided} ${floor.undecided ?? ""}`,
-        ),
-        ...(paper.votes.length
-          ? [
-              `${floor.voted ?? ""}: ${paper.tally.yes} ${floor.yes ?? ""}, ${paper.tally.no} ${floor.no ?? ""}`,
-              paper.votes
-                .map((x) => `${x.name} · ${meet[x.vote] ?? ""}`)
-                .join(" · "),
-            ]
-          : []),
         paper.decision
           ? `${words.decided ?? ""}: ${floor.status?.[paper.decision.status] ?? ""}${paper.decision.passedOn ? ` · ${dateWords(paper.decision.passedOn)}` : ""}`
           : null,
       ],
     }),
+    // Where the bill is: the committee's record, what members told you, the floor and
+    // the override, each member by name (ui/bill-stage.mjs).
+    ...billStageSections(
+      stage,
+      controls.billStage ?? {},
+      (person) => showPerson({ personId: person.personId }),
+      async (how) => {
+        await api(
+          `/api/bill/vote?${new URLSearchParams({ billId, vote: how })}`,
+          "POST",
+        );
+        await openBillPaper(billId, show, back, backLabel);
+      },
+      {
+        onMove: async (index, direction) => {
+          await api(
+            `/api/bill/amend?${new URLSearchParams({ billId, index, direction })}`,
+            "POST",
+          );
+          await openBillPaper(billId, show, back, backLabel);
+        },
+        onCall: async (item) => {
+          await api(
+            `/api/bill/amendment-vote?${new URLSearchParams({ amendmentId: item.id })}`,
+            "POST",
+          );
+          await openBillPaper(billId, show, back, backLabel);
+        },
+        estimate: (item) =>
+          [
+            item.estimateAfter.workersRaised > 0
+              ? `${item.estimateAfter.workersRaised} ${words.workers ?? ""}`
+              : null,
+            item.estimateAfter.annualPayMinor > 0
+              ? moneyWords(item.estimateAfter.annualPayMinor)
+              : null,
+          ]
+            .filter(Boolean)
+            .join(" · "),
+      },
+      {
+        onDecide: async (how) => {
+          await api(
+            `/api/desk?${new URLSearchParams({ billId, how })}`,
+            "POST",
+          );
+          await openBillPaper(billId, show, back, backLabel);
+        },
+      },
+      {
+        onAsk: (index) =>
+          api(`/api/bill/redraft?${new URLSearchParams({ billId, index })}`),
+        onKeep: async (index) => {
+          await api(
+            `/api/bill/redraft?${new URLSearchParams({ billId, index })}`,
+            "POST",
+          );
+          await openBillPaper(billId, show, back, backLabel);
+        },
+        estimate: () => "",
+      },
+    ),
   );
 }
 
@@ -2447,19 +2502,11 @@ async function seatRows() {
   const labels = controls.officeScreen ?? {};
   // A bill of yours on its plate: its standing, the day it is taken up, each chamber's count
   // the day before, how the vote came out, and the paper that opens to read it.
-  const billPlates = v.bills.map(({ bill, votes, tally, floorDate, whip }) =>
+  const billPlates = v.bills.map(({ bill, votes, tally, floorDate }) =>
     plate(
       `${bill.number} · ${floor.status[bill.status] ?? ""}`,
       ...(floorDate
         ? [line(`${floor.takenUp} ${dateWords(floorDate)}`, "floor-date")]
-        : []),
-      ...(bill.status === "drafted"
-        ? whip.map((count) =>
-            line(
-              `${count.chamber}: ${count.yes} ${floor.for}, ${count.no} ${floor.against}, ${count.undecided} ${floor.undecided}`,
-              "floor-whip",
-            ),
-          )
         : []),
       ...(votes.length
         ? [
@@ -3784,6 +3831,62 @@ const sheets = {
    * inside its box, never a scroll (owner, Oct 29). Every card opens the
    * person's card, where you act (owner, Oct 29: see and jump).
    */
+  // Bills before your state's chambers and Congress, followed from home: where each is, how
+  // your own members voted, whether it reaches your place; a card opens the bill's paper.
+  async bills() {
+    const words = controls.billFollow ?? {};
+    const status = controls.floor?.status ?? {};
+    const list = await api("/api/bills/following");
+    const body = (...nodes) => $("sheet-body").replaceChildren(...nodes);
+    const open = (item) =>
+      openBillPaper(item.id, body, () => openSheet("bills"), words.back);
+    return [
+      stripScreen({
+        name: controls.titles.bills,
+        role: "",
+        face: null,
+        columns: [
+          list.length
+            ? list.map((item, at) => {
+                const button = makeButton({
+                  className: "action",
+                  textContent: words.open,
+                });
+                button.addEventListener("click", () => open(item));
+                return stripSection(
+                  1 + (at % 5),
+                  `${item.number} · ${item.title}`,
+                  line(
+                    [
+                      status[item.status],
+                      ...item.floor.map(
+                        (f) => `${f.chamberTitle}: ${f.result}`,
+                      ),
+                      item.reachesYou ? words.reaches : null,
+                    ]
+                      .filter(Boolean)
+                      .join(" · "),
+                  ),
+                  ...(item.mine.length
+                    ? [
+                        line(
+                          `${words.yourMembers}: ${item.mine
+                            .map(
+                              (m) =>
+                                `${m.name} ${controls.billStage?.[m.vote === "yes" ? "yes" : m.vote === "no" ? "no" : "abstain"] ?? ""}`,
+                            )
+                            .join(", ")}`,
+                        ),
+                      ]
+                    : []),
+                  button,
+                );
+              })
+            : [stripSection(1, controls.titles.bills, prose(words.empty))],
+        ],
+      }),
+    ];
+  },
   async government() {
     const labels = controls.politics;
     const [{ states }, gov] = await Promise.all([
@@ -4232,7 +4335,25 @@ const sheets = {
       fitPagers(screenNode);
       return screenNode;
     };
-    return [await screen()];
+    const devBills = devModeOn()
+      ? await devBillsPanel({
+          labels: controls.devBills,
+          onDone: () => refresh(),
+        })
+      : null;
+    const devBribe = devBills
+      ? await devBribePanel({
+          labels: controls.devBribe,
+          bodies: devBills.bodies,
+          billId: devBills.billId,
+          onDone: () => refresh(),
+        })
+      : null;
+    return [
+      await screen(),
+      ...(devBills ? [devBills.section] : []),
+      ...(devBribe ? [devBribe] : []),
+    ];
   },
   /**
    * Parties, illustrated: the state's map with the player's districts and
@@ -4586,6 +4707,7 @@ const groups = {
     "campaigns",
     "parties",
     "issues",
+    "bills",
     "budgets",
   ],
   who: ["who", "jobs", "history"],
@@ -4606,7 +4728,9 @@ async function openSheet(tab) {
       : { seats: [], filings: [], ofVotingAge: false };
   // A slower request for an earlier sheet must not put its tabs over the one opened since.
   if (openTab !== tab) return;
-  const holdsOffice = politics.seats.some((s) => s.holder?.personId === me.id);
+  const holdsOffice =
+    politics.holdsOffice ||
+    politics.seats.some((s) => s.holder?.personId === me.id);
   for (const b of document.querySelectorAll("[data-tab]"))
     b.classList.toggle("active", b.dataset.tab === group);
   $("sheet-title").textContent = controls.titles[group];
