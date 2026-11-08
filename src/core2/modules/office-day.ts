@@ -45,9 +45,11 @@ import {
 } from "../office-day-registry";
 import {
   billOf,
+  bodyReach,
   castMemberVote,
   chambersOf,
   executiveDecision,
+  floorDateOf,
   executiveItemVeto,
   executiveLean,
   holdVote,
@@ -640,6 +642,19 @@ function ownVote(api: CoreAPI, billId: string): void {
     .table("choices")
     .get(`${billId}|${player}`);
   if (chosen) return;
+  // A member of a legislature is held the evening before the floor vote for their own vote
+  // (the level's floor-vote stop): the character does not cast it for them a week early, on the
+  // committee's day, when the floor is still ahead.
+  const level = bodyReach(api, bill.bodyOfficeId);
+  const stops = stopsOf(api, player);
+  const floorDay = floorDateOf(api, billId);
+  if (
+    floorDay !== null &&
+    floorDay > api.state.date &&
+    ((level === "state" && stops["state-floor-vote"]) ||
+      (level === "federal" && stops["floor-vote"]))
+  )
+    return;
   const position = memberPosition(api, billId, player).total;
   const vote = position > 0 ? "yes" : position < 0 ? "no" : "abstain";
   castMemberVote(api, billId, player, vote);

@@ -140,7 +140,7 @@ try {
       .count(),
     government?.ofVotingAge ? 1 : 0,
   );
-  for (const tab of ["Campaigns", "Parties", "Issues"]) {
+  for (const tab of ["Elections", "Parties", "Issues"]) {
     await page
       .locator("#sheet-tabs")
       .getByRole("button", { name: tab, exact: true })
