@@ -23,8 +23,9 @@ rows=[]
 for t in st:
     cs=t.get('causes') or []
     trig='; '.join(cause(c) for c in cs) if cs else 'NO CAUSE'
+    if t.get('stagedBy'): trig+=' | staged by '+t['stagedBy']
     if t.get('awaiting'): trig+=' | awaiting '+', '.join(t['awaiting'])
-    dead = (not cs) or all(c.get('awaitingProducer') for c in cs)
+    dead = ((not cs) or all(c.get('awaitingProducer') for c in cs)) and not t.get('stagedBy')
     purpose=t.get('purpose','')
     n=(tp[purpose] if purpose else 0)+lead[t['key']]
     rows.append((t['key'],purpose or '-',trig,', '.join(t.get('setting',[])),t.get('timing',''),', '.join(r['key'] for r in t['roles']),n,'dead' if dead else ''))

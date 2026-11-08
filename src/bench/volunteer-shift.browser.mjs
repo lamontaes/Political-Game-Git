@@ -8,6 +8,7 @@ import { chromium } from "playwright";
 import { chooseTrailAct } from "./trail-act.mjs";
 import { fileWhenFilingOpens } from "./start-life.mjs";
 import { openCampaignTrail } from "./campaign-trail.mjs";
+import { devModeOn, devEveryoneSaysYes } from "./dev-setup.mjs";
 
 const shots = process.argv[2];
 const base = `http://localhost:${process.env.BENCH_PORT ?? 3000}`;
@@ -49,6 +50,9 @@ try {
   // Filing opens on a set day: the weeks go by until a race is open.
   const filed = (await fileWhenFilingOpens(page)).contestId;
   assert.ok(filed, "the player could file for nothing in this town");
+  // The people the ask reaches are cast yes, through their own decision (dev mode, on the Calendar).
+  await devModeOn(page);
+  assert.ok(await devEveryoneSaysYes(page), "the player knows no one to ask");
   await openCampaignTrail(page);
   const ask = page.waitForResponse(
     (r) => new URL(r.url()).pathname === "/api/campaign/act",

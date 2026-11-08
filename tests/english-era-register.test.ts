@@ -35,7 +35,7 @@ type Part = {
   key: string;
   kind: "spoken" | "written";
   text: string;
-  origin?: "authored";
+  origin?: "authored" | "owner-voice";
   date?: string;
   source?: { date: string };
 };
@@ -60,7 +60,7 @@ describe("English era and register check", () => {
     describe(bank.register, () => {
       it("comes from records of the current era, or is authored no later than today", () => {
         for (const part of bank.parts) {
-          if (part.origin === "authored") {
+          if (part.origin === "authored" || part.origin === "owner-voice") {
             expect(part.date! <= TODAY, part.key).toBe(true);
             continue;
           }

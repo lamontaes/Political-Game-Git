@@ -731,6 +731,7 @@
     "scene-talk:ask-to-run": "election",
     "scene-talk:offer-to-run": "election",
     "scene-talk:ask-signature": "election",
-    "scene-talk:floor-debate": "floor"
+    "scene-talk:floor-debate": "floor",
+    "scene-talk:run-doubt": "election"
   }
 }

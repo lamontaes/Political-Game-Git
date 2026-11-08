@@ -738,6 +738,33 @@ export function localPowerBarred(
   );
 }
 
+/**
+ * Whether the town's state gives its places this power by name. The state's
+ * own law decides: a `local-power:<question>` row in force (1 grants, 0 bars);
+ * with none, the researched starting grant (`localGrant`, with its statute in
+ * `localGrantCite`, for the levels it names) is the law in force.
+ */
+export function localPowerGranted(
+  api: CoreAPI,
+  question: string,
+  level: "county" | "city",
+  date: string = api.state.date,
+): boolean {
+  const series = `${LOCAL_POWER_PREFIX}${question}`;
+  const row = seriesRows(api, series).length
+    ? lawInForce(api, series, date).levels.find(
+        (entry) => entry.level === "state",
+      )?.row
+    : undefined;
+  if (row && row.value !== null) return row.value === 1;
+  const start = POLICY_QUESTIONS[question]?.answers[lawChain(api).stateKey];
+  return (
+    start?.localGrant === true &&
+    (start.localGrantLevels === undefined ||
+      start.localGrantLevels.includes(level))
+  );
+}
+
 /** Today's answers by series, kept while the laws engine's tables are unwritten. */
 const todaysLaw = new WeakMap<
   CoreState,
@@ -989,12 +1016,39 @@ function lawTookEffect(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     LawRowInput | undefined;
   if (!row || !inForceOn(row, api.state.date)) return;
   // Another state's law is that state's own: it took effect there, and nothing
-  // in the player's town moves (the news of it is the Nation story's).
+  // in the player's town moves. It is a national event all the same: one
+  // public record the national press and opinion read (placeId national:<state>),
+  // with who passed it and what it does as facts; the act's detail stays in the
+  // law row and is read on open.
   if (
     row.jurisdiction !== "US" &&
     !inTownChain(lawChain(api), row.jurisdiction)
-  )
+  ) {
+    api.emit({
+      id: `law-took-effect:${row.id}`,
+      date: api.state.date,
+      kind: "law-took-effect",
+      personIds: [],
+      placeId: `national:${row.jurisdiction}`,
+      source: work.source,
+      publicRecord: true,
+      news: true,
+      facts: {
+        lawId: row.id,
+        series: row.series,
+        level: row.level,
+        jurisdiction: row.jurisdiction,
+        tier: row.tier,
+        value: String(row.value),
+        unit: row.unit ?? "",
+        change: "new",
+        ...(row.terms?.enactedBy
+          ? { enactedBy: String(row.terms.enactedBy) }
+          : {}),
+      },
+    });
     return;
+  }
   // A row a later statute overrides never governs, so nothing took effect: the
   // level's law in force today is another row (a repeal enacted over a
   // scheduled rise). A territory-specific federal row can also replace the

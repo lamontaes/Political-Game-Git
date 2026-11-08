@@ -483,10 +483,15 @@ export function followedBills(core: CoreState, asId?: string) {
   const higher = (officeId: string) =>
     officeId.startsWith("federal:") ||
     bodyRow(bodyOf(api, officeId)?.kind ?? "")?.legislature !== undefined;
+  // The player's own members: the state and federal officials who hold the seats that cover
+  // the place, and the town's council and the county's board (any body that is not a legislature
+  // but sits in the place's own chain, by the body table).
   const mine = new Set(
     townSeats(api).flatMap(({ office, holder }) =>
       holder &&
-      (office.kind.startsWith("legislature-") || office.kind.startsWith("us-"))
+      (office.kind.startsWith("legislature-") ||
+        office.kind.startsWith("us-") ||
+        bodyRow(office.kind) !== undefined)
         ? [memberKey(holder)]
         : [],
     ),
@@ -495,33 +500,41 @@ export function followedBills(core: CoreState, asId?: string) {
     .moduleState(LEGISLATURE)
     .table("bills")
     .rows() as unknown as BillRow[];
-  return rows
-    .filter((bill) => higher(bill.bodyOfficeId))
-    .sort(
-      (a, b) =>
-        b.introduced.localeCompare(a.introduced) || a.id.localeCompare(b.id),
-    )
-    .map((bill) => {
-      const stage = billStage(core, bill.id, asId);
-      return {
-        id: bill.id,
-        number: bill.number,
-        title: billPaper(core, bill.id).title,
-        sponsor: stage.sponsor,
-        stage: stage.stage,
-        status: stage.status,
-        floor: stage.floor.map((c) => ({
-          chamberTitle: c.chamberTitle,
-          result: c.result,
-        })),
-        mine: [...stage.floor, ...stage.override].flatMap((c) =>
-          [...c.yes, ...c.no, ...c.other]
-            .filter((v) => mine.has(v.memberId))
-            .map((v) => ({ ...v, chamberTitle: c.chamberTitle })),
-        ),
-        reachesYou: reachesTown(api, billJurisdiction(api, bill)),
-      };
-    });
+  return (
+    rows
+      // The state's and Congress's bills, and the bills of the place's own council and county board:
+      // a bill is followed when its body is a legislature or its law reaches the player's place.
+      .filter(
+        (bill) =>
+          higher(bill.bodyOfficeId) ||
+          reachesTown(api, billJurisdiction(api, bill)),
+      )
+      .sort(
+        (a, b) =>
+          b.introduced.localeCompare(a.introduced) || a.id.localeCompare(b.id),
+      )
+      .map((bill) => {
+        const stage = billStage(core, bill.id, asId);
+        return {
+          id: bill.id,
+          number: bill.number,
+          title: billPaper(core, bill.id).title,
+          sponsor: stage.sponsor,
+          stage: stage.stage,
+          status: stage.status,
+          floor: stage.floor.map((c) => ({
+            chamberTitle: c.chamberTitle,
+            result: c.result,
+          })),
+          mine: [...stage.floor, ...stage.override].flatMap((c) =>
+            [...c.yes, ...c.no, ...c.other]
+              .filter((v) => mine.has(v.memberId))
+              .map((v) => ({ ...v, chamberTitle: c.chamberTitle })),
+          ),
+          reachesYou: reachesTown(api, billJurisdiction(api, bill)),
+        };
+      })
+  );
 }
 
 /**
