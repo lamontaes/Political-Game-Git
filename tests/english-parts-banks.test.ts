@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync } from "fs";
+import { existsSync, readdirSync, readFileSync } from "fs";
 import path from "path";
 import { describe, expect, it } from "vitest";
 import { checkAmericanEnglish } from "../scripts/prose-eval/american-english";
@@ -33,15 +33,36 @@ type Part = {
   kind: "spoken" | "written";
   text: string;
   /** An authored part names who wrote it and when; a mined part names its source. */
-  origin?: "authored";
+  origin?: "authored" | "owner-voice";
   author?: string;
   date?: string;
-  source?: { document: string; date: string; granule?: string; url: string };
+  source?: {
+    document: string;
+    date: string;
+    granule?: string;
+    url?: string;
+  };
 };
 
 /** What is wrong with how a part says where it came from; empty when nothing is. */
 export function provenanceProblems(part: Part): string[] {
   const problems: string[] = [];
+  // An owner-voice part is authored from wording the owner said or chose in a
+  // voice note (docs/english/owner-voice.md): it names the note file it draws
+  // on, so a reader can open it. Nothing else about it differs.
+  if (part.origin === "owner-voice") {
+    if (
+      !/^docs\/coordination\/voice-notes\/[\w.-]+\.md$/.test(
+        part.source?.document ?? "",
+      )
+    )
+      problems.push("an owner-voice part names its voice-note file");
+    if (!part.author?.trim())
+      problems.push("an owner-voice part names its author");
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(part.date ?? ""))
+      problems.push("an owner-voice part carries the date it was written");
+    return problems;
+  }
   if (part.origin === "authored") {
     if (!part.author?.trim())
       problems.push("an authored part names its author");
@@ -113,6 +134,24 @@ describe("English part banks", () => {
     ).toEqual([]);
   });
 
+  it("accepts an owner-voice part that names an existing voice-note file, and refuses one that does not", () => {
+    const base = {
+      key: "x.y.1",
+      move: "y",
+      kind: "spoken" as const,
+      text: "All right, I got you.",
+      origin: "owner-voice" as const,
+      author: "the Words session",
+      date: "2026-11-08",
+    };
+    const document = "docs/coordination/voice-notes/2026-11-08-morning.md";
+    expect(
+      provenanceProblems({ ...base, source: { document, date: "2026-11-08" } }),
+    ).toEqual([]);
+    expect(existsSync(path.resolve(__dirname, "..", document))).toBe(true);
+    expect(provenanceProblems(base)).toHaveLength(1);
+  });
+
   for (const { name, bank } of banks) {
     describe(name, () => {
       // The owner's grades (`data/english/part-grades.json`, read by
@@ -135,6 +174,11 @@ describe("English part banks", () => {
 
       it("gives every part a move type, a kind and its provenance", () => {
         for (const part of bank.parts) {
+          if (part.origin === "owner-voice")
+            expect(
+              existsSync(path.resolve(__dirname, "..", part.source!.document)),
+              part.key,
+            ).toBe(true);
           expect(["spoken", "written"]).toContain(part.kind);
           expect(part.key.startsWith(`${bank.register}.${part.move}.`)).toBe(
             true,

@@ -1,6 +1,5 @@
 // One agenda item at a meeting, or one bill on the desk: the bill's name, number and
-// sponsor, the members as round faces ringed by how each voted, the tally as one bar
-// with its result, who spoke, and the buttons under it in rows (the paper and the
+// sponsor, the members as round faces ringed by how each voted, the tally and its result in words, who spoke, and the buttons under it in rows (the paper and the
 // speeches, then the vote). The panel the meeting and the desk both draw (owner, Oct 29:
 // "the UI is terrible"; the members, the tally and the result on the panel). Every word
 // is a control name or a record's own: the status word, the counts, the member names.
@@ -51,7 +50,6 @@ function memberStrip(members, votes, words) {
 export function meetingItem({ item, members = [], words, floor, rows = [] }) {
   const counts = tallyOf(item.votes);
   const voted = item.votes.length > 0;
-  const total = Math.max(1, counts.yes + counts.no + counts.abstain);
   return el(
     "article",
     { className: "meeting-item" },
@@ -73,21 +71,6 @@ export function meetingItem({ item, members = [], words, floor, rows = [] }) {
                   `${counts[kind]} ${(words[kind] ?? "").toLowerCase()}`,
               )
               .join(", "),
-          }),
-        )
-      : "",
-    voted
-      ? el(
-          "div",
-          {
-            className: "meeting-tally",
-            role: "img",
-            ariaLabel: words.tally ?? "",
-          },
-          ...KINDS.filter((kind) => counts[kind]).map((kind) => {
-            const part = el("span", { className: `tally-${kind}` });
-            part.style.width = `${(counts[kind] / total) * 100}%`;
-            return part;
           }),
         )
       : "",
