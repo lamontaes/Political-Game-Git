@@ -33,9 +33,17 @@ import {
   PUBLIC_PAY_FLOOR_UNIT,
 } from "../core2/public-pay-floor";
 import {
+  bodyOf,
+  bodyRow,
   castMemberVote,
+  chambersOf,
+  draftBill,
   executiveDecision,
+  FEDERAL_HOUSE,
+  FEDERAL_SENATE,
   holdVote,
+  type BillRow,
+  type Provision,
   LEGISLATURE_MODULE_ID,
   members,
   memberKey,
@@ -621,6 +629,139 @@ export class DevMode {
           }),
         }))
     );
+  }
+
+  /** Every body that makes law in this world: its office, level and members. */
+  lawmakingBodies() {
+    if (!has(this.core, LEGISLATURE_MODULE_ID)) return [];
+    const api = this.api;
+    const offices = api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("offices")
+      .rows() as unknown as { id: string; kind: string }[];
+    const ids = [
+      ...offices.filter((o) => bodyRow(o.kind)).map((o) => o.id),
+      FEDERAL_HOUSE,
+      FEDERAL_SENATE,
+    ];
+    return [...new Set(ids)].flatMap((id) => {
+      const office = bodyOf(api, id);
+      if (!office) return [];
+      const roster = members(api, id);
+      return [
+        {
+          id,
+          kind: office.kind,
+          level: bodyRow(office.kind)?.level ?? null,
+          name: office.bodyName ?? office.governmentName,
+          members: roster.map((term) => ({
+            key: memberKey(term),
+            personId: term.personId,
+            givenName: term.identity.givenName,
+            familyName: term.identity.familyName,
+            party: term.party,
+          })),
+        },
+      ];
+    });
+  }
+
+  /** A member introduces a bill at a body: the game's own draftBill, one law-amount section. */
+  introduce(input: {
+    bodyOfficeId: string;
+    sponsorId: string;
+    series: string;
+    value: number;
+    unit?: string;
+  }) {
+    if (!lawSeriesCatalog(this.api).includes(input.series))
+      throw new Error(`Unknown law series: ${input.series}`);
+    if (!Number.isFinite(input.value)) throw new Error("A bill needs a value.");
+    const provision: Provision = {
+      kind: "law-amount",
+      series: input.series,
+      value: input.value,
+      ...(input.unit ? { unit: input.unit } : {}),
+    };
+    const bill = draftBill(this.api, {
+      bodyOfficeId: input.bodyOfficeId,
+      sponsorId: input.sponsorId,
+      provisions: [provision],
+    });
+    return {
+      mark: this.mark("introduce", [bill.id], {
+        billId: bill.id,
+        sponsorId: input.sponsorId,
+      }),
+      bill,
+    };
+  }
+
+  /**
+   * Every member of every chamber the bill passes through votes (each through castMemberVote),
+   * `margin` more yes than no votes in each chamber (negative to defeat it), then the body holds
+   * its vote. `sign` has the executive sign (true) or veto (false) through executiveDecision;
+   * left out, the executive decides as the game does. `overrideMargin` is the same for the vote
+   * to override a veto. A chamber's committee is the game's own: its chair may hold the bill
+   * unheard, which `held` reports.
+   */
+  decideAt(
+    billId: string,
+    margin: number,
+    options: { sign?: boolean; overrideMargin?: number } = {},
+  ) {
+    const api = this.api;
+    const table = api.moduleState(LEGISLATURE_MODULE_ID).table("bills");
+    const bill = table.get(billId) as unknown as BillRow | undefined;
+    if (!bill) throw new Error("No such bill.");
+    const tallies: { chamber: string; yes: number; no: number }[] = [];
+    const vote = (chamber: string, wanted: number, override: boolean) => {
+      const roster = members(api, chamber);
+      const yes = Math.max(
+        0,
+        Math.min(roster.length, Math.round((roster.length + wanted) / 2)),
+      );
+      roster.forEach((term, index) =>
+        castMemberVote(
+          api,
+          billId,
+          memberKey(term),
+          index < yes ? "yes" : "no",
+          override,
+        ),
+      );
+      return { chamber, yes, no: roster.length - yes };
+    };
+    const chambers = chambersOf(api, bill);
+    for (const chamber of chambers) tallies.push(vote(chamber, margin, false));
+    if (options.overrideMargin !== undefined)
+      for (const chamber of chambers)
+        vote(chamber, options.overrideMargin, true);
+    if (options.sign !== undefined)
+      executiveDecision(api, billId, options.sign);
+    const held = holdVote(api, billId);
+    const committees = api
+      .moduleState(LEGISLATURE_MODULE_ID)
+      .table("committees");
+    return {
+      mark: this.mark("decide", [billId], {
+        billId,
+        margin: String(margin),
+        ...(options.sign !== undefined ? { sign: String(options.sign) } : {}),
+        ...(options.overrideMargin !== undefined
+          ? { overrideMargin: String(options.overrideMargin) }
+          : {}),
+      }),
+      tallies,
+      held: chambers.filter(
+        (chamber) =>
+          (
+            committees.get(`committee:${billId}:${chamber}`) as
+              { heard: boolean } | undefined
+          )?.heard === false,
+      ),
+      bill: held,
+    };
   }
 
   /** Cast a member's vote on a bill before the vote is held. */
