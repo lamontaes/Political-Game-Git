@@ -4599,3 +4599,7 @@ export function registerEmployer(
           }),
     });
 }
+// Re-exported so the opening county sample reads them through this entry (families guard).
+export { residentEmploymentRate } from "../opening-employment";
+export { countySectorEmployment } from "../town-employment-mix";
+export { nationalMedianAnnualWage } from "../town-pay";
