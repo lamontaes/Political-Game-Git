@@ -4008,6 +4008,21 @@ export function committeeMemberKeys(
  * typical standing committee's (`committeeSize`); seats go by seniority
  * until leadership appoints them (SG-GOV-committee-structure).
  */
+/** Who else a hearing hears on a bill's question, from another engine's records (the interest groups). */
+type HearingWitnessProvider = (
+  api: CoreAPI,
+  bill: BillRow,
+  question: string,
+) => readonly { readonly personId: string; readonly stake: string }[];
+const hearingWitnessProviders: HearingWitnessProvider[] = [];
+/** An engine says who testifies on a question: the people its records show are concerned with it. */
+export function registerHearingWitnessProvider(
+  provider: HearingWitnessProvider,
+): void {
+  if (!hearingWitnessProviders.includes(provider))
+    hearingWitnessProviders.push(provider);
+}
+
 function committeeStage(
   api: CoreAPI,
   bill: BillRow,
@@ -4064,6 +4079,15 @@ function committeeStage(
       ),
     )
     .find((row) => row !== null);
+  // A bill that is not a wage bill is heard on its own question: the people the interest groups'
+  // records show taking a side on it, up to the hearing's size.
+  if (heard && question)
+    for (const provider of hearingWitnessProviders)
+      for (const w of provider(api, bill, question.question)) {
+        if (witnesses.length >= campaignParameter("hearingWitnesses")) break;
+        if (!witnesses.some((row) => row.personId === w.personId))
+          witnesses.push(w);
+      }
   if (heard && question && api.state.modules.has(SPEECH_MODULE_ID)) {
     const room = roster.flatMap((t) =>
       t.personId && api.state.people.get(t.personId)?.alive ? [t.personId] : [],
