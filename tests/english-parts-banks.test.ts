@@ -144,8 +144,7 @@ describe("English part banks", () => {
       author: "the Words session",
       date: "2026-11-08",
     };
-    const document =
-      "docs/coordination/voice-notes/2026-11-08-0950-relayed-by-cto.md";
+    const document = "docs/coordination/voice-notes/2026-11-08-morning.md";
     expect(
       provenanceProblems({ ...base, source: { document, date: "2026-11-08" } }),
     ).toEqual([]);

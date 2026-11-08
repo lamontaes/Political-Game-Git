@@ -5,7 +5,9 @@ Facts only, each quoted from a file. Sources: `docs/coordination/voice-notes/` (
 ## How he opens and answers
 
 - Opens a reply with "Okay," or "All right,": "All right, let's look at batch 22" (2026-10-23-words-lead.md §6); "All right, I'm looking at batch 17 now" (2026-10-15-words-orders-part-2.md §23); "All right. So now this is me going to answer." (part-1 §16).
-- Relayed Nov 8, 9:50: "instead of saying, you know, okay, that's great, you could say, all right, I got you, man... I say that in a lot of the batches." (2026-11-08-0950-relayed-by-cto.md).
+- Nov 8, 9:44 a.m., on how he talks: "instead of saying, you know, okay, that's great, you could say, all right, I got you, man, and stuff like that. I say that in a lot of the batches, so there's already some variants built in there." (2026-11-08-morning.md).
+- His praise when a scene is right: "Perfect. Perfect. This is exactly what I've been wanting." / "Beautiful, beautiful, beautiful. That's what I want." / "Ooh, 2 scenes widened, I love that." / "Yep, there you go." / "Awesome." (same file, 9:44 a.m. and 10:06 a.m.).
+- His openers when he turns a page: "Okay, so", "Oh, I see.", "Look at these laws." and a trailing "huh?" (same file).
 - Agreement words: "Yeah, sure." (part-1 §16), "Sure. That's good, too." (§9), "Yep, that's good. That's solid." (§9), "Fair" ("That's also fair." §9), "That's fine." (§9, §35).
 - Hedges and fillers: "I mean," "you know," "like," "I guess," "kind of," "or whatever," "or something" (every note; "Americans say must, but not in that way. Let me think about what you said." part-2 §23).
 - Contractions throughout: "that's," "doesn't," "I'm gonna," "it's," "didn't." He says "gonna" aloud ("I'm gonna say, I'm still reading it", part-1 §16).
@@ -39,7 +41,7 @@ Facts only, each quoted from a file. Sources: `docs/coordination/voice-notes/` (
 
 - Real people as the model: "look at like 60 Minutes ... Firing Line ... transcripts" (part-1 §16); "try to find examples of ... how real people have responded."
 - Pieces, not scripts: "we're not authoring scenarios. We're giving the simulation pieces to work with." (part-1 §15). An engine that can "put together a coherent sentence" for a gap nobody tested (part-2 §20).
-- Relayed Nov 8, 9:50: conditionals are fine, and where a slot has one line, "we'll add a bunch of other conditions or non-conditions if needed."
+- Nov 8, 9:44 a.m.: "that's fine, having conditionals for lines. So if there's only one line that's and it needs conditional, we'll add a bunch of other conditions or non-conditions if needed." and "they gotta have like a variance. So even though there's only 5 in corruption scenes right now ... you could get ... 30 different scenes within there." He asked for work "specifically on adding lines and different tones and subjects" (2026-11-08-morning.md).
 - Vary the voice by who speaks: "assigning lines to types of people ... not everyone should automatically get access to that" (part-2 §24).
 - No reference to anyone's text, no credit lines: "There's no lawyer check needed." (2026-10-23-words-lead.md §12).
 

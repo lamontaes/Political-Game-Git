@@ -2028,7 +2028,7 @@
    "author": "Claude Sonnet 5.5 (night: story)",
    "date": "2026-11-08",
    "source": {
-    "document": "docs/coordination/voice-notes/2026-11-08-0950-relayed-by-cto.md",
+    "document": "docs/coordination/voice-notes/2026-11-08-morning.md",
     "date": "2026-11-08"
    },
    "tag": {
@@ -2662,10 +2662,10 @@
  {
   "anchor": "scene-talk.close-accept.understood-my-door-s-open-if-you-change-your-mind",
   "piece": {
-   "key": "scene-talk.close-accept.fair-enough-i-ll-keep-working",
+   "key": "scene-talk.close-accept.all-right-i-got-you-i-ll-keep-working",
    "move": "close-accept",
    "kind": "spoken",
-   "text": "Fair enough. I'll keep working.",
+   "text": "All right, I got you. I'll keep working.",
    "uses": [
     {
      "key": "vote-wanted",
@@ -2678,9 +2678,13 @@
     }
    ],
    "bearing": "calm",
-   "origin": "authored",
+   "origin": "owner-voice",
    "author": "Claude Sonnet 5.5 (night: story)",
    "date": "2026-11-08",
+   "source": {
+    "document": "docs/coordination/voice-notes/2026-11-08-morning.md",
+    "date": "2026-11-08"
+   },
    "tag": {
     "move": "accept",
     "key": "vote-wanted"
@@ -4188,10 +4192,10 @@
  {
   "anchor": "scene-talk.follow-accept.i-ll-put-that-in",
   "piece": {
-   "key": "scene-talk.follow-accept.noted",
+   "key": "scene-talk.follow-accept.all-right-i-got-you-i-ll-ask-them",
    "move": "follow-accept",
    "kind": "spoken",
-   "text": "Noted.",
+   "text": "All right, I got you. I'll ask them.",
    "uses": [
     {
      "after": "scene-talk.reply-confront.ask-source-what-they-had-for-lunch-with-my-opponent",
@@ -4204,9 +4208,13 @@
     }
    ],
    "bearing": "calm",
-   "origin": "authored",
+   "origin": "owner-voice",
    "author": "Claude Sonnet 5.5 (night: story)",
    "date": "2026-11-08",
+   "source": {
+    "document": "docs/coordination/voice-notes/2026-11-08-morning.md",
+    "date": "2026-11-08"
+   },
    "tag": {
     "move": "accept",
     "key": "favor-asked"
@@ -5175,10 +5183,10 @@
  {
   "anchor": "scene-talk.follow-accept.then-i-ll-write-that-you-declined-to-comment",
   "piece": {
-   "key": "scene-talk.follow-accept.all-right-i-ll-leave-room-for-you-in-case-you-call",
+   "key": "scene-talk.follow-accept.all-right-i-got-you-i-ll-leave-room-in-case-you-call",
    "move": "follow-accept",
    "kind": "spoken",
-   "text": "All right. I'll leave room for you in case you call.",
+   "text": "All right, I got you. I'll leave room in case you call.",
    "uses": [
     {
      "key": "routine",
@@ -5190,9 +5198,13 @@
     }
    ],
    "bearing": "calm",
-   "origin": "authored",
+   "origin": "owner-voice",
    "author": "Claude Sonnet 5.5 (night: story)",
    "date": "2026-11-08",
+   "source": {
+    "document": "docs/coordination/voice-notes/2026-11-08-morning.md",
+    "date": "2026-11-08"
+   },
    "tag": {
     "move": "accept",
     "key": "routine"
@@ -5613,10 +5625,10 @@
  {
   "anchor": "scene-talk.reply-refuse.that-s-all-i-m-saying-today",
   "piece": {
-   "key": "scene-talk.reply-refuse.i-ve-said-my-piece",
+   "key": "scene-talk.reply-refuse.i-have-given-you-my-answer",
    "move": "reply-refuse",
    "kind": "spoken",
-   "text": "I've said my piece.",
+   "text": "I have given you my answer.",
    "uses": [
     {
      "after": "scene-talk.follow-ask.what-do-you-say-to-people-who-disagree",
@@ -6704,10 +6716,10 @@
  {
   "anchor": "scene-talk.follow-accept.then-i-ll-say-you-declined-to-comment",
   "piece": {
-   "key": "scene-talk.follow-accept.understood-if-that-changes-call-me",
+   "key": "scene-talk.follow-accept.all-right-i-got-you-if-that-changes-call-me",
    "move": "follow-accept",
    "kind": "spoken",
-   "text": "Understood. If that changes, call me.",
+   "text": "All right, I got you. If that changes, call me.",
    "uses": [
     {
      "after": "refuse",
@@ -6720,9 +6732,13 @@
     }
    ],
    "bearing": "calm",
-   "origin": "authored",
+   "origin": "owner-voice",
    "author": "Claude Sonnet 5.5 (night: story)",
    "date": "2026-11-08",
+   "source": {
+    "document": "docs/coordination/voice-notes/2026-11-08-morning.md",
+    "date": "2026-11-08"
+   },
    "tag": {
     "move": "accept",
     "key": "threat"
@@ -6963,10 +6979,10 @@
  {
   "anchor": "scene-talk.narrate-narrate.the-hall-is-full-and-the-questions-are-coming-name-stands-up-with-a-fo",
   "piece": {
-   "key": "scene-talk.narrate-narrate.the-microphone-is-passed-down-the-row-name-is-next-holding-a-page-of-notes",
+   "key": "scene-talk.narrate-narrate.the-microphone-is-passed-along-the-aisle-name-is-next-holding-a-page-of-notes",
    "move": "narrate-narrate",
    "kind": "spoken",
-   "text": "The microphone is passed down the row. {name} is next, holding a page of notes.",
+   "text": "The microphone is passed along the aisle. {name} is next, holding a page of notes.",
    "uses": [
     {
      "excludesFacts": [
@@ -8090,7 +8106,7 @@
    "author": "Claude Sonnet 5.5 (night: story)",
    "date": "2026-11-08",
    "source": {
-    "document": "docs/coordination/voice-notes/2026-11-08-0950-relayed-by-cto.md",
+    "document": "docs/coordination/voice-notes/2026-11-08-morning.md",
     "date": "2026-11-08"
    },
    "tag": {
@@ -8890,10 +8906,10 @@
  {
   "anchor": "scene-talk.follow-accept.you-ll-have-it-money-volunteers-all-of-it",
   "piece": {
-   "key": "scene-talk.follow-accept.agreed-we-ll-put-the-machinery-behind-you",
+   "key": "scene-talk.follow-accept.perfect-this-is-exactly-what-we-ve-been-wanting",
    "move": "follow-accept",
    "kind": "spoken",
-   "text": "Agreed. We'll put the machinery behind you.",
+   "text": "Perfect. This is exactly what we've been wanting.",
    "uses": [
     {
      "after": "scene-talk.reply-bargain.if-i-run-i-ll-need-the-party-behind-me-all-the-way",
@@ -8906,9 +8922,13 @@
     }
    ],
    "bearing": "glad",
-   "origin": "authored",
+   "origin": "owner-voice",
    "author": "Claude Sonnet 5.5 (night: story)",
    "date": "2026-11-08",
+   "source": {
+    "document": "docs/coordination/voice-notes/2026-11-08-morning.md",
+    "date": "2026-11-08"
+   },
    "tag": {
     "move": "accept",
     "key": "favor-asked"
@@ -9747,10 +9767,10 @@
  {
   "anchor": "scene-talk.reply-accept.all-right-i-ll-handle-it-myself",
   "piece": {
-   "key": "scene-talk.reply-accept.that-s-reasonable-i-ll-take-care-of-it",
+   "key": "scene-talk.reply-accept.all-right-i-got-you-i-ll-take-care-of-it",
    "move": "reply-accept",
    "kind": "spoken",
-   "text": "That's reasonable. I'll take care of it.",
+   "text": "All right, I got you. I'll take care of it.",
    "uses": [
     {
      "key": "news-received",
@@ -9762,9 +9782,13 @@
     }
    ],
    "bearing": "guarded",
-   "origin": "authored",
+   "origin": "owner-voice",
    "author": "Claude Sonnet 5.5 (night: story)",
    "date": "2026-11-08",
+   "source": {
+    "document": "docs/coordination/voice-notes/2026-11-08-morning.md",
+    "date": "2026-11-08"
+   },
    "tag": {
     "move": "accept",
     "key": "news-received"
@@ -12023,10 +12047,10 @@
  {
   "anchor": "scene-talk.follow-promise.your-phone-hasn-t-stopped-buzzing",
   "piece": {
-   "key": "scene-talk.follow-promise.people-keep-calling-everyone-wants-a-piece-of-you",
+   "key": "scene-talk.follow-promise.people-keep-calling-everyone-wants-a-minute-with-you",
    "move": "follow-promise",
    "kind": "spoken",
-   "text": "People keep calling. Everyone wants a piece of you.",
+   "text": "People keep calling. Everyone wants a minute with you.",
    "uses": [
     {
      "key": "honor",
