@@ -30,10 +30,6 @@
       "reason": "Raw research evidence on the measured effects of ban the box (26 sourced findings); the outcome-web link for the question will cite it. The game does not read the file."
     },
     {
-      "file": "data/research/executive/ban-the-box-public-hiring-2025-01.json",
-      "reason": "Raw research evidence for each place's ban-the-box rule in state public hiring; the starting-law answers in labor-workforce.json are built from it with their citations. The game does not read the file."
-    },
-    {
       "file": "data/research/executive/orders-and-vacancies-2026-11.json",
       "reason": "Raw research evidence on which orders governors issue alone, their legal limits and vacancy rules, for the Laws pool item laws-order-question-rows. The game does not read the file."
     },
