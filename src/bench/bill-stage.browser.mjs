@@ -92,7 +92,9 @@ try {
     .click();
   // The drafts are on their own tab of Your office.
   // One page needs no tab bar (a member of Congress has the drafts page only).
-  await page.locator(".office-screen").waitFor();
+  if (SHOTS) await page.screenshot({ path: `${SHOTS}/before-office.png` });
+  console.log("sheet tabs:", await page.locator("#sheet-tabs").innerText().catch(() => "none"));
+  await page.locator(".office-screen").waitFor({ timeout: 20000 });
   const draftTab = page.locator('.office-tabs [data-office="draft"]');
   if (await draftTab.isVisible()) await draftTab.click();
   await page.locator(".draft-card select").waitFor();
