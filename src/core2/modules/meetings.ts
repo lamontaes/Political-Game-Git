@@ -76,7 +76,8 @@ import {
   type InterviewAnswer,
 } from "./press";
 import { closenessBetween } from "../closeness";
-import { personLean, questionAxis, type Stance } from "../campaign-views";
+import { personLean, questionAxis } from "../campaign-views";
+import { type Stance } from "../campaign-data";
 import { agreementWith, viewOn } from "./views";
 import { POLICY_QUESTIONS } from "../policy-answers";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";

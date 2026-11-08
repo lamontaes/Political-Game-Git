@@ -25,7 +25,7 @@ import { engagementOf } from "../electorate";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
-import { campaignParameter } from "../campaign-views";
+import { campaignParameter } from "../campaign-data";
 import { leanedYes } from "../trait-decisions";
 import { lawChain, lawInForce } from "./laws";
 import { raiseOne } from "../wage-floor";

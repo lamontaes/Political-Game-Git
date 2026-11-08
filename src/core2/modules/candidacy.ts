@@ -82,7 +82,7 @@ import {
 import { partySide } from "../appointments";
 import { revolvingDoorFor } from "../law-reach/group-a-voting";
 import { fillInPerson } from "../state";
-import { campaignParameter } from "../campaign-views";
+import { campaignParameter } from "../campaign-data";
 
 export const CANDIDACY_MODULE_ID = "candidacy";
 export const CANDIDACY_PARAMETERS = rows as Readonly<Record<string, Parameter>>;

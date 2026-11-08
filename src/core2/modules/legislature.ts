@@ -54,7 +54,8 @@ import type {
 } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
-import { campaignParameter, personLean, personStance } from "../campaign-views";
+import { personLean, personStance } from "../campaign-views";
+import { campaignParameter } from "../campaign-data";
 import {
   enactLaw,
   calibrationRows,
