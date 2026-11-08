@@ -28,6 +28,7 @@ import { timeline } from "./ui/timeline.mjs";
 import { makeCard } from "./ui/card.mjs";
 import { townRow } from "./ui/town-row.mjs";
 import { debateCard, speechCard } from "./ui/campaign-acts.mjs";
+import { devMemorySection } from "./ui/dev-memory.mjs";
 import { devRunPanel } from "./ui/dev-run.mjs";
 import {
   devModeOn,
@@ -2004,6 +2005,16 @@ async function showPerson(person) {
       ? [stripSection(4, labels.publicRecordTitle, dotRows(recordRows))]
       : []),
   ];
+  // Dev mode: what they remember, a section only while dev mode is on.
+  const memory = devModeOn()
+    ? await devMemorySection({
+        personId: person.personId,
+        labels: controls.devMemory,
+        dateOf: (iso) => dateWords(iso),
+      })
+    : null;
+  if (memory) secondColumn.push(memory);
+  if (request !== personRequest) return;
   $("person-facts").replaceChildren(
     stripScreen({
       name: c.name,

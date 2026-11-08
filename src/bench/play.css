@@ -5289,3 +5289,11 @@ select.release-pick {
   width: min(1280px, calc(100vw - 2 * var(--gutter))) !important;
   max-width: none !important;
 }
+
+/* Dev mode's memory rows: the record kind, the day learned, the day it fades. */
+.dev-memory-row {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 8px;
+  padding: 2px 0;
+}
