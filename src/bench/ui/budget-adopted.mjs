@@ -24,12 +24,11 @@ export function adoptedRows({ adoption, lineName, billName, words }) {
   if (adoption.body) rows.push(typedRow(words.by, adoption.body));
   if (adoption.carried)
     rows.push(typedRow(words.carriedLabel, words.carried[adoption.carried]));
-  // The record names a chamber by its key, which is never shown: one chamber is "Vote"; two
-  // or more are told apart by their order until the record carries each chamber's title.
+  // A chamber is told by its own name (the record's title); one chamber is just "Vote".
   (adoption.tallies ?? []).forEach((tally, at, all) =>
     rows.push(
       typedRow(
-        all.length > 1 ? (words.chambers?.[at] ?? words.vote) : words.vote,
+        all.length > 1 ? (tally.title ?? words.vote) : words.vote,
         fill(words.tally, { yes: tally.yes, no: tally.no }),
       ),
     ),
