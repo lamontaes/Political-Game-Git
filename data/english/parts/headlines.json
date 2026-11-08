@@ -7686,50 +7686,6 @@
       }
     },
     {
-      "key": "headlines.public-action.place-rallies-behind-a-good-year",
-      "move": "public-action",
-      "kind": "written",
-      "text": "{place} rallies behind a good year",
-      "uses": [
-        {
-          "move": "public-action",
-          "subject": "headline",
-          "role": "public-action",
-          "choice": "headline",
-          "requiresFacts": ["rally"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "headline",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "headlines.public-action.neighbors-gather-in-place-in-good-spirits",
-      "move": "public-action",
-      "kind": "written",
-      "text": "Neighbors gather in {place} in good spirits",
-      "uses": [
-        {
-          "move": "public-action",
-          "subject": "headline",
-          "role": "public-action",
-          "choice": "headline",
-          "requiresFacts": ["rally"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "headline",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "headlines.local-address.name-gives-the-states-yearly-address",
       "move": "local-address",
       "kind": "written",
@@ -7807,6 +7763,72 @@
           "role": "local-address",
           "choice": "headline",
           "requiresFacts": ["town"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.public-action.place-gathers-to-mark-a-good-year-for-area",
+      "move": "public-action",
+      "kind": "written",
+      "text": "{place} gathers to mark a good year for {area}",
+      "uses": [
+        {
+          "move": "public-action",
+          "subject": "headline",
+          "role": "public-action",
+          "choice": "headline",
+          "requiresFacts": ["rally", "area"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.public-action.neighbors-in-place-turn-out-glad-of-how-area-has",
+      "move": "public-action",
+      "kind": "written",
+      "text": "Neighbors in {place} turn out, glad of how {area} has gone",
+      "uses": [
+        {
+          "move": "public-action",
+          "subject": "headline",
+          "role": "public-action",
+          "choice": "headline",
+          "requiresFacts": ["rally", "area"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.public-action.place-rallies-behind-a-good-year-for-area",
+      "move": "public-action",
+      "kind": "written",
+      "text": "{place} rallies behind a good year for {area}",
+      "uses": [
+        {
+          "move": "public-action",
+          "subject": "headline",
+          "role": "public-action",
+          "choice": "headline",
+          "requiresFacts": ["rally", "area"]
         }
       ],
       "origin": "authored",

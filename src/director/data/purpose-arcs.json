@@ -4133,6 +4133,59 @@
         }
       ]
     },
+    "rally-word": {
+      "state": "request",
+      "replies": ["agree", "thank", "promise", "deflect"],
+      "follow": {
+        "agree": ["thank"],
+        "thank": ["accept"],
+        "promise": ["thank", "press"],
+        "deflect": ["press"]
+      },
+      "again": {
+        "press": ["agree", "promise", "thank", "leave"]
+      },
+      "endings": [
+        {
+          "id": "spoke",
+          "label": "You spoke at the rally",
+          "keeps": "address",
+          "when": {
+            "anyReply": ["agree"]
+          }
+        },
+        {
+          "id": "promised",
+          "label": "You promised to keep it going",
+          "keeps": "promise",
+          "when": {
+            "anyReply": ["promise"]
+          }
+        },
+        {
+          "id": "thanked",
+          "label": "You thanked the crowd",
+          "keeps": "none",
+          "when": {
+            "anyReply": ["thank"]
+          }
+        },
+        {
+          "id": "stood-back",
+          "label": "You let the crowd have the day",
+          "keeps": "none",
+          "when": {
+            "reply": ["deflect", "leave"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
     "swearing-in": {
       "state": "request",
       "replies": ["agree", "promise", "thank", "ask"],

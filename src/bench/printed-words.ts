@@ -48,6 +48,7 @@ import {
 import type { StoryKind } from "../english/english-newscast";
 import { joinList } from "../english/bill-names";
 import { storyTopicName } from "../english/policy-names";
+import { areaName } from "../english/area-names";
 import { lineName } from "./budget";
 import { policyNames } from "./words";
 import { placeLabel } from "../director/journal";
@@ -2932,7 +2933,9 @@ const publicAction =
   (read, f) => {
     const place = read.place();
     if (!place) return null;
-    const issue = f.question ? read.issue(f.question) : {};
+    // A protest or strike is told by its demand, a rally by the area that went well.
+    const issue = kind !== "rally" && f.question ? read.issue(f.question) : {};
+    const area = kind === "rally" && f.area ? areaName(f.area) : null;
     return story(
       "public-action",
       {
@@ -2940,9 +2943,10 @@ const publicAction =
         date: read.date(),
         ...(f.size ? { number: read.fact(f.size, f.actionId ?? "") } : {}),
         ...issue,
+        ...(area ? { area: read.fact(area, f.actionId ?? "") } : {}),
         [kind]: read.fact("yes", f.actionId ?? ""),
       },
-      kind === "rally" ? ["place"] : ["place", "issue"],
+      kind === "rally" ? ["place", "area"] : ["place", "issue"],
     );
   };
 
