@@ -48,7 +48,7 @@ interface YearChange {
   readonly change: number;
   readonly explained: number;
   readonly unexplained: number;
-  readonly pct: number;
+  readonly start: number;
 }
 
 function carryTotals(core: CoreState) {
@@ -112,7 +112,7 @@ function yearsOf(worldSeed: string, key: string, years: number) {
       change: after - before,
       explained,
       unexplained: after - before - explained,
-      pct: (100 * (after - before)) / before,
+      start: before,
     });
     before = after;
     carry = now;
@@ -132,11 +132,10 @@ function yearsOf(worldSeed: string, key: string, years: number) {
  */
 function expectExplained(changes: readonly YearChange[], where: string) {
   for (const row of changes) {
-    const before = row.change / (row.pct / 100);
     expect(
       Math.abs(row.unexplained),
       `${where}: ${row.line}; change ${row.change}, explained ${row.explained}`,
-    ).toBeLessThanOrEqual(Math.max(5, before * 0.005));
+    ).toBeLessThanOrEqual(Math.max(5, row.start * 0.005));
   }
 }
 
