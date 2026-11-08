@@ -159,6 +159,23 @@ try {
     before,
   );
   assert.ok(left.length < before, "the nominated post is no longer open");
+  // Leave the rest open: each post's "Leave it open" until the panel closes and the hold clears.
+  for (let i = 0; i < 20 && (await visible("desk")); i += 1) {
+    await page
+      .locator("#desk-items .action", { hasText: /leave it open/i })
+      .first()
+      .click();
+    await page.waitForTimeout(500);
+  }
+  assert.ok(
+    !(await visible("desk")),
+    "the panel closed once every post was left open",
+  );
+  const rest = await page.evaluate(
+    async () => (await (await fetch("/api/nominations")).json()).length,
+  );
+  assert.equal(rest, 0, "no post is waiting");
+  console.log("left the rest open; posts waiting:", rest);
   assert.deepEqual(errors, [], "page errors");
   console.log(
     "ok: the president was held on the open cabinet posts and named one",
