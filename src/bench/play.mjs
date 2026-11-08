@@ -2315,6 +2315,18 @@ async function personCardNode(
     ...(sharedLines.length
       ? [stripSection(5, labels.betweenUs, ...sharedLines)]
       : []),
+    // Their life from the records, oldest first, as the card has told it since
+    // #6772 and #7090: the card is sent the story and draws it (owner's
+    // playtest, Nov 8).
+    ...(c.history?.length
+      ? [
+          stripSection(
+            5,
+            capital(heading("lifeStory", "lifeStoryThey")),
+            lifeTimeline(c.history, 3),
+          ),
+        ]
+      : []),
   ];
   const secondColumn = [
     ...(people
