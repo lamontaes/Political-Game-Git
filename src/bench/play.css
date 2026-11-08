@@ -5025,9 +5025,7 @@ select.release-pick {
 }
 .roster-row b {
   min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
 }
 .roster-row span {
   white-space: nowrap;
