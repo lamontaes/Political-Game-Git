@@ -1064,10 +1064,13 @@ export function fileRunners(
     id: string;
   });
   askForCandidates(api, contest);
+  askForSuccessor(api, contest);
 }
 
 /** The kind of a party's ask that someone run for a seat. */
 export const PARTY_ASKED_EVENT = "party-asked";
+/** An outgoing holder asked a resident to succeed them in a seat no one filed for. */
+export const SUCCESSOR_ASKED_EVENT = "successor-asked";
 /** The replies in an ask's scene that mean yes. */
 const AGREEING_MOVES: ReadonlySet<string> = new Set(["agree", "relent"]);
 
@@ -1164,6 +1167,108 @@ export function partyProspects(
     out.push({ party, chairId, members });
   }
   return out;
+}
+
+/**
+ * A seat no one has filed for, whose holder is standing down: the outgoing
+ * officeholder asks the people they are closest to, then the best known, to
+ * succeed them (being asked by someone you know is among the strongest spurs
+ * to run: Lawless and Fox 2010, ch. 5; Broockman 2014). Each ask is a record;
+ * the asked person weighs running again with it as a reason, the first who
+ * decides to run files, and the holder asks no one else.
+ */
+function askForSuccessor(api: CoreAPI, contest: ContestRow): void {
+  const date = api.state.date;
+  const filings = api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("filings")
+    .query("byContest", [contest.id]) as unknown as FilingRow[];
+  if (filings.length) return;
+  const holder = (
+    api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("terms")
+      .query("bySeatStatus", [
+        contest.seatId,
+        "serving",
+      ]) as unknown as TermRow[]
+  )[0];
+  const holderId = holder?.personId as PersonId | null | undefined;
+  if (!holderId || !api.state.people.get(holderId)?.alive) return;
+  const stood = decisionOf(api, contest.id, holderId);
+  if (!stood || stood.run || stood.reasons.standAgain === undefined) return;
+  const town = api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("town")
+    .get("town") as unknown as { townPlaceId: string };
+  const rules = filingRulesFor(api, contest, "party");
+  const committed = committedOn(api, contest.electionDate, contest.id);
+  const asked = askedToday(api);
+  const prospects = [...api.state.people.values()]
+    .filter(
+      (person) =>
+        person.alive &&
+        person.id !== holderId &&
+        person.placeId === town.townPlaceId &&
+        !asked.has(person.id) &&
+        !committed.has(person.id) &&
+        !isExplicitlyControlledPersonV1(api.state, person.id) &&
+        ageOnDate(person.birthDate, date) >= rules.minimumAge &&
+        !checkEligibility(api, person.id, contest.id, null).some(
+          (check) => !check.met,
+        ),
+    )
+    .map((person) => ({
+      person,
+      closeness: closenessBetween(api.state, person.id, holderId),
+    }))
+    .sort(
+      (a, b) =>
+        b.closeness - a.closeness ||
+        b.person.knownIds.size - a.person.knownIds.size ||
+        a.person.id.localeCompare(b.person.id),
+    )
+    .slice(0, c(api, "candidacyPartyAskTries"));
+  for (const { person } of prospects) {
+    const recordId = `${SUCCESSOR_ASKED_EVENT}:${contest.id}:${person.id}`;
+    if (api.state.eventIds.has(recordId)) continue;
+    asked.add(person.id);
+    api.emit({
+      id: recordId,
+      date,
+      kind: SUCCESSOR_ASKED_EVENT,
+      personIds: [person.id, holderId],
+      placeId: town.townPlaceId,
+      source: {
+        tag: "SOURCED",
+        citation: `The outgoing holder asks a resident to run for ${contest.title}`,
+        asOf: date,
+      },
+      facts: {
+        askedId: person.id,
+        holderId,
+        contestId: contest.id,
+        office: contest.title,
+        filingDeadline: rules.deadline ?? contest.filingDeadline,
+      },
+    });
+    const decision = decideToRun(
+      api,
+      person.id,
+      {
+        contestId: contest.id,
+        officeName: contest.title,
+        filingDeadline: rules.deadline ?? contest.filingDeadline,
+        askedBy: { recordId, chairId: holderId },
+        sourceIds: [contest.id, recordId, stood.id],
+      },
+      true,
+    );
+    if (!decision?.run) continue;
+    const filing = fileFor(api, person, contest, Boolean(seatParty(api, contest)));
+    table(api).put({ ...decision, filing } as unknown as { id: string });
+    if (filing.status !== "refused") break;
+  }
 }
 
 function askForCandidates(api: CoreAPI, contest: ContestRow): void {
