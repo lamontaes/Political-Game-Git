@@ -547,7 +547,11 @@ export function placeRemovedHousehold(
     memberIds,
     household.id,
     placeId,
-    !holdsJob && (!household.counted || countedMovesRunning(api)),
+    // The player's household never moves without their choice: a relative's
+    // town is offered only to everyone else (owner's playtest, Nov 8).
+    !holdsJob &&
+      (!household.counted || countedMovesRunning(api)) &&
+      !memberIds.some((id) => id === c.playerId),
   );
   const base = {
     id: household.id,
