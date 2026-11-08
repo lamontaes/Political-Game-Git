@@ -11,7 +11,7 @@
  */
 import { placeStateKey } from "../core2/place-map";
 import { officialsIn, type OfficialRow } from "../core2/modules/officials";
-import { makeCase } from "../core2/modules/speech";
+import { makeCase } from "../core2/modules/people";
 import { P } from "../core2/parameters";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";

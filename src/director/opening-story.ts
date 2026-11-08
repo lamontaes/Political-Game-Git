@@ -63,7 +63,11 @@ import { LEADERSHIP_MODULE_ID, organize } from "../core2/modules/leadership";
 import { markWordsStopgap } from "./stopgaps";
 import { P } from "../core2/parameters";
 import { daysBetweenText } from "../core2/kernel/dates";
-import { TERM_AREAS, countryTermRead, type AreaRead } from "../core2/term-read";
+import {
+  TERM_AREAS,
+  countryTermRead,
+  type AreaRead,
+} from "../core2/modules/laws";
 import {
   addressSituation,
   chooseAddressKind,
