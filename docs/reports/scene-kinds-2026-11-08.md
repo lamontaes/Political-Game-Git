@@ -1,6 +1,6 @@
 # Scene kinds, Nov 8, 2026
 
-The game has 92 kinds of scene. 8 of them cannot start yet (date, proposal and breakup were struck on Nov 8 by the Lives session: the town now partners and parts, and a played-year proof is in the PR), because nothing in the world writes the record they wait for. The rest start from records the engines already keep. The table says what starts each kind, where it is played, who is in it and how many wordings can say it.
+The game has 92 kinds of scene. 7 of them cannot start yet (date, proposal, breakup and letter were struck on Nov 8 by the Lives session: the town now partners and parts, and a played-year proof is in the PR), because nothing in the world writes the record they wait for. The rest start from records the engines already keep. The table says what starts each kind, where it is played, who is in it and how many wordings can say it.
 
 ## Every kind
 
@@ -11,7 +11,7 @@ The game has 92 kinds of scene. 8 of them cannot start yet (date, proposal and b
 | return | - | NO CAUSE / awaiting record:release-from-jail, record:homecoming, record:moving-back | home | effective-date | returning, waiting | 0 | dead |
 | news-arrives | - | feeling:event:housing.eviction; feeling:event:housing.eviction; feeling:event:housing.eviction; feeling:event:life.death; money:job-ended; feeling:event:justice.imprisoned; money:job-ended; feeling:event:health.serious-illness; circumstance:price-moved-street via circumstance; circumstance:story-read-home via circumstance; circumstance:national-news-work via circumstance; circumstance:death-known-street via circumstance; circumstance:rent-news-street via circumstance; circumstance:national-news-street via circumstance / awaiting record:diagnosis-disclosed, record:acceptance, record:result | home, phone | at-cause | bearer, receiver, about | 4 |  |
 | race-told | race-told | circumstance:race-result-known via circumstance | public, home, phone | at-cause | bearer, you, about | 92 |  |
-| letter | - | NO CAUSE / awaiting record:contact-from-someone-away | letter | at-cause | writer, reader | 0 | dead |
+| letter | - | NO CAUSE / awaiting record:contact-from-someone-away | letter | at-cause | writer, reader | 0 | |
 | argument | neighbor-argument | ? / awaiting record:dispute-over-money, record:dispute-over-rules, record:dispute-over-belief | home, workplace, school, public | at-cause | side, other-side, witness | 72 |  |
 | apology | owed-apology | NO CAUSE / awaiting record:decision-to-concede | home, other-home, public | next-together | apologizing, wronged | 75 | dead |
 | reach-out | favor-job | circumstance:job-lost-calls via circumstance | phone | at-cause | asking, asked | 17 |  |

@@ -54,6 +54,7 @@ import {
 } from "../gov-rules/person-identity";
 import { birthCohortGivenName } from "../gov-rules/given-name-cohorts";
 import { livesElsewhere } from "./moves";
+import { reviewKinContact } from "./kin-contact";
 import { declareSnapshotCovered } from "../snapshot";
 import type {
   CoreAPI,
@@ -424,6 +425,7 @@ function review(api: CoreAPI): void {
       .put(row as never);
   }
   reviewTown(api);
+  reviewKinContact(api);
 }
 
 /** Where a couple in town stands on the way to a wedding. */
@@ -914,7 +916,10 @@ function schedule(api: CoreAPI): void {
 
 export const partnershipsModule: CoreModule = {
   id: PARTNERSHIPS_MODULE_ID,
-  state: { schemaVersion: 1, tables: { state: {}, pulls: {}, couples: {} } },
+  state: {
+    schemaVersion: 1,
+    tables: { state: {}, pulls: {}, couples: {}, contacts: {} },
+  },
   // A death ends the person's pull, so the table holds only the living.
   eventKinds: ["life.death", "scene.reply"],
   onEvent(api, event) {

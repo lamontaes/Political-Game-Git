@@ -539,5 +539,17 @@
     "addedAt": "2026-11-08",
     "replacement": "A purpose of its own for action-confront in purpose-arcs.json whose replies and endings are stances toward the crowd (hear the line, send a representative, call the police, join them).",
     "status": "open"
+  },
+  {
+    "id": "SG-LIVES-director-kin-contact-impact",
+    "kind": "estimated-parameter",
+    "file": "src/director/data/director.json",
+    "line": 1,
+    "whatItFakes": "How much a letter from a relative elsewhere weighs, so that a close tie's letter ranks among the year's top moments.",
+    "why": "No scale item sizes a letter; the Holmes and Rahe 'change in family get-togethers' (15 units) ranks below every other moment of the year and never stages. Sized by rank in the played year (New Castle, Kentucky, seed lives-letter-a: ranks 2 to 6 of the year's moments).",
+    "addedBy": "Lives (night crew, Nov 8)",
+    "addedAt": "2026-11-08",
+    "replacement": "A measured weight of family contact in the life-change literature, or the people engine's own appraisal of the contact.",
+    "status": "open"
   }
 ]

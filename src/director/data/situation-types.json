@@ -648,8 +648,21 @@
       ],
       "setting": ["letter"],
       "timing": "at-cause",
-      "causes": [],
-      "awaiting": ["record:contact-from-someone-away"],
+      "causes": [
+        {
+          "match": {
+            "label": "feeling:event:family.contact",
+            "selfNamed": true,
+            "counterpart": "some"
+          },
+          "causeEngine": "partnerships",
+          "causeRecord": "family.contact",
+          "bind": {
+            "writer": "counterpart",
+            "reader": "subject"
+          }
+        }
+      ],
       "tag": {
         "key": "news-received",
         "endpoint": "personal",
