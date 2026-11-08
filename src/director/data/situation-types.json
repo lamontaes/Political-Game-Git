@@ -4023,7 +4023,10 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "bribe-offer",
+          "match": {
+            "label": "cause:event:corruption.bribe-offered",
+            "counterpart": "some"
+          },
           "causeEngine": "corruption",
           "causeRecord": "corruption.bribe-offered",
           "bind": {
