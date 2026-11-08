@@ -94,7 +94,7 @@ try {
     .locator('[data-tab="travel"]')
     .first()
     .evaluate((e) => e.click());
-  const go = page.locator("#sheet-body .entry", { hasText: /You file here/ });
+  const go = page.locator(".travel-tile[data-filing]");
   await go.first().waitFor();
   let atCounter = false;
   for (let i = 0; i < (await go.count()) && !atCounter; i++) {
