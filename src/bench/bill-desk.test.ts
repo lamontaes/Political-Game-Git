@@ -118,6 +118,11 @@ describe(`the governor's desk in the stage view (seed ${seed})`, () => {
         continue;
       }
       const waiting = billStage(core, bill.id, governor);
+      // A state bill went through its chamber's committee first: the record names the chair,
+      // who testified and each member's vote.
+      console.log(
+        `committee: ${where} ${JSON.stringify(waiting.committees.map((c) => ({ committee: c.committee, chair: c.chair, heard: c.heard, witnesses: c.witnesses.length, votes: c.votes.length })))} floor ${waiting.floor.map((f) => f.result).join(" / ")}`,
+      );
       expect(waiting.desk.waiting, where).toBe(true);
       expect(waiting.desk.lean, where).toBeTruthy();
       expect(waiting.desk.decided, where).toEqual([]);
