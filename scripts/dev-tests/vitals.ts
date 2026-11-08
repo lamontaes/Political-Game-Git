@@ -25,6 +25,11 @@ import {
   VOTING_MODULE_ID,
   type ResultRow,
 } from "../../src/core2/modules/voting";
+import {
+  CRIME_MODULE_ID,
+  crimeMonths,
+  type CrimeMonth,
+} from "../../src/core2/modules/crime";
 import { townMetrics } from "../../src/core2/modules/world-metrics";
 import type { CoreState } from "../../src/core2/types";
 
@@ -50,6 +55,10 @@ export interface Vitals {
   /** Ballots cast by the town's named and counted residents over those eligible, in the latest election with such voters, as a percent, and its date; null before any is counted. */
   turnoutPct: number | null;
   turnoutDate: string | null;
+  /** Victimizations in the last twelve months per 1,000 residents (the crime engine's monthly records, all kinds); null before a year is recorded. */
+  victimizationsPer1000: number | null;
+  /** Of those, reported to police a year per 1,000 residents. */
+  reportedCrimesPer1000: number | null;
   countedDeaths: number;
   partiesInTownSeats: Record<string, number>;
   unmeasured: string[];
@@ -145,6 +154,27 @@ export function vitals(core: CoreState): Vitals {
       };
     }
   }
+  // The crime engine's records for the town: the last twelve months'
+  // victimizations over the residents it counted that month.
+  let crime: { victims: number; reported: number } | undefined;
+  if (core.modules.has(CRIME_MODULE_ID)) {
+    const months: CrimeMonth[] = crimeMonths(coreAPI(core), town).filter(
+      (row) => row.date <= core.date,
+    );
+    const lastYear = months.slice(-12);
+    const latest = lastYear.at(-1);
+    if (lastYear.length === 12 && latest && latest.persons > 0) {
+      const count = lastYear.reduce(
+        (n, row) =>
+          n + Object.values(row.types).reduce((a, t) => a + t.count, 0),
+        0,
+      );
+      crime = {
+        victims: Math.round((10_000 * count) / latest.persons) / 10,
+        reported: Math.round(10_000 * latest.reportedPerResident) / 10,
+      };
+    }
+  }
   const fullWorkers = fullAlive.filter((p) => p.jobId).length;
   // The full people are a separate tier from the counted households.
   const adults = sum("adults") + fullAlive.length;
@@ -169,6 +199,8 @@ export function vitals(core: CoreState): Vitals {
     rentSharePctOfEarnings: rentShare,
     turnoutPct: turnout?.pct ?? null,
     turnoutDate: turnout?.date ?? null,
+    victimizationsPer1000: crime?.victims ?? null,
+    reportedCrimesPer1000: crime?.reported ?? null,
     countedBirths: counted.births,
     countedDeaths: counted.deaths,
     partiesInTownSeats: parties,
