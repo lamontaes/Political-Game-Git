@@ -38,9 +38,9 @@ const askedId = player.id;
 // The offer an official finds left for them (scenes-from-life episode
 // docs/design/scenes/from-life/envelope-refused-developer.md): a favor asked
 // in return for money. The corruption engine does not yet write the offer as
-// an event, so the type waits on its producer (pool item
-// corruption-bribe-offer-reaches-player-seat); what this proves is that the
-// scene words itself from the offer's own facts once the record exists.
+// an event for anyone but the player's seat, where it writes
+// `corruption.bribe-offered` (src/core2/modules/corruption.ts); what this
+// proves is that the scene words itself from the offer's own facts.
 const type = (situationFile as unknown as { types: PurposeType[] }).types.find(
   (row) => row.key === "bribe-offer",
 )!;
@@ -68,13 +68,13 @@ const statement = (facts: Record<string, Fact>) =>
   )!.text;
 
 describe(`an offer left for an official (seed ${seed})`, () => {
-  it("waits on the engine's offer record and fires from nothing else", () => {
+  it("fires from the engine's offer record and from nothing else", () => {
     expect(type.causes).toHaveLength(1);
     expect(type.causes[0]).toMatchObject({
-      awaitingProducer: "bribe-offer",
       causeRecord: "corruption.bribe-offered",
+      match: { label: "cause:event:corruption.bribe-offered" },
     });
-    expect(type.causes[0]!).not.toHaveProperty("match");
+    expect(type.causes[0]!).not.toHaveProperty("awaitingProducer");
   });
 
   it("says the favor the offer record names, and only that favor", () => {

@@ -48,6 +48,9 @@ import {
   billStage,
   callAmendmentVote,
   chooseOwnVote,
+  followedBills,
+  keepStaffRedraft,
+  staffRedraft,
   moveOwnAmendment,
 } from "./bill-stage";
 import {
@@ -860,6 +863,36 @@ export async function benchRequest(
           billStage(
             requireCore(),
             url.searchParams.get("billId") ?? "",
+            player?.personId,
+          ),
+        );
+        return;
+      }
+      // Bills before the state's chambers and Congress, followed from home.
+      if (request.method === "GET" && url.pathname === "/api/bills/following") {
+        send(200, followedBills(requireCore(), player?.personId));
+        return;
+      }
+      // The staff's redraft of one section, and the sponsor keeping it.
+      if (request.method === "GET" && url.pathname === "/api/bill/redraft") {
+        send(
+          200,
+          staffRedraft(
+            requireCore(),
+            url.searchParams.get("billId") ?? "",
+            Number(url.searchParams.get("index")),
+            player?.personId,
+          ),
+        );
+        return;
+      }
+      if (request.method === "POST" && url.pathname === "/api/bill/redraft") {
+        send(
+          200,
+          keepStaffRedraft(
+            requireCore(),
+            url.searchParams.get("billId") ?? "",
+            Number(url.searchParams.get("index")),
             player?.personId,
           ),
         );
