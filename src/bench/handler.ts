@@ -1335,7 +1335,7 @@ export async function benchRequest(
               (row) => row.visibility === "public" && !seen.has(row.id),
             ),
             // Laws other states passed lately, under the Nation heading.
-            ...nationStories(core, controls.news.nation),
+            ...nationStories(core, controls.news.nation, id ?? undefined),
           ].map((row) => {
             const facts = (row as { facts?: Record<string, unknown> }).facts;
             const names: Record<string, string> = {};
