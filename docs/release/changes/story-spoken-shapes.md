@@ -1,6 +1,8 @@
 ---
 id: story-spoken-shapes
 impact: minor
+section: Changed
+title: Hallway talk comes in short, indirect words.
 ---
 
 Hallway words now include short, indirect replies and answers ("Not here." "Fair enough."), and a hearing's public comment is graded with residents, not the floor.
