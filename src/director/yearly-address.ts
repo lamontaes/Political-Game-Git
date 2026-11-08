@@ -12,6 +12,7 @@
  * and address-kind.ts); this file only says which day.
  */
 import { jointAddress } from "../core2/office-day-federal-calendar";
+import { P } from "../core2/parameters";
 import type { CoreState } from "../core2/types";
 import {
   OPENING_ADDRESS_EVENT,
@@ -27,7 +28,8 @@ export function recordYearlyAddress(core: CoreState): OpeningStory | null {
   const playerId = core.playerId;
   if (!playerId) return null;
   if (
-    jointAddress(Number(core.date.slice(0, "YYYY".length))).date !== core.date
+    jointAddress(Number(core.date.slice(P.zero, "YYYY".length))).date !==
+    core.date
   )
     return null;
   if (core.eventIds.has(`${OPENING_ADDRESS_EVENT}:${core.date}`)) return null;

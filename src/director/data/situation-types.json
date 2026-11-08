@@ -5012,6 +5012,67 @@
       "stakes": ["opponent", "office", "race"]
     },
     {
+      "key": "action-confront",
+      "note": "A strike or protest in the town forms and the town's own officials are at its edge: someone in it stands up to the official about what it is over (the public-action engine's civic record names the demand and the people in it). The talk is the town hall's, since it is the same exchange: a person with a demand, an official who answers it, and a reading of how the answer sits with the person's stand.",
+      "purpose": "town-hall-question",
+      "asker": "protester",
+      "asked": "you",
+      "stakes": ["issue", "answer", "town"],
+      "roles": [
+        {
+          "key": "protester",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["ask", "press", "plea", "disagree", "thank", "accept"],
+          "wants": ["change"],
+          "bearing": "braced"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["answer", "relent", "offer", "deflect", "lie", "leave"],
+          "wants": ["keep-same"],
+          "bearing": "calm"
+        }
+      ],
+      "setting": ["public"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:civic.protest",
+            "counterpart": "some"
+          },
+          "causeEngine": "public-action",
+          "causeRecord": "civic.protest",
+          "bind": {
+            "protester": "counterpart",
+            "you": "subject"
+          },
+          "opener": "protester"
+        },
+        {
+          "match": {
+            "label": "cause:event:civic.strike",
+            "counterpart": "some"
+          },
+          "causeEngine": "public-action",
+          "causeRecord": "civic.strike",
+          "bind": {
+            "protester": "counterpart",
+            "you": "subject"
+          },
+          "opener": "protester"
+        }
+      ],
+      "tag": {
+        "key": "favor-asked",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
       "key": "town-hall-question",
       "purpose": "town-hall-question",
       "asker": "resident",
