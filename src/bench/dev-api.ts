@@ -288,6 +288,9 @@ export async function handleDev(
       });
       return true;
     }
+    case "GET memory":
+      send(200, mode.memory(q("id")));
+      return true;
     case "GET person":
       send(200, mode.person(q("id")));
       return true;

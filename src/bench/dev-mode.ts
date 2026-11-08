@@ -12,6 +12,7 @@ import { moneySince, watchMoney } from "../core2/tooling/money-watch";
 import { bookkeeping } from "../core2/bookkeeping";
 import { journalCheckCounts } from "../core2/journal";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { parameter } from "../core2/parameters";
 import { coreAPI, personOrFillIn } from "../core2/state";
 import { advanceCore, availableActs, type Controller } from "../core2/life";
 import {
@@ -754,6 +755,50 @@ export class DevMode {
       ...this.player.trace(id),
       record: this.core.durableLog.get(id) ?? law ?? null,
     };
+  }
+
+  /**
+   * What a person remembers: each event they lived through that their knowledge still holds, when
+   * they learned it and when the monthly pass forgets it (the first of a month once its retention
+   * window is past). The player keeps everything; a held drive keeps its source event.
+   */
+  memory(personId: string) {
+    const core = this.core;
+    const known = core.knowledgeByPerson.get(personId);
+    if (!personOrFillIn(core, personId)) throw new Error("No such person.");
+    const retention = parameter(
+      "experiencedKeyRetentionDays",
+      core.data.parameters,
+    );
+    const held = new Set(
+      [...(core.people.get(personId)?.drives.values() ?? [])].map(
+        (drive) => drive.sourceEventId,
+      ),
+    );
+    const fadesOn = (learnedAt: string) => {
+      let day = addDays(makeIsoDate(learnedAt), retention + 1);
+      while (!day.endsWith("-01")) day = addDays(makeIsoDate(day), 1);
+      return day;
+    };
+    const rows = [];
+    for (const [key, fact] of known ?? [])
+      if (key.startsWith("event:") && key.endsWith(":experienced"))
+        rows.push({
+          eventId: fact.value,
+          kind: core.durableLog.get(fact.value)?.kind ?? null,
+          learnedAt: fact.learnedAt,
+          fadesOn:
+            personId === core.playerId || held.has(fact.value)
+              ? null
+              : fadesOn(fact.learnedAt),
+          keptBy:
+            personId === core.playerId
+              ? "player"
+              : held.has(fact.value)
+                ? "drive"
+                : null,
+        });
+    return rows.sort((a, b) => b.learnedAt.localeCompare(a.learnedAt));
   }
 
   /** A person's records: money, job, views, drives, health, relationships and the director's ledger. */
