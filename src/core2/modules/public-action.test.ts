@@ -100,7 +100,10 @@ describe("a town's term becomes strikes, protests and rallies", () => {
     );
     expect(actions.length, where).toBeGreaterThan(0);
     for (const row of actions) {
-      expect(row.participantIds.length, where).toBeGreaterThanOrEqual(2);
+      expect(
+        row.participantIds.length + row.countedParticipants,
+        where,
+      ).toBeGreaterThanOrEqual(2);
       for (const id of row.participantIds) {
         const person = core.people.get(id)!;
         // They are adults of the town as they joined it, and never the player.

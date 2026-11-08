@@ -291,6 +291,26 @@ export const STORY_KINDS = {
     lede: ["address"],
     context: ["address-unemployment", "address-wages", "address-quote"],
   },
+  // A strike, protest or rally in the town, and a governor's or mayor's address.
+  "public-action": {
+    headline: ["public-action"],
+    lede: ["public-action"],
+  },
+  // The other side's answer to a governor's address.
+  "address-response": {
+    headline: ["address-response"],
+    lede: ["address-response"],
+  },
+  // The floor before a roll call: who spoke for the bill and who against.
+  "floor-debate": {
+    headline: ["floor-debate"],
+    lede: ["floor-debate"],
+  },
+  "local-address": {
+    headline: ["local-address"],
+    lede: ["local-address"],
+    context: ["local-address-style", "local-address-quote"],
+  },
   founded: { headline: ["founded"], lede: ["founded"], brief: true },
   amendment: { headline: ["amendment"], lede: ["amendment"] },
   estate: { headline: ["estate"], lede: ["estate"] },

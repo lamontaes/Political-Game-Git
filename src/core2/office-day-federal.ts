@@ -38,9 +38,14 @@ import {
   FEDERAL_HOUSE,
   FEDERAL_SENATE,
   LEGISLATURE_MODULE_ID,
+  billOf,
   castMemberVote,
+  chambersOf,
   floorAgendaOn,
+  holdFloorDebate,
+  memberKey,
   memberPosition,
+  members,
 } from "./modules/legislature";
 import {
   clearPrepared,
@@ -98,7 +103,7 @@ export type Where = "washington" | "district";
 
 /** What the federal day adds to what may stop the player (the engine's own `own-bill-vote` and `desk` are used as they are). */
 registerStopKinds([
-  { kind: "floor-vote", byDefault: false },
+  { kind: "floor-vote", byDefault: true },
   { kind: "whip-ask", byDefault: false },
   { kind: "joint-address", byDefault: true },
   { kind: "budget-request", byDefault: true },
@@ -359,13 +364,20 @@ function eveOfVotes(api: CoreAPI, personId: string): void {
         api.moduleState(LEGISLATURE_MODULE_ID).table("bills").get(billId) as
           { sponsorId?: string } | undefined
       )?.sponsorId === personId;
-    if (stops[own ? "own-bill-vote" : "floor-vote"])
+    if (stops[own ? "own-bill-vote" : "floor-vote"]) {
       holdFederal(
         api,
         floorHold(billId),
         "office-day-federal.floor-vote",
         billId,
       );
+      // The floor speaks before the roll: for and against, heard before the player votes.
+      const bill = billOf(api, billId);
+      if (bill)
+        for (const chamber of chambersOf(api, bill))
+          if (members(api, chamber).some((t) => memberKey(t) === personId))
+            holdFloorDebate(api, billId, chamber);
+    }
   }
 }
 
@@ -393,6 +405,17 @@ export function voteOnFloor(
 
 /** The player leaves a held vote to the character: the floor casts it by the engine's own rule. */
 export function leaveVoteToCharacter(api: CoreAPI, billId: string): void {
+  // The character votes as it does for any member, from its own position on the bill.
+  const personId = controlledPerson(api);
+  if (personId && !chose(api, billId, personId)) {
+    const position = memberPosition(api, billId, personId).total;
+    castMemberVote(
+      api,
+      billId,
+      personId,
+      position > 0 ? "yes" : position < 0 ? "no" : "abstain",
+    );
+  }
   releaseFederal(api, floorHold(billId));
 }
 

@@ -12,6 +12,7 @@
  * draws by chance.
  */
 import { recordYearlyAddress } from "./yearly-address";
+import { recordLocalAddresses } from "./local-address";
 import { SCHOOL_STARTED, preStartHistory } from "../core2/past";
 import { addDays, daysBetween, makeIsoDate } from "../core2/kernel/dates";
 import { appraiseEvent } from "../core2/emotion";
@@ -1531,6 +1532,7 @@ export function createDirector(
         (a, b) =>
           // What follows a record of the player's own (their race's count)
           // comes before news of others' on the same day.
+          Number(!!b.row.before) - Number(!!a.row.before) ||
           Number(b.record.personIds.includes(book.personId)) -
             Number(a.record.personIds.includes(book.personId)) ||
           b.score - a.score ||
@@ -1833,7 +1835,10 @@ export function createDirector(
     eventKinds: data.eventKinds,
     onDay(api) {
       // The President's address to Congress, on the day the calendar sets it.
-      if (started) recordYearlyAddress(api.state);
+      if (started) {
+        recordYearlyAddress(api.state);
+        recordLocalAddresses(api.state);
+      }
     },
     onEvent(api, event, learnedBy) {
       if (!started) return;

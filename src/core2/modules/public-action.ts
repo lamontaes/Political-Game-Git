@@ -24,13 +24,15 @@
  * stopgapId: SG-WORDS-public-action-counted-share (the counted population is
  * not asked to join: an action's size is its named participants).
  */
+import { countedPersonOf } from "../counted-actor";
+import { residentsRuntime } from "./residents";
 import { registerModule } from "../state";
 import { addDays, makeIsoDate } from "../kernel/dates";
-import { groupDraw, joinsGroup } from "./interest-groups";
+import { groupDraw, joinsGroup } from "./elections";
 import { makeCase } from "./speech";
 import { townSeats } from "./offices";
 import { currentCloseness } from "../closeness";
-import { placeTermRead, termReadPlaces, type AreaRead } from "../term-read";
+import { placeTermRead, termReadPlaces, type AreaRead } from "./laws";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
 import { ageOnDate } from "../kernel/dates";
@@ -77,6 +79,8 @@ export interface ActionRow {
   readonly endedOn: string | null;
   readonly months: number;
   readonly participantIds: readonly string[];
+  /** The wider town's people in it this month, by count (they are not named until met). */
+  readonly countedParticipants: number;
   /** How strongly the town was organized when it was last seen. */
   readonly level: number;
   /** The term read of the area it rose from, between -1 and 1. */
@@ -96,6 +100,11 @@ export function actionsOf(api: CoreAPI, placeId?: string): ActionRow[] {
   return (table(api, "actions").rows() as unknown as ActionRow[])
     .filter((row) => !placeId || row.placeId === placeId)
     .sort((a, b) => a.startedOn.localeCompare(b.startedOn));
+}
+
+/** The policy question a town presses on its officials when an area goes badly, where the area has one. */
+export function areaQuestion(area: string): string | undefined {
+  return RULES[area]?.question;
 }
 
 /** The first of the month's key ("YYYY-MM"). */
@@ -128,6 +137,33 @@ function touchedIn(
     } else out.push(person);
   }
   return out.sort((a, b) => a.id.localeCompare(b.id));
+}
+
+/**
+ * The wider town's people who work for the town's schools, from the residents
+ * engine's wage flows: counted workers, who are asked to join by the same
+ * resident decision as a full person (one model, two tiers).
+ */
+function countedSchoolStaff(core: CoreState, placeId: string): string[] {
+  const rt = residentsRuntime(core);
+  if (!rt) return [];
+  const out: string[] = [];
+  for (const [jobId, flow] of rt.wageFlowByJob) {
+    const job = rt.jobs.get(jobId);
+    const organization = flow.organizationId
+      ? core.organizations.get(flow.organizationId)
+      : undefined;
+    if (
+      !job ||
+      job.endsAt !== undefined ||
+      flow.endedAt ||
+      organization?.placeId !== placeId ||
+      !organization.classification?.startsWith("service:school")
+    )
+      continue;
+    out.push(job.personId);
+  }
+  return out.sort();
 }
 
 /** The people the jobs engine records as looking for work and not yet employed. */
@@ -190,6 +226,29 @@ function organize(
 }
 
 /** The people in the town who are in the action this month, deciding one at a time who is drawn in by those already there. */
+function gatherCounted(
+  api: CoreAPI,
+  counted: readonly string[],
+  level: number,
+): number {
+  let joined = 0;
+  for (const id of counted) {
+    const person = countedPersonOf(api.state as CoreState, id);
+    if (!person) continue;
+    if (
+      joinsGroup(
+        api,
+        { ...person, id } as unknown as PersonState,
+        Math.min(1, level),
+        true,
+        0,
+      )
+    )
+      joined += 1;
+  }
+  return joined;
+}
+
 function gather(
   api: CoreAPI,
   pool: readonly PersonState[],
@@ -283,7 +342,8 @@ function playerJoins(api: CoreAPI, event: { facts?: Record<string, string> }) {
     playerTouched: true,
   } as unknown as ModuleRow);
   const rule = RULES[action.area]!;
-  if (rule.question)
+  // A rally has no demand to press: the player only stood with it.
+  if (rule.question && action.side === "grievance")
     makeCase(api, {
       id: `case:${action.id}:${api.state.date}:player`,
       speakerId: playerId!,
@@ -344,7 +404,13 @@ function monthlyRun(api: CoreAPI): void {
           ? touchedIn(core, placeId, rule.touches, renters, seekers)
           : [];
       const participants = pool.length ? gather(api, pool, stock.level) : [];
-      const formed = participants.length >= PAR.minimumParticipants.value;
+      // The wider town's school staff are asked the same question, by their count.
+      const countedJoined =
+        stock.level > 0 && rule.touches === "school-staff"
+          ? gatherCounted(api, countedSchoolStaff(core, placeId), stock.level)
+          : 0;
+      const formed =
+        participants.length + countedJoined >= PAR.minimumParticipants.value;
       if (!formed) {
         if (open)
           table(api, "actions").put({
@@ -370,6 +436,7 @@ function monthlyRun(api: CoreAPI): void {
         participantIds: [
           ...new Set([...(open?.participantIds ?? []), ...participants]),
         ].sort(),
+        countedParticipants: countedJoined,
         level: stock.level,
         slide: read?.slide ?? 0,
         playerTouched: pool.some((person) => person.id === core.playerId),
@@ -395,7 +462,7 @@ function monthlyRun(api: CoreAPI): void {
             area: stock.area,
             side: stock.side,
             question: rule.question ?? "",
-            size: String(participants.length),
+            size: String(participants.length + countedJoined),
           },
           source: {
             tag: "SOURCED",
@@ -403,20 +470,28 @@ function monthlyRun(api: CoreAPI): void {
             asOf: core.date,
           },
         });
-      // Only an action with a demand can be put to the player in words.
-      if (!open && rule.question) inviteThePlayer(api, row, rule.question);
+      // A friend in it asks the player to come. A rally has no demand, so the
+      // invitation names none (its topic is the area), and joining one presses
+      // no one (`playerJoins`).
+      if (!open)
+        inviteThePlayer(
+          api,
+          row,
+          stock.side === "grievance" ? rule.question : undefined,
+        );
       // A grievance presses its demand on the town's officials; a rally has none.
       if (stock.side === "grievance" && rule.question) {
-        const lead = participants[0]!;
-        makeCase(api, {
-          id: `case:${id}:${month}`,
-          speakerId: lead,
-          listenerIds: officialsOfTown(api),
-          placeId,
-          topic: rule.question,
-          desiredChange: "enact",
-          citation: `${kind} over ${stock.area}, ${id}`,
-        });
+        const lead = participants[0];
+        if (lead)
+          makeCase(api, {
+            id: `case:${id}:${month}`,
+            speakerId: lead,
+            listenerIds: officialsOfTown(api),
+            placeId,
+            topic: rule.question,
+            desiredChange: "enact",
+            citation: `${kind} over ${stock.area}, ${id}`,
+          });
       }
     }
   }

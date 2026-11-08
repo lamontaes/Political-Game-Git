@@ -48,13 +48,11 @@ async function openNavigationTab(tab) {
 // and Go opens the counter.
 async function toCounter() {
   await openNavigationTab("travel");
-  const office = page
-    .locator("#sheet-body .entry", { hasText: /You file here/ })
-    .first();
+  const office = page.locator(".travel-tile[data-filing]").first();
   await office.waitFor();
   const name = await office.locator("h3").innerText();
   await office.click();
-  await page.locator("#sheet-body.place-view").waitFor();
+  await page.locator('[data-testid="place-go"]').waitFor();
   await page.locator('[data-testid="place-go"]').click();
   await page.locator("#talk:not([hidden])").waitFor();
   // The narrator sets the counter up first, alone; Continue, then the clerk.

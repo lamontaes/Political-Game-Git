@@ -72,6 +72,7 @@ import {
   notePublicPay,
   outsideAccountOf,
   sameGovernment,
+  landTaxChange,
 } from "../budgets-treasury";
 import {
   federalJurisdictionId,
@@ -1912,11 +1913,47 @@ function postWithholding(
     sourceRef: { kind: WITHHOLDING_KIND, id: record.id },
     postings,
   });
-  if (keepsWhy(api.state as CoreState, input.payerId))
+  if (keepsWhy(api.state as CoreState, input.payerId)) {
+    landWithholdingChange(api, record);
     table(api, "withholding").put(record as unknown as ModuleRow);
+  }
   // The entry is posted: the held slot (a second copy of every posting) is let go.
   slots.get(api.state)?.delete(record.id);
   return record;
+}
+
+/**
+ * A law that changes what is withheld from someone's pay lands on them: the
+ * lines of this withholding against the last one kept for the person, by the
+ * share of pay each takes. Only a change of the law row read (a new rate or a
+ * new level taxing) counts, never a bigger or smaller paycheck.
+ */
+function landWithholdingChange(api: CoreAPI, record: WithholdingRecord): void {
+  const earlier = withholdingOf(api, record.personId)
+    .filter((r) => r.id !== record.id && r.date < record.date)
+    .sort((a, b) => b.date.localeCompare(a.date))[0];
+  if (!earlier || record.paidMinor <= 0 || earlier.paidMinor <= 0) return;
+  const rows = (r: WithholdingRecord) =>
+    new Map(r.lines.map((l) => [`${l.level}|${l.tax}`, l.lawId]));
+  const before = rows(earlier),
+    now = rows(record);
+  const changed = record.lines.find(
+    (l) => (before.get(`${l.level}|${l.tax}`) ?? "") !== l.lawId,
+  );
+  const dropped = earlier.lines.find((l) => !now.has(`${l.level}|${l.tax}`));
+  const cause = changed ?? dropped;
+  if (!cause) return;
+  const take = (r: WithholdingRecord) =>
+    1 - r.lines.reduce((n, l) => n + l.minor, 0) / r.paidMinor;
+  const was = take(earlier);
+  if (!(was > 0)) return;
+  landTaxChange(api, {
+    personId: record.personId,
+    obligationId: record.id,
+    lawId: cause.lawId,
+    series: cause.tax === "income" ? "income-tax" : `${cause.tax}-tax`,
+    share: (take(record) - was) / was,
+  });
 }
 
 /**
@@ -2081,6 +2118,17 @@ export function taxPaymentsOf(
 
 export function governments(api: CoreAPI): readonly GovernmentRow[] {
   return table(api, "governments").rows() as unknown as GovernmentRow[];
+}
+/** What the laws have added to a government's line in a fiscal year so far, in minor units (negative for a cut). */
+export function lineChangedInYear(
+  api: CoreAPI,
+  governmentId: string,
+  fy: number,
+  line: string,
+): number {
+  const row = table(api, "enacted").get(governmentId) as unknown as
+    { byYear?: Record<string, Record<string, number>> } | undefined;
+  return row?.byYear?.[String(fy)]?.[line] ?? 0;
 }
 export function budgetsOf(
   api: CoreAPI,
