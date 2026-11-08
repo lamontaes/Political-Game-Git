@@ -4035,6 +4035,22 @@ const sheets = {
         race.playerMayFile &&
         !filed.has(race.contestId) &&
         race.filedWith;
+      // A race the player may run for in kind but cannot file for today
+      // says why, from the eligibility rule's own record, and offers no filing.
+      const cannotFile =
+        race.playerMayFile && !filed.has(race.contestId) && race.cannotFile
+          ? race.cannotFile
+          : null;
+      const cannotFileWords = cannotFile
+        ? (cannotFile.rule === "minimum-age"
+            ? labels.cantFileAge
+            : cannotFile.rule === "residency"
+              ? labels.cantFileResidency
+              : labels.cantFile
+          )
+            .replace("{required}", cannotFile.required)
+            .replace("{actual}", cannotFile.actual)
+        : null;
       const fileButton = makeButton({ textContent: labels.fileForIt });
       fileButton.dataset.testid = "file-for-it";
       fileButton.addEventListener("click", () =>
@@ -4098,7 +4114,10 @@ const sheets = {
                 },
               ]),
             ),
-            ...(mayFile ? [buttonTray(fileButton)] : []),
+            ...(mayFile && !cannotFile ? [buttonTray(fileButton)] : []),
+            ...(cannotFileWords
+              ? [prose(cannotFileWords, "record-empty")]
+              : []),
           ),
         ),
       ];
