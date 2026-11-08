@@ -91079,7 +91079,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "town-hall-question",
-          "key": "favor-asked"
+          "key": "favor-asked",
+          "excludesFacts": ["protest", "strike"]
         }
       ],
       "bearing": "braced",
@@ -91204,7 +91205,8 @@
           "role": "narrator",
           "purpose": "town-hall-question",
           "key": "favor-asked",
-          "requiresFacts": ["host-declined", "issue"]
+          "requiresFacts": ["host-declined", "issue"],
+          "excludesFacts": ["protest", "strike"]
         }
       ],
       "bearing": "braced",
@@ -91700,7 +91702,8 @@
           "role": "asker",
           "purpose": "town-hall-question",
           "key": "favor-asked",
-          "requiresFacts": ["host-declined", "issue"]
+          "requiresFacts": ["host-declined", "issue"],
+          "excludesFacts": ["protest", "strike"]
         }
       ],
       "bearing": "braced",
@@ -91725,7 +91728,8 @@
           "role": "asker",
           "purpose": "town-hall-question",
           "key": "favor-asked",
-          "requiresFacts": ["host-declined", "issue"]
+          "requiresFacts": ["host-declined", "issue"],
+          "excludesFacts": ["protest", "strike"]
         }
       ],
       "bearing": "braced",
@@ -129978,6 +129982,306 @@
       "tag": {
         "move": "decline",
         "key": "endorse"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.a-crowd-has-gathered-number-strong-and-name-steps-out-of-it",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "A crowd has gathered, {number} strong, and {name} steps out of it to ask you about {issue}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "protest", "number"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-signs-are-up-and-the-street-is-full-name-steps-forward",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The signs are up and the street is full. {name} steps forward to put {issue} to you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "protest"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-workers-have-walked-off-the-job-over-issue-name-leaves-the",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The workers have walked off the job over {issue}. {name} leaves the line to speak to you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "strike"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.were-here-about-issue-and-we-are-not-going-away-where-do",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "We're here about {issue}, and we are not going away. Where do you stand?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "protest"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.issue-is-why-were-out-here-tell-us-where-you-stand",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "{issue} is why we're out here. Tell us where you stand.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "protest"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.there-are-number-of-us-out-here-on-issue-what-are-you-going-to-do",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "There are {number} of us out here on {issue}. What are you going to do about it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "protest", "number"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.we-walked-out-over-issue-what-are-you-going-to-do-about",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "We walked out over {issue}. What are you going to do about it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "strike"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.nobody-wanted-to-be-out-here-we-are-because-of-issue-whats",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Nobody wanted to be out here. We are because of {issue}. What's your answer?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "strike"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "ask",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.well-be-back-tomorrow-and-there-will-be-more-of-us",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "We'll be back tomorrow, and there will be more of us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "protest"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "warn",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.the-line-stays-up-until-we-hear-something-real",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "The line stays up until we hear something real.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "strike"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "warn",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.the-people-behind-me-arent-going-home-on-a-maybe",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "The people behind me aren't going home on a maybe.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "protest"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.we-lose-a-days-pay-for-every-day-this-goes-on-give",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "We lose a day's pay for every day this goes on. Give us something.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "town-hall-question",
+          "key": "favor-asked",
+          "requiresFacts": ["issue", "strike"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
       }
     }
   ]
