@@ -114,7 +114,7 @@ try {
       .innerText()
       .catch(() => "none"),
   );
-  await page.locator(".office-screen").waitFor({ timeout: 20000 });
+  await page.locator(".office-board").waitFor({ timeout: 20000 });
   const draftTab = page.locator('.office-tabs [data-office="draft"]');
   if (await draftTab.isVisible()) await draftTab.click();
   await page.locator(".draft-card select").waitFor();
