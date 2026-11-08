@@ -89,8 +89,16 @@ export function latestApproval(api: CoreAPI): ApprovalRow | undefined {
 }
 
 /** The latest approval against the long-run mean, in points (0 before any row). */
-export function approvalGapPoints(api: CoreAPI): number {
+export function approvalGapPoints(api: CoreAPI, onDate?: string): number {
   const row = latestApproval(api);
+  // No approval was kept before the engine opened: an earlier election
+  // (a past one the world replays) has no approval record to read.
+  const opened = (
+    table(api, "state").get("national-opinion:state") as unknown as
+      | { openedAt: string }
+      | undefined
+  )?.openedAt;
+  if (onDate && opened && onDate < opened) return 0;
   return row ? row.pct - opinionParameter("longRunMeanPct") : 0;
 }
 

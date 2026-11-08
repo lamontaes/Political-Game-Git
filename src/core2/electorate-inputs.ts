@@ -268,6 +268,8 @@ export function raceConditions(
     readonly cycle: RaceConditions["cycle"];
     readonly raceVotes: number;
     readonly townPlaceId: string | null;
+    /** The race's election day (default today); approval was not kept before the world opened. */
+    readonly electionDate?: string;
   },
 ): RaceConditions {
   rememberOpeningElectorate(api);
@@ -276,7 +278,7 @@ export function raceConditions(
     federal: input.federal,
     typicalSpendPerVote: typicalSpendPerVote(input.family),
     raceVotes: input.raceVotes,
-    approvalGapPoints: approvalGapPoints(api),
+    approvalGapPoints: approvalGapPoints(api, input.electionDate),
     town: input.townPlaceId
       ? {
           placeId: input.townPlaceId,

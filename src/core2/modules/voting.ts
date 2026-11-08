@@ -3622,6 +3622,7 @@ function publicReasons(
     cycle: electionCycle(contest.electionDate),
     raceVotes: votes * cycleTurnout(contest.electionDate).share,
     townPlaceId: town(api).townPlaceId,
+    electionDate: contest.electionDate,
   });
   const reasons = filings.map((f) =>
     candidateReasons(
