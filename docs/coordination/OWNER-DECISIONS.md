@@ -25,6 +25,15 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 - **One date:** "There's one date and there's one time. One date, one time." Every screen reads the world's date, never one set at load.
 - **Glossary underlines approved:** "The underline is working. Awesome. Love it, love it, love it."
 - **CTO calls the owner may overrule (2:45 p.m.):** #7697's other-state budgets, built as the published budget times one growth factor, are sent back. Budgets move from each state's own simulated economy and its own laws.
+- **Coordinator calls the owner may overrule (3:00 p.m., Memory's five fold questions in #7727, answered from AGENTS.md "Speed", Oct 30 01:55, Oct 8 "keep the result, not the reasoning", and no thresholds):**
+  - Voters' heard promises are kept until the candidate's next election, which is the window `voting.ts` reads. Then they fold into the candidate's record of promises made and broken, by area.
+  - Impressions fade on a sliding scale with time since the voter last heard of the candidate, at a researched forgetting rate. A row back at its resting value is dropped, and there's no "N years" cutoff.
+  - Per-place votes stay for races in the player's own chain. Any other closed race folds to its totals and winner once the office's next race has used it.
+  - Campaign gifts fold to yearly totals per candidate after the race closes, as for cash receipts. Each race's endorsement list stays.
+  - The coarse fast-forward for unwatched years is built as well as these folds, not instead of them.
+- **Coordinator calls (2:40 p.m.):**
+  - The state per diem stays an expense payment on its own line, paid once by the treasury that owes it, outside the one payroll.
+  - Layoffs keep the registered JOLTS turnover stopgap until firms have their own demand shocks. Hours are cut first through `api.rehourJob`, then whole people leave from discrete causes: the firm's cash, the owner's retirement, quits and life events.
 
 ## Nov 8 morning: check every ruling against the code; simulate, don't generate; ranges are not targets for anything; the other 49 states move on their own; candidates run because they want to (owner)
 
