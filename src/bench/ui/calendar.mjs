@@ -74,12 +74,20 @@ export function calendarScreen({ date, items: every, labels, onAdvance }) {
   rebuild();
   // A day on the calendar says its year only when it is not this year's.
   const dayWords = (iso, options) => dateWords(iso, { ...options, year: date });
+  // A kind is named by its icon and its words, never by a color (owner ruling, Nov 8).
+  const kinded = (node, group) => {
+    node.dataset.kind = group;
+    return node;
+  };
   const icon = (item) =>
-    el("img", {
-      src: `/ui/kit13/calendar-${dayIcon(item.kind)}.png`,
-      alt: "",
-      className: `day-icon kind-${groupOf(item.kind)}`,
-    });
+    kinded(
+      el("img", {
+        src: `/ui/kit13/calendar-${dayIcon(item.kind)}.png`,
+        alt: "",
+        className: "day-icon",
+      }),
+      groupOf(item.kind),
+    );
   let month = new Date(`${date.slice(0, 7)}-01T12:00:00`);
   let selected = date;
   const monthBox = el("div", { className: "calendar-month" });
@@ -109,13 +117,14 @@ export function calendarScreen({ date, items: every, labels, onAdvance }) {
     );
     const lines = day.length
       ? day.map((item) =>
-          el(
-            "div",
-            {
-              className: `calendar-entry kind-${groupOf(item.kind)}${item.own ? " own" : ""}`,
-            },
-            icon(item),
-            el("span", { className: "what", textContent: item.line }),
+          kinded(
+            el(
+              "div",
+              { className: `calendar-entry${item.own ? " own" : ""}` },
+              icon(item),
+              el("span", { className: "what", textContent: item.line }),
+            ),
+            groupOf(item.kind),
           ),
         )
       : [el("p", { className: "calendar-empty", textContent: labels.nothing })];
@@ -139,7 +148,7 @@ export function calendarScreen({ date, items: every, labels, onAdvance }) {
   const drawSide = () => {
     const rowOf = (item) => {
       const row = listRow(
-        `calendar-entry kind-${groupOf(item.kind)}${item.own ? " own" : ""}`,
+        `calendar-entry${item.own ? " own" : ""}`,
         { as: "button", type: "button" },
         el("span", {
           className: "when",
@@ -149,7 +158,7 @@ export function calendarScreen({ date, items: every, labels, onAdvance }) {
         el("span", { className: "what", textContent: item.line }),
       );
       row.addEventListener("click", () => goTo(item.date));
-      return row;
+      return kinded(row, groupOf(item.kind));
     };
     side.replaceChildren(
       stripSection(
@@ -237,11 +246,14 @@ export function calendarScreen({ date, items: every, labels, onAdvance }) {
             ...[...new Set(entries.map((e) => groupOf(e.kind)))]
               .slice(0, 3)
               .map((group) =>
-                el("img", {
-                  src: `/ui/kit13/calendar-${dayIcon(GROUPS.find((g) => g.key === group).kinds[0])}.png`,
-                  alt: "",
-                  className: `day-icon kind-${group}`,
-                }),
+                kinded(
+                  el("img", {
+                    src: `/ui/kit13/calendar-${dayIcon(GROUPS.find((g) => g.key === group).kinds[0])}.png`,
+                    alt: "",
+                    className: "day-icon",
+                  }),
+                  group,
+                ),
               ),
           ),
         );
@@ -272,7 +284,7 @@ export function calendarScreen({ date, items: every, labels, onAdvance }) {
             drawDay();
             drawSide();
           },
-          `key-kind kind-${group.key}${shown ? " on" : ""}`,
+          `key-chip${shown ? " on" : ""}`,
         );
         toggle.dataset.kind = group.key;
         toggle.setAttribute("aria-pressed", String(shown));
