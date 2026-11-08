@@ -176,7 +176,9 @@
     "introduce": "Introduce",
     "pass": "Pass",
     "defeat": "Defeat",
-    "held": "Held in committee",
+    "held": "Held by the chair",
+    "lost": "Lost in committee",
+    "chair": "Chair",
     "noVeto": "No veto at this body",
     "noBill": "Introduce a bill first."
   },

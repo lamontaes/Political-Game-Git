@@ -813,6 +813,11 @@ export class DevMode {
       yes: c.yes,
       no: c.no,
       reported: c.reported,
+      // Who chairs it and why they heard the bill or held it: the chair's own position on it and what
+      // their temperament adds, as the committee recorded them (heard when the sum is not below zero).
+      chair: c.chairId,
+      chairPosition: c.chairReasons.position.total,
+      chairTrait: c.chairReasons.hearingTrait,
     }));
     return {
       mark: this.mark("decide", [billId], {
