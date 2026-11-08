@@ -91,11 +91,9 @@ describe(`the loan cap through dev mode (seed ${seed})`, () => {
             effectiveDate: string;
             value: unknown;
           }[]
-        ).filter((row) => row.id.includes(bill.id));
+        ).filter((row) => Number(row.value) === 1);
         expect(rows.length, `${where}: the bill's law row`).toBeGreaterThan(0);
-        process.stderr.write(
-          `${where}: law row ${rows[0]!.id} takes effect ${rows[0]!.effectiveDate}\n`,
-        );
+        process.stderr.write(`${where}: law rows ${JSON.stringify(rows)}\n`);
         // Thirteen months and more, the members voting down any repeal.
         const ran = dev.runUntil({ days: DAYS, cap: DAYS, defeat: [CAP] });
         expect(ran.days, where).toBe(DAYS);
