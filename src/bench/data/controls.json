@@ -875,6 +875,11 @@
   },
   "billStage": {
     "committee": "In committee",
+    "aide": "Your aide's estimate",
+    "aide-pass": "Your aide expects it to pass.",
+    "aide-fail": "Your aide expects it to fail.",
+    "aide-close": "Your aide calls it too close to call.",
+    "aideCaveat": "An estimate from what members have told you. It can be wrong.",
     "cosponsors": "Cosponsors",
     "referred": "Referred to",
     "chair": "Chaired by",
