@@ -122,6 +122,8 @@ const DRIVE_ACTS = new Set<string>([
 ]);
 /** The fact an event that makes a case carries: who made it. */
 export const VIEWS_SPEAKER_KEY = "views:speaker";
+/** A speaker still in the wider population: their lean, from their counted record (they have no view row). */
+export const VIEWS_SPEAKER_LEAN_KEY = "views:speakerLean";
 /** The parties and record engines' tables, read by id (they import this one). */
 const PARTIES_STORE = "core2-parties-v1";
 const RECORD_STORE = "core2-record-v1";
@@ -478,6 +480,18 @@ function direction(desiredChange: string): number {
  * how the speaker has voted on the question before (half with no record).
  * Each part slides; the weights are the views table's.
  */
+/** The lean an event carries for a speaker still in the wider population, if it names one. */
+export function speakerLeanOf(event: {
+  readonly facts?: Readonly<Record<string, unknown>>;
+}): number | undefined {
+  const lean = event.facts?.[VIEWS_SPEAKER_LEAN_KEY];
+  return typeof lean === "string" &&
+    lean !== "" &&
+    Number.isFinite(Number(lean))
+    ? Number(lean)
+    : undefined;
+}
+
 export function standingWith(
   api: CoreAPI,
   listener: Pick<PersonView, "id" | "lean">,
@@ -485,17 +499,21 @@ export function standingWith(
   topic: string,
   desiredChange: string,
   countedHearer?: Pick<PersonState, "traits">,
+  /** The speaker's lean where they are still in the wider population (no view row of their own). */
+  countedSpeakerLean?: number,
 ): number {
   const speaker = viewOf(api, speakerId);
   const half = v("one") / v("two");
-  const nearTrust = speaker
-    ? Math.max(
-        v("zero"),
-        v("one") -
-          Math.abs(listener.lean - speaker.lean) /
-            (v("leanMax") - v("leanMin")),
-      )
-    : half;
+  const speakerLean = speaker?.lean ?? countedSpeakerLean;
+  const nearTrust =
+    speakerLean !== undefined
+      ? Math.max(
+          v("zero"),
+          v("one") -
+            Math.abs(listener.lean - speakerLean) /
+              (v("leanMax") - v("leanMin")),
+        )
+      : half;
   // How far the listener trusts anyone follows their own traits (generalized
   // trust: agreeableness), at the weight fitted to its study.
   const hearer = countedHearer ?? api.state.people.get(listener.id);
@@ -960,7 +978,15 @@ export const viewsModule: CoreModule = {
       )
         continue;
       const nearness = speakerId
-        ? standingWith(api, view, speakerId, topic, desiredChange)
+        ? standingWith(
+            api,
+            view,
+            speakerId,
+            topic,
+            desiredChange,
+            undefined,
+            speakerLeanOf(event),
+          )
         : v("one");
       const stance = stanceAfterCase(api, {
         view,
