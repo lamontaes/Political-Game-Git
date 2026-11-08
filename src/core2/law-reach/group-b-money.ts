@@ -1400,6 +1400,8 @@ interface ReserveRow {
   /** The day of the last set-aside, and how many were made that day. */
   readonly setAsideOn?: string;
   readonly setAsidesThatDay?: number;
+  readonly releasedOn?: string;
+  readonly releasesThatDay?: number;
 }
 
 /**
@@ -1438,10 +1440,15 @@ export function holdReserve(
     });
   const held = accounts.balance(accountId);
   const id = `reserve|${input.key}|${gov.id}`;
+  // Keep both counts across repeal and restoration: the same treasury can
+  // set aside and release money more than once today.
+  const prior = getRow<ReserveRow>(api, "taken", id);
   if (!input.inForce) {
+    const releases =
+      prior?.releasedOn === api.state.date ? (prior.releasesThatDay ?? 0) : 0;
     if (held > 0)
       accounts.transfer({
-        id: `reach-b:reserve-release:${input.key}:${gov.id}:${api.state.date}`,
+        id: `reach-b:reserve-release:${input.key}:${gov.id}:${api.state.date}${releases ? `:${releases + 1}` : ""}`,
         from: accountId,
         to: main,
         amountMinor: held,
@@ -1449,11 +1456,15 @@ export function holdReserve(
         source: source(api, "Minimum reserve balance repealed"),
       });
     putRow(api, "taken", {
+      ...prior,
       id,
       key: input.key,
       governmentId: gov.id,
       accountId,
       targetMinor: 0,
+      ...(held > 0
+        ? { releasedOn: api.state.date, releasesThatDay: releases + 1 }
+        : {}),
     } satisfies ReserveRow);
     return { held: 0, target: 0 };
   }
@@ -1472,7 +1483,6 @@ export function holdReserve(
   // first of the fiscal year, when the treasury's close reads it again); a
   // set-aside the treasury could pay only in part tops up at the second
   // read, under its own transfer id.
-  const prior = getRow<ReserveRow>(api, "taken", id);
   const sameDay = prior?.setAsideOn === api.state.date;
   const count = sameDay ? (prior?.setAsidesThatDay ?? 1) : 0;
   const receipt =
@@ -1488,6 +1498,7 @@ export function holdReserve(
         })
       : null;
   putRow(api, "taken", {
+    ...prior,
     id,
     key: input.key,
     governmentId: gov.id,
