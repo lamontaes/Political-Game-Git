@@ -20,6 +20,9 @@ import { coreAPI } from "../core2/state";
 import { parameter } from "../core2/parameters";
 import { isExplicitlyControlledPersonV1 } from "../core2/player-control-state-v1";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
+import { BUSINESS_MODULE_ID } from "../core2/business-module-id";
+import { BUDGETS_MODULE_ID } from "../core2/modules/budgets";
+import { MACRO_MODULE_ID } from "../core2/modules/macro";
 import {
   LEGISLATURE_MODULE_ID,
   votesOn,
@@ -47,9 +50,6 @@ export interface WhyPanel {
 }
 
 const MAX_ROWS = 700;
-const BUSINESS_MODULE_ID = "business";
-const BUDGETS_MODULE_ID = "budgets";
-const MACRO_MODULE_ID = "macro";
 
 type Row = Record<string, unknown>;
 const table = (core: CoreState, moduleId: string, name: string): Row[] =>

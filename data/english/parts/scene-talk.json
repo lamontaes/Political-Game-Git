@@ -138873,6 +138873,5127 @@
         "move": "accept",
         "key": "loss"
       }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-holds-out-a-small-wrapped-gift-and-says-it-is-nothing",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} holds out a small wrapped gift and says it is nothing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "bribe-offer.small",
+          "key": "favor-asked"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-stops-by-with-a-gift-bag-and-a-smile-that-has-been-practiced",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} stops by with a gift bag and a smile that has been practiced.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "bribe-offer.small",
+          "key": "favor-asked"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-wont-keep-you-i-only-wanted-to-bring-you-something",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I won't keep you. I only wanted to bring you something.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "bribe-offer.small",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.hope-this-isnt-a-bad-time",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Hope this isn't a bad time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "bribe-offer.small",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-offer.its-just-a-little-something-a-thank-you-for-the-time-you-give-this-pla",
+      "move": "state-offer",
+      "kind": "spoken",
+      "text": "It's just a little something. A thank-you for the time you give this place.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "offer",
+          "role": "asker",
+          "purpose": "bribe-offer.small",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "offer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-offer.nothing-fancy-theres-a-gift-card-in-there-dinner-on-me",
+      "move": "state-offer",
+      "kind": "spoken",
+      "text": "Nothing fancy. There's a gift card in there, dinner on me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "offer",
+          "role": "asker",
+          "purpose": "bribe-offer.small",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "offer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-offer.open-it-later-if-you-like-its-only-a-thank-you-and-id-like-to-be-remem",
+      "move": "state-offer",
+      "kind": "spoken",
+      "text": "Open it later, if you like. It's only a thank-you, and I'd like to be remembered kindly.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "offer",
+          "role": "asker",
+          "purpose": "bribe-offer.small",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "offer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-offer.before-the-vote-i-wanted-you-to-have-a-small-thank-you-no-strings",
+      "move": "state-offer",
+      "kind": "spoken",
+      "text": "Before the vote, I wanted you to have a small thank-you. No strings.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "offer",
+          "role": "asker",
+          "purpose": "bribe-offer.small",
+          "key": "favor-asked",
+          "requiresFacts": ["favor-vote"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "offer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-offer.while-the-bids-are-being-read-i-wanted-you-to-have-a-small-thank-you-n",
+      "move": "state-offer",
+      "kind": "spoken",
+      "text": "While the bids are being read, I wanted you to have a small thank-you. No strings.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "offer",
+          "role": "asker",
+          "purpose": "bribe-offer.small",
+          "key": "favor-asked",
+          "requiresFacts": ["favor-contract"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "offer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-accept.thats-thoughtful-of-you-thank-you",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "That's thoughtful of you. Thank you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "bribe-offer.small",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-accept.all-right-ill-take-it-thank-you",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "All right, I'll take it. Thank you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "bribe-offer.small",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.thats-kind-but-i-cant-take-gifts-from-anyone-with-business-here",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "That's kind, but I can't take gifts from anyone with business here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "bribe-offer.small",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.thank-you-but-keep-it-i-dont-accept-anything",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Thank you, but keep it. I don't accept anything.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "bribe-offer.small",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.you-didnt-need-to-do-that",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "You didn't need to do that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "bribe-offer.small",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deflect",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.put-it-away-for-now-we-can-talk-later",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Put it away for now. We can talk later.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "bribe-offer.small",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deflect",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.a-gift-to-someone-you-want-something-from-is-a-bribe-im-reporting-it",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "A gift to someone you want something from is a bribe. I'm reporting it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "bribe-offer.small",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "confront",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-have-to-get-back-to-work-take-that-with-you",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I have to get back to work. Take that with you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "bribe-offer.small",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.thank-you-for-stopping-by-take-the-gift-with-you",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Thank you for stopping by. Take the gift with you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "bribe-offer.small",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.im-glad-enjoy-it",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'm glad. Enjoy it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "bribe-offer.small",
+          "key": "favor-asked",
+          "after": "accept"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-i-hoped-youd-see-it-that-way",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. I hoped you'd see it that way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "bribe-offer.small",
+          "key": "favor-asked",
+          "after": "accept"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.no-of-course-i-should-have-thought-ill-take-it-back",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "No, of course. I should have thought. I'll take it back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "bribe-offer.small",
+          "key": "favor-asked",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-understand-forget-i-came-by",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I understand. Forget I came by.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "bribe-offer.small",
+          "key": "favor-asked",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.its-only-a-gift-wont-you-at-least-look-at-whats-in-it",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "It's only a gift. Won't you at least look at what's in it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "bribe-offer.small",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "plea",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.it-would-mean-a-lot-to-me-and-it-costs-you-nothing",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "It would mean a lot to me, and it costs you nothing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "bribe-offer.small",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "plea",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-offer.then-keep-it-for-later-itll-be-right-here-when-you-want-it",
+      "move": "follow-offer",
+      "kind": "spoken",
+      "text": "Then keep it for later. It'll be right here when you want it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "offer",
+          "role": "asker",
+          "purpose": "bribe-offer.small",
+          "key": "favor-asked",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "offer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-offer.take-it-home-to-your-family-then-nobodys-keeping-score",
+      "move": "follow-offer",
+      "kind": "spoken",
+      "text": "Take it home to your family, then. Nobody's keeping score.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "offer",
+          "role": "asker",
+          "purpose": "bribe-offer.small",
+          "key": "favor-asked",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "offer",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.you-dont-have-to-decide-now-just-take-it-with-you",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "You don't have to decide now. Just take it with you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "bribe-offer.small",
+          "key": "favor-asked",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-sets-a-thick-envelope-on-the-table-between-you-and-does-not-sit-d",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} sets a thick envelope on the table between you and does not sit down.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "bribe-offer.large",
+          "key": "favor-asked"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-brought-more-than-a-gift-this-time-and-the-way-it-is-carried",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has brought more than a gift this time, and the way it is carried says so.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "bribe-offer.large",
+          "key": "favor-asked"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.close-the-door-please",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Close the door, please.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "bribe-offer.large",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.ill-be-direct",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'll be direct.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "bribe-offer.large",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.thats-a-lot-of-money-and-its-yours-all-i-need-is-for-the-answer-to-go",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "That's a lot of money, and it's yours. All I need is for the answer to go my way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "bribe-offer.large",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.count-it-if-you-like-its-a-serious-sum-and-i-want-a-serious-answer",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Count it if you like. It's a serious sum, and I want a serious answer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "bribe-offer.large",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.id-like-this-to-be-the-last-time-you-worry-about-money-just-see-that-i",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'd like this to be the last time you worry about money. Just see that it goes my way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "bribe-offer.large",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.theres-real-money-in-this-envelope-all-i-need-is-your-vote-when-it-com",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "There's real money in this envelope. All I need is your vote when it comes up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "bribe-offer.large",
+          "key": "favor-asked",
+          "requiresFacts": ["favor-vote"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.theres-real-money-in-this-envelope-all-i-need-is-for-the-contract-to-c",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "There's real money in this envelope. All I need is for the contract to come to me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "bribe-offer.large",
+          "key": "favor-asked",
+          "requiresFacts": ["favor-contract"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-accept.set-it-down-ill-see-that-it-goes-your-way",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "Set it down. I'll see that it goes your way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "bribe-offer.large",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-accept.all-right-leave-it-and-let-me-handle-the-rest",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "All right. Leave it, and let me handle the rest.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "bribe-offer.large",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.no-thats-far-too-much-for-any-favor-and-i-wont-be-bought",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "No. That's far too much for any favor, and I won't be bought.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "bribe-offer.large",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.take-it-back-you-cant-pay-me-enough-for-this",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Take it back. You can't pay me enough for this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "bribe-offer.large",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.thats-a-serious-crime-and-you-just-committed-it-in-front-of-me-im-call",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "That's a serious crime, and you just committed it in front of me. I'm calling it in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "bribe-offer.large",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "confront",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.thats-a-lot-to-put-on-a-table-give-me-time-before-i-say-anything",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "That's a lot to put on a table. Give me time before I say anything.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "bribe-offer.large",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "stall",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.i-wont-answer-today-take-the-envelope-with-you-while-i-think",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "I won't answer today. Take the envelope with you while I think.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "bribe-offer.large",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "stall",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.were-finished-here-take-your-envelope-and-go",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "We're finished here. Take your envelope and go.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "bribe-offer.large",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.twice-the-number-is-still-no",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Twice the number is still no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "bribe-offer.large",
+          "key": "favor-asked",
+          "after": "bargain"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.now-youre-raising-the-offer-im-reporting-both",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Now you're raising the offer. I'm reporting both.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "bribe-offer.large",
+          "key": "favor-asked",
+          "after": "bargain"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "confront",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-bargain.i-could-make-it-twice-that-if-the-number-is-the-problem",
+      "move": "follow-bargain",
+      "kind": "spoken",
+      "text": "I could make it twice that, if the number is the problem.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "bargain",
+          "role": "asker",
+          "purpose": "bribe-offer.large",
+          "key": "favor-asked",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "bargain",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-bargain.name-a-number-everyone-has-one",
+      "move": "follow-bargain",
+      "kind": "spoken",
+      "text": "Name a number. Everyone has one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "bargain",
+          "role": "asker",
+          "purpose": "bribe-offer.large",
+          "key": "favor-asked",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "bargain",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-asks-to-talk-and-you-have-known-them-too-long-to-say-no",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} asks to talk, and you have known them too long to say no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "bribe-offer.friend",
+          "key": "favor-asked"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-catches-you-alone-the-way-a-friend-does-and-asks-for-a-favor",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} catches you alone, the way a friend does, and asks for a favor.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "bribe-offer.friend",
+          "key": "favor-asked"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.got-a-minute-its-me",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Got a minute? It's me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "bribe-offer.friend",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-hate-to-ask-you-know-that",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I hate to ask, you know that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "bribe-offer.friend",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.youve-always-been-straight-with-me-so-ill-be-straight-i-need-this-to-g",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "You've always been straight with me, so I'll be straight. I need this to go my way, and there's something in here for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "bribe-offer.friend",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-wouldnt-ask-anyone-else-take-it-and-think-of-it-as-one-friend-lookin",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I wouldn't ask anyone else. Take it, and think of it as one friend looking out for another.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "bribe-offer.friend",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.after-everything-between-us-i-figured-youd-understand-its-only-a-favor",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "After everything between us, I figured you'd understand. It's only a favor.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "bribe-offer.friend",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.id-never-put-this-on-anyone-else-see-that-your-vote-goes-my-way-and-ta",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'd never put this on anyone else. See that your vote goes my way, and take this for your trouble.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "bribe-offer.friend",
+          "key": "favor-asked",
+          "requiresFacts": ["favor-vote"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.id-never-put-this-on-anyone-else-see-that-the-contract-comes-to-me-and",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'd never put this on anyone else. See that the contract comes to me, and take this for your trouble.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "bribe-offer.friend",
+          "key": "favor-asked",
+          "requiresFacts": ["favor-contract"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-accept.for-you-fine-but-this-stays-between-us",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "For you, fine. But this stays between us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "bribe-offer.friend",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-accept.all-right-i-trust-you-not-to-make-me-regret-this",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "All right. I trust you not to make me regret this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "bribe-offer.friend",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-cant-and-you-shouldnt-have-asked-please-put-that-away",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I can't, and you shouldn't have asked. Please put that away.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "bribe-offer.friend",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.not-even-for-you-take-it-back",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Not even for you. Take it back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "bribe-offer.friend",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.im-sorry-i-care-about-you-and-i-cant-do-this",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I'm sorry. I care about you, and I can't do this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "bribe-offer.friend",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "apologize",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.i-wish-i-could-help-not-like-this-and-im-sorry",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I wish I could help. Not like this, and I'm sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "bribe-offer.friend",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "apologize",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.i-thought-better-of-you-this-is-a-bribe-and-im-reporting-it-even-from",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "I thought better of you. This is a bribe, and I'm reporting it, even from you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "bribe-offer.friend",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "confront",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.let-me-sleep-on-it-give-me-a-few-days-as-a-friend",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Let me sleep on it. Give me a few days, as a friend.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "bribe-offer.friend",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "stall",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-have-to-go-ill-call-you-but-not-about-this",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I have to go. I'll call you, but not about this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "bribe-offer.friend",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.please-after-all-the-years-youd-really-say-no",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Please. After all the years, you'd really say no?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "bribe-offer.friend",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "plea",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.id-do-it-for-you-you-know-that",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "I'd do it for you. You know that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "bribe-offer.friend",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "plea",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.youd-report-me-after-everything",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "You'd report me? After everything?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "bribe-offer.friend",
+          "key": "favor-asked",
+          "after": "confront"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "plea",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.just-think-about-it-for-me",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Just think about it. For me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "bribe-offer.friend",
+          "key": "favor-asked",
+          "after": "apologize"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "plea",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-forget-it-i-wont-ask-again-and-im-still-your-friend",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then forget it. I won't ask again, and I'm still your friend.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "bribe-offer.friend",
+          "key": "favor-asked",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-understand-id-rather-you-told-me-the-truth-than-took-it",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I understand. I'd rather you told me the truth than took it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "bribe-offer.friend",
+          "key": "favor-asked",
+          "after": "apologize"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.no-im-the-one-who-should-be-sorry-for-asking",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "No, I'm the one who should be sorry for asking.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "bribe-offer.friend",
+          "key": "favor-asked",
+          "after": "apologize"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-back-with-another-envelope-you-have-been-here-before",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is back with another envelope. You have been here before.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "bribe-offer.again",
+          "key": "favor-asked"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-come-around-a-second-time-as-if-the-first-answer-had-been-a-d",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has come around a second time, as if the first answer had been a draft.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "bribe-offer.again",
+          "key": "favor-asked"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-know-you-told-me-last-time",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I know. You told me last time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "bribe-offer.again",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-said-id-be-back",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I said I'd be back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "bribe-offer.again",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-press.i-know-what-you-said-last-time-im-asking-again-because-the-answer-matt",
+      "move": "state-press",
+      "kind": "spoken",
+      "text": "I know what you said last time. I'm asking again, because the answer matters that much.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "press",
+          "role": "asker",
+          "purpose": "bribe-offer.again",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-press.last-time-you-said-no-im-hoping-youve-had-time-to-think-and-theres-mor",
+      "move": "state-press",
+      "kind": "spoken",
+      "text": "Last time you said no. I'm hoping you've had time to think, and there's more in here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "press",
+          "role": "asker",
+          "purpose": "bribe-offer.again",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-press.people-change-their-minds-im-hoping-you-did",
+      "move": "state-press",
+      "kind": "spoken",
+      "text": "People change their minds. I'm hoping you did.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "press",
+          "role": "asker",
+          "purpose": "bribe-offer.again",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-press.the-vote-is-still-coming-and-so-am-i-this-is-still-for-your-trouble",
+      "move": "state-press",
+      "kind": "spoken",
+      "text": "The vote is still coming, and so am I. This is still for your trouble.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "press",
+          "role": "asker",
+          "purpose": "bribe-offer.again",
+          "key": "favor-asked",
+          "requiresFacts": ["favor-vote"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-press.the-bids-are-still-open-and-so-am-i-this-is-still-for-your-trouble",
+      "move": "state-press",
+      "kind": "spoken",
+      "text": "The bids are still open, and so am I. This is still for your trouble.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "press",
+          "role": "asker",
+          "purpose": "bribe-offer.again",
+          "key": "favor-asked",
+          "requiresFacts": ["favor-contract"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-said-no-last-time-and-nothing-has-changed",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I said no last time, and nothing has changed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "bribe-offer.again",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.dont-make-me-say-it-again-no",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Don't make me say it again. No.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "bribe-offer.again",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.you-were-told-no-and-you-came-back-with-more-im-reporting-this",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "You were told no, and you came back with more. I'm reporting this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "bribe-offer.again",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "confront",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-accept.you-wore-me-down-leave-it-and-this-stays-between-us",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "You wore me down. Leave it, and this stays between us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "bribe-offer.again",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-accept.all-right-just-this-once",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "All right. Just this once.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "bribe-offer.again",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.im-not-discussing-that-again",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I'm not discussing that again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "bribe-offer.again",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deflect",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.im-not-doing-this-twice-take-that-with-you",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'm not doing this twice. Take that with you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "bribe-offer.again",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-threaten.that-was-your-second-no-there-wont-be-a-third-offer",
+      "move": "follow-threaten",
+      "kind": "spoken",
+      "text": "That was your second no. There won't be a third offer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "bribe-offer.again",
+          "key": "favor-asked",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "threaten",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.twice-ive-come-to-you-doesnt-that-count-for-something",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Twice I've come to you. Doesn't that count for something?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "bribe-offer.again",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "plea",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.twice-is-enough-i-wont-trouble-you-again",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Twice is enough. I won't trouble you again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "bribe-offer.again",
+          "key": "favor-asked",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.i-knew-the-second-time-would-be-different",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I knew the second time would be different.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "bribe-offer.again",
+          "key": "favor-asked",
+          "after": "accept"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.then-ill-ask-again-i-have-time",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Then I'll ask again. I have time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "bribe-offer.again",
+          "key": "favor-asked",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-waiting-for-you-with-the-look-of-someone-who-has-not-slept",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is waiting for you with the look of someone who has not slept.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "bribe-offer.desperate",
+          "key": "favor-asked"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-comes-in-with-an-envelope-held-in-both-hands-as-though-it-might-b",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} comes in with an envelope held in both hands, as though it might be taken away.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "bribe-offer.desperate",
+          "key": "favor-asked"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.thank-you-for-seeing-me-i-didnt-know-where-else-to-go",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Thank you for seeing me. I didn't know where else to go.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "bribe-offer.desperate",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.please-just-hear-me-out",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Please. Just hear me out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "bribe-offer.desperate",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "greet",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-plea.this-is-all-i-have-im-putting-all-of-it-in-your-hands-and-i-need-this",
+      "move": "state-plea",
+      "kind": "spoken",
+      "text": "This is all I have. I'm putting all of it in your hands, and I need this to go my way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "bribe-offer.desperate",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "plea",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-plea.if-this-doesnt-go-my-way-i-lose-everything-ive-built-im-begging-you",
+      "move": "state-plea",
+      "kind": "spoken",
+      "text": "If this doesn't go my way, I lose everything I've built. I'm begging you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "bribe-offer.desperate",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "plea",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-plea.i-know-how-this-looks-ive-run-out-of-people-to-ask",
+      "move": "state-plea",
+      "kind": "spoken",
+      "text": "I know how this looks. I've run out of people to ask.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "bribe-offer.desperate",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "plea",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-plea.everything-i-have-rides-on-how-you-vote-take-this-and-please-vote-with",
+      "move": "state-plea",
+      "kind": "spoken",
+      "text": "Everything I have rides on how you vote. Take this, and please, vote with me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "bribe-offer.desperate",
+          "key": "favor-asked",
+          "requiresFacts": ["favor-vote"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "plea",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-plea.everything-i-have-rides-on-that-contract-take-this-and-please-let-it-c",
+      "move": "state-plea",
+      "kind": "spoken",
+      "text": "Everything I have rides on that contract. Take this, and please, let it come to me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "bribe-offer.desperate",
+          "key": "favor-asked",
+          "requiresFacts": ["favor-contract"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "plea",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-accept.i-shouldnt-but-fine-put-it-down",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "I shouldn't. But fine. Put it down.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "bribe-offer.desperate",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-accept.all-right-ill-do-what-i-can-for-you",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "All right. I'll do what I can for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "bribe-offer.desperate",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-cant-take-this-you-need-it-more-than-i-do",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I can't take this. You need it more than I do.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "bribe-offer.desperate",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.no-take-your-money-home-im-sorry",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "No. Take your money home. I'm sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "bribe-offer.desperate",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "refuse",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-comfort.i-can-see-what-this-is-costing-you-lets-find-another-way-to-help-one-t",
+      "move": "reply-comfort",
+      "kind": "spoken",
+      "text": "I can see what this is costing you. Let's find another way to help, one that doesn't need an envelope.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "comfort",
+          "role": "asked",
+          "purpose": "bribe-offer.desperate",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "comfort",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-comfort.sit-down-whatever-has-gone-wrong-this-isnt-the-way-out-of-it",
+      "move": "reply-comfort",
+      "kind": "spoken",
+      "text": "Sit down. Whatever has gone wrong, this isn't the way out of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "comfort",
+          "role": "asked",
+          "purpose": "bribe-offer.desperate",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "comfort",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.im-sorry-for-you-but-this-is-a-bribe-and-im-reporting-it",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "I'm sorry for you, but this is a bribe, and I'm reporting it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "bribe-offer.desperate",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "confront",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.give-me-a-little-time-i-cant-answer-you-while-youre-like-this",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Give me a little time. I can't answer you while you're like this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "bribe-offer.desperate",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "stall",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-cant-do-this-please-take-it-home",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I can't do this. Please, take it home.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "bribe-offer.desperate",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "leave",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.please-youre-the-only-one-who-can-help-me",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Please. You're the only one who can help me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "bribe-offer.desperate",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "plea",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.i-have-nothing-else-to-give-you-please",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "I have nothing else to give you. Please.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "bribe-offer.desperate",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "plea",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.please-dont-report-it-it-would-finish-me",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Please don't report it. It would finish me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "bribe-offer.desperate",
+          "key": "favor-asked",
+          "after": "confront"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "plea",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-i-dont-deserve-it-but-thank-you",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. I don't deserve it, but thank you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "bribe-offer.desperate",
+          "key": "favor-asked",
+          "after": "comfort"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.youre-kinder-than-i-had-a-right-to-expect",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "You're kinder than I had a right to expect.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "bribe-offer.desperate",
+          "key": "favor-asked",
+          "after": "comfort"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.youre-right-im-sorry-i-shouldnt-have-come",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "You're right. I'm sorry. I shouldn't have come.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "bribe-offer.desperate",
+          "key": "favor-asked",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-greets-you-like-an-old-friend-and-that-makes-it-worse",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} greets you like an old friend, and that makes it worse.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "bribe-pressed.veiled",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-comes-up-with-a-smile-and-a-remark-that-has-been-chosen-with-care",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} comes up with a smile and a remark that has been chosen with care.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "bribe-pressed.veiled",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-warn.things-have-a-way-of-getting-complicated-for-people-who-make-enemies-f",
+      "move": "state-warn",
+      "kind": "spoken",
+      "text": "Things have a way of getting complicated for people who make enemies, {first}. I'd hate that for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "bribe-pressed.veiled",
+          "key": "threat"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "warn",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-warn.im-only-saying-first-that-a-friend-in-this-town-is-worth-more-than-a-p",
+      "move": "state-warn",
+      "kind": "spoken",
+      "text": "I'm only saying, {first}, that a friend in this town is worth more than a principle. Think about it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "bribe-pressed.veiled",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "warn",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-warn.no-one-has-to-be-hurt-over-a-misunderstanding-id-like-us-to-understand",
+      "move": "state-warn",
+      "kind": "spoken",
+      "text": "No one has to be hurt over a misunderstanding. I'd like us to understand each other.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "bribe-pressed.veiled",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "warn",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-warn.votes-get-remembered-first-by-the-people-who-needed-them-most-just-so",
+      "move": "state-warn",
+      "kind": "spoken",
+      "text": "Votes get remembered, {first}, by the people who needed them most. Just so you know.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "bribe-pressed.veiled",
+          "key": "threat",
+          "requiresFacts": ["favor-vote"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "warn",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-warn.contracts-get-remembered-first-by-the-people-who-needed-them-most-just",
+      "move": "state-warn",
+      "kind": "spoken",
+      "text": "Contracts get remembered, {first}, by the people who needed them most. Just so you know.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "bribe-pressed.veiled",
+          "key": "threat",
+          "requiresFacts": ["favor-contract"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "warn",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-understand-you-my-answer-is-still-no",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I understand you. My answer is still no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "bribe-pressed.veiled",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "refuse",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.friendly-or-not-the-answer-hasnt-changed",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Friendly or not, the answer hasn't changed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "bribe-pressed.veiled",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "refuse",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.ill-be-honest-with-you-that-worried-me-and-id-rather-you-didnt-do-it-a",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'll be honest with you. That worried me, and I'd rather you didn't do it again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "bribe-pressed.veiled",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "tell",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-know-you-meant-well-please-dont-bring-it-up-again-and-were-fine",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I know you meant well. Please don't bring it up again, and we're fine.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "bribe-pressed.veiled",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "tell",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.lets-not-do-this-here-and-not-like-this",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Let's not do this here, and not like this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "bribe-pressed.veiled",
+          "key": "threat"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deflect",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.lets-not-turn-this-into-something-first-we-can-still-be-friends",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Let's not turn this into something, {first}. We can still be friends.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "bribe-pressed.veiled",
+          "key": "threat"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "plea",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.i-never-meant-anything-by-it-you-know-me",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "I never meant anything by it. You know me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "bribe-pressed.veiled",
+          "key": "threat",
+          "after": "tell"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "plea",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.fair-enough-well-leave-it-there-then",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fair enough. We'll leave it there, then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "bribe-pressed.veiled",
+          "key": "threat",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-we-understand-each-other-thats-all-i-wanted",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then we understand each other. That's all I wanted.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "bribe-pressed.veiled",
+          "key": "threat",
+          "after": "tell"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.well-talk-about-it-again-first-im-patient",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "We'll talk about it again, {first}. I'm patient.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "bribe-pressed.veiled",
+          "key": "threat",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-standing-in-your-way-and-has-no-interest-in-pretending-otherwi",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is standing in your way and has no interest in pretending otherwise.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "bribe-pressed.open",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-walks-straight-up-to-you-with-nothing-left-to-hide-behind",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} walks straight up to you with nothing left to hide behind.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "bribe-pressed.open",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-threaten.you-embarrassed-me-by-handing-that-back-first-ill-make-sure-that-costs",
+      "move": "state-threaten",
+      "kind": "spoken",
+      "text": "You embarrassed me by handing that back, {first}. I'll make sure that costs you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "bribe-pressed.open",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "threaten",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-threaten.i-know-people-who-would-like-to-see-you-gone-first-take-the-deal",
+      "move": "state-threaten",
+      "kind": "spoken",
+      "text": "I know people who would like to see you gone, {first}. Take the deal.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "bribe-pressed.open",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "threaten",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-threaten.last-chance-first-after-today-i-stop-being-polite",
+      "move": "state-threaten",
+      "kind": "spoken",
+      "text": "Last chance, {first}. After today I stop being polite.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "bribe-pressed.open",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "threaten",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-threaten.that-vote-is-going-to-cost-me-first-and-ill-make-it-cost-you-more",
+      "move": "state-threaten",
+      "kind": "spoken",
+      "text": "That vote is going to cost me, {first}, and I'll make it cost you more.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "bribe-pressed.open",
+          "key": "threat",
+          "requiresFacts": ["favor-vote"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "threaten",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-threaten.that-contract-was-mine-first-ill-make-you-pay-for-losing-it",
+      "move": "state-threaten",
+      "kind": "spoken",
+      "text": "That contract was mine, {first}. I'll make you pay for losing it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "bribe-pressed.open",
+          "key": "threat",
+          "requiresFacts": ["favor-contract"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "threaten",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.ill-say-it-plainly-no-and-dont-threaten-me",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I'll say it plainly: no, and don't threaten me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "bribe-pressed.open",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "refuse",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.threaten-all-you-like-the-answer-is-no",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Threaten all you like. The answer is no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "bribe-pressed.open",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "refuse",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.everything-you-just-said-is-going-to-the-clerk-and-so-are-you",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Everything you just said is going to the clerk, and so are you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "bribe-pressed.open",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.im-not-doing-this-in-the-open",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I'm not doing this in the open.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "bribe-pressed.open",
+          "key": "threat"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deflect",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.im-walking-away-now-dont-follow-me",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'm walking away now. Don't follow me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "bribe-pressed.open",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.im-finished-with-this-conversation",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'm finished with this conversation.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "bribe-pressed.open",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-threaten.then-youll-find-out-what-a-bad-week-looks-like",
+      "move": "follow-threaten",
+      "kind": "spoken",
+      "text": "Then you'll find out what a bad week looks like.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "bribe-pressed.open",
+          "key": "threat",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "threaten",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-threaten.youve-made-your-choice-dont-come-to-me-when-it-goes-wrong",
+      "move": "follow-threaten",
+      "kind": "spoken",
+      "text": "You've made your choice. Don't come to me when it goes wrong.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "bribe-pressed.open",
+          "key": "threat",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "threaten",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-threaten.say-that-again-where-people-can-hear-and-see-what-it-costs-you",
+      "move": "follow-threaten",
+      "kind": "spoken",
+      "text": "Say that again where people can hear, and see what it costs you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "bribe-pressed.open",
+          "key": "threat",
+          "after": "confront"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "threaten",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-warn.watch-yourself-first-this-town-is-smaller-than-you-think",
+      "move": "follow-warn",
+      "kind": "spoken",
+      "text": "Watch yourself, {first}. This town is smaller than you think.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "bribe-pressed.open",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "warn",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-warn.id-be-careful-about-who-sees-you-with-the-clerk",
+      "move": "follow-warn",
+      "kind": "spoken",
+      "text": "I'd be careful about who sees you with the clerk.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "bribe-pressed.open",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "warn",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.go-ahead-and-tell-them-see-who-believes-you",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Go ahead and tell them. See who believes you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "bribe-pressed.open",
+          "key": "threat",
+          "after": "confront"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-back-and-the-confidence-is-gone-what-is-left-is-a-person-with",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is back, and the confidence is gone. What is left is a person with nothing to bargain with.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "bribe-pressed.begging",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-waits-for-you-with-hands-that-do-not-know-where-to-rest",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} waits for you with hands that do not know where to rest.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "bribe-pressed.begging",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-plea.i-didnt-come-to-threaten-you-first-i-came-to-beg-ill-be-ruined-if-this",
+      "move": "state-plea",
+      "kind": "spoken",
+      "text": "I didn't come to threaten you, {first}. I came to beg. I'll be ruined if this doesn't go my way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "bribe-pressed.begging",
+          "key": "threat"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "plea",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-plea.please-first-ive-got-nothing-else-to-try-and-everything-i-have-is-ridi",
+      "move": "state-plea",
+      "kind": "spoken",
+      "text": "Please, {first}. I've got nothing else to try, and everything I have is riding on you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "bribe-pressed.begging",
+          "key": "threat"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "plea",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-plea.i-was-wrong-to-come-at-you-before-first-help-me-and-ill-never-ask-for",
+      "move": "state-plea",
+      "kind": "spoken",
+      "text": "I was wrong to come at you before, {first}. Help me, and I'll never ask for anything else.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "bribe-pressed.begging",
+          "key": "threat"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "plea",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-plea.please-first-one-vote-is-the-difference-between-my-keeping-what-i-have",
+      "move": "state-plea",
+      "kind": "spoken",
+      "text": "Please, {first}. One vote is the difference between my keeping what I have and losing it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "bribe-pressed.begging",
+          "key": "threat",
+          "requiresFacts": ["favor-vote"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "plea",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-plea.please-first-that-contract-is-the-difference-between-my-keeping-what-i",
+      "move": "state-plea",
+      "kind": "spoken",
+      "text": "Please, {first}. That contract is the difference between my keeping what I have and losing it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "bribe-pressed.begging",
+          "key": "threat",
+          "requiresFacts": ["favor-contract"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "plea",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-cant-do-it-and-begging-wont-change-that",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I can't do it, and begging won't change that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "bribe-pressed.begging",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "refuse",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.im-sorry-for-you-the-answer-is-still-no",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I'm sorry for you. The answer is still no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "bribe-pressed.begging",
+          "key": "threat"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "refuse",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-comfort.i-wont-help-you-this-way-let-me-see-what-i-can-do-thats-honest",
+      "move": "reply-comfort",
+      "kind": "spoken",
+      "text": "I won't help you this way. Let me see what I can do that's honest.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "comfort",
+          "role": "asked",
+          "purpose": "bribe-pressed.begging",
+          "key": "threat"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "comfort",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-comfort.go-home-and-get-some-rest-there-are-honest-ways-to-get-help-and-ill-po",
+      "move": "reply-comfort",
+      "kind": "spoken",
+      "text": "Go home and get some rest. There are honest ways to get help, and I'll point you to them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "comfort",
+          "role": "asked",
+          "purpose": "bribe-pressed.begging",
+          "key": "threat"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "comfort",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.i-dont-know-what-ill-do-if-you-turn-me-down-i-truly-dont",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "I don't know what I'll do if you turn me down. I truly don't.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "bribe-pressed.begging",
+          "key": "threat"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "plea",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.youre-my-last-chance-first-please",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "You're my last chance, {first}. Please.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "bribe-pressed.begging",
+          "key": "threat"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "plea",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-understand-i-shouldnt-have-put-this-on-you",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I understand. I shouldn't have put this on you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "bribe-pressed.begging",
+          "key": "threat",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thats-more-than-i-had-any-right-to-expect-thank-you",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That's more than I had any right to expect. Thank you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "bribe-pressed.begging",
+          "key": "threat",
+          "after": "comfort"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.ill-take-that-help-and-im-sorry-about-before",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'll take that help. And I'm sorry about before.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "bribe-pressed.begging",
+          "key": "threat",
+          "after": "comfort"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-come-back-again-and-has-stopped-pretending-it-is-a-coincidenc",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has come back again, and has stopped pretending it is a coincidence.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "bribe-pressed.again",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-there-again-this-is-not-their-first-visit-about-it-and-you-bot",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is there again. This is not their first visit about it, and you both know it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "bribe-pressed.again",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-press.ill-keep-coming-back-until-you-give-me-a-straight-answer-first",
+      "move": "state-press",
+      "kind": "spoken",
+      "text": "I'll keep coming back until you give me a straight answer, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "press",
+          "role": "asker",
+          "purpose": "bribe-pressed.again",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-press.ive-asked-nicely-and-ive-asked-plainly-first-im-done-asking",
+      "move": "state-press",
+      "kind": "spoken",
+      "text": "I've asked nicely and I've asked plainly, {first}. I'm done asking.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "press",
+          "role": "asker",
+          "purpose": "bribe-pressed.again",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-press.you-cant-avoid-me-forever-first-im-easier-to-find-than-you-think",
+      "move": "state-press",
+      "kind": "spoken",
+      "text": "You can't avoid me forever, {first}. I'm easier to find than you think.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "press",
+          "role": "asker",
+          "purpose": "bribe-pressed.again",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-press.that-vote-is-still-coming-first-and-so-am-i-every-time",
+      "move": "state-press",
+      "kind": "spoken",
+      "text": "That vote is still coming, {first}, and so am I. Every time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "press",
+          "role": "asker",
+          "purpose": "bribe-pressed.again",
+          "key": "threat",
+          "requiresFacts": ["favor-vote"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-press.that-contract-is-still-on-my-mind-first-and-so-are-you-every-time",
+      "move": "state-press",
+      "kind": "spoken",
+      "text": "That contract is still on my mind, {first}, and so are you. Every time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "press",
+          "role": "asker",
+          "purpose": "bribe-pressed.again",
+          "key": "threat",
+          "requiresFacts": ["favor-contract"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.same-answer-as-every-time-youve-asked-no",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Same answer as every time you've asked. No.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "bribe-pressed.again",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "refuse",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.come-back-as-often-as-you-want-its-still-no",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Come back as often as you want. It's still no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "bribe-pressed.again",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "refuse",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.this-is-harassment-on-top-of-a-bribe-all-of-it-goes-to-the-clerk",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "This is harassment on top of a bribe. All of it goes to the clerk.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "bribe-pressed.again",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.ive-said-what-im-going-to-say-about-it",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I've said what I'm going to say about it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "bribe-pressed.again",
+          "key": "threat"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deflect",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.im-not-standing-here-for-another-round-of-this",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'm not standing here for another round of this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "bribe-pressed.again",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-threaten.say-no-a-few-more-times-first-see-whos-still-on-your-side",
+      "move": "follow-threaten",
+      "kind": "spoken",
+      "text": "Say no a few more times, {first}. See who's still on your side.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "bribe-pressed.again",
+          "key": "threat",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "threaten",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.fine-ill-stop-for-now-for-now",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fine. I'll stop for now. For now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "bribe-pressed.again",
+          "key": "threat",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.deflect-all-you-like-ill-be-around-when-youre-done-deflecting",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Deflect all you like. I'll be around when you're done deflecting.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "bribe-pressed.again",
+          "key": "threat",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.hold-on-you-dont-have-to-go-and-do-that-first",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Hold on. You don't have to go and do that, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "bribe-pressed.again",
+          "key": "threat",
+          "after": "confront"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "plea",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.enjoy-it-im-glad-it-found-a-good-home",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Enjoy it. I'm glad it found a good home.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "bribe-offer.small",
+          "key": "favor-asked",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.ill-remember-this",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll remember this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "bribe-offer.small",
+          "key": "favor-asked",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.then-ill-leave-it-at-that-and-no-hard-feelings",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Then I'll leave it at that, and no hard feelings.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "bribe-offer.small",
+          "key": "favor-asked",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.i-only-meant-it-kindly-i-hope-thats-how-its-remembered",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I only meant it kindly. I hope that's how it's remembered.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "bribe-offer.small",
+          "key": "favor-asked",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "warn",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.no-rush-itll-keep-until-you-want-it",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "No rush. It'll keep until you want it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "bribe-offer.small",
+          "key": "favor-asked",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.just-remember-i-tried-to-be-kind",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Just remember I tried to be kind.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "bribe-offer.small",
+          "key": "favor-asked",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "warn",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.i-wont-forget-this-thank-you-i-mean-that",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I won't forget this. Thank you. I mean that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "bribe-offer.friend",
+          "key": "favor-asked",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.ill-make-it-up-to-you",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll make it up to you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "bribe-offer.friend",
+          "key": "favor-asked",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.were-still-friends-i-wont-bring-it-up-again",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "We're still friends. I won't bring it up again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "bribe-offer.friend",
+          "key": "favor-asked",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.im-not-sure-how-we-come-back-from-this",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I'm not sure how we come back from this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "bribe-offer.friend",
+          "key": "favor-asked",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "warn",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.think-about-it-you-know-where-to-find-me",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Think about it. You know where to find me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "bribe-offer.friend",
+          "key": "favor-asked",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.please-dont-leave-me-hanging",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Please don't leave me hanging.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "bribe-offer.friend",
+          "key": "favor-asked",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "warn",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.ill-never-forget-it",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I'll never forget it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "bribe-offer.desperate",
+          "key": "favor-asked",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-wont-forget-what-you-did",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I won't forget what you did.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "bribe-offer.desperate",
+          "key": "favor-asked",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.i-understand-ill-find-some-other-way",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "I understand. I'll find some other way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "bribe-offer.desperate",
+          "key": "favor-asked",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.you-dont-know-what-youve-done-to-me",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "You don't know what you've done to me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "bribe-offer.desperate",
+          "key": "favor-asked",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "warn",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.please-dont-make-me-wait-long",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Please don't make me wait long.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "bribe-offer.desperate",
+          "key": "favor-asked",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.i-dont-have-much-time-left",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I don't have much time left.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "bribe-offer.desperate",
+          "key": "favor-asked",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "warn",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.im-sorry-i-put-you-through-this",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "I'm sorry I put you through this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "bribe-pressed.begging",
+          "key": "threat"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.i-hope-you-never-have-to-ask-anyone-for-this",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I hope you never have to ask anyone for this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "bribe-pressed.begging",
+          "key": "threat"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "warn",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-for-hearing-me-at-least",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you for hearing me, at least.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "bribe-pressed.begging",
+          "key": "threat"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.then-were-done-watch-your-back",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Then we're done. Watch your back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "bribe-pressed.open",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.you-havent-heard-the-last-of-this",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "You haven't heard the last of this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "bribe-pressed.open",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "warn",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.fine-for-now-thats-all",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Fine. For now, that's all.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "bribe-pressed.again",
+          "key": "threat"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.ill-be-back-you-know-that",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I'll be back. You know that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "bribe-pressed.again",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "warn",
+        "key": "threat"
+      }
     }
   ]
 }
