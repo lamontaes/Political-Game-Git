@@ -165,6 +165,37 @@ def payroll_taxes(rows):
                     False, unit="percent-of-wages", terms={"additionalRate": 0.9, "additionalOver": 200000}))
 
 
+def campaign_finance(rows):
+    """The federal limit on an individual's gift to a candidate, from the campaign finance research."""
+    finance = load(RESEARCH / "campaigns/campaign-finance-2026.json")["federal"]["individualToCandidate"]
+    rows.append(row("US", "federal", "federal-campaign-contribution-limit", finance["usd"], "2025-01-01", FOREVER,
+                    f"52 U.S.C. 30116(a)(1)(A); {finance['source']} {finance['sourceUrl']}",
+                    finance["estimate"], unit="USD/election",
+                    terms={"basis": finance["basis"], "cycle": finance["cycle"]},
+                    retrieved=finance["retrievedDate"]))
+    # Each state's limit on a gift to a candidate, by office, where the research gives a number
+    # ("unlimited" and "set by locality" have no amount to hold and keep the research's own answer).
+    limits = load(RESEARCH / "campaigns/campaign-finance-2026.json")["limits"]
+    for state, offices in sorted(limits.items()):
+        for office, series in STATE_CONTRIBUTION_SERIES.items():
+            item = offices.get(office)
+            if not isinstance(item, dict) or not isinstance(item.get("usd"), (int, float)):
+                continue
+            rows.append(row(state, "state", series, item["usd"], "2025-01-01", FOREVER,
+                            "; ".join(x for x in (item.get("source"), item.get("sourceUrl"), offices.get("statute")) if x),
+                            bool(item.get("estimate", False)), unit="USD/election",
+                            terms={"basis": item.get("basis", offices.get("basis", "n/a"))},
+                            retrieved="2026-10-12"))
+
+
+STATE_CONTRIBUTION_SERIES = {
+    "governor": "state-contribution-limit-governor",
+    "stateSenate": "state-contribution-limit-state-senate",
+    "stateHouse": "state-contribution-limit-state-house",
+    "local": "state-contribution-limit-local",
+}
+
+
 def business_taxes(rows):
     """Taxes a business pays on wages and profit (data/research/money/business-taxes-2026.json)."""
     taxes = load(RESEARCH / "money/business-taxes-2026.json")
@@ -540,6 +571,7 @@ def main():
     local_wage_authority(rows)
     payroll_taxes(rows)
     business_taxes(rows)
+    campaign_finance(rows)
     death_taxes(rows)
     income_taxes(rows)
     sales_taxes(rows)

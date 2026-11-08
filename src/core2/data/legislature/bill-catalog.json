@@ -386,6 +386,14 @@
               "line": "education",
               "operations": ["expand", "restrict"],
               "levels": ["federal"]
+            },
+            {
+              "id": "question:us-federal-positions:education.forgive-student-loans",
+              "name": "forgive student loans",
+              "kind": "policy-question",
+              "question": "us-federal-positions:education.forgive-student-loans",
+              "operations": ["enact", "repeal"],
+              "levels": ["federal"]
             }
           ]
         },
@@ -566,8 +574,17 @@
         },
         {
           "name": "Debt and borrowing",
-          "supported": false,
-          "policies": []
+          "supported": true,
+          "policies": [
+            {
+              "id": "question:us-federal-positions:budget.pay-for-a-higher-debt-limit",
+              "name": "pay for a higher debt limit",
+              "kind": "policy-question",
+              "question": "us-federal-positions:budget.pay-for-a-higher-debt-limit",
+              "operations": ["enact", "repeal"],
+              "levels": ["federal"]
+            }
+          ]
         },
         {
           "name": "Reserves and fiscal rules",
@@ -1354,8 +1371,17 @@
         },
         {
           "name": "Criminal law and sentencing",
-          "supported": false,
-          "policies": []
+          "supported": true,
+          "policies": [
+            {
+              "id": "question:us-federal-positions:justice-rights.reduce-mandatory-minimums",
+              "name": "reduce mandatory minimums",
+              "kind": "policy-question",
+              "question": "us-federal-positions:justice-rights.reduce-mandatory-minimums",
+              "operations": ["enact", "repeal"],
+              "levels": ["federal"]
+            }
+          ]
         },
         {
           "name": "Prisons, probation and reentry",
@@ -1495,8 +1521,17 @@
         },
         {
           "name": "Emergency management and disaster recovery",
-          "supported": false,
-          "policies": []
+          "supported": true,
+          "policies": [
+            {
+              "id": "question:us-federal-positions:emergencies.states-share-disaster-costs",
+              "name": "states share disaster costs",
+              "kind": "policy-question",
+              "question": "us-federal-positions:emergencies.states-share-disaster-costs",
+              "operations": ["enact", "repeal"],
+              "levels": ["federal"]
+            }
+          ]
         }
       ]
     },
@@ -1592,13 +1627,67 @@
         },
         {
           "name": "Campaign finance",
-          "supported": false,
-          "policies": []
+          "supported": true,
+          "policies": [
+            {
+              "id": "law:state-contribution-limit-governor",
+              "name": "State campaign contribution limit: governor",
+              "kind": "law-amount",
+              "series": "state-contribution-limit-governor",
+              "unit": "USD/election",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
+            },
+            {
+              "id": "law:state-contribution-limit-state-senate",
+              "name": "State campaign contribution limit: stateSenate",
+              "kind": "law-amount",
+              "series": "state-contribution-limit-state-senate",
+              "unit": "USD/election",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
+            },
+            {
+              "id": "law:state-contribution-limit-state-house",
+              "name": "State campaign contribution limit: stateHouse",
+              "kind": "law-amount",
+              "series": "state-contribution-limit-state-house",
+              "unit": "USD/election",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
+            },
+            {
+              "id": "law:state-contribution-limit-local",
+              "name": "State campaign contribution limit: local",
+              "kind": "law-amount",
+              "series": "state-contribution-limit-local",
+              "unit": "USD/election",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
+            },
+            {
+              "id": "law:federal-campaign-contribution-limit",
+              "name": "Federal campaign contribution limit",
+              "kind": "law-amount",
+              "series": "federal-campaign-contribution-limit",
+              "unit": "USD/election",
+              "operations": ["raise", "lower"],
+              "levels": ["federal"]
+            }
+          ]
         },
         {
           "name": "Ethics and conflicts",
           "supported": true,
           "policies": [
+            {
+              "id": "question:us-federal-positions:government.ban-congressional-stock-trading",
+              "name": "ban congressional stock trading",
+              "kind": "policy-question",
+              "question": "us-federal-positions:government.ban-congressional-stock-trading",
+              "operations": ["enact", "repeal"],
+              "levels": ["federal"]
+            },
             {
               "id": "question:us-policy-positions:government-operations.ban-lobbying-after-office",
               "name": "ban lobbying after office",
@@ -1681,6 +1770,14 @@
           "name": "Constitutional and institutional reform",
           "supported": true,
           "policies": [
+            {
+              "id": "question:us-federal-positions:territories-culture.statehood-for-dc",
+              "name": "statehood for dc",
+              "kind": "policy-question",
+              "question": "us-federal-positions:territories-culture.statehood-for-dc",
+              "operations": ["enact", "repeal"],
+              "levels": ["federal"]
+            },
             {
               "id": "question:us-policy-positions:government-operations.legislative-term-limits",
               "name": "legislative term limits",
@@ -1842,6 +1939,14 @@
           "name": "Data protection",
           "supported": true,
           "policies": [
+            {
+              "id": "question:us-federal-positions:science-communications.national-data-privacy",
+              "name": "national data privacy",
+              "kind": "policy-question",
+              "question": "us-federal-positions:science-communications.national-data-privacy",
+              "operations": ["enact", "repeal"],
+              "levels": ["federal"]
+            },
             {
               "id": "question:us-policy-positions:technology-privacy.consumer-data-privacy-law",
               "name": "consumer data privacy law",
@@ -2017,8 +2122,17 @@
       "topics": [
         {
           "name": "Entry and visas",
-          "supported": false,
-          "policies": []
+          "supported": true,
+          "policies": [
+            {
+              "id": "question:us-federal-positions:immigration.admit-more-immigrants",
+              "name": "admit more immigrants",
+              "kind": "policy-question",
+              "question": "us-federal-positions:immigration.admit-more-immigrants",
+              "operations": ["enact", "repeal"],
+              "levels": ["federal"]
+            }
+          ]
         },
         {
           "name": "Residency and naturalization",

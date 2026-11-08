@@ -8,6 +8,7 @@
  * Read-only views spend no game time and write nothing. Words come from the
  * English engine; this returns record data and ids only.
  */
+import billCatalogData from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
 import { moneySince, watchMoney } from "../core2/tooling/money-watch";
 import { bookkeeping } from "../core2/bookkeeping";
 import { journalCheckCounts } from "../core2/journal";
@@ -39,14 +40,18 @@ import {
   bodyRow,
   castMemberVote,
   chambersOf,
+  committeeMemberKeys,
+  committeeRecords,
   draftBill,
   executiveDecision,
+  executiveOf,
   FEDERAL_HOUSE,
   FEDERAL_SENATE,
   holdVote,
   type BillRow,
   type Provision,
   LEGISLATURE_MODULE_ID,
+  mayorVeto,
   members,
   memberKey,
 } from "../core2/modules/legislature";
@@ -192,9 +197,31 @@ export function devModeMarks(core: CoreState): readonly string[] {
   return out;
 }
 
+/** Every law series and question the bill paper offers a body to pass, from the one catalog the bill paper reads. */
+const BILL_CATALOG_SERIES: readonly string[] = (
+  billCatalogData as unknown as {
+    subjects: {
+      topics: {
+        policies: { kind: string; series?: string; question?: string }[];
+      }[];
+    }[];
+  }
+).subjects.flatMap((subject) =>
+  subject.topics.flatMap((topic) =>
+    topic.policies.flatMap((policy) =>
+      policy.kind === "law-amount" && policy.series
+        ? [policy.series]
+        : policy.kind === "policy-question" && policy.question
+          ? [policy.question]
+          : [],
+    ),
+  ),
+);
+
 /** Every law series the law data knows: in force here, or in a catalog. */
 export function lawSeriesCatalog(api: CoreAPI): readonly string[] {
   const out = new Set<string>([
+    ...BILL_CATALOG_SERIES,
     ...Object.keys(LAW_SERIES),
     PUBLIC_PAY_FLOOR,
     ...Object.keys(POLICY_QUESTIONS),
@@ -720,8 +747,26 @@ export class DevMode {
     const bill = table.get(billId) as unknown as BillRow | undefined;
     if (!bill) throw new Error("No such bill.");
     const tallies: { chamber: string; yes: number; no: number }[] = [];
+    // The yes votes go first to the members who sit on the bill's committee in that chamber (where
+    // it has one), then to the most senior: a bill the chamber backs is backed in its committee
+    // too, and every stage votes through the members' own votes at the one margin.
+    const bySeniority = (
+      roster: ReturnType<typeof members>,
+      seated: ReadonlySet<string>,
+    ) =>
+      [...roster].sort(
+        (a, b) =>
+          Number(seated.has(memberKey(b))) - Number(seated.has(memberKey(a))) ||
+          (a.serviceStart ?? a.startDate).localeCompare(
+            b.serviceStart ?? b.startDate,
+          ) ||
+          memberKey(a).localeCompare(memberKey(b)),
+      );
     const vote = (chamber: string, wanted: number, override: boolean) => {
-      const roster = members(api, chamber);
+      const roster = bySeniority(
+        members(api, chamber),
+        new Set(committeeMemberKeys(api, billId, chamber)),
+      );
       const yes = Math.max(
         0,
         Math.min(roster.length, Math.round((roster.length + wanted) / 2)),
@@ -738,16 +783,26 @@ export class DevMode {
       return { chamber, yes, no: roster.length - yes };
     };
     const chambers = chambersOf(api, bill);
+    // Whether this body has an executive with a veto: a county board, or a mayor where the state
+    // gives none, signs nothing and vetoes nothing, so a sign, veto or override changes nothing there.
+    const executive = executiveOf(api, bill.bodyOfficeId);
+    const veto =
+      executive.term !== undefined &&
+      (executive.office?.kind !== "mayor" || mayorVeto(api).veto);
     for (const chamber of chambers) tallies.push(vote(chamber, margin, false));
-    if (options.overrideMargin !== undefined)
+    if (veto && options.overrideMargin !== undefined)
       for (const chamber of chambers)
         vote(chamber, options.overrideMargin, true);
-    if (options.sign !== undefined)
+    if (veto && options.sign !== undefined)
       executiveDecision(api, billId, options.sign);
     const held = holdVote(api, billId);
-    const committees = api
-      .moduleState(LEGISLATURE_MODULE_ID)
-      .table("committees");
+    const records = committeeRecords(api, billId).map((c) => ({
+      chamber: c.chamber,
+      heard: c.heard,
+      yes: c.yes,
+      no: c.no,
+      reported: c.reported,
+    }));
     return {
       mark: this.mark("decide", [billId], {
         billId,
@@ -758,13 +813,10 @@ export class DevMode {
           : {}),
       }),
       tallies,
-      held: chambers.filter(
-        (chamber) =>
-          (
-            committees.get(`committee:${billId}:${chamber}`) as
-              { heard: boolean } | undefined
-          )?.heard === false,
-      ),
+      veto,
+      committees: records,
+      /** Chambers whose committee never reported the bill: the chair held it unheard, or it lost its vote. */
+      held: records.filter((c) => !c.reported).map((c) => c.chamber),
       bill: held,
     };
   }

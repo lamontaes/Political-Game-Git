@@ -649,15 +649,23 @@ export function readPieces(dir = PARTS_DIR): Map<string, PieceMakeup> {
     .filter((entry) => entry.endsWith(".json"))
     .sort()) {
     const bank = JSON.parse(readFileSync(join(dir, name), "utf8")) as {
-      parts?: (Omit<PieceMakeup, "bank"> & { key: string })[];
+      parts?: (Omit<PieceMakeup, "bank" | "purpose"> & {
+        key: string;
+        uses?: { purpose?: string }[];
+      })[];
     };
-    for (const part of bank.parts ?? [])
+    for (const part of bank.parts ?? []) {
+      const purpose = part.uses?.find(
+        (use) => use.purpose && use.purpose !== "*",
+      )?.purpose;
       pieces.set(part.key, {
         bank: basename(name, ".json"),
         move: part.move,
+        ...(purpose ? { purpose } : {}),
         ...(part.tag ? { tag: part.tag } : {}),
         ...(part.bearing ? { bearing: part.bearing } : {}),
       });
+    }
   }
   return pieces;
 }

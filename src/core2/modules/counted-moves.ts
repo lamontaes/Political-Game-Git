@@ -314,8 +314,12 @@ function openCoarse(core: CoreState, rt: Runtime): void {
   if (!residents || !home) return;
   const counted = countedPeople(residents);
   const total = home.people.reduce((n, v) => n + v, 0);
-  if (total > counted)
-    home.people = home.people.map((v) => (v * (total - counted)) / total);
+  // Counted places that are the whole state (Washington, D.C.) leave it no
+  // rest: its coarse people are none, not its whole population again.
+  if (total > 0)
+    home.people = home.people.map(
+      (v) => (v * Math.max(0, total - counted)) / total,
+    );
 }
 
 export function runtimeOf(api: CoreAPI): Runtime | undefined {
@@ -488,10 +492,12 @@ function month(api: CoreAPI): void {
   rt.netCache.clear();
   const jobless = stateUnemployment(api);
   const stateList = [...rt.states.values()];
-  const nationPeople = stateList.reduce(
-    (n, s) => n + s.people.reduce((a, b) => a + b, 0),
-    0,
-  );
+  // The town's state holds its counted places apart from its coarse people:
+  // a destination's weight and the nation's total count both.
+  const countedAll = countedPeople(residents);
+  const nationPeople =
+    stateList.reduce((n, s) => n + s.people.reduce((a, b) => a + b, 0), 0) +
+    countedAll;
   const inState = countedParameter("countedMovesInStateShare");
   const store = residents.store;
   const source: Source = {
@@ -671,8 +677,23 @@ function month(api: CoreAPI): void {
     alike.set(key, row);
   }
   const statePeople = new Map(
-    stateList.map((s) => [s.usps, s.people.reduce((a, b) => a + b, 0)]),
+    stateList.map((s) => [
+      s.usps,
+      s.people.reduce((a, b) => a + b, 0) +
+        (s.usps === rt.townState ? countedAll : 0),
+    ]),
   );
+  // The share of a home state living outside the counted places: where the
+  // counted places are the whole jurisdiction (Washington, D.C.) there is no
+  // remainder to move to, and a leaver within the state lands in one of the
+  // counted places again, so it is no departure. Where the remainder is the
+  // whole state, the share is one and nothing changes.
+  const remainderShare = (home: string) => {
+    if (home !== rt.townState) return 1;
+    const remainder = statePeople.get(home)! - countedAll;
+    const total = statePeople.get(home)!;
+    return total > 0 ? Math.max(0, remainder) / total : 1;
+  };
   // Each state's share of the movers out of a home state and its pull at a
   // wage step, in `stateList` order (none for home), worked out once.
   const destRows = new Map<
@@ -722,7 +743,7 @@ function month(api: CoreAPI): void {
         summary.byCause[cause] = (summary.byCause[cause] ?? 0) + due * value;
     }
     // Within the state (same taxes and prices).
-    const due = (row.weight * inState) / 12;
+    const due = (row.weight * inState * remainderShare(row.home)) / 12;
     const key = leaveKey(row.group, row.home);
     rt.leave.set(key, (rt.leave.get(key) ?? 0) + due);
     summary.total += due;
