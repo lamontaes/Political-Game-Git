@@ -258,3 +258,45 @@ export function assignDeathCause(
   carry.set(keyOf(pick), carry.get(keyOf(pick))! - weight);
   return { cause: pick, recordId: mix.recordId };
 }
+
+/**
+ * PLACEHOLDER(research: how-long-a-serious-illness-lasts-by-age). How many
+ * days a serious episode runs before the death it ends in: the longest for a
+ * young person with no recorded condition, shrinking smoothly with age, with
+ * the recorded conditions that multiplied their strain, and without coverage.
+ */
+export const SERIOUS_EPISODE_REMAINING_DAYS = {
+  shortest: 30,
+  longest: 300,
+  /** The age at which the age share is one half, and the span of its turn. */
+  ageTurn: { atAge: 75, widthYears: 40 },
+  /** How much of the days a person whose coverage record says uncovered keeps. */
+  uncoveredDaysFactor: 0.75,
+} as const;
+
+/**
+ * The days a serious episode runs before the death it ends in. `severity` is
+ * the product of the recorded multipliers on the person's strain (1 when
+ * nothing is recorded); `covered` is their coverage record, or null when none
+ * exists. Smooth in age and severity; at least one day.
+ */
+export function remainingDaysAfterOnset(input: {
+  readonly age: number;
+  readonly severity: number;
+  readonly covered: boolean | null;
+}): number {
+  const days = SERIOUS_EPISODE_REMAINING_DAYS;
+  const youth =
+    1 /
+    (1 +
+      Math.exp(
+        (input.age - days.ageTurn.atAge) / (days.ageTurn.widthYears / 4),
+      ));
+  const share =
+    (youth / Math.max(1, input.severity)) *
+    (input.covered === false ? days.uncoveredDaysFactor : 1);
+  return Math.max(
+    1,
+    Math.round(days.shortest + (days.longest - days.shortest) * share),
+  );
+}
