@@ -49,6 +49,7 @@ type SplitFlow = Pick<
   | "perDayMinorByJob"
   | "amountByContract"
   | "quarters"
+  | "organizationId"
 >;
 
 export const HOUSING_KINDS = new Set(["household.rent", "household.mortgage"]);
