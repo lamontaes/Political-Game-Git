@@ -11,7 +11,10 @@ import { buildBenchWorld } from "../bench/world";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
-import { nationalEvents } from "./modules/national-events";
+import {
+  nationalDisasterDetail,
+  nationalEvents,
+} from "./modules/national-events";
 import { PRESS_MODULE_ID } from "./modules/press";
 import { coreAPI } from "./state";
 import declarations from "./data/disasters/declarations.json";
@@ -74,5 +77,18 @@ it("the country's disasters are generated from recorded rates and happen on thei
     expect(e.counties).toBeGreaterThan(0);
     // One that has begun by the end of the run was emitted for its state.
     expect(emitted.has(e.id), e.id).toBe(e.date <= day);
+  }
+  // Opened, a disaster shows the counties and the aid FEMA recorded for it.
+  const opened = events
+    .filter((e) => e.date <= day)
+    .map((e) => ({ e, d: nationalDisasterDetail(api, e.id)! }))
+    .filter(({ d }) => d.publicAssistanceMinor > 0 || d.homesDamaged > 0);
+  expect(
+    opened.length,
+    `${where}: a disaster with recorded aid or damage`,
+  ).toBeGreaterThan(0);
+  for (const { e, d } of opened) {
+    expect(d.counties.length, e.id).toBe(e.counties);
+    expect(d.disasterNumber).toBe(e.disasterNumber);
   }
 }, 900000);

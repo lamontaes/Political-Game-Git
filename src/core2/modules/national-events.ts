@@ -23,6 +23,8 @@
  * SG-NATION-disaster-damage-from-causes).
  */
 import declarations from "../data/disasters/declarations.json" with { type: "json" };
+import assistance from "../data/disasters/assistance.json" with { type: "json" };
+import households from "../data/disasters/households.json" with { type: "json" };
 import { addDays, makeIsoDate } from "../kernel/dates";
 import { placeStateKey } from "../place-map";
 import { seededUnit } from "../seeded";
@@ -42,6 +44,9 @@ const RECORD_END = "2026-10-09";
 type Row = [string, string, number, number, number];
 
 interface Recorded {
+  readonly number: number;
+  /** The county codes (FIPS) FEMA declared for it in the state. */
+  readonly countyCodes: string[];
   readonly stateKey: string;
   readonly incidentType: string;
   readonly counties: number;
@@ -57,6 +62,8 @@ export interface NationalEventRow {
   readonly stateKey: string;
   readonly counties: number;
   readonly incidentType: string;
+  /** FEMA's disaster number, the key to its detail (read on open). */
+  readonly disasterNumber: number;
 }
 
 const YEARS = LAST_YEAR - FIRST_YEAR + 1;
@@ -67,7 +74,14 @@ function recordedHistory(): Map<string, Recorded[]> {
   if (record) return record;
   const found = new Map<
     string,
-    { begins: string; type: number; state: string; counties: number }
+    {
+      begins: string;
+      type: number;
+      state: string;
+      counties: number;
+      number: number;
+      codes: string[];
+    }
   >();
   const list = declarations.byCounty as unknown as Record<string, Row[]>;
   for (const [county, rows] of Object.entries(list)) {
@@ -78,13 +92,17 @@ function recordedHistory(): Map<string, Recorded[]> {
       if (year < FIRST_YEAR || row[0] > RECORD_END) continue;
       const key = `${state}|${row[4]}`;
       const one = found.get(key);
-      if (one) one.counties += 1;
-      else
+      if (one) {
+        one.counties += 1;
+        one.codes.push(county);
+      } else
         found.set(key, {
           begins: row[0],
           type: row[2],
           state,
           counties: 1,
+          number: row[4],
+          codes: [county],
         });
     }
   }
@@ -94,6 +112,8 @@ function recordedHistory(): Map<string, Recorded[]> {
     const month = one.begins.slice(0, "YYYY-MM".length);
     const list = record.get(month) ?? [];
     list.push({
+      number: one.number,
+      countyCodes: one.codes,
       stateKey: one.state,
       incidentType: declarations.types[one.type] ?? "Other",
       counties: one.counties,
@@ -108,6 +128,87 @@ const monthOf = (date: string) => date.slice(0, "YYYY-MM".length);
 /** The month after the one a date falls in. */
 const monthAfter = (date: string) =>
   addDays(makeIsoDate(`${monthOf(date)}-01`), 32).slice(0, "YYYY-MM".length);
+/** What a national disaster did, read from FEMA's record when someone opens it (never kept). */
+export interface NationalDisasterDetail {
+  readonly disasterNumber: number;
+  readonly title: string;
+  readonly incidentType: string;
+  /** The FEMA county codes declared in the state. */
+  readonly counties: readonly string[];
+  /** Federal Public Assistance obligated to the counties' governments and towns, cents. */
+  readonly publicAssistanceMinor: number;
+  /** Individuals and Households Program assistance approved for the households, cents. */
+  readonly householdAssistanceMinor: number;
+  /** Homes FEMA inspected as damaged. */
+  readonly homesDamaged: number;
+}
+
+let byNumberState: Map<string, Recorded> | undefined;
+function recordedFor(stateKey: string, number: number): Recorded | undefined {
+  if (!byNumberState) {
+    byNumberState = new Map();
+    for (const list of recordedHistory().values())
+      for (const one of list)
+        byNumberState.set(`${one.stateKey}|${one.number}`, one);
+  }
+  return byNumberState.get(`${stateKey}|${number}`);
+}
+
+/**
+ * The detail of a national disaster, built on open from FEMA's record: the
+ * counties it declared and, summed over them, the federal aid obligated and
+ * the household aid and damaged homes FEMA recorded. Nothing here is kept,
+ * and nothing is paid (stopgap SG-NATION-disaster-damage-from-causes: for a
+ * disaster past the record the damage should come from the housing stock,
+ * building codes and budgets in force).
+ */
+export function nationalDisasterDetail(
+  api: CoreAPI,
+  eventId: string,
+): NationalDisasterDetail | undefined {
+  if (!(api.state as CoreState).modules.has(NATIONAL_EVENTS_MODULE_ID))
+    return undefined;
+  const row = api
+    .moduleState(NATIONAL_EVENTS_MODULE_ID)
+    .table("events")
+    .get(eventId) as unknown as NationalEventRow | undefined;
+  if (!row) return undefined;
+  const recorded = recordedFor(row.stateKey, row.disasterNumber);
+  const counties = recorded?.countyCodes ?? [];
+  const aid = assistance.byCountyDisaster as unknown as Record<
+    string,
+    { county: number; towns: Record<string, number> }
+  >;
+  const homes = households.byCountyDisaster as unknown as Record<
+    string,
+    Record<string, [number, number, number]>
+  >;
+  let publicAssistanceMinor = 0;
+  let householdAssistanceMinor = 0;
+  let homesDamaged = 0;
+  for (const code of counties) {
+    const key = `${code}|${row.disasterNumber}`;
+    const a = aid[key];
+    if (a)
+      publicAssistanceMinor +=
+        a.county + Object.values(a.towns).reduce((n, v) => n + v, 0);
+    for (const t of Object.values(homes[key] ?? {})) {
+      householdAssistanceMinor += t[0];
+      homesDamaged += t[2];
+    }
+  }
+  return {
+    disasterNumber: row.disasterNumber,
+    title:
+      (declarations.titles as Record<string, string>)[row.disasterNumber] ?? "",
+    incidentType: row.incidentType,
+    counties,
+    publicAssistanceMinor,
+    householdAssistanceMinor,
+    homesDamaged,
+  };
+}
+
 const table = (api: CoreAPI, name: string) =>
   api.moduleState(NATIONAL_EVENTS_MODULE_ID).table(name);
 
@@ -161,6 +262,7 @@ function generateMonth(api: CoreAPI, month: string): void {
       stateKey: one.stateKey,
       counties: one.counties,
       incidentType: one.incidentType,
+      disasterNumber: one.number,
     } as unknown as { id: string });
     // The day it begins, it happens.
     api.moduleCalendar(NATIONAL_EVENTS_MODULE_ID).schedule({
@@ -200,6 +302,7 @@ function emitDue(api: CoreAPI, id: string): void {
       stateKey: row.stateKey,
       incidentType: row.incidentType,
       counties: String(row.counties),
+      disasterNumber: String(row.disasterNumber),
     },
   });
 }
