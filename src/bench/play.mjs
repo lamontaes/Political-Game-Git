@@ -900,7 +900,7 @@ function atNominations() {
                     },
                   }),
                 ]
-              : [el("p", { textContent: words.nobody ?? "" })]),
+              : [introText(words.nobody ?? "")]),
             buttonRow(
               ...["nominate", "leave"]
                 .filter((how) => how === "leave" || entry.candidates.length)
