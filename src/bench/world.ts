@@ -74,6 +74,7 @@ import { withPrivateTuition } from "../core2/opening-private-tuition";
 import { withOrigins } from "../core2/opening-origin";
 import { representativeSample } from "../core2/representative-sample";
 import { withCountySample } from "../core2/opening-county-sample";
+import { withRoles } from "../core2/opening-roles";
 import { withYearsInPlace } from "../core2/opening-tenure";
 import { initialFocusPeople } from "../core2/focus";
 import { selectBenchPlace } from "./place-selection.mjs";
@@ -465,14 +466,15 @@ function* benchWorldStages(
       ...(countScale !== 1
         ? { [place.context.jurisdiction.id]: countScale }
         : {}),
-      ...(countySample ? { [countySample.placeId]: countySample.weight } : {}),
     };
     opening = scaleOutsideSales(
       settings.economy?.outsideDemand ?? 1,
       addTradeArea(
         withWorldEconomy(
           collapseToTwoLevels(
-            withOrigins(withYearsInPlace(countySample?.input ?? economy)),
+            withOrigins(
+              withRoles(withYearsInPlace(countySample?.input ?? economy)),
+            ),
             {
               keep: kept,
               ...(Object.keys(weights).length ? { weights } : {}),
