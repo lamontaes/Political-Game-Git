@@ -1523,3 +1523,4 @@ export {
 } from "../campaign-views";
 export { INTEREST_GROUPS_MODULE_ID, meetingsOn } from "./interest-groups";
 export { groupDraw, joinsGroup } from "./interest-groups";
+export { foundMovement, movementGroupId } from "./interest-groups";
