@@ -3806,8 +3806,10 @@ const sheets = {
               testid: `options-stop-${group}`,
               on: () => kinds.every((kind) => allowed.has(kind)),
               set: async (wanted) => {
-                for (const kind of kinds)
-                  wanted ? allowed.add(kind) : allowed.delete(kind);
+                for (const kind of kinds) {
+                  if (wanted) allowed.add(kind);
+                  else allowed.delete(kind);
+                }
                 const every = allowed.size === filter.kinds.length;
                 const saved = await post(
                   `/api/scene-filter?id=${encodeURIComponent(me.id)}&kinds=${every ? "all" : [...allowed].join(",")}`,
