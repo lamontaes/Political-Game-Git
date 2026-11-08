@@ -694,7 +694,8 @@
     "none": "No term matches that."
   },
   "patchNotes": {
-    "release": "Release"
+    "release": "Release",
+    "builds": "Builds"
   },
   "budgetStrips": {
     "departments": "Departments",
