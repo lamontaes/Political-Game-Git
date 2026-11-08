@@ -6903,6 +6903,18 @@
       "citation": "The BLS OEWS wage tables publish the 10th, 25th, 50th, 75th and 90th percentiles; the player's own town starts a worker at the 25th and moves toward the 75th with tenure, so the median sits inside that range."
     }
   },
+  "schoolMeasureMinimumStudents": {
+    "value": 20,
+    "tag": "ESTIMATED",
+    "citation": "The fewest students a school measure (math, reading, graduation) stands on before it reports the place's own count rather than an estimate from the place's rate: states set a minimum group size for reporting results under the Every Student Succeeds Act, 28 states between 11 and 25 students and 8 at 26 or more, up to 30 (All4Ed, N-Size in ESSA State Plans, https://all4ed.org/wp-content/uploads/2018/11/N-Size-in-ESSA-State-Plans.pdf; Ohio's April 2026 amendment request uses 15). Below it, a count of 0 passing is noise, not a finding, so the measure reads the expected rate.",
+    "estimatedFrom": "The middle of the states' range, 10 to 30 students; the 2018 fact sheet is not current and no single state is the town's.",
+    "spread": {
+      "low": 10,
+      "high": 30,
+      "unit": "students",
+      "citation": "States' minimum n-size for reporting, All4Ed 2018: from 10 to 30 students."
+    }
+  },
   "schoolStandingAttendanceWeight": {
     "value": 1,
     "tag": "TUNABLE",
