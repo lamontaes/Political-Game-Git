@@ -121,7 +121,7 @@ import proposalData from "../data/legislature/executive-proposal.json" with { ty
 import vetoWindowData from "../../../data/research/laws/veto-windows-2023.json" with { type: "json" };
 import type { Source } from "../types";
 import { decisionFromScores, scoreOffers } from "../choice";
-import { decisionKinds } from "../trait-decisions";
+import { decisionKinds } from "../trait-decision-table";
 import { discretionaryHours } from "./work";
 import { COMMITTEES, committeeForSection } from "../legislature-committees";
 import { addDays, makeIsoDate } from "../kernel/dates";
