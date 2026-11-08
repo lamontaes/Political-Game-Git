@@ -62,6 +62,7 @@ import { keyChambersOf } from "../core2/opening-key-people";
 import { LEADERSHIP_MODULE_ID, organize } from "../core2/modules/leadership";
 import { markWordsStopgap } from "./stopgaps";
 import { P } from "../core2/parameters";
+import { daysBetweenText } from "../core2/kernel/dates";
 import { TERM_AREAS, countryTermRead, type AreaRead } from "../core2/term-read";
 import {
   addressSituation,
@@ -136,18 +137,15 @@ const KIND_DATA = kindData as unknown as {
 };
 const N = DATA.numbers;
 
-const MS_PER_DAY = 86_400_000;
-const DAYS_PER_YEAR = 365;
-
 /** The offices engine's public record of the taking of office on Inauguration Day. */
 const INAUGURATION_EVENT = "inauguration";
 
 /** The kind of public event the address is recorded as. */
 export const OPENING_ADDRESS_EVENT = "president.address";
 
-type Facts = Record<string, GroundedEnglishFact>;
+export type Facts = Record<string, GroundedEnglishFact>;
 
-const fact = (text: string, ...ids: string[]): GroundedEnglishFact => ({
+export const fact = (text: string, ...ids: string[]): GroundedEnglishFact => ({
   text,
   sourceRecordIds: ids as EntityId[],
 });
@@ -294,7 +292,7 @@ function countryFacts(core: CoreState, sinceDate: string): Country {
   const api = coreAPI(core);
   const areas = countryTermRead(api, sinceDate);
   if (!months)
-    return { facts: {}, movement: {}, macroSlide: 0, areas, macroIds: [] };
+    return { facts: {}, movement: {}, macroSlide: P.zero, areas, macroIds: [] };
   const { now, before } = months;
   const ids = [now.id, ...(before ? [before.id] : [])];
   const facts: Facts = {};
@@ -309,7 +307,8 @@ function countryFacts(core: CoreState, sinceDate: string): Country {
         api.parameter("macroCpiOverPceWedgePct"),
   );
   claim("prices-up", now.inflationPct > P.zero);
-  if (!before) return { facts, movement, macroSlide: 0, areas, macroIds: ids };
+  if (!before)
+    return { facts, movement, macroSlide: P.zero, areas, macroIds: ids };
   claim("unemployment-down", now.unemploymentPct < before.unemploymentPct);
   claim("unemployment-up", now.unemploymentPct > before.unemploymentPct);
   claim("inflation-down", now.inflationPct < before.inflationPct);
@@ -376,14 +375,14 @@ function countryFacts(core: CoreState, sinceDate: string): Country {
     facts,
     movement,
     macroSlide:
-      better + worse > P.zero ? (better - worse) / (better + worse) : 0,
+      better + worse > P.zero ? (better - worse) / (better + worse) : P.zero,
     areas,
     macroIds: ids,
   };
 }
 
 /** One policy question the President has a view on, at a level that may act on it, with the law in force there. */
-interface Stand {
+export interface Stand {
   readonly question: string;
   /** Positive for a President who wants it, negative for one who does not. */
   readonly stance: number;
@@ -426,30 +425,43 @@ function lawOn(
  * say different things.
  */
 function presidentStands(api: CoreAPI, official: OfficialRow): Stand[] {
+  return standsAt(api, official, "federal", "US");
+}
+
+/**
+ * Every question an official holds a view on that their level of government
+ * may answer and the world has a law for, with the law in force in the
+ * jurisdiction. The one reader the President's address and a governor's or
+ * mayor's share.
+ */
+export function standsAt(
+  api: CoreAPI,
+  official: OfficialRow,
+  level: PolicyLevel,
+  jurisdiction: string | null,
+): Stand[] {
   const own = new Set(official.signature.map((row) => row.question));
-  const at = (level: PolicyLevel, jurisdiction: string | null) =>
-    NAMED_QUESTIONS.flatMap((question): Stand[] => {
-      const stance = ownStance(official.ideal, official.signature, question);
-      if (stance === P.zero || !jurisdiction) return [];
-      const power = policyAuthority(api, question, level);
-      const law = power.allowed ? lawOn(api, question, jurisdiction) : null;
-      return law
-        ? [
-            {
-              question,
-              stance,
-              signature: own.has(question),
-              power: power.source,
-              law,
-            },
-          ]
-        : [];
-    });
-  return at("federal", "US");
+  return NAMED_QUESTIONS.flatMap((question): Stand[] => {
+    const stance = ownStance(official.ideal, official.signature, question);
+    if (stance === P.zero || !jurisdiction) return [];
+    const power = policyAuthority(api, question, level);
+    const law = power.allowed ? lawOn(api, question, jurisdiction) : null;
+    return law
+      ? [
+          {
+            question,
+            stance,
+            signature: own.has(question),
+            power: power.source,
+            law,
+          },
+        ]
+      : [];
+  });
 }
 
 /** The ones they want: their own signature issues first, then by how strongly they hold them. */
-function wantedOf(stands: readonly Stand[]): Stand[] {
+export function wantedOf(stands: readonly Stand[]): Stand[] {
   return stands
     .filter((row) => row.stance > P.zero)
     .sort(
@@ -461,7 +473,7 @@ function wantedOf(stands: readonly Stand[]): Stand[] {
 }
 
 /** The ones they oppose, strongest first. */
-function opposedOf(stands: readonly Stand[]): Stand[] {
+export function opposedOf(stands: readonly Stand[]): Stand[] {
   return stands
     .filter((row) => row.stance < P.zero)
     .sort(
@@ -470,7 +482,11 @@ function opposedOf(stands: readonly Stand[]): Stand[] {
 }
 
 /** The facts a stand is spoken with: its names, the President's side and the law. */
-function standFacts(stand: Stand, official: OfficialRow, rank: string): Facts {
+export function standFacts(
+  stand: Stand,
+  official: OfficialRow,
+  rank: string,
+): Facts {
   // The ask cites the powers record and the law it read (ask why).
   const asked = [
     official.id,
@@ -495,7 +511,7 @@ function standFacts(stand: Stand, official: OfficialRow, rank: string): Facts {
 }
 
 /** The President's manner of speaking, from their recorded traits. */
-function voiceOf(president: PersonState): SpeechVoice {
+export function voiceOf(president: PersonState): SpeechVoice {
   const sum = (keys: readonly string[]) =>
     keys.reduce(
       (total, key) => total + (president.traits[key] ?? P.zero),
@@ -519,7 +535,7 @@ function chairStage(core: CoreState): string {
 }
 
 /** One part of the address: where the camera is, the facts it is said with, its moves. */
-interface Block {
+export interface Block {
   readonly key: string;
   readonly level: OpeningLevel;
   /**
@@ -662,8 +678,8 @@ function planAddress(
     president,
     situation,
     // A President in their first year takes no lap for a record they did not make.
-    (Date.parse(core.date) - Date.parse(official.serviceStart)) / MS_PER_DAY <
-      DAYS_PER_YEAR
+    daysBetweenText(official.serviceStart, core.date) <
+      api.parameter("daysPerMeanYear")
       ? ["victory"]
       : [],
   );
@@ -985,6 +1001,23 @@ function composeAddressOf(
   official: OfficialRow,
   kind: OpeningSpeechKind,
 ): { sentences: OpeningSentence[]; addressKind: AddressKind } | null {
+  const plan = planAddress(core, president, official, kind);
+  const sentences = composeBlocks(core, president, plan.blocks);
+  return sentences ? { sentences, addressKind: plan.addressKind } : null;
+}
+
+/**
+ * Say a plan's blocks in the speaker's own voice: the English engine writes
+ * every sentence, their recorded traits pull each pick, and no piece is used
+ * twice while another can say the line. Null when a required block cannot be
+ * said. The one writer of every address (the President's, a governor's, a
+ * mayor's).
+ */
+export function composeBlocks(
+  core: CoreState,
+  president: PersonState,
+  blocks: readonly Block[],
+): OpeningSentence[] | null {
   const stage = chairStage(core);
   // The addresses the President has given: each speech the speech module
   // recorded, and each campaign stop on their record (a rally speech there).
@@ -997,8 +1030,7 @@ function composeAddressOf(
   const sentences: OpeningSentence[] = [];
   // Pieces already said, so no wording is used twice while another can say it.
   const said: string[] = [];
-  const plan = planAddress(core, president, official, kind);
-  for (const block of plan.blocks) {
+  for (const block of blocks) {
     const moves = block.moves.filter((row): row is OpeningMove => !!row);
     const base = packet(
       `opening:${core.date}:${president.id}/${block.key}`,
@@ -1053,7 +1085,7 @@ function composeAddressOf(
       });
     }
   }
-  return { sentences, addressKind: plan.addressKind };
+  return sentences;
 }
 
 /**
@@ -1179,6 +1211,7 @@ export function recordOpeningStory(
         ? { [ADDRESS_FACT.inauguration]: `${INAUGURATION_EVENT}:${core.date}` }
         : {}),
       [ADDRESS_FACT.president]: story.president.id,
+      [ADDRESS_FACT.speaker]: story.president.id,
       [ADDRESS_FACT.kind]: story.speechKind,
       [ADDRESS_FACT.style]: story.addressKind,
       [ADDRESS_FACT.opening]: story.address.openingLine.text,

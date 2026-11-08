@@ -3935,7 +3935,8 @@
       "evidence": "provisional",
       "from": "law:us-federal-positions:health.medicare-drug-price-negotiation",
       "to": "health.drug-out-of-pocket",
-      "range": [-0.1, -0.06]
+      "range": [-0.1, -0.06],
+      "carriedBy": "the medical bills' monthly pass (billMembers in src/core2/medical-bills.ts), which reads the federal Medicare drug price negotiation law in force (lawInForce) and multiplies each Medicare member's bill by one plus this row's size, so the cause is decided from the law itself and the web does not also run it"
     },
     {
       "key": "federal-loan-cap-to-high-cost-loans",
