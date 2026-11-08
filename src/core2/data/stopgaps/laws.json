@@ -62,7 +62,7 @@
   {
     "id": "SG-LAWS-local-line-filing-threshold",
     "file": "src/core2/modules/world-legislating.ts",
-    "line": 709,
+    "line": 720,
     "whatItFakes": "How big a gap between a member's wanted budget line and the line in force must be before they file a mid-year amendment (1 percent of the line, spread 0.5 to 3 percent, budgetAmendmentMinShare) is an estimate; no table of local amendment thresholds was found. Real councils also take up contracts, appointments and rezonings that no record here carries.",
     "why": "The research names how often local bodies amend budgets mid-year but not a size below which members do not bother.",
     "addedBy": "night:laws-and-effects",
