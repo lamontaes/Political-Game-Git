@@ -3,7 +3,7 @@
 // New Game in a place chosen in the creator (LOAD_PLACE "State|Town", default
 // Storrs, Connecticut, the fixed town for path 3) shows, while the first scene is drawn, the world's story panel: a
 // year counter that moves, journal lines and headlines that appear, and a
-// state map whose counties fill in. At 1440x900, 1280x800 and 1024x768 the
+// story told in words, with no map. At 1440x900, 1280x800 and 1024x768 the
 // panel sits inside the window, nothing is drawn past it and nothing in it
 // scrolls. LOAD_SHOTS saves a
 // picture per size.
@@ -65,9 +65,6 @@ try {
           box.right <= window.innerWidth &&
           box.bottom <= window.innerHeight,
         journalScrollbar: getComputedStyle(journal).overflowY !== "hidden",
-        counties: document.querySelectorAll("#loading-map .county").length,
-        filled: document.querySelectorAll("#loading-map .county:not(.unfilled)")
-          .length,
         lines: document.querySelectorAll("#loading-journal p").length,
         year: document.getElementById("loading-year").textContent,
         // Anything drawn past the panel's foot or sides (the journal lets
@@ -91,7 +88,11 @@ try {
     assert.ok(fit.inside, `${width}x${height}: the panel leaves the window`);
     assert.deepEqual(fit.over, [], `${width}x${height}: drawn past the panel`);
     assert.ok(!fit.journalScrollbar, `${width}x${height}: the journal scrolls`);
-    assert.ok(fit.counties > 0, "no map");
+    assert.equal(
+      await page.locator("#loading-map, .gov-map").count(),
+      0,
+      "a map on the loading screen",
+    );
   }
   await page.setViewportSize({ width: 1440, height: 900 });
   const place = (await (await made).json()).placeName;

@@ -2149,3 +2149,5 @@ export function withholdingOf(
     personId,
   ]) as unknown as WithholdingRecord[];
 }
+// Re-exported so the opening county sample reads it through this entry (families guard).
+export { medianTransactionBalance } from "../starting-cash";
