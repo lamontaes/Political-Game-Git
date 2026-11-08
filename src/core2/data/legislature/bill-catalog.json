@@ -1627,8 +1627,54 @@
         },
         {
           "name": "Campaign finance",
-          "supported": false,
-          "policies": []
+          "supported": true,
+          "policies": [
+            {
+              "id": "law:state-contribution-limit-governor",
+              "name": "State campaign contribution limit: governor",
+              "kind": "law-amount",
+              "series": "state-contribution-limit-governor",
+              "unit": "USD/election",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
+            },
+            {
+              "id": "law:state-contribution-limit-state-senate",
+              "name": "State campaign contribution limit: stateSenate",
+              "kind": "law-amount",
+              "series": "state-contribution-limit-state-senate",
+              "unit": "USD/election",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
+            },
+            {
+              "id": "law:state-contribution-limit-state-house",
+              "name": "State campaign contribution limit: stateHouse",
+              "kind": "law-amount",
+              "series": "state-contribution-limit-state-house",
+              "unit": "USD/election",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
+            },
+            {
+              "id": "law:state-contribution-limit-local",
+              "name": "State campaign contribution limit: local",
+              "kind": "law-amount",
+              "series": "state-contribution-limit-local",
+              "unit": "USD/election",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
+            },
+            {
+              "id": "law:federal-campaign-contribution-limit",
+              "name": "Federal campaign contribution limit",
+              "kind": "law-amount",
+              "series": "federal-campaign-contribution-limit",
+              "unit": "USD/election",
+              "operations": ["raise", "lower"],
+              "levels": ["federal"]
+            }
+          ]
         },
         {
           "name": "Ethics and conflicts",
