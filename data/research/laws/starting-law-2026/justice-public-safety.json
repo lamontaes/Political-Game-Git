@@ -2184,10 +2184,12 @@
         "US-TN": {
           "answer": "no",
           "operativeAt": "2023-07-01",
-          "preempts": true,
+          "preempts": false,
           "cite": "Tenn. Code Ann. Title 38, Ch. 8 (Pub. Ch. 454, 2023, SB 591)",
           "source": "https://wapp.capitol.tn.gov/apps/BillInfo/Default.aspx?BillNumber=SB0591&GA=113",
-          "note": "The 2023 law abolished community oversight boards and lets cities create police advisory and review committees that send complaints to internal affairs, review its files and may only ask for further investigation; they have no subpoena power."
+          "note": "The 2023 law abolished community oversight boards and lets cities create police advisory and review committees that send complaints to internal affairs, review its files and may only ask for further investigation; they have no subpoena power.",
+          "localGrant": true,
+          "localGrantCite": "Tenn. Code Ann. § 38-8-312: \"A local governing body is authorized ... upon the adoption of an ordinance or resolution by a two-thirds (2/3) vote at two (2) separate meetings, to create a police advisory and review committee\"; the section \"preempts any existing ... community oversight board ... which as of January 1, 2023 does not conform with the requirements of this section\", and a committee \"does not have the power to issue subpoenas\" (https://www.lawserver.com/law/state/tennessee/tn-code/tennessee_code_38-8-312; § 38-8-301 defines the local governing body to include a county commission). The state's template is not modeled: the grant is for a committee of that kind."
         },
         "US-TX": {
           "answer": "no",
