@@ -1290,7 +1290,7 @@ export function coreAPI(core: CoreState): CoreAPI {
       core.relationships.set(id, row);
       // A circle member's full decision is condensed on the log's schedule.
       if (
-        latestChange?.decision?.scores &&
+        (latestChange?.decision as { scores?: unknown } | undefined)?.scores &&
         actorId !== core.playerId &&
         !core.observer &&
         !isExplicitlyControlledPersonV1(core, actorId)
