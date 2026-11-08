@@ -14,7 +14,7 @@ source: story/restore-liked-lines, Nov 8 (a rewrite never deletes a line the own
 claimed-at:
 ---
 
-**What.** The notice of election the owner graded good ("NOTICE OF ELECTION  NOTICE IS HEREBY GIVEN that an election will be held in {place} on {date} for the following Officers: {office}.") sits in data/english/parts/notice.json under stopgap SG-WORDS-notice-no-reader. No engine prints it: the filing visit has no notice and the paper prints no election notice. Print it in the newspaper before each election from the contest records, as a real town's paper does.
+**What.** The notice of election the owner graded good ("NOTICE OF ELECTION NOTICE IS HEREBY GIVEN that an election will be held in {place} on {date} for the following Officers: {office}.") sits in data/english/parts/notice.json under stopgap SG-WORDS-notice-no-reader. No engine prints it: the filing visit has no notice and the paper prints no election notice. Print it in the newspaper before each election from the contest records, as a real town's paper does.
 
 **Time box.** Three hours for one Sonnet session.
 
