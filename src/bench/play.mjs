@@ -83,6 +83,7 @@ import {
   perkList,
   introText,
   peopleSentence,
+  nameLink,
   dotRows,
   stripBoard,
   typedRow,
@@ -3951,7 +3952,11 @@ const sheets = {
                         label: dateWords(race.lastTime.date, {
                           year: me.date,
                         }),
-                        value: race.lastTime.winner,
+                        value: race.lastTime.winnerId
+                          ? nameLink(race.lastTime.winner, () =>
+                              showPerson({ personId: race.lastTime.winnerId }),
+                            )
+                          : race.lastTime.winner,
                       },
                       {
                         label: labels.share,
@@ -4075,13 +4080,15 @@ const sheets = {
                   ),
                   ...(item.mine.length
                     ? [
-                        line(
-                          `${words.yourMembers}: ${item.mine
-                            .map(
-                              (m) =>
-                                `${m.name} ${controls.billStage?.[m.vote === "yes" ? "yes" : m.vote === "no" ? "no" : "abstain"] ?? ""}`,
-                            )
-                            .join(", ")}`,
+                        introText(
+                          `${words.yourMembers}: `,
+                          ...item.mine.flatMap((m, i) => [
+                            ...(i ? [", "] : []),
+                            nameLink(m.name, () =>
+                              showPerson({ personId: m.memberId }),
+                            ),
+                            ` ${controls.billStage?.[m.vote === "yes" ? "yes" : m.vote === "no" ? "no" : "abstain"] ?? ""}`,
+                          ]),
                         ),
                       ]
                     : []),
