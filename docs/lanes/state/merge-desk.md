@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 233 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 235 pull requests merged. Newest state at the top of each section.
 
 **Stopped by the owner, Nov 4, 2:37 p.m. Eastern, at 161 merged; resumed on the owner's word at about 2:53 p.m. Eastern (relayed by the CTO). The desk merges One Map's PRs, and from Nov 5, 05:22 UTC also State Sessions' (every other state holds sessions), on the owner's approval relayed by the CTO. From Nov 5, about 5:15 p.m. Eastern, also the Cleanup session's three PRs (the old art pipeline, the Oct 14 mocks, the green mannequin plates with the old mocks), on the same check; the art pipeline PR also needs `npm run build` to succeed on its merged head. From Nov 7, 2:30 p.m. Eastern (CTO), also Astra's PRs (a Codex builder on Congress and law reversals; branches `astra/`, line 2 `Session: Astra (Codex)`), on the same check. Lanes 1, 3, 4 and 5 are stopped and Lane 2 is off, so #7110 and #7127 stay open, and skills PRs #7233, #7254 and #7264 stay with the CTO.**
 
@@ -157,6 +157,7 @@ New on Nov 3:
 | #7338 | Congress can remove and restore the federal ban on adult-use cannabis; a state's own retail law stays its own either way                                                                                                            | Washington, District of Columbia | 601ce350a1214d7b |
 | #7339 | A treasury review reads each government's own law, so one government's repealed or barred fiscal rule no longer comes back because another government still has it                                                                  | Garner, Texas                    | 82fcee93d46aaa61 |
 | #7345 | A SNAP work rule no longer spills over to unrelated cash assistance (also a skill line in played-world-proof)                                                                                                                       | Machias, Maine                   | 390c407126c7e568 |
+| #7347 | After a bill sets the income tax to zero, a later bill with a positive rate collects again (the zero bill had erased every bracket)                                                                                                 | St. Maurice, Louisiana           | aa08921173a2418c |
 
 ## State Sessions' PRs (from Nov 5)
 
@@ -188,6 +189,7 @@ New on Nov 3:
 | #7343 | A pool note: the sanctuary question covers only 287(g) agreements, so a second question is needed (docs only)                                                                                                              | Amouli, American Samoa           | 115ed8f71957f5c0 |
 | #7344 | A pool note: four clean timed years in a Colorado town on main (47, 96, 57 and 121 s), and how to run the records-identical comparison (docs only)                                                                         | Sinclair, Wyoming                | a0b215033d2b0c69 |
 | #7346 | A pool note: rally listeners were measured and there is nothing to run as a group (docs only)                                                                                                                              | Quinter, Kansas                  | 7b6e02e5d10eca12 |
+| #7348 | Files a new speed item: year 1 keeps 404 thousand records on main against 179 thousand on Nov 4, most of them law effects (docs only)                                                                                      | Viola, Delaware                  | 3597fe0cea1d5c3d |
 
 ## Lane PRs merged on Nov 4 (126), on the owner's word ("You may merge lane PRs that pass the new-game check")
 

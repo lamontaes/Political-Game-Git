@@ -1783,7 +1783,9 @@ export function shapedRate(
       .filter(rated)
       .flatMap((s) => s.brackets!.map((b) => b.rate)),
   );
-  const scale = top > 0 ? provision.value / top : 1;
+  // A zero active rate suspends collection in the withholding reader. Keep
+  // the bracket proportions so a later bill can restore a positive rate.
+  const scale = top > 0 && provision.value > 0 ? provision.value / top : 1;
   return {
     unit: current?.unit ?? "percent-top-rate",
     terms: {

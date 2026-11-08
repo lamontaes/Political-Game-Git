@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: astra/income-rate-zero-restoration
 pr: #7347
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-11-08T01:20:45.196Z
 **Files.** src/core2/modules/legislature.ts,src/core2/income-rate-zero-restoration.test.ts
 
 **Notes.** Astra Nov 8: shapedRate computes scale=provision.value/top, so zero destroys all bracket rates and the later top=0 branch uses scale=1. The withholding reader already handles a zero rate with retained nonzero brackets (done item laws-zero-top-rate-retains-withholding, PR 6193). This is distinct from opening policy adoption repeal/restoration in PR 7337. Read source and prior pool items; no implementation yet.
+
+Astra implementation: retain the existing bracket proportions when a bill sets the active rate to zero; the unchanged withholding reader applies zero. Paia HI replay b0153ccf2417acea passes two federal 37-to-zero-to-37 cycles through draft/signature/effect and actual named journal withholding plus the counted payroll reader. Named tax 1,361,400 minor and counted tax 54,456,000 minor (40 workers) return exactly; other income-tax levels remain unchanged. Old writer fails because it destroys the retained schedule. Ten fresh draws pass; all ten exercised federal schedules, so no territory-power certification is claimed. New-game check passes Camanche North Shore CA 26a4d83e38b89811 for four weeks.
