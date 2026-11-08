@@ -27,6 +27,8 @@ const zero = P.zero;
 const one = P.one;
 const two = P.two;
 const four = two + two;
+const eight = four + four;
+const sixteen = eight + eight;
 
 export type SceneTalkStep =
   | "narrate"
@@ -79,6 +81,12 @@ export interface SceneMove {
   move: string;
   role: SceneTalkRole;
   purpose: string;
+  /**
+   * The purpose this one is a variant of (src/director/arc-variant.ts): a
+   * piece written for the family serves the variant where the variant has
+   * none of its own, and a piece written for the variant beats the family's.
+   */
+  family?: string;
   key: string;
   /** The move being answered. */
   after?: string;
@@ -154,7 +162,8 @@ function fitting(
         continue;
       if (u.role !== use.role) continue;
       // A fallback piece ("*") serves only a scene with no purpose of its own.
-      if (u.purpose && u.purpose !== use.purpose) continue;
+      if (u.purpose && u.purpose !== use.purpose && u.purpose !== use.family)
+        continue;
       if (u.key && u.key !== use.key) continue;
       if (u.after && u.after !== use.after && u.after !== use.afterPiece)
         continue;
@@ -162,6 +171,8 @@ function fitting(
       if (u.requiresFacts?.some((name) => !facts[name])) continue;
       if (u.excludesFacts?.some((name) => facts[name])) continue;
       const score =
+        // A piece written for a variant beats the family's, whatever facts either needs.
+        (use.family && u.purpose === use.purpose ? sixteen : zero) +
         (u.purpose && u.purpose !== "*" ? four : zero) +
         (u.key ? two : zero) +
         (u.after ? (u.after === use.afterPiece ? four + four : one) : zero) +
@@ -219,8 +230,25 @@ export function wordSceneMove(input: {
   );
   if (!every.length && strictSetup)
     return { unused: `${use.purpose}/${steps[zero]}/${use.move}` };
+  // A variant's own pieces come first; once they have all been said on this
+  // branch, the family's pieces serve again (the variant writes what makes it
+  // differ, and the family's lines carry the rest of the exchange).
+  const kinOf =
+    use.family && !every.some((part) => !input.said.has(part.key))
+      ? fitting(
+          { ...use, purpose: use.family, family: undefined },
+          facts,
+          (part) =>
+            !!taggedBy(part) === onlyTagged &&
+            !(options.freshOnly && options.shown?.has(part.key)) &&
+            !(strictSetup && (options.usage!.get(part.key) ?? zero) > zero),
+          options.includeHeld ? PARTS : SHIPPED,
+        ).filter((part) => !input.said.has(part.key))
+      : [];
   // A piece already said on this branch is not said again while another fits.
-  const fresh = every.filter((part) => !input.said.has(part.key));
+  const fresh = kinOf.length
+    ? kinOf
+    : every.filter((part) => !input.said.has(part.key));
   let parts = fresh.length ? fresh : every;
   if (!parts.length) return null;
   const unseen = parts.filter((part) => !options.shown?.has(part.key));
@@ -291,6 +319,8 @@ export function sceneMovesWritten(filter: {
   step: SceneTalkStep;
   role?: SceneTalkRole;
   purpose?: string;
+  /** The family of a variant purpose: its pieces serve the variant too. */
+  family?: string;
   after?: string;
 }): string[] {
   return [
@@ -300,7 +330,9 @@ export function sceneMovesWritten(filter: {
           (u) =>
             u.step === filter.step &&
             (filter.role === undefined || u.role === filter.role) &&
-            (filter.purpose === undefined || u.purpose === filter.purpose) &&
+            (filter.purpose === undefined ||
+              u.purpose === filter.purpose ||
+              (filter.family !== undefined && u.purpose === filter.family)) &&
             (filter.after === undefined || u.after === filter.after),
         )
         .map((u) => u.move),
@@ -316,10 +348,16 @@ export function pieceAnswers(
   pieceKey: string,
   purpose: string,
   answered: { pieceKey: string; move: string },
+  family?: string,
 ): number {
   let tier = zero;
   for (const u of PART_BY_KEY.get(pieceKey)?.uses ?? []) {
-    if (u.subject !== "scene" || u.purpose !== purpose || !u.after) continue;
+    if (
+      u.subject !== "scene" ||
+      (u.purpose !== purpose && (!family || u.purpose !== family)) ||
+      !u.after
+    )
+      continue;
     if (u.after === answered.pieceKey) tier = two;
     else if (u.after === answered.move) tier = Math.max(tier, one);
   }
