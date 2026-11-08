@@ -152,7 +152,16 @@ try {
     }
     assert.ok(opened, "no place in Travel takes filings");
     await read(`Talk box (${who})`, "#talk");
-    await page.locator("#talk-choices button").first().click();
+    // The clerk's scene leads in before the race choices: Continue until they are offered.
+    const choice = page.locator("#talk-choices button").first();
+    const next = page.locator("#talk-next:visible");
+    for (let turn = 0; turn < 12 && !(await choice.count()); turn += 1) {
+      await choice.or(next).first().waitFor();
+      if (await choice.count()) break;
+      await next.click();
+      await read(`Talk box, lead-in (${who})`, "#talk");
+    }
+    await choice.click();
     await page.waitForTimeout(600);
     await read(`Talk box, race picked (${who})`, "#talk");
   };
