@@ -1,6 +1,7 @@
 /* global process, URL, URLSearchParams, console, document */
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
+import { chooseTrailAct } from "./trail-act.mjs";
 import { fileWhenFilingOpens } from "./start-life.mjs";
 import { openCampaignTrail } from "./campaign-trail.mjs";
 const browser = await chromium.launch({
@@ -67,9 +68,9 @@ try {
   // The acts wait on the campaign trail in Travel, one control per outing.
   await openCampaignTrail(page);
   const controls = await page
-    .locator("#sheet-body.place-view button")
+    .locator(".travel-tile")
     .evaluateAll((nodes) => nodes.map((n) => n.textContent.trim()));
-  console.log("Buttons:", controls.join(" | "));
+  console.log("Trail:", controls.join(" | "));
   const outings = [
     "Knock on doors",
     "Hold an event",
@@ -93,10 +94,8 @@ try {
   });
   // Taking an interview and an event runs the engine's own act; each answers with its own record.
   for (const name of ["Ask for an interview", "Hold an event"]) {
-    const button = page
-      .locator("#sheet-body.place-view button", { hasText: name })
-      .first();
-    if (await button.isDisabled()) {
+    const button = await chooseTrailAct(page, name);
+    if (!(await button.count())) {
       console.log(`${name}: not available today (the records say so)`);
       continue;
     }
