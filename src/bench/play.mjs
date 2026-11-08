@@ -57,6 +57,7 @@ import {
 } from "../english/plain-words.mjs";
 /** A government's sum in a readable unit ("$5.2 trillion", "$48,300"). */
 const roundedMoney = (minor) => moneyWords(minor, { rounded: true });
+import { newsBoard } from "./ui/news-board.mjs";
 import { peopleScreen } from "./ui/people-screen.mjs";
 import { billPaper } from "./ui/bill-paper.mjs";
 import { billStageSections } from "./ui/bill-stage.mjs";
@@ -64,7 +65,6 @@ import { meetingItem } from "./ui/meeting-item.mjs";
 import { draftCard } from "./ui/draft-card.mjs";
 import { bold, line, prose, heading, labeled, smallText } from "./ui/text.mjs";
 import {
-  newspaperScreen,
   engraveMasthead,
   readerBody,
   readerMore,
@@ -3250,12 +3250,16 @@ const sheets = {
         stories: [],
       });
     return [
-      ...newspaperScreen({
+      newsBoard({
         outlets,
         labels,
         date: me.date,
         headlineOf: storyHeadline,
-        photoOf: storyPhoto,
+        words: {
+          page: controls.politics.page,
+          previous: controls.politics.previousPage,
+          next: controls.politics.nextPage,
+        },
       }),
     ];
   },
@@ -4820,12 +4824,10 @@ async function openSheet(tab) {
       tab === "budgets" ||
       tab === "journal" ||
       tab === "money" ||
-      tab === "calendar",
+      tab === "calendar" ||
+      tab === "news",
   );
   $("sheet").classList.toggle("character-sheet", character && tab !== "who");
-  // News is the paper itself: the sheet is the page, its masthead the title
-  // (owner, Oct 28, point 25).
-  $("sheet").classList.toggle("paper-sheet", tab === "news");
   $("sheet-media").hidden = !character || tab === "who";
   fillArtwork(
     $("sheet-media"),
