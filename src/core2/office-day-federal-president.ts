@@ -11,6 +11,10 @@
  * what the player leaves alone, the character does from their own views and
  * standing. Nothing is rolled; nothing names a place.
  */
+import {
+  addFederalDayPart,
+  addFederalWorldPart,
+} from "./office-day-federal-parts";
 import { placeStateKey } from "./place-map";
 import type { CoreAPI } from "./types";
 import type { ModuleRow } from "./module-data";
@@ -58,8 +62,6 @@ import { nationalPanel } from "./modules/macro";
 import cabinetData from "./data/office-day/federal-cabinet.json" with { type: "json" };
 import {
   OFFICE_DAY_FEDERAL_MODULE_ID,
-  addFederalDayPart,
-  addFederalWorldPart,
   federalParameter,
   federalSeatOf,
   holdFederal,
