@@ -5494,7 +5494,7 @@ select.release-pick {
   color: #f2e6c9;
 }
 #election-day-acts .action::before {
-  content: counter(choice) ".";
+  content: counter(choice) "." / "";
   display: inline-block;
   width: 2em;
   color: #d6bd84;
