@@ -601,8 +601,6 @@ export function payBenefits(
     readonly service: ServiceRow;
     readonly heads: readonly ResidentFacts[];
     readonly modeledShare: number;
-    /** A work requirement in force: who it reaches, and how long it lets them draw. */
-    readonly timeLimit?: AssistanceTimeLimit | null;
   },
 ): Map<string, Record<string, number>> {
   const core = api.state as CoreState;
@@ -616,15 +614,9 @@ export function payBenefits(
   for (const [govId, delta] of Object.entries(input.service.byGovernment)) {
     const gov = governments(api).find((g) => g.id === govId);
     if (!gov || delta <= 0 || !input.heads.length) continue;
-    // The work requirement lets those it reaches draw only for its time limit;
-    // the line's money goes to those still drawing.
-    const limited = timeLimitedNow(api, govId, input.key, input.timeLimit);
-    const drawing = input.heads.filter((h) => !limited.has(h.id));
-    recordDraws(
-      api,
-      input.timeLimit,
-      drawing.map((h) => h.id),
-    );
+    // This is cash assistance from a budget amendment, not SNAP. Only the
+    // food-aid engine applies and consumes 7 USC 2015(o)'s SNAP month limit.
+    const drawing = input.heads;
     const named = drawing.filter((h) => h.named);
     // Real heads: a counted row stands for as many households as its weight says.
     const everyone = drawing.reduce((n, h) => n + (h.scale ?? 1), 0);
