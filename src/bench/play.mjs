@@ -33,6 +33,7 @@ import { devBillsPanel } from "./ui/dev-bills.mjs";
 import { devRecordsSection } from "./ui/dev-records.mjs";
 import { devPersonSection } from "./ui/dev-person.mjs";
 import { devMemorySection } from "./ui/dev-memory.mjs";
+import { devWatchSections } from "./ui/dev-watch.mjs";
 import { devScenePanel } from "./ui/dev-scene.mjs";
 import { devRunPanel } from "./ui/dev-run.mjs";
 import {
@@ -3249,6 +3250,14 @@ const sheets = {
         },
       }),
       devRunPanel({ labels: controls.devRun, onDone: () => refresh() }),
+      ...(devModeOn()
+        ? [
+            await devWatchSections({
+              labels: controls.devWatch,
+              playerId: me.id,
+            }),
+          ]
+        : []),
       ...(devModeOn()
         ? [
             await devScenePanel({

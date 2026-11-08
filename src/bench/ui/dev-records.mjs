@@ -5,6 +5,7 @@
 // time. Control names and record data only.
 import { el } from "./dom.mjs";
 import { recordTree, idList } from "./dev-view.mjs";
+import { traceBox } from "./dev-trace-box.mjs";
 import { stripSection } from "./strips.mjs";
 
 async function get(path) {
@@ -18,18 +19,7 @@ async function get(path) {
 export async function devRecordsSection({ personId, labels }) {
   const view = await get(`person?id=${encodeURIComponent(personId)}`);
   const { records = [], ...rest } = view;
-  const trace = el("div", { className: "dev-trace" });
-  const open = async (id) => {
-    try {
-      const node = await get(`trace/node?id=${encodeURIComponent(id)}`);
-      trace.replaceChildren(
-        el("h4", { textContent: `${labels.trace} · ${id}` }),
-        recordTree(node, open, node.kind ?? id),
-      );
-    } catch (error) {
-      trace.replaceChildren(el("p", { textContent: error.message }));
-    }
-  };
+  const { node: trace, open } = traceBox(labels.trace);
   return stripSection(
     8,
     labels.title,
