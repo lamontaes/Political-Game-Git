@@ -20,4 +20,4 @@ source: added with npm run pool -- add
 
 **Files.** src/core2/modules/budgets.ts, src/core2/modules/world-legislating.ts, tests/golden-path/played-world.node-test.ts
 
-**Notes.** TODO
+**Notes.** Duplicate of gov-enacted-budget-lines-miss-adopted-spending: same check (M0-13), same cause (mid-year amendments counted as annual budgets). Evidence moved there.
