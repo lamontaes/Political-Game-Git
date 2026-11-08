@@ -277,6 +277,705 @@
         "note": "Graded good in batch 2 item 1, a greeting offered after \"Hi, José. How are you?\" (his words: \"can say good to see you or hi Jose, how are you?\"). The conversation bank already has this exact line as a greeting.",
         "batch": "batch-2"
       }
+    },
+    {
+      "oldKey": "address.concession-concede.we-didnt-win",
+      "bank": "scene-talk",
+      "how": "new-key",
+      "piece": {
+        "key": "scene-talk.reply-tell.we-didnt-win",
+        "move": "reply-tell",
+        "kind": "spoken",
+        "text": "We didn't win.",
+        "uses": [
+          {
+            "subject": "scene",
+            "step": "reply",
+            "move": "tell",
+            "role": "asked",
+            "purpose": "family-loss",
+            "key": "loss"
+          }
+        ],
+        "source": {
+          "document": "Remarks at an Asia-Pacific Economic Cooperation CEOs Luncheon in Gyeongju, South Korea",
+          "date": "2025-10-29",
+          "granule": "DCPD-202501070",
+          "url": "https://www.govinfo.gov/content/pkg/DCPD-202501070/html/DCPD-202501070.htm",
+          "license": "U.S. government work, public domain (17 U.S.C. 105)"
+        },
+        "tag": {
+          "move": "tell",
+          "key": "loss"
+        },
+        "restoredFrom": "address.concession-concede.we-didnt-win",
+        "restoredOn": "2026-11-08"
+      },
+      "grade": {
+        "by": "owner (spoken, Oct 14, 2026, evening)",
+        "line": "We didn't win.",
+        "note": "Liked; that is a speech part. (batch 9 item 70) Moved to the loss-night talk at home (family-loss), where the player says it after the count.",
+        "batch": "batch-9"
+      }
+    },
+    {
+      "oldKey": "address.concession-concede.this-is-not-the-end",
+      "bank": "scene-talk",
+      "how": "new-key",
+      "piece": {
+        "key": "scene-talk.reply-promise.this-is-not-the-end",
+        "move": "reply-promise",
+        "kind": "spoken",
+        "text": "This is not the end.",
+        "uses": [
+          {
+            "subject": "scene",
+            "step": "reply",
+            "move": "promise",
+            "role": "asked",
+            "purpose": "family-loss",
+            "key": "loss"
+          }
+        ],
+        "source": {
+          "document": "Remarks Prior to a Meeting With President Volodymyr Zelenskyy of Ukraine and an Exchange With Reporters in Ankara, Turkey",
+          "date": "2026-07-08",
+          "granule": "DCPD-202600450",
+          "url": "https://www.govinfo.gov/content/pkg/DCPD-202600450/html/DCPD-202600450.htm",
+          "license": "U.S. government work, public domain (17 U.S.C. 105)"
+        },
+        "tag": {
+          "move": "promise",
+          "key": "loss"
+        },
+        "restoredFrom": "address.concession-concede.this-is-not-the-end",
+        "restoredOn": "2026-11-08"
+      },
+      "grade": {
+        "by": "owner (spoken, Oct 14, 2026, evening)",
+        "line": "This is not the end.",
+        "note": "Good. (batch 9 item 74) Moved to the loss-night talk at home (family-loss).",
+        "batch": "batch-9"
+      }
+    },
+    {
+      "oldKey": "address.concession-concede.we-will-be-back",
+      "bank": "scene-talk",
+      "how": "new-key",
+      "piece": {
+        "key": "scene-talk.reply-promise.we-will-be-back",
+        "move": "reply-promise",
+        "kind": "spoken",
+        "text": "We will be back.",
+        "uses": [
+          {
+            "subject": "scene",
+            "step": "reply",
+            "move": "promise",
+            "role": "asked",
+            "purpose": "family-loss",
+            "key": "loss"
+          }
+        ],
+        "source": {
+          "document": "Remarks at the Munich Security Conference \"Special Edition 2021\" and an Exchange With Reporters",
+          "date": "2021-02-19",
+          "granule": "DCPD-202100151",
+          "url": "https://www.govinfo.gov/content/pkg/DCPD-202100151/html/DCPD-202100151.htm",
+          "license": "U.S. government work, public domain (17 U.S.C. 105)"
+        },
+        "tag": {
+          "move": "promise",
+          "key": "loss"
+        },
+        "restoredFrom": "address.concession-concede.we-will-be-back",
+        "restoredOn": "2026-11-08"
+      },
+      "grade": {
+        "by": "owner (spoken, Oct 14, 2026, evening)",
+        "line": "We will be back.",
+        "note": "Good. (batch 9 item 75) Moved to the loss-night talk at home (family-loss).",
+        "batch": "batch-9"
+      }
+    },
+    {
+      "oldKey": "address.concession-concede.thank-you-for-everything",
+      "bank": "scene-talk",
+      "how": "new-key",
+      "piece": {
+        "key": "scene-talk.reply-thank.thank-you-for-everything",
+        "move": "reply-thank",
+        "kind": "spoken",
+        "text": "Thank you for everything.",
+        "uses": [
+          {
+            "subject": "scene",
+            "step": "reply",
+            "move": "thank",
+            "role": "asked",
+            "purpose": "family-loss",
+            "key": "loss"
+          }
+        ],
+        "source": {
+          "document": "The President's News Conference With President Volodymyr Zelenskyy of Ukraine in Palm Beach, Florida",
+          "date": "2025-12-28",
+          "granule": "DCPD-202501223",
+          "url": "https://www.govinfo.gov/content/pkg/DCPD-202501223/html/DCPD-202501223.htm",
+          "license": "U.S. government work, public domain (17 U.S.C. 105)"
+        },
+        "tag": {
+          "move": "thank",
+          "key": "loss"
+        },
+        "restoredFrom": "address.concession-concede.thank-you-for-everything",
+        "restoredOn": "2026-11-08"
+      },
+      "grade": {
+        "by": "owner (spoken, Oct 14, 2026, evening)",
+        "line": "Thank you for everything.",
+        "note": "Good. (batch 9 item 76) Moved to the loss-night talk at home (family-loss).",
+        "batch": "batch-9"
+      }
+    },
+    {
+      "oldKey": "address.victory-claim.im-honored",
+      "bank": "scene-talk",
+      "how": "new-key",
+      "piece": {
+        "key": "scene-talk.reply-answer.im-honored",
+        "move": "reply-answer",
+        "kind": "spoken",
+        "text": "I'm honored.",
+        "uses": [
+          {
+            "subject": "scene",
+            "step": "reply",
+            "move": "answer",
+            "role": "asked",
+            "purpose": "victory-night",
+            "key": "honor"
+          }
+        ],
+        "source": {
+          "document": "Remarks Prior to a Meeting With the Infrastructure Implementation Task Force",
+          "date": "2022-01-20",
+          "granule": "DCPD-202200026",
+          "url": "https://www.govinfo.gov/content/pkg/DCPD-202200026/html/DCPD-202200026.htm",
+          "license": "U.S. government work, public domain (17 U.S.C. 105)"
+        },
+        "tag": {
+          "move": "answer",
+          "key": "honor"
+        },
+        "restoredFrom": "address.victory-claim.im-honored",
+        "restoredOn": "2026-11-08"
+      },
+      "grade": {
+        "by": "owner (spoken, Oct 14, 2026, evening)",
+        "line": "I'm honored.",
+        "note": "Fine. (batch 9 item 81) Moved to the victory-night talk, an answer to what the winner will say first.",
+        "batch": "batch-9"
+      }
+    },
+    {
+      "oldKey": "bank:meeting.opener.i-rise-to-speak-briefly-in-gratitude-today",
+      "bank": "scene-talk",
+      "how": "new-key",
+      "piece": {
+        "key": "scene-talk.state-tell.chair-i-rise-to-speak-briefly-in-gratitude-today",
+        "move": "state-tell",
+        "kind": "spoken",
+        "text": "Chair, I rise to speak briefly in gratitude today.",
+        "uses": [
+          {
+            "subject": "scene",
+            "step": "state",
+            "move": "tell",
+            "role": "asker",
+            "purpose": "floor-debate",
+            "key": "honor"
+          }
+        ],
+        "source": {
+          "document": "Congressional Record",
+          "date": "2025-12-18",
+          "granule": "CREC-2025-12-18-pt1-PgS8883",
+          "url": "https://www.govinfo.gov/app/details/CREC-2025-12-18/CREC-2025-12-18-pt1-PgS8883"
+        },
+        "tag": {
+          "move": "tell",
+          "key": "honor"
+        },
+        "restoredFrom": "bank:meeting.opener.i-rise-to-speak-briefly-in-gratitude-today",
+        "restoredOn": "2026-11-08"
+      },
+      "grade": {
+        "by": "owner (docket Grade tab, batch 1, Oct 8, 2026)",
+        "line": "Mr. Chair, I rise to speak briefly in gratitude today.",
+        "note": "Graded good: \"I guess this is fine, but this is missing context\". (batch 1 item 2) The old {chair} slot is the chair as the floor-debate scene already says it: \"Chair\".",
+        "batch": "batch-1"
+      }
+    },
+    {
+      "oldKey": "bank:meeting.procedural.reserving-the-right-to-object",
+      "bank": "scene-talk",
+      "how": "new-key",
+      "piece": {
+        "key": "scene-talk.reply-deflect.chair-reserving-the-right-to-object",
+        "move": "reply-deflect",
+        "kind": "spoken",
+        "text": "Chair, reserving the right to object.",
+        "uses": [
+          {
+            "subject": "scene",
+            "step": "reply",
+            "move": "deflect",
+            "role": "asked",
+            "purpose": "floor-debate",
+            "key": "honor"
+          }
+        ],
+        "source": {
+          "document": "Congressional Record",
+          "date": "2025-11-19",
+          "granule": "CREC-2025-11-19-pt1-PgS8226",
+          "url": "https://www.govinfo.gov/app/details/CREC-2025-11-19/CREC-2025-11-19-pt1-PgS8226"
+        },
+        "tag": {
+          "move": "deflect",
+          "key": "honor"
+        },
+        "restoredFrom": "bank:meeting.procedural.reserving-the-right-to-object",
+        "restoredOn": "2026-11-08"
+      },
+      "grade": {
+        "by": "owner (docket Grade tab, batch 1, Oct 8, 2026)",
+        "line": "Mr. Chair, reserving the right to object.",
+        "note": "Graded good with no note. (batch 1 item 8) Moved to floor-debate as the member's non-committal reply; the old {chair} slot reads \"Chair\" as the scene does.",
+        "batch": "batch-1"
+      }
+    },
+    {
+      "oldKey": "address.chair-run-meeting.the-motion-carries",
+      "bank": "address",
+      "how": "bank-piece",
+      "piece": {
+        "key": "address.chair-run-meeting.the-motion-carries",
+        "move": "chair-run-meeting",
+        "kind": "spoken",
+        "text": "The motion carries.",
+        "uses": [
+          {
+            "move": "chair-run-meeting",
+            "subject": "chair",
+            "role": "run-meeting",
+            "choice": "run-meeting"
+          }
+        ],
+        "transcriptsUsing": 5,
+        "bySource": {
+          "hearings": 5
+        },
+        "source": {
+          "document": "DEPARTMENT OF DEFENSE AUTHORIZATION REQUEST FOR APPROPRIATIONS FOR FISCAL YEAR 2024 AND THE FUTURE YEARS DEFENSE PROGRAM",
+          "date": "2023-05-02",
+          "granule": "CHRG-118shrg60101",
+          "url": "https://www.govinfo.gov/content/pkg/CHRG-118shrg60101/html/CHRG-118shrg60101.htm",
+          "license": "U.S. government work, public domain (17 U.S.C. 105)"
+        },
+        "tag": {
+          "move": "announce-result",
+          "key": "routine"
+        },
+        "restoredOn": "2026-11-08"
+      },
+      "grade": {
+        "by": "owner (spoken, Oct 14, 2026, evening)",
+        "line": "The motion carries.",
+        "note": "Good. (batch 9 item 46)",
+        "batch": "batch-9"
+      }
+    },
+    {
+      "oldKey": "bank:hearing.answer.yes-thank-you",
+      "bank": "hearing",
+      "how": "bank-piece",
+      "piece": {
+        "key": "hearing.answer.yes-thank-you",
+        "move": "answer",
+        "kind": "spoken",
+        "text": "Yes, thank you.",
+        "hearingsUsing": 4,
+        "source": {
+          "document": "Congressional hearing transcript",
+          "date": "2025-02-26",
+          "granule": "CHRG-119hhrg58904",
+          "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg58904"
+        },
+        "tag": {
+          "move": "answer"
+        },
+        "restoredOn": "2026-11-08",
+        "restoredFrom": "bank:hearing.answer.yes-thank-you"
+      },
+      "grade": {
+        "by": "owner (docket Grade tab, batch 1, Oct 8, 2026)",
+        "line": "Yes, thank you.",
+        "note": "Graded good with no note. (batch 1 item 15)",
+        "batch": "batch-1"
+      }
+    },
+    {
+      "oldKey": "bank:hearing.thanks.thank-you-chairman",
+      "bank": "hearing",
+      "how": "bank-piece",
+      "piece": {
+        "key": "hearing.thanks.thank-you-chairman",
+        "move": "thanks",
+        "kind": "spoken",
+        "text": "Thank you, Chairman.",
+        "hearingsUsing": 13,
+        "source": {
+          "document": "Congressional hearing transcript",
+          "date": "2025-02-26",
+          "granule": "CHRG-119hhrg58904",
+          "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg58904"
+        },
+        "tag": {
+          "move": "thank"
+        },
+        "restoredOn": "2026-11-08",
+        "restoredFrom": "bank:hearing.thanks.thank-you-chairman"
+      },
+      "grade": {
+        "by": "owner (docket Grade tab, batch 1, Oct 8, 2026)",
+        "line": "Thank you, Chairman.",
+        "note": "Graded good with no note. (batch 1 item 65)",
+        "batch": "batch-1"
+      }
+    },
+    {
+      "oldKey": "bank:hearing.thanks.thank-you-mr-chairman",
+      "bank": "hearing",
+      "how": "bank-piece",
+      "piece": {
+        "key": "hearing.thanks.thank-you-mr-chairman",
+        "move": "thanks",
+        "kind": "spoken",
+        "text": "Thank you, Mr. Chairman.",
+        "hearingsUsing": 28,
+        "source": {
+          "document": "Congressional hearing transcript",
+          "date": "2025-02-26",
+          "granule": "CHRG-119hhrg58904",
+          "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg58904"
+        },
+        "tag": {
+          "move": "thank"
+        },
+        "restoredOn": "2026-11-08",
+        "restoredFrom": "bank:hearing.thanks.thank-you-mr-chairman"
+      },
+      "grade": {
+        "by": "owner (docket Grade tab, batch 1, Oct 8, 2026)",
+        "line": "Thank you, Mr. Chairman.",
+        "note": "Graded good with no note. (batch 1 item 4)",
+        "batch": "batch-1"
+      }
+    },
+    {
+      "oldKey": "legislation.clause.provision-is-repealed",
+      "bank": "legislation",
+      "how": "bank-piece",
+      "piece": {
+        "key": "legislation.clause.provision-is-repealed",
+        "move": "clause",
+        "kind": "written",
+        "text": "{provision} is repealed.",
+        "billsUsing": 2,
+        "source": {
+          "document": "Congressional bill text",
+          "date": "2025-05-19",
+          "granule": "BILLS-119hr3485ih",
+          "url": "https://www.govinfo.gov/app/details/BILLS-119hr3485ih"
+        },
+        "tag": {
+          "move": "provision",
+          "key": "routine"
+        },
+        "restoredOn": "2026-11-08"
+      },
+      "grade": {
+        "by": "owner (spoken, Oct 14, 2026, evening)",
+        "line": "\"Civilian oversight of police\" is repealed.",
+        "note": "Fine, if that is how they normally open. (batch 9 item 22; batch 7 items 17, 20, 23 too)",
+        "batch": "batch-9"
+      }
+    },
+    {
+      "oldKey": "legislation.long-title.to-provide-for-purpose-and-for-other-purposes",
+      "bank": "legislation",
+      "how": "bank-piece",
+      "piece": {
+        "key": "legislation.long-title.to-provide-for-purpose-and-for-other-purposes",
+        "move": "long-title",
+        "kind": "written",
+        "text": "To provide for {purpose}, and for other purposes.",
+        "billsUsing": 2,
+        "source": {
+          "document": "Congressional bill text",
+          "date": "2025-02-05",
+          "granule": "BILLS-119hr1036ih",
+          "url": "https://www.govinfo.gov/app/details/BILLS-119hr1036ih"
+        },
+        "tag": {
+          "move": "title",
+          "key": "routine"
+        },
+        "restoredOn": "2026-11-08"
+      },
+      "grade": {
+        "by": "owner (spoken, Oct 14, 2026, evening)",
+        "line": "To provide for civilian oversight of police, and for other purposes.",
+        "note": "Fine. (batch 9 items 21, 25)",
+        "batch": "batch-9"
+      }
+    },
+    {
+      "oldKey": "legislation.short-title.this-act-may-be-cited-as-the-act",
+      "bank": "legislation",
+      "how": "bank-piece",
+      "piece": {
+        "key": "legislation.short-title.this-act-may-be-cited-as-the-act",
+        "move": "short-title",
+        "kind": "written",
+        "text": "This Act may be cited as the {act}.",
+        "billsUsing": 104,
+        "source": {
+          "document": "Congressional bill text",
+          "date": "2025-02-05",
+          "granule": "BILLS-119hr1011ih",
+          "url": "https://www.govinfo.gov/app/details/BILLS-119hr1011ih"
+        },
+        "tag": {
+          "move": "title",
+          "key": "routine"
+        },
+        "restoredOn": "2026-11-08"
+      },
+      "grade": {
+        "by": "owner (spoken, Oct 14, 2026)",
+        "line": "This Act may be cited as the \"Right to counsel in eviction\".",
+        "note": "Right to counsel in eviction: yes. (batch 7 item 16; batch 9 items 23, 26)",
+        "batch": "batch-7"
+      }
+    },
+    {
+      "oldKey": "legislation.short-title.this-title-may-be-cited-as-the",
+      "bank": "legislation",
+      "how": "bank-piece",
+      "piece": {
+        "key": "legislation.short-title.this-title-may-be-cited-as-the",
+        "move": "short-title",
+        "kind": "written",
+        "text": "This title may be cited as the {act}.",
+        "billsUsing": 2,
+        "source": {
+          "document": "Congressional bill text",
+          "date": "2025-03-27",
+          "granule": "BILLS-119hr2444ih",
+          "url": "https://www.govinfo.gov/app/details/BILLS-119hr2444ih"
+        },
+        "tag": {
+          "move": "title",
+          "key": "routine"
+        },
+        "restoredOn": "2026-11-08"
+      },
+      "grade": {
+        "by": "owner (spoken, Oct 14, 2026, evening)",
+        "line": "This title may be cited as the \"Protect farmland from development\".",
+        "note": "Good. (batch 9 item 24; batch 7 item 15)",
+        "batch": "batch-9"
+      }
+    },
+    {
+      "oldKey": "minutes.discussion.participants-discussed-topic",
+      "bank": "minutes",
+      "how": "bank-piece",
+      "piece": {
+        "key": "minutes.discussion.participants-discussed-topic",
+        "move": "discussion",
+        "kind": "written",
+        "text": "Participants discussed {topic}.",
+        "minutesUsing": 24,
+        "source": {
+          "document": "Minutes of the Federal Open Market Committee",
+          "date": "2025-12-10",
+          "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20251210.htm"
+        },
+        "tag": {
+          "move": "record",
+          "key": "routine"
+        },
+        "restoredOn": "2026-11-08"
+      },
+      "grade": {
+        "by": "owner (spoken, Oct 14, 2026, evening)",
+        "line": "Participants discussed \"Protect farmland from development\".",
+        "note": "Good. (batch 9 item 35)",
+        "batch": "batch-9"
+      }
+    },
+    {
+      "oldKey": "minutes.discussion.the-manager-turned-next-to-topic",
+      "bank": "minutes",
+      "how": "bank-piece",
+      "piece": {
+        "key": "minutes.discussion.the-manager-turned-next-to-topic",
+        "move": "discussion",
+        "kind": "written",
+        "text": "The manager turned next to {topic}.",
+        "minutesUsing": 22,
+        "source": {
+          "document": "Minutes of the Federal Open Market Committee",
+          "date": "2026-04-29",
+          "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260429.htm"
+        },
+        "tag": {
+          "move": "record",
+          "key": "routine"
+        },
+        "restoredOn": "2026-11-08"
+      },
+      "grade": {
+        "by": "owner (spoken, Oct 14, 2026)",
+        "line": "The manager turned next to partner with federal immigration enforcement.",
+        "note": "Minutes are fine; see 31 and 32 for the verb. (batch 7 item 33)",
+        "batch": "batch-7"
+      }
+    },
+    {
+      "oldKey": "minutes.discussion.the-staff-provided-an-update-on-topic",
+      "bank": "minutes",
+      "how": "bank-piece",
+      "piece": {
+        "key": "minutes.discussion.the-staff-provided-an-update-on-topic",
+        "move": "discussion",
+        "kind": "written",
+        "text": "The staff provided an update on {topic}.",
+        "minutesUsing": 17,
+        "source": {
+          "document": "Minutes of the Federal Open Market Committee",
+          "date": "2025-01-29",
+          "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20250129.htm"
+        },
+        "tag": {
+          "move": "record",
+          "key": "routine"
+        },
+        "restoredOn": "2026-11-08"
+      },
+      "grade": {
+        "by": "owner (spoken, Oct 14, 2026)",
+        "line": "The staff provided an update on restrict government facial recognition.",
+        "note": "Minutes are fine as minutes. (batch 7 item 30)",
+        "batch": "batch-7"
+      }
+    },
+    {
+      "oldKey": "minutes.vote.voting-against-this-action-members",
+      "bank": "minutes",
+      "how": "bank-piece",
+      "piece": {
+        "key": "minutes.vote.voting-against-this-action-members",
+        "move": "vote",
+        "kind": "written",
+        "text": "Voting against this action: {members}.",
+        "minutesUsing": 41,
+        "source": {
+          "document": "Minutes of the Federal Open Market Committee",
+          "date": "2026-07-29",
+          "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+        },
+        "tag": {
+          "move": "announce-result",
+          "key": "routine"
+        },
+        "restoredOn": "2026-11-08"
+      },
+      "grade": {
+        "by": "owner (spoken, Oct 14, 2026, evening)",
+        "line": "Voting against this action: Quinn Noel, Michael Gordon, Jennifer Montoya, Paul Romero, James McCarthy and Thomas McCarthy.",
+        "note": "Good. (batch 9 item 36)",
+        "batch": "batch-9"
+      }
+    },
+    {
+      "oldKey": "notice.election.notice-of-election",
+      "bank": "notice",
+      "how": "bank-piece",
+      "piece": {
+        "key": "notice.election.notice-of-election",
+        "move": "election",
+        "kind": "written",
+        "text": "NOTICE OF ELECTION\nNOTICE IS HEREBY GIVEN that an election will be held in {place} on {date} for the following Officers: {office}.",
+        "source": {
+          "document": "Notice of Election, General Municipal Election",
+          "url": "https://www.sandiego.gov/sites/default/files/2026-07/1-2026-07-notice-of-election-general-eng.pdf",
+          "date": "2026-07-01"
+        },
+        "tag": {
+          "move": "notice",
+          "key": "routine"
+        },
+        "restoredOn": "2026-11-08"
+      },
+      "grade": {
+        "by": "owner (spoken, Oct 14, 2026)",
+        "line": "NOTICE OF ELECTION. NOTICE IS HEREBY GIVEN that an election will be held in Runnemede on November 6, 2029 for the following Officers: Governor, Lieutenant Governor, Council member, Commissioner, Sheriff, County clerk, County treasurer and County assessor.",
+        "note": "An election notice like this belongs in the newspaper, as a real town's does. (batch 7 item 28; batch 9 item 33)",
+        "batch": "batch-7"
+      }
     }
-  ]
+  ],
+  "banks": {
+    "address": {
+      "description": "Public address lines the owner graded good that no scene reads yet: the chair's word after a vote. Restored Nov 8, 2026 from the address bank deleted in c67d0365. Registered stopgap SG-WORDS-address-no-reader.",
+      "slots": {},
+      "maxWords": 22
+    },
+    "hearing": {
+      "description": "Hearing-room lines the owner graded good that no scene reads yet: a witness's yes, and thanks to a chair by title. Restored Nov 8, 2026 from the hearing bank deleted in 881e7c4f. Registered stopgap SG-WORDS-hearing-no-reader.",
+      "slots": {},
+      "maxWords": 12
+    },
+    "legislation": {
+      "description": "Bill title and clause wording the owner graded good that no bill text reads yet. Restored Nov 8, 2026 from the legislation bank deleted in c704062e. Registered stopgap SG-WORDS-legislation-no-reader.",
+      "slots": {
+        "act": "The full short title of an act, in quotation marks.",
+        "purpose": "What the bill does, in a verb phrase.",
+        "provision": "The section of law being changed, such as section 12 of an act."
+      },
+      "maxWords": 20
+    },
+    "minutes": {
+      "description": "Meeting-minutes wording the owner graded good that no engine reads yet. Restored Nov 8, 2026 from the minutes bank deleted in 3d6576e9. Registered stopgap SG-WORDS-minutes-no-reader.",
+      "slots": {
+        "topic": "An agenda topic.",
+        "members": "The members who voted that way, by name."
+      },
+      "maxWords": 16
+    },
+    "notice": {
+      "description": "Public-notice wording the owner graded good that no engine prints yet. Restored Nov 8, 2026 from the notice bank deleted in 3d6576e9. Registered stopgap SG-WORDS-notice-no-reader.",
+      "slots": {
+        "date": "The date recorded for the hearing or election.",
+        "place": "The jurisdiction recorded for the election.",
+        "office": "The election contest's recorded office title."
+      },
+      "maxWords": 35
+    }
+  }
 }

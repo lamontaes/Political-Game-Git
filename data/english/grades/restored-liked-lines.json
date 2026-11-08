@@ -64,6 +64,98 @@
       "note": "Graded good in batch 2 item 1, a greeting offered after \"Hi, José. How are you?\" (his words: \"can say good to see you or hi Jose, how are you?\"). The conversation bank already has this exact line as a greeting.",
       "parts": ["conversation.greet-open-hello.good-to-see-you"],
       "restoredFrom": "bank:talk-choice.greet.good-to-see-you"
+    },
+    {
+      "i": 7,
+      "grade": "good",
+      "by": "owner (spoken, Oct 14, 2026, evening); restored Nov 8, 2026 (batch-9)",
+      "line": "We didn't win.",
+      "note": "Liked; that is a speech part. (batch 9 item 70) Moved to the loss-night talk at home (family-loss), where the player says it after the count.",
+      "parts": ["scene-talk.reply-tell.we-didnt-win"],
+      "restoredFrom": "address.concession-concede.we-didnt-win"
+    },
+    {
+      "i": 8,
+      "grade": "good",
+      "by": "owner (spoken, Oct 14, 2026, evening); restored Nov 8, 2026 (batch-9)",
+      "line": "This is not the end.",
+      "note": "Good. (batch 9 item 74) Moved to the loss-night talk at home (family-loss).",
+      "parts": ["scene-talk.reply-promise.this-is-not-the-end"],
+      "restoredFrom": "address.concession-concede.this-is-not-the-end"
+    },
+    {
+      "i": 9,
+      "grade": "good",
+      "by": "owner (spoken, Oct 14, 2026, evening); restored Nov 8, 2026 (batch-9)",
+      "line": "We will be back.",
+      "note": "Good. (batch 9 item 75) Moved to the loss-night talk at home (family-loss).",
+      "parts": ["scene-talk.reply-promise.we-will-be-back"],
+      "restoredFrom": "address.concession-concede.we-will-be-back"
+    },
+    {
+      "i": 10,
+      "grade": "good",
+      "by": "owner (spoken, Oct 14, 2026, evening); restored Nov 8, 2026 (batch-9)",
+      "line": "Thank you for everything.",
+      "note": "Good. (batch 9 item 76) Moved to the loss-night talk at home (family-loss).",
+      "parts": ["scene-talk.reply-thank.thank-you-for-everything"],
+      "restoredFrom": "address.concession-concede.thank-you-for-everything"
+    },
+    {
+      "i": 11,
+      "grade": "good",
+      "by": "owner (spoken, Oct 14, 2026, evening); restored Nov 8, 2026 (batch-9)",
+      "line": "I'm honored.",
+      "note": "Fine. (batch 9 item 81) Moved to the victory-night talk, an answer to what the winner will say first.",
+      "parts": ["scene-talk.reply-answer.im-honored"],
+      "restoredFrom": "address.victory-claim.im-honored"
+    },
+    {
+      "i": 12,
+      "grade": "good",
+      "by": "owner (docket Grade tab, batch 1, Oct 8, 2026); restored Nov 8, 2026 (batch-1)",
+      "line": "Mr. Chair, I rise to speak briefly in gratitude today.",
+      "note": "Graded good: \"I guess this is fine, but this is missing context\". (batch 1 item 2) The old {chair} slot is the chair as the floor-debate scene already says it: \"Chair\".",
+      "parts": [
+        "scene-talk.state-tell.chair-i-rise-to-speak-briefly-in-gratitude-today"
+      ],
+      "restoredFrom": "bank:meeting.opener.i-rise-to-speak-briefly-in-gratitude-today"
+    },
+    {
+      "i": 13,
+      "grade": "good",
+      "by": "owner (docket Grade tab, batch 1, Oct 8, 2026); restored Nov 8, 2026 (batch-1)",
+      "line": "Mr. Chair, reserving the right to object.",
+      "note": "Graded good with no note. (batch 1 item 8) Moved to floor-debate as the member's non-committal reply; the old {chair} slot reads \"Chair\" as the scene does.",
+      "parts": ["scene-talk.reply-deflect.chair-reserving-the-right-to-object"],
+      "restoredFrom": "bank:meeting.procedural.reserving-the-right-to-object"
+    },
+    {
+      "i": 14,
+      "grade": "good",
+      "by": "owner (docket Grade tab, batch 1, Oct 8, 2026); restored Nov 8, 2026 (batch-1)",
+      "line": "Yes, thank you.",
+      "note": "Graded good with no note. (batch 1 item 15)",
+      "parts": ["hearing.answer.yes-thank-you"],
+      "restoredFrom": "bank:hearing.answer.yes-thank-you"
+    },
+    {
+      "i": 15,
+      "grade": "good",
+      "by": "owner (docket Grade tab, batch 1, Oct 8, 2026); restored Nov 8, 2026 (batch-1)",
+      "line": "Thank you, Chairman.",
+      "note": "Graded good with no note. (batch 1 item 65)",
+      "parts": ["hearing.thanks.thank-you-chairman"],
+      "restoredFrom": "bank:hearing.thanks.thank-you-chairman"
+    },
+    {
+      "i": 16,
+      "grade": "good",
+      "by": "owner (docket Grade tab, batch 1, Oct 8, 2026); restored Nov 8, 2026 (batch-1)",
+      "line": "Thank you, Mr. Chairman.",
+      "note": "Graded good with no note. (batch 1 item 4)",
+      "parts": ["hearing.thanks.thank-you-mr-chairman"],
+      "restoredFrom": "bank:hearing.thanks.thank-you-mr-chairman"
     }
   ]
 }

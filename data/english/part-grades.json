@@ -309,6 +309,14 @@
       "sharedBad": 1,
       "sharedFix": 0
     },
+    "hearing.answer.yes-thank-you": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
     "hearing.chair-procedure.all-right": {
       "good": 1,
       "bad": 0,
@@ -318,6 +326,22 @@
       "sharedFix": 0
     },
     "hearing.thanks.thank-you-chair": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "hearing.thanks.thank-you-chairman": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "hearing.thanks.thank-you-mr-chairman": {
       "good": 1,
       "bad": 0,
       "fix": 0,
@@ -1101,6 +1125,14 @@
       "sharedBad": 0,
       "sharedFix": 0
     },
+    "scene-talk.reply-answer.im-honored": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
     "scene-talk.reply-answer.read-the-bill-before-you-judge-it": {
       "good": 1,
       "bad": 0,
@@ -1213,6 +1245,14 @@
       "sharedBad": 0,
       "sharedFix": 0
     },
+    "scene-talk.reply-deflect.chair-reserving-the-right-to-object": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
     "scene-talk.reply-deflect.i-ll-have-something-to-say-after-the-vote": {
       "good": 1,
       "bad": 0,
@@ -1246,6 +1286,22 @@
       "sharedFix": 0
     },
     "scene-talk.reply-lie.then-source-has-it-wrong": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "scene-talk.reply-promise.this-is-not-the-end": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "scene-talk.reply-promise.we-will-be-back": {
       "good": 1,
       "bad": 0,
       "fix": 0,
@@ -1293,6 +1349,14 @@
       "sharedBad": 0,
       "sharedFix": 0
     },
+    "scene-talk.reply-tell.we-didnt-win": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
     "scene-talk.reply-thank.i-couldn-t-have-done-it-without-you": {
       "good": 1,
       "bad": 0,
@@ -1310,6 +1374,14 @@
       "sharedFix": 0
     },
     "scene-talk.reply-thank.thank-you-chair": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "scene-talk.reply-thank.thank-you-for-everything": {
       "good": 1,
       "bad": 0,
       "fix": 0,
@@ -1342,6 +1414,14 @@
       "sharedFix": 0
     },
     "scene-talk.state-congratulate.office-you-really-did-it": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "scene-talk.state-tell.chair-i-rise-to-speak-briefly-in-gratitude-today": {
       "good": 1,
       "bad": 0,
       "fix": 0,

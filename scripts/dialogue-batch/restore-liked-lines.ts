@@ -24,8 +24,8 @@
  * grade file already written are left as they are. A development tool; it
  * never words anything.
  */
-import { readFileSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import { basename, join } from "node:path";
 import * as prettier from "prettier";
 
 export const RESTORED_FILE = "scripts/dialogue-batch/restored-liked-lines.json";
@@ -48,20 +48,29 @@ export interface RestoredRow {
    * key cannot stand in the live bank, so the piece is added under a valid
    * one. add-use: the live bank already has the words; the target gets a use.
    * alias: the live bank already has the words for this job; the grade moves.
+   * bank-piece: no scene reads the line yet; it goes into a bank of its own
+   * kind (made here from `banks` when the file is gone), under a stopgap.
    */
-  readonly how: "same-key" | "new-key" | "add-use" | "alias";
+  readonly how: "same-key" | "new-key" | "add-use" | "alias" | "bank-piece";
   readonly piece?: Record<string, unknown>;
   readonly target?: string;
   readonly use?: Record<string, unknown>;
   readonly grade: Grade;
 }
 
-export const readRestored = (): readonly RestoredRow[] =>
-  (
-    JSON.parse(readFileSync(RESTORED_FILE, "utf8")) as {
-      rows: RestoredRow[];
-    }
-  ).rows;
+interface BankHeader {
+  readonly description: string;
+  readonly slots: Record<string, string>;
+  readonly maxWords: number;
+}
+
+const restoredFile = () =>
+  JSON.parse(readFileSync(RESTORED_FILE, "utf8")) as {
+    rows: RestoredRow[];
+    banks: Record<string, BankHeader>;
+  };
+
+export const readRestored = (): readonly RestoredRow[] => restoredFile().rows;
 
 /** The key a restored line's grade lives under today. */
 export const liveKey = (row: RestoredRow): string =>
@@ -83,6 +92,24 @@ async function addPiece(
   file: string,
   piece: Record<string, unknown>,
 ): Promise<boolean> {
+  if (!existsSync(file)) {
+    const register = basename(file, ".json");
+    const header = restoredFile().banks[register];
+    if (!header) throw new Error(`${file}: no bank and no header for it`);
+    writeFileSync(
+      file,
+      await prettier.format(
+        JSON.stringify({
+          schema: "english-parts/1",
+          register,
+          ...header,
+          parts: [piece],
+        }),
+        { parser: "json" },
+      ),
+    );
+    return true;
+  }
   const text = readFileSync(file, "utf8");
   if (text.includes(`"key": "${piece.key as string}"`)) return false;
   const close = text.lastIndexOf("\n  ]\n}");
@@ -124,7 +151,7 @@ async function main() {
   // A same-key piece is graded under its own key already; every other row
   // carries the grade to the live key.
   const grades = rows
-    .filter((row) => row.how !== "same-key")
+    .filter((row) => liveKey(row) !== row.oldKey)
     .map((row, i) => ({
       i,
       grade: "good",
