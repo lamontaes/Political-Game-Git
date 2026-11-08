@@ -72,6 +72,12 @@ import { countedEngagement, viewOf } from "./views";
 import { DEFAULT_DRIVES_DATA } from "./drives";
 import { residentFacts } from "./residents";
 import { countedResidents, type CountedVoter } from "../electorate";
+import {
+  nationalEconomyChange,
+  presidentSide,
+  tideAgainstPresident,
+} from "../electorate-inputs";
+import { partySide } from "../appointments";
 import { revolvingDoorFor } from "../law-reach/group-a-voting";
 import { fillInPerson } from "../state";
 import { campaignParameter } from "../campaign-views";
@@ -241,7 +247,44 @@ export function candidacyReasons(
       ? -c(api, "candidacyOfficeOpportunityWeight") *
         Math.max(one, currentRank - FAMILY_RANK[race.family] + one)
       : zero;
+  // The national tide: where the president's party is expected to lose, its
+  // people are less drawn to run for a partisan seat and the other side's
+  // more (the one figure the count reads, `tideAgainstPresident`).
+  const side = partySide(partyOf(api, person.id));
+  const president = presidentSide(api);
+  reasons.wave =
+    race && side && president && seatParty(api, race)
+      ? c(api, "candidacyWaveWeight") *
+        waveAgainstPresident(api, race) *
+        (side === president ? -one : one)
+      : zero;
   return withPoolReasons(api, reasons, pool);
+}
+
+const waves = new WeakMap<object, Map<string, number>>();
+/** The share the president's party is expected to lose in a contest's cycle, kept for the day. */
+function waveAgainstPresident(api: CoreAPI, race: ContestRow): number {
+  const key = `${api.state.date}|${race.electionDate}|${race.level}`;
+  const held = waves.get(api.state) ?? new Map<string, number>();
+  waves.set(api.state, held);
+  const hit = held.get(key);
+  if (hit !== undefined) return hit;
+  const year = Number(race.electionDate.slice(0, 4));
+  const cycle =
+    race.electionDate.slice(5, 7) !== "11" || year % 2
+      ? "off-cycle"
+      : year % 4
+        ? "midterm"
+        : "presidential";
+  const tide = tideAgainstPresident(
+    nationalEconomyChange(api),
+    race.level === "federal",
+    cycle,
+  );
+  const value = tide.economy + tide.midterm;
+  if (held.size > 64) held.clear();
+  held.set(key, value);
+  return value;
 }
 
 /**
