@@ -238,11 +238,16 @@ function readerCare(
  * How far a law on an amount (a wage floor, a tax rate) moves what it sets,
  * 0 to 1: the change against the amount it replaced. A policy law is read
  * through its readers' stances instead; an amount law has none, so the size of
- * its move is the care it asks of its readers. A new amount, or one that
- * replaced nothing recorded, moves nothing it can be measured against.
+ * its move is the care it asks of its readers. A law that begins (a tax the
+ * town never had) or ends (one it repeals) moves everything it sets, so it is
+ * as much the paper's news as one that raised or cut an amount (Dev Tester,
+ * Nov 8: a city income tax took effect and was repealed in Prairie Village, KS,
+ * and no story ran, while fare-free transit did).
  */
 function amountMove(item: WireItem): number {
   if (item.kind !== "law-took-effect" || isPolicyTopic(item.topic)) return 0;
+  const change = item.facts?.change;
+  if (change === "new" || change === "ended") return 1;
   const was = Number(item.facts?.priorValue);
   const now = Number(item.facts?.inForceValue);
   if (!(Math.abs(was) > 0) || !Number.isFinite(now)) return 0;

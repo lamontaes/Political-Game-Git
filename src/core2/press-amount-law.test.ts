@@ -13,7 +13,7 @@ import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
-import { enactLaw, lawInForce } from "./modules/laws";
+import { enactLaw, lawChain, lawInForce } from "./modules/laws";
 import { outletsHere, storiesPrinted } from "./modules/press";
 import { placeLocalities } from "./places";
 import { coreAPI } from "./state";
@@ -106,6 +106,60 @@ describe(`an amount law in the paper (seed ${seed})`, () => {
         return;
       }
       throw new Error(`no drawn place could raise a wage: ${tried.join("; ")}`);
+    } finally {
+      setBookkeeping(true);
+    }
+  }, 1_500_000);
+
+  it("prints a town's new tax and its repeal, as it prints a wage that moved", () => {
+    setBookkeeping(false);
+    try {
+      const tried: string[] = [];
+      for (let draw = 0; draw < 10; draw += 1) {
+        const place = drawPlace(`${seed}:${draw}`, "press-new-amount-law");
+        const where = `${place.name} (${place.key}), seed ${place.seed}`;
+        const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+          twoLevel: true,
+          placeKey: place.key,
+        });
+        const api = coreAPI(core);
+        const town = lawChain(api).townPlaceId;
+        const hasReporter = outletsHere(api).some(
+          (o) => o.tier === "local" && o.reporterIds.length > 0,
+        );
+        if (!town || !hasReporter) {
+          tried.push(`${where}: no town or no reporter`);
+          continue;
+        }
+        for (const [value, measureId, effectiveDays] of [
+          [1, "TEST-CITY-TAX-NEW", 1],
+          [0, "TEST-CITY-TAX-REPEAL", 30],
+        ] as const)
+          enactLaw(api, {
+            jurisdiction: town,
+            level: "city",
+            series: "local-income-tax-authority",
+            value,
+            effectiveDate: addDays(makeIsoDate(core.date), effectiveDays),
+            measureId,
+            citation: "A city income tax for the press test",
+          });
+        advanceCore(core, addDays(makeIsoDate(core.date), 60));
+        const printed = outletsHere(api).flatMap((outlet) =>
+          storiesPrinted(api, outlet.id).filter(
+            (story) =>
+              story.kind === "law-took-effect" &&
+              story.topic === "local-income-tax-authority",
+          ),
+        );
+        for (const id of ["TEST-CITY-TAX-NEW", "TEST-CITY-TAX-REPEAL"])
+          expect(
+            printed.some((story) => story.wireId.includes(id)),
+            `${where}: no outlet printed ${id}`,
+          ).toBe(true);
+        return;
+      }
+      throw new Error(`no drawn place could print a tax: ${tried.join("; ")}`);
     } finally {
       setBookkeeping(true);
     }
