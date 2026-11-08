@@ -174,11 +174,6 @@ export function calendarScreen({ date, items: every, labels, onAdvance }) {
           columns: 1,
           rowHeight: 52,
           gap: 4,
-          words: {
-            page: labels.page,
-            previous: labels.previousPage,
-            next: labels.nextPage,
-          },
           className: "calendar-pager",
         }),
       ),

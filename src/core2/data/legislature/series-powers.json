@@ -50,6 +50,10 @@
       "levels": ["federal"],
       "source": "26 U.S.C. §§ 3301-3302"
     },
+    "executive-term-limit": {
+      "levels": ["state"],
+      "source": "State constitutions (a governor's limit on terms) and the amendments that change it"
+    },
     "state-unemployment-tax": {
       "levels": ["state"],
       "source": "State unemployment insurance law under 26 U.S.C. § 3304"
