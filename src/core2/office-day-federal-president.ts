@@ -108,6 +108,8 @@ export interface CabinetRow {
     | "rejected"
     /** Left open by the president for now: the department runs under an acting head (SG-OFFICE-FED-acting-head). */
     | "acting";
+  /** The last day an acting head may serve (5 U.S.C. 3346(a)(1), 210 days): the post is open again after it. */
+  readonly actingUntil?: string;
   readonly nomineeId: string | null;
   readonly nominatedOn: string | null;
   /** The Senate sitting day its vote falls on. */
@@ -236,7 +238,7 @@ export function nominationsOpen(
         confirmingBody: null,
       }).reasons;
   return cabinetOf(api)
-    .filter(open)
+    .filter((row) => open(row, api.state.date))
     .map((row) => ({
       postId: row.postId,
       title:
@@ -258,12 +260,14 @@ export function leavePostOpen(
   const post = CABINET.posts.find((p) => p.id === postId);
   if (!post) throw new Error(`No cabinet post ${postId}`);
   const current = cabinetOf(api).find((c) => c.postId === postId)!;
-  if (!open(current)) throw new Error(`${postId} is ${current.status}`);
+  if (!open(current, api.state.date))
+    throw new Error(`${postId} is ${current.status}`);
   // stopgapId: SG-OFFICE-FED-acting-head
   api.stopgap("SG-OFFICE-FED-acting-head");
   cabinetTable(api).put({
     ...current,
     status: "acting",
+    actingUntil: addDays(api.state.date, federalParameter("actingServiceDays")),
     date: api.state.date,
   } satisfies CabinetRow as unknown as ModuleRow);
   officeHost.keep(api, {
@@ -274,7 +278,8 @@ export function leavePostOpen(
     position: null,
     detail: `${post.title} left open`,
   });
-  if (!cabinetOf(api).some(open)) releaseFederal(api, NOMINATIONS);
+  if (!cabinetOf(api).some((c) => open(c, api.state.date)))
+    releaseFederal(api, NOMINATIONS);
 }
 
 /**
@@ -343,13 +348,17 @@ export function nominate(
     position: ranked.reasons[0]?.alignment ?? null,
     detail: `${chosen} (vote ${voteOn}, of ${ranked.reasons.length})`,
   });
-  if (!cabinetOf(api).some(open)) releaseFederal(api, NOMINATIONS);
+  if (!cabinetOf(api).some((c) => open(c, api.state.date)))
+    releaseFederal(api, NOMINATIONS);
   return chosen;
 }
 
 export const NOMINATIONS = "federal-nominations";
-const open = (c: CabinetRow) =>
-  c.status === "vacant" || c.status === "rejected";
+const open = (c: CabinetRow, today: string) =>
+  c.status === "vacant" ||
+  c.status === "rejected" ||
+  // An acting head's service ends 210 days after the vacancy: the post is the president's to fill again.
+  (c.status === "acting" && (c.actingUntil ?? "") <= today);
 
 /** Everyone now nominated or serving in the cabinet. */
 const nominated = (api: CoreAPI) =>
@@ -701,7 +710,7 @@ addFederalDayPart((api, personId) => {
   const stops = stopsOf(api, personId);
   if (isWeekday(date) && !federalHoliday(date))
     dailyBrief(api, personId, "own-choice");
-  if (cabinetOf(api).some(open)) {
+  if (cabinetOf(api).some((c) => open(c, api.state.date))) {
     if (stops.nomination)
       holdFederal(
         api,
@@ -711,7 +720,7 @@ addFederalDayPart((api, personId) => {
       );
     else
       for (const post of cabinetOf(api))
-        if (open(post)) {
+        if (open(post, api.state.date)) {
           // No one to nominate: the post stays open under an acting head.
           if (nominationCandidates(api, personId).length)
             nominate(api, personId, post.postId);

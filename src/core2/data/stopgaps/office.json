@@ -199,11 +199,11 @@
     "kind": "missing-engine",
     "file": "src/core2/office-day-federal-president.ts",
     "line": 0,
-    "whatItFakes": "A cabinet post the president leaves open (or cannot fill) is marked acting; no acting official is named and the department's work is not handed to a deputy.",
-    "why": "The game keeps no deputy or line-of-succession record for a department, so there is no one to name as acting head.",
+    "whatItFakes": "A cabinet post the president leaves open (or cannot fill) is marked acting for 210 days (5 U.S.C. 3346(a)(1), sourced); no acting official is named and the department's work is not handed to anyone.",
+    "why": "The game keeps no first-assistant or deputy record for a department, so there is no one to name as acting head under 5 U.S.C. 3345(a)(1).",
     "addedBy": "Legislation",
     "addedAt": "2026-11-08",
-    "replacement": "Name the department's deputy or next in line as acting head from a succession record, and pay and credit them as the acting official.",
+    "replacement": "Name the department's first assistant as acting head (5 U.S.C. 3345(a)(1)), or a Senate-confirmed officer or qualified senior employee the president directs (3345(a)(2)-(3)), pay and credit them as the acting official, and extend service while a nomination is pending (3346(a)(2)).",
     "status": "open"
   }
 ]

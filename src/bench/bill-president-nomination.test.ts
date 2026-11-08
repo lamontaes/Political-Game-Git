@@ -7,6 +7,7 @@ import { cabinetOf, NOMINATIONS } from "../core2/office-day-federal-president";
 import { OFFICES_MODULE_ID, type TermRow } from "../core2/modules/offices";
 import { coreAPI } from "../core2/state";
 import { nominationDecide, nominationsView } from "./office";
+import { addDays } from "../core2/office-day-federal-calendar";
 import { leavePostOpen } from "../core2/office-day-federal-president";
 import { BenchPlayer } from "./player";
 import { buildBenchWorld } from "./world";
@@ -101,6 +102,13 @@ describe(`the president names a cabinet secretary (seed ${seed})`, () => {
             where,
           ).toBe(true);
           expect(nominationsView(core), where).toEqual([]);
+          // An acting head serves 210 days (5 U.S.C. 3346(a)(1)); the post is the president's to fill again after.
+          expect(
+            cabinetOf(api).every(
+              (c) => c.actingUntil === addDays(core.date, 210),
+            ),
+            where,
+          ).toBe(true);
           console.log(
             `left open: ${where}, ${posts.length} posts left open, hold cleared on ${core.date}`,
           );
