@@ -1246,9 +1246,6 @@ function openSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
  * its counts. The roll call is built when someone asks for it
  * (`rollCallOf`). stopgapId: SG-GOV-outside-session-result-only
  */
-/** What an outside session's calendar entry carries for the governor when no one holds the office. */
-const NO_GOVERNOR = "no-governor";
-
 function openOutsideSession(
   api: CoreAPI,
   work: Readonly<ModuleCalendarWork>,
@@ -1272,6 +1269,10 @@ function openOutsideSession(
   const lower = bodies[0];
   const governor = lower ? executiveOf(api, lower.id).term : undefined;
   const governorKey = governor ? memberKey(governor) : "";
+  if (!governorKey)
+    process.stderr.write(
+      `NOGOV jurisdiction ${jurisdiction} date ${today} lower ${lower?.id ?? "none"}\n`,
+    );
   const keys = bodies.map((b) => b.members.map(memberKey));
   interface Result {
     readonly question: string;
@@ -1350,10 +1351,10 @@ function openOutsideSession(
         r.counts.map((c) => `${c.yes}-${c.no}`).join("/"),
         bodies.map((b) => b.id).join(","),
         r.decision,
-        // A calendar record id is never empty: a state with no governor seated says so.
-        governorKey || NO_GOVERNOR,
         String(i + 1),
         String(r.margin),
+        // The governor's key is the last record, left out when no one holds the office.
+        ...(governorKey ? [governorKey] : []),
       ],
     });
   });
@@ -1390,9 +1391,9 @@ function outsideEnact(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     counts,
     bodyIds,
     decision,
-    governorKey,
     nth,
     margin,
+    governorKey,
   ] = work.sourceRecordIds as [
     string,
     string,
@@ -1403,7 +1404,7 @@ function outsideEnact(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     string,
     string,
     string,
-    string,
+    string | undefined,
   ];
   const direction = Number(directionText);
   // The law may have changed since the session opened: then nothing passes.
@@ -1430,9 +1431,7 @@ function outsideEnact(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       bodies: bodyIds,
       direction,
       margin: Number(margin),
-      ...(governorKey && governorKey !== NO_GOVERNOR
-        ? { decidedBy: governorKey }
-        : {}),
+      ...(governorKey ? { decidedBy: governorKey } : {}),
       decision,
     },
   });
