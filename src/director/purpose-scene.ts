@@ -576,6 +576,16 @@ function composeBinding(
         sourceRecordIds: [moment.causeId, ownId],
       };
   }
+  // A member's own vote (legislature.ts): the lines a group's lobbyist says
+  // about it need which side the member took.
+  if (
+    record?.kind === "office.voted" &&
+    (said.vote === "yes" || said.vote === "no")
+  )
+    facts[`voted-${said.vote}`] = {
+      text: said.number ?? "",
+      sourceRecordIds: [moment.causeId],
+    };
   // A reporter cast for a record that names no outlet speaks for the outlet
   // that employs them, by its record.
   if (!facts.outlet && !said.outletId && core.modules.has(PRESS_MODULE_ID)) {
