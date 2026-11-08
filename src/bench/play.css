@@ -97,6 +97,17 @@
   --key-hover: linear-gradient(#3e3e44, #26262a);
   --raised: linear-gradient(#4a4a50, #2a2a2e);
   --lying: #ffc9bd;
+  /* The shared signal colors: the one place a menu reads them (color-blind mode swaps them). */
+  --alarm: #ff1f14;
+  --alarm-rgb: 255, 31, 20;
+  --signal-yes: #5aa36b;
+  --signal-no: #c4524f;
+  --signal-none: #8c8c8c;
+  --party-democratic: #3f6fb5;
+  --party-republican: #b9584a;
+  --party-other: #8f8c86;
+  --party-libertarian: #c9a227;
+  --party-green: #4f8a4f;
   --name: "Cinzel", "Trajan Pro", Georgia, serif;
   --speech: "Andada Pro", Georgia, serif;
   --ui: "Fira Sans", "Helvetica Neue", sans-serif;
@@ -596,20 +607,42 @@ select:focus-visible {
   stroke-linecap: round;
   stroke-linejoin: round;
 }
-.lie-scales .tipped,
-.lie-scales.on .level {
-  display: none;
+.lie-scales .beam,
+.lie-scales .pan {
+  transform-box: view-box;
+  transition:
+    transform 0.55s cubic-bezier(0.3, 1.5, 0.5, 1),
+    stroke 0.3s;
 }
-.lie-scales.on .tipped {
-  display: block;
+.lie-scales .beam {
+  transform-origin: 12px 6.8px;
+}
+.lie-scales.on .beam {
+  transform: rotate(-16.4deg);
+}
+.lie-scales.on .pan-left {
+  transform: translate(0.3px, 1.9px);
+}
+.lie-scales.on .pan-right {
+  transform: translate(-0.3px, -2.3px);
 }
 .lie-scales.on {
-  background: radial-gradient(circle, rgba(214, 88, 64, 0.25), transparent 72%);
+  background: radial-gradient(
+    circle,
+    rgba(var(--alarm-rgb), 0.3),
+    transparent 72%
+  );
 }
 .lie-scales.on svg {
-  stroke: #ffd9c9;
-  filter: drop-shadow(0 0 3px rgba(255, 120, 90, 0.95))
-    drop-shadow(0 0 8px rgba(214, 88, 64, 0.7));
+  stroke: var(--alarm);
+  filter: drop-shadow(0 0 3px rgba(var(--alarm-rgb), 0.95))
+    drop-shadow(0 0 8px rgba(var(--alarm-rgb), 0.7));
+}
+@media (prefers-reduced-motion: reduce) {
+  .lie-scales .beam,
+  .lie-scales .pan {
+    transition: none;
+  }
 }
 .lie-scales:disabled {
   opacity: 1;
@@ -1253,8 +1286,7 @@ body:not(.dev) .dev-only {
 .me .name {
   font-size: 16px;
 }
-#card-place:empty,
-#card-why:empty {
+#card-place:empty {
   display: none;
 }
 .me .time {
@@ -1272,9 +1304,6 @@ body:not(.dev) .dev-only {
 }
 .me .time .action:last-child {
   margin-right: 0;
-}
-#card-why {
-  margin-bottom: 4px;
 }
 #rings {
   display: flex;
@@ -1685,11 +1714,6 @@ body:not(.dev) .dev-only {
 .calendar-day .plate h3 {
   font-size: 30px;
 }
-.calendar-distance {
-  margin: 0 0 6px;
-  color: var(--muted, var(--text));
-  font: 14px var(--ui);
-}
 .calendar-day-list {
   display: flex;
   flex-direction: column;
@@ -1711,9 +1735,6 @@ body:not(.dev) .dev-only {
 .calendar-day .plate > .action {
   margin: 10px 0 0;
   width: 100%;
-}
-.calendar-side-head {
-  margin: 0 0 10px;
 }
 #sheet-body .calendar-pager .calendar-entry {
   display: grid;
@@ -2102,13 +2123,13 @@ body:not(.dev) .dev-only {
   box-shadow: 0 0 0 2px var(--gold);
 }
 .meeting-member.vote-yes {
-  box-shadow: 0 0 0 3px #5aa36b;
+  box-shadow: 0 0 0 3px var(--signal-yes);
 }
 .meeting-member.vote-no {
-  box-shadow: 0 0 0 3px #c4524f;
+  box-shadow: 0 0 0 3px var(--signal-no);
 }
 .meeting-member.vote-abstain {
-  box-shadow: 0 0 0 3px #8c8c8c;
+  box-shadow: 0 0 0 3px var(--signal-none);
 }
 .meeting-face {
   width: 38px;
@@ -2124,23 +2145,6 @@ body:not(.dev) .dev-only {
 .meeting-result strong {
   font: 700 17px var(--ui);
   color: var(--gold);
-}
-.meeting-tally {
-  display: flex;
-  height: 10px;
-  margin: 0 0 10px;
-  border-radius: 5px;
-  overflow: hidden;
-  background: rgba(255, 255, 255, 0.08);
-}
-.meeting-tally .tally-yes {
-  background: #5aa36b;
-}
-.meeting-tally .tally-no {
-  background: #c4524f;
-}
-.meeting-tally .tally-abstain {
-  background: #8c8c8c;
 }
 .meeting-remarks {
   margin: 0 0 8px;
@@ -2516,11 +2520,6 @@ select.government-state {
   margin: -10px 0 22px;
   border-color: rgba(214, 189, 132, 0.55);
 }
-.entries-rows .entry h3 {
-  font: 600 24px var(--name);
-  color: var(--gold);
-  margin: 12px 0;
-}
 .record-place {
   font: 18px var(--speech);
   margin: 0 0 20px;
@@ -2561,19 +2560,8 @@ select.government-state {
   gap: 12px;
   padding: 1px 0;
 }
-/* A list row's face: the round headshot at a row's size; an empty ring until
-   the figure is known, never initials (owner, Oct 28). */
-.person-row .person-row-face {
-  flex: none;
-  width: 34px;
-  height: 34px;
-  border-width: 2px;
-}
 .person-row .member-name {
   flex: 1;
-}
-.person-row-note {
-  color: var(--text-2);
 }
 /* A line that belongs to the row above it: under the name, indented past the face. */
 .person-row-sub {
@@ -2604,18 +2592,12 @@ select.government-state {
   margin: 0;
 }
 /* The list screen (ui/list-screen.mjs): every searchable list of entries. */
-.entries-rows .entry {
-  margin: 20px 0;
-}
 details.entry summary {
   cursor: pointer;
   list-style: none;
 }
 details.entry summary::-webkit-details-marker {
   display: none;
-}
-.entries-rows .entry h3 {
-  font-size: 20px;
 }
 .entry-value {
   font: 24px var(--speech);
@@ -2669,15 +2651,6 @@ details.entry[open] {
   }
 }
 
-#sheet-body:has(.entries-cards) {
-  max-width: 1200px;
-}
-.entries-cards {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 10px 14px;
-  margin-top: 12px;
-}
 /* A pictured card: the room, its name, who is there, why it is listed. */
 .entry-go {
   display: flex;
@@ -2712,10 +2685,7 @@ details.entry[open] {
   border-color: var(--gold);
 }
 @media (max-width: 1100px) {
-  .entries-cards {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
-}
 
 /* A line marked as a gap shows it took (play-mark-gap). */
 #talk-gap.marked {
@@ -2863,34 +2833,6 @@ details.entry[open] {
 .paper-masthead {
   text-align: center;
   margin: 0;
-}
-#sheet-body .paper-masthead-name {
-  display: block;
-  width: min(100%, 760px);
-  min-height: 0;
-  margin: 0 auto;
-  padding: 0;
-  background: none;
-  border: 0;
-  box-shadow: none;
-  color: var(--paper-ink);
-  font: 700 44px/1.1 var(--name);
-  text-shadow: none;
-  letter-spacing: 0.02em;
-}
-#sheet-body .paper-masthead-name::after {
-  display: none;
-}
-#sheet-body .paper-masthead-name.engraved {
-  background-position: center;
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  font-size: clamp(18px, 2.2vw, 36px);
-  line-height: 1;
-}
-#sheet-body .paper-masthead-name:hover:not(:disabled) {
-  background: none;
-  color: var(--paper-ink);
 }
 /* The engraved masthead (art/newspaper-mockups): the paper's name in ink, set
    in the plate; the kit's engraveMasthead sizes the strip and the plate. */
@@ -3061,16 +3003,6 @@ details.entry[open] {
   background: var(--paper-blue);
   text-align: left;
 }
-#sheet-body .paper-modern .paper-masthead-name {
-  width: auto;
-  margin: 0;
-  color: #fff;
-  font: 700 34px/1.1 var(--ui);
-  letter-spacing: 0;
-}
-#sheet-body .paper-modern .paper-masthead-name:hover:not(:disabled) {
-  color: #fff;
-}
 .paper-modern .paper-dateline {
   margin-top: 0;
   border-top: 0;
@@ -3106,16 +3038,6 @@ details.entry[open] {
 .paper-tabloid .paper-masthead {
   padding: 10px 20px;
   background: var(--paper-red);
-}
-#sheet-body .paper-tabloid .paper-masthead-name {
-  width: auto;
-  color: #fff;
-  font: 800 44px/1.05 var(--ui);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-#sheet-body .paper-tabloid .paper-masthead-name:hover:not(:disabled) {
-  color: #fff;
 }
 .paper-tabloid .paper-dateline {
   justify-content: flex-end;
@@ -3217,38 +3139,21 @@ details.entry[open] {
 }
 /* The parties' colors, by the party's name on the record. */
 .party-democratic {
-  --party: #3f6fb5;
+  --party: var(--party-democratic);
 }
 .party-republican {
-  --party: #b9584a;
+  --party: var(--party-republican);
 }
 .party-independent,
 .party-unaffiliated,
 .party-nonpartisan {
-  --party: #8f8c86;
+  --party: var(--party-other);
 }
 .party-libertarian {
-  --party: #c9a227;
+  --party: var(--party-libertarian);
 }
 .party-green {
-  --party: #4f8a4f;
-}
-/* An issue card's value: large but wrapping inside its card, never past its
-   edge; the cards are as wide as a value needs, so a word is not cut. */
-.record-section .entries-cards {
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-}
-.entries-cards .entry .entry-value {
-  display: block;
-  font-size: 20px;
-  line-height: 1.15;
-  overflow-wrap: break-word;
-  margin: 2px 0 4px;
-}
-.entries-cards .entry .entry-line {
-  font: 13px var(--ui);
-  color: var(--text-2);
-  margin: 0;
+  --party: var(--party-green);
 }
 /* A place in its own view (owner, Oct 28, point 28): the picture large across
    the top, what you do there and who works there under it, then Go. */
@@ -3340,9 +3245,6 @@ details.entry[open] {
 .law-page .split-controls .heading {
   margin: 0;
   font-size: clamp(24px, 2.4vw, 34px);
-}
-.law-page .fact-plates {
-  margin: 0 0 10px;
 }
 .issue-cards .entry {
   height: 100%;
@@ -3569,14 +3471,6 @@ details.entry[open] {
   font-variant-numeric: tabular-nums;
 }
 
-/* A roll call: its name and date over a yes and no bar. */
-.vote-bar-label {
-  font: 600 11.5px var(--ui);
-  color: #fff;
-  white-space: nowrap;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.6);
-}
-
 /* Coming up: a gold date and what happens then. */
 .date-list {
   list-style: none;
@@ -3739,12 +3633,6 @@ details.entry[open] {
 .plate .tab-rail {
   margin: 0 0 10px;
 }
-/* Small plates side by side, one fact each: a label, the fact, a note. */
-.fact-plates {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-  gap: 10px;
-}
 .fact-plate {
   margin: 0;
   padding: 10px 14px 11px;
@@ -3755,14 +3643,6 @@ details.entry[open] {
 }
 .fact-plate .label {
   margin: 0;
-}
-.fact-value {
-  font: 600 15.5px/1.25 var(--ui);
-  color: var(--text-strong);
-}
-.fact-note {
-  font: 400 13px/1.3 var(--ui);
-  color: var(--text-2);
 }
 /* Rounded brass chips under a name: a party, a tie. */
 .chips {
@@ -4051,14 +3931,6 @@ details.entry[open] {
   display: flex;
   flex-direction: column;
 }
-.money-home-picture {
-  width: 100%;
-  aspect-ratio: 5 / 2;
-  object-fit: cover;
-  border: 1px solid rgba(156, 131, 80, 0.6);
-  border-radius: 2px;
-  margin: 0 0 8px;
-}
 /* Columns side by side: each amount over its column, the month under it. */
 /* A ring of the parts of a whole, the whole in its middle, the key beside it. */
 /* The kit's chart colors, in order: muted, never navy. */
@@ -4319,7 +4191,7 @@ select.release-pick {
   align-items: center;
   margin: 0 0 8px;
 }
-#sheet-body .calendar-key .key-kind {
+#sheet-body .calendar-key .key-chip {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -4329,44 +4201,9 @@ select.release-pick {
   font-size: 13px;
   opacity: 0.55;
 }
-#sheet-body .calendar-key .key-kind.on {
+#sheet-body .calendar-key .key-chip.on {
   opacity: 1;
 }
-.calendar-key .key-kind::before {
-  content: "";
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: var(--kind-color);
-}
-.kind-birthday {
-  --kind-color: var(--kind-birthday);
-}
-.kind-deadline {
-  --kind-color: var(--kind-deadline);
-}
-.kind-election {
-  --kind-color: var(--kind-election);
-}
-.kind-meeting {
-  --kind-color: var(--kind-meeting);
-}
-.kind-holiday {
-  --kind-color: var(--kind-holiday);
-}
-.calendar-board .day-icon[class*="kind-"] {
-  border-radius: 50%;
-  background: var(--kind-color);
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
-  filter: none;
-}
-.calendar-board .calendar-entry[class*="kind-"] {
-  border-left: 3px solid var(--kind-color);
-}
-.calendar-board .calendar-entry[class*="kind-"] .when {
-  color: var(--kind-color);
-}
-
 /* ---- Loading worth watching (Lane 4, path 3) ----
    The built world's past while the first scene is drawn: a year counter
    over a map that fills in and the journal writing itself. Never a scroll:
@@ -4680,13 +4517,6 @@ select.release-pick {
   margin-top: 5px;
   font: 400 14.5px var(--f-ui);
   color: var(--muted);
-}
-.strip-screen .saidtag {
-  margin-bottom: 4px;
-  font: 600 13px var(--f-ui);
-  letter-spacing: 1.3px;
-  text-transform: uppercase;
-  color: var(--gold2);
 }
 /* The bust: head to upper chest, a soft fade over its lower third and at the sides, never a hard edge. */
 .strip-screen .mxglow {
@@ -5077,13 +4907,6 @@ select.release-pick {
 }
 .calendar-board {
   flex: 1;
-}
-.calendar-board {
-  --kind-birthday: #e0a090;
-  --kind-deadline: #d6bd84;
-  --kind-election: #7fa3d6;
-  --kind-meeting: #8fc79a;
-  --kind-holiday: #c4a0d8;
 }
 
 /* Journal (Nov 8 play mock, pl-journal): two columns of prose with a drop cap. */
@@ -5514,4 +5337,32 @@ select.release-pick {
     serif;
   letter-spacing: 0.01em;
   text-transform: none;
+}
+
+/* Color-blind palette (Options): the Okabe-Ito set replaces the shared signal colors, and a
+   vote ring says yes, no and abstain by its stroke as well as its color (solid, dashed,
+   dotted; never a letter). Off by default; the default look is unchanged. */
+body.color-blind {
+  --alarm: #d55e00;
+  --alarm-rgb: 213, 94, 0;
+  --signal-yes: #009e73;
+  --signal-no: #d55e00;
+  --signal-none: #999999;
+  --party-democratic: #0072b2;
+  --party-republican: #d55e00;
+  --party-other: #999999;
+  --party-libertarian: #f0e442;
+  --party-green: #009e73;
+}
+body.color-blind .meeting-member.vote-yes,
+body.color-blind .meeting-member.vote-no,
+body.color-blind .meeting-member.vote-abstain {
+  box-shadow: none;
+  outline: 3px solid var(--signal-yes);
+}
+body.color-blind .meeting-member.vote-no {
+  outline: 3px dashed var(--signal-no);
+}
+body.color-blind .meeting-member.vote-abstain {
+  outline: 3px dotted var(--signal-none);
 }

@@ -33,7 +33,7 @@ try {
   console.log("Place:", await page.locator("#card-place").innerText());
   const lines = [];
   const read = async () =>
-    lines.push((await page.locator("#card-why").innerText()).trim());
+    lines.push((await page.locator("#card").innerText()).trim());
   for (let week = 0; week < 2; week++) {
     const moved = page.waitForResponse(
       (r) => new URL(r.url()).pathname === "/api/advance",

@@ -203,7 +203,7 @@ export class CountedStore {
   readonly born: string[] = [];
   readonly household: number[] = [];
   readonly living: number[] = [];
-  /** Opening cash, until each group holds its own account (SG-CORE-counted-cash-share). */
+  /** Cash each counted member holds, in minor units (the store keeps it per member). */
   readonly liquid: number[] = [];
   readonly jobId: (string | undefined)[] = [];
   readonly appearance: (string | undefined)[] = [];

@@ -8,6 +8,7 @@
  * Read-only views spend no game time and write nothing. Words come from the
  * English engine; this returns record data and ids only.
  */
+import type { GovernmentLevel } from "../core2/government-level";
 import billCatalogData from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
 import { moneySince, watchMoney } from "../core2/tooling/money-watch";
 import { bookkeeping } from "../core2/bookkeeping";
@@ -50,6 +51,7 @@ import {
   FEDERAL_HOUSE,
   FEDERAL_SENATE,
   holdVote,
+  learnStake,
   type BillRow,
   type Provision,
   LEGISLATURE_MODULE_ID,
@@ -58,6 +60,13 @@ import {
   memberKey,
 } from "../core2/modules/legislature";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
+import { playerContests } from "../core2/modules/elections";
+import {
+  campaignFor,
+  castVolunteer,
+  volunteerReason,
+} from "../core2/modules/campaigns";
+import { campaignDay, campaignView } from "./campaign";
 import { metricsPanel } from "../core2/modules/world-panels";
 import { nationalPanel } from "../core2/modules/macro";
 import { residentsRuntime } from "../core2/modules/residents";
@@ -75,7 +84,7 @@ import { budgetView } from "./budget";
 import { decisionPanels, type WhyPanel } from "./dev-why";
 import { newsItems } from "./calendar";
 import experiments from "./data/dev-experiments.json" with { type: "json" };
-import { SITUATION_LIBRARY } from "../director/scheduling";
+import { causeMatches, SITUATION_LIBRARY } from "../director/scheduling";
 
 /** The mark every dev-mode write carries. */
 /** The events a run can stop on, each as the record kinds the game logs when it happens. */
@@ -87,6 +96,8 @@ export const RUN_EVENTS = {
   "law-takes-effect": ["law-took-effect"],
   "job-lost": ["work.job-lost"],
   scene: [],
+  /** A seat the player qualifies for opens its filing window (the game's own `playerContests`). */
+  "may-file": [],
 } as const;
 export type RunEvent = keyof typeof RUN_EVENTS;
 
@@ -94,13 +105,14 @@ export type RunEvent = keyof typeof RUN_EVENTS;
 const SCENE_RECIPES: Readonly<Record<string, string>> = {
   "life.death": "death",
   "work.job-lost": "layoff",
+  "health.serious-illness": "illness",
 };
 
 export const DEV_MODE = "dev-mode";
 /** The core record kind each dev-mode change leaves. */
 export const DEV_MODE_RECORD = "dev-mode-change";
 
-export type LawLevel = "federal" | "state" | "county" | "city";
+export type LawLevel = GovernmentLevel;
 
 /** One step of a change set: the same controls the page offers. */
 export type DevStep = {
@@ -917,15 +929,37 @@ export class DevMode {
     return types.map((type) => {
       // The record kinds the type waits on that an engine writes; a type with only a producer that
       // does not exist yet (`awaitingProducer`) or no cause record has none, and so no way in.
-      const causeRecords = [
-        ...new Set(type.causes.flatMap((c) => c.causeRecord ?? [])),
-      ];
+      // A cause is named by a record kind the type is tagged with (`causeRecord`), or by the moment the
+      // director's ledger keeps (`match`): a feeling about an event the game logs
+      // (`feeling:event:<kind>`), a job started, a tie turning, a re-entry. The record kind behind an
+      // event label is the kind itself.
+      const tagged = type.causes.flatMap((c) => c.causeRecord ?? []);
+      const matched = type.causes.flatMap((c) => {
+        const label = c.match?.label ?? "";
+        if (label.startsWith("feeling:event:"))
+          return [label.slice("feeling:event:".length)];
+        return c.match
+          ? [
+              label ||
+                c.match.labelPrefix ||
+                (c.match.echo ? `echo:${c.match.echo}` : "") ||
+                c.match.causeKind ||
+                "",
+            ].filter(Boolean)
+          : [];
+      });
+      const causeRecords = [...new Set([...tagged, ...matched])];
       const waiting = type.causes.flatMap((c) => c.awaitingProducer ?? []);
-      // `death` and `layoff` bring the cause about through an engine's own function; `wait` runs the
-      // world until an engine writes the record naming the player, as it does on its own schedule.
+      // `death`, `illness` and `layoff` bring the cause about through an engine's own function; `wait`
+      // runs the world until an engine writes the record naming the player; `moment` runs it until the
+      // director's own ledger holds a moment that `causeMatches` reads as one of the type's causes.
       const recipe =
         causeRecords.map((kind) => SCENE_RECIPES[kind]).find(Boolean) ??
-        (causeRecords.length ? "wait" : null);
+        (tagged.length
+          ? "wait"
+          : type.causes.some((c) => c.match)
+            ? "moment"
+            : null);
       return { key: type.key, causeRecords, waiting, recipe };
     });
   }
@@ -936,7 +970,7 @@ export class DevMode {
    * health module's illness, then Run until they die and Run until a scene fires). Where the type
    * has no recipe there is no game code to attach to, and this says so.
    */
-  forceScene(input: { typeKey: string; personId?: string }) {
+  forceScene(input: { typeKey: string; personId?: string; cap?: number }) {
     const scene = this.scenes().find((row) => row.key === input.typeKey);
     if (!scene) throw new Error("No such situation type.");
     if (!scene.recipe)
@@ -946,6 +980,16 @@ export class DevMode {
     const player = this.core.playerId
       ? this.core.people.get(this.core.playerId)
       : undefined;
+    if (scene.recipe === "moment") {
+      if (!player) throw new Error("There is no player to run the world for.");
+      const ran = this.runUntil({ scene: scene.key, cap: input.cap ?? 366 });
+      return {
+        recipe: scene.recipe,
+        personId: player.id,
+        causeRecords: scene.causeRecords,
+        ran,
+      };
+    }
     if (scene.recipe === "wait") {
       // The cause is a record an engine writes on its own schedule: run the world until one names the
       // player, and the director stages the scene from it the ordinary way.
@@ -953,7 +997,7 @@ export class DevMode {
       const ran = this.runUntil({
         kind: scene.causeRecords[0],
         person: player.id,
-        cap: 366,
+        cap: input.cap ?? 366,
       });
       return {
         recipe: scene.recipe,
@@ -974,13 +1018,16 @@ export class DevMode {
         ? [player?.id, ...circle].find(
             (id) => id && this.core.people.get(id)?.jobId,
           )
-        : circle[0]);
+        : scene.recipe === "illness"
+          ? player?.id
+          : circle[0]);
     if (!personId)
       throw new Error("No one in the player's circle to bring it about for.");
     const out =
       scene.recipe === "layoff"
         ? this.forceLayoff(personId)
         : this.forceIllness(personId);
+    // An illness is the player's own where the type is about them, so the scene follows from it.
     return {
       ...out,
       recipe: scene.recipe,
@@ -1018,6 +1065,95 @@ export class DevMode {
         webLinks: loan.webLinks ?? [],
         webRecordId: loan.webRecordId ?? null,
       }));
+  }
+
+  /**
+   * The player's campaigns and the people the volunteer ask reaches (those the player knows), with each
+   * person's own reasons to say yes as the campaign engine reads them. Reads only.
+   */
+  campaignSetup() {
+    const playerId = this.core.playerId;
+    if (!playerId) return [];
+    const api = this.api;
+    const player = this.core.people.get(playerId);
+    return campaignView(this.core, playerId).campaigns.map((row) => ({
+      filingId: row.filing.id,
+      title: row.contest?.title ?? "",
+      raisedMinor: row.campaign.raisedMinor,
+      spentMinor: row.campaign.spentMinor,
+      volunteers: row.campaign.volunteers,
+      people: [...(player?.knownIds ?? [])].sort().flatMap((id) => {
+        const person = this.core.people.get(id);
+        return person?.alive
+          ? [
+              {
+                personId: id,
+                name: `${person.givenName} ${person.familyName}`,
+                reason: volunteerReason(
+                  api,
+                  campaignFor(api, row.filing.id),
+                  person,
+                ),
+              },
+            ]
+          : [];
+      }),
+    }));
+  }
+
+  /**
+   * Donors give: the player takes the campaign day's "raise money" choice (calls to donors) through the
+   * game's own campaign code, so each donor decides to give or not by their own warmth and means and every
+   * gift writes the donation record and the journal entries a gift writes. A day with no gift passes and the
+   * calls are made again, up to a fortnight; the result names each donor who gave and why the rest did not.
+   */
+  raiseMoney(filingId: string) {
+    const playerId = this.core.playerId;
+    if (!playerId) throw new Error("There is no player.");
+    const api = this.api;
+    const before = campaignFor(api, filingId).raisedMinor;
+    const from = this.core.date;
+    const calls: { personId: string; givenMinor: number; why: string }[] = [];
+    let days = 0;
+    for (; days < 14; days += 1) {
+      try {
+        const out = campaignDay(this.core, playerId, {
+          filingId,
+          kind: "raise-money",
+        });
+        calls.push(
+          ...out.calls.map((c) => ({
+            personId: c.personId,
+            givenMinor: c.givenMinor,
+            why: c.why,
+          })),
+        );
+      } catch {
+        // The day's hours are spent: the next day's calls are made.
+      }
+      if (campaignFor(api, filingId).raisedMinor > before) break;
+      this.advance(addDays(makeIsoDate(this.core.date), 1));
+    }
+    const raisedMinor = campaignFor(api, filingId).raisedMinor - before;
+    return {
+      mark: this.mark("raise-money", [filingId], { filingId, from }),
+      raisedMinor,
+      days,
+      gave: calls.filter((c) => c.givenMinor > 0),
+      asked: calls.length,
+    };
+  }
+
+  /** A person says yes (or no) when the campaign asks them to volunteer: a decision cast for them, read by the campaign's own ask. */
+  volunteerCast(filingId: string, personId: string, yes: boolean) {
+    if (campaignFor(this.api, filingId).candidateId !== this.core.playerId)
+      throw new Error("That is not your campaign.");
+    castVolunteer(this.api, filingId, personId, yes);
+    return this.mark("volunteer-cast", [personId], {
+      filingId,
+      personId,
+      yes: String(yes),
+    });
   }
 
   /** The wealthiest living people in the world: who might want a favor enough to pay for it. */
@@ -1077,6 +1213,55 @@ export class DevMode {
   vote(billId: string, memberId: string, vote: "yes" | "no" | "abstain") {
     castMemberVote(this.api, billId, memberId, vote);
     return this.mark("vote", [billId], { billId, memberId, vote });
+  }
+
+  /**
+   * The player has worked beside every colleague of the body they sit on for a while: hours of contact on the
+   * record (`api.relationship`), the way a term of sessions and talks leaves it. A bill they then introduce
+   * is signed on by the colleagues who back it and know them.
+   */
+  workBesideColleagues(hours = 2) {
+    const player = snapshotExplicitControlV1(this.core).personId;
+    if (!player) throw new Error("Control a person first.");
+    const bodies = this.lawmakingBodies().filter((body) =>
+      members(this.api, body.id).some((term) => memberKey(term) === player),
+    );
+    let colleagues = 0;
+    for (const body of bodies)
+      for (const term of members(this.api, body.id)) {
+        const key = memberKey(term);
+        if (key === player || !this.core.people.has(key)) continue;
+        this.api.relationship(player, key, "contact", hours);
+        colleagues += 1;
+      }
+    return this.mark("work-beside-colleagues", [player], {
+      player,
+      colleagues: String(colleagues),
+    });
+  }
+
+  /**
+   * What colleagues tell the player about a bill: each member of the player's chamber (or one member) tells
+   * them where they stand, as a conversation records it (`learnStake`), so the aide's estimate and the paper's
+   * "what members told you" have something to read. The sponsor is the one who learns.
+   */
+  learnStakes(billId: string, memberId?: string) {
+    const bill = this.api
+      .moduleState(LEGISLATURE_MODULE_ID)
+      .table("bills")
+      .get(billId) as unknown as BillRow | undefined;
+    if (!bill) throw new Error(`No bill ${billId}.`);
+    const told = (
+      memberId
+        ? [memberId]
+        : members(this.api, bill.bodyOfficeId).map((term) => memberKey(term))
+    ).filter((key) => key !== bill.sponsorId);
+    for (const key of told)
+      learnStake(this.api, billId, key, "conversation", bill.sponsorId);
+    return this.mark("learn-stakes", [billId], {
+      billId,
+      members: String(told.length),
+    });
   }
 
   /** The body holds its vote today. */
@@ -1150,6 +1335,8 @@ export class DevMode {
     defeat?: readonly string[];
     /** Stop only on an event that names this person (their death, their job loss). */
     person?: string;
+    /** Stop when the player's ledger holds a moment the director reads as a cause of this situation type. */
+    scene?: string;
   }) {
     const cap = Math.max(1, Math.min(input.cap ?? 366, 3660));
     const limit = Math.min(input.days ?? cap, cap);
@@ -1158,8 +1345,31 @@ export class DevMode {
       : input.event
         ? RUN_EVENTS[input.event]
         : undefined;
-    if (input.event && !kinds && input.event !== "scene")
+    if (
+      input.event &&
+      !kinds &&
+      input.event !== "scene" &&
+      input.event !== "may-file"
+    )
       throw new Error("Unknown event.");
+    const mayFile = () => playerContests(this.api).length > 0;
+    const sceneType = input.scene
+      ? SITUATION_LIBRARY.types.find((t) => t.key === input.scene)
+      : undefined;
+    if (input.scene && !sceneType) throw new Error("No such situation type.");
+    const book = () =>
+      this.director?.ledger.people.get(this.player?.personId ?? "");
+    const momentsBefore = book()?.moments.length ?? 0;
+    const causeMoment = () => {
+      const b = book();
+      return b && sceneType
+        ? b.moments
+            .slice(momentsBefore)
+            .find((m) =>
+              sceneType.causes.some((c) => causeMatches(c, b, m, this.core)),
+            )
+        : undefined;
+    };
     const count = () =>
       (kinds ?? []).reduce(
         (n, kind) => n + (this.core.logByKind.get(kind)?.size ?? 0),
@@ -1180,10 +1390,34 @@ export class DevMode {
     let reason: "days" | "event" | "cap" = "days";
     let records: string[] = [];
     const defeated = new Set<string>();
+    // A window already open stops the run before it begins: the seat is there to file for.
+    if (input.event === "may-file" && mayFile())
+      return {
+        from,
+        to: this.core.date,
+        days: 0,
+        reason: "event" as const,
+        event: input.event,
+        records: playerContests(this.api).map((c) => c.id),
+        defeated: [] as string[],
+      };
     while (days < limit) {
       if (input.defeat?.length) this.voteDown(input.defeat, defeated);
       this.advance(addDays(makeIsoDate(this.core.date), 1));
       days += 1;
+      if (sceneType) {
+        const found = causeMoment();
+        if (found) {
+          reason = "event";
+          records = [found.causeId];
+          break;
+        }
+      }
+      if (input.event === "may-file" && mayFile()) {
+        reason = "event";
+        records = playerContests(this.api).map((c) => c.id);
+        break;
+      }
       if (input.event === "scene" && sceneCount() > sceneBefore) {
         reason = "event";
         break;
@@ -1210,7 +1444,8 @@ export class DevMode {
         break;
       }
     }
-    if (reason === "days" && (input.event || input.kind)) reason = "cap";
+    if (reason === "days" && (input.event || input.kind || input.scene))
+      reason = "cap";
     return {
       from,
       to: this.core.date,

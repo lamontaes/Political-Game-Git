@@ -1,16 +1,17 @@
 /** Policy authority from the shared research catalog and current state laws. */
+import type { GovernmentLevel } from "./government-level";
 import catalog from "../../data/research/powers-catalog/catalog.json" with { type: "json" };
 import mapping from "../../data/research/powers-catalog/question-powers.json" with { type: "json" };
 import territoryGrant from "../../data/research/powers-catalog/territory-grant.json" with { type: "json" };
 import nacoCounties from "../../data/research/core/naco-2022-county-authority.json" with { type: "json" };
 import { placeRow } from "./place-map";
-import { POLICY_QUESTIONS } from "./policy-answers";
 import {
   LAWS_MODULE_ID,
   lawChain,
   lawInForce,
   LOCAL_POWER_PREFIX,
   localPowerBarred,
+  localPowerGranted,
 } from "./modules/laws";
 import type { Authority } from "./modules/legislature";
 import type { CoreAPI } from "./types";
@@ -18,7 +19,7 @@ import { lawApplied } from "./law-reach/applied";
 import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";
 import type { LawRowInput } from "./laws-starting";
 
-export type PolicyLevel = "federal" | "state" | "county" | "city";
+export type PolicyLevel = GovernmentLevel;
 type Column = PolicyLevel | "dc" | "territory";
 interface Cell {
   may: string;
@@ -139,6 +140,16 @@ export function policyAuthority(
     // general home-rule grant, after the question's separate statutory gate.
     if (specificGrant?.value === 1)
       return result(true, "state-has-own-law", specificGrant.id);
+    // The state's statute gives its places this power by name (researched
+    // starting grant), independent of general home rule.
+    if (
+      localPowerGranted(api, question, column === "county" ? "county" : "city")
+    )
+      return result(
+        true,
+        "state-has-own-law",
+        `data/research/laws/starting-law-2026#${question}/${lawChain(api).stateKey}/localGrant`,
+      );
     if (
       cell?.may === "UNKNOWN" ||
       (cell?.may === "varies by state" && cell.status === "game-profile")
