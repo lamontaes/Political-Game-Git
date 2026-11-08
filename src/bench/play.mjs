@@ -279,17 +279,11 @@ function showNewsSurface(news) {
     controls.opening?.closeNews ?? "",
   );
   $("news-surface-open").onclick = () => {
-    coachUsed("news-surface");
     hideNewsToast();
     openNewsReader(news);
   };
-  $("news-surface-close").onclick = () => {
-    coachUsed("news-surface");
-    hideNewsToast();
-  };
-  showToast($("news-surface"), controls.opening?.newsToastSeconds ?? 8, () =>
-    coachUsed("news-surface"),
-  );
+  $("news-surface-close").onclick = hideNewsToast;
+  showToast($("news-surface"), controls.opening?.newsToastSeconds ?? 8);
 }
 function openNewsReader(news) {
   const [lead, ...rest] = news.stories;
@@ -317,33 +311,6 @@ $("news-reader-close").addEventListener("click", () =>
   show("news-reader", false),
 );
 
-/**
- * The first choices, pointed out one at a time: the news, the people you
- * know, then living the day. Each glows until it is used; nothing to read.
- */
-const COACH_ORDER = ["news-surface", "people-tab", "day"];
-const coachDone = new Set();
-const coachNode = (id) =>
-  id === "people-tab"
-    ? document.querySelector('#rings [data-tab="people"]')
-    : $(id);
-/** Glows the first choice not yet used; each clears however it is used. */
-function coachRender() {
-  for (const id of COACH_ORDER) coachNode(id)?.classList.remove("coach");
-  const next = COACH_ORDER.find((id) => {
-    const node = coachNode(id);
-    return !coachDone.has(id) && node && !node.hidden;
-  });
-  if (next) coachNode(next).classList.add("coach");
-}
-function coachUsed(...ids) {
-  for (const id of ids) coachDone.add(id);
-  coachRender();
-}
-function coachFirstChoices() {
-  coachDone.clear();
-  coachRender();
-}
 // Escape opens only options and quit (M6 work order), the opening included.
 document.addEventListener("keydown", (event) => {
   if (event.key !== "Escape") return;
@@ -1258,13 +1225,14 @@ function atThePolls(scene) {
 // runs it to that day. A scene the director fires stops any of them there.
 for (const mode of ["day", "week"])
   $(mode).addEventListener("click", () => {
-    // Living on puts the evening's paper away and ends the first-choice glow.
+    // Living on puts the evening's paper away.
     hideNewsToast();
-    coachUsed(...COACH_ORDER);
     return act(`/api/advance?mode=${mode}`);
   });
 // Stories News held when it was last open: a dot on the rail's News icon until it is read.
-let seenNews = 0;
+// The first count a life is opened with is already read: a reload starts with
+// nothing unread, and only what arrives after it lights the dot (P12).
+let seenNews;
 async function newsCount() {
   const rows = await api(`/api/news?id=${encodeURIComponent(me.id)}`);
   // Every row News lists (its public records), the same rows its screen draws.
@@ -1272,7 +1240,7 @@ async function newsCount() {
 }
 async function markNews(read) {
   const count = await newsCount();
-  if (read) seenNews = count;
+  if (read || seenNews === undefined) seenNews = count;
   document
     .querySelector('#rings [data-tab="news"]')
     ?.classList.toggle("unread", count > seenNews);
@@ -4990,7 +4958,6 @@ const groupOf = (tab) =>
 async function openSheet(tab) {
   await controlsReady;
   if (tab === "politics") tab = "government";
-  if (groupOf(tab) === "people") coachUsed("people-tab");
   openTab = tab;
   if (tab === "news") markNews(true);
   if (tab === "journal")
@@ -5896,7 +5863,6 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
     // "News pop-ups wait until the scene ends").
     if (life.sceneMomentId) await showStory(life.sceneMomentId);
     showNewsSurface(news);
-    coachFirstChoices();
   } catch (error) {
     $("front-status").textContent = error.message;
     for (const id of placeControls) $(id).disabled = false;
