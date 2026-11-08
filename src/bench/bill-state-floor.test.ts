@@ -122,18 +122,20 @@ describe(`a state floor vote the player is held for (seed ${seed})`, () => {
       for (let guard = 0; guard < 120 && !held; guard++) {
         if (player.pollingPlace) player.leavePolls();
         const packet = player.packet;
-        if (stateFloorHolds(api).includes(bill.id)) {
+        if (stateFloorHolds(api).length > 0) {
+          // The floor day of whichever bill the chamber takes up (the weekly agenda), not only the one drafted here.
+          const heldBill = stateFloorHolds(api)[0]!;
           held = true;
           expect(
             floorView(core).map((item) => item.billId),
             where,
-          ).toContain(bill.id);
-          floorDecide(core, bill.id, "no");
-          expect(stateFloorHolds(api), where).not.toContain(bill.id);
+          ).toContain(heldBill);
+          floorDecide(core, heldBill, "no");
+          expect(stateFloorHolds(api), where).not.toContain(heldBill);
           const chosen = api
             .moduleState("core2-legislature-v1")
             .table("choices")
-            .get(`${bill.id}|${legislator}`) as { vote: string } | undefined;
+            .get(`${heldBill}|${legislator}`) as { vote: string } | undefined;
           expect(chosen?.vote, where).toBe("no");
           break;
         }
@@ -148,7 +150,7 @@ describe(`a state floor vote the player is held for (seed ${seed})`, () => {
         tried.push(`${where}: the bill's floor day did not hold the player`);
         continue;
       }
-      console.log(`state floor hold: ${where}, seed ${place.seed}, ${bill.id}`);
+      console.log(`state floor hold: ${where}, seed ${place.seed}`);
       return;
     }
     throw new Error(
