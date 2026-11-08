@@ -99,6 +99,24 @@ BUDGET_LINES = {
     "administration": ("government", "Agencies and public employment"),
 }
 
+# The federal budget's lines (data/research/money/federal-budget-fy2025.json, the
+# Treasury's statement) Congress changes in an appropriations act, each under the
+# topic whose subject it funds. A line shares its id with a state line of the
+# same name only when it is the same line; these are the nation's own.
+FEDERAL_BUDGET_LINES = {
+    "nationalDefense": ("defense-veterans", "Readiness and procurement", "National defense"),
+    "veterans": ("defense-veterans", "Veterans' healthcare", "Veterans benefits and services"),
+    "internationalAffairs": ("foreign-trade", "Foreign aid", "International affairs and foreign aid"),
+    "agriculture": ("agriculture", "Farm support and insurance", "Agriculture programs"),
+    "transportation": ("infrastructure", "Transportation", "Federal transportation"),
+    "education": ("education", "Student aid", "Federal education programs"),
+    "communityAndRegionalDevelopment": ("housing", "Neighborhood redevelopment", "Community and regional development"),
+    "incomeSecurity": ("assistance", "Cash assistance", "Income security programs"),
+    "medicare": ("healthcare", "Coverage and insurance", "Medicare"),
+    "health": ("healthcare", "Public health", "Federal health programs"),
+    "socialSecurity": ("assistance", "Retirement and survivor benefits", "Social Security"),
+}
+
 SERIES = {
     "minimum-wage": ("labor", "Wages and working hours", "Minimum wage", "minor/hour"),
     "income-tax": ("taxes-finance", "Taxes", "Income tax rate", "percent"),
@@ -142,6 +160,11 @@ def main():
         subjects[subject]["topics"][topic]["policies"].append({
             "id": f"budget:{line}", "name": f"Spending: {line}", "kind": "budget-line", "line": line,
             "operations": ["expand", "restrict"], "levels": ["state", "county", "city"],
+        })
+    for line, (subject, topic, name) in FEDERAL_BUDGET_LINES.items():
+        subjects[subject]["topics"][topic]["policies"].append({
+            "id": f"budget:federal:{line}", "name": f"Spending: {name}", "kind": "budget-line", "line": line,
+            "operations": ["expand", "restrict"], "levels": ["federal"],
         })
     questions = []
     for path in sorted(glob.glob(str(ROOT / "data/research/laws/starting-law-2026/*.json"))):

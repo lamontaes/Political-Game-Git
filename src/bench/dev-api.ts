@@ -8,6 +8,7 @@ import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import {
   DevMode,
+  type RunEvent,
   type DevStep,
   type Experiment,
   type LawLevel,
@@ -222,6 +223,65 @@ export async function handleDev(
       send(200, mode.advance(to));
       return true;
     }
+    case "GET lawmaking-bodies":
+      send(200, mode.lawmakingBodies());
+      return true;
+    case "POST introduce": {
+      const input = await body(request);
+      send(
+        200,
+        mode.introduce({
+          bodyOfficeId: String(input.bodyOfficeId),
+          sponsorId: String(input.sponsorId),
+          series: String(input.series),
+          value: Number(input.value),
+          unit: input.unit === undefined ? undefined : String(input.unit),
+        }),
+      );
+      return true;
+    }
+    case "GET wealthiest":
+      send(200, mode.wealthiest());
+      return true;
+    case "POST bribe": {
+      const input = await body(request);
+      send(
+        200,
+        mode.forceBribe({
+          offererId: String(input.offererId),
+          officialId: String(input.officialId),
+          subjectId: String(input.subjectId),
+          stakeMinor: Number(input.stakeMinor),
+        }),
+      );
+      return true;
+    }
+    case "POST decide": {
+      const input = await body(request);
+      send(
+        200,
+        mode.decideAt(String(input.billId), Number(input.margin), {
+          sign: typeof input.sign === "boolean" ? input.sign : undefined,
+          overrideMargin:
+            input.overrideMargin === undefined
+              ? undefined
+              : Number(input.overrideMargin),
+        }),
+      );
+      return true;
+    }
+    case "POST run-until": {
+      const input = await body(request);
+      send(
+        200,
+        mode.runUntil({
+          days: input.days === undefined ? undefined : Number(input.days),
+          event: input.event as RunEvent | undefined,
+          cap: input.cap === undefined ? undefined : Number(input.cap),
+        }),
+      );
+      return true;
+    }
     case "GET trace":
       send(200, mode.trace(q("id")));
       return true;
@@ -275,6 +335,9 @@ export async function handleDev(
       });
       return true;
     }
+    case "GET memory":
+      send(200, mode.memory(q("id")));
+      return true;
     case "GET person":
       send(200, mode.person(q("id")));
       return true;

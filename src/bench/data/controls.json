@@ -28,19 +28,16 @@
     "people": "people",
     "about": "about",
     "countyLine": "in {county}",
-    "ageLine": "You will be {age} on {date}, the day your life begins.",
     "summaryAge": "Age {age}",
     "summaryBorn": "Born {date}",
     "previous": "Previous {row}",
     "next": "Next {row}",
     "randomPlace": "Random place",
     "randomName": "Randomize name",
-    "nameWaitsForGender": "Choose a gender to randomize a name",
     "missingGender": "Choose a gender to go on.",
     "missingName": "Type a first and last name to go on."
   },
   "endedBy": {
-    "moment": "Something needs you",
     "office-day.meeting": "The meeting",
     "office-day.desk": "Your desk"
   },
@@ -164,7 +161,69 @@
     "later": "Later years",
     "seat": "Seat held"
   },
+  "devBills": {
+    "title": "Bills",
+    "body": "Body",
+    "sponsor": "Sponsor",
+    "series": "Law",
+    "value": "Value",
+    "margin": "Margin",
+    "overrideMargin": "Override margin",
+    "executive": "Executive",
+    "executiveGame": "Decides as usual",
+    "sign": "Signs",
+    "veto": "Vetoes",
+    "introduce": "Introduce",
+    "pass": "Pass",
+    "defeat": "Defeat",
+    "held": "Held in committee",
+    "noBill": "Introduce a bill first."
+  },
+  "devBribe": {
+    "title": "Bribe",
+    "offerer": "Offerer",
+    "official": "Official",
+    "stake": "Stake",
+    "offer": "Offer",
+    "offered": "Offered",
+    "declined": "Not offered",
+    "taken": "Taken",
+    "refused": "Refused",
+    "noBill": "Introduce a bill first."
+  },
+  "devMemory": {
+    "title": "Remembers",
+    "kept": {
+      "player": "Kept",
+      "drive": "Held by a drive"
+    }
+  },
+  "devRun": {
+    "title": "Run until",
+    "days": "Days",
+    "cap": "Cap",
+    "event": "Event",
+    "noEvent": "No event",
+    "run": "Run",
+    "events": {
+      "bill-passes": "A bill passes",
+      "bill-fails": "A bill fails",
+      "election": "An election is held",
+      "death": "A person dies",
+      "scene": "A scene fires",
+      "law-takes-effect": "A law takes effect"
+    },
+    "reasons": {
+      "days": "Days passed",
+      "event": "Event happened",
+      "cap": "Cap reached"
+    }
+  },
   "options": {
+    "on": "On",
+    "off": "Off",
+    "seeing": "Seeing",
+    "leave": "Leave",
     "version": "Version",
     "fullScreen": "Full screen",
     "fullScreenUnavailable": "Full screen is unavailable.",
@@ -298,6 +357,9 @@
   "advanced": {
     "none": "No one holds an office that matches"
   },
+  "title": {
+    "continueAs": "Continue as {name}"
+  },
   "levels": {
     "local": "Local",
     "state": "State",
@@ -312,7 +374,6 @@
     "closed": "Closed now",
     "opensAt": "Closed now. Opens {day} at {time}.",
     "counterTitle": "{office}, {town}",
-    "filingDoes": "You file here to run for office. The clerk takes your papers, tells you each race's dates and what it asks of you, and keeps your filing.",
     "reasons": {
       "work": "You work here",
       "action": "You can",
@@ -356,7 +417,6 @@
     "join": "Join",
     "member": "Your party",
     "registered": "Registered {party} since {date}",
-    "fitLine": "Your recorded views against the party's platform: {fit}",
     "notRegistered": "You are not registered with a party. Joining one lets you file under its name.",
     "agreement": "Views fit",
     "fit": [
@@ -437,7 +497,6 @@
     "seats": "Seats",
     "members": "Members",
     "whoRuns": "Who runs {name}",
-    "seats": "Seats",
     "seat": "seat",
     "yourMembers": "Your members",
     "leaders": "Leaders",
@@ -552,13 +611,11 @@
     "partyCount": "{n} {party}",
     "nonpartisan": "Nonpartisan",
     "vacantCount": "{n} vacant",
-    "members": "Members",
     "officers": "Officers",
     "page": "{page} of {pages}",
     "previousPage": "Previous page",
     "nextPage": "Next page",
     "delegation": "{state}'s members",
-    "ward": "Ward {n}",
     "district": "District {n}",
     "atLarge": "At large",
     "partySince": "{party} · since {date}",
@@ -667,10 +724,12 @@
   },
   "guide": {
     "search": "Search",
-    "none": "No term matches that."
+    "none": "No term matches that.",
+    "resetLearned": "Underline learned terms again"
   },
   "patchNotes": {
-    "release": "Release"
+    "release": "Release",
+    "builds": "Builds"
   },
   "budgetStrips": {
     "departments": "Departments",
@@ -686,8 +745,8 @@
     "fiscalYear": "Fiscal year"
   },
   "saves": {
-    "none": "No life is saved yet. Start a new life and it will be kept here.",
-    "later": "Your life is kept as you play. More saved lives, and saving to a slot of your own, arrive with early access."
+    "none": "No life is saved yet.",
+    "load": "Load"
   },
   "campaignActs": {
     "volunteer": "Volunteers",
@@ -764,5 +823,57 @@
     "handoff": "Carry on as",
     "news": "News",
     "history": "Your life"
+  },
+  "billStage": {
+    "committee": "In committee",
+    "chair": "Chaired by",
+    "heardFrom": "Heard from",
+    "held": "The chair held it and did not hear it",
+    "votedFor": "For",
+    "votedAgainst": "Against",
+    "told": "What members have told you",
+    "toldFor": "Leaning for",
+    "toldAgainst": "Leaning against",
+    "toldOpen": "Not yet said",
+    "floor": "The floor",
+    "yes": "Yes",
+    "no": "No",
+    "override": "The vote to override the veto",
+    "nobody": "No one",
+    "yourVote": "Your vote",
+    "abstain": "Abstain",
+    "amendment": "Amendment",
+    "amendBill": "Amend a section",
+    "lower": "Lower section",
+    "raise": "Raise section",
+    "callVote": "Call the vote on it",
+    "adopted": "Adopted",
+    "rejected": "Rejected",
+    "desk": "The executive's desk",
+    "deskView": "Where you stand on it",
+    "deskTemperament": "What your temperament adds",
+    "for": "For",
+    "against": "Against",
+    "none": "Neither way",
+    "sign": "Sign it",
+    "veto": "Veto it",
+    "signed": "Signed",
+    "vetoed": "Vetoed",
+    "by": "By",
+    "reasons": {
+      "views": "Their own views",
+      "constituents": "The people they serve",
+      "sponsor": "The sponsor",
+      "deal": "A deal made",
+      "lobby": "Interests that pressed them",
+      "party": "Their party",
+      "wing": "Their wing",
+      "ambition": "Their next election",
+      "press": "The press",
+      "trait": "Their temperament",
+      "consistency": "Their last vote on it",
+      "bribe": "A payment taken",
+      "reply": "What was said to them"
+    }
   }
 }
