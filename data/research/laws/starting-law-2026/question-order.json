@@ -29,6 +29,7 @@
   "us-policy-positions:business-commerce.cap-consumer-loan-rates",
   "us-policy-positions:environment-energy.price-carbon",
   "us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+  "us-policy-positions:labor-workforce.ban-the-box-public-hiring",
   "us-policy-positions:fiscal.balanced-operating-budget",
   "us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
   "us-policy-positions:fiscal.fund-pensions-to-schedule",
@@ -69,5 +70,6 @@
   "us-federal-positions:science-communications.national-data-privacy",
   "us-federal-positions:territories-culture.statehood-for-dc",
   "us-federal-positions:justice-rights.reduce-mandatory-minimums",
-  "us-federal-positions:government.ban-congressional-stock-trading"
+  "us-federal-positions:government.ban-congressional-stock-trading",
+  "us-policy-positions:environment-energy.allow-retail-electric-choice"
 ]

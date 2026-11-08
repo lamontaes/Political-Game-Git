@@ -343,12 +343,39 @@ export function householdIncome(
   );
 }
 
-/** What one of a counted household's unplaced workers earns a year: its place's pool's rate. */
-export function unplacedPayPerWorker(
+/** What one of a counted household's unplaced workers earns a year at the opening's pay: its place's pool's rate. The pool's flow is paid indexed to the place's pay level, so this is the base the flow's amount is kept in. */
+export function unplacedPayPerWorkerBase(
   rt: ResidentsRuntime,
   h: CountedHousehold,
 ): number {
   return rt.unplacedPerWorker.get(unplacedPoolOf(h.placeId, !!h.quarters)) ?? 0;
+}
+
+const levelReads = new WeakMap<
+  CoreState,
+  { date: string; byPlace: Map<string, number> }
+>();
+
+/**
+ * What one of a counted household's unplaced workers earns a year now: the
+ * pool's rate at the opening times the place's pay level (the pool's flow is
+ * paid indexed the same way), so the household's income, and every figure
+ * that reads it, follows wages. One read of a place's level a day.
+ */
+export function unplacedPayPerWorker(
+  rt: ResidentsRuntime,
+  h: CountedHousehold,
+): number {
+  const base = unplacedPayPerWorkerBase(rt, h);
+  const core = rt.api?.state as CoreState | undefined;
+  if (!core || base === 0) return base;
+  let cache = levelReads.get(core);
+  if (!cache || cache.date !== core.date)
+    levelReads.set(core, (cache = { date: core.date, byPlace: new Map() }));
+  let level = cache.byPlace.get(h.placeId);
+  if (level === undefined)
+    cache.byPlace.set(h.placeId, (level = payLevel(core, h.placeId)));
+  return base * level;
 }
 
 /** What keys a counted household to its group today. */
@@ -3461,7 +3488,7 @@ export function startRegionalWork(
   if (m !== undefined) {
     const h = rt.store.households[rt.store.household[m]!]!;
     const base = unplacedFlowOf(rt, h.placeId, !!h.quarters);
-    const perWorker = unplacedPayPerWorker(rt, h);
+    const perWorker = unplacedPayPerWorkerBase(rt, h);
     if (!base || !(perWorker > 0)) return undefined;
     const perYear =
       base.cadence.kind === "days"
@@ -3500,7 +3527,7 @@ export function stopRegionalWork(core: CoreState, personId: string): boolean {
   if (!rt || m === undefined) return false;
   const h = rt.store.households[rt.store.household[m]!]!;
   const base = unplacedFlowOf(rt, h.placeId, !!h.quarters);
-  const perWorker = unplacedPayPerWorker(rt, h);
+  const perWorker = unplacedPayPerWorkerBase(rt, h);
   const workers = Math.min(rt.store.weightOf(h), h.unplacedWorkers);
   if (!base || !(perWorker > 0) || !(workers > 0)) return false;
   const perYear =
@@ -3547,7 +3574,7 @@ export function returnCommuterPay(
     base.cadence.kind === "days"
       ? DAYS_PER_YEAR / base.cadence.every
       : 12 / base.cadence.every;
-  const perWorker = unplacedPayPerWorker(rt, h);
+  const perWorker = unplacedPayPerWorkerBase(rt, h);
   h.unplacedWorkers = perWorker > 0 ? (amountMinor * perYear) / perWorker : 0;
   regroupHousehold(rt, h, core.date);
 }

@@ -72,3 +72,5 @@ Write one test per item that fails when nothing moved. When several PRs share a 
 ## 5. Finish
 
 Rerun the checker on main after the families merge. Put a before and after played year in two drawn places (seed named) at the top of the report: items that reached people, moved money and moved measures, plus the year's run time. Then the final matrix summary: total, wired, partial, stopgapped. Never say "wired" without the row.
+
+- **A trait reader that exports the wrong shape is silently never loaded** (Small fixes, Nov 8: `facet-affectionate.ts` exported a `TraitPack`, so `generate:trait-effects` skipped it and the trait changed nobody's answer). A reader must export `<name>Effects` as `readonly TraitEffectDeclaration[]`; after adding one, run `npm run generate:trait-effects` and look for the new line in `trait-effects/index.ts`.
