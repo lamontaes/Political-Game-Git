@@ -160,7 +160,7 @@ New on Nov 3:
 | #7347 | After a bill sets the income tax to zero, a later bill with a positive rate collects again (the zero bill had erased every bracket)                                                                                                 | St. Maurice, Louisiana           | aa08921173a2418c |
 | #7350 | Each law in force at the opening keeps the source researched for its own state or town                                                                                                                                              | Ostrander, Minnesota             | a17ee30620d4011e |
 | #7352 | Congress can repeal and restore the federal income tax itself                                                                                                                                                                       | Kidder, South Dakota             | 1909ef8617edace0 |
-| #7353 | Repealing an opening law now carries out its effects, and repealing and restoring a reserve requirement on the same day no longer loops                                                                                             | White Clay, Nebraska             | 328259bb8d8722cf |
+| #7353 | Repealing and restoring a treasury reserve requirement on the same day no longer crashes on a reused cash-transfer id                                                                                                               | White Clay, Nebraska             | 328259bb8d8722cf |
 
 ## State Sessions' PRs (from Nov 5)
 
