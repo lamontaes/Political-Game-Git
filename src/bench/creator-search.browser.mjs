@@ -26,11 +26,10 @@ try {
   await ready;
   await page.locator("#new-life").click();
   await page.locator("#new-start").click();
-  await page.locator("#cr-character:not([hidden])").waitFor();
+  await page.locator("#cr-screen:not([hidden])").waitFor();
   await page.locator("[data-gender=male]").click();
   await page.locator("#cr-random-name").click();
   await page.waitForFunction(() => document.getElementById("cr-given").value);
-  await page.locator("#cr-character-next").click();
   await page.locator('[data-testid="state-search"]').waitFor();
   await page.mouse.move(1400, 880);
   const rest = await border("state-search");

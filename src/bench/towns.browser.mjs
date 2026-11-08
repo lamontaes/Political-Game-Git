@@ -45,13 +45,12 @@ try {
       await page.locator("#seed").fill(seed);
       await page.locator("#front-close").click();
       await page.locator("#new-start").click();
-      await page.locator("#cr-character:not([hidden])").waitFor();
+      await page.locator("#cr-screen:not([hidden])").waitFor();
       await page.locator("[data-gender=male]").click();
       await page.locator("#cr-random-name").click();
       await page.waitForFunction(
         () => document.getElementById("cr-given").value,
       );
-      await page.locator("#cr-character-next").click();
       // The state buttons' font, which the town list must read in.
       const fontOf = (node) => {
         const s = getComputedStyle(node);
