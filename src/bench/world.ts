@@ -23,6 +23,7 @@ import { openParties } from "../core2/modules/parties";
 import { openVoting, openWorldRaces } from "../core2/modules/voting";
 import { openRecord } from "../core2/modules/record";
 import { openBudgets } from "../core2/modules/budgets";
+import { openOutsideBudgets } from "../core2/modules/outside-budgets";
 import { openOfficialPay } from "../core2/modules/official-pay";
 import { openCrime } from "../core2/modules/crime";
 import { openCoverage } from "../core2/modules/coverage";
@@ -495,6 +496,8 @@ function* benchWorldStages(
   openVoting(core);
   openRecord(core);
   openBudgets(core);
+  // Every other state's budget, in the same store, moved by the state's own economy.
+  openOutsideBudgets(core);
   // Officials are paid from the treasuries budgets just opened (OPUS-CORE).
   openOfficialPay(core);
   openHomelessCount(core);

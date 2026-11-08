@@ -288,7 +288,9 @@ try {
   // A bill before the state or Congress lists with a Read the bill control; a world with none says so.
   await page
     .locator("#sheet-body")
-    .getByText(/Read the bill|No bill is before your state or Congress yet\./)
+    .getByText(
+      /Read the bill|No bill is before your town, county, state or Congress yet\./,
+    )
     .first()
     .waitFor();
   const followed = await page.evaluate(() =>
