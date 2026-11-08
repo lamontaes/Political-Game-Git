@@ -59,6 +59,7 @@ describe(`a state of emergency the player decides (seed ${seed})`, () => {
           player.resume({ kind: "own-choice", pauseId: packet.pauseId });
         else player.advance("day");
       }
+      // Recorded once control has bound: a disaster before it would be answered by the character.
       // The disaster is recorded the way the disasters engine records one when it begins:
       // a `hazard.disaster` record with the FEMA number, which the executive engine answers.
       api.emit({
