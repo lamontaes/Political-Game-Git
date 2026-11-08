@@ -324,15 +324,15 @@
     "status": "open"
   },
   {
-    "id": "SG-PLAY-talk-and-travel-time",
+    "id": "SG-PLAY-trip-time-average",
     "kind": "missing-mechanic",
     "file": "src/bench/handler.ts",
     "line": 904,
-    "whatItFakes": "A visit to a place spends visitHours on the clock, but a talk and a trip to the place spend none, and the visit's hour is one value for every place instead of the errand and the distance.",
-    "why": "The Coordinator ruled on Nov 8 that visits, talks and travel spend game time from the existing clock and records; the records hold no scene length for a talk and no distance or travel speed between places yet, so only the visit is built.",
-    "addedBy": "fixes/visits-spend-time",
+    "whatItFakes": "Every trip to a place in town takes the average trip time (tripMinutes) and every visit the same visitHours, because the records hold no distance between two places, no travel speed and no errand length by kind of place.",
+    "why": "The Coordinator ruled on Nov 8 that visits, talks and travel spend game time from the existing clock; a talk spends its lines, but a trip's distance and an errand's own hours are not in the records yet.",
+    "addedBy": "jobs/clock-spends-time",
     "addedAt": "2026-11-08",
-    "replacement": "A talk spending the scene's own length, a visit its errand's hours and a trip the distance between the two places at the place's travel speed, each read from the records and spent through player.spend.",
+    "replacement": "A trip spending the distance between the two places at the place's travel speed and a visit its errand's hours by kind of place, each read from the records and spent through player.spend.",
     "status": "open"
   }
 ]

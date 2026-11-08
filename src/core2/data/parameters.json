@@ -65,6 +65,30 @@
       "citation": "Between 6:00 AM and 8:00 AM, the span of typical workday wake times in American Time Use Survey diaries."
     }
   },
+  "talkMinutesPerLine": {
+    "value": 2,
+    "tag": "ESTIMATED",
+    "citation": "American Time Use Survey, socializing and communicating: conversations run from a few minutes to half an hour (figure not fetched in this session; to confirm).",
+    "estimatedFrom": "A line said or heard in a talk takes about two minutes, so a talk of ten lines is a twenty-minute conversation; the talk spends the sum of its lines on the player's clock when it ends.",
+    "spread": {
+      "low": 1,
+      "high": 4,
+      "unit": "minutes per line",
+      "citation": "ATUS socializing and communicating episodes."
+    }
+  },
+  "tripMinutes": {
+    "value": 19,
+    "tag": "ESTIMATED",
+    "citation": "National Household Travel Survey 2017: the average trip takes about 19 minutes (figure recalled, not fetched in this session; to confirm).",
+    "estimatedFrom": "The records hold no distance between two places in a town, so every trip to a place takes the average trip time; a place's own distance and travel speed replace it (SG-PLAY-trip-time-average).",
+    "spread": {
+      "low": 8,
+      "high": 30,
+      "unit": "minutes",
+      "citation": "NHTS average trip time, rural to urban."
+    }
+  },
   "visitHours": {
     "value": 1,
     "tag": "TUNABLE",
