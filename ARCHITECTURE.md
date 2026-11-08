@@ -83,7 +83,7 @@ Every shortcut is a row in `src/core2/data/stopgaps.json` (the director has its 
   - The handler's `/api/journal`, `/api/scene` and `/api/talk/*` routes call the director, which calls the engine.
   - Wording guards: `npm run wording:check`, `tests/player-wording.test.ts`, `tests/runtime-text-guard.test.ts`.
 - **`src/bench/`: the game and Dev mode.**
-  - `play.html` and `play.mjs` are the game screen. `dev.html`, `dev.mjs` and `dev-mode.ts` are Dev mode, including Trace.
+  - `play.html` and `play.mjs` are the game screen. `dev-mode.ts`, `dev-api.ts` and the `ui/dev-*.mjs` panels are Dev mode, including Trace; its controls sit on the game's own screens.
   - `handler.ts` holds the `/api/*` routes, shared by `server.ts` (`npm run bench`, port 3000) and the desktop shell.
   - `world.ts` builds the world. `src/bench/*.browser.mjs` are the browser checks.
 - **`desktop/`: the Electron shell and updater.** It bundles the bench handler; no game logic.

@@ -6,6 +6,7 @@ import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
 import { statusLine } from "./fields.mjs";
 import { stripSection } from "./strips.mjs";
+import { followBar } from "./dev-view.mjs";
 
 async function get(path) {
   const response = await fetch(`/api/dev/${path}`);
@@ -48,6 +49,18 @@ export async function devPersonSection({ personId, labels, onDone }) {
   return stripSection(
     7,
     labels.title,
+    // Follow them: from then on each act of theirs keeps every option's reasons. It decides
+    // nothing and spends no time; someone in the player's circle is already kept.
+    followBar({
+      load: () => get(`following?personId=${encodeURIComponent(personId)}`),
+      onToggle: async (view, draw) => {
+        draw(
+          await post(view.status === "dev-mode" ? "unfollow" : "follow", {
+            personId,
+          }),
+        );
+      },
+    }),
     el(
       "div",
       { className: "dev-bills-row" },
