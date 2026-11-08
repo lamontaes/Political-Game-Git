@@ -44,6 +44,7 @@ import {
 } from "./election-night";
 import { wordOwnResult } from "./archive-words";
 import { billPaper, seatAct, seatView } from "./legislature";
+import { billStage } from "./bill-stage";
 import {
   deskDecide,
   deskView,
@@ -844,6 +845,18 @@ export async function benchRequest(
         send(
           200,
           billPaper(requireCore(), url.searchParams.get("billId") ?? ""),
+        );
+        return;
+      }
+      // Where a bill is: its committee record, what members told you, the floor and override by name.
+      if (request.method === "GET" && url.pathname === "/api/bill/stage") {
+        send(
+          200,
+          billStage(
+            requireCore(),
+            url.searchParams.get("billId") ?? "",
+            player?.personId,
+          ),
         );
         return;
       }
