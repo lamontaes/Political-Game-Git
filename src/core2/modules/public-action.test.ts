@@ -68,6 +68,9 @@ describe("a town's term becomes strikes, protests and rallies", () => {
     });
     // A tap on the speech engine's cases, to see who was pressed.
     const pressed: { id: string; witnessIds: readonly string[] }[] = [];
+    // Who sat in a town seat on the day each case was made: a seat can change hands
+    // in the months between a crowd's first case and the check below.
+    const seatedThen = new Set<string>();
     const invited: {
       id: string;
       speaker: string;
@@ -89,6 +92,8 @@ describe("a town's term becomes strikes, protests and rallies", () => {
           });
         if (event.id.startsWith("case:action:")) {
           pressed.push({ id: event.id, witnessIds: event.witnessIds ?? [] });
+          for (const seat of townSeats(_api))
+            if (seat.holder?.personId) seatedThen.add(seat.holder.personId);
           if (event.id.endsWith(":player")) pressedByPlayer.push(event.id);
         }
       },
@@ -119,14 +124,10 @@ describe("a town's term becomes strikes, protests and rallies", () => {
     }
     // The people in a protest pressed the town's officials (the speech engine's case).
     expect(pressed.length, where).toBeGreaterThan(0);
-    const seated = new Set(
-      townSeats(api).flatMap((row) =>
-        row.holder?.personId ? [row.holder.personId] : [],
-      ),
-    );
     for (const row of pressed) {
       expect(row.witnessIds.length, where).toBeGreaterThan(0);
-      for (const id of row.witnessIds) expect(seated.has(id), where).toBe(true);
+      for (const id of row.witnessIds)
+        expect(seatedThen.has(id), where).toBe(true);
     }
     // A friend in an action who knows the player asks them to come (the
     // record the cause-invite scene reads), and only a friend the player knows.
@@ -155,7 +156,11 @@ describe("a town's term becomes strikes, protests and rallies", () => {
         first.id.includes(row.id),
       )!;
       expect(action.participantIds, where).toContain(world.playerId);
-      expect(pressedByPlayer.length, where).toBe(1);
+      // A grievance's demand is pressed on the officials by whoever joins it;
+      // a rally has none to press.
+      expect(pressedByPlayer.length, where).toBe(
+        action.side === "grievance" ? 1 : 0,
+      );
     }
   }, 240_000);
 });
