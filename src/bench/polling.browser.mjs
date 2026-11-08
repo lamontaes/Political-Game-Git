@@ -82,7 +82,6 @@ try {
     const grown =
       years.find((y) => Number(y) <= 1996) ?? years[years.length - 1];
     await page.locator("#cr-year").selectOption({ label: grown });
-    await page.locator("#cr-character-next").click();
     await page.locator("#cr-states .item").first().waitFor();
     const drawn = drawPlace(runSeed, `polling-${attempt}`);
     console.log("Drawn place:", drawn.key, drawn.name, drawn.state);
@@ -589,8 +588,8 @@ try {
     await page.locator("#ballot:not([hidden])").count(),
     "no ballot on election day",
   );
-  const titles = () => page.locator("#ballot-races .race h3").allInnerTexts();
-  const total = await page.locator("#ballot-races .race").count();
+  const titles = () => page.locator("#ballot .ballot-race").allInnerTexts();
+  const total = await page.locator("#ballot .ballot-race").count();
   console.log("Races on ballot:", total);
   console.log("Races:", (await titles()).join(" | "));
   await page.screenshot({
@@ -605,7 +604,7 @@ try {
     0,
     "the ballot shows Continue or Back",
   );
-  const own = page.locator("#ballot-races .race button", {
+  const own = page.locator("#ballot .ballot-choice", {
     hasText: "Test Voter",
   });
   assert.ok(await own.count(), "own race (Test Voter) is not on the ballot");

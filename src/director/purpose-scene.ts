@@ -35,6 +35,7 @@ import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { billNameFor, spokenDesignation } from "../english/bill-names";
+import { areaName } from "../english/area-names";
 import { questionAbout } from "../english/question-names";
 import {
   questionName,
@@ -64,6 +65,9 @@ import {
   type TreeReply,
 } from "./scene-talk";
 import type { Fact } from "../english/scene-talk-words";
+
+/** The public-action engine's record of a rally forming (`civic.rally`). */
+const RALLY_EVENT = "civic.rally";
 import {
   ELECTIONS_MODULE_ID,
   ballot,
@@ -472,7 +476,7 @@ function composeBinding(
   // official has given no answer yet, so the exchange opens as a town hall
   // does when the host declined to answer: the protester wants to hear where
   // they stand.
-  if (said.actionId && said.question) {
+  if (said.actionId && said.question && record?.kind !== RALLY_EVENT) {
     const issue = questionAbout(said.question);
     if (issue) {
       facts.issue = {
@@ -493,6 +497,19 @@ function composeBinding(
           sourceRecordIds: [said.actionId],
         };
     }
+  }
+  // A rally in the town (public-action.ts): the area the term read well in,
+  // and how many came. It has no demand, so there is no issue to answer.
+  if (said.actionId && record?.kind === RALLY_EVENT) {
+    const area = said.area ? areaName(said.area) : null;
+    if (area)
+      facts.area = {
+        text: area,
+        sourceRecordIds: [said.actionId, moment.causeId],
+      };
+    facts.rally = { text: "yes", sourceRecordIds: [said.actionId] };
+    if (said.size)
+      facts.number = { text: said.size, sourceRecordIds: [said.actionId] };
   }
   // What an offer asks in return (a vote, a contract): the lines about that favor need it.
   if (said.favor)
@@ -559,6 +576,23 @@ function composeBinding(
         sourceRecordIds: [moment.causeId, ownId],
       };
   }
+  // A member's own vote (legislature.ts): the lines a group's lobbyist says
+  // about it need which side the member took.
+  if (
+    record?.kind === "office.voted" &&
+    (said.vote === "yes" || said.vote === "no")
+  )
+    facts[`voted-${said.vote}`] = {
+      text: said.number ?? "",
+      sourceRecordIds: [moment.causeId],
+    };
+  // The floor before the roll (legislature.ts recordFloorDebate): which side
+  // the speaker rose for, and the bill.
+  if (record?.kind === "floor-debate")
+    facts[said.forId === askerId ? "speaks-for" : "speaks-against"] = {
+      text: said.number ?? "",
+      sourceRecordIds: [moment.causeId, askerId],
+    };
   // A reporter cast for a record that names no outlet speaks for the outlet
   // that employs them, by its record.
   if (!facts.outlet && !said.outletId && core.modules.has(PRESS_MODULE_ID)) {

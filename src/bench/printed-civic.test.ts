@@ -7,6 +7,7 @@ import { advanceCore } from "../core2/life";
 import { coreAPI } from "../core2/state";
 import { OUTCOME_WEB_MODULE_ID } from "../core2/outcome-web-model";
 import { TERM_MEASURES } from "../core2/term-read";
+import { areaName } from "../english/area-names";
 import { wordPrintedStory } from "./archive-words";
 import { buildBenchWorld } from "./world";
 
@@ -77,6 +78,7 @@ describe("civic records as news", () => {
         .map((row) => String(row.facts.sourceRecordId)),
     );
     const told: string[] = [];
+    let rallies = 0;
     for (const record of records) {
       const worded = wordPrintedStory(core, {
         id: `printed:test:${record.id}`,
@@ -89,8 +91,17 @@ describe("civic records as news", () => {
       for (const text of [worded!.headline, worded!.lede])
         if (text) expect(text, record.id).not.toMatch(DEVELOPER);
       expect(worded!.sourceRecordIds, record.id).toContain(record.id);
+      // A rally is told by the area that went well, never by a demand.
+      if (record.kind === "civic.rally") {
+        const area = areaName(record.facts!.area!)!;
+        expect(`${worded!.headline} ${worded!.lede}`, record.id).toContain(
+          area,
+        );
+        rallies += 1;
+      }
       told.push(`${record.kind}: ${worded!.headline} / ${worded!.lede}`);
     }
+    expect(rallies, `${where}: no rally formed to tell`).toBeGreaterThan(0);
     const inPaper = records.filter((row) => printed.has(row.id));
     process.stdout.write(
       `PRINTED CIVIC ${where}: ${inPaper.length} of ${records.length} in the paper\n  ${told.join("\n  ")}\n`,

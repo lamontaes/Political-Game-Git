@@ -14,7 +14,7 @@ const errors = [];
 page.on("pageerror", (e) => errors.push(e.message));
 const stage = () =>
   page.evaluate(() => ({
-    panel: ["cr-character", "cr-place"].find(
+    panel: ["cr-screen", "front-new"].find(
       (id) => !document.getElementById(id).hidden,
     ),
     states: !document.getElementById("cr-state-pick").hidden,
@@ -26,12 +26,11 @@ try {
   await ready;
   await page.locator("#new-life").click();
   await page.locator("#new-start").click();
-  await page.locator("#cr-character:not([hidden])").waitFor();
+  await page.locator("#cr-screen:not([hidden])").waitFor();
   await page.locator("[data-gender=nonbinary]").click();
   await page.locator("#cr-random-name").click();
   await page.locator("#cr-given:not([value=''])").waitFor();
-  await page.locator("#cr-character-next").click();
-  await page.locator("#cr-place:not([hidden])").waitFor();
+  await page.locator("#cr-screen:not([hidden])").waitFor();
   const states = page.locator("#cr-states button");
   await states.first().waitFor();
   const at = Math.floor(Math.random() * (await states.count()));
@@ -39,8 +38,8 @@ try {
   await states.nth(at).click();
   await page.locator("#cr-towns button").first().waitFor();
   let seen = await stage();
-  assert.deepEqual(seen, { panel: "cr-place", states: false, towns: true });
-  await page.locator("#cr-place-back").click();
+  assert.deepEqual(seen, { panel: "cr-screen", states: false, towns: true });
+  await page.locator("#front-close").click();
   await page.locator("#cr-state-pick:not([hidden])").waitFor();
   seen = await stage();
   console.log(
@@ -48,19 +47,19 @@ try {
   );
   assert.deepEqual(
     seen,
-    { panel: "cr-place", states: true, towns: false },
+    { panel: "cr-screen", states: true, towns: false },
     "Back after a state went somewhere other than the states",
   );
   if (process.env.SHOT_DIR)
     await page.screenshot({
       path: `${process.env.SHOT_DIR}/05-back-to-the-states.png`,
     });
-  await page.locator("#cr-place-back").click();
-  await page.locator("#cr-character:not([hidden])").waitFor();
+  await page.locator("#front-close").click();
+  await page.locator("#front-new:not([hidden])").waitFor();
   seen = await stage();
-  assert.equal(seen.panel, "cr-character", "Back from the states");
+  assert.equal(seen.panel, "front-new", "Back from the states");
   assert.deepEqual(errors, [], "page errors");
-  console.log("ok: Back returns to the states, then to the character");
+  console.log("ok: Back returns to the states, then out of the creator");
 } finally {
   await browser.close();
 }

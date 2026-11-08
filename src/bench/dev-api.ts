@@ -26,14 +26,6 @@ export interface DevWorld {
   placeId: string;
 }
 
-const files = new Map([
-  ["/dev", { file: "dev.html", type: "text/html; charset=utf-8" }],
-  ["/dev.mjs", { file: "dev.mjs", type: "text/javascript; charset=utf-8" }],
-]);
-const KIT12 = new URL(
-  "../../docs/codex/ui-logo-packet/01_kit12_ui/kit12.css",
-  import.meta.url,
-);
 // Saved experiments the owner adds, kept beside the checkout, out of git.
 const LOCAL = new URL("../../.bench-local/", import.meta.url);
 const SAVED = new URL("dev-experiments.json", LOCAL);
@@ -85,23 +77,9 @@ export async function handleDev(
   request: IncomingMessage,
   url: URL,
   send: (status: number, value: unknown) => void,
-  respond: (status: number, type: string, content: Buffer) => void,
   world: () => DevWorld,
 ): Promise<boolean> {
   const path = url.pathname;
-  const asset = files.get(path);
-  if (request.method === "GET" && asset) {
-    respond(
-      200,
-      asset.type,
-      await readFile(new URL(asset.file, import.meta.url)),
-    );
-    return true;
-  }
-  if (request.method === "GET" && path === "/kit12.css") {
-    respond(200, "text/css; charset=utf-8", await readFile(KIT12));
-    return true;
-  }
   if (!path.startsWith("/api/dev/")) return false;
   const route = `${request.method} ${path.slice("/api/dev/".length)}`;
   const q = (key: string) => url.searchParams.get(key) ?? "";
@@ -240,6 +218,34 @@ export async function handleDev(
       );
       return true;
     }
+    case "GET loans":
+      send(200, mode.smallDollarLoans());
+      return true;
+    case "GET scenes":
+      send(200, mode.scenes());
+      return true;
+    case "POST scene": {
+      const input = await body(request);
+      send(
+        200,
+        mode.forceScene({
+          typeKey: String(input.typeKey),
+          personId:
+            typeof input.personId === "string" ? input.personId : undefined,
+        }),
+      );
+      return true;
+    }
+    case "POST layoff": {
+      const input = await body(request);
+      send(200, mode.forceLayoff(String(input.personId)));
+      return true;
+    }
+    case "POST illness": {
+      const input = await body(request);
+      send(200, mode.forceIllness(String(input.personId)));
+      return true;
+    }
     case "GET wealthiest":
       send(200, mode.wealthiest());
       return true;
@@ -252,6 +258,10 @@ export async function handleDev(
           officialId: String(input.officialId),
           subjectId: String(input.subjectId),
           stakeMinor: Number(input.stakeMinor),
+          answer:
+            input.answer === "takes" || input.answer === "refuses"
+              ? input.answer
+              : undefined,
         }),
       );
       return true;
@@ -262,6 +272,8 @@ export async function handleDev(
         200,
         mode.decideAt(String(input.billId), Number(input.margin), {
           sign: typeof input.sign === "boolean" ? input.sign : undefined,
+          discharge: input.discharge === true,
+          chairHears: input.chairHears === true,
           overrideMargin:
             input.overrideMargin === undefined
               ? undefined
@@ -278,6 +290,8 @@ export async function handleDev(
           days: input.days === undefined ? undefined : Number(input.days),
           event: input.event as RunEvent | undefined,
           cap: input.cap === undefined ? undefined : Number(input.cap),
+          person: typeof input.person === "string" ? input.person : undefined,
+          kind: typeof input.kind === "string" ? input.kind : undefined,
           defeat: Array.isArray(input.defeat)
             ? input.defeat.map(String)
             : undefined,

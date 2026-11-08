@@ -20,6 +20,10 @@ const shot = (name) =>
 
 /** The dock's menu buttons, in order: the calendar is third and politics fifth. */
 const RINGS = { Calendar: 2, Politics: 4 };
+const expect_enabled = () =>
+  page.waitForFunction(
+    () => !document.querySelector('[data-testid="dev-scene"]')?.disabled,
+  );
 const closeSheet = () => page.locator("#sheet-close").click();
 const dock = (name) => page.locator("#dock button").nth(RINGS[name]);
 
@@ -34,7 +38,7 @@ try {
     "dev mode is off by default",
   );
   await dock("Calendar").click();
-  await page.locator(".calendar-layout").waitFor();
+  await page.locator(".calendar-board").waitFor();
   assert.equal(await page.locator(".dev-run").isVisible(), false);
   await closeSheet();
 
@@ -58,8 +62,100 @@ try {
   );
   const ran = await page.locator(".dev-run .option-status").textContent();
   assert.match(ran, /Days passed/, ran);
+  // Scenes: the types the game can bring about are forced, the rest say there is no way in.
+  await page.locator('[data-testid="dev-scene"]').click();
+  await page.waitForFunction(
+    () => document.querySelector(".dev-scene .option-status")?.textContent,
+  );
+  assert.match(
+    await page.locator(".dev-scene .option-status").textContent(),
+    /Begun for/,
+  );
+  // A layoff; and a kind no engine writes the cause of says so (the kinds the world runs until they
+  // happen take up to a year of days and are proved in dev-scene.test.ts).
+  for (const [match, expected] of [
+    ["work.job-lost", /Begun for|worked today|staff|job|No one in the player/],
+    ["No engine writes its cause yet", /no engine writes/i],
+  ]) {
+    const value = await page
+      .locator('.dev-scene select option:text-matches("' + match + '")')
+      .first()
+      .getAttribute("value");
+    await expect_enabled();
+    const before = await page
+      .locator(".dev-scene .option-status")
+      .textContent();
+    // Picked and pressed in one step: the sheet may still be redrawing from the last press.
+    await page.evaluate((picked) => {
+      const select = document.querySelector(".dev-scene select");
+      select.value = picked;
+      document.querySelector('[data-testid="dev-scene"]').click();
+    }, value);
+    await page.waitForFunction(
+      (text) =>
+        document.querySelector(".dev-scene .option-status")?.textContent !==
+        text,
+      before,
+    );
+    assert.match(
+      await page.locator(".dev-scene .option-status").textContent(),
+      expected,
+    );
+  }
+  // Watch and the golden path, on the Calendar beside Run until.
+  await page.locator(".dev-watch").waitFor();
+  assert.ok(
+    (await page.locator(".dev-watch table").count()) >= 3,
+    "the watch and path tables are on the calendar",
+  );
   await shot("run-until");
   await closeSheet();
+
+  // A person's card, opened from a member of government: what they remember, and the health controls.
+  await dock("Politics").click();
+  await page.locator("#sheet-body .member-card").first().click();
+  await page.locator('[data-testid="dev-ill"]').waitFor();
+  assert.ok(
+    (await page.locator(".dev-memory-row").count()) >= 0,
+    "the card is open",
+  );
+  await page.locator('[data-testid="dev-ill"]').click();
+  await page.waitForFunction(() =>
+    document
+      .querySelector("#person-facts")
+      ?.textContent.includes("Seriously ill"),
+  );
+  // Their records, and the trace behind one: the person view and the trace have a home here.
+  if ((await page.locator(".dev-record-ids .id").count()) > 0) {
+    await page.locator(".dev-record-ids .id").first().click();
+    await page.locator(".dev-trace h4").waitFor();
+  }
+  // Lay them off through their employer (or be told they worked today), from their card.
+  if ((await page.locator('[data-testid="dev-layoff"]').count()) > 0) {
+    await page.locator('[data-testid="dev-layoff"]').click();
+    await page.waitForFunction(() =>
+      /Laid off|worked today|no job|staff/.test(
+        document.querySelector("#person-facts .option-status")?.textContent ??
+          "",
+      ),
+    );
+  }
+  // Follow them, from their card.
+  await page
+    .getByRole("button", { name: /^(Follow|Stop following)$/ })
+    .first()
+    .waitFor();
+  // What the game offers them today: a pick is their next decision.
+  if ((await page.locator('[data-testid="dev-offer"]').count()) > 0) {
+    await page.locator('[data-testid="dev-offer"]').first().click();
+    await page.waitForFunction(() =>
+      document
+        .querySelector("#person-facts")
+        ?.textContent.includes("Picked for their next decision"),
+    );
+  }
+  await shot("person");
+  await page.evaluate(() => document.getElementById("person-close").click());
 
   // Bills and Bribe on the Government tab.
   await dock("Politics").click();
@@ -79,6 +175,27 @@ try {
         document.querySelector(".dev-bills .option-status")?.textContent ?? "",
       ),
     );
+    // A yes-or-no law is answered Yes or No and repealed by a bill; members can sign a discharge petition.
+    await page.locator('select[aria-label="Law"]').selectOption({
+      value: "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+    });
+    await page.locator('select[aria-label="Answer"]').waitFor();
+    await page.locator('[data-testid="dev-repeal"]').waitFor();
+    await page.locator('[data-testid="dev-petition"]').waitFor();
+    // The chair is cast to hear the bill, and the bill is passed again through it.
+    // (set in one step: the sheet may still be redrawing from the last pass)
+    assert.equal(
+      await page.evaluate(() => {
+        const box = document.querySelector('[data-testid="dev-chair-hears"]');
+        box.checked = true;
+        return box.checked;
+      }),
+      true,
+    );
+    // The official's answer is picked: takes.
+    await page
+      .locator('select[aria-label="Official\'s answer"]')
+      .selectOption({ value: "takes" });
     await page.locator('[data-testid="dev-bribe"]').click();
     await page.waitForFunction(
       () => document.querySelector(".dev-bribe .option-status")?.textContent,
@@ -96,7 +213,7 @@ try {
   await page.getByRole("button", { name: "Off", exact: true }).last().click();
   await page.keyboard.press("Escape");
   await dock("Calendar").click();
-  await page.locator(".calendar-layout").waitFor();
+  await page.locator(".calendar-board").waitFor();
   assert.equal(await page.locator(".dev-run").isVisible(), false);
 
   assert.deepEqual(errors, []);
