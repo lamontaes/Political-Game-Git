@@ -12,6 +12,7 @@ import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { nationalEvents } from "./modules/national-events";
+import { PRESS_MODULE_ID } from "./modules/press";
 import { coreAPI } from "./state";
 import declarations from "./data/disasters/declarations.json";
 import { placeStateKey } from "./place-map";
@@ -59,6 +60,14 @@ it("the country's disasters are generated from recorded rates and happen on thei
       `${where}: ${e.id} is a recorded disaster on its real day`,
     ).toBe(true);
     expect(e.counties).toBeGreaterThan(0);
+    // The national press has it on the wire at the nation level.
+    if (e.date <= day) {
+      const item = api
+        .moduleState(PRESS_MODULE_ID)
+        .table("wire")
+        .get(e.id) as unknown as { level: string } | undefined;
+      expect(item?.level, `${where}: ${e.id} on the wire`).toBe("nation");
+    }
     // One that has begun by the end of the run was emitted for its state.
     expect(emitted.has(e.id), e.id).toBe(e.date <= day);
   }

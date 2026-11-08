@@ -189,6 +189,8 @@ function emitDue(api: CoreAPI, id: string): void {
     personIds: [],
     placeId: `national:${row.stateKey}`,
     publicRecord: true,
+    // The national press reports it (the wire reads it at the nation level).
+    news: true,
     source: {
       tag: "SOURCED",
       asOf: today,
