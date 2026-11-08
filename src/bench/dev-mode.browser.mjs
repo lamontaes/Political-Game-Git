@@ -84,6 +84,15 @@ try {
       .querySelector("#person-facts")
       ?.textContent.includes("Seriously ill"),
   );
+  // What the game offers them today: a pick is their next decision.
+  if ((await page.locator('[data-testid="dev-offer"]').count()) > 0) {
+    await page.locator('[data-testid="dev-offer"]').first().click();
+    await page.waitForFunction(() =>
+      document
+        .querySelector("#person-facts")
+        ?.textContent.includes("Picked for their next decision"),
+    );
+  }
   await shot("person");
   await page.evaluate(() => document.getElementById("person-close").click());
 
