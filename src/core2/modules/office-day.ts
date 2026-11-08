@@ -646,9 +646,12 @@ function ownVote(api: CoreAPI, billId: string): void {
   // (the level's floor-vote stop): the character does not cast it for them a week early, on the
   // committee's day, when the floor is still ahead.
   const level = bodyReach(api, bill.bodyOfficeId);
-  const stops = stopsOf(api, player);
+  const stops = api.state.modules.has(OFFICE_DAY_MODULE_ID)
+    ? stopsOf(api, player)
+    : null;
   const floorDay = floorDateOf(api, billId);
   if (
+    stops &&
     floorDay !== null &&
     floorDay > api.state.date &&
     ((level === "state" && stops["state-floor-vote"]) ||
