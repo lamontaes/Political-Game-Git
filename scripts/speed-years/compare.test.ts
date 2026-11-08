@@ -11,16 +11,16 @@ const baseline: SpeedReceipt = {
   rows: [{ year: 1, seconds: 10, fingerprint: "saved", date: "2027-01-05" }],
 };
 describe("year speed budget", () => {
-  it("admits exactly 20% and rejects any larger slowdown", () => {
+  it("admits exactly 5% and rejects any larger slowdown", () => {
     const atLimit = {
       ...baseline,
-      rows: [{ ...baseline.rows[0]!, seconds: 12 }],
+      rows: [{ ...baseline.rows[0]!, seconds: 10.5 }],
     };
     expect(compareYears(baseline, atLimit)).toEqual([]);
     expect(
       compareYears(baseline, {
         ...atLimit,
-        rows: [{ ...atLimit.rows[0]!, seconds: 12.01 }],
+        rows: [{ ...atLimit.rows[0]!, seconds: 10.51 }],
       }),
     ).toHaveLength(1);
   });
