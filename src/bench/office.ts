@@ -12,6 +12,11 @@ import {
   leaveVoteToCharacter,
   voteOnFloor,
 } from "../core2/office-day-federal";
+import {
+  OFFICE_DAY_STATE_MODULE_ID,
+  stateFloorHolds,
+  voteOnStateFloor,
+} from "../core2/office-day-state";
 import { billOf as legislatureBillOf } from "../core2/modules/legislature";
 import type { CoreState } from "../core2/types";
 import {
@@ -73,23 +78,37 @@ const FLOOR_HOLD = "federal-floor:";
 /** The bills on tomorrow's floor that hold the player's clock for their own vote. */
 export function floorView(core: CoreState) {
   const api = coreAPI(core);
-  return heldFederal(api)
-    .filter((key) => key.startsWith(FLOOR_HOLD))
-    .map((key) => ({
-      ...billItem(core, legislatureBillOf(api, key.slice(FLOOR_HOLD.length))),
-      // What each member will do is not shown before the vote: the paper has what they told you.
-      votes: [],
-    }));
+  const held = [
+    ...heldFederal(api)
+      .filter((key) => key.startsWith(FLOOR_HOLD))
+      .map((key) => key.slice(FLOOR_HOLD.length)),
+    ...(api.state.modules.has(OFFICE_DAY_STATE_MODULE_ID)
+      ? stateFloorHolds(api)
+      : []),
+  ];
+  return held.map((billId) => ({
+    ...billItem(core, legislatureBillOf(api, billId)),
+    // What each member will do is not shown before the vote: the paper has what they told you.
+    votes: [],
+  }));
 }
 
 /** The player's own vote on a held floor bill, or the bill left to the character. */
 export function floorDecide(core: CoreState, billId: string, how: string) {
   const api = coreAPI(core);
-  if (how === "own") return leaveVoteToCharacter(api, billId);
   const person = controlledPerson(api);
-  if (!person) throw new Error("Choose a resident first.");
-  if (how !== "yes" && how !== "no" && how !== "abstain")
+  if (how !== "own" && how !== "yes" && how !== "no" && how !== "abstain")
     throw new Error("Vote yes, no or abstain.");
+  // A state legislator's floor hold, else a member of Congress's.
+  if (
+    api.state.modules.has(OFFICE_DAY_STATE_MODULE_ID) &&
+    stateFloorHolds(api).includes(billId)
+  ) {
+    if (!person) throw new Error("Choose a resident first.");
+    return voteOnStateFloor(api, person, billId, how);
+  }
+  if (how === "own") return leaveVoteToCharacter(api, billId);
+  if (!person) throw new Error("Choose a resident first.");
   voteOnFloor(api, person, billId, how);
 }
 
