@@ -233,6 +233,13 @@
       "matchedBy": "plug",
       "stopgapId": "SG-GOV-outside-revenue-monthly",
       "what": "A twelfth of a government's yearly Census revenue paid in each month with no taxpayer, sale or grant behind it."
+    },
+    {
+      "kind": "accounts.transfer",
+      "idPrefix": "reserve-sweep",
+      "matchedBy": "plug",
+      "stopgapId": "SG-GOV-reserve-sweep",
+      "what": "What a state or local treasury holds above its reserve (about a month and a fifth of yearly spending), invested outside the town in trust funds and securities, so no treasury piles up the Census year's surplus."
     }
   ]
 }

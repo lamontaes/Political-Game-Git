@@ -14,6 +14,7 @@
  * otherwise), and an approved measure becomes the state's law on its
  * effective date, reaching named residents through the law-effects module.
  */
+import { ageInYears } from "../kernel/dates";
 import { townLean } from "./campaigns";
 import measuresData from "../data/elections/ballot-measures.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
@@ -133,9 +134,7 @@ export function putOnBallot(
 }
 
 const ageOn = (p: Readonly<PersonState>, date: string) =>
-  Number(date.slice(0, 4)) -
-  Number(p.birthDate.slice(0, 4)) -
-  (date.slice(5) < p.birthDate.slice(5) ? 1 : 0);
+  ageInYears(p.birthDate, date);
 
 /** Who turned out for a race today. */
 function votedToday(api: CoreAPI): ReadonlySet<string> {

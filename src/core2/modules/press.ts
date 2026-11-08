@@ -21,7 +21,12 @@ import briefs from "../data/press/briefs.json" with { type: "json" };
 import nationalJson from "../data/press/national.json" with { type: "json" };
 import { bookkeeping } from "../bookkeeping";
 import { coreAPI, fillInPerson, registerModule } from "../state";
-import { addDays, daysBetweenText, makeIsoDate } from "../kernel/dates";
+import {
+  addDays,
+  ageInYears,
+  daysBetweenText,
+  makeIsoDate,
+} from "../kernel/dates";
 import { spendLivingCost } from "../official-living";
 import { keepsWhy } from "../why-kept";
 import {
@@ -58,6 +63,7 @@ import {
   CAMPAIGNS_MODULE_ID,
   campaignFor,
   campaignRecognition,
+  interviewHeldInTown,
   makeStatements,
   touchImpression,
   registerAdOutlet,
@@ -446,9 +452,7 @@ const leanOf = (api: CoreAPI, id: string): number =>
 const table = (api: CoreAPI, name: string) =>
   api.moduleState(PRESS_MODULE_ID).table(name);
 const ageOn = (p: Readonly<Pick<PersonState, "birthDate">>, date: string) =>
-  Number(date.slice(0, 4)) -
-  Number(p.birthDate.slice(0, 4)) -
-  (date.slice(5) < p.birthDate.slice(5) ? 1 : 0);
+  ageInYears(p.birthDate, date);
 const bandOf = (age: number): Band =>
   age < 30 ? "18-29" : age < 50 ? "30-49" : age < 65 ? "50-64" : "65+";
 
@@ -3656,6 +3660,9 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         break;
       if (already(api, outlet.id, f.id)) continue;
       if (worth < newsworthyBar(outlet)) continue;
+      // The town's outlet interviews a district candidate by the town's share
+      // of the race (the player's own invitations are never thinned).
+      if (f.personId !== playerId && !interviewHeldInTown(api, f.id)) continue;
       const row = arrange(api, f.id, outlet.id, "outlet");
       if (row.status === "invited" && f.personId === playerId)
         invitedThisWeek.set(row.candidateId, [

@@ -21,7 +21,6 @@ import {
   personalityShares,
   startingConditionAssignments,
 } from "../condition-pack";
-import { remainingDaysAfterOnset } from "../death-causes";
 import {
   DEATH_WEB_REFRESH_DAY,
   deathWebFactor,
@@ -31,6 +30,7 @@ import {
 import {
   assignDeathCause,
   DEATH_CAUSE_FACT_KEY,
+  remainingDaysAfterOnset,
   SUBSTANCE_CONDITION,
 } from "../death-cause";
 import { incomeBandOf } from "../counted-income-fifth";
