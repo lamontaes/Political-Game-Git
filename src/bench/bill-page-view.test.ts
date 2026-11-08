@@ -97,4 +97,61 @@ describe(`the bill page's view (seed ${seed})`, () => {
       `no drawn place showed a bill page (seed ${seed}): ${tried.join("; ")}`,
     );
   }, 900_000);
+
+  it("gives a budget line the law-reach data's own scope, with no counts", () => {
+    for (let i = 0; i < 16; i += 1) {
+      const draw = drawPlace(`${seed}:scope:${i}`, "bill-page-scope");
+      const world = buildBenchWorld(draw.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: draw.key,
+      });
+      const api = coreAPI(world.core);
+      const council = (
+        api
+          .moduleState("core2-offices-v1")
+          .table("offices")
+          .rows() as unknown as { id: string; kind: string }[]
+      ).find((o) =>
+        ["council", "township-board", "county-board"].includes(o.kind),
+      );
+      if (!council) continue;
+      const seated = members(api, council.id);
+      if (seated.length < 3) continue;
+      const first = memberKey(seated[0]!);
+      const items = seatView(world.core, first)
+        .bodies.flatMap((b) => b.menus)
+        .flatMap((m) => m.items)
+        .filter((item) => item.line && item.allowed !== false);
+      const withScope = items.find((item) => item.line === "highways");
+      if (!withScope) continue;
+      let bill: { id: string };
+      try {
+        bill = seatAct(world.core, first, {
+          kind: "draft",
+          officeId: council.id,
+          line: "highways",
+          value: 10_000_000,
+        }) as { id: string };
+      } catch {
+        continue;
+      }
+      const page = billPageView(world.core, bill.id, first);
+      const section = page.sections[0]!;
+      expect(section.labelKey, draw.name).toBe("highways");
+      expect(section.scope, `${draw.name}: the section's scope`).toBeTruthy();
+      expect(section.scope!.organizations, draw.name).toContain(
+        "enterprise:transportation",
+      );
+      expect(section.scope!.people, draw.name).toEqual({
+        ageFrom: "drivingAge",
+      });
+      console.log(
+        `bill-page scope: ${draw.name} (${draw.key}, seed ${draw.seed}) highways: ${JSON.stringify(section.scope)}`,
+      );
+      return;
+    }
+    throw new Error(
+      `no drawn place had a council that may set highways (seed ${seed})`,
+    );
+  }, 900_000);
 });
