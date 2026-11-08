@@ -24,7 +24,7 @@
  * stand (the arc's `asks`). One numbering and one ending decider serve both.
  */
 import { traitLean } from "../core2/choice";
-import { decisionKinds } from "../core2/trait-decisions";
+import { decisionKinds } from "../core2/trait-decision-table";
 import { P } from "../core2/parameters";
 import { stableHash } from "../core2/kernel/ids";
 import type { CoreState, PersonId } from "../core2/types";

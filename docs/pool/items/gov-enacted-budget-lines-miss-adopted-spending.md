@@ -6,9 +6,9 @@ kind: bug
 priority: 2
 size: M
 lead: governing
-status: open
+status: done
 claimed-by:
-pr:
+pr: #7609
 blocked-on:
 source: added with npm run pool -- add
 ---

@@ -26,14 +26,14 @@
   {
     "id": "SG-GOV-official-identity-only",
     "kind": "missing-core-api",
-    "file": "src/core2/data/campaigns/parameters.json",
-    "line": 266,
-    "whatItFakes": "A state or federal officeholder outside the town is a stable identity (name, gender, birth date, party) with no core2 person behind it.",
-    "why": "core2 has no fill-in yet: a named person outside the town can't become a full person when clicked. Resolved by OPUS-OFFICIALS (2026-10-13): every state and federal official outside the town is filled in at the opening as a full person with traits, views, a party wing, a career and colleagues (src/core2/modules/officials.ts); a holder seated later is filled in the first time their seat is read.",
+    "file": "src/core2/modules/offices.ts",
+    "line": 607,
+    "whatItFakes": "A state or federal officeholder seated after the opening (a successor, a replacement, the next term) is a term with an identity (name, gender, birth date, party) and personId null until their seat is first read. Until then a body reads them by party alone (leadership.ts leanFor: the party's side times campaign parameter identityLeanScale), and a governor's cabinet candidates are fictional identities whose lean is the governor's side times identityLeanScale (executive.ts, governor cabinet pool).",
+    "why": "Reopened Nov 8, 2026 (Legislation): the Oct 13 fix filled every official at the opening, but seatNamedOfficial still seats later holders as identities, and two readers still stand in for a person by party: leadership.ts leanFor and the governor's cabinet candidates in executive.ts. The successor-governor item (gov-successor-governor-identity-only-no-office-day) showed the same seam in the office-day engine.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
-    "replacement": "CORE's two-level fill-in builds the full person from this identity (seeded from the world and the seat), with kin and a past from PEOPLE.",
-    "status": "resolved"
+    "replacement": "Seat a later holder as a person at seating (officials.ts seatOfficial / fillIn from the identity and the seat) so memberKey is a person and leanOf is read, and draw a governor's cabinet candidates as residents of the capital's place (the two-level fill-in) with their own leans. Then delete the identityLeanScale parameter and this marker.",
+    "status": "open"
   },
   {
     "id": "SG-GOV-start-law-carried-back",
@@ -213,7 +213,9 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
     "replacement": "The council's or legislature's budget vote (M3-05) and the executive's priorities.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedAt": "2026-11-08",
+    "resolution": "Each fiscal year's budget is adopted by its council's or legislature's vote (src/core2/modules/budgets.ts header, legislatedBudget); the enacted lines are carried forward only when a year's bill fails, which is the rule's fallback, not a stand-in for a missing vote."
   },
   {
     "id": "SG-GOV-veto-override-rule",
@@ -1494,7 +1496,7 @@
     "why": "Only the 144 compiled municipal governments carry a charter reading; every other town's charter is unread. Narrowed Oct 19: the compiled readers now carry the body name. Narrowed again: a town of a listed kind takes its state's usual body, so only the few consolidated governments listed by bare name keep the generic name.",
     "addedBy": "SESSION-C",
     "addedAt": "2026-10-15",
-    "replacement": "Carry each charter\u2019s collective body name into the municipal reading and replace the default.",
+    "replacement": "Carry each charter’s collective body name into the municipal reading and replace the default.",
     "status": "open"
   },
   {
@@ -1506,7 +1508,7 @@
     "why": "The repository has no per-place dual-office compilation; the previous engine vacated every prior office without reading any law. Research endpoint returned a web application firewall block.",
     "addedBy": "SESSION-C",
     "addedAt": "2026-10-15",
-    "replacement": "Source each place\u2019s prohibitions and exceptions, replacing the estimated pairs in the same reader.",
+    "replacement": "Source each place’s prohibitions and exceptions, replacing the estimated pairs in the same reader.",
     "status": "open"
   },
   {
@@ -2124,18 +2126,6 @@
     "status": "open"
   },
   {
-    "id": "SG-GOV-county-race-town-only",
-    "kind": "missing-record",
-    "file": "src/core2/modules/candidacy.ts",
-    "line": 753,
-    "whatItFakes": "A county seat is weighed for running only by the played town's adults (named and counted): the rest of the county votes in its county's races (race-places.ts basePlaces), but nobody from it runs. In Mallard Bay, Oklahoma nine county contests were each weighed by the same 251 adults and each drew one candidate, and 161 of 175 county contests in 24 drawn places were uncontested.",
-    "why": "The rest of the county is counted coarsely as an electorate place (electorate-places.ts), with no counted records candidacy reads and no filled-in person to file. Elections, Nov 8, Cedar Mills MN seed a1: county tail people are weighed (about 3,060 per seat) but, filled in, have no job (the county place's counted working adults are unplacedWorkers with no recorded job or employer), no school peers and no years-in-place or neighbor record, so their circle is empty (known 0, standing 0) and none files; candidacy standing reads only school peers, a workgroup and the circle. The fix is a county sample in the opening (recorded employers, years in place and neighbors), owned by Lives.",
-    "addedBy": "Lane 1 (elections-local-races-too-uncontested)",
-    "addedAt": "2026-11-04",
-    "replacement": "The rest of the county's counted records weigh running for its seats by the same chooser, a drawn challenger filled in as a full person living elsewhere in the county (pool item elections-county-race-sees-only-the-town, step B).",
-    "status": "open"
-  },
-  {
     "id": "SG-GOV-outside-session-result-only",
     "kind": "missing-mechanic",
     "file": "src/core2/modules/world-legislating.ts",
@@ -2176,7 +2166,7 @@
     "kind": "missing-mechanic",
     "file": "src/core2/modules/legislature.ts",
     "line": 4041,
-    "whatItFakes": "A discharge petition is counted on the day the committee meets on the bill. The House rule makes members wait until the bill has been in committee thirty legislative days, and only the House has a row: no state's discharge rule is in the data.",
+    "whatItFakes": "A discharge petition is counted on the day the committee meets on the bill. The House rule makes members wait until the bill has been in committee thirty legislative days, and other chambers have waits and filing rules of their own; none is modeled. Twelve chambers have a row (the U.S. House and eleven state chambers whose rule was read from its source); the other chambers' rules are NOT FOUND or are floor votes rather than petitions (data/research/legislature/discharge-rules-2026-11.json).",
     "why": "The game's committee meets once on a bill, on a day, and has no calendar of legislative days to count a wait against; the states' rules have not been researched.",
     "addedBy": "claude/dev-mode-discharge",
     "addedAt": "2026-11-08",
@@ -2193,6 +2183,18 @@
     "addedBy": "Money",
     "addedAt": "2026-11-08",
     "replacement": "Trust funds and bond holders as real accounts with their own deposits, benefits and earnings (insurance-trust revenue and expenditure lines).",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-REACH-B-child-care-enrollment",
+    "kind": "missing-engine",
+    "file": "src/core2/data/laws/reach-group-b.json",
+    "line": 320,
+    "whatItFakes": "Child care assistance pays the household of each child under 13 whose family income is under the state's limit (a family of three's limit scaled by the square root of family size) and who has a working adult, the average CCDF subsidy times the 20 percent of eligible children who receive one; no child is recorded as enrolled with a provider and no child-care bill changes. The work test is a resident adult employed; searching for work, education and training do not count.",
+    "why": "There is no provider enrollment or child-care bill in the core.",
+    "addedBy": "night:laws-and-effects",
+    "addedAt": "2026-11-08",
+    "replacement": "A child-care enrollment record (child, provider, hours, the family's copay up to 7 percent of income) and the household's child-care bill, reduced by the subsidy while the child is enrolled.",
     "status": "open"
   }
 ]

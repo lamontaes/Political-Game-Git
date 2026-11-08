@@ -10,6 +10,7 @@ import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { enactLaw, lawChain } from "./modules/laws";
+import { appliedOn } from "./law-reach/applied";
 import { coreAPI } from "./state";
 
 const QUESTION = "us-federal-positions:budget.pay-for-a-higher-debt-limit";
@@ -76,6 +77,10 @@ it(
       );
       expect(owed(lawWorld)).toBeLessThanOrEqual(limit);
       expect(borrowed).toBeLessThan(wanted);
+      // The law reached the Treasury: a law-reach row names it and the borrowing held back.
+      const reached = appliedOn(api, QUESTION);
+      expect(reached.length).toBeGreaterThan(0);
+      expect(reached.reduce((n, r) => n + r.amountMinor, 0)).toBeLessThan(0);
     } finally {
       setBookkeeping(bookkeeping);
     }

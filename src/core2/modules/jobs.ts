@@ -45,7 +45,6 @@ import {
   countedFacts,
   fullFacts,
   inGroup,
-  lowWageStaffFactor,
   markUnwiredLaborLinks,
   participationShift,
   type LaborFacts,
@@ -1204,21 +1203,13 @@ function reviewEmployers(api: CoreAPI): void {
       p("jobsStaffGapActedPerMonth") * (observedStaff - previousSalesStaff);
     // The market forecast already reads regional and national conditions.
     // Actual receipts let firms diverge when customers pay different sellers.
-    // The web's factor on low-wage jobs (a higher wage floor) moves the
-    // employer's own target by the low-wage share of its staff.
-    let lowHeads = 0;
-    for (const job of jobs)
-      if ((job.hourlyMinor ?? 0) < p("jobsLowWageLineHourlyMinor"))
-        lowHeads += headsOf(c, job);
+    // A higher wage floor reaches the employer through its own books: the
+    // payroll it raises is paid out of the same receipts the staffing target
+    // and the loss memory (`affordableStaff`) read, and its prices follow its
+    // costs. No separate factor moves the target.
     const demandTarget =
-      (projected * (1 - p("jobsSalesForecastWeight")) +
-        salesStaff * p("jobsSalesForecastWeight")) *
-      lowWageStaffFactor(
-        api,
-        c.organizations.get(row.id)!.placeId,
-        lowHeads,
-        staff,
-      );
+      projected * (1 - p("jobsSalesForecastWeight")) +
+      salesStaff * p("jobsSalesForecastWeight");
     const target =
       trading && trading.lossMonths > 0
         ? affordableStaff(demandTarget, staff, trading)
@@ -1931,9 +1922,14 @@ function reviewRegionalFinds(api: CoreAPI): void {
           ? workLeans(c, person).applyLean
           : p("zero");
       const at = regionalConditions(api, seeker.placeId);
+      const birth =
+        person?.birthDate ?? residentFacts(c, seeker.personId)?.birthDate;
+      const age = birth
+        ? daysBetweenText(birth, c.date) / p("jobsDaysPerYear")
+        : undefined;
       const pull =
         (seeker.regionalPull ?? p("zero")) +
-        findPerQuarter(api, at.meanOverNow, lean) * month;
+        findPerQuarter(api, at.meanOverNow, lean, age) * month;
       if (pull >= p("one")) found.push(seeker);
       else
         store(api)
@@ -1973,7 +1969,9 @@ function turnoverJobs(api: CoreAPI): JobInput[] {
  * work (`reviewRegionalFinds`) and no losing of it, and its out-of-work count
  * drains to nothing.
  */
+// stopgapId: SG-LABOR-turnover-fixed-rate (a fixed JOLTS layoff pace stands in for firms' own demand shocks)
 function reviewTurnover(api: CoreAPI): void {
+  stopgap("SG-LABOR-turnover-fixed-rate");
   const c = core(api),
     p = (key: string) => api.parameter(key);
   const month =

@@ -141,7 +141,9 @@
     "addedBy": "Session D",
     "addedAt": "2026-10-15",
     "replacement": "A shared business enrollment API accepting the existing owner and sourced books, used by press without direct table writes.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedAt": "2026-11-08",
+    "resolution": "Press enrolls its recorded owner through the business module's public enrollBusinessOwner (src/core2/modules/press.ts), so it no longer writes the owner table directly."
   },
   {
     "id": "SG-PEOPLE-cause-holder-weekly-contacts",

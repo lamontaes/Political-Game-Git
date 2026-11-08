@@ -13,6 +13,7 @@
  * Views come from a stand-in until OPUS-PEOPLE's views engine lands
  * (`campaign-views.ts`, SG-GOV-views-stand-in).
  */
+import { lawApplied } from "../law-reach/applied";
 import { FAST_FORWARD_STRIDE, fastForward } from "../fast-forward";
 import { townOutsideOf } from "../opening-outside-market";
 import { candidateIdentity } from "../candidate-identity";
@@ -2874,6 +2875,8 @@ export function contributionLimit(
   readonly minor: number | null;
   readonly source: string;
   readonly estimate: boolean;
+  /** The law row the limit stands on (its series and record id), where one is open. */
+  readonly law?: { readonly key: string; readonly id: string };
 } {
   const contest = elections(api, "contests").get(
     contestId,
@@ -2912,6 +2915,14 @@ export function contributionLimit(
           ? `${String(law.governing.source)}`
           : `${federal.source} ${federal.sourceUrl}`,
       estimate: false,
+      ...(fromLaw !== null && law?.governing
+        ? {
+            law: {
+              key: "federal-campaign-contribution-limit",
+              id: law.governing.id,
+            },
+          }
+        : {}),
     };
   }
   const key =
@@ -2934,6 +2945,7 @@ export function contributionLimit(
         minor: stateRow.value * 100,
         source: String(stateRow.source),
         estimate: stateRow.estimate === true,
+        law: { key: series, id: stateRow.id },
       };
   }
   const row = research.limits[townRow(api).stateKey]?.[key];
@@ -3372,6 +3384,19 @@ export function donationAnswer(
     Math.floor(
       Math.max(0, Math.min(wanted - given, room, donor.liquidMinor)) / 100,
     ) * 100;
+  // The law reached the donor when it held the gift below what they would
+  // have given.
+  const wouldGive = Math.min(wanted - given, donor.liquidMinor);
+  if (limit.law && room < wouldGive)
+    lawApplied(api, {
+      key: limit.law.key,
+      lawId: limit.law.id,
+      targetId: donorId,
+      target: "person",
+      engine: CAMPAIGNS_MODULE_ID,
+      what: "gift-held-to-the-limit",
+      amountMinor: -(wouldGive - Math.max(0, room)),
+    });
   if (amount <= 0)
     return { givenMinor: 0, why: room <= 0 ? "at-limit" : "small" };
   postMoney(
@@ -3505,6 +3530,21 @@ export function askOutsideDonors(api: CoreAPI, filingId: string): number {
     const amount = donors * each;
     if (amount <= 0) continue;
     const donorId = `outside:${place.id}`;
+    // The law reached this place's donors when it held each gift below what
+    // they would have given.
+    const wouldGive =
+      spare * reason * campaignParameter("donationShareOfCashPerWarmth");
+    if (limit.law && limit.minor !== null && limit.minor < wouldGive)
+      lawApplied(api, {
+        key: limit.law.key,
+        lawId: limit.law.id,
+        targetId: donorId,
+        target: "group",
+        engine: CAMPAIGNS_MODULE_ID,
+        what: "gift-held-to-the-limit",
+        count: donors,
+        amountMinor: -Math.round(donors * (wouldGive - limit.minor)),
+      });
     const given = giftOf(api, filingId, donorId)?.totalMinor ?? 0;
     // The outside account pays the campaign's account through the accounts
     // API, a flow recorded in outside-flows.json as the donors' own money.
@@ -5926,7 +5966,7 @@ export function rivalDay(
     : null;
   const target = petition?.needed ? signaturesToGather(petition.needed) : 0;
   const shortfall = target
-    ? Math.max(0, target - petition!.signers.length) / target
+    ? Math.max(0, target - petition!.signed) / target
     : 0;
   const home = candidate.placeId === town;
   const campaign = campaignFor(api, filingId);

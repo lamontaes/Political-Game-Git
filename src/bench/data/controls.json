@@ -106,8 +106,7 @@
     "economy": "Opening the economy",
     "core": "Starting the world",
     "government": "Seating the government",
-    "opening": "Preparing the opening",
-    "done": "Ready"
+    "opening": "Preparing the opening"
   },
   "opening": {
     "news": "News",
@@ -341,6 +340,7 @@
     "fullScreenUnavailable": "Full screen is unavailable.",
     "devMode": "Dev mode",
     "quitToTitle": "Quit to title",
+    "colorBlind": "Color-blind colors",
     "sceneStop": "Scenes that may stop the day",
     "sceneGroups": {
       "political": "Politics",
@@ -732,7 +732,8 @@
     "fiscalYear": "fiscal year",
     "priorities": "Your priorities",
     "partiesTitle": "Parties",
-    "subjects": "Subjects"
+    "subjects": "Subjects",
+    "backToGovernment": "Back to the government"
   },
   "results": {
     "you": "You",
@@ -806,6 +807,9 @@
     "filingCloses": "Filing closes",
     "fileForIt": "File for it",
     "youFiled": "You are running",
+    "cantFileResidency": "You can't file for this race. It serves {required}, and your address is in {actual}.",
+    "cantFileAge": "You can't file for this race yet. The age to file is {required}, and you are {actual}.",
+    "cantFile": "You can't file for this race.",
     "noBallot": "No local election is on the calendar",
     "dates": "Dates",
     "electionDay": "Election day",
@@ -849,7 +853,8 @@
     "lastYear": "Last year",
     "whoWrote": "Who wrote it",
     "adoptedBy": "Adopted by",
-    "fiscalYear": "Fiscal year"
+    "fiscalYear": "Fiscal year",
+    "asked": "Asked"
   },
   "saves": {
     "none": "No life is saved yet.",
@@ -941,6 +946,7 @@
     "amendBill": "Amend a section",
     "lower": "Lower section",
     "raise": "Raise section",
+    "reverse": "Reverse section",
     "callVote": "Call the vote on it",
     "adopted": "Adopted",
     "rejected": "Rejected",
@@ -983,7 +989,7 @@
     "back": "Back to the bills",
     "reaches": "Reaches your town",
     "yourMembers": "Your members",
-    "empty": "No bill is before your state or Congress yet."
+    "empty": "No bill is before your town, county, state or Congress yet."
   },
   "frontTitles": {
     "front-new": "New game",

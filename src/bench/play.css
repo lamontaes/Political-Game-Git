@@ -97,6 +97,17 @@
   --key-hover: linear-gradient(#3e3e44, #26262a);
   --raised: linear-gradient(#4a4a50, #2a2a2e);
   --lying: #ffc9bd;
+  /* The shared signal colors: the one place a menu reads them (color-blind mode swaps them). */
+  --alarm: #ff1f14;
+  --alarm-rgb: 255, 31, 20;
+  --signal-yes: #5aa36b;
+  --signal-no: #c4524f;
+  --signal-none: #8c8c8c;
+  --party-democratic: #3f6fb5;
+  --party-republican: #b9584a;
+  --party-other: #8f8c86;
+  --party-libertarian: #c9a227;
+  --party-green: #4f8a4f;
   --name: "Cinzel", "Trajan Pro", Georgia, serif;
   --speech: "Andada Pro", Georgia, serif;
   --ui: "Fira Sans", "Helvetica Neue", sans-serif;
@@ -117,6 +128,17 @@ body {
   color: var(--text);
   font: 400 14.5px/1.4 var(--ui);
   overflow: hidden;
+  /* A game, not a web page: clicking a title never selects it (C17). */
+  user-select: none;
+  -webkit-user-select: none;
+}
+/* Only what is typed into stays selectable. */
+input,
+textarea,
+select,
+[contenteditable] {
+  user-select: text;
+  -webkit-user-select: text;
 }
 p,
 h1,
@@ -616,12 +638,16 @@ select:focus-visible {
   transform: translate(-0.3px, -2.3px);
 }
 .lie-scales.on {
-  background: radial-gradient(circle, rgba(255, 30, 20, 0.3), transparent 72%);
+  background: radial-gradient(
+    circle,
+    rgba(var(--alarm-rgb), 0.3),
+    transparent 72%
+  );
 }
 .lie-scales.on svg {
-  stroke: #ff1f14;
-  filter: drop-shadow(0 0 3px rgba(255, 31, 20, 0.95))
-    drop-shadow(0 0 8px rgba(255, 31, 20, 0.7));
+  stroke: var(--alarm);
+  filter: drop-shadow(0 0 3px rgba(var(--alarm-rgb), 0.95))
+    drop-shadow(0 0 8px rgba(var(--alarm-rgb), 0.7));
 }
 @media (prefers-reduced-motion: reduce) {
   .lie-scales .beam,
@@ -961,6 +987,22 @@ input[type="range"]::-moz-range-thumb {
 }
 #new-life b {
   color: #fff;
+}
+/* The loading bar: a plain track and a gold fill that stays inside it, one sixth for each
+   step the world builds in (owner, Nov 8; the Oct 28 stray piece was the old fill's
+   overhang past the frame). */
+.progress {
+  height: 6px;
+  margin: 14px 0 8px;
+  background: rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+}
+.progress span {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, var(--brass-lo), var(--gold));
+  transition: width 0.5s ease-out;
 }
 #front-status:empty {
   display: none;
@@ -2015,33 +2057,10 @@ body:not(.dev) .dev-only {
   font: 400 13.5px var(--ui);
   color: var(--text-2);
 }
-.coach {
-  box-shadow:
-    0 0 0 1px var(--iron),
-    0 0 12px rgba(255, 255, 255, 0.55),
-    0 0 24px rgba(214, 189, 132, 0.45) !important;
-  animation: coach 1.6s ease-in-out infinite;
-}
-@keyframes coach {
-  50% {
-    box-shadow:
-      0 0 0 1px var(--iron),
-      0 0 4px rgba(255, 255, 255, 0.3),
-      0 0 10px rgba(214, 189, 132, 0.2);
-  }
-}
 @media (max-width: 900px) {
   #news-reader {
     inset: var(--gutter);
     grid-template-columns: 1fr;
-  }
-}
-
-/* Reduced motion (owner's UI brief, Sept 27, 2026): the first choices'
-   glow holds still. */
-@media (prefers-reduced-motion: reduce) {
-  .coach {
-    animation: none;
   }
 }
 
@@ -2108,13 +2127,13 @@ body:not(.dev) .dev-only {
   box-shadow: 0 0 0 2px var(--gold);
 }
 .meeting-member.vote-yes {
-  box-shadow: 0 0 0 3px #5aa36b;
+  box-shadow: 0 0 0 3px var(--signal-yes);
 }
 .meeting-member.vote-no {
-  box-shadow: 0 0 0 3px #c4524f;
+  box-shadow: 0 0 0 3px var(--signal-no);
 }
 .meeting-member.vote-abstain {
-  box-shadow: 0 0 0 3px #8c8c8c;
+  box-shadow: 0 0 0 3px var(--signal-none);
 }
 .meeting-face {
   width: 38px;
@@ -2545,19 +2564,8 @@ select.government-state {
   gap: 12px;
   padding: 1px 0;
 }
-/* A list row's face: the round headshot at a row's size; an empty ring until
-   the figure is known, never initials (owner, Oct 28). */
-.person-row .person-row-face {
-  flex: none;
-  width: 34px;
-  height: 34px;
-  border-width: 2px;
-}
 .person-row .member-name {
   flex: 1;
-}
-.person-row-note {
-  color: var(--text-2);
 }
 /* A line that belongs to the row above it: under the name, indented past the face. */
 .person-row-sub {
@@ -2681,7 +2689,7 @@ details.entry[open] {
   border-color: var(--gold);
 }
 @media (max-width: 1100px) {
-  }
+}
 
 /* A line marked as a gap shows it took (play-mark-gap). */
 #talk-gap.marked {
@@ -3095,61 +3103,23 @@ details.entry[open] {
 #news-reader .heading {
   font: 700 34px/1.15 var(--speech);
 }
-/* The districts map on Parties: the state, its counties, the player's own
-   districts and town, each district filled with the color of the party that
-   holds it; the legend's swatches use the same colors. */
-.gov-map {
-  display: block;
-  width: 100%;
-  max-height: 300px;
-  margin: 0 0 12px;
-}
-.gov-map .map-label {
-  fill: var(--text);
-  paint-order: stroke;
-  stroke: rgba(0, 0, 0, 0.7);
-  stroke-width: 0.4em;
-  stroke-linejoin: round;
-  pointer-events: none;
-}
-.gov-map .state {
-  fill: var(--party, rgba(242, 237, 228, 0.06));
-  fill-opacity: 0.18;
-  stroke: var(--brass);
-  stroke-width: 0.4;
-}
-.gov-map .county {
-  fill: none;
-  stroke: rgba(242, 237, 228, 0.25);
-  stroke-width: 0.12;
-}
-.gov-map .yours {
-  fill: var(--party, rgba(214, 189, 132, 0.18));
-  fill-opacity: 0.55;
-  stroke: var(--gold);
-  stroke-width: 0.25;
-}
-.gov-map .yours.place {
-  fill: var(--gold);
-  fill-opacity: 1;
-}
 /* The parties' colors, by the party's name on the record. */
 .party-democratic {
-  --party: #3f6fb5;
+  --party: var(--party-democratic);
 }
 .party-republican {
-  --party: #b9584a;
+  --party: var(--party-republican);
 }
 .party-independent,
 .party-unaffiliated,
 .party-nonpartisan {
-  --party: #8f8c86;
+  --party: var(--party-other);
 }
 .party-libertarian {
-  --party: #c9a227;
+  --party: var(--party-libertarian);
 }
 .party-green {
-  --party: #4f8a4f;
+  --party: var(--party-green);
 }
 /* A place in its own view (owner, Oct 28, point 28): the picture large across
    the top, what you do there and who works there under it, then Go. */
@@ -3241,9 +3211,6 @@ details.entry[open] {
 .law-page .split-controls .heading {
   margin: 0;
   font-size: clamp(24px, 2.4vw, 34px);
-}
-.law-page .fact-plates {
-  margin: 0 0 10px;
 }
 .issue-cards .entry {
   height: 100%;
@@ -3588,10 +3555,6 @@ details.entry[open] {
 .bill-compare-cell.new {
   border-color: var(--gold);
 }
-.bill-compare-arrow {
-  color: var(--gold);
-  font-size: 22px;
-}
 
 /* ---- Framed plates, trays and the timeline (owner, Oct 29, 22:45) ----
    Content never sits on the bare panel: every group sits on a framed plate (a soft
@@ -3632,12 +3595,6 @@ details.entry[open] {
 .plate .tab-rail {
   margin: 0 0 10px;
 }
-/* Small plates side by side, one fact each: a label, the fact, a note. */
-.fact-plates {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-  gap: 10px;
-}
 .fact-plate {
   margin: 0;
   padding: 10px 14px 11px;
@@ -3648,14 +3605,6 @@ details.entry[open] {
 }
 .fact-plate .label {
   margin: 0;
-}
-.fact-value {
-  font: 600 15.5px/1.25 var(--ui);
-  color: var(--text-strong);
-}
-.fact-note {
-  font: 400 13px/1.3 var(--ui);
-  color: var(--text-2);
 }
 /* Rounded brass chips under a name: a party, a tie. */
 .chips {
@@ -4246,30 +4195,10 @@ select.release-pick {
   flex: 1;
   min-height: 0;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  grid-template-columns: minmax(0, 1fr);
   grid-template-rows: minmax(0, 1fr);
   gap: 24px;
   margin-top: 14px;
-}
-.loading-map {
-  min-height: 0;
-  padding: 0 28px 0 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.loading-map .gov-map {
-  width: 100%;
-  height: 100%;
-  max-height: 100%;
-  overflow: visible;
-}
-.loading-map .county,
-.loading-map .yours {
-  transition: opacity 0.5s ease;
-}
-.loading-map .unfilled {
-  opacity: 0.08;
 }
 .loading-journal {
   min-height: 0;
@@ -4894,8 +4823,14 @@ select.release-pick {
 }
 /* In a scene or a talk the player card and the menu buttons are gone, never dimmed (owner,
    Nov 7); the talk box takes the stage. */
-#game:has(#talk:not([hidden])) #rings,
-#game:has(#talk:not([hidden])) #card {
+#game:has(
+    :is(#talk, #meeting, #desk, #election-day, #returns, #ballot):not([hidden])
+  )
+  #rings,
+#game:has(
+    :is(#talk, #meeting, #desk, #election-day, #returns, #ballot):not([hidden])
+  )
+  #card {
   display: none;
 }
 
@@ -5338,7 +5273,38 @@ select.release-pick {
 }
 /* New game: the two choices read in the title's own type, not small capitals (fr-new). */
 #front-new .item b {
-  font: 700 24px "Playfair Display", Georgia, serif;
+  font:
+    700 24px "Playfair Display",
+    Georgia,
+    serif;
   letter-spacing: 0.01em;
   text-transform: none;
+}
+
+/* Color-blind palette (Options): the Okabe-Ito set replaces the shared signal colors, and a
+   vote ring says yes, no and abstain by its stroke as well as its color (solid, dashed,
+   dotted; never a letter). Off by default; the default look is unchanged. */
+body.color-blind {
+  --alarm: #d55e00;
+  --alarm-rgb: 213, 94, 0;
+  --signal-yes: #009e73;
+  --signal-no: #d55e00;
+  --signal-none: #999999;
+  --party-democratic: #0072b2;
+  --party-republican: #d55e00;
+  --party-other: #999999;
+  --party-libertarian: #f0e442;
+  --party-green: #009e73;
+}
+body.color-blind .meeting-member.vote-yes,
+body.color-blind .meeting-member.vote-no,
+body.color-blind .meeting-member.vote-abstain {
+  box-shadow: none;
+  outline: 3px solid var(--signal-yes);
+}
+body.color-blind .meeting-member.vote-no {
+  outline: 3px dashed var(--signal-no);
+}
+body.color-blind .meeting-member.vote-abstain {
+  outline: 3px dotted var(--signal-none);
 }

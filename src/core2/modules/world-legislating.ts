@@ -27,6 +27,7 @@
  * each member's. The session's filings, hearings and votes are counted
  * together on its floor day.
  */
+import type { GovernmentLevel } from "../government-level";
 import { townLean } from "./campaigns";
 import questionScopes from "../../../data/research/powers-catalog/question-powers.json" with { type: "json" };
 import geography from "../../../data/research/geography/state-reference.json" with { type: "json" };
@@ -149,7 +150,7 @@ const JURISDICTIONS = geography.places as Readonly<
 function questionForLevel(
   api: CoreAPI,
   question: string,
-  level: "federal" | "state" | "county" | "city",
+  level: GovernmentLevel,
   /** The government asking; the player's own state unless an outside legislature sits. */
   stateKey: string = lawChain(api).stateKey,
 ): boolean {
@@ -177,6 +178,8 @@ export function levelMayDecide(
   value = 1,
   stateKey?: string,
 ): boolean {
+  // A township is read as the town's own level (SG-GOV-township-law-level: the law chain has no township level).
+  if (level === "township") api.stopgap("SG-GOV-township-law-level");
   const own = level === "township" ? "city" : level;
   if (!questionForLevel(api, question, own, stateKey)) return false;
   const provision: Provision = { kind: "policy-question", question, value };
@@ -652,25 +655,26 @@ function fileLines(
     const base = now - changed;
     if (!(base > 0)) continue;
     const question = `budget-line:${name}`;
+    // A member's stance on a line does not depend on which way it is moved.
+    const stances = filers.map((member) =>
+      Math.max(
+        -1,
+        Math.min(
+          1,
+          member.stance(question) +
+            campaignParameter("constituentWeight") *
+              personStance(member.home, question),
+        ),
+      ),
+    );
     for (const direction of [1, -1]) {
-      // A change the body just turned down is not filed again at once.
-      if (barred(question, direction)) continue;
       let sponsor: Filer | null = null;
       let best = 0;
       let wanted = 0;
       let cosponsors = 0;
       const gaps: number[] = [];
-      for (const member of filers) {
-        const stance = Math.max(
-          -1,
-          Math.min(
-            1,
-            member.stance(question) +
-              campaignParameter("constituentWeight") *
-                personStance(member.home, question),
-          ),
-        );
-        const gap = (base * scale * stance - changed) * direction;
+      for (const [at, member] of filers.entries()) {
+        const gap = (base * scale * stances[at]! - changed) * direction;
         const reason = gap / base - minimum;
         if (reason <= 0) continue;
         cosponsors += 1;
@@ -689,11 +693,17 @@ function fileLines(
       // ask, so the line settles where the body's median member stands and
       // is not pushed past it and back.
       const majority = Math.floor(filers.length / 2) + 1;
-      if (sponsor && gaps.length >= majority) {
-        gaps.sort((a, b) => b - a);
-        wanted = Math.round(gaps[majority - 1]! * direction);
-      }
-      if (!sponsor || wanted === 0) continue;
+      // A body brings a budget amendment to the floor only where its
+      // sponsors can count a majority; a change without the votes is not
+      // taken up (members do not spend a meeting's agenda, or a recorded
+      // vote, on an amendment they know will fail).
+      if (!sponsor || gaps.length < majority) continue;
+      gaps.sort((a, b) => b - a);
+      wanted = Math.round(gaps[majority - 1]! * direction);
+      if (wanted === 0) continue;
+      // A change the body just turned down is not filed again at once (read
+      // only for a change that would be filed: the check scans the sessions).
+      if (barred(question, direction)) continue;
       all.push({
         weight: cosponsors * (Math.abs(wanted) / base),
         filed: {

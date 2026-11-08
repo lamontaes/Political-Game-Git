@@ -319,7 +319,7 @@ function stand(): { held: boolean; takesOffice: string | null } {
       if (
         !petition ||
         !petitionCirculating(api, filing.id) ||
-        petition.signers.length >= signaturesToGather(petition.needed)
+        petition.signed >= signaturesToGather(petition.needed)
       )
         break;
       liveUntil(addDays(makeIsoDate(w.core.date), 1));
@@ -329,7 +329,7 @@ function stand(): { held: boolean; takesOffice: string | null } {
     if (petition) {
       liveUntil(addDays(makeIsoDate(petition.due), 1));
       log.push(
-        `petition: ${petition.signers.length} of ${petition.needed} signatures by ${petition.due}; the clerk's check: ${governmentView(w.core, me).filings.find((row) => row.id === filing.id)?.status ?? "none"}`,
+        `petition: ${petition.signed} of ${petition.needed} signatures by ${petition.due}; the clerk's check: ${governmentView(w.core, me).filings.find((row) => row.id === filing.id)?.status ?? "none"}`,
       );
     }
   }

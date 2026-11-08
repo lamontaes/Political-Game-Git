@@ -1,3 +1,7 @@
+import type {
+  GovernmentLevelWithTownship,
+  GovernmentLevel,
+} from "../government-level";
 import { townLean } from "./campaigns";
 import { keepsWhy } from "../why-kept";
 import { lawApplied } from "../law-reach/applied";
@@ -117,7 +121,7 @@ import proposalData from "../data/legislature/executive-proposal.json" with { ty
 import vetoWindowData from "../../../data/research/laws/veto-windows-2023.json" with { type: "json" };
 import type { Source } from "../types";
 import { decisionFromScores, scoreOffers } from "../choice";
-import { decisionKinds } from "../trait-decisions";
+import { decisionKinds } from "../trait-decision-table";
 import { discretionaryHours } from "./work";
 import { COMMITTEES, committeeForSection } from "../legislature-committees";
 import { addDays, makeIsoDate } from "../kernel/dates";
@@ -1962,7 +1966,7 @@ export function billReach(
   readonly county: string | null;
   /** The township a township board legislates for (its government-unit id). */
   readonly township: string | null;
-  readonly level: "federal" | "state" | "county" | "township" | "city";
+  readonly level: GovernmentLevelWithTownship;
 } {
   const federal = chambersOf(api, bill).includes(FEDERAL_HOUSE);
   const state = !federal && isState(api, bill);
@@ -2004,10 +2008,7 @@ export function bodyJurisdiction(api: CoreAPI, bodyOfficeId: string): string {
  * Which government a body belongs to, for a story that is not about one bill
  * (a chamber organizing itself): its body row's level.
  */
-export function bodyReach(
-  api: CoreAPI,
-  officeId: string,
-): "federal" | "state" | "county" | "city" {
+export function bodyReach(api: CoreAPI, officeId: string): GovernmentLevel {
   return bodyLevel(api, officeId);
 }
 
@@ -2022,7 +2023,7 @@ export function effectiveRule(
   bill: BillRow,
 ): {
   readonly jurisdiction: string;
-  readonly level: "federal" | "state" | "county" | "township" | "city";
+  readonly level: GovernmentLevelWithTownship;
   readonly federal: boolean;
   readonly state: boolean;
   readonly kind: "on-enactment" | "state-rule" | "days-after-adoption";
@@ -2413,10 +2414,7 @@ function payProjectGrant(
  * the body's power.
  */
 /** The level of government a lawmaking body belongs to: its body row's (a town's own body where it has none). */
-function bodyLevel(
-  api: CoreAPI,
-  bodyOfficeId: string,
-): "federal" | "state" | "county" | "city" {
+function bodyLevel(api: CoreAPI, bodyOfficeId: string): GovernmentLevel {
   return bodyRow(bodyOf(api, bodyOfficeId)?.kind ?? "")?.level ?? "city";
 }
 
@@ -2570,7 +2568,7 @@ export const FEDERAL_SENATE = "federal:us-senate";
 
 interface BodyRow {
   readonly kindPrefix: string;
-  readonly level: "federal" | "state" | "county" | "city";
+  readonly level: GovernmentLevel;
   /** Whose law the body's bills make: the nation's, the state's, the county's, its township's or the place's. */
   readonly law: "nation" | "state" | "county" | "township" | "place";
   /** The legislature whose chambers this body is one of; absent for a one-chamber body. */
@@ -2590,7 +2588,7 @@ interface BodyRow {
 }
 const BODIES = bodyRows as unknown as {
   bodies: readonly BodyRow[];
-  vetoHolder: Readonly<Record<"federal" | "state" | "county" | "city", string>>;
+  vetoHolder: Readonly<Record<GovernmentLevel, string>>;
 };
 
 /** A lawmaking body's row (src/core2/data/offices/bodies.json), by its office kind. */
@@ -2999,8 +2997,32 @@ function billSettledness(api: CoreAPI, bill: BillRow): number {
   );
 }
 
+/**
+ * Positions already worked out inside one run of the floor's amendments. The run reads the same
+ * member against the same terms again and again (a recount after each amendment, then each member
+ * against each candidate section); nothing it reads is written between its own emits, so a position
+ * is kept for the bill's id, sponsor, provisions and deals and dropped at every emit. Null outside
+ * that run, so every other caller works the position out as before.
+ */
+let positionMemo: Map<string, MemberPosition> | null = null;
+
 /** A member's position on a bill's terms (the bill as recorded, or as an offer would leave it). */
 function positionOn(
+  api: CoreAPI,
+  bill: BillRow,
+  memberId: string,
+): MemberPosition {
+  const memo = positionMemo;
+  if (!memo) return positionOfMember(api, bill, memberId);
+  const key = `${memberId}|${bill.id}|${bill.sponsorId}|${JSON.stringify(bill.provisions)}|${JSON.stringify(bill.deals)}`;
+  const kept = memo.get(key);
+  if (kept) return kept;
+  const out = positionOfMember(api, bill, memberId);
+  memo.set(key, out);
+  return out;
+}
+
+function positionOfMember(
   api: CoreAPI,
   bill: BillRow,
   memberId: string,
@@ -4162,6 +4184,17 @@ function dischargePetition(
 ): NonNullable<CommitteeRecord["discharge"]> | null {
   const row = dischargeData.rows.find((r) => r.chamberId === chamber);
   if (!row) return null;
+  // How many signatures the rule asks of this chamber's members: a majority of them, or a fraction.
+  const seated = members(api, chamber).length;
+  const rule: {
+    readonly kind: string;
+    readonly numerator?: number;
+    readonly denominator?: number;
+  } = row.rule;
+  const needed =
+    rule.kind === "majority" || !rule.numerator || !rule.denominator
+      ? Math.floor(seated / 2) + 1
+      : Math.ceil((seated * rule.numerator) / rule.denominator - 1e-9);
   // stopgapId: SG-GOV-discharge-no-wait
   api.stopgap("SG-GOV-discharge-no-wait");
   const signers = members(api, chamber)
@@ -4177,9 +4210,9 @@ function dischargePetition(
       );
     });
   return {
-    needed: row.signatures,
+    needed,
     signers,
-    discharged: signers.length >= row.signatures,
+    discharged: signers.length >= needed,
   };
 }
 
@@ -4490,6 +4523,22 @@ function floorAmendments(
   stage: "committee" | "floor" = "floor",
   seats: readonly string[] = members(api, chamber).map(memberKey),
 ): BillRow {
+  const outer = positionMemo;
+  positionMemo = new Map();
+  try {
+    return floorAmendmentsRun(api, bill, chamber, stage, seats);
+  } finally {
+    positionMemo = outer;
+  }
+}
+
+function floorAmendmentsRun(
+  api: CoreAPI,
+  bill: BillRow,
+  chamber: string,
+  stage: "committee" | "floor",
+  seats: readonly string[],
+): BillRow {
   const playerId =
     snapshotExplicitControlV1(api.state).personId ??
     (api.state as CoreState).playerId;
@@ -4554,6 +4603,8 @@ function floorAmendments(
           : d,
       ),
     };
+    // The emit may change what a position reads: the kept positions go with it.
+    positionMemo?.clear();
     api.emit({
       id: `bill-amendment:${current.id}:${chamber}:${stage}:${current.provisions.length - 1}`,
       date: api.state.date,
