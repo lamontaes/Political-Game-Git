@@ -918,7 +918,16 @@ function committedOn(
   exceptContestId?: string,
 ): Set<PersonId> {
   const contests = api.moduleState(ELECTIONS_MODULE_ID).table("contests");
+  const filings = api.moduleState(ELECTIONS_MODULE_ID).table("filings");
   const out = new Set<PersonId>();
+  // Whoever has filed for another seat that day, even if asked to run by a
+  // party or a retiring holder (those asks file without a weighed row).
+  for (const other of contests.rows() as unknown as ContestRow[])
+    if (other.electionDate === electionDate && other.id !== exceptContestId)
+      for (const filing of filings.query("byContest", [
+        other.id,
+      ]) as unknown as FilingRow[])
+        if (filing.status !== "withdrawn") out.add(filing.personId as PersonId);
   for (const row of api
     .moduleState(CANDIDACY_MODULE_ID)
     .table("weighed")
