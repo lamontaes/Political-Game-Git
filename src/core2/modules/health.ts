@@ -1085,11 +1085,30 @@ export function createHealthModule(
       }
       const date = makeIsoDate(api.state.date);
       for (const id of [...(row.onsetsByDate.get(date) ?? [])].sort()) {
-        // A husk whose illness begins is opened: the person is built now.
+        const core = api.state as CoreState;
         const person =
           api.state.people.get(id) ??
-          personOrFillIn(api.state as CoreState, id);
+          (core.husks.has(id) ? undefined : personOrFillIn(core, id));
         const found = row.cases.get(id);
+        // A husk whose illness begins is not built: nobody close to them is
+        // a full person to hear it (the onset is private), so it begins
+        // unseen on the same day and their death, on the day it falls due,
+        // builds them (below).
+        if (!person && found && core.husks.has(id)) {
+          const who = huskIdentityOf(core, id);
+          if (!who) continue;
+          api.stopgap(data.stopgapId);
+          const days = remainingDaysAfterOnset({
+            age: ageOnDate(makeIsoDate(who.birthDate), date),
+            severity: found.severity,
+            covered: null,
+          });
+          found.onsetEventId = `${data.onsetEventKind}:${id}:${date}`;
+          found.deathDate = addDays(date, days);
+          index(row.deathsByDate, found.deathDate, id);
+          row.onsets += api.parameter("one");
+          continue;
+        }
         // Someone back in the counts is counted: the counted flows decide
         // their illness and death, by the same life-table share, and their
         // kept record waits for them to be met again (one model, two tiers).
@@ -1116,7 +1135,13 @@ export function createHealthModule(
         api.emit(event);
       }
       for (const id of [...(row.deathsByDate.get(date) ?? [])].sort()) {
-        const person = api.state.people.get(id);
+        // A husk whose death falls due is built now, then dies as anyone does.
+        const person =
+          api.state.people.get(id) ??
+          ((api.state as CoreState).husks.has(id) &&
+          row.cases.get(id)?.onsetEventId
+            ? personOrFillIn(api.state as CoreState, id)
+            : undefined);
         const found = row.cases.get(id);
         if (!person?.alive || !found || isDemoted(person)) continue;
         api.stopgap(data.stopgapId);
