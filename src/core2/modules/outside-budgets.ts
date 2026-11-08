@@ -104,7 +104,7 @@ function writeBudget(
     stateKey,
     fiscalYear,
     api.state.date,
-    "state legislature",
+    { kind: "published" },
   );
   const g = stateEconomyFactor(api, stateKey.slice("US-".length));
   const scale = (lines: Readonly<Record<string, number>>) =>

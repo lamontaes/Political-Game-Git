@@ -115,13 +115,48 @@ export interface GovernmentRow {
   };
 }
 
+/**
+ * How a year's budget came to stand, as a record the screens word. A budget a
+ * body voted carries the body, each chamber's tally, the bill and what the
+ * negotiation changed; one carried forward says why; the rest say which base
+ * they are.
+ */
+export interface BudgetAdoption {
+  readonly kind:
+    | "base"
+    | "opening"
+    | "requests"
+    | "enacted"
+    | "published"
+    | "vote"
+    | "rule"
+    | "carried";
+  readonly body?: string;
+  readonly tallies?: readonly {
+    chamber: string;
+    yes: number;
+    no: number;
+  }[];
+  readonly bill?: { readonly id: string; readonly number: string };
+  /** What the negotiation did to a line: cut it in half `times` times, or dropped it. */
+  readonly amendments?: readonly {
+    line: string;
+    how: "halved" | "dropped";
+    times: number;
+  }[];
+  /** The measures that changed the adopted budget afterward. */
+  readonly amendedBy?: readonly string[];
+  /** Why last year's lines carried: the executive's veto or the body's rejection. */
+  readonly carried?: "vetoed" | "rejected";
+}
+
 export interface BudgetRow {
   readonly id: string;
   readonly governmentId: string;
   readonly fiscalYear: number;
   readonly startsOn: string;
   readonly adoptedOn: string;
-  readonly adoptedBy: string;
+  readonly adoptedBy: BudgetAdoption;
   readonly revenueMinor: Readonly<Record<string, number>>;
   readonly spendingMinor: Readonly<Record<string, number>>;
   readonly source: string;
@@ -244,7 +279,7 @@ function budgetHistory(
         budgetId: budget.id,
         governmentId: budget.governmentId,
         fiscalYear: budget.fiscalYear,
-        adoptedBy: budget.adoptedBy,
+        adoptedBy: budget.adoptedBy.kind,
       },
       publicRecord: true,
       source: {
@@ -285,7 +320,7 @@ function budgetHistory(
           budgetId: `budget:${budget.governmentId}:${fiscalYear}`,
           governmentId: budget.governmentId,
           fiscalYear,
-          adoptedBy: budget.adoptedBy,
+          adoptedBy: budget.adoptedBy.kind,
           openingBudgetId: budget.id,
           yearsBack: back,
           annualGrowth: growth.annualGrowth,
@@ -624,7 +659,7 @@ function budgetFor(
   stateKey: string,
   fiscalYear: number,
   date: string,
-  adoptedBy: string,
+  adoptedBy: BudgetAdoption,
 ): BudgetRow {
   const published = publishedBudgetFor(
     gov,
@@ -669,7 +704,7 @@ export function publishedBudgetFor(
   stateKey: string,
   fiscalYear: number,
   date: string,
-  adoptedBy: string,
+  adoptedBy: BudgetAdoption,
 ): BudgetRow {
   const row = baseRowsOf(stateKey)[gov.base];
   // A row is dollars a resident in fiscal 2022 (the calibration carries it to
@@ -850,14 +885,9 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
     const stopgapId = baseRowsOf(chain.stateKey)[gov.base]?.stopgapId;
     if (stopgapId) api.stopgap(stopgapId);
     table(api, "budgets").put(
-      budgetFor(
-        api,
-        gov,
-        chain.stateKey,
-        fy,
-        `${fy}-${gov.fiscalYearStart}`,
-        "in force at the opening",
-      ) as unknown as ModuleRow,
+      budgetFor(api, gov, chain.stateKey, fy, `${fy}-${gov.fiscalYearStart}`, {
+        kind: "opening",
+      }) as unknown as ModuleRow,
     );
     calendar.schedule({
       key: `adopt:${gov.id}:${fy + 1}`,
@@ -1247,21 +1277,16 @@ export function baseBudget(
   gov: GovernmentRow,
   fy: number,
 ): BudgetRow {
-  return budgetFor(
-    api,
-    gov,
-    lawChain(api).stateKey,
-    fy,
-    api.state.date,
-    "base",
-  );
+  return budgetFor(api, gov, lawChain(api).stateKey, fy, api.state.date, {
+    kind: "base",
+  });
 }
 
 function legislatedBudget(
   api: CoreAPI,
   gov: GovernmentRow,
   fy: number,
-  adoptedBy: string,
+  adoptedBy: BudgetAdoption,
   changes: Readonly<Record<string, number>>,
 ): BudgetRow {
   const base = budgetFor(
@@ -1288,7 +1313,7 @@ export function proposedBudget(
   api: CoreAPI,
   gov: GovernmentRow,
   fy: number,
-  adoptedBy: string,
+  adoptedBy: BudgetAdoption,
 ): BudgetRow {
   return legislatedBudget(
     api,
@@ -1307,7 +1332,7 @@ export function enactBudget(
   api: CoreAPI,
   gov: GovernmentRow,
   fy: number,
-  adoptedBy: string,
+  adoptedBy: BudgetAdoption,
   changes: Readonly<Record<string, number>>,
 ): BudgetRow {
   const prior = table(api, "enacted").get(gov.id) as unknown as
@@ -1344,8 +1369,7 @@ export function departmentRequests(
   gov: GovernmentRow,
   fy: number,
 ): Readonly<Record<string, number>> {
-  return legislatedBudget(api, gov, fy, "department requests", {})
-    .spendingMinor;
+  return legislatedBudget(api, gov, fy, { kind: "requests" }, {}).spendingMinor;
 }
 
 /**
@@ -1359,7 +1383,11 @@ export function adoptedLine(
   fy: number,
   line: string,
 ): number {
-  return legislatedBudget(api, gov, fy, "adopted", {}).spendingMinor[line] ?? 0;
+  return (
+    legislatedBudget(api, gov, fy, { kind: "enacted" }, {}).spendingMinor[
+      line
+    ] ?? 0
+  );
 }
 
 /**
@@ -1407,7 +1435,7 @@ export function carriedBudget(
   api: CoreAPI,
   gov: GovernmentRow,
   fy: number,
-  adoptedBy: string,
+  adoptedBy: BudgetAdoption,
 ): BudgetRow {
   const budget = legislatedBudget(api, gov, fy, adoptedBy, {});
   putBudget(api, budget);
@@ -1494,12 +1522,7 @@ function adoptBudget(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   else {
     // No body votes it (no seated members, or nothing to vote on): the
     // enacted lines carry, as a charter's carry-forward does.
-    budget = carriedBudget(
-      api,
-      gov,
-      fy,
-      "carried forward by the budget rule until the council or legislature votes it",
-    );
+    budget = carriedBudget(api, gov, fy, { kind: "rule" });
   }
   // The year's budget carries what the laws that set a line's level say.
   standingLineLaws?.(api);
@@ -1513,7 +1536,7 @@ function adoptBudget(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     source: voted
       ? {
           tag: "SOURCED",
-          citation: `Budget adopted (${budget.adoptedBy})`,
+          citation: `Budget adopted (${budget.adoptedBy.kind})`,
           asOf: api.state.date,
         }
       : work.source,
@@ -1522,7 +1545,7 @@ function adoptBudget(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     facts: {
       governmentId: gov.id,
       fiscalYear: String(fy),
-      adoptedBy: budget.adoptedBy,
+      adoptedBy: budget.adoptedBy.kind,
     },
   });
   // The line changes the body enacted this year reach whatever each line
@@ -1542,7 +1565,7 @@ function adoptBudget(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         placeId: lawChain(api).townPlaceId,
         source: {
           tag: "SOURCED",
-          citation: `Budget adopted (${budget.adoptedBy})`,
+          citation: `Budget adopted (${budget.adoptedBy.kind})`,
           asOf: api.state.date,
         },
         publicRecord: true,
@@ -2016,7 +2039,10 @@ export function amendBudget(
         (budget.spendingMinor[input.line] ?? 0) + input.deltaMinor,
       ),
     },
-    adoptedBy: `${budget.adoptedBy}; amended by ${input.measureId}`,
+    adoptedBy: {
+      ...budget.adoptedBy,
+      amendedBy: [...(budget.adoptedBy.amendedBy ?? []), input.measureId],
+    },
   };
   table(api, "budgets").put(amended as unknown as ModuleRow);
   // The change reaches whatever that line pays for (law-effects handlers).
