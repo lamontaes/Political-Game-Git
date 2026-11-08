@@ -3,12 +3,14 @@
  * Natural hazards come from real recorded history keyed by place and season,
  * as world generation and not dice (owner, Oct 9, 1:55 p.m.,
  * docs/design/list-pick-inventory.md; CTO, Nov 8, 12:21 on #7365). FEMA's
- * declarations for 2000 through 2024 are the record: each disaster in it has
- * the state it reached, its kind, the day it began and how many counties it
- * declared. A world takes its calendar from that record once, when it is
- * made: its seed fixes one starting shift into the record's 25 years, and a
- * game year then has the disasters of the recorded year that many years on
- * (cycling when the record runs out), in the same state, month and day.
+ * declarations are the record, through October 9, 2026 (owner, Oct 16: both
+ * FEMA's records and the world's own conditions; after the records end the
+ * game keeps making its own weather). While the world's dates fall inside the
+ * record, a game month has the real disasters of that month on their real
+ * days, in the state each reached, with the counties it declared. After it, a
+ * month cycles the 2000-2024 record under the world's one seeded starting
+ * shift, a registered stopgap (SG-NATION-hazard-replay) until the generated
+ * calendar replaces it.
  * Nothing is drawn after that and nothing in play can change it: the
  * calendar is a pure function of the world seed, the month and the record. It
  * is read a month at a time (on the 20th before the month) so a world that
@@ -34,6 +36,8 @@ const DUE_KIND = "national-event-due";
 /** The years of FEMA's record the rates are read from: 2000 through 2024. */
 const FIRST_YEAR = 2000;
 const LAST_YEAR = 2024;
+/** The last day FEMA's record covers (owner, Oct 16: after it the game keeps making its own weather). */
+const RECORD_END = "2026-10-09";
 
 type Row = [string, string, number, number, number];
 
@@ -71,7 +75,7 @@ function recordedHistory(): Map<string, Recorded[]> {
     if (!state) continue;
     for (const row of rows) {
       const year = Number(row[0].slice(0, 4));
-      if (year < FIRST_YEAR || year > LAST_YEAR) continue;
+      if (year < FIRST_YEAR || row[0] > RECORD_END) continue;
       const key = `${state}|${row[4]}`;
       const one = found.get(key);
       if (one) one.counties += 1;
@@ -133,7 +137,10 @@ function generateMonth(api: CoreAPI, month: string): void {
   const today = api.state.date;
   const events = table(api, "events");
   const year = Number(month.slice(0, 4));
-  const from = `${recordedYearFor(api, year)}${month.slice(4)}`;
+  // While the world's dates fall inside the record, FEMA's real disasters on
+  // their real dates; after it, the cycling stopgap (SG-NATION-hazard-replay).
+  const real = `${month}-01` <= RECORD_END;
+  const from = real ? month : `${recordedYearFor(api, year)}${month.slice(4)}`;
   const last = Number(
     addDays(
       addDays(makeIsoDate(`${month}-01`), 32),
@@ -143,6 +150,7 @@ function generateMonth(api: CoreAPI, month: string): void {
   (recordedHistory().get(from) ?? []).forEach((one, n) => {
     // A recorded day the game month lacks (February 29, the 31st) is its last.
     const date = `${month}-${String(Math.min(one.day, last)).padStart(2, "0")}`;
+    if (real && date > RECORD_END) return;
     // Only a day still ahead is scheduled (a day gone is the world's past).
     if (date <= today) return;
     const id = `national-event:disaster:${month}:${one.stateKey}:${one.incidentType}:${n}`;
@@ -162,7 +170,7 @@ function generateMonth(api: CoreAPI, month: string): void {
       source: {
         tag: "SOURCED",
         asOf: today,
-        citation: `FEMA's declarations ${FIRST_YEAR}-${LAST_YEAR}, the recorded year ${from} (owner, Oct 9, 2026).`,
+        citation: `FEMA's declarations, ${real ? "the real disaster on its real date" : `the recorded year ${from} replayed`} (owner, Oct 16, 2026).`,
       },
       sourceRecordIds: [id],
     });
@@ -184,7 +192,7 @@ function emitDue(api: CoreAPI, id: string): void {
     source: {
       tag: "SOURCED",
       asOf: today,
-      citation: `FEMA's declarations ${FIRST_YEAR}-${LAST_YEAR}: a recorded ${row.incidentType} disaster in ${row.stateKey} on this season's day (owner, Oct 9, 2026).`,
+      citation: `FEMA's declarations: a recorded ${row.incidentType} disaster in ${row.stateKey} (owner, Oct 16, 2026).`,
     },
     facts: {
       stateKey: row.stateKey,

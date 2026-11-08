@@ -13,6 +13,8 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { nationalEvents } from "./modules/national-events";
 import { coreAPI } from "./state";
+import declarations from "./data/disasters/declarations.json";
+import { placeStateKey } from "./place-map";
 
 const seed = process.env.NATION_SEED ?? randomBytes(8).toString("hex");
 
@@ -44,7 +46,18 @@ it("the country's disasters are generated from recorded rates and happen on thei
     states.size,
     `${where}: more than the town's own state`,
   ).toBeGreaterThan(1);
+  // Inside the record these are FEMA's real disasters on their real days.
+  const real = new Set<string>();
+  for (const [county, rows] of Object.entries(
+    declarations.byCounty as unknown as Record<string, [string][]>,
+  ))
+    for (const row of rows)
+      real.add(`${placeStateKey(`county:${county}`)}|${row[0]}`);
   for (const e of events) {
+    expect(
+      real.has(`${e.stateKey}|${e.date}`),
+      `${where}: ${e.id} is a recorded disaster on its real day`,
+    ).toBe(true);
     expect(e.counties).toBeGreaterThan(0);
     // One that has begun by the end of the run was emitted for its state.
     expect(emitted.has(e.id), e.id).toBe(e.date <= day);
