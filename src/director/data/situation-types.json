@@ -271,7 +271,7 @@
         {
           "key": "waiting",
           "fill": "kin",
-          "count": "some",
+          "count": "one",
           "moves": ["comfort", "confront", "recall", "thank"],
           "wants": ["engage", "keep-same"],
           "bearing": "glad"

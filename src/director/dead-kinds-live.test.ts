@@ -11,11 +11,11 @@ import {
   SCANDAL_REPORTED,
   considerBribe,
 } from "../core2/modules/corruption";
-import { OFFICES_MODULE_ID, type TermRow } from "../core2/modules/offices";
 import { P } from "../core2/parameters";
 import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
+import { partyOfficeholders } from "./circumstance";
 import { composeScene } from "./scene";
 import { purposeScene } from "./purpose-scene";
 import { SITUATION_LIBRARY } from "./scheduling";
@@ -32,7 +32,7 @@ import type { Director } from "./ledger";
 //   return      justice.released (justice): a person comes home from prison
 //   apology     floor-debate (legislature): the member who argued the other side
 //   accusation  scandal.reported (corruption): someone close asks if it is true
-//   advice      party-asked (candidacy): a known officeholder weighs in on running
+//   advice      party-asked (candidacy): a seated officeholder of that party weighs in on running
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const DAY_PATTERN =
   /\d{4}-\d{2}-\d{2}|\b[a-z]+[-.:][a-z-]+:|\{|\}|undefined|\d{5,}/;
@@ -247,20 +247,28 @@ describe("the dead scene kinds start from records an engine writes", () => {
           minuteOfDay: P.zero,
         },
       });
-      const adults = [...core.people.values()]
-        .filter(
-          (person) =>
-            person.alive &&
+      // Briber candidates are people the player has a tie with (a tie that can
+      // sour), the closest first.
+      const tied = [...(core.relationshipsByPerson.get(me) ?? [])]
+        .map((id) => core.relationships.get(id)!)
+        .map((row) => (row.actorId === me ? row.otherId : row.actorId))
+        .filter((id) => {
+          const person = core.people.get(id);
+          return (
+            person?.alive === true &&
             person.tier !== "husk" &&
-            person.id !== me &&
-            person.birthDate <= "2000-01-01",
-        )
+            person.birthDate <= "2000-01-01"
+          );
+        });
+      const adults = [...new Set(tied)]
+        .map((id) => core.people.get(id)!)
         .sort(
           (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
         )
         .slice(0, 80);
       let reported: string | undefined;
       let offers = 0;
+      const takenIds = new Set<string>();
       for (const offerer of adults) {
         const record = considerBribe(api, {
           offererId: offerer.id,
@@ -270,6 +278,7 @@ describe("the dead scene kinds start from records an engine writes", () => {
         });
         if (!record?.pending) continue;
         offers += 1;
+        takenIds.add(record.id);
         // The player takes it in the scene (the reply the scene writes).
         api.emit({
           id: `scene.reply:test:${record.id}`,
@@ -299,6 +308,19 @@ describe("the dead scene kinds start from records an engine writes", () => {
           reported = out.id;
           break;
         }
+      }
+      if (!reported) {
+        // A tie sours and the telling comes with the day's close.
+        playThrough(
+          core,
+          director,
+          me,
+          addDays(makeIsoDate(core.date), 2),
+          () => false,
+        );
+        reported = [...(core.logByKind.get(SCANDAL_REPORTED) ?? [])]
+          .map((id) => core.durableLog.get(id as never)!)
+          .find((row) => takenIds.has(String(row.facts?.crimeId)))?.id;
       }
       if (!reported) {
         tried.push(`${where}: ${offers} bribes taken, none reached the press`);
@@ -354,7 +376,7 @@ describe("the dead scene kinds start from records an engine writes", () => {
     throw new Error(`no accusation scene: ${tried.join("; ")} (seed ${seed})`);
   }, 3_600_000);
 
-  it(`the advice: a known officeholder weighs in the day after a party asks the player to run (seed ${seed})`, () => {
+  it(`the advice: a seated officeholder of the party weighs in the day after a party asks the player to run (seed ${seed})`, () => {
     setBookkeeping(false);
     const tried: string[] = [];
     for (let attempt = 0; attempt < 4; attempt += 1) {
@@ -365,37 +387,31 @@ describe("the dead scene kinds start from records an engine writes", () => {
           twoLevel: true,
           placeKey: place.key,
         });
-      // A member a party asks to run who knows someone holding a seat: the
+      // A member a party asks to run, whose party has a seated veteran in town: the
       // first of them, from an uncontrolled replay of the filing season.
       const first = open();
-      const holders = (core: Core) => {
-        const terms = coreAPI(core)
-          .moduleState(OFFICES_MODULE_ID)
-          .table("terms");
-        return (id: PersonId) =>
-          (terms.query("byPerson", [id]) as unknown as TermRow[]).some(
-            (term) => term.status === "serving",
-          );
-      };
-      let asked: { id: string; date: string; meId: PersonId } | undefined;
+      let asked:
+        { id: string; date: string; meId: PersonId; row: unknown } | undefined;
       for (let month = 0; month < 12 && !asked; month += 1) {
         advanceCore(first.core, addDays(makeIsoDate(first.core.date), 30));
-        const holds = holders(first.core);
         asked = [...(first.core.logByKind.get("party-asked") ?? [])]
           .map((id) => first.core.durableLog.get(id as never)!)
           .map((row) => ({
             id: row.id,
             date: row.date,
             meId: row.personIds[P.zero] as PersonId,
+            row,
           }))
           .find(
-            ({ meId }) =>
+            ({ meId, row }) =>
               first.core.people.get(meId)?.alive === true &&
-              [...first.core.people.get(meId)!.knownIds].some(holds),
+              partyOfficeholders(first.core, row, row.date).length > 0,
           );
       }
       if (!asked) {
-        tried.push(`${where}: no asked member who knows an officeholder`);
+        tried.push(
+          `${where}: no asked member with a seated officeholder of the party in town`,
+        );
         continue;
       }
       const { core, director } = open();
@@ -430,14 +446,11 @@ describe("the dead scene kinds start from records an engine writes", () => {
           expect(core.durableLog.get(moment.causeId)?.kind, here).toBe(
             "party-asked",
           );
-          // The adviser holds a seat and the player knows them.
-          expect(holders(core)(scene.askerId as PersonId), here).toBe(true);
-          expect(
-            core.people
-              .get(asked!.meId)!
-              .knownIds.has(scene.askerId as PersonId),
-            here,
-          ).toBe(true);
+          // The adviser is a seated officeholder of the party that asked.
+          const ask = core.durableLog.get(asked!.id)!;
+          expect(partyOfficeholders(core, ask, ask.date), here).toContain(
+            scene.askerId,
+          );
           const root = scene.talk.tree.replies.map((reply) => reply.line);
           expect(new Set(root.map((row) => row.move)), here).toEqual(
             new Set(["ask", "disagree", "thank", "tell"]),
