@@ -47,6 +47,7 @@ import { lawInForce, LAWS_MODULE_ID } from "./laws";
 import {
   budgetLineAddedPct,
   defenseBoostPct,
+  federalDeficitChangePct,
   GOV_MEASURES,
   govMeasure,
   govMeasureRecord,
@@ -277,6 +278,9 @@ const ENGINE_READERS: Readonly<
           placeStateKey(api.state.placeMetadata.placeKey) ?? "",
         )
       : null,
+  // The federal budget row in force against its base: the deficit's change in
+  // points of what the nation produces (the nation's, read once for every place).
+  "federal-deficit-change": (api) => federalDeficitChangePct(api),
   // The corporate rate in force is the town's state law; other places keep
   // their own. A state with no corporate income tax reads zero.
   "state-corporate-rate": (api, placeId) => {

@@ -290,12 +290,6 @@
       "stopgapId": "SG-WEB-unread-farmland-value-per-acre"
     },
     {
-      "link": "federal-deficit-to-borrowing-cost",
-      "outcome": "gov.borrowing-cost",
-      "reason": "the web does not run it: it waits on federal.deficit-change-pct-of-gdp",
-      "stopgapId": "SG-WEB-unread-gov-borrowing-cost"
-    },
-    {
       "link": "federal-rail-expansion-to-riders",
       "outcome": "rail.intercity-ridership",
       "reason": "engine doesn't read the factor: rail.intercity-ridership moves only in the web's monthly ledger; no engine multiplies its own rates by it",
