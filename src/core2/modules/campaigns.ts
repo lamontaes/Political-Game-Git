@@ -5103,7 +5103,11 @@ export function askForEndorsement(
  * tie to the speaker, their share in the group's cause and their free
  * hours. A group the player speaks for decides only by the player's choice.
  */
-function groupsWeighRace(api: CoreAPI, contestId: string): void {
+function groupsWeighRace(
+  api: CoreAPI,
+  contestId: string,
+  groups: () => readonly OrganizedGroup[],
+): void {
   const field = raceCampaigns(api, contestId);
   if (!field.length) return;
   const core = api.state as CoreState;
@@ -5116,7 +5120,7 @@ function groupsWeighRace(api: CoreAPI, contestId: string): void {
       row.organizationId && row.answer === "yes" ? [row.organizationId] : [],
     ),
   );
-  for (const group of organizedGroupsIn(api, townRow(api).townPlaceId)) {
+  for (const group of groups()) {
     if (
       backed.has(group.organizationId) ||
       !group.speakerId ||
@@ -6461,6 +6465,11 @@ function campaignWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   const turnDays = campaignParameter("campaignTurnDays");
   // Who gave this evening to a campaign's doors already.
   const walked = new Set<string>();
+  // The town's organized groups, read once for the turn: no race's turn
+  // changes who belongs to one or what one stands for.
+  let organized: readonly OrganizedGroup[] | undefined;
+  const groupsOfTheTown = () =>
+    (organized ??= organizedGroupsIn(api, townRow(api).townPlaceId));
   for (const race of (
     races.rows() as unknown as {
       id: string;
@@ -6499,7 +6508,7 @@ function campaignWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     // send work this turn; then every campaign's volunteers walk its doors on
     // the days it works, the player's campaign's too (the player's own day is
     // theirs to choose).
-    groupsWeighRace(api, race.id);
+    groupsWeighRace(api, race.id, groupsOfTheTown);
     for (const filing of ballot(api, race.id)) {
       if (filing.filedOn > date) continue;
       volunteerShifts(api, filing.id, walked);
