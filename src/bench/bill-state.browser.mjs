@@ -54,7 +54,7 @@ try {
     at = names.findIndex((t) =>
       new RegExp(
         process.env.BENCH_ROLE ??
-          "council|commissioner|alderm|trustee|supervisor|selectm",
+          "state (senator|representative)|assembl|delegate",
         "i",
       ).test(t),
     );
@@ -82,6 +82,11 @@ try {
     else if (!(await page.locator("#week").isDisabled())) break;
     await page.waitForTimeout(800);
   }
+  // The Politics sheet, where the Bills tab is.
+  await page
+    .locator('#rings [data-tab="politics"]')
+    .first()
+    .evaluate((e) => e.click());
   // Dev mode introduces a bill in a state chamber and passes it at a margin through the game's own votes.
   const result = await page.evaluate(async () => {
     const post = async (path, body) => {
