@@ -259,6 +259,7 @@
 /src/core2/home-distance.ts @lamontaes
 /src/core2/sibling-names.ts @lamontaes
 /src/core2/modules/partnerships.ts @lamontaes
+/src/core2/modules/kin-contact.ts @lamontaes
 
 # The past before the start (past)
 /src/core2/past.ts @lamontaes
