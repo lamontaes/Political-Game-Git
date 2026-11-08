@@ -328,7 +328,7 @@ export function counterNarration(
   const facts: Record<string, Fact> = {
     ...(minuteOfDay !== undefined
       ? {
-          startsOn: {
+          begins: {
             text: dayOpening(core.date, minuteOfDay),
             sourceRecordIds: [clerk.recordId],
           },
