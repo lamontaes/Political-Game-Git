@@ -369,24 +369,18 @@
     "federal": "Federal"
   },
   "travel": {
-    "staff": "staff",
-    "search": "Search destinations",
     "filing": "Filing office",
-    "go": "Go",
+    "go": "Go to",
     "open": "Open now",
     "closed": "Closed now",
     "opensAt": "Closed now. Opens {day} at {time}.",
     "counterTitle": "{office}, {town}",
-    "reasons": {
-      "work": "You work here",
-      "action": "You can",
-      "serve": "Where you serve",
-      "filing": "You file here"
-    },
     "trail": "The campaign trail",
-    "whatYouDo": "What you do here",
-    "whoWorks": "Who works here",
-    "district": "District"
+    "groupFiling": "Where you file",
+    "groupTrail": "Campaign",
+    "openLabel": "Open",
+    "whoIsThere": "Who's there",
+    "whatICanDo": "What I can do there"
   },
   "time": {
     "week": "Week"
