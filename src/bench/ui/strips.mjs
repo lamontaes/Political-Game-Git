@@ -480,3 +480,29 @@ export function moneyBoard({ columns }) {
     ),
   });
 }
+
+/** The campaign board's raised figure, big. */
+export const moneyFigure = (text) =>
+  el("p", { className: "money-figure", textContent: text });
+
+/** On my desk: a list of papers, one paper a block, its title bold. */
+export const deskList = (...nodes) =>
+  el("div", { className: "desk" }, ...nodes);
+export const deskBill = (...nodes) =>
+  el("div", { className: "desk-bill" }, ...nodes);
+export const deskTitle = (text) => el("b", { textContent: text });
+
+/** A race, party or law page: its title (with a date or other small word after it) over its columns. */
+export const rosterTitle = (text, small) =>
+  el(
+    "h2",
+    { className: "roster-title" },
+    text,
+    ...(small ? [el("span", { textContent: small })] : []),
+  );
+export const rosterCols = (...nodes) =>
+  el("div", { className: "roster-cols" }, ...nodes);
+export const rosterSide = (...nodes) =>
+  el("div", { className: "roster-side" }, ...nodes);
+export const candidate = (...nodes) =>
+  el("div", { className: "candidate" }, ...nodes);

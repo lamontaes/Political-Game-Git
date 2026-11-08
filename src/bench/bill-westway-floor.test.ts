@@ -30,6 +30,17 @@ describe("a Texas House member is held for their own floor vote (Westway, seed m
       if (held.length) {
         const bill = held[0]!;
         expect(floorView(core).map((item) => item.billId)).toContain(bill);
+        // The floor has spoken before the player votes: the debate is on the record, their vote is not.
+        const debate = [...core.durableLog.keys()].find((id) =>
+          id.startsWith(`floor-debate:${bill}:`),
+        );
+        expect(debate, "the floor debate before the roll").toBeTruthy();
+        expect(
+          api
+            .moduleState("core2-legislature-v1")
+            .table("choices")
+            .get(`${bill}|${rep}`),
+        ).toBeUndefined();
         floorDecide(core, bill, "no");
         const chosen = api
           .moduleState("core2-legislature-v1")
@@ -37,7 +48,7 @@ describe("a Texas House member is held for their own floor vote (Westway, seed m
           .get(`${bill}|${rep}`) as { vote: string } | undefined;
         expect(chosen?.vote).toBe("no");
         console.log(
-          `held: Westway, Texas, seed memA, ${core.date}: ${bill} voted No`,
+          `held: Westway, Texas, seed memA, ${core.date}: ${bill} debate ${debate} before the vote; voted No`,
         );
         return;
       }

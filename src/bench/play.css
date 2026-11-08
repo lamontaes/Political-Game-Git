@@ -1603,7 +1603,7 @@ body:not(.dev) .dev-only {
   grid-template-columns: repeat(7, minmax(0, 1fr));
   grid-template-rows: auto;
   grid-auto-rows: 74px;
-  gap: 6px;
+  gap: 0 8px;
   min-height: 0;
   max-height: 640px;
 }
@@ -1629,12 +1629,12 @@ body:not(.dev) .dev-only {
   overflow: hidden;
   text-align: left;
   font-weight: 400;
-  background: linear-gradient(
-    rgba(255, 255, 255, 0.07),
-    rgba(255, 255, 255, 0.025)
-  );
-  border: 1px solid rgba(214, 189, 132, 0.22);
-  box-shadow: inset 0 1px 6px rgba(0, 0, 0, 0.45);
+  /* The month is a ruled sheet, not a grid of boxes (fr and pl-calendar mocks). */
+  background: none;
+  border: 0;
+  border-top: 1px solid rgba(214, 189, 132, 0.2);
+  border-radius: 0;
+  box-shadow: none;
 }
 .month .day .num {
   font: 600 14px var(--ui);
@@ -1644,7 +1644,8 @@ body:not(.dev) .dev-only {
 }
 .month .day.today {
   color: var(--gold);
-  border-color: var(--gold);
+  border-top-color: var(--gold);
+  background: rgba(214, 189, 132, 0.1);
 }
 .month .day.selected {
   outline: 2px solid var(--gold);
@@ -4893,9 +4894,12 @@ select.release-pick {
   align-content: center;
 }
 .strip-screen .bsdept b {
-  white-space: nowrap;
+  /* A long name wraps to a second line before it is cut. */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-height: 1.15;
   overflow: hidden;
-  text-overflow: ellipsis;
   padding-right: 10px;
 }
 .strip-screen .bsdept em {
@@ -5490,7 +5494,7 @@ select.release-pick {
   color: #f2e6c9;
 }
 #election-day-acts .action::before {
-  content: counter(choice) ".";
+  content: counter(choice) "." / "";
   display: inline-block;
   width: 2em;
   color: #d6bd84;
@@ -5528,4 +5532,10 @@ select.release-pick {
 }
 #front-advanced .seed-row button {
   white-space: nowrap;
+}
+/* New game: the two choices read in the title's own type, not small capitals (fr-new). */
+#front-new .item b {
+  font: 700 24px "Playfair Display", Georgia, serif;
+  letter-spacing: 0.01em;
+  text-transform: none;
 }
