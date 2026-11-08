@@ -6,26 +6,47 @@ import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
 import { stripSection, nameLink } from "./strips.mjs";
 
+/** How many names a roll shows before the control that opens the rest. */
+const SHOWN_NAMES = 12;
+
 /** Names as one sentence, each a link that opens the member's card when there is one. */
-function nameSentence(people, onOpen) {
+function nameSentence(people, onOpen, words = {}) {
   const line = el("span", { className: "hispeople" });
-  people.forEach((person, at) => {
-    if (at) line.append(", ");
-    if (person.personId)
-      line.append(nameLink(person.name, () => onOpen(person)));
-    else line.append(person.name);
-  });
+  const fill = (shown) => {
+    line.replaceChildren();
+    shown.forEach((person, at) => {
+      if (at) line.append(", ");
+      if (person.personId)
+        line.append(nameLink(person.name, () => onOpen(person)));
+      else line.append(person.name);
+    });
+  };
+  // A long roll (a legislature's) shows its first names and a control for the rest, never one paragraph of hundreds.
+  if (people.length <= SHOWN_NAMES) fill(people);
+  else {
+    fill(people.slice(0, SHOWN_NAMES));
+    const more = el("button", {
+      type: "button",
+      className: "action small",
+      textContent: `${words.showAll ?? ""} ${people.length}`,
+    });
+    more.addEventListener("click", () => {
+      fill(people);
+      more.remove();
+    });
+    line.append(" ", more);
+  }
   return line;
 }
 
 /** A labeled row: the label in bold, then the names (or `empty` when none). */
-function labeledNames(label, people, onOpen, empty) {
+function labeledNames(label, people, onOpen, empty, words) {
   return el(
     "div",
     { className: "stage-row" },
     el("b", { textContent: `${label}: ` }),
     people.length
-      ? nameSentence(people, onOpen)
+      ? nameSentence(people, onOpen, words)
       : el("span", { textContent: empty }),
   );
 }
@@ -38,8 +59,8 @@ function resultBlock(entry, words, onOpen) {
     el("b", {
       textContent: `${entry.chamberTitle} · ${entry.result ?? `${words.yes} ${entry.yes.length}, ${words.no} ${entry.no.length}`}`,
     }),
-    labeledNames(words.yes, entry.yes, onOpen, words.nobody),
-    labeledNames(words.no, entry.no, onOpen, words.nobody),
+    labeledNames(words.yes, entry.yes, onOpen, words.nobody, words),
+    labeledNames(words.no, entry.no, onOpen, words.nobody, words),
   );
 }
 
@@ -92,7 +113,7 @@ export function billStageSections(
       stripSection(
         5,
         `${words.desk} · ${words[row.vote === "sign" ? "signed" : "vetoed"]}`,
-        labeledNames(words.by, [row], onOpen, words.nobody),
+        labeledNames(words.by, [row], onOpen, words.nobody, words),
         ...row.reasons.map((r) =>
           el("p", {
             textContent: `${words.reasons[r.reason]}: ${words[r.side]}`,
@@ -142,8 +163,8 @@ export function billStageSections(
         ...(done
           ? [
               el("b", { textContent: words[item.status] }),
-              labeledNames(words.yes, item.yes, onOpen, words.nobody),
-              labeledNames(words.no, item.no, onOpen, words.nobody),
+              labeledNames(words.yes, item.yes, onOpen, words.nobody, words),
+              labeledNames(words.no, item.no, onOpen, words.nobody, words),
             ]
           : amend.onCall
             ? [
@@ -195,6 +216,7 @@ export function billStageSections(
               record.witnesses,
               onOpen,
               words.nobody,
+              words,
             )
           : el("p", { textContent: words.held }),
         labeledNames(
@@ -202,12 +224,14 @@ export function billStageSections(
           record.votes.filter((v) => v.vote === "yes"),
           onOpen,
           words.nobody,
+          words,
         ),
         labeledNames(
           words.votedAgainst,
           record.votes.filter((v) => v.vote === "no"),
           onOpen,
           words.nobody,
+          words,
         ),
       ),
     );
@@ -218,9 +242,15 @@ export function billStageSections(
       stripSection(
         3,
         words.told,
-        labeledNames(words.toldFor, side("for"), onOpen, words.nobody),
-        labeledNames(words.toldAgainst, side("against"), onOpen, words.nobody),
-        labeledNames(words.toldOpen, side("open"), onOpen, words.nobody),
+        labeledNames(words.toldFor, side("for"), onOpen, words.nobody, words),
+        labeledNames(
+          words.toldAgainst,
+          side("against"),
+          onOpen,
+          words.nobody,
+          words,
+        ),
+        labeledNames(words.toldOpen, side("open"), onOpen, words.nobody, words),
       ),
     );
   }

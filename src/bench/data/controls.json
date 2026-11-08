@@ -843,6 +843,7 @@
       "consistency": "Their last vote on it",
       "bribe": "A payment taken",
       "reply": "What was said to them"
-    }
+    },
+    "showAll": "Show all"
   }
 }

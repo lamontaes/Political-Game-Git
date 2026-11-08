@@ -49,7 +49,11 @@ try {
     await page.locator("#front-pick:not([hidden])").waitFor();
     names = await page.locator("#pick-list button").allInnerTexts();
     at = names.findIndex((t) =>
-      /council|commissioner|alderm|trustee|supervisor|selectm/i.test(t),
+      new RegExp(
+        process.env.BENCH_ROLE ??
+          "council|commissioner|alderm|trustee|supervisor|selectm",
+        "i",
+      ).test(t),
     );
     if (at < 0)
       console.log(
