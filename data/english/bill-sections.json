@@ -364,6 +364,46 @@
       "subject": "Medicare drug price negotiation",
       "purpose": "let Medicare negotiate the prices of the drugs it pays for",
       "enact": "the Secretary shall negotiate the prices Medicare pays for the drugs it covers most"
+    },
+    "budget.pay-for-a-higher-debt-limit": {
+      "subject": "paying for a higher debt limit",
+      "purpose": "pay for any rise in the debt limit",
+      "enact": "any rise in the debt limit shall be matched by the spending cuts set here"
+    },
+    "immigration.admit-more-immigrants": {
+      "subject": "more immigrants admitted each year",
+      "purpose": "raise the number of immigrants admitted each year",
+      "enact": "the yearly limits on family-sponsored and employment-based immigrants shall be raised to the levels set here"
+    },
+    "education.forgive-student-loans": {
+      "subject": "forgiveness of student loans",
+      "purpose": "forgive federal student loans",
+      "enact": "federal student loan balances shall be canceled as set here"
+    },
+    "emergencies.states-share-disaster-costs": {
+      "subject": "states sharing disaster costs",
+      "purpose": "have states pay a larger share of disaster costs",
+      "enact": "the federal share of disaster assistance shall be reduced to the share set here"
+    },
+    "science-communications.national-data-privacy": {
+      "subject": "a national data privacy law",
+      "purpose": "set one national rule for personal data",
+      "enact": "operators shall follow the one national rule on personal data set here"
+    },
+    "territories-culture.statehood-for-dc": {
+      "subject": "statehood for the District of Columbia",
+      "purpose": "make the District of Columbia a state",
+      "enact": "the District of Columbia shall be admitted to the Union as a state"
+    },
+    "justice-rights.reduce-mandatory-minimums": {
+      "subject": "shorter federal mandatory minimums",
+      "purpose": "reduce federal mandatory minimum sentences",
+      "enact": "the mandatory minimum terms for the offenses named here shall be reduced as set here"
+    },
+    "government.ban-congressional-stock-trading": {
+      "subject": "a ban on members trading stock",
+      "purpose": "bar members of Congress from trading stock",
+      "enact": "members of Congress shall not buy or sell individual stocks while in office"
     }
   },
   "amounts": {
@@ -516,6 +556,46 @@
       "lower": "the age when Social Security delayed retirement credits stop shall be lowered from {before} to {value}",
       "raiseTo": "the age when Social Security delayed retirement credits stop shall be raised to {value}",
       "lowerTo": "the age when Social Security delayed retirement credits stop shall be lowered to {value}"
+    },
+    "federal-campaign-contribution-limit": {
+      "subject": "the federal limit on a gift to a candidate",
+      "purpose": "set the most a person may give a federal candidate for each election",
+      "raise": "the most a person may give a federal candidate for each election shall be raised from {before} to {value}",
+      "lower": "the most a person may give a federal candidate for each election shall be lowered from {before} to {value}",
+      "raiseTo": "the most a person may give a federal candidate for each election shall be raised to {value}",
+      "lowerTo": "the most a person may give a federal candidate for each election shall be lowered to {value}"
+    },
+    "state-contribution-limit-governor": {
+      "subject": "the state limit on a gift to the governor",
+      "purpose": "set the most a person may give the governor for each election",
+      "raise": "the most a person may give the governor for each election shall be raised from {before} to {value}",
+      "lower": "the most a person may give the governor for each election shall be lowered from {before} to {value}",
+      "raiseTo": "the most a person may give the governor for each election shall be raised to {value}",
+      "lowerTo": "the most a person may give the governor for each election shall be lowered to {value}"
+    },
+    "state-contribution-limit-state-senate": {
+      "subject": "the state limit on a gift to a state senate candidate",
+      "purpose": "set the most a person may give a state senate candidate for each election",
+      "raise": "the most a person may give a state senate candidate for each election shall be raised from {before} to {value}",
+      "lower": "the most a person may give a state senate candidate for each election shall be lowered from {before} to {value}",
+      "raiseTo": "the most a person may give a state senate candidate for each election shall be raised to {value}",
+      "lowerTo": "the most a person may give a state senate candidate for each election shall be lowered to {value}"
+    },
+    "state-contribution-limit-state-house": {
+      "subject": "the state limit on a gift to a state house candidate",
+      "purpose": "set the most a person may give a state house candidate for each election",
+      "raise": "the most a person may give a state house candidate for each election shall be raised from {before} to {value}",
+      "lower": "the most a person may give a state house candidate for each election shall be lowered from {before} to {value}",
+      "raiseTo": "the most a person may give a state house candidate for each election shall be raised to {value}",
+      "lowerTo": "the most a person may give a state house candidate for each election shall be lowered to {value}"
+    },
+    "state-contribution-limit-local": {
+      "subject": "the state limit on a gift to a local candidate",
+      "purpose": "set the most a person may give a local candidate for each election",
+      "raise": "the most a person may give a local candidate for each election shall be raised from {before} to {value}",
+      "lower": "the most a person may give a local candidate for each election shall be lowered from {before} to {value}",
+      "raiseTo": "the most a person may give a local candidate for each election shall be raised to {value}",
+      "lowerTo": "the most a person may give a local candidate for each election shall be lowered to {value}"
     }
   },
   "units": {
@@ -524,7 +604,8 @@
     "dollars/year": "{dollars} a year",
     "USD/month": "{dollars} a month",
     "USD/week": "{dollars} a week",
-    "years": "{value} years"
+    "years": "{value} years",
+    "USD/election": "{dollars} for each election"
   },
   "cited": "{clause}, amending {statute}"
 }

@@ -521,11 +521,11 @@
     "kind": "missing-hook",
     "file": "src/core2/modules/public-action.ts",
     "line": 1,
-    "whatItFakes": "A strike, protest or rally is made of the named people who join it; the counted population (the wider town's workers, renters and jobless) is not asked, so an action's size is only its named participants and a strike in a town whose teachers are counted has too few in it to show.",
+    "whatItFakes": "A strike, protest or rally is made of the named people who join it, and for the school staff's strike also of the wider town's school staff, counted and asked by the same resident decision. The wider town's renters, jobless and residents are not asked, so a protest over rent or jobs is only its named participants.",
     "why": "One model, two tiers (owner, Oct 14): a counted group is read with the same rule as a full person times its count, but the join decision (`joinsGroup`) reads a person's views, ties and traits, which a counted group does not keep one by one.",
     "addedBy": "Story session",
     "addedAt": "2026-11-08",
-    "replacement": "The counted tier's group rule for a decision that reads a view and traits (counted-groups), asked of each counted group by its count, so an action's size includes the counted people who would join.",
+    "replacement": "Ask the counted renters, jobless and residents by the same rule, by their count, as the school staff are, so an action's size includes every counted person who would join.",
     "status": "open"
   },
   {
@@ -538,6 +538,18 @@
     "addedBy": "Story session",
     "addedAt": "2026-11-08",
     "replacement": "A purpose of its own for action-confront in purpose-arcs.json whose replies and endings are stances toward the crowd (hear the line, send a representative, call the police, join them).",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-lobby-remembers-writeback",
+    "kind": "missing-data",
+    "file": "src/director/circumstance.ts",
+    "line": 1,
+    "whatItFakes": "A group's lobbyist who remembers how the player voted (circumstance lobby-remembers) says so, subtle or open by their own temper, and what the player answers is kept as a promise or a strained tie. The group's endorsement, gifts or a primary challenge do not move from it: the interest-group engine does not read the tie or the kept answer when it decides whom to back.",
+    "why": "The threat is told and kept in the records the director already writes; making the group's backing follow the member's votes is the interest-group engine's decision, which no engine yet reads from a vote against the group (Laws and effects' area).",
+    "addedBy": "Story session",
+    "addedAt": "2026-11-08",
+    "replacement": "The interest-group engine reads the member's vote against its meeting and the kept tie when it decides endorsements and gifts; the scene then cites that decision.",
     "status": "open"
   }
 ]

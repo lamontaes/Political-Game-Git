@@ -1,0 +1,14 @@
+[
+  {
+    "id": "SG-SPEED-fast-forward-campaigns",
+    "kind": "partial-model",
+    "file": "src/core2/modules/campaigns.ts",
+    "line": 6226,
+    "whatItFakes": "With fast-forward on (development only), candidates take no campaign turns and volunteers walk no doors, so a race is decided by the voters' leans, parties, the incumbent's record and the impressions earlier days left.",
+    "why": "The owner asked for 20 years in seconds, accepted if the result makes sense in the end (Nov 8, 1:58 a.m.); a campaign's town halls, speeches and doors are most of an election year's time.",
+    "addedBy": "speed",
+    "addedAt": "2026-11-08",
+    "replacement": "A coarse campaign that moves each voter group's standing by the campaign's spending and reach, as counted groups are read, so the aggregate effect of a campaign remains.",
+    "status": ""
+  }
+]

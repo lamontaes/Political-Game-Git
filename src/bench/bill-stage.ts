@@ -11,9 +11,12 @@ import {
   billJurisdiction,
   billOf,
   bodyOf,
+  holdOverride,
+  overridePending,
   bodyRow,
   reachesTown,
   castMemberVote,
+  estimateOfProvisions,
   executiveLean,
   moveAmendment,
   reviseBill,
@@ -28,7 +31,7 @@ import {
   type BillRow,
   type Provision,
 } from "../core2/modules/legislature";
-import { snapshotExplicitControlV1 } from "../core2/player-control-state-v1";
+import { snapshotExplicitControlV1 } from "../core2/life";
 import type { CoreState } from "../core2/types";
 import { screenLine } from "../english/screen-words";
 import { billPaper, personName } from "./legislature";
@@ -139,6 +142,39 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
   const floor = byChamber(false);
   const override = byChamber(true);
 
+  // Amendments moved on the bill: the section as drafted struck, the one inserted, each
+  // estimate and the body's roll call by name (once voted).
+  const sectionText = (provisions: readonly Provision[], index: number) => {
+    const copy: BillRow = { ...bill, provisions };
+    const form = billForm(api, copy);
+    return (
+      composeBill({
+        ...copy,
+        effective: form.effectiveSection,
+        before: form.sections.map((section) => section.before),
+      })?.sections[index] ?? null
+    );
+  };
+  // The sections markup added, in the order they went in: a trade for a holdout's vote or a poison pill.
+  const added = bill.deals.filter(
+    (d) =>
+      d.status !== "declined" &&
+      (d.kind === "trade-amendment" || d.kind === "poison-pill"),
+  );
+  const originalSections = bill.provisions.length - added.length;
+  const markupOf = (chamber: string) =>
+    added.flatMap((deal, at) =>
+      deal.stage === "committee" && deal.chamber === chamber
+        ? [
+            {
+              name: personName(core, deal.memberId),
+              personId: core.people.has(deal.memberId) ? deal.memberId : null,
+              kind: deal.kind === "poison-pill" ? "pill" : "trade",
+              inserted: sectionText(bill.provisions, originalSections + at),
+            },
+          ]
+        : [],
+    );
   const committees = committeeRecords(api, bill.id).map((record) => ({
     id: record.id,
     chamber: record.chamber,
@@ -156,6 +192,7 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
     members: record.memberIds.length,
     yes: record.yes,
     no: record.no,
+    markup: markupOf(record.chamber),
   }));
 
   // What members have told the player: the stakes the player learned, newest per member.
@@ -215,19 +252,6 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
   )?.vote;
   const open = bill.status === "drafted" && !floor.length;
 
-  // Amendments moved on the bill: the section as drafted struck, the one inserted, each
-  // estimate and the body's roll call by name (once voted).
-  const sectionText = (provisions: readonly Provision[], index: number) => {
-    const copy: BillRow = { ...bill, provisions };
-    const form = billForm(api, copy);
-    return (
-      composeBill({
-        ...copy,
-        effective: form.effectiveSection,
-        before: form.sections.map((section) => section.before),
-      })?.sections[index] ?? null
-    );
-  };
   const amendments = amendmentsOn(api, bill.id).map((row) => {
     const votes = (row.votes ?? []).map(named);
     return {
@@ -315,11 +339,25 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
       mayChoose: sits && open,
       /** The bill is the player's own and still on paper: staff may redraft its sections. */
       mayRedraft: bill.sponsorId === player && open,
+      /** The veto message waits for the player's override vote: their chosen vote on it, else null. */
+      overridePending: sits && overridePending(api, bill.id),
+      overrideChosen:
+        (
+          api
+            .moduleState(LEGISLATURE)
+            .table("choices")
+            .get(`${bill.id}|${player}|override`) as
+            { vote: "yes" | "no" | "abstain" } | undefined
+        )?.vote ?? null,
       chosen: chosen ?? null,
     },
     sponsor: personName(core, bill.sponsorId),
     committees,
     told,
+    cosponsors: (bill.cosponsors ?? []).map((key) => ({
+      personId: core.people.has(key) ? key : null,
+      name: personName(core, key),
+    })),
     floor,
     override,
   };
@@ -495,6 +533,12 @@ export function staffRedraft(
     struck: text(bill.provisions),
     inserted: text(bill.provisions.map((p, i) => (i === index ? inserted : p))),
     value,
+    // The estimate as drafted and as staff's version would read: the note recalculates.
+    estimateBefore: bill.costEstimate,
+    estimateAfter: estimateOfProvisions(
+      api,
+      bill.provisions.map((p, i) => (i === index ? inserted : p)),
+    ),
   };
 }
 
@@ -512,6 +556,38 @@ export function keepStaffRedraft(
     replace: index,
     with: { ...section, value: redraft.value },
   });
+  return billStage(
+    core,
+    billId,
+    asId ?? snapshotExplicitControlV1(core).personId ?? core.playerId,
+  );
+}
+
+/** The player's own vote on overriding a veto, kept until the body takes the veto message up. */
+export function chooseOverrideVote(
+  core: CoreState,
+  billId: string,
+  vote: string,
+  asId?: string,
+) {
+  if (vote !== "yes" && vote !== "no" && vote !== "abstain")
+    throw new Error("Vote yes, no or abstain.");
+  const player =
+    asId ?? snapshotExplicitControlV1(core).personId ?? core.playerId;
+  if (!player) throw new Error("Choose a resident first.");
+  if (!billStage(core, billId, player).yours.overridePending)
+    throw new Error("No override vote is waiting on you for that bill.");
+  castMemberVote(coreAPI(core), billId, player, vote, true);
+  return billStage(core, billId, player);
+}
+
+/** The body takes up the veto message now: the override is voted, the player's choice counting. */
+export function callOverrideVote(
+  core: CoreState,
+  billId: string,
+  asId?: string,
+) {
+  holdOverride(coreAPI(core), billId);
   return billStage(
     core,
     billId,

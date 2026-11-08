@@ -74,9 +74,9 @@ try {
   assert.equal(await ring.count(), 1, "no Guide entry on the rail");
   assert.equal(await ring.getAttribute("title"), "Guide");
   await ring.click();
-  await page.locator("#sheet-body .entry").first().waitFor();
+  await page.locator("#sheet-body .term-row").first().waitFor();
   const heading = (await page.locator("#sheet-title").innerText()).trim();
-  const entries = await page.locator("#sheet-body .entry").count();
+  const entries = await page.locator("#sheet-body .term-row").count();
   console.log(`rail Guide: "${heading}", ${entries} terms`);
   assert.equal(heading, "Guide");
   assert.ok(entries >= 10, "the Guide opened with too few terms");
