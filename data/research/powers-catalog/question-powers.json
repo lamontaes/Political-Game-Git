@@ -577,6 +577,10 @@
     "us-policy-positions:labor-workforce.ban-the-box-public-hiring": {
       "dial": "nondiscrimination",
       "levels": ["state"]
+    },
+    "us-policy-positions:environment-energy.allow-retail-electric-choice": {
+      "dial": "utility-rates",
+      "levels": ["state"]
     }
   }
 }

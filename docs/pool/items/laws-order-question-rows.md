@@ -5,11 +5,12 @@ area: laws
 kind: feature
 priority: 2
 size: L
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: legislation/order-question-rows
+pr: #7567
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-08T14:59:28.770Z
 ---
 
 **What.** Governors issue three orders by order alone that the executive engine cannot carry because the game has no policy question for them: a minimum wage for state contractors (24 states), ban-the-box in public hiring (18) and state-agency climate targets (25), all in data/research/executive/executive-powers-2026.json canOrder. Add one policy question per order, one question at a time, each with its state-level authority, starting law for all 56 places, wording and wiring, then map it in ORDERABLE (src/core2/modules/executive.ts) so a governor the player plays is brought the order and a governor the character plays issues it from their views. Today only restoring voting rights and public-sector collective bargaining recognition are mapped.

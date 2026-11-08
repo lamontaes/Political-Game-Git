@@ -1207,8 +1207,25 @@
         },
         {
           "name": "Utility regulation",
-          "supported": false,
-          "policies": []
+          "supported": true,
+          "policies": [
+            {
+              "id": "question:us-policy-positions:environment-energy.allow-retail-electric-choice",
+              "name": "allow retail electric choice",
+              "kind": "policy-question",
+              "question": "us-policy-positions:environment-energy.allow-retail-electric-choice",
+              "operations": ["enact", "repeal"],
+              "levels": ["state"]
+            },
+            {
+              "id": "law:local-power:allow-retail-electric-choice",
+              "name": "Local power: allow retail electric choice",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:environment-energy.allow-retail-electric-choice",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
+            }
+          ]
         },
         {
           "name": "Air and emissions",
