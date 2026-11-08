@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 238 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 239 pull requests merged. Newest state at the top of each section.
 
 **Stopped by the owner, Nov 4, 2:37 p.m. Eastern, at 161 merged; resumed on the owner's word at about 2:53 p.m. Eastern (relayed by the CTO). The desk merges One Map's PRs, and from Nov 5, 05:22 UTC also State Sessions' (every other state holds sessions), on the owner's approval relayed by the CTO. From Nov 5, about 5:15 p.m. Eastern, also the Cleanup session's three PRs (the old art pipeline, the Oct 14 mocks, the green mannequin plates with the old mocks), on the same check; the art pipeline PR also needs `npm run build` to succeed on its merged head. From Nov 7, 2:30 p.m. Eastern (CTO), also Astra's PRs (a Codex builder on Congress and law reversals; branches `astra/`, line 2 `Session: Astra (Codex)`), on the same check. Lanes 1, 3, 4 and 5 are stopped and Lane 2 is off, so #7110 and #7127 stay open, and skills PRs #7233, #7254 and #7264 stay with the CTO.**
 
@@ -159,6 +159,7 @@ New on Nov 3:
 | #7345 | A SNAP work rule no longer spills over to unrelated cash assistance (also a skill line in played-world-proof)                                                                                                                       | Machias, Maine                   | 390c407126c7e568 |
 | #7347 | After a bill sets the income tax to zero, a later bill with a positive rate collects again (the zero bill had erased every bracket)                                                                                                 | St. Maurice, Louisiana           | aa08921173a2418c |
 | #7350 | Each law in force at the opening keeps the source researched for its own state or town                                                                                                                                              | Ostrander, Minnesota             | a17ee30620d4011e |
+| #7352 | Congress can repeal and restore the federal income tax itself                                                                                                                                                                       | Kidder, South Dakota             | 1909ef8617edace0 |
 
 ## State Sessions' PRs (from Nov 5)
 
