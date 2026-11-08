@@ -198,7 +198,7 @@ try {
       .locator('[data-tab="calendar"]')
       .first()
       .evaluate((e) => e.click());
-    await page.locator(".calendar-layout").waitFor();
+    await page.locator(".calendar-board").waitFor();
     // Page to the month of the target, pick its day, and skip forward.
     for (let i = 0; i < 2; i++) {
       if (await page.locator(`.month .day[data-date="${targetDate}"]`).count())
