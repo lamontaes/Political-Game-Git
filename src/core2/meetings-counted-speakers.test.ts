@@ -20,6 +20,7 @@ import { advanceCore } from "./life";
 import { countedDemotions } from "./modules/counted-demotion";
 import { LEGISLATURE_MODULE_ID, type BillRow } from "./modules/legislature";
 import { residentsRuntime } from "./modules/residents";
+import { addressesGivenBy } from "./modules/speech";
 import { countedRecordOnly, MEETINGS_MODULE_ID } from "./modules/meetings";
 import { coreAPI, fillInPerson } from "./state";
 import type { CoreState } from "./types";
@@ -28,7 +29,7 @@ const PLACES = 6;
 const base = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 
 it(
-  "a counted adult who feels strongly speaks at public comment on the record and is filled in only when the player opens the bill",
+  "a counted adult who feels strongly speaks at public comment from the counts, is heard, and is filled in only when the player opens the bill",
   () => {
     const tried: string[] = [];
     for (let n = 0; n < PLACES; n++) {
@@ -70,6 +71,11 @@ it(
       // On the record by id, still in the counts: no full person was made to speak.
       expect(countedRecordOnly(core, spoke.personId), where).toBe(true);
       expect(core.people.has(spoke.personId), where).toBe(false);
+      // The room heard them from their counted record: the speech is on the record by the speaker's id.
+      expect(
+        addressesGivenBy(api, spoke.personId),
+        `${where}: the speech of ${spoke.personId}`,
+      ).toContain(`speech:remark:${spoke.billId}:${spoke.personId}`);
       // The player opens the bill: the speaker is met, filled in, named.
       const bill = api
         .moduleState(LEGISLATURE_MODULE_ID)

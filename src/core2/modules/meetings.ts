@@ -440,21 +440,32 @@ function publicComment(api: CoreAPI, billId: string): void {
       ),
       ...said.map((r) => r.personId),
     ].filter((id) => api.state.people.get(id)?.alive);
-    // stopgapId: SG-MEETINGS-counted-speaker-speech
     // Everyone who spoke is heard: those who signed up (the player among
-    // them) and those moved to stand up.
-    for (const r of said)
-      if (api.state.people.get(r.personId)?.alive)
-        deliverSpeech(api, {
-          id: `speech:remark:${bill.id}:${r.personId}`,
-          speakerId: r.personId,
-          placeId: lawChain(api).townPlaceId,
-          topic: stance.question,
-          desiredChange: r.position * stance.position > 0 ? "enact" : "repeal",
-          audienceIds: [...new Set(room)]
-            .filter((id) => id !== r.personId)
-            .sort(),
-        });
+    // them) and those moved to stand up. A speaker still in the wider
+    // population speaks from their counted record: the room hears them with the
+    // lean that record gives, by the same rule as a full person's (one model,
+    // two tiers), and they are not filled in.
+    const counted = new Map(speakers.map((x) => [x.p.id, x.p] as const));
+    for (const r of said) {
+      const full = api.state.people.get(r.personId);
+      const record = full ? undefined : counted.get(r.personId);
+      if (!full?.alive && !record) continue;
+      deliverSpeech(api, {
+        id: `speech:remark:${bill.id}:${r.personId}`,
+        speakerId: r.personId,
+        placeId: lawChain(api).townPlaceId,
+        topic: stance.question,
+        desiredChange: r.position * stance.position > 0 ? "enact" : "repeal",
+        audienceIds: [...new Set(room)]
+          .filter((id) => id !== r.personId)
+          .sort(),
+        ...(record
+          ? {
+              countedSpeakerLean: personLean(api.state.people, record, 0),
+            }
+          : {}),
+      });
+    }
   }
   api.emit({
     id: `public-comment:${bill.id}`,

@@ -9,17 +9,5 @@
     "addedAt": "2026-10-29",
     "replacement": "An outlet's masthead refilled by the jobs engine (refreshPressStaff), or a neutral host the town's league or chamber of commerce names in its records, so every debate has a moderator who asks.",
     "status": "open"
-  },
-  {
-    "id": "SG-MEETINGS-counted-speaker-speech",
-    "kind": "partial-model",
-    "file": "src/core2/modules/meetings.ts",
-    "line": 444,
-    "whatItFakes": "A resident from the wider population who stands up at public comment is on the record (a remark that counts in the room's weight on the vote) but delivers no speech: the room's members and the other speakers do not hear them, so a counted speaker moves no listener's stance, forms no cause in a listener and is not retold. Only full people's comments are heard as speeches.",
-    "why": "The two-level population (owner, Oct 11): a counted resident is filled in only when the player meets or clicks them, and the speech engine needs a full speaker; filling in every speaker made 11 households full on day one at Warrior, Alabama (Speed's trace, Nov 8). The Coordinator ruled the comment keeps its effect on the vote and the record, and the speaker is filled in when the player opens the bill.",
-    "addedBy": "Legislation (public comment speakers stay counted)",
-    "addedAt": "2026-11-08",
-    "replacement": "The speech engine hears a counted speaker by the speaker's counted record (standing and traits from the counts), so the room hears a counted resident's comment by the same rule as a full person's, times their count; a speaker is filled in only on the player's attendance or click.",
-    "status": "open"
   }
 ]
