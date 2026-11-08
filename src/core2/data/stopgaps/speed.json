@@ -16,11 +16,11 @@
     "kind": "partial-model",
     "file": "src/core2/modules/officials.ts",
     "line": 760,
-    "whatItFakes": "Another state's legislators are husks until opened; each gets the health engine's seeded line, conditions and base hazard, so they fall ill and die on the days a person would, but without the outcome web's and their own records' factors on that hazard, which a person has. Vacancies from outside deaths run 188 against 149 over two years in Dickey, North Dakota (seed n8g7).",
+    "whatItFakes": "Another state's legislators are husks until opened; each gets the health engine's seeded line, conditions and base hazard, so they fall ill and die on the days a person would, but without the outcome web's and their own records' factors on that hazard, which a person has. Vacancies over two years run 188 against 149 (Dickey, North Dakota, seed n8g7), 177 against 158 (seed n8b2) and 177 against 155 (seed k3q9): 12 to 26 percent more. A monthly place-and-age outcome-web factor for husks changed no count, so the gap is the person model's income side (the opening ranks conditions and the income fifth by household income; a husk has no household).",
     "why": "Building 6,700 full people at the opening made 43 percent of a small town's year (owner, Nov 5: generate on demand).",
     "addedBy": "speed",
     "addedAt": "2026-11-08",
-    "replacement": "The health engine's web and own-record factors are read for a husk's booked onset the way they are for a person, from the husk's seat and identity.",
+    "replacement": "A husk's income fifth is read from the seat's pay (data/research/offices/official-salaries-2026.json) and given to its conditions and its web factor, the way a person's household income is.",
     "status": "open"
   }
 ]
