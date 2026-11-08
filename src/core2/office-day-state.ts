@@ -1633,7 +1633,9 @@ export function appointGovernor(api: CoreAPI, post: string, personId?: string) {
       row?.id ??
       `nomination:${lawChain(api).stateKey}:${post}:${personId ?? "own-choice"}:${api.state.date}`,
     position: null,
-    detail: row ? row.holderId : "not-appointed",
+    detail: row
+      ? `${row.identity ? `${row.identity.givenName} ${row.identity.familyName}` : row.holderId}${row.confirmation ? `; ${row.confirmation.yes} to ${row.confirmation.no}` : ""}`
+      : "not-appointed",
   });
   return row;
 }

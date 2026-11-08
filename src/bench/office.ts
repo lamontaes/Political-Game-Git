@@ -17,7 +17,11 @@ import {
   stateFloorHolds,
   voteOnStateFloor,
 } from "../core2/office-day-state";
-import { doEntry, waitingEntries } from "../core2/office-day-state";
+import {
+  appointGovernor,
+  doEntry,
+  waitingEntries,
+} from "../core2/office-day-state";
 import {
   orderQuestionOf,
   pendingGovernorOrders,
@@ -50,7 +54,12 @@ import {
   upcomingMeeting,
 } from "../core2/modules/office-day";
 import { bodyMembers, bodyScene, personName } from "./legislature";
-import { headCandidates, postsToFill } from "../core2/modules/executive";
+import {
+  headCandidates,
+  postsToFill,
+  stateCandidates,
+  statePostsToFill,
+} from "../core2/modules/executive";
 import { budgetProposalDue } from "../core2/office-day-acts";
 import { budgetsOf, governments } from "../core2/modules/budgets";
 import { lineName } from "./budget";
@@ -210,21 +219,29 @@ export function officeView(core: CoreState, personId: string) {
       nextMeeting: upcomingMeeting(api, j.officeId)?.date ?? null,
     })),
     // The town posts the official appoints that stand open, each with the people it could go to, best first by the official's own reasons.
-    heads: postsToFill(api, personId).map((post) => ({
+    heads: [
+      ...postsToFill(api, personId).map((post) => ({
+        post,
+        candidates: headCandidates(api, post.key),
+      })),
+      // A governor's open cabinet posts: the state chamber confirms the one they name.
+      ...statePostsToFill(api, personId).map((post) => ({
+        post,
+        candidates: stateCandidates(api, personId, post.key),
+      })),
+    ].map(({ post, candidates }) => ({
       post: post.key,
       title: post.title,
-      candidates: headCandidates(api, post.key)
-        .slice(0, 8)
-        .map((reasons) => {
-          const person = core.people.get(reasons.candidateId);
-          const job = person?.jobId ? core.jobs.get(person.jobId) : undefined;
-          return {
-            id: reasons.candidateId,
-            name: personName(core, reasons.candidateId),
-            job: job && job.endsAt === undefined ? job.title : null,
-            total: reasons.total,
-          };
-        }),
+      candidates: candidates.slice(0, 8).map((reasons) => {
+        const person = core.people.get(reasons.candidateId);
+        const job = person?.jobId ? core.jobs.get(person.jobId) : undefined;
+        return {
+          id: reasons.candidateId,
+          name: personName(core, reasons.candidateId),
+          job: job && job.endsAt === undefined ? job.title : null,
+          total: reasons.total,
+        };
+      }),
     })),
     // The budget the official may send now, line by line, with the change set for each (null outside the season).
     budget: budgetToSend(core, personId),
@@ -273,6 +290,17 @@ export function nameHeadPick(
   nomineeId: string,
 ) {
   const api = coreAPI(core);
+  // A governor names a state post at once: the chamber's confirmation is on the record they get back.
+  if (statePostsToFill(api, personId).some((row) => row.key === post)) {
+    if (
+      !stateCandidates(api, personId, post).some(
+        (r) => r.candidateId === nomineeId,
+      )
+    )
+      throw new Error("Not someone this post could go to.");
+    appointGovernor(api, post, nomineeId);
+    return officeView(core, personId);
+  }
   if (!postsToFill(api, personId).some((row) => row.key === post))
     throw new Error("Not an open post you appoint.");
   if (!headCandidates(api, post).some((row) => row.candidateId === nomineeId))
