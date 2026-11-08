@@ -105,6 +105,9 @@ When a session builds work that runs for many people (relatives elsewhere, the c
 
 - `npm run speed:year` draws a new place from its seed each run, and a place's size moves a year by two to three times (Nov 8: the same code read 41 to 118 seconds in year 1 across six runs). To compare a branch with main, pass the same `--seed <s>` to both, one process alone, and name the place and seed. A table read that scans every row of a monthly-growing table inside a per-race or per-person call (`rows()` in a hot function) is a cost; keep the latest id on the state row and `get` it.
 
+- A retention window longer than the run you are fixing saves nothing. A six-year window on heard promises (Montpelier, Vermont, seed mont1, 8 years) left year-8 heap at 6,902 MB against 6,886 MB on main, because no fact was old enough to drop before year 7, yet the records proof differed in 8 tables, election results among them (Nov 8). Check the window against the years the goal runs before building a fold, and prefer representations that shrink what every year keeps.
+- A heap that grows from what a few rows hold shows only in bytes. Montpelier's tie rows each kept a 470 KB scored decision (a few hundred rows, about 340 MB as JSON); a row-count probe never showed it, and `scripts/speed-years/probe-bytes.ts` and `probe-big.ts` did. The real heap saving was a third of the JSON figure (about 120 MB), because rows share objects.
+
 ## Stop condition
 
 Done when every timed claim names the place, seed, years and machine, every speed PR carries an identical records proof (or a fold's named tables), and the item's done-when lines each have that evidence.
