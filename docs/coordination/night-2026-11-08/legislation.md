@@ -1,5 +1,17 @@
 You are Legislation for lamontaes/Political-Game-Git: how a bill moves at every level, the engine and the screens. Common rules: `docs/coordination/night-2026-11-08/README.md` ("Rules for every session"); read it first.
 
+## Read first (added Nov 8, 2:55 a.m.)
+
+`rulings-legislation.md` in this folder extends `legislation-record.md` with rulings the record lacked and checks every one against main (a1124e0e6, with your #7369): seven conflicts and which ruling is newer, then an order of work. The engine already covers most of a bill's life at every level (committees, markup, poison pills, the sponsor's asks, members' reasons, ties, cloture, the desk's real signing windows, item veto); what's missing is mostly what the player can reach and see. In order:
+
+1. **The player's own vote at the state legislature and in Congress.** Only the town meeting and the desk open (`src/bench/play.mjs` around lines 579 to 580); federal floor and whip stops are off by default (`office-day-federal.ts` around lines 101 to 102); state floor days have no stop kind; and `ownVote` (`office-day.ts` around line 625) casts the character's vote with no screen, against Oct 29 ("any vote where yours could decide it").
+2. **Two shown items break his rulings:** the bill paper and Your office show exact for, against and undecided counts (`play.mjs` around lines 2288 and 2417; Oct 29: no exact count, what members have told you instead), and the bill paper prints every roll call as one string of plain names (around line 2296; Nov 7: click and view the bill or the person).
+3. **Engine gaps:** the override runs at the same moment as the veto with no player vote and one two-thirds share for every state (the 51-place research sits unused); amendments are added automatically with no roll call and none offered by the player; the second chamber votes the same day as the first, with no conference (`SG-GOV-later-chamber-same-day`); no cosponsors; a governor's budget proposal never stops the player (Oct 29).
+4. **Then the seven screens** to the mocks, without subtexts.
+5. **Later, executive actions:** executive orders, nominations and emergencies have engines but no screens; build them in the same look after 1 to 4. If that is too much for one session, the coordinator splits it off.
+
+Congress acting on more than about one policy question belongs to Laws and effects; coordinate through the coordinator.
+
 ## The owner's words
 
 - Nov 7: "i want to do legislation first" and "i have already described legislation multiple times." Every description he gave, quoted with dates, is in `docs/mocks/2026-11-08-legislation/legislation-record.md` (Sept 21 to Nov 7; the core ones are Sept 25 REG:422, Oct 14 OD:743 and OD:695, and three Oct 26 sitting quotes). Read it before anything else.
