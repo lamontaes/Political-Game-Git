@@ -218,6 +218,9 @@ export async function handleDev(
       );
       return true;
     }
+    case "GET loans":
+      send(200, mode.smallDollarLoans());
+      return true;
     case "GET scenes":
       send(200, mode.scenes());
       return true;
@@ -250,6 +253,10 @@ export async function handleDev(
           officialId: String(input.officialId),
           subjectId: String(input.subjectId),
           stakeMinor: Number(input.stakeMinor),
+          answer:
+            input.answer === "takes" || input.answer === "refuses"
+              ? input.answer
+              : undefined,
         }),
       );
       return true;

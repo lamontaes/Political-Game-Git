@@ -51,6 +51,12 @@ export interface BribeAsk {
   stakeMinor: number;
   /** What the favor is: a vote, a permit, a contract (a record id). */
   subjectId: string;
+  /**
+   * A chosen answer in place of the engine's (dev mode): whether the offerer offers and whether the
+   * official takes. The decision is made at the same point and kept with the same reasons, with the
+   * pick and what the engine would have said recorded beside them. Left out, the engine decides.
+   */
+  pick?: { offer?: boolean; take?: boolean };
 }
 
 export interface CrimeRecord {
@@ -104,6 +110,7 @@ function decide(
   role: "offer" | "take" | "tell",
   values: Record<string, number>,
   targetId: string,
+  picked?: boolean,
 ): { yes: boolean; values: Record<string, number> } {
   const action = (id: string, yes: boolean): ActionDefinition => ({
     id,
@@ -145,9 +152,18 @@ function decide(
       (row) =>
         row.offer.definition.id === `corruption-${role}-${yes ? "yes" : "no"}`,
     )?.reasons.trait ?? api.parameter("zero");
+  const engineYes =
+    decision.selected?.definition.id === `corruption-${role}-yes`;
   return {
-    yes: decision.selected?.definition.id === `corruption-${role}-yes`,
-    values: { ...values, temperament: trait(true) - trait(false) },
+    yes: picked ?? engineYes,
+    values: {
+      ...values,
+      temperament: trait(true) - trait(false),
+      // A chosen answer is on the record beside what the engine would have said (1 yes, -1 no).
+      ...(picked === undefined
+        ? {}
+        : { picked: picked ? 1 : -1, engineSaid: engineYes ? 1 : -1 }),
+    },
   };
 }
 
@@ -238,6 +254,7 @@ export function considerBribe(api: CoreAPI, ask: BribeAsk): CrimeRecord | null {
     "offer",
     offerValues(api, offerer, ask.stakeMinor, tie, heardOf.length),
     ask.subjectId,
+    ask.pick?.offer,
   );
   // The player's seat: the offer is put to the player, who answers it in the scene.
   const toPlayer = offer.yes && isPlayerSeat(api, ask.officialId);

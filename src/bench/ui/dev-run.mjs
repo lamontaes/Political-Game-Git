@@ -5,7 +5,8 @@
 // names and record data only.
 import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
-import { select, numberBox, statusLine } from "./fields.mjs";
+import { select, numberBox, statusLine, checkboxSetting } from "./fields.mjs";
+import { lastIntroducedSeries } from "./dev-bills.mjs";
 
 /**
  * The run-until panel. `labels` is controls.devRun; `onDone()` refreshes the game's screens
@@ -25,6 +26,9 @@ export function devRunPanel({ labels, onDone }) {
       })),
     ],
   });
+  // Hold the law just passed: while the world runs, the members vote down any bill that changes it.
+  const hold = checkboxSetting({ label: labels.holdLaw, checked: false });
+  hold.box.dataset.testid = "dev-hold-law";
   const result = statusLine();
   const run = makeButton({ className: "action" }, labels.run);
   run.dataset.testid = "dev-run";
@@ -38,6 +42,9 @@ export function devRunPanel({ labels, onDone }) {
           days: event.value ? undefined : Number(days.value),
           event: event.value || undefined,
           cap: Number(cap.value),
+          ...(hold.box.checked && lastIntroducedSeries()
+            ? { defeat: [lastIntroducedSeries()] }
+            : {}),
         }),
       });
       const value = await response.json();
@@ -60,6 +67,7 @@ export function devRunPanel({ labels, onDone }) {
     { className: "dev-only dev-run" },
     el("h3", { textContent: labels.title }),
     el("div", { className: "dev-run-row" }, days, event, cap, run),
+    hold.line,
     result,
   );
 }

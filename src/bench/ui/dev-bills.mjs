@@ -9,6 +9,9 @@ import { select, numberBox, statusLine } from "./fields.mjs";
 
 /** The bill last introduced here: kept across the sheet's redraws, which a refresh causes. */
 let lastBillId = null;
+/** The law the last bill was about, for Run until's "hold it" option. */
+let lastSeries = null;
+export const lastIntroducedSeries = () => lastSeries;
 
 /** The last result line, kept across the sheet's redraws. */
 let lastResult = "";
@@ -58,6 +61,22 @@ export async function devBillsPanel({ labels, onDone }) {
     options: laws.series.map((s) => ({ value: s.series, label: s.series })),
   });
   const value = numberBox({ value: 15, step: "any", label: labels.value });
+  // A yes-or-no law (the consumer loan cap, say) is answered Yes or No, and repealed by answering No.
+  const questions = new Set(laws.questions);
+  const answer = select({
+    label: labels.answer,
+    value: "1",
+    options: [
+      { value: "1", label: labels.yes },
+      { value: "0", label: labels.no },
+    ],
+  });
+  const showValue = () => {
+    const asked = questions.has(seriesBox.value);
+    value.hidden = asked;
+    answer.hidden = !asked;
+    repeal.hidden = !asked;
+  };
   const margin = numberBox({ value: 10, min: 0, label: labels.margin });
   const signBox = select({
     label: labels.executive,
@@ -96,11 +115,29 @@ export async function devBillsPanel({ labels, onDone }) {
       bodyOfficeId: bodyBox.value,
       sponsorId: memberBox.value,
       series: seriesBox.value,
-      value: Number(value.value),
+      value: questions.has(seriesBox.value)
+        ? Number(answer.value)
+        : Number(value.value),
     });
     lastBillId = bill.id;
+    lastSeries = seriesBox.value;
     return [bill.number, bill.status, bill.id].join(" · ");
   });
+  // Repealing a yes-or-no law is a bill that answers it No, voted like any other.
+  const repeal = makeButton({ className: "action" }, labels.repeal);
+  repeal.dataset.testid = "dev-repeal";
+  act(repeal, async () => {
+    const { bill } = await send("introduce", {
+      bodyOfficeId: bodyBox.value,
+      sponsorId: memberBox.value,
+      series: seriesBox.value,
+      value: 0,
+    });
+    lastBillId = bill.id;
+    return [labels.repeal, bill.number, bill.status, bill.id].join(" · ");
+  });
+  seriesBox.addEventListener("change", showValue);
+  showValue();
   const decide = (button, sign) =>
     act(button, async () => {
       if (!lastBillId) throw new Error(labels.noBill);
@@ -141,7 +178,15 @@ export async function devBillsPanel({ labels, onDone }) {
     { className: "dev-only dev-bills" },
     el("h3", { textContent: labels.title }),
     el("div", { className: "dev-bills-row" }, bodyBox, memberBox),
-    el("div", { className: "dev-bills-row" }, seriesBox, value, introduce),
+    el(
+      "div",
+      { className: "dev-bills-row" },
+      seriesBox,
+      value,
+      answer,
+      introduce,
+      repeal,
+    ),
     el(
       "div",
       { className: "dev-bills-row" },
