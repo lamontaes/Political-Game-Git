@@ -128,14 +128,19 @@ describe("P10 health producer: personal resilience lines", () => {
             (FIXED_SCALE + FIXED_SCALE),
         ) / MULTIPLIER_ONE;
       let multiplier = p("one");
-      for (const key of assignments.get(person.id as EntityId) ?? [])
-        multiplier *=
-          conditionHazard(
-            seed,
-            person.id as EntityId,
-            key,
-            exact(person.birthDate),
-          ).micros / MULTIPLIER_ONE;
+      for (const key of assignments.get(person.id as EntityId) ?? []) {
+        const micros = conditionHazard(
+          seed,
+          person.id as EntityId,
+          key,
+          exact(person.birthDate),
+        ).micros;
+        // A recorded condition never lowers a person's mortality strain.
+        expect(micros, `${key} for ${person.id}`).toBeGreaterThanOrEqual(
+          MULTIPLIER_ONE,
+        );
+        multiplier *= micros / MULTIPLIER_ONE;
+      }
       scaled += p("one") - Math.exp(-scale * hazard);
       if (
         multiplier !== p("one") &&
