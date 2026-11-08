@@ -73,7 +73,8 @@
         "src/core2/race-places.ts",
         "src/core2/turnout*.ts",
         "src/core2/civic-inputs.ts",
-        "src/core2/membership-dues.ts"
+        "src/core2/membership-dues.ts",
+        "src/core2/gov-test-clock.ts"
       ]
     },
     {
@@ -182,7 +183,8 @@
         "src/core2/public-safety.ts",
         "src/core2/outcome-web-*.ts",
         "src/core2/health-web.ts",
-        "src/core2/jobs-web.ts"
+        "src/core2/jobs-web.ts",
+        "src/core2/term-read.ts"
       ]
     },
     {
@@ -322,7 +324,8 @@
         "src/core2/home-distance.ts",
         "src/core2/sibling-names.ts",
         "src/core2/modules/partnerships.ts",
-        "src/core2/modules/kin-contact.ts"
+        "src/core2/modules/kin-contact.ts",
+        "src/core2/modules/public-action.ts"
       ]
     },
     {
@@ -359,7 +362,8 @@
         "src/core2/coarse-place.ts",
         "src/core2/world-settings.ts",
         "src/core2/player-*.ts",
-        "src/core2/opening-*.ts"
+        "src/core2/opening-*.ts",
+        "src/core2/fast-forward.ts"
       ]
     },
     {

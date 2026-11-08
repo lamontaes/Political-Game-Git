@@ -3,6 +3,7 @@
 // outlet with the player at it, then what the buy cost and how many it reached. Usage: SEED=<seed> node src/bench/ad-buy.browser.mjs [screenshot-dir]
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
+import { chooseTrailAct } from "./trail-act.mjs";
 import { fileWhenFilingOpens } from "./start-life.mjs";
 import { openCampaignTrail } from "./campaign-trail.mjs";
 
@@ -52,9 +53,7 @@ try {
     const ask = page.waitForResponse(
       (r) => new URL(r.url()).pathname === "/api/campaign/act",
     );
-    await page
-      .locator("#sheet-body.place-view button", { hasText: /^Ad$/ })
-      .evaluate((e) => e.click());
+    await (await chooseTrailAct(page, /^Ad$/)).click();
     const result = await (await ask).json();
     await page.locator("#talk:visible").waitFor();
     await page.waitForTimeout(900);

@@ -22,6 +22,14 @@ The owner's rules: sessions message the CTO and the CTO messages them, sessions 
 - `send_message` delivers the moment it is called, and nothing takes it back. Never call it with a draft, a placeholder or a body still to fill in: write the whole body first, then send (Nov 1: a governing message that said only "placeholder" reached the laws lead and needed a second message to withdraw it).
 - Arm no timers: no `send_later`, `create_trigger` or wake-up chain (owner, Nov 1: "Anthropic has removed 5-hour limits, so no need for any timers or anything"). After a long stop, the CTO restarts each session by message.
 
+## Starting a session with a goal
+
+- A session started with `create_session` whose first message begins `/goal ` runs it as a real goal (a stop hook the session can't end before it holds). The goal is limited to 4,000 characters; a longer one is refused and the session does nothing (Nov 8: the five night briefs, 8,000 to 12,000 characters each, and Dev Mode's were all refused). Write the role, the done-when lines and the rules in short under 4,000, and point to the full brief by branch and path.
+- A `/goal` sent later with `send_message` arrives as an ordinary message, not a command. The session works on it but holds no stop hook, so it can end its turn early (Nov 8: none of the five night sessions given their goal by message showed one). Check `get_session` for `external_metadata.goal`; a session without one is restarted by message on each pass.
+- The model passed to `create_session` is the one that runs; after the first turn `external_metadata.last_served_model` confirms it.
+- Post a new session's branch prefix where the merge desk's owner reads, in the same comment that announces the session ("new session: X, branches `x/`"). The merge desk merges only prefixes it has been told about (Nov 8: `jobs/`, `lives/`, `memory/` and `elections/` PRs waited two to four hours for that line).
+- Before every push to a PR's branch, read the PR's own state. A merged PR strands whatever is pushed after it, so open a new PR from fresh main instead (Nov 8: five stranded pushes in one night, from four sessions).
+
 ## Who gets what
 
 | You have                                          | Send it to                                                       | And put it in                                       |

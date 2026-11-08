@@ -477,7 +477,7 @@
     {
       "semanticKey": "council-member",
       "term": "Council member",
-      "shortDefinition": "An elected member of the body that makes a city's or town's laws.",
+      "shortDefinition": "A person elected to the body that makes a city's or town's laws.",
       "explanation": "A council member votes on ordinances and the budget, sits on committees and answers to the voters who elected them. The title covers what other places call aldermen or trustees.",
       "contextNote": "The game reads the title from each place's own record, so the same job can carry a different title in a neighboring town.",
       "relatedKeys": ["alderman", "trustee"],
@@ -489,7 +489,7 @@
     {
       "semanticKey": "county-commissioner",
       "term": "County commissioner",
-      "shortDefinition": "An elected member of the board that governs a county.",
+      "shortDefinition": "A person elected to the board that governs a county.",
       "explanation": "The board of commissioners sets the county's budget and taxes and oversees its roads, jails and services. In some counties the commissioners also run the county's daily business together.",
       "contextNote": "The game reads the title from each place's own record, so the same job can carry a different title in a neighboring town.",
       "relatedKeys": ["council-member"],
@@ -501,7 +501,7 @@
     {
       "semanticKey": "trustee",
       "term": "Trustee",
-      "shortDefinition": "An elected member of the board that governs a village, township or similar local body.",
+      "shortDefinition": "A person elected to the board that governs a village, township or similar local body.",
       "explanation": "Trustees meet as a board, pass the local body's rules and set its budget. A village board often has a small number of trustees and a president or mayor who chairs it.",
       "contextNote": "The game reads the title from each place's own record, so the same job can carry a different title in a neighboring town.",
       "relatedKeys": ["council-member", "mayor"],
@@ -513,7 +513,7 @@
     {
       "semanticKey": "selectman",
       "term": "Selectman",
-      "shortDefinition": "An elected member of the small board that runs a town that governs through a board.",
+      "shortDefinition": "A person elected to the small board that runs a town that governs through a board.",
       "explanation": "Selectmen manage the town's daily business, call the town's meetings and carry out what the voters decide. In some towns the voters themselves pass the budget at a yearly meeting.",
       "contextNote": "The game reads the title from each place's own record, so the same job can carry a different title in a neighboring town.",
       "relatedKeys": ["trustee", "mayor"],
