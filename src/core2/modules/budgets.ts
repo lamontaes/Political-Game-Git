@@ -433,6 +433,19 @@ export const BUDGETS_MODULE: PreStartModule = {
   },
 };
 
+/**
+ * The measure that changed a budget, by its own id (a bill number): a law row names its measure in
+ * `enactedBy`; a law in force since before the game has no measure, so it names none (null).
+ */
+function lawMeasureOf(api: CoreAPI, id: string): string | null {
+  if (!id.startsWith("law:")) return id;
+  const laws = api.moduleState(LAWS_MODULE_ID).table("laws");
+  const row = (laws.get(id) ?? laws.get(id.split("#")[0]!)) as unknown as
+    { terms?: { enactedBy?: unknown } } | undefined;
+  const measure = row?.terms?.enactedBy;
+  return measure ? String(measure) : null;
+}
+
 function table(api: CoreAPI, name: string) {
   return api.moduleState(BUDGETS_MODULE_ID).table(name);
 }
@@ -2030,6 +2043,7 @@ export function amendBudget(
       measures: { ...(prior?.measures ?? {}), [input.line]: input.measureId },
     } as unknown as ModuleRow);
   }
+  const measure = lawMeasureOf(api, input.measureId);
   const amended: BudgetRow = {
     ...budget,
     spendingMinor: {
@@ -2041,7 +2055,13 @@ export function amendBudget(
     },
     adoptedBy: {
       ...budget.adoptedBy,
-      amendedBy: [...(budget.adoptedBy.amendedBy ?? []), input.measureId],
+      // One kind of id: the measure's own, once; a law in force since before the game is no measure.
+      amendedBy: [
+        ...new Set([
+          ...(budget.adoptedBy.amendedBy ?? []),
+          ...(measure ? [measure] : []),
+        ]),
+      ],
     },
   };
   table(api, "budgets").put(amended as unknown as ModuleRow);
