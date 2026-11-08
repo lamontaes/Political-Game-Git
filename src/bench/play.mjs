@@ -4839,11 +4839,21 @@ const sheets = {
       series.includes(":")
         ? series.split(":")[1].split(".")[0]
         : (labels.issueGroupOf?.[series] ?? "fiscal");
+    // An additive tax (income) is one law per level, each at its own rate:
+    // the list names each level's rate, never their sum as one rate.
     const valueText = (law) =>
       law.text ??
-      (law.value !== null && law.value !== undefined
-        ? lawText(law, law.value, law.unit)
-        : null);
+      (law.additive
+        ? law.levels
+            .filter((l) => l.row && l.row.value !== null && !l.setAside)
+            .map(
+              (l) =>
+                `${setBy(l.level)} ${lawText(law, l.row.value, l.row.unit)}`,
+            )
+            .join(" · ") || null
+        : law.value !== null && law.value !== undefined
+          ? lawText(law, law.value, law.unit)
+          : null);
     // One law's page: what is in force at each level and since when, the statute, the
     // measure that enacted it, what is coming, what changed and how members voted.
     const lawPage = async (law) => {
