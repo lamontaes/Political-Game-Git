@@ -1,0 +1,2889 @@
+{
+  "seed": "3d8e41c7a09b25f6",
+  "place": {
+    "seed": "13e8ffb8b9784c14db0727bbee4bd77596a82a7b5d8671c962bf05a634f75c0a",
+    "key": "0209710",
+    "name": "Butte, Alaska",
+    "state": "US-AK"
+  },
+  "window": 365,
+  "after": 31,
+  "results": [
+    {
+      "key": "us-federal-positions:education.forgive-student-loans",
+      "kind": "question",
+      "family": "education",
+      "inForceAtOpening": false,
+      "change": "enacted at federal (law:US:federal:us-federal-positions:education.forgive-student-loans:general:2025-01-21:law-wiring-64942118) effective 2025-01-21; then repealed at federal effective 2026-01-22",
+      "lawIds": [
+        "law:US:federal:us-federal-positions:education.forgive-student-loans:general:2025-01-21:law-wiring-64942118",
+        "law:US:federal:us-federal-positions:education.forgive-student-loans:general:2026-01-22:law-wiring-64942118-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "inPlay": [],
+      "applied": {
+        "rows": 0,
+        "withAmount": 0,
+        "sample": []
+      },
+      "readers": {
+        "src/core2/modules/outcome-web.ts:207": 100,
+        "src/core2/life.ts:573": 5,
+        "src/core2/modules/legislature.ts:4224": 3
+      },
+      "openingRow": "law:US:federal:us-federal-positions:education.forgive-student-loans:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:671",
+            "treatment": 49601715831,
+            "control": 49602439179,
+            "ids": [
+              "journal:2025-01-21:748",
+              "journal:2025-01-23:765",
+              "journal:2025-01-23:766"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:318",
+            "treatment": 40260275,
+            "control": 40891373,
+            "ids": [
+              "journal:2025-09-01:68459",
+              "journal:2025-09-01:68461",
+              "journal:2025-09-01:68463"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:428",
+            "treatment": 597414514,
+            "control": 598001049,
+            "ids": [
+              "journal:2025-02-01:1107",
+              "journal:2025-02-01:1108",
+              "journal:2025-02-01:1109"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 764524045,
+            "control": 764836995,
+            "ids": [
+              "journal:2025-01-27:816",
+              "journal:2025-01-27:819",
+              "journal:2025-01-29:852"
+            ]
+          },
+          {
+            "kind": "campaigns:purchase @ src/core2/modules/campaigns.ts:3641",
+            "treatment": 3494485,
+            "control": 3768849,
+            "ids": [
+              "journal:2025-05-17:36613",
+              "journal:2025-05-17:36635",
+              "journal:2025-05-17:36642"
+            ]
+          },
+          {
+            "kind": "campaigns:donation @ src/core2/modules/campaigns.ts:3641",
+            "treatment": 4469500,
+            "control": 4736200,
+            "ids": [
+              "journal:2025-05-17:36608",
+              "journal:2025-05-17:36609",
+              "journal:2025-05-17:36610"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1341",
+            "treatment": 11817920760,
+            "control": 11817675310,
+            "ids": [
+              "journal:2025-01-21:704",
+              "journal:2025-01-21:705",
+              "journal:2025-01-21:706"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:352",
+            "treatment": 170295616,
+            "control": 170057169,
+            "ids": [
+              "journal:2025-02-01:1377",
+              "journal:2025-02-01:1379",
+              "journal:2025-02-01:1381"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:943",
+            "treatment": 94907855201621,
+            "control": 94907855008702,
+            "ids": [
+              "journal:2025-07-01:46514",
+              "journal:2025-07-01:46515",
+              "journal:2025-07-01:46516"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1323",
+            "treatment": 5895164633,
+            "control": 5895349322,
+            "ids": [
+              "journal:2025-02-01:3178",
+              "journal:2025-02-01:3179",
+              "journal:2025-02-01:3180"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:578",
+            "treatment": 266983788,
+            "control": 266863388,
+            "ids": [
+              "journal:2025-01-21:691",
+              "journal:2025-01-21:692",
+              "journal:2025-01-21:693"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+            "treatment": 3845974329,
+            "control": 3845856048,
+            "ids": [
+              "journal:2025-02-01:1125",
+              "journal:2025-02-01:1126",
+              "journal:2025-02-01:1127"
+            ]
+          }
+        ],
+        "diffKinds": 38,
+        "cited": [],
+        "controlCited": [],
+        "own": {
+          "targets": 0,
+          "among": "reached",
+          "pairs": [],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "student-debt-relief-to-finances",
+            "status": "size-not-set",
+            "to": "finance.past-due-debt"
+          },
+          {
+            "key": "student-loan-forgiveness-to-poverty",
+            "status": "about-zero",
+            "to": "household.poverty-pct"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 145,
+        "sample": [
+          "person_0aaf66a4aef1a3e6:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:education.forgive-student-loans:general:2025-01-21:law-wiring-64942118",
+          "person_49c6a089227b42c0:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:education.forgive-student-loans:general:2025-01-21:law-wiring-64942118",
+          "person_4c71c44862472545:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:education.forgive-student-loans:general:2025-01-21:law-wiring-64942118"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 135
+    },
+    {
+      "key": "us-federal-positions:budget.pay-for-a-higher-debt-limit",
+      "kind": "question",
+      "family": "taxes-finance",
+      "inForceAtOpening": false,
+      "change": "enacted at federal (law:US:federal:us-federal-positions:budget.pay-for-a-higher-debt-limit:general:2025-01-21:law-wiring-64276fc5) effective 2025-01-21; then repealed at federal effective 2026-01-22",
+      "lawIds": [
+        "law:US:federal:us-federal-positions:budget.pay-for-a-higher-debt-limit:general:2025-01-21:law-wiring-64276fc5",
+        "law:US:federal:us-federal-positions:budget.pay-for-a-higher-debt-limit:general:2026-01-22:law-wiring-64276fc5-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "inPlay": [],
+      "applied": {
+        "rows": 0,
+        "withAmount": 0,
+        "sample": []
+      },
+      "readers": {
+        "src/core2/life.ts:573": 5,
+        "src/core2/modules/legislature.ts:4224": 3
+      },
+      "openingRow": "law:US:federal:us-federal-positions:budget.pay-for-a-higher-debt-limit:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:671",
+            "treatment": 49601715831,
+            "control": 49602439179,
+            "ids": [
+              "journal:2025-01-21:748",
+              "journal:2025-01-23:765",
+              "journal:2025-01-23:766"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:318",
+            "treatment": 40260275,
+            "control": 40891373,
+            "ids": [
+              "journal:2025-09-01:68459",
+              "journal:2025-09-01:68461",
+              "journal:2025-09-01:68463"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:428",
+            "treatment": 597414514,
+            "control": 598001049,
+            "ids": [
+              "journal:2025-02-01:1107",
+              "journal:2025-02-01:1108",
+              "journal:2025-02-01:1109"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 764524045,
+            "control": 764836995,
+            "ids": [
+              "journal:2025-01-27:816",
+              "journal:2025-01-27:819",
+              "journal:2025-01-29:852"
+            ]
+          },
+          {
+            "kind": "campaigns:purchase @ src/core2/modules/campaigns.ts:3641",
+            "treatment": 3494485,
+            "control": 3768849,
+            "ids": [
+              "journal:2025-05-17:36613",
+              "journal:2025-05-17:36635",
+              "journal:2025-05-17:36642"
+            ]
+          },
+          {
+            "kind": "campaigns:donation @ src/core2/modules/campaigns.ts:3641",
+            "treatment": 4469500,
+            "control": 4736200,
+            "ids": [
+              "journal:2025-05-17:36608",
+              "journal:2025-05-17:36609",
+              "journal:2025-05-17:36610"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1341",
+            "treatment": 11817920760,
+            "control": 11817675310,
+            "ids": [
+              "journal:2025-01-21:704",
+              "journal:2025-01-21:705",
+              "journal:2025-01-21:706"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:352",
+            "treatment": 170295616,
+            "control": 170057169,
+            "ids": [
+              "journal:2025-02-01:1377",
+              "journal:2025-02-01:1379",
+              "journal:2025-02-01:1381"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:943",
+            "treatment": 94907855201621,
+            "control": 94907855008702,
+            "ids": [
+              "journal:2025-07-01:46514",
+              "journal:2025-07-01:46515",
+              "journal:2025-07-01:46516"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1323",
+            "treatment": 5895164633,
+            "control": 5895349322,
+            "ids": [
+              "journal:2025-02-01:3178",
+              "journal:2025-02-01:3179",
+              "journal:2025-02-01:3180"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:578",
+            "treatment": 266983788,
+            "control": 266863388,
+            "ids": [
+              "journal:2025-01-21:691",
+              "journal:2025-01-21:692",
+              "journal:2025-01-21:693"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+            "treatment": 3845974329,
+            "control": 3845856048,
+            "ids": [
+              "journal:2025-02-01:1125",
+              "journal:2025-02-01:1126",
+              "journal:2025-02-01:1127"
+            ]
+          }
+        ],
+        "diffKinds": 38,
+        "cited": [],
+        "controlCited": [],
+        "own": {
+          "targets": 0,
+          "among": "reached",
+          "pairs": [],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 145,
+        "sample": [
+          "person_0aaf66a4aef1a3e6:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:budget.pay-for-a-higher-debt-limit:general:2025-01-21:law-wiring-64276fc5",
+          "person_49c6a089227b42c0:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:budget.pay-for-a-higher-debt-limit:general:2025-01-21:law-wiring-64276fc5",
+          "person_4c71c44862472545:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:budget.pay-for-a-higher-debt-limit:general:2025-01-21:law-wiring-64276fc5"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 134
+    },
+    {
+      "key": "us-federal-positions:justice-rights.reduce-mandatory-minimums",
+      "kind": "question",
+      "family": "justice",
+      "inForceAtOpening": false,
+      "change": "enacted at federal (law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-01-21:law-wiring-c08da077) effective 2025-01-21; then repealed at federal effective 2026-01-22",
+      "lawIds": [
+        "law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-01-21:law-wiring-c08da077",
+        "law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2026-01-22:law-wiring-c08da077-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "inPlay": [],
+      "applied": {
+        "rows": 0,
+        "withAmount": 0,
+        "sample": []
+      },
+      "readers": {
+        "src/core2/modules/outcome-web.ts:207": 300,
+        "src/core2/life.ts:573": 5,
+        "src/core2/modules/legislature.ts:4224": 3
+      },
+      "openingRow": "law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:671",
+            "treatment": 49601715831,
+            "control": 49602439179,
+            "ids": [
+              "journal:2025-01-21:748",
+              "journal:2025-01-23:765",
+              "journal:2025-01-23:766"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:318",
+            "treatment": 40260275,
+            "control": 40891373,
+            "ids": [
+              "journal:2025-09-01:68459",
+              "journal:2025-09-01:68461",
+              "journal:2025-09-01:68463"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:428",
+            "treatment": 597414514,
+            "control": 598001049,
+            "ids": [
+              "journal:2025-02-01:1107",
+              "journal:2025-02-01:1108",
+              "journal:2025-02-01:1109"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 764524045,
+            "control": 764836995,
+            "ids": [
+              "journal:2025-01-27:816",
+              "journal:2025-01-27:819",
+              "journal:2025-01-29:852"
+            ]
+          },
+          {
+            "kind": "campaigns:purchase @ src/core2/modules/campaigns.ts:3641",
+            "treatment": 3494485,
+            "control": 3768849,
+            "ids": [
+              "journal:2025-05-17:36613",
+              "journal:2025-05-17:36635",
+              "journal:2025-05-17:36642"
+            ]
+          },
+          {
+            "kind": "campaigns:donation @ src/core2/modules/campaigns.ts:3641",
+            "treatment": 4469500,
+            "control": 4736200,
+            "ids": [
+              "journal:2025-05-17:36608",
+              "journal:2025-05-17:36609",
+              "journal:2025-05-17:36610"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1341",
+            "treatment": 11817920760,
+            "control": 11817675310,
+            "ids": [
+              "journal:2025-01-21:704",
+              "journal:2025-01-21:705",
+              "journal:2025-01-21:706"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:352",
+            "treatment": 170295616,
+            "control": 170057169,
+            "ids": [
+              "journal:2025-02-01:1377",
+              "journal:2025-02-01:1379",
+              "journal:2025-02-01:1381"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:943",
+            "treatment": 94907855201621,
+            "control": 94907855008702,
+            "ids": [
+              "journal:2025-07-01:46514",
+              "journal:2025-07-01:46515",
+              "journal:2025-07-01:46516"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1323",
+            "treatment": 5895164633,
+            "control": 5895349322,
+            "ids": [
+              "journal:2025-02-01:3178",
+              "journal:2025-02-01:3179",
+              "journal:2025-02-01:3180"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:578",
+            "treatment": 266983788,
+            "control": 266863388,
+            "ids": [
+              "journal:2025-01-21:691",
+              "journal:2025-01-21:692",
+              "journal:2025-01-21:693"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+            "treatment": 3845974329,
+            "control": 3845856048,
+            "ids": [
+              "journal:2025-02-01:1125",
+              "journal:2025-02-01:1126",
+              "journal:2025-02-01:1127"
+            ]
+          }
+        ],
+        "diffKinds": 38,
+        "cited": [],
+        "controlCited": [],
+        "own": {
+          "targets": 0,
+          "among": "reached",
+          "pairs": [],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "mandatory-minimum-cut-to-federal-prisoners",
+            "status": "built",
+            "to": "justice.federal-incarcerated-per-100k"
+          },
+          {
+            "key": "federal-mandatory-minimums-to-crime",
+            "status": "about-zero",
+            "to": "crime.rate-index"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [
+          {
+            "id": "web:jurisdiction_ffa1a12974173cce:2025-01",
+            "month": "2025-01",
+            "link": "mandatory-minimum-cut-to-federal-prisoners",
+            "from": "law:us-federal-positions:justice-rights.reduce-mandatory-minimums",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_ffa1a12974173cce:2025-02",
+            "month": "2025-02",
+            "link": "mandatory-minimum-cut-to-federal-prisoners",
+            "from": "law:us-federal-positions:justice-rights.reduce-mandatory-minimums",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_ffa1a12974173cce:2025-03",
+            "month": "2025-03",
+            "link": "mandatory-minimum-cut-to-federal-prisoners",
+            "from": "law:us-federal-positions:justice-rights.reduce-mandatory-minimums",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_ffa1a12974173cce:2025-04",
+            "month": "2025-04",
+            "link": "mandatory-minimum-cut-to-federal-prisoners",
+            "from": "law:us-federal-positions:justice-rights.reduce-mandatory-minimums",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_ffa1a12974173cce:2025-05",
+            "month": "2025-05",
+            "link": "mandatory-minimum-cut-to-federal-prisoners",
+            "from": "law:us-federal-positions:justice-rights.reduce-mandatory-minimums",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_ffa1a12974173cce:2025-06",
+            "month": "2025-06",
+            "link": "mandatory-minimum-cut-to-federal-prisoners",
+            "from": "law:us-federal-positions:justice-rights.reduce-mandatory-minimums",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_ffa1a12974173cce:2025-07",
+            "month": "2025-07",
+            "link": "mandatory-minimum-cut-to-federal-prisoners",
+            "from": "law:us-federal-positions:justice-rights.reduce-mandatory-minimums",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_ffa1a12974173cce:2025-08",
+            "month": "2025-08",
+            "link": "mandatory-minimum-cut-to-federal-prisoners",
+            "from": "law:us-federal-positions:justice-rights.reduce-mandatory-minimums",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_ffa1a12974173cce:2025-09",
+            "month": "2025-09",
+            "link": "mandatory-minimum-cut-to-federal-prisoners",
+            "from": "law:us-federal-positions:justice-rights.reduce-mandatory-minimums",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_ffa1a12974173cce:2025-10",
+            "month": "2025-10",
+            "link": "mandatory-minimum-cut-to-federal-prisoners",
+            "from": "law:us-federal-positions:justice-rights.reduce-mandatory-minimums",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_ffa1a12974173cce:2025-11",
+            "month": "2025-11",
+            "link": "mandatory-minimum-cut-to-federal-prisoners",
+            "from": "law:us-federal-positions:justice-rights.reduce-mandatory-minimums",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_ffa1a12974173cce:2025-12",
+            "month": "2025-12",
+            "link": "mandatory-minimum-cut-to-federal-prisoners",
+            "from": "law:us-federal-positions:justice-rights.reduce-mandatory-minimums",
+            "lagMonths": 12,
+            "treated": 1,
+            "control": 0
+          }
+        ],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 145,
+        "sample": [
+          "person_0aaf66a4aef1a3e6:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-01-21:law-wiring-c08da077",
+          "person_49c6a089227b42c0:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-01-21:law-wiring-c08da077",
+          "person_4c71c44862472545:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-01-21:law-wiring-c08da077"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 134
+    },
+    {
+      "key": "us-federal-positions:emergencies.states-share-disaster-costs",
+      "kind": "question",
+      "family": "justice",
+      "inForceAtOpening": false,
+      "change": "enacted at federal (law:US:federal:us-federal-positions:emergencies.states-share-disaster-costs:general:2025-01-21:law-wiring-98e7a2cc) effective 2025-01-21; then repealed at federal effective 2026-01-22",
+      "lawIds": [
+        "law:US:federal:us-federal-positions:emergencies.states-share-disaster-costs:general:2025-01-21:law-wiring-98e7a2cc",
+        "law:US:federal:us-federal-positions:emergencies.states-share-disaster-costs:general:2026-01-22:law-wiring-98e7a2cc-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "inPlay": [],
+      "applied": {
+        "rows": 0,
+        "withAmount": 0,
+        "sample": []
+      },
+      "readers": {
+        "src/core2/life.ts:573": 5,
+        "src/core2/modules/legislature.ts:4224": 3
+      },
+      "openingRow": "law:US:federal:us-federal-positions:emergencies.states-share-disaster-costs:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:671",
+            "treatment": 49601715831,
+            "control": 49602439179,
+            "ids": [
+              "journal:2025-01-21:748",
+              "journal:2025-01-23:765",
+              "journal:2025-01-23:766"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:318",
+            "treatment": 40260275,
+            "control": 40891373,
+            "ids": [
+              "journal:2025-09-01:68459",
+              "journal:2025-09-01:68461",
+              "journal:2025-09-01:68463"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:428",
+            "treatment": 597414514,
+            "control": 598001049,
+            "ids": [
+              "journal:2025-02-01:1107",
+              "journal:2025-02-01:1108",
+              "journal:2025-02-01:1109"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 764524045,
+            "control": 764836995,
+            "ids": [
+              "journal:2025-01-27:816",
+              "journal:2025-01-27:819",
+              "journal:2025-01-29:852"
+            ]
+          },
+          {
+            "kind": "campaigns:purchase @ src/core2/modules/campaigns.ts:3641",
+            "treatment": 3494485,
+            "control": 3768849,
+            "ids": [
+              "journal:2025-05-17:36613",
+              "journal:2025-05-17:36635",
+              "journal:2025-05-17:36642"
+            ]
+          },
+          {
+            "kind": "campaigns:donation @ src/core2/modules/campaigns.ts:3641",
+            "treatment": 4469500,
+            "control": 4736200,
+            "ids": [
+              "journal:2025-05-17:36608",
+              "journal:2025-05-17:36609",
+              "journal:2025-05-17:36610"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1341",
+            "treatment": 11817920760,
+            "control": 11817675310,
+            "ids": [
+              "journal:2025-01-21:704",
+              "journal:2025-01-21:705",
+              "journal:2025-01-21:706"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:352",
+            "treatment": 170295616,
+            "control": 170057169,
+            "ids": [
+              "journal:2025-02-01:1377",
+              "journal:2025-02-01:1379",
+              "journal:2025-02-01:1381"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:943",
+            "treatment": 94907855201621,
+            "control": 94907855008702,
+            "ids": [
+              "journal:2025-07-01:46514",
+              "journal:2025-07-01:46515",
+              "journal:2025-07-01:46516"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1323",
+            "treatment": 5895164633,
+            "control": 5895349322,
+            "ids": [
+              "journal:2025-02-01:3178",
+              "journal:2025-02-01:3179",
+              "journal:2025-02-01:3180"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:578",
+            "treatment": 266983788,
+            "control": 266863388,
+            "ids": [
+              "journal:2025-01-21:691",
+              "journal:2025-01-21:692",
+              "journal:2025-01-21:693"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+            "treatment": 3845974329,
+            "control": 3845856048,
+            "ids": [
+              "journal:2025-02-01:1125",
+              "journal:2025-02-01:1126",
+              "journal:2025-02-01:1127"
+            ]
+          }
+        ],
+        "diffKinds": 38,
+        "cited": [],
+        "controlCited": [],
+        "own": {
+          "targets": 0,
+          "among": "reached",
+          "pairs": [],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 145,
+        "sample": [
+          "person_0aaf66a4aef1a3e6:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:emergencies.states-share-disaster-costs:general:2025-01-21:law-wiring-98e7a2cc",
+          "person_49c6a089227b42c0:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:emergencies.states-share-disaster-costs:general:2025-01-21:law-wiring-98e7a2cc",
+          "person_4c71c44862472545:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:emergencies.states-share-disaster-costs:general:2025-01-21:law-wiring-98e7a2cc"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 137
+    },
+    {
+      "key": "federal-campaign-contribution-limit",
+      "kind": "amount",
+      "family": "government",
+      "inForceAtOpening": false,
+      "change": "federal-campaign-contribution-limit 3500 -> 3850 at federal (law:US:federal:federal-campaign-contribution-limit:general:2025-01-21:law-wiring-97605df6) effective 2025-01-21",
+      "lawIds": [
+        "law:US:federal:federal-campaign-contribution-limit:general:2025-01-21:law-wiring-97605df6",
+        "law:US:federal:federal-campaign-contribution-limit:general:2025-01-01",
+        "law:US:federal:federal-campaign-contribution-limit:general:2026-01-22:law-wiring-97605df6-undo"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "inPlay": [],
+      "applied": {
+        "rows": 0,
+        "withAmount": 0,
+        "sample": []
+      },
+      "readers": {
+        "src/core2/life.ts:573": 5
+      },
+      "openingRow": "law:US:federal:federal-campaign-contribution-limit:general:2025-01-01",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:671",
+            "treatment": 49601715831,
+            "control": 49602439179,
+            "ids": [
+              "journal:2025-01-21:748",
+              "journal:2025-01-23:765",
+              "journal:2025-01-23:766"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:318",
+            "treatment": 40260275,
+            "control": 40891373,
+            "ids": [
+              "journal:2025-09-01:68459",
+              "journal:2025-09-01:68461",
+              "journal:2025-09-01:68463"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:428",
+            "treatment": 597414514,
+            "control": 598001049,
+            "ids": [
+              "journal:2025-02-01:1107",
+              "journal:2025-02-01:1108",
+              "journal:2025-02-01:1109"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 764524045,
+            "control": 764836995,
+            "ids": [
+              "journal:2025-01-27:816",
+              "journal:2025-01-27:819",
+              "journal:2025-01-29:852"
+            ]
+          },
+          {
+            "kind": "campaigns:purchase @ src/core2/modules/campaigns.ts:3641",
+            "treatment": 3494485,
+            "control": 3768849,
+            "ids": [
+              "journal:2025-05-17:36613",
+              "journal:2025-05-17:36635",
+              "journal:2025-05-17:36642"
+            ]
+          },
+          {
+            "kind": "campaigns:donation @ src/core2/modules/campaigns.ts:3641",
+            "treatment": 4469500,
+            "control": 4736200,
+            "ids": [
+              "journal:2025-05-17:36608",
+              "journal:2025-05-17:36609",
+              "journal:2025-05-17:36610"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1341",
+            "treatment": 11817920760,
+            "control": 11817675310,
+            "ids": [
+              "journal:2025-01-21:704",
+              "journal:2025-01-21:705",
+              "journal:2025-01-21:706"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:352",
+            "treatment": 170295616,
+            "control": 170057169,
+            "ids": [
+              "journal:2025-02-01:1377",
+              "journal:2025-02-01:1379",
+              "journal:2025-02-01:1381"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:943",
+            "treatment": 94907855201621,
+            "control": 94907855008702,
+            "ids": [
+              "journal:2025-07-01:46514",
+              "journal:2025-07-01:46515",
+              "journal:2025-07-01:46516"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1323",
+            "treatment": 5895164633,
+            "control": 5895349322,
+            "ids": [
+              "journal:2025-02-01:3178",
+              "journal:2025-02-01:3179",
+              "journal:2025-02-01:3180"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:578",
+            "treatment": 266983788,
+            "control": 266863388,
+            "ids": [
+              "journal:2025-01-21:691",
+              "journal:2025-01-21:692",
+              "journal:2025-01-21:693"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+            "treatment": 3845974329,
+            "control": 3845856048,
+            "ids": [
+              "journal:2025-02-01:1125",
+              "journal:2025-02-01:1126",
+              "journal:2025-02-01:1127"
+            ]
+          }
+        ],
+        "diffKinds": 38,
+        "cited": [],
+        "controlCited": [],
+        "own": {
+          "targets": 0,
+          "among": "reached",
+          "pairs": [],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 145,
+        "sample": [
+          "person_0aaf66a4aef1a3e6:printed:outlet:cable:0:national:law-took-effect:law:US:federal:federal-campaign-contribution-limit:general:2025-01-21:law-wiring-97605df6",
+          "person_49c6a089227b42c0:printed:outlet:cable:0:national:law-took-effect:law:US:federal:federal-campaign-contribution-limit:general:2025-01-21:law-wiring-97605df6",
+          "person_4c71c44862472545:printed:outlet:cable:0:national:law-took-effect:law:US:federal:federal-campaign-contribution-limit:general:2025-01-21:law-wiring-97605df6"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 136
+    },
+    {
+      "key": "us-federal-positions:government.ban-congressional-stock-trading",
+      "kind": "question",
+      "family": "government",
+      "inForceAtOpening": false,
+      "change": "enacted at federal (law:US:federal:us-federal-positions:government.ban-congressional-stock-trading:general:2025-01-21:law-wiring-dd40db22) effective 2025-01-21; then repealed at federal effective 2026-01-22",
+      "lawIds": [
+        "law:US:federal:us-federal-positions:government.ban-congressional-stock-trading:general:2025-01-21:law-wiring-dd40db22",
+        "law:US:federal:us-federal-positions:government.ban-congressional-stock-trading:general:2026-01-22:law-wiring-dd40db22-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "inPlay": [],
+      "applied": {
+        "rows": 0,
+        "withAmount": 0,
+        "sample": []
+      },
+      "readers": {
+        "src/core2/modules/outcome-web.ts:207": 100,
+        "src/core2/life.ts:573": 5,
+        "src/core2/modules/legislature.ts:4224": 3
+      },
+      "openingRow": "law:US:federal:us-federal-positions:government.ban-congressional-stock-trading:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:671",
+            "treatment": 49601715831,
+            "control": 49602439179,
+            "ids": [
+              "journal:2025-01-21:748",
+              "journal:2025-01-23:765",
+              "journal:2025-01-23:766"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:318",
+            "treatment": 40260275,
+            "control": 40891373,
+            "ids": [
+              "journal:2025-09-01:68459",
+              "journal:2025-09-01:68461",
+              "journal:2025-09-01:68463"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:428",
+            "treatment": 597414514,
+            "control": 598001049,
+            "ids": [
+              "journal:2025-02-01:1107",
+              "journal:2025-02-01:1108",
+              "journal:2025-02-01:1109"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 764524045,
+            "control": 764836995,
+            "ids": [
+              "journal:2025-01-27:816",
+              "journal:2025-01-27:819",
+              "journal:2025-01-29:852"
+            ]
+          },
+          {
+            "kind": "campaigns:purchase @ src/core2/modules/campaigns.ts:3641",
+            "treatment": 3494485,
+            "control": 3768849,
+            "ids": [
+              "journal:2025-05-17:36613",
+              "journal:2025-05-17:36635",
+              "journal:2025-05-17:36642"
+            ]
+          },
+          {
+            "kind": "campaigns:donation @ src/core2/modules/campaigns.ts:3641",
+            "treatment": 4469500,
+            "control": 4736200,
+            "ids": [
+              "journal:2025-05-17:36608",
+              "journal:2025-05-17:36609",
+              "journal:2025-05-17:36610"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1341",
+            "treatment": 11817920760,
+            "control": 11817675310,
+            "ids": [
+              "journal:2025-01-21:704",
+              "journal:2025-01-21:705",
+              "journal:2025-01-21:706"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:352",
+            "treatment": 170295616,
+            "control": 170057169,
+            "ids": [
+              "journal:2025-02-01:1377",
+              "journal:2025-02-01:1379",
+              "journal:2025-02-01:1381"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:943",
+            "treatment": 94907855201621,
+            "control": 94907855008702,
+            "ids": [
+              "journal:2025-07-01:46514",
+              "journal:2025-07-01:46515",
+              "journal:2025-07-01:46516"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1323",
+            "treatment": 5895164633,
+            "control": 5895349322,
+            "ids": [
+              "journal:2025-02-01:3178",
+              "journal:2025-02-01:3179",
+              "journal:2025-02-01:3180"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:578",
+            "treatment": 266983788,
+            "control": 266863388,
+            "ids": [
+              "journal:2025-01-21:691",
+              "journal:2025-01-21:692",
+              "journal:2025-01-21:693"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+            "treatment": 3845974329,
+            "control": 3845856048,
+            "ids": [
+              "journal:2025-02-01:1125",
+              "journal:2025-02-01:1126",
+              "journal:2025-02-01:1127"
+            ]
+          }
+        ],
+        "diffKinds": 38,
+        "cited": [],
+        "controlCited": [],
+        "own": {
+          "targets": 0,
+          "among": "reached",
+          "pairs": [],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "congress-stock-ban-to-member-returns",
+            "status": "about-zero",
+            "to": "government.member-market-returns"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 145,
+        "sample": [
+          "person_0aaf66a4aef1a3e6:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:government.ban-congressional-stock-trading:general:2025-01-21:law-wiring-dd40db22",
+          "person_49c6a089227b42c0:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:government.ban-congressional-stock-trading:general:2025-01-21:law-wiring-dd40db22",
+          "person_4c71c44862472545:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:government.ban-congressional-stock-trading:general:2025-01-21:law-wiring-dd40db22"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 129
+    },
+    {
+      "key": "us-federal-positions:territories-culture.statehood-for-dc",
+      "kind": "question",
+      "family": "government",
+      "inForceAtOpening": false,
+      "change": "enacted at federal (law:US:federal:us-federal-positions:territories-culture.statehood-for-dc:general:2025-01-21:law-wiring-3c6e5c22) effective 2025-01-21; then repealed at federal effective 2026-01-22",
+      "lawIds": [
+        "law:US:federal:us-federal-positions:territories-culture.statehood-for-dc:general:2025-01-21:law-wiring-3c6e5c22",
+        "law:US:federal:us-federal-positions:territories-culture.statehood-for-dc:general:2026-01-22:law-wiring-3c6e5c22-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "inPlay": [],
+      "applied": {
+        "rows": 0,
+        "withAmount": 0,
+        "sample": []
+      },
+      "readers": {
+        "src/core2/life.ts:573": 5,
+        "src/core2/modules/legislature.ts:4224": 3
+      },
+      "openingRow": "law:US:federal:us-federal-positions:territories-culture.statehood-for-dc:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:671",
+            "treatment": 49601715831,
+            "control": 49602439179,
+            "ids": [
+              "journal:2025-01-21:748",
+              "journal:2025-01-23:765",
+              "journal:2025-01-23:766"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:318",
+            "treatment": 40260275,
+            "control": 40891373,
+            "ids": [
+              "journal:2025-09-01:68459",
+              "journal:2025-09-01:68461",
+              "journal:2025-09-01:68463"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:428",
+            "treatment": 597414514,
+            "control": 598001049,
+            "ids": [
+              "journal:2025-02-01:1107",
+              "journal:2025-02-01:1108",
+              "journal:2025-02-01:1109"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 764524045,
+            "control": 764836995,
+            "ids": [
+              "journal:2025-01-27:816",
+              "journal:2025-01-27:819",
+              "journal:2025-01-29:852"
+            ]
+          },
+          {
+            "kind": "campaigns:purchase @ src/core2/modules/campaigns.ts:3641",
+            "treatment": 3494485,
+            "control": 3768849,
+            "ids": [
+              "journal:2025-05-17:36613",
+              "journal:2025-05-17:36635",
+              "journal:2025-05-17:36642"
+            ]
+          },
+          {
+            "kind": "campaigns:donation @ src/core2/modules/campaigns.ts:3641",
+            "treatment": 4469500,
+            "control": 4736200,
+            "ids": [
+              "journal:2025-05-17:36608",
+              "journal:2025-05-17:36609",
+              "journal:2025-05-17:36610"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1341",
+            "treatment": 11817920760,
+            "control": 11817675310,
+            "ids": [
+              "journal:2025-01-21:704",
+              "journal:2025-01-21:705",
+              "journal:2025-01-21:706"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:352",
+            "treatment": 170295616,
+            "control": 170057169,
+            "ids": [
+              "journal:2025-02-01:1377",
+              "journal:2025-02-01:1379",
+              "journal:2025-02-01:1381"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:943",
+            "treatment": 94907855201621,
+            "control": 94907855008702,
+            "ids": [
+              "journal:2025-07-01:46514",
+              "journal:2025-07-01:46515",
+              "journal:2025-07-01:46516"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1323",
+            "treatment": 5895164633,
+            "control": 5895349322,
+            "ids": [
+              "journal:2025-02-01:3178",
+              "journal:2025-02-01:3179",
+              "journal:2025-02-01:3180"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:578",
+            "treatment": 266983788,
+            "control": 266863388,
+            "ids": [
+              "journal:2025-01-21:691",
+              "journal:2025-01-21:692",
+              "journal:2025-01-21:693"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+            "treatment": 3845974329,
+            "control": 3845856048,
+            "ids": [
+              "journal:2025-02-01:1125",
+              "journal:2025-02-01:1126",
+              "journal:2025-02-01:1127"
+            ]
+          }
+        ],
+        "diffKinds": 38,
+        "cited": [],
+        "controlCited": [],
+        "own": {
+          "targets": 0,
+          "among": "reached",
+          "pairs": [],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 145,
+        "sample": [
+          "person_0aaf66a4aef1a3e6:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:territories-culture.statehood-for-dc:general:2025-01-21:law-wiring-3c6e5c22",
+          "person_49c6a089227b42c0:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:territories-culture.statehood-for-dc:general:2025-01-21:law-wiring-3c6e5c22",
+          "person_4c71c44862472545:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:territories-culture.statehood-for-dc:general:2025-01-21:law-wiring-3c6e5c22"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 137
+    },
+    {
+      "key": "us-federal-positions:science-communications.national-data-privacy",
+      "kind": "question",
+      "family": "technology",
+      "inForceAtOpening": false,
+      "change": "enacted at federal (law:US:federal:us-federal-positions:science-communications.national-data-privacy:general:2025-01-21:law-wiring-23079870) effective 2025-01-21; then repealed at federal effective 2026-01-22",
+      "lawIds": [
+        "law:US:federal:us-federal-positions:science-communications.national-data-privacy:general:2025-01-21:law-wiring-23079870",
+        "law:US:federal:us-federal-positions:science-communications.national-data-privacy:general:2026-01-22:law-wiring-23079870-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 15,
+        "governments": 0,
+        "other": 0,
+        "open": 15,
+        "ended": 0,
+        "sample": [
+          "applied|us-federal-positions:science-communications.national-data-privacy|organization_cf21013f8947c009",
+          "applied|us-federal-positions:science-communications.national-data-privacy|organization_cf21003f8947be56",
+          "applied|us-federal-positions:science-communications.national-data-privacy|organization_62b1d80c610a4e1e",
+          "applied|us-federal-positions:science-communications.national-data-privacy|organization_d64f05d7db22806b"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 15,
+        "governments": 0,
+        "other": 0,
+        "open": 15,
+        "ended": 0,
+        "sample": [
+          "applied|us-federal-positions:science-communications.national-data-privacy|organization_cf21013f8947c009",
+          "applied|us-federal-positions:science-communications.national-data-privacy|organization_cf21003f8947be56",
+          "applied|us-federal-positions:science-communications.national-data-privacy|organization_62b1d80c610a4e1e",
+          "applied|us-federal-positions:science-communications.national-data-privacy|organization_d64f05d7db22806b"
+        ]
+      },
+      "inPlay": [],
+      "applied": {
+        "rows": 15,
+        "withAmount": 15,
+        "sample": [
+          "applied|us-federal-positions:science-communications.national-data-privacy|organization_cf21013f8947c009",
+          "applied|us-federal-positions:science-communications.national-data-privacy|organization_cf21003f8947be56",
+          "applied|us-federal-positions:science-communications.national-data-privacy|organization_62b1d80c610a4e1e"
+        ]
+      },
+      "readers": {
+        "src/core2/modules/business.ts:1407": 158,
+        "src/core2/modules/business.ts:1339": 24,
+        "src/core2/life.ts:573": 5,
+        "src/core2/modules/legislature.ts:4224": 3
+      },
+      "openingRow": "law:US:federal:us-federal-positions:science-communications.national-data-privacy:general:starting",
+      "money": {
+        "direct": [
+          {
+            "kind": "accounts.transfer @ src/core2/modules/business.ts:2037",
+            "treatment": 6977904,
+            "control": 6981069,
+            "ids": [
+              "journal:2025-04-01:18929",
+              "journal:2025-05-01:28497",
+              "journal:2025-06-01:37993"
+            ]
+          }
+        ],
+        "diff": [
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+            "treatment": 3618146352,
+            "control": 3845856048,
+            "ids": [
+              "journal:2025-02-01:1133",
+              "journal:2025-02-01:1134",
+              "journal:2025-02-01:1135"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1323",
+            "treatment": 5687984534,
+            "control": 5895349322,
+            "ids": [
+              "journal:2025-02-01:3186",
+              "journal:2025-02-01:3187",
+              "journal:2025-02-01:3188"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:671",
+            "treatment": 49454782010,
+            "control": 49602439179,
+            "ids": [
+              "journal:2025-01-21:748",
+              "journal:2025-01-23:765",
+              "journal:2025-01-23:766"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 1668326073,
+            "control": 1535877640,
+            "ids": [
+              "journal:2025-02-01:1090",
+              "journal:2025-02-01:1091",
+              "journal:2025-02-01:1092"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:160",
+            "treatment": 2851068998,
+            "control": 2973768522,
+            "ids": [
+              "journal:2025-01-21:732",
+              "journal:2025-01-21:733",
+              "journal:2025-01-21:734"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1341",
+            "treatment": 11726819004,
+            "control": 11817675310,
+            "ids": [
+              "journal:2025-01-21:704",
+              "journal:2025-01-21:705",
+              "journal:2025-01-21:706"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:918",
+            "treatment": 653496682,
+            "control": 700366918,
+            "ids": [
+              "journal:2025-02-01:1089",
+              "journal:2025-02-01:1118",
+              "journal:2025-02-01:5251"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:943",
+            "treatment": 94907897394044,
+            "control": 94907855008702,
+            "ids": [
+              "journal:2025-07-01:46563",
+              "journal:2025-07-01:46564",
+              "journal:2025-07-01:46565"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/moves.ts:923",
+            "treatment": 48321399,
+            "control": 24061089,
+            "ids": [
+              "journal:2025-02-22:8954",
+              "journal:2025-04-21:27512",
+              "journal:2025-12-26:109211"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:1052",
+            "treatment": 79095308324409,
+            "control": 79095326859566,
+            "ids": [
+              "journal:2025-02-01:888",
+              "journal:2025-02-01:889",
+              "journal:2025-02-01:890"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:793",
+            "treatment": 8629097476,
+            "control": 8647599545,
+            "ids": [
+              "journal:2025-02-01:2924",
+              "journal:2025-02-01:2925",
+              "journal:2025-02-01:2926"
+            ]
+          },
+          {
+            "kind": "employer-taxes:profit @ src/core2/modules/employer-taxes.ts:337",
+            "treatment": 44757271,
+            "control": 31534011,
+            "ids": [
+              "journal:2025-07-01:52940",
+              "journal:2025-07-01:52941",
+              "journal:2025-10-01:84960"
+            ]
+          }
+        ],
+        "diffKinds": 41,
+        "cited": [
+          {
+            "token": "us-federal-positions:science-communications.national-data-privacy",
+            "gross": 118766366,
+            "ids": [
+              "journal:2025-02-01:1090",
+              "journal:2025-02-01:1091",
+              "journal:2025-02-01:1092"
+            ]
+          }
+        ],
+        "controlCited": [],
+        "own": {
+          "targets": 15,
+          "among": "paid",
+          "pairs": [
+            {
+              "kind": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-federal-positions:science-communications.national-data-privacy",
+              "way": "out",
+              "targets": 15,
+              "moved": 11942448,
+              "earliest": "2025-02-01",
+              "sample": [
+                {
+                  "target": "organization_03a1041e7297eb59",
+                  "row": "applied|us-federal-positions:science-communications.national-data-privacy|organization_03a1041e7297eb59",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-federal-positions:science-communications.national-data-privacy",
+                  "way": "out",
+                  "treatment": -204861,
+                  "control": 0,
+                  "journal": "journal:2025-02-01:1096"
+                },
+                {
+                  "target": "organization_62b1d60c610a4ab8",
+                  "row": "applied|us-federal-positions:science-communications.national-data-privacy|organization_62b1d60c610a4ab8",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-federal-positions:science-communications.national-data-privacy",
+                  "way": "out",
+                  "treatment": -140356,
+                  "control": 0,
+                  "journal": "journal:2025-02-01:1097"
+                },
+                {
+                  "target": "organization_62b1d80c610a4e1e",
+                  "row": "applied|us-federal-positions:science-communications.national-data-privacy|organization_62b1d80c610a4e1e",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-federal-positions:science-communications.national-data-privacy",
+                  "way": "out",
+                  "treatment": -397000,
+                  "control": 0,
+                  "journal": "journal:2025-02-01:1091"
+                },
+                {
+                  "target": "organization_62b1d90c610a4fd1",
+                  "row": "applied|us-federal-positions:science-communications.national-data-privacy|organization_62b1d90c610a4fd1",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-federal-positions:science-communications.national-data-privacy",
+                  "way": "out",
+                  "treatment": -445210,
+                  "control": 0,
+                  "journal": "journal:2025-02-01:1095"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:341",
+              "way": "in",
+              "targets": 10,
+              "moved": 452,
+              "earliest": "2025-04-01",
+              "sample": [
+                {
+                  "target": "organization_03a1041e7297eb59",
+                  "row": "applied|us-federal-positions:science-communications.national-data-privacy|organization_03a1041e7297eb59",
+                  "date": "2025-04-01",
+                  "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:341",
+                  "way": "in",
+                  "treatment": -261441,
+                  "control": -261457,
+                  "journal": "journal:2025-04-01:19210"
+                },
+                {
+                  "target": "organization_207acc507f569c90",
+                  "row": "applied|us-federal-positions:science-communications.national-data-privacy|organization_207acc507f569c90",
+                  "date": "2025-04-01",
+                  "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:341",
+                  "way": "in",
+                  "treatment": -211961,
+                  "control": -211976,
+                  "journal": "journal:2025-04-01:19212"
+                },
+                {
+                  "target": "organization_62b1d60c610a4ab8",
+                  "row": "applied|us-federal-positions:science-communications.national-data-privacy|organization_62b1d60c610a4ab8",
+                  "date": "2025-04-01",
+                  "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:341",
+                  "way": "in",
+                  "treatment": -279106,
+                  "control": -279123,
+                  "journal": "journal:2025-04-01:19216"
+                },
+                {
+                  "target": "organization_62b1d80c610a4e1e",
+                  "row": "applied|us-federal-positions:science-communications.national-data-privacy|organization_62b1d80c610a4e1e",
+                  "date": "2025-04-01",
+                  "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:341",
+                  "way": "in",
+                  "treatment": -789579,
+                  "control": -789627,
+                  "journal": "journal:2025-04-01:19218"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+              "way": "in",
+              "targets": 9,
+              "moved": 6188654,
+              "earliest": "2025-02-01",
+              "sample": [
+                {
+                  "target": "organization_03a1041e7297eb59",
+                  "row": "applied|us-federal-positions:science-communications.national-data-privacy|organization_03a1041e7297eb59",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+                  "way": "in",
+                  "treatment": -62705,
+                  "control": -267566,
+                  "journal": "journal:2025-02-01:1107"
+                },
+                {
+                  "target": "organization_62b1d80c610a4e1e",
+                  "row": "applied|us-federal-positions:science-communications.national-data-privacy|organization_62b1d80c610a4e1e",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+                  "way": "in",
+                  "treatment": -535129,
+                  "control": -932129,
+                  "journal": "journal:2025-02-01:1100"
+                },
+                {
+                  "target": "organization_62b1d90c610a4fd1",
+                  "row": "applied|us-federal-positions:science-communications.national-data-privacy|organization_62b1d90c610a4fd1",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+                  "way": "in",
+                  "treatment": -600115,
+                  "control": -1045325,
+                  "journal": "journal:2025-02-01:1103"
+                },
+                {
+                  "target": "organization_c2593e353ba76aa8",
+                  "row": "applied|us-federal-positions:science-communications.national-data-privacy|organization_c2593e353ba76aa8",
+                  "date": "2025-02-01",
+                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+                  "way": "in",
+                  "treatment": -878922,
+                  "control": -1024298,
+                  "journal": "journal:2025-02-01:1108"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/cost-of-living.ts:352",
+              "way": "out",
+              "targets": 9,
+              "moved": 21966,
+              "earliest": "2025-04-01",
+              "sample": [
+                {
+                  "target": "organization_03a1041e7297eb59",
+                  "row": "applied|us-federal-positions:science-communications.national-data-privacy|organization_03a1041e7297eb59",
+                  "date": "2025-04-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:352",
+                  "way": "out",
+                  "treatment": 333685,
+                  "control": 334585,
+                  "journal": "journal:2025-04-01:19209"
+                },
+                {
+                  "target": "organization_207acc507f569c90",
+                  "row": "applied|us-federal-positions:science-communications.national-data-privacy|organization_207acc507f569c90",
+                  "date": "2025-04-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:352",
+                  "way": "out",
+                  "treatment": 259328,
+                  "control": 260130,
+                  "journal": "journal:2025-04-01:19211"
+                },
+                {
+                  "target": "organization_62b1d60c610a4ab8",
+                  "row": "applied|us-federal-positions:science-communications.national-data-privacy|organization_62b1d60c610a4ab8",
+                  "date": "2025-04-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:352",
+                  "way": "out",
+                  "treatment": 352697,
+                  "control": 353654,
+                  "journal": "journal:2025-04-01:19215"
+                },
+                {
+                  "target": "organization_62b1d80c610a4e1e",
+                  "row": "applied|us-federal-positions:science-communications.national-data-privacy|organization_62b1d80c610a4e1e",
+                  "date": "2025-04-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:352",
+                  "way": "out",
+                  "treatment": 997747,
+                  "control": 1000455,
+                  "journal": "journal:2025-04-01:19217"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/counted-money.ts:793",
+              "way": "out",
+              "targets": 9,
+              "moved": 5364,
+              "earliest": "2025-05-01",
+              "sample": [
+                {
+                  "target": "organization_03a1041e7297eb59",
+                  "row": "applied|us-federal-positions:science-communications.national-data-privacy|organization_03a1041e7297eb59",
+                  "date": "2025-05-01",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:793",
+                  "way": "out",
+                  "treatment": 13604151,
+                  "control": 13604364,
+                  "journal": "journal:2025-05-01:30789"
+                },
+                {
+                  "target": "organization_207acc507f569c90",
+                  "row": "applied|us-federal-positions:science-communications.national-data-privacy|organization_207acc507f569c90",
+                  "date": "2025-05-01",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:793",
+                  "way": "out",
+                  "treatment": 10951518,
+                  "control": 10951701,
+                  "journal": "journal:2025-05-01:30793"
+                },
+                {
+                  "target": "organization_62b1d60c610a4ab8",
+                  "row": "applied|us-federal-positions:science-communications.national-data-privacy|organization_62b1d60c610a4ab8",
+                  "date": "2025-05-01",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:793",
+                  "way": "out",
+                  "treatment": 14602911,
+                  "control": 14603146,
+                  "journal": "journal:2025-05-01:30799"
+                },
+                {
+                  "target": "organization_62b1d80c610a4e1e",
+                  "row": "applied|us-federal-positions:science-communications.national-data-privacy|organization_62b1d80c610a4e1e",
+                  "date": "2025-05-01",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:793",
+                  "way": "out",
+                  "treatment": 41307594,
+                  "control": 41308258,
+                  "journal": "journal:2025-05-01:30801"
+                }
+              ]
+            },
+            {
+              "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+              "way": "in",
+              "targets": 7,
+              "moved": 72787,
+              "earliest": "2025-04-21",
+              "sample": [
+                {
+                  "target": "organization_62b1d60c610a4ab8",
+                  "row": "applied|us-federal-positions:science-communications.national-data-privacy|organization_62b1d60c610a4ab8",
+                  "date": "2025-04-21",
+                  "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+                  "way": "in",
+                  "treatment": -9131945,
+                  "control": -9132364,
+                  "journal": "journal:2025-04-21:27557"
+                },
+                {
+                  "target": "organization_62b1d80c610a4e1e",
+                  "row": "applied|us-federal-positions:science-communications.national-data-privacy|organization_62b1d80c610a4e1e",
+                  "date": "2025-04-21",
+                  "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+                  "way": "in",
+                  "treatment": -25831281,
+                  "control": -25832466,
+                  "journal": "journal:2025-04-21:27559"
+                },
+                {
+                  "target": "organization_62b1d90c610a4fd1",
+                  "row": "applied|us-federal-positions:science-communications.national-data-privacy|organization_62b1d90c610a4fd1",
+                  "date": "2025-04-21",
+                  "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+                  "way": "in",
+                  "treatment": -28967557,
+                  "control": -28968886,
+                  "journal": "journal:2025-04-21:27561"
+                },
+                {
+                  "target": "organization_cf20fe3f8947baf0",
+                  "row": "applied|us-federal-positions:science-communications.national-data-privacy|organization_cf20fe3f8947baf0",
+                  "date": "2025-04-21",
+                  "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+                  "way": "in",
+                  "treatment": -81172274,
+                  "control": -81175321,
+                  "journal": "journal:2025-04-21:27563"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/counted-money.ts:671",
+              "way": "in",
+              "targets": 6,
+              "moved": 37219542,
+              "earliest": "2025-03-01",
+              "sample": [
+                {
+                  "target": "organization_207acc507f569c90",
+                  "row": "applied|us-federal-positions:science-communications.national-data-privacy|organization_207acc507f569c90",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:671",
+                  "way": "in",
+                  "treatment": -13560792,
+                  "control": -13848379,
+                  "journal": "journal:2025-03-01:9467"
+                },
+                {
+                  "target": "organization_c2593e353ba76aa8",
+                  "row": "applied|us-federal-positions:science-communications.national-data-privacy|organization_c2593e353ba76aa8",
+                  "date": "2025-04-09",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:671",
+                  "way": "in",
+                  "treatment": -2638368,
+                  "control": -2640916,
+                  "journal": "journal:2025-04-09:27020"
+                },
+                {
+                  "target": "organization_d64f05d7db22806b",
+                  "row": "applied|us-federal-positions:science-communications.national-data-privacy|organization_d64f05d7db22806b",
+                  "date": "2025-04-14",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:671",
+                  "way": "in",
+                  "treatment": -7707482,
+                  "control": -7720502,
+                  "journal": "journal:2025-04-14:27333"
+                },
+                {
+                  "target": "organization_ff2b6773fec474e7",
+                  "row": "applied|us-federal-positions:science-communications.national-data-privacy|organization_ff2b6773fec474e7",
+                  "date": "2025-06-01",
+                  "kind": "accounts.transfer @ src/core2/counted-money.ts:671",
+                  "way": "in",
+                  "treatment": -39152969,
+                  "control": -39599078,
+                  "journal": "journal:2025-06-01:37981"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/residents.ts:1341",
+              "way": "in",
+              "targets": 4,
+              "moved": 3488344,
+              "earliest": "2025-06-10",
+              "sample": [
+                {
+                  "target": "organization_9c2c4956b7d2272d",
+                  "row": "applied|us-federal-positions:science-communications.national-data-privacy|organization_9c2c4956b7d2272d",
+                  "date": "2025-06-10",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1341",
+                  "way": "in",
+                  "treatment": -1401290,
+                  "control": -1401323,
+                  "journal": "journal:2025-06-10:45370"
+                },
+                {
+                  "target": "organization_fa24653b366ad965",
+                  "row": "applied|us-federal-positions:science-communications.national-data-privacy|organization_fa24653b366ad965",
+                  "date": "2025-07-01",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1341",
+                  "way": "in",
+                  "treatment": 25470433,
+                  "control": 25442509,
+                  "journal": "journal:2025-07-01:50496"
+                },
+                {
+                  "target": "organization_ff2b6773fec474e7",
+                  "row": "applied|us-federal-positions:science-communications.national-data-privacy|organization_ff2b6773fec474e7",
+                  "date": "2025-07-08",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1341",
+                  "way": "in",
+                  "treatment": -107553151,
+                  "control": -111013537,
+                  "journal": "journal:2025-07-08:55980"
+                },
+                {
+                  "target": "organization_d64f06d7db22821e",
+                  "row": "applied|us-federal-positions:science-communications.national-data-privacy|organization_d64f06d7db22821e",
+                  "date": "2025-09-09",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1341",
+                  "way": "in",
+                  "treatment": 3182395,
+                  "control": 3182394,
+                  "journal": "journal:2025-09-09:77352"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/residents.ts:1323",
+              "way": "in",
+              "targets": 4,
+              "moved": 11917,
+              "earliest": "2025-05-06",
+              "sample": [
+                {
+                  "target": "organization_207acc507f569c90",
+                  "row": "applied|us-federal-positions:science-communications.national-data-privacy|organization_207acc507f569c90",
+                  "date": "2025-05-06",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1323",
+                  "way": "in",
+                  "treatment": -13281208,
+                  "control": -13281719,
+                  "journal": "journal:2025-05-06:36036"
+                },
+                {
+                  "target": "organization_9c2c4956b7d2272d",
+                  "row": "applied|us-federal-positions:science-communications.national-data-privacy|organization_9c2c4956b7d2272d",
+                  "date": "2025-05-06",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1323",
+                  "way": "in",
+                  "treatment": -5176940,
+                  "control": -5177076,
+                  "journal": "journal:2025-05-06:36048"
+                },
+                {
+                  "target": "organization_ff2b6773fec474e7",
+                  "row": "applied|us-federal-positions:science-communications.national-data-privacy|organization_ff2b6773fec474e7",
+                  "date": "2025-06-17",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1323",
+                  "way": "in",
+                  "treatment": 14047100,
+                  "control": 14035832,
+                  "journal": "journal:2025-06-17:45704"
+                },
+                {
+                  "target": "organization_d64f06d7db22821e",
+                  "row": "applied|us-federal-positions:science-communications.national-data-privacy|organization_d64f06d7db22821e",
+                  "date": "2025-09-02",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1323",
+                  "way": "in",
+                  "treatment": -23136934,
+                  "control": -23136936,
+                  "journal": "journal:2025-09-02:74932"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/residents.ts:1323",
+              "way": "out",
+              "targets": 4,
+              "moved": 8124,
+              "earliest": "2025-06-10",
+              "sample": [
+                {
+                  "target": "organization_ff2b6773fec474e7",
+                  "row": "applied|us-federal-positions:science-communications.national-data-privacy|organization_ff2b6773fec474e7",
+                  "date": "2025-06-10",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1323",
+                  "way": "out",
+                  "treatment": -37097936,
+                  "control": -37089816,
+                  "journal": "journal:2025-06-10:45402"
+                },
+                {
+                  "target": "organization_9c2c4956b7d2272d",
+                  "row": "applied|us-federal-positions:science-communications.national-data-privacy|organization_9c2c4956b7d2272d",
+                  "date": "2025-06-24",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1323",
+                  "way": "out",
+                  "treatment": -2968799,
+                  "control": -2968798,
+                  "journal": "journal:2025-06-24:46342"
+                },
+                {
+                  "target": "organization_d64f06d7db22821e",
+                  "row": "applied|us-federal-positions:science-communications.national-data-privacy|organization_d64f06d7db22821e",
+                  "date": "2025-07-01",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1323",
+                  "way": "out",
+                  "treatment": -22882134,
+                  "control": -22882133,
+                  "journal": "journal:2025-07-01:50928"
+                },
+                {
+                  "target": "organization_fa24653b366ad965",
+                  "row": "applied|us-federal-positions:science-communications.national-data-privacy|organization_fa24653b366ad965",
+                  "date": "2025-07-01",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1323",
+                  "way": "out",
+                  "treatment": -21624104,
+                  "control": -21624102,
+                  "journal": "journal:2025-07-01:50934"
+                }
+              ]
+            }
+          ],
+          "paid": 15,
+          "pick": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-federal-positions:science-communications.national-data-privacy|out",
+          "sample": [
+            {
+              "target": "organization_03a1041e7297eb59",
+              "row": "applied|us-federal-positions:science-communications.national-data-privacy|organization_03a1041e7297eb59",
+              "date": "2025-02-01",
+              "kind": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-federal-positions:science-communications.national-data-privacy",
+              "way": "out",
+              "treatment": -204861,
+              "control": 0,
+              "journal": "journal:2025-02-01:1096"
+            },
+            {
+              "target": "organization_62b1d60c610a4ab8",
+              "row": "applied|us-federal-positions:science-communications.national-data-privacy|organization_62b1d60c610a4ab8",
+              "date": "2025-02-01",
+              "kind": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-federal-positions:science-communications.national-data-privacy",
+              "way": "out",
+              "treatment": -140356,
+              "control": 0,
+              "journal": "journal:2025-02-01:1097"
+            },
+            {
+              "target": "organization_62b1d80c610a4e1e",
+              "row": "applied|us-federal-positions:science-communications.national-data-privacy|organization_62b1d80c610a4e1e",
+              "date": "2025-02-01",
+              "kind": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-federal-positions:science-communications.national-data-privacy",
+              "way": "out",
+              "treatment": -397000,
+              "control": 0,
+              "journal": "journal:2025-02-01:1091"
+            },
+            {
+              "target": "organization_62b1d90c610a4fd1",
+              "row": "applied|us-federal-positions:science-communications.national-data-privacy|organization_62b1d90c610a4fd1",
+              "date": "2025-02-01",
+              "kind": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-federal-positions:science-communications.national-data-privacy",
+              "way": "out",
+              "treatment": -445210,
+              "control": 0,
+              "journal": "journal:2025-02-01:1095"
+            }
+          ],
+          "near": [
+            {
+              "kind": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-federal-positions:science-communications.national-data-privacy",
+              "way": "out",
+              "targets": 15,
+              "first": {
+                "target": "organization_03a1041e7297eb59",
+                "row": "applied|us-federal-positions:science-communications.national-data-privacy|organization_03a1041e7297eb59",
+                "date": "2025-02-01",
+                "kind": "accounts.transfer @ src/core2/world-transfer.ts:40 under us-federal-positions:science-communications.national-data-privacy",
+                "way": "out",
+                "treatment": -204861,
+                "control": 0,
+                "journal": "journal:2025-02-01:1096"
+              }
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+              "way": "in",
+              "targets": 9,
+              "first": {
+                "target": "organization_03a1041e7297eb59",
+                "row": "applied|us-federal-positions:science-communications.national-data-privacy|organization_03a1041e7297eb59",
+                "date": "2025-02-01",
+                "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+                "way": "in",
+                "treatment": -62705,
+                "control": -267566,
+                "journal": "journal:2025-02-01:1107"
+              }
+            }
+          ]
+        }
+      },
+      "web": {
+        "links": [],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 145,
+        "sample": [
+          "person_0aaf66a4aef1a3e6:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:science-communications.national-data-privacy:general:2025-01-21:law-wiring-23079870",
+          "person_49c6a089227b42c0:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:science-communications.national-data-privacy:general:2025-01-21:law-wiring-23079870",
+          "person_4c71c44862472545:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:science-communications.national-data-privacy:general:2025-01-21:law-wiring-23079870"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 141
+    },
+    {
+      "key": "us-federal-positions:immigration.admit-more-immigrants",
+      "kind": "question",
+      "family": "immigration",
+      "inForceAtOpening": false,
+      "change": "enacted at federal (law:US:federal:us-federal-positions:immigration.admit-more-immigrants:general:2025-01-21:law-wiring-b8da9dc9) effective 2025-01-21; then repealed at federal effective 2026-01-22",
+      "lawIds": [
+        "law:US:federal:us-federal-positions:immigration.admit-more-immigrants:general:2025-01-21:law-wiring-b8da9dc9",
+        "law:US:federal:us-federal-positions:immigration.admit-more-immigrants:general:2026-01-22:law-wiring-b8da9dc9-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "inPlay": [],
+      "applied": {
+        "rows": 0,
+        "withAmount": 0,
+        "sample": []
+      },
+      "readers": {
+        "src/core2/modules/outcome-web.ts:207": 100,
+        "src/core2/life.ts:573": 5,
+        "src/core2/modules/legislature.ts:4224": 3
+      },
+      "openingRow": "law:US:federal:us-federal-positions:immigration.admit-more-immigrants:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:671",
+            "treatment": 49601715831,
+            "control": 49602439179,
+            "ids": [
+              "journal:2025-01-21:748",
+              "journal:2025-01-23:765",
+              "journal:2025-01-23:766"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:318",
+            "treatment": 40260275,
+            "control": 40891373,
+            "ids": [
+              "journal:2025-09-01:68459",
+              "journal:2025-09-01:68461",
+              "journal:2025-09-01:68463"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:428",
+            "treatment": 597414514,
+            "control": 598001049,
+            "ids": [
+              "journal:2025-02-01:1107",
+              "journal:2025-02-01:1108",
+              "journal:2025-02-01:1109"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 764524045,
+            "control": 764836995,
+            "ids": [
+              "journal:2025-01-27:816",
+              "journal:2025-01-27:819",
+              "journal:2025-01-29:852"
+            ]
+          },
+          {
+            "kind": "campaigns:purchase @ src/core2/modules/campaigns.ts:3641",
+            "treatment": 3494485,
+            "control": 3768849,
+            "ids": [
+              "journal:2025-05-17:36613",
+              "journal:2025-05-17:36635",
+              "journal:2025-05-17:36642"
+            ]
+          },
+          {
+            "kind": "campaigns:donation @ src/core2/modules/campaigns.ts:3641",
+            "treatment": 4469500,
+            "control": 4736200,
+            "ids": [
+              "journal:2025-05-17:36608",
+              "journal:2025-05-17:36609",
+              "journal:2025-05-17:36610"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1341",
+            "treatment": 11817920760,
+            "control": 11817675310,
+            "ids": [
+              "journal:2025-01-21:704",
+              "journal:2025-01-21:705",
+              "journal:2025-01-21:706"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:352",
+            "treatment": 170295616,
+            "control": 170057169,
+            "ids": [
+              "journal:2025-02-01:1377",
+              "journal:2025-02-01:1379",
+              "journal:2025-02-01:1381"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:943",
+            "treatment": 94907855201621,
+            "control": 94907855008702,
+            "ids": [
+              "journal:2025-07-01:46514",
+              "journal:2025-07-01:46515",
+              "journal:2025-07-01:46516"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1323",
+            "treatment": 5895164633,
+            "control": 5895349322,
+            "ids": [
+              "journal:2025-02-01:3178",
+              "journal:2025-02-01:3179",
+              "journal:2025-02-01:3180"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:578",
+            "treatment": 266983788,
+            "control": 266863388,
+            "ids": [
+              "journal:2025-01-21:691",
+              "journal:2025-01-21:692",
+              "journal:2025-01-21:693"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+            "treatment": 3845974329,
+            "control": 3845856048,
+            "ids": [
+              "journal:2025-02-01:1125",
+              "journal:2025-02-01:1126",
+              "journal:2025-02-01:1127"
+            ]
+          }
+        ],
+        "diffKinds": 38,
+        "cited": [],
+        "controlCited": [],
+        "own": {
+          "targets": 0,
+          "among": "reached",
+          "pairs": [],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "more-immigration-to-workforce",
+            "status": "size-not-set",
+            "to": "labor.workforce"
+          },
+          {
+            "key": "immigration-to-crime",
+            "status": "about-zero",
+            "to": "crime.rate-index"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 145,
+        "sample": [
+          "person_0aaf66a4aef1a3e6:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:immigration.admit-more-immigrants:general:2025-01-21:law-wiring-b8da9dc9",
+          "person_49c6a089227b42c0:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:immigration.admit-more-immigrants:general:2025-01-21:law-wiring-b8da9dc9",
+          "person_4c71c44862472545:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:immigration.admit-more-immigrants:general:2025-01-21:law-wiring-b8da9dc9"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 144
+    }
+  ]
+}
