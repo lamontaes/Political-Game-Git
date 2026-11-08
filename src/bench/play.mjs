@@ -2674,7 +2674,7 @@ async function openBillPaper(billId, show, back, backLabel) {
           ? `${floor.takenUp ?? ""} ${dateWords(paper.floorDate)}`
           : null,
         paper.decision
-          ? `${words.decided ?? ""}: ${floor.status?.[paper.decision.status] ?? ""}${paper.decision.passedOn ? ` · ${dateWords(paper.decision.passedOn)}` : ""}`
+          ? `${words.decided ?? ""}: ${floor.status?.[paper.decision.status] ?? ""}${paper.decision.decidedOn ? ` · ${dateWords(paper.decision.decidedOn)}` : ""}`
           : null,
       ],
     }),
@@ -3423,8 +3423,14 @@ const sheets = {
     const books = gov.books;
     const prior = gov.prior;
     const lastOf = (lines, key) => lines?.find((r) => r.line === key)?.minor;
+    // A line the government spends nothing on is not listed (P29): a budget
+    // reads like a real one. The line open stays, so a pick always shows.
+    const spending = latest.spending.filter((r) => r.minor !== 0);
     const opened =
-      latest.spending.find((r) => r.line === budgetLine) ?? latest.spending[0];
+      spending.find((r) => r.line === budgetLine) ??
+      latest.spending.find((r) => r.line === budgetLine) ??
+      spending[0] ??
+      latest.spending[0];
     const lastYear = (minor) =>
       minor === undefined ? "" : `${words.lastYear} ${roundedMoney(minor)}`;
     const stepButtons = steps(opened).map((step) => {
@@ -3455,7 +3461,7 @@ const sheets = {
               1,
               words.departments,
               pager({
-                items: latest.spending.map((r) =>
+                items: spending.map((r) =>
                   departmentRow({
                     name: r.name ?? r.line,
                     amount: roundedMoney(r.minor),
@@ -4123,6 +4129,17 @@ const sheets = {
               2,
               labels.dates,
               dateList([
+                ...(race.filingOpens && race.filingOpens > me.date
+                  ? [
+                      {
+                        when: dateWords(race.filingOpens, {
+                          month: "short",
+                          year: me.date,
+                        }),
+                        text: labels.filingOpens,
+                      },
+                    ]
+                  : []),
                 ...(race.filingClosed
                   ? []
                   : [
@@ -5943,6 +5960,10 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
       bar.firstElementChild.style.width = "100%";
       $("front-status").textContent = "";
     }
+    // The loading card is named for the place the world is built around (fr-loading).
+    const loadingTitle = document.querySelector("#front > .title");
+    if (loadingTitle && life.placeName)
+      loadingTitle.textContent = life.placeName;
     // The story plays to its end (or a click) before the life opens.
     await playStory();
     show("loading-story", false);
