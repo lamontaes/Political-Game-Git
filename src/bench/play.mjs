@@ -636,6 +636,7 @@ async function act(path) {
       else if (
         office.reasonKey === "office-day.executive-order" ||
         office.reasonKey === "office-day.emergency" ||
+        office.reasonKey === "office-day.state-of-the-state" ||
         office.reasonKey === "office-day.appointment" ||
         office.reasonKey === "office-day.budget-proposal"
       )
@@ -987,25 +988,32 @@ function atOrders() {
                 )
               : [];
           const kindWords = (how) =>
-            item.kind === "emergency"
-              ? words[`emergency-${how}`]
-              : item.kind === "post"
-                ? words[`post-${how}`]
-                : item.kind === "budget"
-                  ? words[`budget-${how}`]
-                  : how === "issue" && item.revoke
-                    ? words.revoke
-                    : words[how];
+            item.kind === "address"
+              ? words[`address-${how}`]
+              : item.kind === "emergency"
+                ? words[`emergency-${how}`]
+                : item.kind === "post"
+                  ? words[`post-${how}`]
+                  : item.kind === "budget"
+                    ? words[`budget-${how}`]
+                    : how === "issue" && item.revoke
+                      ? words.revoke
+                      : words[how];
           return plate(
-            item.kind === "emergency"
-              ? words.emergency
-              : item.kind === "budget"
-                ? words.budget
-                : (item.name ?? ""),
+            item.kind === "address"
+              ? words.address
+              : item.kind === "emergency"
+                ? words.emergency
+                : item.kind === "budget"
+                  ? words.budget
+                  : (item.name ?? ""),
             ...picker,
             ...lines,
             buttonRow(
-              ...["issue", "decline"].map((how) => {
+              ...(item.kind === "address"
+                ? ["issue"]
+                : ["issue", "decline"]
+              ).map((how) => {
                 const b = makeButton({
                   className: "action",
                   textContent: kindWords(how),

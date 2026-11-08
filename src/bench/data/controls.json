@@ -983,6 +983,8 @@
     "issue": "Issue the order",
     "revoke": "Revoke the order",
     "decline": "Set it aside",
+    "address": "The State of the State",
+    "address-issue": "Give the address",
     "emergency": "State of emergency",
     "emergency-issue": "Declare it",
     "emergency-decline": "Let it pass",

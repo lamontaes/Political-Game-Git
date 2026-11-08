@@ -24,6 +24,7 @@ import {
 } from "../core2/modules/office-day";
 import {
   appointGovernor,
+  actOn,
   doEntry,
   waitingEntries,
 } from "../core2/modules/office-day";
@@ -443,6 +444,7 @@ export function ordersView(core: CoreState) {
       (entry) =>
         entry.kind === "executive-order" ||
         entry.kind === "emergency" ||
+        entry.kind === "state-of-the-state" ||
         entry.kind === "appointment" ||
         entry.kind === "budget-proposal",
     )
@@ -478,24 +480,32 @@ export function ordersView(core: CoreState) {
                   };
                 }),
             }
-          : entry.kind === "emergency"
+          : entry.kind === "state-of-the-state"
             ? {
                 entryId: entry.id,
-                kind: "emergency" as const,
+                kind: "address" as const,
                 order: entry.subject,
                 name: null,
                 revoke: false,
               }
-            : {
-                entryId: entry.id,
-                kind: "order" as const,
-                order: entry.subject,
-                // The order's own question, worded by the bill catalog's name for it.
-                name: names[orderQuestionOf(entry.subject) ?? ""] ?? null,
-                revoke:
-                  brought.find((row) => row.order === entry.subject)?.revoke ??
-                  false,
-              },
+            : entry.kind === "emergency"
+              ? {
+                  entryId: entry.id,
+                  kind: "emergency" as const,
+                  order: entry.subject,
+                  name: null,
+                  revoke: false,
+                }
+              : {
+                  entryId: entry.id,
+                  kind: "order" as const,
+                  order: entry.subject,
+                  // The order's own question, worded by the bill catalog's name for it.
+                  name: names[orderQuestionOf(entry.subject) ?? ""] ?? null,
+                  revoke:
+                    brought.find((row) => row.order === entry.subject)
+                      ?.revoke ?? false,
+                },
     );
 }
 
@@ -543,6 +553,12 @@ export function ordersDecide(
       ...(how === "issue" && nomineeId ? { personId: nomineeId } : {}),
       ...(how === "decline" ? { leave: true } : {}),
     });
+    return;
+  }
+  if (entry.kind === "state-of-the-state") {
+    // The address is given by the governor's own priorities (the staff's draft); it has no
+    // "set aside": the day's hold ends once it is given.
+    actOn(api, entry);
     return;
   }
   if (entry.kind === "emergency") {

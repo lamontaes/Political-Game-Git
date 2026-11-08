@@ -1156,7 +1156,12 @@ export {
   stateFloorHolds,
   voteOnStateFloor,
 } from "../office-day-state";
-export { appointGovernor, doEntry, waitingEntries } from "../office-day-state";
+export {
+  actOn,
+  appointGovernor,
+  doEntry,
+  waitingEntries,
+} from "../office-day-state";
 export { budgetProposalDue } from "../office-day-acts";
 export { jointAddress } from "../office-day-federal-calendar";
 export {
