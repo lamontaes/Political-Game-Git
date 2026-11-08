@@ -9,7 +9,11 @@ import {
   partnershipsModule,
   UNION_FACT,
 } from "./modules/partnerships";
-import { partneringPerYear, partnershipGeo } from "./opening-partnership";
+import {
+  partnerAgeLikelihood,
+  partneringPerYear,
+  partnershipGeo,
+} from "./opening-partnership";
 import { registerModule } from "./state";
 import { drawPlace } from "../../tests/golden-path/place";
 import { generatedOpening } from "./tooling/generated-world";
@@ -110,6 +114,20 @@ describe(`couples in the town of ${input.placeMetadata?.placeName} over ${YEARS}
           row.personIds.some((id) => partnered(id)),
         row.id,
       ).toBe(true);
+      // The age fit the chain's own table gives the pair is above zero: a
+      // couple the pull picked, not any two singles.
+      const sexA = a!.looks?.gender as "female" | "male" | undefined;
+      const sexB = b!.looks?.gender as "female" | "male" | undefined;
+      if (sexA && sexB && single.has(a!.id) && single.has(b!.id))
+        expect(
+          partnerAgeLikelihood(
+            ageOnDate(makeIsoDate(a!.birthDate), makeIsoDate(row.date)),
+            sexA,
+            ageOnDate(makeIsoDate(b!.birthDate), makeIsoDate(row.date)),
+            sexB,
+          ),
+          `${row.id}: ages the chain gives no weight`,
+        ).toBeGreaterThan(0);
       // The pair knew each other or shared a home: a partner is never a stranger.
       expect(
         a!.knownIds.has(b!.id) || a!.householdId === b!.householdId,
