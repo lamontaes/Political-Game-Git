@@ -11,6 +11,10 @@
  * way the world's people are seeded; nothing is drawn during play. Each
  * generated disaster is one result row on its start day and a public
  * `national.disaster` record for national:<state>. The town's own disaster
+ * The calendar is a pure function of (world seed, year-month, state, kind):
+ * nothing in play can change it, and it is read a month at a time (on the
+ * 20th before the month) so a world that runs a hundred years does not
+ * generate them up front. The town's own disaster
  * stays the disasters engine's (`hazard.disaster`). Damage, aid, a
  * declaration, the counties and the households are built on open from the
  * engines that hold the housing stock, building codes and budgets in force
