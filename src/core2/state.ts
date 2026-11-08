@@ -492,7 +492,6 @@ export function createCore(
   }
   for (const actor of core.people.values()) {
     assertKnownIdSources(core, actor);
-    api.stopgap("SG-P8-opening-family-closeness");
     if (!core.households.get(actor.householdId)?.memberIds.includes(actor.id))
       throw new Error(`Person has no consistent household: ${actor.id}`);
     for (const id of actor.familyIds) {
@@ -1287,7 +1286,6 @@ export function coreAPI(core: CoreState): CoreAPI {
         row.kind !== storedKind
       )
         throw new Error("Stale relationship change basis.");
-      api.stopgap("SG-P8-relationship-closeness-update");
       row.level = nextLevel;
       row.lastContactDate = at;
       row.latestChange = latestChange;
