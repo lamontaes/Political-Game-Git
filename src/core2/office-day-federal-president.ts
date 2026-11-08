@@ -208,6 +208,35 @@ function candidateFrom(
   };
 }
 
+/** The vacant cabinet posts and the people each could go to, best first by the president's own reasons. */
+export function nominationsOpen(
+  api: CoreAPI,
+  presidentId: string,
+): readonly {
+  readonly postId: string;
+  readonly title: string;
+  readonly candidates: readonly { id: string; total: number }[];
+}[] {
+  if (!isPresident(api, presidentId)) return [];
+  const pool = nominationCandidates(api, presidentId);
+  if (!pool.length) return [];
+  const ranked = nominateAndConfirm({
+    seatKey: "cabinet:US:view",
+    appointerSide: partySide(federalSeatOf(api, presidentId)?.term.party),
+    weighing: appointerWeighing(api.state as CoreState, presidentId),
+    candidates: pool,
+    confirmingBody: null,
+  }).reasons;
+  return cabinetOf(api)
+    .filter(open)
+    .map((row) => ({
+      postId: row.postId,
+      title:
+        CABINET.posts.find((p) => p.id === row.postId)?.title ?? row.postId,
+      candidates: ranked.map((r) => ({ id: r.candidateId, total: r.total })),
+    }));
+}
+
 /**
  * Nominate a cabinet secretary. With `nomineeId` the player chose them;
  * without, the character takes the candidate the appointments engine ranks
