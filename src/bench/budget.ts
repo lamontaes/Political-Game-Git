@@ -8,6 +8,8 @@ import {
 } from "../core2/modules/budgets";
 import type { TermRow } from "../core2/modules/offices";
 import { gameStartDate } from "../core2/game-start";
+import { appointmentsIn } from "../core2/modules/executive";
+import { lineForPost } from "../core2/budgets-treasury";
 import type { CoreState } from "../core2/types";
 import { properName } from "../director/words";
 import lineNames from "../core2/data/budgets/line-names.json" with { type: "json" };
@@ -69,9 +71,15 @@ export function booksOf(core: CoreState, organizationId: string) {
  * screen reads (revenue, spending and the balance between them), so no screen
  * adds the lines up itself.
  */
-function totaled(budget: ReturnType<typeof budgetsOf>[number]) {
+function totaled(
+  budget: ReturnType<typeof budgetsOf>[number],
+  heads: ReadonlyMap<string, string>,
+) {
   const revenue = sorted(budget.revenueMinor);
-  const spending = sorted(budget.spendingMinor);
+  const spending = sorted(budget.spendingMinor).map((row) => ({
+    ...row,
+    ...(heads.has(row.line) ? { head: heads.get(row.line) } : {}),
+  }));
   const sum = (lines: readonly { minor: number }[]) =>
     lines.reduce((total, row) => total + row.minor, 0);
   return {
@@ -84,6 +92,26 @@ function totaled(budget: ReturnType<typeof budgetsOf>[number]) {
     spendingMinor: sum(spending),
     balanceMinor: sum(revenue) - sum(spending),
   };
+}
+
+/**
+ * Who heads each department, by budget line: the appointments record's holders, placed on
+ * the line their post's pay draws on. A line the post table only gives to general
+ * administration names no head: it would put every head on one department.
+ */
+function headsOf(core: CoreState, governmentId: string, level: string) {
+  const api = coreAPI(core);
+  const heads = new Map<string, string>();
+  for (const row of appointmentsIn(api, governmentId)) {
+    const line = lineForPost(level, `town:${row.post}`);
+    if (line === "administration" || heads.has(line)) continue;
+    const person = core.people.get(row.holderId);
+    const name = person
+      ? `${person.givenName} ${person.familyName}`
+      : row.identity && `${row.identity.givenName} ${row.identity.familyName}`;
+    if (name) heads.set(line, name);
+  }
+  return heads;
 }
 
 /** Every government over the town, its latest budget, and the player's taxes. */
@@ -107,6 +135,7 @@ export function budgetView(core: CoreState, personId: string) {
       const latest = years[0];
       // The year before, when the government kept one: "Last year" beside each line.
       const prior = years[1];
+      const heads = headsOf(core, gov.id, gov.level);
       return {
         ...gov,
         // Some federal files hold names in capitals only.
@@ -114,8 +143,8 @@ export function budgetView(core: CoreState, personId: string) {
         youAreExecutive: [...executive].some((j) => gov.id.includes(j)),
         priorities: budgetPriorities(api, gov.id),
         books: booksOf(core, gov.organizationId),
-        latest: latest && totaled(latest),
-        prior: prior && totaled(prior),
+        latest: latest && totaled(latest, heads),
+        prior: prior && totaled(prior, heads),
       };
     }),
     withholding: {
