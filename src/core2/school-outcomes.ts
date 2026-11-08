@@ -30,6 +30,7 @@
  */
 import data from "./data/school/outcomes.json" with { type: "json" };
 import { ageOn } from "./counted-groups";
+import { countedJobHeads, countedJobsOf } from "./residents-economy";
 import { fullHouseholdIncomes } from "./counted-income-fifth";
 import {
   countedHouseholdsByPlace,
@@ -113,6 +114,12 @@ export interface SchoolGroupRow {
   /** A math group: the students who switched schools this year (their households' weight) and the link's size applied to each one's rate. */
   readonly switched?: number;
   readonly switchSize?: number;
+  /** A math or reading group: the district's pupil-teacher ratio read for the year, and the shift in standard deviations it put on the cohort's scores (class-size-to-scores). */
+  readonly classSize?: {
+    readonly ratio: number;
+    readonly teachers: number;
+    readonly shiftSd: number;
+  };
 }
 
 /**
@@ -313,6 +320,118 @@ function baseFor(
     : { base: baseOf(measure, "", api.state.seed).value, recordId: null };
 }
 
+/** The standard normal density at x. */
+const normalDensity = (x: number) =>
+  Math.exp(-0.5 * x * x) / Math.sqrt(2 * Math.PI);
+
+/** The z-score with this share of the normal curve below it (Acklam's rational approximation, relative error under 1.2e-9). */
+function normalQuantile(p: number): number {
+  const a = [
+    -39.69683028665376, 220.9460984245205, -275.9285104469687, 138.357751867269,
+    -30.66479806614716, 2.506628277459239,
+  ];
+  const b = [
+    -54.47609879822406, 161.5858368580409, -155.6989798598866,
+    66.80131188771972, -13.28068155288572,
+  ];
+  const c = [
+    -0.007784894002430293, -0.3223964580411365, -2.400758277161838,
+    -2.549732539343734, 4.374664141464968, 2.938163982698783,
+  ];
+  const d = [
+    0.007784695709041462, 0.3224671290700398, 2.445134137142996,
+    3.754408661907416,
+  ];
+  const q = Math.min(1 - 1e-9, Math.max(1e-9, p));
+  if (q < 0.02425) {
+    const r = Math.sqrt(-2 * Math.log(q));
+    return (
+      (((((c[0]! * r + c[1]!) * r + c[2]!) * r + c[3]!) * r + c[4]!) * r +
+        c[5]!) /
+      ((((d[0]! * r + d[1]!) * r + d[2]!) * r + d[3]!) * r + 1)
+    );
+  }
+  if (q > 1 - 0.02425) return -normalQuantile(1 - q);
+  const r = q - 0.5;
+  const t = r * r;
+  return (
+    ((((((a[0]! * t + a[1]!) * t + a[2]!) * t + a[3]!) * t + a[4]!) * t +
+      a[5]!) *
+      r) /
+    (((((b[0]! * t + b[1]!) * t + b[2]!) * t + b[3]!) * t + b[4]!) * t + 1)
+  );
+}
+
+/**
+ * A district's pupil-teacher ratio, read from records the world keeps: the
+ * tested cohort's pupils stand for each of the grades, a public share of them
+ * attend the district, over the district's teacher jobs (a named teacher is
+ * one, a counted teacher the heads its employer's staffing sets). Null where
+ * the place has no teacher.
+ * stopgapId: SG-SCHOOL-class-size-cohort
+ */
+export function pupilTeacherRatio(
+  api: CoreAPI,
+  placeId: string,
+  cohortPupils: number,
+): number | null {
+  const teachers = districtTeachers(api, placeId);
+  if (!(teachers > 0)) return null;
+  return (
+    (cohortPupils *
+      data.classSize.gradesPerDistrict.value *
+      api.parameter("openingPublicSchoolShare")) /
+    teachers
+  );
+}
+
+/** The teachers of the place's school districts: a named teacher is one, a counted teacher the heads its employer's staffing sets. */
+export function districtTeachers(api: CoreAPI, placeId: string): number {
+  const core = api.state as CoreState;
+  const districts = [...core.organizations.values()].filter(
+    (org) =>
+      org.placeId === placeId &&
+      (org.classification ?? "").startsWith("service:school"),
+  );
+  const ids = new Set(districts.map((org) => org.id));
+  let teachers = 0;
+  for (const job of core.jobs.values())
+    if (
+      ids.has(job.organizationId) &&
+      job.occupationClassification === "profession:teacher"
+    )
+      teachers += 1;
+  for (const org of districts)
+    for (const job of countedJobsOf(core, org.id))
+      if (job.occupationClassification === "profession:teacher")
+        teachers += countedJobHeads(core, job);
+  return teachers;
+}
+
+/**
+ * The shift, in standard deviations, a district's class size puts on its
+ * eighth graders' scores: pupils fewer per teacher than the ratio the world
+ * opened on, as a share of the gap between small and regular classes in the
+ * Tennessee experiment, times the first-grade-3 advantage in standard
+ * deviations (percentile points over the percentile standard deviation),
+ * of which grade 8 keeps the researched share (class-size-to-scores).
+ */
+export function classSizeShiftSd(api: CoreAPI, ratio: number): number {
+  const cs = data.classSize;
+  const fewer = api.parameter("openingPupilTeacherRatio") - ratio;
+  return (
+    (fewer / cs.contrastPupils.value) *
+    (cs.firstGradePercentilePoints.value / cs.percentileSd.value) *
+    cs.gradeEightRetained.value
+  );
+}
+
+/** The change in the share clearing a line a standard-deviation shift makes, at the place's base share (normal density at the base share's z-score times the shift). */
+export function passShareChange(baseShare: number, shiftSd: number): number {
+  const share = Math.min(0.999, Math.max(0.001, baseShare));
+  return normalDensity(normalQuantile(1 - share)) * shiftSd;
+}
+
 /**
  * Decide one outcome for every student of its grade in every place, and keep
  * the records. Returns the measure rows written.
@@ -355,6 +474,24 @@ export function decideSchoolOutcome(
       if (list) list.push(s);
       else byFifth.set(s.fifth, [s]);
     }
+    // The district's class size: pupils per teacher against the ratio it
+    // opened on moves the eighth graders' scores (class-size-to-scores).
+    let classSize:
+      { ratio: number; teachers: number; shiftSd: number } | undefined;
+    let classChange = 0;
+    if (kind !== "graduation") {
+      const ratio = pupilTeacherRatio(api, placeId, total);
+      if (ratio !== null) {
+        const shiftSd = classSizeShiftSd(api, ratio);
+        classChange = passShareChange(base / 100, shiftSd);
+        classSize = {
+          ratio,
+          teachers: districtTeachers(api, placeId),
+          shiftSd,
+        };
+        api.stopgap(data.stopgaps.classSize);
+      }
+    }
     // Scale the researched gradient so the place's mean is its own level.
     let norm = 0;
     for (const [fifth, list] of byFifth)
@@ -374,7 +511,11 @@ export function decideSchoolOutcome(
       }).factor;
       const share = Math.min(
         1,
-        (base / 100) * (gradientOf(kind, fifth) / norm) * factor,
+        Math.max(
+          0,
+          ((base / 100) * factor + classChange) *
+            (gradientOf(kind, fifth) / norm),
+        ),
       );
       const switched = list.reduce((n, s) => n + (s.movedIn ? s.weight : 0), 0);
       const expected = share * (weight + switchSize * switched);
@@ -429,6 +570,7 @@ export function decideSchoolOutcome(
         expected,
         factor,
         ...(kind === "math" ? { switched, switchSize } : {}),
+        ...(classSize ? { classSize } : {}),
       } satisfies SchoolGroupRow as never);
       passedAll += passed;
       expectedAll += expected;
