@@ -483,6 +483,15 @@ function composeBinding(
         text: "host-declined",
         sourceRecordIds: [said.actionId, askedId, askerId],
       };
+      // The crowd, said in the talk's own words: how many, and whether it is a
+      // protest in the street or workers who walked out.
+      const flag = record?.kind === "civic.strike" ? "strike" : "protest";
+      facts[flag] = { text: "yes", sourceRecordIds: [said.actionId] };
+      if (said.size)
+        facts.number = {
+          text: said.size,
+          sourceRecordIds: [said.actionId],
+        };
     }
   }
   // What an offer asks in return (a vote, a contract): the lines about that favor need it.

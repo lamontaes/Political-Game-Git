@@ -13,6 +13,7 @@
  * budget carries it; a trip to a town drawn at random meets people there;
  * the daily brief comes each working day.
  */
+import { floorDecide, floorView } from "../bench/office";
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
@@ -54,7 +55,6 @@ import {
   OFFICE_DAY_FEDERAL_MODULE_ID,
   heldFederal,
   releaseFederal,
-  voteOnFloor,
   whereOn,
 } from "./office-day-federal";
 import {
@@ -311,7 +311,10 @@ describe(`the federal day (${place.name}, seed ${seed})`, () => {
     playThrough(voteOn, (key) => {
       if (key !== `federal-floor:${bill.id}`) return;
       held.push(core.date);
-      voteOnFloor(api, member, bill.id, "no");
+      // The bench's floor screen reads this hold and casts the player's own vote through it.
+      expect(floorView(core).map((item) => item.billId)).toContain(bill.id);
+      floorDecide(core, bill.id, "no");
+      expect(floorView(core).map((item) => item.billId)).not.toContain(bill.id);
     });
     // A committee chair who opposes a bill does not hear it, and it dies
     // there with no floor vote (the legislature's committee stage).

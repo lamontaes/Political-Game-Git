@@ -47,6 +47,8 @@ import { billPaper, seatAct, seatView } from "./legislature";
 import {
   billStage,
   callAmendmentVote,
+  callOverrideVote,
+  chooseOverrideVote,
   chooseOwnVote,
   followedBills,
   keepStaffRedraft,
@@ -55,6 +57,8 @@ import {
 } from "./bill-stage";
 import {
   deskDecide,
+  floorDecide,
+  floorView,
   deskView,
   meetingAdjourn,
   meetingItem,
@@ -926,6 +930,33 @@ export async function benchRequest(
         );
         return;
       }
+      // The override of a veto: the player's own vote, and the body taking the message up.
+      if (request.method === "POST" && url.pathname === "/api/bill/override") {
+        send(
+          200,
+          chooseOverrideVote(
+            requireCore(),
+            url.searchParams.get("billId") ?? "",
+            url.searchParams.get("vote") ?? "",
+            player?.personId,
+          ),
+        );
+        return;
+      }
+      if (
+        request.method === "POST" &&
+        url.pathname === "/api/bill/override-call"
+      ) {
+        send(
+          200,
+          callOverrideVote(
+            requireCore(),
+            url.searchParams.get("billId") ?? "",
+            player?.personId,
+          ),
+        );
+        return;
+      }
       // The player's own vote on a bill before its floor day (the member's own choice).
       if (request.method === "POST" && url.pathname === "/api/bill/vote") {
         send(
@@ -1008,6 +1039,20 @@ export async function benchRequest(
           url.searchParams.get("how") ?? "",
         );
         send(200, deskView(requireCore()));
+        return;
+      }
+      // A floor vote in Congress that holds the player's clock: the bills, and the player's own vote.
+      if (request.method === "GET" && url.pathname === "/api/floor") {
+        send(200, player?.personId ? floorView(requireCore()) : []);
+        return;
+      }
+      if (request.method === "POST" && url.pathname === "/api/floor") {
+        floorDecide(
+          requireCore(),
+          url.searchParams.get("billId") ?? "",
+          url.searchParams.get("how") ?? "",
+        );
+        send(200, floorView(requireCore()));
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/office") {
