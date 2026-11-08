@@ -62,3 +62,15 @@ A producer is a read of an event an engine already records, never a new mechanic
 ## 6. Count what was removed
 
 The PR body names the `awaitingProducer` rows replaced, the twin types, arcs and pieces deleted, and the scenes that still wait, with the engine and pool item each one waits on.
+
+## 7. Adding a whole scene kind from a record (what Nov 8 taught)
+
+The recipe, in the order that worked (the rally, the doubt at home and the lobbyist who remembers): a circumstance row or a cause on the type, the situation type, the purpose arc, the bank pieces, the facts block in `purpose-scene.ts`, one test in a drawn place.
+
+- **Setting.** A type for a body's seat takes `["seat","venue"]` as hallway does; `["seat"]` alone stages nothing and no error says so.
+- **A cast from two records.** A circumstance pool (`poolOf` in `circumstance.ts`) may read a second engine's table against the trigger record (the lobbyist's meetings against a member's `office.voted`); a record that does not name the player never reaches the pool.
+- **Pieces.** The scene-talk and tree tests compose every purpose from a generic fixture, so every purpose needs at least one narration and one ask with no required facts, and at least one reply of each follow move; a tree needs depth 2, so a reply the asker cannot let rest (a deflect) must draw a press.
+- **Narration** may not carry "today", "tonight", "yesterday" or "this ...". A piece key is its move and text, so two pieces with the same words collide even under different facts.
+- **Area and issue words.** Say an area after "with" or "about", never "on" ("safety on our streets"), and never as a verb's subject ("our schools has").
+- **After a bank change** run `apply-grades.ts`; when main moved the reach file, take main's and regenerate it, never merge it by hand.
+- **A threat's cost** (money, an endorsement) is the interest-group engine's to read; until it does, register the stopgap and say so.
