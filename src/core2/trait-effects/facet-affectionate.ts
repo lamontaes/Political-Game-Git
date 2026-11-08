@@ -1,66 +1,40 @@
-import type { DecisionDeclaration, TraitPack } from "../trait-packs";
+import type { TraitEffectDeclaration } from "../trait-packs";
 
 /**
- * The romance decisions where an affectionate person has a reason to preserve
- * or deepen an established bond. Affection is not treated as attraction to a
- * stranger: each receiving decision still owns eligibility and relationship
- * evidence, while this reader contributes only the person's recorded trait.
+ * An affectionate person has a reason to preserve or deepen an established
+ * bond. Affection is not treated as attraction to a stranger: each receiving
+ * decision still owns eligibility and relationship evidence, while this reader
+ * contributes only the person's recorded trait.
  */
-export const FACET_AFFECTIONATE_DECISIONS: readonly DecisionDeclaration[] = [
+export const facetAffectionateEffects: readonly TraitEffectDeclaration[] = [
   {
-    id: "people.date-answer",
-    scope: "relationship:choice",
-    options: ["accept", "decline"],
+    decision: "people.date-answer",
+    leans: [
+      {
+        option: "accept",
+        trait: "personality-v1:facet-affectionate",
+        pole: "high",
+      },
+    ],
   },
   {
-    id: "people.couple-answer",
-    scope: "relationship:choice",
-    options: ["accept", "decline"],
+    decision: "people.couple-answer",
+    leans: [
+      {
+        option: "accept",
+        trait: "personality-v1:facet-affectionate",
+        pole: "high",
+      },
+    ],
   },
   {
-    id: "people.couple-stage",
-    scope: "relationship:choice",
-    options: ["stay", "break-up", "separate"],
+    decision: "people.couple-stage",
+    leans: [
+      {
+        option: "stay",
+        trait: "personality-v1:facet-affectionate",
+        pole: "high",
+      },
+    ],
   },
 ];
-
-/**
- * An effect-only pack: the personality catalog owns the trait declaration,
- * and this reader owns every decision the trait argues in.
- */
-export const FACET_AFFECTIONATE_EFFECTS: TraitPack = {
-  pack: "personality-effects-facet-affectionate",
-  traits: [],
-  effects: [
-    {
-      decision: "people.date-answer",
-      leans: [
-        {
-          option: "accept",
-          trait: "personality-v1:facet-affectionate",
-          pole: "high",
-        },
-      ],
-    },
-    {
-      decision: "people.couple-answer",
-      leans: [
-        {
-          option: "accept",
-          trait: "personality-v1:facet-affectionate",
-          pole: "high",
-        },
-      ],
-    },
-    {
-      decision: "people.couple-stage",
-      leans: [
-        {
-          option: "stay",
-          trait: "personality-v1:facet-affectionate",
-          pole: "high",
-        },
-      ],
-    },
-  ],
-};

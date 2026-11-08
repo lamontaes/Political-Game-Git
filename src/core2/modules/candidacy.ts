@@ -5,6 +5,7 @@ import {
   raceScope,
   poolFactsFor,
   appointedHolders,
+  ambitionOf,
   type PoolFacts,
   type RaceScope,
 } from "../candidate-pool";
@@ -72,6 +73,12 @@ import { countedEngagement, viewOf } from "./views";
 import { DEFAULT_DRIVES_DATA } from "./drives";
 import { residentFacts } from "./residents";
 import { countedResidents, type CountedVoter } from "../electorate";
+import {
+  nationalEconomyChange,
+  presidentSide,
+  tideAgainstPresident,
+} from "../electorate-inputs";
+import { partySide } from "../appointments";
 import { revolvingDoorFor } from "../law-reach/group-a-voting";
 import { fillInPerson } from "../state";
 import { campaignParameter } from "../campaign-views";
@@ -241,7 +248,44 @@ export function candidacyReasons(
       ? -c(api, "candidacyOfficeOpportunityWeight") *
         Math.max(one, currentRank - FAMILY_RANK[race.family] + one)
       : zero;
+  // The national tide: where the president's party is expected to lose, its
+  // people are less drawn to run for a partisan seat and the other side's
+  // more (the one figure the count reads, `tideAgainstPresident`).
+  const side = partySide(partyOf(api, person.id));
+  const president = presidentSide(api);
+  reasons.wave =
+    race && side && president && seatParty(api, race)
+      ? c(api, "candidacyWaveWeight") *
+        waveAgainstPresident(api, race) *
+        (side === president ? -one : one)
+      : zero;
   return withPoolReasons(api, reasons, pool);
+}
+
+const waves = new WeakMap<object, Map<string, number>>();
+/** The share the president's party is expected to lose in a contest's cycle, kept for the day. */
+function waveAgainstPresident(api: CoreAPI, race: ContestRow): number {
+  const key = `${api.state.date}|${race.electionDate}|${race.level}`;
+  const held = waves.get(api.state) ?? new Map<string, number>();
+  waves.set(api.state, held);
+  const hit = held.get(key);
+  if (hit !== undefined) return hit;
+  const year = Number(race.electionDate.slice(0, 4));
+  const cycle =
+    race.electionDate.slice(5, 7) !== "11" || year % 2
+      ? "off-cycle"
+      : year % 4
+        ? "midterm"
+        : "presidential";
+  const tide = tideAgainstPresident(
+    nationalEconomyChange(api),
+    race.level === "federal",
+    cycle,
+  );
+  const value = tide.economy + tide.midterm;
+  if (held.size > 64) held.clear();
+  held.set(key, value);
+  return value;
 }
 
 /**
@@ -360,8 +404,9 @@ function reasonsFrom(
   const zero = api.parameter("zero");
   const one = api.parameter("one");
   const two = api.parameter("two");
-  // Personality enters once, through the chooser's trait term on the two
-  // options' act kinds; no second temperament term here.
+  // Personality enters through the chooser's trait term on the two options'
+  // act kinds and, for their own read of their chance, through the hope an
+  // enterprising, risk-taking person adds to it (below).
   const hours = person.workHoursDaily / c(api, "candidacyFullShiftHours");
   const age = ageOnDate(person.birthDate, api.state.date);
   const distance =
@@ -372,7 +417,18 @@ function reasonsFrom(
     one,
     person.known / c(api, "candidacyStandingCircle"),
   );
+  // Their own read of their chance: the odds they would have (their standing
+  // against a sitting incumbent's, shared with everyone already running)
+  // and the hope an enterprising, risk-taking person adds to them. A long
+  // shot who files anyway is realistic (owner, Nov 8).
+  const odds =
+    (standing *
+      (contest.incumbentId ? c(api, "candidacyChallengerOdds") : one)) /
+    (one + (contest.runners ?? zero));
+  const hope =
+    Math.min(one, ambitionOf(person)) * c(api, "candidacyOverconfidenceShare");
   return {
+    chance: c(api, "candidacyChanceWeight") * (odds + hope * (one - odds)),
     engagement: c(api, "candidacyEngagementWeight") * person.engagement,
     cause: c(api, "candidacyCauseWeight") * person.cause,
     time: -c(api, "candidacyTimeWeight") * Math.min(one, hours),
@@ -397,6 +453,14 @@ function reasonsFrom(
         ? -c(api, "candidacyRevolvingDoorWeight")
         : zero,
   };
+}
+
+/** What staying out is worth against running: a wide race (a state's whole pool) has its own bar. */
+function stayOutPull(api: CoreAPI, contest: OpenContest): number {
+  return c(
+    api,
+    contest.wideScope ? "candidacyWideStayOutPull" : "candidacyStayOutPull",
+  );
 }
 
 function action(id: string, running: boolean): ActionDefinition {
@@ -919,26 +983,23 @@ function committedOn(
 ): Set<PersonId> {
   const contests = api.moduleState(ELECTIONS_MODULE_ID).table("contests");
   const filings = api.moduleState(ELECTIONS_MODULE_ID).table("filings");
+  const weighed = api.moduleState(CANDIDACY_MODULE_ID).table("weighed");
   const out = new Set<PersonId>();
-  // Whoever has filed for another seat that day, even if asked to run by a
-  // party or a retiring holder (those asks file without a weighed row).
-  for (const other of contests.rows() as unknown as ContestRow[])
-    if (other.electionDate === electionDate && other.id !== exceptContestId)
-      for (const filing of filings.query("byContest", [
-        other.id,
-      ]) as unknown as FilingRow[])
-        if (filing.status !== "withdrawn") out.add(filing.personId as PersonId);
-  for (const row of api
-    .moduleState(CANDIDACY_MODULE_ID)
-    .table("weighed")
-    .rows() as unknown as WeighedContest[]) {
-    const held = contests.get(row.contestId) as unknown as
-      ContestRow | undefined;
-    if (
-      held?.electionDate === electionDate &&
-      row.contestId !== exceptContestId
-    )
-      for (const id of row.runIds) out.add(id);
+  // Everyone who decided to run, or filed (even if asked to run by a party or
+  // a retiring holder: those asks file without a weighed row), for another
+  // seat that day.
+  for (const other of contests.query("byDate", [
+    electionDate,
+  ]) as unknown as ContestRow[]) {
+    if (other.id === exceptContestId) continue;
+    for (const id of (
+      weighed.get(other.id) as unknown as WeighedContest | undefined
+    )?.runIds ?? [])
+      out.add(id);
+    for (const filing of filings.query("byContest", [
+      other.id,
+    ]) as unknown as FilingRow[])
+      if (filing.status !== "withdrawn") out.add(filing.personId as PersonId);
   }
   return out;
 }
@@ -991,7 +1052,7 @@ function countedScreen(
     };
     countedBases.set(api.state, held);
   }
-  const bar = c(api, "candidacyStayOutPull");
+  const bar = stayOutPull(api, open);
   // The most an incumbent's record can add to the cached pull.
   const record = open.incumbentId
     ? c(api, "candidacyRecordGapWeight")
@@ -1624,7 +1685,7 @@ export const candidacyModule: CoreModule = {
                 (sum, value) => sum + value,
                 api.parameter("zero"),
               )
-            : c(api, "candidacyStayOutPull"),
+            : stayOutPull(api, contest),
         sourceIds: [...contest.sourceIds, actor.id],
       };
     },

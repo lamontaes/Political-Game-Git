@@ -109,7 +109,9 @@
     "addedBy": "effect-web-labor",
     "addedAt": "2026-10-20",
     "replacement": "The jobs engine applies the low-wage factor to every organization whose jobs labor.low-wage-jobs counts, at the moment it sets that organization's staffing, shown in a low-wage-only twin by employer id.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedAt": "2026-11-08",
+    "resolution": "Deleted lowWageStaffFactor. A higher wage floor reaches low-wage jobs as pay (wage-floor engine: 213 pay-change records in Higganum CT, 1350 in Attleboro MA, 61 in Marcola OR) and reaches staffing and prices through the employers' own books: in a twin pair in Attleboro MA (seed bc7595dd..., floor 1500 -> 2251, 13 months past the law) yearly payroll rose from $48,983,047 to $59,528,919, the mean price index from 1.0284 to 1.0359 and jobs at firms moved from 1215 to 1210, with 62 firms open in both (scripts/world-proofs/minimum-wage-twin.ts). labor.low-wage-jobs stays a measure."
   },
   {
     "id": "SG-LABOR-regional-job-town-roles",
