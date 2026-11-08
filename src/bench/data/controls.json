@@ -320,7 +320,8 @@
     "fullScreen": "Full screen",
     "fullScreenUnavailable": "Full screen is unavailable.",
     "devMode": "Dev mode",
-    "quitToTitle": "Quit to title"
+    "quitToTitle": "Quit to title",
+    "colorBlind": "Color-blind colors"
   },
   "polling": {
     "leaveBlank": "Leave blank",

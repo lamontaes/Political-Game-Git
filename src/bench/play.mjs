@@ -41,6 +41,11 @@ import {
   restoreDevMode,
   setDevMode,
 } from "./ui/dev-setting.mjs";
+import {
+  colorBlindOn,
+  restoreColorBlind,
+  setColorBlind,
+} from "./ui/palette-setting.mjs";
 import { listRow, factRow, noteLine } from "./ui/list-row.mjs";
 import { fillArtwork, picture as pictureFrame } from "./ui/picture.mjs";
 import { select, optionsOf, numberBox } from "./ui/fields.mjs";
@@ -3659,8 +3664,8 @@ const sheets = {
   /**
    * Options as the Nov 8 front mock draws it (fr-options): a strip for Seeing (Full screen
    * as On and Off toggles), a strip for Leave (Quit to title) and a strip for Dev mode, lit
-   * toggles and never checkboxes. Color-blind mode, which scenes may stop the day and Save
-   * now are in the mock but are not settings the game keeps yet, so they are not drawn.
+   * toggles and never checkboxes. Color-blind colors are one global setting (palette-setting.mjs).
+   * Save now is in the mock but is not a setting the game keeps yet, so it is not drawn.
    */
   async options() {
     await controlsReady;
@@ -3704,6 +3709,17 @@ const sheets = {
           ),
         ]
       : [];
+    seeing.push(
+      settingRow(
+        labels.colorBlind,
+        toggle({
+          attr: "palette",
+          testid: "options-color-blind",
+          on: colorBlindOn,
+          set: setColorBlind,
+        }),
+      ),
+    );
     return [
       optionsBoard({
         columns: [
@@ -5148,6 +5164,7 @@ onDevMode((dev) => {
   else gapButton.remove();
 });
 restoreDevMode();
+restoreColorBlind();
 if (devModeOn()) $("talk-silent").before(gapButton);
 // New game: Custom world (the world's settings, then the creator), Start a
 // life (the creator) or New world (straight in, a random person and place).
