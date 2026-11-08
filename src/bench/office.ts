@@ -26,6 +26,7 @@ import {
   appointGovernor,
   actOn,
   doEntry,
+  stopKindOf,
   waitingEntries,
 } from "../core2/modules/office-day";
 import {
@@ -445,6 +446,7 @@ export function ordersView(core: CoreState) {
         entry.kind === "executive-order" ||
         entry.kind === "emergency" ||
         entry.kind === "state-of-the-state" ||
+        stopKindOf(api, entry) === "own-hearing" ||
         entry.kind === "appointment" ||
         entry.kind === "budget-proposal",
     )
@@ -480,32 +482,40 @@ export function ordersView(core: CoreState) {
                   };
                 }),
             }
-          : entry.kind === "state-of-the-state"
+          : stopKindOf(api, entry) === "own-hearing"
             ? {
                 entryId: entry.id,
-                kind: "address" as const,
+                kind: "hearing" as const,
                 order: entry.subject,
                 name: null,
                 revoke: false,
               }
-            : entry.kind === "emergency"
+            : entry.kind === "state-of-the-state"
               ? {
                   entryId: entry.id,
-                  kind: "emergency" as const,
+                  kind: "address" as const,
                   order: entry.subject,
                   name: null,
                   revoke: false,
                 }
-              : {
-                  entryId: entry.id,
-                  kind: "order" as const,
-                  order: entry.subject,
-                  // The order's own question, worded by the bill catalog's name for it.
-                  name: names[orderQuestionOf(entry.subject) ?? ""] ?? null,
-                  revoke:
-                    brought.find((row) => row.order === entry.subject)
-                      ?.revoke ?? false,
-                },
+              : entry.kind === "emergency"
+                ? {
+                    entryId: entry.id,
+                    kind: "emergency" as const,
+                    order: entry.subject,
+                    name: null,
+                    revoke: false,
+                  }
+                : {
+                    entryId: entry.id,
+                    kind: "order" as const,
+                    order: entry.subject,
+                    // The order's own question, worded by the bill catalog's name for it.
+                    name: names[orderQuestionOf(entry.subject) ?? ""] ?? null,
+                    revoke:
+                      brought.find((row) => row.order === entry.subject)
+                        ?.revoke ?? false,
+                  },
     );
 }
 
@@ -553,6 +563,11 @@ export function ordersDecide(
       ...(how === "issue" && nomineeId ? { personId: nomineeId } : {}),
       ...(how === "decline" ? { leave: true } : {}),
     });
+    return;
+  }
+  if (stopKindOf(api, entry) === "own-hearing") {
+    // The chair holds the hearing (their time is spent at the committee) or lets the day pass.
+    doEntry(api, entryId, { kind: "attend", attend: how === "issue" });
     return;
   }
   if (entry.kind === "state-of-the-state") {

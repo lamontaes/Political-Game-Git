@@ -1160,6 +1160,7 @@ export {
   actOn,
   appointGovernor,
   doEntry,
+  stopKindOf,
   waitingEntries,
 } from "../office-day-state";
 export { budgetProposalDue } from "../office-day-acts";
