@@ -2196,5 +2196,17 @@
     "addedAt": "2026-11-08",
     "replacement": "Trust funds and bond holders as real accounts with their own deposits, benefits and earnings (insurance-trust revenue and expenditure lines).",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-REACH-B-child-care-enrollment",
+    "kind": "missing-engine",
+    "file": "src/core2/data/laws/reach-group-b.json",
+    "line": 320,
+    "whatItFakes": "Child care assistance pays the household of each child under 13 whose family income is under the state's limit (a family of three's limit scaled by the square root of family size) and who has a working adult, the average CCDF subsidy times the 20 percent of eligible children who receive one; no child is recorded as enrolled with a provider and no child-care bill changes. The work test is a resident adult employed; searching for work, education and training do not count.",
+    "why": "There is no provider enrollment or child-care bill in the core.",
+    "addedBy": "night:laws-and-effects",
+    "addedAt": "2026-11-08",
+    "replacement": "A child-care enrollment record (child, provider, hours, the family's copay up to 7 percent of income) and the household's child-care bill, reduced by the subsidy while the child is enrolled.",
+    "status": "open"
   }
 ]
