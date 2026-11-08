@@ -1227,26 +1227,9 @@ input[type="range"]::-moz-range-thumb {
   }
 }
 
-/* Developer and debug controls: one faint ring, off unless switched on. */
+/* Developer and debug controls: shown only while dev mode is on in Options. */
 body:not(.dev) .dev-only {
   display: none !important;
-}
-.dev-ring {
-  position: absolute;
-  right: 2px;
-  top: 2px;
-  width: 20px;
-  height: 20px;
-  opacity: 0.28;
-  z-index: 8;
-}
-.dev-ring svg {
-  width: 11px;
-  height: 11px;
-}
-.dev-ring:hover,
-body.dev .dev-ring {
-  opacity: 0.85;
 }
 
 /* ---- The play HUD: the player card, bottom left (the only place the date and time appear) ---- */
@@ -5264,4 +5247,20 @@ select.release-pick {
   font: 500 15px var(--f-ui);
   letter-spacing: 0.4px;
   color: var(--muted);
+}
+
+/* Saved games (Nov 8 front mock, fr-saves): a strip per life, centered. */
+.saves-row .sec {
+  max-width: 340px;
+}
+.saves-row .secbody {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.saves-row .save-date {
+  margin: 0;
+  font: 500 16px var(--f-ui);
+  color: #f2e6c9;
 }
