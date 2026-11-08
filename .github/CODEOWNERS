@@ -41,6 +41,7 @@
 /src/core2/gov-rules/names-data.ts @lamontaes
 /src/core2/gov-rules/given-name-cohorts.ts @lamontaes
 /src/core2/gov-rules/person-identity.ts @lamontaes
+/src/core2/government-level.ts @lamontaes
 
 # Elections and campaigns (elections)
 /src/core2/modules/elections.ts @lamontaes
@@ -99,6 +100,7 @@
 /src/core2/outside-governments.ts @lamontaes
 /src/core2/government-jurisdictions.ts @lamontaes
 /src/core2/gov-rules/** @lamontaes
+/src/core2/modules/president-acts.ts @lamontaes
 
 # Budgets, taxes and public money (budgets)
 /src/core2/modules/budgets.ts @lamontaes
@@ -117,6 +119,7 @@
 /src/core2/school-budget-line.ts @lamontaes
 /src/core2/starting-cash.ts @lamontaes
 /src/core2/world-transfer.ts @lamontaes
+/src/core2/modules/outside-budgets.ts @lamontaes
 
 # Laws, justice and their effects (laws)
 /src/core2/modules/laws.ts @lamontaes
@@ -144,6 +147,7 @@
 /src/core2/health-web.ts @lamontaes
 /src/core2/jobs-web.ts @lamontaes
 /src/core2/term-read.ts @lamontaes
+/src/core2/modules/federal-courts.ts @lamontaes
 
 # Jobs, businesses and the economy (jobs-businesses)
 /src/core2/modules/jobs.ts @lamontaes
@@ -266,6 +270,7 @@
 /src/core2/modules/rescue.ts @lamontaes
 /src/core2/modules/quarrel.ts @lamontaes
 /src/core2/modules/public-action.ts @lamontaes
+/src/core2/husk-promoters.ts @lamontaes
 
 # The past before the start (past)
 /src/core2/past.ts @lamontaes
@@ -289,12 +294,14 @@
 /src/core2/player-*.ts @lamontaes
 /src/core2/opening-*.ts @lamontaes
 /src/core2/fast-forward.ts @lamontaes
+/src/core2/modules/national-events.ts @lamontaes
 
 # News and the press (news)
 /src/core2/modules/news.ts @lamontaes
 /src/core2/modules/press.ts @lamontaes
 /src/core2/press-*.ts @lamontaes
 /src/core2/outcome-news.ts @lamontaes
+/src/core2/modules/news-listeners.ts @lamontaes
 
 # The story director (director)
 /src/director/** @lamontaes
