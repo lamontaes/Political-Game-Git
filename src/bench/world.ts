@@ -462,7 +462,6 @@ function* benchWorldStages(
       ...(countScale !== 1
         ? { [place.context.jurisdiction.id]: countScale }
         : {}),
-      ...(countySample ? { [countySample.placeId]: countySample.weight } : {}),
     };
     opening = scaleOutsideSales(
       settings.economy?.outsideDemand ?? 1,
