@@ -65,6 +65,17 @@
       "citation": "Between 6:00 AM and 8:00 AM, the span of typical workday wake times in American Time Use Survey diaries."
     }
   },
+  "visitHours": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The hours a visit to a place in town (a shop, a school, an office, a diner) takes the player: one hour spent there, so the clock moves and the people at the next place are the ones there at that hour (Nov 8: visits, talks and trips spend game time). Checked against the American Time Use Survey's Using Government Services, 0.91 hours for the people who did it that day (the lookupHours row), and shopping, under an hour a trip.",
+    "spread": {
+      "low": 0.5,
+      "high": 1,
+      "unit": "hours",
+      "citation": "From a short errand to the ATUS hour for government services."
+    }
+  },
   "filingVisitHours": {
     "value": 3,
     "tag": "TUNABLE",

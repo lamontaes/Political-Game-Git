@@ -322,5 +322,17 @@
     "addedAt": "2026-11-01",
     "replacement": "Every filing office's clerk or staff is a person with work spans (or the office's own published hours are a record), after which `data/office-hours.json` and this fallback are deleted.",
     "status": "open"
+  },
+  {
+    "id": "SG-PLAY-talk-and-travel-time",
+    "kind": "missing-mechanic",
+    "file": "src/bench/handler.ts",
+    "line": 904,
+    "whatItFakes": "A visit to a place spends visitHours on the clock, but a talk and a trip to the place spend none, and the visit's hour is one value for every place instead of the errand and the distance.",
+    "why": "The Coordinator ruled on Nov 8 that visits, talks and travel spend game time from the existing clock and records; the records hold no scene length for a talk and no distance or travel speed between places yet, so only the visit is built.",
+    "addedBy": "fixes/visits-spend-time",
+    "addedAt": "2026-11-08",
+    "replacement": "A talk spending the scene's own length, a visit its errand's hours and a trip the distance between the two places at the place's travel speed, each read from the records and spent through player.spend.",
+    "status": "open"
   }
 ]

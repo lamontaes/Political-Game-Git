@@ -895,15 +895,28 @@ const ROUTES: readonly Route[] = [
       request.method === "POST" && url.pathname === "/api/goto/visit",
     run: async ({ url, send }) => {
       if (!state.player?.personId) throw new Error("Choose a resident first.");
-      send(
-        200,
-        visitPlace(
-          requireCore(),
-          state.player.personId,
-          url.searchParams.get("org") ?? "",
-          state.player.packet?.at.minuteOfDay ?? 12 * 60,
-        ),
+      const visit = visitPlace(
+        requireCore(),
+        state.player.personId,
+        url.searchParams.get("org") ?? "",
+        state.player.packet?.at.minuteOfDay ?? 12 * 60,
       );
+      // stopgapId: SG-PLAY-talk-and-travel-time
+      // The visit spends its hour on the clock the packet reports, after the
+      // room is seen as it stands at the arrival minute; the people at the
+      // next place are those there at that later hour.
+      const spent = state.player.spend(
+        parameter("visitHours", requireCore().data.parameters),
+      );
+      send(200, {
+        ...visit,
+        ...(spent
+          ? {
+              packet: spent.packet,
+              names: { ...visit.names, ...namesFor(spent.packet) },
+            }
+          : {}),
+      });
       return;
     },
   },
