@@ -254,7 +254,13 @@ export function printedFacts(
     story,
     sourceId,
     kind,
-    source?.personIds ?? [],
+    // A household event the log doesn't keep (a home bought in a place the
+    // player can't see) still names its household as the story's topic: its
+    // members are who the story is about.
+    source?.personIds ??
+      (story.topic ? core.households.get(story.topic as EntityId) : undefined)
+        ?.memberIds ??
+      [],
     happened,
   );
   const built = BUILDERS[kind]?.(read, facts) ?? null;
