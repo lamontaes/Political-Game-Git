@@ -1,0 +1,17 @@
+{
+  "readOn": "2026-11-08",
+  "readBy": "Elections (from the playtest check, PR #7721, which read the town's pages)",
+  "note": "Towns whose own charter sets a different governing body than their state's default, by county subdivision code (county GEOID plus the subdivision's five-digit code). A town not listed takes its state's reading (township-governing-bodies.json). Rows are added from the town's charter; this file is a known-small start, one row per charter read.",
+  "towns": {
+    "0911044700": {
+      "name": "Manchester town, Connecticut",
+      "seats": 8,
+      "bodyName": "Board of Directors",
+      "memberTitle": "Director",
+      "chiefTitle": "Mayor",
+      "chiefPresidesOverBody": true,
+      "citation": "Manchester, Connecticut is council-manager: a Board of Directors of eight directors and a directly elected mayor (two-year terms); the board hires the Town Manager (called the General Manager until the 2022 charter, which also made the mayor directly elected).",
+      "url": "https://manchesterct.gov/Government/Departments/Board-of-Directors"
+    }
+  }
+}
