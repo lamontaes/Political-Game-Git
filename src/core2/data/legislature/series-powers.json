@@ -81,6 +81,10 @@
     "social-security-delayed-credit-age": {
       "levels": ["federal"],
       "source": "42 U.S.C. § 402(w)(2)(A); 42 U.S.C. § 1304 reserves alteration, amendment and repeal of Social Security provisions to Congress."
+    },
+    "federal-campaign-contribution-limit": {
+      "levels": ["federal"],
+      "source": "52 U.S.C. § 30116(a)(1)(A)"
     }
   },
   "questions": {
