@@ -42,6 +42,10 @@
       "reason": "Raw source the game does not read directly: source cited by src/core2/data/office-day/state-parameters.json. Its only direct reader was the old engine, deleted Oct 28, 2026."
     },
     {
+      "file": "data/research/legislature/discharge-rules-2026-11.json",
+      "reason": "Raw research evidence on how each legislature discharges a bill from committee (12 of 56 places read from primary sources), for the legislature engine's discharge rule; the game does not read the file yet."
+    },
+    {
       "file": "data/research/local-government/governing-body-seat-qualification.json",
       "reason": "Raw source the game does not read directly: source cited by the stopgap register (src/core2/data/stopgaps/). Its only direct reader was the old engine, deleted Oct 28, 2026."
     },
