@@ -59,8 +59,19 @@ it("other states keep a budget in the one store, moved by their own economy", ()
     moved.length,
     `${where}: states whose budget moved with their economy`,
   ).toBeGreaterThan(0);
+  // Lines move on their own bases: a state's income-tax line and its
+  // property-tax line (the wage bill and the price level) do not move by one
+  // factor, in at least one state.
+  const lineWise = [...byState.values()].some((list) => {
+    if (list.length < 2) return false;
+    const [a, b] = list.sort((x, y) => x.fiscalYear - y.fiscalYear);
+    const ratio = (line: string) =>
+      (b!.revenueMinor[line] ?? 0) / (a!.revenueMinor[line] || 1);
+    return Math.abs(ratio("individualIncomeTax") - ratio("propertyTax")) > 1e-6;
+  });
+  expect(lineWise, `${where}: lines move on their own bases`).toBe(true);
   for (const r of outside.slice(0, 5)) {
     expect(Object.keys(r.spendingMinor).length).toBeGreaterThan(0);
-    expect(r.source).toContain("jobs times pay");
+    expect(r.source).toContain("tax rate its law has in force");
   }
 }, 900000);
