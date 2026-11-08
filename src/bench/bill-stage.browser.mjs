@@ -202,7 +202,10 @@ try {
     .locator("#sheet-tabs")
     .getByRole("button", { name: "Bills", exact: true })
     .click();
-  await page.locator(".sec .sechead").first().waitFor();
+  await page
+    .locator("#sheet-body .sec button", { hasText: /^Read the bill$/ })
+    .first()
+    .waitFor();
   const followed = await page.evaluate(() =>
     [...document.querySelectorAll("#sheet-body .sec")].map((n) => n.innerText),
   );
