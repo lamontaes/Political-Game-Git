@@ -1495,7 +1495,8 @@ function renderFiling(value) {
     renderFiling(await post(`/api/filing/choose?${params}`));
   };
   // Each race told apart before the pick: its seat, its election day and
-  // who holds the seat now, from the contest's records.
+  // who holds the seat now, from the contest's records. It says nothing of what the
+  // office does (SG-SCREENS-office-hover-prose: no office-duties bank yet).
   const counter = controls.filing;
   const factsOf = (choice) => {
     const seat = value.seats?.[choice.action.contestId];
@@ -4055,6 +4056,8 @@ const sheets = {
           dateWords(race.electionDate, { year: me.date }),
         ),
         rosterCols(
+          // A candidate's name opens their card; there is no rally to go to
+          // (SG-SCREENS-candidate-rally: no engine keeps a rally as a place and a time).
           stripSection(1, labels.whoIsRunning, ...candidates),
           rosterSide(
             ...(race.lastTime
