@@ -95,17 +95,18 @@ export function approvalGapPoints(api: CoreAPI, onDate?: string): number {
   // (a past one the world replays) has no approval record to read.
   const opened = (
     table(api, "state").get("national-opinion:state") as unknown as
-      | { openedAt: string }
-      | undefined
+      { openedAt: string } | undefined
   )?.openedAt;
   if (onDate && opened && onDate < opened) return 0;
   return row ? row.pct - opinionParameter("longRunMeanPct") : 0;
 }
 
 function macroRow(api: CoreAPI, month: string) {
-  return api.moduleState("macro").table("months").get(`macro-month:${month}`) as
-    | { unemploymentPct: number; inflationPct: number }
-    | undefined;
+  return api
+    .moduleState("macro")
+    .table("months")
+    .get(`macro-month:${month}`) as
+    { unemploymentPct: number; inflationPct: number } | undefined;
 }
 
 function monthlyRun(api: CoreAPI): void {
@@ -115,10 +116,8 @@ function monthlyRun(api: CoreAPI): void {
   const mean = opinionParameter("longRunMeanPct");
   const macro = (api.state as CoreState).modules.has("macro");
   const macroState = macro
-    ? (api
-        .moduleState("macro")
-        .table("state")
-        .get("macro:state") as unknown as { latestMonth: string } | undefined)
+    ? (api.moduleState("macro").table("state").get("macro:state") as unknown as
+        { latestMonth: string } | undefined)
     : undefined;
   const now = macroState ? macroRow(api, macroState.latestMonth) : undefined;
   const year = macroState
@@ -135,11 +134,10 @@ function monthlyRun(api: CoreAPI): void {
       `macro-month:${shiftMonth(macroState.latestMonth, -12)}`,
     );
   }
-  const economyPull =
-    -(
-      opinionParameter("pointsPerUnemploymentPoint") * unemploymentChange +
-      opinionParameter("pointsPerInflationPoint") * inflationChange
-    );
+  const economyPull = -(
+    opinionParameter("pointsPerUnemploymentPoint") * unemploymentChange +
+    opinionParameter("pointsPerInflationPoint") * inflationChange
+  );
   const persistence = opinionParameter("monthlyPersistence");
   const lastBase = previous?.basePct ?? opinionParameter("openingPct");
   const basePct =

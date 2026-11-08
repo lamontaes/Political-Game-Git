@@ -64,7 +64,9 @@ describe("votes, approval and press links and the engines that decide them", () 
     );
     expect(row.carriedBy).toContain("approvalGapPoints");
     const inputs = read("src/core2/electorate-inputs.ts");
-    expect(inputs).toMatch(/approvalGapPoints: approvalGapPoints\(api, input\.electionDate\)/);
+    expect(inputs).toMatch(
+      /approvalGapPoints: approvalGapPoints\(api, input\.electionDate\)/,
+    );
     expect(inputs).toMatch(
       /const economy = candidate\.presidentsParty\s+\?\s+\(/,
     );

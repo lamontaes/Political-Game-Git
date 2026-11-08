@@ -68,10 +68,25 @@ function play(drawSeed: string) {
         (row) => row.electionDate,
       ),
     );
-  const witness = () =>
-    (results.rows() as unknown as Result[]).find((row) =>
-      (row.electorateReasons ?? []).some((r) => r.economy !== 0),
+  // A race the town's voters decided (its ballots are kept with their
+  // reasons); races elsewhere are counted without ballots.
+  const witness = () => {
+    const kept = new Set(
+      (
+        api
+          .moduleState(VOTING_MODULE_ID)
+          .table("ballots")
+          .rows() as unknown as Ballot[]
+      )
+        .filter((b) => b.appeal)
+        .map((b) => b.contestId),
     );
+    return (results.rows() as unknown as Result[]).find(
+      (row) =>
+        kept.has(row.contestId) &&
+        (row.electorateReasons ?? []).some((r) => r.economy !== 0),
+    );
+  };
   /** The national economy's change the electorate read, on each election day. */
   const economyOn = new Map<string, ReturnType<typeof latestApproval>>();
   let day = makeIsoDate(core.date);
@@ -153,14 +168,13 @@ describe(`the voting engine weighs the economy and scandals in a played race (se
       const moved = result.electorateReasons!.filter((r) => r.economy !== 0);
       // The term is the country's approval of the president against its mean,
       // read from the national-opinion engine's latest row on election day.
-      const economy = (
-        api
+      const economy =
+        (api
           .moduleState("national-opinion")
           .table("approval")
           .get(`approval:${result.date.slice(0, 7)}`) as unknown as
-          | ReturnType<typeof latestApproval>
-          | undefined
-      ) ?? run.economyOn.get(result.date);
+          ReturnType<typeof latestApproval> | undefined) ??
+        run.economyOn.get(result.date);
       expect(
         economy,
         `${where}: the economy read on ${result.date}`,
