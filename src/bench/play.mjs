@@ -476,11 +476,14 @@ const words = (key) => {
     .toLowerCase();
   return `${text.charAt(0).toUpperCase()}${text.slice(1)}`;
 };
-// Money amounts are kept in cents; "minor/hour" reads as dollars an hour.
+// Money amounts are kept in cents; "minor/hour" reads as dollars an hour; a plain amount is rounded.
 // A percent reads with its sign, any other unit in words.
 const amount = (value, unit) => {
   if (unit?.startsWith("minor"))
-    return `${moneyWords(Number(value))}${unit.includes("/") ? `/${unit.split("/")[1]}` : ""}`;
+    // A rate per hour or day keeps its cents; a plain amount reads rounded, as Budgets does.
+    return unit.includes("/")
+      ? `${moneyWords(Number(value))}/${unit.split("/")[1]}`
+      : roundedMoney(Number(value));
   // A rate as a person would say it: at most two decimals (a combined sales
   // tax of 8.773% reads 8.77%; Medicare's 1.45% stays itself).
   if (unit?.startsWith("percent"))
@@ -2672,7 +2675,7 @@ async function openBillPaper(billId, show, back, backLabel) {
     ...billFigures({
       view,
       textOf: (index) => paper.sections[index]?.text ?? paper.title,
-      money: (minor) => moneyWords(minor),
+      money: roundedMoney,
       percent: (value) =>
         new Intl.NumberFormat("en-US", {
           style: "percent",
