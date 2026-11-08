@@ -4777,6 +4777,216 @@
       "tag": {
         "move": "narrate"
       }
+    },
+    {
+      "key": "scene-words.lead-return-other.the-door-opens-before-anyone-knocks-other-stands-there-with-one-hand-s",
+      "move": "lead-return-other",
+      "kind": "spoken",
+      "text": "The door opens before anyone knocks. {other} stands there with one hand still on the knob.",
+      "uses": [
+        {
+          "move": "lead-return-other",
+          "subject": "lead",
+          "role": "return",
+          "choice": "other"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-return-other.a-light-was-left-on-past-the-doorway-it-shows-the-bag-on-the-step-with",
+      "move": "lead-return-other",
+      "kind": "spoken",
+      "text": "A light was left on past the doorway. It shows the bag on the step, with the paper tag still tied to the handle.",
+      "uses": [
+        {
+          "move": "lead-return-other",
+          "subject": "lead",
+          "role": "return",
+          "choice": "other"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-return-other.other-looks-at-the-coat-too-big-in-the-shoulders-and-says-nothing-abou",
+      "move": "lead-return-other",
+      "kind": "spoken",
+      "text": "{other} looks at the coat, too big in the shoulders, and says nothing about it. The door stays open a little longer.",
+      "uses": [
+        {
+          "move": "lead-return-other",
+          "subject": "lead",
+          "role": "return",
+          "choice": "other"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-return-other.the-smell-of-a-meal-kept-warm-reaches-the-door-neither-of-you-mentions",
+      "move": "lead-return-other",
+      "kind": "spoken",
+      "text": "The smell of a meal kept warm reaches the door. Neither of you mentions it.",
+      "uses": [
+        {
+          "move": "lead-return-other",
+          "subject": "lead",
+          "role": "return",
+          "choice": "other"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-return-other.the-key-still-fits-it-turns-easily-and-other-is-standing-close-enough-",
+      "move": "lead-return-other",
+      "kind": "spoken",
+      "text": "The key still fits. It turns easily, and {other} is standing close enough to hear it.",
+      "uses": [
+        {
+          "move": "lead-return-other",
+          "subject": "lead",
+          "role": "return",
+          "choice": "other"
+        }
+      ],
+      "bearing": "relieved",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-return-other.other-takes-a-breath-and-steps-back-from-the-doorway-there-is-room-to-",
+      "move": "lead-return-other",
+      "kind": "spoken",
+      "text": "{other} takes a breath and steps back from the doorway. There is room to come in, and no one uses it yet.",
+      "uses": [
+        {
+          "move": "lead-return-other",
+          "subject": "lead",
+          "role": "return",
+          "choice": "other"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-return-other.other-reaches-for-the-bag-with-the-prison-issue-tag-on-it-nobody-says-",
+      "move": "lead-return-other",
+      "kind": "spoken",
+      "text": "{other} reaches for the bag with the prison-issue tag on it. Nobody says anything about the tag.",
+      "uses": [
+        {
+          "move": "lead-return-other",
+          "subject": "lead",
+          "role": "return",
+          "choice": "other"
+        }
+      ],
+      "bearing": "tired",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-return-other.your-hands-don-t-know-where-to-go-other-reaches-out-first-and-the-coat",
+      "move": "lead-return-other",
+      "kind": "spoken",
+      "text": "Your hands don't know where to go. {other} reaches out first, and the coat sleeve is cold from outside.",
+      "uses": [
+        {
+          "move": "lead-return-other",
+          "subject": "lead",
+          "role": "return",
+          "choice": "other"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-return-other.other-says-your-name-once-quietly-the-light-they-left-on-is-the-only-o",
+      "move": "lead-return-other",
+      "kind": "spoken",
+      "text": "{other} says your name once, quietly. The light they left on is the only one in the doorway.",
+      "uses": [
+        {
+          "move": "lead-return-other",
+          "subject": "lead",
+          "role": "return",
+          "choice": "other"
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-return-other.the-welcome-mat-is-the-same-one-other-nudges-it-straight-with-a-foot-t",
+      "move": "lead-return-other",
+      "kind": "spoken",
+      "text": "The welcome mat is the same one. {other} nudges it straight with a foot, then gives up and just looks at you.",
+      "uses": [
+        {
+          "move": "lead-return-other",
+          "subject": "lead",
+          "role": "return",
+          "choice": "other"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
     }
   ]
 }
