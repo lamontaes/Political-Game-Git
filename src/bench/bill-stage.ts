@@ -354,12 +354,10 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
     sponsor: personName(core, bill.sponsorId),
     committees,
     told,
-<<<<<<< HEAD
     cosponsors: (bill.cosponsors ?? []).map((key) => ({
       personId: core.people.has(key) ? key : null,
       name: personName(core, key),
     })),
-=======
     // The aide's estimate of how the player's chamber will vote (owner, Oct 29: what colleagues told you
     // plus your aide's estimate, marked as an estimate that can be wrong, no exact count). It reads only
     // what members told the player; those who have not said are assumed to split as those who did.
@@ -379,7 +377,6 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
         yes > no + unsaid ? "pass" : no > yes + unsaid ? "fail" : "close";
       return { outlook, heard: yes + no, members: room.size };
     })(),
->>>>>>> origin/legislation/aide-estimate
     floor,
     override,
   };

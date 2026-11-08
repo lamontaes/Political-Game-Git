@@ -137,6 +137,15 @@ try {
   const billId = new URL((await asked).url()).searchParams.get("billId");
   assert.ok(billId, "the paper names its bill");
   await page.locator(".bill-doc").waitFor();
+  // Who signed on beside the player, and the aide's estimate (shown once a colleague has told them a side).
+  const paperText = await page.locator("#sheet-body").innerText();
+  console.log(
+    "paper: cosponsors",
+    /Cosponsors/.test(paperText),
+    "aide",
+    /aide/i.test(paperText),
+  );
+  if (SHOTS) await page.screenshot({ path: `${SHOTS}/bill-paper-new.png` });
   // Staff redraft: ask for section 1, see it struck and inserted, keep the staff's version.
   await page
     .getByRole("button", { name: "Ask staff to redraft section 1" })
