@@ -640,6 +640,8 @@ async function act(path) {
         office.reasonKey === "office-day.budget-proposal"
       )
         await atOrders();
+      else if (office.reasonKey === "office-day-federal.nomination")
+        await atNominations();
       else if (
         office.reasonKey === "office-day-federal.floor-vote" ||
         office.reasonKey === "office-day-state.floor-vote"
@@ -870,6 +872,70 @@ function atFloor() {
 }
 
 // The orders the governor's staff brings for signature hold the clock: each is issued (or revoked) or set aside by the player.
+/** The president's open cabinet posts: who each could go to, best first, then the Senate's vote. */
+function atNominations() {
+  return new Promise((resolve) => {
+    const words = controls.nominations ?? {};
+    const draw = (posts) => {
+      if (!posts.length) return finish();
+      $("desk-items").replaceChildren(
+        ...posts.map((entry) => {
+          let nominee = "";
+          return plate(
+            entry.title,
+            // With no one to nominate the post can only be left open.
+            ...(entry.candidates.length
+              ? [
+                  select({
+                    options: [
+                      { value: "", label: words.own ?? "" },
+                      ...entry.candidates.map((c) => ({
+                        value: c.id,
+                        label: c.job ? `${c.name} · ${c.job}` : c.name,
+                      })),
+                    ],
+                    onChange: (value) => {
+                      nominee = value;
+                    },
+                  }),
+                ]
+              : [el("p", { textContent: words.nobody ?? "" })]),
+            buttonRow(
+              ...["nominate", "leave"]
+                .filter((how) => how === "leave" || entry.candidates.length)
+                .map((how) => {
+                  const b = makeButton({
+                    className: "action",
+                    textContent: words[how] ?? "",
+                  });
+                  b.addEventListener("click", async () =>
+                    draw(
+                      await post(
+                        `/api/nominations?${new URLSearchParams({
+                          post: entry.post,
+                          ...(how === "leave" ? { how } : {}),
+                          ...(how === "nominate" && nominee
+                            ? { nomineeId: nominee }
+                            : {}),
+                        })}`,
+                      ),
+                    ),
+                  );
+                  return b;
+                }),
+            ),
+          );
+        }),
+      );
+    };
+    const finish = () => {
+      show("desk", false);
+      resolve();
+    };
+    show("desk", true);
+    api("/api/nominations").then(draw);
+  });
+}
 function atOrders() {
   return new Promise((resolve) => {
     const words = controls.orders ?? {};

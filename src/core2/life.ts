@@ -636,3 +636,12 @@ export function advanceCore(
     acts,
   };
 }
+
+// Re-exported so other engine families import through this entry, not the file (families guard).
+export { snapshotExplicitControlV1 } from "./player-control-state-v1";
+export {
+  applyOpeningSettings,
+  checkSettings,
+  scaleOutsideSales,
+  type WorldSettings,
+} from "./world-settings";

@@ -11,7 +11,7 @@
  * term read by area, the economy and the President's traits (opening-story.ts
  * and address-kind.ts); this file only says which day.
  */
-import { jointAddress } from "../core2/office-day-federal-calendar";
+import { jointAddress } from "../core2/modules/office-day";
 import { P } from "../core2/parameters";
 import type { CoreState } from "../core2/types";
 import {
