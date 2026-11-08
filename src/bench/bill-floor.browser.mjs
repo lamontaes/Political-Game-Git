@@ -97,6 +97,13 @@ try {
       await page.locator("#week").click();
     await page.waitForTimeout(1500);
   }
+  if (!held) {
+    if (SHOTS) await page.screenshot({ path: `${SHOTS}/floor-none.png` });
+    console.log(
+      "no hold; page:",
+      await page.evaluate(() => document.body.innerText.slice(0, 400)),
+    );
+  }
   assert.ok(held, "a floor day held the player for a bill within 90 days");
   const bills = await page.locator("#desk-items").innerText();
   console.log("floor screen:", bills.slice(0, 400));
