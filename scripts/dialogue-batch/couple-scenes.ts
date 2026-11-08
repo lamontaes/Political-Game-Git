@@ -11,7 +11,7 @@ import { buildBenchWorld } from "../../src/bench/world";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { advanceCore } from "../../src/core2/life";
 import { registerModule } from "../../src/core2/state";
-import { addDays, ageOnDate, makeIsoDate } from "../../src/core2/kernel/dates";
+import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import type { CoreState, PersonId } from "../../src/core2/types";
 import { purposeScene } from "../../src/director/purpose-scene";
 import { composeScene } from "../../src/director/scene";
