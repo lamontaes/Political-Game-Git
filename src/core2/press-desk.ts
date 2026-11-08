@@ -96,24 +96,25 @@ export interface SlantReasons {
   readonly advertiser: number;
 }
 
-export interface PrintedStory {
+/**
+ * What only the press knows about a story it printed, kept by the story's id
+ * beside the article. The article (the news engine's `Story`) is the one
+ * record of what was printed: its outlet (the organization's id), topic,
+ * date, framing (the slant) and facts. These notes are why and for whom: the
+ * record it reports, who wrote it, how it came to read as it does and how
+ * far it reached.
+ */
+export interface PrintedNotes {
   readonly id: string;
-  readonly outletId: string;
-  readonly organizationId: string;
-  readonly reporterId: string;
   /** The public record (or interview) it reports. */
   readonly wireId: string;
-  readonly kind: string;
-  readonly date: string;
-  readonly topic: string;
-  /** The change the story argues for, after its slant. */
-  readonly desiredChange: string;
+  /** The wire item's kind (a profile, a letter, a law taking effect). */
+  readonly wireKind: string;
+  readonly reporterId: string;
   /** The change the record itself made. */
   readonly recordedChange: string;
   readonly ending: boolean;
   readonly subjectIds: readonly string[];
-  /** For (+) or against (-) the recorded change and the people named, -1 to 1. */
-  readonly slant: number;
   readonly pick: PickReasons | null;
   readonly slantReasons: SlantReasons;
   readonly readers: number;
@@ -125,6 +126,31 @@ export interface PrintedStory {
   readonly receivedNamed: number;
   readonly receivedCounted: number;
   readonly interviewId: string | null;
+}
+
+/**
+ * A printed story as the press reads it: the article's own outlet, date,
+ * topic and slant (its framing) joined to the press's notes. Built on read,
+ * never stored.
+ */
+export interface PrintedStory extends PrintedNotes {
+  /** The outlet that carried it: its organization's id, as on the article. */
+  readonly outletId: string;
+  readonly date: string;
+  readonly topic: string;
+  /** For (+) or against (-) the recorded change and the people named, -1 to 1. */
+  readonly slant: number;
+}
+
+/** The article and the press's notes for one story, joined. */
+export function joinPrinted(article: Story, notes: PrintedNotes): PrintedStory {
+  return {
+    ...notes,
+    outletId: article.outletId,
+    date: article.date,
+    topic: article.topic ?? "",
+    slant: article.framing ?? 0,
+  };
 }
 
 /** What the desk needs from the press module. */
@@ -139,7 +165,7 @@ export interface DeskContext {
   readonly printed: (wireId: string, outletId: string) => boolean;
   /** The town's counted residents who follow an outlet. */
   readonly countedFollowers: (outlet: DeskOutlet) => number;
-  readonly save: (story: PrintedStory) => void;
+  readonly save: (notes: PrintedNotes) => void;
 }
 
 const clamp = (x: number, lo = -1, hi = 1) => Math.max(lo, Math.min(hi, x));
@@ -361,39 +387,19 @@ export function printItem(
       ? (FLIP[item.desiredChange] ?? item.desiredChange)
       : item.desiredChange;
   const readers = ctx.followers(outlet.id);
-  const story: PrintedStory = {
-    id: `printed:${outlet.id}:${item.id}`,
-    outletId: outlet.id,
-    organizationId: outlet.organizationId,
-    reporterId,
-    wireId: item.id,
-    kind: item.kind,
-    date: api.state.date,
-    topic: item.topic,
-    desiredChange: argued,
-    recordedChange: item.desiredChange,
-    ending: item.ending,
-    subjectIds: item.subjectIds,
-    slant,
-    pick,
-    slantReasons: reasons,
-    readers: readers.length,
-    receivedNamed: 0,
-    receivedCounted: 0,
-    interviewId: options.interviewId ?? null,
-  };
+  const id = `printed:${outlet.id}:${item.id}`;
   const received = printStory(
     api,
     {
-      id: story.id,
+      id,
       kind: "press.printed",
       outletId: outlet.organizationId,
       date: api.state.date,
       placeId: ctx.townPlaceId,
-      topic: story.topic,
+      topic: item.topic,
       // Readers take a side only on a question they can hold one on (a policy
       // or a budget line); a jobs report or a filing informs without one.
-      ...(isPolicyTopic(story.topic) ? { desiredChange: argued } : {}),
+      ...(isPolicyTopic(item.topic) ? { desiredChange: argued } : {}),
       framing: slant,
       moodImpulse: (ctx.parameter("storyImpulse") * (1 + Math.abs(slant))) / 2,
       facts: {
@@ -403,7 +409,7 @@ export function printItem(
         // makes the story's case, so a reader moves by their standing with
         // the reporter (views engine); the outlet's line already chose the
         // change the story argues.
-        [`printed:${outlet.organizationId}:story`]: story.id,
+        [`printed:${outlet.organizationId}:story`]: id,
         [VIEWS_SPEAKER_KEY]: reporterId,
         ...(options.facts ?? {}),
       },
@@ -411,14 +417,31 @@ export function printItem(
     readers as PersonId[],
   );
   const share = readers.length ? received / readers.length : 0;
-  const saved: PrintedStory = {
-    ...story,
+  const notes: PrintedNotes = {
+    id,
+    wireId: item.id,
+    wireKind: item.kind,
+    reporterId,
+    recordedChange: item.desiredChange,
+    ending: item.ending,
+    subjectIds: item.subjectIds,
+    pick,
+    slantReasons: reasons,
+    readers: readers.length,
     receivedNamed: received,
     receivedCounted: Math.round(ctx.countedFollowers(outlet) * share),
+    interviewId: options.interviewId ?? null,
   };
-  ctx.save(saved);
-  recordNamed(api, ctx, outlet, item, saved);
-  return saved;
+  ctx.save(notes);
+  const printed: PrintedStory = {
+    ...notes,
+    outletId: outlet.organizationId,
+    date: api.state.date,
+    topic: item.topic,
+    slant,
+  };
+  recordNamed(api, ctx, outlet, item, printed, argued);
+  return printed;
 }
 
 /** The record of who a printed story names (recordNamed). */
@@ -439,6 +462,8 @@ function recordNamed(
   outlet: DeskOutlet,
   item: WireItem,
   story: PrintedStory,
+  /** The change the story argues, after its slant. */
+  argued: string,
 ): void {
   const full = (id: string | undefined): id is string =>
     !!id && api.state.people.has(id);
@@ -487,11 +512,7 @@ function recordNamed(
             billId,
             sponsorId,
             billFraming: side(
-              story.slant === 0
-                ? 0
-                : story.desiredChange === billChange
-                  ? 1
-                  : -1,
+              story.slant === 0 ? 0 : argued === billChange ? 1 : -1,
             ),
           }
         : {}),
@@ -505,10 +526,10 @@ export const ARCHIVE_STORY_KIND = "press.archived";
 /**
  * Write a story about a record from before day one (the news archive): the
  * outlet's reporter slants and frames it exactly as a printed story, and it
- * is returned for the press's archive table, but nobody receives it going forward.
+ * is returned as the article, but nobody receives it going forward.
  * The archive (past-news.ts) decides who heard it and when, by the news
  * engine's delivery rule. With no reporter at the outlet the story is
- * unslanted and has no printed row.
+ * unslanted.
  */
 export function archiveItem(
   api: CoreAPI,
@@ -517,55 +538,26 @@ export function archiveItem(
   reporterId: string | null,
   item: WireItem,
   facts: Readonly<Record<string, string>>,
-): { story: Story; printed: PrintedStory | null } {
-  const { slant, reasons } = reporterId
-    ? slantOf(api, ctx, outlet, reporterId, item)
-    : {
-        slant: 0,
-        reasons: { lean: 0, tie: 0, publisher: 0, advertiser: 0 },
-      };
+): Story {
+  // With no reporter at the outlet the story is unslanted.
+  const slant = reporterId
+    ? slantOf(api, ctx, outlet, reporterId, item).slant
+    : 0;
   const argued =
     slant < 0
       ? (FLIP[item.desiredChange] ?? item.desiredChange)
       : item.desiredChange;
-  const id = `printed:${outlet.id}:${item.id}`;
-  const printed: PrintedStory | null = reporterId
-    ? {
-        id,
-        outletId: outlet.id,
-        organizationId: outlet.organizationId,
-        reporterId,
-        wireId: item.id,
-        kind: item.kind,
-        date: item.date,
-        topic: item.topic,
-        desiredChange: argued,
-        recordedChange: item.desiredChange,
-        ending: item.ending,
-        subjectIds: item.subjectIds,
-        slant,
-        pick: null,
-        slantReasons: reasons,
-        readers: 0,
-        receivedNamed: 0,
-        receivedCounted: 0,
-        interviewId: null,
-      }
-    : null;
   return {
-    printed,
-    story: {
-      id,
-      kind: ARCHIVE_STORY_KIND,
-      outletId: outlet.organizationId,
-      date: item.date,
-      placeId: ctx.townPlaceId,
-      topic: item.topic,
-      ...(isPolicyTopic(item.topic) ? { desiredChange: argued } : {}),
-      framing: slant,
-      moodImpulse: (ctx.parameter("storyImpulse") * (1 + Math.abs(slant))) / 2,
-      facts: { ...facts, recordKind: item.kind },
-    },
+    id: `printed:${outlet.id}:${item.id}`,
+    kind: ARCHIVE_STORY_KIND,
+    outletId: outlet.organizationId,
+    date: item.date,
+    placeId: ctx.townPlaceId,
+    topic: item.topic,
+    ...(isPolicyTopic(item.topic) ? { desiredChange: argued } : {}),
+    framing: slant,
+    moodImpulse: (ctx.parameter("storyImpulse") * (1 + Math.abs(slant))) / 2,
+    facts: { ...facts, recordKind: item.kind },
   };
 }
 

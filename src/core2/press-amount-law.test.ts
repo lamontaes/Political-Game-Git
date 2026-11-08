@@ -25,7 +25,7 @@ function wageStories(api: ReturnType<typeof coreAPI>) {
   return outletsHere(api).flatMap((outlet) =>
     storiesPrinted(api, outlet.id).filter(
       (story) =>
-        story.kind === "law-took-effect" && story.topic === "minimum-wage",
+        story.wireKind === "law-took-effect" && story.topic === "minimum-wage",
     ),
   );
 }

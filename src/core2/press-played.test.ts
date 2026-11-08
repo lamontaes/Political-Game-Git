@@ -96,7 +96,7 @@ describe("the press in the played world", () => {
         "claim-checked",
         "press.exposed",
       ];
-      if (!ownPath.includes(story.kind))
+      if (!ownPath.includes(story.wireKind))
         expect(story.pick?.rank ?? 0, where).toBeGreaterThan(0);
     }
     // Staff are paid from the outlet's own cash.

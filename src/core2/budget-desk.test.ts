@@ -6,6 +6,7 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { gameStartDate } from "./game-start";
 import { LEGISLATURE_MODULE_ID } from "./modules/legislature";
+import { printedForWire } from "./modules/press";
 import { coreAPI } from "./state";
 import type { CoreState } from "./types";
 
@@ -55,13 +56,7 @@ describe(`a budget at the executive's desk (${place.name}, seed ${seed})`, () =>
     );
     expect(desk.length, federal!.id).toBe(1);
     expect(desk[0]!.memberId).toContain(":president:");
-    const printed = (
-      api.moduleState("core2-press-v1").table("stories").rows() as unknown as {
-        id: string;
-        outletId: string;
-        wireId: string;
-      }[]
-    ).filter((s) => s.wireId === `executive-action:${federal!.id}`);
+    const printed = printedForWire(api, `executive-action:${federal!.id}`);
     expect(printed.length, "stories on the president's act").toBeGreaterThan(0);
     expect(
       printed.some((s) => s.outletId.includes(":national")),

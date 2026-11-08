@@ -274,7 +274,7 @@ export function bringItUp(
     const known: KnownChange = {
       eventId: `${storyRow.eventIdPrefix ?? `${storyRow.eventKind}:`}${storyId}:${fact.learnedAt}`,
       kind: storyRow.eventKind,
-      institutionId: story.organizationId,
+      institutionId: story.outletId,
       learnedAt: fact.learnedAt,
       route: "seen",
     };

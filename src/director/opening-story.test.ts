@@ -6,7 +6,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { advanceCore } from "../core2/life";
 import { coreAPI } from "../core2/state";
 import { NEWS_MODULE_ID } from "../core2/modules/news";
-import { PRESS_MODULE_ID } from "../core2/modules/press";
+import { PRESS_MODULE_ID, printedForWire } from "../core2/modules/press";
 import { PRESIDENT_FACT } from "../core2/officials-president";
 import { OPENING_SPEECH_BANK } from "../english/english-opening-speech";
 import { subjectsBetween } from "./conversation";
@@ -184,9 +184,7 @@ describe("the opening story", () => {
       at.setUTCDate(at.getUTCDate() + 1);
       advanceCore(core, at.toISOString().slice(0, 10));
     }
-    const printed = (
-      press.table("stories").rows() as unknown as { wireId: string }[]
-    ).filter((row) => row.wireId === story.id);
+    const printed = printedForWire(api, story.id);
     expect(printed.length, `${place.name}; seed ${seed}`).toBeGreaterThan(0);
   }, 600_000);
 });

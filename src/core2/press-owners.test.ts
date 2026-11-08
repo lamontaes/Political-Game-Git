@@ -183,7 +183,7 @@ describe("the press's owner and tip reads", () => {
     const ran = (tip!.dig ?? 0) > 0 && (tip!.run ?? 0) > 0;
     expect(!!tip!.storyId, where).toBe(ran);
     const exposed = storiesPrinted(api, outlet.id).filter(
-      (s) => s.kind === "press.exposed",
+      (s) => s.wireKind === "press.exposed",
     );
     expect(exposed.length, where).toBe(ran ? 1 : 0);
   });

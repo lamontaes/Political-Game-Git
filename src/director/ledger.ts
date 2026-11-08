@@ -11,6 +11,7 @@
  * the person's own traits; there is no list of moment kinds. Nothing here
  * draws by chance.
  */
+import type { StoryText } from "../core2/modules/news";
 import { recordYearlyAddress } from "./yearly-address";
 import { recordLocalAddresses } from "./local-address";
 import { SCHOOL_STARTED, preStartHistory } from "../core2/past";
@@ -115,12 +116,7 @@ interface Change {
  */
 export type StoryWords = (
   core: CoreState,
-  story: {
-    readonly id: string;
-    readonly kind: string;
-    readonly date: string;
-    readonly facts: Readonly<Record<string, unknown>>;
-  },
+  story: StoryText & { readonly outletId?: string },
 ) => {
   readonly headline?: string;
   readonly sourceRecordIds: readonly string[];

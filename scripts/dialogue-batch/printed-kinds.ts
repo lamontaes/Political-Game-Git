@@ -13,7 +13,8 @@
 import { writeFileSync } from "node:fs";
 import { drawPlace } from "../core2-year/place";
 import { wordPrintedStory } from "../../src/bench/archive-words";
-import { printedFacts, type PrintedStory } from "../../src/bench/printed-words";
+import { printedFacts } from "../../src/bench/printed-words";
+import type { StoryText } from "../../src/core2/modules/news";
 import { buildBenchWorld } from "../../src/bench/world";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { gameStartDate } from "../../src/core2/game-start";
@@ -41,7 +42,7 @@ const printed = (
   coreAPI(core)
     .moduleState("news")
     .table("stories")
-    .rows() as unknown as PrintedStory[]
+    .rows() as unknown as StoryText[]
 ).filter((story) => story.kind === "press.printed");
 
 interface Row {

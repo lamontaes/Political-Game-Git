@@ -120,6 +120,7 @@ import {
   answerInterview,
   candidateAnswers,
   PRESS_MODULE_ID,
+  printedForWire,
 } from "./press";
 import { newsKey } from "./news";
 import {
@@ -2031,7 +2032,6 @@ export const VOLUNTEER_OFFERED_EVENT = "volunteer-offered";
 function offersToHelp(api: CoreAPI): void {
   if (!api.state.modules.has(PRESS_MODULE_ID)) return;
   const date = api.state.date;
-  const stories = api.moduleState(PRESS_MODULE_ID).table("stories");
   for (const filing of elections(
     api,
     "filings",
@@ -2046,11 +2046,9 @@ function offersToHelp(api: CoreAPI): void {
       `candidate-filed:${filing.id}` as never,
     )?.date;
     if (!filedOn || filedOn >= date) continue;
-    const told = (
-      stories.query("byWire", [`candidate-filed:${filing.id}`]) as unknown as {
-        id: string;
-      }[]
-    ).map((row) => newsKey(row.id));
+    const told = printedForWire(api, `candidate-filed:${filing.id}`).map(
+      (row) => newsKey(row.id),
+    );
     // In touch since the filing: the relationship's last contact.
     const toldInPerson = (id: string) => {
       const [a, b] = [id, candidate.id].sort();

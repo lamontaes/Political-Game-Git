@@ -138,16 +138,22 @@ import {
   grudge,
   printItem,
   regard,
+  joinPrinted,
   runDesk,
   slantOf,
   type DeskContext,
+  type PrintedNotes,
   type PrintedStory,
 } from "../press-desk";
 // The press desk's own story record, read by the director through this entry.
 export { PRESS_STORY_EVENT } from "../press-desk";
 import {
+  NEWS_MODULE_ID,
   newsKey,
+  newsModule,
   storiesHeard,
+  storiesOfOutlet,
+  storyOf,
   registerCountedNewsSource,
   type Story,
 } from "./news";
@@ -379,12 +385,12 @@ export const PRESS_MODULE: CoreModule = {
       comments: {},
       digs: {},
       tips: {},
-      // Stories the press wrote about the year before day one.
-      archive: { indexes: { byOutlet: { fields: ["outletId"] } } },
-      stories: {
+      // The press's notes on each story it printed, by the article's id (the
+      // news engine's stories table holds the article: outlet, date, topic,
+      // framing and facts).
+      printed: {
         indexes: {
           byWire: { fields: ["wireId"] },
-          byOutlet: { fields: ["outletId"] },
           byReporter: { fields: ["reporterId"] },
         },
       },
@@ -589,6 +595,8 @@ export function openPress(core: CoreState): readonly OutletRow[] {
   registerAdOutlet(adOutlet);
   if (core.modules.has(PRESS_MODULE_ID)) return outletsHere(coreAPI(core));
   registerModule(core, PRESS_MODULE);
+  // The news engine holds the articles the press prints.
+  if (!core.modules.has(NEWS_MODULE_ID)) registerModule(core, newsModule);
   const api = coreAPI(core);
   const chain = lawChain(api);
   const counts = NEWS.places[chain.stateKey];
@@ -2392,13 +2400,10 @@ export function writeArchiveStory(
   const reporterId =
     (outlet.reporterIds ?? []).find((id) => api.state.people.get(id)?.alive) ??
     null;
-  const written = archiveItem(api, deskContext(api), outlet, reporterId, item, {
+  return archiveItem(api, deskContext(api), outlet, reporterId, item, {
     recordId: record.id,
     ...(record.facts ?? {}),
   });
-  if (written.printed)
-    table(api, "archive").put(written.printed as unknown as ModuleRow);
-  return written.story;
 }
 
 /** What the reporter's desk reads from the press. */
@@ -2428,13 +2433,10 @@ export function deskContext(api: CoreAPI): DeskContext {
       }
       return held;
     },
+    // A story's id is its outlet's and its record's together.
     printed: (wireId, outletId) =>
-      (
-        table(api, "stories").query("byWire", [
-          wireId,
-        ]) as unknown as PrintedStory[]
-      ).some((s) => s.outletId === outletId),
-    save: (story) => table(api, "stories").put(story as unknown as ModuleRow),
+      !!storyOf(api, `printed:${outletId}:${wireId}`),
+    save: (notes) => table(api, "printed").put(notes as unknown as ModuleRow),
     countedFollowers: (outlet) => countedFollowersOf(api, outlet as OutletRow),
   };
 }
@@ -2863,7 +2865,7 @@ function writeProfile(
   const yearAgo = addDays(makeIsoDate(api.state.date), -365);
   const done = new Set(
     storiesPrinted(api, outlet.id)
-      .filter((s) => s.kind === "profile" && s.date >= yearAgo)
+      .filter((s) => s.wireKind === "profile" && s.date >= yearAgo)
       .flatMap((s) => s.subjectIds),
   );
   const named = new Map<string, number>();
@@ -3229,13 +3231,9 @@ function letters(api: CoreAPI): void {
   // letter under its writer's name): none lately, and none on this question
   // for longer, since the paper has printed their say on it.
   const wroteLately = (id: string, topic: string) =>
-    (
-      table(api, "stories").query("byReporter", [
-        id,
-      ]) as unknown as PrintedStory[]
-    ).some(
+    printedBy(api, id).some(
       (story) =>
-        story.kind === LETTER &&
+        story.wireKind === LETTER &&
         (story.date > spaced ||
           (story.topic === topic && story.date > sameQuestion)),
     );
@@ -3394,28 +3392,66 @@ function freshWire(api: CoreAPI): WireItem[] {
   return out;
 }
 
+/** A story's notes joined to its article, or undefined where either is missing. */
+function joined(api: CoreAPI, notes: PrintedNotes): PrintedStory | undefined {
+  const article = storyOf(api, notes.id);
+  return article ? joinPrinted(article, notes) : undefined;
+}
+
 /** One printed story by its id (what a reader remembers it by), or undefined. */
 export function printedStoryOf(
   api: CoreAPI,
   storyId: string,
 ): PrintedStory | undefined {
   if (!api.state.modules.has(PRESS_MODULE_ID)) return undefined;
-  return table(api, "stories").get(storyId) as unknown as
-    PrintedStory | undefined;
+  const notes = table(api, "printed").get(storyId) as unknown as
+    PrintedNotes | undefined;
+  return notes ? joined(api, notes) : undefined;
 }
 
-/** The stories an outlet printed, newest first. */
+/** The stories that reported one public record (a wire item's id). */
+export function printedForWire(
+  api: CoreAPI,
+  wireId: string,
+): readonly PrintedStory[] {
+  if (!api.state.modules.has(PRESS_MODULE_ID)) return [];
+  return (
+    table(api, "printed").query("byWire", [wireId]) as unknown as PrintedNotes[]
+  ).flatMap((notes) => joined(api, notes) ?? []);
+}
+
+/** The stories a reporter (or a letter's writer) filed. */
+export function printedBy(
+  api: CoreAPI,
+  reporterId: string,
+): readonly PrintedStory[] {
+  if (!api.state.modules.has(PRESS_MODULE_ID)) return [];
+  return (
+    table(api, "printed").query("byReporter", [
+      reporterId,
+    ]) as unknown as PrintedNotes[]
+  ).flatMap((notes) => joined(api, notes) ?? []);
+}
+
+/**
+ * The stories an outlet printed, newest first. Read by the outlet's
+ * organization id, as the articles carry it.
+ */
 export function storiesPrinted(
   api: CoreAPI,
   outletId: string,
 ): readonly PrintedStory[] {
   if (!api.state.modules.has(PRESS_MODULE_ID)) return [];
-  return (
-    table(api, "stories").query("byOutlet", [
-      outletId,
-    ]) as unknown as PrintedStory[]
-  )
-    .slice()
+  const organizationId = (
+    table(api, "outlets").get(outletId) as unknown as OutletRow | undefined
+  )?.organizationId;
+  if (!organizationId) return [];
+  return storiesOfOutlet(api, organizationId)
+    .flatMap((article) => {
+      const notes = table(api, "printed").get(article.id) as unknown as
+        PrintedNotes | undefined;
+      return notes ? joinPrinted(article, notes) : [];
+    })
     .sort((a, b) => b.date.localeCompare(a.date) || a.id.localeCompare(b.id));
 }
 
@@ -4065,8 +4101,9 @@ registerCountedNewsSource((api, storyId, namedReaders) => {
     namedReaders <= 0
   )
     return [];
-  const outlet = table(api, "outlets").get(printed.outletId) as unknown as
-    OutletRow | undefined;
+  const outlet = outletsHere(api).find(
+    (o) => o.organizationId === printed.outletId,
+  );
   if (!outlet) return [];
   const town = lawChain(api).townPlaceId;
   const national =

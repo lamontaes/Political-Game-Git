@@ -39,6 +39,7 @@ import {
   traitProbe,
 } from "../trait-decisions";
 import {
+  VIEWS_MODULE_ID,
   VIEWS_SPEAKER_KEY,
   viewOf,
   viewOn,
@@ -171,6 +172,12 @@ export interface Story {
   framing?: number;
 }
 
+/**
+ * What the English engine needs to word a story: its kind, date, topic and
+ * facts. The same article, read for its words (no second shape of a story).
+ */
+export type StoryText = Pick<Story, "id" | "kind" | "date" | "topic" | "facts">;
+
 /** The event kind for one day's readers of a printed story. */
 export const NEWS_READ = "news.read";
 
@@ -191,6 +198,24 @@ const stories = (api: CoreAPI) =>
   api.moduleState(NEWS_MODULE_ID).table("stories");
 const deliveries = (api: CoreAPI) =>
   api.moduleState(NEWS_MODULE_ID).table("deliveries");
+
+/**
+ * One story by its id, or undefined: the article itself, the one record of
+ * what was printed (the press keeps only its own notes beside it).
+ */
+export function storyOf(api: CoreAPI, storyId: string): Story | undefined {
+  if (!api.state.modules.has(NEWS_MODULE_ID)) return undefined;
+  return stories(api).get(storyId) as unknown as Story | undefined;
+}
+
+/** The stories an outlet carried (by its organization's id), in no set order. */
+export function storiesOfOutlet(
+  api: CoreAPI,
+  outletId: string,
+): readonly Story[] {
+  if (!api.state.modules.has(NEWS_MODULE_ID)) return [];
+  return stories(api).query("byOutlet", [outletId]) as unknown as Story[];
+}
 const heard = (api: CoreAPI) => api.moduleState(NEWS_MODULE_ID).table("heard");
 
 /**
@@ -597,10 +622,11 @@ export function printStory(
   /** Readers who hear it the day it happened (its own subject). */
   atOnce: readonly PersonId[] = [],
 ): number {
-  // A world without news keeps the press's own record of the story only.
   if (!api.state.modules.has(NEWS_MODULE_ID) || stories(api).get(story.id))
     return 0;
   stories(api).put(story as unknown as { id: string });
+  // A world without views has no readers to deliver to; the article is kept.
+  if (!api.state.modules.has(VIEWS_MODULE_ID)) return 0;
   return scheduleDeliveries(api, story, readerIds, new Set(), new Set(atOnce));
 }
 
@@ -624,7 +650,7 @@ export function createNewsModule(
     state: {
       schemaVersion: 1,
       tables: {
-        stories: {},
+        stories: { indexes: { byOutlet: { fields: ["outletId"] } } },
         deliveries: { indexes: { byDate: { fields: ["date"] } } },
         heard: { indexes: { byPerson: { fields: ["personId"] } } },
         // The first story that reached someone in a place with a measure.

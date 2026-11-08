@@ -5,7 +5,7 @@ import type { BallotRow } from "../core2/modules/voting";
 import type { BillRow } from "../core2/modules/legislature";
 import type { CoreState } from "../core2/types";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
-import { PRESS_MODULE_ID } from "../core2/modules/press";
+import { PRESS_MODULE_ID, printedForWire } from "../core2/modules/press";
 import { votesOf } from "../core2/modules/people";
 import { storyOfReadEvent } from "../core2/modules/news";
 import { changesKnownTo } from "../director/bring-it-up";
@@ -151,15 +151,7 @@ export function reachedSteps(
       const stories = enacted.flatMap((b) =>
         tookEffect
           .filter((lawId) => madeBy(lawId, b.id))
-          .flatMap(
-            (lawId) =>
-              api
-                .moduleState(PRESS_MODULE_ID)
-                .table("stories")
-                .query("byWire", [`law-took-effect:${lawId}`]) as unknown as {
-                id: string;
-              }[],
-          ),
+          .flatMap((lawId) => printedForWire(api, `law-took-effect:${lawId}`)),
       );
       const storyIds = new Set(stories.map((story) => story.id));
       const readers: string[] = [];

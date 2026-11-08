@@ -53,7 +53,7 @@ describe(`bring it up: a printed story in ${place.key} (seed ${place.seed})`, ()
     expect(said).not.toBeNull();
     // One line: the outlet and the topic; no one is blamed for a story.
     expect(said!.lines).toHaveLength(1);
-    const outlet = core.organizations.get(story.organizationId)!.name;
+    const outlet = core.organizations.get(story.outletId)!.name;
     expect(said!.lines[0]!.text.toLowerCase()).toContain(
       properName(outlet).toLowerCase(),
     );

@@ -1,19 +1,12 @@
 import type { EntityId } from "../core2/kernel/brands";
 import { spokenDate } from "../core2/kernel/dates";
+import type { StoryText } from "../core2/modules/news";
 import type { CoreState } from "../core2/types";
 import { composeNewsStory, type StoryKind } from "../english/english-newscast";
 import type { GroundedEnglishPacket } from "../english/grounded-english";
 import { archivedFacts, archivedLawFacts, printedFacts } from "./printed-words";
 import type { ownRace } from "./results";
 import { policyNames } from "./words";
-
-/** A story as the news engine keeps it. */
-interface StoredStory {
-  readonly id: string;
-  readonly kind: string;
-  readonly date: string;
-  readonly facts: Readonly<Record<string, unknown>>;
-}
 
 export interface WordedStory {
   readonly headline?: string;
@@ -38,7 +31,7 @@ let NAMES: Record<string, string> | undefined;
 
 export function wordArchiveStory(
   core: CoreState,
-  story: StoredStory,
+  story: StoryText,
 ): WordedStory | null {
   if (story.kind !== "press.archived") return null;
   const recordKind = story.facts.recordKind;
@@ -103,7 +96,7 @@ const LAYOUTS: Readonly<Record<string, string>> = {
  */
 export function wordPrintedStory(
   core: CoreState,
-  story: StoredStory & { readonly outletId?: string },
+  story: StoryText & { readonly outletId?: string },
 ):
   | (WordedStory & { outlet?: { id: string; name: string; layout: string } })
   | null {

@@ -31,6 +31,7 @@ import {
 } from "../core2/modules/offices";
 import { OFFICE_DAY_MODULE_ID } from "../core2/modules/office-day";
 import { officialOf } from "../core2/modules/officials";
+import type { StoryText } from "../core2/modules/news";
 import { commentOn, PRESS_MODULE_ID } from "../core2/modules/press";
 import {
   corePlaceByJurisdictionId,
@@ -62,16 +63,6 @@ import { stateInSentence } from "../director/words";
 const CRIME_MODULE_ID = "core2-crime-v1";
 const SCHOOL_MODULE_ID = "core2-school-days-v1";
 const WORLD_METRICS_MODULE_ID = "world-metrics";
-
-/** A printed story as the news engine keeps it. */
-export interface PrintedStory {
-  readonly id: string;
-  readonly kind: string;
-  readonly date: string;
-  /** What the story is about: a policy question, a person, an organization. */
-  readonly topic?: string;
-  readonly facts: Readonly<Record<string, unknown>>;
-}
 
 type Fact = { text: string; sourceRecordIds: EntityId[] };
 type Facts = Record<string, Fact>;
@@ -224,7 +215,7 @@ const ELSEWHERE = new Map<string, Map<string, string>>();
 /** The facts for one printed story, or null when its record can't be said. */
 export function printedFacts(
   core: CoreState,
-  story: PrintedStory,
+  story: StoryText,
 ): PrintedFacts | null {
   if (story.kind !== "press.printed") return null;
   const sourceId = String(story.facts.sourceRecordId ?? "");
@@ -282,7 +273,7 @@ class Reader {
   readonly api;
   constructor(
     readonly core: CoreState,
-    readonly story: PrintedStory,
+    readonly story: StoryText,
     readonly sourceId: string,
     readonly kind: string,
     readonly people: readonly string[],
@@ -692,7 +683,7 @@ const lawTookEffect: Builder = (read, f) => {
  */
 export function archivedLawFacts(
   core: CoreState,
-  story: PrintedStory,
+  story: StoryText,
 ): PrintedFacts | null {
   const lawId = String(story.facts.lawId ?? "");
   const row = coreAPI(core)
@@ -3109,7 +3100,7 @@ const ARCHIVED: Readonly<Record<string, Builder>> = {
 /** The facts for a story archived from the year before day one, or null when its record can't be said. */
 export function archivedFacts(
   core: CoreState,
-  story: PrintedStory,
+  story: StoryText,
 ): PrintedFacts | null {
   const f: Record<string, string> = {};
   for (const [key, value] of Object.entries(story.facts))
