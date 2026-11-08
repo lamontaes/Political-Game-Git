@@ -112,7 +112,7 @@ import {
 import { promisesOf, recordAppeal, votesOf } from "./record";
 import { withholdingOnPay } from "./budgets";
 import { lawInForce, LAWS_MODULE_ID } from "./laws";
-import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
+import { deliverSpeech, SPEECH_MODULE_ID } from "./people";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import {
   ACCEPTING_MOVES,

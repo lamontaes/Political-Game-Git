@@ -284,6 +284,19 @@ export function billStageSections(
         ),
       ),
     );
+  // The members who signed on beside the sponsor.
+  if (stage.cosponsors?.length)
+    sections.push(
+      stripSection(
+        2,
+        words.cosponsors,
+        el(
+          "div",
+          { className: "stage-row" },
+          nameSentence(stage.cosponsors, onOpen, words),
+        ),
+      ),
+    );
   stage.committees.forEach((record) => {
     sections.push(
       stripSection(

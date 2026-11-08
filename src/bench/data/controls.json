@@ -880,6 +880,7 @@
     "aide-fail": "Your aide expects it to fail.",
     "aide-close": "Your aide calls it too close to call.",
     "aideCaveat": "An estimate from what members have told you. It can be wrong.",
+    "cosponsors": "Cosponsors",
     "referred": "Referred to",
     "chair": "Chaired by",
     "markup": "Changes in markup",
@@ -972,6 +973,12 @@
     "debate": "Debate",
     "speech": "Give a speech"
   },
+  "nominations": {
+    "own": "Decided for me",
+    "nominate": "Nominate",
+    "leave": "Leave it open",
+    "nobody": "No one is available to nominate"
+  },
   "orders": {
     "issue": "Issue the order",
     "revoke": "Revoke the order",
@@ -979,6 +986,9 @@
     "emergency": "State of emergency",
     "emergency-issue": "Declare it",
     "emergency-decline": "Let it pass",
+    "budget": "The state budget",
+    "budget-issue": "Send the budget",
+    "budget-decline": "Leave it to my staff",
     "post-own": "Decided for me",
     "post-issue": "Name them",
     "post-decline": "Leave it open"
