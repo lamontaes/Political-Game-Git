@@ -38,7 +38,7 @@ export async function devRecordsSection({ personId, labels }) {
       { className: "dev-records" },
       recordTree(rest, open, labels.person),
     ),
-    el("div", { className: "dev-records" }, idList(records, open)),
+    el("div", { className: "dev-record-ids" }, idList(records, open)),
     trace,
   );
 }
