@@ -59,13 +59,13 @@ import {
 /** A government's sum in a readable unit ("$5.2 trillion", "$48,300"). */
 const roundedMoney = (minor) => moneyWords(minor, { rounded: true });
 import { newsBoard } from "./ui/news-board.mjs";
+import { peopleScreen } from "./ui/people-screen.mjs";
 import { ballotPaper } from "./ui/ballot-paper.mjs";
 import { electionNight as electionNightScreen } from "./ui/election-night.mjs";
 import { el } from "./ui/dom.mjs";
 import { rosterScreen } from "./ui/roster-screen.mjs";
 import { guideScreen } from "./ui/guide-screen.mjs";
 import { travelScreen } from "./ui/travel-screen.mjs";
-import { peopleWeb } from "./ui/people-web.mjs";
 import { billPaper } from "./ui/bill-paper.mjs";
 import { billStageSections } from "./ui/bill-stage.mjs";
 import { meetingItem } from "./ui/meeting-item.mjs";
@@ -1994,23 +1994,22 @@ function closePerson() {
   $("game").classList.remove("person-open");
   personOpener?.focus();
 }
-async function showPerson(person) {
-  const request = ++personRequest;
-  const opener = document.activeElement;
+/**
+ * The approved person card's strip screen for one person, built from their known record
+ * (owner, Nov 7, item 54, "perfect"). Shown in its own panel by showPerson and inside the
+ * People screen beside the roster. Returns null when the person is gone.
+ */
+async function personCardNode(
+  person,
+  stillWanted = () => true,
+  openOther = (other) => showPerson(other),
+) {
   const c = await api(
     `/api/known?${new URLSearchParams({ id: me.id, other: person.personId })}`,
   );
   await controlsReady;
-  if (request !== personRequest) return;
-  personOpener = opener;
-  closeSheet();
+  if (!stillWanted()) return null;
   const labels = controls.person;
-  // The approved person card (owner, Nov 7, item 54, "perfect"; the mock's per-hale): the
-  // You build about them. Their name over a bust; who they are, how you see them (only the
-  // leanings you could know, no strength), what is between you, their people and their
-  // public record, each under its header strip. "What people say about her" waits for a
-  // record of what people say (stopgap in the PR body).
-  $("person-name").textContent = c.name;
   const known = c.publicKnowledge;
   const stance = voteWords();
   const pronoun = c.pronouns;
@@ -2059,7 +2058,7 @@ async function showPerson(person) {
     (c.colleagues ?? []).map((k) => ({
       name: k.name,
       relation: k.office,
-      onOpen: () => showPerson({ personId: k.personId }),
+      onOpen: () => openOther({ personId: k.personId }),
     })),
   );
   const firstColumn = [
@@ -2116,9 +2115,10 @@ async function showPerson(person) {
         onDone: () => refresh(),
       }),
     );
-  if (request !== personRequest) return;
-  $("person-facts").replaceChildren(
-    stripScreen({
+  if (!stillWanted()) return null;
+  return {
+    name: c.name,
+    node: stripScreen({
       name: c.name,
       role,
       face: c.face ?? null,
@@ -2126,7 +2126,17 @@ async function showPerson(person) {
         ? [firstColumn, secondColumn]
         : [firstColumn],
     }),
-  );
+  };
+}
+async function showPerson(person) {
+  const request = ++personRequest;
+  const opener = document.activeElement;
+  const card = await personCardNode(person, () => request === personRequest);
+  if (!card) return;
+  personOpener = opener;
+  closeSheet();
+  $("person-name").textContent = card.name;
+  $("person-facts").replaceChildren(card.node);
   show("person", true);
   $("game").classList.add("person-open");
   $("person-close").focus();
@@ -2767,31 +2777,12 @@ const sheets = {
         ],
       });
     }
-    const people = [...records.values()];
-    return peopleWeb({
-      people,
+    return peopleScreen({
+      people: [...records.values()],
       household,
-      self: {
-        name: me.card.name,
-        face: me.card.face,
-        // The saved look, as the card and Who you are read it: not whatever room's figure.
-        figureUrl: portraitUrl(),
-      },
-      inRoom: new Set((me.scene?.people ?? []).map((p) => p.personId)),
       labels,
-      pageWords: {
-        page: controls.politics.page,
-        previous: controls.politics.previousPage,
-        next: controls.politics.nextPage,
-      },
-      onCard: (person) => {
-        closeSheet();
-        showPerson(person);
-      },
-      onTalk: (person) => {
-        closeSheet();
-        talkTo(person.personId);
-      },
+      card: (person, stillWanted, openOther) =>
+        personCardNode(person, stillWanted, openOther),
     });
   },
   /**
@@ -4928,9 +4919,7 @@ const FRONT_PANELS = [
   "front-new",
   "front-advanced",
   "front-pick",
-  "cr-character",
-  "cr-place",
-  "cr-look",
+  "cr-screen",
 ];
 /**
  * Where the close X on the front takes you from each panel: one level out. There is no Back
@@ -4940,21 +4929,17 @@ const FRONT_OUT = {
   "front-new": () => frontPanel("front-main"),
   "front-advanced": () => frontPanel("front-new"),
   "front-pick": () => frontPanel("front-advanced"),
-  "cr-character": () => frontPanel("front-new"),
-  "cr-place": () => {
-    // After a state is picked, out returns to the states, not to the name and birthday
-    // (owner, Oct 28, point 5).
+  "cr-screen": () => {
+    // After a state is picked, out returns to the states (owner, Oct 28, point 5), then out of
+    // the creator.
     if (setup.state) {
       setup.state = null;
       setup.town = null;
+      $("cr-place-summary-name").textContent = "";
       void showStates();
       return;
     }
-    frontPanel("cr-character");
-  },
-  "cr-look": () => {
-    frontPanel("cr-place");
-    void showStates();
+    frontPanel("front-new");
   },
 };
 document.getElementById("front-close")?.addEventListener("click", () => {
@@ -5039,7 +5024,7 @@ $("cr-month").addEventListener("change", async () => {
 $("cr-day").addEventListener("change", () => fillYears());
 /** A filled field drops its missing mark and the line at the bottom. */
 function filledIn() {
-  for (const group of document.querySelectorAll("#cr-character .missing"))
+  for (const group of document.querySelectorAll("#cr-screen .missing"))
     group.classList.remove("missing");
   $("front-status").textContent = "";
 }
@@ -5052,6 +5037,7 @@ function pickGender(g) {
     const on = b.dataset.gender === g;
     b.setAttribute("aria-pressed", String(on));
   }
+  void openLook();
 }
 for (const b of document.querySelectorAll("[data-gender]"))
   b.addEventListener("click", () => pickGender(b.dataset.gender));
@@ -5071,6 +5057,8 @@ $("cr-random-name").addEventListener("click", async () => {
   );
   $("cr-given").value = name.givenName;
   $("cr-family").value = name.familyName;
+  filledIn();
+  nameFigure();
 });
 async function randomBirthday() {
   setup.birthdayDraws++;
@@ -5088,10 +5076,11 @@ $("cr-random-birthday").addEventListener("click", () => void randomBirthday());
 async function openCreator() {
   // The seed Advanced holds, drawn when the page loads, draws the world.
   setup.seed = $("seed").value || (await api("/api/seed")).seed;
-  $("cr-route-name").textContent = $("new-start").textContent.trim();
   if (!$("cr-year").options.length) await randomBirthday();
   await controlsReady;
-  frontPanel("cr-character");
+  frontPanel("cr-screen");
+  void showStates();
+  if (setup.gender) void openLook();
 }
 $("new-life").addEventListener("click", () => frontPanel("front-new"));
 $("new-advanced").addEventListener("click", () => frontPanel("front-advanced"));
@@ -5101,40 +5090,28 @@ $("advanced-build").addEventListener(
   "click",
   () => void startLife({ custom: true, pick: true }),
 );
-$("cr-route").addEventListener("click", () => frontPanel("front-new"));
-$("cr-character-next").addEventListener("click", () => {
+// Begin names what is still missing and marks it, until it is filled (owner, Oct 28: "It
+// should flash red, or say what is missing at the bottom").
+function missingForBegin() {
   const given = $("cr-given").value.trim();
   const family = $("cr-family").value.trim();
-  // A field left empty is named at the bottom and its group marked until it
-  // is filled (owner, Oct 28: "It should flash red, or say what is missing
-  // at the bottom").
-  const missing = !setup.gender
-    ? { group: "gender-choices", text: controls.creator.missingGender }
-    : !given || !family
-      ? { group: "creator-name", text: controls.creator.missingName }
-      : null;
-  if (missing) {
-    $("front-status").textContent = missing.text;
-    document
-      .querySelector(`[data-testid="${missing.group}"]`)
-      .classList.add("missing");
-    return;
-  }
-  $("front-status").textContent = "";
-  $("cr-summary-name").textContent = `${given} ${family}`;
-  $("cr-summary-age").textContent =
-    `${controls.creator.summaryAge.replace("{age}", chosenAge())} · ${genderName(setup.gender)}`;
-  const pad = (n) => String(n).padStart(2, "0");
-  $("cr-summary-born").textContent = controls.creator.summaryBorn.replace(
-    "{date}",
-    dateWords(
-      `${$("cr-year").value}-${pad($("cr-month").value)}-${pad($("cr-day").value)}`,
-    ),
-  );
-  frontPanel("cr-place");
-  void showStates();
-});
-$("cr-summary").addEventListener("click", () => frontPanel("cr-character"));
+  if (!setup.gender)
+    return { group: "gender-choices", text: controls.creator.missingGender };
+  if (!given || !family)
+    return { group: "creator-name", text: controls.creator.missingName };
+  if (!setup.town)
+    return {
+      group: "creator-stage-place",
+      text: controls.creator.missingPlace,
+    };
+  return null;
+}
+function nameFigure() {
+  $("cr-figure-name").textContent =
+    `${$("cr-given").value.trim()} ${$("cr-family").value.trim()}`.trim();
+}
+for (const id of ["cr-given", "cr-family"])
+  $(id).addEventListener("input", nameFigure);
 
 // Where are you from: a state, then a city or town with its population.
 let states = [];
@@ -5190,7 +5167,8 @@ async function listTowns() {
         (n) => count.format(n),
         (town) => {
           setup.town = town;
-          void openLook();
+          showPlaceName();
+          filledIn();
         },
       ),
     ),
@@ -5208,7 +5186,9 @@ $("cr-place-random").addEventListener("click", async () => {
   setup.state = state;
   setup.town = town;
   $("cr-state-name").textContent = state.name;
-  await openLook();
+  showPlaceName();
+  filledIn();
+  await showStates();
 });
 
 // A row of color swatches: each a button named for its color, the chosen one marked.
@@ -5264,14 +5244,15 @@ async function openLook() {
         `/api/creator/appearance?${lookQuery({ recipe: JSON.stringify(setup.recipe) })}`,
       ),
     );
-  // The place chosen or drawn, named over the look; Change returns to the states.
+}
+/** The place chosen or drawn, named at the top of Where I'm from. */
+function showPlaceName() {
   // A town record's name may already carry its state ("Pewaukee, Wisconsin").
   $("cr-place-summary-name").textContent = setup.town.name.includes(
     setup.state.name,
   )
     ? setup.town.name
     : `${setup.town.name}, ${setup.state.name}`;
-  frontPanel("cr-look");
 }
 async function moveLook(row, by) {
   const view = await post(
@@ -5302,12 +5283,16 @@ $("cr-undo").addEventListener("click", () => {
   const last = setup.previous.pop();
   if (last) void setLook(last, false);
 });
-$("cr-place-summary").addEventListener("click", () => {
-  frontPanel("cr-place");
-  void showStates();
-});
-$("cr-begin").addEventListener("click", () =>
-  startLife({
+$("cr-begin").addEventListener("click", () => {
+  const missing = missingForBegin();
+  if (missing) {
+    $("front-status").textContent = missing.text;
+    document
+      .querySelector(`[data-testid="${missing.group}"]`)
+      .classList.add("missing");
+    return;
+  }
+  void startLife({
     placeKey: setup.town.key,
     person: {
       givenName: $("cr-given").value.trim(),
@@ -5318,8 +5303,8 @@ $("cr-begin").addEventListener("click", () =>
       birthDay: Number($("cr-day").value),
       recipe: setup.recipe,
     },
-  }),
-);
+  });
+});
 const placeControls = ["new-world", "advanced-build", "cr-begin"];
 
 /** Advanced start: everyone who holds an office in the built world, to play as. */
@@ -5523,6 +5508,6 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
   } catch (error) {
     $("front-status").textContent = error.message;
     for (const id of placeControls) $(id).disabled = false;
-    frontPanel(person ? "cr-look" : "front-new");
+    frontPanel(person ? "cr-screen" : "front-new");
   }
 }
