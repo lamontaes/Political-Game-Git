@@ -20,6 +20,7 @@ import moverRates from "../../../data/research/migration/mover-rates-acs-2024.js
 import stateTax from "../../../data/research/money/state-income-tax-2026.json" with { type: "json" };
 import moveRows from "../data/moves/parameters.json" with { type: "json" };
 import regions from "../data/regional/regions.json" with { type: "json" };
+import rppHousing from "../data/regional/rpp-housing.json" with { type: "json" };
 import { scheduleTax } from "../tax-withholding";
 import { ageOn, type CountedHousehold } from "../counted-groups";
 import { openingTemperaments } from "../opening-personality";
@@ -55,6 +56,10 @@ const TABLE = "moves";
 const PULLS_TABLE = "pulls";
 
 /** Coarse age bands and the ACS bands each averages. */
+const ADMIT_MORE_IMMIGRANTS =
+  "us-federal-positions:immigration.admit-more-immigrants";
+/** Where newcomers from outside the country are from, in an arrival's key. */
+const ABROAD = "abroad";
 const COARSE = [
   ["under-18", "countedPeopleShareUnder18", ["30-34", "35-39", "40-44"]],
   ["18-29", "countedPeopleShare18to29", ["18-19", "20-24", "25-29"]],
@@ -69,11 +74,18 @@ const RATES = moverRates as unknown as {
   national: {
     departurePerYearByAge: Rates;
     arrivalsPerResidentPerYear: number;
+    abroadPerResidentPerYear: number;
+    abroadAgeShare: Readonly<Record<string, number>>;
+    admitMoreImmigrantsLaw: { shareOfArrivalsFromAbroad: number };
   };
   places: Readonly<
     Record<
       string,
-      { departurePerYearByAge: Rates; arrivalsPerResidentPerYear?: number }
+      {
+        departurePerYearByAge: Rates;
+        arrivalsPerResidentPerYear?: number;
+        abroadPerResidentPerYear?: number;
+      }
     >
   >;
 };
@@ -164,6 +176,26 @@ function rateFor(seed: string, usps: string, band: string): number {
   );
 }
 
+/**
+ * A state's yearly arrivals from abroad per resident, from the ACS "moved from
+ * abroad" line (B07001_081 over B07001_001), times this world's movers factor.
+ */
+function abroadRate(api: CoreAPI, usps: string): number {
+  const row = RATES.places[`US-${usps}`];
+  // While Congress's law to admit more immigrants stands, more come: the
+  // researched extra admissions as a share of today's arrivals from abroad.
+  const admitting =
+    api.state.modules.has(LAWS_MODULE_ID) &&
+    lawInForce(api, ADMIT_MORE_IMMIGRANTS).value === 1;
+  return (
+    (row?.abroadPerResidentPerYear ?? RATES.national.abroadPerResidentPerYear) *
+    worldRateFactor(api.state.seed, "movers") *
+    (admitting
+      ? 1 + RATES.national.admitMoreImmigrantsLaw.shareOfArrivalsFromAbroad
+      : 1)
+  );
+}
+
 /** Each ACS band's lowest age, in the table's order. */
 const ACS_FLOORS = RATES.ageBands.map((band) =>
   Number(band.replace("+", "").split("-")[0]),
@@ -189,6 +221,25 @@ function priceLevel(fips: string): number {
   const rpp = STATES[fips]?.rppPct ?? {};
   const year = Object.keys(rpp).sort().pop();
   return year ? rpp[year]! : 100;
+}
+
+/**
+ * A state's price level for a renting household: the all-items level tilted
+ * toward housing by what a renter spends on it over what every household does
+ * (BEA's housing component of the regional price parities).
+ */
+function renterPriceLevel(fips: string): number {
+  const row = (
+    rppHousing as unknown as {
+      byFips: Record<string, { allItems: number; housing: number }>;
+    }
+  ).byFips[fips];
+  const all = priceLevel(fips);
+  if (!row) return all;
+  const tilt =
+    countedParameter("countedMovesRenterHousingWeight") -
+    (rppHousing as unknown as { housingWeight: number }).housingWeight;
+  return all * Math.pow(row.housing / row.allItems, tilt);
 }
 
 /** Yearly state income tax on wages in dollars: each state's law in force (the same rule for every state), the 2026 table only where the research gives that state no income tax row. */
@@ -271,13 +322,17 @@ function netIncome(
   rt: Runtime,
   usps: string,
   wages: number,
+  renter = false,
 ): number {
-  const key = `${usps}|${wages}`;
+  const key = `${usps}|${wages}|${renter ? "rent" : "own"}`;
   let value = rt.netCache.get(key);
   if (value === undefined) {
     value =
       Math.max(1, wages - stateIncomeTax(api, rt, usps, wages)) /
-      (priceLevel(rt.states.get(usps)?.fips ?? "") / 100);
+      ((renter ? renterPriceLevel : priceLevel)(
+        rt.states.get(usps)?.fips ?? "",
+      ) /
+        100);
     rt.netCache.set(key, value);
   }
   return value;
@@ -291,10 +346,14 @@ export function pullBetween(
   to: string,
   wages: number,
   jobless: ReadonlyMap<string, number>,
+  renter = false,
 ): Record<string, number> {
   const income =
     countedParameter("countedMovesIncomeElasticity") *
-    Math.log(netIncome(api, rt, to, wages) / netIncome(api, rt, from, wages));
+    Math.log(
+      netIncome(api, rt, to, wages, renter) /
+        netIncome(api, rt, from, wages, renter),
+    );
   const here = jobless.get(from),
     there = jobless.get(to);
   const jobs =
@@ -567,8 +626,8 @@ function month(api: CoreAPI): void {
 
   // 1. Counted groups weigh every other state, and the rest of their own.
   const pullCache = new Map<string, Record<string, number>>();
-  const pullFor = (from: string, to: string, wages: number) => {
-    const key = `${from}|${to}|${Math.round(wages / 1000)}`;
+  const pullFor = (from: string, to: string, wages: number, renter = false) => {
+    const key = `${from}|${to}|${Math.round(wages / 1000)}|${renter ? "rent" : "own"}`;
     let row = pullCache.get(key);
     if (!row) {
       row = pullBetween(
@@ -578,6 +637,7 @@ function month(api: CoreAPI): void {
         to,
         Math.round(wages / 1000) * 1000,
         jobless,
+        renter,
       );
       pullCache.set(key, row);
     }
@@ -642,6 +702,7 @@ function month(api: CoreAPI): void {
       group: number;
       home: string;
       wages: number;
+      renter: boolean;
       weight: number;
       people: number;
     }
@@ -669,11 +730,14 @@ function month(api: CoreAPI): void {
       Math.exp(sum(pushes) - holdOf(residents, h, date, adultAge, ages)) *
       rt.holdNorm.get(h.placeId)!;
     const wages = Math.round(head.wages / 1000) * 1000;
-    const key = `${h.group}|${home}|${wages}`;
+    // A household without a home weighs prices as a renter does.
+    const renter = h.tenure === "rent" || h.tenure === "none";
+    const key = `${h.group}|${home}|${wages}|${renter ? "rent" : "own"}`;
     const row = alike.get(key) ?? {
       group: h.group,
       home,
       wages,
+      renter,
       weight: 0,
       people: 0,
     };
@@ -717,8 +781,15 @@ function month(api: CoreAPI): void {
     const arrivalsOf = stateList.map(
       (st, i) =>
         peopleOf[i]! *
-        (RATES.places[`US-${st.usps}`]?.arrivalsPerResidentPerYear ??
-          RATES.national.arrivalsPerResidentPerYear) *
+        // Arrivals from other states and counties only: those from abroad
+        // are a flow into the nation, added below, not another state's leavers.
+        Math.max(
+          0,
+          (RATES.places[`US-${st.usps}`]?.arrivalsPerResidentPerYear ??
+            RATES.national.arrivalsPerResidentPerYear) -
+            (RATES.places[`US-${st.usps}`]?.abroadPerResidentPerYear ??
+              RATES.national.abroadPerResidentPerYear),
+        ) *
         (1 - inState),
     );
     const sumOf = (xs: readonly number[]) => xs.reduce((x, y) => x + y, 0);
@@ -765,12 +836,15 @@ function month(api: CoreAPI): void {
       causes: [string, number][];
     } | null)[]
   >();
-  const destRowsOf = (home: string, wages: number) => {
-    const key = `${home}|${wages}`;
+  const destRowsOf = (home: string, wages: number, renter: boolean) => {
+    const key = `${home}|${wages}|${renter ? "rent" : "own"}`;
     let rows = destRows.get(key);
     if (!rows) {
       const parts = new Map(
-        stateList.map((dest) => [dest.usps, pullFor(home, dest.usps, wages)]),
+        stateList.map((dest) => [
+          dest.usps,
+          pullFor(home, dest.usps, wages, renter),
+        ]),
       );
       // The fitted attractiveness times the pull, over every other state's.
       let norm = 0;
@@ -800,7 +874,7 @@ function month(api: CoreAPI): void {
     };
     summary.people += row.people;
     // Out of state: each state by its people and its pull.
-    const dests = destRowsOf(row.home, row.wages);
+    const dests = destRowsOf(row.home, row.wages, row.renter);
     for (let i = 0; i < dests.length; i++) {
       const d = dests[i];
       if (!d) continue;
@@ -952,7 +1026,14 @@ function month(api: CoreAPI): void {
           // The web's links land on a household by its adults; none, none.
           head.adults ? leaving.web : 1,
           holdsOf(residents, next, date, adultAge, ages),
-          to === home ? {} : pullFor(home, to, head.wages),
+          to === home
+            ? {}
+            : pullFor(
+                home,
+                to,
+                head.wages,
+                next.tenure === "rent" || next.tenure === "none",
+              ),
           !head.adults && pulled?.people
             ? (pulled.total * 12) / pulled.people
             : undefined,
@@ -1069,6 +1150,27 @@ function month(api: CoreAPI): void {
       const key = `${home.usps}|${band}`;
       rt.arrive.set(key, (rt.arrive.get(key) ?? 0) + toCounted);
     }
+  }
+  // stopgapId: SG-LIVES-abroad-arrivals-no-pull (the flow is sized by the sourced rate and does not respond to a place's pull)
+  // People from abroad: each state takes in its ACS rate of its people a year
+  // (the age mix of the nation's arrivals from abroad). They come from no
+  // state's leavers, so a state's count grows by them; the town's state sends
+  // its counted places their share to settle as households.
+  for (const st of stateList) {
+    const stateTotal =
+      st.people.reduce((a, b) => a + b, 0) + (st === home ? counted : 0);
+    const monthly = (stateTotal * abroadRate(api, st.usps)) / 12;
+    COARSE.forEach(([name], band) => {
+      const added = monthly * (RATES.national.abroadAgeShare[name] ?? 0);
+      if (st !== home) {
+        st.people[band] = st.people[band]! + added;
+        return;
+      }
+      const toCounted = stateTotal > 0 ? (added * living) / stateTotal : 0;
+      st.people[band] = st.people[band]! + added - toCounted;
+      const key = `${ABROAD}|${band}`;
+      rt.arrive.set(key, (rt.arrive.get(key) ?? 0) + toCounted);
+    });
   }
   // 3. Whole households arrive as their people come due.
   arrivals(api, rt, residents, placePeople, agedHere, source, jobless);
@@ -1272,10 +1374,12 @@ function arrivals(
           // The rate its people's age leaves where they came from, and
           // from another state the pull toward this one.
           reasons: causesOf(
-            coarseRate(api.state.seed, origin!, COARSE[band]![2]),
+            origin === ABROAD
+              ? abroadRate(api, rt.townState)
+              : coarseRate(api.state.seed, origin!, COARSE[band]![2]),
             1,
             {},
-            origin === rt.townState
+            origin === rt.townState || origin === ABROAD
               ? {}
               : pullBetween(
                   api,

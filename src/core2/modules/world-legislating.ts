@@ -659,6 +659,7 @@ function fileLines(
       let best = 0;
       let wanted = 0;
       let cosponsors = 0;
+      const gaps: number[] = [];
       for (const member of filers) {
         const stance = Math.max(
           -1,
@@ -673,6 +674,7 @@ function fileLines(
         const reason = gap / base - minimum;
         if (reason <= 0) continue;
         cosponsors += 1;
+        gaps.push(gap);
         if (
           reason > best ||
           (reason === best && sponsor && member.key < sponsor.key)
@@ -681,6 +683,15 @@ function fileLines(
           sponsor = member;
           wanted = Math.round(gap * direction);
         }
+      }
+      // Where a majority backs a change, the bill asks for what the member
+      // who makes the majority wants, not the most moved member's larger
+      // ask, so the line settles where the body's median member stands and
+      // is not pushed past it and back.
+      const majority = Math.floor(filers.length / 2) + 1;
+      if (sponsor && gaps.length >= majority) {
+        gaps.sort((a, b) => b - a);
+        wanted = Math.round(gaps[majority - 1]! * direction);
       }
       if (!sponsor || wanted === 0) continue;
       all.push({
