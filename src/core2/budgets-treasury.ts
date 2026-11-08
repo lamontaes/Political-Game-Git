@@ -1050,7 +1050,7 @@ export function fundFederalStanding(api: CoreAPI, todayMinor = 0): void {
 }
 
 /**
- * How far the economy's tax base has moved since a budget's year began: the
+ * How far the economy's tax base has moved since the plan was calibrated (the start of the first budget): the
  * nation's payroll jobs times hourly earnings (the wage bill) in the last
  * completed month over the same in the month the budget took effect. A tax's
  * installment is its plan times this, so receipts rise and fall with jobs and
@@ -1059,6 +1059,18 @@ export function fundFederalStanding(api: CoreAPI, todayMinor = 0): void {
  * every government's base until the states' own bases are read from the
  * regional rows.)
  */
+/** The day the plan was calibrated: the start of the government's first budget, which every later plan repeats. */
+function firstBudgetStart(
+  api: CoreAPI,
+  governmentId: string,
+  fallback: string,
+): string {
+  let first = fallback;
+  for (const row of budgetsOf(api, governmentId))
+    if (row.startsOn < first) first = row.startsOn;
+  return first;
+}
+
 export function taxBaseIndex(
   api: CoreAPI,
   budgetStartsOn: string,
@@ -1134,7 +1146,11 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
       // What the town's own payers already paid on this line comes off the
       // installment, the rest carrying to the next one.
       // The plan's installment moved by the economy's tax base since the budget year began.
-      const baseIndex = taxBaseIndex(api, budget.startsOn, lastMonth);
+      const baseIndex = taxBaseIndex(
+        api,
+        firstBudgetStart(api, gov.id, budget.startsOn),
+        lastMonth,
+      );
       const installment = Math.round(
         (annual / rule.dueMonths.length) * baseIndex,
       );
