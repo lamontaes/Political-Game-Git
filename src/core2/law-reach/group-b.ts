@@ -69,6 +69,7 @@ import {
   recordCoverage,
   payPreschool,
   payChildCare,
+  payEnergyAssistance,
   payVouchers,
   recordApplied,
   residentsOf,
@@ -84,6 +85,7 @@ type Mechanic =
   | "medicaid-coverage"
   | "preschool-payment"
   | "child-care-payment"
+  | "energy-assistance-payment"
   | "compliance-cost"
   | "assistance-time-limit"
   | "school-voucher"
@@ -609,6 +611,54 @@ function runPolicy(
               terms,
               personTerms: paid.named,
               selected: children.filter((c) => c.named),
+              counted: paid.counted,
+              countedOf: facts.residents
+                .filter((r) => !r.named)
+                .reduce((n, r) => n + (r.scale ?? 1), 0),
+            })
+          : null,
+      );
+      return;
+    }
+    case "energy-assistance-payment": {
+      // The limit in force is a percent of the poverty line for the household's size.
+      const answer = lawInForce(api, key);
+      const limit = answer.value;
+      const lawId = input.lawId || answer.governing?.id || key;
+      const state =
+        chain.stateKey === "US-AK"
+          ? "AK"
+          : chain.stateKey === "US-HI"
+            ? "HI"
+            : "48";
+      const line = (size: number) =>
+        reachParameter(`povertyLineOneDollars${state}`) +
+        reachParameter(`povertyLineStepDollars${state}`) * (size - 1);
+      const households =
+        inForce && limit
+          ? [...facts.households.values()].filter(
+              (h) => h.incomeDollars <= (line(h.size) * limit) / 100,
+            )
+          : [];
+      const paid = payEnergyAssistance(api, {
+        key,
+        lawId,
+        inForce,
+        households,
+        residents: facts.residents,
+      });
+      finish(
+        api,
+        key,
+        def,
+        { ...input, lawId },
+        inForce,
+        inForce
+          ? reachOf(api, {
+              organizations: def.organizations,
+              terms,
+              personTerms: paid.named,
+              selected: [],
               counted: paid.counted,
               countedOf: facts.residents
                 .filter((r) => !r.named)

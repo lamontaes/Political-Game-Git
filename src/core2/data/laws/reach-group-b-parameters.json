@@ -356,6 +356,48 @@
       "tag": "ESTIMATED",
       "source": "A family's income limit scales from the three-person figure by (size over three) to this power, the square-root equivalence scale used for household incomes; CCDF limits rise with family size by a percentage of the state median income for that size.",
       "spread": [0.3, 0.7]
+    },
+    "energyAssistanceAnnualBenefitDollars": {
+      "value": 301,
+      "tag": "ESTIMATED",
+      "source": "Congressional Research Service, LIHEAP: Program and Funding (RL31865), https://www.everycrsreport.com/reports/RL31865.html: \"in FY2014, the most recent year in which data are available, the average heating benefit nationwide was $301, with a range from $78 (Oklahoma) to $1,024 (North Dakota).\" Old (FY2014) and not inflated; the spread is the states' range.",
+      "spread": [78, 1024]
+    },
+    "energyAssistanceTakeUpShare": {
+      "value": 0.16,
+      "tag": "SOURCED",
+      "source": "Congressional Research Service, LIHEAP: Program and Funding (RL31865), https://www.everycrsreport.com/reports/RL31865.html: \"the percentage of eligible households served settled again at 16% in FY2013 and FY2014\" (21% and 22% at the FY2009-FY2010 funding peak).",
+      "spread": [0.14, 0.22]
+    },
+    "povertyLineOneDollars48": {
+      "value": 15960,
+      "tag": "SOURCED",
+      "source": "HHS Poverty Guidelines for 2026, https://aspe.hhs.gov/topics/poverty-economic-mobility/poverty-guidelines: 48 contiguous states and D.C., 1 person $15,960"
+    },
+    "povertyLineStepDollars48": {
+      "value": 5680,
+      "tag": "SOURCED",
+      "source": "HHS Poverty Guidelines for 2026, https://aspe.hhs.gov/topics/poverty-economic-mobility/poverty-guidelines: add $5,680 for each additional person (family of 3 $27,320)"
+    },
+    "povertyLineOneDollarsAK": {
+      "value": 19950,
+      "tag": "SOURCED",
+      "source": "HHS Poverty Guidelines for 2026, https://aspe.hhs.gov/topics/poverty-economic-mobility/poverty-guidelines: Alaska, 1 person $19,950"
+    },
+    "povertyLineStepDollarsAK": {
+      "value": 7100,
+      "tag": "SOURCED",
+      "source": "HHS Poverty Guidelines for 2026, https://aspe.hhs.gov/topics/poverty-economic-mobility/poverty-guidelines: Alaska, add $7,100 for each additional person"
+    },
+    "povertyLineOneDollarsHI": {
+      "value": 18360,
+      "tag": "SOURCED",
+      "source": "HHS Poverty Guidelines for 2026, https://aspe.hhs.gov/topics/poverty-economic-mobility/poverty-guidelines: Hawaii, 1 person $18,360"
+    },
+    "povertyLineStepDollarsHI": {
+      "value": 6530,
+      "tag": "SOURCED",
+      "source": "HHS Poverty Guidelines for 2026, https://aspe.hhs.gov/topics/poverty-economic-mobility/poverty-guidelines: Hawaii, add $6,530 for each additional person"
     }
   },
   "povertyGuidelineByState": {
