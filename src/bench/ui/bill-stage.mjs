@@ -269,18 +269,24 @@ export function billStageSections(
         el(
           "div",
           { className: "stage-vote" },
-          ...stage.sectionsAmendable.flatMap((index) =>
-            ["lower", "raise"].map((direction) => {
-              const button = makeButton({
-                className: "action",
-                textContent: `${words[direction]} ${index + 1}`,
-              });
-              button.addEventListener("click", () =>
-                amend.onMove(index, direction),
-              );
-              return button;
-            }),
-          ),
+          ...[
+            ...stage.sectionsAmendable.flatMap((index) =>
+              ["lower", "raise"].map((direction) => [index, direction]),
+            ),
+            ...(stage.sectionsReversible ?? []).map((index) => [
+              index,
+              "reverse",
+            ]),
+          ].map(([index, direction]) => {
+            const button = makeButton({
+              className: "action",
+              textContent: `${words[direction]} ${index + 1}`,
+            });
+            button.addEventListener("click", () =>
+              amend.onMove(index, direction),
+            );
+            return button;
+          }),
         ),
       ),
     );
