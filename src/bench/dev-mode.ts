@@ -59,7 +59,11 @@ import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { metricsPanel } from "../core2/modules/world-panels";
 import { nationalPanel } from "../core2/modules/macro";
 import { residentsRuntime } from "../core2/modules/residents";
-import { healthReport } from "../core2/modules/health";
+import {
+  beginSeriousIllness,
+  HEALTH_MODULE,
+  healthReport,
+} from "../core2/modules/health";
 import { snapshotExplicitControlV1 } from "../core2/player-control-state-v1";
 import type { CoreAPI, CoreState } from "../core2/types";
 import type { Director } from "../director/ledger";
@@ -68,6 +72,7 @@ import { budgetView } from "./budget";
 import { decisionPanels, type WhyPanel } from "./dev-why";
 import { newsItems } from "./calendar";
 import experiments from "./data/dev-experiments.json" with { type: "json" };
+import { SITUATION_LIBRARY } from "../director/scheduling";
 
 /** The mark every dev-mode write carries. */
 /** The events a run can stop on, each as the record kinds the game logs when it happens. */
@@ -77,9 +82,15 @@ export const RUN_EVENTS = {
   election: ["election-result"],
   death: ["life.death"],
   "law-takes-effect": ["law-took-effect"],
+  "job-lost": ["work.job-lost"],
   scene: [],
 } as const;
 export type RunEvent = keyof typeof RUN_EVENTS;
+
+/** The way a dev control brings about a cause record kind through the game's own code. */
+const SCENE_RECIPES: Readonly<Record<string, string>> = {
+  "life.death": "death",
+};
 
 export const DEV_MODE = "dev-mode";
 /** The core record kind each dev-mode change leaves. */
@@ -802,6 +813,11 @@ export class DevMode {
       yes: c.yes,
       no: c.no,
       reported: c.reported,
+      // Who chairs it and why they heard the bill or held it: the chair's own position on it and what
+      // their temperament adds, as the committee recorded them (heard when the sum is not below zero).
+      chair: c.chairId,
+      chairPosition: c.chairReasons.position.total,
+      chairTrait: c.chairReasons.hearingTrait,
     }));
     return {
       mark: this.mark("decide", [billId], {
@@ -818,6 +834,74 @@ export class DevMode {
       /** Chambers whose committee never reported the bill: the chair held it unheard, or it lost its vote. */
       held: records.filter((c) => !c.reported).map((c) => c.chamber),
       bill: held,
+    };
+  }
+
+  /**
+   * A person falls seriously ill through the health module's own onset: tomorrow the onset is
+   * heard and the module sets the death date from their age and severity, then the death, the
+   * estate, the vacancy rule, the news and the funeral scene follow on their own days. Run until
+   * "A person dies" to get there.
+   */
+  forceIllness(personId: string) {
+    if (!has(this.core, HEALTH_MODULE.id))
+      throw new Error("This world has no health module.");
+    if (!beginSeriousIllness(this.api, personId))
+      throw new Error(
+        "No illness: the person is gone or has no health record.",
+      );
+    return { mark: this.mark("illness", [personId], { personId }) };
+  }
+
+  /**
+   * Every situation type the director stages, with the cause record kinds it waits on and the way a
+   * dev control can bring that cause about through the game's own code (a `recipe`), or none where no
+   * game code exists to attach to.
+   */
+  scenes() {
+    const types = SITUATION_LIBRARY.types;
+    return types.map((type) => {
+      const causeRecords = [
+        ...new Set(
+          type.causes.flatMap((c) => c.causeRecord ?? c.awaitingProducer ?? []),
+        ),
+      ];
+      const recipe =
+        causeRecords.map((kind) => SCENE_RECIPES[kind]).find(Boolean) ?? null;
+      return { key: type.key, causeRecords, recipe };
+    });
+  }
+
+  /**
+   * Brings about the cause of a situation type through the game's own code, so the director stages
+   * it as it would any moment: today, a death a person in the player's circle will hear of (the
+   * health module's illness, then Run until they die and Run until a scene fires). Where the type
+   * has no recipe there is no game code to attach to, and this says so.
+   */
+  forceScene(input: { typeKey: string; personId?: string }) {
+    const scene = this.scenes().find((row) => row.key === input.typeKey);
+    if (!scene) throw new Error("No such situation type.");
+    if (!scene.recipe)
+      throw new Error(
+        "No game code to attach to: this scene has no way in yet.",
+      );
+    const player = this.core.playerId
+      ? this.core.people.get(this.core.playerId)
+      : undefined;
+    const circle = player
+      ? [...player.familyIds, ...player.knownIds].filter(
+          (id) => id !== player.id && this.core.people.get(id)?.alive,
+        )
+      : [];
+    const personId = input.personId ?? circle[0];
+    if (!personId)
+      throw new Error("No one in the player's circle to bring it about for.");
+    const out = this.forceIllness(personId);
+    return {
+      ...out,
+      recipe: scene.recipe,
+      personId,
+      causeRecords: scene.causeRecords,
     };
   }
 
@@ -942,6 +1026,8 @@ export class DevMode {
     cap?: number;
     /** Law series or questions whose bills the members vote down each day, through castMemberVote. */
     defeat?: readonly string[];
+    /** Stop only on an event that names this person (their death, their job loss). */
+    person?: string;
   }) {
     const cap = Math.max(1, Math.min(input.cap ?? 366, 3660));
     const limit = Math.min(input.days ?? cap, cap);
@@ -977,12 +1063,24 @@ export class DevMode {
         break;
       }
       if (kinds && count() > before) {
+        const fresh = kinds
+          .flatMap((kind) => [...(this.core.logByKind.get(kind) ?? [])])
+          .filter(
+            (id) =>
+              !seen.has(id) &&
+              (!input.person ||
+                this.core.durableLog.get(id)?.personIds.includes(input.person)),
+          );
+        // Another person's event is passed over; this run waits for the one asked for.
+        if (!fresh.length) {
+          for (const id of kinds.flatMap((kind) => [
+            ...(this.core.logByKind.get(kind) ?? []),
+          ]))
+            seen.add(id);
+          continue;
+        }
         reason = "event";
-        records = kinds.flatMap((kind) =>
-          [...(this.core.logByKind.get(kind) ?? [])].filter(
-            (id) => !seen.has(id),
-          ),
-        );
+        records = fresh;
         break;
       }
     }

@@ -176,7 +176,9 @@
     "introduce": "Introduce",
     "pass": "Pass",
     "defeat": "Defeat",
-    "held": "Held in committee",
+    "held": "Held by the chair",
+    "lost": "Lost in committee",
+    "chair": "Chair",
     "noVeto": "No veto at this body",
     "noBill": "Introduce a bill first."
   },
@@ -191,6 +193,55 @@
     "taken": "Taken",
     "refused": "Refused",
     "noBill": "Introduce a bill first."
+  },
+  "devWatch": {
+    "trace": "Trace",
+    "watch": "Watch",
+    "path": "Golden path",
+    "prices": "Prices",
+    "month": "Month",
+    "publicJobs": "Public jobs",
+    "publicHourly": "Public hourly",
+    "privateJobs": "Private jobs",
+    "privateHourly": "Private hourly",
+    "changes": "Changes",
+    "date": "Date",
+    "kind": "Kind",
+    "record": "Record",
+    "facts": "Facts",
+    "furthest": "Furthest step",
+    "none": "none",
+    "step": "Step",
+    "label": "Label",
+    "status": "Status",
+    "evidence": "Evidence",
+    "missing": "Missing module",
+    "piece": "Piece",
+    "running": "Running modules"
+  },
+  "devRecords": {
+    "title": "Records",
+    "person": "Person",
+    "trace": "Trace"
+  },
+  "devScene": {
+    "title": "Scenes",
+    "type": "Situation",
+    "make": "Make it happen",
+    "begun": "Begun for",
+    "noPath": "No game code to attach to"
+  },
+  "devPerson": {
+    "title": "Health",
+    "fallIll": "Falls seriously ill",
+    "runUntilDies": "Run until they die",
+    "ill": "Seriously ill",
+    "picked": "Picked for their next decision",
+    "reasons": {
+      "days": "Days passed",
+      "event": "Died",
+      "cap": "Cap reached"
+    }
   },
   "devMemory": {
     "title": "Remembers",
@@ -211,6 +262,7 @@
       "bill-fails": "A bill fails",
       "election": "An election is held",
       "death": "A person dies",
+      "job-lost": "A job is lost",
       "scene": "A scene fires",
       "law-takes-effect": "A law takes effect"
     },
@@ -369,24 +421,18 @@
     "federal": "Federal"
   },
   "travel": {
-    "staff": "staff",
-    "search": "Search destinations",
     "filing": "Filing office",
-    "go": "Go",
+    "go": "Go to",
     "open": "Open now",
     "closed": "Closed now",
     "opensAt": "Closed now. Opens {day} at {time}.",
     "counterTitle": "{office}, {town}",
-    "reasons": {
-      "work": "You work here",
-      "action": "You can",
-      "serve": "Where you serve",
-      "filing": "You file here"
-    },
     "trail": "The campaign trail",
-    "whatYouDo": "What you do here",
-    "whoWorks": "Who works here",
-    "district": "District"
+    "groupFiling": "Where you file",
+    "groupTrail": "Campaign",
+    "openLabel": "Open",
+    "whoIsThere": "Who's there",
+    "whatICanDo": "What I can do there"
   },
   "time": {
     "week": "Week"
@@ -714,7 +760,11 @@
   "guide": {
     "search": "Search",
     "none": "No term matches that.",
-    "resetLearned": "Underline learned terms again"
+    "resetLearned": "Underline learned terms again",
+    "title": "Words",
+    "whatItIs": "What it is",
+    "here": "Here",
+    "related": "Related"
   },
   "patchNotes": {
     "release": "Release",

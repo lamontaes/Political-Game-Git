@@ -222,6 +222,8 @@ export interface BallotRow {
     readonly pledge?: number;
   };
   readonly choice: string | null;
+  /** In an at-large race with several seats, every candidate the voter picked (the first is `choice`); absent in a one-seat race. */
+  readonly choices?: readonly string[];
   /** Each candidate's appeal to this voter, and its parts. */
   readonly appeal: Readonly<
     Record<
@@ -3021,6 +3023,8 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       date,
       voted: t.votes,
       choice,
+      // At large, every candidate the voter picked, the first being `choice`.
+      ...(choices.length > 1 ? { choices } : {}),
       toldPollster: told,
       ...(why
         ? {

@@ -132,7 +132,11 @@ export function peopleSentence(people) {
   const line = el("p", { className: "hispeople" });
   people.forEach((person, at) => {
     if (at) line.append(", ");
-    line.append(nameLink(person.name, person.onOpen));
+    line.append(
+      person.onOpen
+        ? nameLink(person.name, person.onOpen)
+        : el("span", { className: "nm", textContent: person.name }),
+    );
     if (person.relation) line.append(` (${person.relation.toLowerCase()})`);
   });
   return line;
