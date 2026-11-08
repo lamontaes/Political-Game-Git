@@ -8091,6 +8091,17 @@
       "citation": "A night in a hospital waiting room against a call and a ride; closeness fades by half-life so the effect is read in the played year."
     }
   },
+  "quarrelStrainHours": {
+    "value": 4,
+    "tag": "TUNABLE",
+    "citation": "Hours of time together a money quarrel takes off the tie between the borrower and the housemate wronged by their missed payment (SG-LIVES-quarrel-model).",
+    "spread": {
+      "low": 1,
+      "high": 16,
+      "unit": "hours",
+      "citation": "A bad evening against a week of silence; closeness fades by half-life so the effect is read in the played year."
+    }
+  },
   "studentLoanHolderShare": {
     "value": 0.218,
     "tag": "SOURCED",
