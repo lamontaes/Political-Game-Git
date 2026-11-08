@@ -1453,13 +1453,20 @@ function renderFiling(value) {
     );
     return;
   }
-  // At the counter you can walk out; silence there is not an answer.
-  talkControls({ silent: false, leave: true });
   fillTalk({ lines: spokenLines(lines) });
   // No form at the counter (owner, Oct 28, point 31: the rules panel was a
   // dev menu): filing carries the party the player is tied to, from the
   // record; the platform is SG-SCREENS-filing-platform-from-views.
   const choose = async (choice) => {
+    // "All right." is the way out: it walks out as Leave does, never a reply
+    // that only clears itself (C13).
+    if (choice.action.kind === "done") {
+      await post(
+        `/api/filing/choose?${new URLSearchParams({ key: choice.key })}`,
+      );
+      $("talk-leave").click();
+      return;
+    }
     const params = new URLSearchParams({ key: choice.key });
     if (choice.action.kind === "file" && value.overlay?.party)
       params.set("party", value.overlay.party);
@@ -1494,6 +1501,14 @@ function renderFiling(value) {
   const choices = value.visit.choices
     .filter((choice) => choice.action.kind !== "pick" || picks.has(choice))
     .slice(0, 4);
+  // At the counter you can walk out where that is a real choice: not beside
+  // a lone "All right." that already ends the visit. Silence is not an answer.
+  talkControls({
+    silent: false,
+    leave: !(
+      choices.length > 0 && choices.every((c) => c.action.kind === "done")
+    ),
+  });
   const buttons = replies(choices, choose);
   choices.forEach((choice, i) => {
     if (choice.action.kind !== "pick") return;
