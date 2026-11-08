@@ -4,6 +4,7 @@
 // on midnight, and a campaign outing moves the card's clock by its hours.
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
+import { chooseTrailAct } from "./trail-act.mjs";
 import { fileWhenFilingOpens } from "./start-life.mjs";
 import { openCampaignTrail } from "./campaign-trail.mjs";
 const browser = await chromium.launch({
@@ -136,15 +137,14 @@ try {
   console.log("Filed for:", filed);
   assert.ok(filed, "the player could file for nothing in this town");
   await openCampaignTrail(page);
-  const doors = page
-    .locator("#sheet-body.place-view button", { hasText: "Knock on doors" })
-    .first();
+  let doors = await chooseTrailAct(page, "Knock on doors");
   await doors.waitFor();
-  const label = await doors.innerText();
+  const label = await page.locator(".travel-facts").innerText();
   const hours = Number(label.match(/(\d+)\s*hours?/)[1]);
   // Whatever came up while filing is lived through before the outing.
   await settle();
   await openCampaignTrail(page);
+  doors = await chooseTrailAct(page, "Knock on doors");
   await doors.waitFor();
   const before = await clock();
   const day = page.waitForResponse(

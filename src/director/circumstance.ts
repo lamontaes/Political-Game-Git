@@ -19,7 +19,7 @@
 import {
   INTEREST_GROUPS_MODULE_ID,
   meetingsOn,
-} from "../core2/modules/interest-groups";
+} from "../core2/modules/elections";
 import { LEGISLATURE_MODULE_ID } from "../core2/modules/legislature";
 import { NEWS_MODULE_ID, storyOfReadEvent } from "../core2/modules/news";
 import { PRESS_MODULE_ID, outletsHere } from "../core2/modules/press";
@@ -75,6 +75,12 @@ export interface CircumstanceRow {
    * hold it back.
    */
   lived?: boolean;
+  /**
+   * The scene comes ahead of the day's other scenes from circumstance (the
+   * floor before the roll comes before the word in the hallway after the
+   * sitting); only one scene a day reaches the player.
+   */
+  before?: boolean;
   /** The kind of place it happens at: the situation type's setting. */
   place: string;
   pool: readonly string[];
