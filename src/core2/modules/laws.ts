@@ -243,7 +243,8 @@ export function openLaws(core: CoreState): LawChain {
       // it was enacted, by whom, is the law's history (`enactmentOf`).
       effectiveDate: today < ANSWERS_AS_OF ? today : ANSWERS_AS_OF,
       endDate: null,
-      source: entry.source ?? "data/research/laws/starting-law-2026",
+      source:
+        answer.source ?? entry.source ?? "data/research/laws/starting-law-2026",
       retrieved: ANSWERS_AS_OF,
       estimate: answer.estimated !== undefined,
       // The statute the answer rests on, which Issues shows beside it.
@@ -279,10 +280,22 @@ export function openLaws(core: CoreState): LawChain {
           mandate.operativeAt ??
           (today < ANSWERS_AS_OF ? today : ANSWERS_AS_OF),
         endDate: null,
-        source: entry.source ?? "data/research/laws/starting-law-2026",
+        source:
+          mandate.source ??
+          entry.source ??
+          "data/research/laws/starting-law-2026",
         retrieved: ANSWERS_AS_OF,
         estimate: false,
-        ...(mandate.cite ? { terms: { cite: mandate.cite } } : {}),
+        ...(mandate.cite || mandate.lawTerms?.length
+          ? {
+              terms: {
+                ...(mandate.cite ? { cite: mandate.cite } : {}),
+                ...(mandate.lawTerms?.length
+                  ? { lawTerms: mandate.lawTerms }
+                  : {}),
+              },
+            }
+          : {}),
       };
       if (!state.table("laws").get(mandateRow.id))
         state.table("laws").put(mandateRow as unknown as ModuleRow);
