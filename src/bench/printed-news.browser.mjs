@@ -86,14 +86,14 @@ try {
     .locator('[data-tab="news"]')
     .first()
     .evaluate((e) => e.click());
-  await page.locator(".paper").waitFor();
+  await page.locator(".news-board").waitFor();
   await page.evaluate(() => document.fonts.ready);
-  const outlets = await page.locator(".outlet-picker button").allInnerTexts();
+  const outlets = await page.locator(".news-board .tab").allInnerTexts();
   console.log("Outlets:", outlets.join(" | "));
   const read = async () => ({
-    masthead: await page.locator(".paper-masthead h2").innerText(),
-    headlines: await page.locator(".story-headline").allInnerTexts(),
-    ledes: await page.locator(".story-lede").allInnerTexts(),
+    masthead: await page.locator(".news-masthead h2").innerText(),
+    headlines: await page.locator(".news-headline").allInnerTexts(),
+    ledes: await page.locator(".news-text .intro").allInnerTexts(),
     text: await page.locator(".story-text").allInnerTexts(),
   });
   const front = await read();
@@ -101,7 +101,7 @@ try {
   if (shots) await page.screenshot({ path: `${shots}/news-front.png` });
   // Each outlet's own page: the second one photographed too.
   if (outlets.length > 1) {
-    await page.locator(".outlet-picker button").nth(1).click();
+    await page.locator(".news-board .tab").nth(1).click();
     const second = await read();
     console.log(JSON.stringify(second, null, 1));
     if (shots) await page.screenshot({ path: `${shots}/news-outlet-2.png` });
@@ -112,12 +112,12 @@ try {
   // A front page: the lead story is printed with its text, and no record row
   // with a kind, series or jurisdiction label is on it (owner, Oct 27).
   assert.ok(
-    (await page.locator(".paper-story.lead .story-lede").count()) > 0,
+    (await page.locator(".paper-story.lead .news-text .intro").count()) > 0,
     "the lead story has no text",
   );
   assert.equal(await page.locator(".paper-records").count(), 0);
   assert.doesNotMatch(
-    await page.locator(".paper").innerText(),
+    await page.locator(".news-board").innerText(),
     /\bSeries\b|\bJurisdiction\b|Public record/,
   );
   assert.deepEqual(errors, []);

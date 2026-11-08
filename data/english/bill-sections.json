@@ -378,7 +378,7 @@
     "education.forgive-student-loans": {
       "subject": "forgiveness of student loans",
       "purpose": "forgive federal student loans",
-      "enact": "federal student loan balances shall be cancelled as set here"
+      "enact": "federal student loan balances shall be canceled as set here"
     },
     "emergencies.states-share-disaster-costs": {
       "subject": "states sharing disaster costs",
@@ -556,6 +556,46 @@
       "lower": "the age when Social Security delayed retirement credits stop shall be lowered from {before} to {value}",
       "raiseTo": "the age when Social Security delayed retirement credits stop shall be raised to {value}",
       "lowerTo": "the age when Social Security delayed retirement credits stop shall be lowered to {value}"
+    },
+    "federal-campaign-contribution-limit": {
+      "subject": "the federal limit on a gift to a candidate",
+      "purpose": "set the most a person may give a federal candidate for each election",
+      "raise": "the most a person may give a federal candidate for each election shall be raised from {before} to {value}",
+      "lower": "the most a person may give a federal candidate for each election shall be lowered from {before} to {value}",
+      "raiseTo": "the most a person may give a federal candidate for each election shall be raised to {value}",
+      "lowerTo": "the most a person may give a federal candidate for each election shall be lowered to {value}"
+    },
+    "state-contribution-limit-governor": {
+      "subject": "the state limit on a gift to the governor",
+      "purpose": "set the most a person may give the governor for each election",
+      "raise": "the most a person may give the governor for each election shall be raised from {before} to {value}",
+      "lower": "the most a person may give the governor for each election shall be lowered from {before} to {value}",
+      "raiseTo": "the most a person may give the governor for each election shall be raised to {value}",
+      "lowerTo": "the most a person may give the governor for each election shall be lowered to {value}"
+    },
+    "state-contribution-limit-state-senate": {
+      "subject": "the state limit on a gift to a state senate candidate",
+      "purpose": "set the most a person may give a state senate candidate for each election",
+      "raise": "the most a person may give a state senate candidate for each election shall be raised from {before} to {value}",
+      "lower": "the most a person may give a state senate candidate for each election shall be lowered from {before} to {value}",
+      "raiseTo": "the most a person may give a state senate candidate for each election shall be raised to {value}",
+      "lowerTo": "the most a person may give a state senate candidate for each election shall be lowered to {value}"
+    },
+    "state-contribution-limit-state-house": {
+      "subject": "the state limit on a gift to a state house candidate",
+      "purpose": "set the most a person may give a state house candidate for each election",
+      "raise": "the most a person may give a state house candidate for each election shall be raised from {before} to {value}",
+      "lower": "the most a person may give a state house candidate for each election shall be lowered from {before} to {value}",
+      "raiseTo": "the most a person may give a state house candidate for each election shall be raised to {value}",
+      "lowerTo": "the most a person may give a state house candidate for each election shall be lowered to {value}"
+    },
+    "state-contribution-limit-local": {
+      "subject": "the state limit on a gift to a local candidate",
+      "purpose": "set the most a person may give a local candidate for each election",
+      "raise": "the most a person may give a local candidate for each election shall be raised from {before} to {value}",
+      "lower": "the most a person may give a local candidate for each election shall be lowered from {before} to {value}",
+      "raiseTo": "the most a person may give a local candidate for each election shall be raised to {value}",
+      "lowerTo": "the most a person may give a local candidate for each election shall be lowered to {value}"
     }
   },
   "units": {
@@ -564,7 +604,8 @@
     "dollars/year": "{dollars} a year",
     "USD/month": "{dollars} a month",
     "USD/week": "{dollars} a week",
-    "years": "{value} years"
+    "years": "{value} years",
+    "USD/election": "{dollars} for each election"
   },
   "cited": "{clause}, amending {statute}"
 }

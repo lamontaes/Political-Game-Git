@@ -129,7 +129,7 @@ try {
   // The filing counter: the first office in Travel that takes filings.
   const counter = async (who) => {
     await sheet("travel");
-    const go = page.locator("#sheet-body .entry", { hasText: /You file here/ });
+    const go = page.locator(".travel-tile[data-filing]");
     await go.first().waitFor();
     let opened = false;
     for (let i = 0; i < (await go.count()) && !opened; i++) {
@@ -187,9 +187,9 @@ try {
   await sheet("politics");
   await page
     .locator("#sheet-tabs")
-    .getByRole("button", { name: "Campaigns", exact: true })
+    .getByRole("button", { name: "Campaign", exact: true })
     .click();
-  await page.locator(".row.campaign").first().waitFor();
+  await page.locator(".campaign-board").first().waitFor();
   await read("Politics Campaigns after filing", "#sheet");
   // Two weeks on, News carries the region's numbers and the month's stories.
   await page.locator("#sheet-close").click();
