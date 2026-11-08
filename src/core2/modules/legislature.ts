@@ -4160,6 +4160,12 @@ function dischargePetition(
 ): NonNullable<CommitteeRecord["discharge"]> | null {
   const row = dischargeData.rows.find((r) => r.chamberId === chamber);
   if (!row) return null;
+  // How many signatures the rule asks of this chamber's members: a majority of them, or a fraction.
+  const seated = members(api, chamber).length;
+  const needed =
+    row.rule.kind === "majority"
+      ? Math.floor(seated / 2) + 1
+      : Math.ceil((seated * row.rule.numerator) / row.rule.denominator - 1e-9);
   // stopgapId: SG-GOV-discharge-no-wait
   api.stopgap("SG-GOV-discharge-no-wait");
   const signers = members(api, chamber)
@@ -4175,9 +4181,9 @@ function dischargePetition(
       );
     });
   return {
-    needed: row.signatures,
+    needed,
     signers,
-    discharged: signers.length >= row.signatures,
+    discharged: signers.length >= needed,
   };
 }
 

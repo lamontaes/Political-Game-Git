@@ -1,7 +1,6 @@
 /** Local CoreAPI writers for the work/time boundary. No per-act global integrity pass. */
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { settleWorkResultJournal } from "./work-cash";
-import { parameter } from "./parameters";
 import {
   activityAgeId,
   commitmentCalendar,
@@ -20,7 +19,6 @@ import type {
 } from "./types";
 
 export function emptyWorkRuntime(): WorkRuntime {
-  const zero = parameter("zero");
   return {
     payChanges: new Map(),
     hourChanges: new Map(),
@@ -40,13 +38,6 @@ export function emptyWorkRuntime(): WorkRuntime {
     detailedAttendance: new Map(),
     cashActSelections: new Map(),
     cashSources: new Map(),
-    latestLegacyCashResultByPerson: new Map(),
-    legacyDiscretionaryWages: {
-      earnedMinor: zero,
-      paidMinor: zero,
-      shortfallMinor: zero,
-      completedReceiptCount: zero,
-    },
     commitments: new Map(),
     commitmentsByPerson: new Map(),
     byPeriodResidue: new Map(),

@@ -5,7 +5,6 @@ import type {
   WorkPayrollJobReceipt,
 } from "../work-payroll-cash";
 import { parameter } from "../parameters";
-import { readLegacyDiscretionaryWages } from "../legacy-wage-counters";
 import type { CoreState } from "../types";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import { FinanceReadGuard } from "../finance-plan";
@@ -387,15 +386,10 @@ export function payrollStockObservables(core: Readonly<CoreState>) {
         throw new Error(
           "Payroll observer has a spent, foreign or shifted arrears retry index.",
         );
-  const legacy = readLegacyDiscretionaryWages(reads, work, zero, one);
   const result = {
-    earnedMinor: legacy.earnedMinor,
-    dueRecognizedMinor: legacy.earnedMinor,
-    paidMinor: legacy.paidMinor,
-    legacyDiscretionaryEarnedMinor: legacy.earnedMinor,
-    legacyDiscretionaryPaidMinor: legacy.paidMinor,
-    legacyDiscretionaryShortfallMinor: legacy.shortfallMinor,
-    legacyDiscretionaryCompletedReceiptCount: legacy.completedReceiptCount,
+    earnedMinor: zero,
+    dueRecognizedMinor: zero,
+    paidMinor: zero,
     accruedMinor: zero,
     arrearsMinor: zero,
     legacyUnpaidMinor: zero,
@@ -476,11 +470,7 @@ export function payrollStockObservables(core: Readonly<CoreState>) {
         "all earned identity",
       ) ||
     result.dueRecognizedMinor !==
-      sum(
-        sum(result.paidMinor, result.arrearsMinor, "all due identity"),
-        result.legacyDiscretionaryShortfallMinor,
-        "all due plus unretried legacy shortfall",
-      )
+      sum(result.paidMinor, result.arrearsMinor, "all due identity")
   )
     throw new Error(
       "Payroll observer has an uncounted or incoherent cumulative obligation.",
