@@ -745,7 +745,10 @@
     "noBallot": "No local election is on the calendar",
     "dates": "Dates",
     "electionDay": "Election day",
-    "whoIsRunning": "Who's running"
+    "whoIsRunning": "Who's running",
+    "lastTime": "Last time",
+    "share": "Share of the vote",
+    "percent": "percent"
   },
   "grade": {
     "good": "Good",
@@ -931,6 +934,14 @@
     "groupSpeak": "Speak",
     "debate": "Debate",
     "speech": "Give a speech"
+  },
+  "orders": {
+    "issue": "Issue the order",
+    "revoke": "Revoke the order",
+    "decline": "Set it aside",
+    "emergency": "State of emergency",
+    "emergency-issue": "Declare it",
+    "emergency-decline": "Let it pass"
   },
   "officeCases": {
     "help": "Help",

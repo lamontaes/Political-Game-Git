@@ -42,7 +42,9 @@ import {
   appointmentsIn,
   clemencyAuthority,
   GOVERNOR_DECIDES_CLEMENCY,
+  answerEmergencyOffer,
   issueOrder,
+  pendingEmergencyOffers,
   pendingGovernorOrders,
 } from "./modules/executive";
 import {
@@ -122,6 +124,10 @@ registerStopKinds([
   { kind: "state-of-the-state", byDefault: true },
   // A vote on the floor of the player's own chamber: the engine never votes for the player.
   { kind: "state-floor-vote", byDefault: true },
+  // An order the governor's staff brings for signature: issued or set aside by the player, not the character.
+  { kind: "executive-order", byDefault: true },
+  // A disaster the governor may declare a state of emergency for: the player's to answer, never the character's.
+  { kind: "emergency", byDefault: true },
 ]);
 
 // ---------------------------------------------------------------- data
@@ -273,6 +279,7 @@ export type StateEntryKind =
   | "interim-committee"
   | "state-of-the-state"
   | "executive-order"
+  | "emergency"
   | "budget-proposal"
   | "legislative-leaders"
   | "clemency";
@@ -424,6 +431,12 @@ export function stateDay(
     return out;
   }
   // The governor.
+  // A disaster in the state the governor may declare an emergency for (the player's to answer).
+  for (const offer of pendingEmergencyOffers(api, office.personId))
+    add("emergency", offer.id, {
+      tag: "SOURCED",
+      citation: `Disaster ${offer.hazardRecordId}: the state's emergency powers`,
+    });
   if (workday)
     for (const order of pendingGovernorOrders(api, office.personId))
       add("executive-order", order.order, {
@@ -512,6 +525,8 @@ export function stopKindOf(api: CoreAPI, entry: StateDayEntry): string | null {
     return roster?.chairId === entry.holderId ? "own-hearing" : null;
   }
   if (entry.kind === "state-of-the-state") return "state-of-the-state";
+  if (entry.kind === "executive-order") return "executive-order";
+  if (entry.kind === "emergency") return "emergency";
   return null;
 }
 
@@ -524,8 +539,14 @@ const splitCommittee = (subject: string): [string, string] => {
 
 /** What the player chose for an entry; left out, the character chooses. */
 export type StateChoice =
-  | { readonly kind: "order"; readonly revoke: boolean }
+  | {
+      readonly kind: "order";
+      readonly revoke: boolean;
+      /** False sets the order aside: the player declines it. */
+      readonly issue?: boolean;
+    }
   | { readonly kind: "attend"; readonly attend: boolean }
+  | { readonly kind: "emergency"; readonly declare: boolean }
   | { readonly kind: "clemency"; readonly grant: boolean }
   | {
       readonly kind: "office-hours";
@@ -751,6 +772,17 @@ export function actOn(
         }
       break;
     }
+    case "emergency": {
+      // The character declares where the law gives the power, as the engine does for any governor;
+      // the player may let it pass.
+      chosen = choice ?? { kind: "emergency", declare: true };
+      if (chosen.kind !== "emergency")
+        throw new Error("Choose whether to declare the emergency.");
+      const declared = answerEmergencyOffer(api, entry.subject, chosen.declare);
+      if (declared.emergencyId) recordIds.push(declared.emergencyId);
+      reasons["authority"] = "state-emergency-power";
+      break;
+    }
     case "executive-order": {
       const own = pendingGovernorOrders(api, entry.holderId).find(
         (row) => row.order === entry.subject,
@@ -758,7 +790,7 @@ export function actOn(
       chosen = choice ?? { kind: "order", revoke: own?.revoke ?? false };
       if (chosen.kind !== "order")
         throw new Error("Choose whether to revoke the order.");
-      if (choice || own)
+      if ((choice && chosen.issue !== false) || (!choice && own))
         recordIds.push(
           issueOrder(api, {
             executiveId: entry.holderId,

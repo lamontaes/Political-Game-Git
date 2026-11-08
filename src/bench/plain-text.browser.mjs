@@ -187,9 +187,9 @@ try {
   await sheet("politics");
   await page
     .locator("#sheet-tabs")
-    .getByRole("button", { name: "Campaigns", exact: true })
+    .getByRole("button", { name: "Campaign", exact: true })
     .click();
-  await page.locator(".row.campaign").first().waitFor();
+  await page.locator(".campaign-board").first().waitFor();
   await read("Politics Campaigns after filing", "#sheet");
   // Two weeks on, News carries the region's numbers and the month's stories.
   await page.locator("#sheet-close").click();
