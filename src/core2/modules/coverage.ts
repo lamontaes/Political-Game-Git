@@ -46,7 +46,11 @@ import { declareSnapshotCovered } from "../snapshot";
 import { registerJournalIdReader } from "../decision-detail";
 import { hasModuleState } from "../module-state";
 import { countedPayment } from "../counted-money";
-import { countedJob, residentsRuntime } from "./residents";
+import {
+  countedJob,
+  residentsRuntime,
+  unplacedPayPerWorker,
+} from "./residents";
 import type { ModuleRow } from "../module-data";
 import type { CoreAPI, CoreModule, CoreState, IsoDate, Source } from "../types";
 
@@ -188,8 +192,37 @@ function holdersToday(
   const rt = residentsRuntime(core);
   if (rt) {
     const store = rt.store;
+    // The town's usual employer size, for workers whose employer is not recorded.
+    const sizes = [...staff.values()].sort((a, b) => a - b);
+    const usualSize = sizes[Math.floor(sizes.length / 2)] ?? 0;
     for (const h of store.liveHouseholds()) {
       const weight = store.weightOf(h);
+      // Workers with no recorded employer (the place's unplaced workers) have
+      // jobs too: the same rule as a recorded worker, at the town's usual
+      // employer size and the pool's pay, so a place made mostly of them is
+      // not left with almost no employer plans.
+      if (h.unplacedWorkers > 0) {
+        const holder = store
+          .countedMembers(h)
+          .find(
+            (m) =>
+              adult(store.born[m]!) &&
+              !h.jobs.some((job) => job.personId === store.ids[m]),
+          );
+        if (holder !== undefined)
+          candidates.push({
+            personId: store.ids[holder]!,
+            householdId: h.id,
+            size: usualSize,
+            wage: Math.round(
+              unplacedPayPerWorker(rt, h) / p("daysPerMeanYear"),
+            ),
+            weight: h.unplacedWorkers,
+            placeId: h.placeId,
+            age: ageOnDate(makeIsoDate(store.born[holder]!), date),
+            sex: sexOf(store.strings[store.genderIx[holder]!]),
+          });
+      }
       for (const job of h.jobs) {
         if (job.endsAt !== undefined || !countedJob(core, job.id)) continue;
         const m = store.countedMember(job.personId);

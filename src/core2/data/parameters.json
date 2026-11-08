@@ -8058,6 +8058,122 @@
       "citation": "The hours a short call takes; closeness fades by half-life, so the effect is read in the played year's tie levels."
     }
   },
+  "federalStayShareDrug": {
+    "value": 0.515,
+    "tag": "TUNABLE",
+    "role": "coefficient",
+    "citation": "Derived by scripts/justice/derive-federal-stay-share.ts from the Bureau of Prisons stock by offense (data/research/justice/bop-federal-offenses-2026.json) and the Sentencing Commission's fiscal 2025 prison admissions and mean sentences (data/research/justice/ussc-federal-sentencing-fy2025.json): stock x 12 / (admissions x mean months). The share of the sentence imposed that people in the group spend in custody, below the 85.2 percent statutory good-time ceiling (18 U.S.C. 3624(b)); the federal case stream calibrates against the stock, so this is the value it starts from and is checked against the Bureau's table.",
+    "spread": {
+      "low": 0.258,
+      "high": 1.03,
+      "unit": "share of sentence served",
+      "citation": "Half to double: the admissions are one year's and the Bureau's offense table counts everyone it has offense data for."
+    }
+  },
+  "federalStayShareWeapons": {
+    "value": 0.928,
+    "tag": "TUNABLE",
+    "role": "coefficient",
+    "citation": "Derived by scripts/justice/derive-federal-stay-share.ts from the Bureau of Prisons stock by offense (data/research/justice/bop-federal-offenses-2026.json) and the Sentencing Commission's fiscal 2025 prison admissions and mean sentences (data/research/justice/ussc-federal-sentencing-fy2025.json): stock x 12 / (admissions x mean months). The share of the sentence imposed that people in the group spend in custody, below the 85.2 percent statutory good-time ceiling (18 U.S.C. 3624(b)); the federal case stream calibrates against the stock, so this is the value it starts from and is checked against the Bureau's table. Category mismatch: The Bureau's weapons, explosives and arson stock includes firearm counts from cases the Commission files under another primary offense, so the stock is larger than the firearms flow alone explains.",
+    "spread": {
+      "low": 0.464,
+      "high": 1.856,
+      "unit": "share of sentence served",
+      "citation": "Half to double: the admissions are one year's and the Bureau's offense table counts everyone it has offense data for."
+    }
+  },
+  "federalStayShareImmigration": {
+    "value": 0.336,
+    "tag": "TUNABLE",
+    "role": "coefficient",
+    "citation": "Derived by scripts/justice/derive-federal-stay-share.ts from the Bureau of Prisons stock by offense (data/research/justice/bop-federal-offenses-2026.json) and the Sentencing Commission's fiscal 2025 prison admissions and mean sentences (data/research/justice/ussc-federal-sentencing-fy2025.json): stock x 12 / (admissions x mean months). The share of the sentence imposed that people in the group spend in custody, below the 85.2 percent statutory good-time ceiling (18 U.S.C. 3624(b)); the federal case stream calibrates against the stock, so this is the value it starts from and is checked against the Bureau's table.",
+    "spread": {
+      "low": 0.168,
+      "high": 0.672,
+      "unit": "share of sentence served",
+      "citation": "Half to double: the admissions are one year's and the Bureau's offense table counts everyone it has offense data for."
+    }
+  },
+  "federalStayShareSexOffenses": {
+    "value": 0.497,
+    "tag": "TUNABLE",
+    "role": "coefficient",
+    "citation": "Derived by scripts/justice/derive-federal-stay-share.ts from the Bureau of Prisons stock by offense (data/research/justice/bop-federal-offenses-2026.json) and the Sentencing Commission's fiscal 2025 prison admissions and mean sentences (data/research/justice/ussc-federal-sentencing-fy2025.json): stock x 12 / (admissions x mean months). The share of the sentence imposed that people in the group spend in custody, below the 85.2 percent statutory good-time ceiling (18 U.S.C. 3624(b)); the federal case stream calibrates against the stock, so this is the value it starts from and is checked against the Bureau's table.",
+    "spread": {
+      "low": 0.249,
+      "high": 0.994,
+      "unit": "share of sentence served",
+      "citation": "Half to double: the admissions are one year's and the Bureau's offense table counts everyone it has offense data for."
+    }
+  },
+  "federalStayShareFraud": {
+    "value": 0.787,
+    "tag": "TUNABLE",
+    "role": "coefficient",
+    "citation": "Derived by scripts/justice/derive-federal-stay-share.ts from the Bureau of Prisons stock by offense (data/research/justice/bop-federal-offenses-2026.json) and the Sentencing Commission's fiscal 2025 prison admissions and mean sentences (data/research/justice/ussc-federal-sentencing-fy2025.json): stock x 12 / (admissions x mean months). The share of the sentence imposed that people in the group spend in custody, below the 85.2 percent statutory good-time ceiling (18 U.S.C. 3624(b)); the federal case stream calibrates against the stock, so this is the value it starts from and is checked against the Bureau's table.",
+    "spread": {
+      "low": 0.394,
+      "high": 1.574,
+      "unit": "share of sentence served",
+      "citation": "Half to double: the admissions are one year's and the Bureau's offense table counts everyone it has offense data for."
+    }
+  },
+  "federalStayShareRobbery": {
+    "value": 0.295,
+    "tag": "TUNABLE",
+    "role": "coefficient",
+    "citation": "Derived by scripts/justice/derive-federal-stay-share.ts from the Bureau of Prisons stock by offense (data/research/justice/bop-federal-offenses-2026.json) and the Sentencing Commission's fiscal 2025 prison admissions and mean sentences (data/research/justice/ussc-federal-sentencing-fy2025.json): stock x 12 / (admissions x mean months). The share of the sentence imposed that people in the group spend in custody, below the 85.2 percent statutory good-time ceiling (18 U.S.C. 3624(b)); the federal case stream calibrates against the stock, so this is the value it starts from and is checked against the Bureau's table.",
+    "spread": {
+      "low": 0.148,
+      "high": 0.59,
+      "unit": "share of sentence served",
+      "citation": "Half to double: the admissions are one year's and the Bureau's offense table counts everyone it has offense data for."
+    }
+  },
+  "mentorAgeGapYears": {
+    "value": 10,
+    "tag": "TUNABLE",
+    "citation": "Years older a coworker must be to take a new hire under their wing (SG-LIVES-mentorship-model).",
+    "spread": {
+      "low": 7,
+      "high": 15,
+      "unit": "years",
+      "citation": "Checked against how many hires in a played year get a mentor next to the hires the jobs engine records."
+    }
+  },
+  "mentorFirstHours": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "Hours together a mentor's first sit-down with a new hire counts as on their coworker tie (SG-LIVES-mentorship-model).",
+    "spread": {
+      "low": 0.5,
+      "high": 8,
+      "unit": "hours",
+      "citation": "A first-week sit-down; closeness fades by half-life so the effect is read in the played year."
+    }
+  },
+  "rescueHours": {
+    "value": 6,
+    "tag": "TUNABLE",
+    "citation": "Hours together a rescue at the start of an illness counts as on the tie between the sufferer and the one who stayed with them (SG-LIVES-rescue-acute).",
+    "spread": {
+      "low": 2,
+      "high": 24,
+      "unit": "hours",
+      "citation": "A night in a hospital waiting room against a call and a ride; closeness fades by half-life so the effect is read in the played year."
+    }
+  },
+  "quarrelStrainHours": {
+    "value": 4,
+    "tag": "TUNABLE",
+    "citation": "Hours of time together a money quarrel takes off the tie between the borrower and the housemate wronged by their missed payment (SG-LIVES-quarrel-model).",
+    "spread": {
+      "low": 1,
+      "high": 16,
+      "unit": "hours",
+      "citation": "A bad evening against a week of silence; closeness fades by half-life so the effect is read in the played year."
+    }
+  },
   "studentLoanHolderShare": {
     "value": 0.218,
     "tag": "SOURCED",

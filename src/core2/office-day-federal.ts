@@ -40,6 +40,7 @@ import {
   LEGISLATURE_MODULE_ID,
   billOf,
   castMemberVote,
+  castOwnPositionVote,
   chambersOf,
   floorAgendaOn,
   holdFloorDebate,
@@ -408,13 +409,7 @@ export function leaveVoteToCharacter(api: CoreAPI, billId: string): void {
   // The character votes as it does for any member, from its own position on the bill.
   const personId = controlledPerson(api);
   if (personId && !chose(api, billId, personId)) {
-    const position = memberPosition(api, billId, personId).total;
-    castMemberVote(
-      api,
-      billId,
-      personId,
-      position > 0 ? "yes" : position < 0 ? "no" : "abstain",
-    );
+    castOwnPositionVote(api, billId, personId);
   }
   releaseFederal(api, floorHold(billId));
 }

@@ -76,4 +76,61 @@ describe(`dev scenes: ${where}`, () => {
       );
     },
   );
+
+  it(
+    "reads the causes the director's own matching names: twelve kinds the tag missed have a way in, the kinds with no cause say so",
+    { timeout: 280_000 },
+    () => {
+      // A world of its own: the first test has already run this one a year on.
+      const world2 = buildBenchWorld(seed, gameStartDate(), { twoLevel: true });
+      const dev2 = new DevMode(
+        world2.core,
+        world2.director,
+        new BenchPlayer(world2.core, world2.director),
+        world2.placeId,
+      );
+      dev2.advance(addDays(makeIsoDate(world2.core.date), 1));
+      const scenes = dev2.scenes();
+      const row = (key: string) => scenes.find((r) => r.key === key)!;
+      const missed = [
+        "argument",
+        "becoming-friends",
+        "funeral",
+        "first-day",
+        "reunion",
+        "betrayal",
+        "care",
+        "reconciliation",
+        "hearing",
+        "verdict",
+        "new-baby",
+        "cause-invite",
+      ];
+      const none = [
+        "return",
+        "apology",
+        "rescue",
+        "accusation",
+        "advice",
+        "polling-place",
+      ];
+      for (const key of missed)
+        expect(row(key).recipe, `${where}: ${key} has a way in`).not.toBeNull();
+      for (const key of none)
+        expect(row(key).recipe, `${where}: ${key} has no cause`).toBeNull();
+      // A funeral is a death, care is an illness: each through its engine.
+      expect(row("funeral").recipe, where).toBe("death");
+      expect(row("care").recipe, where).toBe("illness");
+      // The rest run the world until the player's ledger holds a moment the director reads as the cause.
+      const ways = missed.map((key) => `${key}=${row(key).recipe}`).join(" ");
+      const ran = ["new-baby", "first-day"].map((key) => {
+        const out = dev2.forceScene({ typeKey: key, cap: 90 });
+        return `${key}: ${out.ran?.reason} after ${out.ran?.days} days ${out.ran?.records.join(",")}`;
+      });
+      // Care last (the illness runs on from here): the player falls seriously ill through the health module.
+      const care = dev2.forceScene({ typeKey: "care" });
+      expect(care.personId, where).toBe(world2.core.playerId);
+      process.stderr.write(`${where}: ${ways}; ${ran.join("; ")}\n`);
+    },
+  );
 });
