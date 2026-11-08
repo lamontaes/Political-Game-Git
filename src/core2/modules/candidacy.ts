@@ -932,10 +932,28 @@ export function weighContest(
       rules.minimumAge,
     );
     countedWeighed = screen.weighed;
-    for (const id of screen.drawn) {
-      if (committed.has(id)) continue;
-      fillInPerson(api.state as CoreState, id);
-      filledInIds.push(id);
+    // The field limits itself: each runner lowers the next one's pull
+    // (`candidacyFieldWeight`), so the counted adults it draws are read from
+    // their counted records one at a time, strongest pull first, and only
+    // while the pull with the field as it stands still clears the bar. Each
+    // one read this way is made a full person as they decide, so the seat
+    // does not make full every counted adult it could draw (two-level rule).
+    const bar = stayOutPull(api, field);
+    for (const voter of screen.drawn) {
+      if (committed.has(voter.id)) continue;
+      const seat = { ...field, runners: running.length + raceRunners };
+      let pull = api.parameter("zero");
+      for (const value of Object.values(
+        countedCandidacyReasons(api, voter, seat),
+      ))
+        pull += value;
+      if (pull <= bar) continue;
+      fillInPerson(api.state as CoreState, voter.id);
+      filledInIds.push(voter.id);
+      const decision = decideToRun(api, voter.id, seat, reconsider);
+      if (!decision) continue;
+      asked.push(voter.id);
+      if (decision.run) running.push(voter.id);
     }
   }
   const people = [...api.state.people.values()]
@@ -1035,7 +1053,7 @@ function countedScreen(
   open: OpenContest,
   placeIds: readonly (string | null)[],
   minimumAge: number,
-): { weighed: number; drawn: PersonId[] } {
+): { weighed: number; drawn: CountedVoter[] } {
   const year = api.state.date.slice(0, 4);
   let held = countedBases.get(api.state);
   if (
@@ -1097,7 +1115,7 @@ function countedScreen(
   const wanted = (voter: CountedVoter) => placeIds.includes(voter.placeId);
   for (const { voter } of held.rows)
     if (wanted(voter) && here(voter)) weighed += voter.weight;
-  const drawn: PersonId[] = [];
+  const drawn: CountedVoter[] = [];
   for (const { voter, base } of held.rows) {
     // Sorted by pull: past here no one clears the bar.
     if (!open.wideScope && base + record <= bar) break;
@@ -1105,7 +1123,7 @@ function countedScreen(
     const reasons = countedCandidacyReasons(api, voter, open);
     let pull = api.parameter("zero");
     for (const value of Object.values(reasons)) pull += value;
-    if (pull > bar) drawn.push(voter.id);
+    if (pull > bar) drawn.push(voter);
   }
   return { weighed, drawn };
 }
