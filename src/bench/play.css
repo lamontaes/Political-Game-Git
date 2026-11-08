@@ -950,14 +950,7 @@ input[type="range"]::-moz-range-thumb {
 /* One header treatment for every title-side panel: the gold name, a thin
    gold rule, then room before the first control. */
 #front .title {
-  margin-bottom: 0;
-}
-.title-rule {
-  height: 0;
-  margin: 12px 0 16px;
-  border: 0;
-  border-top: 1px solid var(--gold);
-  opacity: 0.7;
+  margin-bottom: 18px;
 }
 .seed-row {
   display: flex;
@@ -1166,36 +1159,6 @@ input[type="range"]::-moz-range-thumb {
   color: var(--text-3);
 }
 /* Progress: a brass frame, the fill running dark to light gold. */
-.progress {
-  position: relative;
-  height: 24px;
-  margin: 12px 0 8px;
-  border-style: solid;
-  border-width: 12px;
-  border-image: url("/ui/kit13/progress-frame.svg") 12 stretch;
-  background: #0c0c0d;
-  background-clip: padding-box;
-}
-.progress span {
-  position: absolute;
-  left: -2px;
-  top: -8px;
-  height: 16px;
-  width: 40%;
-  max-width: calc(100% + 4px);
-  background: linear-gradient(
-    90deg,
-    var(--brass-lo),
-    var(--gold) 60%,
-    var(--brass-hi)
-  );
-  animation: fill 2s ease-in-out infinite alternate;
-}
-.progress span.steady {
-  animation: none;
-  width: 2%;
-  transition: width 0.4s ease-out;
-}
 @keyframes fill {
   from {
     width: 10%;
@@ -5242,8 +5205,7 @@ select.release-pick {
 
 /* The title menu as the Nov 8 front mock draws it (fr-title): no wordmark over it, the
    items in plain type, and Continue first when a life exists. */
-#front:has(#front-main:not([hidden])) > .title,
-#front:has(#front-main:not([hidden])) > .title-rule {
+#front:has(#front-main:not([hidden])) > .title {
   display: none;
 }
 #front-main .item b {
@@ -5304,6 +5266,28 @@ select.release-pick {
   grid-template-columns: 1.4fr 1fr 1fr;
   gap: 8px;
   padding: 2px 0;
+}
+
+/* The front's close X (no Back on any menu): top right of the panel. */
+#front > #front-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+}
+
+/* New game (Nov 8 front mock, fr-new): two cards side by side on a wide panel. */
+#front:has(#front-new:not([hidden])) {
+  width: min(760px, calc(100vw - 2 * var(--gutter)));
+}
+#front-new {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+#front-new .item {
+  min-height: 150px;
+  display: grid;
+  place-items: center;
 }
 
 /* The rail's names (owner, Nov 8): a ring's name lights beside it after a quarter second of

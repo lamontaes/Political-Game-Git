@@ -5110,8 +5110,44 @@ const FRONT_PANELS = [
   "cr-place",
   "cr-look",
 ];
+/**
+ * Where the close X on the front takes you from each panel: one level out. There is no Back
+ * button on any menu (owner, Oct 28: "Remove every Continue and Back from every menu").
+ */
+const FRONT_OUT = {
+  "front-new": () => frontPanel("front-main"),
+  "front-advanced": () => frontPanel("front-new"),
+  "front-pick": () => frontPanel("front-advanced"),
+  "cr-character": () => frontPanel("front-new"),
+  "cr-place": () => {
+    // After a state is picked, out returns to the states, not to the name and birthday
+    // (owner, Oct 28, point 5).
+    if (setup.state) {
+      setup.state = null;
+      setup.town = null;
+      void showStates();
+      return;
+    }
+    frontPanel("cr-character");
+  },
+  "cr-look": () => {
+    frontPanel("cr-place");
+    void showStates();
+  },
+};
+document.getElementById("front-close")?.addEventListener("click", () => {
+  const here = FRONT_PANELS.find((id) => !document.getElementById(id).hidden);
+  FRONT_OUT[here]?.();
+});
+show("front-close", false);
 function frontPanel(name) {
   for (const id of FRONT_PANELS) show(id, id === name);
+  // The close X is on every front panel but the title menu itself.
+  show("front-close", name !== "front-main" && name !== null);
+  // Each panel is named for what it is (the Nov 8 front mock), not by the game's name.
+  const title = document.querySelector("#front > .title");
+  if (title && controls.frontTitles?.[name])
+    title.textContent = controls.frontTitles[name];
   // The loading card (no panel) sits in the top-left corner (owner, Oct 14).
   $("front").classList.toggle("loading", name === null);
 }
@@ -5236,18 +5272,14 @@ async function openCreator() {
   frontPanel("cr-character");
 }
 $("new-life").addEventListener("click", () => frontPanel("front-new"));
-$("new-back").addEventListener("click", () => frontPanel("front-main"));
 $("new-advanced").addEventListener("click", () => frontPanel("front-advanced"));
 $("new-start").addEventListener("click", () => void openCreator());
 $("new-world").addEventListener("click", () => startLife({ custom: true }));
-$("advanced-back").addEventListener("click", () => frontPanel("front-new"));
 $("advanced-build").addEventListener(
   "click",
   () => void startLife({ custom: true, pick: true }),
 );
-$("pick-back").addEventListener("click", () => frontPanel("front-advanced"));
 $("cr-route").addEventListener("click", () => frontPanel("front-new"));
-$("cr-character-back").addEventListener("click", () => frontPanel("front-new"));
 $("cr-character-next").addEventListener("click", () => {
   const given = $("cr-given").value.trim();
   const family = $("cr-family").value.trim();
@@ -5281,17 +5313,6 @@ $("cr-character-next").addEventListener("click", () => {
   void showStates();
 });
 $("cr-summary").addEventListener("click", () => frontPanel("cr-character"));
-$("cr-place-back").addEventListener("click", () => {
-  // After a state is picked, Back returns to the states, not to the name
-  // and birthday (owner, Oct 28, point 5).
-  if (setup.state) {
-    setup.state = null;
-    setup.town = null;
-    void showStates();
-    return;
-  }
-  frontPanel("cr-character");
-});
 
 // Where are you from: a state, then a city or town with its population.
 let states = [];
@@ -5459,11 +5480,10 @@ $("cr-undo").addEventListener("click", () => {
   const last = setup.previous.pop();
   if (last) void setLook(last, false);
 });
-for (const id of ["cr-look-back", "cr-place-summary"])
-  $(id).addEventListener("click", () => {
-    frontPanel("cr-place");
-    void showStates();
-  });
+$("cr-place-summary").addEventListener("click", () => {
+  frontPanel("cr-place");
+  void showStates();
+});
 $("cr-begin").addEventListener("click", () =>
   startLife({
     placeKey: setup.town.key,
@@ -5603,7 +5623,6 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
   // The loading card: the panel holds only the progress over the scene.
   frontPanel(null);
   show("front-status", true);
-  document.querySelector("#front .progress").hidden = false;
   try {
     const settings = custom ? worldSettings() : undefined;
     // Outside Custom world, a fresh seed draws the world.
@@ -5611,16 +5630,6 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
       ? $("seed").value
       : setup.seed || (await api("/api/seed")).seed;
     // Real progress through every step, from the server's build.
-    const bar = document.querySelector("#front .progress span");
-    bar.classList.add("steady");
-    const STEPS = [
-      "people",
-      "past",
-      "economy",
-      "core",
-      "government",
-      "opening",
-    ];
     // A poll still in flight when the build ends leaves the line alone.
     let built = false;
     // The world's story plays once the world exists (playLoadingStory).
@@ -5633,13 +5642,9 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
       const p = await api("/api/newlife/progress").catch(() => undefined);
       if (p?.story) playStory();
       if (!p || built) return;
-      const at =
-        p.stage === "done" ? STEPS.length : Math.max(STEPS.indexOf(p.stage), 0);
-      const within = p.total ? p.done / p.total : 0;
-      // Full when the build says it is done ("Ready"), never before.
-      bar.style.width = `${Math.round((Math.min(at + within, STEPS.length) / STEPS.length) * 100)}%`;
-      $("front-status").textContent =
-        `${controls.loading?.[p.stage] ?? ""}${p.total ? ` ${p.done} / ${p.total}` : ""}`;
+      // The step in plain words; no bar and no counts (owner, Oct 27: "There is a weird little
+      // bar at the end"; the Nov 8 loading mock).
+      $("front-status").textContent = controls.loading?.[p.stage] ?? "";
     }, 400);
     let life;
     try {

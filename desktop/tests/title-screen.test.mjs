@@ -33,8 +33,8 @@ test("the title menu and the creator follow the Oct 12 build", () => {
     front.indexOf('id="front-new"'),
   );
   const order = [
-    "new-game",
     "continue",
+    "new-game",
     "open-saves",
     "title-options",
     "title-patch-notes",
@@ -49,13 +49,13 @@ test("the title menu and the creator follow the Oct 12 build", () => {
     order,
     "in order",
   );
-  assert.match(main, /data-testid="title-version"/);
+  assert.doesNotMatch(main, /data-testid="title-version"/);
   assert.doesNotMatch(main, /id="seed"|id="place"/);
   const choice = front.slice(
     front.indexOf('id="front-new"'),
     front.indexOf('id="front-advanced"'),
   );
-  for (const id of ["start-life", "advanced", "new-game-back"])
+  for (const id of ["start-life", "advanced"])
     assert.match(choice, new RegExp(`data-testid="${id}"`));
   assert.doesNotMatch(choice, /data-testid="(custom-world|watch-world)"/);
   const advanced = front.slice(
@@ -73,7 +73,6 @@ test("the title menu and the creator follow the Oct 12 build", () => {
     "start-birth-day",
     "start-birth-year",
     "creator-randomize-birthday",
-    "creator-derived-age",
     "creator-summary-character",
     "state-search",
     "state-choices",

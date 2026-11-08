@@ -37,6 +37,10 @@ const groupsCache = new WeakMap<
         date: string;
         expires?: string;
         value?: CountedNewsGroup;
+        /** The day the first minor of the group turns of voting age; the adult sums change then. */
+        adultAt?: string;
+        /** Every member in the group's order, so a birthday moves only the age maps. */
+        rows?: readonly { b: string; w: number; counted: boolean }[];
       }
     >;
   }
@@ -66,11 +70,49 @@ export function countedNewsGroups(api: CoreAPI): readonly CountedNewsGroup[] {
       if (cached.value) groups.push(cached.value);
       continue;
     }
+    // A birthday that makes no one an adult moves only the age maps: the
+    // counted adults, their lean, engagement and traits are the same people
+    // in the same order, so those sums are kept and the maps are read again
+    // from the members' birth dates, in the same order as a full rebuild.
+    if (
+      cached?.value &&
+      cached.rows &&
+      cached.revision === revision &&
+      cached.date <= api.state.date &&
+      (!cached.adultAt || api.state.date < cached.adultAt)
+    ) {
+      const adult = api.parameter("votingAge");
+      const byAge = new Map<number, number>();
+      const audienceByAge = new Map<number, number>();
+      let next: string | undefined;
+      for (const row of cached.rows) {
+        const age = ageOnDate(row.b, api.state.date);
+        const birthday = dateAtAge(makeIsoDate(row.b), Math.max(0, age + 1));
+        if (!next || birthday < next) next = birthday;
+        if (age < adult) continue;
+        audienceByAge.set(age, (audienceByAge.get(age) ?? 0) + row.w);
+        if (!row.counted) continue;
+        byAge.set(age, (byAge.get(age) ?? 0) + row.w);
+      }
+      const value: CountedNewsGroup = { ...cached.value, byAge, audienceByAge };
+      entries.set(group.id, {
+        revision,
+        date: api.state.date,
+        expires: next,
+        value,
+        adultAt: cached.adultAt,
+        rows: cached.rows,
+      });
+      groups.push(value);
+      continue;
+    }
     let expires: string | undefined;
     let count = 0,
       lean = 0,
       engagement = 0,
       audienceCount = 0;
+    let adultAt: string | undefined;
+    const rows: { b: string; w: number; counted: boolean }[] = [];
     const traits: Record<string, number> = {};
     const byAge = new Map<number, number>();
     const audienceByAge = new Map<number, number>();
@@ -85,7 +127,19 @@ export function countedNewsGroups(api: CoreAPI): readonly CountedNewsGroup[] {
           Math.max(0, age + 1),
         );
         if (!expires || birthday < expires) expires = birthday;
-        if (age < api.parameter("votingAge")) continue;
+        rows.push({
+          b: voter.birthDate,
+          w: weight,
+          counted: !api.state.people.has(voter.id),
+        });
+        if (age < api.parameter("votingAge")) {
+          const turns = dateAtAge(
+            makeIsoDate(voter.birthDate),
+            api.parameter("votingAge"),
+          );
+          if (!adultAt || turns < adultAt) adultAt = turns;
+          continue;
+        }
         audienceCount += weight;
         audienceByAge.set(age, (audienceByAge.get(age) ?? 0) + weight);
         // Retained people keep their own history. Until their transfer is
@@ -102,7 +156,13 @@ export function countedNewsGroups(api: CoreAPI): readonly CountedNewsGroup[] {
       }
     }
     if (audienceCount <= 0) {
-      entries.set(group.id, { revision, date: api.state.date, expires });
+      entries.set(group.id, {
+        revision,
+        date: api.state.date,
+        expires,
+        adultAt,
+        rows,
+      });
       continue;
     }
     for (const kind of Object.keys(traits)) traits[kind]! /= count || 1;
@@ -117,7 +177,14 @@ export function countedNewsGroups(api: CoreAPI): readonly CountedNewsGroup[] {
       audienceCount,
       audienceByAge,
     };
-    entries.set(group.id, { revision, date: api.state.date, expires, value });
+    entries.set(group.id, {
+      revision,
+      date: api.state.date,
+      expires,
+      value,
+      adultAt,
+      rows,
+    });
     groups.push(value);
   }
   groupsCache.set(api.state, { store, key, groups, entries });
