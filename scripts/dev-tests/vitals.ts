@@ -35,6 +35,8 @@ import {
   coverageOf,
   type CountedCoverageRow,
 } from "../../src/core2/modules/coverage";
+import { schoolMeasure } from "../../src/core2/school-measures";
+import { SCHOOL_MEASURE } from "../../src/core2/school-outcomes";
 import { townMetrics } from "../../src/core2/modules/world-metrics";
 import type { CoreState } from "../../src/core2/types";
 
@@ -62,6 +64,10 @@ export interface Vitals {
   turnoutDate: string | null;
   /** Victimizations in the last twelve months per 1,000 residents (the crime engine's monthly records, all kinds); null before a year is recorded. */
   victimizationsPer1000: number | null;
+  /** The share of the latest graduating class that graduated, and of those who enrolled in college, and who completed it (the school engine's own yearly records, percent); null before the first school year ends. */
+  graduationPct: number | null;
+  collegeEnrollmentPct: number | null;
+  collegeCompletionPct: number | null;
   /** Residents holding a recorded employer plan, over all residents, as a percent. The engine records employer and Medicare plans only (no Medicaid, marketplace or CHIP record exists), so one minus this is an upper bound on the uninsured, not the uninsured rate. */
   employerPlanSharePct: number | null;
   /** Of those, reported to police a year per 1,000 residents. */
@@ -203,6 +209,10 @@ export function vitals(core: CoreState): Vitals {
     const everyone = sum("people") + fullAlive.length;
     employer = everyone > 0 ? Math.round((1000 * held) / everyone) / 10 : null;
   }
+  const school = (measure: string) => {
+    const found = schoolMeasure(coreAPI(core), town, measure);
+    return found ? Math.round(10 * found.value) / 10 : null;
+  };
   const fullWorkers = fullAlive.filter((p) => p.jobId).length;
   // The full people are a separate tier from the counted households.
   const adults = sum("adults") + fullAlive.length;
@@ -228,6 +238,9 @@ export function vitals(core: CoreState): Vitals {
     turnoutPct: turnout?.pct ?? null,
     turnoutDate: turnout?.date ?? null,
     victimizationsPer1000: crime?.victims ?? null,
+    graduationPct: school(SCHOOL_MEASURE.graduation),
+    collegeEnrollmentPct: school(SCHOOL_MEASURE.enrollment),
+    collegeCompletionPct: school(SCHOOL_MEASURE.college),
     employerPlanSharePct: employer,
     reportedCrimesPer1000: crime?.reported ?? null,
     countedBirths: counted.births,
