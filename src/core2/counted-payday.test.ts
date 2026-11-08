@@ -21,7 +21,10 @@ const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 it("counted wage flows settle on their employer's recorded paydays, once each, as its named workers do", () => {
   setBookkeeping(false);
   const draw = drawPlace(seed, "counted-payday");
-  const where = `${draw.name} [${draw.key}], seed ${draw.seed}`;
+  const pinned = process.env.GOLDEN_PATH_PLACE_KEY;
+  const where = pinned
+    ? `pinned place [${pinned}], seed ${draw.seed}`
+    : `${draw.name} [${draw.key}], seed ${draw.seed}`;
   const { core } = buildBenchWorld(draw.seed, gameStartDate(), {
     twoLevel: true,
     placeKey: process.env.GOLDEN_PATH_PLACE_KEY ?? draw.key,
