@@ -82,6 +82,17 @@ try {
     else if (!(await page.locator("#week").isDisabled())) break;
     await page.waitForTimeout(800);
   }
+  // Control of the chosen character binds when the clock next advances: play one day first.
+  if (!(await page.locator("#week").isDisabled())) {
+    await page.locator("#week").click();
+    for (let i = 0; i < 10; i += 1) {
+      await page.waitForTimeout(1200);
+      if (await visible("talk-next")) await page.locator("#talk-next").click();
+      else if (await visible("continue"))
+        await page.locator("#continue").click();
+      else break;
+    }
+  }
   // The Politics sheet, where the Bills tab is.
   await page
     .locator('#rings [data-tab="politics"]')
