@@ -52,6 +52,13 @@ export interface CalibrationTable {
   readonly movePairs: Readonly<Record<string, RunningGrade>>;
   /** The class of each bank's register, for how far a grade reaches (`grade-reach.ts`). */
   readonly registerClasses?: Readonly<Record<string, string>>;
+  /**
+   * The kind of scene each scene-talk purpose is (floor, hallway, press,
+   * town-hall, election, private). It tells the reports and the wording what a
+   * line is for; a grade does not stop at it (owner, Nov 8: a grade reaches
+   * every line that shares its pattern, voice and register across the game).
+   */
+  readonly sceneClasses?: Readonly<Record<string, string>>;
   /** How far the owner's grades reach: the pieces sharing a graded piece's pattern, voice and register. Absent: no reach. */
   readonly reach?: ReachTable;
   /**

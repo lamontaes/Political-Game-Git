@@ -1922,9 +1922,14 @@ function reviewRegionalFinds(api: CoreAPI): void {
           ? workLeans(c, person).applyLean
           : p("zero");
       const at = regionalConditions(api, seeker.placeId);
+      const birth =
+        person?.birthDate ?? residentFacts(c, seeker.personId)?.birthDate;
+      const age = birth
+        ? daysBetweenText(birth, c.date) / p("jobsDaysPerYear")
+        : undefined;
       const pull =
         (seeker.regionalPull ?? p("zero")) +
-        findPerQuarter(api, at.meanOverNow, lean) * month;
+        findPerQuarter(api, at.meanOverNow, lean, age) * month;
       if (pull >= p("one")) found.push(seeker);
       else
         store(api)

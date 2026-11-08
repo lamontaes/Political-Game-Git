@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
-"""Measures how the shape of a line differs by register class (data/english/calibration.json registerClasses) and writes docs/reports/register-shapes-2026-11-08.md."""
+"""Measures how the shape of a line differs by register class (data/english/calibration.json registerClasses and sceneClasses) and writes docs/reports/register-shapes-2026-11-08.md."""
 import glob, json, os, re, statistics, collections
 
 R = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))) + "/"
-classes = json.load(open(R + "data/english/calibration.json"))["registerClasses"]
+_cal = json.load(open(R + "data/english/calibration.json"))
+classes = _cal["registerClasses"]
+scene_classes = _cal["sceneClasses"]
 rows = collections.defaultdict(list)
 for f in sorted(glob.glob(R + "data/english/parts/*.json")):
     bank = os.path.basename(f)[:-5]
@@ -16,7 +18,7 @@ for f in sorted(glob.glob(R + "data/english/parts/*.json")):
         if not text:
             continue
         purpose = next((u["purpose"] for u in p.get("uses", []) if u.get("purpose") and u["purpose"] != "*"), None)
-        cls = classes.get(f"{bank}:{purpose}") or classes.get(bank)
+        cls = (scene_classes.get(purpose) if bank == "scene-talk" and purpose else None) or classes.get(bank)
         if cls:
             rows[cls].append(text)
 
@@ -98,7 +100,7 @@ lines += [
     "",
     "## How this was made",
     "",
-    "The numbers are counted from every bank piece in the English engine's banks, grouped by the register class that grades use (the bank, or the bank and the scene's purpose for scene talk). A word is a run of letters; slots are counted as one word. The script is scripts/reports/register-shapes.py.",
+    "The numbers are counted from every bank piece in the English engine's banks, grouped by the kind of scene (the bank's register class, and for scene talk the class of the scene's purpose, sceneClasses; grades reach across them). A word is a run of letters; slots are counted as one word. The script is scripts/reports/register-shapes.py.",
 ]
 open(R + "docs/reports/register-shapes-2026-11-08.md", "w").write("\n".join(lines) + "\n")
 print({c: len(rows[c]) for c in ORDER})
