@@ -79,11 +79,11 @@ try {
     names[at],
   );
   for (let i = 0; i < 20; i += 1) {
-    // A colleague asks for your vote the evening before: put them down as undecided (the reply that
-    // leaves the vote the player's own), else take the first reply.
+    // A colleague asks for your vote the evening before: refuse ("I can't vote for it"), the reply
+    // that leaves the vote the player's own to cast; agreeing would choose the side asked for.
     const replies = page.locator("#talk-choices .reply");
     if ((await replies.count()) > 0 && (await replies.first().isVisible())) {
-      const undecided = replies.filter({ hasText: /undecided/i });
+      const undecided = replies.filter({ hasText: /can.t vote|undecided/i });
       await (
         (await undecided.count()) ? undecided.first() : replies.first()
       ).click();
@@ -100,11 +100,11 @@ try {
       held = true;
       break;
     }
-    // A colleague asks for your vote the evening before: put them down as undecided (the reply that
-    // leaves the vote the player's own), else take the first reply.
+    // A colleague asks for your vote the evening before: refuse ("I can't vote for it"), the reply
+    // that leaves the vote the player's own to cast; agreeing would choose the side asked for.
     const replies = page.locator("#talk-choices .reply");
     if ((await replies.count()) > 0 && (await replies.first().isVisible())) {
-      const undecided = replies.filter({ hasText: /undecided/i });
+      const undecided = replies.filter({ hasText: /can.t vote|undecided/i });
       await (
         (await undecided.count()) ? undecided.first() : replies.first()
       ).click();
