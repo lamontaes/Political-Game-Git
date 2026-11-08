@@ -278,6 +278,9 @@ export async function handleDev(
           days: input.days === undefined ? undefined : Number(input.days),
           event: input.event as RunEvent | undefined,
           cap: input.cap === undefined ? undefined : Number(input.cap),
+          defeat: Array.isArray(input.defeat)
+            ? input.defeat.map(String)
+            : undefined,
         }),
       );
       return true;
