@@ -925,6 +925,8 @@ const PRICE_LAWS = {
   cleanElectricity:
     "us-policy-positions:environment-energy.clean-electricity-standard",
   carbonPrice: "us-policy-positions:environment-energy.price-carbon",
+  retailElectricChoice:
+    "us-policy-positions:environment-energy.allow-retail-electric-choice",
   bottleDeposit: "us-policy-positions:environment-energy.bottle-deposit",
   mileageFee:
     "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
@@ -1016,6 +1018,27 @@ function readPriceLaws(api: CoreAPI): void {
       value: p.cleanElectricityPriceShare.value,
     },
     "SG-GOV-REACH-B-energy-price",
+  );
+  // Retail electric choice cuts residential electricity prices in the years
+  // after it opens and the cut fades (Su 2015), so the share runs from the
+  // law's effective date down to nothing over the researched years.
+  // stopgapId: SG-LAWS-retail-choice-price
+  const choice = lawInForce(api, PRICE_LAWS.retailElectricChoice);
+  const choiceYears = choice.governing
+    ? (Date.parse(`${api.state.date}T00:00:00Z`) -
+        Date.parse(`${choice.governing.effectiveDate}T00:00:00Z`)) /
+      (365.25 * 86_400_000)
+    : 0;
+  sync(
+    PRICE_LAWS.retailElectricChoice,
+    {
+      good: "electricity",
+      kind: "share",
+      value:
+        p.retailChoicePriceShare.value *
+        Math.max(0, 1 - choiceYears / p.retailChoiceFadeYears.value),
+    },
+    "SG-LAWS-retail-choice-price",
   );
   sync(
     PRICE_LAWS.carbonPrice,
