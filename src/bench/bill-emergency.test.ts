@@ -9,10 +9,10 @@ import {
   EXECUTIVE_MODULE_ID,
 } from "../core2/modules/executive";
 import { townSeats } from "../core2/modules/offices";
-import { advanceCore } from "../core2/life";
 import { memberKey } from "../core2/modules/legislature";
 import { coreAPI } from "../core2/state";
 import { ordersDecide, ordersView } from "./office";
+import { BenchPlayer } from "./player";
 import { buildBenchWorld } from "./world";
 
 // A governor the player plays is offered a state of emergency when a federally declared disaster is
@@ -46,8 +46,19 @@ describe(`a state of emergency the player decides (seed ${seed})`, () => {
         );
         continue;
       }
-      // The governor is the player: the engine names the player by the world's own player id.
-      (core as { playerId?: string }).playerId = memberKey(governor);
+      // The governor is the player; control binds when the clock next advances.
+      const player = new BenchPlayer(core, world.director);
+      player.select(memberKey(governor));
+      const first = core.date;
+      for (let guard = 0; guard < 50 && core.date <= first; guard++) {
+        if (player.pollingPlace) player.leavePolls();
+        const packet = player.packet;
+        if (packet?.kind === "stop")
+          player.resume({ kind: "stop", pauseId: packet.pauseId });
+        else if (packet?.kind === "choice")
+          player.resume({ kind: "own-choice", pauseId: packet.pauseId });
+        else player.advance("day");
+      }
       // The disaster is recorded the way the disasters engine records one when it begins:
       // a `hazard.disaster` record with the FEMA number, which the executive engine answers.
       api.emit({
@@ -86,7 +97,12 @@ describe(`a state of emergency the player decides (seed ${seed})`, () => {
           );
           return;
         }
-        advanceCore(core, addDays(makeIsoDate(core.date), 1));
+        const packet = player.packet;
+        if (packet?.kind === "stop")
+          player.resume({ kind: "stop", pauseId: packet.pauseId });
+        else if (packet?.kind === "choice")
+          player.resume({ kind: "own-choice", pauseId: packet.pauseId });
+        else player.advance("day");
       }
       tried.push(`${where}: no offer by ${stop}`);
     }
