@@ -5,11 +5,12 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: nation-newsworthy
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-08T00:25:39.134Z
 ---
 
 **What.** News under Nation told every other-state law in a two-week window. The CTO's Nov 6 ruling: pick them by reach and the reader's ties, no hand cap, built when the paper opens.
