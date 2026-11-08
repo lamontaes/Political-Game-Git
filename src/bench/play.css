@@ -2685,7 +2685,7 @@ details.entry[open] {
   border-color: var(--gold);
 }
 @media (max-width: 1100px) {
-  }
+}
 
 /* A line marked as a gap shows it took (play-mark-gap). */
 #talk-gap.marked {
@@ -2865,16 +2865,6 @@ details.entry[open] {
   letter-spacing: 0.05em;
 }
 /* The paper's page arrows, at the end of the dateline (ui/newspaper.mjs). */
-.paper-pages {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin: -3px 0;
-}
-/* The shared arrows; the page's words in the paper's ink. */
-#sheet-body .paper-pages .pager-where {
-  color: var(--paper-ink);
-}
 .paper-stories {
   display: grid;
   grid-template-columns: 1.7fr 1fr;
@@ -3443,32 +3433,17 @@ details.entry[open] {
   font-size: 17px;
 }
 
-/* The pager: as many cards as fit, the rest a page away. */
+/* The long-list box: the rows that fit, the rest a scroll inside the box (never arrows or page numbers). */
 .pager {
   flex: none;
   min-height: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(214, 189, 132, 0.4) transparent;
 }
 .pager-grid {
   display: grid;
   align-content: start;
-}
-.pager-controls {
-  flex: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-}
-.pager-controls[hidden] {
-  display: none;
-}
-.pager-where {
-  font: 500 12.5px var(--ui);
-  color: var(--text-2);
-  font-variant-numeric: tabular-nums;
 }
 
 /* Coming up: a gold date and what happens then. */
@@ -3764,20 +3739,6 @@ details.entry[open] {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
-.timeline .pager-where {
-  font: 600 12px var(--ui);
-  letter-spacing: 0.12em;
-  color: var(--gold);
-}
-.pager-arrow,
-#sheet-body .pager-arrow {
-  min-height: 0;
-  width: 30px;
-  height: 26px;
-  padding: 0;
-  margin: 0;
-  font: 600 18px/1 var(--ui);
-}
 
 /* The journal, to its mock: one cream page of story, paged by chapter under it. */
 #sheet-body:has(.journal-screen) {
@@ -3807,6 +3768,19 @@ details.entry[open] {
   gap: 26px;
   align-items: start;
   font-family: var(--ui);
+}
+.patch-detail {
+  max-height: calc(100vh - 250px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(214, 189, 132, 0.4) transparent;
+}
+.travel-left {
+  min-height: 0;
+  max-height: calc(100vh - 230px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(214, 189, 132, 0.4) transparent;
 }
 .travel-group {
   margin: 12px 0 6px;

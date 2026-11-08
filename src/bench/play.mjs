@@ -1933,11 +1933,6 @@ async function campaignParts() {
       ...travelScreen({
         entries,
         labels: { whoIsThere: "", whatICanDo: T.groupAsk },
-        words: {
-          page: controls.politics.page,
-          previous: controls.politics.previousPage,
-          next: controls.politics.nextPage,
-        },
       }),
       ...(campaignResult ? [line(campaignResult)] : []),
       ...campaignLines.map((text) => line(text)),
@@ -2419,11 +2414,6 @@ async function officeParts() {
   if (!v.jobs.length) return { seat: [], budget: [], deals: [] };
   const words = controls.officeStops ?? {};
   const labels = controls.officeScreen ?? {};
-  const pageWords = {
-    page: controls.politics.page,
-    previous: controls.politics.previousPage,
-    next: controls.politics.nextPage,
-  };
   const paged = (items, { rows, columns, rowHeight, className }) =>
     pager({
       items,
@@ -2432,7 +2422,6 @@ async function officeParts() {
       columns,
       rowHeight,
       gap: 8,
-      words: pageWords,
       className,
     });
   const seat = [
@@ -2967,11 +2956,6 @@ async function seatRows() {
                         columns: 1,
                         rowHeight: 110,
                         gap: 10,
-                        words: {
-                          page: controls.politics.page,
-                          previous: controls.politics.previousPage,
-                          next: controls.politics.nextPage,
-                        },
                       })
                     : deskList(...desk),
                 ),
@@ -2996,7 +2980,7 @@ async function ownHistory() {
   );
   return card.history ?? [];
 }
-/** History lines down a timeline of `rows` a page, paged by years. */
+/** History lines down a timeline `rows` tall, scrolling inside its box. */
 function lifeTimeline(lines, rows) {
   return timeline({
     entries: lines.map((h) => ({
@@ -3006,10 +2990,6 @@ function lifeTimeline(lines, rows) {
       recordId: h.recordId,
     })),
     rows,
-    words: {
-      previous: controls.person.earlier,
-      next: controls.person.later,
-    },
   });
 }
 function portraitUrl() {
@@ -3321,11 +3301,6 @@ const sheets = {
         labels: controls.journal,
         yearOf: (iso) => iso.slice(0, 4),
         rows: Math.max(4, Math.floor((window.innerHeight - 360) / 54)),
-        words: {
-          page: controls.politics.page,
-          previous: controls.politics.previousPage,
-          next: controls.politics.nextPage,
-        },
       }),
     ];
   },
@@ -3473,11 +3448,6 @@ const sheets = {
                 columns: 1,
                 rowHeight: 52,
                 gap: 2,
-                words: {
-                  page: controls.politics.page,
-                  previous: controls.politics.previousPage,
-                  next: controls.politics.nextPage,
-                },
                 className: "bsdepts",
               }),
             ),
@@ -3632,11 +3602,6 @@ const sheets = {
         labels,
         date: me.date,
         headlineOf: storyHeadline,
-        words: {
-          page: controls.politics.page,
-          previous: controls.politics.previousPage,
-          next: controls.politics.nextPage,
-        },
       }),
     ];
   },
@@ -3650,11 +3615,6 @@ const sheets = {
       terms,
       query: guideQuery,
       labels: controls.guide,
-      words: {
-        page: controls.politics.page,
-        previous: controls.politics.previousPage,
-        next: controls.politics.nextPage,
-      },
       onSearch: async (text) => {
         guideQuery = text;
         const found = await api(`/api/guide?q=${encodeURIComponent(text)}`);
@@ -3677,11 +3637,6 @@ const sheets = {
       patchNotesScreen({
         title: labels.builds,
         rows: Math.max(4, Math.floor((window.innerHeight - 340) / 54)),
-        words: {
-          page: controls.politics.page,
-          previous: controls.politics.previousPage,
-          next: controls.politics.nextPage,
-        },
         builds: releases.map((r) => ({
           name: r.version,
           // The release file says "Released November 8, 2026."; the list shows "Nov 8".
@@ -3957,11 +3912,6 @@ const sheets = {
     };
     return travelScreen({
       labels,
-      words: {
-        page: controls.politics.page,
-        previous: controls.politics.previousPage,
-        next: controls.politics.nextPage,
-      },
       entries: destinations.map((p) => ({
         group: groupOf(p),
         title: p.name,
@@ -4001,11 +3951,6 @@ const sheets = {
     return rosterScreen({
       title: controls.campaignBoard.title,
       className: "campaign-screen",
-      words: {
-        page: controls.politics.page,
-        previous: controls.politics.previousPage,
-        next: controls.politics.nextPage,
-      },
       groups: [
         {
           entries: parts.map((part) => ({
@@ -4160,11 +4105,6 @@ const sheets = {
       title: labels.title,
       groups,
       className: "elections-screen",
-      words: {
-        page: controls.politics.page,
-        previous: controls.politics.previousPage,
-        next: controls.politics.nextPage,
-      },
       render: async (entry) => racePage(entry.race),
     });
   },
@@ -4294,11 +4234,6 @@ const sheets = {
         1,
         Math.min(most, Math.floor((window.innerHeight - taken) / 72)),
       );
-    const pageWords = {
-      page: labels.page,
-      previous: labels.previousPage,
-      next: labels.nextPage,
-    };
     // When a body meets, as its rule says it: "every Tuesday", "the 1st and
     // 3rd Tuesday of the month".
     const scheduleWords = (rule) => {
@@ -4453,7 +4388,6 @@ const sheets = {
               columns: 2,
               rowHeight: 64,
               gap: 8,
-              words: pageWords,
               className: "members-pager",
             }),
           ),
@@ -4729,11 +4663,6 @@ const sheets = {
     const party = v.party;
     const mine = party?.member?.name;
     const keys = v.parties.map((p) => p.party);
-    const pagerWords = {
-      page: labels.page,
-      previous: labels.previousPage,
-      next: labels.nextPage,
-    };
     // One party's page: who holds office for it (cards, paged), and where the player stands
     // with it (registered, or Join).
     const partyPage = (name) => {
@@ -4778,7 +4707,6 @@ const sheets = {
                 columns: 2,
                 rowHeight: 64,
                 gap: 8,
-                words: pagerWords,
               })
             : prose(labels.noHolders ?? "", "record-empty"),
         ),
@@ -4802,7 +4730,6 @@ const sheets = {
           })),
         },
       ],
-      words: pagerWords,
       render: async (entry) => {
         partyTab = entry.name;
         return partyPage(entry.name);
@@ -4924,16 +4851,10 @@ const sheets = {
       (a, b) => order.indexOf(a) - order.indexOf(b),
     );
     if (!keys.length) return [prose(labels.noIssues, "record-empty")];
-    const pageWords = {
-      page: labels.page,
-      previous: labels.previousPage,
-      next: labels.nextPage,
-    };
     return rosterScreen({
       title: labels.subjects,
       className: "issues-screen",
       chosenKey: keys.includes(issueSubject) ? issueSubject : keys[0],
-      words: pageWords,
       groups: [
         {
           entries: keys.map((key) => ({
@@ -4950,7 +4871,6 @@ const sheets = {
         return rosterScreen({
           title: entry.label,
           className: "issues-laws",
-          words: pageWords,
           groups: [
             {
               entries: laws.map((law) => ({
