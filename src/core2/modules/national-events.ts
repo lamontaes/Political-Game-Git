@@ -116,6 +116,9 @@ function poissonQuantile(mean: number, u: number): number {
 }
 
 const monthOf = (date: string) => date.slice(0, "YYYY-MM".length);
+/** The month after the one a date falls in. */
+const monthAfter = (date: string) =>
+  addDays(makeIsoDate(`${monthOf(date)}-01`), 32).slice(0, "YYYY-MM".length);
 const table = (api: CoreAPI, name: string) =>
   api.moduleState(NATIONAL_EVENTS_MODULE_ID).table(name);
 
@@ -134,6 +137,7 @@ export function nationalEvents(api: CoreAPI): readonly NationalEventRow[] {
  * seed, month, state, kind), and each disaster's day from the same stream.
  */
 function generateMonth(api: CoreAPI, month: string): void {
+  const today = api.state.date;
   const monthIndex = Number(month.slice(5, 7)) - 1;
   const first = makeIsoDate(`${month}-01`);
   const days = Number(
@@ -150,7 +154,12 @@ function generateMonth(api: CoreAPI, month: string): void {
     for (const [type, rate] of [...byType].sort((a, b) =>
       a[0].localeCompare(b[0]),
     )) {
-      const mean = rate.byMonth[monthIndex]! / years;
+      // The part of the month still ahead (all of it, but the month the world opens in).
+      const ahead =
+        today >= `${month}-01`
+          ? Math.max(0, days - Number(today.slice(8, 10))) / days
+          : 1;
+      const mean = (rate.byMonth[monthIndex]! / years) * ahead;
       if (mean <= 0) continue;
       const rng = new SeededRng(
         `${api.state.seed}|hazard|${month}|${stateKey}|${type}`,
@@ -159,8 +168,8 @@ function generateMonth(api: CoreAPI, month: string): void {
       for (let n = 0; n < count; n += 1) {
         const date = `${month}-${String(1 + Math.floor(openUniform(rng) * days)).padStart(2, "0")}`;
         const id = `national-event:disaster:${month}:${stateKey}:${type}:${n}`;
-        // A day before the world opened is its past, not kept as an event.
-        if (date < api.state.date) continue;
+        // Only a day still ahead is scheduled (a day gone is the world's past).
+        if (date <= today) continue;
         events.put({
           id,
           kind: "disaster",
@@ -215,7 +224,7 @@ function schedule(api: CoreAPI): void {
     addDays(makeIsoDate(`${monthOf(api.state.date)}-01`), 32).slice(
       0,
       "YYYY-MM".length,
-    ) + "-01";
+    ) + "-20";
   api.moduleCalendar(NATIONAL_EVENTS_MODULE_ID).schedule({
     key: `${RUN_KIND}:${next}`,
     date: next,
@@ -241,7 +250,8 @@ export const NATIONAL_EVENTS_MODULE: CoreModule = {
   onCalendarWork(api, work) {
     if (work.kind === DUE_KIND) return emitDue(api, work.sourceRecordIds[0]!);
     if (work.kind !== RUN_KIND) return;
-    generateMonth(api, monthOf(api.state.date));
+    // On the twentieth, the month after this one is generated (all of it ahead).
+    generateMonth(api, monthAfter(api.state.date));
     schedule(api);
   },
   onDay(api) {
@@ -249,6 +259,7 @@ export const NATIONAL_EVENTS_MODULE: CoreModule = {
     if (!state.get("national-events:state")) {
       state.put({ id: "national-events:state", openedAt: api.state.date });
       generateMonth(api, monthOf(api.state.date));
+      generateMonth(api, monthAfter(api.state.date));
       schedule(api);
     }
   },
