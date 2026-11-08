@@ -1,0 +1,26 @@
+{
+  "schema": "english-parts/1",
+  "register": "notice",
+  "description": "Public-notice wording the owner graded good that no engine prints yet. Restored Nov 8, 2026 from the notice bank deleted in 3d6576e9. Registered stopgap SG-WORDS-notice-no-reader.",
+  "slots": {
+    "date": "The date recorded for the hearing or election.",
+    "place": "The jurisdiction recorded for the election.",
+    "office": "The election contest's recorded office title."
+  },
+  "maxWords": 35,
+  "parts": [
+    {
+      "key": "notice.election.notice-of-election",
+      "move": "election",
+      "kind": "written",
+      "text": "NOTICE OF ELECTION\nNOTICE IS HEREBY GIVEN that an election will be held in {place} on {date} for the following Officers: {office}.",
+      "source": {
+        "document": "Notice of Election, General Municipal Election",
+        "url": "https://www.sandiego.gov/sites/default/files/2026-07/1-2026-07-notice-of-election-general-eng.pdf",
+        "date": "2026-07-01"
+      },
+      "tag": { "move": "notice", "key": "routine" },
+      "restoredOn": "2026-11-08"
+    }
+  ]
+}

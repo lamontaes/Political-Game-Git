@@ -1571,3 +1571,5 @@ export {
 export { INTEREST_GROUPS_MODULE_ID, meetingsOn } from "./interest-groups";
 export { groupDraw, joinsGroup } from "./interest-groups";
 export { foundMovement, movementGroupId } from "./interest-groups";
+// Re-exported so the opening county sample reads them through this entry (families guard).
+export { countyPlaceIdOf, statePlaces } from "../electorate-places";
