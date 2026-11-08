@@ -43,12 +43,17 @@ const PLACES = charges.places as unknown as Record<string, PlaceRow>;
 const SEWER = "sewerage-and-solid-waste";
 
 /**
- * A firm's sewer and trash bill against a dwelling's, by weight. The Census
- * charges data does not split the service between households and firms, so
- * this is an estimate (ESTIMATED, spread 1 to 10): commercial accounts are
- * billed by meter size and volume, several times a household's flat rate.
+ * A firm's sewer and trash bill against a dwelling's, by weight (ESTIMATED,
+ * spread 1.3 to 5). No national figure splits the service between households
+ * and firms. UNC Environmental Finance Center's North Carolina rates reports
+ * put the typical commercial connection (15,000 gallons a month) at $115 a
+ * month for water and sewer (2018 data) against $42 for the typical
+ * residential one (5,000 gallons; 184 utilities with separate commercial
+ * rates, 2021): 2.7 times, from mixed years. Owatonna, Minnesota's ordinance
+ * bills a flat $18.90 a month to residents and a $24.94 base to commercial
+ * accounts before use (1.3 times, before use). Both are small samples.
  */
-const FIRM_TO_DWELLING_WEIGHT = 3;
+const FIRM_TO_DWELLING_WEIGHT = 2.7;
 
 /** A government's charges for the coming month, as a part of the town's living cost. */
 export interface ServiceChargeShareRow {
@@ -218,7 +223,7 @@ export function syncServiceCharges(api: CoreAPI): void {
       payers.dwellings + FIRM_TO_DWELLING_WEIGHT * payers.firms.size;
     const sewerMonthly = weight > 0 ? Math.round(target * sewerShare) : 0;
     const perDwelling = weight > 0 ? Math.floor(sewerMonthly / weight) : 0;
-    const uniformTarget = target - perDwelling * weight;
+    const uniformTarget = Math.round(target - perDwelling * weight);
     table(api, "serviceCharges").put({
       id: gov.id,
       governmentId: gov.id,
@@ -232,7 +237,7 @@ export function syncServiceCharges(api: CoreAPI): void {
           ? Math.min(1, uniformTarget / living)
           : 0,
       sewerPerDwellingMinor: perDwelling,
-      sewerPerFirmMinor: perDwelling * FIRM_TO_DWELLING_WEIGHT,
+      sewerPerFirmMinor: Math.round(perDwelling * FIRM_TO_DWELLING_WEIGHT),
       tag,
       services,
     } as unknown as ModuleRow);
