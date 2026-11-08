@@ -28,10 +28,14 @@ const visible = (id) =>
     .isVisible()
     .catch(() => false);
 try {
-  if (process.env.BENCH_SEED)
+  if (process.env.BENCH_SEED || process.env.BENCH_PLACEKEY)
     await page.route("**/api/newlife*", (route) => {
       const url = new URL(route.request().url());
-      url.searchParams.set("seed", process.env.BENCH_SEED);
+      if (process.env.BENCH_SEED)
+        url.searchParams.set("seed", process.env.BENCH_SEED);
+      // A place named by its key (Westway, Texas, 4878016): the state sits January to June.
+      if (process.env.BENCH_PLACEKEY)
+        url.searchParams.set("placeKey", process.env.BENCH_PLACEKEY);
       return route.continue({ url: url.toString() });
     });
   // A place can have no body to step in as (a seat of one executive); take a new draw and name it.
@@ -67,6 +71,7 @@ try {
   }
   assert.ok(at >= 0, "no member of a body to step in as in five draws");
   await page.locator("#pick-list button").nth(at).click();
+  await page.locator("#pick-play").click();
   await page.waitForFunction(() =>
     document.getElementById("card-name").textContent.trim(),
   );
@@ -89,6 +94,8 @@ try {
       ).click();
     } else if (await visible("talk-next"))
       await page.locator("#talk-next").click();
+    else if (await visible("talk-leave"))
+      await page.locator("#talk-leave").click();
     else if (await visible("continue")) await page.locator("#continue").click();
     else if (!(await page.locator("#week").isDisabled())) break;
     await page.waitForTimeout(800);
@@ -110,6 +117,8 @@ try {
       ).click();
     } else if (await visible("talk-next"))
       await page.locator("#talk-next").click();
+    else if (await visible("talk-leave"))
+      await page.locator("#talk-leave").click();
     else if (await visible("continue")) await page.locator("#continue").click();
     else if (!(await page.locator("#week").isDisabled()))
       await page.locator("#week").click();
@@ -140,6 +149,13 @@ try {
     .innerText()
     .catch(() => "");
   console.log("after the vote:", after.slice(0, 200));
+  // The vote is cast: the bill that was held is no longer on the floor list.
+  const first = bills.split("\n").find((line) => line.trim());
+  const still = await page.evaluate(async () =>
+    (await (await fetch("/api/floor")).json()).map((b) => b.title ?? b.name),
+  );
+  console.log("still held after the vote:", JSON.stringify(still));
+  assert.ok(!still.includes(first), "the voted bill is off the floor list");
   assert.deepEqual(errors, [], "page errors");
   console.log("ok: the state floor day held the player and they voted No");
 } finally {

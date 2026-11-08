@@ -4287,6 +4287,105 @@
         }
       ]
     },
+    "office-doubt": {
+      "state": "ask",
+      "replies": ["tell", "comfort", "promise", "deflect"],
+      "follow": {
+        "tell": ["accept", "press"],
+        "comfort": ["accept", "press"],
+        "promise": ["thank", "press"],
+        "deflect": ["press"]
+      },
+      "again": {
+        "press": ["tell", "promise", "comfort", "leave"]
+      },
+      "endings": [
+        {
+          "id": "talked-it-over",
+          "label": "You talked it over",
+          "keeps": "none",
+          "when": {
+            "anyReply": ["tell", "comfort"]
+          }
+        },
+        {
+          "id": "promised-time",
+          "label": "You promised time at home",
+          "keeps": "promise",
+          "when": {
+            "anyReply": ["promise"]
+          }
+        },
+        {
+          "id": "put-off",
+          "label": "You put the talk off",
+          "keeps": "relationship-strained",
+          "when": {
+            "reply": ["deflect", "leave"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
+    "floor-debate": {
+      "state": "tell",
+      "replies": ["agree", "disagree", "ask", "deflect"],
+      "follow": {
+        "agree": ["thank"],
+        "disagree": ["press"],
+        "ask": ["answer"],
+        "deflect": ["accept"]
+      },
+      "again": {
+        "press": ["agree", "disagree", "ask", "leave"],
+        "answer": ["agree", "disagree", "leave"]
+      },
+      "endings": [
+        {
+          "id": "stood-with",
+          "label": "You stood with the speaker",
+          "keeps": "promise",
+          "when": {
+            "anyReply": ["agree"]
+          }
+        },
+        {
+          "id": "spoke-against",
+          "label": "You said you disagreed",
+          "keeps": "none",
+          "when": {
+            "anyReply": ["disagree"]
+          }
+        },
+        {
+          "id": "asked-to-yield",
+          "label": "You asked the speaker to yield",
+          "keeps": "none",
+          "when": {
+            "anyReply": ["ask"]
+          }
+        },
+        {
+          "id": "sat-silent",
+          "label": "You let the speaker finish",
+          "keeps": "none",
+          "when": {
+            "reply": ["deflect", "leave"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
     "swearing-in": {
       "state": "request",
       "replies": ["agree", "promise", "thank", "ask"],

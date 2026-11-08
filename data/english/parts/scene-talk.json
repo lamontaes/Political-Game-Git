@@ -132448,6 +132448,2679 @@
         "move": "thank",
         "key": "threat"
       }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-been-quiet-since-the-crowd-formed-now-it-comes-out",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has been quiet since the crowd formed. Now it comes out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "office-doubt",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-house-is-still-name-waits-until-it-is-just-the-two",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The house is still. {name} waits until it is just the two of you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "office-doubt",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-watched-the-crowd-on-the-news-and-saw-how-you-took",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} watched the crowd on the news and saw how you took it. Now {name} wants to talk.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "office-doubt",
+          "key": "threat",
+          "requiresFacts": ["protest"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-workers-are-out-and-name-has-been-watching-you-carry-it",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The workers are out, and {name} has been watching you carry it. They sit down across from you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "office-doubt",
+          "key": "threat",
+          "requiresFacts": ["strike"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.is-this-job-worth-what-its-costing-you-first",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Is this job worth what it's costing you, {first}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "office-doubt",
+          "key": "threat"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.i-saw-the-crowd-is-it-always-going-to-be-like-this",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "I saw the crowd. Is it always going to be like this, {first}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "office-doubt",
+          "key": "threat"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.there-are-number-people-out-there-over-issue-do-you-ever-think",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "There are {number} people out there over {issue}. Do you ever think of stopping?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "office-doubt",
+          "key": "threat",
+          "requiresFacts": ["issue", "number", "protest"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.whole-days-of-this-over-issue-why-do-you-keep-doing-it",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Whole days of this, over {issue}. Why do you keep doing it, {first}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "office-doubt",
+          "key": "threat",
+          "requiresFacts": ["issue", "strike"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-took-this-job-to-fix-things-like-this-i-cant-do",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I took this job to fix things like this. I can't do that from the sidelines.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "office-doubt",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "tell",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.somebody-has-to-hear-them-out-id-rather-it-be-someone-who",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Somebody has to hear them out. I'd rather it be someone who tries.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "office-doubt",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "tell",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.its-hard-but-its-the-reason-i-ran-i-still-want-to",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "It's hard, but it's the reason I ran. I still want to do it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "office-doubt",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "tell",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-comfort.it-looks-worse-than-it-is-people-are-upset-and-theyre-allowed",
+      "move": "reply-comfort",
+      "kind": "spoken",
+      "text": "It looks worse than it is. People are upset, and they're allowed to be.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "comfort",
+          "role": "asked",
+          "purpose": "office-doubt",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "comfort",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-comfort.i-know-its-a-lot-to-watch-im-all-right-really",
+      "move": "reply-comfort",
+      "kind": "spoken",
+      "text": "I know it's a lot to watch. I'm all right, really.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "comfort",
+          "role": "asked",
+          "purpose": "office-doubt",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "comfort",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.ill-make-time-for-us-this-week-ill-be-home-for-dinner",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll make time for us. This week I'll be home for dinner.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "office-doubt",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "promise",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.youre-right-to-ask-ill-slow-down-and-well-talk-about-it",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "You're right to ask. I'll slow down, and we'll talk about it again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "office-doubt",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "promise",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.not-tonight-i-cant-talk-about-it-tonight",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Not tonight. I can't talk about it tonight.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "office-doubt",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deflect",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.can-we-leave-it-for-now-im-worn-out",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Can we leave it for now? I'm worn out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "office-doubt",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deflect",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-need-some-air-ill-be-back",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I need some air. I'll be back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "office-doubt",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.all-right-i-just-needed-to-hear-you-say-it",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "All right. I just needed to hear you say it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "office-doubt",
+          "key": "threat"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-ill-stand-with-you-i-wanted-to-know-you-meant-it",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then I'll stand with you. I wanted to know you meant it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "office-doubt",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.fine-but-im-watching-how-this-wears-on-you",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fine. But I'm watching how this wears on you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "office-doubt",
+          "key": "threat"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-ill-hold-you-to-it",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. I'll hold you to it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "office-doubt",
+          "key": "threat"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-dont-let-this-job-eat-the-evenings",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. Don't let this job eat the evenings.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "office-doubt",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.thats-what-you-said-last-time-whats-different-now",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "That's what you said last time. What's different now?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "office-doubt",
+          "key": "threat"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.its-not-only-the-crowd-first-its-what-it-does-to-you",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "It's not only the crowd, {first}. It's what it does to you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "office-doubt",
+          "key": "threat"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.dont-put-me-off-im-asking-because-im-worried",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Don't put me off. I'm asking because I'm worried.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "office-doubt",
+          "key": "threat"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-for-telling-me-get-some-rest",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you for telling me. Get some rest.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "office-doubt",
+          "key": "threat"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.well-talk-again-get-some-sleep",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "We'll talk again. Get some sleep.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "office-doubt",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.im-not-going-to-stop-asking-first",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I'm not going to stop asking, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "office-doubt",
+          "key": "threat"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "warn",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-chair-recognizes-name",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The chair recognizes {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "floor-debate",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.no-one-else-seeks-the-floor-name-is-recognized",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "No one else seeks the floor. {name} is recognized.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "floor-debate",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-chair-recognizes-name-on-bill",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The chair recognizes {name} on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.thank-you-chair-i-rise-in-support-of-bill",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Thank you, Chair. I rise in support of {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["speaks-for", "bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.thank-you-chair-bill-deserves-a-yes-and-ill-say-why",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Thank you, Chair. {bill} deserves a yes, and I'll say why.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["speaks-for", "bill"]
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.thank-you-chair-i-rise-to-speak-against-bill",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Thank you, Chair. I rise to speak against {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["speaks-against", "bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.thank-you-chair-i-cannot-support-bill-and-ill-say-why",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Thank you, Chair. I cannot support {bill}, and I'll say why.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor",
+          "requiresFacts": ["speaks-against", "bill"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.thank-you-chair-i-ask-the-body-to-hear-me-on-this",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Thank you, Chair. I ask the body to hear me on this bill.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.chair-i-stand-with-the-member-on-this",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Chair, I stand with the member on this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "floor-debate",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "agree",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.thank-you-chair-ill-be-voting-with-the-member",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Thank you, Chair. I'll be voting with the member.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "floor-debate",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "agree",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-disagree.chair-i-respectfully-disagree-with-the-member",
+      "move": "reply-disagree",
+      "kind": "spoken",
+      "text": "Chair, I respectfully disagree with the member.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "disagree",
+          "role": "asked",
+          "purpose": "floor-debate",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "disagree",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-disagree.thank-you-chair-i-cant-go-along-with-that",
+      "move": "reply-disagree",
+      "kind": "spoken",
+      "text": "Thank you, Chair. I can't go along with that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "disagree",
+          "role": "asked",
+          "purpose": "floor-debate",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "disagree",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.will-the-member-yield-for-a-question",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Will the member yield for a question?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "floor-debate",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.chair-i-have-nothing-to-add",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Chair, I have nothing to add.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "floor-debate",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deflect",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.thank-you-chair-ill-hear-the-rest-from-my-seat",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Thank you, Chair. I'll hear the rest from my seat.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "floor-debate",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "leave",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-chair-i-appreciate-my-colleagues-support",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you, Chair. I appreciate my colleague's support.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-chair-i-yield-the-floor",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you, Chair. I yield the floor.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.thank-you-chair-i-ask-my-colleague-to-reconsider",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Thank you, Chair. I ask my colleague to reconsider.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.thank-you-chair-id-ask-the-member-to-look-at-the-bill",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Thank you, Chair. I'd ask the member to look at the bill once more.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.thank-you-chair-ill-yield-for-the-question",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Thank you, Chair. I'll yield for the question.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.thank-you-chair-i-yield-the-floor",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Thank you, Chair. I yield the floor.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-chair-i-yield-back-the-balance-of-my-time",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you, Chair. I yield back the balance of my time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.thank-you-chair-that-is-all-i-have",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Thank you, Chair. That is all I have.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.chair-i-hope-the-body-will-remember-this-when-the-roll-is",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Chair, I hope the body will remember this when the roll is called.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "warn",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.got-a-minute-colleague",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Got a minute?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "hallway-word",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "greet",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.walk-with-me-colleague",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Walk with me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "hallway-word",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "greet",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.where-are-you-on-it-colleague",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Where are you on it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "hallway-word",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "ask",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.you-with-us-colleague",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "You with us?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "hallway-word",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "ask",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.honestly-still-deciding-colleague",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Honestly? Still deciding.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "hallway-word",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "tell",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.im-leaning-yes-colleague",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'm leaning yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "hallway-word",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "tell",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-are-you-hearing-colleague",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What are you hearing?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "hallway-word",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "ask",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.im-with-you-colleague",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'm with you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "hallway-word",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "promise",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.count-me-in-colleague",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Count me in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "hallway-word",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "promise",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.not-here-colleague",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Not here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "hallway-word",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "refuse",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.ask-me-later-colleague",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Ask me later.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "hallway-word",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "refuse",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-to-know-colleague",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good to know.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "hallway-word",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.and-when-it-counts-colleague",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "And when it counts?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "hallway-word",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.fair-enough-colleague",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fair enough.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "hallway-word",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.quick-question-reporter",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Quick question?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "hallway-word",
+          "key": "reporter-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "greet",
+        "key": "reporter-word"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.how-did-that-go-reporter",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "How did that go?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "hallway-word",
+          "key": "reporter-word"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "ask",
+        "key": "reporter-word"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.anything-to-add-reporter",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Anything to add?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "hallway-word",
+          "key": "reporter-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "ask",
+        "key": "reporter-word"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.you-can-print-that-reporter",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "You can print that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "hallway-word",
+          "key": "reporter-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "tell",
+        "key": "reporter-word"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.it-went-fine-reporter",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "It went fine.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "hallway-word",
+          "key": "reporter-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "tell",
+        "key": "reporter-word"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.whos-asking-reporter",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Who's asking?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "hallway-word",
+          "key": "reporter-word"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "ask",
+        "key": "reporter-word"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.call-me-after-reporter",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Call me after.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "hallway-word",
+          "key": "reporter-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "promise",
+        "key": "reporter-word"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.no-comment-reporter",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "No comment.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "hallway-word",
+          "key": "reporter-word"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "refuse",
+        "key": "reporter-word"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.not-on-the-record-reporter",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Not on the record.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "hallway-word",
+          "key": "reporter-word"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "refuse",
+        "key": "reporter-word"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thanks-that-helps-reporter",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thanks. That helps.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "hallway-word",
+          "key": "reporter-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "reporter-word"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.can-i-quote-you-reporter",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Can I quote you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "hallway-word",
+          "key": "reporter-word"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "reporter-word"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.understood-reporter",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Understood.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "hallway-word",
+          "key": "reporter-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "reporter-word"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.a-word-lobbyist",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "A word?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "hallway-word",
+          "key": "lobbyist-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "greet",
+        "key": "lobbyist-word"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.did-you-read-it-lobbyist",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Did you read it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "hallway-word",
+          "key": "lobbyist-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "ask",
+        "key": "lobbyist-word"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.can-we-count-on-you-lobbyist",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Can we count on you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "hallway-word",
+          "key": "lobbyist-word"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "ask",
+        "key": "lobbyist-word"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-read-it-twice-lobbyist",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I read it twice.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "hallway-word",
+          "key": "lobbyist-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "tell",
+        "key": "lobbyist-word"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.whats-your-ask-lobbyist",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What's your ask?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "hallway-word",
+          "key": "lobbyist-word"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "ask",
+        "key": "lobbyist-word"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.ill-look-hard-lobbyist",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll look hard.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "hallway-word",
+          "key": "lobbyist-word"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "promise",
+        "key": "lobbyist-word"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.not-today-lobbyist",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Not today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "hallway-word",
+          "key": "lobbyist-word"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "refuse",
+        "key": "lobbyist-word"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-cant-say-lobbyist",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I can't say.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "hallway-word",
+          "key": "lobbyist-word"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "refuse",
+        "key": "lobbyist-word"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.appreciated-lobbyist",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Appreciated.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "hallway-word",
+          "key": "lobbyist-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "lobbyist-word"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.were-counting-on-you-lobbyist",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "We're counting on you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "hallway-word",
+          "key": "lobbyist-word"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "lobbyist-word"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.understood-lobbyist",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Understood.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "hallway-word",
+          "key": "lobbyist-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "lobbyist-word"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.im-not-going-to-get-ahead-of-the-vote",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I'm not going to get ahead of the vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deflect",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-dont-want-to-speculate-on-that",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I don't want to speculate on that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deflect",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.thats-a-question-for-the-sponsor",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "That's a question for the sponsor.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deflect",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.ill-let-the-bill-speak-for-itself",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I'll let the bill speak for itself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deflect",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.as-ive-said-ill-have-more-to-say-after-the-hearing",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "As I've said, I'll have more to say after the hearing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deflect",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.im-not-going-to-negotiate-this-through-the-press",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I'm not going to negotiate this through the press.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deflect",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.lets-see-where-the-amendments-land",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Let's see where the amendments land.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deflect",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.im-still-reading-the-latest-draft",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "I'm still reading the latest draft.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "stall",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.ill-have-more-when-the-committee-reports",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "I'll have more when the committee reports.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "stall",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.its-too-early-to-say",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "It's too early to say.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "stall",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.i-want-to-hear-from-my-constituents-first",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "I want to hear from my constituents first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "stall",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.i-havent-seen-the-final-language",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "I haven't seen the final language.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "stall",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.let-me-look-at-the-numbers-first",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Let me look at the numbers first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "stall",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.well-know-more-next-week",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "We'll know more next week.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "press-comment",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "stall",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.good-evening-members-self-place-im-here-because-this-bill-changes-my",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Good evening, members. {self}, {place}. I'm here because this bill changes my street. I ask you to hear from the people it affects before you vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "hearing-testify",
+          "key": "routine"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.good-evening-self-place-bill-will-cost-my-family-more-than-it",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Good evening. {self}, {place}. {bill} will cost my family more than it says. I ask you to vote no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "hearing-testify",
+          "key": "routine"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.members-good-evening-self-place-i-support-bill-and-i-ask-you",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Members, good evening. {self}, {place}. I support {bill}, and I ask you to pass it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "hearing-testify",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.good-evening-members-self-place-ive-lived-here-a-long-time-and",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Good evening, members. {self}, {place}. I've lived here a long time, and I ask you to take this to the people first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "hearing-testify",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "tell",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.good-evening-members-self-place-who-asked-for-bill-id-like-an",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Good evening, members. {self}, {place}. Who asked for {bill}? I'd like an answer before you vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "hearing-testify",
+          "key": "routine"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.good-evening-self-place-has-anyone-checked-what-bill-costs-the-people",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Good evening. {self}, {place}. Has anyone checked what {bill} costs the people on my block? I ask you to find out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "hearing-testify",
+          "key": "routine"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.good-evening-members-self-place-i-think-this-was-decided-before-tonight",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Good evening, members. {self}, {place}. I think this was decided before tonight, and I ask you to prove me wrong.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "hearing-testify",
+          "key": "routine"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.good-evening-self-place-i-came-to-speak-and-i-ask-you",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Good evening. {self}, {place}. I came to speak, and I ask you to listen as if the vote were still open.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "hearing-testify",
+          "key": "routine"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
     }
   ]
 }
