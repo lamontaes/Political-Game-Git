@@ -5,9 +5,12 @@
 // player text is written here (the screens word the codes).
 import { coreAPI } from "../core2/state";
 import {
+  castMemberVote,
   chambersOf,
   committeeRecords,
   learnedStakesOf,
+  memberKey,
+  members,
   votesOn,
   type BillRow,
 } from "../core2/modules/legislature";
@@ -157,15 +160,54 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
                       : "drafted"
                   : "other";
 
+  // The player's own seat on the bill: whether they sit in a chamber it goes through, and the
+  // vote they have chosen (none chosen means they vote as their own position decides).
+  const sits = chambers.some((chamber) =>
+    members(api, chamber).some((term) => memberKey(term) === player),
+  );
+  const chosen = (
+    api
+      .moduleState(LEGISLATURE)
+      .table("choices")
+      .get(`${bill.id}|${player}`) as
+      { vote: "yes" | "no" | "abstain" } | undefined
+  )?.vote;
+  const open = bill.status === "drafted" && !floor.length;
+
   return {
     id: bill.id,
     number: bill.number,
     status: bill.status,
     stage,
+    yours: {
+      sits,
+      /** The player may still choose before the floor votes. */
+      mayChoose: sits && open,
+      chosen: chosen ?? null,
+    },
     sponsor: personName(core, bill.sponsorId),
     committees,
     told,
     floor,
     override,
   };
+}
+
+/** The player's chosen vote on a bill before its floor day: the engine's own member choice. */
+export function chooseOwnVote(
+  core: CoreState,
+  billId: string,
+  vote: string,
+  asId?: string,
+): ReturnType<typeof billStage> {
+  if (vote !== "yes" && vote !== "no" && vote !== "abstain")
+    throw new Error("Vote yes, no or abstain.");
+  const player =
+    asId ?? snapshotExplicitControlV1(core).personId ?? core.playerId;
+  if (!player) throw new Error("Choose a resident first.");
+  const stage = billStage(core, billId, player);
+  if (!stage.yours.mayChoose)
+    throw new Error("You have no vote to cast on that bill now.");
+  castMemberVote(coreAPI(core), billId, player, vote);
+  return billStage(core, billId, player);
 }

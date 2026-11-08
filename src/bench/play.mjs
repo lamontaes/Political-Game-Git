@@ -2299,8 +2299,17 @@ async function openBillPaper(billId, show, back, backLabel) {
     }),
     // Where the bill is: the committee's record, what members told you, the floor and
     // the override, each member by name (ui/bill-stage.mjs).
-    ...billStageSections(stage, controls.billStage ?? {}, (person) =>
-      showPerson({ personId: person.personId }),
+    ...billStageSections(
+      stage,
+      controls.billStage ?? {},
+      (person) => showPerson({ personId: person.personId }),
+      async (how) => {
+        await api(
+          `/api/bill/vote?${new URLSearchParams({ billId, vote: how })}`,
+          "POST",
+        );
+        await openBillPaper(billId, show, back, backLabel);
+      },
     ),
   );
 }

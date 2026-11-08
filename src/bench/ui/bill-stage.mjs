@@ -3,6 +3,7 @@
 // every member a name that opens their card. The bill stage view (bill-stage.ts) hands
 // this the records and the screen's labels; nothing here counts or writes a sentence.
 import { el } from "./dom.mjs";
+import { makeButton } from "./button.mjs";
 import { stripSection, nameLink } from "./strips.mjs";
 
 /** Names as one sentence, each a link that opens the member's card when there is one. */
@@ -47,8 +48,27 @@ function resultBlock(entry, words, onOpen) {
  * told you (when any did), the floor and the override (when they voted). `stage` is
  * GET /api/bill/stage; `words` is controls.billStage; `onOpen(person)` shows a card.
  */
-export function billStageSections(stage, words, onOpen) {
+export function billStageSections(stage, words, onOpen, onVote) {
   const sections = [];
+  if (stage.yours?.mayChoose && onVote)
+    sections.push(
+      stripSection(
+        1,
+        words.yourVote,
+        el(
+          "div",
+          { className: "stage-vote" },
+          ...["yes", "no", "abstain"].map((how) => {
+            const button = makeButton({
+              className: `action${stage.yours.chosen === how ? " chosen" : ""}`,
+              textContent: words[how],
+            });
+            button.addEventListener("click", () => onVote(how));
+            return button;
+          }),
+        ),
+      ),
+    );
   stage.committees.forEach((record) => {
     sections.push(
       stripSection(

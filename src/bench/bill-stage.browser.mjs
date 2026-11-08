@@ -129,6 +129,11 @@ try {
   const billId = new URL((await asked).url()).searchParams.get("billId");
   assert.ok(billId, "the paper names its bill");
   await page.locator(".bill-doc").waitFor();
+  // The player sits on the body, so they may choose their own vote before the floor: No.
+  await page.locator(".stage-vote button", { hasText: /^No$/ }).click();
+  await page
+    .locator(".stage-vote button.chosen", { hasText: /^No$/ })
+    .waitFor();
   const held = await page.evaluate(async (id) => {
     const r = await fetch("/api/dev/hold-vote", {
       method: "POST",
@@ -152,6 +157,15 @@ try {
   );
   console.log("floor result:", floor);
   assert.ok(floor.length > 0, "the floor result is on the paper");
+  const mine = await page.evaluate(() =>
+    document.getElementById("card-name").textContent.trim(),
+  );
+  assert.ok(
+    floor.some(
+      (text) => /No[^\n]*\n[\s\S]*$/.test(text) && text.includes(mine),
+    ),
+    `${mine} chose No and is on the floor result`,
+  );
   assert.ok(
     floor.every((text) => /\d/.test(text) && text.length > 10),
     "each chamber names its counts and members",

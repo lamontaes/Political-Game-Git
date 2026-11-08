@@ -44,7 +44,7 @@ import {
 } from "./election-night";
 import { wordOwnResult } from "./archive-words";
 import { billPaper, seatAct, seatView } from "./legislature";
-import { billStage } from "./bill-stage";
+import { billStage, chooseOwnVote } from "./bill-stage";
 import {
   deskDecide,
   deskView,
@@ -855,6 +855,19 @@ export async function benchRequest(
           billStage(
             requireCore(),
             url.searchParams.get("billId") ?? "",
+            player?.personId,
+          ),
+        );
+        return;
+      }
+      // The player's own vote on a bill before its floor day (the member's own choice).
+      if (request.method === "POST" && url.pathname === "/api/bill/vote") {
+        send(
+          200,
+          chooseOwnVote(
+            requireCore(),
+            url.searchParams.get("billId") ?? "",
+            url.searchParams.get("vote") ?? "",
             player?.personId,
           ),
         );
