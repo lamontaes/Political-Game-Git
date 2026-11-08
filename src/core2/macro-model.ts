@@ -27,6 +27,10 @@ export interface MacroMonth {
   energyGapPct: number;
   /** Energy capacity beyond what trend demand needs, percent: built when the price is high, with a lag of years. */
   energyCapacityPct: number;
+  /** The unemployment rate the economy has come to treat as normal, percent: it drifts toward the rate people have lived at (hysteresis), so it has no fixed resting point. */
+  naturalUnemploymentPct: number;
+  /** The inflation rate people expect, percent: it follows the inflation they have experienced, so inflation has no fixed anchor. */
+  expectedInflationPct: number;
   /** This world's business cycle: the years from one peak to the next its accelerator swings through. */
   cyclePeriodYears: number;
   /** This world's capacity ceiling: how far the gap swings before capacity and credit limits turn the boom back, gap points. */
@@ -155,9 +159,21 @@ export function publishedMonths(
     const policy = field(byMonth, month, "policyRatePct", p);
     const inflation = (price / yearEarlier - p("one")) * p("macroHundred");
     lagged = smoothedRealRate(lagged, policy - inflation, p);
+    const before = months.at(-p("one"));
+    const natural = drift(
+      before?.naturalUnemploymentPct,
+      before?.unemploymentPct,
+      p("macroNaturalUnemploymentPct"),
+      p("macroNaturalHysteresisMonths"),
+    );
+    const expected = drift(
+      before?.expectedInflationPct,
+      before?.inflationPct,
+      p("macroInflationAnchorPct"),
+      p("macroInflationExpectationMonths"),
+    );
     const gapNow =
-      -p("macroOkunOutputPerUnemploymentPoint") *
-      (unemployment - p("macroNaturalUnemploymentPct"));
+      -p("macroOkunOutputPerUnemploymentPoint") * (unemployment - natural);
     months.push({
       id: `macro-month:${month}`,
       month,
@@ -168,9 +184,9 @@ export function publishedMonths(
       payrollJobsThousands: field(byMonth, month, "payrollJobsThousands", p),
       hourlyEarnings: field(byMonth, month, "hourlyEarnings", p),
       realOutput: realOutputAt(month, p),
-      outputGapPct:
-        -p("macroOkunOutputPerUnemploymentPoint") *
-        (unemployment - p("macroNaturalUnemploymentPct")),
+      outputGapPct: gapNow,
+      naturalUnemploymentPct: natural,
+      expectedInflationPct: expected,
       policyRatePct: policy,
       primeRatePct: policy + p("macroPrimeSpreadPct"),
       treasury10Pct: field(byMonth, month, "treasury10Pct", p),
@@ -184,6 +200,22 @@ export function publishedMonths(
     });
   }
   return months;
+}
+
+/**
+ * A belief that follows experience: one month of the way from what it was
+ * toward what was lived, over `months`. With nothing before it, it starts at
+ * `opening` (the long-run figure the history begins from, not a place it
+ * returns to).
+ */
+function drift(
+  belief: number | undefined,
+  lived: number | undefined,
+  opening: number,
+  months: number,
+): number {
+  if (belief === undefined || lived === undefined) return opening;
+  return belief + (lived - belief) / months;
 }
 
 /** The gap's momentum as spending has felt it: the month's change averaged over the last few months, so one noisy print does not set the swing. */
@@ -308,7 +340,7 @@ export function historyMonths(
     lagged = smoothedRealRate(lagged, policyRatePct - inflationPct, p);
     const outputGapPct =
       -p("macroOkunOutputPerUnemploymentPoint") *
-      (unemploymentPct - p("macroNaturalUnemploymentPct"));
+      (unemploymentPct - row.naturalUnemploymentPct);
     const outputGapChangePct = smoothedChange(before, outputGapPct, p);
     before = { outputGapPct, outputGapChangePct };
     return {
@@ -336,9 +368,7 @@ export function historyMonths(
       realOutput:
         row.realOutput *
         grown(row.month, o.outputLevelShare, o.outputGrowthPoints),
-      outputGapPct:
-        -p("macroOkunOutputPerUnemploymentPoint") *
-        (unemploymentPct - p("macroNaturalUnemploymentPct")),
+      outputGapPct,
       policyRatePct,
       primeRatePct: policyRatePct + p("macroPrimeSpreadPct"),
       treasury10Pct: Math.max(floor, row.treasury10Pct + o.longRatePoints),
@@ -377,7 +407,7 @@ export function stepMacroMonth(
         p("macroTownWeightPerPerson") *
         (townIncomeGrowthPct -
           p("macroTrendGrowthPct") -
-          p("macroInflationAnchorPct"));
+          previous.expectedInflationPct);
   // The business cycle: an investment accelerator held by a capacity ceiling
   // (Kaldor 1940; Hicks 1950; van der Pol). Spending that is growing pulls
   // more investment (momentum feeds on itself while the gap is inside the
@@ -400,8 +430,14 @@ export function stepMacroMonth(
       (realRateLagPct - p("macroNeutralRealRatePct")) +
     town / months;
   const outputGapPct = previous.outputGapPct + gapChange;
+  const naturalUnemploymentPct = drift(
+    previous.naturalUnemploymentPct,
+    previous.unemploymentPct,
+    previous.naturalUnemploymentPct,
+    p("macroNaturalHysteresisMonths"),
+  );
   const unemploymentPct =
-    p("macroNaturalUnemploymentPct") -
+    naturalUnemploymentPct -
     outputGapPct / p("macroOkunOutputPerUnemploymentPoint");
   // Energy: demand (last month's gap) pulls its price up against capacity;
   // capacity is built when the price is high and takes years to arrive, so
@@ -412,7 +448,12 @@ export function stepMacroMonth(
   const energyCapacityPct =
     previous.energyCapacityPct +
     previous.energyGapPct / p("macroEnergyBuildMonths");
-  const anchor = p("macroInflationAnchorPct");
+  const anchor = drift(
+    previous.expectedInflationPct,
+    previous.inflationPct,
+    previous.expectedInflationPct,
+    p("macroInflationExpectationMonths"),
+  );
   const inflationPct =
     anchor +
     p("macroInflationPersistence") * (previous.inflationPct - anchor) +
@@ -445,6 +486,8 @@ export function stepMacroMonth(
     energyGapPct,
     energyCapacityPct,
     realRateLagPct,
+    naturalUnemploymentPct,
+    expectedInflationPct: anchor,
     cyclePeriodYears: previous.cyclePeriodYears,
     cycleCapacityPct: previous.cycleCapacityPct,
     realOutput:

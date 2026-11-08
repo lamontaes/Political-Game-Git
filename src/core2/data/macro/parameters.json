@@ -676,5 +676,27 @@
       "unit": "inflation points per energy price point",
       "citation": "Oil's price swings with demand and with capacity built years late: WTI (FRED MCOILWTICO) 1990-2026 ranged from about $11 to $134 a barrel, and 12-month CPI inflation had a standard deviation of 1.54 points (BLS CUSR0000SA0)."
     }
+  },
+  "macroNaturalHysteresisMonths": {
+    "value": 120,
+    "tag": "TUNABLE",
+    "citation": "How fast the normal unemployment rate follows the rate people have lived at (hysteresis; Ball 2009, 'The Next Generation of Hysteresis'; CBO's noncyclical rate moved from about 6.2 percent in 1980 to 4.4 in 2019, a drift of a few tenths of a point a year). The normal rate is a state of the economy, not a resting point: at the opening it starts at macroNaturalUnemploymentPct and moves with experience.",
+    "spread": {
+      "low": 60,
+      "high": 240,
+      "unit": "months",
+      "citation": "Checked against the 1990-2026 12-month unemployment bands (scripts/money/band-exits.ts) and the recession count (scripts/money/macro-cycle.ts)."
+    }
+  },
+  "macroInflationExpectationMonths": {
+    "value": 36,
+    "tag": "TUNABLE",
+    "citation": "How fast expected inflation follows the inflation people have lived through (adaptive expectations; the University of Michigan Surveys of Consumers' one-year-ahead expectations followed realized inflation with a lag of a few years, 1978-2019). Expected inflation is a state, not an anchor: at the opening it starts at macroInflationAnchorPct, the 1990-2019 mean, and moves with experience.",
+    "spread": {
+      "low": 12,
+      "high": 72,
+      "unit": "months",
+      "citation": "Checked against the 1990-2026 inflation bands in the macro tests."
+    }
   }
 }
