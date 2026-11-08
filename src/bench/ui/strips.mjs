@@ -142,7 +142,7 @@ export function peopleSentence(people) {
   return line;
 }
 
-/** Typed rows with a dot leader from the label to the figure: `rows` are { label, value }. */
+/** Typed rows with a dot leader from the label to the figure: `rows` are { label, value }; a value may be a node (a name that opens its card). */
 export function dotRows(rows) {
   return el(
     "div",
@@ -153,7 +153,9 @@ export function dotRows(rows) {
         { className: "dotrow" },
         el("span", { className: "dotlabel", textContent: row.label }),
         el("span", { className: "dotleader" }),
-        el("span", { className: "dotvalue", textContent: row.value }),
+        row.value instanceof Node
+          ? el("span", { className: "dotvalue" }, row.value)
+          : el("span", { className: "dotvalue", textContent: row.value }),
       ),
     ),
   );
