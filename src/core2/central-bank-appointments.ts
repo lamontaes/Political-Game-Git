@@ -8,6 +8,7 @@
  * `registerBoardAppointer` when the government opens). A world with no
  * appointer leaves each member in place until a successor is named.
  */
+import { ageInYears } from "./kernel/dates";
 import {
   boardCandidates,
   nextTerm,
@@ -35,11 +36,7 @@ export function registerBoardAppointer(next: BoardAppointer | undefined): void {
 }
 
 function ageOn(birthDate: string, date: string): number {
-  return (
-    Number(date.slice(0, 4)) -
-    Number(birthDate.slice(0, 4)) -
-    (date.slice(5) < birthDate.slice(5) ? 1 : 0)
-  );
+  return ageInYears(birthDate, date);
 }
 
 /** Every seat whose term ended by today gets its next term: a reappointment or a new member. */
