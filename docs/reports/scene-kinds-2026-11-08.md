@@ -1,6 +1,6 @@
 # Scene kinds, Nov 8, 2026
 
-The game has 97 kinds of scene. 2 of them cannot start yet, because nothing in the world writes the record they wait for. The rest start from records the engines already keep. The table says what starts each kind, where it is played, who is in it and how many wordings can say it.
+The game has 97 kinds of scene. 1 of them cannot start yet, because nothing in the world writes the record they wait for. The rest start from records the engines already keep. The table says what starts each kind, where it is played, who is in it and how many wordings can say it.
 
 ## What changed for the player tonight
 
@@ -42,7 +42,7 @@ A bribe offered to you is now your choice to take, hand back or report, and a re
 | arrival | housemate-arrives | circumstance:new-housemate via circumstance / awaiting record:stepparent-arrives, record:housemate-moves-in | home | effective-date | household, newcomer | 97 |  |
 | care | care-visit | feeling:event:health.serious-illness | home, other-home | effective-date | caregiver, cared-for | 38 |  |
 | advice | mentor-advice | WAITS: next-step; feeling:event:work.mentorship-formed via partnerships | school, home, other-home | next-together | adviser, deciding | 105 |  |
-| accusation | conflict-accuse | NO CAUSE / awaiting record:incident-at-school-or-work, record:suspicion | school, workplace, public | at-cause | accuser, accused, witnesses | 19 | dead |
+| accusation | conflict-accuse | feeling:event:justice.accused via justice | school, workplace, public | at-cause | accuser, accused, witnesses | 19 |  |
 | warning | protest-warning | circumstance:organizing-warning via circumstance / awaiting record:arrears, record:eviction-notice, record:conflict-escalating | home, phone, letter | at-cause | warning, at-risk | 15 |  |
 | reconciliation | ally-return | ? / awaiting record:help-after-quarrel | home, other-home, public | next-together | one, other | 17 |  |
 | polling-place | poll-problem | WAITS: election-day / awaiting record:polling-place | venue | at-cause | voter, workers, neighbors | 65 | dead |
@@ -114,7 +114,7 @@ A bribe offered to you is now your choice to take, hand back or report, and a re
 
 ## Kinds that cannot start
 
-The kinds that cannot start are accusation, polling-place. Most wait on the lives of the player and the people around them: a date, a proposal, a breakup, a letter, a return. The others wait on an incident or a suspicion that no engine records.
+The kinds that cannot start are polling-place. Most wait on the lives of the player and the people around them: a date, a proposal, a breakup, a letter, a return. The others wait on an incident or a suspicion that no engine records.
 
 ## How this was made
 

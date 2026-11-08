@@ -1937,8 +1937,23 @@
       ],
       "setting": ["school", "workplace", "public"],
       "timing": "at-cause",
-      "causes": [],
-      "awaiting": ["record:incident-at-school-or-work", "record:suspicion"],
+      "causes": [
+        {
+          "match": {
+            "label": "feeling:event:justice.accused",
+            "selfNamed": true,
+            "counterpart": "some"
+          },
+          "causeEngine": "justice",
+          "causeRecord": "justice.accused",
+          "bind": {
+            "accuser": "counterpart",
+            "accused": "subject",
+            "witnesses": "present"
+          },
+          "opener": "accuser"
+        }
+      ],
       "tag": {
         "key": "threat",
         "endpoint": "personal",
