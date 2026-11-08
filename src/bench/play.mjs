@@ -3501,12 +3501,17 @@ const sheets = {
               gov.name,
               typedRow(words.comingIn, roundedMoney(latest.revenueMinor)),
               ...lastYear(prior?.revenueMinor),
+              ...sinceLast(latest.totals?.revenue),
+              ...history(latest.totals?.revenue),
               typedRow(words.goingOut, roundedMoney(latest.spendingMinor)),
               ...lastYear(prior?.spendingMinor),
+              ...sinceLast(latest.totals?.spending),
+              ...history(latest.totals?.spending),
               typedRow(
                 words.balance,
                 `${roundedMoney(Math.abs(balance))} ${balance < 0 ? words.short : words.ahead}`,
               ),
+              ...sinceLast(latest.totals?.balance),
               ...(books
                 ? [typedRow(words.savings, roundedMoney(books.cashMinor))]
                 : []),
