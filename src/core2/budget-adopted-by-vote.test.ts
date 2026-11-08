@@ -40,6 +40,13 @@ it("every government's budget in a played year is adopted by a vote", () => {
         adopted.length,
         `${where}: ${gov.id} adopted a budget by vote`,
       ).toBeGreaterThan(0);
+      // Each chamber's tally carries the chamber's own name, never its key.
+      for (const budget of adopted)
+        for (const tally of budget.adoptedBy.tallies ?? [])
+          expect(
+            tally.title,
+            `${where}: ${budget.id} ${tally.chamber}`,
+          ).toMatch(/^[A-Z][A-Za-z' .-]+$/);
     }
     for (const gov of governments(api))
       for (const b of budgetsOf(api, gov.id))
