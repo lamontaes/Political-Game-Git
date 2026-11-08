@@ -4211,17 +4211,8 @@ const sheets = {
         side: view.side,
       });
       // The panel never scrolls: the members' pager gives up rows first (`fitPagers`, here and
-      // when the sheet opens); a big body on a short window still too tall then lets its seat picture
-      // give way, a frame later (the party split bar above it says the same count).
+      // when the sheet opens).
       fitPagers(screenNode);
-      window.requestAnimationFrame(() =>
-        window.requestAnimationFrame(() => {
-          const body = $("sheet-body");
-          if (body.scrollHeight > body.clientHeight + 1)
-            for (const chart of screenNode.querySelectorAll(".seat-chart"))
-              chart.hidden = true;
-        }),
-      );
       return screenNode;
     };
     return [await screen()];
@@ -4710,7 +4701,7 @@ function fitPagersNow(root, waits = 30) {
     // that fit (at least one).
     for (const part of root.querySelectorAll(".split-side")) {
       const shown = () =>
-        [...part.querySelectorAll(".vote-bar")].filter((v) => !v.hidden);
+        [...part.querySelectorAll(".vote-rows .dl")].filter((v) => !v.hidden);
       while (over(part) && shown().length > 1) shown().at(-1).hidden = true;
     }
     // The sheet still past its foot: a map gives back the difference, never

@@ -3660,67 +3660,11 @@ details.entry[open] {
 }
 
 /* The party split: one bar, each party's share in its color. */
-.party-bar {
-  flex: none;
-  display: flex;
-  height: 26px;
-  border: 1px solid var(--brass-lo);
-  border-radius: 2px;
-  overflow: hidden;
-  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.45);
-}
-.party-bar-part {
-  display: flex;
-  align-items: center;
-  min-width: 24px;
-  padding: 0 10px;
-  background: linear-gradient(
-    color-mix(in srgb, var(--party, #6f6c66) 88%, #fff 12%),
-    color-mix(in srgb, var(--party, #6f6c66) 72%, #000 28%)
-  );
-  border-right: 1px solid rgba(0, 0, 0, 0.5);
-  overflow: hidden;
-}
-.party-bar-part:last-child {
-  border-right: 0;
-}
-.party-bar-part.vacant {
-  background: repeating-linear-gradient(
-    135deg,
-    #3b3b3f 0 6px,
-    #2c2c30 6px 12px
-  );
-}
-.party-bar-label {
-  font: 600 12px var(--ui);
-  color: #fff;
-  white-space: nowrap;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.6);
-}
 .party-none {
   --party: #6f6c66;
 }
 
 /* A big chamber's seats, a half circle of dots by party. */
-.seat-chart {
-  flex: none;
-  display: flex;
-  justify-content: center;
-  height: 132px;
-}
-.seat-chart-svg {
-  height: 100%;
-  width: auto;
-}
-.seat-chart-svg .seat {
-  fill: var(--party, #6f6c66);
-  stroke: rgba(0, 0, 0, 0.55);
-  stroke-width: 0.6;
-}
-.seat-chart-svg .seat.own {
-  stroke: var(--gold);
-  stroke-width: 2;
-}
 
 /* A member as a card: face, name, seat, party badge; opens their card. */
 #sheet-body .member-card {
@@ -3845,64 +3789,6 @@ details.entry[open] {
 }
 
 /* A roll call: its name and date over a yes and no bar. */
-.vote-bar {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-.vote-bar-head {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-  min-width: 0;
-}
-.vote-bar-title {
-  font: 500 14px/1.25 var(--ui);
-  color: var(--text-strong);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  min-width: 0;
-}
-.vote-bar-when {
-  flex: none;
-  font: 400 12.5px var(--ui);
-  color: var(--text-2);
-}
-.vote-bar-outcome {
-  flex: none;
-  margin-left: auto;
-  font: 600 10.5px var(--ui);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-.vote-bar-outcome.passed {
-  color: #9cc27f;
-}
-.vote-bar-outcome.failed {
-  color: #d88a7d;
-}
-.vote-bar-track {
-  display: flex;
-  height: 22px;
-  border: 1px solid var(--brass-lo);
-  border-radius: 2px;
-  overflow: hidden;
-}
-.vote-bar-part {
-  display: flex;
-  align-items: center;
-  min-width: 46px;
-  padding: 0 8px;
-}
-.vote-bar-part.yes {
-  background: linear-gradient(#6a8a4b, #4c6934);
-}
-.vote-bar-part.no {
-  justify-content: flex-end;
-  background: linear-gradient(#97473c, #6e2d26);
-  border-left: 1px solid rgba(0, 0, 0, 0.5);
-}
 .vote-bar-label {
   font: 600 11.5px var(--ui);
   color: #fff;
