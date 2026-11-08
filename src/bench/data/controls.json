@@ -36,10 +36,6 @@
     "missingName": "Type a first and last name to go on.",
     "missingPlace": "Choose where you are from to go on."
   },
-  "endedBy": {
-    "office-day.meeting": "The meeting",
-    "office-day.desk": "Your desk"
-  },
   "debate": {
     "title": "Debate invitation",
     "answer": "Answer",
@@ -345,6 +341,7 @@
     "fullScreenUnavailable": "Full screen is unavailable.",
     "devMode": "Dev mode",
     "quitToTitle": "Quit to title",
+    "colorBlind": "Color-blind colors",
     "sceneStop": "Scenes that may stop the day",
     "sceneGroups": {
       "political": "Politics",

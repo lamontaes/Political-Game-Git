@@ -97,6 +97,17 @@
   --key-hover: linear-gradient(#3e3e44, #26262a);
   --raised: linear-gradient(#4a4a50, #2a2a2e);
   --lying: #ffc9bd;
+  /* The shared signal colors: the one place a menu reads them (color-blind mode swaps them). */
+  --alarm: #ff1f14;
+  --alarm-rgb: 255, 31, 20;
+  --signal-yes: #5aa36b;
+  --signal-no: #c4524f;
+  --signal-none: #8c8c8c;
+  --party-democratic: #3f6fb5;
+  --party-republican: #b9584a;
+  --party-other: #8f8c86;
+  --party-libertarian: #c9a227;
+  --party-green: #4f8a4f;
   --name: "Cinzel", "Trajan Pro", Georgia, serif;
   --speech: "Andada Pro", Georgia, serif;
   --ui: "Fira Sans", "Helvetica Neue", sans-serif;
@@ -616,12 +627,16 @@ select:focus-visible {
   transform: translate(-0.3px, -2.3px);
 }
 .lie-scales.on {
-  background: radial-gradient(circle, rgba(255, 30, 20, 0.3), transparent 72%);
+  background: radial-gradient(
+    circle,
+    rgba(var(--alarm-rgb), 0.3),
+    transparent 72%
+  );
 }
 .lie-scales.on svg {
-  stroke: #ff1f14;
-  filter: drop-shadow(0 0 3px rgba(255, 31, 20, 0.95))
-    drop-shadow(0 0 8px rgba(255, 31, 20, 0.7));
+  stroke: var(--alarm);
+  filter: drop-shadow(0 0 3px rgba(var(--alarm-rgb), 0.95))
+    drop-shadow(0 0 8px rgba(var(--alarm-rgb), 0.7));
 }
 @media (prefers-reduced-motion: reduce) {
   .lie-scales .beam,
@@ -1271,8 +1286,7 @@ body:not(.dev) .dev-only {
 .me .name {
   font-size: 16px;
 }
-#card-place:empty,
-#card-why:empty {
+#card-place:empty {
   display: none;
 }
 .me .time {
@@ -1290,9 +1304,6 @@ body:not(.dev) .dev-only {
 }
 .me .time .action:last-child {
   margin-right: 0;
-}
-#card-why {
-  margin-bottom: 4px;
 }
 #rings {
   display: flex;
@@ -2112,13 +2123,13 @@ body:not(.dev) .dev-only {
   box-shadow: 0 0 0 2px var(--gold);
 }
 .meeting-member.vote-yes {
-  box-shadow: 0 0 0 3px #5aa36b;
+  box-shadow: 0 0 0 3px var(--signal-yes);
 }
 .meeting-member.vote-no {
-  box-shadow: 0 0 0 3px #c4524f;
+  box-shadow: 0 0 0 3px var(--signal-no);
 }
 .meeting-member.vote-abstain {
-  box-shadow: 0 0 0 3px #8c8c8c;
+  box-shadow: 0 0 0 3px var(--signal-none);
 }
 .meeting-face {
   width: 38px;
@@ -2134,23 +2145,6 @@ body:not(.dev) .dev-only {
 .meeting-result strong {
   font: 700 17px var(--ui);
   color: var(--gold);
-}
-.meeting-tally {
-  display: flex;
-  height: 10px;
-  margin: 0 0 10px;
-  border-radius: 5px;
-  overflow: hidden;
-  background: rgba(255, 255, 255, 0.08);
-}
-.meeting-tally .tally-yes {
-  background: #5aa36b;
-}
-.meeting-tally .tally-no {
-  background: #c4524f;
-}
-.meeting-tally .tally-abstain {
-  background: #8c8c8c;
 }
 .meeting-remarks {
   margin: 0 0 8px;
@@ -3156,21 +3150,21 @@ details.entry[open] {
 }
 /* The parties' colors, by the party's name on the record. */
 .party-democratic {
-  --party: #3f6fb5;
+  --party: var(--party-democratic);
 }
 .party-republican {
-  --party: #b9584a;
+  --party: var(--party-republican);
 }
 .party-independent,
 .party-unaffiliated,
 .party-nonpartisan {
-  --party: #8f8c86;
+  --party: var(--party-other);
 }
 .party-libertarian {
-  --party: #c9a227;
+  --party: var(--party-libertarian);
 }
 .party-green {
-  --party: #4f8a4f;
+  --party: var(--party-green);
 }
 /* A place in its own view (owner, Oct 28, point 28): the picture large across
    the top, what you do there and who works there under it, then Go. */
@@ -5359,10 +5353,35 @@ select.release-pick {
 }
 /* New game: the two choices read in the title's own type, not small capitals (fr-new). */
 #front-new .item b {
-  font:
-    700 24px "Playfair Display",
-    Georgia,
-    serif;
+  font: 700 24px "Playfair Display", Georgia, serif;
   letter-spacing: 0.01em;
   text-transform: none;
+}
+
+/* Color-blind palette (Options): the Okabe-Ito set replaces the shared signal colors, and a
+   vote ring says yes, no and abstain by its stroke as well as its color (solid, dashed,
+   dotted; never a letter). Off by default; the default look is unchanged. */
+body.color-blind {
+  --alarm: #d55e00;
+  --alarm-rgb: 213, 94, 0;
+  --signal-yes: #009e73;
+  --signal-no: #d55e00;
+  --signal-none: #999999;
+  --party-democratic: #0072b2;
+  --party-republican: #d55e00;
+  --party-other: #999999;
+  --party-libertarian: #f0e442;
+  --party-green: #009e73;
+}
+body.color-blind .meeting-member.vote-yes,
+body.color-blind .meeting-member.vote-no,
+body.color-blind .meeting-member.vote-abstain {
+  box-shadow: none;
+  outline: 3px solid var(--signal-yes);
+}
+body.color-blind .meeting-member.vote-no {
+  outline: 3px dashed var(--signal-no);
+}
+body.color-blind .meeting-member.vote-abstain {
+  outline: 3px dotted var(--signal-none);
 }
