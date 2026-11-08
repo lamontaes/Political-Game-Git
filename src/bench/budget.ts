@@ -9,6 +9,7 @@ import {
 } from "../core2/modules/budgets";
 import type { TermRow } from "../core2/modules/offices";
 import { gameStartDate } from "../core2/game-start";
+import { facePlace, holderFace } from "./government";
 import type { CoreState } from "../core2/types";
 import { properName } from "../director/words";
 import lineNames from "../core2/data/budgets/line-names.json" with { type: "json" };
@@ -95,6 +96,39 @@ function totaled(
   };
 }
 
+/**
+ * The government's chief executive (mayor, county executive, governor, President) as the
+ * offices record holds them: a name, the card to open and the bust. Null where the seat is
+ * vacant or the government has none.
+ */
+function chiefOf(core: CoreState, governmentId: string, viewerId: string) {
+  const offices = coreAPI(core).moduleState(OFFICES);
+  for (const row of offices.table("terms").rows() as unknown as TermRow[]) {
+    if (row.status !== "serving") continue;
+    const office = offices.table("offices").get(row.officeId) as
+      { kind: string; jurisdiction: string; title?: string } | undefined;
+    if (
+      !office ||
+      !EXECUTIVES.test(office.kind) ||
+      governmentId !== office.jurisdiction
+    )
+      continue;
+    const { cardId, face } = holderFace(
+      core,
+      { id: row.id, personId: row.personId },
+      facePlace(core, viewerId),
+    );
+    return {
+      name: `${row.identity.givenName} ${row.identity.familyName}`,
+      title: office.title ?? null,
+      party: row.party,
+      cardId,
+      face,
+    };
+  }
+  return null;
+}
+
 /** Every government over the town, its latest budget, and the player's taxes. */
 export function budgetView(core: CoreState, personId: string) {
   if (!core.modules.has("core2-budgets-v1"))
@@ -118,6 +152,7 @@ export function budgetView(core: CoreState, personId: string) {
       const prior = years[1];
       return {
         ...gov,
+        executive: chiefOf(core, gov.id, personId),
         // Some federal files hold names in capitals only.
         name: properName(gov.name),
         youAreExecutive: [...executive].some((j) => gov.id.includes(j)),
