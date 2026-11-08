@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 241 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 242 pull requests merged. Newest state at the top of each section.
 
 **Stopped by the owner, Nov 4, 2:37 p.m. Eastern, at 161 merged; resumed on the owner's word at about 2:53 p.m. Eastern (relayed by the CTO). The desk merges One Map's PRs, and from Nov 5, 05:22 UTC also State Sessions' (every other state holds sessions), on the owner's approval relayed by the CTO. From Nov 5, about 5:15 p.m. Eastern, also the Cleanup session's three PRs (the old art pipeline, the Oct 14 mocks, the green mannequin plates with the old mocks), on the same check; the art pipeline PR also needs `npm run build` to succeed on its merged head. From Nov 7, 2:30 p.m. Eastern (CTO), also Astra's PRs (a Codex builder on Congress and law reversals; branches `astra/`, line 2 `Session: Astra (Codex)`), on the same check. From Nov 7, 9:30 p.m. Eastern (CTO), also the Fixer's PRs (a Claude cloud session; branches `fixer/`, line 2 `Session: Fixer`), on the same check. #7354, the owner's approved mocks, is the owner's to merge. Lanes 1, 3, 4 and 5 are stopped and Lane 2 is off, so #7110 and #7127 stay open, and skills PRs #7233, #7254 and #7264 stay with the CTO.**
 
@@ -120,7 +120,7 @@ New on Nov 3:
 | #7300 | Rents sit near the real renter median for the county, and each household's rent follows the income it is actually paid (they ran 31 to 40 percent under)                 | Delaware Park, New Jersey                   | 874505f44de46093 |
 | #7303 | Fixes the red Mac build: the filing test clock imports `CoreState` from `./types` (one line)                                                                             | Millersburg, Kentucky                       | 364de7a112068f58 |
 
-**Main's Mac build is red (Nov 8, run 42439722717)** on one check: the Fixer's #7355 made Saved games on the title open a sheet, and the desktop smoke test (`desktop/scripts/smoke-test.mjs`, lines 223-224) still expects it disabled. Windows failed only that check. Asked of the Fixer on #7355; the desk merges the fix on the new-game check.
+**Main's Mac build was red (Nov 8, run 42439722717)** on the Saved games check after #7355. The Fixer's #7356 updated the smoke test; a new Mac build was started on it.
 
 **Main's Mac build was red (Nov 7, run 42415963886)** on a typecheck error from Astra's #7325. Astra's #7336 fixed it; main typechecks with no errors, and a new Mac build was started.
 
@@ -169,6 +169,7 @@ New on Nov 3:
 | PR    | What it does                                                                                                                                                                                         | Town                                 | Replay number    |
 | ----- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ | ---------------- |
 | #7355 | Saved games on the title opens a sheet (it was grayed out). The desktop smoke test still expects it disabled, so the next Mac build will fail that check until the Fixer updates it (asked on #7355) | Bellair-Meadowbrook Terrace, Florida | 6eeae7af0d7de94e |
+| #7356 | The desktop smoke test expects Saved games enabled and opening its sheet, so the Mac build matches #7355 (test tooling; the desk removed a section and title from its `impact: none` release note)   | Wahiawa, Hawaii                      | 514c23ac063caaa6 |
 
 ## State Sessions' PRs (from Nov 5)
 
