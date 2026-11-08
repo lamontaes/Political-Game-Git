@@ -9,10 +9,10 @@ import {
   EXECUTIVE_MODULE_ID,
 } from "../core2/modules/executive";
 import { townSeats } from "../core2/modules/offices";
-import { heldFederal, releaseFederal } from "../core2/office-day-federal";
+import { advanceCore } from "../core2/life";
+import { memberKey } from "../core2/modules/legislature";
 import { coreAPI } from "../core2/state";
 import { ordersDecide, ordersView } from "./office";
-import { BenchPlayer } from "./player";
 import { buildBenchWorld } from "./world";
 
 // A governor the player plays is offered a state of emergency when a federally declared disaster is
@@ -35,8 +35,9 @@ describe(`a state of emergency the player decides (seed ${seed})`, () => {
       const core = world.core;
       const api = coreAPI(core);
       const where = `${place.name} (${place.key}), seed ${place.seed}`;
-      const governor = townSeats(api).find((s) => s.office.kind === "governor")
-        ?.holder?.personId;
+      const governor = townSeats(api).find(
+        (s) => s.office.kind === "governor",
+      )?.holder;
       const ahead = townDisasters(api)
         .filter(
           (row) =>
@@ -45,22 +46,14 @@ describe(`a state of emergency the player decides (seed ${seed})`, () => {
             federalAidFor(api, row.number) > 0,
         )
         .sort((a, b) => a.begins.localeCompare(b.begins))[0];
-      if (
-        !governor ||
-        !core.people.has(governor) ||
-        !ahead ||
-        !emergencyPower(api)
-      ) {
-        tried.push(
-          `${where}: no player governor with a disaster and the power`,
-        );
+      if (!governor || !ahead || !emergencyPower(api)) {
+        tried.push(`${where}: no governor with a disaster and the power`);
         continue;
       }
-      const player = new BenchPlayer(core, world.director);
-      player.select(governor);
+      // The governor is the player: the engine names the player by the world's own player id.
+      (core as { playerId?: string }).playerId = memberKey(governor);
       const stop = addDays(makeIsoDate(ahead.begins), 10);
-      for (let guard = 0; guard < 900 && core.date <= stop; guard++) {
-        if (player.pollingPlace) player.leavePolls();
+      for (let day = 0; day < 800 && core.date <= stop; day++) {
         const offer = ordersView(core).find((row) => row.kind === "emergency");
         if (offer) {
           ordersDecide(core, offer.entryId, "issue");
@@ -69,18 +62,13 @@ describe(`a state of emergency the player decides (seed ${seed})`, () => {
             .table("emergencies")
             .rows() as unknown as { executiveId: string }[];
           expect(declared.length, where).toBe(1);
+          expect(declared[0]!.executiveId, where).toBe(memberKey(governor));
           console.log(
             `emergency: ${where}, declared by the player after disaster ${ahead.number}`,
           );
           return;
         }
-        const packet = player.packet;
-        if (packet?.kind === "stop") {
-          for (const key of heldFederal(api)) releaseFederal(api, key);
-          player.resume({ kind: "stop", pauseId: packet.pauseId });
-        } else if (packet?.kind === "choice")
-          player.resume({ kind: "own-choice", pauseId: packet.pauseId });
-        else player.advance("day");
+        advanceCore(core, addDays(makeIsoDate(core.date), 1));
       }
       tried.push(`${where}: no offer by ${stop}`);
     }
