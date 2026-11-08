@@ -51,7 +51,7 @@ it("keeps received law news without inventing knowledge for every legal target",
           story,
           printed: api
             .moduleState("core2-press-v1")
-            .table("stories")
+            .table("printed")
             .get(String(story.id)),
           known,
           stances: stancesOf(api, personId).filter(

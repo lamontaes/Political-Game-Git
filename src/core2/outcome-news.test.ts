@@ -128,7 +128,7 @@ registerStanceListener((api, personId, topic) => {
 const monthWireOf = (api: ReturnType<typeof coreAPI>, storyId: string) => {
   const story = api
     .moduleState(PRESS_MODULE_ID)
-    .table("stories")
+    .table("printed")
     .get(storyId) as { wireId?: string } | undefined;
   return story?.wireId?.startsWith(`${OUTCOME_MONTH_KIND}:`)
     ? story.wireId
@@ -224,7 +224,7 @@ describe(`the town hears the outcome web's month (${place.name}, seed ${seed})`,
     // The press printed it.
     const printed = api
       .moduleState(PRESS_MODULE_ID)
-      .table("stories")
+      .table("printed")
       .query("byWire", [eventId]) as unknown as { id: string }[];
     expect(printed.length, "outlets that printed the month").toBeGreaterThan(0);
     const storyId = printed[0]!.id;
@@ -292,7 +292,7 @@ describe(`the town hears the outcome web's month (${place.name}, seed ${seed})`,
     const wireId = `${OUTCOME_MONTH_KIND}:${town}:${next}`;
     const printed = api
       .moduleState(PRESS_MODULE_ID)
-      .table("stories")
+      .table("printed")
       .query("byWire", [wireId]) as unknown as { id: string }[];
     expect(printed.length, "outlets that printed the month").toBeGreaterThan(0);
     const storyIds = new Set(printed.map((story) => story.id));
