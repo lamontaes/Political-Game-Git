@@ -67,6 +67,7 @@
   },
   "talkMinutesPerLine": {
     "value": 2,
+    "role": "coefficient",
     "tag": "TUNABLE",
     "citation": "A line said or heard in a talk takes about two minutes, so a talk of ten lines is a twenty-minute conversation; the talk spends the sum of its lines on the player's clock when it ends. A pacing choice, not a measured rate; no source has been fetched for it.",
     "spread": {
@@ -78,6 +79,7 @@
   },
   "tripMinutes": {
     "value": 17,
+    "role": "coefficient",
     "tag": "ESTIMATED",
     "citation": "Summary of Travel Trends: 2022 National Household Travel Survey (https://nhts.ornl.gov/assets/2022/pub/2022_NHTS_Summary_Travel_Trends.pdf, fetched Nov 8, 2026). Table 3-3, average person trip length by purpose, 2022: shopping 5.8 miles and family/personal errands 8.6 miles. Table 7-4, average commute speed, 2022: 25.51 miles per hour for all modes, 26.59 for a privately owned vehicle.",
     "estimatedFrom": "The survey's summary gives trip length by purpose and speed for commutes, not trip time by purpose: 5.8 miles at about 25 miles per hour is 14 minutes (shopping) and 8.6 miles is 20 minutes (errands); 17 minutes is between them. Every trip to a place in town takes this, because the records hold no distance between two places (SG-PLAY-trip-time-average); a place's own distance and travel speed replace it.",
@@ -90,6 +92,7 @@
   },
   "visitHours": {
     "value": 1,
+    "role": "coefficient",
     "tag": "TUNABLE",
     "citation": "The hours a visit to a place in town (a shop, a school, an office, a diner) takes the player: one hour spent there, so the clock moves and the people at the next place are the ones there at that hour (Nov 8: visits, talks and trips spend game time). Checked against the American Time Use Survey's Using Government Services, 0.91 hours for the people who did it that day (the lookupHours row), and shopping, under an hour a trip.",
     "spread": {
@@ -8336,6 +8339,7 @@
   },
   "countySampleHouseholds": {
     "value": 150,
+    "role": "opening",
     "tag": "TUNABLE",
     "citation": "How many households of the county outside the town the opening samples; each stands for as many real households as the county's eligible voters ask for. Sized so a county seat's weighing has hundreds of adults to draw from while the opening stays light.",
     "stopgapId": "SG-LIVES-county-sample-employers",
@@ -8349,6 +8353,7 @@
   },
   "neighborsKnownCap": {
     "value": 8,
+    "role": "coefficient",
     "tag": "ESTIMATED",
     "citation": "Neighbors an adult knows by name once settled. Ownerly 2020 survey of 2,700 US adults (ownerly.com/data-analysis/do-you-know-your-neighbors-survey): 14% know none, 51% know 1 to 5, 19% know 6 to 10, 15% know 11 or more; the cap is the middle of the 6 to 10 band. Pew Research Center 2019 (pewresearch.org/short-reads/2019/08/15/facts-about-neighbors-in-u-s): 26% know most of their neighbors.",
     "estimatedFrom": "No published source gives neighbors known by years of residence; the anchor is the settled count, the slope below is an assumption.",
@@ -8364,6 +8369,7 @@
   },
   "neighborsKnownYears": {
     "value": 6,
+    "role": "coefficient",
     "tag": "ESTIMATED",
     "citation": "Years of living in one place for a household to know about two thirds of the neighbors it will ever know (known = cap x (1 - exp(-years / this))). Pew Research Center 2018 (pewresearch.org/social-trends/2018/05/22/how-urban-suburban-and-rural-residents-interact-with-their-neighbors): trusting a neighbor with keys rises from 34% under a year to 47% at 1 to 5 years to 64% at 6 or more, levelling off at six.",
     "estimatedFrom": "Assumed time constant anchored loosely on Pew's key-trust rise.",
