@@ -2,6 +2,14 @@
 
 The game has 93 kinds of scene. 11 of them cannot start yet, because nothing in the world writes the record they wait for. The rest start from records the engines already keep. The table says what starts each kind, where it is played, who is in it and how many wordings can say it.
 
+## What changed for the player tonight
+
+A town now organizes from how its term reads: strikes and protests where it reads badly, rallies where it reads well, each with scenes for the friends, neighbors and officials in it and a story in the paper.
+
+Presidents, governors and mayors give addresses of different kinds, chosen by what the world is doing and by their temperament, bad news included.
+
+A bribe offered to you is now your choice to take, hand back or report, and a relative's marriage or split reaches you as news at home.
+
 ## Every kind
 
 | Kind | Purpose | What starts it | Where | When | Cast | Wordings | |
