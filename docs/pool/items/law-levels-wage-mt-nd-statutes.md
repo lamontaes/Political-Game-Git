@@ -5,9 +5,9 @@ area: laws
 kind: research
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: law-levels-wage-mt-nd
-pr:
+pr: #7342
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-08T00:37:28.155Z
