@@ -247,6 +247,8 @@ export interface BillRow {
   readonly repeats?: readonly (SettledQuestion & {
     readonly question: string;
   })[];
+  /** Members of the body who signed on beside the sponsor: for the bill, and close to its sponsor. */
+  readonly cosponsors?: readonly string[];
   readonly deals: readonly {
     readonly memberId: string;
     readonly kind: string;
@@ -2134,6 +2136,33 @@ function requireSection(provisions: readonly Provision[]): void {
     throw new Error("A bill needs at least one section to be introduced.");
 }
 
+/**
+ * Who signs on beside the sponsor: members of the body whose position on the bill is for it and who
+ * know the sponsor (closeness on record), the closest and most for it first, a few at most. Read for the
+ * player's own bills only (SG-LEGISLATURE-cosponsors-player-bills): other members' bills carry none.
+ */
+function cosponsorsFor(api: CoreAPI, bill: BillRow): readonly string[] {
+  const player =
+    snapshotExplicitControlV1(api.state).personId ??
+    (api.state as CoreState).playerId;
+  if (!player || bill.sponsorId !== player) return [];
+  return members(api, bill.bodyOfficeId)
+    .map((member) => memberKey(member))
+    .filter((key) => key !== bill.sponsorId && api.state.people.get(key)?.alive)
+    .map((key) => ({
+      key,
+      total: memberPosition(api, bill.id, key).total,
+      close: closenessBetween(api.state as CoreState, key, bill.sponsorId),
+    }))
+    .filter((row) => row.total > 0 && row.close > 0)
+    .sort(
+      (a, b) =>
+        b.close - a.close || b.total - a.total || a.key.localeCompare(b.key),
+    )
+    .slice(0, campaignParameter("cosponsorsMax"))
+    .map((row) => row.key);
+}
+
 /** Draft a bill: numbered, with its cost estimate and authority check. */
 export function draftBill(
   api: CoreAPI,
@@ -2153,7 +2182,10 @@ export function draftBill(
     deals: [],
     ...checkedText(api, input.bodyOfficeId, input.provisions),
   };
-  const titled = { ...bill, title: billTitle(bill) };
+  let titled = { ...bill, title: billTitle(bill) };
+  table(api, "bills").put(titled as unknown as ModuleRow);
+  // stopgapId: SG-LEGISLATURE-cosponsors-player-bills
+  titled = { ...titled, cosponsors: cosponsorsFor(api, titled) };
   table(api, "bills").put(titled as unknown as ModuleRow);
   // A local body drafting under the state's grant of home rule is in that
   // law's reach; a screen's check of what a body may do records nothing.
