@@ -77,8 +77,37 @@ export function billStageSections(
   amend = {},
   desk = {},
   staff = {},
+  override = {},
 ) {
   const sections = [];
+  // A veto message waiting on the player's vote: Yes, No or Abstain on overriding it, then the body takes it up.
+  if (stage.yours?.overridePending && override.onVote)
+    sections.push(
+      stripSection(
+        1,
+        words.overrideTitle,
+        el(
+          "div",
+          { className: "stage-vote" },
+          ...["yes", "no", "abstain"].map((how) => {
+            const button = makeButton({
+              className: `action${stage.yours.overrideChosen === how ? " chosen" : ""}`,
+              textContent: words[how],
+            });
+            button.addEventListener("click", () => override.onVote(how));
+            return button;
+          }),
+          (() => {
+            const call = makeButton({
+              className: "action",
+              textContent: words.callOverride,
+            });
+            call.addEventListener("click", () => override.onCall());
+            return call;
+          })(),
+        ),
+      ),
+    );
   // Staff redraft: ask for a section, see it struck and inserted, keep theirs or your own.
   if (stage.yours?.mayRedraft && staff.onAsk) {
     const shown = el("div", { className: "stage-redraft" });
