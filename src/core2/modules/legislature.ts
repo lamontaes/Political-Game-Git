@@ -1475,42 +1475,14 @@ function billLevel(api: CoreAPI, bill: BillRow): LawLevel {
  * section with no date of its own takes effect with the bill, before any
  * dated step; of two on one date, the later in the bill's text.
  */
-type BillStances = readonly {
+function billStances(
+  api: CoreAPI,
+  bill: BillRow,
+): readonly {
   readonly question: string;
   readonly position: number;
   readonly provision: Provision;
-}[];
-
-/**
- * What a recount of one bill's positions reads about the bill itself, kept
- * for the recount only: the bill's stances and how settled the law it moves
- * is. Nothing is written while positions are counted, so each member reads
- * the same values (Speed, Nov 8: 14 s of a small town's first year was other
- * states' legislators each working out the same bill's settledness again).
- */
-let billScope: {
-  readonly bill: BillRow;
-  stances?: BillStances;
-  settled?: number;
-  readonly bySeries: Map<string, number>;
-} | null = null;
-
-function inBillScope<T>(bill: BillRow, read: () => T): T {
-  const outer = billScope;
-  billScope = { bill, bySeries: new Map() };
-  try {
-    return read();
-  } finally {
-    billScope = outer;
-  }
-}
-
-function billStances(api: CoreAPI, bill: BillRow): BillStances {
-  if (billScope?.bill !== bill) return readBillStances(api, bill);
-  return (billScope.stances ??= readBillStances(api, bill));
-}
-
-function readBillStances(api: CoreAPI, bill: BillRow): BillStances {
+}[] {
   const level = billLevel(api, bill);
   const last = new Map<
     string,
@@ -2972,7 +2944,8 @@ function recordConsistency(
     // vote this bill undoes.
     const last = lastVoteOn(api, memberId, stance.question, bill.id);
     if (!last) continue;
-    const freshness = (1 - billSeriesSettledness(api, bill, series)) / 2;
+    const freshness =
+      (1 - settledness(api, series, billJurisdiction(api, bill))) / 2;
     sum +=
       campaignParameter("reversalReluctance") *
       freshness *
@@ -2983,31 +2956,14 @@ function recordConsistency(
 
 /** A bill's settledness: the least settled law any of its provisions moves. */
 function billSettledness(api: CoreAPI, bill: BillRow): number {
-  if (billScope?.bill !== bill) return readBillSettledness(api, bill);
-  return (billScope.settled ??= readBillSettledness(api, bill));
-}
-
-function readBillSettledness(api: CoreAPI, bill: BillRow): number {
   return bill.provisions.reduce(
     (least, p) =>
-      Math.min(least, billSeriesSettledness(api, bill, provisionSeries(p))),
+      Math.min(
+        least,
+        settledness(api, provisionSeries(p), billJurisdiction(api, bill)),
+      ),
     1,
   );
-}
-
-/** How settled the law on one of a bill's series is, once per series in a recount. */
-function billSeriesSettledness(
-  api: CoreAPI,
-  bill: BillRow,
-  series: string | undefined,
-): number {
-  if (billScope?.bill !== bill || series === undefined)
-    return settledness(api, series, billJurisdiction(api, bill));
-  const kept = billScope.bySeries.get(series);
-  if (kept !== undefined) return kept;
-  const read = settledness(api, series, billJurisdiction(api, bill));
-  billScope.bySeries.set(series, read);
-  return read;
 }
 
 /** A member's position on a bill's terms (the bill as recorded, or as an offer would leave it). */
@@ -4052,6 +4008,21 @@ export function committeeMemberKeys(
  * typical standing committee's (`committeeSize`); seats go by seniority
  * until leadership appoints them (SG-GOV-committee-structure).
  */
+/** Who else a hearing hears on a bill's question, from another engine's records (the interest groups). */
+type HearingWitnessProvider = (
+  api: CoreAPI,
+  bill: BillRow,
+  question: string,
+) => readonly { readonly personId: string; readonly stake: string }[];
+const hearingWitnessProviders: HearingWitnessProvider[] = [];
+/** An engine says who testifies on a question: the people its records show are concerned with it. */
+export function registerHearingWitnessProvider(
+  provider: HearingWitnessProvider,
+): void {
+  if (!hearingWitnessProviders.includes(provider))
+    hearingWitnessProviders.push(provider);
+}
+
 function committeeStage(
   api: CoreAPI,
   bill: BillRow,
@@ -4108,6 +4079,15 @@ function committeeStage(
       ),
     )
     .find((row) => row !== null);
+  // A bill that is not a wage bill is heard on its own question: the people the interest groups'
+  // records show taking a side on it, up to the hearing's size.
+  if (heard && question)
+    for (const provider of hearingWitnessProviders)
+      for (const w of provider(api, bill, question.question)) {
+        if (witnesses.length >= campaignParameter("hearingWitnesses")) break;
+        if (!witnesses.some((row) => row.personId === w.personId))
+          witnesses.push(w);
+      }
   if (heard && question && api.state.modules.has(SPEECH_MODULE_ID)) {
     const room = roster.flatMap((t) =>
       t.personId && api.state.people.get(t.personId)?.alive ? [t.personId] : [],
@@ -4313,9 +4293,7 @@ function floorAmendments(
   let current = start;
   const totals = new Map<string, number>();
   const recount = () => {
-    inBillScope(current, () => {
-      for (const k of roll) totals.set(k, positionOn(api, current, k).total);
-    });
+    for (const k of roll) totals.set(k, positionOn(api, current, k).total);
     return [...totals.values()].filter((t) => t > 0).length;
   };
   let yes = recount();
