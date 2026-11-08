@@ -3490,6 +3490,33 @@ export function startRegionalWork(
 }
 
 /**
+ * A counted person's regional work ends (`startRegionalWork` reversed): their
+ * household's unplaced workers and the pool's pay shrink by the record's
+ * weight times the pool's pay per worker. False where there is nothing to end.
+ */
+export function stopRegionalWork(core: CoreState, personId: string): boolean {
+  const rt = runtimes.get(core);
+  const m = rt?.store.countedMember(personId);
+  if (!rt || m === undefined) return false;
+  const h = rt.store.households[rt.store.household[m]!]!;
+  const base = unplacedFlowOf(rt, h.placeId, !!h.quarters);
+  const perWorker = unplacedPayPerWorker(rt, h);
+  const workers = Math.min(rt.store.weightOf(h), h.unplacedWorkers);
+  if (!base || !(perWorker > 0) || !(workers > 0)) return false;
+  const perYear =
+    base.cadence.kind === "days"
+      ? DAYS_PER_YEAR / base.cadence.every
+      : 12 / base.cadence.every;
+  base.amountMinor = Math.max(
+    0,
+    base.amountMinor - Math.round((workers * perWorker) / perYear),
+  );
+  h.unplacedWorkers -= workers;
+  regroupHousehold(rt, h, core.date);
+  return true;
+}
+
+/**
  * A household returning to the counts brings its commuter's pay back to its
  * place's unplaced workers' flow, and its share of those workers with it
  * (`amountMinor` is what the job paid for each of that flow's periods).
