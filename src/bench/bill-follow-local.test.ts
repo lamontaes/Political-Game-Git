@@ -3,7 +3,12 @@ import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "../core2/game-start";
-import { memberKey, members } from "../core2/modules/legislature";
+import {
+  castMemberVote,
+  holdVote,
+  memberKey,
+  members,
+} from "../core2/modules/legislature";
 import { coreAPI } from "../core2/state";
 import { followedBills } from "./bill-stage";
 import { seatAct, seatView } from "./legislature";
@@ -60,8 +65,24 @@ describe(`following a council or county bill (seed ${seed})`, () => {
         `${draw.name}: the council bill is followed`,
       ).toBeTruthy();
       expect(followed!.reachesYou).toBe(true);
+      // Held to a vote, it is followed to its result and to how the place's own members voted.
+      for (const member of seated)
+        castMemberVote(api, bill.id, memberKey(member), "yes");
+      holdVote(api, bill.id);
+      const voted = followedBills(world.core).find((row) => row.id === bill.id);
+      expect(
+        voted!.floor.length,
+        `${draw.name}: a floor result`,
+      ).toBeGreaterThan(0);
+      expect(voted!.floor[0]!.result).toMatch(
+        /^(Adopted|Passed|Defeated), \d+ to \d+\.$/,
+      );
+      expect(
+        voted!.mine.length,
+        `${draw.name}: the place's members' votes`,
+      ).toBeGreaterThan(0);
       console.log(
-        `follow-local: ${draw.name} (${draw.key}, seed ${draw.seed}) ${council.kind} ${followed!.number} ${followed!.stage}`,
+        `follow-local: ${draw.name} (${draw.key}, seed ${draw.seed}) ${council.kind} ${followed!.number} ${followed!.stage} -> ${voted!.stage}: ${voted!.floor[0]!.result} your members: ${voted!.mine.map((m) => m.name + " " + m.vote).join(", ")}`,
       );
       return;
     }
