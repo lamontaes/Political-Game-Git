@@ -20,10 +20,9 @@ import { chamberHeader } from "./ui/chamber.mjs";
 import { memberCard } from "./ui/member-card.mjs";
 import { dateList } from "./ui/date-list.mjs";
 import { pager } from "./ui/pager.mjs";
-import { officeScreen } from "./ui/office-screen.mjs";
 import { splitScreen } from "./ui/split-screen.mjs";
 import { makeTab, tabBar, chooseTab } from "./ui/tab.mjs";
-import { plate, factPlates } from "./ui/plate.mjs";
+import { plate } from "./ui/plate.mjs";
 import { timeline } from "./ui/timeline.mjs";
 import { makeCard } from "./ui/card.mjs";
 import { townRow } from "./ui/town-row.mjs";
@@ -44,12 +43,11 @@ import {
 } from "./ui/dev-setting.mjs";
 import { listRow, factRow, noteLine } from "./ui/list-row.mjs";
 import { fillArtwork, picture as pictureFrame } from "./ui/picture.mjs";
-import { select, searchBox, optionsOf, numberBox } from "./ui/fields.mjs";
+import { select, optionsOf, numberBox } from "./ui/fields.mjs";
 import { lookRow } from "./ui/look-row.mjs";
 import { termWord } from "./ui/term.mjs";
 import { watchTerms } from "./ui/term-mark.mjs";
 import { recordScreen } from "./ui/screen.mjs";
-import { listEntry } from "./ui/list-screen.mjs";
 import { roomPeople, clockLines } from "./ui/room.mjs";
 import { calendarScreen } from "./ui/calendar.mjs";
 import {
@@ -2171,25 +2169,30 @@ async function officeParts() {
     });
   const seat = [
     ...v.jobs.map((job) =>
-      factPlates(
-        [
-          { title: labels.office, value: job.title },
-          {
-            title: labels.pay,
-            value: `${moneyWords(job.annualMinor)} ${words.aYear ?? ""}`,
-          },
-          job.nextMeeting && {
-            title: labels.nextMeeting,
-            value: dateWords(job.nextMeeting),
-          },
-        ].filter(Boolean),
+      stripSection(
+        1,
+        labels.mySeat,
+        dotRows(
+          [
+            { label: labels.office, value: job.title },
+            {
+              label: labels.pay,
+              value: `${moneyWords(job.annualMinor)} ${words.aYear ?? ""}`,
+            },
+            job.nextMeeting && {
+              label: labels.nextMeeting,
+              value: dateWords(job.nextMeeting),
+            },
+          ].filter(Boolean),
+        ),
       ),
     ),
     // An open town post you appoint: the people it could go to, best first; left on the
     // official's own choice, the first stands.
     ...(v.heads?.length
       ? [
-          plate(
+          stripSection(
+            2,
             labels.heads,
             paged(
               v.heads.map((head) =>
@@ -2221,7 +2224,8 @@ async function officeParts() {
       : []),
     ...(v.acts.length
       ? [
-          plate(
+          stripSection(
+            3,
             labels.acts,
             paged(
               v.acts.map((a) =>
@@ -2239,7 +2243,8 @@ async function officeParts() {
   // The budget you may send now: the change to each line, in steps of its amount.
   const budget = v.budget
     ? [
-        plate(
+        stripSection(
+          1,
           controls.budgetEditor.title,
           paged(
             v.budget.lines.map((row) =>
@@ -2269,7 +2274,8 @@ async function officeParts() {
     : [];
   // The deal to offer each colleague who votes on a bill of yours when you talk to them.
   const deals = (v.deals ?? []).map((bill) =>
-    plate(
+    stripSection(
+      2,
       `${bill.number} · ${controls.deals.title}`,
       paged(
         bill.colleagues.map((colleague) =>
@@ -2501,7 +2507,6 @@ async function openBillPaper(billId, show, back, backLabel) {
 let seatResult = "";
 let seatText = [];
 // The tab of Your office the player last used.
-let officeTab = "seat";
 async function seatRows() {
   const v = await api(`/api/seat?id=${encodeURIComponent(me.id)}`);
   const parts = await officeParts();
@@ -2509,7 +2514,6 @@ async function seatRows() {
   const act = async (params) => {
     const r = await post(`/api/seat/act?${new URLSearchParams(params)}`);
     seatText = r.text ?? [];
-    officeTab = "draft";
     seatResult = r.number
       ? `${r.number} · ${controls.floor.status[r.status] ?? ""}${r.floorDate ? ` · ${controls.floor.takenUp} ${dateWords(r.floorDate)}` : ""}${
           r.authority?.some((a) => !a.allowed)
@@ -2585,7 +2589,8 @@ async function seatRows() {
       },
     });
     draftNodes.push(
-      plate(
+      stripSection(
+        2,
         body.title,
         line(body.members.map((m) => m.name).join(" · ")),
         draftBlock,
@@ -2594,11 +2599,26 @@ async function seatRows() {
   }
   const floor = controls.floor;
   const labels = controls.officeScreen ?? {};
-  // A bill of yours on its plate: its standing, the day it is taken up, each chamber's count
-  // the day before, how the vote came out, and the paper that opens to read it.
-  const billPlates = v.bills.map(({ bill, votes, tally, floorDate }) =>
-    plate(
-      `${bill.number} · ${floor.status[bill.status] ?? ""}`,
+  // Your bills, each with its standing, the day it is taken up, how the vote came out and
+  // the paper that opens to read it (the mock's "On my desk").
+  const desk = v.bills.map(({ bill, votes, tally, floorDate }) => {
+    const open = makeButton({
+      className: "action",
+      textContent: controls.bill?.open ?? "",
+    });
+    open.addEventListener("click", () =>
+      openBillPaper(
+        bill.id,
+        (...nodes) => $("sheet-body").replaceChildren(...nodes),
+        () => openSheet("office"),
+      ),
+    );
+    return el(
+      "div",
+      { className: "desk-bill" },
+      el("b", {
+        textContent: `${bill.number} · ${floor.status[bill.status] ?? ""}`,
+      }),
       ...(floorDate
         ? [line(`${floor.takenUp} ${dateWords(floorDate)}`, "floor-date")]
         : []),
@@ -2610,63 +2630,49 @@ async function seatRows() {
             ),
           ]
         : []),
-      // The paper holds the sections, the estimate and the votes: the plate opens it.
-      (() => {
-        const open = makeButton({
-          className: "action",
-          textContent: controls.bill?.open ?? "",
-        });
-        open.addEventListener("click", () =>
-          openBillPaper(
-            bill.id,
-            (...nodes) => $("sheet-body").replaceChildren(...nodes),
-            () => openSheet("office"),
-          ),
-        );
-        return open;
-      })(),
-    ),
-  );
+      open,
+    );
+  });
   const left = (v.incompatibilities ?? []).map((l) =>
     line(`${l.date} · ${l.left} → ${l.took} · ${l.law}`),
   );
   const result = seatResult
     ? [plate(null, line(seatResult), ...seatText.map((t) => line(t)))]
     : [];
-  const draftTab = [
-    ...result,
-    ...draftNodes,
-    ...(billPlates.length
-      ? [
-          pager({
-            items: billPlates,
-            render: (node) => node,
-            rows: 1,
-            columns: 2,
-            rowHeight: 170,
-            gap: 12,
-            words: {
-              page: controls.politics.page,
-              previous: controls.politics.previousPage,
-              next: controls.politics.nextPage,
-            },
-            className: "office-bills",
-          }),
-        ]
-      : []),
-    ...(left.length ? [plate(labels.left, ...left)] : []),
-  ];
   return [
-    officeScreen({
-      active: officeTab,
-      onTab: (key) => {
-        officeTab = key;
-      },
-      tabs: [
-        { key: "seat", label: labels.seat, nodes: parts.seat },
-        { key: "draft", label: labels.draft, nodes: draftTab },
-        { key: "budget", label: labels.budget, nodes: parts.budget },
-        { key: "deals", label: labels.deals, nodes: parts.deals },
+    stripBoard({
+      className: "office-board",
+      columns: [
+        parts.seat,
+        [
+          ...result,
+          ...(desk.length
+            ? [
+                stripSection(
+                  1,
+                  labels.onMyDesk,
+                  desk.length > 3
+                    ? pager({
+                        items: desk,
+                        render: (node) => node,
+                        rows: 3,
+                        columns: 1,
+                        rowHeight: 110,
+                        gap: 10,
+                        words: {
+                          page: controls.politics.page,
+                          previous: controls.politics.previousPage,
+                          next: controls.politics.nextPage,
+                        },
+                      })
+                    : el("div", { className: "desk" }, ...desk),
+                ),
+              ]
+            : []),
+          ...draftNodes,
+          ...(left.length ? [stripSection(3, labels.left, ...left)] : []),
+        ],
+        [...parts.budget, ...parts.deals],
       ],
     }),
   ];
