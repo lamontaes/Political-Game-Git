@@ -189,6 +189,7 @@
 /src/core2/commuting-shares.ts @lamontaes
 /src/core2/cost-of-living.ts @lamontaes
 /src/core2/living-cost-split.ts @lamontaes
+/src/core2/pay-by-quarter.ts @lamontaes
 
 # Households and people (people)
 /src/core2/modules/people.ts @lamontaes

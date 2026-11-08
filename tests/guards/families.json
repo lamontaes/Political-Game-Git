@@ -204,7 +204,8 @@
         "src/core2/modules/business.ts",
         "src/core2/modules/macro.ts",
         "src/core2/business-module-id.ts",
-        "src/core2/regional-model.ts"
+        "src/core2/regional-model.ts",
+        "src/core2/pay-by-quarter.ts"
       ],
       "paths": [
         "src/core2/modules/jobs.ts",
@@ -245,7 +246,8 @@
         "src/core2/credit-deposits.ts",
         "src/core2/commuting-shares.ts",
         "src/core2/cost-of-living.ts",
-        "src/core2/living-cost-split.ts"
+        "src/core2/living-cost-split.ts",
+        "src/core2/pay-by-quarter.ts"
       ]
     },
     {
