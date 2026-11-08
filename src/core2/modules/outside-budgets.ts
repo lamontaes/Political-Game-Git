@@ -22,6 +22,7 @@ import { REGIONS } from "../regional-model";
 import type { RegionMonth } from "../regional-model";
 import { registerModule } from "../state";
 import { lawChain, stateLawInForce } from "./laws";
+import { nationalDisasterDetail, NATIONAL_DISASTER } from "./national-events";
 import {
   BUDGETS_MODULE_ID,
   putBudget,
@@ -30,7 +31,7 @@ import {
   type GovernmentRow,
 } from "./budgets";
 import { addDays, makeIsoDate } from "../kernel/dates";
-import type { CoreAPI, CoreModule, CoreState } from "../types";
+import type { CoreAPI, CoreEventInput, CoreModule, CoreState } from "../types";
 
 export const OUTSIDE_BUDGETS_MODULE_ID = "outside-budgets";
 const RUN_KIND = "outside-budgets";
@@ -237,9 +238,47 @@ function schedule(api: CoreAPI): void {
   });
 }
 
+/**
+ * A disaster elsewhere reaches the state's budget: the Public Assistance FEMA
+ * obligated for it (read from the record when the disaster is opened,
+ * `nationalDisasterDetail`) comes in as federal aid and goes out as relief,
+ * in the state's budget for the year the disaster begins. The aid is
+ * obligated after the declaration in fact; it lands on the incident's year
+ * here (stopgap SG-NATION-disaster-damage-from-causes).
+ */
+function disasterAid(api: CoreAPI, event: Readonly<CoreEventInput>): void {
+  const stateKey = event.facts?.stateKey ?? "";
+  const base = STATES[stateKey];
+  if (!base?.fiscalYearStart || stateKey === lawChain(api).stateKey) return;
+  const aid = nationalDisasterDetail(api, event.id)?.publicAssistanceMinor ?? 0;
+  if (aid <= 0) return;
+  const year = fiscalYearOn(api.state.date, base.fiscalYearStart);
+  const row = api
+    .moduleState(BUDGETS_MODULE_ID)
+    .table("budgets")
+    .get(`budget:${stateKey}:${year}`) as unknown as BudgetRow | undefined;
+  if (!row) return;
+  putBudget(api, {
+    ...row,
+    revenueMinor: {
+      ...row.revenueMinor,
+      federalAid: (row.revenueMinor.federalAid ?? 0) + aid,
+    },
+    spendingMinor: {
+      ...row.spendingMinor,
+      otherPrograms: (row.spendingMinor.otherPrograms ?? 0) + aid,
+    },
+    source: `${row.source}; plus the federal aid for disaster ${event.facts?.disasterNumber ?? event.id} (${event.id})`,
+  });
+}
+
 export const OUTSIDE_BUDGETS_MODULE: CoreModule = {
   id: OUTSIDE_BUDGETS_MODULE_ID,
   state: { schemaVersion: 1, tables: { state: {} } },
+  eventKinds: [NATIONAL_DISASTER],
+  onEvent(api, event) {
+    disasterAid(api, event);
+  },
   onCalendarWork(api, work) {
     if (work.kind !== RUN_KIND) return;
     run(api, false);
