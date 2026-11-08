@@ -7926,6 +7926,50 @@
         "move": "headline",
         "key": "news-received"
       }
+    },
+    {
+      "key": "headlines.floor-debate.name-and-opponent-split-on-designation",
+      "move": "floor-debate",
+      "kind": "written",
+      "text": "{name} and {opponent} split on {designation}",
+      "uses": [
+        {
+          "move": "floor-debate",
+          "subject": "headline",
+          "role": "floor-debate",
+          "choice": "headline",
+          "requiresFacts": ["opponent", "designation"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.floor-debate.designation-name-for-opponent-against",
+      "move": "floor-debate",
+      "kind": "written",
+      "text": "{designation}: {name} for, {opponent} against",
+      "uses": [
+        {
+          "move": "floor-debate",
+          "subject": "headline",
+          "role": "floor-debate",
+          "choice": "headline",
+          "requiresFacts": ["opponent", "designation"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
     }
   ]
 }

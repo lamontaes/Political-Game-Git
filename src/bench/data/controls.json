@@ -173,9 +173,16 @@
     "sign": "Signs",
     "veto": "Vetoes",
     "introduce": "Introduce",
+    "repeal": "Repeal",
+    "answer": "Answer",
+    "yes": "Yes",
+    "no": "No",
     "pass": "Pass",
     "defeat": "Defeat",
     "held": "Held by the chair",
+    "petition": "Members sign a discharge petition",
+    "discharged": "Discharged",
+    "notDischarged": "Not discharged",
     "lost": "Lost in committee",
     "chair": "Chair",
     "noVeto": "No veto at this body",
@@ -187,6 +194,10 @@
     "official": "Official",
     "stake": "Stake",
     "offer": "Offer",
+    "answer": "Official's answer",
+    "asEngine": "As they would",
+    "takes": "Takes",
+    "refuses": "Refuses",
     "offered": "Offered",
     "declined": "Not offered",
     "taken": "Taken",
@@ -197,6 +208,12 @@
     "trace": "Trace",
     "watch": "Watch",
     "path": "Golden path",
+    "loans": "Small-dollar loans",
+    "asked": "Asked",
+    "lent": "Lent",
+    "factor": "Factor",
+    "links": "Links",
+    "web": "Web month",
     "prices": "Prices",
     "month": "Month",
     "publicJobs": "Public jobs",
@@ -228,11 +245,19 @@
     "type": "Situation",
     "make": "Make it happen",
     "begun": "Begun for",
-    "noPath": "No game code to attach to"
+    "waits": "Runs the world until it happens",
+    "reasons": {
+      "days": "Days passed",
+      "event": "It happened",
+      "cap": "Cap reached"
+    },
+    "noPath": "No engine writes its cause yet"
   },
   "devPerson": {
     "title": "Health",
     "fallIll": "Falls seriously ill",
+    "layOff": "Laid off by their employer",
+    "laidOff": "Laid off",
     "runUntilDies": "Run until they die",
     "ill": "Seriously ill",
     "picked": "Picked for their next decision",
@@ -255,6 +280,7 @@
     "cap": "Cap",
     "event": "Event",
     "noEvent": "No event",
+    "holdLaw": "Hold the law just passed",
     "run": "Run",
     "events": {
       "bill-passes": "A bill passes",
@@ -745,7 +771,10 @@
     "noBallot": "No local election is on the calendar",
     "dates": "Dates",
     "electionDay": "Election day",
-    "whoIsRunning": "Who's running"
+    "whoIsRunning": "Who's running",
+    "lastTime": "Last time",
+    "share": "Share of the vote",
+    "percent": "percent"
   },
   "grade": {
     "good": "Good",
@@ -931,6 +960,14 @@
     "groupSpeak": "Speak",
     "debate": "Debate",
     "speech": "Give a speech"
+  },
+  "orders": {
+    "issue": "Issue the order",
+    "revoke": "Revoke the order",
+    "decline": "Set it aside",
+    "emergency": "State of emergency",
+    "emergency-issue": "Declare it",
+    "emergency-decline": "Let it pass"
   },
   "officeCases": {
     "help": "Help",

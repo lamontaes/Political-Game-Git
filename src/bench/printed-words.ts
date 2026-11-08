@@ -2969,6 +2969,21 @@ const addressResponse: Builder = (read, f) =>
     f.responderId,
   );
 
+/** The floor before a roll call (legislature.ts recordFloorDebate): who spoke for the bill and who against. */
+const floorDebate: Builder = (read, f) => {
+  const bill = read.billFacts(f.billId, f.number);
+  return story(
+    "floor-debate",
+    {
+      ...read.who(f.forId, "name", false),
+      ...read.who(f.againstId, "opponent", false),
+      ...(bill.designation ? { designation: bill.designation } : {}),
+    },
+    ["name", "opponent", "designation"],
+    f.forId,
+  );
+};
+
 /** A governor's or mayor's yearly address, told by its kind and one line they said. */
 const localAddress =
   (level: "state" | "town"): Builder =>
@@ -3222,6 +3237,7 @@ const BUILDERS: Readonly<Record<string, Builder>> = {
   "governor.address": localAddress("state"),
   "mayor.address": localAddress("town"),
   "governor.response": addressResponse,
+  "floor-debate": floorDebate,
   "civic.protest": publicAction("protest"),
   "civic.strike": publicAction("strike"),
   "civic.rally": publicAction("rally"),
