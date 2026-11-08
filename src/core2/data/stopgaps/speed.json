@@ -10,5 +10,17 @@
     "addedAt": "2026-11-08",
     "replacement": "A coarse campaign that moves each voter group's standing by the campaign's spending and reach, as counted groups are read, so the aggregate effect of a campaign remains.",
     "status": ""
+  },
+  {
+    "id": "SG-SPEED-outside-legislators-do-not-die",
+    "kind": "partial-model",
+    "file": "src/core2/modules/officials.ts",
+    "line": 760,
+    "whatItFakes": "Another state's legislators are recorded husks until something opens them, and a husk has no health record, so none of them dies, falls ill or retires between elections (vacancies from outside deaths: 19 against 149 over two years in Dickey, North Dakota, seed n8g7).",
+    "why": "Building 6,700 full people at the opening made 43 percent of a small town's year (owner, Nov 5: generate on demand); the death of a person nobody has opened needs the health engine's death path run for a husk.",
+    "addedBy": "speed",
+    "addedAt": "2026-11-08",
+    "replacement": "Each husk official gets the same hazard profile and seeded line the health engine gives a person, a death day is booked on a due-date index, and on that day the person is built and dies through the health engine's own path, so the vacancy and special election follow.",
+    "status": "open"
   }
 ]
