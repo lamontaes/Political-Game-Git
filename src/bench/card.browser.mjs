@@ -46,10 +46,7 @@ try {
   ]) {
     await page.setViewportSize(size);
     await page.waitForTimeout(500);
-    for (const why of ["", "Knock on doors · 36 doors · 5 reached"]) {
-      await page.evaluate((text) => {
-        document.getElementById("card-why").textContent = text;
-      }, why);
+    for (const why of [""]) {
       const read = await page.evaluate(() => {
         const box = document.getElementById("card");
         const card = box.getBoundingClientRect();
@@ -154,11 +151,8 @@ try {
     await page.screenshot({
       path: `docs/reports/card-2026-10-25/card-${size.width}x${size.height}.png`,
     });
-    // With the door-knocking status line on the card, an ordinary pointer
-    // click opens each of the nine icons' screens; the keyboard opens Calendar.
-    await page.evaluate((text) => {
-      document.getElementById("card-why").textContent = text;
-    }, "Knock on doors · 36 doors · 5 reached");
+    // An ordinary pointer click opens each of the nine icons' screens; the keyboard opens
+    // Calendar. (The card has no status line any more: owner, Nov 8, no subtexts.)
     for (const tab of await page
       .locator("#rings [data-tab]")
       .evaluateAll((all) => all.map((ring) => ring.dataset.tab))) {
@@ -178,9 +172,6 @@ try {
     await page.locator("#sheet-close").click();
     await page.locator("#sheet").waitFor({ state: "hidden", timeout: 10000 });
   }
-  await page.evaluate(() => {
-    document.getElementById("card-why").textContent = "";
-  });
   assert.deepEqual(errors, []);
   console.log(
     "PASS at 1440x1000, 1440x900 and 1024x768 the card keeps below the round rail icons, a column of nine with Who you are, News and the Guide, its text inside it, the date and time and no picture; each icon opens by pointer, Calendar by keyboard",
