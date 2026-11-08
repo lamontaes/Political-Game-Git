@@ -1,6 +1,12 @@
 {
   "entries": [
     {
+      "version": "0.87.8",
+      "releasedOn": "2026-11-08",
+      "revision": "7a6da73a970ea14c4d32a587589b8a4dd027b6fb",
+      "changeIds": ["law-levels-federal-cannabis-scope"]
+    },
+    {
       "version": "0.87.7",
       "releasedOn": "2026-11-07",
       "revision": "5f437878b3a3eaa89999fe38bf447cdaea1601dc",
