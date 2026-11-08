@@ -986,6 +986,19 @@
           "note": "No Medicaid work requirement was in force on 1/1/2026; the federal one starts 1/1/2027."
         }
       }
+    },
+    "us-federal-positions:health.medicare-drug-price-negotiation": {
+      "source": "https://www.law.cornell.edu/uscode/text/42/1320f",
+      "note": "The question asks whether Medicare negotiates drug prices; the Inflation Reduction Act made it law and it stays in force.",
+      "answers": {
+        "US": {
+          "answer": "yes",
+          "operativeAt": "2022-08-16",
+          "source": "https://www.law.cornell.edu/uscode/text/42/1320f",
+          "cite": "42 U.S.C. 1320f(a), added by Pub. L. 117-169, title I, sec. 11001(a)",
+          "quote": "The Secretary shall establish a Drug Price Negotiation Program"
+        }
+      }
     }
   }
 }
