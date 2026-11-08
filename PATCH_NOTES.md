@@ -296,6 +296,21 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.88.4
+
+_Released November 8, 2026._
+
+### Fixed
+
+- **Saved games on the title screen opens** Saved games on the title screen no
+  longer does nothing. It opens a sheet that shows the life in progress, with a
+  way to continue it, and says that more saved lives arrive with early access.
+
+- **Reserve laws can be repealed and restored on the same day** Repealing and
+  restoring a reserve requirement no longer reuses an earlier cash-transfer ID.
+  The opening-law audit now follows every authorized reversal through signature
+  and effect, then restores its original answer.
+
 ## PRE-ALPHA 0.88.3
 
 _Released November 8, 2026._

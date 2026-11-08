@@ -1,6 +1,15 @@
 {
   "entries": [
     {
+      "version": "0.88.4",
+      "releasedOn": "2026-11-08",
+      "revision": "3dc849d9d12be13dc1804a62180a9ab24fd9d53f",
+      "changeIds": [
+        "fixer-title-saved-games",
+        "law-levels-opening-reversal-effects"
+      ]
+    },
+    {
       "version": "0.88.3",
       "releasedOn": "2026-11-08",
       "revision": "e2cb82957e84e323111340715c61ca01bc29c332",
