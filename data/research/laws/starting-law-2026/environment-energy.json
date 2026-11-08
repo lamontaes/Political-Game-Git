@@ -561,9 +561,9 @@
         },
         "US-KS": {
           "answer": "no",
-          "preempts": true,
+          "preempts": false,
           "source": "https://www.bottlebill.org/proposed-laws/",
-          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam). No statute was found that bars a county or city from its own container-deposit rule, so places are not barred."
         },
         "US-KY": {
           "answer": "no",
@@ -786,9 +786,9 @@
         },
         "US-TN": {
           "answer": "no",
-          "preempts": true,
+          "preempts": false,
           "source": "https://www.bottlebill.org/proposed-laws/",
-          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam). No statute was found that bars a county or city from its own container-deposit rule, so places are not barred."
         },
         "US-TX": {
           "answer": "no",

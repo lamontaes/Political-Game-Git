@@ -1703,11 +1703,6 @@ body:not(.dev) .dev-only {
 .calendar-day .plate h3 {
   font-size: 30px;
 }
-.calendar-distance {
-  margin: 0 0 6px;
-  color: var(--muted, var(--text));
-  font: 14px var(--ui);
-}
 .calendar-day-list {
   display: flex;
   flex-direction: column;
@@ -4230,7 +4225,7 @@ select.release-pick {
   align-items: center;
   margin: 0 0 8px;
 }
-#sheet-body .calendar-key .key-kind {
+#sheet-body .calendar-key .key-chip {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -4240,44 +4235,9 @@ select.release-pick {
   font-size: 13px;
   opacity: 0.55;
 }
-#sheet-body .calendar-key .key-kind.on {
+#sheet-body .calendar-key .key-chip.on {
   opacity: 1;
 }
-.calendar-key .key-kind::before {
-  content: "";
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: var(--kind-color);
-}
-.kind-birthday {
-  --kind-color: var(--kind-birthday);
-}
-.kind-deadline {
-  --kind-color: var(--kind-deadline);
-}
-.kind-election {
-  --kind-color: var(--kind-election);
-}
-.kind-meeting {
-  --kind-color: var(--kind-meeting);
-}
-.kind-holiday {
-  --kind-color: var(--kind-holiday);
-}
-.calendar-board .day-icon[class*="kind-"] {
-  border-radius: 50%;
-  background: var(--kind-color);
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
-  filter: none;
-}
-.calendar-board .calendar-entry[class*="kind-"] {
-  border-left: 3px solid var(--kind-color);
-}
-.calendar-board .calendar-entry[class*="kind-"] .when {
-  color: var(--kind-color);
-}
-
 /* ---- Loading worth watching (Lane 4, path 3) ----
    The built world's past while the first scene is drawn: a year counter
    over a map that fills in and the journal writing itself. Never a scroll:
@@ -4975,13 +4935,6 @@ select.release-pick {
 }
 .calendar-board {
   flex: 1;
-}
-.calendar-board {
-  --kind-birthday: #e0a090;
-  --kind-deadline: #d6bd84;
-  --kind-election: #7fa3d6;
-  --kind-meeting: #8fc79a;
-  --kind-holiday: #c4a0d8;
 }
 
 /* Journal (Nov 8 play mock, pl-journal): two columns of prose with a drop cap. */
