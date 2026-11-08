@@ -467,6 +467,15 @@
               "levels": ["state"]
             },
             {
+              "id": "law:state-eitc-percent",
+              "name": "State earned income tax credit (percent of the federal credit)",
+              "kind": "law-amount",
+              "series": "state-eitc-percent",
+              "unit": "percent-of-federal-credit",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
+            },
+            {
               "id": "law:local-income-tax-authority",
               "name": "Local income tax authority",
               "kind": "law-amount",

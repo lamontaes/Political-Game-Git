@@ -1,0 +1,379 @@
+{
+  "id": "state-eitc-2025",
+  "about": "Each state's earned income tax credit as a percent of the federal credit; 0 where the state has none.",
+  "source": {
+    "url": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+    "quote": "States and local governments with Earned Income Tax Credit ... California 46.5 percent Yes ... Connecticut 40 percent Yes ... Page Last Reviewed or Updated: 26-Nov-2025",
+    "retrieved": "2026-11-08"
+  },
+  "specialCases": "Maine, Minnesota, Oregon and Wisconsin set the credit by children, age of child or earned income rather than one percent; their 'pct' is a single stand-in (Maine and Oregon the base, Wisconsin the two-child percent, Minnesota 8 percent, about its $369 cap over the $4,427 one-child credit) and is marked an estimate.",
+  "rows": {
+    "US-AK": {
+      "name": "Alaska",
+      "pct": 0,
+      "refundable": null,
+      "estimate": false,
+      "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025)."
+    },
+    "US-AL": {
+      "name": "Alabama",
+      "pct": 0,
+      "refundable": null,
+      "estimate": false,
+      "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025)."
+    },
+    "US-AR": {
+      "name": "Arkansas",
+      "pct": 0,
+      "refundable": null,
+      "estimate": false,
+      "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025)."
+    },
+    "US-AS": {
+      "name": "American Samoa",
+      "pct": 0,
+      "refundable": null,
+      "estimate": true,
+      "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025). Territories are not listed either way, so 0 is an estimate."
+    },
+    "US-AZ": {
+      "name": "Arizona",
+      "pct": 0,
+      "refundable": null,
+      "estimate": false,
+      "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025)."
+    },
+    "US-CA": {
+      "name": "California",
+      "pct": 46.5,
+      "refundable": true,
+      "estimate": false
+    },
+    "US-CO": {
+      "name": "Colorado",
+      "pct": 50,
+      "refundable": true,
+      "estimate": false
+    },
+    "US-CT": {
+      "name": "Connecticut",
+      "pct": 40,
+      "refundable": true,
+      "estimate": false
+    },
+    "US-DC": {
+      "name": "District of Columbia",
+      "pct": 70,
+      "refundable": true,
+      "estimate": false
+    },
+    "US-DE": {
+      "name": "Delaware",
+      "pct": 20,
+      "refundable": false,
+      "estimate": false
+    },
+    "US-FL": {
+      "name": "Florida",
+      "pct": 0,
+      "refundable": null,
+      "estimate": false,
+      "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025)."
+    },
+    "US-GA": {
+      "name": "Georgia",
+      "pct": 0,
+      "refundable": null,
+      "estimate": false,
+      "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025)."
+    },
+    "US-GU": {
+      "name": "Guam",
+      "pct": 0,
+      "refundable": null,
+      "estimate": true,
+      "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025). Territories are not listed either way, so 0 is an estimate."
+    },
+    "US-HI": {
+      "name": "Hawaii",
+      "pct": 40,
+      "refundable": true,
+      "estimate": false
+    },
+    "US-IA": {
+      "name": "Iowa",
+      "pct": 15,
+      "refundable": true,
+      "estimate": false
+    },
+    "US-ID": {
+      "name": "Idaho",
+      "pct": 0,
+      "refundable": null,
+      "estimate": false,
+      "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025)."
+    },
+    "US-IL": {
+      "name": "Illinois",
+      "pct": 20,
+      "refundable": true,
+      "estimate": false
+    },
+    "US-IN": {
+      "name": "Indiana",
+      "pct": 10,
+      "refundable": true,
+      "estimate": false
+    },
+    "US-KS": {
+      "name": "Kansas",
+      "pct": 17,
+      "refundable": true,
+      "estimate": false
+    },
+    "US-KY": {
+      "name": "Kentucky",
+      "pct": 0,
+      "refundable": null,
+      "estimate": false,
+      "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025)."
+    },
+    "US-LA": {
+      "name": "Louisiana",
+      "pct": 5,
+      "refundable": true,
+      "estimate": false
+    },
+    "US-MA": {
+      "name": "Massachusetts",
+      "pct": 40,
+      "refundable": true,
+      "estimate": false
+    },
+    "US-MD": {
+      "name": "Maryland",
+      "pct": 50,
+      "refundable": true,
+      "estimate": false
+    },
+    "US-ME": {
+      "name": "Maine",
+      "pct": 25,
+      "refundable": true,
+      "detail": "25 percent (50 percent if no qualifying children)",
+      "estimate": true
+    },
+    "US-MI": {
+      "name": "Michigan",
+      "pct": 30,
+      "refundable": true,
+      "estimate": false
+    },
+    "US-MN": {
+      "name": "Minnesota",
+      "pct": 8,
+      "refundable": true,
+      "detail": "4% of earned income (up to maximum credit of $369)",
+      "estimate": true
+    },
+    "US-MO": {
+      "name": "Missouri",
+      "pct": 0,
+      "refundable": null,
+      "estimate": false,
+      "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025)."
+    },
+    "US-MP": {
+      "name": "Northern Mariana Islands",
+      "pct": 0,
+      "refundable": null,
+      "estimate": true,
+      "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025). Territories are not listed either way, so 0 is an estimate."
+    },
+    "US-MS": {
+      "name": "Mississippi",
+      "pct": 0,
+      "refundable": null,
+      "estimate": false,
+      "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025)."
+    },
+    "US-MT": {
+      "name": "Montana",
+      "pct": 10,
+      "refundable": true,
+      "estimate": false
+    },
+    "US-NC": {
+      "name": "North Carolina",
+      "pct": 0,
+      "refundable": null,
+      "estimate": false,
+      "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025)."
+    },
+    "US-ND": {
+      "name": "North Dakota",
+      "pct": 0,
+      "refundable": null,
+      "estimate": false,
+      "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025)."
+    },
+    "US-NE": {
+      "name": "Nebraska",
+      "pct": 10,
+      "refundable": true,
+      "estimate": false
+    },
+    "US-NH": {
+      "name": "New Hampshire",
+      "pct": 0,
+      "refundable": null,
+      "estimate": false,
+      "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025)."
+    },
+    "US-NJ": {
+      "name": "New Jersey",
+      "pct": 40,
+      "refundable": true,
+      "estimate": false
+    },
+    "US-NM": {
+      "name": "New Mexico",
+      "pct": 25,
+      "refundable": true,
+      "estimate": false
+    },
+    "US-NV": {
+      "name": "Nevada",
+      "pct": 0,
+      "refundable": null,
+      "estimate": false,
+      "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025)."
+    },
+    "US-NY": {
+      "name": "New York",
+      "pct": 30,
+      "refundable": true,
+      "estimate": false
+    },
+    "US-OH": {
+      "name": "Ohio",
+      "pct": 30,
+      "refundable": false,
+      "estimate": false
+    },
+    "US-OK": {
+      "name": "Oklahoma",
+      "pct": 5,
+      "refundable": true,
+      "estimate": false
+    },
+    "US-OR": {
+      "name": "Oregon",
+      "pct": 9,
+      "refundable": true,
+      "detail": "9 percent (12 percent if qualifying child under age 3)",
+      "estimate": true
+    },
+    "US-PA": {
+      "name": "Pennsylvania",
+      "pct": 0,
+      "refundable": null,
+      "estimate": false,
+      "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025)."
+    },
+    "US-PR": {
+      "name": "Puerto Rico",
+      "pct": 0,
+      "refundable": null,
+      "estimate": true,
+      "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025). Territories are not listed either way, so 0 is an estimate."
+    },
+    "US-RI": {
+      "name": "Rhode Island",
+      "pct": 16,
+      "refundable": true,
+      "estimate": false
+    },
+    "US-SC": {
+      "name": "South Carolina",
+      "pct": 125,
+      "refundable": false,
+      "estimate": false
+    },
+    "US-SD": {
+      "name": "South Dakota",
+      "pct": 0,
+      "refundable": null,
+      "estimate": false,
+      "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025)."
+    },
+    "US-TN": {
+      "name": "Tennessee",
+      "pct": 0,
+      "refundable": null,
+      "estimate": false,
+      "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025)."
+    },
+    "US-TX": {
+      "name": "Texas",
+      "pct": 0,
+      "refundable": null,
+      "estimate": false,
+      "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025)."
+    },
+    "US-UT": {
+      "name": "Utah",
+      "pct": 0,
+      "refundable": null,
+      "estimate": false,
+      "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025)."
+    },
+    "US-VA": {
+      "name": "Virginia",
+      "pct": 15,
+      "refundable": true,
+      "estimate": false
+    },
+    "US-VI": {
+      "name": "U.S. Virgin Islands",
+      "pct": 0,
+      "refundable": null,
+      "estimate": true,
+      "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025). Territories are not listed either way, so 0 is an estimate."
+    },
+    "US-VT": {
+      "name": "Vermont",
+      "pct": 38,
+      "refundable": true,
+      "estimate": false
+    },
+    "US-WA": {
+      "name": "Washington",
+      "pct": 0,
+      "refundable": null,
+      "estimate": false,
+      "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025)."
+    },
+    "US-WI": {
+      "name": "Wisconsin",
+      "pct": 11,
+      "refundable": true,
+      "detail": "One child — 4 percent, Two children — 11 percent, Three children — 34 percent",
+      "estimate": true
+    },
+    "US-WV": {
+      "name": "West Virginia",
+      "pct": 0,
+      "refundable": null,
+      "estimate": false,
+      "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025)."
+    },
+    "US-WY": {
+      "name": "Wyoming",
+      "pct": 0,
+      "refundable": null,
+      "estimate": false,
+      "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025)."
+    }
+  }
+}

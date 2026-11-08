@@ -1296,6 +1296,113 @@ export function payEnergyAssistance(
 }
 
 /**
+ * A state's earned income tax credit as a payment: the state treasury pays
+ * each household with earnings its credit, the law's percent of the federal
+ * credit (26 U.S.C. 32 on the 2026 schedule), a twelfth a month, times the
+ * share of eligible households that claim it. The household is paid through
+ * its oldest resident; counted households through the town's residents
+ * account, times their weights. A change to the percent or a repeal re-reads
+ * every household's credit. (Stopgap SG-GOV-REACH-B-state-eitc-filing: no tax
+ * return; marital status is read from two adults in the household, and a
+ * state's special rules are one stand-in percent.)
+ */
+export function payStateEitc(
+  api: CoreAPI,
+  input: {
+    readonly key: string;
+    readonly lawId: string;
+    readonly inForce: boolean;
+    /** Each household and its yearly state credit in dollars. */
+    readonly households: readonly {
+      readonly id: string;
+      readonly named: boolean;
+      readonly scale?: number;
+      readonly creditDollars: number;
+    }[];
+    readonly residents: readonly ResidentFacts[];
+  },
+): {
+  readonly named: ReadonlyMap<string, Record<string, number>>;
+  readonly counted: number;
+} {
+  const core = api.state as CoreState;
+  if (!core.modules.has(BUDGETS_MODULE_ID))
+    return { named: new Map(), counted: 0 };
+  const town = lawChain(api).townPlaceId;
+  const state = governmentAt(api, "state");
+  const want = new Map<string, number>();
+  const named = new Map<string, Record<string, number>>();
+  let counted = 0;
+  if (input.inForce && state) {
+    const share = reachParameter("eitcParticipationShare");
+    const cents = reachParameter("centsPerDollar");
+    const months = reachParameter("monthsPerYear");
+    const heads = new Map<string, ResidentFacts>();
+    for (const r of input.residents) {
+      if (!r.named || r.age < reachParameter("votingAge")) continue;
+      const prior = heads.get(r.householdId);
+      if (
+        !prior ||
+        r.age > prior.age ||
+        (r.age === prior.age && r.id < prior.id)
+      )
+        heads.set(r.householdId, r);
+    }
+    const residentsOrg = residentsRuntime(core)?.input.accounts.find(
+      (a) => a.placeId === town,
+    )?.accountId;
+    let countedMinor = 0;
+    let countedHouseholds = 0;
+    for (const household of input.households) {
+      const monthly = Math.round(
+        (household.creditDollars * share * cents) / months,
+      );
+      if (monthly <= 0) continue;
+      if (!household.named) {
+        const weight = household.scale ?? 1;
+        countedMinor += monthly * weight;
+        countedHouseholds += weight;
+        continue;
+      }
+      const head = heads.get(household.id);
+      if (!head) continue;
+      want.set(`${state.id}|${head.id}`, monthly);
+      named.set(head.id, { monthlyMinor: monthly });
+      recordApplied(api, {
+        key: input.key,
+        lawId: input.lawId,
+        targetId: household.id,
+        target: "household",
+        what: "state-eitc-paid",
+        amountMinor: monthly,
+      });
+    }
+    if (residentsOrg && countedHouseholds > 0) {
+      counted = Math.round(countedHouseholds);
+      want.set(`${state.id}|${residentsOrg}`, Math.floor(countedMinor));
+      recordApplied(api, {
+        key: input.key,
+        lawId: input.lawId,
+        targetId: `${town}:state-eitc-households`,
+        target: "group",
+        what: "state-eitc-paid",
+        count: counted,
+        amountMinor: Math.floor(countedMinor),
+      });
+    }
+  }
+  reconcileObligations(api, {
+    rowKind: "state-eitc",
+    key: input.key,
+    want,
+    line: "welfareAndMedicaid",
+    reasonKey: "law-reach:state-eitc",
+    citation: `State earned income tax credit (${input.key}): the state pays the law's percent of the federal credit to the share of eligible households that claim it`,
+  });
+  return { named, counted };
+}
+
+/**
  * The share of a private school's average tuition a voucher covers: the
  * voucher's amount over the NCES average tuition, never more than all of it.
  */

@@ -343,6 +343,19 @@
       },
       {
         "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 0,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": false,
+        "unit": "percent-of-federal-credit",
+        "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025)."
+      },
+      {
+        "level": "state",
         "series": "child-care-income-limit",
         "tier": "general",
         "value": 6192,
@@ -854,6 +867,19 @@
       },
       {
         "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 0,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": false,
+        "unit": "percent-of-federal-credit",
+        "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025)."
+      },
+      {
+        "level": "state",
         "series": "child-care-income-limit",
         "tier": "general",
         "value": 3729,
@@ -1229,6 +1255,19 @@
         "unit": "percent-of-poverty-line",
         "terms": { "floorPct": 110, "ceilingPct": 150 },
         "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 0,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": false,
+        "unit": "percent-of-federal-credit",
+        "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025)."
       },
       {
         "level": "state",
@@ -2185,6 +2224,19 @@
       },
       {
         "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 0,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-federal-credit",
+        "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025). Territories are not listed either way, so 0 is an estimate."
+      },
+      {
+        "level": "state",
         "series": "child-care-income-limit",
         "tier": "general",
         "value": 4088,
@@ -2374,6 +2426,19 @@
         "unit": "percent-of-poverty-line",
         "terms": { "floorPct": 110, "ceilingPct": 150 },
         "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 0,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": false,
+        "unit": "percent-of-federal-credit",
+        "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025)."
       },
       {
         "level": "state",
@@ -2800,6 +2865,19 @@
         "unit": "percent-of-poverty-line",
         "terms": { "floorPct": 110, "ceilingPct": 150 },
         "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 46.5,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": false,
+        "unit": "percent-of-federal-credit",
+        "terms": { "refundable": true }
       },
       {
         "level": "state",
@@ -3262,6 +3340,19 @@
       },
       {
         "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 50,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": false,
+        "unit": "percent-of-federal-credit",
+        "terms": { "refundable": true }
+      },
+      {
+        "level": "state",
         "series": "state-contribution-limit-governor",
         "tier": "general",
         "value": 725,
@@ -3679,6 +3770,19 @@
         "unit": "percent-of-poverty-line",
         "terms": { "floorPct": 110, "ceilingPct": 150 },
         "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 40,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": false,
+        "unit": "percent-of-federal-credit",
+        "terms": { "refundable": true }
       },
       {
         "level": "state",
@@ -4164,6 +4268,19 @@
       },
       {
         "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 70,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": false,
+        "unit": "percent-of-federal-credit",
+        "terms": { "refundable": true }
+      },
+      {
+        "level": "state",
         "series": "state-contribution-limit-governor",
         "tier": "general",
         "value": 2000,
@@ -4621,6 +4738,19 @@
         "unit": "percent-of-poverty-line",
         "terms": { "floorPct": 110, "ceilingPct": 150 },
         "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 20,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": false,
+        "unit": "percent-of-federal-credit",
+        "terms": { "refundable": false }
       },
       {
         "level": "state",
@@ -5086,6 +5216,19 @@
       },
       {
         "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 0,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": false,
+        "unit": "percent-of-federal-credit",
+        "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025)."
+      },
+      {
+        "level": "state",
         "series": "state-contribution-limit-governor",
         "tier": "general",
         "value": 3000,
@@ -5495,6 +5638,19 @@
       },
       {
         "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 0,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": false,
+        "unit": "percent-of-federal-credit",
+        "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025)."
+      },
+      {
+        "level": "state",
         "series": "state-contribution-limit-governor",
         "tier": "general",
         "value": 8400,
@@ -5901,6 +6057,19 @@
       },
       {
         "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 0,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-federal-credit",
+        "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025). Territories are not listed either way, so 0 is an estimate."
+      },
+      {
+        "level": "state",
         "series": "state-contribution-limit-governor",
         "tier": "general",
         "value": 1000,
@@ -6240,6 +6409,19 @@
         "unit": "percent-of-poverty-line",
         "terms": { "floorPct": 110, "ceilingPct": 150 },
         "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 40,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": false,
+        "unit": "percent-of-federal-credit",
+        "terms": { "refundable": true }
       },
       {
         "level": "state",
@@ -6731,6 +6913,19 @@
       },
       {
         "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 15,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": false,
+        "unit": "percent-of-federal-credit",
+        "terms": { "refundable": true }
+      },
+      {
+        "level": "state",
         "series": "child-care-income-limit",
         "tier": "general",
         "value": 3443,
@@ -7097,6 +7292,19 @@
         "unit": "percent-of-poverty-line",
         "terms": { "floorPct": 110, "ceilingPct": 150 },
         "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 0,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": false,
+        "unit": "percent-of-federal-credit",
+        "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025)."
       },
       {
         "level": "state",
@@ -7508,6 +7716,19 @@
         "unit": "percent-of-poverty-line",
         "terms": { "floorPct": 110, "ceilingPct": 150 },
         "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 20,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": false,
+        "unit": "percent-of-federal-credit",
+        "terms": { "refundable": true }
       },
       {
         "level": "state",
@@ -7941,6 +8162,19 @@
       },
       {
         "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 10,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": false,
+        "unit": "percent-of-federal-credit",
+        "terms": { "refundable": true }
+      },
+      {
+        "level": "state",
         "series": "child-care-income-limit",
         "tier": "general",
         "value": 3228,
@@ -8301,6 +8535,19 @@
         "unit": "percent-of-poverty-line",
         "terms": { "floorPct": 110, "ceilingPct": 150 },
         "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 17,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": false,
+        "unit": "percent-of-federal-credit",
+        "terms": { "refundable": true }
       },
       {
         "level": "state",
@@ -8733,6 +8980,19 @@
         "unit": "percent-of-poverty-line",
         "terms": { "floorPct": 110, "ceilingPct": 150 },
         "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 0,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": false,
+        "unit": "percent-of-federal-credit",
+        "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025)."
       },
       {
         "level": "state",
@@ -9169,6 +9429,19 @@
       },
       {
         "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 5,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": false,
+        "unit": "percent-of-federal-credit",
+        "terms": { "refundable": true }
+      },
+      {
+        "level": "state",
         "series": "state-contribution-limit-governor",
         "tier": "general",
         "value": 12000,
@@ -9581,6 +9854,19 @@
         "unit": "percent-of-poverty-line",
         "terms": { "floorPct": 110, "ceilingPct": 150 },
         "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 40,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": false,
+        "unit": "percent-of-federal-credit",
+        "terms": { "refundable": true }
       },
       {
         "level": "state",
@@ -10017,6 +10303,19 @@
         "unit": "percent-of-poverty-line",
         "terms": { "floorPct": 110, "ceilingPct": 150 },
         "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 50,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": false,
+        "unit": "percent-of-federal-credit",
+        "terms": { "refundable": true }
       },
       {
         "level": "state",
@@ -10518,6 +10817,22 @@
       },
       {
         "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 25,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-federal-credit",
+        "terms": {
+          "refundable": true,
+          "detail": "25 percent (50 percent if no qualifying children)"
+        }
+      },
+      {
+        "level": "state",
         "series": "state-contribution-limit-governor",
         "tier": "general",
         "value": 2075,
@@ -10968,6 +11283,19 @@
       },
       {
         "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 30,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": false,
+        "unit": "percent-of-federal-credit",
+        "terms": { "refundable": true }
+      },
+      {
+        "level": "state",
         "series": "state-contribution-limit-governor",
         "tier": "general",
         "value": 8325,
@@ -11392,6 +11720,22 @@
         "unit": "percent-of-poverty-line",
         "terms": { "floorPct": 110, "ceilingPct": 150 },
         "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 8,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-federal-credit",
+        "terms": {
+          "refundable": true,
+          "detail": "4% of earned income (up to maximum credit of $369)"
+        }
       },
       {
         "level": "state",
@@ -11824,6 +12168,19 @@
         "unit": "percent-of-poverty-line",
         "terms": { "floorPct": 110, "ceilingPct": 150 },
         "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 0,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": false,
+        "unit": "percent-of-federal-credit",
+        "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025)."
       },
       {
         "level": "state",
@@ -12262,6 +12619,19 @@
       },
       {
         "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 0,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-federal-credit",
+        "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025). Territories are not listed either way, so 0 is an estimate."
+      },
+      {
+        "level": "state",
         "series": "child-care-income-limit",
         "tier": "general",
         "value": 5667,
@@ -12436,6 +12806,19 @@
         "unit": "percent-of-poverty-line",
         "terms": { "floorPct": 110, "ceilingPct": 150 },
         "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 0,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": false,
+        "unit": "percent-of-federal-credit",
+        "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025)."
       },
       {
         "level": "state",
@@ -12822,6 +13205,19 @@
         "unit": "percent-of-poverty-line",
         "terms": { "floorPct": 110, "ceilingPct": 150 },
         "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 10,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": false,
+        "unit": "percent-of-federal-credit",
+        "terms": { "refundable": true }
       },
       {
         "level": "state",
@@ -13253,6 +13649,19 @@
       },
       {
         "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 0,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": false,
+        "unit": "percent-of-federal-credit",
+        "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025)."
+      },
+      {
+        "level": "state",
         "series": "state-contribution-limit-governor",
         "tier": "general",
         "value": 6800,
@@ -13665,6 +14074,19 @@
         "unit": "percent-of-poverty-line",
         "terms": { "floorPct": 110, "ceilingPct": 150 },
         "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 0,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": false,
+        "unit": "percent-of-federal-credit",
+        "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025)."
       },
       {
         "level": "state",
@@ -14110,6 +14532,19 @@
       },
       {
         "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 10,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": false,
+        "unit": "percent-of-federal-credit",
+        "terms": { "refundable": true }
+      },
+      {
+        "level": "state",
         "series": "child-care-income-limit",
         "tier": "general",
         "value": 3833,
@@ -14519,6 +14954,19 @@
         "unit": "percent-of-poverty-line",
         "terms": { "floorPct": 110, "ceilingPct": 150 },
         "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 0,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": false,
+        "unit": "percent-of-federal-credit",
+        "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025)."
       },
       {
         "level": "state",
@@ -14943,6 +15391,19 @@
         "unit": "percent-of-poverty-line",
         "terms": { "floorPct": 110, "ceilingPct": 150 },
         "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 40,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": false,
+        "unit": "percent-of-federal-credit",
+        "terms": { "refundable": true }
       },
       {
         "level": "state",
@@ -15442,6 +15903,19 @@
       },
       {
         "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 25,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": false,
+        "unit": "percent-of-federal-credit",
+        "terms": { "refundable": true }
+      },
+      {
+        "level": "state",
         "series": "state-contribution-limit-governor",
         "tier": "general",
         "value": 12400,
@@ -15886,6 +16360,19 @@
       },
       {
         "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 0,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": false,
+        "unit": "percent-of-federal-credit",
+        "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025)."
+      },
+      {
+        "level": "state",
         "series": "state-contribution-limit-governor",
         "tier": "general",
         "value": 5000,
@@ -16309,6 +16796,19 @@
         "unit": "percent-of-poverty-line",
         "terms": { "floorPct": 110, "ceilingPct": 150 },
         "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 30,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": false,
+        "unit": "percent-of-federal-credit",
+        "terms": { "refundable": true }
       },
       {
         "level": "state",
@@ -16810,6 +17310,19 @@
       },
       {
         "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 30,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": false,
+        "unit": "percent-of-federal-credit",
+        "terms": { "refundable": false }
+      },
+      {
+        "level": "state",
         "series": "state-contribution-limit-governor",
         "tier": "general",
         "value": 16615.67,
@@ -17202,6 +17715,19 @@
         "unit": "percent-of-poverty-line",
         "terms": { "floorPct": 110, "ceilingPct": 150 },
         "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 5,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": false,
+        "unit": "percent-of-federal-credit",
+        "terms": { "refundable": true }
       },
       {
         "level": "state",
@@ -17761,6 +18287,22 @@
       },
       {
         "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 9,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-federal-credit",
+        "terms": {
+          "refundable": true,
+          "detail": "9 percent (12 percent if qualifying child under age 3)"
+        }
+      },
+      {
+        "level": "state",
         "series": "child-care-income-limit",
         "tier": "general",
         "value": 4304,
@@ -18161,6 +18703,19 @@
         "unit": "percent-of-poverty-line",
         "terms": { "floorPct": 110, "ceilingPct": 150 },
         "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 0,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": false,
+        "unit": "percent-of-federal-credit",
+        "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025)."
       },
       {
         "level": "state",
@@ -18567,6 +19122,19 @@
       },
       {
         "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 0,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-federal-credit",
+        "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025). Territories are not listed either way, so 0 is an estimate."
+      },
+      {
+        "level": "state",
         "series": "state-contribution-limit-governor",
         "tier": "general",
         "value": 2700,
@@ -18896,6 +19464,19 @@
         "unit": "percent-of-poverty-line",
         "terms": { "floorPct": 110, "ceilingPct": 150 },
         "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 16,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": false,
+        "unit": "percent-of-federal-credit",
+        "terms": { "refundable": true }
       },
       {
         "level": "state",
@@ -19323,6 +19904,19 @@
         "unit": "percent-of-poverty-line",
         "terms": { "floorPct": 110, "ceilingPct": 150 },
         "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 125,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": false,
+        "unit": "percent-of-federal-credit",
+        "terms": { "refundable": false }
       },
       {
         "level": "state",
@@ -19763,6 +20357,19 @@
       },
       {
         "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 0,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": false,
+        "unit": "percent-of-federal-credit",
+        "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025)."
+      },
+      {
+        "level": "state",
         "series": "state-contribution-limit-governor",
         "tier": "general",
         "value": 4000,
@@ -20136,6 +20743,19 @@
         "unit": "percent-of-poverty-line",
         "terms": { "floorPct": 110, "ceilingPct": 150 },
         "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 0,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": false,
+        "unit": "percent-of-federal-credit",
+        "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025)."
       },
       {
         "level": "state",
@@ -20545,6 +21165,19 @@
       },
       {
         "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 0,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": false,
+        "unit": "percent-of-federal-credit",
+        "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025)."
+      },
+      {
+        "level": "state",
         "series": "child-care-income-limit",
         "tier": "general",
         "value": 6141,
@@ -20882,6 +21515,19 @@
         "unit": "percent-of-poverty-line",
         "terms": { "floorPct": 110, "ceilingPct": 150 },
         "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 0,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": false,
+        "unit": "percent-of-federal-credit",
+        "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025)."
       },
       {
         "level": "state",
@@ -21282,6 +21928,19 @@
         "unit": "percent-of-poverty-line",
         "terms": { "floorPct": 110, "ceilingPct": 150 },
         "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 15,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": false,
+        "unit": "percent-of-federal-credit",
+        "terms": { "refundable": true }
       },
       {
         "level": "state",
@@ -21721,6 +22380,19 @@
       },
       {
         "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 0,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-federal-credit",
+        "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025). Territories are not listed either way, so 0 is an estimate."
+      },
+      {
+        "level": "state",
         "series": "state-contribution-limit-governor",
         "tier": "general",
         "value": 3500,
@@ -22062,6 +22734,19 @@
         "unit": "percent-of-poverty-line",
         "terms": { "floorPct": 110, "ceilingPct": 150 },
         "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 38,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": false,
+        "unit": "percent-of-federal-credit",
+        "terms": { "refundable": true }
       },
       {
         "level": "state",
@@ -22529,6 +23214,19 @@
       },
       {
         "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 0,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": false,
+        "unit": "percent-of-federal-credit",
+        "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025)."
+      },
+      {
+        "level": "state",
         "series": "state-contribution-limit-governor",
         "tier": "general",
         "value": 2400,
@@ -22931,6 +23629,22 @@
         "unit": "percent-of-poverty-line",
         "terms": { "floorPct": 110, "ceilingPct": 150 },
         "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 11,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-federal-credit",
+        "terms": {
+          "refundable": true,
+          "detail": "One child \u2014 4 percent, Two children \u2014 11 percent, Three children \u2014 34 percent"
+        }
       },
       {
         "level": "state",
@@ -23353,6 +24067,19 @@
         "unit": "percent-of-poverty-line",
         "terms": { "floorPct": 110, "ceilingPct": 150 },
         "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 0,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": false,
+        "unit": "percent-of-federal-credit",
+        "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025)."
       },
       {
         "level": "state",
@@ -23803,6 +24530,19 @@
         "unit": "percent-of-poverty-line",
         "terms": { "floorPct": 110, "ceilingPct": 150 },
         "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
+        "series": "state-eitc-percent",
+        "tier": "general",
+        "value": 0,
+        "effectiveDate": "2025-11-26",
+        "endDate": null,
+        "source": "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit/states-and-local-governments-with-earned-income-tax-credit",
+        "retrieved": "2026-11-08",
+        "estimate": false,
+        "unit": "percent-of-federal-credit",
+        "note": "Not on the IRS list of states and local governments with an Earned Income Tax Credit (reviewed 26 Nov 2025)."
       },
       {
         "level": "state",

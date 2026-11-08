@@ -2244,5 +2244,17 @@
     "addedAt": "2026-11-08",
     "replacement": "Each state's limit and benefit from its LIHEAP plan; an application record and the household's utility bill the benefit offsets.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-REACH-B-state-eitc-filing",
+    "kind": "missing-engine",
+    "file": "src/core2/data/laws/reach-group-b.json",
+    "line": 333,
+    "whatItFakes": "A household's state earned income tax credit is the law's percent of the federal credit on the 2026 schedule, paid a twelfth a month to the share of eligible households that claim it. No tax return is filed: marital status is read as two adults in the household, a household's earned income is its income less retirement benefits, a child is a person under 19, and a childless household is counted at any age. Maine, Minnesota, Oregon and Wisconsin set the credit by children, a child's age or earnings; each is one stand-in percent (Wisconsin by children where the row names them).",
+    "why": "The game keeps no tax return, filing status or dependents' claims; the schedule and the states' percents are sourced, but the household facts that pick each case are read from the town's residents.",
+    "addedBy": "night:laws-and-effects",
+    "addedAt": "2026-11-08",
+    "replacement": "The tax engine's return for each household (filing status, dependents, earned income) fixes the federal credit, and each state's own rule fixes its credit.",
+    "status": "open"
   }
 ]

@@ -107,6 +107,7 @@ const STANDING_BENEFITS: readonly string[] = [
   "snap-maximum",
   "child-care-income-limit",
   "energy-assistance-income-limit",
+  "state-eitc-percent",
 ];
 
 /**

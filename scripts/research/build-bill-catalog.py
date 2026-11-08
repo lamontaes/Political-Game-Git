@@ -158,6 +158,7 @@ SERIES = {
     "state-contribution-limit-local": ("government", "Campaign finance", "State campaign contribution limit: local", "USD/election"),
     "federal-campaign-contribution-limit": ("government", "Campaign finance", "Federal campaign contribution limit", "USD/election"),
     "snap-maximum": ("assistance", "Food assistance", "SNAP maximum benefit", "USD/month"),
+    "state-eitc-percent": ("taxes-finance", "Taxes", "State earned income tax credit (percent of the federal credit)", "percent-of-federal-credit"),
     "energy-assistance-income-limit": ("assistance", "Utility-bill assistance", "Home energy assistance income limit (percent of the poverty line)", "percent-of-poverty-line"),
     "child-care-income-limit": ("assistance", "Child-care assistance", "Child care income limit (family of three)", "USD/month"),
     "federal-unemployment-tax": ("assistance", "Unemployment benefits", "Federal unemployment tax rate", "percent-of-wages"),

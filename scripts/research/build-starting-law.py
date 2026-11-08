@@ -218,6 +218,18 @@ def energy_assistance(rows):
                         retrieved="2026-11-08"))
 
 
+def state_eitc(rows):
+    """Each state's earned income tax credit as a percent of the federal credit (0 where none)."""
+    data = load(RESEARCH / "laws/state-eitc-2025.json")
+    for state, item in sorted(data["rows"].items()):
+        terms = {"refundable": item["refundable"]} if item["refundable"] is not None else {}
+        if item.get("detail"):
+            terms["detail"] = item["detail"]
+        rows.append(row(state, "state", "state-eitc-percent", item["pct"], "2025-11-26", FOREVER,
+                        data["source"]["url"], bool(item["estimate"]), unit="percent-of-federal-credit",
+                        terms=terms or None, note=item.get("note"), retrieved=data["source"]["retrieved"]))
+
+
 def business_taxes(rows):
     """Taxes a business pays on wages and profit (data/research/money/business-taxes-2026.json)."""
     taxes = load(RESEARCH / "money/business-taxes-2026.json")
@@ -594,6 +606,7 @@ def main():
     payroll_taxes(rows)
     business_taxes(rows)
     energy_assistance(rows)
+    state_eitc(rows)
     campaign_finance(rows)
     child_care(rows)
     death_taxes(rows)

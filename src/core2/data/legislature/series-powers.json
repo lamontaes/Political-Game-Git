@@ -109,6 +109,10 @@
     "energy-assistance-income-limit": {
       "levels": ["state"],
       "source": "Low-Income Home Energy Assistance Act, 42 U.S.C. 8624(b)(2): a state sets the household income limit for its home energy assistance, within the statute's floor and ceiling"
+    },
+    "state-eitc-percent": {
+      "levels": ["state"],
+      "source": "State income tax law: a state sets its earned income tax credit as a percent of the federal credit (IRS, States and local governments with Earned Income Tax Credit)"
     }
   },
   "questions": {
