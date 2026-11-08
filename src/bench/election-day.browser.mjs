@@ -175,9 +175,13 @@ try {
   console.log("CARD:", clock.replace(/\s+/g, " "));
   assert.doesNotMatch(clock, /12:00\s*AM/);
   await shot("eday-1-morning");
-  await page
-    .getByRole("button", { name: "Go canvassing", exact: true })
-    .click();
+  // A morning offers the canvass only where the candidate can still reach voters; otherwise
+  // it goes straight to the choice.
+  const canvass = page.getByRole("button", {
+    name: "Go canvassing",
+    exact: true,
+  });
+  if (await canvass.count()) await canvass.click();
   await page.waitForFunction(() =>
     [...document.querySelectorAll("#election-day-acts button")].some((b) =>
       ["Go vote", "Continue"].includes(b.textContent),
