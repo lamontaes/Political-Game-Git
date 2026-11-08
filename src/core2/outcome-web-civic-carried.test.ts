@@ -68,10 +68,12 @@ describe("votes, approval and press links and the engines that decide them", () 
       /approvalGapPoints: approvalGapPoints\(api, input\.electionDate\)/,
     );
     expect(inputs).toMatch(
-      /const economy = candidate\.presidentsParty\s+\?\s+\(/,
+      /const economy = candidate\.presidentsParty \? -tide\.economy : 0;/,
     );
-    expect(inputs).toMatch(
-      /p\("approvalVoteShare"\) \*\s+conditions\.approvalGapPoints/,
+    expect(inputs).toMatch(/p\("approvalVoteShare"\) \*\s+approvalGapPoints/);
+    // The decision to run reads the same tide.
+    expect(read("src/core2/modules/candidacy.ts")).toMatch(
+      /approvalGapPoints\(api, race\.electionDate\)/,
     );
     const opinion = read("src/core2/modules/national-opinion.ts");
     expect(opinion).toMatch(/opinionParameter\("pointsPerUnemploymentPoint"\)/);
