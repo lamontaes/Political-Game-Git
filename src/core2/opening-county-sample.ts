@@ -13,17 +13,22 @@
 import { makeIsoDate } from "./kernel/dates";
 import { createStableId, stableHash } from "./kernel/ids";
 import { ageInYears } from "./kernel/dates";
-import { countyPlaceIdOf, statePlaces } from "./electorate-places";
-import { openingTemperaments } from "./opening-personality";
-import { residentEmploymentRate } from "./opening-employment";
+import { countyPlaceIdOf, statePlaces } from "./modules/elections";
+import {
+  namedMembers,
+  openingTemperaments,
+  placeEarningsOf,
+  townHouseholdSkeleton,
+} from "./modules/people";
+import {
+  countySectorEmployment,
+  nationalMedianAnnualWage,
+  residentEmploymentRate,
+} from "./modules/jobs";
 import { corePlaceByKey } from "./place-lookup";
 import { placeCountyPopulationShares, placeStateKey } from "./place-map";
-import { countySectorEmployment } from "./town-employment-mix";
-import { namedMembers, townHouseholdSkeleton } from "./town-households";
-import { medianTransactionBalance } from "./starting-cash";
-import { nationalMedianAnnualWage } from "./town-pay";
-import { placeEarningsOf } from "./residents";
-import { citizenShareOf } from "./electorate-places";
+import { medianTransactionBalance } from "./modules/budgets";
+import { citizenShareOf } from "./modules/voting";
 import { parameter as p } from "./parameters";
 import { stopgap } from "./stopgaps";
 import type { CoreInput, HouseholdInput, PersonInput, Source } from "./types";
