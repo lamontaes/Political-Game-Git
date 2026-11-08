@@ -18,7 +18,7 @@ claimed-at: 2026-11-04T15:32:07.567Z
 
 **Rules.** Never weaken a test: only how the test finds its race changes, by letting the weeks pass until a contest opens, bounded and named, the way #7171 did; what it checks of filing stays. One rule, all 56 places: the place is drawn from all 56 and named with its seed.
 
-**Done when.** elections-filing.test.ts passes at GOLDEN_PATH_SEED=962dfb9c9773d29ab7a7f7840258fae3ed04c1874692b74f7f561eaaa8865a8e and on three fresh seeds, each printing the place, seed and the day it filed, with nothing it checks loosened.
+**Done when.** elections-filing.test.ts passes at GOLDEN_PATH_SEED=962dfb9c9773d29ab7a7f7840258fae3ed04c1874692b74f7f561eaaa8865a8e and on three fresh seeds, each printing the place, seed and the day it filed, with nothing it checks loosened. The check is the test file itself, run in a played world on each seed, with nothing it checks loosened.
 
 **Files.** src/core2/elections-filing.test.ts
 
