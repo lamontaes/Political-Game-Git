@@ -7838,6 +7838,50 @@
         "move": "headline",
         "key": "news-received"
       }
+    },
+    {
+      "key": "headlines.exposed.name-offered-an-official-a-bribe-records-show",
+      "move": "exposed",
+      "kind": "written",
+      "text": "{name} offered an official a bribe, records show",
+      "uses": [
+        {
+          "move": "exposed",
+          "subject": "headline",
+          "role": "exposed",
+          "choice": "headline",
+          "requiresFacts": ["offered"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.exposed.records-tie-name-to-a-bribe-offer",
+      "move": "exposed",
+      "kind": "written",
+      "text": "Records tie {name} to a bribe offer",
+      "uses": [
+        {
+          "move": "exposed",
+          "subject": "headline",
+          "role": "exposed",
+          "choice": "headline",
+          "requiresFacts": ["offered"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
     }
   ]
 }

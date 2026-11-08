@@ -758,7 +758,11 @@
   "guide": {
     "search": "Search",
     "none": "No term matches that.",
-    "resetLearned": "Underline learned terms again"
+    "resetLearned": "Underline learned terms again",
+    "title": "Words",
+    "whatItIs": "What it is",
+    "here": "Here",
+    "related": "Related"
   },
   "patchNotes": {
     "release": "Release",
