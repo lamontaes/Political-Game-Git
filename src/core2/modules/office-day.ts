@@ -713,9 +713,12 @@ registerMeetingHold(holdsMemberFilings, placeFiled);
 // The floor's agenda for a date includes what a town body's meeting that day
 // takes up (the evening-before ask reads it).
 registerMeetingAgendaReader((api, date) =>
-  (table(api, "meetings").rows() as unknown as MeetingRow[])
-    .filter((row) => row.date === date && row.status !== "adjourned")
-    .flatMap((row) => agendaFor(api, row.officeId, date)),
+  // A world without the office day has no town meetings to read.
+  !api.state.modules.has(OFFICE_DAY_MODULE_ID)
+    ? []
+    : (table(api, "meetings").rows() as unknown as MeetingRow[])
+        .filter((row) => row.date === date && row.status !== "adjourned")
+        .flatMap((row) => agendaFor(api, row.officeId, date)),
 );
 
 const sits = (personId: string) => (term: TermRow) =>
