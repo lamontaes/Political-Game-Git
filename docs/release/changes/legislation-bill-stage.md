@@ -14,3 +14,7 @@ When you sit on the body that will vote a bill, the paper offers Yes, No and Abs
 ### Improved
 
 A floor result on a bill's paper now reads in words, such as "Adopted, 4 to 2." or "Defeated, 3 to 2.", above the names.
+
+### Added
+
+On a bill's paper you can amend a section, lowering it to split the difference with the law in force or raising it. The amendment shows as a struck clause and the clause that replaces it, with its own estimate; the body votes it, member by member, and the bill is rewritten only if it is adopted.

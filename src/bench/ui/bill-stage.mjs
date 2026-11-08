@@ -48,7 +48,7 @@ function resultBlock(entry, words, onOpen) {
  * told you (when any did), the floor and the override (when they voted). `stage` is
  * GET /api/bill/stage; `words` is controls.billStage; `onOpen(person)` shows a card.
  */
-export function billStageSections(stage, words, onOpen, onVote) {
+export function billStageSections(stage, words, onOpen, onVote, amend = {}) {
   const sections = [];
   if (stage.yours?.mayChoose && onVote)
     sections.push(
@@ -66,6 +66,69 @@ export function billStageSections(stage, words, onOpen, onVote) {
             button.addEventListener("click", () => onVote(how));
             return button;
           }),
+        ),
+      ),
+    );
+  stage.amendments?.forEach((item) => {
+    const done = item.status !== "moved";
+    sections.push(
+      stripSection(
+        2,
+        `${words.amendment} · ${item.movedBy}`,
+        el(
+          "p",
+          { className: "stage-strike" },
+          el("del", { textContent: item.struck ?? "" }),
+        ),
+        el(
+          "p",
+          { className: "stage-insert" },
+          el("ins", { textContent: item.inserted ?? "" }),
+        ),
+        ...(amend.estimate
+          ? [el("p", { textContent: amend.estimate(item) })]
+          : []),
+        ...(done
+          ? [
+              el("b", { textContent: words[item.status] }),
+              labeledNames(words.yes, item.yes, onOpen, words.nobody),
+              labeledNames(words.no, item.no, onOpen, words.nobody),
+            ]
+          : amend.onCall
+            ? [
+                (() => {
+                  const button = makeButton({
+                    className: "action",
+                    textContent: words.callVote,
+                  });
+                  button.addEventListener("click", () => amend.onCall(item));
+                  return button;
+                })(),
+              ]
+            : []),
+      ),
+    );
+  });
+  if (stage.yours?.mayChoose && amend.onMove)
+    sections.push(
+      stripSection(
+        2,
+        words.amendBill,
+        el(
+          "div",
+          { className: "stage-vote" },
+          ...stage.sectionsAmendable.flatMap((index) =>
+            ["lower", "raise"].map((direction) => {
+              const button = makeButton({
+                className: "action",
+                textContent: `${words[direction]} ${index + 1}`,
+              });
+              button.addEventListener("click", () =>
+                amend.onMove(index, direction),
+              );
+              return button;
+            }),
+          ),
         ),
       ),
     );

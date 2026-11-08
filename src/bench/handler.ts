@@ -44,7 +44,12 @@ import {
 } from "./election-night";
 import { wordOwnResult } from "./archive-words";
 import { billPaper, seatAct, seatView } from "./legislature";
-import { billStage, chooseOwnVote } from "./bill-stage";
+import {
+  billStage,
+  callAmendmentVote,
+  chooseOwnVote,
+  moveOwnAmendment,
+} from "./bill-stage";
 import {
   deskDecide,
   deskView,
@@ -855,6 +860,34 @@ export async function benchRequest(
           billStage(
             requireCore(),
             url.searchParams.get("billId") ?? "",
+            player?.personId,
+          ),
+        );
+        return;
+      }
+      // An amendment on a bill's section, and the body's vote on it.
+      if (request.method === "POST" && url.pathname === "/api/bill/amend") {
+        send(
+          200,
+          moveOwnAmendment(
+            requireCore(),
+            url.searchParams.get("billId") ?? "",
+            Number(url.searchParams.get("index")),
+            url.searchParams.get("direction") ?? "",
+            player?.personId,
+          ),
+        );
+        return;
+      }
+      if (
+        request.method === "POST" &&
+        url.pathname === "/api/bill/amendment-vote"
+      ) {
+        send(
+          200,
+          callAmendmentVote(
+            requireCore(),
+            url.searchParams.get("amendmentId") ?? "",
             player?.personId,
           ),
         );

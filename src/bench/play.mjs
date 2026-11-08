@@ -2310,6 +2310,33 @@ async function openBillPaper(billId, show, back, backLabel) {
         );
         await openBillPaper(billId, show, back, backLabel);
       },
+      {
+        onMove: async (index, direction) => {
+          await api(
+            `/api/bill/amend?${new URLSearchParams({ billId, index, direction })}`,
+            "POST",
+          );
+          await openBillPaper(billId, show, back, backLabel);
+        },
+        onCall: async (item) => {
+          await api(
+            `/api/bill/amendment-vote?${new URLSearchParams({ amendmentId: item.id })}`,
+            "POST",
+          );
+          await openBillPaper(billId, show, back, backLabel);
+        },
+        estimate: (item) =>
+          [
+            item.estimateAfter.workersRaised > 0
+              ? `${item.estimateAfter.workersRaised} ${words.workers ?? ""}`
+              : null,
+            item.estimateAfter.annualPayMinor > 0
+              ? moneyWords(item.estimateAfter.annualPayMinor)
+              : null,
+          ]
+            .filter(Boolean)
+            .join(" · "),
+      },
     ),
   );
 }

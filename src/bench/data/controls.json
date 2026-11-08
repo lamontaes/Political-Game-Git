@@ -780,6 +780,13 @@
     "override": "The vote to override the veto",
     "nobody": "No one",
     "yourVote": "Your vote",
-    "abstain": "Abstain"
+    "abstain": "Abstain",
+    "amendment": "Amendment",
+    "amendBill": "Amend a section",
+    "lower": "Lower section",
+    "raise": "Raise section",
+    "callVote": "Call the vote on it",
+    "adopted": "Adopted",
+    "rejected": "Rejected"
   }
 }

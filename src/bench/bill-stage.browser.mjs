@@ -129,6 +129,25 @@ try {
   const billId = new URL((await asked).url()).searchParams.get("billId");
   assert.ok(billId, "the paper names its bill");
   await page.locator(".bill-doc").waitFor();
+  // An amendment: lower section 1 (the difference split with the law in force), then the body votes it.
+  await page
+    .locator(".stage-vote button", { hasText: /^Lower section 1$/ })
+    .click();
+  await page.locator(".stage-strike del").waitFor();
+  const struck = await page.locator(".stage-strike del").first().innerText();
+  const inserted = await page.locator(".stage-insert ins").first().innerText();
+  console.log("amendment:", { struck, inserted });
+  assert.notEqual(
+    struck,
+    inserted,
+    "the amendment strikes one clause for another",
+  );
+  await page.getByRole("button", { name: "Call the vote on it" }).click();
+  await page
+    .locator("b", { hasText: /^(Adopted|Rejected)$/ })
+    .first()
+    .waitFor();
+  if (SHOTS) await page.screenshot({ path: `${SHOTS}/bill-amendment.png` });
   // The player sits on the body, so they may choose their own vote before the floor: No.
   await page.locator(".stage-vote button", { hasText: /^No$/ }).click();
   await page
@@ -161,8 +180,10 @@ try {
     document.getElementById("card-name").textContent.trim(),
   );
   assert.ok(
-    floor.some(
-      (text) => /No[^\n]*\n[\s\S]*$/.test(text) && text.includes(mine),
+    floor.some((text) =>
+      text
+        .split("\n")
+        .some((row) => row.startsWith("No:") && row.includes(mine)),
     ),
     `${mine} chose No and is on the floor result`,
   );

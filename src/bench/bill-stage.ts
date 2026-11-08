@@ -4,8 +4,14 @@
 // module (committeeRecords, learnedStakesOf, votesOn), never a count made here, and no
 // player text is written here (the screens word the codes).
 import { coreAPI } from "../core2/state";
+import { composeBill } from "../english/bill-sections";
 import {
+  amendmentsOn,
+  billForm,
+  billOf,
   castMemberVote,
+  moveAmendment,
+  voteAmendment,
   chambersOf,
   committeeRecords,
   learnedStakesOf,
@@ -14,6 +20,7 @@ import {
   motionOn,
   votesOn,
   type BillRow,
+  type Provision,
 } from "../core2/modules/legislature";
 import { snapshotExplicitControlV1 } from "../core2/player-control-state-v1";
 import type { CoreState } from "../core2/types";
@@ -189,11 +196,52 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
   )?.vote;
   const open = bill.status === "drafted" && !floor.length;
 
+  // Amendments moved on the bill: the section as drafted struck, the one inserted, each
+  // estimate and the body's roll call by name (once voted).
+  const sectionText = (provisions: readonly Provision[], index: number) => {
+    const copy: BillRow = { ...bill, provisions };
+    const form = billForm(api, copy);
+    return (
+      composeBill({
+        ...copy,
+        effective: form.effectiveSection,
+        before: form.sections.map((section) => section.before),
+      })?.sections[index] ?? null
+    );
+  };
+  const amendments = amendmentsOn(api, bill.id).map((row) => {
+    const votes = (row.votes ?? []).map(named);
+    return {
+      id: row.id,
+      movedBy: personName(core, row.movedBy),
+      movedById: core.people.has(row.movedBy) ? row.movedBy : null,
+      index: row.index,
+      status: row.status,
+      struck: sectionText(
+        bill.provisions.map((p, i) => (i === row.index ? row.struck : p)),
+        row.index,
+      ),
+      inserted: sectionText(
+        bill.provisions.map((p, i) => (i === row.index ? row.inserted : p)),
+        row.index,
+      ),
+      estimateBefore: row.estimateBefore,
+      estimateAfter: row.estimateAfter,
+      yes: votes.filter((v) => v.vote === "yes"),
+      no: votes.filter((v) => v.vote === "no"),
+    };
+  });
+
   return {
     id: bill.id,
     number: bill.number,
     status: bill.status,
     stage,
+    amendments,
+    /** The sections whose amount an amendment may lower or raise. */
+    sectionsAmendable: bill.provisions
+      .map((p, i) => (p.kind === "policy-question" ? -1 : i))
+      .filter((i) => i >= 0),
     yours: {
       sits,
       /** The player may still choose before the floor votes. */
@@ -225,4 +273,58 @@ export function chooseOwnVote(
     throw new Error("You have no vote to cast on that bill now.");
   castMemberVote(coreAPI(core), billId, player, vote);
   return billStage(core, billId, player);
+}
+
+/**
+ * The player moves an amendment on one section: "lower" splits the difference between the
+ * law in force and the bill's amount, "raise" doubles the bill's change from the law in
+ * force. Both read the section's own before and after (no typed step).
+ */
+export function moveOwnAmendment(
+  core: CoreState,
+  billId: string,
+  index: number,
+  direction: string,
+  asId?: string,
+) {
+  const player =
+    asId ?? snapshotExplicitControlV1(core).personId ?? core.playerId;
+  if (!player) throw new Error("Choose a resident first.");
+  if (direction !== "lower" && direction !== "raise")
+    throw new Error("Lower or raise the section.");
+  const stage = billStage(core, billId, player);
+  if (!stage.yours.mayChoose)
+    throw new Error("You may not move an amendment on that bill now.");
+  const api = coreAPI(core);
+  const bill = billOf(api, billId);
+  const section = bill.provisions[index];
+  const today = billForm(api, bill).sections[index]?.before.value;
+  if (!section || section.kind === "policy-question" || today == null)
+    throw new Error("That section has no amount to move.");
+  const value =
+    Math.round(
+      (direction === "lower"
+        ? (today + section.value) / 2
+        : today + 2 * (section.value - today)) * 100,
+    ) / 100;
+  if (value === section.value)
+    throw new Error("The amendment would change nothing.");
+  moveAmendment(api, {
+    billId,
+    movedBy: player,
+    index,
+    with: { ...section, value },
+  });
+  return billStage(core, billId, player);
+}
+
+/** The mover calls the question: the body votes the amendment. */
+export function callAmendmentVote(
+  core: CoreState,
+  amendmentId: string,
+  asId?: string,
+) {
+  const api = coreAPI(core);
+  const row = voteAmendment(api, amendmentId);
+  return billStage(core, row.billId, asId);
 }
