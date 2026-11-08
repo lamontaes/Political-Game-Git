@@ -2,6 +2,10 @@
   "about": "Research data files under data/research that no non-test file in src/ or scripts/ reads, and why (tests/guards/research-data-has-reader.test.ts). rawSource entries are evidence the game is not meant to read. awaitingReader entries are research waiting for the code that should read it: that list may only shrink (the guard holds it at or under its ceiling), so an entry must leave in the same change that gives its file a reader. Each names its engine and the squad that owns its reader, from docs/codex/audit-by-engine-2026-10-01.md. A new data file with no reader and no entry fails the guard.",
   "rawSource": [
     {
+      "file": "data/research/laws/ccdf-income-limits-2025.json",
+      "reason": "Raw source read by scripts/research/build-starting-law.py (a Python script, which this guard does not scan), which writes the child care income limit into starting-law.json; the game reads that file."
+    },
+    {
       "file": "data/research/assumption-markers.json",
       "reason": "Scan output listing the placeholder and unresearched markers found in src on one commit; evidence for the stopgap audit, not game data."
     },
