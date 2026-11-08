@@ -296,7 +296,7 @@
     "why": "A prototype starting value is required. Its magnitude is a guess; no empirical parameter interval has been established. Resolved by P15 part 2 (OPUS-PEOPLE, 2026-10-10): no longer read; closeness now follows hours of time together.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "A sourced value or tested empirical calibration for the same quantity.",
+    "replacement": "Deleted Nov 8 (Tiers): a filled-in person's family ties now open at the closeness their records give, `openingClosenessHours` through the sourced hours-to-closeness curve (closeness.ts), the same as every opening family tie; a stand-in 0.5 had been read as hours.",
     "status": "resolved"
   },
   {
