@@ -32,6 +32,14 @@ const empties = api
   .table("emptyRaces")
   .rows() as any[];
 const by: Record<string, number[]> = {};
+const filed: Record<string, number[]> = {};
+const filings = api
+  .moduleState(ELECTIONS_MODULE_ID)
+  .table("filings")
+  .rows() as any[];
+const filedBy = new Map<string, number>();
+for (const f of filings)
+  filedBy.set(f.contestId, (filedBy.get(f.contestId) ?? 0) + 1);
 for (const r of results) {
   const c = api
     .moduleState(ELECTIONS_MODULE_ID)
@@ -40,6 +48,7 @@ for (const r of results) {
   if (!c) continue;
   const k = `${c.level}/${c.family}${c.special ? "/special" : ""}`;
   (by[k] ??= []).push(Object.keys(r.totals ?? {}).length);
+  (filed[k] ??= []).push(filedBy.get(r.contestId) ?? 0);
 }
 console.log(
   `place ${place.key} ${place.name} seed ${seed} years ${years} ms ${Date.now() - t0}`,
