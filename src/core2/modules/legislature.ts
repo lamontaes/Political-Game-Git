@@ -5189,9 +5189,11 @@ export function castMemberVote(
   billId: string,
   memberId: string,
   vote: "yes" | "no" | "abstain",
+  /** The member's vote on overriding a veto, not on the bill. */
+  override = false,
 ): void {
   table(api, "choices").put({
-    id: `${billId}|${memberId}`,
+    id: `${billId}|${memberId}${override ? "|override" : ""}`,
     vote,
   } as unknown as ModuleRow);
 }

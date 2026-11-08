@@ -28,6 +28,7 @@ import { timeline } from "./ui/timeline.mjs";
 import { makeCard } from "./ui/card.mjs";
 import { townRow } from "./ui/town-row.mjs";
 import { debateCard, speechCard } from "./ui/campaign-acts.mjs";
+import { devBillsPanel } from "./ui/dev-bills.mjs";
 import { devMemorySection } from "./ui/dev-memory.mjs";
 import { devRunPanel } from "./ui/dev-run.mjs";
 import {
@@ -4244,7 +4245,13 @@ const sheets = {
       fitPagers(screenNode);
       return screenNode;
     };
-    return [await screen()];
+    const devBills = devModeOn()
+      ? await devBillsPanel({
+          labels: controls.devBills,
+          onDone: () => refresh(),
+        })
+      : null;
+    return [await screen(), ...(devBills ? [devBills] : [])];
   },
   /**
    * Parties, illustrated: the state's map with the player's districts and
