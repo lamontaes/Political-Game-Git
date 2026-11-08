@@ -32,6 +32,7 @@ const hasBody = (core: CoreState) => townSeats(coreAPI(core)).some(
 const skipped: string[] = [];
 for (let a = 0; a < 12; a++) {
   place = drawPlace(a ? `${seed}:${a}` : seed, "law-run");
+  if (process.env.SKIP_PROBE) break;
   const probe = buildBenchWorld(place.seed, gameStartDate(), { twoLevel: true, placeKey: place.key });
   if (hasBody(probe.core)) break;
   skipped.push(`${place.name} (${place.key})`);
@@ -100,11 +101,14 @@ for (const p of policies) {
     rec.lawAfter = after && { id: after.id, level: after.level, value: after.value, eff: after.effectiveDate };
     rec.changed = !!after && (!before || before.id !== after.id || before.value !== after.value);
     run(core, DAYS);
+    const afterLag = series ? lawInForce(api, p.kind === "budget-line" ? `budget-line:${p.line}` : series).governing : null;
+    rec.lawAfterLag = afterLag && { id: afterLag.id, level: afterLag.level, value: afterLag.value, eff: afterLag.effectiveDate };
+    rec.inForceAfterLag = !!afterLag && (!before || before.id !== afterLag.id || before.value !== afterLag.value);
     const t = totals(core);
     rec.cashDeltaMinor = t.cash - ctlAfterPass.cash; rec.orgCashDeltaMinor = t.orgCash - ctlAfterPass.orgCash;
     rec.alive = t.alive - ctlAfterPass.alive; rec.employed = t.employed - ctlAfterPass.employed;
     rec.kindDiff = diffKinds(t.kinds, ctlAfterPass.kinds);
-    rec.citing = citing(core, after?.id ?? "", r.billId);
+    rec.citing = citing(core, afterLag?.id ?? "", r.billId);
     // repeal
     if (r.status === "enacted" && p.operations.some((o) => ["repeal", "lower", "restrict"].includes(o))) {
       const rop = p.operations.includes("repeal") ? "repeal" : p.operations.includes("lower") ? "lower" : "restrict";
