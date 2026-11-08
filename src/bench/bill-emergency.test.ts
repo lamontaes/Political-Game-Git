@@ -26,7 +26,7 @@ const seed =
 describe(`a state of emergency the player decides (seed ${seed})`, () => {
   it("offers the declaration to the player governor and declares it when they say so", () => {
     const tried: string[] = [];
-    for (let attempt = 0; attempt < 30; attempt += 1) {
+    for (let attempt = 0; attempt < 12; attempt += 1) {
       const place = drawPlace(`${seed}:${attempt}`, "player-emergency");
       const world = buildBenchWorld(place.seed, gameStartDate(), {
         twoLevel: true,
@@ -43,7 +43,9 @@ describe(`a state of emergency the player decides (seed ${seed})`, () => {
         (row) => federalAidFor(api, row.number) > 0,
       );
       if (!governor || !disaster || !emergencyPower(api)) {
-        tried.push(`${where}: no governor with a disaster and the power`);
+        tried.push(
+          `${where}: governor ${!!governor} disasters ${townDisasters(api).length} withAid ${townDisasters(api).filter((r) => federalAidFor(api, r.number) > 0).length} power ${!!emergencyPower(api)}`,
+        );
         continue;
       }
       // The governor is the player: the engine names the player by the world's own player id.
