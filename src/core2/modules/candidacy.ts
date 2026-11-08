@@ -811,9 +811,11 @@ export function weighContest(
           ?.runIds.length ?? 0),
       0,
     );
+  // A seat's serving holder weighs standing again wherever they live: a
+  // county officeholder from outside the town still holds the county's seat.
   const weighs = (p: PersonState) =>
     p.alive &&
-    (p.placeId === town.townPlaceId || pool.has(p.id)) &&
+    (p.placeId === town.townPlaceId || pool.has(p.id) || p.id === incumbentId) &&
     !appointed.has(p.id) &&
     ageOnDate(p.birthDate, date) >= rules.minimumAge &&
     !isExplicitlyControlledPersonV1(api.state, p.id) &&
