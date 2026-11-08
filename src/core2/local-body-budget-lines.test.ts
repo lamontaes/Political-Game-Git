@@ -77,7 +77,7 @@ for (const place of draws) {
         );
         const amended = new Set(
           governments(api).flatMap((g) =>
-            budgetsOf(api, g.id).map((b) => b.adoptedBy),
+            budgetsOf(api, g.id).map((b) => JSON.stringify(b.adoptedBy)),
           ),
         );
         process.stdout.write(
