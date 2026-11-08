@@ -1,6 +1,15 @@
 {
   "entries": [
     {
+      "version": "0.88.0",
+      "releasedOn": "2026-11-08",
+      "revision": "20bc2b2c6294dbcb90cc0e07ea4af6c75bcc6630",
+      "changeIds": [
+        "law-levels-fiscal-reviews-own-law",
+        "nation-news-by-reach-and-ties"
+      ]
+    },
+    {
       "version": "0.87.8",
       "releasedOn": "2026-11-08",
       "revision": "7a6da73a970ea14c4d32a587589b8a4dd027b6fb",

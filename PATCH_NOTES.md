@@ -296,6 +296,26 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.88.0
+
+_Released November 8, 2026._
+
+### Improved
+
+- **News tells the far-off laws that matter to you.** The Nation heading on News
+  no longer lists every law other states passed. It now tells the ones that
+  reach the most people, and those from states where your family lives or works
+  or that border yours.
+
+### Fixed
+
+- **Treasury reviews keep each government's fiscal repeal in force** A treasury
+  review no longer revives a repealed fiscal rule because another government
+  still has that rule. Each government's current law now supplies its own
+  budget, pension-funding and reserve review. A state bar on a local fiscal rule
+  now stops its budget effect; withdrawing the bar restores the existing local
+  act.
+
 ## PRE-ALPHA 0.87.8
 
 _Released November 8, 2026._
