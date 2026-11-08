@@ -231,7 +231,7 @@
     "stopgapId": "SG-P15-candidacy-weights"
   },
   "candidacyWideStayOutPull": {
-    "value": 3.5,
+    "value": 3.2,
     "tag": "ESTIMATED",
     "citation": "The pull of staying out for a wide race (a statewide or congressional seat, whose candidates come from a state's whole pool of people with standing), against which running is weighed. Local seats keep candidacyStayOutPull, fit on town seats. Calibrated so the people who file for a U.S. House seat average near Ballotpedia's 4.1 primary candidates per seat (1,773 candidates over 435 seats in 2024; Annual Congressional Competitiveness Report, 2024; src/core2/data/candidacy/benchmarks.json usHousePrimaryCandidatesPerSeat). Each person already running lowers the next one's pull by candidacyFieldWeight, so the field limits itself. Spread 3.2 to 3.9.",
     "estimatedFrom": "Ballotpedia 2024 House primary counts over 435 seats, drawn places 2 years each (scripts/dev-tests/elections.ts, filedMean); spread 3.2 to 3.9",
