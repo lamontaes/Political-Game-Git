@@ -632,6 +632,8 @@ async function act(path) {
         office.reasonKey === "office-day.appointment"
       )
         await atOrders();
+      else if (office.reasonKey === "office-day-federal.nomination")
+        await atNominations();
       else if (
         office.reasonKey === "office-day-federal.floor-vote" ||
         office.reasonKey === "office-day-state.floor-vote"
@@ -862,6 +864,60 @@ function atFloor() {
 }
 
 // The orders the governor's staff brings for signature hold the clock: each is issued (or revoked) or set aside by the player.
+/** The president's open cabinet posts: who each could go to, best first, then the Senate's vote. */
+function atNominations() {
+  return new Promise((resolve) => {
+    const words = controls.nominations ?? {};
+    const draw = (posts) => {
+      if (!posts.length) return finish();
+      $("desk-items").replaceChildren(
+        ...posts.map((entry) => {
+          let nominee = "";
+          return plate(
+            entry.title,
+            select({
+              options: [
+                { value: "", label: words.own ?? "" },
+                ...entry.candidates.map((c) => ({
+                  value: c.id,
+                  label: c.job ? `${c.name} · ${c.job}` : c.name,
+                })),
+              ],
+              onChange: (value) => {
+                nominee = value;
+              },
+            }),
+            buttonRow(
+              (() => {
+                const b = makeButton({
+                  className: "action",
+                  textContent: words.nominate ?? "",
+                });
+                b.addEventListener("click", async () =>
+                  draw(
+                    await post(
+                      `/api/nominations?${new URLSearchParams({
+                        post: entry.post,
+                        ...(nominee ? { nomineeId: nominee } : {}),
+                      })}`,
+                    ),
+                  ),
+                );
+                return b;
+              })(),
+            ),
+          );
+        }),
+      );
+    };
+    const finish = () => {
+      show("desk", false);
+      resolve();
+    };
+    show("desk", true);
+    api("/api/nominations").then(draw);
+  });
+}
 function atOrders() {
   return new Promise((resolve) => {
     const words = controls.orders ?? {};

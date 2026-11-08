@@ -7,6 +7,10 @@
 import { billTitleOf } from "../english/bill-names";
 import { coreAPI } from "../core2/state";
 import {
+  nominate,
+  nominationsOpen,
+} from "../core2/office-day-federal-president";
+import {
   controlledPerson,
   heldFederal,
   leaveVoteToCharacter,
@@ -514,4 +518,36 @@ export function ordersDecide(
       (row) => row.order === entry.subject,
     )?.revoke ?? false;
   doEntry(api, entryId, { kind: "order", revoke, issue: how === "issue" });
+}
+
+/** The president's open cabinet posts, each with the people it could go to, best first. */
+export function nominationsView(core: CoreState) {
+  const api = coreAPI(core);
+  const person = controlledPerson(api);
+  if (!person) return [];
+  return nominationsOpen(api, person).map((post) => ({
+    post: post.postId,
+    title: post.title,
+    candidates: post.candidates.slice(0, 8).map((c) => {
+      const who = core.people.get(c.id);
+      const job = who?.jobId ? core.jobs.get(who.jobId) : undefined;
+      return {
+        id: c.id,
+        name: personName(core, c.id),
+        job: job && job.endsAt === undefined ? job.title : null,
+      };
+    }),
+  }));
+}
+
+/** The president names someone to an open post (left unnamed, the president's own first choice), for the Senate to vote on. */
+export function nominationDecide(
+  core: CoreState,
+  post: string,
+  nomineeId?: string,
+) {
+  const api = coreAPI(core);
+  const person = controlledPerson(api);
+  if (!person) throw new Error("Choose a resident first.");
+  nominate(api, person, post, nomineeId || undefined);
 }
