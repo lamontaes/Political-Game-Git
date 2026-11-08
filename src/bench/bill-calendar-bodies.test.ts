@@ -1,9 +1,10 @@
 import { describe, expect, it } from "vitest";
+// The world first: the engine modules load in the order the game loads them.
+import { buildBenchWorld } from "./world";
 import { gameStartDate } from "../core2/game-start";
 import { townSeats } from "../core2/modules/offices";
 import { coreAPI } from "../core2/state";
 import { calendarItems } from "./calendar";
-import { buildBenchWorld } from "./world";
 
 // The calendar names the day the player's own chamber next sits, at the state level too (Westway,
 // 4878016, seed memA: Texas sits January to June).

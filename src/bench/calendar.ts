@@ -193,7 +193,8 @@ export function calendarItems(
     if (bodies.has(officeId)) continue;
     const body = bodyOf(api, officeId);
     const sitting = nextSittingOf(api, officeId);
-    if (body && sitting && inWindow(sitting.date))
+    // The body the person sits on is shown whenever it next sits: a legislature that meets every other year is a date more than a year off.
+    if (body && sitting && sitting.date >= from)
       bodies.set(officeId, {
         title: body.bodyName ?? body.kind,
         date: sitting.date,
