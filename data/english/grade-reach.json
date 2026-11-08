@@ -1258,6 +1258,8 @@
     "scene-talk.reply-refuse.dont-try-to-lean-on-me-it-wont-change-my-vote-next": "refuse|none|private",
     "scene-talk.reply-refuse.i-m-not-doing-this-in-a-hallway": "refuse|braced|press",
     "scene-talk.reply-refuse.if-thats-a-threat-say-it-plainly-and-i-wont-be-moved": "refuse|none|private",
+    "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again": "refuse|none|private",
+    "scene-talk.reply-refuse.no-and-this-changes-nothing": "refuse|none|private",
     "scene-talk.reply-refuse.then-talk-to-my-lawyer": "refuse|braced|press",
     "scene-talk.reply-relent.fine-i-ll-do-it-but-don-t-make-a-habit-of-this": "relent|guarded|floor",
     "scene-talk.reply-relent.fine-i-ll-do-it-but-this-is-the-last-time": "relent|guarded|floor",
