@@ -25,3 +25,8 @@ for (const c of contests) {
   const pulls = ds.map((d) => Object.values(d.reasons as Record<string, number>).reduce((a, b) => a + b, 0)).sort((a, b) => b - a);
   console.log(`${c.level}/${c.family} ${c.title.slice(0, 28).padEnd(28)} weighed ${ds.length} ran ${ds.filter((d) => d.run).length} top ${pulls.slice(0, 6).map((x) => x.toFixed(2)).join(" ")} median ${pulls[Math.floor(pulls.length / 2)]!.toFixed(2)}`);
 }
+
+for (const w of api.moduleState(CANDIDACY_MODULE_ID).table("weighed").rows() as any[]) {
+  const c = contests.find((x) => x.id === w.contestId);
+  if (c?.family === "countyOffice") console.log("county weighed", c.title.slice(0, 24), "asked", w.askedIds.length, "countedWeighed", w.countedWeighed, "filledIn", w.filledInIds.length, "run", w.runIds.length);
+}
