@@ -5173,6 +5173,102 @@
       }
     },
     {
+      "key": "rally-word",
+      "note": "A rally in the town forms because the term reads well in an area, and the town's own officials are at its edge: someone in it asks the official to say a few words (the public-action engine's civic record names the area and the people in it). It has no demand, so nothing is pressed; the official can speak, thank them, promise to keep it up or let the crowd have the day.",
+      "purpose": "rally-word",
+      "asker": "neighbor",
+      "asked": "you",
+      "stakes": ["town", "thanks"],
+      "roles": [
+        {
+          "key": "neighbor",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["request", "thank", "accept", "press", "warn"],
+          "wants": ["engage"],
+          "bearing": "eager"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["agree", "thank", "promise", "deflect", "leave"],
+          "wants": ["engage", "play-safe"],
+          "bearing": "calm"
+        }
+      ],
+      "setting": ["public"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:civic.rally",
+            "counterpart": "some"
+          },
+          "causeEngine": "public-action",
+          "causeRecord": "civic.rally",
+          "bind": {
+            "neighbor": "counterpart",
+            "you": "subject"
+          },
+          "opener": "neighbor"
+        }
+      ],
+      "tag": {
+        "key": "honor",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
+      "key": "lobby-remembers",
+      "note": "A group's lobbyist made its case to the player on a bill, and the player voted the other way (the interest-group engine's lobbying meeting against the member's own vote record). Two days later the lobbyist finds them: the group remembers. How it is said, in a hint or out loud, comes from the lobbyist's own temper in the bank's bearings; nothing is rolled.",
+      "purpose": "lobby-remembers",
+      "asker": "lobbyist",
+      "asked": "you",
+      "stakes": ["vote", "group"],
+      "roles": [
+        {
+          "key": "lobbyist",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["warn", "press", "accept", "threaten"],
+          "wants": ["change"],
+          "bearing": "guarded"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["tell", "comfort", "refuse", "deflect", "leave"],
+          "wants": ["keep-same"],
+          "bearing": "calm"
+        }
+      ],
+      "setting": ["seat", "venue"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "circumstance:lobby-remembers"
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "office.voted",
+          "bind": {
+            "lobbyist": "counterpart",
+            "you": "subject"
+          },
+          "opener": "lobbyist",
+          "setting": ["seat", "venue"]
+        }
+      ],
+      "tag": {
+        "key": "threat",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
       "key": "interview-invite",
       "note": "An outlet covering the race asks a candidate to sit for an interview: the press engine's interview-invited record names the candidate, the reporter who asks (the outlet's reporter closest to them) and the outlet. The reporter calls. A yes is read by the press engine as sitting for it, answered from the candidate's own filed platform; a no is a refusal on the record the outlet's people may take as a snub; anything else leaves it open.",
       "roles": [

@@ -176,7 +176,9 @@
     "introduce": "Introduce",
     "pass": "Pass",
     "defeat": "Defeat",
-    "held": "Held in committee",
+    "held": "Held by the chair",
+    "lost": "Lost in committee",
+    "chair": "Chair",
     "noVeto": "No veto at this body",
     "noBill": "Introduce a bill first."
   },
@@ -191,6 +193,30 @@
     "taken": "Taken",
     "refused": "Refused",
     "noBill": "Introduce a bill first."
+  },
+  "devRecords": {
+    "title": "Records",
+    "person": "Person",
+    "trace": "Trace"
+  },
+  "devScene": {
+    "title": "Scenes",
+    "type": "Situation",
+    "make": "Make it happen",
+    "begun": "Begun for",
+    "noPath": "No game code to attach to"
+  },
+  "devPerson": {
+    "title": "Health",
+    "fallIll": "Falls seriously ill",
+    "runUntilDies": "Run until they die",
+    "ill": "Seriously ill",
+    "picked": "Picked for their next decision",
+    "reasons": {
+      "days": "Days passed",
+      "event": "Died",
+      "cap": "Cap reached"
+    }
   },
   "devMemory": {
     "title": "Remembers",
@@ -211,6 +237,7 @@
       "bill-fails": "A bill fails",
       "election": "An election is held",
       "death": "A person dies",
+      "job-lost": "A job is lost",
       "scene": "A scene fires",
       "law-takes-effect": "A law takes effect"
     },
