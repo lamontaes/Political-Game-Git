@@ -260,16 +260,22 @@
           </div>
         </div>
         <!-- Advanced, after the world is built: step into anyone who holds an office. -->
-        <div id="front-pick" data-testid="advanced-pick" hidden>
-          <h2 class="label">Play as</h2>
-          <input
-            id="pick-search"
-            type="search"
-            aria-label="Search officeholders"
-            placeholder="Search officeholders"
-          />
-          <div id="pick-list" class="pick-list"></div>
-          <div class="acts"></div>
+        <div
+          id="front-pick"
+          data-testid="advanced-pick"
+          class="strip-screen"
+          hidden
+        >
+          <div class="mx3col">
+            <input
+              id="pick-search"
+              type="search"
+              aria-label="Search officeholders"
+              placeholder="Search officeholders"
+            />
+            <div id="pick-list" class="pick-list"></div>
+          </div>
+          <div id="pick-detail" class="mx3col"></div>
         </div>
         <!-- The creator: one screen (the Nov 8 front mock): the figure, who I am, where I'm from, how I look. -->
         <div id="cr-screen" class="strip-screen" hidden>

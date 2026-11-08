@@ -2750,8 +2750,40 @@ details.entry[open] {
   overflow-y: auto;
   margin: 12px 0;
 }
-.pick-list button {
+#front:has(#front-pick:not([hidden])) {
+  width: min(1100px, 94vw);
+}
+#front-pick {
+  grid-template-columns: minmax(0, 1fr) 340px;
+}
+#front-pick .pick-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-height: 62vh;
+}
+.pick-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  width: 100%;
+  padding: 6px 10px;
   text-align: left;
+}
+.pick-row .pick-name {
+  font: 700 17px var(--name);
+}
+.pick-row .pick-role {
+  color: var(--text-2);
+  font: 500 13px var(--ui);
+}
+.pick-row[aria-pressed="true"] {
+  background: linear-gradient(
+    90deg,
+    rgba(214, 189, 132, 0.45),
+    rgba(214, 189, 132, 0.12)
+  );
 }
 
 /* The bill on paper: the document and its estimate side by side. */
