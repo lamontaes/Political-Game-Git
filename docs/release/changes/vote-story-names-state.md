@@ -1,7 +1,7 @@
 ---
 id: vote-story-names-state
 impact: minor
-section: Legislation
+section: Added
 title: Vote stories name the state of the chamber that voted
 ---
 
