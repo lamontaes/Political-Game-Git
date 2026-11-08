@@ -16,6 +16,8 @@ import { parameter } from "../core2/parameters";
 import { coreAPI, personOrFillIn } from "../core2/state";
 import { advanceCore, availableActs, type Controller } from "../core2/life";
 import {
+  considerBribe,
+  CORRUPTION_MODULE_ID,
   enactLaw,
   lawChain,
   lawInForce,
@@ -27,10 +29,6 @@ import { POLICY_QUESTIONS } from "../core2/policy-answers";
 import { POLICIES as REACH_A_POLICIES } from "../core2/law-reach/group-a-records";
 import { GROUP_B_KEYS } from "../core2/law-reach/group-b";
 import { jobsAt } from "../core2/law-reach/group-b-money";
-import {
-  considerBribe,
-  CORRUPTION_MODULE_ID,
-} from "../core2/modules/corruption";
 import {
   PUBLIC_EMPLOYER_CLASSES,
   PUBLIC_PAY_FLOOR,
