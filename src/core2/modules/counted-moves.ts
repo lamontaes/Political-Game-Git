@@ -314,8 +314,12 @@ function openCoarse(core: CoreState, rt: Runtime): void {
   if (!residents || !home) return;
   const counted = countedPeople(residents);
   const total = home.people.reduce((n, v) => n + v, 0);
-  if (total > counted)
-    home.people = home.people.map((v) => (v * (total - counted)) / total);
+  // Counted places that are the whole state (Washington, D.C.) leave it no
+  // rest: its coarse people are none, not its whole population again.
+  if (total > 0)
+    home.people = home.people.map(
+      (v) => (v * Math.max(0, total - counted)) / total,
+    );
 }
 
 export function runtimeOf(api: CoreAPI): Runtime | undefined {
