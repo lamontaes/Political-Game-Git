@@ -307,8 +307,9 @@ function findRate(
   plan: Plan,
   month: Conditions,
   mean: number,
+  age: number,
 ): number {
-  return findPerQuarter(api, mean / month.unemploymentPct, plan.applyLean);
+  return findPerQuarter(api, mean / month.unemploymentPct, plan.applyLean, age);
 }
 
 /*
@@ -325,6 +326,22 @@ export function workAgeFactor(api: CoreAPI, age: number): number {
   return Math.pow(
     Math.max(age, p("pastWorkYoungestAge")) / p("pastWorkAgeReferenceYears"),
     -p("pastWorkAgeElasticity"),
+  );
+}
+
+/**
+ * How finding work slows with age past the reference age (CPS mean weeks
+ * unemployed run longer for the old); nobody finds faster for being young.
+ * One factor for the pre-start run and the lives in play
+ * (stopgapId: SG-LABOR-find-age-estimated).
+ */
+export function findAgeFactor(api: CoreAPI, age: number): number {
+  const p = (key: string) => api.parameter(key);
+  stopgap("SG-LABOR-find-age-estimated");
+  return Math.pow(
+    Math.max(age, p("pastWorkFindAgeReferenceYears")) /
+      p("pastWorkFindAgeReferenceYears"),
+    -p("pastWorkFindAgeElasticity"),
   );
 }
 
@@ -367,10 +384,13 @@ export function findPerQuarter(
   api: CoreAPI,
   meanOverNow: number,
   lean: number,
+  /** The seeker's age in years; omitted, no age effect (the reference age's rate). */
+  age?: number,
 ): number {
   const p = (key: string) => api.parameter(key);
   return (
     p("pastWorkFindsPerQuarter") *
+    (age === undefined ? 1 : findAgeFactor(api, age)) *
     Math.pow(meanOverNow, p("pastWorkFindUnemploymentElasticity")) *
     Math.exp(p("pastWorkTraitSpread") * lean)
   );
@@ -461,7 +481,7 @@ function planOf(
   // Still looking on day one: the spell began as many quarters back as one
   // whole find takes at day one's month and their lean.
   const plan = { ...base, end: start, endCause: "let-go" as const };
-  const quarters = 1 / findRate(api, plan, monthOn(months, start), mean);
+  const quarters = 1 / findRate(api, plan, monthOn(months, start), mean, age);
   return {
     ...plan,
     end: makeIsoDate(
@@ -699,7 +719,7 @@ export function runPastWork(
             begin(run, date, "moved-on", quarter, leftFirm, was);
           }
         } else {
-          const find = findRate(api, plan, month, mean);
+          const find = findRate(api, plan, month, mean, age);
           const toFind = (1 - run.findPull) / find;
           const left = span - at;
           if (toFind >= left) {

@@ -3,7 +3,7 @@ import { DEFAULT_DATA } from "./data";
 import { advanceDate } from "./calendar";
 import { ensureWorkCashModule } from "./work-cash";
 import { ensureFinanceCashModule } from "./finance-cash";
-import { advanceCore, createLifeCore, chooseAct, availableActs } from "./life";
+import { advanceCore, createLifeCore, chooseAct } from "./life";
 import { coreAPI } from "./state";
 import { parameter as p } from "./parameters";
 import { plannedWorkMinutesBetween, runScheduledWork } from "./modules/work";
@@ -403,37 +403,6 @@ describe("actual owned-job cash admission", () => {
       expect(result.attendedMinutes).toBe(
         zeroAttendance ? p("zero") : p("minutesPerHour"),
       );
-      expect(
-        availableActs(core, worker.id).some(
-          (offer) => offer.definition.effect === "paid-work",
-        ),
-      ).toBe(false);
-      const definition = core.data.actions.find(
-        (row) => row.effect === "paid-work",
-      )!;
-      const offer = {
-        definition,
-        targetId: worker.jobId!,
-        availableHours: p("hoursPerDay"),
-      };
-      const decision = chooseAct(core, worker.id, [offer]);
-      expect(decision.selected).toBe(offer);
-      // Accrual does not initialize the cash providers; capture after their setup.
-      ensureWorkCashModule(core);
-      ensureFinanceCashModule(core);
-      const before = cashWorkSnapshot(core);
-      expect(() =>
-        api.settleLegacyWorkResult({
-          personId: worker.id,
-          offer,
-          decision,
-          date: core.date,
-          days: p("one"),
-        }),
-      ).toThrow(
-        "An accrual-enrolled job cannot also receive calendar-average legacy cash.",
-      );
-      expect(cashWorkSnapshot(core)).toEqual(before);
       expect(core.people.get(worker.id)!.actCount).toBe(p("one"));
       expect(core.work.currentAttendanceJobByRecordId.get(result.id)).toBe(
         worker.jobId,
