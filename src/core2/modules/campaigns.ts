@@ -111,6 +111,7 @@ import {
 } from "./legislature";
 import { promisesOf, recordAppeal, votesOf } from "./record";
 import { withholdingOnPay } from "./budgets";
+import { lawInForce, LAWS_MODULE_ID } from "./laws";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import {
@@ -2846,10 +2847,20 @@ export function contributionLimit(
     >;
   };
   if (contest.family === "usHouse" || contest.officeId.endsWith(":us-senate")) {
+    // The limit is federal law in force (Congress can raise or lower it);
+    // the research's figure stays the fallback where no law row is open.
     const federal = research.federal.individualToCandidate;
+    const law = (api.state as CoreState).modules.has(LAWS_MODULE_ID)
+      ? lawInForce(api, "federal-campaign-contribution-limit")
+      : null;
+    const fromLaw =
+      law && law.value !== null && law.governing ? law.value : null;
     return {
-      minor: federal.usd * 100,
-      source: `${federal.source} ${federal.sourceUrl}`,
+      minor: (fromLaw ?? federal.usd) * 100,
+      source:
+        fromLaw !== null && law?.governing
+          ? `${String(law.governing.source)}`
+          : `${federal.source} ${federal.sourceUrl}`,
       estimate: false,
     };
   }

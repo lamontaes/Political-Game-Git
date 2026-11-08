@@ -1627,8 +1627,18 @@
         },
         {
           "name": "Campaign finance",
-          "supported": false,
-          "policies": []
+          "supported": true,
+          "policies": [
+            {
+              "id": "law:federal-campaign-contribution-limit",
+              "name": "Federal campaign contribution limit",
+              "kind": "law-amount",
+              "series": "federal-campaign-contribution-limit",
+              "unit": "USD/election",
+              "operations": ["raise", "lower"],
+              "levels": ["federal"]
+            }
+          ]
         },
         {
           "name": "Ethics and conflicts",

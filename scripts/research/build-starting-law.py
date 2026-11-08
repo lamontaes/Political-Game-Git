@@ -165,6 +165,16 @@ def payroll_taxes(rows):
                     False, unit="percent-of-wages", terms={"additionalRate": 0.9, "additionalOver": 200000}))
 
 
+def campaign_finance(rows):
+    """The federal limit on an individual's gift to a candidate, from the campaign finance research."""
+    finance = load(RESEARCH / "campaigns/campaign-finance-2026.json")["federal"]["individualToCandidate"]
+    rows.append(row("US", "federal", "federal-campaign-contribution-limit", finance["usd"], "2025-01-01", FOREVER,
+                    f"52 U.S.C. 30116(a)(1)(A); {finance['source']} {finance['sourceUrl']}",
+                    finance["estimate"], unit="USD/election",
+                    terms={"basis": finance["basis"], "cycle": finance["cycle"]},
+                    retrieved=finance["retrievedDate"]))
+
+
 def business_taxes(rows):
     """Taxes a business pays on wages and profit (data/research/money/business-taxes-2026.json)."""
     taxes = load(RESEARCH / "money/business-taxes-2026.json")
@@ -540,6 +550,7 @@ def main():
     local_wage_authority(rows)
     payroll_taxes(rows)
     business_taxes(rows)
+    campaign_finance(rows)
     death_taxes(rows)
     income_taxes(rows)
     sales_taxes(rows)
