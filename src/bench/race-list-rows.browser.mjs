@@ -74,7 +74,7 @@ try {
     .locator('[data-tab="travel"]')
     .first()
     .evaluate((e) => e.click());
-  await page.locator(".entries-tiles .entry-go").first().waitFor();
+  await page.locator(".travel-tile").first().waitFor();
   await page
     .locator(".entry-go", { hasText: /Filing office/ })
     .first()

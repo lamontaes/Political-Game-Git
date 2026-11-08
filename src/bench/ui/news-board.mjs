@@ -82,8 +82,9 @@ export function newsBoard({ outlets, labels, date, headlineOf, words }) {
           ),
         ),
       );
+    // One paper needs no tab over its own masthead.
     holder.replaceChildren(
-      tabs,
+      ...(outlets.size > 1 ? [tabs] : []),
       el(
         "header",
         { className: "news-masthead" },

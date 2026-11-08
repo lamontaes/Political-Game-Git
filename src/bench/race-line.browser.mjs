@@ -105,9 +105,9 @@ try {
     .evaluate((e) => e.click());
   await page
     .locator("#sheet-tabs")
-    .getByRole("button", { name: "Campaigns", exact: true })
+    .getByRole("button", { name: "Campaign", exact: true })
     .click();
-  await page.locator(".row.campaign").first().waitFor();
+  await page.locator(".campaign-board").first().waitFor();
   await page.waitForTimeout(500);
   const text = await page.locator("#sheet-body").innerText();
   console.log("Campaigns screen text:\n" + text);

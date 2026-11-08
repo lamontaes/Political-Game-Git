@@ -109,15 +109,14 @@ try {
       await check(`sheet ${tab} · ${sub}`);
     }
   }
-  // A person card, opened from the People web: the card for someone who is not the player.
+  // A person card, shown on the People screen: the card for someone who is not the player.
   await page
     .locator('#rings [data-tab="people"]')
     .first()
     .evaluate((e) => e.click());
   await page.waitForTimeout(800);
-  await page.locator(".people-node").first().click();
-  await page.locator(".people-selection button").first().click();
-  await page.locator("#person:not([hidden])").waitFor();
+  await page.locator(".people-roster .person").first().click();
+  await page.locator(".people-pane .strip-screen").waitFor();
   await page.waitForTimeout(800);
   await check("person card");
   assert.deepEqual(errors, [], "page errors");
