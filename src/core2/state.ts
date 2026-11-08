@@ -29,7 +29,7 @@ import {
   residentPerson,
   takeResidentHousehold,
 } from "./modules/residents";
-import { rerateCountedJobs } from "./residents-economy";
+import { rehourCountedJobs, rerateCountedJobs } from "./residents-economy";
 import { endPurchaseTax, setPurchaseTax } from "./modules/purchase-tax";
 import { openingTemperaments } from "./opening-personality";
 import { forgetTraitLean } from "./choice";
@@ -49,6 +49,7 @@ import {
   settleWorkResult,
   recordActivityTime,
   recordDiscretionaryTime,
+  rehourNamedJob,
 } from "./work-state";
 import {
   admitWorkAttendanceOwner,
@@ -104,7 +105,6 @@ import {
   releaseCashJournalSource,
 } from "./journal-state";
 import { cashJournalHost } from "./cash-host";
-import { settleLegacyWorkResultJournal } from "./work-cash";
 import { admitPublicPayAuthority } from "./public-work-pay";
 import type { CashJournalSourceRef } from "./journal";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
@@ -1118,9 +1118,6 @@ export function coreAPI(core: CoreState): CoreAPI {
     settleWorkResult(row) {
       return settleWorkResult(core, api, row);
     },
-    settleLegacyWorkResult(row) {
-      return settleLegacyWorkResultJournal(core, api, row);
-    },
     recordActivityTime(personId, category, minutes, source) {
       recordActivityTime(core, api, personId, category, minutes, source);
     },
@@ -1991,6 +1988,18 @@ export function coreAPI(core: CoreState): CoreAPI {
           sourceId: job.id,
           access: "self",
         });
+    },
+    rehourJob(jobId, hoursDaily, source) {
+      if (!Number.isFinite(hoursDaily) || hoursDaily <= 0)
+        throw new Error("New daily hours must be positive.");
+      makeIsoDate(source.asOf);
+      if (source.asOf > core.date)
+        throw new Error("An hours change cannot cite a later source.");
+      if (!core.jobs.has(jobId)) {
+        if (rehourCountedJobs(core, new Map([[jobId, hoursDaily]])) > 0) return;
+        throw new Error(`No recorded job to change the hours of: ${jobId}`);
+      }
+      rehourNamedJob(core, api, jobId, hoursDaily, source);
     },
     addOrganization(row) {
       if (

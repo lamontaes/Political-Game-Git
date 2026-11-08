@@ -3419,8 +3419,8 @@ const sheets = {
     // department as a typed page, the town's money, and who wrote it. The game keeps
     // budget lines by category rather than departments, so each spending line is a
     // department; Last year comes from the government's previous budget; "Asked" is the line
-    // before this year's budget bill (lineBeforeBill); a head and the executive's bust wait on pool items gov-budget-departments-
-    // with-named-heads and gov-budget-asked-versus-adopted.
+    // before this year's budget bill (lineBeforeBill); the executive's bust is the offices
+    // record's chief executive; a head waits on pool item gov-budget-departments-with-named-heads.
     const words = controls.budgetStrips;
     const books = gov.books;
     const prior = gov.prior;
@@ -3519,6 +3519,25 @@ const sheets = {
                 ? [typedRow(words.savings, roundedMoney(books.cashMinor))]
                 : []),
             ),
+            ...(gov.executive?.title
+              ? [
+                  stripSection(
+                    4,
+                    gov.executive.title,
+                    leaderBlock({
+                      face: gov.executive.face,
+                      name: gov.executive.name,
+                      party: gov.executive.party,
+                      post: gov.executive.title,
+                      onOpen: () =>
+                        showPerson({
+                          personId: gov.executive.cardId,
+                          figureUrl: gov.executive.face?.url,
+                        }),
+                    }),
+                  ),
+                ]
+              : []),
             ...(latest.adoptedOn
               ? [
                   stripSection(
@@ -4326,6 +4345,18 @@ const sheets = {
                 title: v.title,
                 result: `${v.passed ? labels.passed : labels.failed} · ${fill(labels.yesCount, { n: v.yes })}, ${fill(labels.noCount, { n: v.no })}`,
                 when: short(v.date),
+                ...(v.openable
+                  ? {
+                      onOpen: () =>
+                        openBillPaper(
+                          v.billId,
+                          (...nodes) =>
+                            $("sheet-body").replaceChildren(...nodes),
+                          () => openSheet("government"),
+                          labels.backToGovernment,
+                        ),
+                    }
+                  : {}),
               })),
             ),
           ]

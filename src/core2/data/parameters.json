@@ -7107,6 +7107,30 @@
       "citation": "CPS duration of unemployment, 2001-2019."
     }
   },
+  "pastWorkFindAgeReferenceYears": {
+    "value": 40,
+    "tag": "ESTIMATED",
+    "citation": "BLS CPS duration of unemployment by age: the all-ages mean about 23 weeks (FRED UEMPMEAN, 2025 average of 11 months retrieved Nov 8, 2026) sits near the 35-44 band; nobody is modeled as finding work faster for being young.",
+    "estimatedFrom": "The reference age is the one at which the all-ages mean duration applies; the 25-54 bands are not on file (SG-LABOR-find-age-estimated: BLS cpsaat31 to replace).",
+    "spread": {
+      "low": 35,
+      "high": 45,
+      "unit": "years of age",
+      "citation": "CPS duration of unemployment, 2025."
+    }
+  },
+  "pastWorkFindAgeElasticity": {
+    "value": 0.4,
+    "tag": "ESTIMATED",
+    "citation": "BLS CPS 2025 annual table cpsaat31 as quoted in a search snippet (unverified): mean weeks unemployed 25.0 at 55-64 and 29.8 at 65 and over, against 23.1 all ages (FRED UEMPMEAN, 2025).",
+    "estimatedFrom": "ln(25.0/23.1)/ln(59.5/40) is about 0.2 and ln(29.8/23.1)/ln(70/40) is about 0.45; 0.4 is taken between them, held wide. Duration itself is not penalized: Krueger and Mueller (2016, IZA DP 7957, Table 9) find unemployment duration does not predict acceptance once the reservation wage is controlled.",
+    "spread": {
+      "low": 0.1,
+      "high": 1,
+      "unit": "elasticity",
+      "citation": "CPS duration of unemployment by age, 2025 (snippet; replace with cpsaat31)."
+    }
+  },
   "pastWorkTraitSpread": {
     "value": 1,
     "tag": "TUNABLE",

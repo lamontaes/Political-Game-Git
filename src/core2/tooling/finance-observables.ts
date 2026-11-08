@@ -51,10 +51,6 @@ export interface FinanceObservableSnapshot {
     accruedMinor: number;
     arrearsMinor: number;
     legacyUnpaidMinor: number;
-    legacyDiscretionaryEarnedMinor: number;
-    legacyDiscretionaryPaidMinor: number;
-    legacyDiscretionaryShortfallMinor: number;
-    legacyDiscretionaryCompletedReceiptCount: number;
     legacyEarnedMinor: number;
     legacyPaidMinor: number;
     legacyJobsWithCumulativeResults: number;
@@ -641,14 +637,14 @@ export function financeObservables(
     scheduledWorkEnabled: core.data.work !== undefined,
     retainedJobsWithCumulativeResults: core.work.totalsByJob.size,
     ...payrollStocks,
-    requestedMinor: payrollStocks.legacyDiscretionaryEarnedMinor,
-    paidMinor: payrollStocks.legacyDiscretionaryPaidMinor,
+    requestedMinor: zero,
+    paidMinor: zero,
     unpaidMinor: zero,
     plannedMinutes: zero,
     attendedMinutes: zero,
     attendedDatedSegments: zero,
     absentDatedSegments: zero,
-    unit: "Cumulative actual scheduled work plus separately counted legacy discretionary paid-work receipts. Requested means earned. Earned minus paid includes scheduled accrual, scheduled arrears and unretried legacy discretionary shortfall. Due recognized counts each original amount once; retries do not create new earnings or obligations. Minutes and dated segment counts retain scheduled-work scope.",
+    unit: "Cumulative actual scheduled work. Requested means earned. Earned minus paid includes scheduled accrual and scheduled arrears. Due recognized counts each original amount once; retries do not create new earnings or obligations. Minutes and dated segment counts retain scheduled-work scope.",
   };
   for (const [id, total] of core.work.totalsByJob) {
     if (!core.jobs.has(id))

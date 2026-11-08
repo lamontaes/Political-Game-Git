@@ -17,6 +17,7 @@ import severityData from "../data/disasters/severity.json" with { type: "json" }
 import fundingData from "../data/opening-income-funding.json" with { type: "json" };
 import lookup from "../data/places/place-lookup.json" with { type: "json" };
 import { placeStateKey } from "../place-map";
+import { lawApplied } from "../law-reach/applied";
 import { lawInForce, LAWS_MODULE_ID } from "./laws";
 import type { CoreAPI, CoreModule, CoreState, PlaceId, Source } from "../types";
 import { placePopulation } from "../gov-rules/place-population";
@@ -251,9 +252,10 @@ function declare(api: CoreAPI, rt: Runtime, disaster: Disaster): void {
   // A law having states share disaster costs lowers the federal share of
   // eligible costs from the statutory 75 percent; the governments receive that
   // much less. stopgapId: SG-LAWS-disaster-share-size
-  const sharing =
-    api.state.modules.has(LAWS_MODULE_ID) &&
-    lawInForce(api, STATES_SHARE_DISASTER_COSTS).value === 1;
+  const sharingLaw = api.state.modules.has(LAWS_MODULE_ID)
+    ? lawInForce(api, STATES_SHARE_DISASTER_COSTS)
+    : null;
+  const sharing = sharingLaw?.value === 1;
   if (sharing) api.stopgap("SG-LAWS-disaster-share-size");
   const federalShare = sharing
     ? api.parameter("disasterFederalShareWhenStatesShare") /
@@ -267,6 +269,17 @@ function declare(api: CoreAPI, rt: Runtime, disaster: Disaster): void {
     if (api.state.cashJournal.accounts.get(accounts.main(orgId))?.outsideFlow)
       return;
     api.stopgap(STOPGAP);
+    // The law reached this government: the federal share it was paid fell.
+    if (sharing && sharingLaw?.governing && cents !== paying)
+      lawApplied(api, {
+        key: STATES_SHARE_DISASTER_COSTS,
+        lawId: sharingLaw.governing.id,
+        targetId: orgId,
+        target: "organization",
+        engine: DISASTERS_MODULE_ID,
+        what: "disaster-federal-share-lowered",
+        amountMinor: cents - paying,
+      });
     rt.paid.push({ disaster: disaster.number, orgId, cents });
     accounts.transfer({
       id: `disaster-assistance:${disaster.number}:${orgId}`,

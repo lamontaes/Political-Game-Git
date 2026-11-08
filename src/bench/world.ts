@@ -23,6 +23,7 @@ import { openParties } from "../core2/modules/parties";
 import { openVoting, openWorldRaces } from "../core2/modules/voting";
 import { openRecord } from "../core2/modules/record";
 import { openBudgets } from "../core2/modules/budgets";
+import { openOutsideBudgets } from "../core2/modules/outside-budgets";
 import { openOfficialPay } from "../core2/modules/official-pay";
 import { openCrime } from "../core2/modules/crime";
 import { openCoverage } from "../core2/modules/coverage";
@@ -41,12 +42,15 @@ import { openSuccession } from "../core2/modules/succession";
 import { openExecutive } from "../core2/modules/executive";
 import { openInterestGroups } from "../core2/modules/interest-groups";
 import { openPublicAction } from "../core2/modules/public-action";
+import { openFederalCourts } from "../core2/modules/federal-courts";
+import { openNationalEvents } from "../core2/modules/national-events";
 import { openWorldLegislating } from "../core2/modules/world-legislating";
 import { openBallotMeasures } from "../core2/modules/ballot-measures";
 import { openRecalls } from "../core2/modules/recalls";
 import { openPress } from "../core2/modules/press";
 import { openMeetings } from "../core2/modules/meetings";
 import { officeDayData, openOfficeDay } from "../core2/office-day-levels";
+import { openPresidentActs } from "../core2/modules/president-acts";
 import { openCases } from "../core2/modules/constituent-cases";
 import { openJustice } from "../core2/modules/justice";
 import { openPublicSafety } from "../core2/modules/public-safety";
@@ -502,6 +506,8 @@ function* benchWorldStages(
   openVoting(core);
   openRecord(core);
   openBudgets(core);
+  // Every other state's budget, in the same store, moved by the state's own economy.
+  openOutsideBudgets(core);
   // Officials are paid from the treasuries budgets just opened (OPUS-CORE).
   openOfficialPay(core);
   openHomelessCount(core);
@@ -536,14 +542,20 @@ function* benchWorldStages(
   openCases(core);
   // The town's strikes, protests and rallies, from how its term reads by area.
   openPublicAction(core);
+  // What happens in the rest of the country, as results (disasters from FEMA's record).
+  openNationalEvents(core);
   // The officeholder's day (OFFICE-LOCAL): each local body's own meeting
   // calendar, the meeting as a scene, the player's chosen stops and the
   // character's own votes and desk decisions when the player does not stop.
   openOfficeDay(core, seed);
+  // The President nominates and the Senate confirms when nobody plays the President.
+  openPresidentActs(core);
   // Prosecutors, trials and prisons: reads the corruption engine's records.
   openJustice(core);
   // Ordinary crime, courts, jail, firearm laws and fire service.
   openPublicSafety(core);
+  // The federal courts as a national flow and stock, from the Commission and the Bureau.
+  openFederalCourts(core);
   // The world has a past (OPUS-CORE): prior elections, voting records, law
   // histories, the year's news and what the public knows, before day one.
   openThePast(core, seed);
