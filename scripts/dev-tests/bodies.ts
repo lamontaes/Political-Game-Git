@@ -45,7 +45,7 @@ for (const body of picked) {
     const run = (label: string, margin: number, opts: { sign?: boolean; overrideMargin?: number }) => {
       const { bill } = dev.introduce({ bodyOfficeId: body.id, sponsorId: sponsor, series: policy.series!, value, ...(policy.unit ? { unit: policy.unit } : {}) });
       const d = dev.decideAt(bill.id, margin, opts);
-      row[label] = { status: d.bill.status, tallies: d.tallies.map((t) => `${t.yes}-${t.no}`).join(","), held: d.held.length };
+      row[label] = { status: d.bill.status, tallies: d.tallies.map((t) => `${t.yes}-${t.no}`).join(","), veto: d.veto, held: d.held.length, committees: d.committees.map((c: any) => `${c.heard ? "heard" : "unheard"} ${c.yes}-${c.no} ${c.reported ? "reported" : "NOT reported"}`).join("; ") };
     };
     const wide = body.level === "federal" ? 24 : 3;
     run("passSign", wide, { sign: true });
