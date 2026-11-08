@@ -478,6 +478,8 @@ export const CAMPAIGNS_MODULE: CoreModule = {
       },
       polls: { indexes: { byContest: { fields: ["contestId"] } } },
       money: {},
+      /** A decision cast for a person on a campaign's ask (the player's, or a dev pick): read in place of their own lean (`castVolunteer`). */
+      casts: {},
       gifts: {
         indexes: {
           byCampaign: { fields: ["campaignId"] },
@@ -1929,20 +1931,42 @@ export function askToVolunteer(
     rivalFiling(api, campaign, personId)
   )
     return false;
-  const yes = leanedYes(
-    api.state,
-    person,
-    "campaigns.volunteer",
-    "volunteer",
-    "decline",
-    volunteerReason(api, campaign, person, ask),
-  );
+  const cast = table(api, "casts").get(
+    `${campaign.filingId}|${personId}|volunteer`,
+  ) as unknown as { yes: boolean } | undefined;
+  const yes = cast
+    ? cast.yes
+    : leanedYes(
+        api.state,
+        person,
+        "campaigns.volunteer",
+        "volunteer",
+        "decline",
+        volunteerReason(api, campaign, person, ask),
+      );
   if (yes && !campaign.volunteerIds.includes(personId))
     save(api, {
       ...campaign,
       volunteerIds: [...campaign.volunteerIds, personId],
     });
   return yes;
+}
+
+/**
+ * A decision cast for a person on a campaign's volunteer ask, before they are asked (the player's, or a
+ * dev pick): `askToVolunteer` reads it in place of their own lean, as the legislature reads a signature
+ * cast for a member. A person who is a rival's or under the volunteering age is still not asked.
+ */
+export function castVolunteer(
+  api: CoreAPI,
+  filingId: string,
+  personId: string,
+  yes: boolean,
+): void {
+  table(api, "casts").put({
+    id: `${filingId}|${personId}|volunteer`,
+    yes,
+  } as unknown as ModuleRow);
 }
 
 /**
