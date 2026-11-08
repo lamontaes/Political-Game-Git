@@ -11,6 +11,7 @@
 import { storyDelivered } from "./modules/news";
 import data from "./data/electorate/parameters.json" with { type: "json" };
 import { partySide } from "./appointments";
+import { approvalGapPoints } from "./modules/national-opinion";
 import { campaignParameter } from "./campaign-views";
 import {
   electionLawTurnoutCost,
@@ -89,10 +90,8 @@ export interface RaceConditions {
   readonly typicalSpendPerVote: number;
   /** The race's two-party voters at the opening (sizes the typical campaign). */
   readonly raceVotes: number;
-  readonly national: {
-    readonly unemploymentChange: number;
-    readonly inflationChange: number;
-  };
+  /** The country's approval of the president against its long-run mean, in points (national-opinion.ts). */
+  readonly approvalGapPoints: number;
   /** The town, whose voters (and the place around it) feel its jobs and crime. */
   readonly town: {
     readonly placeId: string;
@@ -140,10 +139,13 @@ export function candidateReasons(
             p("spendingFloorShareOfTypical") * typical,
           ) / typical,
         );
+  // The national mood: the president's party gains or loses by how far the
+  // country's approval of the president stands from its long-run mean
+  // (the economy reaches the vote through that approval).
   const economy = candidate.presidentsParty
-    ? -(conditions.federal ? 1 : p("downBallotNationalShare")) *
-      (p("unemploymentShare") * conditions.national.unemploymentChange +
-        p("inflationShare") * conditions.national.inflationChange)
+    ? (conditions.federal ? 1 : p("downBallotNationalShare")) *
+      p("approvalVoteShare") *
+      conditions.approvalGapPoints
     : 0;
   const midterm =
     candidate.presidentsParty && conditions.cycle === "midterm"
@@ -187,29 +189,6 @@ export function candidateReasons(
         }
       : {}),
     total,
-  };
-}
-
-/** The national economy against the opening: unemployment and inflation, in points. */
-export function nationalEconomyChange(api: CoreAPI): {
-  unemploymentChange: number;
-  inflationChange: number;
-} {
-  if (!api.state.modules.has("macro"))
-    return { unemploymentChange: 0, inflationChange: 0 };
-  const store = api.moduleState("macro");
-  const state = store.table("state").get("macro:state") as unknown as
-    { openingMonth: string; latestMonth: string } | undefined;
-  if (!state) return { unemploymentChange: 0, inflationChange: 0 };
-  const month = (m: string) =>
-    store.table("months").get(`macro-month:${m}`) as unknown as
-      { unemploymentPct: number; inflationPct: number } | undefined;
-  const opening = month(state.openingMonth),
-    latest = month(state.latestMonth);
-  if (!opening || !latest) return { unemploymentChange: 0, inflationChange: 0 };
-  return {
-    unemploymentChange: latest.unemploymentPct - opening.unemploymentPct,
-    inflationChange: latest.inflationPct - opening.inflationPct,
   };
 }
 
@@ -292,16 +271,12 @@ export function raceConditions(
   },
 ): RaceConditions {
   rememberOpeningElectorate(api);
-  // The national mood is the economy and the midterm penalty; no record of
-  // the president's approval exists to read it from.
-  // stopgapId: SG-GOV-electorate-approval
-  api.stopgap("SG-GOV-electorate-approval");
   return {
     cycle: input.cycle,
     federal: input.federal,
     typicalSpendPerVote: typicalSpendPerVote(input.family),
     raceVotes: input.raceVotes,
-    national: nationalEconomyChange(api),
+    approvalGapPoints: approvalGapPoints(api),
     town: input.townPlaceId
       ? {
           placeId: input.townPlaceId,

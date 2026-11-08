@@ -401,7 +401,7 @@
     },
     "economy-to-approval": {
       "waitingOn": [],
-      "carriedBy": "the electorate's economy term (candidateReasons in src/core2/electorate-inputs.ts, reading nationalEconomyChange), which takes the national unemployment and inflation against the opening into the standing of the president's party's candidates, wholly for federal offices and in part down the ballot. The game keeps no approval number, so the economy's effect lands on the vote; this row has no size, so the engine's own shares (unemploymentShare and inflationShare in src/core2/data/electorate/parameters.json) stand"
+      "carriedBy": "the national-opinion engine (src/core2/modules/national-opinion.ts), which moves the monthly approval of the president by the year's change in national unemployment and inflation (pointsPerUnemploymentPoint and pointsPerInflationPoint in src/core2/data/electorate/national-opinion.json), and the electorate's economy term (candidateReasons in src/core2/electorate-inputs.ts, reading approvalGapPoints), which takes approval's gap from its long-run mean into the standing of the president's party's candidates, wholly for federal offices and in part down the ballot; this row has no size, so the engine's own shares stand"
     },
     "medicaid-expansion-to-coverage": {
       "waitingOn": [],

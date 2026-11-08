@@ -1,0 +1,35 @@
+{
+  "about": "How the country's opinion of its president moves (Nation, Nov 8, 2026). Read by src/core2/modules/national-opinion.ts. Every number is tagged SOURCED, ESTIMATED (with source and spread) or TUNABLE.",
+  "parameters": {
+    "longRunMeanPct": {
+      "value": 50,
+      "tag": "ESTIMATED",
+      "source": "Quarterly Gallup presidential approval, 1960-2022, is stationary around a long-run mean near 50 percent (Coggin, Economics & Politics, 2025, doi 10.1111/ecpo.12322).",
+      "spread": [45, 53]
+    },
+    "openingPct": {
+      "value": 41,
+      "tag": "ESTIMATED",
+      "source": "Where the country's approval of the sitting president stands on the first day of play: Gallup's readings for the president in 2025 ran from the high 30s to the low 40s (Gallup, Presidential Job Approval Center). The world then moves it from what happens.",
+      "spread": [36, 45]
+    },
+    "monthlyPersistence": {
+      "value": 0.95,
+      "tag": "ESTIMATED",
+      "source": "An autoregressive coefficient of about 0.95 for the latent presidential approval series, 1981-2007, in a signal-plus-noise model (published estimates summarized in the approval literature; Erikson, MacKuen and Stimson, The Macro Polity, 2002). The raw monthly series is less persistent.",
+      "spread": [0.9, 0.98]
+    },
+    "pointsPerUnemploymentPoint": {
+      "value": 1,
+      "tag": "ESTIMATED",
+      "source": "Approval points lost per point the unemployment rate rose over the year: studies of presidential approval find about 0.3 to 1 point per point (Mueller, War, Presidents and Public Opinion, 1973; survey of the economic determinants of approval, Leuphana, about half of studies find a significant effect). The base fades slowly (persistence), so the felt effect builds over months.",
+      "spread": [0.3, 2]
+    },
+    "pointsPerInflationPoint": {
+      "value": 1,
+      "tag": "ESTIMATED",
+      "source": "Approval points lost per point annual inflation rose over the year: rising prices and expected price rises consistently lower approval (Coggin, 2025); the size is similar to or smaller than unemployment's (Newman and Ostrom, 2002).",
+      "spread": [0.3, 2]
+    }
+  }
+}

@@ -62,19 +62,18 @@ describe("votes, approval and press links and the engines that decide them", () 
       "src/core2/electorate-inputs.ts",
       "candidateReasons",
     );
-    expect(row.carriedBy).toContain("nationalEconomyChange");
+    expect(row.carriedBy).toContain("approvalGapPoints");
     const inputs = read("src/core2/electorate-inputs.ts");
-    expect(inputs).toMatch(/export function nationalEconomyChange\(/);
-    expect(inputs).toMatch(/national: nationalEconomyChange\(api\)/);
+    expect(inputs).toMatch(/approvalGapPoints: approvalGapPoints\(api\)/);
     expect(inputs).toMatch(
-      /const economy = candidate\.presidentsParty\s+\?\s+-\(/,
+      /const economy = candidate\.presidentsParty\s+\?\s+\(/,
     );
     expect(inputs).toMatch(
-      /p\("unemploymentShare"\) \* conditions\.national\.unemploymentChange/,
+      /p\("approvalVoteShare"\) \*\s+conditions\.approvalGapPoints/,
     );
-    expect(inputs).toMatch(
-      /p\("inflationShare"\) \* conditions\.national\.inflationChange/,
-    );
+    const opinion = read("src/core2/modules/national-opinion.ts");
+    expect(opinion).toMatch(/opinionParameter\("pointsPerUnemploymentPoint"\)/);
+    expect(opinion).toMatch(/opinionParameter\("pointsPerInflationPoint"\)/);
   });
 
   it("carries the election laws' turnout links by the law reach the voting engine reads, so no law moves turnout twice", () => {
