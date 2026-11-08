@@ -1,0 +1,20 @@
+{
+  "stateLegislativeUncontestedShare": {
+    "value": 0.385,
+    "tag": "SOURCED",
+    "citation": "Share of state legislative seats with no major-party competition in the general election: 38 percent in 2024 (2,227 of 5,807 seats), 39 percent averaged over 2010 to 2024 (Ballotpedia, Annual State Legislative Competitiveness Report, Vol. 14, 2024; https://news.ballotpedia.org/2024/09/27/ballotpedia-releases-14th-annual-state-legislative-competitiveness-report/).",
+    "spread": [0.34, 0.41]
+  },
+  "usHousePrimaryCandidatesPerSeat": {
+    "value": 4.1,
+    "tag": "ESTIMATED",
+    "citation": "1,773 candidates ran in 2024 U.S. House primaries, the fewest since 2016 (1,588 in 2016), over 435 seats (Ballotpedia, Annual Congressional Competitiveness Report, 2024; https://ballotpedia.org/Annual_Congressional_Competitiveness_Report,_2024). The per-seat division is ours. By state the average ran from 3.6 (Oklahoma) to 10.9 (Maryland) in 2024 (Ballotpedia state primary pages).",
+    "estimatedFrom": "Ballotpedia 2024 House primary counts over 435 seats; spread 3.6 to 7 by state"
+  },
+  "usHouseContestedByBothParties": {
+    "value": 0.913,
+    "tag": "SOURCED",
+    "citation": "91.3 percent of U.S. House races in 2024 were contested by both the Democratic and the Republican parties (Ballotpedia, Annual Congressional Competitiveness Report, 2024).",
+    "spread": [0.85, 0.95]
+  }
+}

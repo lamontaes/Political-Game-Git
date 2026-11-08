@@ -3,6 +3,7 @@
 import { drawPlace } from "../core2-year/place";
 import { buildBenchWorld } from "../../src/bench/world";
 import { gameStartDate } from "../../src/core2/game-start";
+import benchmarks from "../../src/core2/data/candidacy/benchmarks.json" with { type: "json" };
 import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { coreAPI } from "../../src/core2/state";
 import { advanceCore } from "../../src/core2/life";
@@ -92,3 +93,7 @@ if (seats) {
     console.log(`  vacant ${s.id} ${o?.level}/${o?.kind} vacancies[${v}]`);
   }
 }
+
+console.log(
+  `Ballotpedia: state legislative uncontested ${benchmarks.stateLegislativeUncontestedShare.value}, House primary candidates per seat ${benchmarks.usHousePrimaryCandidatesPerSeat.value}, House races contested by both parties ${benchmarks.usHouseContestedByBothParties.value}`,
+);
