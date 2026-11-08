@@ -266,6 +266,7 @@ export function considerBribe(api: CoreAPI, ask: BribeAsk): CrimeRecord | null {
           "take",
           takeValues(api, official, amount, tie),
           ask.subjectId,
+          ask.pick?.take,
         )
       : undefined;
   const id = `bribe:${api.state.date}:${ask.offererId}:${ask.officialId}:${ask.subjectId}`;
