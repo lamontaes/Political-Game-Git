@@ -20,12 +20,14 @@ async function send(path, input) {
 /** The panel. `labels` is controls.devScene; `onDone()` refreshes the game's screens. */
 export async function devScenePanel({ labels, onDone }) {
   const scenes = await send("scenes");
+  // The ones brought about directly first, then those that run the world until they happen, then the rest.
+  const rank = (row) => ({ death: 0, layoff: 1, wait: 2 })[row.recipe] ?? 3;
   const forceable = scenes.filter((row) => row.recipe);
   const type = select({
     label: labels.type,
-    value: (forceable[0] ?? scenes[0]).key,
+    value: [...scenes].sort((a, b) => rank(a) - rank(b))[0].key,
     options: [...scenes]
-      .sort((a, b) => Number(Boolean(b.recipe)) - Number(Boolean(a.recipe)))
+      .sort((a, b) => rank(a) - rank(b))
       .map((row) => ({
         value: row.key,
         label: row.recipe
