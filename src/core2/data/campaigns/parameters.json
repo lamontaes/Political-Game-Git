@@ -324,6 +324,12 @@
       "source": "Gallup, party identification 2024 annual average: 28% Democrat and 28% Republican identify with a party (43% independent).",
       "spread": [0.5, 0.62]
     },
+    "partyIdApprovalLean": {
+      "value": 0.02,
+      "tag": "ESTIMATED",
+      "source": "How far the country's approval of the president moves how people lean when they choose a party, in lean units (-1 to 1) per point of approval above or below its long-run mean, away from the president's party when approval is low. Gallup's 2025 party identification: the Democratic lead among identifiers and leaners went from R+4 in the fourth quarter of 2024 to D+8 in the fourth quarter of 2025, 'a consequence of one party's association with an unpopular incumbent president' (news.gallup.com/poll/700499), about 12 points of share while approval fell about ten points; a share is a density (about one half per lean unit) times a lean shift, so about 0.02 lean per approval point. Macro partisanship follows approval (Erikson, MacKuen and Stimson, The Macro Polity, 2002).",
+      "spread": [0.005, 0.04]
+    },
     "noPartyShare": {
       "value": 0.07,
       "tag": "SOURCED",

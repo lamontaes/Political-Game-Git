@@ -21,6 +21,8 @@ import delegates from "../../../data/research/elections/house-delegates-2024.jso
 import nomination from "../../../data/research/elections/party-nomination-rules-2026.json" with { type: "json" };
 import parameters from "../data/campaigns/parameters.json" with { type: "json" };
 import { partySide } from "../appointments";
+import { presidentSide } from "../electorate-inputs";
+import { approvalGapPoints } from "./national-opinion";
 import { worldRoster, worldSwing } from "../electorate-places";
 import { partyLean } from "../campaign-stances";
 import { coreAPI, registerModule } from "../state";
@@ -727,13 +729,22 @@ function partyMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         .get("town") as unknown as { lean: number } | undefined
     )?.lean ?? 0;
   const adultAge = api.parameter("votingAge");
+  // People choose a party at the lean the country's mood leaves them: away
+  // from the president's party when approval of the president is low, toward
+  // it when high (macro partisanship); the share who identify stays the
+  // sourced 2024 share, so it is which side they take that moves.
+  const moodShift =
+    presidentSide(api) * value("partyIdApprovalLean") * approvalGapPoints(api);
   const adults = [...(core.peopleByPlace.get(town) ?? [])]
     .map((id) => core.people.get(id))
     .filter(
       (p): p is PersonState => !!p && p.alive && ageOn(p, date) >= adultAge,
     )
     .sort((a, b) => a.id.localeCompare(b.id))
-    .map((p) => ({ p, lean: personLean(core.people, p, townLean) }));
+    .map((p) => ({
+      p,
+      lean: personLean(core.people, p, townLean) + moodShift,
+    }));
   if (!adults.length) return;
   const firm = adults.map((a) => Math.abs(a.lean)).sort((a, b) => b - a);
   const identifierCut =
