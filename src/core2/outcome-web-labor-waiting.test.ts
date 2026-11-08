@@ -36,13 +36,16 @@ const WAITING = {
 
 /**
  * Files that name an outcome for another use, not to read the web's factor
- * on it: the voting engine reads the unemployment rate as a cause, and the
- * news keeps it as a topic.
+ * on it: the voting engine reads the unemployment rate as a cause, the news
+ * keeps it as a topic, and the term read names it as an area an official's
+ * term is graded on (it reads the outcome's value, never multiplies an
+ * engine's rate by the link).
  */
 const OTHER_USES: Readonly<Record<string, readonly string[]>> = {
   "labor.unemployment-pct": [
     "src/core2/electorate-inputs.ts",
     "src/core2/data/news/outcome-news.json",
+    "src/core2/data/term-read/areas.json",
   ],
 };
 
