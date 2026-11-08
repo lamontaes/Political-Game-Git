@@ -164,6 +164,13 @@
     "later": "Later years",
     "seat": "Seat held"
   },
+  "devMemory": {
+    "title": "Remembers",
+    "kept": {
+      "player": "Kept",
+      "drive": "Held by a drive"
+    }
+  },
   "devRun": {
     "title": "Run until",
     "days": "Days",

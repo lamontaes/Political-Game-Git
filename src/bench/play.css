@@ -5276,3 +5276,11 @@ select.release-pick {
   font: 500 16px var(--f-ui);
   color: #f2e6c9;
 }
+
+/* Dev mode's memory rows: the record kind, the day learned, the day it fades. */
+.dev-memory-row {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 8px;
+  padding: 2px 0;
+}
