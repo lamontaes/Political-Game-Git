@@ -1159,36 +1159,6 @@ input[type="range"]::-moz-range-thumb {
   color: var(--text-3);
 }
 /* Progress: a brass frame, the fill running dark to light gold. */
-.progress {
-  position: relative;
-  height: 24px;
-  margin: 12px 0 8px;
-  border-style: solid;
-  border-width: 12px;
-  border-image: url("/ui/kit13/progress-frame.svg") 12 stretch;
-  background: #0c0c0d;
-  background-clip: padding-box;
-}
-.progress span {
-  position: absolute;
-  left: -2px;
-  top: -8px;
-  height: 16px;
-  width: 40%;
-  max-width: calc(100% + 4px);
-  background: linear-gradient(
-    90deg,
-    var(--brass-lo),
-    var(--gold) 60%,
-    var(--brass-hi)
-  );
-  animation: fill 2s ease-in-out infinite alternate;
-}
-.progress span.steady {
-  animation: none;
-  width: 2%;
-  transition: width 0.4s ease-out;
-}
 @keyframes fill {
   from {
     width: 10%;
