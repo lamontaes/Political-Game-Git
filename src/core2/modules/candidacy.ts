@@ -43,7 +43,8 @@ import type {
   PersonId,
   PersonState,
 } from "../types";
-import { decisionKinds, leanedYes } from "../trait-decisions";
+import { decisionKinds } from "../trait-decision-table";
+import { leanedYes } from "../trait-decisions";
 import { closenessBetween } from "../closeness";
 import { candidatePlatform } from "../campaign-stances";
 import { contestPositions } from "../contest-positions";

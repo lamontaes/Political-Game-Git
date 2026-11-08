@@ -13,7 +13,7 @@ import data from "../data/school-days.json" with { type: "json" };
 import tuition from "../data/opening-private-tuition.json" with { type: "json" };
 import stateDays from "../../../data/research/people/state-instructional-days-2018.json" with { type: "json" };
 import { decisionFromScores, scoreOffers } from "../choice";
-import { decisionKinds } from "../trait-decisions";
+import { decisionKinds } from "../trait-decision-table";
 import { offer } from "./life";
 import { reenrollPrivateTuition } from "../private-tuition-reenroll";
 import type {
