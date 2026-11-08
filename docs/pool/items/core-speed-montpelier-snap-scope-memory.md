@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: claimed
-claimed-by: astra/snap-memory-scope
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-11-08T00:28:17.263Z
+claimed-at:
 ---
 
 **What.** On current main Montpelier, Vermont (5046000, seed 5a1c0de7a11ce5e1) ran out of memory in year 4 (FATAL heap out of memory, exit 134), where on Nov 6 it finished four years (7.58 GB process). Years 2 and 3 now keep far more: relationships 77,839 (was under 60,000) at year 2 and 125,603 at year 3, the log 142,112 at year 2 (was 101,791), folded causes 103,686 (was 99,070) and 153,412 at year 3 (was 109,139). Commit by commit on year 1 alone (news.heard 26,820 before, 29,550 after): adcae6b5 is good and 4095b2fb is the first bad one.
