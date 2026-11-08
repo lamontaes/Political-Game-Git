@@ -95,24 +95,20 @@ try {
       const body = document.getElementById("sheet-body");
       return body.scrollHeight > body.clientHeight + 1;
     });
-  // The seat: office, pay and next meeting, each on a plate of its own.
-  const seat = await page.locator(".office-body .fact-plate").allInnerTexts();
+  // The seat: office, pay and next meeting, each a row of "My seat" on the office board.
+  const seat = await page
+    .locator(".office-board .dotrows .dotrow")
+    .allInnerTexts();
   console.log(
-    "seat plates:",
+    "seat rows:",
     seat.map((t) => t.replace(/\n+/g, " ")),
   );
-  assert.ok(seat.length >= 2, "the seat shows its office and pay on plates");
+  assert.ok(seat.length >= 2, "the seat shows its office and pay on rows");
   assert.equal(await scrolls(), false, "the seat tab scrolls");
   if (SHOTS) await page.screenshot({ path: `${SHOTS}/seat.png` });
-  // The draft card, on a plate of its own, for a member of a body.
-  const draft = page.locator('.office-tabs [data-office="draft"]');
-  if (await draft.count()) {
-    await draft.click();
-    await page.locator(".draft-card select").waitFor();
-    assert.ok(
-      await page.locator(".office-body .plate .draft-card").count(),
-      "the draft card sits on a plate",
-    );
+  // The draft card, on the board, for a member of a body (it used to have a tab of its own).
+  if (await page.locator(".office-board .draft-card").count()) {
+    await page.locator(".office-board .draft-card select").waitFor();
     assert.equal(await scrolls(), false, "the drafts tab scrolls");
     if (SHOTS) await page.screenshot({ path: `${SHOTS}/drafts.png` });
   } else console.log("no body to draft in for this seat");
@@ -128,9 +124,7 @@ try {
     if (SHOTS) await page.screenshot({ path: `${SHOTS}/budget.png` });
   }
   assert.deepEqual(errors, [], "page errors");
-  console.log(
-    "ok: Your office is plates, one tab at a time, and never scrolls",
-  );
+  console.log("ok: Your office is one board and never scrolls");
 } finally {
   await browser.close();
 }
