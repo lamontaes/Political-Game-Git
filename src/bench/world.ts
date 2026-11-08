@@ -65,6 +65,8 @@ import {
 import { withPublicSchoolDistrict } from "../core2/opening-public-schools";
 import { withPrivateTuition } from "../core2/opening-private-tuition";
 import { representativeSample } from "../core2/representative-sample";
+import { withCountySample } from "../core2/opening-county-sample";
+import { withYearsInPlace } from "../core2/opening-tenure";
 import { initialFocusPeople } from "../core2/focus";
 import { selectBenchPlace } from "./place-selection.mjs";
 import { recordOpeningStory } from "../director/opening-story";
@@ -436,20 +438,26 @@ function* benchWorldStages(
     // generated route: housing gives counted households rent and mortgage
     // flows, and the core's stand-in owner payouts come off. People it adds
     // (the central bank's board) are named officials and stay full people.
+    // The county's counted sample, weighted to its eligible voters, and years
+    // in place on every household.
+    const countySample = withCountySample(economy, kept);
+    const weights = {
+      ...(countScale !== 1
+        ? { [place.context.jurisdiction.id]: countScale }
+        : {}),
+      ...(countySample ? { [countySample.placeId]: countySample.weight } : {}),
+    };
     opening = scaleOutsideSales(
       settings.economy?.outsideDemand ?? 1,
       addTradeArea(
         withWorldEconomy(
-          collapseToTwoLevels(economy, {
-            keep: kept,
-            ...(countScale !== 1
-              ? {
-                  weights: {
-                    [place.context.jurisdiction.id]: countScale,
-                  },
-                }
-              : {}),
-          }),
+          collapseToTwoLevels(
+            withYearsInPlace(countySample?.input ?? economy),
+            {
+              keep: kept,
+              ...(Object.keys(weights).length ? { weights } : {}),
+            },
+          ),
         ),
       ),
     );

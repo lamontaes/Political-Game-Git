@@ -122,6 +122,10 @@ export interface CountedHousehold {
    * Every reader of a count multiplies by it (`CountedStore.weightOf`).
    */
   weight?: number;
+  /** The day it moved into its place. */
+  since?: IsoDate;
+  /** Its sampled county workers' employers (see HouseholdInput.employment). */
+  employment?: HouseholdInput["employment"];
   /** The district it lives in, where its place has districts. */
   district?: string;
   /** Bumped when its members or their records change (readers' cached views go stale). */
@@ -727,6 +731,10 @@ export class CountedStore {
       ...(facts.weight !== undefined && facts.weight !== 1
         ? { weight: facts.weight }
         : {}),
+      ...(record.household.since ? { since: record.household.since } : {}),
+      ...(record.household.employment
+        ? { employment: record.household.employment }
+        : {}),
     };
     this.households.push(h);
     this.householdOf.set(h.id, index);
@@ -771,6 +779,8 @@ class HouseholdView implements ResidentHouseholdRecord {
         .map((m) => this.store.ids[m]!),
       source: this.h.source,
       ...(this.h.quarters ? { quarters: this.h.quarters } : {}),
+      ...(this.h.since ? { since: this.h.since } : {}),
+      ...(this.h.employment ? { employment: this.h.employment } : {}),
     };
   }
   get people(): readonly PersonInput[] {

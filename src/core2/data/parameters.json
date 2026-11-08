@@ -8269,5 +8269,48 @@
       "unit": "share of balances",
       "citation": "Plus or minus a fifth: one quarter's balances by age, with unknown birth years left out."
     }
+  },
+  "countySampleHouseholds": {
+    "value": 150,
+    "tag": "TUNABLE",
+    "citation": "How many households of the county outside the town the opening samples; each stands for as many real households as the county's eligible voters ask for. Sized so a county seat's weighing has hundreds of adults to draw from while the opening stays light.",
+    "stopgapId": "SG-LIVES-county-sample-employers",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "A sample size, not a real rate; the weights keep the county's total at its real eligible count at any size."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "neighborsKnownCap": {
+    "value": 8,
+    "tag": "ESTIMATED",
+    "citation": "Neighbors an adult knows by name once settled. Ownerly 2020 survey of 2,700 US adults (ownerly.com/data-analysis/do-you-know-your-neighbors-survey): 14% know none, 51% know 1 to 5, 19% know 6 to 10, 15% know 11 or more; the cap is the middle of the 6 to 10 band. Pew Research Center 2019 (pewresearch.org/short-reads/2019/08/15/facts-about-neighbors-in-u-s): 26% know most of their neighbors.",
+    "estimatedFrom": "No published source gives neighbors known by years of residence; the anchor is the settled count, the slope below is an assumption.",
+    "spread": {
+      "low": 3,
+      "high": 14,
+      "unit": "neighbors",
+      "citation": "Ownerly 2020: the 1-to-5 band holds half of adults and the 11-or-more tail 15%."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "neighborsKnownYears": {
+    "value": 6,
+    "tag": "ESTIMATED",
+    "citation": "Years of living in one place for a household to know about two thirds of the neighbors it will ever know (known = cap x (1 - exp(-years / this))). Pew Research Center 2018 (pewresearch.org/social-trends/2018/05/22/how-urban-suburban-and-rural-residents-interact-with-their-neighbors): trusting a neighbor with keys rises from 34% under a year to 47% at 1 to 5 years to 64% at 6 or more, levelling off at six.",
+    "estimatedFrom": "Assumed time constant anchored loosely on Pew's key-trust rise.",
+    "spread": {
+      "low": 3,
+      "high": 12,
+      "unit": "years",
+      "citation": "Assumed range around the six-year level-off in Pew 2018."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
   }
 }
