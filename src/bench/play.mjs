@@ -4810,6 +4810,13 @@ api("/api/title").then((title) => {
   if (title.scenes?.length > 1) rotateTitle(title.scenes, title.rotateSeconds);
   titleLife = title.life;
   $("front-continue").disabled = !titleLife;
+  // The mock (fr-title) offers Continue only for a life that exists, by that person's name.
+  $("front-continue").hidden = !titleLife;
+  void controlsReady.then(() => {
+    $("front-continue").querySelector(".continue-text b").textContent = (
+      controls.title?.continueAs ?? ""
+    ).replace("{name}", titleLife?.name ?? "");
+  });
   // The life's own face: the look the creator saved, as every other view of the player reads it.
   setFace("front-continue-bust", titleLife?.face);
 });
