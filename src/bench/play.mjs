@@ -618,6 +618,8 @@ async function act(path) {
     if (office) {
       if (office.reasonKey === "office-day.meeting") await inMeeting();
       else if (office.reasonKey === "office-day.desk") await atDesk();
+      else if (office.reasonKey === "office-day.executive-order")
+        await atOrders();
       else if (
         office.reasonKey === "office-day-federal.floor-vote" ||
         office.reasonKey === "office-day-state.floor-vote"
@@ -844,6 +846,46 @@ function atFloor() {
     };
     show("desk", true);
     api("/api/floor").then(draw);
+  });
+}
+
+// The orders the governor's staff brings for signature hold the clock: each is issued (or revoked) or set aside by the player.
+function atOrders() {
+  return new Promise((resolve) => {
+    const words = controls.orders ?? {};
+    const draw = (orders) => {
+      if (!orders.length) return finish();
+      $("desk-items").replaceChildren(
+        ...orders.map((item) =>
+          plate(
+            item.name ?? "",
+            buttonRow(
+              ...["issue", "decline"].map((how) => {
+                const b = makeButton({
+                  className: "action",
+                  textContent:
+                    how === "issue" && item.revoke ? words.revoke : words[how],
+                });
+                b.addEventListener("click", async () =>
+                  draw(
+                    await post(
+                      `/api/orders?${new URLSearchParams({ entryId: item.entryId, how })}`,
+                    ),
+                  ),
+                );
+                return b;
+              }),
+            ),
+          ),
+        ),
+      );
+    };
+    const finish = () => {
+      show("desk", false);
+      resolve();
+    };
+    show("desk", true);
+    api("/api/orders").then(draw);
   });
 }
 

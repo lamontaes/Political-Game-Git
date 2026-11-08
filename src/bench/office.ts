@@ -17,6 +17,12 @@ import {
   stateFloorHolds,
   voteOnStateFloor,
 } from "../core2/office-day-state";
+import { doEntry, waitingEntries } from "../core2/office-day-state";
+import {
+  orderQuestionOf,
+  pendingGovernorOrders,
+} from "../core2/modules/executive";
+import { policyNames } from "./words";
 import { billOf as legislatureBillOf } from "../core2/modules/legislature";
 import type { CoreState } from "../core2/types";
 import {
@@ -383,4 +389,39 @@ export function colleagueDeal(
   else throw new Error("Unknown deal.");
   prepareAct(api, personId, "talk-to-colleague", { deals: kept });
   return officeView(core, personId);
+}
+
+/** The executive orders the governor's staff has brought for the player's signature today. */
+export function ordersView(core: CoreState) {
+  const api = coreAPI(core);
+  const person = controlledPerson(api);
+  if (!person || !api.state.modules.has(OFFICE_DAY_STATE_MODULE_ID)) return [];
+  const names = policyNames();
+  const brought = pendingGovernorOrders(api, person);
+  return waitingEntries(api, person)
+    .filter((entry) => entry.kind === "executive-order")
+    .map((entry) => ({
+      entryId: entry.id,
+      order: entry.subject,
+      // The order's own question, worded by the bill catalog's name for it.
+      name: names[orderQuestionOf(entry.subject) ?? ""] ?? null,
+      revoke:
+        brought.find((row) => row.order === entry.subject)?.revoke ?? false,
+    }));
+}
+
+/** The player issues the order (revoking it when the staff brought a revocation) or sets it aside. */
+export function ordersDecide(core: CoreState, entryId: string, how: string) {
+  const api = coreAPI(core);
+  const person = controlledPerson(api);
+  if (!person) throw new Error("Choose a resident first.");
+  if (how !== "issue" && how !== "decline")
+    throw new Error("Issue the order or set it aside.");
+  const entry = waitingEntries(api, person).find((row) => row.id === entryId);
+  if (!entry) throw new Error("No order is waiting on you.");
+  const revoke =
+    pendingGovernorOrders(api, person).find(
+      (row) => row.order === entry.subject,
+    )?.revoke ?? false;
+  doEntry(api, entryId, { kind: "order", revoke, issue: how === "issue" });
 }

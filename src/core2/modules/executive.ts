@@ -84,6 +84,10 @@ const ORDERABLE: Readonly<Record<string, string>> = {
     "us-policy-positions:justice-public-safety.restore-voting-after-sentence",
 };
 
+/** The policy question an executive order answers, by the order's key (for a screen to name it). */
+export const orderQuestionOf = (order: string): string | undefined =>
+  ORDERABLE[order];
+
 export interface AppointmentRow {
   readonly id: string;
   readonly government: string;

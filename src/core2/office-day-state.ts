@@ -121,6 +121,8 @@ registerStopKinds([
   { kind: "state-of-the-state", byDefault: true },
   // A vote on the floor of the player's own chamber: the engine never votes for the player.
   { kind: "state-floor-vote", byDefault: true },
+  // An order the governor's staff brings for signature: issued or set aside by the player, not the character.
+  { kind: "executive-order", byDefault: true },
 ]);
 
 // ---------------------------------------------------------------- data
@@ -511,6 +513,7 @@ export function stopKindOf(api: CoreAPI, entry: StateDayEntry): string | null {
     return roster?.chairId === entry.holderId ? "own-hearing" : null;
   }
   if (entry.kind === "state-of-the-state") return "state-of-the-state";
+  if (entry.kind === "executive-order") return "executive-order";
   return null;
 }
 
@@ -523,7 +526,12 @@ const splitCommittee = (subject: string): [string, string] => {
 
 /** What the player chose for an entry; left out, the character chooses. */
 export type StateChoice =
-  | { readonly kind: "order"; readonly revoke: boolean }
+  | {
+      readonly kind: "order";
+      readonly revoke: boolean;
+      /** False sets the order aside: the player declines it. */
+      readonly issue?: boolean;
+    }
   | { readonly kind: "attend"; readonly attend: boolean }
   | { readonly kind: "clemency"; readonly grant: boolean }
   | {
@@ -757,7 +765,7 @@ export function actOn(
       chosen = choice ?? { kind: "order", revoke: own?.revoke ?? false };
       if (chosen.kind !== "order")
         throw new Error("Choose whether to revoke the order.");
-      if (choice || own)
+      if ((choice && chosen.issue !== false) || (!choice && own))
         recordIds.push(
           issueOrder(api, {
             executiveId: entry.holderId,

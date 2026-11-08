@@ -876,5 +876,10 @@
     "cr-character": "Start a life",
     "cr-place": "Where you're from",
     "cr-look": "How you look"
+  },
+  "orders": {
+    "issue": "Issue the order",
+    "revoke": "Revoke the order",
+    "decline": "Set it aside"
   }
 }
