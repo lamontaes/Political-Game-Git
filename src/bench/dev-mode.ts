@@ -973,6 +973,37 @@ export class DevMode {
     };
   }
 
+  /**
+   * The small-dollar lender's loans as the credit engine wrote them: what was asked, what was lent,
+   * and the outcome web's factor with the month and links it read where the lender quoted (a cap in
+   * force past its lag shows as a factor below one). Reads only.
+   */
+  smallDollarLoans() {
+    if (!has(this.core, "credit")) return [];
+    return (
+      this.api.moduleState("credit").table("loans").rows() as unknown as {
+        id: string;
+        kind: string;
+        askedMinor?: number;
+        principalMinor?: number;
+        annualRate?: number;
+        webFactor?: number;
+        webLinks?: string[];
+        webRecordId?: string;
+      }[]
+    )
+      .filter((loan) => loan.kind === "small-dollar")
+      .map((loan) => ({
+        id: loan.id,
+        askedMinor: loan.askedMinor ?? null,
+        principalMinor: loan.principalMinor ?? null,
+        annualRate: loan.annualRate ?? null,
+        webFactor: loan.webFactor ?? null,
+        webLinks: loan.webLinks ?? [],
+        webRecordId: loan.webRecordId ?? null,
+      }));
+  }
+
   /** The wealthiest living people in the world: who might want a favor enough to pay for it. */
   wealthiest(count = 12) {
     return [...this.core.people.values()]
