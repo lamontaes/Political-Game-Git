@@ -1,0 +1,78 @@
+{
+  "version": "public-action-v1",
+  "about": "When a town's term reads badly in an area, the people it touches organize; when it reads well, they gather to say so (owner, Nov 8: 'if you're having a good term except for education, then you might get a strike... or you show up to a rally, or if it's bad, you show up to a protest'). Each area names who it touches, what the action is when the term reads badly (a strike by the workers of the sector, or a protest) and the policy question those who act press on the town's officials. A rally has no demand: it is the town saying the term is going well. It holds no sentence and decides nothing: src/core2/modules/public-action.ts reads it with the term read (src/core2/term-read.ts).",
+  "parameters": {
+    "gain": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "spread": "0.25 to 1",
+      "note": "How much a month of a term read at full slide (1) adds to the town's organizing in that area, before the fade."
+    },
+    "fade": {
+      "value": 0.25,
+      "tag": "TUNABLE",
+      "spread": "0.1 to 0.5",
+      "note": "The share of the town's organizing in an area that fades each month with nothing to keep it up: a steady slide of s settles at gain times s over fade, so a movement grows over months of a bad term and dies after one that mends."
+    },
+    "minimumParticipants": {
+      "value": 2,
+      "tag": "ESTIMATED",
+      "spread": "2 to 5",
+      "note": "The fewest people who are an action: one person alone is not a walkout, a protest or a rally."
+    },
+    "faded": {
+      "value": 0.001,
+      "tag": "ESTIMATED",
+      "spread": "0.0001 to 0.01",
+      "note": "A level of organizing below this has faded out and is kept as none, so a town with nothing to organize about costs the monthly pass nothing. A month at full slide adds 0.5, so this is a thousandth of one."
+    }
+  },
+  "areas": {
+    "schools": {
+      "touches": "school-staff",
+      "bad": "strike",
+      "good": "rally",
+      "question": "us-policy-positions:education.raise-teacher-minimum-salary"
+    },
+    "rent": {
+      "touches": "renters",
+      "bad": "protest",
+      "good": "rally",
+      "question": "us-policy-positions:housing-land-use.rent-stabilization"
+    },
+    "jobs": {
+      "touches": "jobless",
+      "bad": "protest",
+      "good": "rally",
+      "question": "us-policy-positions:labor-workforce.raise-minimum-wage"
+    },
+    "pay": {
+      "touches": "residents",
+      "bad": "protest",
+      "good": "rally",
+      "question": "us-policy-positions:labor-workforce.raise-minimum-wage"
+    },
+    "health": {
+      "touches": "residents",
+      "bad": "protest",
+      "good": "rally",
+      "question": "us-policy-positions:health-human-services.expand-medicaid-eligibility"
+    },
+    "environment": {
+      "touches": "residents",
+      "bad": "protest",
+      "good": "rally",
+      "question": "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties"
+    },
+    "crime": {
+      "touches": "residents",
+      "bad": "protest",
+      "good": "rally"
+    },
+    "roads": {
+      "touches": "residents",
+      "bad": "protest",
+      "good": "rally"
+    }
+  }
+}
