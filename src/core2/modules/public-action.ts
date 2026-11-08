@@ -29,6 +29,7 @@ import { addDays, makeIsoDate } from "../kernel/dates";
 import { groupDraw, joinsGroup } from "./interest-groups";
 import { makeCase } from "./speech";
 import { townSeats } from "./offices";
+import { currentCloseness } from "../closeness";
 import { placeTermRead, termReadPlaces, type AreaRead } from "../term-read";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
@@ -211,6 +212,89 @@ function gather(
   return [...joined];
 }
 
+/** The id of the invitation a friend in an action sends the player (a `cause.shared` record, the one the cause-invite scene reads). */
+const inviteId = (actionId: string, recruiterId: string, playerId: string) =>
+  `cause.shared:${actionId}:${recruiterId}:${playerId}`;
+
+/**
+ * The friend in the action who knows the player best asks them to come: the
+ * participant with the strongest recorded tie to the player, if any has one.
+ * It is the same `cause.shared` record a person sharing their cause writes,
+ * so the director stages the cause-invite scene from it and the player
+ * answers in their own words; nothing here decides for them.
+ */
+function inviteThePlayer(
+  api: CoreAPI,
+  action: ActionRow,
+  question: string | undefined,
+): void {
+  const core = api.state as CoreState;
+  const playerId = core.playerId;
+  if (!playerId || action.participantIds.includes(playerId)) return;
+  let best: { id: string; closeness: number } | undefined;
+  for (const key of core.relationshipsByPerson.get(playerId) ?? []) {
+    const tie = core.relationships.get(key);
+    if (!tie) continue;
+    const other = tie.actorId === playerId ? tie.otherId : tie.actorId;
+    if (!action.participantIds.includes(other)) continue;
+    const closeness = currentCloseness(core, tie);
+    if (closeness > (best?.closeness ?? 0)) best = { id: other, closeness };
+  }
+  if (!best) return;
+  const id = inviteId(action.id, best.id, playerId);
+  if (core.eventIds.has(id)) return;
+  api.emit({
+    id,
+    date: core.date,
+    kind: "cause.shared",
+    personIds: [best.id],
+    witnessIds: [playerId],
+    placeId: core.people.get(best.id)!.placeId,
+    topic: question ?? action.area,
+    desiredChange: "enact",
+    facts: { actionId: action.id, area: action.area },
+    source: {
+      tag: "SOURCED",
+      asOf: core.date,
+      citation: `A friend in the ${action.kind} over ${action.area} (${action.id}) asks the player to come.`,
+    },
+  });
+}
+
+/**
+ * The player said yes to a friend's invitation (the cause-invite scene's
+ * reply): they are in the action from now, and make their case to the town's
+ * officials like everyone in it.
+ */
+function playerJoins(api: CoreAPI, event: { facts?: Record<string, string> }) {
+  const facts = event.facts ?? {};
+  if (facts.typeKey !== "cause-invite" || facts.ending !== "joined") return;
+  const match = /^cause\.shared:(action:.+):[^:]+:([^:]+)$/.exec(
+    facts.causeId ?? "",
+  );
+  if (!match) return;
+  const [, actionId, playerId] = match;
+  const action = table(api, "actions").get(actionId!) as unknown as
+    ActionRow | undefined;
+  if (!action || action.participantIds.includes(playerId!)) return;
+  table(api, "actions").put({
+    ...action,
+    participantIds: [...action.participantIds, playerId!].sort(),
+    playerTouched: true,
+  } as unknown as ModuleRow);
+  const rule = RULES[action.area]!;
+  if (rule.question)
+    makeCase(api, {
+      id: `case:${action.id}:${api.state.date}:player`,
+      speakerId: playerId!,
+      listenerIds: officialsOfTown(api),
+      placeId: action.placeId,
+      topic: rule.question,
+      desiredChange: "enact",
+      citation: `The player joined the ${action.kind} over ${action.area}, ${action.id}`,
+    });
+}
+
 /** The officials holding the town's seats, at every level that covers it. */
 function officialsOfTown(api: CoreAPI): string[] {
   return [
@@ -305,6 +389,7 @@ function monthlyRun(api: CoreAPI): void {
             asOf: core.date,
           },
         });
+      if (!open) inviteThePlayer(api, row, rule.question);
       // A grievance presses its demand on the town's officials; a rally has none.
       if (stock.side === "grievance" && rule.question) {
         const lead = participants[0]!;
@@ -356,6 +441,10 @@ export const PUBLIC_ACTION_MODULE: CoreModule = {
       mobilization: {},
       actions: { indexes: { byPlace: { fields: ["placeId"] } } },
     },
+  },
+  eventKinds: ["scene.reply"],
+  onEvent(api, event) {
+    playerJoins(api, event as { facts?: Record<string, string> });
   },
   onCalendarWork(api, work) {
     if (work.kind !== RUN_KIND) return;

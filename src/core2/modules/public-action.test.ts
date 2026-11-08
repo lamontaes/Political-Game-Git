@@ -68,12 +68,29 @@ describe("a town's term becomes strikes, protests and rallies", () => {
     });
     // A tap on the speech engine's cases, to see who was pressed.
     const pressed: { id: string; witnessIds: readonly string[] }[] = [];
+    const invited: {
+      id: string;
+      speaker: string;
+      witnessIds: readonly string[];
+    }[] = [];
+    const pressedByPlayer: string[] = [];
     registerModule(core, {
       id: "test-case-tap",
-      eventKinds: [CASE_MADE],
+      eventKinds: [CASE_MADE, "cause.shared"],
       onEvent: (_api, event) => {
-        if (event.id.startsWith("case:action:"))
+        if (
+          event.kind === "cause.shared" &&
+          event.id.startsWith("cause.shared:action:")
+        )
+          invited.push({
+            id: event.id,
+            speaker: event.personIds[0]!,
+            witnessIds: event.witnessIds ?? [],
+          });
+        if (event.id.startsWith("case:action:")) {
           pressed.push({ id: event.id, witnessIds: event.witnessIds ?? [] });
+          if (event.id.endsWith(":player")) pressedByPlayer.push(event.id);
+        }
       },
     });
     advanceCore(core, "2025-07-06");
@@ -108,5 +125,34 @@ describe("a town's term becomes strikes, protests and rallies", () => {
       expect(row.witnessIds.length, where).toBeGreaterThan(0);
       for (const id of row.witnessIds) expect(seated.has(id), where).toBe(true);
     }
-  });
+    // A friend in an action who knows the player asks them to come (the
+    // record the cause-invite scene reads), and only a friend the player knows.
+    process.stdout.write(`INVITED ${invited.length}\n`);
+    for (const row of invited) {
+      expect(row.witnessIds, where).toEqual([world.playerId]);
+      expect(core.people.has(row.speaker), where).toBe(true);
+    }
+    // The player says yes in the scene: they are in the action and press the officials.
+    if (invited.length) {
+      const first = invited[0]!;
+      api.emit({
+        id: `scene.reply:test:${first.id}`,
+        date: core.date,
+        kind: "scene.reply",
+        personIds: [world.playerId!, first.speaker],
+        placeId: world.placeId,
+        facts: {
+          typeKey: "cause-invite",
+          causeId: first.id,
+          ending: "joined",
+        },
+        source: { tag: "SOURCED", asOf: core.date, citation: "test" },
+      });
+      const action = actionsOf(api, world.placeId).find((row) =>
+        first.id.includes(row.id),
+      )!;
+      expect(action.participantIds, where).toContain(world.playerId);
+      expect(pressedByPlayer.length, where).toBe(1);
+    }
+  }, 240_000);
 });
