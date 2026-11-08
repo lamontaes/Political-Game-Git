@@ -24,7 +24,12 @@ it("raises the outside flow to the firm's books and no further", () => {
         { organizationId: "b", annualDemandMinor: 10 * weeks },
       ],
       contracts: [
-        { payeeId: "a", salesReceipt: true, amountMinor: 120, periodMonths: 12 },
+        {
+          payeeId: "a",
+          salesReceipt: true,
+          amountMinor: 120,
+          periodMonths: 12,
+        },
       ],
     },
     residents: {
