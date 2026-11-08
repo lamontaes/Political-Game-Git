@@ -17,38 +17,48 @@ async function send(path, input) {
   return value;
 }
 
+/** The last result line, kept across the sheet's redraws. */
+let lastResult = "";
+/** The kind picked, kept across redraws too. */
+let lastType = "";
+
 /** The panel. `labels` is controls.devScene; `onDone()` refreshes the game's screens. */
 export async function devScenePanel({ labels, onDone }) {
   const scenes = await send("scenes");
-  const forceable = scenes.filter((row) => row.recipe);
+  // The ones brought about directly first, then those that run the world until they happen, then the rest.
+  const rank = (row) => ({ death: 0, layoff: 1, wait: 2 })[row.recipe] ?? 3;
   const type = select({
     label: labels.type,
-    value: (forceable[0] ?? scenes[0]).key,
+    value:
+      scenes.find((row) => row.key === lastType)?.key ??
+      [...scenes].sort((a, b) => rank(a) - rank(b))[0].key,
     options: [...scenes]
-      .sort((a, b) => Number(Boolean(b.recipe)) - Number(Boolean(a.recipe)))
+      .sort((a, b) => rank(a) - rank(b))
       .map((row) => ({
         value: row.key,
         label: row.recipe
-          ? `${row.key} · ${row.causeRecords.join(", ")}`
+          ? `${row.key} · ${row.causeRecords.join(", ")}${row.recipe === "wait" ? ` · ${labels.waits}` : ""}`
           : `${row.key} · ${labels.noPath}`,
       })),
   });
   const result = statusLine();
+  result.textContent = lastResult;
   const make = makeButton({ className: "action" }, labels.make);
   make.dataset.testid = "dev-scene";
   make.addEventListener("click", async () => {
     make.disabled = true;
     result.textContent = "";
     try {
+      lastType = type.value;
       const out = await send("scene", { typeKey: type.value });
-      result.textContent = [
-        labels.begun,
-        out.personId,
-        ...out.causeRecords,
-      ].join(" · ");
+      lastResult = [labels.begun, out.personId, ...out.causeRecords].join(
+        " · ",
+      );
+      result.textContent = lastResult;
       await onDone();
     } catch (error) {
-      result.textContent = error.message;
+      lastResult = error.message;
+      result.textContent = lastResult;
     } finally {
       make.disabled = false;
     }

@@ -59,6 +59,22 @@ function drawPlace(): { key: string; state: string } {
 const data = macroCoreData();
 const p = (key: string) => parameter(key, data.parameters);
 /**
+ * The same data with no layoff turnover: the test of how postings follow
+ * demand reads the staffing decision alone, and a worker let go by the
+ * turnover pull (jobs.ts reviewTurnover) would open a replacement of its own.
+ * The turnover has its own test (town-turnover.test.ts).
+ */
+const noTurnoverData = {
+  ...data,
+  parameters: {
+    ...data.parameters,
+    pastWorkLayoffsPerQuarter: {
+      ...data.parameters.pastWorkLayoffsPerQuarter!,
+      value: 0,
+    },
+  },
+};
+/**
  * The same data with a filing base every owed fixture worker clears: these
  * one-trait workers sit at the middle with no other reasons, so the tests of
  * what the program pays read a filed claim; who files is jobs-benefits' and
@@ -896,7 +912,7 @@ describe("jobs: causes, not rates", () => {
           ],
         },
       },
-      { data, modules: [JOBS_MODULE] },
+      { data: noTurnoverData, modules: [JOBS_MODULE] },
     );
     const book = withBooks(core, 8);
     advanceCore(core, "2021-05-31");

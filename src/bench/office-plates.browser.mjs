@@ -62,6 +62,7 @@ try {
   }
   assert.ok(at >= 0, "no member of a body to step in as in five draws");
   await page.locator("#pick-list button").nth(at).click();
+  await page.locator("#pick-play").click();
   await page.waitForFunction(() =>
     document.getElementById("card-name").textContent.trim(),
   );
@@ -88,7 +89,7 @@ try {
     .locator("#sheet-tabs")
     .getByRole("button", { name: "Your office" })
     .click();
-  await page.locator(".office-screen").waitFor();
+  await page.locator(".office-board").waitFor();
   const scrolls = () =>
     page.evaluate(() => {
       const body = document.getElementById("sheet-body");

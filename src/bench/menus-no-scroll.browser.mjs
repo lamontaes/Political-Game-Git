@@ -37,12 +37,11 @@ try {
   await page.locator("[data-gender=female]").click();
   await page.locator("#cr-random-name").click();
   await page.waitForFunction(() => document.getElementById("cr-given").value);
-  await page.locator("#cr-character-next").click();
   await page.locator('[data-testid="state-search"]').fill(state);
   await page.locator("#cr-states button", { hasText: state }).first().click();
   await page.locator('[data-testid="place-search"]').fill(town);
   await page.locator("#cr-towns button", { hasText: town }).first().click();
-  await page.locator("#cr-look:not([hidden])").waitFor();
+  await page.locator("#cr-screen:not([hidden])").waitFor();
   await page.locator("#cr-begin").click();
   await page.locator("#card:not([hidden])").waitFor({ timeout: 300000 });
   await page.waitForFunction(() =>

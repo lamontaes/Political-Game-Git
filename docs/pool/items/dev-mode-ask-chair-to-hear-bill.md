@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 3
 size: M
-status: open
+status: done
 claimed-by:
-pr:
+pr: #7486
 blocked-on:
 after: laws-held-bill-keeps-chair-reasons
 source: added with npm run pool -- add

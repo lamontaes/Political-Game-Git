@@ -7838,6 +7838,182 @@
         "move": "headline",
         "key": "news-received"
       }
+    },
+    {
+      "key": "headlines.exposed.name-offered-an-official-a-bribe-records-show",
+      "move": "exposed",
+      "kind": "written",
+      "text": "{name} offered an official a bribe, records show",
+      "uses": [
+        {
+          "move": "exposed",
+          "subject": "headline",
+          "role": "exposed",
+          "choice": "headline",
+          "requiresFacts": ["offered"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.exposed.records-tie-name-to-a-bribe-offer",
+      "move": "exposed",
+      "kind": "written",
+      "text": "Records tie {name} to a bribe offer",
+      "uses": [
+        {
+          "move": "exposed",
+          "subject": "headline",
+          "role": "exposed",
+          "choice": "headline",
+          "requiresFacts": ["offered"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.address-response.name-answers-opponents-address",
+      "move": "address-response",
+      "kind": "written",
+      "text": "{name} answers {opponent}'s address",
+      "uses": [
+        {
+          "move": "address-response",
+          "subject": "headline",
+          "role": "address-response",
+          "choice": "headline",
+          "requiresFacts": ["opponent", "issue"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.address-response.name-objects-to-opponents-plan-for-issue",
+      "move": "address-response",
+      "kind": "written",
+      "text": "{name} objects to {opponent}'s plan for {issue}",
+      "uses": [
+        {
+          "move": "address-response",
+          "subject": "headline",
+          "role": "address-response",
+          "choice": "headline",
+          "requiresFacts": ["opponent", "issue"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.floor-debate.name-and-opponent-split-on-designation",
+      "move": "floor-debate",
+      "kind": "written",
+      "text": "{name} and {opponent} split on {designation}",
+      "uses": [
+        {
+          "move": "floor-debate",
+          "subject": "headline",
+          "role": "floor-debate",
+          "choice": "headline",
+          "requiresFacts": ["opponent", "designation"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.floor-debate.designation-name-for-opponent-against",
+      "move": "floor-debate",
+      "kind": "written",
+      "text": "{designation}: {name} for, {opponent} against",
+      "uses": [
+        {
+          "move": "floor-debate",
+          "subject": "headline",
+          "role": "floor-debate",
+          "choice": "headline",
+          "requiresFacts": ["opponent", "designation"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.public-action.neighbors-in-place-form-a-standing-group-over-issue",
+      "move": "public-action",
+      "kind": "written",
+      "text": "Neighbors in {place} form a standing group over {issue}",
+      "uses": [
+        {
+          "move": "public-action",
+          "subject": "headline",
+          "role": "public-action",
+          "choice": "headline",
+          "requiresFacts": ["movement", "issue"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.public-action.a-crowd-over-issue-becomes-a-group-in-place",
+      "move": "public-action",
+      "kind": "written",
+      "text": "A crowd over {issue} becomes a group in {place}",
+      "uses": [
+        {
+          "move": "public-action",
+          "subject": "headline",
+          "role": "public-action",
+          "choice": "headline",
+          "requiresFacts": ["movement", "issue"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
     }
   ]
 }

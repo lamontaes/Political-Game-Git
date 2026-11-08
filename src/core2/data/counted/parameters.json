@@ -83,6 +83,18 @@
       "citation": "CPS ASEC 2019 to 2023 tables, same table each year."
     }
   },
+  "countedMovesRenterHousingWeight": {
+    "value": 0.3,
+    "tag": "ESTIMATED",
+    "citation": "HUD's affordability line: a household paying more than 30 percent of its income for rent is cost-burdened (HUD, Affordable Housing, https://www.hud.gov/helping-americans/public-indian-housing-affordability).",
+    "estimatedFrom": "The share of a renting household's spending that goes to housing, taken as HUD's 30 percent line (renters' median gross rent runs near it in the ACS). A renter weighs a state's housing price level at this share; every household weighs it at the all-items index's own housing weight (rpp-housing.json, estimated from BEA's components).",
+    "spread": {
+      "low": 0.25,
+      "high": 0.4,
+      "unit": "share of a renter's spending on housing",
+      "citation": "Renters' housing shares in the BLS Consumer Expenditure Survey and ACS gross rent as a share of income run from the high twenties to the high thirties."
+    }
+  },
   "countedMovesIncomeElasticity": {
     "value": 1.0,
     "tag": "TUNABLE",

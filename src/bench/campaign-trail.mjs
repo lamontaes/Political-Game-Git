@@ -21,8 +21,8 @@ export async function openCampaignTrail(page) {
   // An act that stays on the screen returns to the trail's own card: already here.
   if (
     await page
-      .locator("#sheet-body.place-view .screen-heading", {
-        hasText: "The campaign trail",
+      .locator("#sheet-body.place-view .travel-screen .travel-tile", {
+        hasText: "Knock on doors",
       })
       .count()
   )
@@ -31,7 +31,7 @@ export async function openCampaignTrail(page) {
     await page.locator('#rings [data-tab="calendar"]').click();
   // Travel's list may already be open (a ring press would close it).
   const tile = page
-    .locator("#sheet-body .entry", { hasText: "The campaign trail" })
+    .locator("#sheet-body .travel-tile", { hasText: "The campaign trail" })
     .first();
   if (!(await tile.count()))
     await page.locator('.ring[data-tab="travel"]').click();
@@ -39,7 +39,7 @@ export async function openCampaignTrail(page) {
   await tile.click();
   await page.locator("#sheet-body.place-view").waitFor();
 }
-/** The trail's controls (buttons), by their words. */
+/** The trail's acts (tiles), by their words. */
 export function trailButtons(page) {
-  return page.locator("#sheet-body.place-view button");
+  return page.locator("#sheet-body.place-view .travel-tile");
 }
