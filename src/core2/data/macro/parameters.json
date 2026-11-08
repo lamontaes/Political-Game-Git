@@ -678,14 +678,15 @@
     }
   },
   "macroNaturalHysteresisMonths": {
-    "value": 240,
-    "tag": "TUNABLE",
-    "citation": "How fast the normal unemployment rate follows the rate people have lived at (hysteresis; Ball 2009, 'The Next Generation of Hysteresis'; CBO's noncyclical rate moved from about 6.2 percent in 1980 to 4.4 in 2019, a drift of a few tenths of a point a year). The normal rate is a state of the economy, not a resting point: at the opening it starts at macroNaturalUnemploymentPct and moves with experience.",
+    "value": 120,
+    "tag": "ESTIMATED",
+    "citation": "How fast the normal unemployment rate follows the rate people have lived at. Qualitative sources: Blanchard and Summers (1986), 'Hysteresis and the European Unemployment Problem', and Ball (2009), 'The Next Generation of Hysteresis', both find the normal rate following actual unemployment after long slumps, with no published speed. Money's fit of the quarterly change in CBO's natural rate (FRED NROU) on the lagged gap to UNRATE (1960-2019, 1970-95, 1979-89, 1990-2019, 2008-19; one- and eight-quarter lags) gives a slightly negative coefficient everywhere (-0.003 to -0.006 a quarter, standard error about 0.0006): CBO's series follows structure, not lived unemployment, so its central estimate is no drift. The value is an estimate between those poles. The normal rate is a state of the economy, not a resting point: at the opening it starts at macroNaturalUnemploymentPct and moves with experience.",
+    "estimatedFrom": "Qualitative hysteresis literature and the NROU fit above; the speed itself is not published.",
     "spread": {
       "low": 60,
-      "high": 240,
+      "high": 1200,
       "unit": "months",
-      "citation": "Checked against the 1990-2026 12-month unemployment bands (scripts/money/band-exits.ts) and the recession count (scripts/money/macro-cycle.ts)."
+      "citation": "60 months is a fast follower; 1200 months (a century) is the no-drift end that CBO's series implies. Replaced by a composition-driven natural rate (pool item economy-natural-rate-from-composition)."
     }
   },
   "macroInflationExpectationMonths": {
