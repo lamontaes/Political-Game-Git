@@ -1087,6 +1087,7 @@ export async function benchRequest(
           requireCore(),
           url.searchParams.get("entryId") ?? "",
           url.searchParams.get("how") ?? "",
+          url.searchParams.get("nomineeId") ?? undefined,
         );
         send(200, ordersView(requireCore()));
         return;

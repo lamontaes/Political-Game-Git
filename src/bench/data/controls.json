@@ -245,7 +245,13 @@
     "type": "Situation",
     "make": "Make it happen",
     "begun": "Begun for",
-    "noPath": "No game code to attach to"
+    "waits": "Runs the world until it happens",
+    "reasons": {
+      "days": "Days passed",
+      "event": "It happened",
+      "cap": "Cap reached"
+    },
+    "noPath": "No engine writes its cause yet"
   },
   "devPerson": {
     "title": "Health",
@@ -961,7 +967,10 @@
     "decline": "Set it aside",
     "emergency": "State of emergency",
     "emergency-issue": "Declare it",
-    "emergency-decline": "Let it pass"
+    "emergency-decline": "Let it pass",
+    "post-own": "Decided for me",
+    "post-issue": "Name them",
+    "post-decline": "Leave it open"
   },
   "officeCases": {
     "help": "Help",
