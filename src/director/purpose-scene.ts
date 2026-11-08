@@ -467,37 +467,20 @@ function composeBinding(
       };
     }
   }
-  // A strike or protest in the town (public-action.ts): what it is over, and
-  // whether the official it stands before has a stand on it at all and which
-  // side of the protester's it falls. The same exchange as a town hall.
+  // A strike or protest in the town (public-action.ts): what it is over.
+  // stopgapId: SG-WORDS-action-confront-town-hall-lines. The
+  // official has given no answer yet, so the exchange opens as a town hall
+  // does when the host declined to answer: the protester wants to hear where
+  // they stand.
   if (said.actionId && said.question) {
     const issue = questionAbout(said.question);
     if (issue) {
-      const api = coreAPI(core as CoreState);
       facts.issue = {
         text: issue,
         sourceRecordIds: [said.actionId, moment.causeId],
       };
-      const stand = viewOn(
-        api,
-        askedId,
-        said.question,
-        personLean(core.people, asked, P.zero),
-      );
-      const own = viewOn(
-        api,
-        askerId,
-        said.question,
-        personLean(core.people, asker, P.zero),
-      );
-      const reading =
-        stand === P.zero
-          ? "host-declined"
-          : stand * own < P.zero
-            ? "host-opposed"
-            : "host-agreed";
-      facts[reading] = {
-        text: reading,
+      facts["host-declined"] = {
+        text: "host-declined",
         sourceRecordIds: [said.actionId, askedId, askerId],
       };
     }

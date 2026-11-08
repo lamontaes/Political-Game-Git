@@ -527,5 +527,17 @@
     "addedAt": "2026-11-08",
     "replacement": "The counted tier's group rule for a decision that reads a view and traits (counted-groups), asked of each counted group by its count, so an action's size includes the counted people who would join.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORDS-action-confront-town-hall-lines",
+    "kind": "missing-data",
+    "file": "src/director/purpose-scene.ts",
+    "line": 1,
+    "whatItFakes": "A protest or strike that stands before a town official (type action-confront) is worded with the town hall's lines (purpose town-hall-question, reading host-declined): 'I asked about rent stabilization. Where do you stand?'. It has no register of its own: nothing in the lines says a crowd is behind the protester, a picket line, a march or a walkout.",
+    "why": "The exchange is the same (a person with a demand, an official who answers) and the town hall's lines exist; the protest's own register (owner, Nov 8: the English works differently for different kinds of scenes) is the next piece of the Story lane.",
+    "addedBy": "Story session",
+    "addedAt": "2026-11-08",
+    "replacement": "A purpose of its own for action-confront in purpose-arcs.json with scene-talk pieces that put the crowd, the sign and the demand in the protester's mouth, and the official's replies as stances toward the crowd.",
+    "status": "open"
   }
 ]
