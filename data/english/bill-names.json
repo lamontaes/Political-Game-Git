@@ -478,6 +478,7 @@
   },
   "budget": {
     "name": "Budget",
-    "purpose": "the government's spending for the year"
+    "purpose": "the government's spending for the year",
+    "section": "{line}: {amount} for the year"
   }
 }
