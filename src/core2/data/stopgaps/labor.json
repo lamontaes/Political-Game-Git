@@ -148,5 +148,17 @@
     "addedAt": "2026-11-08",
     "replacement": "BLS CPS table cpsaat31 (mean and median weeks by age band) read into data/research/labor/ and fitted band by band.",
     "status": "open"
+  },
+  {
+    "id": "SG-LABOR-opening-band-ratios-town-mix",
+    "kind": "estimated-behavior",
+    "file": "src/core2/modules/jobs.ts",
+    "line": 1,
+    "whatItFakes": "The opening's seekers use each age band's unemployment ratio from the nation's labor force (CPS) scaled so its mean over the town's own workers is one; the region's rate already holds the county's own age mix, so the scaling should use the county's worker age mix, which the opening does not read. A town older than its county therefore opens at the county's rate, not somewhat below it.",
+    "why": "The county's worker age mix is not in the regional series the opening reads (state and county labor statistics). Before the scaling, Douglas, Michigan (2622740) opened with 17 seekers where the county's 4.72% implies 22 to 24, because 37% of its counted working-age jobs sit in the fifth age band (ratio 0.73); with the town-mix scaling it opens 20.",
+    "addedBy": "jobs-and-economy",
+    "addedAt": "2026-11-08",
+    "replacement": "Scale the band ratios so their job-weighted mean is one over the county's age mix of workers (ACS), then apply them to the town's mix; a town older than its county then opens below the county only by how much older it is.",
+    "status": "open"
   }
 ]

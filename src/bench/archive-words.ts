@@ -3,7 +3,12 @@ import { spokenDate } from "../core2/kernel/dates";
 import type { CoreState } from "../core2/types";
 import { composeNewsStory, type StoryKind } from "../english/english-newscast";
 import type { GroundedEnglishPacket } from "../english/grounded-english";
-import { archivedFacts, archivedLawFacts, printedFacts } from "./printed-words";
+import {
+  archivedFacts,
+  archivedLawFacts,
+  archivedLawPassedFacts,
+  printedFacts,
+} from "./printed-words";
 import type { ownRace } from "./results";
 import { policyNames } from "./words";
 
@@ -65,6 +70,21 @@ export function wordArchiveStory(
               told.facts,
             )
           : null;
+      if (text) return text;
+    }
+    // A law enacted is told for what it does and where, the way one taking
+    // effect is, when its row says so; else by its name and the day.
+    if (recordKind === "law-enacted") {
+      const passed = archivedLawPassedFacts(core, story);
+      const text = passed
+        ? worded(
+            core,
+            story.id,
+            passed.kind,
+            passed.speaker || story.id,
+            passed.facts,
+          )
+        : null;
       if (text) return text;
     }
     NAMES ??= policyNames();
@@ -236,6 +256,19 @@ export function wordNationLaw(
     readonly stateName: string;
   },
 ): WordedStory | null {
+  // Told as the press tells a law in play, from the law's own row: the amount
+  // it moved from and to, or what the law is for, in the state that passed it.
+  const told = archivedLawFacts(core, {
+    id: law.id,
+    kind: "press.archived",
+    date: law.date,
+    facts: { lawId: law.id },
+  });
+  const row =
+    told && told.kind !== "law-rule"
+      ? worded(core, law.id, told.kind, told.speaker || law.id, told.facts)
+      : null;
+  if (row) return row;
   NAMES ??= policyNames();
   const measure = NAMES[law.series];
   if (!measure) return null;
