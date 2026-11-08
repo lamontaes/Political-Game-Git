@@ -8365,7 +8365,7 @@
   "neighborsKnownYears": {
     "value": 6,
     "tag": "ESTIMATED",
-    "citation": "Years of living in one place for a household to know about two thirds of the neighbors it will ever know (known = cap x (1 - exp(-years / this))). Pew Research Center 2018 (pewresearch.org/social-trends/2018/05/22/how-urban-suburban-and-rural-residents-interact-with-their-neighbors): trusting a neighbor with keys rises from 34% under a year to 47% at 1 to 5 years to 64% at 6 or more, levelling off at six.",
+    "citation": "Years of living in one place for a household to know about two thirds of the neighbors it will ever know (known = cap x (1 - exp(-years / this))). Pew Research Center 2018 (pewresearch.org/social-trends/2018/05/22/how-urban-suburban-and-rural-residents-interact-with-their-neighbors): trusting a neighbor with keys rises from 34% under a year to 47% at 1 to 5 years to 64% at 6 or more, leveling off at six.",
     "estimatedFrom": "Assumed time constant anchored loosely on Pew's key-trust rise.",
     "spread": {
       "low": 3,

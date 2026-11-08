@@ -38820,7 +38820,8 @@
           "move": "ask",
           "role": "asker",
           "purpose": "victory-night",
-          "key": "honor"
+          "key": "honor",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "curious",
@@ -137465,7 +137466,8 @@
           "move": "leave",
           "role": "asked",
           "purpose": "concession-taken",
-          "key": "call-in"
+          "key": "call-in",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "guarded",
@@ -137515,7 +137517,8 @@
           "role": "asker",
           "purpose": "concession-taken",
           "key": "call-in",
-          "after": "thank"
+          "after": "thank",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "glad",
@@ -137665,7 +137668,8 @@
           "role": "asker",
           "purpose": "concession-taken",
           "key": "call-in",
-          "after": "leave"
+          "after": "leave",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "calm",
@@ -137715,7 +137719,8 @@
           "role": "asker",
           "purpose": "concession-taken",
           "key": "call-in",
-          "outcome": "resolved"
+          "outcome": "resolved",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "calm",
@@ -137789,7 +137794,8 @@
           "move": "accept",
           "role": "asked",
           "purpose": "concession-taken",
-          "key": "call-in"
+          "key": "call-in",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "calm",
@@ -137934,7 +137940,8 @@
           "role": "asker",
           "purpose": "concession-taken",
           "key": "call-in",
-          "after": "accept"
+          "after": "accept",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "calm",
@@ -138761,7 +138768,8 @@
           "role": "asked",
           "purpose": "family-loss",
           "key": "loss",
-          "requiresFacts": ["stake-worked"]
+          "requiresFacts": ["stake-worked"],
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "guarded",
@@ -138961,7 +138969,8 @@
           "role": "asked",
           "purpose": "family-loss",
           "key": "loss",
-          "requiresFacts": ["stake-gave"]
+          "requiresFacts": ["stake-gave"],
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "guarded",
@@ -139111,7 +139120,8 @@
           "role": "asker",
           "purpose": "family-loss",
           "key": "loss",
-          "requiresFacts": ["stake-worked"]
+          "requiresFacts": ["stake-worked"],
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "tender",
@@ -139361,7 +139371,8 @@
           "role": "asker",
           "purpose": "family-loss",
           "key": "loss",
-          "requiresFacts": ["stake-worked"]
+          "requiresFacts": ["stake-worked"],
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "tender",
@@ -139386,7 +139397,8 @@
           "role": "asker",
           "purpose": "family-loss",
           "key": "loss",
-          "requiresFacts": ["stake-gave"]
+          "requiresFacts": ["stake-gave"],
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "tender",
@@ -143110,7 +143122,8 @@
           "move": "deflect",
           "role": "asked",
           "purpose": "office-doubt",
-          "key": "threat"
+          "key": "threat",
+          "excludesFacts": ["daytime"]
         }
       ],
       "origin": "authored",
@@ -145770,7 +145783,8 @@
           "move": "tell",
           "role": "asked",
           "purpose": "hearing-testify",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "braced",
@@ -145794,7 +145808,8 @@
           "move": "tell",
           "role": "asked",
           "purpose": "hearing-testify",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "anxious",
@@ -145818,7 +145833,8 @@
           "move": "tell",
           "role": "asked",
           "purpose": "hearing-testify",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "calm",
@@ -145842,7 +145858,8 @@
           "move": "tell",
           "role": "asked",
           "purpose": "hearing-testify",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "calm",
@@ -145866,7 +145883,8 @@
           "move": "ask",
           "role": "asked",
           "purpose": "hearing-testify",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "curious",
@@ -145890,7 +145908,8 @@
           "move": "ask",
           "role": "asked",
           "purpose": "hearing-testify",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "curious",
@@ -145914,7 +145933,8 @@
           "move": "confront",
           "role": "asked",
           "purpose": "hearing-testify",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "braced",
@@ -145938,7 +145958,8 @@
           "move": "confront",
           "role": "asked",
           "purpose": "hearing-testify",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "braced",
