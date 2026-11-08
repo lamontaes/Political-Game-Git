@@ -58,6 +58,15 @@ try {
   );
   const ran = await page.locator(".dev-run .option-status").textContent();
   assert.match(ran, /Days passed/, ran);
+  // Scenes: the types the game can bring about are forced, the rest say there is no way in.
+  await page.locator('[data-testid="dev-scene"]').click();
+  await page.waitForFunction(
+    () => document.querySelector(".dev-scene .option-status")?.textContent,
+  );
+  assert.match(
+    await page.locator(".dev-scene .option-status").textContent(),
+    /Begun for/,
+  );
   await shot("run-until");
   await closeSheet();
 

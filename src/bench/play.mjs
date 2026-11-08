@@ -32,6 +32,7 @@ import { devBribePanel } from "./ui/dev-bribe.mjs";
 import { devBillsPanel } from "./ui/dev-bills.mjs";
 import { devPersonSection } from "./ui/dev-person.mjs";
 import { devMemorySection } from "./ui/dev-memory.mjs";
+import { devScenePanel } from "./ui/dev-scene.mjs";
 import { devRunPanel } from "./ui/dev-run.mjs";
 import {
   devModeOn,
@@ -3243,6 +3244,14 @@ const sheets = {
         },
       }),
       devRunPanel({ labels: controls.devRun, onDone: () => refresh() }),
+      ...(devModeOn()
+        ? [
+            await devScenePanel({
+              labels: controls.devScene,
+              onDone: () => refresh(),
+            }),
+          ]
+        : []),
     ];
   },
   async news() {

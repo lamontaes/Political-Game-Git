@@ -240,6 +240,21 @@ export async function handleDev(
       );
       return true;
     }
+    case "GET scenes":
+      send(200, mode.scenes());
+      return true;
+    case "POST scene": {
+      const input = await body(request);
+      send(
+        200,
+        mode.forceScene({
+          typeKey: String(input.typeKey),
+          personId:
+            typeof input.personId === "string" ? input.personId : undefined,
+        }),
+      );
+      return true;
+    }
     case "POST illness": {
       const input = await body(request);
       send(200, mode.forceIllness(String(input.personId)));
