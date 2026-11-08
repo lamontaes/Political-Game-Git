@@ -30,3 +30,9 @@ for (const c of contests.filter((c) => c.family === "countyOffice")) {
   const d = (api.moduleState(CANDIDACY_MODULE_ID).table("decisions").rows() as any[]).filter((x) => x.contestId === c.id && terms.some((t) => t.personId === x.personId));
   console.log("  incumbent decisions", JSON.stringify(d.map((x) => [x.personId, x.run, x.reasons])));
 }
+const asks = [...w.core.durableLog.values()].filter((r: any) => r.kind === "successor-asked") as any[];
+console.log("successor asks", asks.length);
+for (const a of asks.slice(0, 8)) {
+  const d = (api.moduleState(CANDIDACY_MODULE_ID).table("decisions").get(`${a.facts.contestId}:${a.facts.askedId}`) as any);
+  console.log(" ", a.facts.contestId.slice(-40), "run", d?.run, "filing", JSON.stringify(d?.filing), "score", JSON.stringify(d?.scores), "partyAsked", d?.reasons?.partyAsked);
+}
