@@ -60,6 +60,8 @@ CATEGORY_SUBJECT = {
     "education": "education",
     "environment-energy": "energy-environment",
     "fiscal": "taxes-finance",
+    # Federal questions (us-federal-positions) use short category names.
+    "health": "healthcare",
     "government-operations": "government",
     "health-human-services": "healthcare",
     "housing-land-use": "housing",
@@ -76,7 +78,7 @@ TOPIC_WORDS = [
     ("collective-bargaining", "Unions and collective bargaining"), ("right-to-work", "Unions and collective bargaining"),
     ("voter", "Elections and representation"), ("voting", "Elections and representation"), ("redistricting", "Elections and representation"),
     ("term-limits", "Constitutional and institutional reform"), ("lobbying", "Ethics and conflicts"), ("local-authority", "Local-government powers"),
-    ("medicaid", "Coverage and insurance"), ("work-requirement", "Cash assistance"),
+    ("medicare-drug", "Medicines and medical products"), ("medicaid", "Coverage and insurance"), ("work-requirement", "Cash assistance"),
     ("handgun", "Firearms and weapons rules"), ("carry", "Firearms and weapons rules"), ("stand-your-ground", "Firearms and weapons rules"), ("child-access", "Firearms and weapons rules"),
     ("police", "Policing"), ("bail", "Courts and legal aid"), ("juvenile", "Juvenile justice"), ("voting-after-sentence", "Prisons, probation and reentry"), ("immigration", "Policing"),
     ("rent", "Rental rules"), ("eviction", "Rental rules"), ("inclusionary", "Affordable and public housing"), ("multifamily", "Planning and zoning"),

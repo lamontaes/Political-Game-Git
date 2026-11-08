@@ -344,6 +344,11 @@
       "subject": "protection of farmland",
       "purpose": "protect working farmland from development",
       "enact": "working farmland shall not be developed except as this measure allows"
+    },
+    "health.medicare-drug-price-negotiation": {
+      "subject": "Medicare drug price negotiation",
+      "purpose": "let Medicare negotiate the prices of the drugs it pays for",
+      "enact": "the Secretary shall negotiate the prices Medicare pays for the drugs it covers most"
     }
   },
   "amounts": {
