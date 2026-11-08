@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 254 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 257 pull requests merged. Newest state at the top of each section.
 
 **Stopped by the owner, Nov 4, 2:37 p.m. Eastern, at 161 merged; resumed on the owner's word at about 2:53 p.m. Eastern (relayed by the CTO). The desk merges One Map's PRs, and from Nov 5, 05:22 UTC also State Sessions' (every other state holds sessions), on the owner's approval relayed by the CTO. From Nov 5, about 5:15 p.m. Eastern, also the Cleanup session's three PRs (the old art pipeline, the Oct 14 mocks, the green mannequin plates with the old mocks), on the same check; the art pipeline PR also needs `npm run build` to succeed on its merged head. From Nov 7, 2:30 p.m. Eastern (CTO), also Astra's PRs (a Codex builder on Congress and law reversals; branches `astra/`, line 2 `Session: Astra (Codex)`), on the same check. From Nov 7, 9:30 p.m. Eastern (CTO), also the Fixer's PRs (a Claude cloud session; branches `fixer/`, line 2 `Session: Fixer`), on the same check. #7354, the owner's approved mocks, is the owner's to merge. From Nov 8, 1:36 a.m. Eastern (CTO, on the owner's word that dev mode "should be merged as soon as it's ready"): Dev Mode's `devmode/` PRs go first, and the second account's `story/`, `tester/`, `laws/`, `legislation/` and `speed/` PRs come to the desk on the same check (stacked PRs after their base). #7110 stays held. Lanes 1, 3, 4 and 5 are stopped and Lane 2 is off, so #7110 and #7127 stay open, and skills PRs #7233, #7254 and #7264 stay with the CTO.**
 
@@ -171,6 +171,7 @@ New on Nov 3:
 | #7369 | Legislation      | Adds a bill stage view for the coming bill screens: where one bill stands (drafted, in committee, on the floor, and so on); nothing on screen yet | Dunseith, North Dakota | b9c00920e02526b2 |
 | #7371 | Laws and effects | The played proof that a state can ban a town's rule and lift the ban now always draws an incorporated town (proof script only)                    | Lake Butler, Florida   | ab6e665c42fa95f9 |
 | #7372 | Laws and effects | A bigger federal deficit raises what a state pays its bondholders (an outcome-web link wired from research)                                       | Coopersville, Michigan | d53eaf2a8f9944c2 |
+| #7373 | Dev Mode         | Dev mode is a checkbox in Options (Esc), off by default and remembered; the corner ring and the old /dev button are gone (piece 1 of 9)           | Harwood, North Dakota  | 55dec0195c29dcde |
 
 ## The Fixer's PRs (from Nov 7)
 
@@ -182,6 +183,8 @@ New on Nov 3:
 | #7358 | Clicking a person opens the approved person card: their name over a bust, who they are, how you see them, what you share, their people and, for an official, the public record (stacked on #7357, merged right after it)     | Bentonville, Arkansas                | f8d3135a76cdca1c |
 | #7363 | The Budgets screen follows the approved mock: governments as tabs, a Departments list, each department as a typed page, "Coming in, Going out, Balance, Savings" beside last year, and "Who wrote it"                        | Mayfield, Utah                       | 2fc144aca18abbc3 |
 | #7364 | The Government screen follows the approved mocks at every level with the same code: a body's painted header, seats as large numbers in party colors, member cards, recent votes typed out with their counts, and "Coming up" | Cochituate, Massachusetts            | 211221de88540e91 |
+| #7374 | Civic terms from the Guide (veto, quorum and 40 more) are underlined wherever they appear; hovering shows the definition, a click opens the Guide, and a learned term loses its underline                                    | Valle, Arizona                       | 146b2a40d6547f3b |
+| #7375 | Saved games follows the Nov 8 front mock: each saved life is a strip with a bust, the game's date and Load; the explaining line under the list is gone                                                                       | Dothan, Alabama                      | 1819d3c1302114b4 |
 
 ## State Sessions' PRs (from Nov 5)
 
