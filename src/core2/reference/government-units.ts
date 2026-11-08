@@ -198,6 +198,21 @@ export function governmentUnit(id: string): GovernmentUnitIdentity | null {
   );
 }
 
+/**
+ * The consolidated city-county government of a county area, where the listing
+ * matches it to its seat (so the seat has its own municipal body): the
+ * municipal government a place with none of its own inside that county answers
+ * to. Null elsewhere.
+ */
+export function consolidatedMunicipalityForCounty(
+  countyGeoid: string,
+): GovernmentUnitIdentity | null {
+  const row = consolidated.matchedUnits.find(
+    (unit) => unit.countyGeoid === countyGeoid,
+  );
+  return row ? (load().byId.get(`gus2025:${row.publisherId}`) ?? null) : null;
+}
+
 /** The municipal government(s) of a Census place; empty for a statistical place. */
 export function governmentUnitsForPlace(
   placeGeoid: string,

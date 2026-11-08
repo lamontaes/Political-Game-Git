@@ -27,6 +27,14 @@ const CASES: readonly (readonly [string, string])[] = [
   ["Nashville, Tennessee (the seat of the metropolitan government)", "4752006"],
   ["Alexandria, Virginia (an independent city)", "5101000"],
   ["Hatillo, Puerto Rico (a municipio)", "7233296"],
+  [
+    "Bourg, Louisiana (a place inside the consolidated Terrebonne government)",
+    "2209095",
+  ],
+  [
+    "Gardere, Louisiana (a place inside the consolidated Baton Rouge government)",
+    "2228275",
+  ],
 ];
 
 it(

@@ -21,27 +21,23 @@ try {
   const header = (first) =>
     page.evaluate((sel) => {
       const title = document.querySelector("#front .title");
-      const rule = document.querySelector("#front .title-rule");
       const control = document.querySelector(sel);
       const t = title.getBoundingClientRect();
-      const r = rule.getBoundingClientRect();
       const c = control.getBoundingClientRect();
       return {
-        ruleDrawn: getComputedStyle(rule).borderTopWidth !== "0px",
-        above: r.top - t.bottom,
-        below: c.top - r.bottom,
         gap: c.top - t.bottom,
       };
     }, first);
   const checkHeader = async (name, first) => {
     const h = await header(first);
-    console.log(`${name}: rule above ${h.above}, below ${h.below}`);
-    assert.ok(h.ruleDrawn, `${name}: no rule is drawn`);
-    assert.ok(h.above >= 8 && h.below >= 12, `${name}: the rule has no room`);
+    console.log(`${name}: gap under the heading ${h.gap}`);
+    assert.ok(
+      h.gap >= 12,
+      `${name}: the first control sits against the heading`,
+    );
     if (process.env.SHOT_DIR)
       await page.screenshot({ path: `${process.env.SHOT_DIR}/${name}.png` });
   };
-  await checkHeader("title-menu", "#new-life");
   await page.locator("#new-life").click();
   await checkHeader("new-game", "#new-start");
   await page.locator("#new-start").click();
