@@ -5945,6 +5945,10 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
       bar.firstElementChild.style.width = "100%";
       $("front-status").textContent = "";
     }
+    // The loading card is named for the place the world is built around (fr-loading).
+    const loadingTitle = document.querySelector("#front > .title");
+    if (loadingTitle && life.placeName)
+      loadingTitle.textContent = life.placeName;
     // The story plays to its end (or a click) before the life opens.
     await playStory();
     show("loading-story", false);

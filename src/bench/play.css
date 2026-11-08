@@ -4177,8 +4177,8 @@ select.release-pick {
   left: 50%;
   transform: translateX(-50%);
   z-index: 7;
-  width: min(920px, calc(100vw - 2 * var(--gutter)));
-  height: min(560px, calc(100vh - 2 * var(--gutter) - 230px));
+  width: min(640px, calc(100vw - 2 * var(--gutter)));
+  height: min(420px, calc(100vh - 2 * var(--gutter) - 230px));
   padding: 20px 24px;
   display: flex;
   flex-direction: column;
