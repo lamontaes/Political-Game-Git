@@ -2,7 +2,12 @@ import { coreAPI } from "../core2/state";
 import { makeIsoDate } from "../core2/kernel/dates";
 import { AMOUNT_SERIES, lawChain, lawHere } from "../core2/modules/laws";
 import { composeBill } from "../english/bill-sections";
-import { billTitleOf, spokenDesignation } from "../english/bill-names";
+import {
+  billTitleOf,
+  budgetSectionSaid,
+  spokenDesignation,
+} from "../english/bill-names";
+import { moneySaid } from "../english/count-words";
 import { screenLine } from "../english/screen-words";
 import { budgetLineNames, policyNames } from "./words";
 import {
@@ -390,9 +395,15 @@ export function billPaper(core: CoreState, billId: string) {
     const section = form.sections[index] ?? null;
     // A citation that is a web address never reaches the screen: the
     // estimate names the law record instead, and the PR body cites it.
+    // A budget line says its own name and amount (rounded as people say it), not the bill's one
+    // purpose again on every line.
     const clause = (
       composed?.sections[index] ??
-      (purpose && named ? `${named}: ${purpose}` : (purpose ?? named))
+      (provision.kind === "budget-line" && named
+        ? budgetSectionSaid(named, moneySaid(provision.value))
+        : purpose && named
+          ? `${named}: ${purpose}`
+          : (purpose ?? named))
     )?.replace(/, amending https?:\/\/\S+\.?$/, "");
     // The section's authority row as the drafting engine recorded it.
     const authority = bill.authority[index];
