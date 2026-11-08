@@ -15,16 +15,6 @@
   src: url("/fonts/kit12/playfair-display-600.ttf") format("truetype");
 }
 @font-face {
-  font-family: "Courier Prime";
-  font-weight: 400;
-  src: url("/fonts/kit12/courier-prime-400.ttf") format("truetype");
-}
-@font-face {
-  font-family: "Courier Prime";
-  font-weight: 700;
-  src: url("/fonts/kit12/courier-prime-700.ttf") format("truetype");
-}
-@font-face {
   font-family: "Andada Pro";
   font-style: italic;
   font-weight: 400;
@@ -4591,9 +4581,7 @@ select.release-pick {
   gap: 16px;
 }
 .strip-board .bfy {
-  font:
-    400 15px "Courier Prime",
-    monospace;
+  font: 400 15px var(--ui);
   letter-spacing: 3px;
   text-transform: uppercase;
   color: var(--muted);
@@ -4637,7 +4625,7 @@ select.release-pick {
   background: rgba(214, 189, 132, 0.14);
 }
 .strip-screen .dotrow.typed {
-  font-family: "Courier Prime", monospace;
+  font-family: var(--ui);
   font-size: 16px;
   text-transform: none;
 }
@@ -4646,9 +4634,7 @@ select.release-pick {
 }
 .strip-screen .bmsub {
   margin: 0 0 8px;
-  font:
-    400 14px "Courier Prime",
-    monospace;
+  font: 400 14px var(--ui);
   color: var(--muted);
 }
 .strip-screen .dotrow.typed .dotlabel {
@@ -4913,7 +4899,7 @@ select.release-pick {
   color: #fbf6ea;
 }
 .strip-board .dotrows .dotrow {
-  font-family: "Courier Prime", monospace;
+  font-family: var(--ui);
   font-size: 15px;
   text-transform: none;
 }
@@ -5156,13 +5142,11 @@ select.release-pick {
   flex-direction: column;
   align-items: flex-start;
   gap: 6px;
-  font-family: "Courier Prime", monospace;
+  font-family: var(--ui);
 }
 .ballot-race {
   margin: 14px 0 2px;
-  font:
-    700 15px "Courier Prime",
-    monospace;
+  font: 700 15px var(--ui);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #f2e6c9;
@@ -5177,9 +5161,7 @@ select.release-pick {
   border: none;
   box-shadow: none;
   color: #f2e6c9;
-  font:
-    600 15px "Courier Prime",
-    monospace;
+  font: 600 15px var(--ui);
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }

@@ -164,7 +164,7 @@ export function dotRows(rows) {
 /**
  * The budget board: a row of tabs and a fiscal-year line over three columns of
  * strip sections (the approved Budgets screen, bud-strips). `fiscal` is typed in
- * Courier Prime capitals at the right of the tabs.
+ * capitals at the right of the tabs.
  */
 export function stripBoard({ tabs, fiscal, columns, className = "" }) {
   return el(

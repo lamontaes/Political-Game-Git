@@ -3398,8 +3398,11 @@ const sheets = {
     const lastOf = (lines, key) => lines?.find((r) => r.line === key)?.minor;
     const opened =
       latest.spending.find((r) => r.line === budgetLine) ?? latest.spending[0];
+    // Last year is a row of its own with the figure on the same line, never a note under.
     const lastYear = (minor) =>
-      minor === undefined ? "" : `${words.lastYear} ${roundedMoney(minor)}`;
+      minor === undefined
+        ? []
+        : [typedRow(words.lastYear, roundedMoney(minor))];
     const stepButtons = steps(opened).map((step) => {
       const button = makeButton({
         className: "action small",
@@ -3457,11 +3460,8 @@ const sheets = {
             stripSection(
               2,
               opened.name ?? opened.line,
-              typedRow(
-                opened.name ?? opened.line,
-                roundedMoney(opened.minor),
-                lastYear(lastOf(prior?.spending, opened.line)),
-              ),
+              typedRow(opened.name ?? opened.line, roundedMoney(opened.minor)),
+              ...lastYear(lastOf(prior?.spending, opened.line)),
               ...(opened.askedMinor !== undefined
                 ? [typedRow(words.asked, roundedMoney(opened.askedMinor))]
                 : []),
@@ -3472,16 +3472,10 @@ const sheets = {
             stripSection(
               3,
               gov.name,
-              typedRow(
-                words.comingIn,
-                roundedMoney(latest.revenueMinor),
-                lastYear(prior?.revenueMinor),
-              ),
-              typedRow(
-                words.goingOut,
-                roundedMoney(latest.spendingMinor),
-                lastYear(prior?.spendingMinor),
-              ),
+              typedRow(words.comingIn, roundedMoney(latest.revenueMinor)),
+              ...lastYear(prior?.revenueMinor),
+              typedRow(words.goingOut, roundedMoney(latest.spendingMinor)),
+              ...lastYear(prior?.spendingMinor),
               typedRow(
                 words.balance,
                 `${roundedMoney(Math.abs(balance))} ${balance < 0 ? words.short : words.ahead}`,
