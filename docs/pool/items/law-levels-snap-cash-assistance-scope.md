@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: astra/snap-cash-scope
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-08T00:43:17.882Z
 ---
 
 **What.** The welfare budget handler passes the SNAP assistanceTimeLimit into payBenefits, which can end unrelated cash assistance after the SNAP three-month allowance. The federal rule in 7 USC 2015(o)(2) governs participation in SNAP, not every cash benefit financed by a welfare budget. Keep each requirement attached to the program the statute actually covers, and preserve any separately sourced cash-program requirements.
