@@ -51,12 +51,6 @@ const saveHidden = (hidden) => {
   }
 };
 
-const DAY_MS = 86400000;
-const daysBetween = (from, to) =>
-  Math.round(
-    (new Date(`${to}T12:00:00Z`) - new Date(`${from}T12:00:00Z`)) / DAY_MS,
-  );
-
 /** The calendar's node, for the sheet's body. */
 export function calendarScreen({ date, items: every, labels, onAdvance }) {
   // The kinds the player has hidden stay hidden, and the key lists the kinds
@@ -103,16 +97,6 @@ export function calendarScreen({ date, items: every, labels, onAdvance }) {
     month = new Date(`${iso.slice(0, 7)}-01T12:00:00`);
     select(iso);
   };
-  // How far off the chosen day is, in words from the controls file.
-  const distance = (iso) => {
-    const n = daysBetween(date, iso);
-    if (n === 0) return labels.today;
-    if (n === 1) return labels.tomorrow;
-    return (n > 0 ? labels.daysAhead : labels.daysAgo).replace(
-      "{n}",
-      String(Math.abs(n)),
-    );
-  };
   // The chosen day on its plate: weekday, the date large, how far off it is, each thing on
   // it with its icon, and the jump to it.
   const drawDay = () => {
@@ -139,10 +123,6 @@ export function calendarScreen({ date, items: every, labels, onAdvance }) {
       stripSection(
         2,
         `${weekday}, ${dayWords(selected)}`,
-        el("p", {
-          className: "calendar-distance",
-          textContent: distance(selected),
-        }),
         el("div", { className: "calendar-day-list" }, ...lines),
         ...(selected > date
           ? [

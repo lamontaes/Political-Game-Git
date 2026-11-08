@@ -1685,11 +1685,6 @@ body:not(.dev) .dev-only {
 .calendar-day .plate h3 {
   font-size: 30px;
 }
-.calendar-distance {
-  margin: 0 0 6px;
-  color: var(--muted, var(--text));
-  font: 14px var(--ui);
-}
 .calendar-day-list {
   display: flex;
   flex-direction: column;
