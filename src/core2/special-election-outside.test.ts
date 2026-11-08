@@ -89,7 +89,12 @@ function specialRace(salt: string, accept: (stateKey: string) => boolean) {
     expect(vacancy.status, where).toBe("awaiting-election");
     const day = vacancy.electionDate!;
     advanceCore(core, addDays(makeIsoDate(day), 2));
-    const race = racesOf(api).find((row) => row.id.endsWith(":special"));
+    // This vacancy's race: a natural death elsewhere in the world has its own.
+    const race = racesOf(api).find(
+      (row) =>
+        row.id.startsWith(`race:${target.seat.id}:`) &&
+        row.id.endsWith(":special"),
+    );
     expect(race, `${where}: a counted special race`).toBeDefined();
     const row = api
       .moduleState(VOTING_MODULE_ID)
