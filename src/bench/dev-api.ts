@@ -312,6 +312,7 @@ export async function handleDev(
           cap: input.cap === undefined ? undefined : Number(input.cap),
           person: typeof input.person === "string" ? input.person : undefined,
           kind: typeof input.kind === "string" ? input.kind : undefined,
+          scene: typeof input.scene === "string" ? input.scene : undefined,
           defeat: Array.isArray(input.defeat)
             ? input.defeat.map(String)
             : undefined,

@@ -61,6 +61,8 @@ export async function devEveryoneSaysYes(page) {
     ),
   );
   for (const person of people) {
+    // The panel is drawn again once the screens refresh after a pick: the next pick waits for that new one.
+    const panel = await page.locator(".dev-campaign").elementHandle();
     const done = page.waitForResponse(route("volunteer-cast"));
     await page.evaluate((id) => {
       const pick = document.querySelectorAll(".dev-campaign select")[1];
@@ -68,13 +70,9 @@ export async function devEveryoneSaysYes(page) {
       document.querySelector('[data-testid="dev-volunteer-yes"]').click();
     }, person);
     await done;
-    // The panel redraws once the screens refresh; wait for the new one before the next pick.
     await page.waitForFunction(
-      (id) =>
-        document
-          .querySelector(".dev-campaign .option-status")
-          ?.textContent.includes(id) ?? false,
-      (await (await done).json()).id,
+      (old) => document.querySelector(".dev-campaign") !== old,
+      panel,
     );
   }
   await page.locator("#sheet-close").click();

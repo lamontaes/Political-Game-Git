@@ -82,7 +82,7 @@ import { budgetView } from "./budget";
 import { decisionPanels, type WhyPanel } from "./dev-why";
 import { newsItems } from "./calendar";
 import experiments from "./data/dev-experiments.json" with { type: "json" };
-import { SITUATION_LIBRARY } from "../director/scheduling";
+import { causeMatches, SITUATION_LIBRARY } from "../director/scheduling";
 
 /** The mark every dev-mode write carries. */
 /** The events a run can stop on, each as the record kinds the game logs when it happens. */
@@ -103,6 +103,7 @@ export type RunEvent = keyof typeof RUN_EVENTS;
 const SCENE_RECIPES: Readonly<Record<string, string>> = {
   "life.death": "death",
   "work.job-lost": "layoff",
+  "health.serious-illness": "illness",
 };
 
 export const DEV_MODE = "dev-mode";
@@ -926,15 +927,37 @@ export class DevMode {
     return types.map((type) => {
       // The record kinds the type waits on that an engine writes; a type with only a producer that
       // does not exist yet (`awaitingProducer`) or no cause record has none, and so no way in.
-      const causeRecords = [
-        ...new Set(type.causes.flatMap((c) => c.causeRecord ?? [])),
-      ];
+      // A cause is named by a record kind the type is tagged with (`causeRecord`), or by the moment the
+      // director's ledger keeps (`match`): a feeling about an event the game logs
+      // (`feeling:event:<kind>`), a job started, a tie turning, a re-entry. The record kind behind an
+      // event label is the kind itself.
+      const tagged = type.causes.flatMap((c) => c.causeRecord ?? []);
+      const matched = type.causes.flatMap((c) => {
+        const label = c.match?.label ?? "";
+        if (label.startsWith("feeling:event:"))
+          return [label.slice("feeling:event:".length)];
+        return c.match
+          ? [
+              label ||
+                c.match.labelPrefix ||
+                (c.match.echo ? `echo:${c.match.echo}` : "") ||
+                c.match.causeKind ||
+                "",
+            ].filter(Boolean)
+          : [];
+      });
+      const causeRecords = [...new Set([...tagged, ...matched])];
       const waiting = type.causes.flatMap((c) => c.awaitingProducer ?? []);
-      // `death` and `layoff` bring the cause about through an engine's own function; `wait` runs the
-      // world until an engine writes the record naming the player, as it does on its own schedule.
+      // `death`, `illness` and `layoff` bring the cause about through an engine's own function; `wait`
+      // runs the world until an engine writes the record naming the player; `moment` runs it until the
+      // director's own ledger holds a moment that `causeMatches` reads as one of the type's causes.
       const recipe =
         causeRecords.map((kind) => SCENE_RECIPES[kind]).find(Boolean) ??
-        (causeRecords.length ? "wait" : null);
+        (tagged.length
+          ? "wait"
+          : type.causes.some((c) => c.match)
+            ? "moment"
+            : null);
       return { key: type.key, causeRecords, waiting, recipe };
     });
   }
@@ -945,7 +968,7 @@ export class DevMode {
    * health module's illness, then Run until they die and Run until a scene fires). Where the type
    * has no recipe there is no game code to attach to, and this says so.
    */
-  forceScene(input: { typeKey: string; personId?: string }) {
+  forceScene(input: { typeKey: string; personId?: string; cap?: number }) {
     const scene = this.scenes().find((row) => row.key === input.typeKey);
     if (!scene) throw new Error("No such situation type.");
     if (!scene.recipe)
@@ -955,6 +978,16 @@ export class DevMode {
     const player = this.core.playerId
       ? this.core.people.get(this.core.playerId)
       : undefined;
+    if (scene.recipe === "moment") {
+      if (!player) throw new Error("There is no player to run the world for.");
+      const ran = this.runUntil({ scene: scene.key, cap: input.cap ?? 366 });
+      return {
+        recipe: scene.recipe,
+        personId: player.id,
+        causeRecords: scene.causeRecords,
+        ran,
+      };
+    }
     if (scene.recipe === "wait") {
       // The cause is a record an engine writes on its own schedule: run the world until one names the
       // player, and the director stages the scene from it the ordinary way.
@@ -962,7 +995,7 @@ export class DevMode {
       const ran = this.runUntil({
         kind: scene.causeRecords[0],
         person: player.id,
-        cap: 366,
+        cap: input.cap ?? 366,
       });
       return {
         recipe: scene.recipe,
@@ -983,13 +1016,16 @@ export class DevMode {
         ? [player?.id, ...circle].find(
             (id) => id && this.core.people.get(id)?.jobId,
           )
-        : circle[0]);
+        : scene.recipe === "illness"
+          ? player?.id
+          : circle[0]);
     if (!personId)
       throw new Error("No one in the player's circle to bring it about for.");
     const out =
       scene.recipe === "layoff"
         ? this.forceLayoff(personId)
         : this.forceIllness(personId);
+    // An illness is the player's own where the type is about them, so the scene follows from it.
     return {
       ...out,
       recipe: scene.recipe,
@@ -1248,6 +1284,8 @@ export class DevMode {
     defeat?: readonly string[];
     /** Stop only on an event that names this person (their death, their job loss). */
     person?: string;
+    /** Stop when the player's ledger holds a moment the director reads as a cause of this situation type. */
+    scene?: string;
   }) {
     const cap = Math.max(1, Math.min(input.cap ?? 366, 3660));
     const limit = Math.min(input.days ?? cap, cap);
@@ -1264,6 +1302,23 @@ export class DevMode {
     )
       throw new Error("Unknown event.");
     const mayFile = () => playerContests(this.api).length > 0;
+    const sceneType = input.scene
+      ? SITUATION_LIBRARY.types.find((t) => t.key === input.scene)
+      : undefined;
+    if (input.scene && !sceneType) throw new Error("No such situation type.");
+    const book = () =>
+      this.director?.ledger.people.get(this.player?.personId ?? "");
+    const momentsBefore = book()?.moments.length ?? 0;
+    const causeMoment = () => {
+      const b = book();
+      return b && sceneType
+        ? b.moments
+            .slice(momentsBefore)
+            .find((m) =>
+              sceneType.causes.some((c) => causeMatches(c, b, m, this.core)),
+            )
+        : undefined;
+    };
     const count = () =>
       (kinds ?? []).reduce(
         (n, kind) => n + (this.core.logByKind.get(kind)?.size ?? 0),
@@ -1299,6 +1354,14 @@ export class DevMode {
       if (input.defeat?.length) this.voteDown(input.defeat, defeated);
       this.advance(addDays(makeIsoDate(this.core.date), 1));
       days += 1;
+      if (sceneType) {
+        const found = causeMoment();
+        if (found) {
+          reason = "event";
+          records = [found.causeId];
+          break;
+        }
+      }
       if (input.event === "may-file" && mayFile()) {
         reason = "event";
         records = playerContests(this.api).map((c) => c.id);
@@ -1330,7 +1393,8 @@ export class DevMode {
         break;
       }
     }
-    if (reason === "days" && (input.event || input.kind)) reason = "cap";
+    if (reason === "days" && (input.event || input.kind || input.scene))
+      reason = "cap";
     return {
       from,
       to: this.core.date,
