@@ -66,7 +66,7 @@
           "url": "https://6abc.com/pennsylvania-news-politics-governor-tom-wolf-state-employees/1234231"
         }
       ],
-      "legalLimit": "Reach limited to state workers and state contracts; the fetched article says it affects a few hundred state employees and about 109 vendors; it does not set the private-sector minimum wage (statute only). Citation to a specific statute NOT FOUND. Federal analogue EO 13658 page was fetched but returned only a stub (no text).",
+      "legalLimit": "Reach limited to state workers and state contracts; the fetched article says it affects a few hundred state employees and about 109 vendors; it does not set the private-sector minimum wage (statute only). Citation to a specific statute NOT FOUND. Federal analog EO 13658 page was fetched but returned only a stub (no text).",
       "limitUrls": [
         "https://6abc.com/pennsylvania-news-politics-governor-tom-wolf-state-employees/1234231"
       ]
@@ -211,11 +211,19 @@
       "urls": ["https://www.law.cornell.edu/uscode/text/5/3345"]
     },
     "municipal": {
-      "rule": "No general fetched source. Only one municipal statute was fetched: Ohio R.C. 733.08 says a city mayor vacancy (death, resignation, removal) is filled until a successor is elected by a person chosen by the members of the party central committee that nominated the last occupant, meeting 5 to 45 days after the vacancy. Charters vary by city (council president, council election, special election are other patterns, per unfetched search snippets). Federal analogue 5 U.S.C. 3345 (acting officers) was fetched for comparison only. Department-head acting rules: NOT FOUND as fetched.",
+      "rule": "No general fetched source. Only one municipal statute was fetched: Ohio R.C. 733.08 says a city mayor vacancy (death, resignation, removal) is filled until a successor is elected by a person chosen by the members of the party central committee that nominated the last occupant, meeting 5 to 45 days after the vacancy. Charters vary by city (council president, council election, special election are other patterns, per unfetched search snippets). Federal analog 5 U.S.C. 3345 (acting officers) was fetched for comparison only. Department-head acting rules: NOT FOUND as fetched.",
       "urls": [
         "https://codes.ohio.gov/ohio-revised-code/section-733.08",
         "https://www.law.cornell.edu/uscode/text/5/3345"
       ]
+    },
+    "federalActing": {
+      "rule": "A person serving as acting officer under 5 U.S.C. 3345 may serve no longer than 210 days from the date the vacancy occurs, or while a first or second nomination is pending in the Senate; a vacancy caused by sickness is excepted.",
+      "serviceDays": 210,
+      "quote": "(a) Except in the case of a vacancy caused by sickness, the person serving as an acting officer as described under section 3345 may serve in the office— (1) for no longer than 210 days beginning on the date the vacancy occurs; or (2) subject to subsection (b), once a first or second nomination for the office is submitted to the Senate, from the date of such nomination for the period that the nomination is pending in the Senate.",
+      "citation": "5 U.S.C. 3346(a)",
+      "url": "https://www.law.cornell.edu/uscode/text/5/3346",
+      "fetched": "2026-11-08"
     }
   },
   "notFound": [

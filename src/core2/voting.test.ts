@@ -178,6 +178,14 @@ describe("M2-07 elections", () => {
         return;
       }
       const candidates = ballot(api, contest!.id).map((f) => f.personId);
+      // A candidate backs themselves in the whole race: at large, the race is
+      // every seat of the group (voting.ts counts a filing for any of them), so
+      // a voter who filed for a sibling seat is a candidate here too.
+      const raceCandidates = new Set(
+        atLargeGroup(api, contest!).flatMap((seat) =>
+          ballot(api, seat.id).map((f) => f.personId),
+        ),
+      );
       // Every candidate, resident or official, has a name to show.
       for (const id of candidates)
         expect(candidateIdentity(api, id)?.familyName, id).toBeTruthy();
@@ -202,13 +210,13 @@ describe("M2-07 elections", () => {
       const cast = ballots.filter((b) => b.voted);
       expect(cast.length).toBe(result.namedTurnout);
       expect(
-        cast.filter((b) => b.choice !== null && !candidates.includes(b.voterId))
+        cast.filter((b) => b.choice !== null && !raceCandidates.has(b.voterId))
           .length,
         `${place}: no noncandidate choice checked against its reasons`,
       ).toBeGreaterThan(0);
       for (const b of cast.filter((x) => x.choice !== null)) {
         // A candidate in the race backs themselves.
-        if (candidates.includes(b.voterId)) {
+        if (raceCandidates.has(b.voterId)) {
           expect(b.choice).toBe(b.voterId);
           continue;
         }
