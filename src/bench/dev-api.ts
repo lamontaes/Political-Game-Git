@@ -8,6 +8,7 @@ import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import {
   DevMode,
+  type RunEvent,
   type DevStep,
   type Experiment,
   type LawLevel,
@@ -222,6 +223,18 @@ export async function handleDev(
       send(200, mode.advance(to));
       return true;
     }
+    case "POST run-until": {
+      const input = await body(request);
+      send(
+        200,
+        mode.runUntil({
+          days: input.days === undefined ? undefined : Number(input.days),
+          event: input.event as RunEvent | undefined,
+          cap: input.cap === undefined ? undefined : Number(input.cap),
+        }),
+      );
+      return true;
+    }
     case "GET trace":
       send(200, mode.trace(q("id")));
       return true;
@@ -275,6 +288,9 @@ export async function handleDev(
       });
       return true;
     }
+    case "GET memory":
+      send(200, mode.memory(q("id")));
+      return true;
     case "GET person":
       send(200, mode.person(q("id")));
       return true;

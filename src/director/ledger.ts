@@ -4,11 +4,14 @@
  * background entries (docs/design/director-on-core2.md).
  *
  * It reads the core through its module callbacks and its state, and calls no
- * world writer. Its one write is a core player stop for an interrupting moment
- * of the person the player controls, which changes no world field. Impact is measured from the change itself on each channel, sized by
+ * world writer but one: the President's address to Congress, recorded as a
+ * public event on the day the calendar sets it (`yearly-address.ts`). Its
+ * other write is a core player stop for an interrupting moment of the person
+ * the player controls, which changes no world field. Impact is measured from the change itself on each channel, sized by
  * the person's own traits; there is no list of moment kinds. Nothing here
  * draws by chance.
  */
+import { recordYearlyAddress } from "./yearly-address";
 import { SCHOOL_STARTED, preStartHistory } from "../core2/past";
 import { addDays, daysBetween, makeIsoDate } from "../core2/kernel/dates";
 import { appraiseEvent } from "../core2/emotion";
@@ -1828,6 +1831,10 @@ export function createDirector(
   const module: CoreModule = {
     id: "p13-story-director",
     eventKinds: data.eventKinds,
+    onDay(api) {
+      // The President's address to Congress, on the day the calendar sets it.
+      if (started) recordYearlyAddress(api.state);
+    },
     onEvent(api, event, learnedBy) {
       if (!started) return;
       if (circumstanceRows.has(event.kind)) {

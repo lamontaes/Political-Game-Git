@@ -38,6 +38,12 @@ interface OpeningPart extends BankPart {
   stages?: string[];
   /** The crafted device the sentence makes, earned by the speaker's addresses. */
   device?: SpeechDevice;
+  /**
+   * The kind of address the sentence is for (`crisis`, `combative`,
+   * `hopeful`, `victory`, `mourning`); a piece without one belongs to every
+   * kind that has no piece of its own for the role (owner, Nov 8).
+   */
+  addressKind?: string;
 }
 export const OPENING_SPEECH_BANK = bankJson as unknown as {
   parts: OpeningPart[];
@@ -93,13 +99,27 @@ function variantsFor(
   voice: SpeechVoice,
   role: string,
   topic?: string,
+  addressKind?: string,
 ): LinePartVariant[] {
-  return admittedParts(
-    OPENING_SPEECH_BANK.parts,
-    (part) =>
-      part.voice === voice &&
-      (!topic || part.topic === topic) &&
-      part.uses.some((use) => use.subject === kind && use.role === role),
+  const fits = (part: OpeningPart) =>
+    part.voice === voice &&
+    (!topic || part.topic === topic) &&
+    part.uses.some((use) => use.subject === kind && use.role === role);
+  // A kind of address that has pieces of its own for the role says only
+  // those; every other kind says the role's general pieces.
+  const own = addressKind
+    ? admittedParts(
+        OPENING_SPEECH_BANK.parts,
+        (part) => fits(part) && part.addressKind === addressKind,
+      )
+    : [];
+  return (
+    own.length
+      ? own
+      : admittedParts(
+          OPENING_SPEECH_BANK.parts,
+          (part) => fits(part) && !part.addressKind,
+        )
   ).map((part) => {
     const requires =
       part.uses.find((use) => use.subject === kind && use.role === role)
@@ -125,11 +145,17 @@ export function openingMove(
   kind: OpeningSpeechKind,
   voice: SpeechVoice,
   role: string,
-  options: { topic?: string; required?: boolean } = {},
+  options: { topic?: string; required?: boolean; addressKind?: string } = {},
 ): OpeningMove | null {
   const act = ACTS[role];
   if (!act) throw new Error(`No opening role ${role}`);
-  const variants = variantsFor(kind, voice, role, options.topic);
+  const variants = variantsFor(
+    kind,
+    voice,
+    role,
+    options.topic,
+    options.addressKind,
+  );
   if (!variants.length) return null;
   const bank: ComposedLineBank = {
     key: `opening-speech.${kind}.${role}${options.topic ? `.${options.topic}` : ""}`,
