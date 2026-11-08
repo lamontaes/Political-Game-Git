@@ -11,6 +11,7 @@ import {
   billJurisdiction,
   billOf,
   bodyOf,
+  bodyRow,
   reachesTown,
   castMemberVote,
   executiveLean,
@@ -404,9 +405,10 @@ export function callAmendmentVote(
 export function followedBills(core: CoreState, asId?: string) {
   if (!core.modules.has(LEGISLATURE)) return [];
   const api = coreAPI(core);
+  // A bill of a legislature's chamber (a state's or Congress's), by the body table.
   const higher = (officeId: string) =>
     officeId.startsWith("federal:") ||
-    (bodyOf(api, officeId)?.kind ?? "").startsWith("legislature-");
+    bodyRow(bodyOf(api, officeId)?.kind ?? "")?.legislature !== undefined;
   const mine = new Set(
     townSeats(api).flatMap(({ office, holder }) =>
       holder &&
