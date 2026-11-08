@@ -67,6 +67,12 @@ try {
     await page.locator(".dev-scene .option-status").textContent(),
     /Begun for/,
   );
+  // Watch and the golden path, on the Calendar beside Run until.
+  await page.locator(".dev-watch").waitFor();
+  assert.ok(
+    (await page.locator(".dev-watch table").count()) >= 3,
+    "the watch and path tables are on the calendar",
+  );
   await shot("run-until");
   await closeSheet();
 
@@ -89,6 +95,11 @@ try {
     await page.locator(".dev-record-ids .id").first().click();
     await page.locator(".dev-trace h4").waitFor();
   }
+  // Follow them, from their card.
+  await page
+    .getByRole("button", { name: /^(Follow|Stop following)$/ })
+    .first()
+    .waitFor();
   // What the game offers them today: a pick is their next decision.
   if ((await page.locator('[data-testid="dev-offer"]').count()) > 0) {
     await page.locator('[data-testid="dev-offer"]').first().click();
