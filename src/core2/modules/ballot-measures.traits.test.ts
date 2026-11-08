@@ -68,7 +68,8 @@ describe("ballot-measures.vote reads the voter's calibrated lean toward change",
     openCampaigns(core);
     openBallotMeasures(core);
     const api = coreAPI(core);
-    const onBallot = measuresOf(api);
+    // The town's own state's measures are decided by its named voters.
+    const onBallot = measuresOf(api).filter((m) => m.stateKey === state);
     expect(onBallot.length, `${state} ${key}`).toBeGreaterThan(0);
     advanceCore(core, "2026-11-04");
     const weight = weightOf(core, "ballot-measures.vote");

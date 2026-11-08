@@ -546,13 +546,15 @@
     }
   },
   "stressHalfLifeDays": {
-    "value": 7,
-    "tag": "TUNABLE",
-    "citation": "No direct source for this coefficient or duration; tunable. Empirical calibration is pending and blocks prototype release.",
-    "stopgapId": "SG-P8-param-stressHalfLifeDays",
+    "value": 1,
+    "tag": "ESTIMATED",
+    "citation": "Bolger, DeLongis, Kessler and Schilling (1989), 'Effects of daily stress on negative mood', Journal of Personality and Social Psychology 57(5):808-18, doi 10.1037/0022-3514.57.5.808 (PubMed 2810026, abstract read): a 6-week daily diary of 166 married couples found emotional habituation by the second day of a run of stressors for almost every event except interpersonal conflicts, and that on the days after a stressful event mood was better than it would have been without it.",
+    "estimatedFrom": "The study measures mood, not the model's stress stock, and gives no half-life: a stressor's effect is largely gone within a day or two, so one day is read as the half-life, with interpersonal conflict (which does not habituate) the case the spread must cover.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. ATUS durations, PANAS/PSS scores and recalled episode durations are outcome targets, not bounds on this parameter."
+      "low": 0.5,
+      "high": 7,
+      "unit": "days",
+      "citation": "Half a day (effect gone by the next day) to the old stand-in of a week, which a played half-year shows changes the town's mean stress by about 0.03 on a 0 to 1 scale (Reynolds, Georgia: 0.240 at seven days, 0.267 at one)."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
@@ -8372,6 +8374,34 @@
       "high": 12,
       "unit": "years",
       "citation": "Assumed range around the six-year level-off in Pew 2018."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "partyActiveShare": {
+    "value": 0.05,
+    "tag": "ESTIMATED",
+    "citation": "Share of adults who work or volunteer for a party, candidate or campaign. Pew Research Center, November 2020 post-election survey (n=11,818): 5 percent (pewresearch.org/short-reads/2020/12/14/key-findings-about-voter-engagement-in-the-2020-election). ANES 2020 (codebook, unweighted): 3.5 percent did other work for a party or candidate and 5.5 percent go to political meetings, rallies, speeches or dinners. Figures as reported in a search summary of those pages (not the pages themselves); check the weighted estimates before relying on the exact percentages.",
+    "estimatedFrom": "One national share for every county; the survey does not publish county shares, and the ANES figures are the codebook's unweighted frequencies.",
+    "spread": {
+      "low": 0.035,
+      "high": 0.06,
+      "unit": "share of adults",
+      "citation": "ANES 2020 (3.5 percent) to Pew 2020 rally attendance (6 percent)."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "ownerAgeAfterVoting": {
+    "value": 7,
+    "tag": "TUNABLE",
+    "citation": "Years after voting age before the engine lets someone be drawn as an employer's owner (25 in all). No source was fetched for owners' ages: this floor only keeps students and the youngest adults from owning firms, and the draw within it is a hash, not an age curve. Source it from the Census Bureau's Annual Business Survey owner-age table.",
+    "stopgapId": "SG-LIVES-civic-roles-not-recorded",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No owner-age table was read; the floor is a modeling choice."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
