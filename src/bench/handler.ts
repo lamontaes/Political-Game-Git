@@ -145,61 +145,84 @@ import { budgetLineNames, choiceName, policyNames } from "./words";
 import controls from "./data/controls.json" with { type: "json" };
 
 // This is a reference to engine-owned state, not a parallel state or writer.
-let core: CoreState | undefined;
-let director: Director | undefined;
-let player: BenchPlayer | undefined;
-let placeId = "";
-let building = false;
-let placeName = "";
-/** Visits to the title since the server started; each moves the scene on. */
-let titleVisits = 0;
-let conversation: Conversation | undefined;
-let filingVisit: BenchFilingVisit | undefined;
-/** The election nights each player has watched, and the mornings they canvassed. */
-const nightsWatched = new Set<string>();
-const canvassedOn = new Set<string>();
+/** Everything the play server holds between requests, in one place. */
+interface ServerState {
+  core: CoreState | undefined;
+  director: Director | undefined;
+  player: BenchPlayer | undefined;
+  placeId: string;
+  building: boolean;
+  placeName: string;
+  /** Visits to the title since the server started; each moves the scene on. */
+  titleVisits: number;
+  conversation: Conversation | undefined;
+  filingVisit: BenchFilingVisit | undefined;
+  /** The election nights each player has watched, and the mornings they canvassed. */
+  nightsWatched: Set<string>;
+  canvassedOn: Set<string>;
+  /** The speech the player is building, one part at a time. */
+  speechBuild: SpeechBuild | undefined;
+  /** What the loading screen plays, from the world being built (loading.ts). */
+  loadingPeek: LoadingStory | null;
+  /** Where the build is, for the loading screen's polls. */
+  buildProgress: { stage: string; done: number; total: number };
+  /** The opening, prepared during loading. */
+  opening: ReturnType<typeof openingFrames> | null | undefined;
+  /** The dev-mode record writer for the current town, which holds the gap marks. */
+  marker: DevMode | undefined;
+}
+const state: ServerState = {
+  core: undefined,
+  director: undefined,
+  player: undefined,
+  placeId: "",
+  building: false,
+  placeName: "",
+  titleVisits: 0,
+  conversation: undefined,
+  filingVisit: undefined,
+  nightsWatched: new Set<string>(),
+  canvassedOn: new Set<string>(),
+  speechBuild: undefined,
+  loadingPeek: null,
+  buildProgress: { stage: "done", done: 0, total: 0 },
+  opening: undefined,
+  marker: undefined,
+};
 /** The scene a person is in now, as the screen shows it: the player's opening day ends at home that evening, where the news is. */
 function sceneNow(current: CoreState, id: string) {
-  const playing = player?.personId === id;
+  const playing = state.player?.personId === id;
   const openingDay =
     playing &&
-    !player!.packet &&
-    director?.ledger.opening?.date === current.date;
+    !state.player!.packet &&
+    state.director?.ledger.opening?.date === current.date;
   const scene = benchScene(
     current,
     id,
-    playing ? player!.packet : undefined,
+    playing ? state.player!.packet : undefined,
     openingDay ? OPENING_EVENING_MINUTE : undefined,
   );
   // Who has something to say: the director's own answer (a talk that opens with
   // no lines is no talk), read without writing anything. The room leaves the
   // rest unclickable (owner, Nov 1).
-  return playing && director
+  return playing && state.director
     ? {
         ...scene,
         people: scene.people.map((person) => ({
           ...person,
           talkable:
             person.personId === id ||
-            openConversation(current, id, person.personId, { director }).lines
-              .length > 0,
+            openConversation(current, id, person.personId, {
+              director: state.director,
+            }).lines.length > 0,
         })),
       }
     : scene;
 }
-/** The speech the player is building, one part at a time. */
-let speechBuild: SpeechBuild | undefined;
 // Where the build is, for the loading screen's polls.
 /** What the loading screen plays, from the world being built (loading.ts). */
-let loadingPeek: LoadingStory | null = null;
-let buildProgress: { stage: string; done: number; total: number } = {
-  stage: "done",
-  done: 0,
-  total: 0,
-};
 // The opening, prepared during loading.
 
-let opening: ReturnType<typeof openingFrames> | null | undefined;
 const talkView = (value: Conversation | undefined) =>
   value && {
     otherId: value.otherId,
@@ -258,22 +281,31 @@ export const serialize = (value: unknown) =>
   });
 
 function requireCore(): CoreState {
-  if (!core) throw new Error("Generate a town first.");
-  return core;
+  if (!state.core) throw new Error("Generate a town first.");
+  return state.core;
 }
 
-let marker: DevMode | undefined;
 /** The dev-mode record writer for the current town, which holds the gap marks. */
 function gapMarker(): DevMode {
   const current = requireCore();
-  if (marker?.core !== current)
-    marker = new DevMode(current, director, player, placeId);
-  return marker;
+  if (state.marker?.core !== current)
+    state.marker = new DevMode(
+      current,
+      state.director,
+      state.player,
+      state.placeId,
+    );
+  return state.marker;
 }
 
 /** The world the developer view reads (dev-api.ts), the same engine state. */
 export function benchWorld() {
-  return { core, director, player, placeId };
+  return {
+    core: state.core,
+    director: state.director,
+    player: state.player,
+    placeId: state.placeId,
+  };
 }
 
 /** What the handler sends back: a status, headers and a body. */
@@ -312,13 +344,14 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/newlife",
     run: async ({ url, send }) => {
-      if (building) throw new Error("Opening generation is already running.");
-      building = true;
+      if (state.building)
+        throw new Error("Opening generation is already running.");
+      state.building = true;
       try {
         // The whole town, two-level (OPUS-CORE): full people for the
         // player's circle and officials, counts for everyone else.
-        buildProgress = { stage: "people", done: 0, total: 0 };
-        loadingPeek = null;
+        state.buildProgress = { stage: "people", done: 0, total: 0 };
+        state.loadingPeek = null;
         // The person chosen in the creator, read before the build: the
         // player is the resident born nearest the chosen birthday.
         const chosen = url.searchParams.get("person")
@@ -331,7 +364,7 @@ const ROUTES: readonly Route[] = [
           {
             twoLevel: true,
             onWorld: (built, id) => {
-              if (id) loadingPeek = loadingStory(built, id);
+              if (id) state.loadingPeek = loadingStory(built, id);
             },
             ...(chosen
               ? {
@@ -347,25 +380,25 @@ const ROUTES: readonly Route[] = [
               : {}),
           },
           (stage) => {
-            buildProgress = { stage, done: 0, total: 0 };
+            state.buildProgress = { stage, done: 0, total: 0 };
           },
         );
-        core = world.core;
-        director = world.director;
-        player = new BenchPlayer(world.core, world.director);
-        conversation = undefined;
-        placeId = world.placeId;
-        placeName = world.place.displayName;
+        state.core = world.core;
+        state.director = world.director;
+        state.player = new BenchPlayer(world.core, world.director);
+        state.conversation = undefined;
+        state.placeId = world.placeId;
+        state.placeName = world.place.displayName;
         const entrant = { personId: world.playerId! };
         // The person chosen in the creator becomes the player.
         if (chosen) applyChosenPerson(world.core, entrant.personId, chosen);
-        player.select(entrant.personId);
+        state.player.select(entrant.personId);
         // Between the drawing steps the server answers the loading
         // screen, which plays the world's story meanwhile (loading.ts).
         const breathe = () => new Promise((resolve) => setImmediate(resolve));
         await breathe();
         // The opening is prepared during loading; its whole figures are files.
-        opening = world.director.ledger.opening
+        state.opening = world.director.ledger.opening
           ? openingFrames(
               world.core,
               entrant.personId,
@@ -381,7 +414,7 @@ const ROUTES: readonly Route[] = [
         personCard(world.core, entrant.personId);
         await breathe();
         drawAheadNow();
-        buildProgress = { stage: "done", done: 0, total: 0 };
+        state.buildProgress = { stage: "done", done: 0, total: 0 };
         // A scene the director already staged for today (the address the
         // household watches that evening) plays first.
         const staged = world.director.ledger.people
@@ -395,13 +428,13 @@ const ROUTES: readonly Route[] = [
         send(200, {
           personId: entrant.personId,
           placeName: world.place.displayName,
-          date: core.date,
-          packet: player.packet,
+          date: state.core.date,
+          packet: state.player.packet,
           names: {},
           ...(staged ? { sceneMomentId: staged.momentId } : {}),
         });
       } finally {
-        building = false;
+        state.building = false;
       }
       return;
     },
@@ -510,19 +543,21 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/talk/open",
     run: async ({ url, send }) => {
-      if (!player?.personId) throw new Error("Choose a resident first.");
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
       const otherId = url.searchParams.get("otherId") ?? "";
       if (!personOrFillIn(requireCore(), otherId)?.alive)
         throw new Error("Talk to a living resident.");
       // A talk a scene opens is about the scene's moment.
       const occasionId = url.searchParams.get("momentId") ?? undefined;
-      conversation = openConversation(
+      state.conversation = openConversation(
         requireCore(),
-        player.personId,
+        state.player.personId,
         otherId,
-        director ? { director, ...(occasionId ? { occasionId } : {}) } : {},
+        state.director
+          ? { director: state.director, ...(occasionId ? { occasionId } : {}) }
+          : {},
       );
-      send(200, talkView(conversation));
+      send(200, talkView(state.conversation));
       return;
     },
   },
@@ -530,13 +565,13 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/talk/say",
     run: async ({ url, send }) => {
-      if (!conversation) throw new Error("No conversation is open.");
-      conversation = say(
+      if (!state.conversation) throw new Error("No conversation is open.");
+      state.conversation = say(
         requireCore(),
-        conversation,
+        state.conversation,
         url.searchParams.get("key") ?? "",
       );
-      send(200, talkView(conversation));
+      send(200, talkView(state.conversation));
       return;
     },
   },
@@ -544,9 +579,9 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/talk/silent",
     run: async ({ send }) => {
-      if (!conversation) throw new Error("No conversation is open.");
-      conversation = sayNothing(requireCore(), conversation);
-      send(200, talkView(conversation));
+      if (!state.conversation) throw new Error("No conversation is open.");
+      state.conversation = sayNothing(requireCore(), state.conversation);
+      send(200, talkView(state.conversation));
       return;
     },
   },
@@ -556,14 +591,14 @@ const ROUTES: readonly Route[] = [
     run: async ({ url, send }) => {
       // Mark the talk's newest line as a gap (play-mark-gap): one record
       // naming the scene and the line; no game time passes.
-      if (!conversation) throw new Error("No conversation is open.");
-      const view = talkView(conversation)!;
+      if (!state.conversation) throw new Error("No conversation is open.");
+      const view = talkView(state.conversation)!;
       const at = Number(url.searchParams.get("line") ?? view.lines.length - 1);
       const line = view.lines[at];
       if (!line) throw new Error("No such line.");
       const sceneId =
-        conversation.occasion?.id ??
-        `talk:${conversation.playerId}:${conversation.otherId}:${requireCore().date}`;
+        state.conversation.occasion?.id ??
+        `talk:${state.conversation.playerId}:${state.conversation.otherId}:${requireCore().date}`;
       send(200, gapMarker().markGap(sceneId, `${sceneId}#${at}`, line.text));
       return;
     },
@@ -580,7 +615,7 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/talk/leave",
     run: async ({ send }) => {
-      conversation = undefined;
+      state.conversation = undefined;
       send(200, {});
       return;
     },
@@ -589,17 +624,18 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "GET" && url.pathname === "/api/journal",
     run: async ({ url, send }) => {
-      if (!director) throw new Error("Generate a town first.");
+      if (!state.director) throw new Error("Generate a town first.");
       send(
         200,
         composeJournal(
           requireCore(),
-          director,
+          state.director,
           url.searchParams.get("id") ?? "",
           // The player's own journal reads to their clock, which stands at
           // the start of a day the core has yet to run (a birthday morning).
-          player?.packet && player.personId === url.searchParams.get("id")
-            ? { through: player.packet.at.date }
+          state.player?.packet &&
+            state.player.personId === url.searchParams.get("id")
+            ? { through: state.player.packet.at.date }
             : {},
         ),
       );
@@ -683,10 +719,10 @@ const ROUTES: readonly Route[] = [
     run: async ({ send }) => {
       // One visit to the title: its scene, and the life in progress to
       // continue (the server's current life), or none.
-      const personId = core ? player?.personId : undefined;
+      const personId = state.core ? state.player?.personId : undefined;
       const scenes = titleRotation(
         new Date().toISOString().slice(0, 10),
-        titleVisits++,
+        state.titleVisits++,
       );
       send(200, {
         ...scenes[0]!,
@@ -695,28 +731,33 @@ const ROUTES: readonly Route[] = [
         life: personId
           ? {
               personId,
-              name: `${core!.people.get(personId)?.givenName ?? ""} ${core!.people.get(personId)?.familyName ?? ""}`,
+              name: `${state.core!.people.get(personId)?.givenName ?? ""} ${state.core!.people.get(personId)?.familyName ?? ""}`,
               age: ageOnDate(
                 makeIsoDate(
-                  core!.people.get(personId)?.birthDate ?? core!.date,
+                  state.core!.people.get(personId)?.birthDate ??
+                    state.core!.date,
                 ),
-                makeIsoDate(core!.date),
+                makeIsoDate(state.core!.date),
               ),
-              portrait: Boolean(core!.people.get(personId)?.looks?.recipe),
+              portrait: Boolean(
+                state.core!.people.get(personId)?.looks?.recipe,
+              ),
               // The face the creator saved, for Continue's headshot.
-              face: core!.people.get(personId)?.looks?.recipe
+              face: state.core!.people.get(personId)?.looks?.recipe
                 ? portraitFace(
-                    readRecipe(core!.people.get(personId)!.looks!.recipe!),
+                    readRecipe(
+                      state.core!.people.get(personId)!.looks!.recipe!,
+                    ),
                     `/api/portrait?id=${encodeURIComponent(personId)}`,
                   )
                 : null,
-              placeName,
-              date: core!.date,
+              placeName: state.placeName,
+              date: state.core!.date,
               minuteOfDay:
-                player!.packet?.at.minuteOfDay ??
-                opening?.home?.minuteOfDay ??
+                state.player!.packet?.at.minuteOfDay ??
+                state.opening?.home?.minuteOfDay ??
                 0,
-              packet: player!.packet,
+              packet: state.player!.packet,
             }
           : null,
       });
@@ -782,12 +823,12 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/budget/priority",
     run: async ({ url, send }) => {
-      if (!player?.personId) throw new Error("Choose a resident first.");
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
       send(
         200,
         setPriority(
           requireCore(),
-          player.personId,
+          state.player.personId,
           url.searchParams.get("governmentId") ?? "",
           url.searchParams.get("line") ?? "",
           Number(url.searchParams.get("change")) || 0,
@@ -828,8 +869,8 @@ const ROUTES: readonly Route[] = [
         200,
         townPlaces(
           requireCore(),
-          url.searchParams.get("id") ?? player?.personId ?? "",
-          player?.packet,
+          url.searchParams.get("id") ?? state.player?.personId ?? "",
+          state.player?.packet,
         ),
       );
       return;
@@ -843,7 +884,7 @@ const ROUTES: readonly Route[] = [
       send(200, {
         url: backdropFile(
           officePlace(url.searchParams.get("filedWith") ?? ""),
-          player?.packet?.at.minuteOfDay ?? 12 * 60,
+          state.player?.packet?.at.minuteOfDay ?? 12 * 60,
         ).url,
       });
       return;
@@ -853,14 +894,14 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/goto/visit",
     run: async ({ url, send }) => {
-      if (!player?.personId) throw new Error("Choose a resident first.");
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
       send(
         200,
         visitPlace(
           requireCore(),
-          player.personId,
+          state.player.personId,
           url.searchParams.get("org") ?? "",
-          player.packet?.at.minuteOfDay ?? 12 * 60,
+          state.player.packet?.at.minuteOfDay ?? 12 * 60,
         ),
       );
       return;
@@ -900,7 +941,7 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "GET" && url.pathname === "/api/newlife/progress",
     run: async ({ send }) => {
-      send(200, { ...buildProgress, story: loadingPeek !== null });
+      send(200, { ...state.buildProgress, story: state.loadingPeek !== null });
       return;
     },
   },
@@ -909,7 +950,7 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "GET" && url.pathname === "/api/newlife/story",
     run: async ({ send }) => {
-      send(200, loadingPeek);
+      send(200, state.loadingPeek);
       return;
     },
   },
@@ -918,21 +959,30 @@ const ROUTES: readonly Route[] = [
   {
     match: ({ url }) => url.pathname === "/api/scene-filter",
     run: async ({ request, url, send }) => {
-      if (!director || !player?.personId)
+      if (!state.director || !state.player?.personId)
         throw new Error("Start a life first.");
       if (request.method === "POST") {
         const kinds = url.searchParams.get("kinds");
-        director.setSceneFilter(
-          player.personId,
+        state.director.setSceneFilter(
+          state.player.personId,
           kinds === null || kinds === "all"
             ? null
             : kinds.split(",").filter(Boolean),
           requireCore().date,
         );
       }
-      const filter = director.ledger.sceneFilters.get(player.personId);
+      const filter = state.director.ledger.sceneFilters.get(
+        state.player.personId,
+      );
       send(200, {
         kinds: SITUATION_LIBRARY.types.map((row) => row.key),
+        // Each kind's group (its tag's endpoint), for the Options screen.
+        groups: Object.fromEntries(
+          SITUATION_LIBRARY.types.map((row) => [
+            row.key,
+            (row as unknown as { tag?: { endpoint?: string } }).tag?.endpoint,
+          ]),
+        ),
         allowed: filter?.allowedKinds ?? null,
         ...(filter ? { recordId: filter.id } : {}),
       });
@@ -960,7 +1010,7 @@ const ROUTES: readonly Route[] = [
         200,
         benchProgress(
           requireCore(),
-          placeId,
+          state.placeId,
           url.searchParams.get("id") ?? undefined,
         ),
       );
@@ -994,7 +1044,7 @@ const ROUTES: readonly Route[] = [
         billStage(
           requireCore(),
           url.searchParams.get("billId") ?? "",
-          player?.personId,
+          state.player?.personId,
         ),
       );
       return;
@@ -1005,7 +1055,7 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "GET" && url.pathname === "/api/bills/following",
     run: async ({ send }) => {
-      send(200, followedBills(requireCore(), player?.personId));
+      send(200, followedBills(requireCore(), state.player?.personId));
       return;
     },
   },
@@ -1020,7 +1070,7 @@ const ROUTES: readonly Route[] = [
           requireCore(),
           url.searchParams.get("billId") ?? "",
           Number(url.searchParams.get("index")),
-          player?.personId,
+          state.player?.personId,
         ),
       );
       return;
@@ -1036,7 +1086,7 @@ const ROUTES: readonly Route[] = [
           requireCore(),
           url.searchParams.get("billId") ?? "",
           Number(url.searchParams.get("index")),
-          player?.personId,
+          state.player?.personId,
         ),
       );
       return;
@@ -1054,7 +1104,7 @@ const ROUTES: readonly Route[] = [
           url.searchParams.get("billId") ?? "",
           Number(url.searchParams.get("index")),
           url.searchParams.get("direction") ?? "",
-          player?.personId,
+          state.player?.personId,
         ),
       );
       return;
@@ -1069,7 +1119,7 @@ const ROUTES: readonly Route[] = [
         callAmendmentVote(
           requireCore(),
           url.searchParams.get("amendmentId") ?? "",
-          player?.personId,
+          state.player?.personId,
         ),
       );
       return;
@@ -1086,7 +1136,7 @@ const ROUTES: readonly Route[] = [
           requireCore(),
           url.searchParams.get("billId") ?? "",
           url.searchParams.get("vote") ?? "",
-          player?.personId,
+          state.player?.personId,
         ),
       );
       return;
@@ -1101,7 +1151,7 @@ const ROUTES: readonly Route[] = [
         callOverrideVote(
           requireCore(),
           url.searchParams.get("billId") ?? "",
-          player?.personId,
+          state.player?.personId,
         ),
       );
       return;
@@ -1118,7 +1168,7 @@ const ROUTES: readonly Route[] = [
           requireCore(),
           url.searchParams.get("billId") ?? "",
           url.searchParams.get("vote") ?? "",
-          player?.personId,
+          state.player?.personId,
         ),
       );
       return;
@@ -1131,11 +1181,11 @@ const ROUTES: readonly Route[] = [
     run: async ({ send }) => {
       send(
         200,
-        player?.personId
+        state.player?.personId
           ? meetingSceneView(
               requireCore(),
-              player.personId,
-              player.packet?.at.minuteOfDay ?? 18 * 60,
+              state.player.personId,
+              state.player.packet?.at.minuteOfDay ?? 18 * 60,
             )
           : null,
       );
@@ -1146,7 +1196,7 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/meeting/item",
     run: async ({ url, send }) => {
-      if (!player?.personId) throw new Error("Choose a resident first.");
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
       meetingItem(
         requireCore(),
         url.searchParams.get("meetingId") ?? "",
@@ -1157,8 +1207,8 @@ const ROUTES: readonly Route[] = [
         200,
         meetingSceneView(
           requireCore(),
-          player.personId,
-          player.packet?.at.minuteOfDay ?? 18 * 60,
+          state.player.personId,
+          state.player.packet?.at.minuteOfDay ?? 18 * 60,
         ),
       );
       return;
@@ -1168,7 +1218,7 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/meeting/speak",
     run: async ({ url, send }) => {
-      if (!player?.personId) throw new Error("Choose a resident first.");
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
       meetingSpeak(
         requireCore(),
         url.searchParams.get("meetingId") ?? "",
@@ -1179,8 +1229,8 @@ const ROUTES: readonly Route[] = [
         200,
         meetingSceneView(
           requireCore(),
-          player.personId,
-          player.packet?.at.minuteOfDay ?? 18 * 60,
+          state.player.personId,
+          state.player.packet?.at.minuteOfDay ?? 18 * 60,
         ),
       );
       return;
@@ -1199,7 +1249,7 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "GET" && url.pathname === "/api/desk",
     run: async ({ send }) => {
-      send(200, player?.personId ? deskView(requireCore()) : []);
+      send(200, state.player?.personId ? deskView(requireCore()) : []);
       return;
     },
   },
@@ -1221,7 +1271,7 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "GET" && url.pathname === "/api/floor",
     run: async ({ send }) => {
-      send(200, player?.personId ? floorView(requireCore()) : []);
+      send(200, state.player?.personId ? floorView(requireCore()) : []);
       return;
     },
   },
@@ -1243,7 +1293,7 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "GET" && url.pathname === "/api/orders",
     run: async ({ send }) => {
-      send(200, player?.personId ? ordersView(requireCore()) : []);
+      send(200, state.player?.personId ? ordersView(requireCore()) : []);
       return;
     },
   },
@@ -1266,7 +1316,7 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "GET" && url.pathname === "/api/nominations",
     run: async ({ send }) => {
-      send(200, player?.personId ? nominationsView(requireCore()) : []);
+      send(200, state.player?.personId ? nominationsView(requireCore()) : []);
       return;
     },
   },
@@ -1297,12 +1347,12 @@ const ROUTES: readonly Route[] = [
       request.method === "POST" &&
       url.pathname === "/api/office/name-head-pick",
     run: async ({ url, send }) => {
-      if (!player?.personId) throw new Error("Choose a resident first.");
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
       send(
         200,
         nameHeadPick(
           requireCore(),
-          player.personId,
+          state.player.personId,
           url.searchParams.get("post") ?? "",
           url.searchParams.get("nomineeId") ?? "",
         ),
@@ -1314,12 +1364,12 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/office/budget-line",
     run: async ({ url, send }) => {
-      if (!player?.personId) throw new Error("Choose a resident first.");
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
       send(
         200,
         budgetLinePick(
           requireCore(),
-          player.personId,
+          state.player.personId,
           url.searchParams.get("line") ?? "",
           Number(url.searchParams.get("changeMinor")),
         ),
@@ -1331,12 +1381,12 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/office/deal",
     run: async ({ url, send }) => {
-      if (!player?.personId) throw new Error("Choose a resident first.");
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
       send(
         200,
         colleagueDeal(
           requireCore(),
-          player.personId,
+          state.player.personId,
           url.searchParams.get("memberId") ?? "",
           url.searchParams.get("deal") ?? "",
         ),
@@ -1348,11 +1398,11 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/seat/act",
     run: async ({ url, send }) => {
-      if (!player?.personId) throw new Error("Choose a resident first.");
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
       const q = (key: string) => url.searchParams.get(key) ?? undefined;
       send(
         200,
-        seatAct(requireCore(), player.personId, {
+        seatAct(requireCore(), state.player.personId, {
           kind: q("kind") ?? "",
           officeId: q("officeId"),
           series: q("series"),
@@ -1386,10 +1436,12 @@ const ROUTES: readonly Route[] = [
       // The director's scene of the player's own result, staged that night
       // once the returns close (resultMomentOf).
       const result =
-        night && director ? resultMomentOf(director, id, night.recordId) : null;
+        night && state.director
+          ? resultMomentOf(state.director, id, night.recordId)
+          : null;
       send(
         200,
-        night && !nightsWatched.has(`${id}|${night.contestId}`)
+        night && !state.nightsWatched.has(`${id}|${night.contestId}`)
           ? { ...night, resultMomentId: result }
           : null,
       );
@@ -1401,7 +1453,7 @@ const ROUTES: readonly Route[] = [
       request.method === "POST" &&
       url.pathname === "/api/election-night/watched",
     run: async ({ url, send }) => {
-      nightsWatched.add(
+      state.nightsWatched.add(
         `${url.searchParams.get("id") ?? ""}|${url.searchParams.get("contestId") ?? ""}`,
       );
       send(200, { ok: true });
@@ -1412,7 +1464,7 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "GET" && url.pathname === "/api/economy",
     run: async ({ send }) => {
-      send(200, economyView(requireCore(), placeId));
+      send(200, economyView(requireCore(), state.placeId));
       return;
     },
   },
@@ -1420,7 +1472,7 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "GET" && url.pathname === "/api/world-panels",
     run: async ({ send }) => {
-      send(200, worldPanels(requireCore(), placeId));
+      send(200, worldPanels(requireCore(), state.placeId));
       return;
     },
   },
@@ -1428,18 +1480,18 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "GET" && url.pathname === "/api/story",
     run: async ({ url, send }) => {
-      if (!player?.personId || !director)
+      if (!state.player?.personId || !state.director)
         throw new Error("Choose a resident first.");
       send(
         200,
         storyScene(
           requireCore(),
-          director,
-          player.personId,
+          state.director,
+          state.player.personId,
           url.searchParams.get("momentId") ?? "",
           // The opening day's scene is that evening at home (as /api/scene).
-          player.packet?.at.minuteOfDay ??
-            (director.ledger.opening?.date === requireCore().date
+          state.player.packet?.at.minuteOfDay ??
+            (state.director.ledger.opening?.date === requireCore().date
               ? OPENING_EVENING_MINUTE
               : 12 * 60),
           // ?held=1 on the play page: the grading view, held lines marked.
@@ -1474,14 +1526,14 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/story/reply",
     run: async ({ url, send }) => {
-      if (!player?.personId || !director)
+      if (!state.player?.personId || !state.director)
         throw new Error("Choose a resident first.");
       send(
         200,
         storyReply(
           requireCore(),
-          director,
-          player.personId,
+          state.director,
+          state.player.personId,
           url.searchParams.get("momentId") ?? "",
           (url.searchParams.get("path") ?? "")
             .split(".")
@@ -1510,12 +1562,12 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/campaign/act",
     run: async ({ url, send }) => {
-      if (!player?.personId) throw new Error("Choose a resident first.");
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
       const number = (key: string) =>
         Number(url.searchParams.get(key)) || undefined;
       send(
         200,
-        campaignAct(requireCore(), player.personId, {
+        campaignAct(requireCore(), state.player.personId, {
           filingId: url.searchParams.get("filingId") ?? "",
           kind: url.searchParams.get("kind") ?? "",
           amountMinor: number("amountMinor"),
@@ -1530,9 +1582,9 @@ const ROUTES: readonly Route[] = [
       request.method === "POST" &&
       url.pathname === "/api/campaign/speech/begin",
     run: async ({ send }) => {
-      if (!player?.personId) throw new Error("Choose a resident first.");
-      speechBuild = speechBegin(requireCore(), player.personId);
-      send(200, speechView(speechBuild));
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      state.speechBuild = speechBegin(requireCore(), state.player.personId);
+      send(200, speechView(state.speechBuild));
       return;
     },
   },
@@ -1540,13 +1592,13 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/campaign/speech/pick",
     run: async ({ url, send }) => {
-      if (!speechBuild) throw new Error("No speech is being built.");
-      speechBuild = speechPick(
+      if (!state.speechBuild) throw new Error("No speech is being built.");
+      state.speechBuild = speechPick(
         requireCore(),
-        speechBuild,
+        state.speechBuild,
         url.searchParams.get("key") ?? "",
       );
-      send(200, speechView(speechBuild));
+      send(200, speechView(state.speechBuild));
       return;
     },
   },
@@ -1554,13 +1606,18 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/campaign/speech/give",
     run: async ({ url, send }) => {
-      if (!player?.personId) throw new Error("Choose a resident first.");
-      if (!speechBuild) throw new Error("No speech is being built.");
-      const given = speechGive(requireCore(), player.personId, speechBuild, {
-        filingId: url.searchParams.get("filingId") ?? "",
-        venue: url.searchParams.get("venue") ?? "",
-      });
-      speechBuild = undefined;
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      if (!state.speechBuild) throw new Error("No speech is being built.");
+      const given = speechGive(
+        requireCore(),
+        state.player.personId,
+        state.speechBuild,
+        {
+          filingId: url.searchParams.get("filingId") ?? "",
+          venue: url.searchParams.get("venue") ?? "",
+        },
+      );
+      state.speechBuild = undefined;
       send(200, given);
       return;
     },
@@ -1569,14 +1626,14 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/campaign/day",
     run: async ({ url, send }) => {
-      if (!player?.personId) throw new Error("Choose a resident first.");
-      const day = campaignDay(requireCore(), player.personId, {
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      const day = campaignDay(requireCore(), state.player.personId, {
         filingId: url.searchParams.get("filingId") ?? "",
         kind: url.searchParams.get("kind") ?? "",
         outletId: url.searchParams.get("outletId") ?? undefined,
       });
       // The outing's hours come off the same clock the packet reports.
-      const spent = player.spend(day.hours);
+      const spent = state.player.spend(day.hours);
       send(200, {
         ...day,
         ...(spent
@@ -1590,7 +1647,7 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/campaign/debate",
     run: async ({ url, send }) => {
-      if (!player?.personId) throw new Error("Choose a resident first.");
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
       const answers = JSON.parse(url.searchParams.get("answers") ?? "[]") as {
         question: string;
         position: number | null;
@@ -1599,7 +1656,7 @@ const ROUTES: readonly Route[] = [
         200,
         debateAnswer(
           requireCore(),
-          player.personId,
+          state.player.personId,
           url.searchParams.get("debateId") ?? "",
           answers,
         ),
@@ -1617,10 +1674,10 @@ const ROUTES: readonly Route[] = [
       const opens = counterOpening(
         current,
         url.searchParams.get("filedWith") ?? "",
-        player?.packet?.at ?? {
+        state.player?.packet?.at ?? {
           date: current.date,
           minuteOfDay:
-            director?.ledger.opening?.date === current.date
+            state.director?.ledger.opening?.date === current.date
               ? OPENING_EVENING_MINUTE
               : 12 * 60,
         },
@@ -1633,23 +1690,23 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/filing/open",
     run: async ({ url, send }) => {
-      if (!player?.personId) throw new Error("Choose a resident first.");
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
       const filedWith = url.searchParams.get("filedWith") ?? "";
       const current = requireCore();
       // The office keeps its clerk's hours: going to a closed one plays the
       // visit at its next opening, the clock moving there (owner, Nov 1:
       // "it should have started the next day").
-      const now = player.packet?.at ?? {
+      const now = state.player.packet?.at ?? {
         date: current.date,
         minuteOfDay:
-          director?.ledger.opening?.date === current.date
+          state.director?.ledger.opening?.date === current.date
             ? OPENING_EVENING_MINUTE
             : 12 * 60,
       };
       const opens = counterOpening(current, filedWith, now);
       if (opens) {
         const reachedOpening = () => {
-          const at = player?.packet?.at;
+          const at = state.player?.packet?.at;
           return (
             !!at &&
             (at.date > opens.date ||
@@ -1658,36 +1715,38 @@ const ROUTES: readonly Route[] = [
         };
         // A fresh clock first lives to the morning's start; the wait goes on
         // from there until it stands at the opening.
-        let waited: ReturnType<typeof player.waitUntil> | undefined;
+        let waited: ReturnType<typeof state.player.waitUntil> | undefined;
         for (let tries = 0; tries < 3 && !reachedOpening(); tries += 1) {
-          waited = player.waitUntil({
+          waited = state.player.waitUntil({
             date: makeIsoDate(opens.date),
             minuteOfDay: opens.minuteOfDay,
           });
-          if (!waited || player.packet?.kind !== "complete") break;
+          if (!waited || state.player.packet?.kind !== "complete") break;
         }
         // Something came up on the way: it is lived first, the counter
         // waits for the next try.
-        const reached = player.packet?.at;
+        const reached = state.player.packet?.at;
         if (
           !waited ||
-          player.packet?.kind !== "complete" ||
+          state.player.packet?.kind !== "complete" ||
           !reached ||
           !reachedOpening()
         ) {
-          send(200, { waiting: true, packet: player.packet });
+          send(200, { waiting: true, packet: state.player.packet });
           return;
         }
       }
-      filingVisit = openBenchFilingVisit(
+      state.filingVisit = openBenchFilingVisit(
         current,
-        player.personId,
+        state.player.personId,
         filedWith,
-        player.packet?.at.minuteOfDay ?? 12 * 60,
+        state.player.packet?.at.minuteOfDay ?? 12 * 60,
       );
       send(
         200,
-        opens ? { ...filingVisit, waited: player.packet } : filingVisit,
+        opens
+          ? { ...state.filingVisit, waited: state.player.packet }
+          : state.filingVisit,
       );
       return;
     },
@@ -1696,11 +1755,11 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/filing/choose",
     run: async ({ url, send }) => {
-      if (!filingVisit) throw new Error("No filing visit is open.");
-      const before = filingVisit.result;
-      filingVisit = chooseAtCounter(
+      if (!state.filingVisit) throw new Error("No filing visit is open.");
+      const before = state.filingVisit.result;
+      state.filingVisit = chooseAtCounter(
         requireCore(),
-        filingVisit,
+        state.filingVisit,
         url.searchParams.get("key") ?? "",
         {
           platform: url.searchParams.getAll("stance"),
@@ -1710,15 +1769,15 @@ const ROUTES: readonly Route[] = [
       // Filing takes the afternoon at the counter: taking out the
       // petition, the clerk's questions, the wait. The hours come off the
       // same clock the packet reports.
-      const filed = filingVisit.result as { status?: string } | undefined;
+      const filed = state.filingVisit.result as { status?: string } | undefined;
       const spent =
         filed && filed !== before && filed.status !== "refused"
-          ? player?.spend(
+          ? state.player?.spend(
               parameter("filingVisitHours", requireCore().data.parameters),
             )
           : undefined;
       send(200, {
-        ...filingVisit,
+        ...state.filingVisit,
         ...(spent
           ? { packet: spent.packet, names: namesFor(spent.packet) }
           : {}),
@@ -1730,7 +1789,7 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/filing/leave",
     run: async ({ send }) => {
-      filingVisit = undefined;
+      state.filingVisit = undefined;
       send(200, {});
       return;
     },
@@ -1807,10 +1866,10 @@ const ROUTES: readonly Route[] = [
       const id = url.searchParams.get("id") ?? "";
       send(
         200,
-        opening && player?.personId === id
-          ? opening
-          : director?.ledger.opening
-            ? openingFrames(requireCore(), id, director.ledger.opening)
+        state.opening && state.player?.personId === id
+          ? state.opening
+          : state.director?.ledger.opening
+            ? openingFrames(requireCore(), id, state.director.ledger.opening)
             : null,
       );
       return;
@@ -1896,12 +1955,12 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/party/join",
     run: async ({ url, send }) => {
-      if (!player?.personId) throw new Error("Choose a resident first.");
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
       send(
         200,
         joinPartyAs(
           requireCore(),
-          player.personId,
+          state.player.personId,
           url.searchParams.get("partyId") ?? "",
         ),
       );
@@ -1912,12 +1971,12 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/file",
     run: async ({ url, send }) => {
-      if (!player?.personId) throw new Error("Choose a resident first.");
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
       send(
         200,
         fileForOffice(
           requireCore(),
-          player.personId,
+          state.player.personId,
           url.searchParams.get("contestId") ?? "",
         ),
       );
@@ -1928,19 +1987,23 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/advance",
     run: async ({ url, send }) => {
-      if (!player) throw new Error("Generate a town first.");
-      const result = player.advance(
+      if (!state.player) throw new Error("Generate a town first.");
+      const result = state.player.advance(
         url.searchParams.get("mode") ?? "day",
         url.searchParams.get("date") ?? undefined,
       );
       send(200, {
         ...result,
         names: namesFor(result.packet),
-        progress: benchProgress(requireCore(), placeId, player?.personId),
-        pollingPlace: player.pollingPlace
-          ? pollingScene(requireCore(), player.pollingPlace)
+        progress: benchProgress(
+          requireCore(),
+          state.placeId,
+          state.player?.personId,
+        ),
+        pollingPlace: state.player.pollingPlace
+          ? pollingScene(requireCore(), state.player.pollingPlace)
           : null,
-        candidateMorning: player.candidateMorning ?? null,
+        candidateMorning: state.player.candidateMorning ?? null,
       });
       return;
     },
@@ -1951,22 +2014,22 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "GET" && url.pathname === "/api/election-day",
     run: async ({ send }) => {
-      const visit = player?.pollingPlace;
-      const date = visit?.record.electionDate ?? player?.candidateMorning;
+      const visit = state.player?.pollingPlace;
+      const date = visit?.record.electionDate ?? state.player?.candidateMorning;
       send(
         200,
-        date && player?.personId
+        date && state.player?.personId
           ? {
               ...electionDay(
                 requireCore(),
-                player.personId,
+                state.player.personId,
                 visit ?? null,
-                canvassedOn.has(`${player.personId}|${date}`),
+                state.canvassedOn.has(`${state.player.personId}|${date}`),
                 date,
               ),
               // The card shows election morning, not the midnight the
               // clock stopped at to ask.
-              at: { date, minuteOfDay: player.dayStartMinute() },
+              at: { date, minuteOfDay: state.player.dayStartMinute() },
             }
           : null,
       );
@@ -1978,7 +2041,7 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/election-day/done",
     run: async ({ send }) => {
-      if (player) player.candidateMorning = undefined;
+      if (state.player) state.player.candidateMorning = undefined;
       send(200, { ok: true });
       return;
     },
@@ -1987,27 +2050,27 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/election-day/canvass",
     run: async ({ send }) => {
-      const visit = player?.pollingPlace;
-      const date = visit?.record.electionDate ?? player?.candidateMorning;
-      if (!date || !player?.personId)
+      const visit = state.player?.pollingPlace;
+      const date = visit?.record.electionDate ?? state.player?.candidateMorning;
+      if (!date || !state.player?.personId)
         throw new Error("There is no election today.");
       const day = electionDay(
         requireCore(),
-        player.personId,
+        state.player.personId,
         visit ?? null,
         false,
         date,
       );
       if (!day.canvass) throw new Error("You aren't on the ballot today.");
-      const result = campaignDay(requireCore(), player.personId, {
+      const result = campaignDay(requireCore(), state.player.personId, {
         filingId: day.canvass.filingId,
         kind: "canvass",
       });
-      canvassedOn.add(`${player.personId}|${date}`);
+      state.canvassedOn.add(`${state.player.personId}|${date}`);
       send(200, {
         line: canvassedLine(
           requireCore(),
-          player.personId,
+          state.player.personId,
           date,
           day.canvass.filingId,
           result,
@@ -2026,7 +2089,7 @@ const ROUTES: readonly Route[] = [
         200,
         officeCases(
           requireCore(),
-          url.searchParams.get("id") ?? player?.personId ?? "",
+          url.searchParams.get("id") ?? state.player?.personId ?? "",
         ),
       );
       return;
@@ -2036,13 +2099,13 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/office/case",
     run: async ({ url, send }) => {
-      if (!player?.personId) throw new Error("Choose a resident first.");
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
       const decision = url.searchParams.get("decision");
       send(
         200,
         decideCase(
           requireCore(),
-          player.personId,
+          state.player.personId,
           url.searchParams.get("caseId") ?? "",
           decision === "help" ? "help" : "decline",
         ),
@@ -2056,8 +2119,8 @@ const ROUTES: readonly Route[] = [
     run: async ({ send }) => {
       send(
         200,
-        player?.pollingPlace
-          ? pollingScene(requireCore(), player.pollingPlace)
+        state.player?.pollingPlace
+          ? pollingScene(requireCore(), state.player.pollingPlace)
           : null,
       );
       return;
@@ -2067,15 +2130,15 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/polling-place/mark",
     run: async ({ url, send }) => {
-      if (!player) throw new Error("Generate a town first.");
-      const record = player.markBallot(
+      if (!state.player) throw new Error("Generate a town first.");
+      const record = state.player.markBallot(
         url.searchParams.get("contestId") ?? "",
         url.searchParams.get("candidateId") || null,
       );
       send(200, {
         record,
-        pollingPlace: player.pollingPlace
-          ? pollingScene(requireCore(), player.pollingPlace)
+        pollingPlace: state.player.pollingPlace
+          ? pollingScene(requireCore(), state.player.pollingPlace)
           : null,
       });
       return;
@@ -2085,18 +2148,18 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/polling-place/leave",
     run: async ({ send }) => {
-      if (!player) throw new Error("Generate a town first.");
-      const date = player.pollingPlace?.record.electionDate;
-      const record = player.leavePolls();
+      if (!state.player) throw new Error("Generate a town first.");
+      const date = state.player.pollingPlace?.record.electionDate;
+      const record = state.player.leavePolls();
       send(200, {
         record,
         pollingPlace: null,
         // Staying home without marking anything: no ballot is cast.
         line:
-          date && player.personId && !Object.keys(record.marked).length
+          date && state.player.personId && !Object.keys(record.marked).length
             ? stayedHomeLine(
                 requireCore(),
-                player.personId,
+                state.player.personId,
                 date,
                 record.contestIds,
               )
@@ -2109,17 +2172,21 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/resume",
     run: async ({ url, send }) => {
-      if (!player) throw new Error("Generate a town first.");
+      if (!state.player) throw new Error("Generate a town first.");
       const pauseId = url.searchParams.get("pauseId") ?? "";
-      const result = player.resume({ kind: "stop", pauseId });
+      const result = state.player.resume({ kind: "stop", pauseId });
       send(200, {
         ...result,
         names: namesFor(result.packet),
-        progress: benchProgress(requireCore(), placeId, player?.personId),
-        pollingPlace: player.pollingPlace
-          ? pollingScene(requireCore(), player.pollingPlace)
+        progress: benchProgress(
+          requireCore(),
+          state.placeId,
+          state.player?.personId,
+        ),
+        pollingPlace: state.player.pollingPlace
+          ? pollingScene(requireCore(), state.player.pollingPlace)
           : null,
-        candidateMorning: player.candidateMorning ?? null,
+        candidateMorning: state.player.candidateMorning ?? null,
       });
       return;
     },
@@ -2128,15 +2195,16 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/play",
     run: async ({ url, send }) => {
-      if (!player) throw new Error("Generate a town first.");
+      if (!state.player) throw new Error("Generate a town first.");
       const id = url.searchParams.get("id") ?? "";
       personOrFillIn(requireCore(), id);
-      player.select(id);
-      if (conversation?.playerId !== player.personId) conversation = undefined;
+      state.player.select(id);
+      if (state.conversation?.playerId !== state.player.personId)
+        state.conversation = undefined;
       send(200, {
-        personId: player.personId,
-        packet: player.packet,
-        selfChosen: player.selfChosen.slice(-50),
+        personId: state.player.personId,
+        packet: state.player.packet,
+        selfChosen: state.player.selfChosen.slice(-50),
       });
       return;
     },
@@ -2145,13 +2213,14 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/build",
     run: async ({ url, send }) => {
-      if (building) throw new Error("Opening generation is already running.");
+      if (state.building)
+        throw new Error("Opening generation is already running.");
       const seed = url.searchParams.get("seed") ?? "";
       const date = gameStartDate();
       // Stopgap SG-PLAY-bench-town-size: a smaller town plays at a usable
       // speed until the core's two-level population and speed work land.
       const size = Number(url.searchParams.get("size") ?? "") || undefined;
-      building = true;
+      state.building = true;
       try {
         // Two-level, as "New life" builds it (MEMORY-FLAT): a month of the
         // full population ran the bench out of memory. Tests that need every
@@ -2160,19 +2229,19 @@ const ROUTES: readonly Route[] = [
           minimumPeople: size,
           twoLevel: url.searchParams.get("full") !== "1",
         });
-        opening = undefined;
+        state.opening = undefined;
         const { place, residents } = world;
         const next = world.core,
           nextDirector = world.director;
-        core = next;
-        director = nextDirector;
-        player = new BenchPlayer(next, nextDirector);
-        conversation = undefined;
-        placeId = place.context.jurisdiction.id;
-        placeName = place.displayName;
+        state.core = next;
+        state.director = nextDirector;
+        state.player = new BenchPlayer(next, nextDirector);
+        state.conversation = undefined;
+        state.placeId = place.context.jurisdiction.id;
+        state.placeName = place.displayName;
         send(200, {
-          seed: core.seed,
-          date: core.date,
+          seed: state.core.seed,
+          date: state.core.date,
           placeId: place.context.jurisdiction.id,
           placeKey: place.key,
           placeName: place.displayName,
@@ -2188,10 +2257,10 @@ const ROUTES: readonly Route[] = [
               "utf8",
             ),
           ),
-          gaps: [...core.gaps],
+          gaps: [...state.core.gaps],
         });
       } finally {
-        building = false;
+        state.building = false;
       }
       return;
     },

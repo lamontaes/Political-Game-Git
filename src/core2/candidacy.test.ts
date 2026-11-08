@@ -82,6 +82,7 @@ describe(`who runs for office in ${input.placeMetadata?.placeName} (seed ${seed}
           "afterOffice",
           "age",
           "cause",
+          "chance",
           "engagement",
           "field",
           "incumbentTie",
