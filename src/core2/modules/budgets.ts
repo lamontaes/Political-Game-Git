@@ -19,6 +19,7 @@
  *   by the law in force (`tax-withholding.ts`), move from the worker's cash to
  *   each government's account through the journal on payday.
  */
+import type { GovernmentLevel } from "../government-level";
 import { corePlaceByKey } from "../place-lookup";
 import { placeLocalGovernmentUnits } from "../gov-rules/local-governments";
 import budgetBases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
@@ -95,7 +96,7 @@ const WITHHOLDING_KIND = "budgets:withholding";
 
 export interface GovernmentRow {
   readonly id: string;
-  readonly level: "federal" | "state" | "county" | "city";
+  readonly level: GovernmentLevel;
   readonly name: string;
   readonly organizationId: string;
   readonly fiscalYearStart: string;
@@ -323,6 +324,8 @@ export const BUDGETS_MODULE: PreStartModule = {
       outsideRevenue: {
         indexes: { byGovernment: { fields: ["governmentId"] } },
       },
+      /** What a treasury held above its reserve and invested outside the town at a close (SG-GOV-reserve-sweep). */
+      reserveSweeps: {},
       /** The part of each spending line that left the town, by the group it paid. */
       spendingPayments: {
         indexes: { byGovernment: { fields: ["governmentId"] } },

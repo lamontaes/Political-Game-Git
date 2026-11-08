@@ -262,6 +262,9 @@
 /src/core2/sibling-names.ts @lamontaes
 /src/core2/modules/partnerships.ts @lamontaes
 /src/core2/modules/kin-contact.ts @lamontaes
+/src/core2/modules/mentorship.ts @lamontaes
+/src/core2/modules/rescue.ts @lamontaes
+/src/core2/modules/quarrel.ts @lamontaes
 /src/core2/modules/public-action.ts @lamontaes
 
 # The past before the start (past)

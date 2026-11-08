@@ -56,6 +56,10 @@ const TABLE = "moves";
 const PULLS_TABLE = "pulls";
 
 /** Coarse age bands and the ACS bands each averages. */
+const ADMIT_MORE_IMMIGRANTS =
+  "us-federal-positions:immigration.admit-more-immigrants";
+/** Where newcomers from outside the country are from, in an arrival's key. */
+const ABROAD = "abroad";
 const COARSE = [
   ["under-18", "countedPeopleShareUnder18", ["30-34", "35-39", "40-44"]],
   ["18-29", "countedPeopleShare18to29", ["18-19", "20-24", "25-29"]],
@@ -70,11 +74,18 @@ const RATES = moverRates as unknown as {
   national: {
     departurePerYearByAge: Rates;
     arrivalsPerResidentPerYear: number;
+    abroadPerResidentPerYear: number;
+    abroadAgeShare: Readonly<Record<string, number>>;
+    admitMoreImmigrantsLaw: { shareOfArrivalsFromAbroad: number };
   };
   places: Readonly<
     Record<
       string,
-      { departurePerYearByAge: Rates; arrivalsPerResidentPerYear?: number }
+      {
+        departurePerYearByAge: Rates;
+        arrivalsPerResidentPerYear?: number;
+        abroadPerResidentPerYear?: number;
+      }
     >
   >;
 };
@@ -162,6 +173,26 @@ function rateFor(seed: string, usps: string, band: string): number {
     ] ??
       RATES.national.departurePerYearByAge[band] ??
       0) * worldRateFactor(seed, "movers")
+  );
+}
+
+/**
+ * A state's yearly arrivals from abroad per resident, from the ACS "moved from
+ * abroad" line (B07001_081 over B07001_001), times this world's movers factor.
+ */
+function abroadRate(api: CoreAPI, usps: string): number {
+  const row = RATES.places[`US-${usps}`];
+  // While Congress's law to admit more immigrants stands, more come: the
+  // researched extra admissions as a share of today's arrivals from abroad.
+  const admitting =
+    api.state.modules.has(LAWS_MODULE_ID) &&
+    lawInForce(api, ADMIT_MORE_IMMIGRANTS).value === 1;
+  return (
+    (row?.abroadPerResidentPerYear ?? RATES.national.abroadPerResidentPerYear) *
+    worldRateFactor(api.state.seed, "movers") *
+    (admitting
+      ? 1 + RATES.national.admitMoreImmigrantsLaw.shareOfArrivalsFromAbroad
+      : 1)
   );
 }
 
@@ -750,8 +781,15 @@ function month(api: CoreAPI): void {
     const arrivalsOf = stateList.map(
       (st, i) =>
         peopleOf[i]! *
-        (RATES.places[`US-${st.usps}`]?.arrivalsPerResidentPerYear ??
-          RATES.national.arrivalsPerResidentPerYear) *
+        // Arrivals from other states and counties only: those from abroad
+        // are a flow into the nation, added below, not another state's leavers.
+        Math.max(
+          0,
+          (RATES.places[`US-${st.usps}`]?.arrivalsPerResidentPerYear ??
+            RATES.national.arrivalsPerResidentPerYear) -
+            (RATES.places[`US-${st.usps}`]?.abroadPerResidentPerYear ??
+              RATES.national.abroadPerResidentPerYear),
+        ) *
         (1 - inState),
     );
     const sumOf = (xs: readonly number[]) => xs.reduce((x, y) => x + y, 0);
@@ -1113,6 +1151,27 @@ function month(api: CoreAPI): void {
       rt.arrive.set(key, (rt.arrive.get(key) ?? 0) + toCounted);
     }
   }
+  // stopgapId: SG-LIVES-abroad-arrivals-no-pull (the flow is sized by the sourced rate and does not respond to a place's pull)
+  // People from abroad: each state takes in its ACS rate of its people a year
+  // (the age mix of the nation's arrivals from abroad). They come from no
+  // state's leavers, so a state's count grows by them; the town's state sends
+  // its counted places their share to settle as households.
+  for (const st of stateList) {
+    const stateTotal =
+      st.people.reduce((a, b) => a + b, 0) + (st === home ? counted : 0);
+    const monthly = (stateTotal * abroadRate(api, st.usps)) / 12;
+    COARSE.forEach(([name], band) => {
+      const added = monthly * (RATES.national.abroadAgeShare[name] ?? 0);
+      if (st !== home) {
+        st.people[band] = st.people[band]! + added;
+        return;
+      }
+      const toCounted = stateTotal > 0 ? (added * living) / stateTotal : 0;
+      st.people[band] = st.people[band]! + added - toCounted;
+      const key = `${ABROAD}|${band}`;
+      rt.arrive.set(key, (rt.arrive.get(key) ?? 0) + toCounted);
+    });
+  }
   // 3. Whole households arrive as their people come due.
   arrivals(api, rt, residents, placePeople, agedHere, source, jobless);
 
@@ -1315,10 +1374,12 @@ function arrivals(
           // The rate its people's age leaves where they came from, and
           // from another state the pull toward this one.
           reasons: causesOf(
-            coarseRate(api.state.seed, origin!, COARSE[band]![2]),
+            origin === ABROAD
+              ? abroadRate(api, rt.townState)
+              : coarseRate(api.state.seed, origin!, COARSE[band]![2]),
             1,
             {},
-            origin === rt.townState
+            origin === rt.townState || origin === ABROAD
               ? {}
               : pullBetween(
                   api,
@@ -1394,27 +1455,53 @@ function newcomers(
   origin: string,
   source: Source,
 ): ResidentHouseholdRecord {
+  return drawHousehold(
+    api,
+    `${api.state.date}:${rt.serial}`,
+    residents,
+    template,
+    origin,
+    source,
+  );
+}
+
+/**
+ * New people drawn like a counted household: new identities, names and
+ * temperaments seeded from the world's seed and `salt` (the same salt, the
+ * same people). Arrivals (`newcomers`) draw whole households; `drawnResident`
+ * draws one member.
+ */
+function drawHousehold(
+  api: CoreAPI,
+  /** What makes these people this one draw. */
+  salt: string,
+  residents: ResidentsRuntime,
+  template: CountedHousehold,
+  origin: string,
+  source: Source,
+  /** Draw only this member of the template (a lone adult), not the household. */
+  only?: number,
+): ResidentHouseholdRecord {
   const core = api.state as CoreState;
   const store = residents.store;
-  const date = api.state.date as IsoDate;
-  const members = store.countedMembers(template);
+  const members = only === undefined ? store.countedMembers(template) : [only];
   const householdId = createStableId(
     "household",
-    `${core.seed}:${COUNTED_MOVES_MODULE_ID}:${template.id}:${date}:${rt.serial}`,
+    `${core.seed}:${COUNTED_MOVES_MODULE_ID}:${template.id}:${salt}`,
   );
   const ids = members.map((m) =>
     createStableId(
       "person",
-      `${core.seed}:${COUNTED_MOVES_MODULE_ID}:${store.ids[m]}:${date}:${rt.serial}`,
+      `${core.seed}:${COUNTED_MOVES_MODULE_ID}:${store.ids[m]}:${salt}`,
     ),
   );
   // Names come from the place's own counted people (generation is seeded).
-  const pickName = (salt: string, gender: string | undefined) => {
+  const pickName = (key: string, gender: string | undefined) => {
     const n = store.memberCount;
     for (let i = 0; i < 64; i++) {
       const m =
         Number.parseInt(
-          stableHash(`${core.seed}:${salt}:${i}`).slice(0, 8),
+          stableHash(`${core.seed}:${key}:${i}`).slice(0, 8),
           16,
         ) % n;
       if (!gender || store.text(store.genderIx[m]!) === gender) return m;
@@ -1469,6 +1556,48 @@ function newcomers(
     workCommitments: [],
     contracts: [],
   };
+}
+
+/**
+ * One person drawn like a counted resident of a place: a lone member of a
+ * counted household there, with a new identity, name and temperament seeded
+ * from the world's seed and `salt` (the same salt, the same person). Nothing
+ * is stored until the record is admitted (`admitCountedHousehold`). Callers
+ * that need a person from the wider population, who is not one of the
+ * counted records themselves, draw here.
+ */
+export function drawnResident(
+  api: CoreAPI,
+  templateHouseholdId: string,
+  templateMemberId: string,
+  salt: string,
+): ResidentHouseholdRecord | null {
+  const residents = residentsRuntime(api.state as CoreState);
+  if (!residents) return null;
+  const store = residents.store;
+  const ix = store.householdOf.get(templateHouseholdId);
+  if (ix === undefined) return null;
+  const template = store.households[ix]!;
+  const memberIx = store
+    .countedMembers(template)
+    .find((m) => store.ids[m] === templateMemberId);
+  if (memberIx === undefined) return null;
+  const source: Source = {
+    tag: "ESTIMATED",
+    asOf: api.state.date,
+    citation:
+      "Drawn from the place's counted people: a member of a household there, with a new identity and a temperament drawn from the opening's temperament model.",
+    estimatedFrom: `A seeded draw (${salt}) like the counted household ${templateHouseholdId}.`,
+  };
+  return drawHousehold(
+    api,
+    salt,
+    residents,
+    template,
+    "the wider population",
+    source,
+    memberIx,
+  );
 }
 
 /** Each state's or territory's people this month, as the counts hold them (both tiers' counted people). */

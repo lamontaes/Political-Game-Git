@@ -29,6 +29,7 @@ import { P } from "../core2/parameters";
 import { stableHash } from "../core2/kernel/ids";
 import type { CoreState, PersonId } from "../core2/types";
 import arcsFile from "./data/purpose-arcs.json" with { type: "json" };
+import { variantArc } from "./arc-variant";
 import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };
 import {
   pieceAnswers,
@@ -148,6 +149,8 @@ export interface SceneTalkLine {
   /** The situation's key (vote-wanted, favor-asked, ...). */
   key: string;
   purpose: string;
+  /** The purpose this one is a variant of, when it is one (arc-variant.ts). */
+  family?: string;
   /** How deep in the exchange it is (0 for the setup and the open). */
   round: number;
   /** On the branch the page follows first, the reply the player's traits lean toward. */
@@ -210,6 +213,8 @@ export interface TreeReply {
 export interface SceneTalk {
   typeKey: string;
   purpose: string;
+  /** The purpose this one is a variant of, when it is one (arc-variant.ts). */
+  family?: string;
   askerId: PersonId;
   askedId: PersonId;
   narration: SceneTalkLine[];
@@ -241,6 +246,11 @@ export interface SceneTalk {
 export interface PurposeType {
   key: string;
   purpose?: string;
+  /**
+   * Set when `purpose` is one of a family's variants (arc-variant.ts): the
+   * family's own purpose, whose bank pieces serve the variant where it has none.
+   */
+  family?: string;
   asker?: string;
   asked?: string;
   stakes?: readonly string[];
@@ -261,6 +271,12 @@ export interface AskStanding {
 }
 
 export interface SceneTalkCast {
+  /**
+   * The record that caused the scene. Two scenes of one kind between the same
+   * two people are told apart by it: their lines are picked on it, so a second
+   * cause never repeats the first's words.
+   */
+  causeId?: string;
   askerId: PersonId;
   /** The player's seat: whose replies are offered. */
   askedId: PersonId;
@@ -316,10 +332,15 @@ type FitUse = SceneMove;
 
 /** How closely a line's piece was written to answer this reply: 2 for that exact piece, 1 for its move, 0 for neither. */
 function linkedTo(line: SceneTalkLine, reply: SceneTalkLine): number {
-  return pieceAnswers(line.parts[zero] ?? "", line.purpose, {
-    pieceKey: reply.parts[zero] ?? "",
-    move: reply.move,
-  });
+  return pieceAnswers(
+    line.parts[zero] ?? "",
+    line.purpose,
+    {
+      pieceKey: reply.parts[zero] ?? "",
+      move: reply.move,
+    },
+    line.family,
+  );
 }
 
 /** The lines most closely written for this reply, or all of them when none is. */
@@ -457,7 +478,10 @@ export function composeSceneTalk(
   // situation the director fires has a coherent exchange.
   const purpose = type.purpose ?? "*";
   const fallback = !type.purpose;
-  const arc = type.purpose ? ARCS.purposes[type.purpose] : ARCS.keys?.[key];
+  const arc = type.purpose
+    ? (ARCS.purposes[type.purpose] ??
+      (variantArc(type.purpose) as PurposeArc | undefined))
+    : ARCS.keys?.[key];
   if (!arc)
     return {
       kind: "skipped",
@@ -477,8 +501,11 @@ export function composeSceneTalk(
   };
   const askerTraits = { ...asker.traits, ...(voice.askerTraits ?? {}) };
   const askedTraits = { ...asked.traits, ...(voice.askedTraits ?? {}) };
-  const scene = `${type.key}:${cast.askerId}:${cast.askedId}`;
-  const base = { purpose, key };
+  // The scene's own key: its cause tells it from another of the same kind
+  // between the same two people.
+  const scene = `${type.key}:${cast.askerId}:${cast.askedId}${cast.causeId ? `:${cast.causeId}` : ""}`;
+  const family = type.family;
+  const base = { purpose, key, ...(family ? { family } : {}) };
   const gaps = new Set<string>();
   const gap = (step: string, move: string, after?: string) =>
     gaps.add(`${gapLabel}/${step}/${move}${after ? ` after ${after}` : ""}`);
@@ -527,6 +554,7 @@ export function composeSceneTalk(
       ...(worded.bearing ? { bearing: worded.bearing } : {}),
       key,
       purpose,
+      ...(family ? { family } : {}),
       round: zero,
       ...(use.after ? { after: use.after } : {}),
       ...(use.outcome ? { outcome: use.outcome } : {}),
@@ -736,6 +764,7 @@ export function composeSceneTalk(
       talk: {
         typeKey: type.key,
         purpose,
+        ...(family ? { family } : {}),
         askerId: cast.askerId,
         askedId: cast.askedId,
         narration: narrate ? [narrate] : [],
@@ -949,9 +978,12 @@ export function composeSceneTalk(
   let said = addParts(none, narrate);
   // The open's move: a purpose may open on a detail ("react") instead of a greeting.
   const openMove =
-    sceneMovesWritten({ step: "open", role: "asker", purpose }).find(
-      (move) => move !== "greet",
-    ) ?? "greet";
+    sceneMovesWritten({
+      step: "open",
+      role: "asker",
+      purpose,
+      ...(family ? { family } : {}),
+    }).find((move) => move !== "greet") ?? "greet";
   // Not everyone says hello first: an asker who keeps to themself goes
   // straight to why they came.
   const blunt =

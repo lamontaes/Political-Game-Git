@@ -333,6 +333,10 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
     sectionsAmendable: bill.provisions
       .map((p, i) => (p.kind === "policy-question" ? -1 : i))
       .filter((i) => i >= 0),
+    /** The yes-or-no sections an amendment may reverse (the answer struck, its opposite inserted). */
+    sectionsReversible: bill.provisions
+      .map((p, i) => (p.kind === "policy-question" ? i : -1))
+      .filter((i) => i >= 0),
     yours: {
       sits,
       /** The player may still choose before the floor votes. */
@@ -416,14 +420,25 @@ export function moveOwnAmendment(
   const player =
     asId ?? snapshotExplicitControlV1(core).personId ?? core.playerId;
   if (!player) throw new Error("Choose a resident first.");
-  if (direction !== "lower" && direction !== "raise")
-    throw new Error("Lower or raise the section.");
+  if (direction !== "lower" && direction !== "raise" && direction !== "reverse")
+    throw new Error("Lower, raise or reverse the section.");
   const stage = billStage(core, billId, player);
   if (!stage.yours.mayChoose)
     throw new Error("You may not move an amendment on that bill now.");
   const api = coreAPI(core);
   const bill = billOf(api, billId);
   const section = bill.provisions[index];
+  if (direction === "reverse") {
+    if (section?.kind !== "policy-question")
+      throw new Error("Only a yes-or-no section can be reversed.");
+    moveAmendment(api, {
+      billId,
+      movedBy: player,
+      index,
+      with: { ...section, value: -section.value },
+    });
+    return billStage(core, billId, player);
+  }
   const today = billForm(api, bill).sections[index]?.before.value;
   if (!section || section.kind === "policy-question" || today == null)
     throw new Error("That section has no amount to move.");
@@ -468,10 +483,15 @@ export function followedBills(core: CoreState, asId?: string) {
   const higher = (officeId: string) =>
     officeId.startsWith("federal:") ||
     bodyRow(bodyOf(api, officeId)?.kind ?? "")?.legislature !== undefined;
+  // The player's own members: the state and federal officials who hold the seats that cover
+  // the place, and the town's council and the county's board (any body that is not a legislature
+  // but sits in the place's own chain, by the body table).
   const mine = new Set(
     townSeats(api).flatMap(({ office, holder }) =>
       holder &&
-      (office.kind.startsWith("legislature-") || office.kind.startsWith("us-"))
+      (office.kind.startsWith("legislature-") ||
+        office.kind.startsWith("us-") ||
+        bodyRow(office.kind) !== undefined)
         ? [memberKey(holder)]
         : [],
     ),
@@ -480,33 +500,41 @@ export function followedBills(core: CoreState, asId?: string) {
     .moduleState(LEGISLATURE)
     .table("bills")
     .rows() as unknown as BillRow[];
-  return rows
-    .filter((bill) => higher(bill.bodyOfficeId))
-    .sort(
-      (a, b) =>
-        b.introduced.localeCompare(a.introduced) || a.id.localeCompare(b.id),
-    )
-    .map((bill) => {
-      const stage = billStage(core, bill.id, asId);
-      return {
-        id: bill.id,
-        number: bill.number,
-        title: billPaper(core, bill.id).title,
-        sponsor: stage.sponsor,
-        stage: stage.stage,
-        status: stage.status,
-        floor: stage.floor.map((c) => ({
-          chamberTitle: c.chamberTitle,
-          result: c.result,
-        })),
-        mine: [...stage.floor, ...stage.override].flatMap((c) =>
-          [...c.yes, ...c.no, ...c.other]
-            .filter((v) => mine.has(v.memberId))
-            .map((v) => ({ ...v, chamberTitle: c.chamberTitle })),
-        ),
-        reachesYou: reachesTown(api, billJurisdiction(api, bill)),
-      };
-    });
+  return (
+    rows
+      // The state's and Congress's bills, and the bills of the place's own council and county board:
+      // a bill is followed when its body is a legislature or its law reaches the player's place.
+      .filter(
+        (bill) =>
+          higher(bill.bodyOfficeId) ||
+          reachesTown(api, billJurisdiction(api, bill)),
+      )
+      .sort(
+        (a, b) =>
+          b.introduced.localeCompare(a.introduced) || a.id.localeCompare(b.id),
+      )
+      .map((bill) => {
+        const stage = billStage(core, bill.id, asId);
+        return {
+          id: bill.id,
+          number: bill.number,
+          title: billPaper(core, bill.id).title,
+          sponsor: stage.sponsor,
+          stage: stage.stage,
+          status: stage.status,
+          floor: stage.floor.map((c) => ({
+            chamberTitle: c.chamberTitle,
+            result: c.result,
+          })),
+          mine: [...stage.floor, ...stage.override].flatMap((c) =>
+            [...c.yes, ...c.no, ...c.other]
+              .filter((v) => mine.has(v.memberId))
+              .map((v) => ({ ...v, chamberTitle: c.chamberTitle })),
+          ),
+          reachesYou: reachesTown(api, billJurisdiction(api, bill)),
+        };
+      })
+  );
 }
 
 /**

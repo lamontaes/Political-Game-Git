@@ -47,7 +47,7 @@ import recallAnswers from "../data/campaigns/recall-answers.json" with { type: "
 import { resolveMunicipalRecallRule } from "../gov-rules/municipal-ballot-rules";
 import type { PetitionSignatureBase } from "../gov-rules/municipal-election-rules";
 import { resolveRequiredSignatures } from "../gov-rules/municipal-election-rules";
-import { daysBetweenText as daysBetween } from "../kernel/dates";
+import { ageInYears, daysBetweenText as daysBetween } from "../kernel/dates";
 
 export const RECALLS_MODULE_ID = "core2-recalls-v1";
 
@@ -135,9 +135,7 @@ const table = (api: CoreAPI) =>
   api.moduleState(RECALLS_MODULE_ID).table("recalls");
 
 const ageOn = (p: Readonly<Pick<PersonState, "birthDate">>, date: string) =>
-  Number(date.slice(0, 4)) -
-  Number(p.birthDate.slice(0, 4)) -
-  (date.slice(5) < p.birthDate.slice(5) ? 1 : 0);
+  ageInYears(p.birthDate, date);
 
 const addDays = (date: string, days: number) =>
   new Date(Date.parse(`${date}T00:00:00Z`) + days * 86_400_000)
@@ -433,6 +431,7 @@ export function openToRecall(api: CoreAPI, term: TermRow): boolean {
 
 function weighOrdinance(api: CoreAPI, event: Readonly<CoreEventInput>): void {
   const facts = event.facts ?? {};
+  if (String(event.placeId).startsWith("national:")) return;
   if (facts.level !== "city" && facts.level !== "county") return;
   const row = api
     .moduleState(LAWS_MODULE_ID)

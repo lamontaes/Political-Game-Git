@@ -121,6 +121,30 @@ export interface CandidateReasons {
   readonly total: number;
 }
 
+/**
+ * The two-party share the president's party is expected to lose this cycle,
+ * in parts (positive loses): the country's approval of the president (all of
+ * its pull for a federal office, a share for state offices; the economy
+ * reaches the vote through it) and the midterm penalty. The
+ * one formula the count and the decision to run both read.
+ */
+export function tideAgainstPresident(
+  approvalGapPoints: number,
+  federal: boolean,
+  cycle: RaceConditions["cycle"],
+): { readonly economy: number; readonly midterm: number } {
+  const p = electorateParameter;
+  return {
+    // Positive loses: the president's party loses by how far the country's
+    // approval of the president stands below its long-run mean.
+    economy:
+      -(federal ? 1 : p("downBallotNationalShare")) *
+      p("approvalVoteShare") *
+      approvalGapPoints,
+    midterm: cycle === "midterm" ? campaignParameter("midtermSwing") : 0,
+  };
+}
+
 /** Each candidate's public standing, from their inputs and the race's conditions. */
 export function candidateReasons(
   candidate: CandidateInputs,
@@ -139,18 +163,13 @@ export function candidateReasons(
             p("spendingFloorShareOfTypical") * typical,
           ) / typical,
         );
-  // The national mood: the president's party gains or loses by how far the
-  // country's approval of the president stands from its long-run mean
-  // (the economy reaches the vote through that approval).
-  const economy = candidate.presidentsParty
-    ? (conditions.federal ? 1 : p("downBallotNationalShare")) *
-      p("approvalVoteShare") *
-      conditions.approvalGapPoints
-    : 0;
-  const midterm =
-    candidate.presidentsParty && conditions.cycle === "midterm"
-      ? -campaignParameter("midtermSwing")
-      : 0;
+  const tide = tideAgainstPresident(
+    conditions.approvalGapPoints,
+    conditions.federal,
+    conditions.cycle,
+  );
+  const economy = candidate.presidentsParty ? -tide.economy : 0;
+  const midterm = candidate.presidentsParty ? -tide.midterm : 0;
   const local =
     candidate.seatPartyHolder && conditions.town
       ? -(

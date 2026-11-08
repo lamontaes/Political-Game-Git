@@ -65,6 +65,7 @@ import {
   type TreeReply,
 } from "./scene-talk";
 import type { Fact } from "../english/scene-talk-words";
+import { chooseVariant, type VariantChoice } from "./arc-variant";
 
 /** The public-action engine's record of a rally forming (`civic.rally`). */
 const RALLY_EVENT = "civic.rally";
@@ -125,6 +126,12 @@ export interface PurposeScene {
   };
   /** What the exchange may say, each with the records it came from. */
   facts: { key: string; text: string; recordIds: string[] }[];
+  /**
+   * Which of the kind's arcs the records gave this scene (arc-variant.ts), with
+   * every variant's score and the records the reads came from; absent for a
+   * kind with one arc.
+   */
+  variant?: VariantChoice;
   talk: SceneTalk;
 }
 
@@ -938,11 +945,29 @@ function composeBinding(
     };
     facts.first = { text: asker.givenName, sourceRecordIds: [askerId] };
   }
+  // The kind's own arc, or the variant of it the records give this cause.
+  const variant = type.purpose
+    ? chooseVariant(core, {
+        family: type.purpose,
+        askerId,
+        askedId,
+        cause: {
+          id: moment.causeId,
+          date: record?.date ?? moment.date,
+          facts: said,
+        },
+        setting: binding.setting.kind,
+      })
+    : null;
+  const played =
+    variant && variant.purpose !== type.purpose
+      ? { ...type, purpose: variant.purpose, family: type.purpose }
+      : type;
   const result = composeSceneTalk(
     core,
     director,
-    { askerId, askedId },
-    type,
+    { askerId, askedId, causeId: moment.causeId },
+    played,
     facts,
     standing ? { standing } : {},
     wording,
@@ -968,6 +993,7 @@ function composeBinding(
         text: fact.text,
         recordIds: [...fact.sourceRecordIds],
       })),
+      ...(variant ? { variant } : {}),
       talk: result.talk,
     },
   };
@@ -1393,6 +1419,7 @@ export function replyInScene(
     facts: {
       typeKey: scene.typeKey,
       causeId: scene.cause.id,
+      ...(scene.variant ? { variant: scene.variant.variant } : {}),
       move: theirs ?? line.move,
       ...(theirs ? { asked: line.move } : {}),
       line: line.text,
