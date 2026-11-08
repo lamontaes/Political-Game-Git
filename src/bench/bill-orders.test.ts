@@ -37,8 +37,8 @@ describe(`an executive order the player decides (seed ${seed})`, () => {
         tried.push(`${where}: no governor to play`);
         continue;
       }
-      // Only some states let a governor restore voting rights by order.
-      if (!orderableBy(api).includes("restore-voting-after-sentence")) {
+      // Only some states let a governor order what the engine carries (voting rights, union recognition).
+      if (!orderableBy(api).length) {
         tried.push(`${where}: no order a governor may issue here`);
         continue;
       }

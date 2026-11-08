@@ -112,6 +112,19 @@ const SCHOOL_AGES = [5, 17] as const;
 const ROUTINE_ACTS = new Set(["rest", "contact-known-person"]);
 
 /**
+ * Modules that wait for a cause an ordinary year may not raise (M0-13, CTO
+ * ruling Nov 8). Each is listed only because `src/core2/forced-causes.test.ts`
+ * forces its cause in a played world and shows the module acting on it. Such a
+ * module idle in the year reads "unobserved", not broken. Every other module
+ * idle or unchanged is still broken; add a module here only with its forced test.
+ */
+const CAUSE_GATED: Record<string, string> = {
+  "core2-ballot-measures-v1": "a measure placed on a ballot",
+  "core2-estates-v1": "a person of means dying",
+  "core2-executive-v1": "an appointed post losing its holder",
+};
+
+/**
  * Assertions failing today, by the session fixing each. When a fix makes one
  * pass, remove its line here in the same PR. `byTown` marks a break that
  * shows in some towns and not others; it counts as fixed only when broken in
@@ -423,12 +436,22 @@ function playWorld(seed: string) {
   const unchanged = [...recordsAtEnd.keys()].filter(
     (id) => recordsAtEnd.get(id) === recordsAtStart.get(id),
   );
+  const gatedIdle = [...new Set([...idle, ...unchanged])].filter(
+    (id) => id in CAUSE_GATED,
+  );
+  const idleBroken = idle.filter((id) => !(id in CAUSE_GATED));
+  const unchangedBroken = unchanged.filter((id) => !(id in CAUSE_GATED));
+  const unobservedNote = gatedIdle.length
+    ? ` Unobserved (cause did not arise; a forced test proves it): ${gatedIdle.map((id) => `${id} waits for ${CAUSE_GATED[id]}`).join("; ")}.`
+    : "";
   verdicts["every module"] =
-    idle.length || unchanged.length
+    idleBroken.length || unchangedBroken.length
       ? fail(
-          `Installed modules that never ran: ${idle.join(", ") || "none"}; modules whose records never changed in ${years} year(s): ${unchanged.join(", ") || "none"}.`,
+          `Installed modules that never ran: ${idleBroken.join(", ") || "none"}; modules whose records never changed in ${years} year(s): ${unchangedBroken.join(", ") || "none"}.${unobservedNote}`,
         )
-      : pass(`all ${engines.length} engines ran and changed their records`);
+      : gatedIdle.length
+        ? unobserved(unobservedNote.trim())
+        : pass(`all ${engines.length} engines ran and changed their records`);
   const missing = [
     ...(worldRacesOpen(coreAPI(core)) ? [] : ["the world's races"]),
     ...[WORLD_LEGISLATING_MODULE_ID, OUTCOME_WEB_MODULE_ID].filter(

@@ -628,7 +628,8 @@ async function act(path) {
       else if (office.reasonKey === "office-day.desk") await atDesk();
       else if (
         office.reasonKey === "office-day.executive-order" ||
-        office.reasonKey === "office-day.emergency"
+        office.reasonKey === "office-day.emergency" ||
+        office.reasonKey === "office-day.appointment"
       )
         await atOrders();
       else if (
@@ -867,32 +868,61 @@ function atOrders() {
     const draw = (orders) => {
       if (!orders.length) return finish();
       $("desk-items").replaceChildren(
-        ...orders.map((item) =>
-          plate(
+        ...orders.map((item) => {
+          // An open cabinet post: the people it could go to, best first; left alone, the first stands.
+          let nominee = "";
+          const picker =
+            item.kind === "post"
+              ? [
+                  select({
+                    options: [
+                      { value: "", label: words["post-own"] ?? "" },
+                      ...item.candidates.map((c) => ({
+                        value: c.id,
+                        label: c.job ? `${c.name} · ${c.job}` : c.name,
+                      })),
+                    ],
+                    onChange: (value) => {
+                      nominee = value;
+                    },
+                  }),
+                ]
+              : [];
+          const kindWords = (how) =>
+            item.kind === "emergency"
+              ? words[`emergency-${how}`]
+              : item.kind === "post"
+                ? words[`post-${how}`]
+                : how === "issue" && item.revoke
+                  ? words.revoke
+                  : words[how];
+          return plate(
             item.kind === "emergency" ? words.emergency : (item.name ?? ""),
+            ...picker,
             buttonRow(
               ...["issue", "decline"].map((how) => {
                 const b = makeButton({
                   className: "action",
-                  textContent:
-                    item.kind === "emergency"
-                      ? words[`emergency-${how}`]
-                      : how === "issue" && item.revoke
-                        ? words.revoke
-                        : words[how],
+                  textContent: kindWords(how),
                 });
                 b.addEventListener("click", async () =>
                   draw(
                     await post(
-                      `/api/orders?${new URLSearchParams({ entryId: item.entryId, how })}`,
+                      `/api/orders?${new URLSearchParams({
+                        entryId: item.entryId,
+                        how,
+                        ...(item.kind === "post" && nominee
+                          ? { nomineeId: nominee }
+                          : {}),
+                      })}`,
                     ),
                   ),
                 );
                 return b;
               }),
             ),
-          ),
-        ),
+          );
+        }),
       );
     };
     const finish = () => {
