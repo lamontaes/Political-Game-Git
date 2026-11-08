@@ -22,5 +22,17 @@
     "addedAt": "2026-11-08",
     "replacement": "Detail built on open from the housing, budget and executive engines (damage, aid, the governor's and President's declarations), severity from the state's recorded spread, and the national press and approval reading the result.",
     "status": "open"
+  },
+  {
+    "id": "SG-NATION-hazard-replay",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/national-events.ts",
+    "line": 1,
+    "whatItFakes": "The country's disasters are FEMA's recorded 2000-2024 disasters replayed on their own days under one seeded starting shift, cycling every 25 years; after the record ends (Oct 9, 2026) the game does not make its own weather.",
+    "why": "The zero-dice guard allows no new draw, and the hazard calendar after the record needs a GENERATION entry in the list-pick inventory and per-county monthly hazard rates, which are not built (owner, Oct 16: both FEMA's records and the world's own conditions; after the records end, the game keeps making its own weather).",
+    "addedBy": "Nation",
+    "addedAt": "2026-11-08",
+    "replacement": "Real FEMA disasters on their real dates while the world's dates fall inside the record (through Oct 9, 2026); after that a hazard calendar generated once at world creation from each county's recorded per-hazard monthly rates (a GENERATION entry), later fed by the world's own conditions (heat, drought).",
+    "status": "open"
   }
 ]
