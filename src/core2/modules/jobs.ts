@@ -553,17 +553,30 @@ function startSeeking(
 ): void {
   if (outOfCivilianWork(api, personId)) return;
   const person = core(api).people.get(personId)!;
-  store(api).table("seekers").put({
-    id: personId,
-    isSeeker: true,
-    personId,
-    placeId: person.placeId,
-    employed,
-    since: api.state.date,
-    reasonKey,
-    referenceHourlyMinor,
-  });
-  if (!employed) {
+  // A counted seeker met and filled in is one person already out of work: their
+  // search goes on under the named row with its start, reason and pull, never a
+  // second out-of-work record beside the counted one.
+  const prior = employed
+    ? undefined
+    : (store(api).table("countedSeekers").get(personId) as
+        SeekerRow | undefined);
+  if (prior) store(api).table("countedSeekers").remove(personId);
+  store(api)
+    .table("seekers")
+    .put({
+      id: personId,
+      isSeeker: true,
+      personId,
+      placeId: person.placeId,
+      employed,
+      since: prior?.since ?? api.state.date,
+      reasonKey: prior?.reasonKey ?? reasonKey,
+      referenceHourlyMinor: prior?.referenceHourlyMinor ?? referenceHourlyMinor,
+      ...(prior?.regionalPull !== undefined
+        ? { regionalPull: prior.regionalPull }
+        : {}),
+    });
+  if (!employed && !prior) {
     store(api)
       .table("spells")
       .put({
