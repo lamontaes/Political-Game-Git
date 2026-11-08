@@ -15,7 +15,6 @@ import {
 } from "./ui/talk-box.mjs";
 import { showToast, hideToast } from "./ui/toast.mjs";
 import { mountRail } from "./ui/rail.mjs";
-import { districtMap } from "./ui/map.mjs";
 import { chamberHeader } from "./ui/chamber.mjs";
 import { memberCard } from "./ui/member-card.mjs";
 import { dateList } from "./ui/date-list.mjs";
@@ -3806,8 +3805,10 @@ const sheets = {
               testid: `options-stop-${group}`,
               on: () => kinds.every((kind) => allowed.has(kind)),
               set: async (wanted) => {
-                for (const kind of kinds)
-                  wanted ? allowed.add(kind) : allowed.delete(kind);
+                for (const kind of kinds) {
+                  if (wanted) allowed.add(kind);
+                  else allowed.delete(kind);
+                }
                 const every = allowed.size === filter.kinds.length;
                 const saved = await post(
                   `/api/scene-filter?id=${encodeURIComponent(me.id)}&kinds=${every ? "all" : [...allowed].join(",")}`,
@@ -4113,6 +4114,17 @@ const sheets = {
               2,
               labels.dates,
               dateList([
+                ...(race.filingOpens && race.filingOpens > me.date
+                  ? [
+                      {
+                        when: dateWords(race.filingOpens, {
+                          month: "short",
+                          year: me.date,
+                        }),
+                        text: labels.filingOpens,
+                      },
+                    ]
+                  : []),
                 ...(race.filingClosed
                   ? []
                   : [
@@ -4848,11 +4860,21 @@ const sheets = {
       series.includes(":")
         ? series.split(":")[1].split(".")[0]
         : (labels.issueGroupOf?.[series] ?? "fiscal");
+    // An additive tax (income) is one law per level, each at its own rate:
+    // the list names each level's rate, never their sum as one rate.
     const valueText = (law) =>
       law.text ??
-      (law.value !== null && law.value !== undefined
-        ? lawText(law, law.value, law.unit)
-        : null);
+      (law.additive
+        ? law.levels
+            .filter((l) => l.row && l.row.value !== null && !l.setAside)
+            .map(
+              (l) =>
+                `${setBy(l.level)} ${lawText(law, l.row.value, l.row.unit)}`,
+            )
+            .join(" · ") || null
+        : law.value !== null && law.value !== undefined
+          ? lawText(law, law.value, law.unit)
+          : null);
     // One law's page: what is in force at each level and since when, the statute, the
     // measure that enacted it, what is coming, what changed and how members voted.
     const lawPage = async (law) => {
@@ -5131,14 +5153,6 @@ function fitPagersNow(root, waits = 30) {
         [...part.querySelectorAll(".vote-rows .dl")].filter((v) => !v.hidden);
       while (over(part) && shown().length > 1) shown().at(-1).hidden = true;
     }
-    // The sheet still past its foot: a map gives back the difference, never
-    // below a small map (Parties' map over its officeholders).
-    const body = $("sheet-body");
-    const map = root.querySelector(".gov-map");
-    if (map && over(body)) {
-      const less = body.scrollHeight - body.clientHeight;
-      map.style.height = `${Math.max(140, map.getBoundingClientRect().height - less)}px`;
-    }
   });
 }
 // The rail over the player card: a column of round icons, News among them; it is
@@ -5275,27 +5289,86 @@ const drawSeed = () =>
 void drawSeed();
 $("seed-random").addEventListener("click", () => void drawSeed());
 /** What the player changed from real data; nothing means a real world. */
+// The world's settings, as the approved world screen draws them: a row of arrows over
+// the figure each step means (owner, Nov 8: "the figure itself in each control"). The
+// chosen step of each row is kept here; the server reads the settings it makes.
+const worldStep = {};
+function worldWords(row, value) {
+  const w = controls.worldSettings;
+  const words = (template, n) => template.replace("{n}", String(n));
+  if (row.id === "population")
+    return value === null ? w.real : words(w.people, count(value));
+  if (row.id === "lean")
+    return value === 0
+      ? w.even
+      : words(value < 0 ? w.left : w.right, Math.round(Math.abs(value) * 100));
+  if (value === 1) return w.usual;
+  const percent = Math.round(Math.abs(value - 1) * 100);
+  return words(value > 1 ? w.more : w.less, percent);
+}
+const usualStep = (row) =>
+  row.values.findIndex(
+    (v) => v === null || v === 1 || (row.id === "lean" && v === 0),
+  );
+function count(n) {
+  return new Intl.NumberFormat("en-US").format(n);
+}
+function drawWorldRows() {
+  const holder = $("world-rows");
+  if (!controls.worldSettings || !holder) return;
+  holder.replaceChildren(
+    ...controls.worldSettings.rows.map((row) => {
+      worldStep[row.id] ??= usualStep(row);
+      const at = worldStep[row.id];
+      return lookRow(
+        {
+          id: `world-${row.id}`,
+          label: row.label,
+          value: worldWords(row, row.values[at]),
+        },
+        {
+          onMove: (_id, by) => {
+            worldStep[row.id] = Math.max(
+              0,
+              Math.min(row.values.length - 1, at + by),
+            );
+            drawWorldRows();
+          },
+          arrowLabel: (by, r) =>
+            controls.creator[by < 0 ? "previous" : "next"].replace(
+              "{row}",
+              r.label.toLowerCase(),
+            ),
+        },
+      );
+    }),
+  );
+}
 function worldSettings() {
-  const read = (id) => {
-    const text = $(id).value.trim();
-    return text === "" ? undefined : Number(text);
-  };
-  const economy = Object.fromEntries(
-    [
-      ["wages", read("set-wages")],
-      ["householdCash", read("set-cash")],
-      ["outsideDemand", read("set-demand")],
-    ].filter(([, v]) => v !== undefined),
-  );
-  const politics = Object.fromEntries(
-    [
-      ["leanShift", read("set-lean")],
-      ["turnout", read("set-turnout")],
-    ].filter(([, v]) => v !== undefined),
-  );
+  const chosen = {};
+  for (const row of controls.worldSettings.rows) {
+    const value = row.values[worldStep[row.id] ?? usualStep(row)];
+    if (value !== null && value !== 1 && !(row.id === "lean" && value === 0))
+      chosen[row.id] = value;
+  }
+  const pick = (ids) =>
+    Object.fromEntries(
+      ids
+        .filter(([, id]) => chosen[id] !== undefined)
+        .map(([key, id]) => [key, chosen[id]]),
+    );
+  const economy = pick([
+    ["wages", "wages"],
+    ["householdCash", "cash"],
+    ["outsideDemand", "demand"],
+  ]);
+  const politics = pick([
+    ["leanShift", "lean"],
+    ["turnout", "turnout"],
+  ]);
   const settings = {
-    ...(read("set-population") !== undefined
-      ? { population: read("set-population") }
+    ...(chosen.population !== undefined
+      ? { population: chosen.population }
       : {}),
     ...(Object.keys(economy).length ? { economy } : {}),
     ...(Object.keys(politics).length ? { politics } : {}),
@@ -5477,7 +5550,10 @@ async function openCreator() {
   if (setup.gender) void openLook();
 }
 $("new-life").addEventListener("click", () => frontPanel("front-new"));
-$("new-advanced").addEventListener("click", () => frontPanel("front-advanced"));
+$("new-advanced").addEventListener("click", () => {
+  drawWorldRows();
+  frontPanel("front-advanced");
+});
 $("new-start").addEventListener("click", () => void openCreator());
 $("new-world").addEventListener("click", () => startLife({ custom: true }));
 $("advanced-build").addEventListener(
@@ -5776,17 +5852,8 @@ function playLoadingStory(story) {
   const panel = $("loading-story");
   const years = story?.years ?? [];
   if (!years.length) return Promise.resolve();
-  const map = $("loading-map");
   const journal = $("loading-journal");
   journal.replaceChildren();
-  map.replaceChildren(
-    ...(story.map
-      ? [districtMap(story.map, { wordHolders: (d) => d.name })]
-      : []),
-  );
-  const counties = [...map.querySelectorAll(".county")];
-  const yours = [...map.querySelectorAll(".yours")];
-  for (const node of [...counties, ...yours]) node.classList.add("unfilled");
   show("loading-story", true);
   // About six seconds in all, at most seven tenths of a second a year.
   const step = Math.min(700, 6000 / years.length);
@@ -5797,8 +5864,6 @@ function playLoadingStory(story) {
     const finish = () => {
       window.clearTimeout(timer);
       panel.removeEventListener("click", finish);
-      for (const node of [...counties, ...yours])
-        node.classList.remove("unfilled");
       $("loading-year").textContent = String(years.at(-1).year);
       resolve();
     };
@@ -5818,13 +5883,6 @@ function playLoadingStory(story) {
         ...year.lines.map((row) => prose(row.text, "loading-line")),
         ...year.headlines.map((row) => prose(row.headline, "loading-headline")),
       );
-      // The map fills in as the years pass: its share of the counties, then
-      // your districts with the last year.
-      const share = Math.ceil(((at + 1) / years.length) * counties.length);
-      for (const node of counties.slice(0, share))
-        node.classList.remove("unfilled");
-      if (at === years.length - 1)
-        for (const node of yours) node.classList.remove("unfilled");
       at += 1;
       timer = window.setTimeout(next, step);
     };
@@ -5887,6 +5945,10 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
       bar.firstElementChild.style.width = "100%";
       $("front-status").textContent = "";
     }
+    // The loading card is named for the place the world is built around (fr-loading).
+    const loadingTitle = document.querySelector("#front > .title");
+    if (loadingTitle && life.placeName)
+      loadingTitle.textContent = life.placeName;
     // The story plays to its end (or a click) before the life opens.
     await playStory();
     show("loading-story", false);
