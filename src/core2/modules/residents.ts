@@ -3039,6 +3039,17 @@ export function admitCountedHousehold(
   if (!rt) throw new Error("Residents are not admitted.");
   if (rt.store.householdOf.has(record.household.id))
     throw new Error(`Duplicate counted household: ${record.household.id}`);
+  // Newcomers bring money only when the books can take it from outside the town. Admitted before
+  // the groups' funds exist (a world still opening), they arrive with none: a fill-in would
+  // otherwise draw savings from a fund that was never given them.
+  const outsideOwner = outsideMarketOf(core, rt, record.household.placeId);
+  const arrivalApi = rt.funded && outsideOwner ? rt.api : undefined;
+  const fundsArrival = !!arrivalApi;
+  if (!fundsArrival && record.people.some((row) => row.liquidMinor > 0))
+    record = {
+      ...record,
+      people: record.people.map((row) => ({ ...row, liquidMinor: 0 })),
+    };
   const h = rt.store.addHousehold(record, {
     tenure: "other",
     unplacedWorkers: 0,
@@ -3049,16 +3060,15 @@ export function admitCountedHousehold(
   regroupHousehold(rt, h, core.date);
   // Newcomers bring their money from outside the town into their group.
   const cash = record.people.reduce((n, row) => n + row.liquidMinor, 0);
-  const outsideOwner = outsideMarketOf(core, rt, h.placeId);
-  if (rt.api && rt.funded && cash > 0 && outsideOwner)
-    transferSplit(core, rt.api, {
+  if (arrivalApi && outsideOwner && cash > 0)
+    transferSplit(core, arrivalApi, {
       id: `counted-arrival:${h.id}:${core.date}`,
       lines: [
         {
           accountId: core.cashJournal.residualAccountByOwner.get(outsideOwner)!,
           deltaMinor: -cash,
         },
-        { accountId: fundOf(rt.api, rt, h.group), deltaMinor: cash },
+        { accountId: fundOf(arrivalApi, rt, h.group), deltaMinor: cash },
       ],
       reasonKey: "residents.counted-arrival.cash",
       source: rt.input.source,
