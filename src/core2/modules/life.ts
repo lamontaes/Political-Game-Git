@@ -368,20 +368,6 @@ export const LIFE_MODULE: CoreModule = {
     },
   },
   effectHandlers: {
-    "paid-work": (api, actorId, chosen, date, days, decision) => {
-      const result = api.settleLegacyWorkResult({
-        personId: actorId,
-        offer: chosen,
-        date,
-        days,
-        decision,
-      });
-      return {
-        recordedActId: result.sourceActId,
-        recordedActivity: true,
-        recordedLastActDate: true,
-      };
-    },
     recover: (api, actorId, chosen) => {
       const actor = api.state.people.get(actorId)!;
       const affect = affectAt(
