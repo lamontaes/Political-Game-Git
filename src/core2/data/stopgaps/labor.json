@@ -134,7 +134,7 @@
     "why": "Measured Nov 8 with the pull switched off (24 months, scripts/world-proofs/jobs-24-months.ts, main 48561f2a): Algiers VT 5001035 r7 unemployment 0.2% mean with 0 layoffs and 0 hires in months 12 and 24; Utah place 4906590 n8b 0.0%, 23 zero months; North Carolina place 3755940 rnd-a 0.0%, 24 zero months; Clinton CT 0915420 r7 0.8% mean. With it: 2.3%, 1.1%, 0.5% and 4.9% and 6 to 15 layoffs a year in a 100-worker town. Deleting the pull removes the labor market's churn, not a target.",
     "addedBy": "jobs-and-economy",
     "addedAt": "2026-11-08",
-    "replacement": "Firm-level demand shocks that come from the world's own records (a customer household or firm that moves, closes, loses income or changes suppliers; a contract that ends; the season), read by the employer's staffing review (reviewEmployers: observedStaff against projected). Plan (Coordinator, Nov 8): a fractional drop in demand cuts hours first, as a sliding scale, with pay and the household's money following; whole-head separations come from discrete causes in the firm's own records (cash running out and the firm closing, the owner's age or health and a retirement or sale, a worker quitting for a better regional job, a worker's own life events). One PR each: hours, then each discrete cause. Then delete reviewTurnover and its pull table.",
+    "replacement": "Firm-level demand shocks that come from the world's own records (a customer household or firm that moves, closes, loses income or changes suppliers; a contract that ends; the season), read by the employer's staffing review (reviewEmployers: observedStaff against projected). Plan (Coordinator, Nov 8): a fractional drop in demand cuts hours first, as a sliding scale, with pay and the household's money following; whole-head separations come from discrete causes in the firm's own records (cash running out and the firm closing, the owner's age or health and a retirement or sale, a worker quitting for a better regional job, a worker's own life events). One PR each: hours, then each discrete cause. Then delete reviewTurnover and its pull table. Evidence Nov 8 that jobs-only changes do not lift the small-town flat line (24 months, scripts/world-proofs/jobs-24-months.ts, mean out-of-work share and zero months): Utah place 4906590 n8b is 0.6% with 17 zero months on main and with the age-aware find (#7720); raising jobsQuitBaseline to -2.5 left it at 0.5% and 17 zero months and took Clinton CT 0915420 r7 from 2.5% to 7.6% (peak 15.7%), and at -2.3 to 14.0%; sending a counted quitter through the entry review as a full person who left work left Utah at 17 zero months, NC 3755940 rnd-a at 15, and made Clinton erratic (13 zero months, 12% peak). The cause is upstream of the jobs engine: about 80% of a small town's firm sales are outside buyers who follow one smooth place factor (macro.ts publishConditions), so no firm's demand diverges; firm-level shocks wait on Money's national cycle and on hours cuts through api.rehourJob (#7719), then the discrete causes (closure when cash runs out, owner retirement or sale).",
     "status": "open"
   },
   {
@@ -147,6 +147,18 @@
     "addedBy": "jobs-and-economy",
     "addedAt": "2026-11-08",
     "replacement": "BLS CPS table cpsaat31 (mean and median weeks by age band) read into data/research/labor/ and fitted band by band.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LABOR-opening-band-ratios-town-mix",
+    "kind": "estimated-behavior",
+    "file": "src/core2/modules/jobs.ts",
+    "line": 1,
+    "whatItFakes": "The opening's seekers use each age band's unemployment ratio from the nation's labor force (CPS) scaled so its mean over the town's own workers is one; the region's rate already holds the county's own age mix, so the scaling should use the county's worker age mix, which the opening does not read. A town older than its county therefore opens at the county's rate, not somewhat below it.",
+    "why": "The county's worker age mix is not in the regional series the opening reads (state and county labor statistics). Before the scaling, Douglas, Michigan (2622740) opened with 17 seekers where the county's 4.72% implies 22 to 24, because 37% of its counted working-age jobs sit in the fifth age band (ratio 0.73); with the town-mix scaling it opens 20.",
+    "addedBy": "jobs-and-economy",
+    "addedAt": "2026-11-08",
+    "replacement": "Scale the band ratios so their job-weighted mean is one over the county's age mix of workers (ACS), then apply them to the town's mix; a town older than its county then opens below the county only by how much older it is.",
     "status": "open"
   }
 ]
