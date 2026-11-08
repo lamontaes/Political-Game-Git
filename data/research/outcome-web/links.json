@@ -1382,21 +1382,21 @@
     },
     {
       "key": "class-size-to-scores",
-      "status": "size-not-set",
-      "unsupportedReason": "size-not-set",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "school.test-scores",
       "strength": "moderate",
       "shape": {
         "kind": "linear"
       },
-      "size": null,
-      "per": "small vs regular class",
+      "size": 0.166,
+      "per": "small vs regular class (8.5 pupils fewer), end of grade 3, in standard deviations",
       "lagMonths": 0,
       "group": "K to 3",
       "owner": "M",
-      "anchor": "+0.22 SD after 4 years; +2 points college enrollment",
-      "source": "Krueger; Tennessee STAR",
-      "from": "school.class-size-k3",
+      "anchor": "About 4.4 percentile points higher on standardized tests at the end of grade 3 for pupils in small classes (13 to 17) than regular ones (22 to 25), a percentile standard deviation of 26 to 27 (0.166 SD); about a quarter of it remains at grade 8",
+      "source": "Krueger and Whitmore 2001, NBER w7656 (Figure 1, footnote 7); Krueger 1999, NBER w6051",
+      "from": "school.pupil-teacher-ratio",
       "evidence": "researched",
       "why": [
         "An additional teacher/classroom can make a smaller actual class feasible.",
@@ -1420,7 +1420,9 @@
       "who": "Kindergarten-through-third-grade pupils assigned to the relevant small/regular classrooms; schoolmates outside exposure are not treated.",
       "lagWhy": "The link has lag0, but the anchor describes four years of exposure. Assessments must follow the actual exposure; the cited contrast/CI is required before switch-on.",
       "aboutZero": false,
-      "notes": "Left unwired: the core records no class size. Every student of a place attends its one school district (schoolFor in src/core2/modules/school.ts), a district's teachers are jobs and counted staff, and the opening uses openingPupilTeacherRatio only to generate them, so no K-3 roster or pupil-teacher ratio exists to read. The study's +0.22 SD is for K-3 pupils in a small class against a regular one, after four years in it, while the school engine decides grade 8; once a roster is recorded, size the link by converting the standard deviations to the shift in the share above the proficiency line under a normal distribution at the place's base. Not re-pointed from school.test-scores: the study's test is a combined reading and math score and the school engine decides the two separately (decideSchoolOutcome in src/core2/school-outcomes.ts), so the row would be split by subject when the roster exists; and the size stays unset because +0.22 SD is after four years in grades K to 3, and what is left of it by grade 8 is not in the row."
+      "notes": "Carried by the school engine from the district's own teachers and pupils, no K-3 roster: the cohort stands for each grade (stopgap SG-SCHOOL-class-size-cohort). The grade 8 share kept (0.25) is read from Krueger and Whitmore's chart and text ('approximately half to one quarter'); Chetty et al. 2011 find the grade 8 test effect not significant.",
+      "range": [0.151, 0.189],
+      "carriedBy": "the school engine's math and reading tests (decideSchoolOutcome in src/core2/school-outcomes.ts), which read the district's pupil-teacher ratio from its records (pupilTeacherRatio: the tested cohort over all grades at the public share, over the district's teacher jobs) and move each eighth grader's expected share of clearing the proficiency line by the normal-density change of the shift in standard deviations (classSizeShiftSd: pupils fewer than the ratio the world opened on, as a share of the 8.5-pupil gap between small and regular classes, times this row's size, of which grade 8 keeps the researched quarter), so the web does not also run it"
     },
     {
       "key": "prek-to-graduation",
@@ -6211,7 +6213,7 @@
       "shape": {
         "kind": "linear"
       },
-      "size": 0.0000699,
+      "size": 6.99e-5,
       "per": "percent of what the place spends on natural resources",
       "lagMonths": 12,
       "group": "place",
