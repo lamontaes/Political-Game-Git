@@ -1730,9 +1730,6 @@ body:not(.dev) .dev-only {
   margin: 10px 0 0;
   width: 100%;
 }
-.calendar-side-head {
-  margin: 0 0 10px;
-}
 #sheet-body .calendar-pager .calendar-entry {
   display: grid;
   grid-template-columns: 76px 18px minmax(0, 1fr);
@@ -2534,11 +2531,6 @@ select.government-state {
   margin: -10px 0 22px;
   border-color: rgba(214, 189, 132, 0.55);
 }
-.entries-rows .entry h3 {
-  font: 600 24px var(--name);
-  color: var(--gold);
-  margin: 12px 0;
-}
 .record-place {
   font: 18px var(--speech);
   margin: 0 0 20px;
@@ -2622,18 +2614,12 @@ select.government-state {
   margin: 0;
 }
 /* The list screen (ui/list-screen.mjs): every searchable list of entries. */
-.entries-rows .entry {
-  margin: 20px 0;
-}
 details.entry summary {
   cursor: pointer;
   list-style: none;
 }
 details.entry summary::-webkit-details-marker {
   display: none;
-}
-.entries-rows .entry h3 {
-  font-size: 20px;
 }
 .entry-value {
   font: 24px var(--speech);
@@ -2687,15 +2673,6 @@ details.entry[open] {
   }
 }
 
-#sheet-body:has(.entries-cards) {
-  max-width: 1200px;
-}
-.entries-cards {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 10px 14px;
-  margin-top: 12px;
-}
 /* A pictured card: the room, its name, who is there, why it is listed. */
 .entry-go {
   display: flex;
@@ -2730,10 +2707,7 @@ details.entry[open] {
   border-color: var(--gold);
 }
 @media (max-width: 1100px) {
-  .entries-cards {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
-}
 
 /* A line marked as a gap shows it took (play-mark-gap). */
 #talk-gap.marked {
@@ -2881,34 +2855,6 @@ details.entry[open] {
 .paper-masthead {
   text-align: center;
   margin: 0;
-}
-#sheet-body .paper-masthead-name {
-  display: block;
-  width: min(100%, 760px);
-  min-height: 0;
-  margin: 0 auto;
-  padding: 0;
-  background: none;
-  border: 0;
-  box-shadow: none;
-  color: var(--paper-ink);
-  font: 700 44px/1.1 var(--name);
-  text-shadow: none;
-  letter-spacing: 0.02em;
-}
-#sheet-body .paper-masthead-name::after {
-  display: none;
-}
-#sheet-body .paper-masthead-name.engraved {
-  background-position: center;
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  font-size: clamp(18px, 2.2vw, 36px);
-  line-height: 1;
-}
-#sheet-body .paper-masthead-name:hover:not(:disabled) {
-  background: none;
-  color: var(--paper-ink);
 }
 /* The engraved masthead (art/newspaper-mockups): the paper's name in ink, set
    in the plate; the kit's engraveMasthead sizes the strip and the plate. */
@@ -3079,16 +3025,6 @@ details.entry[open] {
   background: var(--paper-blue);
   text-align: left;
 }
-#sheet-body .paper-modern .paper-masthead-name {
-  width: auto;
-  margin: 0;
-  color: #fff;
-  font: 700 34px/1.1 var(--ui);
-  letter-spacing: 0;
-}
-#sheet-body .paper-modern .paper-masthead-name:hover:not(:disabled) {
-  color: #fff;
-}
 .paper-modern .paper-dateline {
   margin-top: 0;
   border-top: 0;
@@ -3124,16 +3060,6 @@ details.entry[open] {
 .paper-tabloid .paper-masthead {
   padding: 10px 20px;
   background: var(--paper-red);
-}
-#sheet-body .paper-tabloid .paper-masthead-name {
-  width: auto;
-  color: #fff;
-  font: 800 44px/1.05 var(--ui);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-#sheet-body .paper-tabloid .paper-masthead-name:hover:not(:disabled) {
-  color: #fff;
 }
 .paper-tabloid .paper-dateline {
   justify-content: flex-end;
@@ -3250,23 +3176,6 @@ details.entry[open] {
 }
 .party-green {
   --party: #4f8a4f;
-}
-/* An issue card's value: large but wrapping inside its card, never past its
-   edge; the cards are as wide as a value needs, so a word is not cut. */
-.record-section .entries-cards {
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-}
-.entries-cards .entry .entry-value {
-  display: block;
-  font-size: 20px;
-  line-height: 1.15;
-  overflow-wrap: break-word;
-  margin: 2px 0 4px;
-}
-.entries-cards .entry .entry-line {
-  font: 13px var(--ui);
-  color: var(--text-2);
-  margin: 0;
 }
 /* A place in its own view (owner, Oct 28, point 28): the picture large across
    the top, what you do there and who works there under it, then Go. */
@@ -3585,14 +3494,6 @@ details.entry[open] {
   font: 500 12.5px var(--ui);
   color: var(--text-2);
   font-variant-numeric: tabular-nums;
-}
-
-/* A roll call: its name and date over a yes and no bar. */
-.vote-bar-label {
-  font: 600 11.5px var(--ui);
-  color: #fff;
-  white-space: nowrap;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.6);
 }
 
 /* Coming up: a gold date and what happens then. */
@@ -4068,14 +3969,6 @@ details.entry[open] {
 .money-cash {
   display: flex;
   flex-direction: column;
-}
-.money-home-picture {
-  width: 100%;
-  aspect-ratio: 5 / 2;
-  object-fit: cover;
-  border: 1px solid rgba(156, 131, 80, 0.6);
-  border-radius: 2px;
-  margin: 0 0 8px;
 }
 /* Columns side by side: each amount over its column, the month under it. */
 /* A ring of the parts of a whole, the whole in its middle, the key beside it. */
@@ -4698,13 +4591,6 @@ select.release-pick {
   margin-top: 5px;
   font: 400 14.5px var(--f-ui);
   color: var(--muted);
-}
-.strip-screen .saidtag {
-  margin-bottom: 4px;
-  font: 600 13px var(--f-ui);
-  letter-spacing: 1.3px;
-  text-transform: uppercase;
-  color: var(--gold2);
 }
 /* The bust: head to upper chest, a soft fade over its lower third and at the sides, never a hard edge. */
 .strip-screen .mxglow {

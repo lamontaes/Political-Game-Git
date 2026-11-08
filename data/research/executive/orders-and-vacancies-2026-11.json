@@ -216,6 +216,14 @@
         "https://codes.ohio.gov/ohio-revised-code/section-733.08",
         "https://www.law.cornell.edu/uscode/text/5/3345"
       ]
+    },
+    "federalActing": {
+      "rule": "A person serving as acting officer under 5 U.S.C. 3345 may serve no longer than 210 days from the date the vacancy occurs, or while a first or second nomination is pending in the Senate; a vacancy caused by sickness is excepted.",
+      "serviceDays": 210,
+      "quote": "(a) Except in the case of a vacancy caused by sickness, the person serving as an acting officer as described under section 3345 may serve in the office— (1) for no longer than 210 days beginning on the date the vacancy occurs; or (2) subject to subsection (b), once a first or second nomination for the office is submitted to the Senate, from the date of such nomination for the period that the nomination is pending in the Senate.",
+      "citation": "5 U.S.C. 3346(a)",
+      "url": "https://www.law.cornell.edu/uscode/text/5/3346",
+      "fetched": "2026-11-08"
     }
   },
   "notFound": [
