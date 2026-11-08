@@ -1,0 +1,554 @@
+{
+  "meta": {
+    "title": "Ban the box in state public hiring, starting law as of January 2025, 56 places",
+    "gatheredBy": "Legislation session research sub-agent",
+    "status": "PARTIAL: 52 of 56 places answered from fetched pages (NELP Oct 2021 guide, Collateral Consequences Resource Center 50-state comparison); Guam, American Samoa, the Northern Mariana Islands and the U.S. Virgin Islands NOT FOUND; no dated source for changes between Oct 2021 and Jan 2025; New Hampshire's sources conflict (see places). Nothing filled from memory."
+  },
+  "asOf": "2025-01",
+  "places": [
+    {
+      "place": "Alabama",
+      "answer": "no",
+      "basis": "none",
+      "citation": "",
+      "url": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncomparison-of-criminal-records-in-licensing-and-employment/",
+      "quote": "It has no law regulating consideration of conviction in public or private employment, except for a “certificate of employability”",
+      "coversPrivate": false
+    },
+    {
+      "place": "Alaska",
+      "answer": "no",
+      "basis": "none",
+      "citation": "",
+      "url": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncomparison-of-criminal-records-in-licensing-and-employment/",
+      "quote": "Alaska has no general law regulating consideration of criminal record in employment or occupational licensing.",
+      "coversPrivate": false
+    },
+    {
+      "place": "American Samoa",
+      "answer": "NOT FOUND",
+      "basis": "none",
+      "citation": "",
+      "url": "",
+      "quote": "",
+      "coversPrivate": false,
+      "note": "No source found covering American Samoa."
+    },
+    {
+      "place": "Arizona",
+      "answer": "yes",
+      "basis": "executive order",
+      "citation": "Executive Order 2017-07 (Gov. Ducey, Nov 6 2017)",
+      "url": "https://www.nelp.org/app/uploads/2021/10/Ban-the-Box-Fair-Chance-State-and-Local-Guide-Oct-2021.pdf",
+      "quote": "prohibits certain state agencies from inquiring into an applicant’s conviction or arrest history until after submission of a job application and an initial interview",
+      "coversPrivate": false
+    },
+    {
+      "place": "Arkansas",
+      "answer": "no",
+      "basis": "none",
+      "citation": "",
+      "url": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncomparison-of-criminal-records-in-licensing-and-employment/",
+      "quote": "Arkansas has no fair employment law that would generally restrict how employers consider a conviction record",
+      "coversPrivate": false,
+      "note": "Not on NELP's 2021 list of 37 states; CCRC page does not mention application-stage inquiries for Arkansas; lower confidence."
+    },
+    {
+      "place": "California",
+      "answer": "yes",
+      "basis": "statute",
+      "citation": "AB 218 (2013), Gov. Code 12952 via AB 1008 (2017); state-agency policy 2010",
+      "url": "https://www.nelp.org/app/uploads/2021/10/Ban-the-Box-Fair-Chance-State-and-Local-Guide-Oct-2021.pdf",
+      "quote": "requires public- and private-sector employers to delay any conviction background check as well as any questions about or consideration of a job applicant’s conviction history until after the employer extends a conditional offer",
+      "coversPrivate": true
+    },
+    {
+      "place": "Colorado",
+      "answer": "yes",
+      "basis": "statute",
+      "citation": "Colo. Rev. Stat. 24-5-101 (HB 12-1263, 2012); private: 8-2-130 (HB 19-1025)",
+      "url": "https://www.nelp.org/app/uploads/2021/10/Ban-the-Box-Fair-Chance-State-and-Local-Guide-Oct-2021.pdf",
+      "quote": "prohibits state agencies from performing a background check until the agency determines that the applicant is a finalist",
+      "coversPrivate": true,
+      "note": "State applications already omitted the question before 2012 (NELP commentary)."
+    },
+    {
+      "place": "Connecticut",
+      "answer": "yes",
+      "basis": "statute",
+      "citation": "Conn. Gen. Stat. 46a-80 (HB 5207, 2010); 31-51i (HB 5237, 2016)",
+      "url": "https://www.nelp.org/app/uploads/2021/10/Ban-the-Box-Fair-Chance-State-and-Local-Guide-Oct-2021.pdf",
+      "quote": "prohibits any employer—public or private—from inquiring about arrest and conviction history information on an initial employment application",
+      "coversPrivate": true
+    },
+    {
+      "place": "Delaware",
+      "answer": "yes",
+      "basis": "statute",
+      "citation": "Del. Code tit. 19 s.711(g); tit. 29 s.6909B (HB 167, 2014)",
+      "url": "https://www.nelp.org/app/uploads/2021/10/Ban-the-Box-Fair-Chance-State-and-Local-Guide-Oct-2021.pdf",
+      "quote": "prohibits public employers from inquiring into or considering criminal or credit histories of an applicant until after the completion of the first interview",
+      "coversPrivate": false
+    },
+    {
+      "place": "District of Columbia",
+      "answer": "yes",
+      "basis": "statute",
+      "citation": "Returning Citizens Public Employment Inclusion Act of 2010 (public, effective 2011); Fair Criminal Record Screening Amendment Act of 2014 (private)",
+      "url": "https://www.nelp.org/app/uploads/2021/10/Ban-the-Box-Fair-Chance-State-and-Local-Guide-Oct-2021.pdf",
+      "quote": "Returning Citizens Public Employment Inclusion Act of 2010, which went into effect in 2011 for public employers",
+      "coversPrivate": true
+    },
+    {
+      "place": "Florida",
+      "answer": "no",
+      "basis": "none",
+      "citation": "",
+      "url": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncomparison-of-criminal-records-in-licensing-and-employment/",
+      "quote": "Florida does not limit application-stage inquiries into criminal history",
+      "coversPrivate": false
+    },
+    {
+      "place": "Georgia",
+      "answer": "yes",
+      "basis": "executive order",
+      "citation": "Executive Order of Feb 23, 2015 (Gov. Deal)",
+      "url": "https://www.nelp.org/app/uploads/2021/10/Ban-the-Box-Fair-Chance-State-and-Local-Guide-Oct-2021.pdf",
+      "quote": "removed questions regarding criminal history from all applications for state employment",
+      "coversPrivate": false
+    },
+    {
+      "place": "Guam",
+      "answer": "NOT FOUND",
+      "basis": "none",
+      "citation": "",
+      "url": "",
+      "quote": "",
+      "coversPrivate": false,
+      "note": "No source found covering Guam (CCRC and NELP 50-state sources omit it; search engines returned nothing)."
+    },
+    {
+      "place": "Hawaii",
+      "answer": "yes",
+      "basis": "statute",
+      "citation": "Haw. Rev. Stat. 378-2.5 (HB 3528, 1998)",
+      "url": "https://www.nelp.org/app/uploads/2021/10/Ban-the-Box-Fair-Chance-State-and-Local-Guide-Oct-2021.pdf",
+      "quote": "prohibits employers from inquiring into an applicant’s conviction history until after a conditional offer of employment has been made",
+      "coversPrivate": true
+    },
+    {
+      "place": "Idaho",
+      "answer": "no",
+      "basis": "none",
+      "citation": "",
+      "url": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncomparison-of-criminal-records-in-licensing-and-employment/",
+      "quote": "Idaho has no law generally regulating consideration of criminal record in employment.",
+      "coversPrivate": false
+    },
+    {
+      "place": "Illinois",
+      "answer": "yes",
+      "basis": "executive order",
+      "citation": "Executive Order 1 (2013, Gov. Quinn) for state agencies; private: 820 ILCS 75 (2014)",
+      "url": "https://www.nelp.org/app/uploads/2021/10/Ban-the-Box-Fair-Chance-State-and-Local-Guide-Oct-2021.pdf",
+      "quote": "required the Illinois Bureau of Personnel … to modify the Application for State Employment (the “CMS100”) for all state employing agencies",
+      "coversPrivate": true
+    },
+    {
+      "place": "Indiana",
+      "answer": "yes",
+      "basis": "executive order",
+      "citation": "Executive Order 17-15 (Gov. Holcomb, June 29 2017)",
+      "url": "https://www.nelp.org/app/uploads/2021/10/Ban-the-Box-Fair-Chance-State-and-Local-Guide-Oct-2021.pdf",
+      "quote": "requiring the removal of “questions regarding convictions and criminal history” on job applications for positions within the state’s executive branch",
+      "coversPrivate": false
+    },
+    {
+      "place": "Iowa",
+      "answer": "no",
+      "basis": "none",
+      "citation": "",
+      "url": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncomparison-of-criminal-records-in-licensing-and-employment/",
+      "quote": "Until 2020, Iowa had no general laws limiting or regulating consideration of criminal history in employment or licensing",
+      "coversPrivate": false,
+      "note": "CCRC mentions no application-stage rule for Iowa after 2020 (licensing law only); NELP 2021 list omits Iowa."
+    },
+    {
+      "place": "Kansas",
+      "answer": "yes",
+      "basis": "executive order",
+      "citation": "Executive Order 18-12 (Gov. Colyer, May 2 2018)",
+      "url": "https://www.nelp.org/app/uploads/2021/10/Ban-the-Box-Fair-Chance-State-and-Local-Guide-Oct-2021.pdf",
+      "quote": "ensure that job applicants are not asked about their conviction or arrest records “during the initial stage of a state employment application”",
+      "coversPrivate": false
+    },
+    {
+      "place": "Kentucky",
+      "answer": "yes",
+      "basis": "executive order",
+      "citation": "Executive Order (Gov. Bevin, Feb 1 2017)",
+      "url": "https://www.nelp.org/app/uploads/2021/10/Ban-the-Box-Fair-Chance-State-and-Local-Guide-Oct-2021.pdf",
+      "quote": "removing “questions regarding convictions and criminal history” from applications for jobs within the state executive branch",
+      "coversPrivate": false
+    },
+    {
+      "place": "Louisiana",
+      "answer": "yes",
+      "basis": "statute and rule",
+      "citation": "La. R.S. 42:1701 (HB 266 / Act 398, 2016); Civil Service Rule 22.4.1 (2017)",
+      "url": "https://www.nelp.org/app/uploads/2021/10/Ban-the-Box-Fair-Chance-State-and-Local-Guide-Oct-2021.pdf",
+      "quote": "prohibits many state government employers from inquiring into an applicant’s criminal history until after the applicant has been given an opportunity to interview",
+      "coversPrivate": false,
+      "note": "Private employers get a separate 2021 fair-chance law (La. R.S. 23:291.2) that is not a ban-the-box."
+    },
+    {
+      "place": "Maine",
+      "answer": "yes",
+      "basis": "statute",
+      "citation": "Me. Rev. Stat. tit. 5, s.792 (LD 170, 2019); private/municipal: LD 1167 (2021)",
+      "url": "https://www.nelp.org/app/uploads/2021/10/Ban-the-Box-Fair-Chance-State-and-Local-Guide-Oct-2021.pdf",
+      "quote": "prohibiting questions about criminal history on applications for state government jobs",
+      "coversPrivate": true
+    },
+    {
+      "place": "Maryland",
+      "answer": "yes",
+      "basis": "statute",
+      "citation": "Md. Code, State Pers. & Pens. s.2-203 (SB 4, 2013); private: Lab. & Empl. 3-1401 to -1405 (2020)",
+      "url": "https://www.nelp.org/app/uploads/2021/10/Ban-the-Box-Fair-Chance-State-and-Local-Guide-Oct-2021.pdf",
+      "quote": "prohibits state government employers from inquiring into the criminal history of an applicant for employment until the applicant has been provided an opportunity for an interview",
+      "coversPrivate": true
+    },
+    {
+      "place": "Massachusetts",
+      "answer": "yes",
+      "basis": "statute",
+      "citation": "Mass. Gen. Laws ch.151B s.4(9 1/2) (St. 2010 c.256; amended St. 2018 c.69)",
+      "url": "https://www.nelp.org/app/uploads/2021/10/Ban-the-Box-Fair-Chance-State-and-Local-Guide-Oct-2021.pdf",
+      "quote": "employers are prohibited from using an initial written employment application to ask whether an applicant has been previously convicted",
+      "coversPrivate": true
+    },
+    {
+      "place": "Michigan",
+      "answer": "yes",
+      "basis": "executive order",
+      "citation": "Executive Directive 2018-4 (Gov. Snyder, Sept 7 2018)",
+      "url": "https://www.nelp.org/app/uploads/2021/10/Ban-the-Box-Fair-Chance-State-and-Local-Guide-Oct-2021.pdf",
+      "quote": "prohibits state departments and agencies from including questions about conviction or arrest history on job applications or job postings",
+      "coversPrivate": false
+    },
+    {
+      "place": "Minnesota",
+      "answer": "yes",
+      "basis": "statute",
+      "citation": "Minn. Stat. 364.021 (2009); extended to private by SF 523 (2013)",
+      "url": "https://www.nelp.org/app/uploads/2021/10/Ban-the-Box-Fair-Chance-State-and-Local-Guide-Oct-2021.pdf",
+      "quote": "adds section 364.021 to Minn. Stat. § 364 et seq. applying ban-the-box to public employment",
+      "coversPrivate": true
+    },
+    {
+      "place": "Mississippi",
+      "answer": "no",
+      "basis": "none",
+      "citation": "",
+      "url": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncomparison-of-criminal-records-in-licensing-and-employment/",
+      "quote": "none of the limits on application-stage inquiries for public employers that exist in numerous states",
+      "coversPrivate": false
+    },
+    {
+      "place": "Missouri",
+      "answer": "yes",
+      "basis": "executive order",
+      "citation": "Executive Order 16-04 (Gov. Nixon, Apr 11 2016)",
+      "url": "https://www.nelp.org/app/uploads/2021/10/Ban-the-Box-Fair-Chance-State-and-Local-Guide-Oct-2021.pdf",
+      "quote": "directing all departments, agencies and boards and commissions in the state’s executive branch to remove questions relating to an individual’s criminal history from initial employment applications",
+      "coversPrivate": false
+    },
+    {
+      "place": "Montana",
+      "answer": "no",
+      "basis": "none",
+      "citation": "",
+      "url": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncomparison-of-criminal-records-in-licensing-and-employment/",
+      "quote": "Montana has no law regulating consideration of criminal record in public or private employment, including the limits on application-stage inquiry by public employers",
+      "coversPrivate": false
+    },
+    {
+      "place": "Nebraska",
+      "answer": "yes",
+      "basis": "statute",
+      "citation": "Neb. Rev. Stat. 48-202 (LB 907 s.12, 2014)",
+      "url": "https://www.nelp.org/app/uploads/2021/10/Ban-the-Box-Fair-Chance-State-and-Local-Guide-Oct-2021.pdf",
+      "quote": "Public employers are prohibited from inquiring into a job applicant’s criminal history until after the employer has determined the applicant meets the minimum job requirements",
+      "coversPrivate": false
+    },
+    {
+      "place": "Nevada",
+      "answer": "yes",
+      "basis": "statute",
+      "citation": "AB 384 (2017), effective Jan 1 2018",
+      "url": "https://www.nelp.org/app/uploads/2021/10/Ban-the-Box-Fair-Chance-State-and-Local-Guide-Oct-2021.pdf",
+      "quote": "an employer may not consider the particular criminal history of an applicant until after (1) the final in-person interview or (2) a conditional offer",
+      "coversPrivate": false
+    },
+    {
+      "place": "New Hampshire",
+      "answer": "yes",
+      "basis": "statute",
+      "citation": "HB 253 (2020), effective Sept 22 2020",
+      "url": "https://www.nelp.org/app/uploads/2021/10/Ban-the-Box-Fair-Chance-State-and-Local-Guide-Oct-2021.pdf",
+      "quote": "prohibits state government employers from asking about arrest or conviction history on job applications, instead requiring them to wait until an interview",
+      "coversPrivate": false,
+      "note": "CONFLICT: CCRC's (2025) NH profile says there are 'no limits on application-stage inquiries'. NELP names HB 253; unresolved, verify against RSA text."
+    },
+    {
+      "place": "New Jersey",
+      "answer": "yes",
+      "basis": "statute",
+      "citation": "N.J.S.A. 34:6B-11 to -19 (Opportunity to Compete Act, 2014)",
+      "url": "https://www.nelp.org/app/uploads/2021/10/Ban-the-Box-Fair-Chance-State-and-Local-Guide-Oct-2021.pdf",
+      "quote": "public and private employers cannot inquire into a candidate’s criminal history until the employer has conducted the first interview",
+      "coversPrivate": true
+    },
+    {
+      "place": "New Mexico",
+      "answer": "yes",
+      "basis": "statute",
+      "citation": "N.M. Stat. 28-2-3 (SB 254, 2010); private: SB 96 (2019)",
+      "url": "https://www.nelp.org/app/uploads/2021/10/Ban-the-Box-Fair-Chance-State-and-Local-Guide-Oct-2021.pdf",
+      "quote": "public employers … prohibited from inquiring into an applicant’s conviction history on an initial employment application until an applicant has been “selected as a finalist.”",
+      "coversPrivate": true
+    },
+    {
+      "place": "New York",
+      "answer": "yes",
+      "basis": "executive/administrative policy",
+      "citation": "Executive action announced Sept 21 2015 (Gov. Cuomo)",
+      "url": "https://www.nelp.org/app/uploads/2021/10/Ban-the-Box-Fair-Chance-State-and-Local-Guide-Oct-2021.pdf",
+      "quote": "applicants for competitive positions with New York State agencies will not be required to discuss or disclose information about prior convictions until … interviewed",
+      "coversPrivate": false,
+      "note": "Policy/press release basis; statute (Correction Law Art. 23-A) covers private too but is not a ban-the-box."
+    },
+    {
+      "place": "North Carolina",
+      "answer": "yes",
+      "basis": "executive order",
+      "citation": "Executive Order No. 158 (Gov. Cooper, Aug 18 2020)",
+      "url": "https://www.nelp.org/app/uploads/2021/10/Ban-the-Box-Fair-Chance-State-and-Local-Guide-Oct-2021.pdf",
+      "quote": "prohibiting state agencies from inquiring about criminal history on employment applications",
+      "coversPrivate": false
+    },
+    {
+      "place": "North Dakota",
+      "answer": "yes",
+      "basis": "statute",
+      "citation": "HB 1282 (2019), effective Aug 1 2019",
+      "url": "https://www.nelp.org/app/uploads/2021/10/Ban-the-Box-Fair-Chance-State-and-Local-Guide-Oct-2021.pdf",
+      "quote": "prohibits public employers—including cities, counties, and agencies—from inquiring about or considering a job applicant’s criminal history until … “selected for an interview.”",
+      "coversPrivate": false
+    },
+    {
+      "place": "Northern Mariana Islands",
+      "answer": "NOT FOUND",
+      "basis": "none",
+      "citation": "",
+      "url": "",
+      "quote": "",
+      "coversPrivate": false,
+      "note": "No source found covering the CNMI."
+    },
+    {
+      "place": "Ohio",
+      "answer": "yes",
+      "basis": "administrative policy and statute",
+      "citation": "Ohio DAS policy HR-29 (June 2015); HB 56 / Ohio Fair Hiring Act (2015, eff. Mar 23 2016)",
+      "url": "https://www.nelp.org/app/uploads/2021/10/Ban-the-Box-Fair-Chance-State-and-Local-Guide-Oct-2021.pdf",
+      "quote": "prohibits all public employers, including cities and counties, from including any questions about criminal records on initial applications for employment",
+      "coversPrivate": false
+    },
+    {
+      "place": "Oklahoma",
+      "answer": "yes",
+      "basis": "executive order",
+      "citation": "Executive Order 2016-03 (Gov. Fallin, Feb 24 2016)",
+      "url": "https://www.nelp.org/app/uploads/2021/10/Ban-the-Box-Fair-Chance-State-and-Local-Guide-Oct-2021.pdf",
+      "quote": "directing all state agencies to remove questions regarding convictions and criminal history from job applications",
+      "coversPrivate": false
+    },
+    {
+      "place": "Oregon",
+      "answer": "yes",
+      "basis": "statute",
+      "citation": "2015 Or. Laws ch. 559 (HB 3025), effective Jan 1 2016",
+      "url": "https://www.nelp.org/app/uploads/2021/10/Ban-the-Box-Fair-Chance-State-and-Local-Guide-Oct-2021.pdf",
+      "quote": "prohibits an employer from inquiring about an applicant’s prior criminal convictions until the initial interview with the applicant",
+      "coversPrivate": true
+    },
+    {
+      "place": "Pennsylvania",
+      "answer": "yes",
+      "basis": "administrative policy",
+      "citation": "Admin. Policy HR-TM001 (Gov. Wolf, May 5 2017, eff. July 1 2017); Civil Service Commission to match",
+      "url": "https://www.nelp.org/app/uploads/2021/10/Ban-the-Box-Fair-Chance-State-and-Local-Guide-Oct-2021.pdf",
+      "quote": "removing questions about conviction history from job applications",
+      "coversPrivate": false
+    },
+    {
+      "place": "Puerto Rico",
+      "answer": "no",
+      "basis": "none",
+      "citation": "",
+      "url": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncomparison-of-criminal-records-in-licensing-and-employment/",
+      "quote": "Puerto Rico has no laws restricting consideration of criminal record in employment and licensing",
+      "coversPrivate": false
+    },
+    {
+      "place": "Rhode Island",
+      "answer": "yes",
+      "basis": "statute",
+      "citation": "R.I. Gen. Laws 28-5-6, 28-5-7 (HB 5507, 2013), eff. Jan 1 2014",
+      "url": "https://www.nelp.org/app/uploads/2021/10/Ban-the-Box-Fair-Chance-State-and-Local-Guide-Oct-2021.pdf",
+      "quote": "prohibits an employer from inquiring about an applicant's prior criminal convictions until the first interview with the applicant",
+      "coversPrivate": true
+    },
+    {
+      "place": "South Carolina",
+      "answer": "no",
+      "basis": "none",
+      "citation": "",
+      "url": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncomparison-of-criminal-records-in-licensing-and-employment/",
+      "quote": "South Carolina has no laws restricting how a criminal record may be considered in the employment context, including no limits on application-stage inquiries.",
+      "coversPrivate": false
+    },
+    {
+      "place": "South Dakota",
+      "answer": "no",
+      "basis": "none",
+      "citation": "",
+      "url": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncomparison-of-criminal-records-in-licensing-and-employment/",
+      "quote": "South Dakota has no laws restricting consideration of criminal record in employment, including limits on application-stage employer inquiries.",
+      "coversPrivate": false
+    },
+    {
+      "place": "Tennessee",
+      "answer": "yes",
+      "basis": "statute",
+      "citation": "SB 2440 (2016), Gov. Haslam",
+      "url": "https://www.nelp.org/app/uploads/2021/10/Ban-the-Box-Fair-Chance-State-and-Local-Guide-Oct-2021.pdf",
+      "quote": "prohibits state agencies from inquiring about criminal records on any initial application form",
+      "coversPrivate": false
+    },
+    {
+      "place": "Texas",
+      "answer": "no",
+      "basis": "none",
+      "citation": "",
+      "url": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncomparison-of-criminal-records-in-licensing-and-employment/",
+      "quote": "Texas has no laws restricting consideration of criminal record in employment, including limits on application-stage employer inquiries.",
+      "coversPrivate": false
+    },
+    {
+      "place": "Utah",
+      "answer": "yes",
+      "basis": "statute",
+      "citation": "HB 156 (2017), eff. May 8 2017",
+      "url": "https://www.nelp.org/app/uploads/2021/10/Ban-the-Box-Fair-Chance-State-and-Local-Guide-Oct-2021.pdf",
+      "quote": "prohibits public employers from requiring an applicant to disclose conviction history before an initial interview or, if no interview is conducted, before a conditional job offer",
+      "coversPrivate": false
+    },
+    {
+      "place": "Vermont",
+      "answer": "yes",
+      "basis": "executive order and statute",
+      "citation": "Executive Order 03-15 (2015); 21 V.S.A. 495j (HB 261, 2016)",
+      "url": "https://www.nelp.org/app/uploads/2021/10/Ban-the-Box-Fair-Chance-State-and-Local-Guide-Oct-2021.pdf",
+      "quote": "eliminated all criminal records inquiries from applications for state employment",
+      "coversPrivate": true
+    },
+    {
+      "place": "Virgin Islands",
+      "answer": "NOT FOUND",
+      "basis": "none",
+      "citation": "",
+      "url": "",
+      "quote": "Most public nor private employers may not ask about or consider non-conviction or sealed records.",
+      "coversPrivate": false,
+      "note": "Only non-conviction/sealed records addressed; no ban-the-box source found. Left NOT FOUND rather than guessing."
+    },
+    {
+      "place": "Virginia",
+      "answer": "yes",
+      "basis": "executive order and statute",
+      "citation": "Executive Order 41 (Gov. McAuliffe, Apr 3 2015); HB 757 (2020)",
+      "url": "https://www.nelp.org/app/uploads/2021/10/Ban-the-Box-Fair-Chance-State-and-Local-Guide-Oct-2021.pdf",
+      "quote": "requires state agencies and localities to delay inquiries about arrests, charges, and convictions until an interview of the prospective employee",
+      "coversPrivate": false
+    },
+    {
+      "place": "Washington",
+      "answer": "yes",
+      "basis": "statute",
+      "citation": "HB 1298, Fair Chance Act (2018), RCW 49.94, eff. June 7 2018",
+      "url": "https://www.nelp.org/app/uploads/2021/10/Ban-the-Box-Fair-Chance-State-and-Local-Guide-Oct-2021.pdf",
+      "quote": "banning the box for both public- and private-sector employment across Washington",
+      "coversPrivate": true
+    },
+    {
+      "place": "West Virginia",
+      "answer": "no",
+      "basis": "none",
+      "citation": "",
+      "url": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncomparison-of-criminal-records-in-licensing-and-employment/",
+      "quote": "West Virginia has no laws restricting consideration of criminal record in employment, including limits on application-stage employer inquiries.",
+      "coversPrivate": false
+    },
+    {
+      "place": "Wisconsin",
+      "answer": "yes",
+      "basis": "statute",
+      "citation": "2015 Wis. Act 150 (AB 373), signed Feb 12 2016, eff. July 1 2016",
+      "url": "https://www.nelp.org/app/uploads/2021/10/Ban-the-Box-Fair-Chance-State-and-Local-Guide-Oct-2021.pdf",
+      "quote": "precludes the state from inquiring about a person’s record on the job application and delays inquiries until the applicant is certified for the position",
+      "coversPrivate": false
+    },
+    {
+      "place": "Wyoming",
+      "answer": "no",
+      "basis": "none",
+      "citation": "",
+      "url": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncomparison-of-criminal-records-in-licensing-and-employment/",
+      "quote": "Wyoming has no laws restricting consideration of criminal record in employment, including limits on application-stage employer inquiries.",
+      "coversPrivate": false
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://www.nelp.org/app/uploads/2021/10/Ban-the-Box-Fair-Chance-State-and-Local-Guide-Oct-2021.pdf",
+      "what": "NELP, Ban the Box: Fair Chance State and Local Guide, Oct 2021 (37 states + DC; per-state citations and quotes). Snapshot Oct 2021; changes Nov 2021-Jan 2025 not independently verified."
+    },
+    {
+      "url": "https://ccresourcecenter.org/state-restoration-profiles/50-state-comparisoncomparison-of-criminal-records-in-licensing-and-employment/",
+      "what": "Collateral Consequences Resource Center 50-state comparison of criminal records in licensing and employment (current version, mentions 2025 laws); source for no-law states, PR, VI, and cross-check of yes states."
+    },
+    {
+      "url": "https://www.nelp.org/insights-research/ban-the-box-fair-chance-hiring-state-and-local-guide/",
+      "what": "NELP web page restating the 37-state list."
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Ban_the_box",
+      "what": "Wikipedia pointer only; no state-level details used."
+    }
+  ],
+  "notFound": [
+    "Guam",
+    "American Samoa",
+    "Northern Mariana Islands",
+    "Virgin Islands (no ban-the-box source found)"
+  ],
+  "caveats": [
+    "Nov 2021 to Jan 2025 state changes were not found in a dated source; CCRC (2025 text) shows no new public ban-the-box states and Alabama's 2025 law is licensing only.",
+    "New Hampshire sources conflict (NELP yes, CCRC says no application-stage limit).",
+    "Arkansas, Iowa 'no' rests on omission from NELP's list plus CCRC's silence on application-stage rules.",
+    "Several states' bans are executive orders/policies (AZ, GA, IN, KS, KY, MI, MO, NY, NC, OK, PA, VT, VA partly) and reversible by a new governor."
+  ]
+}
