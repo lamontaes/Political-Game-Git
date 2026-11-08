@@ -1144,6 +1144,11 @@
       "impactParameter": "directorPublicActionImpact"
     },
     {
+      "eventKind": "civic.rally",
+      "channel": "cause",
+      "impactParameter": "directorPublicActionImpact"
+    },
+    {
       "eventKind": "family.partnered",
       "channel": "feeling",
       "impactParameter": "directorKinUnionImpact"
