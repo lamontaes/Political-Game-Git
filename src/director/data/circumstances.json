@@ -304,6 +304,20 @@
       "everyParameter": "directorCircumstanceHallwayEveryDays"
     },
     {
+      "id": "office-doubt",
+      "recordKinds": ["civic.protest", "civic.strike"],
+      "afterDays": 1,
+      "place": "home",
+      "pool": ["own-household"],
+      "where": "pool",
+      "player": "heard-it",
+      "cast": "the day after a crowd formed against the town's term, someone the player lives with, who saw it in the player's face, scored on tie and sociability",
+      "typeKey": "office-doubt",
+      "outcome": "scene.reply",
+      "impactParameter": "directorCircumstanceHallwayImpact",
+      "everyParameter": "directorCircumstanceStreetEveryDays"
+    },
+    {
       "id": "held-known-visit",
       "recordKinds": ["justice.held-before-trial"],
       "place": "venue",
