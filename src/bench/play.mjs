@@ -28,6 +28,7 @@ import { timeline } from "./ui/timeline.mjs";
 import { makeCard } from "./ui/card.mjs";
 import { townRow } from "./ui/town-row.mjs";
 import { debateCard, speechCard } from "./ui/campaign-acts.mjs";
+import { devRunPanel } from "./ui/dev-run.mjs";
 import {
   devModeOn,
   onDevMode,
@@ -3114,6 +3115,7 @@ const sheets = {
           act(`/api/advance?mode=calendar&date=${day}`);
         },
       }),
+      devRunPanel({ labels: controls.devRun, onDone: () => refresh() }),
     ];
   },
   async news() {
