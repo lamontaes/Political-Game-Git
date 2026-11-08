@@ -12,7 +12,7 @@ import situationFile from "./data/situation-types.json" with { type: "json" };
 import sceneBank from "../../data/english/parts/scene-talk.json" with { type: "json" };
 import { heldByGrades } from "../english/english-grades";
 import { traitLean } from "../core2/choice";
-import { decisionKinds } from "../core2/trait-decisions";
+import { decisionKinds } from "../core2/trait-decision-table";
 
 // Scenes with a purpose: a setup, a person with a
 // purpose, stakes, and an exchange that plays to resolved or refused, worded

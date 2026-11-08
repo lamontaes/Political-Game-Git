@@ -246,7 +246,14 @@ function part(
     witnessIds: witnessesOf(core, ids),
   });
   // The younger of the two leaves the home (the elder kept it longer).
-  const leaver = person.birthDate > partner.birthDate ? person : partner;
+  const younger = person.birthDate > partner.birthDate ? person : partner;
+  // The player keeps their home; the other leaves.
+  const leaver =
+    younger.id === core.playerId
+      ? younger === person
+        ? partner
+        : person
+      : younger;
   const home = core.households.get(leaver.householdId);
   if (!home || home.memberIds.length < 2) return;
   api.relocatePeopleV1({
@@ -485,6 +492,9 @@ function canLeave(
   adultAge: number,
 ): boolean {
   const core = api.state as CoreState;
+  // The player's household changes only by their choice, never by the
+  // engine's move-in or split (owner's playtest, Nov 8).
+  if (mover.id === core.playerId) return false;
   const staying = (core.households.get(mover.householdId)?.memberIds ?? [])
     .filter((id) => id !== mover.id)
     .map((id) => core.people.get(id))

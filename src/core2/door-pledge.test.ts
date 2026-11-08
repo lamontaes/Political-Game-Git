@@ -546,7 +546,7 @@ describe("a door yes holds for the one household the door reached", () => {
           let evening = 0;
           evening < 30 &&
           petitionCirculating(api, f.id) &&
-          petitionOf(api, f.id)!.signers.length < petitionOf(api, f.id)!.needed;
+          petitionOf(api, f.id)!.signed < petitionOf(api, f.id)!.needed;
           evening++
         )
           knockDoors(api, {

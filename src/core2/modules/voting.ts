@@ -102,6 +102,7 @@ import {
   keepPetitionCheck,
   openPetition,
   petitionOf,
+  petitionSigners,
   type ContestRow,
   type FilingRow,
   atLargeGroup,
@@ -649,12 +650,13 @@ function checkPetition(api: CoreAPI, petitionId: string): void {
   // A counted resident who signs stands for the people like them, as at the
   // count (one rule for both tiers, times the count).
   const roll = new Map(electorateRoll(api).map((v) => [v.id, v.count]));
-  const struckIds = petition.signers
+  const signers = petitionSigners(api, filingId);
+  const struckIds = signers
     .filter((s) => !roll.has(s.personId))
     .map((s) => s.personId);
   keepPetitionCheck(api, filingId, {
     valid: Math.round(
-      petition.signers.reduce((n, s) => n + (roll.get(s.personId) ?? 0), 0),
+      signers.reduce((n, s) => n + (roll.get(s.personId) ?? 0), 0),
     ),
     struckIds,
   });

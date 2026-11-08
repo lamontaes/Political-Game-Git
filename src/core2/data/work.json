@@ -292,7 +292,6 @@
   "sleepReserveParameter": "workSleepReserveHours",
   "commitmentUrgencyParameter": "workCommitmentUrgency",
   "routineRetentionWeeksParameter": "workRoutineRetentionWeeks",
-  "discretionaryExclusions": ["paid-work"],
   "primaryActivityCrosswalk": [
     {
       "effect": "attend-recorded-work",
