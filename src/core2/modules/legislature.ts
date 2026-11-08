@@ -3913,31 +3913,18 @@ function committeeFor(bill: BillRow): string {
 }
 
 /**
- * Committee: a body larger than the committee-of-the-whole size refers the
- * bill to its subject committee. The committee is the body's most senior
- * members (longest serving; generation order breaks ties) up to its size,
- * chaired by the most senior member of the majority side. The chair holds a
- * hearing only on a bill they don't oppose; witnesses are the town's people
- * the bill touches most (for a minimum wage, workers paid under the new
- * floor), heard on the record; then the committee votes. The size is the
- * typical standing committee's (`committeeSize`); seats go by seniority
- * until leadership appoints them (SG-GOV-committee-structure).
+ * Who sits on a bill's committee in a chamber, and who chairs it: the chamber's members by seniority,
+ * seated by party ratio with the majority holding a majority of the seats, or the seats the
+ * chamber's leadership has set. Null where the chamber is small enough to be its own committee.
  */
-function committeeStage(
+function committeeSeats(
   api: CoreAPI,
   bill: BillRow,
   chamber: string,
-): CommitteeRecord | null {
+): { roster: TermRow[]; chair: TermRow } | null {
   const all = members(api, chamber);
   if (all.length <= campaignParameter("committeeOfTheWholeMaximum"))
     return null;
-  // A committee that already met on the bill (on its own day, ahead of the floor) is not convened again.
-  const met = table(api, "committees").get(
-    `committee:${bill.id}:${chamber}`,
-  ) as unknown as CommitteeRecord | undefined;
-  if (met) return met;
-  // stopgapId: SG-GOV-committee-structure
-  api.stopgap("SG-GOV-committee-structure");
   const ranked = [...all].sort(
     (a, b) =>
       (a.serviceStart ?? a.startDate).localeCompare(
@@ -3997,6 +3984,61 @@ function committeeStage(
       chair = byKey.get(seated.chairId) ?? members[0]!;
     }
   }
+  return { roster, chair };
+}
+
+/** The members who sit on a bill's committee in a chamber (none where there is no committee), as the committee will seat them. */
+export function committeeMemberKeys(
+  api: CoreAPI,
+  billId: string,
+  chamber: string,
+): readonly string[] {
+  const bill = table(api, "bills").get(billId) as unknown as BillRow;
+  return committeeSeats(api, bill, chamber)?.roster.map(memberKey) ?? [];
+}
+
+/**
+ * Committee: a body larger than the committee-of-the-whole size refers the
+ * bill to its subject committee. The committee is the body's most senior
+ * members (longest serving; generation order breaks ties) up to its size,
+ * chaired by the most senior member of the majority side. The chair holds a
+ * hearing only on a bill they don't oppose; witnesses are the town's people
+ * the bill touches most (for a minimum wage, workers paid under the new
+ * floor), heard on the record; then the committee votes. The size is the
+ * typical standing committee's (`committeeSize`); seats go by seniority
+ * until leadership appoints them (SG-GOV-committee-structure).
+ */
+/** Who else a hearing hears on a bill's question, from another engine's records (the interest groups). */
+type HearingWitnessProvider = (
+  api: CoreAPI,
+  bill: BillRow,
+  question: string,
+) => readonly { readonly personId: string; readonly stake: string }[];
+const hearingWitnessProviders: HearingWitnessProvider[] = [];
+/** An engine says who testifies on a question: the people its records show are concerned with it. */
+export function registerHearingWitnessProvider(
+  provider: HearingWitnessProvider,
+): void {
+  if (!hearingWitnessProviders.includes(provider))
+    hearingWitnessProviders.push(provider);
+}
+
+function committeeStage(
+  api: CoreAPI,
+  bill: BillRow,
+  chamber: string,
+): CommitteeRecord | null {
+  const all = members(api, chamber);
+  if (all.length <= campaignParameter("committeeOfTheWholeMaximum"))
+    return null;
+  // A committee that already met on the bill (on its own day, ahead of the floor) is not convened again.
+  const met = table(api, "committees").get(
+    `committee:${bill.id}:${chamber}`,
+  ) as unknown as CommitteeRecord | undefined;
+  if (met) return met;
+  // stopgapId: SG-GOV-committee-structure
+  api.stopgap("SG-GOV-committee-structure");
+  const { roster, chair } = committeeSeats(api, bill, chamber)!;
   const chairPosition = memberPosition(api, bill.id, memberKey(chair));
   const hearingTrait = chairHearingTrait(
     api,
@@ -4037,6 +4079,15 @@ function committeeStage(
       ),
     )
     .find((row) => row !== null);
+  // A bill that is not a wage bill is heard on its own question: the people the interest groups'
+  // records show taking a side on it, up to the hearing's size.
+  if (heard && question)
+    for (const provider of hearingWitnessProviders)
+      for (const w of provider(api, bill, question.question)) {
+        if (witnesses.length >= campaignParameter("hearingWitnesses")) break;
+        if (!witnesses.some((row) => row.personId === w.personId))
+          witnesses.push(w);
+      }
   if (heard && question && api.state.modules.has(SPEECH_MODULE_ID)) {
     const room = roster.flatMap((t) =>
       t.personId && api.state.people.get(t.personId)?.alive ? [t.personId] : [],

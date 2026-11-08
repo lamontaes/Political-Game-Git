@@ -8,6 +8,7 @@
  * Read-only views spend no game time and write nothing. Words come from the
  * English engine; this returns record data and ids only.
  */
+import billCatalogData from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
 import { moneySince, watchMoney } from "../core2/tooling/money-watch";
 import { bookkeeping } from "../core2/bookkeeping";
 import { journalCheckCounts } from "../core2/journal";
@@ -39,14 +40,18 @@ import {
   bodyRow,
   castMemberVote,
   chambersOf,
+  committeeMemberKeys,
+  committeeRecords,
   draftBill,
   executiveDecision,
+  executiveOf,
   FEDERAL_HOUSE,
   FEDERAL_SENATE,
   holdVote,
   type BillRow,
   type Provision,
   LEGISLATURE_MODULE_ID,
+  mayorVeto,
   members,
   memberKey,
 } from "../core2/modules/legislature";
@@ -54,7 +59,11 @@ import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { metricsPanel } from "../core2/modules/world-panels";
 import { nationalPanel } from "../core2/modules/macro";
 import { residentsRuntime } from "../core2/modules/residents";
-import { healthReport } from "../core2/modules/health";
+import {
+  beginSeriousIllness,
+  HEALTH_MODULE,
+  healthReport,
+} from "../core2/modules/health";
 import { snapshotExplicitControlV1 } from "../core2/player-control-state-v1";
 import type { CoreAPI, CoreState } from "../core2/types";
 import type { Director } from "../director/ledger";
@@ -63,6 +72,7 @@ import { budgetView } from "./budget";
 import { decisionPanels, type WhyPanel } from "./dev-why";
 import { newsItems } from "./calendar";
 import experiments from "./data/dev-experiments.json" with { type: "json" };
+import { SITUATION_LIBRARY } from "../director/scheduling";
 
 /** The mark every dev-mode write carries. */
 /** The events a run can stop on, each as the record kinds the game logs when it happens. */
@@ -72,9 +82,15 @@ export const RUN_EVENTS = {
   election: ["election-result"],
   death: ["life.death"],
   "law-takes-effect": ["law-took-effect"],
+  "job-lost": ["work.job-lost"],
   scene: [],
 } as const;
 export type RunEvent = keyof typeof RUN_EVENTS;
+
+/** The way a dev control brings about a cause record kind through the game's own code. */
+const SCENE_RECIPES: Readonly<Record<string, string>> = {
+  "life.death": "death",
+};
 
 export const DEV_MODE = "dev-mode";
 /** The core record kind each dev-mode change leaves. */
@@ -192,9 +208,31 @@ export function devModeMarks(core: CoreState): readonly string[] {
   return out;
 }
 
+/** Every law series and question the bill paper offers a body to pass, from the one catalog the bill paper reads. */
+const BILL_CATALOG_SERIES: readonly string[] = (
+  billCatalogData as unknown as {
+    subjects: {
+      topics: {
+        policies: { kind: string; series?: string; question?: string }[];
+      }[];
+    }[];
+  }
+).subjects.flatMap((subject) =>
+  subject.topics.flatMap((topic) =>
+    topic.policies.flatMap((policy) =>
+      policy.kind === "law-amount" && policy.series
+        ? [policy.series]
+        : policy.kind === "policy-question" && policy.question
+          ? [policy.question]
+          : [],
+    ),
+  ),
+);
+
 /** Every law series the law data knows: in force here, or in a catalog. */
 export function lawSeriesCatalog(api: CoreAPI): readonly string[] {
   const out = new Set<string>([
+    ...BILL_CATALOG_SERIES,
     ...Object.keys(LAW_SERIES),
     PUBLIC_PAY_FLOOR,
     ...Object.keys(POLICY_QUESTIONS),
@@ -720,8 +758,26 @@ export class DevMode {
     const bill = table.get(billId) as unknown as BillRow | undefined;
     if (!bill) throw new Error("No such bill.");
     const tallies: { chamber: string; yes: number; no: number }[] = [];
+    // The yes votes go first to the members who sit on the bill's committee in that chamber (where
+    // it has one), then to the most senior: a bill the chamber backs is backed in its committee
+    // too, and every stage votes through the members' own votes at the one margin.
+    const bySeniority = (
+      roster: ReturnType<typeof members>,
+      seated: ReadonlySet<string>,
+    ) =>
+      [...roster].sort(
+        (a, b) =>
+          Number(seated.has(memberKey(b))) - Number(seated.has(memberKey(a))) ||
+          (a.serviceStart ?? a.startDate).localeCompare(
+            b.serviceStart ?? b.startDate,
+          ) ||
+          memberKey(a).localeCompare(memberKey(b)),
+      );
     const vote = (chamber: string, wanted: number, override: boolean) => {
-      const roster = members(api, chamber);
+      const roster = bySeniority(
+        members(api, chamber),
+        new Set(committeeMemberKeys(api, billId, chamber)),
+      );
       const yes = Math.max(
         0,
         Math.min(roster.length, Math.round((roster.length + wanted) / 2)),
@@ -738,16 +794,31 @@ export class DevMode {
       return { chamber, yes, no: roster.length - yes };
     };
     const chambers = chambersOf(api, bill);
+    // Whether this body has an executive with a veto: a county board, or a mayor where the state
+    // gives none, signs nothing and vetoes nothing, so a sign, veto or override changes nothing there.
+    const executive = executiveOf(api, bill.bodyOfficeId);
+    const veto =
+      executive.term !== undefined &&
+      (executive.office?.kind !== "mayor" || mayorVeto(api).veto);
     for (const chamber of chambers) tallies.push(vote(chamber, margin, false));
-    if (options.overrideMargin !== undefined)
+    if (veto && options.overrideMargin !== undefined)
       for (const chamber of chambers)
         vote(chamber, options.overrideMargin, true);
-    if (options.sign !== undefined)
+    if (veto && options.sign !== undefined)
       executiveDecision(api, billId, options.sign);
     const held = holdVote(api, billId);
-    const committees = api
-      .moduleState(LEGISLATURE_MODULE_ID)
-      .table("committees");
+    const records = committeeRecords(api, billId).map((c) => ({
+      chamber: c.chamber,
+      heard: c.heard,
+      yes: c.yes,
+      no: c.no,
+      reported: c.reported,
+      // Who chairs it and why they heard the bill or held it: the chair's own position on it and what
+      // their temperament adds, as the committee recorded them (heard when the sum is not below zero).
+      chair: c.chairId,
+      chairPosition: c.chairReasons.position.total,
+      chairTrait: c.chairReasons.hearingTrait,
+    }));
     return {
       mark: this.mark("decide", [billId], {
         billId,
@@ -758,14 +829,79 @@ export class DevMode {
           : {}),
       }),
       tallies,
-      held: chambers.filter(
-        (chamber) =>
-          (
-            committees.get(`committee:${billId}:${chamber}`) as
-              { heard: boolean } | undefined
-          )?.heard === false,
-      ),
+      veto,
+      committees: records,
+      /** Chambers whose committee never reported the bill: the chair held it unheard, or it lost its vote. */
+      held: records.filter((c) => !c.reported).map((c) => c.chamber),
       bill: held,
+    };
+  }
+
+  /**
+   * A person falls seriously ill through the health module's own onset: tomorrow the onset is
+   * heard and the module sets the death date from their age and severity, then the death, the
+   * estate, the vacancy rule, the news and the funeral scene follow on their own days. Run until
+   * "A person dies" to get there.
+   */
+  forceIllness(personId: string) {
+    if (!has(this.core, HEALTH_MODULE.id))
+      throw new Error("This world has no health module.");
+    if (!beginSeriousIllness(this.api, personId))
+      throw new Error(
+        "No illness: the person is gone or has no health record.",
+      );
+    return { mark: this.mark("illness", [personId], { personId }) };
+  }
+
+  /**
+   * Every situation type the director stages, with the cause record kinds it waits on and the way a
+   * dev control can bring that cause about through the game's own code (a `recipe`), or none where no
+   * game code exists to attach to.
+   */
+  scenes() {
+    const types = SITUATION_LIBRARY.types;
+    return types.map((type) => {
+      const causeRecords = [
+        ...new Set(
+          type.causes.flatMap((c) => c.causeRecord ?? c.awaitingProducer ?? []),
+        ),
+      ];
+      const recipe =
+        causeRecords.map((kind) => SCENE_RECIPES[kind]).find(Boolean) ?? null;
+      return { key: type.key, causeRecords, recipe };
+    });
+  }
+
+  /**
+   * Brings about the cause of a situation type through the game's own code, so the director stages
+   * it as it would any moment: today, a death a person in the player's circle will hear of (the
+   * health module's illness, then Run until they die and Run until a scene fires). Where the type
+   * has no recipe there is no game code to attach to, and this says so.
+   */
+  forceScene(input: { typeKey: string; personId?: string }) {
+    const scene = this.scenes().find((row) => row.key === input.typeKey);
+    if (!scene) throw new Error("No such situation type.");
+    if (!scene.recipe)
+      throw new Error(
+        "No game code to attach to: this scene has no way in yet.",
+      );
+    const player = this.core.playerId
+      ? this.core.people.get(this.core.playerId)
+      : undefined;
+    const circle = player
+      ? [...player.familyIds, ...player.knownIds].filter(
+          (id) => id !== player.id && this.core.people.get(id)?.alive,
+        )
+      : [];
+    const personId = input.personId ?? circle[0];
+    if (!personId)
+      throw new Error("No one in the player's circle to bring it about for.");
+    const out = this.forceIllness(personId);
+    return {
+      ...out,
+      recipe: scene.recipe,
+      personId,
+      causeRecords: scene.causeRecords,
     };
   }
 
@@ -890,6 +1026,8 @@ export class DevMode {
     cap?: number;
     /** Law series or questions whose bills the members vote down each day, through castMemberVote. */
     defeat?: readonly string[];
+    /** Stop only on an event that names this person (their death, their job loss). */
+    person?: string;
   }) {
     const cap = Math.max(1, Math.min(input.cap ?? 366, 3660));
     const limit = Math.min(input.days ?? cap, cap);
@@ -925,12 +1063,24 @@ export class DevMode {
         break;
       }
       if (kinds && count() > before) {
+        const fresh = kinds
+          .flatMap((kind) => [...(this.core.logByKind.get(kind) ?? [])])
+          .filter(
+            (id) =>
+              !seen.has(id) &&
+              (!input.person ||
+                this.core.durableLog.get(id)?.personIds.includes(input.person)),
+          );
+        // Another person's event is passed over; this run waits for the one asked for.
+        if (!fresh.length) {
+          for (const id of kinds.flatMap((kind) => [
+            ...(this.core.logByKind.get(kind) ?? []),
+          ]))
+            seen.add(id);
+          continue;
+        }
         reason = "event";
-        records = kinds.flatMap((kind) =>
-          [...(this.core.logByKind.get(kind) ?? [])].filter(
-            (id) => !seen.has(id),
-          ),
-        );
+        records = fresh;
         break;
       }
     }

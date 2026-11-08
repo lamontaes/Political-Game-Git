@@ -376,6 +376,32 @@
         },
         {
           "match": {
+            "label": "feeling:event:family.partnered",
+            "counterpart": "some"
+          },
+          "bind": {
+            "receiver": "subject",
+            "about": "counterpart",
+            "bearer": "household"
+          },
+          "opener": "bearer",
+          "opening": "tell"
+        },
+        {
+          "match": {
+            "label": "feeling:event:family.separated",
+            "counterpart": "some"
+          },
+          "bind": {
+            "receiver": "subject",
+            "about": "counterpart",
+            "bearer": "household"
+          },
+          "opener": "bearer",
+          "opening": "tell"
+        },
+        {
+          "match": {
             "label": "money:job-ended",
             "counterpart": "none"
           },
@@ -5143,6 +5169,150 @@
       "tag": {
         "key": "favor-asked",
         "endpoint": "political",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
+      "key": "rally-word",
+      "note": "A rally in the town forms because the term reads well in an area, and the town's own officials are at its edge: someone in it asks the official to say a few words (the public-action engine's civic record names the area and the people in it). It has no demand, so nothing is pressed; the official can speak, thank them, promise to keep it up or let the crowd have the day.",
+      "purpose": "rally-word",
+      "asker": "neighbor",
+      "asked": "you",
+      "stakes": ["town", "thanks"],
+      "roles": [
+        {
+          "key": "neighbor",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["request", "thank", "accept", "press", "warn"],
+          "wants": ["engage"],
+          "bearing": "eager"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["agree", "thank", "promise", "deflect", "leave"],
+          "wants": ["engage", "play-safe"],
+          "bearing": "calm"
+        }
+      ],
+      "setting": ["public"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:civic.rally",
+            "counterpart": "some"
+          },
+          "causeEngine": "public-action",
+          "causeRecord": "civic.rally",
+          "bind": {
+            "neighbor": "counterpart",
+            "you": "subject"
+          },
+          "opener": "neighbor"
+        }
+      ],
+      "tag": {
+        "key": "honor",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
+      "key": "lobby-remembers",
+      "note": "A group's lobbyist made its case to the player on a bill, and the player voted the other way (the interest-group engine's lobbying meeting against the member's own vote record). Two days later the lobbyist finds them: the group remembers. How it is said, in a hint or out loud, comes from the lobbyist's own temper in the bank's bearings; nothing is rolled.",
+      "purpose": "lobby-remembers",
+      "asker": "lobbyist",
+      "asked": "you",
+      "stakes": ["vote", "group"],
+      "roles": [
+        {
+          "key": "lobbyist",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["warn", "press", "accept", "threaten"],
+          "wants": ["change"],
+          "bearing": "guarded"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["tell", "comfort", "refuse", "deflect", "leave"],
+          "wants": ["keep-same"],
+          "bearing": "calm"
+        }
+      ],
+      "setting": ["seat", "venue"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "circumstance:lobby-remembers"
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "office.voted",
+          "bind": {
+            "lobbyist": "counterpart",
+            "you": "subject"
+          },
+          "opener": "lobbyist",
+          "setting": ["seat", "venue"]
+        }
+      ],
+      "tag": {
+        "key": "threat",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
+      "key": "bribe-pressed",
+      "note": "The person whose bribe the official turned down comes back (the corruption engine's refusal record and their own reasons to press; no roll). The pressure runs from veiled to open by their temper in the bank's bearings. The official can hold the line, say they will report it, or put the talk off; what they say strains the tie.",
+      "purpose": "bribe-pressed",
+      "asker": "offerer",
+      "asked": "you",
+      "stakes": ["money", "favor", "record"],
+      "roles": [
+        {
+          "key": "offerer",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["threaten", "press", "plea", "accept", "warn"],
+          "wants": ["self-interest"],
+          "bearing": "braced"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["refuse", "confront", "deflect", "leave"],
+          "wants": ["play-safe"],
+          "bearing": "guarded"
+        }
+      ],
+      "setting": ["office", "venue"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "cause:event:corruption.bribe-pressed",
+            "counterpart": "some"
+          },
+          "causeEngine": "corruption",
+          "causeRecord": "corruption.bribe-pressed",
+          "bind": {
+            "offerer": "counterpart",
+            "you": "subject"
+          },
+          "opener": "offerer"
+        }
+      ],
+      "tag": {
+        "key": "threat",
+        "endpoint": "money",
         "registers": ["scene-talk", "scene-words"]
       }
     },

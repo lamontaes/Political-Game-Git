@@ -34,7 +34,7 @@ try {
     "dev mode is off by default",
   );
   await dock("Calendar").click();
-  await page.locator(".calendar-layout").waitFor();
+  await page.locator(".calendar-board").waitFor();
   assert.equal(await page.locator(".dev-run").isVisible(), false);
   await closeSheet();
 
@@ -58,8 +58,59 @@ try {
   );
   const ran = await page.locator(".dev-run .option-status").textContent();
   assert.match(ran, /Days passed/, ran);
+  // Scenes: the types the game can bring about are forced, the rest say there is no way in.
+  await page.locator('[data-testid="dev-scene"]').click();
+  await page.waitForFunction(
+    () => document.querySelector(".dev-scene .option-status")?.textContent,
+  );
+  assert.match(
+    await page.locator(".dev-scene .option-status").textContent(),
+    /Begun for/,
+  );
+  // Watch and the golden path, on the Calendar beside Run until.
+  await page.locator(".dev-watch").waitFor();
+  assert.ok(
+    (await page.locator(".dev-watch table").count()) >= 3,
+    "the watch and path tables are on the calendar",
+  );
   await shot("run-until");
   await closeSheet();
+
+  // A person's card, opened from a member of government: what they remember, and the health controls.
+  await dock("Politics").click();
+  await page.locator("#sheet-body .member-card").first().click();
+  await page.locator('[data-testid="dev-ill"]').waitFor();
+  assert.ok(
+    (await page.locator(".dev-memory-row").count()) >= 0,
+    "the card is open",
+  );
+  await page.locator('[data-testid="dev-ill"]').click();
+  await page.waitForFunction(() =>
+    document
+      .querySelector("#person-facts")
+      ?.textContent.includes("Seriously ill"),
+  );
+  // Their records, and the trace behind one: the person view and the trace have a home here.
+  if ((await page.locator(".dev-record-ids .id").count()) > 0) {
+    await page.locator(".dev-record-ids .id").first().click();
+    await page.locator(".dev-trace h4").waitFor();
+  }
+  // Follow them, from their card.
+  await page
+    .getByRole("button", { name: /^(Follow|Stop following)$/ })
+    .first()
+    .waitFor();
+  // What the game offers them today: a pick is their next decision.
+  if ((await page.locator('[data-testid="dev-offer"]').count()) > 0) {
+    await page.locator('[data-testid="dev-offer"]').first().click();
+    await page.waitForFunction(() =>
+      document
+        .querySelector("#person-facts")
+        ?.textContent.includes("Picked for their next decision"),
+    );
+  }
+  await shot("person");
+  await page.evaluate(() => document.getElementById("person-close").click());
 
   // Bills and Bribe on the Government tab.
   await dock("Politics").click();
@@ -96,7 +147,7 @@ try {
   await page.getByRole("button", { name: "Off", exact: true }).last().click();
   await page.keyboard.press("Escape");
   await dock("Calendar").click();
-  await page.locator(".calendar-layout").waitFor();
+  await page.locator(".calendar-board").waitFor();
   assert.equal(await page.locator(".dev-run").isVisible(), false);
 
   assert.deepEqual(errors, []);

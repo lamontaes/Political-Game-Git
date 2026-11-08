@@ -1,4 +1,4 @@
-/* global document, fetch, URLSearchParams, setTimeout, setInterval, clearInterval, window, localStorage, ResizeObserver, Image, __RELEASE_VERSION__ */
+/* global document, fetch, URLSearchParams, setTimeout, setInterval, clearInterval, window, localStorage, ResizeObserver, Image */
 // The game screen on the new core: one scene, the player card, the menus.
 // Words on screen are record data, engine text and control names only.
 import { makeButton, buttonRow, buttonTray } from "./ui/button.mjs";
@@ -30,7 +30,11 @@ import { townRow } from "./ui/town-row.mjs";
 import { debateCard, speechCard } from "./ui/campaign-acts.mjs";
 import { devBribePanel } from "./ui/dev-bribe.mjs";
 import { devBillsPanel } from "./ui/dev-bills.mjs";
+import { devRecordsSection } from "./ui/dev-records.mjs";
+import { devPersonSection } from "./ui/dev-person.mjs";
 import { devMemorySection } from "./ui/dev-memory.mjs";
+import { devWatchSections } from "./ui/dev-watch.mjs";
+import { devScenePanel } from "./ui/dev-scene.mjs";
 import { devRunPanel } from "./ui/dev-run.mjs";
 import {
   devModeOn,
@@ -38,16 +42,14 @@ import {
   restoreDevMode,
   setDevMode,
 } from "./ui/dev-setting.mjs";
-import { listRow, personRow, factRow, noteLine } from "./ui/list-row.mjs";
+import { listRow, factRow, noteLine } from "./ui/list-row.mjs";
 import { fillArtwork, picture as pictureFrame } from "./ui/picture.mjs";
-import { columnChart, donutChart } from "./ui/chart.mjs";
 import { select, searchBox, optionsOf, numberBox } from "./ui/fields.mjs";
 import { lookRow } from "./ui/look-row.mjs";
 import { termWord } from "./ui/term.mjs";
 import { watchTerms } from "./ui/term-mark.mjs";
-import { journalPage } from "./ui/journal-page.mjs";
 import { recordScreen } from "./ui/screen.mjs";
-import { listScreen, listEntry } from "./ui/list-screen.mjs";
+import { listEntry } from "./ui/list-screen.mjs";
 import { roomPeople, clockLines } from "./ui/room.mjs";
 import { calendarScreen } from "./ui/calendar.mjs";
 import {
@@ -59,6 +61,9 @@ import {
 } from "../english/plain-words.mjs";
 /** A government's sum in a readable unit ("$5.2 trillion", "$48,300"). */
 const roundedMoney = (minor) => moneyWords(minor, { rounded: true });
+import { newsBoard } from "./ui/news-board.mjs";
+import { guideScreen } from "./ui/guide-screen.mjs";
+import { travelScreen } from "./ui/travel-screen.mjs";
 import { peopleWeb } from "./ui/people-web.mjs";
 import { billPaper } from "./ui/bill-paper.mjs";
 import { billStageSections } from "./ui/bill-stage.mjs";
@@ -66,7 +71,6 @@ import { meetingItem } from "./ui/meeting-item.mjs";
 import { draftCard } from "./ui/draft-card.mjs";
 import { bold, line, prose, heading, labeled, smallText } from "./ui/text.mjs";
 import {
-  newspaperScreen,
   engraveMasthead,
   readerBody,
   readerMore,
@@ -83,6 +87,8 @@ import {
   stripBoard,
   typedRow,
   departmentRow,
+  journalScreen,
+  moneyBoard,
   settingRow,
   quitButton,
   optionsBoard,
@@ -107,14 +113,6 @@ async function api(path, method = "GET") {
   const value = await response.json();
   if (!response.ok) throw new Error(value.error);
   return value;
-}
-/** `v` and the release number: the bundler's define when built, else the server's. */
-async function displayVersion() {
-  const number =
-    typeof __RELEASE_VERSION__ === "string"
-      ? __RELEASE_VERSION__
-      : (await api("/api/version")).version;
-  return `v${number}`;
 }
 const post = (path) => api(path, "POST");
 /** The player card's date, and the time under it: the only place either appears. */
@@ -558,8 +556,14 @@ async function renderJournalNote() {
   $("journal-line").textContent = line;
   // A new line is a toast: it holds, fades and goes, or goes at once on its close.
   if (!line) hideToast($("journal-note"));
-  else if (line !== shownJournalLine)
+  else if (line !== shownJournalLine) {
     showToast($("journal-note"), controls.opening?.newsToastSeconds ?? 8);
+    // A new line since the Journal was last open: a dot on its icon until it is read.
+    if (shownJournalLine && openTab !== "journal")
+      document
+        .querySelector('#rings [data-tab="journal"]')
+        ?.classList.add("unread");
+  }
   shownJournalLine = line;
 }
 async function refresh(scene = {}) {
@@ -2075,6 +2079,18 @@ async function showPerson(person) {
       })
     : null;
   if (memory) secondColumn.push(memory);
+  if (devModeOn())
+    secondColumn.push(
+      await devRecordsSection({
+        personId: person.personId,
+        labels: controls.devRecords,
+      }),
+      await devPersonSection({
+        personId: person.personId,
+        labels: controls.devPerson,
+        onDone: () => refresh(),
+      }),
+    );
   if (request !== personRequest) return;
   $("person-facts").replaceChildren(
     stripScreen({
@@ -2825,10 +2841,11 @@ const sheets = {
       asked > paid
         ? `${moneyWords(paid)} ${labels.loanPaid} · ${moneyWords(asked - paid)} ${labels.unpaid}`
         : moneyWords(paid);
-    // Money on framed plates: the cash in large type with
-    // each month's review as columns under it, where last month went as a
-    // ring, and the home, what you own and what you owe as small plates
-    // beside it. Every figure is a record's own; nothing scrolls.
+    // Money as the Nov 8 play mock draws it (pl-money): strips of typed rows with dot leaders,
+    // never charts. My money (the cash in large type, then each month's balance), what went
+    // out last month, what I own and what I owe, and what comes out of my pay. Every figure
+    // is a record's own; a ledger line per day and the campaign's money (in the mock) wait on
+    // records the bank does not serve yet.
     const shortMonth = (date) =>
       (MONTH_NAMES[Number(String(date).slice(5, 7)) - 1] ?? "").slice(0, 3);
     const months = [...(bank?.cash?.months ?? [])].reverse();
@@ -2851,111 +2868,81 @@ const sheets = {
     const shared = (me.card.home?.members ?? []).length > 0;
     const homeValue = bank?.assets?.find((a) => a.kind === "home")?.valueMinor;
     const owned = (bank?.assets ?? []).filter((a) => a.kind !== "home");
-    const unpaid = spent.filter((part) => part.unpaid > 0);
-    const cash = plate(
-      bank?.name ? `${labels.cash} · ${bank.name}` : labels.cash,
-      line(roundedMoney(me.card.liquidMinor), "money-figure"),
-      ...(months.length
-        ? [
-            columnChart(
-              months.map((m) => ({
-                label: shortMonth(m.date),
-                value: m.cashMinor,
-              })),
-              shared ? labels.householdCashByMonth : labels.cashByMonth,
-              roundedMoney,
-            ),
-          ]
-        : []),
-    );
-    cash.classList.add("money-cash");
-    const home = dwelling && {
-      title: me.card.age < 18 ? labels.householdHome : labels.home,
-      nodes: [
-        ...(dwelling.presentation?.imageUrl
-          ? [
-              pictureFrame({
-                src: dwelling.presentation.imageUrl,
-                className: "money-home-picture",
-              }),
-            ]
-          : []),
-        factPlates([
-          {
-            title: dwelling.tenure === "own" ? labels.owned : labels.rented,
-            value: words(dwelling.kind ?? ""),
-            // A home you own is worth its value; one you rent costs its rent.
-            note:
-              dwelling.tenure === "own" && homeValue
-                ? `${labels.worth} ${roundedMoney(homeValue)}`
-                : dwelling.rentMinor !== undefined
-                  ? `${labels.rent} ${roundedMoney(dwelling.rentMinor)} ${labels.monthly}`
-                  : "",
-          },
-        ]),
-      ],
+    const homeRow = dwelling && {
+      label: dwelling.tenure === "own" ? labels.owned : labels.rented,
+      value:
+        dwelling.tenure === "own" && homeValue
+          ? roundedMoney(homeValue)
+          : dwelling.rentMinor !== undefined
+            ? `${roundedMoney(dwelling.rentMinor)} ${labels.monthly}`
+            : words(dwelling.kind ?? ""),
     };
+    const ownRows = [
+      ...(homeRow ? [homeRow] : []),
+      ...owned.map((asset) => ({
+        label:
+          asset.kind === "savings" && bank.name
+            ? `${labels.assetKinds.savings} · ${bank.name}`
+            : labels.assetKinds[asset.kind],
+        value: roundedMoney(asset.valueMinor),
+      })),
+    ];
+    const debtRows = (bank?.debts ?? []).map((debt) => ({
+      label: named(labels.debtKinds, debt.kind),
+      value:
+        debt.pastDueMinor > 0
+          ? `${roundedMoney(debt.owedMinor)} · ${roundedMoney(debt.pastDueMinor)} ${labels.pastDue}`
+          : roundedMoney(debt.owedMinor),
+    }));
     return [
-      splitScreen({
-        main: [
-          cash,
-          ...(home ? [plate(home.title, ...home.nodes)] : []),
-          ...(deductions.length
-            ? [
-                plate(
-                  labels.deductions,
-                  ...deductions.map(([name, value]) =>
-                    row(words(name), moneyWords(value)),
-                  ),
-                ),
-              ]
-            : []),
-        ],
-        side: [
-          spent.length && {
-            title: `${shared ? labels.householdLastMonth : labels.lastMonth} · ${roundedMoney(spentTotal)}`,
-            nodes: [
-              donutChart(spent, roundedMoney(spentTotal), labels.lastMonth),
-              // A bill left unpaid is said, never folded into the ring.
-              ...unpaid.map((part) =>
-                row(
-                  part.label,
-                  owedWords(part.value, part.value + part.unpaid),
-                ),
-              ),
-            ],
-          },
-          owned.length && {
-            title: labels.assets,
-            nodes: [
-              factPlates(
-                owned.map((asset) => ({
-                  title:
-                    asset.kind === "savings"
-                      ? `${labels.assetKinds.savings} · ${bank.name}`
-                      : labels.assetKinds[asset.kind],
-                  value: roundedMoney(asset.valueMinor),
-                })),
-              ),
-            ],
-          },
-          bank?.debts?.length && {
-            title: labels.debts,
-            nodes: [
-              factPlates(
-                bank.debts.map((debt) => ({
-                  title: named(labels.debtKinds, debt.kind),
-                  value: roundedMoney(debt.owedMinor),
-                  note:
-                    debt.pastDueMinor > 0
-                      ? `${roundedMoney(debt.pastDueMinor)} ${labels.pastDue}`
-                      : "",
-                })),
-              ),
-            ],
-          },
-        ].filter(Boolean),
-        className: "money-screen",
+      moneyBoard({
+        columns: [
+          [
+            {
+              title: bank?.name ? `${labels.cash} · ${bank.name}` : labels.cash,
+              figure: roundedMoney(me.card.liquidMinor),
+              rows: months.map((m) => ({
+                label: shortMonth(m.date),
+                value: roundedMoney(m.cashMinor),
+              })),
+            },
+          ],
+          [
+            ...(spent.length
+              ? [
+                  {
+                    title: `${shared ? labels.householdLastMonth : labels.lastMonth} · ${roundedMoney(spentTotal)}`,
+                    rows: spent.map((part) => ({
+                      label: part.label,
+                      value:
+                        part.unpaid > 0
+                          ? owedWords(part.value, part.value + part.unpaid)
+                          : roundedMoney(part.value),
+                    })),
+                  },
+                ]
+              : []),
+            ...(deductions.length
+              ? [
+                  {
+                    title: labels.deductions,
+                    rows: deductions.map(([name, value]) => ({
+                      label: words(name),
+                      value: moneyWords(value),
+                    })),
+                  },
+                ]
+              : []),
+          ],
+          [
+            ...(ownRows.length
+              ? [{ title: labels.assets, rows: ownRows }]
+              : []),
+            ...(debtRows.length
+              ? [{ title: labels.debts, rows: debtRows }]
+              : []),
+          ],
+        ].filter((column) => column.length),
       }),
     ];
   },
@@ -3025,10 +3012,16 @@ const sheets = {
     // part of it (owner, Oct 27: "written like a story, not individual sections... from
     // birth"; "remove all those subheadings").
     return [
-      journalPage({
+      journalScreen({
         chapters,
         labels: controls.journal,
         yearOf: (iso) => iso.slice(0, 4),
+        rows: Math.max(4, Math.floor((window.innerHeight - 360) / 54)),
+        words: {
+          page: controls.politics.page,
+          previous: controls.politics.previousPage,
+          next: controls.politics.nextPage,
+        },
       }),
     ];
   },
@@ -3259,6 +3252,22 @@ const sheets = {
         },
       }),
       devRunPanel({ labels: controls.devRun, onDone: () => refresh() }),
+      ...(devModeOn()
+        ? [
+            await devWatchSections({
+              labels: controls.devWatch,
+              playerId: me.id,
+            }),
+          ]
+        : []),
+      ...(devModeOn()
+        ? [
+            await devScenePanel({
+              labels: controls.devScene,
+              onDone: () => refresh(),
+            }),
+          ]
+        : []),
     ];
   },
   async news() {
@@ -3284,12 +3293,16 @@ const sheets = {
         stories: [],
       });
     return [
-      ...newspaperScreen({
+      newsBoard({
         outlets,
         labels,
         date: me.date,
         headlineOf: storyHeadline,
-        photoOf: storyPhoto,
+        words: {
+          page: controls.politics.page,
+          previous: controls.politics.previousPage,
+          next: controls.politics.nextPage,
+        },
       }),
     ];
   },
@@ -3298,92 +3311,24 @@ const sheets = {
   // two across, and the chosen term's article beside them; the search narrows
   // the cards as it is typed.
   async guide() {
-    let terms = await api(`/api/guide?q=${encodeURIComponent(guideQuery)}`);
-    let chosen = terms[0]?.key;
-    const cards = plate(null);
-    const article = plate(null);
-    article.classList.add("pick-article");
-    const drawArticle = () => {
-      const t = terms.find((term) => term.key === chosen) ?? terms[0];
-      // The chosen card is marked, as a chosen tab is.
-      for (const card of cards.querySelectorAll("[data-term]"))
-        card.classList.toggle("on", card.dataset.term === t?.key);
-      article.replaceChildren(
-        ...(t
-          ? [
-              heading(t.term, "h3"),
-              prose(t.short, "guide-short"),
-              ...[t.explanation, t.contextNote]
-                .filter(Boolean)
-                .map((text) => prose(text, "article-text")),
-            ]
-          : []),
-      );
-    };
-    const drawCards = () => {
-      cards.replaceChildren(
-        terms.length
-          ? pager({
-              items: terms.map((t) => ({
-                title: t.term,
-                lede: t.short,
-                label: t.term,
-                onSelect: () => {
-                  chosen = t.key;
-                  drawArticle();
-                },
-                data: { term: t.key },
-              })),
-              render: listEntry,
-              rows: Math.max(
-                3,
-                Math.min(8, Math.floor((window.innerHeight - 300) / 76)),
-              ),
-              columns: 2,
-              rowHeight: 68,
-              gap: 8,
-              words: {
-                page: controls.politics.page,
-                previous: controls.politics.previousPage,
-                next: controls.politics.nextPage,
-              },
-              className: "pick-cards",
-            })
-          : prose(controls.guide.none ?? "", "record-empty"),
-      );
-    };
-    const search = searchBox({
-      value: guideQuery,
-      placeholder: controls.guide.search,
-      onInput: async (text) => {
+    const terms = await api(`/api/guide?q=${encodeURIComponent(guideQuery)}`);
+    return guideScreen({
+      terms,
+      query: guideQuery,
+      labels: controls.guide,
+      words: {
+        page: controls.politics.page,
+        previous: controls.politics.previousPage,
+        next: controls.politics.nextPage,
+      },
+      onSearch: async (text) => {
         guideQuery = text;
         const found = await api(`/api/guide?q=${encodeURIComponent(text)}`);
         // A slower answer to an older query never replaces a newer one.
-        if (text !== guideQuery) return;
-        terms = found;
-        if (!terms.some((t) => t.key === chosen)) chosen = terms[0]?.key;
-        drawCards();
-        drawArticle();
+        return text === guideQuery ? found : null;
       },
+      onReset: resetLearned,
     });
-    search.setAttribute("aria-label", controls.guide.search ?? "");
-    drawCards();
-    drawArticle();
-    return [
-      splitScreen({
-        controls: [
-          search,
-          makeButton({
-            className: "action small",
-            textContent: controls.guide.resetLearned,
-            onclick: resetLearned,
-          }),
-        ],
-        main: [cards],
-        side: [{ title: null, nodes: [article] }],
-        className: "guide-screen",
-      }),
-    ];
   },
   /**
    * The title's Patch notes, as the Nov 8 front mock draws it (fr-notes): the builds in a
@@ -3582,154 +3527,76 @@ const sheets = {
       organizationId: part.filing.id,
     }));
     const destinations = [...trails, ...counters, ...places];
-    // Why each card is listed, from the player's own record: where they work,
-    // what they can do there, where they serve, where they file. Never what
-    // someone they know does there (owner, Oct 28, point 27: "things do not
-    // pop up because someone the player knows does them").
-    const OWN = new Set(["work", "action", "serve"]);
-    const reasonLine = (p) =>
-      p.trail
-        ? ""
-        : p.filing
-          ? labels.reasons.filing
-          : p.reasons
-              .filter((r) => OWN.has(r.kind))
-              .map((r) =>
-                r.kind === "action"
-                  ? `${labels.reasons.action} ${(controls.actions?.[r.recordId] ?? "").toLowerCase()}`
-                  : labels.reasons[r.kind],
-              )
-              .join(" · ");
-    // Open while someone works there now, by their own hours; else closed.
-    const hereLine = (p) =>
-      p.trail
-        ? (p.trail.contest?.title ?? "")
-        : p.filing
-          ? labels.filing
-          : p.presentCount
-            ? `${labels.open} · ${p.presentNames.join(", ")}`
-            : labels.closed;
-    // A card opens the place's own view: its picture, what you do there, who
-    // works there, then Go (owner, Oct 28, point 28).
-    const showPlace = async (p) => {
-      if (p.trail) return trailView(p.trail);
-      // An office keeps its clerk's hours: the card says when it next opens.
+    // What you can do at a place is the core's own offers for it: bare action names.
+    const doHere = (p) =>
+      p.trail || p.filing
+        ? []
+        : p.reasons
+            .filter((r) => r.kind === "action")
+            .map((r) => controls.actions?.[r.recordId] ?? "")
+            .filter(Boolean);
+    const town = me.placeName.split(",")[0];
+    const groupOf = (p) =>
+      p.trail ? labels.groupTrail : p.filing ? labels.groupFiling : town;
+    // A place's detail loads when it is chosen: an office keeps its clerk's hours.
+    const detailOf = (p) => async () => {
       const hours = p.filing
         ? await api(
             `/api/filing/hours?filedWith=${encodeURIComponent(p.filedWith)}`,
           )
         : {};
-      const picture = p.presentation?.imageUrl;
       const opensLine = hours.opens
         ? labels.opensAt
             .replace("{day}", dateWords(hours.opens.date, { weekday: true }))
             .replace("{time}", timeWords(hours.opens.minuteOfDay))
         : "";
-      // A filing office says what you do there in a sentence, never a list of
-      // seats by their holders' names (owner, Nov 1: "It says what you do
-      // here. And then it's just a list of people's names."); the clerk asks
-      // which race at the counter.
-      const doHere = p.filing
-        ? [...(opensLine ? [{ text: opensLine }] : [])]
-        : reasonLine(p)
-          ? reasonLine(p)
-              .split(" · ")
-              .map((text) => ({ text }))
-          : [];
-      // The counter's role, from the office's record ("(counter: director)").
-      const role = p.filing
-        ? (p.filedWith.match(/\(counter: ([^)]*)\)/)?.[1] ?? "")
-        : "";
       const known = new Set((p.known ?? []).map((k) => k.name));
-      const people = p.filing
-        ? role
-          ? [{ text: words(role) }]
-          : []
-        : [
-            ...(p.known ?? []).map((k) => ({
-              node: personRow({
-                name: k.name,
-                onOpen: () => {
-                  closeSheet();
-                  showPerson({ personId: k.personId });
-                },
-              }),
-            })),
-            ...p.presentNames
-              .filter((name) => !known.has(name))
-              .map((name) => ({ text: name })),
-            ...(p.staff
-              ? [{ text: `${p.staff} ${labels.staff}`, tone: "small" }]
-              : []),
-          ];
-      const go = {
-        actions: [
-          {
-            label: labels.go,
-            testid: "place-go",
-            onClick: () =>
-              p.filing ? openFiling(p.filedWith) : visit(p.organizationId),
+      const who = peopleSentence([
+        ...(p.known ?? []).map((k) => ({
+          name: k.name,
+          onOpen: () => {
+            closeSheet();
+            showPerson({ personId: k.personId });
           },
-        ],
+        })),
+        ...p.presentNames
+          .filter((name) => !known.has(name))
+          .map((name) => ({ name })),
+      ]);
+      return {
+        openLabel: labels.openLabel,
+        open: p.filing
+          ? opensLine || labels.filing
+          : p.presentCount
+            ? labels.open
+            : labels.closed,
+        who,
+        does: doHere(p),
       };
-      $("sheet-body").replaceChildren(
-        ...recordScreen({
-          heading: { name: p.name, meta: hereLine(p) },
-          // Go sits under the picture, in view whatever the office takes: an
-          // office with fifteen races runs past the window, and the sheet's
-          // own page-turner then turns the races, never the way in.
-          sections: [
-            { items: [picture ? { picture } : null, go] },
-            ...(doHere.length
-              ? [{ title: labels.whatYouDo, items: doHere }]
-              : []),
-            ...(people.length
-              ? [{ title: labels.whoWorks, items: people }]
-              : []),
-          ],
-        }),
-      );
-      $("sheet-body").classList.add("place-view");
     };
-    return listScreen({
-      search: { placeholder: labels.search },
-      layout: "tiles",
-      pages: {
-        rows: 2,
-        columns: 3,
-        // Two rows of tiles that fit the window: short windows take shorter tiles.
-        rowHeight: window.innerHeight >= 860 ? 262 : 214,
-        gap: 14,
-        words: {
-          page: controls.politics.page,
-          previous: controls.politics.previousPage,
-          next: controls.politics.nextPage,
-        },
+    return travelScreen({
+      labels,
+      words: {
+        page: controls.politics.page,
+        previous: controls.politics.previousPage,
+        next: controls.politics.nextPage,
       },
-      entries: (query) =>
-        destinations
-          .filter((p) =>
-            p.name.toLowerCase().includes(query.trim().toLowerCase()),
-          )
-          .map((p) => ({
-            title: p.name,
-            picture: p.presentation?.imageUrl,
-            lines: [],
-            badge: Boolean(p.trail) || p.filing || p.presentCount > 0,
-            label: p.name,
-            onSelect: () => showPlace(p),
-            // The record behind the reason, for the specs; never shown as text.
-            data: {
-              reason: (p.trail
-                ? [p.trail.filing.id]
-                : p.filing
-                  ? [p.filedWith]
-                  : p.reasons.length
-                    ? p.reasons.map((r) => r.recordId)
-                    : [p.organizationId]
-              ).join(" "),
-            },
-          })),
+      entries: destinations.map((p) => ({
+        group: groupOf(p),
+        title: p.name,
+        filing: Boolean(p.filing),
+        picture: p.presentation?.imageUrl,
+        ...(p.trail
+          ? { onOpen: () => trailView(p.trail) }
+          : {
+              load: detailOf(p),
+              go: {
+                label: `${labels.go} ${p.name}`,
+                onClick: () =>
+                  p.filing ? openFiling(p.filedWith) : visit(p.organizationId),
+              },
+            }),
+      })),
     });
   },
   async politics() {
@@ -4799,6 +4666,10 @@ async function openSheet(tab) {
   if (groupOf(tab) === "people") coachUsed("people-tab");
   openTab = tab;
   if (tab === "news") markNews(true);
+  if (tab === "journal")
+    document
+      .querySelector('#rings [data-tab="journal"]')
+      ?.classList.remove("unread");
   show("tip", false);
   const group = groupOf(tab);
   const politics =
@@ -4846,12 +4717,14 @@ async function openSheet(tab) {
   // You carries its own bust (the approved strip screen); Jobs and Your life keep the side figure.
   $("sheet").classList.toggle(
     "strip-sheet",
-    tab === "who" || tab === "budgets",
+    tab === "who" ||
+      tab === "budgets" ||
+      tab === "journal" ||
+      tab === "money" ||
+      tab === "calendar" ||
+      tab === "news",
   );
   $("sheet").classList.toggle("character-sheet", character && tab !== "who");
-  // News is the paper itself: the sheet is the page, its masthead the title
-  // (owner, Oct 28, point 25).
-  $("sheet").classList.toggle("paper-sheet", tab === "news");
   $("sheet-media").hidden = !character || tab === "who";
   fillArtwork(
     $("sheet-media"),
@@ -5108,8 +4981,44 @@ const FRONT_PANELS = [
   "cr-place",
   "cr-look",
 ];
+/**
+ * Where the close X on the front takes you from each panel: one level out. There is no Back
+ * button on any menu (owner, Oct 28: "Remove every Continue and Back from every menu").
+ */
+const FRONT_OUT = {
+  "front-new": () => frontPanel("front-main"),
+  "front-advanced": () => frontPanel("front-new"),
+  "front-pick": () => frontPanel("front-advanced"),
+  "cr-character": () => frontPanel("front-new"),
+  "cr-place": () => {
+    // After a state is picked, out returns to the states, not to the name and birthday
+    // (owner, Oct 28, point 5).
+    if (setup.state) {
+      setup.state = null;
+      setup.town = null;
+      void showStates();
+      return;
+    }
+    frontPanel("cr-character");
+  },
+  "cr-look": () => {
+    frontPanel("cr-place");
+    void showStates();
+  },
+};
+document.getElementById("front-close")?.addEventListener("click", () => {
+  const here = FRONT_PANELS.find((id) => !document.getElementById(id).hidden);
+  FRONT_OUT[here]?.();
+});
+show("front-close", false);
 function frontPanel(name) {
   for (const id of FRONT_PANELS) show(id, id === name);
+  // The close X is on every front panel but the title menu itself.
+  show("front-close", name !== "front-main" && name !== null);
+  // Each panel is named for what it is (the Nov 8 front mock), not by the game's name.
+  const title = document.querySelector("#front > .title");
+  if (title && controls.frontTitles?.[name])
+    title.textContent = controls.frontTitles[name];
   // The loading card (no panel) sits in the top-left corner (owner, Oct 14).
   $("front").classList.toggle("loading", name === null);
 }
@@ -5234,18 +5143,14 @@ async function openCreator() {
   frontPanel("cr-character");
 }
 $("new-life").addEventListener("click", () => frontPanel("front-new"));
-$("new-back").addEventListener("click", () => frontPanel("front-main"));
 $("new-advanced").addEventListener("click", () => frontPanel("front-advanced"));
 $("new-start").addEventListener("click", () => void openCreator());
 $("new-world").addEventListener("click", () => startLife({ custom: true }));
-$("advanced-back").addEventListener("click", () => frontPanel("front-new"));
 $("advanced-build").addEventListener(
   "click",
   () => void startLife({ custom: true, pick: true }),
 );
-$("pick-back").addEventListener("click", () => frontPanel("front-advanced"));
 $("cr-route").addEventListener("click", () => frontPanel("front-new"));
-$("cr-character-back").addEventListener("click", () => frontPanel("front-new"));
 $("cr-character-next").addEventListener("click", () => {
   const given = $("cr-given").value.trim();
   const family = $("cr-family").value.trim();
@@ -5279,17 +5184,6 @@ $("cr-character-next").addEventListener("click", () => {
   void showStates();
 });
 $("cr-summary").addEventListener("click", () => frontPanel("cr-character"));
-$("cr-place-back").addEventListener("click", () => {
-  // After a state is picked, Back returns to the states, not to the name
-  // and birthday (owner, Oct 28, point 5).
-  if (setup.state) {
-    setup.state = null;
-    setup.town = null;
-    void showStates();
-    return;
-  }
-  frontPanel("cr-character");
-});
 
 // Where are you from: a state, then a city or town with its population.
 let states = [];
@@ -5457,11 +5351,10 @@ $("cr-undo").addEventListener("click", () => {
   const last = setup.previous.pop();
   if (last) void setLook(last, false);
 });
-for (const id of ["cr-look-back", "cr-place-summary"])
-  $(id).addEventListener("click", () => {
-    frontPanel("cr-place");
-    void showStates();
-  });
+$("cr-place-summary").addEventListener("click", () => {
+  frontPanel("cr-place");
+  void showStates();
+});
 $("cr-begin").addEventListener("click", () =>
   startLife({
     placeKey: setup.town.key,
@@ -5504,7 +5397,6 @@ async function offerPlayAs(life) {
   $("pick-search").oninput = draw;
   draw();
   show("front-status", false);
-  document.querySelector("#front .progress").hidden = true;
   frontPanel("front-pick");
   for (const id of placeControls) $(id).disabled = false;
 }
@@ -5601,7 +5493,6 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
   // The loading card: the panel holds only the progress over the scene.
   frontPanel(null);
   show("front-status", true);
-  document.querySelector("#front .progress").hidden = false;
   try {
     const settings = custom ? worldSettings() : undefined;
     // Outside Custom world, a fresh seed draws the world.
@@ -5609,16 +5500,6 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
       ? $("seed").value
       : setup.seed || (await api("/api/seed")).seed;
     // Real progress through every step, from the server's build.
-    const bar = document.querySelector("#front .progress span");
-    bar.classList.add("steady");
-    const STEPS = [
-      "people",
-      "past",
-      "economy",
-      "core",
-      "government",
-      "opening",
-    ];
     // A poll still in flight when the build ends leaves the line alone.
     let built = false;
     // The world's story plays once the world exists (playLoadingStory).
@@ -5631,13 +5512,9 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
       const p = await api("/api/newlife/progress").catch(() => undefined);
       if (p?.story) playStory();
       if (!p || built) return;
-      const at =
-        p.stage === "done" ? STEPS.length : Math.max(STEPS.indexOf(p.stage), 0);
-      const within = p.total ? p.done / p.total : 0;
-      // Full when the build says it is done ("Ready"), never before.
-      bar.style.width = `${Math.round((Math.min(at + within, STEPS.length) / STEPS.length) * 100)}%`;
-      $("front-status").textContent =
-        `${controls.loading?.[p.stage] ?? ""}${p.total ? ` ${p.done} / ${p.total}` : ""}`;
+      // The step in plain words; no bar and no counts (owner, Oct 27: "There is a weird little
+      // bar at the end"; the Nov 8 loading mock).
+      $("front-status").textContent = controls.loading?.[p.stage] ?? "";
     }, 400);
     let life;
     try {
@@ -5683,7 +5560,5 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
     $("front-status").textContent = error.message;
     for (const id of placeControls) $(id).disabled = false;
     frontPanel(person ? "cr-look" : "front-new");
-  } finally {
-    document.querySelector("#front .progress").hidden = true;
   }
 }
