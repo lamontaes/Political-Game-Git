@@ -3,7 +3,7 @@ import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "./bookkeeping";
-import { SERIOUS_EPISODE_REMAINING_DAYS } from "./death-causes";
+import { SERIOUS_EPISODE_REMAINING_DAYS } from "./death-cause";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";

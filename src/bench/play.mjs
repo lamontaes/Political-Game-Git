@@ -33,6 +33,7 @@ import { devPersonSection } from "./ui/dev-person.mjs";
 import { devMemorySection } from "./ui/dev-memory.mjs";
 import { devWatchSections } from "./ui/dev-watch.mjs";
 import { devScenePanel } from "./ui/dev-scene.mjs";
+import { devCampaignPanel } from "./ui/dev-campaign.mjs";
 import { devRunPanel } from "./ui/dev-run.mjs";
 import {
   devModeOn,
@@ -899,7 +900,7 @@ function atNominations() {
                     },
                   }),
                 ]
-              : [el("p", { textContent: words.nobody ?? "" })]),
+              : [introText(words.nobody ?? "")]),
             buttonRow(
               ...["nominate", "leave"]
                 .filter((how) => how === "leave" || entry.candidates.length)
@@ -3512,6 +3513,14 @@ const sheets = {
               onDone: () => refresh(),
             }),
           ]
+        : []),
+      ...(devModeOn()
+        ? [
+            await devCampaignPanel({
+              labels: controls.devCampaign,
+              onDone: () => refresh(),
+            }),
+          ].filter(Boolean)
         : []),
     ];
   },

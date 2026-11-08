@@ -4494,6 +4494,148 @@
           "when": {}
         }
       ]
+    },
+    "first-date": {
+      "state": "ask",
+      "replies": ["tell", "ask", "promise", "deflect"],
+      "follow": {
+        "tell": ["ask", "accept"],
+        "ask": ["answer"],
+        "promise": ["thank"],
+        "deflect": ["press", "accept"]
+      },
+      "again": {
+        "ask": ["tell", "promise", "deflect", "leave"],
+        "answer": ["tell", "promise", "leave"],
+        "press": ["tell", "leave"]
+      },
+      "endings": [
+        {
+          "id": "see-you-again",
+          "label": "You'll see each other again",
+          "keeps": "meeting-set",
+          "when": {
+            "anyReply": ["promise"]
+          }
+        },
+        {
+          "id": "easy-evening",
+          "label": "An easy evening",
+          "keeps": "none",
+          "when": {
+            "reply": ["tell"]
+          }
+        },
+        {
+          "id": "cooled-off",
+          "label": "It cooled off",
+          "keeps": "none",
+          "when": {
+            "reply": ["deflect", "leave"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
+    "proposal-ask": {
+      "state": "request",
+      "replies": ["agree", "decline", "ask", "deflect"],
+      "follow": {
+        "agree": ["thank"],
+        "decline": ["accept", "plea"],
+        "ask": ["answer"],
+        "deflect": ["press", "accept"]
+      },
+      "again": {
+        "answer": ["agree", "decline", "deflect"],
+        "press": ["agree", "decline", "leave"],
+        "plea": ["agree", "decline", "leave"]
+      },
+      "endings": [
+        {
+          "id": "said-yes",
+          "label": "You said yes",
+          "keeps": "promise",
+          "when": {
+            "reply": ["agree"]
+          }
+        },
+        {
+          "id": "turned-down",
+          "label": "You turned the question down",
+          "keeps": "relationship-strained",
+          "when": {
+            "reply": ["decline"]
+          }
+        },
+        {
+          "id": "not-yet",
+          "label": "Not yet",
+          "keeps": "none",
+          "when": {
+            "reply": ["deflect", "leave"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
+    "breakup-tell": {
+      "state": "tell",
+      "replies": ["ask", "accept", "apologize", "confront"],
+      "follow": {
+        "ask": ["answer"],
+        "accept": ["thank"],
+        "apologize": ["accept", "press"],
+        "confront": ["confront", "plea"]
+      },
+      "again": {
+        "answer": ["accept", "apologize", "confront", "leave"],
+        "press": ["accept", "confront", "leave"],
+        "confront": ["apologize", "leave"],
+        "plea": ["accept", "confront", "leave"]
+      },
+      "endings": [
+        {
+          "id": "parted-kindly",
+          "label": "You parted kindly",
+          "keeps": "none",
+          "when": {
+            "reply": ["accept", "apologize"]
+          }
+        },
+        {
+          "id": "words-said",
+          "label": "Words were said",
+          "keeps": "relationship-strained",
+          "when": {
+            "anyReply": ["confront"]
+          }
+        },
+        {
+          "id": "understood-why",
+          "label": "You heard them out",
+          "keeps": "none",
+          "when": {
+            "anyReply": ["ask"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
     }
   },
   "outcomes": {

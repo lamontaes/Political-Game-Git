@@ -279,11 +279,33 @@
       ],
       "setting": ["home"],
       "timing": "effective-date",
-      "causes": [],
-      "awaiting": [
-        "record:release-from-jail",
-        "record:homecoming",
-        "record:moving-back"
+      "causes": [
+        {
+          "match": {
+            "label": "feeling:event:justice.released",
+            "counterpart": "none"
+          },
+          "causeEngine": "justice",
+          "causeRecord": "justice.released",
+          "bind": {
+            "returning": "subject",
+            "waiting": "kin"
+          },
+          "opener": "waiting"
+        },
+        {
+          "match": {
+            "label": "feeling:event:justice.released",
+            "counterpart": "some"
+          },
+          "causeEngine": "justice",
+          "causeRecord": "justice.released",
+          "bind": {
+            "waiting": "subject",
+            "returning": "counterpart"
+          },
+          "opener": "returning"
+        }
       ],
       "tag": {
         "key": "arrival",
@@ -648,8 +670,21 @@
       ],
       "setting": ["letter"],
       "timing": "at-cause",
-      "causes": [],
-      "awaiting": ["record:contact-from-someone-away"],
+      "causes": [
+        {
+          "match": {
+            "label": "feeling:event:family.contact",
+            "selfNamed": true,
+            "counterpart": "some"
+          },
+          "causeEngine": "partnerships",
+          "causeRecord": "family.contact",
+          "bind": {
+            "writer": "counterpart",
+            "reader": "subject"
+          }
+        }
+      ],
       "tag": {
         "key": "news-received",
         "endpoint": "personal",
@@ -736,8 +771,23 @@
       ],
       "setting": ["home", "other-home", "public"],
       "timing": "next-together",
-      "causes": [],
-      "awaiting": ["record:decision-to-concede"],
+      "causes": [
+        {
+          "match": {
+            "label": "feeling:event:family.quarrel",
+            "selfNamed": true,
+            "counterpart": "some",
+            "causeFacts": [{ "key": "owes", "is": "subject" }]
+          },
+          "causeEngine": "partnerships",
+          "causeRecord": "family.quarrel",
+          "bind": {
+            "apologizing": "subject",
+            "wronged": "counterpart"
+          },
+          "opener": "wronged"
+        }
+      ],
       "aftermath": {
         "agree": {
           "kind": "support:apology-accepted",
@@ -875,11 +925,17 @@
       "timing": "effective-date",
       "causes": [
         {
-          "awaitingProducer": "married",
+          "match": {
+            "label": "feeling:event:family.married",
+            "selfNamed": true,
+            "counterpart": "some"
+          },
+          "causeEngine": "partnerships",
+          "causeRecord": "family.married",
           "bind": {
             "honoree": "subject",
-            "host": "kin",
-            "guests": "present"
+            "host": "household",
+            "guests": "kin"
           },
           "opener": "host"
         },
@@ -1041,8 +1097,20 @@
       ],
       "setting": ["home"],
       "timing": "effective-date",
-      "causes": [],
-      "awaiting": ["record:birthday-gathering", "record:holiday-calendar"],
+      "causes": [
+        {
+          "match": {
+            "label": "feeling:event:family.gathering-missed",
+            "counterpart": "some"
+          },
+          "causeEngine": "partnerships",
+          "causeRecord": "family.gathering-missed",
+          "bind": {
+            "household": "household",
+            "absent": "counterpart"
+          }
+        }
+      ],
       "tag": {
         "key": "loss",
         "endpoint": "personal",
@@ -1306,18 +1374,31 @@
       "timing": "next-together",
       "causes": [
         {
-          "awaitingProducer": "started-dating",
+          "match": {
+            "label": "feeling:event:family.partnered",
+            "selfNamed": true,
+            "counterpart": "some",
+            "causeFacts": [{ "key": "union", "equals": ["dating"] }]
+          },
+          "causeEngine": "partnerships",
+          "causeRecord": "family.partnered",
           "bind": {
             "partner": "subject",
             "other-partner": "counterpart"
-          }
+          },
+          "opener": "other-partner",
+          "opening": "greet"
         }
       ],
       "tag": {
         "key": "routine",
         "endpoint": "personal",
         "registers": ["conversation", "scene-words", "journal"]
-      }
+      },
+      "purpose": "first-date",
+      "asker": "other-partner",
+      "asked": "partner",
+      "stakes": ["place"]
     },
     {
       "key": "proposal",
@@ -1341,8 +1422,23 @@
       ],
       "setting": ["home", "public", "venue"],
       "timing": "next-together",
-      "causes": [],
-      "awaiting": ["record:couple-next-stage"],
+      "causes": [
+        {
+          "match": {
+            "label": "feeling:event:family.engaged",
+            "selfNamed": true,
+            "counterpart": "some"
+          },
+          "causeEngine": "partnerships",
+          "causeRecord": "family.engaged",
+          "bind": {
+            "proposing": "counterpart",
+            "proposed-to": "subject"
+          },
+          "opener": "proposing",
+          "opening": "greet"
+        }
+      ],
       "aftermath": {
         "agree": {
           "kind": "commitment:engaged",
@@ -1354,7 +1450,11 @@
         "key": "favor-asked",
         "endpoint": "personal",
         "registers": ["conversation", "scene-words", "journal"]
-      }
+      },
+      "purpose": "proposal-ask",
+      "asker": "proposing",
+      "asked": "proposed-to",
+      "stakes": ["home"]
     },
     {
       "key": "breakup",
@@ -1388,20 +1488,20 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "broke-up",
+          "match": {
+            "label": "feeling:event:family.separated",
+            "selfNamed": true,
+            "counterpart": "some"
+          },
+          "causeEngine": "partnerships",
+          "causeRecord": "family.separated",
           "bind": {
-            "ending": "subject",
-            "partner": "counterpart",
+            "ending": "counterpart",
+            "partner": "subject",
             "children": "household"
-          }
-        },
-        {
-          "awaitingProducer": "separated",
-          "bind": {
-            "ending": "subject",
-            "partner": "counterpart",
-            "children": "household"
-          }
+          },
+          "opener": "ending",
+          "opening": "greet"
         }
       ],
       "aftermath": {
@@ -1415,7 +1515,11 @@
         "key": "loss",
         "endpoint": "personal",
         "registers": ["conversation", "scene-words", "journal"]
-      }
+      },
+      "purpose": "breakup-tell",
+      "asker": "ending",
+      "asked": "partner",
+      "stakes": ["home"]
     },
     {
       "key": "reunion",
@@ -1540,12 +1644,23 @@
           "bearing": "anxious"
         }
       ],
-      "setting": ["venue", "public"],
+      "setting": ["home"],
       "timing": "at-cause",
-      "causes": [],
-      "awaiting": [
-        "record:incident-with-someone-present",
-        "record:acute-health-episode"
+      "causes": [
+        {
+          "match": {
+            "label": "feeling:event:health.rescued",
+            "selfNamed": true,
+            "counterpart": "some"
+          },
+          "causeEngine": "partnerships",
+          "causeRecord": "health.rescued",
+          "bind": {
+            "rescuer": "counterpart",
+            "in-danger": "subject",
+            "bystanders": "household"
+          }
+        }
       ],
       "tag": {
         "key": "threat",
@@ -1768,7 +1883,13 @@
           "opener": "adviser"
         },
         {
-          "awaitingProducer": "relationship:mentorship:*:formed",
+          "match": {
+            "label": "feeling:event:work.mentorship-formed",
+            "selfNamed": true,
+            "counterpart": "some"
+          },
+          "causeEngine": "partnerships",
+          "causeRecord": "work.mentorship-formed",
           "bind": {
             "deciding": "subject",
             "adviser": "counterpart"
@@ -3214,6 +3335,20 @@
           "sceneKey": "lobbyist-word",
           "opener": "other",
           "setting": ["seat", "venue"]
+        },
+        {
+          "match": {
+            "label": "circumstance:governor-answer-hallway"
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "governor.response",
+          "bind": {
+            "other": "counterpart",
+            "you": "subject"
+          },
+          "sceneKey": "governor-answer-word",
+          "opener": "other",
+          "setting": ["seat", "venue"]
         }
       ],
       "tag": {
@@ -4036,6 +4171,7 @@
     },
     {
       "key": "bribe-offer",
+      "eachCause": true,
       "purpose": "bribe-offer",
       "asker": "offerer",
       "asked": "you",
@@ -5270,6 +5406,7 @@
     },
     {
       "key": "bribe-pressed",
+      "eachCause": true,
       "note": "The person whose bribe the official turned down comes back (the corruption engine's refusal record and their own reasons to press; no roll). The pressure runs from veiled to open by their temper in the bank's bearings. The official can hold the line, say they will report it, or put the talk off; what they say strains the tie.",
       "purpose": "bribe-pressed",
       "asker": "offerer",

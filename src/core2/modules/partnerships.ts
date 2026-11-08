@@ -54,9 +54,19 @@ import {
 } from "../gov-rules/person-identity";
 import { birthCohortGivenName } from "../gov-rules/given-name-cohorts";
 import { livesElsewhere } from "./moves";
+import { reviewMentorship } from "./mentorship";
+import { rescueOnset } from "./rescue";
+import { quarrelOverMoney } from "./quarrel";
+import {
+  BIRTHDAY_KIND,
+  birthdayGathering,
+  reviewKinContact,
+  scheduleBirthdays,
+} from "./kin-contact";
 import { declareSnapshotCovered } from "../snapshot";
 import type {
   CoreAPI,
+  CoreEventInput,
   CoreModule,
   CoreState,
   IsoDate,
@@ -423,10 +433,13 @@ function review(api: CoreAPI): void {
       .put(row as never);
   }
   reviewTown(api);
+  reviewKinContact(api);
+  scheduleBirthdays(api);
+  reviewMentorship(api);
 }
 
 /** Where a couple in town stands on the way to a wedding. */
-type Stage = "dating" | "living-together" | "engaged" | "married";
+type Stage = "dating" | "living-together" | "proposed" | "engaged" | "married";
 
 interface CoupleRow {
   /** The partner link's id. */
@@ -442,7 +455,10 @@ export const FAMILY_ENGAGED = "family.engaged";
 export const FAMILY_MARRIED = "family.married";
 export const FAMILY_MOVED_IN = "family.moved-in";
 
-const NEXT_STAGE: Record<Exclude<Stage, "married">, [Stage, string]> = {
+const NEXT_STAGE: Record<
+  Exclude<Stage, "married" | "proposed">,
+  [Stage, string]
+> = {
   dating: ["living-together", "partnerDatingMonths"],
   "living-together": ["engaged", "partnerLivingTogetherMonths"],
   engaged: ["married", "partnerEngagedMonths"],
@@ -796,6 +812,22 @@ function reviewTown(api: CoreAPI): void {
         .put(couple as never);
       continue;
     }
+    if (couple.stage === "proposed") {
+      // The player was asked and has not answered: a question left a couple
+      // of months lapses back to living together, unanswered.
+      if (
+        ageOnDate(makeIsoDate(couple.since), today) * p("monthsPerYear") >=
+        p("partnerProposalLapseMonths")
+      ) {
+        couple.stage = "living-together";
+        couple.since = core.date;
+        couple.progress = p("zero");
+      }
+      store(api)
+        .table("couples")
+        .put(couple as never);
+      continue;
+    }
     const [next, months] = NEXT_STAGE[couple.stage];
     couple.progress +=
       (p("one") / p(months)) *
@@ -804,7 +836,12 @@ function reviewTown(api: CoreAPI): void {
     if (couple.progress >= p("one")) {
       const ok = next === "living-together" ? moveIn(api, a, b) : true;
       if (ok) {
-        couple.stage = next;
+        // A proposal to the player waits on their answer (the proposal scene's
+        // reply); everyone else's is settled by the engine.
+        const asked =
+          next === "engaged" &&
+          (a.id === core.playerId || b.id === core.playerId);
+        couple.stage = asked ? "proposed" : next;
         couple.since = core.date;
         couple.progress = p("zero");
         const ids = [a.id, b.id];
@@ -823,7 +860,7 @@ function reviewTown(api: CoreAPI): void {
                 : `${a.givenName} and ${b.givenName} married.`,
             ),
             witnessIds: witnessesOf(core, ids),
-            facts: { [UNION_FACT]: next, linkId: link.id },
+            facts: { [UNION_FACT]: asked ? "proposed" : next, linkId: link.id },
           });
       } else couple.progress = p("one");
     }
@@ -831,6 +868,39 @@ function reviewTown(api: CoreAPI): void {
       .table("couples")
       .put(couple as never);
   }
+}
+
+/**
+ * The player's answer to a proposal (the proposal scene's reply, ending the
+ * talk): yes makes them engaged; turned down, the couple goes back to living
+ * together and starts over; asking for time puts the question half a stage
+ * off; a reply that did not end the talk waits for its ending.
+ */
+function answerProposal(api: CoreAPI, event: CoreEventInput): void {
+  const facts = event.facts ?? {};
+  if (facts.typeKey !== "proposal" || !facts.ending) return;
+  const prefix = `${FAMILY_ENGAGED}:`;
+  const causeId = facts.causeId ?? "";
+  if (!causeId.startsWith(prefix)) return;
+  const linkId = causeId.slice(prefix.length);
+  const held = store(api).table("couples").get(linkId) as unknown as
+    CoupleRow | undefined;
+  if (held?.stage !== "proposed") return;
+  const core = api.state as CoreState;
+  const zero = api.parameter("zero");
+  const answered: CoupleRow =
+    facts.ending === "said-yes"
+      ? { ...held, stage: "engaged", since: core.date, progress: zero }
+      : {
+          ...held,
+          stage: "living-together",
+          since: core.date,
+          progress:
+            facts.ending === "turned-down" ? zero : api.parameter("half"),
+        };
+  store(api)
+    .table("couples")
+    .put(answered as never);
 }
 
 function nextFirst(date: string): string {
@@ -856,10 +926,30 @@ function schedule(api: CoreAPI): void {
 
 export const partnershipsModule: CoreModule = {
   id: PARTNERSHIPS_MODULE_ID,
-  state: { schemaVersion: 1, tables: { state: {}, pulls: {}, couples: {} } },
+  state: {
+    schemaVersion: 1,
+    tables: { state: {}, pulls: {}, couples: {}, contacts: {}, jobsSeen: {} },
+  },
   // A death ends the person's pull, so the table holds only the living.
-  eventKinds: ["life.death"],
+  eventKinds: [
+    "life.death",
+    "scene.reply",
+    "health.serious-illness",
+    "credit.payment-missed",
+  ],
   onEvent(api, event) {
+    if (event.kind === "credit.payment-missed") {
+      quarrelOverMoney(api, event);
+      return;
+    }
+    if (event.kind === "health.serious-illness") {
+      rescueOnset(api, event);
+      return;
+    }
+    if (event.kind === "scene.reply") {
+      answerProposal(api, event);
+      return;
+    }
     for (const id of event.personIds) store(api).table("pulls").remove(id);
   },
   onDay(api) {
@@ -868,6 +958,10 @@ export const partnershipsModule: CoreModule = {
     schedule(api);
   },
   onCalendarWork(api, work) {
+    if (work.kind === BIRTHDAY_KIND) {
+      birthdayGathering(api, work.key);
+      return;
+    }
     if (work.kind !== REVIEW_KIND) return;
     review(api);
     schedule(api);
