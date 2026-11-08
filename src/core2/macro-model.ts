@@ -23,6 +23,10 @@ export interface MacroMonth {
   outputGapChangePct: number;
   /** The real policy rate as spending has felt it: the policy rate less inflation, smoothed over the transmission lag. */
   realRateLagPct: number;
+  /** Energy's price against its trend, percent: demand pulls it up, the capacity built in answer pushes it down. */
+  energyGapPct: number;
+  /** Energy capacity beyond what trend demand needs, percent: built when the price is high, with a lag of years. */
+  energyCapacityPct: number;
   /** This world's business cycle: the years from one peak to the next its accelerator swings through. */
   cyclePeriodYears: number;
   /** This world's capacity ceiling: how far the gap swings before capacity and credit limits turn the boom back, gap points. */
@@ -173,6 +177,8 @@ export function publishedMonths(
       mortgage30Pct: mortgageAt(byMonth, month, p),
       outputGapChangePct: smoothedChange(months.at(-p("one")), gapNow, p),
       realRateLagPct: lagged,
+      energyGapPct: p("macroEnergyDemandPull") * gapNow,
+      energyCapacityPct: p("zero"),
       cyclePeriodYears: p("macroCyclePeriodYears"),
       cycleCapacityPct: p("macroCycleCapacityPct"),
     });
@@ -308,6 +314,7 @@ export function historyMonths(
     return {
       ...row,
       outputGapChangePct,
+      energyGapPct: p("macroEnergyDemandPull") * outputGapPct,
       realRateLagPct: lagged,
       cyclePeriodYears: o.cyclePeriodYears,
       cycleCapacityPct: o.cycleCapacityPct,
@@ -396,11 +403,21 @@ export function stepMacroMonth(
   const unemploymentPct =
     p("macroNaturalUnemploymentPct") -
     outputGapPct / p("macroOkunOutputPerUnemploymentPoint");
+  // Energy: demand (last month's gap) pulls its price up against capacity;
+  // capacity is built when the price is high and takes years to arrive, so
+  // the price swings on its own and moves inflation and the gap with it.
+  const energyGapPct =
+    p("macroEnergyDemandPull") * previous.outputGapPct -
+    p("macroEnergyCapacityPush") * previous.energyCapacityPct;
+  const energyCapacityPct =
+    previous.energyCapacityPct +
+    previous.energyGapPct / p("macroEnergyBuildMonths");
   const anchor = p("macroInflationAnchorPct");
   const inflationPct =
     anchor +
     p("macroInflationPersistence") * (previous.inflationPct - anchor) +
-    p("macroPhillipsSlope") * previous.outputGapPct;
+    p("macroPhillipsSlope") * previous.outputGapPct +
+    p("macroEnergyPassThrough") * (energyGapPct - previous.energyGapPct);
   const wageGrowthPct =
     p("macroWageGrowthIntercept") +
     p("macroWageGrowthPerInflation") * previous.inflationPct +
@@ -425,6 +442,8 @@ export function stepMacroMonth(
       previous.hourlyEarnings *
       (one + wageGrowthPct / hundred) ** (one / months),
     outputGapChangePct: gapChange,
+    energyGapPct,
+    energyCapacityPct,
     realRateLagPct,
     cyclePeriodYears: previous.cyclePeriodYears,
     cycleCapacityPct: previous.cycleCapacityPct,

@@ -632,5 +632,49 @@
       "unit": "months",
       "citation": "Same."
     }
+  },
+  "macroEnergyDemandPull": {
+    "value": 6,
+    "tag": "TUNABLE",
+    "citation": "Oil's price swings with demand and with capacity built years late: WTI (FRED MCOILWTICO) 1990-2026 ranged from about $11 to $134 a barrel, and 12-month CPI inflation had a standard deviation of 1.54 points (BLS CUSR0000SA0).",
+    "spread": {
+      "low": 2,
+      "high": 12,
+      "unit": "percent price per gap point",
+      "citation": "Oil's price swings with demand and with capacity built years late: WTI (FRED MCOILWTICO) 1990-2026 ranged from about $11 to $134 a barrel, and 12-month CPI inflation had a standard deviation of 1.54 points (BLS CUSR0000SA0)."
+    }
+  },
+  "macroEnergyCapacityPush": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "Oil's price swings with demand and with capacity built years late: WTI (FRED MCOILWTICO) 1990-2026 ranged from about $11 to $134 a barrel, and 12-month CPI inflation had a standard deviation of 1.54 points (BLS CUSR0000SA0).",
+    "spread": {
+      "low": 1,
+      "high": 4,
+      "unit": "percent price per capacity point",
+      "citation": "Oil's price swings with demand and with capacity built years late: WTI (FRED MCOILWTICO) 1990-2026 ranged from about $11 to $134 a barrel, and 12-month CPI inflation had a standard deviation of 1.54 points (BLS CUSR0000SA0)."
+    }
+  },
+  "macroEnergyBuildMonths": {
+    "value": 40,
+    "tag": "TUNABLE",
+    "citation": "Oil's price swings with demand and with capacity built years late: WTI (FRED MCOILWTICO) 1990-2026 ranged from about $11 to $134 a barrel, and 12-month CPI inflation had a standard deviation of 1.54 points (BLS CUSR0000SA0).",
+    "spread": {
+      "low": 24,
+      "high": 72,
+      "unit": "months to build capacity",
+      "citation": "Oil's price swings with demand and with capacity built years late: WTI (FRED MCOILWTICO) 1990-2026 ranged from about $11 to $134 a barrel, and 12-month CPI inflation had a standard deviation of 1.54 points (BLS CUSR0000SA0)."
+    }
+  },
+  "macroEnergyPassThrough": {
+    "value": 0.25,
+    "tag": "TUNABLE",
+    "citation": "Oil's price swings with demand and with capacity built years late: WTI (FRED MCOILWTICO) 1990-2026 ranged from about $11 to $134 a barrel, and 12-month CPI inflation had a standard deviation of 1.54 points (BLS CUSR0000SA0).",
+    "spread": {
+      "low": 0.1,
+      "high": 0.6,
+      "unit": "inflation points per energy price point",
+      "citation": "Oil's price swings with demand and with capacity built years late: WTI (FRED MCOILWTICO) 1990-2026 ranged from about $11 to $134 a barrel, and 12-month CPI inflation had a standard deviation of 1.54 points (BLS CUSR0000SA0)."
+    }
   }
 }

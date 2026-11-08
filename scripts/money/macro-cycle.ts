@@ -15,7 +15,7 @@ const p = (key: string) => over[key] ?? parameter(key, data.parameters);
 const worlds = Number(process.argv[2] ?? 20);
 const years = Number(process.argv[3] ?? 37);
 const depths: number[] = [];
-const depths: number[] = [];
+const inflStd: number[] = [];
 let totalEpisodes = 0,
   recessionMonths = 0,
   months = 0;
@@ -25,9 +25,11 @@ for (let w = 0; w < worlds; w++) {
   let m = rows.at(-1)!;
   let rate = m.policyRatePct;
   const us: number[] = [];
+  const infl: number[] = [];
   for (let i = 0; i < years * 12; i++) {
     m = stepMacroMonth(m, rate, undefined, 0, p);
     us.push(m.unemploymentPct);
+    infl.push(m.inflationPct);
     if (i % 2 === 0) {
       const target = Math.max(
         0.125,
@@ -57,6 +59,10 @@ for (let w = 0; w < worlds; w++) {
       inRec = false;
     }
   }
+  const mean = infl.reduce((a, b) => a + b, 0) / infl.length;
+  inflStd.push(
+    Math.sqrt(infl.reduce((a, b) => a + (b - mean) ** 2, 0) / infl.length),
+  );
   months += us.length;
   totalEpisodes += eps;
   if (w < 3)
@@ -69,5 +75,5 @@ for (let w = 0; w < worlds; w++) {
     );
 }
 console.log(
-  `episodes per ${years} years: ${(totalEpisodes / worlds).toFixed(2)}; months in recession ${((recessionMonths / months) * 100).toFixed(1)}%; mean depth ${(depths.reduce((a, b) => a + b, 0) / (depths.length || 1)).toFixed(1)} (NBER 1990-2026: 4 per 36.8 years, 8%, 2.5 to 5.6)`,
+  `episodes per ${years} years: ${(totalEpisodes / worlds).toFixed(2)}; months in recession ${((recessionMonths / months) * 100).toFixed(1)}%; mean depth ${(depths.reduce((a, b) => a + b, 0) / (depths.length || 1)).toFixed(1)} inflation std ${(inflStd.reduce((a, b) => a + b, 0) / inflStd.length).toFixed(2)} (real 1.54) (NBER 1990-2026: 4 per 36.8 years, 8%, 2.5 to 5.6)`,
 );
