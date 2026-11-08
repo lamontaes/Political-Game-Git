@@ -164,10 +164,10 @@ export function dotRows(rows) {
  * strip sections (the approved Budgets screen, bud-strips). `fiscal` is typed in
  * Courier Prime capitals at the right of the tabs.
  */
-export function stripBoard({ tabs, fiscal, columns }) {
+export function stripBoard({ tabs, fiscal, columns, className = "" }) {
   return el(
     "div",
-    { className: "strip-screen strip-board strips ol-g" },
+    { className: `strip-screen strip-board strips ol-g ${className}` },
     el(
       "div",
       { className: "board-top" },

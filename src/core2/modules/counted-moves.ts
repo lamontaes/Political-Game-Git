@@ -740,7 +740,8 @@ function month(api: CoreAPI): void {
         for (let t = 0; t < n; t++) denom += a[t]! * pulls[f]![t]!;
         if (denom <= 0) continue;
         for (let t = 0; t < n; t++)
-          inflow[t] += (leavingOf[f]! * a[t]! * pulls[f]![t]!) / denom;
+          inflow[t] =
+            inflow[t]! + (leavingOf[f]! * a[t]! * pulls[f]![t]!) / denom;
       }
       for (let t = 0; t < n; t++)
         if (inflow[t]! > 0 && target[t]! > 0)

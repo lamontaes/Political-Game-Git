@@ -442,6 +442,42 @@ function afterRefusal(
   });
 }
 
+/**
+ * The player, pressed again after turning a bribe down, said they would
+ * report it (the scene's ending `said-you-would-report`): the press learns of
+ * the offer from the person it was made to, and runs it as the exposure of
+ * the person who made it, through the same scandal record the engine uses for
+ * a taken bribe. Said once for the offer, however the scene is replayed.
+ */
+function reportPressedOffer(
+  api: CoreAPI,
+  facts: Readonly<Record<string, string>>,
+): void {
+  if (facts.ending !== "said-you-would-report") return;
+  const crimeId = (facts.causeId ?? "").slice(`${BRIBE_PRESSED}:`.length);
+  const crime = crimeRecord(api, crimeId);
+  const offerer = crime && api.state.people.get(crime.offererId);
+  if (!crime || !offerer?.alive) return;
+  const reporterId = crime.officialId;
+  api.emit({
+    id: `${crime.id}:offer-reported:${reporterId}`,
+    date: api.state.date,
+    kind: SCANDAL_REPORTED,
+    personIds: [crime.offererId],
+    witnessIds: [reporterId],
+    placeId: offerer.placeId,
+    publicRecord: true,
+    news: true,
+    facts: { crimeId: crime.id, offererId: crime.offererId, attempt: "yes" },
+    source: {
+      tag: "SOURCED",
+      citation:
+        "An official told the press of a bribe they turned down and the person who pressed them after it.",
+      asOf: api.state.date,
+    },
+  });
+}
+
 /** The player turned it down (handed it back, said they would report it): the offer is over. */
 function refusePendingBribe(api: CoreAPI, crimeId: string): void {
   const record = crimeRecord(api, crimeId);
@@ -566,6 +602,10 @@ export const corruptionModule: CoreModule = {
   eventKinds: ["scene.reply"],
   onEvent(api, event) {
     const facts = event.facts ?? {};
+    if (facts.typeKey === "bribe-pressed" && facts.ending) {
+      reportPressedOffer(api, facts);
+      return;
+    }
     if (facts.typeKey !== "bribe-offer" || !facts.ending) return;
     const crimeId = (facts.causeId ?? "").slice(`${BRIBE_OFFERED}:`.length);
     if (facts.ending === "took-it") takePendingBribe(api, crimeId);
