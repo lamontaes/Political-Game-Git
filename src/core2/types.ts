@@ -235,6 +235,18 @@ export interface HouseholdInput {
   placeId: PlaceId;
   memberIds: readonly PersonId[];
   source: Source;
+  /** The day the household moved into its place (years in place, from the opening's mover rates). */
+  since?: IsoDate;
+  /**
+   * Workers of a sampled household outside the town: the county employer
+   * (a sector group of the county's recorded employment) each works at.
+   * Registered stopgap SG-LIVES-county-sample-employers.
+   */
+  employment?: readonly {
+    personId: PersonId;
+    employerId: string;
+    sector: string;
+  }[];
   /**
    * A group-quarters room (a dormitory double, a cell, a barracks room, a
    * nursing-home room): its type. Absent for a household.

@@ -8,7 +8,7 @@ import { makeCard } from "./card.mjs";
 import { bold, line, prose, heading } from "./text.mjs";
 
 /**
- * Today's amount beside the new one: two cells and an arrow, the law in force as it stands
+ * Today's amount beside the new one: two cells, the law in force as it stands
  * and what the bill makes it (the owner, Oct 29: "the bill ... with today's amount beside
  * the new one").
  */
@@ -23,7 +23,6 @@ const compareOf = (compare) =>
           el("small", { textContent: compare.todayLabel }),
           el("strong", { textContent: compare.today }),
         ),
-        el("span", { className: "bill-compare-arrow", textContent: "→" }),
         el(
           "span",
           { className: "bill-compare-cell new" },

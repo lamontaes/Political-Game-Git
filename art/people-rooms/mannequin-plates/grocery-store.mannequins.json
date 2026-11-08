@@ -1,0 +1,86 @@
+{
+  "scene": "grocery-store",
+  "size": [
+    1672,
+    941
+  ],
+  "backdrop": "grocery-store__midday.jpg",
+  "backdrops": [
+    "grocery-store__morning.jpg",
+    "grocery-store__rain.jpg"
+  ],
+  "spots": [
+    {
+      "id": "grocery-store-0",
+      "pose": "walk",
+      "seat": "none",
+      "facing": 45,
+      "head": {
+        "top": 275,
+        "x": 780.0,
+        "width": 70
+      },
+      "box": [
+        709,
+        275,
+        851,
+        870
+      ],
+      "feet": 869
+    },
+    {
+      "id": "grocery-store-1",
+      "pose": "stand",
+      "seat": "none",
+      "facing": -45,
+      "head": {
+        "top": 305,
+        "x": 1000.0,
+        "width": 49
+      },
+      "box": [
+        950,
+        305,
+        1050,
+        720
+      ],
+      "feet": 719
+    },
+    {
+      "id": "grocery-store-2",
+      "pose": "gesture",
+      "seat": "none",
+      "facing": 45,
+      "head": {
+        "top": 310,
+        "x": 600.0,
+        "width": 46
+      },
+      "box": [
+        553,
+        310,
+        647,
+        700
+      ],
+      "feet": 699
+    },
+    {
+      "id": "grocery-store-3",
+      "pose": "stand",
+      "seat": "none",
+      "facing": 0,
+      "head": {
+        "top": 330,
+        "x": 860.0,
+        "width": 32
+      },
+      "box": [
+        828,
+        330,
+        892,
+        600
+      ],
+      "feet": 599
+    }
+  ]
+}
