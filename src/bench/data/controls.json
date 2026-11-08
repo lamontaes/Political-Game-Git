@@ -307,7 +307,9 @@
     "nextMeeting": "Next meeting",
     "heads": "Posts you name",
     "acts": "What you have done",
-    "left": "Laws that gave way"
+    "left": "Laws that gave way",
+    "mySeat": "My seat",
+    "onMyDesk": "On my desk"
   },
   "officeStops": {
     "aYear": "a year",
