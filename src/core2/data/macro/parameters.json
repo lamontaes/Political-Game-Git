@@ -678,7 +678,7 @@
     }
   },
   "macroNaturalHysteresisMonths": {
-    "value": 120,
+    "value": 240,
     "tag": "TUNABLE",
     "citation": "How fast the normal unemployment rate follows the rate people have lived at (hysteresis; Ball 2009, 'The Next Generation of Hysteresis'; CBO's noncyclical rate moved from about 6.2 percent in 1980 to 4.4 in 2019, a drift of a few tenths of a point a year). The normal rate is a state of the economy, not a resting point: at the opening it starts at macroNaturalUnemploymentPct and moves with experience.",
     "spread": {
