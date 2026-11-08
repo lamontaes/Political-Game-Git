@@ -21,6 +21,8 @@ const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const DRAWS = 4;
 const YEAR_DAYS = 365;
 
+/** Newcomers from outside the country: no state's leavers, so no pull between states. */
+const fromAbroad = (row: MoveRecord) => row.fromPlace === "abroad";
 const inState = (row: MoveRecord) =>
   row.fromPlace.endsWith(":rest-of-state") ||
   row.toPlace.endsWith(":rest-of-state");
@@ -41,7 +43,7 @@ it("every counted move in a played year, within the state or across states, reco
       setBookkeeping(true);
       const moves = countedMoves(coreAPI(core));
       const within = moves.filter(inState);
-      const across = moves.filter((row) => !inState(row));
+      const across = moves.filter((row) => !inState(row) && !fromAbroad(row));
       for (const row of moves) {
         // The rate its people's age leaves at, on every move.
         // (or, for a household of minors alone that its group's movers came
@@ -63,7 +65,7 @@ it("every counted move in a played year, within the state or across states, reco
         expect(
           "income" in row.reasons && "jobs" in row.reasons,
           `${where}: ${row.id} ${JSON.stringify(row.reasons)}`,
-        ).toBe(!inState(row));
+        ).toBe(!inState(row) && !fromAbroad(row));
       }
       if (!within.length || !across.length) {
         tried.push(
