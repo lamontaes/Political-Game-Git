@@ -1,3 +1,4 @@
+import { buildBenchWorld } from "./world";
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -9,7 +10,6 @@ import { resultsOf } from "../core2/office-day-state";
 import { coreAPI } from "../core2/state";
 import { ordersDecide, ordersView } from "./office";
 import { BenchPlayer } from "./player";
-import { buildBenchWorld } from "./world";
 
 // An executive order the governor's staff brings is the player's to issue or set aside: the
 // governor stops for it, and what they decide is on the record as theirs. A place drawn from
