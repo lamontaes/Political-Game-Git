@@ -282,3 +282,18 @@ export function voteRows(rows) {
     ...rows.map((row) => typedRow(row.title, row.result, row.when)),
   );
 }
+
+/** A saved life as a strip: its name over a bust, the game's date and the Load button. */
+export function savedLifeRow({ name, face, date, load }) {
+  return el(
+    "div",
+    { className: "strip-screen strip-wrap strips ol-g saves-row" },
+    stripSection(
+      1,
+      name,
+      bust(face, name, 300),
+      el("p", { className: "save-date", textContent: date }),
+      el("div", { className: "acts" }, load),
+    ),
+  );
+}

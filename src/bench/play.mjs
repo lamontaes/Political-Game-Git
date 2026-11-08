@@ -73,7 +73,6 @@ import {
   readerMore,
   sameFor,
 } from "./ui/newspaper.mjs";
-import { el } from "./ui/dom.mjs";
 import { show, mountCloseButtons, mountPanelHeads } from "./ui/panel.mjs";
 import {
   stripScreen,
@@ -85,7 +84,7 @@ import {
   stripBoard,
   typedRow,
   departmentRow,
-  bust,
+  savedLifeRow,
   leaderBlock,
   seatNumbers,
   voteRows,
@@ -3319,29 +3318,19 @@ const sheets = {
     const life = titleLife;
     if (!life) return [plate(null, prose(words.none, "saves-none"))];
     return [
-      el(
-        "div",
-        { className: "strip-screen strip-wrap strips ol-g saves-row" },
-        stripSection(
-          1,
-          life.name,
-          bust(life.face, life.name, 300),
-          el("p", {
-            className: "save-date",
-            textContent: dateWords(life.date),
-          }),
-          buttonRow(
-            makeButton({
-              className: "action",
-              textContent: words.load,
-              onclick: () => {
-                closeSheet();
-                $("front-continue").click();
-              },
-            }),
-          ),
-        ),
-      ),
+      savedLifeRow({
+        name: life.name,
+        face: life.face,
+        date: dateWords(life.date),
+        load: makeButton({
+          className: "action",
+          textContent: words.load,
+          onclick: () => {
+            closeSheet();
+            $("front-continue").click();
+          },
+        }),
+      }),
     ];
   },
   async options() {
