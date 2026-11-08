@@ -666,10 +666,12 @@ function openingOwed(c: CoreState): Map<string, number> {
  * the bands by largest remainder, so a small place keeps its seekers.
  * `held` is keyed `place|band`; the result is keyed the same way.
  */
+// stopgapId: SG-LABOR-opening-band-ratios-national (the bands' ratios are the nation's, not scaled to the county's own worker age mix)
 function bandQuotas(
   api: CoreAPI,
   held: Map<string, number>,
 ): Map<string, number> {
+  stopgap("SG-LABOR-opening-band-ratios-national");
   const hundred = api.parameter("macroHundred"),
     byPlace = new Map<string, { key: string; exact: number }[]>();
   for (const [key, jobs] of [...held].sort(([a], [b]) => a.localeCompare(b))) {
