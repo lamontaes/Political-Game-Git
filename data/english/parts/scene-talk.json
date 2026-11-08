@@ -130091,6 +130091,14 @@
           "move": "accept",
           "role": "asker",
           "purpose": "talk"
+        },
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "call-to-order",
+          "role": "asker",
+          "purpose": "hearing-testify",
+          "key": "routine"
         }
       ],
       "transcriptsUsing": 2389,
@@ -155350,6 +155358,292 @@
         "move": "warn",
         "key": "threat"
       }
+    },
+    {
+      "key": "scene-talk.reply-thank.thank-you-chair",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thank you, Chair.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "hearing-testify",
+          "key": "routine"
+        }
+      ],
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-05-07",
+        "granule": "CHRG-119hhrg60318",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg60318"
+      },
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      },
+      "restoredFrom": "hearing.thanks.thank-you-chair",
+      "restoredOn": "2026-11-08"
+    },
+    {
+      "key": "scene-talk.reply-thank.thank-you-all",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thank you all.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "hearing-testify",
+          "key": "routine"
+        }
+      ],
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-07-07",
+        "granule": "CHRG-119hhrg61782",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg61782"
+      },
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      },
+      "restoredFrom": "bank:hearing.thanks.thank-you-all",
+      "restoredOn": "2026-11-08"
+    },
+    {
+      "key": "scene-talk.open-call-to-order.good-afternoon",
+      "move": "open-call-to-order",
+      "kind": "spoken",
+      "text": "Good afternoon.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "call-to-order",
+          "role": "asker",
+          "purpose": "hearing-testify",
+          "key": "routine",
+          "excludesFacts": ["morning", "evening"]
+        }
+      ],
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-11-19",
+        "granule": "CHRG-119hhrg62607",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg62607"
+      },
+      "tag": {
+        "move": "call-to-order",
+        "key": "routine"
+      },
+      "restoredFrom": "bank:hearing.chair-procedure.good-afternoon",
+      "restoredOn": "2026-11-08"
+    },
+    {
+      "key": "scene-talk.reply-tell.we-didnt-win",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "We didn't win.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss"
+        }
+      ],
+      "source": {
+        "document": "Remarks at an Asia-Pacific Economic Cooperation CEOs Luncheon in Gyeongju, South Korea",
+        "date": "2025-10-29",
+        "granule": "DCPD-202501070",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202501070/html/DCPD-202501070.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "loss"
+      },
+      "restoredFrom": "address.concession-concede.we-didnt-win",
+      "restoredOn": "2026-11-08"
+    },
+    {
+      "key": "scene-talk.reply-promise.this-is-not-the-end",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "This is not the end.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss"
+        }
+      ],
+      "source": {
+        "document": "Remarks Prior to a Meeting With President Volodymyr Zelenskyy of Ukraine and an Exchange With Reporters in Ankara, Turkey",
+        "date": "2026-07-08",
+        "granule": "DCPD-202600450",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600450/html/DCPD-202600450.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      },
+      "restoredFrom": "address.concession-concede.this-is-not-the-end",
+      "restoredOn": "2026-11-08"
+    },
+    {
+      "key": "scene-talk.reply-promise.we-will-be-back",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "We will be back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss"
+        }
+      ],
+      "source": {
+        "document": "Remarks at the Munich Security Conference \"Special Edition 2021\" and an Exchange With Reporters",
+        "date": "2021-02-19",
+        "granule": "DCPD-202100151",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202100151/html/DCPD-202100151.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      },
+      "restoredFrom": "address.concession-concede.we-will-be-back",
+      "restoredOn": "2026-11-08"
+    },
+    {
+      "key": "scene-talk.reply-thank.thank-you-for-everything",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thank you for everything.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss"
+        }
+      ],
+      "source": {
+        "document": "The President's News Conference With President Volodymyr Zelenskyy of Ukraine in Palm Beach, Florida",
+        "date": "2025-12-28",
+        "granule": "DCPD-202501223",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202501223/html/DCPD-202501223.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      },
+      "restoredFrom": "address.concession-concede.thank-you-for-everything",
+      "restoredOn": "2026-11-08"
+    },
+    {
+      "key": "scene-talk.reply-answer.im-honored",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I'm honored.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor"
+        }
+      ],
+      "source": {
+        "document": "Remarks Prior to a Meeting With the Infrastructure Implementation Task Force",
+        "date": "2022-01-20",
+        "granule": "DCPD-202200026",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202200026/html/DCPD-202200026.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "restoredFrom": "address.victory-claim.im-honored",
+      "restoredOn": "2026-11-08"
+    },
+    {
+      "key": "scene-talk.state-tell.chair-i-rise-to-speak-briefly-in-gratitude-today",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Chair, I rise to speak briefly in gratitude today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor"
+        }
+      ],
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-12-18",
+        "granule": "CREC-2025-12-18-pt1-PgS8883",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-18/CREC-2025-12-18-pt1-PgS8883"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "restoredFrom": "bank:meeting.opener.i-rise-to-speak-briefly-in-gratitude-today",
+      "restoredOn": "2026-11-08"
+    },
+    {
+      "key": "scene-talk.reply-deflect.chair-reserving-the-right-to-object",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Chair, reserving the right to object.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "floor-debate",
+          "key": "honor"
+        }
+      ],
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-11-19",
+        "granule": "CREC-2025-11-19-pt1-PgS8226",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-19/CREC-2025-11-19-pt1-PgS8226"
+      },
+      "tag": {
+        "move": "deflect",
+        "key": "honor"
+      },
+      "restoredFrom": "bank:meeting.procedural.reserving-the-right-to-object",
+      "restoredOn": "2026-11-08"
     }
   ]
 }

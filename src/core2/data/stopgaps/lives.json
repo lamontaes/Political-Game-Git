@@ -142,5 +142,17 @@
     "addedAt": "2026-11-08",
     "replacement": "Weigh the abroad flow's destination by the same pull the between-state moves use (wages, jobs, prices), scaled from the sourced national size so a place's own conditions draw more or fewer newcomers; the within-US gravity fit is not applied to it.",
     "status": "open"
+  },
+  {
+    "id": "SG-LIVES-county-sample-employers",
+    "kind": "partial-model",
+    "file": "src/core2/opening-county-sample.ts",
+    "line": 82,
+    "whatItFakes": "The county's sampled working adults carry a county employer (a sector group of the county's Census County Business Patterns employment, in workgroups of openingCoworkerGroupSize) as a household record, not a job at a modeled organization: they have no wage flow, payroll or job record, and a filled-in county person has no job.",
+    "why": "A real county employer needs an organization, payroll calendar and cash in the business engine for every county firm; the county outside the town is only sampled, so the sector group stands for the workgroup candidacy's standing reads.",
+    "addedBy": "Tiers (Nov 8)",
+    "addedAt": "2026-11-08",
+    "replacement": "County employers as organizations the business and jobs engines run coarsely (recorded establishments by size class from County Business Patterns), with pay from the county's ACS earnings, so a filled-in county worker holds a real job.",
+    "status": "open"
   }
 ]
