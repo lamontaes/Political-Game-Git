@@ -91,7 +91,8 @@ try {
   const outlets = await page.locator(".news-board .tab").allInnerTexts();
   console.log("Outlets:", outlets.join(" | "));
   const read = async () => ({
-    masthead: await page.locator(".news-masthead h2").innerText(),
+    masthead:
+      (await page.locator(".news-masthead h2").allInnerTexts())[0] ?? "",
     headlines: await page.locator(".news-headline").allInnerTexts(),
     ledes: await page.locator(".news-text .intro").allInnerTexts(),
     text: await page.locator(".story-text").allInnerTexts(),
