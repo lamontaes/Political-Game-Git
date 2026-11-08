@@ -13,7 +13,7 @@ import { stripSection, introText } from "./strips.mjs";
  * (null for leave blank); `know(personId) -> { name, face, summary }`; `onLeave()`.
  */
 export function ballotPaper({ contests, labels, onMark, know, onLeave }) {
-  const side = el("div", { className: "ballot-know" });
+  const side = el("div", { className: "ballot-know strip-screen strips" });
   const paper = el("div", { className: "ballot-sheet" });
   const showKnown = async (candidates) => {
     const rows = await Promise.all(candidates.map((c) => know(c.personId)));

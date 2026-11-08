@@ -5505,3 +5505,7 @@ select.release-pick {
 #election-day-acts .action:focus-visible {
   background: rgba(214, 189, 132, 0.14);
 }
+.ballot-know.strip-screen {
+  display: block;
+  width: auto;
+}
