@@ -36,10 +36,6 @@
     "missingName": "Type a first and last name to go on.",
     "missingPlace": "Choose where you are from to go on."
   },
-  "endedBy": {
-    "office-day.meeting": "The meeting",
-    "office-day.desk": "Your desk"
-  },
   "debate": {
     "title": "Debate invitation",
     "answer": "Answer",
@@ -344,7 +340,14 @@
     "fullScreen": "Full screen",
     "fullScreenUnavailable": "Full screen is unavailable.",
     "devMode": "Dev mode",
-    "quitToTitle": "Quit to title"
+    "quitToTitle": "Quit to title",
+    "sceneStop": "Scenes that may stop the day",
+    "sceneGroups": {
+      "political": "Politics",
+      "personal": "People close to you",
+      "bill": "Bills",
+      "money": "Money"
+    }
   },
   "polling": {
     "leaveBlank": "Leave blank",
@@ -511,9 +514,6 @@
     "today": "Today",
     "upcoming": "Coming up",
     "advance": "Go to this day",
-    "tomorrow": "Tomorrow",
-    "daysAhead": "{n} days from now",
-    "daysAgo": "{n} days ago",
     "nothing": "Nothing is on this day.",
     "page": "{page} of {pages}",
     "previousPage": "Previous page",
@@ -1019,6 +1019,15 @@
     "issue": "Issue the order",
     "revoke": "Revoke the order",
     "decline": "Set it aside",
+    "hearing": "Your committee meets",
+    "hearing-issue": "Hold the hearing",
+    "hearing-decline": "Let the day pass",
+    "request": "The budget request",
+    "request-issue": "Send the request",
+    "joint": "The address to Congress",
+    "joint-issue": "Give the address",
+    "address": "The State of the State",
+    "address-issue": "Give the address",
     "emergency": "State of emergency",
     "emergency-issue": "Declare it",
     "emergency-decline": "Let it pass",

@@ -933,6 +933,13 @@ const ROUTES: readonly Route[] = [
       const filter = director.ledger.sceneFilters.get(player.personId);
       send(200, {
         kinds: SITUATION_LIBRARY.types.map((row) => row.key),
+        // Each kind's group (its tag's endpoint), for the Options screen.
+        groups: Object.fromEntries(
+          SITUATION_LIBRARY.types.map((row) => [
+            row.key,
+            (row as unknown as { tag?: { endpoint?: string } }).tag?.endpoint,
+          ]),
+        ),
         allowed: filter?.allowedKinds ?? null,
         ...(filter ? { recordId: filter.id } : {}),
       });
