@@ -596,20 +596,38 @@ select:focus-visible {
   stroke-linecap: round;
   stroke-linejoin: round;
 }
-.lie-scales .tipped,
-.lie-scales.on .level {
-  display: none;
+.lie-scales .beam,
+.lie-scales .pan {
+  transform-box: view-box;
+  transition:
+    transform 0.55s cubic-bezier(0.3, 1.5, 0.5, 1),
+    stroke 0.3s;
 }
-.lie-scales.on .tipped {
-  display: block;
+.lie-scales .beam {
+  transform-origin: 12px 6.8px;
+}
+.lie-scales.on .beam {
+  transform: rotate(-16.4deg);
+}
+.lie-scales.on .pan-left {
+  transform: translate(0.3px, 1.9px);
+}
+.lie-scales.on .pan-right {
+  transform: translate(-0.3px, -2.3px);
 }
 .lie-scales.on {
-  background: radial-gradient(circle, rgba(214, 88, 64, 0.25), transparent 72%);
+  background: radial-gradient(circle, rgba(255, 30, 20, 0.3), transparent 72%);
 }
 .lie-scales.on svg {
-  stroke: #ffd9c9;
-  filter: drop-shadow(0 0 3px rgba(255, 120, 90, 0.95))
-    drop-shadow(0 0 8px rgba(214, 88, 64, 0.7));
+  stroke: #ff1f14;
+  filter: drop-shadow(0 0 3px rgba(255, 31, 20, 0.95))
+    drop-shadow(0 0 8px rgba(255, 31, 20, 0.7));
+}
+@media (prefers-reduced-motion: reduce) {
+  .lie-scales .beam,
+  .lie-scales .pan {
+    transition: none;
+  }
 }
 .lie-scales:disabled {
   opacity: 1;
@@ -5502,7 +5520,10 @@ select.release-pick {
 }
 /* New game: the two choices read in the title's own type, not small capitals (fr-new). */
 #front-new .item b {
-  font: 700 24px "Playfair Display", Georgia, serif;
+  font:
+    700 24px "Playfair Display",
+    Georgia,
+    serif;
   letter-spacing: 0.01em;
   text-transform: none;
 }
