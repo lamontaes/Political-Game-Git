@@ -67,26 +67,25 @@
   },
   "talkMinutesPerLine": {
     "value": 2,
-    "tag": "ESTIMATED",
-    "citation": "American Time Use Survey, socializing and communicating: conversations run from a few minutes to half an hour (figure not fetched in this session; to confirm).",
-    "estimatedFrom": "A line said or heard in a talk takes about two minutes, so a talk of ten lines is a twenty-minute conversation; the talk spends the sum of its lines on the player's clock when it ends.",
+    "tag": "TUNABLE",
+    "citation": "A line said or heard in a talk takes about two minutes, so a talk of ten lines is a twenty-minute conversation; the talk spends the sum of its lines on the player's clock when it ends. A pacing choice, not a measured rate; no source has been fetched for it.",
     "spread": {
       "low": 1,
       "high": 4,
       "unit": "minutes per line",
-      "citation": "ATUS socializing and communicating episodes."
+      "citation": "From a quick exchange to a long answer; to be checked against American Time Use Survey conversation lengths once fetched."
     }
   },
   "tripMinutes": {
-    "value": 19,
+    "value": 17,
     "tag": "ESTIMATED",
-    "citation": "National Household Travel Survey 2017: the average trip takes about 19 minutes (figure recalled, not fetched in this session; to confirm).",
-    "estimatedFrom": "The records hold no distance between two places in a town, so every trip to a place takes the average trip time; a place's own distance and travel speed replace it (SG-PLAY-trip-time-average).",
+    "citation": "Summary of Travel Trends: 2022 National Household Travel Survey (https://nhts.ornl.gov/assets/2022/pub/2022_NHTS_Summary_Travel_Trends.pdf, fetched Nov 8, 2026). Table 3-3, average person trip length by purpose, 2022: shopping 5.8 miles and family/personal errands 8.6 miles. Table 7-4, average commute speed, 2022: 25.51 miles per hour for all modes, 26.59 for a privately owned vehicle.",
+    "estimatedFrom": "The survey's summary gives trip length by purpose and speed for commutes, not trip time by purpose: 5.8 miles at about 25 miles per hour is 14 minutes (shopping) and 8.6 miles is 20 minutes (errands); 17 minutes is between them. Every trip to a place in town takes this, because the records hold no distance between two places (SG-PLAY-trip-time-average); a place's own distance and travel speed replace it.",
     "spread": {
-      "low": 8,
-      "high": 30,
+      "low": 14,
+      "high": 21,
       "unit": "minutes",
-      "citation": "NHTS average trip time, rural to urban."
+      "citation": "NHTS 2022 Table 3-3 trip lengths (shopping, errands) over the Table 7-4 speeds (25.51 to 26.59 miles per hour)."
     }
   },
   "visitHours": {
