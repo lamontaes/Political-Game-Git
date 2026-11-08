@@ -12,11 +12,11 @@ blocked-on:
 source: added with npm run pool -- add
 ---
 
-**What.** monthlyIncome (src/core2/modules/credit.ts line 1179) walks all of core.jobs for each household it is asked about. On Upper Witter Gulch, Colorado (0879800, seed 5a1c0de7a11ce5e1), core.jobs holds about 8,300 jobs, and year 4's profile puts 5.6 s of self time in monthlyIncome and 3.2 s in its callback, about 9 s of a year that runs 128.4 s against the 120 s bar.
+**What.** monthlyIncome (src/core2/modules/credit.ts line 1179) walks all of core.jobs for each household it is asked about. On Upper Witter Gulch, Colorado (0879800, seed 5a1c0de7a11ce5e1), core.jobs holds about 8,300 jobs, and year 4's profile puts 5.6 s of self time in monthlyIncome and 3.2 s in its callback, about 9 s of a year that runs 128.4 s against the 120 s bar. The profile lists two other year-4 leads, the counted appeal and a weekly scan of the causes table, but this item is only the job scan.
 
 **Rules.** Speed: never scan the whole world or its history every day; use an index. The result must not change (speed:year --same-records).
 
-**Done when.** monthlyIncome reads a person-to-open-jobs index instead of scanning core.jobs; npm run speed:year -- --place 0879800 --seed 5a1c0de7a11ce5e1 shows year 4 under 120 s with --same-records passing.
+**Done when.** monthlyIncome reads a person-to-open-jobs index instead of scanning core.jobs; npm run speed:year -- --place 0879800 --seed 5a1c0de7a11ce5e1 shows year 4 under 120 s with --same-records passing. The Notes record that a plain person-to-jobs index changed nothing measurable, so the PR first shows by profile in a played world where monthlyIncome's time goes.
 
 **Files.** src/core2/modules/credit.ts,src/core2/state.ts,src/core2/job-lifecycle.ts
 

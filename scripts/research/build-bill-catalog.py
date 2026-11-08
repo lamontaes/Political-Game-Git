@@ -156,8 +156,10 @@ SERIES = {
     "state-contribution-limit-state-senate": ("government", "Campaign finance", "State campaign contribution limit: stateSenate", "USD/election"),
     "state-contribution-limit-state-house": ("government", "Campaign finance", "State campaign contribution limit: stateHouse", "USD/election"),
     "state-contribution-limit-local": ("government", "Campaign finance", "State campaign contribution limit: local", "USD/election"),
+    "executive-term-limit": ("government", "Elections and representation", "Governor term limit (terms; 0 for none)", "terms"),
     "federal-campaign-contribution-limit": ("government", "Campaign finance", "Federal campaign contribution limit", "USD/election"),
     "snap-maximum": ("assistance", "Food assistance", "SNAP maximum benefit", "USD/month"),
+    "child-care-income-limit": ("assistance", "Child-care assistance", "Child care income limit (family of three)", "USD/month"),
     "federal-unemployment-tax": ("assistance", "Unemployment benefits", "Federal unemployment tax rate", "percent-of-wages"),
     "state-unemployment-tax": ("assistance", "Unemployment benefits", "State unemployment tax rate", "percent-of-wages"),
     # 26 USC 3304(a)(19) expressly reserves amendment or repeal.

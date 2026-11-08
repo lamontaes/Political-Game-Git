@@ -2,6 +2,7 @@
  * Ported from the old engine's `nationwide-world/township-governing-body-rules.ts`.
  */
 import readings from "../../../data/research/local-government/township-governing-bodies.json" with { type: "json" };
+import charters from "../../../data/research/local-government/town-charters.json" with { type: "json" };
 import placeTowns from "../../../data/research/money/place-towns-acs-2024.json" with { type: "json" };
 import {
   governmentUnitStates,
@@ -43,6 +44,21 @@ interface StateReading {
   readonly citation: string;
   readonly url: string;
 }
+
+interface TownCharter {
+  readonly seats: number;
+  readonly bodyName: string;
+  readonly memberTitle: string;
+  readonly chiefTitle: string | null;
+  readonly chiefPresidesOverBody: boolean;
+  /** How sure the reading is: a charter or town page (high), a summary of one (medium). */
+  readonly confidence?: string;
+  readonly citation: string;
+  readonly url: string;
+}
+
+/** Towns whose own charter sets their body, by county subdivision code. */
+const CHARTERS = charters.towns as Readonly<Record<string, TownCharter>>;
 
 const STATES = readings.states as Readonly<Record<string, StateReading>>;
 const AVERAGE = readings.nationalAverage as StateReading & {
@@ -109,6 +125,39 @@ export function townshipGoverningBodyRules(
   if (unit.unitType !== "township" || !unit.functionalActive) return null;
   const state = STATES[unit.stateUsps];
   const code = subdivisionCode(unit);
+  // A town with a charter of its own sets its body by it, not by its state's
+  // default: its size, name and an elected chief executive who presides.
+  const charter = code ? CHARTERS[code] : undefined;
+  if (charter)
+    return {
+      seats: charter.seats,
+      basis: "state-law",
+      bodyName: charter.bodyName,
+      memberTitle: charter.memberTitle,
+      chiefTitle: charter.chiefTitle,
+      structure: null,
+      executive: charter.chiefTitle
+        ? {
+            kind: "elected",
+            title: charter.chiefTitle,
+            presidesOverBody: charter.chiefPresidesOverBody,
+            basis: "named-county",
+            status:
+              charter.confidence === "medium"
+                ? "ESTIMATED FROM AVERAGE"
+                : "SOURCED",
+          }
+        : {
+            kind: "none",
+            title: null,
+            presidesOverBody: false,
+            basis: "state-none",
+            status: "SOURCED",
+          },
+      citation: charter.citation,
+      url: charter.url,
+      inForceSince: null,
+    };
   const population = code ? TOWN_POPULATION[code] : undefined;
   const read = state
     ? (state.seats ??

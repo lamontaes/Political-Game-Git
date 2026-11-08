@@ -96,6 +96,12 @@ When a session builds work that runs for many people (relatives elsewhere, the c
 
 - A 100-year save needs a machine of its own: the long-run runner session (`CREW.md`) runs it and sends year lines. `speed:year` writes its receipt as each year ends, with each year's heap, process memory and records kept, so a killed run keeps its marks.
 - A measurement branch that merges unmerged fixes is merged by commit: take each head from `git ls-remote origin <branch>` and merge that SHA, since a helper copy's `origin/<branch>` can be stale.
+- **A restored world that drifts from its original** (unit 9, Nov 4). Run a control first: two fresh builds of the same world, no save, played the same days. Only what differs in the save run and not in the control is the save's (two worlds in one process share the stopgap recorder, so `core.stopgapHits` differs in both). Then find the first day and field that split, and look for state the save doesn't hold:
+  - A `WeakMap` or `WeakSet` keyed by the world that holds state across days (a mark such as "seeded" or "last roster size") becomes a saved part with `registerWorldMapPart`.
+  - A cache built from the world's records becomes `registerDerivedCache`.
+  - A cache keyed by records inside the world (a person, a traits object), which the restore refills in place, registers its reset with `registerRestoreReset`.
+  - To find which one, patch `globalThis.WeakMap` in the probe before anything else is imported. Record where each map was made and which keys it set before the restore, clear chosen ones after, and halve the set. Clearing every map breaks the world, because module state and the cash host live in maps too.
+  - When the split is a record that exists in only one world, wrap that world's Map `set` to print the stack that first writes the key.
 
 ## Memory: find the cause before the fold
 
@@ -104,6 +110,7 @@ When a session builds work that runs for many people (relatives elsewhere, the c
 - A log count taken in January includes the circle rows from the November election that `circleActRetentionMonths` (3) has not dropped yet. Compare the same month across years, and read heap after a collection, not the row count alone.
 
 - `npm run speed:year` draws a new place from its seed each run, and a place's size moves a year by two to three times (Nov 8: the same code read 41 to 118 seconds in year 1 across six runs). To compare a branch with main, pass the same `--seed <s>` to both, one process alone, and name the place and seed. A table read that scans every row of a monthly-growing table inside a per-race or per-person call (`rows()` in a hot function) is a cost; keep the latest id on the state row and `get` it.
+- **"A Week feels slow" (owner's playtest P41, Nov 8): a Week is seven simulated days of the same day loop `speed:year` times, so its cost is the year's seconds divided by 52.** Quiet-machine years of 30, 60 to 110, 125 to 170 and 200 to 700 seconds are a Week of 0.6, 1 to 2, 2.4 to 3.3 and 4 to 13 seconds (Dickey ND, Smackover AR, Gunnison UT, Montpelier VT and Washington DC on Nov 8). A Week under one second needs a year under about 50 seconds, so the answer to "a Week is slow" is the year's profile for that place (Gunnison UT year 1 on Nov 8: the legislature's amendments and votes 25 s, town halls 15 s, the news pass 10 s, candidacy 6 s, coverage 6 s), not a Week-specific cost. A scene stop shortens a Week; it never lengthens it.
 
 ## Stop condition
 
