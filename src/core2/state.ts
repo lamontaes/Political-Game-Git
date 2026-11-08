@@ -1656,6 +1656,8 @@ export function coreAPI(core: CoreState): CoreAPI {
       const siblingNames = [given];
       siblings.forEach((row, i) => {
         row.birthDate = births[i]!;
+        // A brother or sister living elsewhere carries the family name too (C27).
+        if (row.familyName === drawn) row.familyName = family;
         if (!row.alive) return;
         row.givenName = distinctSiblingGivenName(
           core.seed,
