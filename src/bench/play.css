@@ -2041,33 +2041,10 @@ body:not(.dev) .dev-only {
   font: 400 13.5px var(--ui);
   color: var(--text-2);
 }
-.coach {
-  box-shadow:
-    0 0 0 1px var(--iron),
-    0 0 12px rgba(255, 255, 255, 0.55),
-    0 0 24px rgba(214, 189, 132, 0.45) !important;
-  animation: coach 1.6s ease-in-out infinite;
-}
-@keyframes coach {
-  50% {
-    box-shadow:
-      0 0 0 1px var(--iron),
-      0 0 4px rgba(255, 255, 255, 0.3),
-      0 0 10px rgba(214, 189, 132, 0.2);
-  }
-}
 @media (max-width: 900px) {
   #news-reader {
     inset: var(--gutter);
     grid-template-columns: 1fr;
-  }
-}
-
-/* Reduced motion (owner's UI brief, Sept 27, 2026): the first choices'
-   glow holds still. */
-@media (prefers-reduced-motion: reduce) {
-  .coach {
-    animation: none;
   }
 }
 
@@ -2696,7 +2673,7 @@ details.entry[open] {
   border-color: var(--gold);
 }
 @media (max-width: 1100px) {
-  }
+}
 
 /* A line marked as a gap shows it took (play-mark-gap). */
 #talk-gap.marked {
