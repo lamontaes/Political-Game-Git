@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: astra/snap-cash-scope
-pr:
+pr: #7345
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-08T00:43:17.882Z
