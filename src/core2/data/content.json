@@ -270,7 +270,6 @@
     "housing.eviction",
     "credit.payment-missed"
   ],
-  "openingVintageStopgap": "SG-P8-opening-vintage",
   "openingTier": "weekly",
   "cashActSourceKind": "life.selected-act",
   "legacyWorkJournalSourceKind": "life.legacy-work-result",

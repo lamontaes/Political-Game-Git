@@ -16,7 +16,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { isDemoted } from "./counted-groups";
-import { remainingDaysAfterOnset } from "./death-causes";
+import { remainingDaysAfterOnset } from "./death-cause";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";

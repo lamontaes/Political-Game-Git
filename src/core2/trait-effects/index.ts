@@ -4,6 +4,7 @@ import { actionDespiteFearEffects } from "./action-despite-fear";
 import { bondLoyaltyEffects } from "./bond-loyalty";
 import { concernForDistressEffects } from "./concern-for-distress";
 import { facetAcquisitiveEffects } from "./facet-acquisitive";
+import { facetAffectionateEffects } from "./facet-affectionate";
 import { facetAmbitiousEffects } from "./facet-ambitious";
 import { facetAnalyticalEffects } from "./facet-analytical";
 import { facetApprovalSeekingEffects } from "./facet-approval-seeking";
@@ -51,6 +52,7 @@ export function personalityTraitEffects(): readonly TraitEffectDeclaration[] {
     ...bondLoyaltyEffects,
     ...concernForDistressEffects,
     ...facetAcquisitiveEffects,
+    ...facetAffectionateEffects,
     ...facetAmbitiousEffects,
     ...facetAnalyticalEffects,
     ...facetApprovalSeekingEffects,

@@ -158,7 +158,31 @@
     "publicRecordTitle": "Public record",
     "earlier": "Earlier years",
     "later": "Later years",
-    "seat": "Seat held"
+    "seat": "Seat held",
+    "closenessWords": [
+      "You barely know each other",
+      "You know each other",
+      "You are friendly",
+      "You are close",
+      "You are very close"
+    ],
+    "tieChange": {
+      "closer": "Grew closer",
+      "apart": "Drifted apart",
+      "same": "Last in touch"
+    },
+    "tieCauses": {
+      "visit": "a visit",
+      "care": "care in a hard time",
+      "met-on-visit": "meeting on a visit",
+      "met-in-group": "meeting in a group",
+      "met-at-work": "working together",
+      "home-time": "time at home together",
+      "opening-home": "sharing a home",
+      "opening-family": "being family",
+      "chosen-act": "something one of you chose to do",
+      "recorded-relationship-update": "time together"
+    }
   },
   "devBills": {
     "title": "Bills",
@@ -242,6 +266,17 @@
     "person": "Person",
     "trace": "Trace"
   },
+  "devCampaign": {
+    "title": "Campaign set-up",
+    "campaign": "Campaign",
+    "person": "Person",
+    "donorsGive": "Donors give",
+    "raised": "Raised",
+    "noneGave": "No one gave",
+    "saysYes": "Says yes to volunteering",
+    "saysNo": "Says no to volunteering",
+    "nobody": "No one to ask"
+  },
   "devScene": {
     "title": "Scenes",
     "type": "Situation",
@@ -291,6 +326,7 @@
       "death": "A person dies",
       "job-lost": "A job is lost",
       "scene": "A scene fires",
+      "may-file": "I may file for a seat",
       "law-takes-effect": "A law takes effect"
     },
     "reasons": {
@@ -482,9 +518,6 @@
     "today": "Today",
     "upcoming": "Coming up",
     "advance": "Go to this day",
-    "tomorrow": "Tomorrow",
-    "daysAhead": "{n} days from now",
-    "daysAgo": "{n} days ago",
     "nothing": "Nothing is on this day.",
     "page": "{page} of {pages}",
     "previousPage": "Previous page",
@@ -990,6 +1023,15 @@
     "issue": "Issue the order",
     "revoke": "Revoke the order",
     "decline": "Set it aside",
+    "hearing": "Your committee meets",
+    "hearing-issue": "Hold the hearing",
+    "hearing-decline": "Let the day pass",
+    "request": "The budget request",
+    "request-issue": "Send the request",
+    "joint": "The address to Congress",
+    "joint-issue": "Give the address",
+    "address": "The State of the State",
+    "address-issue": "Give the address",
     "emergency": "State of emergency",
     "emergency-issue": "Declare it",
     "emergency-decline": "Let it pass",
