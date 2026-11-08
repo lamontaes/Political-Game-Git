@@ -40,7 +40,16 @@ const report = (label: string) => {
     leases.map((c: any) => `${c.amountMinor}/mo arrears ${c.arrearsMinor}`),
   );
 };
+const dailyFrom = process.argv[5];
 report("start");
+if (dailyFrom) {
+  advanceCore(core, makeIsoDate(dailyFrom));
+  for (let d = 1; d <= 45; d++) {
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    report(`day ${core.date}`);
+  }
+  process.exit(0);
+}
 for (let m = 1; m <= months; m++) {
   advanceCore(core, addDays(makeIsoDate(core.date), 30));
   report(`month ${m} ${core.date}`);
