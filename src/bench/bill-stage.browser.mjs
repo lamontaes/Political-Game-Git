@@ -145,6 +145,14 @@ try {
   const billId = new URL((await asked).url()).searchParams.get("billId");
   assert.ok(billId, "the paper names its bill");
   await page.locator(".bill-doc").waitFor();
+  // The paper's civic terms are marked wherever they appear (the inline glossary): each opens its definition.
+  const terms = await page.evaluate(() =>
+    [...document.querySelectorAll(".bill-doc [data-term-key]")].map((n) =>
+      n.getAttribute("data-term-key"),
+    ),
+  );
+  console.log("paper terms:", JSON.stringify(terms));
+  assert.ok(terms.length > 0, "the paper marks its civic terms");
   // Staff redraft: ask for section 1, see it struck and inserted, keep the staff's version.
   await page
     .getByRole("button", { name: "Ask staff to redraft section 1" })
