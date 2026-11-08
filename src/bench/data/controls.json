@@ -362,7 +362,8 @@
     "acts": "What you have done",
     "left": "Laws that gave way",
     "mySeat": "My seat",
-    "onMyDesk": "On my desk"
+    "onMyDesk": "On my desk",
+    "officeHours": "Office hours"
   },
   "officeStops": {
     "aYear": "a year",
@@ -933,5 +934,14 @@
     "groupSpeak": "Speak",
     "debate": "Debate",
     "speech": "Give a speech"
+  },
+  "officeCases": {
+    "help": "Help",
+    "decline": "Turn away",
+    "by": "answer by",
+    "problems": {
+      "looking-for-work": "Looking for work",
+      "paid-under-minimum-wage": "Paid under the minimum wage"
+    }
   }
 }
