@@ -92,6 +92,10 @@ import {
 import { webReach, type WebReach } from "./modules/outcome-web";
 import { householdIncome, residentsRuntime } from "./modules/residents";
 import { WEB_LINKS } from "./modules/laws";
+import { lawApplied } from "./law-reach/applied";
+
+/** The engine named on the law-reach rows these bills write. */
+const MEDICAL_BILLS_ENGINE = "medical-bills";
 import { parameter, type Parameter } from "./parameters";
 import {
   livingCostsRegionForState,
@@ -482,10 +486,8 @@ function billMembers(
     api.parameter("minorPerDollar") / api.parameter("monthsPerYear");
   // Medicare's negotiated drug prices cut what its members pay while the
   // federal law is in force (the engine decides the cause from the law itself).
-  const drugs =
-    lawInForce(api, DRUG_NEGOTIATION).value === one
-      ? one + (DRUG_LINK.size ?? 0)
-      : one;
+  const drugLaw = lawInForce(api, DRUG_NEGOTIATION);
+  const drugs = drugLaw.value === one ? one + (DRUG_LINK.size ?? 0) : one;
   const out = new Map<string, BilledMember[]>();
   for (const h of households) {
     const size = h.members.length;
@@ -502,6 +504,25 @@ function billMembers(
           cost * q(SHARE_KEY[m.plan]) * (m.plan === "medicare" ? drugs : one),
         );
         const added = billMinor - Math.round(cost * medicaidShare);
+        // The law reached this Medicare member (a named person; the counted
+        // members are read the same way and kept as the household's totals).
+        if (
+          m.plan === "medicare" &&
+          drugs !== one &&
+          drugLaw.governing &&
+          api.state.people.has(m.personId)
+        )
+          lawApplied(api, {
+            key: DRUG_NEGOTIATION,
+            lawId: drugLaw.governing.id,
+            targetId: m.personId,
+            target: "person",
+            engine: MEDICAL_BILLS_ENGINE,
+            what: "medicare-drug-bill-lowered",
+            amountMinor: Math.round(
+              cost * q(SHARE_KEY.medicare) * (drugs - one),
+            ),
+          });
         return {
           personId: m.personId,
           plan: m.plan,

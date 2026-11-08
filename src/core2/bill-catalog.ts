@@ -9,6 +9,7 @@
  * warning or block). `provisionFor` turns a pick and an operation into a bill
  * provision. Outcomes never appear in the drafting controls.
  */
+import type { GovernmentLevel } from "./government-level";
 import catalog from "./data/legislature/bill-catalog.json" with { type: "json" };
 import type { CoreAPI } from "./types";
 import {
@@ -22,7 +23,7 @@ import { policyAuthority } from "./modules/laws";
 
 export type Operation =
   "raise" | "lower" | "expand" | "restrict" | "enact" | "repeal";
-type Level = "federal" | "state" | "county" | "city";
+type Level = GovernmentLevel;
 
 interface CatalogPolicy {
   readonly id: string;
