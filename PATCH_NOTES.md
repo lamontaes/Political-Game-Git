@@ -296,6 +296,21 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.88.3
+
+_Released November 8, 2026._
+
+### Fixed
+
+- **Congress can repeal and restore its income tax** Congress can repeal and
+  restore the federal income-tax adoption law through the shared bill system.
+  Restoring a tax set to zero uses that government's recorded schedule,
+  preserving state taxes and existing territorial exclusions.
+
+- **Opening laws retain their jurisdiction's legal sources** Opening policy laws
+  now keep the source recorded for their own jurisdiction. Federal policy rows
+  also retain the researched legal terms shown with the law.
+
 ## PRE-ALPHA 0.88.2
 
 _Released November 8, 2026._
