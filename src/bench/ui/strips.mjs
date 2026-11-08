@@ -6,6 +6,7 @@
 import { el } from "./dom.mjs";
 import { pager } from "./pager.mjs";
 import { partyClass as partyClassOf } from "./map.mjs";
+import { makeButton } from "./button.mjs";
 
 /**
  * A section: its header strip (`depth` 1 to 5 sets how deep the strip's
@@ -297,6 +298,39 @@ export function savedLifeRow({ name, face, date, load }) {
       el("div", { className: "acts" }, load),
     ),
   );
+}
+
+/** One setting: its small-capitals label over its toggle. */
+export function settingRow(label, control) {
+  return el(
+    "div",
+    { className: "setting" },
+    el("span", { className: "setting-label", textContent: label }),
+    control,
+  );
+}
+
+/** The options board: columns of strips, each { title, rows } with its controls in order. */
+export function optionsBoard({ columns }) {
+  return stripBoard({
+    columns: columns.map((sections, column) =>
+      sections.map((section, at) =>
+        stripSection(
+          Math.min(column + at + 1, 5),
+          section.title,
+          ...section.rows,
+        ),
+      ),
+    ),
+  });
+}
+
+/** The Quit to title button, alone on its row. */
+export function quitButton(label, onQuit) {
+  const button = makeButton({ className: "action", textContent: label });
+  button.dataset.testid = "quit-to-title";
+  button.addEventListener("click", onQuit);
+  return el("div", { className: "acts" }, button);
 }
 
 /**

@@ -193,6 +193,10 @@
     }
   },
   "options": {
+    "on": "On",
+    "off": "Off",
+    "seeing": "Seeing",
+    "leave": "Leave",
     "version": "Version",
     "fullScreen": "Full screen",
     "fullScreenUnavailable": "Full screen is unavailable.",
