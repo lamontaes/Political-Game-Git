@@ -1,6 +1,6 @@
 ---
 id: opening-band-stopgap
-impact: none
+impact: minor
 ---
 
-The opening's age-band ratios are registered as the nation's until the county's worker age mix is read.
+A town of older workers no longer opens with fewer job seekers than its region's unemployment rate implies: the age bands are scaled to the town's own workers.
