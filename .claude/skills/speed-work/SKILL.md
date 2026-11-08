@@ -87,6 +87,12 @@ When a session builds work that runs for many people (relatives elsewhere, the c
 - A 100-year save needs a machine of its own: the long-run runner session (`CREW.md`) runs it and sends year lines. `speed:year` writes its receipt as each year ends, with each year's heap, process memory and records kept, so a killed run keeps its marks.
 - A measurement branch that merges unmerged fixes is merged by commit: take each head from `git ls-remote origin <branch>` and merge that SHA, since a helper copy's `origin/<branch>` can be stale.
 
+## Memory: find the cause before the fold
+
+- Count the growing table by kind and by the cause of its latest change in the world `speed:year` plays, before believing a brief's cause or building a fold. On Nov 8 the brief blamed "coworker" ties made when a hire meets every coworker; Montpelier, Vermont (key 5046000, seed mont1) showed the `coworker` kind flat at about 18,300 and year 2's growth in `met-in-group` ties (22,978), made by `meetAtJoin` meeting every member of every group joined. `met-at-work` made 114.
+- Fixing a cause can shrink tables that never looked related. The player's circle is the people the player's people know, so capping who a join introduces (`knownAmong`, a power law of the group's size) also cut Montpelier's `durableLog` at year 2 from 82,667 to 38,637, and the election year's heap from 7.7 GB at year 4 to 2.8 GB.
+- A log count taken in January includes the circle rows from the November election that `circleActRetentionMonths` (3) has not dropped yet. Compare the same month across years, and read heap after a collection, not the row count alone.
+
 ## Stop condition
 
 Done when every timed claim names the place, seed, years and machine, every speed PR carries an identical records proof (or a fold's named tables), and the item's done-when lines each have that evidence.
