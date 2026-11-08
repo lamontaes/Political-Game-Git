@@ -4043,7 +4043,6 @@ const sheets = {
                 name: f.name ?? "",
                 line: f.party ?? "",
                 party: f.party,
-                badge: f.party ? f.party.charAt(0) : null,
                 face: f.face,
                 onOpen: () => {
                   closeSheet();
@@ -4274,7 +4273,6 @@ const sheets = {
           name: m.name,
           line,
           party: m.party,
-          badge: m.party ? m.party.charAt(0) : null,
           face: m.face,
           onOpen: open(m.cardId, m.face),
         },
@@ -4761,7 +4759,6 @@ const sheets = {
                     name: s.name,
                     line: s.title,
                     party: name,
-                    badge: name.charAt(0),
                     face: s.face,
                     onOpen: () => {
                       closeSheet();

@@ -3405,19 +3405,6 @@ details.entry[open] {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.member-badge {
-  display: grid;
-  place-items: center;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  font: 700 11px/1 var(--ui);
-  color: #fff;
-  background: var(--party, #6f6c66);
-  box-shadow:
-    0 0 0 1px rgba(0, 0, 0, 0.5),
-    inset 0 1px 0 rgba(255, 255, 255, 0.25);
-}
 #sheet-body .member-card.large {
   grid-template-columns: 64px max-content auto auto;
   justify-content: start;
