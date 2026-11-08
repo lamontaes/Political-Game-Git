@@ -48,6 +48,7 @@ try {
   );
   assert.ok(at >= 0, "no member of a body to step in as");
   await page.locator("#pick-list button").nth(at).click();
+  await page.locator("#pick-play").click();
   await page.waitForFunction(() =>
     document.getElementById("card-name").textContent.trim(),
   );

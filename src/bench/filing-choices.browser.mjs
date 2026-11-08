@@ -78,9 +78,9 @@ try {
   await page.waitForTimeout(1500);
   if (SHOTS) await page.screenshot({ path: `${SHOTS}/travel.png` });
   const cards = await page.evaluate(() =>
-    [...document.querySelectorAll("#sheet-body .entry, #sheet-body button")]
-      .map((n) => n.textContent.replace(/\s+/g, " ").trim())
-      .filter((t) => /Filing office/i.test(t)),
+    [...document.querySelectorAll("#sheet-body .travel-tile[data-filing]")].map(
+      (n) => n.textContent.replace(/\s+/g, " ").trim(),
+    ),
   );
   console.log(
     "filing offices on Travel:",

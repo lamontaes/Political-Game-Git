@@ -1,8 +1,8 @@
 # State sessions: a played year, by law record id, Nov 5, 2026
 
-**Result.** In one played year, **54 of the 56 places enacted laws** through their own chamber votes and governor's decision. The other two sat and voted but passed nothing: Pennsylvania (all 53 bills failed their chamber votes) and Michigan (50 failed and 2 were vetoed). Branch `claude/state-sessions-sit` at 87f83164ce, which is **not on main** and is over the speed bar (see the pool item).
+**Result.** In one played year, **54 of the 56 places enacted laws** through their own chamber votes and governor's decision. The other two sat and voted but passed nothing: Pennsylvania (all 53 bills failed their chamber votes) and Michigan (50 failed and 2 were vetoed). The work is **not on main** and is over the speed bar (see the pool item).
 
-Place and seed drawn by the run, not chosen: Peterstown, West Virginia (key 5463052), seed f5c68356d85dd1d45d3fd580367974cbc0a7bd769884c964048e41ad07974871, one year from the opening day, 2025-01-20. Counted: law rows whose jurisdiction is a state or territory and whose id carries the state's own `:general:` enactment date on or after that day.
+## Laws enacted, by place
 
 | Place | Laws enacted | First law record id                                                                                                         |
 | ----- | ------------ | --------------------------------------------------------------------------------------------------------------------------- |
@@ -64,3 +64,7 @@ Place and seed drawn by the run, not chosen: Peterstown, West Virginia (key 5463
 **Sat, no law.** Michigan and Pennsylvania: every bill failed its chamber vote or was vetoed (Michigan's two). The causes are the chambers' members' own positions and the governor's decision, as the vote records show; no cap or rate picked them.
 
 **Not shown here.** The test that a law elsewhere changes that state's row and not the player's town, and the eight-place new-game check, are still to do.
+
+## Method
+
+Branch `claude/state-sessions-sit` at 87f83164ce. Place and seed drawn by the run, not chosen: Peterstown, West Virginia (key 5463052), seed f5c68356d85dd1d45d3fd580367974cbc0a7bd769884c964048e41ad07974871, one year from the opening day, January 20, 2025. Counted: law rows whose jurisdiction is a state or territory and whose id carries the state's own `:general:` enactment date on or after that day.
