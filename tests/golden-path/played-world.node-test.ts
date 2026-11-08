@@ -122,6 +122,12 @@ const CAUSE_GATED: Record<string, string> = {
   "core2-ballot-measures-v1": "a measure placed on a ballot",
   "core2-estates-v1": "a person of means dying",
   "core2-executive-v1": "an appointed post losing its holder",
+  // Forced in a played world by src/core2/succession.test.ts (the president dies).
+  "core2-succession-v1": "a president or vice president dying",
+  // Forced by src/core2/office-day-federal.test.ts (a federal office day).
+  "core2-office-day-federal-v1": "a federal officeholder's working day",
+  // Forced by src/bench/dev-bribe.test.ts (dev mode's forced bribe).
+  corruption: "an official offered a bribe",
 };
 
 /**
