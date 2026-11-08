@@ -257,10 +257,10 @@
     "stopgapId": "SG-P15-candidacy-weights"
   },
   "candidacyCountyTailSample": {
-    "value": 600,
+    "value": 3000,
     "tag": "ESTIMATED",
-    "citation": "How many people drawn like the county's counted residents weigh a county seat each year, at most (fewer where the county's eligible voters are fewer). The county's counted store holds the county's people at their own count, a few dozen to a few hundred, so a county of tens of thousands is stood for by a seeded sample of it: each drawn from a counted household there with a new identity and a temperament from the opening's temperament model (counted-moves drawnResident), weighed by the same reasons as any resident, and admitted to the counted store, then filled in, only if they file. Bounded by cost, not by a source: a sample of 600 drawn once a year costs well under a tenth of a second.",
-    "estimatedFrom": "A compute budget; spread 200 to 2000",
+    "citation": "How many people drawn like the county's counted residents weigh a county seat each year, at most (fewer where the county's eligible voters are fewer). The county's counted store holds the county's people at their own count, a few dozen to a few hundred, so a county of tens of thousands is stood for by a seeded sample of it: each drawn from a counted household there with a new identity and a temperament from the opening's temperament model (counted-moves drawnResident), weighed by the same reasons as any resident, and admitted to the counted store, then filled in, only if they file. Bounded by cost, not by a source: a sample of a few thousand drawn once a year costs well under a second.",
+    "estimatedFrom": "A compute budget; spread 600 to 6000",
     "stopgapId": "SG-GOV-county-race-town-only"
   }
 }
