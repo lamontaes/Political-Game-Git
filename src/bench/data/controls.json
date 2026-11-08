@@ -190,6 +190,10 @@
     }
   },
   "options": {
+    "on": "On",
+    "off": "Off",
+    "seeing": "Seeing",
+    "leave": "Leave",
     "version": "Version",
     "fullScreen": "Full screen",
     "fullScreenUnavailable": "Full screen is unavailable.",
@@ -693,7 +697,8 @@
     "none": "No term matches that."
   },
   "patchNotes": {
-    "release": "Release"
+    "release": "Release",
+    "builds": "Builds"
   },
   "budgetStrips": {
     "departments": "Departments",

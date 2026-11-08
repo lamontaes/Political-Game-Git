@@ -23,7 +23,7 @@ import { pager } from "./ui/pager.mjs";
 import { officeScreen } from "./ui/office-screen.mjs";
 import { splitScreen } from "./ui/split-screen.mjs";
 import { makeTab, tabBar, chooseTab } from "./ui/tab.mjs";
-import { plate, factPlates, chips } from "./ui/plate.mjs";
+import { plate, factPlates } from "./ui/plate.mjs";
 import { timeline } from "./ui/timeline.mjs";
 import { makeCard } from "./ui/card.mjs";
 import { townRow } from "./ui/town-row.mjs";
@@ -39,14 +39,7 @@ import {
 import { listRow, personRow, factRow, noteLine } from "./ui/list-row.mjs";
 import { fillArtwork, picture as pictureFrame } from "./ui/picture.mjs";
 import { columnChart, donutChart } from "./ui/chart.mjs";
-import {
-  select,
-  searchBox,
-  checkboxSetting,
-  optionsOf,
-  statusLine,
-  numberBox,
-} from "./ui/fields.mjs";
+import { select, searchBox, optionsOf, numberBox } from "./ui/fields.mjs";
 import { lookRow } from "./ui/look-row.mjs";
 import { termWord } from "./ui/term.mjs";
 import { watchTerms } from "./ui/term-mark.mjs";
@@ -87,6 +80,10 @@ import {
   stripBoard,
   typedRow,
   departmentRow,
+  settingRow,
+  quitButton,
+  optionsBoard,
+  patchNotesScreen,
   savedLifeRow,
   leaderBlock,
   seatNumbers,
@@ -3238,89 +3235,46 @@ const sheets = {
     ];
   },
   /**
-   * The title's Patch notes: the release machinery's file, one release at a
-   * time, newest first (owner, Oct 28: "No reason anymore; get them in"). As
-   * the Guide: the release's changes as headline cards on a plate, the chosen
-   * change in full beside them, never a wall to scroll (owner, Oct 29).
+   * The title's Patch notes, as the Nov 8 front mock draws it (fr-notes): the builds in a
+   * strip at the left, newest first, and the chosen build's changes in a strip per heading
+   * (Changed, Improved, Fixed), each note's text under it. The release machinery's file is
+   * the only source; no card per note, no chips.
    */
   async patchNotes() {
     const { releases } = await api("/api/patch-notes");
-    let release = releases[0];
-    let chosen = 0;
-    const notesOf = (r) =>
-      (r?.groups ?? []).flatMap((group) =>
-        group.notes.map((note) => ({ ...note, group: group.heading })),
-      );
-    const cards = plate(null);
-    const article = plate(null);
-    article.classList.add("pick-article");
-    const drawArticle = () => {
-      const note = notesOf(release)[chosen];
-      // The chosen card is marked, as a chosen tab is.
-      for (const card of cards.querySelectorAll("[data-note]"))
-        card.classList.toggle("on", Number(card.dataset.note) === chosen);
-      article.replaceChildren(
-        ...(note
-          ? [
-              chips([{ text: note.group }]),
-              ...(note.title ? [heading(note.title, "h3")] : []),
-              prose(note.text, "article-text"),
-            ]
-          : []),
-      );
-    };
-    // The release's name is its own picker, newest first.
-    const which = select({
-      options: releases.map((r) => ({ value: r.version, label: r.title })),
-      value: release?.version,
-      label: controls.patchNotes?.release,
-      className: "release-pick",
-      onChange: (version) => {
-        release = releases.find((r) => r.version === version) ?? release;
-        chosen = 0;
-        drawCards();
-        drawArticle();
-      },
-    });
-    const drawCards = () => {
-      cards.replaceChildren(
-        which,
-        ...(release?.released ? [prose(release.released, "release-date")] : []),
-        pager({
-          items: notesOf(release).map((note, at) => ({
-            title: note.title ?? note.text,
-            lede: note.title ? note.text : "",
-            label: note.title ?? note.text,
-            onSelect: () => {
-              chosen = at;
-              drawArticle();
-            },
-            data: { note: String(at) },
-          })),
-          render: listEntry,
-          rows: Math.max(
-            3,
-            Math.min(8, Math.floor((window.innerHeight - 340) / 66)),
-          ),
-          columns: 1,
-          rowHeight: 58,
-          gap: 8,
-          words: {
-            page: controls.politics.page,
-            previous: controls.politics.previousPage,
-            next: controls.politics.nextPage,
-          },
-          className: "pick-cards note-cards",
-        }),
-      );
-    };
-    drawCards();
-    drawArticle();
+    const labels = controls.patchNotes ?? {};
     return [
-      splitScreen({
-        main: [cards],
-        side: [{ title: null, nodes: [article] }],
-        className: "patch-notes",
+      patchNotesScreen({
+        title: labels.builds,
+        rows: Math.max(4, Math.floor((window.innerHeight - 340) / 54)),
+        words: {
+          page: controls.politics.page,
+          previous: controls.politics.previousPage,
+          next: controls.politics.nextPage,
+        },
+        builds: releases.map((r) => ({
+          name: r.version,
+          // The release file says "Released November 8, 2026."; the list shows "Nov 8".
+          when: (() => {
+            const day = new Date(
+              String(r.released ?? "")
+                .replace(/^Released\s+/i, "")
+                .replace(/\.$/, ""),
+            );
+            return Number.isNaN(day.getTime())
+              ? ""
+              : day.toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric",
+                });
+          })(),
+          groups: (r.groups ?? []).map((group) => ({
+            heading: group.heading,
+            notes: group.notes.map((note) =>
+              [note.title, note.text].filter(Boolean).join(". "),
+            ),
+          })),
+        })),
       }),
     ];
   },
@@ -3352,60 +3306,82 @@ const sheets = {
       }),
     ];
   },
+  /**
+   * Options as the Nov 8 front mock draws it (fr-options): a strip for Seeing (Full screen
+   * as On and Off toggles), a strip for Leave (Quit to title) and a strip for Dev mode, lit
+   * toggles and never checkboxes. Color-blind mode, which scenes may stop the day and Save
+   * now are in the mock but are not settings the game keeps yet, so they are not drawn.
+   */
   async options() {
     await controlsReady;
     const labels = controls.options;
-    let fullScreen;
-    if (document.fullscreenEnabled) {
-      const { line, box } = checkboxSetting({
-        label: labels.fullScreen,
-        checked: document.fullscreenElement,
-        testid: "options-fullscreen",
+    const toggle = ({ attr, on, set, testid }) => {
+      const bar = tabBar({
+        attr,
+        active: on() ? "on" : "off",
+        tabs: ["on", "off"].map((key) => ({
+          key,
+          label: labels[key],
+          onSelect: async () => {
+            await set(key === "on");
+            chooseTab(bar, attr, on() ? "on" : "off");
+          },
+        })),
       });
-      const status = statusLine();
-      box.addEventListener("change", async () => {
-        box.disabled = true;
-        status.textContent = "";
-        try {
-          if (box.checked) await document.documentElement.requestFullscreen();
-          else await document.exitFullscreen();
-        } catch {
-          status.textContent = labels.fullScreenUnavailable;
-        } finally {
-          box.checked = Boolean(document.fullscreenElement);
-          box.disabled = false;
-        }
-      });
-      fullScreen = [{ node: line }, { node: status }];
-    }
-    const devSetting = checkboxSetting({
-      label: labels.devMode,
-      checked: devModeOn(),
-      testid: "options-dev-mode",
-    });
-    devSetting.box.addEventListener("change", () =>
-      setDevMode(devSetting.box.checked),
-    );
-    return recordScreen({
-      sections: [
-        {
-          items: [
-            { fact: [labels.version, await displayVersion()] },
-            ...(fullScreen ?? []),
-            { node: devSetting.line },
+      for (const tab of bar.querySelectorAll(".tab"))
+        tab.dataset.testid = `${testid}-${tab.dataset[attr]}`;
+      return bar;
+    };
+    const seeing = document.fullscreenEnabled
+      ? [
+          settingRow(
+            labels.fullScreen,
+            toggle({
+              attr: "full",
+              testid: "options-fullscreen",
+              on: () => Boolean(document.fullscreenElement),
+              set: async (wanted) => {
+                try {
+                  if (wanted)
+                    await document.documentElement.requestFullscreen();
+                  else if (document.fullscreenElement)
+                    await document.exitFullscreen();
+                } catch {
+                  // The browser refused; the toggle shows the state it is in.
+                }
+              },
+            }),
+          ),
+        ]
+      : [];
+    return [
+      optionsBoard({
+        columns: [
+          [
+            ...(seeing.length ? [{ title: labels.seeing, rows: seeing }] : []),
             {
-              actions: [
-                {
-                  label: labels.quitToTitle,
-                  testid: "quit-to-title",
-                  onClick: () => window.location.reload(),
-                },
+              title: labels.leave,
+              rows: [
+                quitButton(labels.quitToTitle, () => window.location.reload()),
               ],
             },
           ],
-        },
-      ],
-    });
+          [
+            {
+              title: labels.devMode,
+              rows: [
+                toggle({
+                  attr: "dev",
+                  testid: "options-dev-mode",
+                  on: devModeOn,
+                  set: setDevMode,
+                }),
+              ],
+            },
+          ],
+        ],
+      }),
+    ];
   },
   async travel() {
     const [places, government] = await Promise.all([

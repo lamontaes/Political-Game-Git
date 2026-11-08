@@ -5255,6 +5255,36 @@ select.release-pick {
   color: #f2e6c9;
 }
 
+/* Options (Nov 8 front mock, fr-options): a label over its On and Off toggles. */
+.strip-screen .setting {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.strip-screen .setting-label {
+  font: 600 13px var(--f-ui);
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--gold2);
+}
+.strip-board .board-cols:has(.setting) {
+  grid-template-columns: minmax(280px, 1fr) minmax(220px, 0.6fr);
+}
+
+/* Patch notes (Nov 8 front mock, fr-notes): builds at the left, the notes in strips. */
+.strip-board .board-cols.two {
+  grid-template-columns: minmax(240px, 300px) minmax(0, 1fr);
+}
+#game #sheet.options-sheet.strip-sheet {
+  width: min(1280px, calc(100vw - 2 * var(--gutter)));
+}
+#game #sheet.options-sheet.strip-sheet,
+#game #sheet.options-sheet.strip-sheet.fits {
+  width: min(1280px, calc(100vw - 2 * var(--gutter))) !important;
+  max-width: none !important;
+}
+
 /* Dev mode's memory rows: the record kind, the day learned, the day it fades. */
 .dev-memory-row {
   display: grid;
